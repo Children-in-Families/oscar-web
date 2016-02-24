@@ -1,0 +1,9 @@
+body[id=case_notes-index] {
+  .label {
+    display: inline-block;
+    font-size: 16px;
+    &:last-child {
+      margin-left: 20px;
+    }
+  }
+}

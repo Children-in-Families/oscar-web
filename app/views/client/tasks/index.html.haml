@@ -1,0 +1,60 @@
+.row
+  .col-xs-12
+    %h4.text-center= @client.name
+    .panel.panel-danger
+      .panel-heading
+        %h5 Overdue Tasks
+      .panel-body
+        .row
+          .col-xs-12
+            %table.table.table-bordered
+              - @tasks.incomplete.overdue.each do |task|
+                %tr
+                  %td= "Domain: #{task.domain.name}"
+                  %td.task-name= task.name
+                  %td= task.completion_date.strftime("%B %d, %Y")
+                  %td
+                    = link_to edit_client_task_path(@client, task) do
+                      %i.glyphicon.glyphicon-pencil
+                    = link_to client_task_path(@client, task), method: :delete, data: { confirm: 'Are you sure you want to delete?' } do
+                      %i.glyphicon.glyphicon-trash
+
+
+    .panel.panel-info
+      .panel-heading
+        %h5 Today Tasks
+      .panel-body
+        .row
+          .col-xs-12
+            %table.table.table-bordered
+              - @tasks.incomplete.today.each do |task|
+                %tr
+                  %td= "Domain: #{task.domain.name}"
+                  %td= task.name
+                  %td= task.completion_date.strftime("%B %d, %Y")
+                  %td
+                    = link_to edit_client_task_path(@client, task) do
+                      %i.glyphicon.glyphicon-pencil
+                    = link_to client_task_path(@client, task), method: :delete, data: { confirm: 'Are you sure you want to delete?' } do
+                      %i.glyphicon.glyphicon-trash
+
+    .panel.panel-success
+      .panel-heading
+        %h5 Upcoming Tasks
+      .panel-body
+        .row
+          .col-xs-12
+            %table.table.table-bordered
+              - @tasks.incomplete.upcoming.each do |task|
+                %tr
+                  %td= "Domain: #{task.domain.name}"
+                  %td= task.name
+                  %td= task.completion_date.strftime("%B %d, %Y")
+                  %td
+                    = link_to edit_client_task_path(@client, task) do
+                      %i.glyphicon.glyphicon-pencil
+                    = link_to client_task_path(@client, task), method: :delete, data: { confirm: 'Are you sure you want to delete?' } do
+                      %i.glyphicon.glyphicon-trash
+  .col-xs-12
+    = link_to 'Back', client_path(@client)
+    = link_to 'New Task', new_client_task_path(@client)

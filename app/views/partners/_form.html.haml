@@ -1,0 +1,26 @@
+= simple_form_for(@partner) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.input :name
+    = f.input :contact_person_name, label: 'Contact Name'
+    = f.input :contact_person_email, label: 'Email'
+    = f.input :contact_person_mobile, label: 'Mobile'
+    = f.input :organisation_type, label: 'Organisation Type'
+    = f.input :affiliation
+    = f.input :engagement
+    = f.input :background, input_html: { rows: '4' }
+
+    .form-group.date.optional.partner_start_date
+      %label.date.optional.control-label{ for: 'partner_start_date' } Start Date
+      .input-group.date
+        = f.text_field :start_date, class: 'date optional form-control date-picker', type: 'text', name: 'partner[start_date]', id: 'partner_start_date'
+        %span.input-group-addon
+          %i.glyphicon.glyphicon-calendar
+
+    = f.association :province, collection: @province, include_blank: false
+    = f.input :address, input_html: { rows: '4' }
+
+  .form-actions
+    = f.button :submit, class: 'btn btn-primary'
+    = link_to 'Cancel', partners_path, class: 'btn btn-default'

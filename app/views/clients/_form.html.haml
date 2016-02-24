@@ -1,0 +1,71 @@
+= simple_form_for(@client) do |f|
+  = f.error_notification
+
+  .form-inputs
+    .col-xs-12.col-md-4
+      = f.input :first_name
+    .col-xs-12.col-md-4
+      = f.input :last_name
+    .col-xs-12.col-md-4
+      = f.input :gender, collection: [['Male', 'male'], ['Female', 'female']], include_blank: false
+    .col-xs-12.col-md-4
+      .form-group.date.optional.client_date_of_birth
+        %label.date.optional.control-label{ for: 'client_date_of_birth' } Date Of Birth
+        .input-group.date
+          = f.text_field :date_of_birth, class: 'date optional form-control date-picker', type: 'text', name: 'client[date_of_birth]', id: 'client_date_of_birth'
+          %span.input-group-addon
+            %i.glyphicon.glyphicon-calendar
+    .col-xs-12.col-md-4
+      = f.input :status, collection: Client::CLIENT_STATUSES, include_blank: false
+    .col-xs-12.col-md-4
+      = f.input :birth_province_id, collection: @province.map{|p| [p.name, p.id]}, label: 'Birth Province'
+    .col-xs-12.col-md-4
+      .form-group.date.optional.client_initial_referral_date
+        %label.date.optional.control-label{ for: 'client_initial_referral_date' } Initial Referral Date
+        .input-group.date
+          = f.text_field :initial_referral_date, class: 'date optional form-control date-picker', type: 'text', name: 'client[initial_referral_date]', id: 'client_initial_referral_date'
+          %span.input-group-addon
+            %i.glyphicon.glyphicon-calendar
+      = f.association :referral_source, collection: @referral_source, label: 'Referral Source', include_blank: false
+    .col-xs-12.col-md-4
+      = f.input :referral_phone, label: 'Referral Phone'
+    .col-xs-12.col-md-4
+      = f.input :received_by_id, collection: @user.map{|p| [p.name, p.id]}, label: 'Received By', include_blank: false
+    .col-xs-12.col-md-4
+      = f.input :followed_up_by_id, collection: @user.map{|p| [p.name, p.id]}, label: 'Followed Up By', include_blank: false
+    .col-xs-12.col-md-4
+      .form-group.date.optional.client_follow_up_date
+        %label.date.optional.control-label{ for: 'client_follow_up_date' } Follow Up Date
+        .input-group.date
+          = f.text_field :follow_up_date, class: 'date optional form-control date-picker', type: 'text', name: 'client[follow_up_date]', id: 'client_follow_up_date'
+          %span.input-group-addon
+            %i.glyphicon.glyphicon-calendar
+    .col-xs-12.col-md-4
+      = f.association :agencies, collection: @agencies, multiple: true, label_method: :name, value_method: :id, label: "Agencies Involved"
+    .col-xs-12.col-md-4
+      - QuantitativeType.all.each do |qt|
+        %label= qt.name
+        = f.association :quantitative_cases, collection: qt.quantitative_cases, multiple: true, label_method: :value, value_method: :id, label: false
+    .col-xs-12.col-md-4
+      = f.association :province, collection: @province, label: 'Current Province', include_blank: false
+    .col-xs-12.col-md-4
+      = f.input :current_address, input_html: { rows: '4' }, label: 'Current Address'
+    .col-xs-12.col-md-4
+      = f.input :school_name, label: 'School Name'
+    .col-xs-12.col-md-4
+      = f.input :school_grade, label: 'School Grade'
+    .col-xs-12.col-md-4
+      = f.input :has_been_in_orphanage, label: 'Has Been In Orphanage?'
+      = f.input :able, label: 'Able?'
+      = f.input :has_been_in_government_care, label: 'Has Been In Government Care?'
+    .col-xs-12.col-md-4
+      = f.input :relevant_referral_information, input_html: { rows: '4' }, label: 'Relevant Referral Information'
+    .col-xs-12.col-md-4
+      = f.association :user, collection: @user, label: 'Case Worker / Staff', include_blank: false if current_user.admin?
+    .col-xs-12.col-md-4
+      = f.input :completed
+
+  .col-xs-12.col-md-4
+    .form-actions
+      = f.button :submit, class: 'btn btn-primary'
+      = link_to 'Cancel', clients_path, class: 'btn btn-default'

@@ -1,0 +1,58 @@
+%nav.navbar.navbar-default.navbar-static-top{:role => "navigation"}
+  .container
+    .navbar-header
+      %button.navbar-toggle{"data-target" => ".navbar-collapse", "data-toggle" => "collapse", :type => "button"}
+        %span.icon-bar
+        %span.icon-bar
+        %span.icon-bar
+
+      = link_to root_path , class: 'navbar-brand' do
+        = image_tag 'logo.png', class: 'logo'
+
+
+    .collapse.navbar-collapse
+      %ul.nav.navbar-nav
+        %li{ class: clients_menu_active }
+          = link_to 'Clients', root_path
+        - if user_signed_in?
+          - if can? :manage, :all
+            %li{ class: active_menu('families') }
+              = link_to 'Families', families_path
+            %li{ class: active_menu('partners') }
+              = link_to 'Partners', partners_path
+            %li{ class: active_menu('users') }
+              = link_to 'Users', users_path
+
+      %ul.nav.navbar-nav.navbar-right
+        - if user_signed_in?
+          - if can? :manage, :all
+            %li.dropdown{ class:  manage_menu_active }
+              %a.dropdown-toggle{'data-toggle' => 'dropdown', href: '#'}
+                គ្រប់គ្រង / Manage
+                %span.caret
+              %ul.dropdown-menu
+                %li{ class: active_menu('agencies') }
+                  = link_to 'អង្គភាព / Agencies', agencies_path
+                %li{ class: active_menu('departments') }
+                  = link_to 'កម្មវិធី / Departments', departments_path
+                %li{ class: active_menu('domains') }
+                  = link_to 'កត្តា / Domains', domains_path
+                %li{ class: active_menu('domain_groups') }
+                  = link_to 'ការប្រមូលបណ្ដុំកត្តា / Domain Groups', domain_groups_path
+                %li{ class: active_menu('provinces') }
+                  = link_to 'ខេត្ត / Provinces', provinces_path
+                %li{ class: active_menu('referral_sources') }
+                  = link_to 'ប្រភពនៃការបញ្ជូន / Referral Sources', referral_sources_path
+                %li{ class: active_menu('quantitative_types') }
+                  = link_to 'Quantitative Types', quantitative_types_path
+
+          %li.dropdown{ class: account_menu_active }
+            %a.dropdown-toggle{'data-toggle' => 'dropdown', href: '#'}
+              គណនី / Account
+              %span.caret
+            %ul.dropdown-menu
+              %li{ class: account_menu_active }
+                = link_to 'កែសម្រួលព័ត៌មានផ្ទាល់ខ្លួន / Edit Profile', edit_user_registration_path
+              %li= link_to 'ចេញ / Log Out', destroy_user_session_path, method: :delete
+        - else
+          %li= link_to 'ចូល / Log In', new_user_session_path

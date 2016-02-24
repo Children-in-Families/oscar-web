@@ -1,0 +1,15 @@
+.row
+  .col-xs-12
+    %button.btn.btn-primary.btn-filter{"aria-expanded" => 'false', "data-target" => '#client-search-form', "data-toggle" => 'collapse', type: 'button'}
+      %i.glyphicon.glyphicon-filter
+    .panel.panel-default#client-search-form.collapse
+      .panel-body
+        = datagrid_form_for @client_grid, url: clients_url, html: { class: 'grid-form form-inline' }
+    .panel.panel-default
+      .panel-body
+        = link_to "Export to CSV", current_url(format: 'csv'), class: 'btn btn-default pull-right btn-export'
+        = link_to 'View All Active Tasks', tasks_path, class: 'btn btn-default pull-right'
+        - if can? :manage, Client
+          = link_to 'Add New Client', new_client_path, class: 'btn btn-success pull-right'
+        = datagrid_table @client_grid, html: {class: 'table table-bordered table-striped table-hover'}
+    = will_paginate @client_grid.assets

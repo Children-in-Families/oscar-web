@@ -1,0 +1,119 @@
+.row
+  .col-xs-12
+    .panel.panel-default
+      .panel-heading
+        %h3
+          = "Quarterly Report Information for #{@case.client.name} with ID #{@quarterly_report.code}"
+      .panel-body
+        .row
+          .col-xs-6.col-sm-4.col-md-3
+            %strong Date of Visit
+          .col-xs-6.col-sm-8.col-md-9
+            = ": #{@quarterly_report.visit_date}"
+
+        - if @quarterly_report.kinship?
+          .row
+            .col-xs-6.col-sm-4.col-md-3
+              %strong KC Name
+            .col-xs-6.col-sm-8.col-md-9
+              = link_to ": #{@quarterly_report.case.client.name}", client_path(@quarterly_report.case.client)
+
+        - if @quarterly_report.foster?
+          .row
+            .col-xs-6.col-sm-4.col-md-3
+              %strong
+                FC Name
+            .col-xs-6.col-sm-8.col-md-9
+              = link_to ": #{@quarterly_report.case.client.name}", client_path(@quarterly_report.case.client)
+
+        .row
+          .col-xs-6.col-sm-4.col-md-3
+            %strong ID
+          .col-xs-6.col-sm-8.col-md-9
+            = ": #{@quarterly_report.code}"
+
+        .row
+          .col-xs-6.col-sm-4.col-md-3
+            %strong Describe general Health/Appearance
+          .col-xs-6.col-sm-8.col-md-9
+            = ": #{@quarterly_report.general_health_or_appearance}"
+
+        .row
+          .col-xs-6.col-sm-4.col-md-3
+            %strong What is the Child's school attendance/progress
+          .col-xs-6.col-sm-8.col-md-9
+            = ": #{@quarterly_report.child_school_attendance_or_progress}"
+
+        .row
+          .col-xs-6.col-sm-4.col-md-3
+            %strong Describe General Appearance of Home
+          .col-xs-6.col-sm-8.col-md-9
+            = ": #{@quarterly_report.general_appearance_of_home}"
+
+        .row
+          .col-xs-6.col-sm-4.col-md-3
+            %strong Describe any observations of drug, alchohol, abuse, etc.
+          .col-xs-6.col-sm-8.col-md-9
+            = ": #{@quarterly_report.observations_of_drug_alchohol_abuse}"
+
+        .row
+          .col-xs-6.col-sm-4.col-md-3
+            %strong If yes, desribe..
+          .col-xs-6.col-sm-8.col-md-9
+            = ": #{@quarterly_report.describe_if_yes}"
+
+        .row
+          .col-xs-6.col-sm-4.col-md-3
+            %strong Describe the family's current situation…
+          .col-xs-6.col-sm-8.col-md-9
+            = ": #{@quarterly_report.describe_the_family_current_situation}"
+
+        .row
+          .col-xs-6.col-sm-4.col-md-3
+            %strong Has the situation changed from the previous visit?
+          .col-xs-6.col-sm-8.col-md-9
+            = ": #{@quarterly_report.has_the_situation_changed_from_the_previous_visit}"
+
+        .row
+          .col-xs-6.col-sm-4.col-md-3
+            %strong How did I encourage the client?
+          .col-xs-6.col-sm-8.col-md-9
+            = ": #{@quarterly_report.how_did_i_encourage_the_client}"
+
+        .row
+          .col-xs-6.col-sm-4.col-md-3
+            %strong What future teachings/trainings could help the client?
+          .col-xs-6.col-sm-8.col-md-9
+            = ": #{@quarterly_report.what_future_teachings_or_trainings_could_help_the_client}"
+
+        .row
+          .col-xs-6.col-sm-4.col-md-3
+            %strong What is my plan for the next visit to the client?
+          .col-xs-6.col-sm-8.col-md-9
+            = ": #{@quarterly_report.what_is_my_plan_for_the_next_visit_to_the_client}"
+
+        .row
+          .col-xs-6.col-sm-4.col-md-3
+            %strong Money and supplies being used appropriately?
+          .col-xs-6.col-sm-8.col-md-9
+            = ": #{@quarterly_report.money_and_supplies_being_used_appropriately}"
+
+        .row
+          .col-xs-6.col-sm-4.col-md-3
+            %strong If no, how are they being misused?
+          .col-xs-6.col-sm-8.col-md-9
+            = ": #{@quarterly_report.how_are_they_being_misused}"
+
+        .row
+          .col-xs-6.col-sm-4.col-md-3
+            %strong Staff Information
+          .col-xs-6.col-sm-8.col-md-9
+            = link_to ": #{@quarterly_report.staff_information.name}", user_path(@quarterly_report.staff_information) if @quarterly_report.staff_information
+
+        .row
+          .col-xs-6.col-sm-4.col-md-3
+            %strong Any Spiritual developments with the child or family?
+          .col-xs-6.col-sm-8.col-md-9
+            = ": #{@quarterly_report.spiritual_developments_with_the_child_or_family}"
+  .col-xs-12
+    = link_to 'Back', :back

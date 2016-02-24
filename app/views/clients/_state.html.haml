@@ -1,0 +1,17 @@
+- if @client.state == 'rejected'
+  .row
+    .col-xs-6.col-sm-4.col-md-3.client-detail
+      %strong State
+    .col-xs-6.col-sm-8.col-md-9.client-detail
+      = ": #{@client.state.titleize}"
+  .row
+    .col-xs-6.col-sm-4.col-md-3.client-detail
+      %strong Rejected Note
+    .col-xs-6.col-sm-8.col-md-9.client-detail
+      = ": #{@client.rejected_note}"
+- elsif @client.state == 'accepted'
+  .row
+    .col-xs-6.col-sm-4.col-md-3.client-detail
+      %strong State
+    .col-xs-6.col-sm-8.col-md-9.client-detail
+      = ": #{@client.state.titleize}"

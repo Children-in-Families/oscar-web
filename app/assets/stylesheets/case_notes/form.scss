@@ -1,0 +1,15 @@
+body[id=case_notes-new],
+body[id=case_notes-edit],
+body[id=case_notes-update],
+body[id=case_notes-create] {
+  .case_note_meeting_date {
+    margin-top: 10px;
+  }
+  .label {
+    display: inline-block;
+    font-size: 16px;
+    &:last-child {
+      margin-left: 20px;
+    }
+  }
+}

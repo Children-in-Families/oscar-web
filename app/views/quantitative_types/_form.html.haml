@@ -1,0 +1,10 @@
+= simple_form_for(@quantitative_type) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.input :name, label: 'Name'
+    / # = f.input :description, input_html: { rows: '4' }, label: 'Description'
+
+  .form-actions
+    = f.button :submit, 'Save', class: 'btn btn-primary'
+    = link_to 'ទុកជាមោឃៈ / Cancel',  quantitative_types_path, class: 'btn btn-default'

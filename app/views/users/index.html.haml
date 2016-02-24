@@ -1,0 +1,14 @@
+.row
+  .col-xs-12
+    %button.btn.btn-primary.btn-filter{"aria-expanded" => 'false', "data-target" => '#user-search-form', "data-toggle" => 'collapse', type: 'button'}
+      %i.glyphicon.glyphicon-filter
+    .panel.panel-default#user-search-form.collapse
+      .panel-body
+        = datagrid_form_for @user_grid, url: users_url, html: { class: 'grid-form form-inline' }
+    .panel.panel-default
+      .panel-body
+        = link_to "Export to CSV", current_url(format: 'csv'), class: 'btn btn-default pull-right btn-export'
+        - if can? :manage, :all
+          = link_to 'Add New User', new_user_path, class: 'btn btn-success pull-right'
+        = datagrid_table @user_grid, html: { class: 'table table-bordered table-striped table-hover'}
+    = will_paginate @user_grid.assets

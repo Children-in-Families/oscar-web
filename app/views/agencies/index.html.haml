@@ -1,0 +1,26 @@
+.row
+  .container
+    .col-xs-12
+      = link_to 'បន្ថែមអង្គភាពថ្មី / Add New Agency', new_agency_path, class: 'btn btn-success btn-add'
+    .col-xs-12
+      .panel.panel-default
+        .panel-heading
+          %h3 អង្គភាព / Agencies
+        .panel-body
+          - @agencies.each do |agency|
+            .panel.panel-default
+              .panel-heading
+                %h4
+                  = agency.name
+                  %small
+                    = link_to edit_agency_path(agency) do
+                      %i.glyphicon.glyphicon-pencil
+                    - if agency.clients.blank?
+                      = link_to agency, method: 'delete', data: { confirm: 'Are you sure you want to delete?' } do
+                        %i.glyphicon.glyphicon-trash
+                    - else
+                      %i.glyphicon.glyphicon-trash
+              .panel-body
+                %p= agency.description
+
+          = will_paginate @agencies

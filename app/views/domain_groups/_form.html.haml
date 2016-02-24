@@ -1,0 +1,10 @@
+= simple_form_for(@domain_group) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.input :name, label: 'ឈ្មោះការប្រមូលផ្តុំកត្តាថ្មី / Name'
+    = f.input :description, input_html: { rows: '4' }, label: 'ការបរិយាយពីកត្តា / Description'
+
+  .form-actions
+    = f.button :submit, 'រក្សាទុក / Save', class: 'btn btn-primary'
+    = link_to 'ទុកជាមោឃៈ / Cancel', domain_groups_path, class: 'btn btn-default'

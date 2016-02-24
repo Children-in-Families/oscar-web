@@ -1,0 +1,24 @@
+!!!
+%html
+  %head
+    %meta{:charset => "utf-8"}
+    %meta{:content => "IE=edge", "http-equiv" => "X-UA-Compatible"}
+    %meta{:content => "width=device-width, initial-scale=1", :name => "viewport"}
+    %meta{:content => "", :name => "description"}
+    %meta{:content => "", :name => "author"}
+
+    %title CIF
+
+    = stylesheet_link_tag    'application', media: 'all'
+    = javascript_include_tag 'application'
+    = csrf_meta_tags
+
+  %body{id: "#{controller_name}-#{params[:action]}"}
+    = render 'layouts/navbar'
+
+    = render 'layouts/alert'
+
+    .container-fluid
+      = yield
+
+    = render 'layouts/footer'

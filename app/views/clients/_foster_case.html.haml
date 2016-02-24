@@ -1,0 +1,82 @@
+- if fc.present? && fc.exited == false
+  .row
+    .col-xs-12.case#case
+      .panel.panel-default
+        .panel-heading
+          %h3
+            = 'Foster Care'
+            - if can? :manage, Case
+              %small
+                = link_to edit_client_case_path(fc.client, fc) do
+                  %i.glyphicon.glyphicon-pencil
+
+        .panel-body
+
+          .row
+            .col-xs-6.col-sm-4.col-md-3.case-detail
+              %strong Start Date
+            .col-xs-6.col-sm-8.col-md-9.case-detail
+              = ':'
+              = fc.start_date.strftime('%B %d, %Y') if fc.start_date
+          .row
+            .col-xs-6.col-sm-4.col-md-3.case-detail
+              %strong Carer Names
+            .col-xs-6.col-sm-8.col-md-9.case-detail
+              = ": #{fc.carer_names}"
+          .row
+            .col-xs-6.col-sm-4.col-md-3.case-detail
+              %strong Carer Address
+            .col-xs-6.col-sm-8.col-md-9.case-detail
+              = ": #{fc.carer_address}"
+          .row
+            .col-xs-6.col-sm-4.col-md-3.case-detail
+              %strong Province
+            .col-xs-6.col-sm-8.col-md-9.case-detail
+              = ':'
+              = fc.province.name if fc.province
+          .row
+            .col-xs-6.col-sm-4.col-md-3.case-detail
+              %strong Carer Phone Number
+            .col-xs-6.col-sm-8.col-md-9.case-detail
+              = ": #{fc.carer_phone_number}"
+          .row
+            .col-xs-6.col-sm-4.col-md-3.case-detail
+              %strong Support Amount
+            .col-xs-6.col-sm-8.col-md-9.case-detail
+              = ": #{number_to_currency(fc.support_amount)}"
+          .row
+            .col-xs-6.col-sm-4.col-md-3.case-detail
+              %strong Support Note
+            .col-xs-6.col-sm-8.col-md-9.case-detail
+              = ": #{fc.support_note}"
+          .row
+            .col-xs-6.col-sm-4.col-md-3.case-detail
+              %strong Ongoing Partner
+            .col-xs-6.col-sm-8.col-md-9.case-detail
+              = ":"
+              = partner fc.partner if fc.partner
+
+          .row
+            .col-xs-6.col-sm-4.col-md-3.case-detail
+              %strong Family
+            .col-xs-6.col-sm-8.col-md-9.case-detail
+              = ":"
+              = family fc.family if fc.family
+          .row
+            .col-xs-6.col-sm-4.col-md-3.case-detail
+              %strong Family Preservation
+            .col-xs-6.col-sm-8.col-md-9.case-detail
+              = ":"
+              = fc.family_preservation? ? 'YES' : 'NO'
+
+          - if can? :manage, :all
+            .row
+              .col-xs-12
+                = link_to 'View Legacy Quarterly Reports', client_case_quarterly_reports_path(@client, @client.cases.latest_foster) if @client.cases.latest_foster.quarterly_reports.any?
+
+        - unless @client.cases.latest_foster.exited
+          .panel-footer
+            %button.btn.btn-warning{"data-target" => '#exitFCForm', "data-toggle" => 'modal'} Exit
+
+  = render 'exit_fc_form', fc: @client.cases.latest_foster
+

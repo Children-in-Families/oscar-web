@@ -1,0 +1,29 @@
+#users-show {
+  .user-detail {
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+  .filters, .btn-apply-filter {
+    display: none;
+  }
+  .datagrid-actions {
+    padding: 10px 0;
+  }
+  #emergency_case_client_grid_first_name {
+    max-width: 150px;
+  }
+  #emergency_case_client_grid_status {
+    max-width: 200px;
+  }
+  input.manage.string_filter {
+    display: none;
+  }
+  td.manage a {
+    margin: 0 5px;
+    text-decoration: none;
+  }
+  .panel-heading small a {
+    text-decoration: none;
+    margin: 0 5px;
+  }
+}

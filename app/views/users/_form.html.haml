@@ -1,0 +1,17 @@
+/ = simple_form_for(@user) do |f|
+/   = f.error_notification
+
+/   .form-inputs
+/     = f.input :first_name
+/     = f.input :last_name
+/     = f.input :roles
+/     = f.input :start_date, label: 'Start Date'
+/     = f.input :job_title, label: 'Job Title'
+/     = f.input :department
+/     = f.input :mobile
+/     = f.input :date_of_birth, start_year: 1990, end_year: Date.today.year, label: 'Date Of Birth'
+/     = f.association :province, collection: @province
+
+/   .form-actions
+/     = f.button :submit, 'Update', class: 'btn btn-primary'
+/     = link_to 'Cancel', users_path, class: 'btn btn-default'

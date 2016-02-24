@@ -1,0 +1,73 @@
+.row
+  .col-xs-12
+    %h3.text-center
+      %small= link_to 'Back', client_path(@client), class: 'pull-left btn btn-link'
+      = "#{@cases.first.case_type} History"
+- @cases.each do |case_history|
+  .row
+    .col-xs-12.case
+      .panel.panel-default
+        .panel-heading
+          %h4= "Exit Date : #{case_history.exit_date.strftime('%B %d, %Y')}"
+
+        .panel-body
+          .row
+            .col-xs-6.col-sm-4.col-md-3.case-detail
+              %strong Exit Note
+            .col-xs-6.col-sm-8.col-md-9.case-detail
+              = ": #{case_history.exit_note}"
+          .row
+            .col-xs-6.col-sm-4.col-md-3.case-detail
+              %strong Start Date
+            .col-xs-6.col-sm-8.col-md-9.case-detail
+              = ':'
+              = case_history.start_date.strftime('%B %d, %Y') if case_history.start_date
+          .row
+            .col-xs-6.col-sm-4.col-md-3.case-detail
+              %strong Carer Names
+            .col-xs-6.col-sm-8.col-md-9.case-detail
+              = ": #{case_history.carer_names}"
+          .row
+            .col-xs-6.col-sm-4.col-md-3.case-detail
+              %strong Carer Address
+            .col-xs-6.col-sm-8.col-md-9.case-detail
+              = ": #{case_history.carer_address}"
+          .row
+            .col-xs-6.col-sm-4.col-md-3.case-detail
+              %strong Province
+            .col-xs-6.col-sm-8.col-md-9.case-detail
+              = ':'
+              = case_history.province.name if case_history.province
+          .row
+            .col-xs-6.col-sm-4.col-md-3.case-detail
+              %strong Carer Phone Number
+            .col-xs-6.col-sm-8.col-md-9.case-detail
+              = ": #{case_history.carer_phone_number}"
+          .row
+            .col-xs-6.col-sm-4.col-md-3.case-detail
+              %strong Support Amount
+            .col-xs-6.col-sm-8.col-md-9.case-detail
+              = ": #{number_to_currency(case_history.support_amount)}"
+          .row
+            .col-xs-6.col-sm-4.col-md-3.case-detail
+              %strong Support Note
+            .col-xs-6.col-sm-8.col-md-9.case-detail
+              = ": #{case_history.support_note}"
+          .row
+            .col-xs-6.col-sm-4.col-md-3.case-detail
+              %strong Ongoing Partner
+            .col-xs-6.col-sm-8.col-md-9.case-detail
+              = ":"
+              = partner case_history.partner if case_history.partner
+          .row
+            .col-xs-6.col-sm-4.col-md-3.case-detail
+              %strong Family
+            .col-xs-6.col-sm-8.col-md-9.case-detail
+              = ":"
+              = family case_history.family if case_history.family
+          .row
+            .col-xs-6.col-sm-4.col-md-3.case-detail
+              %strong Family Preservation
+            .col-xs-6.col-sm-8.col-md-9.case-detail
+              = ":"
+              = case_history.family_preservation

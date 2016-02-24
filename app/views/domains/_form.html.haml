@@ -1,0 +1,12 @@
+= simple_form_for(@domain) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.association :domain_group, collection: DomainGroup.all, label: 'ការប្រមូលផ្តុំកត្តា / Domain Group', include_blank: false
+    = f.input :name, label: 'ឈ្មោះកត្តា / Name'
+    = f.input :identity, label: 'លេខកូដ / Identity'
+    = f.input :description, as: :ckeditor, label: 'ការបរិយាយពីកម្មវិធី / Description'
+
+  .form-actions
+    = f.submit 'រក្សាទុក / Save', class: 'btn btn-primary'
+    = link_to 'ទុកជាមោឃៈ / Cancel', domains_path, class: 'btn btn-default'

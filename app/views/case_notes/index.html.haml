@@ -1,0 +1,45 @@
+.row
+  .col-xs-12
+    %h3.text-center Case Notes List
+    - @case_notes.each do |case_note|
+      .panel.panel-info
+        .panel-heading
+          %h4
+            = 'Case Note on'
+            = case_note.meeting_date.strftime('%B %d, %Y') if case_note.meeting_date
+          %h4= "Present: #{case_note.attendee}"
+        .panel-body
+          .row
+            .col-xs-12
+              - case_note.case_note_domain_groups.each do |cdg|
+                .panel.panel-default
+                  .panel-body
+                    .row
+                      .col-xs-2
+                        %h5= cdg.domain_group.domain_identities
+                        - cdg.domain_group.domains.each do |domain|
+                          - ad = domain.assessment_domains.find_by(assessment_id: case_note.assessment_id)
+                          %div.label{class: "label-#{ad.score_color_class} label-lg"}= ad.score
+                      .col-xs-10
+                        - if cdg.note.present?
+                          .panel.panel-default
+                            .panel-heading
+                              %h5 Notes:
+                            .panel-body
+                              = cdg.note
+                        - if cdg.tasks.completed.any?
+                          .panel.panel-default
+                            .panel-heading
+                              %h5 Completed Tasks
+                            .panel-body
+                              - cdg.tasks.completed.each_with_index do |task, index|
+                                .task
+                                  %span= "#{index + 1}. "
+                                  = task.name
+        = will_paginate(@case_notes)
+  .col-xs-12
+    = link_to 'Back', client_path(@client)
+    - if @client.can_create_case_note?
+      = link_to 'New Case Note', new_client_case_note_path(@client)
+    - else
+      %label.btn.btn-default.disabled You need to create Assessment first

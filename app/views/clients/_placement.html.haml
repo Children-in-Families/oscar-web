@@ -1,0 +1,71 @@
+- if @client.state == ''
+  = simple_form_for @client, method: :put, url: client_path(@client), html: { class: 'col-xs-1' } do |f|
+    .form-inputs
+      = f.hidden_field :state, value: 'accepted'
+    .form-actions
+      = f.button :submit, 'Accept', class: 'btn btn-success'
+
+  %button.btn.btn-danger{"data-target" => '#rejectionForm', "data-toggle" => 'modal'} Reject
+
+  #rejectionForm.modal.fade{ role: 'dialog', tabindex: '-1'}
+    .modal-dialog{ role: 'document'}
+      .modal-content
+        .modal-header
+          %button.close{"aria-label" => 'Close', "data-dismiss" => 'modal'}
+            %span{"aria-hidden" => 'true'} &times;
+          %h4.modal-title Reject this client
+        .modal-body
+          = simple_form_for(@client) do |f|
+            = f.error_notification
+            .form-inputs
+              = f.input :rejected_note, required: true, label: 'Note'
+            .form-inputs
+              = f.hidden_field :state, value: 'rejected'
+            .form-actions.text-right
+              %button.btn.btn-default{"data-dismiss" => 'modal'} Cancel
+              = f.button :submit, 'Reject', class: 'btn btn-danger confirm-reject'
+
+- elsif @client.state == 'rejected'
+  = simple_form_for @client, method: :put, url: client_path(@client), html: { class: 'col-xs-1' } do |f|
+    .form-inputs
+      = f.hidden_field :state, value: 'accepted'
+    .form-actions
+      = f.button :submit, 'Accept', class: 'btn btn-success'
+  %button.btn.btn-danger{ disabled: 'disabled' } Reject
+  
+- elsif @client.state == 'accepted'
+  - if @client.cases.emergencies.present?
+    = render 'emergency_case', ec: @client.cases.latest_emergency
+  - if @client.cases.kinships.present?
+    = render 'kinship_case', kc: @client.cases.latest_kinship
+  - if @client.cases.fosters.present?
+    = render 'foster_case', fc: @client.cases.latest_foster
+  - if can? :manage, Case
+    - if @client.cases.emergencies.blank? || @client.cases.active.blank?
+      - if @client.cases.kinships.active.blank? && @client.cases.fosters.active.blank?
+        = link_to 'Add EC', new_client_case_path(@client, case_type: 'EC'), class: 'btn btn-success'
+    - if @client.cases.kinships.blank? && @client.cases.fosters.blank?
+      = link_to 'Add FC', new_client_case_path(@client, case_type: 'FC'), class: 'btn btn-success'
+      = link_to 'Add KC', new_client_case_path(@client, case_type: 'KC'), class: 'btn btn-success'
+    - elsif @client.cases.kinships.present? && @client.cases.fosters.present?
+      - if @client.cases.latest_kinship.exited && @client.cases.latest_foster.exited
+        = link_to 'Add FC', new_client_case_path(@client, case_type: 'FC'), class: 'btn btn-success'
+        = link_to 'Add KC', new_client_case_path(@client, case_type: 'KC'), class: 'btn btn-success'
+    - elsif @client.cases.kinships.present? || @client.cases.fosters.present?
+      - if @client.cases.kinships.present?
+        - if @client.cases.latest_kinship.exited
+          = link_to 'Add FC', new_client_case_path(@client, case_type: 'FC'), class: 'btn btn-success'
+          = link_to 'Add KC', new_client_case_path(@client, case_type: 'KC'), class: 'btn btn-success'
+      - if @client.cases.fosters.present?
+        - if @client.cases.latest_foster.exited
+          = link_to 'Add FC', new_client_case_path(@client, case_type: 'FC'), class: 'btn btn-success'
+          = link_to 'Add KC', new_client_case_path(@client, case_type: 'KC'), class: 'btn btn-success'
+  .row
+    .col-xs-12
+      %p
+      - if @client.cases.emergencies.inactive.present?
+        = link_to 'View EC History', client_cases_path(@client, case_type: 'EC'), class: 'btn btn-link'
+      - if @client.cases.fosters.inactive.present?
+        = link_to 'View FC History', client_cases_path(@client, case_type: 'FC'), class: 'btn btn-link'
+      - if @client.cases.kinships.inactive.present?
+        = link_to 'View KC History', client_cases_path(@client, case_type: 'KC'), class: 'btn btn-link'

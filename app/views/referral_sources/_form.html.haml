@@ -1,0 +1,10 @@
+= simple_form_for(@referral_source) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.input :name, label: 'ឈ្មោះ​ប្រភព​នែ​ការ​បញ្ជូន / Name'
+    = f.input :description, input_html: { rows: '4' }, label: 'ការបរិយាយពីប្រភព​នៃ​ការ​បញ្ចូន / Description'
+
+  .form-actions
+    = f.button :submit, 'រក្សាទុក / Save', class: 'btn btn-primary'
+    = link_to 'ទុកជាមោឃៈ / Cancel', referral_sources_path, class: 'btn btn-default'

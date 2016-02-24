@@ -1,0 +1,22 @@
+.row
+  .container
+    .col-xs-12
+      = link_to 'បន្ថែម​កត្តា​ថ្មី / Add New Domain', new_domain_path, class: 'btn btn-success btn-add'
+    .col-xs-12
+      .panel.panel-default
+        .panel-heading
+          %h3 កត្តា​ / Domains
+        .panel-body
+          - @domains.each do |domain|
+            .panel.panel-default
+              .panel-heading
+                %h4
+                  = "កត្តា​ / Domain : #{domain.name} (#{domain.identity})"
+                  %small
+                    = link_to edit_domain_path(domain) do
+                      %i.glyphicon.glyphicon-pencil
+                    = removeable? domain, domain.tasks_count
+              .panel-body
+                %p= domain.description.html_safe
+                  
+          = will_paginate @domains

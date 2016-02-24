@@ -1,0 +1,43 @@
+.row
+  .col-xs-12
+    .panel.panel-info
+      .panel-heading
+        %div
+          - if @assessment.initial?
+            %span Initial Assessment of
+          - else
+            %span 6 Month Assessment Report
+          %strong
+            %u= @assessment.client.name
+        %div
+          %span Assessment Completed By
+          %strong
+            %u= current_user.first_name
+          %span on
+          %strong
+            %u= @assessment.created_at.strftime("%B %d, %Y")
+          %span.pull-right
+            = link_to 'Back to Assessment History', client_assessments_path(@assessment.client)
+            - if @assessment.latest_record?
+              |
+              = link_to 'Edit', edit_client_assessment_path(@assessment.client, @assessment)
+      .panel-body
+        %table.table.table-bordered.table-responsive
+          %tbody
+            - @assessment.assessment_domains.each do |ad|
+              %tr
+                %td.domain-detail
+                  .domain-identity
+                    %span
+                      = "Domain #{ad.domain.name}:"
+                    %strong
+                      = ad.domain.identity
+                  .domain-score
+                    %span Score:
+                    - unless @assessment.initial?
+                      %span{ class: "label label-#{ad.previous_score_color_class} "}
+                        = "#{ad.previous_score}"
+                      %span &#8594;
+                    %span{ class: "label label-#{ad.score_color_class} "}
+                      = "#{ad.score}"
+                %td.reason= ad.reason

@@ -1,0 +1,151 @@
+.row
+  .col-xs-12.client
+    .panel.panel-default
+      .panel-heading
+        %h3
+          = "General Information for #{@client.name}"
+          - if @client.status
+            = '('
+            = status_style(@client.status)
+            = ')'
+          - if can? :manage, Client
+            %small
+              = link_to edit_client_path(@client) do
+                %i.glyphicon.glyphicon-pencil
+              = link_to @client, method: 'delete', data: { confirm: 'Are you sure you want to delete?' } do
+                %i.glyphicon.glyphicon-trash
+        %h4.row.client-summary
+          %span.col-xs-6.col-sm-3.col-md-2 Gender
+          %span.col-xs-6.col-sm-9.col-md-10
+            = ": #{@client.gender.titleize}"
+        %h4.row.client-summary
+          %span.col-xs-6.col-sm-3.col-md-2 Date Of Birth
+          %span.col-xs-6.col-sm-9.col-md-10
+            = ':'
+            = @client.date_of_birth.strftime('%B %d, %Y') if @client.date_of_birth
+        %h4.row.client-summary
+          %span.col-xs-6.col-sm-3.col-md-2 Address
+          %span.col-xs-6.col-sm-9.col-md-10= ": #{@client.current_address}"
+      .panel-body
+        .row
+          .col-xs-6.col-sm-4.col-md-3.client-detail
+            %strong Completed 
+          .col-xs-6.col-sm-8.col-md-9.client-detail
+            = ":"
+            = @client.completed? ? 'YES' : 'NO'
+        .row
+          .col-xs-6.col-sm-4.col-md-3.client-detail
+            %strong Birth Province
+          .col-xs-6.col-sm-8.col-md-9.client-detail
+            = ":"
+            = "#{@client.birth_province.name}" if @client.birth_province
+        .row
+          .col-xs-6.col-sm-4.col-md-3.client-detail
+            %strong Initial Referral Date
+          .col-xs-6.col-sm-8.col-md-9.client-detail
+            = ':'
+            = @client.initial_referral_date.strftime('%B %d, %Y') if @client.initial_referral_date
+        .row
+          .col-xs-6.col-sm-4.col-md-3.client-detail
+            %strong Referral Source
+          .col-xs-6.col-sm-8.col-md-9.client-detail
+            = ":"
+            = @client.referral_source.name if @client.referral_source
+        .row
+          .col-xs-6.col-sm-4.col-md-3.client-detail
+            %strong Referral Phone
+          .col-xs-6.col-sm-8.col-md-9.client-detail
+            = ':'
+            = @client.referral_phone.phony_formatted(normalize: :KH, format: :international) if @client.referral_phone
+        .row
+          .col-xs-12
+            #accordion.panel-group.additional-details{"aria-multiselectable" => "true", role: 'tablist'}
+              #headingTextClientDetail.panel-heading{role: 'tab'}
+                %h3.panel-title
+                  %a.collapsed{"aria-controls" => "collapseTwo", "aria-expanded" => "false", "data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapseTwo", :role => "button"}
+                    Additional Details
+        .row
+          .col-xs-12
+            #collapseTwo.panel-collapse.collapse{"aria-labelledby" => "headingTextClientDetail", :role => "tabpanel"}
+              .row
+                .col-xs-6.col-sm-4.col-md-3.client-detail
+                  %strong Received By
+                .col-xs-6.col-sm-8.col-md-9.client-detail
+                  = ":"
+                  = user @client.received_by if @client.received_by
+              .row
+                .col-xs-6.col-sm-4.col-md-3.client-detail
+                  %strong Followed Up By
+                .col-xs-6.col-sm-8.col-md-9.client-detail
+                  = ":"
+                  = user @client.followed_up_by if @client.followed_up_by
+              .row
+                .col-xs-6.col-sm-4.col-md-3.client-detail
+                  %strong Follow Up Date
+                .col-xs-6.col-sm-8.col-md-9.client-detail
+                  = ':'
+                  = @client.follow_up_date.strftime('%B %d, %Y') if @client.follow_up_date
+              .row
+                .col-xs-6.col-sm-4.col-md-3.client-detail
+                  %strong Agencies Involved
+                .col-xs-6.col-sm-8.col-md-9.client-detail
+                  = ":"
+                  = @client.agencies.map{|agency| agency.name }.join(", ")
+              .row
+                .col-xs-6.col-sm-4.col-md-3.client-detail
+                  %strong Current Province
+                .col-xs-6.col-sm-8.col-md-9.client-detail
+                  = ":"
+                  = "#{@client.province.name}" if @client.province
+              .row
+                .col-xs-6.col-sm-4.col-md-3.client-detail
+                  %strong School Name
+                .col-xs-6.col-sm-8.col-md-9.client-detail
+                  = ":"
+                  = "#{@client.school_name}"
+              .row
+                .col-xs-6.col-sm-4.col-md-3.client-detail
+                  %strong School Grade
+                .col-xs-6.col-sm-8.col-md-9.client-detail
+                  = ": #{@client.school_grade}"
+              .row
+                .col-xs-6.col-sm-4.col-md-3.client-detail
+                  %strong Has Been In Orphanage?
+                .col-xs-6.col-sm-8.col-md-9.client-detail
+                  = ": #{human_boolean(@client.has_been_in_orphanage)}"
+              .row
+                .col-xs-6.col-sm-4.col-md-3.client-detail
+                  %strong ABLE?
+                .col-xs-6.col-sm-8.col-md-9.client-detail
+                  = ": #{human_boolean(@client.able)}"
+              .row
+                .col-xs-6.col-sm-4.col-md-3.client-detail
+                  %strong Has Been In Government Care?
+                .col-xs-6.col-sm-8.col-md-9.client-detail
+                  = ": #{human_boolean(@client.has_been_in_government_care)}"
+              .row
+                .col-xs-6.col-sm-4.col-md-3.client-detail
+                  %strong Relevant Referral Information
+                .col-xs-6.col-sm-8.col-md-9.client-detail
+                  = ": #{@client.relevant_referral_information}"
+              .row
+                .col-xs-6.col-sm-4.col-md-3.client-detail
+                  %strong Case Worker / Staff
+                .col-xs-6.col-sm-8.col-md-9.client-detail
+                  = ":"
+                  = user @client.user if @client.user
+
+              = render 'state'
+
+      .panel-footer
+        .row
+          .col-xs-12
+            = link_to 'View Tasks', client_tasks_path(@client)
+        .row
+          .col-xs-12
+            = link_to 'View Assessments', client_assessments_path(@client)
+        .row
+          .col-xs-12
+            = link_to 'View Case Notes', client_case_notes_path(@client)
+
+= render 'placement'

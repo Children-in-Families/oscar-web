@@ -1,0 +1,22 @@
+.row
+  .container
+    .col-xs-12
+      = link_to 'បន្ថែម​ប្រភពនៃ​ការ​បញ្ជូនថ្មី / Add New Referral Source', new_referral_source_path, class: 'btn btn-success btn-add'
+    .col-xs-12
+      .panel.panel-default
+        .panel-heading
+          %h3 ប្រភព​នៃ​ការ​បញ្ជូន​ / Referral Sources
+        .panel-body
+          - @referral_sources.each do |referral_source|
+            .panel.panel-default
+              .panel-heading
+                %h4
+                  = referral_source.name
+                  %small
+                    = link_to edit_referral_source_path(referral_source) do
+                      %i.glyphicon.glyphicon-pencil
+                    = removeable? referral_source, referral_source.clients_count
+              .panel-body
+                %p= referral_source.description
+                  
+          = will_paginate @referral_sources

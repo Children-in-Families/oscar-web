@@ -1,0 +1,59 @@
+.row
+  .col-xs-12.user
+    .panel.panel-default
+      .panel-heading
+        %h3
+          = "General Information for #{@user.name}"
+          - if can? :manage, :all
+            %small
+              = link_to edit_user_path(@user) do
+                %i.glyphicon.glyphicon-pencil
+              - if @user.clients_count.zero? && @user.cases_count.zero? && @user.tasks_count.zero?
+                = link_to @user, method: 'delete', data: { confirm: 'Are you sure you want to delete?' } do
+                  %i.glyphicon.glyphicon-trash
+              - else
+                %i.glyphicon.glyphicon-trash
+        %h4.row
+          %span.col-xs-6.col-sm-3.col-md-2 Job Title
+          %span.col-xs-6.col-sm-9.col-md-10= ": #{@user.job_title}"
+        %h4.row
+          %span.col-xs-6.col-sm-3.col-md-2 Department
+          %span.col-xs-6.col-sm-9.col-md-10
+            = ':'
+            = @user.department.name if @user.department
+      .panel-body
+        .row
+          .col-xs-6.col-sm-4.col-md-3.user-detail
+            %strong Mobile
+          .col-xs-6.col-sm-8.col-md-9.user-detail
+            = ":"
+            = "#{@user.mobile.phony_formatted(normalize: :KH, format: :international)}" if @user.mobile
+        .row
+          .col-xs-6.col-sm-4.col-md-3.user-detail
+            %strong Email
+          .col-xs-6.col-sm-8.col-md-9.user-detail
+            = ":"
+            - object_emails = @user.email.split(%r{;\s*}) if @user.email
+            - if object_emails
+              - object_emails.each do |object_email|
+                = mail_to object_email
+        .row
+          .col-xs-6.col-sm-4.col-md-3.user-detail
+            %strong Date Of Birth
+          .col-xs-6.col-sm-8.col-md-9.user-detail
+            = ':'
+            = @user.date_of_birth.strftime('%B %d, %Y') if @user.date_of_birth
+        .row
+          .col-xs-6.col-sm-4.col-md-3.user-detail
+            %strong Start Date
+          .col-xs-6.col-sm-8.col-md-9.user-detail
+            = ':'
+            = @user.start_date.strftime('%B %d, %Y') if @user.start_date
+        .row
+          .col-xs-6.col-sm-4.col-md-3.user-detail
+            %strong Province
+          .col-xs-6.col-sm-8.col-md-9.user-detail
+            = ":"
+            = "#{@user.province.name}" if @user.province
+
+    = render 'clients'

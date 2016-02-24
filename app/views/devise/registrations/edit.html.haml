@@ -1,0 +1,42 @@
+.row
+  .col-xs-12.col-sm-6.col-sm-offset-3.form
+    .panel.panel-default
+      .panel-heading
+        %h4
+          កែសម្រួលព័ត៌មានផ្ទាល់ខ្លួន / Editing Profile
+      .panel-body
+        = simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
+          = f.error_notification
+          .form-inputs
+            = f.input :first_name, label: 'នាមខ្លួន / First Name'
+            = f.input :last_name, label: 'នាមត្រកូល / Last Name'
+
+            .form-group.date.optional.user_date_of_birth
+              %label.date.optional.control-label{ for: 'user_date_of_birth' } ថ្ងៃ ខែ ឆ្នាំ កំណើត / Date Of Birth
+              .input-group.date
+                = f.text_field :date_of_birth, class: 'date optional form-control date-picker', type: 'text', name: 'user[date_of_birth]', id: 'user_date_of_birth'
+                %span.input-group-addon
+                  %i.glyphicon.glyphicon-calendar
+
+            = f.input :job_title, label: 'មុខតំណែង / Job Title'
+            = f.association :department, collection: @department, include_blank: false, label: 'កម្មវិធី / Department'
+
+            .form-group.date.optional.user_start_date
+              %label.date.optional.control-label{ for: 'user_start_date' } ថ្ងៃ ខែ ឆ្នាំ ចាប់ផ្ដើមធ្វើការ / Start Date
+              .input-group.date
+                = f.text_field :start_date, class: 'date optional form-control date-picker', type: 'text', name: 'user[start_date]', id: 'user_start_date'
+                %span.input-group-addon
+                  %i.glyphicon.glyphicon-calendar
+
+            = f.association :province, collection: @province, include_blank: false, label: 'ខេត្ត / Province'
+            = f.input :mobile, label: 'លេខទូរស័ព្ទ / Mobile'
+            = f.input :email, required: true, label: 'ឣុីម៉ែល / Email'
+            - if devise_mapping.confirmable? && resource.pending_reconfirmation?
+              %p
+                Currently waiting confirmation for: #{resource.unconfirmed_email}
+            = f.input :password, autocomplete: 'off', hint: "រំលងប្រសិនបើឣ្នកមិនចង់ធ្វើការផ្លាស់ប្តូរ / leave it blank if you don't want to change it", required: false, label: 'លេខកូដសំងាត់ / Password'
+            = f.input :password_confirmation, required: false, label: 'បញ្ជាក់លេខកូដសំងាត់ថ្មី / Password Confirmation'
+            = f.input :current_password, hint: 'យើងត្រូវការពិនិត្យបញ្ជាក់លេខកូដសំងាត់បច្ចុប្បន្នដើម្បីធ្វើការផ្លាស់ប្តូរ / we need your current password to confirm your changes', required: true, label: 'លេខកូដសំងាត់បច្ចុប្បន្ន / Current Password'
+          .form-actions
+            = f.button :submit, 'រក្សាទុក / Save', class: 'btn btn-primary'
+            = link_to 'លប់ចោលគណនីរបស់ខ្ញុំ / Delete my account', registration_path(resource_name), {class: 'btn btn-danger', data: { confirm: "Are you sure?" }, method: :delete}

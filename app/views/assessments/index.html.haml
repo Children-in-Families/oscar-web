@@ -1,0 +1,44 @@
+.row
+  .col-xs-12
+    .panel.panel-default
+      .panel-heading
+        %strong= "#{@client.name}"
+        %span Assessment History
+      .panel-body
+        .row
+          - @client.assessments.each_with_index do |assessment, index|
+            .col-xs-12.col-sm-6.col-sm-offset-3
+              .col-sm-4
+                %span
+                  - if assessment.initial?
+                    Initial Assessment
+                  - else
+                    6 Month Review
+              .col-sm-4
+                %span
+                  = assessment.created_at.strftime("%B %d, %Y")
+              .col-sm-4
+                = link_to 'View Report', client_assessment_path(@client, assessment)
+          .col-xs-12.col-sm-6.col-sm-offset-3
+            .col-sm-4
+              %span
+                - if @client.assessments.any?
+                  Next 6 Monthly Review
+                - else
+                  Initialize Assessment
+            - if @client.assessments.any?
+              .col-sm-4
+                %span
+                  = @client.next_assessment_date.strftime('%B %d, %Y')
+            - else
+              .col-sm-4
+                %span
+                  = Date.today.strftime('%B %d, %Y')
+            .col-sm-4
+              - if @client.can_create_assessment?
+                = link_to 'Begin Now...', new_client_assessment_path(@client)
+              - else
+                %label.btn.btn-default.disabled Begin Now...
+
+          .col-xs-12.col-sm-6.col-sm-offset-3
+            = link_to 'Back', client_path(@client)

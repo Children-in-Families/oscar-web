@@ -1,0 +1,22 @@
+.row
+  .container
+    .col-xs-12
+      = link_to 'បន្ថែមការប្រមូលផ្តុំកត្តាថ្មី / Add New Domain Group', new_domain_group_path, class: 'btn btn-success btn-add'
+    .col-xs-12
+      .panel.panel-default
+        .panel-heading
+          %h3 ការប្រមូលផ្តុំកត្តា / Domain Groups
+        .panel-body
+          - @domain_groups.each do |domain_group|
+            .panel.panel-default
+              .panel-heading
+                %h4
+                  = domain_group.name
+                  %small
+                    = link_to edit_domain_group_path(domain_group) do
+                      %i.glyphicon.glyphicon-pencil
+                    = removeable? domain_group, domain_group.domains_count
+              .panel-body
+                %p= domain_group.description
+                  
+          = will_paginate @domain_groups

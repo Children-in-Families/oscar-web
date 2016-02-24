@@ -1,0 +1,15 @@
+.row
+  .col-xs-12
+    %button.btn.btn-primary.btn-filter{"aria-expanded" => 'false', "data-target" => '#partner-search-form', "data-toggle" => 'collapse', type: 'button'}
+      %i.glyphicon.glyphicon-filter
+    .panel.panel-default#partner-search-form.collapse
+      .panel-body
+        = datagrid_form_for @partner_grid, url: partners_url, html: { class: 'grid-form form-inline' }
+    .panel.panel-default
+      .panel-body
+        = link_to "Export to CSV", current_url(format: 'csv'), class: 'btn btn-default pull-right btn-export'
+        - if can? :manage, :all
+          = link_to 'Add New Partner', new_partner_path, class: 'btn btn-success pull-right'
+        = datagrid_table @partner_grid, html: { class: 'table table-bordered table-striped table-hover'}
+    = will_paginate @partner_grid.assets
+    

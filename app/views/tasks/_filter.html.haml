@@ -1,0 +1,12 @@
+%form{ id: 'filtered_by_user', action: tasks_url, method: 'GET', class: 'form-inline' }
+  .col-sm-6
+    .form-group
+      %label{ for: 'user_id' } Filter by User
+      %select{ id: 'user_id', class: 'form-control', name: 'user_id' }
+        - unless params[:user_id]
+          %option{ selected: 'selected' } Select User
+        - @users.each do |user|
+          - if user.id.to_i == params[:user_id].to_i
+            %option{ value: user.id, selected: 'selected' }= user.name
+          - else
+            %option{ value: user.id }= user.name

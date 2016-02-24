@@ -1,0 +1,28 @@
+.row
+  .col-xs-12
+    %h2 Client List
+
+  .col-xs-12
+    %table.table.table-striped.table-borderd
+      %thead
+        %tr
+          %th Name
+          %th Status
+          %th Gender
+          %th Follow Up Date
+          %th Recieved By
+          %th Followed Up By
+          %th Action
+
+      %tbody
+        - @clients.each do |client|
+          %tr
+            %td= client.name
+            %td= client.status
+            %td= client.gender
+            %td= client.referral_follow_up_date
+            %td= client.received_by.name if client.received_by.present?
+            %td= client.followed_up_by.name if client.followed_up_by.present?
+            %td= link_to 'Show', '#', class: 'btn btn-primary'
+
+    = will_paginate @clients

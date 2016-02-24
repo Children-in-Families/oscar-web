@@ -1,0 +1,18 @@
+.row
+  .container
+    .col-xs-12
+      = link_to 'បន្ថែមកម្មវិធីថ្មី / Add New Department', new_department_path, class: 'btn btn-success btn-add'
+    .col-xs-12
+      .panel.panel-default
+        .panel-heading
+          %h3 កម្មវិធី / Departments
+        .panel-body
+          - @departments.each do |department|
+            .panel.panel-default.col-xs-12.col-sm-6
+              .panel-body
+                %h4
+                  = department.name
+                  %small.pull-right
+                    = link_to edit_department_path(department) do
+                      %i.glyphicon.glyphicon-pencil
+                    = removeable? department, department.users_count

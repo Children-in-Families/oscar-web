@@ -1,0 +1,45 @@
+#clients-show {
+  margin-bottom: 30px;
+  .panel-heading small a {
+    text-decoration: none;
+    margin: 0 5px;
+  }
+  .client {
+    margin-top: 30px;
+    .panel-group {
+      margin-bottom: 0;
+    }
+    .client-detail {
+      padding-top: 5px;
+      padding-bottom: 5px;
+    }
+    .additional-details {
+      .panel-heading {
+        a {
+          text-decoration: underline;
+        }
+        padding-left: 0;
+      }
+    }
+  }
+  
+  .case {
+    .case-detail {
+      padding-top: 5px;
+      padding-bottom: 5px;
+    }
+    .case-note {
+      margin-top: 15px;
+      .domain-note {
+        margin-top: 10px;
+        margin-bottom: 10px;
+      }
+    }
+    .case-note-pagination {
+      margin-top: 50px;
+      span, a {
+        padding: 0 10px;
+      }
+    }
+  }
+}

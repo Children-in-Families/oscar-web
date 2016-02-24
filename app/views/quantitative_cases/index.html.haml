@@ -1,0 +1,21 @@
+.row
+  .container
+    .col-xs-12
+      = link_to 'Add New Quantitative Case', new_quantitative_case_path, class: 'btn btn-success btn-add'
+    - @quantitative_types.each do |qt|
+      .col-xs-12
+        .panel.panel-default
+          .panel-heading
+            %h5= qt.name
+          .panel-body
+            %table.table.table-bordered
+              %tbody
+                - qt.quantitative_cases.each do |qc|
+                  %tr
+                    %td= qc.value
+                    %td
+                      = link_to edit_quantitative_case_path(qc) do
+                        %i.glyphicon.glyphicon-pencil
+                    %td
+                      = link_to qc, method: 'delete', data: { confirm: 'Are you sure you want to delete?' } do
+                        %i.glyphicon.glyphicon-trash

@@ -1,0 +1,18 @@
+= simple_form_for [@assessment.client, @assessment] do |f|
+  .row.assessment-domains
+    .col-xs-12.col-sm-6.col-sm-offset-3
+      #rootwizard
+        = f.simple_fields_for :assessment_domains do |assessment_domain|
+          %h4= assessment_domain.object.domain.name
+          .assessment-domain-item
+            .panel.panel-default
+              .panel-heading
+                = link_to 'Back', client_assessments_path(@client)
+                %span.pull-right= "Domain #{assessment_domain.object.domain.name}"
+                %strong.pull-right= "#{@assessment.client.name}"
+              .panel-body
+                = assessment_domain.hidden_field :domain_id
+                .well
+                  = assessment_domain.object.domain.description.html_safe
+                = assessment_domain.collection_radio_buttons :score, [[1, '1'],[2, '2'], [3, '3'], [4, '4']], :first, :last
+                = assessment_domain.input :reason

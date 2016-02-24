@@ -1,0 +1,72 @@
+.row
+  .col-xs-12
+    - if can? :manage, :all
+      .panel.panel-default
+        .panel-body
+          = render 'filter'
+    - if params[:user_id] || current_user.case_worker?
+      %h4.text-center= "#{@user.first_name}'s Active Tasks" if @user
+      .panel.panel-danger
+        .panel-heading
+          %h5 Overdue Tasks
+        .panel-body
+          .row
+            .col-xs-12
+              - grouped_tasks = @tasks.overdue.group_by do |task|
+                - task.client
+              - grouped_tasks.each do |client, tasks|
+                .panel.panel-default
+                  .panel-heading
+                    %h5= client.name
+                  .panel-body
+                    .row
+                      .col-xs-12
+                        %table.table.table-bordered
+                          - tasks.each do |task|
+                            %tr
+                              %td= "Domain: #{task.domain.name}"
+                              %td.task-name= task.name
+                              %td= task.completion_date.strftime("%B %d, %Y")
+      .panel.panel-warning
+        .panel-heading
+          %h5 Today's Tasks
+        .panel-body
+          .row
+            .col-xs-12
+              - grouped_tasks = @tasks.today.group_by do |task|
+                - task.client
+              - grouped_tasks.each do |client, tasks|
+                .panel.panel-default
+                  .panel-heading
+                    %h5= client.name
+                  .panel-body
+                    .row
+                      .col-xs-12
+                        %table.table.table-bordered
+                          - tasks.each do |task|
+                            %tr
+                              %td= "Domain: #{task.domain.name}"
+                              %td.task-name= task.name
+                              %td= task.completion_date.strftime("%B %d, %Y")
+      .panel.panel-success
+        .panel-heading
+          %h5 Upcoming Tasks
+        .panel-body
+          .row
+            .col-xs-12
+              - grouped_tasks = @tasks.upcoming.group_by do |task|
+                - task.client
+              - grouped_tasks.each do |client, tasks|
+                .panel.panel-default
+                  .panel-heading
+                    %h5= client.name
+                  .panel-body
+                    .row
+                      .col-xs-12
+                        %table.table.table-bordered
+                          - tasks.each do |task|
+                            %tr
+                              %td= "Domain: #{task.domain.name}"
+                              %td.task-name= task.name
+                              %td= task.completion_date.strftime("%B %d, %Y")
+

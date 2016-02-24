@@ -1,0 +1,8 @@
+body[id=domain_groups-new],
+body[id=domain_groups-create],
+body[id=domain_groups-edit],
+body[id=domain_groups-update] {
+  textarea {
+    height: 300px;
+  }
+}

@@ -1,0 +1,10 @@
+= simple_form_for(@department) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.input :name, label: 'ឈ្មោះកម្មវិធី / Name'
+    = f.input :description, input_html: { rows: '4' }, label: 'ការបរិយាយ / Description'
+
+  .form-actions
+    = f.submit 'រក្សាទុក / Save', class: 'btn btn-primary'
+    = link_to 'ទុកជាមោឃៈ / Cancel', departments_path, class: 'btn btn-default'

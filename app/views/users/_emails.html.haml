@@ -1,0 +1,4 @@
+- object_emails = object.email.split(%r{;\s*}) if object.email
+- if object_emails
+	- object_emails.each do |object_email|
+		= mail_to object_email

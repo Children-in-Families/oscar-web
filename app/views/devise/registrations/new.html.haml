@@ -1,0 +1,33 @@
+.row
+  .col-xs-12.col-sm-6.col-sm-offset-3.form
+    .panel.panel-default
+      .panel-heading
+        %h4 Sign up
+      .panel-body
+        = simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
+          = f.error_notification
+          .form-inputs
+            = f.input :first_name, label: 'First Name'
+            = f.input :last_name, label: 'Last Name'
+            = f.input :date_of_birth, start_year: 1990, end_year: Date.today.year, label: 'Date Of Birth'
+            = f.input :job_title, label: 'Job Title'
+            = f.input :department
+            = f.input :start_date, start_year: 1990, end_year: Date.today.year, label: 'Start Date'
+            = f.association :province, collection: @province
+            = f.input :mobile
+            = f.input :email, required: true
+            = f.input :password, required: true, hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length)
+            = f.input :password_confirmation, required: true, label: 'Password Confirmation'
+          .form-actions
+            = f.button :submit, 'Sign up', class: 'btn btn-primary'
+            or
+            = render "devise/shared/links"
+
+
+
+
+
+
+
+
+  

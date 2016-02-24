@@ -1,0 +1,35 @@
+= simple_form_for([@client, @case]) do |f|
+  = f.error_notification
+
+  .form-inputs
+    .col-xs-12.col-sm-4
+      .form-group.date.optional.case_start_date
+        %label.date.optional.control-label{ for: 'case_start_date' } Start Date
+        .input-group.date
+          = f.text_field :start_date, class: 'date optional form-control date-picker', type: 'text', name: 'case[start_date]', id: 'case_start_date'
+          %span.input-group-addon
+            %i.glyphicon.glyphicon-calendar
+    .col-xs-12.col-sm-4
+      = f.input :carer_names, label: 'Carer Names'
+    .col-xs-12.col-sm-4
+      = f.input :carer_address, label: 'Carer Address'
+    .col-xs-12.col-sm-4
+      = f.association :province, collection: @province
+    .col-xs-12.col-sm-4
+      = f.input :carer_phone_number, label: 'Carer Phone Number'
+    .col-xs-12.col-sm-4
+      = f.input :case_type, label: 'Case Type', default: params[:case_type], input_html: { readonly: 'readonly' }
+    .col-xs-12.col-sm-4
+      = f.input :support_amount, label: 'Support Amount ($)'
+    .col-xs-12.col-sm-4
+      = f.input :support_note, input_html: { rows: '4' }, label: 'Support Note'
+    .col-xs-12.col-sm-4
+      = f.association :partner, collection: @partner, label:'On Going Partner', include_blank: false
+    .col-xs-12.col-sm-4
+      = f.association :family, collection: @family, include_blank: false
+    .col-xs-12.col-sm-4
+      = f.input :family_preservation
+
+  .form-actions
+    = f.button :submit, class: 'btn btn-primary'
+    = link_to 'Cancel', client_path(@client), class: 'btn btn-default'

@@ -1,0 +1,26 @@
+#exitFCForm.modal.fade{ role: 'dialog', tabindex: '-1'}
+  .modal-dialog{ role: 'document'}
+    .modal-content
+      .modal-header
+        %button.close{"aria-label" => 'Close', "data-dismiss" => 'modal'}
+          %span{"aria-hidden" => 'true'} &times;
+        %h4.modal-title Exit Foster Care
+      .modal-body
+        = simple_form_for([@client, fc]) do |f|
+          = f.error_notification
+          .form-inputs
+            .form-group.date.case_exit_date
+              %label.date.required.control-label{ for: 'case_exit_date' }
+                %abbr{ title: 'required' } *
+                = 'Date'
+              .input-group.date
+                = f.text_field :exit_date, required: true, class: 'date form-control date-picker .datepicker-dropdown fc_exit_date', type: 'text', name: 'case[exit_date]', id: 'case_exit_date'
+                %span.input-group-addon
+                  %i.glyphicon.glyphicon-calendar
+          .form-inputs
+            = f.input :exit_note, required: true, label: 'Note', input_html: { class: 'fc_exit_note' }
+          .form-inputs
+            = f.hidden_field :exited, value: true
+          .form-actions.text-right
+            %button.btn.btn-default{"data-dismiss" => 'modal'} Cancel
+            = f.button :submit, 'Exit', class: 'btn btn-danger fc_confirm_exit'
