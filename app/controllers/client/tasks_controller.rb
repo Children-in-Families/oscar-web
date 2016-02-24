@@ -1,5 +1,4 @@
 class Client::TasksController < ApplicationController
-
   before_action :find_client
 
   def index
