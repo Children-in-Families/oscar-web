@@ -5,11 +5,11 @@ default: &default
 
 development:
   <<: *default
-  database: <%= ENV['DATABASE_NAME'] %>
+  database: children_in_families_development
 
 test:
   <<: *default
-  database: <%= ENV['DATABASE_NAME_TEST'] %>
+  database: children_in_families_test
 
 staging:
   <<: *default
