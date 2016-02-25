@@ -4,7 +4,7 @@ Family based care is quickly becoming the worldwide ideal in addressing the need
 
 In many countries, current paper based systems are inefficient and outdated. Existing database solutions are slow and are poorly designed resulting in data duplication and confusion.  An open source case management system such as Children in Families will remove startup barriers and enable NGOs and governments to implement quality family based care solutions.
 
-### Requirements
+### Installation Requirements
 
 * Postgres (>= 9.3)
 * Ruby (2.2.0)
