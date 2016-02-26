@@ -1,0 +1,10 @@
+addons:
+  postgresql: "9.3"
+  apt:
+    packages:
+      - libqtwebkit-dev
+      - libqt4-dev
+before_script:
+  - psql -c 'create database travis_ci_test;' -U postgres
+  - cp config/database.yml.travis config/database.yml
+script: xvfb-run bundle exec rspec

@@ -16,7 +16,7 @@ gem 'roo',                    '~> 2.2'
 gem 'will_paginate',          '~> 3.0', '>= 3.0.7'
 gem 'fog'
 gem 's3'
-gem 'faker',                  '~> 1.5'
+gem 'ffaker',                 '~> 2.1.0'
 gem 'draper',                 '~> 2.1'
 gem 'datagrid',               '~> 1.4'
 gem 'active_model_serializers'
@@ -37,6 +37,7 @@ group :development, :test do
   gem 'factory_girl_rails',   '~> 4.5'
   gem 'launchy',              '~> 2.4', '>= 2.4.3'
   gem 'capybara',             '~> 2.5'
+  gem 'capybara-webkit',      '~> 1.8.0'
 end
 
 group :staging, :production do
@@ -50,14 +51,13 @@ group :development do
   gem 'capistrano-rails',     '~> 1.1.1'
   gem 'capistrano-passenger', '~> 0.1.1'
   gem 'capistrano-rvm',       '~> 0.1.2'
-  gem 'capistrano-sidekiq',   github: 'seuros/capistrano-sidekiq'
   gem 'capistrano-foreman'
 end
 
 group :test do
   gem 'database_cleaner',     '~> 1.5', '>= 1.5.1'
   gem 'guard-rspec',          '~> 4.6'
-  gem 'shoulda-matchers',     github: 'thoughtbot/shoulda-matchers'
+  gem 'shoulda-matchers',     '~> 3.1.1'
   gem 'rspec-sidekiq'
   gem 'rspec-activemodel-mocks'
 end
