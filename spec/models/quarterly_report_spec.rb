@@ -1,5 +1,4 @@
-require 'rails_helper'
-
-RSpec.describe QuarterlyReport, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+describe QuarterlyReport, 'associations' do
+  it { is_expected.to belong_to(:case) }
+  it { is_expected.to belong_to(:staff_information)}
 end

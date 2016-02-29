@@ -1,4 +1,10 @@
-require 'rails_helper'
+describe User, 'associations' do
+  it { is_expected.to belong_to(:province)}
+  it { is_expected.to belong_to(:department)}
+  it { is_expected.to have_many(:cases)}
+  it { is_expected.to have_many(:clients)}
+end
 
-RSpec.describe User, type: :model do
+describe User, 'validations' do
+  it { is_expected.to validate_presence_of(:roles) }
 end

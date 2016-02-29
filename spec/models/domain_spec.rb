@@ -1,5 +1,13 @@
-require 'rails_helper'
+describe Domain, 'associations' do
+  it { is_expected.to belong_to(:domain_group) }
+  it { is_expected.to have_many(:assessment_domains)}
+end
 
-RSpec.describe Domain, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+describe Domain, 'validations' do
+  it { is_expected.to validate_presence_of(:name) }
+  it { is_expected.to validate_presence_of(:identity) }
+  it { is_expected.to validate_presence_of(:domain_group) }
+
+  it { is_expected.to validate_uniqueness_of(:name) }
+  it { is_expected.to validate_uniqueness_of(:identity)}
 end

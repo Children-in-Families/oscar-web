@@ -1,9 +1,9 @@
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)
-require 'rspec/rails'
+require 'rails_helper'
 require 'shoulda/matchers'
 require 'factory_girl'
-require 'faker'
+require 'ffaker'
 require 'capybara/rails'
 require 'database_cleaner'
 require 'rspec/active_model/mocks'
@@ -27,7 +27,10 @@ Dir[Rails.root.join('spec/supports/**/*.rb')].each { |f| require f }
 # users commonly want.
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
+Capybara.javascript_driver = :webkit
 RSpec.configure do |config|
+  config.include Warden::Test::Helpers
+  config.include FactoryGirl::Syntax::Methods
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
   # assertions if you prefer.
@@ -59,7 +62,7 @@ RSpec.configure do |config|
     DatabaseCleaner.strategy = :transaction
   end
 
-  config.before(:each, :js => true) do
+  config.before(:each, js: true) do
     DatabaseCleaner.strategy = :truncation
   end
 

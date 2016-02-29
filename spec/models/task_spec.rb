@@ -1,5 +1,12 @@
-require 'rails_helper'
+describe Task, 'associations' do
+  it { is_expected.to belong_to(:user) }
+  it { is_expected.to belong_to(:domain)}
+  it { is_expected.to belong_to(:case_note_domain_group)}
+  it { is_expected.to belong_to(:client)}
+end
 
-RSpec.describe Task, 'associations', type: :model do
-  it { is_expected.to belong_to(:kinship_or_foster_care_case) }
+describe Task, 'validations' do
+  it { is_expected.to validate_presence_of(:name) }
+  it { is_expected.to validate_presence_of(:domain_id) }
+  it { is_expected.to validate_presence_of(:completion_date) }
 end

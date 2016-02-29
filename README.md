@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/rotati/children-in-families-web.svg?branch=set-up-travis-spec)](https://travis-ci.org/rotati/children-in-families-web)
+
 # Children in Families Child Care Managment Database Application
 
 Family based care is quickly becoming the worldwide ideal in addressing the needs of orphans and vulnerable children.  As governments and NGOs continue to expand their services to these vulnerable populations, the need for proper and efficient monitoring and case management of children in Kinship and Foster Care will only grow.
