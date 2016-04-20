@@ -143,6 +143,7 @@ km:
         fc_name: ឈ្មោះរបស់ FC
         general_health_or_appearance: រៀបរាប់អំពី សុខភាព ទូទៅ / រូបរាង
         staff_information: ពត័មានរបស់បុគ្គលិក
+        code: លេខសំគាល់
       cases:
         case_type: ប្រភេទករណី
     filters:
@@ -180,6 +181,7 @@ km:
       export_to_csv: ទាញចេញជាឯកសារប្រភេទ CSV
       records: លទ្ធផល
       csi_domain_scores: ពិន្ទុកត្តាការបា៉ន់ប្រមាណCSI
+      assessments: ការ​ប៉ាន់ប្រមាណ
     create:
       successfully_created: អតិថិជនត្រូវបានបង្កើតឡើងដោយជោគជ័យ។
     update:
@@ -208,7 +210,7 @@ km:
       accept: ទទួលយក
       reject: មិនទទួលយក
       note: កំណត់ហេតុ
-      view_legacy_quarterly_reports: Legacy Quarterly Reports
+      view_legacy_quarterly_reports: មើល Quarterly Reports ចាស់ៗ
       reject_client: មិនទទួលយកអតិថិជន
       <<: *default_client_fields
       placements:
@@ -585,6 +587,7 @@ km:
       todays_tasks: កាតព្វកិច្ចថ្ងៃនេះ
       upcoming_tasks: កាតព្វកិច្ចដែលមិនទាន់ធ្វើ
       filter_by_user: ស្វែងរកតាមរយះអ្នកប្រើប្រាស់
+      domain: កត្តា
     filter:
       filter_by_user: ស្វែងរកតាមរយះអ្នកប្រើប្រាស់
   client:
@@ -718,3 +721,30 @@ km:
       partners: ដៃគូ
       referral_sources: ប្រភពនៃការបញ្ជូន
       staffs: បុគ្គលិក
+  case:
+    quarterly_reports:
+      index:
+        legacy_quarterly_reports_for: មើល Quarterly Reports ចាស់ៗសម្រាប់
+        back: ត្រលប់ក្រោយ
+      show:
+        quarterly_report_information_for: ពត័មាន Quarterly Report សម្រាប់
+        with_id: ជាមួយលេខសម្កាល់
+        back: ត្រលប់ក្រោយ
+        date_of_visit: កាលបរិច្ឆេទនៃដំណើរទស្សនកិច្ច
+        kc_name: ឈ្មោះ KC
+        staff_information: ពត័មានរបស់បុគ្គលិក
+        id: លេខសំគាល់
+        if_yes:  រ្យេបរាប់ប្រសិនបើមាន
+        general_health_or_appearance: រៀបរាប់អំពីសុខភាពទូទៅ / រូបរាង
+        observations_of_drug_alchohol_abuse: រៀបរាប់ពីការសង្កេតការណាមួយនៃគ្រឿងញៀនការសេពគ្រឿងស្រវឹង, ការរំលោភបំពានជាដើម
+        describe_the_family_current_situation: រៀបរាប់អំពីស្ថានភាពបច្ចុប្បន្នរបស់ក្រុមគ្រួសារ
+        how_are_they_being_misused: ប្រសិនបើគ្មាន,តើពួកគេត្រូវបានប្រើប្រាស់ដោយ របៀបណា?
+        what_is_my_plan_for_the_next_visit_to_the_client: ផែនការរបស់ខ្ញុំសម្រាប់ដំណើរទស្សនកិច្ចបន្ទាប់ទៅលើអតិថិជន?
+        how_did_i_encourage_the_client: តើខ្ញុំលើកទឹកចិត្តអតិថិជនបានយ៉ាងដូចម្តេច?
+        child_school_attendance_or_progress: តើអ្វីជាការចូលរួមរបស់សាលា / ការរីកចម្រើនរបស់កុមារ
+        general_appearance_of_home: រៀបរាប់ពីរូបរាងទូទៅនៃផ្ទះ
+        what_future_teachings_or_trainings_could_help_the_client: តើអ្វីទៅជាការបង្រៀន / ការបណ្តុះបណ្តាលនាពេលអនាគតអាចជួយអតិថិជន?
+        has_the_situation_changed_from_the_previous_visit: បានស្ថានភាពបានផ្លាស់ប្ដូរពីដំណើរទស្សនកិច្ចលើកមុននោះ?
+        money_and_supplies_being_used_appropriately: តើលុយត្រូវបានប្រើនិងការផ្គត់ផ្គង់បានត្រឹមត្រូវ?
+        spiritual_developments_with_the_child_or_family: ការអភិវឌ្ឍខាងវិញ្ញាណណាមួយជាមួយនឹងកុមារឬគ្រួសារ?
+

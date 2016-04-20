@@ -7,7 +7,7 @@ class QuarterlyReportsGrid
     QuarterlyReport.all.includes(:staff_information, :case)
   end
 
-  column(:code, html: true) do |object|
+  column(:code, html: true, header: -> {I18n.t('datagrid.columns.quarterly_reports.code')}) do |object|
     link_to object.code, client_case_quarterly_report_path(object.case.client, object.case, object)
   end
 
