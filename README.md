@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/rotati/children-in-families-web.svg?branch=set-up-travis-spec)](https://travis-ci.org/rotati/children-in-families-web)
+[![Build Status](https://travis-ci.org/rotati/children-in-families-web.svg?branch=master)](https://travis-ci.org/rotati/children-in-families-web)
 
 # Children in Families Child Care Managment Database Application
 
