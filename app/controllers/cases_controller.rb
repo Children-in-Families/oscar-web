@@ -39,7 +39,7 @@ class CasesController < AdminController
 
   def update
     if @case.update(case_params)
-      redirect_to @client, notice: t('.successfully_upated')
+      redirect_to @client, notice: t('.successfully_updated')
     else
       render :edit
     end

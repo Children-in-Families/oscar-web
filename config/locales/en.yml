@@ -119,7 +119,7 @@ en:
         manage: Manage
         state:
           state: Accept/Reject
-          rejected_note: កំណត់ហេតុនៃការមិនទទួលយក
+          rejected_note: Rejected Note
       families:
         <<: *default_family_fields
         name: Name
@@ -145,6 +145,7 @@ en:
         fc_name: FC Name
         general_health_or_appearance: Describe General Health/Appearance
         staff_information: Staff Information
+        code: Code
       cases:
         case_type: Case Type
     filters:
@@ -183,6 +184,7 @@ en:
       export_to_csv: Export to CSV
       records: Results
       csi_domain_scores: CSI Domain Scores
+      assessments: Assessments
     new:
       new_client_title: ​New Client
     create:
@@ -532,6 +534,7 @@ en:
       todays_tasks: Todays Tasks
       upcoming_tasks: Upcoming Tasks
       filter_by_user: Filter By User
+      domain: Domain
     filter:
       filter_by_user: Filter By User
   client:
@@ -665,6 +668,33 @@ en:
       partners: Partners
       referral_sources: Referral Sources
       staffs: Staffs
+  case:
+    quarterly_reports:
+      index:
+        legacy_quarterly_reports_for: Legacy Quarterly Reports for
+        back: Back
+      show:
+        quarterly_report_information_for: Quarterly Report Information for
+        with_id: With ID
+        back: Back
+        date_of_visit: Date Of Visit
+        kc_name: KC Name
+        staff_information: Staff Information
+        id: ID
+        if_yes:  If yes, desribe..
+        general_health_or_appearance: Describe general Health/Appearance
+        observations_of_drug_alchohol_abuse: Describe any observations of drug, alchohol, abuse, etc.
+        describe_the_family_current_situation: Describe the family's current situation…
+        how_are_they_being_misused:  If no, how are they being misused?
+        what_is_my_plan_for_the_next_visit_to_the_client: What is my plan for the next visit to the client?
+        how_did_i_encourage_the_client: How did I encourage the client?
+        child_school_attendance_or_progress: What is the Child's school attendance/progress
+        general_appearance_of_home: Describe General Appearance of Home
+        what_future_teachings_or_trainings_could_help_the_client: What future teachings/trainings could help the client?
+        has_the_situation_changed_from_the_previous_visit: Has the situation changed from the previous visit?
+        money_and_supplies_being_used_appropriately: Money and supplies being used appropriately?
+        spiritual_developments_with_the_child_or_family: Any Spiritual developments with the child or family?
+
   will_paginate:
     previous_label: Previous Page
     page_gap: ...

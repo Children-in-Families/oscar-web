@@ -24,7 +24,7 @@
                         %table.table.table-bordered
                           - tasks.each do |task|
                             %tr
-                              %td= "Domain: #{task.domain.name}"
+                              %td= "#{t('.domain')} #{task.domain.name}"
                               %td.task-name= task.name
                               %td= task.completion_date.strftime("%B %d, %Y")
       .panel.panel-warning
@@ -45,7 +45,7 @@
                         %table.table.table-bordered
                           - tasks.each do |task|
                             %tr
-                              %td= "Domain: #{task.domain.name}"
+                              %td= "#{t('.domain')} #{task.domain.name}"
                               %td.task-name= task.name
                               %td= task.completion_date.strftime("%B %d, %Y")
       .panel.panel-success
@@ -66,7 +66,6 @@
                         %table.table.table-bordered
                           - tasks.each do |task|
                             %tr
-                              %td= "Domain: #{task.domain.name}"
+                              %td= "#{t('.domain')} #{task.domain.name}"
                               %td.task-name= task.name
                               %td= task.completion_date.strftime("%B %d, %Y")
-
