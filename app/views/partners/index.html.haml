@@ -1,15 +1,23 @@
 .row
   .col-xs-12
-    %button.btn.btn-primary.btn-filter{"aria-expanded" => 'false', "data-target" => '#partner-search-form', "data-toggle" => 'collapse', type: 'button'}
-      %i.glyphicon.glyphicon-filter
-    .panel.panel-default#partner-search-form.collapse
-      .panel-body
-        = datagrid_form_for @partner_grid, url: partners_url, html: { class: 'grid-form form-inline' }
     .panel.panel-default
       .panel-body
-        = link_to "Export to CSV", current_url(format: 'csv'), class: 'btn btn-default pull-right btn-export'
-        - if can? :manage, :all
-          = link_to 'Add New Partner', new_partner_path, class: 'btn btn-success pull-right'
-        = datagrid_table @partner_grid, html: { class: 'table table-bordered table-striped table-hover'}
-    = will_paginate @partner_grid.assets
-    
+        %button.btn.btn-primary.btn-filter{"aria-expanded" => 'false', "data-target" => '#partner-search-form', "data-toggle" => 'collapse', type: 'button'}
+          %i.glyphicon.glyphicon-filter
+        .text-right
+          - if can? :manage, Partner
+            = link_to "#{I18n.t('partners.index.add_new_partner')}", new_partner_path, class: 'btn btn-success'
+          = link_to "#{I18n.t('partners.index.export_csv')}", current_url(format: 'csv'), class: 'btn btn-default btn-export'
+        .panel.panel-default#partner-search-form.collapse
+          .panel-body
+            = datagrid_form_for @partner_grid, url: partners_url, html: { class: 'grid-form' }
+        .text-left.record-count
+          %strong= @partner_grid.assets.count
+          %span
+          = I18n.t('partners.index.results')
+        .table-responsive
+          = datagrid_table @partner_grid, html: { class: 'table table-bordered table-striped table-hover partners'}
+.row
+  .col-xs-12.text-center
+    = will_paginate @partner_grid.assets, renderer: BootstrapPagination::Rails
+

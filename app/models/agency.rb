@@ -3,6 +3,6 @@ class Agency < ActiveRecord::Base
 
   validates :name, presence: true, uniqueness: true
 
-  scope :name_like, -> (value) { where( "LOWER(agencies.name) LIKE '%#{value.downcase}%'") }
+  scope :name_like, -> (values){ where("LOWER(agencies.name) ILIKE ANY ( array[?] )", values.map {|val| "%#{val.downcase}%" })}  
 
 end

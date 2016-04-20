@@ -1,4 +1,5 @@
-class Client::TasksController < ApplicationController
+class Client::TasksController < AdminController
+
   before_action :find_client
 
   def index
@@ -6,16 +7,28 @@ class Client::TasksController < ApplicationController
   end
 
   def new
-    @task = @client.tasks.new
+    if params[:assessment_id]
+      @assessment         = Assessment.find(params[:assessment_id])
+      @assessment_domains = @assessment.assessment_domains.warning_or_danger
+      @assessment_domains.each do |ad|
+        @client.tasks.build(domain_id: ad.domain.id)
+      end
+    else
+      @task = @client.tasks.new
+    end
   end
 
   def create
     @task = @client.tasks.new(task_params)
     @task.user_id = @client.user.id if @client.user
-    if @task.save
-      redirect_to client_tasks_path(@client), notice: 'Task has successfully been created'
-    else
-      render :new
+    respond_to do |format|
+      if @task.save
+        format.json { render json: @task.to_json, status: 200 }
+        format.html { redirect_to client_tasks_path(@client), notice: t('.successfully_created') }
+      else
+        format.html {render :new }
+        format.json {render json: @task.errors, status: 422}
+      end
     end
   end
 
@@ -26,7 +39,7 @@ class Client::TasksController < ApplicationController
   def update
     @task = @client.tasks.find(params[:id])
     if @task.update_attributes(task_params)
-      redirect_to client_tasks_path(@client), notice: 'Task has successfully been updated'
+      redirect_to client_tasks_path(@client), notice: t('.successfully_updated')
     else
       render :edit
     end
@@ -34,17 +47,16 @@ class Client::TasksController < ApplicationController
 
   def destroy
     @task = @client.tasks.find(params[:id])
-    @task.destroy
-    redirect_to client_tasks_path(@client), notice: 'Task has successfully been deleted'
+    respond_to do |format|
+      @task.destroy
+        format.json { head :ok }
+        format.html { redirect_to client_tasks_path(@client), notice: t('.successfully_deleted') }
+    end
   end
 
   private
   def find_client
-    if current_user.admin?
-      @client = Client.find(params[:client_id])
-    elsif current_user.case_worker?
-      @client = current_user.clients.find(params[:client_id])
-    end
+    @client = Client.accessible_by(current_ability).find(params[:client_id])
   end
 
   def task_params

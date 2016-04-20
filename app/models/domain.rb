@@ -1,7 +1,6 @@
 class Domain < ActiveRecord::Base
   belongs_to :domain_group, counter_cache: true
 
-  has_many   :assessment_tasks
   has_many   :assessment_domains
 
   validates :domain_group, presence: true
@@ -9,4 +8,8 @@ class Domain < ActiveRecord::Base
   validates :name, presence: true, uniqueness: true
 
   default_scope { order('domain_group_id ASC, name ASC') }
+
+  scope :assessment_domains_by_assessment_id, -> (id) { joins(:assessment_domains).where('assessment_domains.assessment_id = ?', id) }
+
+  enum domain_score_colors: {danger: 'Red', warning: 'Yellow', info: 'Blue', success: 'Green'}
 end

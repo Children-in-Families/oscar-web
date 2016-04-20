@@ -1,4 +1,4 @@
-class UsersController < ApplicationController
+class UsersController < AdminController
   load_and_authorize_resource
 
   before_action :find_user, only: [:show, :edit, :update, :destroy]
@@ -26,7 +26,7 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
-      redirect_to @user, notice: 'User has been successfully created.'
+      redirect_to @user, notice: t('.successfully_created')
     else
       render :new
     end
@@ -43,7 +43,7 @@ class UsersController < ApplicationController
 
   def update
     if @user.update_attributes(user_params)
-      redirect_to @user, notice: 'User has been successfully updated.'
+      redirect_to @user, notice: t('.successfully_updated')
     else
       render :edit
     end
@@ -52,9 +52,9 @@ class UsersController < ApplicationController
   def destroy
     if @user.clients_count.zero? && @user.cases_count.zero? && @user.tasks_count.zero?
       @user.destroy
-      redirect_to users_url, notice: 'User has been successfully deleted.'
+      redirect_to users_url, notice: t('.successfully_deleted')
     else
-      redirect_to users_url, alert: 'User cannot be deleted.'
+      redirect_to users_url, alert: t('.alert')
     end
   end
 
@@ -72,5 +72,4 @@ class UsersController < ApplicationController
     @department = Department.order(:name)
     @province   = Province.order(:name)
   end
-
 end

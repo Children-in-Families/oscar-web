@@ -3,7 +3,7 @@ FactoryGirl.define do
     first_name { FFaker::Name.first_name }
     last_name { FFaker::Name.last_name }
     date_of_birth { FFaker::Time.date }
-    gender 'Male'
+    gender 'male'
     current_address { FFaker::Address.street_address }
     status 'Referral'
     school_grade '4'

@@ -1,11 +1,5 @@
 class DomainGroupSerializer < ActiveModel::Serializer
-  attributes :id, :name, :type, :domain_descriptions, :description
+  attributes :id, :name, :description
 
-  def type
-    'domain_group'
-  end
-
-  def domain_descriptions
-    object.domain_descriptions
-  end
+  has_many :domains
 end

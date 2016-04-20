@@ -7,12 +7,13 @@
           .assessment-domain-item
             .panel.panel-default
               .panel-heading
-                = link_to 'Back', client_assessments_path(@client)
-                %span.pull-right= "Domain #{assessment_domain.object.domain.name}"
+                = link_to t('.back'), client_assessments_path(@client)
+                %span.pull-right= "#{t('.domain')} #{assessment_domain.object.domain.name}"
                 %strong.pull-right= "#{@assessment.client.name}"
               .panel-body
                 = assessment_domain.hidden_field :domain_id
                 .well
                   = assessment_domain.object.domain.description.html_safe
-                = assessment_domain.collection_radio_buttons :score, [[1, '1'],[2, '2'], [3, '3'], [4, '4']], :first, :last
-                = assessment_domain.input :reason
+                .score_option
+                  = assessment_domain.collection_radio_buttons :score, [[1, '1'],[2, '2'], [3, '3'], [4, '4']], :first, :last
+                = assessment_domain.input :reason, label: t('.reason'), required: true

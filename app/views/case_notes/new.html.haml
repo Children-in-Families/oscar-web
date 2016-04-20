@@ -3,11 +3,11 @@
     = simple_form_for [@case_note.client, @case_note], {input_html: {id: 'case-note-form'}} do |f|
       .panel.panel-default
         .panel-heading
-          %h4 Metting Detail
+          %h4= t('.meeting_detail')
           %strong= @case_note.client.name
-          %span meeting with
+          %span= t('.meeting_with')
           %strong= current_user.first_name
-          %span on:
+          %span= t('.on_date')
           %br/
           .form-group.date.optional.case_note_meeting_date
             .input-group.date
@@ -15,29 +15,43 @@
               %span.input-group-addon
                 %i.glyphicon.glyphicon-calendar
 
-          = f.input :attendee, label: 'Present of:'
+          = f.input :attendee, label: t('.present')
       = f.simple_fields_for :case_note_domain_groups do |cd|
-        .panel.panel-default
-          .panel-heading
-            %strong= "Domain #{cd.object.domain_group.name} "
-          .panel-body
-            .row
-              .col-xs-3
-                %h5= cd.object.domain_group.domain_identities
-                - cd.object.domain_group.domains.each do |domain|
-                  - ad = domain.assessment_domains.find_by(assessment_id: @case_note.assessment_id)
-                  %div.label{class: "label-#{ad.score_color_class} label-lg"}= ad.score
-              .col-xs-9
-                = cd.input :note
-                = cd.hidden_field :domain_group_id
-                - cd.object.domain_group.domains.each do |domain|
-                  - assessment_domain = @case_note.assessment.assessment_domains.find_by(domain_id: domain.id)
-                  - tasks = @case_note.client.tasks.incomplete.where(domain_id: domain.id)
-                  - if tasks.present?
-                    .panel{ class: "panel-#{assessment_domain.score_color_class}" }
+        - if cd.object.domain_group.domains.assessment_domains_by_assessment_id(@case_note.assessment_id).any?
+          .panel.panel-default
+            .panel-heading
+              %strong= "#{t('.domain')} #{cd.object.domain_group.name} "
+            .panel-body
+              .row
+                .col-xs-3
+                  %h5= cd.object.domain_group.domain_identities
+                  - cd.object.domain_group.domains.each do |domain|
+                    - ad = domain.assessment_domains.find_by(assessment_id: @case_note.assessment_id)
+                    %div.label{class: "label-#{ad.score_color_class} label-lg"}= ad.score
+
+                .col-xs-9
+                  = cd.input :note, label: t('.note')
+                  = cd.hidden_field :domain_group_id
+                  - cd.object.domain_group.domains.each do |domain|
+                    - assessment_domain = @case_note.assessment.assessment_domains.find_by(domain_id: domain.id)
+                    - tasks = @case_note.client.tasks.incomplete.where(domain_id: domain.id)
+                    .panel{ class: "panel-#{assessment_domain.score_color_class} task-domain-#{domain.id} #{hidden_class(tasks.blank?)}" }
                       .panel-heading
-                        %strong= "Domain #{assessment_domain.domain.name}"
-                      .panel-body
-                        = cd.association :tasks, collection: tasks, as: :check_boxes
-      = link_to 'Back' , client_case_notes_path(@case_note.client), class: 'btn btn-default'
-      = f.submit 'Save', class: 'btn btn-primary', id: 'case-note-submit-btn'
+                        %strong= "#{t('.domain')} #{assessment_domain.domain.name}"
+
+                      .panel-body{id: "tasks-domain-#{domain.id}"}
+                        = cd.association :tasks, collection: tasks, as: :check_boxes, label: "#{t('.on_going_tasks')}"
+                        %div{ class: "task-arising hidden" }
+                          %label.control-label
+                            = t('.tasks_arising')
+                          %ol{ type: '1'}
+
+                  .row
+                    .col-xs-12
+                      %button.case-note-task-btn.btn.btn-default.pull-right{type: 'button', 'data-target' => "#tasksFromModal", 'data-toggle' => 'modal', 'data-domains': "#{cd.object.domain_group.domains.pluck(:id, :name)}"}
+                        = t('.add_task')
+
+      = link_to t('.back') , client_case_notes_path(@case_note.client), class: 'btn btn-default'
+      = f.submit t('.save'), class: 'btn btn-primary', id: 'case-note-submit-btn'
+
+    = render 'add_task_form'

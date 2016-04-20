@@ -1,7 +1,8 @@
-%form{ id: 'filtered_by_user', action: tasks_url, method: 'GET', class: 'form-inline' }
+%form{ id: 'filtered_by_user', action: tasks_url, method: 'GET', class: 'form-inline'}
   .col-sm-6
+    %input{type: 'hidden', value: params[:locale], name: 'locale'}
     .form-group
-      %label{ for: 'user_id' } Filter by User
+      %label{ for: 'user_id' }= t('.filter_by_user')
       %select{ id: 'user_id', class: 'form-control', name: 'user_id' }
         - unless params[:user_id]
           %option{ selected: 'selected' } Select User
@@ -9,4 +10,4 @@
           - if user.id.to_i == params[:user_id].to_i
             %option{ value: user.id, selected: 'selected' }= user.name
           - else
-            %option{ value: user.id }= user.name
+            %option{ value: user.id }= user.name      

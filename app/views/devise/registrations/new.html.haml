@@ -5,21 +5,21 @@
         %h4 Sign up
       .panel-body
         = simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
-          = f.error_notification
+          = error_notification(f)
           .form-inputs
-            = f.input :first_name, label: 'First Name'
-            = f.input :last_name, label: 'Last Name'
-            = f.input :date_of_birth, start_year: 1990, end_year: Date.today.year, label: 'Date Of Birth'
-            = f.input :job_title, label: 'Job Title'
-            = f.input :department
-            = f.input :start_date, start_year: 1990, end_year: Date.today.year, label: 'Start Date'
-            = f.association :province, collection: @province
-            = f.input :mobile
-            = f.input :email, required: true
-            = f.input :password, required: true, hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length)
-            = f.input :password_confirmation, required: true, label: 'Password Confirmation'
+            = f.input :first_name, label: "#{I18n.t('users.fields.first_name')}"
+            = f.input :last_name, label: "#{I18n.t('users.fields.last_name')}"
+            = f.input :date_of_birth, start_year: 1990, end_year: Date.today.year, label: "#{I18n.t('users.fields.date_of_birth')}"
+            = f.input :job_title, label: "#{I18n.t('users.fields.job_title')}"
+            = f.input :department, label: "#{I18n.t('users.fields.department')}"
+            = f.input :start_date, start_year: 1990, end_year: Date.today.year, label: "#{I18n.t('users.fields.start_date')}"
+            = f.association :province, collection: @province, label: "#{I18n.t('users.fields.province')}"
+            = f.input :mobile, label: "#{I18n.t('users.fields.mobile')}"
+            = f.input :email, required: true, label: "#{I18n.t('users.fields.email')}"
+            = f.input :password, required: true, hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length, label: "#{I18n.t('users.fields.password')}")
+            = f.input :password_confirmation, required: true, label: "#{I18n.t('users.fields.password_confirmation')}"
           .form-actions
-            = f.button :submit, 'Sign up', class: 'btn btn-primary'
+            = f.button :submit, "#{I18n.t('.save')}", class: 'btn btn-primary'
             or
             = render "devise/shared/links"
 

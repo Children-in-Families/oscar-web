@@ -1,82 +1,77 @@
-- if fc.present? && fc.exited == false
-  .row
-    .col-xs-12.case#case
-      .panel.panel-default
-        .panel-heading
-          %h3
-            = 'Foster Care'
-            - if can? :manage, Case
-              %small
+- if fc.present?
+  .col-xs-12.col-sm-12.col-md-6.case#case
+    .panel.panel-default
+      .panel-body
+        %h3.h3-header.pushing-bottom
+          = t('.foster_case.foster_care')
+          - if can? :manage, Case
+            - if current_user.admin? || current_user.case_worker? || current_user.fc_manager?
+              %small.top-right-icon
                 = link_to edit_client_case_path(fc.client, fc) do
                   %i.glyphicon.glyphicon-pencil
+                - unless @client.cases.latest_foster.exited
+                  %button.btn.btn-warning{"data-target" => '#exitFromCase', "data-toggle" => 'modal', class:"btn-getout"} #{t('.exit_btn')}
+        %section.overflow-case
+          %table.table.table-bordered
+            %tr
+              %td.spacing-first-col
+                = t('.start_date')
+              %td
+                %strong
+                  = fc.start_date.strftime('%B %d, %Y') if fc.start_date
+            %tr
+              %td.spacing-first-col
+                = t('.carer_names')
+              %td
+                %strong
+                  = fc.carer_names
+            %tr
+              %td.spacing-first-col
+                = t('.carer_address')
+              %td
+                %strong
+                  = fc.carer_address
+            %tr
+              %td.spacing-first-col
+                = t('.province')
+              %td
+                %strong
+                  = fc.province.name if fc.province
+            %tr
+              %td.spacing-first-col
+                = t('.carer_phone_number')
+              %td
+                %strong
+                  = fc.carer_phone_number.phony_formatted(normalize: :KH, format: :international) if fc.carer_phone_number
+            %tr
+              %td.spacing-first-col
+                = t('.support_amount')
+              %td
+                %strong
+                  = number_to_currency(fc.support_amount)
+            %tr
+              %td.spacing-first-col
+                = t('.support_note')
+              %td
+                %strong
+                  = fc.support_note
+            %tr
+              %td.spacing-first-col
+                = t('.ongoing_partner')
+              %td
+                %strong
+                  = partner fc.partner if fc.partner
+            %tr
+              %td.spacing-first-col
+                = t('.family')
+              %td
+                %strong
+                  = family fc.family if fc.family
+            %tr
+              %td.spacing-first-col
+                = t('.family_preservation')
+              %td
+                %strong
+                  = human_boolean(fc.family_preservation)
 
-        .panel-body
-
-          .row
-            .col-xs-6.col-sm-4.col-md-3.case-detail
-              %strong Start Date
-            .col-xs-6.col-sm-8.col-md-9.case-detail
-              = ':'
-              = fc.start_date.strftime('%B %d, %Y') if fc.start_date
-          .row
-            .col-xs-6.col-sm-4.col-md-3.case-detail
-              %strong Carer Names
-            .col-xs-6.col-sm-8.col-md-9.case-detail
-              = ": #{fc.carer_names}"
-          .row
-            .col-xs-6.col-sm-4.col-md-3.case-detail
-              %strong Carer Address
-            .col-xs-6.col-sm-8.col-md-9.case-detail
-              = ": #{fc.carer_address}"
-          .row
-            .col-xs-6.col-sm-4.col-md-3.case-detail
-              %strong Province
-            .col-xs-6.col-sm-8.col-md-9.case-detail
-              = ':'
-              = fc.province.name if fc.province
-          .row
-            .col-xs-6.col-sm-4.col-md-3.case-detail
-              %strong Carer Phone Number
-            .col-xs-6.col-sm-8.col-md-9.case-detail
-              = ": #{fc.carer_phone_number}"
-          .row
-            .col-xs-6.col-sm-4.col-md-3.case-detail
-              %strong Support Amount
-            .col-xs-6.col-sm-8.col-md-9.case-detail
-              = ": #{number_to_currency(fc.support_amount)}"
-          .row
-            .col-xs-6.col-sm-4.col-md-3.case-detail
-              %strong Support Note
-            .col-xs-6.col-sm-8.col-md-9.case-detail
-              = ": #{fc.support_note}"
-          .row
-            .col-xs-6.col-sm-4.col-md-3.case-detail
-              %strong Ongoing Partner
-            .col-xs-6.col-sm-8.col-md-9.case-detail
-              = ":"
-              = partner fc.partner if fc.partner
-
-          .row
-            .col-xs-6.col-sm-4.col-md-3.case-detail
-              %strong Family
-            .col-xs-6.col-sm-8.col-md-9.case-detail
-              = ":"
-              = family fc.family if fc.family
-          .row
-            .col-xs-6.col-sm-4.col-md-3.case-detail
-              %strong Family Preservation
-            .col-xs-6.col-sm-8.col-md-9.case-detail
-              = ":"
-              = fc.family_preservation? ? 'YES' : 'NO'
-
-          - if can? :manage, :all
-            .row
-              .col-xs-12
-                = link_to 'View Legacy Quarterly Reports', client_case_quarterly_reports_path(@client, @client.cases.latest_foster) if @client.cases.latest_foster.quarterly_reports.any?
-
-        - unless @client.cases.latest_foster.exited
-          .panel-footer
-            %button.btn.btn-warning{"data-target" => '#exitFCForm', "data-toggle" => 'modal'} Exit
-
-  = render 'exit_fc_form', fc: @client.cases.latest_foster
-
+  = render 'exit_case_form', client_case: @client.cases.latest_foster, exit_from_cif: false

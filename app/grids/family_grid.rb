@@ -5,94 +5,103 @@ class FamilyGrid
     Family.all.order(:name)
   end
 
-  filter(:name, :string) do |value, scope|
+  filter(:name, :string, header: -> {I18n.t('datagrid.columns.families.name')}) do |value, scope|
     scope.name_like(value)
   end
 
-  filter(:significant_family_member_count, :integer, range: true)
+  filter(:id, :integer, header: -> {I18n.t('datagrid.columns.families.id')})
 
-  filter(:address, :string) { |value, scope| scope.address_like(value) }
+  filter(:address, :string, header: -> {I18n.t('datagrid.columns.families.address')}) { |value, scope| scope.address_like(value) }
 
-  filter(:female_children_count, :integer, range: true)
-
-  filter(:family_type, :enum, select: [['Kinship','kinship'],['Foster','foster']]) do |value, scope|
+  filter(:family_type, :enum, select: [['Kinship','kinship'],['Foster','foster']], header: -> {I18n.t('datagrid.columns.families.family_type')}) do |value, scope|
     value == 'kinship' ? scope.kinship : scope.foster
   end
 
-  filter(:male_children_count, :integer, range: true)
+  filter(:significant_family_member_count, :integer, range: true, header: -> {I18n.t('datagrid.columns.families.significant_family_member_count')})
 
-  filter(:province_id, :enum, select: :province_options)
+  filter(:female_children_count, :integer, range: true, header: -> {I18n.t('datagrid.columns.families.female_children_count')})
+
+
+  filter(:male_children_count, :integer, range: true, header: -> {I18n.t('datagrid.columns.families.male_children_count')})
+
+  filter(:province_id, :enum, select: :province_options, header: -> {I18n.t('datagrid.columns.families.province')})
   def province_options
     scope.province_is
   end
 
-  filter(:female_adult_count, :integer, range: true)
-
-  filter(:dependable_income, :xboolean) do |value, scope|
+  filter(:dependable_income, :xboolean, header: -> {I18n.t('datagrid.columns.families.dependable_income')}) do |value, scope|
     value ? scope.where(dependable_income: true) : scope.where(dependable_income: false)
   end
 
-  filter(:male_adult_count, :integer, range: true)
+  filter(:female_adult_count, :integer, range: true, header: -> {I18n.t('datagrid.columns.families.female_adult_count')})
 
-  filter(:caregiver_information, :string) do |value, scope|
+
+  filter(:male_adult_count, :integer, range: true, header: -> {I18n.t('datagrid.columns.families.male_adult_count')})
+
+
+  filter(:household_income, :float, range: true, header: -> {I18n.t('datagrid.columns.families.household_income')})
+
+  filter(:contract_date, :date, range: true, header: -> {I18n.t('datagrid.columns.families.contract_date')})
+
+  filter(:caregiver_information, :string, header: -> {I18n.t('datagrid.columns.families.caregiver_information')}) do |value, scope|
     scope.caregiver_information_like(value)
   end
 
-  filter(:household_income, :float, range: true)
+  column(:id, header: -> {I18n.t('datagrid.columns.families.id')})
 
-  filter(:contract_date, :date, range: true)
-
-  column(:name, header: 'Name', html: true) do |object|
+  column(:name, html: true, header: -> {I18n.t('datagrid.columns.families.name')}) do |object|
     name = object.name.blank? ? 'Unknown' : object.name
     link_to name, family_path(object)
   end
 
-  column(:address, html: false)
-
-  column(:member_count, html: true, header: 'Member Count') do |object|
-    render partial: 'families/members', locals: { object: object }
+  column(:name, html: false, header: -> {I18n.t('datagrid.columns.families.name')}) do |object|
+    object.name
   end
 
-  column(:caregiver_information, header: 'Caregiver Information')
+  column(:address, html: false, header: -> {I18n.t('datagrid.columns.families.address')})
 
-  column(:household_income, header: 'Household Income ($)') do |object|
+  column(:member_count, html: true, header: -> {I18n.t('datagrid.columns.families.member_count')}) do |object|
+    render partial: 'families/members', locals: { object: object}
+  end
+
+  column(:caregiver_information, header: -> {I18n.t('datagrid.columns.families.caregiver_information')})
+
+  column(:household_income, header: -> {I18n.t('datagrid.columns.families.household_income')}) do |object|
     format(object.household_income) do |income|
       number_to_currency income
     end
   end
 
-  column(:dependable_income, header: 'Dependable Income?') do |object|
+  column(:dependable_income, header: -> {I18n.t('datagrid.columns.families.dependable_income')}) do |object|
     object.dependable_income ? 'Yes' : 'No'
   end
 
-  column(:cases, html: true, header: 'Clients') do |object|
+  column(:cases, html: true, header: -> {I18n.t('datagrid.columns.families.clients')}) do |object|
     render partial: 'families/clients', locals: { object: object.cases.non_emergency.active }
   end
 
 
-  column(:manage, html: true, class: 'text-center') do |object|
-    if current_user.admin?
-      render partial: 'families/actions', locals: { object: object }
-    end
+  column(:manage, html: true, class: 'text-center', header: -> {I18n.t('datagrid.columns.families.manage')}) do |object|
+    render partial: 'families/actions', locals: { object: object }
   end
 
-  column(:significant_family_member_count, header: 'Significant Family Member Count', html: false)
-  column(:female_children_count, header: 'Female Children Count', html: false)
-  column(:male_children_count, header: 'Male Children Count', html: false)
-  column(:female_adult_count, header: 'Female Adult Count', html: false)
-  column(:male_adult_count, header: 'Male Adult Count', html: false)
-  column(:contract_date, header: 'Contract Date', html: false)
+  column(:significant_family_member_count, header: -> {I18n.t('datagrid.columns.families.significant_family_member_count')}, html: false)
+  column(:female_children_count, header: -> {I18n.t('datagrid.columns.families.female_children_count')}, html: false)
+  column(:male_children_count, header: -> {I18n.t('datagrid.columns.families.male_children_count')}, html: false)
+  column(:female_adult_count, header: -> {I18n.t('datagrid.columns.families.female_adult_count')}, html: false)
+  column(:male_adult_count, header: -> {I18n.t('datagrid.columns.families.male_adult_count')}, html: false)
+  column(:contract_date, header: -> {I18n.t('datagrid.columns.families.contract_date')}, html: false)
 
-  column(:province, html: false) do |object|
+  column(:province, html: false, header: -> {I18n.t('datagrid.columns.families.province')}) do |object|
     object.province.name if object.province
   end
 
-  column(:family_type, header: 'Family Type', html: false) do |object|
+  column(:family_type, header: -> {I18n.t('datagrid.columns.families.family_type')}, html: false) do |object|
     object.family_type.titleize
   end
 
-  column(:cases, header: 'Clients', html: false) do |object|
-    object.cases.map{|c| c.client.name if c.client }.join(', ')
+  column(:cases, header: -> {I18n.t('datagrid.columns.families.clients')}, html: false) do |object|
+    object.cases.non_emergency.active.map{|c| c.client.name if c.client }.join(', ')
   end
 
 end

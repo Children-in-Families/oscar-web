@@ -1,6 +1,6 @@
-class HomeController < ApplicationController
+class HomeController < AdminController
   def index
-    @clients = Client.all.includes(:received_by, :followed_up_by).paginate(page: params[:page], per_page: 20)
+    @dashboard = Dashboard.new(current_user)
   end
 
   def robots

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160222112535) do
+ActiveRecord::Schema.define(version: 20160328070346) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,7 +34,7 @@ ActiveRecord::Schema.define(version: 20160222112535) do
   create_table "assessment_domains", force: :cascade do |t|
     t.text     "note",           default: ""
     t.integer  "previous_score"
-    t.integer  "score",          default: 3
+    t.integer  "score"
     t.text     "reason",         default: ""
     t.integer  "assessment_id"
     t.integer  "domain_id"
@@ -103,6 +103,7 @@ ActiveRecord::Schema.define(version: 20160222112535) do
     t.float    "case_length"
     t.date     "case_conference_date"
     t.float    "time_in_care"
+    t.boolean  "exited_from_cif",         default: false
   end
 
   create_table "clients", force: :cascade do |t|
@@ -136,6 +137,7 @@ ActiveRecord::Schema.define(version: 20160222112535) do
     t.text     "reason_for_referral",              default: ""
     t.boolean  "is_receiving_additional_benefits", default: false
     t.text     "background",                       default: ""
+    t.integer  "grade",                            default: 0
   end
 
   create_table "clients_quantitative_cases", force: :cascade do |t|
@@ -169,6 +171,10 @@ ActiveRecord::Schema.define(version: 20160222112535) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "tasks_count",     default: 0
+    t.string   "score_1_color",   default: "danger"
+    t.string   "score_2_color",   default: "warning"
+    t.string   "score_3_color",   default: "info"
+    t.string   "score_4_color",   default: "success"
   end
 
   add_index "domains", ["domain_group_id"], name: "index_domains_on_domain_group_id", using: :btree
@@ -310,6 +316,9 @@ ActiveRecord::Schema.define(version: 20160222112535) do
     t.integer  "clients_count",          default: 0
     t.integer  "cases_count",            default: 0
     t.integer  "tasks_count",            default: 0
+    t.string   "provider",               default: "email",       null: false
+    t.string   "uid",                    default: "",            null: false
+    t.json     "tokens"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

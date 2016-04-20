@@ -1,22 +1,33 @@
 .row
-  .container
-    .col-xs-12
-      = link_to 'បន្ថែម​ប្រភពនៃ​ការ​បញ្ជូនថ្មី / Add New Referral Source', new_referral_source_path, class: 'btn btn-success btn-add'
-    .col-xs-12
-      .panel.panel-default
-        .panel-heading
-          %h3 ប្រភព​នៃ​ការ​បញ្ជូន​ / Referral Sources
-        .panel-body
-          - @referral_sources.each do |referral_source|
-            .panel.panel-default
-              .panel-heading
-                %h4
-                  = referral_source.name
-                  %small
-                    = link_to edit_referral_source_path(referral_source) do
-                      %i.glyphicon.glyphicon-pencil
-                    = removeable? referral_source, referral_source.clients_count
-              .panel-body
-                %p= referral_source.description
-                  
-          = will_paginate @referral_sources
+  .col-xs-12
+    .container
+      .row
+        .col-xs-12
+          = link_to t('.add_new_referral_source'), new_referral_source_path, class: 'btn btn-success btn-add'
+      .row
+        .col-xs-12
+          .panel.panel-default
+            .panel-heading
+              %h3= t('.referral_sources')
+            .panel-body
+              .table-responsive
+                %table.table.table-bordered.table-striped.table-hover
+                  %thead
+                    %tr
+                      %th.custom_column_name= t('.referral_source_name')
+                      %th.custom_column_description= t('.description')
+                      %th.text-center.custom_column_manage{:colspan => "2"}
+                        = t('.manage')
+                  %tbody
+                    - @referral_sources.each do |referral_source|
+                      %tr
+                        %td= referral_source.name
+                        %td= referral_source.description
+                        %td.text-center
+                          = link_to edit_referral_source_path(referral_source) do
+                            %i.glyphicon.glyphicon-pencil
+                        %td.text-center
+                          = removeable? referral_source, referral_source.clients_count
+      .row
+        .col-xs-12.text-center
+          = will_paginate @referral_sources, renderer: BootstrapPagination::Rails

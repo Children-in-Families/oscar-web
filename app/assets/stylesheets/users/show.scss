@@ -22,8 +22,73 @@
     margin: 0 5px;
     text-decoration: none;
   }
-  .panel-heading small a {
-    text-decoration: none;
-    margin: 0 5px;
+
+  .h3-header {
+    margin: 0;
+    width: 87%;
+  }
+
+  small.top-right-icon {
+    position: absolute;
+    top: 16px;
+    right: 30px;
+
+    i {
+      font-size: 24px;
+      padding-top: 5px;
+    }
+  }
+
+  td.spacing-first-col {
+    width: 217px;
+  }
+
+  .pushing-top {
+    margin-top: 15px;
+  }
+
+  .pushing-bottom {
+    margin-bottom: 15px;
+  }
+
+  .table {
+    th.id {
+      min-width: 55px;
+    }
+    th.code {
+      min-width: 75px;
+    }
+    th.age {
+      min-width: 70px;
+    }
+    th, td.gender, td.status, td.follow_up_date, td.date_of_birth, td.grade, td.has_been_in_orphanage, td.has_been_in_government_care, td.initial_referral_date, td.referral_phone, td.able, td.birth_province, td.province, td.state, td.case_start_date, td.carer_phone_number td.support_amount, td.family_preservation {
+      text-align: center;
+    }
+
+    th.name, th.gender, th.status, th.cases, th.able, th.state, th.family, th.partner, th.manage {
+      min-width: 100px;
+    }
+
+    th.follow_up_date, th.received_by, th.followed_up_by, th.agency, th.date_of_birth, th.school_name, th.grade, th.referral_phone, th.referral_source, th.birth_province, th.province, th.rejected_note, th.user, th.case_start_date, th.carer_names, th.carer_address, th.support_amount, th.support_note {
+      min-width: 150px;
+    }
+
+    th.has_been_in_orphanage {
+      min-width: 200px;
+    }
+
+    th.has_been_in_government_care, th.relevant_referral_information {
+      min-width: 250px;
+    }
+
+    th.current_address, th.initial_referral_date, th.carer_phone_number, th.family_preservation {
+      min-width: 170px;
+    }
+  }
+  table.clients {
+    margin-bottom: 0;
+    th {
+      border-bottom-width: 0;
+    }
   }
 }

@@ -1,6 +1,10 @@
-$(document).on 'ready page:load', ->
-  notice = $('p#notice')
-  if notice
-    setTimeout (->
-      $(notice).fadeOut 'slow'
-    ), 5000
+CIF.Common =
+  init: ->
+    @hideNotification()
+
+  hideNotification: ->
+    notice = $('p#notice')
+    if notice
+      setTimeout (->
+        $(notice).fadeOut()
+      ), 5000

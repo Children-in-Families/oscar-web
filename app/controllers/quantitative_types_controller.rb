@@ -1,7 +1,7 @@
-class QuantitativeTypesController < ApplicationController
+class QuantitativeTypesController < AdminController
   load_and_authorize_resource
 
-  before_action :find_quantitative_type, only: [:edit, :update, :destroy]  
+  before_action :find_quantitative_type, only: [:edit, :update, :destroy]
 
   def index
     @quantitative_types = QuantitativeType.all.paginate(page: params[:page], per_page: 10)
@@ -14,7 +14,7 @@ class QuantitativeTypesController < ApplicationController
   def create
     @quantitative_type = QuantitativeType.new(quantitative_type_params)
     if @quantitative_type.save
-      redirect_to quantitative_types_path, notice: 'Quantitative Type has been successfully created.'
+      redirect_to quantitative_types_path, notice: t('.successfully_created')
     else
       render :new
     end
@@ -25,7 +25,7 @@ class QuantitativeTypesController < ApplicationController
 
   def update
     if @quantitative_type.update_attributes(quantitative_type_params)
-      redirect_to quantitative_types_path, notice: 'Quantitative Type has been successfully updated.'
+      redirect_to quantitative_types_path, notice: t('.successfully_updated')
     else
       render :edit
     end
@@ -34,9 +34,9 @@ class QuantitativeTypesController < ApplicationController
   def destroy
     if @quantitative_type.quantitative_cases_count.zero?
       @quantitative_type.destroy
-      redirect_to quantitative_types_path, notice: 'Quantitative Type has been successfully deleted.'
+      redirect_to quantitative_types_path, notice: t('.successfully_deleted')
     else
-      redirect_to quantitative_types_url, alert: 'Quantitative Type cannot be deleted.'
+      redirect_to quantitative_types_url, alert: t('.alert')
     end
   end
 
@@ -49,5 +49,5 @@ class QuantitativeTypesController < ApplicationController
   def find_quantitative_type
     @quantitative_type = QuantitativeType.find(params[:id])
   end
-  
+
 end

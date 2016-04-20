@@ -43,13 +43,95 @@ body[id=assessments-create] {
   }
 
   .assessment_assessment_domains_reason {
-    margin-top: 10px;
+    margin-top: 5px;
     textarea {
-      height: 130px;
+      height: 120px;
     }
   }
   .well {
     max-height: 400px;
     overflow: scroll;
   }
+  .score_option.is_error{
+    border: 1px solid red;
+    border-radius: 2px;
+  }
+  .score_option {
+    border: 1px solid #fff;
+    padding: 8px 3px 8px 3px;
+    span{
+      padding: 0 20px 0 0;
+    }
+    em{
+      display: none !important;
+    }
+    text-align: center;
+    label, input {
+      display:block-inline;
+    }
+    input[type="radio"] {
+      opacity:0.011;
+      z-index:100;
+    }
+    input[type="radio"]:checked + label {
+      background:#2184be;
+      color: #fff;
+    }
+    input[type="radio"]:checked + em + label {
+      background:#2184be;
+      color: #fff;
+    }
+    label{
+      font-size: 16px;
+      .collection_radio_buttons {
+        padding: 8px;
+        border: 1px solid #CCC;
+        cursor: pointer;
+        z-index: 90;
+        width: 40px;
+        height: 40px;
+        border-radius: 5px;
+      }
+      label:hover {
+        background:#DDD;
+      }
+    }
+  }
+  textarea.error{
+    border: 1px solid #ff0000;
+  }
+  em.error{
+    color: #ff0000;
+    font-size: 14px;
+    font-weight: normal;
+    padding:3px;
+    text-align:left;;
+  }
+  @media only screen and (max-device-width : 767px){
+    .assessment-domain-item {
+      span {
+        margin-left: 0;
+        margin-right: 0;
+        input {
+          margin-right: 10px;
+        }
+
+        &:first-child {
+          margin-left: -20px;
+        }
+
+        &:last-child {
+          margin-right: 0;
+        }
+      }
+    }
+    .score_option {
+      padding: 8px 0 8px 0;
+      span{
+        padding: 0 0 0 0;
+      }
+    }
+  }
 }
+
+

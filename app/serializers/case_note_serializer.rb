@@ -1,7 +1,7 @@
 class CaseNoteSerializer < ActiveModel::Serializer
-  attributes :id, :present, :date, :case_note_domain_groups_attributes
+  attributes :attendee, :meeting_date, :assessment_id, :id, :case_note_domain_groups, :created_at, :updated_at
 
-  def  case_note_domain_groups_attributes
-    object.case_note_domain_groups
+  def case_note_domain_groups
+    ActiveModel::ArraySerializer.new(object.case_note_domain_groups, each_serializer: CaseNoteDomainGroupSerializer)
   end
 end

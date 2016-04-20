@@ -1,9 +1,10 @@
-class CasesController < ApplicationController
+class CasesController < AdminController
   load_and_authorize_resource
 
   before_action :find_client
   before_action :find_case, only: [:edit, :update]
   before_action :find_association, except: [:index]
+  before_action :can_create_case?, only: [:new, :create]
 
   def index
     @type  = params[:case_type]
@@ -27,7 +28,7 @@ class CasesController < ApplicationController
     @case = @client.cases.new(case_params)
     @case.user_id = @client.user.id if @client.user
     if @case.save
-      redirect_to @client, notice: 'Case has been successfully created.'
+      redirect_to @client, notice: t('.successfully_created')
     else
       render :new
     end
@@ -37,14 +38,10 @@ class CasesController < ApplicationController
   end
 
   def update
-    respond_to do |format|
-      if @case.update(case_params)
-        format.html { redirect_to @client, notice: 'Case has been successfully updated.' }
-        format.json { render :show, status: :ok, location: @client }
-      else
-        format.html { render :edit }
-        format.json { render json: @case.errors, status: :unprocessable_entity }
-      end
+    if @case.update(case_params)
+      redirect_to @client, notice: t('.successfully_upated')
+    else
+      render :edit
     end
   end
 
@@ -55,7 +52,7 @@ class CasesController < ApplicationController
   end
 
   def case_params
-    params.require(:case).permit(:start_date, :carer_names, :carer_address, :province_id, :carer_phone_number, :support_amount, :case_type, :support_note, :partner_id, :family_id, :exit_date, :exit_note, :exited, :family_preservation)
+    params.require(:case).permit(:start_date, :carer_names, :carer_address, :province_id, :carer_phone_number, :support_amount, :case_type, :support_note, :partner_id, :family_id, :exit_date, :exit_note, :exited, :family_preservation, :exited_from_cif, :status)
   end
 
   def find_association
@@ -66,5 +63,12 @@ class CasesController < ApplicationController
 
   def find_case
     @case    = @client.cases.find(params[:id])
+  end
+
+  def can_create_case?
+    return if @client.cases.active.size.zero?
+    return if @client.cases.active.any? && @client.cases.current.exited
+    return if @client.cases.current.case_type == 'EC'
+    redirect_to @client, notice: t('.already_have_a_case')
   end
 end

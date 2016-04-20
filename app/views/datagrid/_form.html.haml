@@ -1,0 +1,75 @@
+= form_for grid, options do |f|
+  = hidden_field_tag :locale, params[:locale]
+
+  - if controller_name == 'clients'
+    %ul.check-columns-visibility
+      %li.dropdown
+        %a.dropdown-toggle.btn.btn-default{'data-toggle' => 'dropdown', href: '#'}
+          Select Columns
+          %span.caret
+        %ul.dropdown-menu.columns-visibility
+          %li
+            .all-visibility.col-sm-12
+              = check_box_tag 'all_', 'all', checked = params['all_'].present?
+              = label_tag 'all_' do
+                %strong Hide/Show All
+
+          - grid.filters.each do |f|
+            %li
+              .visibility.col-sm-12
+                = check_box_tag "#{f.name}_", f.name, checked = params["#{f.name}_"].present?
+                = columns_visibility f.name
+          %li
+            .visibility.col-sm-12
+              = check_box_tag 'rejected_note_', 'rejected_note', checked = params[:rejected_note_].present?
+              = label_tag 'rejected_note_', 'Rejected Note'
+          %li
+            .visibility.col-sm-12
+              = check_box_tag 'case_start_date_', 'case_start_date', checked = params[:case_start_date_].present?
+              = label_tag 'case_start_date_', 'Case Start Date'
+          %li
+            .visibility.col-sm-12
+              = check_box_tag 'carer_names_', 'carer_names', checked = params[:carer_names_].present?
+              = label_tag 'carer_names_', 'Carer Names'
+          %li
+            .visibility.col-sm-12
+              = check_box_tag 'carer_address_', 'carer_address', checked = params[:carer_address_].present?
+              = label_tag 'carer_address_', 'Carer Address'
+          %li
+            .visibility.col-sm-12
+              = check_box_tag 'carer_phone_number_', 'carer_phone_number', checked = params[:carer_phone_number_].present?
+              = label_tag 'carer_phone_number_', 'Carer Phone Number'
+          %li
+            .visibility.col-sm-12
+              = check_box_tag 'support_amount_', 'support_amount', checked = params[:support_amount_].present?
+              = label_tag 'support_amount_', 'Support Amount'
+          %li
+            .visibility.col-sm-12
+              = check_box_tag 'support_note_', 'support_note', checked = params[:support_note_].present?
+              = label_tag 'support_note_', 'Support Note'
+          %li
+            .visibility.col-sm-12
+              = check_box_tag 'family_preservation_', 'family_preservation', checked = params[:family_preservation_].present?
+              = label_tag 'family_preservation_', 'Family Preservation'
+          %li
+            .visibility.col-sm-12
+              = check_box_tag 'family_', 'family', checked = params[:family_].present?
+              = label_tag 'family_', 'Family'
+          %li
+            .visibility.col-sm-12
+              = check_box_tag 'partner_', 'partner', checked = params[:partner_].present?
+              = label_tag 'partner_', 'Partner'
+          %li
+            .visibility.col-sm-12
+              = check_box_tag 'manage_', 'manage', checked = params[:manage_].present?
+              = label_tag 'manage_', 'Manage'
+    %hr/
+  .row
+    - grid.filters.each do |filter|
+      .datagrid-filter.filter
+        = f.datagrid_label filter
+        = f.datagrid_filter filter, partials: options[:partials]
+    .datagrid-actions
+      = f.submit I18n.t('datagrid.form.search').html_safe, class: 'datagrid-submit'
+      - empty_parameter = Rails.version >= '4.1.0' && Rails.version <= '4.1.2' ? nil : {}
+      = link_to I18n.t('datagrid.form.reset').html_safe, url_for(grid.to_param => empty_parameter), class: 'datagrid-reset'

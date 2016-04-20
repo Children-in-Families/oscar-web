@@ -1,5 +1,6 @@
 .panel.panel-default#clients
   .panel-heading
-    %h3 Clients
+    %h3= t('.clients')
   .panel-body
-    = datagrid_table @client_grid, html: { class: 'table table-bordered table-striped table-hover'}
+    .table-responsive
+      = datagrid_table @client_grid, html: { class: 'table table-bordered table-striped table-hover clients'}

@@ -1,45 +1,34 @@
-class ClientsController < ApplicationController
+class ClientsController < AdminController
   load_and_authorize_resource
 
-  before_action :set_client, only: [:show, :edit, :update, :destroy]
+  before_action :find_client, only: [:show, :edit, :update, :destroy]
   before_action :set_association, except: [:index, :destroy]
 
   def index
     if current_user.admin?
       @client_grid = ClientGrid.new(params[:client_grid])
-    elsif current_user.case_worker?
+    elsif current_user.case_worker? || current_user.able_manager? || current_user.any_case_manager?
       @client_grid = ClientGrid.new(params.fetch(:client_grid, {}).merge!(current_user: current_user))
     end
+    columns_visibility
+
     respond_to do |f|
       f.html do
-        if current_user.admin?
-          @client_grid.scope {|scope| scope.paginate(page: params[:page], per_page: 20)}
-        elsif current_user.case_worker?
-          @client_grid.scope {|scope| scope.where(user_id: current_user.id).paginate(page: params[:page], per_page: 20)}
-        end
+        @client_grid.scope {|scope| scope.accessible_by(current_ability).paginate(page: params[:page], per_page: 20)}
       end
       f.csv do
-        if current_user.admin?
-          send_data @client_grid.to_csv,
-            type: 'text/csv',
-            disposition: 'inline',
-            filename: "client_report-#{Time.now.to_s}.csv"
-        elsif current_user.case_worker?
-          send_data @client_grid.scope{|scope| scope.where(user_id: current_user.id)}.to_csv,
-            type: 'text/csv',
-            disposition: 'inline',
-            filename: "client_report-#{Time.now.to_s}.csv"
-        end
+        @client_grid.scope { |scope| scope.accessible_by(current_ability) }
+        domain_score_report
+
+        send_data  @client_grid.to_csv,
+          type: 'text/csv',
+          disposition: 'inline',
+          filename: "client_report-#{Time.now.to_s}.csv"
       end
     end
   end
 
   def show
-    @client = if current_user.admin?
-      Client.find(params[:id])
-    else
-      current_user.clients.find(params[:id])
-    end
   end
 
   def new
@@ -51,12 +40,12 @@ class ClientsController < ApplicationController
 
   def create
     @client = Client.new(client_params)
-    if current_user.case_worker?
+    if current_user.case_worker? || current_user.able_manager? || current_user.any_case_manager?
       @client.user_id = current_user.id
     end
 
     if @client.save
-      redirect_to @client, notice: 'Client has been successfully created.'
+      redirect_to @client, notice: t('.successfully_created')
     else
       render :new
     end
@@ -64,7 +53,12 @@ class ClientsController < ApplicationController
 
   def update
     if @client.update(client_params)
-      redirect_to @client, notice: 'Client has been successfully updated.'
+      if params[:client][:assessment_id]
+        @assessment = Assessment.find(params[:client][:assessment_id])
+        redirect_to client_assessment_path(@client, @assessment), notice: t('.assessment_successfully_created')
+      else
+        redirect_to @client, notice: t('.successfully_updated')
+      end
     else
       render :edit
     end
@@ -72,27 +66,37 @@ class ClientsController < ApplicationController
 
   def destroy
     @client.destroy
-    redirect_to clients_url, notice: 'Client has been successfully deleted.'
+    redirect_to clients_url, notice: t('.successfully_deleted')
   end
 
   private
 
-  def set_client
-    @client = Client.find(params[:id])
+  def find_client
+    @client = Client.accessible_by(current_ability).find(params[:id]).decorate
   end
 
   def client_params
-    if current_user.admin?
-      params.require(:client).permit(:first_name, :last_name, :gender, :date_of_birth, :status, :birth_province_id, :initial_referral_date, :referral_source_id, :referral_phone, :received_by_id, :followed_up_by_id, :follow_up_date, :school_grade, :school_name, :current_address, :has_been_in_orphanage, :able, :has_been_in_government_care, :relevant_referral_information, :user_id, :province_id, :state, :rejected_note, :completed, :agency_ids => [], :quantitative_case_ids => [])
-    elsif current_user.case_worker?
-      params.require(:client).permit(:first_name, :last_name, :gender, :date_of_birth, :status, :birth_province_id, :initial_referral_date, :referral_source_id, :referral_phone, :received_by_id, :followed_up_by_id, :follow_up_date, :school_grade, :school_name, :current_address, :has_been_in_orphanage, :able, :has_been_in_government_care, :relevant_referral_information, :province_id, :state, :rejected_note, :completed, :agency_ids => [], :quantitative_case_ids => [])
-    end
+    params.require(:client).permit(:assessment_id, :first_name, :gender, :date_of_birth, :birth_province_id, :initial_referral_date, :referral_source_id, :referral_phone, :received_by_id, :followed_up_by_id, :follow_up_date, :grade, :school_name, :current_address, :has_been_in_orphanage, :has_been_in_government_care, :relevant_referral_information, :user_id, :province_id, :state, :rejected_note, :able, tasks_attributes: [:name, :domain_id, :completion_date], :agency_ids => [], :quantitative_case_ids => [])
   end
 
   def set_association
     @agencies        = Agency.order(:name)
     @province        = Province.order(:name)
     @referral_source = ReferralSource.order(:name)
-    @user            = User.case_workers.order(:first_name, :last_name)
+    @user            = User.order(:first_name, :last_name)
+  end
+
+  def columns_visibility
+    @client_columns ||= ClientColumnsVisibility.new(@client_grid, params)
+    @client_columns.visible_columns
+  end
+
+  def domain_score_report
+    if params['type'] == 'basic_info'
+      @client_grid.column(:assessments) do |client|
+        client.assessments.map { |assessment| assessment.basic_info }.join(" \x0D\x0A ")
+      end
+      @client_grid.column_names << :assessments if @client_grid.column_names.any?
+    end
   end
 end

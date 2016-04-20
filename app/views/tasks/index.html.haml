@@ -4,11 +4,11 @@
       .panel.panel-default
         .panel-body
           = render 'filter'
-    - if params[:user_id] || current_user.case_worker?
-      %h4.text-center= "#{@user.first_name}'s Active Tasks" if @user
+    - if params[:user_id] || current_user.case_worker? || current_user.any_case_manager? || current_user.able_manager?
+      %h4.text-center= "#{t('.tasks_of')} #{@user.first_name}" if @user
       .panel.panel-danger
         .panel-heading
-          %h5 Overdue Tasks
+          %h5= t('.overdue_tasks')
         .panel-body
           .row
             .col-xs-12
@@ -29,7 +29,7 @@
                               %td= task.completion_date.strftime("%B %d, %Y")
       .panel.panel-warning
         .panel-heading
-          %h5 Today's Tasks
+          %h5= t('.todays_tasks')
         .panel-body
           .row
             .col-xs-12
@@ -50,7 +50,7 @@
                               %td= task.completion_date.strftime("%B %d, %Y")
       .panel.panel-success
         .panel-heading
-          %h5 Upcoming Tasks
+          %h5= t('.upcoming_tasks')
         .panel-body
           .row
             .col-xs-12

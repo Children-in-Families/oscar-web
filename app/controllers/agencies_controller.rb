@@ -1,10 +1,10 @@
-class AgenciesController < ApplicationController
+class AgenciesController < AdminController
   load_and_authorize_resource
 
   before_action :find_agency, only: [:edit, :update, :destroy]
 
   def index
-    @agencies = Agency.all.paginate(page: params[:page], per_page: 10)
+    @agencies = Agency.all.paginate(page: params[:page], per_page: 20)
   end
 
   def new
@@ -14,7 +14,7 @@ class AgenciesController < ApplicationController
   def create
     @agency = Agency.new(agency_params)
     if @agency.save
-      redirect_to agencies_path, notice: 'ឣង្គភាពបង្កើតកំណត់ត្រាថ្មីបានដោយជោគជ័យ / Agency has been successfully created.'
+      redirect_to agencies_path, notice: t('.successfully_created')
     else
       render :new
     end
@@ -25,7 +25,7 @@ class AgenciesController < ApplicationController
 
   def update
     if @agency.update_attributes(agency_params)
-      redirect_to agencies_path, notice: 'ឣង្គភាពបានsaveដោយជោគជ័យ / Agency has been successfully updated.'
+      redirect_to agencies_path, notice: t('.successfully_updated')
     else
       render :edit
     end
@@ -33,10 +33,10 @@ class AgenciesController < ApplicationController
 
   def destroy
     if @agency.clients.present?
-      redirect_to agencies_url, alert: 'Agency cannot be deleted.'
+      redirect_to agencies_url, alert: t('.alert')
     else
       @agency.destroy
-      redirect_to agencies_url, notice: 'ឣង្គភាពត្រូវបានលុបចោលដោយជោគជ័យ / Agency has been successfully deleted.'
+      redirect_to agencies_url, notice: t('.successfully_deleted')
     end
   end
 

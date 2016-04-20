@@ -1,0 +1,5 @@
+.input-group.date-filter-group
+  %span.input-group-addon= I18n.t('datagrid.from').html_safe
+  = form.text_field(filter.name, from_options)
+  %span.input-group-addon= I18n.t('datagrid.to').html_safe
+  = form.text_field(filter.name, to_options)

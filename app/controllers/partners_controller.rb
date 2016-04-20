@@ -1,4 +1,4 @@
-class PartnersController < ApplicationController
+class PartnersController < AdminController
   load_and_authorize_resource
 
   before_action :find_partner,     only:   [:show, :edit, :update, :destroy]
@@ -26,7 +26,7 @@ class PartnersController < ApplicationController
   def create
     @partner = Partner.new(partner_params)
     if @partner.save
-      redirect_to @partner, notice: 'Partner has been successfully created.'
+      redirect_to @partner, notice: t('.successfully_created')
     else
       render :new
     end
@@ -40,7 +40,7 @@ class PartnersController < ApplicationController
 
   def update
     if @partner.update_attributes(partner_params)
-      redirect_to @partner, notice: 'Partner has been successfully updated.'
+      redirect_to @partner, notice: t('.successfully_updated')
     else
       render :edit
     end
@@ -49,9 +49,9 @@ class PartnersController < ApplicationController
   def destroy
     if @partner.cases_count.zero?
       @partner.destroy
-      redirect_to partners_url, notice: 'Partner has been successfully deleted.'
+      redirect_to partners_url, notice: t('.successfully_deleted')
     else
-      redirect_to partners_url, alert: 'Partner cannot be deleted.'
+      redirect_to partners_url, alert: t('.alert')
     end
   end
 

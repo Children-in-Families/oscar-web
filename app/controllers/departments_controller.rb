@@ -1,10 +1,10 @@
-class DepartmentsController < ApplicationController
+class DepartmentsController < AdminController
   load_and_authorize_resource
 
   before_action :find_department, only: [:edit, :update, :destroy]
 
   def index
-    @departments = Department.all
+    @departments = Department.all.paginate(page: params[:page], per_page: 20)
   end
 
   def new
@@ -14,7 +14,7 @@ class DepartmentsController < ApplicationController
   def create
     @department = Department.new(department_params)
     if @department.save
-      redirect_to departments_path, notice: 'កម្មវិធីបង្កើតបានដោយជោគជ័យ / Department has been successfully created.'
+      redirect_to departments_path, notice: t('.successfully_created')
     else
       render :new
     end
@@ -25,7 +25,7 @@ class DepartmentsController < ApplicationController
 
   def update
     if @department.update_attributes(department_params)
-      redirect_to departments_path, notice: 'កម្មវិធីSaveបានដោយជោគជ័យ / Department has been successfully updated.'
+      redirect_to departments_path, notice: t('.successfully_updated')
     else
       render :edit
     end
@@ -34,9 +34,9 @@ class DepartmentsController < ApplicationController
   def destroy
     if @department.users_count.zero?
       @department.destroy
-      redirect_to departments_url, notice: 'កម្មវិធីត្រូវបានលុបចោលដោយជោគជ័យ / Department has been successfully deleted.'
+      redirect_to departments_url, notice: t('.successfully_deleted')
     else
-      redirect_to departments_url, alert: 'Department cannot be deleted.'
+      redirect_to departments_url, alert: t('.alert')
     end
   end
 

@@ -1,5 +1,4 @@
 class CaseNote < ActiveRecord::Base
-  belongs_to :user,       counter_cache: true
   belongs_to :client
   belongs_to :assessment
 
@@ -28,8 +27,18 @@ class CaseNote < ActiveRecord::Base
     end
   end
 
+  def api_complete_tasks(params)
+    params.each do |param|
+      case_note_domain_group = case_note_domain_groups.find_by(domain_group_id: param[:domain_group_id])
+      task_ids = param[:task_ids] || []
+      case_note_domain_group.tasks = Task.where(id: task_ids)
+      case_note_domain_group.tasks.set_complete
+      case_note_domain_group.save
+    end
+  end
+
   private
   def set_assessment
-    self.assessment = Assessment.latest_record
+    self.assessment = client.assessments.latest_record
   end
 end

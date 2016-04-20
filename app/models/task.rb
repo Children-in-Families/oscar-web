@@ -5,7 +5,7 @@ class Task < ActiveRecord::Base
   belongs_to :client
 
   validates :name, presence: true
-  validates :domain_id, presence: true
+  validates :domain, presence: true
   validates :completion_date, presence: true
 
   scope :completed,  -> { where(completed: true) }
@@ -13,6 +13,12 @@ class Task < ActiveRecord::Base
   scope :overdue,    -> { where('completion_date < ?', Date.today) }
   scope :today,      -> { where('completion_date = ?', Date.today) }
   scope :upcoming,   -> { where('completion_date > ?', Date.today) }
+
+  before_save :set_user
+
+  def set_user
+    self.user_id = client.user.id if client.user
+  end
 
   def self.of_user(user)
     where(user_id: user.id)
@@ -29,7 +35,4 @@ class Task < ActiveRecord::Base
     relation
   end
 
-  def self.client_name
-    client.name
-  end
 end

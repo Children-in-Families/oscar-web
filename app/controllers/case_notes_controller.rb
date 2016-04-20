@@ -1,4 +1,4 @@
-class CaseNotesController < ApplicationController
+class CaseNotesController < AdminController
 
   before_action :find_client
 
@@ -8,7 +8,7 @@ class CaseNotesController < ApplicationController
 
   def new
     @case_note = @client.case_notes.new
-    @case_note.assessment = Assessment.latest_record
+    @case_note.assessment = @client.assessments.latest_record
     @case_note.populate_notes
   end
 
@@ -16,7 +16,7 @@ class CaseNotesController < ApplicationController
     @case_note = @client.case_notes.new(case_note_params)
     if @case_note.save
       @case_note.complete_tasks(params[:case_note][:case_note_domain_groups_attributes])
-      redirect_to client_case_notes_path(@client), notice: 'Case Note has successfully been created.'
+      redirect_to client_case_notes_path(@client), notice: t('.successfully_created')
     else
       render :new
     end
@@ -32,11 +32,7 @@ class CaseNotesController < ApplicationController
   end
 
   def find_client
-    if current_user.admin?
-      @client = Client.find(params[:client_id])
-    elsif current_user.case_worker?
-      @client = current_user.clients.find(params[:client_id])
-    end
+    @client = Client.accessible_by(current_ability).find(params[:client_id])
   end
 
 end

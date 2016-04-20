@@ -1,9 +1,10 @@
 = simple_form_for(@province) do |f|
-  = f.error_notification
+  .panel-body
+    = error_notification(f)
 
-  .form-inputs
-    = f.input :name, label: 'ឈ្មោះ​ខេត្ត / Name'
-
-  .form-actions
-    = f.button :submit, 'រក្សាទុក / Save', class: 'btn btn-primary'
-    = link_to 'ទុកជាមោឃៈ / Cancel', provinces_path, class: 'btn btn-default'
+    .form-inputs
+      = f.input :name, label: t('.name')
+  .panel-footer
+    .form-actions
+      = f.button :submit, t('.save'), class: 'btn btn-primary'
+      = link_to t('.cancel'), provinces_path, class: 'btn btn-default'

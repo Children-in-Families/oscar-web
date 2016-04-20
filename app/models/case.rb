@@ -8,17 +8,25 @@ class Case < ActiveRecord::Base
   has_many :case_contracts
   has_many :quarterly_reports
 
-  scope :emergencies,   -> { where(case_type: 'EC') }
-  scope :non_emergency, -> { where.not(case_type: 'EC') }
-  scope :kinships,      -> { where(case_type: 'KC') }
-  scope :fosters,       -> { where(case_type: 'FC') }
-  scope :most_recents,  -> { order('created_at desc') }
-  scope :active,        -> { where(exited: false) }
-  scope :inactive,      -> { where(exited: true) }
+  scope :emergencies,    -> { where(case_type: 'EC') }
+  scope :non_emergency,  -> { where.not(case_type: 'EC') }
+  scope :kinships,       -> { where(case_type: 'KC') }
+  scope :fosters,        -> { where(case_type: 'FC') }
+  scope :most_recents,   -> { order('created_at desc') }
+  scope :active,         -> { where(exited: false) }
+  scope :inactive,       -> { where(exited: true) }
+  scope :with_reports,   -> { joins(:quarterly_reports).uniq }
+  scope :with_contracts, -> { joins(:case_contracts).uniq }
+  scope :case_types,     -> { pluck(:case_type).uniq }
 
   validates :family, presence: true, :if => Proc.new { |client_case| client_case.case_type != 'EC' }
+  validates :case_type, presence: true
+  validates :exit_date, presence: true, :if => Proc.new{ |client_case| client_case.exited? }
+  validates :exit_note, presence: true, :if => Proc.new{ |client_case| client_case.exited? }
 
   before_save :update_client_status
+  after_save :update_cases_to_exited_from_cif
+  after_create :update_client_code
 
   def self.latest_emergency
     emergencies.most_recents.first
@@ -32,6 +40,26 @@ class Case < ActiveRecord::Base
     fosters.most_recents.first
   end
 
+  def self.current
+    active.most_recents.first
+  end
+
+  def fc_or_kc?
+    case_type == 'FC' || case_type == 'KC'
+  end
+
+  def kc?
+    case_type == 'KC'
+  end
+
+  def fc?
+    case_type == 'FC'
+  end
+
+  def not_ec?
+    case_type != 'EC'
+  end
+
   private
 
   def update_client_status
@@ -42,7 +70,7 @@ class Case < ActiveRecord::Base
       when 'FC' then 'Active FC'
       end
     else
-      if exited
+      if exited && !exited_from_cif
         client.status = case case_type
         when 'EC' then 'Referred'
         when 'KC', 'FC'
@@ -52,8 +80,31 @@ class Case < ActiveRecord::Base
            'Referred'
          end
         end
+      elsif exited_from_cif
+        client.status = status
       end
     end
-  client.save
+
+    client.save
+  end
+
+  def update_client_code
+    client.update_attributes(code: generate_client_code) if client.code.blank? && not_ec?
+  end
+
+  def generate_client_code
+    return [2000, Client.start_with_code(2).maximum(:code).to_i + 1].max if kc?
+    return [1000, Client.start_with_code(1).maximum(:code).to_i + 1].max if fc?
+  end
+
+  def update_cases_to_exited_from_cif
+    if exited_from_cif
+      client.cases.active.update_all(
+        exited_from_cif: true,
+        exited: true,
+        exit_date: exit_date,
+        exit_note: exit_note
+      )
+    end
   end
 end

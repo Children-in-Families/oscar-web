@@ -1,10 +1,10 @@
-class ProvincesController < ApplicationController
+class ProvincesController < AdminController
   load_and_authorize_resource
 
   before_action :find_province, only: [:edit, :update, :destroy]
 
   def index
-    @provinces = Province.all
+    @provinces = Province.all.paginate(page: params[:page], per_page: 20)
   end
 
   def new
@@ -14,10 +14,10 @@ class ProvincesController < ApplicationController
   def create
     @province = Province.new(province_params)
     if @province.save
-      redirect_to provinces_path, notice: 'ខេត្ត​បង្កើតបានដោយជោគជ័យ / Province has been successfully created.'
+      redirect_to provinces_path, notice: t('.successfully_created')
     else
       render :new
-    end    
+    end
   end
 
   def edit
@@ -25,18 +25,18 @@ class ProvincesController < ApplicationController
 
   def update
     if @province.update_attributes(province_params)
-      redirect_to provinces_path, notice: 'ខេត្ត​saveបានដោយជោគជ័យ / Province has been successfully updated.'
+      redirect_to provinces_path, notice: t('.successfully_updated')
     else
       render :edit
-    end    
+    end
   end
-  
+
   def destroy
     if @province.families_count.zero? && @province.partners_count.zero? && @province.users_count.zero? && @province.clients_count.zero? && @province.cases_count.zero?
       @province.destroy
-      redirect_to provinces_url, notice: 'ខេត្ត​ត្រូវបានលុបចោលដោយជោគជ័យ / Province has been successfully deleted.'
+      redirect_to provinces_url, notice: t('.successfully_deleted')
     else
-      redirect_to provinces_url, alert: 'Province cannot be deleted.'
+      redirect_to provinces_url, alert: t('.alert')
     end
   end
 

@@ -3,48 +3,55 @@ class AssessmentDomain < ActiveRecord::Base
   belongs_to :domain
 
   validates :domain_id, presence: true
+  validates :score, presence: true
+  validates :reason, presence: true
+  validates :domain, presence: true
 
   default_scope { joins(:domain).order('domains.name ASC') }
 
-  OUTCOME_DOMAIN_NAMES = ['1A', '3A', '3B', '6B']
+  def self.warning_or_danger
+    domains_arr = all.select do |domain|
+      domain.warning? || domain.danger?
+    end
+  end
 
-  def has_critical_problem?
-    score == 1 || (score == 2 && OUTCOME_DOMAIN_NAMES.include?(domain.name))
+  def self.any_problems?
+    return true if all.find { |el| el.critical_problem? } || all.find { |el| el.has_problem? }
+  end
+
+  def self.domain_color_class(domain_id)
+    find_by(domain_id: domain_id).score_color_class
+  end
+
+  def critical_problem?
+    score_color_class == 'danger'
   end
 
   def has_problem?
-    (score == 2 && !OUTCOME_DOMAIN_NAMES.include?(domain.name)) || (score == 3 && OUTCOME_DOMAIN_NAMES.include?(domain.name))
+    score_color_class == 'warning'
   end
 
   def not_ideal?
-    score == 3 && !OUTCOME_DOMAIN_NAMES.include?(domain.name)
+    score_color_class == 'info'
   end
 
   def good?
-    score == 4
+    score_color_class == 'success'
+  end
+
+  def danger?
+    score_color_class == 'danger'
+  end
+
+  def warning?
+    score_color_class == 'warning'
   end
 
   def score_color_class
-    if has_critical_problem?
-      'danger'
-    elsif has_problem?
-      'warning'
-    elsif not_ideal?
-      'info'
-    else
-      'success'
-    end
+    domain["score_#{score}_color"]
   end
 
   def previous_score_color_class
-    if previous_score == 1 || (previous_score == 2 && OUTCOME_DOMAIN_NAMES.include?(domain.name))
-      'danger'
-    elsif (previous_score == 2 && !OUTCOME_DOMAIN_NAMES.include?(domain.name)) || (previous_score == 3 && OUTCOME_DOMAIN_NAMES.include?(domain.name))
-      'warning'
-    elsif previous_score == 3 && !OUTCOME_DOMAIN_NAMES.include?(domain.name)
-      'info'
-    else
-      'success'
-    end
+    domain["score_#{previous_score}_color"]
   end
 end

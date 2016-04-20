@@ -3,3 +3,5 @@
     .col-md-12
       - if notice
         %p#notice{ class: "text-center alert alert-success" }= notice
+      - if alert
+        %p#notice{ class: "text-center alert alert-danger" }= alert

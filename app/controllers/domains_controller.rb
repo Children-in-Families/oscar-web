@@ -1,4 +1,4 @@
-class DomainsController < ApplicationController
+class DomainsController < AdminController
   load_and_authorize_resource
 
   before_action :find_domain, only: [:edit, :update, :destroy]
@@ -15,7 +15,7 @@ class DomainsController < ApplicationController
   def create
     @domain = Domain.new(domain_params)
     if @domain.save
-      redirect_to domains_path, notice: 'កត្តាបង្កើតបានជោគជ័យ / Domain has been successfully created.'
+      redirect_to domains_path, notice: t('.successfully_created')
     else
       render :new
     end
@@ -26,7 +26,7 @@ class DomainsController < ApplicationController
 
   def update
     if @domain.update_attributes(domain_params)
-      redirect_to domains_path, notice: 'កត្តាsaveបានជោគជ័យ / Domain has been successfully updated.'
+      redirect_to domains_path, notice: t('.successfully_updated')
     else
       render :edit
     end
@@ -35,16 +35,16 @@ class DomainsController < ApplicationController
   def destroy
     if @domain.tasks_count.zero?
       @domain.destroy
-      redirect_to domains_url, notice: 'កត្តាត្រូវបានលុបចោលជោគជ័យ / Domain has been successfully deleted.'
+      redirect_to domains_url, notice: t('.successfully_deleted')
     else
-      redirect_to domains_url, alert: 'Domain cannot be deleted.'
+      redirect_to domains_url, alert: t('.alert')
     end
   end
 
   private
 
   def domain_params
-    params.require(:domain).permit(:name, :identity, :description, :domain_group_id)
+    params.require(:domain).permit(:name, :identity, :description, :domain_group_id, :score_1_color, :score_2_color, :score_3_color, :score_4_color)
   end
 
   def find_domain

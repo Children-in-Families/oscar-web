@@ -10,20 +10,44 @@ describe 'CaseNote' do
     login_as(user)
   end
 
-  context 'Create' do
+  feature 'Create' do
     before do
       visit new_client_case_note_path(client)
-      fill_in 'case_note_meeting_date', with: Date.strptime(FFaker::Time.date).strftime('%B %d, %Y')
-      fill_in 'Present of', with: FFaker::Name.name
-      fill_in 'Note', with: FFaker::Lorem.paragraph
-      click_button 'Save'
     end
-    scenario 'valid' do
+
+    def add_tasks(n)
+      (1..n).each do |time|
+        find('.case-note-task-btn').click
+        fill_in 'task_name', with: FFaker::Lorem.paragraph
+        fill_in 'task_completion_date', with: Date.strptime(FFaker::Time.date).strftime('%B %d, %Y')
+        find('.add-task-btn').trigger('click')
+        sleep 1
+      end
+    end
+
+    def remove_task(index)
+      page.all('.task-arising a.remove-task')[index].click
+    end
+
+    scenario 'valid', js: true do
+      fill_in 'case_note_meeting_date', with: Date.strptime(FFaker::Time.date).strftime('%B %d, %Y')
+      fill_in 'Present', with: FFaker::Name.name
+      fill_in 'Note', with: FFaker::Lorem.paragraph
+
+      add_tasks(5)
+      # remove_task(1)
+
+      find('#case-note-submit-btn').click
       expect(page).to have_content('Case Note has successfully been created')
+    end
+
+    xscenario 'invalid' do
+      click_button 'Save'
+      expect(page).to have_content("can't be blank")
     end
   end
 
-  context 'Index' do
+  feature 'List' do
     let!(:case_note) { create(:case_note, client: client, assessment: assessment) }
     let!(:case_note_domain_group) { create(:case_note_domain_group, case_note: case_note, domain_group: domain.domain_group) }
     let!(:other_client) { create(:client,status: 'accepted', user: user) }
@@ -33,8 +57,8 @@ describe 'CaseNote' do
       visit client_case_notes_path(client)
     end
 
-    scenario 'have link new case note' do
-      expect(page).to have_link('New Case Note', href: new_client_case_note_path(client))
+    scenario 'link new case note' do
+      expect(page).to have_link('New case note', href: new_client_case_note_path(client))
     end
 
     scenario 'case note date' do

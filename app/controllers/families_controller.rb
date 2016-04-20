@@ -1,4 +1,4 @@
-class FamiliesController < ApplicationController
+class FamiliesController < AdminController
   load_and_authorize_resource
 
   before_action :find_province, except: [:index, :destroy]
@@ -26,7 +26,7 @@ class FamiliesController < ApplicationController
   def create
     @family = Family.new(family_params)
     if @family.save
-      redirect_to @family, notice: 'Family has been successfully created.'
+      redirect_to @family, notice: t('.successfully_created')
     else
       render :new
     end
@@ -40,7 +40,7 @@ class FamiliesController < ApplicationController
 
   def update
     if @family.update_attributes(family_params)
-      redirect_to @family, notice: 'Family has been successfully updated.'
+      redirect_to @family, notice: t('.successfully_updated')
     else
       render :edit
     end
@@ -49,9 +49,9 @@ class FamiliesController < ApplicationController
   def destroy
     if @family.cases_count.zero?
       @family.destroy
-      redirect_to families_url, notice: 'Family has been successfully deleted.'
+      redirect_to families_url, notice: t('.successfully_deleted')
     else
-      redirect_to families_url, alert: 'Family cannot be deleted.'
+      redirect_to families_url, alert: t('.alert')
     end
   end
 

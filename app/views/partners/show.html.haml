@@ -1,61 +1,71 @@
 .row
   .col-xs-12.partner
     .panel.panel-default
-      .panel-heading
-        %h3
-          = "General Information for #{@partner.name}"
+      .panel-body
+        %h3.h3-header.pushing-bottom
+          = "#{t('.general_info')} #{@partner.name}"
           = "(#{@partner.organisation_type})" if @partner.organisation_type.present?
-          - if can? :manage, :all
-            %small
+          - if can? :manage, Partner
+            %small.top-right-icon
               = link_to edit_partner_path(@partner) do
                 %i.glyphicon.glyphicon-pencil
               = removeable? @partner, @partner.cases_count
-        %h4.row
-          %span.col-xs-6.col-sm-3.col-md-2 Address
-          %span.col-xs-6.col-sm-9.col-md-10
-            = ": #{@partner.address}"
-      .panel-body
         .row
-          .col-xs-6.col-sm-4.col-md-3.partner-detail
-            %strong Contact Name
-          .col-xs-6.col-sm-8.col-md-9.partner-detail
-            = ": #{@partner.contact_person_name}"
-        .row
-          .col-xs-6.col-sm-4.col-md-3.partner-detail
-            %strong Email
-          .col-xs-6.col-sm-8.col-md-9.partner-detail
-            = ":"
-            = mail_to @partner.contact_person_email
-        .row
-          .col-xs-6.col-sm-4.col-md-3.partner-detail
-            %strong Mobile
-          .col-xs-6.col-sm-8.col-md-9.partner-detail
-            = ":"
-            = @partner.contact_person_mobile.phony_formatted(normalize: :KH, format: :international) if @partner.contact_person_mobile
-        .row
-          .col-xs-6.col-sm-4.col-md-3.partner-detail
-            %strong Affiliation
-          .col-xs-6.col-sm-8.col-md-9.partner-detail
-            = ": #{@partner.affiliation}"
-        .row
-          .col-xs-6.col-sm-4.col-md-3.partner-detail
-            %strong Engagement
-          .col-xs-6.col-sm-8.col-md-9.partner-detail
-            = ": #{@partner.engagement}"
-        .row
-          .col-xs-6.col-sm-4.col-md-3.partner-detail
-            %strong Background
-          .col-xs-6.col-sm-8.col-md-9.partner-detail
-            = ": #{@partner.background}"
-        .row
-          .col-xs-6.col-sm-4.col-md-3.partner-detail
-            %strong Start Date
-          .col-xs-6.col-sm-8.col-md-9.partner-detail
-            = ':'
-            = @partner.start_date.strftime('%B %d, %Y') if @partner.start_date
-        .row
-          .col-xs-6.col-sm-4.col-md-3.partner-detail
-            %strong Province
-          .col-xs-6.col-sm-8.col-md-9.partner-detail
-            = ":"
-            = "#{@partner.province.name}" if @partner.province
+          .col-sm-12
+            %table.table.table-bordered
+              %tr
+                %td.spacing-first-col
+                  = t('.address')
+                %td
+                  %strong
+                    = @partner.address
+              %tr
+                %td.spacing-first-col
+                  = t('.contact_name')
+                %td
+                  %strong
+                    = @partner.contact_person_name
+              %tr
+                %td.spacing-first-col
+                  = t('.contact_email')
+                %td
+                  %strong
+                    = mail_to @partner.contact_person_email
+              %tr
+                %td.spacing-first-col
+                  = t('.contact_mobile')
+                %td
+                  %strong
+                    = @partner.contact_person_mobile.phony_formatted(normalize: :KH, format: :international) if @partner.contact_person_mobile
+              %tr
+                %td.spacing-first-col
+                  = t('.affiliation')
+                %td
+                  %strong
+                    = @partner.affiliation
+              %tr
+                %td.spacing-first-col
+                  = t('.engagement')
+                %td
+                  %strong
+                    = @partner.engagement
+              %tr
+                %td.spacing-first-col
+                  = t('.background')
+                %td
+                  %strong
+                    = @partner.background
+              %tr
+                %td.spacing-first-col
+                  = t('.start_date')
+                %td
+                  %strong
+                    = @partner.start_date.strftime('%B %d, %Y') if @partner.start_date
+
+              %tr
+                %td.spacing-first-col
+                  = t('.province')
+                %td
+                  %strong
+                    = "#{@partner.province.name}" if @partner.province
+       

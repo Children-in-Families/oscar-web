@@ -2,8 +2,8 @@
   .col-xs-12
     .panel.panel-info
       .panel-heading
-        %h4= "Case Note on #{@case_note.meeting_date}"
-        %h4= "Present: #{@case_note.attendee}"
+        %h4= "#{t('.case_note_on')}: #{@case_note.meeting_date}"
+        %h4= "#{t('.present')}: #{@case_note.attendee}"
       .panel-body
         .row
           .col-xs-12

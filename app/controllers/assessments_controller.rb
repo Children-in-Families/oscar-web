@@ -1,4 +1,5 @@
-class AssessmentsController < ApplicationController
+class AssessmentsController < AdminController
+  load_and_authorize_resource
 
   before_action :find_client
   before_action :find_assessment, only: [:edit, :update, :show]
@@ -16,7 +17,11 @@ class AssessmentsController < ApplicationController
   def create
     @assessment = @client.assessments.new(assessment_params)
     if @assessment.save
-      redirect_to client_assessment_path(@client, @assessment), notice: 'Assessment has been successfully created.'
+      if @assessment.assessment_domains.any_problems?
+        redirect_to new_client_task_path(assessment_id: @assessment.id)
+      else
+        redirect_to client_assessment_path(@client, @assessment), notice: t('.successfully_created')
+      end
     else
       render :new
     end
@@ -30,7 +35,7 @@ class AssessmentsController < ApplicationController
 
   def update
     if @assessment.update_attributes(assessment_params)
-      redirect_to client_assessment_path(@client, @assessment), notice: 'Assessment has been successfully updated.'
+      redirect_to client_assessment_path(@client, @assessment), notice: t('.successfully_updated')
     else
       render :edit
     end
@@ -39,11 +44,7 @@ class AssessmentsController < ApplicationController
   private
 
   def find_client
-    if current_user.admin?
-      @client = Client.find(params[:client_id])
-    elsif current_user.case_worker?
-      @client = current_user.clients.find(params[:client_id])
-    end
+    @client = Client.accessible_by(current_ability).find(params[:client_id])
   end
 
   def find_assessment

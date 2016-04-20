@@ -1,0 +1,21 @@
+.col-xs-12.col-md-6
+  .panel.panel-default.family-panel
+    .panel-body
+      =link_to families_path do
+        .col-xs-12.top-bar{style:"background-color:olive;"}
+          %p.anti-link.heading
+            #{@dashboard.family_count}
+          %h3.anti-link.float-right
+            %i= t('.families')
+      =link_to families_path("family_grid[family_type]":"foster")do
+        .big-box.col-xs-6.text-center{style:"background-color:skyblue;"}
+          %h2.anti-link
+            #{@dashboard.foster_count}
+          %h3.anti-link.float-right
+            %i= t('.foster')
+      =link_to families_path("family_grid[family_type]":"kinship") do
+        .big-box.col-xs-6.text-center{style:"background-color:powderblue;"}
+          %h2.anti-link
+            #{@dashboard.kinship_count}
+          %h3.anti-link.float-right
+            %i= t('.kinship')

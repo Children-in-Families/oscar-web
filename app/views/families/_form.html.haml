@@ -1,28 +1,34 @@
-= simple_form_for(@family) do |f|
-  = f.error_notification
-
-  .form-inputs
-    = f.input :name
-    = f.input :address, input_html: { rows: '4' }
-    = f.input :caregiver_information, input_html: { rows: '4' }, label: 'Caregiver Information'
-    = f.input :significant_family_member_count, label: 'Significant Family Member Count'
-    = f.input :household_income, label: 'Household Income ($)'
-    = f.input :dependable_income, label: 'Dependable Income?'
-    = f.input :female_children_count, label: 'Female Children Count'
-    = f.input :male_children_count, label: 'Male Children Count'
-    = f.input :female_adult_count, label: 'Female Adult Count'
-    = f.input :male_adult_count, label: 'Male Adult Count'
-    = f.input :family_type, label: 'Family Type', collection: [['Foster', 'foster'], ['Kinship', 'kinship']], include_blank: false
-
-    .form-group.date.optional.family_contract_date
-      %label.date.optional.control-label{ for: 'family_contract_date' } Contract Date
-      .input-group.date
-        = f.text_field :contract_date, class: 'date optional form-control date-picker', type: 'text', name: 'family[contract_date]', id: 'family_contract_date'
-        %span.input-group-addon
-          %i.glyphicon.glyphicon-calendar
-
-    = f.association :province, collection: @province, include_blank: false
-
-  .form-actions
-    = f.button :submit, class: 'btn btn-primary'
-    = link_to 'Cancel', families_path, class: 'btn btn-default'
+= simple_form_for(@family, title: "new oops") do |f|
+  .panel-body
+    = f.error_notification
+    .form-inputs
+      .row
+        .col-xs-12.col-md-4= f.input :name, label: "#{t('.name')}"
+        .col-xs-12.col-md-4= f.input :address, input_html: { rows: '4' }, label: "#{t('.address')}"
+        .col-xs-12.col-md-4= f.input :family_type, collection: [['Foster', 'foster'], ['Kinship', 'kinship']], include_blank: false, label: "#{t('.family_type')}"
+      .row
+        .col-xs-12.col-md-4= f.input :significant_family_member_count, label: "#{t('.significant_family_member_count')}"
+        .col-xs-12.col-md-4= f.input :female_children_count, label: "#{t('.female_children_count')}"
+        .col-xs-12.col-md-4= f.input :male_children_count, label: "#{t('.male_children_count')}"
+      .row
+        .col-xs-12.col-md-8
+          .row
+            .col-xs-12.col-md-6= f.input :female_adult_count, label: "#{t('.female_adult_count')}"
+            .col-xs-12.col-md-6= f.input :male_adult_count, label: "#{t('.male_adult_count')}"
+          .row
+            .col-xs-12.col-md-6= f.association :province, collection: @province, include_blank: false, label: "#{t('.province')}"
+            .col-xs-12.col-md-6.form-group.date.optional.family_contract_date
+              %label.date.optional.control-label{ for: 'family_contract_date' } #{t('.contract_date')}
+              .input-group.date
+                = f.text_field :contract_date, class: 'date optional form-control date-picker', type: 'text', name: 'family[contract_date]', id: 'family_contract_date'
+                %span.input-group-addon
+                  %i.glyphicon.glyphicon-calendar
+          .row
+            .col-xs-12.col-md-6= f.input :household_income, label: "#{t('.household_income')}($)"
+            .col-xs-12.col-md-6= f.input :dependable_income, inpu_html: {style: 'padding-top: 20px;'}, label: "#{t('.dependable_income')}"
+        .col-xs-12.col-md-4
+          = f.input :caregiver_information, input_html: { style: 'height: 182px;' }, label: "#{t('.caregiver_information')}"
+  .panel-footer
+    .form-actions
+      = f.button :submit, t('save'), class: 'btn btn-primary form-btn'
+      = link_to t('cancel'), families_path, class: 'btn btn-default form-btn'

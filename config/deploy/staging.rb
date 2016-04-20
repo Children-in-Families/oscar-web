@@ -9,7 +9,7 @@
 
 set :stage, 'staging'
 
-server 'cif-web.rotati.com', user: 'deployer', roles: %w{app web db}
+server 'cif-web-staging.rotati.com', user: 'deployer', roles: %w{app web db}
 
 
 # role-based syntax

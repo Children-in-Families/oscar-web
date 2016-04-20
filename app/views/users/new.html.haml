@@ -1,40 +1,40 @@
 .row
-  .col-xs-12.col-sm-6.col-sm-offset-3
+  .col-xs-12.col-sm-10.col-sm-offset-1
     .panel.panel-default
       .panel-heading
-        %h4 New User
-      .panel-body
-        = simple_form_for(@user) do |f|
-          = f.error_notification
-
+        %h4= t('.new_user_title')
+      = simple_form_for(@user) do |f|
+        .panel-body
+          = error_notification(f)
           .form-inputs
-            = f.input :first_name
-            = f.input :last_name
-            = f.input :roles, collection: [['Admin','admin'],['Case Worker','case worker']], include_blank: false, label: 'Role'
+            .row
+              .col-xs-12.col-md-4= f.input :first_name, label: "#{t('.first_name')}"
+              .col-xs-12.col-md-4= f.input :last_name, label: "#{t('.last_name')}"
+              .col-xs-12.col-md-4.form-group.date.optional.user_date_of_birth
+                %label.date.optional.control-label{ for: 'user_date_of_birth' }#{t('.date_of_birth')}
+                .input-group.date
+                  = f.text_field :date_of_birth, class: 'date optional form-control date-picker', type: 'text', name: 'user[date_of_birth]', id: 'user_date_of_birth'
+                  %span.input-group-addon
+                    %i.glyphicon.glyphicon-calendar
+            .row
+              .col-xs-12.col-md-4= f.input :email, required: true, label: "#{t('.email')}"
+              .col-xs-12.col-md-4= f.input :password, required: true, label: "#{t('.password')}"
+              .col-xs-12.col-md-4= f.input :password_confirmation, required: true, label: "#{t('.password_confirmation')}"
+            .row
+              .col-xs-12.col-md-4= f.input :mobile, label: "#{t('.mobile')}"
+              .col-xs-12.col-md-4= f.input :roles, collection: [['Able Manager', 'able manager'], ['Admin', 'admin'], ['Case Worker', 'case worker'], ['Ec Manager', 'ec manager'], ['Fc Manager', 'fc manager'], ['Kc Manager', 'kc manager']], include_blank: false, label: "#{t('.roles')}"
+              .col-xs-12.col-md-4= f.input :job_title, label: "#{t('.job_title')}"
+            .row
+              .col-xs-12.col-md-4= f.association :province, collection: @province, include_blank: false, label: "#{t('.province')}"
+              .col-xs-12.col-md-4= f.association :department, collection: @department, include_blank: false, label: "#{t('.department')}"
+              .col-xs-12.col-md-4.form-group.date.optional.user_start_date
+                %label.date.optional.control-label{ for: 'user_start_date' } #{t('.start_date')}
+                .input-group.date
+                  = f.text_field :start_date, class: 'date optional form-control date-picker', type: 'text', name: 'user[start_date]', id: 'user_start_date'
+                  %span.input-group-addon
+                    %i.glyphicon.glyphicon-calendar
 
-            .form-group.date.optional.user_start_date
-              %label.date.optional.control-label{ for: 'user_start_date' } Start Date
-              .input-group.date
-                = f.text_field :start_date, class: 'date optional form-control date-picker', type: 'text', name: 'user[start_date]', id: 'user_start_date'
-                %span.input-group-addon
-                  %i.glyphicon.glyphicon-calendar
-                       
-            = f.input :job_title, label: 'Job Title'
-            = f.association :department, collection: @department, include_blank: false
-            = f.input :mobile
-
-            .form-group.date.optional.user_date_of_birth
-              %label.date.optional.control-label{ for: 'user_date_of_birth' } Date Of Birth
-              .input-group.date
-                = f.text_field :date_of_birth, class: 'date optional form-control date-picker', type: 'text', name: 'user[date_of_birth]', id: 'user_date_of_birth'
-                %span.input-group-addon
-                  %i.glyphicon.glyphicon-calendar
-
-            = f.association :province, collection: @province, include_blank: false
-            = f.input :email, required: true
-            = f.input :password, required: true
-            = f.input :password_confirmation, required: true, label: 'Password Confirmation'
-
+        .panel-footer
           .form-actions
-            = f.button :submit, class: 'btn btn-primary'
-            = link_to 'Cancel', users_path, class: 'btn btn-default'
+            = f.button :submit, t('save'), class: 'btn btn-primary form-btn'
+            = link_to t('cancel'), users_path, class: 'btn btn-default form-btn'

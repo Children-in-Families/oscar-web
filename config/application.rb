@@ -17,8 +17,9 @@ module CifWeb
     # config.time_zone = 'Central Time (US & Canada)'
 
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
-    # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
-    # config.i18n.default_locale = :de
+    #config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
+    config.i18n.default_locale = :en
+    config.i18n.available_locales = [:en, :km]
 
     # Autoload path
     config.autoload_paths << "#{Rails.root}/lib"
@@ -28,13 +29,13 @@ module CifWeb
       g.template_engine :haml
     end
 
-    config.middleware.insert_before 0, "Rack::Cors", debug: true, logger: (-> { Rails.logger }) do
+    config.middleware.use Rack::Cors do
       allow do
         origins '*'
-          resource '/api/kinship_or_foster_care_cases/*',
-          headers: :any,
-          methods: [:get, :post, :delete, :put, :patch, :options, :head],
-          max_age: 0
+        resource '*',
+          :headers => :any,
+          :expose  => ['access-token', 'expiry', 'token-type', 'uid', 'client'],
+          :methods => [:get, :post, :options, :delete, :put]
       end
     end
 

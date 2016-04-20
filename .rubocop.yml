@@ -10,8 +10,7 @@ AllCops:
     - 'lib/tasks/*'
     - 'app/services/importer.rb'
     - 'db/**/*'
-    - 'spec/spec_helper.rb'
-    - 'spec/rails_helper.rb'
+    - 'spec/**/*'
     - 'Guardfile'
   RunRailsCops: true
   DisplayCopNames: true
@@ -27,3 +26,4 @@ Metrics/AbcSize:
   Enabled: false
 Metrics/MethodLength:
   Enabled: false
+

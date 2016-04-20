@@ -1,0 +1,25 @@
+%div.common-domain
+  = f.association :domain, selected: domain.id, include_blank: false, input_html: { class: 'hidden' }, label: false
+
+  .form-group.string.required.client_tasks_name{ class: "blank_client_tasks_attributes_#{f.index}_name" }
+    %label.string.required.control-label{ for: "client_tasks_attributes_#{f.index}_name" }
+      %abbr{ title: "required" }*
+      = t('.enter_task_detail')
+    = f.text_field :name, class: 'string required form-control', type: 'text', name: "client[tasks_attributes][#{f.index}][name]", id: "client_tasks_attributes_#{f.index}_name"
+    %span.help-block{ class: "blank_client_tasks_attributes_#{f.index}_name" }
+      = t('cannot_be_blank')
+
+  .form-group.date.required.client_tasks_completion_date{ class: "blank_client_tasks_attributes_#{f.index}_completion_date" }
+    %label.date.required.control-label{ for: "client_tasks_attributes_#{f.index}_completion_date" }
+      %abbr{ title: 'required' } *
+      = t('.completion_date')
+    .input-group.date
+      = f.text_field :completion_date, class: 'date required form-control date-picker', type: 'text', name: "client[tasks_attributes][#{f.index}][completion_date]", id: "client_tasks_attributes_#{f.index}_completion_date"
+      %span.input-group-addon
+        %i.glyphicon.glyphicon-calendar
+    %span.help-block{ class: "blank_client_tasks_attributes_#{f.index}_completion_date" }
+      = t('cannot_be_blank')
+  %p.text-right
+    = link_to '#', class: 'remove_fields' do
+      %i.glyphicon.glyphicon-trash
+  %hr

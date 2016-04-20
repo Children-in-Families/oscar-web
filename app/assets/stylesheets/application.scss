@@ -13,7 +13,9 @@
 // Components
 @import 'components/datagrid';
 
+@import 'case/quarterly_reports/*';
 @import 'cases/*';
+@import 'client/task/*';
 @import 'clients/*';
 @import 'families/*';
 @import 'users/*';
@@ -29,4 +31,5 @@
 @import 'provinces/*';
 @import 'departments/*';
 @import 'form';
-@import 'quantitative_types/*'
+@import 'quantitative_types/*';
+@import 'home/*'

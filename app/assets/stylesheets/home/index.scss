@@ -1,0 +1,71 @@
+#home-index {
+  .panel-default {
+    color: black;
+  }
+
+  .float-right {
+    float: right;
+  }
+
+  .anti-link {
+    color: white;
+  }
+
+  p.heading {
+    font-size: 36px;
+    display: inline;
+  }
+
+  @media screen and (min-width: 992px) and (max-width: 1013px) {
+    .box-escaper {
+      font-size: 2vw;
+    }
+  }
+
+  @media screen and (min-width: 992px) and (max-width: 1332px) {
+    .box-pusher {
+      h4 {
+        font-size: 1.8vw;
+      }
+
+      h1 {
+        margin-top: 3px;
+        margin-bottom: 1px;
+      }
+    }  
+  }
+
+  @media (max-width: 990px) {
+    .panel-pusher {
+      margin-bottom: 15px;
+    }          
+  }
+
+  .client-panel, .family-panel {
+    .top-bar {
+      margin-bottom: 15px;
+    }
+
+    .big-box {
+      height: 279px;
+      padding-top: 90px;
+    }
+
+    h1 {
+      font-size: 4em;
+    }
+
+    h2 {
+      font-size: 5em;
+    }
+  }
+
+  .bottom-panel {
+    h1 {
+      font-size: 3em;
+    }
+  }
+  .top-spacing {
+    margin-top: 19px;
+  }
+}

@@ -1,12 +1,12 @@
 .row
-  .col-xs-12
+  .col-sm-12
     .panel.panel-default
-      .panel-heading
-        %h3 Legacy Quarterly Reports for #{@case.client.name}
+      .panel-heading.text-center
+        %h4 Legacy Quarterly Reports for #{@case.client.name}
       .panel-body
-        = datagrid_table @quarterly_reports_grid, html: {class: 'table table-bordered table-striped table-hover'}
-      .panel-footer
+        = link_to t('.back'), client_path(@case.client), { class: 'btn btn-default button' }
+
+        = datagrid_table @quarterly_reports_grid, html: {class: 'table table-bordered table-striped table-hover pushing-top'}
+
         = will_paginate(@quarterly_reports_grid.assets)
-  .col-xs-12
-    = link_to 'Back', :back
 

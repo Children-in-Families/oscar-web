@@ -1,11 +1,12 @@
 = simple_form_for(@quantitative_case) do |f|
-  = f.error_notification
+  .panel-body
+    = error_notification(f)
 
-  .form-inputs
-    = f.association :quantitative_type, default: @quantitative_type, disabled: true
-    = f.association :quantitative_type, default: @quantitative_type, input_html: { class: 'hidden' }, label: false
-    = f.input :value
-
-  .form-actions
-    = f.button :submit, 'រក្សាទុក / Save', class: 'btn btn-primary'
-    = link_to 'ទុកជាមោឃៈ / Cancel',  quantitative_types_path, class: 'btn btn-default'
+    .form-inputs
+      = f.association :quantitative_type, default: @quantitative_type, disabled: true, label: t('.quantitative_type')
+      = f.association :quantitative_type, default: @quantitative_type, input_html: { class: 'hidden' }, label: false
+      = f.input :value, label: t('.value')
+  .panel-footer
+    .form-actions
+      = f.button :submit, t('.save'), class: 'btn btn-primary form-btn'
+      = link_to t('.cancel'),  quantitative_types_path, class: 'btn btn-default form-btn'

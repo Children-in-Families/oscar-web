@@ -1,11 +1,11 @@
 Rails.application.routes.draw do
   resources :quarterly_reports
   devise_for :users, controllers: { registrations: 'registrations' }
-  root 'clients#index'
+  root 'home#index'
 
   get '/robots.txt' => 'home#robots'
 
-  resources :agencies
+  resources :agencies, except: [:show]
 
   scope 'admin' do
     resources :users
@@ -13,11 +13,11 @@ Rails.application.routes.draw do
 
   resources :quantitative_types
   resources :quantitative_cases
-  resources :referral_sources
-  resources :domain_groups
-  resources :domains
-  resources :provinces
-  resources :departments
+  resources :referral_sources, except: [:show]
+  resources :domain_groups, except: [:show]
+  resources :domains, except: [:show]
+  resources :provinces, except: [:show]
+  resources :departments, except: [:show]
   resources :quarterly_reports, only: [:index]
 
   resources :tasks do
@@ -41,11 +41,15 @@ Rails.application.routes.draw do
   resources :families
   resources :partners
 
-  namespace :api, default: { format: :json } do
-    resources :kinship_or_foster_care_cases, only: [] do
-      resources :case_notes, only: [:index, :create]
-      resources :case_notes_tasks, only: [:create, :update]
-      resources :assessments, only: [:create]
+  namespace :api do
+    mount_devise_token_auth_for 'User', at: '/v1/auth', skip: [:registrations, :passwords]
+    namespace :v1, default: { format: :json } do
+      resources :domain_groups, only: [:index]
+      resources :clients, only: [:index] do
+        resources :assessments, only: [:create]
+        resources :tasks, only: [:create, :update]
+        resources :case_notes, only: [:create]
+      end
     end
   end
 end

@@ -13,46 +13,56 @@
     .collapse.navbar-collapse
       %ul.nav.navbar-nav
         %li{ class: clients_menu_active }
-          = link_to 'Clients', root_path
+          = link_to t('.clients'), clients_path
         - if user_signed_in?
-          - if can? :manage, :all
+          - if can? :manage, Family
             %li{ class: active_menu('families') }
-              = link_to 'Families', families_path
+              = link_to t('.families'), families_path
+          - if can? :manage, Partner
             %li{ class: active_menu('partners') }
-              = link_to 'Partners', partners_path
+              = link_to t('.partners'), partners_path
+          - if can? :manage, User
             %li{ class: active_menu('users') }
-              = link_to 'Users', users_path
+              = link_to t('.users'), users_path
 
       %ul.nav.navbar-nav.navbar-right
         - if user_signed_in?
-          - if can? :manage, :all
-            %li.dropdown{ class:  manage_menu_active }
-              %a.dropdown-toggle{'data-toggle' => 'dropdown', href: '#'}
-                គ្រប់គ្រង / Manage
-                %span.caret
-              %ul.dropdown-menu
-                %li{ class: active_menu('agencies') }
-                  = link_to 'អង្គភាព / Agencies', agencies_path
+          %li.dropdown{ class:  manage_menu_active }
+            %a.dropdown-toggle{'data-toggle' => 'dropdown', href: '#'}
+              = t('.manage')
+              %span.caret
+            %ul.dropdown-menu
+              %li{ class: active_menu('agencies') }
+                = link_to t('.agencies'), agencies_path
+              - if can? :manage, :all
                 %li{ class: active_menu('departments') }
-                  = link_to 'កម្មវិធី / Departments', departments_path
+                  = link_to t('.departments'), departments_path
                 %li{ class: active_menu('domains') }
-                  = link_to 'កត្តា / Domains', domains_path
+                  = link_to t('.domains'), domains_path
                 %li{ class: active_menu('domain_groups') }
-                  = link_to 'ការប្រមូលបណ្ដុំកត្តា / Domain Groups', domain_groups_path
+                  = link_to t('.domain_groups'), domain_groups_path
                 %li{ class: active_menu('provinces') }
-                  = link_to 'ខេត្ត / Provinces', provinces_path
+                  = link_to t('.provinces'), provinces_path
                 %li{ class: active_menu('referral_sources') }
-                  = link_to 'ប្រភពនៃការបញ្ជូន / Referral Sources', referral_sources_path
+                  = link_to t('.referral_sources'), referral_sources_path
                 %li{ class: active_menu('quantitative_types') }
-                  = link_to 'Quantitative Types', quantitative_types_path
+                  = link_to t('.quantitative_types'), quantitative_types_path
+              - elsif can? :manage, ReferralSource
+                %li{ class: active_menu('referral_sources') }
+                  = link_to t('.referral_sources'), referral_sources_path
 
           %li.dropdown{ class: account_menu_active }
             %a.dropdown-toggle{'data-toggle' => 'dropdown', href: '#'}
-              គណនី / Account
+              = t('.account')
               %span.caret
             %ul.dropdown-menu
               %li{ class: account_menu_active }
-                = link_to 'កែសម្រួលព័ត៌មានផ្ទាល់ខ្លួន / Edit Profile', edit_user_registration_path
-              %li= link_to 'ចេញ / Log Out', destroy_user_session_path, method: :delete
+                = link_to t('.edit_profile'), edit_user_registration_path
+              %li
+                - if I18n.locale == :km
+                  = link_to t('.en'), url_for(params.merge({locale: 'en'}))
+                - else
+                  = link_to t('.km'), url_for(params.merge({locale: 'km'}))
+              %li= link_to t('.log_out'), destroy_user_session_path, method: :delete
         - else
-          %li= link_to 'ចូល / Log In', new_user_session_path
+          %li= link_to t('.log_in'), new_user_session_path

@@ -6,8 +6,6 @@ FactoryGirl.define do
     significant_family_member_count 1
     household_income 'MyString'
     dependable_income false
-    female_children_count 1
-    male_children_count 1
     female_adult_count 1
     male_adult_count 1
     contract_date { FFaker::Time.date }

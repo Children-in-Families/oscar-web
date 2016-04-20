@@ -1,26 +1,29 @@
 = simple_form_for(@partner) do |f|
-  = f.error_notification
-
-  .form-inputs
-    = f.input :name
-    = f.input :contact_person_name, label: 'Contact Name'
-    = f.input :contact_person_email, label: 'Email'
-    = f.input :contact_person_mobile, label: 'Mobile'
-    = f.input :organisation_type, label: 'Organisation Type'
-    = f.input :affiliation
-    = f.input :engagement
-    = f.input :background, input_html: { rows: '4' }
-
-    .form-group.date.optional.partner_start_date
-      %label.date.optional.control-label{ for: 'partner_start_date' } Start Date
-      .input-group.date
-        = f.text_field :start_date, class: 'date optional form-control date-picker', type: 'text', name: 'partner[start_date]', id: 'partner_start_date'
-        %span.input-group-addon
-          %i.glyphicon.glyphicon-calendar
-
-    = f.association :province, collection: @province, include_blank: false
-    = f.input :address, input_html: { rows: '4' }
-
-  .form-actions
-    = f.button :submit, class: 'btn btn-primary'
-    = link_to 'Cancel', partners_path, class: 'btn btn-default'
+  .panel-body
+    = f.error_notification
+    .form-inputs
+      .row
+        .col-xs-12.col-md-4= f.input :name, label: "#{t('.name')}"
+        .col-xs-12.col-md-4= f.input :contact_person_name, label: "#{t('.contact_name')}"
+        .col-xs-12.col-md-4= f.input :contact_person_email, label: "#{t('.contact_email')}"
+      .row
+        .col-xs-12.col-md-4= f.input :contact_person_mobile, label: "#{t('.contact_mobile')}"
+        .col-xs-12.col-md-4= f.association :province, collection: @province, include_blank: false, label: "#{t('.province')}"
+        .col-xs-12.col-md-4= f.input :address, input_html: { rows: '4' }, label: "#{t('.address')}"
+      .row
+        .col-xs-12.col-md-4
+          .form-group.date.optional.partner_start_date
+            %label.date.optional.control-label{ for: 'partner_start_date' } #{t('.start_date')}
+            .input-group.date
+              = f.text_field :start_date, class: 'date optional form-control date-picker', type: 'text', name: 'partner[start_date]', id: 'partner_start_date'
+              %span.input-group-addon
+                %i.glyphicon.glyphicon-calendar
+          = f.input :engagement, label: "#{t('.engagement')}"
+        .col-xs-12.col-md-4
+          = f.input :organisation_type, label: "#{t('.organisation_type')}"
+          = f.input :affiliation, label: "#{t('.affiliation')}"
+        .col-xs-12.col-md-4= f.input :background, input_html: { style: 'height: 107px;' }, label: "#{t('.background')}"
+  .panel-footer
+    .form-actions
+      = f.button :submit, t('save'), class: 'btn btn-primary form-btn'
+      = link_to t('cancel'), partners_path, class: 'btn btn-default form-btn'

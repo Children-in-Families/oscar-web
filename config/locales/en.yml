@@ -1,23 +1,673 @@
-# Files in the config/locales directory are used for internationalization
-# and are automatically loaded by Rails. If you want to use locales other
-# than English, add the necessary files in this directory.
-#
-# To use the locales, use `I18n.t`:
-#
-#     I18n.t 'hello'
-#
-# In views, this is aliased to just `t`:
-#
-#     <%= t('hello') %>
-#
-# To use a different locale, set it with `I18n.locale`:
-#
-#     I18n.locale = :es
-#
-# This would use the information in config/locales/es.yml.
-#
-# To learn more, please read the Rails Internationalization guide
-# available at http://guides.rubyonrails.org/i18n.html.
-
 en:
-  hello: "Hello world"
+  review_problem: 'Please review the problems below:'
+  cannot_be_blank: can't be blank
+
+  default_client_fields: &default_client_fields
+    id: ID
+    first_name: First Name
+    last_name: Last Name
+    name: Name
+    date_of_birth: Date of Birth
+    birth_province: Birth Province
+    referral_phone: Referral Phone
+    referral_source: Referral Source
+    follow_up_date: Follow Up Date
+    current_province: Current Province
+    school_name: School Name
+    able: Able
+    has_been_in_government_care: Has Been In Government Care
+    case_worker: Case Worker
+    code: Code
+    gender: Gender
+    status: Status
+    initial_referral_date: Initial Referral Date
+    received_by: Received By
+    follow_up_by: Follow Up By
+    agency_names: Agency Name
+    current_address: Current Address
+    school_grade: School Grade
+    has_been_in_orphanage: Has Been In Orphanage
+    relevant_referral_information: Relevant Referral Information
+    state: Accept/Reject
+    reject_note: Reject Note
+    case_worker_or_staff: Case Worker / Staff
+    followed_up_by: Followed Up By
+    address: Address
+    province: Birth Province
+    agencies_involved: Agencies Involved
+    completed: Completed
+
+  default_placement_fields: &default_placement_fields
+    start_date: Start Date
+    carer_names: Carer Names
+    carer_address: Carer Address
+    province: Province
+    carer_phone_number: Carer Phone Number
+    support_amount: Support Amount
+    support_note: Support Note
+    ongoing_partner: Ongoing Partner
+    family: Family
+    family_preservation:  Family Preservation?
+    note: Note
+    exit_date: Exit Date
+    exit_note: Exit Note
+    exit_btn: Exit
+
+  default_family_fields: &default_family_fields
+    id: ID
+    name: Name
+    address: Address
+    caregiver_information: Caregiver Information
+    significant_family_member_count: Significant Family Member Count
+    household_income: Household Income
+    dependable_income: Dependable Income
+    female_children_count: Female Children Count
+    male_children_count: Male Children Count
+    female_adult_count: Female Adult Count
+    male_adult_count: Male Adult Count
+    member_count: Member Count
+    family_type: Family Type
+    contract_date: Contract Date
+    province: Province
+
+  default_partner_fields: &default_partner_fields
+    name: Name
+    contact_name: Contact Name
+    contact_email: Email
+    contact_mobile: Contact Mobile
+    organisation_type: Organizatin Type
+    affiliation: Affiliation
+    engagement: Engagement
+    background: Background
+    province: Province
+    address: Address
+    start_date: Start Date
+
+  default_user_fields: &default_user_fields
+    id: ID
+    clients: Clients
+    first_name: First Name
+    last_name: Last Name
+    date_of_birth: Date of Birth
+    start_date: Start Date
+    mobile: Mobile
+    email: Email
+    job_title: Job Title
+    department: Department
+    roles: Roles
+    province: Province
+    password: Password
+    password_hint: Leave it blank if you don't want to change password
+    password_confirmation: Password Confirmation
+    current_password: Current Password
+    current_password_hint: We need to current password to make change
+    delete_account_button: Delete Account
+  datagrid:
+    no_results: No results found
+    from: From
+    to: To
+    form:
+      search: Search
+      reset: Reset
+    columns:
+      clients:
+        name: Name
+        age: Age
+        <<: *default_client_fields
+        placements:
+          <<: *default_placement_fields
+        manage: Manage
+        state:
+          state: Accept/Reject
+          rejected_note: កំណត់ហេតុនៃការមិនទទួលយក
+      families:
+        <<: *default_family_fields
+        name: Name
+        member_count: Member Count
+        member_count_total: Member Count Total
+        manage: Manage
+        family_type: Family Type
+        clients: Clients
+        family: Family
+        family_preservation: Family Preservation?
+      partners:
+        <<: *default_partner_fields
+        type: Type
+        manage: Manage
+        partner: Partner
+      users:
+        <<: *default_user_fields
+        name: Name
+        manage: Manage
+      quarterly_reports:
+        visit_date: Date Of Visit
+        kc_name: KC Name
+        fc_name: FC Name
+        general_health_or_appearance: Describe General Health/Appearance
+        staff_information: Staff Information
+      cases:
+        case_type: Case Type
+    filters:
+      xboolean:
+        "yes": "Yes"
+        "no": "No"
+      first_name: First Name
+
+    table:
+      order:
+        asc: ↑
+        desc: ↓
+  layouts:
+    navbar:
+      clients: Clients
+      families: Families
+      partners: Partners
+      users: ​Users
+      manage: Manage
+      agencies: Agencies
+      departments: Departments
+      domains: Domains
+      domain_groups: Domain Groups
+      provinces: Provinces
+      referral_sources: Referral Sources
+      quantitative_types: Quantitative Types
+      account: Account
+      edit_profile: Edit Profile
+      km: ខ្មែរ
+      log_out: Log out
+      log_in: Log in
+  clients:
+    index:
+      add_new_client: Add New Client
+      view_all_active_tasks: View All Active  Tasks
+      export_to_csv: Export to CSV
+      records: Results
+      csi_domain_scores: CSI Domain Scores
+    new:
+      new_client_title: ​New Client
+    create:
+      successfully_created: Client has been successfully created.
+    update:
+      successfully_updated: Client has been successfully updated.
+      assessment_successfully_created: Assessment has been successfully created.
+    destroy:
+      successfully_deleted: Client has been successfully deleted.
+    edit:
+      edit_client_title: Edit Client
+    form:
+      <<: *default_client_fields
+    show:
+      age: Age
+      exit_cif_btn: Exit CIF
+      add_ec_btn: Add to EC
+      add_kc_btn: Add to KC
+      add_fc_btn: Add to FC
+      view_ec_history_btn_link: EC History
+      view_fc_history_btn_link: FC History
+      view_kc_history_btn_link: KC History
+      view_tasks: Tasks
+      view_assessments: Assessments
+      view_case_notes: Case Notes
+      accept: Accept
+      reject: Reject
+      note: Note
+      view_legacy_quarterly_reports: Legacy Quarterly Reports
+      <<: *default_client_fields
+      placements:
+        <<: *default_placement_fields
+      additional_details: Additional Details
+      general_info: Information of
+    emergency_case:
+      <<: *default_placement_fields
+      emergency_care: Emergency Care
+    exit_case_form:
+      exit_ec: Exit Emergency Care
+      exit_kc: Exit Kinship Care
+      exit_fc: Exit Foster Care
+      exit_cif: Exit CIF
+      exit_date: Exit Date
+      exit_note: Exit Note
+      exit_status: Status
+      exit_btn: Exit
+    kinship_case:
+      <<: *default_placement_fields
+      kinship_care: Kinship Care
+    foster_case:
+      <<: *default_placement_fields
+      foster_care: Foster Care
+    placement:
+      view_legacy_quarterly_reports: View Legacy Quarterly Reports
+    state:
+      state: Accept/Reject
+      rejected_note: Reject Note
+  families:
+    index:
+      results: Results
+      add_new_family: Add New Family
+      export_csv: Export to CSV
+      clients: Clients
+    new:
+      new_family_title: New Family
+    edit:
+      edit_family_title: Edit Family
+    form:
+      <<: *default_family_fields
+      new_family_title: Add New Family
+    show:
+      <<: *default_family_fields
+      general_info: General Information for Family
+    create:
+      successfully_created: Family has been successfully created.
+    update:
+      successfully_updated: Family has been successfully updated.
+    destroy:
+      successfully_deleted: Family has been successfully deleted.
+      alert: Family cannot be deleted.
+
+  partners:
+    index:
+      results: Results
+      add_new_partner: Add New Partner
+      export_csv: Export to CSV
+    new:
+      new_partner_title: New Partner
+    edit:
+      edit_partner_title: Edit Partner
+    form:
+      <<: *default_partner_fields
+    show:
+      <<: *default_partner_fields
+      general_info: General Informatin for Partner
+    create:
+      successfully_created: Partner has been successfully created.
+    update:
+      successfully_updated: Partner has been successfully updated.
+    destroy:
+      successfully_deleted: Partner has been successfully deleted.
+      alert: Partner cannot be deleted.
+  users:
+    index:
+      results: Results
+      add_new_user: Add New User
+      export_csv: Export to CSV
+    new:
+      new_user_title: New User
+      <<: *default_user_fields
+    edit:
+      edit_user_title: Edit User
+      <<: *default_user_fields
+    show:
+      <<: *default_user_fields
+      general_info: General Information for User
+    clients:
+      clients: Clients
+    create:
+      successfully_created: User has been successfully created.
+    update:
+      successfully_updated: User has been successfully updated.
+    destroy:
+      successfully_deleted: User has been successfully deleted.
+      alert: User cannot be deleted.
+  cases:
+    index:
+      <<: *default_placement_fields
+      back: Back
+      exit_date: Exit Date
+      history: History of
+    form:
+      <<: *default_placement_fields
+      case_type: Case Type
+      new_case_title: New Case
+      edit_case_title: Edit Case
+    new:
+      already_have_a_case: Client is already have a case.
+    create:
+      successfully_created: Case has been successfully created.
+      already_have_a_case: Client is already have a case.
+    update:
+      successfully_updated: Case has been successfully updated.
+  activerecord:
+    errors:
+      models:
+        user:
+          attributes:
+            current_password:
+              blank: This field is required
+        task:
+          attributes:
+            name:
+              blank: This field is required
+            completion_date:
+              blank: This field is required
+  agencies:
+    index:
+      add_new_agency: Add New Agency
+      agency: Agency
+      agency_names: Agency Name
+      description: Description
+      manage: Manage
+    edit:
+      title: Edit Agency
+    new:
+      title: New Agency
+    form:
+      name: Name
+      description: Description
+      save: Save
+      cancel: Cancel
+    create:
+      successfully_created: Agency has been successfully created.
+    update:
+      successfully_updated: Agency has been successfully updated.
+    destroy:
+      successfully_deleted: Agency has been successfully deleted.
+      alert: Agency cannot be deleted.
+  departments:
+    index:
+      add_new_department: Add New Department
+      departments: Departments
+      department_names: Agency Name
+      description: Description
+      manage: Manage
+    edit:
+      title: Edit Department
+    new:
+      title: New Department
+    form:
+      name: Name
+      description: Description
+      save: Save
+      cancel: Cancel
+    create:
+      successfully_created: Department has been successfully created.
+    update:
+      successfully_updated: Department has been successfully updated.
+    destroy:
+      successfully_deleted: Department has been successfully deleted.
+      alert: Department cannot be deleted.
+
+  domains:
+    index:
+      add_new_domain: Add New Domain
+      domains: Domains
+      score_1: Score 1
+      score_2: Score 2
+      score_3: Score 3
+      score_4: Score 4
+    edit:
+      title: Edit Domain
+    new:
+      title: New Domain
+    form:
+      domain_group: Domain Group
+      name: Name
+      identity: Identity
+      description: Description
+      save: Save
+      cancel: Cancel
+      score_1: Score 1
+      score_2: Score 2
+      score_3: Score 3
+      score_4: Score 4
+    create:
+      successfully_created: Domain has been successfully created.
+    update:
+      successfully_updated: Domain has been successfully updated.
+    destroy:
+      successfully_deleted: Domain has been successfully deleted.
+      alert: Domain cannot be deleted.
+
+  domain_groups:
+    index:
+      add_new_domain_group: Add New Domain Group
+      domain_groups: Domain Groups
+      domain_group_names: Domain Group Name
+      description: Description
+      manage: Manage
+    edit:
+      title: Edit Domain Group
+    new:
+      title: New Domain Group
+    form:
+      domain_group: Domain Group
+      name: Name
+      identity: Identity
+      description: Description
+      save: Save
+      cancel: Cancel
+    create:
+      successfully_created: Domain Group has been successfully created.
+    update:
+      successfully_updated: Domain Group has been successfully updated.
+    destroy:
+      successfully_deleted: Domain Group has been successfully deleted.
+      alert: Domain Group cannot be deleted.
+  provinces:
+    index:
+      add_new_province: Add New Province
+      provinces: Provinces
+      province_names: Province Name
+      manage: Manage
+    edit:
+      title: Edit Province
+    new:
+      title: New Province
+    form:
+      name: Name
+      save: Save
+      cancel: Cancel
+    create:
+      successfully_created: Province has been successfully created.
+    update:
+      successfully_updated: Province has been successfully updated.
+    destroy:
+      successfully_deleted: Province has been successfully deleted.
+      alert: Province cannot be deleted.
+
+  referral_sources:
+    index:
+      add_new_referral_source: Add New Referral Source
+      referral_sources: Referral Sources
+      referral_source_name: Referral Source Name
+      description: Description
+      manage: Manage
+    edit:
+      title: Edit Referral Source
+    new:
+      title: New Referral Source
+    form:
+      name: Name
+      description: Description
+      save: Save
+      cancel: Cancel
+    create:
+      successfully_created: Referral Source has been successfully created.
+    update:
+      successfully_updated: Referral Source has been successfully updated.
+    destroy:
+      successfully_deleted: Referral Source has been successfully deleted.
+      alert: Referral Source cannot be deleted.
+
+  quantitative_types:
+    index:
+      add_new_quantitative_type: Add New Quantitative Type
+      quantitative_types: Quantitative Types
+      add_quantitative_data: Quantitative Data
+    edit:
+      title: Edit Quantitative Type
+    new:
+      title: Add Quantitative Type
+    form:
+      name: Name
+      save: Save
+      cancel: Cancel
+    create:
+      successfully_created: Quantitative Type has been successfully created.
+    update:
+      successfully_updated: Quantitative Type has been successfully updated.
+    destroy:
+      successfully_deleted: Quantitative Type has been successfully deleted.
+      alert: Quantitative Type cannot be deleted.
+
+  quantitative_cases:
+    edit:
+      title: Edit Quantitative Data
+    new:
+      title: Add Quantitative Data
+    form:
+      quantitative_type: Qantitative Type
+      value: Value
+      save: Save
+      cancel: Cancel
+    create:
+      successfully_created: Quantitative Data has been successfully created.
+    update:
+      successfully_updated: Quantitative Data has been successfully updated.
+    destroy:
+      successfully_deleted: Quantitative Data has been successfully deleted.
+  tasks:
+    index:
+      tasks_of: Tasks Of
+      overdue_tasks: Overdue Tasks
+      todays_tasks: Todays Tasks
+      upcoming_tasks: Upcoming Tasks
+      filter_by_user: Filter By User
+    filter:
+      filter_by_user: Filter By User
+  client:
+    tasks:
+      index:
+        overdue_tasks: Overdue Tasks
+        todays_tasks: Todays Tasks
+        upcoming_tasks: Upcoming Tasks
+        back: Back
+        new_task: New Task
+        are_you_sure_you_want_to_delete: Are you sure you want to delete?
+        domain: Domain
+      new:
+        title: New Task
+        new_task_regarding: New Task Regarding
+      edit:
+        title: Edit Task
+      form:
+        domain: Domain
+        enter_task_detail:  Enter task details
+        completion_date: Completion Date
+        back: Back
+        save: Save
+      task_fields:
+        enter_task_detail: Enter task details
+        completion_date: Completion Date
+      form_by_assessment:
+        add_task: Add Task
+        save: Save
+      create:
+        successfully_created: Task has successfully been created.
+      update:
+        successfully_updated: Task has successfully been updated.
+      destroy:
+        successfully_deleted: Task has successfully been deleted.
+  assessments:
+    index:
+      assessment_history: Assessment History
+      initial_assessment: Initial Assessment
+      six_month_assessment: 6 Monthly Assessment
+      begin_now: Begin now
+      view_report: View Report
+      next_six_monthly_review: Next 6 Monthly Review
+      back: Back
+    form:
+      domain: Domain
+      back: Back
+      reason: Reason
+    show:
+      initial_assessment_of: Initial Assessment Of
+      six_month_assessment_report: 6 Monthly Assessment Report
+      assessment_completed_by: Assessment completed by
+      on_date: On Date
+      back_to_assessment_history:  Back to assessment history
+      edit: Edit
+      domain: Domain
+      score: Score
+    create:
+      successfully_created: Assessment has been successfully created.
+    update:
+      successfully_updated: Assessment has been successfully updated.
+  case_notes:
+    index:
+      case_note_lists: Case note lists
+      back: Back
+      you_need_to_create_assessment: You need to create assessment
+      new_case_note: New case note
+      case_note_on: Case note on
+      present: Present
+      completed_tasks: Completed Tasks
+    new:
+      meeting_detail: Meeting detail
+      meeting_with: Meeting with
+      on_date: On Date
+      present: Present
+      domain: Domain
+      note: Note
+      tasks: Tasks
+      back: Back
+      save: Save
+      on_going_tasks: On Going Tasks
+      tasks_arising: Tasks Arising
+      add_task: Add Task
+    add_task_form:
+      domain: Domain
+      enter_task_detail:  Enter task details
+      completion_date: Completion Date
+      title: New Task
+      save: Save
+    show:
+      case_note_on: Case note on
+      present: Present
+    create:
+      successfully_created: Case Note has successfully been created.
+  devise:
+    registrations:
+      edit:
+        header: Edit Personal Information
+        first_name: First Name
+        last_name: Last Name
+        date_of_birth: Date Of Birth
+        job_title: Job Title
+        department: Department
+        start_date: Start Date
+        province: Province
+        mobile: Mobile
+        email: Email
+        leave_blank_if_you_dont_want_to_change: Leave this blank if you do not want to change
+        password: Password
+        password_confirmation: Confirm Password
+        we_need_your_current_password_to_confirm_your_changes: We need your current password to confirm your changes
+        current_password: Current Password
+        save: Save
+        delete_my_account: Delete My Account
+        are_you_sure: Are you sure?
+  home:
+    client:
+      clients: Clients
+      foster_cares: Foster Cares
+      kinship_cares:  Kinship Cares
+      emergency_cares: Emergency Cares
+      males: Males
+      females: Females
+      ables: Ables
+    family:
+      families: Families
+      foster: Foster
+      kinship: Kinship
+    third_party:
+      agencies: Agencies
+      partners: Partners
+      referral_sources: Referral Sources
+      staffs: Staffs
+  will_paginate:
+    previous_label: Previous Page
+    page_gap: ...
+    next_label: Next Page
+  save: Save
+  cancel: Cancel

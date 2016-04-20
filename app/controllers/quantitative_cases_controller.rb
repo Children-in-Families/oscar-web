@@ -1,8 +1,8 @@
-class QuantitativeCasesController < ApplicationController
+class QuantitativeCasesController < AdminController
   load_and_authorize_resource
 
   before_action :find_quantitative_type, only: [:new]
-  before_action :find_quantitative_case, only: [:edit, :update, :destroy]  
+  before_action :find_quantitative_case, only: [:edit, :update, :destroy]
 
   def index
     @quantitative_types = QuantitativeType.all.paginate(page: params[:page], per_page: 10)
@@ -15,7 +15,7 @@ class QuantitativeCasesController < ApplicationController
   def create
     @quantitative_case = QuantitativeCase.new(quantitative_case_params)
     if @quantitative_case.save
-      redirect_to quantitative_types_path, notice: 'Quantitative Data has been successfully created.'
+      redirect_to quantitative_types_path, notice: t('.successfully_created')
     else
       render :new
     end
@@ -26,7 +26,7 @@ class QuantitativeCasesController < ApplicationController
 
   def update
     if @quantitative_case.update_attributes(quantitative_case_params)
-      redirect_to quantitative_types_path, notice: 'Quantitative Data has been successfully updated.'
+      redirect_to quantitative_types_path, notice: t('.successfully_updated')
     else
       render :edit
     end
@@ -34,7 +34,7 @@ class QuantitativeCasesController < ApplicationController
 
   def destroy
     @quantitative_case.destroy
-    redirect_to quantitative_types_path, notice: 'Quantitative Data has been successfully deleted.'
+    redirect_to quantitative_types_path, notice: t('.successfully_deleted')
   end
 
   private

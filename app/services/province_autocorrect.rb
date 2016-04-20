@@ -24,7 +24,7 @@ class ProvinceAutocorrect
   end
 
   def validate(name)
-    value = name.downcase.strip
+    value = name.downcase.strip if name.present?
 
     return banteay_meanchey[0] if banteay_meanchey.map(&:downcase).include?(value)
     return battambang[0]       if battambang.map(&:downcase).include?(value)

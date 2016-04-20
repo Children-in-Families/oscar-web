@@ -2,7 +2,7 @@ module Importer
   class Import
     attr_accessor :path, :headers, :workbook
 
-    def initialize(sheet_name, path = '/Users/bunhouth/Workspace/CurrentProject/Rotati/CIF-DB-1.xlsx')
+    def initialize(sheet_name, path = 'vendor/data/CIF_database.xlsx')
       @path     = path
       @workbook = Roo::Excelx.new(path)
 
@@ -28,7 +28,7 @@ module Importer
         start_date      = workbook.row(row)[headers['Start Date']]
         phone           = workbook.row(row)[headers['Phone Number']]
         email           = workbook.row(row)[headers['Email']]
-        email           = Faker::Internet.email if email.blank?
+        email           = FFaker::Internet.email if email.blank?
 
         province_autocorrect = ProvinceAutocorrect.new
         province             = Province.find_or_create_by(name: province_autocorrect.validate(province_name))
@@ -441,11 +441,70 @@ module Importer
       end
     end
 
+    def modify_ec
+      total = 0
+      puts 'Loading ...'
+
+      ((workbook.first_row + 1)..workbook.last_row).each do |row|
+        name                        = workbook.row(row)[headers['Name']]
+        status                      = workbook.row(row)[headers['Status']]
+        province_name               = workbook.row(row)[headers['Province']]
+        gender                      = workbook.row(row)[headers['(M/F)']]
+        dob                         = workbook.row(row)[headers['Date of Birth']]
+        date_initial_referral       = workbook.row(row)[headers['Date Initial Referral']]
+        reason_for_referral         = workbook.row(row)[headers['Reason for Referral']]
+        received_by_name            = workbook.row(row)[headers['Recieved By:']]
+
+        received_by           = User.find_by(last_name: received_by_name)
+
+        if status == 'Referred'
+          data = { status: 'Active EC',
+                   received_by_id: received_by.try(:id),
+                   first_name: name,
+                   gender: gender_validate(gender),
+                   initial_referral_date: date_initial_referral.try(:to_date),
+                   reason_for_referral: reason_for_referral,
+                   date_of_birth: dob.try(:to_date),
+                   state: 'accepted'
+                 }
+          client = Client.find_by(data)
+
+          begin
+            total += 1
+            client.status = status
+            client.state  = ''
+            client.save
+
+            client.cases.emergencies.destroy_all
+
+            logger = Logger.new('log/client_referred.log')
+            logger.info "====================================================================="
+            logger.info "Client == #{client.id}"
+            logger.info "Case   == #{client.cases.count}"
+            logger.info "====================================================================="
+          rescue Exception => e
+            logger = Logger.new('log/client_referred_fails.log')
+            logger.info "====================================================================="
+            logger.info "Client == #{data}"
+            logger.info "====================================================================="
+          end
+        end
+      end
+
+      puts 'Finished'
+      puts total
+    end
+
     protected
+
+    def gender_validate(value)
+      return 'male' if value.downcase == 'm'
+      return 'female' if value.downcase == 'f'
+      value
+    end
 
     def word_to_boolean(value)
       value.downcase! if value.present?
-
       value == 'yes'
     end
   end

@@ -1,26 +1,27 @@
 .row
-  .col-xs-12
+  .col-xs-12.col-md-8.col-md-offset-2
     .panel.panel-info
       .panel-heading
         %div
           - if @assessment.initial?
-            %span Initial Assessment of
+            %span= t('.initial_assessment_of')
           - else
-            %span 6 Month Assessment Report
+            %span= t('.six_month_assessment_report')
           %strong
             %u= @assessment.client.name
         %div
-          %span Assessment Completed By
+          %span= t('.assessment_completed_by')
           %strong
             %u= current_user.first_name
-          %span on
+          %span= t('.on_date')
           %strong
             %u= @assessment.created_at.strftime("%B %d, %Y")
           %span.pull-right
-            = link_to 'Back to Assessment History', client_assessments_path(@assessment.client)
+            = link_to t('.back_to_assessment_history'), client_assessments_path(@assessment.client)
             - if @assessment.latest_record?
-              |
-              = link_to 'Edit', edit_client_assessment_path(@assessment.client, @assessment)
+              - if can? :update, @assessment
+                |
+                = link_to t('.edit'), edit_client_assessment_path(@assessment.client, @assessment)
       .panel-body
         %table.table.table-bordered.table-responsive
           %tbody
@@ -29,11 +30,11 @@
                 %td.domain-detail
                   .domain-identity
                     %span
-                      = "Domain #{ad.domain.name}:"
+                      = "#{t('.domain')} #{ad.domain.name}:"
                     %strong
                       = ad.domain.identity
                   .domain-score
-                    %span Score:
+                    %span= t('.score')
                     - unless @assessment.initial?
                       %span{ class: "label label-#{ad.previous_score_color_class} "}
                         = "#{ad.previous_score}"

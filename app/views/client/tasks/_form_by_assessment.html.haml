@@ -1,0 +1,19 @@
+.alert.alert-danger.text-center.hidden
+  = t('review_problem')
+= simple_form_for @client do |f|
+  = f.input :assessment_id, input_html: { value: @assessment.id, class: 'hidden' }, label: false
+  = f.simple_fields_for :tasks do |tasks|
+    - if tasks.object.new_record?
+      %div{ class: "panel panel-#{@assessment.assessment_domains.domain_color_class(tasks.object.domain.id)}" }
+
+        .panel-heading
+          = tasks.label :domain, "#{tasks.object.domain.name} #{tasks.object.domain.identity}"
+        .panel-body.multi-tasks
+          .row
+            .col-xs-12
+              %span New Task Regarding
+              %strong= @client.name
+              = render 'task_fields', f: tasks, domain: tasks.object.domain
+              = link_to_add_fields t('.add_task'), f, :tasks, tasks
+
+  = f.submit t('.save'), class: 'btn btn-primary'

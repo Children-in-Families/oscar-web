@@ -1,44 +1,47 @@
 .row
-  .col-xs-12
+  .col-sm-12.col-md-8.col-md-offset-2
     .panel.panel-default
       .panel-heading
-        %strong= "#{@client.name}"
-        %span Assessment History
+        %h4.text-center
+          %strong= "#{@client.name}"
+          %span= t('.assessment_history')
       .panel-body
         .row
           - @client.assessments.each_with_index do |assessment, index|
-            .col-xs-12.col-sm-6.col-sm-offset-3
-              .col-sm-4
-                %span
-                  - if assessment.initial?
-                    Initial Assessment
+            .col-xs-12.col-sm-10.col-sm-offset-1
+              .row.text-center
+                .col-xs-12.col-sm-6
+                  %h5
+                    - if assessment.initial?
+                      = t('.initial_assessment')
+                    - else
+                      = t('.six_month_assessment')
+                    %b
+                      = assessment.created_at.strftime("%B %d, %Y")
+                .col-xs-12.col-sm-6
+                  = link_to t('.view_report'), client_assessment_path(@client, assessment), { class:'btn btn-info button push-bottom' }
+                    
+          .col-xs-12.col-sm-10.col-sm-offset-1.text-center
+            .row
+              .col-xs-12.col-sm-6
+                %h5
+                  - if @client.assessments.any?
+                    = t('.next_six_monthly_review')
                   - else
-                    6 Month Review
-              .col-sm-4
-                %span
-                  = assessment.created_at.strftime("%B %d, %Y")
-              .col-sm-4
-                = link_to 'View Report', client_assessment_path(@client, assessment)
-          .col-xs-12.col-sm-6.col-sm-offset-3
-            .col-sm-4
-              %span
-                - if @client.assessments.any?
-                  Next 6 Monthly Review
+                    = t('.initial_assessment')
+                  - if @client.assessments.any?
+                    %b
+                      = @client.next_assessment_date.strftime('%B %d, %Y')
+                  - else
+                    %b
+                      = Date.today.strftime('%B %d, %Y')
+              .col-xs-12.col-sm-6
+                - if @client.can_create_assessment?
+                  = link_to t('.begin_now'), new_client_assessment_path(@client), { class:'btn btn-success button' }
                 - else
-                  Initialize Assessment
-            - if @client.assessments.any?
-              .col-sm-4
-                %span
-                  = @client.next_assessment_date.strftime('%B %d, %Y')
-            - else
-              .col-sm-4
-                %span
-                  = Date.today.strftime('%B %d, %Y')
-            .col-sm-4
-              - if @client.can_create_assessment?
-                = link_to 'Begin Now...', new_client_assessment_path(@client)
-              - else
-                %label.btn.btn-default.disabled Begin Now...
-
-          .col-xs-12.col-sm-6.col-sm-offset-3
-            = link_to 'Back', client_path(@client)
+                  %label.btn.btn-default.disabled.button.push-bottom
+                    = t('.begin_now')
+      .panel-footer
+        .row         
+          .col-xs-12.col-sm-6
+            = link_to t('.back'), client_path(@client), { class:'btn btn-default button' }
