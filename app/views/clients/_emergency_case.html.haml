@@ -1,0 +1,91 @@
+- if ec.present?
+  .col-xs-12.col-sm-12.col-md-6.case#case
+    .panel.panel-default
+      .panel-body
+        %h3.h3-header.pushing-bottom
+          = t('.emergency_case.emergency_care')
+          - if can? :manage, Case
+            - if current_user.admin? || current_user.case_worker? || current_user.ec_manager?
+              - if @client.has_no_latest_kc_and_fc?
+                %small.top-right-icon
+                  = link_to edit_client_case_path(ec.client, ec) do
+                    %i.glyphicon.glyphicon-pencil
+                  %button.btn.btn-warning{"data-target" => '#exitFromCase', "data-toggle" => 'modal', class:"btn-getout"} #{t('.exit_btn')}
+
+        %section.overflow-case
+          %table.table.table-bordered
+            %tr
+              %td.spacing-first-col
+                = t('.start_date')
+              %td
+                %strong
+                  = ec.start_date.strftime('%B %d, %Y') if ec.start_date
+            %tr
+              %td.spacing-first-col
+                = t('.carer_names')
+              %td
+                %strong
+                  = ec.carer_names
+            %tr
+              %td.spacing-first-col
+                = t('.carer_address')
+              %td
+                %strong
+                  = ec.carer_address
+            %tr
+              %td.spacing-first-col
+                = t('.province')
+              %td
+                %strong
+                  = ec.province.name if ec.province
+            %tr
+              %td.spacing-first-col
+                = t('.carer_phone_number')
+              %td
+                %strong
+                  = ec.carer_phone_number.phony_formatted(normalize: :KH, format: :international) if ec.carer_phone_number
+            %tr
+              %td.spacing-first-col
+                = t('.support_amount')
+              %td
+                %strong
+                  = number_to_currency(ec.support_amount)
+            %tr
+              %td.spacing-first-col
+                = t('.support_note')
+              %td
+                %strong
+                  = ec.support_note
+            %tr
+              %td.spacing-first-col
+                = t('.ongoing_partner')
+              %td
+                %strong
+                  = partner ec.partner if ec.partner
+            %tr
+              %td.spacing-first-col
+                = t('.family')
+              %td
+                %strong
+                  = family ec.family if ec.family
+            %tr
+              %td.spacing-first-col
+                = t('.family_preservation')
+              %td
+                %strong
+                  = human_boolean(ec.family_preservation)
+            - if ec.exit_date.present?
+              %tr
+                %td.spacing-first-col
+                  = t('.exit_date')
+                %td
+                  %strong
+                    = ec.exit_date.strftime('%B %d, %Y') if ec.exit_date
+              %tr
+                %td.spacing-first-col
+                  = t('.exit_note')
+                %td
+                  %strong
+                    = ec.exit_note
+
+  = render 'exit_case_form', client_case: @client.cases.latest_emergency, exit_from_cif: false if @client.has_no_latest_kc_and_fc?

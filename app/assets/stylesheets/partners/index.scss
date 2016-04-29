@@ -1,0 +1,19 @@
+#partners-index {
+  #partner-search-form {
+    margin-top: 20px;
+  }
+  td.manage a {
+    margin: 0 5px;
+    text-decoration: none;
+  }
+
+  table.partners {
+    margin-bottom: 0;
+    th {
+      border-bottom-width: 0;
+    }
+    th.start_date {
+      width: 120px;
+    }
+  }
+}

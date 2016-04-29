@@ -1,0 +1,20 @@
+- if @client.state == 'rejected'
+  %tr
+    %td
+      = t('.state')
+    %td
+      %strong
+        = @client.state.titleize
+  %tr
+    %td
+      = t('.rejected_note')
+    %td
+      %strong
+        = @client.rejected_note
+- elsif @client.state == 'accepted'
+  %tr
+    %td
+      = t('.state')
+    %td
+      %strong
+        = @client.state.titleize

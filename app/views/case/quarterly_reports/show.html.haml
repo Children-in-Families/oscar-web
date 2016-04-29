@@ -1,0 +1,103 @@
+.row
+  .col-xs-12.col-md-8.col-md-offset-2
+    .panel.panel-default
+      .panel-heading.text-center
+        %h4
+          = "#{t('.quarterly_report_information_for')} #{@case.client.name} #{t('.with_id')} #{@quarterly_report.code}"
+      .panel-body
+        = link_to t('.back'), :back, {class: 'button btn btn-default'}
+        %table.table.table-bordered.pushing-top
+          %tr
+            %td.spacing-first-col= t('.date_of_visit')
+            %td
+              %strong
+                = @quarterly_report.visit_date
+
+          - if @quarterly_report.kinship?
+            %tr
+              %td.spacing-first-col= t('.kc_name')
+              %td
+                %strong
+                  = link_to @quarterly_report.case.client.name, client_path(@quarterly_report.case.client)
+
+          - if @quarterly_report.foster?
+            %tr
+              %td.spacing-first-col FC Name
+              %td
+                %strong
+                  = link_to @quarterly_report.case.client.name, client_path(@quarterly_report.case.client)
+          %tr
+            %td.spacing-first-col= t('.id')
+            %td
+              %strong
+                = @quarterly_report.code
+          %tr
+            %td.spacing-first-col= t('.general_health_or_appearance')
+            %td
+              %strong
+                = @quarterly_report.general_health_or_appearance
+          %tr
+            %td.spacing-first-col= t('.child_school_attendance_or_progress')
+            %td
+              %strong
+                = @quarterly_report.child_school_attendance_or_progress
+          %tr
+            %td.spacing-first-col= t('.general_appearance_of_home')
+            %td
+              %strong
+                = @quarterly_report.general_appearance_of_home
+          %tr
+            %td.spacing-first-col= t('.observations_of_drug_alchohol_abuse')
+            %td
+              %strong
+                = @quarterly_report.observations_of_drug_alchohol_abuse
+          %tr
+            %td.spacing-first-col= t('.if_yes')
+            %td
+              %strong
+                = @quarterly_report.describe_if_yes
+          %tr
+            %td.spacing-first-col= t('.describe_the_family_current_situation')
+            %td
+              %strong
+                = @quarterly_report.describe_the_family_current_situation
+          %tr
+            %td.spacing-first-col= t('.has_the_situation_changed_from_the_previous_visit')
+            %td
+              %strong
+                = @quarterly_report.has_the_situation_changed_from_the_previous_visit
+          %tr
+            %td.spacing-first-col= t('.how_did_i_encourage_the_client')
+            %td
+              %strong
+                = @quarterly_report.how_did_i_encourage_the_client
+          %tr
+            %td.spacing-first-col= t('.what_future_teachings_or_trainings_could_help_the_client')
+            %td
+              %strong
+                = @quarterly_report.what_future_teachings_or_trainings_could_help_the_client
+          %tr
+            %td.spacing-first-col= t('.what_is_my_plan_for_the_next_visit_to_the_client')
+            %td
+              %strong
+                = @quarterly_report.what_is_my_plan_for_the_next_visit_to_the_client
+          %tr
+            %td.spacing-first-col= t('.money_and_supplies_being_used_appropriately')
+            %td
+              %strong
+                = @quarterly_report.money_and_supplies_being_used_appropriately
+          %tr
+            %td.spacing-first-col= t('.how_are_they_being_misused')
+            %td
+              %strong
+                = @quarterly_report.how_are_they_being_misused
+          %tr
+            %td.spacing-first-col= t('.staff_information')
+            %td
+              %strong
+                = link_to @quarterly_report.staff_information.name, user_path(@quarterly_report.staff_information) if @quarterly_report.staff_information
+          %tr
+            %td.spacing-first-col= t('.spiritual_developments_with_the_child_or_family')
+            %td
+              %strong
+                = @quarterly_report.spiritual_developments_with_the_child_or_family

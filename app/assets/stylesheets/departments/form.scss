@@ -1,0 +1,8 @@
+body[id=departments-new],
+body[id=departments-create],
+body[id=departments-edit],
+body[id=departments-update] {
+  textarea {
+    height: 300px;
+  }
+}

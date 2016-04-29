@@ -1,0 +1,22 @@
+.btn-group
+  %button.btn.btn-default.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
+    Fields Visbility
+    %span.caret
+
+  = form_for @client_grid, url: clients_url, method: 'get' do
+    .checkbox
+      %label{for: 'name'}
+        %input{type: 'checkbox', name: 'f_name', id: 'f_name'} name
+    .checkbox
+      %label{for: 'gender'}
+        %input{type: 'checkbox', name: 'f_gender', id: 'f_gender'} gender
+    .checkbox
+      %label{for: 'follow_up_date'}
+        %input{type: 'checkbox', name: 'f_follow_up_date', id: 'f_follow_up_date'} Follow Up Date
+    .checkbox
+      %label{for: 'received_by'}
+        %input{type: 'checkbox', name: 'f_received_by', id: 'f_received_by'} Received By
+    .checkbox
+      %label{for: 'followed_up_by'}
+        %input{type: 'checkbox', name: 'f_followed_up_by', id: 'f_followed_up_by'} Followed Up By
+    %button{type: 'submit', class: 'btn btn-default'} Done

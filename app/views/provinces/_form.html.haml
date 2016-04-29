@@ -1,0 +1,10 @@
+= simple_form_for(@province) do |f|
+  .panel-body
+    = error_notification(f)
+
+    .form-inputs
+      = f.input :name, label: t('.name')
+  .panel-footer
+    .form-actions
+      = f.button :submit, t('.save'), class: 'btn btn-primary'
+      = link_to t('.cancel'), provinces_path, class: 'btn btn-default'

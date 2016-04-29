@@ -1,0 +1,35 @@
+= simple_form_for [@assessment.client, @assessment] do |f|
+  .row.assessment-domains
+    .col-xs-12.col-sm-6.col-sm-offset-3
+      #rootwizard
+        = f.simple_fields_for :assessment_domains do |ad|
+          - domain = ad.object.domain
+          %h4= domain.name
+          %div{ class: "assessment-domain-item domain-#{domain.id}" }
+            .panel.panel-default
+              .panel-heading
+                = link_to t('.back'), client_assessments_path(@client)
+                %span.pull-right= "#{t('.domain')} #{domain.name}"
+                %strong.pull-right= "#{@assessment.client.name}"
+              .panel-body
+                = ad.hidden_field :domain_id
+                .well
+                  = ad.object.domain.description.html_safe
+                .score_option{ data: { 'score-1': domain.score_1_color, 'score-2': domain.score_2_color, 'score-3': domain.score_3_color, 'score-4': domain.score_4_color, 'domain-id': domain.id } }
+                  = ad.collection_radio_buttons :score, [%w(1 1), %w(2 2), %w(3 3), %w(4 4)], :first, :last
+
+                = ad.input :reason, label: t('.reason'), required: true, input_html: { class: 'reason' }
+                = ad.input :goal, label: t('.goal'), required: true, input_html: { class: 'goal' }
+                .form-group
+                  %p.text-danger.task_required.hidden
+                    %abbr{ title: 'required' } *
+                    = t('.at_least_one_task_required')
+                  %div{ class: "task-arising hidden" }
+                    %label.control-label
+                      = t('.tasks_arising')
+                    %ol.tasks-list{ type: '1'}
+                .form-group
+                  %button.assessment-task-btn.hidden.btn.btn-default.pull-right{type: 'button', 'data-target' => "#tasksFromModal", 'data-toggle' => 'modal', 'data-domain-id': "#{domain.id}"}
+                    = t('.add_task')
+
+= render 'add_task_form'

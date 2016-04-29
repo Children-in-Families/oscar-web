@@ -1,0 +1,30 @@
+#families-index {
+  #family-search-form {
+    margin-top: 20px;
+  }
+
+  th.id {
+    min-width: 70px;
+  }
+
+  ul.family-clients-list, ul.family-members-list {
+    padding-left: 20px;
+  }
+  td.manage a {
+    margin: 0 5px;
+    text-decoration: none;
+  }
+
+  table.families {
+    margin-bottom: 0;
+    th {
+      border-bottom-width: 0;
+    }
+    th.member_count, th.caregiver_information, th.household_income, th.dependable_income {
+      min-width: 185px;
+    }
+    th.case_worker {
+      min-width: 130px;
+    }
+  }
+}

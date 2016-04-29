@@ -1,0 +1,3 @@
+= link_to edit_client_path(object) do
+  %i.glyphicon.glyphicon-pencil
+= client_removeable? object, [object.cases.with_reports.size, object.cases.with_contracts.size]

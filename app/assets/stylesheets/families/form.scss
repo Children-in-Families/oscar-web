@@ -1,0 +1,11 @@
+#families-create, #families-update, #families-new, #families-edit {
+  margin-bottom: 50px;
+  .family_dependable_income {
+    padding-top: 20px;
+  }
+  @media screen and (max-width: 991px) {
+    .family_dependable_income {
+      padding-top: 0;
+    }
+  }
+}

@@ -1,0 +1,12 @@
+.row
+  .col-xs-12.col-sm-6.col-sm-offset-3
+    .panel.panel-default
+      .panel-heading
+        %strong= t('.title')
+        %strong= @client.name
+      .panel-body
+        .row
+          .col-xs-12
+            %span= t('.new_task_regarding')
+            %strong= @client.name
+            = render 'form'

@@ -1,0 +1,5 @@
+%ul.family-clients-list
+  - object.each do |object|
+    - if object.client
+      - name = object.client.name.present? ? object.client.name : 'Unknown'
+      %li= link_to name, client_path(object.client)

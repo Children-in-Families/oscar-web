@@ -1,0 +1,67 @@
+.row
+  .col-xs-12.user
+    .panel.panel-default
+      .panel-body
+        %h3.h3-header.pushing-bottom
+          = "#{t('.general_info')} #{@user.name}"
+          - if can? :manage, :all
+            %small.top-right-icon
+              = link_to edit_user_path(@user) do
+                %i.glyphicon.glyphicon-pencil
+              - if @user.has_no_clients_cases_and_tasks?
+                = link_to @user, method: 'delete', data: { confirm: 'Are you sure you want to delete?' } do
+                  %i.glyphicon.glyphicon-trash
+              - else
+                %i.glyphicon.glyphicon-trash
+        .row
+          .col-sm-12
+            %table.table.table-bordered
+              %tr
+                %td.spacing-first-col
+                  = t('.job_title')
+                %td
+                  %strong
+                    = @user.job_title
+              %tr
+                %td.spacing-first-col
+                  = t('.department')
+                %td
+                  %strong
+                    = @user.department.name if @user.department
+              %tr
+                %td.spacing-first-col
+                  = t('.mobile')
+                %td
+                  %strong
+                    = "#{@user.mobile.phony_formatted(normalize: :KH, format: :international)}" if @user.mobile
+              %tr
+                %td.spacing-first-col
+                  = t('.email')
+                %td
+                  %strong
+                    - object_emails = @user.email.split(%r{;\s*}) if @user.email
+                    - if object_emails
+                      - object_emails.each do |object_email|
+                        = mail_to object_email
+
+              %tr
+                %td.spacing-first-col
+                  = t('.date_of_birth')
+                %td
+                  %strong
+                    = @user.date_of_birth.strftime('%B %d, %Y') if @user.date_of_birth
+              %tr
+                %td.spacing-first-col
+                  = t('.start_date')
+                %td
+                  %strong
+                    = @user.start_date.strftime('%B %d, %Y') if @user.start_date
+
+              %tr
+                %td.spacing-first-col
+                  = t('.province')
+                %td
+                  %strong
+                    = @user.province.name if @user.province
+
+    = render 'clients'

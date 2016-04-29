@@ -1,0 +1,37 @@
+.row
+  .col-xs-12
+    .container
+      .row  
+        .col-xs-12
+          = link_to t('.add_new_agency'), new_agency_path, class: 'btn btn-success btn-add'
+      .row
+        .col-xs-12
+          .panel.panel-default
+            .panel-heading
+              %h3= t('.agency')
+            .panel-body
+              .table-responsive
+                %table.table.table-bordered.table-striped.table-hover
+                  %thead
+                    %tr
+                      %th.custom_column_name= t('.agency_names')
+                      %th.custom_column_description= t('.description')
+                      %th.text-center.custom_column_manage{:colspan => "2"}
+                        =t('.manage')
+                  %tbody
+                    - @agencies.each do |agency|
+                      %tr
+                        %td= agency.name
+                        %td= agency.description
+                        %td.text-center
+                          = link_to edit_agency_path(agency) do
+                            %i.glyphicon.glyphicon-pencil
+                        %td.text-center
+                          - if agency.clients.blank?
+                            = link_to agency, method: 'delete', data: { confirm: 'Are you sure you want to delete?' } do
+                              %i.glyphicon.glyphicon-trash
+                          - else
+                            %i.glyphicon.glyphicon-trash
+      .row
+        .col-xs-12.text-center
+          = will_paginate @agencies, renderer: BootstrapPagination::Rails

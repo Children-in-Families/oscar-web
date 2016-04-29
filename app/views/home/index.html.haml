@@ -1,0 +1,7 @@
+#home-index
+  .row
+    = render 'client'
+    - if can? :manage, Family
+      = render 'family'
+  .row
+    = render 'third_party'

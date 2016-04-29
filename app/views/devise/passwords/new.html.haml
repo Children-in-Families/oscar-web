@@ -1,0 +1,12 @@
+.row
+  .col-xs-12.col-sm-6.col-sm-offset-3.form
+    .panel.panel-default
+      .panel-heading
+        %h4= t('.forget_password')
+      .panel-body
+        = simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f|
+          = f.error_notification
+          .form-inputs
+            = f.input :email, required: true, autofocus: true, label: t('.email')
+          .form-actions
+            = f.button :submit, t('.send_reset_password'), class: 'btn btn-primary'

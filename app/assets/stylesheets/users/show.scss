@@ -1,0 +1,88 @@
+#users-show {
+  .user-detail {
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+  .filters, .btn-apply-filter {
+    display: none;
+  }
+  .datagrid-actions {
+    padding: 10px 0;
+  }
+  #emergency_case_client_grid_first_name {
+    max-width: 150px;
+  }
+  #emergency_case_client_grid_status {
+    max-width: 200px;
+  }
+  input.manage.string_filter {
+    display: none;
+  }
+  td.manage a {
+    margin: 0 5px;
+    text-decoration: none;
+  }
+
+  .h3-header {
+    margin: 0;
+    width: 87%;
+  }
+
+  small.top-right-icon {
+    position: absolute;
+    top: 16px;
+    right: 30px;
+
+    i {
+      font-size: 24px;
+      padding-top: 5px;
+    }
+  }
+
+  td.spacing-first-col {
+    width: 217px;
+  }
+
+  .pushing-top {
+    margin-top: 15px;
+  }
+
+  .pushing-bottom {
+    margin-bottom: 15px;
+  }
+
+  .table {
+    th.slug, th.code {
+      min-width: 75px;
+    }
+    th, td.gender, td.status, td.follow_up_date, td.date_of_birth, td.grade, td.has_been_in_orphanage, td.has_been_in_government_care, td.initial_referral_date, td.referral_phone, td.able, td.birth_province, td.province, td.state, td.case_start_date, td.carer_phone_number td.support_amount, td.family_preservation {
+      text-align: center;
+    }
+
+    th.name, th.gender, th.status, th.able, th.family_id, th.family, th.partner, th.manage {
+      min-width: 100px;
+    }
+
+    th.age, th.follow_up_date, th.received_by, th.followed_up_by, th.date_of_birth, th.school_name, th.grade, th.referral_phone, th.referral_source, th.birth_province, th.province, th.rejected_note, th.case_start_date, th.carer_names, th.carer_address, th.support_amount, th.support_note, th.state, th.cases {
+      min-width: 150px;
+    }
+
+    th.has_been_in_orphanage, th.family_preservation {
+      min-width: 200px;
+    }
+
+    th.has_been_in_government_care, th.carer_phone_number, th.relevant_referral_information {
+      min-width: 250px;
+    }
+
+    th.current_address, th.initial_referral_date, th.user, th.agency {
+      min-width: 170px;
+    }
+  }
+  table.clients {
+    margin-bottom: 0;
+    th {
+      border-bottom-width: 0;
+    }
+  }
+}

@@ -1,0 +1,19 @@
+#users-index {
+  #user-search-form {
+    margin-top: 20px;
+  }
+  th.id {
+    min-width: 70px;
+  }
+  td.manage a {
+    margin: 0 5px;
+    text-decoration: none;
+  }
+
+  table.users {
+    margin-bottom: 0;
+    th {
+      border-bottom-width: 0;
+    }
+  }
+}

@@ -1,0 +1,104 @@
+.row
+  .col-xs-12.family
+    .panel.panel-default
+      .panel-body
+        %h3.h3-header.pushing-bottom
+          = "#{t('.general_info')} #{@family.name}"
+          - if can? :manage, Family
+            %small.top-right-icon
+              = link_to edit_family_path(@family) do
+                %i.glyphicon.glyphicon-pencil
+              = removeable? @family, @family.cases_count
+
+        .row.family-summary
+          .col-sm-12
+            %table.table.table-bordered
+              %tr
+                %td.spacing-first-col
+                  = t('.address')
+                %td
+                  %strong
+                    = @family.address
+
+              %tr
+                %td.spacing-first-col
+                  = t('.member_count')
+                %td
+                  %strong
+                    = pluralize(@family.member_count, 'Person')
+
+              %tr
+                %td.spacing-first-col
+                  = t('.caregiver_information')
+                %td
+                  %strong
+                    = @family.caregiver_information
+
+              %tr
+                %td.spacing-first-col
+                  = t('.significant_family_member_count')
+                %td
+                  %strong
+                    = @family.significant_family_member_count
+
+              %tr
+                %td.spacing-first-col
+                  = t('.household_income')
+                %td
+                  %strong
+                    = number_to_currency @family.household_income
+
+              %tr
+                %td.spacing-first-col
+                  = "#{t('.dependable_income')}?"
+                %td
+                  %strong
+                    = human_boolean(@family.dependable_income)
+
+              %tr
+                %td.spacing-first-col
+                  = t('.female_children_count')
+                %td
+                  %strong
+                    = @family.female_children_count.to_i
+
+              %tr
+                %td.spacing-first-col
+                  = t('.male_children_count')
+                %td
+                  %strong
+                    = @family.male_children_count.to_i
+
+              %tr
+                %td.spacing-first-col
+                  = t('.female_adult_count')
+                %td
+                  %strong
+                    = @family.female_adult_count.to_i
+
+              %tr
+                %td.spacing-first-col
+                  = t('.male_adult_count')
+                %td
+                  %strong
+                    = @family.male_adult_count.to_i
+              %tr
+                %td.spacing-first-col
+                  = t('.contract_date')
+                %td
+                  %strong
+                    = @family.contract_date.strftime('%B %d, %Y') if @family.contract_date
+
+              %tr
+                %td.spacing-first-col
+                  = t('.province')
+                %td
+                  %strong
+                    = @family.province.name if @family.province
+
+              %tr
+                %td.spacing-first-col
+                  = t('.family_type')
+                %td
+                  %strong
+                    = @family.family_type.titleize

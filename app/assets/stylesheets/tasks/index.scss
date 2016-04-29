@@ -1,0 +1,15 @@
+body[id='tasks-index'] {
+
+  table {
+    td {
+      width: 200px;
+    }
+    .task-name {
+      min-width: 200px;
+    }
+  }
+
+  i {
+    margin-left: 20px;
+  }
+}

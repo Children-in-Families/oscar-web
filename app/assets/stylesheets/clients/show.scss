@@ -1,0 +1,129 @@
+#clients-show {
+  margin-bottom: 30px;
+
+  .panel-heading small a {
+    text-decoration: none;
+    margin: 0 5px;
+  }
+
+  .client {
+    .panel-body {
+      min-height: 498px;
+    }
+  }
+
+  .case {
+    .panel-body {
+      height: 520px;
+    }
+  }
+
+  small.top-right-icon {
+    position: absolute;
+    top: 16px;
+    right: 30px;
+
+    i {
+      font-size: 24px;
+      padding-top: 5px;
+    }
+  }
+
+  .btn-getout {
+    float: right;
+    margin-left: 10px;
+  }
+
+  .h3-header {
+    margin: 0;
+    width: 87%;
+  }
+
+  .white-text {
+    color: white;
+  }
+
+  .pushing-top {
+    margin-top: 15px;
+  }
+
+  .pushing-bottom {
+    margin-bottom: 15px;
+  }
+
+  .agree-btn {
+    font-size: 20px;
+    width: 150px;
+  }
+
+  .middle-text {
+    margin-top: 10px;
+    margin-bottom: 18px;
+  }
+
+  .bottom-corner {
+   position: absolute;
+   right: 5px;
+   bottom: 3px;
+   margin: 0;
+  }
+
+  td.spacing-first-col {
+    width: 172px;
+  }
+
+  .overflow-case {
+    overflow-y: auto;
+    height: 470px;
+  }
+  .custom-label {
+    .display-label {
+      padding: 8px 0 8px 8px;
+    }
+    ul {
+      padding: 0;
+      margin: 0;
+    }
+    li {
+      font-size: 75%;
+      list-style: none;
+      color: white;
+      display: inline;
+      margin: 2px;
+    }
+    b {
+      background: rgb(119,119,119);
+      border-radius: 3px;
+      padding: 2px 5px;
+    }
+  }
+
+  .color-blue {
+    background-color: steelblue;
+  }
+
+  .color-turquoise {
+    background-color: mediumturquoise;
+  }
+
+  .color-brown{
+    background-color: #AC4608;
+  }
+
+  @media screen and (max-width: 991px) {
+    .case .panel-body {
+      height: auto;
+    }
+
+    .second-table {
+      margin-top: -21px;
+    }
+
+    .overflow-case {
+      height: auto;
+    }
+  }
+  .text-success,.text-danger {
+    color: #fff;
+  }
+}

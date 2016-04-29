@@ -1,0 +1,51 @@
+body {
+  background-color: #f3f3f4;
+}
+
+.navbar-brand {
+  img.logo {
+    height: 30px;
+  }
+}
+
+
+.btn.form-btn {
+  min-width: 100px;
+  margin: 10px 15px 10px 0;
+}
+
+.btn.pull-right {
+  margin: 10px 0 10px 10px;
+}
+
+.btn-reset-filter {
+  padding: 8px 20px;
+}
+
+.btn-filter {
+  float: left;
+}
+
+.staging-identifier {
+  background-color: #C52F24;
+  .message {
+    color: #fff;
+    margin: 0;
+    padding: 15px 0;
+    font-size: 24px;
+    font-weight: bold;
+  }
+}
+
+.record-count {
+  margin: 15px 0;
+}
+.custom_column_manage{
+  width: 20%;
+}
+.custom_column_name{
+  width: 40%;
+}
+.custom_column_description{
+  width: 40%;
+}

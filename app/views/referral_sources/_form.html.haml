@@ -1,0 +1,11 @@
+= simple_form_for(@referral_source) do |f|
+  .panel-body
+    = error_notification(f)
+
+    .form-inputs
+      = f.input :name, label: t('.name')
+      = f.input :description, input_html: { rows: '4' }, label: t('.description')
+  .panel-footer
+    .form-actions
+      = f.button :submit, t('.save'), class: 'btn btn-primary form-btn'
+      = link_to t('.cancel'), referral_sources_path, class: 'btn btn-default form-btn'

@@ -1,0 +1,82 @@
+.row
+  .col-xs-12
+    %h4.text-center
+      = "#{t('.history')} #{@cases.first.case_type} "
+  .col-xs-12.pushing-bottom
+    %small
+      = link_to t('.back'), client_path(@client), { class: 'pull-left btn btn-default button' }
+.row
+  - @cases.each do |case_history|
+    .col-ms-12.col-md-6.case
+      .panel.panel-default
+        .panel-body
+          %h3.h3-header.pushing-bottom
+            = "#{t('.exit_date')} : #{case_history.exit_date.strftime('%B %d, %Y')}"
+
+          %table.table.table-bordered
+            %tr
+              %td.spacing-first-col
+                = t('.exit_note')
+              %td
+                %strong
+                  = case_history.exit_note
+            %tr
+              %td.spacing-first-col
+                = t('.start_date')
+              %td
+                %strong
+                  = case_history.start_date.strftime('%B %d, %Y') if case_history.start_date
+            %tr
+              %td.spacing-first-col
+                = t('.carer_names')
+              %td
+                %strong
+                  = case_history.carer_names
+            %tr
+              %td.spacing-first-col
+                = t('.carer_address')
+              %td
+                %strong
+                  = case_history.carer_address
+            %tr
+              %td.spacing-first-col
+                = t('.province')
+              %td
+                %strong
+                  = case_history.province.name if case_history.province
+            %tr
+              %td.spacing-first-col
+                = t('.carer_phone_number')
+              %td
+                %strong
+                  = case_history.carer_phone_number.phony_formatted(normalize: :KH, format: :international) if case_history.carer_phone_number
+            %tr
+              %td.spacing-first-col
+                = "#{t('.support_amount')}?"
+              %td
+                %strong
+                  = number_to_currency(case_history.support_amount)
+            %tr
+              %td.spacing-first-col
+                = t('.support_note')
+              %td
+                %strong
+                  = case_history.support_note
+            %tr
+              %td.spacing-first-col
+                = t('.ongoing_partner')
+              %td
+                %strong
+                  = partner case_history.partner if case_history.partner
+            %tr
+              %td.spacing-first-col
+                = t('.family')
+              %td
+                %strong
+                  = family case_history.family if case_history.family
+            %tr
+              %td.spacing-first-col 
+                = t('.family_preservation')
+              %td
+                %strong
+                  = human_boolean(case_history.family_preservation)

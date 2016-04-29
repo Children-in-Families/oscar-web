@@ -1,0 +1,17 @@
+= simple_form_for(@domain) do |f|
+  .panel-body
+    = error_notification(f)
+
+    .form-inputs
+      = f.association :domain_group, collection: DomainGroup.all, label: t('.domain_group'), include_blank: false
+      = f.input :name, label: t('.name')
+      = f.input :identity, label: t('.identity')
+      = f.input :score_1_color, collection: Domain.domain_score_colors.map{ |ds| [ds[1], ds[0]]}, label: t('.score_1'), include_blank: false
+      = f.input :score_2_color, collection: Domain.domain_score_colors.map{ |ds| [ds[1], ds[0]]}, label: t('.score_2'), include_blank: false
+      = f.input :score_3_color, collection: Domain.domain_score_colors.map{ |ds| [ds[1], ds[0]]}, label: t('.score_3'), include_blank: false
+      = f.input :score_4_color, collection: Domain.domain_score_colors.map{ |ds| [ds[1], ds[0]]}, label: t('.score_4'), include_blank: false
+      = f.input :description, as: :ckeditor, label: t('.description')
+  .panel-footer
+    .form-actions
+      = f.submit t('.save'), class: 'btn btn-primary form-btn'
+      = link_to t('.cancel'), domains_path, class: 'btn btn-default form-btn'
