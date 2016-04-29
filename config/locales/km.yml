@@ -9,29 +9,29 @@ km:
     name: ឈ្មោះ
     date_of_birth: ថ្ងៃ ខែ ឆ្នាំ កំណើត
     birth_province: ស្រុកកំណើត
-    referral_phone: លេខ​ទូរស័ព្ទ​របស់​ឣ្នក​បញ្ជូន​ករណី
+    referral_phone: លេខទូរសព្ទរបស់ឣ្នកបញ្ជូនករណី
     referral_source: ប្រភពនៃការបញ្ជូន
     follow_up_date: កាលបរិច្ឆេទតាមដាន
     current_province: ខេត្តបច្ចុប្បន្ន
     school_name: ឈ្មោះសាលារៀន
-    able: ឣតិថិជន​ក្នុង​កម្មវិធី​ABLE?
-    has_been_in_government_care: តើធ្លាប់ស្ថិតក្នុងការថែទំារបស់រាជរដ្ឋាភិបាល?
-    case_worker: បុគ្គលិកគ្រប់​គ្រង​ករណី
+    able: ឣតិថិជនក្នុងកម្មវិធីABLE
+    has_been_in_government_care: តើធ្លាប់ស្ថិតក្នុងការថែទំារបស់រាជរដ្ឋាភិបាល
+    case_worker: បុគ្គលិកគ្រប់គ្រងករណី
     code: លេខកូដ
     gender: ភេទ
     status: ស្ថានភាព
-    initial_referral_date: កាលបរិច្ឆេទ​នៃ​ការបញ្ជូន​
-    received_by: បុគ្គលិក​ដែល​ទទួល​ករណី
-    follow_up_by: បុគ្គលិក​ដែល​តាមដាន​ករណី
+    initial_referral_date: កាលបរិច្ឆេទនៃការបញ្ជូន
+    received_by: បុគ្គលិកដែលទទួលករណី
+    follow_up_by: បុគ្គលិកដែលតាមដានករណី
     agency_names: ឈ្មោះអង្គភាព
-    current_address: ឣាស័យដ្ឋានបច្ចុប្បន្ន
+    current_address: ឣាសយដ្ឋានបច្ចុប្បន្ន
     school_grade: កំរិតថ្នាក់
     has_been_in_orphanage: ធ្លាប់បាននៅក្នុងមណ្ឌលកុមារកំព្រា
-    relevant_referral_information: ព័ត៏មានសំខានៗនៃការបញ្ចួនករណី
+    relevant_referral_information: ព័ត៏មានសំខាន់ៗនៃការបញ្ចួនករណី
     state: ទទួល/បដិសេធ
     case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
     followed_up_by: ឈ្មោះបុុគ្គលិកដែលតាមដាន
-    address: ឣាស័យដ្ឋាន
+    address: ឣាសយដ្ឋាន
     province: ខេត្តកំណើត
     agencies_involved: អង្គភាពដែលពាក់ព័ន្ធ
     completed: ពេញលេញហើយឬនៅ?
@@ -42,9 +42,9 @@ km:
     carer_address: អាសយដ្ឋានអ្នកថែទាំ
     province: ខេត្ត
     carer_phone_number: លេខទូរសព្ទអ្នកថែទាំ
-    support_amount: ប្រាក់​ឧបត្ថម្ភ
-    support_note: ព័ត៌មានពី​ប្រាក់​ឧប្ត្ថម្ភ
-    ongoing_partner: ដែគូរបន្ត
+    support_amount: ប្រាក់ឧបត្ថម្ភ
+    support_note: ព័ត៌មានពីប្រាក់ឧប្ថម្ភ
+    ongoing_partner: ដៃគូបន្ត
     family: គ្រួសារ
     family_preservation: ករណីអភិរក្សគ្រួសារ?
     note: កំណត់សំគាល់
@@ -54,33 +54,33 @@ km:
 
   default_family_fields: &default_family_fields
     id: លេខសំគាល់
-    name: ឈ្មោះ​របស់គ្រួសារ
-    address: ឣាស័យដ្ឋាន
-    caregiver_information: ព័ត៌មាន​នៃ​ឣ្នក​ថែទាំ
-    significant_family_member_count: ចំនួននៃ​សមាជិក​គ្រួសារសំខាន់ៗ
-    household_income: ប្រាក់​ចំណូល​គ្រួសារ
-    dependable_income: ប្រាក់ចំណូល​ទៀងទាត់
-    female_children_count: ចំនួន​ក្មេងស្រី
-    male_children_count: ចំនួន​ក្មេងប្រុស
-    female_adult_count: ចំនួន​មនុស្ស​ពេញ​វ័យ​ស្រី
-    male_adult_count: ចំនួន​មនុស្ស​ពេញវ័យ​ប្រុស
-    member_count: ចំនួន​សមាជិក​គ្រួសារ
-    family_type: ប្រភេទ​គ្រួសារ
-    contract_date: កាល​បរិច្ឆេទ​នៃ​ទំនាក់ទំនង​
+    name: ឈ្មោះរបស់គ្រួសារ
+    address: ឣាសយដ្ឋាន
+    caregiver_information: ព័ត៌មាននៃឣ្នកថែទាំ
+    significant_family_member_count: ចំនួននៃសមាជិកគ្រួសារសំខាន់ៗ
+    household_income: ប្រាក់ចំណូលគ្រួសារ
+    dependable_income: ប្រាក់ចំណូលទៀងទាត់
+    female_children_count: ចំនួនក្មេងស្រី
+    male_children_count: ចំនួនក្មេងប្រុស
+    female_adult_count: ចំនួនមនុស្សពេញវ័យស្រី
+    male_adult_count: ចំនួនមនុស្សពេញវ័យប្រុស
+    member_count: ចំនួនសមាជិកគ្រួសារ
+    family_type: ប្រភេទគ្រួសារ
+    contract_date: កាលបរិច្ឆេទនៃទំនាក់ទំនង
     province: ខេត្ត
 
   default_partner_fields: &default_partner_fields
-    name: ឈ្មោះ​ដៃគូ
-    contact_name: ឈ្មោះ​ឣ្នក​ដែល​ត្រូវ​ទំនាក់​ទំនង
+    name: ឈ្មោះដៃគូ
+    contact_name: ឈ្មោះឣ្នកដែលត្រូវទំនាក់ទំនង
     contact_email: ឣ៊ីម៉ែល
-    contact_mobile: លេខ​ទូរស័ព្ទ
-    organisation_type: ប្រភេទ​ឣង្គភាព
+    contact_mobile: លេខទូរសព្ទ
+    organisation_type: ប្រភេទឣង្គភាព
     affiliation: ការទាក់ទងគ្នា
     engagement: ការចូលរួម
-    background: ​ប្រវត្ថិរូប​ករណី
+    background: ប្រវត្ថិរូបករណី
     province: ខេត្ត
-    address: ឣាស័យដ្ឋាន
-    start_date: កាល​បរិច្ឆេទ​ចាប់​ផ្តើម
+    address: ឣាសយដ្ឋាន
+    start_date: កាលបរិច្ឆេទចាប់ផ្តើម
 
   default_user_fields: &default_user_fields
     id: លេខសំគាល់
@@ -88,8 +88,8 @@ km:
     first_name: នាមខ្លួន
     last_name: នាមត្រកូល
     date_of_birth: ថ្ងៃ ខែ ឆ្នាំ កំណើត
-    start_date: កាល​បរិច្ឆេទ​ចាប់​ផ្តើម
-    mobile: លេខ​ទូរស័ព្ទ
+    start_date: កាលបរិច្ឆេទចាប់ផ្តើម
+    mobile: លេខទូរសព្ទ
     email: ឣ៊ីម៉ែល
     job_title: មុខតំណែង
     department: កម្មវិធី
@@ -116,20 +116,19 @@ km:
         placements:
           <<: *default_placement_fields
         manage: សកម្មភាព
-        state:
-          state: ទទួល/បដិសេធ
-          rejected_note: កំណត់ហេតុនៃការមិនទទួលយក
+        state: ទទួល/បដិសេធ
+        rejected_note: កំណត់ហេតុនៃការមិនទទួលយក
       families:
         <<: *default_family_fields
-        name: ឈ្មោះ​របស់គ្រួសារ
-        member_count: ចំនួន​សមាជិក​គ្រួសារ
-        member_count_total: ចំនួន​សមាជិក​គ្រួសារសរុប
+        name: ឈ្មោះរបស់គ្រួសារ
+        member_count: ចំនួនសមាជិកគ្រួសារ
+        member_count_total: ចំនួនសមាជិកគ្រួសារសរុប
         manage: សកម្មភាព
-        family_type: ប្រភេទ​គ្រួសារ
+        family_type: ប្រភេទគ្រួសារ
         clients: ឣតិថិជន
         family_preservation: ករណីអភិរក្សគ្រួសារ?
         family_id: លេខសម្គាល់គ្រួសារ
-        case_workers: បុគ្គលិកគ្រប់​គ្រង​ករណី
+        case_workers: បុគ្គលិកគ្រប់គ្រងករណី
       partners:
         <<: *default_partner_fields
         type: ប្រភេទ
@@ -137,7 +136,7 @@ km:
         partner: ដៃគូ
       users:
         <<: *default_user_fields
-        name: ឈ្មោះ​អ្នកប្រើប្រាស់
+        name: ឈ្មោះអ្នកប្រើប្រាស់
         manage: សកម្មភាព
       quarterly_reports:
         visit_date: ថ្ងៃមកជួប
@@ -162,7 +161,7 @@ km:
       clients: ឣតិថិជន
       families: គ្រួសារ
       partners: ដៃគូ
-      users: ​ឣ្នក​ប្រើ​
+      users: ឣ្នកប្រើ
       manage: គ្រប់គ្រង
       agencies: អង្គភាព
       departments: កម្មវិធី
@@ -179,22 +178,22 @@ km:
   clients:
     index:
       add_new_client: បន្ថែមអតិថិជនថ្មី
-      view_all_active_tasks: ពិនិត្យ​លើ​កាតព្វកិច្ចដែលមិនទាន់ធ្វើ
+      view_all_active_tasks: ពិនិត្យលើកាតព្វកិច្ចដែលមិនទាន់ធ្វើ
       export_to_csv: ទាញចេញជាឯកសារប្រភេទ CSV
       records: លទ្ធផល
-      csi_domain_scores: ពិន្ទុកត្តាការបា៉ន់ប្រមាណCSI
-      assessments: ការ​ប៉ាន់ប្រមាណ
+      csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
+      assessments: ការប៉ាន់ប្រមាណ
     create:
       successfully_created: អតិថិជនត្រូវបានបង្កើតឡើងដោយជោគជ័យ។
     update:
       successfully_updated: អតិថិជនត្រូវបានកែសម្រួលដោយជោគជ័យ។
-      assessment_successfully_created: ការ​ប៉ាន់ប្រមាណបានបង្កើតឡើងដោយជោគជ័យ។
+      assessment_successfully_created: ការប៉ាន់ប្រមាណបានបង្កើតឡើងដោយជោគជ័យ។
     destroy:
       successfully_deleted: អតិថិជនត្រូវបានលុបដោយជោគជ័យ។
     new:
       new_client_title: បង្កើតអតិថិជនថ្មី
     edit:
-      edit_client_title: កែសម្រួល​ពត៌មានអតិថិជន
+      edit_client_title: កែសម្រួលពត៌មានអតិថិជន
     form:
       <<: *default_client_fields
     show:
@@ -204,8 +203,8 @@ km:
       add_kc_btn: បន្ថែមចូលទៅ KC
       add_fc_btn: បន្ថែមចូលទៅ FC
       view_tasks: កាតព្វកិច្ច
-      view_assessments: របាយការណ៍នៃ​ការ​ប៉ាន់ប្រមាណ
-      view_case_notes: កំណត់ត្រា​ករណី
+      view_assessments: របាយការណ៍នៃការប៉ាន់ប្រមាណ
+      view_case_notes: កំណត់ត្រាករណី
       view_ec_history_btn_link: មើលប្រវត្តិនៃ EC
       view_fc_history_btn_link: មើលប្រវត្តិនៃ FC
       view_kc_history_btn_link: មើលប្រវត្តិនៃ KC
@@ -226,10 +225,10 @@ km:
       <<: *default_placement_fields
       kinship_care: ករណី Kinship
     exit_kc_form:
-      exit_ec: ចាកចេញពី​ EC
-      exit_kc: ចាកចេញពី​ KC
+      exit_ec: ចាកចេញពី EC
+      exit_kc: ចាកចេញពី KC
       exit_fc: ចាកចេញពី FC
-      exit_cif: ចាកចេញពី​ CIF
+      exit_cif: ចាកចេញពី CIF
       exit_status: ស្ថានភាព
       exit_date: ថ្ងៃចាកចេញ
       exit_note: កំណត់ហេតុនៃការចាកចេញ
@@ -251,10 +250,10 @@ km:
     new:
       new_family_title: គ្រួសារថ្មី
     edit:
-      edit_family_title: កែសម្រួល​ពត៌មានគ្រួសារ
+      edit_family_title: កែសម្រួលពត៌មានគ្រួសារ
     form:
       <<: *default_family_fields
-      new_family_title: គ្រួសារ​ថ្មី
+      new_family_title: គ្រួសារថ្មី
     show:
       <<: *default_family_fields
       general_info: ពត៌មានទូទៅសំរាប់គ្រួសារ
@@ -446,7 +445,7 @@ km:
       alert: កម្មវិធីមិនអាចលុបចោលបានទេ។
   domains:
     index:
-      add_new_domain: បន្ថែម​កត្តា​ថ្មី
+      add_new_domain: បន្ថែមកត្តាថ្មី
       domains: កត្តា
       score_1: ពិន្ទុ 1
       score_2: ពិន្ទុ 2
@@ -484,7 +483,7 @@ km:
     edit:
       title: ពិនិត្យកែសម្រួលការប្រមូលផ្ដុំកត្តា
     new:
-      title: កត្តា​ថ្មី
+      title: កត្តាថ្មី
     form:
       domain_group: ការប្រមូលផ្តុំកត្តា
       name: ឈ្មោះការប្រមូលផ្តុំកត្តា
@@ -497,53 +496,53 @@ km:
     update:
       successfully_updated: ការប្រមូលផ្តុំកត្តាត្រូវបានកែសម្រួលបានជោគជ័យ។
     destroy:
-      successfully_deleted: ការប្រមូលផ្តុំ​កត្តាត្រូវបានលុបចោលជោគជ័យ។
+      successfully_deleted: ការប្រមូលផ្តុំកត្តាត្រូវបានលុបចោលជោគជ័យ។
       alert: ការប្រមូលផ្តុំកត្តាមិនអាចលុបបានទេ។
   provinces:
     index:
-      add_new_province: បន្ថែម​ខេត្ត​ថ្មី
-      provinces: ខេត្ត​
+      add_new_province: បន្ថែមខេត្តថ្មី
+      provinces: ខេត្ត
       province_names: ឈ្មោះខេត្ត
       manage: សកម្មភាព
     edit:
       title: ពិនិត្យកែសម្រួលខេត្ត
     new:
-      title: ​ខេត្ត​ថ្មី
+      title: ខេត្តថ្មី
     form:
-      name: ឈ្មោះ​ខេត្ត
+      name: ឈ្មោះខេត្ត
       save: រក្សាទុក
       cancel: ទុកជាមោឃៈ
     create:
-      successfully_created: ខេត្ត​បង្កើតបានដោយជោគជ័យ។
+      successfully_created: ខេត្តបង្កើតបានដោយជោគជ័យ។
     update:
-      successfully_updated: ខេត្ត​saveបានដោយជោគជ័យ។
+      successfully_updated: ខេត្តsaveបានដោយជោគជ័យ។
     destroy:
-      successfully_deleted: ខេត្ត​ត្រូវបានលុបចោលដោយជោគជ័យ
+      successfully_deleted: ខេត្តត្រូវបានលុបចោលដោយជោគជ័យ
       alert: ខេត្តមិនអាចលុបបានទេ
 
   referral_sources:
     index:
-      add_new_referral_source: បន្ថែម​ប្រភពនៃ​ការ​បញ្ជូនថ្មី
-      referral_sources: ប្រភព​នៃ​ការ​បញ្ជូន​
-      referral_source_name: ឈ្មោះប្រភព​នៃ​ការ​បញ្ជូន​
+      add_new_referral_source: បន្ថែមប្រភពនៃការបញ្ជូនថ្មី
+      referral_sources: ប្រភពនៃការបញ្ជូន
+      referral_source_name: ឈ្មោះប្រភពនៃការបញ្ជូន
       description: ការបរិយាយ
       manage: សកម្មភាព
     edit:
-      title: ពិនិត្យកែសម្រូលប្រភព​នៃ​ការ​បញ្ជូន
+      title: ពិនិត្យកែសម្រូលប្រភពនៃការបញ្ជូន
     new:
-      title: ប្រភព​នៃ​ការ​បញ្ជូន​ថ្មី
+      title: ប្រភពនៃការបញ្ជូនថ្មី
     form:
-      name: ឈ្មោះ​ប្រភព​នែ​ការ​បញ្ជូន
+      name: ឈ្មោះប្រភពនែការបញ្ជូន
       description: ការបរិយាយ
       save: រក្សាទុក
       cancel: ទុកជាមោឃៈ
     create:
-      successfully_created: ប្រភព​នៃ​ការបញ្ជូន​បង្កើតបានដោយជោគជ័យ
+      successfully_created: ប្រភពនៃការបញ្ជូនបង្កើតបានដោយជោគជ័យ
     update:
-      successfully_updated: ប្រភព​នៃ​ការបញ្ជូន​saveបានដោយជោគជ័យ
+      successfully_updated: ប្រភពនៃការបញ្ជូនsaveបានដោយជោគជ័យ
     destroy:
-      successfully_deleted: ប្រភព​នៃ​ការបញ្ជូន​ត្រូវបានលុបចោលដោយជោគជ័យ
-      alert: ប្រភព​នៃ​ការបញ្ជូនមិនអាចលុបបានទេ
+      successfully_deleted: ប្រភពនៃការបញ្ជូនត្រូវបានលុបចោលដោយជោគជ័យ
+      alert: ប្រភពនៃការបញ្ជូនមិនអាចលុបបានទេ
   quantitative_types:
     index:
       add_new_quantitative_type: បន្ថែមប្រភេទនៃបរិមាណ
@@ -604,7 +603,7 @@ km:
         domain: កត្តា
       new:
         title: កាតព្វកិច្ចថ្មីសំរាប់
-        new_task_regarding: កាតព្វកិច្ច​ទាក់​ទង់៖
+        new_task_regarding: កាតព្វកិច្ចទាក់ទង់៖
       edit:
         title: ពិនិត្យកែសម្រួលកាតព្វកិច្ចសំរាប់
       form:
@@ -630,9 +629,9 @@ km:
       assessment_history: ការប៉ាន់ប្រមាណចាស់ៗ
       initial_assessment: ការប៉ាន់ប្រមាណដំបូង
       six_month_assessment: ការប៉ាន់ប្រមាណទៀងទាត់
-      begin_now: ចាប់ផ្តើម​ឥឡូវនេះ
-      view_report: ពិនិត្យ​របាយការណ៍
-      next_six_monthly_review: កាលបរិច្ឆេទការប៉ាន់ប្រមាណទៀងទាត់ពេល​ក្រោយ
+      begin_now: ចាប់ផ្តើមឥឡូវនេះ
+      view_report: ពិនិត្យរបាយការណ៍
+      next_six_monthly_review: កាលបរិច្ឆេទការប៉ាន់ប្រមាណទៀងទាត់ពេលក្រោយ
       back: ត្រលប់ក្រោយ
     form:
       domain: កត្តា
@@ -651,7 +650,7 @@ km:
     show:
       initial_assessment_of: ការប៉ាន់ប្រមាណដំបូងរបស់
       six_month_assessment_report: របាយការណ៍ការប៉ាន់ប្រមាណទៀងទាត់
-      assessment_completed_by: ការប៉ាន់ប្រមាណបំពេញ​ដោយ៖
+      assessment_completed_by: ការប៉ាន់ប្រមាណបំពេញដោយ៖
       on_date: នៅថ្ងៃ
       back_to_assessment_history:  ត្រលប់ទៅការប៉ាន់ប្រមាណចាស់ៗ
       edit: កែតម្រូវ
@@ -665,14 +664,14 @@ km:
     index:
       case_note_lists: បញ្ជីកំណត់ត្រា
       back: ត្រលប់ក្រោយ
-      you_need_to_create_assessment: ត្រូវបង្កើតការ​ប៉ាន់ប្រមាណជាមុនសិន
-      new_case_note: កំណត់ត្រា​ថ្មី
-      case_note_on: កំណត់ត្រា​នៅថ្ងៃ
+      you_need_to_create_assessment: ត្រូវបង្កើតការប៉ាន់ប្រមាណជាមុនសិន
+      new_case_note: កំណត់ត្រាថ្មី
+      case_note_on: កំណត់ត្រានៅថ្ងៃ
       present: វត្តមានឣ្នកចូលរួម
       completed_tasks: កាតព្វកិច្ចដែលបានធ្វើរួច
     new:
-      meeting_detail: ព័ត៌មាន​នៃ​ការ​ប្រជុំ
-      meeting_with: ប្រជុំ​ជាមួយ
+      meeting_detail: ព័ត៌មាននៃការប្រជុំ
+      meeting_with: ប្រជុំជាមួយ
       on_date: 'ថ្ងៃ ខែ ឆ្នាំ:'
       present: 'វត្តមានឣ្នកចូលរួម:'
       domain: កត្តា
@@ -690,7 +689,7 @@ km:
       title: បន្ថែមកាតព្វកិច្ចថ្មី
       save: រក្សាទុក
     show:
-      case_note_on: កំណត់ត្រា​នៅថ្ងៃ
+      case_note_on: កំណត់ត្រានៅថ្ងៃ
       present: វត្តមានឣ្នកចូលរួម
     create:
       successfully_created: កំណត់ត្រាត្រូវបានបង្កើតដោយជោគជ័យ។
@@ -705,7 +704,7 @@ km:
         department: កម្មវិធី
         start_date: ថ្ងៃ ខែ ឆ្នាំ ចាប់ផ្ដើមធ្វើការ
         province: ខេត្ត
-        mobile: លេខទូរស័ព្ទ
+        mobile: លេខទូរសព្ទ
         email: ឣុីម៉ែល
         leave_blank_if_you_dont_want_to_change: រំលងប្រសិនបើឣ្នកមិនចង់ធ្វើការផ្លាស់ប្តូរ
         password: លេខកូដសំងាត់
