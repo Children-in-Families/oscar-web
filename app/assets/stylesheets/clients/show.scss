@@ -9,6 +9,10 @@
   .client {
     .panel-body {
       min-height: 498px;
+      .first-table, .second-table {
+        max-width: 420px;
+        overflow-x: scroll;
+      }
     }
   }
 
