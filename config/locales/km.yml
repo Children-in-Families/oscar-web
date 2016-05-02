@@ -27,7 +27,7 @@ km:
     current_address: ឣាសយដ្ឋានបច្ចុប្បន្ន
     school_grade: កំរិតថ្នាក់
     has_been_in_orphanage: ធ្លាប់បាននៅក្នុងមណ្ឌលកុមារកំព្រា
-    relevant_referral_information: ព័ត៏មានសំខាន់ៗនៃការបញ្ចួនករណី
+    relevant_referral_information: ពត៌មានសំខាន់ៗនៃការបញ្ចួនករណី
     state: ទទួល/បដិសេធ
     case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
     followed_up_by: ឈ្មោះបុុគ្គលិកដែលតាមដាន
@@ -43,7 +43,7 @@ km:
     province: ខេត្ត
     carer_phone_number: លេខទូរសព្ទអ្នកថែទាំ
     support_amount: ប្រាក់ឧបត្ថម្ភ
-    support_note: ព័ត៌មានពីប្រាក់ឧប្ថម្ភ
+    support_note: ពត៌មានពីប្រាក់ឧប្ថម្ភ
     ongoing_partner: ដៃគូបន្ត
     family: គ្រួសារ
     family_preservation: ករណីអភិរក្សគ្រួសារ?
@@ -56,14 +56,14 @@ km:
     id: លេខសំគាល់
     name: ឈ្មោះរបស់គ្រួសារ
     address: ឣាសយដ្ឋាន
-    caregiver_information: ព័ត៌មាននៃឣ្នកថែទាំ
+    caregiver_information: ពត៌មាននៃឣ្នកថែទាំ
     significant_family_member_count: ចំនួននៃសមាជិកគ្រួសារសំខាន់ៗ
     household_income: ប្រាក់ចំណូលគ្រួសារ
     dependable_income: ប្រាក់ចំណូលទៀងទាត់
     female_children_count: ចំនួនក្មេងស្រី
     male_children_count: ចំនួនក្មេងប្រុស
-    female_adult_count: ចំនួនមនុស្សពេញវ័យស្រី
-    male_adult_count: ចំនួនមនុស្សពេញវ័យប្រុស
+    female_adult_count: ចំនួនមនុស្សស្រីពេញវ័យ
+    male_adult_count: ចំនួនមនុស្សប្រុសពេញវ័យ
     member_count: ចំនួនសមាជិកគ្រួសារ
     family_type: ប្រភេទគ្រួសារ
     contract_date: កាលបរិច្ឆេទនៃទំនាក់ទំនង
@@ -72,12 +72,12 @@ km:
   default_partner_fields: &default_partner_fields
     name: ឈ្មោះដៃគូ
     contact_name: ឈ្មោះឣ្នកដែលត្រូវទំនាក់ទំនង
-    contact_email: ឣ៊ីម៉ែល
+    contact_email: ឣុីម៉ែល
     contact_mobile: លេខទូរសព្ទ
     organisation_type: ប្រភេទឣង្គភាព
     affiliation: ការទាក់ទងគ្នា
     engagement: ការចូលរួម
-    background: ប្រវត្ថិរូបករណី
+    background: ប្រវត្តិរូបករណី
     province: ខេត្ត
     address: ឣាសយដ្ឋាន
     start_date: កាលបរិច្ឆេទចាប់ផ្តើម
@@ -90,7 +90,7 @@ km:
     date_of_birth: ថ្ងៃ ខែ ឆ្នាំ កំណើត
     start_date: កាលបរិច្ឆេទចាប់ផ្តើម
     mobile: លេខទូរសព្ទ
-    email: ឣ៊ីម៉ែល
+    email: ឣុីម៉ែល
     job_title: មុខតំណែង
     department: កម្មវិធី
     roles: តួនាទី
@@ -100,7 +100,7 @@ km:
     password_confirmation: បញ្ជាក់លេខកូដសំងាត់
     current_password: លេខកូដសំងាត់បច្ចុប្បន្ន
     current_password_hint: យើងត្រូវការពិនិត្យបញ្ជាក់លេខកូដសំងាត់បច្ចុប្បន្នដើម្បីធ្វើការផ្លាស់ប្តូរ
-    delete_account_button: លប់ចោលគណនីរបស់ខ្ញុំ
+    delete_account_button: លុបចោលគណនីរបស់ខ្ញុំ
   datagrid:
     no_results: មិនមានលទ្ធផល
     from: ចាប់ពី
@@ -143,7 +143,7 @@ km:
         kc_name: ឈ្មោះរបស់ KC
         fc_name: ឈ្មោះរបស់ FC
         general_health_or_appearance: រៀបរាប់អំពី សុខភាព ទូទៅ / រូបរាង
-        staff_information: ពត័មានរបស់បុគ្គលិក
+        staff_information: ពត៌មានរបស់បុគ្គលិក
         code: លេខសំគាល់
       cases:
         case_type: ប្រភេទករណី
@@ -171,7 +171,7 @@ km:
       referral_sources: ប្រភពនៃការបញ្ជូន
       quantitative_types: ប្រភេទនៃបរិមាណ
       account: គណនី
-      edit_profile: កែសម្រួលព័ត៌មានផ្ទាល់ខ្លួន
+      edit_profile: កែសម្រួលពត៌មានផ្ទាល់ខ្លួន
       en: English
       log_out: ចាកចេញ
       log_in: ចូល
@@ -184,12 +184,12 @@ km:
       csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
       assessments: ការប៉ាន់ប្រមាណ
     create:
-      successfully_created: អតិថិជនត្រូវបានបង្កើតឡើងដោយជោគជ័យ។
+      successfully_created: អតិថិជនត្រូវបានបង្កើតឡើងដោយជោគជ័យ
     update:
-      successfully_updated: អតិថិជនត្រូវបានកែសម្រួលដោយជោគជ័យ។
-      assessment_successfully_created: ការប៉ាន់ប្រមាណបានបង្កើតឡើងដោយជោគជ័យ។
+      successfully_updated: អតិថិជនត្រូវបានកែសម្រួលដោយជោគជ័យ
+      assessment_successfully_created: ការប៉ាន់ប្រមាណបានបង្កើតឡើងដោយជោគជ័យ
     destroy:
-      successfully_deleted: អតិថិជនត្រូវបានលុបដោយជោគជ័យ។
+      successfully_deleted: អតិថិជនត្រូវបានលុបដោយជោគជ័យ
     new:
       new_client_title: បង្កើតអតិថិជនថ្មី
     edit:
@@ -258,12 +258,12 @@ km:
       <<: *default_family_fields
       general_info: ពត៌មានទូទៅសំរាប់គ្រួសារ
     create:
-      successfully_created: គ្រួសារត្រូវបានបង្កើតដោយជោគជ័យ។
+      successfully_created: គ្រួសារត្រូវបានបង្កើតដោយជោគជ័យ
     update:
-      successfully_updated: គ្រួសារត្រូវបានកែសម្រួលដោយជោគជ័យ។
+      successfully_updated: គ្រួសារត្រូវបានកែសម្រួលដោយជោគជ័យ
     destroy:
-      successfully_deleted: គ្រួសារត្រូវបានលុបដោយជោគជ័យ។
-      alert: គ្រួសារមិនអាចលុបបានទេ។
+      successfully_deleted: គ្រួសារត្រូវបានលុបដោយជោគជ័យ
+      alert: គ្រួសារមិនអាចលុបបានទេ
 
   partners:
     index:
@@ -273,19 +273,19 @@ km:
     new:
       new_partner_title: ដៃគូថ្មី
     edit:
-      edit_partner_title: កែប្រែពត៌មានរបស់ដៃគូរ
+      edit_partner_title: កែប្រែពត៌មានរបស់ដៃគូ
     form:
       <<: *default_partner_fields
     show:
       <<: *default_partner_fields
-      general_info: ពត៌មានទូទៅរបស់ដៃគូរ
+      general_info: ពត៌មានទូទៅរបស់ដៃគូ
     create:
-      successfully_created: ដៃគូរត្រូវបានបង្កើតដោយជោគជ័យ។
+      successfully_created: ដៃគូត្រូវបានបង្កើតដោយជោគជ័យ
     update:
-      successfully_updated: ដៃគូរត្រូវបានកែសម្រួលដោយជោគជ័យ។
+      successfully_updated: ដៃគូត្រូវបានកែសម្រួលដោយជោគជ័យ
     destroy:
-      successfully_deleted: ដៃគូរត្រូវបានលុបចោលដោយជោគជ័យ។
-      alert: ដៃគូរមិនអាចលុបបានទេ។
+      successfully_deleted: ដៃគូត្រូវបានលុបចោលដោយជោគជ័យ
+      alert: ដៃគូមិនអាចលុបបានទេ
   users:
     index:
       results: លទ្ធផល
@@ -303,11 +303,11 @@ km:
     clients:
       clients: អតិថិជន
     create:
-      successfully_created: អ្នកប្រើប្រាស់ត្រូវបានបង្កើតដោយជោគជ័យ។
+      successfully_created: អ្នកប្រើប្រាស់ត្រូវបានបង្កើតដោយជោគជ័យ
     update:
-      successfully_updated: អ្នកប្រើប្រាស់ត្រូវបានកែសម្រួលដោយជោគជ័យ។
+      successfully_updated: អ្នកប្រើប្រាស់ត្រូវបានកែសម្រួលដោយជោគជ័យ
     destroy:
-      successfully_deleted: អ្នកប្រើប្រាស់ត្រូវបានលុបដោយជោគជ័យ។
+      successfully_deleted: អ្នកប្រើប្រាស់ត្រូវបានលុបដោយជោគជ័យ
       alert: អ្នកប្រើប្រាស់មិនអាចលុបបានទេ
   cases:
     index:
@@ -321,12 +321,12 @@ km:
       new_case_title: ករណីថ្មី
       edit_case_title: កែប្រែករណី
     new:
-      already_have_a_case: ឣតិថិជនមានករណីរួចហើយ។
+      already_have_a_case: ឣតិថិជនមានករណីរួចហើយ
     create:
-      successfully_created: ករណីង្កើតកំណត់ត្រាថ្មីបានដោយជោគជ័យ។
-      already_have_a_case: ឣតិថិជនមានករណីរួចហើយ។
+      successfully_created: ករណីបង្កើតកំណត់ត្រាថ្មីបានដោយជោគជ័យ
+      already_have_a_case: ឣតិថិជនមានករណីរួចហើយ
     update:
-      successfully_updated: ករណីត្រូវបានកែសម្រួលដោយជោគជ័យ។
+      successfully_updated: ករណីត្រូវបានកែសម្រួលដោយជោគជ័យ
   will_paginate:
     previous_label: ទំព័រមុន
     page_gap: ...
@@ -405,7 +405,7 @@ km:
       description: ការបរិយាយពីអង្គភាព
       manage: សកម្មភាព
     edit:
-      title: ពិនិត្យកែសម្រួលព័ត៌មាននៃឣង្គភាព
+      title: ពិនិត្យកែសម្រួលពត៌មាននៃឣង្គភាព
     new:
       title: អង្គភាពថ្មី
     form:
@@ -414,12 +414,12 @@ km:
       save: រក្សាទុក
       cancel: ទុកជាមោឃៈ
     create:
-      successfully_created: ឣង្គភាពបង្កើតកំណត់ត្រាថ្មីបានដោយជោគជ័យ។
+      successfully_created: ឣង្គភាពបង្កើតកំណត់ត្រាថ្មីបានដោយជោគជ័យ
     update:
-      successfully_updated: ឣង្គភាពបានsaveដោយជោគជ័យ។
+      successfully_updated: ឣង្គភាពបានរក្សាដោយជោគជ័យ
     destroy:
-      successfully_deleted: ឣង្គភាពត្រូវបានលុបចោលដោយជោគជ័យ។
-      alert: ឣង្គភាពមិនអាចលុបចោលបានទេ។
+      successfully_deleted: ឣង្គភាពត្រូវបានលុបចោលដោយជោគជ័យ
+      alert: ឣង្គភាពមិនអាចលុបចោលបានទេ
   departments:
     index:
       add_new_department: បន្ថែមកម្មវិធីថ្មី
@@ -437,12 +437,12 @@ km:
       save: រក្សាទុក
       cancel: ទុកជាមោឃៈ
     create:
-      successfully_created: កម្មវិធីបង្កើតបានដោយជោគជ័យ។
+      successfully_created: កម្មវិធីបង្កើតបានដោយជោគជ័យ
     update:
-      successfully_updated: កម្មវិធីSaveបានដោយជោគជ័យ។
+      successfully_updated: កម្មវិធីរក្សាបានដោយជោគជ័យ
     destroy:
-      successfully_deleted: កម្មវិធីត្រូវបានលុបចោលដោយជោគជ័យ។
-      alert: កម្មវិធីមិនអាចលុបចោលបានទេ។
+      successfully_deleted: កម្មវិធីត្រូវបានលុបចោលដោយជោគជ័យ
+      alert: កម្មវិធីមិនអាចលុបចោលបានទេ
   domains:
     index:
       add_new_domain: បន្ថែមកត្តាថ្មី
@@ -467,12 +467,12 @@ km:
       score_3: ពិន្ទុ 3
       score_4: ពិន្ទុ 4
     create:
-      successfully_created: កត្តាត្រូវបានបង្កើតបានជោគជ័យ។
+      successfully_created: កត្តាត្រូវបានបង្កើតដោយជោគជ័យ
     update:
-      successfully_updated: កត្តាត្រូវបានកែសម្រួលបានជោគជ័យ។
+      successfully_updated: កត្តាត្រូវបានកែសម្រួលដោយជោគជ័យ
     destroy:
-      successfully_deleted: កត្តាត្រូវបានលុបចោលជោគជ័យ។
-      alert: កត្តាមិនអាចលុបបានទេ។
+      successfully_deleted: កត្តាត្រូវបានលុបចោលជោគជ័យ
+      alert: កត្តាមិនអាចលុបបានទេ
   domain_groups:
     index:
       add_new_domain_group: បន្ថែមការប្រមូលផ្តុំកត្តាថ្មី
@@ -492,12 +492,12 @@ km:
       save: រក្សាទុក
       cancel: ទុកជាមោឃៈ
     create:
-      successfully_created: ការប្រមូលផ្តុំកត្តាត្រូវបានបង្កើតបានជោគជ័យ។
+      successfully_created: ការប្រមូលផ្តុំកត្តាត្រូវបានបង្កើតដោយជោគជ័យ
     update:
-      successfully_updated: ការប្រមូលផ្តុំកត្តាត្រូវបានកែសម្រួលបានជោគជ័យ។
+      successfully_updated: ការប្រមូលផ្តុំកត្តាត្រូវបានកែសម្រួលដោយជោគជ័យ
     destroy:
-      successfully_deleted: ការប្រមូលផ្តុំកត្តាត្រូវបានលុបចោលជោគជ័យ។
-      alert: ការប្រមូលផ្តុំកត្តាមិនអាចលុបបានទេ។
+      successfully_deleted: ការប្រមូលផ្តុំកត្តាត្រូវបានលុបចោលជោគជ័យ
+      alert: ការប្រមូលផ្តុំកត្តាមិនអាចលុបបានទេ
   provinces:
     index:
       add_new_province: បន្ថែមខេត្តថ្មី
@@ -513,9 +513,9 @@ km:
       save: រក្សាទុក
       cancel: ទុកជាមោឃៈ
     create:
-      successfully_created: ខេត្តបង្កើតបានដោយជោគជ័យ។
+      successfully_created: ខេត្តបង្កើតបានដោយជោគជ័យ
     update:
-      successfully_updated: ខេត្តsaveបានដោយជោគជ័យ។
+      successfully_updated: ខេត្តរក្សាបានដោយជោគជ័យ
     destroy:
       successfully_deleted: ខេត្តត្រូវបានលុបចោលដោយជោគជ័យ
       alert: ខេត្តមិនអាចលុបបានទេ
@@ -532,14 +532,14 @@ km:
     new:
       title: ប្រភពនៃការបញ្ជូនថ្មី
     form:
-      name: ឈ្មោះប្រភពនែការបញ្ជូន
+      name: ឈ្មោះប្រភពនៃការបញ្ជូន
       description: ការបរិយាយ
       save: រក្សាទុក
       cancel: ទុកជាមោឃៈ
     create:
       successfully_created: ប្រភពនៃការបញ្ជូនបង្កើតបានដោយជោគជ័យ
     update:
-      successfully_updated: ប្រភពនៃការបញ្ជូនsaveបានដោយជោគជ័យ
+      successfully_updated: ប្រភពនៃការបញ្ជូនរក្សាបានដោយជោគជ័យ
     destroy:
       successfully_deleted: ប្រភពនៃការបញ្ជូនត្រូវបានលុបចោលដោយជោគជ័យ
       alert: ប្រភពនៃការបញ្ជូនមិនអាចលុបបានទេ
@@ -559,12 +559,12 @@ km:
       save: រក្សាទុក
       cancel: ទុកជាមោឃៈ
     create:
-      successfully_created: ប្រភេទនៃបរិមាណបានបង្កើតដោយជោគជ័យ។
+      successfully_created: ប្រភេទនៃបរិមាណបានបង្កើតដោយជោគជ័យ
     update:
-      successfully_updated: ប្រភេទនៃបរិមាណបានកែសម្រួលដោយជោគជ័យ។
+      successfully_updated: ប្រភេទនៃបរិមាណបានកែសម្រួលដោយជោគជ័យ
     destroy:
-      successfully_deleted: ប្រភេទនៃបរិមាណបានលុបចោលដោយជោគជ័យ។
-      alert: ប្រភេទនៃបរិមាណមិនអាចលុបចោលបានទេ។
+      successfully_deleted: ប្រភេទនៃបរិមាណបានលុបចោលដោយជោគជ័យ
+      alert: ប្រភេទនៃបរិមាណមិនអាចលុបចោលបានទេ
   quantitative_cases:
     edit:
       title: ពិនិត្យកែសម្រួល ទិន្ន័យនៃបរិមាណ
@@ -576,21 +576,21 @@ km:
       save: រក្សាទុក
       cancel: ទុកជាមោឃៈ
     create:
-      successfully_created: ទិន្ន័យនៃបរិមាណបានបង្កើតដោយជោគជ័យ។
+      successfully_created: ទិន្ន័យនៃបរិមាណបានបង្កើតដោយជោគជ័យ
     update:
-      successfully_updated: ទិន្ន័យនៃបរិមាណបានកែសម្រួលដោយជោគជ័យ។
+      successfully_updated: ទិន្ន័យនៃបរិមាណបានកែសម្រួលដោយជោគជ័យ
     destroy:
-      successfully_deleted: ទិន្ន័យនៃបរិមាណបានលុបចោលដោយជោគជ័យ។
+      successfully_deleted: ទិន្ន័យនៃបរិមាណបានលុបចោលដោយជោគជ័យ
   tasks:
     index:
       tasks_of: កាតព្វកិច្ចរបស់
       overdue_tasks: កាតព្វកិច្ចផុតកំណត់
       todays_tasks: កាតព្វកិច្ចថ្ងៃនេះ
       upcoming_tasks: កាតព្វកិច្ចដែលមិនទាន់ធ្វើ
-      filter_by_user: ស្វែងរកតាមរយះអ្នកប្រើប្រាស់
+      filter_by_user: ស្វែងរកតាមរយៈអ្នកប្រើប្រាស់
       domain: កត្តា
     filter:
-      filter_by_user: ស្វែងរកតាមរយះអ្នកប្រើប្រាស់
+      filter_by_user: ស្វែងរកតាមរយៈអ្នកប្រើប្រាស់
   client:
     tasks:
       index:
@@ -619,11 +619,11 @@ km:
         add_task: បន្ថែមកាតព្វកិច្ច
         save: រក្សាទុក
       create:
-        successfully_created: កាតព្វកិច្ចត្រូវបានបង្កើតដោយជោគជ័យ។
+        successfully_created: កាតព្វកិច្ចត្រូវបានបង្កើតដោយជោគជ័យ
       update:
-        successfully_updated: កាតព្វកិច្ចត្រូវបានកែសម្រួលដោយជោគជ័យ។
+        successfully_updated: កាតព្វកិច្ចត្រូវបានកែសម្រួលដោយជោគជ័យ
       destroy:
-        successfully_deleted: កាតព្វកិច្ចត្រូវបានលុបដោយជោគជ័យ។
+        successfully_deleted: កាតព្វកិច្ចត្រូវបានលុបដោយជោគជ័យ
   assessments:
     index:
       assessment_history: ការប៉ាន់ប្រមាណចាស់ៗ
@@ -644,7 +644,7 @@ km:
     add_task_form:
       completion_date: ថ្ងៃកំនត់
       domain: កត្តា
-      enter_task_detail: ព័ត៌មានកាតព្វកិច្ច
+      enter_task_detail: ពត៌មានកាតព្វកិច្ច
       title: បន្ថែមកាតព្វកិច្ចថ្មី
       save: រក្សាទុក
     show:
@@ -657,9 +657,9 @@ km:
       domain: កត្តា
       score: ពិន្ទុ
     create:
-      successfully_created: ការប៉ាន់ប្រមាណត្រូវបានបង្កើតដោយជោគជ័យ។
+      successfully_created: ការប៉ាន់ប្រមាណត្រូវបានបង្កើតដោយជោគជ័យ
     update:
-      successfully_updated: ការប៉ាន់ប្រមាណត្រូវបានកែសម្រួលដោយជោគជ័យ។
+      successfully_updated: ការប៉ាន់ប្រមាណត្រូវបានកែសម្រួលដោយជោគជ័យ
   case_notes:
     index:
       case_note_lists: បញ្ជីកំណត់ត្រា
@@ -670,7 +670,7 @@ km:
       present: វត្តមានឣ្នកចូលរួម
       completed_tasks: កាតព្វកិច្ចដែលបានធ្វើរួច
     new:
-      meeting_detail: ព័ត៌មាននៃការប្រជុំ
+      meeting_detail: ពត៌មាននៃការប្រជុំ
       meeting_with: ប្រជុំជាមួយ
       on_date: 'ថ្ងៃ ខែ ឆ្នាំ:'
       present: 'វត្តមានឣ្នកចូលរួម:'
@@ -685,18 +685,18 @@ km:
     add_task_form:
       completion_date: ថ្ងៃកំនត់
       domain: កត្តា
-      enter_task_detail: ព័ត៌មានកាតព្វកិច្ច
+      enter_task_detail: ពត៌មានកាតព្វកិច្ច
       title: បន្ថែមកាតព្វកិច្ចថ្មី
       save: រក្សាទុក
     show:
       case_note_on: កំណត់ត្រានៅថ្ងៃ
       present: វត្តមានឣ្នកចូលរួម
     create:
-      successfully_created: កំណត់ត្រាត្រូវបានបង្កើតដោយជោគជ័យ។
+      successfully_created: កំណត់ត្រាត្រូវបានបង្កើតដោយជោគជ័យ
   devise:
     registrations:
       edit:
-        header: កែសម្រួលព័ត៌មានផ្ទាល់ខ្លួន
+        header: កែសម្រួលពត៌មានផ្ទាល់ខ្លួន
         first_name: នាមខ្លួន
         last_name: នាមត្រកូល
         date_of_birth: ថ្ងៃ ខែ ឆ្នាំ កំណើត
@@ -712,7 +712,7 @@ km:
         we_need_your_current_password_to_confirm_your_changes: យើងត្រូវការពិនិត្យបញ្ជាក់លេខកូដសំងាត់បច្ចុប្បន្នដើម្បីធ្វើការផ្លាស់ប្តូរ
         current_password: លេខកូដសំងាត់បច្ចុប្បន្ន
         save: រក្សាទុក
-        delete_my_account: លប់ចោលគណនីរបស់ខ្ញុំ
+        delete_my_account: លុបចោលគណនីរបស់ខ្ញុំ
         are_you_sure: តើអ្នកប្រាកដហើយ?
   home:
     client:
@@ -738,25 +738,25 @@ km:
         legacy_quarterly_reports_for: មើល Quarterly Reports ចាស់ៗសម្រាប់
         back: ត្រលប់ក្រោយ
       show:
-        quarterly_report_information_for: ពត័មាន Quarterly Report សម្រាប់
-        with_id: ជាមួយលេខសម្កាល់
+        quarterly_report_information_for: ពត៌មាន Quarterly Report សម្រាប់
+        with_id: ជាមួយលេខសម្គាល់
         back: ត្រលប់ក្រោយ
         date_of_visit: កាលបរិច្ឆេទនៃដំណើរទស្សនកិច្ច
         kc_name: ឈ្មោះ KC
-        staff_information: ពត័មានរបស់បុគ្គលិក
+        staff_information: ពត៌មានរបស់បុគ្គលិក
         id: លេខសំគាល់
         if_yes:  រ្យេបរាប់ប្រសិនបើមាន
         general_health_or_appearance: រៀបរាប់អំពីសុខភាពទូទៅ / រូបរាង
-        observations_of_drug_alchohol_abuse: រៀបរាប់ពីការសង្កេតការណាមួយនៃគ្រឿងញៀនការសេពគ្រឿងស្រវឹង, ការរំលោភបំពានជាដើម
+        observations_of_drug_alchohol_abuse: រៀបរាប់ពីការសង្កេតការណ៍ណាមួយនៃគ្រឿងញៀនការសេពគ្រឿងស្រវឹង, ការរំលោភបំពានជាដើម
         describe_the_family_current_situation: រៀបរាប់អំពីស្ថានភាពបច្ចុប្បន្នរបស់ក្រុមគ្រួសារ
-        how_are_they_being_misused: ប្រសិនបើគ្មាន,តើពួកគេត្រូវបានប្រើប្រាស់ដោយ របៀបណា?
+        how_are_they_being_misused: ប្រសិនបើគ្មាន តើពួកគេត្រូវបានប្រើប្រាស់ដោយ របៀបណា?
         what_is_my_plan_for_the_next_visit_to_the_client: ផែនការរបស់ខ្ញុំសម្រាប់ដំណើរទស្សនកិច្ចបន្ទាប់ទៅលើអតិថិជន?
         how_did_i_encourage_the_client: តើខ្ញុំលើកទឹកចិត្តអតិថិជនបានយ៉ាងដូចម្តេច?
         child_school_attendance_or_progress: តើអ្វីជាការចូលរួមរបស់សាលា / ការរីកចម្រើនរបស់កុមារ
         general_appearance_of_home: រៀបរាប់ពីរូបរាងទូទៅនៃផ្ទះ
         what_future_teachings_or_trainings_could_help_the_client: តើអ្វីទៅជាការបង្រៀន / ការបណ្តុះបណ្តាលនាពេលអនាគតអាចជួយអតិថិជន?
-        has_the_situation_changed_from_the_previous_visit: បានស្ថានភាពបានផ្លាស់ប្ដូរពីដំណើរទស្សនកិច្ចលើកមុននោះ?
-        money_and_supplies_being_used_appropriately: តើលុយត្រូវបានប្រើនិងការផ្គត់ផ្គង់បានត្រឹមត្រូវ?
+        has_the_situation_changed_from_the_previous_visit: តើស្ថានភាពបានផ្លាស់ប្ដូរពីដំណើរទស្សនកិច្ចលើកមុនទេ?
+        money_and_supplies_being_used_appropriately: តើលុយនិងការផ្គត់ផ្គង់ត្រូវបានប្រើត្រឹមត្រូវឬទេ?
         spiritual_developments_with_the_child_or_family: ការអភិវឌ្ឍខាងវិញ្ញាណណាមួយជាមួយនឹងកុមារឬគ្រួសារ?
 
 

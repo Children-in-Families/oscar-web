@@ -11,7 +11,7 @@ en:
       # When using html, text and mark won't be used.
       # html: '<abbr title="required">*</abbr>'
     error_notification:
-      default_message: "សូមពិនិត្យបញ្ហាសារឡើងវិញនៅខាងក្រោម៖ / Please review the problems below:"
+      default_message: "Please review the problems below:"
     # Examples
     # labels:
     #   defaults:
