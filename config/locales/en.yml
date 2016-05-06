@@ -217,6 +217,7 @@ en:
       reject: Reject
       note: Note
       view_legacy_quarterly_reports: Legacy Quarterly Reports
+      take_survey: Take Survey
       <<: *default_client_fields
       placements:
         <<: *default_placement_fields

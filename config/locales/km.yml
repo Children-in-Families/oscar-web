@@ -213,6 +213,7 @@ km:
       reject: មិនទទួលយក
       note: កំណត់ហេតុ
       view_legacy_quarterly_reports: មើល Quarterly Reports ចាស់ៗ
+      take_survey: ការស្ទង់មតិ
       reject_client: មិនទទួលយកអតិថិជន
       <<: *default_client_fields
       placements:
