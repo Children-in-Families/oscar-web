@@ -16,8 +16,8 @@ en:
     client_name: Client name
     date_of_birth: Date of birth
     gender: Gender
-    boy: Boy
-    girl: Girl
+    male: M
+    female: F
     found_client_at: Found client location
     at: At
     village: Village
@@ -43,10 +43,13 @@ en:
     second_mission: Second mission
     third_mission: Third mission
     fourth_mission: Fourth mission
-    back: Back
-    new_report: New Report
 
   government_reports:
+    index:
+      back: Back
+      add_report: Add Government Report
+    new:
+      new_report: New Government Report
     show:
       pdf:
         haml:
@@ -65,7 +68,7 @@ en:
           need: Need
           intervention_plan: Intervention plan
           physical_health: Physical health
-          food_habitation: Food habitation
+          food_shelter: Food shelter
           and: and
           clothes: clothes
           communication_in_family: Communication in family
@@ -82,8 +85,13 @@ en:
           office: Office
           <<: *default_government_report_fields
     edit:
-      edit_report: Edit report
-
+      edit_report: Edit Government Report
+    create:
+      successfully_created: Government Report has been successfully created.
+    update:
+      successfully_updated: Government Report has been successfully updated.
+    destroy:
+      successfully_deleted: Government Report has been successfully deleted.
     form:
       present_physical_health: Present physical health
       physical_health_need: Physical health need
@@ -443,6 +451,11 @@ en:
   activerecord:
     errors:
       models:
+        government_report:
+          attributes:
+            code:
+              blank: This field is required
+              taken: has already been taken
         user:
           attributes:
             current_password:

@@ -16,8 +16,8 @@ km:
     client_name: ឈ្មោះកុមារ
     date_of_birth: ថ្ងៃខែឆ្នាំកំណើត
     gender: ភេទ
-    boy: ប
-    girl: ស
+    male: ប
+    female: ស
     found_client_at: ទីកន្លែងជួបកុមារដំបូង
     at: នៅ
     village: ភូមិ
@@ -66,7 +66,7 @@ km:
           need: តម្រូវការ
           intervention_plan: ផែនការអន្តរាគមន៍
           physical_health: សុខភាពផ្លូវកាយ
-          food_habitation: ចំណីអាហារទីជម្រក
+          food_shelter: ចំណីអាហារទីជម្រក
           and: និង
           clothes: សម្លៀកបំពាក់
           communication_in_family: ទំនាក់ទំនងក្នុងគ្រួសារ
@@ -85,6 +85,13 @@ km:
           <<: *default_government_report_fields
     edit:
       edit_report: កែសម្រួលរបាយការណ៍
+    create:
+      successfully_created: របាយការណ៍ត្រូវបានបង្កើតដោយជោគជ័យ។
+    update:
+      successfully_updated: របាយការណ៍ត្រូវបានកែសម្រួលដោយជោគជ័យ។
+    destroy:
+      successfully_deleted: របាយការណ៍ត្រូវបានលុបដោយជោគជ័យ។
+
     form:
       present_physical_health: ស្ថានភាពបច្ចុប្បន្ននៃសុខភាពផ្លូវកាយ
       physical_health_need: តម្រូវការនៃសុខភាពផ្លូវកាយ
@@ -506,6 +513,11 @@ km:
         quantitative_case:
           attributes:
             value:
+              blank: មិនអាចរំលង
+              taken: ត្រូវបានប្រើរួចហើយ
+        government_report:
+          attributes:
+            code:
               blank: មិនអាចរំលង
               taken: ត្រូវបានប្រើរួចហើយ
   agencies:

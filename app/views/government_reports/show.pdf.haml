@@ -81,9 +81,9 @@
           %p{ style: 'width:100%;display:table;' }
             %span{ style: 'width:35%;display:table-cell;' }= "#{t('.gender')} :"
             %span{ style: 'width:35%;display:table-cell;' }
-              %input.text-left{ type: 'checkbox', checked: ('checked' if @government_report.client_gender == 'male') }= " #{t('.boy')}"
+              %input.text-left{ type: 'checkbox', checked: ('checked' if @government_report.client_gender == 'male') }= " #{t('.male')}"
             %span{ style: 'width:30%;display:table-cell;' }
-              %input.text-left{ type: 'checkbox', checked: ('checked' if @government_report.client_gender == 'female') }= " #{t('.girl')}"
+              %input.text-left{ type: 'checkbox', checked: ('checked' if @government_report.client_gender == 'female') }= " #{t('.female')}"
     .col-xs-12{ style: 'padding:5px 0;' }
       %p{ style: 'display:table;width:100%;' }
         %span{ style: 'display:table-cell;width:24%;' }= "#{t('.found_client_at')} :"
@@ -226,7 +226,7 @@
           %td= @government_report.physical_health_plan
         %tr
           %td
-            %span= t('.food_habitation')
+            %span= t('.food_shelter')
             %br
             %span= "#{t('.and')} #{t('.clothes')}"
           %td= @government_report.present_supplies

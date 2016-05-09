@@ -1,6 +1,6 @@
 = simple_form_for [@government_report.client, @government_report] do |f|
   .panel-body
-    = f.error_notification
+    = error_notification(f)
     .form-inputs
       .row
         .col-xs-12.col-md-4= f.input :code, label: t('.code')
