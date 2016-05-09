@@ -1,4 +1,113 @@
 km:
+  default_government_report_fields: &default_government_report_fields
+    code: លេខកូដទម្រង់
+    initial_capital: រាជធានី ខេត្ត
+    initial_city: ក្រុង ស្រុក ខណ្ឌ
+    initial_commune: ឃុំ សង្កាត់
+    initial_date: កាលបរិច្ឆេទ
+    date: កាលបរិច្ឆេទ
+    client_code: លេខកូដកុមារ
+    commune: ឃុំ/សង្កាត់
+    city: ក្រុង/ស្រុក/ខណ្ឌ
+    capital: ខេត្ត/រាជធានី
+    organisation_name: ឈ្មោះគ.ក.ន.ក
+    organisation: គ.ក.ន.ក
+    phone_number: លេខទូរសព្ទ
+    client_name: ឈ្មោះកុមារ
+    date_of_birth: ថ្ងៃខែឆ្នាំកំណើត
+    gender: ភេទ
+    boy: ប
+    girl: ស
+    found_client_at: ទីកន្លែងជួបកុមារដំបូង
+    at: នៅ
+    village: ភូមិ
+    education: កម្រិតវប្បធម៌
+    carer_name: ឈ្មោះអ្នកថែទាំកុមារ
+    client_contact: ទំនាក់ទំនងជាមួយកុមារ
+    carer_address: អាសយដ្ឋានអ្នកថែទាំ
+    house_number: ផ្ទះលេខ
+    street_number: ផ្លូវលេខ
+    case_information_date: កាលបរិច្ឆេទនៃការទទួលពត៌មានអំពីករណី
+    day: ថ្ងៃទី
+    month: ខែ
+    year: ឆ្នាំ
+    transfer_info: ប្រភពនៃការបញ្ជូន
+    referral_name: ឈ្មោះអ្នកបញ្ជូន
+    position: មុខងារ
+    or: ឬ
+    anonymous: អនាមិក (ប្រសិនបើអ្នកបញ្ជូនមិនចង់បង្ហាញអត្តសញ្ញាណរបស់ខ្លួន)
+    anonymous_information: ពត៌មានដែលទទួលបាន
+    client_living_with_guardians: តើកុមារកំពុងរស់នៅជាមួយឪពុកម្ដាយ ឬអាណាព្យាបាល
+    first_mission: អនុវត្តតាមនីតិវិធីទុកដាក់កុមារតាមការថែទាំជំនួស និងបំពេញទម្រង់ទី១៣០៤ (ករណីកុមារកំពុងឬអាចមានគ្រោះថ្នាក់ឆាប់ៗខាងមុខ)
+    second_mission: អនុវត្តតាមនីតិវិធីរក្សាទុកកុមារក្នុងគ្រួសារនិងបំពេញទម្រង់១៣០២និងទម្រង់ទី១៣០៣
+    third_mission: អនុវត្តតាមនីតិវិធីបង្រួបបង្រួមគ្រួសារ និងបំពេញទម្រង់ទី១៣០៩ និងទម្រង់ទី១៣០៣ (ករណីកុមារបែកពីគ្រួសារ)
+    fourth_mission: អនុវត្តតាមនីតិវិធីកុមារដែលត្រូវបានគេបោះបង់ចោល និងបំពេញទម្រង់ទី១៣០៧ (ករណីកុមារត្រូវគេបោះបង់ចោល)
+  government_reports:
+    index:
+      back: ត្រលប់ក្រោយ
+      add_report: បន្ថែមរបាយណ៍ថ្មី
+    new:
+      new_report: របាយណ៍ថ្មី
+    show:
+      pdf:
+        haml:
+          kingdom_of_wonder: ព្រះរាជាណាចក្រកម្ពុជា
+          nation_religion_king: ជាតិ សាសនា ព្រះមហាក្សត្រ
+          first_response_form: ទម្រង់ឆ្លើយតបលើកដំបូង
+          for_children_who_are_in_danger: សម្រាប់កុមារដែលស្ថិតក្នុងស្ថានភាពគ្រោះថ្នាក់
+          information: ពត៌មានដែលទទួលបាន
+          positive: បាទ/ចាស
+          negative: ទេ
+          danger_situation: ស្ថានភាពនានាដែលបង្ក ឬអាចបង្កគ្រោះថ្នាក់ដល់កុមារ
+          check: គូសសញ្ញា
+          every_point: រាល់ចំនុចទាំងអស់ ដែលកើតមានជាក់ស្ដែង
+          child_situation_and_need: ស្ថានភាពកុមារ និងតម្រូវការ
+          present_situation: ស្ថានភាពបច្ចុប្បន្ន
+          need: តម្រូវការ
+          intervention_plan: ផែនការអន្តរាគមន៍
+          physical_health: សុខភាពផ្លូវកាយ
+          food_habitation: ចំណីអាហារទីជម្រក
+          and: និង
+          clothes: សម្លៀកបំពាក់
+          communication_in_family: ទំនាក់ទំនងក្នុងគ្រួសារ
+          communication_in_society: ការទំនាក់ទំនងសង្គម
+          emotional_health: សុខភាពផ្លូវចិត្ត
+          mission_obtainable: វិធានការចាំបាច់
+          none: គ្មាន (ករណីត្រូវបញ្ចប់)
+          exist: មាន
+          if_exist: 'ប្រសិនបើមាន ត្រូវ៖'
+          missions_which_need_to_be_done: ត្រង់វិធានការណាមួយដែលត្រូវអនុវត្ត
+          name: ឈ្មោះ
+          seen_and_agreed: បានឃើញ និងឯកភាព
+          signature: ហត្ថលេខា និងត្រាមេឃុំ ឬចៅសង្កាត់
+          copy: ចម្លងជូន
+          office: ការិយាល័យស.អ.យ ក្រុង ស្រុក ខណ្ឌ
+          <<: *default_government_report_fields
+    edit:
+      edit_report: កែសម្រួលរបាយការណ៍
+    form:
+      present_physical_health: ស្ថានភាពបច្ចុប្បន្ននៃសុខភាពផ្លូវកាយ
+      physical_health_need: តម្រូវការនៃសុខភាពផ្លូវកាយ
+      physical_health_plan: ផែនការអន្តរាគមន៍នៃសុខភាពផ្លូវកាយ
+      present_supplies: ស្ថានភាពបច្ចុប្បន្ននៃចំណីអាហារទីជម្រកនិងសម្លៀកបំពាក់
+      supplies_need: តម្រូវការនៃចំណីអាហារទីជម្រកនិងសម្លៀកបំពាក់
+      supplies_plan: ផែនការអន្តរាគមន៍នៃចំណីអាហារទីជម្រកនិងសម្លៀកបំពាក់
+      present_education: ស្ថានភាពបច្ចុប្បន្ននៃការសិក្សា
+      education_need: តម្រូវការនៃការសិក្សា
+      education_plan: ផែនការអន្តរាគមន៍នៃការសិក្សា
+      present_family_communication: ស្ថានភាពបច្ចុប្បន្ននៃទំនាក់ទំនងក្នុងគ្រួសារ
+      family_communication_need: តម្រូវការនៃទំនាក់ទំនងក្នុងគ្រួសារ
+      family_communication_plan: ផែនការអន្តរាគមន៍នៃទំនាក់ទំនងក្នុងគ្រួសារ
+      present_society_communication: ស្ថានភាពបច្ចុប្បន្ននៃការទំនាក់ទំនងសង្គម
+      society_communication_need: តម្រូវការនៃការទំនាក់ទំនងសង្គម
+      society_communication_plan: ផែនការអន្តរាគមន៍នៃការទំនាក់ទំនងសង្គម
+      present_emotional_health: ស្ថានភាពបច្ចុប្បន្ននៃសុខភាពផ្លូវចិត្ត
+      emotional_health_need: តម្រូវការនៃសុខភាពផ្លូវចិត្ត
+      emotional_health_plan: ផែនការអន្តរាគមន៍នៃសុខភាពផ្លូវចិត្ត
+      done_date: កាលបរិច្ឆេទនៃការធ្វើរបាយការណ៍
+      agreed_date: កាលបរិច្ឆេទនៃការឃើញនិងឯកភាព
+      <<: *default_government_report_fields
+
   review_problem: សូមពិនិត្យបញ្ហាសារឡើងវិញនៅខាងក្រោម៖
   cannot_be_blank: មិនអាចរំលង
 
@@ -209,6 +318,7 @@ km:
       view_ec_history_btn_link: មើលប្រវត្តិនៃ EC
       view_fc_history_btn_link: មើលប្រវត្តិនៃ FC
       view_kc_history_btn_link: មើលប្រវត្តិនៃ KC
+      government_report: របាយការណ៍សម្រាប់រដ្ឋាភិបាល
       accept: ទទួលយក
       reject: មិនទទួលយក
       note: កំណត់ហេតុ

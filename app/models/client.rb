@@ -19,6 +19,7 @@ class Client < ActiveRecord::Base
   has_many :tasks,       dependent: :destroy
   has_many :case_notes,  dependent: :destroy
   has_many :assessments, dependent: :destroy
+  has_many :government_reports, dependent: :destroy
 
   accepts_nested_attributes_for     :tasks
 

@@ -1,0 +1,314 @@
+#government-report
+  .row
+    .col-xs-5.col-xs-offset-7
+      %h4
+        %p.text-center
+          %b= t('.kingdom_of_wonder')
+        %p.text-center
+          %b= t('.nation_religion_king')
+    .col-xs-12
+      %p{ style: 'width:50%;display:table;' }
+        %span{ style: 'display:table-cell;widht:37%;' }= "#{t('.initial_capital')} :"
+        %span{ style: 'display:table-cell;border-bottom:1px dotted #000;width:63%;' }
+          = @government_report.initial_capital
+      %p{ style: 'width:50%;display:table;' }
+        %span{ style: 'display:table-cell;widht:37%;' }= "#{t('.initial_city')} :"
+        %span{ style: 'display:table-cell;border-bottom:1px dotted #000;width:63%;' }
+          = @government_report.initial_city
+      %p{ style: 'width:50%;display:table;' }
+        %span{ style: 'display:table-cell;widht:37%;' }= "#{t('.initial_commune')} :"
+        %span{ style: 'display:table-cell;border-bottom:1px dotted #000;width:63%;' }
+          = @government_report.initial_commune
+    .col-xs-12.text-center
+      %h4{style:'margin-top:40px;'}
+        %b= t('.first_response_form')
+      %p{style:'margin-bottom:40px;'}= "(#{t('.for_children_who_are_in_danger')})"
+    .col-xs-12{ style: 'padding:5px 0;' }
+      .row
+        .col-xs-6
+          %p{ style: 'width:100%;display:table;' }
+            %span{ style: 'width:40%;display:table-cell;' }= "#{t('.initial_date')} :"
+            %span.text-center{ style: 'width:60%;border-bottom:1px solid #000;display:table-cell;' }
+              = "#{@government_report.initial_date.strftime('%d')} / #{@government_report.initial_date.strftime('%m')} / #{@government_report.initial_date.strftime('%Y')}" if @government_report.initial_date
+        .col-xs-6
+          %p{ style: 'display:table;width:100%;' }
+            %span{ style: 'display:table-cell;width:35%;' }= "#{t('.client_code')} :"
+            %span.text-center{ style: 'width:65%;display:table-cell;border-bottom:1px solid #000;' }
+              = @government_report.client_code            
+
+    .col-xs-12{ style: 'padding:5px 0;' }
+      .row
+        .col-xs-4
+          %p{ style: 'display:table;width:100%;' }
+            %span{ style: 'display:table-cell;width:40%;' }= "#{t('.commune')} :"
+            %span.text-center{ style: 'display:table-cell;width:60%;border-bottom:1px solid #000;' }
+              = @government_report.commune
+        .col-xs-4
+          %p{ style: 'display:table;width:100%;' }
+            %span{ style: 'display:table-cell;width:55%;' }= "#{t('.city')} :"
+            %span.text-center{ style: 'display:table-cell;width:45%;border-bottom:1px solid #000;' }
+              = @government_report.city
+        .col-xs-4
+          %p{ style: 'display:table;width:100%;' }
+            %span{ style: 'display:table-cell;width:50%;' }= "#{t('.capital')} :"
+            %span.text-center{ style: 'display:table-cell;width:50%;border-bottom:1px solid #000;' }
+              = @government_report.capital
+    .col-xs-12{ style: 'padding:5px 0;' }
+      .row
+        .col-xs-6
+          %p{ style: 'display:table;width:100%;' }
+            %span{ style: 'display:table-cell;width:40%;' }= "#{t('.organisation_name')} :"
+            %span.text-center{ style: 'display:table-cell;width:60%;border-bottom:1px solid #000;' }
+              = @government_report.organisation_name
+        .col-xs-6
+          %p{ style: 'display:table;width:100%;' }
+            %span{ style: 'display:table-cell;width:30%;' }= "#{t('.phone_number')} :"
+            %span.text-center{ style: 'display:table-cell;width:70%;border-bottom:1px solid #000;' }
+              = @government_report.organisation_phone_number
+    .col-xs-12{ style: 'padding:5px 0;' }
+      .row
+        .col-xs-5
+          %p{ style: 'display:table;width:100%;' }
+            %span{ style: 'display:table-cell;width:40%;' }= "#{t('.client_name')} :"
+            %span.text-center{ style: 'display:table-cell;width:60%;border-bottom:1px solid #000;' }
+              = @government_report.client_name
+        .col-xs-4{ style: 'padding-right:2px;' }
+          %p{ style: 'width:100%;display:table;' }
+            %span{ style: 'width:55%;display:table-cell;' }= "#{t('.date_of_birth')} :"
+            %span.text-center{ style: 'width:45%;border-bottom:1px solid #000;display:table-cell;' }
+              = "#{@government_report.client_date_of_birth.strftime('%d')} / #{@government_report.client_date_of_birth.strftime('%m')} / #{@government_report.client_date_of_birth.strftime('%Y')}" if @government_report.client_date_of_birth
+        .col-xs-3
+          %p{ style: 'width:100%;display:table;' }
+            %span{ style: 'width:35%;display:table-cell;' }= "#{t('.gender')} :"
+            %span{ style: 'width:35%;display:table-cell;' }
+              %input.text-left{ type: 'checkbox', checked: ('checked' if @government_report.client_gender == 'male') }= " #{t('.boy')}"
+            %span{ style: 'width:30%;display:table-cell;' }
+              %input.text-left{ type: 'checkbox', checked: ('checked' if @government_report.client_gender == 'female') }= " #{t('.girl')}"
+    .col-xs-12{ style: 'padding:5px 0;' }
+      %p{ style: 'display:table;width:100%;' }
+        %span{ style: 'display:table-cell;width:24%;' }= "#{t('.found_client_at')} :"
+        %span{ style: 'display:table-cell;width:5%;' }= t('.at')
+        %span.text-center{ style: 'display:table-cell;width:33%;border-bottom:1px solid #000;' }
+          = @government_report.found_client_at
+        %span{ style: 'display:table-cell;width:5%;' }= t('.village')
+        %span.text-center{ style: 'display:table-cell;width:33%;border-bottom:1px solid #000;' }
+          = @government_report.found_client_village
+    .col-xs-12{ style: 'padding:5px 0;' }
+      %p{ style: 'display:table;width:100%;' }
+        %span{ style: 'display:table-cell;width:15%;' }= "#{t('.education')} :"
+        %span.text-center{ style: 'display:table-cell;width:85%;border-bottom:1px solid #000;' }
+          = @government_report.education
+    .col-xs-12{ style: 'padding:5px 0;' }
+      .row
+        .col-xs-6
+          %p{ style: 'display:table;width:100%;' }
+            %span{ style: 'display:table-cell;width:50%;' }= "#{t('.carer_name')} :"
+            %span.text-center{ style: 'display:table-cell;width:50%;border-bottom:1px solid #000' }
+              = @government_report.carer_name
+        .col-xs-6
+          %p{ style: 'display:table;width:100%;' }
+            %span{ style: 'display:table-cell;width:50%;' }= "#{t('.client_contact')} :"
+            %span.text-center{ style: 'display:table-cell;width:60%;border-bottom:1px solid #000;' }
+              = @government_report.client_contact
+    .col-xs-12{ style: 'padding:5px 0;' }
+      %p{ style: 'display:table;width:100%;' }
+        %span{ style: 'display:table-cell;width:25%;' }= "#{t('.carer_address')} :"
+        %span{ style: 'display:table-cell;width:10%;' }= "#{t('.house_number')} :"
+        %span.text-center{ style: 'display:table-cell;width:10%;border-bottom:1px solid #000;' }
+          = @government_report.carer_house_number
+        %span{ style: 'display:table-cell;width:10%;' }= "#{t('.street_number')} :"
+        %span.text-center{ style: 'display:table-cell;width:10%;border-bottom:1px solid #000;' }
+          = @government_report.carer_street_number
+        %span{ style: 'display:table-cell;width:5%;' }= "#{t('.village')} :"
+        %span.text-center{ style: 'display:table-cell;width:30%;border-bottom:1px solid #000;' }
+          = @government_report.carer_village
+    .col-xs-12{ style: 'padding:5px 0;' }
+      .row
+        .col-xs-6
+          %p{ style: 'display:table;width:100%;' }
+            %span{ style: 'display:table-cell;width:25%;' }= "#{t('.commune')} :"
+            %span.text-center{ style: 'display:table-cell;width:75%;border-bottom:1px solid #000;' }
+              = @government_report.carer_commune
+        .col-xs-6
+          %p{ style: 'display:table;width:100%;' }
+            %span{ style: 'display:table-cell;width:35%;' }= "#{t('.city')} :"
+            %span.text-center{ style: 'display:table-cell;width:65%;border-bottom:1px solid #000;' }
+              = @government_report.carer_city
+    .col-xs-12{ style: 'padding:5px 0;' }
+      .row
+        .col-xs-6
+          %p{ style: 'display:table;width:100%;' }
+            %span{ style: 'display:table-cell;width:30%;' }= "#{t('.capital')} :"
+            %span.text-center{ style: 'display:table-cell;width:70%;border-bottom:1px solid #000;' }
+              = @government_report.carer_capital
+        .col-xs-6
+          %p{ style: 'display:table;width:100%;' }
+            %span{ style: 'display:table-cell;width:30%;' }= "#{t('.phone_number')} :"
+            %span.text-center{ style: 'display:table-cell;width:70%;border-bottom:1px solid #000;' }
+              = @government_report.carer_phone_number
+    .col-xs-12{ style: 'padding:5px 0;' }
+      %p{ style: 'display:table;width:100%;' }
+        %span{ style: 'display:table-cell;width:45%;' }= "#{t('.case_information_date')} :"
+        %span{ style: 'display:table-cell;width:5%;' }= t('.day')
+        %span.text-center{ style: 'display:table-cell;width:13%;border-bottom:1px solid #000;' }
+          = @government_report.case_information_date.strftime('%d') if @government_report.case_information_date
+        %span{ style: 'display:table-cell;width:5%;' }= t('.month')
+        %span.text-center{ style: 'display:table-cell;width:13%;border-bottom:1px solid #000;' }
+          = @government_report.case_information_date.strftime('%m') if @government_report.case_information_date
+        %span{ style: 'display:table-cell;width:5%;' }= t('.year')
+        %span.text-center{ style: 'display:table-cell;width:14%;border-bottom:1px solid #000;' }
+          = @government_report.case_information_date.strftime('%Y') if @government_report.case_information_date
+    .col-xs-12{ style: 'padding:5px 0;' }
+      .row
+        .col-xs-12
+          %p{ style: 'display:table;width:100%;' }
+            %span{ style: 'display:table-cell;width:20%;' }= "#{t('.transfer_info')} :"
+            %span{ style: 'display:table-cell;width:7%;' }= "#{t('.name')}"
+            %span.text-center{ style: 'display:table-cell;width:33%;border-bottom:1px solid #000;' }
+              = @government_report.referral_name
+            %span{ style: 'display:table-cell;width:7%;' }= "#{t('.position')}"
+            %span.text-center{ style: 'display:table-cell;width:33%;border-bottom:1px solid #000;' }
+              = @government_report.referral_position
+    .col-xs-12{ style: 'padding:5px 0;' }
+      %p
+        %span= t('.or')
+        %input{ type: 'checkbox', checked: ('checked' if @government_report.anonymous) }
+        %span= "#{t('.anonymous')} #{t('.information')} :"
+    - if @government_report.anonymous_description.present?
+      %footer{ style: 'page-break-after:always;'}
+        %p{style:'display:inline-block;width:100%;padding: 5px 0;line-height:35px;'}
+          %span
+            = @government_report.anonymous_description
+    - else
+      %footer{ style: 'page-break-after:always;'}
+        %p.text-center{style:'display:inline-block;border-bottom:1px solid #000;width:100%;padding: 5px 0;'}
+        %p.text-center{style:'display:inline-block;border-bottom:1px solid #000;width:100%;padding: 5px 0;'}
+        %p.text-center{style:'display:inline-block;border-bottom:1px solid #000;width:100%;padding: 5px 0;'}
+        %p.text-center{style:'display:inline-block;border-bottom:1px solid #000;width:100%;padding: 5px 0;'}
+    .col-xs-12
+      %p
+        %span= "#{t('.danger_situation')} : #{t('.check')}"
+        %span "
+        %i.fa.fa-check
+        %span "
+        %span= t('.every_point')
+    .col-xs-12
+      .row
+        - @client.quantitative_cases.group_by(&:quantitative_type).each_with_index do |qt, qti|
+          .col-xs-6
+            %p
+              %span= "#{qti+=1} - #{qt.first.name}"
+            - qt.last.each do |qc|
+              %p
+                %input{ type: 'checkbox', checked: ('checked' if @government_report.quantitative_cases.ids.include?(qc.id)) }
+                %span= qc.value
+
+    .col-xs-12
+      %p
+        %span= "#{t('.client_living_with_guardians')}?"
+        %input{ type: 'checkbox', checked: ('checked' if @government_report.client_living_with_guardian) }
+        %span= t('.positive')
+        %input{ type: 'checkbox', checked: ('checked' unless @government_report.client_living_with_guardian) }
+        %span= t('.negative')
+    .col-xs-12
+      %p= "#{t('.child_situation_and_need')} :"
+    .col-xs-12
+      %table.table.table-bordered{ style: 'table-layout: fixed;word-wrap: break-word;' }
+        %tr
+          %th{ style: 'width:25%;' }
+          %th.text-center{style:'padding-left:20px;padding-right:20px;width:25%;'}= t('.present_situation')
+          %th.text-center{style:'padding-left:50px;padding-right:50px;width:25%;'}= t('.need')
+          %th.text-center{style:'padding-left:20px;padding-right:20px;width:25%;'}= t('.intervention_plan')
+        %tr
+          %td= t('.physical_health')
+          %td= @government_report.present_physical_health
+          %td= @government_report.physical_health_need
+          %td= @government_report.physical_health_plan
+        %tr
+          %td
+            %span= t('.food_habitation')
+            %br
+            %span= "#{t('.and')} #{t('.clothes')}"
+          %td= @government_report.present_supplies
+          %td= @government_report.supplies_need
+          %td= @government_report.supplies_plan
+        %tr
+          %td= t('.education')
+          %td= @government_report.present_education
+          %td= @government_report.education_need
+          %td= @government_report.education_plan
+        %tr
+          %td= t('.communication_in_family')
+          %td= @government_report.present_family_communication
+          %td= @government_report.family_communication_need
+          %td= @government_report.family_communication_plan
+        %tr
+          %td= t('.communication_in_society')
+          %td= @government_report.present_society_communication
+          %td= @government_report.society_communication_need
+          %td= @government_report.society_communication_plan
+        %tr
+          %td= t('.emotional_health')
+          %td= @government_report.present_emotional_health
+          %td= @government_report.emotional_health_need
+          %td= @government_report.emotional_health_plan
+    .col-xs-12
+      %p= "#{t('.mission_obtainable')} :"
+      %ul{ style: 'list-style:none;' }
+        %li
+          %input{ type: 'checkbox', checked: ('checked' unless @government_report.mission_obtainable) }
+          %span= t('.none')
+        %li
+          %input{ type: 'checkbox', checked: ('checked' if @government_report.mission_obtainable) }
+          %span= t('.exist')
+        %li
+          %span= "#{t('.if_exist')} (#{t('.check')}"
+          %span "
+          %i.fa.fa-check
+          %span "
+          %span= "#{t('.missions_which_need_to_be_done')})"
+          %ul{ style: 'list-style:none;' }
+            %li
+              %input{ type: 'checkbox', checked: ('checked' if @government_report.first_mission) }
+              %span= t('.first_mission')
+            %li
+              %input{ type: 'checkbox', checked: ('checked' if @government_report.second_mission) }
+              %span= t('.second_mission')
+            %li
+              %input{ type: 'checkbox', checked: ('checked' if @government_report.third_mission) }
+              %span= t('.third_mission')
+            %li
+              %input{ type: 'checkbox', checked: ('checked' if @government_report.fourth_mission) }
+              %span= t('.fourth_mission')
+    .col-xs-6.col-xs-offset-6
+      %p.text-center
+        %span= t('.day')
+        %span{ style: 'width:50px;display:inline-block;border-bottom:1px dotted #000' }
+          = @government_report.done_date.strftime('%d') if @government_report.done_date
+        %span= t('.month')
+        %span{ style: 'width:50px;display:inline-block;border-bottom:1px dotted #000' }
+          = @government_report.done_date.strftime('%m') if @government_report.done_date
+        %span= t('.year')
+        %span{ style: 'width:50px;display:inline-block;border-bottom:1px dotted #000' }
+          = @government_report.done_date.strftime('%Y') if @government_report.done_date
+      %p.text-center
+        %span= t('.organisation')
+    .col-xs-6{ style: 'margin-bottom:70px;' }
+      %p.text-center
+        %span= t('.day')
+        %span{ style: 'width:50px;display:inline-block;border-bottom:1px dotted #000' }
+          = @government_report.agreed_date.strftime('%d') if @government_report.agreed_date
+        %span= t('.month')
+        %span{ style: 'width:50px;display:inline-block;border-bottom:1px dotted #000' }
+          = @government_report.agreed_date.strftime('%m') if @government_report.agreed_date
+        %span= t('.year')
+        %span{ style: 'width:50px;display:inline-block;border-bottom:1px dotted #000' }
+          = @government_report.agreed_date.strftime('%Y') if @government_report.agreed_date
+      %p.text-center= t('.seen_and_agreed')
+      %p.text-center= t('.signature')
+  .row
+    .col-xs-12
+      %p
+        %strong= t('.copy')
+      %p{ style: 'padding-left:50px;' }
+        = "- #{t('.office')}"

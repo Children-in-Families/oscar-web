@@ -1,4 +1,112 @@
 en:
+  default_government_report_fields: &default_government_report_fields
+    code: Form code
+    initial_capital: Initial capital
+    initial_city: Initial city
+    initial_commune: Initial commune
+    initial_date: Initial date
+    date: Date
+    client_code: Client code
+    commune: Commune
+    city: City/district
+    capital: Province/capital
+    organisation_name: Organizatin name
+    organisation: Organisation
+    phone_number: Phone number
+    client_name: Client name
+    date_of_birth: Date of birth
+    gender: Gender
+    boy: Boy
+    girl: Girl
+    found_client_at: Found client location
+    at: At
+    village: Village
+    education: Education
+    carer_name: Carer name
+    client_contact: Client contact
+    carer_address: Carer address
+    house_number: House
+    street_number: Street
+    case_information_date: Case infomation date
+    day: Day
+    month: Month
+    year: Year
+    transfer_info: Transfer information
+    name: Name
+    referral_name: Referral name
+    position: Position
+    or: Or
+    anonymous: anonymous (if referral does not want to show his/her identity)
+    anonymous_information: Anonymous information
+    client_living_with_guardians: Is child living with parents or guardians
+    first_mission: First mission
+    second_mission: Second mission
+    third_mission: Third mission
+    fourth_mission: Fourth mission
+    back: Back
+    new_report: New Report
+
+  government_reports:
+    show:
+      pdf:
+        haml:
+          kingdom_of_wonder: Kingdom of Cambodia
+          nation_religion_king: Nation Religion King
+          first_response_form: First Response Form
+          for_children_who_are_in_danger: For children who are in danger
+          information: information
+          positive: 'Yes'
+          negative: 'No'
+          danger_situation: The conditions that cause or may cause danger to client
+          check: check
+          every_point: every point that actually happened.
+          child_situation_and_need: Child situation and need
+          present_situation: Present situation
+          need: Need
+          intervention_plan: Intervention plan
+          physical_health: Physical health
+          food_habitation: Food habitation
+          and: and
+          clothes: clothes
+          communication_in_family: Communication in family
+          communication_in_society: Communication in society
+          emotional_heath: Emotional health
+          mission_obtainable: Mission obtainable
+          none: None (case is finished)
+          exist: Exist
+          if_exist: 'If exist:'
+          missions_which_need_to_be_done: missions which need to be done
+          seen_and_agreed: Seen and agreed
+          signature: Signature
+          copy: Copy
+          office: Office
+          <<: *default_government_report_fields
+    edit:
+      edit_report: Edit report
+
+    form:
+      present_physical_health: Present physical health
+      physical_health_need: Physical health need
+      physical_health_plan: Physical health plan
+      present_supplies: Present supplies
+      supplies_need: Supplies need
+      supplies_plan: Supplies plan
+      present_education: Present education
+      education_need: Education need
+      education_plan: Education plan
+      present_family_communication: Present family communication
+      family_communication_need: Family communication need
+      family_communication_plan: Family communication plan
+      present_society_communication: Present society communication
+      society_communication_need: Society communication need
+      society_communication_plan: Society communication plan
+      present_emotional_health: Present emotional heath
+      emotional_health_need: Emotional health need
+      emotional_health_plan: Emotional health plan
+      done_date: Done date
+      agreed_date: Seen and agreed date
+      <<: *default_government_report_fields
+
   review_problem: 'Please review the problems below:'
   cannot_be_blank: can't be blank
 
@@ -213,6 +321,7 @@ en:
       view_tasks: Tasks
       view_assessments: Assessments
       view_case_notes: Case Notes
+      government_report: Government Reports
       accept: Accept
       reject: Reject
       note: Note
