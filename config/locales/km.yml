@@ -1,6 +1,6 @@
 km:
   default_government_report_fields: &default_government_report_fields
-    code: លេខកូដទម្រង់
+    code: ទម្រង់
     initial_capital: រាជធានី ខេត្ត
     initial_city: ក្រុង ស្រុក ខណ្ឌ
     initial_commune: ឃុំ សង្កាត់
@@ -35,13 +35,43 @@ km:
     referral_name: ឈ្មោះអ្នកបញ្ជូន
     position: មុខងារ
     or: ឬ
-    anonymous: អនាមិក (ប្រសិនបើអ្នកបញ្ជូនមិនចង់បង្ហាញអត្តសញ្ញាណរបស់ខ្លួន)
+    anonymous: អនាមិក (ប្រសិនបើអ្នកបញ្ជូនមិនចង់បង្ហាញអត្តសញ្ញាណរបស់ខ្លួន) ពត៌មានដែលទទួលបាន
+    anonymous_form: អនាមិក (ប្រសិនបើអ្នកបញ្ជូនមិនចង់បង្ហាញអត្តសញ្ញាណរបស់ខ្លួន)
     anonymous_information: ពត៌មានដែលទទួលបាន
     client_living_with_guardians: តើកុមារកំពុងរស់នៅជាមួយឪពុកម្ដាយ ឬអាណាព្យាបាល
     first_mission: អនុវត្តតាមនីតិវិធីទុកដាក់កុមារតាមការថែទាំជំនួស និងបំពេញទម្រង់ទី១៣០៤ (ករណីកុមារកំពុងឬអាចមានគ្រោះថ្នាក់ឆាប់ៗខាងមុខ)
     second_mission: អនុវត្តតាមនីតិវិធីរក្សាទុកកុមារក្នុងគ្រួសារនិងបំពេញទម្រង់១៣០២និងទម្រង់ទី១៣០៣
     third_mission: អនុវត្តតាមនីតិវិធីបង្រួបបង្រួមគ្រួសារ និងបំពេញទម្រង់ទី១៣០៩ និងទម្រង់ទី១៣០៣ (ករណីកុមារបែកពីគ្រួសារ)
     fourth_mission: អនុវត្តតាមនីតិវិធីកុមារដែលត្រូវបានគេបោះបង់ចោល និងបំពេញទម្រង់ទី១៣០៧ (ករណីកុមារត្រូវគេបោះបង់ចោល)
+    first_response_form: ទម្រង់ឆ្លើយតបលើកដំបូង
+    for_children_who_are_in_danger: សម្រាប់កុមារដែលស្ថិតក្នុងស្ថានភាពគ្រោះថ្នាក់
+    name: ឈ្មោះ
+    danger_situation: ស្ថានភាពនានាដែលបង្ក ឬអាចបង្កគ្រោះថ្នាក់ដល់កុមារ
+    check: គូសសញ្ញា
+    every_point: រាល់ចំនុចទាំងអស់ ដែលកើតមានជាក់ស្ដែង
+    positive: បាទ/ចាស
+    negative: ទេ
+    child_situation_and_need: ស្ថានភាពកុមារ និងតម្រូវការ
+    present_situation: ស្ថានភាពបច្ចុប្បន្ន
+    need: តម្រូវការ
+    intervention_plan: ផែនការអន្តរាគមន៍
+    physical_health: សុខភាពផ្លូវកាយ
+    food_shelter: ចំណីអាហារទីជម្រក
+    and: និង
+    clothes: សម្លៀកបំពាក់
+    supplies: ចំណីអាហារទីជម្រកនិងសម្លៀកបំពាក់
+    communication_in_family: ទំនាក់ទំនងក្នុងគ្រួសារ
+    communication_in_society: ការទំនាក់ទំនងសង្គម
+    emotional_health: សុខភាពផ្លូវចិត្ត
+    mission_obtainable: វិធានការចាំបាច់
+    none: គ្មាន (ករណីត្រូវបញ្ចប់)
+    exist: មាន
+    if_exist: 'ប្រសិនបើមាន ត្រូវ៖'
+    missions_which_need_to_be_done: ត្រង់វិធានការណាមួយដែលត្រូវអនុវត្ត
+    seen_and_agreed: បានឃើញ និងឯកភាព
+    signature: ហត្ថលេខា និងត្រាមេឃុំ ឬចៅសង្កាត់
+    copy: ចម្លងជូន
+    office: ការិយាល័យស.អ.យ ក្រុង ស្រុក ខណ្ឌ
   government_reports:
     index:
       back: ត្រលប់ក្រោយ
@@ -53,35 +83,7 @@ km:
         haml:
           kingdom_of_wonder: ព្រះរាជាណាចក្រកម្ពុជា
           nation_religion_king: ជាតិ សាសនា ព្រះមហាក្សត្រ
-          first_response_form: ទម្រង់ឆ្លើយតបលើកដំបូង
-          for_children_who_are_in_danger: សម្រាប់កុមារដែលស្ថិតក្នុងស្ថានភាពគ្រោះថ្នាក់
           information: ពត៌មានដែលទទួលបាន
-          positive: បាទ/ចាស
-          negative: ទេ
-          danger_situation: ស្ថានភាពនានាដែលបង្ក ឬអាចបង្កគ្រោះថ្នាក់ដល់កុមារ
-          check: គូសសញ្ញា
-          every_point: រាល់ចំនុចទាំងអស់ ដែលកើតមានជាក់ស្ដែង
-          child_situation_and_need: ស្ថានភាពកុមារ និងតម្រូវការ
-          present_situation: ស្ថានភាពបច្ចុប្បន្ន
-          need: តម្រូវការ
-          intervention_plan: ផែនការអន្តរាគមន៍
-          physical_health: សុខភាពផ្លូវកាយ
-          food_shelter: ចំណីអាហារទីជម្រក
-          and: និង
-          clothes: សម្លៀកបំពាក់
-          communication_in_family: ទំនាក់ទំនងក្នុងគ្រួសារ
-          communication_in_society: ការទំនាក់ទំនងសង្គម
-          emotional_health: សុខភាពផ្លូវចិត្ត
-          mission_obtainable: វិធានការចាំបាច់
-          none: គ្មាន (ករណីត្រូវបញ្ចប់)
-          exist: មាន
-          if_exist: 'ប្រសិនបើមាន ត្រូវ៖'
-          missions_which_need_to_be_done: ត្រង់វិធានការណាមួយដែលត្រូវអនុវត្ត
-          name: ឈ្មោះ
-          seen_and_agreed: បានឃើញ និងឯកភាព
-          signature: ហត្ថលេខា និងត្រាមេឃុំ ឬចៅសង្កាត់
-          copy: ចម្លងជូន
-          office: ការិយាល័យស.អ.យ ក្រុង ស្រុក ខណ្ឌ
           <<: *default_government_report_fields
     edit:
       edit_report: កែសម្រួលរបាយការណ៍

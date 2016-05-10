@@ -8,16 +8,16 @@
           %b= t('.nation_religion_king')
     .col-xs-12
       %p{ style: 'width:50%;display:table;' }
-        %span{ style: 'display:table-cell;widht:37%;' }= "#{t('.initial_capital')} :"
-        %span{ style: 'display:table-cell;border-bottom:1px dotted #000;width:63%;' }
+        %span{ style: 'display:table-cell;widht:45%;' }= "#{t('.initial_capital')} :"
+        %span{ style: 'display:table-cell;border-bottom:1px dotted #000;width:55%;' }
           = @government_report.initial_capital
       %p{ style: 'width:50%;display:table;' }
-        %span{ style: 'display:table-cell;widht:37%;' }= "#{t('.initial_city')} :"
-        %span{ style: 'display:table-cell;border-bottom:1px dotted #000;width:63%;' }
+        %span{ style: 'display:table-cell;widht:45%;' }= "#{t('.initial_city')} :"
+        %span{ style: 'display:table-cell;border-bottom:1px dotted #000;width:55%;' }
           = @government_report.initial_city
       %p{ style: 'width:50%;display:table;' }
-        %span{ style: 'display:table-cell;widht:37%;' }= "#{t('.initial_commune')} :"
-        %span{ style: 'display:table-cell;border-bottom:1px dotted #000;width:63%;' }
+        %span{ style: 'display:table-cell;widht:45%;' }= "#{t('.initial_commune')} :"
+        %span{ style: 'display:table-cell;border-bottom:1px dotted #000;width:55%;' }
           = @government_report.initial_commune
     .col-xs-12.text-center
       %h4{style:'margin-top:40px;'}
@@ -40,18 +40,18 @@
       .row
         .col-xs-4
           %p{ style: 'display:table;width:100%;' }
-            %span{ style: 'display:table-cell;width:40%;' }= "#{t('.commune')} :"
-            %span.text-center{ style: 'display:table-cell;width:60%;border-bottom:1px solid #000;' }
+            %span{ style: 'display:table-cell;width:50%;' }= "#{t('.commune')} :"
+            %span.text-center{ style: 'display:table-cell;width:50%;border-bottom:1px solid #000;' }
               = @government_report.commune
         .col-xs-4
           %p{ style: 'display:table;width:100%;' }
-            %span{ style: 'display:table-cell;width:55%;' }= "#{t('.city')} :"
-            %span.text-center{ style: 'display:table-cell;width:45%;border-bottom:1px solid #000;' }
+            %span{ style: 'display:table-cell;width:60%;' }= "#{t('.city')} :"
+            %span.text-center{ style: 'display:table-cell;width:40%;border-bottom:1px solid #000;' }
               = @government_report.city
         .col-xs-4
           %p{ style: 'display:table;width:100%;' }
-            %span{ style: 'display:table-cell;width:50%;' }= "#{t('.capital')} :"
-            %span.text-center{ style: 'display:table-cell;width:50%;border-bottom:1px solid #000;' }
+            %span{ style: 'display:table-cell;width:55%;' }= "#{t('.capital')} :"
+            %span.text-center{ style: 'display:table-cell;width:45%;border-bottom:1px solid #000;' }
               = @government_report.capital
     .col-xs-12{ style: 'padding:5px 0;' }
       .row
@@ -173,7 +173,7 @@
       %p
         %span= t('.or')
         %input{ type: 'checkbox', checked: ('checked' if @government_report.anonymous) }
-        %span= "#{t('.anonymous')} #{t('.information')} :"
+        %span= "#{t('.anonymous')} :"
     - if @government_report.anonymous_description.present?
       %footer{ style: 'page-break-after:always;'}
         %p{style:'display:inline-block;width:100%;padding: 5px 0;line-height:35px;'}

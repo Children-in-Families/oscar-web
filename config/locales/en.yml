@@ -1,48 +1,74 @@
 en:
   default_government_report_fields: &default_government_report_fields
-    code: Form code
-    initial_capital: Initial capital
-    initial_city: Initial city
-    initial_commune: Initial commune
-    initial_date: Initial date
+    code: Form
+    initial_capital: Capital/Province
+    initial_city: City/District/Khan
+    initial_commune: Commune/Sangkat
+    initial_date: Date
     date: Date
-    client_code: Client code
-    commune: Commune
-    city: City/district
-    capital: Province/capital
-    organisation_name: Organizatin name
-    organisation: Organisation
-    phone_number: Phone number
-    client_name: Client name
-    date_of_birth: Date of birth
-    gender: Gender
+    client_code: Code
+    commune: Commune/Sangkat
+    city: City/District/Khan
+    capital: Capital/Province
+    organisation_name: CCWC Name
+    organisation: CCWC
+    phone_number: Phone Number
+    client_name: Child's Name
+    date_of_birth: Date of Birth
+    gender: Sex
     male: M
     female: F
-    found_client_at: Found client location
-    at: At
+    found_client_at: Location of first meeting with the child
+    at: at
     village: Village
-    education: Education
-    carer_name: Carer name
-    client_contact: Client contact
-    carer_address: Carer address
-    house_number: House
+    education: School Grade
+    carer_name: Carer Name
+    client_contact: Relationship with child
+    carer_address: Carer Address
+    house_number: House Number
     street_number: Street
-    case_information_date: Case infomation date
+    case_information_date: Date of Referral
     day: Day
     month: Month
     year: Year
-    transfer_info: Transfer information
+    transfer_info: Referral Source
     name: Name
-    referral_name: Referral name
+    referral_name: Referral Name
     position: Position
-    or: Or
-    anonymous: anonymous (if referral does not want to show his/her identity)
+    or: or
+    anonymous: anonymous (if the referrer does not want their information retained on file)
+    anonymous_form: anonymous (if the referrer does not want their information retained on file)
     anonymous_information: Anonymous information
-    client_living_with_guardians: Is child living with parents or guardians
-    first_mission: First mission
-    second_mission: Second mission
-    third_mission: Third mission
-    fourth_mission: Fourth mission
+    client_living_with_guardians: Is the child living with a parent or carer
+    first_mission: Follow procedures to care for the child and complete form 1304 (in the event of a child facing, or at risk of facing, immediate danger)
+    second_mission: Follow procedures to keep the child within the family and complete form 1302 and form 1303.
+    third_mission: Follow family reunification procedures complete form 1309 and form 1303 (in the event of child/family separation).
+    fourth_mission: Follow procedures for an abandoned child and complete form 1307 (in the event that the child has been abandoned).
+    first_response_form: Initial Response Form
+    for_children_who_are_in_danger: For a child in a dangerous situation
+    positive: 'Yes'
+    negative: 'No'
+    child_situation_and_need: Situation and needs of the child
+    present_situation: Current situation
+    need: Needs
+    intervention_plan: Intervention Plan
+    physical_health: Physical health
+    food_shelter: Food, Shelter and Clothes
+    and: and
+    clothes: clothes
+    supplies: Food, Shelter and Clothes
+    communication_in_family: Family relationships
+    communication_in_society: Community Relationships
+    emotional_heath: Emotional health
+    mission_obtainable: Essential steps
+    none: None (Case must be closed)
+    exist: 'Yes'
+    if_exist: 'If yes:'
+    missions_which_need_to_be_done: on steps to be taken.
+    seen_and_agreed: Seen and agreed
+    signature: Signature and Stamp/Seal of Chiefs of Commune/Sangkat
+    copy: Copyright
+    office: សអយOffice Town District Kahn
 
   government_reports:
     index:
@@ -55,34 +81,10 @@ en:
         haml:
           kingdom_of_wonder: Kingdom of Cambodia
           nation_religion_king: Nation Religion King
-          first_response_form: First Response Form
-          for_children_who_are_in_danger: For children who are in danger
-          information: information
-          positive: 'Yes'
-          negative: 'No'
-          danger_situation: The conditions that cause or may cause danger to client
-          check: check
-          every_point: every point that actually happened.
-          child_situation_and_need: Child situation and need
-          present_situation: Present situation
-          need: Need
-          intervention_plan: Intervention plan
-          physical_health: Physical health
-          food_shelter: Food shelter
-          and: and
-          clothes: clothes
-          communication_in_family: Communication in family
-          communication_in_society: Communication in society
-          emotional_heath: Emotional health
-          mission_obtainable: Mission obtainable
-          none: None (case is finished)
-          exist: Exist
-          if_exist: 'If exist:'
-          missions_which_need_to_be_done: missions which need to be done
-          seen_and_agreed: Seen and agreed
-          signature: Signature
-          copy: Copy
-          office: Office
+          # information: information
+          danger_situation: Situations which cause or may cause harm to the child
+          check: please tick
+          every_point: all which apply
           <<: *default_government_report_fields
     edit:
       edit_report: Edit Government Report
@@ -93,24 +95,24 @@ en:
     destroy:
       successfully_deleted: Government Report has been successfully deleted.
     form:
-      present_physical_health: Present physical health
-      physical_health_need: Physical health need
-      physical_health_plan: Physical health plan
-      present_supplies: Present supplies
-      supplies_need: Supplies need
-      supplies_plan: Supplies plan
-      present_education: Present education
-      education_need: Education need
-      education_plan: Education plan
-      present_family_communication: Present family communication
-      family_communication_need: Family communication need
-      family_communication_plan: Family communication plan
-      present_society_communication: Present society communication
-      society_communication_need: Society communication need
-      society_communication_plan: Society communication plan
-      present_emotional_health: Present emotional heath
-      emotional_health_need: Emotional health need
-      emotional_health_plan: Emotional health plan
+      present_physical_health: Physical health (Current situation)
+      physical_health_need: Physical health (Needs)
+      physical_health_plan: Physical health (Intervention Plan)
+      present_supplies: Food, Shelter and Clothes (Current situation)
+      supplies_need: Food, Shelter and Clothes (Needs)
+      supplies_plan: Food, Shelter and Clothes (Intervention Plan)
+      present_education: Education (Current situation)
+      education_need: Education (Needs)
+      education_plan: Education (Intervention Plan)
+      present_family_communication: Family relationships (Current situation)
+      family_communication_need: Family relationships (Needs)
+      family_communication_plan: Family relationships (Intervention Plan)
+      present_society_communication: Community Relationships (Current situation)
+      society_communication_need: Community Relationships (Needs)
+      society_communication_plan: Community Relationships (Intervention Plan)
+      present_emotional_health: Emotional health (Current situation)
+      emotional_health_need: Emotional health (Needs)
+      emotional_health_plan: Emotional health (Intervention Plan)
       done_date: Done date
       agreed_date: Seen and agreed date
       <<: *default_government_report_fields

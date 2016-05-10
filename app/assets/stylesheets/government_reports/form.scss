@@ -1,0 +1,29 @@
+body[id=government_reports-new],
+body[id=government_reports-create],
+body[id=government_reports-edit],
+body[id=government_reports-update] {
+  .form-group {
+    margin-bottom: 5px;
+    .form-control {
+      margin-left: 10px;
+    }
+  }
+  .government_report_anonymous_description {
+    display: table;
+    width: 100%;
+    label {
+      display: table-cell;
+      width: 15%;
+    }
+    textarea {
+      display: table-cell;
+      width: 100%;
+    }
+  }
+  .government_report_quantitative_cases {
+    display: block;
+    span { 
+      display: block;
+    }
+  }
+}

@@ -14,6 +14,7 @@ class GovernmentReport < ActiveRecord::Base
     self.client_name = client.name
     self.client_date_of_birth = client.date_of_birth
     self.client_gender = client.gender
+    self.education     = client.grade
     if client.cases.current
       self.carer_name = client.cases.current.carer_names
       self.carer_city = client.cases.current.province.name if client.cases.current.province
