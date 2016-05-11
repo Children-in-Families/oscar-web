@@ -1,6 +1,8 @@
 en:
   default_government_report_fields: &default_government_report_fields
     code: Form
+    kingdom_of_cambodia: Kingdom of Cambodia
+    nation_religion_king: Nation Religion King
     initial_capital: Capital/Province
     initial_city: City/District/Khan
     initial_commune: Commune/Sangkat
@@ -69,6 +71,56 @@ en:
     signature: Signature and Stamp/Seal of Chiefs of Commune/Sangkat
     copy: Copyright
     office: សអយOffice Town District Kahn
+    danger_situation: Situations which cause or may cause harm to the child
+    check: please tick
+    every_point: all which apply
+
+    family_separation: Family separation
+    abandoned: abandoned
+    child_changed_home: child changed home
+    family_changed_home: family changed home
+    child_living_independently: child living independently
+    orphan_lost_both_parents: orphan (lost both parents)
+    orphan_lost_father: orphan (lost father)
+    orphan_lost_mother: orphan (lost mother)
+    child_living_on_street: child living on street
+    other: Other
+
+    essential_needs: Essential Needs
+    food: Food
+    shelter: Shelter
+    case_education: Education
+    health_care_and_medical_treatment: Health care and medical treatment
+    parent_carer_poor_certificate: Parent/carer poor certificate
+
+    abuse_and_exploitation: Abuse and Exploitation
+    physical_abuse: physical abuse
+    sexual_abuse: sexual abuse
+    emotional_abuse: emotional abuse
+    child_exploitation: child exploitation
+    exessive_child_labour: exessive child labour
+    family_violence: family violence
+    experience_with_trafficking: experience with trafficking
+    danger_of_trafficking: danger of trafficking
+    neglect: neglect
+
+    disability_and_or_illness: Disability and/or illness
+    parent_carer_ill: parent/carer ill
+    child_ill: child ill
+    parent_carer_disabled: parent/carer ill
+    child_disabled: child disabled
+    child_hiv_aids: child HIV/AIDS
+    parent_carer_hiv_aids: parent/carer HIV/AIDS
+
+    drug_abuse_alcohol_and_gambling: Drug abuse, alcohol and gambling
+    parent_carer_has_a_history_of_alcohol_abuse: parent/carer has a history of alcohol abuse
+    parent_carer_has_a_history_of_drug_use: parent/carer has a history of drug use
+    child_has_a_history_of_alcohol_abuse: child has a history of alcohol abuse
+    child_has_a_history_of_drug_use: child has a history of drug use
+    child_has_a_history_of_gambling: child has a history of gambling
+    parent_carer_has_a_history_of_gambling: parent/carer has a history of gambling
+    child_has_a_criminal_history: child has a criminal history
+    parent_carer_has_a_criminal_history: parent/carer has a criminal history
 
   government_reports:
     index:
@@ -79,12 +131,6 @@ en:
     show:
       pdf:
         haml:
-          kingdom_of_wonder: Kingdom of Cambodia
-          nation_religion_king: Nation Religion King
-          # information: information
-          danger_situation: Situations which cause or may cause harm to the child
-          check: please tick
-          every_point: all which apply
           <<: *default_government_report_fields
     edit:
       edit_report: Edit Government Report

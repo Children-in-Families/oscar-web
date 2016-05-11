@@ -1,110 +1,12 @@
 = simple_form_for [@government_report.client, @government_report], html: { class: 'form-inline' } do |f|
   .panel-body
     = error_notification(f)
-    .form-inputs
-      / .row
-      /   .col-xs-12.col-md-4= f.input :code, label: t('.code')
-      /   .col-xs-12.col-md-4= f.input :initial_capital, label: t('.initial_capital')
-      /   .col-xs-12.col-md-4= f.input :initial_city, label: t('.initial_city')
-      /   .col-xs-12.col-md-4= f.input :initial_commune, label: t('.initial_commune')
-      /   .col-xs-12.col-md-4.form-group.date.optional.initial_date
-      /     %label.date.optional.control-label{ for: 'initial_date' }= t('.initial_date')
-      /     .input-group.date
-      /       = f.text_field :initial_date, class: 'date optional form-control date-picker', type: 'text', name: 'government_report[initial_date]', id: 'initial_date'
-      /       %span.input-group-addon{ style: 'padding-left: 20px;' }
-      /         %i.glyphicon.glyphicon-calendar
-      /   .col-xs-12.col-md-4= f.input :client_code, disabled: true, input_html: { value: @client.code }, label: t('.client_code')
-      /   .col-xs-12.col-md-4= f.input :commune, label: t('.commune')
-      /   .col-xs-12.col-md-4= f.input :city, label: t('.city')
-      /   .col-xs-12.col-md-4= f.input :capital, label: t('.capital')
-      /   .col-xs-12.col-md-4= f.input :organisation_name, label: t('.organisation_name')
-      /   .col-xs-12.col-md-4= f.input :organisation_phone_number, label: t('.phone_number')
-      /   .col-xs-12.col-md-4= f.input :client_name, disabled: true, input_html: { value: @government_report.client_name.presence || @client.name }, label: t('.client_name')
-
-      /   .col-xs-12.col-md-4.form-group.date.optional.client_date_of_birth
-      /     %label.date.optional.control-label{ for: 'client_date_of_birth' }= t('.date_of_birth')
-      /     .input-group.date
-      /       = f.text_field :client_date_of_birth, disabled: true, value: @government_report.client_date_of_birth.presence || @client.date_of_birth, class: 'date optional form-control date-picker', type: 'text', name: 'government_report[client_date_of_birth]', id: 'client_date_of_birth'
-      /       %span.input-group-addon{ style: 'padding-left: 20px;' }
-      /         %i.glyphicon.glyphicon-calendar
-
-      /   .col-xs-12.col-md-4= f.input :client_gender, disabled: true, input_html: { value: @government_report.client_gender.presence || @client.gender }, collection: [['Male', 'male'], ['Female', 'female']], include_blank: false, label: t('.gender')
-      /   .col-xs-12.col-md-4= f.input :found_client_at, label: t('.found_client_at')
-      /   .col-xs-12.col-md-4= f.input :found_client_village, label: t('.village')
-      /   .col-xs-12.col-md-4= f.input :education, label: t('.education')
-      /   .col-xs-12.col-md-4= f.input :carer_name, disabled: true, input_html: { value: @government_report.carer_name.presence || (@client.cases.current.carer_names if @client.cases.current)  }, label: t('.carer_name')
-      /   .col-xs-12.col-md-4= f.input :client_contact, label: t('.client_contact')
-      /   .col-xs-12.col-md-4= f.input :carer_house_number, label: t('.house_number')
-      /   .col-xs-12.col-md-4= f.input :carer_street_number, label: t('.street_number')
-      /   .col-xs-12.col-md-4= f.input :carer_village, label: t('.village')
-      /   .col-xs-12.col-md-4= f.input :carer_commune, label: t('.commune')
-      /   .col-xs-12.col-md-4= f.input :carer_city, disabled: true, input_html: { value: @government_report.carer_city.presence || (@client.cases.current.province.name if @client.cases.current && @client.cases.current.province) }, label: t('.city')
-      /   .col-xs-12.col-md-4= f.input :carer_capital, label: t('.capital')
-      /   .col-xs-12.col-md-4= f.input :carer_phone_number, disabled: true, input_html: { value: @government_report.carer_phone_number.presence || (@client.cases.current.carer_phone_number if @client.cases.current) }, label: t('.phone_number')
-
-      /   .col-xs-12.col-md-4.form-group.date.optional.case_information_date
-      /     %label.date.optional.control-label{ for: 'case_information_date' }= t('.case_information_date')
-      /     .input-group.date
-      /       = f.text_field :case_information_date, disabled: true, value: @government_report.case_information_date.presence || (@client.cases.current.start_date if @client.cases.current), class: 'date optional form-control date-picker', type: 'text', name: 'government_report[case_information_date]', id: 'case_information_date'
-      /       %span.input-group-addon{ style: 'padding-left: 20px;' }
-      /         %i.glyphicon.glyphicon-calendar
-
-      /   .col-xs-12.col-md-4= f.input :referral_name, label: t('.referral_name')
-      /   .col-xs-12.col-md-4= f.input :referral_position, label: t('.position')
-      /   .col-xs-12.col-md-4= f.input :anonymous, label: t('.anonymous_form')
-      /   .col-xs-12.col-md-4= f.input :anonymous_description, label: t('.anonymous_information')
-
-      /   - @client.quantitative_cases.group_by(&:quantitative_type).each_with_index do |qt, qti|
-      /     .col-xs-12.col-md-4
-      /       %label= "#{qti+=1} - #{qt.first.name}"
-      /       / - binding.pry
-      /       = f.association :quantitative_cases, as: :check_boxes, collection: qt.last, multiple: true, label_method: :value, value_method: :id, label: false, input_html: { class: '' }
-
-      /   .col-xs-12.col-md-4= f.input :client_living_with_guardian, label: "#{t('.client_living_with_guardians')}?"
-      /   .col-xs-12.col-md-4= f.input :present_physical_health, label: t('.present_physical_health')
-      /   .col-xs-12.col-md-4= f.input :physical_health_need, label: t('.physical_health_need')
-      /   .col-xs-12.col-md-4= f.input :physical_health_plan, label: t('.physical_health_plan')
-      /   .col-xs-12.col-md-4= f.input :present_supplies, label: t('.present_supplies')
-      /   .col-xs-12.col-md-4= f.input :supplies_need, label: t('.supplies_need')
-      /   .col-xs-12.col-md-4= f.input :supplies_plan, label: t('.supplies_plan')
-      /   .col-xs-12.col-md-4= f.input :present_education, label: t('.present_education')
-      /   .col-xs-12.col-md-4= f.input :education_need, label: t('.education_need')
-      /   .col-xs-12.col-md-4= f.input :education_plan, label: t('.education_plan')
-      /   .col-xs-12.col-md-4= f.input :present_family_communication, label: t('.present_family_communication')
-      /   .col-xs-12.col-md-4= f.input :family_communication_need, label: t('.family_communication_need')
-      /   .col-xs-12.col-md-4= f.input :family_communication_plan, label: t('.family_communication_plan')
-      /   .col-xs-12.col-md-4= f.input :present_society_communication, label: t('.present_society_communication')
-      /   .col-xs-12.col-md-4= f.input :society_communication_need, label: t('.society_communication_need')
-      /   .col-xs-12.col-md-4= f.input :society_communication_plan, label: t('.society_communication_plan')
-      /   .col-xs-12.col-md-4= f.input :present_emotional_health, label: t('.present_emotional_health')
-      /   .col-xs-12.col-md-4= f.input :emotional_health_need, label: t('.emotional_health_need')
-      /   .col-xs-12.col-md-4= f.input :emotional_health_plan, label: t('.emotional_health_plan')
-      /   .col-xs-12.col-md-4= f.input :mission_obtainable, label: t('.mission_obtainable')
-      /   .col-xs-12.col-md-4= f.input :first_mission, disabled: true, label: t('.first_mission')
-      /   .col-xs-12.col-md-4= f.input :second_mission, disabled: true, label: t('.second_mission')
-      /   .col-xs-12.col-md-4= f.input :third_mission, disabled: true, label: t('.third_mission')
-      /   .col-xs-12.col-md-4= f.input :fourth_mission, disabled: true, label: t('.fourth_mission')
-
-      /   .col-xs-12.col-md-4.form-group.date.optional.done_date
-      /     %label.date.optional.control-label{ for: 'done_date' }= t('.done_date')
-      /     .input-group.date
-      /       = f.text_field :done_date, class: 'date optional form-control date-picker', type: 'text', name: 'government_report[done_date]', id: 'done_date'
-      /       %span.input-group-addon{ style: 'padding-left: 20px;' }
-      /         %i.glyphicon.glyphicon-calendar
-
-      /   .col-xs-12.col-md-4.form-group.date.optional.agreed_date
-      /     %label.date.optional.control-label{ for: 'agreed_date' }= t('.agreed_date')
-      /     .input-group.date
-      /       = f.text_field :agreed_date, class: 'date optional form-control date-picker', type: 'text', name: 'government_report[agreed_date]', id: 'agreed_date'
-      /       %span.input-group-addon{ style: 'padding-left: 20px;' }
-      /         %i.glyphicon.glyphicon-calendar
-
     .row
       .col-xs-12.form-group= f.input :code, label: t('.code')
       .col-xs-5.col-xs-offset-7
         %h4
           %p.text-center
-            %strong= t('.kingdom_of_wonder')
+            %strong= t('.kingdom_of_cambodia')
           %p.text-center
             %strong= t('.nation_religion_king')
       .col-xs-12.form-group= f.input :initial_capital, label: t('.capital')
@@ -114,20 +16,22 @@
         %h4{style:'margin-top:40px;'}
           %strong= t('.first_response_form')
         %p{style:'margin-bottom:40px;'}= "(#{t('.for_children_who_are_in_danger')})"
-      .col-xs-12.col-md-6.form-group.date.optional.initial_date
+      .col-xs-12.col-md-4.form-group.date.optional.initial_date
         %label.date.optional.control-label{ for: 'initial_date' }= t('.initial_date')
         .input-group.date.form-group
           = f.text_field :initial_date, class: 'date optional form-control date-picker', type: 'text', name: 'government_report[initial_date]', id: 'initial_date'
           %span.input-group-addon{ style: 'padding-left: 20px;' }
             %i.glyphicon.glyphicon-calendar
-      .col-xs-12.col-md-6.form-group= f.input :client_code, disabled: true, input_html: { value: @client.code }, label: t('.client_code')
+      .col-xs-12.col-md-4.form-group= f.input :client_code, disabled: true, input_html: { value: @client.code }, label: t('.client_code')
+    .row
       .col-xs-12.col-md-4.form-group= f.input :commune, label: t('.commune')
       .col-xs-12.col-md-4.form-group= f.input :city, label: t('.city')
       .col-xs-12.col-md-4.form-group= f.input :capital, label: t('.capital')
-      .col-xs-12.col-md-6.form-group= f.input :organisation_name, label: t('.organisation_name')
-      .col-xs-12.col-md-6.form-group= f.input :organisation_phone_number, label: t('.phone_number')
+      .col-xs-12.col-md-4.form-group= f.input :organisation_name, label: t('.organisation_name')
+      .col-xs-12.col-md-4.form-group= f.input :organisation_phone_number, label: t('.phone_number')
+    .row
       .col-xs-12.col-md-4.form-group= f.input :client_name, disabled: true, input_html: { value: @government_report.client_name.presence || @client.name }, label: t('.client_name')
-      .col-xs-12.col-md-6.form-group.date.optional.client_date_of_birth
+      .col-xs-12.col-md-4.form-group.date.optional.client_date_of_birth
         %label.date.optional.control-label{ for: 'client_date_of_birth' }= t('.date_of_birth')
         .input-group.date.form-group
           = f.text_field :client_date_of_birth, disabled: true, value: @government_report.client_date_of_birth.presence || @client.date_of_birth, class: 'date optional form-control date-picker', type: 'text', name: 'government_report[client_date_of_birth]', id: 'client_date_of_birth'
@@ -135,46 +39,47 @@
             %i.glyphicon.glyphicon-calendar
       .col-xs-12.col-md-2.form-group
         %strong= "#{t('.gender')} : "
-        %input.text-left{ type: 'radio', disabled: true, checked: ('checked' if @government_report.client_gender.presence || @government_report.client.gender == 'male') }= " #{t('.male')}"
-        %input.text-left{ type: 'radio', disabled: true, checked: ('checked' if @government_report.client_gender.presence || @government_report.client.gender == 'female') }= " #{t('.female')}"
+        %input.gender.text-left{ type: 'radio', disabled: true, checked: ('checked' if @government_report.client_gender.presence && @government_report.client.gender == 'male' || @client.gender == 'male') }= " #{t('.male')}"
+        %input.gender.text-left{ type: 'radio', disabled: true, checked: ('checked' if @government_report.client_gender.presence && @government_report.client.gender == 'female' || @client.gender == 'female') }= " #{t('.female')}"
     .row
-      .col-xs-12.col-md-2.form-group
+      .col-xs-12.col-md-4.form-group
         %h5
           %strong= t('.found_client_at')
-      .col-xs-12.col-md-5.form-group= f.input :found_client_at, label: t('.at')
-      .col-xs-12.col-md-5.form-group= f.input :found_client_village, label: t('.village')
+      .col-xs-12.col-md-4.form-group= f.input :found_client_at, label: t('.at')
+      .col-xs-12.col-md-4.form-group= f.input :found_client_village, label: t('.village')
     .row
       .col-xs-12.form-group= f.input :education, disabled: true, input_html: { value: @government_report.education.presence || @client.grade }, label: t('.education')
-      .col-xs-12.col-md-6.form-group= f.input :carer_name, disabled: true, input_html: { value: @government_report.carer_name.presence || (@client.cases.current.carer_names if @client.cases.current) }, label: t('.carer_name')
-      .col-xs-12.col-md-6.form-group= f.input :client_contact, label: t('.client_contact')
     .row
-      .col-xs-12.col-md-2.form-group
+      .col-xs-12.col-md-4.form-group= f.input :carer_name, disabled: true, input_html: { value: @government_report.carer_name.presence || (@client.cases.current.carer_names if @client.cases.current) }, label: t('.carer_name')
+      .col-xs-12.col-md-5.form-group= f.input :client_contact, label: t('.client_contact')
+    .row
+      .col-xs-12.col-md-4.form-group
         %h5
           %strong= t('.carer_address')
-      .col-xs-12.col-md-5.form-group= f.input :carer_house_number, label: t('.house_number')
-      .col-xs-12.col-md-5.form-group= f.input :carer_street_number, label: t('.street_number')
-      .col-xs-12.col-md-5.col-md-offset-2.form-group= f.input :carer_village, label: t('.village')
-      .col-xs-12.col-md-5.form-group= f.input :carer_commune, label: t('.commune')
-      .col-xs-12.col-md-5.col-md-offset-2.form-group= f.input :carer_city, label: t('.city')
-      .col-xs-12.col-md-5.form-group= f.input :carer_capital, label: t('.capital')
+      .col-xs-12.col-md-4.form-group= f.input :carer_house_number, label: t('.house_number')
+      .col-xs-12.col-md-4.form-group= f.input :carer_street_number, label: t('.street_number')
+      .col-xs-12.col-md-4.col-md-offset-4.form-group= f.input :carer_village, label: t('.village')
+      .col-xs-12.col-md-4.form-group= f.input :carer_commune, label: t('.commune')
+      .col-xs-12.col-md-4.col-md-offset-4.form-group= f.input :carer_city, label: t('.city')
+      .col-xs-12.col-md-4.form-group= f.input :carer_capital, disabled: true, input_html: { value: @government_report.carer_capital || (@client.cases.current.province.name if @client.cases.current && @client.cases.current.province) }, label: t('.capital')
       .col-xs-12.form-group= f.input :carer_phone_number, disabled: true, input_html: { value: @government_report.carer_phone_number.presence || (@client.cases.current.carer_phone_number if @client.cases.current) }, label: t('.phone_number')
     .row
       .col-xs-12.form-group.date.optional.case_information_date
         %label.date.optional.control-label{ for: 'case_information_date' }= t('.case_information_date')
         .input-group.date.form-group
-          = f.text_field :case_information_date, disabled: true, value: @government_report.case_information_date.presence || (@client.cases.current.start_date if @client.cases.current), class: 'date optional form-control date-picker', type: 'text', name: 'government_report[case_information_date]', id: 'case_information_date'
+          = f.text_field :case_information_date, disabled: true, value: @government_report.case_information_date.presence || @client.initial_referral_date, class: 'date optional form-control date-picker', type: 'text', name: 'government_report[case_information_date]', id: 'case_information_date'
           %span.input-group-addon{ style: 'padding-left: 20px;' }
             %i.glyphicon.glyphicon-calendar
     .row
-      .col-xs-12.col-md-2.form-group
+      .col-xs-12.col-md-4.form-group
         %h5
           %strong= t('.transfer_info')
-      .col-xs-12.col-md-5.form-group= f.input :referral_name, label: t('.name')
-      .col-xs-12.col-md-5.form-group= f.input :referral_position, label: t('.position')
+      .col-xs-12.col-md-4.form-group= f.input :referral_name, disabled: true, input_html: { value: @government_report.referral_name || (@client.referral_source.name if @client.referral_source) }, label: t('.name')
+      .col-xs-12.col-md-4.form-group= f.input :referral_position, label: t('.position')
     .row
       .col-xs-12= f.input :anonymous, label: "#{t('.or')} #{t('.anonymous_form')}"
     .row
-      .col-xs-12= f.input :anonymous_description, label: t('.anonymous_information'), input_html: { rows: '4' }
+      .col-xs-12= f.input :anonymous_description, label: t('.anonymous_information'), input_html: { cols: '50', rows: '4' }
     .row
       .col-xs-12
         %h5
@@ -185,23 +90,156 @@
             %span "
             %span= t('.every_point')
     .row
-      - @client.quantitative_cases.group_by(&:quantitative_type).each_with_index do |qt, qti|
-        .col-xs-12.col-md-4.form-group
-          %label= "#{qti+=1} - #{qt.first.name}"
-          = f.association :quantitative_cases, as: :check_boxes, collection: qt.last, multiple: true, label_method: :value, value_method: :id, label: false, input_html: { class: '' }
+      .col-xs-12
+        .row
+          .col-xs-12.col-md-6
+            %p= "1- #{t('.family_separation')}"
+            %p
+              %input{ type: 'checkbox', checked: checked?(t('.abandoned')), disabled: true }
+              %span= t('.abandoned')
+            %p
+              %input{ type: 'checkbox', checked: checked?(t('.child_changed_home')), disabled: true }
+              %span= t('.child_changed_home')
+            %p
+              %input{ type: 'checkbox', checked: checked?(t('.family_changed_home')), disabled: true }
+              %span= t('.family_changed_home')
+            %p
+              %input{ type: 'checkbox', checked: checked?(t('.child_living_independently')), disabled: true }
+              %span= t('.child_living_independently')
+            %p
+              %input{ type: 'checkbox', checked: checked?(t('.orphan_lost_both_parents')), disabled: true }
+              %span= t('.orphan_lost_both_parents')
+            %p
+              %input{ type: 'checkbox', checked: checked?(t('.orphan_lost_father')), disabled: true }
+              %span= t('.orphan_lost_father')
+            %p
+              %input{ type: 'checkbox', checked: checked?(t('.orphan_lost_mother')), disabled: true }
+              %span= t('.orphan_lost_mother')
+            %p
+              %input{ type: 'checkbox', checked: checked?(t('.child_living_on_street')), disabled: true }
+              %span= t('.child_living_on_street')
+            %p
+              %input{ type: 'checkbox', checked: checked?(t('.other')), disabled: true }
+              %span= t('.other')
+          .col-xs-12.col-md-6
+            %p= "2- #{t('.essential_needs')}"
+            %p
+              %input{ type: 'checkbox', checked: checked?(t('.food')), disabled: true }
+              %span= t('.food')
+            %p
+              %input{ type: 'checkbox', checked: checked?(t('.shelter')), disabled: true }
+              %span= t('.shelter')
+            %p
+              %input{ type: 'checkbox', checked: checked?(t('.case_education')), disabled: true }
+              %span= t('.case_education')
+            %p
+              %input{ type: 'checkbox', checked: checked?(t('.health_care_and_medical_treatment')), disabled: true }
+              %span= t('.health_care_and_medical_treatment')
+            %p
+              %input{ type: 'checkbox', checked: checked?(t('.parent_carer_poor_certificate')), disabled: true }
+              %span= t('.parent_carer_poor_certificate')
+            %p
+              %input{ type: 'checkbox', checked: checked?(t('.other')), disabled: true }
+              %span= t('.other')
+        .row
+          .col-xs-12.col-md-6
+            %p= "3- #{t('.abuse_and_exploitation')}"
+            %p
+              %input{ type: 'checkbox', checked: checked?(t('.physical_abuse')), disabled: true }
+              %span= t('.physical_abuse')
+            %p
+              %input{ type: 'checkbox', checked: checked?(t('.sexual_abuse')), disabled: true }
+              %span= t('.sexual_abuse')
+            %p
+              %input{ type: 'checkbox', checked: checked?(t('.emotional_abuse')), disabled: true }
+              %span= t('.emotional_abuse')
+            %p
+              %input{ type: 'checkbox', checked: checked?(t('.child_exploitation')), disabled: true }
+              %span= t('.child_exploitation')
+            %p
+              %input{ type: 'checkbox', checked: checked?(t('.exessive_child_labour')), disabled: true }
+              %span= t('.exessive_child_labour')
+            %p
+              %input{ type: 'checkbox', checked: checked?(t('.family_violence')), disabled: true }
+              %span= t('.family_violence')
+            %p
+              %input{ type: 'checkbox', checked: checked?(t('.experience_with_trafficking')), disabled: true }
+              %span= t('.experience_with_trafficking')
+            %p
+              %input{ type: 'checkbox', checked: checked?(t('.danger_of_trafficking')), disabled: true }
+              %span= t('.danger_of_trafficking')
+            %p
+              %input{ type: 'checkbox', checked: checked?(t('.neglect')), disabled: true }
+              %span= t('.neglect')
+            %p
+              %input{ type: 'checkbox', checked: checked?(t('.other')), disabled: true }
+              %span= t('.other')
+          .col-xs-12.col-md-6
+            %p= "4- #{t('.disability_and_or_illness')}"
+            %p
+              %input{ type: 'checkbox', checked: checked?(t('.parent_carer_ill')), disabled: true }
+              %span= t('.parent_carer_ill')
+            %p
+              %input{ type: 'checkbox', checked: checked?(t('.child_ill')), disabled: true }
+              %span= t('.child_ill')
+            %p
+              %input{ type: 'checkbox', checked: checked?(t('.parent_carer_disabled')), disabled: true }
+              %span= t('.parent_carer_disabled')
+            %p
+              %input{ type: 'checkbox', checked: checked?(t('.child_exploitation')), disabled: true }
+              %span= t('.child_disabled')
+            %p
+              %input{ type: 'checkbox', checked: checked?(t('.child_hiv_aids')), disabled: true }
+              %span= t('.child_hiv_aids')
+            %p
+              %input{ type: 'checkbox', checked: checked?(t('.parent_carer_hiv_aids')), disabled: true }
+              %span= t('.parent_carer_hiv_aids')
+            %p
+              %input{ type: 'checkbox', checked: checked?(t('.other')), disabled: true }
+              %span= t('.other')
+        .row
+          .col-xs-12.col-md-6
+            %p= "5- #{t('.drug_abuse_alcohol_and_gambling')}"
+            %p
+              %input{ type: 'checkbox', checked: checked?(t('.parent_carer_has_a_history_of_alcohol_abuse')), disabled: true }
+              %span= t('.parent_carer_has_a_history_of_alcohol_abuse')
+            %p
+              %input{ type: 'checkbox', checked: checked?(t('.parent_carer_has_a_history_of_drug_use')), disabled: true }
+              %span= t('.parent_carer_has_a_history_of_drug_use')
+            %p
+              %input{ type: 'checkbox', checked: checked?(t('.child_has_a_history_of_alcohol_abuse')), disabled: true }
+              %span= t('.child_has_a_history_of_alcohol_abuse')
+            %p
+              %input{ type: 'checkbox', checked: checked?(t('.child_has_a_history_of_drug_use')), disabled: true }
+              %span= t('.child_has_a_history_of_drug_use')
+            %p
+              %input{ type: 'checkbox', checked: checked?(t('.child_has_a_history_of_gambling')), disabled: true }
+              %span= t('.child_has_a_history_of_gambling')
+            %p
+              %input{ type: 'checkbox', checked: checked?(t('.parent_carer_has_a_history_of_gambling')), disabled: true }
+              %span= t('.parent_carer_has_a_history_of_gambling')
+            %p
+              %input{ type: 'checkbox', checked: checked?(t('.child_has_a_criminal_history')), disabled: true }
+              %span= t('.child_has_a_criminal_history')
+            %p
+              %input{ type: 'checkbox', checked: checked?(t('.parent_carer_has_a_criminal_history')), disabled: true }
+              %span= t('.parent_carer_has_a_criminal_history')
+            %p
+              %input{ type: 'checkbox', checked: checked?(t('.other')), disabled: true }
+              %span= t('.other')
 
     .row
-      .col-xs-12.col-md-5
+      .col-xs-12.col-md-4
         %h5
           %strong= "#{t('.client_living_with_guardians')}?"
-      .col-xs-12.col-md-7
+      .col-xs-12.col-md-8
         %h5
           = f.input :client_living_with_guardian, as: :radio_buttons, collection: [[t('.positive'), true],[t('.negative'), false]], label: false
     .row
       .col-xs-12
         %h5
           %strong= t('.child_situation_and_need')
-        %table
+        %table.child-situation-needs
           %tr
             %td
             %td.text-center
@@ -212,34 +250,34 @@
               %p= t('.intervention_plan')
           %tr
             %td= t('.physical_health')
-            %td= f.input :present_physical_health, label: false
-            %td= f.input :physical_health_need, label: false
-            %td= f.input :physical_health_plan, label: false
+            %td= f.input :present_physical_health, label: false, input_html: { cols: '30', rows: '3' }
+            %td= f.input :physical_health_need, label: false, input_html: { cols: '30', rows: '3' }
+            %td= f.input :physical_health_plan, label: false, input_html: { cols: '30', rows: '3' }
           %tr
             %td= "#{t('.supplies')}"
-            %td= f.input :present_supplies, label: false
-            %td= f.input :supplies_need, label: false
-            %td= f.input :supplies_plan, label: false
+            %td= f.input :present_supplies, label: false, input_html: { cols: '30', rows: '3' }
+            %td= f.input :supplies_need, label: false, input_html: { cols: '30', rows: '3' }
+            %td= f.input :supplies_plan, label: false, input_html: { cols: '30', rows: '3' }
           %tr
             %td= t('.education')
-            %td= f.input :present_education, label: false
-            %td= f.input :education_need, label: false
-            %td= f.input :education_plan, label: false
+            %td= f.input :present_education, label: false, input_html: { cols: '30', rows: '3' }
+            %td= f.input :education_need, label: false, input_html: { cols: '30', rows: '3' }
+            %td= f.input :education_plan, label: false, input_html: { cols: '30', rows: '3' }
           %tr
             %td= t('.communication_in_family')
-            %td= f.input :present_family_communication, label: false
-            %td= f.input :family_communication_need, label: false
-            %td= f.input :family_communication_plan, label: false
+            %td= f.input :present_family_communication, label: false, input_html: { cols: '30', rows: '3' }
+            %td= f.input :family_communication_need, label: false, input_html: { cols: '30', rows: '3' }
+            %td= f.input :family_communication_plan, label: false, input_html: { cols: '30', rows: '3' }
           %tr
             %td= t('.communication_in_society')
-            %td= f.input :present_society_communication, label: false
-            %td= f.input :society_communication_need, label: false
-            %td= f.input :society_communication_plan, label: false
+            %td= f.input :present_society_communication, label: false, input_html: { cols: '30', rows: '3' }
+            %td= f.input :society_communication_need, label: false, input_html: { cols: '30', rows: '3' }
+            %td= f.input :society_communication_plan, label: false, input_html: { cols: '30', rows: '3' }
           %tr
             %td= t('.emotional_health')
-            %td= f.input :present_emotional_health, label: false
-            %td= f.input :emotional_health_need, label: false
-            %td= f.input :emotional_health_plan, label: false
+            %td= f.input :present_emotional_health, label: false, input_html: { cols: '30', rows: '3' }
+            %td= f.input :emotional_health_need, label: false, input_html: { cols: '30', rows: '3' }
+            %td= f.input :emotional_health_plan, label: false, input_html: { cols: '30', rows: '3' }
     .row
       .col-xs-12
         %h5
@@ -282,10 +320,10 @@
         %p.text-center= t('.signature')
 
     .row
-      .col-xs-12
+      .col-xs-12.copy
         %h5
           %strong= t('.copy')
-        %p{ style: 'margin-left: 20px;' }= "- #{t('.office')}"
+        %p= "- #{t('.office')}"
   .panel-footer
     .form-actions
       = f.button :submit, t('save'), class: 'btn btn-primary form-btn'

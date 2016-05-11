@@ -3,171 +3,171 @@
     .col-xs-5.col-xs-offset-7
       %h4
         %p.text-center
-          %b= t('.kingdom_of_wonder')
+          %b= t('.kingdom_of_cambodia')
         %p.text-center
           %b= t('.nation_religion_king')
-    .col-xs-12
-      %p{ style: 'width:50%;display:table;' }
-        %span{ style: 'display:table-cell;widht:45%;' }= "#{t('.initial_capital')} :"
-        %span{ style: 'display:table-cell;border-bottom:1px dotted #000;width:55%;' }
+    .col-xs-12.header-address
+      %p
+        %span.item= "#{t('.initial_capital')} :"
+        %span.value
           = @government_report.initial_capital
-      %p{ style: 'width:50%;display:table;' }
-        %span{ style: 'display:table-cell;widht:45%;' }= "#{t('.initial_city')} :"
-        %span{ style: 'display:table-cell;border-bottom:1px dotted #000;width:55%;' }
+      %p
+        %span.item= "#{t('.initial_city')} :"
+        %span.value
           = @government_report.initial_city
-      %p{ style: 'width:50%;display:table;' }
-        %span{ style: 'display:table-cell;widht:45%;' }= "#{t('.initial_commune')} :"
-        %span{ style: 'display:table-cell;border-bottom:1px dotted #000;width:55%;' }
+      %p
+        %span.item= "#{t('.initial_commune')} :"
+        %span.value
           = @government_report.initial_commune
-    .col-xs-12.text-center
-      %h4{style:'margin-top:40px;'}
+    .col-xs-12.text-center.first-response-form
+      %h4
         %b= t('.first_response_form')
-      %p{style:'margin-bottom:40px;'}= "(#{t('.for_children_who_are_in_danger')})"
-    .col-xs-12{ style: 'padding:5px 0;' }
+      %p= "(#{t('.for_children_who_are_in_danger')})"
+    .col-xs-12.initial-date-client-code
       .row
         .col-xs-6
-          %p{ style: 'width:100%;display:table;' }
-            %span{ style: 'width:40%;display:table-cell;' }= "#{t('.initial_date')} :"
-            %span.text-center{ style: 'width:60%;border-bottom:1px solid #000;display:table-cell;' }
+          %p.full-width-table
+            %span.initial-date-item= "#{t('.initial_date')} :"
+            %span.text-center.initial-date-value
               = "#{@government_report.initial_date.strftime('%d')} / #{@government_report.initial_date.strftime('%m')} / #{@government_report.initial_date.strftime('%Y')}" if @government_report.initial_date
         .col-xs-6
-          %p{ style: 'display:table;width:100%;' }
-            %span{ style: 'display:table-cell;width:35%;' }= "#{t('.client_code')} :"
-            %span.text-center{ style: 'width:65%;display:table-cell;border-bottom:1px solid #000;' }
+          %p.full-width-table
+            %span.client-code-item= "#{t('.client_code')} :"
+            %span.text-center.client-code-value
               = @government_report.client_code            
 
     .col-xs-12{ style: 'padding:5px 0;' }
       .row
         .col-xs-4
-          %p{ style: 'display:table;width:100%;' }
-            %span{ style: 'display:table-cell;width:50%;' }= "#{t('.commune')} :"
-            %span.text-center{ style: 'display:table-cell;width:50%;border-bottom:1px solid #000;' }
+          %p.full-width-table
+            %span.cell{ style: 'width:50%;' }= "#{t('.commune')} :"
+            %span.cell.text-center{ style: 'width:50%;border-bottom:1px solid #000;' }
               = @government_report.commune
         .col-xs-4
-          %p{ style: 'display:table;width:100%;' }
-            %span{ style: 'display:table-cell;width:60%;' }= "#{t('.city')} :"
-            %span.text-center{ style: 'display:table-cell;width:40%;border-bottom:1px solid #000;' }
+          %p.full-width-table
+            %span.cell{ style: 'width:60%;' }= "#{t('.city')} :"
+            %span.cell.text-center{ style: 'width:40%;border-bottom:1px solid #000;' }
               = @government_report.city
         .col-xs-4
-          %p{ style: 'display:table;width:100%;' }
-            %span{ style: 'display:table-cell;width:55%;' }= "#{t('.capital')} :"
-            %span.text-center{ style: 'display:table-cell;width:45%;border-bottom:1px solid #000;' }
+          %p.full-width-table
+            %span.cell{ style: 'width:55%;' }= "#{t('.capital')} :"
+            %span.cell.text-center{ style: 'width:45%;border-bottom:1px solid #000;' }
               = @government_report.capital
     .col-xs-12{ style: 'padding:5px 0;' }
       .row
         .col-xs-6
-          %p{ style: 'display:table;width:100%;' }
-            %span{ style: 'display:table-cell;width:40%;' }= "#{t('.organisation_name')} :"
-            %span.text-center{ style: 'display:table-cell;width:60%;border-bottom:1px solid #000;' }
+          %p.full-width-table
+            %span.cell{ style: 'width:40%;' }= "#{t('.organisation_name')} :"
+            %span.cell.text-center{ style: 'width:60%;border-bottom:1px solid #000;' }
               = @government_report.organisation_name
         .col-xs-6
-          %p{ style: 'display:table;width:100%;' }
-            %span{ style: 'display:table-cell;width:30%;' }= "#{t('.phone_number')} :"
-            %span.text-center{ style: 'display:table-cell;width:70%;border-bottom:1px solid #000;' }
+          %p.full-width-table
+            %span.cell{ style: 'width:30%;' }= "#{t('.phone_number')} :"
+            %span.cell.text-center{ style: 'width:70%;border-bottom:1px solid #000;' }
               = @government_report.organisation_phone_number
     .col-xs-12{ style: 'padding:5px 0;' }
       .row
         .col-xs-5
-          %p{ style: 'display:table;width:100%;' }
-            %span{ style: 'display:table-cell;width:40%;' }= "#{t('.client_name')} :"
-            %span.text-center{ style: 'display:table-cell;width:60%;border-bottom:1px solid #000;' }
+          %p.full-width-table
+            %span.cell{ style: 'width:40%;' }= "#{t('.client_name')} :"
+            %span.cell.text-center{ style: 'width:60%;border-bottom:1px solid #000;' }
               = @government_report.client_name
         .col-xs-4{ style: 'padding-right:2px;' }
-          %p{ style: 'width:100%;display:table;' }
-            %span{ style: 'width:55%;display:table-cell;' }= "#{t('.date_of_birth')} :"
-            %span.text-center{ style: 'width:45%;border-bottom:1px solid #000;display:table-cell;' }
+          %p.full-width-table
+            %span.cell{ style: 'width:55%;' }= "#{t('.date_of_birth')} :"
+            %span.cell.text-center{ style: 'width:45%;border-bottom:1px solid #000;' }
               = "#{@government_report.client_date_of_birth.strftime('%d')} / #{@government_report.client_date_of_birth.strftime('%m')} / #{@government_report.client_date_of_birth.strftime('%Y')}" if @government_report.client_date_of_birth
         .col-xs-3
-          %p{ style: 'width:100%;display:table;' }
-            %span{ style: 'width:35%;display:table-cell;' }= "#{t('.gender')} :"
-            %span{ style: 'width:35%;display:table-cell;' }
+          %p.full-width-table
+            %span.cell{ style: 'width:35%;' }= "#{t('.gender')} :"
+            %span.cell{ style: 'width:35%;' }
               %input.text-left{ type: 'checkbox', checked: ('checked' if @government_report.client_gender == 'male') }= " #{t('.male')}"
-            %span{ style: 'width:30%;display:table-cell;' }
+            %span.cell{ style: 'width:30%;' }
               %input.text-left{ type: 'checkbox', checked: ('checked' if @government_report.client_gender == 'female') }= " #{t('.female')}"
     .col-xs-12{ style: 'padding:5px 0;' }
-      %p{ style: 'display:table;width:100%;' }
-        %span{ style: 'display:table-cell;width:24%;' }= "#{t('.found_client_at')} :"
-        %span{ style: 'display:table-cell;width:5%;' }= t('.at')
-        %span.text-center{ style: 'display:table-cell;width:33%;border-bottom:1px solid #000;' }
+      %p.full-width-table
+        %span.cell{ style: 'width:24%;' }= "#{t('.found_client_at')} :"
+        %span.cell{ style: 'width:5%;' }= t('.at')
+        %span.cell.text-center{ style: 'width:33%;border-bottom:1px solid #000;' }
           = @government_report.found_client_at
-        %span{ style: 'display:table-cell;width:5%;' }= t('.village')
-        %span.text-center{ style: 'display:table-cell;width:33%;border-bottom:1px solid #000;' }
+        %span.cell{ style: 'width:5%;' }= t('.village')
+        %span.cell.text-center{ style: 'width:33%;border-bottom:1px solid #000;' }
           = @government_report.found_client_village
     .col-xs-12{ style: 'padding:5px 0;' }
-      %p{ style: 'display:table;width:100%;' }
-        %span{ style: 'display:table-cell;width:15%;' }= "#{t('.education')} :"
-        %span.text-center{ style: 'display:table-cell;width:85%;border-bottom:1px solid #000;' }
+      %p.full-width-table
+        %span.cell{ style: 'width:15%;' }= "#{t('.education')} :"
+        %span.cell.text-center{ style: 'width:85%;border-bottom:1px solid #000;' }
           = @government_report.education
     .col-xs-12{ style: 'padding:5px 0;' }
       .row
         .col-xs-6
-          %p{ style: 'display:table;width:100%;' }
-            %span{ style: 'display:table-cell;width:50%;' }= "#{t('.carer_name')} :"
-            %span.text-center{ style: 'display:table-cell;width:50%;border-bottom:1px solid #000' }
+          %p.full-width-table
+            %span.cell{ style: 'width:50%;' }= "#{t('.carer_name')} :"
+            %span.cell.text-center{ style: 'width:50%;border-bottom:1px solid #000' }
               = @government_report.carer_name
         .col-xs-6
-          %p{ style: 'display:table;width:100%;' }
-            %span{ style: 'display:table-cell;width:50%;' }= "#{t('.client_contact')} :"
-            %span.text-center{ style: 'display:table-cell;width:60%;border-bottom:1px solid #000;' }
+          %p.full-width-table
+            %span.cell{ style: 'width:50%;' }= "#{t('.client_contact')} :"
+            %span.cell.text-center{ style: 'width:60%;border-bottom:1px solid #000;' }
               = @government_report.client_contact
     .col-xs-12{ style: 'padding:5px 0;' }
-      %p{ style: 'display:table;width:100%;' }
-        %span{ style: 'display:table-cell;width:25%;' }= "#{t('.carer_address')} :"
-        %span{ style: 'display:table-cell;width:10%;' }= "#{t('.house_number')} :"
-        %span.text-center{ style: 'display:table-cell;width:10%;border-bottom:1px solid #000;' }
+      %p.full-width-table
+        %span.cell{ style: 'width:25%;' }= "#{t('.carer_address')} :"
+        %span.cell{ style: 'width:10%;' }= "#{t('.house_number')} :"
+        %span.cell.text-center{ style: 'width:10%;border-bottom:1px solid #000;' }
           = @government_report.carer_house_number
-        %span{ style: 'display:table-cell;width:10%;' }= "#{t('.street_number')} :"
-        %span.text-center{ style: 'display:table-cell;width:10%;border-bottom:1px solid #000;' }
+        %span.cell{ style: 'width:10%;' }= "#{t('.street_number')} :"
+        %span.cell.text-center{ style: 'width:10%;border-bottom:1px solid #000;' }
           = @government_report.carer_street_number
-        %span{ style: 'display:table-cell;width:5%;' }= "#{t('.village')} :"
-        %span.text-center{ style: 'display:table-cell;width:30%;border-bottom:1px solid #000;' }
+        %span.cell{ style: 'width:5%;' }= "#{t('.village')} :"
+        %span.cell.text-center{ style: 'width:30%;border-bottom:1px solid #000;' }
           = @government_report.carer_village
     .col-xs-12{ style: 'padding:5px 0;' }
       .row
         .col-xs-6
-          %p{ style: 'display:table;width:100%;' }
-            %span{ style: 'display:table-cell;width:25%;' }= "#{t('.commune')} :"
-            %span.text-center{ style: 'display:table-cell;width:75%;border-bottom:1px solid #000;' }
+          %p.full-width-table
+            %span.cell{ style: 'width:25%;' }= "#{t('.commune')} :"
+            %span.cell.text-center{ style: 'width:75%;border-bottom:1px solid #000;' }
               = @government_report.carer_commune
         .col-xs-6
-          %p{ style: 'display:table;width:100%;' }
-            %span{ style: 'display:table-cell;width:35%;' }= "#{t('.city')} :"
-            %span.text-center{ style: 'display:table-cell;width:65%;border-bottom:1px solid #000;' }
+          %p.full-width-table
+            %span.cell{ style: 'width:35%;' }= "#{t('.city')} :"
+            %span.cell.text-center{ style: 'width:65%;border-bottom:1px solid #000;' }
               = @government_report.carer_city
     .col-xs-12{ style: 'padding:5px 0;' }
       .row
         .col-xs-6
-          %p{ style: 'display:table;width:100%;' }
-            %span{ style: 'display:table-cell;width:30%;' }= "#{t('.capital')} :"
-            %span.text-center{ style: 'display:table-cell;width:70%;border-bottom:1px solid #000;' }
+          %p.full-width-table
+            %span.cell{ style: 'width:30%;' }= "#{t('.capital')} :"
+            %span.cell.text-center{ style: 'width:70%;border-bottom:1px solid #000;' }
               = @government_report.carer_capital
         .col-xs-6
-          %p{ style: 'display:table;width:100%;' }
-            %span{ style: 'display:table-cell;width:30%;' }= "#{t('.phone_number')} :"
-            %span.text-center{ style: 'display:table-cell;width:70%;border-bottom:1px solid #000;' }
+          %p.full-width-table
+            %span.cell{ style: 'width:30%;' }= "#{t('.phone_number')} :"
+            %span.cell.text-center{ style: 'width:70%;border-bottom:1px solid #000;' }
               = @government_report.carer_phone_number
     .col-xs-12{ style: 'padding:5px 0;' }
-      %p{ style: 'display:table;width:100%;' }
-        %span{ style: 'display:table-cell;width:45%;' }= "#{t('.case_information_date')} :"
-        %span{ style: 'display:table-cell;width:5%;' }= t('.day')
-        %span.text-center{ style: 'display:table-cell;width:13%;border-bottom:1px solid #000;' }
+      %p.full-width-table
+        %span.cell{ style: 'width:45%;' }= "#{t('.case_information_date')} :"
+        %span.cell{ style: 'width:5%;' }= t('.day')
+        %span.cell.text-center{ style: 'width:13%;border-bottom:1px solid #000;' }
           = @government_report.case_information_date.strftime('%d') if @government_report.case_information_date
-        %span{ style: 'display:table-cell;width:5%;' }= t('.month')
-        %span.text-center{ style: 'display:table-cell;width:13%;border-bottom:1px solid #000;' }
+        %span.cell{ style: 'width:5%;' }= t('.month')
+        %span.cell.text-center{ style: 'width:13%;border-bottom:1px solid #000;' }
           = @government_report.case_information_date.strftime('%m') if @government_report.case_information_date
-        %span{ style: 'display:table-cell;width:5%;' }= t('.year')
-        %span.text-center{ style: 'display:table-cell;width:14%;border-bottom:1px solid #000;' }
+        %span.cell{ style: 'width:5%;' }= t('.year')
+        %span.cell.text-center{ style: 'width:14%;border-bottom:1px solid #000;' }
           = @government_report.case_information_date.strftime('%Y') if @government_report.case_information_date
     .col-xs-12{ style: 'padding:5px 0;' }
       .row
         .col-xs-12
-          %p{ style: 'display:table;width:100%;' }
-            %span{ style: 'display:table-cell;width:20%;' }= "#{t('.transfer_info')} :"
-            %span{ style: 'display:table-cell;width:7%;' }= "#{t('.name')}"
-            %span.text-center{ style: 'display:table-cell;width:33%;border-bottom:1px solid #000;' }
+          %p.full-width-table
+            %span.cell{ style: 'width:20%;' }= "#{t('.transfer_info')} :"
+            %span.cell{ style: 'width:7%;' }= "#{t('.name')}"
+            %span.cell.text-center{ style: 'width:33%;border-bottom:1px solid #000;' }
               = @government_report.referral_name
-            %span{ style: 'display:table-cell;width:7%;' }= "#{t('.position')}"
-            %span.text-center{ style: 'display:table-cell;width:33%;border-bottom:1px solid #000;' }
+            %span.cell{ style: 'width:7%;' }= "#{t('.position')}"
+            %span.cell.text-center{ style: 'width:33%;border-bottom:1px solid #000;' }
               = @government_report.referral_position
     .col-xs-12{ style: 'padding:5px 0;' }
       %p
@@ -194,14 +194,141 @@
         %span= t('.every_point')
     .col-xs-12
       .row
-        - @client.quantitative_cases.group_by(&:quantitative_type).each_with_index do |qt, qti|
-          .col-xs-6
-            %p
-              %span= "#{qti+=1} - #{qt.first.name}"
-            - qt.last.each do |qc|
-              %p
-                %input{ type: 'checkbox', checked: ('checked' if @government_report.quantitative_cases.ids.include?(qc.id)) }
-                %span= qc.value
+        .col-xs-6
+          %p= "1- #{t('.family_separation')}"
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.abandoned')) }
+            %span= t('.abandoned')
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.child_changed_home')) }
+            %span= t('.child_changed_home')
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.family_changed_home')) }
+            %span= t('.family_changed_home')
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.child_living_independently')) }
+            %span= t('.child_living_independently')
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.orphan_lost_both_parents')) }
+            %span= t('.orphan_lost_both_parents')
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.orphan_lost_father')) }
+            %span= t('.orphan_lost_father')
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.orphan_lost_mother')) }
+            %span= t('.orphan_lost_mother')
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.child_living_on_street')) }
+            %span= t('.child_living_on_street')
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.other')) }
+            %span= t('.other')
+        .col-xs-6
+          %p= "2- #{t('.essential_needs')}"
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.food')) }
+            %span= t('.food')
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.shelter')) }
+            %span= t('.shelter')
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.case_education')) }
+            %span= t('.case_education')
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.health_care_and_medical_treatment')) }
+            %span= t('.health_care_and_medical_treatment')
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.parent_carer_poor_certificate')) }
+            %span= t('.parent_carer_poor_certificate')
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.other')) }
+            %span= t('.other')
+      .row
+        .col-xs-6
+          %p= "3- #{t('.abuse_and_exploitation')}"
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.physical_abuse')) }
+            %span= t('.physical_abuse')
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.sexual_abuse')) }
+            %span= t('.sexual_abuse')
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.emotional_abuse')) }
+            %span= t('.emotional_abuse')
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.child_exploitation')) }
+            %span= t('.child_exploitation')
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.exessive_child_labour')) }
+            %span= t('.exessive_child_labour')
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.family_violence')) }
+            %span= t('.family_violence')
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.experience_with_trafficking')) }
+            %span= t('.experience_with_trafficking')
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.danger_of_trafficking')) }
+            %span= t('.danger_of_trafficking')
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.neglect')) }
+            %span= t('.neglect')
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.other')) }
+            %span= t('.other')
+        .col-xs-6
+          %p= "4- #{t('.disability_and_or_illness')}"
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.parent_carer_ill')) }
+            %span= t('.parent_carer_ill')
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.child_ill')) }
+            %span= t('.child_ill')
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.parent_carer_disabled')) }
+            %span= t('.parent_carer_disabled')
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.child_exploitation')) }
+            %span= t('.child_disabled')
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.child_hiv_aids')) }
+            %span= t('.child_hiv_aids')
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.parent_carer_hiv_aids')) }
+            %span= t('.parent_carer_hiv_aids')
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.other')) }
+            %span= t('.other')
+      .row
+        .col-xs-12
+          %p= "5- #{t('.drug_abuse_alcohol_and_gambling')}"
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.parent_carer_has_a_history_of_alcohol_abuse')) }
+            %span= t('.parent_carer_has_a_history_of_alcohol_abuse')
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.parent_carer_has_a_history_of_drug_use')) }
+            %span= t('.parent_carer_has_a_history_of_drug_use')
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.child_has_a_history_of_alcohol_abuse')) }
+            %span= t('.child_has_a_history_of_alcohol_abuse')
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.child_has_a_history_of_drug_use')) }
+            %span= t('.child_has_a_history_of_drug_use')
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.child_has_a_history_of_gambling')) }
+            %span= t('.child_has_a_history_of_gambling')
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.parent_carer_has_a_history_of_gambling')) }
+            %span= t('.parent_carer_has_a_history_of_gambling')
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.child_has_a_criminal_history')) }
+            %span= t('.child_has_a_criminal_history')
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.parent_carer_has_a_criminal_history')) }
+            %span= t('.parent_carer_has_a_criminal_history')
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.other')) }
+            %span= t('.other')
 
     .col-xs-12
       %p

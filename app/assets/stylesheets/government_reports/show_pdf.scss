@@ -1,0 +1,53 @@
+#government-report {
+  .header-address {
+    p {
+      display: table;
+      width: 50%;
+      span.item {
+        display: table-cell;
+        width: 45%;
+      }
+      span.value {
+        display: table-cell;
+        border-bottom: 1px solid #000;
+        width: 55%;
+      }
+    }
+  }
+  .first-response-form {
+    h4 {
+      margin-top:40px;
+    }
+    p {
+      margin-bottom: 40px;
+    }
+  }
+  .initial-date-client-code {
+    padding: 5px 0;
+    .initial-date-item {
+      display: table-cell;
+      width: 40%;
+    }
+    .initial-date-value {
+      border-bottom: 1px solid #000;
+      display: table-cell;
+      width: 60%;
+    }
+    .client-code-item {
+      display: table-cell;
+      width: 35%;
+    }
+    .client-code-value {
+      border-bottom: 1px solid #000;
+      width: 65%;
+      display: table-cell;
+    }
+  }
+  .full-width-table {
+    display: table;
+    width: 100%;
+  }
+  .cell {
+    display: table-cell;
+  }
+}

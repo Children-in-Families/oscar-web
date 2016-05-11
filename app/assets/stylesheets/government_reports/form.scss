@@ -2,10 +2,23 @@ body[id=government_reports-new],
 body[id=government_reports-create],
 body[id=government_reports-edit],
 body[id=government_reports-update] {
+  .panel-body {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  .government_report_code,
+  .government_report_initial_capital,
+  .government_report_initial_city,
+  .government_report_initial_commune {
+    label {
+      min-width: 130px;
+    }
+  }
   .form-group {
+    padding-right: 0;
     margin-bottom: 5px;
-    .form-control {
-      margin-left: 10px;
+    label {
+      min-width: 160px;
     }
   }
   .government_report_anonymous_description {
@@ -17,13 +30,46 @@ body[id=government_reports-update] {
     }
     textarea {
       display: table-cell;
-      width: 100%;
     }
   }
   .government_report_quantitative_cases {
     display: block;
     span { 
       display: block;
+    }
+  }
+  input[type=checkbox], input[type=radio] {
+    margin-right: 5px;
+  }
+  .government_report_client_living_with_guardian, .government_report_mission_obtainable {
+    span.radio {
+      margin-right: 20px;
+    }
+    label {
+      min-width: auto;
+    }
+  }
+  .copy {
+    margin-top: 40px;
+    p {
+      margin-left: 20px;
+    }
+  }
+  .input-group.date {
+    margin-left: -3px;
+    max-width: 196px;
+  }
+  table.child-situation-needs {
+    td {
+      padding: 2px 5px;
+    }
+  }
+  input.gender {
+    margin-left: 10px;
+  }
+  .case_information_date {
+    label {
+      margin-right: 10px;
     }
   }
 }

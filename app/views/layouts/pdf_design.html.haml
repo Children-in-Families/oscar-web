@@ -3,7 +3,8 @@
   %head
     %meta{:content => "width=device-width, initial-scale=1", :name => "viewport", charset: 'utf-8'}
     %title CIF
-    = wicked_pdf_stylesheet_link_tag 'application'
+    = wicked_pdf_stylesheet_link_tag 'application', media: 'all'
+    %link{:href => "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css", :rel => "stylesheet"}
     :javascript
       function number_pages() {
         var vars={};
@@ -15,7 +16,6 @@
           for(var j=0; j<y.length; ++j) y[j].textContent = vars[x[i]];
         }
       }
-    %link{:href => "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css", :rel => "stylesheet"}
 
   %body{style: 'background-color:#fff;padding-bottom:20px;padding-left:40px;padding-right:40px;', onload: "number_pages()" }
     = yield
