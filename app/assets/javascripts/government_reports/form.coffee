@@ -1,6 +1,7 @@
 CIF.Government_reportsNew = CIF.Government_reportsCreate = CIF.Government_reportsEdit = CIF.Government_reportsUpdate = do ->
   _init = ->
     _missionCheckable()
+    _removeDisabledClass()
 
   _missionCheckable = ->
     noneObtainable = $('#government_report_mission_obtainable_false')
@@ -10,5 +11,8 @@ CIF.Government_reportsNew = CIF.Government_reportsCreate = CIF.Government_report
       missions.prop('disabled', false)
     noneObtainable.click ->
       missions.prop('disabled', true)
+
+  _removeDisabledClass = ->
+    $('.missions input.disabled').removeClass('disabled')
 
   { init: _init }
