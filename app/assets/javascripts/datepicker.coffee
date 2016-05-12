@@ -12,3 +12,5 @@ $(document).on 'ready page:load', ->
     todayHighlight: true,
     disableTouchKeyboard: true
   .datepicker 'setDate', new Date
+
+  $('input.date[disabled="disabled"]').parent('.input-group.date').datepicker('remove')
