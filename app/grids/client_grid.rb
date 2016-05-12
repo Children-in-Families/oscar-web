@@ -210,11 +210,11 @@ class ClientGrid
     object.province.name if object.province
   end
 
-  column(:state, header: -> { I18n.t('datagrid.columns.clients.state.state') }) do |object|
+  column(:state, header: -> { I18n.t('datagrid.columns.clients.state') }) do |object|
     object.state.titleize
   end
 
-  column(:rejected_note, header: -> { I18n.t('datagrid.columns.clients.state.rejected_note') })
+  column(:rejected_note, header: -> { I18n.t('datagrid.columns.clients.rejected_note') })
 
   column(:user, order: 'users.first_name', header: -> { I18n.t('datagrid.columns.clients.case_worker_or_staff') }) do |object|
     object.user.name if object.user

@@ -52,7 +52,7 @@
                   = case_history.carer_phone_number.phony_formatted(normalize: :KH, format: :international) if case_history.carer_phone_number
             %tr
               %td.spacing-first-col
-                = "#{t('.support_amount')}?"
+                = "#{t('.support_amount')}"
               %td
                 %strong
                   = number_to_currency(case_history.support_amount)
