@@ -274,11 +274,6 @@
                 .col-xs-10.col-xs-offset-1.pushing-top.color-blue
                   %h2.white-text.text-center
                     #{t('.view_kc_history_btn_link')}
-          .row
-            = link_to client_government_reports_path(@client) do
-              .col-xs-10.col-xs-offset-1.pushing-top.color-blue
-                %h4.white-text.text-center
-                  = t('.government_report')
 
           - if @client.has_any_quarterly_reports?
             .row
@@ -292,3 +287,8 @@
               .col-xs-10.col-xs-offset-1.pushing-top.color-blue
                 %h2.white-text.text-center
                   #{t('.take_survey')}
+          .row
+            = link_to client_government_reports_path(@client) do
+              .col-xs-10.col-xs-offset-1.pushing-top.color-blue.government-reports
+                %h4.white-text.text-center
+                  = t('.government_report')
