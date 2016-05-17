@@ -84,10 +84,18 @@ To run all specs, in your project root directory in terminal, run this command:
   rspec
 ```
 
-### Bugs Report and Improvements
+### Issue Reporting
 
 If you experience with bugs or need further improvement, please create a new issue in the repo issue list.
 
+### Contributing to Children in Families
+
+Pull requests are very welcome. Before submitting a pull request, please make sure that your changes are well tested. Pull requests without tests will not be accepted.
+
+### Authors
+
+Children in Families is developed in partnership by [Rotati Consulting](http://www.rotati.com) and [CIF](http://www.childreninfamilies.org)
+
 ### License
 
-Children in Families is a free to use software and maintained by [Rotati Consulting](http://www.rotati.com/).
+Children in Families Mobile Application is released under [AGPL](http://www.gnu.org/licenses/agpl-3.0-standalone.html)
