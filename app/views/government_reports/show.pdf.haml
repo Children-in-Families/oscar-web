@@ -90,7 +90,7 @@
         %span.cell.found-client-at-item= t('.at')
         %span.cell.bottom-border.found-client-at-value.text-center
           = @government_report.found_client_at
-        %span.cell.found-client-village-item= t('.village')
+        %span.cell.found-client-village-item.text-center= t('.village')
         %span.cell.bottom-border.found-client-village-value.text-center
           = @government_report.found_client_village
     .col-xs-12.wide-padding
@@ -116,10 +116,10 @@
         %span.cell.carer-house-item= "#{t('.house_number')} :"
         %span.cell.bottom-border.carer-house-value.text-center
           = @government_report.carer_house_number
-        %span.cell.carer-street-item= "#{t('.street_number')} :"
+        %span.cell.carer-street-item.text-center= "#{t('.street_number')} :"
         %span.cell.bottom-border.carer-street-value.text-center
           = @government_report.carer_street_number
-        %span.cell.carer-village-item= "#{t('.village')} :"
+        %span.cell.carer-village-item.text-center= "#{t('.village')} :"
         %span.cell.bottom-border.carer-village-value.text-center
           = @government_report.carer_village
     .col-xs-12.wide-padding
@@ -152,10 +152,10 @@
         %span.cell.case-info-date-day-item= t('.day')
         %span.cell.bottom-border.case-info-date-day-value.text-center
           = @government_report.case_information_date.strftime('%d') if @government_report.case_information_date
-        %span.cell.case-info-date-month-item= t('.month')
+        %span.cell.case-info-date-month-item.text-center= t('.month')
         %span.cell.bottom-border.case-info-date-month-value.text-center
           = @government_report.case_information_date.strftime('%m') if @government_report.case_information_date
-        %span.cell.case-info-date-year-item= t('.year')
+        %span.cell.case-info-date-year-item.text-center= t('.year')
         %span.cell.bottom-border.case-info-date-year-value.text-center
           = @government_report.case_information_date.strftime('%Y') if @government_report.case_information_date
     .col-xs-12.wide-padding
@@ -333,9 +333,9 @@
     .col-xs-12
       %p
         %span= "#{t('.client_living_with_guardians')}?"
-        %input{ type: 'checkbox', checked: ('checked' if @government_report.client_living_with_guardian) }
+        %input.wide-space{ type: 'checkbox', checked: ('checked' if @government_report.client_living_with_guardian) }
         %span= t('.positive')
-        %input{ type: 'checkbox', checked: ('checked' unless @government_report.client_living_with_guardian) }
+        %input.wide-space{ type: 'checkbox', checked: ('checked' unless @government_report.client_living_with_guardian) }
         %span= t('.negative')
     .col-xs-12
       %p= "#{t('.child_situation_and_need')} :"

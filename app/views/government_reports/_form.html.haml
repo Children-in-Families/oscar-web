@@ -39,7 +39,7 @@
         %label= "#{t('.gender')}"
         %input.gender.text-left{ type: 'radio', disabled: true, checked: ('checked' if @government_report.client_gender.presence && @government_report.client.gender == 'male' || @client.gender == 'male') }= " #{t('.male')}"
         %input.gender.text-left{ type: 'radio', disabled: true, checked: ('checked' if @government_report.client_gender.presence && @government_report.client.gender == 'female' || @client.gender == 'female') }= " #{t('.female')}"
-      .col-xs-12.col-md-4.form-group= f.input :found_client_at, label: "#{t('.found_client_at')}#{t('.at')}"
+      .col-xs-12.col-md-4.form-group= f.input :found_client_at, label: t('.found_client_at')
       .col-xs-12.col-md-4.form-group= f.input :found_client_village, label: t('.village')
       .col-xs-12.col-md-4.form-group= f.input :education, label: t('.education')
       .col-xs-12.col-md-4.form-group= f.input :carer_name, disabled: true, input_html: { value: @government_report.carer_name.presence || (@client.cases.current.carer_names if @client.cases.current) }, label: t('.carer_name')
@@ -61,7 +61,7 @@
               %span.input-group-addon
                 %i.glyphicon.glyphicon-calendar
     .row
-      .col-xs-12.col-md-4.form-group= f.input :referral_name, disabled: true, input_html: { value: @government_report.referral_name.presence || @client.referral_source.name }, label: "#{t('.transfer_info')} #{t('.name')}"
+      .col-xs-12.col-md-4.form-group= f.input :referral_name, disabled: true, input_html: { value: @government_report.referral_name.presence || (@client.referral_source.name if @client.referral_source) }, label: "#{t('.transfer_info')} #{t('.name')}"
       .col-xs-12.col-md-4.form-group= f.input :referral_position, label: t('.position')
     .row
       .col-xs-12= f.input :anonymous, label: "#{t('.or')} #{t('.anonymous_form')}"

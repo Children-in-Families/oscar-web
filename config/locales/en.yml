@@ -3,15 +3,15 @@ en:
     code: Form
     kingdom_of_cambodia: Kingdom of Cambodia
     nation_religion_king: Nation Religion King
-    initial_capital: Capital/Province
-    initial_city: City/District/Khan
-    initial_commune: Commune/Sangkat
+    initial_capital: Capital
+    initial_city: District
+    initial_commune: Commune
     initial_date: Date
     date: Date
     client_code: Code
-    commune: Commune/Sangkat
-    city: City/District/Khan
-    capital: Capital/Province
+    commune: Commune
+    city: District
+    capital: Capital
     organisation_name: CCWC Name
     organisation: CCWC
     phone_number: Phone Number
@@ -20,14 +20,14 @@ en:
     gender: Sex
     male: M
     female: F
-    found_client_at: Location of first meeting with the child
+    found_client_at: Location of meeting child
     at: at
     village: Village
     education: School Grade
     carer_name: Carer Name
     client_contact: Relationship with child
     carer_address: Carer Address
-    house_number: House Number
+    house_number: House
     street_number: Street
     case_information_date: Date of Referral
     day: Day

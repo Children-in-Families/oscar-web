@@ -2,6 +2,7 @@ class GovernmentReport < ActiveRecord::Base
 
   belongs_to :client
 
+  validates :client, presence: true
   validates :code, presence: true, uniqueness: true
 
   after_create :set_related_client_attributes
