@@ -126,6 +126,9 @@ en:
     index:
       back: Back
       add_report: Add Government Report
+      code: Form
+      initial_date: Date
+      action: Action
     new:
       new_report: New Government Report
     show:

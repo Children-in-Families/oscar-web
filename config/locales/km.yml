@@ -126,6 +126,9 @@ km:
     index:
       back: ត្រលប់ក្រោយ
       add_report: បន្ថែមរបាយណ៍ថ្មី
+      code: ទម្រង់
+      initial_date: កាលបរិច្ឆេទ
+      action: សកម្មភាព
     new:
       new_report: របាយណ៍ថ្មី
     show:

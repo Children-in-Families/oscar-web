@@ -9,11 +9,10 @@ class GovernmentReport < ActiveRecord::Base
 
   private
   def set_related_client_attributes
-    self.client_code           = client.code
+    self.client_code           = client.slug
     self.client_name           = client.name
     self.client_date_of_birth  = client.date_of_birth
     self.client_gender         = client.gender
-    self.education             = client.grade
     self.referral_name         = client.referral_source.name if client.referral_source
     self.case_information_date = client.initial_referral_date
     if client.cases.current

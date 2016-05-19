@@ -8,19 +8,19 @@
         = link_to t('.back'), client_path(@client), { class: 'btn btn-default' }
         = link_to t('.add_report'), new_client_government_report_path(@client), { class: 'btn btn-success' }
         - if @government_reports.any?
-          .panel.panel-default.reports
-            .panel-body
-              .row
-                .col-xs-12
-                  %table.table.table-bordered
-                    - @government_reports.each do |report|
-                      %tr
-                        %td= report.code
-                        %td= report.initial_date
-                        %td.action
-                          = link_to client_government_report_path(report.client, report, format: :pdf) do
-                            %i.glyphicon.glyphicon-download-alt
-                          = link_to edit_client_government_report_path(report.client, report) do
-                            %i.glyphicon.glyphicon-pencil
-                          = link_to client_government_report_path(@client, report), method: :delete, data: { confirm: 'Are_you_sure_you_want_to_delete?' } do
-                            %i.glyphicon.glyphicon-trash
+          %table.table.table-bordered.reports
+            %tr
+              %th= t('.code')
+              %th= t('.initial_date')
+              %th= t('.action')
+            - @government_reports.each do |report|
+              %tr
+                %td= report.code
+                %td= report.initial_date
+                %td.action
+                  = link_to client_government_report_path(report.client, report, format: :pdf) do
+                    %i.glyphicon.glyphicon-download-alt
+                  = link_to edit_client_government_report_path(report.client, report) do
+                    %i.glyphicon.glyphicon-pencil
+                  = link_to client_government_report_path(@client, report), method: :delete, data: { confirm: 'Are_you_sure_you_want_to_delete?' } do
+                    %i.glyphicon.glyphicon-trash

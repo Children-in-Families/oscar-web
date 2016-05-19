@@ -2,9 +2,12 @@ body[id=government_reports-new],
 body[id=government_reports-create],
 body[id=government_reports-edit],
 body[id=government_reports-update] {
+  .panel-heading {
+    padding: 10px 40px;
+  }
   .panel-body {
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-left: 40px;
+    padding-right: 40px;
   }
 
   .government_report_code,
@@ -27,9 +30,9 @@ body[id=government_reports-update] {
 
   .form-group {
     padding-right: 0;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
     label {
-      min-width: 160px;
+      min-width: 180px;
     }
   }
 
@@ -95,5 +98,19 @@ body[id=government_reports-update] {
 
   ul {
     list-style: none;
+  }
+
+  .done-date, .agreed-date {
+    display: table;
+    width: 100%;
+  }
+
+  .bottom-border {
+    border-bottom: 1px solid #000;
+  }
+
+  .cell {
+    display: table-cell;
+    width: 10%;
   }
 }
