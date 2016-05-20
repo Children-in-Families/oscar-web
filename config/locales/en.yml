@@ -70,7 +70,7 @@ en:
     seen_and_agreed: Seen and agreed
     signature: Signature and Stamp/Seal of Chiefs of Commune/Sangkat
     copy: Copyright
-    office: សអយOffice Town District Kahn
+    office: សអយOffice Town District Khan
     danger_situation: Situations which cause or may cause harm to the child
     check: please tick
     every_point: all which apply
@@ -129,6 +129,7 @@ en:
       code: Form
       initial_date: Date
       action: Action
+      are_you_sure_you_want_to_delete: Are you sure you want to delete?
     new:
       new_report: New Government Report
     show:
