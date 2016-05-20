@@ -90,6 +90,7 @@ km:
     shelter: ជម្រក
     case_education: ការសិក្សា
     health_care_and_medical_treatment: ការថែទាំសុខភាព និងវេជ្ជសាស្ត្រ
+    parent_carer_poor_certificate_origin: ឪពុកម្តាយ/ឪពុក/ម្តាយ/អ្នកអាណាព្យាបាលមានប័ណ្ណក្រីក្រ
     parent_carer_poor_certificate: ឪពុកម្តាយ/ឪពុក/ម្តាយ/អ្នកអាណាព្យាបាល មានប័ណ្ណក្រីក្រ
 
     abuse_and_exploitation: ការបង្កទុក្ខទោស និងការកេងប្រវ័ញ្ច
@@ -104,11 +105,13 @@ km:
     neglect: រងការមិនអើពើ
 
     disability_and_or_illness: ជំងឺរ៉ាំរ៉ៃ និង/ឬពិការភាព
+    parent_carer_ill_origin: ឪពុកម្តាយ/ឪពុក/ម្តាយ/អ្នកអាណាព្យាបាលមានជំងឺ
     parent_carer_ill: ឪពុកម្តាយ/ឪពុក/ម្តាយ/អ្នកអាណាព្យាបាល មានជំងឺ
     child_ill: កុមារមានជំងឺ
     parent_carer_disabled: ឪពុកម្តាយឬឪពុក ឬម្តាយមានពិការភាព
     child_disabled: កុមារពិការ
     child_hiv_aids: កុមារផ្ទុកមេរោគ/មានជំងឺអេដស៏
+    parent_carer_hiv_aids_origin: ឪពុកម្តាយ/ឪពុក/ម្តាយ/អ្នកអាណាព្យាបាលផ្ទុកមេរោគ/មានជំងឺអេដស៏
     parent_carer_hiv_aids: ឪពុកម្តាយ/ឪពុក/ម្តាយ/អ្នកអាណាព្យាបាលផ្ទុក មេរោគ/មានជំងឺអេដស៏
 
     drug_abuse_alcohol_and_gambling: ការបំពានគ្រឿងញៀនឬគ្រឿងស្រវឹង និងល្បែងស៊ីសង

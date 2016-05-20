@@ -91,6 +91,7 @@ en:
     shelter: Shelter
     case_education: Education
     health_care_and_medical_treatment: Health care and medical treatment
+    parent_carer_poor_certificate_origin: Parent/carer poor certificate
     parent_carer_poor_certificate: Parent/carer poor certificate
 
     abuse_and_exploitation: Abuse and Exploitation
@@ -105,11 +106,13 @@ en:
     neglect: neglect
 
     disability_and_or_illness: Disability and/or illness
+    parent_carer_ill_origin: parent/carer ill
     parent_carer_ill: parent/carer ill
     child_ill: child ill
     parent_carer_disabled: parent/carer disabled
     child_disabled: child disabled
     child_hiv_aids: child HIV/AIDS
+    parent_carer_hiv_aids_origin: parent/carer HIV/AIDS
     parent_carer_hiv_aids: parent/carer HIV/AIDS
 
     drug_abuse_alcohol_and_gambling: Drug abuse, alcohol and gambling
