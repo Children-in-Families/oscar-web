@@ -7,7 +7,7 @@
     %title CIF
 
     :javascript
-      function number_pages() {
+      function pageNumber() {
         var vars={};
         var x=document.location.search.substring(1).split('&');
         for(var i in x) {var z=x[i].split('=',2);vars[z[0]] = decodeURIComponent(z[1]);}
@@ -243,5 +243,5 @@
       }
 
     %link{ href: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css', rel: 'stylesheet'}
-  %body{ style: 'background-color:#fff;padding-bottom:20px;padding-left:40px;padding-right:40px;', onload: 'number_pages()' }
+  %body{ style: 'background-color:#fff;padding-bottom:20px;padding-left:40px;padding-right:40px;', onload: 'pageNumber()' }
     = yield
