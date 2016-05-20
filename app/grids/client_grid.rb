@@ -76,8 +76,8 @@ class ClientGrid
   end
 
   filter(:agencies_name, :enum, multiple: true, select: :agencies_options, header: -> { I18n.t('datagrid.columns.clients.agency_names') }) do |name, scope|
-    if agency == Agency.name_like(name).first
-      scope.joins(:agencies).where(agencies: { id: agency.id })
+    if agencies ||= Agency.name_like(name)
+      scope.joins(:agencies).where(agencies: { id: agencies.ids })
     else
       scope.joins(:agencies).where(agencies: { id: nil })
     end

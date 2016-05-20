@@ -29,12 +29,12 @@
           %p.full-width-table
             %span.initial-date-item.cell= "#{t('.initial_date')} :"
             %span.text-center.cell.bottom-border.initial-date-value
-              = "#{@government_report.initial_date.strftime('%d')} / #{@government_report.initial_date.strftime('%m')} / #{@government_report.initial_date.strftime('%Y')}" if @government_report.initial_date
+              = @government_report.initial_date_format
         .col-xs-6
           %p.full-width-table
             %span.client-code-item.cell= "#{t('.client_code')} :"
             %span.text-center.cell.bottom-border.client-code-value
-              = @government_report.client_code            
+              = @government_report.client_slug
 
     .col-xs-12.wide-padding
       .row
@@ -76,7 +76,7 @@
           %p.full-width-table
             %span.cell.dob-item= "#{t('.date_of_birth')} :"
             %span.cell.bottom-border.dob-value.text-center
-              = "#{@government_report.client_date_of_birth.strftime('%d')} / #{@government_report.client_date_of_birth.strftime('%m')} / #{@government_report.client_date_of_birth.strftime('%Y')}" if @government_report.client_date_of_birth
+              = @government_report.client_born_date
         .col-xs-3
           %p.full-width-table
             %span.cell.gender-item= "#{t('.gender')} :"
@@ -151,13 +151,13 @@
         %span.cell.case-info-date-item= "#{t('.case_information_date')} :"
         %span.cell.case-info-date-day-item= t('.day')
         %span.cell.bottom-border.case-info-date-day-value.text-center
-          = @government_report.case_information_date.strftime('%d') if @government_report.case_information_date
+          = @government_report.client_initial_referal_day
         %span.cell.case-info-date-month-item.text-center= t('.month')
         %span.cell.bottom-border.case-info-date-month-value.text-center
-          = @government_report.case_information_date.strftime('%m') if @government_report.case_information_date
+          = @government_report.client_initial_referal_month
         %span.cell.case-info-date-year-item.text-center= t('.year')
         %span.cell.bottom-border.case-info-date-year-value.text-center
-          = @government_report.case_information_date.strftime('%Y') if @government_report.case_information_date
+          = @government_report.client_initial_referal_year
     .col-xs-12.wide-padding
       .row
         .col-xs-12
@@ -411,26 +411,20 @@
       %p.text-center
         %span= t('.day')
         %span.done-date-day.bottom-border
-          = @government_report.done_date.strftime('%d') if @government_report.done_date
         %span= t('.month')
         %span.done-date-month.bottom-border
-          = @government_report.done_date.strftime('%m') if @government_report.done_date
         %span= t('.year')
         %span.done-date-year.bottom-border
-          = @government_report.done_date.strftime('%Y') if @government_report.done_date
       %p.text-center
         %span= t('.organisation')
     .col-xs-6.agreed-date
       %p.text-center
         %span= t('.day')
         %span.agreed-date-day.bottom-border
-          = @government_report.agreed_date.strftime('%d') if @government_report.agreed_date
         %span= t('.month')
         %span.agreed-date-month.bottom-border
-          = @government_report.agreed_date.strftime('%m') if @government_report.agreed_date
         %span= t('.year')
         %span.agreed-date-year.bottom-border
-          = @government_report.agreed_date.strftime('%Y') if @government_report.agreed_date
       %p.text-center= t('.seen_and_agreed')
       %p.text-center= t('.signature')
   .row

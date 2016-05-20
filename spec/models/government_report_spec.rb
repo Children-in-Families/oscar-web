@@ -19,16 +19,3 @@ describe GovernmentReport, 'validations' do
     end
   end
 end
-
-describe GovernmentReport, 'callbacks' do
-  context 'enable disable missions' do
-    let!(:government_report) { create(:government_report, code: FFaker::Lorem.words, mission_obtainable: false) }
-
-    it "all missions should be false" do
-      expect(government_report.first_mission).to be false
-      expect(government_report.second_mission).to be false
-      expect(government_report.third_mission).to be false
-      expect(government_report.fourth_mission).to be false
-    end
-  end
-end

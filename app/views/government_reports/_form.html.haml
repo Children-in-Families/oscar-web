@@ -19,49 +19,52 @@
       .col-xs-12.col-md-4.form-group.date.optional.initial_date
         %label.date.optional.control-label{ for: 'initial_date' }= t('.initial_date')
         .input-group.date.form-group
-          = f.text_field :initial_date, class: 'date optional form-control date-picker', type: 'text', name: 'government_report[initial_date]', id: 'initial_date'
+          = f.text_field :initial_date, class: 'date optional form-control date-picker', type: 'text'
           %span.input-group-addon
             %i.glyphicon.glyphicon-calendar
-      .col-xs-12.col-md-4.form-group= f.input :client_code, disabled: true, input_html: { value: @government_report.client_code.presence || @client.slug }, label: t('.client_code')
+      .col-xs-12.col-md-4.form-group
+        = f.input :client_slug, disabled: true, label: t('.client_code')
+
       .col-xs-12.col-md-4.form-group= f.input :commune, label: t('.commune')
       .col-xs-12.col-md-4.form-group= f.input :city, label: t('.city')
       .col-xs-12.col-md-4.form-group= f.input :capital, label: t('.capital')
       .col-xs-12.col-md-4.form-group= f.input :organisation_name, label: t('.organisation_name')
       .col-xs-12.col-md-4.form-group= f.input :organisation_phone_number, label: t('.phone_number')
-      .col-xs-12.col-md-4.form-group= f.input :client_name, disabled: true, input_html: { value: @government_report.client_name.presence || @client.name }, label: t('.client_name')
+      .col-xs-12.col-md-4.form-group= f.input :client_name, disabled: true, label: t('.client_name')
       .col-xs-12.col-md-4.form-group.date.optional.client_date_of_birth
         %label.date.optional.control-label{ for: 'client_date_of_birth' }= t('.date_of_birth')
         .input-group.date.form-group
-          = f.text_field :client_date_of_birth, disabled: true, value: @government_report.client_date_of_birth.presence || @client.date_of_birth, class: 'date optional form-control date-picker', type: 'text', name: 'government_report[client_date_of_birth]', id: 'client_date_of_birth'
+          = f.text_field :client_date_of_birth, disabled: true, class: 'date optional form-control date-picker', type: 'text'
           %span.input-group-addon
             %i.glyphicon.glyphicon-calendar
       .col-xs-12.col-md-4.form-group
-        %label= "#{t('.gender')}"
-        %input.gender.text-left{ type: 'radio', disabled: true, checked: ('checked' if @government_report.client_gender.presence && @government_report.client.gender == 'male' || @client.gender == 'male') }= " #{t('.male')}"
-        %input.gender.text-left{ type: 'radio', disabled: true, checked: ('checked' if @government_report.client_gender.presence && @government_report.client.gender == 'female' || @client.gender == 'female') }= " #{t('.female')}"
+        = f.input :client_gender, collection: [[t('.male'), 'male'],[t('.female'), 'female']], as: :radio_buttons, label: t('.gender'), disabled: true
       .col-xs-12.col-md-4.form-group= f.input :found_client_at, label: t('.found_client_at')
       .col-xs-12.col-md-4.form-group= f.input :found_client_village, label: t('.village')
       .col-xs-12.col-md-4.form-group= f.input :education, label: t('.education')
-      .col-xs-12.col-md-4.form-group= f.input :carer_name, disabled: true, input_html: { value: @government_report.carer_name.presence || (@client.cases.current.carer_names if @client.cases.current) }, label: t('.carer_name')
+      .col-xs-12.col-md-4.form-group= f.input :carer_name, disabled: true, label: t('.carer_name')
       .col-xs-12.col-md-4.form-group= f.input :client_contact, label: t('.client_contact')
-      .col-xs-12.col-md-4.form-group= f.input :carer_house_number, label: "#{t('.carer_address')} #{t('.house_number')}"
+      .col-xs-12
+        %h5
+          %strong= t('.carer_address')
+      .col-xs-12.col-md-4.form-group= f.input :carer_house_number, label: t('.house_number')
       .col-xs-12.col-md-4.form-group= f.input :carer_street_number, label: t('.street_number')
       .col-xs-12.col-md-4.form-group= f.input :carer_village, label: t('.village')
       .col-xs-12.col-md-4.form-group= f.input :carer_commune, label: t('.commune')
       .col-xs-12.col-md-4.form-group= f.input :carer_city, label: t('.city')
-      .col-xs-12.col-md-4.form-group= f.input :carer_capital, disabled: true, input_html: { value: @government_report.carer_capital.presence || (@client.cases.current.province.name if @client.cases.current && @client.cases.current.province) }, label: t('.capital')
-      .col-xs-12.col-md-4.form-group= f.input :carer_phone_number, disabled: true, input_html: { value: @government_report.carer_phone_number.presence || (@client.cases.current.carer_phone_number if @client.cases.current) }, label: t('.phone_number')
+      .col-xs-12.col-md-4.form-group= f.input :carer_capital, disabled: true, label: t('.capital')
+      .col-xs-12.col-md-4.form-group= f.input :carer_phone_number, disabled: true, label: t('.phone_number')
       .col-xs-12.col-md-4.form-group.date.optional.case_information_date
         .row
           .col-xs-12.col-md-5
             %label.date.optional.control-label{ for: 'case_information_date' }= t('.case_information_date')
           .col-xs-12.col-md-7
-            .input-group.date.form-group
-              = f.text_field :case_information_date, disabled: true, value: @government_report.case_information_date.presence || @client.initial_referral_date, class: 'date optional form-control date-picker', type: 'text', name: 'government_report[case_information_date]', id: 'case_information_date'
+            .input-group.date.form-group.case-info-date
+              = f.text_field :client_initial_referral_date, disabled: true, class: 'date optional form-control date-picker', type: 'text'
               %span.input-group-addon
                 %i.glyphicon.glyphicon-calendar
     .row
-      .col-xs-12.col-md-4.form-group= f.input :referral_name, disabled: true, input_html: { value: @government_report.referral_name.presence || (@client.referral_source.name if @client.referral_source) }, label: "#{t('.transfer_info')} #{t('.name')}"
+      .col-xs-12.col-md-4.form-group= f.input :referral_name, disabled: true, label: "#{t('.transfer_info')} #{t('.name')}"
       .col-xs-12.col-md-4.form-group= f.input :referral_position, label: t('.position')
     .row
       .col-xs-12= f.input :anonymous, label: "#{t('.or')} #{t('.anonymous_form')}"
@@ -216,10 +219,10 @@
               %span= t('.other')
 
     .row
-      .col-xs-12.col-md-4
+      .col-xs-12.col-md-5
         %h5
           %strong= "#{t('.client_living_with_guardians')}?"
-      .col-xs-12.col-md-8
+      .col-xs-12.col-md-7
         %h5
           = f.input :client_living_with_guardian, as: :radio_buttons, collection: [[t('.positive'), true],[t('.negative'), false]], label: false
     .row
