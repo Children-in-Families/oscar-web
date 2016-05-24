@@ -1,0 +1,23 @@
+!!!
+%html
+  %head
+    %meta{:content => "width=device-width, initial-scale=1", :name => "viewport"}
+    %title CIF
+    = stylesheet_link_tag    'application', media: 'all'
+    = javascript_include_tag 'application'
+    = csrf_meta_tags
+  %body{id: "#{controller_name}-#{params[:action]}"}
+    .container
+      .row.unsupported-browser
+        .col-xs-12.text-center
+          .logo-container
+            = image_tag 'logo.png', size: '72x72'
+        .col-xs-12.text-center
+          %h1 You have been redirected due to browser compatibility issue.
+          %p The browser you are using does not support our technology. Please try another browsers recommended below.
+        .col-xs-6.col-sm-4.col-sm-offset-2.text-center
+          = link_to 'https://www.google.com/chrome/browser/', target: '_blank' do
+            = image_tag 'chrome.png', class: 'img-responsive browser'
+        .col-xs-6.col-sm-4.text-center
+          = link_to 'https://www.mozilla.org/en-US/firefox/new/', target: '_blank' do
+            = image_tag 'firefox.png', class: 'img-responsive browser'

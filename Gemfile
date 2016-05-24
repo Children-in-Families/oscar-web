@@ -38,6 +38,7 @@ gem 'jquery-datatables-rails', '~> 3.4'
 gem 'friendly_id',            '~> 5.1.0'
 gem 'wicked_pdf',             '~> 1.0', '>= 1.0.6'
 gem 'wkhtmltopdf-binary-edge', '~> 0.12.3.0'
+gem 'browser',                '~> 2.1'
 
 group :development, :test do
   gem 'pry'
