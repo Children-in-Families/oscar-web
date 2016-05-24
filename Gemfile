@@ -36,6 +36,7 @@ gem 'jquery-validation-rails'
 gem 'will_paginate-bootstrap'
 gem 'jquery-datatables-rails', '~> 3.4'
 gem 'friendly_id',            '~> 5.1.0'
+gem 'browser',                '~> 2.1'
 
 group :development, :test do
   gem 'pry'

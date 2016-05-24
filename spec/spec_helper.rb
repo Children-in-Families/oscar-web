@@ -36,6 +36,10 @@ RSpec.configure do |config|
   # assertion/expectation library such as wrong or the stdlib/minitest
   # assertions if you prefer.
 
+  config.before(:type => :feature) do
+    allow_any_instance_of(Browser::Generic).to receive(:modern?) { true }
+  end
+
   config.include Requests::JsonHelpers, type: :request
   config.include DeviseTokenAuthHelpers, type: :request
 
