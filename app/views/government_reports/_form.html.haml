@@ -55,14 +55,11 @@
       .col-xs-12.col-md-4.form-group= f.input :carer_capital, disabled: true, label: t('.capital')
       .col-xs-12.col-md-4.form-group= f.input :carer_phone_number, disabled: true, label: t('.phone_number')
       .col-xs-12.col-md-4.form-group.date.optional.case_information_date
-        .row
-          .col-xs-12.col-md-5
-            %label.date.optional.control-label{ for: 'case_information_date' }= t('.case_information_date')
-          .col-xs-12.col-md-7
-            .input-group.date.form-group.case-info-date
-              = f.text_field :client_initial_referral_date, disabled: true, class: 'date optional form-control date-picker', type: 'text'
-              %span.input-group-addon
-                %i.glyphicon.glyphicon-calendar
+        %label.date.optional.control-label.long-phrase{ for: 'case_information_date' }= t('.case_information_date')
+        .input-group.date.form-group.case-info-date
+          = f.text_field :client_initial_referral_date, disabled: true, class: 'date optional form-control date-picker', type: 'text'
+          %span.input-group-addon
+            %i.glyphicon.glyphicon-calendar
     .row
       .col-xs-12.col-md-4.form-group= f.input :referral_name, disabled: true, label: "#{t('.transfer_info')} #{t('.name')}"
       .col-xs-12.col-md-4.form-group= f.input :referral_position, label: t('.position')

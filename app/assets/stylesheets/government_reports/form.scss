@@ -28,6 +28,11 @@ body[id=government_reports-update] {
     }
   }
 
+  .long-phrase {
+    display: inline-block;
+    max-width: 100px;
+  }
+
   .form-group {
     padding-right: 0;
     margin-bottom: 10px;
@@ -50,7 +55,7 @@ body[id=government_reports-update] {
 
   .government_report_quantitative_cases {
     display: block;
-    span { 
+    span {
       display: block;
     }
   }
@@ -77,7 +82,7 @@ body[id=government_reports-update] {
 
   .input-group.date {
     margin-left: -3px;
-    max-width: 196px;
+    max-width: 171px;
   }
 
   table.child-situation-needs {
@@ -88,12 +93,6 @@ body[id=government_reports-update] {
 
   input.gender {
     margin-left: 10px;
-  }
-
-  .case_information_date {
-    label {
-      margin-right: 10px;
-    }
   }
 
   ul {
@@ -112,10 +111,6 @@ body[id=government_reports-update] {
   .cell {
     display: table-cell;
     width: 10%;
-  }
-
-  .case-info-date {
-    right: -8px;
   }
 
   .government_report_client_gender .radio {

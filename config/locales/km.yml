@@ -138,7 +138,7 @@ km:
       pdf:
         haml:
           information: ពត៌មានដែលទទួលបាន
-          case_information_date: កាលបរិច្ឆេទនៃការទទួលពត៌មានអំពីករណី
+          case_information_date: កាលបរិច្ឆេទនៃការទទួលពត៌មាន អំពីករណី
           <<: *default_government_report_fields
     edit:
       edit_report: កែសម្រួលរបាយការណ៍
@@ -170,7 +170,7 @@ km:
       emotional_health_plan: ផែនការអន្តរាគមន៍នៃសុខភាពផ្លូវចិត្ត
       done_date: កាលបរិច្ឆេទនៃការធ្វើរបាយការណ៍
       agreed_date: កាលបរិច្ឆេទនៃការឃើញនិងឯកភាព
-      case_information_date: កាលបរិច្ឆេទនៃការទទួល ពត៌មានអំពីករណី
+      case_information_date: កាលបរិច្ឆេទនៃការទទួល ពត៌មាន អំពីករណី
       <<: *default_government_report_fields
 
   review_problem: សូមពិនិត្យបញ្ហាសារឡើងវិញនៅខាងក្រោម៖
