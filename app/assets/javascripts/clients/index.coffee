@@ -6,7 +6,8 @@ CIF.ClientsIndex = do ->
 
   _enableSelect2 = ->
     $('#clients-index select').select2
-      minimumInputLength: 0
+      minimumInputLength: 0,
+      allowClear: true
 
   _columnsVisibility = ->
     $('.columns-visibility').click (e) ->

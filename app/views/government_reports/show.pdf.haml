@@ -1,0 +1,435 @@
+#government-report
+  .row
+    .col-xs-5.col-xs-offset-7
+      %h4
+        %p.text-center
+          %b= t('.kingdom_of_cambodia')
+        %p.text-center
+          %b= t('.nation_religion_king')
+    .col-xs-12.header-address
+      %p
+        %span.item.cell= "#{t('.initial_capital')} :"
+        %span.value.cell.bottom-border
+          = @government_report.initial_capital
+      %p
+        %span.item.cell= "#{t('.initial_city')} :"
+        %span.value.cell.bottom-border
+          = @government_report.initial_city
+      %p
+        %span.item.cell= "#{t('.initial_commune')} :"
+        %span.value.cell.bottom-border
+          = @government_report.initial_commune
+    .col-xs-12.text-center.first-response-form
+      %h4
+        %b= t('.first_response_form')
+      %p= "(#{t('.for_children_who_are_in_danger')})"
+    .col-xs-12.wide-padding
+      .row
+        .col-xs-6
+          %p.full-width-table
+            %span.initial-date-item.cell= "#{t('.initial_date')} :"
+            %span.text-center.cell.bottom-border.initial-date-value
+              = @government_report.initial_date_format
+        .col-xs-6
+          %p.full-width-table
+            %span.client-code-item.cell= "#{t('.client_code')} :"
+            %span.text-center.cell.bottom-border.client-code-value
+              = @government_report.client_slug
+
+    .col-xs-12.wide-padding
+      .row
+        .col-xs-4
+          %p.full-width-table
+            %span.cell.half-width= "#{t('.commune')} :"
+            %span.cell.bottom-border.half-width.text-center
+              = @government_report.commune
+        .col-xs-4
+          %p.full-width-table
+            %span.cell.city-item= "#{t('.city')} :"
+            %span.cell.bottom-border.city-value.text-center
+              = @government_report.city
+        .col-xs-4
+          %p.full-width-table
+            %span.cell.capital-item= "#{t('.capital')} :"
+            %span.cell.bottom-border.capital-value.text-center
+              = @government_report.capital
+    .col-xs-12.wide-padding
+      .row
+        .col-xs-6
+          %p.full-width-table
+            %span.cell.org-name-item= "#{t('.organisation_name')} :"
+            %span.cell.bottom-border.org-name-value.text-center
+              = @government_report.organisation_name
+        .col-xs-6
+          %p.full-width-table
+            %span.cell.phone-item= "#{t('.phone_number')} :"
+            %span.cell.bottom-border.phone-value.text-center
+              = @government_report.organisation_phone_number
+    .col-xs-12.wide-padding
+      .row
+        .col-xs-5
+          %p.full-width-table
+            %span.cell.client-name-item= "#{t('.client_name')} :"
+            %span.cell.bottom-border.client-name-value.text-center
+              = @government_report.client_name
+        .col-xs-4.client-dob
+          %p.full-width-table
+            %span.cell.dob-item= "#{t('.date_of_birth')} :"
+            %span.cell.bottom-border.dob-value.text-center
+              = @government_report.client_born_date
+        .col-xs-3
+          %p.full-width-table
+            %span.cell.gender-item= "#{t('.gender')} :"
+            %span.cell.gender-value
+              %input.text-left{ type: 'checkbox', checked: ('checked' if @government_report.client_gender == 'male') }= " #{t('.male')}"
+            %span.cell.female-item
+              %input.text-left{ type: 'checkbox', checked: ('checked' if @government_report.client_gender == 'female') }= " #{t('.female')}"
+    .col-xs-12.wide-padding
+      %p.full-width-table
+        %span.cell.found-client-at= "#{t('.found_client_at')} :"
+        %span.cell.found-client-at-item= t('.at')
+        %span.cell.bottom-border.found-client-at-value.text-center
+          = @government_report.found_client_at
+        %span.cell.found-client-village-item.text-center= t('.village')
+        %span.cell.bottom-border.found-client-village-value.text-center
+          = @government_report.found_client_village
+    .col-xs-12.wide-padding
+      %p.full-width-table
+        %span.cell.education-item= "#{t('.education')} :"
+        %span.cell.bottom-border.education-value.text-center
+          = @government_report.education
+    .col-xs-12.wide-padding
+      .row
+        .col-xs-6
+          %p.full-width-table
+            %span.cell.half-width= "#{t('.carer_name')} :"
+            %span.cell.bottom-border.half-width.text-center
+              = @government_report.carer_name
+        .col-xs-6
+          %p.full-width-table
+            %span.cell.half-width= "#{t('.client_contact')} :"
+            %span.cell.bottom-border.client-contact-value.text-center
+              = @government_report.client_contact
+    .col-xs-12.wide-padding
+      %p.full-width-table
+        %span.cell.carer-addr-item= "#{t('.carer_address')} :"
+        %span.cell.carer-house-item= "#{t('.house_number')} :"
+        %span.cell.bottom-border.carer-house-value.text-center
+          = @government_report.carer_house_number
+        %span.cell.carer-street-item.text-center= "#{t('.street_number')} :"
+        %span.cell.bottom-border.carer-street-value.text-center
+          = @government_report.carer_street_number
+        %span.cell.carer-village-item.text-center= "#{t('.village')} :"
+        %span.cell.bottom-border.carer-village-value.text-center
+          = @government_report.carer_village
+    .col-xs-12.wide-padding
+      .row
+        .col-xs-6
+          %p.full-width-table
+            %span.cell.carer-commune-item= "#{t('.commune')} :"
+            %span.bottom-border.carer-commune-value.cell.text-center
+              = @government_report.carer_commune
+        .col-xs-6
+          %p.full-width-table
+            %span.cell.carer-city-item= "#{t('.city')} :"
+            %span.bottom-border.cell.carer-city-value.text-center
+              = @government_report.carer_city
+    .col-xs-12.wide-padding
+      .row
+        .col-xs-6
+          %p.full-width-table
+            %span.cell.carer-capital-item= "#{t('.capital')} :"
+            %span.bottom-border.cell.carer-capital-value.text-center
+              = @government_report.carer_capital
+        .col-xs-6
+          %p.full-width-table
+            %span.cell.carer-phone-item= "#{t('.phone_number')} :"
+            %span.bottom-border.cell.carer-phone-value.text-center
+              = @government_report.carer_phone_number
+    .col-xs-12.wide-padding
+      %p.full-width-table
+        %span.cell.case-info-date-item= "#{t('.case_information_date')} :"
+        %span.cell.case-info-date-day-item= t('.day')
+        %span.cell.bottom-border.case-info-date-day-value.text-center
+          = @government_report.client_initial_referal_day
+        %span.cell.case-info-date-month-item.text-center= t('.month')
+        %span.cell.bottom-border.case-info-date-month-value.text-center
+          = @government_report.client_initial_referal_month
+        %span.cell.case-info-date-year-item.text-center= t('.year')
+        %span.cell.bottom-border.case-info-date-year-value.text-center
+          = @government_report.client_initial_referal_year
+    .col-xs-12.wide-padding
+      .row
+        .col-xs-12
+          %p.full-width-table
+            %span.cell.transfer-info= "#{t('.transfer_info')} :"
+            %span.referral-name-item.cell= "#{t('.name')}"
+            %span.bottom-border.referral-name-value.cell.text-center
+              = @government_report.referral_name
+            %span.referral-position-item.cell= "#{t('.position')}"
+            %span.bottom-border.referral-position-value.cell.text-center
+              = @government_report.referral_position
+    .col-xs-12.wide-padding
+      %p
+        %span= t('.or')
+        %input{ type: 'checkbox', checked: ('checked' if @government_report.anonymous) }
+        %span= "#{t('.anonymous')} :"
+    - if @government_report.anonymous_description.present?
+      %footer.page-break
+        %p.anonymous-description
+          %span
+            = @government_report.anonymous_description
+    - else
+      %footer.page-break
+        %p.bottom-border.text-center
+        %p.bottom-border.text-center
+        %p.bottom-border.text-center
+        %p.bottom-border.text-center
+    .col-xs-12
+      %p
+        %span= "#{t('.danger_situation')} : #{t('.check')}"
+        %span "
+        %i.fa.fa-check
+        %span "
+        %span= t('.every_point')
+    .col-xs-12
+      .row
+        .col-xs-6
+          %p= "1- #{t('.family_separation')}"
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.abandoned')) }
+            %span= t('.abandoned')
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.child_changed_home')) }
+            %span= t('.child_changed_home')
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.family_changed_home')) }
+            %span= t('.family_changed_home')
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.child_living_independently')) }
+            %span= t('.child_living_independently')
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.orphan_lost_both_parents')) }
+            %span= t('.orphan_lost_both_parents')
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.orphan_lost_father')) }
+            %span= t('.orphan_lost_father')
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.orphan_lost_mother')) }
+            %span= t('.orphan_lost_mother')
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.child_living_on_street')) }
+            %span= t('.child_living_on_street')
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.other')) }
+            %span= t('.other')
+        .col-xs-6
+          %p= "2- #{t('.essential_needs')}"
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.food')) }
+            %span= t('.food')
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.shelter')) }
+            %span= t('.shelter')
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.case_education')) }
+            %span= t('.case_education')
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.health_care_and_medical_treatment')) }
+            %span= t('.health_care_and_medical_treatment')
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.parent_carer_poor_certificate_origin')) }
+            %span= t('.parent_carer_poor_certificate')
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.other')) }
+            %span= t('.other')
+      .row
+        .col-xs-6
+          %p= "3- #{t('.abuse_and_exploitation')}"
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.physical_abuse')) }
+            %span= t('.physical_abuse')
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.sexual_abuse')) }
+            %span= t('.sexual_abuse')
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.emotional_abuse')) }
+            %span= t('.emotional_abuse')
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.child_exploitation')) }
+            %span= t('.child_exploitation')
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.exessive_child_labour')) }
+            %span= t('.exessive_child_labour')
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.family_violence')) }
+            %span= t('.family_violence')
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.experience_with_trafficking')) }
+            %span= t('.experience_with_trafficking')
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.danger_of_trafficking')) }
+            %span= t('.danger_of_trafficking')
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.neglect')) }
+            %span= t('.neglect')
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.other')) }
+            %span= t('.other')
+        .col-xs-6
+          %p= "4- #{t('.disability_and_or_illness')}"
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.parent_carer_ill_origin')) }
+            %span= t('.parent_carer_ill')
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.child_ill')) }
+            %span= t('.child_ill')
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.parent_carer_disabled')) }
+            %span= t('.parent_carer_disabled')
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.child_disabled')) }
+            %span= t('.child_disabled')
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.child_hiv_aids')) }
+            %span= t('.child_hiv_aids')
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.parent_carer_hiv_aids_origin')) }
+            %span= t('.parent_carer_hiv_aids')
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.other')) }
+            %span= t('.other')
+      .row
+        .col-xs-12
+          %p= "5- #{t('.drug_abuse_alcohol_and_gambling')}"
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.parent_carer_has_a_history_of_alcohol_abuse')) }
+            %span= t('.parent_carer_has_a_history_of_alcohol_abuse')
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.parent_carer_has_a_history_of_drug_use')) }
+            %span= t('.parent_carer_has_a_history_of_drug_use')
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.child_has_a_history_of_alcohol_abuse')) }
+            %span= t('.child_has_a_history_of_alcohol_abuse')
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.child_has_a_history_of_drug_use')) }
+            %span= t('.child_has_a_history_of_drug_use')
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.child_has_a_history_of_gambling')) }
+            %span= t('.child_has_a_history_of_gambling')
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.parent_carer_has_a_history_of_gambling')) }
+            %span= t('.parent_carer_has_a_history_of_gambling')
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.child_has_a_criminal_history')) }
+            %span= t('.child_has_a_criminal_history')
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.parent_carer_has_a_criminal_history')) }
+            %span= t('.parent_carer_has_a_criminal_history')
+          %p
+            %input{ type: 'checkbox', checked: checked?(t('.other')) }
+            %span= t('.other')
+
+    .col-xs-12
+      %p
+        %span= "#{t('.client_living_with_guardians')}?"
+        %input.wide-space{ type: 'checkbox', checked: ('checked' if @government_report.client_living_with_guardian) }
+        %span= t('.positive')
+        %input.wide-space{ type: 'checkbox', checked: ('checked' unless @government_report.client_living_with_guardian) }
+        %span= t('.negative')
+    .col-xs-12
+      %p= "#{t('.child_situation_and_need')} :"
+    .col-xs-12
+      %table.child-situation-needs.table.table-bordered
+        %tr
+          %th.blank-cell
+          %th.present-situation.text-center= t('.present_situation')
+          %th.need.text-center= t('.need')
+          %th.intervention-plan.text-center= t('.intervention_plan')
+        %tr
+          %td= t('.physical_health')
+          %td= @government_report.present_physical_health
+          %td= @government_report.physical_health_need
+          %td= @government_report.physical_health_plan
+        %tr
+          %td
+            %span= t('.food_shelter')
+            %br
+            %span= "#{t('.and')} #{t('.clothes')}"
+          %td= @government_report.present_supplies
+          %td= @government_report.supplies_need
+          %td= @government_report.supplies_plan
+        %tr
+          %td= t('.education')
+          %td= @government_report.present_education
+          %td= @government_report.education_need
+          %td= @government_report.education_plan
+        %tr
+          %td= t('.communication_in_family')
+          %td= @government_report.present_family_communication
+          %td= @government_report.family_communication_need
+          %td= @government_report.family_communication_plan
+        %tr
+          %td= t('.communication_in_society')
+          %td= @government_report.present_society_communication
+          %td= @government_report.society_communication_need
+          %td= @government_report.society_communication_plan
+        %tr
+          %td= t('.emotional_health')
+          %td= @government_report.present_emotional_health
+          %td= @government_report.emotional_health_need
+          %td= @government_report.emotional_health_plan
+    .col-xs-12
+      %p= "#{t('.mission_obtainable')} :"
+      %ul
+        %li
+          %input{ type: 'checkbox', checked: ('checked' unless @government_report.mission_obtainable) }
+          %span= t('.none')
+        %li
+          %input{ type: 'checkbox', checked: ('checked' if @government_report.mission_obtainable) }
+          %span= t('.exist')
+        %li
+          %span= "#{t('.if_exist')} (#{t('.check')}"
+          %span "
+          %i.fa.fa-check
+          %span "
+          %span= "#{t('.missions_which_need_to_be_done')})"
+          %ul
+            %li
+              %input{ type: 'checkbox', checked: ('checked' if @government_report.first_mission) }
+              %span= t('.first_mission')
+            %li
+              %input{ type: 'checkbox', checked: ('checked' if @government_report.second_mission) }
+              %span= t('.second_mission')
+            %li
+              %input{ type: 'checkbox', checked: ('checked' if @government_report.third_mission) }
+              %span= t('.third_mission')
+            %li
+              %input{ type: 'checkbox', checked: ('checked' if @government_report.fourth_mission) }
+              %span= t('.fourth_mission')
+    .col-xs-6.col-xs-offset-6
+      %p.text-center
+        %span= t('.day')
+        %span.done-date-day.bottom-border
+        %span= t('.month')
+        %span.done-date-month.bottom-border
+        %span= t('.year')
+        %span.done-date-year.bottom-border
+      %p.text-center
+        %span= t('.organisation')
+    .col-xs-6.agreed-date
+      %p.text-center
+        %span= t('.day')
+        %span.agreed-date-day.bottom-border
+        %span= t('.month')
+        %span.agreed-date-month.bottom-border
+        %span= t('.year')
+        %span.agreed-date-year.bottom-border
+      %p.text-center= t('.seen_and_agreed')
+      %p.text-center= t('.signature')
+  .row
+    .col-xs-12
+      %p
+        %strong= t('.copy')
+      %p.office
+        = "- #{t('.office')}"

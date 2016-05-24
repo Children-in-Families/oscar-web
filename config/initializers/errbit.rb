@@ -3,7 +3,7 @@ if Rails.env.staging? || Rails.env.production?
     config.host = 'http://errbit.rotati.com'
     config.project_id = true
     config.project_key = ENV['AIRBRAKE_API_KEY']
-    config.environment = ENV['RACK_ENV']
+    config.environment = Rails.env
   end
 
   Airbrake.add_filter do |notice|

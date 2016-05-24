@@ -26,3 +26,4 @@
 //= require users/show
 //= require users/index
 //= require partners/index
+//= require government_reports/form

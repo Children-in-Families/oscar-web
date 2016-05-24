@@ -1,4 +1,175 @@
 en:
+  default_government_report_fields: &default_government_report_fields
+    code: Form
+    kingdom_of_cambodia: Kingdom of Cambodia
+    nation_religion_king: Nation Religion King
+    initial_capital: Capital
+    initial_city: District
+    initial_commune: Commune
+    initial_date: Date
+    date: Date
+    client_code: Code
+    commune: Commune
+    city: District
+    capital: Capital
+    organisation_name: CCWC Name
+    organisation: CCWC
+    phone_number: Phone Number
+    client_name: Child's Name
+    date_of_birth: Date of Birth
+    gender: Sex
+    male: M
+    female: F
+    found_client_at: Location of meeting child
+    at: at
+    village: Village
+    education: School Grade
+    carer_name: Carer Name
+    client_contact: Relationship with child
+    carer_address: Carer Address
+    house_number: House
+    street_number: Street
+    case_information_date: Date of Referral
+    day: Day
+    month: Month
+    year: Year
+    transfer_info: Referral Source
+    name: Name
+    referral_name: Referral Name
+    position: Position
+    or: or
+    anonymous: anonymous (if the referrer does not want their information retained on file)
+    anonymous_form: anonymous (if the referrer does not want their information retained on file)
+    anonymous_information: Anonymous information
+    client_living_with_guardians: Is the child living with a parent or carer
+    first_mission: Follow procedures to care for the child and complete form 1304 (in the event of a child facing, or at risk of facing, immediate danger)
+    second_mission: Follow procedures to keep the child within the family and complete form 1302 and form 1303.
+    third_mission: Follow family reunification procedures complete form 1309 and form 1303 (in the event of child/family separation).
+    fourth_mission: Follow procedures for an abandoned child and complete form 1307 (in the event that the child has been abandoned).
+    first_response_form: Initial Response Form
+    for_children_who_are_in_danger: For a child in a dangerous situation
+    positive: 'Yes'
+    negative: 'No'
+    child_situation_and_need: Situation and needs of the child
+    present_situation: Current situation
+    need: Needs
+    intervention_plan: Intervention Plan
+    physical_health: Physical health
+    food_shelter: Food, Shelter and Clothes
+    and: and
+    clothes: clothes
+    supplies: Food, Shelter and Clothes
+    communication_in_family: Family relationships
+    communication_in_society: Community Relationships
+    emotional_heath: Emotional health
+    mission_obtainable: Essential steps
+    none: None (Case must be closed)
+    exist: 'Yes'
+    if_exist: 'If yes:'
+    missions_which_need_to_be_done: on steps to be taken.
+    seen_and_agreed: Seen and agreed
+    signature: Signature and Stamp/Seal of Chiefs of Commune/Sangkat
+    copy: Copyright
+    office: សអយOffice Town District Khan
+    danger_situation: Situations which cause or may cause harm to the child
+    check: please tick
+    every_point: all which apply
+
+    family_separation: Family separation
+    abandoned: abandoned
+    child_changed_home: child changed home
+    family_changed_home: family changed home
+    child_living_independently: child living independently
+    orphan_lost_both_parents: orphan (lost both parents)
+    orphan_lost_father: orphan (lost father)
+    orphan_lost_mother: orphan (lost mother)
+    child_living_on_street: child living on street
+    other: Other
+
+    essential_needs: Essential Needs
+    food: Food
+    shelter: Shelter
+    case_education: Education
+    health_care_and_medical_treatment: Health care and medical treatment
+    parent_carer_poor_certificate_origin: Parent/carer poor certificate
+    parent_carer_poor_certificate: Parent/carer poor certificate
+
+    abuse_and_exploitation: Abuse and Exploitation
+    physical_abuse: physical abuse
+    sexual_abuse: sexual abuse
+    emotional_abuse: emotional abuse
+    child_exploitation: child exploitation
+    exessive_child_labour: exessive child labour
+    family_violence: family violence
+    experience_with_trafficking: experience with trafficking
+    danger_of_trafficking: danger of trafficking
+    neglect: neglect
+
+    disability_and_or_illness: Disability and/or illness
+    parent_carer_ill_origin: parent/carer ill
+    parent_carer_ill: parent/carer ill
+    child_ill: child ill
+    parent_carer_disabled: parent/carer disabled
+    child_disabled: child disabled
+    child_hiv_aids: child HIV/AIDS
+    parent_carer_hiv_aids_origin: parent/carer HIV/AIDS
+    parent_carer_hiv_aids: parent/carer HIV/AIDS
+
+    drug_abuse_alcohol_and_gambling: Drug abuse, alcohol and gambling
+    parent_carer_has_a_history_of_alcohol_abuse: parent/carer has a history of alcohol abuse
+    parent_carer_has_a_history_of_drug_use: parent/carer has a history of drug use
+    child_has_a_history_of_alcohol_abuse: child has a history of alcohol abuse
+    child_has_a_history_of_drug_use: child has a history of drug use
+    child_has_a_history_of_gambling: child has a history of gambling
+    parent_carer_has_a_history_of_gambling: parent/carer has a history of gambling
+    child_has_a_criminal_history: child has a criminal history
+    parent_carer_has_a_criminal_history: parent/carer has a criminal history
+
+  government_reports:
+    index:
+      back: Back
+      add_report: Add Government Report
+      code: Form
+      initial_date: Date
+      action: Action
+      are_you_sure_you_want_to_delete: Are you sure you want to delete?
+    new:
+      new_report: New Government Report
+    show:
+      pdf:
+        haml:
+          <<: *default_government_report_fields
+    edit:
+      edit_report: Edit Government Report
+    create:
+      successfully_created: Government Report has been successfully created.
+    update:
+      successfully_updated: Government Report has been successfully updated.
+    destroy:
+      successfully_deleted: Government Report has been successfully deleted.
+    form:
+      present_physical_health: Physical health (Current situation)
+      physical_health_need: Physical health (Needs)
+      physical_health_plan: Physical health (Intervention Plan)
+      present_supplies: Food, Shelter and Clothes (Current situation)
+      supplies_need: Food, Shelter and Clothes (Needs)
+      supplies_plan: Food, Shelter and Clothes (Intervention Plan)
+      present_education: Education (Current situation)
+      education_need: Education (Needs)
+      education_plan: Education (Intervention Plan)
+      present_family_communication: Family relationships (Current situation)
+      family_communication_need: Family relationships (Needs)
+      family_communication_plan: Family relationships (Intervention Plan)
+      present_society_communication: Community Relationships (Current situation)
+      society_communication_need: Community Relationships (Needs)
+      society_communication_plan: Community Relationships (Intervention Plan)
+      present_emotional_health: Emotional health (Current situation)
+      emotional_health_need: Emotional health (Needs)
+      emotional_health_plan: Emotional health (Intervention Plan)
+      done_date: Done date
+      agreed_date: Seen and agreed date
+      <<: *default_government_report_fields
+
   review_problem: 'Please review the problems below:'
   cannot_be_blank: can't be blank
 
@@ -212,6 +383,7 @@ en:
       view_tasks: Tasks
       view_assessments: Assessments
       view_case_notes: Case Notes
+      government_report: Government Reports
       accept: Accept
       reject: Reject
       note: Note
@@ -334,6 +506,11 @@ en:
   activerecord:
     errors:
       models:
+        government_report:
+          attributes:
+            code:
+              blank: This field is required
+              taken: has already been taken
         user:
           attributes:
             current_password:
