@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :find_association, if: :devise_controller?
   before_action :set_locale
+  before_action :detect_browser
 
   rescue_from CanCan::AccessDenied do |exception|
     redirect_to root_url, alert: exception.message
@@ -36,5 +37,9 @@ class ApplicationController < ActionController::Base
 
   def default_url_options(options = {})
     { locale: I18n.locale }.merge(options)
+  end
+
+  def detect_browser
+    render file: 'unsupported_browser', layout: false if browser.ie? || browser.edge?  || !browser.modern?
   end
 end
