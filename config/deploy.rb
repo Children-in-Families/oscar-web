@@ -1,4 +1,4 @@
-lock '3.4.1'
+lock '3.4.0'
 
 set :application, 'children-in-families-web'
 set :repo_url, "git@github.com:rotati/#{fetch(:application)}.git"
@@ -49,4 +49,3 @@ namespace :deploy do
 end
 
 set :passenger_restart_with_touch, true
-
