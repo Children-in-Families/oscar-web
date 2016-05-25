@@ -175,12 +175,12 @@
         %input{ type: 'checkbox', checked: ('checked' if @government_report.anonymous) }
         %span= "#{t('.anonymous')} :"
     - if @government_report.anonymous_description.present?
-      %footer.page-break
+      %section.page-break
         %p.anonymous-description
           %span
             = @government_report.anonymous_description
     - else
-      %footer.page-break
+      %section.page-break
         %p.bottom-border.text-center
         %p.bottom-border.text-center
         %p.bottom-border.text-center
@@ -330,6 +330,8 @@
             %input{ type: 'checkbox', checked: checked?(t('.other')) }
             %span= t('.other')
 
+    .page-break
+      %p
     .col-xs-12
       %p
         %span= "#{t('.client_living_with_guardians')}?"
