@@ -26,6 +26,7 @@ class GovernmentReportsController < AdminController
         render  pdf:      'show',
                 template: 'government_reports/show.pdf.haml',
                 layout:   'pdf_design.html.haml',
+                show_as_html: params.key?('debug'),
                 header: { html: { template: 'government_reports/pdf/header.pdf.haml' } },
                 footer: { html: { template: 'government_reports/pdf/footer.pdf.haml' },
                 right: '[page] of [topage]'
