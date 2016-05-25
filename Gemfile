@@ -49,7 +49,7 @@ group :development, :test do
   gem 'poltergeist',          '~> 1.9.0'
 end
 
-group :staging, :production do
+group :staging, :demo, :production do
   gem 'asset_sync'
   gem 'newrelic_rpm'
   gem 'honeybadger',          '~> 2.0'

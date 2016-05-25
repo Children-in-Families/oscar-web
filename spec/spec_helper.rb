@@ -36,7 +36,11 @@ RSpec.configure do |config|
   # assertion/expectation library such as wrong or the stdlib/minitest
   # assertions if you prefer.
 
-  config.before(:type => :feature) do
+  config.before(type: :feature) do
+    allow_any_instance_of(Browser::Generic).to receive(:modern?) { true }
+  end
+
+  config.before(type: :request) do
     allow_any_instance_of(Browser::Generic).to receive(:modern?) { true }
   end
 
