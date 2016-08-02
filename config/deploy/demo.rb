@@ -1,2 +1,2 @@
 set :stage, 'demo'
-server 'cif-web-demo.rotati.com', user: 'deployer', roles: %w{app web db}
+server '172.31.17.167', user: 'deployer', roles: %w{app web db}
