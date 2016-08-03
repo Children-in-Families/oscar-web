@@ -18,9 +18,9 @@ domains.each do |domain|
   Domain.find_or_create_by(name: domain[:name], identity: domain[:identity], description: domain[:description], domain_group_id: dg.id, score_1_color: domain[:score_1_color], score_2_color: domain[:score_2_color], score_3_color: domain[:score_3_color], score_4_color: domain[:score_4_color])
 end
 
-admin = User.new
-admin.first_name = 'Jonh'
-admin.last_name  = 'Smith'
-admin.email      = ENV['ADMIN_USERNAME']
-admin.password   = ENV['ADMIN_PASSWORD']
-admin.save(validate: false)
+# admin = User.new
+# admin.first_name = 'Jonh'
+# admin.last_name  = 'Smith'
+# admin.email      = ENV['ADMIN_USERNAME']
+# admin.password   = ENV['ADMIN_PASSWORD']
+# admin.save(validate: false)
