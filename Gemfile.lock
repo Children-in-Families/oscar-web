@@ -48,9 +48,6 @@ GEM
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
     addressable (2.4.0)
-    airbrake (5.2.3)
-      airbrake-ruby (~> 1.2)
-    airbrake-ruby (1.2.2)
     appsignal (1.1.9)
       rack
       thread_safe
@@ -525,7 +522,6 @@ PLATFORMS
 
 DEPENDENCIES
   active_model_serializers
-  airbrake (~> 5.0)
   appsignal (~> 1.1.9)
   asset_sync
   bootstrap-datepicker-rails (~> 1.5)
