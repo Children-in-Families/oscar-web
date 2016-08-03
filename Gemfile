@@ -50,10 +50,9 @@ group :development, :test do
 end
 
 group :staging, :demo, :production do
+  gem 'airbrake',  '~>5.0'
+  gem 'appsignal', '~> 1.1.9'
   gem 'asset_sync'
-  gem 'newrelic_rpm'
-  gem 'honeybadger',          '~> 2.0'
-  gem 'airbrake',             '~>5.0'
 end
 
 group :development do
