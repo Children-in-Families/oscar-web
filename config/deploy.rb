@@ -49,3 +49,5 @@ namespace :deploy do
 end
 
 set :passenger_restart_with_touch, true
+
+require 'appsignal/capistrano'
