@@ -98,4 +98,4 @@ Children in Families is developed in partnership by [Rotati Consulting](http://w
 
 ### License
 
-Children in Families Mobile Application is released under [AGPL](http://www.gnu.org/licenses/agpl-3.0-standalone.html)
+Children in Families Web Application is released under [AGPL](http://www.gnu.org/licenses/agpl-3.0-standalone.html)
