@@ -48,9 +48,9 @@ GEM
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
     addressable (2.4.0)
-    airbrake (5.2.3)
-      airbrake-ruby (~> 1.2)
-    airbrake-ruby (1.2.2)
+    appsignal (1.1.9)
+      rack
+      thread_safe
     arel (6.0.3)
     asset_sync (1.1.0)
       activemodel
@@ -288,7 +288,6 @@ GEM
       html2haml (>= 1.0.1)
       railties (>= 4.0.1)
     hashie (3.4.3)
-    honeybadger (2.5.1)
     html2haml (2.0.0)
       erubis (~> 2.7.0)
       haml (~> 4.0.0)
@@ -335,7 +334,6 @@ GEM
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
     net-ssh (3.0.2)
-    newrelic_rpm (3.15.0.314)
     nokogiri (1.6.7.2)
       mini_portile2 (~> 2.0.0.rc2)
     notiffany (0.0.8)
@@ -524,7 +522,7 @@ PLATFORMS
 
 DEPENDENCIES
   active_model_serializers
-  airbrake (~> 5.0)
+  appsignal (~> 1.1.9)
   asset_sync
   bootstrap-datepicker-rails (~> 1.5)
   bootstrap-sass (~> 3.3.5)
@@ -551,14 +549,12 @@ DEPENDENCIES
   friendly_id (~> 5.1.0)
   guard-rspec (~> 4.6)
   haml-rails (~> 0.9)
-  honeybadger (~> 2.0)
   jbuilder (~> 2.0)
   jquery-datatables-rails (~> 3.4)
   jquery-rails
   jquery-validation-rails
   json_spec (~> 1.1, >= 1.1.4)
   launchy (~> 2.4, >= 2.4.3)
-  newrelic_rpm
   omniauth (~> 1.3, >= 1.3.1)
   pg
   phony_rails (~> 0.12.11)
