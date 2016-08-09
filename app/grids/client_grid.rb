@@ -107,7 +107,7 @@ class ClientGrid
     value == 'Accepted' ? scope.accepted : scope.rejected
   end
 
-  filter(:family_id, header: -> { I18n.t('datagrid.columns.families.family_id') }) do |value, object|
+  filter(:family_id, :integer, header: -> { I18n.t('datagrid.columns.families.family_id') }) do |value, object|
     object.find_by_family_id(value) if value.present?
   end
 

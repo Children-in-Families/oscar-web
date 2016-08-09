@@ -33,7 +33,7 @@ class Client < ActiveRecord::Base
 
   scope :first_name_like,      -> (value) { where('LOWER(clients.first_name) LIKE ?', "%#{value.downcase}%") }
 
-  scope :start_with_code,      -> (value) { where('code LIKE ?', "#{value}%") }
+  scope :start_with_code,      -> (value) { where('clients.code LIKE ?', "#{value}%") }
 
   scope :status_like,          ->         { CLIENT_STATUSES }
 
