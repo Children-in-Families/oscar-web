@@ -1,5 +1,6 @@
 #home-index
   .row
+    = render 'tasks_and_assessments'
     = render 'client'
     - if can? :manage, Family
       = render 'family'
