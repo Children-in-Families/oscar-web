@@ -111,6 +111,18 @@ class ClientGrid
     object.find_by_family_id(value) if value.present?
   end
 
+  def quantitative_cases_options
+    QuantitativeCase.joins(:clients).pluck(:value).uniq
+  end
+
+  filter(:quantitative_cases_value, :enum, multiple: true, select: :quantitative_cases_options, header: -> { I18n.t('datagrid.columns.clients.quantitative_case_values') }) do |value, scope|
+    if quantitative_cases ||= QuantitativeCase.value_like(value)
+      scope.joins(:quantitative_cases).where(quantitative_cases: { id: quantitative_cases.ids }).uniq
+    else
+      scope.joins(:quantitative_cases).where(quantitative_cases: { id: nil })
+    end
+  end
+
   column(:slug, order:'clients.id', header: -> { I18n.t('datagrid.columns.clients.id') })
 
   column(:code, header: -> { I18n.t('datagrid.columns.clients.code') }) do |object|
@@ -139,6 +151,22 @@ class ClientGrid
   column(:cases, header: -> { I18n.t('datagrid.columns.cases.case_type') }, order: 'cases.case_type') do |object|
     object.cases.most_recents.first.case_type if object.cases.any?
   end
+
+  column(:history_of_disability_and_or_illness, header: -> { I18n.t('datagrid.columns.clients.history_of_disability_and_or_illness') }) do |object|
+    object.quantitative_cases.where(quantitative_type_id: QuantitativeType.name_like('History of disability and/or illness').id).pluck(:value).join(', ')
+  end
+
+  column(:history_of_harm, header: -> { I18n.t('datagrid.columns.clients.history_of_harm') }) do |object|
+    object.quantitative_cases.where(quantitative_type_id: QuantitativeType.name_like('History of Harm').id).pluck(:value).join(', ')
+  end
+
+  column(:history_of_high_risk_behaviours, header: -> { I18n.t('datagrid.columns.clients.history_of_high_risk_behaviours') }) do |object|
+    object.quantitative_cases.where(quantitative_type_id: QuantitativeType.name_like('History of high-risk behaviours').id).pluck(:value).join(', ')
+  end
+
+  column(:reason_for_family_separation, header: -> { I18n.t('datagrid.columns.clients.reason_for_family_separation') }) do |object|
+    object.quantitative_cases.where(quantitative_type_id: QuantitativeType.name_like('Reason for Family Separation').id).pluck(:value).join(', ')
+  end  
 
   column(:follow_up_date, header: -> { I18n.t('datagrid.columns.clients.follow_up_date') }) do |object|
     format(object.follow_up_date) do |object_follow_up_date|

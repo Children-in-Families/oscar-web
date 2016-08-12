@@ -1,3 +1,3 @@
 .order
-  = link_to(I18n.t('datagrid.table.order.asc').html_safe, url_for(params.merge(grid.param_name => grid.as_query.merge(order: column.name, descending: false))), class: 'asc')
-  = link_to(I18n.t('datagrid.table.order.desc').html_safe, url_for(params.merge(grid.param_name => grid.as_query.merge(order: column.name, descending: true))), class: 'desc')
+  = link_to(I18n.t('datagrid.table.order.asc').html_safe, url_for(params.merge(grid.param_name => grid.as_query.merge(order: column.name, descending: false))), method: :post, class: 'asc')
+  = link_to(I18n.t('datagrid.table.order.desc').html_safe, url_for(params.merge(grid.param_name => grid.as_query.merge(order: column.name, descending: true))), method: :post, class: 'desc')

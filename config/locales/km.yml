@@ -292,6 +292,11 @@ km:
         manage: សកម្មភាព
         state: ទទួល/បដិសេធ
         rejected_note: កំណត់ហេតុនៃការមិនទទួលយក
+        quantitative_case_values: ទិន្ន័យនៃបរិមាណ
+        history_of_disability_and_or_illness: ជំងឺរ៉ាំរ៉ែ និង/ឬពិការភាព
+        history_of_harm: ការបង្កទុក្ខទោស និងការកេងប្រវ័ញ្ច
+        history_of_high_risk_behaviours: ការបំពានគ្រឿងញៀនឬគ្រឿងស្រវឹង និងល្បែងស៊ីសង
+        reason_for_family_separation: ការបែកចេញពីគ្រួសារ
       families:
         <<: *default_family_fields
         name: ឈ្មោះរបស់គ្រួសារ

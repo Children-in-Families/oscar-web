@@ -4,4 +4,6 @@ class QuantitativeType < ActiveRecord::Base
   has_many :quantitative_cases
 
   default_scope { order(name: :asc) }
+
+  scope :name_like, -> (name) { find_by('LOWER(quantitative_types.name) LIKE ?', "%#{name.downcase}%") }
 end

@@ -290,6 +290,11 @@ en:
         manage: Manage
         state: Accept/Reject
         rejected_note: Rejected Note
+        quantitative_case_values: Quantitative Case
+        history_of_disability_and_or_illness: History of disability and/or illness
+        history_of_harm: History of Harm
+        history_of_high_risk_behaviours: History of high-risk behaviours
+        reason_for_family_separation: Reason for Family Separation
       families:
         <<: *default_family_fields
         name: Name

@@ -1,3 +1,8 @@
 %tr{class: options[:cycle] && cycle(*options[:cycle])}
   - grid.html_columns(*options[:columns]).each do |column|
-    %td{class: datagrid_column_classes(grid, column)}= datagrid_value(grid, column, asset)
+    - if datagrid_column_classes(grid, column) == 'history_of_harm'
+      %td{class: datagrid_column_classes(grid, column)}
+        - datagrid_value(grid, column, asset).split(',').each do |qc|
+          %p= qc
+    - else
+      %td{class: datagrid_column_classes(grid, column)}= datagrid_value(grid, column, asset)
