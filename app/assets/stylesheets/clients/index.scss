@@ -35,15 +35,19 @@
     }
   }
   
-  th.name, th.gender, th.status, th.able, th.state, th.family, th.partner, th.manage, th.code ,th.age, th.slug, th.cases, th.family_id {
+  th.age, th.name, th.status, th.able, th.state, th.family, th.partner, th.manage, th.cases, th.family_id {
     min-width: 200px;
+  }
+
+  th.code, th.slug, th.grade, th.gender, th.cases, th.case_start_date {
+    min-width: 130px;
   }
 
   th.state {
     min-width: 135px;
   }
 
-  th.age, th.follow_up_date, th.received_by, th.followed_up_by, th.agency, th.date_of_birth, th.school_name, th.grade, th.referral_phone, th.referral_source, th.birth_province, th.province, th.rejected_note, th.user, th.case_start_date, th.carer_names, th.carer_address, th.support_amount, th.support_note, th.cases {
+  th.age, th.follow_up_date, th.received_by, th.followed_up_by, th.agency, th.date_of_birth, th.school_name, th.referral_phone, th.referral_source, th.birth_province, th.province, th.rejected_note, th.user, th.carer_names, th.carer_address, th.support_amount, th.support_note {
     min-width: 250px;
   }
 
