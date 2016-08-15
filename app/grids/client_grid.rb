@@ -111,16 +111,24 @@ class ClientGrid
     object.find_by_family_id(value) if value.present?
   end
 
-  def quantitative_cases_options
-    QuantitativeCase.joins(:clients).pluck(:value).uniq
+  # def quantitative_cases_options
+  #   QuantitativeCase.joins(:clients).pluck(:value).uniq
+  # end
+
+  # filter(:quantitative_cases_value, :enum, multiple: true, select: :quantitative_cases_options, header: -> { I18n.t('datagrid.columns.clients.quantitative_case_values') }) do |value, scope|
+  #   if quantitative_cases ||= QuantitativeCase.value_like(value)
+  #     scope.joins(:quantitative_cases).where(quantitative_cases: { id: quantitative_cases.ids }).uniq
+  #   else
+  #     scope.joins(:quantitative_cases).where(quantitative_cases: { id: nil })
+  #   end
+  # end
+
+  def quantitative_type_options
+    QuantitativeType.all.map{ |t| [t.name, t.id] }
   end
 
-  filter(:quantitative_cases_value, :enum, multiple: true, select: :quantitative_cases_options, header: -> { I18n.t('datagrid.columns.clients.quantitative_case_values') }) do |value, scope|
-    if quantitative_cases ||= QuantitativeCase.value_like(value)
-      scope.joins(:quantitative_cases).where(quantitative_cases: { id: quantitative_cases.ids }).uniq
-    else
-      scope.joins(:quantitative_cases).where(quantitative_cases: { id: nil })
-    end
+  filter(:quantitative_types, :enum, select: :quantitative_type_options, header: -> { I18n.t('datagrid.columns.clients.quantitative_types') }) do |value, scope|
+    scope.joins(:quantitative_cases).where(quantitative_cases: { quantitative_type_id: value.to_i }).uniq
   end
 
   column(:slug, order:'clients.id', header: -> { I18n.t('datagrid.columns.clients.id') })

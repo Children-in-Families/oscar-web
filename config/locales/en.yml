@@ -295,6 +295,27 @@ en:
         history_of_harm: History of Harm
         history_of_high_risk_behaviours: History of high-risk behaviours
         reason_for_family_separation: Reason for Family Separation
+        quantitative_types: Quantitative Types
+      select_columns: Select Columns
+      hide_show_all: Hide/Show All
+      family_id: Family ID
+      history_of_disability_and_or_illness: History of disability and/or illness
+      history_of_harm: History of Harm
+      history_of_high_risk_behaviours: History of high-risk behaviours
+      reason_for_family_separation: Reason for Family Separation
+      rejected_note: Rejected Note
+      case_start_date: Case Start Date
+      carer_names: Carer Names
+      carer_address: Carer Address
+      carer_phone_number: Carer Phone Number
+      support_amount: Support Amount
+      support_note: Support Note
+      family_preservation: Family Preservation
+      family: Family
+      partner: Partner
+      manage: Manage
+
+
       families:
         <<: *default_family_fields
         name: Name
