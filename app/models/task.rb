@@ -38,4 +38,18 @@ class Task < ActiveRecord::Base
   def self.under(user, client)
     where(user_id: user.id, client_id: client.id)
   end
+
+  def self.upcoming_incomplete_tasks
+    user_ids = []
+
+    tasks    = incomplete.where(completion_date: Date.tomorrow)
+    tasks.group_by(&:user_id).each do |user_id|
+      user_ids << user_id.first
+    end
+
+    users = User.where(id: user_ids)
+    users.each do |user|
+      CaseWorkerMailer.tasks_due_tomorrow_of(user).deliver_now
+    end
+  end
 end

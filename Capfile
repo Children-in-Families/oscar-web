@@ -23,11 +23,10 @@ require 'capistrano/deploy'
 require 'capistrano/rvm'
 require 'capistrano/passenger'
 require 'capistrano/rails'
+require "whenever/capistrano"
 
 # Load custom tasks from `lib/capistrano/tasks` if you have any defined
 Dir.glob('lib/capistrano/tasks/*.rake').each { |r| import r }
-
-require 'capistrano/honeybadger'
 
 # Capfile
 # require 'capistrano/sidekiq/monit' #to require monit tasks # Only for capistrano3
