@@ -161,19 +161,19 @@ class ClientGrid
   end
 
   column(:history_of_disability_and_or_illness, header: -> { I18n.t('datagrid.columns.clients.history_of_disability_and_or_illness') }) do |object|
-    object.quantitative_cases.where(quantitative_type_id: QuantitativeType.name_like('History of disability and/or illness').id).pluck(:value).join(', ')
+    object.quantitative_cases.where(quantitative_type_id: QuantitativeType.name_like('History of disability and/or illness').ids).pluck(:value).join(', ')
   end
 
   column(:history_of_harm, header: -> { I18n.t('datagrid.columns.clients.history_of_harm') }) do |object|
-    object.quantitative_cases.where(quantitative_type_id: QuantitativeType.name_like('History of Harm').id).pluck(:value).join(', ')
+    object.quantitative_cases.where(quantitative_type_id: QuantitativeType.name_like('History of Harm').ids).pluck(:value).join(', ')
   end
 
   column(:history_of_high_risk_behaviours, header: -> { I18n.t('datagrid.columns.clients.history_of_high_risk_behaviours') }) do |object|
-    object.quantitative_cases.where(quantitative_type_id: QuantitativeType.name_like('History of high-risk behaviours').id).pluck(:value).join(', ')
+    object.quantitative_cases.where(quantitative_type_id: QuantitativeType.name_like('History of high-risk behaviours').ids).pluck(:value).join(', ')
   end
 
   column(:reason_for_family_separation, header: -> { I18n.t('datagrid.columns.clients.reason_for_family_separation') }) do |object|
-    object.quantitative_cases.where(quantitative_type_id: QuantitativeType.name_like('Reason for Family Separation').id).pluck(:value).join(', ')
+    object.quantitative_cases.where(quantitative_type_id: QuantitativeType.name_like('Reason for Family Separation').ids).pluck(:value).join(', ')
   end  
 
   column(:follow_up_date, header: -> { I18n.t('datagrid.columns.clients.follow_up_date') }) do |object|
