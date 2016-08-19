@@ -19,6 +19,7 @@ class Client < ActiveRecord::Base
   has_many :tasks,       dependent: :destroy
   has_many :case_notes,  dependent: :destroy
   has_many :assessments, dependent: :destroy
+  has_many :surveys,     dependent: :destroy
   has_one  :government_report, dependent: :destroy
 
   accepts_nested_attributes_for     :tasks
@@ -194,5 +195,15 @@ class Client < ActiveRecord::Base
   def set_slug_as_alias
     self.slug = "#{ENV['ORGANISATION_ABBREVIATION']}-#{id}"
     self.save
+  end
+
+  def time_in_care
+    if cases.current.present?
+      total_month      = Date.today.year * 12 + Date.today.month
+      total_care_month = (cases.current.start_date.year * 12 + cases.current.start_date.month)
+      ((total_month - total_care_month).to_f / 12).round(1)
+    else
+      nil
+    end
   end
 end

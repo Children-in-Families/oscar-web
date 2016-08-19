@@ -1,0 +1,23 @@
+.row
+  .col-xs-12.col-md-8.col-md-offset-2
+    .panel.panel-default
+      .panel-heading
+        %h4= t('.survey_title')
+      .panel-body
+        %p
+          = t('.user_id')
+          %strong= @client.user.name
+        %table.table.table-bordered
+          %thead
+            %tr
+              %th= t('.created_at')
+              %th= t('.action')
+          - @surveys.each do |survey|
+            %tr
+              %td
+                = link_to survey.decorate.created_at, client_survey_path(@client, survey)
+              %td.action
+                = link_to edit_client_survey_path(@client, survey) do
+                  %i.glyphicon.glyphicon-pencil
+                = link_to client_survey_path(@client, survey), method: :delete, data: { confirm: t('.are_you_sure_you_want_to_delete') } do
+                  %i.glyphicon.glyphicon-trash

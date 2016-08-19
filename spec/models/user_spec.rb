@@ -9,6 +9,20 @@ describe User, 'validations' do
   it { is_expected.to validate_presence_of(:roles) }
 end
 
+describe User, 'callbacks' do
+  context 'assign as admin' do
+    let!(:user){ create(:user, roles: 'admin', first_name: 'Coca', last_name: 'Cola') }
+    before do
+      user.admin = true if user.admin?
+      user.reload
+    end
+
+    it 'should assign user to be admin' do
+      expect(user.admin).to be_truthy
+    end
+  end
+end
+
 describe User, 'scopes' do
   let(:department) { create(:department) }
   let(:province) { create(:province) }

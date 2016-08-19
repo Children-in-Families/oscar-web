@@ -11,6 +11,7 @@ describe Client, 'associations' do
   it { is_expected.to have_many(:tasks) }
   it { is_expected.to have_many(:case_notes) }
   it { is_expected.to have_many(:assessments) }
+  it { is_expected.to have_many(:surveys) }
 
   it { is_expected.to have_and_belong_to_many(:agencies) }
   it { is_expected.to have_and_belong_to_many(:quantitative_cases) }
@@ -21,6 +22,20 @@ describe Client, 'methods' do
   let!(:client){ create(:client) }
   let!(:assessment){ create(:assessment, created_at: Date.today - 6.month, client: client) }
   let!(:other_client) { create(:client) }
+  let!(:case) { create(:case, client: client) }
+
+  context 'time in care' do
+    it 'presence of latest case should return time in care' do
+      total_month      = Date.today.year * 12 + Date.today.month
+      total_care_month = (client.cases.current.start_date.year * 12 + client.cases.current.start_date.month)
+      time_in_care     = ((total_month - total_care_month).to_f / 12).round(1)
+
+      expect(client.time_in_care).to eq(time_in_care)
+    end
+    it 'absence of latest case should return nothing' do
+      expect(other_client.time_in_care).to be_nil
+    end
+  end
 
   context 'name' do
     let!(:name){ "#{client.first_name} #{client.last_name}" }

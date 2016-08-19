@@ -15,6 +15,7 @@ class Ability
       can :manage, Client, user_id: user.id
       can :manage, Case
       can :manage, Assessment
+      can :manage, Survey
       can :update, Assessment do |assessment|
         assessment.client.user_id == user.id
       end
@@ -25,6 +26,7 @@ class Ability
       can :manage, Client, user_id: user.id
       can :manage, Client, able: true
       can :manage, Assessment
+      can :manage, Survey
       can :update, Assessment do |assessment|
         assessment.client.able?
       end
@@ -38,6 +40,7 @@ class Ability
       can :manage, Partner
       can :manage, Case, case_type: 'EC'
       can :manage, Assessment
+      can :manage, Survey
       can :update, Assessment do |assessment|
         assessment.client.active_ec?
       end
@@ -51,6 +54,7 @@ class Ability
       can :manage, Partner
       can :manage, Case, case_type: 'FC'
       can :manage, Assessment
+      can :manage, Survey
       can :update, Assessment do |assessment|
         assessment.client.active_fc?
       end
@@ -64,6 +68,7 @@ class Ability
       can :manage, Partner
       can :manage, Case, case_type: 'KC'
       can :manage, Assessment
+      can :manage, Survey
       can :update, Assessment do |assessment|
         assessment.client.active_kc?
       end

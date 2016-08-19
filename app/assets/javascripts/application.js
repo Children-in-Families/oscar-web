@@ -3,6 +3,7 @@
 //= require select2
 //= require bootstrap-sprockets
 //= require jquery.steps.min
+//= require thredded
 
 //= require bootstrap-datepicker
 
@@ -23,6 +24,7 @@
 //= require jquery.validate.additional-methods
 //= require dataTables/jquery.dataTables
 //= require families/index
+//= require surveys/form
 //= require users/show
 //= require users/index
 //= require partners/index

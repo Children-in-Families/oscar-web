@@ -32,12 +32,22 @@ class User < ActiveRecord::Base
 
   scope :has_clients,     ->         { joins(:clients).without_json_fields.uniq }
 
+  before_save :assign_as_admin
+
+  def name
+    "#{first_name} #{last_name}"
+  end
+
+  def assign_as_admin
+    self.admin = true if admin?
+  end
+
   def self.without_json_fields
     select(column_names - ['tokens'])
   end
 
-  def name
-    "#{first_name} #{last_name}"
+  def to_s
+    name
   end
 
   def admin?
@@ -66,6 +76,10 @@ class User < ActiveRecord::Base
 
   def any_case_manager?
     ec_manager? || fc_manager? || kc_manager?
+  end
+
+  def anyone?
+    admin? || case_worker? || able_manager? || any_case_manager?
   end
 
   def has_no_clients_cases_and_tasks?

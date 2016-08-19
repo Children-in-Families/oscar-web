@@ -1,4 +1,5 @@
 module ApplicationHelper
+  Thredded::ApplicationHelper
   def color_class_for(score)
     case score
     when 1 then 'danger'

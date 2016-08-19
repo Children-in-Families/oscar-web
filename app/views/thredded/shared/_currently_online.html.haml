@@ -1,0 +1,9 @@
+- if (users = active_users).present?
+  %aside.thredded--currently-online{"data-thredded-currently-online" => "", style: 'display:none;'}
+    %header
+      %h3.thredded--currently-online--title.open Currently Online
+    %ul.thredded--currently-online--users
+      - users.each do |user|
+        %li.thredded--currently-online--user
+          %img.thredded--currently-online--avatar{:alt => "", :src => "#{Thredded.avatar_url.call(user)}"}/
+          = user

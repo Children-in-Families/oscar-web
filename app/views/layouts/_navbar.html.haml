@@ -64,5 +64,7 @@
                 - else
                   = link_to t('.km'), root_path(locale: 'km')
               %li= link_to t('.log_out'), destroy_user_session_path, method: :delete
+          %li
+            = link_to t('faq'), thredded_path
         - else
           %li= link_to t('.log_in'), new_user_session_path
