@@ -392,4 +392,25 @@ describe 'Client' do
       expect(page).to have_content('Case has been successfully updated')
     end
   end
+
+  feature 'Time in care' do
+    let!(:accepted_client) { create(:client, state: 'accepted', user: user) }
+    before do
+      login_as(user)
+    end
+    scenario 'without any cases' do
+      visit client_path(accepted_client)
+      time_in_care = accepted_client.time_in_care
+      expect(time_in_care).to be_nil
+      expect(page).to have_content(time_in_care)
+    end
+
+    scenario 'with case' do
+      Case.create(case_type: 'EC', client: accepted_client, exited: false, start_date: 1.year.ago)
+
+      visit client_path(accepted_client)
+      time_in_care = accepted_client.time_in_care
+      expect(page).to have_content(time_in_care)
+    end
+  end
 end

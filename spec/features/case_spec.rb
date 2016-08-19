@@ -58,6 +58,7 @@ describe 'Case' do
     scenario 'valid' do
       visit new_client_case_path(client, case_type: 'FC')
       fill_in 'Carer Name', with: 'Carer Name'
+      fill_in 'Start Date', with: FFaker::Time.date
       select family.name, from: 'Family'
       click_button 'Save'
       expect(page).to have_content('Case has been successfully created')
@@ -80,6 +81,7 @@ describe 'Case' do
     scenario 'EC without family' do
       visit new_client_case_path(client, case_type: 'EC')
       fill_in 'Carer Names', with: FFaker::Name.name
+      fill_in 'Start Date', with: FFaker::Time.date
       click_button 'Save'
       expect(page).to have_content('Case has been successfully created')
     end
