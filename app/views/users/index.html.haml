@@ -7,10 +7,10 @@
         .text-right
           - if can? :manage, :all
             = link_to "#{I18n.t('users.index.add_new_user')}", new_user_path, class: 'btn btn-success'
-          = link_to "#{I18n.t('users.index.export_csv')}", current_url(format: 'csv'), class: 'btn btn-default btn-export'
+          = link_to "#{I18n.t('users.index.export_csv')}", current_url(format: 'csv'), method: :post, class: 'btn btn-default btn-export'
         .panel.panel-default#user-search-form.collapse
           .panel-body
-            = datagrid_form_for @user_grid, url: users_url, html: { class: 'grid-form' }
+            = datagrid_form_for @user_grid, url: '/search_users', method: :post, html: { class: 'grid-form' }
         .text-left.record-count
           %strong= @user_grid.assets.count
           %span

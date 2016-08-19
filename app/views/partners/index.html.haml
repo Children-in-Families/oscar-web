@@ -7,10 +7,11 @@
         .text-right
           - if can? :manage, Partner
             = link_to "#{I18n.t('partners.index.add_new_partner')}", new_partner_path, class: 'btn btn-success'
-          = link_to "#{I18n.t('partners.index.export_csv')}", current_url(format: 'csv'), class: 'btn btn-default btn-export'
+          = link_to "#{I18n.t('partners.index.export_csv')}", current_url(format: 'csv'), method: :post, class: 'btn btn-default btn-export'
         .panel.panel-default#partner-search-form.collapse
           .panel-body
-            = datagrid_form_for @partner_grid, url: partners_url, html: { class: 'grid-form' }
+            = datagrid_form_for @partner_grid, url: '/search_partners', method: :post, html: { class: 'grid-form' }
+
         .text-left.record-count
           %strong= @partner_grid.assets.count
           %span

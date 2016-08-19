@@ -91,4 +91,5 @@
     .datagrid-actions
       = f.submit I18n.t('datagrid.form.search').html_safe, class: 'datagrid-submit'
       - empty_parameter = Rails.version >= '4.1.0' && Rails.version <= '4.1.2' ? nil : {}
-      = link_to I18n.t('datagrid.form.reset').html_safe, clients_path, class: 'datagrid-reset'
+      - path = :"#{controller_name}_path"
+      = link_to I18n.t('datagrid.form.reset').html_safe, main_app.respond_to?(path) ? main_app.send(path) : root_path, class: 'datagrid-reset'
