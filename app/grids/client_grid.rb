@@ -137,7 +137,7 @@ class ClientGrid
     object.code.present? ? object.code : ''
   end
 
-  column(:name, order: 'LOWER(clients.first_name)', header: -> { I18n.t('datagrid.columns.clients.name') }, html: true) do |object|
+  column(:name, order: 'clients.first_name', header: -> { I18n.t('datagrid.columns.clients.name') }, html: true) do |object|
     name = object.name.blank? ? 'Unknown' : object.name
     link_to name, client_path(object)
   end
@@ -208,7 +208,7 @@ class ClientGrid
     "#{object.age_as_years} #{'year'.pluralize(object.age_as_years)} #{object.age_extra_months} #{'month'.pluralize(object.age_extra_months)}" if object.date_of_birth.present?
   end
 
-  column(:current_address, order: 'LOWER(current_address)', header: -> { I18n.t('datagrid.columns.clients.current_address') })
+  column(:current_address, order: 'clients.current_address', header: -> { I18n.t('datagrid.columns.clients.current_address') })
 
   column(:school_name, header: -> { I18n.t('datagrid.columns.clients.school_name') })
 
