@@ -21,3 +21,5 @@
                   %i.glyphicon.glyphicon-pencil
                 = link_to client_survey_path(@client, survey), method: :delete, data: { confirm: t('.are_you_sure_you_want_to_delete') } do
                   %i.glyphicon.glyphicon-trash
+      .panel-footer
+        = link_to t('.back'), client_path(@client), class: 'btn btn-default btn-back'
