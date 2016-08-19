@@ -36,6 +36,11 @@ class SurveysController < AdminController
     end
   end
 
+  def destroy
+    @survey.destroy
+    redirect_to client_surveys_url, notice: t('.successfully_deleted')
+  end
+
   private
 
   def find_client
