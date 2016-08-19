@@ -1,0 +1,30 @@
+.col-xs-12
+  - if @overdue_tasks.any?
+    .alert.alert-danger.alert-dismissible{ role: 'alert' }
+      %button.close{ 'aria-label' => 'Close', 'data-dismiss' => 'alert', type: 'button' }
+        %span{"aria-hidden" => "true"} &times;
+      %p
+        %span= t('.overdue_tasks_count', count: @overdue_tasks.count)
+        %span= t('.check_tasks')
+        %span= link_to t('.click_here'), tasks_path
+
+  - if @due_today_tasks.any?
+    .alert.alert-warning.alert-dismissible{ role: 'alert' }
+      %button.close{ 'aria-label' => 'Close', 'data-dismiss' => 'alert', type: 'button' }
+        %span{"aria-hidden" => "true"} &times;
+      %p
+        %span= t('.due_today_tasks_count', count: @due_today_tasks.count)
+        %span= t('.check_tasks')
+        %span= link_to t('.click_here'), tasks_path
+
+  - unless @overdue_assessments_count.zero?
+    .alert.alert-danger.alert-dismissible{ role: 'alert' }
+      %button.close{ 'aria-label' => 'Close', 'data-dismiss' => 'alert', type: 'button' }
+        %span{"aria-hidden" => "true"} &times;
+      %p= t('.overdue_assessments_count', count: @overdue_assessments_count)
+
+  - unless @due_today_assessments_count.zero?
+    .alert.alert-warning.alert-dismissible{ role: 'alert' }
+      %button.close{ 'aria-label' => 'Close', 'data-dismiss' => 'alert', type: 'button' }
+        %span{"aria-hidden" => "true"} &times;
+      %p= t('.due_today_assessments_count', count: @due_today_assessments_count)

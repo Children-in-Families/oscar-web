@@ -120,6 +120,15 @@ end
 describe User, 'methods' do
   let!(:admin){ create(:user, roles: 'admin') }
   let!(:case_worker){ create(:user, roles: 'case worker', first_name: 'First Name', last_name: 'Last Name') }
+  let!(:client) { create(:client, user: case_worker) }
+  let!(:assessment) { create(:assessment, client: client, created_at: Date.today) }
+  let!(:second_case_worker){ create(:user, roles: 'case worker', first_name: 'Second First Name', last_name: 'Second Last Name') }
+  let!(:second_client) { create(:client, user: second_case_worker) }
+  let!(:second_assessment) { create(:assessment, client: second_client, created_at: 7.months.ago) }
+  let!(:third_case_worker){ create(:user, roles: 'case worker', first_name: 'Third First Name', last_name: 'Third Last Name') }
+  let!(:third_client) { create(:client, user: third_case_worker) }
+  let!(:third_assessment) { create(:assessment, client: third_client, created_at: Date.today << 6) }
+
   context 'name' do
     it{ expect(case_worker.name).to eq('First Name Last Name') }
   end
@@ -132,5 +141,11 @@ describe User, 'methods' do
   context 'case_worker?' do
     it{ expect(case_worker.case_worker?).to be_truthy }
     it{ expect(admin.case_worker?).to be_falsey }
+  end
+
+  context 'assessment_either_overdue_or_due_today' do
+    it{ expect(case_worker.assessment_either_overdue_or_due_today).to eq([0,0]) }
+    it{ expect(second_case_worker.assessment_either_overdue_or_due_today).to eq([1,0]) }
+    it{ expect(third_case_worker.assessment_either_overdue_or_due_today).to eq([0,1]) }
   end
 end

@@ -292,6 +292,37 @@ km:
         manage: សកម្មភាព
         state: ទទួល/បដិសេធ
         rejected_note: កំណត់ហេតុនៃការមិនទទួលយក
+        quantitative_case_values: ទិន្ន័យនៃបរិមាណ
+        history_of_disability_and_or_illness: ជំងឺរ៉ាំរ៉ែ និង/ឬពិការភាព
+        history_of_harm: ការបង្កទុក្ខទោស និងការកេងប្រវ័ញ្ច
+        history_of_high_risk_behaviours: ការបំពានគ្រឿងញៀនឬគ្រឿងស្រវឹង និងល្បែងស៊ីសង
+        reason_for_family_separation: ការបែកចេញពីគ្រួសារ
+        quantitative_types: ប្រភេទនៃបរិមាណ
+
+        name: ឈ្មោះ
+        code: "លេខកូដ"
+        case_type: ប្រភេទករណី
+        age: "អាយុ"
+        family_id: លេខសម្គាល់គ្រួសារ
+
+      select_columns: ជ្រើសរើសជួរឈរ
+      hide_show_all: បង្ហាញ/លាក់ទាំងអស់
+      family_id: លេខសម្គាល់គ្រួសារ
+      history_of_disability_and_or_illness: ជំងឺរ៉ាំរ៉ែ និង/ឬពិការភាព
+      history_of_harm: ការបង្កទុក្ខទោស និងការកេងប្រវ័ញ្ច
+      history_of_high_risk_behaviours: ការបំពានគ្រឿងញៀនឬគ្រឿងស្រវឹង និងល្បែងស៊ីសង
+      reason_for_family_separation: ការបែកចេញពីគ្រួសារ
+      rejected_note: កំណត់ហេតុនៃការមិនទទួលយក
+      case_start_date: ថ្ងៃចាប់ផ្តើម
+      carer_names: ឈ្មោះអ្នកថែទាំ
+      carer_address: អាសយដ្ឋានអ្នកថែទាំ
+      carer_phone_number: លេខទូរសព្ទអ្នកថែទាំ
+      support_amount: ប្រាក់ឧបត្ថម្ភ
+      support_note: ពត៌មានពីប្រាក់ឧប្ថម្ភ
+      family_preservation: ករណីអភិរក្សគ្រួសារ?
+      family: គ្រួសារ
+      partner: ដៃគូ
+      manage: សកម្មភាព
       families:
         <<: *default_family_fields
         name: ឈ្មោះរបស់គ្រួសារ
@@ -913,6 +944,22 @@ km:
       partners: ដៃគូ
       referral_sources: ប្រភពនៃការបញ្ជូន
       staffs: បុគ្គលិក
+    tasks_and_assessments:
+      overdue_tasks_count:
+        one: "អ្នកមានកាតព្វកិច្ចចំនួន1មិនទាន់បានធ្វើ"
+        other: "អ្នកមានកាតព្វកិច្ចចំនួន%{count}មិនទាន់បានធ្វើ"
+      due_today_tasks_count:
+        one: "អ្នកមានកាតព្វកិច្ចចំនួន1ដែលត្រូវធ្វើឲ្យហើយនៅថ្ងៃនេះ"
+        other: "អ្នកមានកាតព្វកិច្ចចំនួន%{count}ដែលត្រូវធ្វើឲ្យហើយនៅថ្ងៃនេះ"
+      check_tasks: "ដើម្បីពិនិត្យកាព្វកិច្ចរបស់អ្នក សូមចុច"
+      click_here: "ទីនេះ"
+
+      overdue_assessments_count:
+        one: "អ្នកមានការប៉ាន់ប្រមាណចំនួន1មិនទាន់បានធ្វើ"
+        other: "អ្នកមានការប៉ាន់ប្រមាណចំនួន%{count}មិនទាន់បានធ្វើ"
+      due_today_assessments_count:
+        one: "អ្នកមានការប៉ាន់ប្រមាណចំនួន1ដែលត្រូវធ្វើឲ្យហើយនៅថ្ងៃនេះ"
+        other: "អ្នកមានការប៉ាន់ប្រមាណចំនួន%{count}ដែលត្រូវធ្វើឲ្យហើយនៅថ្ងៃនេះ"
   case:
     quarterly_reports:
       index:

@@ -18,5 +18,14 @@ describe QuantitativeCase, 'scopes' do
     it 'should order by value' do
       expect(QuantitativeCase.all).to eq(default_order)
     end
+
+    context 'value like' do
+      it 'should include quantitative case with value like' do
+        expect(QuantitativeCase.value_like([quantitative_case.value])).to include(quantitative_case)
+      end
+      it 'should not include quantitative case with other value' do
+        expect(QuantitativeCase.value_like([quantitative_case.value])).not_to include(other_quantitative_case)
+      end
+    end
   end
 end

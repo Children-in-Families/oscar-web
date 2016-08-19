@@ -5,64 +5,83 @@
     %ul.check-columns-visibility
       %li.dropdown
         %a.dropdown-toggle.btn.btn-default{'data-toggle' => 'dropdown', href: '#'}
-          Select Columns
+          = t('datagrid.columns.select_columns')
           %span.caret
         %ul.dropdown-menu.columns-visibility
           %li
             .all-visibility.col-sm-12
               = check_box_tag 'all_', 'all', checked = params['all_'].present?
               = label_tag 'all_' do
-                %strong Hide/Show All
+                %strong= t('datagrid.columns.hide_show_all')
 
           - grid.filters.each do |f|
+            - next if f.name == :quantitative_types
             %li
               .visibility.col-sm-12
                 = check_box_tag "#{f.name}_", f.name, checked = params["#{f.name}_"].present?
                 = columns_visibility f.name
+
+          %li
+            .visibility.col-sm-12
+              = check_box_tag 'history_of_harm_', 'history_of_harm', checked = params[:history_of_harm_].present?
+              = label_tag 'history_of_harm_', t('datagrid.columns.history_of_harm')
+          %li
+            .visibility.col-sm-12
+              = check_box_tag 'history_of_high_risk_behaviours_', 'history_of_high_risk_behaviours', checked = params[:history_of_high_risk_behaviours_].present?
+              = label_tag 'history_of_high_risk_behaviours_', t('datagrid.columns.history_of_high_risk_behaviours')
+          %li
+            .visibility.col-sm-12
+              = check_box_tag 'history_of_disability_and_or_illness_', 'history_of_disability_and_or_illness', checked = params[:history_of_disability_and_or_illness_].present?
+              = label_tag 'history_of_disability_and_or_illness_', t('datagrid.columns.history_of_disability_and_or_illness')
+          %li
+            .visibility.col-sm-12
+              = check_box_tag 'reason_for_family_separation_', 'reason_for_family_separation', checked = params[:reason_for_family_separation_].present?
+              = label_tag 'reason_for_family_separation_', t('datagrid.columns.reason_for_family_separation')
+
           %li
             .visibility.col-sm-12
               = check_box_tag 'rejected_note_', 'rejected_note', checked = params[:rejected_note_].present?
-              = label_tag 'rejected_note_', 'Rejected Note'
+              = label_tag 'rejected_note_', t('datagrid.columns.rejected_note')
           %li
             .visibility.col-sm-12
               = check_box_tag 'case_start_date_', 'case_start_date', checked = params[:case_start_date_].present?
-              = label_tag 'case_start_date_', 'Case Start Date'
+              = label_tag 'case_start_date_', t('datagrid.columns.case_start_date')
           %li
             .visibility.col-sm-12
               = check_box_tag 'carer_names_', 'carer_names', checked = params[:carer_names_].present?
-              = label_tag 'carer_names_', 'Carer Names'
+              = label_tag 'carer_names_', t('datagrid.columns.carer_names')
           %li
             .visibility.col-sm-12
               = check_box_tag 'carer_address_', 'carer_address', checked = params[:carer_address_].present?
-              = label_tag 'carer_address_', 'Carer Address'
+              = label_tag 'carer_address_', t('datagrid.columns.carer_address')
           %li
             .visibility.col-sm-12
               = check_box_tag 'carer_phone_number_', 'carer_phone_number', checked = params[:carer_phone_number_].present?
-              = label_tag 'carer_phone_number_', 'Carer Phone Number'
+              = label_tag 'carer_phone_number_', t('datagrid.columns.carer_phone_number')
           %li
             .visibility.col-sm-12
               = check_box_tag 'support_amount_', 'support_amount', checked = params[:support_amount_].present?
-              = label_tag 'support_amount_', 'Support Amount'
+              = label_tag 'support_amount_', t('datagrid.columns.support_amount')
           %li
             .visibility.col-sm-12
               = check_box_tag 'support_note_', 'support_note', checked = params[:support_note_].present?
-              = label_tag 'support_note_', 'Support Note'
+              = label_tag 'support_note_', t('datagrid.columns.support_note')
           %li
             .visibility.col-sm-12
               = check_box_tag 'family_preservation_', 'family_preservation', checked = params[:family_preservation_].present?
-              = label_tag 'family_preservation_', 'Family Preservation'
+              = label_tag 'family_preservation_', t('datagrid.columns.family_preservation')
           %li
             .visibility.col-sm-12
               = check_box_tag 'family_', 'family', checked = params[:family_].present?
-              = label_tag 'family_', 'Family'
+              = label_tag 'family_', t('datagrid.columns.family')
           %li
             .visibility.col-sm-12
               = check_box_tag 'partner_', 'partner', checked = params[:partner_].present?
-              = label_tag 'partner_', 'Partner'
+              = label_tag 'partner_', t('datagrid.columns.partner')
           %li
             .visibility.col-sm-12
               = check_box_tag 'manage_', 'manage', checked = params[:manage_].present?
-              = label_tag 'manage_', 'Manage'
+              = label_tag 'manage_', t('datagrid.columns.manage')
     %hr/
   .row
     - grid.filters.each do |filter|
@@ -72,4 +91,4 @@
     .datagrid-actions
       = f.submit I18n.t('datagrid.form.search').html_safe, class: 'datagrid-submit'
       - empty_parameter = Rails.version >= '4.1.0' && Rails.version <= '4.1.2' ? nil : {}
-      = link_to I18n.t('datagrid.form.reset').html_safe, url_for(grid.to_param => empty_parameter), class: 'datagrid-reset'
+      = link_to I18n.t('datagrid.form.reset').html_safe, clients_path, class: 'datagrid-reset'

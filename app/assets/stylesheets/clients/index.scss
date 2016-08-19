@@ -24,8 +24,8 @@
       list-style: none;
     }
     .columns-visibility {
-      height: 200px;
-      width: 300px;
+      height: 250px;
+      width: 390px;
       overflow-y: scroll;
     }
     .visibility {
@@ -35,28 +35,32 @@
     }
   }
   
-  th.name, th.gender, th.status, th.able, th.state, th.family, th.partner, th.manage, th.code ,th.age, th.slug, th.cases, th.family_id {
-    min-width: 100px;
+  th.age, th.name, th.status, th.able, th.state, th.family, th.partner, th.manage, th.cases, th.family_id {
+    min-width: 200px;
+  }
+
+  th.code, th.slug, th.grade, th.gender, th.cases, th.case_start_date {
+    min-width: 130px;
   }
 
   th.state {
     min-width: 135px;
   }
 
-  th.age, th.follow_up_date, th.received_by, th.followed_up_by, th.agency, th.date_of_birth, th.school_name, th.grade, th.referral_phone, th.referral_source, th.birth_province, th.province, th.rejected_note, th.user, th.case_start_date, th.carer_names, th.carer_address, th.support_amount, th.support_note, th.cases {
-    min-width: 170px;
-  }
-
-  th.has_been_in_orphanage {
-    min-width: 200px;
-  }
-
-  th.has_been_in_government_care, th.relevant_referral_information {
+  th.age, th.follow_up_date, th.received_by, th.followed_up_by, th.agency, th.date_of_birth, th.school_name, th.referral_phone, th.referral_source, th.birth_province, th.province, th.rejected_note, th.user, th.carer_names, th.carer_address, th.support_amount, th.support_note {
     min-width: 250px;
   }
 
+  th.has_been_in_orphanage {
+    min-width: 260px;
+  }
+
+  th.has_been_in_government_care, th.relevant_referral_information {
+    min-width: 310px;
+  }
+
   th.initial_referral_date, th.carer_phone_number, th.family_preservation, th.current_address {
-    min-width: 180px;
+    min-width: 200px;
   }
 
   table.clients {
@@ -64,5 +68,9 @@
     th {
       border-bottom-width: 0;
     }
+  }
+
+  .reason_for_family_separation, .history_of_high_risk_behaviours, .history_of_harm, .history_of_disability_and_or_illness {
+    min-width: 360px;
   }
 }

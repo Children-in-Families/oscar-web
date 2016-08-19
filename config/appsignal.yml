@@ -1,0 +1,32 @@
+default: &defaults
+  # Your push api key, it is possible to set this dynamically using ERB:
+  # push_api_key: "<%= ENV['APPSIGNAL_PUSH_API_KEY'] %>"
+  push_api_key: "ee5237aa-38e9-4ab7-8ee0-12bd645ecfe9"
+
+  # Your app's name
+  name: "CifWeb"
+
+  # Actions that should not be monitored by AppSignal
+  # ignore_actions:
+  #   - ApplicationController#isup
+
+  # See http://docs.appsignal.com/gem-settings/configuration.html for
+  # all configuration options.
+
+# Configuration per environment, leave out an environment or set active
+# to false to not push metrics for that environment.
+demo:
+  <<: *defaults
+  active: true
+
+development:
+  <<: *defaults
+  active: true
+
+production:
+  <<: *defaults
+  active: true
+
+staging:
+  <<: *defaults
+  active: true

@@ -7,7 +7,7 @@
         %span.icon-bar
 
       = link_to root_path , class: 'navbar-brand' do
-        = image_tag 'logo.png', class: 'logo'
+        = image_tag ENV['NGO_LOGO'], class: 'logo'
 
 
     .collapse.navbar-collapse
@@ -60,9 +60,9 @@
                 = link_to t('.edit_profile'), edit_user_registration_path
               %li
                 - if I18n.locale == :km
-                  = link_to t('.en'), url_for(params.merge({locale: 'en'}))
+                  = link_to t('.en'), root_path(locale: 'en')
                 - else
-                  = link_to t('.km'), url_for(params.merge({locale: 'km'}))
+                  = link_to t('.km'), root_path(locale: 'km')
               %li= link_to t('.log_out'), destroy_user_session_path, method: :delete
         - else
           %li= link_to t('.log_in'), new_user_session_path
