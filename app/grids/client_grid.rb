@@ -107,8 +107,28 @@ class ClientGrid
     value == 'Accepted' ? scope.accepted : scope.rejected
   end
 
-  filter(:family_id, header: -> { I18n.t('datagrid.columns.families.family_id') }) do |value, object|
+  filter(:family_id, :integer, header: -> { I18n.t('datagrid.columns.families.family_id') }) do |value, object|
     object.find_by_family_id(value) if value.present?
+  end
+
+  # def quantitative_cases_options
+  #   QuantitativeCase.joins(:clients).pluck(:value).uniq
+  # end
+
+  # filter(:quantitative_cases_value, :enum, multiple: true, select: :quantitative_cases_options, header: -> { I18n.t('datagrid.columns.clients.quantitative_case_values') }) do |value, scope|
+  #   if quantitative_cases ||= QuantitativeCase.value_like(value)
+  #     scope.joins(:quantitative_cases).where(quantitative_cases: { id: quantitative_cases.ids }).uniq
+  #   else
+  #     scope.joins(:quantitative_cases).where(quantitative_cases: { id: nil })
+  #   end
+  # end
+
+  def quantitative_type_options
+    QuantitativeType.all.map{ |t| [t.name, t.id] }
+  end
+
+  filter(:quantitative_types, :enum, select: :quantitative_type_options, header: -> { I18n.t('datagrid.columns.clients.quantitative_types') }) do |value, scope|
+    scope.joins(:quantitative_cases).where(quantitative_cases: { quantitative_type_id: value.to_i }).uniq
   end
 
   column(:slug, order:'clients.id', header: -> { I18n.t('datagrid.columns.clients.id') })
@@ -117,7 +137,7 @@ class ClientGrid
     object.code.present? ? object.code : ''
   end
 
-  column(:name, order: 'LOWER(clients.first_name)', header: -> { I18n.t('datagrid.columns.clients.name') }, html: true) do |object|
+  column(:name, order: 'clients.first_name', header: -> { I18n.t('datagrid.columns.clients.name') }, html: true) do |object|
     name = object.name.blank? ? 'Unknown' : object.name
     link_to name, client_path(object)
   end
@@ -139,6 +159,22 @@ class ClientGrid
   column(:cases, header: -> { I18n.t('datagrid.columns.cases.case_type') }, order: 'cases.case_type') do |object|
     object.cases.most_recents.first.case_type if object.cases.any?
   end
+
+  column(:history_of_disability_and_or_illness, header: -> { I18n.t('datagrid.columns.clients.history_of_disability_and_or_illness') }) do |object|
+    object.quantitative_cases.where(quantitative_type_id: QuantitativeType.name_like('History of disability and/or illness').ids).pluck(:value).join(', ')
+  end
+
+  column(:history_of_harm, header: -> { I18n.t('datagrid.columns.clients.history_of_harm') }) do |object|
+    object.quantitative_cases.where(quantitative_type_id: QuantitativeType.name_like('History of Harm').ids).pluck(:value).join(', ')
+  end
+
+  column(:history_of_high_risk_behaviours, header: -> { I18n.t('datagrid.columns.clients.history_of_high_risk_behaviours') }) do |object|
+    object.quantitative_cases.where(quantitative_type_id: QuantitativeType.name_like('History of high-risk behaviours').ids).pluck(:value).join(', ')
+  end
+
+  column(:reason_for_family_separation, header: -> { I18n.t('datagrid.columns.clients.reason_for_family_separation') }) do |object|
+    object.quantitative_cases.where(quantitative_type_id: QuantitativeType.name_like('Reason for Family Separation').ids).pluck(:value).join(', ')
+  end  
 
   column(:follow_up_date, header: -> { I18n.t('datagrid.columns.clients.follow_up_date') }) do |object|
     format(object.follow_up_date) do |object_follow_up_date|
@@ -172,7 +208,7 @@ class ClientGrid
     "#{object.age_as_years} #{'year'.pluralize(object.age_as_years)} #{object.age_extra_months} #{'month'.pluralize(object.age_extra_months)}" if object.date_of_birth.present?
   end
 
-  column(:current_address, order: 'LOWER(current_address)', header: -> { I18n.t('datagrid.columns.clients.current_address') })
+  column(:current_address, order: 'clients.current_address', header: -> { I18n.t('datagrid.columns.clients.current_address') })
 
   column(:school_name, header: -> { I18n.t('datagrid.columns.clients.school_name') })
 

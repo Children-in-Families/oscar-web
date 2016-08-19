@@ -1,0 +1,9 @@
+- topic = form.object.respond_to?(:topic) ? form.object.topic : form.object
+- if policy(topic).moderate?
+  %li.thredded--form-list--admin-options{ style: 'display:none;' }
+    = form.label :locked do
+      = form.check_box :locked
+      Locked
+    = form.label :sticky do
+      = form.check_box :sticky
+      Sticky

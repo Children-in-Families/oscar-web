@@ -275,6 +275,46 @@ km:
     current_password: លេខកូដសំងាត់បច្ចុប្បន្ន
     current_password_hint: យើងត្រូវការពិនិត្យបញ្ជាក់លេខកូដសំងាត់បច្ចុប្បន្នដើម្បីធ្វើការផ្លាស់ប្តូរ
     delete_account_button: លុបចោលគណនីរបស់ខ្ញុំ
+
+  default_survey_fields: &default_survey_fields
+    user_id: បុគ្គលិកសហគមន៌របស់ខ្ញុំឈ្មោះ
+    listening_score: ខ្ញុំគិតថាបុគ្គលិកសហគមន៌របស់ខ្ញុំស្តាប់ខ្ញុំពេលដែលខ្ញុំនិយាយ។
+    problem_solving_score: បុគ្គលិកសហគមន៌របស់ខ្ញុំជួយខ្ញុំដោះស្រាយបញ្ហាខ្ញុំ។
+    getting_in_touch_score: បុគ្គលិកសហគមន៌របស់ខ្ញុំដឹងអំពីសេវាកម្មផ្សេងៗ និងក្រុមផ្សេងៗដែលអាចជួយខ្ញុំបាន ហើយគាត់ជួយខ្ញុំទំនាក់ទំនងជាមួយគេដែរ។
+    trust_score: ខ្ញុំអាចទុកចិត្តជាមួយបុគ្គលិកសហគមន៌របស់ខ្ញុំបាន។
+    difficulty_help_score: អង្គការកុមារក្នុងគ្រួសារធ្លាប់ជួយខ្ញុំ ពេលដែលខ្ញុំមានបទពិសោធន៍ពិបាកៗក្នុងជីវិតខ្ញុំ។
+    support_score: ខ្ញុំពេញចិត្តនឹងជំនួយដែលអង្គការកុមារក្នុងគ្រួសារឲ្យខ្ញុំ។
+    family_need_score: ប្រាក់ឧបត្ថម្ភរបស់ដែលខ្ញុំទទួលជួយដល់តម្រូវការរបស់គ្រួសារខ្ញុំ។
+    care_score: បុគ្គលិកសហគមន៌របស់ខ្ញុំខ្វល់ខ្វាយអំពីអ្វីដែលកើតឡើងដល់កុមារដែលខ្ញុំថែរក្សា។
+
+  surveys:
+    form:
+      <<: *default_survey_fields
+      note: ចំណាំ
+      strongly_disagree: ខ្ញុំមិនយល់ព្រមសោះ
+      strongly_agree: ខ្ញុំយល់ព្រមខ្លាំង
+    new:
+      new_survey_title: ការស្ទង់មតិថ្មី
+    edit:
+      edit_survey_title: កែសម្រួលការស្ទង់មតិ
+    create:
+      successfully_created: ការស្ទង់មតិត្រូវបានបង្កើតដោយជោគជ័យ
+    update:
+      successfully_updated: ការស្ទង់មតិត្រូវបានកែសម្រួលដោយជោគជ័យ
+    destroy:
+      successfully_deleted: ការស្ទង់មតិត្រូវបានលុបដោយជោគជ័យ
+    index:
+      user_id: បុគ្គលិកសហគមន៌របស់ខ្ញុំឈ្មោះ
+      are_you_sure_you_want_to_delete: តើអ្នកប្រាកដហើយ?
+      survey_title: ប្រវត្តិនៃការស្ទង់មតិ
+      created_at: ការបរិច្ឆេទ
+      action: សកម្មភាព
+      back: ត្រលប់ក្រោយ
+    show:
+      back: ត្រលប់ក្រោយ
+      survey_detail: ពត៌មានលំអិតនៃការស្ទង់មតិ
+      <<: *default_survey_fields
+
   datagrid:
     no_results: មិនមានលទ្ធផល
     from: ចាប់ពី
@@ -292,6 +332,37 @@ km:
         manage: សកម្មភាព
         state: ទទួល/បដិសេធ
         rejected_note: កំណត់ហេតុនៃការមិនទទួលយក
+        quantitative_case_values: ទិន្ន័យនៃបរិមាណ
+        history_of_disability_and_or_illness: ជំងឺរ៉ាំរ៉ែ និង/ឬពិការភាព
+        history_of_harm: ការបង្កទុក្ខទោស និងការកេងប្រវ័ញ្ច
+        history_of_high_risk_behaviours: ការបំពានគ្រឿងញៀនឬគ្រឿងស្រវឹង និងល្បែងស៊ីសង
+        reason_for_family_separation: ការបែកចេញពីគ្រួសារ
+        quantitative_types: ប្រភេទនៃបរិមាណ
+
+        name: ឈ្មោះ
+        code: "លេខកូដ"
+        case_type: ប្រភេទករណី
+        age: "អាយុ"
+        family_id: លេខសម្គាល់គ្រួសារ
+
+      select_columns: ជ្រើសរើសជួរឈរ
+      hide_show_all: បង្ហាញ/លាក់ទាំងអស់
+      family_id: លេខសម្គាល់គ្រួសារ
+      history_of_disability_and_or_illness: ជំងឺរ៉ាំរ៉ែ និង/ឬពិការភាព
+      history_of_harm: ការបង្កទុក្ខទោស និងការកេងប្រវ័ញ្ច
+      history_of_high_risk_behaviours: ការបំពានគ្រឿងញៀនឬគ្រឿងស្រវឹង និងល្បែងស៊ីសង
+      reason_for_family_separation: ការបែកចេញពីគ្រួសារ
+      rejected_note: កំណត់ហេតុនៃការមិនទទួលយក
+      case_start_date: ថ្ងៃចាប់ផ្តើម
+      carer_names: ឈ្មោះអ្នកថែទាំ
+      carer_address: អាសយដ្ឋានអ្នកថែទាំ
+      carer_phone_number: លេខទូរសព្ទអ្នកថែទាំ
+      support_amount: ប្រាក់ឧបត្ថម្ភ
+      support_note: ពត៌មានពីប្រាក់ឧប្ថម្ភ
+      family_preservation: ករណីអភិរក្សគ្រួសារ?
+      family: គ្រួសារ
+      partner: ដៃគូ
+      manage: សកម្មភាព
       families:
         <<: *default_family_fields
         name: ឈ្មោះរបស់គ្រួសារ
@@ -388,7 +459,12 @@ km:
       note: កំណត់ហេតុ
       view_legacy_quarterly_reports: មើល Quarterly Reports ចាស់ៗ
       take_survey: ការស្ទង់មតិ
+      survey_history: ប្រវត្តិនៃការស្ទង់មតិ
       reject_client: មិនទទួលយកអតិថិជន
+      time_in_care: រយៈពេលមើលថែទាំ
+      time_in_care_around:
+        one: "ប្រហែល%{count}ឆ្នាំ"
+        other: "ប្រហែល%{count}ឆ្នាំ"
       <<: *default_client_fields
       placements:
         <<: *default_placement_fields
@@ -397,9 +473,14 @@ km:
     emergency_case:
       <<: *default_placement_fields
       emergency_care: ករណី Emergency
+      emergency_case:
+        emergency_care: ករណី Emergency
+
     kinship_case:
       <<: *default_placement_fields
       kinship_care: ករណី Kinship
+      kinship_case:
+        kinship_care: ករណី Kinship
     exit_kc_form:
       exit_ec: ចាកចេញពី EC
       exit_kc: ចាកចេញពី KC
@@ -412,6 +493,8 @@ km:
     foster_case:
       <<: *default_placement_fields
       foster_care: ករណី Foster
+      foster_case:
+        foster_care: ករណី Foster
     placement:
       view_legacy_quarterly_reports: មើល Quarterly Reports ចាស់ៗ
     state:
@@ -913,6 +996,22 @@ km:
       partners: ដៃគូ
       referral_sources: ប្រភពនៃការបញ្ជូន
       staffs: បុគ្គលិក
+    tasks_and_assessments:
+      overdue_tasks_count:
+        one: "អ្នកមានកាតព្វកិច្ចចំនួន1មិនទាន់បានធ្វើ"
+        other: "អ្នកមានកាតព្វកិច្ចចំនួន%{count}មិនទាន់បានធ្វើ"
+      due_today_tasks_count:
+        one: "អ្នកមានកាតព្វកិច្ចចំនួន1ដែលត្រូវធ្វើឲ្យហើយនៅថ្ងៃនេះ"
+        other: "អ្នកមានកាតព្វកិច្ចចំនួន%{count}ដែលត្រូវធ្វើឲ្យហើយនៅថ្ងៃនេះ"
+      check_tasks: "ដើម្បីពិនិត្យកាព្វកិច្ចរបស់អ្នក សូមចុច"
+      click_here: "ទីនេះ"
+
+      overdue_assessments_count:
+        one: "អ្នកមានការប៉ាន់ប្រមាណចំនួន1មិនទាន់បានធ្វើ"
+        other: "អ្នកមានការប៉ាន់ប្រមាណចំនួន%{count}មិនទាន់បានធ្វើ"
+      due_today_assessments_count:
+        one: "អ្នកមានការប៉ាន់ប្រមាណចំនួន1ដែលត្រូវធ្វើឲ្យហើយនៅថ្ងៃនេះ"
+        other: "អ្នកមានការប៉ាន់ប្រមាណចំនួន%{count}ដែលត្រូវធ្វើឲ្យហើយនៅថ្ងៃនេះ"
   case:
     quarterly_reports:
       index:
@@ -940,4 +1039,178 @@ km:
         money_and_supplies_being_used_appropriately: តើលុយនិងការផ្គត់ផ្គង់ត្រូវបានប្រើត្រឹមត្រូវឬទេ?
         spiritual_developments_with_the_child_or_family: ការអភិវឌ្ឍខាងវិញ្ញាណណាមួយជាមួយនឹងកុមារឬគ្រួសារ?
 
+  # Thredded - FAQ
+  time:
+    formats:
+      short: ''
 
+  thredded:
+    recent_activity: សកម្មភាពថ្មីៗ
+    errors:
+      login_required: សូមចូលជាមុន
+      not_authorized: អ្នកមិនមានសិទ្ធចូលទំព័រនេះទេ
+      private_topic_create_denied: អ្នកមិនមានសិទ្ធបង្កើតសារឯកជនទេ
+      private_topic_not_found: មិនមានសារឯកជននេះទេ
+    form:
+      update: កែសម្រួល
+    content_moderation_states:
+      content_blocked_notice: ត្រូវបានបិទ
+      content_blocked_notice_with_record_html: ត្រូវបានបិទ ដោយ %{moderator} %{time_ago}
+    messageboard:
+      create: បង្កើតផ្ទាំងសារថ្មី
+      form:
+        no_group: គ្មានក្រុម
+        name: ឈ្មោះ
+        description: ការពិពណ៌នា
+        messageboard_group: ក្រុមផ្ទាំងសារ
+      index:
+        page_title: ផ្ទាំងសារ
+      last_updated_by_html: ត្រូវបានកែសម្រួល %{time_ago} <cite>ដោយ %{user}</cite>
+      topics_and_posts_counts: "%{topics_count} ប្រធានបទ / %{posts_count} ការឆ្លើយតប"
+      update: :thredded.form.update
+      updated_notice: ផ្ទាំងសារត្រូវបានកែសម្រួល
+    messageboard_group:
+      create: បង្កើតក្រុមផ្ទាំងសារថ្មី
+      created_notice: ក្រុមផ្ទាំងសារត្រូវបានបង្កើត
+      new:
+        name: ឈ្មោះ
+    moderation:
+      approve_btn: សម្របសម្រួល
+      block_btn: បិទ
+      pending:
+        empty:
+          content: ការឆ្លើយតបទាំងអស់ត្រូវបានសម្របសម្រួល
+          title: ល្អណាស់
+      post_approved_html: ការឆ្លើយតបត្រូវបានអនុញាតដោយ %{moderator} %{time_ago}.
+      post_blocked_html: ការឆ្លើយតបត្រូវបានបិទដោយ %{moderator} %{time_ago}.
+      post_deleted_notice: ការឆ្លើយតបនេះត្រូវបានលុប
+      posts_content_changed_since_moderation_html: >-
+        The <a href="%{post_url}">post's</a> content change since it was moderated. Below is the content at the
+        time it was moderated.
+      search_users:
+        form_label: ស្វែងរកអ្នកប្រើប្រាស់
+        form_placeholder: :thredded.moderation.search_users.form_label
+        results_message: អ្នកប្រើប្រាស់ដែលមានឈ្មោះផ្ដើមដោយ %{query}
+        no_results_message: មិនមានអ្នកប្រើប្រាស់ដែលមានឈ្មោះផ្ដើមដោយ %{query} ទេ
+    nav:
+      home: ទំព័រដើម
+      all_messageboards: ផ្ទាំងសារទាំអស់
+      edit_messageboard: កែសម្រួលផ្ទាំងសារ
+      edit_post: កែសម្រួលការឆ្លើយតប
+      edit_private_topic: :thredded.nav.edit_topic
+      edit_topic: កែសម្រួល
+      mark_all_read: កំណត់ទាំងអស់ថាត្រូវបានអានរួចហើយ
+      moderation: ការសម្របសម្រួល
+      moderation_history: ប្រវត្តិនៃការសម្របសម្រួល
+      moderation_pending: ការសម្របសម្រួលមិនទាន់សម្រេច
+      moderation_users: អ្នកប្រើប្រាស់ទាំងអស់
+      moderation_activity: សកម្មភាពនៃការសម្របសម្រួល
+      private_topics: សារឯកជន
+      settings: ការជូនដំណឹង
+    shared:
+      nav:
+        sign_out: ចាកចេញ
+        sign_in: ចូល
+    null_user_name: លុបអ្នកប្រើប្រាស់
+    posts:
+      delete: លុបការឆ្លើយតប
+      delete_confirm: តើអ្នកពិតជាចង់លុបការឆ្លើយតបនេះ?
+      deleted_notice: ការឆ្លើយតបរបស់អ្នកត្រូវបានលុប
+      edit: :thredded.nav.edit_post
+      form:
+        content_label: មាតិកា
+        create_btn: ឆ្លើយតប
+        update_btn: កែសម្រួលការឆ្លើយតប
+      pending_moderation_notice: ការឆ្លើយតបរបស់អ្នកនឹងត្រូវបានបង្ហាញនៅពេលដែលត្រូវបានពិនិត្យដោយអ្នកសម្របសម្រួល
+    preferences:
+      edit:
+        page_title: :thredded.nav.settings
+      form:
+        global_preferences_label: ការកំណត់ទាំងអស់
+        messageboard_notify_on_mention:
+          hint: >-
+            ពេលដែលនរណាម្នាក់និយាយពីអ្នកដោយឈ្មោះរបស់អ្នក (ឧ: @sam) នៅក្នុងផ្ទាំងសារនេះ អ្នកនឹងតាមដានប្រធានបទ។
+            អ្នកនឹងទទួលបានអ៊ីម៉ែលជាមួយនឹងមាតិកានៃការឆ្លើយតបនោះនិងការឆ្លើយតបទាំងឡាយ។
+
+          label: :thredded.preferences.form.notify_on_mention.label
+        messageboard_preferences_label_html: ការជូនដំណឹងសម្រាប់ <em>%{messageboard}</em>
+        notify_on_mention:
+          hint: >-
+            ពេលដែលនរណាម្នាក់និយាយពីអ្នកដោយឈ្មោះរបស់អ្នក (ឧ: @sam) អ្នកនឹងតាមដានប្រធានបទ។
+            អ្នកនឹងទទួលបានអ៊ីម៉ែលជាមួយនឹងមាតិកានៃការឆ្លើយតបនោះនិងការឆ្លើយតបទាំងឡាយ។
+
+          label: តាមដានប្រធានបទទាំងឡាយដែលនិយាយពីអ្នក
+        notify_on_message:
+          hint: ពេលដែលអ្នកត្រូវបានបន្ថែមទៅក្នុងសារឯកជន អ្នកនឹងទទួលបានអ៊ីម៉ែលជាមួយនឹងមាតិការបស់វា។
+          label: ការជូនដំណឹងសារឯកជន
+        submit_btn: កែសម្រួលការកំណត់
+        title: ការកំណត់
+      updated_notice: ការកំណត់របស់អ្នកត្រូវបានកែសម្រួល
+    private_posts:
+      form:
+        content_label: សារ
+        create_btn: ផ្ញើសារ
+    private_topics:
+      edit: កែសម្រួល
+      errors:
+        user_ids_length: សូមបញ្ញាក់យ៉ាងហោចណាស់អ្នកប្រើប្រាស់ម្នាក់ទៀត
+      form:
+        content_label: :thredded.private_posts.form.content_label
+        create_btn: :thredded.private_posts.form.create_btn
+        title_label: :thredded.topics.form.title_label
+        title_placeholder_new: សរសេរប្រធានបទនៃការសន្ទនានេះ
+        title_placeholder_start: បង្កើតការសន្ទនាថ្មី
+        update_btn: កែសម្រួល
+        users_label: អ្នកចូលរួម
+        users_placeholder: ''
+        # users_placeholder: ជ្រើសរើសអ្នកប្រើប្រាស់ដើម្បីចូលរួមក្នុងការសន្ទនានេះ
+      no_private_topics:
+        create_btn: បង្កើតការសន្ទនាដំបូងរបស់អ្នក
+        title: អ្នកមិនមានសារឯកជននោះទេ
+      updated_notice: ប្រធានបទត្រូវបានកែសម្រួល
+    search:
+      form:
+        btn_submit: :thredded.search.form.label
+        label: ស្វែងរក
+        placeholder: ស្វែងរកប្រធានបទនិងការឆ្លើយតប
+    topics:
+      show:
+        add_post: បន្ថែមការឆ្លើយតប
+      delete_confirm: តើអ្នកពិតជាចង់លុបប្រធានបទនេះ? បើលុបហើយមិនអាចត្រលប់ក្រោយទេ។
+      delete_topic: លុបប្រធានបទ
+      deleted_notice: ប្រធានបទត្រូវបានលុប
+      edit: កែសម្រួលប្រធានបទ
+      followed_notice: អ្នកកំពុងតាមដានប្រធានបទនេះ
+      following:
+        manual: អ្នកកំពុងតាមដានប្រធានបទនេះ
+        mentioned: អ្នកកំពុងតាមដានប្រធានបទនេះពីព្រោះមានគេនិយាយពីអ្នក
+        posted: អ្នកកំពុងតាមដានប្រធានបទនេះពីព្រោះអ្នកបានបង្កើតវា
+      following_will_receive_emails: អ្នកនឹងទទួលបានអ៊ីម៉ែលសម្រាប់អ្វីៗដែលថ្មី
+      form:
+        categories_placeholder: ផ្នែកផ្សេងៗ
+        content_label: :thredded.posts.form.content_label
+        title_label: ប្រធានបទ
+        title_placeholder: :thredded.topics.form.title_label
+        title_placeholder_start: បង្កើតប្រធានបទថ្មី
+        update_btn: កែសម្រួលប្រធានបទ
+      search:
+        no_results_message: ការស្វែងរករបស់អ្នកមិនមានលទ្ធផលនោះទេ - %{query}
+        page_title: លទ្ធផលប្រធានបទនៃការស្វែងរក
+        results_message: លទ្ធផលនៃការស្វែងរក %{query}
+      started_by_html: ត្រូវបានចាប់ផ្ដើម %{time_ago} ដោយ %{user}
+      unfollowed_notice: អ្នមិនកកំពុងតាមដានប្រធានបទនេះទៀតទេ
+      updated_notice: ប្រធានបទត្រូវបានកែសម្រួល
+    users:
+      last_active_html: "មានសកម្មភាពចុងក្រោយ %{time_ago}"
+      posted_in_topic_html: "បង្កើតនៅក្នុង %{topic_link}"
+      recent_activity: :thredded.recent_activity
+      started_topic_html: "បានបង្កើត %{topic_link}"
+      user_posted_in_topic_html: "%{user_link} បានបង្កើតនៅក្នុង %{topic_link}"
+      user_since_html: "អ្នកប្រើប្រាស់ចាប់ពី %{time_ago}"
+      user_started_topic_html: "%{user_link} បានបង្កើត %{topic_link}"
+      started_topics_count:
+        one: "បានបង្កើតប្រធានបទមួ"
+        other: "បានបង្កើត %{count} ប្រធានបទ"
+      posts_count:
+        one: "បានបង្កើតម្ដង"
+        other: "បានបង្កើត %{count} ដង"

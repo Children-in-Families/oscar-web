@@ -19,6 +19,7 @@ class Client < ActiveRecord::Base
   has_many :tasks,       dependent: :destroy
   has_many :case_notes,  dependent: :destroy
   has_many :assessments, dependent: :destroy
+  has_many :surveys,     dependent: :destroy
   has_one  :government_report, dependent: :destroy
 
   accepts_nested_attributes_for     :tasks
@@ -33,7 +34,7 @@ class Client < ActiveRecord::Base
 
   scope :first_name_like,      -> (value) { where('LOWER(clients.first_name) LIKE ?', "%#{value.downcase}%") }
 
-  scope :start_with_code,      -> (value) { where('code LIKE ?', "#{value}%") }
+  scope :start_with_code,      -> (value) { where('clients.code LIKE ?', "#{value}%") }
 
   scope :status_like,          ->         { CLIENT_STATUSES }
 
@@ -194,5 +195,31 @@ class Client < ActiveRecord::Base
   def set_slug_as_alias
     self.slug = "#{ENV['ORGANISATION_ABBREVIATION']}-#{id}"
     self.save
+  end
+
+  def time_in_care
+    if cases.any?
+      if cases.active.any?
+        active_cases      = cases.active.order(:created_at)
+        first_active_case = active_cases.active.first
+        
+        start_date        = first_active_case.start_date.to_date
+        current_date      = Date.today.to_date
+
+        ((current_date - start_date).to_f / 365).round(1)
+
+      else
+        inactive_cases     = cases.inactive.order(:updated_at)
+        last_inactive_case = inactive_cases.last
+        end_date           = last_inactive_case.exit_date.to_date
+        
+        first_case         = cases.inactive.order(:created_at).first
+        start_date         = first_case.start_date.to_date
+        
+        ((end_date - start_date).to_f / 365).round(1)
+      end
+    else
+      nil
+    end
   end
 end

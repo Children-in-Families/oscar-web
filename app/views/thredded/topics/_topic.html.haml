@@ -1,0 +1,16 @@
+= content_tag :article, id:    dom_id(topic), class: ['thredded--topics--topic', topic_css_classes(topic)] do
+  .thredded--topics--posts-count= topic.posts_count
+  %h1.thredded--topics--title
+    = link_to topic.title, topic.path
+  - if topic.categories.any?
+    %ul.thredded--topics--categories
+      = render topic.categories
+  %cite.thredded--topics--updated-by
+    = time_ago topic.updated_at
+    = topic.last_user
+  %cite.thredded--topics--started-by
+    = time_ago topic.created_at
+    = topic.user
+  - if topic.blocked? && topic.can_moderate?
+    %span.thredded--topics--moderation-state.thredded--alert.thredded--alert-danger
+      = render 'thredded/shared/content_moderation_blocked_state', moderation_record: topic.last_moderation_record

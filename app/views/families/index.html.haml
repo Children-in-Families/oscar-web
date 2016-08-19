@@ -7,10 +7,10 @@
         .text-right
           - if can? :manage, Family
             = link_to "#{I18n.t('families.index.add_new_family')}", new_family_path, class: 'btn btn-success'
-          = link_to "#{I18n.t('families.index.export_csv')}", current_url(format: 'csv'), class: 'btn btn-default btn-export'
+          = link_to "#{I18n.t('families.index.export_csv')}", current_url(format: 'csv'), method: :post, class: 'btn btn-default btn-export'
         .panel.panel-default#family-search-form.collapse
           .panel-body
-            = datagrid_form_for @family_grid, url: families_url, html: { class: 'grid-form' }
+            = datagrid_form_for @family_grid, url: '/search_families', method: :post, html: { class: 'grid-form' }
         .text-left.record-count
           %strong= @family_grid.assets.count
           %span

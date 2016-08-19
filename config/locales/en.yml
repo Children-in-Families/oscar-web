@@ -1,4 +1,5 @@
 en:
+  faq: FAQ
   default_government_report_fields: &default_government_report_fields
     code: Form
     kingdom_of_cambodia: Kingdom of Cambodia
@@ -273,6 +274,46 @@ en:
     current_password: Current Password
     current_password_hint: We need to current password to make change
     delete_account_button: Delete Account
+
+  default_survey_fields: &default_survey_fields
+    user_id: My Community Case Worker's name is
+    listening_score: I feel like my CCW listens to me when I speak.
+    problem_solving_score: My CCW helps me solve my problems.
+    getting_in_touch_score: My CCW knows of other services and groups of people who can help me, and helps me get in touch with them.
+    trust_score: I can trust my CCW.
+    difficulty_help_score: CIF has helped me through difficult times in my life.
+    support_score: I am happy with the way CIF and my CCW have supported me.
+    family_need_score: My stipend helps me meet my family's needs.
+    care_score: My CCW cares about what happens to the children I take care of.
+
+  surveys:
+    form:
+      <<: *default_survey_fields
+      note: Note
+      strongly_disagree: Strongly Disagree
+      strongly_agree: Strongly Agree
+    new:
+      new_survey_title: New Survey
+    edit:
+      edit_survey_title: Edit Survey
+    create:
+      successfully_created: Survey has been successfully created.
+    update:
+      successfully_updated: Survey has been successfully updated.
+    destroy:
+      successfully_deleted: Survey has been successfully deleted.
+    index:
+      user_id: My Community Case Worker's name is
+      are_you_sure_you_want_to_delete: Are you sure you want to delete?
+      survey_title: Survey History
+      created_at: Created Date
+      action: Action
+      back: Back
+    show:
+      back: Back
+      survey_detail: Survey Detail
+      <<: *default_survey_fields
+
   datagrid:
     no_results: No results found
     from: From
@@ -290,6 +331,32 @@ en:
         manage: Manage
         state: Accept/Reject
         rejected_note: Rejected Note
+        quantitative_case_values: Quantitative Case
+        history_of_disability_and_or_illness: History of disability and/or illness
+        history_of_harm: History of Harm
+        history_of_high_risk_behaviours: History of high-risk behaviours
+        reason_for_family_separation: Reason for Family Separation
+        quantitative_types: Quantitative Types
+      select_columns: Select Columns
+      hide_show_all: Hide/Show All
+      family_id: Family ID
+      history_of_disability_and_or_illness: History of disability and/or illness
+      history_of_harm: History of Harm
+      history_of_high_risk_behaviours: History of high-risk behaviours
+      reason_for_family_separation: Reason for Family Separation
+      rejected_note: Rejected Note
+      case_start_date: Case Start Date
+      carer_names: Carer Names
+      carer_address: Carer Address
+      carer_phone_number: Carer Phone Number
+      support_amount: Support Amount
+      support_note: Support Note
+      family_preservation: Family Preservation
+      family: Family
+      partner: Partner
+      manage: Manage
+
+
       families:
         <<: *default_family_fields
         name: Name
@@ -389,6 +456,12 @@ en:
       note: Note
       view_legacy_quarterly_reports: Legacy Quarterly Reports
       take_survey: Take Survey
+      survey_history: Survey History
+      time_in_care: Time In Care
+      time_in_care_around:
+        one: "Around %{count} year"
+        other: "Around %{count} years"
+
       <<: *default_client_fields
       placements:
         <<: *default_placement_fields
@@ -397,6 +470,8 @@ en:
     emergency_case:
       <<: *default_placement_fields
       emergency_care: Emergency Care
+      emergency_case:
+        emergency_care: Emergency Care
     exit_case_form:
       exit_ec: Exit Emergency Care
       exit_kc: Exit Kinship Care
@@ -409,9 +484,13 @@ en:
     kinship_case:
       <<: *default_placement_fields
       kinship_care: Kinship Care
+      kinship_case:
+        kinship_care: Kinship Care
     foster_case:
       <<: *default_placement_fields
       foster_care: Foster Care
+      foster_case:
+        foster_care: Foster Care
     placement:
       view_legacy_quarterly_reports: View Legacy Quarterly Reports
     state:
@@ -858,6 +937,22 @@ en:
       partners: Partners
       referral_sources: Referral Sources
       staffs: Staffs
+    tasks_and_assessments:
+      overdue_tasks_count:
+        one: "You have 1 task overdue."
+        other: "You have %{count} tasks overdue."
+      due_today_tasks_count:
+        one: "You have 1 task due today."
+        other: "You have %{count} tasks due today."
+      check_tasks: "To check your tasks, please"
+      click_here: "click here."
+
+      overdue_assessments_count:
+        one: "You have 1 assessment overdue."
+        other: "You have %{count} assessments overdue."
+      due_today_assessments_count:
+        one: "You have 1 assessment due today."
+        other: "You have %{count} assessments due today."
   case:
     quarterly_reports:
       index:
@@ -891,3 +986,12 @@ en:
     next_label: Next Page
   save: Save
   cancel: Cancel
+
+  # Thredded - FAQ
+  thredded:
+    nav:
+      home: Home
+    shared:
+      nav:
+        sign_out: Sign Out
+        sign_in: Sign In
