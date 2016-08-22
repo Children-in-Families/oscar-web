@@ -2,7 +2,6 @@ class ClientGrid
   include Datagrid
 
   attr_accessor :current_user
-
   scope do
     Client.includes({ cases: [:family, :partner] }, :referral_source, :user, :received_by, :followed_up_by, :province, :agencies).order(:status, :first_name)
   end

@@ -64,6 +64,7 @@ group :development do
   gem 'capistrano-rvm',       '~> 0.1.2'
   gem 'capistrano-sidekiq',   github: 'seuros/capistrano-sidekiq'
   gem 'capistrano-foreman'
+  gem 'thin'
 end
 
 group :test do

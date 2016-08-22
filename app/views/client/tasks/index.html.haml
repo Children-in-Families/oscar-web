@@ -6,7 +6,7 @@
       .panel-body
         = link_to t('.back'), client_path(@client), { class: 'btn btn-default button' }
         = link_to t('.new_task'), new_client_task_path(@client), { class: 'btn btn-success button' }
-
+        -binding.pry
         .panel.panel-danger
           .panel-heading
             %h5= t('.overdue_tasks')
