@@ -131,6 +131,7 @@ describe Client, 'scopes' do
     province: province,
     user: user
   )}
+  let!(:assessment) { create(:assessment, client: client) }
   let!(:other_client){ create(:client, state: 'rejected') }
   context 'first name like' do
     let!(:clients){ Client.first_name_like(client.first_name.downcase) }
@@ -139,6 +140,16 @@ describe Client, 'scopes' do
     end
     it 'should not include record not have first name like' do
       expect(clients).not_to include(other_client)
+    end
+  end
+
+  context 'without assessments' do
+    it 'should include record without any assessments' do
+      expect(Client.without_assessments).to include(other_client)
+    end
+
+    it 'should not include record with any assessments' do
+      expect(Client.without_assessments).not_to include(client)
     end
   end
 
