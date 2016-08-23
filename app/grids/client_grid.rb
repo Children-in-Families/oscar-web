@@ -12,10 +12,6 @@ class ClientGrid
     value == 'Male' ? scope.male : scope.female
   end
 
-  filter(:any_assessments, :enum, select: %w(Yes No), header: -> { I18n.t('datagrid.columns.clients.any_assessments') }) do |value, scope|
-    value == 'Yes' ? scope.joins(:assessments).uniq : scope.without_assessments
-  end
-
   filter(:slug, :string, header: -> {I18n.t('datagrid.columns.clients.id')})  { |value, scope| scope.slug_like(value) }
 
   filter(:code, :integer, header: -> { I18n.t('datagrid.columns.clients.code') }) { |value, scope| scope.start_with_code(value) }
@@ -134,8 +130,8 @@ class ClientGrid
     scope.joins(:quantitative_cases).where(quantitative_cases: { quantitative_type_id: value.to_i }).uniq
   end
 
-  column(:any_assessments, header: -> { I18n.t('datagrid.columns.clients.any_assessments') }, html: true) do |object|
-    object.assessments.map(&:basic_info).join("\x0D\x0A")
+  filter(:any_assessments, :enum, select: %w(Yes No), header: -> { I18n.t('datagrid.columns.clients.any_assessments') }) do |value, scope|
+    value == 'Yes' ? scope.joins(:assessments).uniq : scope.without_assessments
   end
 
   column(:slug, order:'clients.id', header: -> { I18n.t('datagrid.columns.clients.id') })
@@ -311,6 +307,10 @@ class ClientGrid
     if object.cases.current && object.cases.current.partner
       object.cases.current.partner.name
     end
+  end
+
+  column(:any_assessments, header: -> { I18n.t('datagrid.columns.clients.assessments') }, html: true) do |object|
+    object.assessments.map(&:basic_info).join("\x0D\x0A")
   end
 
   column(:manage, html: true, class: 'text-center', header: -> { I18n.t('datagrid.columns.clients.manage') }) do |object|

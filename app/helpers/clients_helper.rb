@@ -53,6 +53,7 @@ module ClientsHelper
       when :user_id                       then t('datagrid.columns.clients.case_worker')
       when :state                         then t('datagrid.columns.clients.state')
       when :family_id                     then t('datagrid.columns.clients.family_id')
+      when :any_assessments               then t('datagrid.columns.clients.assessments')
       end
   end
 
