@@ -74,6 +74,8 @@ class Client < ActiveRecord::Base
 
   scope :able,                 -> { where(able: true) }
 
+  scope :without_assessments,  -> { includes(:assessments).where(assessments: { client_id: nil }) }
+
   def reject?
     state_changed? && state == 'rejected'
   end

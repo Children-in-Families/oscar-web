@@ -338,6 +338,8 @@ en:
         reason_for_family_separation: Reason for Family Separation
         quantitative_types: Quantitative Types
         family_id: Family ID
+        any_assessments: Has Assessments
+        assessments: Assessments
       select_columns: Select Columns
       hide_show_all: Hide/Show All
       family_id: Family ID

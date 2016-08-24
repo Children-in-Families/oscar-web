@@ -131,6 +131,15 @@ class ClientGrid
     scope.where(id: ids)
   end
 
+  filter(:any_assessments, :enum, select: %w(Yes No), header: -> { I18n.t('datagrid.columns.clients.any_assessments') }) do |value, scope|
+    if value == 'Yes'
+      ids = scope.joins(:assessments).pluck(:id).uniq
+      scope.where(id: ids)
+    else
+      scope.without_assessments
+    end
+  end
+
   column(:slug, order:'clients.id', header: -> { I18n.t('datagrid.columns.clients.id') })
 
   column(:code, header: -> { I18n.t('datagrid.columns.clients.code') }) do |object|
@@ -304,6 +313,10 @@ class ClientGrid
     if object.cases.current && object.cases.current.partner
       object.cases.current.partner.name
     end
+  end
+
+  column(:any_assessments, header: -> { I18n.t('datagrid.columns.clients.assessments') }, html: true) do |object|
+    object.assessments.map(&:basic_info).join("\x0D\x0A")
   end
 
   column(:manage, html: true, class: 'text-center', header: -> { I18n.t('datagrid.columns.clients.manage') }) do |object|
