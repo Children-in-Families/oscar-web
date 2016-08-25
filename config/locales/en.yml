@@ -323,6 +323,8 @@ en:
       reset: Reset
     columns:
       clients:
+        domain: Domain
+        domains: All Domains
         name: Name
         age: Age
         <<: *default_client_fields
@@ -393,6 +395,11 @@ en:
       xboolean:
         "yes": "Yes"
         "no": "No"
+      dynamic:
+        operations:
+          "=": '='
+          "<=": '<='
+          ">=": '>='
       first_name: First Name
 
     table:
