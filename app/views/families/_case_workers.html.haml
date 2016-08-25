@@ -1,5 +1,5 @@
 %ul.family-case-workers-list
-  - object.each do |object|
-    - if object.client && object.client.user
-      - name = object.client.user.name.present? ? object.client.user.name : 'Unknown'
-      %li= link_to name, user_path(object.client.user)
+  - object.joins(:user).group_by(&:user_id).each do |a|
+    - user = User.find(a.first)
+    - name = user.name.present? ? user.name : 'Unknown'
+    %li= link_to name, user_path(user)
