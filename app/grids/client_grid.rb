@@ -3,7 +3,7 @@ class ClientGrid
 
   attr_accessor :current_user
   scope do
-    Client.includes({ cases: [:family, :partner] }, :referral_source, :user, :received_by, :followed_up_by, :province, :agencies).order(:status, :first_name)
+    Client.includes({ cases: [:family, :partner] }, :referral_source, :user, :received_by, :followed_up_by, :province, :agencies).order('clients.status, clients.first_name')
   end
 
   filter(:name, :string, header: -> { I18n.t('datagrid.columns.clients.name') }) { |value, scope| scope.first_name_like(value) }
@@ -127,11 +127,17 @@ class ClientGrid
   end
 
   filter(:quantitative_types, :enum, select: :quantitative_type_options, header: -> { I18n.t('datagrid.columns.clients.quantitative_types') }) do |value, scope|
-    scope.joins(:quantitative_cases).where(quantitative_cases: { quantitative_type_id: value.to_i }).uniq
+    ids = scope.joins(:quantitative_cases).where(quantitative_cases: { quantitative_type_id: value.to_i }).pluck(:id).uniq
+    scope.where(id: ids)
   end
 
   filter(:any_assessments, :enum, select: %w(Yes No), header: -> { I18n.t('datagrid.columns.clients.any_assessments') }) do |value, scope|
-    value == 'Yes' ? scope.joins(:assessments).uniq : scope.without_assessments
+    if value == 'Yes'
+      ids = scope.joins(:assessments).pluck(:id).uniq
+      scope.where(id: ids)
+    else
+      scope.without_assessments
+    end
   end
   
   filter(:all_domains, :dynamic, select: ['All domains'], header: -> { I18n.t('datagrid.columns.clients.domains') }) do |(field, operation, value), scope|
@@ -227,7 +233,7 @@ class ClientGrid
     end
   end
 
-  column(:cases, header: -> { I18n.t('datagrid.columns.cases.case_type') }, order: 'cases.case_type') do |object|
+  column(:cases, header: -> { I18n.t('datagrid.columns.cases.case_type') }, order: proc { |scope| scope.includes(:cases).order('cases.case_type') } ) do |object|
     object.cases.most_recents.first.case_type if object.cases.any?
   end
 
@@ -323,7 +329,7 @@ class ClientGrid
 
   column(:rejected_note, header: -> { I18n.t('datagrid.columns.clients.rejected_note') })
 
-  column(:user, order: 'users.first_name', header: -> { I18n.t('datagrid.columns.clients.case_worker_or_staff') }) do |object|
+  column(:user, order: proc { |scope| scope.joins(:user).reorder('users.first_name') }, header: -> { I18n.t('datagrid.columns.clients.case_worker_or_staff') }) do |object|
     object.user.name if object.user
   end
 

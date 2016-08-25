@@ -73,7 +73,7 @@ class FamilyGrid
     object.dependable_income ? 'Yes' : 'No'
   end
 
-  column(:cases, html: true, order: 'LOWER(clients.first_name)', header: -> { I18n.t('datagrid.columns.families.clients') }) do |object|
+  column(:cases, html: true, order: false, header: -> { I18n.t('datagrid.columns.families.clients') }) do |object|
     render partial: 'families/clients', locals: { object: object.cases.non_emergency.active }
   end
 
