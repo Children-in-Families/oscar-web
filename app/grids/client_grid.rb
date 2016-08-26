@@ -168,7 +168,7 @@ class ClientGrid
 
   def self.get_domain(name)
     domain = Domain.find_by(name: name)
-    arr = Array.new([[domain.name, domain.id]])
+    domain.present?  ? Array.new([[domain.name, domain.id]]) : []
   end
 
   filter(:domain_1a, :dynamic, select: get_domain('1A'), header: -> { "#{I18n.t('datagrid.columns.clients.domain')} 1A" }) do |(domain_id, operation, value), scope|
