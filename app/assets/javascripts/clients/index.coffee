@@ -4,7 +4,6 @@ CIF.ClientsIndex = do ->
     _columnsVisibility()
     _fixedHeaderTableColumns()
     _cssClassForlabelDynamic()
-    _validateFieldDomainNumber()
 
   _enableSelect2 = ->
     $('#clients-index select').select2
@@ -39,22 +38,6 @@ CIF.ClientsIndex = do ->
 
   _cssClassForlabelDynamic = ->
     $('.dynamic_filter').prev('label').css( "display", "block" )
-
-  _validateFieldDomainNumber = ->
-    $('.dynamic_filter.value ').keydown (e) ->
-      if $.inArray(e.keyCode, [
-          46
-          8
-          9
-          27
-          13
-          110
-          190
-        ]) != -1 or e.keyCode == 65 and e.ctrlKey == true or e.keyCode == 67 and e.ctrlKey == true or e.keyCode == 88 and e.ctrlKey == true or e.keyCode >= 35 and e.keyCode <= 39
-        return
-      if (e.shiftKey or e.keyCode < 48 or e.keyCode > 57) and (e.keyCode < 96 or e.keyCode > 105)
-        e.preventDefault()
-      return
-
+    $('.dynamic_filter').find('.select2-search').remove('div')
 
   { init: _init }

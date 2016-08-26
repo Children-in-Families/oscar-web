@@ -167,7 +167,7 @@ class ClientGrid
   end
 
   def self.get_domain(name)
-    domain = Domain.find_by_name(name)
+    domain = Domain.find_by(name: name)
     arr = Array.new([[domain.name, domain.id]])
   end
 

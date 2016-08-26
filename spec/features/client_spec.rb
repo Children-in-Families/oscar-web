@@ -4,8 +4,8 @@ describe 'Client' do
 
   feature 'List' do
     let!(:client){create(:client, user: user)}
-    let!(:other_client){create(:client)}
-    Domain.create(name: '1A', domain_group_id: 1)
+    let!(:other_client) {create(:client)}
+    let!(:domain) { create(:domain, name: "1A") }
     
     before do
       login_as(user)
