@@ -1,0 +1,37 @@
+= simple_form_for([@client, @survey]) do |f|
+  .panel-body
+    = f.error_notification
+    .row
+      .col-xs-12
+        %p.survey-note
+          %strong.score-evaluation= "#{t('.note')}: "
+          %span= t('.strongly_disagree')
+          %input{ type: 'radio', disabled: 'disabled' } 1
+          %input{ type: 'radio', disabled: 'disabled' } 2
+          %input{ type: 'radio', disabled: 'disabled' } 3
+          %input{ type: 'radio', disabled: 'disabled' } 4
+          %span.strongly-agree= t('.strongly_agree')
+    .row
+      .col-xs-12.col-sm-6
+        = f.input :user, disabled: true, input_html: { value: @client.user.name }, label: t('.user_id')
+      .col-xs-12
+        = f.input :listening_score, as: :radio_buttons, collection: [1,2,3,4], item_wrapper_class: 'inline', label: "#{t('.listening_score')}"
+      .col-xs-12
+        = f.input :problem_solving_score, as: :radio_buttons, collection: [1,2,3,4], item_wrapper_class: 'inline', label: "#{t('.problem_solving_score')}"
+      .col-xs-12
+        = f.input :getting_in_touch_score, as: :radio_buttons, collection: [1,2,3,4], item_wrapper_class: 'inline', label: "#{t('.getting_in_touch_score')}"
+      .col-xs-12
+        = f.input :trust_score, as: :radio_buttons, collection: [1,2,3,4], item_wrapper_class: 'inline', label: "#{t('.trust_score')}"
+      .col-xs-12
+        = f.input :difficulty_help_score, as: :radio_buttons, collection: [1,2,3,4], item_wrapper_class: 'inline', label: "#{t('.difficulty_help_score')}"
+      .col-xs-12
+        = f.input :support_score, as: :radio_buttons, collection: [1,2,3,4], item_wrapper_class: 'inline', label: "#{t('.support_score')}"
+      .col-xs-12
+        = f.input :family_need_score, as: :radio_buttons, collection: [1,2,3,4], item_wrapper_class: 'inline', label: "#{t('.family_need_score')}"
+      .col-xs-12
+        = f.input :care_score, as: :radio_buttons, collection: [1,2,3,4], item_wrapper_class: 'inline', label: "#{t('.care_score')}"
+
+  .panel-footer
+    .form-actions
+      = f.button :submit, t('save'), class: 'btn btn-primary form-btn survey-submit'
+      = link_to t('cancel'), client_surveys_path(@client), class: 'btn btn-default form-btn'

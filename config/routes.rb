@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  mount Thredded::Engine => '/forum'
+
   resources :quarterly_reports
   devise_for :users, controllers: { registrations: 'registrations' }
   root 'home#index'
@@ -38,6 +40,7 @@ Rails.application.routes.draw do
     scope module: 'client' do
       resources :tasks
     end
+    resources :surveys
   end
 
   

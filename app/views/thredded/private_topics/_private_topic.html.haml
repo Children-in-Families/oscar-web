@@ -1,0 +1,10 @@
+= content_tag :article, id: dom_id(private_topic), class: ['thredded--topics--topic', *topic_css_classes(private_topic)] do
+  .thredded--topics--posts-count= private_topic.posts_count
+  %h1.thredded--topics--title
+    = link_to private_topic.title, private_topic.path
+  %cite.thredded--topics--updated-by
+    = time_ago private_topic.updated_at
+    = private_topic.last_user
+  %cite.thredded--topics--started-by
+    = time_ago private_topic.created_at
+    = private_topic.user

@@ -3,6 +3,7 @@ CIF.ClientsIndex = do ->
     _enableSelect2()
     _columnsVisibility()
     _fixedHeaderTableColumns()
+    _cssClassForlabelDynamic()
 
   _enableSelect2 = ->
     $('#clients-index select').select2
@@ -34,5 +35,9 @@ CIF.ClientsIndex = do ->
         'bFilter': false
         'bInfo': false
         'ordering': false)
+
+  _cssClassForlabelDynamic = ->
+    $('.dynamic_filter').prev('label').css( "display", "block" )
+    $('.dynamic_filter').find('.select2-search').remove('div')
 
   { init: _init }

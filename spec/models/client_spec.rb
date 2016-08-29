@@ -11,6 +11,7 @@ describe Client, 'associations' do
   it { is_expected.to have_many(:tasks) }
   it { is_expected.to have_many(:case_notes) }
   it { is_expected.to have_many(:assessments) }
+  it { is_expected.to have_many(:surveys) }
 
   it { is_expected.to have_and_belong_to_many(:agencies) }
   it { is_expected.to have_and_belong_to_many(:quantitative_cases) }
@@ -21,6 +22,48 @@ describe Client, 'methods' do
   let!(:client){ create(:client) }
   let!(:assessment){ create(:assessment, created_at: Date.today - 6.month, client: client) }
   let!(:other_client) { create(:client) }
+  
+  context 'time in care' do
+    context 'without any cases' do
+      it { expect(client.time_in_care).to be_nil }
+    end
+
+    context 'with an active case' do
+      let!(:case) { create(:case, client: client, exited: false, start_date: 1.year.ago) }
+      it { expect(client.time_in_care).to eq(1.0) }
+    end
+
+    context 'with inactive case' do
+      let!(:case) { create(:case, client: client, exited: true, start_date: 2.years.ago, exit_date: Date.today, exit_note: FFaker::Lorem.paragraph) }
+      it { expect(client.time_in_care).to eq(2.0) }
+    end
+
+    context 'with an inactive case and an active case' do
+      let!(:inactive_case) { create(:case, client: client, exited: true, start_date: 2.years.ago, exit_date: Date.today, exit_note: FFaker::Lorem.paragraph) }
+      let!(:active_case) { create(:case, client: client, exited: false, start_date: 6.months.ago) }
+      it { expect(client.time_in_care).to eq(0.5) }
+    end
+
+    context 'with an inactive case and two active cases' do
+      let!(:inactive_case) { create(:case, client: client, exited: true, start_date: 2.years.ago, exit_date: Date.today, exit_note: FFaker::Lorem.paragraph) }
+      let!(:active_case) { create(:case, client: client, exited: false, start_date: 1.year.ago) }
+      let!(:other_active_case) { create(:case, case_type: 'FC', client: client, exited: false, start_date: 6.months.ago) }
+      it { expect(client.time_in_care).to eq(1.0) }
+    end
+
+    context 'with some inactive cases and an active case' do
+      let!(:inactive_case) { create(:case, client: client, exited: true, start_date: 2.years.ago, exit_date: Date.today, exit_note: FFaker::Lorem.paragraph) }
+      let!(:active_case) { create(:case, client: client, exited: false, start_date: 1.year.ago) }
+      let!(:other_active_case) { create(:case, case_type: 'FC', client: client, exited: true, start_date: 6.months.ago, exit_date: Date.today, exit_note: FFaker::Lorem.paragraph) }
+      it { expect(client.time_in_care).to eq(1.0) }
+    end
+
+    context 'without any active cases but some inactive cases' do
+      let!(:inactive_case) { create(:case, client: client, exited: true, start_date: 2.years.ago, exit_date: Date.today, exit_note: FFaker::Lorem.paragraph) }
+      let!(:active_case) { create(:case, case_type: 'FC', client: client, exited: true, start_date: 6.months.ago, exit_date: Date.today, exit_note: FFaker::Lorem.paragraph) }
+      it { expect(client.time_in_care).to eq(2.0) }
+    end
+  end
 
   context 'name' do
     let!(:name){ "#{client.first_name} #{client.last_name}" }
@@ -88,6 +131,7 @@ describe Client, 'scopes' do
     province: province,
     user: user
   )}
+  let!(:assessment) { create(:assessment, client: client) }
   let!(:other_client){ create(:client, state: 'rejected') }
   context 'first name like' do
     let!(:clients){ Client.first_name_like(client.first_name.downcase) }
@@ -96,6 +140,16 @@ describe Client, 'scopes' do
     end
     it 'should not include record not have first name like' do
       expect(clients).not_to include(other_client)
+    end
+  end
+
+  context 'without assessments' do
+    it 'should include record without any assessments' do
+      expect(Client.without_assessments).to include(other_client)
+    end
+
+    it 'should not include record with any assessments' do
+      expect(Client.without_assessments).not_to include(client)
     end
   end
 

@@ -93,7 +93,7 @@ class ClientsController < AdminController
   def domain_score_report
     if params['type'] == 'basic_info'
       @client_grid.column(:assessments, header: t('.assessments')) do |client|
-        client.assessments.map(&:basic_info).join(" \x0D\x0A ")
+        client.assessments.map(&:basic_info).join("\x0D\x0A")
       end
       @client_grid.column_names << :assessments if @client_grid.column_names.any?
     end

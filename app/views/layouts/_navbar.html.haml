@@ -7,7 +7,7 @@
         %span.icon-bar
 
       = link_to root_path , class: 'navbar-brand' do
-        = image_tag 'logo.png', class: 'logo'
+        = image_tag ENV['NGO_LOGO'], class: 'logo'
 
 
     .collapse.navbar-collapse
@@ -64,5 +64,7 @@
                 - else
                   = link_to t('.km'), url_for(params.merge({locale: 'km'}))
               %li= link_to t('.log_out'), destroy_user_session_path, method: :delete
+          %li
+            = link_to t('faq'), thredded_path, target: '_blank'
         - else
           %li= link_to t('.log_in'), new_user_session_path

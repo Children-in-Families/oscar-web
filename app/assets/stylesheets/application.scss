@@ -3,6 +3,7 @@
 @import 'bootstrap-sprockets';
 @import 'bootstrap';
 @import 'step';
+@import 'thredded';
 
 
 @import 'select2';
@@ -35,3 +36,4 @@
 @import 'home/*';
 @import 'government_reports/*';
 @import 'unsupported_browser';
+@import 'surveys/*';
