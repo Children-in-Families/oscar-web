@@ -324,7 +324,7 @@ en:
     columns:
       clients:
         domain: Domain
-        domains: All Domains
+        domains: All CSI
         name: Name
         age: Age
         <<: *default_client_fields

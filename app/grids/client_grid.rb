@@ -140,7 +140,7 @@ class ClientGrid
     end
   end
   
-  filter(:all_domains, :dynamic, select: ['All domains'], header: -> { I18n.t('datagrid.columns.clients.domains') }) do |(field, operation, value), scope|
+  filter(:all_domains, :dynamic, select: ['All CSI'], header: -> { I18n.t('datagrid.columns.clients.domains') }) do |(field, operation, value), scope|
     operation_value = operation + value
     assessment_id = []
     AssessmentDomain.all.group_by(&:assessment_id).each do |key, ad|

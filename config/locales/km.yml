@@ -325,7 +325,7 @@ km:
     columns:
       clients:
         domain: កត្តា
-        domains: កត្តាទាំងអស់
+        domains: កត្តា CSI ទាំងអស់
         name: ឈ្មោះ
         age: អាយុ
         <<: *default_client_fields
