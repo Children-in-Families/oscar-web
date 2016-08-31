@@ -1,9 +1,3 @@
 .row
   .col-xs-12
-    - y_values = [1,2,3,4]
-    - y_range = (y_values.min)..(y_values.max)
-    - library_options = {vAxis: {ticks: y_range.to_a }}
-    / # = line_chart(Client.all.map { |c| { name: c.name, data: c.assessments.group_by_day(:created_at).count}}, {library: library_options })
-    = line_chart(Assessment.joins(:assessment_domains).map { |c| { name: c.id, data: c.assessment_domains.group_by(&:created_at).count}}, {library: library_options })
-    / ids = Assessment.joins(:assessment_domains).where("score#{operation} ? AND domain_id= ?", value, domain_id).ids
-    / scope.joins(:assessments).where(assessments: { id: ids})
+    = line_chart(@chart, {plotOptions: {tooltip: { shared: true }}})
