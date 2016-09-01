@@ -1,4 +1,5 @@
 km:
+  faq: FAQ
   default_government_report_fields: &default_government_report_fields
     code: ទម្រង់
     initial_capital: រាជធានី ខេត្ត

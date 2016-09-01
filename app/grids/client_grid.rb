@@ -31,13 +31,17 @@ class ClientGrid
   end
   filter(:date_of_birth, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.date_of_birth') })
 
-  filter(:age, :dynamic, select: [I18n.t('datagrid.columns.clients.age')], header: -> { I18n.t('datagrid.columns.clients.age') }) do |(age, operation, value), scope|
+  filter(:age, :dynamic, select: :filter_by_age, header: -> { I18n.t('datagrid.columns.clients.age') }) do |(age, operation, value), scope|
     dob = (value.to_i * 12).to_i.months.ago
     if operation == '='
       scope.where.not(date_of_birth: nil).where(date_of_birth: dob)
     else
-      scope.where.not("date_of_birth = ? AND date_of_birth #{operation} ?", nil, dob)
+      scope.where.not("clients.date_of_birth = ? AND clients.date_of_birth #{operation} ?", nil, dob)
     end
+  end
+
+  def filter_by_age
+    [I18n.t('datagrid.columns.clients.age')]
   end
 
   filter(:birth_province_id, :enum, select: :province_with_birth_place, header: -> { I18n.t('datagrid.columns.clients.birth_province') })
