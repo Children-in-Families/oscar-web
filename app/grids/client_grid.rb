@@ -32,7 +32,7 @@ class ClientGrid
   filter(:date_of_birth, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.date_of_birth') })
 
   filter(:age, :dynamic, select: :filter_by_age, header: -> { I18n.t('datagrid.columns.clients.age') }) do |(age, operation, value), scope|
-    dob = (value.to_i * 12).to_i.months.ago
+    dob = (value.to_f * 12).to_i.months.ago
     if operation == '='
       scope.where.not(date_of_birth: nil).where(date_of_birth: dob)
     else
