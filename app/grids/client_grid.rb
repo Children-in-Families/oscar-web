@@ -31,17 +31,21 @@ class ClientGrid
   end
   filter(:date_of_birth, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.date_of_birth') })
 
-  filter(:age, :dynamic, select: :filter_by_age, header: -> { I18n.t('datagrid.columns.clients.age') }) do |(age, operation, value), scope|
-    dob = (value.to_f * 12).to_i.months.ago
-    if operation == '='
-      scope.where.not(date_of_birth: nil).where(date_of_birth: dob)
-    else
-      scope.where.not("clients.date_of_birth = ? AND clients.date_of_birth #{operation} ?", nil, dob)
-    end
-  end
+  # filter(:age, :dynamic, select: :filter_by_age, header: -> { I18n.t('datagrid.columns.clients.age') }) do |(age, operation, value), scope|
+  #   dob = (value.to_f * 12).to_i.months.ago
+  #   if operation == '='
+  #     scope.where.not(date_of_birth: nil).where(date_of_birth: dob)
+  #   else
+  #     scope.where.not("clients.date_of_birth = ? AND clients.date_of_birth #{operation} ?", nil, dob)
+  #   end
+  # end
 
-  def filter_by_age
-    [I18n.t('datagrid.columns.clients.age')]
+  # def filter_by_age
+  #   [I18n.t('datagrid.columns.clients.age')]
+  # end
+
+  filter(:age, :integer, range: true, header: -> { I18n.t('datagrid.columns.clients.age') }) do |value, scope|
+    scope.age_between(value[0], value[1]) if value[0].present? && value[1].present?
   end
 
   filter(:birth_province_id, :enum, select: :province_with_birth_place, header: -> { I18n.t('datagrid.columns.clients.birth_province') })
