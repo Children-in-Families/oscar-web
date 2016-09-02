@@ -50,7 +50,7 @@ CIF.ClientsIndex = do ->
           return false
         true
 
-    $('.age.dynamic_filter.value').keydown (e) ->
+    $('input.age.float_filter').keydown (e) ->
       if $.inArray(e.keyCode, [
           46
           8
