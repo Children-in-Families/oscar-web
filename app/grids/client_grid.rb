@@ -180,62 +180,62 @@ class ClientGrid
     domain.present?  ? Array.new([[domain.name, domain.id]]) : []
   end
 
-  filter(:domain_1a, :dynamic, select: get_domain('1A'), header: -> { "#{I18n.t('datagrid.columns.clients.domain')} 1A" }) do |(domain_id, operation, value), scope|
+  filter(:domain_1a, :dynamic, select: get_domain('1A'), header: -> { "#{I18n.t('datagrid.columns.clients.domain')} 1A (Food Security)" }) do |(domain_id, operation, value), scope|
     value = value.to_i
     client_by_domain(operation, value, domain_id, scope)
   end
 
-  filter(:domain_1b, :dynamic, select: get_domain('1B'), header: -> { "#{I18n.t('datagrid.columns.clients.domain')} 1B" }) do |(domain_id, operation, value), scope|
+  filter(:domain_1b, :dynamic, select: get_domain('1B'), header: -> { "#{I18n.t('datagrid.columns.clients.domain')} 1B (Nutrition and Growth)" }) do |(domain_id, operation, value), scope|
     value = value.to_i
     client_by_domain(operation, value, domain_id, scope)
   end
 
-  filter(:domain_2a, :dynamic, select: get_domain('2A'), header: -> { "#{I18n.t('datagrid.columns.clients.domain')} 2A" }) do |(domain_id, operation, value), scope|
+  filter(:domain_2a, :dynamic, select: get_domain('2A'), header: -> { "#{I18n.t('datagrid.columns.clients.domain')} 2A (Shelter)" }) do |(domain_id, operation, value), scope|
     value = value.to_i
     client_by_domain(operation, value, domain_id, scope)
   end
 
-  filter(:domain_2b, :dynamic, select: get_domain('2B'), header: -> { "#{I18n.t('datagrid.columns.clients.domain')} 2B" }) do |(domain_id, operation, value), scope|
+  filter(:domain_2b, :dynamic, select: get_domain('2B'), header: -> { "#{I18n.t('datagrid.columns.clients.domain')} 2B (Care)" }) do |(domain_id, operation, value), scope|
     value = value.to_i
     client_by_domain(operation, value, domain_id, scope)
   end
 
-  filter(:domain_3a, :dynamic, select: get_domain('3A'), header: -> { "#{I18n.t('datagrid.columns.clients.domain')} 3A" }) do |(domain_id, operation, value), scope|
+  filter(:domain_3a, :dynamic, select: get_domain('3A'), header: -> { "#{I18n.t('datagrid.columns.clients.domain')} 3A (Protection from Abuse and Exploitation)" }) do |(domain_id, operation, value), scope|
     value = value.to_i
     client_by_domain(operation, value, domain_id, scope)
   end
 
-  filter(:domain_3b, :dynamic, select: get_domain('3B'), header: -> { "#{I18n.t('datagrid.columns.clients.domain')} 3B" }) do |(domain_id, operation, value), scope|
+  filter(:domain_3b, :dynamic, select: get_domain('3B'), header: -> { "#{I18n.t('datagrid.columns.clients.domain')} 3B (Legal Protection)" }) do |(domain_id, operation, value), scope|
     value = value.to_i
     client_by_domain(operation, value, domain_id, scope)
   end
 
-  filter(:domain_4a, :dynamic, select: get_domain('4A'), header: -> { "#{I18n.t('datagrid.columns.clients.domain')} 4A" }) do |(domain_id, operation, value), scope|
+  filter(:domain_4a, :dynamic, select: get_domain('4A'), header: -> { "#{I18n.t('datagrid.columns.clients.domain')} 4A (Wellness)" }) do |(domain_id, operation, value), scope|
     value = value.to_i
     client_by_domain(operation, value, domain_id, scope)
   end
 
-  filter(:domain_4b, :dynamic, select: get_domain('4B'), header: -> { "#{I18n.t('datagrid.columns.clients.domain')} 4B" }) do |(domain_id, operation, value), scope|
+  filter(:domain_4b, :dynamic, select: get_domain('4B'), header: -> { "#{I18n.t('datagrid.columns.clients.domain')} 4B (Health Care Services)" }) do |(domain_id, operation, value), scope|
     value = value.to_i
     client_by_domain(operation, value, domain_id, scope)
   end
 
-  filter(:domain_5a, :dynamic, select: get_domain('5A'), header: -> { "#{I18n.t('datagrid.columns.clients.domain')} 5A" }) do |(domain_id, operation, value), scope|
+  filter(:domain_5a, :dynamic, select: get_domain('5A'), header: -> { "#{I18n.t('datagrid.columns.clients.domain')} 5A (Emotional Health)" }) do |(domain_id, operation, value), scope|
     value = value.to_i
     client_by_domain(operation, value, domain_id, scope)
   end
 
-  filter(:domain_5b, :dynamic, select: get_domain('5B'), header: -> { "#{I18n.t('datagrid.columns.clients.domain')} 5B" }) do |(domain_id, operation, value), scope|
+  filter(:domain_5b, :dynamic, select: get_domain('5B'), header: -> { "#{I18n.t('datagrid.columns.clients.domain')} 5B (Social Behaviour)" }) do |(domain_id, operation, value), scope|
     value = value.to_i
     client_by_domain(operation, value, domain_id, scope)
   end
 
-  filter(:domain_6a, :dynamic, select: get_domain('6A'), header: -> { "#{I18n.t('datagrid.columns.clients.domain')} 6A" }) do |(domain_id, operation, value), scope|
+  filter(:domain_6a, :dynamic, select: get_domain('6A'), header: -> { "#{I18n.t('datagrid.columns.clients.domain')} 6A (Performance)" }) do |(domain_id, operation, value), scope|
     value = value.to_i
     client_by_domain(operation, value, domain_id, scope)
   end
   
-  filter(:domain_6b, :dynamic, select: get_domain('6B'), header: -> { "#{I18n.t('datagrid.columns.clients.domain')} 6B" }) do |(domain_id, operation, value), scope|
+  filter(:domain_6b, :dynamic, select: get_domain('6B'), header: -> { "#{I18n.t('datagrid.columns.clients.domain')} 6B (Work and Education)" }) do |(domain_id, operation, value), scope|
     value = value.to_i
     client_by_domain(operation, value, domain_id, scope)
   end
