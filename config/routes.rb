@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   root 'home#index'
 
   get '/robots.txt' => 'home#robots'
-
+  get '/quantitative_data' => 'clients#quantitative_case'
   resources :agencies, except: [:show]
 
   scope 'admin' do

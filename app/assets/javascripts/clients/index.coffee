@@ -5,6 +5,7 @@ CIF.ClientsIndex = do ->
     _fixedHeaderTableColumns()
     _cssClassForlabelDynamic()
     _restrictNumberFilter()
+    _quantitativeCaesByQuantitativeType()
 
   _enableSelect2 = ->
     $('#clients-index select').select2
@@ -64,5 +65,39 @@ CIF.ClientsIndex = do ->
       if (e.shiftKey or e.keyCode < 48 or e.keyCode > 57) and (e.keyCode < 96 or e.keyCode > 105)
         e.preventDefault()
       return
+
+  _quantitativeCaesByQuantitativeType = ->
+    self = @
+    quantitativeType = $('#client_grid_quantitative_types')
+    closeTag = $('.quantitative_data').find('abbr')
+    quantitativeData = $('#client_grid_quantitative_data')
+    $(window).load ->
+      if quantitativeType.length > 0
+        qValue = quantitativeType.val()
+        _quantitativeCaes(qValue)
+    quantitativeType.on 'change',  ->
+      qValue = quantitativeType.val()
+      quantitativeCaesText = $('.quantitative_data').find('.select2-chosen')
+      quantitativeCaesText.text('')
+      closeTag.hide()
+      _quantitativeCaes(qValue)
+    quantitativeData.on 'change', ->
+      closeTag.show()
+    closeTag.click ->
+      closeTag.hide()
+
+  _quantitativeCaes = (qValue) ->
+    $.ajax
+      url: '/quantitative_data?id=' + qValue
+      method: 'GET'
+      success: (response) ->
+        data = response.data
+        option = []
+        $('#client_grid_quantitative_data').html('')
+        $('#client_grid_quantitative_data').append '<option value=""></option>'
+
+        $(data).each (index, value) ->
+          $('#client_grid_quantitative_data').append '<option value="' + data[index].id + '">' + data[index].value + '</option>'
+      error: (error) ->
 
   { init: _init }

@@ -1,5 +1,5 @@
 class ClientsController < AdminController
-  load_and_authorize_resource find_by: :slug
+  load_and_authorize_resource find_by: :slug, except: :quantitative_case
 
   before_action :find_client, only: [:show, :edit, :update, :destroy]
   before_action :set_association, except: [:index, :destroy]
@@ -66,6 +66,14 @@ class ClientsController < AdminController
   def destroy
     @client.destroy
     redirect_to clients_url, notice: t('.successfully_deleted')
+  end
+
+  def quantitative_case
+    if params[:id].blank?
+      render json: QuantitativeCase.all, root: :data
+    else
+      render json: QuantitativeCase.quantitative_cases_by_type(params[:id]), root: :data
+    end
   end
 
   private

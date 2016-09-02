@@ -132,6 +132,15 @@ class ClientGrid
     scope.where(id: ids)
   end
 
+  def quantitative_cases
+    QuantitativeCase.all.map{ |t| [t.value, t.id] }
+  end
+
+  filter(:quantitative_data, :enum, select: :quantitative_cases, header: -> { I18n.t('datagrid.columns.clients.quantitative_case_values') }) do |value, scope|
+    ids = Client.joins(:quantitative_cases).where(quantitative_cases: { id: value.to_i }).pluck(:id).uniq
+    scope.where(id: ids)
+  end
+
   filter(:any_assessments, :enum, select: %w(Yes No), header: -> { I18n.t('datagrid.columns.clients.any_assessments') }) do |value, scope|
     if value == 'Yes'
       client_ids = Client.joins(:assessments).uniq.pluck(:id)
