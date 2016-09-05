@@ -349,6 +349,9 @@ km:
         case_type: ប្រភេទករណី
         age: "អាយុ"
         family_id: លេខសម្គាល់គ្រួសារ
+        has_date_of_birth: មានថ្ងៃ ខែ ឆ្នាំ កំណើត
+        has_dob: 'បាទ/ចាស'
+        no_dob: 'ទេ'
 
       select_columns: ជ្រើសរើសជួរឈរ
       hide_show_all: បង្ហាញ/លាក់ទាំងអស់

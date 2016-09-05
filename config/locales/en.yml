@@ -342,6 +342,9 @@ en:
         family_id: Family ID
         any_assessments: Has Assessments
         assessments: Assessments
+        has_date_of_birth: Has Date of Birth
+        has_dob: 'Yes'
+        no_dob: 'No'
       select_columns: Select Columns
       hide_show_all: Hide/Show All
       family_id: Family ID

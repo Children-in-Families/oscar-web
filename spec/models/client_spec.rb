@@ -107,6 +107,35 @@ describe Client, 'methods' do
     it { expect(client.age_extra_months).to eq(months) }
   end
 
+  context 'age between' do
+    let!(:follower){ create(:user)}
+    let!(:province){ create(:province) }
+    let!(:user){ create(:user) }
+    let!(:specific_client){ create(:client,
+      date_of_birth: 1.year.ago.to_date,
+      received_by: user,
+      state: 'accepted',
+      followed_up_by: follower,
+      birth_province: province,
+      province: province,
+      user: user
+    )}
+    let!(:other_specific_client){ create(:client,
+      date_of_birth: 2.year.ago.to_date,
+      received_by: user,
+      state: 'accepted',
+      followed_up_by: follower,
+      birth_province: province,
+      province: province,
+      user: user
+    )}
+
+    min_age = 1
+    max_age = 1.5
+    it { expect(Client.age_between(min_age, max_age)).to include(specific_client) }
+    it { expect(Client.age_between(min_age, max_age)).not_to include(other_specific_client) }
+  end
+
 end
 
 describe Client, 'scopes' do

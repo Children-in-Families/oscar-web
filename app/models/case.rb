@@ -60,6 +60,10 @@ class Case < ActiveRecord::Base
     case_type != 'EC'
   end
 
+  def most_current?
+    client.status == "Active #{case_type}"
+  end
+
   private
 
   def update_client_status

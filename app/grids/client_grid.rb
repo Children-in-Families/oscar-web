@@ -23,7 +23,11 @@ class ClientGrid
   end
 
   filter(:case_type, :enum, select: :case_types, header: -> { I18n.t('datagrid.columns.cases.case_type') }) do |name, scope|
-    scope.joins(:cases).where('LOWER(cases.case_type) = ?', name.downcase) if name.present?
+    case_ids = []
+    Case.active.where(case_type: name).each do |c|
+      case_ids << c.id if c.most_current?
+    end
+    scope.joins(:cases).where(cases: { id: case_ids })
   end
 
   def case_types
@@ -44,8 +48,16 @@ class ClientGrid
   #   [I18n.t('datagrid.columns.clients.age')]
   # end
 
-  filter(:age, :integer, range: true, header: -> { I18n.t('datagrid.columns.clients.age') }) do |value, scope|
+  filter(:age, :float, range: true, header: -> { I18n.t('datagrid.columns.clients.age') }) do |value, scope|
     scope.age_between(value[0], value[1]) if value[0].present? && value[1].present?
+  end
+
+  filter(:has_date_of_birth, :enum, select: :has_or_has_no_dob, header: -> { I18n.t('datagrid.columns.clients.has_date_of_birth') }) do |value, scope|
+    value == 'Yes' ? scope.where.not(date_of_birth: nil) : scope.where(date_of_birth: nil)
+  end
+
+  def has_or_has_no_dob
+    [[I18n.t('datagrid.columns.clients.has_dob'), 'Yes'], [I18n.t('datagrid.columns.clients.no_dob'), 'No']]
   end
 
   filter(:birth_province_id, :enum, select: :province_with_birth_place, header: -> { I18n.t('datagrid.columns.clients.birth_province') })
@@ -267,7 +279,7 @@ class ClientGrid
   end
 
   column(:cases, header: -> { I18n.t('datagrid.columns.cases.case_type') }, order: proc { |scope| scope.includes(:cases).order('cases.case_type') } ) do |object|
-    object.cases.most_recents.first.case_type if object.cases.any?
+    object.cases.current.case_type if object.cases.current.present?
   end
 
   column(:history_of_disability_and_or_illness, header: -> { I18n.t('datagrid.columns.clients.history_of_disability_and_or_illness') }) do |object|

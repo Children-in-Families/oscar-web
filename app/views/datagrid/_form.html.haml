@@ -15,6 +15,7 @@
                 %strong= t('datagrid.columns.hide_show_all')
 
           - grid.filters.each do |f|
+            - next if f.name == :has_date_of_birth || f.name == :quantitative_data
             - next if f.name == :quantitative_types || f.name == :all_domains
             - next if f.name == :domain_1a || f.name == :domain_1b
             - next if f.name == :domain_2a || f.name == :domain_2b
