@@ -1,7 +1,7 @@
 class ClientGrid
   include Datagrid
 
-  attr_accessor :current_user
+  attr_accessor :current_user, :qType
   scope do
     Client.includes({ cases: [:family, :partner] }, :referral_source, :user, :received_by, :followed_up_by, :province, :agencies).order('clients.status, clients.first_name')
   end
@@ -145,7 +145,7 @@ class ClientGrid
   end
 
   def quantitative_cases
-    QuantitativeCase.all.map{ |t| [t.value, t.id] }
+    qType.present? ? QuantitativeType.find(qType.to_i).quantitative_cases.map{ |t| [t.value, t.id] } : QuantitativeCase.all.map{ |t| [t.value, t.id] }
   end
 
   filter(:quantitative_data, :enum, select: :quantitative_cases, header: -> { I18n.t('datagrid.columns.clients.quantitative_case_values') }) do |value, scope|

@@ -71,10 +71,10 @@ CIF.ClientsIndex = do ->
     quantitativeType = $('#client_grid_quantitative_types')
     closeTag = $('.quantitative_data').find('abbr')
     quantitativeData = $('#client_grid_quantitative_data')
-    $(window).load ->
-      if quantitativeType.length > 0
-        qValue = quantitativeType.val()
-        _quantitativeCaes(qValue)
+    # $(window).load ->
+    #   if quantitativeType.length > 0
+    #     qValue = quantitativeType.val()
+    #     _quantitativeCaes(qValue)
     quantitativeType.on 'change',  ->
       qValue = quantitativeType.val()
       quantitativeCaesText = $('.quantitative_data').find('.select2-chosen')
