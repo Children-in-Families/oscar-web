@@ -7,7 +7,7 @@
             %h3.h3-header.pushing-bottom
               = "#{t('.general_info')} #{@client.name}"
               - if @client.status
-                #{status_style(@client.status)}
+                = status_style(@client.status)
             - if (can? :manage, Client) || (can? :rud, Client)
               %small.top-right-icon
                 = link_to edit_client_path(@client) do
