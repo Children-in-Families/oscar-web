@@ -81,8 +81,8 @@ class Client < ActiveRecord::Base
   end
 
   def self.age_between(min_age, max_age)
-    min = (min_age * 12).to_i.months.ago.to_date
-    max = (max_age * 12).to_i.months.ago.to_date
+    min = (min_age * 12).to_i.months.ago.to_date.end_of_month
+    max = (max_age * 12).to_i.months.ago.to_date.beginning_of_month
     where(date_of_birth: max..min)
   end
 
