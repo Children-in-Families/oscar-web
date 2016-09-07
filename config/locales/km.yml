@@ -124,6 +124,15 @@ km:
     child_has_a_criminal_history: កុមារមានទំនាស់នឹងច្បាប់
     parent_carer_has_a_criminal_history: ឪពុកម្តាយ/ឪពុក/ម្តាយ/អ្នកអាណាព្យាបាលមានទំនាស់នឹងច្បាប់
 
+  csi_statistics:
+    form_filter:
+      search: ស្វែងរក
+      start_date: ថ្ងៃចាប់ផ្តើម
+      end_date: ថ្ងៃចុងក្រោយ
+    index:
+      csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
+      domain_score: ពិន្ទុកត្តាការប៉ាន់ប្រមាណ
+
   government_reports:
     index:
       back: ត្រលប់ក្រោយ
@@ -412,6 +421,7 @@ km:
         desc: ↓
   layouts:
     navbar:
+      csi_statistics: ស្ថិតិCSI
       clients: ឣតិថិជន
       families: គ្រួសារ
       partners: ដៃគូ

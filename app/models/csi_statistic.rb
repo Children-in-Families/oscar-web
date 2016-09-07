@@ -1,11 +1,21 @@
-class ChartScore
+class CsiStatistic
+
+  def initialize(start_date, end_date)
+    @start_date = start_date
+    @end_date = end_date
+  end
+
   def assessment_domain_score
     data = []
     Domain.all.each do |domain|
       h1 = {}
       h2 = {}
       h1[:name] = domain.name
-      a_domain = domain.assessment_domains.group_by {|v| v.created_at.strftime("%B-%Y")}
+      if @start_date.blank? || @end_date.blank?
+        a_domain = domain.assessment_domains.group_by {|v| v.created_at.strftime("%B-%Y")}
+      else
+        a_domain = domain.assessment_domains.where(created_at: @start_date..@end_date).group_by {|v| v.created_at.strftime("%B-%Y")}
+      end
       a_domain.each do |key, assessment_domains|
         a_domain_score = []
         assessment_domains.each do |assessment_domain|
