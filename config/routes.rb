@@ -21,6 +21,7 @@ Rails.application.routes.draw do
   resources :provinces, except: [:show]
   resources :departments, except: [:show]
   resources :quarterly_reports, only: [:index]
+  resources :changelogs
 
   resources :tasks do
     collection do

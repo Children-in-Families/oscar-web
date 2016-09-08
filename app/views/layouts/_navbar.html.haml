@@ -47,6 +47,8 @@
                   = link_to t('.referral_sources'), referral_sources_path
                 %li{ class: active_menu('quantitative_types') }
                   = link_to t('.quantitative_types'), quantitative_types_path
+                %li{ class: active_menu('changelogs') }
+                  = link_to t('.changelogs'), changelogs_path
               - elsif can? :manage, ReferralSource
                 %li{ class: active_menu('referral_sources') }
                   = link_to t('.referral_sources'), referral_sources_path

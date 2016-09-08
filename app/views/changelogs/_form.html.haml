@@ -1,0 +1,11 @@
+= simple_form_for(@changelog) do |f|
+  .panel-body
+    = error_notification(f)
+    .form-group
+      = f.input :version, label: t('.version')
+    .form-group
+      = f.input :description, as: :ckeditor, label: t('.description')
+  .panel-footer
+    .form-actions
+      = f.button :submit, t('.save'), class: 'btn btn-primary'
+      = link_to t('.cancel'), changelogs_path, class: 'btn btn-default'
