@@ -24,10 +24,10 @@ class ClientGrid
 
   filter(:case_type, :enum, select: :case_types, header: -> { I18n.t('datagrid.columns.cases.case_type') }) do |name, scope|
     case_ids = []
-    Case.active.where(case_type: name).each do |c|
-      case_ids << c.id if c.most_current?
+    Client.joins(:cases).where(cases: { exited: false }).each do |c|
+      case_ids << c.cases.current.id
     end
-    scope.joins(:cases).where(cases: { id: case_ids })
+    scope.joins(:cases).where(cases: { id: case_ids, case_type: name })
   end
 
   def case_types
@@ -278,7 +278,7 @@ class ClientGrid
     end
   end
 
-  column(:cases, header: -> { I18n.t('datagrid.columns.cases.case_type') }, order: proc { |scope| scope.includes(:cases).order('cases.case_type') } ) do |object|
+  column(:cases, header: -> { I18n.t('datagrid.columns.cases.case_type') }, order: false ) do |object|
     object.cases.current.case_type if object.cases.current.present?
   end
 
