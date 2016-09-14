@@ -1,6 +1,11 @@
 Rails.application.routes.draw do
   mount Thredded::Engine => '/forum'
 
+  # custom error pages
+  %w(404 500).each do |code|
+    match "/#{code}", to: 'errors#show', code: code, via: :all
+  end
+
   resources :quarterly_reports
   devise_for :users, controllers: { registrations: 'registrations' }
   root 'home#index'

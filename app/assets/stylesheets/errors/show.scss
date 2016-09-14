@@ -1,0 +1,36 @@
+body[id='errors-show'] {
+  body {
+    padding-top: 10%;
+  }
+
+  h1 {
+    font-size: 100px;
+    font-weight: bold;
+    color: #E6483D;
+  }
+
+  h3 {
+    font-size: 40px;
+    font-weight: bold;
+  }
+
+  p {
+    font-size: 16px;
+  }
+
+  a.btn {
+    background: #E6483D;
+    border-color: #E6483D;
+    font-weight: bold;
+  }
+
+  a.btn:hover {
+    background: #EC281A;
+    border-color: #EC281A;
+  }
+
+  .error-content {
+    margin-top: 5%;
+    padding-bottom: 5%;
+  }
+}
