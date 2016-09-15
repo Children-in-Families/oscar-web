@@ -4,6 +4,7 @@
 //= require bootstrap-sprockets
 //= require jquery.steps.min
 //= require thredded
+//= require chartkick
 
 //= require bootstrap-datepicker
 

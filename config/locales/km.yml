@@ -1025,6 +1025,9 @@ km:
       due_today_assessments_count:
         one: "អ្នកមានការប៉ាន់ប្រមាណចំនួន1ដែលត្រូវធ្វើឲ្យហើយនៅថ្ងៃនេះ"
         other: "អ្នកមានការប៉ាន់ប្រមាណចំនួន%{count}ដែលត្រូវធ្វើឲ្យហើយនៅថ្ងៃនេះ"
+    client_case_statistic:
+      case_statistic: "ក្រាបនៃប្រភេទករណីរបស់អតិថិជន"
+      client_amount: "ចំនួនអតិថិជន"
   case:
     quarterly_reports:
       index:

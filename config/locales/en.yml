@@ -966,6 +966,9 @@ en:
       due_today_assessments_count:
         one: "You have 1 assessment due today."
         other: "You have %{count} assessments due today."
+    client_case_statistic:
+      case_statistic: "Case Statistic"
+      client_amount: "Client Amount"
   case:
     quarterly_reports:
       index:
