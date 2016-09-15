@@ -4,5 +4,5 @@ class Changelog < ActiveRecord::Base
   default_scope { order(created_at: :desc) }
 
   validates :version, presence: true, uniqueness: true
-  validates :description, presence: true
+  validates :user_id, :description, presence: true
 end

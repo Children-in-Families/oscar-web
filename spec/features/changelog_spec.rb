@@ -8,10 +8,12 @@ describe 'Changelog' do
 
   feature 'List' do
     before do
+      FactoryGirl.create_list(:changelog, 20)
       visit changelogs_path
     end
 
     scenario 'version' do
+      visit "#{changelogs_path}&page=2"
       expect(page).to have_content(changelog.version)
     end
 
@@ -20,6 +22,7 @@ describe 'Changelog' do
     end
 
     scenario 'delete link' do
+      visit "#{changelogs_path}&page=2"
       expect(page).to have_css("a[href='#{changelog_path(changelog)}'][data-method='delete']")
     end
 
@@ -29,6 +32,10 @@ describe 'Changelog' do
 
     scenario 'new link' do
       expect(page).to have_link(I18n.t('changelogs.index.add_new_changelog'), new_changelog_path)
+    end
+
+    scenario 'pagination' do
+      expect(page).to have_css('.pagination')
     end
   end
 
