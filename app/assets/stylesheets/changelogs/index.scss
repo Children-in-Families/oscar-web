@@ -7,4 +7,34 @@ body[id='changelogs-index'] {
     margin: 0 5px;
     text-decoration: none;
   }
+
+  .version-list {
+    padding-left: 15px;
+    padding-top: 30px;
+  }
+
+  .list {
+    padding: 5px 0;
+
+    a:hover {
+      text-decoration: none;
+      color: #000;
+      transition: all .2s ease-in;
+    }
+  }
+
+  .changes {
+    border-left: 1px solid #cacaca;
+    padding-left: 50px;
+  }
+
+  .changes-item {
+    border-bottom: 1px solid #cacaca;
+    margin-bottom: 30px;
+    padding-top: 30px;
+  }
+
+  .changes-description {
+    padding: 10px 0;
+  }
 }
