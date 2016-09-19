@@ -1,5 +1,10 @@
 en:
   faq: FAQ
+
+  default_changelog_fields: &default_changelog_fields
+    version: Version
+    description: Description
+
   default_government_report_fields: &default_government_report_fields
     code: Form
     kingdom_of_cambodia: Kingdom of Cambodia
@@ -328,6 +333,7 @@ en:
     from: From
     to: To
     form:
+      filter_domains: Filter Domains
       search: Search
       reset: Reset
     columns:
@@ -434,6 +440,7 @@ en:
       provinces: Provinces
       referral_sources: Referral Sources
       quantitative_types: Quantitative Types
+      changelogs: Changelogs
       account: Account
       edit_profile: Edit Profile
       km: ខ្មែរ
@@ -608,6 +615,13 @@ en:
   activerecord:
     errors:
       models:
+        changelog:
+          attributes:
+            version:
+              blank: can't be blank
+              taken: has already been taken
+            description:
+              blank: can't be blank
         government_report:
           attributes:
             code:
@@ -1021,3 +1035,28 @@ en:
       nav:
         sign_out: Sign Out
         sign_in: Sign In
+
+  changelogs:
+    index:
+      <<: *default_changelog_fields
+      changelogs: Changelogs
+      add_new_changelog: Add New Changelog
+      created_at: Date
+      manage: Manage
+      are_you_sure: Are you sure you want to delete
+    show:
+      back: Back
+    edit:
+      edit_changelog: Edit Changelog
+    new:
+      new_changelog: New Changelog
+    form:
+      <<: *default_changelog_fields
+      save: Save
+      cancel: Cancel
+    create:
+      successfully_created: Changelog has been successfully created.
+    update:
+      successfully_updated: Changelog has been successfully updated.
+    destroy:
+      successfully_deleted: Changelog has been successfully deleted.

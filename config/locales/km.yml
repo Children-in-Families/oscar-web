@@ -1,5 +1,10 @@
 km:
   faq: FAQ
+
+  default_changelog_fields: &default_changelog_fields
+    version: កំណែ
+    description: ការពិពណ៌នា
+
   default_government_report_fields: &default_government_report_fields
     code: ទម្រង់
     initial_capital: រាជធានី ខេត្ត
@@ -330,6 +335,7 @@ km:
     from: ចាប់ពី
     to: ដល់
     form:
+      filter_domains: កត្តា
       search: ស្វែងរក
       reset: សំអាត
     columns:
@@ -438,6 +444,7 @@ km:
       provinces: ខេត្ត
       referral_sources: ប្រភពនៃការបញ្ជូន
       quantitative_types: ប្រភេទនៃបរិមាណ
+      changelogs: ការផ្លាស់ប្ដូរ
       account: គណនី
       edit_profile: កែសម្រួលពត៌មានផ្ទាល់ខ្លួន
       en: English
@@ -619,6 +626,13 @@ km:
   activerecord:
     errors:
       models:
+        changelog:
+          attributes:
+            version:
+              blank: មិនអាចរំលង
+              taken: ត្រូវបានប្រើរួចហើយ
+            description:
+              blank: មិនអាចរំលង
         user:
           attributes:
             email:
@@ -1240,3 +1254,28 @@ km:
       posts_count:
         one: "បានបង្កើតម្ដង"
         other: "បានបង្កើត %{count} ដង"
+
+  changelogs:
+    index:
+      <<: *default_changelog_fields
+      changelogs: ការផ្លាស់ប្ដូរ
+      add_new_changelog: បន្ថែមការផ្លាស់ប្ដូរថ្មី
+      created_at: កាលបរិច្ឆេទ
+      manage: គ្រប់គ្រង
+      are_you_sure: តើអ្នកពិតជាចង់លុបការផ្លាស់ប្ដូរនេះ
+    show:
+      back: ត្រលប់ក្រោយ
+    edit:
+      edit_changelog: កែសម្រួលការផ្លាស់ប្ដូរ
+    new:
+      new_changelog: ការផ្លាស់ប្ដូរថ្មី
+    form:
+      <<: *default_changelog_fields
+      save: រក្សាទុក
+      cancel: ទុកជាមោឃៈ
+    create:
+      successfully_created: ការផ្លាស់ប្ដូរបានបង្កើតដោយជោគជ័យ
+    update:
+      successfully_updated: ការផ្លាស់ប្ដូរត្រូវបានកែសម្រួលដោយជោគជ័យ
+    destroy:
+      successfully_deleted: ការផ្លាស់ប្ដូរត្រូវបានលុបដោយជោគជ័យ

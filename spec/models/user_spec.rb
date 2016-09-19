@@ -3,6 +3,7 @@ describe User, 'associations' do
   it { is_expected.to belong_to(:department)}
   it { is_expected.to have_many(:cases)}
   it { is_expected.to have_many(:clients)}
+  it { is_expected.to have_many(:changelogs)}
 end
 
 describe User, 'validations' do
