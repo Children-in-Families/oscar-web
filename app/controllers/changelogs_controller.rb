@@ -5,7 +5,7 @@ class ChangelogsController < AdminController
   before_action :find_user
 
   def index
-    @changelogs = Changelog.paginate(page: params[:page], per_page: 20)
+    @changelogs = Changelog.all
   end
 
   def new

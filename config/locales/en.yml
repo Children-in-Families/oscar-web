@@ -1025,11 +1025,11 @@ en:
   changelogs:
     index:
       <<: *default_changelog_fields
-      changelogs: Changelogs
+      version_list: Version List
+      changes: Changes
       add_new_changelog: Add New Changelog
-      created_at: Date
-      manage: Manage
       are_you_sure: Are you sure you want to delete
+
     show:
       back: Back
     edit:

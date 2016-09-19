@@ -1244,10 +1244,9 @@ km:
   changelogs:
     index:
       <<: *default_changelog_fields
-      changelogs: ការផ្លាស់ប្ដូរ
+      version_list: បញ្ជីកំណែ
+      changes: កំណែ
       add_new_changelog: បន្ថែមការផ្លាស់ប្ដូរថ្មី
-      created_at: កាលបរិច្ឆេទ
-      manage: គ្រប់គ្រង
       are_you_sure: តើអ្នកពិតជាចង់លុបការផ្លាស់ប្ដូរនេះ
     show:
       back: ត្រលប់ក្រោយ

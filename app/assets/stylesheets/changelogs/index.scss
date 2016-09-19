@@ -21,6 +21,16 @@ body[id='changelogs-index'] {
       color: #000;
       transition: all .2s ease-in;
     }
+
+    .glyphicon-pencil, .glyphicon-trash {
+      display: none;
+    }
+
+    &:hover {
+      .glyphicon-pencil, .glyphicon-trash {
+        display: block;
+      }
+    }
   }
 
   .changes {
@@ -36,5 +46,9 @@ body[id='changelogs-index'] {
 
   .changes-description {
     padding: 10px 0;
+  }
+
+  .glyphicon-pencil {
+    margin-right: 10px;
   }
 }
