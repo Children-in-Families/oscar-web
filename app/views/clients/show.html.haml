@@ -12,7 +12,7 @@
               %small.top-right-icon
                 = link_to edit_client_path(@client) do
                   %i.glyphicon.glyphicon-pencil
-                = link_to @client, method: 'delete', data: { confirm: 'Are you sure you want to delete?' } do
+                = link_to @client, method: 'delete', data: { confirm: t('.are_you_sure') } do
                   %i.glyphicon.glyphicon-trash
             .row
               .col-sm-12.col-md-6.first-table

@@ -33,7 +33,7 @@ module ApplicationHelper
 
   def removeable?(object, associated_objects_count)
     if associated_objects_count.zero?
-      link_to object, method: 'delete', data: { confirm: 'Are you sure you want to delete?' } do
+      link_to object, method: 'delete', data: { confirm: t('.are_you_sure') } do
         content_tag(:i, '', class: 'glyphicon glyphicon-trash')
       end
     else
@@ -43,7 +43,7 @@ module ApplicationHelper
 
   def domain_removeable?(object, associated_objects_count)
     if associated_objects_count.zero? && object.assessment_domains.blank?
-      link_to object, method: 'delete', data: { confirm: 'Are you sure you want to delete?' } do
+      link_to object, method: 'delete', data: { confirm: t('.are_you_sure') } do
         content_tag(:i, '', class: 'glyphicon glyphicon-trash')
       end
     else
@@ -53,7 +53,7 @@ module ApplicationHelper
 
   def client_removeable?(object, associated_objects_count)
     if associated_objects_count[0].zero? && associated_objects_count[1].zero?
-      link_to object, method: 'delete', data: { confirm: 'Are you sure you want to delete?' } do
+      link_to object, method: 'delete', data: { confirm: t('.are_you_sure') } do
         content_tag(:i, '', class: 'glyphicon glyphicon-trash')
       end
     else

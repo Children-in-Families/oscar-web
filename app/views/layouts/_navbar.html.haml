@@ -49,6 +49,12 @@
                   = link_to t('.quantitative_types'), quantitative_types_path
                 %li{ class: active_menu('changelogs') }
                   = link_to t('.changelogs'), changelogs_path
+                %li.dropdown-submenu
+                  %a{ href: '#' }
+                    = t('.progress_note')
+                  %ul.dropdown-menu
+                    %li{ class: active_menu('materials') }
+                      = link_to t('.materials'), materials_path
               - elsif can? :manage, ReferralSource
                 %li{ class: active_menu('referral_sources') }
                   = link_to t('.referral_sources'), referral_sources_path

@@ -1,6 +1,9 @@
 en:
   faq: FAQ
 
+  default_material_fields: &default_material_fields
+    status: Status
+
   default_changelog_fields: &default_changelog_fields
     version: Version
     description: Description
@@ -382,6 +385,7 @@ en:
         family_preservation: Family Preservation?
         family_id: Family ID
         case_workers: Case Workers
+
       partners:
         <<: *default_partner_fields
         type: Type
@@ -435,6 +439,8 @@ en:
       km: ខ្មែរ
       log_out: Log out
       log_in: Log in
+      progress_note: Progress Note
+      materials: Equipment/Materials
   clients:
     index:
       add_new_client: Add New Client
@@ -480,12 +486,14 @@ en:
       time_in_care_around:
         one: "Around %{count} year"
         other: "Around %{count} years"
-
+      are_you_sure: Are you sure you want to delete?
       <<: *default_client_fields
       placements:
         <<: *default_placement_fields
       additional_details: Additional Details
       general_info: Information of
+    actions:
+      are_you_sure: Are you sure you want to delete?
     emergency_case:
       <<: *default_placement_fields
       emergency_care: Emergency Care
@@ -531,6 +539,7 @@ en:
     show:
       <<: *default_family_fields
       general_info: General Information for Family
+      are_you_sure: Are you sure you want to delete?
     create:
       successfully_created: Family has been successfully created.
     update:
@@ -538,6 +547,8 @@ en:
     destroy:
       successfully_deleted: Family has been successfully deleted.
       alert: Family cannot be deleted.
+    actions:
+      are_you_sure: Are you sure you want to delete?
 
   partners:
     index:
@@ -553,6 +564,7 @@ en:
     show:
       <<: *default_partner_fields
       general_info: General Informatin for Partner
+      are_you_sure: Are you sure you want to delete?
     create:
       successfully_created: Partner has been successfully created.
     update:
@@ -560,6 +572,8 @@ en:
     destroy:
       successfully_deleted: Partner has been successfully deleted.
       alert: Partner cannot be deleted.
+    actions:
+      are_you_sure: Are you sure you want to delete?
   users:
     index:
       results: Results
@@ -574,6 +588,7 @@ en:
     show:
       <<: *default_user_fields
       general_info: General Information for User
+      are_you_sure: Are you sure you want to delete?
     clients:
       clients: Clients
     create:
@@ -583,6 +598,8 @@ en:
     destroy:
       successfully_deleted: User has been successfully deleted.
       alert: User cannot be deleted.
+    actions:
+      are_you_sure: Are you sure you want to delete?
   cases:
     index:
       <<: *default_placement_fields
@@ -626,6 +643,12 @@ en:
               blank: This field is required
             completion_date:
               blank: This field is required
+        material:
+          attributes:
+            status:
+              blank: can't be blank
+              taken: has already been taken
+
   agencies:
     index:
       add_new_agency: Add New Agency
@@ -633,6 +656,7 @@ en:
       agency_names: Agency Name
       description: Description
       manage: Manage
+      are_you_sure: Are you sure you want to delete?
     edit:
       title: Edit Agency
     new:
@@ -656,6 +680,7 @@ en:
       department_names: Agency Name
       description: Description
       manage: Manage
+      are_you_sure: Are you sure you want to delete?
     edit:
       title: Edit Department
     new:
@@ -681,6 +706,7 @@ en:
       score_2: Score 2
       score_3: Score 3
       score_4: Score 4
+      are_you_sure: Are you sure you want to delete?
     edit:
       title: Edit Domain
     new:
@@ -711,6 +737,7 @@ en:
       domain_group_names: Domain Group Name
       description: Description
       manage: Manage
+      are_you_sure: Are you sure you want to delete?
     edit:
       title: Edit Domain Group
     new:
@@ -735,6 +762,7 @@ en:
       provinces: Provinces
       province_names: Province Name
       manage: Manage
+      are_you_sure: Are you sure you want to delete?
     edit:
       title: Edit Province
     new:
@@ -758,6 +786,7 @@ en:
       referral_source_name: Referral Source Name
       description: Description
       manage: Manage
+      are_you_sure: Are you sure you want to delete?
     edit:
       title: Edit Referral Source
     new:
@@ -780,6 +809,7 @@ en:
       add_new_quantitative_type: Add New Quantitative Type
       quantitative_types: Quantitative Types
       add_quantitative_data: Quantitative Data
+      are_you_sure: Are you sure you want to delete?
     edit:
       title: Edit Quantitative Type
     new:
@@ -1029,7 +1059,7 @@ en:
       add_new_changelog: Add New Changelog
       created_at: Date
       manage: Manage
-      are_you_sure: Are you sure you want to delete
+      are_you_sure: Are you sure you want to delete?
     show:
       back: Back
     edit:
@@ -1046,3 +1076,25 @@ en:
       successfully_updated: Changelog has been successfully updated.
     destroy:
       successfully_deleted: Changelog has been successfully deleted.
+
+  materials:
+    index:
+      <<: *default_material_fields
+      add_new_material: Add New Equipment/Material
+      material: Equipment/Material
+      manage: Manage
+      are_you_sure: Are you sure you want to delete?
+    new:
+      new_material: New Equipment/Material
+    edit:
+      edit_material: Edit Equipment/Material
+    form:
+      <<: *default_material_fields
+      save: Save
+      cancel: Cancel
+    create:
+      successfully_created: Equipment/Material has been successfully created.
+    update:
+      successfully_updated: Equipment/Material has been successfully updated.
+    destroy:
+      successfully_deleted: Equipment/Material has been successfully deleted.

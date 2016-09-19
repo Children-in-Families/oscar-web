@@ -28,7 +28,7 @@
                             %i.glyphicon.glyphicon-pencil
                         %td.text-center
                           - if agency.clients.blank?
-                            = link_to agency, method: 'delete', data: { confirm: 'Are you sure you want to delete?' } do
+                            = link_to agency, method: 'delete', data: { confirm: t('.are_you_sure') } do
                               %i.glyphicon.glyphicon-trash
                           - else
                             %i.glyphicon.glyphicon-trash

@@ -27,6 +27,7 @@ Rails.application.routes.draw do
   resources :departments, except: [:show]
   resources :quarterly_reports, only: [:index]
   resources :changelogs
+  resources :materials, except: [:show]
 
   resources :tasks do
     collection do

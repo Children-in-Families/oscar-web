@@ -26,7 +26,7 @@
                           - if can? :manage, Changelog, user_id: current_user.id
                             = link_to edit_changelog_path(changelog) do
                               %i.glyphicon.glyphicon-pencil
-                            = link_to changelog, method: 'delete', data: { confirm: "#{t('.are_you_sure')}?" } do
+                            = link_to changelog, method: 'delete', data: { confirm: t('.are_you_sure') } do
                               %i.glyphicon.glyphicon-trash
 
       .row

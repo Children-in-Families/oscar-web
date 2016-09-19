@@ -1,6 +1,9 @@
 km:
   faq: FAQ
 
+  default_material_fields: &default_material_fields
+    status: ស្ថានភាព
+
   default_changelog_fields: &default_changelog_fields
     version: កំណែ
     description: ការពិពណ៌នា
@@ -439,6 +442,8 @@ km:
       en: English
       log_out: ចាកចេញ
       log_in: ចូល
+      progress_note: កត់សំគាល់ការរីកចំរើន
+      materials: របស់របរ/សំភារៈ
   clients:
     index:
       add_new_client: បន្ថែមអតិថិជនថ្មី
@@ -484,11 +489,14 @@ km:
       time_in_care_around:
         one: "ប្រហែល%{count}ឆ្នាំ"
         other: "ប្រហែល%{count}ឆ្នាំ"
+      are_you_sure: តើអ្នកប្រាកដហើយ?
       <<: *default_client_fields
       placements:
         <<: *default_placement_fields
       additional_details: ពត៌មានលំអិតបន្ថែម
       general_info: ពត៌មានរបស់អតិថិជន
+    actions:
+      are_you_sure: តើអ្នកប្រាកដហើយ?
     emergency_case:
       <<: *default_placement_fields
       emergency_care: ករណី Emergency
@@ -535,6 +543,7 @@ km:
     show:
       <<: *default_family_fields
       general_info: ពត៌មានទូទៅសំរាប់គ្រួសារ
+      are_you_sure: តើអ្នកប្រាកដហើយ?
     create:
       successfully_created: គ្រួសារត្រូវបានបង្កើតដោយជោគជ័យ
     update:
@@ -542,6 +551,8 @@ km:
     destroy:
       successfully_deleted: គ្រួសារត្រូវបានលុបដោយជោគជ័យ
       alert: គ្រួសារមិនអាចលុបបានទេ
+    actions:
+      are_you_sure: តើអ្នកប្រាកដហើយ?
 
   partners:
     index:
@@ -557,6 +568,7 @@ km:
     show:
       <<: *default_partner_fields
       general_info: ពត៌មានទូទៅរបស់ដៃគូ
+      are_you_sure: តើអ្នកប្រាកដហើយ?
     create:
       successfully_created: ដៃគូត្រូវបានបង្កើតដោយជោគជ័យ
     update:
@@ -564,6 +576,8 @@ km:
     destroy:
       successfully_deleted: ដៃគូត្រូវបានលុបចោលដោយជោគជ័យ
       alert: ដៃគូមិនអាចលុបបានទេ
+    actions:
+      are_you_sure: តើអ្នកប្រាកដហើយ?
   users:
     index:
       results: លទ្ធផល
@@ -578,6 +592,7 @@ km:
     show:
       <<: *default_user_fields
       general_info: ពត៌មានទូទៅរបស់អ្នកប្រើប្រាស់
+      are_you_sure: តើអ្នកប្រាកដហើយ?
     clients:
       clients: អតិថិជន
     create:
@@ -587,6 +602,8 @@ km:
     destroy:
       successfully_deleted: អ្នកប្រើប្រាស់ត្រូវបានលុបដោយជោគជ័យ
       alert: អ្នកប្រើប្រាស់មិនអាចលុបបានទេ
+    actions:
+      are_you_sure: តើអ្នកប្រាកដហើយ?
   cases:
     index:
       <<: *default_placement_fields
@@ -694,6 +711,7 @@ km:
       agency_names: ឈ្មោះអង្គភាព
       description: ការបរិយាយពីអង្គភាព
       manage: សកម្មភាព
+      are_you_sure: តើអ្នកប្រាកដហើយ?
     edit:
       title: ពិនិត្យកែសម្រួលពត៌មាននៃឣង្គភាព
     new:
@@ -717,6 +735,7 @@ km:
       department_names: ឈ្មោះកម្មវិធី
       description: ការបរិយាយពីកម្មវិធី
       manage: សកម្មភាព
+      are_you_sure: តើអ្នកប្រាកដហើយ?
     edit:
       title: ពិនិត្យកែសម្រួលកម្មវិធី
     new:
@@ -741,6 +760,8 @@ km:
       score_2: ពិន្ទុ 2
       score_3: ពិន្ទុ 3
       score_4: ពិន្ទុ 4
+      are_you_sure: តើអ្នកប្រាកដហើយ?
+
     edit:
       title: ពិនិត្យកែសម្រួលកត្តា
     new:
@@ -770,6 +791,7 @@ km:
       domain_group_names: ឈ្មោះការប្រមូលផ្តុំកត្តា
       description: ការបរិយាយ
       manage: សកម្មភាព
+      are_you_sure: តើអ្នកប្រាកដហើយ?
     edit:
       title: ពិនិត្យកែសម្រួលការប្រមូលផ្ដុំកត្តា
     new:
@@ -794,6 +816,7 @@ km:
       provinces: ខេត្ត
       province_names: ឈ្មោះខេត្ត
       manage: សកម្មភាព
+      are_you_sure: តើអ្នកប្រាកដហើយ?
     edit:
       title: ពិនិត្យកែសម្រួលខេត្ត
     new:
@@ -817,6 +840,7 @@ km:
       referral_source_name: ឈ្មោះប្រភពនៃការបញ្ជូន
       description: ការបរិយាយ
       manage: សកម្មភាព
+      are_you_sure: តើអ្នកប្រាកដហើយ?
     edit:
       title: ពិនិត្យកែសម្រូលប្រភពនៃការបញ្ជូន
     new:
@@ -838,6 +862,7 @@ km:
       add_new_quantitative_type: បន្ថែមប្រភេទនៃបរិមាណ
       quantitative_types: ប្រភេទនៃបរិមាណ
       add_quantitative_data: ទិន្ន័យនៃបរិមាណ
+      are_you_sure: តើអ្នកប្រាកដហើយ?
     edit:
       title: ពិនិត្យកែសម្រួល ប្រភេទនៃបរិមាណ
     new:
@@ -1248,7 +1273,7 @@ km:
       add_new_changelog: បន្ថែមការផ្លាស់ប្ដូរថ្មី
       created_at: កាលបរិច្ឆេទ
       manage: គ្រប់គ្រង
-      are_you_sure: តើអ្នកពិតជាចង់លុបការផ្លាស់ប្ដូរនេះ
+      are_you_sure: តើអ្នកប្រាកដហើយ?
     show:
       back: ត្រលប់ក្រោយ
     edit:
@@ -1265,3 +1290,25 @@ km:
       successfully_updated: ការផ្លាស់ប្ដូរត្រូវបានកែសម្រួលដោយជោគជ័យ
     destroy:
       successfully_deleted: ការផ្លាស់ប្ដូរត្រូវបានលុបដោយជោគជ័យ
+
+  materials:
+    index:
+      <<: *default_material_fields
+      add_new_material: បន្ថែមរបស់របរ/សំភារៈថ្មី
+      material: របស់របរ/សំភារៈ
+      manage: គ្រប់គ្រង
+      are_you_sure: តើអ្នកប្រាកដហើយ?
+    new:
+      new_material: របស់របរ/សំភារៈថ្មី
+    edit:
+      edit_material: កែសម្រួលរបស់របរ/សំភារៈ
+    form:
+      <<: *default_material_fields
+      save: រក្សាទុក
+      cancel: ទុកជាមោឃៈ
+    create:
+      successfully_created: របស់របរ/សំភារៈត្រូវបានបង្កើតដោយជោគជ័យ
+    update:
+      successfully_updated: របស់របរ/សំភារៈត្រូវបានកែសម្រួលដោយជោគជ័យ
+    destroy:
+      successfully_deleted: របស់របរ/សំភារៈត្រូវបានលុបដោយជោគជ័យ
