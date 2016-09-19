@@ -14,6 +14,7 @@
 //= require filters
 //= require assessments/form
 //= require case_notes/new
+//= require statistics/index
 //= require datepicker
 //= require admin/tasks
 //= require ckeditor/init

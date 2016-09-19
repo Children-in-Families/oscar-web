@@ -126,6 +126,15 @@ en:
     child_has_a_criminal_history: child has a criminal history
     parent_carer_has_a_criminal_history: parent/carer has a criminal history
 
+  csi_statistics:
+    form_filter:
+      search: Search
+      start_date: Start Date
+      end_date: End Date
+    index:
+      csi_domain_scores: CSI Domain Scores
+      domain_score: Domain Score
+
   government_reports:
     index:
       back: Back
@@ -412,6 +421,7 @@ en:
         desc: ↓
   layouts:
     navbar:
+      csi_statistics: CSI Statistics
       clients: Clients
       families: Families
       partners: Partners

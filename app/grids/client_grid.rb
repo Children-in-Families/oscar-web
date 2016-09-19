@@ -320,7 +320,7 @@ class ClientGrid
     object.followed_up_by.name if object.followed_up_by
   end
 
-  column(:agency, order: 'agencies.name', header: -> { I18n.t('datagrid.columns.clients.agencies_involved') }) do |object|
+  column(:agency, order: false, header: -> { I18n.t('datagrid.columns.clients.agencies_involved') }) do |object|
     object.agencies.pluck(:name).join(', ')
   end
 
@@ -378,23 +378,23 @@ class ClientGrid
     object.user.name if object.user
   end
 
-  column(:case_start_date, order: 'cases.start_date', header: -> { I18n.t('datagrid.columns.clients.placements.start_date') }) do |object|
+  column(:case_start_date, order: false, header: -> { I18n.t('datagrid.columns.clients.placements.start_date') }) do |object|
     object.cases.current.start_date if object.cases.current
   end
 
-  column(:carer_names, order: 'cases.carer_names', header: -> { I18n.t('datagrid.columns.clients.placements.carer_names') }) do |object|
+  column(:carer_names, order: false, header: -> { I18n.t('datagrid.columns.clients.placements.carer_names') }) do |object|
     object.cases.current.carer_names if object.cases.current
   end
 
-  column(:carer_address, order: 'cases.carer_address', header: -> { I18n.t('datagrid.columns.clients.placements.carer_address') }) do |object|
+  column(:carer_address, order: false, header: -> { I18n.t('datagrid.columns.clients.placements.carer_address') }) do |object|
     object.cases.current.carer_address if object.cases.current
   end
 
-  column(:carer_phone_number, order: 'cases.carer_phone_number', header: -> { I18n.t('datagrid.columns.clients.placements.carer_phone_number') }) do |object|
+  column(:carer_phone_number, order: false, header: -> { I18n.t('datagrid.columns.clients.placements.carer_phone_number') }) do |object|
     object.cases.current.carer_phone_number if object.cases.current
   end
 
-  column(:support_amount, order: 'cases.support_amount', header: -> { I18n.t('datagrid.columns.clients.placements.support_amount') }) do |object|
+  column(:support_amount, order: false, header: -> { I18n.t('datagrid.columns.clients.placements.support_amount') }) do |object|
     if object.cases.current
       format(object.cases.current.support_amount) do |amount|
         number_to_currency(amount)
@@ -402,27 +402,27 @@ class ClientGrid
     end
   end
 
-  column(:support_note, order: 'cases.support_note', header: -> { I18n.t('datagrid.columns.clients.placements.support_note') }) do |object|
+  column(:support_note, order: false, header: -> { I18n.t('datagrid.columns.clients.placements.support_note') }) do |object|
     object.cases.current.support_note if object.cases.current
   end
 
-  column(:family_preservation, order: 'cases.family_preservation', header: -> { I18n.t('datagrid.columns.families.family_preservation') }) do |object|
+  column(:family_preservation, order: false, header: -> { I18n.t('datagrid.columns.families.family_preservation') }) do |object|
     object.cases.current.family_preservation ? 'Yes' : 'No' if object.cases.current
   end
 
-  column(:family_id, order: 'families.id', header: -> { I18n.t('datagrid.columns.families.family_id') }) do |object|
+  column(:family_id, order: false, header: -> { I18n.t('datagrid.columns.families.family_id') }) do |object|
     if object.cases.current && object.cases.current.family
       object.cases.current.family.id
     end
   end
 
-  column(:family, order: 'families.name', header: -> { I18n.t('datagrid.columns.clients.placements.family') }) do |object|
+  column(:family, order: false, header: -> { I18n.t('datagrid.columns.clients.placements.family') }) do |object|
     if object.cases.current && object.cases.current.family
       object.cases.current.family.name
     end
   end
 
-  column(:partner, order: 'partners.name', header: -> { I18n.t('datagrid.columns.partners.partner') }) do |object|
+  column(:partner, order: false, header: -> { I18n.t('datagrid.columns.partners.partner') }) do |object|
     if object.cases.current && object.cases.current.partner
       object.cases.current.partner.name
     end
