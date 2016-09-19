@@ -326,6 +326,7 @@ km:
     from: ចាប់ពី
     to: ដល់
     form:
+      filter_domains: កត្តា
       search: ស្វែងរក
       reset: សំអាត
     columns:

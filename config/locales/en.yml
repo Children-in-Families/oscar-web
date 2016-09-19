@@ -324,6 +324,7 @@ en:
     from: From
     to: To
     form:
+      filter_domains: Filter Domains
       search: Search
       reset: Reset
     columns:
