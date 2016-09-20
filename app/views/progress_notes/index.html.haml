@@ -1,0 +1,25 @@
+.row
+  .col-xs-12.col-md-8.col-md-offset-2
+    .panel.panel-default
+      .panel-heading
+        %h4.text-center= @client.name
+      .panel-body
+        = link_to t('.back'), client_path(@client), { class: 'btn btn-default' }
+        = link_to t('.new_progress_note'), new_client_progress_note_path(@client), { class: 'btn btn-success' }
+        .panel.panel-default
+          .panel-body
+            .row
+              .col-xs-12
+                %table.table.table-bordered
+                  %thead
+                    %tr
+                      %th= t('.date')
+                      %th= t('.manage')
+                  - @progress_notes.each do |progress_note|
+                    %tr
+                      %td= progress_note.date.strftime("%B %d, %Y")
+                      %td
+                        = link_to edit_client_progress_note_path(@client, progress_note) do
+                          %i.glyphicon.glyphicon-pencil
+                        = link_to client_progress_note_path(@client, progress_note), method: :delete, data: { confirm: t('.are_you_sure_you_want_to_delete') } do
+                          %i.glyphicon.glyphicon-trash

@@ -1,0 +1,13 @@
+.row
+  .col-xs-12.col-md-8.col-md-offset-2
+    .panel.panel-default
+      .panel-heading
+        .row
+          .col-xs-6
+            %h4= t('.progress_note_detail')
+          .col-xs-6
+            %h4.pull-right= @progress_note.date.strftime('%d %B, %Y')
+      .panel-body
+
+      .panel-footer
+        = link_to t('.back'), client_progress_notes_path(@client), class: 'btn btn-default btn-back'

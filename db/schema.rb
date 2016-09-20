@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160920041253) do
+ActiveRecord::Schema.define(version: 20160920083920) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -295,6 +295,16 @@ ActiveRecord::Schema.define(version: 20160920041253) do
     t.datetime "updated_at"
   end
 
+  create_table "interventions_progress_notes", force: :cascade do |t|
+    t.integer  "progress_note_id"
+    t.integer  "intervention_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "interventions_progress_notes", ["intervention_id"], name: "index_interventions_progress_notes_on_intervention_id", using: :btree
+  add_index "interventions_progress_notes", ["progress_note_id"], name: "index_interventions_progress_notes_on_progress_note_id", using: :btree
+
   create_table "locations", force: :cascade do |t|
     t.string   "name",       default: ""
     t.datetime "created_at"
@@ -329,6 +339,24 @@ ActiveRecord::Schema.define(version: 20160920041253) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "progress_notes", force: :cascade do |t|
+    t.date     "date"
+    t.string   "other_location",        default: ""
+    t.text     "response",              default: ""
+    t.text     "additional_note",       default: ""
+    t.integer  "client_id"
+    t.integer  "progress_note_type_id"
+    t.integer  "location_id"
+    t.integer  "material_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "progress_notes", ["client_id"], name: "index_progress_notes_on_client_id", using: :btree
+  add_index "progress_notes", ["location_id"], name: "index_progress_notes_on_location_id", using: :btree
+  add_index "progress_notes", ["material_id"], name: "index_progress_notes_on_material_id", using: :btree
+  add_index "progress_notes", ["progress_note_type_id"], name: "index_progress_notes_on_progress_note_type_id", using: :btree
 
   create_table "provinces", force: :cascade do |t|
     t.string   "name",           default: ""
@@ -684,6 +712,12 @@ ActiveRecord::Schema.define(version: 20160920041253) do
   add_foreign_key "case_notes", "clients"
   add_foreign_key "changelogs", "users"
   add_foreign_key "domains", "domain_groups"
+  add_foreign_key "interventions_progress_notes", "interventions"
+  add_foreign_key "interventions_progress_notes", "progress_notes"
+  add_foreign_key "progress_notes", "clients"
+  add_foreign_key "progress_notes", "locations"
+  add_foreign_key "progress_notes", "materials"
+  add_foreign_key "progress_notes", "progress_note_types"
   add_foreign_key "quarterly_reports", "cases"
   add_foreign_key "surveys", "clients"
   add_foreign_key "tasks", "clients"
