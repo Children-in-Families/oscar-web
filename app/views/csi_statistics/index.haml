@@ -1,9 +1,0 @@
-.row
-  .col-xs-12
-    .row
-      .col-xs-12.search-statistic
-        = render 'csi_statistics/form_filter'
-    .row
-      .col-xs-12
-        = line_chart(@csi_statistics, { library: { tooltip: { shared: true, xDateFormat: '%B %Y'}, title: { text: "#{t('.csi_domain_scores')}" }, yAxis: { title: { text: "#{t('.domain_score')}" }, min: 0, max: 4 }}})
-

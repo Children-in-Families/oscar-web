@@ -1,0 +1,11 @@
+.row
+  .col-xs-12
+    .row
+      .col-xs-12.search-statistic
+        = render 'statistics/csi_form'
+    .row
+      .col-xs-12
+        .panel.panel-default
+          = line_chart(@csi_statistics, { library: { legend: { verticalAlign: 'top', y: 30, align: 'center' }, tooltip: { shared: true, xDateFormat: '%B %Y' }, title: { text: "#{t('.csi_domain_scores')}" }, yAxis: { title: { text: "#{t('.domain_score')}", format: '%B %Y'}, min: 0, max: 4 }}})
+          .panel-footer
+            = link_to t('.back'), statistics_path, { class:'btn btn-default button' }

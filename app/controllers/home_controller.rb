@@ -6,7 +6,6 @@ class HomeController < AdminController
     assessments      = current_user.assessment_either_overdue_or_due_today
     @overdue_assessments_count   = assessments[0]
     @due_today_assessments_count = assessments[1]
-    @cases_statistic = CaseStatistic::statistic_data
   end
 
   def robots

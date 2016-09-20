@@ -1,4 +1,4 @@
-CIF.Csi_statisticsIndex = do ->
+CIF.StatisticsCsi_domain = do ->
   _init = ->
     _rollBackBlankInput()
 

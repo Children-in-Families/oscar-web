@@ -12,9 +12,15 @@ Rails.application.routes.draw do
 
   get '/robots.txt' => 'home#robots'
   get '/quantitative_data' => 'clients#quantitative_case'
-  post 'csi_statistics' => 'csi_statistics#index'
-  resources :csi_statistics, only: [:index]
   resources :agencies, except: [:show]
+
+  resources :statistics, only: [:index] do
+    collection do
+      post '/csi_domain' => 'statistics#csi_domain'
+      get '/csi_domain' => 'statistics#csi_domain'
+      get '/case_type' => 'statistics#case_type'
+    end
+  end
 
   scope 'admin' do
     resources :users

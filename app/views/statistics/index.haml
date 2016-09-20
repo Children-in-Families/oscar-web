@@ -1,0 +1,11 @@
+.row.statistic
+  .col-xs-12.col-sm-6
+    .panel.panel-default
+      .panel-body.text-center.csi-statistic
+        = link_to csi_domain_statistics_path do
+          %span= t('.csi_statistics')
+  .col-xs-12.col-sm-6
+    .panel.panel-default
+      .panel-body.text-center.case-statistic
+        = link_to case_type_statistics_path do
+          %span= t('.case_statistics')

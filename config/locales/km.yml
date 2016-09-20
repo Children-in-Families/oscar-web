@@ -130,15 +130,6 @@ km:
     child_has_a_criminal_history: កុមារមានទំនាស់នឹងច្បាប់
     parent_carer_has_a_criminal_history: ឪពុកម្តាយ/ឪពុក/ម្តាយ/អ្នកអាណាព្យាបាលមានទំនាស់នឹងច្បាប់
 
-  csi_statistics:
-    form_filter:
-      search: ស្វែងរក
-      start_date: ថ្ងៃចាប់ផ្តើម
-      end_date: ថ្ងៃចុងក្រោយ
-    index:
-      csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
-      domain_score: ពិន្ទុកត្តាការប៉ាន់ប្រមាណ
-
   government_reports:
     index:
       back: ត្រលប់ក្រោយ
@@ -431,7 +422,7 @@ km:
         desc: ↓
   layouts:
     navbar:
-      csi_statistics: ស្ថិតិCSI
+      statistics: ស្ថិតិ
       clients: ឣតិថិជន
       families: គ្រួសារ
       partners: ដៃគូ
@@ -450,6 +441,22 @@ km:
       en: English
       log_out: ចាកចេញ
       log_in: ចូល
+  statistics:
+    index:
+      csi_statistics: ស្ថិតិCSI
+      case_statistics: ក្រាបនៃប្រភេទករណីរបស់អតិថិជន
+    csi_form:
+      search: ស្វែងរក
+      start_date: ថ្ងៃចាប់ផ្តើម
+      end_date: ថ្ងៃចុងក្រោយ
+    csi_domain:
+      csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
+      domain_score: ពិន្ទុកត្តាការប៉ាន់ប្រមាណ
+      back: ត្រលប់ក្រោយ
+    case_type:
+      case_statistic: ក្រាបនៃប្រភេទករណីរបស់អតិថិជន
+      client_amount: ចំនួនអតិថិជន
+      back: ត្រលប់ក្រោយ
   clients:
     index:
       add_new_client: បន្ថែមអតិថិជនថ្មី
@@ -1049,9 +1056,6 @@ km:
       due_today_assessments_count:
         one: "អ្នកមានការប៉ាន់ប្រមាណចំនួន1ដែលត្រូវធ្វើឲ្យហើយនៅថ្ងៃនេះ"
         other: "អ្នកមានការប៉ាន់ប្រមាណចំនួន%{count}ដែលត្រូវធ្វើឲ្យហើយនៅថ្ងៃនេះ"
-    client_case_statistic:
-      case_statistic: "ក្រាបនៃប្រភេទករណីរបស់អតិថិជន"
-      client_amount: "ចំនួនអតិថិជន"
   case:
     quarterly_reports:
       index:

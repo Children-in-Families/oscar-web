@@ -8,8 +8,7 @@
 
       = link_to root_path , class: 'navbar-brand' do
         = image_tag ENV['NGO_LOGO'], class: 'logo'
-
-
+        
     .collapse.navbar-collapse
       %ul.nav.navbar-nav
         %li{ class: clients_menu_active }
@@ -47,10 +46,10 @@
                   = link_to t('.referral_sources'), referral_sources_path
                 %li{ class: active_menu('quantitative_types') }
                   = link_to t('.quantitative_types'), quantitative_types_path
-                %li{ class: active_menu('csi_statistics') }
-                  = link_to t('.csi_statistics'), csi_statistics_path
                 %li{ class: active_menu('changelogs') }
                   = link_to t('.changelogs'), changelogs_path
+                %li{ class: active_menu('statistics') }
+                  = link_to t('.statistics'), statistics_path
               - elsif can? :manage, ReferralSource
                 %li{ class: active_menu('referral_sources') }
                   = link_to t('.referral_sources'), referral_sources_path
