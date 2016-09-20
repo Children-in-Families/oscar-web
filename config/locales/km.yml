@@ -1,6 +1,9 @@
 km:
   faq: FAQ
 
+  default_progress_note_type_fields: &default_progress_note_type_fields
+    note_type: ប្រភេទ
+
   default_location_fields: &default_location_fields
     name: ឈ្មោះ
 
@@ -448,6 +451,7 @@ km:
       progress_note: កត់សំគាល់ការរីកចំរើន
       materials: របស់របរ/សំភារៈ
       locations: កន្លែង
+      progress_note_types: កំណត់សំគាល់
   clients:
     index:
       add_new_client: បន្ថែមអតិថិជនថ្មី
@@ -716,6 +720,11 @@ km:
         location:
           attributes:
             name:
+              blank: មិនអាចរំលង
+              taken: ត្រូវបានប្រើរួចហើយ
+        progress_note_type:
+          attributes:
+            note_type:
               blank: មិនអាចរំលង
               taken: ត្រូវបានប្រើរួចហើយ
   agencies:
@@ -1348,3 +1357,25 @@ km:
       successfully_updated: កន្លែងត្រូវបានកែសម្រួលដោយជោគជ័យ
     destroy:
       successfully_deleted: កន្លែងត្រូវបានលុបដោយជោគជ័យ
+
+  progress_note_types:
+    index:
+      <<: *default_progress_note_type_fields
+      add_new_progress_note_type: បន្ថែមកំណត់សំគាល់ថ្មី
+      progress_note_type: កំណត់សំគាល់
+      manage: គ្រប់គ្រង
+      are_you_sure: តើអ្នកប្រាកដហើយ?
+    new:
+      new_progress_note_type: កំណត់សំគាល់ថ្មី
+    edit:
+      edit_progress_note_type: កែសម្រួលកំណត់សំគាល់
+    form:
+      <<: *default_progress_note_type_fields
+      save: រក្សាទុក
+      cancel: ទុកជាមោឃៈ
+    create:
+      successfully_created: កំណត់សំគាល់ត្រូវបានបង្កើតដោយជោគជ័យ
+    update:
+      successfully_updated: កំណត់សំគាល់ត្រូវបានកែសម្រួលដោយជោគជ័យ
+    destroy:
+      successfully_deleted: កំណត់សំគាល់ត្រូវបានលុបដោយជោគជ័យ

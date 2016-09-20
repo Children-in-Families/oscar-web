@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160920014557) do
+ActiveRecord::Schema.define(version: 20160920023649) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -316,6 +316,12 @@ ActiveRecord::Schema.define(version: 20160920014557) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "cases_count",           default: 0
+  end
+
+  create_table "progress_note_types", force: :cascade do |t|
+    t.string   "note_type",  default: ""
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "provinces", force: :cascade do |t|

@@ -57,6 +57,8 @@
                       = link_to t('.locations'), locations_path
                     %li{ class: active_menu('materials') }
                       = link_to t('.materials'), materials_path
+                    %li{ class: active_menu('progress_note_types') }
+                      = link_to t('.progress_note_types'), progress_note_types_path
               - elsif can? :manage, ReferralSource
                 %li{ class: active_menu('referral_sources') }
                   = link_to t('.referral_sources'), referral_sources_path

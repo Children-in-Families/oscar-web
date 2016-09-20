@@ -1,6 +1,9 @@
 en:
   faq: FAQ
 
+  default_progress_note_type_fields: &default_progress_note_type_fields
+    note_type: Type
+
   default_location_fields: &default_location_fields
     name: Name
 
@@ -445,6 +448,7 @@ en:
       progress_note: Progress Note
       materials: Equipment/Materials
       locations: Locations
+      progress_note_types: Types of Note
   clients:
     index:
       add_new_client: Add New Client
@@ -655,6 +659,11 @@ en:
         location:
           attributes:
             name:
+              blank: can't be blank
+              taken: has already been taken
+        progress_note_type:
+          attributes:
+            note_type:
               blank: can't be blank
               taken: has already been taken
 
@@ -1129,3 +1138,25 @@ en:
       successfully_updated: Location has been successfully updated.
     destroy:
       successfully_deleted: Location has been successfully deleted.
+
+  progress_note_types:
+    index:
+      <<: *default_progress_note_type_fields
+      add_new_progress_note_type: Add New Type of Note
+      progress_note_type: Type of Note
+      manage: Manage
+      are_you_sure: Are you sure you want to delete?
+    new:
+      new_progress_note_type: New Type of Note
+    edit:
+      edit_progress_note_type: Edit Type of Note
+    form:
+      <<: *default_progress_note_type_fields
+      save: Save
+      cancel: Cancel
+    create:
+      successfully_created: Type of Note has been successfully created.
+    update:
+      successfully_updated: Type of Note has been successfully updated.
+    destroy:
+      successfully_deleted: Type of Note has been successfully deleted.
