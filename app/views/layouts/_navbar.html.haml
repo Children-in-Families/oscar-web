@@ -53,6 +53,8 @@
                   %a{ href: '#' }
                     = t('.progress_note')
                   %ul.dropdown-menu
+                    %li{ class: active_menu('interventions') }
+                      = link_to t('.interventions'), interventions_path
                     %li{ class: active_menu('locations') }
                       = link_to t('.locations'), locations_path
                     %li{ class: active_menu('materials') }

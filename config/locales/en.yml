@@ -1,5 +1,11 @@
 en:
+  unauthorized:
+    default: You are not authorized to access this page.
+
   faq: FAQ
+
+  default_intervention_fields: &default_intervention_fields
+    action: Action
 
   default_progress_note_type_fields: &default_progress_note_type_fields
     note_type: Type
@@ -449,6 +455,7 @@ en:
       materials: Equipment/Materials
       locations: Locations
       progress_note_types: Types of Note
+      interventions: Interventions
   clients:
     index:
       add_new_client: Add New Client
@@ -664,6 +671,11 @@ en:
         progress_note_type:
           attributes:
             note_type:
+              blank: can't be blank
+              taken: has already been taken
+        intervention:
+          attributes:
+            action:
               blank: can't be blank
               taken: has already been taken
 
@@ -1160,3 +1172,25 @@ en:
       successfully_updated: Type of Note has been successfully updated.
     destroy:
       successfully_deleted: Type of Note has been successfully deleted.
+
+  interventions:
+    index:
+      <<: *default_intervention_fields
+      add_new_intervention: Add New Intervention
+      intervention: Intervention
+      manage: Manage
+      are_you_sure: Are you sure you want to delete?
+    new:
+      new_intervention: New Intervention
+    edit:
+      edit_intervention: Edit Intervention
+    form:
+      <<: *default_intervention_fields
+      save: Save
+      cancel: Cancel
+    create:
+      successfully_created: Intervention has been successfully created.
+    update:
+      successfully_updated: Intervention has been successfully updated.
+    destroy:
+      successfully_deleted: Intervention has been successfully deleted.

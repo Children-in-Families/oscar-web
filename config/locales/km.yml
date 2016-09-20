@@ -1,5 +1,11 @@
 km:
+  unauthorized:
+    default: អ្នកមិនមានសិទ្ធិគ្រប់គ្រាន់ដើម្បីចូលទេ
+
   faq: FAQ
+
+  default_intervention_fields: &default_intervention_fields
+    action: សកម្មភាព
 
   default_progress_note_type_fields: &default_progress_note_type_fields
     note_type: ប្រភេទ
@@ -452,6 +458,7 @@ km:
       materials: របស់របរ/សំភារៈ
       locations: កន្លែង
       progress_note_types: កំណត់សំគាល់
+      interventions: ចំនុចដែលត្រូវធ្វើ
   clients:
     index:
       add_new_client: បន្ថែមអតិថិជនថ្មី
@@ -725,6 +732,11 @@ km:
         progress_note_type:
           attributes:
             note_type:
+              blank: មិនអាចរំលង
+              taken: ត្រូវបានប្រើរួចហើយ
+        intervention:
+          attributes:
+            action:
               blank: មិនអាចរំលង
               taken: ត្រូវបានប្រើរួចហើយ
   agencies:
@@ -1379,3 +1391,25 @@ km:
       successfully_updated: កំណត់សំគាល់ត្រូវបានកែសម្រួលដោយជោគជ័យ
     destroy:
       successfully_deleted: កំណត់សំគាល់ត្រូវបានលុបដោយជោគជ័យ
+
+  interventions:
+    index:
+      <<: *default_intervention_fields
+      add_new_intervention: បន្ថែមចំនុចដែលត្រូវធ្វើថ្មី
+      intervention: ចំនុចដែលត្រូវធ្វើ
+      manage: គ្រប់គ្រង
+      are_you_sure: តើអ្នកប្រាកដហើយ?
+    new:
+      new_intervention: ចំនុចដែលត្រូវធ្វើថ្មី
+    edit:
+      edit_intervention: កែសម្រួលចំនុចដែលត្រូវធ្វើ
+    form:
+      <<: *default_intervention_fields
+      save: រក្សាទុក
+      cancel: ទុកជាមោឃៈ
+    create:
+      successfully_created: ចំនុចដែលត្រូវធ្វើត្រូវបានបង្កើតដោយជោគជ័យ
+    update:
+      successfully_updated: ចំនុចដែលត្រូវធ្វើត្រូវបានកែសម្រួលដោយជោគជ័យ
+    destroy:
+      successfully_deleted: ចំនុចដែលត្រូវធ្វើត្រូវបានលុបដោយជោគជ័យ
