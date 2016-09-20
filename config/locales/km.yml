@@ -1,6 +1,9 @@
 km:
   faq: FAQ
 
+  default_location_fields: &default_location_fields
+    name: ឈ្មោះ
+
   default_material_fields: &default_material_fields
     status: ស្ថានភាព
 
@@ -444,6 +447,7 @@ km:
       log_in: ចូល
       progress_note: កត់សំគាល់ការរីកចំរើន
       materials: របស់របរ/សំភារៈ
+      locations: កន្លែង
   clients:
     index:
       add_new_client: បន្ថែមអតិថិជនថ្មី
@@ -702,6 +706,16 @@ km:
         government_report:
           attributes:
             code:
+              blank: មិនអាចរំលង
+              taken: ត្រូវបានប្រើរួចហើយ
+        material:
+          attributes:
+            status:
+              blank: មិនអាចរំលង
+              taken: ត្រូវបានប្រើរួចហើយ
+        location:
+          attributes:
+            name:
               blank: មិនអាចរំលង
               taken: ត្រូវបានប្រើរួចហើយ
   agencies:
@@ -1312,3 +1326,25 @@ km:
       successfully_updated: របស់របរ/សំភារៈត្រូវបានកែសម្រួលដោយជោគជ័យ
     destroy:
       successfully_deleted: របស់របរ/សំភារៈត្រូវបានលុបដោយជោគជ័យ
+
+  locations:
+    index:
+      <<: *default_location_fields
+      add_new_location: បន្ថែមកន្លែងថ្មី
+      location: កន្លែង
+      manage: គ្រប់គ្រង
+      are_you_sure: តើអ្នកប្រាកដហើយ?
+    new:
+      new_location: កន្លែងថ្មី
+    edit:
+      edit_location: កែសម្រួលកន្លែង
+    form:
+      <<: *default_location_fields
+      save: រក្សាទុក
+      cancel: ទុកជាមោឃៈ
+    create:
+      successfully_created: កន្លែងត្រូវបានបង្កើតដោយជោគជ័យ
+    update:
+      successfully_updated: កន្លែងត្រូវបានកែសម្រួលដោយជោគជ័យ
+    destroy:
+      successfully_deleted: កន្លែងត្រូវបានលុបដោយជោគជ័យ

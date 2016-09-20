@@ -1,6 +1,9 @@
 en:
   faq: FAQ
 
+  default_location_fields: &default_location_fields
+    name: Name
+
   default_material_fields: &default_material_fields
     status: Status
 
@@ -441,6 +444,7 @@ en:
       log_in: Log in
       progress_note: Progress Note
       materials: Equipment/Materials
+      locations: Locations
   clients:
     index:
       add_new_client: Add New Client
@@ -646,6 +650,11 @@ en:
         material:
           attributes:
             status:
+              blank: can't be blank
+              taken: has already been taken
+        location:
+          attributes:
+            name:
               blank: can't be blank
               taken: has already been taken
 
@@ -1098,3 +1107,25 @@ en:
       successfully_updated: Equipment/Material has been successfully updated.
     destroy:
       successfully_deleted: Equipment/Material has been successfully deleted.
+
+  locations:
+    index:
+      <<: *default_location_fields
+      add_new_location: Add New Location
+      location: Location
+      manage: Manage
+      are_you_sure: Are you sure you want to delete?
+    new:
+      new_location: New Location
+    edit:
+      edit_location: Edit Location
+    form:
+      <<: *default_location_fields
+      save: Save
+      cancel: Cancel
+    create:
+      successfully_created: Location has been successfully created.
+    update:
+      successfully_updated: Location has been successfully updated.
+    destroy:
+      successfully_deleted: Location has been successfully deleted.
