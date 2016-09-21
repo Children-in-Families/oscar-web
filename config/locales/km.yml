@@ -422,7 +422,7 @@ km:
         desc: ↓
   layouts:
     navbar:
-      statistics: ស្ថិតិ
+      reports: របាយការណ៍
       clients: ឣតិថិជន
       families: គ្រួសារ
       partners: ដៃគូ
@@ -441,22 +441,18 @@ km:
       en: English
       log_out: ចាកចេញ
       log_in: ចូល
-  statistics:
+  reports:
     index:
-      csi_statistics: ស្ថិតិCSI
       case_statistics: ក្រាបនៃប្រភេទករណីរបស់អតិថិជន
-    csi_form:
+      csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
+      domain_score: ពិន្ទុកត្តាការប៉ាន់ប្រមាណ
+      client_amount: ចំនួនអតិថិជន
+    form:
+      case_statistics: ក្រាបនៃប្រភេទករណីរបស់អតិថិជន
+      csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
       search: ស្វែងរក
       start_date: ថ្ងៃចាប់ផ្តើម
       end_date: ថ្ងៃចុងក្រោយ
-    csi_domain:
-      csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
-      domain_score: ពិន្ទុកត្តាការប៉ាន់ប្រមាណ
-      back: ត្រលប់ក្រោយ
-    case_type:
-      case_statistic: ក្រាបនៃប្រភេទករណីរបស់អតិថិជន
-      client_amount: ចំនួនអតិថិជន
-      back: ត្រលប់ក្រោយ
   clients:
     index:
       add_new_client: បន្ថែមអតិថិជនថ្មី

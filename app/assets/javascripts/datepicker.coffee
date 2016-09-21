@@ -1,6 +1,6 @@
 $(document).on 'ready page:load', ->
 
-  $('.date_filter, .input-group.date, #start_date, #end_date').datepicker
+  $('.date_filter, .input-group.date, #csi_start_date, #csi_end_date, #case_start_date, #case_end_date').datepicker
     autoclose: true,
     format: 'yyyy-mm-dd',
     todayHighlight: true,

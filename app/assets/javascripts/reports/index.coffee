@@ -1,4 +1,4 @@
-CIF.StatisticsCsi_domain = do ->
+CIF.ReportsIndex = do ->
   _init = ->
     _rollBackBlankInput()
 
@@ -11,4 +11,5 @@ CIF.StatisticsCsi_domain = do ->
           $(this).addClass('errors')
         else
           $(this).removeClass('errors')
+    
   { init: _init }

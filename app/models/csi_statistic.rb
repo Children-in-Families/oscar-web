@@ -12,9 +12,9 @@ class CsiStatistic
       h2 = {}
       h1[:name] = domain.name
       if @start_date.blank? || @end_date.blank?
-        a_domain = domain.assessment_domains.group_by {|v| v.created_at.strftime("%B-%Y")}
+        a_domain = domain.assessment_domains.where(created_at: 12.months.ago..Date.today).group_by {|v| v.created_at.strftime "%B %Y" }
       else
-        a_domain = domain.assessment_domains.where(created_at: @start_date..@end_date).group_by {|v| v.created_at.strftime("%B-%Y")}
+        a_domain = domain.assessment_domains.where(created_at: @start_date..@end_date).group_by {|v| v.created_at.strftime "%B %Y" }
       end
       a_domain.each do |key, assessment_domains|
         a_domain_score = []

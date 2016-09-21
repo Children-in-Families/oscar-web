@@ -23,6 +23,9 @@
           - if can? :manage, User
             %li{ class: active_menu('users') }
               = link_to t('.users'), users_path
+          - if can? :manage, [CsiStatistic, CaseStatistic]
+            %li{ class: active_menu('reports') }
+              = link_to t('.reports'), reports_path
 
       %ul.nav.navbar-nav.navbar-right
         - if user_signed_in?
@@ -48,8 +51,6 @@
                   = link_to t('.quantitative_types'), quantitative_types_path
                 %li{ class: active_menu('changelogs') }
                   = link_to t('.changelogs'), changelogs_path
-                %li{ class: active_menu('statistics') }
-                  = link_to t('.statistics'), statistics_path
               - elsif can? :manage, ReferralSource
                 %li{ class: active_menu('referral_sources') }
                   = link_to t('.referral_sources'), referral_sources_path

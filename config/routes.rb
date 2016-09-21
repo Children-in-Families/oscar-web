@@ -14,13 +14,8 @@ Rails.application.routes.draw do
   get '/quantitative_data' => 'clients#quantitative_case'
   resources :agencies, except: [:show]
 
-  resources :statistics, only: [:index] do
-    collection do
-      post '/csi_domain' => 'statistics#csi_domain'
-      get '/csi_domain' => 'statistics#csi_domain'
-      get '/case_type' => 'statistics#case_type'
-    end
-  end
+  post '/reports' => 'reports#index'
+  resources :reports, only: [:index]
 
   scope 'admin' do
     resources :users

@@ -1,8 +1,0 @@
-= form_tag('/statistics/csi_domain', method: :post, class: 'form-inline pull-right') do
-  .input-group
-    %span.input-group-addon= t('.start_date')
-    = text_field_tag :start_date, params[:start_date], class: 'date optional form-control pull-right date-picker'
-    %span.input-group-addon= t('.end_date')
-    = text_field_tag :end_date, params[:end_date], class: 'date optional form-control pull-right date-picker'
-  .input-group
-    = submit_tag "#{t('.search')}", class: 'btn btn-primary pull-right statistic-btn'

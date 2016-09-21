@@ -418,7 +418,7 @@ en:
         desc: ↓
   layouts:
     navbar:
-      statistics: Statistics
+      reports: Reports
       clients: Clients
       families: Families
       partners: Partners
@@ -437,22 +437,18 @@ en:
       km: ខ្មែរ
       log_out: Log out
       log_in: Log in
-  statistics:
+  reports:
     index:
-      csi_statistics: CSI Statistic
-      case_statistics: Case Statistic
-    csi_form:
+      csi_domain_scores: CSI Domain Scores
+      domain_score: Domain Scores
+      case_statistics: Case Statistics
+      client_amount: Client Amounts
+    form:
+      case_statistic: Case Statistics
+      csi_domain_scores: CSI Domain Scores
       search: Search
       start_date: Start Date
       end_date: End Date
-    csi_domain:
-      csi_domain_scores: CSI Domain Scores
-      domain_score: Domain Scores
-      back: Back
-    case_type:
-      case_statistic: Case Statistics
-      client_amount: Client Amounts
-      back: Back
   clients:
     index:
       add_new_client: Add New Client
