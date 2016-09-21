@@ -5,6 +5,7 @@ describe ProgressNote, 'associations' do
   it { is_expected.to belong_to(:material) }
   it { is_expected.to belong_to(:user) }
   it { is_expected.to have_and_belong_to_many(:interventions)}
+  it { is_expected.to have_and_belong_to_many(:assessment_domains)}
 end
 
 describe ProgressNote, 'validations' do

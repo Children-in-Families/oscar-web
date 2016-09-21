@@ -15,6 +15,7 @@ en:
     material: Equipment/Materials
     response: Activities & Response
     additional_notes: Additional Notes
+    goals_addressed: Goals Addressed
 
   default_intervention_fields: &default_intervention_fields
     action: Action
@@ -377,6 +378,10 @@ en:
         has_date_of_birth: Has Date of Birth
         has_dob: 'Yes'
         no_dob: 'No'
+      progress_notes:
+        <<: *default_progress_note_fields
+        manage: Manage
+
       select_columns: Select Columns
       hide_show_all: Hide/Show All
       family_id: Family ID
@@ -1221,6 +1226,11 @@ en:
       progress_note: Progress Note
       manage: Manage
       are_you_sure: Are you sure you want to delete?
+      export_to_csv: Export to CSV
+    show:
+      <<: *default_progress_note_fields
+      are_you_sure: Are you sure you want to delete?
+      back: Back
     new:
       new_progress_note: New Progress Note
     edit:
@@ -1235,3 +1245,5 @@ en:
       successfully_updated: Progress Note has been successfully updated.
     destroy:
       successfully_deleted: Progress Note has been successfully deleted.
+    actions:
+      are_you_sure: Are you sure you want to delete?

@@ -1,6 +1,6 @@
 $(document).on 'ready page:load', ->
 
-  indexes = ['clients-index','families-index','partners-index','users-index'];
+  indexes = ['clients-index','families-index','partners-index','users-index', 'progress_notes-index'];
   body = $('body').attr('id')
 
   if indexes.indexOf(body) > -1

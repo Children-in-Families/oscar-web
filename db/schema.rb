@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160921031639) do
+ActiveRecord::Schema.define(version: 20160921065318) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,6 +42,16 @@ ActiveRecord::Schema.define(version: 20160921031639) do
     t.datetime "updated_at"
     t.text     "goal",           default: ""
   end
+
+  create_table "assessment_domains_progress_notes", force: :cascade do |t|
+    t.integer  "assessment_domain_id"
+    t.integer  "progress_note_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "assessment_domains_progress_notes", ["assessment_domain_id"], name: "index_assessment_domains_progress_notes_on_assessment_domain_id", using: :btree
+  add_index "assessment_domains_progress_notes", ["progress_note_id"], name: "index_assessment_domains_progress_notes_on_progress_note_id", using: :btree
 
   create_table "assessments", force: :cascade do |t|
     t.datetime "created_at"
@@ -709,6 +719,8 @@ ActiveRecord::Schema.define(version: 20160921031639) do
 
   add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
 
+  add_foreign_key "assessment_domains_progress_notes", "assessment_domains"
+  add_foreign_key "assessment_domains_progress_notes", "progress_notes"
   add_foreign_key "assessments", "clients"
   add_foreign_key "case_contracts", "cases"
   add_foreign_key "case_notes", "clients"

@@ -15,6 +15,7 @@ km:
     material: របស់របរ/សំភារៈ
     response: សកម្មភាព/ការឆ្លើយតប
     additional_notes: កំណត់បន្ថែម
+    goals_addressed: គោលបំណងនៃការធ្វើ
 
   default_intervention_fields: &default_intervention_fields
     action: សកម្មភាព
@@ -385,6 +386,10 @@ km:
         has_dob: 'បាទ/ចាស'
         no_dob: 'ទេ'
 
+      progress_notes:
+        <<: *default_progress_note_fields
+        manage: គ្រប់គ្រង
+
       select_columns: ជ្រើសរើសជួរឈរ
       hide_show_all: បង្ហាញ/លាក់ទាំងអស់
       family_id: លេខសម្គាល់គ្រួសារ
@@ -522,7 +527,7 @@ km:
         <<: *default_placement_fields
       additional_details: ពត៌មានលំអិតបន្ថែម
       general_info: ពត៌មានរបស់អតិថិជន
-      progress_note: កត់សំគាល់ការរីកចំរើន
+      progress_note: កំណត់សំគាល់ការរីកចំរើន
     actions:
       are_you_sure: តើអ្នកប្រាកដហើយ?
     emergency_case:
@@ -1440,6 +1445,11 @@ km:
       progress_note: កំណត់សំគាល់ការរីកចំរើន
       manage: គ្រប់គ្រង
       are_you_sure: តើអ្នកប្រាកដហើយ?
+      export_to_csv: ទាញចេញជាឯកសារប្រភេទ CSV
+    show:
+      <<: *default_progress_note_fields
+      are_you_sure: តើអ្នកប្រាកដហើយ?
+      back: ត្រលប់ក្រោយ
     new:
       new_progress_note: កំណត់សំគាល់ការរីកចំរើនថ្មី
     edit:
@@ -1454,3 +1464,5 @@ km:
       successfully_updated: កំណត់សំគាល់ការរីកចំរើនត្រូវបានកែសម្រួលដោយជោគជ័យ
     destroy:
       successfully_deleted: កំណត់សំគាល់ការរីកចំរើនត្រូវបានលុបដោយជោគជ័យ
+    actions:
+      are_you_sure: តើអ្នកប្រាកដហើយ?

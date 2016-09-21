@@ -1,6 +1,7 @@
 describe AssessmentDomain, 'associations' do
   it { is_expected.to belong_to(:assessment)}
   it { is_expected.to belong_to(:domain)}
+  it { is_expected.to have_and_belong_to_many(:progress_notes)}
 end
 
 describe AssessmentDomain, 'validations' do

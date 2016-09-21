@@ -6,7 +6,17 @@ class ProgressNotesController < AdminController
   before_action :find_association, only: [:new, :create, :edit, :update]
 
   def index
-    @progress_notes = @client.progress_notes.all.paginate(page: params[:page], per_page: 20)
+    @progress_note_grid = ProgressNoteGrid.new(params[:progress_note_grid])
+    respond_to do |f|
+      f.html do
+        @progress_note_grid.scope { |scope| scope.where(client_id: @client.id).paginate(page: params[:page], per_page: 20) }
+      end
+      f.csv do
+        send_data @progress_note_grid.to_csv, type: 'text/csv',
+                                       disposition: 'inline',
+                                       filename: "progress_note_report-#{Time.now}.csv"
+      end
+    end
   end
 
   def new
@@ -24,7 +34,6 @@ class ProgressNotesController < AdminController
   end
 
   def show
-    @progress_note = @client.progress_notes.find(params[:id])
   end
 
   def edit
@@ -50,10 +59,11 @@ class ProgressNotesController < AdminController
   end
 
   def find_progress_note
-    @progress_note = @client.progress_notes.find(params[:id])
+    @progress_note = @client.progress_notes.find(params[:id]).decorate
   end
 
   def find_association
+    @assessment_domains  = @client.assessments.last.assessment_domains if @client.assessments.any?
     @progress_note_types = ProgressNoteType.order(:note_type)
     @locations           = Location.order(:name)
     @interventions       = Intervention.order(:action)
@@ -61,6 +71,6 @@ class ProgressNotesController < AdminController
   end
 
   def progress_note_params
-    params.require(:progress_note).permit(:date, :progress_note_type_id, :location_id, :other_location, :material_id, :response, :additional_note, intervention_ids: [])
+    params.require(:progress_note).permit(:date, :progress_note_type_id, :location_id, :other_location, :material_id, :response, :additional_note, intervention_ids: [], assessment_domain_ids: [])
   end
 end

@@ -29,6 +29,9 @@
         = f.association :interventions, collection: @interventions, multiple: true, label_method: :action, value_method: :id, label: t('.interventions')
       .col-xs-12.col-md-4
         = f.association :material, collection: @materials.map{ |m| [m.status, m.id] }, input_html: { class: 'form-control' }, label: t('.material')
+      .col-xs-12.col-md-4
+        - ads = @assessment_domains.present? ? @assessment_domains.map{ |ad| [ad.goal, ad.id] } : []
+        = f.association :assessment_domains, collection: ads, multiple: true, label: t('.goals_addressed')
     .row
       .col-xs-12.col-md-4
         = f.input :response, as: :ckeditor, input_html: { class: 'form-control' }, label: t('.response')
