@@ -4,6 +4,18 @@ km:
 
   faq: FAQ
 
+  default_progress_note_fields: &default_progress_note_fields
+    date: កាលបរិច្ឆេទ
+    child: កុមារ
+    staff: ឈ្មោះបុគ្គលិក
+    progress_note_type: កំណត់សំគាល់
+    location: កន្លែង
+    other_location: ផ្សេងៗ
+    interventions: ចំនុចដែលត្រូវធ្វើ
+    material: របស់របរ/សំភារៈ
+    response: សកម្មភាព/ការឆ្លើយតប
+    additional_notes: កំណត់បន្ថែម
+
   default_intervention_fields: &default_intervention_fields
     action: សកម្មភាព
 
@@ -510,6 +522,7 @@ km:
         <<: *default_placement_fields
       additional_details: ពត៌មានលំអិតបន្ថែម
       general_info: ពត៌មានរបស់អតិថិជន
+      progress_note: កត់សំគាល់ការរីកចំរើន
     actions:
       are_you_sure: តើអ្នកប្រាកដហើយ?
     emergency_case:
@@ -665,6 +678,7 @@ km:
               confirmation: បញ្ជាក់លេខកូដសំងាត់ថ្មីមិនត្រឹមត្រូវ
             current_password:
               blank: មិនអាចរំលង
+              invalid: មិនត្រឹមត្រូវ
         task:
           attributes:
             name:
@@ -739,6 +753,10 @@ km:
             action:
               blank: មិនអាចរំលង
               taken: ត្រូវបានប្រើរួចហើយ
+        progress_note:
+          attributes:
+            date:
+              blank: មិនអាចរំលង
   agencies:
     index:
       add_new_agency: បន្ថែមអង្គភាពថ្មី
@@ -1413,3 +1431,26 @@ km:
       successfully_updated: ចំនុចដែលត្រូវធ្វើត្រូវបានកែសម្រួលដោយជោគជ័យ
     destroy:
       successfully_deleted: ចំនុចដែលត្រូវធ្វើត្រូវបានលុបដោយជោគជ័យ
+
+  progress_notes:
+    index:
+      <<: *default_progress_note_fields
+      back: ត្រលប់ក្រោយ
+      add_new_progress_note: បន្ថែមកំណត់សំគាល់ការរីកចំរើនថ្មី
+      progress_note: កំណត់សំគាល់ការរីកចំរើន
+      manage: គ្រប់គ្រង
+      are_you_sure: តើអ្នកប្រាកដហើយ?
+    new:
+      new_progress_note: កំណត់សំគាល់ការរីកចំរើនថ្មី
+    edit:
+      edit_progress_note: កែសម្រួលកំណត់សំគាល់ការរីកចំរើន
+    form:
+      <<: *default_progress_note_fields
+      save: រក្សាទុក
+      cancel: ទុកជាមោឃៈ
+    create:
+      successfully_created: កំណត់សំគាល់ការរីកចំរើនត្រូវបានបង្កើតដោយជោគជ័យ
+    update:
+      successfully_updated: កំណត់សំគាល់ការរីកចំរើនត្រូវបានកែសម្រួលដោយជោគជ័យ
+    destroy:
+      successfully_deleted: កំណត់សំគាល់ការរីកចំរើនត្រូវបានលុបដោយជោគជ័យ

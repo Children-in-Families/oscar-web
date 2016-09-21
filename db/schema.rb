@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160920083920) do
+ActiveRecord::Schema.define(version: 20160921031639) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -351,12 +351,14 @@ ActiveRecord::Schema.define(version: 20160920083920) do
     t.integer  "material_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "user_id"
   end
 
   add_index "progress_notes", ["client_id"], name: "index_progress_notes_on_client_id", using: :btree
   add_index "progress_notes", ["location_id"], name: "index_progress_notes_on_location_id", using: :btree
   add_index "progress_notes", ["material_id"], name: "index_progress_notes_on_material_id", using: :btree
   add_index "progress_notes", ["progress_note_type_id"], name: "index_progress_notes_on_progress_note_type_id", using: :btree
+  add_index "progress_notes", ["user_id"], name: "index_progress_notes_on_user_id", using: :btree
 
   create_table "provinces", force: :cascade do |t|
     t.string   "name",           default: ""
@@ -718,6 +720,7 @@ ActiveRecord::Schema.define(version: 20160920083920) do
   add_foreign_key "progress_notes", "locations"
   add_foreign_key "progress_notes", "materials"
   add_foreign_key "progress_notes", "progress_note_types"
+  add_foreign_key "progress_notes", "users"
   add_foreign_key "quarterly_reports", "cases"
   add_foreign_key "surveys", "clients"
   add_foreign_key "tasks", "clients"

@@ -5,7 +5,7 @@
         %h4.text-center= @client.name
       .panel-body
         = link_to t('.back'), client_path(@client), { class: 'btn btn-default' }
-        = link_to t('.new_progress_note'), new_client_progress_note_path(@client), { class: 'btn btn-success' }
+        = link_to t('.add_new_progress_note'), new_client_progress_note_path(@client), { class: 'btn btn-success' }
         .panel.panel-default
           .panel-body
             .row
@@ -21,5 +21,5 @@
                       %td
                         = link_to edit_client_progress_note_path(@client, progress_note) do
                           %i.glyphicon.glyphicon-pencil
-                        = link_to client_progress_note_path(@client, progress_note), method: :delete, data: { confirm: t('.are_you_sure_you_want_to_delete') } do
+                        = link_to client_progress_note_path(@client, progress_note), method: :delete, data: { confirm: t('.are_you_sure') } do
                           %i.glyphicon.glyphicon-trash

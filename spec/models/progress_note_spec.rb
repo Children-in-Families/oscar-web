@@ -3,10 +3,12 @@ describe ProgressNote, 'associations' do
   it { is_expected.to belong_to(:progress_note_type) }
   it { is_expected.to belong_to(:location) }
   it { is_expected.to belong_to(:material) }
+  it { is_expected.to belong_to(:user) }
   it { is_expected.to have_and_belong_to_many(:interventions)}
 end
 
-# describe ProgressNote, 'validations' do
+describe ProgressNote, 'validations' do
+  it { is_expected.to validate_presence_of(:date)}
 #   FactoryGirl.create(:location, name: 'Other')
 #   name           = 'Other'
 #   other_location = Location.other(name).first
@@ -22,4 +24,4 @@ end
 #     before { subject.location = other }
 #     it { is_expected.to validate_presence_of(:other_location) }
 #   end
-# end
+end

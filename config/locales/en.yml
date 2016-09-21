@@ -4,6 +4,18 @@ en:
 
   faq: FAQ
 
+  default_progress_note_fields: &default_progress_note_fields
+    date: Date
+    child: Child
+    staff: ABLE / ABLE Staff Name
+    progress_note_type: Type of note
+    location: Location
+    other_location: Other?
+    interventions: Interventions
+    material: Equipment/Materials
+    response: Activities & Response
+    additional_notes: Additional Notes
+
   default_intervention_fields: &default_intervention_fields
     action: Action
 
@@ -507,6 +519,7 @@ en:
         <<: *default_placement_fields
       additional_details: Additional Details
       general_info: Information of
+      progress_note: Progress Note
     actions:
       are_you_sure: Are you sure you want to delete?
     emergency_case:
@@ -652,6 +665,7 @@ en:
           attributes:
             current_password:
               blank: This field is required
+              invalid: Invalid
         task:
           attributes:
             name:
@@ -678,6 +692,10 @@ en:
             action:
               blank: can't be blank
               taken: has already been taken
+        progress_note:
+          attributes:
+            date:
+              blank: can't be blank
 
   agencies:
     index:
@@ -1194,3 +1212,26 @@ en:
       successfully_updated: Intervention has been successfully updated.
     destroy:
       successfully_deleted: Intervention has been successfully deleted.
+
+  progress_notes:
+    index:
+      <<: *default_progress_note_fields
+      back: Back
+      add_new_progress_note: Add New Progress Note
+      progress_note: Progress Note
+      manage: Manage
+      are_you_sure: Are you sure you want to delete?
+    new:
+      new_progress_note: New Progress Note
+    edit:
+      edit_progress_note: Edit Progress Note
+    form:
+      <<: *default_progress_note_fields
+      save: Save
+      cancel: Cancel
+    create:
+      successfully_created: Progress Note has been successfully created.
+    update:
+      successfully_updated: Progress Note has been successfully updated.
+    destroy:
+      successfully_deleted: Progress Note has been successfully deleted.

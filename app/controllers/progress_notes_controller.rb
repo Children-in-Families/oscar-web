@@ -15,6 +15,7 @@ class ProgressNotesController < AdminController
 
   def create
     @progress_note = @client.progress_notes.new(progress_note_params)
+    @progress_note.user_id = current_user.id
     if @progress_note.save
       redirect_to client_progress_note_path(@client, @progress_note), notice: t('.successfully_created')
     else

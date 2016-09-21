@@ -10,6 +10,7 @@ class User < ActiveRecord::Base
   has_many :cases
   has_many :clients
   has_many :changelogs
+  has_many :progress_notes, dependent: :restrict_with_error
 
   validates :roles, presence: true
 

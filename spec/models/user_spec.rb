@@ -4,6 +4,7 @@ describe User, 'associations' do
   it { is_expected.to have_many(:cases)}
   it { is_expected.to have_many(:clients)}
   it { is_expected.to have_many(:changelogs)}
+  it { is_expected.to have_many(:progress_notes).dependent(:restrict_with_error)}
 end
 
 describe User, 'validations' do

@@ -3,6 +3,9 @@ class ProgressNote < ActiveRecord::Base
   belongs_to :location
   belongs_to :material
   belongs_to :progress_note_type
+  belongs_to :user
 
   has_and_belongs_to_many :interventions
+
+  validates :date, presence: true
 end

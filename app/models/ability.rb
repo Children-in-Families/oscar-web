@@ -27,6 +27,7 @@ class Ability
       can :manage, Client, able: true
       can :manage, Assessment
       can :manage, Survey
+      can :manage, ProgressNote
       can :update, Assessment do |assessment|
         assessment.client.able?
       end
