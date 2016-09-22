@@ -32,8 +32,11 @@ class ProgressNoteTypesController < AdminController
   end
 
   def destroy
-    @progress_note_type.destroy
-    redirect_to progress_note_types_url, notice: t('.successfully_deleted')
+    if @progress_note_type.destroy
+      redirect_to progress_note_types_url, notice: t('.successfully_deleted')
+    else
+      redirect_to progress_note_types_url, notice: t('.unsuccessfully_deleted')
+    end
   end
 
   private

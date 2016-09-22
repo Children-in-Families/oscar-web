@@ -25,8 +25,12 @@
                           = link_to edit_material_path(material) do
                             %i.glyphicon.glyphicon-pencil
                         %td.text-center
-                          = link_to material, method: 'delete', data: { confirm: t('.are_you_sure') } do
+                          - if material.has_no_any_progress_notes?
+                            = link_to material, method: 'delete', data: { confirm: t('.are_you_sure') } do
+                              %i.glyphicon.glyphicon-trash
+                          - else
                             %i.glyphicon.glyphicon-trash
+
       .row
         .col-xs-12.text-center
           = will_paginate @materials, renderer: BootstrapPagination::Rails

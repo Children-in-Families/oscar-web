@@ -1370,6 +1370,7 @@ km:
       successfully_updated: របស់របរ/សំភារៈត្រូវបានកែសម្រួលដោយជោគជ័យ
     destroy:
       successfully_deleted: របស់របរ/សំភារៈត្រូវបានលុបដោយជោគជ័យ
+      unsuccessfully_deleted: របស់របរ/សំភារៈមិនអាចលុបបានទេ
 
   locations:
     index:
@@ -1392,6 +1393,7 @@ km:
       successfully_updated: កន្លែងត្រូវបានកែសម្រួលដោយជោគជ័យ
     destroy:
       successfully_deleted: កន្លែងត្រូវបានលុបដោយជោគជ័យ
+      unsuccessfully_deleted: កន្លែងមិនអាចលុបបានទេ
 
   progress_note_types:
     index:
@@ -1414,6 +1416,7 @@ km:
       successfully_updated: កំណត់សំគាល់ត្រូវបានកែសម្រួលដោយជោគជ័យ
     destroy:
       successfully_deleted: កំណត់សំគាល់ត្រូវបានលុបដោយជោគជ័យ
+      unsuccessfully_deleted: កំណត់សំគាល់មិនអាចលុបបានទេ
 
   interventions:
     index:
@@ -1436,6 +1439,7 @@ km:
       successfully_updated: ចំនុចដែលត្រូវធ្វើត្រូវបានកែសម្រួលដោយជោគជ័យ
     destroy:
       successfully_deleted: ចំនុចដែលត្រូវធ្វើត្រូវបានលុបដោយជោគជ័យ
+      unsuccessfully_deleted: ចំនុចដែលត្រូវធ្វើមិនអាចលុបបានទេ
 
   progress_notes:
     index:

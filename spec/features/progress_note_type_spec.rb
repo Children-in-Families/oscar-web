@@ -1,6 +1,8 @@
 describe 'ProgressNoteType' do
   let!(:admin){ create(:user, roles: 'admin') }
   let!(:progress_note_type){ create(:progress_note_type) }
+  let!(:used_progress_note_type){ create(:progress_note_type) }
+  let!(:progress_note){ create(:progress_note, progress_note_type: used_progress_note_type) }
 
   before do
     login_as(admin)
@@ -76,6 +78,10 @@ describe 'ProgressNoteType' do
     scenario 'success' do
       find("a[href='#{progress_note_type_path(progress_note_type)}'][data-method='delete']").click
       expect(page).to have_content(I18n.t('progress_note_types.destroy.successfully_deleted'))
+    end
+
+    scenario 'does not succeed' do
+      expect(page).not_to have_css("a[href='#{progress_note_type_path(used_progress_note_type)}'][data-method='delete']")
     end
   end
 end

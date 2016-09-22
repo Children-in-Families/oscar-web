@@ -1,6 +1,8 @@
 describe 'Location' do
   let!(:admin){ create(:user, roles: 'admin') }
   let!(:location){ create(:location) }
+  let!(:used_location){ create(:location) }
+  let!(:progress_note){ create(:progress_note, location: used_location) }
 
   before do
     login_as(admin)
@@ -76,6 +78,10 @@ describe 'Location' do
     scenario 'success' do
       find("a[href='#{location_path(location)}'][data-method='delete']").click
       expect(page).to have_content(I18n.t('locations.destroy.successfully_deleted'))
+    end
+
+    scenario 'does not succeed' do
+      expect(page).not_to have_css("a[href='#{location_path(used_location)}'][data-method='delete']")
     end
   end
 end

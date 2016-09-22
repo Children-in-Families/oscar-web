@@ -145,6 +145,18 @@ describe User, 'methods' do
   let!(:third_client) { create(:client, user: third_case_worker) }
   let!(:third_assessment) { create(:assessment, client: third_client, created_at: Date.today << 6) }
 
+  let!(:used_user) { create(:user) }
+  let!(:other_clent) { create(:client, user: used_user) }
+  let!(:case) { create(:case, user: used_user) }
+  let!(:task) { create(:task, user: used_user) }
+  let!(:changelog) { create(:changelog, user: used_user) }
+  let!(:progress_note) { create(:progress_note, user: used_user) }
+
+  context 'has_no_any_associated_objects?' do
+    it { expect(admin.has_no_any_associated_objects?).to be_truthy }
+    it { expect(used_user.has_no_any_associated_objects?).to be_falsey }
+  end
+
   context 'name' do
     it{ expect(case_worker.name).to eq('First Name Last Name') }
   end

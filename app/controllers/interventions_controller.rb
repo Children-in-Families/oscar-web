@@ -32,8 +32,11 @@ class InterventionsController < AdminController
   end
 
   def destroy
-    @intervention.destroy
-    redirect_to interventions_url, notice: t('.successfully_deleted')
+    if @intervention.destroy
+      redirect_to interventions_url, notice: t('.successfully_deleted')
+    else
+      redirect_to interventions_url, notice: t('.unsuccessfully_deleted')
+    end
   end
 
   private

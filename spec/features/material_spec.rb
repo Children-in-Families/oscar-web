@@ -1,6 +1,8 @@
 describe 'Material' do
   let!(:admin){ create(:user, roles: 'admin') }
   let!(:material){ create(:material) }
+  let!(:used_material){ create(:material) }
+  let!(:progress_note){ create(:progress_note, material: used_material) }
 
   before do
     login_as(admin)
@@ -77,8 +79,9 @@ describe 'Material' do
       find("a[href='#{material_path(material)}'][data-method='delete']").click
       expect(page).to have_content(I18n.t('materials.destroy.successfully_deleted'))
     end
-    # scenario 'unsuccess' do
-    #   expect(page).not_to have_css("a[href='#{material_path(other_material)}'][data-method='delete']")
-    # end
+
+    scenario 'does not succeed' do
+      expect(page).not_to have_css("a[href='#{material_path(used_material)}'][data-method='delete']")
+    end
   end
 end

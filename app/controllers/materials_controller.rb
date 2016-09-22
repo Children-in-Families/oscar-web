@@ -32,8 +32,11 @@ class MaterialsController < AdminController
   end
 
   def destroy
-    @material.destroy
-    redirect_to materials_url, notice: t('.successfully_deleted')
+    if @material.destroy
+      redirect_to materials_url, notice: t('.successfully_deleted')
+    else
+      redirect_to materials_url, notice: t('.unsuccessfully_deleted')
+    end
   end
 
   private

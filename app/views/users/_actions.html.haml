@@ -1,6 +1,6 @@
 = link_to edit_user_path(object) do
   %i.glyphicon.glyphicon-pencil
-- if object.clients_count.zero? && object.cases_count.zero? && object.tasks_count.zero? && object.changelogs_count.zero?
+- if object.has_no_any_associated_objects?
   = link_to object, method: 'delete', data: { confirm: t('.are_you_sure') } do
     %i.glyphicon.glyphicon-trash
 - else

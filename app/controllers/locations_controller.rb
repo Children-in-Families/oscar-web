@@ -32,8 +32,11 @@ class LocationsController < AdminController
   end
 
   def destroy
-    @location.destroy
-    redirect_to locations_url, notice: t('.successfully_deleted')
+    if @location.destroy
+      redirect_to locations_url, notice: t('.successfully_deleted')
+    else
+      redirect_to locations_url, notice: t('.unsuccessfully_deleted')
+    end
   end
 
   private
