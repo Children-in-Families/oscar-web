@@ -1,6 +1,6 @@
 feature 'progress_note' do
   let!(:admin){ create(:user, roles: 'admin') }
-  let!(:client){ create(:client) }
+  let!(:client){ create(:client, able: true) }
   let!(:progress_note){ create(:progress_note, client: client) }
   let!(:progress_note_type){ create(:progress_note_type) }
   let!(:location){ create(:location) }
