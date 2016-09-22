@@ -55,7 +55,7 @@ class ProgressNotesController < AdminController
   private
 
   def find_client
-    @client = Client.accessible_by(current_ability).friendly.find(params[:client_id])
+    @client = Client.able.accessible_by(current_ability).friendly.find(params[:client_id])
   end
 
   def find_progress_note

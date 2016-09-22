@@ -10,6 +10,9 @@
         .panel.panel-default#progress-note-search-form.collapse
           .panel-body
             = datagrid_form_for @progress_note_grid, url: client_progress_notes_url(@client), html: { class: 'grid-form' }
+        .text-left.record-count
+          %strong= @progress_note_grid.assets.count
+          %span= t('.records')
         .table-responsive
           = datagrid_table @progress_note_grid, html: {class: 'table table-bordered table-striped table-hover progress-notes'}
 

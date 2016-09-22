@@ -1231,6 +1231,7 @@ en:
       manage: Manage
       are_you_sure: Are you sure you want to delete?
       export_to_csv: Export to CSV
+      records: Results
     show:
       <<: *default_progress_note_fields
       are_you_sure: Are you sure you want to delete?
