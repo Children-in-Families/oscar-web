@@ -57,8 +57,8 @@ feature 'progress_note' do
     end
 
     scenario 'date and link to show page' do
-      expect(page).to have_content(progress_note.date)
-      expect(page).to have_link(progress_note.date, client_progress_note_path(progress_note.client, progress_note))
+      expect(page).to have_content(progress_note.date.strftime('%d %b, %Y'))
+      expect(page).to have_link(progress_note.date.strftime('%d %b, %Y'), client_progress_note_path(progress_note.client, progress_note))
     end
 
     scenario 'edit link' do

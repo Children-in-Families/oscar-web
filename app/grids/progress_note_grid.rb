@@ -52,7 +52,7 @@ class ProgressNoteGrid
   end
 
   column(:date, html: true, header: -> { I18n.t('datagrid.columns.progress_notes.date') }) do |object|
-    link_to object.date, client_progress_note_path(object.client, object)
+    link_to object.date.strftime('%d %b, %Y'), client_progress_note_path(object.client, object)
   end
 
   column(:date, html: false, header: -> { I18n.t('datagrid.columns.progress_notes.date') }) do |object|
@@ -77,12 +77,12 @@ class ProgressNoteGrid
 
   column(:other_location, header: -> { I18n.t('datagrid.columns.progress_notes.other_location') })
 
-  column(:material, order: proc { |scope| scope.includes(:material).reorder('materials.status') }, header: -> { I18n.t('datagrid.columns.progress_notes.material') }) do |object|
-    object.decorate.material
-  end
-
   column(:interventions, order: false, header: -> { I18n.t('datagrid.columns.progress_notes.interventions') }) do |object|
     object.interventions.pluck(:action).join(', ')
+  end
+
+  column(:material, order: proc { |scope| scope.includes(:material).reorder('materials.status') }, header: -> { I18n.t('datagrid.columns.progress_notes.material') }) do |object|
+    object.decorate.material
   end
 
   column(:goals_addressed, order: false, header: -> { I18n.t('datagrid.columns.progress_notes.goals_addressed') }) do |object|

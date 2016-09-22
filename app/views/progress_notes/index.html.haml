@@ -11,7 +11,7 @@
           .panel-body
             = datagrid_form_for @progress_note_grid, url: client_progress_notes_url(@client), html: { class: 'grid-form' }
         .table-responsive
-          = datagrid_table @progress_note_grid, html: {class: 'table table-bordered table-striped table-hover'}
+          = datagrid_table @progress_note_grid, html: {class: 'table table-bordered table-striped table-hover progress-notes'}
 
         = link_to t('.back'), client_path(@client), class: 'btn btn-default btn-back'
 .row

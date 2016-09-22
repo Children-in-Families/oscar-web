@@ -12,6 +12,10 @@ body[id='progress_notes-index'] {
     float: right;
   }
 
+  table.progress-notes {
+    margin-bottom: 0;
+  }
+
   td.manage a {
     margin: 0 5px;
   }

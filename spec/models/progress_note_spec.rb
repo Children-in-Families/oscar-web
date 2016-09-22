@@ -9,6 +9,8 @@ describe ProgressNote, 'associations' do
 end
 
 describe ProgressNote, 'validations' do
+  it { is_expected.to validate_presence_of(:client_id)}
+  it { is_expected.to validate_presence_of(:user_id)}
   it { is_expected.to validate_presence_of(:date)}
 #   FactoryGirl.create(:location, name: 'Other')
 #   name           = 'Other'
@@ -25,4 +27,9 @@ describe ProgressNote, 'validations' do
 #     before { subject.location = other }
 #     it { is_expected.to validate_presence_of(:other_location) }
 #   end
+end
+
+describe ProgressNote, 'scopes' do
+  location = FactoryGirl.create(:progress_note, other_location: 'Other Location')
+  it { expect(ProgressNote.other_location_like('OTHER location')).to include(location) }
 end
