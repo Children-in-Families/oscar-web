@@ -15,10 +15,11 @@ describe ProgressNote, 'validations' do
 end
 
 describe ProgressNote, 'scopes' do
+  let!(:progress_note){ create(:progress_note, other_location: 'Other Location') }
   context 'other_location_like' do
-    location = FactoryGirl.create(:progress_note, other_location: 'Other Location')
+    let!(:progress_notes){ ProgressNote.other_location_like('OTHER location') }
     it 'should include progress note with other location like' do
-      expect(ProgressNote.other_location_like('OTHER location')).to include(location)
+      expect(progress_notes).to include(progress_note)
     end
   end
 end
