@@ -17,13 +17,13 @@
                   = t('.child')
                 %td
                   %strong
-                    = @progress_note.client.name
+                    = @progress_note.client
               %tr
                 %td.spacing-first-col
                   = t('.staff')
                 %td
                   %strong
-                    = @progress_note.user.name
+                    = @progress_note.user
               %tr
                 %td.spacing-first-col
                   = t('.progress_note_type')
@@ -36,6 +36,12 @@
                 %td
                   %strong
                     = @progress_note.location
+              %tr
+                %td.spacing-first-col
+                  = t('.other_location')
+                %td
+                  %strong
+                    = @progress_note.other_location
               %tr
                 %td.spacing-first-col
                   = t('.interventions')
@@ -72,4 +78,4 @@
 
         .row
           .col-xs-12
-            = link_to t('.back'), client_progress_notes_path(@client), class: 'btn btn-default'
+            = link_to t('.back'), client_progress_notes_path(@client), class: 'btn btn-default btn-back'

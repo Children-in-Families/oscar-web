@@ -9,4 +9,6 @@ class ProgressNote < ActiveRecord::Base
   has_and_belongs_to_many :assessment_domains
 
   validates :date, presence: true
+
+  scope :other_location_like, -> (value) { where('LOWER(progress_notes.other_location) LIKE ?', "%#{value.downcase}%") }
 end

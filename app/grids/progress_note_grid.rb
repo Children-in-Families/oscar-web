@@ -19,6 +19,8 @@ class ProgressNoteGrid
     Location.joins(:progress_notes).map{ |l| [l.name, l.id] }.uniq
   end
 
+  filter(:other_location, :string, header: -> { I18n.t('datagrid.columns.progress_notes.other_location') }) { |value, scope| scope.other_location_like(value) }
+
   filter(:interventions_action, :enum, multiple: true, select: :interventions_options, header: -> { I18n.t('datagrid.columns.progress_notes.interventions') }) do |action, scope|
     if interventions ||= Intervention.action_like(action)
       scope.joins(:interventions).where(interventions: { id: interventions.ids })
@@ -50,19 +52,19 @@ class ProgressNoteGrid
   end
 
   column(:date, html: true, header: -> { I18n.t('datagrid.columns.progress_notes.date') }) do |object|
-    link_to object.decorate.date, client_progress_note_path(object.client, object)
+    link_to object.date, client_progress_note_path(object.client, object)
   end
 
   column(:date, html: false, header: -> { I18n.t('datagrid.columns.progress_notes.date') }) do |object|
-    object.decorate.date
+    object.date
   end
 
   column(:child, order: proc { |scope| scope.joins(:client).reorder('clients.first_name') }, header: -> { I18n.t('datagrid.columns.progress_notes.child') }) do |object|
-    object.client.name.blank? ? 'Unknown' : object.client.name
+    object.decorate.client.blank? ? 'Unknown' : object.decorate.client
   end
 
   column(:staff, order: proc { |scope| scope.joins(:user).reorder('users.first_name') }, header: -> { I18n.t('datagrid.columns.progress_notes.staff') }) do |object|
-    object.user.name
+    object.decorate.user
   end
 
   column(:progress_note_type, order: proc { |scope| scope.includes(:progress_note_type).reorder('progress_note_types.note_type') }, header: -> { I18n.t('datagrid.columns.progress_notes.progress_note_type') }) do |object|
@@ -72,6 +74,8 @@ class ProgressNoteGrid
   column(:location, order: proc { |scope| scope.includes(:location).reorder('locations.name') }, header: -> { I18n.t('datagrid.columns.progress_notes.location') }) do |object|
     object.decorate.location
   end
+
+  column(:other_location, header: -> { I18n.t('datagrid.columns.progress_notes.other_location') })
 
   column(:material, order: proc { |scope| scope.includes(:material).reorder('materials.status') }, header: -> { I18n.t('datagrid.columns.progress_notes.material') }) do |object|
     object.decorate.material
@@ -84,6 +88,10 @@ class ProgressNoteGrid
   column(:goals_addressed, order: false, header: -> { I18n.t('datagrid.columns.progress_notes.goals_addressed') }) do |object|
     object.assessment_domains.pluck(:goal).join(', ')
   end
+
+  column(:response, html: false, header: -> { I18n.t('datagrid.columns.progress_notes.response') })
+
+  column(:additional_note, html: false, header: -> { I18n.t('datagrid.columns.progress_notes.additional_notes') })
 
   column(:manage, html: true, class: 'text-center', header: -> { I18n.t('datagrid.columns.progress_notes.manage') }) do |object|
     render partial: 'progress_notes/actions', locals: { object: object }

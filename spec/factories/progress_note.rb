@@ -8,5 +8,6 @@ FactoryGirl.define do
     association :progress_note_type, factory: :progress_note_type
     association :location, factory: :location
     association :material, factory: :material
+    association :user, factory: :user
   end
 end

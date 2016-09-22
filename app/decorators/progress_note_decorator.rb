@@ -1,6 +1,14 @@
 class ProgressNoteDecorator < Draper::Decorator
   delegate_all
 
+  def client
+    model.client.name
+  end
+
+  def user
+    model.user.name
+  end
+
   def progress_note_type
     model.progress_note_type.note_type if model.progress_note_type
   end
