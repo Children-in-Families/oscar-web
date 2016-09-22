@@ -12,24 +12,13 @@ describe ProgressNote, 'validations' do
   it { is_expected.to validate_presence_of(:client_id)}
   it { is_expected.to validate_presence_of(:user_id)}
   it { is_expected.to validate_presence_of(:date)}
-#   FactoryGirl.create(:location, name: 'Other')
-#   name           = 'Other'
-#   other_location = Location.other(name).first
-#   # other          = where('lower(name) like ?', name.downcase)
-#   subject{ ProgressNote.new }
-
-#   it { is_expected.to validate_presence_of(:date)}
-#   it { is_expected.to validate_presence_of(:client_id)}
-#   it { is_expected.to validate_presence_of(:progress_note_type_id)}
-#   it { is_expected.to validate_presence_of(:location_id)}
-
-#   context 'if other location' do
-#     before { subject.location = other }
-#     it { is_expected.to validate_presence_of(:other_location) }
-#   end
 end
 
 describe ProgressNote, 'scopes' do
-  location = FactoryGirl.create(:progress_note, other_location: 'Other Location')
-  it { expect(ProgressNote.other_location_like('OTHER location')).to include(location) }
+  context 'other_location_like' do
+    location = FactoryGirl.create(:progress_note, other_location: 'Other Location')
+    it 'should include progress note with other location like' do
+      expect(ProgressNote.other_location_like('OTHER location')).to include(location)
+    end
+  end
 end

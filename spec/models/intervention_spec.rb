@@ -13,3 +13,16 @@ describe Intervention, 'methods' do
     it{ expect(used_intervention.has_no_any_progress_notes?).to be_falsey }
   end
 end
+
+describe Intervention, 'scopes' do
+  let!(:intervention){ create(:intervention, action: 'Healthcare') }
+  let!(:other_intervention){ create(:intervention, action: 'Take medicine') }
+  context 'action like' do
+    it 'should include intervention with action like' do
+      expect(Intervention.action_like([intervention.action])).to include(intervention)
+    end
+    it 'should not include intervention with other action' do
+      expect(Intervention.action_like([intervention.action])).not_to include(other_intervention)
+    end
+  end
+end
