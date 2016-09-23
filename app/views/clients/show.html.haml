@@ -304,7 +304,7 @@
               .col-xs-10.col-xs-offset-1.pushing-top.color-blue.government-reports
                 %h4.white-text.text-center
                   = t('.government_report')
-          - if @client.able? && (current_user.able_manager? || current_user.admin?)
+          - if can_manage_client_progress_note?
             .row
               = link_to client_progress_notes_path(@client) do
                 .col-xs-10.col-xs-offset-1.pushing-top.color-blue

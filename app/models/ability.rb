@@ -13,6 +13,7 @@ class Ability
       can :manage, :all
     elsif user.case_worker?
       can :manage, Client, user_id: user.id
+      can :manage, ProgressNote
       can :manage, Case
       can :manage, Assessment
       can :manage, Survey
