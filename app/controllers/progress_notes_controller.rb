@@ -65,7 +65,7 @@ class ProgressNotesController < AdminController
   def find_association
     @assessment_domains  = @client.assessments.last.assessment_domains if @client.assessments.any?
     @progress_note_types = ProgressNoteType.order(:note_type)
-    @locations           = Location.order(:name)
+    @locations           = Location.order('order_option, name')
     @interventions       = Intervention.order(:action)
     @materials           = Material.order(:status)
   end

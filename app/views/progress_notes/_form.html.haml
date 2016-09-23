@@ -21,7 +21,7 @@
       .col-xs-12.col-md-4
         = f.association :progress_note_type, collection: @progress_note_types.map{ |t| [t.note_type, t.id] }, input_html: { class: 'form-control' }, label: t('.progress_note_type')
       .col-xs-12.col-md-4
-        = f.association :location, collection: @locations.map{ |l| [l.name, l.id] }, input_html: { class: 'form-control' }, label: t('.location')
+        = f.association :location, collection: @locations.map{ |l| [l.name, l.id] }, input_html: { class: 'form-control' }, label: t('.location'), include_blank: false
       .col-xs-12.col-md-4
         = f.input :other_location, input_html: { class: 'form-control' }, label: t('.other_location')
     .row

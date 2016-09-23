@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160921065318) do
+ActiveRecord::Schema.define(version: 20160923072931) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -316,9 +316,10 @@ ActiveRecord::Schema.define(version: 20160921065318) do
   add_index "interventions_progress_notes", ["progress_note_id"], name: "index_interventions_progress_notes_on_progress_note_id", using: :btree
 
   create_table "locations", force: :cascade do |t|
-    t.string   "name",       default: ""
+    t.string   "name",         default: ""
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "order_option", default: 0
   end
 
   create_table "materials", force: :cascade do |t|

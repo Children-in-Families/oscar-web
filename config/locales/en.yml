@@ -10,7 +10,7 @@ en:
     staff: ABLE / ABLE Staff Name
     progress_note_type: Type of note
     location: Location
-    other_location: Other?
+    other_location: Other
     interventions: Interventions
     material: Equipment/Materials
     response: Activities & Response
@@ -700,6 +700,8 @@ en:
         progress_note:
           attributes:
             date:
+              blank: can't be blank
+            other_location:
               blank: can't be blank
 
   agencies:

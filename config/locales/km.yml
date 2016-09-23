@@ -762,6 +762,8 @@ km:
           attributes:
             date:
               blank: មិនអាចរំលង
+            other_location:
+              blank: មិនអាចរំលង
   agencies:
     index:
       add_new_agency: បន្ថែមអង្គភាពថ្មី
