@@ -1,7 +1,8 @@
 describe 'Location' do
   let!(:admin){ create(:user, roles: 'admin') }
-  let!(:location){ create(:location) }
+  let!(:location){ create(:location, name: 'ផ្សេងៗ Other') }
   let!(:used_location){ create(:location) }
+  let!(:new_location){ create(:location) }
   let!(:progress_note){ create(:progress_note, location: used_location) }
 
   before do
@@ -22,8 +23,8 @@ describe 'Location' do
       expect(page).to have_link(nil, edit_location_path(location))
     end
 
-    scenario 'delete link' do
-      expect(page).to have_css("a[href='#{location_path(location)}'][data-method='delete']")
+    scenario 'diable delete link' do
+      expect(page).not_to have_css("a[href='#{location_path(location)}'][data-method='delete']")
     end
 
     scenario 'new link' do
@@ -76,7 +77,7 @@ describe 'Location' do
       visit locations_path
     end
     scenario 'success' do
-      find("a[href='#{location_path(location)}'][data-method='delete']").click
+      find("a[href='#{location_path(new_location)}'][data-method='delete']").click
       expect(page).to have_content(I18n.t('locations.destroy.successfully_deleted'))
     end
 

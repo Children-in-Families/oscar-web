@@ -1,8 +1,9 @@
 describe 'ProgressNoteType' do
   let!(:admin){ create(:user, roles: 'admin') }
-  let!(:progress_note_type){ create(:progress_note_type) }
+  let!(:progress_note_type){ create(:progress_note_type, note_type: 'AAA') }
   let!(:used_progress_note_type){ create(:progress_note_type) }
-  let!(:progress_note){ create(:progress_note, progress_note_type: used_progress_note_type) }
+  let!(:location){ create(:location, name: 'ផ្សេងៗ Other') }
+  let!(:progress_note){ create(:progress_note, progress_note_type: used_progress_note_type, location: location) }
 
   before do
     login_as(admin)

@@ -1,6 +1,6 @@
 describe 'Intervention' do
   let!(:admin){ create(:user, roles: 'admin') }
-  let!(:intervention){ create(:intervention) }
+  let!(:intervention){ create(:intervention, action: 'AAA') }
 
   before do
     login_as(admin)

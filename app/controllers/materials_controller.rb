@@ -4,7 +4,7 @@ class MaterialsController < AdminController
   before_action :find_material, only: [:edit, :update, :destroy]
 
   def index
-    @materials = Material.all.paginate(page: params[:page], per_page: 20)
+    @materials = Material.order(:status).paginate(page: params[:page], per_page: 20)
   end
 
   def new

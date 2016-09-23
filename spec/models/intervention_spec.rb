@@ -5,9 +5,10 @@ describe Intervention, 'validations' do
 end
 
 describe Intervention, 'methods' do
+  let!(:location){ create(:location, name: 'ផ្សេងៗ Other') }
   let!(:intervention){ create(:intervention) }
   let!(:used_intervention){ create(:intervention) }
-  let!(:progress_note){ create(:progress_note, intervention_ids: used_intervention.id) }
+  let!(:progress_note){ create(:progress_note, intervention_ids: used_intervention.id, location: location) }
   context 'has_no_any_progress_notes?' do
     it{ expect(intervention.has_no_any_progress_notes?).to be_truthy }
     it{ expect(used_intervention.has_no_any_progress_notes?).to be_falsey }

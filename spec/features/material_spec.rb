@@ -1,8 +1,9 @@
 describe 'Material' do
   let!(:admin){ create(:user, roles: 'admin') }
-  let!(:material){ create(:material) }
+  let!(:material){ create(:material, status: 'AAA') }
   let!(:used_material){ create(:material) }
-  let!(:progress_note){ create(:progress_note, material: used_material) }
+  let!(:location){ create(:location, name: 'ផ្សេងៗ Other') }
+  let!(:progress_note){ create(:progress_note, material: used_material, location: location) }
 
   before do
     login_as(admin)

@@ -15,8 +15,6 @@ class ProgressNote < ActiveRecord::Base
 
   before_save :toggle_other_location
 
-  private
-
   def toggle_other_location
     if location_id.present? && !is_other_location
       self.other_location = ''

@@ -1,6 +1,6 @@
+include ActionView::Helpers::SanitizeHelper
 class ProgressNoteGrid
   include Datagrid
-  include ActionView::Helpers::SanitizeHelper
 
   scope do
     ProgressNote.includes(:client, :progress_note_type, :location, :material, :interventions, :assessment_domains).order(:created_at)

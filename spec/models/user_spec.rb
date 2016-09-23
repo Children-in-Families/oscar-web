@@ -150,7 +150,8 @@ describe User, 'methods' do
   let!(:case) { create(:case, user: used_user) }
   let!(:task) { create(:task, user: used_user) }
   let!(:changelog) { create(:changelog, user: used_user) }
-  let!(:progress_note) { create(:progress_note, user: used_user) }
+  let!(:location){ create(:location, name: 'ផ្សេងៗ Other') }
+  let!(:progress_note) { create(:progress_note, user: used_user, location: location) }
 
   context 'has_no_any_associated_objects?' do
     it { expect(admin.has_no_any_associated_objects?).to be_truthy }

@@ -4,7 +4,7 @@ class ProgressNoteTypesController < AdminController
   before_action :find_progress_note_type, only: [:edit, :update, :destroy]
 
   def index
-    @progress_note_types = ProgressNoteType.all.paginate(page: params[:page], per_page: 20)
+    @progress_note_types = ProgressNoteType.order(:note_type).paginate(page: params[:page], per_page: 20)
   end
 
   def new
