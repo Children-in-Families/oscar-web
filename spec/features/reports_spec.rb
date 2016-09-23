@@ -1,5 +1,6 @@
 describe 'Report' do
   let!(:admin){ create(:user, roles: 'admin') }
+  let!(:client){ create(:client, user: admin) }
   before do 
     login_as(admin)
   end

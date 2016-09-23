@@ -1,13 +1,6 @@
 = form_tag('/reports', method: :post, class: 'form-inline') do
   .row.search-statistic
     .col-xs-12.col-sm-6
-      %label= t('.csi_domain_scores')
-      .input-group
-        %span.input-group-addon= t('.start_date')
-        = text_field_tag :csi_start_date, params[:csi_start_date], class: 'date optional form-control pull-right date-picker'
-        %span.input-group-addon= t('.end_date')
-        = text_field_tag :csi_end_date, params[:csi_end_date], class: 'date optional form-control pull-right date-picker'
-    .col-xs-12.col-sm-6
       %label= t('.case_statistics')
       .input-group
         %span.input-group-addon= t('.start_date')

@@ -10,19 +10,16 @@ describe CsiStatistic, 'statistic data' do
   let!(:other_assessment_domain){ create(:assessment_domain, assessment: other_assessment, domain: domain, note: 'test', score: 3, created_at: Date.today)}
 
   it 'returns average domain score without filter' do
-    data = [
-              {:name=> '1A', :data=>{7.months.ago.strftime('%B %Y')=>4.0, 
-                                      Date.today.strftime('%B %Y')=>3.0}}
-            ]
+    data = [{:name=>"1A", :data=>{:"Assessment (1)"=>4.0,
+              :"Assessment (2)"=>3.0}}]
     
     statistic = CsiStatistic.new('', '')
     expect(statistic.assessment_domain_score).to eq(data)
   end
 
   it 'returns average domain score with filter date' do
-    data = [
-              {:name=> '1A', :data=>{7.months.ago.strftime('%B %Y')=>4.0}}
-            ]
+    data = [{:name=>"1A", :data=>{:"Assessment (1)"=>4.0, 
+              :"Assessment (2)"=>3.0}}]
     
     statistic = CsiStatistic.new(7.months.ago.to_date.to_s, 5.month.ago.to_date.to_s)
     expect(statistic.assessment_domain_score).to eq(data)
