@@ -1,5 +1,6 @@
 class ProgressNoteGrid
   include Datagrid
+  include ActionView::Helpers::SanitizeHelper
 
   scope do
     ProgressNote.includes(:client, :progress_note_type, :location, :material, :interventions, :assessment_domains).order(:created_at)
@@ -89,9 +90,13 @@ class ProgressNoteGrid
     object.assessment_domains.pluck(:goal).join(', ')
   end
 
-  column(:response, html: false, header: -> { I18n.t('datagrid.columns.progress_notes.response') })
+  column(:response, html: false, header: -> { I18n.t('datagrid.columns.progress_notes.response') }) do |object|
+    strip_tags(object.response)
+  end
 
-  column(:additional_note, html: false, header: -> { I18n.t('datagrid.columns.progress_notes.additional_notes') })
+  column(:additional_note, html: false, header: -> { I18n.t('datagrid.columns.progress_notes.additional_notes') }) do |object|
+    strip_tags(object.additional_note)
+  end
 
   column(:manage, html: true, class: 'text-center', header: -> { I18n.t('datagrid.columns.progress_notes.manage') }) do |object|
     render partial: 'progress_notes/actions', locals: { object: object }
