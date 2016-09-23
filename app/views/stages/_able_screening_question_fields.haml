@@ -1,0 +1,19 @@
+.nested-fields
+  .row
+    .col-xs-12.col-md-6
+      = f.input :question
+    .col-xs-12.col-md-3
+      = f.input :group, collection: AbleScreeningQuestion::GROUPS, input_html: { class: 'select2'}
+    .col-xs-12.col-md-2
+      = f.input :mode, collection: AbleScreeningQuestion::MODES, input_html: { class: 'select2 check-mode'}
+    .col-xs-12.col-md-1.no-label-form-group
+      = link_to_remove_association f, class: 'btn btn-danger', data: { confirm: 'Remove question with have sigificant affect to client answers, Are you sure you want to delete?' } do
+        %i.glyphicon.glyphicon-trash
+  .row
+    .col-xs-12.col-md-3
+      - f.object.attachments.build unless f.object.attachments.any?
+      = f.simple_fields_for :attachments do |attachment|
+        = render 'attachment_fields', f: attachment
+    .col-xs-12.col-md-3
+      = f.input :alert_manager, as: :boolean
+  %hr

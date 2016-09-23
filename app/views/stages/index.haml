@@ -1,0 +1,24 @@
+.row
+  .col-xs-12.col-sm-8.col-sm-offset-2
+    .panel.panel-default
+      .panel-heading
+        %h4 Stage
+      .panel-body
+        - @stages.each do |stage|
+          #accordion.panel-group{"aria-multiselectable" => "true", :role => "tablist"}
+            .panel.panel-default
+              .panel-heading{id: "heading-no#{stage.id}", :role => "tab"}
+                %h4.panel-title
+                  %a{"aria-controls" => "collapse-#{stage.id}", "aria-expanded" => "true", "data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapse-#{stage.id}", :role => "button"}
+                    = "From #{stage.from_age} - To #{stage.to_age} Year" unless stage.non_stage
+                    %span.badge= pluralize(stage.able_screening_questions.count, 'Question')
+                  = link_to 'Edit/Add Question', edit_stage_path(stage), class: 'pull-right'
+              .panel-collapse.collapse.in{"aria-labelledby" => "heading-no#{stage.id}", :role => "tabpanel", id: "collapse-#{stage.id}"}
+                .panel-body
+                  %ol
+                    - stage.able_screening_questions.each do |able_question|
+                      %li
+                        = able_question.question
+      .panel-footer
+        .form-actions.text-right
+          = link_to 'New Stage', new_stage_path, class: 'btn btn-primary'

@@ -17,5 +17,3 @@ CIF.Common =
   validateFilterNumber: ->
     $(window).load ->
       $('input[type="number"]').attr('min','0')
-
-

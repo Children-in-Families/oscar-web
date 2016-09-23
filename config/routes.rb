@@ -18,6 +18,7 @@ Rails.application.routes.draw do
     resources :users
   end
 
+  resources :stages
   resources :quantitative_types
   resources :quantitative_cases
   resources :referral_sources, except: [:show]
@@ -49,7 +50,7 @@ Rails.application.routes.draw do
     resources :surveys
   end
 
-  
+
 
   resources :families
   resources :partners

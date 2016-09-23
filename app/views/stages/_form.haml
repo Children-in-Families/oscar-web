@@ -1,0 +1,19 @@
+= simple_form_for(@stage, title: "new stage") do |f|
+  .panel-body
+    = f.error_notification
+    .form-inputs
+      .row
+        .col-xs-12.col-md-4= f.input :from_age, label: 'From Age (As Year)'
+        .col-xs-12.col-md-4= f.input :to_age, label: 'To Age (As Year)'
+        .col-xs-12.col-md-4.no-label-form-group= f.input :non_stage, as: :boolean
+      %hr
+      %h3.text-center Questions
+      %hr
+      = f.simple_fields_for :able_screening_questions do |able_screening_question|
+        = render 'able_screening_question_fields', f: able_screening_question
+      .links
+        = link_to_add_association 'add Question', f, :able_screening_questions, class: 'btn btn-primary btn-xs'
+  .panel-footer
+    .form-actions.text-right
+      = link_to t('cancel'), stages_path, class: 'btn btn-default form-btn'
+      = f.button :submit, t('save'), class: 'btn btn-primary form-btn'

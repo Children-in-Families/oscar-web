@@ -11,10 +11,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160908074157) do
+ActiveRecord::Schema.define(version: 20160923084811) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "able_screening_questions", force: :cascade do |t|
+    t.string   "question"
+    t.string   "mode"
+    t.string   "group"
+    t.integer  "stage_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.boolean  "alert_manager"
+  end
+
+  add_index "able_screening_questions", ["stage_id"], name: "index_able_screening_questions_on_stage_id", using: :btree
 
   create_table "agencies", force: :cascade do |t|
     t.string   "name",                   default: ""
@@ -30,6 +42,17 @@ ActiveRecord::Schema.define(version: 20160908074157) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "answers", force: :cascade do |t|
+    t.string   "description"
+    t.integer  "able_screening_question_id"
+    t.integer  "client_id"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+  end
+
+  add_index "answers", ["able_screening_question_id"], name: "index_answers_on_able_screening_question_id", using: :btree
+  add_index "answers", ["client_id"], name: "index_answers_on_client_id", using: :btree
 
   create_table "assessment_domains", force: :cascade do |t|
     t.text     "note",           default: ""
@@ -50,6 +73,15 @@ ActiveRecord::Schema.define(version: 20160908074157) do
   end
 
   add_index "assessments", ["client_id"], name: "index_assessments_on_client_id", using: :btree
+
+  create_table "attachments", force: :cascade do |t|
+    t.string   "image"
+    t.integer  "able_screening_question_id"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+  end
+
+  add_index "attachments", ["able_screening_question_id"], name: "index_attachments_on_able_screening_question_id", using: :btree
 
   create_table "case_contracts", force: :cascade do |t|
     t.date     "signed_on"
@@ -150,6 +182,7 @@ ActiveRecord::Schema.define(version: 20160908074157) do
     t.text     "background",                       default: ""
     t.integer  "grade",                            default: 0
     t.string   "slug"
+    t.string   "able_state"
   end
 
   add_index "clients", ["slug"], name: "index_clients_on_slug", unique: true, using: :btree
@@ -363,6 +396,14 @@ ActiveRecord::Schema.define(version: 20160908074157) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "clients_count", default: 0
+  end
+
+  create_table "stages", force: :cascade do |t|
+    t.integer  "from_age"
+    t.integer  "to_age"
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.boolean  "non_stage",  default: true
   end
 
   create_table "surveys", force: :cascade do |t|
@@ -644,18 +685,11 @@ ActiveRecord::Schema.define(version: 20160908074157) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
-  create_table "versions", force: :cascade do |t|
-    t.string   "item_type",  null: false
-    t.integer  "item_id",    null: false
-    t.string   "event",      null: false
-    t.string   "whodunnit"
-    t.text     "object"
-    t.datetime "created_at"
-  end
-
-  add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
-
+  add_foreign_key "able_screening_questions", "stages"
+  add_foreign_key "answers", "able_screening_questions"
+  add_foreign_key "answers", "clients"
   add_foreign_key "assessments", "clients"
+  add_foreign_key "attachments", "able_screening_questions"
   add_foreign_key "case_contracts", "cases"
   add_foreign_key "case_notes", "clients"
   add_foreign_key "changelogs", "users"

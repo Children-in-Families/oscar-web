@@ -32,6 +32,10 @@ class ClientsController < AdminController
 
   def new
     @client = Client.new
+    @able_screening_questions = AbleScreeningQuestion.all
+    @able_screening_questions.each do |question|
+      @client.answers.build(able_screening_question: question)
+    end
   end
 
   def edit
@@ -42,8 +46,8 @@ class ClientsController < AdminController
     if current_user.case_worker? || current_user.able_manager? || current_user.any_case_manager?
       @client.user_id = current_user.id
     end
-
-    if @client.save
+    if @client.save(client_params)
+      AbleScreeningMailer.notify_able_manager(@client).deliver_now if @client.able?
       redirect_to @client, notice: t('.successfully_created')
     else
       render :new
@@ -51,7 +55,7 @@ class ClientsController < AdminController
   end
 
   def update
-    if @client.update(client_params)
+    if @client.update_attributes(client_params)
       if params[:client][:assessment_id]
         @assessment = Assessment.find(params[:client][:assessment_id])
         redirect_to client_assessment_path(@client, @assessment), notice: t('.assessment_successfully_created')
@@ -83,7 +87,19 @@ class ClientsController < AdminController
   end
 
   def client_params
-    params.require(:client).permit(:assessment_id, :first_name, :gender, :date_of_birth, :birth_province_id, :initial_referral_date, :referral_source_id, :referral_phone, :received_by_id, :followed_up_by_id, :follow_up_date, :grade, :school_name, :current_address, :has_been_in_orphanage, :has_been_in_government_care, :relevant_referral_information, :user_id, :province_id, :state, :rejected_note, :able, tasks_attributes: [:name, :domain_id, :completion_date], :agency_ids => [], :quantitative_case_ids => [])
+    params.require(:client)
+      .permit(:assessment_id, :first_name, :gender, :date_of_birth,
+              :birth_province_id, :initial_referral_date, :referral_source_id,
+              :referral_phone, :received_by_id, :followed_up_by_id,
+              :follow_up_date, :grade, :school_name, :current_address,
+              :has_been_in_orphanage, :has_been_in_government_care,
+              :relevant_referral_information, :user_id, :province_id, :state,
+              :rejected_note, :able,
+              agency_ids: [],
+              quantitative_case_ids: [],
+              tasks_attributes: [:name, :domain_id, :completion_date],
+              answers_attributes: [:id, :description, :able_screening_question_id, :client_id]
+              )
   end
 
   def set_association
@@ -113,7 +129,7 @@ class ClientsController < AdminController
       @client_grid = ClientGrid.new(params.fetch(:client_grid, {}).merge!(qType: qType))
     else
       @client_grid = ClientGrid.new(params[:client_grid])
-    end 
+    end
   end
 
   def non_admin_client_grid
@@ -122,6 +138,6 @@ class ClientsController < AdminController
       @client_grid = ClientGrid.new(params.fetch(:client_grid, {}).merge!(current_user: current_user, qType: qType))
     else
       @client_grid = ClientGrid.new(params.fetch(:client_grid, {}).merge!(current_user: current_user))
-    end 
+    end
   end
 end

@@ -13,6 +13,10 @@ describe Client, 'associations' do
   it { is_expected.to have_many(:assessments) }
   it { is_expected.to have_many(:surveys) }
 
+  it { is_expected.to have_many(:answers) }
+  it { is_expected.to have_many(:able_screening_questions).through(:answers) }
+  it { is_expected.to have_many(:choices).through(:answers) }
+
   it { is_expected.to have_and_belong_to_many(:agencies) }
   it { is_expected.to have_and_belong_to_many(:quantitative_cases) }
 
@@ -22,7 +26,7 @@ describe Client, 'methods' do
   let!(:client){ create(:client) }
   let!(:assessment){ create(:assessment, created_at: Date.today - 6.month, client: client) }
   let!(:other_client) { create(:client) }
-  
+
   context 'time in care' do
     context 'without any cases' do
       it { expect(client.time_in_care).to be_nil }
