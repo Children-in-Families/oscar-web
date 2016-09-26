@@ -6,4 +6,4 @@
   .col-xs-12.col-md-6
     .panel.panel-default.csi-statistic
       .panel-body
-        = line_chart(@csi_statistics, { library: { legend: { verticalAlign: 'top', y: 30, align: 'center' }, tooltip: { shared: true, xDateFormat: '%B %Y' }, title: { text: t('.csi_domain_scores') }, yAxis: { title: { text: t('.domain_score'), format: '%B %Y'}, min: 0, max: 4 }}})
+        = line_chart(@csi_statistics, { library: { legend: { verticalAlign: 'top', y: 30, align: 'center' }, tooltip: { shared: true, xDateFormat: '%B %Y' }, title: { text: t('.csi_domain_scores') }, xAxis: { tickmarkPlacement: 'on' }, yAxis: { title: { text: t('.domain_score'), format: '%B %Y'}, min: 0, max: 4 }}})
