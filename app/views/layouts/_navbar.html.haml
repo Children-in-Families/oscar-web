@@ -24,7 +24,7 @@
             %li{ class: active_menu('users') }
               = link_to t('.users'), users_path
           - if can? :manage, [CsiStatistic, CaseStatistic]
-            - if Case.active.any? || Assessment.count > 0
+            - if Client.any? && (Case.active.any? || Assessment.any?)
               %li{ class: active_menu('reports') }
                 = link_to t('.reports'), reports_path
 
