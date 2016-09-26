@@ -145,4 +145,8 @@ module ApplicationHelper
   def able_related_info(value)
     'able-related-info' if %w(illness, disability).any? { |w| value.include?(w) }
   end
+
+  def clients_controller?
+    controller_name == 'clients'
+  end
 end

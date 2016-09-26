@@ -96,19 +96,20 @@
         .datagrid-filter.filter
           = f.datagrid_label filter, title: filter.header
           = f.datagrid_filter filter, partials: options[:partials]
-  .row
-    .col-xs-12.domain-filter-search
-      %button.btn.btn-primary.btn-filter{"aria-expanded" => 'false', "data-target" => '#client-search-domain', "data-toggle" => 'collapse', type: 'button'}
-        %i.glyphicon.glyphicon-filter
-        %span= t('.filter_domains')
-  .row
-    #client-search-domain.collapse
-      - grid.filters.each do |filter|
-        - if filter.type == :dynamic
-          .datagrid-filter.filter
-            %label{ title: filter.header }
-              = truncate(filter.header, length: 40)
-            = f.datagrid_filter filter, partials: options[:partials]
+  - if clients_controller?
+    .row
+      .col-xs-12.domain-filter-search
+        %button.btn.btn-primary.btn-filter{"aria-expanded" => 'false', "data-target" => '#client-search-domain', "data-toggle" => 'collapse', type: 'button'}
+          %i.glyphicon.glyphicon-filter
+          %span= t('.filter_domains')
+    .row
+      #client-search-domain.collapse
+        - grid.filters.each do |filter|
+          - if filter.type == :dynamic
+            .datagrid-filter.filter
+              %label{ title: filter.header }
+                = truncate(filter.header, length: 40)
+              = f.datagrid_filter filter, partials: options[:partials]
   .row
     .datagrid-actions
       = f.submit I18n.t('datagrid.form.search').html_safe, class: 'datagrid-submit'
