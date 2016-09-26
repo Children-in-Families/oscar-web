@@ -1,11 +1,11 @@
 describe Changelog, 'associations' do
   it { is_expected.to belong_to(:user)}
+  it { is_expected.to have_many(:changelog_types).dependent(:destroy) }
 end
 
 describe Changelog, 'validations' do
   it { is_expected.to validate_presence_of(:user_id)}
   it { is_expected.to validate_presence_of(:version)}
-  it { is_expected.to validate_presence_of(:description)}
   it { is_expected.to validate_uniqueness_of(:version)}
 end
 

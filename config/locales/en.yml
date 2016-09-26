@@ -1040,13 +1040,15 @@ en:
         sign_in: Sign In
 
   changelogs:
+    changelog_type_fields:
+      description: Description
     index:
       <<: *default_changelog_fields
-      changelogs: Changelogs
+      version_list: Version List
+      changes: Changes
       add_new_changelog: Add New Changelog
-      created_at: Date
-      manage: Manage
       are_you_sure: Are you sure you want to delete
+
     show:
       back: Back
     edit:
@@ -1055,6 +1057,7 @@ en:
       new_changelog: New Changelog
     form:
       <<: *default_changelog_fields
+      add_change: Add change
       save: Save
       cancel: Cancel
     create:

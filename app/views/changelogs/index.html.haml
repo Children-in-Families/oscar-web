@@ -3,32 +3,40 @@
     .container
       .row
         .col-xs-12
-          = link_to t('.add_new_changelog'), new_changelog_path, class: 'btn btn-success btn-add'
-      .row
-        .col-xs-12
           .panel.panel-default
-            .panel-heading
-              %h3= t('.changelogs')
             .panel-body
-              .table-responsive
-                %table.table.table-bordered.table-striped.table-hover
-                  %thead
-                    %tr
-                      %th= t('.version')
-                      %th= t('.created_at')
-                      %th= t('.manage')
-                  %tbody
+              .row
+                .col-xs-12.col-sm-4.col-md-3
+                  %h4
+                    %u= t('.version_list')
+                  %ul.version-list
                     - @changelogs.each do |changelog|
-                      %tr
-                        %td= link_to changelog.version, changelog_path(changelog)
-                        %td= changelog.created_at.strftime('%d %B, %Y')
-                        %td.manage
-                          - if can? :manage, Changelog, user_id: current_user.id
-                            = link_to edit_changelog_path(changelog) do
-                              %i.glyphicon.glyphicon-pencil
-                            = link_to changelog, method: 'delete', data: { confirm: "#{t('.are_you_sure')}?" } do
-                              %i.glyphicon.glyphicon-trash
+                      %li.list
+                        = link_to "#{changelog.version} - #{changelog.created_at.strftime('%d %B, %Y')}", "#changelog-#{changelog.id}"
+                        = link_to changelog, method: 'delete', data: { confirm: "#{t('.are_you_sure')}?" }, class: 'pull-right' do
+                          %i.glyphicon.glyphicon-trash
+                        = link_to edit_changelog_path(changelog), class: 'pull-right' do
+                          %i.glyphicon.glyphicon-pencil
 
-      .row
-        .col-xs-12.text-center
-          = will_paginate @changelogs, renderer: BootstrapPagination::Rails
+                .col-xs-12.col-sm-8.col-md-9.changes
+                  .row
+                    .col-xs-12
+                      .row
+                        .col-xs-6
+                          %h4
+                            %u= t('.changes')
+                        .col-xs-6.text-right
+                          = link_to t('.add_new_changelog'), new_changelog_path, class: 'btn btn-success'
+                    - @changelogs.each do |changelog|
+                      .col-xs-12.changes-item{ id: "changelog-#{changelog.id}" }
+                        %h4= "#{changelog.version} - #{changelog.created_at.strftime('%d %B, %Y')}"
+                        %div.changes-description
+                          - changelog.changelog_types.each do |changelog_type|
+                            .row
+                              .col-xs-12.change
+                                .row
+                                  .col-xs-3.col-sm-2
+                                    %div{ class: "change-type label label-#{changelog_type_label(changelog_type.change_type)}" }
+                                      = changelog_type.change_type.upcase
+                                  .col-xs-9.col-sm-10
+                                    = changelog_type.description
