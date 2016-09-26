@@ -112,6 +112,7 @@ GEM
     cliver (0.3.2)
     cocaine (0.5.8)
       climate_control (>= 0.0.3, < 1.0)
+    cocoon (1.2.9)
     coderay (1.1.1)
     coffee-rails (4.1.1)
       coffee-script (>= 2.2.0)
@@ -615,6 +616,7 @@ DEPENDENCIES
   capistrano-sidekiq!
   capybara (~> 2.5)
   ckeditor
+  cocoon (~> 1.2, >= 1.2.9)
   coffee-rails (~> 4.1.0)
   database_cleaner (~> 1.5, >= 1.5.1)
   datagrid (~> 1.4.2)
@@ -666,4 +668,4 @@ DEPENDENCIES
   wkhtmltopdf-binary-edge (~> 0.12.3.0)
 
 BUNDLED WITH
-   1.12.5
+   1.13.1

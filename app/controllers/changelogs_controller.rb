@@ -10,6 +10,7 @@ class ChangelogsController < AdminController
 
   def new
     @changelog = @user.changelogs.new
+    @changelog.changelog_types.new
   end
 
   def create
@@ -40,7 +41,7 @@ class ChangelogsController < AdminController
   private
 
   def changelog_params
-    params.require(:changelog).permit(:version, :description)
+    params.require(:changelog).permit(:version, changelog_types_attributes: [:id, :change_type, :description, :_destroy])
   end
 
   def find_changelog

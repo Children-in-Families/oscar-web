@@ -31,4 +31,12 @@
                       .col-xs-12.changes-item{ id: "changelog-#{changelog.id}" }
                         %h4= "#{changelog.version} - #{changelog.created_at.strftime('%d %B, %Y')}"
                         %div.changes-description
-                          = changelog.description.html_safe
+                          - changelog.changelog_types.each do |changelog_type|
+                            .row
+                              .col-xs-12.change
+                                .row
+                                  .col-xs-3.col-sm-2
+                                    %div{ class: "change-type label label-#{changelog_type_label(changelog_type.change_type)}" }
+                                      = changelog_type.change_type.upcase
+                                  .col-xs-9.col-sm-10
+                                    = changelog_type.description

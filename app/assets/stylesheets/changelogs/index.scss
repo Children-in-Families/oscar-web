@@ -45,7 +45,16 @@ body[id='changelogs-index'] {
   }
 
   .changes-description {
-    padding: 10px 0;
+    padding: 10px 10px 10px 0;
+  }
+
+  .change {
+    padding: 5px 0;
+  }
+
+  .change-type {
+    display: block;
+    padding: 7px 0;
   }
 
   .glyphicon-pencil {

@@ -10,6 +10,7 @@
 //= require namespace
 //= require util
 //= require initializer
+//= require cocoon
 //= require filters
 //= require assessments/form
 //= require case_notes/new
@@ -29,3 +30,4 @@
 //= require users/index
 //= require partners/index
 //= require government_reports/form
+//= require changelogs/form
