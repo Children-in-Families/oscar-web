@@ -16,6 +16,21 @@
         .text-left.record-count
           %strong= @client_grid.assets.count
           %span= t('.records')
+        .row
+          .col-xs-12
+            .panel.panel-default.csi-statistic
+              .panel-heading 
+                %h4 Reports
+              .panel-body
+                .row
+                  .col-xs-12.col-md-6  
+                    .panel.panel-default.csi-statistic
+                      .panel-body
+                        = line_chart(@csi_statistics, { library: { legend: { verticalAlign: 'top', y: 30, align: 'center' }, tooltip: { shared: true, xDateFormat: '%B %Y' }, title: { text: t('.csi_domain_scores') }, xAxis: { tickmarkPlacement: 'on', }, yAxis: { title: { text: t('.domain_score'), format: '%B %Y'}, min: 0, max: 4 }}})
+                  .col-xs-12.col-md-6 
+                    .panel.panel-default.case-statistic
+                      .panel-body
+                        = line_chart(@cases_statistics , { library: { legend: { verticalAlign: 'top', y: 30 }, tooltip: { shared: true, xDateFormat: '%B %Y' }, title: { text: t('.case_statistics') }, yAxis: { title: { text: t('.client_amount') }}}, height: '400px' })
         .table-responsive
           = datagrid_table @client_grid, html: {class: 'table table-bordered table-striped table-hover clients'}
 .row

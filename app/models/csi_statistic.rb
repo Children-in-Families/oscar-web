@@ -1,8 +1,7 @@
 class CsiStatistic
 
-  def initialize(start_date, end_date)
-    @start_date = start_date
-    @end_date = end_date
+  def initialize(clients)
+    @clients = clients
   end
 
   def assessment_domain_score
@@ -29,10 +28,10 @@ class CsiStatistic
   private
   def assessment_amount
     data = []
-    max_count = Client.all.map(&:assessments).map(&:count).max
+    max_count = @clients.map(&:assessments).map(&:count).max
     max_count.times do |i|
       arr = []
-      Client.all.each do |c|
+      @clients.all.each do |c|
         if c.assessments.to_a.at(i).blank?
           arr << nil
         else

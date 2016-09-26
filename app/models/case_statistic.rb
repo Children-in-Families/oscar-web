@@ -1,9 +1,8 @@
 class CaseStatistic
   CLIENT_ACTIVE_STATUS = ['Active EC', 'Active FC', 'Active KC']
 
-  def initialize(start_date, end_date)
-    @start_date = start_date
-    @end_date = end_date
+  def initialize(clients)
+    @clients = clients
   end
 
   def statistic_data
@@ -67,7 +66,7 @@ class CaseStatistic
 
   def case_ids_by_client_status
     case_ids = []
-    Client.joins(:cases).where(cases: { exited: false }).uniq.each do |client|
+    @clients.joins(:cases).where(cases: { exited: false }).uniq.each do |client|
       case_ids << client.cases.current.id if client.cases.current && CLIENT_ACTIVE_STATUS.include?(client.status)
     end
     case_ids
