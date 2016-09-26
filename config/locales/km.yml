@@ -1242,6 +1242,8 @@ km:
         other: "បានបង្កើត %{count} ដង"
 
   changelogs:
+    changelog_type_fields:
+      description: ការពិពណ៌នា
     index:
       <<: *default_changelog_fields
       version_list: បញ្ជីកំណែ
@@ -1256,6 +1258,7 @@ km:
       new_changelog: ការផ្លាស់ប្ដូរថ្មី
     form:
       <<: *default_changelog_fields
+      add_change: បន្ថែមកំណែ
       save: រក្សាទុក
       cancel: ទុកជាមោឃៈ
     create:

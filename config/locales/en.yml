@@ -1040,6 +1040,7 @@ en:
       new_changelog: New Changelog
     form:
       <<: *default_changelog_fields
+      add_change: Add change
       save: Save
       cancel: Cancel
     create:
