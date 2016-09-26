@@ -1,17 +1,8 @@
-.row
-  .col-xs-12.search-statistic
-    %button.btn.btn-primary.btn-filter{"aria-expanded" => 'false', "data-target" => '#report-search-form', "data-toggle" => 'collapse', type: 'button'}
-      %i.glyphicon.glyphicon-filter
-.row
-  .col-xs-12
-    .panel.panel-default#report-search-form.collapse
-      .panel-body
-        = render 'reports/form'
 .row.statistic
   .col-xs-12.col-md-6
     .panel.panel-default.case-statistic
       .panel-body
-        = line_chart(@cases_statistics , { library: { legend: { verticalAlign: 'top', y: 30 }, tooltip: { shared: true, xDateFormat: '%B %Y' }, title: { text: t('.case_statistics') }, yAxis: { title: { text: t('.client_amount') }}}, height: '400px' })
+        = line_chart(@cases_statistics , { library: { legend: { verticalAlign: 'top', y: 30 }, tooltip: { shared: true, xDateFormat: '%B %Y' }, title: { text: t('.case_statistics') }, yAxis: { allowDecimals: false, title: { text: t('.client_amount') }}}, height: '400px' })
   .col-xs-12.col-md-6
     .panel.panel-default.csi-statistic
       .panel-body

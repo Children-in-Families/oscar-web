@@ -9,14 +9,16 @@ describe 'Report' do
     before do
       visit reports_path
     end
-    xscenario 'CSI Domain Score' do
+    scenario 'CSI Domain Score', js: true do
+      sleep 1
       expect(page).to have_content(I18n.t('reports.index.csi_domain_scores'))
     end
-    scenario 'Case Type Statistic' do
+    scenario 'Case Type Statistic', js: true do
+      sleep 1
       expect(page).to have_content(I18n.t('reports.index.case_statistics'))
     end
 
-    scenario 'search' do
+    xscenario 'search' do
       expect(page).to have_content(I18n.t('reports.form.start_date'))
       expect(page).to have_content(I18n.t('reports.form.end_date'))
       expect(page).to have_css('.statistic-btn')
