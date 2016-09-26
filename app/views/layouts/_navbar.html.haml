@@ -24,8 +24,9 @@
             %li{ class: active_menu('users') }
               = link_to t('.users'), users_path
           - if can? :manage, [CsiStatistic, CaseStatistic]
-            %li{ class: active_menu('reports') }
-              = link_to t('.reports'), reports_path
+            - if Case.active.any? || Assessment.count > 0
+              %li{ class: active_menu('reports') }
+                = link_to t('.reports'), reports_path
 
       %ul.nav.navbar-nav.navbar-right
         - if user_signed_in?
