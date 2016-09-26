@@ -9,7 +9,7 @@ describe 'Report' do
     before do
       visit reports_path
     end
-    scenario 'CSI Domain Score' do
+    xscenario 'CSI Domain Score' do
       expect(page).to have_content(I18n.t('reports.index.csi_domain_scores'))
     end
     scenario 'Case Type Statistic' do

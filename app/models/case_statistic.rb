@@ -17,12 +17,16 @@ class CaseStatistic
       data_by_date = {}
       client_count = []
 
-      if case_type == 'EC'
-        client_count << cases_grouped_by_case_type[0].first[1].count
-      elsif case_type == 'FC'
-        client_count << cases_grouped_by_case_type[0].second[1].count
-      elsif case_type == 'KC'
-        client_count <<  cases_grouped_by_case_type[0].last[1].count
+      if cases_grouped_by_case_type[0].present?
+        if case_type == 'EC'
+          client_count << cases_grouped_by_case_type[0].first[1].count
+        elsif case_type == 'FC'
+          client_count << cases_grouped_by_case_type[0].second[1].count
+        elsif case_type == 'KC'
+          client_count <<  cases_grouped_by_case_type[0].last[1].count
+        end
+      else
+        client_count << 0
       end
 
       cases_by_date.each do |date, case_obj, i = 1|
