@@ -1,11 +1,13 @@
 .nested-fields
   .row
-    .col-xs-12.col-md-6
-      = f.input :question
-    .col-xs-12.col-md-3
-      = f.input :group, collection: AbleScreeningQuestion::GROUPS, input_html: { class: 'select2'}
+    .col-xs-12.col-md-5
+      = f.input :question, lable: t('.question')
     .col-xs-12.col-md-2
-      = f.input :mode, collection: AbleScreeningQuestion::MODES, input_html: { class: 'select2 check-mode'}
+      = f.association :question_group, input_html: { class: 'select2'}, label: t('.group')
+    .col-xs-12.col-md-2
+      = f.input :mode, collection: AbleScreeningQuestion::MODES, input_html: { class: 'select2 check-mode'}, label: t('.mode')
+    .col-xs-12.col-md-2.no-label-form-group
+      = f.input :alert_manager, as: :boolean, label: t('.alert_manager')
     .col-xs-12.col-md-1.no-label-form-group
       = link_to_remove_association f, class: 'btn btn-danger', data: { confirm: 'Remove question with have sigificant affect to client answers, Are you sure you want to delete?' } do
         %i.glyphicon.glyphicon-trash
@@ -14,6 +16,4 @@
       - f.object.attachments.build unless f.object.attachments.any?
       = f.simple_fields_for :attachments do |attachment|
         = render 'attachment_fields', f: attachment
-    .col-xs-12.col-md-3
-      = f.input :alert_manager, as: :boolean
   %hr

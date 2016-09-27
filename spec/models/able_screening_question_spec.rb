@@ -4,7 +4,7 @@ RSpec.describe AbleScreeningQuestion, type: :model do
     it { is_expected.to validate_presence_of(:question) }
     it { is_expected.to validate_presence_of(:mode) }
 
-    it { is_expected.to validate_inclusion_of(:mode).in_array(['yes_no', 'multiple', 'free_text']) }
+    it { is_expected.to validate_inclusion_of(:mode).in_array(['yes_no', 'free_text']) }
   end
 
   describe 'Association' do

@@ -2,7 +2,6 @@ class StagesController < AdminController
   before_action :set_stage, only: [:show, :edit, :update]
   def index
     @stages = Stage.all
-    @nonstage_able_screening_questions = AbleScreeningQuestion.non_stage
   end
 
   def show
@@ -36,8 +35,9 @@ class StagesController < AdminController
     def stage_params
       params.require(:stage).permit(
           :from_age, :to_age, :non_stage,
-          able_screening_questions_attributes: [:id, :question, :mode, :group,
-             :alert_manager, :_destroy, attachments_attributes: [:id, :image]])
+          able_screening_questions_attributes: [:id, :question, :mode,
+            :question_group_id, :alert_manager, :_destroy,
+            attachments_attributes: [:id, :image]])
     end
   protected
     def set_stage

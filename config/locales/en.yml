@@ -924,6 +924,24 @@ en:
       present: Present
     create:
       successfully_created: Case Note has successfully been created.
+  stages:
+    stage: 'Stage'
+    non_stage: 'Non Stage'
+    questions: 'Questions'
+    form:
+      from_age: From Age (As Year)
+      to_age: To Age (As Year)
+      add_question: Add Question
+      question: Question
+      mode: Mode
+      group: Group
+      alert_manager: Alert Manager
+    index:
+      edit_and_add_question: 'Edit/Add Question'
+      new_stage: New Stage
+      question: Question
+    edit:
+
   devise:
     registrations:
       edit:

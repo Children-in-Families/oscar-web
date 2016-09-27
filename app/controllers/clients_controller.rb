@@ -31,10 +31,17 @@ class ClientsController < AdminController
   end
 
   def new
-    @client = Client.new
-    @able_screening_questions = AbleScreeningQuestion.all
-    @able_screening_questions.each do |question|
-      @client.answers.build(able_screening_question: question)
+    @client                              = Client.new
+    @able_screening_questions_non_stage  = AbleScreeningQuestion.non_stage
+    @able_screening_questions_with_stage = AbleScreeningQuestion.with_stage
+    @answers_with_stage = []
+    @answers_non_stage = []
+    @able_screening_questions_with_stage.each do |question|
+      @answers_with_stage <<  @client.answers.build(able_screening_question: question)
+    end
+
+    @able_screening_questions_non_stage.each do |question|
+      @answers_non_stage <<  @client.answers.build(able_screening_question: question)
     end
   end
 
@@ -94,7 +101,7 @@ class ClientsController < AdminController
               :follow_up_date, :grade, :school_name, :current_address,
               :has_been_in_orphanage, :has_been_in_government_care,
               :relevant_referral_information, :user_id, :province_id, :state,
-              :rejected_note, :able,
+              :rejected_note, :able, :able_state,
               agency_ids: [],
               quantitative_case_ids: [],
               tasks_attributes: [:name, :domain_id, :completion_date],

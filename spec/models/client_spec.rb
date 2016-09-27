@@ -15,7 +15,6 @@ describe Client, 'associations' do
 
   it { is_expected.to have_many(:answers) }
   it { is_expected.to have_many(:able_screening_questions).through(:answers) }
-  it { is_expected.to have_many(:choices).through(:answers) }
 
   it { is_expected.to have_and_belong_to_many(:agencies) }
   it { is_expected.to have_and_belong_to_many(:quantitative_cases) }

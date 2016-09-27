@@ -2,7 +2,6 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
   _init = ->
     _clientSelectOption()
     _checkClientBirthdateAvailablity()
-    _arrangeQuestionAndAnswerBlock()
 
   _clientSelectOption = ->
     $("#clients-edit select, #clients-new select, #clients-update select, #clients-create select").select2
@@ -23,8 +22,6 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
     questionsAndAnswers = $('.question_and_answer')
     for questionAndAnswer in questionsAndAnswers
       qa = $(questionAndAnswer)
-      if  _getAge($('#client_date_of_birth').val()) > qa.data('to-age')
-        qa.prop('disabled',true);
       if qa.data('is-stage')
         html = qa.html()
         $('#stage-question').append(html)
@@ -40,9 +37,11 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
       button.hide()
     $('#client_date_of_birth').change ->
       if $('#client_date_of_birth').val() == ''
-        button.attr('disabled', 'disabled')
+        button.hide('')
       else
         button.show()
+        # _arrangeQuestionAndAnswerBlock()
+        _toggleAnswer()
 
   _getAge = (dateString) ->
     today = new Date
@@ -52,5 +51,15 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
     if m < 0 or m == 0 and today.getDate() < birthDate.getDate()
       age--
     age
+
+  _toggleAnswer = ->
+    answers = $('.answer')
+    for answer in answers
+      answerObj = $(answer)
+      if answerObj.data('to-age') != '' && answerObj.data('from-age') >= $('#client_date_of_birth').val() >= answerObj.data('to-age')
+        answerObj.find('input').removeAttr('disabled')
+      else
+        answerObj.find('input').attr('disabled', true)
+
 
   { init: _init }

@@ -24,6 +24,16 @@ CIF.StagesNew = CIF.StagesCreate = CIF.StagesEdit = CIF.StagesUpdate = do ->
     $('.check-mode').on 'change', (e, item) ->
       _checkModeHandler(this, e.val)
 
+    $('#non-stage').on 'change', (e, item) ->
+      if $('#stage_non_stage').prop('checked') == true
+        $('#from-age').hide()
+        $('#stage_from_age').val('')
+        $('#to-age').hide()
+        $('#stage_to_age').val('')
+      else
+        $('#from-age').show()
+        $('#to-age').show()
+
   _checkModeHandler = (element, value) ->
     parentElement = $(element).closest('.row')
     checkBoxName  = parentElement.find('input[type="checkbox"]').attr('name')

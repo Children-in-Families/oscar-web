@@ -60,6 +60,7 @@
                                                             :role => 'button', id: 'able-screening-test' }
                 .col-xs-12.col-md-6
                   .col-xs-12= f.input :has_been_in_government_care, label: "#{t('.has_been_in_government_care')}?"
+                  .col-xs-12= f.input :able_state, collection: Client::ABLE_STATES, label: "#{t('.has_been_in_government_care')}?" if current_user.able_manager? && @client.persisted?
       .row
         .col-xs-12
           #able-screening-collapse.collapse
@@ -68,13 +69,15 @@
               %hr
               #non-stage-question
                 %h4.text-center General Question
-                %hr
-              #stage-question
-                %h4.text-center Stage
-                %hr
-                = f.simple_fields_for(:answers) do |answer_builder|
+                = f.simple_fields_for(:answers, @answers_non_stage) do |answer_builder|
                   .question_and_answer{ data: { 'from-age': "#{answer_builder.object.able_screening_question.stage.from_age}", 'to-age': "#{answer_builder.object.able_screening_question.stage.to_age}", 'is-stage': "#{answer_builder.object.able_screening_question.has_stage?}"} }
                     = render 'answer_fields', f: answer_builder
+              #stage-question
+                %h4.text-center Stage
+                .row
+                  = f.simple_fields_for(:answers, @answers_with_stage) do |answer_builder|
+                    .col-xs-12.question_and_answer{ data: { 'from-age': "#{answer_builder.object.able_screening_question.stage.from_age}", 'to-age': "#{answer_builder.object.able_screening_question.stage.to_age}", 'is-stage': "#{answer_builder.object.able_screening_question.has_stage?}"} }
+                      = render 'answer_stage_fields', f: answer_builder
   .panel-footer
     .form-actions
       = f.button :submit, t('save'), class: 'btn btn-primary form-btn'
