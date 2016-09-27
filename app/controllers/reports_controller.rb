@@ -2,8 +2,8 @@ class ReportsController < AdminController
   before_action :set_csi_domain, :set_case_statistic, only: [:index]
   
   def index
-    @csi_statistics = @statistic_score.assessment_domain_score
-    @cases_statistics = @cases_statistic.statistic_data
+    @csi_statistics   = @statistic_score.assessment_domain_score if Client.any?
+    @cases_statistics = @cases_statistic.statistic_data if Client.any?
   end
 
   private
