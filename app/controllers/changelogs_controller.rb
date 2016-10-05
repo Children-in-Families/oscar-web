@@ -5,11 +5,12 @@ class ChangelogsController < AdminController
   before_action :find_user
 
   def index
-    @changelogs = Changelog.paginate(page: params[:page], per_page: 20)
+    @changelogs = Changelog.all
   end
 
   def new
     @changelog = @user.changelogs.new
+    @changelog.changelog_types.new
   end
 
   def create
@@ -40,7 +41,7 @@ class ChangelogsController < AdminController
   private
 
   def changelog_params
-    params.require(:changelog).permit(:version, :description)
+    params.require(:changelog).permit(:version, changelog_types_attributes: [:id, :change_type, :description, :_destroy])
   end
 
   def find_changelog

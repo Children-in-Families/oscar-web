@@ -14,6 +14,9 @@ Rails.application.routes.draw do
   get '/quantitative_data' => 'clients#quantitative_case'
   resources :agencies, except: [:show]
 
+  post '/reports' => 'reports#index'
+  resources :reports, only: [:index]
+
   scope 'admin' do
     resources :users
   end

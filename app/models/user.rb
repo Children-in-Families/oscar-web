@@ -102,7 +102,7 @@ class User < ActiveRecord::Base
   def assessment_either_overdue_or_due_today
     overdue   = []
     due_today = []
-    clients.each do |c|
+    clients.where(status: ['Active EC','Active FC','Active KC']).each do |c|
       if c.next_assessment_date < Date.today
         overdue << c
       elsif c.next_assessment_date == Date.today

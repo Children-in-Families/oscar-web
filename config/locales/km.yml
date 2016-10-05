@@ -354,6 +354,7 @@ km:
     from: ចាប់ពី
     to: ដល់
     form:
+      filter_domains: កត្តា
       search: ស្វែងរក
       reset: សំអាត
     columns:
@@ -453,6 +454,7 @@ km:
         desc: ↓
   layouts:
     navbar:
+      reports: របាយការណ៍
       clients: ឣតិថិជន
       families: គ្រួសារ
       partners: ដៃគូ
@@ -476,6 +478,20 @@ km:
       locations: កន្លែង
       progress_note_types: កំណត់សំគាល់
       interventions: ចំនុចដែលត្រូវធ្វើ
+
+  reports:
+    index:
+      case_statistics: ក្រាបនៃប្រភេទករណីរបស់អតិថិជន
+      csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
+      domain_score: ពិន្ទុកត្តាការប៉ាន់ប្រមាណ
+      client_amount: ចំនួនអតិថិជន
+    form:
+      case_statistics: ក្រាបនៃប្រភេទករណីរបស់អតិថិជន
+      csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
+      search: ស្វែងរក
+      start_date: ថ្ងៃចាប់ផ្តើម
+      end_date: ថ្ងៃចុងក្រោយ
+
   clients:
     index:
       add_new_client: បន្ថែមអតិថិជនថ្មី
@@ -665,6 +681,10 @@ km:
   activerecord:
     errors:
       models:
+        changelog_type:
+          attributes:
+            description:
+              blank: មិនអាចរំលង
         changelog:
           attributes:
             version:
@@ -1327,13 +1347,15 @@ km:
         other: "បានបង្កើត %{count} ដង"
 
   changelogs:
+    changelog_type_fields:
+      description: ការពិពណ៌នា
     index:
       <<: *default_changelog_fields
-      changelogs: ការផ្លាស់ប្ដូរ
+      version_list: បញ្ជីកំណែ
+      changes: កំណែ
       add_new_changelog: បន្ថែមការផ្លាស់ប្ដូរថ្មី
-      created_at: កាលបរិច្ឆេទ
-      manage: គ្រប់គ្រង
       are_you_sure: តើអ្នកប្រាកដហើយ?
+
     show:
       back: ត្រលប់ក្រោយ
     edit:
@@ -1342,6 +1364,7 @@ km:
       new_changelog: ការផ្លាស់ប្ដូរថ្មី
     form:
       <<: *default_changelog_fields
+      add_change: បន្ថែមកំណែ
       save: រក្សាទុក
       cancel: ទុកជាមោឃៈ
     create:

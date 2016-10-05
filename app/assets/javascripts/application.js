@@ -4,15 +4,18 @@
 //= require bootstrap-sprockets
 //= require jquery.steps.min
 //= require thredded
+//= require chartkick
 
 //= require bootstrap-datepicker
 
 //= require namespace
 //= require util
 //= require initializer
+//= require cocoon
 //= require filters
 //= require assessments/form
 //= require case_notes/new
+//= require reports/index
 //= require datepicker
 //= require admin/tasks
 //= require ckeditor/init
@@ -31,3 +34,4 @@
 //= require government_reports/form
 //= require progress_notes/form
 //= require progress_notes/index
+//= require changelogs/form

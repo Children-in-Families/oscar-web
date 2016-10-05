@@ -352,6 +352,7 @@ en:
     from: From
     to: To
     form:
+      filter_domains: Filter Domains
       search: Search
       reset: Reset
     columns:
@@ -450,6 +451,7 @@ en:
         desc: ↓
   layouts:
     navbar:
+      reports: Reports
       clients: Clients
       families: Families
       partners: Partners
@@ -473,6 +475,20 @@ en:
       locations: Locations
       progress_note_types: Types of Note
       interventions: Interventions
+
+  reports:
+    index:
+      csi_domain_scores: CSI Domain Scores
+      domain_score: Domain Scores
+      case_statistics: Case Statistics
+      client_amount: Client Amounts
+    form:
+      case_statistic: Case Statistics
+      csi_domain_scores: CSI Domain Scores
+      search: Search
+      start_date: Start Date
+      end_date: End Date
+
   clients:
     index:
       add_new_client: Add New Client
@@ -654,6 +670,10 @@ en:
   activerecord:
     errors:
       models:
+        changelog_type:
+          attributes:
+            description:
+              blank: can't be blank
         changelog:
           attributes:
             version:
@@ -1064,6 +1084,9 @@ en:
       due_today_assessments_count:
         one: "You have 1 assessment due today."
         other: "You have %{count} assessments due today."
+    client_case_statistic:
+      case_statistic: "Case Statistic"
+      client_amount: "Client Amount"
   case:
     quarterly_reports:
       index:
@@ -1108,12 +1131,13 @@ en:
         sign_in: Sign In
 
   changelogs:
+    changelog_type_fields:
+      description: Description
     index:
       <<: *default_changelog_fields
-      changelogs: Changelogs
+      version_list: Version List
+      changes: Changes
       add_new_changelog: Add New Changelog
-      created_at: Date
-      manage: Manage
       are_you_sure: Are you sure you want to delete?
     show:
       back: Back
@@ -1123,6 +1147,7 @@ en:
       new_changelog: New Changelog
     form:
       <<: *default_changelog_fields
+      add_change: Add change
       save: Save
       cancel: Cancel
     create:

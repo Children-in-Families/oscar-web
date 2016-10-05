@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160923072931) do
+ActiveRecord::Schema.define(version: 20160926042656) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -116,6 +116,16 @@ ActiveRecord::Schema.define(version: 20160923072931) do
     t.float    "time_in_care"
     t.boolean  "exited_from_cif",         default: false
   end
+
+  create_table "changelog_types", force: :cascade do |t|
+    t.integer  "changelog_id"
+    t.string   "change_type",  default: ""
+    t.string   "description",  default: ""
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "changelog_types", ["changelog_id"], name: "index_changelog_types_on_changelog_id", using: :btree
 
   create_table "changelogs", force: :cascade do |t|
     t.string   "version",     default: ""
@@ -725,6 +735,7 @@ ActiveRecord::Schema.define(version: 20160923072931) do
   add_foreign_key "assessments", "clients"
   add_foreign_key "case_contracts", "cases"
   add_foreign_key "case_notes", "clients"
+  add_foreign_key "changelog_types", "changelogs"
   add_foreign_key "changelogs", "users"
   add_foreign_key "domains", "domain_groups"
   add_foreign_key "interventions_progress_notes", "interventions"

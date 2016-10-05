@@ -8,8 +8,7 @@
 
       = link_to root_path , class: 'navbar-brand' do
         = image_tag ENV['NGO_LOGO'], class: 'logo'
-
-
+        
     .collapse.navbar-collapse
       %ul.nav.navbar-nav
         %li{ class: clients_menu_active }
@@ -24,6 +23,10 @@
           - if can? :manage, User
             %li{ class: active_menu('users') }
               = link_to t('.users'), users_path
+          - if can? :manage, [CsiStatistic, CaseStatistic]
+            - if Client.any?
+              %li{ class: active_menu('reports') }
+                = link_to t('.reports'), reports_path
 
       %ul.nav.navbar-nav.navbar-right
         - if user_signed_in?
@@ -52,6 +55,7 @@
                 %li.dropdown-submenu
                   %a{ href: '#' }
                     = t('.progress_note')
+                    %i.glyphicon.glyphicon-chevron-right
                   %ul.dropdown-menu
                     %li{ class: active_menu('interventions') }
                       = link_to t('.interventions'), interventions_path
