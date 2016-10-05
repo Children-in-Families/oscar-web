@@ -22,8 +22,11 @@
                       %tr
                         %td= location.name
                         %td.text-center
-                          = link_to edit_location_path(location) do
+                          - if location.is_other?
                             %i.glyphicon.glyphicon-pencil
+                          - else
+                            = link_to edit_location_path(location) do
+                              %i.glyphicon.glyphicon-pencil
                         %td.text-center
                           - if location.has_no_any_progress_notes? && !location.is_other?
                             = link_to location, method: 'delete', data: { confirm: t('.are_you_sure') } do
