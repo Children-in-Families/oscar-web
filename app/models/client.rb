@@ -4,6 +4,8 @@ class Client < ActiveRecord::Base
 
   friendly_id :slug, use: :slugged
 
+  has_paper_trail
+
   CLIENT_STATUSES = ['Referred', 'Active EC', 'Active KC', 'Active FC', 'Independent - Monitored', 'Exited - Deseased', 'Exited - Age Out', 'Exited Independent', 'Exited Adopted', 'Exited Other'].freeze
 
   EXIT_STATUSES   = CLIENT_STATUSES.select { |status| status if status.include?('Exited') }

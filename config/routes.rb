@@ -30,6 +30,7 @@ Rails.application.routes.draw do
   resources :departments, except: [:show]
   resources :quarterly_reports, only: [:index]
   resources :changelogs
+  get '/data_trackers' => 'data_trackers#index'
 
   resources :tasks do
     collection do
