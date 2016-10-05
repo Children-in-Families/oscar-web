@@ -3,7 +3,6 @@ class ClientsController < AdminController
 
   before_action :find_client, only: [:show, :edit, :update, :destroy]
   before_action :set_association, except: [:index, :destroy]
-  # before_action :set_csi_domain, only: [:index]
 
   def index
     if current_user.admin?
@@ -15,9 +14,9 @@ class ClientsController < AdminController
 
     respond_to do |f|
       f.html do
+        @csi_statistics   = CsiStatistic.new(admin_client_grid.assets).assessment_domain_score
+        @cases_statistics = CaseStatistic.new(admin_client_grid.assets).statistic_data
         @client_grid.scope { |scope| scope.accessible_by(current_ability).paginate(page: params[:page], per_page: 20) }
-        @csi_statistics   = CsiStatistic.new(@client_grid.assets).assessment_domain_score
-        @cases_statistics = CaseStatistic.new(@client_grid.assets).statistic_data
       end
       f.csv do
         @client_grid.scope { |scope| scope.accessible_by(current_ability) }

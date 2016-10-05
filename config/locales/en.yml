@@ -418,7 +418,6 @@ en:
         desc: ↓
   layouts:
     navbar:
-      reports: Reports
       clients: Clients
       families: Families
       partners: Partners
@@ -451,6 +450,7 @@ en:
       end_date: End Date
   clients:
     index:
+      reports: Reports
       csi_domain_scores: CSI Domain Scores
       domain_score: Domain Scores
       case_statistics: Case Statistics

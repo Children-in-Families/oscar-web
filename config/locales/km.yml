@@ -422,7 +422,6 @@ km:
         desc: ↓
   layouts:
     navbar:
-      reports: របាយការណ៍
       clients: ឣតិថិជន
       families: គ្រួសារ
       partners: ដៃគូ
@@ -455,6 +454,7 @@ km:
       end_date: ថ្ងៃចុងក្រោយ
   clients:
     index:
+      reports: របាយការណ៍
       case_statistics: ក្រាបនៃប្រភេទករណីរបស់អតិថិជន
       csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
       domain_score: ពិន្ទុកត្តាការប៉ាន់ប្រមាណ

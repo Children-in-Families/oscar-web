@@ -20,7 +20,7 @@ class CsiStatistic
         i += 1
       end
       h1[:data] = h2
-      data.push h1
+      data << h1
     end
     score_by_domain = data
   end
@@ -28,17 +28,15 @@ class CsiStatistic
   private
   def assessment_amount
     data = []
-    max_count = @clients.map(&:assessments).map(&:count).max
-    max_count.times do |i|
-      arr = []
-      @clients.all.each do |c|
-        if c.assessments.to_a.at(i).blank?
-          arr << nil
-        else
-          arr << c.assessments.to_a.at(i).id
+    if @clients.present?
+      max_count = @clients.map(&:assessments).map(&:count).max
+      max_count.times do |i|
+        arr = []
+        @clients.each do |c|
+          c.assessments.to_a.at(i).blank? ? arr << nil : arr << c.assessments.to_a.at(i).id
         end
+        data << arr.select(&:present?)
       end
-      data << arr.select(&:present?)
     end
     data
   end

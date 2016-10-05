@@ -6,11 +6,17 @@ CIF.ClientsIndex = do ->
     _cssClassForlabelDynamic()
     _restrictNumberFilter()
     _quantitativeCaesByQuantitativeType()
+    _handleHideShowReport()
 
   _enableSelect2 = ->
     $('#clients-index select').select2
       minimumInputLength: 0,
       allowClear: true
+
+  _handleHideShowReport = ->
+    $('#client-statistic-body').css('display', 'none')
+    $('#client-statistic').click ->
+      $('#client-statistic-body').slideToggle("slow")
 
   _columnsVisibility = ->
     $('.columns-visibility').click (e) ->

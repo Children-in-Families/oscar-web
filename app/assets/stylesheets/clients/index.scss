@@ -1,6 +1,21 @@
 #clients-index {
   #client-search-form {
-    margin-top: 20px;
+    margin-top: 16px;
+  }
+  .highcharts-legend-item path{
+    cursor: pointer;
+  }
+  #client-statistic{
+    margin-top: 16px;
+  }
+  #client-statistic{
+    margin: 0px 0px 16px 5px;
+  }
+  #client-statistic-body{
+    display: block;
+  }
+  .statistic{
+    margin-bottom: -18px;
   }
   .table {
     th, td.gender, td.status, td.follow_up_date, td.date_of_birth, td.grade, td.has_been_in_orphanage, td.has_been_in_government_care, td.initial_referral_date, td.referral_phone, td.able, td.birth_province, td.province, td.state, td.case_start_date, td.carer_phone_number td.support_amount, td.family_preservation, td.cases {
