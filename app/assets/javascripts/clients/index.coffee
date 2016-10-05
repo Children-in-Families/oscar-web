@@ -14,9 +14,9 @@ CIF.ClientsIndex = do ->
       allowClear: true
 
   _handleHideShowReport = ->
-    $('#client-statistic-body').css('display', 'none')
     $('#client-statistic').click ->
       $('#client-statistic-body').slideToggle("slow")
+      window.dispatchEvent new Event('resize')
 
   _columnsVisibility = ->
     $('.columns-visibility').click (e) ->

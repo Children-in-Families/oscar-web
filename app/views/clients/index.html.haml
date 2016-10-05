@@ -30,7 +30,7 @@
                 .col-xs-12.col-md-6
                   .panel.panel-default
                     .panel-body
-                      = line_chart(@csi_statistics, { library: { chart: { witdth: '200px' }, legend: { verticalAlign: 'top', y: 30, align: 'center' }, tooltip: { shared: true }, title: { text: t('.csi_domain_scores') }, xAxis: { tickmarkPlacement: 'on', }, yAxis: { title: { text: t('.domain_score') }}}})
+                      = line_chart(@csi_statistics, { library: { legend: { verticalAlign: 'top', y: 30, align: 'center' }, tooltip: { shared: true }, title: { text: t('.csi_domain_scores') }, xAxis: { tickmarkPlacement: 'on', }, yAxis: { title: { text: t('.domain_score') }}}})
                       
                 .col-xs-12.col-md-6
                   .panel.panel-default
