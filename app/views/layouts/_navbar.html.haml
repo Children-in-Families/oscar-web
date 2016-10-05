@@ -53,8 +53,8 @@
                 %li{ class: active_menu('changelogs') }
                   = link_to t('.changelogs'), changelogs_path
                 %li.dropdown-submenu
-                  %a{ href: '#' }
-                    = t('.progress_note')
+                  %a.text-right{ href: '#' }
+                    %span.pull-left= t('.progress_note')
                     %i.glyphicon.glyphicon-chevron-right
                   %ul.dropdown-menu
                     %li{ class: active_menu('interventions') }
