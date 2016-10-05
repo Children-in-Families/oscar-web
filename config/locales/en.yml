@@ -8,7 +8,7 @@ en:
     date: Date
     child: Child
     staff: ABLE / ABLE Staff Name
-    progress_note_type: Type of note
+    progress_note_type: Type of Note
     location: Location
     other_location: Other
     interventions: Interventions

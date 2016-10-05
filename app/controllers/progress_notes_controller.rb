@@ -12,6 +12,7 @@ class ProgressNotesController < AdminController
         @progress_note_grid.scope { |scope| scope.where(client_id: @client.id).paginate(page: params[:page], per_page: 20) }
       end
       f.csv do
+        @progress_note_grid.scope { |scope| scope.where(client_id: @client.id) }
         send_data @progress_note_grid.to_csv, type: 'text/csv',
                                        disposition: 'inline',
                                        filename: "progress_note_report-#{Time.now}.csv"
