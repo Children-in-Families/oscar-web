@@ -429,6 +429,7 @@ en:
       provinces: Provinces
       referral_sources: Referral Sources
       quantitative_types: Quantitative Types
+      able_screening_questions: Able Screening Questions
       changelogs: Changelogs
       account: Account
       edit_profile: Edit Profile
@@ -938,7 +939,8 @@ en:
       alert_manager: Alert Manager
     index:
       edit_and_add_question: 'Edit/Add Question'
-      new_stage: New Stage
+      new_stage_question: New Stage Question
+      new_general_question: New General Question
       question: Question
     edit:
 

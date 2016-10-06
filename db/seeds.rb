@@ -25,5 +25,5 @@ domains.each do |domain|
 end
 
 QUESTION_GROUPS.each do |key, stage_group|
-  QuestionGroup.find_or_create_by(name: "#{key}/#{stage_group.titleize}")
+  QuestionGroup.find_or_create_by(name: "#{key.titleize}/#{stage_group.titleize}")
 end

@@ -1,8 +1,8 @@
-CIF.StagesNew = CIF.StagesCreate = CIF.StagesEdit = CIF.StagesUpdate = do ->
+CIF.Able_screening_questionsNew = CIF.Able_screening_questionsCreate = CIF.Able_screening_questionsEdit = CIF.Able_screening_questionsUpdate = do ->
   _init = ->
     _initialSelect2()
     _afterSelectMode()
-    _reloadAfterCocoon()
+    # _reloadAfterCocoon()
 
   _initialSelect2 = ->
     $('.select2').select2

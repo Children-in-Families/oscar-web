@@ -10,13 +10,13 @@ class AbleScreeningQuestion < ActiveRecord::Base
 
   accepts_nested_attributes_for :attachments
 
-  scope :non_stage, -> { joins(:stage).where('non_stage = ?', true) }
-  scope :with_stage, -> { joins(:stage).where('non_stage = ?', false) }
+  scope :non_stage, -> { where(stage: nil) }
+  scope :with_stage, -> { where.not(stage: nil) }
 
   validates :question, :mode, presence: true
   validates :mode, inclusion: { in: MODES }
 
-  delegate :from_age_as_date, :to_age_as_date, :non_stage, to: :stage
+  delegate :from_age_as_date, :to_age_as_date, :non_stage, to: :stage, allow_nil: true
 
   def has_image?
     attachments.any?
@@ -27,7 +27,7 @@ class AbleScreeningQuestion < ActiveRecord::Base
   end
 
   def has_stage?
-    !stage.non_stage
+    stage.present?
   end
 
   def has_group?

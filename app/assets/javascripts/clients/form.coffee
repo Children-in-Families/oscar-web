@@ -56,10 +56,13 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
     answers = $('.answer')
     for answer in answers
       answerObj = $(answer)
-      if answerObj.data('to-age') != '' && answerObj.data('from-age') >= $('#client_date_of_birth').val() >= answerObj.data('to-age')
+      console.log answerObj
+      if answerObj.data('is-stage') == false
         answerObj.find('input').removeAttr('disabled')
       else
-        answerObj.find('input').attr('disabled', true)
-
+        if answerObj.data('to-age') != '' && answerObj.data('from-age') >= $('#client_date_of_birth').val() >= answerObj.data('to-age')
+          answerObj.find('input').removeAttr('disabled')
+        else
+          answerObj.find('input').attr('disabled', true)
 
   { init: _init }

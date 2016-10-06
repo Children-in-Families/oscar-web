@@ -31,3 +31,4 @@
 //= require partners/index
 //= require government_reports/form
 //= require stages/form
+//= require able_screening_questions/form

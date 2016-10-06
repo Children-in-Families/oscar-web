@@ -53,7 +53,7 @@ class ClientsController < AdminController
     if current_user.case_worker? || current_user.able_manager? || current_user.any_case_manager?
       @client.user_id = current_user.id
     end
-    if @client.save(client_params)
+    if @client.save
       AbleScreeningMailer.notify_able_manager(@client).deliver_now if @client.able?
       redirect_to @client, notice: t('.successfully_created')
     else

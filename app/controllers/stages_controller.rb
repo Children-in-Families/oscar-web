@@ -2,6 +2,7 @@ class StagesController < AdminController
   before_action :set_stage, only: [:show, :edit, :update]
   def index
     @stages = Stage.all
+    @non_stage_question = AbleScreeningQuestion.non_stage
   end
 
   def show

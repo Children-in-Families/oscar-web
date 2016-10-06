@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160927032508) do
+ActiveRecord::Schema.define(version: 20161006020147) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -408,9 +408,8 @@ ActiveRecord::Schema.define(version: 20160927032508) do
   create_table "stages", force: :cascade do |t|
     t.float    "from_age"
     t.float    "to_age"
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
-    t.boolean  "non_stage",  default: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "surveys", force: :cascade do |t|

@@ -19,6 +19,7 @@ Rails.application.routes.draw do
   end
 
   resources :stages
+  resources :able_screening_questions, except: [:index, :show]
   resources :quantitative_types
   resources :quantitative_cases
   resources :referral_sources, except: [:show]

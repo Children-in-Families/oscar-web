@@ -6,11 +6,11 @@ RSpec.describe AbleScreeningMailer, type: :mailer do
     let(:mail) { described_class.notify_able_manager(client).deliver_now }
 
     it 'renders the subject' do
-      expect(mail.subject).to eq('Client Join Able Program')
+      expect(mail.subject).to eq('Client Joint Able Program')
     end
 
     it 'renders the receiver email' do
-      expect(mail.to).to eq(['panhphanith.kh@gmail.com'])
+      expect(mail.to).to eq([ENV['ABLE_MANAGER_EMAIL']])
     end
 
     it 'renders the sender email' do
