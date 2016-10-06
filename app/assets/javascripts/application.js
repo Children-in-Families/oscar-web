@@ -33,11 +33,8 @@
 //= require users/index
 //= require partners/index
 //= require government_reports/form
-<<<<<<< HEAD
 //= require stages/form
 //= require able_screening_questions/form
-=======
 //= require progress_notes/form
 //= require progress_notes/index
 //= require changelogs/form
->>>>>>> origin/client-progress-note
