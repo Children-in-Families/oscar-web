@@ -433,6 +433,7 @@ km:
       provinces: ខេត្ត
       referral_sources: ប្រភពនៃការបញ្ជូន
       quantitative_types: ប្រភេទនៃបរិមាណ
+      able_screening_questions: 'សំនួរ Able Screening'
       changelogs: ការផ្លាស់ប្ដូរ
       account: គណនី
       edit_profile: កែសម្រួលពត៌មានផ្ទាល់ខ្លួន
@@ -983,6 +984,55 @@ km:
       present: វត្តមានឣ្នកចូលរួម
     create:
       successfully_created: កំណត់ត្រាត្រូវបានបង្កើតដោយជោគជ័យ
+
+  stages:
+    stage: 'តំណាក់កាល'
+    questions: 'សំនួរ'
+    form:
+      from_age: ចាប់ពីអាយុ (គិតជាឆ្នាំ)
+      to_age: ទៅដល់អាយុ (គិតជាឆ្នាំ)
+      questions: សំនួរ
+      add_question: បន្ថែមសំនួរ
+    new:
+      new_stage: 'បន្ថែមដំណាក់កាលថ្មី'
+    edit:
+      edit_stage: កែរសំរួលដំណាក់កាល
+    index:
+      stage: 'តំណាក់កាល'
+      new_stage_question: បន្ថែមសំនួូរដំណាក់កាលថ្មី
+      new_general_question: បន្ថែមសំនួរទូទៅថ្មី
+      general_question: សំនួរទូទៅ
+      stage_question: សំនួូរដំណាក់កាល
+      question: សំនួរ
+      from: ចាប់ពី
+      to: ទៅដល់
+      year: ឆ្នាំ
+      question:
+        one: '1 សំនួរ'
+        other: '%{count} សំនួរ'
+    edit:
+      edit_stage: 'កែរសំរួល ដំណាក់កាល'
+    able_screening_question_fields:
+      question: សំនួរ
+      mode: ម៉ូដ
+      group: ក្រុម
+      questions: 'សំនួរ'
+      alert_manager: ជូនដំណឹងអ្នកគ្រប់គ្រង
+    attachment_fields:
+      image: រូបភាព
+  able_screening_questions:
+    edit:
+      general_question: សំនួរទូទៅ
+    new:
+      general_question: សំនួរទូទៅ
+    form:
+      question: សំនួរ
+      mode: ម៉ូដ
+      group: ក្រុម
+      questions: 'សំនួរ'
+      alert_manager: ជូនដំណឹងអ្នកគ្រប់គ្រង
+    attachment_fields:
+      image: រូបភាព
   devise:
     registrations:
       edit:

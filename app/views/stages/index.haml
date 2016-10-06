@@ -16,9 +16,9 @@
                 .col-xs-6
                   %h4.panel-title
                     %a{"aria-controls" => "collapse-zero", "aria-expanded" => "true", "data-parent" => "#non-stage-accordion", "data-toggle" => "collapse", :href => "#collapse-zero", :role => "button"}
-                      General Questions
+                      = t('.general_question')
                 .col-xs-6.text-right
-                  %span.badge= pluralize(@non_stage_question.count, t('.question'))
+                  %span.badge= t('.question', count: @non_stage_question.count)
             .panel-collapse.collapse.in{"aria-labelledby" => "heading-zero", :role => "tabpanel", id: "collapse-zero"}
               .panel-body
                 - @non_stage_question.each do |able_question|
@@ -37,9 +37,9 @@
                   .col-xs-6
                     %h4.panel-title
                       %a{"aria-controls" => "collapse-#{stage.id}", "aria-expanded" => "true", "data-toggle" => "collapse", :href => "#collapse-#{stage.id}", :role => "button"}
-                        = "From #{stage.from_age} - To #{stage.to_age} Year"
+                        = "#{t('.from')} #{stage.from_age} - #{t('.to')} #{stage.to_age} #{t('.year')}"
                   .col-xs-6.text-right
-                    %span.badge= pluralize(stage.able_screening_questions.count, t('.question'))
+                    %span.badge= t('.question', count: stage.able_screening_questions.count)
               .panel-collapse.collapse.in{"aria-labelledby" => "heading-no#{stage.id}", :role => "tabpanel", id: "collapse-#{stage.id}"}
                 .panel-body
                   - stage.able_screening_questions.each do |able_question|

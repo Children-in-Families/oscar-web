@@ -926,23 +926,50 @@ en:
     create:
       successfully_created: Case Note has successfully been created.
   stages:
-    stage: 'Stage'
-    non_stage: 'Non Stage'
-    questions: 'Questions'
+    stage: Stage
+    non_stage: Non Stage
+    questions: Questions
+    new:
+      new_stage: 'New Stage'
     form:
       from_age: From Age (As Year)
       to_age: To Age (As Year)
       add_question: Add Question
-      question: Question
+      questions: Questions
       mode: Mode
       group: Group
       alert_manager: Alert Manager
+      add_question: Add Question
     index:
       edit_and_add_question: 'Edit/Add Question'
       new_stage_question: New Stage Question
       new_general_question: New General Question
       question: Question
+      from: From
+      to: To
+      year: year
+      question:
+        one: '1 Question'
+        other: '%{count} Questions'
     edit:
+      edit_stage: 'Edit Stage'
+    able_screening_question_field:
+      question: Question
+      mode: Mode
+      group: Group
+      alert_manager: Alert Manager
+    attachment_fields:
+      image: Image
+  able_screening_questions:
+    form:
+      general_question: General Question
+    able_screening_question_field:
+      question: Question
+      mode: Mode
+      group: Group
+      alert_manager: Alert Manager
+    attachment_fields:
+      image: Image
 
   devise:
     registrations:
