@@ -16,11 +16,6 @@ class Client < ActiveRecord::Base
   belongs_to :followed_up_by,   class_name: 'User',     foreign_key: 'followed_up_by_id', counter_cache: true
   belongs_to :birth_province,   class_name: 'Province', foreign_key: 'birth_province_id', counter_cache: true
 
-  has_many :cases,       dependent: :destroy
-  has_many :tasks,       dependent: :destroy
-  has_many :case_notes,  dependent: :destroy
-  has_many :assessments, dependent: :destroy
-  has_many :surveys,     dependent: :destroy
   has_one  :government_report, dependent: :destroy
   has_many :answers, dependent: :destroy
   has_many :able_screening_questions, through: :answers
@@ -29,6 +24,13 @@ class Client < ActiveRecord::Base
   accepts_nested_attributes_for :answers,
             reject_if: proc { |attributes| attributes['description'].blank? },
             allow_destroy: true
+
+  has_many :cases,          dependent: :destroy
+  has_many :tasks,          dependent: :destroy
+  has_many :case_notes,     dependent: :destroy
+  has_many :assessments,    dependent: :destroy
+  has_many :surveys,        dependent: :destroy
+  has_many :progress_notes, dependent: :destroy
 
   has_and_belongs_to_many :agencies
   has_and_belongs_to_many :quantitative_cases

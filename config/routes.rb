@@ -14,6 +14,9 @@ Rails.application.routes.draw do
   get '/quantitative_data' => 'clients#quantitative_case'
   resources :agencies, except: [:show]
 
+  post '/reports' => 'reports#index'
+  resources :reports, only: [:index]
+
   scope 'admin' do
     resources :users
   end
@@ -29,6 +32,10 @@ Rails.application.routes.draw do
   resources :departments, except: [:show]
   resources :quarterly_reports, only: [:index]
   resources :changelogs
+  resources :materials, except: [:show]
+  resources :locations, except: [:show]
+  resources :progress_note_types, except: [:show]
+  resources :interventions, except: [:show]
 
   resources :tasks do
     collection do
@@ -49,6 +56,7 @@ Rails.application.routes.draw do
       resources :tasks
     end
     resources :surveys
+    resources :progress_notes
   end
 
 

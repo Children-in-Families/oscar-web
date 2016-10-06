@@ -1,0 +1,6 @@
+.row
+  .col-xs-12
+    .panel.panel-default
+      = line_chart(@cases_statistics , { library: { legend: { verticalAlign: 'top', y: 30 }, tooltip: { shared: true, xDateFormat: '%B %Y' }, title: { text: "#{t('.case_statistic')}" }, yAxis: { title: { text: "#{t('.client_amount')}" }}}, height: "400px"})
+      .panel-footer
+        = link_to t('.back'), statistics_path, { class:'btn btn-default button' }

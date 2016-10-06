@@ -13,6 +13,7 @@ class Ability
       can :manage, :all
     elsif user.case_worker?
       can :manage, Client, user_id: user.id
+      can :manage, ProgressNote
       can :manage, Case
       can :manage, Assessment
       can :manage, Survey
@@ -25,6 +26,7 @@ class Ability
     elsif user.able_manager?
       can :manage, Client, user_id: user.id
       can :manage, Client, able: true
+      can :manage, ProgressNote
       can :manage, Assessment
       can :manage, Survey
       can :update, Assessment do |assessment|

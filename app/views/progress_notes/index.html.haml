@@ -1,0 +1,22 @@
+.row
+  .col-xs-12
+    .panel.panel-default
+      .panel-body
+        %button.btn.btn-primary.btn-filter{ 'aria-expanded' => 'false', "data-target" => '#progress-note-search-form', 'data-toggle' => 'collapse', type: 'button'}
+          %i.glyphicon.glyphicon-filter
+        .text-right.btn-links
+          = link_to t('.add_new_progress_note'), new_client_progress_note_path(@client), class: 'btn btn-success'
+          = link_to t('.export_to_csv'), current_url(format: 'csv'), class: 'btn btn-default btn-export'
+        .panel.panel-default#progress-note-search-form.collapse
+          .panel-body
+            = datagrid_form_for @progress_note_grid, url: client_progress_notes_url(@client), html: { class: 'grid-form' }
+        .text-left.record-count
+          %strong= @progress_note_grid.assets.count
+          %span= t('.records')
+        .table-responsive
+          = datagrid_table @progress_note_grid, html: {class: 'table table-bordered table-striped table-hover progress-notes'}
+
+        = link_to t('.back'), client_path(@client), class: 'btn btn-default btn-back'
+.row
+  .col-xs-12.text-center
+    = will_paginate @progress_note_grid.assets, renderer: BootstrapPagination::Rails

@@ -8,8 +8,7 @@
 
       = link_to root_path , class: 'navbar-brand' do
         = image_tag ENV['NGO_LOGO'], class: 'logo'
-
-
+        
     .collapse.navbar-collapse
       %ul.nav.navbar-nav
         %li{ class: clients_menu_active }
@@ -24,6 +23,10 @@
           - if can? :manage, User
             %li{ class: active_menu('users') }
               = link_to t('.users'), users_path
+          - if can? :manage, [CsiStatistic, CaseStatistic]
+            - if Client.any?
+              %li{ class: active_menu('reports') }
+                = link_to t('.reports'), reports_path
 
       %ul.nav.navbar-nav.navbar-right
         - if user_signed_in?
@@ -51,6 +54,19 @@
                   = link_to t('.able_screening_questions'), stages_path
                 %li{ class: active_menu('changelogs') }
                   = link_to t('.changelogs'), changelogs_path
+                %li.dropdown-submenu
+                  %a.text-right{ href: '#' }
+                    %span.pull-left= t('.progress_note')
+                    %i.glyphicon.glyphicon-chevron-right
+                  %ul.dropdown-menu
+                    %li{ class: active_menu('interventions') }
+                      = link_to t('.interventions'), interventions_path
+                    %li{ class: active_menu('locations') }
+                      = link_to t('.locations'), locations_path
+                    %li{ class: active_menu('materials') }
+                      = link_to t('.materials'), materials_path
+                    %li{ class: active_menu('progress_note_types') }
+                      = link_to t('.progress_note_types'), progress_note_types_path
               - elsif can? :manage, ReferralSource
                 %li{ class: active_menu('referral_sources') }
                   = link_to t('.referral_sources'), referral_sources_path

@@ -108,6 +108,7 @@ GEM
       json (>= 1.7)
       mime-types (>= 1.16)
       mimemagic (>= 0.3.0)
+    chartkick (2.0.2)
     choice (0.2.0)
     chronic (0.10.2)
     ckeditor (4.1.6)
@@ -624,6 +625,7 @@ DEPENDENCIES
   capistrano-sidekiq!
   capybara (~> 2.5)
   carrierwave (~> 0.11.2)
+  chartkick (~> 2.0, >= 2.0.2)
   ckeditor
   cocoon (~> 1.2, >= 1.2.9)
   coffee-rails (~> 4.1.0)
@@ -678,4 +680,4 @@ DEPENDENCIES
   wkhtmltopdf-binary-edge (~> 0.12.3.0)
 
 BUNDLED WITH
-   1.12.5
+   1.13.1

@@ -10,6 +10,7 @@ class User < ActiveRecord::Base
   has_many :cases
   has_many :clients
   has_many :changelogs
+  has_many :progress_notes, dependent: :restrict_with_error
 
   validates :roles, presence: true
 
@@ -83,8 +84,8 @@ class User < ActiveRecord::Base
     admin? || case_worker? || able_manager? || any_case_manager?
   end
 
-  def has_no_clients_cases_and_tasks?
-    clients_count.zero? && cases_count.zero? && tasks_count.zero?
+  def has_no_any_associated_objects?
+    clients_count.zero? && cases_count.zero? && tasks_count.zero? && changelogs_count.zero? && progress_notes.count.zero?
   end
 
   def client_status
@@ -101,7 +102,7 @@ class User < ActiveRecord::Base
   def assessment_either_overdue_or_due_today
     overdue   = []
     due_today = []
-    clients.each do |c|
+    clients.where(status: ['Active EC','Active FC','Active KC']).each do |c|
       if c.next_assessment_date < Date.today
         overdue << c
       elsif c.next_assessment_date == Date.today
