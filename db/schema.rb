@@ -770,6 +770,18 @@ ActiveRecord::Schema.define(version: 20161006020147) do
   add_foreign_key "able_screening_questions", "stages"
   add_foreign_key "answers", "able_screening_questions"
   add_foreign_key "answers", "clients"
+
+  create_table "versions", force: :cascade do |t|
+    t.string   "item_type",  null: false
+    t.integer  "item_id",    null: false
+    t.string   "event",      null: false
+    t.string   "whodunnit"
+    t.text     "object"
+    t.datetime "created_at"
+  end
+
+  add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
+
   add_foreign_key "assessment_domains_progress_notes", "assessment_domains"
   add_foreign_key "assessment_domains_progress_notes", "progress_notes"
   add_foreign_key "assessments", "clients"

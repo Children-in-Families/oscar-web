@@ -19,6 +19,7 @@ class Client < ActiveRecord::Base
   has_one  :government_report, dependent: :destroy
   has_many :answers, dependent: :destroy
   has_many :able_screening_questions, through: :answers
+  has_many :tasks,          dependent: :destroy
 
   accepts_nested_attributes_for :tasks
   accepts_nested_attributes_for :answers,
@@ -26,7 +27,6 @@ class Client < ActiveRecord::Base
             allow_destroy: true
 
   has_many :cases,          dependent: :destroy
-  has_many :tasks,          dependent: :destroy
   has_many :case_notes,     dependent: :destroy
   has_many :assessments,    dependent: :destroy
   has_many :surveys,        dependent: :destroy
