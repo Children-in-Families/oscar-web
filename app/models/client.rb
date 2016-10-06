@@ -4,8 +4,6 @@ class Client < ActiveRecord::Base
 
   friendly_id :slug, use: :slugged
 
-  has_paper_trail
-
   CLIENT_STATUSES = ['Referred', 'Active EC', 'Active KC', 'Active FC', 'Independent - Monitored', 'Exited - Deseased', 'Exited - Age Out', 'Exited Independent', 'Exited Adopted', 'Exited Other'].freeze
 
   EXIT_STATUSES   = CLIENT_STATUSES.select { |status| status if status.include?('Exited') }
@@ -24,10 +22,12 @@ class Client < ActiveRecord::Base
   has_many :surveys,     dependent: :destroy
   has_one  :government_report, dependent: :destroy
 
-  accepts_nested_attributes_for     :tasks
-
   has_and_belongs_to_many :agencies
   has_and_belongs_to_many :quantitative_cases
+
+  has_paper_trail
+
+  accepts_nested_attributes_for     :tasks
 
   validates :rejected_note, presence: true, on: :update, if: :reject?
 
