@@ -18,7 +18,7 @@ class AbleScreeningQuestionsController < ApplicationController
   end
 
   def update
-    if @able_screening_question.update(able_screening_question_params)
+    if @able_screening_question.update_attributes(able_screening_question_params)
       redirect_to edit_able_screening_question_path(@able_screening_question),
                   notice: 'Successfully updated an Able Screening Question'
     else
