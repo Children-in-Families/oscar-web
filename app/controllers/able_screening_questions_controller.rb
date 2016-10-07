@@ -8,9 +8,9 @@ class AbleScreeningQuestionsController < ApplicationController
   def create
     @able_screening_question = AbleScreeningQuestion.new(able_screening_question_params)
     if @able_screening_question.save
-      redirect_to new_able_screening_question_path, notice: 'Successfully created an Able Screening Question'
+      redirect_to new_able_screening_question_path, notice: t('.successfully_created')
     else
-      render :new, alert: 'Failed to create an Able Screening Question'
+      render :new
     end
   end
 
@@ -20,9 +20,9 @@ class AbleScreeningQuestionsController < ApplicationController
   def update
     if @able_screening_question.update_attributes(able_screening_question_params)
       redirect_to edit_able_screening_question_path(@able_screening_question),
-                  notice: 'Successfully updated an Able Screening Question'
+                  notice: t('.successfully_updated')
     else
-      render :edit, alert: 'Failed to update an Able Screening Question'
+      render :edit
     end
   end
 

@@ -3,10 +3,19 @@ CIF.Able_screening_questionsNew = CIF.Able_screening_questionsCreate = CIF.Able_
     _initialSelect2()
     _afterSelectMode()
     # _reloadAfterCocoon()
+    _initUploader()
 
   _initialSelect2 = ->
     $('.select2').select2
       theme: 'bootstrap'
+
+  _initUploader = ->
+    image = $('.question-image img')
+    uploader = $("#able-image")
+    button = $(".browse-image")
+    $(image).previewImage
+      uploader: uploader
+      button: button
 
   _reloadAfterCocoon = ->
     $('.container-fluid').on 'cocoon:after-insert', (e, insertedItem) ->

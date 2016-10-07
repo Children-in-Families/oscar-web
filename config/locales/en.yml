@@ -319,6 +319,10 @@ en:
     family_need_score: My stipend helps me meet my family's needs.
     care_score: My CCW cares about what happens to the children I take care of.
 
+  default_stage_fields: &default_stage_fields
+    from_age: From Age
+    to_age: To Age
+
   surveys:
     form:
       <<: *default_survey_fields
@@ -671,6 +675,18 @@ en:
   activerecord:
     errors:
       models:
+        stage:
+          attributes:
+            from_age:
+              blank: can't be blank
+            to_age:
+              blank: can't be blank
+        able_screening_question:
+          attributes:
+            question:
+              blank: can't be blank
+            mode: 
+              blank: can't be blank
         changelog_type:
           attributes:
             description:
@@ -1058,14 +1074,26 @@ en:
         other: '%{count} Questions'
     edit:
       edit_stage: 'Edit Stage'
-    able_screening_question_field:
+    able_screening_question_fields:
+      are_you_sure: Remove question with have sigificant affect to client answers, Are you sure you want to delete?
       question: Question
       mode: Mode
       group: Group
       alert_manager: Alert Manager
     attachment_fields:
-      image: Image
+      browse: Browse
+    create:
+      successfully_created: Stage has been successfully created.
+    update:
+      successfully_updated: Stage has been successfully updated.
+    destroy:
+      successfully_deleted: Stage has been successfully deleted.
+      alert: Stage cannot be deleted.
+      
+
   able_screening_questions:
+    attachment_fields:
+      browse: Browse
     form:
       general_question: General Question
     able_screening_question_field:
@@ -1073,8 +1101,13 @@ en:
       mode: Mode
       group: Group
       alert_manager: Alert Manager
-    attachment_fields:
-      image: Image
+    create:
+      successfully_created: Able Screening has been successfully created.
+    update:
+      successfully_updated: Able Screening has been successfully updated.
+    destroy:
+      successfully_deleted: Able Screening has been successfully deleted.
+      alert: Able Screening cannot be deleted.
 
   devise:
     registrations:

@@ -1,6 +1,6 @@
 = simple_form_for(@able_screening_question, title: "new able screening question") do |f|
   .panel-body
-    = f.error_notification
+    = error_notification(f)
     .form-inputs
       .row
         .col-xs-12.col-md-6= f.input :question, label: t('.question')
@@ -18,6 +18,6 @@
             = render 'attachment_fields', f: attachment
       .row
   .panel-footer
-    .form-actions.text-right
-      = link_to t('cancel'), stages_path, class: 'btn btn-default form-btn'
-      = f.button :submit, 'Save', class: 'btn btn-primary'
+    .form-actions
+      = f.button :submit, t('save'), class: 'btn btn-primary form-btn'
+      = link_to t('.cancel'), stages_path, class: 'btn btn-default form-btn'

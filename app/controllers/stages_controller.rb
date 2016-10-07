@@ -15,9 +15,9 @@ class StagesController < AdminController
   def create
     @stage = Stage.new(stage_params)
     if @stage.save
-      redirect_to stages_path
+      redirect_to stages_path, notice: t('.successfully_created')
     else
-      redirect_to stages_path, alert: 'Failed to create a stage'
+      render :new
     end
   end
 
@@ -26,9 +26,9 @@ class StagesController < AdminController
 
   def update
     if @stage.update_attributes(stage_params)
-      redirect_to stages_path
+      redirect_to stages_path, notice: t('.successfully_updated')
     else
-      redirect_to stages_path, alert: 'Failed to update a stage'
+      render :edit
     end
   end
 
