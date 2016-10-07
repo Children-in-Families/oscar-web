@@ -18,6 +18,14 @@ describe Client, 'associations' do
 
 end
 
+# describe Client, 'paper trail' do
+#   let!(:agency){ create(:agency) }
+#   let!(:client){ create(:client, agency_ids: agency.id) }
+#   context 'create a version of joined table of habtm association' do
+#     it { expect{PaperTrail::Version.count}.to change{PaperTrail::Version.count}.from(2).to(3) }
+#   end
+# end
+
 describe Client, 'methods' do
   let!(:client){ create(:client) }
   let!(:assessment){ create(:assessment, created_at: Date.today - 6.month, client: client) }
