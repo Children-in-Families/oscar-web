@@ -10,3 +10,4 @@
       - else
         = f.input :description, as: :boolean, label: 'Yes/No'
       = f.input :able_screening_question_id, as: :hidden, input_html: { value: f.object.able_screening_question_id }
+      = f.input :question_type, as: :hidden, input_html: { value: 'general' }

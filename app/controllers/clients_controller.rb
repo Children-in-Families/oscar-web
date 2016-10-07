@@ -105,7 +105,7 @@ class ClientsController < AdminController
               agency_ids: [],
               quantitative_case_ids: [],
               tasks_attributes: [:name, :domain_id, :completion_date],
-              answers_attributes: [:id, :description, :able_screening_question_id, :client_id]
+              answers_attributes: [:id, :description, :able_screening_question_id, :client_id, :question_type]
               )
   end
 
