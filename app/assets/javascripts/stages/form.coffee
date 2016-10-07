@@ -59,12 +59,11 @@ CIF.StagesNew = CIF.StagesCreate = CIF.StagesEdit = CIF.StagesUpdate = do ->
   _checkModeHandler = (element, value) ->
     parentElement = $(element).closest('.row')
     checkBoxName  = parentElement.find('input[type="checkbox"]').attr('name')
-    checkBoxId  = parentElement.find('input[type="checkbox"]').attr('id')
-    disabled      = value == 'free_text' ? true : false
+    checkBoxId    = parentElement.find('input[type="checkbox"]').attr('id')
+    disabled      = if value == 'free_text' then true else false
     check = $("##{checkBoxId}").val() == '1'
     check = false if value == 'free_text'
 
-    $("input[name='#{checkBoxName}']").prop('checked', check)
     $("input[name='#{checkBoxName}']").prop('disabled', disabled)
 
   { init: _init }

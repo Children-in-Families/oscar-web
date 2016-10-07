@@ -18,6 +18,13 @@ class AbleScreeningQuestion < ActiveRecord::Base
 
   delegate :from_age_as_date, :to_age_as_date, :non_stage, to: :stage, allow_nil: true
 
+  before_save :check_mode
+
+  def check_mode
+    self.alert_manager = false if self.free_text?
+    true
+  end
+
   def has_image?
     attachments.any?
   end

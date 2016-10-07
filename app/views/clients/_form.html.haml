@@ -69,14 +69,14 @@
               %hr
               #non-stage-question
                 %h4.text-center General Question
-                = f.simple_fields_for(:answers, @answers_non_stage) do |answer_builder|
+                = f.simple_fields_for(:answers, @answers_non_stage || f.object.answers.of_general_question) do |answer_builder|
                   .question_and_answer{ data: { 'is-stage': "#{answer_builder.object.able_screening_question.has_stage?}" } }
                     = render 'answer_fields', f: answer_builder
               %hr
               #stage-question
                 %h4.text-center Stage
                 .row
-                  = f.simple_fields_for(:answers, @answers_with_stage) do |answer_builder|
+                  = f.simple_fields_for(:answers, @answers_with_stage || f.object.answers.of_stage_question) do |answer_builder|
                     .col-xs-12.question_and_answer{ data: { 'from-age': "#{answer_builder.object.able_screening_question.stage.try(:from_age)}", 'to-age': "#{answer_builder.object.able_screening_question.stage.try(:to_age)}", 'is-stage': "#{answer_builder.object.able_screening_question.has_stage?}"} }
                       = render 'answer_stage_fields', f: answer_builder
   .panel-footer

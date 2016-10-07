@@ -8,7 +8,7 @@ class AbleScreeningQuestionsController < ApplicationController
   def create
     @able_screening_question = AbleScreeningQuestion.new(able_screening_question_params)
     if @able_screening_question.save
-      redirect_to new_able_screening_question_path, notice: t('.successfully_created')
+      redirect_to stages_path, notice: t('.successfully_created')
     else
       render :new
     end
@@ -19,8 +19,7 @@ class AbleScreeningQuestionsController < ApplicationController
 
   def update
     if @able_screening_question.update_attributes(able_screening_question_params)
-      redirect_to edit_able_screening_question_path(@able_screening_question),
-                  notice: t('.successfully_updated')
+      redirect_to stages_path, notice: t('.successfully_updated')
     else
       render :edit
     end
