@@ -5,7 +5,7 @@
     .col-xs-12.col-md-2
       = f.association :question_group, input_html: { class: 'select2'}, label: t('.group')
     .col-xs-12.col-md-2
-      = f.input :mode, collection: AbleScreeningQuestion::MODES, input_html: { class: 'select2 check-mode'}, label: t('.mode')
+      = f.input :mode, collection: AbleScreeningQuestion::MODES, input_html: { class: 'select2 check-mode'}, label: t('.mode'), include_blank: false
     .col-xs-12.col-md-2.no-label-form-group
       = f.input :alert_manager, as: :boolean, label: t('.alert_manager')
     .col-xs-12.col-md-1.no-label-form-group

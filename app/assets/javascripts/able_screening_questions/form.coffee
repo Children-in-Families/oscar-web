@@ -32,7 +32,6 @@ CIF.Able_screening_questionsNew = CIF.Able_screening_questionsCreate = CIF.Able_
     check = $("##{checkBoxId}").val() == '1'
     check = false if value == 'free_text'
 
-    $("input[name='#{checkBoxName}']").prop('checked', check)
     $("input[name='#{checkBoxName}']").prop('disabled', disabled)
 
   { init: _init }

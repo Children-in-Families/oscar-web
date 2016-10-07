@@ -17,7 +17,7 @@ class StagesController < AdminController
     if @stage.save
       redirect_to stages_path
     else
-      redirect_to stages_path, alert: 'Failed to create a stage'
+      render :new
     end
   end
 
@@ -28,7 +28,7 @@ class StagesController < AdminController
     if @stage.update_attributes(stage_params)
       redirect_to stages_path
     else
-      redirect_to stages_path, alert: 'Failed to update a stage'
+      render :edit
     end
   end
 
