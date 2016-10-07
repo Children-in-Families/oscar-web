@@ -15,7 +15,7 @@ class StagesController < AdminController
   def create
     @stage = Stage.new(stage_params)
     if @stage.save
-      redirect_to stages_path
+      redirect_to stages_path, notice: t('.successfully_created')
     else
       render :new
     end
@@ -26,7 +26,7 @@ class StagesController < AdminController
 
   def update
     if @stage.update_attributes(stage_params)
-      redirect_to stages_path
+      redirect_to stages_path, notice: t('.successfully_updated')
     else
       render :edit
     end

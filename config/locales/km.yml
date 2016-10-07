@@ -682,6 +682,18 @@ km:
   activerecord:
     errors:
       models:
+        stage:
+          attributes:
+            from_age:
+              blank: មិនអាចរំលង
+            to_age:
+              blank: មិនអាចរំលង
+        able_screening_question:
+          attributes:
+            question:
+              blank: មិនអាចរំលង
+            mode: 
+              blank: មិនអាចរំលង
         changelog_type:
           attributes:
             description:
@@ -1118,14 +1130,22 @@ km:
     edit:
       edit_stage: 'កែរសំរួល ដំណាក់កាល'
     able_screening_question_fields:
+      are_you_sure: តើអ្នកប្រាកដហើយ?
       question: សំនួរ
       mode: ម៉ូដ
       group: ក្រុម
       questions: 'សំនួរ'
       alert_manager: ជូនដំណឹងអ្នកគ្រប់គ្រង
-    attachment_fields:
-      image: រូបភាព
+    create:
+      successfully_created: ដំណាក់ការបានបង្កើតដោយជោគជ័យ
+    update:
+      successfully_updated: ដំណាក់ការត្រូវបានកែសម្រួលដោយជោគជ័យ
+    destroy:
+      successfully_deleted: ដំណាក់ការត្រូវបានលុបដោយជោគជ័យ
+
   able_screening_questions:
+    attachment_fields:
+      browse: រកមើល
     edit:
       general_question: សំនួរទូទៅ
     new:
@@ -1136,8 +1156,15 @@ km:
       group: ក្រុម
       questions: 'សំនួរ'
       alert_manager: ជូនដំណឹងអ្នកគ្រប់គ្រង
-    attachment_fields:
-      image: រូបភាព
+      save: រក្សាទុក
+      cancel: ទុកជាមោឃៈ
+    create:
+      successfully_created: ដំណាក់ការសំនួរទូទៅបានបង្កើតដោយជោគជ័យ
+    update:
+      successfully_updated: សំនួរទូទៅត្រូវបានកែសម្រួលដោយជោគជ័យ
+    destroy:
+      successfully_deleted: សំនួរទូទៅត្រូវបានលុបដោយជោគជ័យ
+
   devise:
     registrations:
       edit:

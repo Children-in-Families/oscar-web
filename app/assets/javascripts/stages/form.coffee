@@ -4,15 +4,30 @@ CIF.StagesNew = CIF.StagesCreate = CIF.StagesEdit = CIF.StagesUpdate = do ->
     _afterSelectMode()
     _reloadAfterCocoon()
     _validateInputNumber()
+    _initEditUploader()
 
   _initialSelect2 = ->
     $('.select2').select2
       theme: 'bootstrap'
 
+  _initEditUploader = ->
+    $('.nested-fields').each ->
+      _initUploader(@)
+
+  _initUploader = (questionRow) ->
+    image = $(questionRow).find(".question-image img")
+    uploader = $(questionRow).find(".stage-image")
+    button = $(questionRow).find(".browse-image")
+    $(image).previewImage
+      uploader: uploader
+      button: button
+
   _reloadAfterCocoon = ->
     $('.container-fluid').on 'cocoon:after-insert', (e, insertedItem) ->
+      newImageId = +new Date
       insertedItem.find('.select2').select2
         theme: 'bootstrap'
+      _initUploader(insertedItem)
       _afterSelectMode()
 
   _afterSelectMode = ->

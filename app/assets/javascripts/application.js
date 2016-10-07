@@ -5,7 +5,8 @@
 //= require jquery.steps.min
 //= require thredded
 //= require cocoon
-//= require image_upload_previewer/image_upload_previewer
+// = require image_upload_previewer/image_upload_previewer
+//= require image_upload
 //= require chartkick
 //= require bootstrap-datepicker
 
