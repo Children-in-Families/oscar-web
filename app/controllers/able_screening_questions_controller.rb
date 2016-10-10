@@ -1,4 +1,5 @@
-class AbleScreeningQuestionsController < ApplicationController
+class AbleScreeningQuestionsController < AdminController
+  load_and_authorize_resource
   before_action :set_able_screening_question, only: [:edit, :update]
 
   def new

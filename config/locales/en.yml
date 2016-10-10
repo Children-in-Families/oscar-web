@@ -212,6 +212,7 @@ en:
     first_name: First Name
     last_name: Last Name
     name: Name
+    able_state: Able State
     date_of_birth: Date of Birth
     birth_province: Birth Province
     referral_phone: Referral Phone
@@ -547,6 +548,8 @@ en:
       additional_details: Additional Details
       general_info: Information of
       progress_note: Progress Note
+    client_answers:
+      client_able_answers: Client Able Answers
     actions:
       are_you_sure: Are you sure you want to delete?
     emergency_case:
@@ -686,7 +689,7 @@ en:
           attributes:
             question:
               blank: can't be blank
-            mode: 
+            mode:
               blank: can't be blank
         changelog_type:
           attributes:
@@ -1090,7 +1093,7 @@ en:
     destroy:
       successfully_deleted: Stage has been successfully deleted.
       alert: Stage cannot be deleted.
-      
+
 
   able_screening_questions:
     attachment_fields:

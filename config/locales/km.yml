@@ -214,6 +214,7 @@ km:
     id: លេខសំគាល់
     first_name: នាមខ្លួន
     last_name: នាមត្រកូល
+    able_state: ស្ថានភាព Able
     name: ឈ្មោះ
     date_of_birth: ថ្ងៃ ខែ ឆ្នាំ កំណើត
     birth_province: ស្រុកកំណើត
@@ -495,6 +496,7 @@ km:
       end_date: ថ្ងៃចុងក្រោយ
 
   clients:
+
     index:
       add_new_client: បន្ថែមអតិថិជនថ្មី
       view_all_active_tasks: ពិនិត្យលើកាតព្វកិច្ចដែលមិនទាន់ធ្វើ
@@ -546,6 +548,9 @@ km:
       additional_details: ពត៌មានលំអិតបន្ថែម
       general_info: ពត៌មានរបស់អតិថិជន
       progress_note: កំណត់សំគាល់ការរីកចំរើន
+      client_able_answers: ចំលើយ Able
+    client_answers:
+      client_able_answers: ចំលើយ Able របស់អតិថិជន
     actions:
       are_you_sure: តើអ្នកប្រាកដហើយ?
     emergency_case:
@@ -693,7 +698,7 @@ km:
           attributes:
             question:
               blank: មិនអាចរំលង
-            mode: 
+            mode:
               blank: មិនអាចរំលង
         changelog_type:
           attributes:
@@ -1451,7 +1456,7 @@ km:
       successfully_updated: ការផ្លាស់ប្ដូរត្រូវបានកែសម្រួលដោយជោគជ័យ
     destroy:
       successfully_deleted: ការផ្លាស់ប្ដូរត្រូវបានលុបដោយជោគជ័យ
-      
+
   materials:
     index:
       <<: *default_material_fields

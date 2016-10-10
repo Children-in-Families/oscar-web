@@ -143,10 +143,10 @@
                         = human_boolean(@client.has_been_in_orphanage)
                   %tr
                     %td.spacing-first-col
-                      = "#{t('.able')}?"
+                      = "#{t('.able_state')}"
                     %td
                       %strong
-                        = human_boolean(@client.able)
+                        = @client.able_state
                   %tr
                     %td.spacing-first-col
                       = "#{t('.has_been_in_government_care')}?"
@@ -310,3 +310,10 @@
                 .col-xs-10.col-xs-offset-1.pushing-top.color-orange.progress-notes
                   %h4.white-text.text-center
                     = t('.progress_note')
+          .row
+            = link_to '', {"data-target" => "#myModal", "data-toggle" => "modal", :type => "button"} do
+              .col-xs-10.col-xs-offset-1.pushing-top.color-orange.progress-notes
+                %h4.white-text.text-center
+                  = t('.client_able_answers')
+
+= render('client_answers')
