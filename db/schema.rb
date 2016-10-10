@@ -43,16 +43,6 @@ ActiveRecord::Schema.define(version: 20161006020907) do
     t.text     "goal",           default: ""
   end
 
-  create_table "assessment_domains_progress_notes", force: :cascade do |t|
-    t.integer  "assessment_domain_id"
-    t.integer  "progress_note_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "assessment_domains_progress_notes", ["assessment_domain_id"], name: "index_assessment_domains_progress_notes_on_assessment_domain_id", using: :btree
-  add_index "assessment_domains_progress_notes", ["progress_note_id"], name: "index_assessment_domains_progress_notes_on_progress_note_id", using: :btree
-
   create_table "assessments", force: :cascade do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -309,35 +299,6 @@ ActiveRecord::Schema.define(version: 20161006020907) do
     t.datetime "updated_at"
   end
 
-  create_table "interventions", force: :cascade do |t|
-    t.string   "action",     default: ""
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "interventions_progress_notes", force: :cascade do |t|
-    t.integer  "progress_note_id"
-    t.integer  "intervention_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "interventions_progress_notes", ["intervention_id"], name: "index_interventions_progress_notes_on_intervention_id", using: :btree
-  add_index "interventions_progress_notes", ["progress_note_id"], name: "index_interventions_progress_notes_on_progress_note_id", using: :btree
-
-  create_table "locations", force: :cascade do |t|
-    t.string   "name",         default: ""
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "order_option", default: 0
-  end
-
-  create_table "materials", force: :cascade do |t|
-    t.string   "status",     default: ""
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "partners", force: :cascade do |t|
     t.string   "name",                  default: ""
     t.string   "address",               default: ""
@@ -354,32 +315,6 @@ ActiveRecord::Schema.define(version: 20161006020907) do
     t.datetime "updated_at"
     t.integer  "cases_count",           default: 0
   end
-
-  create_table "progress_note_types", force: :cascade do |t|
-    t.string   "note_type",  default: ""
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "progress_notes", force: :cascade do |t|
-    t.date     "date"
-    t.string   "other_location",        default: ""
-    t.text     "response",              default: ""
-    t.text     "additional_note",       default: ""
-    t.integer  "client_id"
-    t.integer  "progress_note_type_id"
-    t.integer  "location_id"
-    t.integer  "material_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "user_id"
-  end
-
-  add_index "progress_notes", ["client_id"], name: "index_progress_notes_on_client_id", using: :btree
-  add_index "progress_notes", ["location_id"], name: "index_progress_notes_on_location_id", using: :btree
-  add_index "progress_notes", ["material_id"], name: "index_progress_notes_on_material_id", using: :btree
-  add_index "progress_notes", ["progress_note_type_id"], name: "index_progress_notes_on_progress_note_type_id", using: :btree
-  add_index "progress_notes", ["user_id"], name: "index_progress_notes_on_user_id", using: :btree
 
   create_table "provinces", force: :cascade do |t|
     t.string   "name",           default: ""
@@ -742,21 +677,12 @@ ActiveRecord::Schema.define(version: 20161006020907) do
   add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
   add_index "versions", ["transaction_id"], name: "index_versions_on_transaction_id", using: :btree
 
-  add_foreign_key "assessment_domains_progress_notes", "assessment_domains"
-  add_foreign_key "assessment_domains_progress_notes", "progress_notes"
   add_foreign_key "assessments", "clients"
   add_foreign_key "case_contracts", "cases"
   add_foreign_key "case_notes", "clients"
   add_foreign_key "changelog_types", "changelogs"
   add_foreign_key "changelogs", "users"
   add_foreign_key "domains", "domain_groups"
-  add_foreign_key "interventions_progress_notes", "interventions"
-  add_foreign_key "interventions_progress_notes", "progress_notes"
-  add_foreign_key "progress_notes", "clients"
-  add_foreign_key "progress_notes", "locations"
-  add_foreign_key "progress_notes", "materials"
-  add_foreign_key "progress_notes", "progress_note_types"
-  add_foreign_key "progress_notes", "users"
   add_foreign_key "quarterly_reports", "cases"
   add_foreign_key "surveys", "clients"
   add_foreign_key "tasks", "clients"

@@ -22,10 +22,14 @@ class Client < ActiveRecord::Base
   has_many :surveys,     dependent: :destroy
   has_one  :government_report, dependent: :destroy
 
-  has_and_belongs_to_many :agencies
+  has_many :agencies_clients, dependent: :destroy
+  has_many :agencies, through: :agencies_clients
+
   has_and_belongs_to_many :quantitative_cases
 
   has_paper_trail
+
+  after_touch :touch_with_version
 
   accepts_nested_attributes_for     :tasks
 
@@ -77,6 +81,11 @@ class Client < ActiveRecord::Base
   scope :able,                 -> { where(able: true) }
 
   scope :without_assessments,  -> { includes(:assessments).where(assessments: { client_id: nil }) }
+
+  def self.track_associations
+    hide_associations = [:agencies_clients]
+    reflect_on_all_associations.map(&:name).reject{ |asso| hide_associations.include?(asso)}
+  end
 
   def reject?
     state_changed? && state == 'rejected'
