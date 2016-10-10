@@ -23,7 +23,7 @@ class ClientColumnsVisibility
       current_address_: :current_address,
       school_name_: :school_name,
       grade_: :grade,
-      able_: :able,
+      able_state_: :able_state,
       has_been_in_orphanage_: :has_been_in_orphanage,
       has_been_in_government_care_: :has_been_in_government_care,
       relevant_referral_information_: :relevant_referral_information,

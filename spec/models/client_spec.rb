@@ -167,6 +167,8 @@ describe Client, 'scopes' do
   )}
   let!(:assessment) { create(:assessment, client: client) }
   let!(:other_client){ create(:client, state: 'rejected') }
+  let!(:able_client) { create(:client, able_state: Client.able_states[0]) }
+
   context 'first name like' do
     let!(:clients){ Client.first_name_like(client.first_name.downcase) }
     it 'should include record have first name like' do
@@ -184,17 +186,6 @@ describe Client, 'scopes' do
 
     it 'should not include record with any assessments' do
       expect(Client.without_assessments).not_to include(client)
-    end
-  end
-
-  # todo : remove when stable
-  xcontext 'last name like' do
-    let!(:clients){ Client.last_name_like(client.last_name.downcase) }
-    it 'should include record have last name like' do
-      expect(clients).to include(client)
-    end
-    it 'should not include record not have last name like' do
-      expect(clients).not_to include(other_client)
     end
   end
 
@@ -217,17 +208,6 @@ describe Client, 'scopes' do
       expect(clients).not_to include(other_client)
     end
   end
-
-  # To do: remove when stable (This was changed from string filter to integer range filter)
-  # context 'school grade like' do
-  #   let!(:clients){ Client.school_grade_like(client.school_grade.downcase) }
-  #   it 'should include record have school grade like' do
-  #     expect(clients).to include(client)
-  #   end
-  #   it 'should not include record not have school grade like' do
-  #     expect(clients).not_to include(other_client)
-  #   end
-  # end
 
   context 'referral phone like' do
     let!(:clients){ Client.referral_phone_like(client.referral_phone.downcase) }
@@ -349,6 +329,22 @@ describe Client, 'scopes' do
 
     it 'should return client that has cases has family' do
       expect(Client.find_by_family_id(family.id)).to eq [client]
+    end
+  end
+
+  context 'able states' do
+    states = %w(Accepted Rejected Discharged)
+    it 'return all three able states' do
+      expect(Client.able_states).to eq(states)
+    end
+  end
+
+  context 'able' do
+    it 'should return able client' do
+      expect(Client.able).to include(able_client)
+    end
+    it 'should not return non able client' do
+      expect(Client.able).not_to include([client, other_client])
     end
   end
 end
