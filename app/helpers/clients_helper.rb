@@ -23,6 +23,36 @@ module ClientsHelper
     end
   end
 
+  def report_options(title, yaxis_title)
+    {
+      library: {
+        legend: {
+          verticalAlign: 'top',
+          y: 30
+        },
+        tooltip: {
+          shared: true,
+          xDateFormat: '%b %Y'
+        },
+        title: {
+          text: title
+          },
+        xAxis:
+          dateTimeLabelFormats: {
+            month: '%b %Y'
+          },
+          tickmarkPlacement: 'on'
+        },
+        yAxis: {
+          allowDecimals: false,
+          title: {
+            text: yaxis_title
+          }
+        }
+      }
+    }
+  end
+
   def columns_visibility(column)
     label_tag "#{column}_",
       case column

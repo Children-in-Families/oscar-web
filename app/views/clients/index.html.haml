@@ -30,12 +30,12 @@
                 .col-xs-12.col-md-6
                   .panel.panel-default
                     .panel-body
-                      = line_chart(@csi_statistics, { library: { legend: { verticalAlign: 'top', y: 30, align: 'center' }, tooltip: { shared: true }, title: { text: t('.csi_domain_scores') }, xAxis: { tickmarkPlacement: 'on', }, yAxis: { title: { text: t('.domain_score') }}}})
+                      = line_chart(@csi_statistics, report_options(t('.csi_domain_scores'), t('.domain_score')))
                       
                 .col-xs-12.col-md-6
                   .panel.panel-default
                     .panel-body
-                      = line_chart(@cases_statistics, { library: { legend: { verticalAlign: 'top', y: 30 }, tooltip: { shared: true, xDateFormat: '%b %Y' }, title: { text: t('.case_statistics') }, xAxis: {dateTimeLabelFormats: { month: '%b %Y' }}, yAxis: { allowDecimals: false, title: { text: t('.client_amount'), max: @client_grid.assets.count }}}})
+                      = line_chart(@cases_statistics, report_options(t('.case_statistics'), t('.client_amount')))
         .text-left.record-count
           %strong= @client_grid.assets.count
           %span= t('.records')

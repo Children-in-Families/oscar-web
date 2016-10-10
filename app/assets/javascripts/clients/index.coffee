@@ -7,11 +7,15 @@ CIF.ClientsIndex = do ->
     _restrictNumberFilter()
     _quantitativeCaesByQuantitativeType()
     _handleHideShowReport()
+    _formatReportxAxis()
 
   _enableSelect2 = ->
     $('#clients-index select').select2
       minimumInputLength: 0,
       allowClear: true
+
+  _formatReportxAxis = ->
+    Highcharts.setOptions global: useUTC: false
 
   _handleHideShowReport = ->
     $('#client-statistic').click ->
