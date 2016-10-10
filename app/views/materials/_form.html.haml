@@ -1,0 +1,9 @@
+= simple_form_for(@material) do |f|
+  .panel-body
+    = error_notification(f)
+    .form-inputs
+      = f.input :status, label: t('.status')
+  .panel-footer
+    .form-actions
+      = f.submit t('.save') , class: 'btn btn-primary form-btn'
+      = link_to t('.cancel'), materials_path, class: 'btn btn-default form-btn'

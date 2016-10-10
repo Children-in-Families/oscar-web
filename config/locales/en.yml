@@ -1,5 +1,33 @@
 en:
+  unauthorized:
+    default: You are not authorized to access this page.
+
   faq: FAQ
+
+  default_progress_note_fields: &default_progress_note_fields
+    date: Date
+    child: Child
+    staff: ABLE / ABLE Staff Name
+    progress_note_type: Type of Note
+    location: Location
+    other_location: Other
+    interventions: Interventions
+    material: Equipment/Materials
+    response: Activities & Response
+    additional_notes: Additional Notes
+    goals_addressed: Goals Addressed
+
+  default_intervention_fields: &default_intervention_fields
+    action: Action
+
+  default_progress_note_type_fields: &default_progress_note_type_fields
+    note_type: Type
+
+  default_location_fields: &default_location_fields
+    name: Name
+
+  default_material_fields: &default_material_fields
+    status: Status
 
   default_changelog_fields: &default_changelog_fields
     version: Version
@@ -351,6 +379,10 @@ en:
         has_date_of_birth: Has Date of Birth
         has_dob: 'Yes'
         no_dob: 'No'
+      progress_notes:
+        <<: *default_progress_note_fields
+        manage: Manage
+
       select_columns: Select Columns
       hide_show_all: Hide/Show All
       family_id: Family ID
@@ -383,6 +415,7 @@ en:
         family_preservation: Family Preservation?
         family_id: Family ID
         case_workers: Case Workers
+
       partners:
         <<: *default_partner_fields
         type: Type
@@ -436,6 +469,12 @@ en:
       km: ខ្មែរ
       log_out: Log out
       log_in: Log in
+      progress_note: Progress Note
+      materials: Equipment/Materials
+      locations: Locations
+      progress_note_types: Types of Note
+      interventions: Interventions
+
   reports:
     index:
       csi_domain_scores: CSI Domain Scores
@@ -448,6 +487,7 @@ en:
       search: Search
       start_date: Start Date
       end_date: End Date
+
   clients:
     index:
       reports: Reports
@@ -498,12 +538,15 @@ en:
       time_in_care_around:
         one: "Around %{count} year"
         other: "Around %{count} years"
-
+      are_you_sure: Are you sure you want to delete?
       <<: *default_client_fields
       placements:
         <<: *default_placement_fields
       additional_details: Additional Details
       general_info: Information of
+      progress_note: Progress Note
+    actions:
+      are_you_sure: Are you sure you want to delete?
     emergency_case:
       <<: *default_placement_fields
       emergency_care: Emergency Care
@@ -549,6 +592,7 @@ en:
     show:
       <<: *default_family_fields
       general_info: General Information for Family
+      are_you_sure: Are you sure you want to delete?
     create:
       successfully_created: Family has been successfully created.
     update:
@@ -556,6 +600,8 @@ en:
     destroy:
       successfully_deleted: Family has been successfully deleted.
       alert: Family cannot be deleted.
+    actions:
+      are_you_sure: Are you sure you want to delete?
 
   partners:
     index:
@@ -571,6 +617,7 @@ en:
     show:
       <<: *default_partner_fields
       general_info: General Informatin for Partner
+      are_you_sure: Are you sure you want to delete?
     create:
       successfully_created: Partner has been successfully created.
     update:
@@ -578,6 +625,8 @@ en:
     destroy:
       successfully_deleted: Partner has been successfully deleted.
       alert: Partner cannot be deleted.
+    actions:
+      are_you_sure: Are you sure you want to delete?
   users:
     index:
       results: Results
@@ -592,6 +641,7 @@ en:
     show:
       <<: *default_user_fields
       general_info: General Information for User
+      are_you_sure: Are you sure you want to delete?
     clients:
       clients: Clients
     create:
@@ -601,6 +651,8 @@ en:
     destroy:
       successfully_deleted: User has been successfully deleted.
       alert: User cannot be deleted.
+    actions:
+      are_you_sure: Are you sure you want to delete?
   cases:
     index:
       <<: *default_placement_fields
@@ -622,6 +674,10 @@ en:
   activerecord:
     errors:
       models:
+        changelog_type:
+          attributes:
+            description:
+              blank: can't be blank
         changelog:
           attributes:
             version:
@@ -638,12 +694,40 @@ en:
           attributes:
             current_password:
               blank: This field is required
+              invalid: Invalid
         task:
           attributes:
             name:
               blank: This field is required
             completion_date:
               blank: This field is required
+        material:
+          attributes:
+            status:
+              blank: can't be blank
+              taken: has already been taken
+        location:
+          attributes:
+            name:
+              blank: can't be blank
+              taken: has already been taken
+        progress_note_type:
+          attributes:
+            note_type:
+              blank: can't be blank
+              taken: has already been taken
+        intervention:
+          attributes:
+            action:
+              blank: can't be blank
+              taken: has already been taken
+        progress_note:
+          attributes:
+            date:
+              blank: can't be blank
+            other_location:
+              blank: can't be blank
+
   agencies:
     index:
       add_new_agency: Add New Agency
@@ -651,6 +735,7 @@ en:
       agency_names: Agency Name
       description: Description
       manage: Manage
+      are_you_sure: Are you sure you want to delete?
     edit:
       title: Edit Agency
     new:
@@ -674,6 +759,7 @@ en:
       department_names: Agency Name
       description: Description
       manage: Manage
+      are_you_sure: Are you sure you want to delete?
     edit:
       title: Edit Department
     new:
@@ -699,6 +785,7 @@ en:
       score_2: Score 2
       score_3: Score 3
       score_4: Score 4
+      are_you_sure: Are you sure you want to delete?
     edit:
       title: Edit Domain
     new:
@@ -729,6 +816,7 @@ en:
       domain_group_names: Domain Group Name
       description: Description
       manage: Manage
+      are_you_sure: Are you sure you want to delete?
     edit:
       title: Edit Domain Group
     new:
@@ -753,6 +841,7 @@ en:
       provinces: Provinces
       province_names: Province Name
       manage: Manage
+      are_you_sure: Are you sure you want to delete?
     edit:
       title: Edit Province
     new:
@@ -776,6 +865,7 @@ en:
       referral_source_name: Referral Source Name
       description: Description
       manage: Manage
+      are_you_sure: Are you sure you want to delete?
     edit:
       title: Edit Referral Source
     new:
@@ -798,6 +888,7 @@ en:
       add_new_quantitative_type: Add New Quantitative Type
       quantitative_types: Quantitative Types
       add_quantitative_data: Quantitative Data
+      are_you_sure: Are you sure you want to delete?
     edit:
       title: Edit Quantitative Type
     new:
@@ -1044,13 +1135,14 @@ en:
         sign_in: Sign In
 
   changelogs:
+    changelog_type_fields:
+      description: Description
     index:
       <<: *default_changelog_fields
-      changelogs: Changelogs
+      version_list: Version List
+      changes: Changes
       add_new_changelog: Add New Changelog
-      created_at: Date
-      manage: Manage
-      are_you_sure: Are you sure you want to delete
+      are_you_sure: Are you sure you want to delete?
     show:
       back: Back
     edit:
@@ -1059,6 +1151,7 @@ en:
       new_changelog: New Changelog
     form:
       <<: *default_changelog_fields
+      add_change: Add change
       save: Save
       cancel: Cancel
     create:
@@ -1067,3 +1160,126 @@ en:
       successfully_updated: Changelog has been successfully updated.
     destroy:
       successfully_deleted: Changelog has been successfully deleted.
+
+  materials:
+    index:
+      <<: *default_material_fields
+      add_new_material: Add New Equipment/Material
+      material: Equipment/Material
+      manage: Manage
+      are_you_sure: Are you sure you want to delete?
+    new:
+      new_material: New Equipment/Material
+    edit:
+      edit_material: Edit Equipment/Material
+    form:
+      <<: *default_material_fields
+      save: Save
+      cancel: Cancel
+    create:
+      successfully_created: Equipment/Material has been successfully created.
+    update:
+      successfully_updated: Equipment/Material has been successfully updated.
+    destroy:
+      successfully_deleted: Equipment/Material has been successfully deleted.
+      unsuccessfully_deleted: Equipment/Material cannot be deleted.
+
+  locations:
+    index:
+      <<: *default_location_fields
+      add_new_location: Add New Location
+      location: Location
+      manage: Manage
+      are_you_sure: Are you sure you want to delete?
+    new:
+      new_location: New Location
+    edit:
+      edit_location: Edit Location
+    form:
+      <<: *default_location_fields
+      save: Save
+      cancel: Cancel
+    create:
+      successfully_created: Location has been successfully created.
+    update:
+      successfully_updated: Location has been successfully updated.
+    destroy:
+      successfully_deleted: Location has been successfully deleted.
+      unsuccessfully_deleted: Location cannot be deleted.
+
+  progress_note_types:
+    index:
+      <<: *default_progress_note_type_fields
+      add_new_progress_note_type: Add New Type of Note
+      progress_note_type: Type of Note
+      manage: Manage
+      are_you_sure: Are you sure you want to delete?
+    new:
+      new_progress_note_type: New Type of Note
+    edit:
+      edit_progress_note_type: Edit Type of Note
+    form:
+      <<: *default_progress_note_type_fields
+      save: Save
+      cancel: Cancel
+    create:
+      successfully_created: Type of Note has been successfully created.
+    update:
+      successfully_updated: Type of Note has been successfully updated.
+    destroy:
+      successfully_deleted: Type of Note has been successfully deleted.
+      unsuccessfully_deleted: Type of Note cannot be deleted.
+
+  interventions:
+    index:
+      <<: *default_intervention_fields
+      add_new_intervention: Add New Intervention
+      intervention: Intervention
+      manage: Manage
+      are_you_sure: Are you sure you want to delete?
+    new:
+      new_intervention: New Intervention
+    edit:
+      edit_intervention: Edit Intervention
+    form:
+      <<: *default_intervention_fields
+      save: Save
+      cancel: Cancel
+    create:
+      successfully_created: Intervention has been successfully created.
+    update:
+      successfully_updated: Intervention has been successfully updated.
+    destroy:
+      successfully_deleted: Intervention has been successfully deleted.
+      unsuccessfully_deleted: Intervention cannot be deleted.
+
+  progress_notes:
+    index:
+      <<: *default_progress_note_fields
+      back: Back
+      add_new_progress_note: Add New Progress Note
+      progress_note: Progress Note
+      manage: Manage
+      are_you_sure: Are you sure you want to delete?
+      export_to_csv: Export to CSV
+      records: Results
+    show:
+      <<: *default_progress_note_fields
+      are_you_sure: Are you sure you want to delete?
+      back: Back
+    new:
+      new_progress_note: New Progress Note
+    edit:
+      edit_progress_note: Edit Progress Note
+    form:
+      <<: *default_progress_note_fields
+      save: Save
+      cancel: Cancel
+    create:
+      successfully_created: Progress Note has been successfully created.
+    update:
+      successfully_updated: Progress Note has been successfully updated.
+    destroy:
+      successfully_deleted: Progress Note has been successfully deleted.
+    actions:
+      are_you_sure: Are you sure you want to delete?

@@ -2,6 +2,8 @@ class AssessmentDomain < ActiveRecord::Base
   belongs_to :assessment
   belongs_to :domain
 
+  has_and_belongs_to_many :progress_notes
+
   validates :domain_id, presence: true
   validates :score, presence: true
   validates :reason, presence: true
@@ -9,6 +11,8 @@ class AssessmentDomain < ActiveRecord::Base
   validates :goal, presence: true
 
   default_scope { joins(:domain).order('domains.name ASC') }
+
+  scope :goal_like, -> (values) { where('LOWER(assessment_domains.goal) ILIKE ANY ( array[?] )', values.map { |val| "%#{val.downcase}%" }) }
 
   def self.domain_color_class(domain_id)
     find_by(domain_id: domain_id).score_color_class

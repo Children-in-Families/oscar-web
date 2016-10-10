@@ -33,10 +33,6 @@ describe 'Changelog' do
     scenario 'new link' do
       expect(page).to have_link(I18n.t('changelogs.index.add_new_changelog'), new_changelog_path)
     end
-
-    scenario 'pagination' do
-      expect(page).to have_css('.pagination')
-    end
   end
 
   feature 'Create' do

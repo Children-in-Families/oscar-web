@@ -1,5 +1,33 @@
 km:
+  unauthorized:
+    default: អ្នកមិនមានសិទ្ធិគ្រប់គ្រាន់ដើម្បីចូលទេ
+
   faq: FAQ
+
+  default_progress_note_fields: &default_progress_note_fields
+    date: កាលបរិច្ឆេទ
+    child: កុមារ
+    staff: ឈ្មោះបុគ្គលិក
+    progress_note_type: កំណត់សំគាល់
+    location: កន្លែង
+    other_location: ផ្សេងៗ
+    interventions: ចំនុចដែលត្រូវធ្វើ
+    material: របស់របរ/សំភារៈ
+    response: សកម្មភាព/ការឆ្លើយតប
+    additional_notes: កំណត់បន្ថែម
+    goals_addressed: គោលបំណងនៃការធ្វើ
+
+  default_intervention_fields: &default_intervention_fields
+    action: សកម្មភាព
+
+  default_progress_note_type_fields: &default_progress_note_type_fields
+    note_type: ប្រភេទ
+
+  default_location_fields: &default_location_fields
+    name: ឈ្មោះ
+
+  default_material_fields: &default_material_fields
+    status: ស្ថានភាព
 
   default_changelog_fields: &default_changelog_fields
     version: កំណែ
@@ -359,6 +387,10 @@ km:
         has_dob: 'បាទ/ចាស'
         no_dob: 'ទេ'
 
+      progress_notes:
+        <<: *default_progress_note_fields
+        manage: គ្រប់គ្រង
+
       select_columns: ជ្រើសរើសជួរឈរ
       hide_show_all: បង្ហាញ/លាក់ទាំងអស់
       family_id: លេខសម្គាល់គ្រួសារ
@@ -440,6 +472,12 @@ km:
       en: English
       log_out: ចាកចេញ
       log_in: ចូល
+      progress_note: កត់សំគាល់ការរីកចំរើន
+      materials: របស់របរ/សំភារៈ
+      locations: កន្លែង
+      progress_note_types: កំណត់សំគាល់
+      interventions: ចំនុចដែលត្រូវធ្វើ
+
   reports:
     index:
       case_statistics: ក្រាបនៃប្រភេទករណីរបស់អតិថិជន
@@ -452,6 +490,7 @@ km:
       search: ស្វែងរក
       start_date: ថ្ងៃចាប់ផ្តើម
       end_date: ថ្ងៃចុងក្រោយ
+
   clients:
     index:
       reports: របាយការណ៍
@@ -502,11 +541,15 @@ km:
       time_in_care_around:
         one: "ប្រហែល%{count}ឆ្នាំ"
         other: "ប្រហែល%{count}ឆ្នាំ"
+      are_you_sure: តើអ្នកប្រាកដហើយ?
       <<: *default_client_fields
       placements:
         <<: *default_placement_fields
       additional_details: ពត៌មានលំអិតបន្ថែម
       general_info: ពត៌មានរបស់អតិថិជន
+      progress_note: កំណត់សំគាល់ការរីកចំរើន
+    actions:
+      are_you_sure: តើអ្នកប្រាកដហើយ?
     emergency_case:
       <<: *default_placement_fields
       emergency_care: ករណី Emergency
@@ -553,6 +596,7 @@ km:
     show:
       <<: *default_family_fields
       general_info: ពត៌មានទូទៅសំរាប់គ្រួសារ
+      are_you_sure: តើអ្នកប្រាកដហើយ?
     create:
       successfully_created: គ្រួសារត្រូវបានបង្កើតដោយជោគជ័យ
     update:
@@ -560,6 +604,8 @@ km:
     destroy:
       successfully_deleted: គ្រួសារត្រូវបានលុបដោយជោគជ័យ
       alert: គ្រួសារមិនអាចលុបបានទេ
+    actions:
+      are_you_sure: តើអ្នកប្រាកដហើយ?
 
   partners:
     index:
@@ -575,6 +621,7 @@ km:
     show:
       <<: *default_partner_fields
       general_info: ពត៌មានទូទៅរបស់ដៃគូ
+      are_you_sure: តើអ្នកប្រាកដហើយ?
     create:
       successfully_created: ដៃគូត្រូវបានបង្កើតដោយជោគជ័យ
     update:
@@ -582,6 +629,8 @@ km:
     destroy:
       successfully_deleted: ដៃគូត្រូវបានលុបចោលដោយជោគជ័យ
       alert: ដៃគូមិនអាចលុបបានទេ
+    actions:
+      are_you_sure: តើអ្នកប្រាកដហើយ?
   users:
     index:
       results: លទ្ធផល
@@ -596,6 +645,7 @@ km:
     show:
       <<: *default_user_fields
       general_info: ពត៌មានទូទៅរបស់អ្នកប្រើប្រាស់
+      are_you_sure: តើអ្នកប្រាកដហើយ?
     clients:
       clients: អតិថិជន
     create:
@@ -605,6 +655,8 @@ km:
     destroy:
       successfully_deleted: អ្នកប្រើប្រាស់ត្រូវបានលុបដោយជោគជ័យ
       alert: អ្នកប្រើប្រាស់មិនអាចលុបបានទេ
+    actions:
+      are_you_sure: តើអ្នកប្រាកដហើយ?
   cases:
     index:
       <<: *default_placement_fields
@@ -633,6 +685,10 @@ km:
   activerecord:
     errors:
       models:
+        changelog_type:
+          attributes:
+            description:
+              blank: មិនអាចរំលង
         changelog:
           attributes:
             version:
@@ -651,6 +707,7 @@ km:
               confirmation: បញ្ជាក់លេខកូដសំងាត់ថ្មីមិនត្រឹមត្រូវ
             current_password:
               blank: មិនអាចរំលង
+              invalid: មិនត្រឹមត្រូវ
         task:
           attributes:
             name:
@@ -705,6 +762,32 @@ km:
             code:
               blank: មិនអាចរំលង
               taken: ត្រូវបានប្រើរួចហើយ
+        material:
+          attributes:
+            status:
+              blank: មិនអាចរំលង
+              taken: ត្រូវបានប្រើរួចហើយ
+        location:
+          attributes:
+            name:
+              blank: មិនអាចរំលង
+              taken: ត្រូវបានប្រើរួចហើយ
+        progress_note_type:
+          attributes:
+            note_type:
+              blank: មិនអាចរំលង
+              taken: ត្រូវបានប្រើរួចហើយ
+        intervention:
+          attributes:
+            action:
+              blank: មិនអាចរំលង
+              taken: ត្រូវបានប្រើរួចហើយ
+        progress_note:
+          attributes:
+            date:
+              blank: មិនអាចរំលង
+            other_location:
+              blank: មិនអាចរំលង
   agencies:
     index:
       add_new_agency: បន្ថែមអង្គភាពថ្មី
@@ -712,6 +795,7 @@ km:
       agency_names: ឈ្មោះអង្គភាព
       description: ការបរិយាយពីអង្គភាព
       manage: សកម្មភាព
+      are_you_sure: តើអ្នកប្រាកដហើយ?
     edit:
       title: ពិនិត្យកែសម្រួលពត៌មាននៃឣង្គភាព
     new:
@@ -735,6 +819,7 @@ km:
       department_names: ឈ្មោះកម្មវិធី
       description: ការបរិយាយពីកម្មវិធី
       manage: សកម្មភាព
+      are_you_sure: តើអ្នកប្រាកដហើយ?
     edit:
       title: ពិនិត្យកែសម្រួលកម្មវិធី
     new:
@@ -759,6 +844,8 @@ km:
       score_2: ពិន្ទុ 2
       score_3: ពិន្ទុ 3
       score_4: ពិន្ទុ 4
+      are_you_sure: តើអ្នកប្រាកដហើយ?
+
     edit:
       title: ពិនិត្យកែសម្រួលកត្តា
     new:
@@ -788,6 +875,7 @@ km:
       domain_group_names: ឈ្មោះការប្រមូលផ្តុំកត្តា
       description: ការបរិយាយ
       manage: សកម្មភាព
+      are_you_sure: តើអ្នកប្រាកដហើយ?
     edit:
       title: ពិនិត្យកែសម្រួលការប្រមូលផ្ដុំកត្តា
     new:
@@ -812,6 +900,7 @@ km:
       provinces: ខេត្ត
       province_names: ឈ្មោះខេត្ត
       manage: សកម្មភាព
+      are_you_sure: តើអ្នកប្រាកដហើយ?
     edit:
       title: ពិនិត្យកែសម្រួលខេត្ត
     new:
@@ -835,6 +924,7 @@ km:
       referral_source_name: ឈ្មោះប្រភពនៃការបញ្ជូន
       description: ការបរិយាយ
       manage: សកម្មភាព
+      are_you_sure: តើអ្នកប្រាកដហើយ?
     edit:
       title: ពិនិត្យកែសម្រូលប្រភពនៃការបញ្ជូន
     new:
@@ -856,6 +946,7 @@ km:
       add_new_quantitative_type: បន្ថែមប្រភេទនៃបរិមាណ
       quantitative_types: ប្រភេទនៃបរិមាណ
       add_quantitative_data: ទិន្ន័យនៃបរិមាណ
+      are_you_sure: តើអ្នកប្រាកដហើយ?
     edit:
       title: ពិនិត្យកែសម្រួល ប្រភេទនៃបរិមាណ
     new:
@@ -1260,13 +1351,15 @@ km:
         other: "បានបង្កើត %{count} ដង"
 
   changelogs:
+    changelog_type_fields:
+      description: ការពិពណ៌នា
     index:
       <<: *default_changelog_fields
-      changelogs: ការផ្លាស់ប្ដូរ
+      version_list: បញ្ជីកំណែ
+      changes: កំណែ
       add_new_changelog: បន្ថែមការផ្លាស់ប្ដូរថ្មី
-      created_at: កាលបរិច្ឆេទ
-      manage: គ្រប់គ្រង
-      are_you_sure: តើអ្នកពិតជាចង់លុបការផ្លាស់ប្ដូរនេះ
+      are_you_sure: តើអ្នកប្រាកដហើយ?
+
     show:
       back: ត្រលប់ក្រោយ
     edit:
@@ -1275,6 +1368,7 @@ km:
       new_changelog: ការផ្លាស់ប្ដូរថ្មី
     form:
       <<: *default_changelog_fields
+      add_change: បន្ថែមកំណែ
       save: រក្សាទុក
       cancel: ទុកជាមោឃៈ
     create:
@@ -1283,3 +1377,126 @@ km:
       successfully_updated: ការផ្លាស់ប្ដូរត្រូវបានកែសម្រួលដោយជោគជ័យ
     destroy:
       successfully_deleted: ការផ្លាស់ប្ដូរត្រូវបានលុបដោយជោគជ័យ
+
+  materials:
+    index:
+      <<: *default_material_fields
+      add_new_material: បន្ថែមរបស់របរ/សំភារៈថ្មី
+      material: របស់របរ/សំភារៈ
+      manage: គ្រប់គ្រង
+      are_you_sure: តើអ្នកប្រាកដហើយ?
+    new:
+      new_material: របស់របរ/សំភារៈថ្មី
+    edit:
+      edit_material: កែសម្រួលរបស់របរ/សំភារៈ
+    form:
+      <<: *default_material_fields
+      save: រក្សាទុក
+      cancel: ទុកជាមោឃៈ
+    create:
+      successfully_created: របស់របរ/សំភារៈត្រូវបានបង្កើតដោយជោគជ័យ
+    update:
+      successfully_updated: របស់របរ/សំភារៈត្រូវបានកែសម្រួលដោយជោគជ័យ
+    destroy:
+      successfully_deleted: របស់របរ/សំភារៈត្រូវបានលុបដោយជោគជ័យ
+      unsuccessfully_deleted: របស់របរ/សំភារៈមិនអាចលុបបានទេ
+
+  locations:
+    index:
+      <<: *default_location_fields
+      add_new_location: បន្ថែមកន្លែងថ្មី
+      location: កន្លែង
+      manage: គ្រប់គ្រង
+      are_you_sure: តើអ្នកប្រាកដហើយ?
+    new:
+      new_location: កន្លែងថ្មី
+    edit:
+      edit_location: កែសម្រួលកន្លែង
+    form:
+      <<: *default_location_fields
+      save: រក្សាទុក
+      cancel: ទុកជាមោឃៈ
+    create:
+      successfully_created: កន្លែងត្រូវបានបង្កើតដោយជោគជ័យ
+    update:
+      successfully_updated: កន្លែងត្រូវបានកែសម្រួលដោយជោគជ័យ
+    destroy:
+      successfully_deleted: កន្លែងត្រូវបានលុបដោយជោគជ័យ
+      unsuccessfully_deleted: កន្លែងមិនអាចលុបបានទេ
+
+  progress_note_types:
+    index:
+      <<: *default_progress_note_type_fields
+      add_new_progress_note_type: បន្ថែមកំណត់សំគាល់ថ្មី
+      progress_note_type: កំណត់សំគាល់
+      manage: គ្រប់គ្រង
+      are_you_sure: តើអ្នកប្រាកដហើយ?
+    new:
+      new_progress_note_type: កំណត់សំគាល់ថ្មី
+    edit:
+      edit_progress_note_type: កែសម្រួលកំណត់សំគាល់
+    form:
+      <<: *default_progress_note_type_fields
+      save: រក្សាទុក
+      cancel: ទុកជាមោឃៈ
+    create:
+      successfully_created: កំណត់សំគាល់ត្រូវបានបង្កើតដោយជោគជ័យ
+    update:
+      successfully_updated: កំណត់សំគាល់ត្រូវបានកែសម្រួលដោយជោគជ័យ
+    destroy:
+      successfully_deleted: កំណត់សំគាល់ត្រូវបានលុបដោយជោគជ័យ
+      unsuccessfully_deleted: កំណត់សំគាល់មិនអាចលុបបានទេ
+
+  interventions:
+    index:
+      <<: *default_intervention_fields
+      add_new_intervention: បន្ថែមចំនុចដែលត្រូវធ្វើថ្មី
+      intervention: ចំនុចដែលត្រូវធ្វើ
+      manage: គ្រប់គ្រង
+      are_you_sure: តើអ្នកប្រាកដហើយ?
+    new:
+      new_intervention: ចំនុចដែលត្រូវធ្វើថ្មី
+    edit:
+      edit_intervention: កែសម្រួលចំនុចដែលត្រូវធ្វើ
+    form:
+      <<: *default_intervention_fields
+      save: រក្សាទុក
+      cancel: ទុកជាមោឃៈ
+    create:
+      successfully_created: ចំនុចដែលត្រូវធ្វើត្រូវបានបង្កើតដោយជោគជ័យ
+    update:
+      successfully_updated: ចំនុចដែលត្រូវធ្វើត្រូវបានកែសម្រួលដោយជោគជ័យ
+    destroy:
+      successfully_deleted: ចំនុចដែលត្រូវធ្វើត្រូវបានលុបដោយជោគជ័យ
+      unsuccessfully_deleted: ចំនុចដែលត្រូវធ្វើមិនអាចលុបបានទេ
+
+  progress_notes:
+    index:
+      <<: *default_progress_note_fields
+      back: ត្រលប់ក្រោយ
+      add_new_progress_note: បន្ថែមកំណត់សំគាល់ការរីកចំរើនថ្មី
+      progress_note: កំណត់សំគាល់ការរីកចំរើន
+      manage: គ្រប់គ្រង
+      are_you_sure: តើអ្នកប្រាកដហើយ?
+      export_to_csv: ទាញចេញជាឯកសារប្រភេទ CSV
+      records: លទ្ធផល
+    show:
+      <<: *default_progress_note_fields
+      are_you_sure: តើអ្នកប្រាកដហើយ?
+      back: ត្រលប់ក្រោយ
+    new:
+      new_progress_note: កំណត់សំគាល់ការរីកចំរើនថ្មី
+    edit:
+      edit_progress_note: កែសម្រួលកំណត់សំគាល់ការរីកចំរើន
+    form:
+      <<: *default_progress_note_fields
+      save: រក្សាទុក
+      cancel: ទុកជាមោឃៈ
+    create:
+      successfully_created: កំណត់សំគាល់ការរីកចំរើនត្រូវបានបង្កើតដោយជោគជ័យ
+    update:
+      successfully_updated: កំណត់សំគាល់ការរីកចំរើនត្រូវបានកែសម្រួលដោយជោគជ័យ
+    destroy:
+      successfully_deleted: កំណត់សំគាល់ការរីកចំរើនត្រូវបានលុបដោយជោគជ័យ
+    actions:
+      are_you_sure: តើអ្នកប្រាកដហើយ?

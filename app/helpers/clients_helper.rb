@@ -36,8 +36,8 @@ module ClientsHelper
         },
         title: {
           text: title
-          },
-        xAxis:
+        },
+        xAxis: {
           dateTimeLabelFormats: {
             month: '%b %Y'
           },
@@ -105,5 +105,9 @@ module ClientsHelper
 
   def kc_manageable
     current_user.admin? || current_user.case_worker? || current_user.kc_manager?
+  end
+
+  def can_manage_client_progress_note?
+    @client.able? && (current_user.case_worker? || current_user.able_manager? || current_user.admin?)
   end
 end

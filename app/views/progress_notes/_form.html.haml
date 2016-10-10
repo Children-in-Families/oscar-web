@@ -1,0 +1,44 @@
+= simple_form_for([@client, @progress_note]) do |f|
+  .panel-body
+    = error_notification(f)
+    .row
+      .col-xs-12.col-md-4
+        .form-group.date.progress_note_date{ class: ('has-error' if f.error :date) }
+          %label.date.required.control-label{ for: 'progress_note_date' }
+            %abbr{ title: 'required' } *
+            = t('.date')
+          .input-group.date
+            = f.text_field :date, required: true, class: 'date form-control date-picker .datepicker-dropdown date', type: 'text', name: 'progress_note[date]', id: 'progress_note_date'
+            %span.input-group-addon
+              %i.glyphicon.glyphicon-calendar
+          = f.error :date
+
+      .col-xs-12.col-md-4
+        = f.input :client, disabled: true, input_html: { class: 'form-control', value: @client.name }, label: t('.child')
+      .col-xs-12.col-md-4
+        = f.input :staff, disabled: true, input_html: { class: 'form-control', value: current_user.name }, label: t('.staff')
+    .row
+      .col-xs-12.col-md-4
+        = f.association :progress_note_type, collection: @progress_note_types.map{ |t| [t.note_type, t.id] }, input_html: { class: 'form-control' }, label: t('.progress_note_type')
+      .col-xs-12.col-md-4
+        = f.association :location, collection: @locations.map{ |l| [l.name, l.id] }, input_html: { class: 'form-control' }, label: t('.location'), include_blank: false
+      .col-xs-12.col-md-4
+        = f.input :other_location, input_html: { class: 'form-control' }, label: t('.other_location')
+    .row
+      .col-xs-12.col-md-4
+        = f.association :interventions, collection: @interventions, multiple: true, label_method: :action, value_method: :id, label: t('.interventions')
+      .col-xs-12.col-md-4
+        = f.association :material, collection: @materials.map{ |m| [m.status, m.id] }, input_html: { class: 'form-control' }, label: t('.material')
+      .col-xs-12.col-md-4
+        - ads = @assessment_domains.present? ? @assessment_domains.map{ |ad| [ad.goal, ad.id] } : []
+        = f.association :assessment_domains, collection: ads, multiple: true, label: t('.goals_addressed')
+    .row
+      .col-xs-12.col-md-4
+        = f.input :response, as: :ckeditor, input_html: { class: 'form-control' }, label: t('.response')
+      .col-xs-12.col-md-4
+        = f.input :additional_note, as: :ckeditor, input_html: { class: 'form-control' }, label: t('.additional_notes')
+
+  .panel-footer
+    .form-actions
+      = f.button :submit, t('save'), class: 'btn btn-primary form-btn'
+      = link_to t('cancel'), client_progress_notes_path(@client), class: 'btn btn-default form-btn'

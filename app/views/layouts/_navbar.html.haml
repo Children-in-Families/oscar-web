@@ -48,6 +48,19 @@
                   = link_to t('.quantitative_types'), quantitative_types_path
                 %li{ class: active_menu('changelogs') }
                   = link_to t('.changelogs'), changelogs_path
+                %li.dropdown-submenu
+                  %a.text-right{ href: '#' }
+                    %span.pull-left= t('.progress_note')
+                    %i.glyphicon.glyphicon-chevron-right.chevron-progess-note
+                  %ul.dropdown-menu
+                    %li{ class: active_menu('interventions') }
+                      = link_to t('.interventions'), interventions_path
+                    %li{ class: active_menu('locations') }
+                      = link_to t('.locations'), locations_path
+                    %li{ class: active_menu('materials') }
+                      = link_to t('.materials'), materials_path
+                    %li{ class: active_menu('progress_note_types') }
+                      = link_to t('.progress_note_types'), progress_note_types_path
               - elsif can? :manage, ReferralSource
                 %li{ class: active_menu('referral_sources') }
                   = link_to t('.referral_sources'), referral_sources_path

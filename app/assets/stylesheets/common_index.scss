@@ -8,6 +8,9 @@ body {
   }
 }
 
+.chevron-progess-note{
+  margin-right: -16px;
+}
 
 .btn.form-btn {
   min-width: 100px;
@@ -48,4 +51,22 @@ body {
 }
 .custom_column_description{
   width: 40%;
+}
+
+.dropdown-submenu {
+  position: relative;
+}
+
+.dropdown-submenu .dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  -webkit-border-radius: 0 0 4px 4px;
+  -moz-border-radius: 0 0 4px 4px;
+  border-radius: 0 0 4px 4px;
+}
+
+.dropdown-submenu:hover .dropdown-menu {
+  display: block;
 }

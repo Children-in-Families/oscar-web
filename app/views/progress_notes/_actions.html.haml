@@ -1,0 +1,4 @@
+= link_to edit_client_progress_note_path(object.client, object) do
+  %i.glyphicon.glyphicon-pencil
+= link_to [object.client, object], method: 'delete', data: { confirm: t('.are_you_sure') } do
+  %i.glyphicon.glyphicon-trash

@@ -49,7 +49,7 @@ class UsersController < AdminController
   end
 
   def destroy
-    if @user.clients_count.zero? && @user.cases_count.zero? && @user.tasks_count.zero? && @user.changelogs_count.zero?
+    if @user.has_no_any_associated_objects?
       @user.destroy
       redirect_to users_url, notice: t('.successfully_deleted')
     else
