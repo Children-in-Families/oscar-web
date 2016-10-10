@@ -8,10 +8,7 @@
       .modal-body
         - @client.answers.each do |answer|
           %h5= "Q: #{answer.able_screening_question.question}"
-          - if answer.able_screening_question.yes_no?
-            %p= "A: #{answer.description}"
-          - else
-            %p= "A: #{answer.description}"
+          %p= "A: #{answer.description}"
           %hr
       .modal-footer
         %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Close

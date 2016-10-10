@@ -1,4 +1,5 @@
 class StagesController < AdminController
+  load_and_authorize_resource
   before_action :set_stage, only: [:show, :edit, :update]
   def index
     @stages = Stage.all
