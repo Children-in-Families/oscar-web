@@ -547,6 +547,7 @@ en:
       additional_details: Additional Details
       general_info: Information of
       progress_note: Progress Note
+      client_able_answers: Client Able Answers
     client_answers:
       client_able_answers: Client Able Answers
     actions:

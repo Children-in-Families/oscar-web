@@ -120,7 +120,7 @@ class ClientGrid
   end
 
   def able_states
-    Client.able_states
+    Client::ABLE_STATES
   end
 
   filter(:has_been_in_orphanage, :xboolean, header: -> { I18n.t('datagrid.columns.clients.has_been_in_orphanage') })

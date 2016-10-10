@@ -25,7 +25,7 @@ class Ability
       end
     elsif user.able_manager?
       can :manage, Client, user_id: user.id
-      can :manage, Client, able: true
+      can :manage, Client, able_state: Client::ABLE_STATES
       can :manage, ProgressNote
       can :manage, Assessment
       can :manage, Survey
