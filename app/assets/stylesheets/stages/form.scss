@@ -9,4 +9,9 @@ body[id=stages-new], body[id=stages-edit], body[id=stages-update], body[id=stage
   .vertical-col{
     margin-top: 30px;
   }
+  .question-image{
+    img {
+      max-height: 100%;
+    }
+  }
 }
