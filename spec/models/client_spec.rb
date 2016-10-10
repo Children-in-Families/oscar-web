@@ -167,6 +167,8 @@ describe Client, 'scopes' do
   )}
   let!(:assessment) { create(:assessment, client: client) }
   let!(:other_client){ create(:client, state: 'rejected') }
+  let!(:able_client) { create(:client, able_state: Client.able_states[0]) }
+
   context 'first name like' do
     let!(:clients){ Client.first_name_like(client.first_name.downcase) }
     it 'should include record have first name like' do
@@ -349,6 +351,22 @@ describe Client, 'scopes' do
 
     it 'should return client that has cases has family' do
       expect(Client.find_by_family_id(family.id)).to eq [client]
+    end
+  end
+
+  context 'able states' do
+    states = %w(able reject discharge)
+    it 'return all three able states' do
+      expect(Client.able_states).to eq(states)
+    end
+  end
+
+  context 'able' do
+    it 'should return able client' do
+      expect(Client.able).to include(able_client)
+    end
+    it 'should not return non able client' do
+      expect(Client.able).not_to include([client, other_client])
     end
   end
 end
