@@ -189,17 +189,6 @@ describe Client, 'scopes' do
     end
   end
 
-  # todo : remove when stable
-  xcontext 'last name like' do
-    let!(:clients){ Client.last_name_like(client.last_name.downcase) }
-    it 'should include record have last name like' do
-      expect(clients).to include(client)
-    end
-    it 'should not include record not have last name like' do
-      expect(clients).not_to include(other_client)
-    end
-  end
-
   context 'current address like' do
     let!(:clients){ Client.current_address_like(client.current_address.downcase[0, 10]) }
     it 'should include record have address like' do
@@ -219,17 +208,6 @@ describe Client, 'scopes' do
       expect(clients).not_to include(other_client)
     end
   end
-
-  # To do: remove when stable (This was changed from string filter to integer range filter)
-  # context 'school grade like' do
-  #   let!(:clients){ Client.school_grade_like(client.school_grade.downcase) }
-  #   it 'should include record have school grade like' do
-  #     expect(clients).to include(client)
-  #   end
-  #   it 'should not include record not have school grade like' do
-  #     expect(clients).not_to include(other_client)
-  #   end
-  # end
 
   context 'referral phone like' do
     let!(:clients){ Client.referral_phone_like(client.referral_phone.downcase) }
@@ -355,7 +333,7 @@ describe Client, 'scopes' do
   end
 
   context 'able states' do
-    states = %w(able reject discharge)
+    states = %w(Accepted Rejected Discharged)
     it 'return all three able states' do
       expect(Client.able_states).to eq(states)
     end

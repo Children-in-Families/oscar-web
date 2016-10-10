@@ -387,7 +387,6 @@ km:
         has_date_of_birth: មានថ្ងៃ ខែ ឆ្នាំ កំណើត
         has_dob: 'បាទ/ចាស'
         no_dob: 'ទេ'
-        able_state: ឣតិថិជនក្នុងកម្មវិធីABLE
 
       progress_notes:
         <<: *default_progress_note_fields

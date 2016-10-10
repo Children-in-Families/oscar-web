@@ -49,7 +49,7 @@
                   %h4.anti-link.float-right
                     %i= t('.emergency_cares')
           - if current_user.able_manager?
-            =link_to clients_path("client_grid[able]":"YES") do
+            =link_to clients_path("client_grid[able_state]":"Accepted") do
               .col-xs-12.panel-pusher.big-box{style:"background-color:wheat;"}
                 %h2.anti-link
                   #{@dashboard.able_count}
@@ -70,7 +70,7 @@
               %h4.anti-link.float-right
                 %i= t('.females')
           - if current_user.admin? || current_user.case_worker?
-            =link_to clients_path("client_grid[able]":"YES") do
+            =link_to clients_path("client_grid[able_state]":"Accepted") do
               .col-xs-12.panel-pusher{style:"background-color:wheat;", class: ('top-spacing' if current_user.admin? || current_user.case_worker?)}
                 %h1.anti-link
                   #{@dashboard.able_count}

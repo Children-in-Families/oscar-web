@@ -5,7 +5,7 @@ class Client < ActiveRecord::Base
   friendly_id :slug, use: :slugged
 
   CLIENT_STATUSES = ['Referred', 'Active EC', 'Active KC', 'Active FC', 'Independent - Monitored', 'Exited - Deseased', 'Exited - Age Out', 'Exited Independent', 'Exited Adopted', 'Exited Other'].freeze
-  ABLE_STATES = %w(Able Reject Discharge)
+  ABLE_STATES = %w(Accepted Rejected Discharged)
 
   EXIT_STATUSES   = CLIENT_STATUSES.select { |status| status if status.include?('Exited') }
 
