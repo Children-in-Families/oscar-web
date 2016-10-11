@@ -9,8 +9,9 @@
     .col-xs-12.col-md-2.no-label-form-group
       = f.input :alert_manager, as: :boolean, label: t('.alert_manager')
     .col-xs-12.col-md-1.no-label-form-group
-      = link_to_remove_association f, class: 'btn btn-danger', data: { confirm: t('.are_you_sure') } do
-        %i.glyphicon.glyphicon-trash
+      - if f.object.answers.blank?
+        = link_to_remove_association f, class: 'btn btn-danger', data: { confirm: t('.are_you_sure') } do
+          %i.glyphicon.glyphicon-trash
   .row
     .col-xs-12
       - f.object.attachments.build unless f.object.attachments.any?
