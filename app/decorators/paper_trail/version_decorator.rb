@@ -17,6 +17,14 @@
     object.object
   end
 
+  def whodunnit
+    User.find(object.whodunnit).name
+  end
+
+  def event
+    object.event == 'destroy' ? 'delete' : object.event
+  end
+
   private
 
   def track_associations

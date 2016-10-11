@@ -149,4 +149,15 @@ module ApplicationHelper
   def clients_controller?
     controller_name == 'clients'
   end
+
+  def version_color(event)
+    case event
+    when 'create'
+      'success'
+    when 'update'
+      'warning'
+    when 'delete'
+      'danger'
+    end
+  end
 end

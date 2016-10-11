@@ -1,12 +1,35 @@
-.container
-  - @versions.each do |version|
-    .row
-      .col-xs-12.col-sm-3.col-md-4
-        = version.object_info
-      .col-xs-12.col-sm-9.col-md-8
-        = version.association_changed
-        - version.changeset.each do |k, v|
-          %p= "#{k}-#{v[0]} changed to #{v[1]}"
-    .row
-      .col-xs-12
-        %hr
+.row
+  .col-xs-12
+    .panel.panel-default
+      .panel-body
+        / - binding.pry
+        - @versions.each do |version|
+          .panel.panel-info
+            .panel-heading
+              %h5
+                %span= "#{version.whodunnit} did the following change."
+                %span{ class: "pull-right label label-#{version_color(version.event)}" }
+                  = version.event.titleize
+
+            .panel-body
+              - if version.event == 'delete'
+                = "Deleted #{version.item_type} ID #{version.reify.slug}, name #{version.reify.name}."
+              - else
+                %table.table.table-hover
+                  %thead
+                    %tr
+                      %th Attribute
+                      %th Before
+                      %th After
+                  %tbody
+                    - version.changeset.each do |k, v|
+                      %tr
+                        %td= k.titleize
+                        - if v[0].class == ActiveSupport::TimeWithZone
+                          %td= v[0].in_time_zone.strftime('%d %B, %Y %H:%M:%S')
+                        - else
+                          %td= v[0]
+                        - if v[1].class == ActiveSupport::TimeWithZone
+                          %td= v[1].in_time_zone.strftime('%d %B, %Y %H:%M:%S')
+                        - else
+                          %td= v[1]
