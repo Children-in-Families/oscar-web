@@ -310,10 +310,11 @@
                 .col-xs-10.col-xs-offset-1.pushing-top.color-orange.progress-notes
                   %h4.white-text.text-center
                     = t('.progress_note')
-          .row
-            = link_to '', {"data-target" => "#myModal", "data-toggle" => "modal", :type => "button"} do
-              .col-xs-10.col-xs-offset-1.pushing-top.color-orange.progress-notes
-                %h4.white-text.text-center
-                  = t('.client_able_answers')
+          - if @client.answers.any?
+            .row
+              = link_to '', {"data-target" => "#myModal", "data-toggle" => "modal", :type => "button"} do
+                .col-xs-10.col-xs-offset-1.pushing-top.color-orange.progress-notes
+                  %h4.white-text.text-center
+                    = t('.client_able_answers')
 
 = render('client_answers')

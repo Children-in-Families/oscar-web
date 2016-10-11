@@ -167,7 +167,7 @@ describe Client, 'scopes' do
   )}
   let!(:assessment) { create(:assessment, client: client) }
   let!(:other_client){ create(:client, state: 'rejected') }
-  let!(:able_client) { create(:client, able_state: Client.able_states[0]) }
+  let!(:able_client) { create(:client, able_state: Client::ABLE_STATES[0]) }
 
   context 'first name like' do
     let!(:clients){ Client.first_name_like(client.first_name.downcase) }
@@ -335,7 +335,7 @@ describe Client, 'scopes' do
   context 'able states' do
     states = %w(Accepted Rejected Discharged)
     it 'return all three able states' do
-      expect(Client.able_states).to eq(states)
+      expect(Client::ABLE_STATES).to eq(states)
     end
   end
 
