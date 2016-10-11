@@ -219,7 +219,7 @@ class Client < ActiveRecord::Base
   end
 
   def set_able_status
-    if AbleScreeningQuestion.has_alert_manager?(self)
+    if AbleScreeningQuestion.has_alert_manager?(self) && answers.include_yes?
       self.update(able_state: ABLE_STATES[0])
     end
   end

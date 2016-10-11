@@ -8,4 +8,8 @@ class Answer < ActiveRecord::Base
 
   scope :of_general_question, -> { where(question_type: 'general') }
   scope :of_stage_question,   -> { where(question_type: 'stage') }
+
+  def self.include_yes?
+    where(description: 'Yes').any?
+  end
 end
