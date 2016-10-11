@@ -1,6 +1,7 @@
 CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
   _init = ->
     _clientSelectOption()
+    _checkClientBirthdateAvailablity()
 
   _clientSelectOption = ->
     $("#clients-edit select, #clients-new select, #clients-update select, #clients-create select").select2
@@ -15,5 +16,54 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
       else
         $('#client_able').val(false)
         $('#fake_client_able').prop('checked', false)
+
+
+  _arrangeQuestionAndAnswerBlock = ->
+    questionsAndAnswers = $('.question_and_answer')
+    for questionAndAnswer in questionsAndAnswers
+      qa = $(questionAndAnswer)
+      if qa.data('is-stage')
+        html = qa.html()
+        $('#stage-question').append(html)
+        qa.remove()
+      else
+        html = qa.html()
+        $('#non-stage-question').append(html)
+        qa.remove()
+
+  _checkClientBirthdateAvailablity = ->
+    button = $('#able-screening-test')
+    if $('#client_date_of_birth').val() == ''
+      button.hide()
+    $('#client_date_of_birth').change ->
+      if $('#client_date_of_birth').val() == ''
+        button.hide('')
+      else
+        button.show()
+        # _arrangeQuestionAndAnswerBlock()
+        _toggleAnswer()
+
+  _getAge = (dateString) ->
+    today = new Date
+    birthDate = new Date(dateString)
+    age = today.getFullYear() - birthDate.getFullYear()
+    m = today.getMonth() - birthDate.getMonth()
+    if m < 0 or m == 0 and today.getDate() < birthDate.getDate()
+      age--
+    age
+
+  _toggleAnswer = ->
+    answers = $('.answer')
+    for answer in answers
+      answerObj = $(answer)
+      console.log answerObj
+      if answerObj.data('is-stage') == false
+        answerObj.find('input').removeAttr('disabled')
+      else
+        if answerObj.data('to-age') != '' && answerObj.data('from-age') >= $('#client_date_of_birth').val() >= answerObj.data('to-age')
+          answerObj.find('input').removeAttr('disabled')
+        else
+          answerObj.addClass('disable-qa')
+          answerObj.find('input').attr('disabled', true)
 
   { init: _init }

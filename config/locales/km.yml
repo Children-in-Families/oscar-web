@@ -214,6 +214,7 @@ km:
     id: លេខសំគាល់
     first_name: នាមខ្លួន
     last_name: នាមត្រកូល
+    able_state: ស្ថានភាព Able
     name: ឈ្មោះ
     date_of_birth: ថ្ងៃ ខែ ឆ្នាំ កំណើត
     birth_province: ស្រុកកំណើត
@@ -467,6 +468,7 @@ km:
       provinces: ខេត្ត
       referral_sources: ប្រភពនៃការបញ្ជូន
       quantitative_types: ប្រភេទនៃបរិមាណ
+      able_screening_questions: 'សំនួរ Able Screening'
       changelogs: ការផ្លាស់ប្ដូរ
       account: គណនី
       edit_profile: កែសម្រួលពត៌មានផ្ទាល់ខ្លួន
@@ -493,6 +495,7 @@ km:
       end_date: ថ្ងៃចុងក្រោយ
 
   clients:
+
     index:
       add_new_client: បន្ថែមអតិថិជនថ្មី
       view_all_active_tasks: ពិនិត្យលើកាតព្វកិច្ចដែលមិនទាន់ធ្វើ
@@ -544,6 +547,9 @@ km:
       additional_details: ពត៌មានលំអិតបន្ថែម
       general_info: ពត៌មានរបស់អតិថិជន
       progress_note: កំណត់សំគាល់ការរីកចំរើន
+      client_able_answers: ចំលើយ Able
+    client_answers:
+      client_able_answers: ចំលើយ Able របស់អតិថិជន
     actions:
       are_you_sure: តើអ្នកប្រាកដហើយ?
     emergency_case:
@@ -681,6 +687,18 @@ km:
   activerecord:
     errors:
       models:
+        stage:
+          attributes:
+            from_age:
+              blank: មិនអាចរំលង
+            to_age:
+              blank: មិនអាចរំលង
+        able_screening_question:
+          attributes:
+            question:
+              blank: មិនអាចរំលង
+            mode:
+              blank: មិនអាចរំលង
         changelog_type:
           attributes:
             description:
@@ -1088,6 +1106,70 @@ km:
       present: វត្តមានឣ្នកចូលរួម
     create:
       successfully_created: កំណត់ត្រាត្រូវបានបង្កើតដោយជោគជ័យ
+
+  stages:
+    stage: 'តំណាក់កាល'
+    questions: 'សំនួរ'
+    form:
+      from_age: ចាប់ពីអាយុ (គិតជាឆ្នាំ)
+      to_age: ទៅដល់អាយុ (គិតជាឆ្នាំ)
+      questions: សំនួរ
+      add_question: បន្ថែមសំនួរ
+    new:
+      new_stage: 'បន្ថែមដំណាក់កាលថ្មី'
+    edit:
+      edit_stage: កែរសំរួលដំណាក់កាល
+    index:
+      stage: 'តំណាក់កាល'
+      new_stage_question: បន្ថែមសំនួូរដំណាក់កាលថ្មី
+      new_general_question: បន្ថែមសំនួរទូទៅថ្មី
+      general_question: សំនួរទូទៅ
+      stage_question: សំនួូរដំណាក់កាល
+      question: សំនួរ
+      from: ចាប់ពី
+      to: ទៅដល់
+      year: ឆ្នាំ
+      question:
+        one: '1 សំនួរ'
+        other: '%{count} សំនួរ'
+    edit:
+      edit_stage: 'កែរសំរួល ដំណាក់កាល'
+    able_screening_question_fields:
+      are_you_sure: តើអ្នកប្រាកដហើយ?
+      question: សំនួរ
+      mode: ម៉ូដ
+      group: ក្រុម
+      questions: 'សំនួរ'
+      alert_manager: ជូនដំណឹងអ្នកគ្រប់គ្រង
+    create:
+      successfully_created: ដំណាក់ការបានបង្កើតដោយជោគជ័យ
+    update:
+      successfully_updated: ដំណាក់ការត្រូវបានកែសម្រួលដោយជោគជ័យ
+    destroy:
+      successfully_deleted: ដំណាក់ការត្រូវបានលុបដោយជោគជ័យ
+
+  able_screening_questions:
+    attachment_fields:
+      browse: រកមើល
+    edit:
+      general_question: សំនួរទូទៅ
+    new:
+      general_question: សំនួរទូទៅ
+    form:
+      question: សំនួរ
+      mode: ម៉ូដ
+      group: ក្រុម
+      questions: 'សំនួរ'
+      alert_manager: ជូនដំណឹងអ្នកគ្រប់គ្រង
+      save: រក្សាទុក
+      cancel: ទុកជាមោឃៈ
+    create:
+      successfully_created: ដំណាក់ការសំនួរទូទៅបានបង្កើតដោយជោគជ័យ
+    update:
+      successfully_updated: សំនួរទូទៅត្រូវបានកែសម្រួលដោយជោគជ័យ
+    destroy:
+      successfully_deleted: សំនួរទូទៅត្រូវបានលុបដោយជោគជ័យ
+
   devise:
     registrations:
       edit:

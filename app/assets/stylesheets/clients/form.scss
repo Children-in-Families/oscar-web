@@ -1,0 +1,11 @@
+body[id=clients-new], body[id=clients-create]
+body[id=clients-edit], body[id=clients-update]{
+  .question_and_answer{
+    margin-bottom: 16px;
+  }
+
+  .disable-qa{
+    color: gray;
+    cursor: not-allowed;
+  }
+}
