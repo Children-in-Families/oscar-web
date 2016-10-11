@@ -63,6 +63,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
         if answerObj.data('to-age') != '' && answerObj.data('from-age') >= $('#client_date_of_birth').val() >= answerObj.data('to-age')
           answerObj.find('input').removeAttr('disabled')
         else
+          answerObj.addClass('disable-qa')
           answerObj.find('input').attr('disabled', true)
 
   { init: _init }
