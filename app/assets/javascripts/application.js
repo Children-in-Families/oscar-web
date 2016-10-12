@@ -7,7 +7,6 @@
 //= require cocoon
 // = require image_upload_previewer/image_upload_previewer
 //= require image_upload
-//= require chartkick
 //= require bootstrap-datepicker
 
 //= require namespace
