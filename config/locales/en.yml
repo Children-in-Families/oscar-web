@@ -212,6 +212,7 @@ en:
     first_name: First Name
     last_name: Last Name
     name: Name
+    able_state: Able State
     date_of_birth: Date of Birth
     birth_province: Birth Province
     referral_phone: Referral Phone
@@ -318,6 +319,10 @@ en:
     support_score: I am happy with the way CIF and my CCW have supported me.
     family_need_score: My stipend helps me meet my family's needs.
     care_score: My CCW cares about what happens to the children I take care of.
+
+  default_stage_fields: &default_stage_fields
+    from_age: From Age
+    to_age: To Age
 
   surveys:
     form:
@@ -463,6 +468,7 @@ en:
       provinces: Provinces
       referral_sources: Referral Sources
       quantitative_types: Quantitative Types
+      able_screening_questions: Able Screening Questions
       changelogs: Changelogs
       account: Account
       edit_profile: Edit Profile
@@ -545,6 +551,9 @@ en:
       additional_details: Additional Details
       general_info: Information of
       progress_note: Progress Note
+      client_able_answers: Client Able Answers
+    client_answers:
+      client_able_answers: Client Able Answers
     actions:
       are_you_sure: Are you sure you want to delete?
     emergency_case:
@@ -674,6 +683,18 @@ en:
   activerecord:
     errors:
       models:
+        stage:
+          attributes:
+            from_age:
+              blank: can't be blank
+            to_age:
+              blank: can't be blank
+        able_screening_question:
+          attributes:
+            question:
+              blank: can't be blank
+            mode:
+              blank: can't be blank
         changelog_type:
           attributes:
             description:
@@ -1033,6 +1054,69 @@ en:
       present: Present
     create:
       successfully_created: Case Note has successfully been created.
+  stages:
+    stage: Stage
+    non_stage: Non Stage
+    questions: Questions
+    new:
+      new_stage: 'New Stage'
+    form:
+      from_age: From Age (As Year)
+      to_age: To Age (As Year)
+      add_question: Add Question
+      questions: Questions
+      mode: Mode
+      group: Group
+      alert_manager: Alert Manager
+      add_question: Add Question
+    index:
+      edit_and_add_question: 'Edit/Add Question'
+      new_stage_question: New Stage Question
+      new_general_question: New General Question
+      question: Question
+      from: From
+      to: To
+      year: year
+      question:
+        one: '1 Question'
+        other: '%{count} Questions'
+    edit:
+      edit_stage: 'Edit Stage'
+    able_screening_question_fields:
+      are_you_sure: Remove question with have sigificant affect to client answers, Are you sure you want to delete?
+      question: Question
+      mode: Mode
+      group: Group
+      alert_manager: Alert Manager
+    attachment_fields:
+      browse: Browse
+    create:
+      successfully_created: Stage has been successfully created.
+    update:
+      successfully_updated: Stage has been successfully updated.
+    destroy:
+      successfully_deleted: Stage has been successfully deleted.
+      alert: Stage cannot be deleted.
+
+
+  able_screening_questions:
+    attachment_fields:
+      browse: Browse
+    form:
+      general_question: General Question
+    able_screening_question_field:
+      question: Question
+      mode: Mode
+      group: Group
+      alert_manager: Alert Manager
+    create:
+      successfully_created: Able Screening has been successfully created.
+    update:
+      successfully_updated: Able Screening has been successfully updated.
+    destroy:
+      successfully_deleted: Able Screening has been successfully deleted.
+      alert: Able Screening cannot be deleted.
+
   devise:
     registrations:
       edit:

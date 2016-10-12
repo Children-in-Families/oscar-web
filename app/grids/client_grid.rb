@@ -115,7 +115,13 @@ class ClientGrid
 
   filter(:grade, :integer, range: true, header: -> { I18n.t('datagrid.columns.clients.school_grade') })
 
-  filter(:able, :xboolean, header: -> { I18n.t('datagrid.columns.clients.able') })
+  filter(:able_state, :enum, select: :able_states, header: -> { I18n.t('datagrid.columns.clients.able_state') }) do |value, scope|
+    scope.able_state_is(value)
+  end
+
+  def able_states
+    Client::ABLE_STATES
+  end
 
   filter(:has_been_in_orphanage, :xboolean, header: -> { I18n.t('datagrid.columns.clients.has_been_in_orphanage') })
 
@@ -356,9 +362,7 @@ class ClientGrid
     object.referral_source.name if object.referral_source
   end
 
-  column(:able, header: -> { I18n.t('datagrid.columns.clients.able') }) do |object|
-    object.able ? 'Yes' : 'No'
-  end
+  column(:able_state, header: -> { I18n.t('datagrid.columns.clients.able_state') })
 
   column(:birth_province, header: -> { I18n.t('datagrid.columns.clients.birth_province') }) do |object|
     object.birth_province.name if object.birth_province

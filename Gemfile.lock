@@ -102,6 +102,12 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
+    carrierwave (0.11.2)
+      activemodel (>= 3.2.0)
+      activesupport (>= 3.2.0)
+      json (>= 1.7)
+      mime-types (>= 1.16)
+      mimemagic (>= 0.3.0)
     chartkick (2.0.2)
     choice (0.2.0)
     chronic (0.10.2)
@@ -361,6 +367,8 @@ GEM
       mime-types (>= 1.16, < 3)
     method_source (0.8.2)
     mime-types (2.99.1)
+    mimemagic (0.3.2)
+    mini_magick (4.5.1)
     mini_portile2 (2.0.0)
     minitest (5.8.4)
     multi_json (1.11.2)
@@ -616,6 +624,7 @@ DEPENDENCIES
   capistrano-rvm (~> 0.1.2)
   capistrano-sidekiq!
   capybara (~> 2.5)
+  carrierwave (~> 0.11.2)
   chartkick (~> 2.0, >= 2.0.2)
   ckeditor
   cocoon (~> 1.2, >= 1.2.9)
@@ -639,6 +648,7 @@ DEPENDENCIES
   jquery-validation-rails
   json_spec (~> 1.1, >= 1.1.4)
   launchy (~> 2.4, >= 2.4.3)
+  mini_magick (~> 4.5)
   omniauth (~> 1.3, >= 1.3.1)
   pg
   phony_rails (~> 0.12.11)

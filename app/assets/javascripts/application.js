@@ -4,8 +4,10 @@
 //= require bootstrap-sprockets
 //= require jquery.steps.min
 //= require thredded
+//= require cocoon
+// = require image_upload_previewer/image_upload_previewer
+//= require image_upload
 //= require chartkick
-
 //= require bootstrap-datepicker
 
 //= require namespace
@@ -32,6 +34,8 @@
 //= require users/index
 //= require partners/index
 //= require government_reports/form
+//= require stages/form
+//= require able_screening_questions/form
 //= require progress_notes/form
 //= require progress_notes/index
 //= require changelogs/form

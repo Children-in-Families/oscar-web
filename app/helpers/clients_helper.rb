@@ -76,7 +76,7 @@ module ClientsHelper
       when :current_address               then t('datagrid.columns.clients.current_address')
       when :school_name                   then t('datagrid.columns.clients.school_name')
       when :grade                         then t('datagrid.columns.clients.school_grade')
-      when :able                          then t('datagrid.columns.clients.able')
+      when :able_state                    then t('datagrid.columns.clients.able_state')
       when :has_been_in_orphanage         then t('datagrid.columns.clients.has_been_in_orphanage')
       when :has_been_in_government_care   then t('datagrid.columns.clients.has_been_in_government_care')
       when :relevant_referral_information then t('datagrid.columns.clients.relevant_referral_information')
