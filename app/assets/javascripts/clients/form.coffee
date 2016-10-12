@@ -56,7 +56,6 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
     answers = $('.answer')
     for answer in answers
       answerObj = $(answer)
-      console.log answerObj
       if answerObj.data('is-stage') == false
         answerObj.find('input').removeAttr('disabled')
       else
