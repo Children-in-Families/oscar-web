@@ -39,6 +39,9 @@ CIF.ClientsIndex = do ->
       series: data[1]
     $('.highcharts-credits').css('display', 'none')
 
+  _highChartLabelFomatter = (value) ->
+    Highcharts.dateFormat('%b-%y', new Date(value))
+
   _handleCreateCsiDomainReport = ->
     element = $('#cis-domain-score')
     csiData = element.data('csi-domain')
@@ -54,7 +57,6 @@ CIF.ClientsIndex = do ->
     caseyAxisTitle =  element.data('yaxis-title')
 
     _reportOption(caseData, caseTitle, caseyAxisTitle, element)
-
 
   _enableSelect2 = ->
     $('#clients-index select').select2

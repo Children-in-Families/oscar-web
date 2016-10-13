@@ -6,7 +6,9 @@ class CaseStatistic
   end
 
   def statistic_data
-    case_by_start_date = cases_grouped_by_case_type.group_by { |c| c.start_date.end_of_month}.keys
+    case_by_start_date = cases_grouped_by_case_type.group_by { 
+                          |c| c.start_date.end_of_month.strftime "%b %Y"}.keys
+
     cases_by_case_type = cases_grouped_by_case_type.group_by(&:case_type).sort
     statistic_data     = []
     statistic_data << case_by_start_date
@@ -14,11 +16,15 @@ class CaseStatistic
     cases_by_case_type.each do |case_type, case_obj|
 
       data = {}
-      cases_by_date = case_obj.group_by { |c| c.start_date.end_of_month }
+      cases_by_date = case_obj.group_by { |c| c.start_date.end_of_month.strftime "%b %Y" }
       
       series, client_count = [], []
       client_count << case_type_count(case_type)
 
+      # cases_by_date.each do |start_date, case_obj|
+      #   client_count << case_obj.count
+      #   series << client_count.sum
+      # end
 
       case_by_start_date.each do |date|
         if cases_by_date[date].present?
