@@ -13,11 +13,11 @@ CIF.ClientsIndex = do ->
 
   _reportOption = (data, title, yAxisTitle, element) ->
     $(element).highcharts
-      chart:
-        type: 'spline'
+      chart: type: 'spline'
       legend:
         verticalAlign: 'top'
         y: 30
+      plotOptions: series: connectNulls: true
       tooltip:
         shared: true
         xDateFormat: '%b %Y'
@@ -25,10 +25,6 @@ CIF.ClientsIndex = do ->
         text: title
       xAxis:
         categories: data[0]
-        # labels:
-        #   formatter: ->
-        #     Highcharts.dateFormat('%b-%y',
-        #                   new Date(@value))
         dateTimeLabelFormats:
           month: '%b %Y'
         tickmarkPlacement: 'on'
@@ -38,9 +34,6 @@ CIF.ClientsIndex = do ->
           text: yAxisTitle
       series: data[1]
     $('.highcharts-credits').css('display', 'none')
-
-  _highChartLabelFomatter = (value) ->
-    Highcharts.dateFormat('%b-%y', new Date(value))
 
   _handleCreateCsiDomainReport = ->
     element = $('#cis-domain-score')

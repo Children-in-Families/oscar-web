@@ -30,14 +30,12 @@
                 .col-xs-12.col-md-6
                   .panel.panel-default
                     .panel-body
-                      / = line_chart(@csi_statistics, report_options(t('.csi_domain_scores'), t('.domain_score')))
-                      #cis-domain-score{style: 'width:100%, height: 400px', "data-csi-domain" => @csi_statistics, "data-title" => t('.csi_domain_scores'), "data-yaxis-title" => t('.domain_score')}
+                      #cis-domain-score{ "data-csi-domain" => @csi_statistics, "data-title" => t('.csi_domain_scores'), "data-yaxis-title" => t('.domain_score')}
                       
                 .col-xs-12.col-md-6
                   .panel.panel-default
                     .panel-body
-                      #case-statistic{style: 'width:100%, height: 400px', "data-case-statistic" => @cases_statistics, "data-title" => t('.case_statistics'), "data-yaxis-title" => t('.client_amount') }
-                      / = line_chart(@cases_statistics, report_options(t('.case_statistics'), t('.client_amount')))
+                      #case-statistic{ "data-case-statistic" => @cases_statistics, "data-title" => t('.case_statistics'), "data-yaxis-title" => t('.client_amount') }
         .text-left.record-count
           %strong= @client_grid.assets.count
           %span= t('.records')
