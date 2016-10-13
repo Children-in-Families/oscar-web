@@ -1,5 +1,10 @@
 class DataTrackersController < AdminController  
   def index
-    @versions = PaperTrail::Version.where.not(item_type: ['AgenciesClient']).order(created_at: :desc).decorate
+    if params[:item_type]
+      @versions = PaperTrail::Version.where(item_type: params[:item_type])
+    else
+      @versions = PaperTrail::Version.all
+    end
+    @versions   = @versions.order(created_at: :desc).decorate
   end
 end

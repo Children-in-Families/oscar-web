@@ -351,6 +351,7 @@ en:
         has_date_of_birth: Has Date of Birth
         has_dob: 'Yes'
         no_dob: 'No'
+        modification: Modification
       select_columns: Select Columns
       hide_show_all: Hide/Show All
       family_id: Family ID
@@ -437,6 +438,7 @@ en:
       km: ខ្មែរ
       log_out: Log out
       log_in: Log in
+      data_modification: Data Modification
   reports:
     index:
       csi_domain_scores: CSI Domain Scores
@@ -529,6 +531,9 @@ en:
     state:
       state: Accept/Reject
       rejected_note: Rejected Note
+    version:
+      modification_of: Modification of
+      back: Back
   families:
     index:
       results: Results
@@ -1066,3 +1071,26 @@ en:
       successfully_updated: Changelog has been successfully updated.
     destroy:
       successfully_deleted: Changelog has been successfully deleted.
+
+  data_trackers:
+    index:
+      filter_by_item: Filter by Item
+      all: All
+      clients: Clients
+      families: Families
+      partners: Partners
+      users: Users
+      all_modification: All Modification
+  shared:
+    version:
+      change: did the following change
+      value_of: Value of
+      before: Before
+      after: After
+      id: ID
+      'on': 'on'
+      Client: Client
+      Familiy: Family
+      Partner: Partner
+      User: User
+      no_modification: There is no any modification.

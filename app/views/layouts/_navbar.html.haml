@@ -29,7 +29,7 @@
                 = link_to t('.reports'), reports_path
           - if can? :manage, DataTracker
             %li{ class: active_menu('data_trackers') }
-              = link_to t('.data_trackers'), data_trackers_path
+              = link_to t('.data_modification'), data_trackers_path
 
       %ul.nav.navbar-nav.navbar-right
         - if user_signed_in?

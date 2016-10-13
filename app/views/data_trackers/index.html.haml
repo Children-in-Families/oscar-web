@@ -2,34 +2,21 @@
   .col-xs-12
     .panel.panel-default
       .panel-body
-        / - binding.pry
-        - @versions.each do |version|
-          .panel.panel-info
-            .panel-heading
-              %h5
-                %span= "#{version.whodunnit} did the following change."
-                %span{ class: "pull-right label label-#{version_color(version.event)}" }
-                  = version.event.titleize
+        .row
+          .col-xs-12.col-sm-4.col-md-3
+            %h4.filter-by-item.text-center
+              %u= t('.filter_by_item')
+            .panel.panel-default
+              .panel-body
+                .list-group
+                  = link_to t('.all'), data_trackers_path, class: "list-group-item #{version_item_type_active?}"
+                  = link_to t('.clients'), data_trackers_path(item_type: 'Client'), class: "list-group-item #{version_item_type_active?('Client')}"
+                  = link_to t('.families'), data_trackers_path(item_type: 'Family'), class: "list-group-item #{version_item_type_active?('Family')}"
+                  = link_to t('.partners'), data_trackers_path(item_type: 'Partner'), class: "list-group-item #{version_item_type_active?('Partner')}"
+                  = link_to t('.users'), data_trackers_path(item_type: 'User'), class: "list-group-item #{version_item_type_active?('User')}"
 
-            .panel-body
-              - if version.event == 'delete'
-                = "Deleted #{version.item_type} ID #{version.reify.slug}, name #{version.reify.name}."
-              - else
-                %table.table.table-hover
-                  %thead
-                    %tr
-                      %th Attribute
-                      %th Before
-                      %th After
-                  %tbody
-                    - version.changeset.each do |k, v|
-                      %tr
-                        %td= k.titleize
-                        - if v[0].class == ActiveSupport::TimeWithZone
-                          %td= v[0].in_time_zone.strftime('%d %B, %Y %H:%M:%S')
-                        - else
-                          %td= v[0]
-                        - if v[1].class == ActiveSupport::TimeWithZone
-                          %td= v[1].in_time_zone.strftime('%d %B, %Y %H:%M:%S')
-                        - else
-                          %td= v[1]
+          .col-xs-12.col-sm-8.col-md-9
+            %h4.all-modification.text-center
+              %u= t('.all_modification')
+
+            = render 'shared/version'

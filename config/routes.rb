@@ -51,6 +51,7 @@ Rails.application.routes.draw do
       resources :tasks
     end
     resources :surveys
+    get 'version' => 'clients#version'
   end
 
   

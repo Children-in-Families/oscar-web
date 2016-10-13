@@ -359,6 +359,8 @@ km:
         has_dob: 'បាទ/ចាស'
         no_dob: 'ទេ'
 
+        modification: កំណែប្រែ
+
       select_columns: ជ្រើសរើសជួរឈរ
       hide_show_all: បង្ហាញ/លាក់ទាំងអស់
       family_id: លេខសម្គាល់គ្រួសារ
@@ -441,6 +443,7 @@ km:
       en: English
       log_out: ចាកចេញ
       log_in: ចូល
+      data_modification: កំណែប្រែទិន្នន័យ
   reports:
     index:
       case_statistics: ក្រាបនៃប្រភេទករណីរបស់អតិថិជន
@@ -533,6 +536,9 @@ km:
     state:
       state: ទទួល/បដិសេធ
       rejected_note: កំណត់ហេតុនៃការមិនទទួលយក
+    version:
+      modification_of: កំណែប្រែរបស់
+      back: ត្រលប់ក្រោយ
   families:
     index:
       results: លទ្ធផល
@@ -1281,3 +1287,26 @@ km:
       successfully_updated: ការផ្លាស់ប្ដូរត្រូវបានកែសម្រួលដោយជោគជ័យ
     destroy:
       successfully_deleted: ការផ្លាស់ប្ដូរត្រូវបានលុបដោយជោគជ័យ
+
+  data_trackers:
+    index:
+      filter_by_item: ច្រោះទិន្នន័យតាម
+      all: ទាំងអស់
+      clients: អតិថិជន
+      families: គ្រួសារ
+      partners: ដៃគូ
+      users: អ្នកប្រើ
+      all_modification: កំណែប្រែទិន្នន័យទាំងអស់
+  shared:
+    version:
+      change: បានធ្វើកំណែប្រែខាងក្រោម
+      value_of: តម្លៃនៃ
+      before: មុនកំណែ
+      after: ក្រោយកំណែ
+      id: លេខសំគាល់
+      'on': របស់
+      Client: អតិថិជន
+      Familiy: គ្រួសារ
+      Partner: ដៃគូ
+      User: អ្នកប្រើ
+      no_modification: មិនមានកំណែប្រែ

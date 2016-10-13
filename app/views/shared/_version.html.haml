@@ -1,0 +1,48 @@
+.panel.panel-default
+  .panel-body
+    - if @versions.any?
+      - @versions.each do |version|
+        .panel.panel-info
+          .panel-heading
+            %h5
+              - if controller_name == 'data_trackers'
+                %span
+                  = "#{version.whodunnit} #{t('.change')} #{t('.on')}"
+                  = t(".#{version.item_type}")
+                  = "##{version.item_id}."
+              - else
+                %span= "#{version.whodunnit} #{t('.change')}."
+              %span{ class: "pull-right label label-#{version_color(version.event)}" }
+                = version.event.titleize
+
+          .panel-body
+            - if version.event == 'delete'
+              %table.table.table-hover.row
+                %thead
+                  %tr
+                    %th.col-sm-4= t('.value_of')
+                    %th.col-sm-4= t('.before')
+                    %th.col-sm-4= t('.after')
+                %tbody
+                  %tr
+                    %td.col-sm-4= t('.id')
+                    %td.col-sm-4= version.reify.slug 
+                    %td.col-sm-4
+            - else
+              %table.table.table-hover.row
+                %thead
+                  %tr
+                    %th.col-sm-4= t('.value_of')
+                    %th.col-sm-4= t('.before')
+                    %th.col-sm-4= t('.after')
+                %tbody
+                  - version.changeset.each do |k, v|
+                    %tr
+                      %td.col-sm-4
+                        = version_attribute(k)
+                      %td.col-sm-4
+                        = version_value_format(v[0], k, v)
+                      %td.col-sm-4
+                        = version_value_format(v[1], k, v)
+    - else
+      %p= t('.no_modification')

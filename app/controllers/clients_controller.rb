@@ -76,6 +76,11 @@ class ClientsController < AdminController
     end
   end
 
+  def version
+    @client   = Client.accessible_by(current_ability).friendly.find(params[:client_id]).decorate
+    @versions = @client.versions.reorder(created_at: :desc).decorate
+  end
+
   private
 
   def find_client
