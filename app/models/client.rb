@@ -27,8 +27,7 @@ class Client < ActiveRecord::Base
 
   has_and_belongs_to_many :quantitative_cases
 
-  # passing the proc block is to skip after create callback
-  has_paper_trail if: Proc.new { |c| c.slug == c.slug_was }
+  has_paper_trail
 
   accepts_nested_attributes_for     :tasks
 
@@ -207,8 +206,7 @@ class Client < ActiveRecord::Base
   end
 
   def set_slug_as_alias
-    self.slug = "#{ENV['ORGANISATION_ABBREVIATION']}-#{id}"
-    self.save
+    self.without_versioning { |obj| obj.update_attributes(slug: "#{ENV['ORGANISATION_ABBREVIATION']}-#{id}") }
   end
 
   def time_in_care
