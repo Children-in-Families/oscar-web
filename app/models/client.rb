@@ -27,9 +27,8 @@ class Client < ActiveRecord::Base
 
   has_and_belongs_to_many :quantitative_cases
 
-  has_paper_trail
-
-  after_touch :touch_with_version
+  # passing the proc block is to skip after create callback
+  has_paper_trail if: Proc.new { |c| c.slug == c.slug_was }
 
   accepts_nested_attributes_for     :tasks
 

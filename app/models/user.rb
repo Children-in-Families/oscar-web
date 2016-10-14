@@ -11,6 +11,8 @@ class User < ActiveRecord::Base
   has_many :clients
   has_many :changelogs
 
+  has_paper_trail
+
   validates :roles, presence: true
 
   scope :first_name_like, -> (value) { where('LOWER(users.first_name) LIKE ?', "%#{value.downcase}%") }

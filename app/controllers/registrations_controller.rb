@@ -1,4 +1,6 @@
 class RegistrationsController < Devise::RegistrationsController
+  before_action :set_paper_trail_whodunnit
+
   def new
     redirect_to new_user_session_path, notice: 'Registrations are not allowed.'
   end

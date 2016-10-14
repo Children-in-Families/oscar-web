@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   end
 
   resources :quarterly_reports
-  devise_for :users, controllers: { registrations: 'registrations' }
+  devise_for :users, controllers: { registrations: 'registrations', sessions: 'sessions' }
   root 'home#index'
 
   get '/robots.txt' => 'home#robots'
@@ -18,7 +18,9 @@ Rails.application.routes.draw do
   resources :reports, only: [:index]
 
   scope 'admin' do
-    resources :users
+    resources :users do
+      get 'version' => 'users#version'
+    end
   end
 
   resources :quantitative_types
@@ -56,8 +58,13 @@ Rails.application.routes.draw do
 
   
 
-  resources :families
-  resources :partners
+  resources :families do
+    get 'version' => 'families#version'
+  end
+
+  resources :partners do
+    get 'version' => 'partners#version'
+  end
 
   namespace :api do
     mount_devise_token_auth_for 'User', at: '/v1/auth', skip: [:registrations, :passwords]

@@ -1,4 +1,6 @@
-class DataTrackersController < AdminController  
+class DataTrackersController < AdminController
+  load_and_authorize_resource
+
   def index
     if params[:item_type]
       @versions = PaperTrail::Version.where(item_type: params[:item_type])

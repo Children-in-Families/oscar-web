@@ -8,9 +8,10 @@ module VersionHelper
     provinces        = ['birth_province_id', 'province_id']
     referral_sources = ['referral_source_id']
     users            = ['received_by_id', 'followed_up_by_id', 'user_id']
-    booleans         = ['has_been_in_orphanage', 'has_been_in_government_care', 'able']
+    booleans         = ['has_been_in_orphanage', 'has_been_in_government_care', 'able', 'dependable_income']
+    titleizeTexts    = ['gender', 'state', 'family_type', 'roles']
 
-    if k == 'gender' || k == 'state'
+    if titleizeTexts.include?(k)
       if val == both_val[0]
         val  = both_val[0].downcase == both_val[1].downcase ? '' : val.titleize
       else
@@ -28,6 +29,8 @@ module VersionHelper
       val = User.find(val).name if val.present?
     elsif booleans.include?(k)
       val = human_boolean(val)
+    elsif k == 'department_id'
+      val = Department.find(val).name if val.present?
     end
     val
   end
@@ -38,5 +41,9 @@ module VersionHelper
     else
       'active'
     end
+  end
+
+  def version_keys_skipable?(k)
+    k == 'tokens' || k == 'encrypted_password' || k == 'uid' 
   end
 end

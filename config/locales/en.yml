@@ -384,15 +384,18 @@ en:
         family_preservation: Family Preservation?
         family_id: Family ID
         case_workers: Case Workers
+        modification: Modification
       partners:
         <<: *default_partner_fields
         type: Type
         manage: Manage
         partner: Partner
+        modification: Modification
       users:
         <<: *default_user_fields
         name: Name
         manage: Manage
+        modification: Modification
       quarterly_reports:
         visit_date: Date Of Visit
         kc_name: KC Name
@@ -557,6 +560,9 @@ en:
     destroy:
       successfully_deleted: Family has been successfully deleted.
       alert: Family cannot be deleted.
+    version:
+      modification_of: Modification of
+      back: Back
 
   partners:
     index:
@@ -579,6 +585,9 @@ en:
     destroy:
       successfully_deleted: Partner has been successfully deleted.
       alert: Partner cannot be deleted.
+    version:
+      modification_of: Modification of
+      back: Back
   users:
     index:
       results: Results
@@ -602,6 +611,9 @@ en:
     destroy:
       successfully_deleted: User has been successfully deleted.
       alert: User cannot be deleted.
+    version:
+      modification_of: Modification of
+      back: Back
   cases:
     index:
       <<: *default_placement_fields
@@ -1080,7 +1092,7 @@ en:
       families: Families
       partners: Partners
       users: Users
-      all_modification: All Modification
+      all_modification: All Modifications
   shared:
     version:
       change: did the following change
@@ -1093,4 +1105,4 @@ en:
       Familiy: Family
       Partner: Partner
       User: User
-      no_modification: There is no any modification.
+      no_modification: There are no any modifications.

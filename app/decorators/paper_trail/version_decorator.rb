@@ -25,6 +25,10 @@
     object.event == 'destroy' ? 'delete' : object.event
   end
 
+  def client_item_type?
+    item_type == 'Client'
+  end
+
   # private
 
   # def track_associations

@@ -3,6 +3,8 @@ class Family < ActiveRecord::Base
 
   has_many :cases
 
+  has_paper_trail
+
   scope :name_like,                  -> (value) { where('LOWER(families.name) LIKE ?', "%#{value.downcase}%") }
 
   scope :caregiver_information_like, -> (value) { where('LOWER(families.caregiver_information) LIKE ?', "%#{value.downcase}%") }
