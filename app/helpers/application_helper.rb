@@ -90,8 +90,8 @@ module ApplicationHelper
     end
   end
 
-  def active_menu(name)
-    if controller_name == name
+  def active_menu(name, alter_name = '')
+    if controller_name == name || controller_name == alter_name
       'active'
     else
       ''
