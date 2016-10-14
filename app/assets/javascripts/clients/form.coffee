@@ -34,13 +34,12 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
   _checkClientBirthdateAvailablity = ->
     button = $('#able-screening-test')
     if $('#client_date_of_birth').val() == ''
-      button.hide()
+      button.attr('disabled', 'disabled')
     $('#client_date_of_birth').change ->
       if $('#client_date_of_birth').val() == ''
-        button.hide('')
+        button.attr('disabled', 'disabled')
       else
-        button.show()
-        # _arrangeQuestionAndAnswerBlock()
+        button.removeAttr('disabled')
         _toggleAnswer()
 
   _getAge = (dateString) ->
@@ -61,6 +60,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
       else
         if answerObj.data('to-age') != '' && answerObj.data('from-age') >= $('#client_date_of_birth').val() >= answerObj.data('to-age')
           answerObj.find('input').removeAttr('disabled')
+          answerObj.removeClass('disable-qa')
         else
           answerObj.addClass('disable-qa')
           answerObj.find('input').attr('disabled', true)

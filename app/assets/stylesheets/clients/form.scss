@@ -8,4 +8,25 @@ body[id=clients-edit], body[id=clients-update]{
     color: gray;
     cursor: not-allowed;
   }
+
+  .able-screening-header{
+    min-width: 200px;
+  }
+
+  .image-space {
+    margin-top: 10px;
+    margin-left: 16px;
+  }
+  .able-screening-image img{
+    border: 1px solid #c9cacc;
+    border-radius: 3px;
+  }
+  .image-default img{
+    width: 100px;
+    height: 100px;
+  }
+  .vertical-align-group {
+    margin-top: 50%;
+  }
+
 }
