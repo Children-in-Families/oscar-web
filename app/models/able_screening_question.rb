@@ -11,7 +11,7 @@ class AbleScreeningQuestion < ActiveRecord::Base
   accepts_nested_attributes_for :attachments
 
   scope :non_stage, -> { where(stage: nil) }
-  scope :with_stage, -> { where.not(stage: nil) }
+  scope :with_stage, -> { joins(:stage).order('from_age') }
 
   validates :question, :mode, presence: true
   validates :mode, inclusion: { in: MODES }
