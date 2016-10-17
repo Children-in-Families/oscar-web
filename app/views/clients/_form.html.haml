@@ -72,14 +72,14 @@
                 .row
                   .col-xs-12
                     #non-stage-question
-                      %h5.text-center General Question
+                      %h5.text-left.question-group-title= t('.general_question')
                       = f.simple_fields_for(:answers, @answers_non_stage || f.object.answers.of_general_question) do |answer_builder|
                         = render 'answer_fields', f: answer_builder
                     %hr
                 .row
                   .col-xs-12
                     .table-responsive#stage-question
-                      %h5.text-center Stage
+                      %h5.text-left.question-group-title= t('.stage')
                       %br
                       %table.table.table-bordered
                         %thead
@@ -87,12 +87,12 @@
                             %th.able-screening-header
                             - @ordered_stage.each do |stage|
                               %th.able-screening-header
-                                %span= "#{t('.from')} #{stage.from_age} -> #{stage.to_age} #{t('.year')}"
+                                %span= "#{t('.from')} #{stage.from_age} #{t('.to')} #{stage.to_age} #{t('.year')}"
                         %tbody
                           - @able_screening_questions.each do |key, able|
                             %tr
                               %td.text-center
-                                %h4.vertical-align-group= QuestionGroup.find(key).name
+                                %h5.vertical-align-group= QuestionGroup.find(key).name
                               - @ordered_stage.each do |s|
                                 %td
                                   = f.simple_fields_for(:answers, @answers_with_stage || f.object.answers.of_stage_question) do |answer_builder|
@@ -111,9 +111,9 @@
                                         .row
                                           .col-xs-12.text-center
                                             - if answer_builder.object.able_screening_question.free_text?
-                                              = answer_builder.input :description, label: 'Answer'
+                                              = answer_builder.input :description, label: t('.answer')
                                             - else
-                                              = answer_builder.input :description, as: :boolean, label: 'Yes/No', checked_value: 'Yes', unchecked_value: 'No'
+                                              = answer_builder.input :description, as: :boolean, label: t('.yes_no'), checked_value: 'Yes', unchecked_value: 'No'
                                             = answer_builder.input :able_screening_question_id, as: :hidden, input_html: { value: answer_builder.object.able_screening_question_id }
                                             = answer_builder.input :question_type, as: :hidden, input_html: { value: 'stage' }
 

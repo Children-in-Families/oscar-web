@@ -495,6 +495,9 @@ en:
       end_date: End Date
 
   clients:
+    answer_fields:
+      yes_no: បាទ​/អត់​ទេ
+      answer: ចំលើយ
     index:
       reports: Reports
       csi_domain_scores: CSI Domain Scores
@@ -520,8 +523,13 @@ en:
       edit_client_title: Edit Client
     form:
       <<: *default_client_fields
+      general_question: General Question
       from: From
-      year: 'Year'
+      year: Year
+      to: To
+      yes_no: Yes/No
+      stage: Stage Question
+      answer: Answer
     show:
       id: ID
       age: Age
@@ -1075,6 +1083,7 @@ en:
       edit_and_add_question: 'Edit/Add Question'
       new_stage_question: New Stage Question
       new_general_question: New General Question
+      general_question: General Question
       question: Question
       from: From
       to: To

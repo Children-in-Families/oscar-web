@@ -494,7 +494,9 @@ km:
       end_date: ថ្ងៃចុងក្រោយ
 
   clients:
-
+    answer_fields:
+      yes_no: បាទ​/អត់​ទេ
+      answer: ចំលើយ
     index:
       reports: របាយការណ៍
       case_statistics: ក្រាបនៃប្រភេទករណីរបស់អតិថិជន
@@ -522,6 +524,11 @@ km:
       <<: *default_client_fields
       from: ចាប់ពី
       year: ឆ្នាំ
+      to: ទៅដល់
+      general_question: សំនួរទូរទៅ
+      yes_no: បាទ​/អត់​ទេ
+      stage: សំនួរ តំណាក់កាល
+      answer: ចំលើយ
     show:
       age: អាយុ
       exit_cif_btn: ចាកចេញពី CIF
