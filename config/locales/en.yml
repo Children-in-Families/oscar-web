@@ -520,6 +520,8 @@ en:
       edit_client_title: Edit Client
     form:
       <<: *default_client_fields
+      from: From
+      year: 'Year'
     show:
       id: ID
       age: Age

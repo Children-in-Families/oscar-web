@@ -23,7 +23,7 @@
 
         - if can? :manage, :all
           .panel.panel-default#client-statistic-body
-            .panel-heading 
+            .panel-heading
               %h4= t('.reports')
             .panel-body.statistic
               .row
@@ -31,7 +31,7 @@
                   .panel.panel-default
                     .panel-body
                       #cis-domain-score{ "data-csi-domain" => @csi_statistics, "data-title" => t('.csi_domain_scores'), "data-yaxis-title" => t('.domain_score')}
-                      
+
                 .col-xs-12.col-md-6
                   .panel.panel-default
                     .panel-body

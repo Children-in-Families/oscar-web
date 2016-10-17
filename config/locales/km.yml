@@ -520,6 +520,8 @@ km:
       edit_client_title: កែសម្រួលពត៌មានអតិថិជន
     form:
       <<: *default_client_fields
+      from: ចាប់ពី
+      year: ឆ្នាំ
     show:
       age: អាយុ
       exit_cif_btn: ចាកចេញពី CIF

@@ -87,7 +87,7 @@
                             %th.able-screening-header
                             - @ordered_stage.each do |stage|
                               %th.able-screening-header
-                                %span= "#{stage.from_age} -> #{stage.to_age}"
+                                %span= "#{t('.from')} #{stage.from_age} -> #{stage.to_age} #{t('.year')}"
                         %tbody
                           - @able_screening_questions.each do |key, able|
                             %tr

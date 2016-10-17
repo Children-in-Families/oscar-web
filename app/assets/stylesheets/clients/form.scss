@@ -22,14 +22,20 @@ body[id=clients-edit], body[id=clients-update]{
   .able-screening-image img{
     border: 1px solid #c9cacc;
     border-radius: 3px;
+    width: 80px;
+    height: 80px;
   }
 
   .image-default img{
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
   }
   .vertical-align-group {
     margin-top: 50%;
+  }
+
+  .narrow-space {
+    margin-left: -10%;
   }
 
 }
