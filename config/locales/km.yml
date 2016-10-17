@@ -1331,8 +1331,17 @@ km:
       after: ក្រោយកំណែ
       id: លេខសំគាល់
       'on': របស់
+      no_modification: មិនមានកំណែប្រែ
       Client: អតិថិជន
       Familiy: គ្រួសារ
       Partner: ដៃគូ
       User: អ្នកប្រើ
-      no_modification: មិនមានកំណែប្រែ
+      Agency: អង្គភាព
+      Department: កម្មវិធី
+      Domain: កត្តា
+      DomainGroup: ការប្រមូលបណ្ដុំកត្តា
+      Province: ខេត្ត
+      ReferralSource: ប្រភពនៃការបញ្ជូន
+      QuantitativeType: ប្រភេទនៃបរិមាណ
+      QuantitativeCase: ទិន្ន័យនៃបរិមាណ
+      Changelog: ការផ្លាស់ប្ដូរ

@@ -725,6 +725,7 @@ en:
       score_2: Score 2
       score_3: Score 3
       score_4: Score 4
+      view_modification: View modification
     edit:
       title: Edit Domain
     new:
@@ -747,6 +748,9 @@ en:
     destroy:
       successfully_deleted: Domain has been successfully deleted.
       alert: Domain cannot be deleted.
+    version:
+      modification_of: Modification of
+      back: Back
 
   domain_groups:
     index:
@@ -1123,8 +1127,17 @@ en:
       after: After
       id: ID
       'on': 'on'
+      no_modification: There are no any modifications.
       Client: Client
       Familiy: Family
       Partner: Partner
       User: User
-      no_modification: There are no any modifications.
+      Agency: Agency
+      Department: Department
+      Domain: Domain
+      DomainGroup: Domain Group
+      Province: Province
+      ReferralSource: Referral Source
+      QuatitativeType: Quantitative Type
+      QuantitativeCase: Quantitative Data
+      Changelog: Changelog

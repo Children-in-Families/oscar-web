@@ -10,6 +10,8 @@ module VersionHelper
     users            = ['received_by_id', 'followed_up_by_id', 'user_id']
     booleans         = ['has_been_in_orphanage', 'has_been_in_government_care', 'able', 'dependable_income']
     titleizeTexts    = ['gender', 'state', 'family_type', 'roles']
+    departments      = ['department_id']
+    domain_groups    = ['domain_group_id']
 
     if titleizeTexts.include?(k)
       if val == both_val[0]
@@ -29,8 +31,12 @@ module VersionHelper
       val = User.find(val).name if val.present?
     elsif booleans.include?(k)
       val = human_boolean(val)
-    elsif k == 'department_id'
+    elsif departments.include?(k)
       val = Department.find(val).name if val.present?
+    elsif domain_groups.include?(k)
+      val = DomainGroup.find(val).name if val.present?
+    elsif is_description?(k) && has_html?(val)
+      val = strip_tags(val)
     end
     val
   end
@@ -45,5 +51,15 @@ module VersionHelper
 
   def version_keys_skipable?(k)
     k == 'tokens' || k == 'encrypted_password' || k == 'uid' 
+  end
+
+  private
+
+  def is_description?(k)
+    k == 'description'
+  end
+
+  def has_html?(val)
+    strip_tags(val) != val
   end
 end

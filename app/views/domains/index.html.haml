@@ -26,6 +26,8 @@
                       %label{class: "label label-#{domain.score_4_color}"}= "#{t('.score_4')}"
                   .panel-body
                     %p= domain.description.html_safe
+                  .panel-footer
+                    %p= link_to t('.view_modification'), domain_version_path(domain)
       .row
         .col-xs-12.text-center
           = will_paginate @domains, renderer: BootstrapPagination::Rails
