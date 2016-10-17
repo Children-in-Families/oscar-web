@@ -3,6 +3,8 @@ class QuantitativeType < ActiveRecord::Base
 
   has_many :quantitative_cases
 
+  has_paper_trail
+
   default_scope { order(name: :asc) }
 
   scope :name_like, -> (name) { where('LOWER(quantitative_types.name) LIKE ?', "%#{name.downcase}%") }

@@ -34,6 +34,10 @@
                                 %i.glyphicon.glyphicon-pencil
                             %td.text-center
                               = removeable? qc, qc.clients.count
+                            %td.text-center
+                              = link_to t('.view_modification'), quantitative_case_version_path(qc)
+                  .panel-footer
+                    %p= link_to t('.view_modification'), quantitative_type_version_path(qt)
       .row
         .col-xs-12.text-center
           = will_paginate @quantitative_types, renderer: BootstrapPagination::Rails

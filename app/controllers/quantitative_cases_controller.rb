@@ -37,6 +37,11 @@ class QuantitativeCasesController < AdminController
     redirect_to quantitative_types_path, notice: t('.successfully_deleted')
   end
 
+  def version
+    @quantitative_case = QuantitativeCase.find(params[:quantitative_case_id])
+    @versions          = @quantitative_case.versions.reorder(created_at: :desc).decorate
+  end
+
   private
 
   def quantitative_case_params

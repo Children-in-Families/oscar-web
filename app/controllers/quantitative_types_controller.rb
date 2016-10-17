@@ -40,6 +40,11 @@ class QuantitativeTypesController < AdminController
     end
   end
 
+  def version
+    @quantitative_type = QuantitativeType.find(params[:quantitative_type_id])
+    @versions          = @quantitative_type.versions.reorder(created_at: :desc).decorate
+  end
+
   private
 
   def quantitative_type_params

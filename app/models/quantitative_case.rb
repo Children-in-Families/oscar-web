@@ -5,6 +5,8 @@ class QuantitativeCase < ActiveRecord::Base
 
   has_and_belongs_to_many :clients
 
+  has_paper_trail
+
   default_scope { order(value: :asc) }
 
   scope :value_like, -> (values) { where('LOWER(quantitative_cases.value) ILIKE ANY ( array[?] )', values.map { |val| "%#{val.downcase}%" }) }

@@ -26,8 +26,13 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :quantitative_types
-  resources :quantitative_cases
+  resources :quantitative_types do
+    get 'version' => 'quantitative_types#version'
+  end
+
+  resources :quantitative_cases do
+    get 'version' => 'quantitative_cases#version'
+  end
 
   resources :referral_sources, except: [:show] do
     get 'version' => 'referral_sources#version'

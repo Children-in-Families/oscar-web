@@ -341,7 +341,7 @@ km:
         manage: សកម្មភាព
         state: ទទួល/បដិសេធ
         rejected_note: កំណត់ហេតុនៃការមិនទទួលយក
-        quantitative_case_values: ទិន្ន័យនៃបរិមាណ
+        quantitative_case_values: ទិន្នន័យនៃបរិមាណ
         history_of_disability_and_or_illness: ជំងឺរ៉ាំរ៉ែ និង/ឬពិការភាព
         history_of_harm: ការបង្កទុក្ខទោស និងការកេងប្រវ័ញ្ច
         history_of_high_risk_behaviours: ការបំពានគ្រឿងញៀនឬគ្រឿងស្រវឹង និងល្បែងស៊ីសង
@@ -787,6 +787,7 @@ km:
       score_2: ពិន្ទុ 2
       score_3: ពិន្ទុ 3
       score_4: ពិន្ទុ 4
+      view_modification: មើលកំណែប្រែ
     edit:
       title: ពិនិត្យកែសម្រួលកត្តា
     new:
@@ -809,6 +810,9 @@ km:
     destroy:
       successfully_deleted: កត្តាត្រូវបានលុបចោលជោគជ័យ
       alert: កត្តាមិនអាចលុបបានទេ
+    version:
+      modification_of: កំណែប្រែរបស់
+      back: ត្រលប់ក្រោយ
   domain_groups:
     index:
       add_new_domain_group: បន្ថែមការប្រមូលផ្តុំកត្តាថ្មី
@@ -898,7 +902,8 @@ km:
     index:
       add_new_quantitative_type: បន្ថែមប្រភេទនៃបរិមាណ
       quantitative_types: ប្រភេទនៃបរិមាណ
-      add_quantitative_data: ទិន្ន័យនៃបរិមាណ
+      add_quantitative_data: ទិន្នន័យនៃបរិមាណ
+      view_modification: មើលកំណែប្រែ
     edit:
       title: ពិនិត្យកែសម្រួល ប្រភេទនៃបរិមាណ
     new:
@@ -916,22 +921,28 @@ km:
     destroy:
       successfully_deleted: ប្រភេទនៃបរិមាណបានលុបចោលដោយជោគជ័យ
       alert: ប្រភេទនៃបរិមាណមិនអាចលុបចោលបានទេ
+    version:
+      modification_of: កំណែប្រែរបស់
+      back: ត្រលប់ក្រោយ
   quantitative_cases:
     edit:
-      title: ពិនិត្យកែសម្រួល ទិន្ន័យនៃបរិមាណ
+      title: ពិនិត្យកែសម្រួល ទិន្នន័យនៃបរិមាណ
     new:
-      title: ទិន្ន័យនៃបរិមាណថ្មី
+      title: ទិន្នន័យនៃបរិមាណថ្មី
     form:
       quantitative_type: ប្រភេទនៃបរិមាណ
       value: តំលៃ
       save: រក្សាទុក
       cancel: ទុកជាមោឃៈ
     create:
-      successfully_created: ទិន្ន័យនៃបរិមាណបានបង្កើតដោយជោគជ័យ
+      successfully_created: ទិន្នន័យនៃបរិមាណបានបង្កើតដោយជោគជ័យ
     update:
-      successfully_updated: ទិន្ន័យនៃបរិមាណបានកែសម្រួលដោយជោគជ័យ
+      successfully_updated: ទិន្នន័យនៃបរិមាណបានកែសម្រួលដោយជោគជ័យ
     destroy:
-      successfully_deleted: ទិន្ន័យនៃបរិមាណបានលុបចោលដោយជោគជ័យ
+      successfully_deleted: ទិន្នន័យនៃបរិមាណបានលុបចោលដោយជោគជ័យ
+    version:
+      modification_of: កំណែប្រែរបស់
+      back: ត្រលប់ក្រោយ
   tasks:
     index:
       tasks_of: កាតព្វកិច្ចរបស់
@@ -1333,11 +1344,21 @@ km:
     index:
       filter_by_item: ច្រោះទិន្នន័យតាម
       all: ទាំងអស់
+      all_modification: កំណែប្រែទិន្នន័យទាំងអស់
       clients: អតិថិជន
       families: គ្រួសារ
       partners: ដៃគូ
       users: អ្នកប្រើ
-      all_modification: កំណែប្រែទិន្នន័យទាំងអស់
+      agencies: អង្គភាព
+      departments: កម្មវិធី
+      domains: កត្តា
+      domain_groups: ការប្រមូលបណ្ដុំកត្តា
+      provinces: ខេត្ត
+      referral_sources: ប្រភពនៃការបញ្ជូន
+      quantitative_types: ប្រភេទនៃបរិមាណ
+      quantitative_cases: ទិន្នន័យនៃបរិមាណ
+      changelogs: ការផ្លាស់ប្ដូរ
+
   shared:
     version:
       change: បានធ្វើកំណែប្រែខាងក្រោម
@@ -1358,5 +1379,5 @@ km:
       Province: ខេត្ត
       ReferralSource: ប្រភពនៃការបញ្ជូន
       QuantitativeType: ប្រភេទនៃបរិមាណ
-      QuantitativeCase: ទិន្ន័យនៃបរិមាណ
+      QuantitativeCase: ទិន្នន័យនៃបរិមាណ
       Changelog: ការផ្លាស់ប្ដូរ

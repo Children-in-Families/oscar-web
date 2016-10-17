@@ -843,6 +843,7 @@ en:
       add_new_quantitative_type: Add New Quantitative Type
       quantitative_types: Quantitative Types
       add_quantitative_data: Quantitative Data
+      view_modification: View modification
     edit:
       title: Edit Quantitative Type
     new:
@@ -858,6 +859,9 @@ en:
     destroy:
       successfully_deleted: Quantitative Type has been successfully deleted.
       alert: Quantitative Type cannot be deleted.
+    version:
+      modification_of: Modification of
+      back: Back
 
   quantitative_cases:
     edit:
@@ -875,6 +879,9 @@ en:
       successfully_updated: Quantitative Data has been successfully updated.
     destroy:
       successfully_deleted: Quantitative Data has been successfully deleted.
+    version:
+      modification_of: Modification of
+      back: Back
   tasks:
     index:
       tasks_of: Tasks Of
@@ -1132,7 +1139,7 @@ en:
       provinces: Provinces
       referral_sources: Referral Sources
       quantitative_types: Quantitative Types
-      quantitative_datas: Quantitative Data
+      quantitative_cases: Quantitative Data
       changelogs: Changelogs
   shared:
     version:
@@ -1153,6 +1160,6 @@ en:
       DomainGroup: Domain Group
       Province: Province
       ReferralSource: Referral Source
-      QuatitativeType: Quantitative Type
+      QuantitativeType: Quantitative Type
       QuantitativeCase: Quantitative Data
       Changelog: Changelog
