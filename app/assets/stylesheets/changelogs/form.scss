@@ -1,0 +1,9 @@
+body[id='changelogs-new'],
+body[id='changelogs-create'],
+body[id='changelogs-edit'],
+body[id='changelogs-update'] {
+  .btn-form {
+    min-width: 100px;
+    margin: 10px 15px 10px 0;
+  }
+}

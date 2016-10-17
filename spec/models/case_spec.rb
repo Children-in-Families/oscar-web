@@ -125,11 +125,12 @@ describe Case, 'scopes' do
 end
 
 describe Case, 'methods' do
+  let!(:client){ create(:client, state: 'accepted') }
   let!(:emergency){ create(:case, case_type: 'EC') }
   let!(:kinship){ create(:case, case_type: 'KC') }
   let!(:foster){ create(:case, case_type: 'FC') }
-  let!(:latest_emergency){ create(:case, case_type: 'EC') }
-  let!(:latest_kinship){ create(:case, case_type: 'KC') }
+  let!(:latest_emergency){ create(:case, case_type: 'EC', client: client) }
+  let!(:latest_kinship){ create(:case, case_type: 'KC', client: client) }
   let!(:latest_foster){ create(:case, case_type: 'FC') }
 
   context 'latest emergency' do

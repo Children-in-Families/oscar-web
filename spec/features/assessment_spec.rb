@@ -2,7 +2,7 @@ describe "Assessment" do
   let!(:user) { create(:user) }
   let!(:client) { create(:client, state: 'accepted', user: user) }
   let!(:fc_case) { create(:case, case_type: 'FC', client: client) }
-  let!(:domain) { create(:domain, name: '1A') }
+  let!(:domain) { create(:domain, name: FFaker::Name.name) }
 
   before do
     login_as(user)

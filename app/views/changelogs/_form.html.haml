@@ -1,0 +1,20 @@
+= simple_form_for(@changelog) do |f|
+  .panel-body
+    = error_notification(f)
+    .row
+      .col-xs-12.col-sm-3
+        .form-group
+          / = f.input :version, label: t('.version')
+          = f.input :version, label: false, input_html: { placeholder: t('.version') }
+    .row
+      .col-xs-12
+        #changelog_type
+          .form-group
+            = f.simple_fields_for :changelog_types do |changelog_type|
+              = render 'changelog_type_fields', f: changelog_type
+            .links
+              = link_to_add_association t('.add_change'), f, :changelog_types
+  .panel-footer
+    .form-actions
+      = f.button :submit, t('.save'), class: 'btn btn-primary btn-form'
+      = link_to t('.cancel'), changelogs_path, class: 'btn btn-default btn-form'

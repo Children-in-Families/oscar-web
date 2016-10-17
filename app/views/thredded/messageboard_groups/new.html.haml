@@ -1,0 +1,12 @@
+- content_for :thredded_page_title, t('thredded.messageboard_group.create')
+- content_for :thredded_page_id, 'thredded--messageboard-groups-new'
+- content_for :thredded_breadcrumbs do
+  %ul.thredded--navigation-breadcrumbs
+    %li= t('thredded.messageboard_group.create')
+= thredded_page do
+  = form_for @messageboard_group, html: { class: 'thredded--form' } do |f|
+    %ul.thredded--form-list
+      %li
+        = f.label :name, t('thredded.messageboard_group.new.name')
+        = f.text_field :name, required: true
+      %li= f.submit t('thredded.messageboard_group.create'), class: 'thredded--form--submit'

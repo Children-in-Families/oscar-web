@@ -11,6 +11,7 @@
         .panel.panel-default#partner-search-form.collapse
           .panel-body
             = datagrid_form_for @partner_grid, url: partners_url, html: { class: 'grid-form' }
+
         .text-left.record-count
           %strong= @partner_grid.assets.count
           %span

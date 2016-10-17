@@ -1,0 +1,12 @@
+= form_for messageboard, html: { class: 'thredded--form' } do |f|
+  %ul.thredded--form-list
+    %li
+      = f.label :name, t('thredded.messageboard.form.name')
+      = f.text_field :name, required: true
+    %li
+      = f.label :description, t('thredded.messageboard.form.description')
+      = f.text_field :description
+    %li
+      = f.label :messageboard_group_id, t('thredded.messageboard.form.messageboard_group')
+      = f.collection_select :messageboard_group_id, Thredded::MessageboardGroup.all, :id, :name, include_blank: t('thredded.messageboard.form.no_group')
+    %li= f.submit @messageboard.persisted? ? t('thredded.messageboard.update') : t('thredded.messageboard.create'), class: 'thredded--form--submit'

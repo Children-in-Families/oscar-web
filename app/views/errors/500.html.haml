@@ -1,0 +1,19 @@
+!!!
+%html
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %title Error 500 (Internal Error)
+    %meta{:content => "width=device-width,initial-scale=1", :name => "viewport"}/
+    %link{:crossorigin => "anonymous", :href => "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css", :integrity => "sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7", :rel => "stylesheet"}
+    = stylesheet_link_tag 'application', media: 'all'
+
+  %body{ id: "#{controller_name}-#{params[:action]}" }
+    .container
+      .row
+        .col-xs-12.text-center.error-content
+          %h1
+            500
+            = image_tag ENV['NGO_LOGO']
+          %h3.text-uppercase Something has gone wrong
+          %p.text-uppercase.text-muted We experience an internal server error. please try again later.
+          %a.btn.btn-success.btn-lg.text-uppercase{:href => "/"} Go Home

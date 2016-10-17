@@ -1,4 +1,38 @@
 km:
+  unauthorized:
+    default: អ្នកមិនមានសិទ្ធិគ្រប់គ្រាន់ដើម្បីចូលទេ
+
+  faq: FAQ
+
+  default_progress_note_fields: &default_progress_note_fields
+    date: កាលបរិច្ឆេទ
+    child: កុមារ
+    staff: ឈ្មោះបុគ្គលិក
+    progress_note_type: កំណត់សំគាល់
+    location: កន្លែង
+    other_location: ផ្សេងៗ
+    interventions: ចំនុចដែលត្រូវធ្វើ
+    material: របស់របរ/សំភារៈ
+    response: សកម្មភាព/ការឆ្លើយតប
+    additional_notes: កំណត់បន្ថែម
+    goals_addressed: គោលបំណងនៃការធ្វើ
+
+  default_intervention_fields: &default_intervention_fields
+    action: សកម្មភាព
+
+  default_progress_note_type_fields: &default_progress_note_type_fields
+    note_type: ប្រភេទ
+
+  default_location_fields: &default_location_fields
+    name: ឈ្មោះ
+
+  default_material_fields: &default_material_fields
+    status: ស្ថានភាព
+
+  default_changelog_fields: &default_changelog_fields
+    version: កំណែ
+    description: ការពិពណ៌នា
+
   default_government_report_fields: &default_government_report_fields
     code: ទម្រង់
     initial_capital: រាជធានី ខេត្ត
@@ -180,6 +214,7 @@ km:
     id: លេខសំគាល់
     first_name: នាមខ្លួន
     last_name: នាមត្រកូល
+    able_state: ស្ថានភាព Able
     name: ឈ្មោះ
     date_of_birth: ថ្ងៃ ខែ ឆ្នាំ កំណើត
     birth_province: ស្រុកកំណើត
@@ -275,15 +310,58 @@ km:
     current_password: លេខកូដសំងាត់បច្ចុប្បន្ន
     current_password_hint: យើងត្រូវការពិនិត្យបញ្ជាក់លេខកូដសំងាត់បច្ចុប្បន្នដើម្បីធ្វើការផ្លាស់ប្តូរ
     delete_account_button: លុបចោលគណនីរបស់ខ្ញុំ
+
+  default_survey_fields: &default_survey_fields
+    user_id: បុគ្គលិកសហគមន៌របស់ខ្ញុំឈ្មោះ
+    listening_score: ខ្ញុំគិតថាបុគ្គលិកសហគមន៌របស់ខ្ញុំស្តាប់ខ្ញុំពេលដែលខ្ញុំនិយាយ។
+    problem_solving_score: បុគ្គលិកសហគមន៌របស់ខ្ញុំជួយខ្ញុំដោះស្រាយបញ្ហាខ្ញុំ។
+    getting_in_touch_score: បុគ្គលិកសហគមន៌របស់ខ្ញុំដឹងអំពីសេវាកម្មផ្សេងៗ និងក្រុមផ្សេងៗដែលអាចជួយខ្ញុំបាន ហើយគាត់ជួយខ្ញុំទំនាក់ទំនងជាមួយគេដែរ។
+    trust_score: ខ្ញុំអាចទុកចិត្តជាមួយបុគ្គលិកសហគមន៌របស់ខ្ញុំបាន។
+    difficulty_help_score: អង្គការកុមារក្នុងគ្រួសារធ្លាប់ជួយខ្ញុំ ពេលដែលខ្ញុំមានបទពិសោធន៍ពិបាកៗក្នុងជីវិតខ្ញុំ។
+    support_score: ខ្ញុំពេញចិត្តនឹងជំនួយដែលអង្គការកុមារក្នុងគ្រួសារឲ្យខ្ញុំ។
+    family_need_score: ប្រាក់ឧបត្ថម្ភរបស់ដែលខ្ញុំទទួលជួយដល់តម្រូវការរបស់គ្រួសារខ្ញុំ។
+    care_score: បុគ្គលិកសហគមន៌របស់ខ្ញុំខ្វល់ខ្វាយអំពីអ្វីដែលកើតឡើងដល់កុមារដែលខ្ញុំថែរក្សា។
+
+  surveys:
+    form:
+      <<: *default_survey_fields
+      note: ចំណាំ
+      strongly_disagree: ខ្ញុំមិនយល់ព្រមសោះ
+      strongly_agree: ខ្ញុំយល់ព្រមខ្លាំង
+    new:
+      new_survey_title: ការស្ទង់មតិថ្មី
+    edit:
+      edit_survey_title: កែសម្រួលការស្ទង់មតិ
+    create:
+      successfully_created: ការស្ទង់មតិត្រូវបានបង្កើតដោយជោគជ័យ
+    update:
+      successfully_updated: ការស្ទង់មតិត្រូវបានកែសម្រួលដោយជោគជ័យ
+    destroy:
+      successfully_deleted: ការស្ទង់មតិត្រូវបានលុបដោយជោគជ័យ
+    index:
+      user_id: បុគ្គលិកសហគមន៌របស់ខ្ញុំឈ្មោះ
+      are_you_sure_you_want_to_delete: តើអ្នកប្រាកដហើយ?
+      survey_title: ប្រវត្តិនៃការស្ទង់មតិ
+      created_at: ការបរិច្ឆេទ
+      action: សកម្មភាព
+      back: ត្រលប់ក្រោយ
+    show:
+      back: ត្រលប់ក្រោយ
+      survey_detail: ពត៌មានលំអិតនៃការស្ទង់មតិ
+      <<: *default_survey_fields
+
   datagrid:
     no_results: មិនមានលទ្ធផល
     from: ចាប់ពី
     to: ដល់
     form:
+      filter_domains: កត្តា
       search: ស្វែងរក
       reset: សំអាត
     columns:
       clients:
+        domain: កត្តា
+        domains: កត្តា CSI ទាំងអស់
         name: ឈ្មោះ
         age: អាយុ
         <<: *default_client_fields
@@ -292,6 +370,46 @@ km:
         manage: សកម្មភាព
         state: ទទួល/បដិសេធ
         rejected_note: កំណត់ហេតុនៃការមិនទទួលយក
+        quantitative_case_values: ទិន្ន័យនៃបរិមាណ
+        history_of_disability_and_or_illness: ជំងឺរ៉ាំរ៉ែ និង/ឬពិការភាព
+        history_of_harm: ការបង្កទុក្ខទោស និងការកេងប្រវ័ញ្ច
+        history_of_high_risk_behaviours: ការបំពានគ្រឿងញៀនឬគ្រឿងស្រវឹង និងល្បែងស៊ីសង
+        reason_for_family_separation: ការបែកចេញពីគ្រួសារ
+        quantitative_types: ប្រភេទនៃបរិមាណ
+        any_assessments: មានការប៉ាន់ប្រមាណ
+        assessments: ការប៉ាន់ប្រមាណ
+
+        name: ឈ្មោះ
+        code: "លេខកូដ"
+        case_type: ប្រភេទករណី
+        age: "អាយុ"
+        family_id: លេខសម្គាល់គ្រួសារ
+        has_date_of_birth: មានថ្ងៃ ខែ ឆ្នាំ កំណើត
+        has_dob: 'បាទ/ចាស'
+        no_dob: 'ទេ'
+
+      progress_notes:
+        <<: *default_progress_note_fields
+        manage: គ្រប់គ្រង
+
+      select_columns: ជ្រើសរើសជួរឈរ
+      hide_show_all: បង្ហាញ/លាក់ទាំងអស់
+      family_id: លេខសម្គាល់គ្រួសារ
+      history_of_disability_and_or_illness: ជំងឺរ៉ាំរ៉ែ និង/ឬពិការភាព
+      history_of_harm: ការបង្កទុក្ខទោស និងការកេងប្រវ័ញ្ច
+      history_of_high_risk_behaviours: ការបំពានគ្រឿងញៀនឬគ្រឿងស្រវឹង និងល្បែងស៊ីសង
+      reason_for_family_separation: ការបែកចេញពីគ្រួសារ
+      rejected_note: កំណត់ហេតុនៃការមិនទទួលយក
+      case_start_date: ថ្ងៃចាប់ផ្តើម
+      carer_names: ឈ្មោះអ្នកថែទាំ
+      carer_address: អាសយដ្ឋានអ្នកថែទាំ
+      carer_phone_number: លេខទូរសព្ទអ្នកថែទាំ
+      support_amount: ប្រាក់ឧបត្ថម្ភ
+      support_note: ពត៌មានពីប្រាក់ឧប្ថម្ភ
+      family_preservation: ករណីអភិរក្សគ្រួសារ?
+      family: គ្រួសារ
+      partner: ដៃគូ
+      manage: សកម្មភាព
       families:
         <<: *default_family_fields
         name: ឈ្មោះរបស់គ្រួសារ
@@ -325,6 +443,11 @@ km:
       xboolean:
         "yes": "បាទ/ចាស"
         "no": "ទេ"
+      dynamic:
+        operations:
+          "=": '='
+          "<=": '<='
+          ">=": '>='
       first_name: នាមខ្លួន
     table:
       order:
@@ -344,13 +467,40 @@ km:
       provinces: ខេត្ត
       referral_sources: ប្រភពនៃការបញ្ជូន
       quantitative_types: ប្រភេទនៃបរិមាណ
+      able_screening_questions: 'សំនួរ Able Screening'
+      changelogs: ការផ្លាស់ប្ដូរ
       account: គណនី
       edit_profile: កែសម្រួលពត៌មានផ្ទាល់ខ្លួន
       en: English
       log_out: ចាកចេញ
       log_in: ចូល
-  clients:
+      progress_note: កត់សំគាល់ការរីកចំរើន
+      materials: របស់របរ/សំភារៈ
+      locations: កន្លែង
+      progress_note_types: កំណត់សំគាល់
+      interventions: ចំនុចដែលត្រូវធ្វើ
+
+  reports:
     index:
+      case_statistics: ក្រាបនៃប្រភេទករណីរបស់អតិថិជន
+      csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
+      domain_score: ពិន្ទុកត្តាការប៉ាន់ប្រមាណ
+      client_amount: ចំនួនអតិថិជន
+    form:
+      case_statistics: ក្រាបនៃប្រភេទករណីរបស់អតិថិជន
+      csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
+      search: ស្វែងរក
+      start_date: ថ្ងៃចាប់ផ្តើម
+      end_date: ថ្ងៃចុងក្រោយ
+
+  clients:
+
+    index:
+      reports: របាយការណ៍
+      case_statistics: ក្រាបនៃប្រភេទករណីរបស់អតិថិជន
+      csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
+      domain_score: ពិន្ទុកត្តាការប៉ាន់ប្រមាណ
+      client_amount: ចំនួនអតិថិជន
       add_new_client: បន្ថែមអតិថិជនថ្មី
       view_all_active_tasks: ពិនិត្យលើកាតព្វកិច្ចដែលមិនទាន់ធ្វើ
       export_to_csv: ទាញចេញជាឯកសារប្រភេទ CSV
@@ -388,18 +538,35 @@ km:
       note: កំណត់ហេតុ
       view_legacy_quarterly_reports: មើល Quarterly Reports ចាស់ៗ
       take_survey: ការស្ទង់មតិ
+      survey_history: ប្រវត្តិនៃការស្ទង់មតិ
       reject_client: មិនទទួលយកអតិថិជន
+      time_in_care: រយៈពេលមើលថែទាំ
+      time_in_care_around:
+        one: "ប្រហែល%{count}ឆ្នាំ"
+        other: "ប្រហែល%{count}ឆ្នាំ"
+      are_you_sure: តើអ្នកប្រាកដហើយ?
       <<: *default_client_fields
       placements:
         <<: *default_placement_fields
       additional_details: ពត៌មានលំអិតបន្ថែម
       general_info: ពត៌មានរបស់អតិថិជន
+      progress_note: កំណត់សំគាល់ការរីកចំរើន
+      client_able_answers: ចំលើយ Able
+    client_answers:
+      client_able_answers: ចំលើយ Able របស់អតិថិជន
+    actions:
+      are_you_sure: តើអ្នកប្រាកដហើយ?
     emergency_case:
       <<: *default_placement_fields
       emergency_care: ករណី Emergency
+      emergency_case:
+        emergency_care: ករណី Emergency
+
     kinship_case:
       <<: *default_placement_fields
       kinship_care: ករណី Kinship
+      kinship_case:
+        kinship_care: ករណី Kinship
     exit_kc_form:
       exit_ec: ចាកចេញពី EC
       exit_kc: ចាកចេញពី KC
@@ -412,6 +579,8 @@ km:
     foster_case:
       <<: *default_placement_fields
       foster_care: ករណី Foster
+      foster_case:
+        foster_care: ករណី Foster
     placement:
       view_legacy_quarterly_reports: មើល Quarterly Reports ចាស់ៗ
     state:
@@ -433,6 +602,7 @@ km:
     show:
       <<: *default_family_fields
       general_info: ពត៌មានទូទៅសំរាប់គ្រួសារ
+      are_you_sure: តើអ្នកប្រាកដហើយ?
     create:
       successfully_created: គ្រួសារត្រូវបានបង្កើតដោយជោគជ័យ
     update:
@@ -440,6 +610,8 @@ km:
     destroy:
       successfully_deleted: គ្រួសារត្រូវបានលុបដោយជោគជ័យ
       alert: គ្រួសារមិនអាចលុបបានទេ
+    actions:
+      are_you_sure: តើអ្នកប្រាកដហើយ?
 
   partners:
     index:
@@ -455,6 +627,7 @@ km:
     show:
       <<: *default_partner_fields
       general_info: ពត៌មានទូទៅរបស់ដៃគូ
+      are_you_sure: តើអ្នកប្រាកដហើយ?
     create:
       successfully_created: ដៃគូត្រូវបានបង្កើតដោយជោគជ័យ
     update:
@@ -462,6 +635,8 @@ km:
     destroy:
       successfully_deleted: ដៃគូត្រូវបានលុបចោលដោយជោគជ័យ
       alert: ដៃគូមិនអាចលុបបានទេ
+    actions:
+      are_you_sure: តើអ្នកប្រាកដហើយ?
   users:
     index:
       results: លទ្ធផល
@@ -476,6 +651,7 @@ km:
     show:
       <<: *default_user_fields
       general_info: ពត៌មានទូទៅរបស់អ្នកប្រើប្រាស់
+      are_you_sure: តើអ្នកប្រាកដហើយ?
     clients:
       clients: អតិថិជន
     create:
@@ -485,6 +661,8 @@ km:
     destroy:
       successfully_deleted: អ្នកប្រើប្រាស់ត្រូវបានលុបដោយជោគជ័យ
       alert: អ្នកប្រើប្រាស់មិនអាចលុបបានទេ
+    actions:
+      are_you_sure: តើអ្នកប្រាកដហើយ?
   cases:
     index:
       <<: *default_placement_fields
@@ -513,6 +691,29 @@ km:
   activerecord:
     errors:
       models:
+        stage:
+          attributes:
+            from_age:
+              blank: មិនអាចរំលង
+            to_age:
+              blank: មិនអាចរំលង
+        able_screening_question:
+          attributes:
+            question:
+              blank: មិនអាចរំលង
+            mode:
+              blank: មិនអាចរំលង
+        changelog_type:
+          attributes:
+            description:
+              blank: មិនអាចរំលង
+        changelog:
+          attributes:
+            version:
+              blank: មិនអាចរំលង
+              taken: ត្រូវបានប្រើរួចហើយ
+            description:
+              blank: មិនអាចរំលង
         user:
           attributes:
             email:
@@ -524,6 +725,7 @@ km:
               confirmation: បញ្ជាក់លេខកូដសំងាត់ថ្មីមិនត្រឹមត្រូវ
             current_password:
               blank: មិនអាចរំលង
+              invalid: មិនត្រឹមត្រូវ
         task:
           attributes:
             name:
@@ -578,6 +780,32 @@ km:
             code:
               blank: មិនអាចរំលង
               taken: ត្រូវបានប្រើរួចហើយ
+        material:
+          attributes:
+            status:
+              blank: មិនអាចរំលង
+              taken: ត្រូវបានប្រើរួចហើយ
+        location:
+          attributes:
+            name:
+              blank: មិនអាចរំលង
+              taken: ត្រូវបានប្រើរួចហើយ
+        progress_note_type:
+          attributes:
+            note_type:
+              blank: មិនអាចរំលង
+              taken: ត្រូវបានប្រើរួចហើយ
+        intervention:
+          attributes:
+            action:
+              blank: មិនអាចរំលង
+              taken: ត្រូវបានប្រើរួចហើយ
+        progress_note:
+          attributes:
+            date:
+              blank: មិនអាចរំលង
+            other_location:
+              blank: មិនអាចរំលង
   agencies:
     index:
       add_new_agency: បន្ថែមអង្គភាពថ្មី
@@ -585,6 +813,7 @@ km:
       agency_names: ឈ្មោះអង្គភាព
       description: ការបរិយាយពីអង្គភាព
       manage: សកម្មភាព
+      are_you_sure: តើអ្នកប្រាកដហើយ?
     edit:
       title: ពិនិត្យកែសម្រួលពត៌មាននៃឣង្គភាព
     new:
@@ -608,6 +837,7 @@ km:
       department_names: ឈ្មោះកម្មវិធី
       description: ការបរិយាយពីកម្មវិធី
       manage: សកម្មភាព
+      are_you_sure: តើអ្នកប្រាកដហើយ?
     edit:
       title: ពិនិត្យកែសម្រួលកម្មវិធី
     new:
@@ -632,6 +862,8 @@ km:
       score_2: ពិន្ទុ 2
       score_3: ពិន្ទុ 3
       score_4: ពិន្ទុ 4
+      are_you_sure: តើអ្នកប្រាកដហើយ?
+
     edit:
       title: ពិនិត្យកែសម្រួលកត្តា
     new:
@@ -661,6 +893,7 @@ km:
       domain_group_names: ឈ្មោះការប្រមូលផ្តុំកត្តា
       description: ការបរិយាយ
       manage: សកម្មភាព
+      are_you_sure: តើអ្នកប្រាកដហើយ?
     edit:
       title: ពិនិត្យកែសម្រួលការប្រមូលផ្ដុំកត្តា
     new:
@@ -685,6 +918,7 @@ km:
       provinces: ខេត្ត
       province_names: ឈ្មោះខេត្ត
       manage: សកម្មភាព
+      are_you_sure: តើអ្នកប្រាកដហើយ?
     edit:
       title: ពិនិត្យកែសម្រួលខេត្ត
     new:
@@ -708,6 +942,7 @@ km:
       referral_source_name: ឈ្មោះប្រភពនៃការបញ្ជូន
       description: ការបរិយាយ
       manage: សកម្មភាព
+      are_you_sure: តើអ្នកប្រាកដហើយ?
     edit:
       title: ពិនិត្យកែសម្រូលប្រភពនៃការបញ្ជូន
     new:
@@ -729,6 +964,7 @@ km:
       add_new_quantitative_type: បន្ថែមប្រភេទនៃបរិមាណ
       quantitative_types: ប្រភេទនៃបរិមាណ
       add_quantitative_data: ទិន្ន័យនៃបរិមាណ
+      are_you_sure: តើអ្នកប្រាកដហើយ?
     edit:
       title: ពិនិត្យកែសម្រួល ប្រភេទនៃបរិមាណ
     new:
@@ -874,6 +1110,70 @@ km:
       present: វត្តមានឣ្នកចូលរួម
     create:
       successfully_created: កំណត់ត្រាត្រូវបានបង្កើតដោយជោគជ័យ
+
+  stages:
+    stage: 'តំណាក់កាល'
+    questions: 'សំនួរ'
+    form:
+      from_age: ចាប់ពីអាយុ (គិតជាឆ្នាំ)
+      to_age: ទៅដល់អាយុ (គិតជាឆ្នាំ)
+      questions: សំនួរ
+      add_question: បន្ថែមសំនួរ
+    new:
+      new_stage: 'បន្ថែមដំណាក់កាលថ្មី'
+    edit:
+      edit_stage: កែរសំរួលដំណាក់កាល
+    index:
+      stage: 'តំណាក់កាល'
+      new_stage_question: បន្ថែមសំនួូរដំណាក់កាលថ្មី
+      new_general_question: បន្ថែមសំនួរទូទៅថ្មី
+      general_question: សំនួរទូទៅ
+      stage_question: សំនួូរដំណាក់កាល
+      question: សំនួរ
+      from: ចាប់ពី
+      to: ទៅដល់
+      year: ឆ្នាំ
+      question:
+        one: '1 សំនួរ'
+        other: '%{count} សំនួរ'
+    edit:
+      edit_stage: 'កែរសំរួល ដំណាក់កាល'
+    able_screening_question_fields:
+      are_you_sure: តើអ្នកប្រាកដហើយ?
+      question: សំនួរ
+      mode: ម៉ូដ
+      group: ក្រុម
+      questions: 'សំនួរ'
+      alert_manager: ជូនដំណឹងអ្នកគ្រប់គ្រង
+    create:
+      successfully_created: ដំណាក់ការបានបង្កើតដោយជោគជ័យ
+    update:
+      successfully_updated: ដំណាក់ការត្រូវបានកែសម្រួលដោយជោគជ័យ
+    destroy:
+      successfully_deleted: ដំណាក់ការត្រូវបានលុបដោយជោគជ័យ
+
+  able_screening_questions:
+    attachment_fields:
+      browse: រកមើល
+    edit:
+      general_question: សំនួរទូទៅ
+    new:
+      general_question: សំនួរទូទៅ
+    form:
+      question: សំនួរ
+      mode: ម៉ូដ
+      group: ក្រុម
+      questions: 'សំនួរ'
+      alert_manager: ជូនដំណឹងអ្នកគ្រប់គ្រង
+      save: រក្សាទុក
+      cancel: ទុកជាមោឃៈ
+    create:
+      successfully_created: ដំណាក់ការសំនួរទូទៅបានបង្កើតដោយជោគជ័យ
+    update:
+      successfully_updated: សំនួរទូទៅត្រូវបានកែសម្រួលដោយជោគជ័យ
+    destroy:
+      successfully_deleted: សំនួរទូទៅត្រូវបានលុបដោយជោគជ័យ
+
   devise:
     registrations:
       edit:
@@ -913,6 +1213,22 @@ km:
       partners: ដៃគូ
       referral_sources: ប្រភពនៃការបញ្ជូន
       staffs: បុគ្គលិក
+    tasks_and_assessments:
+      overdue_tasks_count:
+        one: "អ្នកមានកាតព្វកិច្ចចំនួន 1 កាតព្វកិច្ចផុតកំណត់"
+        other: "អ្នកមានកាតព្វកិច្ចចំនួន %{count} កាតព្វកិច្ចផុតកំណត់"
+      due_today_tasks_count:
+        one: "អ្នកមានកាតព្វកិច្ចចំនួន1ដែលត្រូវធ្វើឲ្យហើយនៅថ្ងៃនេះ"
+        other: "អ្នកមានកាតព្វកិច្ចចំនួន%{count}ដែលត្រូវធ្វើឲ្យហើយនៅថ្ងៃនេះ"
+      check_tasks: "ដើម្បីពិនិត្យកាព្វកិច្ចរបស់អ្នក សូមចុច"
+      click_here: "ទីនេះ"
+
+      overdue_assessments_count:
+        one: "អ្នកមានការប៉ាន់ប្រមាណចំនួន1មិនទាន់បានធ្វើ"
+        other: "អ្នកមានការប៉ាន់ប្រមាណចំនួន%{count}មិនទាន់បានធ្វើ"
+      due_today_assessments_count:
+        one: "អ្នកមានការប៉ាន់ប្រមាណចំនួន1ដែលត្រូវធ្វើឲ្យហើយនៅថ្ងៃនេះ"
+        other: "អ្នកមានការប៉ាន់ប្រមាណចំនួន%{count}ដែលត្រូវធ្វើឲ្យហើយនៅថ្ងៃនេះ"
   case:
     quarterly_reports:
       index:
@@ -940,4 +1256,329 @@ km:
         money_and_supplies_being_used_appropriately: តើលុយនិងការផ្គត់ផ្គង់ត្រូវបានប្រើត្រឹមត្រូវឬទេ?
         spiritual_developments_with_the_child_or_family: ការអភិវឌ្ឍខាងវិញ្ញាណណាមួយជាមួយនឹងកុមារឬគ្រួសារ?
 
+  # Thredded - FAQ
+  time:
+    formats:
+      short: ''
 
+  thredded:
+    recent_activity: សកម្មភាពថ្មីៗ
+    errors:
+      login_required: សូមចូលជាមុន
+      not_authorized: អ្នកមិនមានសិទ្ធចូលទំព័រនេះទេ
+      private_topic_create_denied: អ្នកមិនមានសិទ្ធបង្កើតសារឯកជនទេ
+      private_topic_not_found: មិនមានសារឯកជននេះទេ
+    form:
+      update: កែសម្រួល
+    content_moderation_states:
+      content_blocked_notice: ត្រូវបានបិទ
+      content_blocked_notice_with_record_html: ត្រូវបានបិទ ដោយ %{moderator} %{time_ago}
+    messageboard:
+      create: បង្កើតផ្ទាំងសារថ្មី
+      form:
+        no_group: គ្មានក្រុម
+        name: ឈ្មោះ
+        description: ការពិពណ៌នា
+        messageboard_group: ក្រុមផ្ទាំងសារ
+      index:
+        page_title: ផ្ទាំងសារ
+      last_updated_by_html: ត្រូវបានកែសម្រួល %{time_ago} <cite>ដោយ %{user}</cite>
+      topics_and_posts_counts: "%{topics_count} ប្រធានបទ / %{posts_count} ការឆ្លើយតប"
+      update: :thredded.form.update
+      updated_notice: ផ្ទាំងសារត្រូវបានកែសម្រួល
+    messageboard_group:
+      create: បង្កើតក្រុមផ្ទាំងសារថ្មី
+      created_notice: ក្រុមផ្ទាំងសារត្រូវបានបង្កើត
+      new:
+        name: ឈ្មោះ
+    moderation:
+      approve_btn: សម្របសម្រួល
+      block_btn: បិទ
+      pending:
+        empty:
+          content: ការឆ្លើយតបទាំងអស់ត្រូវបានសម្របសម្រួល
+          title: ល្អណាស់
+      post_approved_html: ការឆ្លើយតបត្រូវបានអនុញាតដោយ %{moderator} %{time_ago}.
+      post_blocked_html: ការឆ្លើយតបត្រូវបានបិទដោយ %{moderator} %{time_ago}.
+      post_deleted_notice: ការឆ្លើយតបនេះត្រូវបានលុប
+      posts_content_changed_since_moderation_html: >-
+        The <a href="%{post_url}">post's</a> content change since it was moderated. Below is the content at the
+        time it was moderated.
+      search_users:
+        form_label: ស្វែងរកអ្នកប្រើប្រាស់
+        form_placeholder: :thredded.moderation.search_users.form_label
+        results_message: អ្នកប្រើប្រាស់ដែលមានឈ្មោះផ្ដើមដោយ %{query}
+        no_results_message: មិនមានអ្នកប្រើប្រាស់ដែលមានឈ្មោះផ្ដើមដោយ %{query} ទេ
+    nav:
+      home: ទំព័រដើម
+      all_messageboards: ផ្ទាំងសារទាំអស់
+      edit_messageboard: កែសម្រួលផ្ទាំងសារ
+      edit_post: កែសម្រួលការឆ្លើយតប
+      edit_private_topic: :thredded.nav.edit_topic
+      edit_topic: កែសម្រួល
+      mark_all_read: កំណត់ទាំងអស់ថាត្រូវបានអានរួចហើយ
+      moderation: ការសម្របសម្រួល
+      moderation_history: ប្រវត្តិនៃការសម្របសម្រួល
+      moderation_pending: ការសម្របសម្រួលមិនទាន់សម្រេច
+      moderation_users: អ្នកប្រើប្រាស់ទាំងអស់
+      moderation_activity: សកម្មភាពនៃការសម្របសម្រួល
+      private_topics: សារឯកជន
+      settings: ការជូនដំណឹង
+    shared:
+      nav:
+        sign_out: ចាកចេញ
+        sign_in: ចូល
+    null_user_name: លុបអ្នកប្រើប្រាស់
+    posts:
+      delete: លុបការឆ្លើយតប
+      delete_confirm: តើអ្នកពិតជាចង់លុបការឆ្លើយតបនេះ?
+      deleted_notice: ការឆ្លើយតបរបស់អ្នកត្រូវបានលុប
+      edit: :thredded.nav.edit_post
+      form:
+        content_label: មាតិកា
+        create_btn: ឆ្លើយតប
+        update_btn: កែសម្រួលការឆ្លើយតប
+      pending_moderation_notice: ការឆ្លើយតបរបស់អ្នកនឹងត្រូវបានបង្ហាញនៅពេលដែលត្រូវបានពិនិត្យដោយអ្នកសម្របសម្រួល
+    preferences:
+      edit:
+        page_title: :thredded.nav.settings
+      form:
+        global_preferences_label: ការកំណត់ទាំងអស់
+        messageboard_notify_on_mention:
+          hint: >-
+            ពេលដែលនរណាម្នាក់និយាយពីអ្នកដោយឈ្មោះរបស់អ្នក (ឧ: @sam) នៅក្នុងផ្ទាំងសារនេះ អ្នកនឹងតាមដានប្រធានបទ។
+            អ្នកនឹងទទួលបានអ៊ីម៉ែលជាមួយនឹងមាតិកានៃការឆ្លើយតបនោះនិងការឆ្លើយតបទាំងឡាយ។
+
+          label: :thredded.preferences.form.notify_on_mention.label
+        messageboard_preferences_label_html: ការជូនដំណឹងសម្រាប់ <em>%{messageboard}</em>
+        notify_on_mention:
+          hint: >-
+            ពេលដែលនរណាម្នាក់និយាយពីអ្នកដោយឈ្មោះរបស់អ្នក (ឧ: @sam) អ្នកនឹងតាមដានប្រធានបទ។
+            អ្នកនឹងទទួលបានអ៊ីម៉ែលជាមួយនឹងមាតិកានៃការឆ្លើយតបនោះនិងការឆ្លើយតបទាំងឡាយ។
+
+          label: តាមដានប្រធានបទទាំងឡាយដែលនិយាយពីអ្នក
+        notify_on_message:
+          hint: ពេលដែលអ្នកត្រូវបានបន្ថែមទៅក្នុងសារឯកជន អ្នកនឹងទទួលបានអ៊ីម៉ែលជាមួយនឹងមាតិការបស់វា។
+          label: ការជូនដំណឹងសារឯកជន
+        submit_btn: កែសម្រួលការកំណត់
+        title: ការកំណត់
+      updated_notice: ការកំណត់របស់អ្នកត្រូវបានកែសម្រួល
+    private_posts:
+      form:
+        content_label: សារ
+        create_btn: ផ្ញើសារ
+    private_topics:
+      edit: កែសម្រួល
+      errors:
+        user_ids_length: សូមបញ្ញាក់យ៉ាងហោចណាស់អ្នកប្រើប្រាស់ម្នាក់ទៀត
+      form:
+        content_label: :thredded.private_posts.form.content_label
+        create_btn: :thredded.private_posts.form.create_btn
+        title_label: :thredded.topics.form.title_label
+        title_placeholder_new: សរសេរប្រធានបទនៃការសន្ទនានេះ
+        title_placeholder_start: បង្កើតការសន្ទនាថ្មី
+        update_btn: កែសម្រួល
+        users_label: អ្នកចូលរួម
+        users_placeholder: ''
+        # users_placeholder: ជ្រើសរើសអ្នកប្រើប្រាស់ដើម្បីចូលរួមក្នុងការសន្ទនានេះ
+      no_private_topics:
+        create_btn: បង្កើតការសន្ទនាដំបូងរបស់អ្នក
+        title: អ្នកមិនមានសារឯកជននោះទេ
+      updated_notice: ប្រធានបទត្រូវបានកែសម្រួល
+    search:
+      form:
+        btn_submit: :thredded.search.form.label
+        label: ស្វែងរក
+        placeholder: ស្វែងរកប្រធានបទនិងការឆ្លើយតប
+    topics:
+      show:
+        add_post: បន្ថែមការឆ្លើយតប
+      delete_confirm: តើអ្នកពិតជាចង់លុបប្រធានបទនេះ? បើលុបហើយមិនអាចត្រលប់ក្រោយទេ។
+      delete_topic: លុបប្រធានបទ
+      deleted_notice: ប្រធានបទត្រូវបានលុប
+      edit: កែសម្រួលប្រធានបទ
+      followed_notice: អ្នកកំពុងតាមដានប្រធានបទនេះ
+      following:
+        manual: អ្នកកំពុងតាមដានប្រធានបទនេះ
+        mentioned: អ្នកកំពុងតាមដានប្រធានបទនេះពីព្រោះមានគេនិយាយពីអ្នក
+        posted: អ្នកកំពុងតាមដានប្រធានបទនេះពីព្រោះអ្នកបានបង្កើតវា
+      following_will_receive_emails: អ្នកនឹងទទួលបានអ៊ីម៉ែលសម្រាប់អ្វីៗដែលថ្មី
+      form:
+        categories_placeholder: ផ្នែកផ្សេងៗ
+        content_label: :thredded.posts.form.content_label
+        title_label: ប្រធានបទ
+        title_placeholder: :thredded.topics.form.title_label
+        title_placeholder_start: បង្កើតប្រធានបទថ្មី
+        update_btn: កែសម្រួលប្រធានបទ
+      search:
+        no_results_message: ការស្វែងរករបស់អ្នកមិនមានលទ្ធផលនោះទេ - %{query}
+        page_title: លទ្ធផលប្រធានបទនៃការស្វែងរក
+        results_message: លទ្ធផលនៃការស្វែងរក %{query}
+      started_by_html: ត្រូវបានចាប់ផ្ដើម %{time_ago} ដោយ %{user}
+      unfollowed_notice: អ្នមិនកកំពុងតាមដានប្រធានបទនេះទៀតទេ
+      updated_notice: ប្រធានបទត្រូវបានកែសម្រួល
+    users:
+      last_active_html: "មានសកម្មភាពចុងក្រោយ %{time_ago}"
+      posted_in_topic_html: "បង្កើតនៅក្នុង %{topic_link}"
+      recent_activity: :thredded.recent_activity
+      started_topic_html: "បានបង្កើត %{topic_link}"
+      user_posted_in_topic_html: "%{user_link} បានបង្កើតនៅក្នុង %{topic_link}"
+      user_since_html: "អ្នកប្រើប្រាស់ចាប់ពី %{time_ago}"
+      user_started_topic_html: "%{user_link} បានបង្កើត %{topic_link}"
+      started_topics_count:
+        one: "បានបង្កើតប្រធានបទមួ"
+        other: "បានបង្កើត %{count} ប្រធានបទ"
+      posts_count:
+        one: "បានបង្កើតម្ដង"
+        other: "បានបង្កើត %{count} ដង"
+
+  changelogs:
+    changelog_type_fields:
+      description: ការពិពណ៌នា
+    index:
+      <<: *default_changelog_fields
+      version_list: បញ្ជីកំណែ
+      changes: កំណែ
+      add_new_changelog: បន្ថែមការផ្លាស់ប្ដូរថ្មី
+      are_you_sure: តើអ្នកប្រាកដហើយ?
+
+    show:
+      back: ត្រលប់ក្រោយ
+    edit:
+      edit_changelog: កែសម្រួលការផ្លាស់ប្ដូរ
+    new:
+      new_changelog: ការផ្លាស់ប្ដូរថ្មី
+    form:
+      <<: *default_changelog_fields
+      add_change: បន្ថែមកំណែ
+      save: រក្សាទុក
+      cancel: ទុកជាមោឃៈ
+    create:
+      successfully_created: ការផ្លាស់ប្ដូរបានបង្កើតដោយជោគជ័យ
+    update:
+      successfully_updated: ការផ្លាស់ប្ដូរត្រូវបានកែសម្រួលដោយជោគជ័យ
+    destroy:
+      successfully_deleted: ការផ្លាស់ប្ដូរត្រូវបានលុបដោយជោគជ័យ
+
+  materials:
+    index:
+      <<: *default_material_fields
+      add_new_material: បន្ថែមរបស់របរ/សំភារៈថ្មី
+      material: របស់របរ/សំភារៈ
+      manage: គ្រប់គ្រង
+      are_you_sure: តើអ្នកប្រាកដហើយ?
+    new:
+      new_material: របស់របរ/សំភារៈថ្មី
+    edit:
+      edit_material: កែសម្រួលរបស់របរ/សំភារៈ
+    form:
+      <<: *default_material_fields
+      save: រក្សាទុក
+      cancel: ទុកជាមោឃៈ
+    create:
+      successfully_created: របស់របរ/សំភារៈត្រូវបានបង្កើតដោយជោគជ័យ
+    update:
+      successfully_updated: របស់របរ/សំភារៈត្រូវបានកែសម្រួលដោយជោគជ័យ
+    destroy:
+      successfully_deleted: របស់របរ/សំភារៈត្រូវបានលុបដោយជោគជ័យ
+      unsuccessfully_deleted: របស់របរ/សំភារៈមិនអាចលុបបានទេ
+
+  locations:
+    index:
+      <<: *default_location_fields
+      add_new_location: បន្ថែមកន្លែងថ្មី
+      location: កន្លែង
+      manage: គ្រប់គ្រង
+      are_you_sure: តើអ្នកប្រាកដហើយ?
+    new:
+      new_location: កន្លែងថ្មី
+    edit:
+      edit_location: កែសម្រួលកន្លែង
+    form:
+      <<: *default_location_fields
+      save: រក្សាទុក
+      cancel: ទុកជាមោឃៈ
+    create:
+      successfully_created: កន្លែងត្រូវបានបង្កើតដោយជោគជ័យ
+    update:
+      successfully_updated: កន្លែងត្រូវបានកែសម្រួលដោយជោគជ័យ
+    destroy:
+      successfully_deleted: កន្លែងត្រូវបានលុបដោយជោគជ័យ
+      unsuccessfully_deleted: កន្លែងមិនអាចលុបបានទេ
+
+  progress_note_types:
+    index:
+      <<: *default_progress_note_type_fields
+      add_new_progress_note_type: បន្ថែមកំណត់សំគាល់ថ្មី
+      progress_note_type: កំណត់សំគាល់
+      manage: គ្រប់គ្រង
+      are_you_sure: តើអ្នកប្រាកដហើយ?
+    new:
+      new_progress_note_type: កំណត់សំគាល់ថ្មី
+    edit:
+      edit_progress_note_type: កែសម្រួលកំណត់សំគាល់
+    form:
+      <<: *default_progress_note_type_fields
+      save: រក្សាទុក
+      cancel: ទុកជាមោឃៈ
+    create:
+      successfully_created: កំណត់សំគាល់ត្រូវបានបង្កើតដោយជោគជ័យ
+    update:
+      successfully_updated: កំណត់សំគាល់ត្រូវបានកែសម្រួលដោយជោគជ័យ
+    destroy:
+      successfully_deleted: កំណត់សំគាល់ត្រូវបានលុបដោយជោគជ័យ
+      unsuccessfully_deleted: កំណត់សំគាល់មិនអាចលុបបានទេ
+
+  interventions:
+    index:
+      <<: *default_intervention_fields
+      add_new_intervention: បន្ថែមចំនុចដែលត្រូវធ្វើថ្មី
+      intervention: ចំនុចដែលត្រូវធ្វើ
+      manage: គ្រប់គ្រង
+      are_you_sure: តើអ្នកប្រាកដហើយ?
+    new:
+      new_intervention: ចំនុចដែលត្រូវធ្វើថ្មី
+    edit:
+      edit_intervention: កែសម្រួលចំនុចដែលត្រូវធ្វើ
+    form:
+      <<: *default_intervention_fields
+      save: រក្សាទុក
+      cancel: ទុកជាមោឃៈ
+    create:
+      successfully_created: ចំនុចដែលត្រូវធ្វើត្រូវបានបង្កើតដោយជោគជ័យ
+    update:
+      successfully_updated: ចំនុចដែលត្រូវធ្វើត្រូវបានកែសម្រួលដោយជោគជ័យ
+    destroy:
+      successfully_deleted: ចំនុចដែលត្រូវធ្វើត្រូវបានលុបដោយជោគជ័យ
+      unsuccessfully_deleted: ចំនុចដែលត្រូវធ្វើមិនអាចលុបបានទេ
+
+  progress_notes:
+    index:
+      <<: *default_progress_note_fields
+      back: ត្រលប់ក្រោយ
+      add_new_progress_note: បន្ថែមកំណត់សំគាល់ការរីកចំរើនថ្មី
+      progress_note: កំណត់សំគាល់ការរីកចំរើន
+      manage: គ្រប់គ្រង
+      are_you_sure: តើអ្នកប្រាកដហើយ?
+      export_to_csv: ទាញចេញជាឯកសារប្រភេទ CSV
+      records: លទ្ធផល
+    show:
+      <<: *default_progress_note_fields
+      are_you_sure: តើអ្នកប្រាកដហើយ?
+      back: ត្រលប់ក្រោយ
+    new:
+      new_progress_note: កំណត់សំគាល់ការរីកចំរើនថ្មី
+    edit:
+      edit_progress_note: កែសម្រួលកំណត់សំគាល់ការរីកចំរើន
+    form:
+      <<: *default_progress_note_fields
+      save: រក្សាទុក
+      cancel: ទុកជាមោឃៈ
+    create:
+      successfully_created: កំណត់សំគាល់ការរីកចំរើនត្រូវបានបង្កើតដោយជោគជ័យ
+    update:
+      successfully_updated: កំណត់សំគាល់ការរីកចំរើនត្រូវបានកែសម្រួលដោយជោគជ័យ
+    destroy:
+      successfully_deleted: កំណត់សំគាល់ការរីកចំរើនត្រូវបានលុបដោយជោគជ័យ
+    actions:
+      are_you_sure: តើអ្នកប្រាកដហើយ?

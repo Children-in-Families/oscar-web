@@ -1,0 +1,43 @@
+body[id='surveys-new'],
+body[id='surveys-create'],
+body[id='surveys-edit'],
+body[id='surveys-update'] {
+  .panel-body {
+    padding: 30px;
+  }
+  .form-group.radio_buttons {
+    padding: 10px;
+  }
+  @-moz-document url-prefix(){
+    .radio.inline label {
+      display: inline;
+      margin-left: 5px;
+    }
+    .radio.inline label input{
+      margin-top: 0;
+    }  
+  }
+
+  .survey-note input {
+    margin: 0 5px 0 20px;
+  }
+  .strongly-agree {
+    margin-left: 20px;
+  }
+
+  .score-evaluation {
+    margin-right: 20px;
+  }
+
+  label.radio_buttons {
+    color: inherit;
+    display: block;
+  }
+  .radio.inline {
+    display: inline;
+    margin-right: 30px;
+  }
+  .errors {
+    border: 1px solid red;
+  }
+}

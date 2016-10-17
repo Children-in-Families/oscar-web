@@ -39,6 +39,12 @@ gem 'friendly_id',            '~> 5.1.0'
 gem 'wicked_pdf',             '~> 1.0', '>= 1.0.6'
 gem 'wkhtmltopdf-binary-edge', '~> 0.12.3.0'
 gem 'browser',                '~> 2.1'
+gem 'whenever',               '~> 0.9.4'
+gem 'thredded',               '~> 0.6.1'
+gem 'cocoon',                 '~> 1.2', '>= 1.2.9'
+gem 'carrierwave',            '~> 0.11.2'
+gem 'mini_magick',            '~> 4.5'
+gem 'chartkick',              '~> 2.0', '>= 2.0.2'
 
 group :development, :test do
   gem 'pry'
@@ -47,13 +53,12 @@ group :development, :test do
   gem 'launchy',              '~> 2.4', '>= 2.4.3'
   gem 'capybara',             '~> 2.5'
   gem 'poltergeist',          '~> 1.9.0'
+  gem 'shoulda-whenever',     '~> 0.0.2'
 end
 
 group :staging, :demo, :production do
+  gem 'appsignal', '~> 1.1.9'
   gem 'asset_sync'
-  gem 'newrelic_rpm'
-  gem 'honeybadger',          '~> 2.0'
-  gem 'airbrake',             '~>5.0'
 end
 
 group :development do
@@ -63,6 +68,7 @@ group :development do
   gem 'capistrano-rvm',       '~> 0.1.2'
   gem 'capistrano-sidekiq',   github: 'seuros/capistrano-sidekiq'
   gem 'capistrano-foreman'
+  gem 'thin'
 end
 
 group :test do

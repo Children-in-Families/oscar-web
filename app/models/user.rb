@@ -9,6 +9,8 @@ class User < ActiveRecord::Base
 
   has_many :cases
   has_many :clients
+  has_many :changelogs
+  has_many :progress_notes, dependent: :restrict_with_error
 
   validates :roles, presence: true
 
@@ -32,12 +34,22 @@ class User < ActiveRecord::Base
 
   scope :has_clients,     ->         { joins(:clients).without_json_fields.uniq }
 
+  before_save :assign_as_admin
+
+  def name
+    "#{first_name} #{last_name}"
+  end
+
+  def assign_as_admin
+    self.admin = true if admin?
+  end
+
   def self.without_json_fields
     select(column_names - ['tokens'])
   end
 
-  def name
-    "#{first_name} #{last_name}"
+  def to_s
+    name
   end
 
   def admin?
@@ -68,8 +80,12 @@ class User < ActiveRecord::Base
     ec_manager? || fc_manager? || kc_manager?
   end
 
-  def has_no_clients_cases_and_tasks?
-    clients_count.zero? && cases_count.zero? && tasks_count.zero?
+  def anyone?
+    admin? || case_worker? || able_manager? || any_case_manager?
+  end
+
+  def has_no_any_associated_objects?
+    clients_count.zero? && cases_count.zero? && tasks_count.zero? && changelogs_count.zero? && progress_notes.count.zero?
   end
 
   def client_status
@@ -81,5 +97,19 @@ class User < ActiveRecord::Base
     when 'kc manager'
       'Active KC'
     end
+  end
+
+  def assessment_either_overdue_or_due_today
+    overdue   = []
+    due_today = []
+    clients.where(status: ['Active EC','Active FC','Active KC']).each do |c|
+      if c.next_assessment_date < Date.today
+        overdue << c
+      elsif c.next_assessment_date == Date.today
+        due_today << c
+      end
+    end
+
+    [overdue.count, due_today.count]
   end
 end

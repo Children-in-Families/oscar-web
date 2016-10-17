@@ -1,0 +1,17 @@
+- topic = @posts.topic
+- content_for :thredded_page_title, topic.title
+- content_for :thredded_page_id, 'thredded--topic-show'
+- content_for :thredded_breadcrumbs, render('thredded/shared/breadcrumbs')
+= thredded_page do
+  = content_tag :section, id: dom_id(topic), class: ['thredded--main-section', 'thredded--topic', *topic_css_classes(topic)] do
+    = render 'thredded/topics/header', topic: topic
+    = render partial: 'thredded/posts/post', collection: @posts, cached: true
+    - if policy(@new_post).create?
+      .thredded--post-form--wrapper
+        %h3.thredded--post-form--title= t('thredded.topics.show.add_post')
+        = render 'thredded/posts/form', topic: topic, post: @new_post, button_text: t('thredded.posts.form.create_btn')
+    - if topic.can_destroy?
+      .thredded--topic-delete--wrapper
+        = button_to t('thredded.topics.delete_topic'), topic.destroy_path, method: :delete, form_class: 'thredded--topic-delete-form', class: 'thredded--button', 'data-confirm' => t('thredded.topics.delete_confirm')
+  %footer
+    = paginate @posts

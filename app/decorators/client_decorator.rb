@@ -16,19 +16,4 @@ class ClientDecorator < Draper::Decorator
   def can_add_kc?
     return true if h.current_user.admin? || h.current_user.case_worker? || h.current_user.kc_manager?
   end
-
-  def status
-    color = 'text-success'
-
-    case model.status
-    when 'Referred'
-      color = 'text-danger'
-    when 'Investigating'
-      color = 'text-warning'
-    end
-
-    h.content_tag(:span, class: color) do
-      model.status
-    end
-  end
 end

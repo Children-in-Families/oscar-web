@@ -1,0 +1,4 @@
+%header
+  = image_tag post.avatar_url, class: 'thredded--post--avatar' if post.user
+  %h2.thredded--post--user= post.user
+  %p.thredded--post--created-at= time_ago post.created_at

@@ -1,4 +1,38 @@
 en:
+  unauthorized:
+    default: You are not authorized to access this page.
+
+  faq: FAQ
+
+  default_progress_note_fields: &default_progress_note_fields
+    date: Date
+    child: Child
+    staff: ABLE / ABLE Staff Name
+    progress_note_type: Type of Note
+    location: Location
+    other_location: Other
+    interventions: Interventions
+    material: Equipment/Materials
+    response: Activities & Response
+    additional_notes: Additional Notes
+    goals_addressed: Goals Addressed
+
+  default_intervention_fields: &default_intervention_fields
+    action: Action
+
+  default_progress_note_type_fields: &default_progress_note_type_fields
+    note_type: Type
+
+  default_location_fields: &default_location_fields
+    name: Name
+
+  default_material_fields: &default_material_fields
+    status: Status
+
+  default_changelog_fields: &default_changelog_fields
+    version: Version
+    description: Description
+
   default_government_report_fields: &default_government_report_fields
     code: Form
     kingdom_of_cambodia: Kingdom of Cambodia
@@ -178,6 +212,7 @@ en:
     first_name: First Name
     last_name: Last Name
     name: Name
+    able_state: Able State
     date_of_birth: Date of Birth
     birth_province: Birth Province
     referral_phone: Referral Phone
@@ -273,15 +308,62 @@ en:
     current_password: Current Password
     current_password_hint: We need to current password to make change
     delete_account_button: Delete Account
+
+  default_survey_fields: &default_survey_fields
+    user_id: My Community Case Worker's name is
+    listening_score: I feel like my CCW listens to me when I speak.
+    problem_solving_score: My CCW helps me solve my problems.
+    getting_in_touch_score: My CCW knows of other services and groups of people who can help me, and helps me get in touch with them.
+    trust_score: I can trust my CCW.
+    difficulty_help_score: CIF has helped me through difficult times in my life.
+    support_score: I am happy with the way CIF and my CCW have supported me.
+    family_need_score: My stipend helps me meet my family's needs.
+    care_score: My CCW cares about what happens to the children I take care of.
+
+  default_stage_fields: &default_stage_fields
+    from_age: From Age
+    to_age: To Age
+
+  surveys:
+    form:
+      <<: *default_survey_fields
+      note: Note
+      strongly_disagree: Strongly Disagree
+      strongly_agree: Strongly Agree
+    new:
+      new_survey_title: New Survey
+    edit:
+      edit_survey_title: Edit Survey
+    create:
+      successfully_created: Survey has been successfully created.
+    update:
+      successfully_updated: Survey has been successfully updated.
+    destroy:
+      successfully_deleted: Survey has been successfully deleted.
+    index:
+      user_id: My Community Case Worker's name is
+      are_you_sure_you_want_to_delete: Are you sure you want to delete?
+      survey_title: Survey History
+      created_at: Created Date
+      action: Action
+      back: Back
+    show:
+      back: Back
+      survey_detail: Survey Detail
+      <<: *default_survey_fields
+
   datagrid:
     no_results: No results found
     from: From
     to: To
     form:
+      filter_domains: Filter Domains
       search: Search
       reset: Reset
     columns:
       clients:
+        domain: Domain
+        domains: All CSI
         name: Name
         age: Age
         <<: *default_client_fields
@@ -290,6 +372,42 @@ en:
         manage: Manage
         state: Accept/Reject
         rejected_note: Rejected Note
+        quantitative_case_values: Quantitative Case
+        history_of_disability_and_or_illness: History of disability and/or illness
+        history_of_harm: History of Harm
+        history_of_high_risk_behaviours: History of high-risk behaviours
+        reason_for_family_separation: Reason for Family Separation
+        quantitative_types: Quantitative Types
+        family_id: Family ID
+        any_assessments: Has Assessments
+        assessments: Assessments
+        has_date_of_birth: Has Date of Birth
+        has_dob: 'Yes'
+        no_dob: 'No'
+      progress_notes:
+        <<: *default_progress_note_fields
+        manage: Manage
+
+      select_columns: Select Columns
+      hide_show_all: Hide/Show All
+      family_id: Family ID
+      history_of_disability_and_or_illness: History of disability and/or illness
+      history_of_harm: History of Harm
+      history_of_high_risk_behaviours: History of high-risk behaviours
+      reason_for_family_separation: Reason for Family Separation
+      rejected_note: Rejected Note
+      case_start_date: Case Start Date
+      carer_names: Carer Names
+      carer_address: Carer Address
+      carer_phone_number: Carer Phone Number
+      support_amount: Support Amount
+      support_note: Support Note
+      family_preservation: Family Preservation
+      family: Family
+      partner: Partner
+      manage: Manage
+
+
       families:
         <<: *default_family_fields
         name: Name
@@ -302,6 +420,7 @@ en:
         family_preservation: Family Preservation?
         family_id: Family ID
         case_workers: Case Workers
+
       partners:
         <<: *default_partner_fields
         type: Type
@@ -324,6 +443,11 @@ en:
       xboolean:
         "yes": "Yes"
         "no": "No"
+      dynamic:
+        operations:
+          "=": '='
+          "<=": '<='
+          ">=": '>='
       first_name: First Name
 
     table:
@@ -344,13 +468,39 @@ en:
       provinces: Provinces
       referral_sources: Referral Sources
       quantitative_types: Quantitative Types
+      able_screening_questions: Able Screening Questions
+      changelogs: Changelogs
       account: Account
       edit_profile: Edit Profile
       km: ខ្មែរ
       log_out: Log out
       log_in: Log in
+      progress_note: Progress Note
+      materials: Equipment/Materials
+      locations: Locations
+      progress_note_types: Types of Note
+      interventions: Interventions
+
+  reports:
+    index:
+      csi_domain_scores: CSI Domain Scores
+      domain_score: Domain Scores
+      case_statistics: Case Statistics
+      client_amount: Client Amounts
+    form:
+      case_statistic: Case Statistics
+      csi_domain_scores: CSI Domain Scores
+      search: Search
+      start_date: Start Date
+      end_date: End Date
+
   clients:
     index:
+      reports: Reports
+      csi_domain_scores: CSI Domain Scores
+      domain_score: Domain Scores
+      case_statistics: Case Statistics
+      client_amount: Client Amounts
       add_new_client: Add New Client
       view_all_active_tasks: View All Active  Tasks
       export_to_csv: Export to CSV
@@ -389,14 +539,28 @@ en:
       note: Note
       view_legacy_quarterly_reports: Legacy Quarterly Reports
       take_survey: Take Survey
+      survey_history: Survey History
+      time_in_care: Time In Care
+      time_in_care_around:
+        one: "Around %{count} year"
+        other: "Around %{count} years"
+      are_you_sure: Are you sure you want to delete?
       <<: *default_client_fields
       placements:
         <<: *default_placement_fields
       additional_details: Additional Details
       general_info: Information of
+      progress_note: Progress Note
+      client_able_answers: Client Able Answers
+    client_answers:
+      client_able_answers: Client Able Answers
+    actions:
+      are_you_sure: Are you sure you want to delete?
     emergency_case:
       <<: *default_placement_fields
       emergency_care: Emergency Care
+      emergency_case:
+        emergency_care: Emergency Care
     exit_case_form:
       exit_ec: Exit Emergency Care
       exit_kc: Exit Kinship Care
@@ -409,9 +573,13 @@ en:
     kinship_case:
       <<: *default_placement_fields
       kinship_care: Kinship Care
+      kinship_case:
+        kinship_care: Kinship Care
     foster_case:
       <<: *default_placement_fields
       foster_care: Foster Care
+      foster_case:
+        foster_care: Foster Care
     placement:
       view_legacy_quarterly_reports: View Legacy Quarterly Reports
     state:
@@ -433,6 +601,7 @@ en:
     show:
       <<: *default_family_fields
       general_info: General Information for Family
+      are_you_sure: Are you sure you want to delete?
     create:
       successfully_created: Family has been successfully created.
     update:
@@ -440,6 +609,8 @@ en:
     destroy:
       successfully_deleted: Family has been successfully deleted.
       alert: Family cannot be deleted.
+    actions:
+      are_you_sure: Are you sure you want to delete?
 
   partners:
     index:
@@ -455,6 +626,7 @@ en:
     show:
       <<: *default_partner_fields
       general_info: General Informatin for Partner
+      are_you_sure: Are you sure you want to delete?
     create:
       successfully_created: Partner has been successfully created.
     update:
@@ -462,6 +634,8 @@ en:
     destroy:
       successfully_deleted: Partner has been successfully deleted.
       alert: Partner cannot be deleted.
+    actions:
+      are_you_sure: Are you sure you want to delete?
   users:
     index:
       results: Results
@@ -476,6 +650,7 @@ en:
     show:
       <<: *default_user_fields
       general_info: General Information for User
+      are_you_sure: Are you sure you want to delete?
     clients:
       clients: Clients
     create:
@@ -485,6 +660,8 @@ en:
     destroy:
       successfully_deleted: User has been successfully deleted.
       alert: User cannot be deleted.
+    actions:
+      are_you_sure: Are you sure you want to delete?
   cases:
     index:
       <<: *default_placement_fields
@@ -506,6 +683,29 @@ en:
   activerecord:
     errors:
       models:
+        stage:
+          attributes:
+            from_age:
+              blank: can't be blank
+            to_age:
+              blank: can't be blank
+        able_screening_question:
+          attributes:
+            question:
+              blank: can't be blank
+            mode:
+              blank: can't be blank
+        changelog_type:
+          attributes:
+            description:
+              blank: can't be blank
+        changelog:
+          attributes:
+            version:
+              blank: can't be blank
+              taken: has already been taken
+            description:
+              blank: can't be blank
         government_report:
           attributes:
             code:
@@ -515,12 +715,40 @@ en:
           attributes:
             current_password:
               blank: This field is required
+              invalid: Invalid
         task:
           attributes:
             name:
               blank: This field is required
             completion_date:
               blank: This field is required
+        material:
+          attributes:
+            status:
+              blank: can't be blank
+              taken: has already been taken
+        location:
+          attributes:
+            name:
+              blank: can't be blank
+              taken: has already been taken
+        progress_note_type:
+          attributes:
+            note_type:
+              blank: can't be blank
+              taken: has already been taken
+        intervention:
+          attributes:
+            action:
+              blank: can't be blank
+              taken: has already been taken
+        progress_note:
+          attributes:
+            date:
+              blank: can't be blank
+            other_location:
+              blank: can't be blank
+
   agencies:
     index:
       add_new_agency: Add New Agency
@@ -528,6 +756,7 @@ en:
       agency_names: Agency Name
       description: Description
       manage: Manage
+      are_you_sure: Are you sure you want to delete?
     edit:
       title: Edit Agency
     new:
@@ -551,6 +780,7 @@ en:
       department_names: Agency Name
       description: Description
       manage: Manage
+      are_you_sure: Are you sure you want to delete?
     edit:
       title: Edit Department
     new:
@@ -576,6 +806,7 @@ en:
       score_2: Score 2
       score_3: Score 3
       score_4: Score 4
+      are_you_sure: Are you sure you want to delete?
     edit:
       title: Edit Domain
     new:
@@ -606,6 +837,7 @@ en:
       domain_group_names: Domain Group Name
       description: Description
       manage: Manage
+      are_you_sure: Are you sure you want to delete?
     edit:
       title: Edit Domain Group
     new:
@@ -630,6 +862,7 @@ en:
       provinces: Provinces
       province_names: Province Name
       manage: Manage
+      are_you_sure: Are you sure you want to delete?
     edit:
       title: Edit Province
     new:
@@ -653,6 +886,7 @@ en:
       referral_source_name: Referral Source Name
       description: Description
       manage: Manage
+      are_you_sure: Are you sure you want to delete?
     edit:
       title: Edit Referral Source
     new:
@@ -675,6 +909,7 @@ en:
       add_new_quantitative_type: Add New Quantitative Type
       quantitative_types: Quantitative Types
       add_quantitative_data: Quantitative Data
+      are_you_sure: Are you sure you want to delete?
     edit:
       title: Edit Quantitative Type
     new:
@@ -819,6 +1054,69 @@ en:
       present: Present
     create:
       successfully_created: Case Note has successfully been created.
+  stages:
+    stage: Stage
+    non_stage: Non Stage
+    questions: Questions
+    new:
+      new_stage: 'New Stage'
+    form:
+      from_age: From Age (As Year)
+      to_age: To Age (As Year)
+      add_question: Add Question
+      questions: Questions
+      mode: Mode
+      group: Group
+      alert_manager: Alert Manager
+      add_question: Add Question
+    index:
+      edit_and_add_question: 'Edit/Add Question'
+      new_stage_question: New Stage Question
+      new_general_question: New General Question
+      question: Question
+      from: From
+      to: To
+      year: year
+      question:
+        one: '1 Question'
+        other: '%{count} Questions'
+    edit:
+      edit_stage: 'Edit Stage'
+    able_screening_question_fields:
+      are_you_sure: Remove question with have sigificant affect to client answers, Are you sure you want to delete?
+      question: Question
+      mode: Mode
+      group: Group
+      alert_manager: Alert Manager
+    attachment_fields:
+      browse: Browse
+    create:
+      successfully_created: Stage has been successfully created.
+    update:
+      successfully_updated: Stage has been successfully updated.
+    destroy:
+      successfully_deleted: Stage has been successfully deleted.
+      alert: Stage cannot be deleted.
+
+
+  able_screening_questions:
+    attachment_fields:
+      browse: Browse
+    form:
+      general_question: General Question
+    able_screening_question_field:
+      question: Question
+      mode: Mode
+      group: Group
+      alert_manager: Alert Manager
+    create:
+      successfully_created: Able Screening has been successfully created.
+    update:
+      successfully_updated: Able Screening has been successfully updated.
+    destroy:
+      successfully_deleted: Able Screening has been successfully deleted.
+      alert: Able Screening cannot be deleted.
+
   devise:
     registrations:
       edit:
@@ -858,6 +1156,25 @@ en:
       partners: Partners
       referral_sources: Referral Sources
       staffs: Staffs
+    tasks_and_assessments:
+      overdue_tasks_count:
+        one: "You have 1 task overdue."
+        other: "You have %{count} tasks overdue."
+      due_today_tasks_count:
+        one: "You have 1 task due today."
+        other: "You have %{count} tasks due today."
+      check_tasks: "To check your tasks, please"
+      click_here: "click here."
+
+      overdue_assessments_count:
+        one: "You have 1 assessment overdue."
+        other: "You have %{count} assessments overdue."
+      due_today_assessments_count:
+        one: "You have 1 assessment due today."
+        other: "You have %{count} assessments due today."
+    client_case_statistic:
+      case_statistic: "Case Statistic"
+      client_amount: "Client Amount"
   case:
     quarterly_reports:
       index:
@@ -891,3 +1208,162 @@ en:
     next_label: Next Page
   save: Save
   cancel: Cancel
+
+  # Thredded - FAQ
+  thredded:
+    nav:
+      home: Home
+    shared:
+      nav:
+        sign_out: Sign Out
+        sign_in: Sign In
+
+  changelogs:
+    changelog_type_fields:
+      description: Description
+    index:
+      <<: *default_changelog_fields
+      version_list: Version List
+      changes: Changes
+      add_new_changelog: Add New Changelog
+      are_you_sure: Are you sure you want to delete?
+    show:
+      back: Back
+    edit:
+      edit_changelog: Edit Changelog
+    new:
+      new_changelog: New Changelog
+    form:
+      <<: *default_changelog_fields
+      add_change: Add change
+      save: Save
+      cancel: Cancel
+    create:
+      successfully_created: Changelog has been successfully created.
+    update:
+      successfully_updated: Changelog has been successfully updated.
+    destroy:
+      successfully_deleted: Changelog has been successfully deleted.
+
+  materials:
+    index:
+      <<: *default_material_fields
+      add_new_material: Add New Equipment/Material
+      material: Equipment/Material
+      manage: Manage
+      are_you_sure: Are you sure you want to delete?
+    new:
+      new_material: New Equipment/Material
+    edit:
+      edit_material: Edit Equipment/Material
+    form:
+      <<: *default_material_fields
+      save: Save
+      cancel: Cancel
+    create:
+      successfully_created: Equipment/Material has been successfully created.
+    update:
+      successfully_updated: Equipment/Material has been successfully updated.
+    destroy:
+      successfully_deleted: Equipment/Material has been successfully deleted.
+      unsuccessfully_deleted: Equipment/Material cannot be deleted.
+
+  locations:
+    index:
+      <<: *default_location_fields
+      add_new_location: Add New Location
+      location: Location
+      manage: Manage
+      are_you_sure: Are you sure you want to delete?
+    new:
+      new_location: New Location
+    edit:
+      edit_location: Edit Location
+    form:
+      <<: *default_location_fields
+      save: Save
+      cancel: Cancel
+    create:
+      successfully_created: Location has been successfully created.
+    update:
+      successfully_updated: Location has been successfully updated.
+    destroy:
+      successfully_deleted: Location has been successfully deleted.
+      unsuccessfully_deleted: Location cannot be deleted.
+
+  progress_note_types:
+    index:
+      <<: *default_progress_note_type_fields
+      add_new_progress_note_type: Add New Type of Note
+      progress_note_type: Type of Note
+      manage: Manage
+      are_you_sure: Are you sure you want to delete?
+    new:
+      new_progress_note_type: New Type of Note
+    edit:
+      edit_progress_note_type: Edit Type of Note
+    form:
+      <<: *default_progress_note_type_fields
+      save: Save
+      cancel: Cancel
+    create:
+      successfully_created: Type of Note has been successfully created.
+    update:
+      successfully_updated: Type of Note has been successfully updated.
+    destroy:
+      successfully_deleted: Type of Note has been successfully deleted.
+      unsuccessfully_deleted: Type of Note cannot be deleted.
+
+  interventions:
+    index:
+      <<: *default_intervention_fields
+      add_new_intervention: Add New Intervention
+      intervention: Intervention
+      manage: Manage
+      are_you_sure: Are you sure you want to delete?
+    new:
+      new_intervention: New Intervention
+    edit:
+      edit_intervention: Edit Intervention
+    form:
+      <<: *default_intervention_fields
+      save: Save
+      cancel: Cancel
+    create:
+      successfully_created: Intervention has been successfully created.
+    update:
+      successfully_updated: Intervention has been successfully updated.
+    destroy:
+      successfully_deleted: Intervention has been successfully deleted.
+      unsuccessfully_deleted: Intervention cannot be deleted.
+
+  progress_notes:
+    index:
+      <<: *default_progress_note_fields
+      back: Back
+      add_new_progress_note: Add New Progress Note
+      progress_note: Progress Note
+      manage: Manage
+      are_you_sure: Are you sure you want to delete?
+      export_to_csv: Export to CSV
+      records: Results
+    show:
+      <<: *default_progress_note_fields
+      are_you_sure: Are you sure you want to delete?
+      back: Back
+    new:
+      new_progress_note: New Progress Note
+    edit:
+      edit_progress_note: Edit Progress Note
+    form:
+      <<: *default_progress_note_fields
+      save: Save
+      cancel: Cancel
+    create:
+      successfully_created: Progress Note has been successfully created.
+    update:
+      successfully_updated: Progress Note has been successfully updated.
+    destroy:
+      successfully_deleted: Progress Note has been successfully deleted.
+    actions:
+      are_you_sure: Are you sure you want to delete?

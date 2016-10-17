@@ -1,0 +1,68 @@
+.row
+  .col-xs-12.col-md-8.col-md-offset-2
+    .panel.panel-info
+      .panel-heading
+        .row
+          .col-xs-6
+            %h4= t('.survey_detail')
+          .col-xs-6
+            %h4.pull-right= @survey.created_at
+      .panel-body
+        .panel.panel-default
+          .panel-heading
+            .row
+              .col-xs-10
+                %p= t('.listening_score')
+              .col-xs-2
+                %p= @survey.listening_score
+        .panel.panel-default
+          .panel-heading
+            .row
+              .col-xs-10
+                %p= t('.problem_solving_score')
+              .col-xs-2
+                %p= @survey.problem_solving_score
+        .panel.panel-default
+          .panel-heading
+            .row
+              .col-xs-10
+                %p= t('.getting_in_touch_score')
+              .col-xs-2
+                %p= @survey.getting_in_touch_score
+        .panel.panel-default
+          .panel-heading
+            .row
+              .col-xs-10
+                %p= t('.trust_score')
+              .col-xs-2
+                %p= @survey.trust_score
+        .panel.panel-default
+          .panel-heading
+            .row
+              .col-xs-10
+                %p= t('.difficulty_help_score')
+              .col-xs-2
+                %p= @survey.difficulty_help_score
+        .panel.panel-default
+          .panel-heading
+            .row
+              .col-xs-10
+                %p= t('.support_score')
+              .col-xs-2
+                %p= @survey.support_score
+        .panel.panel-default
+          .panel-heading
+            .row
+              .col-xs-10
+                %p= t('.family_need_score')
+              .col-xs-2
+                %p= @survey.family_need_score
+        .panel.panel-default
+          .panel-heading
+            .row
+              .col-xs-10
+                %p= t('.care_score')
+              .col-xs-2
+                %p= @survey.care_score
+      .panel-footer
+        = link_to t('.back'), client_surveys_path(@client), class: 'btn btn-default btn-back'

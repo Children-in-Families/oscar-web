@@ -23,12 +23,16 @@ class ClientColumnsVisibility
       current_address_: :current_address,
       school_name_: :school_name,
       grade_: :grade,
-      able_: :able,
+      able_state_: :able_state,
       has_been_in_orphanage_: :has_been_in_orphanage,
       has_been_in_government_care_: :has_been_in_government_care,
       relevant_referral_information_: :relevant_referral_information,
       user_id_: :user,
       state_: :state,
+      history_of_disability_and_or_illness_: :history_of_disability_and_or_illness,
+      history_of_harm_: :history_of_harm,
+      history_of_high_risk_behaviours_: :history_of_high_risk_behaviours,
+      reason_for_family_separation_: :reason_for_family_separation,
       rejected_note_: :rejected_note,
       case_start_date_: :case_start_date,
       carer_names_: :carer_names,
@@ -43,7 +47,8 @@ class ClientColumnsVisibility
       code_: :code,
       age_: :age,
       slug_: :slug,
-      family_id_: :family_id
+      family_id_: :family_id,
+      any_assessments_: :any_assessments
     }
   end
 

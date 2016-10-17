@@ -1,16 +1,25 @@
 Rails.application.routes.draw do
+  mount Thredded::Engine => '/forum'
+
+  # custom error pages
+  %w(404 500).each do |code|
+    match "/#{code}", to: 'errors#show', code: code, via: :all
+  end
+
   resources :quarterly_reports
   devise_for :users, controllers: { registrations: 'registrations' }
   root 'home#index'
 
   get '/robots.txt' => 'home#robots'
-
+  get '/quantitative_data' => 'clients#quantitative_case'
   resources :agencies, except: [:show]
 
   scope 'admin' do
     resources :users
   end
 
+  resources :stages
+  resources :able_screening_questions, except: [:index, :show]
   resources :quantitative_types
   resources :quantitative_cases
   resources :referral_sources, except: [:show]
@@ -19,6 +28,11 @@ Rails.application.routes.draw do
   resources :provinces, except: [:show]
   resources :departments, except: [:show]
   resources :quarterly_reports, only: [:index]
+  resources :changelogs
+  resources :materials, except: [:show]
+  resources :locations, except: [:show]
+  resources :progress_note_types, except: [:show]
+  resources :interventions, except: [:show]
 
   resources :tasks do
     collection do
@@ -38,9 +52,11 @@ Rails.application.routes.draw do
     scope module: 'client' do
       resources :tasks
     end
+    resources :surveys
+    resources :progress_notes
   end
 
-  
+
 
   resources :families
   resources :partners
