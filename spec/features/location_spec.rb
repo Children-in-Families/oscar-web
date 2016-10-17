@@ -16,6 +16,7 @@ describe 'Location' do
     end
 
     scenario 'name' do
+      visit '/locations?page=2'
       expect(page).to have_content(location.name)
     end
 

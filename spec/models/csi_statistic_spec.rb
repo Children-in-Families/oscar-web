@@ -2,7 +2,7 @@ describe CsiStatistic, 'statistic data' do
   let!(:user) { create(:user) }
   let!(:client) { create(:client, state: 'accepted', user: user) }
   let!(:domain) { create(:domain, name: '1A') }
-  
+
   let!(:assessment){ create(:assessment, client: client, created_at: 7.months.ago) }
   let!(:other_assessment){ create(:assessment, client: client, created_at: Date.today) }
 
@@ -11,7 +11,7 @@ describe CsiStatistic, 'statistic data' do
 
   it 'returns average domain score without filter' do
     data = [["Assessment (1)", "Assessment (2)"], [{:name=>"1A", :data=>[4.0, 3.0]}]]
-    
+
     statistic = CsiStatistic.new(Client.all)
     expect(statistic.assessment_domain_score).to eq(data)
   end
