@@ -22,9 +22,7 @@ class Client < ActiveRecord::Base
   has_many :surveys,     dependent: :destroy
   has_one  :government_report, dependent: :destroy
 
-  has_many :agencies_clients, dependent: :destroy
-  has_many :agencies, through: :agencies_clients
-
+  has_and_belongs_to_many :agencies
   has_and_belongs_to_many :quantitative_cases
 
   has_paper_trail
@@ -79,11 +77,6 @@ class Client < ActiveRecord::Base
   scope :able,                 -> { where(able: true) }
 
   scope :without_assessments,  -> { includes(:assessments).where(assessments: { client_id: nil }) }
-
-  def self.track_associations
-    hide_associations = [:agencies_clients]
-    reflect_on_all_associations.map(&:name).reject{ |asso| hide_associations.include?(asso)}
-  end
 
   def reject?
     state_changed? && state == 'rejected'
@@ -206,7 +199,7 @@ class Client < ActiveRecord::Base
   end
 
   def set_slug_as_alias
-    self.without_versioning { |obj| obj.update_attributes(slug: "#{ENV['ORGANISATION_ABBREVIATION']}-#{id}") }
+    self.paper_trail.without_versioning { |obj| obj.update_attributes(slug: "#{ENV['ORGANISATION_ABBREVIATION']}-#{id}") }
   end
 
   def time_in_care

@@ -147,8 +147,12 @@ describe Client, 'methods' do
 
     min_age = 1
     max_age = 1.5
-    it { expect(Client.age_between(min_age, max_age)).to include(specific_client) }
-    it { expect(Client.age_between(min_age, max_age)).not_to include(other_specific_client) }
+    it 'include clients with age between' do
+      expect(Client.age_between(min_age, max_age)).to include(specific_client)
+    end
+    it 'does not include clients with age between' do
+      expect(Client.age_between(min_age, max_age)).not_to include(other_specific_client)
+    end
   end
 
 end

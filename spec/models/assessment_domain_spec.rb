@@ -14,7 +14,7 @@ describe AssessmentDomain, 'class method' do
   let!(:critical_problem) { create(:assessment_domain, assessment: assessment, score: 2, domain: domain_1A) }
   let!(:good) { create(:assessment_domain, assessment: other_assessment, score: 4, domain: domain_1A) }
 
-  context '.domain_color_class' do
+  context 'domain_color_class' do
     it { expect(assessment.assessment_domains.domain_color_class(domain_1A)).to eq('danger') }
     it { expect(other_assessment.assessment_domains.domain_color_class(domain_1A)).to eq('success') }
   end

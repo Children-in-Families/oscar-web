@@ -1,6 +1,5 @@
 class Agency < ActiveRecord::Base
-  has_many :agencies_clients, dependent: :destroy
-  has_many :clients, through: :agencies_clients
+  has_and_belongs_to_many :clients
   has_paper_trail
 
   validates :name, presence: true, uniqueness: true
