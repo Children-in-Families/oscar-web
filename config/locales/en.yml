@@ -496,8 +496,8 @@ en:
 
   clients:
     answer_fields:
-      yes_no: បាទ​/អត់​ទេ
-      answer: ចំលើយ
+      yes_no: Yes/No
+      answer: Answer
     index:
       reports: Reports
       csi_domain_scores: CSI Domain Scores
