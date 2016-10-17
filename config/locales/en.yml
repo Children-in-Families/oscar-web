@@ -816,6 +816,8 @@ en:
       referral_source_name: Referral Source Name
       description: Description
       manage: Manage
+      modification: Modification
+      view: View
     edit:
       title: Edit Referral Source
     new:
@@ -832,6 +834,9 @@ en:
     destroy:
       successfully_deleted: Referral Source has been successfully deleted.
       alert: Referral Source cannot be deleted.
+    version:
+      modification_of: Modification of
+      back: Back
 
   quantitative_types:
     index:

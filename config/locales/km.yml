@@ -873,6 +873,8 @@ km:
       referral_source_name: ឈ្មោះប្រភពនៃការបញ្ជូន
       description: ការបរិយាយ
       manage: សកម្មភាព
+      modification: កំណែប្រែ
+      view: មើល
     edit:
       title: ពិនិត្យកែសម្រូលប្រភពនៃការបញ្ជូន
     new:
@@ -889,6 +891,9 @@ km:
     destroy:
       successfully_deleted: ប្រភពនៃការបញ្ជូនត្រូវបានលុបចោលដោយជោគជ័យ
       alert: ប្រភពនៃការបញ្ជូនមិនអាចលុបបានទេ
+    version:
+      modification_of: កំណែប្រែរបស់
+      back: ត្រលប់ក្រោយ
   quantitative_types:
     index:
       add_new_quantitative_type: បន្ថែមប្រភេទនៃបរិមាណ
