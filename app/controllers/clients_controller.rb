@@ -50,6 +50,8 @@ class ClientsController < AdminController
   end
 
   def edit
+    @ordered_stage                       = Stage.order('id')
+    @able_screening_questions            = AbleScreeningQuestion.with_stage.group_by(&:question_group_id)
   end
 
   def create

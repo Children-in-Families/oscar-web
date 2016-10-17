@@ -59,10 +59,6 @@
                   .col-xs-12= f.input :able_state, collection: Client::ABLE_STATES, label: "#{t('.able_state')}" if current_user.able_manager? && @client.persisted?
                 .col-xs-12.col-md-6
                   .col-xs-12
-                    -# = button_to 'Able Screening', '#able-screening-collapse', { class: 'btn btn-primary btn-block',
-                                                            'aria-controls': "able-screening-collapse",
-                                                            'aria-expanded': false, 'data-toggle': 'collapse',
-                                                            :role => 'button', id: 'able-screening-test' }
                     %button.btn.btn-primary{id: 'able-screening-test', "aria-expanded" => 'false', "data-target" => '#able-screening-collapse', "data-toggle" => 'collapse', type: 'button'}
                       %span= t('.able_screening')
       %hr
