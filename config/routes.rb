@@ -12,7 +12,10 @@ Rails.application.routes.draw do
 
   get '/robots.txt' => 'home#robots'
   get '/quantitative_data' => 'clients#quantitative_case'
-  resources :agencies, except: [:show]
+
+  resources :agencies do
+    get 'version' => 'agencies#version'
+  end
 
   post '/reports' => 'reports#index'
   resources :reports, only: [:index]

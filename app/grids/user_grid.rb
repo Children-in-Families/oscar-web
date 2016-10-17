@@ -89,6 +89,6 @@ class UserGrid
   end
 
   column(:modification, html: true, class: 'text-center', header: I18n.t('datagrid.columns.users.modification')) do |object|
-    link_to 'View', user_version_path(object)
+    link_to t('datagrid.columns.users.view'), user_version_path(object)
   end
 end

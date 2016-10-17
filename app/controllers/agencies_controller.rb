@@ -40,6 +40,11 @@ class AgenciesController < AdminController
     end
   end
 
+  def version
+    @agency   = Agency.find(params[:agency_id])
+    @versions = @agency.versions.reorder(created_at: :desc).decorate
+  end
+
   private
 
   def agency_params

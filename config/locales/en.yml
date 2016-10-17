@@ -352,6 +352,7 @@ en:
         has_dob: 'Yes'
         no_dob: 'No'
         modification: Modification
+        view: View
       select_columns: Select Columns
       hide_show_all: Hide/Show All
       family_id: Family ID
@@ -385,17 +386,20 @@ en:
         family_id: Family ID
         case_workers: Case Workers
         modification: Modification
+        view: View
       partners:
         <<: *default_partner_fields
         type: Type
         manage: Manage
         partner: Partner
         modification: Modification
+        view: View
       users:
         <<: *default_user_fields
         name: Name
         manage: Manage
         modification: Modification
+        view: View
       quarterly_reports:
         visit_date: Date Of Visit
         kc_name: KC Name
@@ -664,6 +668,8 @@ en:
       agency_names: Agency Name
       description: Description
       manage: Manage
+      modification: Modification
+      view: View
     edit:
       title: Edit Agency
     new:
@@ -680,6 +686,9 @@ en:
     destroy:
       successfully_deleted: Agency has been successfully deleted.
       alert: Agency cannot be deleted.
+    version:
+      modification_of: Modification of
+      back: Back
   departments:
     index:
       add_new_department: Add New Department
