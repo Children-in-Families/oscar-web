@@ -758,6 +758,8 @@ km:
       department_names: ឈ្មោះកម្មវិធី
       description: ការបរិយាយពីកម្មវិធី
       manage: សកម្មភាព
+      modification: កំណែប្រែ
+      view: មើល
     edit:
       title: ពិនិត្យកែសម្រួលកម្មវិធី
     new:
@@ -774,6 +776,9 @@ km:
     destroy:
       successfully_deleted: កម្មវិធីត្រូវបានលុបចោលដោយជោគជ័យ
       alert: កម្មវិធីមិនអាចលុបចោលបានទេ
+    version:
+      modification_of: កំណែប្រែរបស់
+      back: ត្រលប់ក្រោយ
   domains:
     index:
       add_new_domain: បន្ថែមកត្តាថ្មី

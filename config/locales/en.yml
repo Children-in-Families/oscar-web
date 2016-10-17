@@ -693,9 +693,11 @@ en:
     index:
       add_new_department: Add New Department
       departments: Departments
-      department_names: Agency Name
+      department_names: Department Name
       description: Description
       manage: Manage
+      modification: Modification
+      view: View
     edit:
       title: Edit Department
     new:
@@ -712,7 +714,9 @@ en:
     destroy:
       successfully_deleted: Department has been successfully deleted.
       alert: Department cannot be deleted.
-
+    version:
+      modification_of: Modification of
+      back: Back
   domains:
     index:
       add_new_domain: Add New Domain
@@ -1097,11 +1101,20 @@ en:
     index:
       filter_by_item: Filter by Item
       all: All
+      all_modification: All Modifications
       clients: Clients
       families: Families
       partners: Partners
       users: Users
-      all_modification: All Modifications
+      agencies: Agencies
+      departments: Departments
+      domains: Domains
+      domain_groups: Domain Groups
+      provinces: Provinces
+      referral_sources: Referral Sources
+      quantitative_types: Quantitative Types
+      quantitative_datas: Quantitative Data
+      changelogs: Changelogs
   shared:
     version:
       change: did the following change

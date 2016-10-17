@@ -40,6 +40,11 @@ class DepartmentsController < AdminController
     end
   end
 
+  def version
+    @department = Department.find(params[:department_id])
+    @versions   = @department.versions.reorder(created_at: :desc).decorate
+  end
+
   private
 
   def department_params

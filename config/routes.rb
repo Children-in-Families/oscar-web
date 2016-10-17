@@ -13,7 +13,7 @@ Rails.application.routes.draw do
   get '/robots.txt' => 'home#robots'
   get '/quantitative_data' => 'clients#quantitative_case'
 
-  resources :agencies do
+  resources :agencies, except: [:show] do
     get 'version' => 'agencies#version'
   end
 
@@ -32,7 +32,9 @@ Rails.application.routes.draw do
   resources :domain_groups, except: [:show]
   resources :domains, except: [:show]
   resources :provinces, except: [:show]
-  resources :departments, except: [:show]
+  resources :departments, except: [:show] do
+    get 'version' => 'departments#version'
+  end
   resources :quarterly_reports, only: [:index]
   resources :changelogs
   get '/data_trackers' => 'data_trackers#index'
