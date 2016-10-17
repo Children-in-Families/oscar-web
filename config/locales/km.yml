@@ -816,6 +816,8 @@ km:
       domain_group_names: ឈ្មោះការប្រមូលផ្តុំកត្តា
       description: ការបរិយាយ
       manage: សកម្មភាព
+      modification: កំណែប្រែ
+      view: មើល
     edit:
       title: ពិនិត្យកែសម្រួលការប្រមូលផ្ដុំកត្តា
     new:
@@ -834,6 +836,9 @@ km:
     destroy:
       successfully_deleted: ការប្រមូលផ្តុំកត្តាត្រូវបានលុបចោលជោគជ័យ
       alert: ការប្រមូលផ្តុំកត្តាមិនអាចលុបបានទេ
+    version:
+      modification_of: កំណែប្រែរបស់
+      back: ត្រលប់ក្រោយ
   provinces:
     index:
       add_new_province: បន្ថែមខេត្តថ្មី

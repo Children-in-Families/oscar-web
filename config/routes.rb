@@ -29,11 +29,17 @@ Rails.application.routes.draw do
   resources :quantitative_types
   resources :quantitative_cases
   resources :referral_sources, except: [:show]
-  resources :domain_groups, except: [:show]
+
+  resources :domain_groups, except: [:show] do
+    get 'version' => 'domain_groups#version'
+  end
+
   resources :domains, except: [:show] do
     get 'version' => 'domains#version'
   end
+
   resources :provinces, except: [:show]
+
   resources :departments, except: [:show] do
     get 'version' => 'departments#version'
   end

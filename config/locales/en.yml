@@ -759,6 +759,8 @@ en:
       domain_group_names: Domain Group Name
       description: Description
       manage: Manage
+      modification: Modification
+      view: View
     edit:
       title: Edit Domain Group
     new:
@@ -777,6 +779,9 @@ en:
     destroy:
       successfully_deleted: Domain Group has been successfully deleted.
       alert: Domain Group cannot be deleted.
+    version:
+      modification_of: Modification of
+      back: Back
   provinces:
     index:
       add_new_province: Add New Province
