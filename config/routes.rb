@@ -38,11 +38,14 @@ Rails.application.routes.draw do
     get 'version' => 'domains#version'
   end
 
-  resources :provinces, except: [:show]
+  resources :provinces, except: [:show] do
+    get 'version' => 'provinces#version'
+  end
 
   resources :departments, except: [:show] do
     get 'version' => 'departments#version'
   end
+
   resources :quarterly_reports, only: [:index]
   resources :changelogs
   get '/data_trackers' => 'data_trackers#index'

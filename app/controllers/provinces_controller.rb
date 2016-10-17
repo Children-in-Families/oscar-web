@@ -40,6 +40,11 @@ class ProvincesController < AdminController
     end
   end
 
+  def version
+    @province = Province.find(params[:province_id])
+    @versions = @province.versions.reorder(created_at: :desc).decorate
+  end
+
   private
 
   def province_params

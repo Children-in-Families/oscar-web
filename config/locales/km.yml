@@ -845,6 +845,8 @@ km:
       provinces: ខេត្ត
       province_names: ឈ្មោះខេត្ត
       manage: សកម្មភាព
+      modification: កំណែប្រែ
+      view: មើល
     edit:
       title: ពិនិត្យកែសម្រួលខេត្ត
     new:
@@ -860,6 +862,9 @@ km:
     destroy:
       successfully_deleted: ខេត្តត្រូវបានលុបចោលដោយជោគជ័យ
       alert: ខេត្តមិនអាចលុបបានទេ
+    version:
+      modification_of: កំណែប្រែរបស់
+      back: ត្រលប់ក្រោយ
 
   referral_sources:
     index:

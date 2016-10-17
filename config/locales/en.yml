@@ -788,6 +788,8 @@ en:
       provinces: Provinces
       province_names: Province Name
       manage: Manage
+      modification: Modification
+      view: View
     edit:
       title: Edit Province
     new:
@@ -803,6 +805,9 @@ en:
     destroy:
       successfully_deleted: Province has been successfully deleted.
       alert: Province cannot be deleted.
+    version:
+      modification_of: Modification of
+      back: Back
 
   referral_sources:
     index:
