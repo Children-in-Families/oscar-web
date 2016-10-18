@@ -2,6 +2,8 @@ include ActionView::Helpers::SanitizeHelper
 class ProgressNoteGrid
   include Datagrid
 
+  attr_accessor :current_client
+
   scope do
     ProgressNote.includes(:client, :progress_note_type, :location, :material, :interventions, :assessment_domains).order(:created_at)
   end
@@ -49,7 +51,7 @@ class ProgressNoteGrid
   end
 
   def assessment_domains_options
-    AssessmentDomain.joins(:progress_notes).pluck(:goal).uniq
+    AssessmentDomain.joins(:progress_notes).where(progress_notes: { client_id: current_client.id }).pluck(:goal).uniq
   end
 
   column(:date, html: true, header: -> { I18n.t('datagrid.columns.progress_notes.date') }) do |object|

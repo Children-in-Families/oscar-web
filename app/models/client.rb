@@ -123,7 +123,7 @@ class Client < ActiveRecord::Base
   end
 
   def self.able_managed_by(user)
-    where('able = ? or user_id = ?', true, user.id)
+    where('able_state = ? or user_id = ?', ABLE_STATES[0], user.id)
   end
 
   def self.managed_by(user, status)
