@@ -12,28 +12,29 @@ CIF.ClientsIndex = do ->
     _handleCreateCsiDomainReport()
 
   _reportOption = (data, title, yAxisTitle, element) ->
-    $(element).highcharts
-      chart: type: 'spline'
-      legend:
-        verticalAlign: 'top'
-        y: 30
-      plotOptions: series: connectNulls: true
-      tooltip:
-        shared: true
-        xDateFormat: '%b %Y'
-      title:
-        text: title
-      xAxis:
-        categories: data[0]
-        dateTimeLabelFormats:
-          month: '%b %Y'
-        tickmarkPlacement: 'on'
-      yAxis:
-        allowDecimals: false
+    if data != undefined
+      $(element).highcharts
+        chart: type: 'spline'
+        legend:
+          verticalAlign: 'top'
+          y: 30
+        plotOptions: series: connectNulls: true
+        tooltip:
+          shared: true
+          xDateFormat: '%b %Y'
         title:
-          text: yAxisTitle
-      series: data[1]
-    $('.highcharts-credits').css('display', 'none')
+          text: title
+        xAxis:
+          categories: data[0]
+          dateTimeLabelFormats:
+            month: '%b %Y'
+          tickmarkPlacement: 'on'
+        yAxis:
+          allowDecimals: false
+          title:
+            text: yAxisTitle
+        series: data[1]
+      $('.highcharts-credits').css('display', 'none')
 
   _handleCreateCsiDomainReport = ->
     element = $('#cis-domain-score')
