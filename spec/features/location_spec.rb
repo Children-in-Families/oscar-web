@@ -1,6 +1,6 @@
 describe 'Location' do
   let!(:admin){ create(:user, roles: 'admin') }
-  let!(:location){ create(:location, name: 'ផ្សេងៗ Other') }
+  let!(:location){ create(:location, name: 'ផ្សេងៗ Other', order_option: 1) }
   let!(:used_location){ create(:location) }
   let!(:new_location){ create(:location) }
   let!(:progress_note){ create(:progress_note, location: used_location) }
