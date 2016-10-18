@@ -701,6 +701,8 @@ en:
               blank: can't be blank
         able_screening_question:
           attributes:
+            question_group:
+              blank: can't be blank
             question:
               blank: can't be blank
             mode:
@@ -758,6 +760,7 @@ en:
               blank: can't be blank
             other_location:
               blank: can't be blank
+
 
   agencies:
     index:
@@ -1080,6 +1083,7 @@ en:
       alert_manager: Alert Manager
       add_question: Add Question
     index:
+      able_screening_questions: Able Screening Question
       edit_and_add_question: 'Edit/Add Question'
       new_stage_question: New Stage Question
       new_general_question: New General Question

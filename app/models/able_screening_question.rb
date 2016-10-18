@@ -16,6 +16,8 @@ class AbleScreeningQuestion < ActiveRecord::Base
   validates :question, :mode, presence: true
   validates :mode, inclusion: { in: MODES }
 
+  validates :question_group, presence: true, if: proc { |object| object.stage.present? }
+
   delegate :from_age_as_date, :to_age_as_date, :non_stage, to: :stage, allow_nil: true
 
   before_save :check_mode

@@ -708,6 +708,8 @@ km:
               blank: មិនអាចរំលង
         able_screening_question:
           attributes:
+            question_group:
+              blank: មិនអាចរំលង
             question:
               blank: មិនអាចរំលង
             mode:
@@ -1134,6 +1136,7 @@ km:
       edit_stage: កែរសំរួលដំណាក់កាល
     index:
       stage: 'តំណាក់កាល'
+      able_screening_questions: សំនួរ Able Screening
       new_stage_question: បន្ថែមសំនួូរដំណាក់កាលថ្មី
       new_general_question: បន្ថែមសំនួរទូទៅថ្មី
       general_question: សំនួរទូទៅ
