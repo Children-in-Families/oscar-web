@@ -13,13 +13,13 @@ class ProgressNoteGrid
   filter(:progress_note_type_id, :enum, select: :progress_note_type_select_options, header: -> { I18n.t('datagrid.columns.progress_notes.progress_note_type') })
 
   def progress_note_type_select_options
-    ProgressNoteType.joins(:progress_notes).map{ |t| [t.note_type, t.id] }.uniq
+    ProgressNoteType.joins(:progress_notes).order('progress_note_types.note_type').map{ |t| [t.note_type, t.id] }.uniq
   end
 
   filter(:location_id, :enum, select: :location_select_options, header: -> { I18n.t('datagrid.columns.progress_notes.location') })
 
   def location_select_options
-    Location.joins(:progress_notes).map{ |l| [l.name, l.id] }.uniq
+    Location.joins(:progress_notes).order('locations.order_option, locations.name').map{ |l| [l.name, l.id] }.uniq
   end
 
   filter(:other_location, :string, header: -> { I18n.t('datagrid.columns.progress_notes.other_location') }) { |value, scope| scope.other_location_like(value) }
@@ -39,7 +39,7 @@ class ProgressNoteGrid
   filter(:material_id, :enum, select: :material_select_options, header: -> { I18n.t('datagrid.columns.progress_notes.material') })
 
   def material_select_options
-    Material.joins(:progress_notes).map{ |m| [m.status, m.id] }.uniq
+    Material.joins(:progress_notes).order('materials.status').map{ |m| [m.status, m.id] }.uniq
   end
 
   filter(:assessment_domains_goal, :enum, multiple: true, select: :assessment_domains_options, header: -> { I18n.t('datagrid.columns.progress_notes.goals_addressed') }) do |goal, scope|
