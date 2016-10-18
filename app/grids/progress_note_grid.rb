@@ -62,7 +62,7 @@ class ProgressNoteGrid
     object.date
   end
 
-  column(:child, order: proc { |scope| scope.joins(:client).reorder('clients.first_name') }, header: -> { I18n.t('datagrid.columns.progress_notes.child') }) do |object|
+  column(:child, order: false, header: -> { I18n.t('datagrid.columns.progress_notes.child') }) do |object|
     object.decorate.client.blank? ? 'Unknown' : object.decorate.client
   end
 
