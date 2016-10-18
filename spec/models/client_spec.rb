@@ -24,9 +24,13 @@ describe Client, 'associations' do
 end
 
 describe Client, 'methods' do
-  let!(:client){ create(:client) }
+  let!(:able_manager) { create(:user, roles: 'able manager') }
+  let!(:case_worker) { create(:user, roles: 'case worker') }
+  let!(:client){ create(:client, user: case_worker) }
+  let!(:other_client) { create(:client, user: case_worker) }
+  let!(:able_client) { create(:client, able_state: Client::ABLE_STATES[0]) }
+  let!(:able_manager_client) { create(:client, user: able_manager) }
   let!(:assessment){ create(:assessment, created_at: Date.today - 6.month, client: client) }
-  let!(:other_client) { create(:client) }
 
   context 'time in care' do
     context 'without any cases' do
@@ -141,6 +145,14 @@ describe Client, 'methods' do
     it { expect(Client.age_between(min_age, max_age)).not_to include(other_specific_client) }
   end
 
+  context 'able managed by user' do
+    it 'returns either able client or managed by current user' do
+      expect(Client.able_managed_by(able_manager)).to include(able_client, able_manager_client)
+    end
+    it 'does not return neither non able clients nor not managed by current user' do
+      expect(Client.able_managed_by(case_worker)).not_to include([able_client, able_manager_client])
+    end
+  end
 end
 
 describe Client, 'scopes' do

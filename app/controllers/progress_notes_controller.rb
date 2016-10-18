@@ -6,7 +6,7 @@ class ProgressNotesController < AdminController
   before_action :find_association, only: [:new, :create, :edit, :update]
 
   def index
-    @progress_note_grid = ProgressNoteGrid.new(params[:progress_note_grid])
+    @progress_note_grid = ProgressNoteGrid.new(params.fetch(:progress_note_grid, {}).merge!(current_client: @client))
     respond_to do |f|
       f.html do
         @progress_note_grid.scope { |scope| scope.where(client_id: @client.id).paginate(page: params[:page], per_page: 20) }
