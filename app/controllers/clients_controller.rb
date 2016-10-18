@@ -30,6 +30,7 @@ class ClientsController < AdminController
   end
 
   def show
+    @ordered_client_answers = @client.answers.order(:created_at)
   end
 
   def new

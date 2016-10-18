@@ -6,8 +6,8 @@
           %span{"aria-hidden" => "true"} ×
         %h4#myModalLabel.modal-title= t('.client_able_answers')
       .modal-body
-        - @client.answers.each do |answer|
-          %h5= "Q: #{answer.able_screening_question.question}"
+        - @ordered_client_answers.each do |answer|
+          %p= "Q: #{answer.able_screening_question.question}"
           %p= "A: #{answer.description}"
           %hr
       .modal-footer

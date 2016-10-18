@@ -1083,6 +1083,7 @@ en:
       alert_manager: Alert Manager
       add_question: Add Question
     index:
+      able_screening_questions: Able Screening Question
       edit_and_add_question: 'Edit/Add Question'
       new_stage_question: New Stage Question
       new_general_question: New General Question
