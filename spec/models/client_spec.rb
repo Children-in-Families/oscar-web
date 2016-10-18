@@ -31,6 +31,8 @@ describe Client, 'methods' do
   let!(:able_client) { create(:client, able_state: Client::ABLE_STATES[0]) }
   let!(:able_manager_client) { create(:client, user: able_manager) }
   let!(:assessment){ create(:assessment, created_at: Date.today - 6.month, client: client) }
+  let!(:able_rejected_client) { create(:client, able_state: Client::ABLE_STATES[1]) }
+  let!(:able_discharged_client) { create(:client, able_state: Client::ABLE_STATES[2]) }
 
   context 'time in care' do
     context 'without any cases' do
@@ -145,12 +147,12 @@ describe Client, 'methods' do
     it { expect(Client.age_between(min_age, max_age)).not_to include(other_specific_client) }
   end
 
-  context 'able managed by user' do
-    it 'returns either able client or managed by current user' do
-      expect(Client.able_managed_by(able_manager)).to include(able_client, able_manager_client)
+  context 'in any able states managed by user' do
+    it 'returns clients either in any able states or managed by current user' do
+      expect(Client.in_any_able_states_managed_by(able_manager)).to include(able_client, able_manager_client, able_rejected_client, able_discharged_client)
     end
     it 'does not return neither non able clients nor not managed by current user' do
-      expect(Client.able_managed_by(case_worker)).not_to include([able_client, able_manager_client])
+      expect(Client.in_any_able_states_managed_by(case_worker)).not_to include(able_manager_client)
     end
   end
 end

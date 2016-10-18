@@ -126,6 +126,10 @@ class Client < ActiveRecord::Base
     where('able_state = ? or user_id = ?', ABLE_STATES[0], user.id)
   end
 
+  def self.in_any_able_states_managed_by(user)
+    where('user_id = ? OR able_state IN(?)', user.id, ABLE_STATES)
+  end
+
   def self.managed_by(user, status)
     where('status = ? or user_id = ?', status, user.id)
   end
