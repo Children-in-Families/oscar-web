@@ -701,6 +701,8 @@ en:
               blank: can't be blank
         able_screening_question:
           attributes:
+            question_group:
+              blank: can't be blank
             question:
               blank: can't be blank
             mode:
@@ -758,6 +760,7 @@ en:
               blank: can't be blank
             other_location:
               blank: can't be blank
+
 
   agencies:
     index:
