@@ -13,24 +13,24 @@
 #   { name: '6B', identity: 'Work and Education', group: 6, score_1_color: 'danger', score_2_color: 'danger', score_3_color: 'warning', score_4_color: 'success', description: "<p><b><u>កត្តា ៦ខ៖ ការអប់រំ និង​ការងារ</p><p>Domain 6B: Education and Work</u></p><br><p>កុមារគឺបានចុះឈ្មោះចូលរៀនក្នុងសាលា​ និងចូលរួមវគ្គបណ្តុះបណ្តាលជំនាញ រឺ​ក្នុងអាយុសមរម្យមួយពួកគេបានចូលរួមលេង​សកម្មភាពការរៀនសូត្រ​​ ឬការងារ។​</p><p>Goal: The child is enrolled and attends school, or skill traning, or is engaged in age-appropriate play, learning, activities or job.</p><br><p>សំនួ​គំរូ៖</p><p>Sample Questions:</b></p><ul><li>តើកុមារ​បានរៀនបញ្ចប់នូវថ្នាក់បមឋសិក្សាហើយឬនៅ? / Is the child in, or has he/she completed, primary school?</li><li>សូមប្រាប់ខ្ញុំអំពីសាលារៀនរបស់កុមារ ឬវគ្គបណ្តុះបណ្តាល។ / Tell me about the child's school or training</li><li>តើនរណាជាអ្នកបង់ថ្លៃសាលា និងទិញឯកសណ្ឋាន ហើយនឹងសម្ភារៈការសិក្សា? / Who pays school fee and buys uniforms and school materials?</li><li>(ប្រសិនបើបានចុះឈ្មោះចូលរៀន) តើកុមារនេះបានទៅសាលារៀនទៀងទាត់​រឺទេ? / Does the child attend the school regularly?</li><li>តើមានហេតុផល និងភាពញឹកញាប់ប៉ុណ្ណាដែរ ដែលកុមារខកខានមិនទៅសាលារៀន? / How often must the child miss school for any reason?</li><li>​ តើគាត់/នាងបានទៅធ្វើការទៀងទាត់ទេ?​ / Does he/she go to work regularly?</li></ul><br><p><b>សូម​សង្កេត​មើល​ប្រសិន​បើ​ឣាច៖</p><p>Things to look for during the visit:</b></p><ul><li>ប្រសិនបើអាច សូមធ្វើការសង្កេតលើឯកសណ្ឋានសាលារបស់កុមារ ឬសម្ភារៈ និងការប្រើ​ប្រាស់​​របស់ពួកគេ។ / If possible, observe the child's school uniform, or supplies, or their usage</li><li>សំរាប់ទារក ឬកុមារថ្នាក់មត្តេយ្យសូមសង្កេតទៅលើសកម្មភាពរបស់គាត់/​នាងត្រូវបាន​​ចូលរួមលេងអ្វីមួយ ឬកំពុងធ្វើ​សកម្មភាព​រៀនសូត្រជាមូយសមាជិកគ្រួសារណាមួយ។ / If an infant or preschooler, observe if he/she is involved in any play or learning with any family member?</li></ul><hr><p><b>ឣត្ថន័យ​នៃ​ពិន្ទុ៖</p><p>Score Interpretations:</b></p><p>១៖ កុមារគឺពុំបានចុះឈ្មោះចូលរៀនក្នុងសាលា មិនទាន់បានចូលវគ្គះបណ្តុះបណ្តាល ឬ​​​​ពុំបានចូលរួមក្នុងសកម្មភាពផលិត ឬការងារក្នុងអាយុដ៏សមរម្យមួយ។​ ទារក រឺកុមារដែលមិនទាន់គ្រប់អាយុមិនមានអ្នកលេងជាមួយ។</p><p>1. The child is not enrolled in school, not attending training, or not involve in an age-appropriate productive activity or job. An infant or preschooler is not played with.</p><p>២៖ កុមារគឺបានចុះឈ្មោះចូលរៀនក្នុងសាលា រឺមានការងារ ប៉ុន្តែគាត់/នាងកម្របានចូលរួម។​ ទារក រឺកុមារដែលមិនទាន់គ្រប់អាយុកម្រមានអ្នកលេងជាមួយ។</p><p>2. The child is enrolled in school or has a job, but he/she rarely attends. An infant or preschooler is rarely played with.</p><p>៣៖ កុមារគឺបានចុះឈ្មោះចូលរៀនក្នុងសាលា​/ចូលរួមវគ្គបណ្តុះបណ្តាល​ ប៉ុន្តែការចូលរួមមិនទៀងទាត់ ឬ​មិនខ្ជាប់ខ្ជួន​ដែលវាអាចបង្ហាញអោយឃើញពីផលប៉ះពាល់សកម្មភាពលើសកម្មភាពផលិត រឺការងារពួកគាត់។ កូនដែលក្មេងជាងគឺអាចលេងជាមួយនូវពេលខ្លះ ប៉ុន្តែមិនជារៀងរាល់ថ្ងៃ។​</p><p>3. The child is enrolled in school or training, but attends irrigularly or shows up inconsistantly for it, or for a productive activity or job. Younger children are played with sometimes, but not daily.</p><p>៤៖ កុមារគឺបានចុះឈ្មោះចូលរៀនក្នុងសាលា​ និងចូលរួមវគ្គបណ្តុះបណ្តាលទូទៅ។​ ទារក រឺកុមារដែលមិនទាន់គ្រប់អាយុអាចអោយលេងជាមួយអ្នកថែទាំ។​ កូនដែលធំជាងត្រូវមានការងារធ្វើដ៏សមរម្យមួយ។</p><p>4. The child is enrolled in and attending school/ training regularly. Infants/preschoolers play with their caregiver. An older child has an appropriate job.</p>"}
 # ]
 #
-# QUESTION_GROUPS = {
-#                 social_skill: 'ជំនាញសង្គម', cognitive_skill: 'ជំនាញនៃការយល់ដឹង',
-#                 language_skill: 'ជំនាញនៃភាសា', hearing: 'ការស្តាប់ឮ', vision: 'ការមើលឃើញ',
-#                 fine_motor: 'ចលនាតូច',  gross_motor: 'ចលនាធំ', self_care: 'ការថែរក្សាខ្លួន'
-#               }
+QUESTION_GROUPS = {
+                social_skill: 'ជំនាញសង្គម', cognitive_skill: 'ជំនាញនៃការយល់ដឹង',
+                language_skill: 'ជំនាញនៃភាសា', hearing: 'ការស្តាប់ឮ', vision: 'ការមើលឃើញ',
+                fine_motor: 'ចលនាតូច',  gross_motor: 'ចលនាធំ', self_care: 'ការថែរក្សាខ្លួន'
+              }
 #
 # domains.each do |domain|
 #   dg = DomainGroup.find_or_create_by(name: domain[:group])
 #   Domain.find_or_create_by(name: domain[:name], identity: domain[:identity], description: domain[:description], domain_group_id: dg.id, score_1_color: domain[:score_1_color], score_2_color: domain[:score_2_color], score_3_color: domain[:score_3_color], score_4_color: domain[:score_4_color])
 # end
 #
-# QUESTION_GROUPS.each do |key, stage_group|
-#   QuestionGroup.find_or_create_by(name: "#{key.to_s.titleize}/#{stage_group.titleize}")
-# end
-
 # domains.each do |domain|
 #   dg = DomainGroup.find_or_create_by(name: domain[:group])
 #   Domain.find_or_create_by(name: domain[:name], identity: domain[:identity], description: domain[:description], domain_group_id: dg.id, score_1_color: domain[:score_1_color], score_2_color: domain[:score_2_color], score_3_color: domain[:score_3_color], score_4_color: domain[:score_4_color])
 # end
 
-Location.create(name: 'ផ្សេងៗ Other', order_option: 1)
+QUESTION_GROUPS.each do |key, stage_group|
+  QuestionGroup.find_or_create_by(name: "#{key.to_s.titleize}/#{stage_group.titleize}")
+end
+
+Location.find_or_create_by(name: 'ផ្សេងៗ Other', order_option: 1)
