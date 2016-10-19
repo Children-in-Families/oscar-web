@@ -1151,6 +1151,7 @@ en:
       cases: Cases
       tasks: Tasks
       assessments: Assessments
+      case_notes: Case Notes
   shared:
     version:
       change: did the following change
@@ -1176,3 +1177,4 @@ en:
       Case: Case
       Task: Task
       Assessment: Assessment
+      CaseNote: Case Note

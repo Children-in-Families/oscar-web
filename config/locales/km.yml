@@ -1369,6 +1369,7 @@ km:
       cases: ករណី
       tasks: កាតព្វកិច្ច
       assessments: ការប៉ាន់ប្រមាណ
+      case_notes: កំណត់ត្រាករណី
 
   shared:
     version:
@@ -1395,3 +1396,4 @@ km:
       Case: ករណី
       Task: កាតព្វកិច្ច
       Assessment: ការប៉ាន់ប្រមាណ
+      CaseNote: កំណត់ត្រាករណី

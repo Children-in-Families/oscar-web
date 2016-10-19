@@ -6,6 +6,8 @@ module VersionHelper
       k = 'version'
     elsif k == 'name' && item_type == 'Task'
       k = 'task detail'
+    elsif k == 'attendee'
+      k = 'present'
     end
     k.titleize
   end
@@ -23,6 +25,7 @@ module VersionHelper
     clients            = ['client_id']
     quantitative_types = ['quantitative_type_id']
     domains            = ['domain_id']
+    assessments        = ['assessment_id']
 
     if titleizeTexts.include?(k)
       if val == both_val[0]
@@ -58,6 +61,8 @@ module VersionHelper
       val = QuantitativeType.find(val).name
     elsif domains.include?(k) && val.present?
       val = Domain.find(val).name
+    elsif assessments.include?(k) && val.present?
+      val = Assessment.find(val).created_at.in_time_zone.strftime('%d %B, %Y %H:%M:%S')
     end
     val
   end
