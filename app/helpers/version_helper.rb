@@ -1,6 +1,6 @@
 module VersionHelper
   def version_attribute(k, item_type = '')
-    if k == 'first_name'
+    if k == 'first_name' && item_type == 'Client'
       k = 'name'
     elsif k == 'change_version'
       k = 'version'
@@ -10,7 +10,7 @@ module VersionHelper
       k = 'present'
     elsif k == 'listening_score'
       k = 'I feel like my CCW listens to me when I speak.'
-    elsif k == 'problem_soving_score'
+    elsif k == 'problem_solving_score'
       k = 'My CCW helps me solve my problems.'
     elsif k == 'getting_in_touch_score'
       k = 'My CCW knows of other services and groups of people who can help me, and helps me get in touch with them.'
@@ -24,8 +24,14 @@ module VersionHelper
       k = 'I am happy with the way CIF and my CCW have supported me.'
     elsif k == 'care_score'
       k = 'My CCW cares about what happens to the children I take care of.'
+    elsif k == 'contact_person_name'
+      k = 'contact name'
+    elsif k == 'contact_person_email'
+      k = 'email'
+    elsif k == 'contact_person_mobile'
+      k = 'contact mobile'
     end
-    k.titleize
+    is_survey_score_text?(k) ? k : k.titleize
   end
 
   def version_value_format(val, k = '', both_val = [])
@@ -42,6 +48,7 @@ module VersionHelper
     quantitative_types = ['quantitative_type_id']
     domains            = ['domain_id']
     assessments        = ['assessment_id']
+    score_colors       = ['score_1_color', 'score_2_color', 'score_3_color', 'score_4_color']
 
     if titleizeTexts.include?(k)
       if val == both_val[0]
@@ -79,6 +86,8 @@ module VersionHelper
       val = Domain.find(val).name
     elsif assessments.include?(k) && val.present?
       val = Assessment.find(val).created_at.in_time_zone.strftime('%d %B, %Y %H:%M:%S')
+    elsif score_colors.include?(k)
+      val = domain_score_color(val)
     end
     val
   end
@@ -92,7 +101,7 @@ module VersionHelper
   end
 
   def version_keys_skipable?(k)
-    k == 'tokens' || k == 'encrypted_password' || k == 'uid' || k == 'exited'
+    k == 'tokens' || k == 'encrypted_password' || k == 'uid' || k == 'exited' || k == 'able'
   end
 
   private
@@ -103,5 +112,26 @@ module VersionHelper
 
   def has_html?(val)
     strip_tags(val) != val
+  end
+
+  def domain_score_color(val)
+    case val
+    when 'danger'  then 'Red'
+    when 'info'    then 'Blue'
+    when 'success' then 'Green'
+    when 'warning' then 'Yellow'
+    end
+  end
+
+  def is_survey_score_text?(text)
+    texts = ['I feel like my CCW listens to me when I speak.',
+            'My CCW helps me solve my problems.',
+            'My CCW knows of other services and groups of people who can help me, and helps me get in touch with them.',
+            'I can trust my CCW.',
+            'CIF has helped me through difficult times in my life.',
+            'CIF has helped me through difficult times in my life.',
+            'I am happy with the way CIF and my CCW have supported me.',
+            'My CCW cares about what happens to the children I take care of.']
+    texts.include?(text)
   end
 end

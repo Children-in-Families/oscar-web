@@ -7,5 +7,5 @@
       .form-group
         = f.input :description, input_html: { class: 'description', placeholder: t('.description') }, label: false
     .col-xs-12.col-sm-1
-      = link_to_remove_association f do
+      = link_to_remove_association f, data: { confirm: t('.are_you_sure') } do
         %i.glyphicon.glyphicon-trash

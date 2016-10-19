@@ -252,7 +252,7 @@ en:
     contact_name: Contact Name
     contact_email: Email
     contact_mobile: Contact Mobile
-    organisation_type: Organizatin Type
+    organisation_type: Organisation Type
     affiliation: Affiliation
     engagement: Engagement
     background: Background
@@ -1102,6 +1102,7 @@ en:
   changelogs:
     changelog_type_fields:
       description: Description
+      are_you_sure: Are you sure you want to delete?
     index:
       <<: *default_changelog_fields
       version_list: Version List
@@ -1163,7 +1164,7 @@ en:
       'on': 'on'
       no_modification: There are no any modifications.
       Client: Client
-      Familiy: Family
+      Family: Family
       Partner: Partner
       User: User
       Agency: Agency

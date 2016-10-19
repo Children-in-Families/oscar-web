@@ -1320,6 +1320,7 @@ km:
   changelogs:
     changelog_type_fields:
       description: ការពិពណ៌នា
+      are_you_sure: តើអ្នកប្រាកដហើយ?
     index:
       <<: *default_changelog_fields
       version_list: បញ្ជីកំណែ
