@@ -5,8 +5,8 @@ end
 
 describe Changelog, 'validations' do
   it { is_expected.to validate_presence_of(:user_id)}
-  it { is_expected.to validate_presence_of(:version)}
-  it { is_expected.to validate_uniqueness_of(:version)}
+  it { is_expected.to validate_presence_of(:change_version)}
+  it { is_expected.to validate_uniqueness_of(:change_version)}
 end
 
 describe Changelog, 'scope' do

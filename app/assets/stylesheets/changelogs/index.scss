@@ -60,4 +60,14 @@ body[id='changelogs-index'] {
   .glyphicon-pencil {
     margin-right: 10px;
   }
+
+  .view-modification {
+    margin-top: 10px;
+  }
+
+  @media (min-width: 768px) {
+    .view-modification {
+      float: right;
+    }
+  }
 }

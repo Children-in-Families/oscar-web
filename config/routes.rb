@@ -55,7 +55,11 @@ Rails.application.routes.draw do
   end
 
   resources :quarterly_reports, only: [:index]
-  resources :changelogs
+
+  resources :changelogs do
+    get 'version' => 'changelogs#version'
+  end
+
   get '/data_trackers' => 'data_trackers#index'
 
   resources :tasks do

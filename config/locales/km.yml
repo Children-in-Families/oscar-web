@@ -2,7 +2,7 @@ km:
   faq: FAQ
 
   default_changelog_fields: &default_changelog_fields
-    version: កំណែ
+    change_version: កំណែ
     description: ការពិពណ៌នា
 
   default_government_report_fields: &default_government_report_fields
@@ -651,9 +651,13 @@ km:
   activerecord:
     errors:
       models:
+        changelog_type:
+          attributes:
+            description:
+              blank: មិនអាចរំលង
         changelog:
           attributes:
-            version:
+            change_version:
               blank: មិនអាចរំលង
               taken: ត្រូវបានប្រើរួចហើយ
             description:
@@ -1322,6 +1326,7 @@ km:
       changes: កំណែ
       add_new_changelog: បន្ថែមការផ្លាស់ប្ដូរថ្មី
       are_you_sure: តើអ្នកពិតជាចង់លុបការផ្លាស់ប្ដូរនេះ
+      view_modification: មើលកំណែប្រែ
     show:
       back: ត្រលប់ក្រោយ
     edit:
@@ -1339,6 +1344,9 @@ km:
       successfully_updated: ការផ្លាស់ប្ដូរត្រូវបានកែសម្រួលដោយជោគជ័យ
     destroy:
       successfully_deleted: ការផ្លាស់ប្ដូរត្រូវបានលុបដោយជោគជ័យ
+    version:
+      modification_of: កំណែប្រែរបស់
+      back: ត្រលប់ក្រោយ
 
   data_trackers:
     index:

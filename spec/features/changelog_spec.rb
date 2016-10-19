@@ -12,9 +12,9 @@ describe 'Changelog' do
       visit changelogs_path
     end
 
-    scenario 'version' do
+    scenario 'change_version' do
       visit "#{changelogs_path}&page=2"
-      expect(page).to have_content(changelog.version)
+      expect(page).to have_content(changelog.change_version)
     end
 
     scenario 'edit link' do
@@ -41,8 +41,8 @@ describe 'Changelog' do
     end
 
     scenario 'valid' do
-      fill_in 'Version', with: FFaker::Name.name
-      fill_in 'Description', with: FFaker::Lorem.paragraph
+      fill_in I18n.t('changelogs.form.change_version'), with: FFaker::Name.name
+      find("#changelog_type .nested-fields input.description").set(FFaker::Lorem.paragraph)
       click_button I18n.t('changelogs.form.save')
       expect(page).to have_content(I18n.t('changelogs.create.successfully_created'))
     end
@@ -54,21 +54,21 @@ describe 'Changelog' do
   end
 
   feature 'Edit' do
-    let!(:version) { FFaker::Name.name }
-    let!(:other_changelog) { create(:changelog, version: '0.1') }
+    let!(:change_version) { FFaker::Name.name }
+    let!(:other_changelog) { create(:changelog, change_version: '0.1') }
     before do
       visit edit_changelog_path(changelog)
     end
     scenario 'valid' do
-      fill_in 'Version', with: version
+      fill_in I18n.t('changelogs.form.change_version'), with: change_version
       click_button I18n.t('changelogs.form.save')
       expect(page).to have_content(I18n.t('changelogs.update.successfully_updated'))
-      expect(page).to have_content(version)
+      expect(page).to have_content(change_version)
     end
     scenario 'invalid' do
-      fill_in 'Version', with: '0.1'
+      fill_in I18n.t('changelogs.form.change_version'), with: '0.1'
       click_button I18n.t('changelogs.form.save')
-      expect(page).to have_content(I18n.t('activerecord.errors.models.changelog.attributes.version.taken'))
+      expect(page).to have_content(I18n.t('activerecord.errors.models.changelog.attributes.change_version.taken'))
     end
   end
 
@@ -80,9 +80,6 @@ describe 'Changelog' do
       find("a[href='#{changelog_path(changelog)}'][data-method='delete']").click
       expect(page).to have_content(I18n.t('changelogs.destroy.successfully_deleted'))
     end
-    # scenario 'unsuccess' do
-    #   expect(page).not_to have_css("a[href='#{changelog_path(other_changelog)}'][data-method='delete']")
-    # end
   end
 
   feature 'Show' do
@@ -90,8 +87,7 @@ describe 'Changelog' do
       visit changelog_path(changelog)
     end
     scenario 'success' do
-      expect(page).to have_content(changelog.version)
-      expect(page).to have_content(changelog.description)
+      expect(page).to have_content(changelog.change_version)
     end
     scenario 'link back to index' do
       expect(page).to have_link(nil, changelogs_path)

@@ -1,6 +1,10 @@
 module VersionHelper
   def version_attribute(k)
-    k = k == 'first_name' ? 'name' : k
+    if k == 'first_name'
+      k = 'name'
+    elsif k == 'change_version'
+      k = 'version'
+    end
     k.titleize
   end
 

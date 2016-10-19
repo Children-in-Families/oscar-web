@@ -2,7 +2,7 @@ en:
   faq: FAQ
 
   default_changelog_fields: &default_changelog_fields
-    version: Version
+    change_version: Version
     description: Description
 
   default_government_report_fields: &default_government_report_fields
@@ -639,9 +639,13 @@ en:
   activerecord:
     errors:
       models:
+        changelog_type:
+          attributes:
+            description:
+              blank: can't be blank
         changelog:
           attributes:
-            version:
+            change_version:
               blank: can't be blank
               taken: has already been taken
             description:
@@ -1104,7 +1108,7 @@ en:
       changes: Changes
       add_new_changelog: Add New Changelog
       are_you_sure: Are you sure you want to delete
-
+      view_modification: View modification
     show:
       back: Back
     edit:
@@ -1122,6 +1126,9 @@ en:
       successfully_updated: Changelog has been successfully updated.
     destroy:
       successfully_deleted: Changelog has been successfully deleted.
+    version:
+      modification_of: Modification of
+      back: Back
 
   data_trackers:
     index:
