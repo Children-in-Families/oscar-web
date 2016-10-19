@@ -1149,6 +1149,7 @@ en:
       quantitative_cases: Quantitative Data
       changelogs: Changelogs
       cases: Cases
+      tasks: Tasks
   shared:
     version:
       change: did the following change
@@ -1172,3 +1173,4 @@ en:
       QuantitativeCase: Quantitative Data
       Changelog: Changelog
       Case: Case
+      Task: Task

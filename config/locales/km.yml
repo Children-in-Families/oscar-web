@@ -1367,6 +1367,7 @@ km:
       quantitative_cases: ទិន្នន័យនៃបរិមាណ
       changelogs: ការផ្លាស់ប្ដូរ
       cases: ករណី
+      tasks: កាតព្វកិច្ច
 
   shared:
     version:
@@ -1391,3 +1392,4 @@ km:
       QuantitativeCase: ទិន្នន័យនៃបរិមាណ
       Changelog: ការផ្លាស់ប្ដូរ
       Case: ករណី
+      Task: កាតព្វកិច្ច

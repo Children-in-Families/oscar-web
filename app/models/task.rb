@@ -4,6 +4,8 @@ class Task < ActiveRecord::Base
   belongs_to :case_note_domain_group
   belongs_to :client
 
+  has_paper_trail
+
   validates :name, presence: true
   validates :domain, presence: true
   validates :completion_date, presence: true

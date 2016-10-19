@@ -41,7 +41,7 @@
                     - next if version_keys_skipable?(k)
                     %tr
                       %td.col-sm-4
-                        = version_attribute(k)
+                        = version_attribute(k, version.item_type)
                       %td.col-sm-4
                         = version_value_format(v[0], k, v)
                       %td.col-sm-4
