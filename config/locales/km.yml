@@ -1366,6 +1366,7 @@ km:
       quantitative_types: ប្រភេទនៃបរិមាណ
       quantitative_cases: ទិន្នន័យនៃបរិមាណ
       changelogs: ការផ្លាស់ប្ដូរ
+      cases: ករណី
 
   shared:
     version:
@@ -1389,3 +1390,4 @@ km:
       QuantitativeType: ប្រភេទនៃបរិមាណ
       QuantitativeCase: ទិន្នន័យនៃបរិមាណ
       Changelog: ការផ្លាស់ប្ដូរ
+      Case: ករណី

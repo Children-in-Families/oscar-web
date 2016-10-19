@@ -1148,6 +1148,7 @@ en:
       quantitative_types: Quantitative Types
       quantitative_cases: Quantitative Data
       changelogs: Changelogs
+      cases: Cases
   shared:
     version:
       change: did the following change
@@ -1170,3 +1171,4 @@ en:
       QuantitativeType: Quantitative Type
       QuantitativeCase: Quantitative Data
       Changelog: Changelog
+      Case: Case
