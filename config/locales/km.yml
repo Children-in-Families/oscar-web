@@ -1370,6 +1370,7 @@ km:
       tasks: កាតព្វកិច្ច
       assessments: ការប៉ាន់ប្រមាណ
       case_notes: កំណត់ត្រាករណី
+      surveys: ការស្ទង់មតិ
 
   shared:
     version:
@@ -1397,3 +1398,4 @@ km:
       Task: កាតព្វកិច្ច
       Assessment: ការប៉ាន់ប្រមាណ
       CaseNote: កំណត់ត្រាករណី
+      Survey: ការស្ទង់មតិ

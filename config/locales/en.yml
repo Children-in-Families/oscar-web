@@ -1152,6 +1152,7 @@ en:
       tasks: Tasks
       assessments: Assessments
       case_notes: Case Notes
+      surveys: Surveys
   shared:
     version:
       change: did the following change
@@ -1178,3 +1179,4 @@ en:
       Task: Task
       Assessment: Assessment
       CaseNote: Case Note
+      Survey: Survey

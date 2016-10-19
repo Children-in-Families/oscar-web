@@ -8,6 +8,22 @@ module VersionHelper
       k = 'task detail'
     elsif k == 'attendee'
       k = 'present'
+    elsif k == 'listening_score'
+      k = 'I feel like my CCW listens to me when I speak.'
+    elsif k == 'problem_soving_score'
+      k = 'My CCW helps me solve my problems.'
+    elsif k == 'getting_in_touch_score'
+      k = 'My CCW knows of other services and groups of people who can help me, and helps me get in touch with them.'
+    elsif k == 'trust_score'
+      k = 'I can trust my CCW.'
+    elsif k == 'difficulty_help_score'
+      k = 'CIF has helped me through difficult times in my life.'
+    elsif k == 'support_score'
+      k = 'CIF has helped me through difficult times in my life.'
+    elsif k == 'family_need_score'
+      k = 'I am happy with the way CIF and my CCW have supported me.'
+    elsif k == 'care_score'
+      k = 'My CCW cares about what happens to the children I take care of.'
     end
     k.titleize
   end
