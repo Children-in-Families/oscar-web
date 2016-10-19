@@ -8,8 +8,8 @@
             %small.top-right-icon
               = link_to edit_user_path(@user) do
                 %i.glyphicon.glyphicon-pencil
-              - if @user.has_no_clients_cases_and_tasks?
-                = link_to @user, method: 'delete', data: { confirm: 'Are you sure you want to delete?' } do
+              - if @user.has_no_any_associated_objects?
+                = link_to @user, method: 'delete', data: { confirm: t('.are_you_sure') } do
                   %i.glyphicon.glyphicon-trash
               - else
                 %i.glyphicon.glyphicon-trash

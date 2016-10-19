@@ -23,6 +23,36 @@ module ClientsHelper
     end
   end
 
+  def report_options(title, yaxis_title)
+    {
+      library: {
+        legend: {
+          verticalAlign: 'top',
+          y: 30
+        },
+        tooltip: {
+          shared: true,
+          xDateFormat: '%b %Y'
+        },
+        title: {
+          text: title
+        },
+        xAxis: {
+          dateTimeLabelFormats: {
+            month: '%b %Y'
+          },
+          tickmarkPlacement: 'on'
+        },
+        yAxis: {
+          allowDecimals: false,
+          title: {
+            text: yaxis_title
+          }
+        }
+      }
+    }
+  end
+
   def columns_visibility(column)
     label_tag "#{column}_",
       case column
@@ -46,7 +76,7 @@ module ClientsHelper
       when :current_address               then t('datagrid.columns.clients.current_address')
       when :school_name                   then t('datagrid.columns.clients.school_name')
       when :grade                         then t('datagrid.columns.clients.school_grade')
-      when :able                          then t('datagrid.columns.clients.able')
+      when :able_state                    then t('datagrid.columns.clients.able_state')
       when :has_been_in_orphanage         then t('datagrid.columns.clients.has_been_in_orphanage')
       when :has_been_in_government_care   then t('datagrid.columns.clients.has_been_in_government_care')
       when :relevant_referral_information then t('datagrid.columns.clients.relevant_referral_information')
@@ -75,5 +105,9 @@ module ClientsHelper
 
   def kc_manageable
     current_user.admin? || current_user.case_worker? || current_user.kc_manager?
+  end
+
+  def can_manage_client_progress_note?
+    @client.able? && (current_user.case_worker? || current_user.able_manager? || current_user.admin?)
   end
 end

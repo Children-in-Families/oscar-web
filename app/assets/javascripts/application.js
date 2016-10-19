@@ -4,8 +4,9 @@
 //= require bootstrap-sprockets
 //= require jquery.steps.min
 //= require thredded
-//= require chartkick
-
+//= require cocoon
+//= require image_upload_previewer/image_upload_previewer
+//= require image_upload
 //= require bootstrap-datepicker
 
 //= require namespace
@@ -20,6 +21,7 @@
 //= require admin/tasks
 //= require ckeditor/init
 //= require clients/index
+//= require report_creator
 //= require clients/show
 //= require clients/form
 //= require common
@@ -32,3 +34,7 @@
 //= require users/index
 //= require partners/index
 //= require government_reports/form
+//= require stages/form
+//= require able_screening_questions/form
+//= require progress_notes/form
+//= require progress_notes/index

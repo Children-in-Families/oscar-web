@@ -13,7 +13,7 @@
                     - @changelogs.each do |changelog|
                       %li.list
                         = link_to "#{changelog.change_version} - #{changelog.created_at.strftime('%d %B, %Y')}", "#changelog-#{changelog.id}"
-                        = link_to changelog, method: 'delete', data: { confirm: "#{t('.are_you_sure')}?" }, class: 'pull-right' do
+                        = link_to changelog, method: 'delete', data: { confirm: t('.are_you_sure') }, class: 'pull-right' do
                           %i.glyphicon.glyphicon-trash
                         = link_to edit_changelog_path(changelog), class: 'pull-right' do
                           %i.glyphicon.glyphicon-pencil
@@ -40,8 +40,8 @@
                             .row
                               .col-xs-12.change
                                 .row
-                                  .col-xs-3.col-sm-2
+                                  .col-xs-3.col-md-2
                                     %div{ class: "change-type label label-#{changelog_type_label(changelog_type.change_type)}" }
                                       = changelog_type.change_type.upcase
-                                  .col-xs-9.col-sm-10
+                                  .col-xs-9.col-md-10
                                     = changelog_type.description

@@ -1,0 +1,9 @@
+= simple_form_for(@location) do |f|
+  .panel-body
+    = error_notification(f)
+    .form-inputs
+      = f.input :name, label: t('.name')
+  .panel-footer
+    .form-actions
+      = f.submit t('.save') , class: 'btn btn-primary form-btn'
+      = link_to t('.cancel'), locations_path, class: 'btn btn-default form-btn'

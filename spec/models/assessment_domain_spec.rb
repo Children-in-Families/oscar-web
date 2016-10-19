@@ -1,6 +1,7 @@
 describe AssessmentDomain, 'associations' do
   it { is_expected.to belong_to(:assessment)}
   it { is_expected.to belong_to(:domain)}
+  it { is_expected.to have_and_belong_to_many(:progress_notes)}
 end
 
 describe AssessmentDomain, 'validations' do
@@ -103,5 +104,17 @@ describe AssessmentDomain, 'instance method' do
     it { expect(not_ideal.previous_score_color_class).to eq('info') }
     it { expect(good.previous_score_color_class).to eq('success')}
   end
+end
 
+describe AssessmentDomain, 'scopes' do
+  let!(:assessment_domain){ create(:assessment_domain, goal: FFaker::Lorem.word) }
+  let!(:other_assessment_domain){ create(:assessment_domain, goal: FFaker::Lorem.word) }
+  context 'goal like' do
+    it 'should include assessment_domain with goal like' do
+        expect(AssessmentDomain.goal_like([assessment_domain.goal])).to include(assessment_domain)
+    end
+    it 'should not include assessment_domain with other goal' do
+        expect(AssessmentDomain.goal_like([assessment_domain.goal])).not_to include(other_assessment_domain)
+    end
+  end
 end

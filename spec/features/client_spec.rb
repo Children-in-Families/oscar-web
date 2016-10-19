@@ -40,6 +40,21 @@ describe 'Client' do
     end
   end
 
+  feature 'Reports' do
+    before do
+      login_as(admin)
+      visit clients_path
+    end
+    scenario 'CSI Domain Score', js: true do
+      sleep 1
+      expect(page).to have_content(I18n.t('clients.index.csi_domain_scores'))
+    end
+    xscenario 'Case Type Statistic', js: true do
+      sleep 1
+      expect(page).to have_content(I18n.t('clients.index.client_amount'))
+    end
+  end
+
   feature 'Show' do
     let!(:client){ create(:client, user: user, state: 'accepted') }
     let!(:other_client){create(:client)}

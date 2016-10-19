@@ -17,9 +17,6 @@ Rails.application.routes.draw do
     get 'version' => 'agencies#version'
   end
 
-  post '/reports' => 'reports#index'
-  resources :reports, only: [:index]
-
   scope 'admin' do
     resources :users do
       get 'version' => 'users#version'
@@ -52,15 +49,21 @@ Rails.application.routes.draw do
 
   resources :departments, except: [:show] do
     get 'version' => 'departments#version'
-  end
-
-  resources :quarterly_reports, only: [:index]
+  end  
 
   resources :changelogs do
     get 'version' => 'changelogs#version'
   end
 
   get '/data_trackers' => 'data_trackers#index'
+
+  resources :stages
+  resources :able_screening_questions, except: [:index, :show]
+  resources :quarterly_reports, only: [:index]
+  resources :materials, except: [:show]
+  resources :locations, except: [:show]
+  resources :progress_note_types, except: [:show]
+  resources :interventions, except: [:show]
 
   resources :tasks do
     collection do
@@ -81,10 +84,9 @@ Rails.application.routes.draw do
       resources :tasks
     end
     resources :surveys
+    resources :progress_notes
     get 'version' => 'clients#version'
   end
-
-  
 
   resources :families do
     get 'version' => 'families#version'

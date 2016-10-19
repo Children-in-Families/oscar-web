@@ -1,0 +1,53 @@
+.row
+  .col-xs-12.col-sm-8.col-sm-offset-2
+    .panel.panel-default
+      .panel-heading
+        .row
+          .col-xs-12.col-md-6
+            %h4= t('.able_screening_questions')
+          .col-xs-12.col-md-6
+            = link_to t('.new_general_question'), new_able_screening_question_url, class: 'btn btn-success pull-right btn-question'
+            = link_to t('.new_stage_question'), new_stage_path, class: 'btn btn-success pull-right btn-question'
+      .panel-body
+        #non-stage-accordion.panel-group{"aria-multiselectable" => "true", :role => "tablist"}
+          .panel.panel-default
+            .panel-heading{id: "heading-zero", :role => "tab"}
+              .row
+                .col-xs-6
+                  %h4.panel-title
+                    %a{"aria-controls" => "collapse-zero", "aria-expanded" => "true", "data-parent" => "#non-stage-accordion", "data-toggle" => "collapse", :href => "#collapse-zero", :role => "button"}
+                      = t('.general_question')
+                .col-xs-6.text-right
+                  %span.badge= t('.question', count: @non_stage_question.count)
+            .panel-collapse.collapse.in{"aria-labelledby" => "heading-zero", :role => "tabpanel", id: "collapse-zero"}
+              .panel-body
+                - @non_stage_question.each do |able_question|
+                  .row
+                    .col-xs-10
+                      %p= able_question.question
+                    .col-xs-2.text-right
+                      = link_to edit_able_screening_question_url(able_question) do
+                        %span.glyphicon.glyphicon-pencil
+
+        - @stages.each do |stage|
+          .panel-group{"aria-multiselectable" => "true", :role => "tablist"}
+            .panel.panel-default
+              .panel-heading{id: "heading-no#{stage.id}", :role => "tab"}
+                .row
+                  .col-xs-6
+                    %h4.panel-title
+                      %a{"aria-controls" => "collapse-#{stage.id}", "aria-expanded" => "true", "data-toggle" => "collapse", :href => "#collapse-#{stage.id}", :role => "button"}
+                        = "#{t('.from')} #{stage.from_age} #{t('.to')} #{stage.to_age} #{t('.year')}"
+                  .col-xs-6.text-right
+                    = link_to edit_stage_path(stage), class: 'btn-edit-stage' do
+                      %i.glyphicon.glyphicon-pencil
+                    %span.badge= t('.question', count: stage.able_screening_questions.count)
+              .panel-collapse.collapse.in{"aria-labelledby" => "heading-no#{stage.id}", :role => "tabpanel", id: "collapse-#{stage.id}"}
+                .panel-body
+                  - stage.able_screening_questions.each do |able_question|
+                    .row
+                      .col-xs-10
+                        %p= able_question.question
+                      .col-xs-2.text-right.hidden
+                        = link_to edit_stage_path(stage) do
+                          %span.glyphicon.glyphicon-pencil

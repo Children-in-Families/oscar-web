@@ -6,11 +6,64 @@ CIF.ClientsIndex = do ->
     _cssClassForlabelDynamic()
     _restrictNumberFilter()
     _quantitativeCaesByQuantitativeType()
+    _handleHideShowReport()
+    _formatReportxAxis()
+    _handleCreateCaseReport()
+    _handleCreateCsiDomainReport()
+
+  _reportOption = (data, title, yAxisTitle, element) ->
+    if data != undefined
+      $(element).highcharts
+        chart: type: 'spline'
+        legend:
+          verticalAlign: 'top'
+          y: 30
+        plotOptions: series: connectNulls: true
+        tooltip:
+          shared: true
+          xDateFormat: '%b %Y'
+        title:
+          text: title
+        xAxis:
+          categories: data[0]
+          dateTimeLabelFormats:
+            month: '%b %Y'
+          tickmarkPlacement: 'on'
+        yAxis:
+          allowDecimals: false
+          title:
+            text: yAxisTitle
+        series: data[1]
+      $('.highcharts-credits').css('display', 'none')
+
+  _handleCreateCsiDomainReport = ->
+    element = $('#cis-domain-score')
+    csiData = element.data('csi-domain')
+    csiTitle = element.data('title')
+    csiyAxisTitle = element.data('yaxis-title')
+
+    _reportOption(csiData, csiTitle, csiyAxisTitle, element)
+
+  _handleCreateCaseReport = ->
+    element = $('#case-statistic')
+    caseData = element.data('case-statistic')
+    caseTitle =  element.data('title')
+    caseyAxisTitle =  element.data('yaxis-title')
+
+    _reportOption(caseData, caseTitle, caseyAxisTitle, element)
 
   _enableSelect2 = ->
     $('#clients-index select').select2
       minimumInputLength: 0,
       allowClear: true
+
+  _formatReportxAxis = ->
+    Highcharts.setOptions global: useUTC: false
+
+  _handleHideShowReport = ->
+    $('#client-statistic').click ->
+      $('#client-statistic-body').slideToggle("slow")
+      window.dispatchEvent new Event('resize')
 
   _columnsVisibility = ->
     $('.columns-visibility').click (e) ->

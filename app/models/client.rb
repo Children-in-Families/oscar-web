@@ -5,6 +5,7 @@ class Client < ActiveRecord::Base
   friendly_id :slug, use: :slugged
 
   CLIENT_STATUSES = ['Referred', 'Active EC', 'Active KC', 'Active FC', 'Independent - Monitored', 'Exited - Deseased', 'Exited - Age Out', 'Exited Independent', 'Exited Adopted', 'Exited Other'].freeze
+  ABLE_STATES = %w(Accepted Rejected Discharged)
 
   EXIT_STATUSES   = CLIENT_STATUSES.select { |status| status if status.include?('Exited') }
 
@@ -15,12 +16,21 @@ class Client < ActiveRecord::Base
   belongs_to :followed_up_by,   class_name: 'User',     foreign_key: 'followed_up_by_id', counter_cache: true
   belongs_to :birth_province,   class_name: 'Province', foreign_key: 'birth_province_id', counter_cache: true
 
-  has_many :cases,       dependent: :destroy
-  has_many :tasks,       dependent: :destroy
-  has_many :case_notes,  dependent: :destroy
-  has_many :assessments, dependent: :destroy
-  has_many :surveys,     dependent: :destroy
   has_one  :government_report, dependent: :destroy
+  has_many :answers, dependent: :destroy
+  has_many :able_screening_questions, through: :answers
+  has_many :tasks,          dependent: :destroy
+
+  accepts_nested_attributes_for :tasks
+  accepts_nested_attributes_for :answers,
+            reject_if: proc { |attributes| attributes['description'].blank? },
+            allow_destroy: true
+
+  has_many :cases,          dependent: :destroy
+  has_many :case_notes,     dependent: :destroy
+  has_many :assessments,    dependent: :destroy
+  has_many :surveys,        dependent: :destroy
+  has_many :progress_notes, dependent: :destroy
 
   has_and_belongs_to_many :agencies
   has_and_belongs_to_many :quantitative_cases
@@ -32,7 +42,7 @@ class Client < ActiveRecord::Base
   validates :rejected_note, presence: true, on: :update, if: :reject?
 
   before_update :reset_user_to_tasks
-  after_create  :set_slug_as_alias
+  after_create  :set_slug_as_alias, :set_able_status
 
   scope :first_name_like,      -> (value) { where('LOWER(clients.first_name) LIKE ?', "%#{value.downcase}%") }
 
@@ -74,9 +84,10 @@ class Client < ActiveRecord::Base
 
   scope :active_fc,            -> { where(status: 'Active FC') }
 
-  scope :able,                 -> { where(able: true) }
-
   scope :without_assessments,  -> { includes(:assessments).where(assessments: { client_id: nil }) }
+
+  scope :able,                 -> { where(able_state: ABLE_STATES[0]) }
+  scope :able_state_is,        -> (value) { where(able_state: value) }
 
   def reject?
     state_changed? && state == 'rejected'
@@ -116,7 +127,11 @@ class Client < ActiveRecord::Base
   end
 
   def self.able_managed_by(user)
-    where('able = ? or user_id = ?', true, user.id)
+    where('able_state = ? or user_id = ?', ABLE_STATES[0], user.id)
+  end
+
+  def self.in_any_able_states_managed_by(user)
+    where('user_id = ? OR able_state IN(?)', user.id, ABLE_STATES)
   end
 
   def self.managed_by(user, status)
@@ -183,7 +198,15 @@ class Client < ActiveRecord::Base
   end
 
   def able?
-    able
+    able_state == ABLE_STATES[0]
+  end
+
+  def rejected?
+    able_state == ABLE_STATES[1]
+  end
+
+  def discharged?
+    able_state == ABLE_STATES[2]
   end
 
   def active_kc?
@@ -202,12 +225,18 @@ class Client < ActiveRecord::Base
     self.paper_trail.without_versioning { |obj| obj.update_attributes(slug: "#{ENV['ORGANISATION_ABBREVIATION']}-#{id}") }
   end
 
+  def set_able_status
+    if AbleScreeningQuestion.has_alert_manager?(self) && answers.include_yes?
+      self.update(able_state: ABLE_STATES[0])
+    end
+  end
+
   def time_in_care
     if cases.any?
       if cases.active.any?
         active_cases      = cases.active.order(:created_at)
         first_active_case = active_cases.active.first
-        
+
         start_date        = first_active_case.start_date.to_date
         current_date      = Date.today.to_date
 
@@ -217,10 +246,10 @@ class Client < ActiveRecord::Base
         inactive_cases     = cases.inactive.order(:updated_at)
         last_inactive_case = inactive_cases.last
         end_date           = last_inactive_case.exit_date.to_date
-        
+
         first_case         = cases.inactive.order(:created_at).first
         start_date         = first_case.start_date.to_date
-        
+
         ((end_date - start_date).to_f / 365).round(1)
       end
     else

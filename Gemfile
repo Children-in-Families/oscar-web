@@ -41,9 +41,11 @@ gem 'wkhtmltopdf-binary-edge', '~> 0.12.3.0'
 gem 'browser',                '~> 2.1'
 gem 'whenever',               '~> 0.9.4'
 gem 'thredded',               '~> 0.6.1'
-gem 'chartkick',              '~> 2.0', '>= 2.0.2'
 gem 'cocoon',                 '~> 1.2', '>= 1.2.9'
 gem 'paper_trail',            '~> 5.2'
+gem 'carrierwave',            '~> 0.11.2'
+gem 'mini_magick',            '~> 4.5'
+gem 'chartkick',              '~> 2.0', '>= 2.0.2'
 
 group :development, :test do
   gem 'pry'

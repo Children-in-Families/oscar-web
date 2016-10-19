@@ -1,9 +1,0 @@
-.row.statistic
-  .col-xs-12.col-md-6
-    .panel.panel-default.case-statistic
-      .panel-body
-        = line_chart(@cases_statistics , { library: { legend: { verticalAlign: 'top', y: 30 }, tooltip: { shared: true, xDateFormat: '%B %Y' }, title: { text: t('.case_statistics') }, yAxis: { allowDecimals: false, title: { text: t('.client_amount') }}}, height: '400px' })
-  .col-xs-12.col-md-6
-    .panel.panel-default.csi-statistic
-      .panel-body
-        = line_chart(@csi_statistics, { library: { legend: { verticalAlign: 'top', y: 30, align: 'center' }, tooltip: { shared: true, xDateFormat: '%B %Y' }, title: { text: t('.csi_domain_scores') }, xAxis: { tickmarkPlacement: 'on' }, yAxis: { title: { text: t('.domain_score'), format: '%B %Y'}, min: 0, max: 4 }}})

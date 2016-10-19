@@ -15,43 +15,16 @@ describe CaseStatistic, 'statistic data' do
   let!(:fc_case){ create(:case, case_type: 'FC', client: fc_client, start_date: 2.months.ago) }
   let!(:kc_case){ create(:case, case_type: 'KC', client: kc_client, start_date: 1.month.ago) }
 
-  it 'returns current active cases of clients with single case without filter' do
-    data = [
-              {:name=>"Active EC", :data=>{3.months.ago.strftime('%B %Y')=>2}},
-              {:name=>"Active FC", :data=>{2.months.ago.strftime('%B %Y')=>2}},
-              {:name=>"Active KC", :data=>{1.month.ago.strftime('%B %Y')=>2}}
-            ]
-    
-    statistic = CaseStatistic.new('', '')
+  it 'returns current active cases of clients with single case' do
+    data = [["Jul-16", "Aug-16", "Sep-16"], [{:name=>"Active EC", :data=>[2, nil, nil]}, {:name=>"Active FC", :data=>[nil, 2, nil]}, {:name=>"Active KC", :data=>[nil, nil, 2]}]]
+    statistic = CaseStatistic.new(Client.all)
     expect(statistic.statistic_data).to eq(data)
   end
 
-  it 'returns current active cases of clients with single case and has filter start date' do
-    data = [
-              {:name=>"Active FC", :data=>{2.months.ago.strftime('%B %Y')=>2}},
-              {:name=>"Active KC", :data=>{1.month.ago.strftime('%B %Y')=>2}}
-            ]
-    
-    statistic = CaseStatistic.new(2.months.ago.to_date.to_s, Date.today.to_s)
-    expect(statistic.statistic_data).to eq(data)
-  end
-
-  it 'returns current active cases of clients with multiple cases without filter' do
+  it 'returns current active cases of clients with multiple cases' do
     FactoryGirl.create(:case, case_type: 'FC', client: ec_client, start_date: 2.months.ago)
-    data = [
-              {:name=>"Active FC", :data=>{2.months.ago.strftime('%B %Y')=>3}},
-              {:name=>"Active KC", :data=>{1.month.ago.strftime('%B %Y')=>2}}
-            ]
-    expect(CaseStatistic.new('', '').statistic_data).to eq(data)
+    data = [["Aug-16", "Sep-16"], [{:name=>"Active FC", :data=>[3, nil]}, {:name=>"Active KC", :data=>[nil, 2]}]]
+    expect(CaseStatistic.new(Client.all).statistic_data).to eq(data)
   end
 
-  it 'returns current active cases of clients with multiple cases and has filter start date' do
-    FactoryGirl.create(:case, case_type: 'FC', client: ec_client, start_date: 2.months.ago)
-    data = [
-              {:name=>"Active FC", :data=>{2.months.ago.strftime('%B %Y')=>3}},
-              {:name=>"Active KC", :data=>{1.month.ago.strftime('%B %Y')=>2}}
-            ]
-    statistic = CaseStatistic.new(2.months.ago.to_date.to_s, Date.today.to_s)
-    expect(statistic.statistic_data).to eq(data)
-  end
 end

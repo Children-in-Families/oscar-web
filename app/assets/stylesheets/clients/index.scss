@@ -1,6 +1,21 @@
 #clients-index {
   #client-search-form {
-    margin-top: 20px;
+    margin-top: 16px;
+  }
+  .highcharts-legend-item path{
+    cursor: pointer;
+  }
+  #client-statistic{
+    margin-top: 16px;
+  }
+  #client-statistic{
+    margin: 0px 0px 16px 5px;
+  }
+  #client-statistic-body{
+    display: none;
+  }
+  .statistic{
+    margin-bottom: -18px;
   }
   .table {
     th, td.gender, td.status, td.follow_up_date, td.date_of_birth, td.grade, td.has_been_in_orphanage, td.has_been_in_government_care, td.initial_referral_date, td.referral_phone, td.able, td.birth_province, td.province, td.state, td.case_start_date, td.carer_phone_number td.support_amount, td.family_preservation, td.cases {
@@ -42,7 +57,7 @@
     min-width: 100px;
   }
   
-  th.age, th.name, th.status, th.able, th.state, th.family, th.partner, th.manage, th.cases, th.family_id {
+  th.age, th.name, th.status, th.state, th.family, th.partner, th.manage, th.cases, th.family_id {
     min-width: 200px;
   }
 
@@ -57,7 +72,7 @@
   th.age, th.follow_up_date, th.received_by, th.followed_up_by, th.agency, th.date_of_birth, th.school_name, th.referral_phone, th.referral_source, th.birth_province, th.province, th.rejected_note, th.user, th.carer_names, th.carer_address, th.support_amount, th.support_note {
     min-width: 250px;
   }
-  td.any_assessments, th.any_assessments{
+  td.any_assessments, th.any_assessments, th.able_state {
     min-width: 150px;
   }
 
@@ -92,5 +107,9 @@
   .dynamic_filter.value{
     width: 32%;
     float: left;
+  }
+
+  .date_filter {
+    padding: 6px;
   }
 }

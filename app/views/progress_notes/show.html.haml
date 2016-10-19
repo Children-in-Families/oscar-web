@@ -1,0 +1,81 @@
+.row
+  .col-xs-12
+    .panel.panel-default
+      .panel-body
+        %h3
+          = @progress_note.date
+          %small.pull-right
+            = link_to edit_client_progress_note_path(@client, @progress_note) do
+              %i.glyphicon.glyphicon-pencil
+            = link_to [@client, @progress_note], method: 'delete', data: { confirm: t('.are_you_sure') } do
+              %i.glyphicon.glyphicon-trash
+        .row
+          .col-sm-12
+            %table.table.table-bordered
+              %tr
+                %td.spacing-first-col
+                  = t('.child')
+                %td
+                  %strong
+                    = @progress_note.client
+              %tr
+                %td.spacing-first-col
+                  = t('.staff')
+                %td
+                  %strong
+                    = @progress_note.user
+              %tr
+                %td.spacing-first-col
+                  = t('.progress_note_type')
+                %td
+                  %strong
+                    = @progress_note.progress_note_type
+              %tr
+                %td.spacing-first-col
+                  = t('.location')
+                %td
+                  %strong
+                    = @progress_note.location
+              %tr
+                %td.spacing-first-col
+                  = t('.other_location')
+                %td
+                  %strong
+                    = @progress_note.other_location
+              %tr
+                %td.spacing-first-col
+                  = t('.interventions')
+                %td
+                  %strong
+                    - if @progress_note.interventions.any?
+                      = @progress_note.interventions.pluck(:action).join(', ')
+              %tr
+                %td.spacing-first-col
+                  = t('.material')
+                %td
+                  %strong
+                    = @progress_note.material
+              %tr
+                %td.spacing-first-col
+                  = t('.goals_addressed')
+                %td
+                  %strong
+                    - if @progress_note.assessment_domains.any?
+                      = @progress_note.assessment_domains.pluck(:goal).join(', ')
+              %tr
+                %td.spacing-first-col
+                  = t('.response')
+                %td
+                  %strong
+                    = @progress_note.response.html_safe
+
+              %tr
+                %td.spacing-first-col
+                  = t('.additional_notes')
+                %td
+                  %strong
+                    = @progress_note.additional_note.html_safe
+
+        .row
+          .col-xs-12
+            = link_to t('.back'), client_progress_notes_path(@client), class: 'btn btn-default btn-back'
