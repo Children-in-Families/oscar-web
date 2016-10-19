@@ -13,7 +13,7 @@
               - else
                 %span= "#{version.whodunnit} #{t('.change')}."
               %span{ class: "pull-right label label-#{version_color(version.event)}" }
-                = version.event.titleize
+                = version.event_formated
 
           .panel-body
             - if version.event == 'delete'

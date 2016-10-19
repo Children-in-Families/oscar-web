@@ -12,4 +12,8 @@
   def client_item_type?
     item_type == 'Client'
   end
+
+  def event_formated
+    I18n.t(".shared.version.#{event}")
+  end
 end

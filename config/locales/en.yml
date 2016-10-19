@@ -1156,6 +1156,9 @@ en:
       surveys: Surveys
   shared:
     version:
+      create: Create
+      update: Update
+      delete: Delete
       change: did the following change
       value_of: Value of
       before: Before

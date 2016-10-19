@@ -1375,6 +1375,9 @@ km:
 
   shared:
     version:
+      create: បង្កើត
+      update: កែសម្រួល
+      delete: លុបចេញ
       change: បានធ្វើកំណែប្រែខាងក្រោម
       value_of: តម្លៃនៃ
       before: មុនកំណែ
@@ -1383,7 +1386,7 @@ km:
       'on': របស់
       no_modification: មិនមានកំណែប្រែ
       Client: អតិថិជន
-      Familiy: គ្រួសារ
+      Family: គ្រួសារ
       Partner: ដៃគូ
       User: អ្នកប្រើ
       Agency: អង្គភាព
