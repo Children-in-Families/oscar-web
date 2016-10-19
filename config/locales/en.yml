@@ -1150,6 +1150,7 @@ en:
       changelogs: Changelogs
       cases: Cases
       tasks: Tasks
+      assessments: Assessments
   shared:
     version:
       change: did the following change
@@ -1174,3 +1175,4 @@ en:
       Changelog: Changelog
       Case: Case
       Task: Task
+      Assessment: Assessment

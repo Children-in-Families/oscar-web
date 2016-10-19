@@ -1368,6 +1368,7 @@ km:
       changelogs: ការផ្លាស់ប្ដូរ
       cases: ករណី
       tasks: កាតព្វកិច្ច
+      assessments: ការប៉ាន់ប្រមាណ
 
   shared:
     version:
@@ -1393,3 +1394,4 @@ km:
       Changelog: ការផ្លាស់ប្ដូរ
       Case: ករណី
       Task: កាតព្វកិច្ច
+      Assessment: ការប៉ាន់ប្រមាណ

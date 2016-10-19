@@ -5,6 +5,8 @@ class Assessment < ActiveRecord::Base
   has_many :domains,            through:   :assessment_domains
   has_many :case_notes,         dependent: :destroy
 
+  has_paper_trail
+
   validates :client, presence: true
 
   accepts_nested_attributes_for :assessment_domains
