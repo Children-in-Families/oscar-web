@@ -96,7 +96,11 @@ Rails.application.routes.draw do
       resources :tasks
     end
     resources :surveys
-    resources :progress_notes
+
+    resources :progress_notes do
+      get 'version' => 'progress_notes#version'
+    end
+
     get 'version' => 'clients#version'
   end
 

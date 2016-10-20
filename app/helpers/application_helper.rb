@@ -160,4 +160,12 @@ module ApplicationHelper
       'danger'
     end
   end
+
+  def date_format(date)
+    date.strftime('%d %B, %Y')
+  end
+
+  def date_time_format(date_time)
+    date_time.in_time_zone.strftime('%d %B, %Y %H:%M:%S')
+  end
 end

@@ -35,20 +35,24 @@ module VersionHelper
   end
 
   def version_value_format(val, k = '', both_val = [])
-    provinces          = ['birth_province_id', 'province_id']
-    referral_sources   = ['referral_source_id']
-    users              = ['received_by_id', 'followed_up_by_id', 'user_id']
-    booleans           = ['has_been_in_orphanage', 'has_been_in_government_care', 'able', 'dependable_income', 'family_preservation', 'exited_from_cif', 'alert_manager']
-    titleizeTexts      = ['gender', 'state', 'family_type', 'roles']
-    departments        = ['department_id']
-    domain_groups      = ['domain_group_id']
-    partners           = ['partner_id']
-    families           = ['family_id']
-    clients            = ['client_id']
-    quantitative_types = ['quantitative_type_id']
-    domains            = ['domain_id']
-    assessments        = ['assessment_id']
-    score_colors       = ['score_1_color', 'score_2_color', 'score_3_color', 'score_4_color']
+    provinces           = ['birth_province_id', 'province_id']
+    referral_sources    = ['referral_source_id']
+    users               = ['received_by_id', 'followed_up_by_id', 'user_id']
+    booleans            = ['has_been_in_orphanage', 'has_been_in_government_care', 'able', 'dependable_income', 'family_preservation', 'exited_from_cif', 'alert_manager']
+    titleizeTexts       = ['gender', 'state', 'family_type', 'roles']
+    departments         = ['department_id']
+    domain_groups       = ['domain_group_id']
+    partners            = ['partner_id']
+    families            = ['family_id']
+    clients             = ['client_id']
+    quantitative_types  = ['quantitative_type_id']
+    domains             = ['domain_id']
+    assessments         = ['assessment_id']
+    score_colors        = ['score_1_color', 'score_2_color', 'score_3_color', 'score_4_color']
+    progress_note_types = ['progress_note_type_id']
+    locations           = ['location_id']
+    materials           = ['material_id']
+    stages              = ['stage_id']
 
     if titleizeTexts.include?(k)
       if val == both_val[0]
@@ -57,9 +61,9 @@ module VersionHelper
         val  = val.titleize
       end
     elsif val.class == Date
-      val = val.strftime('%d %B, %Y')
+      val = date_format(val)
     elsif val.class == ActiveSupport::TimeWithZone
-      val = val.in_time_zone.strftime('%d %B, %Y %H:%M:%S')
+      val = date_time_format(val)
     elsif provinces.include?(k) && val.present?
       val = Province.find(val).name
     elsif referral_sources.include?(k) && val.present?
@@ -72,7 +76,7 @@ module VersionHelper
       val = Department.find(val).name
     elsif domain_groups.include?(k) && val.present?
       val = DomainGroup.find(val).name
-    elsif is_description?(k) && has_html?(val)
+    elsif is_free_text?(k) && has_html?(val)
       val = strip_tags(val)
     elsif partners.include?(k) && val.present?
       val = Partner.find(val).name
@@ -85,9 +89,17 @@ module VersionHelper
     elsif domains.include?(k) && val.present?
       val = Domain.find(val).name
     elsif assessments.include?(k) && val.present?
-      val = Assessment.find(val).created_at.in_time_zone.strftime('%d %B, %Y %H:%M:%S')
+      val = date_time_format(Assessment.find(val).created_at)
     elsif score_colors.include?(k)
       val = domain_score_color(val)
+    elsif progress_note_types.include?(k) && val.present?
+      val = ProgressNoteType.find(val).note_type
+    elsif locations.include?(k) && val.present?
+      val = Location.find(val).name
+    elsif materials.include?(k) && val.present?
+      val = Material.find(val).status
+    elsif stages.include?(k) && val.present?
+      val = "#{Stage.find(val).from_age} - #{Stage.find(val).to_age}"
     end
     val
   end
@@ -106,8 +118,8 @@ module VersionHelper
 
   private
 
-  def is_description?(k)
-    k == 'description'
+  def is_free_text?(k)
+    k == 'description' || k == 'response' || k == 'additional_note'
   end
 
   def has_html?(val)

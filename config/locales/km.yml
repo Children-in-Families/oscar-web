@@ -393,6 +393,8 @@ km:
       progress_notes:
         <<: *default_progress_note_fields
         manage: គ្រប់គ្រង
+        modification: កំណែប្រែ
+        view: មើល
 
       select_columns: ជ្រើសរើសជួរឈរ
       hide_show_all: បង្ហាញ/លាក់ទាំងអស់
@@ -1678,6 +1680,9 @@ km:
       successfully_deleted: កំណត់សំគាល់ការរីកចំរើនត្រូវបានលុបដោយជោគជ័យ
     actions:
       are_you_sure: តើអ្នកប្រាកដហើយ?
+    version:
+      modification_of: កំណែប្រែរបស់
+      back: ត្រលប់ក្រោយ
 
   data_trackers:
     index:
@@ -1702,6 +1707,7 @@ km:
       assessments: ការប៉ាន់ប្រមាណ
       case_notes: កំណត់ត្រាករណី
       surveys: ការស្ទង់មតិ
+      progress_notes: កំណត់សំគាល់ការរីកចំរើន
       materials: របស់របរ/សំភារៈ
       interventions: ចំនុចដែលត្រូវធ្វើ
       locations: កន្លែង
@@ -1739,6 +1745,7 @@ km:
       Assessment: ការប៉ាន់ប្រមាណ
       CaseNote: កំណត់ត្រាករណី
       Survey: ការស្ទង់មតិ  
+      ProgressNote: កំណត់សំគាល់ការរីកចំរើន
       Material: របស់របរ/សំភារៈ
       Intervention: ចំនុចដែលត្រូវធ្វើ
       Location: កន្លែង

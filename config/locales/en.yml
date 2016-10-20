@@ -389,6 +389,8 @@ en:
       progress_notes:
         <<: *default_progress_note_fields
         manage: Manage
+        modification: Modification
+        view: View
 
       select_columns: Select Columns
       hide_show_all: Hide/Show All
@@ -1464,6 +1466,9 @@ en:
       successfully_deleted: Progress Note has been successfully deleted.
     actions:
       are_you_sure: Are you sure you want to delete?
+    version:
+      modification_of: Modification of
+      back: Back
 
   data_trackers:
     index:
@@ -1488,6 +1493,7 @@ en:
       assessments: Assessments
       case_notes: Case Notes
       surveys: Surveys
+      progress_notes: Progress Notes
       materials: Equipment/Materials
       interventions: Interventions
       locations: Locations
@@ -1524,6 +1530,7 @@ en:
       Assessment: Assessment
       CaseNote: Case Note
       Survey: Survey
+      ProgressNote: Progress Note
       Material: Equipment/Material
       Intervention: Intervention
       Location: Location

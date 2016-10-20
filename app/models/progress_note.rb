@@ -8,6 +8,8 @@ class ProgressNote < ActiveRecord::Base
   has_and_belongs_to_many :interventions
   has_and_belongs_to_many :assessment_domains
 
+  has_paper_trail
+
   validates :client_id, :user_id, :date, presence: true
   validates :other_location, presence: true, if: :is_other_location
 
