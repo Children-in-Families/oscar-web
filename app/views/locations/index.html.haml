@@ -17,6 +17,7 @@
                       %th= t('.name')
                       %th.text-center{:colspan => "2"}
                         =t('.manage')
+                      %th.text-center= t('.modification')
                   %tbody
                     - @locations.each do |location|
                       %tr
@@ -33,6 +34,8 @@
                               %i.glyphicon.glyphicon-trash
                           - else
                             %i.glyphicon.glyphicon-trash
+                        %td.text-center
+                          = link_to t('.view'), location_version_path(location)
 
       .row
         .col-xs-12.text-center

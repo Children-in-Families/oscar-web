@@ -61,7 +61,11 @@ Rails.application.routes.draw do
   resources :able_screening_questions, except: [:index, :show]
   resources :quarterly_reports, only: [:index]
   resources :materials, except: [:show]
-  resources :locations, except: [:show]
+
+  resources :locations, except: [:show] do
+    get 'version' => 'locations#version'
+  end
+
   resources :progress_note_types, except: [:show]
 
   resources :interventions, except: [:show] do

@@ -1352,6 +1352,8 @@ en:
       location: Location
       manage: Manage
       are_you_sure: Are you sure you want to delete?
+      modification: Modification
+      view: View
     new:
       new_location: New Location
     edit:
@@ -1367,6 +1369,9 @@ en:
     destroy:
       successfully_deleted: Location has been successfully deleted.
       unsuccessfully_deleted: Location cannot be deleted.
+    version:
+      modification_of: Modification of
+      back: Back
 
   progress_note_types:
     index:
@@ -1474,6 +1479,7 @@ en:
       case_notes: Case Notes
       surveys: Surveys
       interventions: Interventions
+      locations: Locations
   shared:
     version:
       create: Create
@@ -1505,3 +1511,4 @@ en:
       CaseNote: Case Note
       Survey: Survey
       Intervention: Intervention
+      Location: Location

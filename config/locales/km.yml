@@ -1564,6 +1564,8 @@ km:
       location: កន្លែង
       manage: គ្រប់គ្រង
       are_you_sure: តើអ្នកប្រាកដហើយ?
+      modification: កំណែប្រែ
+      view: មើល
     new:
       new_location: កន្លែងថ្មី
     edit:
@@ -1579,6 +1581,9 @@ km:
     destroy:
       successfully_deleted: កន្លែងត្រូវបានលុបដោយជោគជ័យ
       unsuccessfully_deleted: កន្លែងមិនអាចលុបបានទេ
+    version:
+      modification_of: កំណែប្រែរបស់
+      back: ត្រលប់ក្រោយ
 
   progress_note_types:
     index:
@@ -1686,6 +1691,7 @@ km:
       case_notes: កំណត់ត្រាករណី
       surveys: ការស្ទង់មតិ
       interventions: ចំនុចដែលត្រូវធ្វើ
+      locations: កន្លែង
 
   shared:
     version:
@@ -1718,3 +1724,4 @@ km:
       CaseNote: កំណត់ត្រាករណី
       Survey: ការស្ទង់មតិ  
       Intervention: ចំនុចដែលត្រូវធ្វើ
+      Location: កន្លែង
