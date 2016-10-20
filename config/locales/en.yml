@@ -1380,6 +1380,8 @@ en:
       progress_note_type: Type of Note
       manage: Manage
       are_you_sure: Are you sure you want to delete?
+      modification: Modification
+      view: View
     new:
       new_progress_note_type: New Type of Note
     edit:
@@ -1395,6 +1397,9 @@ en:
     destroy:
       successfully_deleted: Type of Note has been successfully deleted.
       unsuccessfully_deleted: Type of Note cannot be deleted.
+    version:
+      modification_of: Modification of
+      back: Back
 
   interventions:
     index:
@@ -1480,6 +1485,7 @@ en:
       surveys: Surveys
       interventions: Interventions
       locations: Locations
+      progress_note_types: Type of Notes
   shared:
     version:
       create: Create
@@ -1512,3 +1518,4 @@ en:
       Survey: Survey
       Intervention: Intervention
       Location: Location
+      ProgressNoteType: Type of Note

@@ -1592,6 +1592,8 @@ km:
       progress_note_type: កំណត់សំគាល់
       manage: គ្រប់គ្រង
       are_you_sure: តើអ្នកប្រាកដហើយ?
+      modification: កំណែប្រែ
+      view: មើល
     new:
       new_progress_note_type: កំណត់សំគាល់ថ្មី
     edit:
@@ -1607,6 +1609,9 @@ km:
     destroy:
       successfully_deleted: កំណត់សំគាល់ត្រូវបានលុបដោយជោគជ័យ
       unsuccessfully_deleted: កំណត់សំគាល់មិនអាចលុបបានទេ
+    version:
+      modification_of: កំណែប្រែរបស់
+      back: ត្រលប់ក្រោយ
 
   interventions:
     index:
@@ -1692,6 +1697,7 @@ km:
       surveys: ការស្ទង់មតិ
       interventions: ចំនុចដែលត្រូវធ្វើ
       locations: កន្លែង
+      progress_note_types: កំណត់សំគាល់
 
   shared:
     version:
@@ -1725,3 +1731,4 @@ km:
       Survey: ការស្ទង់មតិ  
       Intervention: ចំនុចដែលត្រូវធ្វើ
       Location: កន្លែង
+      ProgressNoteType: កំណត់សំគាល់

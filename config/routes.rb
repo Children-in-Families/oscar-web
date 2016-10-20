@@ -66,7 +66,9 @@ Rails.application.routes.draw do
     get 'version' => 'locations#version'
   end
 
-  resources :progress_note_types, except: [:show]
+  resources :progress_note_types, except: [:show] do
+    get 'version' => 'progress_note_types#version'
+  end
 
   resources :interventions, except: [:show] do
     get 'version' => 'interventions#version'
