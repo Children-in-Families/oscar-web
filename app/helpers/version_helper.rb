@@ -38,7 +38,7 @@ module VersionHelper
     provinces          = ['birth_province_id', 'province_id']
     referral_sources   = ['referral_source_id']
     users              = ['received_by_id', 'followed_up_by_id', 'user_id']
-    booleans           = ['has_been_in_orphanage', 'has_been_in_government_care', 'able', 'dependable_income','family_preservation']
+    booleans           = ['has_been_in_orphanage', 'has_been_in_government_care', 'able', 'dependable_income', 'family_preservation', 'exited_from_cif', 'alert_manager']
     titleizeTexts      = ['gender', 'state', 'family_type', 'roles']
     departments        = ['department_id']
     domain_groups      = ['domain_group_id']

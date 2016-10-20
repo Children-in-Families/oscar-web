@@ -1492,6 +1492,8 @@ en:
       interventions: Interventions
       locations: Locations
       progress_note_types: Type of Notes
+      able_screening_questions: Able Screening Questions
+      stages: Stages
   shared:
     version:
       create: Create
@@ -1526,3 +1528,5 @@ en:
       Intervention: Intervention
       Location: Location
       ProgressNoteType: Type of Note
+      AbleScreeningQuestion: Able Screening Question
+      Stage: Stage

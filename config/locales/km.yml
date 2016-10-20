@@ -475,7 +475,7 @@ km:
       provinces: ខេត្ត
       referral_sources: ប្រភពនៃការបញ្ជូន
       quantitative_types: ប្រភេទនៃបរិមាណ
-      able_screening_questions: 'សំនួរ Able Screening'
+      able_screening_questions: សំនួរ Able Screening
       changelogs: ការផ្លាស់ប្ដូរ
       account: គណនី
       edit_profile: កែសម្រួលពត៌មានផ្ទាល់ខ្លួន
@@ -1181,19 +1181,21 @@ km:
       successfully_created: កំណត់ត្រាត្រូវបានបង្កើតដោយជោគជ័យ
 
   stages:
-    stage: 'តំណាក់កាល'
-    questions: 'សំនួរ'
+    stage: តំណាក់កាល
+    questions: សំនួរ
+    attachment_fields:
+      browse: រកមើល
     form:
       from_age: ចាប់ពីអាយុ (គិតជាឆ្នាំ)
       to_age: ទៅដល់អាយុ (គិតជាឆ្នាំ)
       questions: សំនួរ
       add_question: បន្ថែមសំនួរ
     new:
-      new_stage: 'បន្ថែមដំណាក់កាលថ្មី'
+      new_stage: បន្ថែមដំណាក់កាលថ្មី
     edit:
       edit_stage: កែរសំរួលដំណាក់កាល
     index:
-      stage: 'តំណាក់កាល'
+      stage: តំណាក់កាល
       able_screening_questions: សំនួរ Able Screening
       new_stage_question: បន្ថែមសំនួូរដំណាក់កាលថ្មី
       new_general_question: បន្ថែមសំនួរទូទៅថ្មី
@@ -1204,16 +1206,16 @@ km:
       to: ទៅដល់
       year: ឆ្នាំ
       question:
-        one: '1 សំនួរ'
+        one: 1 សំនួរ
         other: '%{count} សំនួរ'
     edit:
-      edit_stage: 'កែរសំរួល ដំណាក់កាល'
+      edit_stage: កែរសំរួល ដំណាក់កាល
     able_screening_question_fields:
       are_you_sure: តើអ្នកប្រាកដហើយ?
       question: សំនួរ
       mode: ម៉ូដ
       group: ក្រុម
-      questions: 'សំនួរ'
+      questions: សំនួរ
       alert_manager: ជូនដំណឹងអ្នកគ្រប់គ្រង
     create:
       successfully_created: ដំណាក់ការបានបង្កើតដោយជោគជ័យ
@@ -1233,7 +1235,7 @@ km:
       question: សំនួរ
       mode: ម៉ូដ
       group: ក្រុម
-      questions: 'សំនួរ'
+      questions: សំនួរ
       alert_manager: ជូនដំណឹងអ្នកគ្រប់គ្រង
       save: រក្សាទុក
       cancel: ទុកជាមោឃៈ
@@ -1704,6 +1706,8 @@ km:
       interventions: ចំនុចដែលត្រូវធ្វើ
       locations: កន្លែង
       progress_note_types: កំណត់សំគាល់
+      able_screening_questions: សំនួរ Able Screening
+      stages: តំណាក់កាល
 
   shared:
     version:
@@ -1739,3 +1743,5 @@ km:
       Intervention: ចំនុចដែលត្រូវធ្វើ
       Location: កន្លែង
       ProgressNoteType: កំណត់សំគាល់
+      AbleScreeningQuestion: សំនួរ Able Screening
+      Stage: តំណាក់កាល
