@@ -17,6 +17,7 @@
                       %th= t('.status')
                       %th.text-center{:colspan => "2"}
                         =t('.manage')
+                      %th.text-center= t('.modification')
                   %tbody
                     - @materials.each do |material|
                       %tr
@@ -30,6 +31,8 @@
                               %i.glyphicon.glyphicon-trash
                           - else
                             %i.glyphicon.glyphicon-trash
+                        %td.text-center
+                          = link_to t('.view'), material_version_path(material)
 
       .row
         .col-xs-12.text-center

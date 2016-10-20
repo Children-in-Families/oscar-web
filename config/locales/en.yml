@@ -1329,6 +1329,8 @@ en:
       material: Equipment/Material
       manage: Manage
       are_you_sure: Are you sure you want to delete?
+      modification: Modification
+      view: View
     new:
       new_material: New Equipment/Material
     edit:
@@ -1344,6 +1346,9 @@ en:
     destroy:
       successfully_deleted: Equipment/Material has been successfully deleted.
       unsuccessfully_deleted: Equipment/Material cannot be deleted.
+    version:
+      modification_of: Modification of
+      back: Back
 
   locations:
     index:
@@ -1483,6 +1488,7 @@ en:
       assessments: Assessments
       case_notes: Case Notes
       surveys: Surveys
+      materials: Equipment/Materials
       interventions: Interventions
       locations: Locations
       progress_note_types: Type of Notes
@@ -1516,6 +1522,7 @@ en:
       Assessment: Assessment
       CaseNote: Case Note
       Survey: Survey
+      Material: Equipment/Material
       Intervention: Intervention
       Location: Location
       ProgressNoteType: Type of Note

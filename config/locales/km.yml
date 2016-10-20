@@ -1541,6 +1541,8 @@ km:
       material: របស់របរ/សំភារៈ
       manage: គ្រប់គ្រង
       are_you_sure: តើអ្នកប្រាកដហើយ?
+      modification: កំណែប្រែ
+      view: មើល
     new:
       new_material: របស់របរ/សំភារៈថ្មី
     edit:
@@ -1556,6 +1558,9 @@ km:
     destroy:
       successfully_deleted: របស់របរ/សំភារៈត្រូវបានលុបដោយជោគជ័យ
       unsuccessfully_deleted: របស់របរ/សំភារៈមិនអាចលុបបានទេ
+    version:
+      modification_of: កំណែប្រែរបស់
+      back: ត្រលប់ក្រោយ
 
   locations:
     index:
@@ -1695,6 +1700,7 @@ km:
       assessments: ការប៉ាន់ប្រមាណ
       case_notes: កំណត់ត្រាករណី
       surveys: ការស្ទង់មតិ
+      materials: របស់របរ/សំភារៈ
       interventions: ចំនុចដែលត្រូវធ្វើ
       locations: កន្លែង
       progress_note_types: កំណត់សំគាល់
@@ -1729,6 +1735,7 @@ km:
       Assessment: ការប៉ាន់ប្រមាណ
       CaseNote: កំណត់ត្រាករណី
       Survey: ការស្ទង់មតិ  
+      Material: របស់របរ/សំភារៈ
       Intervention: ចំនុចដែលត្រូវធ្វើ
       Location: កន្លែង
       ProgressNoteType: កំណត់សំគាល់

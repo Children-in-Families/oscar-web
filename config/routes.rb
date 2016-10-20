@@ -60,7 +60,10 @@ Rails.application.routes.draw do
   resources :stages
   resources :able_screening_questions, except: [:index, :show]
   resources :quarterly_reports, only: [:index]
-  resources :materials, except: [:show]
+
+  resources :materials, except: [:show] do
+    get 'version' => 'materials#version'
+  end
 
   resources :locations, except: [:show] do
     get 'version' => 'locations#version'
