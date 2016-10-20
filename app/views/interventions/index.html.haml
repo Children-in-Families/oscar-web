@@ -17,6 +17,7 @@
                       %th= t('.action')
                       %th.text-center{:colspan => "2"}
                         =t('.manage')
+                      %th.text-center= t('.modification')
                   %tbody
                     - @interventions.each do |intervention|
                       %tr
@@ -30,6 +31,8 @@
                               %i.glyphicon.glyphicon-trash
                           - else
                             %i.glyphicon.glyphicon-trash
+                        %td.text-center
+                          = link_to t('.view'), intervention_version_path(intervention)
       .row
         .col-xs-12.text-center
           = will_paginate @interventions, renderer: BootstrapPagination::Rails

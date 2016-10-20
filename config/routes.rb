@@ -63,7 +63,10 @@ Rails.application.routes.draw do
   resources :materials, except: [:show]
   resources :locations, except: [:show]
   resources :progress_note_types, except: [:show]
-  resources :interventions, except: [:show]
+
+  resources :interventions, except: [:show] do
+    get 'version' => 'interventions#version'
+  end
 
   resources :tasks do
     collection do

@@ -3,6 +3,8 @@ class Intervention < ActiveRecord::Base
 
   has_and_belongs_to_many :progress_notes
 
+  has_paper_trail
+
   scope :action_like, -> (values) { where('LOWER(interventions.action) ILIKE ANY ( array[?] )', values.map { |val| "%#{val.downcase}%" }) }
 
   def has_no_any_progress_notes?

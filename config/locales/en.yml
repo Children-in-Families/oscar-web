@@ -1398,6 +1398,8 @@ en:
       intervention: Intervention
       manage: Manage
       are_you_sure: Are you sure you want to delete?
+      modification: Modification
+      view: View
     new:
       new_intervention: New Intervention
     edit:
@@ -1413,6 +1415,9 @@ en:
     destroy:
       successfully_deleted: Intervention has been successfully deleted.
       unsuccessfully_deleted: Intervention cannot be deleted.
+    version:
+      modification_of: Modification of
+      back: Back
 
   progress_notes:
     index:
@@ -1468,6 +1473,7 @@ en:
       assessments: Assessments
       case_notes: Case Notes
       surveys: Surveys
+      interventions: Interventions
   shared:
     version:
       create: Create
@@ -1498,3 +1504,4 @@ en:
       Assessment: Assessment
       CaseNote: Case Note
       Survey: Survey
+      Intervention: Intervention
