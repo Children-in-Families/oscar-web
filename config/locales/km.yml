@@ -935,6 +935,7 @@ km:
     version:
       modification_of: កំណែប្រែរបស់
       back: ត្រលប់ក្រោយ
+      domain: កត្តា
   domain_groups:
     index:
       add_new_domain_group: បន្ថែមការប្រមូលផ្តុំកត្តាថ្មី
@@ -966,6 +967,7 @@ km:
     version:
       modification_of: កំណែប្រែរបស់
       back: ត្រលប់ក្រោយ
+      domain_group: ការប្រមូលផ្តុំកត្តា
   provinces:
     index:
       add_new_province: បន្ថែមខេត្តថ្មី
@@ -1683,6 +1685,7 @@ km:
     version:
       modification_of: កំណែប្រែរបស់
       back: ត្រលប់ក្រោយ
+      progress_note: កំណត់សំគាល់ការរីកចំរើន
 
   data_trackers:
     index:

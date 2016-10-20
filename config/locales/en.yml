@@ -879,6 +879,7 @@ en:
     version:
       modification_of: Modification of
       back: Back
+      domain: Domain
 
   domain_groups:
     index:
@@ -911,6 +912,7 @@ en:
     version:
       modification_of: Modification of
       back: Back
+      domain_group: Domain Group
   provinces:
     index:
       add_new_province: Add New Province
@@ -1469,6 +1471,7 @@ en:
     version:
       modification_of: Modification of
       back: Back
+      progress_note: Progress Note
 
   data_trackers:
     index:
