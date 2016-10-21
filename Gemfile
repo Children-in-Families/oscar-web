@@ -45,6 +45,7 @@ gem 'cocoon',                 '~> 1.2', '>= 1.2.9'
 gem 'carrierwave',            '~> 0.11.2'
 gem 'mini_magick',            '~> 4.5'
 gem 'chartkick',              '~> 2.0', '>= 2.0.2'
+gem 'font-awesome-rails',     '~> 4.6'
 
 group :development, :test do
   gem 'pry'

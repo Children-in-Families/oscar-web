@@ -1,5 +1,14 @@
 module ApplicationHelper
   Thredded::ApplicationHelper
+
+  def is_active_controller(controller_name)
+    params[:controller] == controller_name ? "active" : nil
+  end
+
+  def is_active_action(action_name)
+    params[:action] == action_name ? "active" : nil
+  end
+
   def color_class_for(score)
     case score
     when 1 then 'danger'
@@ -91,11 +100,7 @@ module ApplicationHelper
   end
 
   def active_menu(name, alter_name = '')
-    if controller_name == name || controller_name == alter_name
-      'active'
-    else
-      ''
-    end
+    controller_name == name || controller_name == alter_name ? 'active' : nil
   end
 
   def user_dashboard(user)

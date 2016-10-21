@@ -1,0 +1,88 @@
+.row.border-bottom
+  %nav.navbar.navbar-static-top.bg{:role => "navigation", :style => "margin-bottom: 0"}
+    .navbar-header
+      %a.navbar-minimalize.minimalize-styl-2.btn.btn-primary{:href => "#"}
+        %i.fa.fa-bars
+    %ul.nav.navbar-top-links.navbar-right
+      %li.dropdown
+        %a.dropdown-toggle.count-info{"data-toggle" => "dropdown", :href => "#"}
+          %i.fa.fa-bell
+          - if @notification_count.positive?
+            %span.label.label-primary= @notification_count
+        %ul.dropdown-menu.dropdown-alerts
+          - if @overdue_tasks.any?
+            %li
+              = link_to tasks_path do
+                %div
+                  %i.fa.fa-envelope.fa-fw
+                  = t('.overdue_tasks_count', count: @overdue_tasks.count)
+                  = t('.check_tasks')
+                  -# = link_to t('.click_here'), tasks_path
+                -# %span.pull-right.text-muted.small 4 minutes ago
+            %li.divider
+          - if @due_today_tasks.any?
+            %li
+              = link_to tasks_path do
+                %div
+                  %i.fa.fa-twitter.fa-fw
+                  %p
+                    %span= t('.due_today_tasks_count', count: @due_today_tasks.count)
+                    %span= t('.check_tasks')
+                    -# %span= link_to t('.click_here'), tasks_path
+                  -# %span.pull-right.text-muted.small 12 minutes ago
+            %li.divider
+          - unless @overdue_assessments_count.zero?
+            %li
+              = link_to tasks_path do
+                %div
+                  %i.fa.fa-upload.fa-fw
+                  %p= t('.overdue_assessments_count', count: @overdue_assessments_count)
+                  -# %span.pull-right.text-muted.small 4 minutes ago
+            %li.divider
+          - unless @due_today_assessments_count.zero?
+            %li
+              = link_to tasks_path do
+                %div
+                  %i.fa.fa-upload.fa-fw
+                  %p= t('.due_today_assessments_count', count: @due_today_assessments_count)
+                  -# %span.pull-right.text-muted.small 4 minutes ago
+            %li.divider
+          %li
+            .text-center.link-block
+              = link_to tasks_path do
+                %strong See All Tasks
+                %i.fa.fa-angle-right
+      %li
+        %a{:href => "#"}
+          %i.fa.fa-sign-out
+          Localize
+
+-# - if @overdue_tasks.any?
+-#   .alert.alert-danger.alert-dismissible{ role: 'alert' }
+-#     %button.close{ 'aria-label' => 'Close', 'data-dismiss' => 'alert', type: 'button' }
+-#       %span{"aria-hidden" => "true"} &times;
+-#     %p
+-#       %span= t('.overdue_tasks_count', count: @overdue_tasks.count)
+-#       %span= t('.check_tasks')
+-#       %span= link_to t('.click_here'), tasks_path
+-#
+-# - if @due_today_tasks.any?
+-#   .alert.alert-warning.alert-dismissible{ role: 'alert' }
+-#     %button.close{ 'aria-label' => 'Close', 'data-dismiss' => 'alert', type: 'button' }
+-#       %span{"aria-hidden" => "true"} &times;
+-#     %p
+-#       %span= t('.due_today_tasks_count', count: @due_today_tasks.count)
+-#       %span= t('.check_tasks')
+-#       %span= link_to t('.click_here'), tasks_path
+-#
+-# - unless @overdue_assessments_count.zero?
+-#   .alert.alert-danger.alert-dismissible{ role: 'alert' }
+-#     %button.close{ 'aria-label' => 'Close', 'data-dismiss' => 'alert', type: 'button' }
+-#       %span{"aria-hidden" => "true"} &times;
+-#     %p= t('.overdue_assessments_count', count: @overdue_assessments_count)
+-#
+-# - unless @due_today_assessments_count.zero?
+-#   .alert.alert-warning.alert-dismissible{ role: 'alert' }
+-#     %button.close{ 'aria-label' => 'Close', 'data-dismiss' => 'alert', type: 'button' }
+-#       %span{"aria-hidden" => "true"} &times;
+-#     %p= t('.due_today_assessments_count', count: @due_today_assessments_count)

@@ -6,6 +6,7 @@ class HomeController < AdminController
     assessments      = current_user.assessment_either_overdue_or_due_today
     @overdue_assessments_count   = assessments[0]
     @due_today_assessments_count = assessments[1]
+    @notification_count = (@overdue_tasks.count + @due_today_tasks.count + @overdue_assessments_count + @due_today_assessments_count)
   end
 
   def robots
