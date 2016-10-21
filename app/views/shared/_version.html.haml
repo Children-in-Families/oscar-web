@@ -38,7 +38,7 @@
                     %th.col-sm-4= t('.after')
                 %tbody
                   - version.changeset.each do |k, v|
-                    - next if version_keys_skipable?(k)
+                    - next if version_keys_skipable?(k, version.item_type)
                     %tr
                       %td.col-sm-4
                         = version_attribute(k, version.item_type)

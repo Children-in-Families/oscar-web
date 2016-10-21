@@ -5,6 +5,6 @@
         %h4
           = link_to t('.back'), :back, class: 'btn btn-default pull-left btn-back'
           .modification-title.text-center
-            %u= "#{t('.modification_of')} #{t('.progress_note')} #{date_format(@progress_note.created_at)}"
+            %u= "#{t('.modification_of')} #{t('.progress_note')} #{date_format(@progress_note.date)}"
 
         = render 'shared/version'

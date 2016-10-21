@@ -1,11 +1,15 @@
 module VersionHelper
   def version_attribute(k, item_type = '')
-    if k == 'first_name' && item_type == 'Client'
-      k = 'name'
+    if k == 'first_name'
+      k = 'name' if client?(item_type)
+    elsif k == 'user_id'
+      k = 'case worker / staff'    if client?(item_type) || survey?(item_type)
+      k = 'able / able staff name' if progress_note?(item_type)
+      k = 'creator'                if changelog?(item_type)
     elsif k == 'change_version'
       k = 'version'
-    elsif k == 'name' && item_type == 'Task'
-      k = 'task detail'
+    elsif k == 'name'
+      k = 'task detail'            if task?(item_type)
     elsif k == 'attendee'
       k = 'present'
     elsif k == 'listening_score'
@@ -38,7 +42,7 @@ module VersionHelper
     provinces           = ['birth_province_id', 'province_id']
     referral_sources    = ['referral_source_id']
     users               = ['received_by_id', 'followed_up_by_id', 'user_id']
-    booleans            = ['has_been_in_orphanage', 'has_been_in_government_care', 'able', 'dependable_income', 'family_preservation', 'exited_from_cif', 'alert_manager']
+    booleans            = ['has_been_in_orphanage', 'has_been_in_government_care', 'able', 'dependable_income', 'family_preservation', 'exited', 'exited_from_cif', 'alert_manager']
     titleizeTexts       = ['gender', 'state', 'family_type', 'roles']
     departments         = ['department_id']
     domain_groups       = ['domain_group_id']
@@ -53,6 +57,7 @@ module VersionHelper
     locations           = ['location_id']
     materials           = ['material_id']
     stages              = ['stage_id']
+    currencies          = ['household_income']
 
     if titleizeTexts.include?(k)
       if val == both_val[0]
@@ -100,6 +105,8 @@ module VersionHelper
       val = Material.find(val).status
     elsif stages.include?(k) && val.present?
       val = "#{Stage.find(val).from_age} - #{Stage.find(val).to_age}"
+    elsif currencies.include?(k)
+      val = number_to_currency(val)
     end
     val
   end
@@ -112,8 +119,8 @@ module VersionHelper
     end
   end
 
-  def version_keys_skipable?(k)
-    k == 'tokens' || k == 'encrypted_password' || k == 'uid' || k == 'exited' || k == 'able'
+  def version_keys_skipable?(k, item_type = '')
+    k == 'tokens' || k == 'encrypted_password' || k == 'uid' || k == 'able' || (k == 'user_id' && (case?(item_type) || task?(item_type)))
   end
 
   private
@@ -145,5 +152,29 @@ module VersionHelper
             'I am happy with the way CIF and my CCW have supported me.',
             'My CCW cares about what happens to the children I take care of.']
     texts.include?(text)
+  end
+
+  def client?(item_type)
+    item_type == 'Client'
+  end
+
+  def survey?(item_type)
+    item_type == 'Survey'
+  end
+
+  def progress_note?(item_type)
+    item_type == 'ProgressNote'
+  end
+
+  def changelog?(item_type)
+    item_type == 'Changelog'
+  end
+
+  def task?(item_type)
+    item_type == 'Task'
+  end
+
+  def case?(item_type)
+    item_type == 'Case'
   end
 end
