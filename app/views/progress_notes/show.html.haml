@@ -3,7 +3,7 @@
     .panel.panel-default
       .panel-body
         %h3
-          = @progress_note.date.strftime('%d %b, %Y')
+          = @progress_note.date.strftime('%d %B, %Y')
           %small.pull-right
             = link_to edit_client_progress_note_path(@client, @progress_note) do
               %i.glyphicon.glyphicon-pencil
