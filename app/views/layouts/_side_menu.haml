@@ -9,85 +9,92 @@
           %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
             %span.clear
               %span.block.m-t-xs
-                %strong.font-bold= current_user.email
+                %strong.font-bold Pitou
               %span.text-muted.text-xs.block
-                = current_user.roles
+                Admin
                 %b.caret
           %ul.dropdown-menu.animated.fadeInRight.m-t-xs
             %li
-              = link_to 'Edit Profile', edit_user_registration_path
+              = link_to t('.edit_profile'), edit_user_registration_path
             %li.divider
             %li
               = link_to t('.log_out'), destroy_user_session_path, method: :delete
         .logo-element
           = link_to 'CIF', root_path
+      - if user_signed_in?
+        %li{class: "#{active_menu('home')}"}
+          = link_to root_path do
+            %i.fa.fa-th-large
+            %span.nav-label= t('.dashboards')
 
-      %li{class: "#{active_menu('home')}"}
-        = link_to root_path do
-          %i.fa.fa-th-large
-          %span.nav-label Dashboards
+        %li{class: "#{active_menu('clients')}"}
+          = link_to clients_path do
+            %i.fa.fa-users
+            %span.nav-label= t('.clients')
+            %span.label.label-primary.pull-right= Client.count
+        - if can? :manage, Family
+          %li{class: "#{active_menu('families')}"}
+            = link_to families_path do
+              %i.fa.fa-users
+              %span.nav-label= t('.families')
+              %span.label.label-primary.pull-right= Family.count
+          
+        - if can? :manage, Partner
+          %li{class: "#{active_menu('partners')}"}
+            = link_to partners_path do
+              %i.fa.fa-users
+              %span.nav-label= t('.partners')
+              %span.label.label-primary.pull-right= Partner.count
 
-      %li{class: "#{active_menu('clients')}"}
-        = link_to clients_path do
-          %i.fa.fa-users
-          %span.nav-label= t('.clients')
-          %span.label.label-primary.pull-right= Client.count
+        - if can? :manage, User
+          %li{class: "#{active_menu('users')}"}
+            = link_to users_path do
+              %i.fa.fa-users
+              %span.nav-label= t('.users')
+              %span.label.label-primary.pull-right= User.count
+          
+        %li
+          %a{href: "#"}
+            %i.fa.fa-cogs
+            %span.nav-label= t('.manage')
+            %span.fa.arrow
+          %ul.nav.nav-second-level
+            %li{ class: active_menu('agencies') }
+              = link_to t('.agencies'), agencies_path
+            - if can? :manage, :all
+              %li{ class: active_menu('departments') }
+                = link_to t('.departments'), departments_path
+              %li{ class: active_menu('domains') }
+                = link_to t('.domains'), domains_path
+              %li{ class: active_menu('domain_groups') }
+                = link_to t('.domain_groups'), domain_groups_path
+              %li{ class: active_menu('provinces') }
+                = link_to t('.provinces'), provinces_path
+              %li{ class: active_menu('referral_sources') }
+                = link_to t('.referral_sources'), referral_sources_path
+              %li{ class: active_menu('quantitative_types') }
+                = link_to t('.quantitative_types'), quantitative_types_path
+              %li{ class: active_menu('stages', 'able_screening_questions') }
+                = link_to t('.able_screening_questions'), stages_path
+              %li{ class: active_menu('changelogs') }
+                = link_to t('.changelogs'), changelogs_path
+              %li
+                %a{href: "#"}
+                  = t('.progress_note')
+                  %span.fa.arrow
+                %ul.nav.nav-third-level
+                  %li{ class: active_menu('interventions') }
+                    = link_to t('.interventions'), interventions_path
+                  %li{ class: active_menu('locations') }
+                    = link_to t('.locations'), locations_path
+                  %li{ class: active_menu('materials') }
+                    = link_to t('.materials'), materials_path
+                  %li{ class: active_menu('progress_note_types') }
+                    = link_to t('.progress_note_types'), progress_note_types_path
 
-      %li{class: "#{active_menu('families')}"}
-        = link_to families_path do
-          %i.fa.fa-users
-          %span.nav-label= t('.families')
-          %span.label.label-primary.pull-right= Family.count
+            - elsif can? :manage, ReferralSource
+              %li{ class: active_menu('referral_sources') }
+                = link_to t('.referral_sources'), referral_sources_path
 
-      %li{class: "#{active_menu('partners')}"}
-        = link_to partners_path do
-          %i.fa.fa-users
-          %span.nav-label= t('.partners')
-          %span.label.label-primary.pull-right= Partner.count
-
-      %li{class: "#{active_menu('users')}"}
-        = link_to users_path do
-          %i.fa.fa-users
-          %span.nav-label= t('.users')
-          %span.label.label-primary.pull-right= User.count
-      %li
-        %a{href: "#"}
-          %i.fa.fa-cogs
-          %span.nav-label= t('.manage')
-          %span.fa.arrow
-        %ul.nav.nav-second-level
-          %li{ class: active_menu('agencies') }
-            = link_to t('.agencies'), agencies_path
-          - if can? :manage, :all
-            %li{ class: active_menu('departments') }
-              = link_to t('.departments'), departments_path
-            %li{ class: active_menu('domains') }
-              = link_to t('.domains'), domains_path
-            %li{ class: active_menu('domain_groups') }
-              = link_to t('.domain_groups'), domain_groups_path
-            %li{ class: active_menu('provinces') }
-              = link_to t('.provinces'), provinces_path
-            %li{ class: active_menu('referral_sources') }
-              = link_to t('.referral_sources'), referral_sources_path
-            %li{ class: active_menu('quantitative_types') }
-              = link_to t('.quantitative_types'), quantitative_types_path
-            %li{ class: active_menu('stages', 'able_screening_questions') }
-              = link_to t('.able_screening_questions'), stages_path
-            %li{ class: active_menu('changelogs') }
-              = link_to t('.changelogs'), changelogs_path
-            %li
-              %a{href: "#"}
-                = t('.progress_note')
-                %span.fa.arrow
-              %ul.nav.nav-third-level
-                %li{ class: active_menu('interventions') }
-                  = link_to t('.interventions'), interventions_path
-                %li{ class: active_menu('locations') }
-                  = link_to t('.locations'), locations_path
-                %li{ class: active_menu('materials') }
-                  = link_to t('.materials'), materials_path
-                %li{ class: active_menu('progress_note_types') }
-                  = link_to t('.progress_note_types'), progress_note_types_path
-          - elsif can? :manage, ReferralSource
-            %li{ class: active_menu('referral_sources') }
-              = link_to t('.referral_sources'), referral_sources_path
+        %li
+          = link_to t('faq'), thredded_path, target: '_blank'

@@ -17,9 +17,10 @@
   %body{id: "#{controller_name}-#{params[:action]}", class: 'pace-done'}
     = render 'layouts/identifier' if Rails.env.staging?
     #wrapper{:class => "#{params[:controller]}.#{params[:action]}"}
-      = render 'layouts/side_menu'
-      #page-wrapper{:class => "gray-bg #{@extra_class}"}
-        = render 'layouts/top_navbar'
-        = yield
+      - if user_signed_in?
+        = render 'layouts/side_menu'
+        #page-wrapper{:class => "gray-bg #{@extra_class}"}
+          = render 'layouts/top_navbar'
+          = yield
       -# = render 'layouts/alert'
     = render 'layouts/footer'
