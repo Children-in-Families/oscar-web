@@ -11,7 +11,7 @@
             = f.input :password, required: false, label: t('.password')
             = f.input :remember_me, as: :boolean, label: t('.remember_me') if devise_mapping.rememberable?
           .form-actions
-            = f.button :submit, t('.login'), class: 'btn btn-outline btn-block btn-primary'
+            = f.submit t('.login'), class: 'btn btn-block btn-outline btn-primary'
             .text-center
               %hr
               = render "devise/shared/links"

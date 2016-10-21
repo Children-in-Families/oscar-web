@@ -10,12 +10,28 @@
   background: $gray;
 }
 
-.navbar-brand {
-  img.logo {
-    height: 30px;
+.logo {
+  img {
+    margin: 6px 0 0 20px;
+    width: 70px;
   }
 }
 
+.local-flag {
+  a {
+    display: block;
+    height: 60px;
+    margin-top: -5px;
+    img {
+      margin:0;
+    }
+  }
+
+}
+
+.notify-margin{
+  margin-left: 20px;
+}
 .chevron-progess-note{
   margin-right: -16px;
 }

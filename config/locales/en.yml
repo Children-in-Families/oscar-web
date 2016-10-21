@@ -455,7 +455,25 @@ en:
         asc: ↑
         desc: ↓
   layouts:
-    navbar:
+    notification:
+      no_task: No Task
+      overdue_tasks_count:
+        one: "You have 1 task overdue."
+        other: "You have %{count} tasks overdue."
+      due_today_tasks_count:
+        one: "You have 1 task due today."
+        other: "You have %{count} tasks due today."
+      check_tasks: "To check your tasks, please"
+      click_here: "click here."
+
+      overdue_assessments_count:
+        one: "You have 1 assessment overdue."
+        other: "You have %{count} assessments overdue."
+      due_today_assessments_count:
+        one: "You have 1 assessment due today."
+        other: "You have %{count} assessments due today."
+    side_menu:
+      dashboards: Dashboards
       clients: Clients
       families: Families
       partners: Partners
@@ -1171,15 +1189,6 @@ en:
       partners: Partners
       referral_sources: Referral Sources
       staffs: Staffs
-    tasks_and_assessments:
-      overdue_tasks_count:
-        one: "You have 1 task overdue."
-        other: "You have %{count} tasks overdue."
-      due_today_tasks_count:
-        one: "You have 1 task due today."
-        other: "You have %{count} tasks due today."
-      check_tasks: "To check your tasks, please"
-      click_here: "click here."
 
       overdue_assessments_count:
         one: "You have 1 assessment overdue."

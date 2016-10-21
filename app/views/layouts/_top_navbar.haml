@@ -1,16 +1,16 @@
 .row.border-bottom
   %nav.navbar.navbar-static-top.bg{:role => "navigation", :style => "margin-bottom: 0"}
     - if user_signed_in?
-      .navbar-header
+      .navbar-header.logo
         %a.navbar-minimalize.minimalize-styl-2.btn.btn-primary{:href => "#"}
           %i.fa.fa-bars
     - else
-      .navbar-header
+      .navbar-header.logo
         = link_to root_path do
           = image_tag('cif-logo', class: 'navbar-minimalize minimalize-styl-2')
     %ul.nav.navbar-top-links.navbar-right
       = render 'layouts/notification' if user_signed_in?
-      %li
+      %li.local-flag
         - if I18n.locale == :en
           = link_to(url_for(params.merge({locale: 'km'}))) do
             = image_tag('Cambodia.png')
