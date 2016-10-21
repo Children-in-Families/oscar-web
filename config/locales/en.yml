@@ -699,6 +699,7 @@ en:
               blank: can't be blank
             to_age:
               blank: can't be blank
+              taken: has already been taken
         able_screening_question:
           attributes:
             question_group:

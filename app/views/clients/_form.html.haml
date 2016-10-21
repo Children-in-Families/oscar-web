@@ -18,7 +18,14 @@
       .row
         .col-xs-12.col-md-4= f.association :province, collection: @province, label: "#{t('.current_province')}", include_blank: false
         .col-xs-12.col-md-4= f.input :current_address, input_html: { rows: '6' }, label: "#{t('.current_address')}"
-        .col-xs-12.col-md-4= f.association :user, collection: @user, label: "#{t('.case_worker_or_staff')}", include_blank: false if current_user.admin?
+        - if current_user.admin?
+          .col-xs-12.col-md-4= f.association :user, collection: @user, label: "#{t('.case_worker_or_staff')}", include_blank: false
+        - else
+          .col-xs-12.col-md-4
+            .form-group.select.optional.disabled.client_user
+              %label.select.optional.disabled.control-label{:for => "client_user_id"}= t('.case_worker_or_staff')
+              %input{ type: 'text', value: @client.user || current_user.name, id: '#client_user_id', name: 'client[user_id]', class: 'form-control', disabled: 'disabled' }
+
       .row
         .col-xs-12.col-md-4= f.input :received_by_id, collection: @user.map{|p| [p.name, p.id]}, label: "#{t('.received_by')}", include_blank: false
         .col-xs-12.col-md-4= f.input :followed_up_by_id, collection: @user.map{|p| [p.name, p.id]}, label: "#{t('.followed_up_by')}", include_blank: false

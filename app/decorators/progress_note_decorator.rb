@@ -20,8 +20,4 @@ class ProgressNoteDecorator < Draper::Decorator
   def location
     model.location.name if model.location
   end
-
-  def date
-    model.date.strftime('%d %B, %Y')
-  end
 end
