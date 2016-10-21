@@ -1,6 +1,10 @@
 module ApplicationHelper
   Thredded::ApplicationHelper
 
+  def authorized_body
+    'unauthorized-background' unless user_signed_in?
+  end
+
   def is_active_controller(controller_name)
     params[:controller] == controller_name ? "active" : nil
   end

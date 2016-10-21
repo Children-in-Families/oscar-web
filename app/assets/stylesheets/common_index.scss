@@ -1,6 +1,15 @@
 .bg{
   background: white;
 }
+
+.normal-space {
+  margin-top: 20%;
+}
+
+.unauthorized-background {
+  background: $gray;
+}
+
 .navbar-brand {
   img.logo {
     height: 30px;
