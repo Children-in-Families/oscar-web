@@ -1,3 +1,6 @@
+.min-margin-layout{
+  margin-top: 16px;
+}
 .bg{
   background: white;
 }
@@ -21,9 +24,11 @@
   a {
     display: block;
     height: 60px;
-    margin-top: -5px;
+    margin-top: -7px;
     img {
       margin:0;
+      width: 30px;
+      padding: 0;
     }
   }
 

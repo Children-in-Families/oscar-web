@@ -1,46 +1,51 @@
 .row
   .col-xs-12
-    .panel.panel-default
-      .panel-body
-        .row
-          .col-xs-6.col-md-2
-            %button.btn.btn-primary.btn-filter{"aria-expanded" => 'false', "data-target" => '#client-search-form', "data-toggle" => 'collapse', type: 'button'}
-              %i.glyphicon.glyphicon-filter
-            - if can? :manage, :all
-              .btn.btn-primary#client-statistic
-                %i.glyphicon.glyphicon-stats
-                %span= t('.reports')
-          .col-xs-12.col-md-10
-            .text-right
-              - if can? :manage, Client
-                = link_to t('.add_new_client'), new_client_path, class: 'btn btn-success'
-              = link_to t('.view_all_active_tasks'), tasks_path, class: 'btn btn-default'
-              = link_to t('.csi_domain_scores'), current_url({format: 'csv', type: 'basic_info'}), class: 'btn btn-default btn-export'
-              = link_to t('.export_to_csv'), current_url(format: 'csv'), class: 'btn btn-default btn-export'
-        .panel.panel-default#client-search-form.collapse
-          .panel-body
-            = datagrid_form_for @client_grid, url: clients_url, html: { class: 'grid-form' }
-
-        - if can? :manage, :all
-          .panel.panel-default#client-statistic-body
-            .panel-heading
-              %h4= t('.reports')
-            .panel-body.statistic
-              .row
-                .col-xs-12.col-md-6
-                  .panel.panel-default
-                    .panel-body
-                      #cis-domain-score{ "data-csi-domain" => @csi_statistics, "data-title" => t('.csi_domain_scores'), "data-yaxis-title" => t('.domain_score')}
-
-                .col-xs-12.col-md-6
-                  .panel.panel-default
-                    .panel-body
-                      #case-statistic{ "data-case-statistic" => @cases_statistics, "data-title" => t('.case_statistics'), "data-yaxis-title" => t('.client_amount') }
-        .text-left.record-count
-          %strong= @client_grid.assets.count
-          %span= t('.records')
-        .table-responsive
-          = datagrid_table @client_grid, html: {class: 'table table-bordered table-striped table-hover clients'}
+    .pull-left
+      %button.btn.btn-primary.btn-filter{"aria-expanded" => 'false', "data-target" => '#client-search-form', "data-toggle" => 'collapse', type: 'button'}
+        %i.fa.fa-filter
+      - if can? :manage, :all
+        .btn.btn-primary#client-statistic
+          %i.fa.fa-line-chart
+          %span= t('.reports')  
+    .pull-right
+      - if can? :manage, Client
+        = link_to t('.add_new_client'), new_client_path, class: 'btn btn-primary'
+      = link_to t('.view_all_active_tasks'), tasks_path, class: 'btn btn-outline btn-outline btn-info'
+      = link_to t('.csi_domain_scores'), current_url({format: 'csv', type: 'basic_info'}), class: 'btn btn-outline btn-info btn-export'
+      = link_to t('.export_to_csv'), current_url(format: 'csv'), class: 'btn btn-outline btn-info btn-export'    
 .row
-  .col-xs-12.text-center
-    = will_paginate @client_grid.assets, renderer: BootstrapPagination::Rails
+  .col-xs-12
+    .ibox-content#client-search-form.collapse
+      = datagrid_form_for @client_grid, url: clients_url, html: { class: 'grid-form' }
+.row
+  .col-xs-12
+    .ibox#client-statistic-body
+      .row
+        .col-xs-12.col-md-6
+          .ibox-content
+            #cis-domain-score{ "data-csi-domain" => @csi_statistics, "data-title" => t('.csi_domain_scores'), "data-yaxis-title" => t('.domain_score')}
+
+        .col-xs-12.col-md-6
+          .ibox-content
+            #case-statistic{ "data-case-statistic" => @cases_statistics, "data-title" => t('.case_statistics'), "data-yaxis-title" => t('.client_amount') }
+.row
+  .col-xs-12
+    .ibox
+      .ibox-title
+        %h5= @client_grid.assets.count 
+        %span.label.label-info= t('.records')
+        .ibox-tools
+          %a.collapse-link
+            %i.fa.fa-chevron-up
+          %a.fullscreen-link
+            %i.fa.fa-expand
+      .ibox-content.no-padding
+        - if @client_grid.assets.any?
+          = datagrid_table @client_grid, html: {class: 'table table-bordered table-striped table-hover clients'}
+        - else
+          .table-responsive
+            = datagrid_table @client_grid, html: {class: 'table table-bordered table-striped table-hover clients'}
+        .row
+          .col-xs-12.text-center
+            = will_paginate @client_grid.assets, renderer: BootstrapPagination::Rails
+

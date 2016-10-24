@@ -30,7 +30,8 @@
 //= require wrapbootstrap/tables.js
 //= require wrapbootstrap/uielements.js
 //= require wrapbootstrap/widgets.js
-
+//= require wrapbootstrap/inspinia.js
+//= require slimscroll/jquery.slimscroll.min.js
 
 //LOAD MODULE
 //= require namespace

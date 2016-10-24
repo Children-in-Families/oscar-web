@@ -10,7 +10,7 @@ CIF.ClientsIndex = do ->
     _formatReportxAxis()
     _handleCreateCaseReport()
     _handleCreateCsiDomainReport()
-
+    
   _reportOption = (data, title, yAxisTitle, element) ->
     if data != undefined
       $(element).highcharts

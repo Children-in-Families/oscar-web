@@ -5,7 +5,7 @@ CIF.Common =
     @menuDropDownClick()
     @validateFilterNumber()
     @miniNavbar()
-
+    @customCheckBox()
 
   hideNotification: ->
     notice = $('p#notice')
@@ -13,6 +13,10 @@ CIF.Common =
       setTimeout (->
         $(notice).fadeOut()
       ), 5000
+
+  customCheckBox: ->
+    $('.i-checks').iCheck
+      checkboxClass: 'icheckbox_square-green'
 
   menuDropDownClick: ->
     $('#side-menu').metisMenu()
