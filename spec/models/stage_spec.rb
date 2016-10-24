@@ -29,11 +29,17 @@ RSpec.describe Stage, type: :model do
 
   describe 'Methods' do
     context 'from_age_as_date' do
-      let!(:stage) { create(:stage, from_age: 1) }
-      it { expect(stage.from_age_as_date).to eq('Sat, 31 Oct 2015'.to_date) }
+      before do
+        allow(Time).to receive(:current) { Time.parse('2016-11-01') }
+      end
+      let!(:stage) { create(:stage, from_age: 1, to_age: 2) }
+      it { expect(stage.from_age_as_date).to eq('Mon, 30 Nov 2015'.to_date) }
     end
     context 'to_age_as_date' do
-      let!(:stage) { create(:stage, to_age: 2) }
+      before do
+        allow(Time).to receive(:current) { Time.parse('2016-10-01') }
+      end
+      let!(:stage) { create(:stage, from_age: 1, to_age: 2) }
       it { expect(stage.to_age_as_date).to eq('Wed, 01 Oct 2014'.to_date) }
     end
   end
