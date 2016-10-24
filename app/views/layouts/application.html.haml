@@ -10,8 +10,6 @@
     %title CIF
 
     = stylesheet_link_tag    'application', media: 'all'
-    = javascript_include_tag 'application'
-    = javascript_include_tag 'https://code.highcharts.com/highcharts.js'
     = csrf_meta_tags
 
   %body{id: "#{controller_name}-#{params[:action]}", class: "pace-done #{authorized_body}"}
@@ -25,3 +23,5 @@
       - else
         = render 'layouts/top_navbar'
         = yield
+    = javascript_include_tag 'application'
+    = javascript_include_tag 'https://code.highcharts.com/highcharts.js'

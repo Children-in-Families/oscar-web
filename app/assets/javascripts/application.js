@@ -11,25 +11,11 @@
 //= require cocoon
 //= require image_upload_previewer/image_upload_previewer
 //= require image_upload
-//= require bootstrap-datepicker
+//= require bootstrap-datepicker/core
+//= require bootstrap-datepicker/locales/bootstrap-datepicker.en-GB.js
 //= require cocoon
 //= require datepicker
 //= require metisMenu/jquery.metisMenu.js
-
-// WRAPBOOTSTRAP
-//= require wrapbootstrap/appviews.js
-//= require wrapbootstrap/commerce.js
-//= require wrapbootstrap/cssanimations.js
-//= require wrapbootstrap/dashboards.js
-//= require wrapbootstrap/forms.js
-//= require wrapbootstrap/gallery.js
-//= require wrapbootstrap/mailbox.js
-//= require wrapbootstrap/metrics.js
-//= require wrapbootstrap/miscellaneous.js
-//= require wrapbootstrap/pages.js
-//= require wrapbootstrap/tables.js
-//= require wrapbootstrap/uielements.js
-//= require wrapbootstrap/widgets.js
 
 
 //LOAD MODULE

@@ -1,7 +1,5 @@
 //= require toastr/toastr.min.js
 //= require nestable/jquery.nestable.js
-//= require codemirror/codemirror.js
-//= require codemirror/mode/javascript/javascript.js
 //= require validate/jquery.validate.min.js
 //= require jsTree/jstree.min.js
 //= require diff_match_patch/javascript/diff_match_patch.js
@@ -21,5 +19,3 @@
 //= require d3/d3.min.js
 //= require topojson/topojson.js
 //= require datamaps/datamaps.all.min.js
-//= require pdfjs/pdf.js
-//= require pdfjs/pdf.worker.js
