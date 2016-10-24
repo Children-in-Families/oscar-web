@@ -108,7 +108,7 @@
           - if filter.type == :dynamic
             .datagrid-filter.filter
               %label{ title: filter.header }
-                = truncate(filter.header, length: 40)
+                = truncate(filter.header, length: 32)
               = f.datagrid_filter filter, partials: options[:partials]
   .row
     .datagrid-actions
