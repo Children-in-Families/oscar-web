@@ -23,9 +23,12 @@ class UserGrid
     scope.email_like(value)
   end
 
-  filter(:job_title, :enum, select: :job_title_options,  header: -> { I18n.t('datagrid.columns.users.job_title') })
+  filter(:job_title, :enum, select: :job_title_options,  header: -> { I18n.t('datagrid.columns.users.job_title') }) do |value, scope|
+    scope.where(job_title: value)
+  end
+
   def job_title_options
-    scope.job_title_is
+    User.job_title_are
   end
 
   filter(:date_of_birth, :date, range: true, header: -> { I18n.t('datagrid.columns.users.date_of_birth') })
@@ -37,9 +40,12 @@ class UserGrid
     scope.department_is
   end
 
-  filter(:roles, :enum, select: :role_options,  header: -> { I18n.t('datagrid.columns.users.roles') })
+  filter(:roles, :enum, select: :role_options,  header: -> { I18n.t('datagrid.columns.users.roles') }) do |value, scope|
+    scope.where(roles: value)
+  end
+
   def role_options
-    scope.map { |u| [u.roles.titleize, u.roles] }.uniq
+    User.order(:roles).map { |u| [u.roles.titleize, u.roles] }.uniq
   end
 
   filter(:province_id, :enum, select: :province_options,  header: -> { I18n.t('datagrid.columns.users.province') })

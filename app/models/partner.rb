@@ -19,7 +19,7 @@ class Partner < ActiveRecord::Base
 
   scope :address_like,               -> (value) { where('LOWER(partners.address) LIKE ?', "%#{value.downcase}%") }
 
-  scope :organisation_type_is,       ->         { where.not(organisation_type: '').pluck(:organisation_type).uniq }
+  scope :organisation_type_are,      ->         { where.not(organisation_type: '').pluck(:organisation_type).uniq }
 
   scope :province_is,                ->         { joins(:province).pluck('provinces.name', 'provinces.id').uniq }
 
