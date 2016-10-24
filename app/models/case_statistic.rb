@@ -45,7 +45,7 @@ class CaseStatistic
   def case_ids_by_client_status
     case_ids = []
     if @clients.any?
-      client_ids = @clients.joins(:cases).where(cases: { exited: false }).pluck(:id).uniq
+      client_ids = @clients.joins(:cases).where(cases: { exited: false }).map(&:id)
       client_ids.each do |client_id|
         client = Client.find(client_id)
         case_ids << client.cases.current.id if client.cases.current && CLIENT_ACTIVE_STATUS.include?(client.status)
