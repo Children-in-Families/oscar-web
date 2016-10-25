@@ -16,7 +16,8 @@
 //= require cocoon
 //= require datepicker
 //= require metisMenu/jquery.metisMenu.js
-
+//= require wrapbootstrap/inspinia.js
+//= require slimscroll/jquery.slimscroll.min.js
 
 //LOAD MODULE
 //= require namespace
@@ -36,6 +37,7 @@
 //= require clients/show
 //= require clients/form
 //= require families/index
+//= require families/form
 //= require surveys/form
 //= require users/show
 //= require users/index

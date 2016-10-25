@@ -675,6 +675,8 @@ en:
     edit:
       edit_user_title: Edit User
       <<: *default_user_fields
+    form:
+      <<: *default_user_fields
     show:
       <<: *default_user_fields
       general_info: General Information for User

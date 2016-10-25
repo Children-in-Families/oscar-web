@@ -1,22 +1,23 @@
 .row
   .col-xs-12
-    .panel.panel-default
-      .panel-body
-        %button.btn.btn-primary.btn-filter{"aria-expanded" => 'false', "data-target" => '#user-search-form', "data-toggle" => 'collapse', type: 'button'}
-          %i.glyphicon.glyphicon-filter
-        .text-right
-          - if can? :manage, :all
-            = link_to "#{I18n.t('users.index.add_new_user')}", new_user_path, class: 'btn btn-success'
-          = link_to "#{I18n.t('users.index.export_csv')}", current_url(format: 'csv'), class: 'btn btn-default btn-export'
-        .panel.panel-default#user-search-form.collapse
-          .panel-body
-            = datagrid_form_for @user_grid, url: users_url, html: { class: 'grid-form' }
-        .text-left.record-count
-          %strong= @user_grid.assets.count
-          %span
-          = I18n.t('users.index.results')
+    .pull-left
+      %button.btn.btn-primary.btn-filter{"aria-expanded" => 'false', "data-target" => '#user-search-form', "data-toggle" => 'collapse', type: 'button'}
+        %i.glyphicon.glyphicon-filter
+    .pull-right
+      - if can? :manage, :all
+        = link_to "#{I18n.t('users.index.add_new_user')}", new_user_path, class: 'btn btn-outline btn-success'
+      = link_to "#{I18n.t('users.index.export_csv')}", current_url(format: 'csv'), class: 'btn btn-outline btn-info btn-export'
+.row
+  .col-xs-12
+    .ibox.float-e-margins#user-search-form.collapse
+      .ibox-content
+        = datagrid_form_for @user_grid, url: users_url, html: { class: 'grid-form' }
+.row
+  .col-xs-12
+    .ibox.float-e-margins
+      .ibox-content
+        %h5= "#{@user_grid.assets.count} #{I18n.t('users.index.results')}"
         .table-responsive
           = datagrid_table @user_grid, html: { class: 'table table-bordered table-striped table-hover users'}
-.row
-  .col-xs-12.text-center
-    = will_paginate @user_grid.assets, renderer: BootstrapPagination::Rails
+      .ibox-footer
+        = will_paginate @user_grid.assets, renderer: BootstrapPagination::Rails

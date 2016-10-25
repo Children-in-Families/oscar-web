@@ -1,5 +1,5 @@
 = simple_form_for(@partner) do |f|
-  .panel-body
+  .ibox-content
     = f.error_notification
     .form-inputs
       .row
@@ -23,7 +23,7 @@
           = f.input :organisation_type, label: "#{t('.organisation_type')}"
           = f.input :affiliation, label: "#{t('.affiliation')}"
         .col-xs-12.col-md-4= f.input :background, input_html: { style: 'height: 107px;' }, label: "#{t('.background')}"
-  .panel-footer
+  .ibox-footer
     .form-actions
-      = f.button :submit, t('save'), class: 'btn btn-primary form-btn'
-      = link_to t('cancel'), partners_path, class: 'btn btn-default form-btn'
+      = f.submit t('save'), class: 'btn btn-outline btn-primary form-btn'
+      = link_to t('cancel'), partners_path, class: 'btn btn-outline btn-default form-btn'

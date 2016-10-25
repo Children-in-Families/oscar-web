@@ -1,5 +1,11 @@
+-# .tooltip-demo
+-#   = link_to '#', {"data-container" => "body", "data-content" => '<h1>testing</h1>', "data-original-title" => "Family Members", "data-placement" => "top", "data-toggle" => "popover", :title => "", :type => "button"} do
+-#     = "#{I18n.t('datagrid.columns.families.member_count_total')} : #{object.member_count}"
+-#
+-#
+-# #hid
 %ul.family-members-list
-	-	if params[:locale]=='km'
+	- if params[:locale]=='km'
 		%li= "#{I18n.t('datagrid.columns.families.female_children_count')} : #{object.female_children_count.to_i}"
 	- elsif params[:locale]=='en'
 		%li= "#{I18n.t('datagrid.columns.families.female_children_count')} #{'child'.pluralize(object.female_children_count.to_i)} : #{object.female_children_count.to_i}"

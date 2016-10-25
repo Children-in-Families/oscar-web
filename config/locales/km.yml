@@ -674,6 +674,8 @@ km:
     edit:
       edit_user_title: កែប្រែពត៌មានអ្នកប្រើប្រាស់
       <<: *default_user_fields
+    form:
+      <<: *default_user_fields
     show:
       <<: *default_user_fields
       general_info: ពត៌មានទូទៅរបស់អ្នកប្រើប្រាស់
