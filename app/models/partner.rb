@@ -21,7 +21,7 @@ class Partner < ActiveRecord::Base
 
   scope :organisation_type_are,      ->         { where.not(organisation_type: '').pluck(:organisation_type).uniq }
 
-  scope :province_is,                ->         { joins(:province).pluck('provinces.name', 'provinces.id').uniq }
+  scope :province_are,               ->         { joins(:province).pluck('provinces.name', 'provinces.id').uniq }
 
   scope :NGO,                        ->         { where(organisation_type: 'NGO') }
   scope :local_goverment,            ->         { where(organisation_type: 'Local Goverment') }

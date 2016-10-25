@@ -24,13 +24,13 @@ class User < ActiveRecord::Base
 
   scope :job_title_are,   ->         { where.not(job_title: '').pluck(:job_title).uniq }
 
-  scope :department_is,   ->         { joins(:department).pluck('departments.name', 'departments.id').uniq }
+  scope :department_are,  ->         { joins(:department).pluck('departments.name', 'departments.id').uniq }
 
   scope :case_workers,    ->         { where('users.roles LIKE ?', '%case worker%') }
 
   scope :admins,          ->         { where(roles: 'admin') }
 
-  scope :province_is,     ->         { joins(:province).pluck('provinces.name', 'provinces.id').uniq }
+  scope :province_are,    ->         { joins(:province).pluck('provinces.name', 'provinces.id').uniq }
 
   scope :has_clients,     ->         { joins(:clients).without_json_fields.uniq }
 
