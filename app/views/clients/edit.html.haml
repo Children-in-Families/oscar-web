@@ -1,6 +1,11 @@
 .row
-  .col-xs-12.col-sm-10.col-sm-offset-1.form
-    .panel.panel-default
-      .panel-heading
-        %h4=  t('.edit_client_title')
+  .col-xs-12
+    .ibox
+      .ibox-title
+        %h5=  t('.edit_client_title')
+        .ibox-tools
+          %a.collapse-link
+            %i.fa.fa-chevron-up
+          %a.fullscreen-link
+            %i.fa.fa-expand
       = render 'form'

@@ -39,7 +39,7 @@
             %i.fa.fa-chevron-up
           %a.fullscreen-link
             %i.fa.fa-expand
-      .ibox-content.no-padding
+      .ibox-content
         - if @client_grid.assets.any?
           = datagrid_table @client_grid, html: {class: 'table table-bordered table-striped table-hover clients'}
         - else

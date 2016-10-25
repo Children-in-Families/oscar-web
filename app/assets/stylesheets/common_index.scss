@@ -1,5 +1,33 @@
+.select2-choice{
+  border: 1px solid #e5e6e7 !important;
+  border-radius: 1px !important;
+  box-shadow: none !important;
+}
+.select2-container .select2-choices .select2-search-field input, .select2-container .select2-choice, .select2-container .select2-choices{
+  border-color: #e5e6e7 !important;
+  box-shadow: none !important;
+  border-radius: 1px !important;
+}
+.select2-drop-active{
+  border: 1px solid #1ab394 !important;
+  border-top: none !important;
+  box-shadow: none !important;
+}
+.select2-container-active .select2-choice, .select2-container-multi.select2-container-active .select2-choices{
+  box-shadow: none !important;
+  border: 1px solid #1ab394 !important;
+  border-radius: 1px !important;
+}
 .min-margin-layout{
   margin-top: 16px;
+}
+.boolean.optional{
+  padding: 0;
+}
+.ibox-title > h5, .panel-heading > h5 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #6B6A6C;
 }
 .bg{
   background: white;

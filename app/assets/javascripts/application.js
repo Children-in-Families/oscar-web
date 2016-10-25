@@ -1,13 +1,13 @@
 // FRAMEWORK
 //= require jquery
 //= require jquery_ujs
-//= require select2
 //= require bootstrap-sprockets
 //= require jquery.steps.min
 //= require jquery.validate
 //= require jquery.validate.additional-methods
 //= require dataTables/jquery.dataTables
 //= require thredded
+//= require select2
 //= require cocoon
 //= require image_upload_previewer/image_upload_previewer
 //= require image_upload
@@ -17,19 +17,7 @@
 //= require metisMenu/jquery.metisMenu.js
 
 // WRAPBOOTSTRAP
-//= require wrapbootstrap/appviews.js
-//= require wrapbootstrap/commerce.js
-//= require wrapbootstrap/cssanimations.js
-//= require wrapbootstrap/dashboards.js
-//= require wrapbootstrap/forms.js
-//= require wrapbootstrap/gallery.js
-//= require wrapbootstrap/mailbox.js
-//= require wrapbootstrap/metrics.js
-//= require wrapbootstrap/miscellaneous.js
-//= require wrapbootstrap/pages.js
-//= require wrapbootstrap/tables.js
-//= require wrapbootstrap/uielements.js
-//= require wrapbootstrap/widgets.js
+//= require iCheck/icheck.min.js
 //= require wrapbootstrap/inspinia.js
 //= require slimscroll/jquery.slimscroll.min.js
 
