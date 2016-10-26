@@ -564,6 +564,9 @@ en:
       client_able_answers: Client Able Answers
     client_answers:
       client_able_answers: Client Able Answers
+      question: Q
+      answer: A
+      close: Close
     actions:
       are_you_sure: Are you sure you want to delete?
     emergency_case:
