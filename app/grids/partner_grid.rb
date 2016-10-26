@@ -22,8 +22,9 @@ class PartnerGrid
   end
 
   filter(:organisation_type, :enum, select: :organisation_type_options, header: -> { I18n.t('datagrid.columns.partners.organisation_type') })
+
   def organisation_type_options
-    scope.organisation_type_is
+    Partner.organisation_type_are
   end
 
   filter(:affiliation, :string, header: -> { I18n.t('datagrid.columns.partners.affiliation') }) do |value, scope|
@@ -40,7 +41,7 @@ class PartnerGrid
 
   filter(:province_id, :enum, select: :province_options, header: -> { I18n.t('datagrid.columns.partners.province') })
   def province_options
-    scope.province_is
+    Partner.province_are
   end
 
   filter(:address, :string, header: -> { I18n.t('datagrid.columns.partners.address') }) do |value, scope|

@@ -57,8 +57,8 @@ describe Family, 'scopes' do
     end
   end
 
-  context 'province is' do
-    subject{ Family.province_is }
+  context 'province are' do
+    subject{ Family.province_are }
 
     it 'should include province' do
       province_array = [province.name, province.id]

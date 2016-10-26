@@ -25,7 +25,7 @@ class FamilyGrid
 
   filter(:province_id, :enum, select: :province_options, header: -> { I18n.t('datagrid.columns.families.province') })
   def province_options
-    scope.province_is
+    Family.province_are
   end
 
   filter(:dependable_income, :xboolean, header: -> { I18n.t('datagrid.columns.families.dependable_income') }) do |value, scope|

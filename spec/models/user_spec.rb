@@ -80,16 +80,16 @@ describe User, 'scopes' do
     end
   end
 
-  context 'job title is' do
-    subject{ User.job_title_is }
+  context 'job title are' do
+    subject{ User.job_title_are }
 
     it 'should include job title' do
       is_expected.to include('Developer')
     end
   end
 
-  context 'department is' do
-    subject{ User.department_is }
+  context 'department are' do
+    subject{ User.department_are }
 
     it 'should include department' do
       department_array = [department.name, department.id]
@@ -113,8 +113,8 @@ describe User, 'scopes' do
     end
   end
 
-  context 'province is' do
-    subject{ User.province_is }
+  context 'province are' do
+    subject{ User.province_are }
 
     it 'should include province' do
       province_array = [province.name, province.id]
