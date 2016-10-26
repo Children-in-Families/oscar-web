@@ -23,7 +23,7 @@ feature 'progress_note' do
     end
 
     scenario 'date formated' do
-      expect(page).to have_content(progress_note.decorate.date)
+      expect(page).to have_content(progress_note.decorate.date.strftime('%d %B, %Y'))
     end
 
     scenario 'activities/response' do
@@ -107,7 +107,7 @@ feature 'progress_note' do
     end
     scenario 'valid' do
       date = Date.today
-      fill_in I18n.t('progress_notes.form.date'), with: date
+      fill_in I18n.t('progress_notes.form.date'), with: date.to_s
       click_button I18n.t('progress_notes.form.save')
       expect(page).to have_content(I18n.t('progress_notes.update.successfully_updated'))
       expect(page).to have_content(date.strftime('%d %B, %Y'))

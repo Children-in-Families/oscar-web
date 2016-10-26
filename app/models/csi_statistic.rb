@@ -32,7 +32,7 @@ class CsiStatistic
   private
   def assessment_amount
     data = []
-    if @clients.present?
+    if @clients.any?
       max_count = @clients.map(&:assessments).map(&:count).max
       max_count.times do |i|
         arr = []

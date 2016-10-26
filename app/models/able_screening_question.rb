@@ -41,10 +41,6 @@ class AbleScreeningQuestion < ActiveRecord::Base
     stage.present?
   end
 
-  def has_group?
-    group.present?
-  end
-
   def free_text?
     mode == MODES[1]
   end

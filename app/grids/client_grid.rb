@@ -138,7 +138,11 @@ class ClientGrid
   end
 
   filter(:family_id, :integer, header: -> { I18n.t('datagrid.columns.families.family_id') }) do |value, object|
-    object.find_by_family_id(value) if value.present?
+    ids = []
+    Case.active.most_recents.joins(:client).group_by(&:client_id).each do |key, c|
+      ids << c.first.id
+    end
+    object.joins(:cases).where("cases.id IN (?)", ids).where("cases.family_id = ? ", value) if value.present?
   end
 
   def quantitative_type_options

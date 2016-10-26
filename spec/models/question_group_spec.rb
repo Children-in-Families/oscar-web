@@ -1,5 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe QuestionGroup, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe 'Association' do
+    it { is_expected.to have_many(:able_screening_questions) }
+  end
 end
