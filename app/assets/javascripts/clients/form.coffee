@@ -2,6 +2,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
   _init = ->
     _clientSelectOption()
     _checkClientBirthdateAvailablity()
+    _toggleAnswer()
 
   _clientSelectOption = ->
     $("#clients-edit select, #clients-new select, #clients-update select, #clients-create select").select2
@@ -57,12 +58,15 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
       answerObj = $(answer)
       if answerObj.data('is-stage') == false
         answerObj.find('input').removeAttr('disabled')
+        answerObj.show()
       else
         if answerObj.data('to-age') != '' && answerObj.data('from-age') >= $('#client_date_of_birth').val() >= answerObj.data('to-age')
           answerObj.find('input').removeAttr('disabled')
+          answerObj.show()
           answerObj.removeClass('disable-qa')
         else
           answerObj.addClass('disable-qa')
           answerObj.find('input').attr('disabled', true)
+          answerObj.hide()
 
   { init: _init }

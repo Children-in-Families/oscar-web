@@ -1,16 +1,16 @@
 body[id=clients-new], body[id=clients-create],
 body[id=clients-edit], body[id=clients-update]{
 
-  .question_and_answer{
+  .question_and_answer {
     margin-bottom: 16px;
   }
 
-  .disable-qa{
+  .disable-qa {
     color: gray;
     cursor: not-allowed;
   }
 
-  .able-screening-header{
+  .able-screening-header {
     min-width: 200px;
   }
 
@@ -19,14 +19,14 @@ body[id=clients-edit], body[id=clients-update]{
     margin-left: 16px;
   }
 
-  .able-screening-image img{
+  .able-screening-image img {
     border: 1px solid #c9cacc;
     border-radius: 3px;
     width: 80px;
     height: 80px;
   }
 
-  .image-default img{
+  .image-default img {
     width: 80px;
     height: 80px;
   }
@@ -43,4 +43,17 @@ body[id=clients-edit], body[id=clients-update]{
     font-weight: 900;
   }
 
+  .client_answers_description {
+    label {
+      display: block;
+    }
+    span.radio {
+      display: inline-block;
+      label {
+        &:first-child {
+          padding-right: 15px;
+        }
+      }
+    }
+  }
 }

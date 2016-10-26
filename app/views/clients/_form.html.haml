@@ -120,7 +120,7 @@
                                             - if answer_builder.object.able_screening_question.free_text?
                                               = answer_builder.input :description, label: t('.answer')
                                             - else
-                                              = answer_builder.input :description, as: :boolean, label: t('.yes_no'), checked_value: 'Yes', unchecked_value: 'No'
+                                              = answer_builder.input :description, as: :radio_buttons, collection: %w(Yes No), label: false
                                             = answer_builder.input :able_screening_question_id, as: :hidden, input_html: { value: answer_builder.object.able_screening_question_id }
                                             = answer_builder.input :question_type, as: :hidden, input_html: { value: 'stage' }
 

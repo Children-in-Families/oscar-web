@@ -22,9 +22,7 @@ class Client < ActiveRecord::Base
   has_many :tasks,          dependent: :destroy
 
   accepts_nested_attributes_for :tasks
-  accepts_nested_attributes_for :answers,
-            reject_if: proc { |attributes| attributes['description'].blank? },
-            allow_destroy: true
+  accepts_nested_attributes_for :answers
 
   has_many :cases,          dependent: :destroy
   has_many :case_notes,     dependent: :destroy
