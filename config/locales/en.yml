@@ -769,7 +769,7 @@ en:
   agencies:
     index:
       add_new_agency: Add New Agency
-      agency: Agency
+      agency: Agencies
       agency_names: Agency Name
       description: Description
       manage: Manage
@@ -794,7 +794,7 @@ en:
     index:
       add_new_department: Add New Department
       departments: Departments
-      department_names: Agency Name
+      department_names: Department Name
       description: Description
       manage: Manage
       are_you_sure: Are you sure you want to delete?
@@ -1268,7 +1268,7 @@ en:
     index:
       <<: *default_material_fields
       add_new_material: Add New Equipment/Material
-      material: Equipment/Material
+      material: Equipment/Materials
       manage: Manage
       are_you_sure: Are you sure you want to delete?
     new:
@@ -1291,7 +1291,7 @@ en:
     index:
       <<: *default_location_fields
       add_new_location: Add New Location
-      location: Location
+      location: Locations
       manage: Manage
       are_you_sure: Are you sure you want to delete?
     new:
@@ -1314,7 +1314,7 @@ en:
     index:
       <<: *default_progress_note_type_fields
       add_new_progress_note_type: Add New Type of Note
-      progress_note_type: Type of Note
+      progress_note_type: Types of Note
       manage: Manage
       are_you_sure: Are you sure you want to delete?
     new:
@@ -1337,7 +1337,7 @@ en:
     index:
       <<: *default_intervention_fields
       add_new_intervention: Add New Intervention
-      intervention: Intervention
+      intervention: Interventions
       manage: Manage
       are_you_sure: Are you sure you want to delete?
     new:
