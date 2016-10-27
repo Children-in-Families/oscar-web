@@ -1,61 +1,72 @@
 .row
-  .col-xs-12.col-md-8.col-md-offset-2
-    .panel.panel-default
-      .panel-heading
-        %h4.text-center= @client.name
-      .panel-body
-        = link_to t('.back'), client_path(@client), { class: 'btn btn-default button' }
-        = link_to t('.new_task'), new_client_task_path(@client), { class: 'btn btn-success button' }
-        .panel.panel-danger
-          .panel-heading
-            %h5= t('.overdue_tasks')
-          .panel-body
-            .row
-              .col-xs-12
-                %table.table.table-bordered
-                  - @tasks.incomplete.overdue.each do |task|
-                    %tr
-                      %td= "#{t('.domain')}: #{task.domain.name}"
-                      %td.task-name= task.name
-                      %td= task.completion_date.strftime("%B %d, %Y")
-                      %td
-                        = link_to edit_client_task_path(@client, task) do
-                          = fa_icon('pencil')
-                        = link_to client_task_path(@client, task), method: :delete, data: { confirm: t('.are_you_sure_you_want_to_delete') } do
-                          %i.glyphicon.glyphicon-trash
+  .col-xs-12.col-md-10.col-md-offset-1
+    .ibox
+    .ibox-title
+      %h5= @client.name
+      .ibox-tools
+        = link_to client_path(@client) do
+          .btn.btn-outline.btn-success.btn-width
+            = t('.back')
+        = link_to new_client_task_path(@client) do
+          .btn.btn-outline.btn-primary.btn-width
+            = t('.new_task')
+    .ibox-content
+      .panel.panel-danger
+        .panel-heading
+          = t('.overdue_tasks')
+        .panel-body
+          .row
+            .col-xs-12
+              %table.table.table-bordered
+                - @tasks.incomplete.overdue.each do |task|
+                  %tr
+                    %td= "#{t('.domain')}: #{task.domain.name}"
+                    %td.task-name= task.name
+                    %td= task.completion_date.strftime("%B %d, %Y")
+                    %td.text-center.margin-icon
+                      = link_to edit_client_task_path(@client, task) do
+                        .btn.btn-outline.btn-success.btn-xs
+                          %i.fa.fa-pencil
+                      = link_to client_task_path(@client, task), method: :delete, data: { confirm: t('.are_you_sure_you_want_to_delete') } do
+                        .btn.btn-outline.btn-danger.btn-xs
+                          %i.fa.fa-trash
 
-        .panel.panel-info
-          .panel-heading
-            %h5= t('.todays_tasks')
-          .panel-body
-            .row
-              .col-xs-12
-                %table.table.table-bordered
-                  - @tasks.incomplete.today.each do |task|
-                    %tr
-                      %td= "#{t('.domain')}: #{task.domain.name}"
-                      %td= task.name
-                      %td= task.completion_date.strftime("%B %d, %Y")
-                      %td
-                        = link_to edit_client_task_path(@client, task) do
-                          = fa_icon('pencil')
-                        = link_to client_task_path(@client, task), method: :delete, data: { confirm: t('.are_you_sure_you_want_to_delete') } do
-                          %i.glyphicon.glyphicon-trash
+      .panel.panel-info
+        .panel-heading
+          = t('.todays_tasks')
+        .panel-body
+          .row
+            .col-xs-12
+              %table.table.table-bordered
+                - @tasks.incomplete.today.each do |task|
+                  %tr
+                    %td= "#{t('.domain')}: #{task.domain.name}"
+                    %td= task.name
+                    %td= task.completion_date.strftime("%B %d, %Y")
+                    %td.text-center.margin-icon
+                      = link_to edit_client_task_path(@client, task) do
+                        .btn.btn-outline.btn-success.btn-xs
+                          %i.fa.fa-pencil
+                      = link_to client_task_path(@client, task), method: :delete, data: { confirm: t('.are_you_sure_you_want_to_delete') } do
+                        .btn.btn-outline.btn-danger.btn-xs
+                          %i.fa.fa-trash
 
-        .panel.panel-success
-          .panel-heading
-            %h5= t('.upcoming_tasks')
-          .panel-body
-            .row
-              .col-xs-12
-                %table.table.table-bordered
-                  - @tasks.incomplete.upcoming.each do |task|
-                    %tr
-                      %td= "#{ t('.domain') }: #{task.domain.name}"
-                      %td= task.name
-                      %td= task.completion_date.strftime("%B %d, %Y")
-                      %td
-                        = link_to edit_client_task_path(@client, task) do
-                          = fa_icon('pencil')
-                        = link_to client_task_path(@client, task), method: :delete, data: { confirm: t('.are_you_sure_you_want_to_delete') } do
-                          %i.glyphicon.glyphicon-trash
+      .panel.panel-success
+        .panel-heading
+          = t('.upcoming_tasks')
+        .panel-body
+          .row
+            .col-xs-12
+              %table.table.table-bordered
+                - @tasks.incomplete.upcoming.each do |task|
+                  %tr
+                    %td= "#{ t('.domain') }: #{task.domain.name}"
+                    %td= task.name
+                    %td= task.completion_date.strftime("%B %d, %Y")
+                    %td.text-center.margin-icon
+                      = link_to edit_client_task_path(@client, task) do
+                        .btn.btn-outline.btn-success.btn-xs
+                          %i.fa.fa-pencil
+                      = link_to client_task_path(@client, task), method: :delete, data: { confirm: t('.are_you_sure_you_want_to_delete') } do
+                        .btn.btn-outline.btn-danger.btn-xs
+                          %i.fa.fa-trash

@@ -1,8 +1,17 @@
 body[id=assessments-index] {
   .button {
-    min-width: 100px;
+    min-width: 142px;
   }
   .push-bottom {
     margin-bottom: 15px;
+  }
+  .margin-title{
+    margin-left: 10px;
+  }
+  .margin-row{
+    margin: 8px 0 8px 0;
+  }
+  .disabled{
+    color: #7f817f !important;
   }
 }

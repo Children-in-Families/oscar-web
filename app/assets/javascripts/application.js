@@ -31,8 +31,10 @@
 //APPLICATION JS
 //= require filters
 //= require assessments/form
+//= require tasks/form
 //= require case_notes/new
 //= require reports/index
+//= require cases/form
 //= require admin/tasks
 //= require ckeditor/init
 //= require clients/index

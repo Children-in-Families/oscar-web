@@ -1,10 +1,13 @@
 .row
-  .col-xs-12.col-sm-6.col-sm-offset-3
-    .panel.panel-default
-      .panel-heading
-        %strong= t('.title')
-        %strong= @task.client.name
-      .panel-body
+  .col-xs-12.col-md-8.col-md-offset-2
+    .ibox
+      .ibox-title
+        %h5= t('.title')
+      .ibox-content
         .row
           .col-xs-12
+            %span= t('.new_task_regarding')
+            %strong= @client.name
+        .row
+          .col-xs-12.mini-margin
             = render 'form'

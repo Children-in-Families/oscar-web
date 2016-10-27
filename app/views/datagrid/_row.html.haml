@@ -6,4 +6,4 @@
         - datagrid_value(grid, column, asset).split(',').each do |qc|
           %p= qc
     - else
-      %td{class: datagrid_column_classes(grid, column)}= datagrid_value(grid, column, asset)
+      %td{style:('vertical-align: middle;' if column.header == 'Manage'),class: datagrid_column_classes(grid, column)}= datagrid_value(grid, column, asset)

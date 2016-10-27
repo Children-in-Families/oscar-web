@@ -1,16 +1,19 @@
 - if kc.present?
   .col-xs-12.col-sm-12.col-md-6.case#case
-    .panel.panel-default
-      .panel-body
-        %h3.h3-header.pushing-bottom
-          = t('.kinship_case.kinship_care')
+    .ibox
+      .ibox-title
+        %h5= t('.kinship_case.kinship_care')
+        .ibox-tools
           - if can? :manage, Case
             - if current_user.admin? || current_user.case_worker? || current_user.kc_manager?
-              %small.top-right-icon
+              %small
                 = link_to edit_client_case_path(kc.client, kc) do
-                  = fa_icon('pencil')
+                  .btn.btn-outline.btn-success
+                    = fa_icon('pencil')
                 - unless @client.cases.latest_kinship.exited
-                  %button.btn.btn-warning{"data-target" => '#exitFromCase', "data-toggle" => 'modal',class:"btn-getout"} #{t('.exit_btn')}
+                  %button.btn.btn-outline.btn-warning{"data-target" => '#exitFromCase', "data-toggle" => 'modal'}
+                    %i.fa.fa-times{title: t('.exit_btn')}
+      .ibox-content
         %section.overflow-case
           %table.table.table-bordered
             %tr
@@ -73,5 +76,4 @@
               %td
                 %strong
                   = human_boolean(kc.family_preservation)
-
   = render 'exit_case_form', client_case: @client.cases.latest_kinship, exit_from_cif: false
