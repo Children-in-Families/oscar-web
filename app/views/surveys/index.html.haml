@@ -18,7 +18,7 @@
                 = link_to survey.decorate.created_at, client_survey_path(@client, survey)
               %td.action
                 = link_to edit_client_survey_path(@client, survey) do
-                  %i.glyphicon.glyphicon-pencil
+                  = fa_icon('pencil')
                 = link_to client_survey_path(@client, survey), method: :delete, data: { confirm: t('.are_you_sure_you_want_to_delete') } do
                   %i.glyphicon.glyphicon-trash
       .panel-footer

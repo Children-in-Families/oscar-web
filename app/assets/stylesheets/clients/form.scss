@@ -4,7 +4,9 @@ body[id=clients-edit], body[id=clients-update]{
   .question_and_answer{
     margin-bottom: 16px;
   }
-
+  .icheckbox_square-green{
+    margin-right: 10px;
+  }
   .disable-qa{
     color: gray;
     cursor: not-allowed;
@@ -31,7 +33,7 @@ body[id=clients-edit], body[id=clients-update]{
     height: 80px;
   }
   .vertical-align-group {
-    margin-top: 50%;
+    margin-top: 40%;
   }
 
   .narrow-space {
@@ -39,8 +41,8 @@ body[id=clients-edit], body[id=clients-update]{
   }
 
   .question-group-title{
-    font-size: 16px;
-    font-weight: 900;
+    font-size: 14px;
+    font-weight: 600;
   }
 
 }

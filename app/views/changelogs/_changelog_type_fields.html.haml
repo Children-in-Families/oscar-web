@@ -2,7 +2,7 @@
   .row
     .col-xs-12.col-sm-3
       .form-group
-        = f.input :change_type, collection: [['ADDED', 'added'], ['FIXED', 'fixed'], ['REMOVED', 'removed'], ['UPDATED', 'updated']], input_html: { class: 'form-control' }, label: false, include_blank: false
+        = f.input :change_type, collection: [['ADDED', 'added'], ['FIXED', 'fixed'], ['REMOVED', 'removed'], ['UPDATED', 'updated']], input_html: { class: 'select2' }, label: false, include_blank: false
     .col-xs-12.col-sm-8
       .form-group
         = f.input :description, input_html: { class: 'form-control', placeholder: t('.description') }, label: false

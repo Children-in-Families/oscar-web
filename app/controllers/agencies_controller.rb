@@ -1,14 +1,10 @@
 class AgenciesController < AdminController
   load_and_authorize_resource
 
-  before_action :find_agency, only: [:edit, :update, :destroy]
+  before_action :find_agency, only: [:update, :destroy]
 
   def index
     @agencies = Agency.all.paginate(page: params[:page], per_page: 20)
-  end
-
-  def new
-    @agency = Agency.new
   end
 
   def create
@@ -16,18 +12,15 @@ class AgenciesController < AdminController
     if @agency.save
       redirect_to agencies_path, notice: t('.successfully_created')
     else
-      render :new
+      redirect_to agencies_path
     end
-  end
-
-  def edit
   end
 
   def update
     if @agency.update_attributes(agency_params)
       redirect_to agencies_path, notice: t('.successfully_updated')
     else
-      render :edit
+      redirect_to agencies_path
     end
   end
 

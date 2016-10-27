@@ -1,14 +1,10 @@
 class DepartmentsController < AdminController
   load_and_authorize_resource
 
-  before_action :find_department, only: [:edit, :update, :destroy]
+  before_action :find_department, only: [:update, :destroy]
 
   def index
     @departments = Department.all.paginate(page: params[:page], per_page: 20)
-  end
-
-  def new
-    @department = Department.new
   end
 
   def create
@@ -20,14 +16,11 @@ class DepartmentsController < AdminController
     end
   end
 
-  def edit
-  end
-
   def update
     if @department.update_attributes(department_params)
       redirect_to departments_path, notice: t('.successfully_updated')
     else
-      render :edit
+      redirect_to departments_path
     end
   end
 

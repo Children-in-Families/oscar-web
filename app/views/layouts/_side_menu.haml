@@ -29,7 +29,7 @@
 
         %li{class: "#{active_menu('clients')}"}
           = link_to clients_path do
-            %i.fa.fa-users
+            = fa_icon('child')
             %span.nav-label= t('.clients')
             %span.label.label-primary.pull-right= Client.count
         - if can? :manage, Family
@@ -38,7 +38,7 @@
               %i.fa.fa-users
               %span.nav-label= t('.families')
               %span.label.label-primary.pull-right= Family.count
-          
+
         - if can? :manage, Partner
           %li{class: "#{active_menu('partners')}"}
             = link_to partners_path do
@@ -52,7 +52,7 @@
               %i.fa.fa-users
               %span.nav-label= t('.users')
               %span.label.label-primary.pull-right= User.count
-          
+
         %li
           %a{href: "#"}
             %i.fa.fa-cogs

@@ -13,6 +13,7 @@ class QuantitativeCasesController < AdminController
   end
 
   def create
+    bi
     @quantitative_case = QuantitativeCase.new(quantitative_case_params)
     if @quantitative_case.save
       redirect_to quantitative_types_path, notice: t('.successfully_created')
@@ -38,9 +39,10 @@ class QuantitativeCasesController < AdminController
   end
 
   private
-
   def quantitative_case_params
-    params.require(:quantitative_case).permit(:quantitative_type_id, :value)
+    params.require(:quantitative_case)
+            .permit(:quantitative_type_id, :value,
+                    quantitative_cases_attributes: [:id, :value, :_destroy])
   end
 
   def find_quantitative_case

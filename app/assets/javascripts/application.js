@@ -1,13 +1,13 @@
 // FRAMEWORK
 //= require jquery
 //= require jquery_ujs
-//= require select2
 //= require bootstrap-sprockets
 //= require jquery.steps.min
 //= require jquery.validate
 //= require jquery.validate.additional-methods
 //= require dataTables/jquery.dataTables
 //= require thredded
+//= require select2
 //= require cocoon
 //= require image_upload_previewer/image_upload_previewer
 //= require image_upload
@@ -16,6 +16,9 @@
 //= require cocoon
 //= require datepicker
 //= require metisMenu/jquery.metisMenu.js
+
+// WRAPBOOTSTRAP
+//= require iCheck/icheck.min.js
 //= require wrapbootstrap/inspinia.js
 //= require slimscroll/jquery.slimscroll.min.js
 
@@ -47,4 +50,5 @@
 //= require able_screening_questions/form
 //= require progress_notes/form
 //= require progress_notes/index
-//= require changelogs/form
+//= require changelogs/index
+//= require domains/form

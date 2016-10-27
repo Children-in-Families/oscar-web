@@ -15,7 +15,7 @@
                     %td{style: 'width: 80%;'}= qc.value
                     %td.text-center
                       = link_to edit_quantitative_case_path(qc) do
-                        %i.glyphicon.glyphicon-pencil
+                        = fa_icon('pencil')
                     %td.text-center
                       = link_to qc, method: 'delete', data: { confirm: 'Are you sure you want to delete?' } do
                         %i.glyphicon.glyphicon-trash

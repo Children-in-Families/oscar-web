@@ -14,12 +14,13 @@
 
   %body{id: "#{controller_name}-#{params[:action]}", class: "pace-done #{authorized_body}"}
     = render 'layouts/identifier' if Rails.env.staging?
-    #wrapper{:class => "#{params[:controller]}.#{params[:action]}"}
+    #wrapper
       = render 'layouts/side_menu' if user_signed_in?
       - if user_signed_in?
         #page-wrapper{:class => "gray-bg"}
           = render 'layouts/top_navbar'
-          = yield
+          .min-margin-layout
+            = yield
       - else
         = render 'layouts/top_navbar'
         = yield

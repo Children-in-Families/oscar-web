@@ -20,6 +20,6 @@
                 = link_to client_government_report_path(@government_report.client, @government_report, format: :pdf) do
                   %i.glyphicon.glyphicon-download-alt
                 = link_to edit_client_government_report_path(@government_report.client, @government_report) do
-                  %i.glyphicon.glyphicon-pencil
+                  = fa_icon('pencil')
                 = link_to client_government_report_path(@client, @government_report), method: :delete, data: { confirm: t('.are_you_sure_you_want_to_delete') } do
                   %i.glyphicon.glyphicon-trash

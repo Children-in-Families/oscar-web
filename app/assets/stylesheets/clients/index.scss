@@ -1,9 +1,17 @@
 #clients-index {
+  @import 'iCheck/custom';
   #client-search-form {
     margin-top: 16px;
+    margin-bottom: 16px;
+  }
+  .export-client{
+    margin-top: -16px;
   }
   .highcharts-legend-item path{
     cursor: pointer;
+  }
+  .visibility, .all-visibility{
+    margin: 2px 0 2px 0;
   }
   #client-statistic{
     margin-top: 16px;
@@ -52,7 +60,7 @@
       }
     }
   }
-  
+
   th.age, th.name, th.status, th.state, th.family, th.partner, th.manage, th.cases, th.family_id {
     min-width: 200px;
   }
@@ -96,7 +104,7 @@
   }
 
   .select2-container.dynamic_filter{
-    width: 32%;
+    width: 30%;
     float: left;
     margin-right: 5px;
   }

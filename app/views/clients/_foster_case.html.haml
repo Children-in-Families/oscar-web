@@ -8,7 +8,7 @@
             - if current_user.admin? || current_user.case_worker? || current_user.fc_manager?
               %small.top-right-icon
                 = link_to edit_client_case_path(fc.client, fc) do
-                  %i.glyphicon.glyphicon-pencil
+                  = fa_icon('pencil')
                 - unless @client.cases.latest_foster.exited
                   %button.btn.btn-warning{"data-target" => '#exitFromCase', "data-toggle" => 'modal', class:"btn-getout"} #{t('.exit_btn')}
         %section.overflow-case

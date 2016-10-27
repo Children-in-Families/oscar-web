@@ -23,7 +23,7 @@ CIF.StagesNew = CIF.StagesCreate = CIF.StagesEdit = CIF.StagesUpdate = do ->
       button: button
 
   _reloadAfterCocoon = ->
-    $('.container-fluid').on 'cocoon:after-insert', (e, insertedItem) ->
+    $('#page-wrapper').on 'cocoon:after-insert', (e, insertedItem) ->
       newImageId = +new Date
       insertedItem.find('.select2').select2
         theme: 'bootstrap'

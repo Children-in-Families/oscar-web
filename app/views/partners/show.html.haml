@@ -8,8 +8,8 @@
           - if can? :manage, Partner
             %small.top-right-icon
               = link_to edit_partner_path(@partner) do
-                %i.glyphicon.glyphicon-pencil
-              = removeable? @partner, @partner.cases_count
+                = fa_icon('pencil')
+              = remove_link(@partner, {partner_case: @partner.cases_count})
         .row
           .col-sm-12
             %table.table.table-bordered
@@ -68,4 +68,3 @@
                 %td
                   %strong
                     = "#{@partner.province.name}" if @partner.province
-       

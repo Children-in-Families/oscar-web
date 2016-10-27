@@ -1,20 +1,25 @@
-= simple_form_for(@changelog) do |f|
-  .panel-body
-    = error_notification(f)
-    .row
-      .col-xs-12.col-sm-3
-        .form-group
-          / = f.input :version, label: t('.version')
-          = f.input :version, label: false, input_html: { placeholder: t('.version') }
-    .row
-      .col-xs-12
-        #changelog_type
-          .form-group
-            = f.simple_fields_for :changelog_types do |changelog_type|
-              = render 'changelog_type_fields', f: changelog_type
-            .links
-              = link_to_add_association t('.add_change'), f, :changelog_types
-  .panel-footer
-    .form-actions
-      = f.button :submit, t('.save'), class: 'btn btn-primary btn-form'
-      = link_to t('.cancel'), changelogs_path, class: 'btn btn-default btn-form'
+= simple_form_for(changelog ||= Changelog.new) do |f|
+  .modal.fade{id: "changelogModal-#{changelog.id}", "aria-labelledby" => "changelogModal-#{changelog.id}Label", :role => "dialog", :tabindex => "-1"}
+    .modal-dialog{:role => "document"}
+      .modal-content
+        .modal-header
+          %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+            %span{"aria-hidden" => "true"} ×
+          %h4.modal-title{ id: "changelogModal-#{changelog.id}Label" } Changelog
+        .modal-body
+          = error_notification(f)
+          .row
+            .col-xs-12.col-sm-3
+              .form-group
+                = f.input :version, label: false, input_html: { placeholder: t('.version') }
+          .row
+            .col-xs-12
+              #changelog_type
+                .form-group
+                  = f.simple_fields_for :changelog_types do |changelog_type|
+                    = render 'changelog_type_fields', f: changelog_type
+                  .links
+                    = link_to_add_association t('.add_change'), f, :changelog_types
+        .modal-footer
+          = f.submit t('.save') , class: 'btn btn-outline btn-primary form-btn'
+          %button.btn.btn-outline.btn-default{"data-dismiss" => "modal", :type => "button"} Close

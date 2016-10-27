@@ -1,14 +1,10 @@
 class ReferralSourcesController < AdminController
   load_and_authorize_resource
 
-  before_action :find_referral_source, only: [:edit, :update, :destroy]
+  before_action :find_referral_source, only: [:update, :destroy]
 
   def index
     @referral_sources = ReferralSource.all.paginate(page: params[:page], per_page: 20)
-  end
-
-  def new
-    @referral_source = ReferralSource.new
   end
 
   def create
@@ -20,14 +16,11 @@ class ReferralSourcesController < AdminController
     end
   end
 
-  def edit
-  end
-
   def update
     if @referral_source.update_attributes(referral_source_params)
       redirect_to referral_sources_path, notice: t('.successfully_updated')
     else
-      render :edit
+      redirect_to referral_sources_path
     end
   end
 

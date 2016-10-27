@@ -5,9 +5,9 @@
         %i.glyphicon.glyphicon-filter
     .pull-right
       - if can? :manage, Partner
-        = link_to "#{I18n.t('partners.index.add_new_partner')}", new_partner_path, class: 'btn btn-outline btn-success'
+        = link_to "#{I18n.t('partners.index.add_new_partner')}", new_partner_path, class: 'btn btn-outline btn-primary'
       = link_to "#{I18n.t('partners.index.export_csv')}", current_url(format: 'csv'), class: 'btn btn-outline btn-info btn-export'
-.row
+.row.ibox-space
   .col-xs-12
     .ibox.float-e-margins#partner-search-form.collapse
       .ibox-content
@@ -15,8 +15,15 @@
 .row
   .col-xs-12
     .ibox.float-e-margins
+      .ibox-title
+        %h5= @partner_grid.assets.count
+        %span.label.label-info= t('.records')
+        .ibox-tools
+          %a.collapse-link
+            %i.fa.fa-chevron-up
+          %a.fullscreen-link
+            %i.fa.fa-expand
       .ibox-content
-        %h5= "#{@partner_grid.assets.count} #{I18n.t('partners.index.results')}"
         .table-responsive
           = datagrid_table @partner_grid, html: { class: 'table table-bordered table-striped table-hover partners'}
       .ibox-footer

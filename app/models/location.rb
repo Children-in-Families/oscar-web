@@ -7,7 +7,7 @@ class Location < ActiveRecord::Base
     progress_notes.count.zero?
   end
 
-  def is_other?
-    name == 'ផ្សេងៗ Other'
+  def other_used
+    name == 'ផ្សេងៗ Other' ? 1 : 0
   end
 end

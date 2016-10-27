@@ -132,24 +132,23 @@
 /* PAGINATIN */
 
 .pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {
-  background-color: #f4f4f4;
-  border-color: #DDDDDD;
-  color: inherit;
+  background-color: #1ab394;
+  border-color: #1ab394;
+  color: white;
   cursor: default;
   z-index: 2;
 }
 
-.pagination > li > a, .pagination > li > span {
-  background-color: #FFFFFF;
-  border: 1px solid #DDDDDD;
-  color: inherit;
-  float: left;
-  line-height: 1.42857;
-  margin-left: -1px;
-  padding: 4px 10px;
-  position: relative;
-  text-decoration: none;
-}
+// .pagination > li > a, .pagination > li > span {
+//   background-color: #FFFFFF;
+//   color: inherit;
+//   float: left;
+//   line-height: 1.42857;
+//   margin-left: -1px;
+//   padding: 4px 10px;
+//   position: relative;
+//   text-decoration: none;
+// }
 
 /* TOOLTIPS */
 

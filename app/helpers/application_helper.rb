@@ -44,33 +44,11 @@ module ApplicationHelper
     url_for params: params.merge(new_params)
   end
 
-  def removeable?(object, associated_objects_count)
-    if associated_objects_count.zero?
-      link_to object, method: 'delete', data: { confirm: t('.are_you_sure') } do
-        content_tag(:i, '', class: 'glyphicon glyphicon-trash')
-      end
-    else
-      content_tag(:i, '', class: 'glyphicon glyphicon-trash')
-    end
-  end
-
-  def domain_removeable?(object, associated_objects_count)
-    if associated_objects_count.zero? && object.assessment_domains.blank?
-      link_to object, method: 'delete', data: { confirm: t('.are_you_sure') } do
-        content_tag(:i, '', class: 'glyphicon glyphicon-trash')
-      end
-    else
-      content_tag(:i, '', class: 'glyphicon glyphicon-trash')
-    end
-  end
-
-  def client_removeable?(object, associated_objects_count)
-    if associated_objects_count[0].zero? && associated_objects_count[1].zero?
-      link_to object, method: 'delete', data: { confirm: t('.are_you_sure') } do
-        content_tag(:i, '', class: 'glyphicon glyphicon-trash')
-      end
-    else
-      content_tag(:i, '', class: 'glyphicon glyphicon-trash')
+  def remove_link(object, associated_objects = {}, btn_size = 'btn-xs')
+    btn_status = associated_objects.values.sum.zero? ? nil : 'disabled'
+    link_to(object, method: 'delete',  data: { confirm: t('.are_you_sure') },
+              class: "btn btn-outline btn-danger #{btn_size} #{btn_status}" ) do
+      fa_icon('trash')
     end
   end
 
@@ -95,12 +73,7 @@ module ApplicationHelper
   end
 
   def any_active_menu(names)
-    name = controller_name
-    if names.include? name
-      'active'
-    else
-      ''
-    end
+    'active' if names.include? controller_name
   end
 
   def active_menu(name, alter_name = '')

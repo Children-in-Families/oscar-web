@@ -1,31 +1,30 @@
 .row
   .col-xs-12
-    .container
-      .row
-        .col-xs-12
-          = link_to t('.add_new_domain'), new_domain_path, class: 'btn btn-success btn-add'
-      .row
-        .col-xs-12
+    .ibox
+      .ibox-title
+        %h5= t('.domains')
+        .ibox-tools
+          = link_to new_domain_path do
+            .btn.btn-outline.btn.btn-primary.btn-add
+              = t('.add_new_domain')
+      .ibox-content
+        - @domains.each do |domain|
           .panel.panel-default
             .panel-heading
-              %h3= t('.domains')
+              .row
+                .col-xs-10
+                  %h4
+                    = "#{t('.domains')} : #{domain.name} (#{domain.identity})"
+                  %h5
+                    %label{class: "label label-#{domain.score_1_color}"}= "#{t('.score_1')}"
+                    %label{class: "label label-#{domain.score_2_color}"}= "#{t('.score_2')}"
+                    %label{class: "label label-#{domain.score_3_color}"}= "#{t('.score_3')}"
+                    %label{class: "label label-#{domain.score_4_color}"}= "#{t('.score_4')}"
+                .col-xs-2.text-right
+                  = link_to edit_domain_path(domain), class: 'btn btn-outline btn-success' do
+                    = fa_icon('pencil')
+                  = remove_link(domain, {domain_task: domain.tasks_count}, 'btn-default')
             .panel-body
-              - @domains.each do |domain|
-                .panel.panel-default
-                  .panel-heading
-                    %h4
-                      = "#{t('.domains')} : #{domain.name} (#{domain.identity})"
-                      %small
-                        = link_to edit_domain_path(domain) do
-                          %i.glyphicon.glyphicon-pencil
-                        = domain_removeable? domain, domain.tasks_count
-                    %h5
-                      %label{class: "label label-#{domain.score_1_color}"}= "#{t('.score_1')}"
-                      %label{class: "label label-#{domain.score_2_color}"}= "#{t('.score_2')}"
-                      %label{class: "label label-#{domain.score_3_color}"}= "#{t('.score_3')}"
-                      %label{class: "label label-#{domain.score_4_color}"}= "#{t('.score_4')}"
-                  .panel-body
-                    %p= domain.description.html_safe
-      .row
-        .col-xs-12.text-center
-          = will_paginate @domains, renderer: BootstrapPagination::Rails
+              %p= domain.description.html_safe
+      .ibox-footer.text-center
+        = will_paginate @domains, renderer: BootstrapPagination::Rails

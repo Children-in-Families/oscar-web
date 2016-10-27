@@ -1,11 +1,33 @@
-= simple_form_for(@quantitative_type) do |f|
-  .panel-body
-    = error_notification(f)
+= simple_form_for(quantitative_type ||= QuantitativeType.new) do |f|
+  .modal.fade{id: "quantitative_typeModal-#{quantitative_type.id}", "aria-labelledby" => "quantitative_typeModal-#{quantitative_type.id}Label", :role => "dialog", :tabindex => "-1"}
+    .modal-dialog{:role => "document"}
+      .modal-content
+        .modal-header
+          %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+            %span{"aria-hidden" => "true"} ×
+          %h4.modal-title{ id: "quantitative_typeModal-#{quantitative_type.id}Label" } Province
+        .modal-body
+          = error_notification(f)
+          .form-inputs
+            = f.input :name, label: t('.name')
+            = f.simple_fields_for :quantitative_cases do |quantitative_case|
+              = render 'quantitative_case_fields', f: quantitative_case
+          .links
+            = link_to_add_association 'Add Quantitative Data', f, :quantitative_cases, class: 'btn btn-outline btn-info'
+        .modal-footer
+          = f.submit t('.save') , class: 'btn btn-outline btn-primary form-btn'
+          %button.btn.btn-outline.btn-default{"data-dismiss" => "modal", :type => "button"} Close
 
-    .form-inputs
-      = f.input :name, label: t('.name')
-
-  .panel-footer
-    .form-actions
-      = f.button :submit, t('.save'), class: 'btn btn-primary form-btn'
-      = link_to t('.cancel'),  quantitative_types_path, class: 'btn btn-default form-btn'
+-# = simple_form_for(@quantitative_type) do |f|
+-#   .ibox-content
+-#     = error_notification(f)
+-#     .form-inputs
+-#       = f.input :name, label: t('.name')
+-#       = f.simple_fields_for :quantitative_cases do |quantitative_case|
+-#         = render 'quantitative_case_fields', f: quantitative_case
+-#     .links
+-#       = link_to_add_association 'Add Quantitative Data', f, :quantitative_cases, class: 'btn btn-outline btn-info'
+-#   .ibox-footer
+-#     .form-actions
+-#       = f.button :submit, t('.save'), class: 'btn btn-outline btn-primary form-btn'
+-#       = link_to t('.cancel'),  quantitative_types_path, class: 'btn btn-outline btn-default form-btn'

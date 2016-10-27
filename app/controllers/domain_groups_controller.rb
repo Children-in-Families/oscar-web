@@ -1,14 +1,10 @@
 class DomainGroupsController < AdminController
   load_and_authorize_resource
 
-  before_action :find_domain_group, only: [:edit, :update, :destroy]
+  before_action :find_domain_group, only: [:update, :destroy]
 
   def index
     @domain_groups = DomainGroup.all.paginate(page: params[:page], per_page: 20)
-  end
-
-  def new
-    @domain_group = DomainGroup.new
   end
 
   def create
@@ -20,14 +16,11 @@ class DomainGroupsController < AdminController
     end
   end
 
-  def edit
-  end
-
   def update
     if @domain_group.update_attributes(domain_group_params)
       redirect_to domain_groups_path, notice: t('.successfully_updated')
     else
-      render :edit
+      redirect_to domain_groups_path
     end
   end
 

@@ -1,4 +1,4 @@
-CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = do ->
+CIF.ChangelogsIndex = do ->
   _init = ->
     _initSelect2()
 

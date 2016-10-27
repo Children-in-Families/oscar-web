@@ -11,7 +11,7 @@
             - if (can? :manage, Client) || (can? :rud, Client)
               %small.top-right-icon
                 = link_to edit_client_path(@client) do
-                  %i.glyphicon.glyphicon-pencil
+                  = fa_icon('pencil')
                 = link_to @client, method: 'delete', data: { confirm: t('.are_you_sure') } do
                   %i.glyphicon.glyphicon-trash
             .row

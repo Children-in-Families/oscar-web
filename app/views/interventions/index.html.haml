@@ -1,35 +1,30 @@
 .row
   .col-xs-12
-    .container
-      .row  
-        .col-xs-12
-          = link_to t('.add_new_intervention'), new_intervention_path, class: 'btn btn-success btn-add'
-      .row
-        .col-xs-12
-          .panel.panel-default
-            .panel-heading
-              %h3= t('.intervention')
-            .panel-body
-              .table-responsive
-                %table.table.table-bordered.table-striped.table-hover
-                  %thead
-                    %tr
-                      %th= t('.action')
-                      %th.text-center{:colspan => "2"}
-                        =t('.manage')
-                  %tbody
-                    - @interventions.each do |intervention|
-                      %tr
-                        %td= intervention.action
-                        %td.text-center
-                          = link_to edit_intervention_path(intervention) do
-                            %i.glyphicon.glyphicon-pencil
-                        %td.text-center
-                          - if intervention.has_no_any_progress_notes?
-                            = link_to intervention, method: 'delete', data: { confirm: t('.are_you_sure') } do
-                              %i.glyphicon.glyphicon-trash
-                          - else
-                            %i.glyphicon.glyphicon-trash
-      .row
-        .col-xs-12.text-center
-          = will_paginate @interventions, renderer: BootstrapPagination::Rails
+    .ibox
+      .ibox-title
+        %h5= t('.intervention')
+        .ibox-tools
+          = link_to '#', {"data-target" => "#interventionModal-", "data-toggle" => "modal", :type => "button"} do
+            .btn.btn-outline.btn-primary.btn-add
+              = t('.add_new_intervention')
+      .ibox-content
+        .table-responsive
+          %table.table.table-bordered.table-striped.table-hover
+            %thead
+              %tr
+                %th= t('.action')
+                %th.text-center{:colspan => "2"}
+                  =t('.manage')
+            %tbody
+              - @interventions.each do |intervention|
+                %tr
+                  %td= intervention.action
+                  %td.text-center
+                    = link_to '#', {class: 'btn btn-outline btn-xs btn-success', "data-target" => "#interventionModal-#{intervention.id}", "data-toggle" => "modal", :type => "button"} do
+                      = fa_icon('pencil')
+                  %td.text-center
+                    = remove_link(intervention, { intervention_progress_note: intervention.progress_notes.count})
+                  = render 'form', intervention: intervention
+      .ibox-footer.text-center
+        = will_paginate @interventions, renderer: BootstrapPagination::Rails
+= render 'form'
