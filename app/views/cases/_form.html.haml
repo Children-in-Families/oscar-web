@@ -1,5 +1,5 @@
 = simple_form_for([@client, @case]) do |f|
-  .panel-body
+  .ibox-content
     = f.error_notification
     .form-inputs
       .row
@@ -14,15 +14,15 @@
             %span.input-group-addon
               %i.glyphicon.glyphicon-calendar
         .col-xs-12.col-md-4= f.association :province, collection: @province, label: "#{t('.province')}"
-        .col-xs-12.col-md-4= f.input :case_type, label: "#{t('.case_type')}", default: params[:case_type], input_html: { readonly: 'readonly', style: 'height: 34px;' }
+        .col-xs-12.col-md-4= f.input :case_type, as: :string, label: "#{t('.case_type')}", default: params[:case_type], input_html: { readonly: 'readonly' }
       .row
         .col-xs-12.col-md-4= f.association :partner, collection: @partner, label:"#{t('.ongoing_partner')}", include_blank: false
         .col-xs-12.col-md-4= f.association :family, collection: @family, include_blank: false, label: "#{t('.family')}"
         .col-xs-12.col-md-4= f.input :support_amount, label: "#{t('.support_amount')}($)"
       .row
-        .col-xs-12.col-md-4= f.input :support_note, input_html: { style: 'height: 107px;' }, label: "#{t('.support_note')}"
-        .col-xs-12.col-md-4= f.input :family_preservation, label: "#{t('.family_preservation')}"
-  .panel-footer
+        .col-xs-12.col-md-4= f.input :support_note, input_html: { rows: 5 }, label: "#{t('.support_note')}"
+        .col-xs-12.col-md-4= f.input :family_preservation, label: "#{t('.family_preservation')}", input_html: { class: 'i-checks' }
+  .ibox-footer
     .form-actions
-      = f.button :submit, t('save'), class: 'btn btn-primary form-btn'
+      = f.submit t('save'), class: 'btn btn-primary form-btn'
       = link_to t('cancel'), client_path(@client), class: 'btn btn-default form-btn'

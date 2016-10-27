@@ -1,320 +1,282 @@
 .row
-  .col-sm-12.col-md-8.client
+  .col-xs-12
     .row
-      .col-xs-12
-        .panel.panel-default
-          .panel-body
-            %h3.h3-header.pushing-bottom
-              = "#{t('.general_info')} #{@client.name}"
-              - if @client.status
-                = status_style(@client.status)
-            - if (can? :manage, Client) || (can? :rud, Client)
-              %small.top-right-icon
-                = link_to edit_client_path(@client) do
-                  %i.glyphicon.glyphicon-pencil
-                = link_to @client, method: 'delete', data: { confirm: t('.are_you_sure') } do
-                  %i.glyphicon.glyphicon-trash
-            .row
-              .col-sm-12.col-md-6.first-table
-                %table.table.table-bordered
-                  %tr
-                    %td.spacing-first-col
-                      = t('.id')
-                    %td
-                      %strong
-                        = @client.slug
-                  %tr
-                    %td.spacing-first-col
-                      = t('.code')
-                    %td
-                      %strong
-                        = @client.care_code
-                  %tr
-                    %td.spacing-first-col
-                      = t('.gender')
-                    %td
-                      %strong
-                        = @client.gender.titleize if @client.gender.present?
-                  %tr
-                    %td.spacing-first-col
-                      = t('.date_of_birth')
-                    %td
-                      %strong
-                        = @client.date_of_birth.strftime('%B %d, %Y') if @client.date_of_birth
-                  %tr
-                    %td.spacing-first-col
-                      = t('.age')
-                    %td
-                      %strong
-                        = "#{pluralize(@client.age_as_years, 'year')} #{pluralize(@client.age_extra_months, 'month')}" if @client.date_of_birth
-                  %tr
-                    %td.spacing-first-col
-                      = t('.address')
-                    %td
-                      %strong
-                        = @client.current_address
-                  %tr
-                    %td.spacing-first-col
-                      = t('.completed')
-                    %td
-                      %strong
-                        = human_boolean(@client.completed)
-                  %tr
-                    %td.spacing-first-col
-                      = t('.birth_province')
-                    %td
-                      %strong
-                        = "#{@client.birth_province.name}" if @client.birth_province
-                  %tr
-                    %td.spacing-first-col
-                      = t('.time_in_care')
-                    %td
-                      %strong
-                        = t('.time_in_care_around', count: @client.time_in_care) if @client.time_in_care
-                  %tr
-                    %td.spacing-first-col
-                      = t('.initial_referral_date')
-                    %td
-                      %strong
-                        = @client.initial_referral_date.strftime('%B %d, %Y') if @client.initial_referral_date
-                  %tr
-                    %td.spacing-first-col
-                      = t('.referral_source')
-                    %td
-                      %strong
-                        = @client.referral_source.name if @client.referral_source
-                  %tr
-                    %td.spacing-first-col
-                      = t('.referral_phone')
-                    %td
-                      %strong
-                        = @client.referral_phone.phony_formatted(normalize: :KH, format: :international) if @client.referral_phone
-                  %tr
-                    %td.spacing-first-col
-                      = t('.received_by')
-                    %td
-                      %strong
-                        = user @client.received_by if @client.received_by
-                  %tr
-                    %td.spacing-first-col
-                      = t('.followed_up_by')
-                    %td
-                      %strong
-                        = user @client.followed_up_by if @client.followed_up_by
-                  %tr
-                    %td.spacing-first-col
-                      = t('.follow_up_date')
-                    %td
-                      %strong
-                        = @client.follow_up_date.strftime('%B %d, %Y') if @client.follow_up_date
-                  %tr
-                    %td.spacing-first-col
-                      = t('.agencies_involved')
-                    %td
-                      - @client.agencies.each do|agency|
-                        %strong.label.label-default{style:'margin-right: 2px;'}
-                          = agency.name
-                  %tr
-                    %td.spacing-first-col
-                      = t('.current_province')
-                    %td
-                      %strong
-                        = @client.province.name if @client.province
+      .col-md-5
+        %span.show-name= @client.name
+        - if @client.status
+          %span.show-status= status_style(@client.status)
+        .client-info
+          = @client.slug
+          = ", #{@client.gender.titleize if @client.gender.present?}"
+      .col-md-5
+        %table.table.small.m-b-xs
+          %tbody
+            %tr
+              %td
+                = "#{t('.code')} :"
+                %strong= @client.care_code
+              %td
+                = "#{t('.date_of_birth')} :"
+                %strong= @client.date_of_birth.strftime('%B %d, %Y') if @client.date_of_birth
+            %tr
+              %td
+                = "#{t('.age')} :"
+                %strong= "#{pluralize(@client.age_as_years, 'year')} #{pluralize(@client.age_extra_months, 'month')}" if @client.date_of_birth
+              %td
+                = "#{t('.current_province')} :"
+                %strong= @client.province.name if @client.province
+    .row
+      - if @client.state == ''
+        .col-xs-12.accept-layout
+          = simple_form_for @client, method: :put, url: client_path(@client) do |f|
+            .form-inputs
+              = f.hidden_field :state, value: 'accepted'
+            .form-action
+              = f.submit t('.accept'), class: 'btn btn-success mini-margin agree-btn'
+          %button.btn.btn-danger.mini-margin{"data-target" => '#rejectionForm', "data-toggle" => 'modal', class: 'agree-btn'} #{t('.reject')}
+        #rejectionForm.modal.fade{ role: 'dialog', tabindex: '-1'}
+          .modal-dialog{ role: 'document'}
+            .modal-content
+              .modal-header
+                %button.close{"aria-label" => "#{t('close')}", "data-dismiss" => 'modal'}
+                  %span{"aria-hidden" => 'true'} &times;
+                %h4.modal-title
+                  = t('.reject_client')
+              .modal-body
+                = simple_form_for(@client) do |f|
+                  = f.error_notification
+                  .form-inputs
+                    = f.input :rejected_note, required: true, label: "#{t('.note')}"
+                  .form-inputs
+                    = f.hidden_field :state, value: 'rejected'
+                  .form-actions.text-right
+                    %button.btn.btn-default{"data-dismiss" => 'modal'} #{t('cancel')}
+                    = f.button :submit, "#{t('.reject')}", class: 'btn btn-danger confirm-reject'
 
-              .col-sm-12.col-md-6.second-table
-                %table.table.table-bordered
-                  %tr
-                    %td.spacing-first-col
-                      = t('.school_name')
-                    %td
-                      %strong
-                        = @client.school_name
-                  %tr
-                    %td.spacing-first-col
-                      = t('.school_grade')
-                    %td
-                      %strong
-                        = @client.grade
-                  %tr
-                    %td.spacing-first-col
-                      = "#{t('.has_been_in_orphanage')}?"
-                    %td
-                      %strong
-                        = human_boolean(@client.has_been_in_orphanage)
-                  %tr
-                    %td.spacing-first-col
-                      = "#{t('.able_state')}"
-                    %td
-                      %strong
-                        = @client.able_state
-                  %tr
-                    %td.spacing-first-col
-                      = "#{t('.has_been_in_government_care')}?"
-                    %td
-                      %strong
-                        = human_boolean(@client.has_been_in_government_care)
-                  %tr
-                    %td.spacing-first-col
-                      = t('.relevant_referral_information')
-                    %td
-                      %strong
-                        = @client.relevant_referral_information
-                  %tr
-                    %td.spacing-first-col
-                      = t('.case_worker_or_staff')
-                    %td
-                      %strong
-                        = user @client.user if @client.user
-                  = render 'state'
-                  - @client.quantitative_cases.group_by(&:quantitative_type).each do |qtypes|
-                    %tr.custom-label
-                      %td.spacing-first-col
-                        = qtypes.first.name
-                      %td.display-label
-                        %ul
-                          - qtypes.last.each do |qcase|
-                            %li
-                              %b
-                                = qcase.value
-                            %br/
-
-        .row
-          = render 'placement'
-
-  - if @client.state == ''
-    .col-sm-12.col-md-4
-      .row
-        .col-xs-6.col-sm-4.col-md-6
+      - elsif @client.state == 'rejected'
+        .col-xs-12.accept-layout
           = simple_form_for @client, method: :put, url: client_path(@client) do |f|
             .form-inputs
               = f.hidden_field :state, value: 'accepted'
             .form-actions
-              = f.button :submit, t('.accept'), class: 'btn btn-success agree-btn'
-        .col-xs-6.col-sm-4.col-md-6
-          %button.btn.btn-danger{"data-target" => '#rejectionForm', "data-toggle" => 'modal',class: 'agree-btn'} #{t('.reject')}
-    #rejectionForm.modal.fade{ role: 'dialog', tabindex: '-1'}
-      .modal-dialog{ role: 'document'}
-        .modal-content
-          .modal-header
-            %button.close{"aria-label" => "#{t('close')}", "data-dismiss" => 'modal'}
-              %span{"aria-hidden" => 'true'} &times;
-            %h4.modal-title
-              = t('.reject_client')
-          .modal-body
-            = simple_form_for(@client) do |f|
-              = f.error_notification
-              .form-inputs
-                = f.input :rejected_note, required: true, label: "#{t('.note')}"
-              .form-inputs
-                = f.hidden_field :state, value: 'rejected'
-              .form-actions.text-right
-                %button.btn.btn-default{"data-dismiss" => 'modal'} #{t('cancel')}
-                = f.button :submit, "#{t('.reject')}", class: 'btn btn-danger confirm-reject'
+              = f.submit "#{t('.accept')}", class: 'btn mini-margin btn-success agree-btn'
+          %button.btn.btn-danger.mini-margin{ disabled: 'disabled', class:'agree-btn' } #{t('.reject')}
 
-  - elsif @client.state == 'rejected'
-    .col-sm-12.col-md-4
-      = simple_form_for @client, method: :put, url: client_path(@client), html: { class: 'col-xs-12' } do |f|
-        .form-inputs
-          = f.hidden_field :state, value: 'accepted'
-        .form-actions
-          = f.button :submit, "#{t('.accept')}", class: 'btn btn-success agree-btn'
-          %button.btn.btn-danger{ disabled: 'disabled', class:'agree-btn' } #{t('.reject')}
+      - elsif @client.state == 'accepted'
+        .col-xs-12
+          - if can? :manage, Case
+            .btn-group.mini-margin
+              %button.btn-xs.btn.btn-primary.dropdown-toggle{"data-toggle" => "dropdown"}
+                = t('.add_client_to_case')
+                %span.caret
+              %ul.dropdown-menu
+                - if @client.cases.current.blank?
+                  %li.text-success= case_button('EC') if @client.can_add_ec?
+                  %li.text-success= case_button('FC') if @client.can_add_fc?
+                  %li.text-success= case_button('KC') if @client.can_add_kc?
+                - else
+                  - unless @client.cases.current.fc_or_kc?
+                    %li.text-success= case_button('FC') if @client.can_add_fc?
+                    %li.text-success= case_button('KC') if @client.can_add_kc?
 
-  - elsif @client.state == 'accepted'
-    .col-sm-12.col-md-4
-      .panel.panel-default
-        .panel-body
-          .row
-            - if can? :manage, Case
-              - if @client.cases.current.blank?
-                = case_button('EC') if @client.can_add_ec?
-                = case_button('FC') if @client.can_add_fc?
-                = case_button('KC') if @client.can_add_kc?
-              - else
-                - unless @client.cases.current.fc_or_kc?
-                  = case_button('FC') if @client.can_add_fc?
-                  = case_button('KC') if @client.can_add_kc?
-
-              - if @client.cases.active.any?
-                .col-xs-10.col-xs-offset-1.btn.btn-warning.pushing-bottom{"data-target" => '#exitFromCif', "data-toggle" => 'modal'}
-                  %h4
-                    #{t('.exit_cif_btn')}
-                = render 'exit_case_form', client_case: @client.cases.active.last, exit_from_cif: true
-
-          .row
-            = link_to client_tasks_path(@client) do
-              .col-xs-10.col-xs-offset-1.pushing-bottom.color-turquoise
-                %h1.white-text.text-center.middle-text
-                  #{@client.tasks.incomplete.count}
-                %h4.white-text.bottom-corner
-                  #{t('.view_tasks')}
-          .row
-            = link_to client_assessments_path(@client) do
-              .col-xs-10.col-xs-offset-1.pushing-bottom.color-turquoise
-                %h1.white-text.text-center.middle-text
-                  #{@client.assessments.count}
-                %h4.white-text.bottom-corner
-                  #{t('.view_assessments')}
-          .row
-            = link_to client_case_notes_path(@client) do
-              .col-xs-10.col-xs-offset-1.color-turquoise
-                %h1.white-text.text-center.middle-text
-                  #{@client.case_notes.count}
-                %h4.white-text.bottom-corner
-                  #{t('.view_case_notes')}
-          .row
-            - if @client.cases.emergencies.inactive.present? && ec_manageable
-              = link_to client_cases_path(@client, case_type: 'EC') do
-                .col-xs-10.col-xs-offset-1.pushing-top.color-blue
-                  %h2.white-text.text-center
-                    #{t('.view_ec_history_btn_link')}
-          .row
-            - if @client.cases.fosters.inactive.present? && fc_manageable
-              = link_to client_cases_path(@client, case_type: 'FC') do
-                .col-xs-10.col-xs-offset-1.pushing-top.color-blue
-                  %h2.white-text.text-center
-                    #{t('.view_fc_history_btn_link')}
-          .row
-            - if @client.cases.kinships.inactive.present? && kc_manageable
-              = link_to client_cases_path(@client, case_type: 'KC') do
-                .col-xs-10.col-xs-offset-1.pushing-top.color-blue
-                  %h2.white-text.text-center
-                    #{t('.view_kc_history_btn_link')}
-
+                - if @client.cases.active.any?
+                  %li.divider
+                  %li
+                    %a{"data-target" => '#exitFromCif', "data-toggle" => 'modal'}
+                      .text-warning= t('.exit_cif_btn')
+                  = render 'exit_case_form', client_case: @client.cases.active.last, exit_from_cif: true
+              
+          = link_to client_tasks_path(@client) do
+            %span.btn-xs.btn.btn-primary.mini-margin
+              %strong.count-margin= @client.tasks.incomplete.count
+              = t('.view_tasks')
+          = link_to client_assessments_path(@client) do
+            %span.btn-xs.btn.btn-primary.mini-margin
+              %strong.count-margin= @client.assessments.count
+              = t('.view_assessments')
+          = link_to client_case_notes_path(@client) do
+            %span.btn-xs.btn.btn-primary.mini-margin
+              %strong.count-margin= @client.case_notes.count
+              = t('.view_case_notes')
+          = link_to new_client_survey_path(@client) do
+            %span.btn-xs.btn.btn-primary.mini-margin= t('.take_survey')
+          = link_to client_government_reports_path(@client) do
+            %span.btn-xs.btn.btn-primary.mini-margin= t('.government_report')
           - if @client.has_any_quarterly_reports?
-            .row
-              - if can? :manage, QuarterlyReport
-                = link_to client_case_quarterly_reports_path(@client,@client.latest_case) do
-                  .col-xs-10.col-xs-offset-1.pushing-top.color-brown
-                    %h2.white-text.text-center
-                      #{t('.view_legacy_quarterly_reports')}
-          .row
-            = link_to new_client_survey_path(@client) do
-              .col-xs-10.col-xs-offset-1.pushing-top.color-blue
-                %h2.white-text.text-center
-                  #{t('.take_survey')}
-
-          .row
+            - if can? :manage, QuarterlyReport
+              = link_to client_case_quarterly_reports_path(@client,@client.latest_case) do
+                %span.btn-xs.btn.color-brown.mini-margin= t('.view_legacy_quarterly_reports') 
+          - if @client.cases.inactive.present?
+            .btn-group.mini-margin
+              %button.btn-xs.btn.btn-warning.dropdown-toggle{"data-toggle" => "dropdown"}
+                = t('.case_history')
+                %span.caret
+              %ul.dropdown-menu
+                %li
+                  - if @client.cases.emergencies.inactive.present? && ec_manageable
+                    = link_to client_cases_path(@client, case_type: 'EC') do
+                      %span.text-success= t('.view_ec_history_btn_link')
+                %li
+                  - if @client.cases.fosters.inactive.present? && fc_manageable
+                    = link_to client_cases_path(@client, case_type: 'FC') do
+                      %span.text-success= t('.view_kc_history_btn_link')
+                %li
+                  - if @client.cases.kinships.inactive.present? && kc_manageable
+                    = link_to client_cases_path(@client, case_type: 'KC') do
+                      %span.text-success= t('.view_kc_history_btn_link')
+          - if @client.surveys.any?
             = link_to client_surveys_path(@client) do
-              .col-xs-10.col-xs-offset-1.pushing-top.color-blue
-                %h2.white-text.text-center
-                  #{t('.survey_history')}
-          .row
-            = link_to client_government_reports_path(@client) do
-              .col-xs-10.col-xs-offset-1.pushing-top.color-blue.government-reports
-                %h4.white-text.text-center
-                  = t('.government_report')
+              %span.btn-xs.btn.btn-warning.mini-margin= t('.survey_history')
           - if can_manage_client_progress_note?
-            .row
-              = link_to client_progress_notes_path(@client) do
-                .col-xs-10.col-xs-offset-1.pushing-top.color-orange.progress-notes
-                  %h4.white-text.text-center
-                    = t('.progress_note')
-          - if @client.answers.any?
-            .row
-              = link_to '', {"data-target" => "#myModal", "data-toggle" => "modal", :type => "button"} do
-                .col-xs-10.col-xs-offset-1.pushing-top.color-orange.progress-notes
-                  %h4.white-text.text-center
-                    = t('.client_able_answers')
+            = link_to client_progress_notes_path(@client) do
+              %span.btn-xs.btn.btn-warning.mini-margin= t('.progress_note')
+.row.mini-margin
+  .col-xs-12
+    .ibox
+      .ibox-title
+        %h5=t('.general_info')
+        .ibox-tools
+          %a.collapse-link
+            .btn.btn-outline.btn-primary
+              %i.fa.fa-chevron-up
+          - if (can? :manage, Client) || (can? :rud, Client)
+            %small
+              = link_to edit_client_path(@client) do
+                .btn.btn-outline.btn-success
+                  %i.fa.fa-pencil
+              = link_to @client, method: 'delete', data: { confirm: t('.are_you_sure') } do
+                .btn.btn-outline.btn-danger
+                  %i.fa.fa-trash
+      .ibox-content
+        .row
+          .col-sm-12.col-md-6.first-table
+            %table.table.table-bordered
+              %tr
+                %td.spacing-first-col
+                  = t('.address')
+                %td
+                  %strong
+                    = @client.current_address
+              %tr
+                %td.spacing-first-col
+                  = t('.completed')
+                %td
+                  %strong
+                    = human_boolean(@client.completed)
+              %tr
+                %td.spacing-first-col
+                  = t('.birth_province')
+                %td
+                  %strong
+                    = "#{@client.birth_province.name}" if @client.birth_province
+              %tr
+                %td.spacing-first-col
+                  = t('.time_in_care')
+                %td
+                  %strong
+                    = t('.time_in_care_around', count: @client.time_in_care) if @client.time_in_care
+              %tr
+                %td.spacing-first-col
+                  = t('.initial_referral_date')
+                %td
+                  %strong
+                    = @client.initial_referral_date.strftime('%B %d, %Y') if @client.initial_referral_date
+              %tr
+                %td.spacing-first-col
+                  = t('.referral_source')
+                %td
+                  %strong
+                    = @client.referral_source.name if @client.referral_source
+              %tr
+                %td.spacing-first-col
+                  = t('.referral_phone')
+                %td
+                  %strong
+                    = @client.referral_phone.phony_formatted(normalize: :KH, format: :international) if @client.referral_phone
+              %tr
+                %td.spacing-first-col
+                  = t('.received_by')
+                %td
+                  %strong
+                    = user @client.received_by if @client.received_by
+              %tr
+                %td.spacing-first-col
+                  = t('.followed_up_by')
+                %td
+                  %strong
+                    = user @client.followed_up_by if @client.followed_up_by
+              %tr
+                %td.spacing-first-col
+                  = t('.follow_up_date')
+                %td
+                  %strong
+                    = @client.follow_up_date.strftime('%B %d, %Y') if @client.follow_up_date
 
-= render('client_answers')
+          .col-sm-12.col-md-6.second-table
+            %table.table.table-bordered
+              %tr
+                %td.spacing-first-col
+                  = t('.school_name')
+                %td
+                  %strong
+                    = @client.school_name
+              %tr
+                %td.spacing-first-col
+                  = t('.school_grade')
+                %td
+                  %strong
+                    = @client.grade
+              %tr
+                %td.spacing-first-col
+                  = "#{t('.has_been_in_orphanage')}?"
+                %td
+                  %strong
+                    = human_boolean(@client.has_been_in_orphanage)
+              %tr
+                %td.spacing-first-col
+                  = "#{t('.able_state')}"
+                %td
+                  %strong
+                    = @client.able_state
+              %tr
+                %td.spacing-first-col
+                  = "#{t('.has_been_in_government_care')}?"
+                %td
+                  %strong
+                    = human_boolean(@client.has_been_in_government_care)
+              %tr
+                %td.spacing-first-col
+                  = t('.relevant_referral_information')
+                %td
+                  %strong
+                    = @client.relevant_referral_information
+              %tr
+                %td.spacing-first-col
+                  = t('.case_worker_or_staff')
+                %td
+                  %strong
+                    = user @client.user if @client.user
+              %tr
+                %td.spacing-first-col
+                  = t('.agencies_involved')
+                %td
+                  - @client.agencies.each do|agency|
+                    %strong.label.label-default{style:'margin-right: 2px;'}
+                      = agency.name
+              = render 'state'
+        .row
+          .col-xs-12
+            %table.table.table-bordered
+              - @client.quantitative_cases.group_by(&:quantitative_type).each do |qtypes|
+                %tr.custom-label
+                  %td.align-justify
+                    = qtypes.first.name
+                  %td.align-justify
+                    %ul
+                      - qtypes.last.each do |qcase|
+                        %li
+                          %b
+                            = qcase.value
+                        %br/
+.row
+  = render 'placement'

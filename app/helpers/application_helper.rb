@@ -67,10 +67,14 @@ module ApplicationHelper
   def client_removeable?(object, associated_objects_count)
     if associated_objects_count[0].zero? && associated_objects_count[1].zero?
       link_to object, method: 'delete', data: { confirm: t('.are_you_sure') } do
-        content_tag(:i, '', class: 'glyphicon glyphicon-trash')
+        content_tag(:div, '', class: 'btn btn-outline btn-danger') do
+          content_tag(:i, '', class: 'fa fa-trash')
+        end
       end
     else
-      content_tag(:i, '', class: 'glyphicon glyphicon-trash')
+      content_tag(:div, '', class: 'btn btn-outline btn-danger') do
+        content_tag(:i, '', class: 'fa fa-trash')
+      end
     end
   end
 

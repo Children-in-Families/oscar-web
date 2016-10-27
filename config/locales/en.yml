@@ -549,6 +549,8 @@ en:
       stage: Stage Question
       answer: Answer
     show:
+      add_client_to_case: Add Client to Case
+      case_history: Case History
       id: ID
       age: Age
       exit_cif_btn: Exit CIF
@@ -577,7 +579,7 @@ en:
       placements:
         <<: *default_placement_fields
       additional_details: Additional Details
-      general_info: Information of
+      general_info: More Information
       progress_note: Progress Note
       client_able_answers: Client Able Answers
     client_answers:

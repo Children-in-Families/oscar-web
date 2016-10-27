@@ -26,7 +26,12 @@ body[id=assessments-create] {
       padding: 20px 0;
     }
   }
-
+  .margin-title{
+    margin-left: 10px;
+  }
+  .button{
+    width: 110px;
+  }
   .assessment-domain-item {
     span {
       margin-left: 30px;
@@ -55,6 +60,25 @@ body[id=assessments-create] {
     max-height: 400px;
     overflow: scroll;
   }
+  ul{
+    margin-left: 25px;
+    li{
+      line-height: 30px;
+    }
+  }
+  
+  .wizard > .actions .disabled a{
+    border: 1px solid #acb3ac;
+    border-radius: 3px;
+    text-align: center;
+    display: inline;
+  }
+  .wizard > .actions a{
+    text-align: center;
+    display: inline;
+    border-radius: 3px; 
+  }
+  
   .score_option.is_error{
     border: 1px solid #a94442;
     border-radius: 2px;

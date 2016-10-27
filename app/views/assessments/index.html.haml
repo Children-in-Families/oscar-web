@@ -1,47 +1,47 @@
 .row
   .col-sm-12.col-md-8.col-md-offset-2
-    .panel.panel-default
-      .panel-heading
-        %h4.text-center
+    .ibox
+      .ibox-title
+        %h5
           %strong= "#{@client.name}"
-          %span= t('.assessment_history')
-      .panel-body
-        .row
-          - @client.assessments.each_with_index do |assessment, index|
-            .col-xs-12.col-sm-10.col-sm-offset-1
-              .row.text-center
-                .col-xs-12.col-sm-6
-                  %h5
-                    - if assessment.initial?
-                      = t('.initial_assessment')
-                    - else
-                      = t('.six_month_assessment')
-                    %b
-                      = assessment.created_at.strftime("%B %d, %Y")
-                .col-xs-12.col-sm-6
-                  = link_to t('.view_report'), client_assessment_path(@client, assessment), { class:'btn btn-info button push-bottom' }
-                    
-          .col-xs-12.col-sm-10.col-sm-offset-1.text-center
-            .row
-              .col-xs-12.col-sm-6
-                %h5
-                  - if @client.assessments.any?
-                    = t('.next_six_monthly_review')
-                  - else
-                    = t('.initial_assessment')
-                  - if @client.assessments.any?
-                    %b
-                      = @client.next_assessment_date.strftime('%B %d, %Y')
-                  - else
-                    %b
-                      = Date.today.strftime('%B %d, %Y')
-              .col-xs-12.col-sm-6
-                - if @client.can_create_assessment?
-                  = link_to t('.begin_now'), new_client_assessment_path(@client), { class:'btn btn-success button' }
+        %h5.margin-title= t('.assessment_history')
+      .ibox-content
+        - @client.assessments.each_with_index do |assessment, index|
+          .row.margin-row
+            .col-xs-12.col-sm-9.middle-text
+              %h5
+                - if assessment.initial?
+                  = t('.initial_assessment')
                 - else
-                  %label.btn.btn-default.disabled.button.push-bottom
-                    = t('.begin_now')
-      .panel-footer
+                  = t('.six_month_assessment')
+                %b
+                  = assessment.created_at.strftime("%B %d, %Y")
+            .col-xs-12.col-sm-3
+              = link_to client_assessment_path(@client, assessment) do
+                .btn.btn-outline.btn-info.button
+                  = t('.view_report')
+        .row.margin-row
+          .col-xs-12.col-sm-9
+            %h5
+              - if @client.assessments.any?
+                = t('.next_six_monthly_review')
+                %b
+                  = @client.next_assessment_date.strftime('%B %d, %Y')
+              - else
+                = t('.initial_assessment')
+                %b
+                  = Date.today.strftime('%B %d, %Y')
+              
+          .col-xs-12.col-sm-3
+            - if @client.can_create_assessment?
+              = link_to new_client_assessment_path(@client) do
+                .btn.btn-outline.btn-success.button
+                  = t('.begin_now')
+            - else
+              .btn.btn-default.button.disabled
+                = t('.begin_now')         
+          
+      .ibox-footer
         .row         
           .col-xs-12.col-sm-6
             = link_to t('.back'), client_path(@client), { class:'btn btn-default button' }

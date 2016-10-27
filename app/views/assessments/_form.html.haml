@@ -1,17 +1,20 @@
 = simple_form_for [@assessment.client, @assessment] do |f|
   .row.assessment-domains
-    .col-xs-12.col-sm-6.col-sm-offset-3
+    .col-xs-12
       #rootwizard
         = f.simple_fields_for :assessment_domains do |ad|
           - domain = ad.object.domain
           %h4= domain.name
           %div{ class: "assessment-domain-item domain-#{domain.id}" }
-            .panel.panel-default
-              .panel-heading
-                = link_to t('.back'), client_assessments_path(@client)
-                %span.pull-right= "#{t('.domain')} #{domain.name}"
-                %strong.pull-right= "#{@assessment.client.name}"
-              .panel-body
+            .ibox
+              .ibox-title
+                %h5= "#{@assessment.client.name}"
+                %label.label.label-success= "#{t('.domain')} #{domain.name}"
+                .ibox-tools
+                  = link_to client_assessments_path(@client) do
+                    .btn.btn-outline.btn-success.button
+                      = t('.back')
+              .ibox-content
                 = ad.hidden_field :domain_id
                 .well
                   = ad.object.domain.description.html_safe

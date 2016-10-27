@@ -19,7 +19,7 @@
               .input-group.date
                 = f.text_field :exit_date, required: true, class: 'date form-control date-picker .datepicker-dropdown exit_date', type: 'text', name: 'case[exit_date]', id: 'case_exit_date'
                 %span.input-group-addon
-                  %i.glyphicon.glyphicon-calendar
+                  %i.fa.fa-calendar-check-o
 
           - if exit_from_cif
             .form-inputs
@@ -34,4 +34,4 @@
 
           .form-actions.text-right
             %button.btn.btn-default{"data-dismiss" => 'modal'} #{t('cancel')}
-            = f.button :submit,"#{t('.exit_btn')}", class: 'btn btn-danger case_confirm_exit', disabled: :disabled
+            = f.submit "#{t('.exit_btn')}", class: 'btn btn-danger case_confirm_exit', disabled: :disabled

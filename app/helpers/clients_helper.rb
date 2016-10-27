@@ -89,8 +89,8 @@ module ClientsHelper
 
   def case_button(type)
     link_to new_client_case_path(@client, case_type: type) do
-      content_tag(:div, '', class: 'col-xs-10 col-xs-offset-1 btn btn-success pushing-bottom') do
-        content_tag(:h4, t(".add_#{type.downcase}_btn"))
+      content_tag(:span, '') do
+        content_tag(:span, t(".add_#{type.downcase}_btn"), class: 'text-success')
       end
     end
   end
