@@ -384,6 +384,7 @@ en:
         has_date_of_birth: Has Date of Birth
         has_dob: 'Yes'
         no_dob: 'No'
+        case_type: Case Type
       progress_notes:
         <<: *default_progress_note_fields
         manage: Manage

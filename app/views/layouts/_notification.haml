@@ -16,7 +16,7 @@
         %div
           = link_to tasks_path do
             %i.fa.fa-tasks.fa-fw
-              = t('.due_today_tasks_count', count: @due_today_tasks.count)
+            = t('.due_today_tasks_count', count: @due_today_tasks.count)
       %li.divider
     - unless @overdue_assessments_count.zero?
       %li
