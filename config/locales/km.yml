@@ -703,6 +703,10 @@ km:
   activerecord:
     errors:
       models:
+        case:
+          attributes:
+            start_date:
+              blank: មិនអាចរំលង
         stage:
           attributes:
             from_age:

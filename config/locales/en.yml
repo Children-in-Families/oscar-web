@@ -696,6 +696,10 @@ en:
   activerecord:
     errors:
       models:
+        case:
+          attributes:
+            start_date:
+              blank: can't be blank
         stage:
           attributes:
             from_age:
