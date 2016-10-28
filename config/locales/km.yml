@@ -393,7 +393,7 @@ km:
         manage: គ្រប់គ្រង
 
       select_columns: ជ្រើសរើសជួរឈរ
-      hide_show_all: បង្ហាញ/លាក់ទាំងអស់
+      show_all: បង្ហាញទាំងអស់
       family_id: លេខសម្គាល់គ្រួសារ
       history_of_disability_and_or_illness: ជំងឺរ៉ាំរ៉ែ និង/ឬពិការភាព
       history_of_harm: ការបង្កទុក្ខទោស និងការកេងប្រវ័ញ្ច
@@ -547,7 +547,7 @@ km:
       stage: សំនួរ តំណាក់កាល
       answer: ចំលើយ
     show:
-      add_client_to_case: បញ្ចូរអតិថិជិនទៅក្នុងករណី
+      add_client_to_case: បញ្ចូលអតិថិជិនទៅក្នុងករណី
       case_history: ប្រវត្តិនៃករណី
       age: អាយុ
       exit_cif_btn: ចាកចេញពី CIF
@@ -595,7 +595,7 @@ km:
       kinship_care: ករណី Kinship
       kinship_case:
         kinship_care: ករណី Kinship
-    exit_kc_form:
+    exit_case_form:
       exit_ec: ចាកចេញពី EC
       exit_kc: ចាកចេញពី KC
       exit_fc: ចាកចេញពី FC

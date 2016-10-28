@@ -119,7 +119,7 @@
                 %li
                   - if @client.cases.fosters.inactive.present? && fc_manageable
                     = link_to client_cases_path(@client, case_type: 'FC') do
-                      %span.text-success= t('.view_kc_history_btn_link')
+                      %span.text-success= t('.view_fc_history_btn_link')
                 %li
                   - if @client.cases.kinships.inactive.present? && kc_manageable
                     = link_to client_cases_path(@client, case_type: 'KC') do

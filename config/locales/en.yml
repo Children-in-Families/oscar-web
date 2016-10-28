@@ -390,7 +390,7 @@ en:
         manage: Manage
 
       select_columns: Select Columns
-      hide_show_all: Hide/Show All
+      show_all: Show All
       family_id: Family ID
       history_of_disability_and_or_illness: History of disability and/or illness
       history_of_harm: History of Harm

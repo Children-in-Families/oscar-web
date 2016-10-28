@@ -7,6 +7,7 @@ class ApplicationController < ActionController::Base
   before_action :find_association, if: :devise_controller?
   before_action :set_locale
   before_action :detect_browser
+  before_action :user_notify
 
   rescue_from CanCan::AccessDenied do |exception|
     redirect_to root_url, alert: exception.message
@@ -41,5 +42,14 @@ class ApplicationController < ActionController::Base
 
   def detect_browser
     render file: 'unsupported_browser', layout: false if browser.ie? || browser.edge?  || !browser.modern?
+  end
+
+  def user_notify
+    @overdue_tasks   = Task.incomplete.overdue.of_user(current_user)
+    @due_today_tasks = Task.incomplete.today.of_user(current_user)
+    assessments      = current_user.assessment_either_overdue_or_due_today
+    @overdue_assessments_count   = assessments[0]
+    @due_today_assessments_count = assessments[1]
+    @notification_count = (@overdue_tasks.count + @due_today_tasks.count + @overdue_assessments_count + @due_today_assessments_count)
   end
 end
