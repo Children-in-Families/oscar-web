@@ -17,7 +17,7 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       $(@).children('label').addClass('active-label')
 
       $('.score_option').removeClass('is_error')
-      labelColors = 'label-danger label-warning label-success label-info'
+      labelColors = 'label-danger label-warning label-primary label-info'
       currentTabLabels.removeClass(labelColors)
       score       = $(@).children('label').text()
       scoreColor  = $(@).parents('.score_option').data("score-#{score}")

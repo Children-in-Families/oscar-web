@@ -59,14 +59,15 @@ body[id=assessments-create] {
   .well {
     max-height: 400px;
     overflow: scroll;
-  }
-  ul{
-    margin-left: 25px;
-    li{
-      line-height: 30px;
+
+    ul {
+      margin-left: 25px;
+      li {
+        line-height: 30px;
+      }
     }
   }
-  
+
   .wizard > .actions .disabled a{
     border: 1px solid #acb3ac;
     border-radius: 3px;

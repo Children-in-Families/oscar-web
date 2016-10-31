@@ -12,5 +12,5 @@ class Domain < ActiveRecord::Base
 
   scope :assessment_domains_by_assessment_id, -> (id) { joins(:assessment_domains).where('assessment_domains.assessment_id = ?', id) }
 
-  enum domain_score_colors: { danger: 'Red', warning: 'Yellow', info: 'Blue', success: 'Green' }
+  enum domain_score_colors: { danger: 'Red', warning: 'Yellow', info: 'Blue', primary: 'Green' }
 end
