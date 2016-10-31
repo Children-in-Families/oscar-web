@@ -131,4 +131,8 @@ module ApplicationHelper
   def clients_controller?
     controller_name == 'clients'
   end
+
+  def organization_name
+    ENV['ORGANISATION_ABBREVIATION'].upcase
+  end
 end
