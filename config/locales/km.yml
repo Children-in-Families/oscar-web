@@ -525,7 +525,7 @@ km:
       add_new_client: បន្ថែមអតិថិជនថ្មី
       view_all_active_tasks: ពិនិត្យលើកាតព្វកិច្ចដែលមិនទាន់ធ្វើ
       export_to_csv: ទាញចេញជាឯកសារប្រភេទ CSV
-      records: លទ្ធផល
+      results: លទ្ធផល
       csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
       assessments: ការប៉ាន់ប្រមាណ
     create:
@@ -1583,7 +1583,7 @@ km:
       manage: គ្រប់គ្រង
       are_you_sure: តើអ្នកប្រាកដហើយ?
       export_to_csv: ទាញចេញជាឯកសារប្រភេទ CSV
-      records: លទ្ធផល
+      results: លទ្ធផល
     show:
       <<: *default_progress_note_fields
       are_you_sure: តើអ្នកប្រាកដហើយ?

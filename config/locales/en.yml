@@ -528,7 +528,7 @@ en:
       add_new_client: Add New Client
       view_all_active_tasks: View All Active  Tasks
       export_to_csv: Export to CSV
-      records: Results
+      results: Results
       csi_domain_scores: CSI Domain Scores
       assessments: Assessments
     new:
@@ -1378,7 +1378,7 @@ en:
       manage: Manage
       are_you_sure: Are you sure you want to delete?
       export_to_csv: Export to CSV
-      records: Results
+      results: Results
     show:
       <<: *default_progress_note_fields
       are_you_sure: Are you sure you want to delete?

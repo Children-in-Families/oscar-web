@@ -33,7 +33,7 @@
           = link_to clients_path do
             = fa_icon('child')
             %span.nav-label= t('.clients')
-            %span.label.label-primary.pull-right= Client.count
+            %span.label.label-primary.pull-right= client_count
         - if can? :manage, Family
           %li{class: "#{active_menu('families')}"}
             = link_to families_path do
