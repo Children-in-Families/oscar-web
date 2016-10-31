@@ -5,7 +5,7 @@
       %h5= @client.name
       .ibox-tools
         = link_to client_path(@client) do
-          .btn.btn-outline.btn-success.btn-width
+          .btn.btn-default.btn-width.btn-back-default
             = t('.back')
         = link_to new_client_task_path(@client) do
           .btn.btn-outline.btn-primary.btn-width

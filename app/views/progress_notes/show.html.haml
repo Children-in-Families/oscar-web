@@ -1,14 +1,16 @@
 .row
   .col-xs-12
-    .panel.panel-default
-      .panel-body
-        %h3
-          = @progress_note.date
-          %small.pull-right
-            = link_to edit_client_progress_note_path(@client, @progress_note) do
+    .ibox
+      .ibox-title
+        %h5= @progress_note.date
+        .ibox-tools
+          = link_to edit_client_progress_note_path(@client, @progress_note) do
+            .btn.btn-outline.btn-success
               = fa_icon('pencil')
             = link_to [@client, @progress_note], method: 'delete', data: { confirm: t('.are_you_sure') } do
-              %i.glyphicon.glyphicon-trash
+              .btn.btn-outline.btn-danger
+                = fa_icon('trash')
+      .ibox-content
         .row
           .col-sm-12
             %table.table.table-bordered
@@ -75,7 +77,7 @@
                 %td
                   %strong
                     = @progress_note.additional_note.html_safe
-
+      .ibox-footer
         .row
           .col-xs-12
             = link_to t('.back'), client_progress_notes_path(@client), class: 'btn btn-default btn-back'

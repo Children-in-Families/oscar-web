@@ -13,10 +13,22 @@
   border-top: none !important;
   box-shadow: none !important;
 }
+.datepicker.datepicker-dropdown.dropdown-menu{
+  z-index: 330000 !important;
+}
 .select2-container-active .select2-choice, .select2-container-multi.select2-container-active .select2-choices{
   box-shadow: none !important;
   border: 1px solid #1ab394 !important;
   border-radius: 1px !important;
+}
+.btn-back-default{
+  color: #756E6C !important;
+  background: white;
+  border: 1px solid #E7EAEC;
+}
+
+.btn-back-default:hover{
+  color: #756E6C;
 }
 .min-margin-layout{
   margin-top: 16px;

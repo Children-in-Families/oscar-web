@@ -5,12 +5,21 @@ body[id=case_notes-create] {
   .case_note_meeting_date {
     margin-top: 10px;
   }
-  .label {
+  .icheckbox_square-green{
+    margin-right: 10px;
+  }
+  .margin-score {
     display: inline-block;
-    font-size: 16px;
-    &:last-child {
-      margin-left: 20px;
-    }
+    font-size: 20px;
+    margin-right: 20px;
+  }
+  .case-note-margin{
+    position: relative;
+    left: -110px;
+  }
+  .btn-form{
+    width: 110px;
+    margin-right: 5px;
   }
   .new_case_note {
     padding-bottom: 20px;

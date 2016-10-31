@@ -1,25 +1,26 @@
 .row
-  .col-xs-12.col-md-8.col-md-offset-2
-    .panel.panel-default
-      .panel-heading
-        %h4.text-center
-          %strong= @client.name
-      .panel-body
-        = link_to t('.back'), client_path(@client), { class: 'btn btn-default' }
-        = link_to t('.add_report'), new_client_government_report_path(@client), { class: "btn btn-success #{('disabled' if @government_report)}" }
+  .col-xs-12
+    .ibox
+      .ibox-title
+        %h5= @client.name
+      .ibox-content
+        = link_to t('.back'), client_path(@client), { class: 'btn btn-default btn-form' }
+        = link_to t('.add_report'), new_client_government_report_path(@client), { class: "btn btn-primary btn-outline #{('disabled' if @government_report)}" }
         - if @government_report
           %table.table.table-bordered.reports
-            %tr
-              %th= t('.code')
-              %th= t('.initial_date')
-              %th= t('.action')
-            %tr
-              %td= @government_report.code
-              %td= @government_report.initial_date
-              %td.action
-                = link_to client_government_report_path(@government_report.client, @government_report, format: :pdf) do
-                  %i.glyphicon.glyphicon-download-alt
-                = link_to edit_client_government_report_path(@government_report.client, @government_report) do
-                  = fa_icon('pencil')
-                = link_to client_government_report_path(@client, @government_report), method: :delete, data: { confirm: t('.are_you_sure_you_want_to_delete') } do
-                  %i.glyphicon.glyphicon-trash
+            %thead
+              %tr
+                %th= t('.code')
+                %th= t('.initial_date')
+                %th.text-center= t('.action')
+            %tbody
+              %tr
+                %td= @government_report.code
+                %td= @government_report.initial_date
+                %td.action.text-center
+                  = link_to client_government_report_path(@government_report.client, @government_report, format: :pdf), class: 'btn btn-outline btn-success btn-xs' do
+                    = fa_icon('download')
+                  = link_to edit_client_government_report_path(@government_report.client, @government_report), class: 'btn btn-outline btn-success btn-xs' do
+                    = fa_icon('pencil')
+                  = link_to client_government_report_path(@client, @government_report), method: :delete, data: { confirm: t('.are_you_sure_you_want_to_delete') }, class: 'btn btn-outline btn-danger btn-xs' do
+                    = fa_icon('trash')

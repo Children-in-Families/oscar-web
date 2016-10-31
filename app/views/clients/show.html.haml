@@ -84,7 +84,8 @@
                   %li
                     %a{"data-target" => '#exitFromCif', "data-toggle" => 'modal'}
                       .text-warning= t('.exit_cif_btn')
-                  = render 'exit_case_form', client_case: @client.cases.active.last, exit_from_cif: true
+            - if @client.cases.active.any?
+              = render 'exit_case_form', client_case: @client.cases.active.last, exit_from_cif: true
 
           = link_to client_tasks_path(@client) do
             %span.btn-xs.btn.btn-primary.mini-margin

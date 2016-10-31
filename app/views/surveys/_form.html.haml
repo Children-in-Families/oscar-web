@@ -1,37 +1,41 @@
 = simple_form_for([@client, @survey]) do |f|
-  .panel-body
+  .ibox-content
     = f.error_notification
     .row
       .col-xs-12
         %p.survey-note
           %strong.score-evaluation= "#{t('.note')}: "
           %span= t('.strongly_disagree')
-          %input{ type: 'radio', disabled: 'disabled' } 1
-          %input{ type: 'radio', disabled: 'disabled' } 2
-          %input{ type: 'radio', disabled: 'disabled' } 3
-          %input{ type: 'radio', disabled: 'disabled' } 4
+          %span.margin-static
+            %input{ type: 'radio', disabled: 'disabled', class: 'i-checks' } 1
+          %span.margin-static
+            %input{ type: 'radio', disabled: 'disabled', class: 'i-checks' } 2
+          %span.margin-static
+            %input{ type: 'radio', disabled: 'disabled', class: 'i-checks' } 3
+          %span.margin-static
+            %input{ type: 'radio', disabled: 'disabled', class: 'i-checks' } 4
           %span.strongly-agree= t('.strongly_agree')
     .row
       .col-xs-12.col-sm-6
-        = f.input :user, disabled: true, input_html: { value: @client.user.name }, label: t('.user_id')
+        = f.input :user, disabled: true, input_html: { value: @client.user.name, class: 'user-name' }, label: t('.user_id')
       .col-xs-12
-        = f.input :listening_score, as: :radio_buttons, collection: [1,2,3,4], item_wrapper_class: 'inline', label: "#{t('.listening_score')}"
+        = f.input :listening_score, as: :radio_buttons, collection: [1,2,3,4], item_wrapper_class: 'inline', label: "#{t('.listening_score')}", input_html: {class: 'i-checks'}
       .col-xs-12
-        = f.input :problem_solving_score, as: :radio_buttons, collection: [1,2,3,4], item_wrapper_class: 'inline', label: "#{t('.problem_solving_score')}"
+        = f.input :problem_solving_score, as: :radio_buttons, collection: [1,2,3,4], item_wrapper_class: 'inline', label: "#{t('.problem_solving_score')}", input_html: {class: 'i-checks'}
       .col-xs-12
-        = f.input :getting_in_touch_score, as: :radio_buttons, collection: [1,2,3,4], item_wrapper_class: 'inline', label: "#{t('.getting_in_touch_score')}"
+        = f.input :getting_in_touch_score, as: :radio_buttons, collection: [1,2,3,4], item_wrapper_class: 'inline', label: "#{t('.getting_in_touch_score')}", input_html: {class: 'i-checks'}
       .col-xs-12
-        = f.input :trust_score, as: :radio_buttons, collection: [1,2,3,4], item_wrapper_class: 'inline', label: "#{t('.trust_score')}"
+        = f.input :trust_score, as: :radio_buttons, collection: [1,2,3,4], item_wrapper_class: 'inline', label: "#{t('.trust_score')}", input_html: {class: 'i-checks'}
       .col-xs-12
-        = f.input :difficulty_help_score, as: :radio_buttons, collection: [1,2,3,4], item_wrapper_class: 'inline', label: "#{t('.difficulty_help_score')}"
+        = f.input :difficulty_help_score, as: :radio_buttons, collection: [1,2,3,4], item_wrapper_class: 'inline', label: "#{t('.difficulty_help_score')}", input_html: {class: 'i-checks'}
       .col-xs-12
-        = f.input :support_score, as: :radio_buttons, collection: [1,2,3,4], item_wrapper_class: 'inline', label: "#{t('.support_score')}"
+        = f.input :support_score, as: :radio_buttons, collection: [1,2,3,4], item_wrapper_class: 'inline', label: "#{t('.support_score')}", input_html: {class: 'i-checks'}
       .col-xs-12
-        = f.input :family_need_score, as: :radio_buttons, collection: [1,2,3,4], item_wrapper_class: 'inline', label: "#{t('.family_need_score')}"
+        = f.input :family_need_score, as: :radio_buttons, collection: [1,2,3,4], item_wrapper_class: 'inline', label: "#{t('.family_need_score')}", input_html: {class: 'i-checks'}
       .col-xs-12
-        = f.input :care_score, as: :radio_buttons, collection: [1,2,3,4], item_wrapper_class: 'inline', label: "#{t('.care_score')}"
+        = f.input :care_score, as: :radio_buttons, collection: [1,2,3,4], item_wrapper_class: 'inline', label: "#{t('.care_score')}", input_html: {class: 'i-checks'}
 
-  .panel-footer
+  .ibox-footer
     .form-actions
-      = f.button :submit, t('save'), class: 'btn btn-primary form-btn survey-submit'
+      = f.submit t('save'), class: 'btn btn-primary form-btn survey-submit'
       = link_to t('cancel'), client_surveys_path(@client), class: 'btn btn-default form-btn'

@@ -2,12 +2,27 @@ body[id=government_reports-new],
 body[id=government_reports-create],
 body[id=government_reports-edit],
 body[id=government_reports-update] {
-  .panel-heading {
-    padding: 10px 40px;
+  
+  .btn-form{
+    width: 110px;
   }
-  .panel-body {
-    padding-left: 40px;
-    padding-right: 40px;
+  .iradio_square-green{
+    margin-right: 10px;
+  }
+  .margin-mission-check{
+    margin-top: 16px;
+  }
+  .margin-mission-check li label{
+    color: #7e7e7f !important;
+    .boolean{
+      padding-left: 10px;
+    }
+  }
+  .gender-label{
+    label{
+      color: #7e7e7f !important;
+      width: 30px;
+    }
   }
 
   .government_report_code,
@@ -32,15 +47,40 @@ body[id=government_reports-update] {
     display: inline-block;
     max-width: 100px;
   }
+  .icheckbox_square-green{
+    margin-right: 10px;
+  }
 
   .form-group {
     padding-right: 0;
     margin-bottom: 10px;
     label {
       min-width: 180px;
+      padding-bottom: 10px;
+      
+    }
+    .date.optional{
+      display: block;
+    }
+  }
+  .gender-lable {
+    position: relative;
+    top: 20px;
+    span{
+      position: relative;
+      left: -80px;
+      label{
+        color: #7e7e7f !important;
+      }
     }
   }
 
+  label.disabled.control-label{
+    color: #999a9b !important;
+  }
+  input.disabled{
+   color: #999a9b !important; 
+  }
   .government_report_anonymous_description {
     display: table;
     width: 100%;
@@ -58,10 +98,6 @@ body[id=government_reports-update] {
     span {
       display: block;
     }
-  }
-
-  input[type=checkbox], input[type=radio] {
-    margin-right: 5px;
   }
 
   .government_report_client_living_with_guardian, .government_report_mission_obtainable {
@@ -82,7 +118,7 @@ body[id=government_reports-update] {
 
   .input-group.date {
     margin-left: -3px;
-    max-width: 171px;
+    max-width: 250px;
   }
 
   table.child-situation-needs {
@@ -91,9 +127,9 @@ body[id=government_reports-update] {
     }
   }
 
-  input.gender {
-    margin-left: 10px;
-  }
+  // input.gender {
+  //   margin-left: 10px;
+  // }
 
   ul {
     list-style: none;

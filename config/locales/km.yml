@@ -346,6 +346,8 @@ km:
       action: សកម្មភាព
       back: ត្រលប់ក្រោយ
     show:
+      survey_question: សំនួរ
+      survey_answer: ចំម្លើយ
       back: ត្រលប់ក្រោយ
       survey_detail: ពត៌មានលំអិតនៃការស្ទង់មតិ
       <<: *default_survey_fields
