@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :stage do
-    from_age 1
-    to_age 2
+    sequence(:from_age) { |n| n }
+    sequence(:to_age) { |n| n + 1 }
   end
 end

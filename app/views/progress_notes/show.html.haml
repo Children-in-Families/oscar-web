@@ -2,14 +2,14 @@
   .col-xs-12
     .ibox
       .ibox-title
-        %h5= @progress_note.date
+        %h5= @progress_note.date.strftime('%d %B, %Y')
         .ibox-tools
           = link_to edit_client_progress_note_path(@client, @progress_note) do
             .btn.btn-outline.btn-success
               = fa_icon('pencil')
-            = link_to [@client, @progress_note], method: 'delete', data: { confirm: t('.are_you_sure') } do
-              .btn.btn-outline.btn-danger
-                = fa_icon('trash')
+          = link_to [@client, @progress_note], method: 'delete', data: { confirm: t('.are_you_sure') } do
+            .btn.btn-outline.btn-danger
+              = fa_icon('trash')
       .ibox-content
         .row
           .col-sm-12

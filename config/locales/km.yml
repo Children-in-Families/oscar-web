@@ -729,6 +729,8 @@ km:
               blank: មិនអាចរំលង
             to_age:
               blank: មិនអាចរំលង
+              taken: ត្រូវបានប្រើរួចហើយ
+              greater_than: "ត្រូវតែធំជាង %{count}"
         able_screening_question:
           attributes:
             question_group:
