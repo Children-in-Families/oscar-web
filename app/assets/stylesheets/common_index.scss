@@ -26,7 +26,21 @@
   background: white;
   border: 1px solid #E7EAEC;
 }
-
+.line-border{
+  border-top: 1px solid #86898c;
+}
+.log-min{
+  background: #dee1e5;
+  border: 3px solid #dee1e5;
+  padding-top: 2px; 
+  padding-bottom: -2px;
+  border-radius: 50% 50%;
+}
+.img-circle{
+  background: #dee1e5;
+  border: 10px solid #dee1e5;
+  margin-left: 40px;
+}
 .btn-back-default:hover{
   color: #756E6C;
 }

@@ -1,12 +1,13 @@
 .row
-  .col-xs-12.col-md-8.col-md-offset-2
-    .panel.panel-default
-      .panel-heading.text-center
-        %h4
+  .col-xs-12
+    .ibox
+      .ibox-title
+        %h5
           = "#{t('.quarterly_report_information_for')} #{@case.client.name} #{t('.with_id')} #{@quarterly_report.code}"
-      .panel-body
-        = link_to t('.back'), :back, {class: 'button btn btn-default'}
-        %table.table.table-bordered.pushing-top
+        .ibox-tools
+          = link_to t('.back'), :back, {class: 'button btn btn-default btn-back-default'}
+      .ibox-content
+        %table.table.table-bordered
           %tr
             %td.spacing-first-col= t('.date_of_visit')
             %td
