@@ -5,6 +5,10 @@ CIF.Case_notesNew = do ->
   _handleNewTask = ->
     _addTaskToServer()
     _addDomainToSelect()
+    _initSelect2()
+
+  _initSelect2 =->
+    $('select').select2()
 
   _showError = (error) ->
     if error.completion_date != undefined and error.completion_date.length > 0
@@ -42,7 +46,7 @@ CIF.Case_notesNew = do ->
     element        = undefined
     deleteUrl      = "#{actionUrl}/#{data.id}"
 
-    element        = "<li>#{data.name}<a class='pull-right remove-task' href='javascript:void(0)' data-url='#{deleteUrl}'>X</li>"
+    element        = "<li>#{data.name}<a class='pull-right remove-task' href='javascript:void(0)' data-url='#{deleteUrl}'><div class='btn btn-outline btn-danger btn-xs'><i class='fa fa-trash'/></div></a></li>"
 
     if $(".task-domain-#{data.domain_id}").hasClass('hidden')
       $(".task-domain-#{data.domain_id}").removeClass('hidden')

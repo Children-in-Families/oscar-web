@@ -1,9 +1,9 @@
 .row
   .col-xs-12
-    .panel.panel-default
-      .panel-heading
+    .ibox
+      .ibox-heading
         %h3 Legacy Quarterly Reports
-      .panel-body
+      .ibox-content
         = datagrid_table @quarterly_reports_grid, html: {class: 'table table-bordered table-striped table-hover'}
 
     = will_paginate(@quarterly_reports_grid.assets)

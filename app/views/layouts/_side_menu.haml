@@ -3,9 +3,10 @@
     %ul#side-menu.nav.metismenu
       %li.nav-header
         .dropdown.profile-element
-          %span
+          .image-wrapper
             = link_to root_path do
               = image_tag('cif-logo.png', class: 'img-circle')
+          %hr.line-border
           %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
             %span.clear
               %span.block.m-t-xs
@@ -20,7 +21,8 @@
             %li
               = link_to t('.log_out'), destroy_user_session_path, method: :delete
         .logo-element
-          = link_to 'CIF', root_path
+          = link_to root_path do
+            = image_tag('cif-logo.png', class: 'log-min')
       - if user_signed_in?
         %li{class: "#{active_menu('home')}"}
           = link_to root_path do

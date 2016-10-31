@@ -350,6 +350,8 @@ en:
     show:
       back: Back
       survey_detail: Survey Detail
+      survey_question: Questions
+      survey_answer: Answers
       <<: *default_survey_fields
 
   datagrid:

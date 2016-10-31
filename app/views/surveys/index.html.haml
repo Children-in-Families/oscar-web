@@ -1,9 +1,9 @@
-.row
-  .col-xs-12.col-md-8.col-md-offset-2
-    .panel.panel-default
-      .panel-heading
+  .row
+  .col-xs-12
+    .ibox
+      .ibox-title
         %h4= t('.survey_title')
-      .panel-body
+      .ibox-content
         %p
           = t('.user_id')
           %strong= @client.user.name
@@ -11,15 +11,14 @@
           %thead
             %tr
               %th= t('.created_at')
-              %th= t('.action')
+              %th.text-center= t('.action')
           - @surveys.each do |survey|
             %tr
-              %td
-                = link_to survey.decorate.created_at, client_survey_path(@client, survey)
-              %td.action
-                = link_to edit_client_survey_path(@client, survey) do
+              %td= link_to survey.decorate.created_at, client_survey_path(@client, survey)
+              %td.action.text-center
+                = link_to edit_client_survey_path(@client, survey), class: 'btn btn-outline btn-success btn-xs' do
                   = fa_icon('pencil')
-                = link_to client_survey_path(@client, survey), method: :delete, data: { confirm: t('.are_you_sure_you_want_to_delete') } do
-                  %i.glyphicon.glyphicon-trash
-      .panel-footer
+                = link_to client_survey_path(@client, survey), method: :delete, data: { confirm: t('.are_you_sure_you_want_to_delete') }, class: 'btn btn-outline btn-danger btn-xs' do
+                  = fa_icon('trash')
+      .ibox-footer
         = link_to t('.back'), client_path(@client), class: 'btn btn-default btn-back'

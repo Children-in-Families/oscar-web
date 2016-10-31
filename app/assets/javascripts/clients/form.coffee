@@ -2,6 +2,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
   _init = ->
     _clientSelectOption()
     _checkClientBirthdateAvailablity()
+    _fixedHeaderStageQuestion()
 
   _clientSelectOption = ->
     $("#clients-edit select, #clients-new select, #clients-update select, #clients-create select").select2
@@ -17,6 +18,15 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
         $('#client_able').val(false)
         $('#fake_client_able').prop('checked', false)
 
+  _fixedHeaderStageQuestion = ->
+    $('#stage-question table.client-new').DataTable(
+      'sScrollY': '500px'
+      'sScrollX': true
+      'sScrollXInner': '100%'
+      'bPaginate': false
+      'bFilter': false
+      'bInfo': false
+      'ordering': false)
 
   _arrangeQuestionAndAnswerBlock = ->
     questionsAndAnswers = $('.question_and_answer')

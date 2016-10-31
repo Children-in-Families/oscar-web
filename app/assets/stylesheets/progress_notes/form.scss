@@ -1,0 +1,9 @@
+body[id=progress_notes-new],
+body[id=progress_notes-edit],
+body[id=progress_notes-create],
+body[id=progress_notes-update]{
+  
+  input.disabled{
+   color: #999a9b !important; 
+  }
+}

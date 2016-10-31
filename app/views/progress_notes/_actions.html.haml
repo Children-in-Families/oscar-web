@@ -1,4 +1,4 @@
-= link_to edit_client_progress_note_path(object.client, object) do
+= link_to edit_client_progress_note_path(object.client, object), class: 'btn btn-outline btn-success btn-xs' do
   = fa_icon('pencil')
-= link_to [object.client, object], method: 'delete', data: { confirm: t('.are_you_sure') } do
-  %i.glyphicon.glyphicon-trash
+= link_to [object.client, object], method: 'delete', data: { confirm: t('.are_you_sure') }, class: 'btn btn-outline btn-danger btn-xs' do
+  = fa_icon('trash')
