@@ -21,6 +21,7 @@
 //= require iCheck/icheck.min.js
 //= require wrapbootstrap/inspinia.js
 //= require slimscroll/jquery.slimscroll.min.js
+//= require toastr/toastr.min.js
 
 //LOAD MODULE
 //= require namespace

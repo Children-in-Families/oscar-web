@@ -32,7 +32,7 @@ describe 'Family' do
     end
   end
 
-  feature 'Create' do
+  feature 'Create', js: true do
     before do
       visit new_family_path
     end
@@ -50,7 +50,7 @@ describe 'Family' do
     end
   end
 
-  feature 'Edit' do
+  feature 'Edit', js: true do
     let!(:name) { FFaker::Name.name }
     before do
       visit edit_family_path(family)
@@ -64,7 +64,7 @@ describe 'Family' do
     xscenario 'invalid'
   end
 
-  feature 'Delete' do
+  feature 'Delete', js: true do
     before do
       visit families_path
     end
@@ -73,7 +73,7 @@ describe 'Family' do
       expect(page).to have_content('Family has been successfully deleted')
     end
     scenario 'unsuccess' do
-      expect(page).not_to have_css("a[href='#{family_path(other_family)}'][data-method='delete']")
+      expect(page).to have_css("a[href='#{family_path(other_family)}'][data-method='delete'][class='btn btn-outline btn-danger btn-xs disabled']")
     end
   end
 
@@ -92,7 +92,7 @@ describe 'Family' do
     end
     scenario 'disable delete' do
       visit family_path(other_family)
-      expect(page).not_to have_css("a[href='#{family_path(other_family, locale: I18n.locale)}'][data-method='delete']")
+      expect(page).to have_css("a[href='#{family_path(other_family, locale: I18n.locale)}'][data-method='delete'][class='btn btn-outline btn-danger btn-xs disabled']")
     end
   end
 end

@@ -28,11 +28,18 @@ Dir[Rails.root.join('spec/supports/**/*.rb')].each { |f| require f }
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 Capybara.javascript_driver = :poltergeist
+
+Capybara.register_driver :poltergeist do |app|
+  Capybara::Poltergeist::Driver.new(app, {js_errors: false})
+end
+
 RSpec.configure do |config|
   config.include Warden::Test::Helpers
   config.include FactoryGirl::Syntax::Methods
   config.include JsonSpec::Helpers
   config.include FeatureHelper
+  config.include Select2
+
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
   # assertions if you prefer.

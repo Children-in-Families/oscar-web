@@ -27,12 +27,11 @@ describe 'Domain' do
     end
   end
 
-  feature 'Create' do
+  feature 'Create', js: true do
     before do
       visit new_domain_path
     end
     scenario 'valid' do
-      select domain_group.name, from: 'Domain Group'
       fill_in 'Name', with: FFaker::Name.name
       fill_in 'Identity', with: FFaker::Name.name
       click_button 'Save'
@@ -44,7 +43,7 @@ describe 'Domain' do
     end
   end
 
-  feature 'Edit' do
+  feature 'Edit', js: true do
     let!(:name){ FFaker::Name.name }
     before do
       visit edit_domain_path(domain)
@@ -61,7 +60,7 @@ describe 'Domain' do
     end
   end
 
-  feature 'Delete' do
+  feature 'Delete', js: true do
     before do
       visit domains_path
     end
@@ -70,7 +69,7 @@ describe 'Domain' do
       expect(page).to have_content('Domain has been successfully deleted')
     end
     scenario 'disable delete' do
-      expect(page).not_to have_css("a[href='#{domain_path(other_domain)}'][data-method='delete']")
+      expect(page).to have_css("a[href='#{domain_path(other_domain)}'][data-method='delete'][class='btn btn-outline btn-danger btn-default disabled']")
     end
   end
 end

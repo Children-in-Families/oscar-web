@@ -1,6 +1,16 @@
 module ApplicationHelper
   Thredded::ApplicationHelper
 
+  def flash_alert
+    if notice
+      { 'message-type': 'notice', 'message': notice }
+    elsif alert
+      { 'message-type': 'alert', 'message': alert }
+    else
+      {}
+    end
+  end
+
   def authorized_body
     'unauthorized-background' unless user_signed_in?
   end
