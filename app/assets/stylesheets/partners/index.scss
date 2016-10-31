@@ -20,4 +20,9 @@
   .date_filter {
     padding: 6px;
   }
+  .dataTables_scrollBody,
+  table.partners,
+  .dataTables_scrollHeadInner {
+    width: 100% !important;
+  }
 }

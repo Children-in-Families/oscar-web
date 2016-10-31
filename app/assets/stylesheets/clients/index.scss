@@ -116,4 +116,11 @@
   .date_filter {
     padding: 6px;
   }
+
+  .dataTables_scrollBody,
+  table.clients,
+  .dataTables_scrollHeadInner {
+    width: 100% !important;
+  }
+
 }
