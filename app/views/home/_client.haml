@@ -2,77 +2,110 @@
   .panel.panel-default.client-panel
     .panel-body
       =link_to clients_path do
-        .col-xs-12.top-bar{style:"background-color:dimgray;margin-bottom:15px;"}
-          %p.anti-link.heading
-            #{@dashboard.client_count}
-          %h3.anti-link.float-right
-            %i= t('.clients')
+        .widget.style1.widget-client-panel
+          .row.vertical-align
+            .col-xs-3
+              %h2.font-bold #{@dashboard.client_count}
+            .col-xs-9.text-right
+              %span
+                = t('.clients')
+              %br
+              %br
+              %i.fa.fa-users.fa-3x
       .row
-        .col-xs-12.col-md-6.text-center
+        .col-xs-12.text-center
           - if fc_manageable
             =link_to clients_path("client_grid[status]":"Active FC") do
-              .col-xs-6{style:"background-color:teal;", class: user_dashboard_responsive(current_user)}
-                - if current_user.fc_manager?
-                  %h2.anti-link
-                    #{@dashboard.fc_count}
-                  %h3.anti-link.float-right
-                    %i= t('.foster_cares')
-                - else
-                  %h1.anti-link
-                    #{@dashboard.fc_count}
-                  %h4.anti-link.float-right
-                    %i= t('.foster_cares')
+              - if current_user.fc_manager?
+                .widget.col-xs-12.col-md-12.p-lg.widget-client-fc-panel{class: user_dashboard_responsive(current_user)}
+                  .m-b-md
+                    %h1.m-xs
+                      #{@dashboard.fc_count}
+                    %h5.font-bold.no-margins
+                      = t('.foster_cares')
+              - else
+                .widget.col-xs-12.col-md-4.widget-client-fc-panel{class: user_dashboard_responsive(current_user)}
+                  .m-b-md
+                    %h1.m-xs
+                      #{@dashboard.fc_count}
+                    %h5.font-bold.no-margins
+                      = t('.foster_cares')
           - if kc_manageable
             =link_to clients_path("client_grid[status]":"Active KC") do
-              .col-xs-6{ style:"background-color:skyblue;", class: user_dashboard_responsive(current_user)}
-                - if current_user.kc_manager?
-                  %h2.anti-link
-                    #{@dashboard.kc_count}
-                  %h3.anti-link.float-right
-                    %i= t('.kinship_cares')
-                - else
-                  %h1.anti-link
-                    #{@dashboard.kc_count}
-                  %h4.anti-link.float-right
-                    %i= t('.kinship_cares')
+              - if current_user.kc_manager?
+                .widget.col-xs-12.col-md-12.p-lg.widget-client-kc-panel{class: user_dashboard_responsive(current_user)}
+                  .m-b-md
+                    %h1.m-xs
+                      #{@dashboard.kc_count}
+                    %h5.font-bold.no-margins
+                      = t('.kinship_cares')
+              - else
+                .widget.col-xs-12.col-md-4.widget-client-kc-panel{class: user_dashboard_responsive(current_user)}
+                  .m-b-md
+                    %h1.m-xs
+                      #{@dashboard.kc_count}
+                    %h5.font-bold.no-margins
+                      = t('.kinship_cares')
           - if ec_manageable
-            =link_to clients_path("client_grid[status]":"Active EC") do
-              .col-xs-12.panel-pusher{style: "background-color:royalblue;", class: custom_case_dashboard(current_user) }
-                - if current_user.ec_manager?
-                  %h2.anti-link
-                    #{@dashboard.ec_count}
-                  %h3.anti-link.float-right
-                    %i= t('.emergency_cares')
-                - else
-                  %h1.anti-link
-                    #{@dashboard.ec_count}
-                  %h4.anti-link.float-right
-                    %i= t('.emergency_cares')
+            =link_to clients_path("client_grid[status]":"Active KC") do
+              - if current_user.ec_manager?
+                .widget.col-xs-12.col-md-12.p-lg.widget-client-ec-panel{class: user_dashboard_responsive(current_user)}
+                  .m-b-md
+                    %h1.m-xs
+                      #{@dashboard.ec_count}
+                    %h5.font-bold.no-margins
+                      = t('.emergency_cares')
+              - else
+                .widget.col-xs-12.col-md-4.no-pad.widget-client-ec-panel{class: user_dashboard_responsive(current_user)}
+                  .m-b-md
+                    %h1.m-xs
+                      #{@dashboard.ec_count}
+                    %h5.font-bold.no-margins
+                      = t('.emergency_cares')
           - if current_user.able_manager?
             =link_to clients_path("client_grid[able_state]":"Accepted") do
-              .col-xs-12.panel-pusher.big-box{style:"background-color:wheat;"}
-                %h2.anti-link
-                  #{@dashboard.able_count}
-                %h3.anti-link.float-right
-                  %i= t('.ables')
+              .widget.col-xs-12.col-md-12.p-lg.widget-client-ec-panel{class: user_dashboard_responsive(current_user)}
+                .m-b-md
+                  %h1.m-xs
+                    #{@dashboard.able_count}
+                  %h5.font-bold.no-margins
+                    = t('.ables')
 
         .col-xs-12.col-md-6.text-center
           =link_to clients_path("client_grid[gender]":"Male") do
-            .col-xs-6{style:"background-color:coral", class: ('col-sm-12' if current_user.able_manager? || current_user.any_case_manager?) }
-              %h1.anti-link
-                #{@dashboard.male_count}
-              %h4.anti-link.float-right
-                %i= t('.males')
+            .widget.style1.widget-client-male-panel{class: ('col-sm-12' if current_user.able_manager? || current_user.any_case_manager?) }
+              .row.vertical-align
+                .col-xs-3
+                  %h2.font-bold #{@dashboard.male_count}
+                .col-xs-9.text-right
+                  %span
+                    = t('.males')
+                  %br
+                  %br
+                  %i.fa.fa-male.fa-3x
+        .col-xs-12.col-md-6.text-center
           =link_to clients_path("client_grid[gender]":"Female") do
-            .col-xs-6{style:"background-color:peru;", class: ('col-sm-12 top-spacing' if current_user.able_manager? || current_user.any_case_manager?) }
-              %h1.anti-link
-                #{@dashboard.female_count}
-              %h4.anti-link.float-right
-                %i= t('.females')
-          - if current_user.admin? || current_user.case_worker?
+            .widget.style1.widget-client-female-panel{class: ('col-sm-12' if current_user.able_manager? || current_user.any_case_manager?) }
+              .row.vertical-align
+                .col-xs-3
+                  %h2.font-bold #{@dashboard.female_count}
+                .col-xs-9.text-right
+                  %span
+                    = t('.females')
+                  %br
+                  %br
+                  %i.fa.fa-female.fa-3x
+
+        - if current_user.admin? || current_user.case_worker?
+          .col-xs-12.text-center
             =link_to clients_path("client_grid[able_state]":"Accepted") do
-              .col-xs-12.panel-pusher{style:"background-color:wheat;", class: ('top-spacing' if current_user.admin? || current_user.case_worker?)}
-                %h1.anti-link
-                  #{@dashboard.able_count}
-                %h4.anti-link.float-right
-                  %i= t('.ables')
+              .widget.style1.widget-client-able-panel{ class: ('top-spacing' if current_user.admin? || current_user.case_worker?)}
+                .row.vertical-align
+                  .col-xs-3
+                    %h2.font-bold #{@dashboard.able_count}
+                  .col-xs-9.text-right
+                    %span
+                      = t('.ables')
+                    %br
+                    %br
+                    %i.fa.fa-question-circle.fa-3x
