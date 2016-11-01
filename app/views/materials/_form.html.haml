@@ -5,11 +5,11 @@
         .modal-header
           %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
             %span{"aria-hidden" => "true"} ×
-          %h4.modal-title{ id: "materialModal-#{material.id}Label" } Location
+          %h4.modal-title{ id: "materialModal-#{material.id}Label" }= t('.material')
         .modal-body
           = error_notification(f)
           .form-inputs
             = f.input :status, label: t('.status')
         .modal-footer
           = f.submit t('.save') , class: 'btn btn-outline btn-primary form-btn'
-          %button.btn.btn-outline.btn-default{"data-dismiss" => "modal", :type => "button"} Close
+          %button.btn.btn-outline.btn-default{"data-dismiss" => "modal", :type => "button"}= t('.cancel')

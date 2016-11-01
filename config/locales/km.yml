@@ -855,6 +855,7 @@ km:
     new:
       title: អង្គភាពថ្មី
     form:
+      agency: អង្គភាព
       name: ឈ្មោះអង្គភាព
       description: ការបរិយាយពីអង្គភាព
       save: រក្សាទុក
@@ -879,6 +880,7 @@ km:
     new:
       title: កម្មវិធីថ្មី
     form:
+      department: កម្មវិធី
       name: ឈ្មោះកម្មវិធី
       description: ការបរិយាយ
       save: រក្សាទុក
@@ -960,6 +962,7 @@ km:
     new:
       title: ខេត្តថ្មី
     form:
+      province: ខេត្ត
       name: ឈ្មោះខេត្ត
       save: រក្សាទុក
       cancel: ទុកជាមោឃៈ
@@ -984,6 +987,7 @@ km:
     new:
       title: ប្រភពនៃការបញ្ជូនថ្មី
     form:
+      referral_source: ប្រភពនៃការបញ្ជូន
       name: ឈ្មោះប្រភពនៃការបញ្ជូន
       description: ការបរិយាយ
       save: រក្សាទុក
@@ -1008,9 +1012,15 @@ km:
       new_quantitative_type: ប្រភេទនៃបរិមាណថ្មី
       title: បន្ថែមប្រភេទនៃបរិមាណ
     form:
+      quantitative_type: ប្រភេទនៃបរិមាណ
+      add_quantitative_data: បន្ថែមទិន្ន័យនៃបរិមាណ
       name: ប្រភេទ
       save: រក្សាទុក
       cancel: ទុកជាមោឃៈ
+    quantitative_case_fields:
+      quantitative_data: ទិន្ន័យនៃបរិមាណ
+      value: តំលៃ
+      are_you_sure: តើអ្នកប្រាកដហើយ?
     create:
       successfully_created: ប្រភេទនៃបរិមាណបានបង្កើតដោយជោគជ័យ
     update:
@@ -1495,6 +1505,7 @@ km:
       edit_material: កែសម្រួលរបស់របរ/សំភារៈ
     form:
       <<: *default_material_fields
+      material: របស់របរ/សំភារៈ
       save: រក្សាទុក
       cancel: ទុកជាមោឃៈ
     create:
@@ -1518,6 +1529,7 @@ km:
       edit_location: កែសម្រួលកន្លែង
     form:
       <<: *default_location_fields
+      location: កន្លែង
       save: រក្សាទុក
       cancel: ទុកជាមោឃៈ
     create:
@@ -1541,6 +1553,7 @@ km:
       edit_progress_note_type: កែសម្រួលកំណត់សំគាល់
     form:
       <<: *default_progress_note_type_fields
+      progress_note_type: កំណត់សំគាល់
       save: រក្សាទុក
       cancel: ទុកជាមោឃៈ
     create:
@@ -1564,6 +1577,7 @@ km:
       edit_intervention: កែសម្រួលចំនុចដែលត្រូវធ្វើ
     form:
       <<: *default_intervention_fields
+      intervention: ចំនុចដែលត្រូវធ្វើ
       save: រក្សាទុក
       cancel: ទុកជាមោឃៈ
     create:

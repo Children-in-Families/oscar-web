@@ -5,7 +5,7 @@
         .modal-header
           %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
             %span{"aria-hidden" => "true"} ×
-          %h4.modal-title{ id: "domain_groupModal-#{domain_group.id}Label" } Department
+          %h4.modal-title{ id: "domain_groupModal-#{domain_group.id}Label" }= t('.domain_group')
         .modal-body
           = error_notification(f)
           .form-inputs
@@ -13,4 +13,4 @@
             = f.input :description, input_html: { rows: '10' }, label: t('.description')
         .modal-footer
           = f.submit t('.save') , class: 'btn btn-outline btn-primary form-btn'
-          %button.btn.btn-outline.btn-default{"data-dismiss" => "modal", :type => "button"} Close
+          %button.btn.btn-outline.btn-default{"data-dismiss" => "modal", :type => "button"}= t('.cancel')

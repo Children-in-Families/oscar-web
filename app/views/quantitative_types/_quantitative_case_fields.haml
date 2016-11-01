@@ -1,7 +1,7 @@
 .nested-fields
   .row
     .col-xs-10
-      = f.input :value, label: 'Quantitative Data', input_html: { placeholder: 'Value' }
+      = f.input :value, label: t('.quantitative_data'), input_html: { placeholder: t('.value') }
     .col-xs-2.btn-no-label
-      = link_to_remove_association f, class: 'btn btn-outline btn-danger', data: { confirm: 'Are you sure you want to remove?' } do
+      = link_to_remove_association f, class: 'btn btn-outline btn-danger', data: { confirm: t('.are_you_sure') } do
         = fa_icon('trash')

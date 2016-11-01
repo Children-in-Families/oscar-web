@@ -801,6 +801,7 @@ en:
     new:
       title: New Agency
     form:
+      agency: Agency
       name: Name
       description: Description
       save: Save
@@ -825,6 +826,7 @@ en:
     new:
       title: New Department
     form:
+      department: Department
       name: Name
       description: Description
       save: Save
@@ -907,6 +909,7 @@ en:
     new:
       title: New Province
     form:
+      province: Province
       name: Name
       save: Save
       cancel: Cancel
@@ -931,6 +934,7 @@ en:
     new:
       title: New Referral Source
     form:
+      referral_source: Referral Source
       name: Name
       description: Description
       save: Save
@@ -954,9 +958,15 @@ en:
     new:
       title: Add Quantitative Type
     form:
+      quantitative_type: Quantitative Type
+      add_quantitative_data: Add Quantitative Data
       name: Name
       save: Save
       cancel: Cancel
+    quantitative_case_fields:
+      quantitative_data: Quantitative Data
+      value: Value
+      are_you_sure: Are you sure you want to delete?
     create:
       successfully_created: Quantitative Type has been successfully created.
     update:
@@ -1290,6 +1300,7 @@ en:
       edit_material: Edit Equipment/Material
     form:
       <<: *default_material_fields
+      material: Equipment/Material
       save: Save
       cancel: Cancel
     create:
@@ -1313,6 +1324,7 @@ en:
       edit_location: Edit Location
     form:
       <<: *default_location_fields
+      location: Location
       save: Save
       cancel: Cancel
     create:
@@ -1336,6 +1348,7 @@ en:
       edit_progress_note_type: Edit Type of Note
     form:
       <<: *default_progress_note_type_fields
+      progress_note_type: Type of Note
       save: Save
       cancel: Cancel
     create:
@@ -1359,6 +1372,7 @@ en:
       edit_intervention: Edit Intervention
     form:
       <<: *default_intervention_fields
+      intervention: Intervention
       save: Save
       cancel: Cancel
     create:
