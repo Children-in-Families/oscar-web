@@ -1,9 +1,9 @@
 module ClientsHelper
   def user(user)
     if can? :manage, :all
-      link_to user.name, user_path(user)
+      link_to user.name, user_path(user) if user.present?
     else
-      user.name
+      user.name if user.present?
     end
   end
 

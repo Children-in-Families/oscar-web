@@ -859,11 +859,14 @@ km:
       cancel: ទុកជាមោឃៈ
     create:
       successfully_created: ឣង្គភាពបង្កើតកំណត់ត្រាថ្មីបានដោយជោគជ័យ
+      failed_create: ឣង្គភាពបង្កើតកំណត់ត្រាថ្មីបានមិនបានជោគជ័យ
     update:
       successfully_updated: ឣង្គភាពបានរក្សាដោយជោគជ័យ
+      failed_update: ឣង្គភាពបានរក្សាមិនជោគជ័យ
     destroy:
       successfully_deleted: ឣង្គភាពត្រូវបានលុបចោលដោយជោគជ័យ
       alert: ឣង្គភាពមិនអាចលុបចោលបានទេ
+      failed_delete: ឣង្គភាពមិនអាចលុបចោលបានទេ
   departments:
     index:
       add_new_department: បន្ថែមកម្មវិធីថ្មី
@@ -883,10 +886,13 @@ km:
       cancel: ទុកជាមោឃៈ
     create:
       successfully_created: កម្មវិធីបង្កើតបានដោយជោគជ័យ
+      failed_create: កម្មវិធីបង្កើតមិនបានជោគជ័យ
     update:
       successfully_updated: កម្មវិធីរក្សាបានដោយជោគជ័យ
+      failed_update: កម្មវិធីរក្សាបានមិនបានជោគជ័យ
     destroy:
       successfully_deleted: កម្មវិធីត្រូវបានលុបចោលដោយជោគជ័យ
+      failed_delete: កម្មវិធីមិនបានលុបចោលដោយជោគជ័យ
       alert: កម្មវិធីមិនអាចលុបចោលបានទេ
   domains:
     index:
@@ -941,10 +947,13 @@ km:
       cancel: ទុកជាមោឃៈ
     create:
       successfully_created: ការប្រមូលផ្តុំកត្តាត្រូវបានបង្កើតដោយជោគជ័យ
+      failed_create: ការប្រមូលផ្តុំកត្តាមិនត្រូវបានបង្កើត
     update:
       successfully_updated: ការប្រមូលផ្តុំកត្តាត្រូវបានកែសម្រួលដោយជោគជ័យ
+      failed_update: ការប្រមូលផ្តុំកត្តាមិនត្រូវបានកែសម្រួល
     destroy:
       successfully_deleted: ការប្រមូលផ្តុំកត្តាត្រូវបានលុបចោលជោគជ័យ
+      failed_delete: ការប្រមូលផ្តុំកត្តាមិនត្រូវបានលុបចោល
       alert: ការប្រមូលផ្តុំកត្តាមិនអាចលុបបានទេ
   provinces:
     index:
@@ -1475,10 +1484,13 @@ km:
       cancel: ទុកជាមោឃៈ
     create:
       successfully_created: ការផ្លាស់ប្ដូរបានបង្កើតដោយជោគជ័យ
+      failed_create: ការផ្លាស់ប្ដូរមិនបានបង្កើត
     update:
       successfully_updated: ការផ្លាស់ប្ដូរត្រូវបានកែសម្រួលដោយជោគជ័យ
+      failed_update: ការផ្លាស់ប្ដូរមិនត្រូវបានកែសម្រួល
     destroy:
       successfully_deleted: ការផ្លាស់ប្ដូរត្រូវបានលុបដោយជោគជ័យ
+      failed_delete: ការផ្លាស់ប្ដូរត្រូវមិនបានលុប
 
   materials:
     index:
@@ -1566,10 +1578,13 @@ km:
       cancel: ទុកជាមោឃៈ
     create:
       successfully_created: ចំនុចដែលត្រូវធ្វើត្រូវបានបង្កើតដោយជោគជ័យ
+      failed_create: ចំនុចដែលមិនត្រូវធ្វើត្រូវបានបង្កើត
     update:
       successfully_updated: ចំនុចដែលត្រូវធ្វើត្រូវបានកែសម្រួលដោយជោគជ័យ
+      failed_update: ចំនុចដែលត្រូវធ្វើមិនត្រូវបានកែសម្រួល
     destroy:
       successfully_deleted: ចំនុចដែលត្រូវធ្វើត្រូវបានលុបដោយជោគជ័យ
+      failed_delete: ចំនុចដែលត្រូវធ្វើមិនអាចលុបបានទេ
       unsuccessfully_deleted: ចំនុចដែលត្រូវធ្វើមិនអាចលុបបានទេ
 
   progress_notes:

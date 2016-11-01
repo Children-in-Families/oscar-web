@@ -21,6 +21,9 @@
   border: 1px solid #1ab394 !important;
   border-radius: 1px !important;
 }
+#toast-container > div {
+  width: 400px !important;
+}
 .btn-back-default{
   color: #756E6C !important;
   background: white;
@@ -30,15 +33,16 @@
   border-top: 1px solid #86898c;
 }
 .log-min{
-  background: #dee1e5;
-  border: 3px solid #dee1e5;
+  background: white;
+  border: 3px solid white;
   padding-top: 2px; 
   padding-bottom: -2px;
   border-radius: 50% 50%;
+  margin-top: -10px;
 }
 .img-circle{
-  background: #dee1e5;
-  border: 10px solid #dee1e5;
+  background: white;
+  border: 10px solid white;
   margin-left: 40px;
 }
 .btn-back-default:hover{

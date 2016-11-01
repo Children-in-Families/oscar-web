@@ -14,5 +14,5 @@
             = render 'attachment_fields', f: attachment
       .row
   .ibox-footer
-    = f.button :submit, t('save'), class: 'btn btn-outline btn-primary form-btn'
+    = f.submit t('save'), class: 'btn btn-primary form-btn'
     = link_to t('.cancel'), stages_path, class: 'btn btn-outline btn-default form-btn'

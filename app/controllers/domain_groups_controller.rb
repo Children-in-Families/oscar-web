@@ -12,7 +12,7 @@ class DomainGroupsController < AdminController
     if @domain_group.save
       redirect_to domain_groups_path, notice: t('.successfully_created')
     else
-      render :new
+      redirect_to domain_groups_path, alert: t('.failed_create')
     end
   end
 
@@ -20,7 +20,7 @@ class DomainGroupsController < AdminController
     if @domain_group.update_attributes(domain_group_params)
       redirect_to domain_groups_path, notice: t('.successfully_updated')
     else
-      redirect_to domain_groups_path
+      redirect_to domain_groups_path, alert: t('.failed_update')
     end
   end
 
@@ -29,7 +29,7 @@ class DomainGroupsController < AdminController
       @domain_group.destroy
       redirect_to domain_groups_url, notice: t('.successfully_deleted')
     else
-      redirect_to domain_groups_url, alert: t('.alert')
+      redirect_to domain_groups_path, alert: t('.failed_delete')
     end
   end
 

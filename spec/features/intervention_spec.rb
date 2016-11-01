@@ -33,43 +33,55 @@ describe 'Intervention' do
     end
   end
 
-  feature 'Create' do
+  feature 'Create', js: true do
     before do
-      visit new_intervention_path
+      visit interventions_path
     end
 
     scenario 'valid' do
-      fill_in I18n.t('interventions.form.action'), with: FFaker::HealthcareIpsum.word
-      click_button I18n.t('interventions.form.save')
+      click_link('New Intervention')
+      within('#new_intervention') do
+        fill_in I18n.t('interventions.form.action'), with: FFaker::HealthcareIpsum.word
+        click_button I18n.t('interventions.form.save')
+      end
       expect(page).to have_content(I18n.t('interventions.create.successfully_created'))
     end
 
     scenario 'invalid' do
-      click_button I18n.t('interventions.form.save')
-      expect(page).to have_content("can't be blank")
+      click_link('New Intervention')
+      within('#new_intervention') do
+        click_button I18n.t('interventions.form.save')
+      end
+      expect(page).to have_content('Failed to create an intervention.')
     end
   end
 
-  feature 'Edit' do
+  feature 'Edit', js: true do
     let!(:action) { FFaker::HealthcareIpsum.word }
     let!(:other_intervention) { create(:intervention, action: 'Counseling') }
     before do
-      visit edit_intervention_path(intervention)
+      visit interventions_path
     end
     scenario 'valid' do
-      fill_in I18n.t('interventions.form.action'), with: action
-      click_button I18n.t('interventions.form.save')
-      expect(page).to have_content(I18n.t('interventions.update.successfully_updated'))
+      find("a[data-target='#interventionModal-#{intervention.id}']").click
+      within("#interventionModal-#{intervention.id}") do
+        fill_in I18n.t('interventions.form.action'), with: action
+        click_button I18n.t('interventions.form.save')
+      end
+            expect(page).to have_content(I18n.t('interventions.update.successfully_updated'))
       expect(page).to have_content(action)
     end
     scenario 'invalid' do
-      fill_in I18n.t('interventions.form.action'), with: 'Counseling'
-      click_button I18n.t('interventions.form.save')
-      expect(page).to have_content(I18n.t('activerecord.errors.models.intervention.attributes.action.taken'))
+      find("a[data-target='#interventionModal-#{intervention.id}']").click
+      within("#interventionModal-#{intervention.id}") do
+        fill_in I18n.t('interventions.form.action'), with: 'Counseling'
+        click_button I18n.t('interventions.form.save')
+      end
+      expect(page).to have_content('Failed to update an intervention')
     end
   end
 
-  feature 'Delete' do
+  feature 'Delete', js: true do
     before do
       visit interventions_path
     end

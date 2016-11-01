@@ -12,7 +12,7 @@ class DepartmentsController < AdminController
     if @department.save
       redirect_to departments_path, notice: t('.successfully_created')
     else
-      render :new
+      redirect_to departments_path, alert: t('.failed_create')
     end
   end
 
@@ -20,7 +20,7 @@ class DepartmentsController < AdminController
     if @department.update_attributes(department_params)
       redirect_to departments_path, notice: t('.successfully_updated')
     else
-      redirect_to departments_path
+      redirect_to departments_path, alert: t('.failed_update')
     end
   end
 
@@ -29,7 +29,7 @@ class DepartmentsController < AdminController
       @department.destroy
       redirect_to departments_url, notice: t('.successfully_deleted')
     else
-      redirect_to departments_url, alert: t('.alert')
+      redirect_to departments_url, alert: t('.failed_delete')
     end
   end
 

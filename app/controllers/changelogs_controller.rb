@@ -1,16 +1,11 @@
 class ChangelogsController < AdminController
   load_and_authorize_resource
 
-  before_action :find_changelog, only: [:show, :edit, :update, :destroy]
+  before_action :find_changelog, only: [:show, :update, :destroy]
   before_action :find_user
 
   def index
     @changelogs = Changelog.all
-  end
-
-  def new
-    @changelog = @user.changelogs.new
-    @changelog.changelog_types.new
   end
 
   def create
@@ -18,24 +13,24 @@ class ChangelogsController < AdminController
     if @changelog.save
       redirect_to changelogs_path, notice: t('.successfully_created')
     else
-      render :new
+      redirect_to changelogs_path, alert: t('.failed_create')
     end
-  end
-
-  def edit
   end
 
   def update
     if @changelog.update_attributes(changelog_params)
       redirect_to changelogs_path, notice: t('.successfully_updated')
     else
-      render :edit
+      redirect_to changelogs_path, alert: t('.failed_update')
     end
   end
 
   def destroy
-    @changelog.destroy
-    redirect_to changelogs_url, notice: t('.successfully_deleted')
+    if @changelog.destroy
+      redirect_to changelogs_url, notice: t('.successfully_deleted')
+    else
+      redirect_to changelogs_path, alert: t('.failed_delete')
+    end
   end
 
   private
