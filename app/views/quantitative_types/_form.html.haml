@@ -5,7 +5,7 @@
         .modal-header
           %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
             %span{"aria-hidden" => "true"} ×
-          %h4.modal-title{ id: "quantitative_typeModal-#{quantitative_type.id}Label" } Province
+          %h4.modal-title{ id: "quantitative_typeModal-#{quantitative_type.id}Label" }= t('.quantitative_type')
         .modal-body
           = error_notification(f)
           .form-inputs
@@ -13,10 +13,10 @@
             = f.simple_fields_for :quantitative_cases do |quantitative_case|
               = render 'quantitative_case_fields', f: quantitative_case
           .links
-            = link_to_add_association 'Add Quantitative Data', f, :quantitative_cases, class: 'btn btn-outline btn-info'
+            = link_to_add_association t('.add_quantitative_data'), f, :quantitative_cases, class: 'btn btn-outline btn-info'
         .modal-footer
           = f.submit t('.save') , class: 'btn btn-outline btn-primary form-btn'
-          %button.btn.btn-outline.btn-default{"data-dismiss" => "modal", :type => "button"} Close
+          %button.btn.btn-outline.btn-default{"data-dismiss" => "modal", :type => "button"}= t('.cancel')
 
 -# = simple_form_for(@quantitative_type) do |f|
 -#   .ibox-content

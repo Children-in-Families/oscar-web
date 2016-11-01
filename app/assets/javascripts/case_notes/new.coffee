@@ -5,10 +5,6 @@ CIF.Case_notesNew = do ->
   _handleNewTask = ->
     _addTaskToServer()
     _addDomainToSelect()
-    _initSelect2()
-
-  _initSelect2 =->
-    $('select').select2()
 
   _showError = (error) ->
     if error.completion_date != undefined and error.completion_date.length > 0
