@@ -20,10 +20,10 @@
     th {
       border-bottom-width: 0;
     }
-    th.member_count, th.caregiver_information, th.household_income, th.dependable_income {
+    th.name, th.member_count, th.caregiver_information, th.household_income, th.dependable_income, th.cases {
       min-width: 185px;
     }
-    th.case_worker {
+    th.case_worker, th.manage {
       min-width: 130px;
     }
   }
