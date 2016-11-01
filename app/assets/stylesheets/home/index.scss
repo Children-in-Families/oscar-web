@@ -32,13 +32,13 @@
         margin-top: 3px;
         margin-bottom: 1px;
       }
-    }  
+    }
   }
 
   @media (max-width: 990px) {
     .panel-pusher {
       margin-bottom: 15px;
-    }          
+    }
   }
 
   .client-panel, .family-panel {
@@ -46,10 +46,10 @@
       margin-bottom: 15px;
     }
 
-    .big-box {
-      height: 279px;
-      padding-top: 90px;
-    }
+    // .big-box {
+    //   height: 279px;
+    //   padding-top: 90px;
+    // }
 
     h1 {
       font-size: 4em;
@@ -58,6 +58,76 @@
     h2 {
       font-size: 5em;
     }
+    .widget-family-panel,
+    .widget-client-panel {
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+      margin-bottom: 0;
+      background-color: #186e6d;
+      color: #ffffff;
+    }
+    .widget-family-foster-panel,
+    .widget-family-kinship-panel {
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+      margin-top: 0;
+      text-align: center;
+      background-color: #ecf0f1;
+      color: #2c3e50;
+    }
+    .widget-family-foster-panel {
+      border-bottom-right-radius: 0;
+      border-right: 1px solid #d8e1e3;
+      border-right-width: 2px;
+      &:hover {
+        background-color: #d8e1e3;
+      }
+    }
+    .widget-family-kinship-panel {
+      border-bottom-left-radius: 0;
+      border-left: 1px solid #e2e8ea;
+      border-left-width: 1px;
+      &:hover {
+        background-color: #e2e8ea;
+      }
+    }
+    .widget-client-fc-panel,
+    .widget-client-kc-panel,
+    .widget-client-ec-panel {
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+      margin-bottom: 0;
+      margin-top: 0;
+      text-align: center;
+      background-color: #ecf0f1;
+      border-right: 1px solid #d8e1e3;
+      border-right-width: 1px;
+      color: #2c3e50;
+      &:hover {
+        background-color: #d8e1e3;
+      }
+      .no-pad {
+        padding: 0;
+      }
+    }
+
+    .widget-client-male-panel,
+    .widget-client-female-panel {
+      background-color: #3498db;
+      color: #fff;
+      &:hover {
+        background-color: #2980b9;
+      }
+    }
+    .widget-client-able-panel {
+      color: #fff;
+      background-color: #1abc9c;
+      &:hover {
+        background-color: #16a085;
+      }
+    }
   }
 
   .bottom-panel {
@@ -65,7 +135,38 @@
       font-size: 3em;
     }
   }
-  .top-spacing {
-    margin-top: 19px;
+  .widget-agency-panel,
+  .widget-partner-panel,
+  .widget-referral-panel,
+  .widget-staff-panel {
+    color: #fff;
   }
+
+  .widget-agency-panel {
+    background-color: #00BCD4;
+    &:hover {
+      background-color: #0097A7;
+    }
+  }
+  .widget-partner-panel {
+    background-color: #673AB7;
+    &:hover {
+      background-color: #512DA8;
+    }
+  }
+  .widget-referral-panel {
+    background-color: #f29a43;
+    &:hover {
+      background-color: #f08923;
+    }
+  }
+  .widget-staff-panel {
+    background-color: #e13b52;
+    &:hover {
+      background-color: #d9213b;
+    }
+  }
+  // .top-spacing {
+  //   margin-top: 19px;
+  // }
 }

@@ -15,7 +15,28 @@
               - grouped_tasks = @tasks.overdue.group_by do |task|
                 - task.client
               - grouped_tasks.each do |client, tasks|
-                .panel.panel-default
+                .panel.panel-success
+                  .panel-heading
+                    %h5= client.name
+                  .panel-body
+                    .row
+                      .col-xs-12
+                        %table.table.table-bordered
+                          - tasks.each do |task|
+                            %tr
+                              %td= "#{t('.domain')} #{task.domain.name}"
+                              %td.task-name= task.name
+                              %td= task.completion_date.strftime("%B %d, %Y")
+      .panel.panel-primary
+        .panel-heading
+          %h5= t('.todays_tasks')
+        .panel-body
+          .row
+            .col-xs-12
+              - grouped_tasks = @tasks.today.group_by do |task|
+                - task.client
+              - grouped_tasks.each do |client, tasks|
+                .panel.panel-success
                   .panel-heading
                     %h5= client.name
                   .panel-body
@@ -29,27 +50,6 @@
                               %td= task.completion_date.strftime("%B %d, %Y")
       .panel.panel-warning
         .panel-heading
-          %h5= t('.todays_tasks')
-        .panel-body
-          .row
-            .col-xs-12
-              - grouped_tasks = @tasks.today.group_by do |task|
-                - task.client
-              - grouped_tasks.each do |client, tasks|
-                .panel.panel-default
-                  .panel-heading
-                    %h5= client.name
-                  .panel-body
-                    .row
-                      .col-xs-12
-                        %table.table.table-bordered
-                          - tasks.each do |task|
-                            %tr
-                              %td= "#{t('.domain')} #{task.domain.name}"
-                              %td.task-name= task.name
-                              %td= task.completion_date.strftime("%B %d, %Y")
-      .panel.panel-success
-        .panel-heading
           %h5= t('.upcoming_tasks')
         .panel-body
           .row
@@ -57,7 +57,7 @@
               - grouped_tasks = @tasks.upcoming.group_by do |task|
                 - task.client
               - grouped_tasks.each do |client, tasks|
-                .panel.panel-default
+                .panel.panel-success
                   .panel-heading
                     %h5= client.name
                   .panel-body
@@ -69,4 +69,3 @@
                               %td= "#{t('.domain')} #{task.domain.name}"
                               %td.task-name= task.name
                               %td= task.completion_date.strftime("%B %d, %Y")
-
