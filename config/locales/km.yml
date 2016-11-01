@@ -1487,6 +1487,7 @@ km:
       description: ការពិពណ៌នា
     index:
       <<: *default_changelog_fields
+      cancel: ទុកជាមោឃៈ
       version_list: បញ្ជីកំណែ
       changes: កំណែ
       add_new_changelog: បន្ថែមការផ្លាស់ប្ដូរថ្មី

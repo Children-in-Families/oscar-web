@@ -1,8 +1,8 @@
 .row
-  .col-xs-12.col-sm-6.col-sm-offset-3.form
+  .col-xs-12.col-sm-6.col-sm-offset-3
     .ibox.normal-space
       = simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f|
-        .ibox-title.normal-space
+        .ibox-title
           %h5 ផ្លាស់ប្ដូរលេខសំងាត់របស់អ្នក / Change your password
         .ibox-content
           = f.error_notification
