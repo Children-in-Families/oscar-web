@@ -17,7 +17,7 @@ describe Location, 'methods' do
   end
 
   context 'is_other?' do
-    it{ expect(location.is_other?).to be_truthy }
-    it{ expect(used_location.is_other?).to be_falsey }
+    it{ expect(location.other_used).to eq(1) }
+    it{ expect(used_location.other_used).to eq(0) }
   end
 end

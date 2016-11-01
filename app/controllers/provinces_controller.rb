@@ -1,14 +1,10 @@
 class ProvincesController < AdminController
   load_and_authorize_resource
 
-  before_action :find_province, only: [:edit, :update, :destroy]
+  before_action :find_province, only: [:update, :destroy]
 
   def index
     @provinces = Province.all.paginate(page: params[:page], per_page: 20)
-  end
-
-  def new
-    @province = Province.new
   end
 
   def create
@@ -16,18 +12,15 @@ class ProvincesController < AdminController
     if @province.save
       redirect_to provinces_path, notice: t('.successfully_created')
     else
-      render :new
+      redirect_to provinces_path, alert: t('.failed_create')
     end
-  end
-
-  def edit
   end
 
   def update
     if @province.update_attributes(province_params)
       redirect_to provinces_path, notice: t('.successfully_updated')
     else
-      render :edit
+      redirect_to provinces_path, alert: t('.failed_update')
     end
   end
 
@@ -36,7 +29,7 @@ class ProvincesController < AdminController
       @province.destroy
       redirect_to provinces_url, notice: t('.successfully_deleted')
     else
-      redirect_to provinces_url, alert: t('.alert')
+      redirect_to provinces_path, alert: t('.failed_delete')
     end
   end
 

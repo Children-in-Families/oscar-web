@@ -35,44 +35,57 @@ describe 'Changelog' do
     end
   end
 
-  feature 'Create' do
+  feature 'Create', js: true do
     before do
-      visit new_changelog_path
+      visit changelogs_path
     end
 
     scenario 'valid' do
-      fill_in 'Version', with: FFaker::Name.name
-      fill_in 'Description', with: FFaker::Lorem.paragraph
-      click_button I18n.t('changelogs.form.save')
+      click_link('Add New Changelog')
+      within('#new_changelog') do
+        fill_in 'Version', with: FFaker::Name.name
+        click_link('Add change')
+        fill_in 'Description', with: FFaker::Lorem.paragraph
+        click_button I18n.t('changelogs.form.save')
+      end
       expect(page).to have_content(I18n.t('changelogs.create.successfully_created'))
     end
 
     scenario 'invalid' do
-      click_button I18n.t('changelogs.form.save')
-      expect(page).to have_content("can't be blank")
+      click_link('Add New Changelog')
+      within('#new_changelog') do
+        click_button I18n.t('changelogs.form.save')
+      end
+      expect(page).to have_content('Failed to create a changelog.')
     end
   end
 
-  feature 'Edit' do
+  feature 'Edit', js: true do
     let!(:version) { FFaker::Name.name }
     let!(:other_changelog) { create(:changelog, version: '0.1') }
     before do
-      visit edit_changelog_path(changelog)
+      visit changelogs_path(changelog)
     end
     scenario 'valid' do
-      fill_in 'Version', with: version
-      click_button I18n.t('changelogs.form.save')
+      find("a[data-target='#changelogModal-#{changelog.id}']").click
+      within("#changelogModal-#{changelog.id}") do
+        fill_in 'Version', with: version
+        click_button I18n.t('changelogs.form.save')
+      end
       expect(page).to have_content(I18n.t('changelogs.update.successfully_updated'))
       expect(page).to have_content(version)
     end
     scenario 'invalid' do
-      fill_in 'Version', with: '0.1'
-      click_button I18n.t('changelogs.form.save')
-      expect(page).to have_content(I18n.t('activerecord.errors.models.changelog.attributes.version.taken'))
+      find("a[data-target='#changelogModal-#{changelog.id}']").click
+      within("#changelogModal-#{changelog.id}") do
+        fill_in 'Version', with: '0.1'
+        click_button I18n.t('changelogs.form.save')
+      end
+      expect(page).to have_content('Failed to update a changelog.')
     end
   end
 
-  feature 'Delete' do
+  feature 'Delete', js: true do
     before do
       visit changelogs_path
     end

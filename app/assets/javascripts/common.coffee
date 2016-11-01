@@ -5,6 +5,7 @@ CIF.Common =
     @menuDropDownClick()
     @validateFilterNumber()
     @customCheckBox()
+    @initNotification()
 
   hideNotification: ->
     notice = $('p#notice')
@@ -27,3 +28,28 @@ CIF.Common =
   validateFilterNumber: ->
     $(window).load ->
       $('input[type="number"]').attr('min','0')
+
+  initNotification: ->
+    messageOption = {
+      "closeButton": true,
+      "debug": true,
+      "progressBar": true,
+      "positionClass": "toast-top-center",
+      "showDuration": "400",
+      "hideDuration": "1000",
+      "timeOut": "7000",
+      "extendedTimeOut": "1000",
+      "showEasing": "swing",
+      "hideEasing": "linear",
+      "showMethod": "fadeIn",
+      "hideMethod": "fadeOut"
+    }
+    messageInfo = $("#wrapper").data()
+    if Object.keys(messageInfo).length > 0
+      if messageInfo.messageType == 'notice'
+        toastr.success(messageInfo.message, 'Notification', messageOption)
+      else if messageInfo.messageType == 'alert'
+        toastr.error(messageInfo.message, 'Notification', messageOption)
+      #
+      # else if
+      #   toastr.error(messageInfo.message, 'Notification', messageOption)

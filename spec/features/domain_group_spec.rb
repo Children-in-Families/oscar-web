@@ -14,49 +14,61 @@ describe 'Domain Group' do
       expect(page).to have_content(domain_group.name)
     end
     scenario 'new link' do
-      expect(page).to have_link('Add New Domain Group', new_domain_group_path(domain_group))
+      expect(page).to have_link('Add New Domain Group', nil)
     end
     scenario 'edit link' do
-      expect(page).to have_link(nil, edit_domain_group_path(domain_group))
+      expect(page).to have_css("i[class='fa fa-pencil']")
     end
     scenario 'delete link' do
       expect(page).to have_css("a[href='#{domain_group_path(domain_group)}'][data-method='delete']")
     end
   end
 
-  feature 'Create' do
+  feature 'Create', js: true do
     before do
-      visit new_domain_group_path
+      visit domain_groups_path
     end
     scenario 'valid' do
-      fill_in 'Name', with: FFaker::Name.name
-      click_button 'Save'
+      click_link('New Domain Group')
+      within('#new_domain_group') do
+        fill_in 'Name', with: FFaker::Name.name
+        click_button 'Save'
+      end
       expect(page).to have_content('Domain Group has been successfully created')
     end
     scenario 'invalid' do
-      click_button 'Save'
-      expect(page).to have_content("can't be blank")
+      click_link('New Domain Group')
+      within('#new_domain_group') do
+        click_button 'Save'
+      end
+      expect(page).to have_content('Failed to create a domain group.')
     end
   end
 
-  feature 'Edit' do
+  feature 'Edit', js: true do
     let!(:name){ FFaker::Name.name }
     before do
-      visit edit_domain_group_path(domain_group)
+      visit domain_groups_path
     end
     scenario 'valid' do
-      fill_in 'Name', with: name
-      click_button 'Save'
+      find("a[data-target='#domain_groupModal-#{domain_group.id}']").click
+      within("#domain_groupModal-#{domain_group.id}") do
+        fill_in 'Name', with: name
+        click_button 'Save'
+      end
       expect(page).to have_content('Domain Group has been successfully updated')
     end
     scenario 'invalid' do
-      fill_in 'Name', with: ''
-      click_button 'Save'
-      expect(page).to have_content("can't be blank")
+      find("a[data-target='#domain_groupModal-#{domain_group.id}']").click
+      within("#domain_groupModal-#{domain_group.id}") do
+        fill_in 'Name', with: ''
+        click_button 'Save'
+      end
+      expect(page).to have_content('Failed to update a domain group.')
     end
   end
 
-  feature 'Delete' do
+  feature 'Delete', js: true do
     before do
       visit domain_groups_path
     end
@@ -65,7 +77,7 @@ describe 'Domain Group' do
       expect(page).to have_content('Domain Group has been successfully deleted')
     end
     scenario 'disable delete' do
-      expect(page).not_to have_css("a[href='#{domain_group_path(other_domain_group)}'][data-method='delete']")
+      expect(page).to have_css("a[href='#{domain_group_path(other_domain_group)}'][data-method='delete'][class='btn btn-outline btn-danger btn-xs disabled']")
     end
   end
 end

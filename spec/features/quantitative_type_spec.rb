@@ -14,46 +14,58 @@ describe 'Quantitative Type' do
       expect(page).to have_content(quantitative_type.name)
     end
     scenario 'link to edit' do
-      expect(page).to have_link(nil, href: edit_quantitative_type_path(quantitative_type))
+      expect(page).to have_css("i[class='fa fa-pencil']")
     end
     scenario 'link to delete' do
       expect(page).to have_css("a[href='#{quantitative_type_path(quantitative_type)}'][data-method='delete']")
     end
   end
 
-  feature 'Create' do
+  feature 'Create', js: true do
     before do
-      visit new_quantitative_type_path
+      visit quantitative_types_path
     end
     scenario 'valid' do
-      fill_in 'Name', with: FFaker::Name.name
-      click_button 'Save'
+      click_link('Add New Quantitative Type')
+      within('#new_quantitative_type') do
+        fill_in 'Name', with: FFaker::Name.name
+        click_button 'Save'
+      end
       expect(page).to have_content('Quantitative Type has been successfully created')
     end
     scenario 'invalid' do
-      click_button 'Save'
-      expect(page).to have_content("can't be blank")
+      click_link('Add New Quantitative Type')
+      within('#new_quantitative_type') do
+        click_button 'Save'
+      end
+      expect(page).to have_content('Failed to create a quantitative type.')
     end
   end
 
-  feature 'Edit' do
+  feature 'Edit', js: true do
     let!(:name){ FFaker::Name.name }
     before do
-      visit edit_quantitative_type_path(quantitative_type)
+      visit quantitative_types_path
     end
     scenario 'valid' do
-      fill_in 'Name', with: name
-      click_button 'Save'
+      find("a[data-target='#quantitative_typeModal-#{quantitative_type.id}']").click
+      within("#quantitative_typeModal-#{quantitative_type.id}") do
+        fill_in 'Name', with: name
+        click_button 'Save'
+      end
       expect(page).to have_content('Quantitative Type has been successfully updated')
     end
     scenario 'invalid' do
-      fill_in 'Name', with: ''
-      click_button 'Save'
-      expect(page).to have_content("can't be blank")
+      find("a[data-target='#quantitative_typeModal-#{quantitative_type.id}']").click
+      within("#quantitative_typeModal-#{quantitative_type.id}") do
+        fill_in 'Name', with: ''
+        click_button 'Save'
+      end
+      expect(page).to have_content('Failed to update a quantitative type.')
     end
   end
 
-  feature 'Delete' do
+  feature 'Delete', js: true do
     before do
       visit quantitative_types_path
     end
@@ -62,7 +74,7 @@ describe 'Quantitative Type' do
       expect(page).to have_content('Quantitative Type has been successfully deleted')
     end
     scenario 'disable' do
-      expect(page).not_to have_css("a[href='#{quantitative_type_path(other_quantitative_type)}'][data-method='delete']")
+      expect(page).to have_css("a[href='#{quantitative_type_path(other_quantitative_type)}'][data-method='delete'][class='btn btn-outline btn-danger btn-xs disabled']")
     end
   end
 end

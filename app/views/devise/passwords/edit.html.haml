@@ -1,15 +1,15 @@
 .row
   .col-xs-12.col-sm-6.col-sm-offset-3.form
-    .panel.panel-default
-      .panel-heading
-        %h4 ផ្លាស់ប្ដូរលេខសំងាត់របស់អ្នក / Change your password
-      .panel-body
-        = simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f|
+    .ibox.normal-space
+      = simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f|
+        .ibox-title.normal-space
+          %h5 ផ្លាស់ប្ដូរលេខសំងាត់របស់អ្នក / Change your password
+        .ibox-content
           = f.error_notification
           = f.input :reset_password_token, as: :hidden
           = f.full_error :reset_password_token
           .form-inputs
             = f.input :password, label: 'លេខកូដថ្មី / New password', required: true, autofocus: true, hint: ("អប្បបរមា៨តួអក្សរ / #{@minimum_password_length} characters minimum" if @minimum_password_length)
             = f.input :password_confirmation, label: 'បញ្ជាក់លេខកូដសំងាត់ថ្មី / Confirm your new password', required: true
-          .form-actions
-            = f.button :submit, 'ផ្លាស់ប្ដូរលេខសំងាត់របស់ខ្ញុំ / Change my password', class: 'btn btn-primary'
+        .ibox-footer
+          = f.submit 'ផ្លាស់ប្ដូរលេខសំងាត់របស់ខ្ញុំ / Change my password', class: 'btn btn-outline btn-primary'

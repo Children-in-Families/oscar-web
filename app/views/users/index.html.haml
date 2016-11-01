@@ -5,7 +5,7 @@
         %i.glyphicon.glyphicon-filter
     .pull-right
       - if can? :manage, :all
-        = link_to "#{I18n.t('users.index.add_new_user')}", new_user_path, class: 'btn btn-outline btn-success'
+        = link_to "#{I18n.t('users.index.add_new_user')}", new_user_path, class: 'btn btn-outline btn-primary'
       = link_to "#{I18n.t('users.index.export_csv')}", current_url(format: 'csv'), class: 'btn btn-outline btn-info btn-export'
 .row.ibox-space
   .col-xs-12

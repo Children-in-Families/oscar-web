@@ -54,14 +54,13 @@ describe 'Task' do
     before do
       visit new_client_task_path(client)
     end
-    scenario 'valid' do
-      select domain.name, from: 'Domain'
+    scenario 'valid', js: true do
       fill_in 'Enter task details', with: FFaker::Name.name
       fill_in 'Completion Date', with: Date.today.strftime('%B %d, %Y')
       click_button 'Save'
       expect(page).to have_content('Task has successfully been created')
     end
-    scenario 'invalid' do
+    scenario 'invalid', js: true do
       click_button 'Save'
       expect(page).to have_content("Please review the problems below")
     end
@@ -71,19 +70,19 @@ describe 'Task' do
     before do
       visit edit_client_task_path(client, upcoming_task)
     end
-    scenario 'valid' do
+    scenario 'valid', js: true do
       fill_in 'Enter task details', with: FFaker::Name.name
       click_button 'Save'
       expect(page).to have_content('Task has successfully been updated')
     end
-    scenario 'invalid' do
+    scenario 'invalid', js: true do
       fill_in 'Enter task details', with: ''
       click_button 'Save'
       expect(page).to have_content("Please review the problems below")
     end
   end
 
-  feature 'Delete' do
+  feature 'Delete', js: true do
     before do
       visit client_tasks_path(client)
     end

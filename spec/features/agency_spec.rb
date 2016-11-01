@@ -18,7 +18,7 @@ describe 'Agency' do
       expect(page).to have_link('Add New Agency', new_agency_path)
     end
     scenario 'edit link' do
-      expect(page).to have_link(nil, href: edit_agency_path(agency))
+      expect(page).to have_css("i[class='fa fa-pencil']")
     end
     scenario 'delete link' do
       expect(page).to have_css("a[href='#{agency_path(agency)}'][data-method='delete']")
@@ -27,38 +27,51 @@ describe 'Agency' do
 
   feature 'Create' do
     before do
-      visit new_agency_path
+      visit agencies_path
     end
-    scenario 'valid' do
-      fill_in 'Name', with: FFaker::Name.name
-      click_button 'Save'
+    scenario 'valid', js: true do
+      click_link 'Add New Agency'
+      within("#new_agency") do
+        fill_in 'Name', with: FFaker::Name.name
+        click_button 'Save'
+      end
       expect(page).to have_content('Agency has been successfully created')
     end
-    scenario 'invalid' do
-      click_button 'Save'
-      expect(page).to have_content("can't be blank")
+
+    scenario 'invalid', js: true do
+      click_link 'Add New Agency'
+      within('#new_agency') do
+        click_button 'Save'
+      end
+      expect(page).to have_content("Failed to create an agency")
     end
   end
 
-  feature 'Edit' do
+  feature 'Edit', js: true do
     let!(:name){ FFaker::Name.name }
     before do
-      visit edit_agency_path(agency)
+      visit agencies_path()
     end
     scenario 'valid' do
-      fill_in 'Name', with: name
-      click_button 'Save'
+      find("a[data-target='#agencyModal-#{agency.id}']").click
+      within("#agencyModal-#{agency.id}") do
+        fill_in 'Name', with: name
+        click_button 'Save'
+      end
       expect(page).to have_content('Agency has been successfully updated')
       expect(page).to have_content(name)
     end
     scenario 'invalid' do
-      fill_in I18n.t('agencies.form.name'), with: ''
-      click_button 'Save'
-      expect(page).to have_content("can't be blank")
+      find("a[data-target='#agencyModal-#{agency.id}']").click
+      within("#agencyModal-#{agency.id}") do
+        fill_in I18n.t('agencies.form.name'), with: ''
+        click_button 'Save'
+      end
+      expect(page).to have_content('Failed to update an agency')
     end
   end
 
-  feature 'Delete' do
+  feature 'Delete', js: true do
     before do
       visit agencies_path
     end
@@ -67,7 +80,7 @@ describe 'Agency' do
       expect(page).to have_content('Agency has been successfully deleted')
     end
     scenario 'disable link' do
-      expect(page).not_to have_css("a[href='#{agency_path(other_agency)}'][data-method='delete']")
+      expect(page).to have_css("a[href='#{agency_path(other_agency)}'][data-method='delete'][class='btn btn-outline btn-danger btn-xs disabled']")
     end
   end
 end
