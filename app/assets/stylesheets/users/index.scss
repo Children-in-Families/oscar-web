@@ -2,9 +2,7 @@
   #user-search-form {
     margin-top: 20px;
   }
-  th.id {
-    min-width: 70px;
-  }
+
   td.manage a {
     margin: 0 5px;
     text-decoration: none;
@@ -14,6 +12,16 @@
     margin-bottom: 0;
     th {
       border-bottom-width: 0;
+      min-width: 170px;
+    }
+    th.id {
+      min-width: 70px;
+    }
+    th.email {
+      min-width: 200px;
+    }
+    th.manage {
+      min-width: 100px;
     }
   }
 

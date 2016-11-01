@@ -14,6 +14,22 @@
               %i.fa.fa-users.fa-3x
       .row
         .col-xs-12.text-center
+          - if ec_manageable
+            =link_to clients_path("client_grid[status]":"Active KC") do
+              - if current_user.ec_manager?
+                .widget.col-xs-12.col-md-12.p-lg.widget-client-ec-panel{class: user_dashboard_responsive(current_user)}
+                  .m-b-md
+                    %h1.m-xs
+                      #{@dashboard.ec_count}
+                    %h5.font-bold.no-margins
+                      = t('.emergency_cares')
+              - else
+                .widget.col-xs-12.col-md-4.no-pad.widget-client-ec-panel{class: user_dashboard_responsive(current_user)}
+                  .m-b-md
+                    %h1.m-xs
+                      #{@dashboard.ec_count}
+                    %h5.font-bold.no-margins
+                      = t('.emergency_cares')
           - if fc_manageable
             =link_to clients_path("client_grid[status]":"Active FC") do
               - if current_user.fc_manager?
@@ -46,22 +62,6 @@
                       #{@dashboard.kc_count}
                     %h5.font-bold.no-margins
                       = t('.kinship_cares')
-          - if ec_manageable
-            =link_to clients_path("client_grid[status]":"Active KC") do
-              - if current_user.ec_manager?
-                .widget.col-xs-12.col-md-12.p-lg.widget-client-ec-panel{class: user_dashboard_responsive(current_user)}
-                  .m-b-md
-                    %h1.m-xs
-                      #{@dashboard.ec_count}
-                    %h5.font-bold.no-margins
-                      = t('.emergency_cares')
-              - else
-                .widget.col-xs-12.col-md-4.no-pad.widget-client-ec-panel{class: user_dashboard_responsive(current_user)}
-                  .m-b-md
-                    %h1.m-xs
-                      #{@dashboard.ec_count}
-                    %h5.font-bold.no-margins
-                      = t('.emergency_cares')
           - if current_user.able_manager?
             =link_to clients_path("client_grid[able_state]":"Accepted") do
               .widget.col-xs-12.col-md-12.p-lg.widget-client-ec-panel{class: user_dashboard_responsive(current_user)}
