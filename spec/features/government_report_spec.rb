@@ -11,13 +11,13 @@ describe "government_report" do
       visit new_client_government_report_path(client)
     end
 
-    scenario 'valid' do
+    scenario 'valid', js: true do
       fill_in I18n.t('government_reports.form.code'), with: FFaker::Lorem.words.first
       click_button I18n.t('.save')
       expect(page).to have_content(I18n.t('government_reports.create.successfully_created'))
     end
 
-    scenario  'invalid' do
+    scenario  'invalid', js: true do
       click_button I18n.t('.save')
       expect(page).to have_content(I18n.t('activerecord.errors.models.government_report.attributes.code.blank'))
       expect(page).not_to have_content(I18n.t('.successfully_created'))

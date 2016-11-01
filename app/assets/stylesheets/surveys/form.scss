@@ -2,9 +2,7 @@ body[id='surveys-new'],
 body[id='surveys-create'],
 body[id='surveys-edit'],
 body[id='surveys-update'] {
-  .panel-body {
-    padding: 30px;
-  }
+  
   .form-group.radio_buttons {
     padding: 10px;
   }
@@ -14,12 +12,19 @@ body[id='surveys-update'] {
       margin-left: 5px;
     }
     .radio.inline label input{
-      margin-top: 0;
+      margin-top: -3px;
     }  
   }
+  .margin-static{
+    margin-left: 15px;
+    margin-top: -3px;
+  }
+  .user-name{
+    color: #999a9b !important;
+  }
 
-  .survey-note input {
-    margin: 0 5px 0 20px;
+  .iradio_square-green{
+    margin-right: 10px;
   }
   .strongly-agree {
     margin-left: 20px;

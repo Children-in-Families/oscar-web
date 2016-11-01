@@ -2,7 +2,6 @@
   @import 'iCheck/custom';
   #client-search-form {
     margin-top: 16px;
-    margin-bottom: 16px;
   }
   .export-client{
     margin-top: -16px;
@@ -14,17 +13,13 @@
     margin: 2px 0 2px 0;
   }
   #client-statistic{
-    margin-top: 16px;
-  }
-  #client-statistic{
-    margin: 0px 0px 16px 5px;
+    margin-left: 10px;
   }
   #client-statistic-body{
     display: none;
+    margin-bottom: 0;
   }
-  .statistic{
-    margin-bottom: -18px;
-  }
+  
   .table {
     th, td.gender, td.status, td.follow_up_date, td.date_of_birth, td.grade, td.has_been_in_orphanage, td.has_been_in_government_care, td.initial_referral_date, td.referral_phone, td.able, td.birth_province, td.province, td.state, td.case_start_date, td.carer_phone_number td.support_amount, td.family_preservation, td.cases {
       text-align: center;
@@ -116,4 +111,11 @@
   .date_filter {
     padding: 6px;
   }
+
+  .dataTables_scrollBody,
+  table.clients,
+  .dataTables_scrollHeadInner {
+    width: 100% !important;
+  }
+
 }

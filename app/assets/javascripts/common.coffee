@@ -17,6 +17,7 @@ CIF.Common =
   customCheckBox: ->
     $('.i-checks').iCheck
       checkboxClass: 'icheckbox_square-green'
+      radioClass: 'iradio_square-green'
 
   menuDropDownClick: ->
     $('#side-menu').metisMenu()
@@ -45,7 +46,6 @@ CIF.Common =
     }
     messageInfo = $("#wrapper").data()
     if Object.keys(messageInfo).length > 0
-      console.log messageInfo.messageType
       if messageInfo.messageType == 'notice'
         toastr.success(messageInfo.message, 'Notification', messageOption)
       else if messageInfo.messageType == 'alert'

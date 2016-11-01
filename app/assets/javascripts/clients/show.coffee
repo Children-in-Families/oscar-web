@@ -2,6 +2,9 @@ CIF.ClientsShow = do ->
   _init = ->
     _rejectModal()
     _exitModalValidate()
+    _initSelect2()
+  _initSelect2 = ->
+    $('select').select2()
 
   _rejectModal = ->
     note = $('#client_rejected_note').val()

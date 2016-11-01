@@ -55,11 +55,10 @@ describe 'Case' do
   end
 
   feature 'Create' do
-    scenario 'valid' do
+    scenario 'valid', js: true do
       visit new_client_case_path(client, case_type: 'FC')
       fill_in 'Carer Name', with: 'Carer Name'
       fill_in 'Start Date', with: FFaker::Time.date
-      select family.name, from: 'Family'
       click_button 'Save'
       expect(page).to have_content('Case has been successfully created')
       expect(page).to have_content('Foster Care')
@@ -74,11 +73,11 @@ describe 'Case' do
 
     scenario 'case type' do
       visit new_client_case_path(client, case_type: 'FC')
-      case_type = page.first('#case_case_type').text
-      expect(case_type).to have_content('FC')
+      value = page.find(:css, '#case_case_type').value()
+      expect(value).to have_content('FC')
     end
 
-    scenario 'EC without family' do
+    scenario 'EC without family', js: true do
       visit new_client_case_path(client, case_type: 'EC')
       fill_in 'Carer Names', with: FFaker::Name.name
       fill_in 'Start Date', with: FFaker::Time.date
@@ -94,7 +93,7 @@ describe 'Case' do
       visit edit_client_case_path(client, active_case)
     end
 
-    scenario 'valid' do
+    scenario 'valid', js: true do
       fill_in 'Carer Names', with: 'Carer Name'
       click_button 'Save'
       expect(page).to have_content('Case has been successfully updated')
@@ -110,13 +109,14 @@ describe 'Case' do
     end
 
     def fill_in
+      page.find("button[data-target='#exitFromCase']").click
       modal = find(:css, '#exitFromCase')
       modal.find('.exit_date').set(Date.strptime(FFaker::Time.date).strftime('%B %d, %Y'))
       modal.find('.exit_note').set(FFaker::Lorem.paragraph)
       modal.find('input[type="submit"][value="Exit"]').click
     end
 
-    scenario 'success' do
+    scenario 'success', js: true do
       expect(page).to have_content('Case has been successfully updated')
     end
 

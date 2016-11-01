@@ -1,68 +1,54 @@
 .row
-  .col-xs-12.col-md-8.col-md-offset-2
-    .panel.panel-info
-      .panel-heading
-        .row
-          .col-xs-6
-            %h4= t('.survey_detail')
-          .col-xs-6
-            %h4.pull-right= @survey.created_at
-      .panel-body
-        .panel.panel-default
-          .panel-heading
-            .row
-              .col-xs-10
-                %p= t('.listening_score')
-              .col-xs-2
-                %p= @survey.listening_score
-        .panel.panel-default
-          .panel-heading
-            .row
-              .col-xs-10
-                %p= t('.problem_solving_score')
-              .col-xs-2
-                %p= @survey.problem_solving_score
-        .panel.panel-default
-          .panel-heading
-            .row
-              .col-xs-10
-                %p= t('.getting_in_touch_score')
-              .col-xs-2
-                %p= @survey.getting_in_touch_score
-        .panel.panel-default
-          .panel-heading
-            .row
-              .col-xs-10
-                %p= t('.trust_score')
-              .col-xs-2
-                %p= @survey.trust_score
-        .panel.panel-default
-          .panel-heading
-            .row
-              .col-xs-10
-                %p= t('.difficulty_help_score')
-              .col-xs-2
-                %p= @survey.difficulty_help_score
-        .panel.panel-default
-          .panel-heading
-            .row
-              .col-xs-10
-                %p= t('.support_score')
-              .col-xs-2
-                %p= @survey.support_score
-        .panel.panel-default
-          .panel-heading
-            .row
-              .col-xs-10
-                %p= t('.family_need_score')
-              .col-xs-2
-                %p= @survey.family_need_score
-        .panel.panel-default
-          .panel-heading
-            .row
-              .col-xs-10
-                %p= t('.care_score')
-              .col-xs-2
-                %p= @survey.care_score
-      .panel-footer
+  .col-xs-12
+    .ibox
+      .ibox-title
+        %h5= t('.survey_detail')
+        %h5.pull-right= @survey.created_at
+      .ibox-content
+        %table.table
+          %thead
+            %tr
+              %th= t('.survey_question')
+              %th.text-center= t('.survey_answer')
+          %tbody
+            %tr
+              %td= t('.listening_score')
+              %td.text-center
+                .badge.badge-info= @survey.listening_score
+            %tr
+              %td= t('.problem_solving_score')
+              %td.text-center
+                .badge.badge-info
+                  = @survey.problem_solving_score
+            %tr
+              %td= t('.getting_in_touch_score')
+              %td.text-center
+                .badge.badge-info
+                  = @survey.getting_in_touch_score
+            %tr
+              %td= t('.trust_score')
+              %td.text-center
+                .badge.badge-info
+                  = @survey.trust_score
+            %tr
+              %td= t('.difficulty_help_score')
+              %td.text-center
+                .badge.badge-info
+                  = @survey.difficulty_help_score
+            %tr
+              %td= t('.support_score')
+              %td.text-center
+                .badge.badge-info
+                  = @survey.support_score
+            %tr
+              %td= t('.family_need_score')
+              %td.text-center
+                .badge.badge-info
+                  = @survey.family_need_score
+            %tr
+              %td= t('.care_score')
+              %td.text-center
+                .badge.badge-info
+                  = @survey.care_score
+      .ibox-footer
         = link_to t('.back'), client_surveys_path(@client), class: 'btn btn-default btn-back'

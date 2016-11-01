@@ -1,9 +1,17 @@
 .row
-  .col-xs-12.col-md-8.col-md-offset-2
-    .panel.panel-default
-      .panel-heading
-        %h4.text-center= t('.case_note_lists')
-      .panel-body
+  .col-xs-12
+    .ibox
+      .ibox-title
+        %h5= t('.case_note_lists')
+      .ibox-content
+        .row
+          .col-xs-12
+            = link_to t('.back'), client_path(@client), { class: 'btn btn-default button' }
+            - if @client.can_create_case_note?
+              = link_to t('.new_case_note'), new_client_case_note_path(@client), { class: 'btn btn-primary btn-outline button' }
+            - else
+              .btn.btn-default.disabled.btn-back-default
+                = t('.you_need_to_create_assessment')
         - @case_notes.each do |case_note|
           .panel.panel-info.pushing-top
             .panel-heading
@@ -18,34 +26,27 @@
                     .panel.panel-default
                       .panel-body
                         .row
-                          .col-xs-2
-                            %h5= cdg.domain_group.domain_identities
+                          .col-xs-4.col-md-3
+                            %p= cdg.domain_group.domain_identities
                             - cdg.domain_group.domains.each do |domain|
                               - ad = domain.assessment_domains.find_by(assessment_id: case_note.assessment_id)
-                              %div.label{class: "label-#{ad.score_color_class} label-lg"}= ad.score
-                          .col-xs-10
+                              %div.margin-score.label{class: "label-#{ad.score_color_class} label-lg"}= ad.score
+                          .col-xs-8.col-md-9
                             - if cdg.note.present?
-                              .panel.panel-default
-                                .panel-heading
+                              .ibox.border-left-right.border-bottom
+                                .ibox-title
                                   %h5 Notes:
-                                .panel-body
+                                .ibox-content
                                   = cdg.note
                             - if cdg.tasks.completed.any?
-                              .panel.panel-default
-                                .panel-heading
+                              .ibox.border-left-right.border-bottom
+                                .ibox-title
                                   %h5= t('.completed_tasks')
-                                .panel-body
+                                .ibox-content
                                   - cdg.tasks.completed.each_with_index do |task, index|
                                     .task
                                       %span= "#{index + 1}. "
                                       = task.name
-
-        = link_to t('.back'), client_path(@client), { class: 'btn btn-default button' }
-        - if @client.can_create_case_note?
-          = link_to t('.new_case_note'), new_client_case_note_path(@client), { class: 'btn btn-success button' }
-        - else
-          %label.btn.btn-default.disabled.button
-            = t('.you_need_to_create_assessment')
 .row
   .col-xs-12.text-center
     = will_paginate(@case_notes, renderer: BootstrapPagination::Rails)

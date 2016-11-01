@@ -12,5 +12,6 @@
             = f.input :name, label: t('.name')
             = f.input :description, input_html: { rows: '10' }, label: t('.description')
         .modal-footer
-          = f.submit t('.save') , class: 'btn btn-outline btn-primary form-btn'
-          %button.btn.btn-outline.btn-default{"data-dismiss" => "modal", :type => "button"} Close
+          .pull-left
+            = f.submit t('.save') , class: 'btn btn-primary form-btn'
+            %button.btn.btn-outline.btn-default{"data-dismiss" => "modal", :type => "button"} Close

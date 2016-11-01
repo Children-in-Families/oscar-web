@@ -69,16 +69,12 @@ CIF.ClientsIndex = do ->
     $('.columns-visibility').click (e) ->
       e.stopPropagation()
 
-    checkboxes = $('.all-visibility #all_')
-    checkboxes.change ->
-      if checkboxes.is(':checked')
-        $('.visibility input[type=checkbox]').each ->
-          $(@).prop('checked', true)
-          $(@).change ->
-            checkboxes.prop('checked', false)
-      else
-        $('.visibility input[type=checkbox]').each ->
-          $(@).prop('checked', false)
+    allCheckboxes = $('.all-visibility #all_')
+
+    allCheckboxes.on 'ifChecked', ->
+      $('.visibility input[type=checkbox]').iCheck('check')
+    allCheckboxes.on 'ifUnchecked', ->
+      $('.visibility input[type=checkbox]').iCheck('uncheck')
 
   _fixedHeaderTableColumns = ->
     if !$('table.clients tbody tr td').hasClass('noresults')

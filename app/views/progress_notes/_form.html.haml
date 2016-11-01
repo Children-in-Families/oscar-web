@@ -1,5 +1,5 @@
 = simple_form_for([@client, @progress_note]) do |f|
-  .panel-body
+  .ibox-content
     = error_notification(f)
     .row
       .col-xs-12.col-md-4
@@ -38,7 +38,7 @@
       .col-xs-12.col-md-4
         = f.input :additional_note, as: :ckeditor, input_html: { class: 'form-control' }, label: t('.additional_notes')
 
-  .panel-footer
+  .ibox-footer
     .form-actions
-      = f.button :submit, t('save'), class: 'btn btn-primary form-btn'
+      = f.submit t('save'), class: 'btn btn-primary form-btn'
       = link_to t('cancel'), client_progress_notes_path(@client), class: 'btn btn-default form-btn'

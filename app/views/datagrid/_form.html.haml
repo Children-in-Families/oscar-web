@@ -12,7 +12,7 @@
             .all-visibility.col-sm-12
               = check_box_tag 'all_', 'all', checked = params['all_'].present?, class: 'i-checks'
               = label_tag 'all_' do
-                %strong= t('datagrid.columns.hide_show_all')
+                %strong= t('datagrid.columns.show_all')
 
           - grid.filters.each do |f|
             - next if f.name == :has_date_of_birth || f.name == :quantitative_data
@@ -112,6 +112,6 @@
               = f.datagrid_filter filter, partials: options[:partials]
   .row
     .datagrid-actions
-      = f.submit I18n.t('datagrid.form.search').html_safe, class: 'btn btn-outline datagrid-submit'
+      = f.submit I18n.t('datagrid.form.search').html_safe, class: 'btn btn-primary datagrid-submit'
       - empty_parameter = Rails.version >= '4.1.0' && Rails.version <= '4.1.2' ? nil : {}
       = link_to I18n.t('datagrid.form.reset').html_safe, url_for(grid.to_param => empty_parameter), :class => 'btn btn-outline datagrid-reset'

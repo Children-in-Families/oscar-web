@@ -16,14 +16,14 @@ describe CaseStatistic, 'statistic data' do
   let!(:kc_case){ create(:case, case_type: 'KC', client: kc_client, start_date: 1.month.ago) }
 
   it 'returns current active cases of clients with single case' do
-    data = [["Jul-16", "Aug-16", "Sep-16"], [{:name=>"Active EC", :data=>[2, nil, nil]}, {:name=>"Active FC", :data=>[nil, 2, nil]}, {:name=>"Active KC", :data=>[nil, nil, 2]}]]
+    data = [[3.months.ago.strftime("%b-%y"), 2.months.ago.strftime("%b-%y"), 1.month.ago.strftime("%b-%y")], [{:name=>"Active EC", :data=>[2, nil, nil]}, {:name=>"Active FC", :data=>[nil, 2, nil]}, {:name=>"Active KC", :data=>[nil, nil, 2]}]]
     statistic = CaseStatistic.new(Client.all)
     expect(statistic.statistic_data).to eq(data)
   end
 
   it 'returns current active cases of clients with multiple cases' do
     FactoryGirl.create(:case, case_type: 'FC', client: ec_client, start_date: 2.months.ago)
-    data = [["Aug-16", "Sep-16"], [{:name=>"Active FC", :data=>[3, nil]}, {:name=>"Active KC", :data=>[nil, 2]}]]
+    data = [[2.months.ago.strftime("%b-%y"), 1.months.ago.strftime("%b-%y")], [{:name=>"Active FC", :data=>[3, nil]}, {:name=>"Active KC", :data=>[nil, 2]}]]
     expect(CaseStatistic.new(Client.all).statistic_data).to eq(data)
   end
 

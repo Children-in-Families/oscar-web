@@ -1,14 +1,15 @@
 .row
   .col-xs-12
     .row
-      .col-md-5
-        %span.show-name= @client.name
+      .col-md-4
+        %span.show-name
+          = @client.name
         - if @client.status
           %span.show-status= status_style(@client.status)
         .client-info
           = @client.slug
-          = ", #{@client.gender.titleize if @client.gender.present?}"
-      .col-md-5
+          = @client.gender
+      .col-md-6
         %table.table.small.m-b-xs
           %tbody
             %tr
@@ -17,14 +18,14 @@
                 %strong= @client.care_code
               %td
                 = "#{t('.date_of_birth')} :"
-                %strong= @client.date_of_birth.strftime('%B %d, %Y') if @client.date_of_birth
+                %strong= @client.date_of_birth
             %tr
               %td
                 = "#{t('.age')} :"
-                %strong= "#{pluralize(@client.age_as_years, 'year')} #{pluralize(@client.age_extra_months, 'month')}" if @client.date_of_birth
+                %strong= @client.age
               %td
                 = "#{t('.current_province')} :"
-                %strong= @client.province.name if @client.province
+                %strong= @client.current_province
     .row
       - if @client.state == ''
         .col-xs-12.accept-layout
@@ -71,20 +72,21 @@
                 %span.caret
               %ul.dropdown-menu
                 - if @client.cases.current.blank?
-                  %li.text-success= case_button('EC') if @client.can_add_ec?
-                  %li.text-success= case_button('FC') if @client.can_add_fc?
-                  %li.text-success= case_button('KC') if @client.can_add_kc?
+                  %li.text-success= @client.ec_button
+                  %li.text-success= @client.fc_button
+                  %li.text-success= @client.kc_button
                 - else
                   - unless @client.cases.current.fc_or_kc?
-                    %li.text-success= case_button('FC') if @client.can_add_fc?
-                    %li.text-success= case_button('KC') if @client.can_add_kc?
+                    %li.text-success= @client.fc_button
+                    %li.text-success= @client.kc_button
 
                 - if @client.cases.active.any?
                   %li.divider
                   %li
                     %a{"data-target" => '#exitFromCif', "data-toggle" => 'modal'}
                       .text-warning= t('.exit_cif_btn')
-                  = render 'exit_case_form', client_case: @client.cases.active.last, exit_from_cif: true
+            - if @client.cases.active.any?
+              = render 'exit_case_form', client_case: @client.cases.active.last, exit_from_cif: true
 
           = link_to client_tasks_path(@client) do
             %span.btn-xs.btn.btn-primary.mini-margin
@@ -119,7 +121,7 @@
                 %li
                   - if @client.cases.fosters.inactive.present? && fc_manageable
                     = link_to client_cases_path(@client, case_type: 'FC') do
-                      %span.text-success= t('.view_kc_history_btn_link')
+                      %span.text-success= t('.view_fc_history_btn_link')
                 %li
                   - if @client.cases.kinships.inactive.present? && kc_manageable
                     = link_to client_cases_path(@client, case_type: 'KC') do
@@ -168,49 +170,49 @@
                   = t('.birth_province')
                 %td
                   %strong
-                    = "#{@client.birth_province.name}" if @client.birth_province
+                    = @client.birth_province
               %tr
                 %td.spacing-first-col
                   = t('.time_in_care')
                 %td
                   %strong
-                    = t('.time_in_care_around', count: @client.time_in_care) if @client.time_in_care
+                    = @client.time_in_care
               %tr
                 %td.spacing-first-col
                   = t('.initial_referral_date')
                 %td
                   %strong
-                    = @client.initial_referral_date.strftime('%B %d, %Y') if @client.initial_referral_date
+                    = @client.referral_date
               %tr
                 %td.spacing-first-col
                   = t('.referral_source')
                 %td
                   %strong
-                    = @client.referral_source.name if @client.referral_source
+                    = @client.referral_source
               %tr
                 %td.spacing-first-col
                   = t('.referral_phone')
                 %td
                   %strong
-                    = @client.referral_phone.phony_formatted(normalize: :KH, format: :international) if @client.referral_phone
+                    = @client.referral_phone
               %tr
                 %td.spacing-first-col
                   = t('.received_by')
                 %td
                   %strong
-                    = user @client.received_by if @client.received_by
+                    = user @client.received_by
               %tr
                 %td.spacing-first-col
                   = t('.followed_up_by')
                 %td
                   %strong
-                    = user @client.followed_up_by if @client.followed_up_by
+                    = user @client.followed_up_by
               %tr
                 %td.spacing-first-col
                   = t('.follow_up_date')
                 %td
                   %strong
-                    = @client.follow_up_date.strftime('%B %d, %Y') if @client.follow_up_date
+                    = @client.follow_up_date
 
           .col-sm-12.col-md-6.second-table
             %table.table.table-bordered

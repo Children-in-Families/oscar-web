@@ -1,14 +1,13 @@
 body[id=case_notes-index] {
-  .label {
+  .margin-score {
     display: inline-block;
-    font-size: 16px;
-    &:last-child {
-      margin-left: 20px;
-    }
+    font-size: 20px;
+    margin-left: 20px;
   }
 
   .button {
     min-width:100px;
+    margin-right: 10px;
   }
 
   .pushing-top {

@@ -45,13 +45,11 @@ describe 'Client' do
       login_as(admin)
       visit clients_path
     end
-    scenario 'CSI Domain Score', js: true do
+    scenario 'Domain Score Statistic and Case Type Statistic', js: true do
+      page.find("#client-statistic").click
       sleep 1
       expect(page).to have_content(I18n.t('clients.index.csi_domain_scores'))
-    end
-    xscenario 'Case Type Statistic', js: true do
-      sleep 1
-      expect(page).to have_content(I18n.t('clients.index.client_amount'))
+      expect(page).to have_content(I18n.t('clients.index.case_statistics'))
     end
   end
 
@@ -94,38 +92,38 @@ describe 'Client' do
       login_as(user)
       visit new_client_path
     end
-    scenario 'valid' do
+    scenario 'valid', js: true do
       fill_in 'Name', with: FFaker::Name.name
       click_button 'Save'
       expect(page).to have_content('Client has been successfully created')
     end
 
-    xscenario 'invalid' do
+    xscenario 'invalid', js: true do
       click_button 'Save'
       expect(page).to have_content("can't be blank")
     end
   end
 
-  feature 'Update' do
+  feature 'Update', js: true do
     let!(:client){ create(:client, user: user) }
     before do
       login_as(user)
       visit edit_client_path(client)
     end
-    scenario 'valid' do
+    scenario 'valid', js: true do
       fill_in 'Name', with: FFaker::Name.name
       click_button 'Save'
       expect(page).to have_content('Client has been successfully updated')
     end
 
-    xscenario 'invalid' do
+    xscenario 'invalid', js: true do
       fill_in 'Name', with: ''
       click_button 'Save'
       expect(page).to have_content("can't be blank")
     end
   end
 
-  feature 'Delete' do
+  feature 'Delete', js: true do
     let!(:client){ create(:client, user: user) }
     before do
       login_as(user)
@@ -156,10 +154,12 @@ describe 'Client' do
     before do
       login_as(user)
       visit client_path(client)
+      click_button 'Reject'
+
       fill_in 'Note', with: FFaker::Lorem.paragraph
       find("input[type='submit'][value='Reject']").click
     end
-    scenario 'successfully' do
+    scenario 'successfully', js: true do
       expect(page).to have_content('Client has been successfully updated')
     end
   end
@@ -205,32 +205,29 @@ describe 'Client' do
       end
 
       scenario 'All Panel' do
+        click_button (I18n.t('clients.show.add_client_to_case'))
         expect(page).to have_content('Emergency Care')
         expect(page).to have_content('Foster Care')
         expect(page).to have_content('Kinship Care')
       end
 
       scenario 'Emergency Info' do
-        panel = page.all(:css, '.case').select{ |p| p.find('.panel-body .h3-header').text.include?('Emergency Care')}.first
-
-        expect(panel).to have_content(emergency_case.start_date.strftime('%B %d, %Y'))
-        expect(panel).to have_content(emergency_case.carer_names)
-        expect(panel).to have_content(emergency_case.carer_phone_number)
+        
+        expect(page).to have_content(emergency_case.start_date.strftime('%B %d, %Y'))
+        expect(page).to have_content(emergency_case.carer_names)
+        expect(page).to have_content(emergency_case.carer_phone_number)
       end
 
       scenario 'Foster Info' do
-        panel = page.all(:css, '.case').select{ |p| p.find('.panel-body .h3-header').text.include?('Foster Care')}.first
-
-        expect(panel).to have_content(foster_case.carer_address)
-        expect(panel).to have_content(foster_case.province.name)
-        expect(panel).to have_content(ActionController::Base.helpers.number_to_currency(foster_case.support_amount))
+        expect(page).to have_content(foster_case.carer_address)
+        expect(page).to have_content(foster_case.province.name)
+        expect(page).to have_content(ActionController::Base.helpers.number_to_currency(foster_case.support_amount))
       end
 
       scenario 'Kinship Info' do
-        panel = page.all(:css, '.case').select{ |p| p.find('.panel-body .h3-header').text.include?('Kinship Care')}.first
 
-        expect(panel).to have_content(foster_case.support_note)
-        expect(panel).to have_content(foster_case.partner.name)
+        expect(page).to have_content(foster_case.support_note)
+        expect(page).to have_content(foster_case.partner.name)
       end
 
     end
@@ -397,15 +394,16 @@ describe 'Client' do
     end
     scenario 'Exit Button' do
       button = find("button[data-target='#exitFromCase']")
-      expect(button.text).to have_content('Exit')
+      expect(button).to have_css('.fa-times')
     end
-    scenario 'Note' do
-      modal = find(:css, '#exitFromCase')
+    scenario 'Note', js: true do
+      page.find("button[data-target='#exitFromCase']").click
+      page.find(:css, '#exitFromCase')
 
-      modal.find('.exit_date').set(Date.strptime(FFaker::Time.date).strftime('%B %d, %Y'))
-      modal.find('.exit_note').set(FFaker::Lorem.paragraph)
-      modal.find("input[type='submit'][value='Exit']").click
-
+      page.find('.exit_date').set(Date.strptime(FFaker::Time.date).strftime('%B %d, %Y'))
+      page.find('.exit_note').set(FFaker::Lorem.paragraph)
+      page.find("input[type='submit'][value='Exit']").click
+      sleep 1
       expect(page).to have_content('Case has been successfully updated')
     end
   end

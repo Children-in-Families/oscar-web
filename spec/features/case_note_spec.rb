@@ -70,7 +70,7 @@ describe 'CaseNote' do
     end
 
     scenario 'case note score' do
-      expect(page.find('.label')).to have_content assessment_domain.score
+      expect(page).to have_content assessment_domain.score
     end
 
     scenario 'case note content' do

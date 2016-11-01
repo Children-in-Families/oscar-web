@@ -41,7 +41,7 @@ describe 'Domain Group' do
       within('#new_domain_group') do
         click_button 'Save'
       end
-      expect(page).to have_content('Failed to create a domain group')
+      expect(page).to have_content('Failed to create a domain group.')
     end
   end
 
