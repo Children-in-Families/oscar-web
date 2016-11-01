@@ -36,43 +36,54 @@ describe 'ProgressNoteType' do
     end
   end
 
-  feature 'Create' do
+  feature 'Create', js: true do
     before do
-      visit new_progress_note_type_path
+      visit progress_note_types_path
     end
 
     scenario 'valid' do
-      fill_in I18n.t('progress_note_types.form.note_type'), with: FFaker::Lorem.word
-      click_button I18n.t('progress_note_types.form.save')
+      click_link('New Type of Note')
+      within('#new_progress_note_type') do
+        fill_in I18n.t('progress_note_types.form.note_type'), with: FFaker::Lorem.word
+        click_button I18n.t('progress_note_types.form.save')
+      end
       expect(page).to have_content(I18n.t('progress_note_types.create.successfully_created'))
     end
 
     scenario 'invalid' do
-      click_button I18n.t('progress_note_types.form.save')
-      expect(page).to have_content("can't be blank")
+      click_link('New Type of Note')
+      within('#new_progress_note_type') do
+        click_button I18n.t('progress_note_types.form.save')
+      end
+      expect(page).to have_content('Failed to create a type of note.')
     end
   end
 
-  feature 'Edit' do
+  feature 'Edit', js: true do
     let!(:note_type) { FFaker::Lorem.word }
     let!(:other_progress_note_type) { create(:progress_note_type, note_type: 'Progress Note') }
     before do
-      visit edit_progress_note_type_path(progress_note_type)
+      visit progress_note_types_path
     end
     scenario 'valid' do
-      fill_in I18n.t('progress_note_types.form.note_type'), with: note_type
-      click_button I18n.t('progress_note_types.form.save')
+      find("a[data-target='#progress_note_typeModal-#{other_progress_note_type.id}']").click
+      within("#progress_note_typeModal-#{other_progress_note_type.id}") do
+        fill_in I18n.t('progress_note_types.form.note_type'), with: note_type
+        click_button I18n.t('progress_note_types.form.save')
+      end
       expect(page).to have_content(I18n.t('progress_note_types.update.successfully_updated'))
       expect(page).to have_content(note_type)
     end
     scenario 'invalid' do
-      fill_in I18n.t('progress_note_types.form.note_type'), with: 'Progress Note'
-      click_button I18n.t('progress_note_types.form.save')
-      expect(page).to have_content(I18n.t('activerecord.errors.models.progress_note_type.attributes.note_type.taken'))
+      find("a[data-target='#progress_note_typeModal-#{other_progress_note_type.id}']").click
+      within("#progress_note_typeModal-#{other_progress_note_type.id}") do
+        click_button I18n.t('progress_note_types.form.save')
+      end
+      expect(page).to have_content('Type of Note has been successfully updated.')
     end
   end
 
-  feature 'Delete' do
+  feature 'Delete', js: true do
     before do
       visit progress_note_types_path
     end
@@ -82,7 +93,7 @@ describe 'ProgressNoteType' do
     end
 
     scenario 'does not succeed' do
-      expect(page).not_to have_css("a[href='#{progress_note_type_path(used_progress_note_type)}'][data-method='delete']")
+      expect(page).to have_css("a[href='#{progress_note_type_path(used_progress_note_type)}'][data-method='delete'][class='btn btn-outline btn-danger btn-xs disabled']")
     end
   end
 end

@@ -1,14 +1,10 @@
 class QuantitativeTypesController < AdminController
   load_and_authorize_resource
 
-  before_action :find_quantitative_type, only: [:edit, :update, :destroy]
+  before_action :find_quantitative_type, only: [:update, :destroy]
 
   def index
     @quantitative_types = QuantitativeType.all.paginate(page: params[:page], per_page: 10)
-  end
-
-  def new
-    @quantitative_type = QuantitativeType.new
   end
 
   def create
@@ -16,18 +12,15 @@ class QuantitativeTypesController < AdminController
     if @quantitative_type.save
       redirect_to quantitative_types_path, notice: t('.successfully_created')
     else
-      render :new
+      redirect_to quantitative_types_path, alert: t('.failed_create')
     end
-  end
-
-  def edit
   end
 
   def update
     if @quantitative_type.update_attributes(quantitative_type_params)
       redirect_to quantitative_types_path, notice: t('.successfully_updated')
     else
-      render :edit
+      redirect_to quantitative_types_path, alert: t('.failed_update')
     end
   end
 
@@ -36,7 +29,7 @@ class QuantitativeTypesController < AdminController
       @quantitative_type.destroy
       redirect_to quantitative_types_path, notice: t('.successfully_deleted')
     else
-      redirect_to quantitative_types_url, alert: t('.alert')
+      redirect_to quantitative_types_path, alert: t('.failed_delete')
     end
   end
 

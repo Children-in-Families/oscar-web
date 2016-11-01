@@ -14,46 +14,58 @@ describe 'Province' do
       expect(page).to have_content(province.name)
     end
     scenario 'edit link' do
-      expect(page).to have_link(nil, href: edit_province_path(province))
+      expect(page).to have_css("i[class='fa fa-pencil']")
     end
     scenario 'delete link' do
       expect(page).to have_css("a[href='#{province_path(province)}'][data-method='delete']")
     end
   end
 
-  feature 'Create' do
+  feature 'Create', js: true do
     before do
-      visit new_province_path
+      visit provinces_path
     end
     scenario 'valid' do
-      fill_in 'Name', with: FFaker::Name.name
-      click_button 'Save'
+      click_link('Add New Province')
+      within('#new_province') do
+        fill_in 'Name', with: FFaker::Name.name
+        click_button 'Save'
+      end
       expect(page).to have_content('Province has been successfully created')
     end
     scenario 'invalid' do
-      click_button 'Save'
-      expect(page).to have_content("can't be blank")
+      click_link('Add New Province')
+      within('#new_province') do
+        click_button 'Save'
+      end
+      expect(page).to have_content('Failed to create a province.')
     end
   end
 
-  feature 'Edit' do
+  feature 'Edit', js: true do
     let!(:name){ FFaker::Name.name }
     before do
-      visit edit_province_path(province)
+      visit provinces_path
     end
     scenario 'valid' do
-      fill_in 'Name', with: name
-      click_button 'Save'
+      find("a[data-target='#provinceModal-#{province.id}']").click
+      within("#provinceModal-#{province.id}") do
+        fill_in 'Name', with: name
+        click_button 'Save'
+      end
       expect(page).to have_content('Province has been successfully updated')
     end
     scenario 'invalid' do
-      fill_in 'Name', with: ''
-      click_button 'Save'
-      expect(page).to have_content("can't be blank")
+      find("a[data-target='#provinceModal-#{province.id}']").click
+      within("#provinceModal-#{province.id}") do
+        fill_in 'Name', with: ''
+        click_button 'Save'
+      end
+      expect(page).to have_content('Failed to update a province.')
     end
   end
 
-  feature 'Delete' do
+  feature 'Delete', js: true do
     before do
       visit provinces_path
     end
@@ -62,7 +74,7 @@ describe 'Province' do
       expect(page).to have_content('Province has been successfully deleted')
     end
     scenario 'disable delete' do
-      expect(page).not_to have_css("a[href='#{province_path(other_province, locale: I18n.locale)}'][data-method='delete']")
+      expect(page).to have_css("a[href='#{province_path(other_province, locale: I18n.locale)}'][data-method='delete'][class='btn btn-outline btn-danger btn-xs disabled']")
     end
   end
 end

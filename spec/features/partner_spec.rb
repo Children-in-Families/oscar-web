@@ -27,7 +27,8 @@ describe 'Partner' do
       expect(page).to have_link(partner.name, href: partner_path(partner))
     end
   end
-  feature 'Create' do
+
+  feature 'Create', js: true do
     before do
       visit new_partner_path
     end
@@ -42,7 +43,7 @@ describe 'Partner' do
       expect(page).to have_content("can't be blank")
     end
   end
-  feature 'Edit' do
+  feature 'Edit', js: true do
     before do
       visit edit_partner_path(partner)
     end
@@ -54,7 +55,7 @@ describe 'Partner' do
     end
     xscenario 'invalid'
   end
-  feature 'Delete' do
+  feature 'Delete', js: true do
     before do
       visit partners_path
     end
@@ -63,11 +64,11 @@ describe 'Partner' do
       expect(page).to have_content('Partner has been successfully deleted')
     end
     scenario 'unsuccess' do
-      expect(page).not_to have_css("a[href='#{partner_path(other_partner)}'][data-method='delete']")
+      expect(page).to have_css("a[href='#{partner_path(other_partner)}'][class='btn btn-outline btn-danger btn-xs disabled']")
     end
   end
 
-  feature 'Show' do
+  feature 'Show', js: true do
     before do
       visit partner_path(partner)
     end
@@ -82,7 +83,7 @@ describe 'Partner' do
     end
     scenario 'disable delete link' do
       visit partner_path(other_partner)
-      expect(page).not_to have_css("a[href='#{partner_path(other_partner)}'][data-method='delete']")
+      expect(page).to have_css("a[href='#{partner_path(other_partner)}'][data-method='delete'][class='btn btn-outline btn-danger btn-xs disabled']")
     end
   end
 end

@@ -12,7 +12,7 @@ class ReferralSourcesController < AdminController
     if @referral_source.save
       redirect_to referral_sources_path, notice: t('.successfully_created')
     else
-      render :new
+      redirect_to referral_sources_path, alert: t('.failed_create')
     end
   end
 
@@ -20,7 +20,7 @@ class ReferralSourcesController < AdminController
     if @referral_source.update_attributes(referral_source_params)
       redirect_to referral_sources_path, notice: t('.successfully_updated')
     else
-      redirect_to referral_sources_path
+      redirect_to referral_sources_path, alert: t('.failed_update')
     end
   end
 
@@ -29,7 +29,7 @@ class ReferralSourcesController < AdminController
       @referral_source.destroy
       redirect_to referral_sources_url, notice: t('.successfully_deleted')
     else
-      redirect_to referral_sources_url, alert: t('.alert')
+      redirect_to referral_sources_path, alert: t('.failed_delete')
     end
   end
 

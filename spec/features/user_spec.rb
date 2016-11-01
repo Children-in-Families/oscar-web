@@ -9,7 +9,7 @@ describe 'User' do
     login_as(admin)
   end
 
-  feature 'Delete' do
+  feature 'Delete', js: true do
     before do
       visit users_path
     end
@@ -19,7 +19,8 @@ describe 'User' do
     end
 
     scenario 'does not succeed' do
-      expect(page).not_to have_css("a[href='#{user_path(used_user)}'][data-method='delete']")
+      expect(page).to have_css("a[href='#{user_path(used_user)}'][data-method='delete'][class='btn btn-outline btn-danger btn-xs disabled']")
     end
   end
+
 end

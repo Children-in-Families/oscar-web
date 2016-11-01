@@ -917,10 +917,13 @@ en:
       cancel: Cancel
     create:
       successfully_created: Province has been successfully created.
+      failed_create: Failed to create a province.
     update:
       successfully_updated: Province has been successfully updated.
+      failed_update: Failed to update a province.
     destroy:
       successfully_deleted: Province has been successfully deleted.
+      failed_delete: Failed to destroy a province.
       alert: Province cannot be deleted.
 
   referral_sources:
@@ -942,10 +945,13 @@ en:
       cancel: Cancel
     create:
       successfully_created: Referral Source has been successfully created.
+      failed_create: Failed to create a referral source.
     update:
       successfully_updated: Referral Source has been successfully updated.
+      failed_update: Failed to update a referral source.
     destroy:
       successfully_deleted: Referral Source has been successfully deleted.
+      failed_delete: Failed to delete a referral source.
       alert: Referral Source cannot be deleted.
 
   quantitative_types:
@@ -964,10 +970,13 @@ en:
       cancel: Cancel
     create:
       successfully_created: Quantitative Type has been successfully created.
+      failed_create: Failed to create a quantitative type.
     update:
       successfully_updated: Quantitative Type has been successfully updated.
+      failed_update: Failed to update a quantitative type.
     destroy:
       successfully_deleted: Quantitative Type has been successfully deleted.
+      failed_delete: Failed to delete a quantitative type.
       alert: Quantitative Type cannot be deleted.
 
   quantitative_cases:
@@ -1302,10 +1311,13 @@ en:
       cancel: Cancel
     create:
       successfully_created: Equipment/Material has been successfully created.
+      failed_create: Failed to create an Equipment/Material
     update:
       successfully_updated: Equipment/Material has been successfully updated.
+      failed_update: Failed to update an Equipment/Material
     destroy:
       successfully_deleted: Equipment/Material has been successfully deleted.
+      failed_delete: Failed to delete an Equipment/Material
       unsuccessfully_deleted: Equipment/Material cannot be deleted.
 
   locations:
@@ -1325,10 +1337,13 @@ en:
       cancel: Cancel
     create:
       successfully_created: Location has been successfully created.
+      failed_create: Failed to create a location.
     update:
       successfully_updated: Location has been successfully updated.
+      failed_update: Failed to update a location.
     destroy:
       successfully_deleted: Location has been successfully deleted.
+      failed_delete: Failed to delete a location.
       unsuccessfully_deleted: Location cannot be deleted.
 
   progress_note_types:
@@ -1348,10 +1363,13 @@ en:
       cancel: Cancel
     create:
       successfully_created: Type of Note has been successfully created.
+      failed_create: Failed to create a type of note.
     update:
       successfully_updated: Type of Note has been successfully updated.
+      failed_update: Failed to update a type of note.
     destroy:
       successfully_deleted: Type of Note has been successfully deleted.
+      failed_delete: Failed to delete a type of note.
       unsuccessfully_deleted: Type of Note cannot be deleted.
 
   interventions:

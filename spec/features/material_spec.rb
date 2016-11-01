@@ -36,43 +36,55 @@ describe 'Material' do
     end
   end
 
-  feature 'Create' do
+  feature 'Create', js: true do
     before do
-      visit new_material_path
+      visit materials_path
     end
 
     scenario 'valid' do
-      fill_in I18n.t('materials.form.status'), with: FFaker::Lorem.word
-      click_button I18n.t('materials.form.save')
+      click_link('Add New Equipment/Material')
+      within('#new_material') do
+        fill_in I18n.t('materials.form.status'), with: FFaker::Lorem.word
+        click_button I18n.t('materials.form.save')
+      end
       expect(page).to have_content(I18n.t('materials.create.successfully_created'))
     end
 
     scenario 'invalid' do
-      click_button I18n.t('materials.form.save')
-      expect(page).to have_content("can't be blank")
+      click_link('Add New Equipment/Material')
+      within('#new_material') do
+        click_button I18n.t('materials.form.save')
+      end
+      expect(page).to have_content('Failed to create an Equipment/Material')
     end
   end
 
-  feature 'Edit' do
+  feature 'Edit', js: true do
     let!(:status) { FFaker::Name.name }
     let!(:other_material) { create(:material, status: 'Loan') }
     before do
-      visit edit_material_path(material)
+      visit materials_path
     end
     scenario 'valid' do
-      fill_in I18n.t('materials.form.status'), with: status
-      click_button I18n.t('materials.form.save')
+      find("a[data-target='#materialModal-#{other_material.id}']").click
+      within("#materialModal-#{other_material.id}") do
+        fill_in I18n.t('materials.form.status'), with: status
+        click_button I18n.t('materials.form.save')
+      end
       expect(page).to have_content(I18n.t('materials.update.successfully_updated'))
       expect(page).to have_content(status)
     end
     scenario 'invalid' do
-      fill_in I18n.t('materials.form.status'), with: 'Loan'
-      click_button I18n.t('materials.form.save')
-      expect(page).to have_content(I18n.t('activerecord.errors.models.material.attributes.status.taken'))
+      find("a[data-target='#materialModal-#{other_material.id}']").click
+      within("#materialModal-#{other_material.id}") do
+        fill_in I18n.t('materials.form.status'), with: ''
+        click_button I18n.t('materials.form.save')
+      end
+      expect(page).to have_content('Failed to update an Equipment/Material')
     end
   end
 
-  feature 'Delete' do
+  feature 'Delete', js: true do
     before do
       visit materials_path
     end
@@ -82,7 +94,7 @@ describe 'Material' do
     end
 
     scenario 'does not succeed' do
-      expect(page).not_to have_css("a[href='#{material_path(used_material)}'][data-method='delete']")
+      expect(page).to have_css("a[href='#{material_path(used_material)}'][data-method='delete'][class='btn btn-outline btn-danger btn-xs disabled']")
     end
   end
 end

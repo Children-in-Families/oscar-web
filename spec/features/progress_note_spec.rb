@@ -79,17 +79,17 @@ feature 'progress_note' do
     end
   end
 
-  feature 'Create' do
+  feature 'Create', js: true do
     before do
       visit new_client_progress_note_path(client)
     end
 
     scenario 'valid' do
       fill_in I18n.t('progress_notes.form.date'), with: FFaker::Time.date
-      select progress_note_type.note_type, from: I18n.t('progress_notes.form.progress_note_type')
-      select location.name, from: I18n.t('progress_notes.form.location')
-      select intervention.action, from: I18n.t('progress_notes.form.interventions')
-      select material.status, from: I18n.t('progress_notes.form.material')
+      # select progress_note_type.note_type, from: I18n.t('progress_notes.form.progress_note_type')
+      # select location.name, from: I18n.t('progress_notes.form.location')
+      # select intervention.action, from: I18n.t('progress_notes.form.interventions')
+      # select material.status, from: I18n.t('progress_notes.form.material')
 
       click_button I18n.t('progress_notes.form.save')
       expect(page).to have_content(I18n.t('progress_notes.create.successfully_created'))
@@ -101,7 +101,7 @@ feature 'progress_note' do
     end
   end
 
-  feature 'Edit' do
+  feature 'Edit', js: true do
     before do
       visit edit_client_progress_note_path(progress_note.client, progress_note)
     end
@@ -119,7 +119,7 @@ feature 'progress_note' do
     end
   end
 
-  feature 'Delete' do
+  feature 'Delete', js: true do
     before do
       visit client_progress_notes_path(progress_note.client)
     end
