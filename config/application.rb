@@ -23,6 +23,7 @@ module CifWeb
 
     # Autoload path
     config.autoload_paths << "#{Rails.root}/lib"
+    config.autoload_paths << Rails.root.join('app/classes')
 
     # Override rails template engine: erb to haml
     config.generators do |g|

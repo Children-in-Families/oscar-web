@@ -1,20 +1,19 @@
 class Assessment < ActiveRecord::Base
-  belongs_to :client
 
+  belongs_to :client
   has_many :assessment_domains, dependent: :destroy
   has_many :domains,            through:   :assessment_domains
   has_many :case_notes,         dependent: :destroy
 
   validates :client, presence: true
-
-  accepts_nested_attributes_for :assessment_domains
-
-  scope :most_recents, -> { order(created_at: :desc) }
-
   validate :must_be_six_month_period, if: :new_record?
   validate :only_latest_record_can_be_updated
 
   before_save :set_previous_score
+
+  accepts_nested_attributes_for :assessment_domains
+
+  scope :most_recents, -> { order(created_at: :desc) }
 
   def self.latest_record
     most_recents.first
@@ -30,7 +29,7 @@ class Assessment < ActiveRecord::Base
 
   def populate_notes
     Domain.all.each do |domain|
-      assessment_domains.build(domain_id: domain.id)
+      assessment_domains.build(domain: domain)
     end
   end
 
@@ -45,14 +44,14 @@ class Assessment < ActiveRecord::Base
   private
 
   def must_be_six_month_period
-    if new_record? && client.present?
-      errors.add(:base, 'Assessment cannot be created before 6 months') unless client.can_create_assessment?
+    if new_record? && client.present? && !client.can_create_assessment?
+      errors.add(:base, 'Assessment cannot be created before 6 months')
     end
   end
 
   def only_latest_record_can_be_updated
-    if persisted?
-      errors.add(:base, 'Assessment cannot be updated') unless latest_record?
+    if persisted? && !latest_record?
+      errors.add(:base, 'Assessment cannot be updated')
     end
   end
 

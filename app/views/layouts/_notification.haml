@@ -1,35 +1,35 @@
 %li.dropdown
   %a.dropdown-toggle.count-info{"data-toggle" => "dropdown", :href => "#"}
     %i.fa.fa-bell
-    - if @notification_count.positive?
-      %span.label.label-primary= @notification_count
+    - if @notification.count.positive?
+      %span.label.label-primary= @notification.count
   %ul.dropdown-menu.dropdown-alerts
-    - if @overdue_tasks.any?
+    - if @notification.any_overdue_tasks?
       %li
         %div
           = link_to tasks_path do
             %i.fa.fa-tasks.fa-fw
-            = t('.overdue_tasks_count', count: @overdue_tasks.count)
+            = t('.overdue_tasks_count', count: @notification.overdue_tasks_count)
       %li.divider
-    - if @due_today_tasks.any?
+    - if @notification.any_due_today_tasks?
       %li
         %div
           = link_to tasks_path do
             %i.fa.fa-tasks.fa-fw
-            = t('.due_today_tasks_count', count: @due_today_tasks.count)
+            = t('.due_today_tasks_count', count: @notification.due_today_tasks_count)
       %li.divider
-    - unless @overdue_assessments_count.zero?
+    - if @notification.any_overdue_assessments?
       %li
         %div.notify-margin
           %i.fa.fa-tasks.fa-fw
-          = t('.overdue_assessments_count', count: @overdue_assessments_count)
+          = t('.overdue_assessments_count', count: @notification.overdue_assessments_count)
       %li.divider
-    - unless @due_today_assessments_count.zero?
+    - if @notification.any_due_today_assessments?
       %li
         %div.notify-margin
           %i.fa.fa-tasks.fa-fw
-          = t('.due_today_assessments_count', count: @due_today_assessments_count)
-    - if @notification_count.zero?
+          = t('.due_today_assessments_count', count: @notification.due_today_assessments_count)
+    - if @notification.count.zero?
       %li
         %div.notify-margin
         %p.text-center

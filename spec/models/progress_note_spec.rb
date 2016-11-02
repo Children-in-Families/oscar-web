@@ -46,7 +46,7 @@ describe ProgressNote, 'methods' do
   let!(:other_location){ create(:location, name: FFaker::Address.city) }
   let!(:progress_note){ create(:progress_note, location: location) }
   let!(:other_progress_note){ create(:progress_note, location: other_location) }
-  context 'is_other_location' do
+  context 'other_location?' do
     it 'shoud be true' do
       expect(progress_note.is_other_location).to be_truthy
     end

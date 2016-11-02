@@ -6,7 +6,6 @@ class Client < ActiveRecord::Base
 
   CLIENT_STATUSES = ['Referred', 'Active EC', 'Active KC', 'Active FC', 'Independent - Monitored', 'Exited - Deseased', 'Exited - Age Out', 'Exited Independent', 'Exited Adopted', 'Exited Other'].freeze
   ABLE_STATES = %w(Accepted Rejected Discharged).freeze
-
   EXIT_STATUSES   = CLIENT_STATUSES.select { |status| status if status.include?('Exited') }
 
   belongs_to :referral_source,  counter_cache: true
