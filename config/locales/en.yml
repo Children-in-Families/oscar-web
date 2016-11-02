@@ -1210,9 +1210,9 @@ en:
   home:
     client:
       clients: Clients
-      foster_cares: Foster Cares
-      kinship_cares:  Kinship Cares
-      emergency_cares: Emergency Cares
+      foster_cares_html: Foster <br/>Cares
+      kinship_cares_html:  Kinship <br/>Cares
+      emergency_cares_html: Emergency <br/>Cares
       males: Males
       females: Females
       ables: Ables

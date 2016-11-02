@@ -11,41 +11,41 @@
                 = t('.clients')
               %br
               %br
-              %i.fa.fa-users.fa-3x
+              %i.fa.fa-child.fa-3x
       .row
         .col-xs-12.text-center
           - if ec_manageable
-            =link_to clients_path("client_grid[status]":"Active KC") do
+            =link_to clients_path("client_grid[status]":"Active EC") do
               - if current_user.ec_manager?
                 .widget.col-xs-12.col-md-12.p-lg.widget-client-ec-panel{class: user_dashboard_responsive(current_user)}
                   .m-b-md
                     %h1.m-xs
                       #{@dashboard.ec_count}
                     %h5.font-bold.no-margins
-                      = t('.emergency_cares')
+                      = t('.emergency_cares_html')
               - else
                 .widget.col-xs-12.col-md-4.no-pad.widget-client-ec-panel{class: user_dashboard_responsive(current_user)}
                   .m-b-md
                     %h1.m-xs
                       #{@dashboard.ec_count}
                     %h5.font-bold.no-margins
-                      = t('.emergency_cares')
+                      = t('.emergency_cares_html')
           - if fc_manageable
             =link_to clients_path("client_grid[status]":"Active FC") do
               - if current_user.fc_manager?
-                .widget.col-xs-12.col-md-12.p-lg.widget-client-fc-panel{class: user_dashboard_responsive(current_user)}
+                .widget.col-xs-12.col-md-12.widget-client-fc-panel{class: user_dashboard_responsive(current_user)}
                   .m-b-md
                     %h1.m-xs
                       #{@dashboard.fc_count}
                     %h5.font-bold.no-margins
-                      = t('.foster_cares')
+                      = t('.foster_cares_html')
               - else
                 .widget.col-xs-12.col-md-4.widget-client-fc-panel{class: user_dashboard_responsive(current_user)}
                   .m-b-md
                     %h1.m-xs
                       #{@dashboard.fc_count}
                     %h5.font-bold.no-margins
-                      = t('.foster_cares')
+                      = t('.foster_cares_html')
           - if kc_manageable
             =link_to clients_path("client_grid[status]":"Active KC") do
               - if current_user.kc_manager?
@@ -54,14 +54,14 @@
                     %h1.m-xs
                       #{@dashboard.kc_count}
                     %h5.font-bold.no-margins
-                      = t('.kinship_cares')
+                      = t('.kinship_cares_html')
               - else
                 .widget.col-xs-12.col-md-4.widget-client-kc-panel{class: user_dashboard_responsive(current_user)}
                   .m-b-md
                     %h1.m-xs
                       #{@dashboard.kc_count}
                     %h5.font-bold.no-margins
-                      = t('.kinship_cares')
+                      = t('.kinship_cares_html')
           - if current_user.able_manager?
             =link_to clients_path("client_grid[able_state]":"Accepted") do
               .widget.col-xs-12.col-md-12.p-lg.widget-client-ec-panel{class: user_dashboard_responsive(current_user)}
@@ -71,41 +71,27 @@
                   %h5.font-bold.no-margins
                     = t('.ables')
 
-        .col-xs-12.col-md-6.text-center
+        .col-xs-12.text-center
           =link_to clients_path("client_grid[gender]":"Male") do
-            .widget.style1.widget-client-male-panel{class: ('col-sm-12' if current_user.able_manager? || current_user.any_case_manager?) }
-              .row.vertical-align
-                .col-xs-3
-                  %h2.font-bold #{@dashboard.male_count}
-                .col-xs-9.text-right
-                  %span
-                    = t('.males')
-                  %br
-                  %br
-                  %i.fa.fa-male.fa-3x
-        .col-xs-12.col-md-6.text-center
+            .widget.col-xs-12.col-md-4.widget-client-male-panel{class: ('col-md-6' if current_user.able_manager? || current_user.any_case_manager?) }
+              .m-b-md
+                %h1.m-xs
+                  #{@dashboard.male_count}
+                %h5.font-bold.no-margins
+                  = t('.males')
           =link_to clients_path("client_grid[gender]":"Female") do
-            .widget.style1.widget-client-female-panel{class: ('col-sm-12' if current_user.able_manager? || current_user.any_case_manager?) }
-              .row.vertical-align
-                .col-xs-3
-                  %h2.font-bold #{@dashboard.female_count}
-                .col-xs-9.text-right
-                  %span
-                    = t('.females')
-                  %br
-                  %br
-                  %i.fa.fa-female.fa-3x
+            .widget.col-xs-12.col-md-4.no-pad.widget-client-female-panel{class: ('col-md-6' if current_user.able_manager? || current_user.any_case_manager?) }
+              .m-b-md
+                %h1.m-xs
+                  #{@dashboard.female_count}
+                %h5.font-bold.no-margins
+                  = t('.females')
 
-        - if current_user.admin? || current_user.case_worker?
-          .col-xs-12.text-center
+          - if current_user.admin? || current_user.case_worker?
             =link_to clients_path("client_grid[able_state]":"Accepted") do
-              .widget.style1.widget-client-able-panel{ class: ('top-spacing' if current_user.admin? || current_user.case_worker?)}
-                .row.vertical-align
-                  .col-xs-3
-                    %h2.font-bold #{@dashboard.able_count}
-                  .col-xs-9.text-right
-                    %span
-                      = t('.ables')
-                    %br
-                    %br
-                    %i.fa.fa-question-circle.fa-3x
+              .widget.col-xs-12.no-pad.widget-client-able-panel{ class: ('col-md-4' if current_user.admin? || current_user.case_worker?)}
+                .m-b-md
+                  %h1.m-xs
+                    #{@dashboard.able_count}
+                  %h5.font-bold.no-margins
+                    = t('.ables')

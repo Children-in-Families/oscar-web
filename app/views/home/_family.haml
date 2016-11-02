@@ -13,7 +13,7 @@
               %br
               %i.fa.fa-users.fa-3x
       =link_to families_path("family_grid[family_type]":"foster")do
-        .widget.col-xs-6.p-lg.widget-family-foster-panel
+        .widget.col-xs-6.widget-family-foster-panel
           .m-b-md
             %h1.m-xs #{@dashboard.foster_count}
             %h3.font-bold.no-margins
@@ -24,7 +24,7 @@
         -#   %h3.anti-link.float-right
         -#     %i= t('.foster')
       =link_to families_path("family_grid[family_type]":"kinship") do
-        .widget.col-xs-6.p-lg.widget-family-kinship-panel
+        .widget.col-xs-6.widget-family-kinship-panel
           .m-b-md
             %h1.m-xs #{@dashboard.kinship_count}
             %h3.font-bold.no-margins

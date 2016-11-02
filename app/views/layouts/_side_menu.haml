@@ -44,14 +44,14 @@
         - if can? :manage, Partner
           %li{class: "#{active_menu('partners')}"}
             = link_to partners_path do
-              = fa_icon('thumbs-up')
+              = fa_icon('handshake-o')
               %span.nav-label= t('.partners')
               %span.label.label-primary.pull-right= Partner.count
 
         - if can? :manage, User
           %li{class: "#{active_menu('users')}"}
             = link_to users_path do
-              = fa_icon('user')
+              = fa_icon('address-book-o')
               %span.nav-label= t('.users')
               %span.label.label-primary.pull-right= User.count
 
