@@ -9,10 +9,6 @@ describe Intervention, 'methods' do
   let!(:intervention){ create(:intervention) }
   let!(:used_intervention){ create(:intervention) }
   let!(:progress_note){ create(:progress_note, intervention_ids: used_intervention.id, location: location) }
-  context 'has_no_any_progress_notes?' do
-    it{ expect(intervention.has_no_any_progress_notes?).to be_truthy }
-    it{ expect(used_intervention.has_no_any_progress_notes?).to be_falsey }
-  end
 end
 
 describe Intervention, 'scopes' do

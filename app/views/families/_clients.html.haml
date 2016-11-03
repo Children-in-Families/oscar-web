@@ -1,5 +1,3 @@
-%ul.family-clients-list
-  - object.each do |object|
-    - if object.client
-      - name = object.client.name.present? ? object.client.name : 'Unknown'
-      %li= link_to name, client_path(object.client)
+.tooltip-demo
+  = link_to '#', {"data-container" => "body", "data-content" => "<div>#{family_clients_list(object)}</div>", "data-original-title" => "Family Members", "data-placement" => "top", "data-toggle" => "popover", :title => "Clients", :type => "button", 'data-html': "true"} do
+    = "Clients : #{object.cases.non_emergency.active.count}"

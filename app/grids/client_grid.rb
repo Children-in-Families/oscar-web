@@ -171,7 +171,7 @@ class ClientGrid
       scope.without_assessments
     end
   end
-  
+
   filter(:all_domains, :dynamic, select: ['All CSI'], header: -> { I18n.t('datagrid.columns.clients.domains') }) do |(field, operation, value), scope|
     value = value.to_i
     assessment_id = []
@@ -257,7 +257,7 @@ class ClientGrid
     value = value.to_i
     client_by_domain(operation, value, domain_id, scope)
   end
-  
+
   filter(:domain_6b, :dynamic, select: get_domain('6B'), header: -> { "#{I18n.t('datagrid.columns.clients.domain')} 6B (Work and Education)" }) do |(domain_id, operation, value), scope|
     value = value.to_i
     client_by_domain(operation, value, domain_id, scope)
@@ -306,7 +306,7 @@ class ClientGrid
 
   column(:reason_for_family_separation, header: -> { I18n.t('datagrid.columns.clients.reason_for_family_separation') }) do |object|
     object.quantitative_cases.where(quantitative_type_id: QuantitativeType.name_like('Reason for Family Separation').ids).pluck(:value).join(', ')
-  end  
+  end
 
   column(:follow_up_date, header: -> { I18n.t('datagrid.columns.clients.follow_up_date') }) do |object|
     format(object.follow_up_date) do |object_follow_up_date|

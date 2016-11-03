@@ -1,5 +1,5 @@
 class CaseStatistic
-  CLIENT_ACTIVE_STATUS = ['Active EC', 'Active FC', 'Active KC']
+  CLIENT_ACTIVE_STATUS = ['Active EC', 'Active FC', 'Active KC'].freeze
 
   def initialize(clients)
     @clients = clients
@@ -14,7 +14,7 @@ class CaseStatistic
     cases_by_case_type.each do |case_type, case_obj|
       data = {}
       cases_by_date = case_obj.group_by { |c| c.start_date.end_of_month.strftime "%b-%y" }
-      
+
       series, client_count = [], []
       client_count << case_type_count(case_type)
 
