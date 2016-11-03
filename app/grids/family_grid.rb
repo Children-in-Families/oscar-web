@@ -74,7 +74,7 @@ class FamilyGrid
   end
 
   column(:cases, html: true, order: false, header: -> { I18n.t('datagrid.columns.families.clients') }) do |object|
-    render partial: 'families/clients', locals: { object: object.cases.non_emergency.active }
+    render partial: 'families/clients', locals: { object: object }
   end
 
   column(:case_worker, html: true, header: -> { I18n.t('datagrid.columns.families.case_workers') }) do |object|

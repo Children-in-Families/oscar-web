@@ -1,5 +1,3 @@
-%ul.family-case-workers-list
-  - object.joins(:user).group_by(&:user_id).each do |a|
-    - user = User.find(a.first)
-    - name = user.name.present? ? user.name : 'Unknown'
-    %li= link_to name, user_path(user)
+.tooltip-demo
+  = link_to '#', {"data-container" => "body", "data-content" => "#{family_workers_list(object)}", "data-original-title" => "Family Members", "data-placement" => "top", "data-toggle" => "popover", :title => "Workers", :type => "button", 'data-html': true} do
+    = "Workers : #{object.count}"

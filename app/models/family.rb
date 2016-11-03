@@ -1,7 +1,8 @@
 class Family < ActiveRecord::Base
-  belongs_to :province, counter_cache: true
 
+  belongs_to :province, counter_cache: true
   has_many :cases
+  has_many :clients, through: :cases
 
   scope :name_like,                  -> (value) { where('LOWER(families.name) LIKE ?', "%#{value.downcase}%") }
 

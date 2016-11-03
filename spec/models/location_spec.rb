@@ -11,10 +11,6 @@ describe Location, 'methods' do
   let!(:location){ create(:location, name: 'ផ្សេងៗ Other') }
   let!(:used_location){ create(:location) }
   let!(:progress_note){ create(:progress_note, location: used_location) }
-  context 'has_no_any_progress_notes?' do
-    it{ expect(location.has_no_any_progress_notes?).to be_truthy }
-    it{ expect(used_location.has_no_any_progress_notes?).to be_falsey }
-  end
 
   context 'is_other?' do
     it{ expect(location.other_used).to eq(1) }

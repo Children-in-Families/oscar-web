@@ -1,13 +1,12 @@
 class CaseNote < ActiveRecord::Base
   belongs_to :client
   belongs_to :assessment
-
   has_many   :case_note_domain_groups, dependent: :destroy
   has_many   :domain_groups, through: :case_note_domain_groups
 
-  accepts_nested_attributes_for :case_note_domain_groups
-
   before_create :set_assessment
+
+  accepts_nested_attributes_for :case_note_domain_groups
 
   scope :most_recents, -> { order(created_at: :desc) }
 

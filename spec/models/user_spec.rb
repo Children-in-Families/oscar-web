@@ -183,10 +183,10 @@ describe User, 'methods' do
   end
 
   context 'assessment_either_overdue_or_due_today' do
-    it{ expect(case_worker.assessment_either_overdue_or_due_today).to eq([0,0]) }
-    it{ expect(second_case_worker.assessment_either_overdue_or_due_today).to eq([1,0]) }
-    it{ expect(third_case_worker.assessment_either_overdue_or_due_today).to eq([0,1]) }
-    it{ expect(fourth_case_worker.assessment_either_overdue_or_due_today).to eq([0,1]) }
-    it{ expect(fifth_case_worker.assessment_either_overdue_or_due_today).to eq([0,0]) }
+    it{ expect(case_worker.assessment_either_overdue_or_due_today).to eq({overdue_count: 0, due_today_count: 0}) }
+    it{ expect(second_case_worker.assessment_either_overdue_or_due_today).to eq({overdue_count: 1, due_today_count: 0}) }
+    it{ expect(third_case_worker.assessment_either_overdue_or_due_today).to eq({overdue_count: 0, due_today_count: 1}) }
+    it{ expect(fourth_case_worker.assessment_either_overdue_or_due_today).to eq({overdue_count: 0, due_today_count: 1}) }
+    it{ expect(fifth_case_worker.assessment_either_overdue_or_due_today).to eq({overdue_count: 0, due_today_count: 0}) }
   end
 end

@@ -16,7 +16,7 @@ class ProgressNote < ActiveRecord::Base
   before_save :toggle_other_location
 
   def toggle_other_location
-    if location_id.present? && !is_other_location
+    if location.present? && !is_other_location
       self.other_location = ''
     else
       self.other_location = self.other_location
@@ -24,7 +24,7 @@ class ProgressNote < ActiveRecord::Base
   end
 
   def is_other_location
-    other_location_id = Location.find_by(name: 'ផ្សេងៗ Other').id
-    location_id == other_location_id
+    other_location = Location.find_by(name: 'ផ្សេងៗ Other')
+    location == other_location
   end
 end
