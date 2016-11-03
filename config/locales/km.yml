@@ -1084,9 +1084,10 @@ km:
         domain: កត្តា
       new:
         title: កាតព្វកិច្ចថ្មីសំរាប់
-        new_task_regarding: កាតព្វកិច្ចទាក់ទង់៖
+        new_task_regarding: កាតព្វកិច្ចទាក់ទង៖
       edit:
         title: ពិនិត្យកែសម្រួលកាតព្វកិច្ចសំរាប់
+        new_task_regarding: កាតព្វកិច្ចទាក់ទង៖
       form:
         domain: កត្តា
         enter_task_detail:  កាតព្វកិច្ចលំអិត

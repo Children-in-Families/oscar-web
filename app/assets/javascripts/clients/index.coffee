@@ -149,4 +149,8 @@ CIF.ClientsIndex = do ->
           $('#client_grid_quantitative_data').append '<option value="' + data[index].id + '">' + data[index].value + '</option>'
       error: (error) ->
 
+  window.onload = ->
+    $('.dataTables_scrollBody').niceScroll()
+    $('.table-responsive').niceScroll()
+
   { init: _init }

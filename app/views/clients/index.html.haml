@@ -40,11 +40,8 @@
           %a.fullscreen-link
             %i.fa.fa-expand
       .ibox-content
-        - if @client_grid.assets.any?
-          = datagrid_table @client_grid, html: {class: 'table table-bordered table-striped table-hover clients'}
-        - else
-          .table-responsive
-            = datagrid_table @client_grid, html: {class: 'table table-bordered table-striped table-hover clients'}
+        .table-responsive
+          = datagrid_table @client_grid, html: {class: 'table table-bordered  table-striped table-hover clients' }
         .row
           .col-xs-12.text-center
             = will_paginate @client_grid.assets, renderer: BootstrapPagination::Rails
