@@ -18,7 +18,7 @@
                   = assessment.created_at.strftime("%B %d, %Y")
             .col-xs-12.col-sm-3
               = link_to client_assessment_path(@client, assessment) do
-                .btn.btn-outline.btn-info.button
+                .btn.btn-info.button
                   = t('.view_report')
         .row.margin-row
           .col-xs-12.col-sm-9
@@ -35,7 +35,7 @@
           .col-xs-12.col-sm-3
             - if @client.can_create_assessment?
               = link_to new_client_assessment_path(@client) do
-                .btn.btn-outline.btn-success.button
+                .btn.btn-success.button
                   = t('.begin_now')
             - else
               .btn.btn-default.button.disabled

@@ -16,6 +16,9 @@
 .datepicker.datepicker-dropdown.dropdown-menu{
   z-index: 330000 !important;
 }
+.ibox-title span{
+  font-size: 12px;
+}
 .select2-container-active .select2-choice, .select2-container-multi.select2-container-active .select2-choices{
   box-shadow: none !important;
   border: 1px solid #1ab394 !important;
@@ -124,8 +127,8 @@
 }
 
 .staging-identifier {
-  background-color: #C52F24;
-  .message {
+  background: #C52F24;
+  .message-staging {
     color: #fff;
     margin: 0;
     padding: 15px 0;

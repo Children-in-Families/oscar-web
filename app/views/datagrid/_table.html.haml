@@ -1,6 +1,6 @@
 - if grid.html_columns(*options[:columns]).any?
   = content_tag :table, options[:html] do
-    %thead
+    %thead.head-width
       = datagrid_header(grid, options)
     %tbody
       - if assets.any?

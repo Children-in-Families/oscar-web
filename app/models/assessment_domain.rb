@@ -1,6 +1,6 @@
 class AssessmentDomain < ActiveRecord::Base
 
-  SCORE_COLORS = { has_problem: 'warning', not_ideal: 'info', good: 'success',
+  SCORE_COLORS = { has_problem: 'warning', not_ideal: 'info', good: 'primary',
                     critical_problem: 'danger' }
 
   belongs_to :assessment

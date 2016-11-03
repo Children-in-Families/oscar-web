@@ -3,17 +3,16 @@
     .ibox
       .ibox-title
         %h5= t('.case_note_lists')
+        .ibox-tools
+          = link_to t('.back'), client_path(@client), { class: 'btn btn-default btn-back-default button' }
+          - if @client.can_create_case_note?
+            = link_to t('.new_case_note'), new_client_case_note_path(@client), { class: 'btn btn-primary button' }
+          - else
+            .btn.btn-default.disabled.btn-back-default
+              = t('.you_need_to_create_assessment')
       .ibox-content
-        .row
-          .col-xs-12
-            = link_to t('.back'), client_path(@client), { class: 'btn btn-default button' }
-            - if @client.can_create_case_note?
-              = link_to t('.new_case_note'), new_client_case_note_path(@client), { class: 'btn btn-primary btn-outline button' }
-            - else
-              .btn.btn-default.disabled.btn-back-default
-                = t('.you_need_to_create_assessment')
         - @case_notes.each do |case_note|
-          .panel.panel-info.pushing-top
+          .panel.panel-info
             .panel-heading
               %h4.pull-right
                 = t('.case_note_on')
