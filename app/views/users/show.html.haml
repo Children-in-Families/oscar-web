@@ -1,19 +1,24 @@
 .row
   .col-xs-12.user
-    .panel.panel-default
-      .panel-body
-        %h3.h3-header.pushing-bottom
-          = "#{t('.general_info')} #{@user.name}"
-          - if can? :manage, :all
-            %small.top-right-icon
-              = link_to edit_user_path(@user) do
-                = fa_icon('pencil')
-              - if @user.has_no_any_associated_objects?
-                = link_to @user, method: 'delete', data: { confirm: t('.are_you_sure') } do
-                  %i.glyphicon.glyphicon-trash
-              - else
-                %i.glyphicon.glyphicon-trash
+    .ibox
+      .ibox-title
         .row
+          .col-xs-12.col-sm-8
+            %h5= "#{t('.general_info')} #{@user.name}"
+          .col-xs-12.col-sm-4
+            .ibox-tools
+              %a.collapse-link
+                .btn.btn-outline.btn-primary
+                  %i.fa.fa-chevron-up
+              - if can? :manage, :all
+                %small
+                  = link_to edit_user_path(@user) do
+                    .btn.btn-outline.btn-success
+                      %i.fa.fa-pencil
+                  = remove_link(@user, {user_case: @user.cases_count}, 'btn-md')
+
+      .ibox-content
+        .row.user-summary
           .col-sm-12
             %table.table.table-bordered
               %tr
@@ -64,4 +69,5 @@
                   %strong
                     = @user.province.name if @user.province
 
+  .col-xs-12
     = render 'clients'

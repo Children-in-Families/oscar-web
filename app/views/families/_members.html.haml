@@ -20,5 +20,5 @@
 	- if params[:locale]=='km'
 		%li= "#{I18n.t('datagrid.columns.families.male_adult_count')} : #{object.male_adult_count.to_i}"
 	- elsif params[:locale]=='en'
-		%li= "#{I18n.t('datagrid.columns.families.male_adult_count')}#{'adult'.pluralize(object.male_adult_count.to_i)} : #{object.male_adult_count.to_i}"
+		%li= "#{I18n.t('datagrid.columns.families.male_adult_count')} #{'adult'.pluralize(object.male_adult_count.to_i)} : #{object.male_adult_count.to_i}"
 	%li= "#{I18n.t('datagrid.columns.families.member_count_total')} : #{object.member_count}"

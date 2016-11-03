@@ -1,15 +1,23 @@
 .row
   .col-xs-12.family
-    .panel.panel-default
-      .panel-body
-        %h3.h3-header.pushing-bottom
-          = "#{t('.general_info')} #{@family.name}"
-          - if can? :manage, Family
-            %small.top-right-icon
-              = link_to edit_family_path(@family) do
-                = fa_icon('pencil')
-              = remove_link(@family, {family_case: @family.cases_count})
+    .ibox
+      .ibox-title
+        .row
+          .col-xs-12.col-sm-8
+            %h5= "#{t('.general_info')} #{@family.name}"
+          .col-xs-12.col-sm-4
+            .ibox-tools
+              %a.collapse-link
+                .btn.btn-outline.btn-primary
+                  %i.fa.fa-chevron-up
+              - if can? :manage, Family
+                %small
+                  = link_to edit_family_path(@family) do
+                    .btn.btn-outline.btn-success
+                      %i.fa.fa-pencil
+                  = remove_link(@family, {family_case: @family.cases_count}, 'btn-md')
 
+      .ibox-content
         .row.family-summary
           .col-sm-12
             %table.table.table-bordered

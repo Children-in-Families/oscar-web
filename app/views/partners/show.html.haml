@@ -1,16 +1,26 @@
 .row
   .col-xs-12.partner
-    .panel.panel-default
-      .panel-body
-        %h3.h3-header.pushing-bottom
-          = "#{t('.general_info')} #{@partner.name}"
-          = "(#{@partner.organisation_type})" if @partner.organisation_type.present?
-          - if can? :manage, Partner
-            %small.top-right-icon
-              = link_to edit_partner_path(@partner) do
-                = fa_icon('pencil')
-              = remove_link(@partner, {partner_case: @partner.cases_count})
+    .ibox
+      .ibox-title
         .row
+          .col-xs-12.col-sm-8
+            %h5
+              = "#{t('.general_info')} #{@partner.name}"
+              = "(#{@partner.organisation_type})" if @partner.organisation_type.present?
+          .col-xs-12.col-sm-4
+            .ibox-tools
+              %a.collapse-link
+                .btn.btn-outline.btn-primary
+                  %i.fa.fa-chevron-up
+              - if can? :manage, Partner
+                %small
+                  = link_to edit_partner_path(@partner) do
+                    .btn.btn-outline.btn-success
+                      %i.fa.fa-pencil
+                  = remove_link(@partner, {partner_case: @partner.cases_count}, 'btn-md')
+
+      .ibox-content
+        .row.partner-summary
           .col-sm-12
             %table.table.table-bordered
               %tr
