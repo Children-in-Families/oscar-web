@@ -1,8 +1,6 @@
 class AssessmentDomain < ActiveRecord::Base
 
-  default_scope { joins(:domain).order('domains.name ASC') }
-
-  SCORE_COLORS = { has_problem: 'warning', not_ideal: 'info', good: 'success',
+  SCORE_COLORS = { has_problem: 'warning', not_ideal: 'info', good: 'primary',
                     critical_problem: 'danger' }
 
   belongs_to :assessment

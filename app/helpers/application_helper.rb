@@ -28,12 +28,12 @@ module ApplicationHelper
     when 1 then 'danger'
     when 2 then 'warning'
     when 3 then 'primary'
-    when 4 then 'success'
+    when 4 then 'primary'
     end
   end
 
   def status_style(status)
-    color = 'label-success'
+    color = 'label-primary'
     case status
     when 'Referred'
       color = 'label-danger'

@@ -32,6 +32,7 @@ describe AssessmentDomain, 'instance method' do
 
   context 'good?' do
     it 'should be true when score eq 4' do
+      Domain.last.update_attributes(score_4_color: 'primary')
       expect(good.good?).to be_truthy
     end
 
@@ -95,14 +96,14 @@ describe AssessmentDomain, 'instance method' do
     it { expect(critical_problem.score_color_class).to eq('danger') }
     it { expect(has_problem.score_color_class).to eq('warning') }
     it { expect(not_ideal.score_color_class).to eq('info') }
-    it { expect(good.score_color_class).to eq('success')}
+    it { expect(good.score_color_class).to eq('primary')}
   end
 
   context 'previous score color class' do
     it { expect(critical_problem.previous_score_color_class).to eq('danger') }
     it { expect(has_problem.previous_score_color_class).to eq('warning') }
     it { expect(not_ideal.previous_score_color_class).to eq('info') }
-    it { expect(good.previous_score_color_class).to eq('success')}
+    it { expect(good.previous_score_color_class).to eq('primary')}
   end
 end
 

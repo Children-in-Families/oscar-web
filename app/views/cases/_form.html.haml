@@ -12,7 +12,7 @@
           .input-group.date
             = f.text_field :start_date, class: 'date optional form-control date-picker', type: 'text', name: 'case[start_date]', id: 'case_start_date'
             %span.input-group-addon
-              %i.glyphicon.glyphicon-calendar
+              %i.fa.fa-calendar-check-o
         .col-xs-12.col-md-4= f.association :province, collection: @province, label: "#{t('.province')}"
         .col-xs-12.col-md-4= f.input :case_type, as: :string, label: "#{t('.case_type')}", default: params[:case_type], input_html: { readonly: 'readonly' }
       .row

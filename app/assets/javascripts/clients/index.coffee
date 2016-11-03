@@ -75,13 +75,12 @@ CIF.ClientsIndex = do ->
       $('.visibility input[type=checkbox]').iCheck('check')
     allCheckboxes.on 'ifUnchecked', ->
       $('.visibility input[type=checkbox]').iCheck('uncheck')
-
+      
   _fixedHeaderTableColumns = ->
     if !$('table.clients tbody tr td').hasClass('noresults')
       $('table.clients').DataTable(
         'sScrollY': 'auto'
         'sScrollX': true
-        'sScrollXInner': '100%'
         'bPaginate': false
         'bFilter': false
         'bInfo': false

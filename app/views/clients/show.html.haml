@@ -72,13 +72,13 @@
                 %span.caret
               %ul.dropdown-menu
                 - if @client.cases.current.blank?
-                  %li.text-success= @client.ec_button
-                  %li.text-success= @client.fc_button
-                  %li.text-success= @client.kc_button
+                  %li= @client.ec_button
+                  %li= @client.fc_button
+                  %li= @client.kc_button
                 - else
                   - unless @client.cases.current.fc_or_kc?
-                    %li.text-success= @client.fc_button
-                    %li.text-success= @client.kc_button
+                    %li= @client.fc_button
+                    %li= @client.kc_button
 
                 - if @client.cases.active.any?
                   %li.divider
@@ -89,21 +89,24 @@
               = render 'exit_case_form', client_case: @client.cases.active.last, exit_from_cif: true
 
           = link_to client_tasks_path(@client) do
-            %span.btn-xs.btn.btn-primary.mini-margin
+            %span.btn-xs.btn.btn-info.mini-margin
               %strong.count-margin= @client.tasks.incomplete.count
               = t('.view_tasks')
           = link_to client_assessments_path(@client) do
-            %span.btn-xs.btn.btn-primary.mini-margin
+            %span.btn-xs.btn.btn-info.mini-margin
               %strong.count-margin= @client.assessments.count
               = t('.view_assessments')
           = link_to client_case_notes_path(@client) do
-            %span.btn-xs.btn.btn-primary.mini-margin
+            %span.btn-xs.btn.btn-info.mini-margin
               %strong.count-margin= @client.case_notes.count
               = t('.view_case_notes')
           = link_to new_client_survey_path(@client) do
-            %span.btn-xs.btn.btn-primary.mini-margin= t('.take_survey')
+            %span.btn-xs.btn.btn-success.mini-margin= t('.take_survey')
+          - if @client.surveys.any?
+            = link_to client_surveys_path(@client) do
+              %span.btn-xs.btn.btn-success.mini-margin= t('.survey_history')
           = link_to client_government_reports_path(@client) do
-            %span.btn-xs.btn.btn-primary.mini-margin= t('.government_report')
+            %span.btn-xs.btn.btn-success.mini-margin= t('.government_report')
           - if @client.has_any_quarterly_reports?
             - if can? :manage, QuarterlyReport
               = link_to client_case_quarterly_reports_path(@client,@client.latest_case) do
@@ -126,9 +129,6 @@
                   - if @client.cases.kinships.inactive.present? && kc_manageable
                     = link_to client_cases_path(@client, case_type: 'KC') do
                       %span.text-success= t('.view_kc_history_btn_link')
-          - if @client.surveys.any?
-            = link_to client_surveys_path(@client) do
-              %span.btn-xs.btn.btn-warning.mini-margin= t('.survey_history')
           - if can_manage_client_progress_note?
             = link_to client_progress_notes_path(@client) do
               %span.btn-xs.btn.btn-warning.mini-margin= t('.progress_note')
