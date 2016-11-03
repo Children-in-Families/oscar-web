@@ -4,7 +4,7 @@ CIF.UsersShow = do ->
 
   _fixedHeaderTableColumns = ->
     $('table.clients').DataTable(
-      'sScrollY': '500px'
+      'sScrollY': 'auto'
       'sScrollX': true
       'sScrollXInner': '100%'
       'bPaginate': false

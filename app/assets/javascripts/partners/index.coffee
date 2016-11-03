@@ -5,7 +5,7 @@ CIF.PartnersIndex = do ->
   _fixedHeaderTableColumns = ->
     if !$('table.partners tbody tr td').hasClass('noresults')
       $('table.partners').DataTable(
-        'sScrollY': '500px'
+        'sScrollY': 'auto'
         'sScrollX': true
         'sScrollXInner': '100%'
         'bPaginate': false

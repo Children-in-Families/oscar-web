@@ -19,7 +19,7 @@
     display: none;
     margin-bottom: 0;
   }
-  
+
   .table {
     th, td.gender, td.status, td.follow_up_date, td.date_of_birth, td.grade, td.has_been_in_orphanage, td.has_been_in_government_care, td.initial_referral_date, td.referral_phone, td.able, td.birth_province, td.province, td.state, td.case_start_date, td.carer_phone_number td.support_amount, td.family_preservation, td.cases {
       text-align: center;
@@ -115,5 +115,8 @@
   table.clients,
   .dataTables_scrollHeadInner {
     width: 100% !important;
+  }
+  .dataTables_scrollBody {
+    max-height: 500px !important;
   }
 }
