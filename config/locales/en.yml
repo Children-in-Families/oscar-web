@@ -1034,6 +1034,7 @@ en:
         new_task_regarding: New Task Regarding
       edit:
         title: Edit Task
+        new_task_regarding: New Task Regarding
       form:
         domain: Domain
         enter_task_detail:  Enter task details

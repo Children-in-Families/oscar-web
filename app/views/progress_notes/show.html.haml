@@ -4,6 +4,9 @@
       .ibox-title
         %h5= @progress_note.date.strftime('%d %B, %Y')
         .ibox-tools
+          %a.collapse-link
+            .btn.btn-outline.btn-primary
+              %i.fa.fa-chevron-up
           = link_to edit_client_progress_note_path(@client, @progress_note) do
             .btn.btn-outline.btn-success
               = fa_icon('pencil')

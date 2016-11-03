@@ -10,7 +10,7 @@ CIF.ClientsIndex = do ->
     _formatReportxAxis()
     _handleCreateCaseReport()
     _handleCreateCsiDomainReport()
-    
+
   _reportOption = (data, title, yAxisTitle, element) ->
     if data != undefined
       $(element).highcharts
@@ -79,7 +79,7 @@ CIF.ClientsIndex = do ->
   _fixedHeaderTableColumns = ->
     if !$('table.clients tbody tr td').hasClass('noresults')
       $('table.clients').DataTable(
-        'sScrollY': '500px'
+        'sScrollY': 'auto'
         'sScrollX': true
         'sScrollXInner': '100%'
         'bPaginate': false
@@ -148,5 +148,9 @@ CIF.ClientsIndex = do ->
         $(data).each (index, value) ->
           $('#client_grid_quantitative_data').append '<option value="' + data[index].id + '">' + data[index].value + '</option>'
       error: (error) ->
+
+  window.onload = ->
+    $('.dataTables_scrollBody').niceScroll()
+    $('.table-responsive').niceScroll()
 
   { init: _init }

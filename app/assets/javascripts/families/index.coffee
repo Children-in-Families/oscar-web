@@ -5,7 +5,7 @@ CIF.FamiliesIndex = do ->
   _fixedHeaderTableColumns = ->
     if !$('table.families tbody tr td').hasClass('noresults')
       $('table.families').DataTable(
-        'sScrollY': '500px'
+        'sScrollY': 'auto'
         'sScrollX': true
         'sScrollXInner': '100%'
         'bPaginate': false

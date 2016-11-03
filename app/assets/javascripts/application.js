@@ -16,6 +16,7 @@
 //= require cocoon
 //= require datepicker
 //= require metisMenu/jquery.metisMenu.js
+//= require jquery.nicescroll.min
 
 // WRAPBOOTSTRAP
 //= require iCheck/icheck.min.js

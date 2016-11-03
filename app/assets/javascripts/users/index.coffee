@@ -5,7 +5,7 @@ CIF.UsersIndex = do ->
   _fixedHeaderTableColumns = ->
     if !$('table.users tbody tr td').hasClass('noresults')
       $('table.users').DataTable(
-        'sScrollY': '500px'
+        'sScrollY': 'auto'
         'sScrollX': true
         'sScrollXInner': '100%'
         'bPaginate': false
