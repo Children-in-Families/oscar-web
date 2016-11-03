@@ -1263,9 +1263,9 @@ km:
   home:
     client:
       clients: អតិថិជន
-      foster_cares: ករណី Foster
-      kinship_cares:  ករណី Kinship
-      emergency_cares: ករណី Emergency
+      foster_cares_html: ករណី <br/>Foster
+      kinship_cares_html:  ករណី <br/>Kinship
+      emergency_cares_html: ករណី <br/>Emergency
       males: ប្រុស
       females: ស្រី
       ables: Ables
