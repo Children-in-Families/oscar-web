@@ -11,3 +11,4 @@ Rails.application.config.assets.version = '1.0'
 
 # Rich text editor for the Domain
 Rails.application.config.assets.precompile += %w( ckeditor/* )
+Rails.application.config.assets.precompile += %w( vendor/assets/* )
