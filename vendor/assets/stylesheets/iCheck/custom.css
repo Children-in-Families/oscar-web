@@ -9,7 +9,7 @@
     padding: 0;
     width: 22px;
     height: 22px;
-    background: image-url(green.png) no-repeat;
+    background-image: image-url(green.png) no-repeat;
     border: none;
     cursor: pointer;
 }
