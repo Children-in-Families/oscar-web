@@ -414,8 +414,7 @@ en:
       families:
         <<: *default_family_fields
         name: Name
-        member_count: Member Count
-        member_count_total: Member Count Total
+        member_count: Family Members
         manage: Manage
         family_type: Family Type
         clients: Clients
@@ -423,6 +422,9 @@ en:
         family_preservation: Family Preservation?
         family_id: Family ID
         case_workers: Case Workers
+        male: Male
+        female: Female
+        total: Total
 
       partners:
         <<: *default_partner_fields
