@@ -1,0 +1,20 @@
+.navbar-top-links {
+  margin-right: auto;
+}
+
+.account-setting {
+  float: right;
+  ul {
+    margin-left: -188px;
+  }
+}
+
+.logged-in-user {
+  padding: 10px 20px 3px 20px;
+}
+
+@media (min-width: 768px) {
+  .navbar-top-links {
+    margin-right: 10px;
+  } 
+}

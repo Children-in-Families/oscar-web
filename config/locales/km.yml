@@ -498,6 +498,9 @@ km:
       locations: កន្លែង
       progress_note_types: កំណត់សំគាល់
       interventions: ចំនុចដែលត្រូវធ្វើ
+    top_navbar:
+      log_out: ចាកចេញ
+      edit_profile: កែសម្រួលពត៌មានផ្ទាល់ខ្លួន
 
   reports:
     index:

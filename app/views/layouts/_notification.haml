@@ -3,7 +3,7 @@
     %i.fa.fa-bell
     - if @notification.count.positive?
       %span.label.label-primary= @notification.count
-  %ul.dropdown-menu.dropdown-alerts
+  %ul.dropdown-menu.dropdown-alerts.animated.fadeInRight
     - if @notification.any_overdue_tasks?
       %li
         %div
