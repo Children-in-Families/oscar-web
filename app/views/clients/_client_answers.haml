@@ -7,8 +7,8 @@
         %h4#myModalLabel.modal-title= t('.client_able_answers')
       .modal-body
         - @ordered_client_answers.each do |answer|
-          %p= "Q: #{answer.able_screening_question.question}"
-          %p= "A: #{answer.description}"
+          %p= "#{t('.question')}: #{answer.able_screening_question.question}"
+          %p= "#{t('.answer')}: #{answer.description}"
           %hr
       .modal-footer
-        %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Close
+        %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"}= t('.close')

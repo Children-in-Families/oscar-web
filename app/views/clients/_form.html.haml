@@ -72,10 +72,8 @@
           = f.input :able_state, collection: Client::ABLE_STATES, label: t('.able_state') if current_user.able_manager? && @client.persisted?
       .row
         .col-xs-12.col-md-6
-          %button.btn.btn-primary{id: 'able-screening-test', "aria-expanded" => 'false', "data-target" => '#able-screening-collapse', "data-toggle" => 'collapse', type: 'button'}
+          %button.btn.btn-primary.btn-block{id: 'able-screening-test', "aria-expanded" => 'false', "data-target" => '#able-screening-collapse', "data-toggle" => 'collapse', type: 'button'}
             %span Able Screening
-
-      %br
       .row
         .col-xs-12
           #able-screening-collapse.collapse
@@ -127,7 +125,7 @@
                                             - if answer_builder.object.able_screening_question.free_text?
                                               = answer_builder.input :description, label: t('.answer')
                                             - else
-                                              = answer_builder.input :description, as: :boolean, label: t('.yes_no'), checked_value: 'Yes', unchecked_value: 'No', input_html: {class: 'i-checks'}
+                                              = answer_builder.input :description, as: :radio_buttons, collection: %w(Yes No), label: false, input_html: { class: 'i-checks' }
                                             = answer_builder.input :able_screening_question_id, as: :hidden, input_html: { value: answer_builder.object.able_screening_question_id }
                                             = answer_builder.input :question_type, as: :hidden, input_html: { value: 'stage' }
 

@@ -14,7 +14,7 @@ class Family < ActiveRecord::Base
 
   scope :foster,                     -> { where(family_type: 'foster') }
 
-  scope :province_is,                -> { joins(:province).pluck('provinces.name', 'provinces.id').uniq }
+  scope :province_are,               -> { joins(:province).pluck('provinces.name', 'provinces.id').uniq }
 
   def member_count
     male_adult_count.to_i + female_adult_count.to_i + male_children_count.to_i + female_children_count.to_i

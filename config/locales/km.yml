@@ -587,6 +587,9 @@ km:
       client_able_answers: ចំលើយ Able
     client_answers:
       client_able_answers: ចំលើយ Able របស់អតិថិជន
+      question: សំនួរ
+      answer: ចម្លើយ
+      close: ត្រលប់ក្រោយ
     actions:
       are_you_sure: តើអ្នកប្រាកដហើយ?
     emergency_case:
@@ -726,6 +729,10 @@ km:
   activerecord:
     errors:
       models:
+        case:
+          attributes:
+            start_date:
+              blank: មិនអាចរំលង
         stage:
           attributes:
             from_age:

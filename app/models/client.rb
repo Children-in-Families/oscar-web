@@ -21,9 +21,7 @@ class Client < ActiveRecord::Base
   has_many :tasks,          dependent: :destroy
 
   accepts_nested_attributes_for :tasks
-  accepts_nested_attributes_for :answers,
-            reject_if: proc { |attributes| attributes['description'].blank? },
-            allow_destroy: true
+  accepts_nested_attributes_for :answers
 
   has_many :cases,          dependent: :destroy
   has_many :families, through: :cases
@@ -83,7 +81,6 @@ class Client < ActiveRecord::Base
   scope :without_assessments,  -> { includes(:assessments).where(assessments: { client_id: nil }) }
 
   scope :able,                 -> { where(able_state: ABLE_STATES[0]) }
-  scope :able_state_is,        -> (value) { where(able_state: value) }
 
   def reject?
     state_changed? && state == 'rejected'
