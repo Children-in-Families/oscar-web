@@ -47,9 +47,9 @@ CIF.Common =
     messageInfo = $("#wrapper").data()
     if Object.keys(messageInfo).length > 0
       if messageInfo.messageType == 'notice'
-        toastr.success(messageInfo.message, 'Notification', messageOption)
+        toastr.success(messageInfo.message, '', messageOption)
       else if messageInfo.messageType == 'alert'
-        toastr.error(messageInfo.message, 'Notification', messageOption)
+        toastr.error(messageInfo.message, '', messageOption)
       #
       # else if
       #   toastr.error(messageInfo.message, 'Notification', messageOption)
