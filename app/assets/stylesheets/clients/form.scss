@@ -59,4 +59,9 @@ body[id=clients-edit], body[id=clients-update]{
     }
   }
 
+  .client_user.disabled {
+    label, input {
+      color: #333333 !important;
+    }
+  }
 }
