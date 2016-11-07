@@ -45,4 +45,10 @@ body[id='surveys-update'] {
   .errors {
     border: 1px solid red;
   }
+
+  @media (min-width: 321px) and (max-width: 767px) {
+    .radio.inline {
+      margin-right: 10px;
+    }
+  }
 }
