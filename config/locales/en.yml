@@ -1222,10 +1222,19 @@ en:
       foster: Foster
       kinship: Kinship
     third_party:
+      ables: Ables
       agencies: Agencies
       partners: Partners
       referral_sources: Referral Sources
       staffs: Staffs
+
+  classes:
+    dashboard:
+      males: Males
+      females: Females
+      foster_cares_html: Foster <br/>Cares
+      kinship_cares_html:  Kinship <br/>Cares
+      emergency_cares_html: Emergency <br/>Cares
 
       overdue_assessments_count:
         one: "You have 1 assessment overdue."

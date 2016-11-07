@@ -1,6 +1,32 @@
 class Dashboard
+  include Rails.application.routes.url_helpers
+
   def initialize(user)
     @user = user
+  end
+
+  def client_url(status)
+    clients_path(status)
+  end
+
+  def family_url(status)
+    families_path(status)
+  end
+
+  def client_gender_statistic
+    [{ name: I18n.t('classes.dashboard.males'), y: male_count, url: client_url("client_grid[gender]":"Male") },
+     { name: I18n.t('classes.dashboard.females'), y: female_count, url: client_url("client_grid[gender]":"Female") }]
+  end
+
+  def client_status_statistic
+    [{ name: I18n.t('classes.dashboard.emergency_cares_html'), y: ec_count, url: client_url("client_grid[status]":"Active EC") },
+     { name: I18n.t('classes.dashboard.foster_cares_html'), y: fc_count, url: client_url("client_grid[status]":"Active FC") },
+     { name: I18n.t('classes.dashboard.kinship_cares_html'), y: kc_count, url: client_url("client_grid[status]":"Active KC") }]
+  end
+
+  def family_type_statistic
+    [{ name: 'Foster', y: foster_count, url: family_url("family_grid[family_type]":"foster") },
+     { name: 'kinship', y: kinship_count, url: family_url("family_grid[family_type]":"kinship") }]
   end
 
   def client_count
