@@ -1278,10 +1278,19 @@ km:
       foster: Foster
       kinship: Kinship
     third_party:
+      ables: Ables
       agencies: អង្គភាព
       partners: ដៃគូ
       referral_sources: ប្រភពនៃការបញ្ជូន
       staffs: បុគ្គលិក
+
+  classes:
+    dashboard:
+      males: ប្រុស
+      females: ស្រី
+      foster_cares_html: ករណី <br/>Foster
+      kinship_cares_html:  ករណី <br/>Kinship
+      emergency_cares_html: ករណី <br/>Emergency
 
   case:
     quarterly_reports:

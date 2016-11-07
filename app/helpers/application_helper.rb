@@ -91,7 +91,7 @@ module ApplicationHelper
   end
 
   def user_dashboard(user)
-    user.admin? || user.any_case_manager? ? 'col-md-6' : ''
+    # user.admin? || user.any_case_manager? ? 'col-md-6' : ''
   end
 
   def user_dashboard_responsive(user)
@@ -111,13 +111,13 @@ module ApplicationHelper
   end
 
   def dynamic_third_party_cols(user)
-    if user.admin?
-      'col-sm-6 col-md-3'
-    elsif user.any_case_manager?
-      'col-sm-4'
-    elsif user.able_manager? || user.case_worker?
-      'col-sm-6'
-    end
+    # if user.admin?
+    #   'col-sm-6 col-md-3'
+    # elsif user.any_case_manager?
+    #   'col-sm-4'
+    # elsif user.able_manager? || user.case_worker?
+    #   'col-sm-6'
+    # end
   end
 
   def custom_case_dashboard(user)

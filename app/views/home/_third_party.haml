@@ -1,67 +1,64 @@
-.col-xs-12
+.col-xs-12.col-md-6
   .panel.panel-default.bottom-panel
     .panel-body
-      - if can? :manage?, Agency
-        %div{ class: "#{dynamic_third_party_cols(current_user)} text-center" }
-          =link_to agencies_path do
-            .widget.style1.widget-agency-panel
-              .row
-                .col-xs-4
-                  %i.fa.fa-building.fa-5x
-                .col-xs-8.text-right
-                  %span
-                    = t('.agencies')
-                  %h2.font-bold #{@dashboard.agency_count}
-            -# .col-xs-12.panel-pusher{style:"background-color:darkseagreen;"}
-            -#   %h1.anti-link
-            -#     #{@dashboard.agency_count}
-            -#   %h3.anti-link.float-right
-            -#     %i= t('.agencies')
-      - if can? :manage?, Partner
-        %div{ class: "#{dynamic_third_party_cols(current_user)} text-center" }
-          =link_to partners_path do
-            .widget.style1.widget-partner-panel
-              .row
-                .col-xs-4
-                  %i.fa.fa-handshake-o.fa-5x
-                .col-xs-8.text-right
-                  %span
-                    = t('.partners')
-                  %h2.font-bold #{@dashboard.partner_count}
-            -# .col-xs-12.panel-pusher{style:"background-color:cornflowerblue;"}
-            -#   %h1.anti-link
-            -#     #{@dashboard.partner_count}
-            -#   %h3.anti-link.float-right
-            -#     %i= t('.partners')
-      - if can? :manage?, ReferralSource
-        %div{ class: "#{dynamic_third_party_cols(current_user)} text-center" }
-          =link_to referral_sources_path do
-            .widget.style1.widget-referral-panel
-              .row
-                .col-xs-4
-                  %i.fa.fa-briefcase.fa-5x
-                .col-xs-8.text-right
-                  %span
-                    = t('.referral_sources')
-                  %h2.font-bold #{@dashboard.referral_source_count}
-            -# .col-xs-12.panel-pusher{style:"background-color:darkkhaki;"}
-            -#   %h1.anti-link
-            -#     #{@dashboard.referral_source_count}
-            -#   %h3.anti-link.float-right.box-escaper
-            -#     %i= t('.referral_sources')
-      - if can? :manage?, User
-        %div{ class: "#{dynamic_third_party_cols(current_user)} text-center" }
-          =link_to users_path do
-            .widget.style1.widget-staff-panel
-              .row
-                .col-xs-4
-                  %i.fa.fa-group.fa-5x
-                .col-xs-8.text-right
-                  %span
-                    = t('.staffs')
-                  %h2.font-bold #{@dashboard.staff_count}
-            -# .col-xs-12.panel-pusher{style:"background-color:coral;"}
-            -#   %h1.anti-link
-            -#     #{@dashboard.staff_count}
-            -#   %h3.anti-link.float-right
-            -#     %i= t('.staffs')
+      .row
+        - if current_user.admin? || current_user.case_worker?
+          .col-xs-12
+            %div
+              = link_to clients_path("client_grid[able_state]":"Accepted") do
+                .widget.style1.widget-able-panel
+                  .row
+                    .col-xs-6.text-left
+                      %i.fa.fa-wheelchair.fa-4x
+                    .col-xs-6.text-right
+                      %span.text-font
+                        = t('.ables')
+                      %h2.font-bold #{@dashboard.able_count}
+        - if can? :manage?, Agency
+          .col-xs-12
+            %div{ class: "#{dynamic_third_party_cols(current_user)} text-center" }
+              = link_to agencies_path do
+                .widget.style1.widget-agency-panel
+                  .row
+                    .col-xs-6.text-left
+                      %i.fa.fa-building.fa-4x
+                    .col-xs-6.text-right
+                      %span.text-font
+                        = t('.agencies')
+                      %h2.font-bold #{@dashboard.agency_count}
+        - if can? :manage?, Partner
+          .col-xs-12
+            %div{ class: "#{dynamic_third_party_cols(current_user)} text-center" }
+              =link_to partners_path do
+                .widget.style1.widget-partner-panel
+                  .row
+                    .col-xs-6.text-left
+                      %i.fa.fa-handshake-o.fa-4x
+                    .col-xs-6.text-right
+                      %span.text-font
+                        = t('.partners')
+                      %h2.font-bold #{@dashboard.partner_count}
+        - if can? :manage?, ReferralSource
+          .col-xs-12
+            %div{ class: "#{dynamic_third_party_cols(current_user)} text-center" }
+              =link_to referral_sources_path do
+                .widget.style1.widget-referral-panel
+                  .row
+                    .col-xs-6.text-left
+                      %i.fa.fa-briefcase.fa-4x
+                    .col-xs-6.text-right
+                      %span.text-font
+                        = t('.referral_sources')
+                      %h2.font-bold #{@dashboard.referral_source_count}
+        - if can? :manage?, User
+          .col-xs-12
+            %div{ class: "#{dynamic_third_party_cols(current_user)} text-center" }
+              =link_to users_path do
+                .widget.style1.widget-staff-panel
+                  .row
+                    .col-xs-6.text-left
+                      %i.fa.fa-group.fa-4x
+                    .col-xs-6.text-right
+                      %span.text-font
+                        = t('.staffs')
+                      %h2.font-bold #{@dashboard.staff_count}
