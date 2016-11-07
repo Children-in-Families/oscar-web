@@ -33,10 +33,15 @@ class ChangelogsController < AdminController
     end
   end
 
+  def version
+    @changelog = Changelog.find(params[:changelog_id])
+    @versions  = @changelog.versions.reorder(created_at: :desc).decorate
+  end
+
   private
 
   def changelog_params
-    params.require(:changelog).permit(:version, changelog_types_attributes: [:id, :change_type, :description, :_destroy])
+    params.require(:changelog).permit(:change_version, changelog_types_attributes: [:id, :change_type, :description, :_destroy])
   end
 
   def find_changelog

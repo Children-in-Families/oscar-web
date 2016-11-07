@@ -6,7 +6,7 @@
           .panel.panel-default
             .panel-heading
               %h4
-                = @changelog.version
+                = @changelog.change_version
                 %small= @changelog.created_at.strftime('%d %B, %Y')
             .panel-body
               %p= @changelog.description.html_safe

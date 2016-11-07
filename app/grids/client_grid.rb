@@ -441,4 +441,8 @@ class ClientGrid
   column(:manage, html: true, class: 'text-center', header: -> { I18n.t('datagrid.columns.clients.manage') }) do |object|
     render partial: 'clients/actions', locals: { object: object }
   end
+
+  column(:modification, html: true, class: 'text-center', header: I18n.t('datagrid.columns.clients.modification')) do |object|
+    link_to t('datagrid.columns.clients.view'), client_version_path(object)
+  end
 end

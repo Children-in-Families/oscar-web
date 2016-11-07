@@ -30,7 +30,7 @@ km:
     status: ស្ថានភាព
 
   default_changelog_fields: &default_changelog_fields
-    version: កំណែ
+    change_version: កំណែ
     description: ការពិពណ៌នា
 
   default_government_report_fields: &default_government_report_fields
@@ -372,7 +372,7 @@ km:
         manage: សកម្មភាព
         state: ទទួល/បដិសេធ
         rejected_note: កំណត់ហេតុនៃការមិនទទួលយក
-        quantitative_case_values: ទិន្ន័យនៃបរិមាណ
+        quantitative_case_values: ទិន្នន័យនៃបរិមាណ
         history_of_disability_and_or_illness: ជំងឺរ៉ាំរ៉ែ និង/ឬពិការភាព
         history_of_harm: ការបង្កទុក្ខទោស និងការកេងប្រវ័ញ្ច
         history_of_high_risk_behaviours: ការបំពានគ្រឿងញៀនឬគ្រឿងស្រវឹង និងល្បែងស៊ីសង
@@ -389,10 +389,14 @@ km:
         has_date_of_birth: មានថ្ងៃ ខែ ឆ្នាំ កំណើត
         has_dob: 'បាទ/ចាស'
         no_dob: 'ទេ'
+        modification: កំណែប្រែ
+        view: មើល
 
       progress_notes:
         <<: *default_progress_note_fields
         manage: គ្រប់គ្រង
+        modification: កំណែប្រែ
+        view: មើល
 
       select_columns: ជ្រើសរើសជួរឈរ
       show_all: បង្ហាញទាំងអស់
@@ -423,15 +427,22 @@ km:
         family_id: លេខសម្គាល់គ្រួសារ
         case_workers: បុគ្គលិកគ្រប់គ្រងករណី
         total: សរុប
+        modification: កំណែប្រែ
+        view: មើល
+
       partners:
         <<: *default_partner_fields
         type: ប្រភេទ
         manage: សកម្មភាព
         partner: ដៃគូ
+        modification: កំណែប្រែ
+        view: មើល
       users:
         <<: *default_user_fields
         name: ឈ្មោះអ្នកប្រើប្រាស់
         manage: សកម្មភាព
+        modification: កំណែប្រែ
+        view: មើល
       quarterly_reports:
         visit_date: ថ្ងៃមកជួប
         kc_name: ឈ្មោះរបស់ KC
@@ -486,13 +497,14 @@ km:
       provinces: ខេត្ត
       referral_sources: ប្រភពនៃការបញ្ជូន
       quantitative_types: ប្រភេទនៃបរិមាណ
-      able_screening_questions: 'សំនួរ Able Screening'
+      able_screening_questions: សំនួរ Able Screening
       changelogs: ការផ្លាស់ប្ដូរ
       account: គណនី
       edit_profile: កែសម្រួលពត៌មានផ្ទាល់ខ្លួន
       en: English
       log_out: ចាកចេញ
       log_in: ចូល
+      data_modification: កំណែប្រែទិន្នន័យ
       progress_note: កត់សំគាល់ការរីកចំរើន
       materials: របស់របរ/សំភារៈ
       locations: កន្លែង
@@ -622,6 +634,9 @@ km:
     state:
       state: ទទួល/បដិសេធ
       rejected_note: កំណត់ហេតុនៃការមិនទទួលយក
+    version:
+      modification_of: កំណែប្រែរបស់
+      back: ត្រលប់ក្រោយ
   families:
     index:
       results: លទ្ធផល
@@ -648,6 +663,9 @@ km:
       alert: គ្រួសារមិនអាចលុបបានទេ
     actions:
       are_you_sure: តើអ្នកប្រាកដហើយ?
+    version:
+      modification_of: កំណែប្រែរបស់
+      back: ត្រលប់ក្រោយ
 
   partners:
     index:
@@ -673,6 +691,10 @@ km:
       alert: ដៃគូមិនអាចលុបបានទេ
     actions:
       are_you_sure: តើអ្នកប្រាកដហើយ?
+    version:
+      modification_of: កំណែប្រែរបស់
+      back: ត្រលប់ក្រោយ
+
   users:
     index:
       results: លទ្ធផល
@@ -701,6 +723,10 @@ km:
       alert: អ្នកប្រើប្រាស់មិនអាចលុបបានទេ
     actions:
       are_you_sure: តើអ្នកប្រាកដហើយ?
+    version:
+      modification_of: កំណែប្រែរបស់
+      back: ត្រលប់ក្រោយ
+
   cases:
     index:
       <<: *default_placement_fields
@@ -755,7 +781,7 @@ km:
               blank: មិនអាចរំលង
         changelog:
           attributes:
-            version:
+            change_version:
               blank: មិនអាចរំលង
               taken: ត្រូវបានប្រើរួចហើយ
             description:
@@ -860,6 +886,8 @@ km:
       description: ការបរិយាយពីអង្គភាព
       manage: សកម្មភាព
       are_you_sure: តើអ្នកប្រាកដហើយ?
+      modification: កំណែប្រែ
+      view: មើល
     edit:
       title: ពិនិត្យកែសម្រួលពត៌មាននៃឣង្គភាព
     new:
@@ -880,6 +908,10 @@ km:
       successfully_deleted: ឣង្គភាពត្រូវបានលុបចោលដោយជោគជ័យ
       alert: ឣង្គភាពមិនអាចលុបចោលបានទេ
       failed_delete: ឣង្គភាពមិនអាចលុបចោលបានទេ
+    version:
+      modification_of: កំណែប្រែរបស់
+      back: ត្រលប់ក្រោយ
+
   departments:
     index:
       add_new_department: បន្ថែមកម្មវិធីថ្មី
@@ -888,6 +920,8 @@ km:
       description: ការបរិយាយពីកម្មវិធី
       manage: សកម្មភាព
       are_you_sure: តើអ្នកប្រាកដហើយ?
+      modification: កំណែប្រែ
+      view: មើល
     edit:
       title: ពិនិត្យកែសម្រួលកម្មវិធី
     new:
@@ -908,6 +942,9 @@ km:
       successfully_deleted: កម្មវិធីត្រូវបានលុបចោលដោយជោគជ័យ
       failed_delete: កម្មវិធីមិនបានលុបចោលដោយជោគជ័យ
       alert: កម្មវិធីមិនអាចលុបចោលបានទេ
+    version:
+      modification_of: កំណែប្រែរបស់
+      back: ត្រលប់ក្រោយ
   domains:
     index:
       add_new_domain: បន្ថែមកត្តាថ្មី
@@ -917,7 +954,7 @@ km:
       score_3: ពិន្ទុ 3
       score_4: ពិន្ទុ 4
       are_you_sure: តើអ្នកប្រាកដហើយ?
-
+      view_modification: មើលកំណែប្រែ
     edit:
       title: ពិនិត្យកែសម្រួលកត្តា
     new:
@@ -940,6 +977,10 @@ km:
     destroy:
       successfully_deleted: កត្តាត្រូវបានលុបចោលជោគជ័យ
       alert: កត្តាមិនអាចលុបបានទេ
+    version:
+      modification_of: កំណែប្រែរបស់
+      back: ត្រលប់ក្រោយ
+      domain: កត្តា
   domain_groups:
     index:
       add_new_domain_group: បន្ថែមការប្រមូលផ្តុំកត្តាថ្មី
@@ -948,6 +989,8 @@ km:
       description: ការបរិយាយ
       manage: សកម្មភាព
       are_you_sure: តើអ្នកប្រាកដហើយ?
+      modification: កំណែប្រែ
+      view: មើល
     edit:
       title: ពិនិត្យកែសម្រួលការប្រមូលផ្ដុំកត្តា
     new:
@@ -969,6 +1012,10 @@ km:
       successfully_deleted: ការប្រមូលផ្តុំកត្តាត្រូវបានលុបចោលជោគជ័យ
       failed_delete: ការប្រមូលផ្តុំកត្តាមិនត្រូវបានលុបចោល
       alert: ការប្រមូលផ្តុំកត្តាមិនអាចលុបបានទេ
+    version:
+      modification_of: កំណែប្រែរបស់
+      back: ត្រលប់ក្រោយ
+      domain_group: ការប្រមូលផ្តុំកត្តា
   provinces:
     index:
       add_new_province: បន្ថែមខេត្តថ្មី
@@ -976,6 +1023,8 @@ km:
       province_names: ឈ្មោះខេត្ត
       manage: សកម្មភាព
       are_you_sure: តើអ្នកប្រាកដហើយ?
+      modification: កំណែប្រែ
+      view: មើល
     edit:
       title: ពិនិត្យកែសម្រួលខេត្ត
     new:
@@ -995,6 +1044,9 @@ km:
       successfully_deleted: ខេត្តត្រូវបានលុបចោលដោយជោគជ័យ
       failed_delete: ខេត្តមិនត្រូវបានលុបចោល
       alert: ខេត្តមិនអាចលុបបានទេ
+    version:
+      modification_of: កំណែប្រែរបស់
+      back: ត្រលប់ក្រោយ
 
   referral_sources:
     index:
@@ -1004,6 +1056,8 @@ km:
       description: ការបរិយាយ
       manage: សកម្មភាព
       are_you_sure: តើអ្នកប្រាកដហើយ?
+      modification: កំណែប្រែ
+      view: មើល
     edit:
       title: ពិនិត្យកែសម្រូលប្រភពនៃការបញ្ជូន
     new:
@@ -1024,12 +1078,16 @@ km:
       successfully_deleted: ប្រភពនៃការបញ្ជូនត្រូវបានលុបចោលដោយជោគជ័យ
       failed_delete: ប្រភពនៃការបញ្ជូនមិនត្រូវបានកែលុបចោល
       alert: ប្រភពនៃការបញ្ជូនមិនអាចលុបបានទេ
+    version:
+      modification_of: កំណែប្រែរបស់
+      back: ត្រលប់ក្រោយ
   quantitative_types:
     index:
       add_new_quantitative_type: បន្ថែមប្រភេទនៃបរិមាណ
       quantitative_types: ប្រភេទនៃបរិមាណ
-      add_quantitative_data: ទិន្ន័យនៃបរិមាណ
       are_you_sure: តើអ្នកប្រាកដហើយ?
+      add_quantitative_data: ទិន្នន័យនៃបរិមាណ
+      view_modification: មើលកំណែប្រែ
     edit:
       title: ពិនិត្យកែសម្រួល ប្រភេទនៃបរិមាណ
     new:
@@ -1056,22 +1114,28 @@ km:
       successfully_deleted: ប្រភេទនៃបរិមាណបានលុបចោលដោយជោគជ័យ
       failed_delete: ប្រភេទនៃបរិមាណមិនបានលុបចោល
       alert: ប្រភេទនៃបរិមាណមិនអាចលុបចោលបានទេ
+    version:
+      modification_of: កំណែប្រែរបស់
+      back: ត្រលប់ក្រោយ
   quantitative_cases:
     edit:
-      title: ពិនិត្យកែសម្រួល ទិន្ន័យនៃបរិមាណ
+      title: ពិនិត្យកែសម្រួល ទិន្នន័យនៃបរិមាណ
     new:
-      title: ទិន្ន័យនៃបរិមាណថ្មី
+      title: ទិន្នន័យនៃបរិមាណថ្មី
     form:
       quantitative_type: ប្រភេទនៃបរិមាណ
       value: តំលៃ
       save: រក្សាទុក
       cancel: ទុកជាមោឃៈ
     create:
-      successfully_created: ទិន្ន័យនៃបរិមាណបានបង្កើតដោយជោគជ័យ
+      successfully_created: ទិន្នន័យនៃបរិមាណបានបង្កើតដោយជោគជ័យ
     update:
-      successfully_updated: ទិន្ន័យនៃបរិមាណបានកែសម្រួលដោយជោគជ័យ
+      successfully_updated: ទិន្នន័យនៃបរិមាណបានកែសម្រួលដោយជោគជ័យ
     destroy:
-      successfully_deleted: ទិន្ន័យនៃបរិមាណបានលុបចោលដោយជោគជ័យ
+      successfully_deleted: ទិន្នន័យនៃបរិមាណបានលុបចោលដោយជោគជ័យ
+    version:
+      modification_of: កំណែប្រែរបស់
+      back: ត្រលប់ក្រោយ
   tasks:
     index:
       tasks_of: កាតព្វកិច្ចរបស់
@@ -1187,19 +1251,21 @@ km:
       successfully_created: កំណត់ត្រាត្រូវបានបង្កើតដោយជោគជ័យ
 
   stages:
-    stage: 'តំណាក់កាល'
-    questions: 'សំនួរ'
+    stage: តំណាក់កាល
+    questions: សំនួរ
+    attachment_fields:
+      browse: រកមើល
     form:
       from_age: ចាប់ពីអាយុ (គិតជាឆ្នាំ)
       to_age: ទៅដល់អាយុ (គិតជាឆ្នាំ)
       questions: សំនួរ
       add_question: បន្ថែមសំនួរ
     new:
-      new_stage: 'បន្ថែមដំណាក់កាលថ្មី'
+      new_stage: បន្ថែមដំណាក់កាលថ្មី
     edit:
       edit_stage: កែរសំរួលដំណាក់កាល
     index:
-      stage: 'តំណាក់កាល'
+      stage: តំណាក់កាល
       able_screening_questions: សំនួរ Able Screening
       new_stage_question: បន្ថែមសំនួូរដំណាក់កាលថ្មី
       new_general_question: បន្ថែមសំនួរទូទៅថ្មី
@@ -1210,16 +1276,16 @@ km:
       to: ទៅដល់
       year: ឆ្នាំ
       question:
-        one: '1 សំនួរ'
+        one: 1 សំនួរ
         other: '%{count} សំនួរ'
     edit:
-      edit_stage: 'កែរសំរួល ដំណាក់កាល'
+      edit_stage: កែរសំរួល ដំណាក់កាល
     able_screening_question_fields:
       are_you_sure: តើអ្នកប្រាកដហើយ?
       question: សំនួរ
       mode: ម៉ូដ
       group: ក្រុម
-      questions: 'សំនួរ'
+      questions: សំនួរ
       alert_manager: ជូនដំណឹងអ្នកគ្រប់គ្រង
     create:
       successfully_created: ដំណាក់ការបានបង្កើតដោយជោគជ័យ
@@ -1239,7 +1305,7 @@ km:
       question: សំនួរ
       mode: ម៉ូដ
       group: ក្រុម
-      questions: 'សំនួរ'
+      questions: សំនួរ
       alert_manager: ជូនដំណឹងអ្នកគ្រប់គ្រង
       save: រក្សាទុក
       cancel: ទុកជាមោឃៈ
@@ -1505,6 +1571,7 @@ km:
   changelogs:
     changelog_type_fields:
       description: ការពិពណ៌នា
+      are_you_sure: តើអ្នកប្រាកដហើយ?
     index:
       <<: *default_changelog_fields
       cancel: ទុកជាមោឃៈ
@@ -1512,7 +1579,7 @@ km:
       changes: កំណែ
       add_new_changelog: បន្ថែមការផ្លាស់ប្ដូរថ្មី
       are_you_sure: តើអ្នកប្រាកដហើយ?
-
+      view_modification: មើលកំណែប្រែ
     show:
       back: ត្រលប់ក្រោយ
     edit:
@@ -1533,6 +1600,9 @@ km:
     destroy:
       successfully_deleted: ការផ្លាស់ប្ដូរត្រូវបានលុបដោយជោគជ័យ
       failed_delete: ការផ្លាស់ប្ដូរត្រូវមិនបានលុប
+    version:
+      modification_of: កំណែប្រែរបស់
+      back: ត្រលប់ក្រោយ
 
   materials:
     index:
@@ -1541,6 +1611,8 @@ km:
       material: របស់របរ/សំភារៈ
       manage: គ្រប់គ្រង
       are_you_sure: តើអ្នកប្រាកដហើយ?
+      modification: កំណែប្រែ
+      view: មើល
     new:
       new_material: របស់របរ/សំភារៈថ្មី
     edit:
@@ -1560,6 +1632,9 @@ km:
       successfully_deleted: របស់របរ/សំភារៈត្រូវបានលុបដោយជោគជ័យ
       failed_delete: របស់របរ/សំភារៈមិនត្រូវបានលុប
       unsuccessfully_deleted: របស់របរ/សំភារៈមិនអាចលុបបានទេ
+    version:
+      modification_of: កំណែប្រែរបស់
+      back: ត្រលប់ក្រោយ
 
   locations:
     index:
@@ -1568,6 +1643,8 @@ km:
       location: កន្លែង
       manage: គ្រប់គ្រង
       are_you_sure: តើអ្នកប្រាកដហើយ?
+      modification: កំណែប្រែ
+      view: មើល
     new:
       new_location: កន្លែងថ្មី
     edit:
@@ -1587,6 +1664,9 @@ km:
       successfully_deleted: កន្លែងត្រូវបានលុបដោយជោគជ័យ
       failed_update: កន្លែងមិនត្រូវបានលុប
       unsuccessfully_deleted: កន្លែងមិនអាចលុបបានទេ
+    version:
+      modification_of: កំណែប្រែរបស់
+      back: ត្រលប់ក្រោយ
 
   progress_note_types:
     index:
@@ -1595,6 +1675,8 @@ km:
       progress_note_type: កំណត់សំគាល់
       manage: គ្រប់គ្រង
       are_you_sure: តើអ្នកប្រាកដហើយ?
+      modification: កំណែប្រែ
+      view: មើល
     new:
       new_progress_note_type: កំណត់សំគាល់ថ្មី
     edit:
@@ -1614,6 +1696,9 @@ km:
       successfully_deleted: កំណត់សំគាល់ត្រូវបានលុបដោយជោគជ័យ
       failed_delete: កំណត់សំគាល់មិនត្រូវបានលុប
       unsuccessfully_deleted: កំណត់សំគាល់មិនអាចលុបបានទេ
+    version:
+      modification_of: កំណែប្រែរបស់
+      back: ត្រលប់ក្រោយ
 
   interventions:
     index:
@@ -1622,6 +1707,8 @@ km:
       intervention: ចំនុចដែលត្រូវធ្វើ
       manage: គ្រប់គ្រង
       are_you_sure: តើអ្នកប្រាកដហើយ?
+      modification: កំណែប្រែ
+      view: មើល
     new:
       new_intervention: ចំនុចដែលត្រូវធ្វើថ្មី
     edit:
@@ -1641,6 +1728,9 @@ km:
       successfully_deleted: ចំនុចដែលត្រូវធ្វើត្រូវបានលុបដោយជោគជ័យ
       failed_delete: ចំនុចដែលត្រូវធ្វើមិនអាចលុបបានទេ
       unsuccessfully_deleted: ចំនុចដែលត្រូវធ្វើមិនអាចលុបបានទេ
+    version:
+      modification_of: កំណែប្រែរបស់
+      back: ត្រលប់ក្រោយ
 
   progress_notes:
     index:
@@ -1672,3 +1762,76 @@ km:
       successfully_deleted: កំណត់សំគាល់ការរីកចំរើនត្រូវបានលុបដោយជោគជ័យ
     actions:
       are_you_sure: តើអ្នកប្រាកដហើយ?
+    version:
+      modification_of: កំណែប្រែរបស់
+      back: ត្រលប់ក្រោយ
+      progress_note: កំណត់សំគាល់ការរីកចំរើន
+
+  data_trackers:
+    index:
+      filter_by_item: ច្រោះទិន្នន័យតាម
+      all: ទាំងអស់
+      all_modification: កំណែប្រែទិន្នន័យទាំងអស់
+      clients: អតិថិជន
+      families: គ្រួសារ
+      partners: ដៃគូ
+      users: អ្នកប្រើ
+      agencies: អង្គភាព
+      departments: កម្មវិធី
+      domains: កត្តា
+      domain_groups: ការប្រមូលបណ្ដុំកត្តា
+      provinces: ខេត្ត
+      referral_sources: ប្រភពនៃការបញ្ជូន
+      quantitative_types: ប្រភេទនៃបរិមាណ
+      quantitative_cases: ទិន្នន័យនៃបរិមាណ
+      changelogs: ការផ្លាស់ប្ដូរ
+      cases: ករណី
+      tasks: កាតព្វកិច្ច
+      assessments: ការប៉ាន់ប្រមាណ
+      case_notes: កំណត់ត្រាករណី
+      surveys: ការស្ទង់មតិ
+      progress_notes: កំណត់សំគាល់ការរីកចំរើន
+      materials: របស់របរ/សំភារៈ
+      interventions: ចំនុចដែលត្រូវធ្វើ
+      locations: កន្លែង
+      progress_note_types: កំណត់សំគាល់
+      able_screening_questions: សំនួរ Able Screening
+      stages: តំណាក់កាល
+
+  shared:
+    version:
+      create: បង្កើត
+      update: កែសម្រួល
+      delete: លុបចេញ
+      change: បានធ្វើកំណែប្រែខាងក្រោម
+      value_of: តម្លៃនៃ
+      before: មុនកំណែ
+      after: ក្រោយកំណែ
+      id: លេខសំគាល់
+      'on': របស់
+      no_modification: មិនមានកំណែប្រែ
+      Client: អតិថិជន
+      Family: គ្រួសារ
+      Partner: ដៃគូ
+      User: អ្នកប្រើ
+      Agency: អង្គភាព
+      Department: កម្មវិធី
+      Domain: កត្តា
+      DomainGroup: ការប្រមូលបណ្ដុំកត្តា
+      Province: ខេត្ត
+      ReferralSource: ប្រភពនៃការបញ្ជូន
+      QuantitativeType: ប្រភេទនៃបរិមាណ
+      QuantitativeCase: ទិន្នន័យនៃបរិមាណ
+      Changelog: ការផ្លាស់ប្ដូរ
+      Case: ករណី
+      Task: កាតព្វកិច្ច
+      Assessment: ការប៉ាន់ប្រមាណ
+      CaseNote: កំណត់ត្រាករណី
+      Survey: ការស្ទង់មតិ  
+      ProgressNote: កំណត់សំគាល់ការរីកចំរើន
+      Material: របស់របរ/សំភារៈ
+      Intervention: ចំនុចដែលត្រូវធ្វើ
+      Location: កន្លែង
+      ProgressNoteType: កំណត់សំគាល់
+      AbleScreeningQuestion: សំនួរ Able Screening
+      Stage: តំណាក់កាល

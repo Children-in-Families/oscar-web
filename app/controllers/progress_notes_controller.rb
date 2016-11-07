@@ -53,6 +53,11 @@ class ProgressNotesController < AdminController
     redirect_to client_progress_notes_url, notice: t('.successfully_deleted')
   end
 
+  def version
+    @progress_note = @client.progress_notes.find(params[:progress_note_id])
+    @versions      = @progress_note.versions.reorder(created_at: :desc).decorate
+  end
+
   private
 
   def find_client

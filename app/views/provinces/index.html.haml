@@ -1,8 +1,5 @@
 .row
   .col-xs-12
-
-.row
-  .col-xs-12
     .ibox
       .ibox-title
         %h5= t('.provinces')
@@ -18,6 +15,7 @@
                 %th= t('.province_names')
                 %th.text-center.custom_column_manage{:colspan => "2"}
                   = t('.manage')
+                %th.modification.text-center= t('.modification')
             %tbody
               - @provinces.each do |province|
                 %tr
@@ -32,6 +30,8 @@
                                               province_user: province.users_count,
                                               province_client: province.clients_count,
                                               province_case: province.cases_count})
+                  %td.text-center
+                    = link_to t('.view'), province_version_path(province)
                   = render 'form', province: province
       .ibox-footer.text-center
         = will_paginate @provinces, renderer: BootstrapPagination::Rails

@@ -33,6 +33,10 @@ class Client < ActiveRecord::Base
   has_and_belongs_to_many :agencies
   has_and_belongs_to_many :quantitative_cases
 
+  has_paper_trail
+
+  accepts_nested_attributes_for     :tasks
+
   validates :rejected_note, presence: true, on: :update, if: :reject?
 
   before_update :reset_user_to_tasks
@@ -215,8 +219,7 @@ class Client < ActiveRecord::Base
   end
 
   def set_slug_as_alias
-    self.slug = "#{ENV['ORGANISATION_ABBREVIATION']}-#{id}"
-    self.save
+    self.paper_trail.without_versioning { |obj| obj.update_attributes(slug: "#{ENV['ORGANISATION_ABBREVIATION']}-#{id}") }
   end
 
   def set_able_status

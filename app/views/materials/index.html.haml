@@ -1,8 +1,5 @@
 .row
   .col-xs-12
-
-.row
-  .col-xs-12
     .ibox
       .ibox-title
         %h5= t('.material')
@@ -18,6 +15,7 @@
                 %th= t('.status')
                 %th.text-center{:colspan => "2"}
                   = t('.manage')
+                %th.text-center= t('.modification')
             %tbody
               - @materials.each do |material|
                 %tr
@@ -27,6 +25,8 @@
                       = fa_icon('pencil')
                   %td.text-center
                     = remove_link(material, { material_progress_note: material.progress_notes.count })
+                  %td.text-center
+                    = link_to t('.view'), material_version_path(material)
                   = render 'form', material: material
 
       .ibox-footer.text-center

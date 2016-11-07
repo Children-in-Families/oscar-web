@@ -8,6 +8,8 @@ class AbleScreeningQuestion < ActiveRecord::Base
   has_many :clients, through: :answers
   has_many :attachments
 
+  has_paper_trail
+
   accepts_nested_attributes_for :attachments
 
   scope :non_stage, -> { where(stage: nil) }

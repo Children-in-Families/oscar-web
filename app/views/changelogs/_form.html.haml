@@ -5,13 +5,13 @@
         .modal-header
           %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
             %span{"aria-hidden" => "true"} ×
-          %h4.modal-title{ id: "changelogModal-#{changelog.id}Label" } Changelog
+          %h4.modal-title{ id: "changelogModal-#{changelog.id}Label" }= t('.changelog')
         .modal-body
           = error_notification(f)
           .row
             .col-xs-12.col-sm-3
               .form-group
-                = f.input :version, label: false, input_html: { placeholder: t('.version') }
+                = f.input :change_version, label: false, input_html: { placeholder: t('.change_version') }
           .row
             .col-xs-12
               #changelog_type

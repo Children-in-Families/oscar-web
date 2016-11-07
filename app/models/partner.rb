@@ -3,6 +3,8 @@ class Partner < ActiveRecord::Base
 
   has_many :cases
 
+  has_paper_trail
+
   scope :name_like,                  -> (value) { where('LOWER(partners.name) LIKE ?', "%#{value.downcase}%") }
 
   scope :contact_person_name_like,   -> (value) { where('LOWER(partners.contact_person_name) LIKE ?', "%#{value.downcase}%") }

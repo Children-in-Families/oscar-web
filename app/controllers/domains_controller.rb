@@ -41,6 +41,11 @@ class DomainsController < AdminController
     end
   end
 
+  def version
+    @domain   = Domain.find(params[:domain_id])
+    @versions = @domain.versions.reorder(created_at: :desc).decorate
+  end
+
   private
 
   def domain_params

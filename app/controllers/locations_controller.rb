@@ -32,6 +32,11 @@ class LocationsController < AdminController
     end
   end
 
+  def version
+    @location = Location.find(params[:location_id])
+    @versions = @location.versions.reorder(created_at: :desc).decorate
+  end
+
   private
 
   def location_params

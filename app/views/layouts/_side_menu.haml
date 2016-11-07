@@ -78,8 +78,6 @@
                 = link_to t('.quantitative_types'), quantitative_types_path
               %li{ class: active_menu('stages', 'able_screening_questions') }
                 = link_to t('.able_screening_questions'), stages_path
-              %li{ class: active_menu('changelogs') }
-                = link_to t('.changelogs'), changelogs_path
               %li
                 %a{href: "#"}
                   = t('.progress_note')
@@ -93,10 +91,17 @@
                     = link_to t('.materials'), materials_path
                   %li{ class: active_menu('progress_note_types') }
                     = link_to t('.progress_note_types'), progress_note_types_path
+              %li{ class: active_menu('changelogs') }
+                = link_to t('.changelogs'), changelogs_path
 
             - elsif can? :manage, ReferralSource
               %li{ class: active_menu('referral_sources') }
                 = link_to t('.referral_sources'), referral_sources_path
 
+        - if can? :manage, DataTracker
+          %li{ class: active_menu('data_trackers') }
+            = link_to data_trackers_path do
+              = fa_icon('area-chart')
+              %span.nav-label= t('.data_modification')
         %li
           = link_to t('faq'), thredded_path, target: '_blank'

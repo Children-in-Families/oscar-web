@@ -8,6 +8,8 @@ class Case < ActiveRecord::Base
   has_many :case_contracts
   has_many :quarterly_reports
 
+  has_paper_trail
+
   scope :emergencies,    -> { where(case_type: 'EC') }
   scope :non_emergency,  -> { where.not(case_type: 'EC') }
   scope :kinships,       -> { where(case_type: 'KC') }

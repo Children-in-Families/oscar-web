@@ -13,6 +13,8 @@ class User < ActiveRecord::Base
   has_many :changelogs
   has_many :progress_notes, dependent: :restrict_with_error
 
+  has_paper_trail
+
   validates :roles, presence: true
 
   scope :first_name_like, -> (value) { where('LOWER(users.first_name) LIKE ?', "%#{value.downcase}%") }
@@ -69,9 +71,9 @@ class User < ActiveRecord::Base
     overdue   = []
     due_today = []
     clients.where(status: ['Active EC','Active FC','Active KC']).each do |c|
-      if c.next_assessment_date < Date.today
+      if c.next_assessment_date.to_date < Date.today
         overdue << c
-      elsif c.next_assessment_date == Date.today
+      elsif c.next_assessment_date.to_date == Date.today
         due_today << c
       end
     end

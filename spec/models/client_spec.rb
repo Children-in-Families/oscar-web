@@ -23,6 +23,21 @@ describe Client, 'associations' do
 
 end
 
+# describe Client, 'paper trail' do
+#   let!(:agency){ create(:agency) }
+#   let!(:client){ create(:client, agency_ids: agency.id) }
+#   context 'create a version of joined table of habtm association' do
+#     it { expect{PaperTrail::Version.count}.to change{PaperTrail::Version.count}.from(2).to(3) }
+#   end
+# end
+
+describe Client, 'callbacks' do
+  let!(:client){ create(:client) }
+  context 'set slug as alias' do
+    it { expect(client.slug).to eq("#{ENV['ORGANISATION_ABBREVIATION']}-#{client.id}") }
+  end
+end
+
 describe Client, 'methods' do
   let!(:able_manager) { create(:user, roles: 'able manager') }
   let!(:case_worker) { create(:user, roles: 'case worker') }
@@ -143,8 +158,12 @@ describe Client, 'methods' do
 
     min_age = 1
     max_age = 1.5
-    it { expect(Client.age_between(min_age, max_age)).to include(specific_client) }
-    it { expect(Client.age_between(min_age, max_age)).not_to include(other_specific_client) }
+    it 'include clients with age between' do
+      expect(Client.age_between(min_age, max_age)).to include(specific_client)
+    end
+    it 'does not include clients with age between' do
+      expect(Client.age_between(min_age, max_age)).not_to include(other_specific_client)
+    end
   end
 
   context 'in any able states managed by user' do
