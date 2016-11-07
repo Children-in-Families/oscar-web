@@ -45,4 +45,18 @@ body[id=clients-edit], body[id=clients-update]{
     font-weight: 600;
   }
 
+  .has-been-in-government-care,
+  .has-been-in-orphanage {
+    span {
+      display: inline-block;
+      margin-right: 20px;
+    }
+    label {
+        padding-left: 0;
+    }
+    .iradio_square-green {
+      margin-right: 5px;
+    }
+  }
+
 }

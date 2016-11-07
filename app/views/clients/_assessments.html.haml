@@ -1,0 +1,4 @@
+- object.assessments.each do |a|
+  .tooltip-demo
+    %button.btn.btn-info.btn-xs.btn-assessment{ 'data-container' => 'body', 'data-content' => a.assessment_domains_score, 'data-placement' => 'top', 'data-toggle' => 'popover', title: '', 'data-html': 'true' }
+      = a.created_at.strftime('%d %b, %Y')

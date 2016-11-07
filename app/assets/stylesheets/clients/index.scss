@@ -119,4 +119,13 @@
   .dataTables_scrollBody {
     max-height: 500px !important;
   }
+
+  .popover.fade.top.in {
+    max-width: 271px;
+  }
+
+  .btn-assessment {
+    min-width: 100px;
+    margin-bottom: 3px;
+  }
 }

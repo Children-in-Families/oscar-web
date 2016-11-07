@@ -7,8 +7,8 @@
     - else
       .navbar-header.logo
         = link_to root_path do
-          = image_tag('cif-logo', class: 'navbar-minimalize minimalize-styl-2')
-    %ul.nav.navbar-top-links.navbar-right
+          = image_tag(ENV['NGO_LOGO'], class: 'navbar-minimalize minimalize-styl-2')
+    %ul.nav.navbar-top-links.navbar-right.pull-right
       = render 'layouts/notification' if user_signed_in?
       %li.local-flag
         - if I18n.locale == :en
@@ -17,3 +17,20 @@
         - else
           = link_to(url_for(params.merge({locale: 'en'}))) do
             = image_tag('United-Kingdom.png')
+      - if user_signed_in?
+        %li
+          = link_to destroy_user_session_path, method: :delete do
+            %i.fa.fa-sign-out
+            = t('.log_out')
+        %li.account-setting.visible-xs-block
+          %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+            %span.clear
+              %span.block
+                %i.fa.fa-tasks
+          %ul.dropdown-menu.animated.fadeInRight
+            %li
+              %p.logged-in-user
+                %strong= "#{current_user.name} (#{current_user.roles})"
+            %li.divider
+            %li
+              = link_to t('.edit_profile'), edit_user_registration_path
