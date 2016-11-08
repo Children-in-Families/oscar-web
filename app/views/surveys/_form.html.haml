@@ -23,22 +23,46 @@
     .row
       .col-xs-12.col-sm-6
         = f.input :user, disabled: true, input_html: { value: @client.user.name, class: 'user-name' }, label: t('.user_id')
-      .col-xs-12
-        = f.input :listening_score, as: :radio_buttons, collection: [1,2,3,4], item_wrapper_class: 'inline', label: "#{t('.listening_score')}", input_html: {class: 'i-checks'}
-      .col-xs-12
-        = f.input :problem_solving_score, as: :radio_buttons, collection: [1,2,3,4], item_wrapper_class: 'inline', label: "#{t('.problem_solving_score')}", input_html: {class: 'i-checks'}
-      .col-xs-12
-        = f.input :getting_in_touch_score, as: :radio_buttons, collection: [1,2,3,4], item_wrapper_class: 'inline', label: "#{t('.getting_in_touch_score')}", input_html: {class: 'i-checks'}
-      .col-xs-12
-        = f.input :trust_score, as: :radio_buttons, collection: [1,2,3,4], item_wrapper_class: 'inline', label: "#{t('.trust_score')}", input_html: {class: 'i-checks'}
-      .col-xs-12
-        = f.input :difficulty_help_score, as: :radio_buttons, collection: [1,2,3,4], item_wrapper_class: 'inline', label: "#{t('.difficulty_help_score')}", input_html: {class: 'i-checks'}
-      .col-xs-12
-        = f.input :support_score, as: :radio_buttons, collection: [1,2,3,4], item_wrapper_class: 'inline', label: "#{t('.support_score')}", input_html: {class: 'i-checks'}
-      .col-xs-12
-        = f.input :family_need_score, as: :radio_buttons, collection: [1,2,3,4], item_wrapper_class: 'inline', label: "#{t('.family_need_score')}", input_html: {class: 'i-checks'}
-      .col-xs-12
-        = f.input :care_score, as: :radio_buttons, collection: [1,2,3,4], item_wrapper_class: 'inline', label: "#{t('.care_score')}", input_html: {class: 'i-checks'}
+      .col-xs-12.question-block
+        = f.label :listening_score, t('.listening_score')
+        .radio-score
+          = f.collection_radio_buttons :listening_score, [[1, 1], [2,2], [3,3], [4,4]], :first, :last, item_wrapper_class: 'inline' do |cb|
+            = radio_button_color(cb)
+      .col-xs-12.question-block
+        = f.label :problem_solving_score, t('.problem_solving_score')
+        .radio-score
+          = f.collection_radio_buttons :problem_solving_score, [[1, 1], [2,2], [3,3], [4,4]], :first, :last, item_wrapper_class: 'inline', label: t('.problem_solving_score') do |cb|
+            = radio_button_color(cb)
+      .col-xs-12.question-block
+        = f.label :getting_in_touch_score, t('.getting_in_touch_score')
+        .radio-score
+          = f.collection_radio_buttons :getting_in_touch_score, [[1, 1], [2,2], [3,3], [4,4]], :first, :last do |cb|
+            = radio_button_color(cb)
+      .col-xs-12.question-block
+        = f.label :trust_score, t('.trust_score')
+        .radio-score
+          = f.collection_radio_buttons :trust_score, [[1, 1], [2,2], [3,3], [4,4]], :first, :last do |cb|
+            = radio_button_color(cb)
+      .col-xs-12.question-block
+        = f.label :difficulty_help_score, t('.difficulty_help_score')
+        .radio-score
+          = f.collection_radio_buttons :difficulty_help_score, [[1, 1], [2,2], [3,3], [4,4]], :first, :last do |cb|
+            = radio_button_color(cb)
+      .col-xs-12.question-block
+        = f.label :support_score, t('.support_score')
+        .radio-score
+          = f.collection_radio_buttons :support_score, [[1, 1], [2,2], [3,3], [4,4]], :first, :last do |cb|
+            = radio_button_color(cb)
+      .col-xs-12.question-block
+        = f.label :family_need_score, t('.family_need_score')
+        .radio-score
+          = f.collection_radio_buttons :family_need_score, [[1, 1], [2,2], [3,3], [4,4]], :first, :last do |cb|
+            = radio_button_color(cb)
+      .col-xs-12.question-block
+        = f.label :care_score, t('.care_score')
+        .radio-score
+          = f.collection_radio_buttons :care_score, [[1, 1], [2,2], [3,3], [4,4]], :first, :last do |cb|
+            = radio_button_color(cb)
 
   .ibox-footer
     .form-actions

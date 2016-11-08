@@ -33,27 +33,27 @@
           = link_to clients_path do
             = fa_icon('child')
             %span.nav-label= t('.clients')
-            %span.label.label-primary.pull-right= client_count
+            %span.label.label-primary.pull-right= @dashboard.client_count
         - if can? :manage, Family
           %li{class: "#{active_menu('families')}"}
             = link_to families_path do
               = fa_icon('users')
               %span.nav-label= t('.families')
-              %span.label.label-primary.pull-right= Family.count
+              %span.label.label-primary.pull-right= @dashboard.family_count
 
         - if can? :manage, Partner
           %li{class: "#{active_menu('partners')}"}
             = link_to partners_path do
               = fa_icon('handshake-o')
               %span.nav-label= t('.partners')
-              %span.label.label-primary.pull-right= Partner.count
+              %span.label.label-primary.pull-right= @dashboard.partner_count
 
         - if can? :manage, User
           %li{class: "#{active_menu('users')}"}
             = link_to users_path do
               = fa_icon('address-book-o')
               %span.nav-label= t('.users')
-              %span.label.label-primary.pull-right= User.count
+              %span.label.label-primary.pull-right= @dashboard.staff_count
 
         %li
           %a{href: "#"}

@@ -59,7 +59,10 @@
       text-align: center;
     }
 
-    th.name, th.gender, th.status, th.able, th.family_id, th.family, th.partner, th.manage {
+    th.name, th.gender, th.status, th.able_state, th.family_id, th.family, th.partner, th.manage {
+      min-width: 100px;
+    }
+    td.able_state{
       min-width: 100px;
     }
 

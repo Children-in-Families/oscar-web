@@ -10,7 +10,10 @@
   .anti-link {
     color: white;
   }
-
+  
+  .fa-3x{
+    padding-top: 13px;
+  }
   .max-hight{
     max-height: 200px;
   }
@@ -55,7 +58,7 @@
     }
 
     h2 {
-      font-size: 4em;
+      font-size: 2.5em;
     }
     .widget-family-panel,
     .widget-client-panel {
@@ -126,9 +129,9 @@
   .widget-referral-panel,
   .widget-staff-panel {
     color: #fff;
-    margin-bottom: 9px;
-    padding-bottom: 10px;
-    padding-top: 10px;
+    margin-bottom: 6px;
+    padding-bottom: 8px;
+    padding-top: 8px;
   }
 
   .widget-agency-panel {

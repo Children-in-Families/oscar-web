@@ -3,11 +3,13 @@ CIF.HomeIndex = do ->
     _clientGenderChart()
     _clientStatusChart()
     _familyType()
+    _resizeChart()
 
   _handleCreateChart = (element, data) ->
     $(element).highcharts
       colors: ['#01a301', '#037d82', '#038fa8', '#DDDF00', '#24CBE5']
-      chart: 
+      chart:
+        height: 380
         backgroundColor: '#ecf0f1'
         type: 'pie' 
         borderWidth: 1
@@ -25,13 +27,19 @@ CIF.HomeIndex = do ->
       series: [ {
         name: 'Counts'
         dataLabels:
-          distance: 30
+          distance: -30
           style: fontSize:'13px'
           formatter: ->
             @point.name + ': <b>' + @point.y + '</b>'
       }]
     $('.highcharts-credits').css('display', 'none')
 
+  _resizeChart = ->
+    $('.minimalize-styl-2').click ->
+      setTimeout (->
+        window.dispatchEvent new Event('resize')
+    ), 220
+     
   _clientGenderChart = ->
     element = $('#client-by-gender')
     data    = $(element).data('content-count')

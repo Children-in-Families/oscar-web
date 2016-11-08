@@ -90,9 +90,9 @@ module ApplicationHelper
     controller_name == name || controller_name == alter_name ? 'active' : nil
   end
 
-  def user_dashboard(user)
-    # user.admin? || user.any_case_manager? ? 'col-md-6' : ''
-  end
+  # def user_dashboard(user)
+  #   user.admin? || user.any_case_manager? ? 'col-md-6' : ''
+  # end
 
   def user_dashboard_responsive(user)
     user.admin? || user.case_worker? ? 'box-pusher' : 'col-xs-12 big-box'
@@ -111,13 +111,15 @@ module ApplicationHelper
   end
 
   def dynamic_third_party_cols(user)
-    # if user.admin?
-    #   'col-sm-6 col-md-3'
-    # elsif user.any_case_manager?
-    #   'col-sm-4'
-    # elsif user.able_manager? || user.case_worker?
-    #   'col-sm-6'
-    # end
+    if user.admin?
+      'col-xs-12'
+    elsif user.any_case_manager?
+      'col-xs-12'
+    elsif user.able_manager?
+      'col-sm-6'
+    elsif user.case_worker?
+      'col-sm-4'
+    end
   end
 
   def custom_case_dashboard(user)
@@ -146,18 +148,6 @@ module ApplicationHelper
     ENV['ORGANISATION_ABBREVIATION'].upcase
   end
 
-  def client_count
-    if current_user.admin?
-      Client.count
-    elsif current_user.case_worker?
-      current_user.clients.count
-    elsif current_user.able_manager?
-      Client.in_any_able_states_managed_by(current_user).count
-    elsif current_user.any_case_manager?
-      Client.managed_by(current_user, current_user.client_status).count
-    end
-  end
-
   def version_color(event)
     case event
     when 'create'
@@ -176,4 +166,5 @@ module ApplicationHelper
   def date_time_format(date_time)
     date_time.in_time_zone.strftime('%d %B, %Y %H:%M:%S')
   end
+
 end
