@@ -104,7 +104,7 @@ class ProgressNoteGrid
     render partial: 'progress_notes/actions', locals: { object: object }
   end
 
-  column(:modification, html: true, class: 'text-center', header: I18n.t('datagrid.columns.progress_notes.modification')) do |object|
+  column(:modification, html: true, class: 'text-center', header: -> { I18n.t('datagrid.columns.progress_notes.modification') }) do |object|
     link_to t('datagrid.columns.progress_notes.view'), client_progress_note_version_path(object.client, object)
   end
 end
