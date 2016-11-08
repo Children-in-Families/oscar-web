@@ -42,8 +42,8 @@ describe 'Changelog' do
 
     scenario 'valid' do
       click_link('Add New Changelog')
-      within('#new_changelog') do
-        fill_in 'Change version', with: FFaker::Name.name
+      within('#changelogModal-') do
+        fill_in 'changelog[change_version]', with: FFaker::Name.name
         click_link('Add change')
         fill_in 'Description', with: FFaker::Lorem.paragraph
         click_button I18n.t('changelogs.form.save')
@@ -70,7 +70,7 @@ describe 'Changelog' do
     scenario 'valid' do
       find("a[data-target='#changelogModal-#{changelog.id}']").click
       within("#changelogModal-#{changelog.id}") do
-        fill_in 'Change version', with: change_version
+        fill_in 'changelog[change_version]', with: change_version
         click_button I18n.t('changelogs.form.save')
       end
       expect(page).to have_content(I18n.t('changelogs.update.successfully_updated'))
@@ -79,11 +79,10 @@ describe 'Changelog' do
     scenario 'invalid' do
       find("a[data-target='#changelogModal-#{changelog.id}']").click
       within("#changelogModal-#{changelog.id}") do
-        fill_in 'Change version', with: '0.1'
+        fill_in 'changelog[change_version]', with: '0.1'
         click_button I18n.t('changelogs.form.save')
       end
       expect(page).to have_content('Failed to update a changelog.')
-      expect(page).to have_content(I18n.t('activerecord.errors.models.changelog.attributes.change_version.taken'))
     end
   end
 

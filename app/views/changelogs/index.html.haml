@@ -5,14 +5,15 @@
         .col-xs-12.col-sm-4.col-md-3
           %h4
             %u= t('.version_list')
-          %ul.version-list
+          %ul.list-group
             - @changelogs.each do |changelog|
-              %li.list
+              %li.list.list-group-item
                 = link_to "#{changelog.change_version} - #{changelog.created_at.strftime('%d %B, %Y')}", "#changelog-#{changelog.id}"
-                = link_to changelog, method: 'delete', data: { confirm: t('.are_you_sure') }, class: 'pull-right' do
-                  = fa_icon('trash')
-                = link_to '#', {class: 'pull-right', "data-target" => "#changelogModal-#{changelog.id}", "data-toggle" => "modal", :type => "button"} do
-                  = fa_icon('pencil')
+                .pull-right
+                  = link_to '#', {class: 'btn btn-outline btn-success btn-xs', "data-target" => "#changelogModal-#{changelog.id}", "data-toggle" => "modal", :type => "button"} do
+                    = fa_icon('pencil')
+                  = link_to changelog, method: 'delete', data: { confirm: t('.are_you_sure') }, class: 'btn btn-outline btn-danger btn-xs' do
+                    = fa_icon('trash')
               = render 'form', changelog: changelog
 
         .col-xs-12.col-sm-8.col-md-9.changes
@@ -23,7 +24,7 @@
                   %h4
                     %u= t('.changes')
                 .col-xs-6.text-right
-                  = link_to t('.add_new_changelog'), '#', {class: 'btn btn-outline btn-primary btn-add', "data-target" => "#changelogModal-", "data-toggle" => "modal", :type => "button"}
+                  = link_to t('.add_new_changelog'), '#', {class: 'btn btn-primary btn-add', "data-target" => "#changelogModal-", "data-toggle" => "modal", :type => "button"}
             - @changelogs.each do |changelog|
               .col-xs-12.changes-item{ id: "changelog-#{changelog.id}" }
                 .row
