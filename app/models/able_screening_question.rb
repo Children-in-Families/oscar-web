@@ -6,7 +6,7 @@ class AbleScreeningQuestion < ActiveRecord::Base
   belongs_to :question_group
   has_many :answers, dependent: :destroy
   has_many :clients, through: :answers
-  has_many :attachments
+  has_many :attachments, dependent: :destroy
 
   accepts_nested_attributes_for :attachments
 
