@@ -42,6 +42,4 @@
       .ibox-content
         .table-responsive
           = datagrid_table @client_grid, html: {class: 'table table-bordered  table-striped table-hover clients' }
-        .row
-          .col-xs-12.text-center
-            = will_paginate @client_grid.assets, renderer: BootstrapPagination::Rails
+        

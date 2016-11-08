@@ -16,7 +16,7 @@ class ClientsController < AdminController
       f.html do
         @csi_statistics   = CsiStatistic.new(@client_grid.assets).assessment_domain_score.to_json
         @cases_statistics = CaseStatistic.new(@client_grid.assets).statistic_data.to_json
-        @client_grid.scope { |scope| scope.accessible_by(current_ability).paginate(page: params[:page], per_page: 20) }
+        @client_grid.scope { |scope| scope.accessible_by(current_ability) }
       end
       f.csv do
         @client_grid.scope { |scope| scope.accessible_by(current_ability) }

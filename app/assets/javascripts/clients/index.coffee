@@ -14,7 +14,7 @@ CIF.ClientsIndex = do ->
   _reportOption = (data, title, yAxisTitle, element) ->
     if data != undefined
       $(element).highcharts
-        chart: 
+        chart:
           type: 'spline'
         legend:
           verticalAlign: 'top'
@@ -76,16 +76,20 @@ CIF.ClientsIndex = do ->
       $('.visibility input[type=checkbox]').iCheck('check')
     allCheckboxes.on 'ifUnchecked', ->
       $('.visibility input[type=checkbox]').iCheck('uncheck')
-      
+
   _fixedHeaderTableColumns = ->
     if !$('table.clients tbody tr td').hasClass('noresults')
-      $('table.clients').DataTable(
+      $('table.clients').dataTable(
+        'bScrollInfinite': true
+        'bScrollCollapse': true
         'sScrollY': 'auto'
-        'sScrollX': true
-        'bPaginate': false
+        'ordering': false
         'bFilter': false
-        'bInfo': false
-        'ordering': false)
+        'bAutoWidth': true
+        'sScrollX': '100%'
+        'sScrollXInner': '100%'
+        'iDisplayLength': 50
+      )
 
   _cssClassForlabelDynamic = ->
     $('.dynamic_filter').prev('label').css( "display", "block" )
