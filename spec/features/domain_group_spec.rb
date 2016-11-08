@@ -28,6 +28,7 @@ describe 'Domain Group' do
     before do
       visit domain_groups_path
     end
+    sleep 1
     scenario 'valid' do
       click_link('New Domain Group')
       within('#new_domain_group') do
@@ -37,6 +38,7 @@ describe 'Domain Group' do
       expect(page).to have_content('Domain Group has been successfully created')
     end
     scenario 'invalid' do
+      sleep 1
       click_link('New Domain Group')
       within('#new_domain_group') do
         click_button 'Save'
@@ -59,6 +61,7 @@ describe 'Domain Group' do
       expect(page).to have_content('Domain Group has been successfully updated')
     end
     scenario 'invalid' do
+      sleep 1
       find("a[data-target='#domain_groupModal-#{domain_group.id}']").click
       within("#domain_groupModal-#{domain_group.id}") do
         fill_in 'Name', with: ''

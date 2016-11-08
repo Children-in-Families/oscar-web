@@ -36,6 +36,7 @@ describe 'Referral Sources' do
       expect(page).to have_content('Referral Source has been successfully created')
     end
     scenario 'invalid' do
+      sleep 1
       click_link('Add New Referral Source')
       within('#new_referral_source') do
         click_button 'Save'
