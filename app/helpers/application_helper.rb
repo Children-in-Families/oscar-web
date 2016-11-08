@@ -23,15 +23,6 @@ module ApplicationHelper
     params[:action] == action_name ? "active" : nil
   end
 
-  def color_class_for(score)
-    case score
-    when 1 then 'danger'
-    when 2 then 'warning'
-    when 3 then 'primary'
-    when 4 then 'primary'
-    end
-  end
-
   def status_style(status)
     color = 'label-primary'
     case status
@@ -148,17 +139,6 @@ module ApplicationHelper
     ENV['ORGANISATION_ABBREVIATION'].upcase
   end
 
-  def version_color(event)
-    case event
-    when 'create'
-      'success'
-    when 'update'
-      'warning'
-    when 'delete'
-      'danger'
-    end
-  end
-
   def date_format(date)
     date.strftime('%d %B, %Y')
   end
@@ -166,5 +146,4 @@ module ApplicationHelper
   def date_time_format(date_time)
     date_time.in_time_zone.strftime('%d %B, %Y %H:%M:%S')
   end
-
 end

@@ -2,7 +2,7 @@
   .panel-body
     - if @versions.any?
       - @versions.each do |version|
-        .panel.panel-info
+        %div{ class: "panel panel-#{version_color(version.event)}" }
           .panel-heading
             %h5
               - if controller_name == 'data_trackers'

@@ -177,4 +177,12 @@ module VersionHelper
   def case?(item_type)
     item_type == 'Case'
   end
+
+  def version_color(event)
+    case event
+    when 'create' then 'primary'
+    when 'delete' then 'danger'
+    when 'update' then 'success'
+    end
+  end
 end

@@ -1,45 +1,46 @@
-.col-xs-12
-  .ibox
-    .ibox-content
-      .row
-        .col-xs-12.col-sm-4.col-md-3
-          %h4
-            %u= t('.version_list')
-          %ul.version-list
-            - @changelogs.each do |changelog|
-              %li.list
-                = link_to "#{changelog.change_version} - #{changelog.created_at.strftime('%d %B, %Y')}", "#changelog-#{changelog.id}"
-                = link_to changelog, method: 'delete', data: { confirm: t('.are_you_sure') }, class: 'pull-right' do
-                  = fa_icon('trash')
-                = link_to '#', {class: 'pull-right', "data-target" => "#changelogModal-#{changelog.id}", "data-toggle" => "modal", :type => "button"} do
-                  = fa_icon('pencil')
-              = render 'form', changelog: changelog
+.row
+  .col-xs-12
+    .ibox
+      .ibox-content
+        .row
+          .col-xs-12.col-sm-4.col-md-3
+            %h4
+              %u= t('.version_list')
+            %ul.version-list
+              - @changelogs.each do |changelog|
+                %li.list
+                  = link_to "#{changelog.change_version} - #{changelog.created_at.strftime('%d %B, %Y')}", "#changelog-#{changelog.id}"
+                  = link_to changelog, method: 'delete', data: { confirm: t('.are_you_sure') }, class: 'pull-right' do
+                    = fa_icon('trash')
+                  = link_to '#', {class: 'pull-right', "data-target" => "#changelogModal-#{changelog.id}", "data-toggle" => "modal", :type => "button"} do
+                    = fa_icon('pencil')
+                = render 'form', changelog: changelog
 
-        .col-xs-12.col-sm-8.col-md-9.changes
-          .row
-            .col-xs-12
-              .row
-                .col-xs-6
-                  %h4
-                    %u= t('.changes')
-                .col-xs-6.text-right
-                  = link_to t('.add_new_changelog'), '#', {class: 'btn btn-outline btn-primary btn-add', "data-target" => "#changelogModal-", "data-toggle" => "modal", :type => "button"}
-            - @changelogs.each do |changelog|
-              .col-xs-12.changes-item{ id: "changelog-#{changelog.id}" }
+          .col-xs-12.col-sm-8.col-md-9.changes
+            .row
+              .col-xs-12
                 .row
-                  .col-xs-12.col-sm-8
-                    %h4= "#{changelog.change_version} - #{changelog.created_at.strftime('%d %B, %Y')}"
-                  .col-xs-12.col-sm-4
-                    %p.view-modification
-                      = link_to t('.view_modification'), changelog_version_path(changelog)
-                %div.changes-description
-                  - changelog.changelog_types.each do |changelog_type|
-                    .row
-                      .col-xs-12.change
-                        .row
-                          .col-xs-3.col-md-2
-                            %div{ class: "change-type label label-#{changelog_type_label(changelog_type.change_type)}" }
-                              = changelog_type.change_type.upcase
-                          .col-xs-9.col-md-10
-                            = changelog_type.description
+                  .col-xs-6
+                    %h4
+                      %u= t('.changes')
+                  .col-xs-6.text-right
+                    = link_to t('.add_new_changelog'), '#', {class: 'btn btn-outline btn-primary btn-add', "data-target" => "#changelogModal-", "data-toggle" => "modal", :type => "button"}
+              - @changelogs.each do |changelog|
+                .col-xs-12.changes-item{ id: "changelog-#{changelog.id}" }
+                  .row
+                    .col-xs-12.col-sm-8
+                      %h4= "#{changelog.change_version} - #{changelog.created_at.strftime('%d %B, %Y')}"
+                    .col-xs-12.col-sm-4
+                      %p.view-modification
+                        = link_to t('.view_modification'), changelog_version_path(changelog)
+                  %div.changes-description
+                    - changelog.changelog_types.each do |changelog_type|
+                      .row
+                        .col-xs-12.change
+                          .row
+                            .col-xs-3.col-md-2
+                              %div{ class: "change-type label label-#{changelog_type_label(changelog_type.change_type)}" }
+                                = changelog_type.change_type.upcase
+                            .col-xs-9.col-md-10
+                              = changelog_type.description
 = render 'form'
