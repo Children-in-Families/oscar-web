@@ -7,30 +7,12 @@
             .col-xs-3
               %h2.font-bold #{@dashboard.family_count}
             .col-xs-9.text-right
-              %span
+              %span.text-font
                 = t('.families')
               %br
               %br
               %i.fa.fa-users.fa-3x
-      =link_to families_path("family_grid[family_type]":"foster")do
-        .widget.col-xs-6.widget-family-foster-panel
-          .m-b-md
-            %h1.m-xs #{@dashboard.foster_count}
-            %h3.font-bold.no-margins
-              = t('.foster')
-        -# .big-box.col-xs-6.text-center{style:"background-color:skyblue;"}
-        -#   %h2.anti-link
-        -#     #{@dashboard.foster_count}
-        -#   %h3.anti-link.float-right
-        -#     %i= t('.foster')
-      =link_to families_path("family_grid[family_type]":"kinship") do
-        .widget.col-xs-6.widget-family-kinship-panel
-          .m-b-md
-            %h1.m-xs #{@dashboard.kinship_count}
-            %h3.font-bold.no-margins
-              = t('.kinship')
-        -# .big-box.col-xs-6.text-center{style:"background-color:powderblue;"}
-        -#   %h2.anti-link
-        -#     #{@dashboard.kinship_count}
-        -#   %h3.anti-link.float-right
-        -#     %i= t('.kinship')
+      .row
+        .col-xs-12
+          #family-type{ 'data-content-count' => @dashboard.family_type_statistic.to_json }
+        

@@ -14,7 +14,8 @@ CIF.ClientsIndex = do ->
   _reportOption = (data, title, yAxisTitle, element) ->
     if data != undefined
       $(element).highcharts
-        chart: type: 'spline'
+        chart: 
+          type: 'spline'
         legend:
           verticalAlign: 'top'
           y: 30

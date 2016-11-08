@@ -1,6 +1,32 @@
 class Dashboard
+  include Rails.application.routes.url_helpers
+
   def initialize(user)
     @user = user
+  end
+
+  def client_url(status)
+    clients_path(status)
+  end
+
+  def family_url(status)
+    families_path(status)
+  end
+
+  def client_gender_statistic
+    [{ name: I18n.t('classes.dashboard.males'), y: male_count, url: client_url("client_grid[gender]":"Male") },
+     { name: I18n.t('classes.dashboard.females'), y: female_count, url: client_url("client_grid[gender]":"Female") }]
+  end
+
+  def client_status_statistic
+    [{ name: I18n.t('classes.dashboard.emergency_cares_html'), y: ec_count, url: client_url("client_grid[status]":"Active EC") },
+     { name: I18n.t('classes.dashboard.foster_cares_html'), y: fc_count, url: client_url("client_grid[status]":"Active FC") },
+     { name: I18n.t('classes.dashboard.kinship_cares_html'), y: kc_count, url: client_url("client_grid[status]":"Active KC") }]
+  end
+
+  def family_type_statistic
+    [{ name: 'Foster', y: foster_count, url: family_url("family_grid[family_type]":"foster") },
+     { name: 'kinship', y: kinship_count, url: family_url("family_grid[family_type]":"kinship") }]
   end
 
   def client_count
@@ -21,7 +47,7 @@ class Dashboard
     elsif @user.case_worker?
       @user.clients.active_fc.count
     elsif @user.able_manager?
-      Client.in_any_able_states_managed_by.active_fc.count
+      Client.in_any_able_states_managed_by(@user).active_fc.count
     end
   end
 
@@ -31,7 +57,7 @@ class Dashboard
     elsif @user.case_worker?
       @user.clients.active_kc.count
     elsif @user.able_manager?
-      Client.in_any_able_states_managed_by.active_kc.count
+      Client.in_any_able_states_managed_by(@user).active_kc.count
     end
   end
 
@@ -41,7 +67,7 @@ class Dashboard
     elsif @user.case_worker?
       @user.clients.active_ec.count
     elsif @user.able_manager?
-      Client.in_any_able_states_managed_by.active_ec.count
+      Client.in_any_able_states_managed_by(@user).active_ec.count
     end
   end
 

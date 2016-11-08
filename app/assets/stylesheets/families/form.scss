@@ -1,8 +1,16 @@
-#families-create, #families-update, #families-new, #families-edit {
+body[id='families-new'],
+body[id='families-create'],
+body[id='families-edit'],
+body[id='families-update'] {
   margin-bottom: 50px;
   .family_dependable_income {
     padding-top: 20px;
   }
+
+  .icheckbox_square-green{
+    margin-right: 10px;
+  }
+
   @media screen and (max-width: 991px) {
     .family_dependable_income {
       padding-top: 0;

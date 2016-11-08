@@ -11,8 +11,12 @@
     color: white;
   }
 
+  .max-hight{
+    max-height: 200px;
+  }
+
   p.heading {
-    font-size: 36px;
+    font-size: 30px;
     display: inline;
   }
 
@@ -25,7 +29,7 @@
   @media screen and (min-width: 992px) and (max-width: 1332px) {
     .box-pusher {
       h4 {
-        font-size: 1.8vw;
+        font-size: 1.5vw;
       }
 
       h1 {
@@ -46,17 +50,12 @@
       margin-bottom: 15px;
     }
 
-    // .big-box {
-    //   height: 279px;
-    //   padding-top: 90px;
-    // }
-
     h1 {
       font-size: 4em;
     }
 
     h2 {
-      font-size: 5em;
+      font-size: 4em;
     }
     .widget-family-panel,
     .widget-client-panel {
@@ -75,7 +74,7 @@
       text-align: center;
       background-color: #ecf0f1;
       color: #2c3e50;
-      padding: 77px 0;
+      padding: 44px 0;
     }
     .widget-family-foster-panel {
       border-bottom-right-radius: 0;
@@ -113,23 +112,35 @@
       }
     }
   }
-
+  .text-font{
+    font-size: 1.5em
+  }
   .bottom-panel {
     h1 {
-      font-size: 3em;
+      font-size: 2em;
     }
   }
+  .widget-able-panel,
   .widget-agency-panel,
   .widget-partner-panel,
   .widget-referral-panel,
   .widget-staff-panel {
     color: #fff;
+    margin-bottom: 9px;
+    padding-bottom: 10px;
+    padding-top: 10px;
   }
 
   .widget-agency-panel {
     background-color: #f9c00c;
     &:hover {
       background-color: #deaa05;
+    }
+  }
+  .widget-able-panel {
+    background-color: #03a863;
+    &:hover {
+      background-color: #029155;
     }
   }
   .widget-partner-panel {
@@ -150,7 +161,4 @@
       background-color: #fe2149;
     }
   }
-  // .top-spacing {
-  //   margin-top: 19px;
-  // }
 }

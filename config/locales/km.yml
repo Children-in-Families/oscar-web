@@ -416,13 +416,13 @@ km:
         <<: *default_family_fields
         name: ឈ្មោះរបស់គ្រួសារ
         member_count: ចំនួនសមាជិកគ្រួសារ
-        member_count_total: ចំនួនសមាជិកគ្រួសារសរុប
         manage: សកម្មភាព
         family_type: ប្រភេទគ្រួសារ
         clients: ឣតិថិជន
         family_preservation: ករណីអភិរក្សគ្រួសារ?
         family_id: លេខសម្គាល់គ្រួសារ
         case_workers: បុគ្គលិកគ្រប់គ្រងករណី
+        total: សរុប
       partners:
         <<: *default_partner_fields
         type: ប្រភេទ
@@ -498,6 +498,9 @@ km:
       locations: កន្លែង
       progress_note_types: កំណត់សំគាល់
       interventions: ចំនុចដែលត្រូវធ្វើ
+    top_navbar:
+      log_out: ចាកចេញ
+      edit_profile: កែសម្រួលពត៌មានផ្ទាល់ខ្លួន
 
   reports:
     index:
@@ -1275,10 +1278,19 @@ km:
       foster: Foster
       kinship: Kinship
     third_party:
+      ables: Ables
       agencies: អង្គភាព
       partners: ដៃគូ
       referral_sources: ប្រភពនៃការបញ្ជូន
       staffs: បុគ្គលិក
+
+  classes:
+    dashboard:
+      males: ប្រុស
+      females: ស្រី
+      foster_cares_html: ករណី <br/>Foster
+      kinship_cares_html:  ករណី <br/>Kinship
+      emergency_cares_html: ករណី <br/>Emergency
 
   case:
     quarterly_reports:

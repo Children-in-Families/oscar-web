@@ -3,17 +3,22 @@
     = f.error_notification
     .row
       .col-xs-12
-        %p.survey-note
+        .alert.alert-warning.visible-xs-block
+          %p
+            %strong= "#{t('.note')}: "
+          %p= t('.strongly_disagree')
+          - (1..4).each do |num|
+            %p
+              %span.margin-static
+              %input{ type: 'radio', disabled: 'disabled', class: 'i-checks' }= num
+          %p= t('.strongly_agree')
+
+        .alert.alert-warning.hidden-xs
           %strong.score-evaluation= "#{t('.note')}: "
           %span= t('.strongly_disagree')
-          %span.margin-static
-            %input{ type: 'radio', disabled: 'disabled', class: 'i-checks' } 1
-          %span.margin-static
-            %input{ type: 'radio', disabled: 'disabled', class: 'i-checks' } 2
-          %span.margin-static
-            %input{ type: 'radio', disabled: 'disabled', class: 'i-checks' } 3
-          %span.margin-static
-            %input{ type: 'radio', disabled: 'disabled', class: 'i-checks' } 4
+          - (1..4).each do |num|
+            %span.margin-static
+              %input{ type: 'radio', disabled: 'disabled', class: 'i-checks' }= num
           %span.strongly-agree= t('.strongly_agree')
     .row
       .col-xs-12.col-sm-6

@@ -1,6 +1,4 @@
 // Framework
-@import 'animate/animate.css';
-@import 'wrapbootstrap/style';
 @import 'font-awesome';
 @import 'step';
 @import 'thredded';
@@ -14,7 +12,7 @@
 @import 'iCheck/red.css';
 @import 'iCheck/orange.css';
 @import 'toastr/toastr.min.css';
-
+@import 'wrapbootstrap/style';
 
 // Components
 @import 'components/datagrid';
@@ -53,3 +51,4 @@
 @import 'progress_note_types/*';
 @import 'interventions/*';
 @import 'progress_notes/*';
+@import 'top_navbar';

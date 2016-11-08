@@ -4,26 +4,17 @@ module FamiliesHelper
 
     if params[:locale]=='km'
       html_tags << "#{I18n.t('datagrid.columns.families.female_children_count')} : #{object.female_children_count.to_i}"
-    elsif params[:locale]=='en'
-      html_tags << "#{I18n.t('datagrid.columns.families.female_children_count')} #{'child'.pluralize(object.female_children_count.to_i)} : #{object.female_children_count.to_i}"
-    end
-
-    if params[:locale]=='km'
       html_tags << "#{I18n.t('datagrid.columns.families.male_children_count')} : #{object.male_children_count.to_i}"
-    elsif params[:locale]== 'en'
-      html_tags << "#{I18n.t('datagrid.columns.families.male_children_count')} #{'child'.pluralize(object.male_children_count.to_i)} : #{object.male_children_count.to_i}"
-    end
-
-    if params[:locale]=='km'
       html_tags << "#{I18n.t('datagrid.columns.families.female_adult_count')} : #{object.female_adult_count.to_i}"
-    elsif params[:locale]=='en'
-      html_tags << "#{I18n.t('datagrid.columns.families.female_adult_count')} #{'adult'.pluralize(object.female_adult_count.to_i)} : #{object.female_adult_count.to_i}"
-    end
-
-    if params[:locale]=='km'
       html_tags << "#{I18n.t('datagrid.columns.families.male_adult_count')} : #{object.male_adult_count.to_i}"
     elsif params[:locale]=='en'
-      html_tags << "#{I18n.t('datagrid.columns.families.male_adult_count')}#{'adult'.pluralize(object.male_adult_count.to_i)} : #{object.male_adult_count.to_i}"
+      html_tags << "#{I18n.t('datagrid.columns.families.female')} #{'child'.pluralize(object.female_children_count.to_i)} : #{object.female_children_count.to_i}"
+
+      html_tags << "#{I18n.t('datagrid.columns.families.male')} #{'child'.pluralize(object.male_children_count.to_i)} : #{object.male_children_count.to_i}"
+
+      html_tags << "#{I18n.t('datagrid.columns.families.female')} #{'adult'.pluralize(object.female_adult_count.to_i)}  : #{object.female_adult_count.to_i}"
+
+      html_tags << "#{I18n.t('datagrid.columns.families.male')} #{'adult'.pluralize(object.male_adult_count.to_i)} : #{object.male_adult_count.to_i}"
     end
 
     content_tag(:ul, class: 'family-members-list') do

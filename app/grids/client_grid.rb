@@ -436,8 +436,8 @@ class ClientGrid
     end
   end
 
-  column(:any_assessments, header: -> { I18n.t('datagrid.columns.clients.assessments') }, html: true) do |object|
-    object.assessments.map(&:basic_info).join("\x0D\x0A")
+  column(:any_assessments, class: 'text-center', header: -> { I18n.t('datagrid.columns.clients.assessments') }, html: true) do |object|
+    render partial: 'clients/assessments', locals: { object: object }
   end
 
   column(:manage, html: true, class: 'text-center', header: -> { I18n.t('datagrid.columns.clients.manage') }) do |object|

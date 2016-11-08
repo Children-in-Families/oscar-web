@@ -1,6 +1,6 @@
 class HomeController < AdminController
   def index
-    @dashboard       = Dashboard.new(current_user)
+    @dashboard = Dashboard.new(current_user)
   end
 
   def robots

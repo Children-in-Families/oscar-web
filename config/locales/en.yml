@@ -414,8 +414,7 @@ en:
       families:
         <<: *default_family_fields
         name: Name
-        member_count: Member Count
-        member_count_total: Member Count Total
+        member_count: Family Members
         manage: Manage
         family_type: Family Type
         clients: Clients
@@ -423,6 +422,9 @@ en:
         family_preservation: Family Preservation?
         family_id: Family ID
         case_workers: Case Workers
+        male: Male
+        female: Female
+        total: Total
 
       partners:
         <<: *default_partner_fields
@@ -501,6 +503,9 @@ en:
       locations: Locations
       progress_note_types: Types of Note
       interventions: Interventions
+    top_navbar:
+      log_out: Log out
+      edit_profile: Edit Profile
 
   reports:
     index:
@@ -1222,10 +1227,19 @@ en:
       foster: Foster
       kinship: Kinship
     third_party:
+      ables: Ables
       agencies: Agencies
       partners: Partners
       referral_sources: Referral Sources
       staffs: Staffs
+
+  classes:
+    dashboard:
+      males: Males
+      females: Females
+      foster_cares_html: Foster <br/>Cares
+      kinship_cares_html:  Kinship <br/>Cares
+      emergency_cares_html: Emergency <br/>Cares
 
       overdue_assessments_count:
         one: "You have 1 assessment overdue."
