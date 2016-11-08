@@ -1,7 +1,7 @@
-/* iCheck plugin Square skin, green
+/* iCheck plugin Square skin, orange
 ----------------------------------- */
-.icheckbox_square-green,
-.iradio_square-green {
+.icheckbox_square-orange,
+.iradio_square-orange {
     display: inline-block;
     *display: inline;
     vertical-align: middle;
@@ -9,50 +9,50 @@
     padding: 0;
     width: 22px;
     height: 22px;
-    background: url(green.png) no-repeat;
+    background: url('orange.png') no-repeat;
     border: none;
     cursor: pointer;
 }
 
-.icheckbox_square-green {
+.icheckbox_square-orange {
     background-position: 0 0;
 }
-.icheckbox_square-green.hover {
+.icheckbox_square-orange.hover {
     background-position: -24px 0;
 }
-.icheckbox_square-green.checked {
+.icheckbox_square-orange.checked {
     background-position: -48px 0;
 }
-.icheckbox_square-green.disabled {
+.icheckbox_square-orange.disabled {
     background-position: -72px 0;
     cursor: default;
 }
-.icheckbox_square-green.checked.disabled {
+.icheckbox_square-orange.checked.disabled {
     background-position: -96px 0;
 }
 
-.iradio_square-green {
+.iradio_square-orange {
     background-position: -120px 0;
 }
-.iradio_square-green.hover {
+.iradio_square-orange.hover {
     background-position: -144px 0;
 }
-.iradio_square-green.checked {
+.iradio_square-orange.checked {
     background-position: -168px 0;
 }
-.iradio_square-green.disabled {
+.iradio_square-orange.disabled {
     background-position: -192px 0;
     cursor: default;
 }
-.iradio_square-green.checked.disabled {
+.iradio_square-orange.checked.disabled {
     background-position: -216px 0;
 }
 
 /* HiDPI support */
 @media (-o-min-device-pixel-ratio: 5/4), (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 120dpi) {
-    .icheckbox_square-green,
-    .iradio_square-green {
-        background-image: url(green@2x.png);
+    .icheckbox_square-orange,
+    .iradio_square-orange {
+        background-image: url('orange@2x.png');
         -webkit-background-size: 240px 24px;
         background-size: 240px 24px;
     }

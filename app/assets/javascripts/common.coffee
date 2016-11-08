@@ -15,6 +15,15 @@ CIF.Common =
       ), 5000
 
   customCheckBox: ->
+    $('.i-check-red').iCheck
+      radioClass: 'iradio_square-red'
+
+    $('.i-check-brown').iCheck
+      radioClass: 'iradio_square-brown'
+
+    $('.i-check-orange').iCheck
+      radioClass: 'iradio_square-orange'
+
     $('.i-checks').iCheck
       checkboxClass: 'icheckbox_square-green'
       radioClass: 'iradio_square-green'

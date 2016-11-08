@@ -1,6 +1,6 @@
 class RegistrationsController < Devise::RegistrationsController
 
-  before_action :notify_user, only: [:edit, :update]
+  before_action :notify_user, :set_sidebar_basic_info, only: [:edit, :update]
 
   def new
     redirect_to new_user_session_path, notice: 'Registrations are not allowed.'
@@ -14,5 +14,9 @@ class RegistrationsController < Devise::RegistrationsController
 
   def notify_user
     @notification = UserNotification.new(current_user)
+  end
+
+  def set_sidebar_basic_info
+    @dashboard = Dashboard.new(current_user)
   end
 end

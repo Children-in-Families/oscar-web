@@ -145,16 +145,4 @@ module ApplicationHelper
   def organization_name
     ENV['ORGANISATION_ABBREVIATION'].upcase
   end
-
-  def client_count
-    if current_user.admin?
-      Client.count
-    elsif current_user.case_worker?
-      current_user.clients.count
-    elsif current_user.able_manager?
-      Client.in_any_able_states_managed_by(current_user).count
-    elsif current_user.any_case_manager?
-      Client.managed_by(current_user, current_user.client_status).count
-    end
-  end
 end
