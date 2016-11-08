@@ -40,6 +40,7 @@ describe 'Agency' do
     end
 
     scenario 'invalid', js: true do
+      sleep 1
       click_link 'Add New Agency'
       within('#new_agency') do
         click_button 'Save'
