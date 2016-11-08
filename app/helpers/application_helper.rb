@@ -111,13 +111,15 @@ module ApplicationHelper
   end
 
   def dynamic_third_party_cols(user)
-    # if user.admin?
-    #   'col-sm-6 col-md-3'
-    # elsif user.any_case_manager?
-    #   'col-sm-4'
-    # elsif user.able_manager? || user.case_worker?
-    #   'col-sm-6'
-    # end
+    if user.admin?
+      'col-xs-12'
+    elsif user.any_case_manager?
+      'col-xs-12'
+    elsif user.able_manager?
+      'col-sm-6'
+    elsif user.case_worker?
+      'col-sm-4'
+    end
   end
 
   def custom_case_dashboard(user)

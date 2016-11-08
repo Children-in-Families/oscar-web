@@ -1,64 +1,59 @@
-.col-xs-12.col-md-6
+.col-xs-12{ class: ('col-md-6' if !current_user.case_worker? && !current_user.able_manager?) }
   .panel.panel-default.bottom-panel
     .panel-body
       .row
         - if current_user.admin? || current_user.case_worker?
-          .col-xs-12
-            %div
-              = link_to clients_path("client_grid[able_state]":"Accepted") do
-                .widget.style1.widget-able-panel
-                  .row
-                    .col-xs-6.text-left
-                      %i.fa.fa-wheelchair.fa-4x
-                    .col-xs-6.text-right
-                      %span.text-font
-                        = t('.ables')
-                      %h2.font-bold #{@dashboard.able_count}
+          %div{ class: "#{dynamic_third_party_cols(current_user)} text-center" }
+            = link_to clients_path("client_grid[able_state]":"Accepted") do
+              .widget.style1.widget-able-panel
+                .row
+                  .col-xs-6.text-left
+                    %i.fa.fa-wheelchair.fa-3x
+                  .col-xs-6.text-right
+                    %span.text-font
+                      = t('.ables')
+                    %h2.font-bold #{@dashboard.able_count}
         - if can? :manage?, Agency
-          .col-xs-12
-            %div{ class: "#{dynamic_third_party_cols(current_user)} text-center" }
-              = link_to agencies_path do
-                .widget.style1.widget-agency-panel
-                  .row
-                    .col-xs-6.text-left
-                      %i.fa.fa-building.fa-4x
-                    .col-xs-6.text-right
-                      %span.text-font
-                        = t('.agencies')
-                      %h2.font-bold #{@dashboard.agency_count}
+          %div{ class: "#{dynamic_third_party_cols(current_user)} text-center" }
+            = link_to agencies_path do
+              .widget.style1.widget-agency-panel
+                .row
+                  .col-xs-6.text-left
+                    %i.fa.fa-building.fa-3x
+                  .col-xs-6.text-right
+                    %span.text-font
+                      = t('.agencies')
+                    %h2.font-bold #{@dashboard.agency_count}
         - if can? :manage?, Partner
-          .col-xs-12
-            %div{ class: "#{dynamic_third_party_cols(current_user)} text-center" }
-              =link_to partners_path do
-                .widget.style1.widget-partner-panel
-                  .row
-                    .col-xs-6.text-left
-                      %i.fa.fa-handshake-o.fa-4x
-                    .col-xs-6.text-right
-                      %span.text-font
-                        = t('.partners')
-                      %h2.font-bold #{@dashboard.partner_count}
+          %div{ class: "#{dynamic_third_party_cols(current_user)} text-center" }
+            =link_to partners_path do
+              .widget.style1.widget-partner-panel
+                .row
+                  .col-xs-6.text-left
+                    %i.fa.fa-handshake-o.fa-3x
+                  .col-xs-6.text-right
+                    %span.text-font
+                      = t('.partners')
+                    %h2.font-bold #{@dashboard.partner_count}
         - if can? :manage?, ReferralSource
-          .col-xs-12
-            %div{ class: "#{dynamic_third_party_cols(current_user)} text-center" }
-              =link_to referral_sources_path do
-                .widget.style1.widget-referral-panel
-                  .row
-                    .col-xs-6.text-left
-                      %i.fa.fa-briefcase.fa-4x
-                    .col-xs-6.text-right
-                      %span.text-font
-                        = t('.referral_sources')
-                      %h2.font-bold #{@dashboard.referral_source_count}
+          %div{ class: "#{dynamic_third_party_cols(current_user)} text-center" }
+            =link_to referral_sources_path do
+              .widget.style1.widget-referral-panel
+                .row
+                  .col-xs-4.text-left
+                    %i.fa.fa-briefcase.fa-3x
+                  .col-xs-8.text-right
+                    %span.text-font
+                      = t('.referral_sources')
+                    %h2.font-bold #{@dashboard.referral_source_count}
         - if can? :manage?, User
-          .col-xs-12
-            %div{ class: "#{dynamic_third_party_cols(current_user)} text-center" }
-              =link_to users_path do
-                .widget.style1.widget-staff-panel
-                  .row
-                    .col-xs-6.text-left
-                      %i.fa.fa-group.fa-4x
-                    .col-xs-6.text-right
-                      %span.text-font
-                        = t('.staffs')
-                      %h2.font-bold #{@dashboard.staff_count}
+          %div{ class: "#{dynamic_third_party_cols(current_user)} text-center" }
+            =link_to users_path do
+              .widget.style1.widget-staff-panel
+                .row
+                  .col-xs-6.text-left
+                    %i.fa.fa-group.fa-3x
+                  .col-xs-6.text-right
+                    %span.text-font
+                      = t('.staffs')
+                    %h2.font-bold #{@dashboard.staff_count}
