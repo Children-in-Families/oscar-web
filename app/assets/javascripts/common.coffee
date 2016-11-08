@@ -15,6 +15,15 @@ CIF.Common =
       ), 5000
 
   customCheckBox: ->
+    $('.i-check-red').iCheck
+      radioClass: 'iradio_square-red'
+
+    $('.i-check-brown').iCheck
+      radioClass: 'iradio_square-brown'
+
+    $('.i-check-orange').iCheck
+      radioClass: 'iradio_square-orange'
+
     $('.i-checks').iCheck
       checkboxClass: 'icheckbox_square-green'
       radioClass: 'iradio_square-green'
@@ -47,9 +56,9 @@ CIF.Common =
     messageInfo = $("#wrapper").data()
     if Object.keys(messageInfo).length > 0
       if messageInfo.messageType == 'notice'
-        toastr.success(messageInfo.message, 'Notification', messageOption)
+        toastr.success(messageInfo.message, '', messageOption)
       else if messageInfo.messageType == 'alert'
-        toastr.error(messageInfo.message, 'Notification', messageOption)
+        toastr.error(messageInfo.message, '', messageOption)
       #
       # else if
       #   toastr.error(messageInfo.message, 'Notification', messageOption)
