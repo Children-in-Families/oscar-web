@@ -1,18 +1,22 @@
 = simple_form_for([@client, @case]) do |f|
   .ibox-content
-    = f.error_notification
+    = error_notification(f)
     .form-inputs
       .row
         .col-xs-12.col-md-4= f.input :carer_names, label: "#{t('.carer_names')}"
         .col-xs-12.col-md-4= f.input :carer_address, label: "#{t('.carer_address')}"
         .col-xs-12.col-md-4= f.input :carer_phone_number, label: "#{t('.carer_phone_number')}"
       .row
-        .col-xs-12.col-md-4.form-group.date.optional.case_start_date
-          %label.date.optional.control-label{ for: 'case_start_date' } #{t('.start_date')}
+        .col-xs-12.col-md-4.form-group.date.optional.case_start_date{ class: ('has-error' if f.error :start_date) }
+          %label.date.optional.control-label{ for: 'case_start_date' }
+            %abbr{ title: 'required' } *
+            = t('.start_date')
           .input-group.date
-            = f.text_field :start_date, class: 'date optional form-control date-picker', type: 'text', name: 'case[start_date]', id: 'case_start_date'
+            = f.text_field :start_date, required: true, class: 'date optional form-control date-picker', type: 'text', name: 'case[start_date]', id: 'case_start_date'
             %span.input-group-addon
               %i.fa.fa-calendar-check-o
+          = f.error :start_date
+
         .col-xs-12.col-md-4= f.association :province, collection: @province, label: "#{t('.province')}"
         .col-xs-12.col-md-4= f.input :case_type, as: :string, label: "#{t('.case_type')}", default: params[:case_type], input_html: { readonly: 'readonly' }
       .row
@@ -21,7 +25,10 @@
         .col-xs-12.col-md-4= f.input :support_amount, label: "#{t('.support_amount')}($)"
       .row
         .col-xs-12.col-md-4= f.input :support_note, input_html: { rows: 5 }, label: "#{t('.support_note')}"
-        .col-xs-12.col-md-4= f.input :family_preservation, label: "#{t('.family_preservation')}", input_html: { class: 'i-checks' }
+        .col-xs-12.col-md-4
+          .i-checks.family-preservation
+            %label= t('.family_preservation')
+            = f.input :family_preservation, as: :radio_buttons, collection: [['Yes', true],['No', false]], label: false
   .ibox-footer
     .form-actions
       = f.submit t('save'), class: 'btn btn-primary form-btn'

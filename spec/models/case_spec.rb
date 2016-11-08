@@ -12,8 +12,10 @@ end
 describe Case, 'validations' do
   subject{ Case.new(case_type: 'FC') }
 
+  it { is_expected.to validate_presence_of(:start_date) }
   it { is_expected.to validate_presence_of(:case_type) }
   it { is_expected.to validate_presence_of(:family) }
+
   context 'if active' do
     before { subject.exited = true }
     it { is_expected.to validate_presence_of(:exit_date) }

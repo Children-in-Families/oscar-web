@@ -115,9 +115,7 @@ class ClientGrid
 
   filter(:grade, :integer, range: true, header: -> { I18n.t('datagrid.columns.clients.school_grade') })
 
-  filter(:able_state, :enum, select: :able_states, header: -> { I18n.t('datagrid.columns.clients.able_state') }) do |value, scope|
-    scope.able_state_is(value)
-  end
+  filter(:able_state, :enum, select: :able_states, header: -> { I18n.t('datagrid.columns.clients.able_state') })
 
   def able_states
     Client::ABLE_STATES
@@ -442,5 +440,9 @@ class ClientGrid
 
   column(:manage, html: true, class: 'text-center', header: -> { I18n.t('datagrid.columns.clients.manage') }) do |object|
     render partial: 'clients/actions', locals: { object: object }
+  end
+
+  column(:modification, html: true, class: 'text-center', header: -> { I18n.t('datagrid.columns.clients.modification') }) do |object|
+    link_to t('datagrid.columns.clients.view'), client_version_path(object)
   end
 end

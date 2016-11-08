@@ -83,7 +83,7 @@ describe 'Partner' do
     end
     scenario 'disable delete link' do
       visit partner_path(other_partner)
-      expect(page).to have_css("a[href='#{partner_path(other_partner)}'][data-method='delete'][class='btn btn-outline btn-danger btn-xs disabled']")
+      expect(page).to have_css("a[href='#{partner_path(other_partner)}'][data-method='delete'][class='btn btn-outline btn-danger btn-md disabled']")
     end
   end
 end

@@ -24,8 +24,9 @@ class UserGrid
   end
 
   filter(:job_title, :enum, select: :job_title_options,  header: -> { I18n.t('datagrid.columns.users.job_title') })
+
   def job_title_options
-    scope.job_title_is
+    User.job_title_are
   end
 
   filter(:date_of_birth, :date, range: true, header: -> { I18n.t('datagrid.columns.users.date_of_birth') })
@@ -34,17 +35,18 @@ class UserGrid
 
   filter(:department, :enum, select: :department_options, header: -> { I18n.t('datagrid.columns.users.department') })
   def department_options
-    scope.department_is
+    User.department_are
   end
 
   filter(:roles, :enum, select: :role_options,  header: -> { I18n.t('datagrid.columns.users.roles') })
+
   def role_options
-    scope.map { |u| [u.roles.titleize, u.roles] }.uniq
+    User.order(:roles).map { |u| [u.roles.titleize, u.roles] }.uniq
   end
 
   filter(:province_id, :enum, select: :province_options,  header: -> { I18n.t('datagrid.columns.users.province') })
   def province_options
-    scope.province_is
+    User.province_are
   end
 
   column(:id, header: -> { I18n.t('datagrid.columns.users.id') })
@@ -86,5 +88,9 @@ class UserGrid
 
   column(:manage, header: -> { I18n.t('datagrid.columns.users.manage') }, html: true, class: 'text-center') do |object|
     render partial: 'users/actions', locals: { object: object }
+  end
+
+  column(:modification, html: true, class: 'text-center', header: -> { I18n.t('datagrid.columns.users.modification') }) do |object|
+    link_to t('datagrid.columns.users.view'), user_version_path(object)
   end
 end

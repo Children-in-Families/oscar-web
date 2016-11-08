@@ -30,7 +30,7 @@ en:
     status: Status
 
   default_changelog_fields: &default_changelog_fields
-    version: Version
+    change_version: Version
     description: Description
 
   default_government_report_fields: &default_government_report_fields
@@ -281,7 +281,7 @@ en:
     contact_name: Contact Name
     contact_email: Email
     contact_mobile: Contact Mobile
-    organisation_type: Organizatin Type
+    organisation_type: Organisation Type
     affiliation: Affiliation
     engagement: Engagement
     background: Background
@@ -387,9 +387,14 @@ en:
         has_dob: 'Yes'
         no_dob: 'No'
         case_type: Case Type
+        modification: Modification
+        view: View
+
       progress_notes:
         <<: *default_progress_note_fields
         manage: Manage
+        modification: Modification
+        view: View
 
       select_columns: Select Columns
       show_all: Show All
@@ -425,16 +430,22 @@ en:
         male: Male
         female: Female
         total: Total
+        modification: Modification
+        view: View
 
       partners:
         <<: *default_partner_fields
         type: Type
         manage: Manage
         partner: Partner
+        modification: Modification
+        view: View
       users:
         <<: *default_user_fields
         name: Name
         manage: Manage
+        modification: Modification
+        view: View
       quarterly_reports:
         visit_date: Date Of Visit
         kc_name: KC Name
@@ -498,6 +509,7 @@ en:
       km: ខ្មែរ
       log_out: Log out
       log_in: Log in
+      data_modification: Data Modification
       progress_note: Progress Note
       materials: Equipment/Materials
       locations: Locations
@@ -592,6 +604,9 @@ en:
       client_able_answers: Client Able Answers
     client_answers:
       client_able_answers: Client Able Answers
+      question: Q
+      answer: A
+      close: Close
     actions:
       are_you_sure: Are you sure you want to delete?
     emergency_case:
@@ -623,6 +638,9 @@ en:
     state:
       state: Accept/Reject
       rejected_note: Rejected Note
+    version:
+      modification_of: Modification of
+      back: Back
   families:
     index:
       results: Results
@@ -649,6 +667,9 @@ en:
       alert: Family cannot be deleted.
     actions:
       are_you_sure: Are you sure you want to delete?
+    version:
+      modification_of: Modification of
+      back: Back
 
   partners:
     index:
@@ -674,6 +695,10 @@ en:
       alert: Partner cannot be deleted.
     actions:
       are_you_sure: Are you sure you want to delete?
+    version:
+      modification_of: Modification of
+      back: Back
+
   users:
     index:
       results: Results
@@ -702,6 +727,10 @@ en:
       alert: User cannot be deleted.
     actions:
       are_you_sure: Are you sure you want to delete?
+    version:
+      modification_of: Modification of
+      back: Back
+
   cases:
     index:
       <<: *default_placement_fields
@@ -723,6 +752,10 @@ en:
   activerecord:
     errors:
       models:
+        case:
+          attributes:
+            start_date:
+              blank: can't be blank
         stage:
           attributes:
             from_age:
@@ -744,7 +777,7 @@ en:
               blank: can't be blank
         changelog:
           attributes:
-            version:
+            change_version:
               blank: can't be blank
               taken: has already been taken
             description:
@@ -796,11 +829,13 @@ en:
   agencies:
     index:
       add_new_agency: Add New Agency
-      agency: Agency
+      agency: Agencies
       agency_names: Agency Name
       description: Description
       manage: Manage
       are_you_sure: Are you sure you want to delete?
+      modification: Modification
+      view: View
     edit:
       title: Edit Agency
     new:
@@ -821,14 +856,19 @@ en:
       successfully_deleted: Agency has been successfully deleted.
       failed_delete: Failed to delete an agency
       alert: Agency cannot be deleted.
+    version:
+      modification_of: Modification of
+      back: Back
   departments:
     index:
       add_new_department: Add New Department
       departments: Departments
-      department_names: Agency Name
+      department_names: Department Name
       description: Description
       manage: Manage
       are_you_sure: Are you sure you want to delete?
+      modification: Modification
+      view: View
     edit:
       title: Edit Department
     new:
@@ -849,7 +889,9 @@ en:
       successfully_deleted: Department has been successfully deleted.
       failed_delete: Failed to delete a department
       alert: Department cannot be deleted.
-
+    version:
+      modification_of: Modification of
+      back: Back
   domains:
     index:
       add_new_domain: Add New Domain
@@ -859,6 +901,7 @@ en:
       score_3: Score 3
       score_4: Score 4
       are_you_sure: Are you sure you want to delete?
+      view_modification: View modification
     edit:
       title: Edit Domain
     new:
@@ -881,6 +924,10 @@ en:
     destroy:
       successfully_deleted: Domain has been successfully deleted.
       alert: Domain cannot be deleted.
+    version:
+      modification_of: Modification of
+      back: Back
+      domain: Domain
 
   domain_groups:
     index:
@@ -890,6 +937,8 @@ en:
       description: Description
       manage: Manage
       are_you_sure: Are you sure you want to delete?
+      modification: Modification
+      view: View
     edit:
       title: Edit Domain Group
     new:
@@ -911,6 +960,10 @@ en:
       successfully_deleted: Domain Group has been successfully deleted.
       failed_delete: Failed to delete a domain group.
       alert: Domain Group cannot be deleted.
+    version:
+      modification_of: Modification of
+      back: Back
+      domain_group: Domain Group
   provinces:
     index:
       add_new_province: Add New Province
@@ -918,6 +971,8 @@ en:
       province_names: Province Name
       manage: Manage
       are_you_sure: Are you sure you want to delete?
+      modification: Modification
+      view: View
     edit:
       title: Edit Province
     new:
@@ -937,6 +992,9 @@ en:
       successfully_deleted: Province has been successfully deleted.
       failed_delete: Failed to destroy a province.
       alert: Province cannot be deleted.
+    version:
+      modification_of: Modification of
+      back: Back
 
   referral_sources:
     index:
@@ -946,6 +1004,8 @@ en:
       description: Description
       manage: Manage
       are_you_sure: Are you sure you want to delete?
+      modification: Modification
+      view: View
     edit:
       title: Edit Referral Source
     new:
@@ -966,6 +1026,9 @@ en:
       successfully_deleted: Referral Source has been successfully deleted.
       failed_delete: Failed to delete a referral source.
       alert: Referral Source cannot be deleted.
+    version:
+      modification_of: Modification of
+      back: Back
 
   quantitative_types:
     index:
@@ -973,6 +1036,7 @@ en:
       quantitative_types: Quantitative Types
       add_quantitative_data: Quantitative Data
       are_you_sure: Are you sure you want to delete?
+      view_modification: View modification
     edit:
       title: Edit Quantitative Type
     new:
@@ -997,6 +1061,9 @@ en:
       successfully_deleted: Quantitative Type has been successfully deleted.
       failed_delete: Failed to delete a quantitative type.
       alert: Quantitative Type cannot be deleted.
+    version:
+      modification_of: Modification of
+      back: Back
 
   quantitative_cases:
     edit:
@@ -1014,6 +1081,9 @@ en:
       successfully_updated: Quantitative Data has been successfully updated.
     destroy:
       successfully_deleted: Quantitative Data has been successfully deleted.
+    version:
+      modification_of: Modification of
+      back: Back
   tasks:
     index:
       tasks_of: Tasks Of
@@ -1039,7 +1109,7 @@ en:
         new_task_regarding: New Task Regarding
       edit:
         title: Edit Task
-        new_task_regarding: New Task Regarding
+        edit_task_regarding: Edit Task Regarding
       form:
         domain: Domain
         enter_task_detail:  Enter task details
@@ -1296,6 +1366,7 @@ en:
   changelogs:
     changelog_type_fields:
       description: Description
+      are_you_sure: Are you sure you want to delete?
     index:
       <<: *default_changelog_fields
       cancel: Cancel
@@ -1303,6 +1374,7 @@ en:
       changes: Changes
       add_new_changelog: Add New Changelog
       are_you_sure: Are you sure you want to delete?
+      view_modification: View modification
     show:
       back: Back
     edit:
@@ -1323,14 +1395,19 @@ en:
     destroy:
       successfully_deleted: Changelog has been successfully deleted.
       failed_delete: Failed to delete a changelog
+    version:
+      modification_of: Modification of
+      back: Back
 
   materials:
     index:
       <<: *default_material_fields
       add_new_material: Add New Equipment/Material
-      material: Equipment/Material
+      material: Equipment/Materials
       manage: Manage
       are_you_sure: Are you sure you want to delete?
+      modification: Modification
+      view: View
     new:
       new_material: New Equipment/Material
     edit:
@@ -1350,14 +1427,19 @@ en:
       successfully_deleted: Equipment/Material has been successfully deleted.
       failed_delete: Failed to delete an Equipment/Material
       unsuccessfully_deleted: Equipment/Material cannot be deleted.
+    version:
+      modification_of: Modification of
+      back: Back
 
   locations:
     index:
       <<: *default_location_fields
       add_new_location: Add New Location
-      location: Location
+      location: Locations
       manage: Manage
       are_you_sure: Are you sure you want to delete?
+      modification: Modification
+      view: View
     new:
       new_location: New Location
     edit:
@@ -1377,14 +1459,19 @@ en:
       successfully_deleted: Location has been successfully deleted.
       failed_delete: Failed to delete a location.
       unsuccessfully_deleted: Location cannot be deleted.
+    version:
+      modification_of: Modification of
+      back: Back
 
   progress_note_types:
     index:
       <<: *default_progress_note_type_fields
       add_new_progress_note_type: Add New Type of Note
-      progress_note_type: Type of Note
+      progress_note_type: Types of Note
       manage: Manage
       are_you_sure: Are you sure you want to delete?
+      modification: Modification
+      view: View
     new:
       new_progress_note_type: New Type of Note
     edit:
@@ -1404,14 +1491,19 @@ en:
       successfully_deleted: Type of Note has been successfully deleted.
       failed_delete: Failed to delete a type of note.
       unsuccessfully_deleted: Type of Note cannot be deleted.
+    version:
+      modification_of: Modification of
+      back: Back
 
   interventions:
     index:
       <<: *default_intervention_fields
       add_new_intervention: Add New Intervention
-      intervention: Intervention
+      intervention: Interventions
       manage: Manage
       are_you_sure: Are you sure you want to delete?
+      modification: Modification
+      view: View
     new:
       new_intervention: New Intervention
     edit:
@@ -1431,6 +1523,9 @@ en:
       successfully_deleted: Intervention has been successfully deleted.
       failed_delete: Failed to delete intervention.
       unsuccessfully_deleted: Intervention cannot be deleted.
+    version:
+      modification_of: Modification of
+      back: Back
 
   progress_notes:
     index:
@@ -1462,3 +1557,75 @@ en:
       successfully_deleted: Progress Note has been successfully deleted.
     actions:
       are_you_sure: Are you sure you want to delete?
+    version:
+      modification_of: Modification of
+      back: Back
+      progress_note: Progress Note
+
+  data_trackers:
+    index:
+      filter_by_item: Filter by Item
+      all: All
+      all_modification: All Modifications
+      clients: Clients
+      families: Families
+      partners: Partners
+      users: Users
+      agencies: Agencies
+      departments: Departments
+      domains: Domains
+      domain_groups: Domain Groups
+      provinces: Provinces
+      referral_sources: Referral Sources
+      quantitative_types: Quantitative Types
+      quantitative_cases: Quantitative Data
+      changelogs: Changelogs
+      cases: Cases
+      tasks: Tasks
+      assessments: Assessments
+      case_notes: Case Notes
+      surveys: Surveys
+      progress_notes: Progress Notes
+      materials: Equipment/Materials
+      interventions: Interventions
+      locations: Locations
+      progress_note_types: Type of Notes
+      able_screening_questions: Able Screening Questions
+      stages: Stages
+  shared:
+    version:
+      create: Create
+      update: Update
+      delete: Delete
+      change: did the following change
+      value_of: Value of
+      before: Before
+      after: After
+      id: ID
+      'on': 'on'
+      no_modification: There are no any modifications.
+      Client: Client
+      Family: Family
+      Partner: Partner
+      User: User
+      Agency: Agency
+      Department: Department
+      Domain: Domain
+      DomainGroup: Domain Group
+      Province: Province
+      ReferralSource: Referral Source
+      QuantitativeType: Quantitative Type
+      QuantitativeCase: Quantitative Data
+      Changelog: Changelog
+      Case: Case
+      Task: Task
+      Assessment: Assessment
+      CaseNote: Case Note
+      Survey: Survey
+      ProgressNote: Progress Note
+      Material: Equipment/Material
+      Intervention: Intervention
+      Location: Location
+      ProgressNoteType: Type of Note
+      AbleScreeningQuestion: Able Screening Question
+      Stage: Stage

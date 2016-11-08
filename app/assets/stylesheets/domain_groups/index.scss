@@ -1,9 +1,12 @@
-body[id=domain_groups-index] {
+body[id='domain_groups-index'] {
   .btn-add {
     margin: 0 0 10px 0;
   }
   .panel-heading small a {
     margin: 0 5px;
     text-decoration: none;
+  }
+  .modification {
+    min-width: 100px;
   }
 }

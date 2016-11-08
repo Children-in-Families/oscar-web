@@ -1,0 +1,36 @@
+body[id='agencies-version'],
+body[id='changelogs-version'],
+body[id='clients-version'],
+body[id='departments-version'],
+body[id='domain_groups-version'],
+body[id='domains-version'],
+body[id='families-version'],
+body[id='interventions-version'],
+body[id='locations-version'],
+body[id='materials-version'],
+body[id='partners-version'],
+body[id='progress_note_types-version'],
+body[id='progress_notes-version'],
+body[id='provinces-version'],
+body[id='quantitative_cases-version'],
+body[id='quantitative_types-version'],
+body[id='referral_sources-version'],
+body[id='users-version'] {
+  .modification-title {
+    margin-bottom: 30px;
+  }
+
+  .btn-back {
+    min-width: 100px;
+  }
+
+  .panel-heading {
+    h5 {
+      color: #fff;
+      .label {
+        border: 2px solid #fff;
+        border-radius: 4px;
+      }
+    }
+  }
+}

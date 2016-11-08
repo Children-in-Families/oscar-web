@@ -8,6 +8,8 @@ class Case < ActiveRecord::Base
   has_many :case_contracts
   has_many :quarterly_reports
 
+  has_paper_trail
+
   scope :emergencies,    -> { where(case_type: 'EC') }
   scope :non_emergency,  -> { where.not(case_type: 'EC') }
   scope :kinships,       -> { where(case_type: 'KC') }
@@ -20,7 +22,7 @@ class Case < ActiveRecord::Base
   scope :case_types,     -> { pluck(:case_type).uniq }
 
   validates :family, presence: true, if: proc { |client_case| client_case.case_type != 'EC' }
-  validates :case_type, presence: true
+  validates :case_type, :start_date, presence: true
   validates :exit_date, presence: true, if: proc { |client_case| client_case.exited? }
   validates :exit_note, presence: true, if: proc { |client_case| client_case.exited? }
 

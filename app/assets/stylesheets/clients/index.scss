@@ -56,6 +56,10 @@
     }
   }
 
+  th.modification {
+    min-width: 100px;
+  }
+
   th.age, th.name, th.status, th.state, th.family, th.partner, th.manage, th.cases, th.family_id {
     min-width: 200px;
   }

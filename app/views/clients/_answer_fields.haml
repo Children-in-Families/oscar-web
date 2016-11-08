@@ -9,6 +9,6 @@
     - if f.object.able_screening_question.free_text?
       = f.input :description, as: :text, label: t('.answer')
     - else
-      = f.input :description, as: :boolean, label: t('.yes_no'), checked_value: 'Yes', unchecked_value: 'No', input_html: {class: 'i-checks'}
+      = f.input :description, as: :radio_buttons, collection: %w(Yes No), label: false, input_html: { class: 'i-checks' }
     = f.input :able_screening_question_id, as: :hidden, input_html: { value: f.object.able_screening_question_id }
     = f.input :question_type, as: :hidden, input_html: { value: 'general' }

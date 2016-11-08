@@ -1,5 +1,6 @@
 class Agency < ActiveRecord::Base
   has_and_belongs_to_many :clients
+  has_paper_trail
 
   validates :name, presence: true, uniqueness: true
 

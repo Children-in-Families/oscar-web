@@ -54,6 +54,11 @@ class FamiliesController < AdminController
     end
   end
 
+  def version
+    @family   = Family.find(params[:family_id])
+    @versions = @family.versions.reorder(created_at: :desc).decorate
+  end
+
   private
 
   def family_params

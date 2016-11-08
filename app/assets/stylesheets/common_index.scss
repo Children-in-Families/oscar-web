@@ -35,18 +35,15 @@
 .line-border{
   border-top: 1px solid #86898c;
 }
-.log-min{
+.log-min {
   background: white;
   border: 3px solid white;
-  padding-top: 2px; 
-  padding-bottom: -2px;
+  padding: 1px;
   border-radius: 50% 50%;
-  margin-top: -10px;
 }
-.img-circle{
+.img-circle {
   background: white;
   border: 10px solid white;
-  margin-left: 40px;
 }
 .btn-back-default:hover{
   color: #756E6C;
@@ -170,4 +167,8 @@
 
 .btn-no-label {
   padding-top: 20px;
+}
+
+.logo-element.custom {
+  padding: 18px 5px;
 }

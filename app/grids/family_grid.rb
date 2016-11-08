@@ -25,7 +25,7 @@ class FamilyGrid
 
   filter(:province_id, :enum, select: :province_options, header: -> { I18n.t('datagrid.columns.families.province') })
   def province_options
-    scope.province_is
+    Family.province_are
   end
 
   filter(:dependable_income, :xboolean, header: -> { I18n.t('datagrid.columns.families.dependable_income') }) do |value, scope|
@@ -102,5 +102,9 @@ class FamilyGrid
 
   column(:cases, header: -> { I18n.t('datagrid.columns.families.clients') }, html: false) do |object|
     object.cases.non_emergency.active.map { |c| c.client.name if c.client }.join(', ')
+  end
+
+  column(:modification, html: true, class: 'text-center', header: -> { I18n.t('datagrid.columns.families.modification') }) do |object|
+    link_to t('datagrid.columns.families.view'), family_version_path(object)
   end
 end

@@ -13,17 +13,19 @@ class User < ActiveRecord::Base
   has_many :changelogs
   has_many :progress_notes, dependent: :restrict_with_error
 
+  has_paper_trail
+
   validates :roles, presence: true
 
   scope :first_name_like, -> (value) { where('LOWER(users.first_name) LIKE ?', "%#{value.downcase}%") }
   scope :last_name_like,  -> (value) { where('LOWER(users.last_name) LIKE ?', "%#{value.downcase}%") }
   scope :mobile_like,     -> (value) { where('LOWER(users.mobile) LIKE ?', "%#{value.downcase}%") }
   scope :email_like,      -> (value) { where('LOWER(users.email) LIKE  ?', "%#{value.downcase}%") }
-  scope :job_title_is,    ->         { where.not(job_title: '').pluck(:job_title).uniq }
-  scope :department_is,   ->         { joins(:department).pluck('departments.name', 'departments.id').uniq }
+  scope :job_title_are,   ->         { where.not(job_title: '').pluck(:job_title).uniq }
+  scope :department_are,  ->         { joins(:department).pluck('departments.name', 'departments.id').uniq }
   scope :case_workers,    ->         { where('users.roles LIKE ?', '%case worker%') }
   scope :admins,          ->         { where(roles: 'admin') }
-  scope :province_is,     ->         { joins(:province).pluck('provinces.name', 'provinces.id').uniq }
+  scope :province_are,    ->         { joins(:province).pluck('provinces.name', 'provinces.id').uniq }
   scope :has_clients,     ->         { joins(:clients).without_json_fields.uniq }
 
   before_save :assign_as_admin
@@ -69,9 +71,9 @@ class User < ActiveRecord::Base
     overdue   = []
     due_today = []
     clients.where(status: ['Active EC','Active FC','Active KC']).each do |c|
-      if c.next_assessment_date < Date.today
+      if c.next_assessment_date.to_date < Date.today
         overdue << c
-      elsif c.next_assessment_date == Date.today
+      elsif c.next_assessment_date.to_date == Date.today
         due_today << c
       end
     end

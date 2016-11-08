@@ -5,12 +5,14 @@
 @import 'select2';
 @import 'select2-bootstrap';
 @import 'bootstrap-datepicker';
-//third-party
+
 @import 'animate/animate';
 @import 'iCheck/custom';
+@import 'iCheck/brown';
+@import 'iCheck/red';
+@import 'iCheck/orange';
 @import 'toastr/toastr.min';
 @import 'wrapbootstrap/style';
-
 
 // Components
 @import 'components/datagrid';
@@ -42,6 +44,7 @@
 @import 'surveys/*';
 @import 'changelogs/*';
 @import 'errors/*';
+@import 'data_trackers/*';
 @import 'stages/*';
 @import 'able_screening_questions/*';
 @import 'materials/*';
@@ -50,3 +53,4 @@
 @import 'interventions/*';
 @import 'progress_notes/*';
 @import 'top_navbar';
+@import 'common_version';

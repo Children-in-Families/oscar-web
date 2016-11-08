@@ -46,8 +46,8 @@ describe Partner, 'scopes' do
     end
   end
 
-  context 'organisation type is' do
-    let!(:organisation_type){ Partner.organisation_type_is }
+  context 'organisation type are' do
+    let!(:organisation_type){ Partner.organisation_type_are }
     it 'should include organisation type' do
       expect(organisation_type).to include(partner.organisation_type)
     end
@@ -83,10 +83,10 @@ describe Partner, 'scopes' do
     end
   end
 
-  context 'province is' do
-    let!(:province_is){ Partner.province_is }
+  context 'province are' do
+    let!(:province_are){ Partner.province_are }
     it 'should include province' do
-      expect(province_is).to include([partner.province.name, partner.province.id])
+      expect(province_are).to include([partner.province.name, partner.province.id])
     end
   end
 

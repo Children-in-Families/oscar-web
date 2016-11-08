@@ -24,7 +24,8 @@
           .col-xs-12.col-md-4
             .form-group.select.optional.disabled.client_user
               %label.select.optional.disabled.control-label{:for => "client_user_id"}= t('.case_worker_or_staff')
-              %input{ type: 'text', value: @client.user || current_user.name, id: '#client_user_id', name: 'client[user_id]', class: 'form-control', disabled: 'disabled' }
+              - user_name = @client.user.present? ? @client.user.name : current_user.name
+              %input{ type: 'text', value: user_name, id: '#client_user_id', name: 'client[user_id]', class: 'form-control', disabled: 'disabled' }
 
       .row
         .col-xs-12.col-md-4= f.input :received_by_id, collection: @user.map{|p| [p.name, p.id]}, label: "#{t('.received_by')}", include_blank: false
@@ -68,13 +69,11 @@
             = f.association :quantitative_cases, collection: qt.quantitative_cases, multiple: true, label_method: :value, value_method: :id, label: false, input_html: { class: able_related_info(qt.name) }
       .row
         .col-xs-12.col-md-8
-          = f.input :able_state, collection: Client::ABLE_STATES, label: "#{t('.able_state')}" if current_user.able_manager? && @client.persisted?
+          = f.input :able_state, collection: Client::ABLE_STATES, label: t('.able_state') if current_user.able_manager? && @client.persisted?
       .row
-        .col-xs-12.col-md-6
-          %button.btn.btn-primary{id: 'able-screening-test', "aria-expanded" => 'false', "data-target" => '#able-screening-collapse', "data-toggle" => 'collapse', type: 'button'}
+        .col-xs-12.col-md-4
+          %button.btn.btn-primary.btn-block{id: 'able-screening-test', "aria-expanded" => 'false', "data-target" => '#able-screening-collapse', "data-toggle" => 'collapse', type: 'button'}
             %span Able Screening
-
-      %br
       .row
         .col-xs-12
           #able-screening-collapse.collapse
@@ -126,7 +125,7 @@
                                             - if answer_builder.object.able_screening_question.free_text?
                                               = answer_builder.input :description, label: t('.answer')
                                             - else
-                                              = answer_builder.input :description, as: :boolean, label: t('.yes_no'), checked_value: 'Yes', unchecked_value: 'No', input_html: {class: 'i-checks'}
+                                              = answer_builder.input :description, as: :radio_buttons, collection: %w(Yes No), label: false, input_html: { class: 'i-checks' }
                                             = answer_builder.input :able_screening_question_id, as: :hidden, input_html: { value: answer_builder.object.able_screening_question_id }
                                             = answer_builder.input :question_type, as: :hidden, input_html: { value: 'stage' }
 

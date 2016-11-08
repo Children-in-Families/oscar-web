@@ -57,6 +57,11 @@ class UsersController < AdminController
     end
   end
 
+  def version
+    @user     = User.find(params[:user_id])
+    @versions = @user.versions.reorder(created_at: :desc).decorate
+  end
+
   private
 
   def user_params

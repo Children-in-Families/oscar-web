@@ -1,0 +1,15 @@
+body[id='data_trackers-index'] {
+  .filter-by-item, .all-modification {
+    margin: 20px 0;
+  }
+
+  .panel-heading {
+    h5 {
+      color: #fff;
+      .label {
+        border: 2px solid #fff;
+        border-radius: 4px;
+      }
+    }
+  }
+}

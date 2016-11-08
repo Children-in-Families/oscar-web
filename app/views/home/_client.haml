@@ -1,20 +1,17 @@
-.col-xs-12{ class: user_dashboard(current_user) }
-  .panel.panel-default.client-panel
-    .panel-body
-      =link_to clients_path do
-        .widget.style1.widget-client-panel
-          .row.vertical-align
-            .col-xs-3
-              %h2.font-bold #{@dashboard.client_count}
-            .col-xs-9.text-right
-              %span.text-font
-                = t('.clients')
-              %br
-              %br
-              %i.fa.fa-child.fa-3x
-      .row
-        .col-xs-12.col-md-6
-          #client-by-gender{ 'data-content-count' => @dashboard.client_gender_statistic.to_json}
-        .col-xs-12.col-md-6
-          #client-by-status{ 'data-content-count' => @dashboard.client_status_statistic.to_json}
+.panel.panel-default.client-panel
+  .panel-body
+    =link_to clients_path do
+      .widget.style1.widget-client-panel
+        .row.vertical-align
+          .col-xs-3
+            %i.fa.fa-child.fa-3x
+          .col-xs-9.text-right
+            %span.text-font
+              = t('.clients')
+            %h2.font-bold #{@dashboard.client_count}
+    .row
+      .col-xs-12.col-md-6
+        #client-by-gender{ 'data-content-count' => @dashboard.client_gender_statistic.to_json}
+      .col-xs-12.col-md-6
+        #client-by-status{ 'data-content-count' => @dashboard.client_status_statistic.to_json}
         

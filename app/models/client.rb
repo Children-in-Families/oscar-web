@@ -21,9 +21,7 @@ class Client < ActiveRecord::Base
   has_many :tasks,          dependent: :destroy
 
   accepts_nested_attributes_for :tasks
-  accepts_nested_attributes_for :answers,
-            reject_if: proc { |attributes| attributes['description'].blank? },
-            allow_destroy: true
+  accepts_nested_attributes_for :answers
 
   has_many :cases,          dependent: :destroy
   has_many :families, through: :cases
@@ -34,6 +32,10 @@ class Client < ActiveRecord::Base
 
   has_and_belongs_to_many :agencies
   has_and_belongs_to_many :quantitative_cases
+
+  has_paper_trail
+
+  accepts_nested_attributes_for     :tasks
 
   validates :rejected_note, presence: true, on: :update, if: :reject?
 
@@ -83,7 +85,6 @@ class Client < ActiveRecord::Base
   scope :without_assessments,  -> { includes(:assessments).where(assessments: { client_id: nil }) }
 
   scope :able,                 -> { where(able_state: ABLE_STATES[0]) }
-  scope :able_state_is,        -> (value) { where(able_state: value) }
 
   def reject?
     state_changed? && state == 'rejected'
@@ -218,8 +219,7 @@ class Client < ActiveRecord::Base
   end
 
   def set_slug_as_alias
-    self.slug = "#{ENV['ORGANISATION_ABBREVIATION']}-#{id}"
-    self.save
+    self.paper_trail.without_versioning { |obj| obj.update_attributes(slug: "#{ENV['ORGANISATION_ABBREVIATION']}-#{id}") }
   end
 
   def set_able_status

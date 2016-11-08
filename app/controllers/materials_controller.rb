@@ -32,6 +32,11 @@ class MaterialsController < AdminController
     end
   end
 
+  def version
+    @material = Material.find(params[:material_id])
+    @versions = @material.versions.reorder(created_at: :desc).decorate
+  end
+
   private
 
   def material_params

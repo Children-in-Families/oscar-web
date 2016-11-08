@@ -2,8 +2,8 @@ class StagesController < AdminController
   load_and_authorize_resource
   before_action :set_stage, only: [:show, :edit, :update]
   def index
-    @stages = Stage.all
-    @non_stage_question = AbleScreeningQuestion.non_stage
+    @stages = Stage.order('from_age, to_age')
+    @non_stage_question = AbleScreeningQuestion.non_stage.order('created_at')
   end
 
   def show

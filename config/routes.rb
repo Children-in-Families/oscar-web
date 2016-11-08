@@ -7,32 +7,75 @@ Rails.application.routes.draw do
   end
 
   resources :quarterly_reports
-  devise_for :users, controllers: { registrations: 'registrations' }
+  devise_for :users, controllers: { registrations: 'registrations', sessions: 'sessions' }
   root 'home#index'
 
   get '/robots.txt' => 'home#robots'
   get '/quantitative_data' => 'clients#quantitative_case'
-  resources :agencies, except: [:show]
+
+  resources :agencies, except: [:show] do
+    get 'version' => 'agencies#version'
+  end
 
   scope 'admin' do
-    resources :users
+    resources :users do
+      get 'version' => 'users#version'
+    end
   end
+
+  resources :quantitative_types do
+    get 'version' => 'quantitative_types#version'
+  end
+
+  resources :quantitative_cases do
+    get 'version' => 'quantitative_cases#version'
+  end
+
+  resources :referral_sources, except: [:show] do
+    get 'version' => 'referral_sources#version'
+  end
+
+  resources :domain_groups, except: [:show] do
+    get 'version' => 'domain_groups#version'
+  end
+
+  resources :domains, except: [:show] do
+    get 'version' => 'domains#version'
+  end
+
+  resources :provinces, except: [:show] do
+    get 'version' => 'provinces#version'
+  end
+
+  resources :departments, except: [:show] do
+    get 'version' => 'departments#version'
+  end  
+
+  resources :changelogs do
+    get 'version' => 'changelogs#version'
+  end
+
+  get '/data_trackers' => 'data_trackers#index'
 
   resources :stages
   resources :able_screening_questions, except: [:index, :show]
-  resources :quantitative_types
-  resources :quantitative_cases
-  resources :referral_sources, except: [:show]
-  resources :domain_groups, except: [:show]
-  resources :domains, except: [:show]
-  resources :provinces, except: [:show]
-  resources :departments, except: [:show]
   resources :quarterly_reports, only: [:index]
-  resources :changelogs
-  resources :materials, except: [:show]
-  resources :locations, except: [:show]
-  resources :progress_note_types, except: [:show]
-  resources :interventions, except: [:show]
+
+  resources :materials, except: [:show] do
+    get 'version' => 'materials#version'
+  end
+
+  resources :locations, except: [:show] do
+    get 'version' => 'locations#version'
+  end
+
+  resources :progress_note_types, except: [:show] do
+    get 'version' => 'progress_note_types#version'
+  end
+
+  resources :interventions, except: [:show] do
+    get 'version' => 'interventions#version'
+  end
 
   resources :tasks do
     collection do
@@ -53,13 +96,21 @@ Rails.application.routes.draw do
       resources :tasks
     end
     resources :surveys
-    resources :progress_notes
+
+    resources :progress_notes do
+      get 'version' => 'progress_notes#version'
+    end
+
+    get 'version' => 'clients#version'
   end
 
+  resources :families do
+    get 'version' => 'families#version'
+  end
 
-
-  resources :families
-  resources :partners
+  resources :partners do
+    get 'version' => 'partners#version'
+  end
 
   namespace :api do
     mount_devise_token_auth_for 'User', at: '/v1/auth', skip: [:registrations, :passwords]

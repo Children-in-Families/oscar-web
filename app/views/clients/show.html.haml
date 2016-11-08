@@ -18,7 +18,7 @@
                 %strong= @client.care_code
               %td
                 = "#{t('.date_of_birth')} :"
-                %strong= @client.date_of_birth
+                %strong= @client.date_of_birth_format
             %tr
               %td
                 = "#{t('.age')} :"
@@ -132,6 +132,11 @@
           - if can_manage_client_progress_note?
             = link_to client_progress_notes_path(@client) do
               %span.btn-xs.btn.btn-warning.mini-margin= t('.progress_note')
+          - if @client.answers.any?
+            = link_to '', {"data-target" => "#myModal", "data-toggle" => "modal", :type => "button"} do
+              %span.btn-xs.btn.btn-warning.mini-margin= t('.client_able_answers')
+            = render('client_answers')
+
 .row.mini-margin
   .col-xs-12
     .ibox

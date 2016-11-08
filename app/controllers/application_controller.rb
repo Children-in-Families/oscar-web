@@ -7,6 +7,7 @@ class ApplicationController < ActionController::Base
   before_action :find_association, if: :devise_controller?
   before_action :set_locale
   before_action :detect_browser
+  before_action :set_paper_trail_whodunnit
 
   rescue_from CanCan::AccessDenied do |exception|
     redirect_to root_url, alert: exception.message

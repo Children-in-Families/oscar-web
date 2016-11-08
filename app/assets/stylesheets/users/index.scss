@@ -3,6 +3,10 @@
     margin-top: 20px;
   }
 
+  th.id {
+    min-width: 70px;
+  }
+
   td.manage a {
     margin: 0 5px;
     text-decoration: none;
@@ -25,9 +29,14 @@
     }
   }
 
+  th.modification {
+    min-width: 100px;
+  }
+
   .date_filter {
     padding: 6px;
   }
+
   .dataTables_scrollBody {
     max-height: 500px !important;
   }

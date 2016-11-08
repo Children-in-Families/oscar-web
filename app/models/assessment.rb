@@ -5,6 +5,8 @@ class Assessment < ActiveRecord::Base
   has_many :domains,            through:   :assessment_domains
   has_many :case_notes,         dependent: :destroy
 
+  has_paper_trail
+
   validates :client, presence: true
   validate :must_be_six_month_period, if: :new_record?
   validate :only_latest_record_can_be_updated

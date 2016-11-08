@@ -4,9 +4,8 @@
     .form-inputs
       .row
         .col-xs-12.col-md-6= f.input :question, label: t('.question')
-        .col-xs-12.col-md-2= f.input :mode, collection: AbleScreeningQuestion::MODES, input_html: { class: 'select2'}, label: t('.mode')
+        .col-xs-12.col-md-2= f.input :mode, collection: AbleScreeningQuestion::MODES, input_html: { class: 'select2' }, label: t('.mode')
         .col-xs-12.col-md-3.no-label-form-group= f.input :alert_manager, as: :boolean, label: t('.alert_manager')
-        -# .col-xs-12.col-md-1.no-label-form-group
       .row
         .col-xs-12.col-md-3
           - f.object.attachments.build unless f.object.attachments.any?
@@ -15,4 +14,4 @@
       .row
   .ibox-footer
     = f.submit t('save'), class: 'btn btn-primary form-btn'
-    = link_to t('.cancel'), stages_path, class: 'btn btn-outline btn-default form-btn'
+    = link_to t('cancel'), stages_path, class: 'btn btn-outline btn-default form-btn'

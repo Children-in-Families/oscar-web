@@ -3,9 +3,9 @@
     %ul#side-menu.nav.metismenu
       %li.nav-header
         .dropdown.profile-element
-          .image-wrapper
+          .image-wrapper.text-center
             = link_to root_path do
-              = image_tag('cif-logo.png', class: 'img-circle')
+              = image_tag(ENV['NGO_LOGO'], class: 'img-circle')
           %hr.line-border
           %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
             %span.clear
@@ -20,9 +20,9 @@
             %li.divider
             %li
               = link_to t('.log_out'), destroy_user_session_path, method: :delete
-        .logo-element
+        .logo-element.custom
           = link_to root_path do
-            = image_tag('cif-logo.png', class: 'log-min')
+            = image_tag(ENV['NGO_LOGO'], class: 'log-min img-responsive')
       - if user_signed_in?
         %li{class: "#{active_menu('home')}"}
           = link_to root_path do
@@ -33,27 +33,27 @@
           = link_to clients_path do
             = fa_icon('child')
             %span.nav-label= t('.clients')
-            %span.label.label-primary.pull-right= client_count
+            %span.label.label-primary.pull-right= @dashboard.client_count
         - if can? :manage, Family
           %li{class: "#{active_menu('families')}"}
             = link_to families_path do
               = fa_icon('users')
               %span.nav-label= t('.families')
-              %span.label.label-primary.pull-right= Family.count
+              %span.label.label-primary.pull-right= @dashboard.family_count
 
         - if can? :manage, Partner
           %li{class: "#{active_menu('partners')}"}
             = link_to partners_path do
               = fa_icon('handshake-o')
               %span.nav-label= t('.partners')
-              %span.label.label-primary.pull-right= Partner.count
+              %span.label.label-primary.pull-right= @dashboard.partner_count
 
         - if can? :manage, User
           %li{class: "#{active_menu('users')}"}
             = link_to users_path do
               = fa_icon('address-book-o')
               %span.nav-label= t('.users')
-              %span.label.label-primary.pull-right= User.count
+              %span.label.label-primary.pull-right= @dashboard.staff_count
 
         %li
           %a{href: "#"}
@@ -78,8 +78,6 @@
                 = link_to t('.quantitative_types'), quantitative_types_path
               %li{ class: active_menu('stages', 'able_screening_questions') }
                 = link_to t('.able_screening_questions'), stages_path
-              %li{ class: active_menu('changelogs') }
-                = link_to t('.changelogs'), changelogs_path
               %li
                 %a{href: "#"}
                   = t('.progress_note')
@@ -93,10 +91,19 @@
                     = link_to t('.materials'), materials_path
                   %li{ class: active_menu('progress_note_types') }
                     = link_to t('.progress_note_types'), progress_note_types_path
+              %li{ class: active_menu('changelogs') }
+                = link_to t('.changelogs'), changelogs_path
 
             - elsif can? :manage, ReferralSource
               %li{ class: active_menu('referral_sources') }
                 = link_to t('.referral_sources'), referral_sources_path
 
+        - if can? :manage, DataTracker
+          %li{ class: active_menu('data_trackers') }
+            = link_to data_trackers_path do
+              = fa_icon('area-chart')
+              %span.nav-label= t('.data_modification')
         %li
-          = link_to t('faq'), thredded_path, target: '_blank'
+          = link_to thredded_path, target: '_blank' do
+            = fa_icon('question-circle')
+            %span.nav-label= t('faq')

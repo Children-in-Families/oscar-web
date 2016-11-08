@@ -5,28 +5,29 @@ class Dashboard
     @user = user
   end
 
-  def client_url(status)
-    clients_path(status)
-  end
-
-  def family_url(status)
-    families_path(status)
-  end
-
   def client_gender_statistic
-    [{ name: I18n.t('classes.dashboard.males'), y: male_count, url: client_url("client_grid[gender]":"Male") },
-     { name: I18n.t('classes.dashboard.females'), y: female_count, url: client_url("client_grid[gender]":"Female") }]
+    [{ name: I18n.t('classes.dashboard.males'), y: male_count, url: clients_path("client_grid[gender]":"Male") },
+     { name: I18n.t('classes.dashboard.females'), y: female_count, url: clients_path("client_grid[gender]":"Female") }]
   end
 
   def client_status_statistic
-    [{ name: I18n.t('classes.dashboard.emergency_cares_html'), y: ec_count, url: client_url("client_grid[status]":"Active EC") },
-     { name: I18n.t('classes.dashboard.foster_cares_html'), y: fc_count, url: client_url("client_grid[status]":"Active FC") },
-     { name: I18n.t('classes.dashboard.kinship_cares_html'), y: kc_count, url: client_url("client_grid[status]":"Active KC") }]
+    able_data = [{ name: 'Able', y: able_count, url: clients_path("client_grid[able_state]":"Accepted") }]
+    if @user.ec_manager?
+      [data_by_status.first]
+    elsif @user.fc_manager?
+      [data_by_status.second]
+    elsif @user.kc_manager?
+      [data_by_status.last]
+    elsif @user.able_manager?
+      able_data
+    else
+      data_by_status
+    end    
   end
 
   def family_type_statistic
-    [{ name: 'Foster', y: foster_count, url: family_url("family_grid[family_type]":"foster") },
-     { name: 'kinship', y: kinship_count, url: family_url("family_grid[family_type]":"kinship") }]
+    [{ name: 'Foster', y: foster_count, url: families_path("family_grid[family_type]":"foster") },
+     { name: 'kinship', y: kinship_count, url: families_path("family_grid[family_type]":"kinship") }]
   end
 
   def client_count
@@ -47,7 +48,7 @@ class Dashboard
     elsif @user.case_worker?
       @user.clients.active_fc.count
     elsif @user.able_manager?
-      Client.in_any_able_states_managed_by.active_fc.count
+      Client.in_any_able_states_managed_by(@user).active_fc.count
     end
   end
 
@@ -57,7 +58,7 @@ class Dashboard
     elsif @user.case_worker?
       @user.clients.active_kc.count
     elsif @user.able_manager?
-      Client.in_any_able_states_managed_by.active_kc.count
+      Client.in_any_able_states_managed_by(@user).active_kc.count
     end
   end
 
@@ -67,7 +68,7 @@ class Dashboard
     elsif @user.case_worker?
       @user.clients.active_ec.count
     elsif @user.able_manager?
-      Client.in_any_able_states_managed_by.active_ec.count
+      Client.in_any_able_states_managed_by(@user).active_ec.count
     end
   end
 
@@ -129,5 +130,12 @@ class Dashboard
 
   def referral_source_count
     ReferralSource.count
+  end
+
+  private
+  def data_by_status
+    [{ name: I18n.t('classes.dashboard.emergency_cares_html'), y: ec_count, url: clients_path("client_grid[status]":"Active EC") },
+      { name: I18n.t('classes.dashboard.foster_cares_html'), y: fc_count, url: clients_path("client_grid[status]":"Active FC") },
+      { name: I18n.t('classes.dashboard.kinship_cares_html'), y: kc_count, url: clients_path("client_grid[status]":"Active KC") }]
   end
 end

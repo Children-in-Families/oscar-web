@@ -4,6 +4,8 @@ class Task < ActiveRecord::Base
   belongs_to :case_note_domain_group
   belongs_to :client
 
+  has_paper_trail
+
   validates :name, presence: true
   validates :domain, presence: true
   validates :completion_date, presence: true
@@ -43,14 +45,8 @@ class Task < ActiveRecord::Base
   end
 
   def self.upcoming_incomplete_tasks
-    user_ids = []
-
-    tasks    = incomplete.where(completion_date: Date.tomorrow)
-    tasks.group_by(&:user_id).each do |user_id|
-      user_ids << user_id.first
-    end
-
-    users = User.where(id: user_ids)
+    user_ids = incomplete.where(completion_date: Date.tomorrow).pluck(:user_id)
+    users    = User.where(id: user_ids)
     users.each do |user|
       CaseWorkerMailer.tasks_due_tomorrow_of(user).deliver_now
     end
