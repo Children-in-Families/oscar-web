@@ -150,7 +150,7 @@ CIF.ClientsIndex = do ->
       error: (error) ->
 
   window.onload = ->
-    $('.dataTables_scrollBody').niceScroll()
-    $('.table-responsive').niceScroll()
+    $('.clients-table .dataTables_scrollBody').niceScroll()
+    $('.table-responsive.clients-table').niceScroll()
 
   { init: _init }

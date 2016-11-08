@@ -37,7 +37,7 @@ class ClientsController < AdminController
     @client                              = Client.new
     @ordered_stage                       = Stage.order('from_age, to_age')
     @able_screening_questions            = AbleScreeningQuestion.with_stage.group_by(&:question_group_id)
-    @able_screening_questions_non_stage  = AbleScreeningQuestion.non_stage
+    @able_screening_questions_non_stage  = AbleScreeningQuestion.non_stage.order('created_at')
     @able_screening_questions_with_stage = AbleScreeningQuestion.with_stage
     @answers_with_stage = []
     @answers_non_stage = []

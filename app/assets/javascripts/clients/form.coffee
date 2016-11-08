@@ -79,4 +79,8 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
           answerObj.find('input').attr('disabled', true)
           answerObj.hide()
 
+  window.onload = ->
+    $('#stage-question .dataTables_scrollBody').niceScroll()
+    $('.table-responsive').niceScroll()
+
   { init: _init }

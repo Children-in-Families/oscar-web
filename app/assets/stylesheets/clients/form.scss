@@ -81,4 +81,16 @@ body[id='clients-edit'], body[id='clients-update']{
       }
     }
   }
+
+  #stage-question table.client-new {
+    margin-bottom: 0;
+  }
+
+  #able-screening-collapse {
+    margin-top: 15px;
+
+    .iradio_square-green {
+      margin-right: 5px;
+    }
+  }
 }
