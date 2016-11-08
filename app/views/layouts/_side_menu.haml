@@ -3,9 +3,9 @@
     %ul#side-menu.nav.metismenu
       %li.nav-header
         .dropdown.profile-element
-          .image-wrapper
+          .image-wrapper.text-center
             = link_to root_path do
-              = image_tag('cif-logo.png', class: 'img-circle')
+              = image_tag(ENV['NGO_LOGO'], class: 'img-circle')
           %hr.line-border
           %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
             %span.clear
@@ -20,9 +20,9 @@
             %li.divider
             %li
               = link_to t('.log_out'), destroy_user_session_path, method: :delete
-        .logo-element
+        .logo-element.custom
           = link_to root_path do
-            = image_tag('cif-logo.png', class: 'log-min')
+            = image_tag(ENV['NGO_LOGO'], class: 'log-min img-responsive')
       - if user_signed_in?
         %li{class: "#{active_menu('home')}"}
           = link_to root_path do
@@ -104,4 +104,6 @@
               = fa_icon('area-chart')
               %span.nav-label= t('.data_modification')
         %li
-          = link_to t('faq'), thredded_path, target: '_blank'
+          = link_to thredded_path, target: '_blank' do
+            = fa_icon('question-circle')
+            %span.nav-label= t('faq')
