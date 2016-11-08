@@ -25,7 +25,10 @@
         .col-xs-12.col-md-4= f.input :support_amount, label: "#{t('.support_amount')}($)"
       .row
         .col-xs-12.col-md-4= f.input :support_note, input_html: { rows: 5 }, label: "#{t('.support_note')}"
-        .col-xs-12.col-md-4= f.input :family_preservation, label: "#{t('.family_preservation')}", input_html: { class: 'i-checks' }
+        .col-xs-12.col-md-4
+          .i-checks.family-preservation
+            %label= t('.family_preservation')
+            = f.input :family_preservation, as: :radio_buttons, collection: [['Yes', true],['No', false]], label: false
   .ibox-footer
     .form-actions
       = f.submit t('save'), class: 'btn btn-primary form-btn'

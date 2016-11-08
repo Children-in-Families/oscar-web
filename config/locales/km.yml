@@ -1157,10 +1157,10 @@ km:
         are_you_sure_you_want_to_delete: តើអ្នកប្រាកដហើយ?
         domain: កត្តា
       new:
-        title: កាតព្វកិច្ចថ្មីសំរាប់
+        title: កាតព្វកិច្ចថ្មី
         new_task_regarding: កាតព្វកិច្ចទាក់ទង៖
       edit:
-        title: ពិនិត្យកែសម្រួលកាតព្វកិច្ចសំរាប់
+        title: ពិនិត្យកែសម្រួលកាតព្វកិច្ច
         new_task_regarding: កាតព្វកិច្ចទាក់ទង៖
       form:
         domain: កត្តា

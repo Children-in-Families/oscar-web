@@ -1,6 +1,23 @@
-#cases-new, #cases-edit, #cases-create, #cases-update {
+body[id='cases-new'],
+body[id='cases-create'],
+body[id='cases-edit'],
+body[id='cases-update'] {
   margin-bottom: 20px;
-  .icheckbox_square-green{
+
+  .icheckbox_square-green {
     margin-right: 10px;
+  }
+
+  .family-preservation {
+    span {
+      display: inline-block;
+      margin-right: 20px;
+    }
+    label {
+        padding-left: 0;
+    }
+    .iradio_square-green {
+      margin-right: 5px;
+    }
   }
 }
