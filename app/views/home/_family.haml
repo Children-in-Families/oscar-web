@@ -4,14 +4,12 @@
       =link_to families_path do
         .widget.style1.widget-family-panel
           .row.vertical-align
-            .col-xs-3
-              %h2.font-bold #{@dashboard.family_count}
-            .col-xs-9.text-right
+            .col-xs-5
+              %i.fa.fa-users.fa-3x
+            .col-xs-7.text-right
               %span.text-font
                 = t('.families')
-              %br
-              %br
-              %i.fa.fa-users.fa-3x
+              %h2.font-bold #{@dashboard.family_count}
       .row
         .col-xs-12
           #family-type{ 'data-content-count' => @dashboard.family_type_statistic.to_json }

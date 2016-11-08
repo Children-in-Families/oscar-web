@@ -5,12 +5,14 @@
 @import 'select2';
 @import 'select2-bootstrap';
 @import 'bootstrap-datepicker';
-//third-party
-@import 'animate/animate';
-@import 'iCheck/custom';
-@import 'toastr/toastr.min';
-@import 'wrapbootstrap/style';
 
+@import 'animate/animate.css';
+@import 'iCheck/custom.css';
+@import 'iCheck/brown.css';
+@import 'iCheck/red.css';
+@import 'iCheck/orange.css';
+@import 'toastr/toastr.min.css';
+@import 'wrapbootstrap/style';
 
 // Components
 @import 'components/datagrid';

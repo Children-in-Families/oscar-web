@@ -2,7 +2,37 @@ body[id='surveys-new'],
 body[id='surveys-create'],
 body[id='surveys-edit'],
 body[id='surveys-update'] {
-  
+
+  .question-block {
+    margin-bottom: 20px;
+    display: block;
+    .radio-score {
+      padding-top: 10px;
+    }
+  }
+
+  .radio-score {
+    span {
+      margin-right: 20px;
+    }
+
+    .iradio_square-red {
+      margin-right: 10px
+    }
+
+    .iradio_square-orange {
+      margin-right: 10px
+    }
+
+    .iradio_square-brown {
+      margin-right: 10px
+    }
+  }
+
+  .score_four{
+    background-color: black !important;
+  }
+
   .form-group.radio_buttons {
     padding: 10px;
   }
@@ -13,7 +43,7 @@ body[id='surveys-update'] {
     }
     .radio.inline label input{
       margin-top: -3px;
-    }  
+    }
   }
   .margin-static{
     margin-left: 15px;

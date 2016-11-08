@@ -92,7 +92,7 @@ describe 'Family' do
     end
     scenario 'disable delete' do
       visit family_path(other_family)
-      expect(page).to have_css("a[href='#{family_path(other_family, locale: I18n.locale)}'][data-method='delete'][class='btn btn-outline btn-danger btn-xs disabled']")
+      expect(page).to have_css("a[href='#{family_path(other_family, locale: I18n.locale)}'][data-method='delete'][class='btn btn-outline btn-danger btn-md disabled']")
     end
   end
 end
