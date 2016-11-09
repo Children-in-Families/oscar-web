@@ -20,14 +20,18 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
         $('#fake_client_able').prop('checked', false)
 
   _fixedHeaderStageQuestion = ->
-    $('#stage-question table.client-new').DataTzable(
+    $('#stage-question table.client-new').dataTable(
       'sScrollY': '500px'
       'sScrollX': true
       'sScrollXInner': '100%'
       'bPaginate': false
       'bFilter': false
       'bInfo': false
-      'ordering': false)
+      'ordering': false
+      'sScrollY': '500px'
+      'bAutoWidth': true
+      'sScrollX': '100%'
+      'sScrollXInner': '100%')
 
   _arrangeQuestionAndAnswerBlock = ->
     questionsAndAnswers = $('.question_and_answer')

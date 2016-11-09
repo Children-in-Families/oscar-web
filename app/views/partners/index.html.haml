@@ -24,7 +24,6 @@
           %a.fullscreen-link
             %i.fa.fa-expand
       .ibox-content
-        .table-responsive
-          = datagrid_table @partner_grid, html: { class: 'table table-bordered table-striped table-hover partners'}
+        = datagrid_table @partner_grid, html: { class: 'table table-bordered table-striped table-hover partners'}
       .ibox-footer
         = will_paginate @partner_grid.assets, renderer: BootstrapPagination::Rails

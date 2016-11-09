@@ -10,13 +10,15 @@ CIF.Progress_notesIndex = do ->
 
   _fixedHeaderTableColumns = ->
     if !$('table.progress-notes tbody tr td').hasClass('noresults')
-      $('table.progress-notes').DataTable(
-        'sScrollY': '500px'
-        'sScrollX': true
-        'sScrollXInner': '100%'
+      $('table.progress-notes').dataTable(
         'bPaginate': false
         'bFilter': false
         'bInfo': false
-        'ordering': false)
+        'ordering': false
+        'sScrollY': '500px'
+        'bAutoWidth': true
+        'sScrollX': '100%'
+        'sScrollXInner': '100%'
+        )
 
   { init: _init }
