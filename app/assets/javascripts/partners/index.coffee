@@ -4,13 +4,14 @@ CIF.PartnersIndex = do ->
 
   _fixedHeaderTableColumns = ->
     if !$('table.partners tbody tr td').hasClass('noresults')
-      $('table.partners').DataTable(
-        'sScrollY': 'auto'
-        'sScrollX': true
-        'sScrollXInner': '100%'
+      $('table.partners').dataTable(
         'bPaginate': false
         'bFilter': false
         'bInfo': false
-        'ordering': false)
+        'ordering': false
+        'sScrollY': 'auto'
+        'bAutoWidth': true
+        'sScrollX': '100%'
+        'sScrollXInner': '100%')
 
   { init: _init }

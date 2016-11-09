@@ -53,14 +53,17 @@
 
   .table {
     th.slug, th.code {
-      min-width: 75px;
+      min-width: 100px;
     }
     th, td.gender, td.status, td.follow_up_date, td.date_of_birth, td.grade, td.has_been_in_orphanage, td.has_been_in_government_care, td.initial_referral_date, td.referral_phone, td.able, td.birth_province, td.province, td.state, td.case_start_date, td.carer_phone_number td.support_amount, td.family_preservation {
       text-align: center;
     }
 
     th.name, th.gender, th.status, th.able_state, th.family_id, th.family, th.partner, th.manage {
-      min-width: 100px;
+      min-width: 120px;
+    }
+    th.status {
+      min-width: 170px;
     }
     td.able_state{
       min-width: 100px;
@@ -90,6 +93,6 @@
   }
 
   .reason_for_family_separation, .history_of_high_risk_behaviours, .history_of_harm, .history_of_disability_and_or_illness {
-    min-width: 360px;
+    min-width: 400px;
   }
 }
