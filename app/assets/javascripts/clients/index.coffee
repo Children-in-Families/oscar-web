@@ -94,9 +94,9 @@ CIF.ClientsIndex = do ->
         'bScrollInfinite': true
         'bScrollCollapse': true
         'sScrollY': 'auto'
-        'ordering': false
         'bFilter': false
         'bAutoWidth': true
+        'bSort': false
         'sScrollX': '100%'
         'sScrollXInner': '100%'
         'iDisplayLength': 50

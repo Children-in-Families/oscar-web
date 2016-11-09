@@ -9,7 +9,7 @@ CIF.PartnersIndex = do ->
         'bPaginate': false
         'bFilter': false
         'bInfo': false
-        'ordering': false
+        'bSort': false
         'sScrollY': 'auto'
         'bAutoWidth': true
         'sScrollX': '100%'
