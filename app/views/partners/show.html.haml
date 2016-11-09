@@ -2,22 +2,19 @@
   .col-xs-12.partner
     .ibox
       .ibox-title
-        .row
-          .col-xs-12.col-sm-8
-            %h5
-              = "#{t('.general_info')} #{@partner.name}"
-              = "(#{@partner.organisation_type})" if @partner.organisation_type.present?
-          .col-xs-12.col-sm-4
-            .ibox-tools
-              %a.collapse-link
-                .btn.btn-outline.btn-primary
-                  %i.fa.fa-chevron-up
-              - if can? :manage, Partner
-                %small
-                  = link_to edit_partner_path(@partner) do
-                    .btn.btn-outline.btn-success
-                      %i.fa.fa-pencil
-                  = remove_link(@partner, {partner_case: @partner.cases_count}, 'btn-md')
+        %h5
+          = "#{t('.general_info')} #{@partner.name}"
+          = "(#{@partner.organisation_type})" if @partner.organisation_type.present?
+        .ibox-tools
+          %a.collapse-link
+            .btn.btn-outline.btn-primary
+              %i.fa.fa-chevron-up
+          - if can? :manage, Partner
+            %small
+              = link_to edit_partner_path(@partner) do
+                .btn.btn-outline.btn-success
+                  %i.fa.fa-pencil
+              = remove_link(@partner, {partner_case: @partner.cases_count}, 'btn-md')
 
       .ibox-content
         .row.partner-summary

@@ -79,19 +79,21 @@ feature 'progress_note' do
     end
   end
 
-  feature 'Create', js: true do
+  feature 'Create' do
     before do
       visit new_client_progress_note_path(client)
     end
 
-    scenario 'valid' do
+    scenario 'valid', js: true do
       fill_in I18n.t('progress_notes.form.date'), with: FFaker::Time.date
       # select progress_note_type.note_type, from: I18n.t('progress_notes.form.progress_note_type')
       # select location.name, from: I18n.t('progress_notes.form.location')
       # select intervention.action, from: I18n.t('progress_notes.form.interventions')
       # select material.status, from: I18n.t('progress_notes.form.material')
-
+    
+      page.find('#s2id_progress_note_material_id').select_option
       click_button I18n.t('progress_notes.form.save')
+      sleep 1
       expect(page).to have_content(I18n.t('progress_notes.create.successfully_created'))
     end
 

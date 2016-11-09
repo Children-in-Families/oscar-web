@@ -10,7 +10,7 @@
           .input-group.date
             = f.text_field :date_of_birth, class: 'date optional form-control date-picker', type: 'text', name: 'user[date_of_birth]', id: 'user_date_of_birth'
             %span.input-group-addon
-              %i.glyphicon.glyphicon-calendar
+              %i.fa.fa-calendar-check-o
       .row
         .col-xs-12.col-md-4= f.input :email, required: true, label: "#{t('.email')}"
         - unless @user.persisted?
@@ -28,7 +28,7 @@
           .input-group.date
             = f.text_field :start_date, class: 'date optional form-control date-picker', type: 'text', name: 'user[start_date]', id: 'user_start_date'
             %span.input-group-addon
-              %i.glyphicon.glyphicon-calendar
+              %i.fa.fa-calendar-check-o
   .ibox-footer
     = f.submit t('save'), class: 'btn btn-primary form-btn'
     = link_to t('cancel'), users_path, class: 'btn btn-outline btn-default form-btn'

@@ -74,7 +74,7 @@ describe 'Quantitative Type' do
       expect(page).to have_content('Quantitative Type has been successfully deleted')
     end
     scenario 'disable' do
-      expect(page).to have_css("a[href='#{quantitative_type_path(other_quantitative_type)}'][data-method='delete'][class='btn btn-outline btn-danger btn-xs disabled']")
+      expect(page).to have_css("a[href='#{quantitative_type_path(other_quantitative_type)}'][data-method='delete'][class='btn btn-outline btn-danger btn-md disabled']")
     end
   end
 end

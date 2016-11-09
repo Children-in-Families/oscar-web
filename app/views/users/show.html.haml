@@ -2,20 +2,17 @@
   .col-xs-12.user
     .ibox
       .ibox-title
-        .row
-          .col-xs-12.col-sm-8
-            %h5= "#{t('.general_info')} #{@user.name}"
-          .col-xs-12.col-sm-4
-            .ibox-tools
-              %a.collapse-link
-                .btn.btn-outline.btn-primary
-                  %i.fa.fa-chevron-up
-              - if can? :manage, :all
-                %small
-                  = link_to edit_user_path(@user) do
-                    .btn.btn-outline.btn-success
-                      %i.fa.fa-pencil
-                  = remove_link(@user, {user_case: @user.cases_count}, 'btn-md')
+        %h5= "#{t('.general_info')} #{@user.name}"
+        .ibox-tools
+          %a.collapse-link
+            .btn.btn-outline.btn-primary
+              %i.fa.fa-chevron-up
+          - if can? :manage, :all
+            %small
+              = link_to edit_user_path(@user) do
+                .btn.btn-outline.btn-success
+                  %i.fa.fa-pencil
+              = remove_link(@user, {user_case: @user.cases_count}, 'btn-md')
 
       .ibox-content
         .row.user-summary

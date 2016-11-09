@@ -20,7 +20,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
         $('#fake_client_able').prop('checked', false)
 
   _fixedHeaderStageQuestion = ->
-    $('#stage-question table.client-new').DataTable(
+    $('#stage-question table.client-new').DataTzable(
       'sScrollY': '500px'
       'sScrollX': true
       'sScrollXInner': '100%'

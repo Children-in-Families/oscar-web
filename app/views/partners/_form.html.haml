@@ -17,7 +17,7 @@
             .input-group.date
               = f.text_field :start_date, class: 'date optional form-control date-picker', type: 'text', name: 'partner[start_date]', id: 'partner_start_date'
               %span.input-group-addon
-                %i.glyphicon.glyphicon-calendar
+                %i.fa.fa-calendar-check-o
           = f.input :engagement, label: "#{t('.engagement')}"
         .col-xs-12.col-md-4
           = f.input :organisation_type, label: "#{t('.organisation_type')}"

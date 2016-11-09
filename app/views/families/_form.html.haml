@@ -22,7 +22,7 @@
               .input-group.date
                 = f.text_field :contract_date, class: 'date optional form-control date-picker', type: 'text', name: 'family[contract_date]', id: 'family_contract_date'
                 %span.input-group-addon
-                  %i.glyphicon.glyphicon-calendar
+                  %i.fa.fa-calendar-check-o
           .row
             .col-xs-12.col-md-6= f.input :household_income, label: "#{t('.household_income')}($)"
             .col-xs-12.col-md-6= f.input :dependable_income, input_html: { class: 'i-checks' }, label: t('.dependable_income')

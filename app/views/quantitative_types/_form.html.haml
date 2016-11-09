@@ -13,8 +13,8 @@
             = f.simple_fields_for :quantitative_cases do |quantitative_case|
               = render 'quantitative_case_fields', f: quantitative_case
           .links
-            = link_to_add_association t('.add_quantitative_data'), f, :quantitative_cases, class: 'btn btn-outline btn-info'
+            = link_to_add_association t('.add_quantitative_data'), f, :quantitative_cases, class: 'btn btn-info'
         .modal-footer
           .pull-left
-            = f.submit t('.save') , class: 'btn btn-outline btn-primary form-btn'
+            = f.submit t('.save') , class: 'btn btn-primary form-btn'
             %button.btn.btn-outline.btn-default{"data-dismiss" => "modal", :type => "button"}= t('.cancel')

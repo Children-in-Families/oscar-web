@@ -34,7 +34,9 @@
     margin: 0 5px;
     text-decoration: none;
   }
-
+  .dataTables_scrollHeadInner{
+    padding-right: 0 !important;
+  }
   .datagrid-filter label{
     vertical-align: top;
     padding-top: 5px;

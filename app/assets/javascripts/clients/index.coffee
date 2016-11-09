@@ -6,10 +6,12 @@ CIF.ClientsIndex = do ->
     _cssClassForlabelDynamic()
     _restrictNumberFilter()
     _quantitativeCaesByQuantitativeType()
+    _clickMenuResizeChart()
     _handleHideShowReport()
     _formatReportxAxis()
     _handleCreateCaseReport()
     _handleCreateCsiDomainReport()
+    _handleScrollTable()
 
   _reportOption = (data, title, yAxisTitle, element) ->
     if data != undefined
@@ -64,7 +66,16 @@ CIF.ClientsIndex = do ->
   _handleHideShowReport = ->
     $('#client-statistic').click ->
       $('#client-statistic-body').slideToggle("slow")
-      window.dispatchEvent new Event('resize')
+      _handleResizeChart()
+
+  _clickMenuResizeChart = ->
+    $('.minimalize-styl-2').click ->
+      setTimeout (->
+        _handleResizeChart()
+      ), 220
+
+  _handleResizeChart = ->
+    window.dispatchEvent new Event('resize')
 
   _columnsVisibility = ->
     $('.columns-visibility').click (e) ->
@@ -124,10 +135,6 @@ CIF.ClientsIndex = do ->
     quantitativeType = $('#client_grid_quantitative_types')
     closeTag = $('.quantitative_data').find('abbr')
     quantitativeData = $('#client_grid_quantitative_data')
-    # $(window).load ->
-    #   if quantitativeType.length > 0
-    #     qValue = quantitativeType.val()
-    #     _quantitativeCaes(qValue)
     quantitativeType.on 'change',  ->
       qValue = quantitativeType.val()
       quantitativeCaesText = $('.quantitative_data').find('.select2-chosen')
@@ -153,8 +160,9 @@ CIF.ClientsIndex = do ->
           $('#client_grid_quantitative_data').append '<option value="' + data[index].id + '">' + data[index].value + '</option>'
       error: (error) ->
 
-  window.onload = ->
-    $('.clients-table .dataTables_scrollBody').niceScroll()
-    $('.table-responsive.clients-table').niceScroll()
+  _handleScrollTable = ->
+    $(window).load ->
+      $('.clients-table .dataTables_scrollBody').niceScroll()
+      $('.table-responsive.clients-table').niceScroll()
 
   { init: _init }
