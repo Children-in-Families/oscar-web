@@ -18,15 +18,8 @@
       .ibox-title
         %h5= @family_grid.assets.count
         %span.label.label-info= t('.results')
-        .ibox-tools
-          %a.collapse-link
-            %i.fa.fa-chevron-up
-          %a.fullscreen-link
-            %i.fa.fa-expand
       .ibox-content
-        #family-search-form.collapse
-          = datagrid_form_for @family_grid, url: families_url, html: { class: 'grid-form' }
-        .table-responsive
+        .families-table
           = datagrid_table @family_grid, html: { class: 'table table-bordered table-striped table-hover families'}
       .ibox-footer.text-center
         = will_paginate @family_grid.assets, renderer: BootstrapPagination::Rails

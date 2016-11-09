@@ -24,7 +24,7 @@
           %a.fullscreen-link
             %i.fa.fa-expand
       .ibox-content
-        .table-responsive
+        .users-table
           = datagrid_table @user_grid, html: { class: 'table table-bordered table-striped table-hover users'}
       .ibox-footer
         = will_paginate @user_grid.assets, renderer: BootstrapPagination::Rails

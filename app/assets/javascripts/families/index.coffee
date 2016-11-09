@@ -1,6 +1,7 @@
 CIF.FamiliesIndex = do ->
   _init = ->
     _fixedHeaderTableColumns()
+    _handleScrollTable()
 
   _fixedHeaderTableColumns = ->
     if !$('table.families tbody tr td').hasClass('noresults')
@@ -13,5 +14,9 @@ CIF.FamiliesIndex = do ->
         'bAutoWidth': true
         'sScrollX': '100%'
         'sScrollXInner': '100%')
+
+  _handleScrollTable = ->
+    $(window).load ->
+      $('.families-table .dataTables_scrollBody').niceScroll()
 
   { init: _init }
