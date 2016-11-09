@@ -275,6 +275,8 @@ en:
     family_type: Family Type
     contract_date: Contract Date
     province: Province
+    'yes': 'Yes'
+    'no': 'No'
 
   default_partner_fields: &default_partner_fields
     name: Name

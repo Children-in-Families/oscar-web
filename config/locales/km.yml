@@ -277,6 +277,8 @@ km:
     family_type: ប្រភេទគ្រួសារ
     contract_date: កាលបរិច្ឆេទនៃទំនាក់ទំនង
     province: ខេត្ត
+    'yes': បាទ/ចាស
+    'no': ទេ
 
   default_partner_fields: &default_partner_fields
     name: ឈ្មោះដៃគូ

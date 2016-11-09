@@ -3,12 +3,22 @@ body[id='families-create'],
 body[id='families-edit'],
 body[id='families-update'] {
   margin-bottom: 50px;
-  .family_dependable_income {
-    padding-top: 20px;
-  }
 
   .icheckbox_square-green{
     margin-right: 10px;
+  }
+
+  .dependable-income {
+    span {
+      display: inline-block;
+      margin-right: 20px;
+    }
+    label {
+        padding-left: 0;
+    }
+    .iradio_square-green {
+      margin-right: 5px;
+    }
   }
 
   @media screen and (max-width: 991px) {

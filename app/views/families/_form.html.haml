@@ -25,7 +25,11 @@
                   %i.glyphicon.glyphicon-calendar
           .row
             .col-xs-12.col-md-6= f.input :household_income, label: "#{t('.household_income')}($)"
-            .col-xs-12.col-md-6= f.input :dependable_income, input_html: { class: 'i-checks' }, label: t('.dependable_income')
+            .col-xs-12.col-md-6
+              .i-checks.dependable-income
+                %label= t('.dependable_income')
+                = f.input :dependable_income, as: :radio_buttons, collection: [[t('.yes'), true],[t('.no'), false]], label: false
+
         .col-xs-12.col-md-4
           = f.input :caregiver_information, input_html: { style: 'height: 182px;' }, label: "#{t('.caregiver_information')}"
   .ibox-footer
