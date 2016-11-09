@@ -21,7 +21,8 @@
                   %td= location.name
                   %td.text-center
                     - if location.other_used == 1
-                      = fa_icon('pencil')
+                      .btn.btn-outline.btn-success.btn-xs.disabled
+                        = fa_icon('pencil')
                     - else
                       = link_to '#', {class: 'btn btn-xs btn-success btn-outline', "data-target" => "#locationModal-#{location.id}", "data-toggle" => "modal", :type => "button"} do
                         = fa_icon('pencil')

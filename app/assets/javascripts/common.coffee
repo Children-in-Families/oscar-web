@@ -2,7 +2,6 @@ CIF.Common =
   init: ->
     @hideNotification()
     @hideDynamicOperator()
-    @menuDropDownClick()
     @validateFilterNumber()
     @customCheckBox()
     @initNotification()
@@ -28,8 +27,9 @@ CIF.Common =
       checkboxClass: 'icheckbox_square-green'
       radioClass: 'iradio_square-green'
 
-  menuDropDownClick: ->
-    $('#side-menu').metisMenu()
+  # menuDropDownClick: ->
+  #   $('#side-menu').metisMenu ->
+  #     toggle: false
 
   hideDynamicOperator: ->
     $('.dynamic_filter').find('option[value="=~"]').remove('option')
