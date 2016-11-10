@@ -106,9 +106,9 @@
       #client-search-domain.collapse
         - grid.filters.each do |filter|
           - if filter.type == :dynamic
-            .datagrid-filter.filter
+            .col-md-4.datagrid-filter.filter
               %label{ title: filter.header }
-                = truncate(filter.header, length: 32)
+                = truncate(filter.header, length: 40)
               = f.datagrid_filter filter, partials: options[:partials]
   .row
     .datagrid-actions
