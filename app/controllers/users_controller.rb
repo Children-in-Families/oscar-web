@@ -10,10 +10,13 @@ class UsersController < AdminController
       f.html do
         @user_grid.scope { |scope| scope.paginate(page: params[:page], per_page: 20) }
       end
-      f.csv do
-        send_data @user_grid.to_csv, type: 'text/csv',
-                                     disposition: 'inline',
-                                     filename: "user_report-#{Time.now}.csv"
+      # f.csv do
+      #   send_data @user_grid.to_csv, type: 'text/csv',
+      #                                disposition: 'inline',
+      #                                filename: "user_report-#{Time.now}.csv"
+      # end
+      f.xls do
+        send_data @user_grid.to_xls, filename: "user_report-#{Time.now}.xls"
       end
     end
   end

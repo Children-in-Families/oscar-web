@@ -6,7 +6,7 @@
     .pull-right
       - if can? :manage, Family
         = link_to "#{I18n.t('families.index.add_new_family')}", new_family_path, class: 'btn btn-primary'
-      = link_to "#{I18n.t('families.index.export_csv')}", current_url(format: 'csv'), class: 'btn btn-info'
+      = link_to "#{I18n.t('families.index.export_xls')}", current_url(format: 'xls'), class: 'btn btn-info'
 
 .row.ibox-space
   .col-xs-12

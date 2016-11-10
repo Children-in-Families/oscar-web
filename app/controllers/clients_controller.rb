@@ -18,13 +18,11 @@ class ClientsController < AdminController
         @cases_statistics = CaseStatistic.new(@client_grid.assets).statistic_data.to_json
         @client_grid.scope { |scope| scope.accessible_by(current_ability) }
       end
-      f.csv do
+      f.xls do
         @client_grid.scope { |scope| scope.accessible_by(current_ability) }
         domain_score_report
 
-        send_data @client_grid.to_csv, type: 'text/csv',
-                                       disposition: 'inline',
-                                       filename: "client_report-#{Time.now}.csv"
+        send_data @client_grid.to_xls, filename: "client_report-#{Time.now}.xls"
       end
     end
   end
