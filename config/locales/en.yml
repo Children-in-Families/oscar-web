@@ -4,6 +4,11 @@ en:
 
   faq: FAQ
 
+  default_able_screening_question_fields: &default_able_screening_question_fields
+    question: Question
+    mode: Mode
+    alert_manager: Alert Manager
+
   default_progress_note_fields: &default_progress_note_fields
     date: Date
     child: Child
@@ -1230,11 +1235,9 @@ en:
     edit:
       edit_stage: 'Edit Stage'
     able_screening_question_fields:
+      <<: *default_able_screening_question_fields
       are_you_sure: Remove question with have sigificant affect to client answers, Are you sure you want to delete?
-      question: Question
-      mode: Mode
       group: Group
-      alert_manager: Alert Manager
     attachment_fields:
       browse: Browse
     create:
@@ -1250,12 +1253,15 @@ en:
     attachment_fields:
       browse: Browse
     form:
+      <<: *default_able_screening_question_fields
       general_question: General Question
     able_screening_question_field:
       question: Question
       mode: Mode
       group: Group
       alert_manager: Alert Manager
+    new:
+      general_question: General Question
     create:
       successfully_created: Able Screening has been successfully created.
     update:

@@ -2,6 +2,7 @@ RSpec.describe AbleScreeningQuestion, type: :model do
 
   describe 'Validation' do
     it { is_expected.to validate_presence_of(:question) }
+    it { is_expected.to validate_uniqueness_of(:question).case_insensitive }
     it { is_expected.to validate_presence_of(:mode) }
     it { is_expected.to validate_inclusion_of(:mode).in_array(['yes_no', 'free_text']) }
 

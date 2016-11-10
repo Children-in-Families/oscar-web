@@ -3,5 +3,5 @@ class Material < ActiveRecord::Base
 
   has_paper_trail
 
-  validates :status, presence: true, uniqueness: true
+  validates :status, presence: true, uniqueness: { case_sensitive: false }
 end

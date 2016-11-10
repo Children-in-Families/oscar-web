@@ -4,6 +4,11 @@ km:
 
   faq: FAQ
 
+  default_able_screening_question_fields: &default_able_screening_question_fields
+    question: សំនួរ
+    mode: ម៉ូដ
+    alert_manager: ជូនដំណឹងអ្នកគ្រប់គ្រង
+
   default_progress_note_fields: &default_progress_note_fields
     date: កាលបរិច្ឆេទ
     child: កុមារ
@@ -1283,12 +1288,10 @@ km:
     edit:
       edit_stage: កែរសំរួល ដំណាក់កាល
     able_screening_question_fields:
+      <<: *default_able_screening_question_fields
       are_you_sure: តើអ្នកប្រាកដហើយ?
-      question: សំនួរ
-      mode: ម៉ូដ
       group: ក្រុម
       questions: សំនួរ
-      alert_manager: ជូនដំណឹងអ្នកគ្រប់គ្រង
     create:
       successfully_created: ដំណាក់ការបានបង្កើតដោយជោគជ័យ
     update:
@@ -1304,11 +1307,9 @@ km:
     new:
       general_question: សំនួរទូទៅ
     form:
-      question: សំនួរ
-      mode: ម៉ូដ
+      <<: *default_able_screening_question_fields
       group: ក្រុម
       questions: សំនួរ
-      alert_manager: ជូនដំណឹងអ្នកគ្រប់គ្រង
       save: រក្សាទុក
       cancel: ទុកជាមោឃៈ
     create:

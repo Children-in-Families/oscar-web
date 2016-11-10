@@ -4,7 +4,7 @@ class ReferralSourcesController < AdminController
   before_action :find_referral_source, only: [:update, :destroy]
 
   def index
-    @referral_sources = ReferralSource.all.paginate(page: params[:page], per_page: 20)
+    @referral_sources = ReferralSource.order(:name).paginate(page: params[:page], per_page: 20)
   end
 
   def create

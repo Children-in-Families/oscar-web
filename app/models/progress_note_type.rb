@@ -3,5 +3,5 @@ class ProgressNoteType < ActiveRecord::Base
 
   has_paper_trail
 
-  validates :note_type, presence: true, uniqueness: true
+  validates :note_type, presence: true, uniqueness: { case_sensitive: false }
 end

@@ -1,5 +1,5 @@
 class QuantitativeCase < ActiveRecord::Base
-  validates :value, presence: true, uniqueness: true
+  validates :value, presence: true, uniqueness: { case_sensitive: false }
 
   belongs_to :quantitative_type, counter_cache: true
 

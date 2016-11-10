@@ -11,7 +11,7 @@ class Province < ActiveRecord::Base
 
   scope :birth_places, -> { joins('RIGHT JOIN clients ON clients.birth_province_id = Provinces.id').uniq }
 
-  validates :name, presence: true, uniqueness: true
+  validates :name, presence: true, uniqueness: { case_sensitive: false }
 
   def removeable?
     families_count.zero? && partners_count.zero? && users_count.zero? && clients_count.zero? && cases_count.zero?

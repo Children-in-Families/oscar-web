@@ -1,5 +1,5 @@
 class Intervention < ActiveRecord::Base
-  validates :action, presence: true, uniqueness: true
+  validates :action, presence: true, uniqueness: { case_sensitive: false }
 
   has_and_belongs_to_many :progress_notes
 
