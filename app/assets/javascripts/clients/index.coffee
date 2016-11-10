@@ -138,6 +138,6 @@ CIF.ClientsIndex = do ->
 
   _handleScrollTable = ->
     $(window).load ->
-      $('.dataTables_scrollBody').niceScroll()
+      $('.clients-table .dataTables_scrollBody').niceScroll()
 
   { init: _init }

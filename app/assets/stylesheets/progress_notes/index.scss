@@ -20,8 +20,8 @@ body[id='progress_notes-index'] {
     margin: 0 5px;
   }
 
-  table {
-    .manage, .modification, th.date, td.date, .child, .progress_note_type, .location, .other_location, .goals_addressed, .interventions, .material, .staff {
+  table.progress-notes {
+    th, td {
       min-width: 210px !important;
     }
   }

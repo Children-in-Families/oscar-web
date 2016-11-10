@@ -3,10 +3,6 @@
     margin-top: 20px;
   }
 
-  th.id {
-    min-width: 70px;
-  }
-
   td.manage a {
     margin: 0 5px;
     text-decoration: none;
@@ -19,10 +15,10 @@
       min-width: 170px;
     }
     th.id {
-      min-width: 70px;
+      min-width: 120px;
     }
     th.email {
-      min-width: 200px;
+      min-width: 280px;
     }
     th.manage {
       min-width: 100px;

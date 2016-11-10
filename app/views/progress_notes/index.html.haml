@@ -20,7 +20,7 @@
           %strong= @progress_note_grid.assets.count
         %span.label.label-info= t('.results')
       .ibox-content
-        .table-responsive
+        .progress_notes-table
           = datagrid_table @progress_note_grid, html: {class: 'table table-bordered table-striped table-hover progress-notes'}
       .ibox-footer
         = link_to t('.back'), client_path(@client), class: 'btn btn-default btn-back'

@@ -2,6 +2,7 @@ CIF.Progress_notesIndex = do ->
   _init = ->
     _select2()
     _fixedHeaderTableColumns()
+    _handleScrollTable()
 
   _select2 = ->
     $('select').select2
@@ -20,5 +21,9 @@ CIF.Progress_notesIndex = do ->
         'sScrollX': '100%'
         'sScrollXInner': '100%'
         )
+
+  _handleScrollTable = ->
+    $(window).load ->
+      $('.progress_notes-table .dataTables_scrollBody').niceScroll()
 
   { init: _init }
