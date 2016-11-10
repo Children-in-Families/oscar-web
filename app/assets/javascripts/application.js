@@ -5,6 +5,7 @@
 //= require jquery.steps.min
 //= require jquery.validate
 //= require jquery.validate.additional-methods
+//= require jquery.nicescroll.min
 //= require dataTables/jquery.dataTables
 //= require thredded
 //= require select2
@@ -16,7 +17,6 @@
 //= require cocoon
 //= require datepicker
 //= require metisMenu/jquery.metisMenu.js
-//= require jquery.nicescroll.min
 
 // WRAPBOOTSTRAP
 //= require iCheck/icheck.min.js
