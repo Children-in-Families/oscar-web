@@ -11,8 +11,8 @@
       - if can? :manage, Client
         = link_to t('.add_new_client'), new_client_path, class: 'btn btn-primary'
       = link_to t('.view_all_active_tasks'), tasks_path, class: 'btn btn-info'
-      = link_to t('.csi_domain_scores'), current_url({format: 'csv', type: 'basic_info'}), class: 'btn btn-info btn-export'
-      = link_to t('.export_to_csv'), current_url(format: 'csv'), class: 'btn btn-info btn-export'
+      = link_to t('.csi_domain_scores'), current_url({format: 'xls', type: 'basic_info'}), class: 'btn btn-info btn-export'
+      = link_to t('.export_to_xls'), current_url(format: 'xls'), class: 'btn btn-info btn-export'
 .row
   .col-xs-12
     .ibox-content#client-search-form.collapse
@@ -37,4 +37,3 @@
       .ibox-content
         .clients-table
           = datagrid_table @client_grid, html: { class: 'table table-bordered  table-striped table-hover clients' }
-        

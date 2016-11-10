@@ -11,11 +11,15 @@ class ProgressNotesController < AdminController
       f.html do
         @progress_note_grid.scope { |scope| scope.where(client_id: @client.id).paginate(page: params[:page], per_page: 20) }
       end
-      f.csv do
+      # f.csv do
+      #   @progress_note_grid.scope { |scope| scope.where(client_id: @client.id) }
+      #   send_data @progress_note_grid.to_csv, type: 'text/csv',
+      #                                  disposition: 'inline',
+      #                                  filename: "progress_note_report-#{Time.now}.csv"
+      # end
+      f.xls do
         @progress_note_grid.scope { |scope| scope.where(client_id: @client.id) }
-        send_data @progress_note_grid.to_csv, type: 'text/csv',
-                                       disposition: 'inline',
-                                       filename: "progress_note_report-#{Time.now}.csv"
+        send_data @progress_note_grid.to_xls, filename: "progress_note_report-#{Time.now}.xls"
       end
     end
   end

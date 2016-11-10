@@ -9,10 +9,6 @@ class ClientDecorator < Draper::Decorator
     model.name.present? ? model.name : 'Unknown'  
   end
 
-  def gender
-    ", #{model.gender.titleize}" if model.gender.present?
-  end
-
   def date_of_birth_format
     model.date_of_birth.strftime('%B %d, %Y') if model.date_of_birth
   end

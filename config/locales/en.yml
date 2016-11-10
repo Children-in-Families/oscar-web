@@ -551,7 +551,7 @@ en:
       client_amount: Client Amounts
       add_new_client: Add New Client
       view_all_active_tasks: View All Active  Tasks
-      export_to_csv: Export to CSV
+      export_to_xls: Export to XLS
       results: Results
       csi_domain_scores: CSI Domain Scores
       assessments: Assessments
@@ -652,7 +652,7 @@ en:
     index:
       results: Results
       add_new_family: Add New Family
-      export_csv: Export to CSV
+      export_xls: Export to XLS
       clients: Clients
     new:
       new_family_title: New Family
@@ -682,7 +682,7 @@ en:
     index:
       results: Results
       add_new_partner: Add New Partner
-      export_csv: Export to CSV
+      export_xls: Export to XLS
     new:
       new_partner_title: New Partner
     edit:
@@ -710,7 +710,7 @@ en:
     index:
       results: Results
       add_new_user: Add New User
-      export_csv: Export to CSV
+      export_xls: Export to XLS
     new:
       new_user_title: New User
       <<: *default_user_fields
@@ -1543,7 +1543,7 @@ en:
       progress_note: Progress Note
       manage: Manage
       are_you_sure: Are you sure you want to delete?
-      export_to_csv: Export to CSV
+      export_to_xls: Export to XLS
       results: Results
     show:
       <<: *default_progress_note_fields

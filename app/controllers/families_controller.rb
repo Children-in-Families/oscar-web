@@ -10,10 +10,8 @@ class FamiliesController < AdminController
       f.html do
         @family_grid.scope { |scope| scope.paginate(page: params[:page], per_page: 20) }
       end
-      f.csv do
-        send_data @family_grid.to_csv, type: 'text/csv',
-                                       disposition: 'inline',
-                                       filename: "family_report-#{Time.now}.csv"
+      f.xls do
+        send_data @family_grid.to_xls, filename: "family_report-#{Time.now}.xls"
       end
     end
   end

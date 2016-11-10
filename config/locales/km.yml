@@ -546,7 +546,7 @@ km:
       client_amount: ចំនួនអតិថិជន
       add_new_client: បន្ថែមអតិថិជនថ្មី
       view_all_active_tasks: ពិនិត្យលើកាតព្វកិច្ចដែលមិនទាន់ធ្វើ
-      export_to_csv: ទាញចេញជាឯកសារប្រភេទ CSV
+      export_to_xls: ទាញចេញជាឯកសារប្រភេទ XLS
       results: លទ្ធផល
       csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
       assessments: ការប៉ាន់ប្រមាណ
@@ -648,7 +648,7 @@ km:
     index:
       results: លទ្ធផល
       add_new_family: បន្ថែមគ្រួសារថ្មី
-      export_csv: ទាញចេញជាឯកសារប្រភេទ CSV
+      export_xls: ទាញចេញជាឯកសារប្រភេទ XLS
       clients: អតិថិជន
     new:
       new_family_title: គ្រួសារថ្មី
@@ -678,7 +678,7 @@ km:
     index:
       results: លទ្ធផល
       add_new_partner: បន្ថែមដៃគូថ្មី
-      export_csv: ទាញចេញជាឯកសារប្រភេទ CSV
+      export_xls: ទាញចេញជាឯកសារប្រភេទ XLS
     new:
       new_partner_title: ដៃគូថ្មី
     edit:
@@ -706,7 +706,7 @@ km:
     index:
       results: លទ្ធផល
       add_new_user: បន្ថែមឣ្នកប្រើថ្មី
-      export_csv: ទាញចេញជាឯកសារប្រភេទ CSV
+      export_xls: ទាញចេញជាឯកសារប្រភេទ XLS
     new:
       new_user_title: បង្កើតអ្នកប្រើប្រាស់ថ្មី
       <<: *default_user_fields
@@ -1743,7 +1743,7 @@ km:
       progress_note: កំណត់សំគាល់ការរីកចំរើន
       manage: គ្រប់គ្រង
       are_you_sure: តើអ្នកប្រាកដហើយ?
-      export_to_csv: ទាញចេញជាឯកសារប្រភេទ CSV
+      export_to_xls: ទាញចេញជាឯកសារប្រភេទ XLS
       results: លទ្ធផល
     show:
       <<: *default_progress_note_fields
@@ -1830,7 +1830,7 @@ km:
       Task: កាតព្វកិច្ច
       Assessment: ការប៉ាន់ប្រមាណ
       CaseNote: កំណត់ត្រាករណី
-      Survey: ការស្ទង់មតិ  
+      Survey: ការស្ទង់មតិ
       ProgressNote: កំណត់សំគាល់ការរីកចំរើន
       Material: របស់របរ/សំភារៈ
       Intervention: ចំនុចដែលត្រូវធ្វើ

@@ -15,7 +15,7 @@ CIF.Progress_notesIndex = do ->
         'bFilter': false
         'bInfo': false
         'bSort': false
-        'sScrollY': '500px'
+        'sScrollY': 'auto'
         'bAutoWidth': true
         'sScrollX': '100%'
         'sScrollXInner': '100%'

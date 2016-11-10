@@ -6,7 +6,7 @@
     .pull-right
       - if can? :manage, :all
         = link_to "#{I18n.t('users.index.add_new_user')}", new_user_path, class: 'btn btn-primary'
-      = link_to "#{I18n.t('users.index.export_csv')}", current_url(format: 'csv'), class: 'btn btn-info btn-export'
+      = link_to "#{I18n.t('users.index.export_xls')}", current_url(format: 'xls'), class: 'btn btn-info btn-export'
 .row.ibox-space
   .col-xs-12
     .ibox.float-e-margins#user-search-form.collapse
