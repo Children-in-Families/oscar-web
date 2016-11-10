@@ -34,11 +34,6 @@
       .ibox-title
         %h5= @client_grid.assets.count
         %span.label.label-info= t('.results')
-        .ibox-tools
-          %a.collapse-link
-            %i.fa.fa-chevron-up
-          %a.fullscreen-link
-            %i.fa.fa-expand
       .ibox-content
         .clients-table
-          = datagrid_table @client_grid, html: {class: 'table table-bordered  table-striped table-hover clients' }
+          = datagrid_table @client_grid, html: { class: 'table table-bordered  table-striped table-hover clients' }

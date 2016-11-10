@@ -18,12 +18,8 @@
       .ibox-title
         %h5= @partner_grid.assets.count
         %span.label.label-info= t('.results')
-        .ibox-tools
-          %a.collapse-link
-            %i.fa.fa-chevron-up
-          %a.fullscreen-link
-            %i.fa.fa-expand
       .ibox-content
-        = datagrid_table @partner_grid, html: { class: 'table table-bordered table-striped table-hover partners'}
-      .ibox-footer
+        .partners-table
+          = datagrid_table @partner_grid, html: { class: 'table table-bordered table-striped table-hover partners'}
+      .ibox-footer.text-center
         = will_paginate @partner_grid.assets, renderer: BootstrapPagination::Rails

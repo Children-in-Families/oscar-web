@@ -8,7 +8,7 @@ class FamiliesController < AdminController
     @family_grid = FamilyGrid.new(params[:family_grid])
     respond_to do |f|
       f.html do
-        @family_grid.scope { |scope| scope.paginate(page: params[:page], per_page: 10) }
+        @family_grid.scope { |scope| scope.paginate(page: params[:page], per_page: 20) }
       end
       f.xls do
         send_data @family_grid.to_xls, filename: "family_report-#{Time.now}.xls"

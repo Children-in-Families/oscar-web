@@ -3,5 +3,6 @@ class ChangelogType < ActiveRecord::Base
 
   default_scope { order(:change_type) }
 
-  validates :change_type, :description, presence: true
+  validates :change_type, presence: true
+  validates :description, presence: true, uniqueness: { scope: [:changelog_id, :change_type] }
 end

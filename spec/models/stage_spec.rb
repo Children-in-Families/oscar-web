@@ -7,6 +7,8 @@ RSpec.describe Stage, type: :model do
   describe 'Validations' do
     it { is_expected.to validate_presence_of(:from_age) }
     it { is_expected.to validate_presence_of(:to_age) }
+    it { is_expected.to validate_numericality_of(:from_age) }
+    it { is_expected.to validate_numericality_of(:to_age) }
     it 'should validate uniqueness of to_age scoped to from_age' do
       FactoryGirl.create(:stage)
       should validate_uniqueness_of(:to_age).scoped_to(:from_age)

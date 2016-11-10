@@ -1,18 +1,10 @@
 CIF.Common =
   init: ->
-    @hideNotification()
     @hideDynamicOperator()
-    @menuDropDownClick()
     @validateFilterNumber()
     @customCheckBox()
     @initNotification()
-
-  hideNotification: ->
-    notice = $('p#notice')
-    if notice
-      setTimeout (->
-        $(notice).fadeOut()
-      ), 5000
+    @autoCollageManagMenu()
 
   customCheckBox: ->
     $('.i-check-red').iCheck
@@ -28,8 +20,10 @@ CIF.Common =
       checkboxClass: 'icheckbox_square-green'
       radioClass: 'iradio_square-green'
 
-  menuDropDownClick: ->
-    $('#side-menu').metisMenu()
+  autoCollageManagMenu: ->
+    active = $('.nav-second-level').find('.active')
+    if active.length > 0
+      $('#manage').trigger('click')
 
   hideDynamicOperator: ->
     $('.dynamic_filter').find('option[value="=~"]').remove('option')

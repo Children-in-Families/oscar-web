@@ -1,5 +1,6 @@
 CIF.ClientsIndex = do ->
   _init = ->
+    _handleScrollTable()
     _enableSelect2()
     _columnsVisibility()
     _fixedHeaderTableColumns()
@@ -11,33 +12,6 @@ CIF.ClientsIndex = do ->
     _formatReportxAxis()
     _handleCreateCaseReport()
     _handleCreateCsiDomainReport()
-    _handleScrollTable()
-
-  _reportOption = (data, title, yAxisTitle, element) ->
-    if data != undefined
-      $(element).highcharts
-        chart:
-          type: 'spline'
-        legend:
-          verticalAlign: 'top'
-          y: 30
-        plotOptions: series: connectNulls: true
-        tooltip:
-          shared: true
-          xDateFormat: '%b %Y'
-        title:
-          text: title
-        xAxis:
-          categories: data[0]
-          dateTimeLabelFormats:
-            month: '%b %Y'
-          tickmarkPlacement: 'on'
-        yAxis:
-          allowDecimals: false
-          title:
-            text: yAxisTitle
-        series: data[1]
-      $('.highcharts-credits').css('display', 'none')
 
   _handleCreateCsiDomainReport = ->
     element = $('#cis-domain-score')
@@ -45,7 +19,8 @@ CIF.ClientsIndex = do ->
     csiTitle = element.data('title')
     csiyAxisTitle = element.data('yaxis-title')
 
-    _reportOption(csiData, csiTitle, csiyAxisTitle, element)
+    report = new CIF.ReportCreator(csiData, csiTitle, csiyAxisTitle, element)
+    report.lineChart()
 
   _handleCreateCaseReport = ->
     element = $('#case-statistic')
@@ -53,7 +28,8 @@ CIF.ClientsIndex = do ->
     caseTitle =  element.data('title')
     caseyAxisTitle =  element.data('yaxis-title')
 
-    _reportOption(caseData, caseTitle, caseyAxisTitle, element)
+    report = new CIF.ReportCreator(caseData, caseTitle, caseyAxisTitle, element)
+    report.lineChart()
 
   _enableSelect2 = ->
     $('#clients-index select').select2
@@ -94,9 +70,9 @@ CIF.ClientsIndex = do ->
         'bScrollInfinite': true
         'bScrollCollapse': true
         'sScrollY': 'auto'
-        'ordering': false
         'bFilter': false
         'bAutoWidth': true
+        'bSort': false
         'sScrollX': '100%'
         'sScrollXInner': '100%'
         'iDisplayLength': 50
@@ -162,7 +138,6 @@ CIF.ClientsIndex = do ->
 
   _handleScrollTable = ->
     $(window).load ->
-      $('.clients-table .dataTables_scrollBody').niceScroll()
-      $('.table-responsive.clients-table').niceScroll()
+      $('.dataTables_scrollBody').niceScroll()
 
   { init: _init }

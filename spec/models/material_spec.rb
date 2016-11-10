@@ -3,8 +3,8 @@ describe Material, 'associations' do
 end
 
 describe Material, 'validations' do
-  it { is_expected.to validate_presence_of(:status)}
-  it { is_expected.to validate_uniqueness_of(:status)}
+  it { is_expected.to validate_presence_of(:status) }
+  it { is_expected.to validate_uniqueness_of(:status).case_insensitive }
 end
 
 describe Material, 'methods' do

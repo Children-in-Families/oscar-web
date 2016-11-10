@@ -4,7 +4,7 @@ class AgenciesController < AdminController
   before_action :find_agency, only: [:update, :destroy]
 
   def index
-    @agencies = Agency.all.paginate(page: params[:page], per_page: 20)
+    @agencies = Agency.order(:name).paginate(page: params[:page], per_page: 20)
   end
 
   def create

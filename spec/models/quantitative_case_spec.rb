@@ -5,7 +5,7 @@ end
 
 describe QuantitativeCase, 'validations' do
   it { is_expected.to validate_presence_of(:value) }
-  it { is_expected.to validate_uniqueness_of(:value) }
+  it { is_expected.to validate_uniqueness_of(:value).case_insensitive }
 end
 
 describe QuantitativeCase, 'scopes' do

@@ -2,7 +2,7 @@ class Agency < ActiveRecord::Base
   has_and_belongs_to_many :clients
   has_paper_trail
 
-  validates :name, presence: true, uniqueness: true
+  validates :name, presence: true, uniqueness: { case_sensitive: false }
 
   def self.name_like(values = [])
     downcase_values = values.map { |val| "%#{val.downcase}%" }

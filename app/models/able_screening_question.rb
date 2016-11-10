@@ -15,7 +15,8 @@ class AbleScreeningQuestion < ActiveRecord::Base
   scope :non_stage, -> { where(stage: nil) }
   scope :with_stage, -> { joins(:stage).order('from_age') }
 
-  validates :question, :mode, presence: true
+  validates :mode, presence: true
+  validates :question, presence: true, uniqueness: { case_sensitive: false }
   validates :mode, inclusion: { in: MODES }
 
   validates :question_group, presence: true, if: proc { |object| object.stage.present? }

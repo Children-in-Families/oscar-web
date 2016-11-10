@@ -6,7 +6,7 @@ class Stage < ActiveRecord::Base
 
   has_paper_trail
 
-  validates :from_age, presence: true
+  validates :from_age, presence: true, numericality: true
   validates :to_age, presence: true, uniqueness: { scope: :from_age }, numericality: { greater_than: :from_age }
 
   accepts_nested_attributes_for :able_screening_questions, reject_if: :all_blank, allow_destroy: true
