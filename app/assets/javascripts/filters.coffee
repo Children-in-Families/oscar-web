@@ -9,6 +9,9 @@ $(document).on 'ready page:load', ->
       $(@).addClass 'form-group col-xs-12 col-sm-4 col-md-3'
       $(@).children('input, select').addClass 'form-control'
 
+    $('.grid-form .domain-filter').each ->
+      $(@).children('input, select').addClass 'form-control'
+      
     $('.date-filter-group').each (index, element) ->
       $(@).children('input, select').addClass 'form-control'
 

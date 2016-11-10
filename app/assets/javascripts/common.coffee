@@ -4,7 +4,7 @@ CIF.Common =
     @validateFilterNumber()
     @customCheckBox()
     @initNotification()
-    @autoCollageManagMenu()
+    @autoCollapseManagMenu()
 
   customCheckBox: ->
     $('.i-check-red').iCheck
@@ -20,7 +20,7 @@ CIF.Common =
       checkboxClass: 'icheckbox_square-green'
       radioClass: 'iradio_square-green'
 
-  autoCollageManagMenu: ->
+  autoCollapseManagMenu: ->
     active = $('.nav-second-level').find('.active')
     if active.length > 0
       $('#manage').trigger('click')

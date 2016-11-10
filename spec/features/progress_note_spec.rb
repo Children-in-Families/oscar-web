@@ -87,11 +87,12 @@ feature 'progress_note' do
     scenario 'valid', js: true do
       fill_in I18n.t('progress_notes.form.date'), with: FFaker::Time.date
       # select progress_note_type.note_type, from: I18n.t('progress_notes.form.progress_note_type')
-      # select location.name, from: I18n.t('progress_notes.form.location')
+      # select location.name, from: I18n.t('progress_notes.form.location').last
       # select intervention.action, from: I18n.t('progress_notes.form.interventions')
       # select material.status, from: I18n.t('progress_notes.form.material')
-    
-      page.find('#s2id_progress_note_material_id').select_option
+      # fill_in I18n.t('progress_notes.form.other_location'), with: 'test'
+      page.find('#select2-chosen-2').click
+      page.find('#select2-result-label-6').click
       click_button I18n.t('progress_notes.form.save')
       sleep 1
       expect(page).to have_content(I18n.t('progress_notes.create.successfully_created'))
