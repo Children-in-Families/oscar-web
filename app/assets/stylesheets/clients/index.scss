@@ -6,6 +6,10 @@
   .export-client{
     margin-top: -16px;
   }
+  .dataTables_scrollHead,
+  .dataTables_scrollBody{
+    width: 100% !important;
+  }
   .highcharts-legend-item path{
     cursor: pointer;
   }
