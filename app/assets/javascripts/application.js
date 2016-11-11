@@ -17,8 +17,10 @@
 //= require cocoon
 //= require datepicker
 //= require metisMenu/jquery.metisMenu.js
-//= require i18n
-//= require i18n/translations
+
+// Commented
+// require i18n
+// require i18n/translations
 
 // WRAPBOOTSTRAP
 //= require iCheck/icheck.min.js
