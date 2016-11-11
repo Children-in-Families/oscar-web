@@ -10,7 +10,7 @@ CIF.Progress_notesIndex = do ->
       allowClear: true
 
   _fixedHeaderTableColumns = ->
-    $('.progress-notes-table').removeClass('table-responsive')
+    $('.progress_notes-table').removeClass('table-responsive')
     if !$('table.progress-notes tbody tr td').hasClass('noresults')
       $('table.progress-notes').dataTable(
         'bPaginate': false
@@ -23,7 +23,7 @@ CIF.Progress_notesIndex = do ->
         'sScrollXInner': '100%'
         )
     else
-      $('.progress-notes-table').addClass('table-responsive')
+      $('.progress_notes-table').addClass('table-responsive')
 
   _handleScrollTable = ->
     $(window).load ->
