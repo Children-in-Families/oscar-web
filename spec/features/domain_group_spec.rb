@@ -38,11 +38,11 @@ describe 'Domain Group' do
       expect(page).to have_content('Domain Group has been successfully created')
     end
     scenario 'invalid' do
-      sleep 1
       click_link('New Domain Group')
       within('#new_domain_group') do
         click_button 'Save'
       end
+      sleep 1
       expect(page).to have_content('Failed to create a domain group.')
     end
   end
