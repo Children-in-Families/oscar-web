@@ -14,7 +14,7 @@
               %tr
                 %th= t('.action')
                 %th.text-center{ colspan: '2' }= t('.manage')
-                %th.text-center= t('.modification')
+                / %th.text-center= t('.modification')
             %tbody
               - @interventions.each do |intervention|
                 %tr
@@ -24,8 +24,8 @@
                       = fa_icon('pencil')
                   %td.text-center
                     = remove_link(intervention, { intervention_progress_note: intervention.progress_notes.count})
-                  %td.text-center
-                    = link_to t('.view'), intervention_version_path(intervention)
+                  / %td.text-center
+                  /   = link_to t('.view'), intervention_version_path(intervention)
                   = render 'form', intervention: intervention
       .ibox-footer.text-center
         = will_paginate @interventions, renderer: BootstrapPagination::Rails
