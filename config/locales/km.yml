@@ -1,4 +1,8 @@
 km:
+  js:
+    datatable:
+      sinfo: (បង្ហាញទិន្នន័យចំនួន _START_ ដល់ _END_ នៃចំនួនសរុប _TOTAL_)
+
   unauthorized:
     default: អ្នកមិនមានសិទ្ធិគ្រប់គ្រាន់ដើម្បីចូលទេ
 

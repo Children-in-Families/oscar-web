@@ -6,7 +6,7 @@
     %meta{:content => "width=device-width, initial-scale=1", :name => "viewport"}
     %meta{:content => "", :name => "description"}
     %meta{:content => "", :name => "author"}
-    
+
     %title= organization_name
     = stylesheet_link_tag    'application', media: 'all'
     = csrf_meta_tags
@@ -26,3 +26,6 @@
         = yield
     = javascript_include_tag 'application'
     = javascript_include_tag 'https://code.highcharts.com/highcharts.js'
+    = javascript_tag do
+      I18n.defaultLocale = "#{I18n.default_locale}";
+      I18n.locale = "#{I18n.locale}";

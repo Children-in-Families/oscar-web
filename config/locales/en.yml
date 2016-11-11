@@ -1,4 +1,8 @@
 en:
+  js:
+    datatable:
+      sinfo: (show _START_ to _END_ results of _TOTAL_ total)
+
   unauthorized:
     default: You are not authorized to access this page.
 
@@ -516,7 +520,7 @@ en:
       km: ខ្មែរ
       log_out: Log out
       log_in: Log in
-      data_modification: Data Modification
+      release_logs: Release logs
       progress_note: Progress Note
       materials: Equipment/Materials
       locations: Locations
