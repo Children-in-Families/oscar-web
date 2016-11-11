@@ -24,6 +24,26 @@ body[id=government_reports-update] {
       width: 30px;
     }
   }
+  input[type='text'],
+  input[type='tel'] {
+    display: block;
+    width: 100%;
+  }
+  .form-group.string.optional,
+  .input-group.date.form-group,
+  .form-group.tel.optional{
+    width: 80%;
+
+    .date.form-control.date-picker{
+      width: 100%;
+    }
+    #government_report_code,
+    #government_report_initial_capital,
+    #government_report_initial_city,
+    #government_report_initial_commune{
+      width: 198px;;
+    }
+  }
 
   .government_report_code,
   .government_report_initial_capital,
@@ -118,7 +138,6 @@ body[id=government_reports-update] {
 
   .input-group.date {
     margin-left: -3px;
-    max-width: 250px;
   }
 
   table.child-situation-needs {
