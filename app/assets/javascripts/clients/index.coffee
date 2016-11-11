@@ -71,6 +71,8 @@ CIF.ClientsIndex = do ->
         'bFilter': false
         'bAutoWidth': true
         'bSort': false
+        'oLanguage':
+          'sInfo': I18n.t('js.datatable.sinfo')
         'sScrollX': '100%'
         'sScrollXInner': '100%'
         'bScrollInfinite': true

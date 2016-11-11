@@ -84,7 +84,7 @@ feature 'progress_note' do
       visit new_client_progress_note_path(client)
     end
 
-    scenario 'valid', js: true do
+    xscenario 'valid', js: true do
       fill_in I18n.t('progress_notes.form.date'), with: FFaker::Time.date
       # select progress_note_type.note_type, from: I18n.t('progress_notes.form.progress_note_type')
       # select location.name, from: I18n.t('progress_notes.form.location').last

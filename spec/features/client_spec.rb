@@ -113,6 +113,7 @@ describe 'Client' do
     scenario 'valid', js: true do
       fill_in 'Name', with: FFaker::Name.name
       click_button 'Save'
+      sleep 1
       expect(page).to have_content('Client has been successfully updated')
     end
 
