@@ -40,11 +40,11 @@ describe 'Agency' do
     end
 
     scenario 'invalid', js: true do
-      sleep 1
       click_link 'Add New Agency'
       within('#new_agency') do
         click_button 'Save'
       end
+      sleep 1
       expect(page).to have_content("Failed to create an agency")
     end
   end

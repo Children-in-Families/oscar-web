@@ -44,6 +44,7 @@ describe 'Intervention' do
         fill_in I18n.t('interventions.form.action'), with: FFaker::HealthcareIpsum.word
         click_button I18n.t('interventions.form.save')
       end
+      sleep 1
       expect(page).to have_content(I18n.t('interventions.create.successfully_created'))
     end
 
@@ -52,6 +53,7 @@ describe 'Intervention' do
       within('#new_intervention') do
         click_button I18n.t('interventions.form.save')
       end
+      sleep 1
       expect(page).to have_content('Failed to create an intervention.')
     end
   end
@@ -68,7 +70,8 @@ describe 'Intervention' do
         fill_in I18n.t('interventions.form.action'), with: action
         click_button I18n.t('interventions.form.save')
       end
-            expect(page).to have_content(I18n.t('interventions.update.successfully_updated'))
+      sleep 1
+      expect(page).to have_content(I18n.t('interventions.update.successfully_updated'))
       expect(page).to have_content(action)
     end
     scenario 'invalid' do
@@ -77,6 +80,7 @@ describe 'Intervention' do
         fill_in I18n.t('interventions.form.action'), with: 'Counseling'
         click_button I18n.t('interventions.form.save')
       end
+      sleep 1
       expect(page).to have_content('Failed to update an intervention')
     end
   end
@@ -87,6 +91,7 @@ describe 'Intervention' do
     end
     scenario 'success' do
       find("a[href='#{intervention_path(intervention)}'][data-method='delete']").click
+      sleep 1
       expect(page).to have_content(I18n.t('interventions.destroy.successfully_deleted'))
     end
   end

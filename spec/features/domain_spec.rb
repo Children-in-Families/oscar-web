@@ -35,6 +35,7 @@ describe 'Domain' do
       fill_in 'Name', with: FFaker::Name.name
       fill_in 'Identity', with: FFaker::Name.name
       click_button 'Save'
+      sleep 1
       expect(page).to have_content('Domain has been successfully created')
     end
     scenario 'invalid' do
@@ -51,6 +52,7 @@ describe 'Domain' do
     scenario 'valid', js: true do
       fill_in 'Name', with: name
       click_button 'Save'
+      sleep 1
       expect(page).to have_content('Domain has been successfully updated')
     end
     scenario 'invalid' do
@@ -66,6 +68,7 @@ describe 'Domain' do
     end
     scenario 'success' do
       find("a[href='#{domain_path(domain)}'][data-method='delete']").click
+      sleep 1
       expect(page).to have_content('Domain has been successfully deleted')
     end
     scenario 'disable delete' do

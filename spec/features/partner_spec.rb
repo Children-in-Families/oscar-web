@@ -28,14 +28,15 @@ describe 'Partner' do
     end
   end
 
-  feature 'Create', js: true do
+  feature 'Create' do
     before do
       visit new_partner_path
     end
-    scenario 'valid' do
+    scenario 'valid', js: true do
       fill_in 'Name', with: FFaker::Name.name
       fill_in 'Email', with: FFaker::Internet.email
       click_button 'Save'
+      sleep 1
       expect(page).to have_content('Partner has been successfully created')
     end
     xscenario 'invalid' do
@@ -51,16 +52,18 @@ describe 'Partner' do
       fill_in 'Name', with: FFaker::Name.name
       fill_in 'Email', with: FFaker::Internet.email
       click_button 'Save'
+      sleep 1
       expect(page).to have_content('Partner has been successfully updated')
     end
     xscenario 'invalid'
   end
-  feature 'Delete', js: true do
+  feature 'Delete' do
     before do
       visit partners_path
     end
-    scenario 'success' do
+    scenario 'success', js: true do
       find("a[href='#{partner_path(partner)}'][data-method='delete']").click
+      sleep 1
       expect(page).to have_content('Partner has been successfully deleted')
     end
     scenario 'unsuccess' do
@@ -68,7 +71,7 @@ describe 'Partner' do
     end
   end
 
-  feature 'Show', js: true do
+  feature 'Show' do
     before do
       visit partner_path(partner)
     end

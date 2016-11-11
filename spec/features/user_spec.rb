@@ -9,12 +9,13 @@ describe 'User' do
     login_as(admin)
   end
 
-  feature 'Delete', js: true do
+  feature 'Delete' do
     before do
       visit users_path
     end
-    scenario 'success' do
+    scenario 'success', js: true do
       find("a[href='#{user_path(user)}'][data-method='delete']").click
+      sleep 1
       expect(page).to have_content(I18n.t('users.destroy.successfully_deleted'))
     end
 

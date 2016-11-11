@@ -96,6 +96,8 @@ describe 'Case' do
     scenario 'valid', js: true do
       fill_in 'Carer Names', with: 'Carer Name'
       click_button 'Save'
+
+      sleep 1
       expect(page).to have_content('Case has been successfully updated')
     end
 

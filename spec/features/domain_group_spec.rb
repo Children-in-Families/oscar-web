@@ -28,13 +28,13 @@ describe 'Domain Group' do
     before do
       visit domain_groups_path
     end
-    sleep 1
     scenario 'valid' do
       click_link('New Domain Group')
       within('#new_domain_group') do
         fill_in 'Name', with: FFaker::Name.name
         click_button 'Save'
       end
+      sleep 1
       expect(page).to have_content('Domain Group has been successfully created')
     end
     scenario 'invalid' do
@@ -58,15 +58,17 @@ describe 'Domain Group' do
         fill_in 'Name', with: name
         click_button 'Save'
       end
+      sleep 1
       expect(page).to have_content('Domain Group has been successfully updated')
     end
     scenario 'invalid' do
-      sleep 1
       find("a[data-target='#domain_groupModal-#{domain_group.id}']").click
       within("#domain_groupModal-#{domain_group.id}") do
         fill_in 'Name', with: ''
         click_button 'Save'
       end
+      
+      sleep 1
       expect(page).to have_content('Failed to update a domain group.')
     end
   end
@@ -77,6 +79,7 @@ describe 'Domain Group' do
     end
     scenario 'success' do
       find("a[href='#{domain_group_path(domain_group)}'][data-method='delete']").click
+      sleep 1
       expect(page).to have_content('Domain Group has been successfully deleted')
     end
     scenario 'disable delete' do

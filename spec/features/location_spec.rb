@@ -48,6 +48,7 @@ describe 'Location' do
         fill_in I18n.t('locations.form.name'), with: FFaker::Company.name
         click_button I18n.t('locations.form.save')
       end
+      sleep 1
       expect(page).to have_content(I18n.t('locations.create.successfully_created'))
     end
 
@@ -56,6 +57,7 @@ describe 'Location' do
       within('#new_location') do
         click_button I18n.t('locations.form.save')
       end
+      sleep 1
       expect(page).to have_content('Failed to create a location.')
     end
   end
@@ -72,6 +74,7 @@ describe 'Location' do
         fill_in I18n.t('locations.form.name'), with: name
         click_button I18n.t('locations.form.save')
       end
+      sleep 1
       expect(page).to have_content(I18n.t('locations.update.successfully_updated'))
       expect(page).to have_content(name)
     end
@@ -81,7 +84,7 @@ describe 'Location' do
         fill_in I18n.t('locations.form.name'), with: ''
         click_button I18n.t('locations.form.save')
       end
-
+      sleep 1
       expect(page).to have_content('Failed to update a location.')
     end
   end
@@ -92,6 +95,7 @@ describe 'Location' do
     end
     scenario 'success' do
       find("a[href='#{location_path(new_location)}'][data-method='delete']").click
+      sleep 1
       expect(page).to have_content(I18n.t('locations.destroy.successfully_deleted'))
     end
 
