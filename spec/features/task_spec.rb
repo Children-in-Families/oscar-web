@@ -74,6 +74,7 @@ describe 'Task' do
     scenario 'valid', js: true do
       fill_in 'Enter task details', with: FFaker::Name.name
       click_button 'Save'
+      sleep 1
       expect(page).to have_content('Task has successfully been updated')
     end
     scenario 'invalid' do
@@ -89,6 +90,7 @@ describe 'Task' do
     end
     scenario 'successful' do
       find("a[href='#{client_task_path(client, overdue_task)}'][data-method='delete']").click
+      sleep 1
       expect(page).to have_content('Task has successfully been deleted')
     end
   end

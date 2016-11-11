@@ -31,6 +31,7 @@ describe 'Province' do
         fill_in 'Name', with: FFaker::Name.name
         click_button 'Save'
       end
+      sleep 1
       expect(page).to have_content('Province has been successfully created')
     end
     scenario 'invalid' do
@@ -38,6 +39,7 @@ describe 'Province' do
       within('#new_province') do
         click_button 'Save'
       end
+      sleep 1
       expect(page).to have_content('Failed to create a province.')
     end
   end
@@ -53,6 +55,7 @@ describe 'Province' do
         fill_in 'Name', with: name
         click_button 'Save'
       end
+      sleep 1
       expect(page).to have_content('Province has been successfully updated')
     end
     scenario 'invalid' do
@@ -61,6 +64,7 @@ describe 'Province' do
         fill_in 'Name', with: ''
         click_button 'Save'
       end
+      sleep 1
       expect(page).to have_content('Failed to update a province.')
     end
   end
@@ -71,6 +75,7 @@ describe 'Province' do
     end
     scenario 'success' do
       find("a[href='#{province_path(province, locale: I18n.locale)}'][data-method='delete']").click
+      sleep 1
       expect(page).to have_content('Province has been successfully deleted')
     end
     scenario 'disable delete' do

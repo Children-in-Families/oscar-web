@@ -47,6 +47,7 @@ describe 'Material' do
         fill_in I18n.t('materials.form.status'), with: FFaker::Lorem.word
         click_button I18n.t('materials.form.save')
       end
+      sleep 1
       expect(page).to have_content(I18n.t('materials.create.successfully_created'))
     end
 
@@ -55,6 +56,7 @@ describe 'Material' do
       within('#new_material') do
         click_button I18n.t('materials.form.save')
       end
+      sleep 1
       expect(page).to have_content('Failed to create an Equipment/Material')
     end
   end
@@ -71,6 +73,7 @@ describe 'Material' do
         fill_in I18n.t('materials.form.status'), with: status
         click_button I18n.t('materials.form.save')
       end
+      sleep 1
       expect(page).to have_content(I18n.t('materials.update.successfully_updated'))
       expect(page).to have_content(status)
     end
@@ -80,6 +83,7 @@ describe 'Material' do
         fill_in I18n.t('materials.form.status'), with: ''
         click_button I18n.t('materials.form.save')
       end
+      sleep 1
       expect(page).to have_content('Failed to update an Equipment/Material')
     end
   end
@@ -90,6 +94,7 @@ describe 'Material' do
     end
     scenario 'success' do
       find("a[href='#{material_path(material)}'][data-method='delete']").click
+      sleep 1
       expect(page).to have_content(I18n.t('materials.destroy.successfully_deleted'))
     end
 

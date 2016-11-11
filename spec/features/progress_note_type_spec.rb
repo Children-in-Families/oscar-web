@@ -47,6 +47,7 @@ describe 'ProgressNoteType' do
         fill_in I18n.t('progress_note_types.form.note_type'), with: FFaker::Lorem.word
         click_button I18n.t('progress_note_types.form.save')
       end
+      sleep 1
       expect(page).to have_content(I18n.t('progress_note_types.create.successfully_created'))
     end
 
@@ -55,6 +56,7 @@ describe 'ProgressNoteType' do
       within('#new_progress_note_type') do
         click_button I18n.t('progress_note_types.form.save')
       end
+      sleep 1
       expect(page).to have_content('Failed to create a type of note.')
     end
   end
@@ -71,6 +73,7 @@ describe 'ProgressNoteType' do
         fill_in I18n.t('progress_note_types.form.note_type'), with: note_type
         click_button I18n.t('progress_note_types.form.save')
       end
+      sleep 1
       expect(page).to have_content(I18n.t('progress_note_types.update.successfully_updated'))
       expect(page).to have_content(note_type)
     end
@@ -79,6 +82,7 @@ describe 'ProgressNoteType' do
       within("#progress_note_typeModal-#{other_progress_note_type.id}") do
         click_button I18n.t('progress_note_types.form.save')
       end
+      sleep 1
       expect(page).to have_content('Type of Note has been successfully updated.')
     end
   end
@@ -89,6 +93,7 @@ describe 'ProgressNoteType' do
     end
     scenario 'success' do
       find("a[href='#{progress_note_type_path(progress_note_type)}'][data-method='delete']").click
+      sleep 1
       expect(page).to have_content(I18n.t('progress_note_types.destroy.successfully_deleted'))
     end
 

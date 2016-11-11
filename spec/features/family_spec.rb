@@ -41,6 +41,7 @@ describe 'Family' do
       fill_in 'Address', with: FFaker::Address.street_address
       fill_in 'Caregiver Information', with: FFaker::Lorem.paragraph
       click_button 'Save'
+      sleep 1
       expect(page).to have_content('Family has been successfully created')
     end
 
@@ -58,6 +59,7 @@ describe 'Family' do
     scenario 'valid' do
       fill_in 'Name', with: name
       click_button 'Save'
+      sleep 1
       expect(page).to have_content('Family has been successfully updated')
       expect(page).to have_content(name)
     end
@@ -70,6 +72,7 @@ describe 'Family' do
     end
     scenario 'success' do
       find("a[href='#{family_path(family)}'][data-method='delete']").click
+      sleep 1
       expect(page).to have_content('Family has been successfully deleted')
     end
     scenario 'unsuccess' do

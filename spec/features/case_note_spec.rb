@@ -35,9 +35,9 @@ describe 'CaseNote' do
       fill_in 'Note', with: FFaker::Lorem.paragraph
 
       add_tasks(5)
-      # remove_task(1)
-
       find('#case-note-submit-btn').click
+      
+      sleep 1
       expect(page).to have_content('Case Note has successfully been created')
     end
 

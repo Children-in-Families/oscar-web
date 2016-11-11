@@ -31,6 +31,7 @@ describe 'Quantitative Type' do
         fill_in 'Name', with: FFaker::Name.name
         click_button 'Save'
       end
+      sleep 1
       expect(page).to have_content('Quantitative Type has been successfully created')
     end
     scenario 'invalid' do
@@ -38,6 +39,7 @@ describe 'Quantitative Type' do
       within('#new_quantitative_type') do
         click_button 'Save'
       end
+      sleep 1
       expect(page).to have_content('Failed to create a quantitative type.')
     end
   end
@@ -53,6 +55,7 @@ describe 'Quantitative Type' do
         fill_in 'Name', with: name
         click_button 'Save'
       end
+      sleep 1
       expect(page).to have_content('Quantitative Type has been successfully updated')
     end
     scenario 'invalid' do
@@ -61,6 +64,7 @@ describe 'Quantitative Type' do
         fill_in 'Name', with: ''
         click_button 'Save'
       end
+      sleep 1
       expect(page).to have_content('Failed to update a quantitative type.')
     end
   end
@@ -71,6 +75,7 @@ describe 'Quantitative Type' do
     end
     scenario 'success' do
       find("a[href='#{quantitative_type_path(quantitative_type)}'][data-method='delete']").click
+      sleep 1
       expect(page).to have_content('Quantitative Type has been successfully deleted')
     end
     scenario 'disable' do

@@ -48,6 +48,7 @@ describe 'Changelog' do
         fill_in 'Description', with: FFaker::Lorem.paragraph
         click_button I18n.t('changelogs.form.save')
       end
+      sleep 1
       expect(page).to have_content(I18n.t('changelogs.create.successfully_created'))
     end
 
@@ -56,6 +57,7 @@ describe 'Changelog' do
       within('#new_changelog') do
         click_button I18n.t('changelogs.form.save')
       end
+      sleep 1
       expect(page).to have_content('Failed to create a changelog.')
     end
   end
@@ -73,6 +75,7 @@ describe 'Changelog' do
         fill_in 'changelog_change_version', with: change_version
         click_button I18n.t('changelogs.form.save')
       end
+      sleep 1
       expect(page).to have_content(I18n.t('changelogs.update.successfully_updated'))
       expect(page).to have_content(change_version)
     end
@@ -82,6 +85,7 @@ describe 'Changelog' do
         fill_in 'changelog_change_version', with: '0.1'
         click_button I18n.t('changelogs.form.save')
       end
+      sleep 1
       expect(page).to have_content('Failed to update a changelog.')
     end
   end
@@ -92,6 +96,7 @@ describe 'Changelog' do
     end
     scenario 'success' do
       find("a[href='#{changelog_path(changelog)}'][data-method='delete']").click
+      sleep 1
       expect(page).to have_content(I18n.t('changelogs.destroy.successfully_deleted'))
     end
   end

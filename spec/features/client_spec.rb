@@ -95,10 +95,11 @@ describe 'Client' do
     scenario 'valid', js: true do
       fill_in 'Name', with: FFaker::Name.name
       click_button 'Save'
+      sleep 1
       expect(page).to have_content('Client has been successfully created')
     end
 
-    xscenario 'invalid', js: true do
+    xscenario 'invalid' do
       click_button 'Save'
       expect(page).to have_content("can't be blank")
     end
@@ -117,7 +118,7 @@ describe 'Client' do
       expect(page).to have_content('Client has been successfully updated')
     end
 
-    xscenario 'invalid', js: true do
+    xscenario 'invalid' do
       fill_in 'Name', with: ''
       click_button 'Save'
       expect(page).to have_content("can't be blank")
@@ -132,6 +133,7 @@ describe 'Client' do
     end
     scenario 'successfully' do
       first("a[data-method='delete'][href='#{client_path(client)}']").click
+      sleep 1
       expect(page).to have_content('Client has been successfully deleted')
     end
   end

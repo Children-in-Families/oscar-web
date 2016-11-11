@@ -104,14 +104,15 @@ feature 'progress_note' do
     end
   end
 
-  feature 'Edit', js: true do
+  feature 'Edit' do
     before do
       visit edit_client_progress_note_path(progress_note.client, progress_note)
     end
-    scenario 'valid' do
+    scenario 'valid', js: true do
       date = Date.today
       fill_in I18n.t('progress_notes.form.date'), with: date.to_s
       click_button I18n.t('progress_notes.form.save')
+      sleep 1
       expect(page).to have_content(I18n.t('progress_notes.update.successfully_updated'))
       expect(page).to have_content(date.strftime('%d %B, %Y'))
     end
@@ -128,6 +129,7 @@ feature 'progress_note' do
     end
     scenario 'success' do
       find("a[href='#{client_progress_note_path(progress_note.client, progress_note)}'][data-method='delete']").click
+      sleep 1
       expect(page).to have_content(I18n.t('progress_notes.destroy.successfully_deleted'))
     end
   end

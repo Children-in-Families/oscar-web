@@ -47,7 +47,7 @@ describe "Assessment" do
       fill_in 'Goal', with: FFaker::Lorem.paragraph
 
       click_link 'Done'
-
+      sleep 1
       expect(page).to have_content('Assessment has been successfully created')
       expect(page).to have_content(domain.name)
       expect(page.find('.domain-score')).to have_content('4')
