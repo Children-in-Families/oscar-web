@@ -4,6 +4,7 @@ CIF.FamiliesIndex = do ->
     _handleScrollTable()
 
   _fixedHeaderTableColumns = ->
+    $('.families-table').removeClass('table-responsive')
     if !$('table.families tbody tr td').hasClass('noresults')
       $('table.families').dataTable(
         'bPaginate': false
@@ -14,6 +15,8 @@ CIF.FamiliesIndex = do ->
         'bAutoWidth': true
         'sScrollX': '100%'
         'sScrollXInner': '100%')
+    else
+      $('.families-table').addClass('table-responsive')
 
   _handleScrollTable = ->
     $(window).load ->
