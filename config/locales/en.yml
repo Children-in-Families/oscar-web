@@ -1,4 +1,8 @@
 en:
+  js:
+    datatable:
+      sinfo: (show _START_ to _END_ entries of _TOTAL_ total)
+
   unauthorized:
     default: You are not authorized to access this page.
 
