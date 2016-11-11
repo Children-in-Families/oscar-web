@@ -58,9 +58,10 @@ describe 'Task' do
       fill_in 'Enter task details', with: FFaker::Name.name
       fill_in 'Completion Date', with: Date.today.strftime('%B %d, %Y')
       click_button 'Save'
+      sleep 1
       expect(page).to have_content('Task has successfully been created')
     end
-    scenario 'invalid', js: true do
+    scenario 'invalid' do
       click_button 'Save'
       expect(page).to have_content("Please review the problems below")
     end
@@ -75,7 +76,7 @@ describe 'Task' do
       click_button 'Save'
       expect(page).to have_content('Task has successfully been updated')
     end
-    scenario 'invalid', js: true do
+    scenario 'invalid' do
       fill_in 'Enter task details', with: ''
       click_button 'Save'
       expect(page).to have_content("Please review the problems below")

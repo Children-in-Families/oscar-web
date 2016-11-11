@@ -10,11 +10,6 @@ class PartnersController < AdminController
       f.html do
         @partner_grid.scope { |scope| scope.paginate(page: params[:page], per_page: 20) }
       end
-      # f.csv do
-      #   send_data @partner_grid.to_csv, type: 'text/csv',
-      #                                   disposition: 'inline',
-      #                                   filename: "partner_report-#{Time.now}.csv"
-      # end
       f.xls do
         send_data @partner_grid.to_xls, filename: "partner_report-#{Time.now}.xls"
       end

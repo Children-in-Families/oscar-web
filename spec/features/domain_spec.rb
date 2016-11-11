@@ -43,12 +43,12 @@ describe 'Domain' do
     end
   end
 
-  feature 'Edit', js: true do
+  feature 'Edit' do
     let!(:name){ FFaker::Name.name }
     before do
       visit edit_domain_path(domain)
     end
-    scenario 'valid' do
+    scenario 'valid', js: true do
       fill_in 'Name', with: name
       click_button 'Save'
       expect(page).to have_content('Domain has been successfully updated')

@@ -102,14 +102,13 @@
         %button.btn.btn-primary.btn-filter{"aria-expanded" => 'false', "data-target" => '#client-search-domain', "data-toggle" => 'collapse', type: 'button'}
           %i.fa.fa-filter
           %span= t('.filter_domains')
-    .row
-      #client-search-domain.collapse
-        - grid.filters.each do |filter|
-          - if filter.type == :dynamic
-            .col-md-4.datagrid-filter.filter
-              %label{ title: filter.header }
-                = truncate(filter.header, length: 40)
-              = f.datagrid_filter filter, partials: options[:partials]
+    .row#client-search-domain.collapse
+      - grid.filters.each do |filter|
+        - if filter.type == :dynamic
+          .col-sm-4.domain-filter.filter
+            %label{ title: filter.header }
+              = truncate(filter.header, length: 40)
+            = f.datagrid_filter filter, partials: options[:partials]
   .row
     .datagrid-actions
       = f.submit I18n.t('datagrid.form.search').html_safe, class: 'btn btn-primary datagrid-submit'

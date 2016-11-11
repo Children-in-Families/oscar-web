@@ -3,10 +3,6 @@
     margin-top: 20px;
   }
 
-  th.id {
-    min-width: 70px;
-  }
-
   ul.family-clients-list, ul.family-members-list {
     padding-left: 20px;
   }
@@ -17,23 +13,15 @@
 
   table.families {
     margin-bottom: 0;
-    th {
-      border-bottom-width: 0;
-    }
-    th.name, th.member_count, th.caregiver_information, th.household_income, th.dependable_income, th.cases {
-      min-width: 185px;
-    }
-    th.case_worker, th.manage {
-      min-width: 130px;
-    }
-    th.modification {
-      min-width: 100px;
+    th, td {
+      min-width: 200px !important;
     }
   }
 
   .date_filter {
     padding: 6px;
   }
+
   .dataTables_scrollBody {
     max-height: 500px !important;
   }

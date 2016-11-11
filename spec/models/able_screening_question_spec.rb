@@ -34,7 +34,7 @@ RSpec.describe AbleScreeningQuestion, type: :model do
     let!(:first_question){ create(:able_screening_question,
       stage: stage, question_group: question_group) }
     context 'non_stage' do
-      let!(:second_question){ create(:able_screening_question) }
+      let!(:second_question){ create(:able_screening_question, question: 'testing') }
       it 'returns non stage questions' do
         expect(AbleScreeningQuestion.non_stage).to include(second_question)
       end
@@ -43,7 +43,7 @@ RSpec.describe AbleScreeningQuestion, type: :model do
       end
     end
     context 'with_stage' do
-      let!(:third_question){ create(:able_screening_question, stage: second_stage, question_group: question_group) }
+      let!(:third_question){ create(:able_screening_question, stage: second_stage, question_group: question_group, question: 'MyTest') }
       it 'return stage question order by from_age' do
         expect(AbleScreeningQuestion.with_stage).to eq([first_question, third_question])
       end
@@ -66,7 +66,7 @@ RSpec.describe AbleScreeningQuestion, type: :model do
     let!(:other_client){ create(:client) }
 
     let!(:first_question){ create(:able_screening_question, mode: 'yes_no', alert_manager: true) }
-    let!(:second_question){ create(:able_screening_question, stage: stage, question_group: question_group, mode: 'free_text')}
+    let!(:second_question){ create(:able_screening_question, question: 'testing', stage: stage, question_group: question_group, mode: 'free_text')}
 
     let!(:answer){ create(:answer, client: client, able_screening_question: first_question) }
     let!(:other_answer){ create(:answer, client: other_client, able_screening_question: second_question) }

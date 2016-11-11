@@ -20,23 +20,17 @@ body[id='progress_notes-index'] {
     margin: 0 5px;
   }
 
-  th.manage, th.modification {
-    min-width: 100px;
-  }
-
-  th.date, th.child, th.progress_note_type, th.location, th.other_location, th.goals_addressed, th.interventions {
-    min-width: 150px;
-  }
-
-  th.material {
-    min-width: 180px;
-  }
-
-  th.staff {
-    min-width: 210px;
+  table.progress-notes {
+    th, td {
+      min-width: 210px !important;
+    }
   }
 
   .date_filter {
     padding: 6px;
+  }
+
+  .dataTables_scrollBody {
+    max-height: 500px !important;
   }
 }

@@ -1,6 +1,5 @@
 CIF.ClientsIndex = do ->
   _init = ->
-    _handleScrollTable()
     _enableSelect2()
     _columnsVisibility()
     _fixedHeaderTableColumns()
@@ -12,6 +11,7 @@ CIF.ClientsIndex = do ->
     _formatReportxAxis()
     _handleCreateCaseReport()
     _handleCreateCsiDomainReport()
+    _handleScrollTable()
 
   _handleCreateCsiDomainReport = ->
     element = $('#cis-domain-score')
@@ -67,8 +67,6 @@ CIF.ClientsIndex = do ->
   _fixedHeaderTableColumns = ->
     if !$('table.clients tbody tr td').hasClass('noresults')
       $('table.clients').dataTable(
-        'bScrollInfinite': true
-        'bScrollCollapse': true
         'sScrollY': 'auto'
         'bFilter': false
         'bAutoWidth': true
@@ -77,6 +75,8 @@ CIF.ClientsIndex = do ->
           'sInfo': I18n.t('js.datatable.sinfo')
         'sScrollX': '100%'
         'sScrollXInner': '100%'
+        'bScrollInfinite': true
+        'bScrollCollapse': true
         'iDisplayLength': 50
       )
 
@@ -140,6 +140,6 @@ CIF.ClientsIndex = do ->
 
   _handleScrollTable = ->
     $(window).load ->
-      $('.dataTables_scrollBody').niceScroll()
+      $('.clients-table .dataTables_scrollBody').niceScroll()
 
   { init: _init }
