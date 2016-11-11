@@ -69,44 +69,59 @@ module VersionHelper
       val = date_format(val)
     elsif val.class == ActiveSupport::TimeWithZone
       val = date_time_format(val)
-    elsif provinces.include?(k) && val.present?
-      val = Province.find(val).name
-    elsif referral_sources.include?(k) && val.present?
-      val = ReferralSource.find(val).name
-    elsif users.include?(k) && val.present?
-      val = User.find(val).name
     elsif booleans.include?(k)
       val = human_boolean(val)
-    elsif departments.include?(k) && val.present?
-      val = Department.find(val).name
-    elsif domain_groups.include?(k) && val.present?
-      val = DomainGroup.find(val).name
     elsif is_free_text?(k) && has_html?(val)
       val = strip_tags(val)
-    elsif partners.include?(k) && val.present?
-      val = Partner.find(val).name
-    elsif families.include?(k) && val.present?
-      val = Family.find(val).name
-    elsif clients.include?(k) && val.present?
-      val = Client.find(val).name
-    elsif quantitative_types.include?(k) && val.present?
-      val = QuantitativeType.find(val).name
-    elsif domains.include?(k) && val.present?
-      val = Domain.find(val).name
-    elsif assessments.include?(k) && val.present?
-      val = date_time_format(Assessment.find(val).created_at)
     elsif score_colors.include?(k)
       val = domain_score_color(val)
-    elsif progress_note_types.include?(k) && val.present?
-      val = ProgressNoteType.find(val).note_type
-    elsif locations.include?(k) && val.present?
-      val = Location.find(val).name
-    elsif materials.include?(k) && val.present?
-      val = Material.find(val).status
-    elsif stages.include?(k) && val.present?
-      val = "#{Stage.find(val).from_age} - #{Stage.find(val).to_age}"
     elsif currencies.include?(k)
       val = number_to_currency(val)
+    elsif provinces.include?(k) && val.present?
+      obj = Province.find_by(id: val)
+      val = obj.present? ? obj.name : "##{val}"
+    elsif referral_sources.include?(k) && val.present?
+      obj = ReferralSource.find_by(id: val)
+      val = obj.present? ? obj.name : "##{val}"
+    elsif users.include?(k) && val.present?
+      obj = User.find_by(id: val)
+      val = obj.present? ? obj.name : "##{val}"
+    elsif departments.include?(k) && val.present?
+      obj = Department.find_by(id: val)
+      val = obj.present? ? obj.name : "##{val}"
+    elsif domain_groups.include?(k) && val.present?
+      obj = DomainGroup.find_by(id: val)
+      val = obj.present? ? obj.name : "##{val}"
+    elsif partners.include?(k) && val.present?
+      obj = Partner.find_by(id: val)
+      val = obj.present? ? obj.name : "##{val}"
+    elsif families.include?(k) && val.present?
+      obj = Family.find_by(id: val)
+      val = obj.present? ? obj.name : "##{val}"
+    elsif clients.include?(k) && val.present?
+      obj = Client.find_by(id: val)
+      val = obj.present? ? obj.name : "##{val}"
+    elsif quantitative_types.include?(k) && val.present?
+      obj = QuantitativeType.find_by(id: val)
+      val = obj.present? ? obj.name : "##{val}"
+    elsif domains.include?(k) && val.present?
+      obj = Domain.find_by(id: val)
+      val = obj.present? ? obj.name : "##{val}"
+    elsif assessments.include?(k) && val.present?
+      obj = Assessment.find_by(id: val)
+      val = obj.present? ? date_time_format(obj.created_at) : "##{val}"
+    elsif progress_note_types.include?(k) && val.present?
+      obj = ProgressNoteType.find_by(id: val)
+      val = obj.present? ? obj.note_type : "##{val}"
+    elsif locations.include?(k) && val.present?
+      obj = Location.find_by(id: val)
+      val = obj.present? ? obj.name : "##{val}"
+    elsif materials.include?(k) && val.present?
+      obj = Material.find_by(id: val)
+      val = obj.present? ? obj.status : "##{val}"
+    elsif stages.include?(k) && val.present?
+      obj = Stage.find_by(id: val)
+      val = obj.present? ? "#{obj.from_age} - #{obj.to_age}" : "##{val}"
     end
     val
   end

@@ -92,7 +92,7 @@
                   %li{ class: active_menu('progress_note_types') }
                     = link_to t('.progress_note_types'), progress_note_types_path
               %li{ class: active_menu('changelogs') }
-                = link_to t('.changelogs'), changelogs_path
+                = link_to t('.release_logs'), changelogs_path
 
             - elsif can? :manage, ReferralSource
               %li{ class: active_menu('referral_sources') }
@@ -102,7 +102,7 @@
           %li{ class: active_menu('data_trackers') }
             = link_to data_trackers_path do
               = fa_icon('area-chart')
-              %span.nav-label= t('.data_modification')
+              %span.nav-label= t('.changelogs')
         %li
           = link_to thredded_path, target: '_blank' do
             = fa_icon('question-circle')
