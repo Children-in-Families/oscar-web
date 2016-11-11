@@ -4,6 +4,7 @@ CIF.PartnersIndex = do ->
     _handleScrollTable()
 
   _fixedHeaderTableColumns = ->
+    $('.partners-table').removeClass('table-responsive')
     if !$('table.partners tbody tr td').hasClass('noresults')
       $('table.partners').dataTable(
         'bPaginate': false
@@ -14,6 +15,8 @@ CIF.PartnersIndex = do ->
         'bAutoWidth': true
         'sScrollX': '100%'
         'sScrollXInner': '100%')
+    else
+      $('.partners-table').addClass('table-responsive')
 
   _handleScrollTable = ->
     $(window).load ->

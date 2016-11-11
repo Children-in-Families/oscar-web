@@ -18,10 +18,6 @@
 //= require datepicker
 //= require metisMenu/jquery.metisMenu.js
 
-// Commented
-// require i18n
-// require i18n/translations
-
 // WRAPBOOTSTRAP
 //= require iCheck/icheck.min.js
 //= require wrapbootstrap/inspinia.js

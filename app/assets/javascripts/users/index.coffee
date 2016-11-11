@@ -4,6 +4,7 @@ CIF.UsersIndex = do ->
     _handleScrollTable()
 
   _fixedHeaderTableColumns = ->
+    $('.users-table').removeClass('table-responsive')
     if !$('table.users tbody tr td').hasClass('noresults')
       $('table.users').dataTable(
         'bPaginate': false
@@ -14,6 +15,8 @@ CIF.UsersIndex = do ->
         'bAutoWidth': true
         'sScrollX': '100%'
         'sScrollXInner': '100%')
+    else
+      $('.users-table').addClass('table-responsive')
 
   _handleScrollTable = ->
     $(window).load ->
