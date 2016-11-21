@@ -1,8 +1,4 @@
 en:
-  # js:
-  #   datatable:
-  #     sinfo: (show _START_ to _END_ results of _TOTAL_ total)
-
   unauthorized:
     default: You are not authorized to access this page.
 
@@ -559,6 +555,9 @@ en:
       results: Results
       csi_domain_scores: CSI Domain Scores
       assessments: Assessments
+      sInfoShow: show results from
+      sInfoTo: to
+      sInfoTotal: of
     new:
       new_client_title: New Client
     create:

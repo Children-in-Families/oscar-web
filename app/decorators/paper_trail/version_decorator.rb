@@ -2,7 +2,8 @@
   delegate_all
 
   def whodunnit
-    User.find(object.whodunnit).name
+    user = User.find_by(id: object.whodunnit)
+    user.present? ? user.name : object.whodunnit
   end
 
   def event

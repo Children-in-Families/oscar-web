@@ -1,2 +1,13 @@
 PaperTrail.config.track_associations = true
 PaperTrail.config.version_limit = 3
+
+# set whodunnit in rails console
+PaperTrail::Rails::Engine.eager_load!
+
+if defined?(::Rails::Console)
+  # PaperTrail.whodunnit = "#{`whoami`.strip}: console"
+  PaperTrail.whodunnit = "#{`whoami`.strip}@rotati"
+elsif defined?(Rake) && Rake.application.name
+  # PaperTrail.whodunnit = "#{`whoami`.strip}: #{File.basename($0)} #{ARGV.join ' '}"
+  PaperTrail.whodunnit = "#{`whoami`.strip}@rotati"
+end

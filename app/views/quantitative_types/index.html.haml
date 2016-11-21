@@ -27,10 +27,9 @@
                     %tr
                       %td
                         = qc.value
-                      %td
-                        = link_to t('.view_modification'), quantitative_case_version_path(qc)
-            .panel-footer
-              %p= link_to t('.view_modification'), quantitative_type_version_path(qt)
+                      / %td= link_to t('.view_modification'), quantitative_case_version_path(qc)
+            / .panel-footer
+            /   %p= link_to t('.view_modification'), quantitative_type_version_path(qt)
       .ibox-footer
         .col-xs-12.text-center
           = will_paginate @quantitative_types, renderer: BootstrapPagination::Rails

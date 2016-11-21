@@ -3,6 +3,7 @@ CIF.UsersShow = do ->
     _fixedHeaderTableColumns()
 
   _fixedHeaderTableColumns = ->
+    $('.clients-table').removeClass('table-responsive')
     if !$('table.clients tbody tr td').hasClass('noresults')
       $('table.clients').dataTable(
         'bPaginate': false
@@ -13,5 +14,7 @@ CIF.UsersShow = do ->
         'bAutoWidth': true
         'sScrollX': '100%'
         'sScrollXInner': '100%')
+    else
+      $('.clients-table').addClass('table-responsive')
 
   { init: _init }

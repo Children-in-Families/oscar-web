@@ -14,7 +14,7 @@
               %tr
                 %th= t('.note_type')
                 %th.text-center{:colspan => "2"}= t('.manage')
-                %th.text-center= t('.modification')
+                / %th.text-center= t('.modification')
             %tbody
               - @progress_note_types.each do |progress_note_type|
                 %tr
@@ -24,8 +24,8 @@
                       = fa_icon('pencil')
                   %td.text-center
                     = remove_link(progress_note_type, { progress_note_type: progress_note_type.progress_notes.count })
-                  %td.text-center
-                    = link_to t('.view'), progress_note_type_version_path(progress_note_type)
+                  / %td.text-center
+                  /   = link_to t('.view'), progress_note_type_version_path(progress_note_type)
                   = render 'form', progress_note_type: progress_note_type
       .ibox-footer.text-center
         = will_paginate @progress_note_types, renderer: BootstrapPagination::Rails

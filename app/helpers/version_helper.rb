@@ -122,6 +122,8 @@ module VersionHelper
     elsif stages.include?(k) && val.present?
       obj = Stage.find_by(id: val)
       val = obj.present? ? "#{obj.from_age} - #{obj.to_age}" : "##{val}"
+    elsif k == 'reset_password_token'
+      val = content_tag(:span, truncate(val), title: val)
     end
     val
   end

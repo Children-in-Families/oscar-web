@@ -27,7 +27,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
       'bPaginate': false
       'bFilter': false
       'bInfo': false
-      'ordering': false
+      'bSort': false
       'sScrollY': '500px'
       'bAutoWidth': true
       'sScrollX': '100%'
@@ -85,6 +85,6 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
 
   window.onload = ->
     $('#stage-question .dataTables_scrollBody').niceScroll()
-    $('.table-responsive').niceScroll()
+    $('#stage-question.table-responsive').niceScroll()
 
   { init: _init }

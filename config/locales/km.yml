@@ -1,8 +1,4 @@
 km:
-  # js:
-  #   datatable:
-  #     sinfo: (បង្ហាញទិន្នន័យចំនួន _START_ ដល់ _END_ នៃចំនួនសរុប _TOTAL_)
-
   unauthorized:
     default: អ្នកមិនមានសិទ្ធិគ្រប់គ្រាន់ដើម្បីចូលទេ
 
@@ -554,6 +550,9 @@ km:
       results: លទ្ធផល
       csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
       assessments: ការប៉ាន់ប្រមាណ
+      sInfoShow: បង្ហាញទិន្នន័យចំនួន
+      sInfoTo: ដល់
+      sInfoTotal: នៃចំនួនសរុប
     create:
       successfully_created: អតិថិជនត្រូវបានបង្កើតឡើងដោយជោគជ័យ
     update:

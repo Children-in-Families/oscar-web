@@ -217,7 +217,7 @@
                   = t('.follow_up_date')
                 %td
                   %strong
-                    = @client.follow_up_date
+                    = @client.follow_up_date.strftime('%B %d, %Y') if @client.follow_up_date
 
           .col-sm-12.col-md-6.second-table
             %table.table.table-bordered
