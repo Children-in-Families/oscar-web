@@ -50,6 +50,7 @@ class CIF.ReportCreator
       title: text: ''
       tooltip: pointFormat: '{series.name}: <b>{point.y}</b>'
       plotOptions: pie:
+        size:'100%'
         data: @data
         allowPointSelect: true
         cursor: 'pointer'
@@ -58,10 +59,11 @@ class CIF.ReportCreator
           location.href = @options.url
       series: [ {
         name: 'Counts'
+        borderWidth: 0
         dataLabels:
           distance: -30
-          style: fontSize:'13px'
+          style: fontSize: '1.3em'
           formatter: ->
-            @point.name + ': <b>' + @point.y + '</b>'
+            @point.name + ": " + @point.y
       }]
     $('.highcharts-credits').css('display', 'none')

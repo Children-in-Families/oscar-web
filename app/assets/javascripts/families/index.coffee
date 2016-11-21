@@ -2,6 +2,7 @@ CIF.FamiliesIndex = do ->
   _init = ->
     _fixedHeaderTableColumns()
     _handleScrollTable()
+    # _resizeNiceScroll()
 
   _fixedHeaderTableColumns = ->
     if !$('table.families tbody tr td').hasClass('noresults')
@@ -17,6 +18,12 @@ CIF.FamiliesIndex = do ->
 
   _handleScrollTable = ->
     $(window).load ->
-      $('.families-table .dataTables_scrollBody').niceScroll()
+      $('.families-table .dataTables_scrollBody').niceScroll fixed:true
+
+  _resizeNiceScroll = ->
+    $('.navbar-minimalize').click ->
+      console.log($('.families-table .dataTables_scrollBody').getNiceScroll())
+      $('.families-table .dataTables_scrollBody').getNiceScroll ->
+        window.dispatchEvent new Event('resize')
 
   { init: _init }

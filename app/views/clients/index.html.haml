@@ -7,7 +7,7 @@
         %button.btn.btn-primary#client-statistic
           %i.fa.fa-line-chart
           %span= t('.reports')
-    .pull-right
+    .pull-right.client-option
       - if can? :manage, Client
         = link_to t('.add_new_client'), new_client_path, class: 'btn btn-primary'
       = link_to t('.view_all_active_tasks'), tasks_path, class: 'btn btn-info'
