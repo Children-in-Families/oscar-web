@@ -33,26 +33,26 @@ module Importer
         provine_id         = rand(provinces.first.id..provinces.last.id)
         partner_id         = rand(partners.first.id..partners.last.id)
 
-        code       = workbook.row(row)[headers['Code']]
-        first_name = workbook.row(row)[headers['Name']]
-        gender     = workbook.row(row)[headers['Gender']]
+        # code       = FFaker::AddressAU.postcode
+        first_name = FFaker::Name.first_name
+        gender     = FFaker::Gender.random
         status     = workbook.row(row)[headers['Status']]
-        follow_up_date        = workbook.row(row)[headers['Follow Up Date']]
-        current_address       = workbook.row(row)[headers['Current Address']]
-        school_name           = workbook.row(row)[headers['School Name']]
-        school_grade          = workbook.row(row)[headers['School Grade']]
-        date_of_birth         = workbook.row(row)[headers['Date of Birth']]
-        initial_referral_date = workbook.row(row)[headers['Initial Referral Date']]
-        relevant_referral_information = workbook.row(row)[headers['Relevant Referral Information']]
-        referral_phone        = workbook.row(row)[headers['Referral Phone']]
+        follow_up_date        = rand(10.years.ago.to_date..1.year.ago.to_date)
+        current_address       = FFaker::Address.street_address
+        school_name           = FFaker::Education.school
+        school_grade          = rand(1..12)
+        date_of_birth         = rand(10.years.ago.to_date..1.year.ago.to_date)
+        initial_referral_date = rand(10.years.ago.to_date..1.year.ago.to_date)
+        relevant_referral_information = FFaker::Lorem.paragraph
+        referral_phone        = FFaker::PhoneNumberDE.phone_number
         able_state            = workbook.row(row)[headers['Able State']]
         state                 = workbook.row(row)[headers['Accept/Reject']] || ''
         rejected_note         = workbook.row(row)[headers['Rejected Note']]
 
         c = Client.new(
-          code: code,
+          # code: code,
           first_name: first_name,
-          gender: gender.downcase,
+          gender: gender,
           status: status,
           follow_up_date: follow_up_date,
           received_by_id: user_id,
