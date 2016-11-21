@@ -85,6 +85,6 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
 
   window.onload = ->
     $('#stage-question .dataTables_scrollBody').niceScroll()
-    $('.table-responsive').niceScroll()
+    $('#stage-question.table-responsive').niceScroll()
 
   { init: _init }

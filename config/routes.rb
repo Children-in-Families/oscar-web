@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   end
 
   resources :quarterly_reports
-  devise_for :users, controllers: { registrations: 'registrations', sessions: 'sessions' }
+  devise_for :users, controllers: { registrations: 'registrations', sessions: 'sessions', passwords: 'passwords' }
   root 'home#index'
 
   get '/robots.txt' => 'home#robots'

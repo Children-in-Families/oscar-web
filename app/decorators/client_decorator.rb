@@ -53,10 +53,6 @@ class ClientDecorator < Draper::Decorator
     model.followed_up_by if model.followed_up_by
   end
 
-  def follow_up_date
-    model.follow_up_date.strftime('%B %d, %Y') if model.follow_up_date
-  end
-
   def ec_button
     h.case_button('EC') if can_add_ec?
   end

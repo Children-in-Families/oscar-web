@@ -12,4 +12,19 @@ body[id='data_trackers-index'] {
       }
     }
   }
+
+  .table-responsive {
+    border: none;
+  }
+
+  table.row {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  @media (min-width: 992px) {
+    .truncate {
+      max-width: 250px;
+    }
+  }
 }
