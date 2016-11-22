@@ -6,7 +6,6 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :find_association, if: :devise_controller?
   before_action :set_locale
-  before_action :detect_browser
   before_action :set_paper_trail_whodunnit
 
   rescue_from CanCan::AccessDenied do |exception|
@@ -38,9 +37,5 @@ class ApplicationController < ActionController::Base
 
   def default_url_options(options = {})
     { locale: I18n.locale }.merge(options)
-  end
-
-  def detect_browser
-    render file: 'unsupported_browser', layout: false if browser.edge?  || !browser.modern?
   end
 end
