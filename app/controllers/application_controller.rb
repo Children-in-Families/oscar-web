@@ -41,6 +41,6 @@ class ApplicationController < ActionController::Base
   end
 
   def detect_browser
-    render file: 'unsupported_browser', layout: false if browser.ie? || browser.edge?  || !browser.modern?
+    render file: 'unsupported_browser', layout: false if browser.edge?  || !browser.modern?
   end
 end
