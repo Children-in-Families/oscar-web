@@ -29,6 +29,7 @@
 //= require util
 //= require initializer
 //= require common
+//= require jquery.infinitescroll.min
 
 //APPLICATION JS
 //= require filters

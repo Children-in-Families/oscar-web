@@ -12,6 +12,12 @@ CIF.ClientsIndex = do ->
     _handleCreateCaseReport()
     _handleCreateCsiDomainReport()
     _handleScrollTable()
+    $("table.clients .page").infinitescroll
+      navSelector: "nav.pagination" # selector for the paged navigation (it will be hidden)
+      nextSelector: "nav.pagination a[rel=next]" # selector for the NEXT link (to page 2)
+      itemSelector: "table.clients tbody tr" # selector for all items you'll retrieve
+      loading: { msgText: '<em>Loading more clients...</em>' }
+      donetext: "<em>You've reached the end.</em>"
 
   _handleCreateCsiDomainReport = ->
     element = $('#cis-domain-score')
@@ -79,9 +85,11 @@ CIF.ClientsIndex = do ->
           'sInfo': "(#{sInfoShow} _START_ #{sInfoTo} _END_ #{sInfoTotal} _TOTAL_)"
         'sScrollX': '100%'
         'sScrollXInner': '100%'
-        'bScrollInfinite': true
-        'bScrollCollapse': true
-        'iDisplayLength': 50
+        # 'bScrollInfinite': true
+        # 'bScrollCollapse': true
+        'iDisplayLength': 20
+        'bInfo': false
+        'bLengthChange': false
       )
     else
       $('.clients-table').addClass('table-responsive')
