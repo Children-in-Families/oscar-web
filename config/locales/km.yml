@@ -1805,6 +1805,12 @@ km:
       stages: តំណាក់កាល
 
   shared:
+    assessment:
+      'on': របស់
+      change: បានធ្វើកំណែប្រែខាងក្រោម
+    case_note:
+      'on': របស់
+      change: បានធ្វើកំណែប្រែខាងក្រោម
     version:
       create: បង្កើត
       update: កែសម្រួល

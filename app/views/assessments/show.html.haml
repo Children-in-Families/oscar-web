@@ -25,7 +25,7 @@
               - if @assessment.latest_record?
                 - if can? :update, @assessment
                   = link_to edit_client_assessment_path(@assessment.client, @assessment) do
-                    .btn.btn-primary
+                    .btn.btn-success
                       = t('.edit')
       .panel-body
         .table-responsive

@@ -7,8 +7,9 @@ class AssessmentDomain < ActiveRecord::Base
   belongs_to :domain
   has_and_belongs_to_many :progress_notes
 
-  validates :score, :reason, :domain, :goal, presence: true
+  has_paper_trail
 
+  validates :score, :reason, :domain, :goal, presence: true
 
   SCORE_COLORS.each do |key, value|
     define_method "#{key}?" do

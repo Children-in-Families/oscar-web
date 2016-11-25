@@ -31,6 +31,9 @@ class AssessmentsController < AdminController
 
   def update
     if @assessment.update_attributes(assessment_params)
+      @assessment.update(updated_at: DateTime.now)
+
+      @assessment.assessment_domains.update_all(assessment_id: @assessment.id)
       redirect_to client_assessment_path(@client, @assessment), notice: t('.successfully_updated')
     else
       render :edit

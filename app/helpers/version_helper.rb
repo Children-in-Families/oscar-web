@@ -107,9 +107,9 @@ module VersionHelper
     elsif domains.include?(k) && val.present?
       obj = Domain.find_by(id: val)
       val = obj.present? ? obj.name : "##{val}"
-    elsif assessments.include?(k) && val.present?
-      obj = Assessment.find_by(id: val)
-      val = obj.present? ? date_time_format(obj.created_at) : "##{val}"
+    # elsif assessments.include?(k) && val.present?
+    #   obj = Assessment.find_by(id: val)
+    #   val = obj.present? ? date_time_format(obj.created_at) : "##{val}"
     elsif progress_note_types.include?(k) && val.present?
       obj = ProgressNoteType.find_by(id: val)
       val = obj.present? ? obj.note_type : "##{val}"
@@ -134,6 +134,10 @@ module VersionHelper
     else
       'active'
     end
+  end
+
+  def version_not_show(item_type)
+    item_type != "AssessmentDomain" && item_type != "Assessment" && item_type != "CaseNote" && item_type != "CaseNoteDomainGroup"
   end
 
   def version_keys_skipable?(k, item_type = '')

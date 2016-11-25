@@ -4,5 +4,7 @@ class CaseNoteDomainGroup < ActiveRecord::Base
 
   has_many :tasks
 
+  has_paper_trail
+
   validates :domain_group, presence: true
 end

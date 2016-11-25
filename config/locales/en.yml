@@ -138,7 +138,7 @@ en:
     sexual_abuse: sexual abuse
     emotional_abuse: emotional abuse
     child_exploitation: child exploitation
-    exessive_child_labour: exessive child labour
+    excessive_child_labour: excessive child labour
     family_violence: family violence
     experience_with_trafficking: experience with trafficking
     danger_of_trafficking: danger of trafficking
@@ -1604,6 +1604,13 @@ en:
       able_screening_questions: Able Screening Questions
       stages: Stages
   shared:
+    assessment:
+      'on': 'on'
+      change: did the following change
+      no_modification: There are no any modifications.
+    case_note:
+      'on': 'on'
+      change: did the following change
     version:
       create: Create
       update: Update
