@@ -89,4 +89,8 @@ body[id='clients-edit'], body[id='clients-update']{
       margin-right: 5px;
     }
   }
+
+  .dataTables_scrollHeadInner, .table.client-new.dataTable {
+    width: 100% !important;
+  }
 }

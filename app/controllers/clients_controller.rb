@@ -16,13 +16,17 @@ class ClientsController < AdminController
       f.html do
         @csi_statistics   = CsiStatistic.new(@client_grid.assets).assessment_domain_score.to_json
         @cases_statistics = CaseStatistic.new(@client_grid.assets).statistic_data.to_json
-        @client_grid.scope { |scope| scope.accessible_by(current_ability) }
+        @results = @client_grid.assets.size
+        @client_grid.scope { |scope| scope.accessible_by(current_ability).page(params[:page]).per(20) }
       end
       f.xls do
         @client_grid.scope { |scope| scope.accessible_by(current_ability) }
         domain_score_report
 
         send_data @client_grid.to_xls, filename: "client_report-#{Time.now}.xls"
+      end
+      f.js do
+        @client_grid.scope { |scope| scope.accessible_by(current_ability).page(params[:page]).per(20) }
       end
     end
   end

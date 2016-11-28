@@ -32,9 +32,16 @@
   .col-xs-12
     .ibox
       .ibox-title
-        %h5= @client_grid.assets.count
+        %h5= @results
         %span.label.label-info= t('.results')
       .ibox-content
         .clients-table
-          = datagrid_table @client_grid, html: { class: 'table table-bordered  table-striped table-hover clients' }
+          %table.table.table-bordered.table-striped.table-hover.clients
+            %thead
+              = datagrid_header(@client_grid)
+            %tbody.page
+              = render 'client_rows'
+
           %span.hidden{id:"sinfo", 'data-infoshow' => t('.sInfoShow'), 'data-infoto' => t('.sInfoTo'), 'data-infototal' => t('.sInfoTotal')}
+      .ibox-footer.text-center.hidden
+        = paginate @client_grid.assets

@@ -12,6 +12,16 @@ CIF.ClientsIndex = do ->
     _handleCreateCaseReport()
     _handleCreateCsiDomainReport()
     _handleScrollTable()
+    $("table.clients .page").infinitescroll
+      navSelector: "nav.pagination" # selector for the paged navigation (it will be hidden)
+      nextSelector: "nav.pagination a[rel=next]" # selector for the NEXT link (to page 2)
+      itemSelector: "table.clients tbody tr" # selector for all items you'll retrieve
+      loading: {
+        img: 'http://i.imgur.com/qkKy8.gif'
+        msgText: '<em>Loading clients...</em>'
+      }
+      donetext: "<em>You've reached the end.</em>"
+      binder: $('.clients-table .dataTables_scrollBody')
 
   _handleCreateCsiDomainReport = ->
     element = $('#cis-domain-score')
@@ -75,13 +85,16 @@ CIF.ClientsIndex = do ->
         'bFilter': false
         'bAutoWidth': true
         'bSort': false
-        'oLanguage':
-          'sInfo': "(#{sInfoShow} _START_ #{sInfoTo} _END_ #{sInfoTotal} _TOTAL_)"
         'sScrollX': '100%'
         'sScrollXInner': '100%'
-        'bScrollInfinite': true
-        'bScrollCollapse': true
-        'iDisplayLength': 50
+        # 'oLanguage':
+        # 'sInfo': "(#{sInfoShow} _START_ #{sInfoTo} _END_ #{sInfoTotal} _TOTAL_)"
+        # 'bScrollInfinite': true
+        # 'bScrollCollapse': true
+        'iDisplayLength': 20
+        'bInfo': false
+        'bLengthChange': false
+        'bPaginate': false
       )
     else
       $('.clients-table').addClass('table-responsive')
@@ -146,6 +159,6 @@ CIF.ClientsIndex = do ->
 
   _handleScrollTable = ->
     $(window).load ->
-      $('.clients-table .dataTables_scrollBody').niceScroll()
+      $('.clients-table .dataTables_scrollBody').perfectScrollbar()
 
   { init: _init }
