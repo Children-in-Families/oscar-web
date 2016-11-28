@@ -16,6 +16,7 @@ class ClientsController < AdminController
       f.html do
         @csi_statistics   = CsiStatistic.new(@client_grid.assets).assessment_domain_score.to_json
         @cases_statistics = CaseStatistic.new(@client_grid.assets).statistic_data.to_json
+        @results = @client_grid.assets.size
         @client_grid.scope { |scope| scope.accessible_by(current_ability).page(params[:page]).per(20) }
       end
       f.xls do

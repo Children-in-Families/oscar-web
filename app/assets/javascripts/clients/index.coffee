@@ -21,7 +21,6 @@ CIF.ClientsIndex = do ->
         msgText: '<em>Loading clients...</em>'
       }
       donetext: "<em>You've reached the end.</em>"
-      behavior: 'local'
       binder: $('.clients-table .dataTables_scrollBody')
 
   _handleCreateCsiDomainReport = ->
@@ -160,11 +159,6 @@ CIF.ClientsIndex = do ->
 
   _handleScrollTable = ->
     $(window).load ->
-      $('.clients-table .dataTables_scrollBody').niceScroll
-        scrollspeed: 30
-        bouncescroll: true
-        horizrailenabled: false
-        touchbehavior:true
-        grabcursorenabled: false
+      $('.clients-table .dataTables_scrollBody').perfectScrollbar()
 
   { init: _init }

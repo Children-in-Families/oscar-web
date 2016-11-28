@@ -5,7 +5,8 @@
 //= require jquery.steps.min
 //= require jquery.validate
 //= require jquery.validate.additional-methods
-//= require jquery.nicescroll.min
+// = require jquery.nicescroll.min
+// = require perfect-scrollbar.min
 //= require dataTables/jquery.dataTables
 //= require thredded
 //= require select2
