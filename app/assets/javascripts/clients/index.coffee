@@ -159,6 +159,14 @@ CIF.ClientsIndex = do ->
 
   _handleScrollTable = ->
     $(window).load ->
-      $('.clients-table .dataTables_scrollBody').perfectScrollbar()
+      ua = navigator.userAgent
+      if /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile|CriOS/i.test(ua)
+        $('.clients-table .dataTables_scrollBody')
+      else
+        $('.clients-table .dataTables_scrollBody').niceScroll
+          scrollspeed: 30
+          cursorwidth: 10
+          cursoropacitymax: 0.4
+          autohidemode: false
 
   { init: _init }
