@@ -29,8 +29,10 @@ class Client < ActiveRecord::Base
   has_many :assessments,    dependent: :destroy
   has_many :surveys,        dependent: :destroy
   has_many :progress_notes, dependent: :destroy
+  has_many :agency_clients
+  has_many :agencies, through: :agency_clients
 
-  has_and_belongs_to_many :agencies
+  # has_and_belongs_to_many :agencies
   has_and_belongs_to_many :quantitative_cases
 
   has_paper_trail
