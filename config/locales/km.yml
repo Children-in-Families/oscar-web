@@ -1794,7 +1794,7 @@ km:
       referral_sources: ប្រភពនៃការបញ្ជូន
       quantitative_types: ប្រភេទនៃបរិមាណ
       quantitative_cases: ទិន្នន័យនៃបរិមាណ
-      changelogs: ការផ្លាស់ប្ដូរ
+      releaselogs: ការចេញផ្សាយ
       cases: ករណី
       tasks: កាតព្វកិច្ច
       assessments: ការប៉ាន់ប្រមាណ

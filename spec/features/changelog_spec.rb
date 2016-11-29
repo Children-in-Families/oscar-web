@@ -41,7 +41,7 @@ describe 'Changelog' do
     end
 
     scenario 'valid' do
-      click_link('Add New Changelog')
+      click_link('Add New Release')
       within('#new_changelog') do
         fill_in 'changelog_change_version', with: FFaker::Name.name
         click_link('Add change')
@@ -53,7 +53,7 @@ describe 'Changelog' do
     end
 
     scenario 'invalid' do
-      click_link('Add New Changelog')
+      click_link('Add New Release')
       within('#new_changelog') do
         click_button I18n.t('changelogs.form.save')
       end

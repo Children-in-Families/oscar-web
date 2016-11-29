@@ -1400,13 +1400,13 @@ en:
       cancel: Cancel
     create:
       successfully_created: Releaselog has been successfully created.
-      failed_create: Failed to create a changelog.
+      failed_create: Failed to create a releaselog.
     update:
       successfully_updated: Releaselog has been successfully updated.
-      failed_update: Failed to update a changelog.
+      failed_update: Failed to update a releaselog.
     destroy:
       successfully_deleted: Releaselog has been successfully deleted.
-      failed_delete: Failed to delete a changelog
+      failed_delete: Failed to delete a releaselog
     version:
       modification_of: Modification of
       back: Back
@@ -1591,7 +1591,7 @@ en:
       referral_sources: Referral Sources
       quantitative_types: Quantitative Types
       quantitative_cases: Quantitative Data
-      changelogs: Changelogs
+      releaselogs: Releaselogs
       cases: Cases
       tasks: Tasks
       assessments: Assessments
