@@ -79,25 +79,25 @@ CIF.ClientsIndex = do ->
     sInfoTo = $('#sinfo').data('infoto')
     sInfoTotal = $('#sinfo').data('infototal')
     $('.clients-table').removeClass('table-responsive')
-    if !$('table.clients tbody tr td').hasClass('noresults')
-      $('table.clients').dataTable(
-        'sScrollY': 'auto'
-        'bFilter': false
-        'bAutoWidth': true
-        'bSort': false
-        'sScrollX': '100%'
-        'sScrollXInner': '100%'
-        # 'oLanguage':
-        # 'sInfo': "(#{sInfoShow} _START_ #{sInfoTo} _END_ #{sInfoTotal} _TOTAL_)"
-        # 'bScrollInfinite': true
-        # 'bScrollCollapse': true
-        'iDisplayLength': 20
-        'bInfo': false
-        'bLengthChange': false
-        'bPaginate': false
-      )
-    else
-      $('.clients-table').addClass('table-responsive')
+    # if !$('table.clients tbody tr td').hasClass('noresults')
+    #   $('table.clients').dataTable(
+    #     'sScrollY': 'auto'
+    #     'bFilter': false
+    #     'bAutoWidth': true
+    #     'bSort': false
+    #     'sScrollX': '100%'
+    #     'sScrollXInner': '100%'
+    #     # 'oLanguage':
+    #     # 'sInfo': "(#{sInfoShow} _START_ #{sInfoTo} _END_ #{sInfoTotal} _TOTAL_)"
+    #     # 'bScrollInfinite': true
+    #     # 'bScrollCollapse': true
+    #     'iDisplayLength': 20
+    #     'bInfo': false
+    #     'bLengthChange': false
+    #     'bPaginate': false
+    #   )
+    # else
+    $('.clients-table').addClass('table-responsive')
 
   _cssClassForlabelDynamic = ->
     $('.dynamic_filter').prev('label').css( "display", "block" )

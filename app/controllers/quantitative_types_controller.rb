@@ -4,7 +4,7 @@ class QuantitativeTypesController < AdminController
   before_action :find_quantitative_type, only: [:update, :destroy]
 
   def index
-    @quantitative_types = QuantitativeType.all.paginate(page: params[:page], per_page: 10)
+    @quantitative_types = QuantitativeType.all.page(params[:page]).per(10)
   end
 
   def create

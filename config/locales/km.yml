@@ -396,13 +396,13 @@ km:
         has_date_of_birth: មានថ្ងៃ ខែ ឆ្នាំ កំណើត
         has_dob: 'បាទ/ចាស'
         no_dob: 'ទេ'
-        modification: កំណែប្រែ
+        changelogs: កំណែប្រែ
         view: មើល
 
       progress_notes:
         <<: *default_progress_note_fields
         manage: គ្រប់គ្រង
-        modification: កំណែប្រែ
+        changelogs: កំណែប្រែ
         view: មើល
 
       select_columns: ជ្រើសរើសជួរឈរ

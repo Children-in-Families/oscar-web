@@ -1,5 +1,5 @@
 - @versions.each do |version|
-  - if version.item_type == "CaseNote"
+  - if version.item_type == "Client"
     %div{ class: "panel panel-#{version_color(version.event)}" }
       .panel-heading
         %h5
@@ -21,7 +21,7 @@
                 %th.col-sm-4= t('.value_of')
                 %th.col-sm-4.truncate= t('.before')
                 %th.col-sm-4.truncate= t('.after')
-            %tbody.assessment
+            %tbody
               - version.changeset.each do |k, v|
                 - next if version_keys_skipable?(k, version.item_type)
                 %tr.assessment-row
@@ -31,4 +31,4 @@
                     = version_value_format(v[0], k, v)
                   %td.col-sm-4.truncate.assessment-after
                     = version_value_format(v[1], k, v)
-        = render 'shared/case_note_domain_group', case_note_id: version.item_id, event: version.event
+        = render 'shared/agency_and_quantitative_case', client_id: version.item_id, event: version.event

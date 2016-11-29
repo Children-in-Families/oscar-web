@@ -16,10 +16,10 @@
                 %span{ class: "pull-right label label-#{version_color(version.event)}" }
                   = version.event_formated
 
-            .panel-body{ class: ('assessment-domain' if version.item_type == "AssessmentDomain") }
+            .panel-body
               .table-responsive
                 - if version.event == 'delete'
-                  %table.table.table-hover.row
+                  %table.table.table-hover
                     %thead
                       %tr
                         %th.col-sm-4= t('.value_of')
@@ -44,11 +44,12 @@
                         %tr.get-value
                           %td.col-sm-4.attribute
                             = version_attribute(k, version.item_type)
-                          %td.col-sm-4.truncate{ class: ('ad-id' if version.item_type == "AssessmentDomain") }
+                          %td.col-sm-4.truncate
                             = version_value_format(v[0], k, v)
-                          %td.col-sm-4.truncate{ class: ('ad-id-after' if version.item_type == "AssessmentDomain") }
+                          %td.col-sm-4.truncate
                             = version_value_format(v[1], k, v)
       = render 'shared/assessment'
       = render 'shared/case_note'
+      = render 'shared/client'
     - else
       %p= t('.no_modification')

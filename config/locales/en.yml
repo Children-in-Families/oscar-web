@@ -394,13 +394,13 @@ en:
         has_dob: 'Yes'
         no_dob: 'No'
         case_type: Case Type
-        modification: Modification
+        changelogs: changelog
         view: View
 
       progress_notes:
         <<: *default_progress_note_fields
         manage: Manage
-        modification: Modification
+        changelogs: changelog
         view: View
 
       select_columns: Select Columns
@@ -1604,6 +1604,10 @@ en:
       able_screening_questions: Able Screening Questions
       stages: Stages
   shared:
+    client:
+      'on': 'on'
+      change: did the following change
+      no_modification: There are no any modifications.
     assessment:
       'on': 'on'
       change: did the following change

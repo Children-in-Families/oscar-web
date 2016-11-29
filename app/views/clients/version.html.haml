@@ -1,10 +1,9 @@
 .row
   .col-xs-12
-    .panel.panel-default
-      .panel-body
-        %h4
-          = link_to t('.back'), :back, class: 'btn btn-default pull-left btn-back'
-          .modification-title.text-center
-            %u= "#{t('.modification_of')} #{@client.name}"
-
-        = render 'shared/version'
+    .ibox
+      .ibox-title
+        %h5= "#{t('.modification_of')} #{@client.name}"
+        .ibox-tools
+          = link_to t('.back'), :back, class: 'btn btn-default btn-back-default btn-back'
+      .ibox-content
+        = render 'shared/client'
