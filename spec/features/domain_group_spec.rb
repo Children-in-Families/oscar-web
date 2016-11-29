@@ -35,7 +35,7 @@ describe 'Domain Group' do
         click_button 'Save'
       end
       sleep 1
-      expect(page).to have_content('Domain Group has been successfully created')
+      expect(page).to have_content('Domain Group has been successfully created.')
     end
     scenario 'invalid' do
       click_link('New Domain Group')
@@ -69,7 +69,7 @@ describe 'Domain Group' do
       end
       
       sleep 1
-      expect(page).to have_content('Failed to update a domain group.')
+      expect(page).to have_content(I18n.t('domain_groups.update.failed_update'))
     end
   end
 
