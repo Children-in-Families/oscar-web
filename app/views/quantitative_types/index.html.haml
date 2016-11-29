@@ -32,6 +32,6 @@
             /   %p= link_to t('.view_modification'), quantitative_type_version_path(qt)
       .ibox-footer
         .col-xs-12.text-center
-          = will_paginate @quantitative_types, renderer: BootstrapPagination::Rails
+          = paginate @quantitative_types
 
 = render 'form'

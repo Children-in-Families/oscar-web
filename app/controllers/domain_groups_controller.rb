@@ -4,7 +4,7 @@ class DomainGroupsController < AdminController
   before_action :find_domain_group, only: [:update, :destroy]
 
   def index
-    @domain_groups = DomainGroup.all.paginate(page: params[:page], per_page: 20)
+    @domain_groups = DomainGroup.all.page(params[:page]).per(20)
   end
 
   def create

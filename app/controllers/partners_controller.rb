@@ -8,7 +8,7 @@ class PartnersController < AdminController
     @partner_grid = PartnerGrid.new(params[:partner_grid])
     respond_to do |f|
       f.html do
-        @partner_grid.scope { |scope| scope.paginate(page: params[:page], per_page: 20) }
+        @partner_grid.scope { |scope| scope.page(params[:page]).per(20) }
       end
       f.xls do
         send_data @partner_grid.to_xls, filename: "partner_report-#{Time.now}.xls"

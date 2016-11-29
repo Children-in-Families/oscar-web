@@ -26,4 +26,4 @@
         = link_to t('.back'), client_path(@client), class: 'btn btn-default btn-back'
 .row
   .col-xs-12.text-center
-    = will_paginate @progress_note_grid.assets, renderer: BootstrapPagination::Rails
+    = paginate @progress_note_grid.assets

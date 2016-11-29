@@ -13,8 +13,8 @@ CIF.ClientsIndex = do ->
     _handleCreateCsiDomainReport()
     _handleScrollTable()
     $("table.clients .page").infinitescroll
-      navSelector: "nav.pagination" # selector for the paged navigation (it will be hidden)
-      nextSelector: "nav.pagination a[rel=next]" # selector for the NEXT link (to page 2)
+      navSelector: "ul.pagination" # selector for the paged navigation (it will be hidden)
+      nextSelector: "ul.pagination a[rel=next]" # selector for the NEXT link (to page 2)
       itemSelector: "table.clients tbody tr" # selector for all items you'll retrieve
       loading: {
         img: 'http://i.imgur.com/qkKy8.gif'

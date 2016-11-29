@@ -29,5 +29,5 @@
                   / %td.text-center= link_to t('.view'), agency_version_path(agency)
                   = render 'form', agency: agency
         .ibox-footer
-          = will_paginate @agencies, renderer: BootstrapPagination::Rails
+          = paginate @agencies
 = render 'form'

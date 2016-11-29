@@ -4,7 +4,7 @@ class LocationsController < AdminController
   before_action :find_location, only: [:update, :destroy]
 
   def index
-    @locations = Location.order('order_option, name').paginate(page: params[:page], per_page: 20)
+    @locations = Location.order('order_option, name').page(params[:page]).per(20)
   end
 
   def create

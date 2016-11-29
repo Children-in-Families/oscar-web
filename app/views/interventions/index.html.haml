@@ -28,5 +28,5 @@
                   /   = link_to t('.view'), intervention_version_path(intervention)
                   = render 'form', intervention: intervention
       .ibox-footer.text-center
-        = will_paginate @interventions, renderer: BootstrapPagination::Rails
+        = paginate @interventions
 = render 'form'

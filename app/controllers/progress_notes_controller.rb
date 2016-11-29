@@ -9,7 +9,7 @@ class ProgressNotesController < AdminController
     @progress_note_grid = ProgressNoteGrid.new(params.fetch(:progress_note_grid, {}).merge!(current_client: @client))
     respond_to do |f|
       f.html do
-        @progress_note_grid.scope { |scope| scope.where(client_id: @client.id).paginate(page: params[:page], per_page: 20) }
+        @progress_note_grid.scope { |scope| scope.where(client_id: @client.id).page(params[:page]).per(20) }
       end
       f.xls do
         @progress_note_grid.scope { |scope| scope.where(client_id: @client.id) }

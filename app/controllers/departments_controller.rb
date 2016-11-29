@@ -4,7 +4,7 @@ class DepartmentsController < AdminController
   before_action :find_department, only: [:update, :destroy]
 
   def index
-    @departments = Department.order(:name).paginate(page: params[:page], per_page: 20)
+    @departments = Department.order(:name).page(params[:page]).per(20)
   end
 
   def create

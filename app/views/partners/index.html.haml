@@ -22,4 +22,4 @@
         .partners-table
           = datagrid_table @partner_grid, html: { class: 'table table-bordered table-striped table-hover partners'}
       .ibox-footer.text-center
-        = will_paginate @partner_grid.assets, renderer: BootstrapPagination::Rails
+        = paginate @partner_grid.assets

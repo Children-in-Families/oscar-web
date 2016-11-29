@@ -22,4 +22,4 @@
         .families-table
           = datagrid_table @family_grid, html: { class: 'table table-bordered table-striped table-hover families'}
       .ibox-footer.text-center
-        = will_paginate @family_grid.assets, renderer: BootstrapPagination::Rails
+        = paginate @family_grid.assets

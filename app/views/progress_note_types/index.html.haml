@@ -28,5 +28,5 @@
                   /   = link_to t('.view'), progress_note_type_version_path(progress_note_type)
                   = render 'form', progress_note_type: progress_note_type
       .ibox-footer.text-center
-        = will_paginate @progress_note_types, renderer: BootstrapPagination::Rails
+        = paginate @progress_note_types
 = render 'form'

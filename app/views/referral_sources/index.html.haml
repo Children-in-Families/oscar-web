@@ -31,5 +31,5 @@
                   /   = link_to t('.view'), referral_source_version_path(referral_source)
                   = render 'form', referral_source: referral_source
       .ibox-footer.text-center
-        = will_paginate @referral_sources, renderer: BootstrapPagination::Rails
+        = paginate @referral_sources
 = render 'form'

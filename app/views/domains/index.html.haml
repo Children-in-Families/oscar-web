@@ -27,4 +27,4 @@
             .panel-body
               %p= domain.description.html_safe
       .ibox-footer.text-center
-        = will_paginate @domains, renderer: BootstrapPagination::Rails
+        = paginate @domains

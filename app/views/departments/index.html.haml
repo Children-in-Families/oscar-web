@@ -32,5 +32,5 @@
                   /   = link_to t('.view'), department_version_path(department)
                   = render 'form', department: department
       .ibox-footer
-        = will_paginate @departments, renderer: BootstrapPagination::Rails
+        = paginate @departments
 = render 'form'

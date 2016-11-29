@@ -30,5 +30,5 @@
                   /   = link_to t('.view'), domain_group_version_path(domain_group)
                   = render 'form', domain_group: domain_group
       .ibox-footer.text-center
-        = will_paginate @domain_groups, renderer: BootstrapPagination::Rails
+        = paginate @domain_groups
 = render 'form'

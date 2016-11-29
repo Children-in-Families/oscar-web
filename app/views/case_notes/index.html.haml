@@ -48,4 +48,4 @@
                                       = task.name
 .row
   .col-xs-12.text-center
-    = will_paginate(@case_notes, renderer: BootstrapPagination::Rails)
+    = paginate @case_notes

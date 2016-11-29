@@ -34,5 +34,5 @@
                   /   = link_to t('.view'), province_version_path(province)
                   = render 'form', province: province
       .ibox-footer.text-center
-        = will_paginate @provinces, renderer: BootstrapPagination::Rails
+        = paginate @provinces
 = render 'form'
