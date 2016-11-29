@@ -31,9 +31,9 @@
                     .row
                       .col-xs-12.col-sm-8
                         %h4= "#{changelog.change_version} - #{changelog.created_at.strftime('%d %B, %Y')}"
-                      / .col-xs-12.col-sm-4
-                      /   %p.view-modification
-                      /     = link_to t('.view_modification'), changelog_version_path(changelog)
+                      .col-xs-12.col-sm-4
+                        %p.view-modification
+                          = link_to t('.view_modification'), changelog_version_path(changelog)
                     %div.changes-description
                       - changelog.changelog_types.each do |changelog_type|
                         .row

@@ -4,7 +4,7 @@ class InterventionsController < AdminController
   before_action :find_intervention, only: [:edit, :update, :destroy]
 
   def index
-    @interventions = Intervention.order(:action).paginate(page: params[:page], per_page: 20)
+    @interventions = Intervention.order(:action).page(params[:page]).per(20)
   end
 
   def create

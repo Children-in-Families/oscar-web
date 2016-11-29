@@ -8,14 +8,13 @@ CIF.FamiliesIndex = do ->
     $('.families-table').removeClass('table-responsive')
     if !$('table.families tbody tr td').hasClass('noresults')
       $('table.families').dataTable(
+        'sScrollX': '100%'
         'bPaginate': false
         'bFilter': false
         'bInfo': false
         'bSort': false
         'sScrollY': 'auto'
-        'bAutoWidth': true
-        'sScrollX': '100%'
-        'sScrollXInner': '100%')
+        'bAutoWidth': true)
     else
       $('.families-table').addClass('table-responsive')
 

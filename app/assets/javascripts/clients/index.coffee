@@ -12,9 +12,12 @@ CIF.ClientsIndex = do ->
     _handleCreateCaseReport()
     _handleCreateCsiDomainReport()
     _handleScrollTable()
+    _infiniteScroll()
+
+  _infiniteScroll = ->
     $("table.clients .page").infinitescroll
-      navSelector: "nav.pagination" # selector for the paged navigation (it will be hidden)
-      nextSelector: "nav.pagination a[rel=next]" # selector for the NEXT link (to page 2)
+      navSelector: "ul.pagination" # selector for the paged navigation (it will be hidden)
+      nextSelector: "ul.pagination a[rel=next]" # selector for the NEXT link (to page 2)
       itemSelector: "table.clients tbody tr" # selector for all items you'll retrieve
       loading: {
         img: 'http://i.imgur.com/qkKy8.gif'
@@ -79,25 +82,19 @@ CIF.ClientsIndex = do ->
     sInfoTo = $('#sinfo').data('infoto')
     sInfoTotal = $('#sinfo').data('infototal')
     $('.clients-table').removeClass('table-responsive')
-    # if !$('table.clients tbody tr td').hasClass('noresults')
-    #   $('table.clients').dataTable(
-    #     'sScrollY': 'auto'
-    #     'bFilter': false
-    #     'bAutoWidth': true
-    #     'bSort': false
-    #     'sScrollX': '100%'
-    #     'sScrollXInner': '100%'
-    #     # 'oLanguage':
-    #     # 'sInfo': "(#{sInfoShow} _START_ #{sInfoTo} _END_ #{sInfoTotal} _TOTAL_)"
-    #     # 'bScrollInfinite': true
-    #     # 'bScrollCollapse': true
-    #     'iDisplayLength': 20
-    #     'bInfo': false
-    #     'bLengthChange': false
-    #     'bPaginate': false
-    #   )
-    # else
-    $('.clients-table').addClass('table-responsive')
+    if !$('table.clients tbody tr td').hasClass('noresults')
+      $('table.clients').dataTable(
+        'sScrollY': 'auto'
+        'bFilter': false
+        'bAutoWidth': true
+        'bSort': false
+        'sScrollX': '100%'
+        'bInfo': false
+        'bLengthChange': false
+        'bPaginate': false
+      )
+    else
+      $('.clients-table').addClass('table-responsive')
 
   _cssClassForlabelDynamic = ->
     $('.dynamic_filter').prev('label').css( "display", "block" )
@@ -159,6 +156,14 @@ CIF.ClientsIndex = do ->
 
   _handleScrollTable = ->
     $(window).load ->
-      $('.clients-table .dataTables_scrollBody').perfectScrollbar()
+      ua = navigator.userAgent
+      if /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile|CriOS/i.test(ua)
+        $('.clients-table .dataTables_scrollBody')
+      else
+        $('.clients-table .dataTables_scrollBody').niceScroll
+          scrollspeed: 30
+          cursorwidth: 10
+          cursoropacitymax: 0.4
+          autohidemode: false
 
   { init: _init }

@@ -2,7 +2,7 @@ class CaseNotesController < AdminController
   before_action :find_client
 
   def index
-    @case_notes = @client.case_notes.most_recents.paginate(per_page: 1, page: params[:page])
+    @case_notes = @client.case_notes.most_recents.page(params[:page]).per(1)
   end
 
   def new

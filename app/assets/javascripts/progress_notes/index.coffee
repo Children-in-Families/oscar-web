@@ -20,7 +20,6 @@ CIF.Progress_notesIndex = do ->
         'sScrollY': 'auto'
         'bAutoWidth': true
         'sScrollX': '100%'
-        'sScrollXInner': '100%'
         )
     else
       $('.progress_notes-table').addClass('table-responsive')

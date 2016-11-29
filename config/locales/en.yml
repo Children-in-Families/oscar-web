@@ -437,7 +437,7 @@ en:
         male: Male
         female: Female
         total: Total
-        modification: Modification
+        changelogs: changelog
         view: View
 
       partners:
@@ -445,13 +445,13 @@ en:
         type: Type
         manage: Manage
         partner: Partner
-        modification: Modification
+        changelogs: changelog
         view: View
       users:
         <<: *default_user_fields
         name: Name
         manage: Manage
-        modification: Modification
+        changelogs: changelog
         view: View
       quarterly_reports:
         visit_date: Date Of Visit
@@ -649,7 +649,7 @@ en:
       state: Accept/Reject
       rejected_note: Rejected Note
     version:
-      modification_of: Modification of
+      modification_of: Changelog of
       back: Back
   families:
     index:
@@ -678,7 +678,7 @@ en:
     actions:
       are_you_sure: Are you sure you want to delete?
     version:
-      modification_of: Modification of
+      modification_of: Changelog of
       back: Back
 
   partners:
@@ -706,7 +706,7 @@ en:
     actions:
       are_you_sure: Are you sure you want to delete?
     version:
-      modification_of: Modification of
+      modification_of: Changelog of
       back: Back
 
   users:
@@ -738,7 +738,7 @@ en:
     actions:
       are_you_sure: Are you sure you want to delete?
     version:
-      modification_of: Modification of
+      modification_of: Changelog of
       back: Back
 
   cases:
@@ -844,7 +844,7 @@ en:
       description: Description
       manage: Manage
       are_you_sure: Are you sure you want to delete?
-      modification: Modification
+      changelogs: Changelog
       view: View
     edit:
       title: Edit Agency
@@ -867,7 +867,7 @@ en:
       failed_delete: Failed to delete an agency
       alert: Agency cannot be deleted.
     version:
-      modification_of: Modification of
+      modification_of: Changelog of
       back: Back
   departments:
     index:
@@ -877,7 +877,7 @@ en:
       description: Description
       manage: Manage
       are_you_sure: Are you sure you want to delete?
-      modification: Modification
+      changelogs: Changelog
       view: View
     edit:
       title: Edit Department
@@ -900,10 +900,11 @@ en:
       failed_delete: Failed to delete a department
       alert: Department cannot be deleted.
     version:
-      modification_of: Modification of
+      modification_of: Changelog of
       back: Back
   domains:
     index:
+      view: View
       add_new_domain: Add New Domain
       domains: Domains
       score_1: Score 1
@@ -911,7 +912,7 @@ en:
       score_3: Score 3
       score_4: Score 4
       are_you_sure: Are you sure you want to delete?
-      view_modification: View modification
+      view_modification: View Changelog
     edit:
       title: Edit Domain
     new:
@@ -935,7 +936,7 @@ en:
       successfully_deleted: Domain has been successfully deleted.
       alert: Domain cannot be deleted.
     version:
-      modification_of: Modification of
+      modification_of: Changelog of
       back: Back
       domain: Domain
 
@@ -947,7 +948,7 @@ en:
       description: Description
       manage: Manage
       are_you_sure: Are you sure you want to delete?
-      modification: Modification
+      changelogs: Changelog
       view: View
     edit:
       title: Edit Domain Group
@@ -971,7 +972,7 @@ en:
       failed_delete: Failed to delete a domain group.
       alert: Domain Group cannot be deleted.
     version:
-      modification_of: Modification of
+      modification_of: Changelog of
       back: Back
       domain_group: Domain Group
   provinces:
@@ -981,7 +982,7 @@ en:
       province_names: Province Name
       manage: Manage
       are_you_sure: Are you sure you want to delete?
-      modification: Modification
+      changelogs: Changelog
       view: View
     edit:
       title: Edit Province
@@ -1003,7 +1004,7 @@ en:
       failed_delete: Failed to destroy a province.
       alert: Province cannot be deleted.
     version:
-      modification_of: Modification of
+      modification_of: Changelog of
       back: Back
 
   referral_sources:
@@ -1014,7 +1015,7 @@ en:
       description: Description
       manage: Manage
       are_you_sure: Are you sure you want to delete?
-      modification: Modification
+      changelogs: Changelog
       view: View
     edit:
       title: Edit Referral Source
@@ -1037,7 +1038,7 @@ en:
       failed_delete: Failed to delete a referral source.
       alert: Referral Source cannot be deleted.
     version:
-      modification_of: Modification of
+      modification_of: Changelog of
       back: Back
 
   quantitative_types:
@@ -1046,7 +1047,7 @@ en:
       quantitative_types: Quantitative Types
       add_quantitative_data: Quantitative Data
       are_you_sure: Are you sure you want to delete?
-      view_modification: View modification
+      view_modification: View Changelog
     edit:
       title: Edit Quantitative Type
     new:
@@ -1072,7 +1073,7 @@ en:
       failed_delete: Failed to delete a quantitative type.
       alert: Quantitative Type cannot be deleted.
     version:
-      modification_of: Modification of
+      modification_of: Changelog of
       back: Back
 
   quantitative_cases:
@@ -1092,7 +1093,7 @@ en:
     destroy:
       successfully_deleted: Quantitative Data has been successfully deleted.
     version:
-      modification_of: Modification of
+      modification_of: Changelog of
       back: Back
   tasks:
     index:
@@ -1385,7 +1386,7 @@ en:
       changes: Changes
       add_new_changelog: Add New Changelog
       are_you_sure: Are you sure you want to delete?
-      view_modification: View modification
+      view_modification: View Changelog
     show:
       back: Back
     edit:
@@ -1407,7 +1408,7 @@ en:
       successfully_deleted: Changelog has been successfully deleted.
       failed_delete: Failed to delete a changelog
     version:
-      modification_of: Modification of
+      modification_of: Changelog of
       back: Back
 
   materials:
@@ -1417,7 +1418,7 @@ en:
       material: Equipment/Materials
       manage: Manage
       are_you_sure: Are you sure you want to delete?
-      modification: Modification
+      changelogs: Changelog
       view: View
     new:
       new_material: New Equipment/Material
@@ -1439,7 +1440,7 @@ en:
       failed_delete: Failed to delete an Equipment/Material
       unsuccessfully_deleted: Equipment/Material cannot be deleted.
     version:
-      modification_of: Modification of
+      modification_of: Changelog of
       back: Back
 
   locations:
@@ -1449,7 +1450,7 @@ en:
       location: Locations
       manage: Manage
       are_you_sure: Are you sure you want to delete?
-      modification: Modification
+      changelogs: Changelog
       view: View
     new:
       new_location: New Location
@@ -1471,7 +1472,7 @@ en:
       failed_delete: Failed to delete a location.
       unsuccessfully_deleted: Location cannot be deleted.
     version:
-      modification_of: Modification of
+      modification_of: Changelog of
       back: Back
 
   progress_note_types:
@@ -1481,7 +1482,7 @@ en:
       progress_note_type: Types of Note
       manage: Manage
       are_you_sure: Are you sure you want to delete?
-      modification: Modification
+      changelogs: Changelog
       view: View
     new:
       new_progress_note_type: New Type of Note
@@ -1503,7 +1504,7 @@ en:
       failed_delete: Failed to delete a type of note.
       unsuccessfully_deleted: Type of Note cannot be deleted.
     version:
-      modification_of: Modification of
+      modification_of: Changelog of
       back: Back
 
   interventions:
@@ -1513,7 +1514,7 @@ en:
       intervention: Interventions
       manage: Manage
       are_you_sure: Are you sure you want to delete?
-      modification: Modification
+      changelogs: Changelog
       view: View
     new:
       new_intervention: New Intervention
@@ -1535,7 +1536,7 @@ en:
       failed_delete: Failed to delete intervention.
       unsuccessfully_deleted: Intervention cannot be deleted.
     version:
-      modification_of: Modification of
+      modification_of: Changelog of
       back: Back
 
   progress_notes:
@@ -1569,7 +1570,7 @@ en:
     actions:
       are_you_sure: Are you sure you want to delete?
     version:
-      modification_of: Modification of
+      modification_of: Changelog of
       back: Back
       progress_note: Progress Note
 
@@ -1577,7 +1578,7 @@ en:
     index:
       filter_by_item: Filter by Item
       all: All
-      all_modification: All Modifications
+      all_modification: All Changelogs
       clients: Clients
       families: Families
       partners: Partners
@@ -1607,11 +1608,11 @@ en:
     client:
       'on': 'on'
       change: did the following change
-      no_modification: There are no any modifications.
+      no_modification: There are no any changelog.
     assessment:
       'on': 'on'
       change: did the following change
-      no_modification: There are no any modifications.
+      no_modification: There are no any changelog.
     case_note:
       'on': 'on'
       change: did the following change
@@ -1625,7 +1626,7 @@ en:
       after: After
       id: ID
       'on': 'on'
-      no_modification: There are no any modifications.
+      no_modification: There are no any changelog.
       Client: Client
       Family: Family
       Partner: Partner

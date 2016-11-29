@@ -8,7 +8,7 @@ class UsersController < AdminController
     @user_grid = UserGrid.new(params[:user_grid])
     respond_to do |f|
       f.html do
-        @user_grid.scope { |scope| scope.paginate(page: params[:page], per_page: 20) }
+        @user_grid.scope { |scope| scope.page(params[:page]).per(20) }
       end
       f.xls do
         send_data @user_grid.to_xls, filename: "user_report-#{Time.now}.xls"

@@ -5,7 +5,7 @@ class DomainsController < AdminController
   before_action :find_domain_group, except: [:index, :destroy]
 
   def index
-    @domains = Domain.all.paginate(page: params[:page], per_page: 10)
+    @domains = Domain.all.page(params[:page]).per(10)
   end
 
   def new

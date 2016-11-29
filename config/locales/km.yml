@@ -434,7 +434,7 @@ km:
         family_id: លេខសម្គាល់គ្រួសារ
         case_workers: បុគ្គលិកគ្រប់គ្រងករណី
         total: សរុប
-        modification: កំណែប្រែ
+        changelogs: កំណែប្រែ
         view: មើល
 
       partners:
@@ -442,13 +442,13 @@ km:
         type: ប្រភេទ
         manage: សកម្មភាព
         partner: ដៃគូ
-        modification: កំណែប្រែ
+        changelogs: កំណែប្រែ
         view: មើល
       users:
         <<: *default_user_fields
         name: ឈ្មោះអ្នកប្រើប្រាស់
         manage: សកម្មភាព
-        modification: កំណែប្រែ
+        changelogs: កំណែប្រែ
         view: មើល
       quarterly_reports:
         visit_date: ថ្ងៃមកជួប
@@ -896,7 +896,7 @@ km:
       description: ការបរិយាយពីអង្គភាព
       manage: សកម្មភាព
       are_you_sure: តើអ្នកប្រាកដហើយ?
-      modification: កំណែប្រែ
+      changelogs: កំណែប្រែ
       view: មើល
     edit:
       title: ពិនិត្យកែសម្រួលពត៌មាននៃឣង្គភាព
@@ -930,7 +930,7 @@ km:
       description: ការបរិយាយពីកម្មវិធី
       manage: សកម្មភាព
       are_you_sure: តើអ្នកប្រាកដហើយ?
-      modification: កំណែប្រែ
+      changelogs: កំណែប្រែ
       view: មើល
     edit:
       title: ពិនិត្យកែសម្រួលកម្មវិធី
@@ -957,6 +957,7 @@ km:
       back: ត្រលប់ក្រោយ
   domains:
     index:
+      view: មើល
       add_new_domain: បន្ថែមកត្តាថ្មី
       domains: កត្តា
       score_1: ពិន្ទុ 1
@@ -999,7 +1000,7 @@ km:
       description: ការបរិយាយ
       manage: សកម្មភាព
       are_you_sure: តើអ្នកប្រាកដហើយ?
-      modification: កំណែប្រែ
+      changelogs: កំណែប្រែ
       view: មើល
     edit:
       title: ពិនិត្យកែសម្រួលការប្រមូលផ្ដុំកត្តា
@@ -1033,7 +1034,7 @@ km:
       province_names: ឈ្មោះខេត្ត
       manage: សកម្មភាព
       are_you_sure: តើអ្នកប្រាកដហើយ?
-      modification: កំណែប្រែ
+      changelogs: កំណែប្រែ
       view: មើល
     edit:
       title: ពិនិត្យកែសម្រួលខេត្ត
@@ -1066,7 +1067,7 @@ km:
       description: ការបរិយាយ
       manage: សកម្មភាព
       are_you_sure: តើអ្នកប្រាកដហើយ?
-      modification: កំណែប្រែ
+      changelogs: កំណែប្រែ
       view: មើល
     edit:
       title: ពិនិត្យកែសម្រូលប្រភពនៃការបញ្ជូន
@@ -1617,7 +1618,7 @@ km:
       material: របស់របរ/សំភារៈ
       manage: គ្រប់គ្រង
       are_you_sure: តើអ្នកប្រាកដហើយ?
-      modification: កំណែប្រែ
+      changelogs: កំណែប្រែ
       view: មើល
     new:
       new_material: របស់របរ/សំភារៈថ្មី
@@ -1649,7 +1650,7 @@ km:
       location: កន្លែង
       manage: គ្រប់គ្រង
       are_you_sure: តើអ្នកប្រាកដហើយ?
-      modification: កំណែប្រែ
+      changelogs: កំណែប្រែ
       view: មើល
     new:
       new_location: កន្លែងថ្មី
@@ -1681,7 +1682,7 @@ km:
       progress_note_type: កំណត់សំគាល់
       manage: គ្រប់គ្រង
       are_you_sure: តើអ្នកប្រាកដហើយ?
-      modification: កំណែប្រែ
+      changelogs: កំណែប្រែ
       view: មើល
     new:
       new_progress_note_type: កំណត់សំគាល់ថ្មី
@@ -1713,7 +1714,7 @@ km:
       intervention: ចំនុចដែលត្រូវធ្វើ
       manage: គ្រប់គ្រង
       are_you_sure: តើអ្នកប្រាកដហើយ?
-      modification: កំណែប្រែ
+      changelogs: កំណែប្រែ
       view: មើល
     new:
       new_intervention: ចំនុចដែលត្រូវធ្វើថ្មី

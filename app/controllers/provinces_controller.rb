@@ -4,7 +4,7 @@ class ProvincesController < AdminController
   before_action :find_province, only: [:update, :destroy]
 
   def index
-    @provinces = Province.order(:name).paginate(page: params[:page], per_page: 20)
+    @provinces = Province.order(:name).page(params[:page]).per(20)
   end
 
   def create

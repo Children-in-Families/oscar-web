@@ -19,11 +19,12 @@
         %h5
           %strong= @progress_note_grid.assets.count
         %span.label.label-info= t('.results')
+        .ibox-tools
+          = link_to client_path(@client), class: 'btn btn-default btn-back-default' do
+            = t('.back')
       .ibox-content
         .progress_notes-table
           = datagrid_table @progress_note_grid, html: {class: 'table table-bordered table-striped table-hover progress-notes'}
-      .ibox-footer
-        = link_to t('.back'), client_path(@client), class: 'btn btn-default btn-back'
 .row
   .col-xs-12.text-center
-    = will_paginate @progress_note_grid.assets, renderer: BootstrapPagination::Rails
+    = paginate @progress_note_grid.assets

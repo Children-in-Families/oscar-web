@@ -6,7 +6,7 @@ class Case::QuarterlyReportsController < AdminController
 
   def index
     @quarterly_reports_grid = QuarterlyReportsGrid.new(params[:quarterly_reports_grid])
-    @quarterly_reports_grid.scope { |scope| scope.where(case_id: @case.id).paginate(page: params[:page], per_page: 20) }
+    @quarterly_reports_grid.scope { |scope| scope.where(case_id: @case.id).page(params[:page]).per(20) }
   end
 
   def show

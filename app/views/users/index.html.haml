@@ -27,4 +27,4 @@
         .users-table
           = datagrid_table @user_grid, html: { class: 'table table-bordered table-striped table-hover users'}
       .ibox-footer
-        = will_paginate @user_grid.assets, renderer: BootstrapPagination::Rails
+        = paginate @user_grid.assets

@@ -13,8 +13,7 @@ CIF.UsersIndex = do ->
         'bSort': false
         'sScrollY': 'auto'
         'bAutoWidth': true
-        'sScrollX': '100%'
-        'sScrollXInner': '100%')
+        'sScrollX': '100%')
     else
       $('.users-table').addClass('table-responsive')
 
