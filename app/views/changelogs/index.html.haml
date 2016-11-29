@@ -25,7 +25,7 @@
                     %h4
                       %u= t('.changes')
                   .col-xs-6.text-right
-                    = link_to t('.add_new_changelog'), '#', {class: 'btn btn-primary btn-add', "data-target" => "#changelogModal-", "data-toggle" => "modal", :type => "button"}
+                    = link_to t('.add_new_release'), '#', {class: 'btn btn-primary btn-add', "data-target" => "#changelogModal-", "data-toggle" => "modal", :type => "button"}
                 - @changelogs.each do |changelog|
                   .col-xs-12.changes-item{ id: "changelog-#{changelog.id}" }
                     .row

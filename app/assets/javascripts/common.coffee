@@ -22,8 +22,13 @@ CIF.Common =
 
   autoCollapseManagMenu: ->
     active = $('.nav-second-level').find('.active')
+    navThirdActive = $('.nav-third-level').find('.active')
     if active.length > 0
       $('#manage').trigger('click')
+      if navThirdActive.length > 0
+        setTimeout (->
+          $('#pro-nav').trigger('click')
+        ), 400
 
   hideDynamicOperator: ->
     $('.dynamic_filter').find('option[value="=~"]').remove('option')

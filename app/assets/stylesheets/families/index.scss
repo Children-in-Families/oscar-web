@@ -11,6 +11,11 @@
     text-decoration: none;
   }
 
+  .popover-content{
+    max-height: 150px;
+    overflow-y: scroll;
+  }
+
   table.families {
     margin-bottom: 0;
     th, td {

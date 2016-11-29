@@ -36,7 +36,7 @@ describe 'Department' do
         click_button 'Save'
       end
       sleep 1
-      expect(page).to have_content('Department has been successfully created')
+      expect(page).to have_content('Department has been successfully created.')
     end
     scenario 'invalid' do
       click_link('New Department')
@@ -60,7 +60,7 @@ describe 'Department' do
         click_button 'Save'
       end
       sleep 1
-      expect(page).to have_content('Department has been successfully updated')
+      expect(page).to have_content(I18n.t('departments.update.successfully_updated'))
     end
     scenario 'invalid' do
       find("a[data-target='#departmentModal-#{department.id}']").click
@@ -69,7 +69,7 @@ describe 'Department' do
         click_button 'Save'
       end
       sleep 1
-      expect(page).to have_content('Failed to update a department')
+      expect(page).to have_content(I18n.t('departments.update.failed_update'))
     end
   end
 

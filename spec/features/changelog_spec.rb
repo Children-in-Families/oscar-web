@@ -31,7 +31,7 @@ describe 'Changelog' do
     end
 
     scenario 'new link' do
-      expect(page).to have_link(I18n.t('changelogs.index.add_new_changelog'), new_changelog_path)
+      expect(page).to have_link(I18n.t('changelogs.index.add_new_release'), new_changelog_path)
     end
   end
 
@@ -45,7 +45,7 @@ describe 'Changelog' do
       within('#new_changelog') do
         fill_in 'changelog_change_version', with: FFaker::Name.name
         click_link('Add change')
-        fill_in 'Description', with: FFaker::Lorem.paragraph
+        find(:css, "input.description").set(FFaker::Lorem.paragraph)
         click_button I18n.t('changelogs.form.save')
       end
       sleep 1

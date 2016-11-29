@@ -34,7 +34,7 @@ en:
   default_material_fields: &default_material_fields
     status: Status
 
-  default_changelog_fields: &default_changelog_fields
+  default_releaselog_fields: &default_releaselog_fields
     change_version: Version
     description: Description
 
@@ -138,7 +138,7 @@ en:
     sexual_abuse: sexual abuse
     emotional_abuse: emotional abuse
     child_exploitation: child exploitation
-    exessive_child_labour: exessive child labour
+    excessive_child_labour: excessive child labour
     family_violence: family violence
     experience_with_trafficking: experience with trafficking
     danger_of_trafficking: danger of trafficking
@@ -1379,32 +1379,33 @@ en:
       description: Description
       are_you_sure: Are you sure you want to delete?
     index:
-      <<: *default_changelog_fields
+      <<: *default_releaselog_fields
       cancel: Cancel
       version_list: Version List
       changes: Changes
-      add_new_changelog: Add New Changelog
+      add_new_release: Add New Release
       are_you_sure: Are you sure you want to delete?
       view_modification: View modification
     show:
       back: Back
     edit:
-      edit_changelog: Edit Changelog
+      edit_releaselog: Edit Release
     new:
-      new_changelog: New Changelog
+      new_releaselog: New Release
     form:
-      <<: *default_changelog_fields
+      <<: *default_releaselog_fields
+      releaselog: Releaselog
       add_change: Add change
       save: Save
       cancel: Cancel
     create:
-      successfully_created: Changelog has been successfully created.
+      successfully_created: Releaselog has been successfully created.
       failed_create: Failed to create a changelog.
     update:
-      successfully_updated: Changelog has been successfully updated.
+      successfully_updated: Releaselog has been successfully updated.
       failed_update: Failed to update a changelog.
     destroy:
-      successfully_deleted: Changelog has been successfully deleted.
+      successfully_deleted: Releaselog has been successfully deleted.
       failed_delete: Failed to delete a changelog
     version:
       modification_of: Modification of
@@ -1604,6 +1605,13 @@ en:
       able_screening_questions: Able Screening Questions
       stages: Stages
   shared:
+    assessment:
+      'on': 'on'
+      change: did the following change
+      no_modification: There are no any modifications.
+    case_note:
+      'on': 'on'
+      change: did the following change
     version:
       create: Create
       update: Update

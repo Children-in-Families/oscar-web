@@ -13,4 +13,10 @@ body[id=case_notes-index] {
   .pushing-top {
     margin-top: 15px;
   }
+
+  @media screen and(max-width: 450px){
+    .case-note-margin{
+      margin: 10px 10px 0 5px;
+    }
+  }
 }

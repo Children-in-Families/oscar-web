@@ -34,7 +34,7 @@ km:
   default_material_fields: &default_material_fields
     status: ស្ថានភាព
 
-  default_changelog_fields: &default_changelog_fields
+  default_releaselog_fields: &default_releaselog_fields
     change_version: កំណែ
     description: ការពិពណ៌នា
 
@@ -511,7 +511,7 @@ km:
       en: English
       log_out: ចាកចេញ
       log_in: ចូល
-      release_logs: ការផ្លាស់ប្ដូរ
+      release_logs: ការចេញផ្សាយ
       progress_note: កត់សំគាល់ការរីកចំរើន
       materials: របស់របរ/សំភារៈ
       locations: កន្លែង
@@ -1582,33 +1582,34 @@ km:
       description: ការពិពណ៌នា
       are_you_sure: តើអ្នកប្រាកដហើយ?
     index:
-      <<: *default_changelog_fields
+      <<: *default_releaselog_fields
       cancel: ទុកជាមោឃៈ
       version_list: បញ្ជីកំណែ
       changes: កំណែ
-      add_new_changelog: បន្ថែមការផ្លាស់ប្ដូរថ្មី
+      add_new_release: បន្ថែមការចេញផ្សាយ
       are_you_sure: តើអ្នកប្រាកដហើយ?
       view_modification: មើលកំណែប្រែ
     show:
       back: ត្រលប់ក្រោយ
     edit:
-      edit_changelog: កែសម្រួលការផ្លាស់ប្ដូរ
+      edit_releaselog: កែសម្រួលការចេញផ្សាយ
     new:
-      new_changelog: ការផ្លាស់ប្ដូរថ្មី
+      new_releaselog: ការចេញផ្សាយថ្មី
     form:
-      <<: *default_changelog_fields
+      <<: *default_releaselog_fields
+      releaselog: ការចេញផ្សាយ
       add_change: បន្ថែមកំណែ
       save: រក្សាទុក
       cancel: ទុកជាមោឃៈ
     create:
-      successfully_created: ការផ្លាស់ប្ដូរបានបង្កើតដោយជោគជ័យ
-      failed_create: ការផ្លាស់ប្ដូរមិនបានបង្កើត
+      successfully_created: ការចេញផ្សាយបានបង្កើតដោយជោគជ័យ
+      failed_create: ការចេញផ្សាយមិនបានបង្កើត
     update:
-      successfully_updated: ការផ្លាស់ប្ដូរត្រូវបានកែសម្រួលដោយជោគជ័យ
-      failed_update: ការផ្លាស់ប្ដូរមិនត្រូវបានកែសម្រួល
+      successfully_updated: ការចេញផ្សាយត្រូវបានកែសម្រួលដោយជោគជ័យ
+      failed_update: ការចេញផ្សាយមិនត្រូវបានកែសម្រួល
     destroy:
-      successfully_deleted: ការផ្លាស់ប្ដូរត្រូវបានលុបដោយជោគជ័យ
-      failed_delete: ការផ្លាស់ប្ដូរត្រូវមិនបានលុប
+      successfully_deleted: ការចេញផ្សាយត្រូវបានលុបដោយជោគជ័យ
+      failed_delete: ការចេញផ្សាយត្រូវមិនបានលុប
     version:
       modification_of: កំណែប្រែរបស់
       back: ត្រលប់ក្រោយ
@@ -1808,6 +1809,12 @@ km:
       stages: តំណាក់កាល
 
   shared:
+    assessment:
+      'on': របស់
+      change: បានធ្វើកំណែប្រែខាងក្រោម
+    case_note:
+      'on': របស់
+      change: បានធ្វើកំណែប្រែខាងក្រោម
     version:
       create: បង្កើត
       update: កែសម្រួល
