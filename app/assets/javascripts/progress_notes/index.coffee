@@ -27,6 +27,13 @@ CIF.Progress_notesIndex = do ->
 
   _handleScrollTable = ->
     $(window).load ->
-      $('.progress_notes-table .dataTables_scrollBody').niceScroll()
+      ua = navigator.userAgent
+      if /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile|CriOS/i.test(ua)
+        $('.progress_notes-table .dataTables_scrollBody')
+      else
+        $('.progress_notes-table .dataTables_scrollBody').niceScroll
+          scrollspeed: 30
+          cursorwidth: 10
+          cursoropacitymax: 0.4
 
   { init: _init }

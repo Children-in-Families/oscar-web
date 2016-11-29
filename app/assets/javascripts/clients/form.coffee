@@ -84,7 +84,19 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
           answerObj.hide()
 
   window.onload = ->
-    $('#stage-question .dataTables_scrollBody').niceScroll()
-    $('#stage-question.table-responsive').niceScroll()
+    ua = navigator.userAgent
+    if /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile|CriOS/i.test(ua)
+      $('#stage-question .dataTables_scrollBody')
+      $('#stage-question.table-responsive')
+    else
+      $('#stage-question .dataTables_scrollBody').niceScroll
+        scrollspeed: 30
+        cursorwidth: 10
+        cursoropacitymax: 0.4
+        autohidemode: false
+      $('#stage-question.table-responsive').niceScroll
+        scrollspeed: 30
+        cursorwidth: 10
+        cursoropacitymax: 0.2
 
   { init: _init }

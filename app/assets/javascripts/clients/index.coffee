@@ -167,6 +167,5 @@ CIF.ClientsIndex = do ->
           scrollspeed: 30
           cursorwidth: 10
           cursoropacitymax: 0.4
-          autohidemode: false
 
   { init: _init }
