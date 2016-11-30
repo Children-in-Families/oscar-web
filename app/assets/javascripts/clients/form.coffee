@@ -22,7 +22,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
   _fixedHeaderStageQuestion = ->
     $('#stage-question table.client-new').dataTable(
       'sScrollY': '500px'
-      'sScrollX': true
+      'sScrollX': '100%'
       'bPaginate': false
       'bFilter': false
       'bInfo': false
