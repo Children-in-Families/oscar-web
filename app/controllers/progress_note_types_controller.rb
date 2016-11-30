@@ -35,7 +35,7 @@ class ProgressNoteTypesController < AdminController
 
   def version
     @progress_note_type = ProgressNoteType.find(params[:progress_note_type_id])
-    @versions           = @progress_note_type.versions.reorder(created_at: :desc).decorate
+    @versions           = @progress_note_type.versions.reorder(created_at: :desc)
   end
 
   private

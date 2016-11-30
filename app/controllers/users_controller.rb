@@ -59,7 +59,7 @@ class UsersController < AdminController
 
   def version
     @user     = User.find(params[:user_id])
-    @versions = @user.versions.reorder(created_at: :desc).decorate
+    @versions = @user.versions.reorder(created_at: :desc)
   end
 
   private

@@ -138,8 +138,10 @@ module VersionHelper
     val
   end
 
-  def version_item_type_active?(item_type = '')
-    if params[:item_type] || item_type.present?
+  def version_item_type_active?(item_type = '', alter = '')
+    if params[:item_type] && alter.present?
+      'active' if params[:item_type].include?(alter)
+    elsif params[:item_type] || item_type.present?
       'active' if params[:item_type] == item_type
     else
       'active'

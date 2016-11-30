@@ -55,7 +55,7 @@ class PartnersController < AdminController
 
   def version
     @partner  = Partner.find(params[:partner_id])
-    @versions = @partner.versions.reorder(created_at: :desc).decorate
+    @versions = @partner.versions.reorder(created_at: :desc)
   end
 
   private

@@ -36,7 +36,7 @@ class ReferralSourcesController < AdminController
 
   def version
     @referral_source = ReferralSource.find(params[:referral_source_id])
-    @versions        = @referral_source.versions.reorder(created_at: :desc).decorate
+    @versions        = @referral_source.versions.reorder(created_at: :desc)
   end
 
   private

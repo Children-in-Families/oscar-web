@@ -40,7 +40,7 @@ class QuantitativeCasesController < AdminController
 
   def version
     @quantitative_case = QuantitativeCase.find(params[:quantitative_case_id])
-    @versions          = @quantitative_case.versions.reorder(created_at: :desc).decorate
+    @versions          = @quantitative_case.versions.reorder(created_at: :desc)
   end
 
   private

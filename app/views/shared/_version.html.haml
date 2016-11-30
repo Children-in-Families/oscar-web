@@ -49,10 +49,6 @@
                           %td.col-sm-4.truncate
                             = version_value_format(v[1], k, v)
       = render 'shared/assessment'
-      = render 'shared/case_note'
       = render 'shared/client'
     - else
       %p= t('.no_modification')
-  .panel-footer
-    .text-center
-      = paginate @versions

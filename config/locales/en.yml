@@ -400,7 +400,7 @@ en:
       progress_notes:
         <<: *default_progress_note_fields
         manage: Manage
-        changelogs: changelog
+        changelogs: Changelog
         view: View
 
       select_columns: Select Columns
@@ -1602,7 +1602,7 @@ en:
       materials: Equipment/Materials
       interventions: Interventions
       locations: Locations
-      progress_note_types: Type of Notes
+      progress_note_types: Types of Note
       able_screening_questions: Able Screening Questions
       stages: Stages
   shared:
@@ -1610,13 +1610,19 @@ en:
       'on': 'on'
       change: did the following change
       no_modification: There are no any changelog.
+      value_of: Value of
+      before: Before
+      after: After
+      Client: Client
     assessment:
       'on': 'on'
       change: did the following change
       no_modification: There are no any changelog.
+      Assessment: Assessment
     case_note:
       'on': 'on'
       change: did the following change
+      CaseNote: Case Note
     version:
       create: Create
       update: Update
@@ -1640,7 +1646,7 @@ en:
       ReferralSource: Referral Source
       QuantitativeType: Quantitative Type
       QuantitativeCase: Quantitative Data
-      Changelog: Changelog
+      Changelog: Releaselog
       Case: Case
       Task: Task
       Assessment: Assessment

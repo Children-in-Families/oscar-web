@@ -1810,12 +1810,22 @@ km:
       stages: តំណាក់កាល
 
   shared:
+    client:
+      'on': របស់
+      change: បានធ្វើកំណែប្រែខាងក្រោម
+      no_modification: មិនមានកំណែប្រែ
+      value_of: តម្លៃនៃ
+      before: មុនកំណែ
+      after: ក្រោយកំណែ
+      Client: អតិថិជន
     assessment:
       'on': របស់
       change: បានធ្វើកំណែប្រែខាងក្រោម
+      Assessment: ការប៉ាន់ប្រមាណ
     case_note:
       'on': របស់
       change: បានធ្វើកំណែប្រែខាងក្រោម
+      CaseNote: កំណត់ត្រាករណី
     version:
       create: បង្កើត
       update: កែសម្រួល
@@ -1839,7 +1849,7 @@ km:
       ReferralSource: ប្រភពនៃការបញ្ជូន
       QuantitativeType: ប្រភេទនៃបរិមាណ
       QuantitativeCase: ទិន្នន័យនៃបរិមាណ
-      Changelog: ការផ្លាស់ប្ដូរ
+      Changelog: ការចេញផ្សាយ
       Case: ករណី
       Task: កាតព្វកិច្ច
       Assessment: ការប៉ាន់ប្រមាណ

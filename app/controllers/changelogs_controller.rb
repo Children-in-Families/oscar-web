@@ -35,7 +35,7 @@ class ChangelogsController < AdminController
 
   def version
     @changelog = Changelog.find(params[:changelog_id])
-    @versions  = @changelog.versions.reorder(created_at: :desc).decorate
+    @versions  = @changelog.versions.reorder(created_at: :desc)
   end
 
   private

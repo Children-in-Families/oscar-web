@@ -35,7 +35,7 @@ class InterventionsController < AdminController
 
   def version
     @intervention = Intervention.find(params[:intervention_id])
-    @versions     = @intervention.versions.reorder(created_at: :desc).decorate
+    @versions     = @intervention.versions.reorder(created_at: :desc)
   end
 
   private
