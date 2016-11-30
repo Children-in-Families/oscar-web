@@ -4,6 +4,7 @@ class AgenciesController < AdminController
   before_action :find_agency, only: [:update, :destroy]
 
   def index
+    @results = @agencies.size
     @agencies = Agency.order(:name).page(params[:page]).per(20)
   end
 

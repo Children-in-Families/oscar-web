@@ -11,7 +11,7 @@
                 %li.list.list-group-item
                   = link_to "#{changelog.change_version} - #{changelog.created_at.strftime('%d %b, %Y')}", "#changelog-#{changelog.id}"
                   .pull-right
-                    = link_to '#', {class: 'btn btn-outline btn-success btn-xs', "data-target" => "#changelogModal-#{changelog.id}", "data-toggle" => "modal", :type => "button"} do
+                    = link_to '#', {class: 'btn btn-outline btn-success btn-xs btn-add-margin', "data-target" => "#changelogModal-#{changelog.id}", "data-toggle" => "modal", :type => "button"} do
                       = fa_icon('pencil')
                     = link_to changelog, method: 'delete', data: { confirm: t('.are_you_sure') }, class: 'btn btn-outline btn-danger btn-xs' do
                       = fa_icon('trash')

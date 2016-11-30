@@ -4,6 +4,7 @@ class DomainGroupsController < AdminController
   before_action :find_domain_group, only: [:update, :destroy]
 
   def index
+    @results = @domain_groups.size
     @domain_groups = DomainGroup.all.page(params[:page]).per(20)
   end
 

@@ -21,7 +21,7 @@
                     %label{class: "label label-#{domain.score_3_color}"}= "#{t('.score_3')}"
                     %label{class: "label label-#{domain.score_4_color}"}= "#{t('.score_4')}"
                 .col-xs-2.text-right
-                  = link_to edit_domain_path(domain), class: 'btn btn-outline btn-success' do
+                  = link_to edit_domain_path(domain), class: 'btn btn-outline btn-success btn-add-margin' do
                     = fa_icon('pencil')
                   = remove_link(domain, {domain_task: domain.tasks_count}, 'btn-default')
             .panel-body

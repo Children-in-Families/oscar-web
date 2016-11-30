@@ -8,6 +8,7 @@ class FamiliesController < AdminController
     @family_grid = FamilyGrid.new(params[:family_grid])
     respond_to do |f|
       f.html do
+        @results = @family_grid.assets.size
         @family_grid.scope { |scope| scope.page(params[:page]).per(20) }
       end
       f.xls do

@@ -8,6 +8,7 @@ class UsersController < AdminController
     @user_grid = UserGrid.new(params[:user_grid])
     respond_to do |f|
       f.html do
+        @results = @user_grid.assets.size
         @user_grid.scope { |scope| scope.page(params[:page]).per(20) }
       end
       f.xls do
@@ -33,6 +34,7 @@ class UsersController < AdminController
     @client_grid = ClientGrid.new(params.fetch(:client_grid, {}).merge!(current_user: @user)) do |scope|
       scope.where(user_id: @user.id)
     end
+    @results = @client_grid.assets.size
   end
 
   def edit
