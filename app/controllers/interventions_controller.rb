@@ -5,6 +5,7 @@ class InterventionsController < AdminController
 
   def index
     @interventions = Intervention.order(:action).page(params[:page]).per(20)
+    @results       = Intervention.count
   end
 
   def create

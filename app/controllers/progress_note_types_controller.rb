@@ -5,6 +5,7 @@ class ProgressNoteTypesController < AdminController
 
   def index
     @progress_note_types = ProgressNoteType.order(:note_type).page(params[:page]).per(20)
+    @results             = ProgressNoteType.count
   end
 
   def create

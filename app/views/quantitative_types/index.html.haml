@@ -2,7 +2,8 @@
   .col-xs-12
     .ibox
       .ibox-title
-        %h5= t('.quantitative_types')
+        %h5= @results
+        %span.label.label-info= t('.quantitative_types')
         .ibox-tools
           = link_to '#', {"data-target" => "#quantitative_typeModal-", "data-toggle" => "modal", :type => "button"} do
             .btn.btn-primary.btn-add

@@ -21,6 +21,9 @@
     th, td {
       min-width: 200px !important;
     }
+    th.name, td.name {
+      min-width: 250px !important;
+    }
   }
 
   .date_filter {

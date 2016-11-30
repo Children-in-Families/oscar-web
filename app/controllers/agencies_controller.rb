@@ -5,6 +5,7 @@ class AgenciesController < AdminController
 
   def index
     @agencies = Agency.order(:name).page(params[:page]).per(20)
+    @results  = Agency.count
   end
 
   def create

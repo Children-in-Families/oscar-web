@@ -2,7 +2,8 @@
   .col-xs-12
     .ibox
       .ibox-title
-        %h5= t('.domains')
+        %h5= @results
+        %span.label.label-info= t('.domains')
         .ibox-tools
           = link_to new_domain_path do
             .btn.btn.btn-primary.btn-add

@@ -755,10 +755,13 @@ km:
       already_have_a_case: ឣតិថិជនមានករណីរួចហើយ
     update:
       successfully_updated: ករណីត្រូវបានកែសម្រួលដោយជោគជ័យ
-  will_paginate:
-    previous_label: ទំព័រមុន
-    page_gap: ...
-    next_label: ទំព័របន្ទាប់
+  views:
+    pagination:
+      first: "&laquo; ដំបូង"
+      last: "ចុងក្រោយ &raquo;"
+      previous: "&lsaquo; ទំព័រមុន"
+      next: "ទំព័របន្ទាប់ &rsaquo;"
+      truncate: "&hellip;"
   save: រក្សាទុក
   cancel: ទុកជាមោឃៈ
 

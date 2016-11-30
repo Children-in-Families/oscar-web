@@ -5,6 +5,7 @@ class ProvincesController < AdminController
 
   def index
     @provinces = Province.order(:name).page(params[:page]).per(20)
+    @results   = Province.count
   end
 
   def create

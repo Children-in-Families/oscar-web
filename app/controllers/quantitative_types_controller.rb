@@ -5,6 +5,7 @@ class QuantitativeTypesController < AdminController
 
   def index
     @quantitative_types = QuantitativeType.all.page(params[:page]).per(10)
+    @results            = QuantitativeType.count
   end
 
   def create

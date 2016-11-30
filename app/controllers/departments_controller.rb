@@ -5,6 +5,7 @@ class DepartmentsController < AdminController
 
   def index
     @departments = Department.order(:name).page(params[:page]).per(20)
+    @results     = Department.count
   end
 
   def create

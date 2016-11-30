@@ -5,6 +5,7 @@ class ReferralSourcesController < AdminController
 
   def index
     @referral_sources = ReferralSource.order(:name).page(params[:page]).per(10)
+    @results          = ReferralSource.count
   end
 
   def create

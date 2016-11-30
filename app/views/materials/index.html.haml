@@ -2,7 +2,8 @@
   .col-xs-12
     .ibox
       .ibox-title
-        %h5= t('.material')
+        %h5= @results
+        %span.label.label-info= t('.material')
         .ibox-tools
           = link_to '#', {"data-target" => "#materialModal-", "data-toggle" => "modal", :type => "button"} do
             .btn.btn-primary.btn-add

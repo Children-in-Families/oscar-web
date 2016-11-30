@@ -5,6 +5,7 @@ class DomainGroupsController < AdminController
 
   def index
     @domain_groups = DomainGroup.all.page(params[:page]).per(20)
+    @results       = DomainGroup.count
   end
 
   def create

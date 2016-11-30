@@ -8,6 +8,7 @@ class PartnersController < AdminController
     @partner_grid = PartnerGrid.new(params[:partner_grid])
     respond_to do |f|
       f.html do
+        @results = @partner_grid.assets.size
         @partner_grid.scope { |scope| scope.page(params[:page]).per(20) }
       end
       f.xls do

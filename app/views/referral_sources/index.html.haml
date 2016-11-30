@@ -2,7 +2,8 @@
   .col-xs-12
     .ibox
       .ibox-title
-        %h5= t('.referral_sources')
+        %h5= @results
+        %span.label.label-info= t('.referral_sources')
         .ibox-tools
           = link_to '#', {"data-target" => "#referral_sourceModal-", "data-toggle" => "modal", :type => "button"} do
             .btn.btn-primary.btn-add
