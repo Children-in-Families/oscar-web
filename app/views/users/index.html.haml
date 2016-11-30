@@ -26,5 +26,5 @@
       .ibox-content
         .users-table
           = datagrid_table @user_grid, html: { class: 'table table-bordered table-striped table-hover users'}
-      .ibox-footer
+      .ibox-footer.text-center
         = paginate @user_grid.assets

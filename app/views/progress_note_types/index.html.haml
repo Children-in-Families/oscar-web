@@ -2,7 +2,8 @@
   .col-xs-12
     .ibox
       .ibox-title
-        %h5= t('.progress_note_type')
+        %h5= @results
+        %span.label.label-info= t('.progress_note_type')
         .ibox-tools
           = link_to '#', {"data-target" => "#progress_note_typeModal-", "data-toggle" => "modal", :type => "button"} do
             .btn.btn-primary.btn-add

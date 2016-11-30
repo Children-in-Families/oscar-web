@@ -912,7 +912,7 @@ en:
       score_3: Score 3
       score_4: Score 4
       are_you_sure: Are you sure you want to delete?
-      view_modification: View Changelog
+      changelog: Changelog
     edit:
       title: Edit Domain
     new:
@@ -1047,7 +1047,7 @@ en:
       quantitative_types: Quantitative Types
       add_quantitative_data: Quantitative Data
       are_you_sure: Are you sure you want to delete?
-      view_modification: View Changelog
+      view_changelog: View changelog
     edit:
       title: Edit Quantitative Type
     new:
@@ -1386,7 +1386,7 @@ en:
       changes: Changes
       add_new_release: Add New Release
       are_you_sure: Are you sure you want to delete?
-      view_modification: View Changelog
+      view_changelog: View changelog
     show:
       back: Back
     edit:

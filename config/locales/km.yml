@@ -755,10 +755,13 @@ km:
       already_have_a_case: ឣតិថិជនមានករណីរួចហើយ
     update:
       successfully_updated: ករណីត្រូវបានកែសម្រួលដោយជោគជ័យ
-  will_paginate:
-    previous_label: ទំព័រមុន
-    page_gap: ...
-    next_label: ទំព័របន្ទាប់
+  views:
+    pagination:
+      first: "&laquo; ដំបូង"
+      last: "ចុងក្រោយ &raquo;"
+      previous: "&lsaquo; ទំព័រមុន"
+      next: "ទំព័របន្ទាប់ &rsaquo;"
+      truncate: "&hellip;"
   save: រក្សាទុក
   cancel: ទុកជាមោឃៈ
 
@@ -965,7 +968,7 @@ km:
       score_3: ពិន្ទុ 3
       score_4: ពិន្ទុ 4
       are_you_sure: តើអ្នកប្រាកដហើយ?
-      view_modification: មើលកំណែប្រែ
+      changelog: កំណែប្រែ
     edit:
       title: ពិនិត្យកែសម្រួលកត្តា
     new:
@@ -1098,7 +1101,7 @@ km:
       quantitative_types: ប្រភេទនៃបរិមាណ
       are_you_sure: តើអ្នកប្រាកដហើយ?
       add_quantitative_data: ទិន្នន័យនៃបរិមាណ
-      view_modification: មើលកំណែប្រែ
+      view_changelog: មើលកំណែប្រែ
     edit:
       title: ពិនិត្យកែសម្រួល ប្រភេទនៃបរិមាណ
     new:
@@ -1586,7 +1589,7 @@ km:
       changes: កំណែ
       add_new_release: បន្ថែមការចេញផ្សាយ
       are_you_sure: តើអ្នកប្រាកដហើយ?
-      view_modification: មើលកំណែប្រែ
+      view_changelog: មើលកំណែប្រែ
     show:
       back: ត្រលប់ក្រោយ
     edit:
@@ -1607,7 +1610,7 @@ km:
       failed_update: ការចេញផ្សាយមិនត្រូវបានកែសម្រួល
     destroy:
       successfully_deleted: ការចេញផ្សាយត្រូវបានលុបដោយជោគជ័យ
-      failed_delete: ការចេញផ្សាយត្រូវមិនបានលុប
+      failed_delete: ការចេញផ្សាយមិនត្រូវបានលុប
     version:
       modification_of: កំណែប្រែរបស់
       back: ត្រលប់ក្រោយ
