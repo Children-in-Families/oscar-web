@@ -46,7 +46,11 @@ class CIF.ReportCreator
         type: 'pie'
         borderWidth: 1
         borderColor: "#ddd"
-      legend: verticalAlign: 'top', y: 10
+      legend: 
+        verticalAlign: 'top' 
+        y: 10
+        itemStyle:
+           fontSize: '15px'
       title: text: ''
       tooltip: pointFormat: '{series.name}: <b>{point.y}</b>'
       plotOptions: pie:

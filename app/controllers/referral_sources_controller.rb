@@ -4,8 +4,8 @@ class ReferralSourcesController < AdminController
   before_action :find_referral_source, only: [:update, :destroy]
 
   def index
-    @results = @referral_sources.size
     @referral_sources = ReferralSource.order(:name).page(params[:page]).per(10)
+    @results          = ReferralSource.count
   end
 
   def create

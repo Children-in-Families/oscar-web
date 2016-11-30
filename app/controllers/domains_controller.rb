@@ -6,6 +6,7 @@ class DomainsController < AdminController
 
   def index
     @domains = Domain.all.page(params[:page]).per(10)
+    @results = Domain.count
   end
 
   def new

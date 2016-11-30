@@ -4,8 +4,8 @@ class DepartmentsController < AdminController
   before_action :find_department, only: [:update, :destroy]
 
   def index
-    @results = @departments.size
     @departments = Department.order(:name).page(params[:page]).per(20)
+    @results     = Department.count
   end
 
   def create

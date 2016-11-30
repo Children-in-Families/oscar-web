@@ -5,6 +5,7 @@ class LocationsController < AdminController
 
   def index
     @locations = Location.order('order_option, name').page(params[:page]).per(20)
+    @results   = Location.count
   end
 
   def create

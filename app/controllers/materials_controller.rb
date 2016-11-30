@@ -5,6 +5,7 @@ class MaterialsController < AdminController
 
   def index
     @materials = Material.order(:status).page(params[:page]).per(20)
+    @results   = Material.count
   end
 
   def create

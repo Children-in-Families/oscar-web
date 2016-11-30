@@ -4,8 +4,8 @@ class ProvincesController < AdminController
   before_action :find_province, only: [:update, :destroy]
 
   def index
-    @results = @provinces.size
     @provinces = Province.order(:name).page(params[:page]).per(20)
+    @results   = Province.count
   end
 
   def create
