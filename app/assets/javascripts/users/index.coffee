@@ -19,6 +19,11 @@ CIF.UsersIndex = do ->
 
   _handleScrollTable = ->
     $(window).load ->
-      $('.users-table .dataTables_scrollBody').niceScroll()
+      ua = navigator.userAgent
+      unless /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile|CriOS/i.test(ua)
+        $('.users-table .dataTables_scrollBody').niceScroll
+          scrollspeed: 30
+          cursorwidth: 10
+          cursoropacitymax: 0.4
 
   { init: _init }

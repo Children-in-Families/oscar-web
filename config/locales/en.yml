@@ -34,7 +34,7 @@ en:
   default_material_fields: &default_material_fields
     status: Status
 
-  default_changelog_fields: &default_changelog_fields
+  default_releaselog_fields: &default_releaselog_fields
     change_version: Version
     description: Description
 
@@ -1380,33 +1380,34 @@ en:
       description: Description
       are_you_sure: Are you sure you want to delete?
     index:
-      <<: *default_changelog_fields
+      <<: *default_releaselog_fields
       cancel: Cancel
       version_list: Version List
       changes: Changes
-      add_new_changelog: Add New Changelog
+      add_new_release: Add New Release
       are_you_sure: Are you sure you want to delete?
       view_modification: View Changelog
     show:
       back: Back
     edit:
-      edit_changelog: Edit Changelog
+      edit_releaselog: Edit Release
     new:
-      new_changelog: New Changelog
+      new_releaselog: New Release
     form:
-      <<: *default_changelog_fields
+      <<: *default_releaselog_fields
+      releaselog: Releaselog
       add_change: Add change
       save: Save
       cancel: Cancel
     create:
-      successfully_created: Changelog has been successfully created.
-      failed_create: Failed to create a changelog.
+      successfully_created: Releaselog has been successfully created.
+      failed_create: Failed to create a releaselog.
     update:
-      successfully_updated: Changelog has been successfully updated.
-      failed_update: Failed to update a changelog.
+      successfully_updated: Releaselog has been successfully updated.
+      failed_update: Failed to update a releaselog.
     destroy:
-      successfully_deleted: Changelog has been successfully deleted.
-      failed_delete: Failed to delete a changelog
+      successfully_deleted: Releaselog has been successfully deleted.
+      failed_delete: Failed to delete a releaselog
     version:
       modification_of: Changelog of
       back: Back
@@ -1591,7 +1592,7 @@ en:
       referral_sources: Referral Sources
       quantitative_types: Quantitative Types
       quantitative_cases: Quantitative Data
-      changelogs: Changelogs
+      releaselogs: Releaselogs
       cases: Cases
       tasks: Tasks
       assessments: Assessments

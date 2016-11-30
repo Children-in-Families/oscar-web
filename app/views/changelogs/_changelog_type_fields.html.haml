@@ -5,7 +5,7 @@
         = f.input :change_type, collection: [['ADDED', 'added'], ['FIXED', 'fixed'], ['REMOVED', 'removed'], ['UPDATED', 'updated']], input_html: { class: 'select2' }, label: false, include_blank: false
     .col-xs-12.col-sm-8
       .form-group
-        = f.input :description, input_html: { class: 'form-control', placeholder: t('.description') }, label: false
+        = f.input :description, input_html: { class: 'form-control description', placeholder: t('.description') }, label: false
     .col-xs-12.col-sm-1
       = link_to_remove_association f, data: { confirm: t('.are_you_sure') } do
         .btn.btn-outline.btn-danger.btn-xs

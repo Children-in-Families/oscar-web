@@ -52,7 +52,7 @@ describe 'Agency' do
   feature 'Edit', js: true do
     let!(:name){ FFaker::Name.name }
     before do
-      visit agencies_path()
+      visit agencies_path
     end
     scenario 'valid' do
       find("a[data-target='#agencyModal-#{agency.id}']").click

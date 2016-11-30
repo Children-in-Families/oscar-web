@@ -47,4 +47,8 @@ module FamiliesHelper
     end
   end
 
+  def family_workers_count(object)
+    object.joins(:user).group_by(&:user_id).size
+  end
+
 end

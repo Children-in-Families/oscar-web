@@ -2,7 +2,6 @@ CIF.FamiliesIndex = do ->
   _init = ->
     _fixedHeaderTableColumns()
     _handleScrollTable()
-    # _resizeNiceScroll()
 
   _fixedHeaderTableColumns = ->
     $('.families-table').removeClass('table-responsive')
@@ -20,12 +19,11 @@ CIF.FamiliesIndex = do ->
 
   _handleScrollTable = ->
     $(window).load ->
-      $('.families-table .dataTables_scrollBody').niceScroll fixed:true
-
-  _resizeNiceScroll = ->
-    $('.navbar-minimalize').click ->
-      console.log($('.families-table .dataTables_scrollBody').getNiceScroll())
-      $('.families-table .dataTables_scrollBody').getNiceScroll ->
-        window.dispatchEvent new Event('resize')
+      ua = navigator.userAgent
+      unless /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile|CriOS/i.test(ua)
+        $('.families-table .dataTables_scrollBody').niceScroll
+          scrollspeed: 30
+          cursorwidth: 10
+          cursoropacitymax: 0.4
 
   { init: _init }
