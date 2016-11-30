@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161018070113) do
+ActiveRecord::Schema.define(version: 20161128064447) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,6 +40,13 @@ ActiveRecord::Schema.define(version: 20161018070113) do
   create_table "agencies_clients", force: :cascade do |t|
     t.integer  "client_id"
     t.integer  "agency_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "agency_clients", force: :cascade do |t|
+    t.integer  "agency_id"
+    t.integer  "client_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -170,6 +177,13 @@ ActiveRecord::Schema.define(version: 20161018070113) do
   end
 
   add_index "changelogs", ["user_id"], name: "index_changelogs_on_user_id", using: :btree
+
+  create_table "client_quantitative_cases", force: :cascade do |t|
+    t.integer  "quantitative_case_id"
+    t.integer  "client_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "clients", force: :cascade do |t|
     t.string   "code",                             default: ""

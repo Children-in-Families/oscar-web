@@ -13,8 +13,7 @@ CIF.UsersShow = do ->
         'bSort': false
         'sScrollY': 'auto'
         'bAutoWidth': true
-        'sScrollX': '100%'
-        )
+        'sScrollX': '100%')
     else
       $('.clients-table').addClass('table-responsive')
 

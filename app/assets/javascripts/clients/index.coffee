@@ -12,6 +12,9 @@ CIF.ClientsIndex = do ->
     _handleCreateCaseReport()
     _handleCreateCsiDomainReport()
     _handleScrollTable()
+    _infiniteScroll()
+
+  _infiniteScroll = ->
     $("table.clients .page").infinitescroll
       navSelector: "ul.pagination" # selector for the paged navigation (it will be hidden)
       nextSelector: "ul.pagination a[rel=next]" # selector for the NEXT link (to page 2)
@@ -86,12 +89,6 @@ CIF.ClientsIndex = do ->
         'bAutoWidth': true
         'bSort': false
         'sScrollX': '100%'
-        'sScrollXInner': '100%'
-        # 'oLanguage':
-        # 'sInfo': "(#{sInfoShow} _START_ #{sInfoTo} _END_ #{sInfoTotal} _TOTAL_)"
-        # 'bScrollInfinite': true
-        # 'bScrollCollapse': true
-        'iDisplayLength': 20
         'bInfo': false
         'bLengthChange': false
         'bPaginate': false

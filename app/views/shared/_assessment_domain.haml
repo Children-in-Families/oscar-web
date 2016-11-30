@@ -2,7 +2,7 @@
   %div{ class: "panel panel-#{version_color(version.event)}" }
     .panel-body
       .table-responsive
-        %table.table.table-hover.row
+        %table.table.table-hover
           %tbody
             - version.changeset.each do |k, v|
               - next if version_keys_skipable?(k, version.item_type)

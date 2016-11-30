@@ -104,7 +104,7 @@ class FamilyGrid
     object.cases.non_emergency.active.map { |c| c.client.name if c.client }.join(', ')
   end
 
-  # column(:modification, html: true, class: 'text-center', header: -> { I18n.t('datagrid.columns.families.modification') }) do |object|
-  #   link_to t('datagrid.columns.families.view'), family_version_path(object)
-  # end
+  column(:changelog, html: true, class: 'text-center', header: -> { I18n.t('datagrid.columns.families.changelogs') }) do |object|
+    link_to t('datagrid.columns.families.view'), family_version_path(object)
+  end
 end

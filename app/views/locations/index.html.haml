@@ -14,7 +14,8 @@
               %tr
                 %th= t('.name')
                 %th.text-center{ colspan: '2' }= t('.manage')
-                / %th.text-center= t('.modification')
+                - if current_user.admin?
+                  %th.text-center= t('.changelogs')
             %tbody
               - @locations.each do |location|
                 %tr
@@ -29,8 +30,9 @@
                   %td.text-center
                     = remove_link(location, { location_progress_note: location.progress_notes.count,
                                               location_other: location.other_used})
-                  / %td.text-center
-                  /   = link_to t('.view'), location_version_path(location)
+                  - if current_user.admin?                            
+                    %td.text-center
+                      = link_to t('.view'), location_version_path(location)
                 = render 'form', location: location
       .ibox-footer.text-center
         = paginate @locations

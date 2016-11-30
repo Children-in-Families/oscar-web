@@ -90,7 +90,7 @@ class UserGrid
     render partial: 'users/actions', locals: { object: object }
   end
 
-  # column(:modification, html: true, class: 'text-center', header: -> { I18n.t('datagrid.columns.users.modification') }) do |object|
-  #   link_to t('datagrid.columns.users.view'), user_version_path(object)
-  # end
+  column(:changelog, html: true, class: 'text-center', header: -> { I18n.t('datagrid.columns.users.changelogs') }) do |object|
+    link_to t('datagrid.columns.users.view'), user_version_path(object)
+  end
 end

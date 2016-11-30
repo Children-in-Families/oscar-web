@@ -23,15 +23,11 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
     $('#stage-question table.client-new').dataTable(
       'sScrollY': '500px'
       'sScrollX': true
-      'sScrollXInner': '100%'
       'bPaginate': false
       'bFilter': false
       'bInfo': false
       'bSort': false
-      'sScrollY': '500px'
-      'bAutoWidth': true
-      'sScrollX': '100%'
-      'sScrollXInner': '100%')
+      'bAutoWidth': true)
 
   _arrangeQuestionAndAnswerBlock = ->
     questionsAndAnswers = $('.question_and_answer')

@@ -58,6 +58,8 @@ module VersionHelper
     materials           = ['material_id']
     stages              = ['stage_id']
     currencies          = ['household_income']
+    client_qc           = ['quantitative_case_id']
+    agency_client       = ['agency_id']
 
     if titleizeTexts.include?(k)
       if val == both_val[0]
@@ -107,15 +109,18 @@ module VersionHelper
     elsif domains.include?(k) && val.present?
       obj = Domain.find_by(id: val)
       val = obj.present? ? obj.name : "##{val}"
-    # elsif assessments.include?(k) && val.present?
-    #   obj = Assessment.find_by(id: val)
-    #   val = obj.present? ? date_time_format(obj.created_at) : "##{val}"
+    elsif agency_client.include?(k) && val.present?
+      obj = Agency.find_by(id: val)
+      val = obj.present? ? obj.name : "##{val}"
     elsif progress_note_types.include?(k) && val.present?
       obj = ProgressNoteType.find_by(id: val)
       val = obj.present? ? obj.note_type : "##{val}"
     elsif locations.include?(k) && val.present?
       obj = Location.find_by(id: val)
       val = obj.present? ? obj.name : "##{val}"
+    elsif client_qc.include?(k) && val.present?
+      obj = QuantitativeCase.find_by(id: val)
+      val = obj.present? ? obj.value : "##{val}"
     elsif materials.include?(k) && val.present?
       obj = Material.find_by(id: val)
       val = obj.present? ? obj.status : "##{val}"
@@ -137,7 +142,7 @@ module VersionHelper
   end
 
   def version_not_show(item_type)
-    item_type != "AssessmentDomain" && item_type != "Assessment" && item_type != "CaseNote" && item_type != "CaseNoteDomainGroup"
+    item_type != "AssessmentDomain" && item_type != "Assessment" && item_type != "CaseNote" && item_type != "CaseNoteDomainGroup" && item_type != "AgencyClient" && item_type != "Client" && item_type != "ClientQuantitativeCase"
   end
 
   def version_keys_skipable?(k, item_type = '')

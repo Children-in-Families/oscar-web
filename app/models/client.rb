@@ -19,6 +19,10 @@ class Client < ActiveRecord::Base
   has_many :answers, dependent: :destroy
   has_many :able_screening_questions, through: :answers
   has_many :tasks,          dependent: :destroy
+  has_many :agency_clients
+  has_many :agencies, through: :agency_clients
+  has_many :client_quantitative_cases
+  has_many :quantitative_cases, through: :client_quantitative_cases
 
   accepts_nested_attributes_for :tasks
   accepts_nested_attributes_for :answers
@@ -30,8 +34,8 @@ class Client < ActiveRecord::Base
   has_many :surveys,        dependent: :destroy
   has_many :progress_notes, dependent: :destroy
 
-  has_and_belongs_to_many :agencies
-  has_and_belongs_to_many :quantitative_cases
+  # has_and_belongs_to_many :agencies
+  # has_and_belongs_to_many :quantitative_cases
 
   has_paper_trail
 

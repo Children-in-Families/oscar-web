@@ -66,7 +66,7 @@
       - elsif @client.state == 'accepted'
         .col-xs-12
           - if can? :manage, Case
-            .btn-group.mini-margin
+            .btn-group.small-btn-margin
               %button.btn-xs.btn.btn-primary.dropdown-toggle{"data-toggle" => "dropdown"}
                 = t('.add_client_to_case')
                 %span.caret
@@ -89,30 +89,30 @@
               = render 'exit_case_form', client_case: @client.cases.active.last, exit_from_cif: true
 
           = link_to client_tasks_path(@client) do
-            %span.btn-xs.btn.btn-info.mini-margin
+            %span.btn-xs.btn.btn-info.small-btn-margin
               %strong.count-margin= @client.tasks.incomplete.count
               = t('.view_tasks')
           = link_to client_assessments_path(@client) do
-            %span.btn-xs.btn.btn-info.mini-margin
+            %span.btn-xs.btn.btn-info.small-btn-margin
               %strong.count-margin= @client.assessments.count
               = t('.view_assessments')
           = link_to client_case_notes_path(@client) do
-            %span.btn-xs.btn.btn-info.mini-margin
+            %span.btn-xs.btn.btn-info.small-btn-margin
               %strong.count-margin= @client.case_notes.count
               = t('.view_case_notes')
           = link_to new_client_survey_path(@client) do
-            %span.btn-xs.btn.btn-success.mini-margin= t('.take_survey')
+            %span.btn-xs.btn.btn-success.small-btn-margin= t('.take_survey')
           - if @client.surveys.any?
             = link_to client_surveys_path(@client) do
-              %span.btn-xs.btn.btn-success.mini-margin= t('.survey_history')
+              %span.btn-xs.btn.btn-success.small-btn-margin= t('.survey_history')
           = link_to client_government_reports_path(@client) do
-            %span.btn-xs.btn.btn-success.mini-margin= t('.government_report')
+            %span.btn-xs.btn.btn-success.small-btn-margin= t('.government_report')
           - if @client.has_any_quarterly_reports?
             - if can? :manage, QuarterlyReport
               = link_to client_case_quarterly_reports_path(@client,@client.latest_case) do
-                %span.btn-xs.btn.color-brown.mini-margin= t('.view_legacy_quarterly_reports')
+                %span.btn-xs.btn.color-brown.small-btn-margin= t('.view_legacy_quarterly_reports')
           - if @client.cases.inactive.present?
-            .btn-group.mini-margin
+            .btn-group.small-btn-margin
               %button.btn-xs.btn.btn-warning.dropdown-toggle{"data-toggle" => "dropdown"}
                 = t('.case_history')
                 %span.caret
@@ -131,10 +131,10 @@
                       %span.text-success= t('.view_kc_history_btn_link')
           - if can_manage_client_progress_note?
             = link_to client_progress_notes_path(@client) do
-              %span.btn-xs.btn.btn-warning.mini-margin= t('.progress_note')
+              %span.btn-xs.btn.btn-warning.small-btn-margin= t('.progress_note')
           - if @client.answers.any?
             = link_to '', {"data-target" => "#myModal", "data-toggle" => "modal", :type => "button"} do
-              %span.btn-xs.btn.btn-warning.mini-margin= t('.client_able_answers')
+              %span.btn-xs.btn.btn-warning.small-btn-margin= t('.client_able_answers')
             = render('client_answers')
 
 .row.mini-margin

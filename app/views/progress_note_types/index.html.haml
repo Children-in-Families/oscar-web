@@ -14,7 +14,8 @@
               %tr
                 %th= t('.note_type')
                 %th.text-center{:colspan => "2"}= t('.manage')
-                / %th.text-center= t('.modification')
+                - if current_user.admin?
+                  %th.text-center= t('.changelogs')
             %tbody
               - @progress_note_types.each do |progress_note_type|
                 %tr
@@ -24,8 +25,9 @@
                       = fa_icon('pencil')
                   %td.text-center
                     = remove_link(progress_note_type, { progress_note_type: progress_note_type.progress_notes.count })
-                  / %td.text-center
-                  /   = link_to t('.view'), progress_note_type_version_path(progress_note_type)
+                  - if current_user.admin?
+                    %td.text-center
+                      = link_to t('.view'), progress_note_type_version_path(progress_note_type)
                   = render 'form', progress_note_type: progress_note_type
       .ibox-footer.text-center
         = paginate @progress_note_types
