@@ -38,6 +38,11 @@ module VersionHelper
     is_survey_score_text?(k) ? k : k.titleize
   end
 
+  def version_domain_name(id)
+    ad = AssessmentDomain.find_by(id: id)
+    ad.domain.name if ad.present?
+  end
+
   def version_value_format(val, k = '', both_val = [])
     provinces           = ['birth_province_id', 'province_id']
     referral_sources    = ['referral_source_id']

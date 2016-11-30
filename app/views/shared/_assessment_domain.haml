@@ -11,5 +11,11 @@
                   = version_attribute(k, version.item_type)
                 %td.col-sm-4.truncate
                   = version_value_format(v[0], k, v)
+                  - if k != "created_at" && k != "updated_at" && version.event != "create"
+                    %label{ class: "badge badge-#{version_color(version.event)}"}
+                      = version_domain_name(version.item_id)
                 %td.col-sm-4.truncate
                   = version_value_format(v[1], k, v)
+                  - if k != "created_at" && k != "updated_at" && version.event != "create"
+                    %label{ class: "badge badge-#{version_color(version.event)}"}
+                      = version_domain_name(version.item_id)

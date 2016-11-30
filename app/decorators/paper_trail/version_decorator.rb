@@ -1,4 +1,5 @@
  class PaperTrail::VersionDecorator < Draper::Decorator
+  # delegate :current_page, :total_pages, :limit_value, to: :_source
   delegate_all
 
   def whodunnit

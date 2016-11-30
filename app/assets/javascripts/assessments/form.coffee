@@ -7,6 +7,9 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
     _loadSteps(form)
     _addTasks()
     _postTask()
+    _addElement()
+  _addElement = ->
+    $('.actions.clearfix ul').before("<hr/>")
 
   _formValidate = (form) ->
     $('.score_option input').attr('required','required')

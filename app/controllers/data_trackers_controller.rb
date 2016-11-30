@@ -7,6 +7,6 @@ class DataTrackersController < AdminController
     else
       @versions = PaperTrail::Version.all
     end
-    @versions   = @versions.order(created_at: :desc).decorate
+    @versions   = @versions.order(created_at: :desc).page(params[:page]).per(10)
   end
 end
