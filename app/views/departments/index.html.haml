@@ -33,6 +33,6 @@
                     %td.text-center
                       = link_to t('.view'), department_version_path(department)
                   = render 'form', department: department
-      .ibox-footer
+      .ibox-footer.text-center
         = paginate @departments
 = render 'form'

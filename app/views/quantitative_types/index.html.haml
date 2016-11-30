@@ -28,10 +28,10 @@
                       %td
                         = qc.value
                       - if current_user.admin?
-                        %td.text-center= link_to t('.view_modification'), quantitative_case_version_path(qc)
+                        %td.text-center= link_to t('.view_changelog'), quantitative_case_version_path(qc)
             - if current_user.admin?
               .panel-footer
-                %p= link_to t('.view_modification'), quantitative_type_version_path(qt)
+                %p= link_to t('.view_changelog'), quantitative_type_version_path(qt)
       .ibox-footer
         .text-center
           = paginate @quantitative_types

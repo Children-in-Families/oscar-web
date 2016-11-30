@@ -23,7 +23,7 @@
                 .col-md-3.text-right
                   - if current_user.admin?
                     = link_to domain_version_path(domain), class: 'btn btn-outline btn-success' do
-                      = t('.view')
+                      = t('.changelog')
                   = link_to edit_domain_path(domain), class: 'btn btn-outline btn-success' do
                     = fa_icon('pencil')
                   = remove_link(domain, {domain_task: domain.tasks_count}, 'btn-default')
