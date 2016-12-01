@@ -2,18 +2,16 @@ body[id=case_notes-index] {
   .margin-score {
     display: inline-block;
     font-size: 20px;
-    margin-left: 20px;
+    margin-left: 15px;
+    margin-top: -4px;
   }
-
   .button {
     min-width:100px;
     margin-right: 10px;
   }
-
   .pushing-top {
     margin-top: 15px;
   }
-
   @media screen and(max-width: 450px){
     .case-note-margin{
       margin: 10px 10px 0 5px;

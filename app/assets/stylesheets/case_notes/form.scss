@@ -5,13 +5,17 @@ body[id=case_notes-create] {
   .case_note_meeting_date {
     margin-top: 10px;
   }
+  .bg-color{
+    background-color: #ffffcc;
+  }
   .icheckbox_square-green{
     margin-right: 10px;
   }
   .margin-score {
     display: inline-block;
     font-size: 20px;
-    margin-right: 20px;
+    margin-left: 15px;
+    margin-top: -4px;
   }
   .case-note-margin{
     position: relative;
@@ -20,6 +24,10 @@ body[id=case_notes-create] {
   .btn-form{
     width: 110px;
     margin-right: 5px;
+  }
+  ol li.list-group-item{ 
+    list-style: decimal inside;
+    display: list-item;
   }
   .new_case_note {
     padding-bottom: 20px;

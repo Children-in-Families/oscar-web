@@ -1179,12 +1179,14 @@ en:
     index:
       case_note_lists: Case note lists
       back: Back
+      domain: Domain
       you_need_to_create_assessment: You need to create assessment
       new_case_note: New case note
       case_note_on: Case note on
       present: Present
       completed_tasks: Completed Tasks
     new:
+      label_note: Note
       meeting_detail: Meeting detail
       meeting_with: Meeting with
       on_date: On Date

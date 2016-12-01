@@ -5,8 +5,9 @@
         %h4= t('.survey_title')
       .ibox-content
         %p
-          = t('.user_id')
-          %strong= @client.user.name
+          .well.b-r-md.bg-color
+            = t('.user_id')
+            %strong= @client.user.name
         %table.table.table-bordered
           %thead
             %tr

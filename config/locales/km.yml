@@ -1234,12 +1234,14 @@ km:
     index:
       case_note_lists: បញ្ជីកំណត់ត្រា
       back: ត្រលប់ក្រោយ
+      domain: កត្តា
       you_need_to_create_assessment: ត្រូវបង្កើតការប៉ាន់ប្រមាណជាមុនសិន
       new_case_note: កំណត់ត្រាថ្មី
       case_note_on: កំណត់ត្រានៅថ្ងៃ
       present: វត្តមានឣ្នកចូលរួម
       completed_tasks: កាតព្វកិច្ចដែលបានធ្វើរួច
     new:
+      label_note: ចំណាំ
       meeting_detail: ពត៌មាននៃការប្រជុំ
       meeting_with: ប្រជុំជាមួយ
       on_date: 'ថ្ងៃ ខែ ឆ្នាំ:'

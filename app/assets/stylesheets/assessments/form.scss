@@ -52,8 +52,15 @@ body[id=assessments-create] {
   #rootwizard{
     .content{
       padding-bottom: 270px;
-      margin-bottom: -305px;
+      margin-bottom: -275px;
     }
+  }
+  .tasks-list{
+    margin-top: 16px;
+  }
+  ol li.list-group-item{ 
+    list-style: decimal inside;
+    display: list-item;
   }
   .assessment_assessment_domains_reason {
     margin-top: 5px;
