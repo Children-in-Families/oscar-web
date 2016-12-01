@@ -558,6 +558,8 @@ en:
       sInfoShow: show results from
       sInfoTo: to
       sInfoTotal: of
+      load: Loading more...
+      end: Loading end!
     new:
       new_client_title: New Client
     create:

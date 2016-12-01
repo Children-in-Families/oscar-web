@@ -553,6 +553,8 @@ km:
       sInfoShow: បង្ហាញទិន្នន័យចំនួន
       sInfoTo: ដល់
       sInfoTotal: នៃចំនួនសរុប
+      load: កំពុងផ្ទុក...
+      end: អស់លទ្ធផល!
     create:
       successfully_created: អតិថិជនត្រូវបានបង្កើតឡើងដោយជោគជ័យ
     update:

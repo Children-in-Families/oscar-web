@@ -35,7 +35,7 @@
         %h5= @results
         %span.label.label-info= t('.results')
       .ibox-content
-        .clients-table
+        .clients-table{ data: { 'info-load' => t('.load'), 'info-end' => t('.end') } }
           %table.table.table-bordered.table-striped.table-hover.clients
             %thead
               = datagrid_header(@client_grid)

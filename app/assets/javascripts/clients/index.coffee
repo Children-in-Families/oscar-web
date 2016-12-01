@@ -21,9 +21,9 @@ CIF.ClientsIndex = do ->
       itemSelector: "table.clients tbody tr" # selector for all items you'll retrieve
       loading: {
         img: 'http://i.imgur.com/qkKy8.gif'
-        msgText: '<em>Loading clients...</em>'
+        msgText: $('.clients-table').data('info-load')
       }
-      donetext: "<em>You've reached the end.</em>"
+      donetext: $('.clients-table').data('info-end')
       binder: $('.clients-table .dataTables_scrollBody')
 
   _handleCreateCsiDomainReport = ->
