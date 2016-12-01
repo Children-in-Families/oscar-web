@@ -52,7 +52,7 @@
   }
 
   .table.clients {
-    th.slug, th.code {
+    th.slug, th.code, th.family_id {
       min-width: 150px;
     }
     th, td.gender, td.status, td.follow_up_date, td.date_of_birth, td.grade, td.has_been_in_orphanage, td.has_been_in_government_care, td.initial_referral_date, td.referral_phone, td.able, td.birth_province, td.province, td.state, td.case_start_date, td.carer_phone_number td.support_amount, td.family_preservation {
@@ -62,9 +62,7 @@
     th.name, th.gender, th.status, th.able_state, th.family, th.partner, th.manage, th.any_assessments {
       min-width: 230px;
     }
-    th.family_id {
-      min-width: 130px;
-    }
+
     th.status {
       min-width: 170px;
     }
@@ -72,24 +70,31 @@
       min-width: 100px;
     }
 
-    th.age, th.follow_up_date, th.received_by, th.followed_up_by, th.date_of_birth, th.school_name, th.grade, th.referral_phone, th.referral_source, th.birth_province, th.province, th.rejected_note, th.case_start_date, th.carer_names, th.carer_address, th.support_amount, th.support_note, th.state, th.cases {
-      min-width: 200px;
+    th.has_been_in_orphanage, th.age, th.follow_up_date, th.received_by, th.followed_up_by, th.date_of_birth, th.school_name, th.grade, th.referral_phone, th.referral_source, th.birth_province, th.province, th.rejected_note, th.case_start_date, th.carer_names, th.carer_address, th.support_amount, th.support_note, th.state, th.cases {
+      min-width: 250px;
     }
 
-    th.has_been_in_orphanage, th.family_preservation {
+    th.family_preservation {
       min-width: 230px;
     }
 
     th.has_been_in_government_care, th.carer_phone_number {
-      min-width: 250px;
+      min-width: 300px;
     }
 
     th.relevant_referral_information {
-      min-width: 310px;
+      min-width: 350px;
     }
 
-    th.current_address, th.initial_referral_date, th.user, th.agency {
+    th.initial_referral_date {
+      min-width: 200px;
+    }
+
+    th.current_address, th.user, th.agency {
       min-width: 180px;
+    }
+    th.changelog {
+      min-width: 120px;
     }
   }
   table.clients {
@@ -104,5 +109,9 @@
 
   .reason_for_family_separation, .history_of_high_risk_behaviours, .history_of_harm, .history_of_disability_and_or_illness {
     min-width: 400px;
+  }
+
+  .tooltip-demo {
+    margin: 2px 0;
   }
 }

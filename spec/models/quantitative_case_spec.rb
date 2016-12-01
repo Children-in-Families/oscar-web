@@ -1,6 +1,8 @@
 describe QuantitativeCase, 'associations' do
   it { is_expected.to belong_to(:quantitative_type)}
-  it { is_expected.to have_and_belong_to_many(:clients)}
+
+  it { is_expected.to have_many(:client_quantitative_cases) }
+  it { is_expected.to have_many(:clients).through(:client_quantitative_cases) }
 end
 
 describe QuantitativeCase, 'validations' do

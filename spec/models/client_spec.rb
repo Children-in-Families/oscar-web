@@ -18,9 +18,11 @@ describe Client, 'associations' do
   it { is_expected.to have_many(:answers) }
   it { is_expected.to have_many(:able_screening_questions).through(:answers) }
 
-  it { is_expected.to have_and_belong_to_many(:agencies) }
-  it { is_expected.to have_and_belong_to_many(:quantitative_cases) }
+  it { is_expected.to have_many(:agency_clients) }
+  it { is_expected.to have_many(:agencies).through(:agency_clients) }
 
+  it { is_expected.to have_many(:client_quantitative_cases) }
+  it { is_expected.to have_many(:quantitative_cases).through(:client_quantitative_cases) }
 end
 
 # describe Client, 'paper trail' do

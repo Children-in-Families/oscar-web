@@ -58,7 +58,7 @@ describe 'Changelog' do
         click_button I18n.t('changelogs.form.save')
       end
       sleep 1
-      expect(page).to have_content('Failed to create a changelog.')
+      expect(page).to have_content('Failed to create a releaselog.')
     end
   end
 
@@ -86,7 +86,7 @@ describe 'Changelog' do
         click_button I18n.t('changelogs.form.save')
       end
       sleep 1
-      expect(page).to have_content('Failed to update a changelog.')
+      expect(page).to have_content('Failed to update a releaselog.')
     end
   end
 

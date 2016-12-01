@@ -1,5 +1,6 @@
 describe Agency, 'associations' do
-  it { is_expected.to have_and_belong_to_many(:clients)}
+  it { is_expected.to have_many(:agency_clients) }
+  it { is_expected.to have_many(:clients).through(:agency_clients)}
 end
 
 describe Agency, 'validations' do
