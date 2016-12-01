@@ -3,7 +3,6 @@ class QuantitativeCase < ActiveRecord::Base
 
   belongs_to :quantitative_type, counter_cache: true
 
-  # has_and_belongs_to_many :clients
   has_many :client_quantitative_cases
   has_many :clients, through: :client_quantitative_cases
 
