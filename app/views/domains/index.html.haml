@@ -21,7 +21,7 @@
                     %label{class: "label label-#{domain.score_2_color}"}= "#{t('.score_2')}"
                     %label{class: "label label-#{domain.score_3_color}"}= "#{t('.score_3')}"
                     %label{class: "label label-#{domain.score_4_color}"}= "#{t('.score_4')}"
-                .col-md-3.text-right
+                .col-md-3.text-right.actions
                   - if current_user.admin?
                     = link_to domain_version_path(domain), class: 'btn btn-outline btn-success' do
                       = t('.changelog')

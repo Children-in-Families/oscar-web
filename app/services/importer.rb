@@ -27,6 +27,7 @@ module Importer
         provinces        = Province.order(:id)
         partners         = Partner.order(:id)
 
+        # this is bad if ids are not in order
         user_id            = rand(users.first.id..users.last.id)
         family_id          = rand(families.first.id..families.last.id)
         referral_source_id = rand(referral_sources.first.id..referral_sources.last.id)

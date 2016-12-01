@@ -59,6 +59,10 @@ body[id='changelogs-index'] {
     margin-top: 10px;
   }
 
+  .actions a {
+    margin-left: 4px;
+  }
+
   @media (min-width: 768px) {
     .view-modification {
       float: right;

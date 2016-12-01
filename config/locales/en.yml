@@ -394,7 +394,7 @@ en:
         has_dob: 'Yes'
         no_dob: 'No'
         case_type: Case Type
-        changelogs: changelog
+        changelogs: Changelog
         view: View
 
       progress_notes:
@@ -437,7 +437,7 @@ en:
         male: Male
         female: Female
         total: Total
-        changelogs: changelog
+        changelogs: Changelog
         view: View
 
       partners:
@@ -445,13 +445,13 @@ en:
         type: Type
         manage: Manage
         partner: Partner
-        changelogs: changelog
+        changelogs: Changelog
         view: View
       users:
         <<: *default_user_fields
         name: Name
         manage: Manage
-        changelogs: changelog
+        changelogs: Changelog
         view: View
       quarterly_reports:
         visit_date: Date Of Visit
