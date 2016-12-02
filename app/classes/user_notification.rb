@@ -9,7 +9,7 @@ class UserNotification
   end
 
   def any_overdue_tasks?
-    overdue_tasks_count.positive?
+    overdue_tasks_count >= 1
   end
 
   def due_today_tasks_count
@@ -17,7 +17,7 @@ class UserNotification
   end
 
   def any_due_today_tasks?
-    due_today_tasks_count.positive?
+    due_today_tasks_count >= 1
   end
 
   def overdue_assessments_count
@@ -25,7 +25,7 @@ class UserNotification
   end
 
   def any_overdue_assessments?
-    overdue_assessments_count.positive?
+    overdue_assessments_count >= 1
   end
 
   def due_today_assessments_count
@@ -33,7 +33,7 @@ class UserNotification
   end
 
   def any_due_today_assessments?
-    due_today_assessments_count.positive?
+    due_today_assessments_count >= 1
   end
 
   def count
