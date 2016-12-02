@@ -16,7 +16,7 @@
         %h4
           %strong= t('.first_response_form')
         %p= "(#{t('.for_children_who_are_in_danger')})"
-        
+
       .col-xs-12.col-md-4.form-group.date.optional.initial_date
         %label.date.optional.control-label{ for: 'initial_date' }= t('.initial_date')
         .input-group.date.form-group
@@ -56,7 +56,7 @@
       .col-xs-12.col-md-4.form-group= f.input :carer_capital, disabled: true, label: t('.capital')
       .col-xs-12.col-md-4.form-group= f.input :carer_phone_number, disabled: true, label: t('.phone_number')
       .col-xs-12.col-md-4.form-group.date.optional.case_information_date
-        %label.date.optional.control-label.long-phrase{ for: 'case_information_date' }= t('.case_information_date')
+        %label.date.optional.control-label{ for: 'case_information_date' }= t('.case_information_date')
         .input-group.date.form-group.case-info-date
           = f.text_field :client_initial_referral_date, disabled: true, class: 'date optional form-control date-picker', type: 'text'
           %span.input-group-addon
