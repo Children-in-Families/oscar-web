@@ -62,7 +62,6 @@ body[id=government_reports-update] {
       margin-bottom: 40px;
     }
   }
-
   .long-phrase {
     display: inline-block;
     max-width: 100px;
@@ -70,7 +69,6 @@ body[id=government_reports-update] {
   .icheckbox_square-green{
     margin-right: 10px;
   }
-
   .form-group {
     padding-right: 0;
     margin-bottom: 10px;
@@ -94,7 +92,6 @@ body[id=government_reports-update] {
       }
     }
   }
-
   label.disabled.control-label{
     color: #999a9b !important;
   }
@@ -112,14 +109,12 @@ body[id=government_reports-update] {
       display: table-cell;
     }
   }
-
   .government_report_quantitative_cases {
     display: block;
     span {
       display: block;
     }
   }
-
   .government_report_client_living_with_guardian, .government_report_mission_obtainable {
     span.radio {
       margin-right: 20px;
@@ -128,41 +123,33 @@ body[id=government_reports-update] {
       min-width: auto;
     }
   }
-
   .copy {
     margin-top: 40px;
     p {
       margin-left: 20px;
     }
   }
-
   .input-group.date {
     margin-left: -3px;
   }
-
   table.child-situation-needs {
     td {
       padding: 2px 5px;
     }
   }
-
   // input.gender {
   //   margin-left: 10px;
   // }
-
   ul {
     list-style: none;
   }
-
   .done-date, .agreed-date {
     display: table;
     width: 100%;
   }
-
   .bottom-border {
     border-bottom: 1px solid #000;
   }
-
   .cell {
     display: table-cell;
     width: 10%;

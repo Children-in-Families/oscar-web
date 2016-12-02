@@ -5,12 +5,17 @@ body[id='quantitative_types-index'] {
   small a {
     padding: 0 5px;
   }
-
   .modification {
     min-width: 100px;
   }
-
+  .btn-no-label{
+    margin-top: 5px;
+  }
   .actions a {
     margin-left: 4px;
+  }
+  .modal-body{
+    max-height: 450px;
+    overflow-y: auto;
   }
 }

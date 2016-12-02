@@ -22,14 +22,14 @@
                 .col-xs-6.text-right
                   %span.badge= t('.question', count: @non_stage_question.count)
             .panel-collapse.collapse.in{"aria-labelledby" => "heading-zero", :role => "tabpanel", id: "collapse-zero"}
-              .panel-body
-                - @non_stage_question.each do |able_question|
-                  .row
-                    .col-xs-10
-                      %p= able_question.question
-                    .col-xs-2.text-right
-                      = link_to edit_able_screening_question_url(able_question), class: 'btn btn-outline btn-success btn-xs' do
-                        %span.glyphicon.glyphicon-pencil
+              .panel-body.no-padding
+                %ul.list-group
+                  - @non_stage_question.each do |able_question|
+                    %li.list-group-item.stage-list
+                      = able_question.question
+                      .pull-right
+                        = link_to edit_able_screening_question_url(able_question), class: 'btn btn-outline btn-success btn-xs' do
+                          %i.fa.fa-pencil
 
         - @stages.each do |stage|
           .panel-group{"aria-multiselectable" => "true", :role => "tablist"}
@@ -45,11 +45,7 @@
                       = fa_icon('pencil')
                     %span.badge= t('.question', count: stage.able_screening_questions.count)
               .panel-collapse.collapse.in{"aria-labelledby" => "heading-no#{stage.id}", :role => "tabpanel", id: "collapse-#{stage.id}"}
-                .panel-body
-                  - stage.able_screening_questions.each do |able_question|
-                    .row
-                      .col-xs-10
-                        %p= able_question.question
-                      .col-xs-2.text-right.hidden
-                        = link_to edit_stage_path(stage) do
-                          %span.glyphicon.glyphicon-pencil
+                .panel-body.no-padding
+                  %ul.list-group
+                    - stage.able_screening_questions.each do |able_question|
+                      %li.list-group-item.stage-list= able_question.question
