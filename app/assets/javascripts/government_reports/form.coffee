@@ -13,9 +13,9 @@ CIF.Government_reportsNew = CIF.Government_reportsCreate = CIF.Government_report
       $('#mission-checked').find("input[type='hidden']").removeAttr('disabled')
     noneObtainable.on 'ifChecked', ->
       missions.prop('disabled', true)
+      missions.prop('checked', false)
       $('#mission-checked').find('div').addClass('disabled')
-      $('#mission-checked').find("input[type='hidden']").attr('disabled', 'disabled')
-
+      $('#mission-checked').find('div').removeClass('checked')
   _removeDisabledClass = ->
     $('.missions input.disabled').removeClass('disabled')
 
