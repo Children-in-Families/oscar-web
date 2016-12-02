@@ -27,7 +27,7 @@ class Dashboard
 
   def family_type_statistic
     [{ name: 'Foster', y: foster_count, url: families_path("family_grid[family_type]":"foster") },
-     { name: 'kinship', y: kinship_count, url: families_path("family_grid[family_type]":"kinship") }]
+     { name: 'Kinship', y: kinship_count, url: families_path("family_grid[family_type]":"kinship") }]
   end
 
   def client_count

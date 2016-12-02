@@ -12,7 +12,7 @@
                 %label.label.label-success= "#{t('.domain')} #{domain.name}"
                 .ibox-tools
                   = link_to client_assessments_path(@client) do
-                    .btn.btn-outline.btn-success.button
+                    .btn.btn-default.btn-back-default.button
                       = t('.back')
               .ibox-content
                 = ad.hidden_field :domain_id
@@ -32,7 +32,7 @@
                       = t('.tasks_arising')
                     %ol.tasks-list{ type: '1'}
                 .form-group
-                  %button.assessment-task-btn.hidden.btn.btn-default.pull-right{type: 'button', 'data-target' => "#tasksFromModal", 'data-toggle' => 'modal', 'data-domain-id': "#{domain.id}"}
+                  %button.assessment-task-btn.hidden.btn.btn-primary.pull-right{type: 'button', 'data-target' => "#tasksFromModal", 'data-toggle' => 'modal', 'data-domain-id': "#{domain.id}"}
                     = t('.add_task')
 
 = render 'add_task_form'

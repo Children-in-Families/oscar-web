@@ -18,9 +18,9 @@
                 %td= @government_report.code
                 %td= @government_report.initial_date
                 %td.action.text-center
-                  = link_to client_government_report_path(@government_report.client, @government_report, format: :pdf), class: 'btn btn-outline btn-success btn-xs' do
+                  = link_to client_government_report_path(@government_report.client, @government_report, format: :pdf), class: 'btn btn-outline btn-success btn-xs margin-left' do
                     = fa_icon('download')
-                  = link_to edit_client_government_report_path(@government_report.client, @government_report), class: 'btn btn-outline btn-success btn-xs' do
+                  = link_to edit_client_government_report_path(@government_report.client, @government_report), class: 'btn btn-outline btn-success btn-xs margin-left' do
                     = fa_icon('pencil')
-                  = link_to client_government_report_path(@client, @government_report), method: :delete, data: { confirm: t('.are_you_sure_you_want_to_delete') }, class: 'btn btn-outline btn-danger btn-xs' do
+                  = link_to client_government_report_path(@client, @government_report), method: :delete, data: { confirm: t('.are_you_sure_you_want_to_delete') }, class: 'btn btn-outline btn-danger btn-xs margin-left' do
                     = fa_icon('trash')

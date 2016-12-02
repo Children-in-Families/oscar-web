@@ -38,8 +38,9 @@ class CIF.ReportCreator
       $('.highcharts-credits').css('display', 'none')
 
   pieChart: ->
+    [green, blue, africa, brown, yellow] = ["#59b260", "#5096c9", "#1c8781", "#B2912F", "#DECF3F"]
     $(@element).highcharts
-      colors: ['#01a301', '#037d82', '#038fa8', '#DDDF00', '#24CBE5']
+      colors: [ green, blue, africa, brown, yellow]
       chart:
         height: 380
         backgroundColor: '#ecf0f1'
@@ -52,7 +53,11 @@ class CIF.ReportCreator
         itemStyle:
            fontSize: '15px'
       title: text: ''
-      tooltip: pointFormat: '{series.name}: <b>{point.y}</b>'
+      tooltip: 
+        formatter: -> 
+          @point.name + ": " + "<b>" + @point.y + "</b>"
+        style:
+          fontSize: '15px'
       plotOptions: pie:
         size:'100%'
         data: @data
@@ -62,7 +67,6 @@ class CIF.ReportCreator
         point: events: click: ->
           location.href = @options.url
       series: [ {
-        name: 'Counts'
         borderWidth: 0
         dataLabels:
           distance: -30

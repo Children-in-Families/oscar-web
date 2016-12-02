@@ -42,7 +42,7 @@ CIF.Case_notesNew = do ->
     element        = undefined
     deleteUrl      = "#{actionUrl}/#{data.id}"
 
-    element        = "<li style='padding-bottom: 5px;'>#{data.name}<a class='pull-right remove-task fa fa-trash btn btn-outline btn-danger btn-xs' style='margin: 0;' href='javascript:void(0)' data-url='#{deleteUrl}'></a></li>"
+    element        = "<li class='list-group-item' style='padding-bottom: 11px;'>#{data.name}<a class='pull-right remove-task fa fa-trash btn btn-outline btn-danger btn-xs' style='margin: 0;' href='javascript:void(0)' data-url='#{deleteUrl}'></a></li>"
 
     if $(".task-domain-#{data.domain_id}").hasClass('hidden')
       $(".task-domain-#{data.domain_id}").removeClass('hidden')

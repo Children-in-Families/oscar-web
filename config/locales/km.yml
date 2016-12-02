@@ -137,7 +137,7 @@ km:
     sexual_abuse: រងការបំពានផ្លូវភេទ
     emotional_abuse: រងការបំពានផ្លូវចិត្ត
     child_exploitation: រងការកេងប្រវ័ញ្ចកុមារ
-    exessive_child_labour: រងពលកម្មធ្ងន់ធ្ងរ
+    excessive_child_labour: រងពលកម្មធ្ងន់ធ្ងរ
     family_violence: រងអំពើហិង្សាក្នុងគ្រួសារ
     experience_with_trafficking: រងគ្រោះដោយសារការជួញដូរ
     danger_of_trafficking: ប្រឈមការជួញដូរ
@@ -147,8 +147,8 @@ km:
     parent_carer_ill_origin: ឪពុកម្តាយ/ឪពុក/ម្តាយ/អ្នកអាណាព្យាបាលមានជំងឺ
     parent_carer_ill: ឪពុកម្តាយ/ឪពុក/ម្តាយ/អ្នកអាណាព្យាបាល មានជំងឺ
     child_ill: កុមារមានជំងឺ
-    parent_carer_disabled: ឪពុកម្តាយឬឪពុក ឬម្តាយមានពិការភាព
-    child_disabled: កុមារពិការ
+    parent_carer_disabled: ឪពុកម្ដាយ/ឪពុក/ម្ដាយ/ឣ្នកឣាណាព្យាបាលមានពិការភាព
+    child_disabled: កុមារមានពិការភាព
     child_hiv_aids: កុមារផ្ទុកមេរោគ/មានជំងឺអេដស៏
     parent_carer_hiv_aids_origin: ឪពុកម្តាយ/ឪពុក/ម្តាយ/អ្នកអាណាព្យាបាលផ្ទុកមេរោគ/មានជំងឺអេដស៏
     parent_carer_hiv_aids: ឪពុកម្តាយ/ឪពុក/ម្តាយ/អ្នកអាណាព្យាបាល ផ្ទុកមេរោគ/មានជំងឺអេដស៏
@@ -1236,12 +1236,14 @@ km:
     index:
       case_note_lists: បញ្ជីកំណត់ត្រា
       back: ត្រលប់ក្រោយ
+      domain: កត្តា
       you_need_to_create_assessment: ត្រូវបង្កើតការប៉ាន់ប្រមាណជាមុនសិន
       new_case_note: កំណត់ត្រាថ្មី
       case_note_on: កំណត់ត្រានៅថ្ងៃ
       present: វត្តមានឣ្នកចូលរួម
       completed_tasks: កាតព្វកិច្ចដែលបានធ្វើរួច
     new:
+      label_note: ចំណាំ
       meeting_detail: ពត៌មាននៃការប្រជុំ
       meeting_with: ប្រជុំជាមួយ
       on_date: 'ថ្ងៃ ខែ ឆ្នាំ:'

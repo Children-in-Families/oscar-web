@@ -5,67 +5,58 @@
         .panel-body
           = render 'filter'
     - if params[:user_id] || current_user.case_worker? || current_user.any_case_manager? || current_user.able_manager?
-      %h4.text-center= "#{t('.tasks_of')} #{@user.first_name}" if @user
-      .panel.panel-danger
-        .panel-heading
-          %h5= t('.overdue_tasks')
-        .panel-body
-          .row
-            .col-xs-12
+      .ibox
+        .ibox-title
+          %h5= "#{t('.tasks_of')} #{@user.first_name}" if @user
+        .ibox-content
+          .panel.panel-danger
+            .panel-heading
+              %h5= t('.overdue_tasks')
+            .panel-body
               - grouped_tasks = @tasks.overdue.group_by do |task|
                 - task.client
               - grouped_tasks.each do |client, tasks|
-                .panel.panel-success
-                  .panel-heading
+                .ibox.border-left-right.border-bottom
+                  .ibox-title
                     %h5= client.name
-                  .panel-body
-                    .row
-                      .col-xs-12
-                        %table.table.table-bordered
-                          - tasks.each do |task|
-                            %tr
-                              %td= "#{t('.domain')} #{task.domain.name}"
-                              %td.task-name= task.name
-                              %td= task.completion_date.strftime("%B %d, %Y")
-      .panel.panel-primary
-        .panel-heading
-          %h5= t('.todays_tasks')
-        .panel-body
-          .row
-            .col-xs-12
+                  .ibox-content.no-padding
+                    %table.table
+                      - tasks.each do |task|
+                        %tr
+                          %td= "#{t('.domain')} #{task.domain.name}"
+                          %td.task-name.border-left-right= task.name
+                          %td= task.completion_date.strftime("%B %d, %Y")
+          .panel.panel-primary
+            .panel-heading
+              %h5= t('.todays_tasks')
+            .panel-body
               - grouped_tasks = @tasks.today.group_by do |task|
                 - task.client
               - grouped_tasks.each do |client, tasks|
-                .panel.panel-success
-                  .panel-heading
+                .ibox.border-left-right.border-bottom
+                  .ibox-title
                     %h5= client.name
-                  .panel-body
-                    .row
-                      .col-xs-12
-                        %table.table.table-bordered
-                          - tasks.each do |task|
-                            %tr
-                              %td= "#{t('.domain')} #{task.domain.name}"
-                              %td.task-name= task.name
-                              %td= task.completion_date.strftime("%B %d, %Y")
-      .panel.panel-warning
-        .panel-heading
-          %h5= t('.upcoming_tasks')
-        .panel-body
-          .row
-            .col-xs-12
+                  .ibox-content.no-padding
+                    %table.table
+                      - tasks.each do |task|
+                        %tr
+                          %td= "#{t('.domain')} #{task.domain.name}"
+                          %td.task-name.border-left-right= task.name
+                          %td= task.completion_date.strftime("%B %d, %Y")
+          .panel.panel-warning
+            .panel-heading
+              %h5= t('.upcoming_tasks')
+            .panel-body
               - grouped_tasks = @tasks.upcoming.group_by do |task|
                 - task.client
               - grouped_tasks.each do |client, tasks|
-                .panel.panel-success
-                  .panel-heading
+                .ibox.border-left-right.border-bottom
+                  .ibox-title
                     %h5= client.name
-                  .panel-body
-                    .row
-                      .col-xs-12
-                        %table.table.table-bordered
-                          - tasks.each do |task|
-                            %tr
-                              %td= "#{t('.domain')} #{task.domain.name}"
-                              %td.task-name= task.name
-                              %td= task.completion_date.strftime("%B %d, %Y")
+                  .ibox-content.no-padding
+                    %table.table
+                      - tasks.each do |task|
+                        %tr
+                          %td= "#{t('.domain')} #{task.domain.name}"
+                          %td.task-name.border-left-right= task.name
+                          %td= task.completion_date.strftime("%B %d, %Y")

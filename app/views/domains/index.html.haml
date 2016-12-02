@@ -14,7 +14,7 @@
             .panel-heading
               .row
                 .col-md-9
-                  %h4
+                  %h3
                     = "#{t('.domains')} : #{domain.name} (#{domain.identity})"
                   %h5
                     %label{class: "label label-#{domain.score_1_color}"}= "#{t('.score_1')}"
@@ -23,11 +23,11 @@
                     %label{class: "label label-#{domain.score_4_color}"}= "#{t('.score_4')}"
                 .col-md-3.text-right.actions
                   - if current_user.admin?
-                    = link_to domain_version_path(domain), class: 'btn btn-outline btn-success' do
+                    = link_to domain_version_path(domain), class: 'btn btn-outline btn-success margin-left' do
                       = t('.changelog')
-                  = link_to edit_domain_path(domain), class: 'btn btn-outline btn-success' do
+                  = link_to edit_domain_path(domain), class: 'btn btn-outline btn-success margin-left' do
                     = fa_icon('pencil')
-                  = remove_link(domain, {domain_task: domain.tasks_count}, 'btn-default')
+                  = remove_link(domain, {domain_task: domain.tasks_count}, 'margin-left')
             .panel-body
               %p= domain.description.html_safe
       .ibox-footer.text-center

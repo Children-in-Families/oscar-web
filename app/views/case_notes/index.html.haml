@@ -17,35 +17,37 @@
               %h4.pull-right
                 = t('.case_note_on')
                 = case_note.meeting_date.strftime('%B %d, %Y') if case_note.meeting_date
-              %h4= "#{t('.present')}: #{case_note.attendee}"
+              %h3= "#{t('.present')}: #{case_note.attendee}"
             .panel-body
-              .row
-                .col-xs-12
-                  - case_note.case_note_domain_groups.each do |cdg|
-                    .panel.panel-default
-                      .panel-body
-                        .row
-                          .col-xs-4.col-md-3
-                            %p= cdg.domain_group.domain_identities
-                            - cdg.domain_group.domains.each do |domain|
-                              - ad = domain.assessment_domains.find_by(assessment_id: case_note.assessment_id)
-                              %div.margin-score.label{class: "label-#{ad.score_color_class} label-lg"}= ad.score
-                          .col-xs-8.col-md-9
-                            - if cdg.note.present?
-                              .ibox.border-left-right.border-bottom
-                                .ibox-title
-                                  %h5 Notes:
-                                .ibox-content
-                                  = cdg.note
-                            - if cdg.tasks.completed.any?
-                              .ibox.border-left-right.border-bottom
-                                .ibox-title
-                                  %h5= t('.completed_tasks')
-                                .ibox-content
-                                  - cdg.tasks.completed.each_with_index do |task, index|
-                                    .task
-                                      %span= "#{index + 1}. "
-                                      = task.name
-.row
-  .col-xs-12.text-center
-    = paginate @case_notes
+              - case_note.case_note_domain_groups.each do |cdg|
+                .ibox.border-left-right.border-bottom
+                  .ibox-title
+                    %h5= cdg.domain_group.domain_identities
+                    .ibox-tools
+                      - cdg.domain_group.domains.each do |domain|
+                        - ad = domain.assessment_domains.find_by(assessment_id: case_note.assessment_id)
+                        %a.collapse-link
+                          %label.margin-score{class: "label label-#{ad.score_color_class} label-lg"}= ad.score
+                  .ibox-content
+                    .row
+                      - if cdg.note.present?
+                        .col-xs-12{ class: ("col-md-6" if cdg.tasks.completed.any?)}
+                          .panel.panel-default
+                            .panel-heading
+                              %h4 Notes
+                            .panel-body
+                              = cdg.note
+                      - if cdg.tasks.completed.any?
+                        .col-xs-12{ class: ("col-md-6" if cdg.note.present?)}
+                          .panel.panel-default
+                            .panel-heading
+                              %h4= t('.completed_tasks')
+                            .panel-body.no-padding
+                              %ul.list-group
+                                - cdg.tasks.completed.each_with_index do |task, index|
+                                  %li.list-group-item
+                                    = "#{index + 1}. "
+                                    = task.name                 
+      .ibox-footer
+        .text-center
+          = paginate @case_notes
