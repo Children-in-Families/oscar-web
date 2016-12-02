@@ -1,6 +1,6 @@
 %tr
   - grid.html_columns(*options[:columns]).each do |column|
-    - next if column.header == 'Changelog' && !current_user.admin?
+    - next if column.header == t('.changelog') && !current_user.admin?
     %th{class: datagrid_column_classes(grid, column)}
       = column.header
       = datagrid_order_for(grid, column, options) if column.supports_order? && options[:order]

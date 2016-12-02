@@ -360,6 +360,10 @@ km:
       <<: *default_survey_fields
 
   datagrid:
+    head:
+      changelog: កំណែប្រែ
+    row:
+      changelog: កំណែប្រែ
     no_results: មិនមានលទ្ធផល
     from: ចាប់ពី
     to: ដល់

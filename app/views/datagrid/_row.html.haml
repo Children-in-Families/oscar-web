@@ -1,6 +1,6 @@
 %tr{class: options[:cycle] && cycle(*options[:cycle])}
   - grid.html_columns(*options[:columns]).each do |column|
-    - next if column.header == 'Changelog' && !current_user.admin?
+    - next if column.header == t('.changelog') && !current_user.admin?
     - col = datagrid_column_classes(grid, column)
     - if col == 'history_of_disability_and_or_illness' || col == 'history_of_harm' || col ==  'history_of_high_risk_behaviours' || col == 'reason_for_family_separation'
       %td{ class: col }

@@ -362,6 +362,10 @@ en:
       <<: *default_survey_fields
 
   datagrid:
+    head:
+      changelog: Changelog
+    row:
+      changelog: Changelog
     no_results: No results found
     from: From
     to: To
