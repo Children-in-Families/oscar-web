@@ -12,7 +12,7 @@ CIF.ClientsIndex = do ->
     _handleCreateCaseReport()
     _handleCreateCsiDomainReport()
     _handleScrollTable()
-    _infiniteScroll()
+    # _infiniteScroll()
 
   _infiniteScroll = ->
     $("table.clients .page").infinitescroll

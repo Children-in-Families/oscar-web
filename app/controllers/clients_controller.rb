@@ -25,9 +25,9 @@ class ClientsController < AdminController
 
         send_data @client_grid.to_xls, filename: "client_report-#{Time.now}.xls"
       end
-      f.js do
-        @client_grid.scope { |scope| scope.accessible_by(current_ability).page(params[:page]).per(20) }
-      end
+      # f.js do
+      #   @client_grid.scope { |scope| scope.accessible_by(current_ability).page(params[:page]).per(20) }
+      # end
     end
   end
 
