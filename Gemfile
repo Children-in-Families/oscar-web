@@ -49,6 +49,7 @@ gem 'mini_magick',            '~> 4.5'
 gem 'chartkick',              '~> 2.0', '>= 2.0.2'
 gem 'font-awesome-rails',     '~> 4.7'
 gem 'spreadsheet',            '~> 1.1.3'
+gem 'apartment',              '~> 1.2'
 
 group :development, :test do
   gem 'pry'

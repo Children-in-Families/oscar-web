@@ -4,6 +4,7 @@ default: &default
   # username: <%= ENV['DATABASE_USER'] %>
   # password: <%= ENV['DATABASE_PASSWORD'] %>
   pool: 5
+  schema_search_path: "cif,nso,public,shared_extensions"
 
 development:
   <<: *default
