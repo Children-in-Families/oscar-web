@@ -14,7 +14,7 @@ namespace :db do
   task :update_search_path => :environment do
     cmd = nil
     with_config do |app, host, db, user|
-      cmd = "sed 's/SET search_path =/SET search_path to public,/' < #{Rails.root}/db/#{app}_#{Rails.env}_pg.dump > #{Rails.root}/db/#{app}_#{Rails.env}_updated_path_pg.dump"
+      cmd = "sed 's/SET search_path =/SET search_path to cif,/' < #{Rails.root}/db/#{app}_#{Rails.env}_pg.dump > #{Rails.root}/db/#{app}_#{Rails.env}_updated_path_pg.dump"
     end
     puts cmd
     exec cmd
