@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 RSpec.describe Api::V1::AssessmentsController, type: :request do
+
+  let!(:cif_organization) { Organization.create_and_build_tanent(short_name: 'testing', full_name: 'Testing') }
   let(:user) { create(:user) }
   let!(:client) { create(:client, user: user) }
   let!(:domain) { create(:domain) }

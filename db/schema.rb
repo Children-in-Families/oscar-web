@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161128064447) do
+ActiveRecord::Schema.define(version: 20161207093338) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -385,6 +385,14 @@ ActiveRecord::Schema.define(version: 20161128064447) do
     t.string   "status",     default: ""
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "organizations", force: :cascade do |t|
+    t.string   "full_name"
+    t.string   "short_name"
+    t.string   "logo"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "partners", force: :cascade do |t|
@@ -776,9 +784,11 @@ ActiveRecord::Schema.define(version: 20161128064447) do
     t.json     "tokens"
     t.boolean  "admin",                  default: false
     t.integer  "changelogs_count",       default: 0
+    t.integer  "organization_id"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["organization_id"], name: "index_users_on_organization_id", using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   create_table "version_associations", force: :cascade do |t|
@@ -829,4 +839,5 @@ ActiveRecord::Schema.define(version: 20161128064447) do
   add_foreign_key "tasks", "clients"
   add_foreign_key "thredded_messageboard_users", "thredded_messageboards"
   add_foreign_key "thredded_messageboard_users", "thredded_user_details"
+  add_foreign_key "users", "organizations"
 end

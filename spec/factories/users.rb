@@ -6,5 +6,7 @@ FactoryGirl.define do
     password '12345678'
     password_confirmation '12345678'
     roles 'case worker'
+
+    association :organization, factory: :organization
   end
 end

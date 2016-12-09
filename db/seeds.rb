@@ -18,9 +18,18 @@ QUESTION_GROUPS = {
                 language_skill: 'ជំនាញនៃភាសា', hearing: 'ការស្តាប់ឮ', vision: 'ការមើលឃើញ',
                 fine_motor: 'ចលនាតូច',  gross_motor: 'ចលនាធំ', self_care: 'ការថែរក្សាខ្លួន'
               }
+LOGO = File.open('cif-logo.png')
+ORGANIZATIONS = [
+            { full_name: 'Children In Family', short_name: 'cif', logo: LOGO },
+            { full_name: 'New Smile', short_name: 'new-smile', logo: LOGO }
+          ]
 domains.each do |domain|
   domain_color = Domain.find_or_initialize_by(score_4_color: 'success')
   domain_color.update_attributes(score_4_color: 'primary')
+end
+
+ORGANIZATIONS.each do |org|
+  Organization.create_and_build_tanent(org)
 end
 # domains.each do |domain|
 #   dg = DomainGroup.find_or_create_by(name: domain[:group])
