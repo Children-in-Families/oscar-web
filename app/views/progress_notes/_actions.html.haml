@@ -1,4 +1,4 @@
-= link_to edit_client_progress_note_path(object.client, object), class: "btn btn-outline btn-success btn-xs #{ability_to_update(ProgressNote)}" do
+= link_to edit_client_progress_note_path(object.client, object), class: "btn btn-outline btn-success btn-xs btn-edit #{ability_to_update(ProgressNote)}" do
   = fa_icon('pencil')
-= link_to [object.client, object], method: 'delete', data: { confirm: t('.are_you_sure') }, class: "btn btn-outline btn-danger btn-xs #{ability_to_delete(ProgressNote)}" do
+= link_to [object.client, object], method: 'delete', data: { confirm: t('.are_you_sure') }, class: "btn btn-outline btn-danger btn-xs btn-delete #{ability_to_delete(ProgressNote)}" do
   = fa_icon('trash')
