@@ -107,7 +107,7 @@ module ClientsHelper
     current_user.admin? || current_user.case_worker? || current_user.kc_manager?
   end
 
-  def can_manage_client_progress_note?
-    @client.able? && (current_user.case_worker? || current_user.able_manager? || current_user.admin?)
+  def can_read_client_progress_note?
+    @client.able? && (current_user.case_worker? || current_user.able_manager? || current_user.admin? || current_user.fc_manager? || current_user.kc_manager?)
   end
 end

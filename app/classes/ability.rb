@@ -60,6 +60,7 @@ class Ability
       can :update, Assessment do |assessment|
         assessment.client.active_fc?
       end
+      can :read, ProgressNote
       cannot :update, Assessment do |assessment|
         Date.current > assessment.created_at + 2.weeks
       end
@@ -74,6 +75,7 @@ class Ability
       can :update, Assessment do |assessment|
         assessment.client.active_kc?
       end
+      can :read, ProgressNote
       cannot :update, Assessment do |assessment|
         Date.current > assessment.created_at + 2.weeks
       end
