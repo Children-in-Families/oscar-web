@@ -19,6 +19,7 @@ $(document).on 'ready page:load', ->
     $('.grid-form .datagrid-actions input').addClass 'btn btn-primary'
     $('.grid-form .datagrid-actions a').addClass 'btn btn-default'
 
-    noResults = $('table').find('.noresults')
-    if noResults.length == 1
+    noResult       = $('table').find('.noresults')
+    noResultClient = $('table').find('.dataTables_empty')
+    if noResult.length == 1 or noResultClient.length == 1
       $('.btn-export').addClass('disabled')
