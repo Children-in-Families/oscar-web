@@ -32,7 +32,8 @@ class User < ActiveRecord::Base
   scope :province_are,    ->         { joins(:province).pluck('provinces.name', 'provinces.id').uniq }
   scope :has_clients,     ->         { joins(:clients).without_json_fields.uniq }
 
-  before_save :assign_as_admin, :join_organization
+  before_save :assign_as_admin
+  before_validation :join_organization
 
   ROLES.each do |role|
     define_method("#{role.parameterize.underscore}?") do
@@ -87,6 +88,6 @@ class User < ActiveRecord::Base
 
   protected
     def join_organization
-      organization = Organization.current if organization.blank?
+      self.organization ||= Organization.current
     end
 end
