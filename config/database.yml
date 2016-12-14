@@ -2,7 +2,7 @@ default: &default
   adapter: postgresql
   encoding: unicode
   pool: 5
-  schema_search_path: "cif,newsmile,public,shared_extensions"
+  schema_search_path: "cif,newsmile,public"
 
 development:
   <<: *default

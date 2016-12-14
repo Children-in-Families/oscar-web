@@ -49,7 +49,7 @@ Apartment.configure do |config|
   #
   config.tenant_names = lambda { Organization.pluck :short_name }
   # config.default_schema = "cif"
-  config.persistent_schemas = ['shared_extensions']
+  # config.persistent_schemas = ['shared_extensions']
 
   #
   # ==> PostgreSQL only options
