@@ -99,6 +99,7 @@ Rails.application.routes.draw do
 
     resources :progress_notes do
       get 'version' => 'progress_notes#version'
+      resources :attachments, only: [:show]
     end
 
     get 'version' => 'clients#version'

@@ -80,6 +80,13 @@
                 %td
                   %strong
                     = @progress_note.additional_note.html_safe
+              %tr
+                %td.spacing-first-col
+                  = t('.documents')
+                %td
+                  %strong
+                    - @progress_note.attachments.each do |attachment|
+                      = link_to original_filename(attachment), client_progress_note_attachment_path(@client, @progress_note, attachment)
       .ibox-footer
         .row
           .col-xs-12

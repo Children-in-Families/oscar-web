@@ -11,10 +11,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161128064447) do
+ActiveRecord::Schema.define(version: 20161215033551) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "hstore"
+  enable_extension "uuid-ossp"
 
   create_table "able_screening_questions", force: :cascade do |t|
     t.string   "question"
@@ -96,11 +98,14 @@ ActiveRecord::Schema.define(version: 20161128064447) do
   create_table "attachments", force: :cascade do |t|
     t.string   "image"
     t.integer  "able_screening_question_id"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
+    t.string   "file",                       default: ""
+    t.integer  "progress_note_id"
   end
 
   add_index "attachments", ["able_screening_question_id"], name: "index_attachments_on_able_screening_question_id", using: :btree
+  add_index "attachments", ["progress_note_id"], name: "index_attachments_on_progress_note_id", using: :btree
 
   create_table "case_contracts", force: :cascade do |t|
     t.date     "signed_on"
@@ -385,6 +390,14 @@ ActiveRecord::Schema.define(version: 20161128064447) do
     t.string   "status",     default: ""
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "organizations", force: :cascade do |t|
+    t.string   "full_name"
+    t.string   "short_name"
+    t.string   "logo"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "partners", force: :cascade do |t|
@@ -776,9 +789,11 @@ ActiveRecord::Schema.define(version: 20161128064447) do
     t.json     "tokens"
     t.boolean  "admin",                  default: false
     t.integer  "changelogs_count",       default: 0
+    t.integer  "organization_id"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["organization_id"], name: "index_users_on_organization_id", using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   create_table "version_associations", force: :cascade do |t|
@@ -812,6 +827,7 @@ ActiveRecord::Schema.define(version: 20161128064447) do
   add_foreign_key "assessment_domains_progress_notes", "progress_notes"
   add_foreign_key "assessments", "clients"
   add_foreign_key "attachments", "able_screening_questions"
+  add_foreign_key "attachments", "progress_notes"
   add_foreign_key "case_contracts", "cases"
   add_foreign_key "case_notes", "clients"
   add_foreign_key "changelog_types", "changelogs"
@@ -829,4 +845,5 @@ ActiveRecord::Schema.define(version: 20161128064447) do
   add_foreign_key "tasks", "clients"
   add_foreign_key "thredded_messageboard_users", "thredded_messageboards"
   add_foreign_key "thredded_messageboard_users", "thredded_user_details"
+  add_foreign_key "users", "organizations"
 end
