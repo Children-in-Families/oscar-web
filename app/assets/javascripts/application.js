@@ -53,6 +53,8 @@
 //= require government_reports/form
 //= require stages/form
 //= require able_screening_questions/form
+//= require able_screening_answers/form
+
 //= require progress_notes/form
 //= require progress_notes/index
 //= require changelogs/index

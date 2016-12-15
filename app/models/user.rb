@@ -11,9 +11,11 @@ class User < ActiveRecord::Base
   belongs_to :province,   counter_cache: true
   belongs_to :department, counter_cache: true
   has_many :cases
-  has_many :clients
   has_many :changelogs
   has_many :progress_notes, dependent: :restrict_with_error
+
+  has_many :client_case_workers
+  has_many :clients, through: :client_case_workers
 
   belongs_to :organization
 

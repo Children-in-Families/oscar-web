@@ -1,9 +1,9 @@
 .row.mini-margin
   .col-xs-12.col-md-8.col-md-offset-2
     - Organization.all.each do |org|
-      .panel.panel-default
-        .panel-body
-          .col-xs-2
-            = image_tag(org.logo.thumb)
-          .col-xs-10.pull-left
-            %h3= link_to org.full_name, dashboards_url(subdomain: org.short_name)
+      = link_to dashboards_url(subdomain: org.short_name) do
+        .col-sm-6.col-md-4
+          .thumbnail
+            = image_tag(org.logo)
+            .caption
+              %h3.text-center= org.full_name

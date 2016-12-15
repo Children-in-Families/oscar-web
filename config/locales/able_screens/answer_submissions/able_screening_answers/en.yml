@@ -1,0 +1,11 @@
+en:
+  able_screens:
+    answer_submissions:
+      able_screening_answers:
+        form:
+          stage: Stage
+          general_question: General Question
+          year: Year
+          from: From
+          to: To
+          answer: Answer

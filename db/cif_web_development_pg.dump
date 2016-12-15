@@ -1,0 +1,1228 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.4.4
+-- Dumped by pg_dump version 9.4.5
+-- Started on 2016-12-09 14:21:47 ICT
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+
+SET search_path = public, pg_catalog;
+
+--
+-- TOC entry 3982 (class 0 OID 2163003)
+-- Dependencies: 288
+-- Data for Name: question_groups; Type: TABLE DATA; Schema: public; Owner: Mphanith
+--
+
+
+
+--
+-- TOC entry 3968 (class 0 OID 2162860)
+-- Dependencies: 274
+-- Data for Name: stages; Type: TABLE DATA; Schema: public; Owner: Mphanith
+--
+
+
+
+--
+-- TOC entry 3972 (class 0 OID 2162888)
+-- Dependencies: 278
+-- Data for Name: able_screening_questions; Type: TABLE DATA; Schema: public; Owner: Mphanith
+--
+
+
+
+--
+-- TOC entry 3997 (class 0 OID 0)
+-- Dependencies: 277
+-- Name: able_screening_questions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Mphanith
+--
+
+SELECT pg_catalog.setval('able_screening_questions_id_seq', 1, false);
+
+
+--
+-- TOC entry 3874 (class 0 OID 2161793)
+-- Dependencies: 180
+-- Data for Name: agencies; Type: TABLE DATA; Schema: public; Owner: Mphanith
+--
+
+
+
+--
+-- TOC entry 3896 (class 0 OID 2161978)
+-- Dependencies: 202
+-- Data for Name: agencies_clients; Type: TABLE DATA; Schema: public; Owner: Mphanith
+--
+
+
+
+--
+-- TOC entry 3998 (class 0 OID 0)
+-- Dependencies: 201
+-- Name: agencies_clients_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Mphanith
+--
+
+SELECT pg_catalog.setval('agencies_clients_id_seq', 1, false);
+
+
+--
+-- TOC entry 3999 (class 0 OID 0)
+-- Dependencies: 179
+-- Name: agencies_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Mphanith
+--
+
+SELECT pg_catalog.setval('agencies_id_seq', 1, false);
+
+
+--
+-- TOC entry 3988 (class 0 OID 2163056)
+-- Dependencies: 294
+-- Data for Name: agency_clients; Type: TABLE DATA; Schema: public; Owner: Mphanith
+--
+
+
+
+--
+-- TOC entry 4000 (class 0 OID 0)
+-- Dependencies: 293
+-- Name: agency_clients_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Mphanith
+--
+
+SELECT pg_catalog.setval('agency_clients_id_seq', 1, false);
+
+
+--
+-- TOC entry 3888 (class 0 OID 2161911)
+-- Dependencies: 194
+-- Data for Name: clients; Type: TABLE DATA; Schema: public; Owner: Mphanith
+--
+
+
+
+--
+-- TOC entry 3974 (class 0 OID 2162905)
+-- Dependencies: 280
+-- Data for Name: answers; Type: TABLE DATA; Schema: public; Owner: Mphanith
+--
+
+
+
+--
+-- TOC entry 4001 (class 0 OID 0)
+-- Dependencies: 279
+-- Name: answers_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Mphanith
+--
+
+SELECT pg_catalog.setval('answers_id_seq', 1, false);
+
+
+--
+-- TOC entry 3894 (class 0 OID 2161964)
+-- Dependencies: 200
+-- Data for Name: assessment_domains; Type: TABLE DATA; Schema: public; Owner: Mphanith
+--
+
+
+
+--
+-- TOC entry 4002 (class 0 OID 0)
+-- Dependencies: 199
+-- Name: assessment_domains_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Mphanith
+--
+
+SELECT pg_catalog.setval('assessment_domains_id_seq', 1, false);
+
+
+--
+-- TOC entry 3960 (class 0 OID 2162786)
+-- Dependencies: 266
+-- Data for Name: locations; Type: TABLE DATA; Schema: public; Owner: Mphanith
+--
+
+
+
+--
+-- TOC entry 3958 (class 0 OID 2162774)
+-- Dependencies: 264
+-- Data for Name: materials; Type: TABLE DATA; Schema: public; Owner: Mphanith
+--
+
+
+
+--
+-- TOC entry 3992 (class 0 OID 2163072)
+-- Dependencies: 298
+-- Data for Name: organizations; Type: TABLE DATA; Schema: public; Owner: Mphanith
+--
+
+INSERT INTO organizations (id, full_name, short_name, logo, created_at, updated_at) VALUES (1, 'Children In Family', 'cif', 'cif-logo.png', '2016-12-07 09:48:46.852699', '2016-12-08 02:48:34.368188');
+INSERT INTO organizations (id, full_name, short_name, logo, created_at, updated_at) VALUES (2, 'New Smile', 'new-smile', 'cif-logo.png', '2016-12-07 09:49:09.478033', '2016-12-08 02:49:01.347586');
+
+
+--
+-- TOC entry 3962 (class 0 OID 2162798)
+-- Dependencies: 268
+-- Data for Name: progress_note_types; Type: TABLE DATA; Schema: public; Owner: Mphanith
+--
+
+
+
+--
+-- TOC entry 3886 (class 0 OID 2161894)
+-- Dependencies: 192
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: Mphanith
+--
+
+
+
+--
+-- TOC entry 3966 (class 0 OID 2162822)
+-- Dependencies: 272
+-- Data for Name: progress_notes; Type: TABLE DATA; Schema: public; Owner: Mphanith
+--
+
+
+
+--
+-- TOC entry 3976 (class 0 OID 2162934)
+-- Dependencies: 282
+-- Data for Name: assessment_domains_progress_notes; Type: TABLE DATA; Schema: public; Owner: Mphanith
+--
+
+
+
+--
+-- TOC entry 4003 (class 0 OID 0)
+-- Dependencies: 281
+-- Name: assessment_domains_progress_notes_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Mphanith
+--
+
+SELECT pg_catalog.setval('assessment_domains_progress_notes_id_seq', 1, false);
+
+
+--
+-- TOC entry 3892 (class 0 OID 2161956)
+-- Dependencies: 198
+-- Data for Name: assessments; Type: TABLE DATA; Schema: public; Owner: Mphanith
+--
+
+
+
+--
+-- TOC entry 4004 (class 0 OID 0)
+-- Dependencies: 197
+-- Name: assessments_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Mphanith
+--
+
+SELECT pg_catalog.setval('assessments_id_seq', 1, false);
+
+
+--
+-- TOC entry 3978 (class 0 OID 2162954)
+-- Dependencies: 284
+-- Data for Name: attachments; Type: TABLE DATA; Schema: public; Owner: Mphanith
+--
+
+
+
+--
+-- TOC entry 4005 (class 0 OID 0)
+-- Dependencies: 283
+-- Name: attachments_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Mphanith
+--
+
+SELECT pg_catalog.setval('attachments_id_seq', 1, false);
+
+
+--
+-- TOC entry 3890 (class 0 OID 2161937)
+-- Dependencies: 196
+-- Data for Name: cases; Type: TABLE DATA; Schema: public; Owner: Mphanith
+--
+
+
+
+--
+-- TOC entry 3912 (class 0 OID 2162274)
+-- Dependencies: 218
+-- Data for Name: case_contracts; Type: TABLE DATA; Schema: public; Owner: Mphanith
+--
+
+
+
+--
+-- TOC entry 4006 (class 0 OID 0)
+-- Dependencies: 217
+-- Name: case_contracts_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Mphanith
+--
+
+SELECT pg_catalog.setval('case_contracts_id_seq', 1, false);
+
+
+--
+-- TOC entry 3900 (class 0 OID 2161998)
+-- Dependencies: 206
+-- Data for Name: case_note_domain_groups; Type: TABLE DATA; Schema: public; Owner: Mphanith
+--
+
+
+
+--
+-- TOC entry 4007 (class 0 OID 0)
+-- Dependencies: 205
+-- Name: case_note_domain_groups_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Mphanith
+--
+
+SELECT pg_catalog.setval('case_note_domain_groups_id_seq', 1, false);
+
+
+--
+-- TOC entry 3898 (class 0 OID 2161986)
+-- Dependencies: 204
+-- Data for Name: case_notes; Type: TABLE DATA; Schema: public; Owner: Mphanith
+--
+
+
+
+--
+-- TOC entry 4008 (class 0 OID 0)
+-- Dependencies: 203
+-- Name: case_notes_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Mphanith
+--
+
+SELECT pg_catalog.setval('case_notes_id_seq', 1, false);
+
+
+--
+-- TOC entry 4009 (class 0 OID 0)
+-- Dependencies: 195
+-- Name: cases_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Mphanith
+--
+
+SELECT pg_catalog.setval('cases_id_seq', 1, false);
+
+
+--
+-- TOC entry 3956 (class 0 OID 2162744)
+-- Dependencies: 262
+-- Data for Name: changelogs; Type: TABLE DATA; Schema: public; Owner: Mphanith
+--
+
+
+
+--
+-- TOC entry 3980 (class 0 OID 2162984)
+-- Dependencies: 286
+-- Data for Name: changelog_types; Type: TABLE DATA; Schema: public; Owner: Mphanith
+--
+
+
+
+--
+-- TOC entry 4010 (class 0 OID 0)
+-- Dependencies: 285
+-- Name: changelog_types_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Mphanith
+--
+
+SELECT pg_catalog.setval('changelog_types_id_seq', 1, false);
+
+
+--
+-- TOC entry 4011 (class 0 OID 0)
+-- Dependencies: 261
+-- Name: changelogs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Mphanith
+--
+
+SELECT pg_catalog.setval('changelogs_id_seq', 1, false);
+
+
+--
+-- TOC entry 3990 (class 0 OID 2163064)
+-- Dependencies: 296
+-- Data for Name: client_quantitative_cases; Type: TABLE DATA; Schema: public; Owner: Mphanith
+--
+
+
+
+--
+-- TOC entry 4012 (class 0 OID 0)
+-- Dependencies: 295
+-- Name: client_quantitative_cases_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Mphanith
+--
+
+SELECT pg_catalog.setval('client_quantitative_cases_id_seq', 1, false);
+
+
+--
+-- TOC entry 4013 (class 0 OID 0)
+-- Dependencies: 193
+-- Name: clients_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Mphanith
+--
+
+SELECT pg_catalog.setval('clients_id_seq', 1, false);
+
+
+--
+-- TOC entry 3908 (class 0 OID 2162224)
+-- Dependencies: 214
+-- Data for Name: clients_quantitative_cases; Type: TABLE DATA; Schema: public; Owner: Mphanith
+--
+
+
+
+--
+-- TOC entry 4014 (class 0 OID 0)
+-- Dependencies: 213
+-- Name: clients_quantitative_cases_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Mphanith
+--
+
+SELECT pg_catalog.setval('clients_quantitative_cases_id_seq', 1, false);
+
+
+--
+-- TOC entry 3880 (class 0 OID 2161839)
+-- Dependencies: 186
+-- Data for Name: departments; Type: TABLE DATA; Schema: public; Owner: Mphanith
+--
+
+
+
+--
+-- TOC entry 4015 (class 0 OID 0)
+-- Dependencies: 185
+-- Name: departments_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Mphanith
+--
+
+SELECT pg_catalog.setval('departments_id_seq', 1, false);
+
+
+--
+-- TOC entry 3876 (class 0 OID 2161806)
+-- Dependencies: 182
+-- Data for Name: domain_groups; Type: TABLE DATA; Schema: public; Owner: Mphanith
+--
+
+
+
+--
+-- TOC entry 4016 (class 0 OID 0)
+-- Dependencies: 181
+-- Name: domain_groups_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Mphanith
+--
+
+SELECT pg_catalog.setval('domain_groups_id_seq', 1, false);
+
+
+--
+-- TOC entry 3878 (class 0 OID 2161819)
+-- Dependencies: 184
+-- Data for Name: domains; Type: TABLE DATA; Schema: public; Owner: Mphanith
+--
+
+
+
+--
+-- TOC entry 4017 (class 0 OID 0)
+-- Dependencies: 183
+-- Name: domains_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Mphanith
+--
+
+SELECT pg_catalog.setval('domains_id_seq', 1, false);
+
+
+--
+-- TOC entry 3882 (class 0 OID 2161852)
+-- Dependencies: 188
+-- Data for Name: families; Type: TABLE DATA; Schema: public; Owner: Mphanith
+--
+
+
+
+--
+-- TOC entry 4018 (class 0 OID 0)
+-- Dependencies: 187
+-- Name: families_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Mphanith
+--
+
+SELECT pg_catalog.setval('families_id_seq', 1, false);
+
+
+--
+-- TOC entry 3914 (class 0 OID 2162394)
+-- Dependencies: 220
+-- Data for Name: friendly_id_slugs; Type: TABLE DATA; Schema: public; Owner: Mphanith
+--
+
+
+
+--
+-- TOC entry 4019 (class 0 OID 0)
+-- Dependencies: 219
+-- Name: friendly_id_slugs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Mphanith
+--
+
+SELECT pg_catalog.setval('friendly_id_slugs_id_seq', 1, false);
+
+
+--
+-- TOC entry 3916 (class 0 OID 2162417)
+-- Dependencies: 222
+-- Data for Name: government_reports; Type: TABLE DATA; Schema: public; Owner: Mphanith
+--
+
+
+
+--
+-- TOC entry 4020 (class 0 OID 0)
+-- Dependencies: 221
+-- Name: government_reports_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Mphanith
+--
+
+SELECT pg_catalog.setval('government_reports_id_seq', 1, false);
+
+
+--
+-- TOC entry 3964 (class 0 OID 2162810)
+-- Dependencies: 270
+-- Data for Name: interventions; Type: TABLE DATA; Schema: public; Owner: Mphanith
+--
+
+
+
+--
+-- TOC entry 4021 (class 0 OID 0)
+-- Dependencies: 269
+-- Name: interventions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Mphanith
+--
+
+SELECT pg_catalog.setval('interventions_id_seq', 1, false);
+
+
+--
+-- TOC entry 3970 (class 0 OID 2162868)
+-- Dependencies: 276
+-- Data for Name: interventions_progress_notes; Type: TABLE DATA; Schema: public; Owner: Mphanith
+--
+
+
+
+--
+-- TOC entry 4022 (class 0 OID 0)
+-- Dependencies: 275
+-- Name: interventions_progress_notes_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Mphanith
+--
+
+SELECT pg_catalog.setval('interventions_progress_notes_id_seq', 1, false);
+
+
+--
+-- TOC entry 4023 (class 0 OID 0)
+-- Dependencies: 265
+-- Name: locations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Mphanith
+--
+
+SELECT pg_catalog.setval('locations_id_seq', 1, false);
+
+
+--
+-- TOC entry 4024 (class 0 OID 0)
+-- Dependencies: 263
+-- Name: materials_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Mphanith
+--
+
+SELECT pg_catalog.setval('materials_id_seq', 1, false);
+
+
+--
+-- TOC entry 4025 (class 0 OID 0)
+-- Dependencies: 297
+-- Name: organizations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Mphanith
+--
+
+SELECT pg_catalog.setval('organizations_id_seq', 2, true);
+
+
+--
+-- TOC entry 3884 (class 0 OID 2161874)
+-- Dependencies: 190
+-- Data for Name: partners; Type: TABLE DATA; Schema: public; Owner: Mphanith
+--
+
+
+
+--
+-- TOC entry 4026 (class 0 OID 0)
+-- Dependencies: 189
+-- Name: partners_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Mphanith
+--
+
+SELECT pg_catalog.setval('partners_id_seq', 1, false);
+
+
+--
+-- TOC entry 4027 (class 0 OID 0)
+-- Dependencies: 267
+-- Name: progress_note_types_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Mphanith
+--
+
+SELECT pg_catalog.setval('progress_note_types_id_seq', 1, false);
+
+
+--
+-- TOC entry 4028 (class 0 OID 0)
+-- Dependencies: 271
+-- Name: progress_notes_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Mphanith
+--
+
+SELECT pg_catalog.setval('progress_notes_id_seq', 1, false);
+
+
+--
+-- TOC entry 3870 (class 0 OID 2161767)
+-- Dependencies: 176
+-- Data for Name: provinces; Type: TABLE DATA; Schema: public; Owner: Mphanith
+--
+
+
+
+--
+-- TOC entry 4029 (class 0 OID 0)
+-- Dependencies: 175
+-- Name: provinces_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Mphanith
+--
+
+SELECT pg_catalog.setval('provinces_id_seq', 1, false);
+
+
+--
+-- TOC entry 3906 (class 0 OID 2162212)
+-- Dependencies: 212
+-- Data for Name: quantitative_cases; Type: TABLE DATA; Schema: public; Owner: Mphanith
+--
+
+
+
+--
+-- TOC entry 4030 (class 0 OID 0)
+-- Dependencies: 211
+-- Name: quantitative_cases_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Mphanith
+--
+
+SELECT pg_catalog.setval('quantitative_cases_id_seq', 1, false);
+
+
+--
+-- TOC entry 3904 (class 0 OID 2162198)
+-- Dependencies: 210
+-- Data for Name: quantitative_types; Type: TABLE DATA; Schema: public; Owner: Mphanith
+--
+
+
+
+--
+-- TOC entry 4031 (class 0 OID 0)
+-- Dependencies: 209
+-- Name: quantitative_types_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Mphanith
+--
+
+SELECT pg_catalog.setval('quantitative_types_id_seq', 1, false);
+
+
+--
+-- TOC entry 3910 (class 0 OID 2162232)
+-- Dependencies: 216
+-- Data for Name: quarterly_reports; Type: TABLE DATA; Schema: public; Owner: Mphanith
+--
+
+
+
+--
+-- TOC entry 4032 (class 0 OID 0)
+-- Dependencies: 215
+-- Name: quarterly_reports_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Mphanith
+--
+
+SELECT pg_catalog.setval('quarterly_reports_id_seq', 1, false);
+
+
+--
+-- TOC entry 4033 (class 0 OID 0)
+-- Dependencies: 287
+-- Name: question_groups_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Mphanith
+--
+
+SELECT pg_catalog.setval('question_groups_id_seq', 1, false);
+
+
+--
+-- TOC entry 3872 (class 0 OID 2161780)
+-- Dependencies: 178
+-- Data for Name: referral_sources; Type: TABLE DATA; Schema: public; Owner: Mphanith
+--
+
+
+
+--
+-- TOC entry 4034 (class 0 OID 0)
+-- Dependencies: 177
+-- Name: referral_sources_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Mphanith
+--
+
+SELECT pg_catalog.setval('referral_sources_id_seq', 1, false);
+
+
+--
+-- TOC entry 3868 (class 0 OID 2161758)
+-- Dependencies: 174
+-- Data for Name: schema_migrations; Type: TABLE DATA; Schema: public; Owner: Mphanith
+--
+
+INSERT INTO schema_migrations (version) VALUES ('20160202073717');
+INSERT INTO schema_migrations (version) VALUES ('20160202073847');
+INSERT INTO schema_migrations (version) VALUES ('20160202074103');
+INSERT INTO schema_migrations (version) VALUES ('20160202074149');
+INSERT INTO schema_migrations (version) VALUES ('20160202074345');
+INSERT INTO schema_migrations (version) VALUES ('20160202074629');
+INSERT INTO schema_migrations (version) VALUES ('20160202074846');
+INSERT INTO schema_migrations (version) VALUES ('20160202075903');
+INSERT INTO schema_migrations (version) VALUES ('20160202080206');
+INSERT INTO schema_migrations (version) VALUES ('20160202082051');
+INSERT INTO schema_migrations (version) VALUES ('20160202085430');
+INSERT INTO schema_migrations (version) VALUES ('20160202095024');
+INSERT INTO schema_migrations (version) VALUES ('20160202095145');
+INSERT INTO schema_migrations (version) VALUES ('20160202095805');
+INSERT INTO schema_migrations (version) VALUES ('20160202095859');
+INSERT INTO schema_migrations (version) VALUES ('20160202100103');
+INSERT INTO schema_migrations (version) VALUES ('20160202100433');
+INSERT INTO schema_migrations (version) VALUES ('20160202100848');
+INSERT INTO schema_migrations (version) VALUES ('20160202101143');
+INSERT INTO schema_migrations (version) VALUES ('20160216015733');
+INSERT INTO schema_migrations (version) VALUES ('20160218080703');
+INSERT INTO schema_migrations (version) VALUES ('20160218081238');
+INSERT INTO schema_migrations (version) VALUES ('20160218083422');
+INSERT INTO schema_migrations (version) VALUES ('20160218083606');
+INSERT INTO schema_migrations (version) VALUES ('20160219031802');
+INSERT INTO schema_migrations (version) VALUES ('20160220161914');
+INSERT INTO schema_migrations (version) VALUES ('20160222020203');
+INSERT INTO schema_migrations (version) VALUES ('20160222090336');
+INSERT INTO schema_migrations (version) VALUES ('20160222112312');
+INSERT INTO schema_migrations (version) VALUES ('20160222112535');
+INSERT INTO schema_migrations (version) VALUES ('20160223072851');
+INSERT INTO schema_migrations (version) VALUES ('20160229164608');
+INSERT INTO schema_migrations (version) VALUES ('20160303021506');
+INSERT INTO schema_migrations (version) VALUES ('20160304071711');
+INSERT INTO schema_migrations (version) VALUES ('20160305051724');
+INSERT INTO schema_migrations (version) VALUES ('20160328070346');
+INSERT INTO schema_migrations (version) VALUES ('20160425070622');
+INSERT INTO schema_migrations (version) VALUES ('20160425084248');
+INSERT INTO schema_migrations (version) VALUES ('20160425084249');
+INSERT INTO schema_migrations (version) VALUES ('20160426020733');
+INSERT INTO schema_migrations (version) VALUES ('20160505031003');
+INSERT INTO schema_migrations (version) VALUES ('20160809092723');
+INSERT INTO schema_migrations (version) VALUES ('20160816034530');
+INSERT INTO schema_migrations (version) VALUES ('20160816092724');
+INSERT INTO schema_migrations (version) VALUES ('20160817021354');
+INSERT INTO schema_migrations (version) VALUES ('20160817075800');
+INSERT INTO schema_migrations (version) VALUES ('20160908074157');
+INSERT INTO schema_migrations (version) VALUES ('20160919040653');
+INSERT INTO schema_migrations (version) VALUES ('20160920014557');
+INSERT INTO schema_migrations (version) VALUES ('20160920023649');
+INSERT INTO schema_migrations (version) VALUES ('20160920041253');
+INSERT INTO schema_migrations (version) VALUES ('20160920081903');
+INSERT INTO schema_migrations (version) VALUES ('20160920083452');
+INSERT INTO schema_migrations (version) VALUES ('20160920083920');
+INSERT INTO schema_migrations (version) VALUES ('20160920085515');
+INSERT INTO schema_migrations (version) VALUES ('20160920091650');
+INSERT INTO schema_migrations (version) VALUES ('20160921031639');
+INSERT INTO schema_migrations (version) VALUES ('20160921065318');
+INSERT INTO schema_migrations (version) VALUES ('20160921065554');
+INSERT INTO schema_migrations (version) VALUES ('20160922092536');
+INSERT INTO schema_migrations (version) VALUES ('20160923043225');
+INSERT INTO schema_migrations (version) VALUES ('20160923072931');
+INSERT INTO schema_migrations (version) VALUES ('20160923084811');
+INSERT INTO schema_migrations (version) VALUES ('20160926042656');
+INSERT INTO schema_migrations (version) VALUES ('20160926074038');
+INSERT INTO schema_migrations (version) VALUES ('20160926074243');
+INSERT INTO schema_migrations (version) VALUES ('20160927032508');
+INSERT INTO schema_migrations (version) VALUES ('20161005095556');
+INSERT INTO schema_migrations (version) VALUES ('20161005095557');
+INSERT INTO schema_migrations (version) VALUES ('20161006020147');
+INSERT INTO schema_migrations (version) VALUES ('20161006020906');
+INSERT INTO schema_migrations (version) VALUES ('20161006020907');
+INSERT INTO schema_migrations (version) VALUES ('20161007045746');
+INSERT INTO schema_migrations (version) VALUES ('20161010071854');
+INSERT INTO schema_migrations (version) VALUES ('20161018070113');
+INSERT INTO schema_migrations (version) VALUES ('20161128035346');
+INSERT INTO schema_migrations (version) VALUES ('20161128064447');
+INSERT INTO schema_migrations (version) VALUES ('20161205040355');
+INSERT INTO schema_migrations (version) VALUES ('20161207075009');
+INSERT INTO schema_migrations (version) VALUES ('20161207093338');
+
+
+--
+-- TOC entry 4035 (class 0 OID 0)
+-- Dependencies: 273
+-- Name: stages_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Mphanith
+--
+
+SELECT pg_catalog.setval('stages_id_seq', 1, false);
+
+
+--
+-- TOC entry 3954 (class 0 OID 2162730)
+-- Dependencies: 260
+-- Data for Name: surveys; Type: TABLE DATA; Schema: public; Owner: Mphanith
+--
+
+
+
+--
+-- TOC entry 4036 (class 0 OID 0)
+-- Dependencies: 259
+-- Name: surveys_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Mphanith
+--
+
+SELECT pg_catalog.setval('surveys_id_seq', 1, false);
+
+
+--
+-- TOC entry 3902 (class 0 OID 2162010)
+-- Dependencies: 208
+-- Data for Name: tasks; Type: TABLE DATA; Schema: public; Owner: Mphanith
+--
+
+
+
+--
+-- TOC entry 4037 (class 0 OID 0)
+-- Dependencies: 207
+-- Name: tasks_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Mphanith
+--
+
+SELECT pg_catalog.setval('tasks_id_seq', 1, false);
+
+
+--
+-- TOC entry 3918 (class 0 OID 2162500)
+-- Dependencies: 224
+-- Data for Name: thredded_categories; Type: TABLE DATA; Schema: public; Owner: Mphanith
+--
+
+
+
+--
+-- TOC entry 4038 (class 0 OID 0)
+-- Dependencies: 223
+-- Name: thredded_categories_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Mphanith
+--
+
+SELECT pg_catalog.setval('thredded_categories_id_seq', 1, false);
+
+
+--
+-- TOC entry 3948 (class 0 OID 2162697)
+-- Dependencies: 254
+-- Data for Name: thredded_messageboard_groups; Type: TABLE DATA; Schema: public; Owner: Mphanith
+--
+
+
+
+--
+-- TOC entry 4039 (class 0 OID 0)
+-- Dependencies: 253
+-- Name: thredded_messageboard_groups_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Mphanith
+--
+
+SELECT pg_catalog.setval('thredded_messageboard_groups_id_seq', 1, false);
+
+
+--
+-- TOC entry 3920 (class 0 OID 2162514)
+-- Dependencies: 226
+-- Data for Name: thredded_messageboards; Type: TABLE DATA; Schema: public; Owner: Mphanith
+--
+
+
+
+--
+-- TOC entry 3936 (class 0 OID 2162622)
+-- Dependencies: 242
+-- Data for Name: thredded_user_details; Type: TABLE DATA; Schema: public; Owner: Mphanith
+--
+
+
+
+--
+-- TOC entry 3938 (class 0 OID 2162636)
+-- Dependencies: 244
+-- Data for Name: thredded_messageboard_users; Type: TABLE DATA; Schema: public; Owner: Mphanith
+--
+
+
+
+--
+-- TOC entry 4040 (class 0 OID 0)
+-- Dependencies: 243
+-- Name: thredded_messageboard_users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Mphanith
+--
+
+SELECT pg_catalog.setval('thredded_messageboard_users_id_seq', 1, false);
+
+
+--
+-- TOC entry 4041 (class 0 OID 0)
+-- Dependencies: 225
+-- Name: thredded_messageboards_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Mphanith
+--
+
+SELECT pg_catalog.setval('thredded_messageboards_id_seq', 1, false);
+
+
+--
+-- TOC entry 3952 (class 0 OID 2162717)
+-- Dependencies: 258
+-- Data for Name: thredded_post_moderation_records; Type: TABLE DATA; Schema: public; Owner: Mphanith
+--
+
+
+
+--
+-- TOC entry 4042 (class 0 OID 0)
+-- Dependencies: 257
+-- Name: thredded_post_moderation_records_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Mphanith
+--
+
+SELECT pg_catalog.setval('thredded_post_moderation_records_id_seq', 1, false);
+
+
+--
+-- TOC entry 3922 (class 0 OID 2162531)
+-- Dependencies: 228
+-- Data for Name: thredded_post_notifications; Type: TABLE DATA; Schema: public; Owner: Mphanith
+--
+
+
+
+--
+-- TOC entry 4043 (class 0 OID 0)
+-- Dependencies: 227
+-- Name: thredded_post_notifications_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Mphanith
+--
+
+SELECT pg_catalog.setval('thredded_post_notifications_id_seq', 1, false);
+
+
+--
+-- TOC entry 3924 (class 0 OID 2162540)
+-- Dependencies: 230
+-- Data for Name: thredded_posts; Type: TABLE DATA; Schema: public; Owner: Mphanith
+--
+
+
+
+--
+-- TOC entry 4044 (class 0 OID 0)
+-- Dependencies: 229
+-- Name: thredded_posts_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Mphanith
+--
+
+SELECT pg_catalog.setval('thredded_posts_id_seq', 1, false);
+
+
+--
+-- TOC entry 3926 (class 0 OID 2162557)
+-- Dependencies: 232
+-- Data for Name: thredded_private_posts; Type: TABLE DATA; Schema: public; Owner: Mphanith
+--
+
+
+
+--
+-- TOC entry 4045 (class 0 OID 0)
+-- Dependencies: 231
+-- Name: thredded_private_posts_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Mphanith
+--
+
+SELECT pg_catalog.setval('thredded_private_posts_id_seq', 1, false);
+
+
+--
+-- TOC entry 3928 (class 0 OID 2162568)
+-- Dependencies: 234
+-- Data for Name: thredded_private_topics; Type: TABLE DATA; Schema: public; Owner: Mphanith
+--
+
+
+
+--
+-- TOC entry 4046 (class 0 OID 0)
+-- Dependencies: 233
+-- Name: thredded_private_topics_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Mphanith
+--
+
+SELECT pg_catalog.setval('thredded_private_topics_id_seq', 1, false);
+
+
+--
+-- TOC entry 3930 (class 0 OID 2162582)
+-- Dependencies: 236
+-- Data for Name: thredded_private_users; Type: TABLE DATA; Schema: public; Owner: Mphanith
+--
+
+
+
+--
+-- TOC entry 4047 (class 0 OID 0)
+-- Dependencies: 235
+-- Name: thredded_private_users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Mphanith
+--
+
+SELECT pg_catalog.setval('thredded_private_users_id_seq', 1, false);
+
+
+--
+-- TOC entry 3932 (class 0 OID 2162592)
+-- Dependencies: 238
+-- Data for Name: thredded_topic_categories; Type: TABLE DATA; Schema: public; Owner: Mphanith
+--
+
+
+
+--
+-- TOC entry 4048 (class 0 OID 0)
+-- Dependencies: 237
+-- Name: thredded_topic_categories_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Mphanith
+--
+
+SELECT pg_catalog.setval('thredded_topic_categories_id_seq', 1, false);
+
+
+--
+-- TOC entry 3934 (class 0 OID 2162602)
+-- Dependencies: 240
+-- Data for Name: thredded_topics; Type: TABLE DATA; Schema: public; Owner: Mphanith
+--
+
+
+
+--
+-- TOC entry 4049 (class 0 OID 0)
+-- Dependencies: 239
+-- Name: thredded_topics_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Mphanith
+--
+
+SELECT pg_catalog.setval('thredded_topics_id_seq', 1, false);
+
+
+--
+-- TOC entry 4050 (class 0 OID 0)
+-- Dependencies: 241
+-- Name: thredded_user_details_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Mphanith
+--
+
+SELECT pg_catalog.setval('thredded_user_details_id_seq', 1, false);
+
+
+--
+-- TOC entry 3942 (class 0 OID 2162667)
+-- Dependencies: 248
+-- Data for Name: thredded_user_messageboard_preferences; Type: TABLE DATA; Schema: public; Owner: Mphanith
+--
+
+
+
+--
+-- TOC entry 4051 (class 0 OID 0)
+-- Dependencies: 247
+-- Name: thredded_user_messageboard_preferences_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Mphanith
+--
+
+SELECT pg_catalog.setval('thredded_user_messageboard_preferences_id_seq', 1, false);
+
+
+--
+-- TOC entry 3940 (class 0 OID 2162656)
+-- Dependencies: 246
+-- Data for Name: thredded_user_preferences; Type: TABLE DATA; Schema: public; Owner: Mphanith
+--
+
+
+
+--
+-- TOC entry 4052 (class 0 OID 0)
+-- Dependencies: 245
+-- Name: thredded_user_preferences_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Mphanith
+--
+
+SELECT pg_catalog.setval('thredded_user_preferences_id_seq', 1, false);
+
+
+--
+-- TOC entry 3946 (class 0 OID 2162687)
+-- Dependencies: 252
+-- Data for Name: thredded_user_private_topic_read_states; Type: TABLE DATA; Schema: public; Owner: Mphanith
+--
+
+
+
+--
+-- TOC entry 4053 (class 0 OID 0)
+-- Dependencies: 251
+-- Name: thredded_user_private_topic_read_states_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Mphanith
+--
+
+SELECT pg_catalog.setval('thredded_user_private_topic_read_states_id_seq', 1, false);
+
+
+--
+-- TOC entry 3950 (class 0 OID 2162708)
+-- Dependencies: 256
+-- Data for Name: thredded_user_topic_follows; Type: TABLE DATA; Schema: public; Owner: Mphanith
+--
+
+
+
+--
+-- TOC entry 4054 (class 0 OID 0)
+-- Dependencies: 255
+-- Name: thredded_user_topic_follows_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Mphanith
+--
+
+SELECT pg_catalog.setval('thredded_user_topic_follows_id_seq', 1, false);
+
+
+--
+-- TOC entry 3944 (class 0 OID 2162677)
+-- Dependencies: 250
+-- Data for Name: thredded_user_topic_read_states; Type: TABLE DATA; Schema: public; Owner: Mphanith
+--
+
+
+
+--
+-- TOC entry 4055 (class 0 OID 0)
+-- Dependencies: 249
+-- Name: thredded_user_topic_read_states_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Mphanith
+--
+
+SELECT pg_catalog.setval('thredded_user_topic_read_states_id_seq', 1, false);
+
+
+--
+-- TOC entry 4056 (class 0 OID 0)
+-- Dependencies: 191
+-- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Mphanith
+--
+
+SELECT pg_catalog.setval('users_id_seq', 1, true);
+
+
+--
+-- TOC entry 3986 (class 0 OID 2163032)
+-- Dependencies: 292
+-- Data for Name: version_associations; Type: TABLE DATA; Schema: public; Owner: Mphanith
+--
+
+INSERT INTO version_associations (id, version_id, foreign_key_name, foreign_key_id) VALUES (1, 1, 'province_id', NULL);
+INSERT INTO version_associations (id, version_id, foreign_key_name, foreign_key_id) VALUES (2, 1, 'department_id', NULL);
+INSERT INTO version_associations (id, version_id, foreign_key_name, foreign_key_id) VALUES (3, 2, 'province_id', NULL);
+INSERT INTO version_associations (id, version_id, foreign_key_name, foreign_key_id) VALUES (4, 2, 'department_id', NULL);
+
+
+--
+-- TOC entry 4057 (class 0 OID 0)
+-- Dependencies: 291
+-- Name: version_associations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Mphanith
+--
+
+SELECT pg_catalog.setval('version_associations_id_seq', 4, true);
+
+
+--
+-- TOC entry 3984 (class 0 OID 2163020)
+-- Dependencies: 290
+-- Data for Name: versions; Type: TABLE DATA; Schema: public; Owner: Mphanith
+--
+
+INSERT INTO versions (id, item_type, item_id, event, whodunnit, object, created_at, object_changes, transaction_id) VALUES (1, 'User', 1, 'create', 'Mphanith@rotati', NULL, '2016-12-07 09:54:46.667527', '---
+email:
+- ''''
+- papa@gg.com
+encrypted_password:
+- ''''
+- "$2a$10$5Dq0efda6I3baIFq.Q6vLevikckw4RAWaFM7WtPIHlJ64PzHOmb5u"
+tokens:
+- 
+- "{}"
+uid:
+- ''''
+- papa@gg.com
+created_at:
+- 
+- &1 2016-12-07 09:54:46.667527000 Z
+updated_at:
+- 
+- *1
+id:
+- 
+- 1
+', 1);
+INSERT INTO versions (id, item_type, item_id, event, whodunnit, object, created_at, object_changes, transaction_id) VALUES (2, 'User', 1, 'destroy', 'Mphanith@rotati', '---
+id: 1
+first_name: ''''
+last_name: ''''
+roles: case worker
+start_date: 
+job_title: ''''
+mobile: ''''
+date_of_birth: 
+archived: false
+province_id: 
+department_id: 
+created_at: &1 2016-12-07 09:54:46.667527000 Z
+updated_at: *1
+email: papa@gg.com
+encrypted_password: "$2a$10$5Dq0efda6I3baIFq.Q6vLevikckw4RAWaFM7WtPIHlJ64PzHOmb5u"
+reset_password_token: 
+reset_password_sent_at: 
+remember_created_at: 
+sign_in_count: 0
+current_sign_in_at: 
+last_sign_in_at: 
+current_sign_in_ip: 
+last_sign_in_ip: 
+clients_count: 0
+cases_count: 0
+tasks_count: 0
+provider: email
+uid: papa@gg.com
+tokens: "{}"
+admin: false
+changelogs_count: 0
+organization_id: 
+', '2016-12-07 09:54:58.090509', NULL, 2);
+
+
+--
+-- TOC entry 4058 (class 0 OID 0)
+-- Dependencies: 289
+-- Name: versions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Mphanith
+--
+
+SELECT pg_catalog.setval('versions_id_seq', 2, true);
+
+
+-- Completed on 2016-12-09 14:21:47 ICT
+
+--
+-- PostgreSQL database dump complete
+--
+

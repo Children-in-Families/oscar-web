@@ -4,7 +4,7 @@ namespace :db do
   task :dump => :environment do
     cmd = nil
     with_config do |app, host, db, user|
-      cmd = "pg_dump -n public --column-inserts -a --verbose --no-acl -h #{host} -d #{db} > #{Rails.root}/db/#{app}_#{Rails.env}_pg.dump"
+      cmd = "pg_dump -n public --column-inserts -a --verbose --no-acl -d #{db} > #{Rails.root}/db/#{app}_#{Rails.env}_pg.dump"
     end
     puts cmd
     exec cmd
@@ -14,7 +14,7 @@ namespace :db do
   task :update_search_path => :environment do
     cmd = nil
     with_config do |app, host, db, user|
-      cmd = "sed 's/SET search_path =/SET search_path to cif,/' < #{Rails.root}/db/#{app}_#{Rails.env}_pg.dump > #{Rails.root}/db/#{app}_#{Rails.env}_updated_path_pg.dump"
+      cmd = "sed 's/SET search_path =/SET search_path to cif,/' < #{Rails.root}/db/#{app}_#{Rails.env}_pg.dump > #{Rails.root}/db/#{app}_#{Rails.env}_updated_pg.dump"
     end
     puts cmd
     exec cmd
@@ -24,7 +24,7 @@ namespace :db do
   task :restore => :environment do
     cmd = nil
     with_config do |app, host, db, user|
-      cmd = "psql #{db} < #{Rails.root}/db/#{app}_#{Rails.env}_updated_path_pg.dump"
+      cmd = "psql #{db} < #{Rails.root}/db/#{app}_#{Rails.env}_updated_pg.dump"
     end
     puts cmd
     exec cmd

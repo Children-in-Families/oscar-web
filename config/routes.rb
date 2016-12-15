@@ -68,8 +68,20 @@ Rails.application.routes.draw do
 
     get '/data_trackers' => 'data_trackers#index'
 
-    resources :stages
-    resources :able_screening_questions, except: [:index, :show]
+    namespace :able_screens, path: '/' do
+      namespace :question_submissions, path: '/' do
+        resources :stages
+        resources :able_screening_questions, except: [:index, :show]
+      end
+
+      namespace :answer_submissions do
+        resources :clients do
+          get 'able_screening_answers/new', to: 'able_screening_answers#new'
+          post 'able_screening_answers/create', to: 'able_screening_answers#create'
+        end
+      end
+    end
+
     resources :quarterly_reports, only: [:index]
 
     resources :materials, except: [:show] do
