@@ -18,10 +18,12 @@ QUESTION_GROUPS = {
                 language_skill: 'ជំនាញនៃភាសា', hearing: 'ការស្តាប់ឮ', vision: 'ការមើលឃើញ',
                 fine_motor: 'ចលនាតូច',  gross_motor: 'ចលនាធំ', self_care: 'ការថែរក្សាខ្លួន'
               }
-LOGO = File.open('cif-logo.png')
+cif_logo = File.open(Rails.root.join('app/assets/images/cif-logo.png'))
+nso_logo = File.open(Rails.root.join('app/assets/images/nso-logo.jpg'))
+
 ORGANIZATIONS = [
-            { full_name: 'Children In Family', short_name: 'cif', logo: LOGO },
-            { full_name: 'New Smile', short_name: 'new-smile', logo: LOGO }
+            { full_name: 'Children In Families', short_name: 'cif', logo: cif_logo },
+            { full_name: 'New Smile', short_name: 'newsmile', logo: nso_logo }
           ]
 domains.each do |domain|
   domain_color = Domain.find_or_initialize_by(score_4_color: 'success')

@@ -4,7 +4,11 @@ namespace :db do
   task :dump => :environment do
     cmd = nil
     with_config do |app, host, db, user|
-      cmd = "pg_dump -n public --column-inserts -a --verbose --no-acl -d #{db} > #{Rails.root}/db/#{app}_#{Rails.env}_pg.dump"
+      if Rails.env.production?
+        cmd = "pg_dump -n public --column-inserts -a --verbose --no-acl -h #{host} -d #{db} > #{Rails.root}/db/#{app}_#{Rails.env}_pg.dump"
+      else
+        cmd = "pg_dump -n public --column-inserts -a --verbose --no-acl -d #{db} > #{Rails.root}/db/#{app}_#{Rails.env}_pg.dump"
+      end
     end
     puts cmd
     exec cmd
