@@ -3,8 +3,8 @@ class CaseStatistic
   CLIENT_ACTIVE_STATUS = ['Active EC', 'Active FC', 'Active KC'].freeze
 
   def initialize(clients)
+    # Case.cases_by_client_id(@clients.ids)
     @clients = clients.where(status: CLIENT_ACTIVE_STATUS)
-    @clients.first.cases.current
     @cases = Case.active.most_recents.where(client: @clients)
   end
 

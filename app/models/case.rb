@@ -42,6 +42,11 @@ class Case < ActiveRecord::Base
     fosters.most_recents.first
   end
 
+  def self.cases_by_client_id(client_ids)
+    # active.where(client_id: client_ids).group(:client_id, :id).select('cases.*, MAX(created_at)')
+    active.where(client_id: client_ids).group(:client_id, :id).having('created_at = MAX(created_at)')
+  end
+
   def self.current
     active.most_recents.first
   end
