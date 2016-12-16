@@ -1,10 +1,15 @@
 class Client < ActiveRecord::Base
   extend FriendlyId
+
+  attr_reader :assessments_count
   attr_accessor :assessment_id
 
   friendly_id :slug, use: :slugged
 
   CLIENT_STATUSES = ['Referred', 'Active EC', 'Active KC', 'Active FC', 'Independent - Monitored', 'Exited - Deseased', 'Exited - Age Out', 'Exited Independent', 'Exited Adopted', 'Exited Other'].freeze
+
+  CLIENT_ACTIVE_STATUS = ['Active EC', 'Active FC', 'Active KC'].freeze
+
   ABLE_STATES = %w(Accepted Rejected Discharged).freeze
   EXIT_STATUSES   = CLIENT_STATUSES.select { |status| status if status.include?('Exited') }
 

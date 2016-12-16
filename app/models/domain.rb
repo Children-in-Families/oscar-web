@@ -2,6 +2,7 @@ class Domain < ActiveRecord::Base
   belongs_to :domain_group, counter_cache: true
 
   has_many   :assessment_domains
+  has_many   :assessments, through: :assessment_domains
   has_many   :tasks
 
   has_paper_trail

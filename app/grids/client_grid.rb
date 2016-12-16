@@ -3,7 +3,7 @@ class ClientGrid
 
   attr_accessor :current_user, :qType
   scope do
-    Client.includes({ cases: [:family, :partner] }, :referral_source, :user, :received_by, :followed_up_by, :province, :agencies).order('clients.status, clients.first_name')
+    Client.includes({ cases: [:family, :partner] }, :referral_source, :user, :received_by, :followed_up_by, :province, :assessments, :birth_province).order('clients.status, clients.first_name')
   end
 
   filter(:name, :string, header: -> { I18n.t('datagrid.columns.clients.name') }) { |value, scope| scope.first_name_like(value) }
@@ -27,6 +27,7 @@ class ClientGrid
     Client.joins(:cases).where(cases: { exited: false }).each do |c|
       case_ids << c.cases.current.id
     end
+    binding.pry
     scope.joins(:cases).where(cases: { id: case_ids, case_type: name })
   end
 
@@ -264,7 +265,7 @@ class ClientGrid
   column(:slug, order:'clients.id', header: -> { I18n.t('datagrid.columns.clients.id') })
 
   column(:code, header: -> { I18n.t('datagrid.columns.clients.code') }) do |object|
-    object.code.present? ? object.code : ''
+    object.code ||= ''
   end
 
   column(:name, order: 'clients.first_name', header: -> { I18n.t('datagrid.columns.clients.name') }, html: true) do |object|
@@ -277,7 +278,7 @@ class ClientGrid
   end
 
   column(:gender, header: -> { I18n.t('datagrid.columns.clients.gender') }) do |object|
-    object.gender.titleize if object.gender
+    object.gender.try(:titleize)
   end
 
   column(:status, header: -> { I18n.t('datagrid.columns.clients.status') }) do |object|
@@ -313,7 +314,7 @@ class ClientGrid
   end
 
   column(:received_by, html: false, header: -> { I18n.t('datagrid.columns.clients.received_by') }) do |object|
-    object.received_by.name if object.received_by
+    object.received_by.try(:name)
   end
 
   column(:followed_up_by, html: true, header: -> { I18n.t('datagrid.columns.clients.followed_up_by') }) do |object|
@@ -321,7 +322,7 @@ class ClientGrid
   end
 
   column(:followed_up_by, html: false, header: -> { I18n.t('datagrid.columns.clients.followed_up_by') }) do |object|
-    object.followed_up_by.name if object.followed_up_by
+    object.followed_up_by.try(:name)
   end
 
   column(:agency, order: false, header: -> { I18n.t('datagrid.columns.clients.agencies_involved') }) do |object|
@@ -357,17 +358,17 @@ class ClientGrid
   end
 
   column(:referral_source, order: 'referral_sources.name', header: -> { I18n.t('datagrid.columns.clients.referral_source') }) do |object|
-    object.referral_source.name if object.referral_source
+    object.referral_source.try(:name)
   end
 
   column(:able_state, header: -> { I18n.t('datagrid.columns.clients.able_state') })
 
   column(:birth_province, header: -> { I18n.t('datagrid.columns.clients.birth_province') }) do |object|
-    object.birth_province.name if object.birth_province
+    object.birth_province.try(:name)
   end
 
   column(:province, order: 'provinces.name', header: -> { I18n.t('datagrid.columns.clients.current_province') }) do |object|
-    object.province.name if object.province
+    object.province.try(:name)
   end
 
   column(:state, header: -> { I18n.t('datagrid.columns.clients.state') }) do |object|
@@ -377,23 +378,23 @@ class ClientGrid
   column(:rejected_note, header: -> { I18n.t('datagrid.columns.clients.rejected_note') })
 
   column(:user, order: proc { |scope| scope.joins(:user).reorder('users.first_name') }, header: -> { I18n.t('datagrid.columns.clients.case_worker_or_staff') }) do |object|
-    object.user.name if object.user
+    object.user.try(:name)
   end
 
   column(:case_start_date, order: false, header: -> { I18n.t('datagrid.columns.clients.placements.start_date') }) do |object|
-    object.cases.current.start_date if object.cases.current
+    object.cases.current.try(:start_date)
   end
 
   column(:carer_names, order: false, header: -> { I18n.t('datagrid.columns.clients.placements.carer_names') }) do |object|
-    object.cases.current.carer_names if object.cases.current
+    object.cases.current.try(:carer_names)
   end
 
   column(:carer_address, order: false, header: -> { I18n.t('datagrid.columns.clients.placements.carer_address') }) do |object|
-    object.cases.current.carer_address if object.cases.current
+    object.cases.current.try(:carer_address)
   end
 
   column(:carer_phone_number, order: false, header: -> { I18n.t('datagrid.columns.clients.placements.carer_phone_number') }) do |object|
-    object.cases.current.carer_phone_number if object.cases.current
+    object.cases.current.try(:carer_phone_number)
   end
 
   column(:support_amount, order: false, header: -> { I18n.t('datagrid.columns.clients.placements.support_amount') }) do |object|
@@ -405,7 +406,7 @@ class ClientGrid
   end
 
   column(:support_note, order: false, header: -> { I18n.t('datagrid.columns.clients.placements.support_note') }) do |object|
-    object.cases.current.support_note if object.cases.current
+    object.cases.current.try(:support_note)
   end
 
   column(:family_preservation, order: false, header: -> { I18n.t('datagrid.columns.families.family_preservation') }) do |object|

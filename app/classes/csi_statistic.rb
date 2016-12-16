@@ -3,7 +3,7 @@ class CsiStatistic
   def initialize(clients)
     @clients = clients
   end
-  
+
   def assessment_domain_score
     assessments_by_index = assessment_amount
     data, assessments, series = [], [], []
@@ -28,7 +28,7 @@ class CsiStatistic
     data << series
     score_by_domain = data
   end
-  
+
   private
   def assessment_amount
     data = []

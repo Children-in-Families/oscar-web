@@ -60,6 +60,7 @@ group :development, :test do
   gem 'capybara',             '~> 2.5'
   gem 'poltergeist',          '~> 1.9.0'
   gem 'shoulda-whenever',     '~> 0.0.2'
+  gem 'bullet', '~> 5.4', '>= 5.4.3'
 end
 
 group :staging, :demo, :production do

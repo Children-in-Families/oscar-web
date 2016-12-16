@@ -46,6 +46,10 @@ class Case < ActiveRecord::Base
     active.most_recents.first
   end
 
+  def current?
+    client.cases.current == self
+  end
+
   def fc_or_kc?
     case_type == 'FC' || case_type == 'KC'
   end

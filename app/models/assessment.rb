@@ -1,6 +1,7 @@
 class Assessment < ActiveRecord::Base
 
-  belongs_to :client
+  belongs_to :client, counter_cache: true
+
   has_many :assessment_domains, dependent: :destroy
   has_many :domains,            through:   :assessment_domains
   has_many :case_notes,         dependent: :destroy
@@ -21,6 +22,7 @@ class Assessment < ActiveRecord::Base
     most_recents.first
   end
 
+  #USE COUNTER CACHE ON CLIENT ASSESSMENT COUNT
   def initial?
     self == client.assessments.most_recents.last || client.assessments.count.zero?
   end
@@ -40,7 +42,8 @@ class Assessment < ActiveRecord::Base
   end
 
   def assessment_domains_score
-    assessment_domains.map { |assessment_domain| "#{assessment_domain.domain.name}: #{assessment_domain.score}" }.join(', ')
+    # assessment_domains.map { |assessment_domain| "#{assessment_domain.domain.name}: #{assessment_domain.score}" }.join(', ')
+    domains.pluck(:name, :score).map { |item| item.join(': ') }.join(', ')
   end
 
   private
