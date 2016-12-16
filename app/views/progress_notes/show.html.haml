@@ -15,7 +15,7 @@
               = fa_icon('trash')
       .ibox-content
         .row
-          .col-sm-12
+          .col-xs-12
             %table.table.table-bordered
               %tr
                 %td.spacing-first-col
@@ -80,13 +80,20 @@
                 %td
                   %strong
                     = @progress_note.additional_note.html_safe
-              %tr
-                %td.spacing-first-col
-                  = t('.documents')
-                %td
-                  %strong
-                    - @progress_note.attachments.each do |attachment|
-                      = link_to original_filename(attachment), client_progress_note_attachment_path(@client, @progress_note, attachment)
+            - if @progress_note.attachments.any?
+              %table.table.table-bordered.attachments
+                %tr
+                  %td.text-center{ colspan: 3 }
+                    %h4= t('.attachments')
+                %tr
+                  %td.text-center
+                    %strong= t('.title')
+                  %td
+                - @progress_note.attachments.each do |attachment|
+                  %tr
+                    %td= original_filename(attachment)
+                    %td.text-center= link_to preview_or_download(attachment), client_progress_note_attachment_path(@client, @progress_note, attachment), class: 'btn btn-info btn-sm btn-download'
+
       .ibox-footer
         .row
           .col-xs-12

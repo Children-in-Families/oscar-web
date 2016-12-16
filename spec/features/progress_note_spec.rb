@@ -8,6 +8,7 @@ feature 'progress_note' do
   let!(:intervention){ create(:intervention) }
   let!(:material){ create(:material) }
   let!(:user){ create(:user) }
+  let!(:attachment){ create(:attachment, progress_note: progress_note, file: Rack::Test::UploadedFile.new('spec/supports/file.docx', 'application/zip')) }
 
   before do
     login_as(admin)
@@ -16,6 +17,10 @@ feature 'progress_note' do
   feature 'Show' do
     before do
       visit client_progress_note_path(progress_note.client, progress_note)
+    end
+
+    scenario 'attachments' do
+      expect(page).to have_link('Download', client_progress_note_attachment_path(client, progress_note, attachment))
     end
 
     scenario 'all info' do

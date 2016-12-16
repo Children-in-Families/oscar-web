@@ -20,7 +20,6 @@ class ProgressNotesController < AdminController
 
   def new
     @progress_note = @client.progress_notes.new
-    @attachment    = @progress_note.attachments.new
   end
 
   def create

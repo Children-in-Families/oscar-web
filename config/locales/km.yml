@@ -1765,6 +1765,13 @@ km:
       <<: *default_progress_note_fields
       are_you_sure: តើអ្នកប្រាកដហើយ?
       back: ត្រលប់ក្រោយ
+      attachments: ឯកសារភ្ជាប់
+      title: ឯកសារ
+      preview_download: មើលនិងទាញយក
+      download: ទាញយក
+    attachment_fields:
+      delete_attachment: លុបឯកសារ
+      are_you_sure: តើអ្នកប្រាកដហើយ?
     new:
       new_progress_note: កំណត់សំគាល់ការរីកចំរើនថ្មី
     edit:
@@ -1773,6 +1780,7 @@ km:
       <<: *default_progress_note_fields
       save: រក្សាទុក
       cancel: ទុកជាមោឃៈ
+      add_attachment: បន្ថែមឯកសារ
     create:
       successfully_created: កំណត់សំគាល់ការរីកចំរើនត្រូវបានបង្កើតដោយជោគជ័យ
     update:

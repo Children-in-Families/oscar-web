@@ -2,7 +2,6 @@ class FileUploader < CarrierWave::Uploader::Base
   include CarrierWave::MiniMagick
   include CarrierWave::MimeTypes
 
-  # Call method
   process :set_content_type
 
   def store_dir
@@ -18,7 +17,7 @@ class FileUploader < CarrierWave::Uploader::Base
   end
 
   def extension_white_list
-    %w(jpg jpeg gif png doc docx xls xlsx pdf )
+    %w(jpg jpeg png doc docx xls xlsx pdf )
   end
 
   protected

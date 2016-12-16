@@ -43,9 +43,9 @@
           = f.simple_fields_for :attachments do |attachment|
             = render 'attachment_fields', f: attachment
           .links
-            = link_to_add_association f, :attachments do
+            = link_to_add_association f, :attachments, class: 'btn btn-primary' do
               %i.glyphicon.glyphicon-plus-sign
-              Add attachment
+              = t('.add_attachment')
 
   .ibox-footer
     .form-actions

@@ -4,6 +4,7 @@ describe ProgressNote, 'associations' do
   it { is_expected.to belong_to(:location) }
   it { is_expected.to belong_to(:material) }
   it { is_expected.to belong_to(:user) }
+  it { is_expected.to have_many(:attachments).dependent(:destroy) }
   it { is_expected.to have_and_belong_to_many(:interventions)}
   it { is_expected.to have_and_belong_to_many(:assessment_domains)}
 end
