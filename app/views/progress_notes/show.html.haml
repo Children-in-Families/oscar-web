@@ -8,10 +8,10 @@
             .btn.btn-outline.btn-primary
               %i.fa.fa-chevron-up
           = link_to edit_client_progress_note_path(@client, @progress_note) do
-            .btn.btn-outline.btn-success
+            %div{ class: "btn btn-outline btn-success #{ability_to_update(ProgressNote)}" }
               = fa_icon('pencil')
           = link_to [@client, @progress_note], method: 'delete', data: { confirm: t('.are_you_sure') } do
-            .btn.btn-outline.btn-danger
+            %div{ class: "btn btn-outline btn-danger #{ability_to_delete(ProgressNote)}" }
               = fa_icon('trash')
       .ibox-content
         .row
