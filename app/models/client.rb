@@ -106,7 +106,7 @@ class Client < ActiveRecord::Base
 
   def next_assessment_date
     return Date.today if assessments.count.zero?
-    assessments.latest_record.created_at + 6.months
+    (assessments.latest_record.created_at + 6.months).to_date
   end
 
   def next_appointment_date
