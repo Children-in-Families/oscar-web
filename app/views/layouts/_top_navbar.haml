@@ -6,8 +6,9 @@
           %i.fa.fa-bars
     - else
       .navbar-header.logo
-        = link_to root_path do
-          = image_tag(ENV['NGO_LOGO'], class: 'navbar-minimalize minimalize-styl-2')
+        - if user_signed_in?
+          = link_to root_path do
+            = image_tag(ENV['NGO_LOGO'], class: 'navbar-minimalize minimalize-styl-2')
     %ul.nav.navbar-top-links.navbar-right.pull-right
       = render 'layouts/notification' if user_signed_in?
       %li.local-flag

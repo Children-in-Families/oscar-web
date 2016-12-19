@@ -52,7 +52,7 @@ km:
       signed_out: "ចាកចេញដោយជោគជ័យ"
       already_signed_out: "បានចេញដោយជោគជ័យ"
       new:
-        login: "ចូល"
+        login: "ចូល សំរាប់"
         email: "អ៊ីម៉ែល"
         password: "លេខសំងាត់"
         remember_me: "ចងចាំខ្ញុំ"

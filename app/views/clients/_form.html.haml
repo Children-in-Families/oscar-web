@@ -19,7 +19,8 @@
         .col-xs-12.col-md-4= f.association :province, collection: @province, label: "#{t('.current_province')}", include_blank: false
         .col-xs-12.col-md-4= f.input :current_address, input_html: { rows: '6' }, label: "#{t('.current_address')}"
         - if current_user.admin?
-          .col-xs-12.col-md-4= f.association :user, collection: @user, label: "#{t('.case_worker_or_staff')}", include_blank: false
+          .col-xs-12.col-md-4
+            = f.association :user, collection: @user, label: "#{t('.case_worker_or_staff')}", include_blank: false
         - else
           .col-xs-12.col-md-4
             .form-group.select.optional.disabled.client_user
@@ -36,7 +37,6 @@
             = f.text_field :follow_up_date, class: 'date optional form-control date-picker', type: 'text', name: 'client[follow_up_date]', id: 'client_follow_up_date'
             %span.input-group-addon
               %i.fa.fa-calendar-check-o
-
       .row
         .col-xs-12.col-md-4= f.association :agencies, collection: @agencies, multiple: true, label_method: :name, value_method: :id, label: "#{t('.agencies_involved')}"
         .col-xs-12.col-md-4= f.association :referral_source, collection: @referral_source, label: "#{t('.referral_source')}", include_blank: false
@@ -70,65 +70,6 @@
       .row
         .col-xs-12.col-md-8
           = f.input :able_state, collection: Client::ABLE_STATES, label: t('.able_state') if current_user.able_manager? && @client.persisted?
-      .row
-        .col-xs-12.col-md-4
-          %button.btn.btn-primary.btn-block{id: 'able-screening-test', "aria-expanded" => 'false', "data-target" => '#able-screening-collapse', "data-toggle" => 'collapse', type: 'button'}
-            %span Able Screening
-      .row
-        .col-xs-12
-          #able-screening-collapse.collapse
-            .panel.panel-default
-              .panel-heading
-                %h5.text-center Able Screening
-              .panel-body
-                .row
-                  .col-xs-12
-                    #non-stage-question
-                      %span.text-left.question-group-title= t('.general_question')
-                      = f.simple_fields_for(:answers, @answers_non_stage || f.object.answers.of_general_question) do |answer_builder|
-                        = render 'answer_fields', f: answer_builder
-                    %hr
-                .row
-                  .col-xs-12
-                    .table-responsive#stage-question
-                      %span.text-left.question-group-title= t('.stage')
-                      %hr
-                      %table.table.table-bordered.client-new
-                        %thead
-                          %tr
-                            %th.able-screening-header
-                            - @ordered_stage.each do |stage|
-                              %th.text-center.able-screening-header
-                                %span= "#{t('.from')} #{stage.from_age} #{t('.to')} #{stage.to_age} #{t('.year')}"
-                        %tbody
-                          - @able_screening_questions.each do |key, able|
-                            %tr
-                              %td.text-center
-                                %h5.vertical-align-group= QuestionGroup.find(key).name
-                              - @ordered_stage.each do |s|
-                                %td
-                                  = f.simple_fields_for(:answers, @answers_with_stage || f.object.answers.of_stage_question) do |answer_builder|
-                                    - if answer_builder.object.able_screening_question.question_group_id == key && answer_builder.object.able_screening_question.stage_id == s.id
-                                      .answer{ data: { 'from-age': "#{answer_builder.object.from_age_as_date}", 'to-age': "#{answer_builder.object.to_age_as_date}"} }
-                                        .row
-                                          .col-xs-12.text-center.able-screening-image
-                                            - if answer_builder.object.has_image?
-                                              = image_tag(answer_builder.object.able_screening_question.attachments.first.try(:image).try(:thumb))
-                                            - else
-                                              .image-default
-                                                = image_tag('image-placeholder.png')
-                                        .row
-                                          .col-xs-12.text-center
-                                            %h5= answer_builder.object.able_screening_question.question
-                                        .row
-                                          .col-xs-12.text-center
-                                            - if answer_builder.object.able_screening_question.free_text?
-                                              = answer_builder.input :description, label: t('.answer')
-                                            - else
-                                              = answer_builder.input :description, as: :radio_buttons, collection: %w(Yes No), label: false, input_html: { class: 'i-checks' }
-                                            = answer_builder.input :able_screening_question_id, as: :hidden, input_html: { value: answer_builder.object.able_screening_question_id }
-                                            = answer_builder.input :question_type, as: :hidden, input_html: { value: 'stage' }
-
   .ibox-footer
     .form-actions
       = f.submit t('save'), class: 'btn btn-primary form-btn'

@@ -18,10 +18,22 @@ QUESTION_GROUPS = {
                 language_skill: 'ជំនាញនៃភាសា', hearing: 'ការស្តាប់ឮ', vision: 'ការមើលឃើញ',
                 fine_motor: 'ចលនាតូច',  gross_motor: 'ចលនាធំ', self_care: 'ការថែរក្សាខ្លួន'
               }
+cif_logo = File.open(Rails.root.join('app/assets/images/cif-logo.png'))
+nso_logo = File.open(Rails.root.join('app/assets/images/nso-logo.jpg'))
+
+ORGANIZATIONS = [
+            { full_name: 'Children In Families', short_name: 'cif', logo: cif_logo },
+            { full_name: 'New Smile', short_name: 'newsmile', logo: nso_logo }
+          ]
 domains.each do |domain|
   domain_color = Domain.find_or_initialize_by(score_4_color: 'success')
   domain_color.update_attributes(score_4_color: 'primary')
 end
+
+ORGANIZATIONS.each do |org|
+  Organization.create_and_build_tanent(org)
+end
+
 # domains.each do |domain|
 #   dg = DomainGroup.find_or_create_by(name: domain[:group])
 #   Domain.find_or_create_by(name: domain[:name], identity: domain[:identity], description: domain[:description], domain_group_id: dg.id, score_1_color: domain[:score_1_color], score_2_color: domain[:score_2_color], score_3_color: domain[:score_3_color], score_4_color: domain[:score_4_color])

@@ -22,7 +22,7 @@ class Dashboard
       able_data
     else
       data_by_status
-    end    
+    end
   end
 
   def family_type_statistic

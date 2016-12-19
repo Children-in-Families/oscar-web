@@ -1,4 +1,4 @@
-= simple_form_for(@stage, title: "new stage") do |f|
+= simple_form_for([:able_screens, :question_submissions, @stage], title: "new stage") do |f|
   .ibox-content
     = error_notification(f)
     .form-inputs
@@ -14,4 +14,4 @@
         = link_to_add_association t('.add_question'), f, :able_screening_questions, class: 'btn btn-primary'
   .ibox-footer
     = f.submit t('save'), class: 'btn btn-primary form-btn'
-    = link_to t('cancel'), stages_path, class: 'btn btn-outline btn-default form-btn'
+    = link_to t('cancel'), able_screens_question_submissions_stages_path, class: 'btn btn-outline btn-default form-btn'

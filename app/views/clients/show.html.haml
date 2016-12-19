@@ -132,10 +132,7 @@
           - if can_read_client_progress_note?
             = link_to client_progress_notes_path(@client) do
               %span.btn-xs.btn.btn-warning.small-btn-margin= t('.progress_note')
-          - if @client.answers.any?
-            = link_to '', {"data-target" => "#myModal", "data-toggle" => "modal", :type => "button"} do
-              %span.btn-xs.btn.btn-warning.small-btn-margin= t('.client_able_answers')
-            = render('client_answers')
+          = able_screen_link(@client)
 
 .row.mini-margin
   .col-xs-12

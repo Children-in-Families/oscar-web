@@ -65,6 +65,7 @@ module VersionHelper
     currencies          = ['household_income']
     client_qc           = ['quantitative_case_id']
     agency_client       = ['agency_id']
+    organizations       = ['organization_id']
 
     if titleizeTexts.include?(k)
       if val == both_val[0]
@@ -132,6 +133,9 @@ module VersionHelper
     elsif stages.include?(k) && val.present?
       obj = Stage.find_by(id: val)
       val = obj.present? ? "#{obj.from_age} - #{obj.to_age}" : "##{val}"
+    elsif organizations.include?(k) && val.present?
+      obj = Organization.find_by(id: val)
+      val = obj.present? ? "#{obj.full_name}" : "##{val}"
     elsif k == 'reset_password_token'
       val = content_tag(:span, truncate(val), title: val)
     end

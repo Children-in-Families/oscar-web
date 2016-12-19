@@ -4,18 +4,24 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
+  has_paper_trail
+
   include DeviseTokenAuth::Concerns::User
 
   belongs_to :province,   counter_cache: true
   belongs_to :department, counter_cache: true
   has_many :cases
-  has_many :clients
   has_many :changelogs
   has_many :progress_notes, dependent: :restrict_with_error
 
-  has_paper_trail
+  has_many :client_case_workers
+  has_many :clients, through: :client_case_workers
 
-  validates :roles, presence: true
+  belongs_to :organization
+
+  delegate :full_name, :short_name, :logo, to: :organization, prefix: true
+
+  validates :roles, :organization, presence: true
 
   scope :first_name_like, -> (value) { where('LOWER(users.first_name) LIKE ?', "%#{value.downcase}%") }
   scope :last_name_like,  -> (value) { where('LOWER(users.last_name) LIKE ?', "%#{value.downcase}%") }
@@ -29,6 +35,7 @@ class User < ActiveRecord::Base
   scope :has_clients,     ->         { joins(:clients).without_json_fields.uniq }
 
   before_save :assign_as_admin
+  before_validation :join_organization
 
   ROLES.each do |role|
     define_method("#{role.parameterize.underscore}?") do
@@ -80,4 +87,9 @@ class User < ActiveRecord::Base
 
     { overdue_count: overdue.count, due_today_count: due_today.count }
   end
+
+  protected
+    def join_organization
+      self.organization ||= Organization.current
+    end
 end
