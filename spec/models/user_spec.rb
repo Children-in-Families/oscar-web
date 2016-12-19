@@ -136,6 +136,10 @@ end
 describe User, 'methods' do
   let!(:admin){ create(:user, roles: 'admin') }
   let!(:case_worker){ create(:user, roles: 'case worker', first_name: 'First Name', last_name: 'Last Name') }
+  let!(:ec_manager){ create(:user, roles: 'ec manager') }
+  let!(:fc_manager){ create(:user, roles: 'fc manager') }
+  let!(:kc_manager){ create(:user, roles: 'kc manager') }
+  let!(:able_manager){ create(:user, roles: 'able manager') }
   let!(:client) { create(:client, user: case_worker) }
   let!(:assessment) { create(:assessment, client: client, created_at: Date.today) }
 
@@ -188,5 +192,34 @@ describe User, 'methods' do
     it{ expect(third_case_worker.assessment_either_overdue_or_due_today).to eq({overdue_count: 0, due_today_count: 1}) }
     it{ expect(fourth_case_worker.assessment_either_overdue_or_due_today).to eq({overdue_count: 0, due_today_count: 1}) }
     it{ expect(fifth_case_worker.assessment_either_overdue_or_due_today).to eq({overdue_count: 0, due_today_count: 0}) }
+  end
+
+  context 'ec_manager?' do
+    it { expect(ec_manager.ec_manager?).to be_truthy }
+  end
+
+  context 'fc_manager?' do
+    it { expect(fc_manager.fc_manager?).to be_truthy }
+  end
+
+  context 'kc_manager?' do
+    it { expect(kc_manager.kc_manager?).to be_truthy }
+  end
+
+  context 'able_manager?' do
+    it { expect(able_manager.able_manager?).to be_truthy }
+  end
+
+  context 'any_case_manager?' do
+    it { expect(ec_manager.any_case_manager?).to be_truthy }
+    it { expect(fc_manager.any_case_manager?).to be_truthy }
+    it { expect(kc_manager.any_case_manager?).to be_truthy }
+  end
+
+  context 'any_manager?' do
+    it { expect(ec_manager.any_manager?).to be_truthy }
+    it { expect(fc_manager.any_manager?).to be_truthy }
+    it { expect(kc_manager.any_manager?).to be_truthy }
+    it { expect(able_manager.any_manager?).to be_truthy }
   end
 end

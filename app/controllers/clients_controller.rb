@@ -58,10 +58,9 @@ class ClientsController < AdminController
   end
 
   def create
-    @client = Client.new(client_params)
-    if current_user.case_worker? || current_user.able_manager? || current_user.any_case_manager?
-      @client.user_id = current_user.id
-    end
+    @client         = Client.new(client_params)
+    @client.user_id = current_user.id if current_user.case_worker?
+
     if @client.save
       AbleScreeningMailer.notify_able_manager(@client).deliver_now if @client.able?
       redirect_to @client, notice: t('.successfully_created')
