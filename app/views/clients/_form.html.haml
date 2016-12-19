@@ -19,7 +19,7 @@
         .col-xs-12.col-md-4= f.association :province, collection: @province, label: "#{t('.current_province')}", include_blank: false
         .col-xs-12.col-md-4= f.input :current_address, input_html: { rows: '6' }, label: "#{t('.current_address')}"
 
-        - if current_user.admin? || current_user.any_manager?
+        - if current_user.admin? || (current_user.any_manager? && @client.persisted?)
           .col-xs-12.col-md-4= f.association :user, collection: @user, label: "#{t('.case_worker_or_staff')}", include_blank: false
         - else
           .col-xs-12.col-md-4
