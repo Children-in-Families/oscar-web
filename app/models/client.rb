@@ -24,9 +24,6 @@ class Client < ActiveRecord::Base
   has_many :client_quantitative_cases
   has_many :quantitative_cases, through: :client_quantitative_cases
 
-  has_many :client_case_workers
-  has_many :case_workers, through: :client_case_workers
-
   accepts_nested_attributes_for :tasks
   accepts_nested_attributes_for :answers
 

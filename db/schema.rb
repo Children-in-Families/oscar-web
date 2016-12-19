@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161214023812) do
+ActiveRecord::Schema.define(version: 20161215033551) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -98,11 +98,14 @@ ActiveRecord::Schema.define(version: 20161214023812) do
   create_table "attachments", force: :cascade do |t|
     t.string   "image"
     t.integer  "able_screening_question_id"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
+    t.string   "file",                       default: ""
+    t.integer  "progress_note_id"
   end
 
   add_index "attachments", ["able_screening_question_id"], name: "index_attachments_on_able_screening_question_id", using: :btree
+  add_index "attachments", ["progress_note_id"], name: "index_attachments_on_progress_note_id", using: :btree
 
   create_table "case_contracts", force: :cascade do |t|
     t.date     "signed_on"
@@ -179,17 +182,6 @@ ActiveRecord::Schema.define(version: 20161214023812) do
   end
 
   add_index "changelogs", ["user_id"], name: "index_changelogs_on_user_id", using: :btree
-
-  create_table "client_case_workers", force: :cascade do |t|
-    t.integer  "user_id"
-    t.integer  "client_id"
-    t.boolean  "active"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  add_index "client_case_workers", ["client_id"], name: "index_client_case_workers_on_client_id", using: :btree
-  add_index "client_case_workers", ["user_id"], name: "index_client_case_workers_on_user_id", using: :btree
 
   create_table "client_quantitative_cases", force: :cascade do |t|
     t.integer  "quantitative_case_id"
@@ -835,12 +827,11 @@ ActiveRecord::Schema.define(version: 20161214023812) do
   add_foreign_key "assessment_domains_progress_notes", "progress_notes"
   add_foreign_key "assessments", "clients"
   add_foreign_key "attachments", "able_screening_questions"
+  add_foreign_key "attachments", "progress_notes"
   add_foreign_key "case_contracts", "cases"
   add_foreign_key "case_notes", "clients"
   add_foreign_key "changelog_types", "changelogs"
   add_foreign_key "changelogs", "users"
-  add_foreign_key "client_case_workers", "clients"
-  add_foreign_key "client_case_workers", "users"
   add_foreign_key "domains", "domain_groups"
   add_foreign_key "interventions_progress_notes", "interventions"
   add_foreign_key "interventions_progress_notes", "progress_notes"
