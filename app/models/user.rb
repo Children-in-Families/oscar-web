@@ -57,6 +57,10 @@ class User < ActiveRecord::Base
     ec_manager? || fc_manager? || kc_manager?
   end
 
+  def any_manager?
+    any_case_manager? || able_manager?
+  end
+
   def has_no_any_associated_objects?
     clients_count.zero? && cases_count.zero? && tasks_count.zero? && changelogs_count.zero? && progress_notes.count.zero?
   end
