@@ -92,7 +92,7 @@
                 - @progress_note.attachments.each do |attachment|
                   %tr
                     %td= original_filename(attachment)
-                    %td.text-center= link_to preview_or_download(attachment), client_progress_note_attachment_path(@client, @progress_note, attachment), class: 'btn btn-info btn-sm btn-download'
+                    %td.text-center= link_to preview_or_download(attachment), attachment.file.url, class: 'btn btn-info btn-sm btn-download'
 
       .ibox-footer
         .row
