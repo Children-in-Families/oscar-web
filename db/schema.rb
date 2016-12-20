@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161215070129) do
+ActiveRecord::Schema.define(version: 20161220064910) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -158,6 +158,7 @@ ActiveRecord::Schema.define(version: 20161215070129) do
     t.date     "case_conference_date"
     t.float    "time_in_care"
     t.boolean  "exited_from_cif",         default: false
+    t.boolean  "current",                 default: true
   end
 
   create_table "changelog_types", force: :cascade do |t|

@@ -1,4 +1,5 @@
 feature 'progress_note' do
+  let!(:org) { Organization.create_and_build_tanent(full_name: 'Testing Org', short_name: 'test') }
   let!(:admin){ create(:user, roles: 'admin') }
   let!(:client){ create(:client, able_state: Client::ABLE_STATES[0]) }
   let!(:other_location){ create(:location, name: 'ផ្សេងៗ Other') }

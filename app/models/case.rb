@@ -20,15 +20,20 @@ class Case < ActiveRecord::Base
   scope :with_reports,   -> { joins(:quarterly_reports).uniq }
   scope :with_contracts, -> { joins(:case_contracts).uniq }
   scope :case_types,     -> { pluck(:case_type).uniq }
+  scope :currents,       -> { active.where(current: true) }
 
   validates :family, presence: true, if: proc { |client_case| client_case.case_type != 'EC' }
-  validates :case_type, :start_date, presence: true
+  validates :case_type, :start_date,  presence: true
   validates :exit_date, presence: true, if: proc { |client_case| client_case.exited? }
   validates :exit_note, presence: true, if: proc { |client_case| client_case.exited? }
 
-  before_save :update_client_status
+  before_save :update_client_status, :set_current_status
   after_save :update_cases_to_exited_from_cif
   after_create :update_client_code
+
+  def short_start_date
+    start_date.end_of_month.strftime '%b-%y'
+  end
 
   def self.latest_emergency
     emergencies.most_recents.first
@@ -42,9 +47,8 @@ class Case < ActiveRecord::Base
     fosters.most_recents.first
   end
 
-  def self.cases_by_client_id(client_ids)
-    # active.where(client_id: client_ids).group(:client_id, :id).select('cases.*, MAX(created_at)')
-    active.where(client_id: client_ids).group(:client_id, :id).having('created_at = MAX(created_at)')
+  def self.cases_by_clients(clients)
+    currents.where(client: clients)
   end
 
   def self.current
@@ -72,6 +76,14 @@ class Case < ActiveRecord::Base
   end
 
   private
+
+  def set_current_status
+    c = Client.find(client.id)
+    if new_record? && c.cases.size > 1
+      c.cases.update_all(current: false)
+      c.cases.last.update(current: true)
+    end
+  end
 
   def update_client_status
     if new_record?

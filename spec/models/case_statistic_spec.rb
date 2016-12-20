@@ -22,6 +22,7 @@ describe CaseStatistic, 'statistic data' do
   end
 
   it 'returns current active cases of clients with multiple cases' do
+    ec_case.update(current: false)
     FactoryGirl.create(:case, case_type: 'FC', client: ec_client, start_date: 2.months.ago)
     data = [[2.months.ago.strftime("%b-%y"), 1.months.ago.strftime("%b-%y")], [{:name=>"Active FC", :data=>[3, nil]}, {:name=>"Active KC", :data=>[nil, 2]}]]
     expect(CaseStatistic.new(Client.all).statistic_data).to eq(data)

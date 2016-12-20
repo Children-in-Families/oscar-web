@@ -79,6 +79,8 @@ RSpec.configure do |config|
 
   config.before(:suite) do
     DatabaseCleaner.strategy = :truncation
+    Apartment::Tenant.drop('app') rescue nil
+    Organization.create_and_build_tanent(full_name: 'Organization Testing', short_name: 'app')
   end
 
   config.before(:each) do
@@ -91,12 +93,14 @@ RSpec.configure do |config|
 
   config.before(:each) do
     DatabaseCleaner.start
+    Apartment::Tenant.switch! 'app'
   end
 
   config.after(:each) do
     if Rails.env.test? || Rails.env.cucumber?
       FileUtils.rm_rf(Dir["#{Rails.root}/spec/support/uploads"])
     end
+    Apartment::Tenant.reset
     DatabaseCleaner.clean
   end
 

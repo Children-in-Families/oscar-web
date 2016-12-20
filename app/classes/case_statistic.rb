@@ -3,28 +3,31 @@ class CaseStatistic
   CLIENT_ACTIVE_STATUS = ['Active EC', 'Active FC', 'Active KC'].freeze
 
   def initialize(clients)
-    # Case.cases_by_client_id(@clients.ids)
     @clients = clients.where(status: CLIENT_ACTIVE_STATUS)
-    @cases = Case.active.most_recents.where(client: @clients)
+    @cases = Case.cases_by_clients(@clients)
   end
 
   def statistic_data
-    case_by_start_date = cases_grouped_by_case_type.group_by { |c| c.start_date.end_of_month.strftime "%b-%y"}.keys
-    cases_by_case_type = cases_grouped_by_case_type.group_by(&:case_type).sort
-    statistic_data, data_series = [], []
-    statistic_data << case_by_start_date
+
+    case_start_dates   = one_year_cases.map(&:short_start_date).uniq
+    cases_by_case_type = one_year_cases.group_by(&:case_type).sort
+    statistic_data     = []
+    data_series        = []
+
+    statistic_data << case_start_dates
 
     cases_by_case_type.each do |case_type, case_obj|
       data = {}
-      cases_by_date = case_obj.group_by { |c| c.start_date.end_of_month.strftime "%b-%y" }
+      cases_by_date = case_obj.group_by(&:short_start_date)
 
-      series, client_count = [], []
-      client_count << case_type_count(case_type)
+      series = []
+      client_cases_count_list = []
+      client_cases_count_list << cases_count_by(case_type: case_type)
 
-      case_by_start_date.each do |date|
+      case_start_dates.each do |date|
         if cases_by_date[date].present?
-          client_count << cases_by_date[date].count
-          series << client_count.sum
+          client_cases_count_list << cases_by_date[date].count
+          series << client_cases_count_list.sum
         else
           series << nil
         end
@@ -39,16 +42,11 @@ class CaseStatistic
   end
 
   private
+    def one_year_cases
+      @cases.where(start_date: 12.months.ago..Date.today).order('start_date')
+    end
 
-  def cases_grouped_by_case_type
-    @cases.where(start_date: 12.months.ago..Date.today).order('start_date')
-  end
-
-  # def case_ids_by_client_status
-  #
-  # end
-
-  def case_type_count(case_type)
-    @cases.where('case_type = ? AND start_date < ?', case_type, 12.months.ago).size
-  end
+    def cases_count_by(fields =  {})
+      @cases.where('case_type = ? AND start_date < ?', fields[:case_type], 12.months.ago).to_a.count
+    end
 end
