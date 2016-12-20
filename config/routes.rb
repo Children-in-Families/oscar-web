@@ -92,11 +92,6 @@ Rails.application.routes.draw do
       get 'version' => 'locations#version'
     end
 
-    resources :progress_notes do
-      get 'version' => 'progress_notes#version'
-      resources :attachments, only: [:show]
-    end
-
     resources :progress_note_types, except: [:show] do
       get 'version' => 'progress_note_types#version'
     end
@@ -127,6 +122,7 @@ Rails.application.routes.draw do
 
       resources :progress_notes do
         get 'version' => 'progress_notes#version'
+        resources :attachments, only: [:show]
       end
 
       get 'version' => 'clients#version'
@@ -152,5 +148,4 @@ Rails.application.routes.draw do
       end
     end
   end
-
-  end
+end
