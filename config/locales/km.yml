@@ -1181,7 +1181,7 @@ km:
         new_task_regarding: កាតព្វកិច្ចទាក់ទង៖
       edit:
         title: ពិនិត្យកែសម្រួលកាតព្វកិច្ច
-        new_task_regarding: កាតព្វកិច្ចទាក់ទង៖
+        edit_task_regarding: កាតព្វកិច្ចទាក់ទង៖
       form:
         domain: កត្តា
         enter_task_detail:  កាតព្វកិច្ចលំអិត

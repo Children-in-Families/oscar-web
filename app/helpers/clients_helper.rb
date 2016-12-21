@@ -25,10 +25,9 @@ module ClientsHelper
 
   def able_screen_link(client)
     if client.answers.any?
-      link_to '', {"data-target" => "#myModal", "data-toggle" => "modal", :type => "button"} do
+      link_to '', {"data-target" => "#clientAnswer", "data-toggle" => "modal", :type => "button"} do
         content_tag(:span, t('.client_able_answers'), class: 'btn btn-xs btn-warning small-btn-margin')
       end
-      render('client_answers')
     else
       return content_tag(:span, 'Able Screening Question', class: 'btn btn-xs btn-warning small-btn-margin disabled') if client.date_of_birth.blank?
       link_to able_screens_answer_submissions_client_able_screening_answers_new_path(client) do

@@ -1,4 +1,4 @@
-en:
+km:
   default_able_screening_question_fields: &default_able_screening_question_fields
     question: សំនួរ
     mode: ម៉ូដ
@@ -6,19 +6,25 @@ en:
 
   able_screens:
     question_submissions:
+      able_screening_questions:
+        new:
+          general_question: សំនួរទូទៅ
+        form:
+          <<: *default_able_screening_question_fields
+        attachment_fields:
+          browse: រកមើល
+        create:
+          successfully_created: សំនួរ Able Screening បានបង្កើតដោយជោគជ័យ
+        update:
+          successfully_updated: សំនួរ Able Screening ត្រូវបានកែសម្រួលដោយជោគជ័យ
+        destroy:
+          successfully_deleted: សំនួរ Able Screening ត្រូវបានលុបដោយជោគជ័យ
       stages:
         stage: តំណាក់កាល
         questions: សំនួរ
         attachment_fields:
           browse: រកមើល
         index:
-          general_question: General Question
-          question: Question
-          to: To
-          from: From
-          year: Year
-          new_general_question: New General Question
-          new_stage_question: New Stage Question
           stage: តំណាក់កាល
           able_screening_questions: សំនួរ Able Screening
           new_stage_question: បន្ថែមសំនួូរដំណាក់កាលថ្មី
@@ -48,8 +54,8 @@ en:
           group: ក្រុម
           questions: សំនួរ
         create:
-          successfully_created: ដំណាក់ការបានបង្កើតដោយជោគជ័យ
+          successfully_created: ដំណាក់កាលបានបង្កើតដោយជោគជ័យ
         update:
-          successfully_updated: ដំណាក់ការត្រូវបានកែសម្រួលដោយជោគជ័យ
+          successfully_updated: ដំណាក់កាលត្រូវបានកែសម្រួលដោយជោគជ័យ
         destroy:
-          successfully_deleted: ដំណាក់ការត្រូវបានលុបដោយជោគជ័យ
+          successfully_deleted: ដំណាក់កាលត្រូវបានលុបដោយជោគជ័យ

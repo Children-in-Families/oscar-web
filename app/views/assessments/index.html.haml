@@ -35,7 +35,7 @@
           .col-xs-12.col-sm-3
             - if @client.can_create_assessment?
               = link_to new_client_assessment_path(@client) do
-                .btn.btn-success.button
+                .btn.btn-primary.button
                   = t('.begin_now')
             - else
               .btn.btn-default.button.disabled
