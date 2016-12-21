@@ -1,4 +1,5 @@
 FactoryGirl.define do
+  Organization.switch_to 'app'
   factory :user do
     sequence(:email)  { |n| "#{n}#{FFaker::Internet.email}" }
     first_name FFaker::Name.first_name
