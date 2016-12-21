@@ -1,8 +1,8 @@
 class Domain < ActiveRecord::Base
   belongs_to :domain_group, counter_cache: true
 
-  has_many   :assessment_domains
-  has_many   :tasks
+  has_many   :assessment_domains, dependent: :restrict_with_error
+  has_many   :tasks, dependent: :restrict_with_error
 
   has_paper_trail
 
