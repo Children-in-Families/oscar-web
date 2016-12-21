@@ -17,6 +17,7 @@
 //= require cocoon
 //= require datepicker
 //= require metisMenu/jquery.metisMenu.js
+//= require highcharts.js
 
 // WRAPBOOTSTRAP
 //= require iCheck/icheck.min.js
@@ -35,7 +36,7 @@
 //= require filters
 //= require assessments/form
 //= require tasks/form
-//= require home/index
+//= require dashboards/index
 //= require case_notes/new
 //= require cases/form
 //= require admin/tasks

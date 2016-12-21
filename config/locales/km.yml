@@ -1355,7 +1355,7 @@ km:
         save: រក្សាទុក
         delete_my_account: លុបចោលគណនីរបស់ខ្ញុំ
         are_you_sure: តើអ្នកប្រាកដហើយ?
-  home:
+  dashboards:
     client:
       clients: អតិថិជន
       foster_cares_html: ករណី <br/>Foster

@@ -1,4 +1,4 @@
-CIF.HomeIndex = do ->
+CIF.DashboardsIndex = do ->
   _init = ->
     _clientGenderChart()
     _clientStatusChart()
