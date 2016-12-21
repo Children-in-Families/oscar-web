@@ -75,13 +75,19 @@ class Case < ActiveRecord::Base
     case_type != 'EC'
   end
 
+  def ec?
+    case_type == 'EC'
+  end
+
   private
 
   def set_current_status
     c = Client.find(client.id)
-    if new_record? && c.cases.size > 1
+    if new_record? && c.cases.active.size > 1
       c.cases.update_all(current: false)
-      c.cases.last.update(current: true)
+      c.cases.last.update_attributes(current: true)
+    elsif c.cases.active.size == 1 && c.cases.active.first.ec? && !c.cases.active.first.current?
+      c.cases.first.update_attributes(current: true)
     end
   end
 
