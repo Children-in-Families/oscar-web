@@ -16,6 +16,7 @@ class User < ActiveRecord::Base
 
   has_many :client_case_workers
   has_many :clients, through: :client_case_workers
+  has_many :tasks
 
   belongs_to :organization
 
@@ -75,17 +76,28 @@ class User < ActiveRecord::Base
   end
 
   def assessment_either_overdue_or_due_today
-    overdue   = []
-    due_today = []
-    clients.where(status: ['Active EC','Active FC','Active KC']).each do |c|
-      if c.next_assessment_date.to_date < Date.today
-        overdue << c
-      elsif c.next_assessment_date.to_date == Date.today
-        due_today << c
-      end
-    end
+    { overdue_count: Assessment.over_dues_of(clients).size,
+      due_today_count: Assessment.today_dues_of(clients).size
+    }
+    # overdue   = []
+    # due_today = []
+    # clients.all_active_types.each do |client|
+    #   if client.next_assessment_date.to_date < Date.today
+    #     overdue << client
+    #   elsif client.next_assessment_date.to_date == Date.today
+    #     due_today << client
+    #   end
+    # end
+    #
+    # { overdue_count: overdue.count, due_today_count: due_today.count }
+  end
 
-    { overdue_count: overdue.count, due_today_count: due_today.count }
+  def assessments_overdue
+    clients.all_active_types
+  end
+
+  def assessments_today
+
   end
 
   protected

@@ -5,7 +5,8 @@ class UserNotification
   end
 
   def overdue_tasks_count
-    Task.overdue_incomplete.of_user(@user).size
+    # Task.overdue_incomplete.of_user(@user).size
+    @user.tasks.overdue_incomplete.size
   end
 
   def any_overdue_tasks?
@@ -13,7 +14,8 @@ class UserNotification
   end
 
   def due_today_tasks_count
-    Task.today_incomplete.of_user(@user).size
+    # Task.today_incomplete.of_user(@user).size
+    @user.tasks.today_incomplete.size
   end
 
   def any_due_today_tasks?

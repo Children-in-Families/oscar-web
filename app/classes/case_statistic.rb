@@ -1,9 +1,7 @@
 class CaseStatistic
 
-  CLIENT_ACTIVE_STATUS = ['Active EC', 'Active FC', 'Active KC'].freeze
-
   def initialize(clients)
-    @clients = clients.where(status: CLIENT_ACTIVE_STATUS)
+    @clients = clients.all_active_types
     @cases = Case.cases_by_clients(@clients)
   end
 

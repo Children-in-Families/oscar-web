@@ -97,6 +97,7 @@ class Client < ActiveRecord::Base
   scope :without_assessments,  -> { includes(:assessments).where(assessments: { client_id: nil }) }
 
   scope :able,                 -> { where(able_state: ABLE_STATES[0]) }
+  scope :all_active_types, -> { where(status: CLIENT_ACTIVE_STATUS) }
 
   def reject?
     state_changed? && state == 'rejected'
@@ -110,6 +111,10 @@ class Client < ActiveRecord::Base
 
   def name
     "#{first_name} #{last_name}"
+  end
+
+  def self.next_assessment_candidates
+    Assessment.where('client IN (?) AND ', self)
   end
 
   def next_assessment_date
