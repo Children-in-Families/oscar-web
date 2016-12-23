@@ -613,6 +613,7 @@ km:
       general_info: ពត៌មានបន្ថែមរបស់អតិចិជន
       progress_note: កំណត់សំគាល់ការរីកចំរើន
       client_able_answers: ចំលើយ Able
+      able_screening_questions: សំនួរ Able
     client_answers:
       client_able_answers: ចំលើយ Able របស់អតិថិជន
       question: សំនួរ

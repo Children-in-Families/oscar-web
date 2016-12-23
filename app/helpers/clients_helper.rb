@@ -29,9 +29,9 @@ module ClientsHelper
         content_tag(:span, t('.client_able_answers'), class: 'btn btn-xs btn-warning small-btn-margin')
       end
     else
-      return content_tag(:span, 'Able Screening Question', class: 'btn btn-xs btn-warning small-btn-margin disabled') if client.date_of_birth.blank?
+      return content_tag(:span, t('.able_screening_questions'), class: 'btn btn-xs btn-warning small-btn-margin disabled') if client.date_of_birth.blank?
       link_to able_screens_answer_submissions_client_able_screening_answers_new_path(client) do
-        content_tag(:span, 'Able Screening Question', class: "btn btn-xs btn-warning small-btn-margin #{'disabled' if client.date_of_birth.blank?}")
+        content_tag(:span, t('.able_screening_questions'), class: "btn btn-xs btn-warning small-btn-margin #{'disabled' if client.date_of_birth.blank?}")
       end
     end
   end

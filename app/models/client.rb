@@ -44,7 +44,8 @@ class Client < ActiveRecord::Base
   validates :rejected_note, presence: true, on: :update, if: :reject?
 
   before_update :reset_user_to_tasks
-  after_create  :set_slug_as_alias, :set_able_status
+  after_create  :set_slug_as_alias
+  after_update :set_able_status, if: Proc.new { |client| client.able_state.nil? && answers.any? }
 
   scope :first_name_like,      -> (value) { where('LOWER(clients.first_name) LIKE ?', "%#{value.downcase}%") }
 

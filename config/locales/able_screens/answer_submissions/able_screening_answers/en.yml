@@ -9,3 +9,6 @@ en:
           from: From
           to: To
           answer: Answer
+        create:
+          successfully_created: Able Screening Answers has been successfully created.
+

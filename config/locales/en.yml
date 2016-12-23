@@ -618,6 +618,7 @@ en:
       general_info: More Information
       progress_note: Progress Note
       client_able_answers: Client Able Answers
+      able_screening_questions: Able Screening Questions
     client_answers:
       client_able_answers: Client Able Answers
       question: Q

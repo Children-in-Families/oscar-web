@@ -9,3 +9,5 @@ km:
           from: ចាប់ពី
           to: ទៅដល់
           answer: ចំលើយ
+        create:
+          successfully_created: ចំលើយ Able ត្រូវបានបង្កើតដោយជោគជ័យ
