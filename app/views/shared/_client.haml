@@ -31,4 +31,4 @@
                     = version_value_format(v[0], k, v)
                   %td.col-sm-4.truncate.assessment-after
                     = version_value_format(v[1], k, v)
-        = render 'shared/agency_and_quantitative_case', client_id: version.item_id, event: version.event
+        = render 'shared/agency_and_quantitative_case', client_id: version.item_id, event: version.event, version_created_at: version.created_at

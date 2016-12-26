@@ -13,7 +13,6 @@ class DataTrackerVersion
   def self.agency_and_quantitative_case(client_id, event)
     agency_ids = AgencyClient.where(client_id: client_id).pluck(:id)
     qc_ids = ClientQuantitativeCase.where(client_id: client_id).pluck(:id)
-    ids = agency_ids + qc_ids
-    PaperTrail::Version.where("item_id IN (?) AND event = ?", ids, event)
+    PaperTrail::Version.where("item_id IN (?) AND item_type = ? OR item_id IN (?) AND item_type = ? AND event = ?", agency_ids, 'AgencyClient', qc_ids, 'ClientQuantitativeCase', event)
   end
 end
