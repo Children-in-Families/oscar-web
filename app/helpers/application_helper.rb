@@ -158,4 +158,8 @@ module ApplicationHelper
   def ability_to_delete(object)
     'disabled' if cannot? :delete, object
   end
+
+  def current_organization_short_name
+    Organization.current.short_name
+  end
 end
