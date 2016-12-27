@@ -2,7 +2,7 @@ class StaticsController < ApplicationController
 
   def index
     @organizations = Organization.order(:created_at)
-    redirect_to dashboards_url(subdomain: current_user.organization_short_name) if user_signed_in?
+    redirect_to dashboards_url(subdomain: Organization.current.short_name) if user_signed_in?
   end
 
   def robots

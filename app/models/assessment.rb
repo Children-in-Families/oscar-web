@@ -26,7 +26,6 @@ class Assessment < ActiveRecord::Base
   end
 
   def self.today_dues_of(clients)
-    binding.pry
     today_dues.where(client: clients)
   end
 
