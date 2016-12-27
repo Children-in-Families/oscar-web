@@ -7,12 +7,10 @@
           %a.collapse-link
             .btn.btn-outline.btn-primary
               %i.fa.fa-chevron-up
-          = link_to edit_client_progress_note_path(@client, @progress_note) do
-            %div{ class: "btn btn-outline btn-success #{ability_to_update(ProgressNote)}" }
-              = fa_icon('pencil')
-          = link_to [@client, @progress_note], method: 'delete', data: { confirm: t('.are_you_sure') } do
-            %div{ class: "btn btn-outline btn-danger #{ability_to_delete(ProgressNote)}" }
-              = fa_icon('trash')
+          = link_to edit_client_progress_note_path(@client, @progress_note), class: "btn btn-outline btn-success #{ability_to_update(ProgressNote)}" do
+            = fa_icon('pencil')
+          = link_to [@client, @progress_note], method: 'delete', data: { confirm: t('.are_you_sure') }, class: "btn btn-outline btn-danger #{ability_to_delete(ProgressNote)}" do
+            = fa_icon('trash')
       .ibox-content
         .row
           .col-xs-12
