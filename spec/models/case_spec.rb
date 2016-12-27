@@ -15,7 +15,6 @@ describe Case, 'validations' do
   it { is_expected.to validate_presence_of(:start_date) }
   it { is_expected.to validate_presence_of(:case_type) }
   it { is_expected.to validate_presence_of(:family) }
-  it { is_expected.to validate_presence_of(:current) }
 
   context 'if active' do
     before { subject.exited = true }

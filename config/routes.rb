@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   root 'statics#index'
   get '/robots.txt' => 'statics#robots'
 
-  constraints LandingConstraint do
+  # constraints LandingConstraint do
     get '/dashboards' => 'dashboards#index'
     mount Thredded::Engine => '/forum'
 
@@ -146,6 +146,6 @@ Rails.application.routes.draw do
         end
       end
     end
-  end
+  # end
 
-  end
+end

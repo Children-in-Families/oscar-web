@@ -23,7 +23,7 @@ module CifWeb
     config.i18n.default_locale = :en
     config.i18n.available_locales = [:en, :km]
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
-    
+
     # Autoload path
     config.autoload_paths << "#{Rails.root}/lib"
     config.autoload_paths << Rails.root.join('app/classes')

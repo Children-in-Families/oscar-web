@@ -29,8 +29,8 @@ class Client < ActiveRecord::Base
   has_many :client_quantitative_cases
   has_many :quantitative_cases, through: :client_quantitative_cases
 
-  has_many :client_case_workers
-  has_many :case_workers, through: :client_case_workers
+  # has_many :client_case_workers
+  # has_many :case_workers, through: :client_case_workers
 
   accepts_nested_attributes_for :tasks
   accepts_nested_attributes_for :answers
@@ -236,7 +236,7 @@ class Client < ActiveRecord::Base
   end
 
   def set_slug_as_alias
-    self.paper_trail.without_versioning { |obj| obj.update_attributes(slug: "#{Organization.current.short_name}-#{id}") }
+    self.paper_trail.without_versioning { |obj| obj.update_attributes(slug: "#{Organization.current.try(:short_name)}-#{id}") }
   end
 
   def set_able_status

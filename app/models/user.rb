@@ -14,15 +14,12 @@ class User < ActiveRecord::Base
   has_many :changelogs
   has_many :progress_notes, dependent: :restrict_with_error
 
-  has_many :client_case_workers
-  has_many :clients, through: :client_case_workers
+  # has_many :client_case_workers
+  # has_many :clients, through: :client_case_workers
+  has_many :clients, dependent: :restrict_with_error
   has_many :tasks
 
-  belongs_to :organization
-
-  delegate :full_name, :short_name, :logo, to: :organization, prefix: true
-
-  validates :roles, :organization, presence: true
+  validates :roles, presence: true
 
   scope :first_name_like, -> (value) { where('LOWER(users.first_name) LIKE ?', "%#{value.downcase}%") }
   scope :last_name_like,  -> (value) { where('LOWER(users.last_name) LIKE ?', "%#{value.downcase}%") }
@@ -36,7 +33,6 @@ class User < ActiveRecord::Base
   scope :has_clients,     ->         { joins(:clients).without_json_fields.uniq }
 
   before_save :assign_as_admin
-  before_validation :join_organization
 
   ROLES.each do |role|
     define_method("#{role.parameterize.underscore}?") do
@@ -76,8 +72,8 @@ class User < ActiveRecord::Base
   end
 
   def assessment_either_overdue_or_due_today
-    { overdue_count: Assessment.over_dues_of(clients).size,
-      due_today_count: Assessment.today_dues_of(clients).size
+    { overdue_count: Assessment.over_dues_of(clients.all_active_types).size,
+      due_today_count: Assessment.today_dues_of(clients.all_active_types).size
     }
     # overdue   = []
     # due_today = []
@@ -96,12 +92,4 @@ class User < ActiveRecord::Base
     clients.all_active_types
   end
 
-  def assessments_today
-
-  end
-
-  protected
-    def join_organization
-      self.organization ||= Organization.current
-    end
 end

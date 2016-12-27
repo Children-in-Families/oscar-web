@@ -28,6 +28,7 @@ Dir[Rails.root.join('spec/supports/**/*.rb')].each { |f| require f }
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 Capybara.javascript_driver = :poltergeist
+Capybara.app_host= 'http://lvh.me'
 
 Capybara.register_driver :poltergeist do |app|
   Capybara::Poltergeist::Driver.new(app, {js_errors: false})
@@ -100,7 +101,6 @@ RSpec.configure do |config|
     if Rails.env.test? || Rails.env.cucumber?
       FileUtils.rm_rf(Dir["#{Rails.root}/spec/support/uploads"])
     end
-    Apartment::Tenant.reset
     DatabaseCleaner.clean
   end
 

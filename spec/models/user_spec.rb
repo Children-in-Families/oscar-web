@@ -1,7 +1,6 @@
 describe User, 'associations' do
   it { is_expected.to belong_to(:province)}
   it { is_expected.to belong_to(:department)}
-  it { is_expected.to belong_to(:organization)}
   it { is_expected.to have_many(:cases)}
   it { is_expected.to have_many(:clients)}
   it { is_expected.to have_many(:changelogs)}
@@ -10,14 +9,6 @@ end
 
 describe User, 'validations' do
   it { is_expected.to validate_presence_of(:roles) }
-  it { is_expected.to validate_presence_of(:organization) }
-end
-
-describe User, 'Delegate' do
-  it { is_expected.to delegate_method(:full_name).to(:organization).with_prefix }
-  it { is_expected.to delegate_method(:short_name).to(:organization).with_prefix }
-  it { is_expected.to delegate_method(:logo).to(:organization).with_prefix }
-
 end
 
 describe User, 'callbacks' do

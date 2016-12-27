@@ -5,7 +5,7 @@ FactoryGirl.define do
     carer_address FFaker::Address.street_address
     exited false
     association :family, factory: :family
-    # association :client, factory: :client
+    association :client, factory: :client
     association :province, factory: :province
     association :partner, factory: :partner
 

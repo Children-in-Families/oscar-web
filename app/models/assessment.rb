@@ -18,19 +18,25 @@ class Assessment < ActiveRecord::Base
 
   scope :most_recents, -> { order(created_at: :desc) }
 
-  scope :today_dues, -> { where(created_at: Date.today ) }
-  scope :over_dues, -> { where('created_at < ?', minimum(:created_at)+6.months) }
+  scope :today_dues, -> { where('DATE(created_at) = ?', (Date.today - 6.months).in_time_zone('Bangkok')) }
+  scope :over_dues, -> { where('created_at < ?', maximum_created_at) }
 
   def self.latest_record
     most_recents.first
   end
 
   def self.today_dues_of(clients)
+    binding.pry
     today_dues.where(client: clients)
   end
 
   def self.over_dues_of(clients)
     over_dues.where(client: clients)
+  end
+
+  def self.maximum_created_at
+    return Date.today.in_time_zone('Bangkok') unless any?
+    (last.created_at + 6.months).in_time_zone('Bangkok')
   end
 
   #USE COUNTER CACHE ON CLIENT ASSESSMENT COUNT
