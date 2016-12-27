@@ -11,7 +11,7 @@ module AbleScreens
       def create
         @able_screening_question = AbleScreeningQuestion.new(able_screening_question_params)
         if @able_screening_question.save
-          redirect_to stages_path, notice: t('.successfully_created')
+          redirect_to able_screens_question_submissions_stages_path, notice: t('.successfully_created')
         else
           render :new
         end
@@ -22,7 +22,7 @@ module AbleScreens
 
       def update
         if @able_screening_question.update_attributes(able_screening_question_params)
-          redirect_to stages_path, notice: t('.successfully_updated')
+          redirect_to able_screens_question_submissions_stages_path, notice: t('.successfully_updated')
         else
           render :edit
         end

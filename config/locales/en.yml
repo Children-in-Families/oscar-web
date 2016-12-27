@@ -618,6 +618,7 @@ en:
       general_info: More Information
       progress_note: Progress Note
       client_able_answers: Client Able Answers
+      able_screening_questions: Able Screening Questions
     client_answers:
       client_able_answers: Client Able Answers
       question: Q
@@ -1303,7 +1304,7 @@ en:
         save: Save
         delete_my_account: Delete My Account
         are_you_sure: Are you sure?
-  home:
+  dashboards:
     client:
       clients: Clients
       foster_cares_html: Foster <br/>Cares
@@ -1562,6 +1563,13 @@ en:
       <<: *default_progress_note_fields
       are_you_sure: Are you sure you want to delete?
       back: Back
+      attachments: Attachments
+      title: Title
+      preview_download: Preview & Download
+      download: Download
+    attachment_fields:
+      delete_attachment: Delete attachment
+      are_you_sure: Are you sure you want to delete?
     new:
       new_progress_note: New Progress Note
     edit:
@@ -1570,6 +1578,7 @@ en:
       <<: *default_progress_note_fields
       save: Save
       cancel: Cancel
+      add_attachment: Add attachment
     create:
       successfully_created: Progress Note has been successfully created.
     update:

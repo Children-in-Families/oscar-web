@@ -34,8 +34,7 @@ class DomainsController < AdminController
   end
 
   def destroy
-    if @domain.tasks_count.zero?
-      @domain.destroy
+    if @domain.destroy
       redirect_to domains_url, notice: t('.successfully_deleted')
     else
       redirect_to domains_url, alert: t('.alert')

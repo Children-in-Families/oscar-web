@@ -1,8 +1,8 @@
 module AbleScreens
   module AnswerSubmissions
     class AbleScreeningAnswersController < AdminController
-      load_and_authorize_resource :able_screening_answer, :class => 'Answer', :parent => false
       before_action :set_client
+      load_and_authorize_resource :client
 
       def new
         @ordered_stage                       = Stage.order('from_age, to_age')
@@ -21,7 +21,7 @@ module AbleScreens
       end
 
       def create
-        if @client.update_attributes(answer_params)
+        if @client.update(answer_params)
           AbleScreeningMailer.notify_able_manager(@client).deliver_now if @client.able?
           redirect_to @client, notice: t('.successfully_created')
         else

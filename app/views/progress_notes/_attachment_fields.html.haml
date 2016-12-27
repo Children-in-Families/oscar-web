@@ -1,0 +1,8 @@
+.row
+  .nested-fields.col-xs-12
+    .row
+      .col-xs-9.col-sm-6
+        = f.input :file, as: :file, label: f.object.file.present? ? original_filename(f.object) : false, input_html: { class: 'form-control' }
+      .col-xs-3.col-sm-6
+        = link_to_remove_association f, data: { confirm: t('.are_you_sure') }, class: 'btn btn-danger btn-sm', title: t('.delete_attachment') do
+          %i.glyphicon.glyphicon-trash

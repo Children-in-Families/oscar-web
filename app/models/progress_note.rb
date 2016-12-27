@@ -8,6 +8,9 @@ class ProgressNote < ActiveRecord::Base
   has_and_belongs_to_many :interventions
   has_and_belongs_to_many :assessment_domains
 
+  has_many :attachments, dependent: :destroy
+  accepts_nested_attributes_for :attachments, allow_destroy: true, reject_if: :all_blank
+
   has_paper_trail
 
   validates :client_id, :user_id, :date, presence: true

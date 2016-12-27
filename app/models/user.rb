@@ -11,9 +11,11 @@ class User < ActiveRecord::Base
   belongs_to :province,   counter_cache: true
   belongs_to :department, counter_cache: true
   has_many :cases
+  has_many :clients
   has_many :changelogs
   has_many :progress_notes, dependent: :restrict_with_error
 
+<<<<<<< HEAD
   # has_many :client_case_workers
   # has_many :clients, through: :client_case_workers
   has_many :clients, dependent: :restrict_with_error
@@ -54,6 +56,10 @@ class User < ActiveRecord::Base
 
   def any_case_manager?
     ec_manager? || fc_manager? || kc_manager?
+  end
+
+  def any_manager?
+    any_case_manager? || able_manager?
   end
 
   def has_no_any_associated_objects?

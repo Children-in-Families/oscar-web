@@ -29,9 +29,6 @@ class Client < ActiveRecord::Base
   has_many :client_quantitative_cases
   has_many :quantitative_cases, through: :client_quantitative_cases
 
-  # has_many :client_case_workers
-  # has_many :case_workers, through: :client_case_workers
-
   accepts_nested_attributes_for :tasks
   accepts_nested_attributes_for :answers
 
@@ -52,7 +49,8 @@ class Client < ActiveRecord::Base
   validates :rejected_note, presence: true, on: :update, if: :reject?
 
   before_update :reset_user_to_tasks
-  after_create  :set_slug_as_alias, :set_able_status
+  after_create  :set_slug_as_alias
+  after_update :set_able_status, if: Proc.new { |client| client.able_state.nil? && answers.any? }
 
   scope :first_name_like,      -> (value) { where('LOWER(clients.first_name) LIKE ?', "%#{value.downcase}%") }
 
@@ -119,7 +117,7 @@ class Client < ActiveRecord::Base
 
   def next_assessment_date
     return Date.today if assessments.count.zero?
-    assessments.latest_record.created_at + 6.months
+    (assessments.latest_record.created_at + 6.months).to_date
   end
 
   def next_appointment_date

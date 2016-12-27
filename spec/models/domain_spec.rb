@@ -1,6 +1,7 @@
 describe Domain, 'associations' do
   it { is_expected.to belong_to(:domain_group) }
-  it { is_expected.to have_many(:assessment_domains)}
+  it { is_expected.to have_many(:assessment_domains).dependent(:restrict_with_error)}
+  it { is_expected.to have_many(:tasks).dependent(:restrict_with_error)}
 end
 
 describe Domain, 'validations' do

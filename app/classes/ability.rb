@@ -14,6 +14,7 @@ class Ability
     elsif user.case_worker?
       can :manage, Client, user_id: user.id
       can :manage, ProgressNote
+      can :manage, Attachment
       can :manage, Case
       can :manage, Assessment
       can :manage, Survey
@@ -27,6 +28,7 @@ class Ability
       can :manage, Client, user_id: user.id
       can :manage, Client, able_state: Client::ABLE_STATES
       can :manage, ProgressNote
+      can :manage, Attachment
       can :manage, Assessment
       can :manage, Survey
       can :update, Assessment do |assessment|
@@ -60,6 +62,8 @@ class Ability
       can :update, Assessment do |assessment|
         assessment.client.active_fc?
       end
+      can :read, ProgressNote
+      can :read, Attachment
       cannot :update, Assessment do |assessment|
         Date.current > assessment.created_at + 2.weeks
       end
@@ -74,6 +78,8 @@ class Ability
       can :update, Assessment do |assessment|
         assessment.client.active_kc?
       end
+      can :read, ProgressNote
+      can :read, Attachment
       cannot :update, Assessment do |assessment|
         Date.current > assessment.created_at + 2.weeks
       end

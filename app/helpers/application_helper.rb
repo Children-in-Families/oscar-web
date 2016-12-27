@@ -146,4 +146,16 @@ module ApplicationHelper
   def date_time_format(date_time)
     date_time.in_time_zone.strftime('%d %B, %Y %H:%M:%S')
   end
+
+  def ability_to_write(object)
+    'disabled' if cannot? :write, object
+  end
+
+  def ability_to_update(object)
+    'disabled' if cannot? :update, object
+  end
+
+  def ability_to_delete(object)
+    'disabled' if cannot? :delete, object
+  end
 end

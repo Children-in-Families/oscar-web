@@ -613,6 +613,7 @@ km:
       general_info: ពត៌មានបន្ថែមរបស់អតិចិជន
       progress_note: កំណត់សំគាល់ការរីកចំរើន
       client_able_answers: ចំលើយ Able
+      able_screening_questions: សំនួរ Able
     client_answers:
       client_able_answers: ចំលើយ Able របស់អតិថិជន
       question: សំនួរ
@@ -1181,7 +1182,7 @@ km:
         new_task_regarding: កាតព្វកិច្ចទាក់ទង៖
       edit:
         title: ពិនិត្យកែសម្រួលកាតព្វកិច្ច
-        new_task_regarding: កាតព្វកិច្ចទាក់ទង៖
+        edit_task_regarding: កាតព្វកិច្ចទាក់ទង៖
       form:
         domain: កត្តា
         enter_task_detail:  កាតព្វកិច្ចលំអិត
@@ -1355,7 +1356,7 @@ km:
         save: រក្សាទុក
         delete_my_account: លុបចោលគណនីរបស់ខ្ញុំ
         are_you_sure: តើអ្នកប្រាកដហើយ?
-  home:
+  dashboards:
     client:
       clients: អតិថិជន
       foster_cares_html: ករណី <br/>Foster
@@ -1765,6 +1766,13 @@ km:
       <<: *default_progress_note_fields
       are_you_sure: តើអ្នកប្រាកដហើយ?
       back: ត្រលប់ក្រោយ
+      attachments: ឯកសារភ្ជាប់
+      title: ឯកសារ
+      preview_download: មើលនិងទាញយក
+      download: ទាញយក
+    attachment_fields:
+      delete_attachment: លុបឯកសារ
+      are_you_sure: តើអ្នកប្រាកដហើយ?
     new:
       new_progress_note: កំណត់សំគាល់ការរីកចំរើនថ្មី
     edit:
@@ -1773,6 +1781,7 @@ km:
       <<: *default_progress_note_fields
       save: រក្សាទុក
       cancel: ទុកជាមោឃៈ
+      add_attachment: បន្ថែមឯកសារ
     create:
       successfully_created: កំណត់សំគាល់ការរីកចំរើនត្រូវបានបង្កើតដោយជោគជ័យ
     update:
