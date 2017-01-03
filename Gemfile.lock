@@ -668,6 +668,7 @@ DEPENDENCIES
   phony_rails (~> 0.12.11)
   poltergeist (~> 1.9.0)
   pry
+  pundit (~> 1.1)
   rack-cors
   rails (= 4.2.2)
   rails-erd

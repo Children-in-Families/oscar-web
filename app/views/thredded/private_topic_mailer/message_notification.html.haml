@@ -1,0 +1,8 @@
+%blockquote= @topic.posts.first.filtered_content(self)
+%hr
+%p
+  This email was sent to you because #{@topic.user.name} included you in a
+  private topic, #{link_to @topic.title, topic_url(@topic, subdomain: Organization.current.short_name)}.
+  #{link_to 'Go here', topic_url(@topic, subdomain: Organization.current.short_name)} to view the conversation.
+%p
+  To unsubscribe from these emails, update your #{link_to 'preferences', edit_preferences_url(nil, subdomain: Organization.current.short_name)}.
