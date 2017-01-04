@@ -2,6 +2,7 @@ class CsiStatistic
 
   def initialize(clients)
     @clients = clients
+    @assessments = Assessment.where(client: @clients)
   end
 
   def assessment_domain_score
@@ -30,18 +31,20 @@ class CsiStatistic
   end
 
   private
-  def assessment_amount
-    data = []
-    if @clients.any?
-      max_count = @clients.map(&:assessments).map(&:count).max
-      max_count.times do |i|
-        arr = []
-        @clients.each do |c|
-          c.assessments.to_a.at(i).blank? ? arr << nil : arr << c.assessments.to_a.at(i).id
+    def assessment_amount
+      data = []
+      if @clients.any?
+        max_count = @clients.map(&:assessments).map(&:count).max
+
+        max_count.times do |i|
+          arr = []
+          @clients.each do |c|
+            c.assessments.to_a.at(i).blank? ? arr << nil : arr << c.assessments.to_a.at(i).id
+          end
+          data << arr.select(&:present?)
         end
-        data << arr.select(&:present?)
       end
+      data
     end
-    data
-  end
+
 end

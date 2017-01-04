@@ -27,7 +27,6 @@ class ClientGrid
     Client.joins(:cases).where(cases: { exited: false }).each do |c|
       case_ids << c.cases.current.id
     end
-    binding.pry
     scope.joins(:cases).where(cases: { id: case_ids, case_type: name })
   end
 

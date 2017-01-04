@@ -18,28 +18,10 @@ class Assessment < ActiveRecord::Base
 
   scope :most_recents, -> { order(created_at: :desc) }
 
-  scope :today_dues, -> { where('DATE(created_at) = ?', (Date.today - 6.months).in_time_zone('Bangkok')) }
-  scope :over_dues, -> { where('created_at < ?', maximum_created_at) }
-
   def self.latest_record
     most_recents.first
   end
 
-  def self.today_dues_of(clients)
-    binding.pry
-    today_dues.where(client: clients)
-  end
-
-  def self.over_dues_of(clients)
-    over_dues.where(client: clients)
-  end
-
-  def self.maximum_created_at
-    return Date.today.in_time_zone('Bangkok') unless any?
-    (last.created_at + 6.months).in_time_zone('Bangkok')
-  end
-
-  #USE COUNTER CACHE ON CLIENT ASSESSMENT COUNT
   def initial?
     self == client.assessments.most_recents.last || client.assessments.count.zero?
   end
@@ -59,7 +41,6 @@ class Assessment < ActiveRecord::Base
   end
 
   def assessment_domains_score
-    # assessment_domains.map { |assessment_domain| "#{assessment_domain.domain.name}: #{assessment_domain.score}" }.join(', ')
     domains.pluck(:name, :score).map { |item| item.join(': ') }.join(', ')
   end
 
