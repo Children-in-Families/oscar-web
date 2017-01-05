@@ -4,7 +4,7 @@
     = link_to private_topic.title, private_topic.path
   %cite.thredded--topics--updated-by
     = time_ago private_topic.updated_at
-    = private_topic.last_user
+    = private_topic.last_user.name
   %cite.thredded--topics--started-by
     = time_ago private_topic.created_at
-    = private_topic.user
+    = private_topic.user.name

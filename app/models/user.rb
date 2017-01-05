@@ -11,12 +11,9 @@ class User < ActiveRecord::Base
   belongs_to :province,   counter_cache: true
   belongs_to :department, counter_cache: true
   has_many :cases
-  has_many :clients
   has_many :changelogs
   has_many :progress_notes, dependent: :restrict_with_error
 
-  # has_many :client_case_workers
-  # has_many :clients, through: :client_case_workers
   has_many :clients, dependent: :restrict_with_error
   has_many :tasks
 
@@ -86,12 +83,10 @@ class User < ActiveRecord::Base
         due_today << client
       end
     end
-
     { overdue_count: overdue.count, due_today_count: due_today.count }
   end
 
   def assessments_overdue
     clients.all_active_types
   end
-
 end

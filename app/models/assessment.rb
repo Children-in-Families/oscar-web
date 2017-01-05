@@ -21,7 +21,7 @@ class Assessment < ActiveRecord::Base
   def self.latest_record
     most_recents.first
   end
-
+  
   def initial?
     self == client.assessments.most_recents.last || client.assessments.count.zero?
   end

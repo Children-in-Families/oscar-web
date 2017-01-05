@@ -1,0 +1,15 @@
+%body
+  - if policy(messageboard).read?
+    = link_to messageboard_topics_path(messageboard), class: 'thredded--messageboard' do
+      %header
+        %h2.thredded--messageboard--title= messageboard.name
+        %h3.thredded--messageboard--meta
+          = t 'thredded.messageboard.topics_and_posts_counts',                 
+            topics_count: number_to_human(messageboard.topics_count).downcase,
+            posts_count:  number_to_human(messageboard.posts_count).downcase
+      %p.thredded--messageboard--description= messageboard.description
+      - if messageboard.last_topic
+        %p.thredded--messageboard--byline
+          = t 'thredded.messageboard.last_updated_by_html',           
+            time_ago: time_ago(messageboard.last_topic.updated_at), 
+            user:     messageboard.last_user.name
