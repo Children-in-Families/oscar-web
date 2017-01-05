@@ -18,6 +18,7 @@ class User < ActiveRecord::Base
   has_many :tasks
 
   validates :roles, presence: true
+  validates :email, presence: true, uniqueness: { case_sensitive: false }
 
   scope :first_name_like, -> (value) { where('LOWER(users.first_name) LIKE ?', "%#{value.downcase}%") }
   scope :last_name_like,  -> (value) { where('LOWER(users.last_name) LIKE ?', "%#{value.downcase}%") }

@@ -806,6 +806,8 @@ en:
               taken: has already been taken
         user:
           attributes:
+            email:
+              taken: has already been taken
             current_password:
               blank: This field is required
               invalid: Invalid

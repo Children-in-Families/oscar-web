@@ -810,6 +810,7 @@ km:
           attributes:
             email:
               blank: មិនអាចរំលង
+              taken: ត្រូវបានប្រើរួចហើយ
             password:
               blank: មិនអាចរំលង
               too_short: អប្បបរមា៨តួអក្សរ
