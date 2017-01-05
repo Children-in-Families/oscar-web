@@ -15,20 +15,6 @@ RSpec.describe Organization, type: :model do
     it { is_expected.to have_many(:employees) }
   end
 
-  describe Organization, '#raise_error_non_public_tenant' do
-    it 'raises error when create non public tenant' do
-      Apartment::Tenant.switch!('cif')
-      org = Organization.create(short_name: 'test', full_name: 'New Test')
-      expect(org.errors).to include(:non_public_tenant)
-    end
-
-    it 'does not railse error when create on public tenant' do
-      Apartment::Tenant.switch!('public')
-      org = Organization.create(short_name: 'test', full_name: 'New Test')
-      expect(org.errors).not_to include(:non_public_tenant)
-    end
-  end
-
   describe Organization, '.current' do
     it 'return cif org when current tenant is cif' do
       Apartment::Tenant.switch!('cif')

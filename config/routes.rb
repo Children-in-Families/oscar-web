@@ -145,5 +145,4 @@ Rails.application.routes.draw do
         resources :case_notes, only: [:create]
       end
     end
-  end
 end

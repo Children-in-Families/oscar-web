@@ -36,7 +36,7 @@ end
 describe Client, 'callbacks' do
   let!(:client){ create(:client) }
   context 'set slug as alias' do
-    it { expect(client.slug).to eq("#{ENV['ORGANISATION_ABBREVIATION']}-#{client.id}") }
+    it { expect(client.slug).to eq("#{Organization.current.short_name}-#{client.id}") }
   end
 end
 

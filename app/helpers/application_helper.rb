@@ -144,7 +144,7 @@ module ApplicationHelper
   end
 
   def date_time_format(date_time)
-    date_time.in_time_zone.strftime('%d %B, %Y %H:%M:%S')
+    date_time.in_time_zone('Bangkok').strftime('%d %B, %Y %H:%M:%S')
   end
 
   def ability_to_write(object)
