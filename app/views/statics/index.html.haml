@@ -1,9 +1,9 @@
 .row.mini-margin
-  .col-xs-12.col-md-8.col-md-offset-2
-    - @organizations.each do |org|
-      = link_to dashboards_url(subdomain: org.short_name) do
-        .col-sm-6.col-md-4
-          .thumbnail
-            = image_tag(org.logo)
-            .caption
-              %h3.text-center= org.full_name
+  .col-xs-12.col-sm-8.col-sm-offset-2
+    .orgnanizations
+      .row
+        - @organizations.each do |org|
+          .col-xs-6.col-sm-4
+            = link_to dashboards_url(subdomain: org.short_name), class: 'org-link' do
+              .organization
+                = image_tag(org.logo)
