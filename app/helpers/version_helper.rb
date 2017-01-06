@@ -174,7 +174,7 @@ module VersionHelper
     case val
     when 'danger'  then 'Red'
     when 'info'    then 'Blue'
-    when 'success' then 'Green'
+    when 'primary' then 'Green'
     when 'warning' then 'Yellow'
     end
   end

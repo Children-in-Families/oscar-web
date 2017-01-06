@@ -1835,11 +1835,16 @@ km:
       value_of: តម្លៃនៃ
       before: មុនកំណែ
       after: ក្រោយកំណែ
+      date_deleted: កាលបរិច្ឆេទនៃការលុប
       Client: អតិថិជន
     assessment:
       'on': របស់
       change: បានធ្វើកំណែប្រែខាងក្រោម
       Assessment: ការប៉ាន់ប្រមាណ
+      value_of: តម្លៃនៃ
+      before: មុនកំណែ
+      after: ក្រោយកំណែ
+      date_deleted: កាលបរិច្ឆេទនៃការលុប
     case_note:
       'on': របស់
       change: បានធ្វើកំណែប្រែខាងក្រោម
@@ -1852,6 +1857,7 @@ km:
       value_of: តម្លៃនៃ
       before: មុនកំណែ
       after: ក្រោយកំណែ
+      date_deleted: កាលបរិច្ឆេទនៃការលុប
       id: លេខសំគាល់
       'on': របស់
       no_modification: មិនមានកំណែប្រែ

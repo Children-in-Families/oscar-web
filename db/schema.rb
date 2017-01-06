@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161220064910) do
+ActiveRecord::Schema.define(version: 20170106020143) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -184,17 +184,6 @@ ActiveRecord::Schema.define(version: 20161220064910) do
 
   add_index "changelogs", ["user_id"], name: "index_changelogs_on_user_id", using: :btree
 
-  create_table "client_case_workers", force: :cascade do |t|
-    t.integer  "user_id"
-    t.integer  "client_id"
-    t.boolean  "active"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  add_index "client_case_workers", ["client_id"], name: "index_client_case_workers_on_client_id", using: :btree
-  add_index "client_case_workers", ["user_id"], name: "index_client_case_workers_on_user_id", using: :btree
-
   create_table "client_quantitative_cases", force: :cascade do |t|
     t.integer  "quantitative_case_id"
     t.integer  "client_id"
@@ -275,7 +264,7 @@ ActiveRecord::Schema.define(version: 20161220064910) do
     t.string   "score_1_color",   default: "danger"
     t.string   "score_2_color",   default: "warning"
     t.string   "score_3_color",   default: "info"
-    t.string   "score_4_color",   default: "success"
+    t.string   "score_4_color",   default: "primary"
   end
 
   add_index "domains", ["domain_group_id"], name: "index_domains_on_domain_group_id", using: :btree
@@ -845,8 +834,6 @@ ActiveRecord::Schema.define(version: 20161220064910) do
   add_foreign_key "case_notes", "clients"
   add_foreign_key "changelog_types", "changelogs"
   add_foreign_key "changelogs", "users"
-  add_foreign_key "client_case_workers", "clients"
-  add_foreign_key "client_case_workers", "users"
   add_foreign_key "domains", "domain_groups"
   add_foreign_key "interventions_progress_notes", "interventions"
   add_foreign_key "interventions_progress_notes", "progress_notes"
