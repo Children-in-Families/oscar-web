@@ -1,4 +1,4 @@
-lock '3.5.0'
+lock '3.4.0'
 
 # set :application, 'children-in-families-web'
 set :application, 'cambodianfamilies-web'
