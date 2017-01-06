@@ -136,7 +136,8 @@ module ApplicationHelper
   end
 
   def organization_name
-    ENV['ORGANISATION_ABBREVIATION'].upcase
+    org_name = Organization.current.try(:full_name)
+    org_name ||= 'Cambodian Families'
   end
 
   def date_format(date)
