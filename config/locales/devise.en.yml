@@ -51,7 +51,7 @@ en:
       signed_out: "Signed out successfully."
       already_signed_out: "Signed out successfully."
       new:
-        login: "Log in To"
+        login: "Log in"
         email: "Email"
         password: "Password"
         remember_me: "Remember Me"
