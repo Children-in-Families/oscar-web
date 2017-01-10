@@ -4,6 +4,7 @@ class DataTrackersController < AdminController
   def index
     if params[:item_type]
       @versions = PaperTrail::Version.where(item_type: params[:item_type])
+      binding.pry
     else
       @versions = PaperTrail::Version.all
     end
