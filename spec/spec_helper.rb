@@ -32,6 +32,7 @@ Capybara.javascript_driver = :poltergeist
 
 Capybara.register_driver :poltergeist do |app|
   options = {
+    js_error: false,
     phantomjs_options: ['--load-images=false', '--ignore-ssl-errors=yes', '--ssl-protocol=any']
   }
   Capybara::Poltergeist::Driver.new(app, options)
