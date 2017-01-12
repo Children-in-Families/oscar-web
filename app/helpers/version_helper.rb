@@ -75,7 +75,7 @@ module VersionHelper
       end
     elsif val.class == Date
       val = date_format(val)
-    elsif val.class == ActiveSupport::TimeWithZone
+    elsif any_time_class(val)
       val = date_time_format(val)
     elsif booleans.include?(k)
       val = human_boolean(val)
@@ -221,5 +221,9 @@ module VersionHelper
     when 'delete' then 'danger'
     when 'update' then 'success'
     end
+  end
+
+  def any_time_class(val)
+    val.class == ActiveSupport::TimeWithZone || val.class == Time
   end
 end

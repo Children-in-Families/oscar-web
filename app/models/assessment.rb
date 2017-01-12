@@ -44,6 +44,10 @@ class Assessment < ActiveRecord::Base
     domains.pluck(:name, :score).map { |item| item.join(': ') }.join(', ')
   end
 
+  def assessment_domains_in_order
+    assessment_domains.order('created_at')
+  end
+
   private
 
   def must_be_six_month_period
