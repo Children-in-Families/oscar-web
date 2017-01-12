@@ -65,8 +65,10 @@ describe 'Case' do
       expect(page).to have_content('Carer Name')
     end
 
-    xscenario 'invalid' do
+    scenario 'invalid' do
       visit new_client_case_path(client, case_type: 'KC')
+      fill_in 'Carer Name', with: ''
+      fill_in 'Start Date', with: ''
       click_button 'Save'
       expect(page).to have_content("can't be blank")
     end
@@ -101,7 +103,13 @@ describe 'Case' do
       expect(page).to have_content('Case has been successfully updated')
     end
 
-    xscenario 'invalid'
+    scenario 'invalid', js: true do
+      fill_in 'Start Date', with: ''
+      click_button 'Save'
+
+      sleep 1
+      expect(page).to have_content("can't be blank")
+    end
   end
 
   feature 'Exit' do

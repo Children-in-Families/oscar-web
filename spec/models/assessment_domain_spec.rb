@@ -17,7 +17,7 @@ describe AssessmentDomain, 'class method' do
 
   context 'domain_color_class' do
     it { expect(assessment.assessment_domains.domain_color_class(domain_1A)).to eq('danger') }
-    it { expect(other_assessment.assessment_domains.domain_color_class(domain_1A)).to eq('success') }
+    it { expect(other_assessment.assessment_domains.domain_color_class(domain_1A)).to eq('primary') }
   end
 end
 
