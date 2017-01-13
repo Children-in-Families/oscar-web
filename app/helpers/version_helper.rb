@@ -157,7 +157,7 @@ module VersionHelper
   end
 
   def version_keys_skipable?(k, item_type = '')
-    k == 'tokens' || k == 'encrypted_password' || k == 'uid' || k == 'able' || (k == 'user_id' && (case?(item_type) || task?(item_type)))
+    k == 'tokens' || k == 'encrypted_password' || k == 'uid' || k == 'able' || (k == 'user_id' && (case?(item_type) || task?(item_type))) || k == 'admin'
   end
 
   private
