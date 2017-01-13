@@ -1624,6 +1624,8 @@ en:
       progress_note_types: Types of Note
       able_screening_questions: Able Screening Questions
       stages: Stages
+    per_page_form:
+      show: Show
   shared:
     version_type:
       client:

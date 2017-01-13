@@ -1826,7 +1826,8 @@ km:
       progress_note_types: កំណត់សំគាល់
       able_screening_questions: សំនួរ Able Screening
       stages: តំណាក់កាល
-
+    per_page_form:
+      show: បង្ហាញ
   shared:
     version_type:
       client:

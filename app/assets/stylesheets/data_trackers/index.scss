@@ -16,6 +16,19 @@ body[id='data_trackers-index'] {
   .panel-body{
     margin-bottom: -16px !important;
   }
+  
+  .page-select-label {
+    line-height: 4;
+    margin-bottom: 0px;
+  }
+
+  .page-select {
+    margin-top: 7px;
+    .form-group
+    {
+      margin-bottom: 0px;
+    }
+  }
 
   .table-responsive {
     border: none;
