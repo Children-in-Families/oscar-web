@@ -9,15 +9,13 @@ Rails.application.routes.draw do
 
   root 'statics#index'
   get '/robots.txt' => 'statics#robots'
-
-  # constraints LandingConstraint do
-  get '/dashboards' => 'dashboards#index'
-  mount Thredded::Engine => '/forum'
-
   # custom error pages
   %w(404 500).each do |code|
     match "/#{code}", to: 'errors#show', code: code, via: :all
   end
+
+  get '/dashboards' => 'dashboards#index'
+  mount Thredded::Engine => '/forum'
 
   resources :quarterly_reports
   devise_for :users, controllers: { registrations: 'registrations', sessions: 'sessions', passwords: 'passwords' }

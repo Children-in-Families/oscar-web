@@ -30,19 +30,20 @@ RSpec.describe Organization, type: :model do
   describe Organization, '.create_and_build_tanent' do
     context 'Success' do
       it 'create organization record' do
-        org = Organization.create_and_build_tanent(short_name: 'testing', full_name: 'Testing')
+        # binding.pry
+        org = Organization.create_and_build_tanent(short_name: 'testing1', full_name: 'Testing')
         expect(org.persisted?).to be_truthy
       end
 
       it 'built a tanent' do
-        org = Organization.create_and_build_tanent(short_name: 'testing', full_name: 'Testing')
+        org = Organization.create_and_build_tanent(short_name: 'testing2', full_name: 'Testing')
         tanent = Apartment::Tenant.switch!(org.short_name)
         expect(tanent).to include(org.short_name)
       end
     end
     context 'Fail' do
       it 'is unable to create organization record' do
-        org = Organization.create_and_build_tanent(short_name: 'testing')
+        org = Organization.create_and_build_tanent(short_name: 'testing3')
         expect(org.persisted?).to be_falsey
       end
     end

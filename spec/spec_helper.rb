@@ -28,11 +28,16 @@ Dir[Rails.root.join('spec/supports/**/*.rb')].each { |f| require f }
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 Capybara.javascript_driver = :poltergeist
-Capybara.app_host= 'http://lvh.me'
+# Capybara.app_host= 'http://lvh.me'
 
 Capybara.register_driver :poltergeist do |app|
-  Capybara::Poltergeist::Driver.new(app, {js_errors: false})
+  options = {
+    js_error: false,
+    phantomjs_options: ['--load-images=false', '--ignore-ssl-errors=yes', '--ssl-protocol=any']
+  }
+  Capybara::Poltergeist::Driver.new(app, options)
 end
+
 
 RSpec.configure do |config|
   config.include Warden::Test::Helpers
@@ -40,7 +45,6 @@ RSpec.configure do |config|
   config.include JsonSpec::Helpers
   config.include FeatureHelper
   config.include Select2
-
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
   # assertions if you prefer.
@@ -82,6 +86,15 @@ RSpec.configure do |config|
     DatabaseCleaner.strategy = :truncation
     Apartment::Tenant.drop('app') rescue nil
     Organization.create_and_build_tanent(full_name: 'Organization Testing', short_name: 'app')
+  end
+  
+  config.before(:each, js: true) do
+    page.driver.browser.url_blacklist = %w(http://use.typekit.net https://fonts.gstatic.com https://fonts.googleapis.com http://cdn.rawgit.com)
+    page.driver.browser.url_whitelist = %w(http://app.lvh.me http://lvh.me 127.0.0.1)
+    Capybara.default_max_wait_time = 10
+    Capybara.always_include_port = true
+    sub_domain = Organization.current.short_name
+    Capybara.app_host = "http://#{sub_domain}.lvh.me"
   end
 
   config.before(:each) do

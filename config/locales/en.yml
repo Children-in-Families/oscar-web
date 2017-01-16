@@ -1308,6 +1308,9 @@ en:
         save: Save
         delete_my_account: Delete My Account
         are_you_sure: Are you sure?
+    shared:
+      links:
+        back: Back
   dashboards:
     client:
       clients: Clients
