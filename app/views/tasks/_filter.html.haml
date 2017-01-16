@@ -10,4 +10,8 @@
           - if user.id.to_i == params[:user_id].to_i
             %option{ value: user.id, selected: 'selected' }= user.name
           - else
-            %option{ value: user.id }= user.name      
+            - if current_user.admin?
+              %option{ value: user.id }= user.name
+            - else
+              - unless user.admin?
+                %option{ value: user.id }= user.name
