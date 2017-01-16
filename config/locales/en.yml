@@ -742,6 +742,8 @@ en:
     destroy:
       successfully_deleted: User has been successfully deleted.
       alert: User cannot be deleted.
+    disable:
+      successfully_disable: User log​​ in permission has been successfully change.
     actions:
       are_you_sure: Are you sure you want to delete?
     version:

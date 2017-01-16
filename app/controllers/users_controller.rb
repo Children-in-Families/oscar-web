@@ -62,6 +62,13 @@ class UsersController < AdminController
     @versions = @user.versions.reorder(created_at: :desc)
   end
 
+  def disable
+    @user     = User.find(params[:user_id])
+    if @user.update_attributes(disable: !@user.disable)
+      redirect_to users_path, notice: t('.successfully_disable')
+    end
+  end
+
   private
 
   def user_params
