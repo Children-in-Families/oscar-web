@@ -1,8 +1,7 @@
 class TasksController < AdminController
   def index
-    @tasks = current_user.admin? ? Task.incomplete.filter(params) : Task.incomplete.of_user(current_user)
+    @tasks = Task.incomplete.of_user(task_of_user)
     @users = get_user
-    @user  = User.find(params[:user_id]) if params[:user_id]
   end
 
 	private
@@ -11,7 +10,15 @@ class TasksController < AdminController
   	if current_user.admin?
   		User.order(:first_name, :last_name)
   	else
-  		User.in_department(current_user.department_id)
+  		User.in_department(current_user.department_id).order(:first_name, :last_name)
   	end
+  end
+
+  def task_of_user
+    if params[:user_id]
+      User.find(params[:user_id])
+    else
+      current_user
+    end
   end
 end
