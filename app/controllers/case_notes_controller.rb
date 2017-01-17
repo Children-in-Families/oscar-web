@@ -1,5 +1,6 @@
 class CaseNotesController < AdminController
-  before_action :find_client
+  before_action :set_client
+  before_action :set_case_note, only: [:edit, :update]
 
   def index
     @case_notes = @client.case_notes.most_recents.page(params[:page]).per(1)
@@ -25,13 +26,33 @@ class CaseNotesController < AdminController
     @case_note = @client.case_notes.find(params[:id])
   end
 
+  def edit
+    authorize @case_note
+    @case_note.assessment = @client.assessments.latest_record
+    @case_note.populate_notes
+  end
+
+  def update
+    authorize @case_note
+    if @case_note.update(case_note_params)
+      redirect_to [@client, @case_note], notice: 'Successfully updated a case note'
+    else
+      render :edit
+    end
+  end
+
   private
+    def case_note_params
+      params.require(:case_note).permit(:meeting_date, :attendee, case_note_domain_groups_attributes: [:id, :note, :domain_group_id, :task_ids])
+    end
 
-  def case_note_params
-    params.require(:case_note).permit(:meeting_date, :attendee, case_note_domain_groups_attributes: [:id, :note, :domain_group_id, :task_ids])
-  end
+  protected
+    def set_client
+      @client = Client.accessible_by(current_ability).friendly.find(params[:client_id])
+    end
 
-  def find_client
-    @client = Client.accessible_by(current_ability).friendly.find(params[:client_id])
-  end
+    def set_case_note
+      @case_note = @client.case_notes.find(params[:id])
+    end
+
 end

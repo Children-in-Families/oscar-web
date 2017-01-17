@@ -1,5 +1,7 @@
 class User < ActiveRecord::Base
+
   ROLES = ['admin', 'case worker', 'able manager', 'ec manager', 'fc manager', 'kc manager']
+  MANAGERS = ROLES.select { |role| role if role.include?('manager') }
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
@@ -30,7 +32,7 @@ class User < ActiveRecord::Base
   scope :admins,          ->         { where(roles: 'admin') }
   scope :province_are,    ->         { joins(:province).pluck('provinces.name', 'provinces.id').uniq }
   scope :has_clients,     ->         { joins(:clients).without_json_fields.uniq }
-
+  scope :managers,        ->        { where(roles: MANAGERS) }
   before_save :assign_as_admin
 
   ROLES.each do |role|

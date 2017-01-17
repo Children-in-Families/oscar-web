@@ -74,25 +74,25 @@ class Dashboard
 
   def male_count
     if @user.admin?
-      Client.male.count
+      Client.all_active_types.male.size
     elsif @user.case_worker?
-      @user.clients.male.count
+      @user.clients.all_active_types.male.size
     elsif @user.able_manager?
-      Client.in_any_able_states_managed_by(@user).male.count
+      Client.in_any_able_states_managed_by(@user).all_active_types.male.size
     elsif @user.any_case_manager?
-      Client.managed_by(@user, @user.client_status).male.count
+      Client.managed_by(@user, @user.client_status).all_active_types.male.size
     end
   end
 
   def female_count
     if @user.admin?
-      Client.female.count
+      Client.all_active_types.female.size
     elsif @user.case_worker?
-      @user.clients.female.count
+      @user.clients.all_active_types.female.size
     elsif @user.able_manager?
-      Client.in_any_able_states_managed_by(@user).female.count
+      Client.in_any_able_states_managed_by(@user).all_active_types.female.size
     elsif @user.any_case_manager?
-      Client.managed_by(@user, @user.client_status).female.count
+      Client.managed_by(@user, @user.client_status).all_active_types.female.count
     end
   end
 

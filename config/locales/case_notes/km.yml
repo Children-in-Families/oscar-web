@@ -1,0 +1,42 @@
+km:
+  form: &form
+    label_note: ចំណាំ
+    meeting_detail: ពត៌មាននៃការប្រជុំ
+    meeting_with: ប្រជុំជាមួយ
+    on_date: 'ថ្ងៃ ខែ ឆ្នាំ:'
+    present: 'វត្តមានឣ្នកចូលរួម:'
+    domain: កត្តា
+    note: កំណត់ត្រា
+    tasks: កាតព្វកិច្ច
+    back: ត្រលប់ក្រោយ
+    save: រក្សាទុក
+    on_going_tasks: កាតព្វកិច្ចដែលមិនទាន់បំពេញ
+    tasks_arising: កាតព្វកិច្ចកើតឡើង
+    add_task: បន្ថែមកាតព្វកិច្ចថ្មី
+
+  case_notes:
+    index:
+      case_note_lists: បញ្ជីកំណត់ត្រា
+      back: ត្រលប់ក្រោយ
+      domain: កត្តា
+      you_need_to_create_assessment: ត្រូវបង្កើតការប៉ាន់ប្រមាណជាមុនសិន
+      new_case_note: កំណត់ត្រាថ្មី
+      case_note_on: កំណត់ត្រានៅថ្ងៃ
+      present: វត្តមានឣ្នកចូលរួម
+      completed_tasks: កាតព្វកិច្ចដែលបានធ្វើរួច
+    new:
+      <<: *form
+    edit:
+      <<: *form
+
+    add_task_form:
+      completion_date: ថ្ងៃកំនត់
+      domain: កត្តា
+      enter_task_detail: ពត៌មានកាតព្វកិច្ច
+      title: បន្ថែមកាតព្វកិច្ចថ្មី
+      save: រក្សាទុក
+    show:
+      case_note_on: កំណត់ត្រានៅថ្ងៃ
+      present: វត្តមានឣ្នកចូលរួម
+    create:
+      successfully_created: កំណត់ត្រាត្រូវបានបង្កើតដោយជោគជ័យ

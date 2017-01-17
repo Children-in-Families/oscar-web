@@ -14,10 +14,15 @@
         - @case_notes.each do |case_note|
           .panel.panel-info
             .panel-heading
-              %h4.pull-right
-                = t('.case_note_on')
-                = case_note.meeting_date.strftime('%B %d, %Y') if case_note.meeting_date
-              %h3= "#{t('.present')}: #{case_note.attendee}"
+              .row
+                .col-xs-5
+                  %h3= "#{t('.present')}: #{case_note.attendee}"
+                .col-xs-7.text-right
+                  %h4
+                    = t('.case_note_on')
+                    = case_note.meeting_date.strftime('%B %d, %Y') if case_note.meeting_date
+                  = edit_link(@client, case_note)
+
             .panel-body
               - case_note.case_note_domain_groups.each do |cdg|
                 .ibox.border-left-right.border-bottom
@@ -47,7 +52,7 @@
                                 - cdg.tasks.completed.each_with_index do |task, index|
                                   %li.list-group-item
                                     = "#{index + 1}. "
-                                    = task.name                 
+                                    = task.name
       .ibox-footer
         .text-center
           = paginate @case_notes

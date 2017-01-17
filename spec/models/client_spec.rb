@@ -204,6 +204,14 @@ describe Client, 'scopes' do
   let!(:other_client){ create(:client, state: 'rejected') }
   let!(:able_client) { create(:client, able_state: Client::ABLE_STATES[0]) }
 
+  let(:kc_client) { create(:client, status: 'Active KC', state: 'accepted') }
+  let(:fc_client) { create(:client, status: 'Active FC', state: 'accepted') }
+  let(:ec_client) { create(:client, status: 'Referred', state: 'accepted') }
+  let!(:kc) { create(:case, client: kc_client, case_type: 'KC') }
+  let!(:fc) { create(:case, client: fc_client, case_type: 'FC') }
+
+
+
   context 'first name like' do
     let!(:clients){ Client.first_name_like(client.first_name.downcase) }
     it 'should include record have first name like' do
@@ -211,6 +219,12 @@ describe Client, 'scopes' do
     end
     it 'should not include record not have first name like' do
       expect(clients).not_to include(other_client)
+    end
+  end
+
+  context '.active' do
+    it 'have all active clients' do
+      expect(Client.all_active_types.count).to eq(2)
     end
   end
 
