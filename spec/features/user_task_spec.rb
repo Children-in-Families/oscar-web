@@ -68,9 +68,6 @@ describe Task do
         expect(page).to have_select 'user_id', with_options: ['able manager', 'able caseworker']
         select 'able caseworker'
         sleep 1
-
-
-        
         panel = page.all(:css, '.panel').select { |p| p.all(:css, '.panel-heading').select { |pp| pp.text.include?('Overdue Tasks') }.first }.first
         expect(panel).to have_content(overdue_task.name)
       end
