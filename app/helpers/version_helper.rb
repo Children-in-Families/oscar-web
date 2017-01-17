@@ -75,7 +75,7 @@ module VersionHelper
       end
     elsif val.class == Date
       val = date_format(val)
-    elsif val.class == ActiveSupport::TimeWithZone
+    elsif any_time_class(val)
       val = date_time_format(val)
     elsif booleans.include?(k)
       val = human_boolean(val)
@@ -157,7 +157,7 @@ module VersionHelper
   end
 
   def version_keys_skipable?(k, item_type = '')
-    k == 'tokens' || k == 'encrypted_password' || k == 'uid' || k == 'able' || (k == 'user_id' && (case?(item_type) || task?(item_type)))
+    k == 'tokens' || k == 'encrypted_password' || k == 'uid' || k == 'able' || (k == 'user_id' && (case?(item_type) || task?(item_type))) || k == 'admin'
   end
 
   private
@@ -221,5 +221,9 @@ module VersionHelper
     when 'delete' then 'danger'
     when 'update' then 'success'
     end
+  end
+
+  def any_time_class(val)
+    val.class == ActiveSupport::TimeWithZone || val.class == Time
   end
 end

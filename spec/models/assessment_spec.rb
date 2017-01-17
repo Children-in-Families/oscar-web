@@ -50,6 +50,7 @@ describe Assessment, 'methods' do
   let!(:client) { create(:client) }
   let!(:assessment) { create(:assessment, created_at: last_assessment_date, client: client) }
   let!(:domain) { create(:domain) }
+  let!(:other_domain){ create(:domain) }
   let!(:assessment_domain) { create(:assessment_domain, assessment: assessment, domain: domain) }
 
   context 'latest record?' do
@@ -98,6 +99,13 @@ describe Assessment, 'methods' do
   context 'assessment domains score' do
     it 'should return domain score infomation string' do
       expect(assessment.assessment_domains_score).to eq "#{domain.name}: #{assessment_domain.score}"
+    end
+  end
+
+  context 'assessment domains in order' do
+    let!(:other_assessment_domain){ create(:assessment_domain, assessment: assessment, domain: other_domain) }
+    it 'should return assessment domains in order' do
+      expect(assessment.assessment_domains_in_order).to eq([assessment_domain, other_assessment_domain])
     end
   end
 end

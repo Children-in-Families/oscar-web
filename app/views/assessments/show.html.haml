@@ -31,7 +31,7 @@
         .table-responsive
           %table.table.table-bordered
             %tbody
-              - @assessment.assessment_domains.each do |ad|
+              - @assessment.assessment_domains_in_order.each do |ad|
                 %tr
                   %td.domain-detail
                     .domain-identity

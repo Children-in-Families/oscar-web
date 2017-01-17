@@ -35,7 +35,7 @@ describe 'Department' do
         fill_in 'Name', with: FFaker::Name.name
         click_button 'Save'
       end
-      sleep 1
+      wait_for_ajax
       expect(page).to have_content('Department has been successfully created.')
     end
     scenario 'invalid' do
@@ -43,7 +43,7 @@ describe 'Department' do
       within('#new_department') do
         click_button 'Save'
       end
-      sleep 1
+      wait_for_ajax
       expect(page).to have_content('Failed to create a department')
     end
   end
@@ -59,8 +59,8 @@ describe 'Department' do
         fill_in 'Name', with: name
         click_button 'Save'
       end
-      sleep 1
-      expect(page).to have_content(I18n.t('departments.update.successfully_updated'))
+      wait_for_ajax
+      expect(page).to have_content('Department has been successfully updated')
     end
     scenario 'invalid' do
       find("a[data-target='#departmentModal-#{department.id}']").click
@@ -68,7 +68,7 @@ describe 'Department' do
         fill_in 'Name', with: ''
         click_button 'Save'
       end
-      sleep 1
+      wait_for_ajax
       expect(page).to have_content(I18n.t('departments.update.failed_update'))
     end
   end
@@ -79,7 +79,7 @@ describe 'Department' do
     end
     scenario 'success' do
       find("a[href='#{department_path(department)}'][data-method='delete']").click
-      sleep 1
+      wait_for_ajax
       expect(page).to have_content('Department has been successfully deleted')
     end
     scenario 'disable' do
