@@ -1,41 +1,11 @@
 module VersionHelper
   def version_attribute(k, item_type = '')
-    if k == 'first_name'
-      k = 'name' if client?(item_type)
-    elsif k == 'user_id'
-      k = 'case worker / staff'    if client?(item_type) || survey?(item_type)
-      k = 'able / able staff name' if progress_note?(item_type)
-      k = 'creator'                if changelog?(item_type)
-    elsif k == 'change_version'
-      k = 'version'
-    elsif k == 'name'
-      k = 'task detail'            if task?(item_type)
-    elsif k == 'attendee'
-      k = 'present'
-    elsif k == 'listening_score'
-      k = 'I feel like my CCW listens to me when I speak.'
-    elsif k == 'problem_solving_score'
-      k = 'My CCW helps me solve my problems.'
-    elsif k == 'getting_in_touch_score'
-      k = 'My CCW knows of other services and groups of people who can help me, and helps me get in touch with them.'
-    elsif k == 'trust_score'
-      k = 'I can trust my CCW.'
-    elsif k == 'difficulty_help_score'
-      k = 'CIF has helped me through difficult times in my life.'
-    elsif k == 'support_score'
-      k = 'CIF has helped me through difficult times in my life.'
-    elsif k == 'family_need_score'
-      k = 'I am happy with the way CIF and my CCW have supported me.'
-    elsif k == 'care_score'
-      k = 'My CCW cares about what happens to the children I take care of.'
-    elsif k == 'contact_person_name'
-      k = 'contact name'
-    elsif k == 'contact_person_email'
-      k = 'email'
-    elsif k == 'contact_person_mobile'
-      k = 'contact mobile'
-    end
-    is_survey_score_text?(k) ? k : k.titleize
+    attribute_label[:first_name] = attribute_first_name(item_type)
+    attribute_label[:name]       = attribute_name(item_type)
+    attribute_label[:user_id]    = attribute_user_id(item_type)
+
+    k = attribute_label[:k] || k
+    survey_score_text?(k) ? k : k.titleize
   end
 
   def version_domain_name(id)
@@ -79,7 +49,7 @@ module VersionHelper
       val = date_time_format(val)
     elsif booleans.include?(k)
       val = human_boolean(val)
-    elsif is_free_text?(k) && has_html?(val)
+    elsif free_text?(k) && html?(val)
       val = strip_tags(val)
     elsif score_colors.include?(k)
       val = domain_score_color(val)
@@ -153,58 +123,77 @@ module VersionHelper
   end
 
   def version_not_show(item_type)
-    item_type != "AssessmentDomain" && item_type != "Assessment" && item_type != "CaseNote" && item_type != "CaseNoteDomainGroup" && item_type != "AgencyClient" && item_type != "Client" && item_type != "ClientQuantitativeCase"
+    arr = %w(AssessmentDomain Assessment CaseNote CaseNoteDomainGroup AgencyClient Client ClientQuantitativeCase)
+    arr.exclude?(item_type)
   end
 
   def version_keys_skipable?(k, item_type = '')
     k == 'tokens' || k == 'encrypted_password' || k == 'uid' || k == 'able' || (k == 'user_id' && (case?(item_type) || task?(item_type)))
   end
 
+  def version_color(event)
+    event_color = {
+      create: 'primary',
+      delete: 'danger',
+      update: 'success'
+    }
+    event_color[event.to_sym]
+  end
+
   private
 
-  def is_free_text?(k)
-    k == 'description' || k == 'response' || k == 'additional_note'
+  def attribute_first_name(type)
+    type == 'Client' ? 'name' : 'first_name'
   end
 
-  def has_html?(val)
-    strip_tags(val) != val
+  def attribute_name(type)
+    type == 'Task' ? 'task detail' : 'name'
   end
 
-  def domain_score_color(val)
-    case val
-    when 'danger'  then 'Red'
-    when 'info'    then 'Blue'
-    when 'primary' then 'Green'
-    when 'warning' then 'Yellow'
+  def attribute_user_id(type)
+    if type == 'Client' || type == 'Survey'
+      'case worker / staff'
+    elsif type == 'ProgressNote'
+      'able / able staff name'
+    elsif type == 'Changelog'
+      'creator'
     end
   end
 
-  def is_survey_score_text?(text)
-    texts = ['I feel like my CCW listens to me when I speak.',
-            'My CCW helps me solve my problems.',
-            'My CCW knows of other services and groups of people who can help me, and helps me get in touch with them.',
-            'I can trust my CCW.',
-            'CIF has helped me through difficult times in my life.',
-            'CIF has helped me through difficult times in my life.',
-            'I am happy with the way CIF and my CCW have supported me.',
-            'My CCW cares about what happens to the children I take care of.']
+  def free_text?(val)
+    type = %w(description response additional_note)
+    type.include?(val)
+  end
+
+  def html?(val)
+    strip_tags(val) != val
+  end
+
+  def domain_score_color(type)
+    domain_color = {
+      danger: 'Red',
+      info: 'Blue',
+      primary: 'Green',
+      warning: 'Yellow'
+    }
+    domain_color[type.to_sym]
+  end
+
+  def survey_score_text?(text)
+    texts =
+      [
+        attribute_label[:listening_score],
+        attribute_label[:problem_solving_score],
+        attribute_label[:getting_in_touch_score],
+        attribute_label[:trust_score],
+        attribute_label[:difficulty_help_score],
+        attribute_label[:support_score],
+        attribute_label[:family_need_score],
+        attribute_label[:care_score]
+      ]
     texts.include?(text)
-  end
 
-  def client?(item_type)
-    item_type == 'Client'
-  end
 
-  def survey?(item_type)
-    item_type == 'Survey'
-  end
-
-  def progress_note?(item_type)
-    item_type == 'ProgressNote'
-  end
-
-  def changelog?(item_type)
-    item_type == 'Changelog'
   end
 
   def task?(item_type)
@@ -215,11 +204,21 @@ module VersionHelper
     item_type == 'Case'
   end
 
-  def version_color(event)
-    case event
-    when 'create' then 'primary'
-    when 'delete' then 'danger'
-    when 'update' then 'success'
-    end
+  def attribute_label
+    {
+      change_version:         'version',
+      attendee:               'present',
+      listening_score:        'I feel like my CCW listens to me when I speak.',
+      problem_solving_score:  'My CCW helps me solve my problems.',
+      getting_in_touch_score: 'My CCW knows of other services and groups of people who can help me, and helps me get in touch with them.',
+      trust_score:            'I can trust my CCW.',
+      difficulty_help_score:  'CIF has helped me through difficult times in my life.',
+      support_score:          'CIF has helped me through difficult times in my life.',
+      family_need_score:      'I am happy with the way CIF and my CCW have supported me.',
+      care_score:             'My CCW cares about what happens to the children I take care of.',
+      contact_person_name:    'contact_name',
+      contact_person_email:   'email',
+      contact_person_mobile:  'contact_mobile'
+    }
   end
 end
