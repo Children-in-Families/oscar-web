@@ -15,8 +15,8 @@ ActiveRecord::Schema.define(version: 20170118022055) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-  enable_extension "hstore"
   enable_extension "uuid-ossp"
+  enable_extension "hstore"
 
   create_table "able_screening_questions", force: :cascade do |t|
     t.string   "question"
@@ -183,17 +183,6 @@ ActiveRecord::Schema.define(version: 20170118022055) do
   end
 
   add_index "changelogs", ["user_id"], name: "index_changelogs_on_user_id", using: :btree
-
-  create_table "client_case_workers", force: :cascade do |t|
-    t.integer  "user_id"
-    t.integer  "client_id"
-    t.boolean  "active"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  add_index "client_case_workers", ["client_id"], name: "index_client_case_workers_on_client_id", using: :btree
-  add_index "client_case_workers", ["user_id"], name: "index_client_case_workers_on_user_id", using: :btree
 
   create_table "client_quantitative_cases", force: :cascade do |t|
     t.integer  "quantitative_case_id"
@@ -853,8 +842,6 @@ ActiveRecord::Schema.define(version: 20170118022055) do
   add_foreign_key "case_notes", "clients"
   add_foreign_key "changelog_types", "changelogs"
   add_foreign_key "changelogs", "users"
-  add_foreign_key "client_case_workers", "clients"
-  add_foreign_key "client_case_workers", "users"
   add_foreign_key "domains", "domain_groups"
   add_foreign_key "interventions_progress_notes", "interventions"
   add_foreign_key "interventions_progress_notes", "progress_notes"

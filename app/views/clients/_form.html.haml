@@ -73,7 +73,7 @@
       .row
         .col-xs-12
           = f.simple_fields_for :properties do |prop_f|
-            - CustomField.last.field_objs.each do |field|
+            - CustomField.of_client.try(:field_objs).try(:each) do |field|
               = render "/shared/fields/#{field['type'].underscore}", f: prop_f, field_props: field
   .ibox-footer
     .form-actions
