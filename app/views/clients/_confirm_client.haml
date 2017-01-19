@@ -1,0 +1,10 @@
+#confirm-client-modal.modal.fade{"aria-hidden" => "true", :role => "dialog"}
+  .modal-dialog
+    .modal-content.panel-warning
+      .modal-header.panel-heading
+        %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button"} ×
+        %h4.modal-title
+      .modal-body.text-center
+      .modal-footer
+        %button#confirm.btn.btn-warning{:type => "button"} Confirm
+        %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Close

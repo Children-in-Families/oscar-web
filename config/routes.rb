@@ -134,6 +134,9 @@ Rails.application.routes.draw do
         resources :assessments, only: [:create]
         resources :tasks, only: [:create, :update]
         resources :case_notes, only: [:create]
+        collection do
+          get '/find' => 'clients#find'
+        end
       end
     end
   end
