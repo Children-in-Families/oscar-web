@@ -14,30 +14,14 @@ module VersionHelper
   end
 
   def version_value_format(val, k = '', both_val = [])
-    provinces           = ['birth_province_id', 'province_id']
-    referral_sources    = ['referral_source_id']
-    users               = ['received_by_id', 'followed_up_by_id', 'user_id']
-    booleans            = ['has_been_in_orphanage', 'has_been_in_government_care', 'able', 'dependable_income', 'family_preservation', 'exited', 'exited_from_cif', 'alert_manager']
-    titleizeTexts       = ['gender', 'state', 'family_type', 'roles']
-    departments         = ['department_id']
-    domain_groups       = ['domain_group_id']
-    partners            = ['partner_id']
-    families            = ['family_id']
-    clients             = ['client_id']
-    quantitative_types  = ['quantitative_type_id']
-    domains             = ['domain_id']
-    assessments         = ['assessment_id']
-    score_colors        = ['score_1_color', 'score_2_color', 'score_3_color', 'score_4_color']
-    progress_note_types = ['progress_note_type_id']
-    locations           = ['location_id']
-    materials           = ['material_id']
-    stages              = ['stage_id']
-    currencies          = ['household_income']
-    client_qc           = ['quantitative_case_id']
-    agency_client       = ['agency_id']
-    organizations       = ['organization_id']
-
-    if titleizeTexts.include?(k)
+    version_values_regular.each do |key, value|
+      if eval(value.to_s).include?(k) && val.present?
+        obj = key.to_s.singularize.classify.constantize.find_by(id: val)
+        val = obj.present? ? obj.name : "##{val}"
+      end
+      val
+    end
+    if version_values{:titleizeTexts}.include?(k) 
       if val == both_val[0]
         val  = both_val[0].downcase == both_val[1].downcase ? '' : val.titleize
       else
@@ -47,63 +31,27 @@ module VersionHelper
       val = date_format(val)
     elsif val.class == ActiveSupport::TimeWithZone
       val = date_time_format(val)
-    elsif booleans.include?(k)
+    elsif version_values{:booleans}.include?(k)
       val = human_boolean(val)
     elsif free_text?(k) && html?(val)
       val = strip_tags(val)
-    elsif score_colors.include?(k)
+    elsif version_values{:score_colors}.include?(k)
       val = domain_score_color(val)
-    elsif currencies.include?(k)
+    elsif version_values{:currencies}.include?(k)
       val = number_to_currency(val)
-    elsif provinces.include?(k) && val.present?
-      obj = Province.find_by(id: val)
-      val = obj.present? ? obj.name : "##{val}"
-    elsif referral_sources.include?(k) && val.present?
-      obj = ReferralSource.find_by(id: val)
-      val = obj.present? ? obj.name : "##{val}"
-    elsif users.include?(k) && val.present?
-      obj = User.find_by(id: val)
-      val = obj.present? ? obj.name : "##{val}"
-    elsif departments.include?(k) && val.present?
-      obj = Department.find_by(id: val)
-      val = obj.present? ? obj.name : "##{val}"
-    elsif domain_groups.include?(k) && val.present?
-      obj = DomainGroup.find_by(id: val)
-      val = obj.present? ? obj.name : "##{val}"
-    elsif partners.include?(k) && val.present?
-      obj = Partner.find_by(id: val)
-      val = obj.present? ? obj.name : "##{val}"
-    elsif families.include?(k) && val.present?
-      obj = Family.find_by(id: val)
-      val = obj.present? ? obj.name : "##{val}"
-    elsif clients.include?(k) && val.present?
-      obj = Client.find_by(id: val)
-      val = obj.present? ? obj.name : "##{val}"
-    elsif quantitative_types.include?(k) && val.present?
-      obj = QuantitativeType.find_by(id: val)
-      val = obj.present? ? obj.name : "##{val}"
-    elsif domains.include?(k) && val.present?
-      obj = Domain.find_by(id: val)
-      val = obj.present? ? obj.name : "##{val}"
-    elsif agency_client.include?(k) && val.present?
-      obj = Agency.find_by(id: val)
-      val = obj.present? ? obj.name : "##{val}"
-    elsif progress_note_types.include?(k) && val.present?
+    elsif version_values{:progress_note_types}.include?(k) && val.present?
       obj = ProgressNoteType.find_by(id: val)
       val = obj.present? ? obj.note_type : "##{val}"
-    elsif locations.include?(k) && val.present?
-      obj = Location.find_by(id: val)
-      val = obj.present? ? obj.name : "##{val}"
-    elsif client_qc.include?(k) && val.present?
+    elsif version_values{:client_qc}.include?(k) && val.present?
       obj = QuantitativeCase.find_by(id: val)
       val = obj.present? ? obj.value : "##{val}"
-    elsif materials.include?(k) && val.present?
+    elsif version_values{:materials}.include?(k) && val.present?
       obj = Material.find_by(id: val)
       val = obj.present? ? obj.status : "##{val}"
-    elsif stages.include?(k) && val.present?
+    elsif version_values{:stages}.include?(k) && val.present?
       obj = Stage.find_by(id: val)
       val = obj.present? ? "#{obj.from_age} - #{obj.to_age}" : "##{val}"
-    elsif organizations.include?(k) && val.present?
+    elsif version_values{:organizations}.include?(k) && val.present?
       obj = Organization.find_by(id: val)
       val = obj.present? ? "#{obj.full_name}" : "##{val}"
     elsif k == 'reset_password_token'
@@ -202,6 +150,38 @@ module VersionHelper
 
   def case?(item_type)
     item_type == 'Case'
+  end
+
+  def version_values
+    {
+      booleans:             ['has_been_in_orphanage', 'has_been_in_government_care', 'able', 'dependable_income', 'family_preservation', 'exited', 'exited_from_cif', 'alert_manager'],
+      titleizeTexts:        ['gender', 'state', 'family_type', 'roles'],
+      assessments:          ['assessment_id'],
+      score_colors:         ['score_1_color', 'score_2_color', 'score_3_color', 'score_4_color'],
+      progress_note_types:  ['progress_note_type_id'],
+      materials:            ['material_id'],
+      stages:               ['stage_id'],
+      currencies:           ['household_income'],
+      client_qc:            ['quantitative_case_id'],
+      organizations:        ['organization_id'],
+    }
+  end
+
+  def version_values_regular
+    {
+      families:             ['family_id'],
+      provinces:            ['birth_province_id', 'province_id'],
+      referral_sources:     ['referral_source_id'],
+      users:                ['received_by_id', 'followed_up_by_id', 'user_id'],
+      departments:          ['department_id'],
+      domain_groups:        ['domain_group_id'],
+      partners:             ['partner_id'],
+      quantitative_types:   ['quantitative_type_id'],
+      domains:              ['domain_id'],
+      locations:            ['location_id'],
+      agency_client:        ['agency_id'],
+      clients:              ['client_id'],
+    }
   end
 
   def attribute_label
