@@ -137,4 +137,9 @@ Rails.application.routes.draw do
       end
     end
   end
+
+  scope '', module: 'form_builder' do
+    resources :custom_fields
+  end
+
 end

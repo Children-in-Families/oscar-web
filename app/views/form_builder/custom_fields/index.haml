@@ -1,0 +1,8 @@
+.row
+  .col-xs-12
+    %table.table.table-hover
+      %thead
+        %th Entity Name
+      - @custom_fields.each do |custom_field|
+        %tr
+          %td= custom_field.entity_name

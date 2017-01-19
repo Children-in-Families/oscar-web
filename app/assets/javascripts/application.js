@@ -1,6 +1,7 @@
 // FRAMEWORK
 //= require jquery
 //= require jquery_ujs
+//= require jquery-ui
 //= require bootstrap-sprockets
 //= require jquery.steps.min
 //= require jquery.validate
@@ -18,6 +19,13 @@
 //= require datepicker
 //= require metisMenu/jquery.metisMenu.js
 //= require highcharts.js
+//= require formBuilder/src/js/events
+//= require formBuilder/src/js/form-builder
+//= require formBuilder/src/js/form-render
+//= require formBuilder/src/js/helpers
+//= require formBuilder/src/js/kc-toggle
+//= require formBuilder/src/js/polyfills
+//= require formBuilder/src/js/utils
 
 // WRAPBOOTSTRAP
 //= require iCheck/icheck.min.js
@@ -60,3 +68,6 @@
 //= require progress_notes/index
 //= require changelogs/index
 //= require domains/form
+
+//= require custom_fields/form
+//= require custom_fields/show

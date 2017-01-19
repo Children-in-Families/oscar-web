@@ -1,0 +1,7 @@
+= simple_form_for(@custom_field) do |f|
+  .ibox-content
+    = f.input :entity_name, collection: ['Client', 'Family']
+    = f.input :fields, as: :hidden
+    .build-wrap
+  .ibox-footer
+    = f.submit 'Save', class: 'btn btn-primary', id: 'custom-field-submit'

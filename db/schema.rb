@@ -11,10 +11,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170106020143) do
+ActiveRecord::Schema.define(version: 20170118022055) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "hstore"
+  enable_extension "uuid-ossp"
 
   create_table "able_screening_questions", force: :cascade do |t|
     t.string   "question"
@@ -182,6 +184,17 @@ ActiveRecord::Schema.define(version: 20170106020143) do
 
   add_index "changelogs", ["user_id"], name: "index_changelogs_on_user_id", using: :btree
 
+  create_table "client_case_workers", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "client_id"
+    t.boolean  "active"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "client_case_workers", ["client_id"], name: "index_client_case_workers_on_client_id", using: :btree
+  add_index "client_case_workers", ["user_id"], name: "index_client_case_workers_on_user_id", using: :btree
+
   create_table "client_quantitative_cases", force: :cascade do |t|
     t.integer  "quantitative_case_id"
     t.integer  "client_id"
@@ -224,6 +237,7 @@ ActiveRecord::Schema.define(version: 20170106020143) do
     t.string   "slug"
     t.string   "able_state"
     t.integer  "assessments_count"
+    t.text     "properties"
   end
 
   add_index "clients", ["slug"], name: "index_clients_on_slug", unique: true, using: :btree
@@ -233,6 +247,13 @@ ActiveRecord::Schema.define(version: 20170106020143) do
     t.integer  "quantitative_case_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "custom_fields", force: :cascade do |t|
+    t.string   "entity_name"
+    t.string   "fields"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
   create_table "departments", force: :cascade do |t|
@@ -832,6 +853,8 @@ ActiveRecord::Schema.define(version: 20170106020143) do
   add_foreign_key "case_notes", "clients"
   add_foreign_key "changelog_types", "changelogs"
   add_foreign_key "changelogs", "users"
+  add_foreign_key "client_case_workers", "clients"
+  add_foreign_key "client_case_workers", "users"
   add_foreign_key "domains", "domain_groups"
   add_foreign_key "interventions_progress_notes", "interventions"
   add_foreign_key "interventions_progress_notes", "progress_notes"

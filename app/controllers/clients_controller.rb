@@ -58,7 +58,8 @@ class ClientsController < AdminController
   end
 
   def create
-    @client         = Client.new(client_params)
+    binding.pry
+    @client = Client.new(client_params)
     if current_user.case_worker? || current_user.any_manager?
       @client.user_id = current_user.id
     end
@@ -116,12 +117,12 @@ class ClientsController < AdminController
               :follow_up_date, :grade, :school_name, :current_address,
               :has_been_in_orphanage, :has_been_in_government_care,
               :relevant_referral_information, :user_id, :province_id, :state,
-              :rejected_note, :able, :able_state,
+              :rejected_note, :able, :able_state, :properties,
               agency_ids: [],
               quantitative_case_ids: [],
               tasks_attributes: [:name, :domain_id, :completion_date],
               answers_attributes: [:id, :description, :able_screening_question_id, :client_id, :question_type]
-              )
+              ).merge(properties: params['client']['properties'])
   end
 
   def set_association
