@@ -91,11 +91,7 @@ Rails.application.routes.draw do
     get 'version' => 'interventions#version'
   end
 
-  resources :tasks do
-    collection do
-      put 'set_complete'
-    end
-  end
+  resources :tasks, only: :index
 
   resources :clients do
     resources :government_reports
