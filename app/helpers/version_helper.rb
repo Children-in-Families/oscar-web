@@ -54,6 +54,9 @@ module VersionHelper
     elsif version_values{:organizations}.include?(k) && val.present?
       obj = Organization.find_by(id: val)
       val = obj.present? ? "#{obj.full_name}" : "##{val}"
+    elsif version_values{:agency}.include?(k) && val.present?
+      obj = Agency.find_by(id: val)
+      val = obj.present? ? obj.name : "##{val}"
     elsif k == 'reset_password_token'
       val = content_tag(:span, truncate(val), title: val)
     end
@@ -164,6 +167,7 @@ module VersionHelper
       currencies:           ['household_income'],
       client_qc:            ['quantitative_case_id'],
       organizations:        ['organization_id'],
+      agency:               ['agency_id']
     }
   end
 
@@ -179,7 +183,6 @@ module VersionHelper
       quantitative_types:   ['quantitative_type_id'],
       domains:              ['domain_id'],
       locations:            ['location_id'],
-      agency_client:        ['agency_id'],
       clients:              ['client_id'],
     }
   end
