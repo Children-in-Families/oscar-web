@@ -1248,6 +1248,8 @@ km:
       case_note_on: កំណត់ត្រានៅថ្ងៃ
       present: វត្តមានឣ្នកចូលរួម
       completed_tasks: កាតព្វកិច្ចដែលបានធ្វើរួច
+      incomplete_tasks: កាតព្វកិច្ចដែលមិនទាន់បំពេញ
+      note: កំណត់ត្រា
     new:
       label_note: ចំណាំ
       meeting_detail: ពត៌មាននៃការប្រជុំ
@@ -1260,6 +1262,7 @@ km:
       back: ត្រលប់ក្រោយ
       save: រក្សាទុក
       on_going_tasks: កាតព្វកិច្ចដែលមិនទាន់បំពេញ
+      completed_tasks: កាតព្វកិច្ចដែលបានធ្វើរួច
       tasks_arising: កាតព្វកិច្ចកើតឡើង
       add_task: បន្ថែមកាតព្វកិច្ចថ្មី
     add_task_form:

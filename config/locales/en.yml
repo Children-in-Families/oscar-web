@@ -1194,6 +1194,8 @@ en:
       case_note_on: Case note on
       present: Present
       completed_tasks: Completed Tasks
+      incomplete_tasks: Incomplete Tasks
+      note: Note
     new:
       label_note: Note
       meeting_detail: Meeting detail
@@ -1206,6 +1208,7 @@ en:
       back: Back
       save: Save
       on_going_tasks: On Going Tasks
+      completed_tasks: Completed Tasks
       tasks_arising: Tasks Arising
       add_task: Add Task
     add_task_form:
