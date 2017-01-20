@@ -1,7 +1,6 @@
 module Select2
   def select2_select(options={})
     within options[:from] do
-      save_and_open_screenshot '99.jpg'
       find('div.select2-container').click
       find('span.select2-chosen').set(options[:with])
     end

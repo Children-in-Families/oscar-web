@@ -23,7 +23,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
 
         $.ajax({
           type: 'GET'
-          url: '/api/v1/clients/find'
+          url: '/clients/find'
           data: data
           dataType: "JSON"
         }).success((json)->
@@ -35,10 +35,12 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
             clientIds.push(String(client.id))
 
           if clients.length > 0 and clientId not in clientIds
-            modalTitle = 'Warning'
+            modalTitle      = $('#hidden_title').val()
+            modalTextFirst  = $('#hidden_body_first').val()
+            modalTextSecond = $('#hidden_body_second').val()
             modalText = []
             for client in clients
-              modalText.push("<p> Client #{client.first_name} has already been register in #{client.organization}!!! <p/>")
+              modalText.push("<p> #{modalTextFirst} #{client.first_name} #{modalTextSecond} #{client.organization} <p/>")
 
             $('#confirm-client-modal .modal-header .modal-title').text(modalTitle)
             $('#confirm-client-modal .modal-body').html(modalText)

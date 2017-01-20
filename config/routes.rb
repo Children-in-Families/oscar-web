@@ -114,6 +114,10 @@ Rails.application.routes.draw do
     resources :progress_notes do
       get 'version' => 'progress_notes#version'
     end
+    
+    collection do
+      get '/find' => 'clients#find'
+    end
 
     get 'version' => 'clients#version'
   end
@@ -134,9 +138,6 @@ Rails.application.routes.draw do
         resources :assessments, only: [:create]
         resources :tasks, only: [:create, :update]
         resources :case_notes, only: [:create]
-        collection do
-          get '/find' => 'clients#find'
-        end
       end
     end
   end
