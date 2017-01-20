@@ -16,7 +16,7 @@ module VersionHelper
   def version_value_format(val, k = '', both_val = [])
     version_values_regular.each do |key, value|
       if eval(value.to_s).include?(k) && val.present?
-        obj = key.to_s.singularize.classify.constantize.find_by(id: val)
+        obj = model_name(key).find_by(id: val)
         val = obj.present? ? obj.name : "##{val}"
       end
       val
@@ -131,8 +131,7 @@ module VersionHelper
   end
 
   def survey_score_text?(text)
-    texts =
-      [
+    texts = [
         attribute_label[:listening_score],
         attribute_label[:problem_solving_score],
         attribute_label[:getting_in_touch_score],
@@ -141,7 +140,7 @@ module VersionHelper
         attribute_label[:support_score],
         attribute_label[:family_need_score],
         attribute_label[:care_score]
-      ]
+    ]
     texts.include?(text)
   end
 
@@ -151,6 +150,10 @@ module VersionHelper
 
   def case?(item_type)
     item_type == 'Case'
+  end
+
+  def model_name(key)
+    eval(key.to_s.singularize.classify)
   end
 
   def version_values
