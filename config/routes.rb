@@ -22,6 +22,7 @@ Rails.application.routes.draw do
   scope 'admin' do
     resources :users do
       get 'version' => 'users#version'
+      get 'disable' => 'users#disable'
     end
   end
 
@@ -91,11 +92,7 @@ Rails.application.routes.draw do
     get 'version' => 'interventions#version'
   end
 
-  resources :tasks do
-    collection do
-      put 'set_complete'
-    end
-  end
+  resources :tasks, only: :index
 
   resources :clients do
     resources :government_reports
@@ -113,6 +110,10 @@ Rails.application.routes.draw do
 
     resources :progress_notes do
       get 'version' => 'progress_notes#version'
+    end
+    
+    collection do
+      get '/find' => 'clients#find'
     end
 
     get 'version' => 'clients#version'

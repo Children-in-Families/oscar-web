@@ -568,6 +568,12 @@ km:
       successfully_deleted: អតិថិជនត្រូវបានលុបដោយជោគជ័យ
     new:
       new_client_title: បង្កើតអតិថិជនថ្មី
+    confirm_client:
+      confirm: យល់ស្រប
+      close: បិទ
+      title: ប្រុងប្រយ័ត្ន
+      body_first: អតិថិជន
+      body_second: បានចុះឈ្មោះរួចរាល់នៅក្នុង
     edit:
       edit_client_title: កែសម្រួលពត៌មានអតិថិជន
     form:
@@ -738,6 +744,8 @@ km:
     destroy:
       successfully_deleted: អ្នកប្រើប្រាស់ត្រូវបានលុបដោយជោគជ័យ
       alert: អ្នកប្រើប្រាស់មិនអាចលុបបានទេ
+    disable:
+      successfully_disable: ការអនុញ្ញាតអោយចូលរបស់អ្នកប្រើប្រាស់ត្រូវបានផ្លាស់ប្ដូរដោយជោគជ័យ
     actions:
       are_you_sure: តើអ្នកប្រាកដហើយ?
     version:
