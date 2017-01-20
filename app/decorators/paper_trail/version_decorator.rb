@@ -16,6 +16,6 @@
   end
 
   def event_formated
-    I18n.t(".shared.version.#{event}")
+    I18n.t(".shared.version_type.common.#{event}")
   end
 end
