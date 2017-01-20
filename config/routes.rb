@@ -22,6 +22,7 @@ Rails.application.routes.draw do
   scope 'admin' do
     resources :users do
       get 'version' => 'users#version'
+      get 'disable' => 'users#disable'
     end
   end
 

@@ -40,6 +40,10 @@ class User < ActiveRecord::Base
     end
   end
 
+  def active_for_authentication?
+    super and !self.disable?
+  end
+
   def name
     "#{first_name} #{last_name}"
   end
