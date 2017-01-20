@@ -143,8 +143,6 @@ module VersionHelper
         attribute_label[:care_score]
       ]
     texts.include?(text)
-
-
   end
 
   def task?(item_type)
