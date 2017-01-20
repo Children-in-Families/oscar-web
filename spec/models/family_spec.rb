@@ -1,3 +1,7 @@
+describe Family, 'validation' do 
+  it { is_expected.to validate_inclusion_of(:family_type).in_array(Family::FAMILY_TYPE)}
+end
+
 describe Family, 'associations' do
   it { is_expected.to belong_to(:province) }
   it { is_expected.to have_many(:cases) }
@@ -8,6 +12,7 @@ describe Family, 'scopes' do
   let(:province) { create(:province) }
   let!(:family){ create(:family, family_type: 'kinship', province: province)}
   let!(:other_family){ create(:family, family_type: 'foster')}
+  let!(:emergency_family){ create(:family, family_type: 'emergency')}
 
   context 'name like' do
     let!(:families){ Family.name_like(family.name.downcase) }
@@ -54,6 +59,16 @@ describe Family, 'scopes' do
     end
     it 'should not include not foster type' do
       expect(Family.foster).not_to include(family)
+    end
+  end
+
+  context 'emergency' do
+    it 'should include emergency type' do
+      expect(Family.emergency).to include(emergency_family)
+    end
+    it 'should not include not emergency type' do
+      expect(Family.emergency).not_to include(family)
+      expect(Family.emergency).not_to include(other_family)
     end
   end
 

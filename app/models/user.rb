@@ -24,6 +24,7 @@ class User < ActiveRecord::Base
   scope :last_name_like,  -> (value) { where('LOWER(users.last_name) LIKE ?', "%#{value.downcase}%") }
   scope :mobile_like,     -> (value) { where('LOWER(users.mobile) LIKE ?', "%#{value.downcase}%") }
   scope :email_like,      -> (value) { where('LOWER(users.email) LIKE  ?', "%#{value.downcase}%") }
+  scope :in_department,   -> (value) { where('department_id = ?', value)}
   scope :job_title_are,   ->         { where.not(job_title: '').pluck(:job_title).uniq }
   scope :department_are,  ->         { joins(:department).pluck('departments.name', 'departments.id').uniq }
   scope :case_workers,    ->         { where('users.roles LIKE ?', '%case worker%') }
@@ -37,6 +38,10 @@ class User < ActiveRecord::Base
     define_method("#{role.parameterize.underscore}?") do
       roles == role
     end
+  end
+
+  def active_for_authentication?
+    super and !self.disable?
   end
 
   def name

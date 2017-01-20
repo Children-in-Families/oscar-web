@@ -1,5 +1,5 @@
 class AbleScreeningMailer < ApplicationMailer
-  default from: 'info@cambodianfamilies.com'
+  default from: 'cifdonotreply@gmail.com'
 
   def notify_able_manager(client)
     @client = client

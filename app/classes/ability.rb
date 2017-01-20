@@ -31,6 +31,7 @@ class Ability
       can :manage, Attachment
       can :manage, Assessment
       can :manage, Survey
+      can :manage, Tasks
       can :update, Assessment do |assessment|
         assessment.client.able?
       end
@@ -45,6 +46,7 @@ class Ability
       can :manage, Case, case_type: 'EC'
       can :manage, Assessment
       can :manage, Survey
+      can :manage, Tasks
       can :update, Assessment do |assessment|
         assessment.client.active_ec?
       end
@@ -59,6 +61,7 @@ class Ability
       can :manage, Case, case_type: 'FC'
       can :manage, Assessment
       can :manage, Survey
+      can :manage, Tasks
       can :update, Assessment do |assessment|
         assessment.client.active_fc?
       end
@@ -75,6 +78,7 @@ class Ability
       can :manage, Case, case_type: 'KC'
       can :manage, Assessment
       can :manage, Survey
+      can :manage, Tasks
       can :update, Assessment do |assessment|
         assessment.client.active_kc?
       end

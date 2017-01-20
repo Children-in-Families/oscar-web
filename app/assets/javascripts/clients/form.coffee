@@ -1,9 +1,60 @@
 CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
   _init = ->
+    _ajaxCheckExistClient()
     _clientSelectOption()
     _checkClientBirthdateAvailablity()
     _fixedHeaderStageQuestion()
     _toggleAnswer()
+
+  _ajaxCheckExistClient = ->
+    $('#dummy-button').on 'click', ->
+      name = $('#client_first_name').val()
+      gender =  $('#client_gender').val()
+      dateOfBirth = $('#client_date_of_birth').val()
+      birthProvicnceId = $('#client_birth_province_id').val()
+
+      if dateOfBirth != '' and name != '' and birthProvicnceId != ''
+        data = {
+          first_name: name
+          gender: gender
+          birth_province_id: birthProvicnceId
+          date_of_birth: dateOfBirth
+        }
+
+        $.ajax({
+          type: 'GET'
+          url: '/clients/find'
+          data: data
+          dataType: "JSON"
+        }).success((json)->
+          clientId = $('#client_id').val()
+          clientIds = []
+          clients = json.clients
+
+          for client in clients
+            clientIds.push(String(client.id))
+
+          if clients.length > 0 and clientId not in clientIds
+            modalTitle      = $('#hidden_title').val()
+            modalTextFirst  = $('#hidden_body_first').val()
+            modalTextSecond = $('#hidden_body_second').val()
+            modalText = []
+            for client in clients
+              modalText.push("<p> #{modalTextFirst} #{client.first_name} #{modalTextSecond} #{client.organization} <p/>")
+
+            $('#confirm-client-modal .modal-header .modal-title').text(modalTitle)
+            $('#confirm-client-modal .modal-body').html(modalText)
+
+            $('#confirm-client-modal').modal('show')
+            $('#confirm-client-modal #confirm').on 'click', ->
+              $("input[type='submit']").click()
+          else
+            $("input[type='submit']").click()
+        )
+      else
+        $("input[type='submit']").click()
+
+
 
   _clientSelectOption = ->
     $("#clients-edit select, #clients-new select, #clients-update select, #clients-create select").select2

@@ -1,5 +1,5 @@
 class CaseWorkerMailer < ActionMailer::Base
-  default from: 'info@cambodianfamilies.com'
+  default from: 'cifdonotreply@gmail.com'
 
   def tasks_due_tomorrow_of(user)
     @user = user

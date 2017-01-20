@@ -568,6 +568,12 @@ en:
       new_client_title: New Client
     create:
       successfully_created: Client has been successfully created.
+    confirm_client:
+      confirm: Confirm
+      close: Close
+      title: Warning
+      body_first: Client
+      body_second: has already been registered​ in
     update:
       successfully_updated: Client has been successfully updated.
       assessment_successfully_created: Assessment has been successfully created.
@@ -742,6 +748,8 @@ en:
     destroy:
       successfully_deleted: User has been successfully deleted.
       alert: User cannot be deleted.
+    disable:
+      successfully_disable: User log​​ in permission has been successfully change.
     actions:
       are_you_sure: Are you sure you want to delete?
     version:

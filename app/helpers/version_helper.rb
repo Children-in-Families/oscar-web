@@ -8,6 +8,11 @@ module VersionHelper
     survey_score_text?(k) ? k : k.titleize
   end
 
+  def type_assessment_domain(type,events)
+    type_assessment = ['score','reason','domain','goal','presence']
+    type_assessment.include?(type) && events != "create"
+  end
+
   def version_domain_name(id)
     ad = AssessmentDomain.find_by(id: id)
     ad.domain.name if ad.present?
