@@ -9,8 +9,7 @@
 
 set :stage, 'staging'
 
-# server '52.77.244.89', user: 'deployer', roles: %w{app web db}
-server '54.179.147.36', user: 'deployer', roles: %w{app web db}
+server 'cambodianfamilies-staging.com', user: 'deployer', roles: %w{app web db}
 
 # role-based syntax
 # ==================

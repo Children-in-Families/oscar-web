@@ -72,7 +72,7 @@ describe 'Domain' do
       expect(page).to have_content('Domain has been successfully deleted')
     end
     scenario 'disable delete' do
-      expect(page).to have_css("a[href='#{domain_path(other_domain)}'][data-method='delete'][class='btn btn-outline btn-danger btn-default disabled']")
+      expect(page).to have_css("a[href='#{domain_path(other_domain)}'][data-method='delete'][class='btn btn-outline btn-danger margin-left disabled']")
     end
   end
 end

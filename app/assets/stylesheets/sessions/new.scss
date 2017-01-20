@@ -1,5 +1,12 @@
-body[id=sessions-new]{
+body[id='sessions-new'],
+body[id='sessions-create'] {
   .icheckbox_square-green{
     margin-right: 10px;
+  }
+  .ibox-title {
+    min-height: 81px;
+    img {
+      max-width: 64px;
+    }
   }
 }

@@ -47,9 +47,11 @@ describe 'Client' do
     end
     scenario 'Domain Score Statistic and Case Type Statistic', js: true do
       page.find("#client-statistic").click
-      sleep 1
-      expect(page).to have_content(I18n.t('clients.index.csi_domain_scores'))
-      expect(page).to have_content(I18n.t('clients.index.case_statistics'))
+      wait_for_ajax
+      expect(page).to have_css("#cis-domain-score[data-title='CSI Domain Scores']")
+      expect(page).to have_css("#cis-domain-score[data-yaxis-title='Domain Scores']")
+      expect(page).to have_css("#case-statistic[data-title='Case Statistics']")
+      expect(page).to have_css("#case-statistic[data-yaxis-title='Client Amounts']")
     end
   end
 
@@ -95,7 +97,7 @@ describe 'Client' do
     scenario 'valid', js: true do
       fill_in 'Name', with: FFaker::Name.name
       click_button 'Save'
-      sleep 1
+      wait_for_ajax
       expect(page).to have_content('Client has been successfully created')
     end
 
@@ -114,7 +116,7 @@ describe 'Client' do
     scenario 'valid', js: true do
       fill_in 'Name', with: FFaker::Name.name
       click_button 'Save'
-      sleep 1
+      wait_for_ajax
       expect(page).to have_content('Client has been successfully updated')
     end
 
@@ -133,7 +135,7 @@ describe 'Client' do
     end
     scenario 'successfully' do
       first("a[data-method='delete'][href='#{client_path(client)}']").click
-      sleep 1
+      wait_for_ajax
       expect(page).to have_content('Client has been successfully deleted')
     end
   end
@@ -163,6 +165,7 @@ describe 'Client' do
       find("input[type='submit'][value='Reject']").click
     end
     scenario 'successfully', js: true do
+      wait_for_ajax
       expect(page).to have_content('Client has been successfully updated')
     end
   end
@@ -406,7 +409,7 @@ describe 'Client' do
       page.find('.exit_date').set(Date.strptime(FFaker::Time.date).strftime('%B %d, %Y'))
       page.find('.exit_note').set(FFaker::Lorem.paragraph)
       page.find("input[type='submit'][value='Exit']").click
-      sleep 1
+      wait_for_ajax
       expect(page).to have_content('Case has been successfully updated')
     end
   end

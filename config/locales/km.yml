@@ -1357,6 +1357,9 @@ km:
         save: រក្សាទុក
         delete_my_account: លុបចោលគណនីរបស់ខ្ញុំ
         are_you_sure: តើអ្នកប្រាកដហើយ?
+    shared:
+      links:
+        back: ត្រលប់ក្រោយ
   dashboards:
     client:
       clients: អតិថិជន

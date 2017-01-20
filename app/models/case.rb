@@ -48,7 +48,7 @@ class Case < ActiveRecord::Base
   end
 
   def self.cases_by_clients(clients)
-    currents.where(client: clients)
+    currents.where(client_id: clients.ids)
   end
 
   def self.current

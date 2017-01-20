@@ -6,7 +6,6 @@ class CaseStatistic
   end
 
   def statistic_data
-
     case_start_dates   = one_year_cases.map(&:short_start_date).uniq
     cases_by_case_type = one_year_cases.group_by(&:case_type).sort
     statistic_data     = []
