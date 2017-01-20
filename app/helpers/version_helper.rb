@@ -21,12 +21,12 @@ module VersionHelper
       end
       val
     end
-    if version_values{:titleizeTexts}.include?(k) 
+    if version_values{:titleizeTexts}.include?(k)
       if val == both_val[0]
         val  = both_val[0].downcase == both_val[1].downcase ? '' : val.titleize
       else
         val  = val.titleize
-      end
+    end
     elsif val.class == Date
       val = date_format(val)
     elsif val.class == ActiveSupport::TimeWithZone
