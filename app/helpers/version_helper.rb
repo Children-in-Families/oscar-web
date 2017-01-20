@@ -26,12 +26,13 @@ module VersionHelper
       end
       val
     end
+
     if version_values[:titleizeTexts].include?(k)
       if val == both_val[0]
         val  = both_val[0].downcase == both_val[1].downcase ? '' : val.titleize
       else
         val  = val.titleize
-    end
+      end
     elsif val.class == Date
       val = date_format(val)
     elsif any_time_class(val)
@@ -44,6 +45,7 @@ module VersionHelper
       val = domain_score_color(val)
     elsif version_values[:currencies].include?(k)
       val = number_to_currency(val)
+
     elsif version_values[:progress_note_types].include?(k) && val.present?
       obj = ProgressNoteType.find_by(id: val)
       val = obj.present? ? obj.note_type : "##{val}"
@@ -55,13 +57,14 @@ module VersionHelper
       val = obj.present? ? obj.status : "##{val}"
     elsif version_values[:stages].include?(k) && val.present?
       obj = Stage.find_by(id: val)
-      val = obj.present? ? "#{obj.from_age} - #{obj.to_age}" : "##{val}"
+      val = obj.present? ? obj.from_age - obj.to_age : "##{val}"
     elsif version_values[:organizations].include?(k) && val.present?
       obj = Organization.find_by(id: val)
-      val = obj.present? ? "#{obj.full_name}" : "##{val}"
+      val = obj.present? ? obj.full_name : "##{val}"
     elsif version_values[:agency].include?(k) && val.present?
       obj = Agency.find_by(id: val)
       val = obj.present? ? obj.name : "##{val}"
+
     elsif k == 'reset_password_token'
       val = content_tag(:span, truncate(val), title: val)
     end
