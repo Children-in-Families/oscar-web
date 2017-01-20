@@ -20,13 +20,13 @@ module VersionHelper
 
   def version_value_format(val, k = '', both_val = [])
     version_values_regular.each do |key, value|
-      if eval(value.to_s).include?(k) && val.present?
+      if value.include?(k) && val.present?
         obj = model_name(key).find_by(id: val)
         val = obj.present? ? obj.name : "##{val}"
       end
       val
     end
-    if version_values{:titleizeTexts}.include?(k)
+    if version_values[:titleizeTexts].include?(k)
       if val == both_val[0]
         val  = both_val[0].downcase == both_val[1].downcase ? '' : val.titleize
       else
@@ -36,30 +36,30 @@ module VersionHelper
       val = date_format(val)
     elsif any_time_class(val)
       val = date_time_format(val)
-    elsif version_values{:booleans}.include?(k)
+    elsif version_values[:booleans].include?(k)
       val = human_boolean(val)
     elsif free_text?(k) && html?(val)
       val = strip_tags(val)
-    elsif version_values{:score_colors}.include?(k)
+    elsif version_values[:score_colors].include?(k)
       val = domain_score_color(val)
-    elsif version_values{:currencies}.include?(k)
+    elsif version_values[:currencies].include?(k)
       val = number_to_currency(val)
-    elsif version_values{:progress_note_types}.include?(k) && val.present?
+    elsif version_values[:progress_note_types].include?(k) && val.present?
       obj = ProgressNoteType.find_by(id: val)
       val = obj.present? ? obj.note_type : "##{val}"
-    elsif version_values{:client_qc}.include?(k) && val.present?
+    elsif version_values[:client_qc].include?(k) && val.present?
       obj = QuantitativeCase.find_by(id: val)
       val = obj.present? ? obj.value : "##{val}"
-    elsif version_values{:materials}.include?(k) && val.present?
+    elsif version_values[:materials].include?(k) && val.present?
       obj = Material.find_by(id: val)
       val = obj.present? ? obj.status : "##{val}"
-    elsif version_values{:stages}.include?(k) && val.present?
+    elsif version_values[:stages].include?(k) && val.present?
       obj = Stage.find_by(id: val)
       val = obj.present? ? "#{obj.from_age} - #{obj.to_age}" : "##{val}"
-    elsif version_values{:organizations}.include?(k) && val.present?
+    elsif version_values[:organizations].include?(k) && val.present?
       obj = Organization.find_by(id: val)
       val = obj.present? ? "#{obj.full_name}" : "##{val}"
-    elsif version_values{:agency}.include?(k) && val.present?
+    elsif version_values[:agency].include?(k) && val.present?
       obj = Agency.find_by(id: val)
       val = obj.present? ? obj.name : "##{val}"
     elsif k == 'reset_password_token'
