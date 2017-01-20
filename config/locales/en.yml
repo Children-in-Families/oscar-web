@@ -568,6 +568,12 @@ en:
       new_client_title: New Client
     create:
       successfully_created: Client has been successfully created.
+    confirm_client:
+      confirm: Confirm
+      close: Close
+      title: Warning
+      body_first: Client
+      body_second: has already been registered​ in
     update:
       successfully_updated: Client has been successfully updated.
       assessment_successfully_created: Assessment has been successfully created.

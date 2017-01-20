@@ -1,4 +1,5 @@
 = simple_form_for(@client) do |f|
+  = hidden_field(:client, :id, value: @client.id)
   .ibox-content
     = f.error_notification
     .form-inputs
@@ -72,5 +73,8 @@
           = f.input :able_state, collection: Client::ABLE_STATES, label: t('.able_state') if current_user.able_manager? && @client.persisted?
   .ibox-footer
     .form-actions
-      = f.submit t('save'), class: 'btn btn-primary form-btn'
+      = link_to t('save'), '#', class: 'btn btn-primary form-btn', id: 'dummy-button'
+      = f.submit t('save'), class: 'btn btn-primary form-btn hide'
       = link_to t('cancel'), clients_path, class: 'btn btn-default form-btn'
+
+= render 'confirm_client'

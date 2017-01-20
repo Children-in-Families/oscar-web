@@ -111,6 +111,10 @@ Rails.application.routes.draw do
     resources :progress_notes do
       get 'version' => 'progress_notes#version'
     end
+    
+    collection do
+      get '/find' => 'clients#find'
+    end
 
     get 'version' => 'clients#version'
   end
