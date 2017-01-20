@@ -14,7 +14,7 @@ class FamilyGrid
   filter(:address, :string, header: -> { I18n.t('datagrid.columns.families.address') }) { |value, scope| scope.address_like(value) }
 
   filter(:family_type, :enum, select: [%w(Kinship kinship), %w(Foster foster), %w(Emergency emergency)], header: -> { I18n.t('datagrid.columns.families.family_type') }) do |value, scope|
-    scope.filter(value)
+    scope.by_family_type(value)
   end
 
   filter(:significant_family_member_count, :integer, range: true, header: -> { I18n.t('datagrid.columns.families.significant_family_member_count') })
@@ -24,7 +24,7 @@ class FamilyGrid
   filter(:male_children_count, :integer, range: true, header: -> { I18n.t('datagrid.columns.families.male_children_count') })
 
   filter(:province_id, :enum, select: :province_options, header: -> { I18n.t('datagrid.columns.families.province') })
-  
+
   def province_options
     Family.province_are
   end

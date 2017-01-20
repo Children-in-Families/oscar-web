@@ -26,18 +26,9 @@ class Family < ActiveRecord::Base
     male_adult_count.to_i + female_adult_count.to_i + male_children_count.to_i + female_children_count.to_i
   end
 
-  def self.filter(q = [])
-
-    query = self
-    
-    query = query.emergency  if q.include? 'emergency'
-
-    query = query.kinship if q.include? 'kinship'
-
-    query = query.foster if q.include? 'foster'
-     
-    query
-
-   end
-
+  def self.by_family_type(type)
+    self.emergency  if type == 'emergency'
+    self.kinship if type == 'kinship'
+    self.foster if type == 'foster'
+  end
 end
