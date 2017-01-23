@@ -521,6 +521,7 @@ en:
       log_out: Log out
       log_in: Log in
       release_logs: Release logs
+      custom_fields: Form Builder
       progress_note: Progress Note
       materials: Equipment/Materials
       locations: Locations
