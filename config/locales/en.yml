@@ -1320,6 +1320,12 @@ en:
     shared:
       links:
         back: Back
+    passwords:
+      edit:
+        change_your_password: Change your password
+        new_password: New password
+        confirm_your_new_password: Confirm your new password
+        change_my_password: Change my password
   dashboards:
     client:
       clients: Clients

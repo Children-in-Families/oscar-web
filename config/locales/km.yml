@@ -1371,6 +1371,12 @@ km:
     shared:
       links:
         back: ត្រលប់ក្រោយ
+    passwords:
+      edit:
+        change_your_password: ផ្លាស់ប្ដូរលេខសំងាត់របស់អ្នក
+        new_password: លេខកូដថ្មី
+        confirm_your_new_password: បញ្ជាក់លេខកូដសំងាត់ថ្មី
+        change_my_password: ផ្លាស់ប្ដូរលេខសំងាត់របស់ខ្ញុំ
   dashboards:
     client:
       clients: អតិថិជន
