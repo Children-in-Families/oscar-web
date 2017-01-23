@@ -38,9 +38,13 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
             modalTitle      = $('#hidden_title').val()
             modalTextFirst  = $('#hidden_body_first').val()
             modalTextSecond = $('#hidden_body_second').val()
+            clientName      = $('#client_first_name').val()
+            organizations   = []
+            organizations.push(client.organization for client in clients)
+            $.unique(organizations[0])
             modalText = []
-            for client in clients
-              modalText.push("<p> #{modalTextFirst} #{client.first_name} #{modalTextSecond} #{client.organization} <p/>")
+            for organization in organizations
+              modalText.push("<p> #{modalTextFirst} #{clientName} #{modalTextSecond} #{organization} <p/>")
 
             $('#confirm-client-modal .modal-header .modal-title').text(modalTitle)
             $('#confirm-client-modal .modal-body').html(modalText)
