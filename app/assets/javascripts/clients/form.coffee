@@ -41,7 +41,6 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
             clientName      = $('#client_first_name').val()
             organizations   = []
             organizations.push(client.organization for client in clients)
-            debugger
             $.unique(organizations[0])
             modalText = []
             for organization in organizations[0]
