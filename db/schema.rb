@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170118022055) do
+ActiveRecord::Schema.define(version: 20170113100759) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -226,7 +226,6 @@ ActiveRecord::Schema.define(version: 20170118022055) do
     t.string   "slug"
     t.string   "able_state"
     t.integer  "assessments_count"
-    t.text     "properties"
   end
 
   add_index "clients", ["slug"], name: "index_clients_on_slug", unique: true, using: :btree
@@ -236,13 +235,6 @@ ActiveRecord::Schema.define(version: 20170118022055) do
     t.integer  "quantitative_case_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-  end
-
-  create_table "custom_fields", force: :cascade do |t|
-    t.string   "entity_name"
-    t.string   "fields"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
   end
 
   create_table "departments", force: :cascade do |t|
@@ -800,6 +792,7 @@ ActiveRecord::Schema.define(version: 20170118022055) do
     t.boolean  "admin",                  default: false
     t.integer  "changelogs_count",       default: 0
     t.integer  "organization_id"
+    t.boolean  "disable",                default: false
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
