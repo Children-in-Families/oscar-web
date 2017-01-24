@@ -70,4 +70,3 @@
 //= require domains/form
 
 //= require custom_fields/form
-//= require custom_fields/show

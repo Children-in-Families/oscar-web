@@ -5,6 +5,8 @@ class Partner < ActiveRecord::Base
 
   has_paper_trail
 
+  serialize :properties, JSON
+
   scope :name_like,                  -> (value) { where('LOWER(partners.name) LIKE ?', "%#{value.downcase}%") }
 
   scope :contact_person_name_like,   -> (value) { where('LOWER(partners.contact_person_name) LIKE ?', "%#{value.downcase}%") }
@@ -28,4 +30,18 @@ class Partner < ActiveRecord::Base
   scope :NGO,                        ->         { where(organisation_type: 'NGO') }
   scope :local_goverment,            ->         { where(organisation_type: 'Local Goverment') }
   scope :church,                     ->         { where(organisation_type: 'Church') }
+
+  validate :present_of_custom_field
+
+  def present_of_custom_field
+    CustomField.find_by(entity_name: self.class.name).field_objs.each do |field|
+      if field['required'] == true && JSON.parse(self.properties)[field['name']].blank?
+        errors.add(field['name'], "can't be blank")
+      end
+    end
+  end
+
+  def properties_objs
+    JSON.parse(properties) if properties.present?
+  end
 end

@@ -4,6 +4,8 @@ class Client < ActiveRecord::Base
   attr_reader :assessments_count
   attr_accessor :assessment_id
 
+  serialize :properties, JSON
+
   friendly_id :slug, use: :slugged
 
   CLIENT_STATUSES = ['Referred', 'Active EC', 'Active KC', 'Active FC', 'Independent - Monitored', 'Exited - Deseased', 'Exited - Age Out', 'Exited Independent', 'Exited Adopted', 'Exited Other'].freeze
@@ -44,6 +46,7 @@ class Client < ActiveRecord::Base
   accepts_nested_attributes_for     :tasks
 
   validates :rejected_note, presence: true, on: :update, if: :reject?
+  validate :present_of_custom_field
 
   before_update :reset_user_to_tasks
   after_create  :set_slug_as_alias
@@ -102,6 +105,18 @@ class Client < ActiveRecord::Base
     min = (min_age * 12).to_i.months.ago.to_date.end_of_month
     max = (max_age * 12).to_i.months.ago.to_date.beginning_of_month
     where(date_of_birth: max..min)
+  end
+
+  def present_of_custom_field
+    CustomField.find_by(entity_name: self.class.name).field_objs.each do |field|
+      if field['required'] == true && JSON.parse(self.properties)[field['name']].blank?
+        errors.add(field['name'], "can't be blank")
+      end
+    end
+  end
+
+  def properties_objs
+    JSON.parse(properties) if properties.present?
   end
 
   def name

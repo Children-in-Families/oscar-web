@@ -29,6 +29,14 @@
               .i-checks.dependable-income
                 %label= t('.dependable_income')
                 = f.input :dependable_income, as: :radio_buttons, collection: [[t('.yes'), true],[t('.no'), false]], label: false
+          .row
+            .col-xs-12
+              - if @custom_field.present?
+                .row
+                  .col-xs-12
+                    = f.simple_fields_for :properties, OpenStruct.new(@family.properties_objs) do |prop_f|
+                      - @custom_field.field_objs.each do |field|
+                        = render "/shared/fields/#{field['type'].underscore}", f: prop_f, field_props: field
 
         .col-xs-12.col-md-4
           = f.input :caregiver_information, input_html: { style: 'height: 182px;' }, label: "#{t('.caregiver_information')}"

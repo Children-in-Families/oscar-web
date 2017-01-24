@@ -3,6 +3,7 @@ class FamiliesController < AdminController
 
   before_action :find_province, except: [:index, :destroy]
   before_action :find_family, only: [:show, :edit, :update, :destroy]
+  before_action :set_custom_field, only: [:new, :create, :edit, :update]
 
   def index
     @family_grid = FamilyGrid.new(params[:family_grid])
@@ -60,8 +61,19 @@ class FamiliesController < AdminController
 
   private
 
+  def set_custom_field
+    @custom_field = CustomField.find_by(entity_name: 'Family')
+  end
+
   def family_params
-    params.require(:family).permit(:name, :caregiver_information, :significant_family_member_count, :household_income, :dependable_income, :female_children_count, :male_children_count, :female_adult_count, :male_adult_count, :family_type, :contract_date, :address, :province_id)
+    params.require(:family).permit(
+                            :name, :caregiver_information,
+                            :significant_family_member_count, :household_income,
+                            :dependable_income, :female_children_count,
+                            :male_children_count, :female_adult_count,
+                            :male_adult_count, :family_type, :contract_date,
+                            :address, :province_id)
+                              .merge(properties: (params['family']['properties']).to_json)
   end
 
   def find_province

@@ -31,7 +31,7 @@
                   %td.text-center
                     = remove_link(location, { location_progress_note: location.progress_notes.count,
                                               location_other: location.other_used})
-                  - if current_user.admin?                            
+                  - if current_user.admin?
                     %td.text-center
                       = link_to t('.view'), location_version_path(location)
                 = render 'form', location: location
