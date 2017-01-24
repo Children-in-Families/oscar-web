@@ -58,7 +58,6 @@ class ClientsController < AdminController
   end
 
   def create
-    binding.pry
     @client = Client.new(client_params)
     if current_user.case_worker? || current_user.any_manager?
       @client.user_id = current_user.id
