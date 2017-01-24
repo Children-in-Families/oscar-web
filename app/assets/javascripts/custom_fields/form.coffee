@@ -8,9 +8,45 @@ CIF.Custom_fieldsShow = do ->
     formBuilder = $('.build-wrap').formBuilder({
       dataType: 'json'
       formData: JSON.stringify($('.build-wrap').data('fields'))
-      disableFields: ['autocomplete', 'header', 'hidden', 'paragraph', 'button']
+      disableFields: ['autocomplete', 'header', 'hidden', 'paragraph', 'button', 'file']
       showActionButtons: false
-      }).data('formBuilder');
+
+      typeUserEvents: {
+        text: {
+          onadd: (fld) ->
+            $('.className-wrap, .name-wrap, .value-wrap, .access-wrap, .maxlength-wrap').hide()
+        }
+        textarea: {
+          onadd: (fld) ->
+            $('.rows-wrap, .className-wrap, .name-wrap, .value-wrap, .access-wrap, .maxlength-wrap').hide()
+        }
+        checkbox: {
+          onadd: (fld) ->
+            $('.toggle-wrap, .className-wrap, .name-wrap, .value-wrap, .access-wrap').hide()
+        }
+        'checkbox-group': {
+          onadd: (fld) ->
+            $('.other-wrap, .className-wrap, .name-wrap, .access-wrap').hide()
+        }
+        date: {
+          onadd: (fld) ->
+            $('.className-wrap, .name-wrap, .value-wrap, .access-wrap').hide()
+        }
+        number: {
+          onadd: (fld) ->
+            $('.className-wrap, .name-wrap, .value-wrap, .step-wrap, .access-wrap').hide()
+        }
+        'radio-group': {
+          onadd: (fld) ->
+            $('.other-wrap, .className-wrap, .name-wrap, .access-wrap').hide()
+        }
+        select: {
+          onadd: (fld) ->
+            $('.multiple-wrap, .className-wrap, .name-wrap, .access-wrap').hide()
+        }
+      }
+
+    }).data('formBuilder');
 
     $("#custom-field-submit").click (event)->
       $('#custom_field_fields').val(formBuilder.formData)
