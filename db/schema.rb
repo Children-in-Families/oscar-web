@@ -295,7 +295,7 @@ ActiveRecord::Schema.define(version: 20170123103107) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "cases_count",                     default: 0
-    t.text     "properties"
+    t.text     "properties",                      default: ""
   end
 
   create_table "friendly_id_slugs", force: :cascade do |t|
@@ -426,7 +426,7 @@ ActiveRecord::Schema.define(version: 20170123103107) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "cases_count",           default: 0
-    t.text     "properties"
+    t.text     "properties",            default: ""
   end
 
   create_table "progress_note_types", force: :cascade do |t|
@@ -802,8 +802,8 @@ ActiveRecord::Schema.define(version: 20170123103107) do
     t.boolean  "admin",                  default: false
     t.integer  "changelogs_count",       default: 0
     t.integer  "organization_id"
-    t.text     "properties"
     t.boolean  "disable",                default: false
+    t.text     "properties",             default: ""
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

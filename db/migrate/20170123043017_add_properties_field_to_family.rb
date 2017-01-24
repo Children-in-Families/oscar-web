@@ -1,5 +1,5 @@
 class AddPropertiesFieldToFamily < ActiveRecord::Migration
   def change
-    add_column :families, :properties, :text
+    add_column :families, :properties, :text, default: ''
   end
 end

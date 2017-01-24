@@ -1,3 +1,6 @@
-.build-wrap{ 'data-fields': @custom_field.fields }
-= link_to 'Edit Form', edit_custom_field_path(@custom_field)
-= link_to 'Custom Form List', custom_fields_path
+.row
+  .col-xs-12
+    .build-wrap{ 'data-fields': @custom_field.fields }
+  .col-xs-12
+    = link_to 'Edit Form', edit_custom_field_path(@custom_field), class: 'btn btn-warning'
+    = link_to 'Custom Form List', custom_fields_path, class: 'btn btn-success'

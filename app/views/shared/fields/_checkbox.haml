@@ -1,3 +1,1 @@
-/ = f.input field_props['label'], as: :boolean, input_html: { class: field_props['classname'], title: field_props['description'] }
-
-= f.input field_props['name'], as: :boolean, input_html: { class: field_props['ClassName'], label: field_props['label'] }
+= f.input field_props['name'], as: :boolean, required: field_props['required'], input_html: { class: field_props['className'], title: field_props['description'] }, label: field_props['label']
