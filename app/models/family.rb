@@ -27,8 +27,12 @@ class Family < ActiveRecord::Base
   end
 
   def self.by_family_type(type)
-    self.emergency  if type == 'emergency'
-    self.kinship if type == 'kinship'
-    self.foster if type == 'foster'
+    if type == 'emergency'
+      self.emergency 
+    elsif type =='kinship'
+      self.kinship
+    elsif type == 'foster'
+      self.foster
+    end
   end
 end
