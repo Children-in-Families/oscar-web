@@ -2,7 +2,7 @@ CIF.Custom_fieldsNew = CIF.Custom_fieldsCreate = CIF.Custom_fieldsEdit = CIF.Cus
 CIF.Custom_fieldsShow = do ->
 
   _init = ->
-    _initFormBuilder();
+    _initFormBuilder()
 
   _initFormBuilder = ->
     formBuilder = $('.build-wrap').formBuilder({
@@ -12,14 +12,6 @@ CIF.Custom_fieldsShow = do ->
       showActionButtons: false
 
       typeUserEvents: {
-        text: {
-          onadd: (fld) ->
-            $('.className-wrap, .name-wrap, .value-wrap, .access-wrap, .maxlength-wrap').hide()
-        }
-        textarea: {
-          onadd: (fld) ->
-            $('.rows-wrap, .className-wrap, .name-wrap, .value-wrap, .access-wrap, .maxlength-wrap').hide()
-        }
         checkbox: {
           onadd: (fld) ->
             $('.toggle-wrap, .className-wrap, .name-wrap, .value-wrap, .access-wrap').hide()
@@ -42,7 +34,15 @@ CIF.Custom_fieldsShow = do ->
         }
         select: {
           onadd: (fld) ->
-            $('.multiple-wrap, .className-wrap, .name-wrap, .access-wrap').hide()
+            $('.className-wrap, .name-wrap, .access-wrap').hide()
+        }
+        text: {
+          onadd: (fld) ->
+            $('.className-wrap, .name-wrap, .value-wrap, .access-wrap, .maxlength-wrap').hide()
+        }
+        textarea: {
+          onadd: (fld) ->
+            $('.rows-wrap, .className-wrap, .name-wrap, .value-wrap, .access-wrap, .maxlength-wrap').hide()
         }
       }
 
