@@ -3,6 +3,7 @@ class UsersController < AdminController
 
   before_action :find_user, only: [:show, :edit, :update, :destroy]
   before_action :find_association, except: [:index, :destroy]
+  before_action :set_custom_form, only: [:new, :create, :edit, :update]
 
   def index
     @user_grid = UserGrid.new(params[:user_grid])
@@ -65,7 +66,14 @@ class UsersController < AdminController
   private
 
   def user_params
-    params.require(:user).permit(:first_name, :last_name, :roles, :start_date, :job_title, :department_id, :mobile, :date_of_birth, :province_id, :email, :password, :password_confirmation)
+    params.require(:user).permit(:first_name, :last_name, :roles, :start_date,
+                                :job_title, :department_id, :mobile, :date_of_birth,
+                                :province_id, :email, :password,
+                                :password_confirmation).merge(properties: (params['user']['properties']).to_json)
+  end
+
+  def set_custom_form
+    @custom_field = CustomField.find_by(entity_name: 'User')
   end
 
   def find_user

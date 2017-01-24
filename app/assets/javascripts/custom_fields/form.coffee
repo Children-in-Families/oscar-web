@@ -1,11 +1,13 @@
-CIF.Custom_fieldsNew = CIF.Custom_fieldsCreate = CIF.Custom_fieldsEdit = CIF.Custom_fieldsUpdate = do ->
+CIF.Custom_fieldsNew = CIF.Custom_fieldsCreate = CIF.Custom_fieldsEdit = CIF.Custom_fieldsUpdate =
+CIF.Custom_fieldsShow = do ->
+
   _init = ->
     _initFormBuilder()
 
   _initFormBuilder = ->
     formBuilder = $('.build-wrap').formBuilder({
       dataType: 'json'
-      editOnAdd: true
+      formData: JSON.stringify($('.build-wrap').data('fields'))
       disableFields: ['autocomplete', 'header', 'hidden', 'paragraph', 'button', 'file']
       showActionButtons: false
 

@@ -1,1 +1,1 @@
-/ = f.input :testing_checkbox_group, collection: field_props['value'], as: :boolean, input_html: { class: field_props['ClassName'] }
+= f.input field_props['name'], collection: field_props['value'], as: :boolean, input_html: { class: field_props['ClassName'], label: field_props['label'] }

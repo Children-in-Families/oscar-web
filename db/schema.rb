@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170118022055) do
+ActiveRecord::Schema.define(version: 20170123103107) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -295,6 +295,7 @@ ActiveRecord::Schema.define(version: 20170118022055) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "cases_count",                     default: 0
+    t.text     "properties"
   end
 
   create_table "friendly_id_slugs", force: :cascade do |t|
@@ -425,6 +426,7 @@ ActiveRecord::Schema.define(version: 20170118022055) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "cases_count",           default: 0
+    t.text     "properties"
   end
 
   create_table "progress_note_types", force: :cascade do |t|
@@ -800,6 +802,7 @@ ActiveRecord::Schema.define(version: 20170118022055) do
     t.boolean  "admin",                  default: false
     t.integer  "changelogs_count",       default: 0
     t.integer  "organization_id"
+    t.text     "properties"
     t.boolean  "disable",                default: false
   end
 

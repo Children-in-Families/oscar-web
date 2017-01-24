@@ -91,6 +91,8 @@
                     = link_to t('.materials'), materials_path
                   %li{ class: active_menu('progress_note_types') }
                     = link_to t('.progress_note_types'), progress_note_types_path
+              %li{ class: active_menu('custom_fields') }
+                = link_to 'Custom Form', custom_fields_path
               %li{ class: active_menu('changelogs') }
                 = link_to t('.release_logs'), changelogs_path
               %li{ class: active_menu('custom_fields') }

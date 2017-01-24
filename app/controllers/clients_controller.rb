@@ -3,6 +3,7 @@ class ClientsController < AdminController
 
   before_action :find_client, only: [:show, :edit, :update, :destroy]
   before_action :set_association, except: [:index, :destroy]
+  before_action :set_custom_field, only: [:new, :create, :edit, :update]
 
   def index
     if current_user.admin?
@@ -108,6 +109,10 @@ class ClientsController < AdminController
     @client = Client.accessible_by(current_ability).friendly.find(params[:id]).decorate
   end
 
+  def set_custom_field
+    @custom_field = CustomField.find_by(entity_name: 'Client')
+  end
+
   def client_params
     params.require(:client)
       .permit(:assessment_id, :first_name, :gender, :date_of_birth,
@@ -121,7 +126,7 @@ class ClientsController < AdminController
               quantitative_case_ids: [],
               tasks_attributes: [:name, :domain_id, :completion_date],
               answers_attributes: [:id, :description, :able_screening_question_id, :client_id, :question_type]
-              ).merge(properties: params['client']['properties'])
+              ).merge(properties: (params['client']['properties']).to_json)
   end
 
   def set_association

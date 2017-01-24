@@ -6,6 +6,8 @@ class Family < ActiveRecord::Base
 
   has_paper_trail
 
+  serialize :properties, JSON
+
   scope :name_like,                  -> (value) { where('LOWER(families.name) LIKE ?', "%#{value.downcase}%") }
 
   scope :caregiver_information_like, -> (value) { where('LOWER(families.caregiver_information) LIKE ?', "%#{value.downcase}%") }
@@ -21,4 +23,19 @@ class Family < ActiveRecord::Base
   def member_count
     male_adult_count.to_i + female_adult_count.to_i + male_children_count.to_i + female_children_count.to_i
   end
+
+  validate :present_of_custom_field
+
+  def present_of_custom_field
+    CustomField.find_by(entity_name: self.class.name).field_objs.each do |field|
+      if field['required'] == true && JSON.parse(self.properties)[field['name']].blank?
+        errors.add(field['name'], "can't be blank")
+      end
+    end
+  end
+
+  def properties_objs
+    JSON.parse(properties) if properties.present?
+  end
+
 end

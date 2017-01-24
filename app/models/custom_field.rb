@@ -4,7 +4,7 @@ class CustomField < ActiveRecord::Base
   validates :entity_name, uniqueness: { case_sensitive: false }
 
   def field_objs
-    JSON.parse(fields)
+    JSON.parse(fields) if fields.present?
   end
 
   def self.of_client
