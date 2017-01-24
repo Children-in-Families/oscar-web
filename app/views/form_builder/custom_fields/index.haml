@@ -1,16 +1,19 @@
 .row
   .col-xs-12
+    = link_to 'New Custom Form', new_custom_field_path, class: 'btn btn-primary'
+.row
+  .col-xs-12
     .ibox
-      = link_to 'New Custom Form', new_custom_field_path, class: 'btn btn-primary'
       .ibox-content
         %table.table.table-hover
           %thead
             %th Entity Name
-            %th{ colspan: 2 } Action
+            %th.text-center{ colspan: 2 } Action
+
           - @custom_fields.each do |custom_field|
             %tr
-              %td= custom_field.entity_name
-              %td
+              %td= link_to custom_field.entity_name, custom_field
+              %td.text-right
                 = link_to edit_custom_field_path(custom_field), class: 'btn btn-outline btn-primary btn-xs' do
                   = fa_icon('pencil')
               %td

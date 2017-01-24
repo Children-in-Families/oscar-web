@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+  include CustomFieldProperties
 
   ROLES = ['admin', 'case worker', 'able manager', 'ec manager', 'fc manager', 'kc manager']
   MANAGERS = ROLES.select { |role| role if role.include?('manager') }
@@ -21,7 +22,10 @@ class User < ActiveRecord::Base
 
   validates :roles, presence: true
   validates :email, presence: true, uniqueness: { case_sensitive: false }
-  validate  :present_of_custom_field
+  validate do |user|
+    CustomFieldPresentValidator.new(user).validate
+    CustomFieldNumericalityValidator.new(user).validate
+  end
 
   scope :first_name_like, -> (value) { where('LOWER(users.first_name) LIKE ?', "%#{value.downcase}%") }
   scope :last_name_like,  -> (value) { where('LOWER(users.last_name) LIKE ?', "%#{value.downcase}%") }
@@ -33,6 +37,7 @@ class User < ActiveRecord::Base
   scope :admins,          ->         { where(roles: 'admin') }
   scope :province_are,    ->         { joins(:province).pluck('provinces.name', 'provinces.id').uniq }
   scope :has_clients,     ->         { joins(:clients).without_json_fields.uniq }
+
   scope :managers,        ->        { where(roles: MANAGERS) }
   before_save :assign_as_admin
 
@@ -92,17 +97,5 @@ class User < ActiveRecord::Base
 
   def assessments_overdue
     clients.all_active_types
-  end
-
-  def present_of_custom_field
-    CustomField.find_by(entity_name: self.class.name).field_objs.each do |field|
-      if field['required'] == true && JSON.parse(self.properties)[field['name']].blank?
-        errors.add(field['name'], "can't be blank")
-      end
-    end
-  end
-
-  def properties_objs
-    JSON.parse(properties) if properties.present?
   end
 end
