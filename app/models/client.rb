@@ -1,4 +1,5 @@
 class Client < ActiveRecord::Base
+  include CustomFieldProperties
   extend FriendlyId
 
   attr_reader :assessments_count
@@ -8,11 +9,14 @@ class Client < ActiveRecord::Base
 
   friendly_id :slug, use: :slugged
 
-  CLIENT_STATUSES = ['Referred', 'Active EC', 'Active KC', 'Active FC', 'Independent - Monitored', 'Exited - Deseased', 'Exited - Age Out', 'Exited Independent', 'Exited Adopted', 'Exited Other'].freeze
+  CLIENT_STATUSES = ['Referred', 'Active EC', 'Active KC', 'Active FC',
+                      'Independent - Monitored', 'Exited - Deseased',
+                      'Exited - Age Out', 'Exited Independent', 'Exited Adopted',
+                      'Exited Other'].freeze
 
   CLIENT_ACTIVE_STATUS = ['Active EC', 'Active FC', 'Active KC'].freeze
-
   ABLE_STATES = %w(Accepted Rejected Discharged).freeze
+
   EXIT_STATUSES   = CLIENT_STATUSES.select { |status| status if status.include?('Exited') }
 
   belongs_to :referral_source,  counter_cache: true
@@ -33,6 +37,7 @@ class Client < ActiveRecord::Base
 
   accepts_nested_attributes_for :tasks
   accepts_nested_attributes_for :answers
+  accepts_nested_attributes_for :tasks
 
   has_many :cases,          dependent: :destroy
   has_many :families, through: :cases
@@ -43,57 +48,38 @@ class Client < ActiveRecord::Base
 
   has_paper_trail
 
-  accepts_nested_attributes_for     :tasks
-
   validates :rejected_note, presence: true, on: :update, if: :reject?
-  validate :present_of_custom_field
+
+  validate do |client|
+    CustomFieldPresentValidator.new(client).validate
+    CustomFieldNumericalityValidator.new(client).validate
+  end
 
   before_update :reset_user_to_tasks
   after_create  :set_slug_as_alias
   after_update :set_able_status, if: Proc.new { |client| client.able_state.nil? && answers.any? }
 
   scope :first_name_like,      -> (value) { where('LOWER(clients.first_name) LIKE ?', "%#{value.downcase}%") }
-
   scope :start_with_code,      -> (value) { where('clients.code LIKE ?', "#{value}%") }
-
   scope :status_like,          ->         { CLIENT_STATUSES }
-
   scope :current_address_like, -> (value) { where('LOWER(clients.current_address) LIKE ?', "%#{value.downcase}%") }
-
   scope :school_name_like,     -> (value) { where('LOWER(clients.school_name) LIKE ?', "%#{value.downcase}%") }
-
   scope :referral_phone_like,  -> (value) { where('LOWER(clients.referral_phone) LIKE ?', "%#{value.downcase}%") }
-
   scope :info_like,            -> (value) { where('LOWER(clients.relevant_referral_information) LIKE ?', "%#{value.downcase}%") }
-
   scope :slug_like,            -> (value) { where("LOWER(clients.slug) LIKE ?", "%#{value.downcase}%") }
-
   scope :find_by_family_id,    -> (value) { joins(cases: :family).where('families.id = ?', value).uniq }
-
   scope :is_received_by,       -> { joins(:received_by).pluck("CONCAT(users.first_name, ' ' ,users.last_name)", 'users.id').uniq }
-
   scope :referral_source_is,   -> { joins(:referral_source).pluck('referral_sources.name', 'referral_sources.id').uniq }
-
   scope :is_followed_up_by,    -> { joins(:followed_up_by).pluck("CONCAT(users.first_name, ' ' ,users.last_name)", 'users.id').uniq }
-
   scope :province_is,          -> { joins(:province).pluck('provinces.name', 'provinces.id').uniq }
-
   scope :accepted,             -> { where(state: 'accepted') }
-
   scope :rejected,             -> { where(state: 'rejected') }
-
   scope :male,                 -> { where(gender: 'male') }
-
   scope :female,               -> { where(gender: 'female') }
-
   scope :active_ec,            -> { where(status: 'Active EC') }
-
   scope :active_kc,            -> { where(status: 'Active KC') }
-
   scope :active_fc,            -> { where(status: 'Active FC') }
-
   scope :without_assessments,  -> { includes(:assessments).where(assessments: { client_id: nil }) }
-
   scope :able,                 -> { where(able_state: ABLE_STATES[0]) }
   scope :all_active_types, -> { where(status: CLIENT_ACTIVE_STATUS) }
 
@@ -105,18 +91,6 @@ class Client < ActiveRecord::Base
     min = (min_age * 12).to_i.months.ago.to_date.end_of_month
     max = (max_age * 12).to_i.months.ago.to_date.beginning_of_month
     where(date_of_birth: max..min)
-  end
-
-  def present_of_custom_field
-    CustomField.find_by(entity_name: self.class.name).field_objs.each do |field|
-      if field['required'] == true && JSON.parse(self.properties)[field['name']].blank?
-        errors.add(field['name'], "can't be blank")
-      end
-    end
-  end
-
-  def properties_objs
-    JSON.parse(properties) if properties.present?
   end
 
   def name

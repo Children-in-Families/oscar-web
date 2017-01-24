@@ -1,4 +1,6 @@
 class Partner < ActiveRecord::Base
+  include CustomFieldProperties
+
   belongs_to :province, counter_cache: true
 
   has_many :cases
@@ -31,17 +33,9 @@ class Partner < ActiveRecord::Base
   scope :local_goverment,            ->         { where(organisation_type: 'Local Goverment') }
   scope :church,                     ->         { where(organisation_type: 'Church') }
 
-  validate :present_of_custom_field
-
-  def present_of_custom_field
-    CustomField.find_by(entity_name: self.class.name).field_objs.each do |field|
-      if field['required'] == true && JSON.parse(self.properties)[field['name']].blank?
-        errors.add(field['name'], "can't be blank")
-      end
-    end
+  validate do |partner|
+    CustomFieldPresentValidator.new(partner).validate
+    CustomFieldNumericalityValidator.new(partner).validate
   end
 
-  def properties_objs
-    JSON.parse(properties) if properties.present?
-  end
 end

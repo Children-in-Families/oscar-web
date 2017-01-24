@@ -70,6 +70,7 @@
       .row
         .col-xs-12.col-md-8
           = f.input :able_state, collection: Client::ABLE_STATES, label: t('.able_state') if current_user.able_manager? && @client.persisted?
+          
       - if @custom_field.present?
         .row
           .col-xs-12
