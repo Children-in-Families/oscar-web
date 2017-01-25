@@ -26,12 +26,12 @@ class CasesController < AdminController
   end
 
   def create
-    @case = @client.cases.new(case_params)
+    @case = @client.cases.new(merged_case_params)
     @case.user_id = @client.user.id if @client.user
     if @case.save
       redirect_to @client, notice: t('.successfully_created')
     else
-      render :new
+      render :new, alert: 'failed to create a case'
     end
   end
 
@@ -39,10 +39,10 @@ class CasesController < AdminController
   end
 
   def update
-    if @case.update(case_params)
+    if @case.update(merged_case_params)
       redirect_to @client, notice: t('.successfully_updated')
     else
-      render :edit
+      render :edit, alert: 'failed to create a case'
     end
   end
 
@@ -58,7 +58,15 @@ class CasesController < AdminController
                                   :support_amount, :case_type, :support_note,
                                   :partner_id, :family_id, :exit_date,
                                   :exit_note, :exited, :family_preservation,
-                                  :exited_from_cif, :status).merge(properties: (params['case']['properties']).to_json)
+                                  :exited_from_cif, :status)
+  end
+
+  def merged_case_params
+    if params['case']['properties'].present?
+      case_params.merge(properties: (params['case']['properties']).to_json)
+    else
+      case_params
+    end
   end
 
   def find_association

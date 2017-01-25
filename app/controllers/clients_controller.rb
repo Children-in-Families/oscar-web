@@ -73,7 +73,7 @@ class ClientsController < AdminController
   end
 
   def update
-    if @client.update_attributes(client_params)
+    if @client.update_attributes(merged_client_params)
       if params[:client][:assessment_id]
         @assessment = Assessment.find(params[:client][:assessment_id])
         redirect_to client_assessment_path(@client, @assessment), notice: t('.assessment_successfully_created')
@@ -126,7 +126,15 @@ class ClientsController < AdminController
               quantitative_case_ids: [],
               tasks_attributes: [:name, :domain_id, :completion_date],
               answers_attributes: [:id, :description, :able_screening_question_id, :client_id, :question_type]
-              ).merge(properties: (params['client']['properties']).to_json)
+              )
+  end
+
+  def merged_client_params
+    if params['client']['properties'].present?
+      client_params.merge(properties: (params['client']['properties']).to_json)
+    else
+      client_params
+    end
   end
 
   def set_association

@@ -1,1 +1,7 @@
-= f.input field_props['name'], as: :date, input_html: { class: field_props['calendar'], label: field_props['label'] }
+%div{ class: "#{field_props['className']} date form-group" }
+  %label.date.control-label{ for: field_props['classname'] }= field_props['label']
+  #client-birthdate.input-group.date
+    .date.input-group{ id: field_props['label'].parameterize }
+      = f.text_field field_props['name'].parameterize, class: "date optional form-control date-picker #{field_props['className']}", type: 'text'
+      %span.input-group-addon
+        %i.fa.fa-calendar-check-o

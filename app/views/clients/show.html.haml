@@ -26,6 +26,7 @@
               %td
                 = "#{t('.current_province')} :"
                 %strong= @client.current_province
+
     .row
       - if @client.state == ''
         .col-xs-12.accept-layout
@@ -266,22 +267,34 @@
                   = t('.agencies_involved')
                 %td
                   - @client.agencies.each do|agency|
-                    %strong.label.label-default{style:'margin-right: 2px;'}
+                    %strong.label.label-default.agency
                       = agency.name
+
+              - @client.properties_objs.each do |k, v|
+                %tr
+                  %td.spacing-first-col
+                    = k.titleize
+                  %td
+                    - date = Date.parse(v) rescue nil
+                    - if v.is_a?(Array)
+                      - v.reject{ |i| i.empty? }.each do |c|
+                        %strong.label.label-default= c
+                    - elsif date
+                      %span= date.strftime('%B %d, %Y')
+                    - else
+                      %span= v
+
               = render 'state'
         .row
           .col-xs-12
             %table.table.table-bordered
               - @client.quantitative_cases.group_by(&:quantitative_type).each do |qtypes|
-                %tr.custom-label
+                %tr
                   %td.align-justify
                     = qtypes.first.name
                   %td.align-justify
-                    %ul
-                      - qtypes.last.each do |qcase|
-                        %li
-                          %b
-                            = qcase.value
-                        %br/
+                    - qtypes.last.each do |qcase|
+                      %strong.label.label-default
+                        = qcase.value
 .row
   = render 'placement'

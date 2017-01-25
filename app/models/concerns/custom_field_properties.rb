@@ -1,6 +1,10 @@
 module CustomFieldProperties
 
   def properties_objs
-    JSON.parse(self.properties) if self.properties.present?
+    if self.properties.present?
+      JSON.parse(self.properties)
+    else
+      {}
+    end
   end
 end

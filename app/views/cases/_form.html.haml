@@ -1,6 +1,6 @@
 = simple_form_for([@client, @case]) do |f|
   .ibox-content
-    = error_notification(f)
+    = f.error_notification
     .form-inputs
       .row
         .col-xs-12.col-md-4= f.input :carer_names, label: "#{t('.carer_names')}"

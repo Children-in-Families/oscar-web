@@ -10,40 +10,45 @@ CIF.Custom_fieldsShow = do ->
       formData: JSON.stringify($('.build-wrap').data('fields'))
       disableFields: ['autocomplete', 'header', 'hidden', 'paragraph', 'button', 'file']
       showActionButtons: false
+      messages: {
+        cannotBeEmpty: 'name-separated-with-dashed'
+      }
 
       typeUserEvents: {
         checkbox: {
           onadd: (fld) ->
-            $('.toggle-wrap, .className-wrap, .name-wrap, .value-wrap, .access-wrap').hide()
+            $('.toggle-wrap, .className-wrap, .value-wrap, .access-wrap').hide()
         }
         'checkbox-group': {
           onadd: (fld) ->
-            $('.other-wrap, .className-wrap, .name-wrap, .access-wrap').hide()
+            $('.other-wrap, .className-wrap, .access-wrap').hide()
         }
         date: {
           onadd: (fld) ->
-            $('.className-wrap, .name-wrap, .value-wrap, .access-wrap').hide()
+            $('.className-wrap, .value-wrap, .access-wrap').hide()
         }
         number: {
           onadd: (fld) ->
-            $('.className-wrap, .name-wrap, .value-wrap, .step-wrap, .access-wrap').hide()
+            $('.className-wrap, .value-wrap, .step-wrap, .access-wrap').hide()
         }
         'radio-group': {
           onadd: (fld) ->
-            $('.other-wrap, .className-wrap, .name-wrap, .access-wrap').hide()
+            $('.other-wrap, .className-wrap, .access-wrap').hide()
         }
         select: {
           onadd: (fld) ->
-            $('.className-wrap, .name-wrap, .access-wrap').hide()
+            $('.className-wrap, .access-wrap').hide()
         }
         text: {
           onadd: (fld) ->
-            $('.className-wrap, .name-wrap, .value-wrap, .access-wrap, .maxlength-wrap').hide()
+            $('.className-wrap, .value-wrap, .access-wrap, .maxlength-wrap').hide()
         }
         textarea: {
           onadd: (fld) ->
-            $('.rows-wrap, .className-wrap, .name-wrap, .value-wrap, .access-wrap, .maxlength-wrap').hide()
+            $('.rows-wrap, .className-wrap, .value-wrap, .access-wrap, .maxlength-wrap').hide()
+
         }
+
       }
 
     }).data('formBuilder');
