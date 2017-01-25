@@ -44,6 +44,8 @@ describe User, 'scopes' do
   let!(:other_user){ create(:user, department: department, province: province) }
   let!(:no_department_user){ create(:user, province: province) }
   let!(:user_in_other_department){ create(:user,department: other_department, province: province) }
+
+  let!(:ec_manager){ create(:user, :ec_manager) }
   context 'first name like' do
     subject{ User.first_name_like(user.first_name.downcase) }
     it 'should include first name like' do
@@ -127,6 +129,19 @@ describe User, 'scopes' do
 
     it 'should include admin role' do
       is_expected.to include(user)
+    end
+  end
+
+  context 'ec_managers' do
+
+    subject{ User.ec_managers}
+
+    it 'should include on ec manager' do
+      is_expected.to include(ec_manager)
+    end
+
+    it 'should not include admin' do
+      is_expected.not_to include(user)
     end
   end
 

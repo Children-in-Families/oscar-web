@@ -30,7 +30,6 @@ RSpec.describe Organization, type: :model do
   describe Organization, '.create_and_build_tanent' do
     context 'Success' do
       it 'create organization record' do
-        # binding.pry
         org = Organization.create_and_build_tanent(short_name: 'testing1', full_name: 'Testing')
         expect(org.persisted?).to be_truthy
       end

@@ -29,6 +29,7 @@ class User < ActiveRecord::Base
   scope :department_are,  ->         { joins(:department).pluck('departments.name', 'departments.id').uniq }
   scope :case_workers,    ->         { where('users.roles LIKE ?', '%case worker%') }
   scope :admins,          ->         { where(roles: 'admin') }
+  scope :ec_managers,     ->         { where(roles: 'ec manager') }
   scope :province_are,    ->         { joins(:province).pluck('provinces.name', 'provinces.id').uniq }
   scope :has_clients,     ->         { joins(:clients).without_json_fields.uniq }
 
