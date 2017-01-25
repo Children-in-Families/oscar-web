@@ -14,6 +14,6 @@ class DataTrackersController < AdminController
   private
 
   def exclude_item_type
-  	%w(AssessmentDomain CaseNoteDomainGroup CaseNote)
+  	%w(AssessmentDomain CaseNoteDomainGroup CaseNote AgencyClient ClientQuantitativeCase)
   end
 end
