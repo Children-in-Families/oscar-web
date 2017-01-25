@@ -15,8 +15,8 @@ ActiveRecord::Schema.define(version: 20170125024120) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-  enable_extension "hstore"
   enable_extension "uuid-ossp"
+  enable_extension "hstore"
 
   create_table "able_screening_questions", force: :cascade do |t|
     t.string   "question"
@@ -185,17 +185,6 @@ ActiveRecord::Schema.define(version: 20170125024120) do
 
   add_index "changelogs", ["user_id"], name: "index_changelogs_on_user_id", using: :btree
 
-  create_table "client_case_workers", force: :cascade do |t|
-    t.integer  "user_id"
-    t.integer  "client_id"
-    t.boolean  "active"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  add_index "client_case_workers", ["client_id"], name: "index_client_case_workers_on_client_id", using: :btree
-  add_index "client_case_workers", ["user_id"], name: "index_client_case_workers_on_user_id", using: :btree
-
   create_table "client_quantitative_cases", force: :cascade do |t|
     t.integer  "quantitative_case_id"
     t.integer  "client_id"
@@ -251,10 +240,10 @@ ActiveRecord::Schema.define(version: 20170125024120) do
   end
 
   create_table "custom_fields", force: :cascade do |t|
-    t.string   "entity_name"
-    t.string   "fields"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.string   "entity_name", default: ""
+    t.text     "fields",      default: ""
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
   end
 
   create_table "departments", force: :cascade do |t|
@@ -307,7 +296,7 @@ ActiveRecord::Schema.define(version: 20170125024120) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "cases_count",                     default: 0
-    t.text     "properties",                      default: ""
+    t.text     "properties"
   end
 
   create_table "friendly_id_slugs", force: :cascade do |t|
@@ -438,7 +427,7 @@ ActiveRecord::Schema.define(version: 20170125024120) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "cases_count",           default: 0
-    t.text     "properties",            default: ""
+    t.text     "properties"
   end
 
   create_table "progress_note_types", force: :cascade do |t|
@@ -815,7 +804,7 @@ ActiveRecord::Schema.define(version: 20170125024120) do
     t.integer  "changelogs_count",       default: 0
     t.integer  "organization_id"
     t.boolean  "disable",                default: false
-    t.text     "properties",             default: ""
+    t.text     "properties"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
@@ -858,8 +847,6 @@ ActiveRecord::Schema.define(version: 20170125024120) do
   add_foreign_key "case_notes", "clients"
   add_foreign_key "changelog_types", "changelogs"
   add_foreign_key "changelogs", "users"
-  add_foreign_key "client_case_workers", "clients"
-  add_foreign_key "client_case_workers", "users"
   add_foreign_key "domains", "domain_groups"
   add_foreign_key "interventions_progress_notes", "interventions"
   add_foreign_key "interventions_progress_notes", "progress_notes"

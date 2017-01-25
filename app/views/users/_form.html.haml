@@ -29,12 +29,9 @@
             = f.text_field :start_date, class: 'date optional form-control date-picker', type: 'text', name: 'user[start_date]', id: 'user_start_date'
             %span.input-group-addon
               %i.fa.fa-calendar-check-o
-      - if @custom_field.present?
-        .row
-          .col-xs-12
-            = f.simple_fields_for :properties, OpenStruct.new(@user.properties_objs) do |prop_f|
-              - @custom_field.field_objs.each do |field|
-                = render "/shared/fields/#{field['type'].underscore}", f: prop_f, field_props: field
+
+      = render "shared/properties", custom_field: @custom_field, f: f, entity: @user
+
   .ibox-footer
     = f.submit t('save'), class: 'btn btn-primary form-btn'
     = link_to t('cancel'), users_path, class: 'btn btn-outline btn-default form-btn'

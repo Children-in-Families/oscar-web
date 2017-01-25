@@ -71,13 +71,8 @@
         .col-xs-12.col-md-8
           = f.input :able_state, collection: Client::ABLE_STATES, label: t('.able_state') if current_user.able_manager? && @client.persisted?
 
-      - if @custom_field.present?
-        .row
-          .col-xs-12
-            = f.simple_fields_for :properties, OpenStruct.new(@client.properties_objs) do |prop_f|
-              - @custom_field.field_objs.each do |field|
-                = render "/shared/fields/#{field['type'].underscore}", f: prop_f, field_props: field
+      = render "shared/properties", custom_field: @custom_field, f: f, entity: @client
+
   .ibox-footer
-    .form-actions
-      = f.submit t('save'), class: 'btn btn-primary form-btn'
-      = link_to t('cancel'), clients_path, class: 'btn btn-default form-btn'
+    = f.submit t('save'), class: 'btn btn-primary form-btn'
+    = link_to t('cancel'), clients_path, class: 'btn btn-default form-btn'

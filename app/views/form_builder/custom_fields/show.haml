@@ -1,6 +1,12 @@
 .row
   .col-xs-12
-    .build-wrap{ 'data-fields': @custom_field.fields }
-  .col-xs-12
-    = link_to 'Edit Form', edit_custom_field_path(@custom_field), class: 'btn btn-warning'
-    = link_to 'Custom Form List', custom_fields_path, class: 'btn btn-success'
+    .ibox
+      .ibox-title
+        %h4= "Custom Form of #{@custom_field.entity_name}"
+      .ibox-content
+        .row
+          .col-xs-12
+            .build-wrap{ 'data-fields': @custom_field.fields }
+      .ibox-footer
+        = link_to 'Edit Form', edit_custom_field_path(@custom_field), class: 'btn btn-warning form-btn'
+        = link_to 'Custom Form List', custom_fields_path, class: 'btn btn-success form-btn'

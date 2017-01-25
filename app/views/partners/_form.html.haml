@@ -23,14 +23,9 @@
           = f.input :organisation_type, label: "#{t('.organisation_type')}"
           = f.input :affiliation, label: "#{t('.affiliation')}"
         .col-xs-12.col-md-4= f.input :background, input_html: { style: 'height: 107px;' }, label: "#{t('.background')}"
-      .row
-        - if @custom_field.present?
-          .row
-            .col-xs-12
-              = f.simple_fields_for :properties, OpenStruct.new(@partner.properties_objs) do |prop_f|
-                - @custom_field.field_objs.each do |field|
-                  = render "/shared/fields/#{field['type'].underscore}", f: prop_f, field_props: field
+
+      = render "shared/properties", custom_field: @custom_field, f: f, entity: @partner
+
   .ibox-footer
-    .form-actions
-      = f.submit t('save'), class: 'btn btn-primary form-btn'
-      = link_to t('cancel'), partners_path, class: 'btn btn-default form-btn'
+    = f.submit t('save'), class: 'btn btn-primary form-btn'
+    = link_to t('cancel'), partners_path, class: 'btn btn-default form-btn'

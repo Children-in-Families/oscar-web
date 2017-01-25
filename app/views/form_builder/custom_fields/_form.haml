@@ -4,5 +4,5 @@
     = f.input :fields, as: :hidden
     .build-wrap{ 'data-fields': @custom_field.fields }
   .ibox-footer
-    = f.submit 'Save', class: 'btn btn-primary', id: 'custom-field-submit'
-    = link_to 'Cancel', custom_fields_path, class: 'btn btn-default'
+    = f.submit 'Save', class: 'btn btn-primary form-btn', id: 'custom-field-submit'
+    = link_to 'Cancel', custom_fields_path, class: 'btn btn-default form-btn'
