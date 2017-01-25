@@ -29,6 +29,12 @@
           .i-checks.family-preservation
             %label= t('.family_preservation')
             = f.input :family_preservation, as: :radio_buttons, collection: [['Yes', true],['No', false]], label: false
+      - if @custom_field.present?
+        .row
+          .col-xs-12
+            = f.simple_fields_for :properties, OpenStruct.new(@case.properties_objs) do |prop_f|
+              - @custom_field.field_objs.each do |field|
+                = render "/shared/fields/#{field['type'].underscore}", f: prop_f, field_props: field
   .ibox-footer
     .form-actions
       = f.submit t('save'), class: 'btn btn-primary form-btn'

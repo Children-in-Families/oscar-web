@@ -1,4 +1,8 @@
 class Case < ActiveRecord::Base
+  include CustomFieldProperties
+
+  serialize :properties, JSON
+
   belongs_to :user,   counter_cache: true
   belongs_to :family, counter_cache: true
   belongs_to :client
@@ -26,6 +30,11 @@ class Case < ActiveRecord::Base
   validates :case_type, :start_date,  presence: true
   validates :exit_date, presence: true, if: proc { |client_case| client_case.exited? }
   validates :exit_note, presence: true, if: proc { |client_case| client_case.exited? }
+
+  validate do
+    CustomFieldPresentValidator.new(self).validate
+    CustomFieldNumericalityValidator.new(self).validate
+  end
 
   before_save :update_client_status, :set_current_status
   after_save :update_cases_to_exited_from_cif
