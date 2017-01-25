@@ -1,7 +1,9 @@
-%div{ class: "#{field_props['className']} date form-group" }
-  %label.date.control-label{ for: field_props['classname'] }= field_props['label']
-  #client-birthdate.input-group.date
+%div{ class: "#{field_props['className']} date form-group #{required?(field_props['required'])}" }
+  %label{ for: field_props['classname'], class: "date control-label #{required?(field_props['required'])}" }
+    %abbr{ title: 'required' }= '*' if field_props['required']
+    = field_props['label']
+  #client-birthdate{ class: "input-group date #{required?(field_props['required'])}" }
     .date.input-group{ id: field_props['label'].parameterize }
-      = f.text_field field_props['name'].parameterize, class: "date optional form-control date-picker #{field_props['className']}", type: 'text'
+      = f.text_field field_props['name'].parameterize, class: "date optional form-control date-picker #{field_props['className']} #{required?(field_props['required'])}", type: 'text'
       %span.input-group-addon
         %i.fa.fa-calendar-check-o

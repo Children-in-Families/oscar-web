@@ -611,7 +611,8 @@ km:
       placements:
         <<: *default_placement_fields
       additional_details: ពត៌មានលំអិតបន្ថែម
-      general_info: ពត៌មានបន្ថែមរបស់អតិចិជន
+      general_info: អំពីអតិចិជន
+      additional_info: ពត៌មានលំអិតបន្ថែម
       progress_note: កំណត់សំគាល់ការរីកចំរើន
       client_able_answers: ចំលើយ Able
       able_screening_questions: សំនួរ Able
@@ -670,7 +671,8 @@ km:
       new_family_title: គ្រួសារថ្មី
     show:
       <<: *default_family_fields
-      general_info: ពត៌មានទូទៅសំរាប់គ្រួសារ
+      general_info: អំពីគ្រួសារ
+      additional_info: ពត៌មានលំអិតបន្ថែម
       are_you_sure: តើអ្នកប្រាកដហើយ?
     create:
       successfully_created: គ្រួសារត្រូវបានបង្កើតដោយជោគជ័យ
@@ -698,7 +700,8 @@ km:
       <<: *default_partner_fields
     show:
       <<: *default_partner_fields
-      general_info: ពត៌មានទូទៅរបស់ដៃគូ
+      general_info: អំពីដៃគូ
+      additional_info: ពត៌មានលំអិតបន្ថែម
       are_you_sure: តើអ្នកប្រាកដហើយ?
     create:
       successfully_created: ដៃគូត្រូវបានបង្កើតដោយជោគជ័យ
@@ -728,7 +731,8 @@ km:
       <<: *default_user_fields
     show:
       <<: *default_user_fields
-      general_info: ពត៌មានទូទៅរបស់អ្នកប្រើប្រាស់
+      general_info: អំពីអ្នកប្រើប្រាស់
+      additional_info: ពត៌មានលំអិតបន្ថែម
       are_you_sure: តើអ្នកប្រាកដហើយ?
     clients:
       clients: អតិថិជន

@@ -106,9 +106,12 @@
     overflow-y: auto;
     height: 400px;
   }
+
   .label.label-default {
     line-height: 2.2;
+    margin-right: 3px;
   }
+
   .label.agency {
     margin-right: 3px;
   }
@@ -130,6 +133,12 @@
     top: -30%;
     right: -88%;
   }
+
+  .form-actions {
+    float: left;
+    margin-top: 0;
+  }
+
   @media screen and (max-width: 991px) {
     .case .panel-body {
       height: auto;

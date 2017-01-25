@@ -159,4 +159,8 @@ module ApplicationHelper
   def ability_to_delete(object)
     'disabled' if cannot? :delete, object
   end
+
+  def required?(bool)
+    'required' if bool
+  end
 end

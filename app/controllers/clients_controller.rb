@@ -175,4 +175,8 @@ class ClientsController < AdminController
       @client_grid = ClientGrid.new(params.fetch(:client_grid, {}).merge!(current_user: current_user))
     end
   end
+
+  def client_properties_params
+    params['client']['properties'].present? ? { properties: (params['client']['properties']).to_json } : {}
+  end
 end
