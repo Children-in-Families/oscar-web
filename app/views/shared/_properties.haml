@@ -1,9 +1,7 @@
 - if custom_field.present?
-  .row
-    .col-xs-12
-      = f.simple_fields_for :properties, OpenStruct.new(entity.properties_objs) do |prop_f|
-        - custom_field.field_objs.each_slice(3) do |n_field|
-          .row
-            - n_field.each do |field|
-              .col-xs-12.col-md-4
-                = render "/shared/fields/#{field['type'].underscore}", f: prop_f, field_props: field
+  = f.simple_fields_for :properties, OpenStruct.new(entity.properties_objs) do |prop_f|
+    - custom_field.field_objs.each_slice(3) do |n_field|
+      .row
+        - n_field.each do |field|
+          .col-xs-12.col-md-4
+            = render "/shared/fields/#{field['type'].underscore}", f: prop_f, field_props: field

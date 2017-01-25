@@ -1,1 +1,5 @@
-= f.input field_props['name'], as: :radio_buttons, collection: field_props['values'].map { |f| [f['label'], f['value']]  }, input_html: { class: field_props['className'] }, label: field_props['label']
+%div{ class: "i-checks #{field_props['className']} #{required?(field_props['required'] || false)}" }
+  %label{ class: required?(field_props['required'] || false) }
+    %abbr{ title: 'required' }= '*' if field_props['required'] || false
+    = field_props['label']
+  = f.input field_props['name'], as: :radio_buttons, collection: field_props['values'].map { |f| [f['label'], f['value']] }, required: field_props['required'] || false, label: false, input_html: { title: field_props['description'] }
