@@ -1,7 +1,7 @@
 .row
   .col-xs-12
     .row
-      .col-md-4
+      .col-md-3
         %span.show-name
           = @client.name
         - if @client.status
@@ -27,44 +27,52 @@
                 = "#{t('.current_province')} :"
                 %strong= @client.current_province
 
-    .row
-      - if @client.state == ''
-        .col-xs-12.accept-layout
-          = simple_form_for @client, method: :put, url: client_path(@client) do |f|
-            .form-inputs
-              = f.hidden_field :state, value: 'accepted'
-            .form-action
-              = f.submit t('.accept'), class: 'btn btn-success mini-margin agree-btn'
-          %button.btn.btn-danger.mini-margin{"data-target" => '#rejectionForm', "data-toggle" => 'modal', class: 'agree-btn'} #{t('.reject')}
-        #rejectionForm.modal.fade{ role: 'dialog', tabindex: '-1'}
-          .modal-dialog{ role: 'document'}
-            .modal-content
-              .modal-header
-                %button.close{"aria-label" => "#{t('close')}", "data-dismiss" => 'modal'}
-                  %span{"aria-hidden" => 'true'} &times;
-                %h4.modal-title
-                  = t('.reject_client')
-              .modal-body
-                = simple_form_for(@client) do |f|
-                  = f.error_notification
-                  .form-inputs
-                    = f.input :rejected_note, required: true, label: "#{t('.note')}"
-                  .form-inputs
-                    = f.hidden_field :state, value: 'rejected'
-                  .form-actions.text-right
-                    %button.btn.btn-default{"data-dismiss" => 'modal'} #{t('cancel')}
-                    = f.button :submit, "#{t('.reject')}", class: 'btn btn-danger confirm-reject'
+      .col-md-3
+        - if @client.state == ''
+          .row
+            .col-xs-12
+              .row
+                .col-xs-12
+                  = simple_form_for @client, method: :put, url: client_path(@client) do |f|
+                    .form-inputs
+                      = f.hidden_field :state, value: 'accepted'
+                    .form-actions
+                      = f.submit t('.accept'), class: 'btn btn-success agree-btn'
+                .col-xs-12
+                  %button.btn.btn-danger.mini-margin{"data-target" => '#rejectionForm', "data-toggle" => 'modal', class: 'agree-btn'} #{t('.reject')}
+            .col-xs-12
+              #rejectionForm.modal.fade{ role: 'dialog', tabindex: '-1'}
+                .modal-dialog{ role: 'document'}
+                  .modal-content
+                    .modal-header
+                      %button.close{"aria-label" => "#{t('close')}", "data-dismiss" => 'modal'}
+                        %span{"aria-hidden" => 'true'} &times;
+                      %h4.modal-title
+                        = t('.reject_client')
+                    .modal-body
+                      = simple_form_for(@client) do |f|
+                        = f.error_notification
+                        .form-inputs
+                          = f.input :rejected_note, required: true, label: "#{t('.note')}"
+                        .form-inputs
+                          = f.hidden_field :state, value: 'rejected'
+                        .form-actions.text-right
+                          %button.btn.btn-default{"data-dismiss" => 'modal'} #{t('cancel')}
+                          = f.button :submit, "#{t('.reject')}", class: 'btn btn-danger confirm-reject'
 
-      - elsif @client.state == 'rejected'
-        .col-xs-12.accept-layout
-          = simple_form_for @client, method: :put, url: client_path(@client) do |f|
-            .form-inputs
-              = f.hidden_field :state, value: 'accepted'
-            .form-actions
-              = f.submit "#{t('.accept')}", class: 'btn mini-margin btn-success agree-btn'
-          %button.btn.btn-danger.mini-margin{ disabled: 'disabled', class:'agree-btn' } #{t('.reject')}
+        - elsif @client.state == 'rejected'
+          .row
+            .col-xs-12
+              = simple_form_for @client, method: :put, url: client_path(@client) do |f|
+                .form-inputs
+                  = f.hidden_field :state, value: 'accepted'
+                .form-actions
+                  = f.submit "#{t('.accept')}", class: 'btn btn-success agree-btn'
+            .col-xs-12
+              %button.btn.btn-danger.mini-margin{ disabled: 'disabled', class:'agree-btn' } #{t('.reject')}
 
-      - elsif @client.state == 'accepted'
+    - if @client.state == 'accepted'
+      .row
         .col-xs-12
           - if can? :manage, Case
             .btn-group.small-btn-margin
@@ -269,20 +277,12 @@
                   - @client.agencies.each do|agency|
                     %strong.label.label-default.agency
                       = agency.name
-
-              - @client.properties_objs.each do |k, v|
+              - @client.properties_objs.try(:each) do |k, v|
                 %tr
                   %td.spacing-first-col
                     = k.titleize
                   %td
-                    - date = Date.parse(v) rescue nil
-                    - if v.is_a?(Array)
-                      - v.reject{ |i| i.empty? }.each do |c|
-                        %strong.label.label-default= c
-                    - elsif date
-                      %span= date.strftime('%B %d, %Y')
-                    - else
-                      %span= v
+                    = client_properties(v)
 
               = render 'state'
         .row

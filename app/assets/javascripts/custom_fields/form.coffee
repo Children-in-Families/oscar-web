@@ -11,7 +11,7 @@ CIF.Custom_fieldsShow = do ->
       disableFields: ['autocomplete', 'header', 'hidden', 'paragraph', 'button', 'file']
       showActionButtons: false
       messages: {
-        cannotBeEmpty: 'name-separated-with-dashed'
+        cannotBeEmpty: 'name_separated_with_underscore'
       }
 
       typeUserEvents: {

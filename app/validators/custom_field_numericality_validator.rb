@@ -2,7 +2,7 @@ class CustomFieldNumericalityValidator < ActiveModel::Validator
 
   def initialize(record)
     @record = record
-    @properties = JSON.parse(@record.properties)
+    @properties = JSON.parse(@record.properties) if @record.properties
   end
 
   def validate
