@@ -126,7 +126,7 @@ class ClientsController < AdminController
               quantitative_case_ids: [],
               tasks_attributes: [:name, :domain_id, :completion_date],
               answers_attributes: [:id, :description, :able_screening_question_id, :client_id, :question_type]
-              ).merge(client_properties)
+              ).merge(client_properties_params)
   end
 
   def set_association
@@ -168,7 +168,7 @@ class ClientsController < AdminController
     end
   end
 
-  def client_properties
+  def client_properties_params
     params['client']['properties'].present? ? { properties: (params['client']['properties']).to_json } : {}
   end
 end

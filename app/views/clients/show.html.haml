@@ -277,12 +277,6 @@
                   - @client.agencies.each do|agency|
                     %strong.label.label-default.agency
                       = agency.name
-              - @client.properties_objs.try(:each) do |k, v|
-                %tr
-                  %td.spacing-first-col
-                    = k.titleize
-                  %td
-                    = client_properties(v)
 
               = render 'state'
         .row
@@ -296,5 +290,17 @@
                     - qtypes.last.each do |qcase|
                       %strong.label.label-default
                         = qcase.value
+  .col-xs-12
+    .ibox
+      .ibox-title
+        %h5= t('.additional_info')
+      .ibox-content
+        %table.table.table-bordered
+          - @client.properties_objs.try(:each) do |k, v|
+            %tr
+              %td.align-justify
+                = k.titleize
+              %td.align-justify
+                = client_properties(v)
 .row
   = render 'placement'

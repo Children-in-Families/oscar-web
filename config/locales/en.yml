@@ -616,7 +616,8 @@ en:
       placements:
         <<: *default_placement_fields
       additional_details: Additional Details
-      general_info: More Information
+      general_info: About Client
+      additional_info: Additional Information
       progress_note: Progress Note
       client_able_answers: Client Able Answers
       able_screening_questions: Able Screening Questions
@@ -674,7 +675,8 @@ en:
       new_family_title: Add New Family
     show:
       <<: *default_family_fields
-      general_info: General Information for Family
+      general_info: About Family
+      additional_info: Additional Information
       are_you_sure: Are you sure you want to delete?
     create:
       successfully_created: Family has been successfully created.
@@ -702,7 +704,8 @@ en:
       <<: *default_partner_fields
     show:
       <<: *default_partner_fields
-      general_info: General Informatin for Partner
+      general_info: About Partner
+      additional_info: Additional Information
       are_you_sure: Are you sure you want to delete?
     create:
       successfully_created: Partner has been successfully created.
@@ -732,7 +735,8 @@ en:
       <<: *default_user_fields
     show:
       <<: *default_user_fields
-      general_info: General Information for User
+      general_info: About User
+      additional_info: Additional Information
       are_you_sure: Are you sure you want to delete?
     clients:
       clients: Clients
