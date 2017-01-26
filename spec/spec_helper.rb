@@ -32,7 +32,7 @@ Capybara.javascript_driver = :poltergeist
 
 Capybara.register_driver :poltergeist do |app|
   options = {
-    js_error: false,
+    js_errors: false,
     phantomjs_options: ['--load-images=false', '--ignore-ssl-errors=yes', '--ssl-protocol=any']
   }
   Capybara::Poltergeist::Driver.new(app, options)
@@ -93,6 +93,7 @@ RSpec.configure do |config|
     page.driver.browser.url_whitelist = %w(http://app.lvh.me http://lvh.me 127.0.0.1)
     Capybara.default_max_wait_time = 10
     Capybara.always_include_port = true
+    Apartment::Tenant.switch! 'app'
     sub_domain = Organization.current.short_name
     Capybara.app_host = "http://#{sub_domain}.lvh.me"
   end

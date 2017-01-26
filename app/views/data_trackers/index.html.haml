@@ -13,7 +13,7 @@
                   = link_to t('.clients'), data_trackers_path(item_type: 'Client'), class: "list-group-item #{version_item_type_active?('Client')}"
                   = link_to t('.cases'), data_trackers_path(item_type: 'Case'), class: "list-group-item #{version_item_type_active?('Case')}"
                   = link_to t('.tasks'), data_trackers_path(item_type: 'Task'), class: "list-group-item #{version_item_type_active?('Task')}"
-                  = link_to t('.assessments'), data_trackers_path(item_type: ['Assessment', 'AssessmentDomain']), class: "list-group-item #{version_item_type_active?('Assessment', 'AssessmentDomain')}"
+                  = link_to t('.assessments'), data_trackers_path(item_type: 'Assessment'), class: "list-group-item #{version_item_type_active?('Assessment')}"
                   = link_to t('.surveys'), data_trackers_path(item_type: 'Survey'), class: "list-group-item #{version_item_type_active?('Survey')}"
                   = link_to t('.progress_notes'), data_trackers_path(item_type: 'ProgressNote'), class: "list-group-item #{version_item_type_active?('ProgressNote')}"
                   = link_to t('.families'), data_trackers_path(item_type: 'Family'), class: "list-group-item #{version_item_type_active?('Family')}"
@@ -36,10 +36,14 @@
                   = link_to t('.releaselogs'), data_trackers_path(item_type: 'Changelog'), class: "list-group-item #{version_item_type_active?('Changelog')}"
 
           .col-xs-12.col-sm-8.col-md-9
-            %h4.all-modification.text-center
-              %u= t('.all_modification')
-
-            = render 'shared/version'
+            .row
+              .col-xs-12.col-md-9.col-md-push-1
+                %h4.all-modification.text-center
+                  %u= t('.all_modification')
+              .col-xs-12.col-md-3
+                = render 'per_page_form'
+              .col-xs-12
+                = render 'shared/version'
             .text-center
               = paginate @versions
             

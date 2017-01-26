@@ -51,6 +51,7 @@ describe Assessment, 'methods' do
   let!(:assessment) { create(:assessment, created_at: last_assessment_date, client: client) }
   let!(:domain) { create(:domain) }
   let!(:other_domain){ create(:domain) }
+  let!(:assessment_domain) { create(:assessment_domain, assessment: assessment, domain: domain) }
 
   context 'latest record?' do
     let!(:last_assessment){ create(:assessment, created_at: Time.now, client: client) }
@@ -102,7 +103,6 @@ describe Assessment, 'methods' do
   end
 
   context 'assessment domains in order' do
-    let!(:assessment_domain) { create(:assessment_domain, assessment: assessment, domain: domain) }
     let!(:other_assessment_domain){ create(:assessment_domain, assessment: assessment, domain: other_domain) }
     it 'should return assessment domains in order' do
       expect(assessment.assessment_domains_in_order).to eq([assessment_domain, other_assessment_domain])

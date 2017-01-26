@@ -32,4 +32,10 @@ body[id=case_notes-create] {
   .new_case_note {
     padding-bottom: 20px;
   }
+  label.disabled {
+    color: #333333 !important;
+  }
+  .disabled label {
+    color: #333333;
+  }
 }

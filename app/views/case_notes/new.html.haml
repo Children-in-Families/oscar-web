@@ -13,7 +13,7 @@
           .panel.panel-default
             .panel-body
               .form-group.date.optional.case_note_meeting_date
-                %label Date
+                %label= t('.on_date')
                 .input-group.date
                   = f.text_field :meeting_date, class: 'date optional form-control date-picker', type: 'text', name: 'case_note[meeting_date]', id: 'case_note_meeting_date'
                   %span.input-group-addon
@@ -38,16 +38,21 @@
                     .col-xs-12.col-md-6
                       - cd.object.domain_group.domains.each do |domain|
                         - assessment_domain = @case_note.assessment.assessment_domains.find_by(domain_id: domain.id)
-                        - tasks = @case_note.client.tasks.incomplete.where(domain_id: domain.id)
+                        - tasks = @case_note.client.tasks.where(domain_id: domain.id)
+
                         .panel{ class: "panel-#{assessment_domain.score_color_class} task-domain-#{domain.id} #{hidden_class(tasks.blank?)}" }
                           .panel-heading
                             %strong= "#{t('.domain')} #{assessment_domain.domain.name}"
                           .panel-body{id: "tasks-domain-#{domain.id}"}
-                            = cd.association :tasks, collection: tasks, as: :check_boxes, label: "#{t('.on_going_tasks')}", input_html: { class: 'i-checks'}
-                            %div{ class: "task-arising hidden" }
-                              %label.control-label
-                                = t('.tasks_arising')
-                              %ol.list-group{ type: '1'}
+                            .row
+                              .col-xs-12
+                                = cd.association :tasks, collection: tasks.incomplete, as: :check_boxes, label: "#{t('.on_going_tasks')}", input_html: { class: 'i-checks'}
+                                %div{ class: "task-arising hidden" }
+                                  %label.control-label
+                                    = t('.tasks_arising')
+                                  %ol.list-group{ type: '1'}
+                              .col-xs-12
+                                = cd.association :tasks, collection: tasks.completed.pluck(:name), as: :check_boxes, label: "#{t('.completed_tasks')}", input_html: { class: 'i-checks'}, disabled: true, checked: tasks.completed.pluck(:name)
 
                   .row
                     .col-xs-12

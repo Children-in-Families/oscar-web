@@ -14,7 +14,7 @@ RSpec.describe AbleScreeningMailer, type: :mailer do
     end
 
     it 'renders the sender email' do
-      expect(mail.from).to eq(['cifdonotreply@gmail.com'])
+      expect(mail.from).to eq(['info@cambodianfamilies.com'])
     end
 
     it 'assigns edit client url' do

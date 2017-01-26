@@ -1,41 +1,16 @@
 module VersionHelper
   def version_attribute(k, item_type = '')
-    if k == 'first_name'
-      k = 'name' if client?(item_type)
-    elsif k == 'user_id'
-      k = 'case worker / staff'    if client?(item_type) || survey?(item_type)
-      k = 'able / able staff name' if progress_note?(item_type)
-      k = 'creator'                if changelog?(item_type)
-    elsif k == 'change_version'
-      k = 'version'
-    elsif k == 'name'
-      k = 'task detail'            if task?(item_type)
-    elsif k == 'attendee'
-      k = 'present'
-    elsif k == 'listening_score'
-      k = 'I feel like my CCW listens to me when I speak.'
-    elsif k == 'problem_solving_score'
-      k = 'My CCW helps me solve my problems.'
-    elsif k == 'getting_in_touch_score'
-      k = 'My CCW knows of other services and groups of people who can help me, and helps me get in touch with them.'
-    elsif k == 'trust_score'
-      k = 'I can trust my CCW.'
-    elsif k == 'difficulty_help_score'
-      k = 'CIF has helped me through difficult times in my life.'
-    elsif k == 'support_score'
-      k = 'CIF has helped me through difficult times in my life.'
-    elsif k == 'family_need_score'
-      k = 'I am happy with the way CIF and my CCW have supported me.'
-    elsif k == 'care_score'
-      k = 'My CCW cares about what happens to the children I take care of.'
-    elsif k == 'contact_person_name'
-      k = 'contact name'
-    elsif k == 'contact_person_email'
-      k = 'email'
-    elsif k == 'contact_person_mobile'
-      k = 'contact mobile'
-    end
-    is_survey_score_text?(k) ? k : k.titleize
+    attribute_label[:first_name] = attribute_first_name(item_type)
+    attribute_label[:name]       = attribute_name(item_type)
+    attribute_label[:user_id]    = attribute_user_id(item_type)
+
+    k = attribute_label[:k] || k
+    survey_score_text?(k) ? k : k.titleize
+  end
+
+  def type_assessment_domain(type,events)
+    type_assessment = ['score','reason','domain','goal','presence']
+    type_assessment.include?(type) && events != "create"
   end
 
   def version_domain_name(id)
@@ -44,30 +19,15 @@ module VersionHelper
   end
 
   def version_value_format(val, k = '', both_val = [])
-    provinces           = ['birth_province_id', 'province_id']
-    referral_sources    = ['referral_source_id']
-    users               = ['received_by_id', 'followed_up_by_id', 'user_id']
-    booleans            = ['has_been_in_orphanage', 'has_been_in_government_care', 'able', 'dependable_income', 'family_preservation', 'exited', 'exited_from_cif', 'alert_manager']
-    titleizeTexts       = ['gender', 'state', 'family_type', 'roles']
-    departments         = ['department_id']
-    domain_groups       = ['domain_group_id']
-    partners            = ['partner_id']
-    families            = ['family_id']
-    clients             = ['client_id']
-    quantitative_types  = ['quantitative_type_id']
-    domains             = ['domain_id']
-    assessments         = ['assessment_id']
-    score_colors        = ['score_1_color', 'score_2_color', 'score_3_color', 'score_4_color']
-    progress_note_types = ['progress_note_type_id']
-    locations           = ['location_id']
-    materials           = ['material_id']
-    stages              = ['stage_id']
-    currencies          = ['household_income']
-    client_qc           = ['quantitative_case_id']
-    agency_client       = ['agency_id']
-    organizations       = ['organization_id']
+    version_values_regular.each do |key, value|
+      if value.include?(k) && val.present?
+        obj = model_name(key).find_by(id: val)
+        val = obj.present? ? obj.name : "##{val}"
+      end
+      val
+    end
 
-    if titleizeTexts.include?(k)
+    if version_values[:titleizeTexts].include?(k)
       if val == both_val[0]
         val  = both_val[0].downcase == both_val[1].downcase ? '' : val.titleize
       else
@@ -77,65 +37,34 @@ module VersionHelper
       val = date_format(val)
     elsif any_time_class(val)
       val = date_time_format(val)
-    elsif booleans.include?(k)
+    elsif version_values[:booleans].include?(k)
       val = human_boolean(val)
-    elsif is_free_text?(k) && has_html?(val)
+    elsif free_text?(k) && html?(val)
       val = strip_tags(val)
-    elsif score_colors.include?(k)
+    elsif version_values[:score_colors].include?(k)
       val = domain_score_color(val)
-    elsif currencies.include?(k)
+    elsif version_values[:currencies].include?(k)
       val = number_to_currency(val)
-    elsif provinces.include?(k) && val.present?
-      obj = Province.find_by(id: val)
-      val = obj.present? ? obj.name : "##{val}"
-    elsif referral_sources.include?(k) && val.present?
-      obj = ReferralSource.find_by(id: val)
-      val = obj.present? ? obj.name : "##{val}"
-    elsif users.include?(k) && val.present?
-      obj = User.find_by(id: val)
-      val = obj.present? ? obj.name : "##{val}"
-    elsif departments.include?(k) && val.present?
-      obj = Department.find_by(id: val)
-      val = obj.present? ? obj.name : "##{val}"
-    elsif domain_groups.include?(k) && val.present?
-      obj = DomainGroup.find_by(id: val)
-      val = obj.present? ? obj.name : "##{val}"
-    elsif partners.include?(k) && val.present?
-      obj = Partner.find_by(id: val)
-      val = obj.present? ? obj.name : "##{val}"
-    elsif families.include?(k) && val.present?
-      obj = Family.find_by(id: val)
-      val = obj.present? ? obj.name : "##{val}"
-    elsif clients.include?(k) && val.present?
-      obj = Client.find_by(id: val)
-      val = obj.present? ? obj.name : "##{val}"
-    elsif quantitative_types.include?(k) && val.present?
-      obj = QuantitativeType.find_by(id: val)
-      val = obj.present? ? obj.name : "##{val}"
-    elsif domains.include?(k) && val.present?
-      obj = Domain.find_by(id: val)
-      val = obj.present? ? obj.name : "##{val}"
-    elsif agency_client.include?(k) && val.present?
-      obj = Agency.find_by(id: val)
-      val = obj.present? ? obj.name : "##{val}"
-    elsif progress_note_types.include?(k) && val.present?
+
+    elsif version_values[:progress_note_types].include?(k) && val.present?
       obj = ProgressNoteType.find_by(id: val)
       val = obj.present? ? obj.note_type : "##{val}"
-    elsif locations.include?(k) && val.present?
-      obj = Location.find_by(id: val)
-      val = obj.present? ? obj.name : "##{val}"
-    elsif client_qc.include?(k) && val.present?
+    elsif version_values[:client_qc].include?(k) && val.present?
       obj = QuantitativeCase.find_by(id: val)
       val = obj.present? ? obj.value : "##{val}"
-    elsif materials.include?(k) && val.present?
+    elsif version_values[:materials].include?(k) && val.present?
       obj = Material.find_by(id: val)
       val = obj.present? ? obj.status : "##{val}"
-    elsif stages.include?(k) && val.present?
+    elsif version_values[:stages].include?(k) && val.present?
       obj = Stage.find_by(id: val)
-      val = obj.present? ? "#{obj.from_age} - #{obj.to_age}" : "##{val}"
-    elsif organizations.include?(k) && val.present?
+      val = obj.present? ? obj.from_age - obj.to_age : "##{val}"
+    elsif version_values[:organizations].include?(k) && val.present?
       obj = Organization.find_by(id: val)
-      val = obj.present? ? "#{obj.full_name}" : "##{val}"
+      val = obj.present? ? obj.full_name : "##{val}"
+    elsif version_values[:agency].include?(k) && val.present?
+      obj = Agency.find_by(id: val)
+      val = obj.present? ? obj.name : "##{val}"
+
     elsif k == 'reset_password_token'
       val = content_tag(:span, truncate(val), title: val)
     end
@@ -153,58 +82,74 @@ module VersionHelper
   end
 
   def version_not_show(item_type)
-    item_type != "AssessmentDomain" && item_type != "Assessment" && item_type != "CaseNote" && item_type != "CaseNoteDomainGroup" && item_type != "AgencyClient" && item_type != "Client" && item_type != "ClientQuantitativeCase"
+    arr = %w(AssessmentDomain Assessment CaseNote CaseNoteDomainGroup AgencyClient Client ClientQuantitativeCase)
+    arr.exclude?(item_type)
   end
 
   def version_keys_skipable?(k, item_type = '')
-    k == 'tokens' || k == 'encrypted_password' || k == 'uid' || k == 'able' || (k == 'user_id' && (case?(item_type) || task?(item_type)))
+    k == 'tokens' || k == 'encrypted_password' || k == 'uid' || k == 'able' || (k == 'user_id' && (case?(item_type) || task?(item_type))) || k == 'admin'
+  end
+
+  def version_color(event)
+    event_color = {
+      create: 'primary',
+      delete: 'danger',
+      update: 'success'
+    }
+    event_color[event.to_sym]
   end
 
   private
 
-  def is_free_text?(k)
-    k == 'description' || k == 'response' || k == 'additional_note'
+  def attribute_first_name(type)
+    type == 'Client' ? 'name' : 'first_name'
   end
 
-  def has_html?(val)
-    strip_tags(val) != val
+  def attribute_name(type)
+    type == 'Task' ? 'task detail' : 'name'
   end
 
-  def domain_score_color(val)
-    case val
-    when 'danger'  then 'Red'
-    when 'info'    then 'Blue'
-    when 'primary' then 'Green'
-    when 'warning' then 'Yellow'
+  def attribute_user_id(type)
+    if type == 'Client' || type == 'Survey'
+      'case worker / staff'
+    elsif type == 'ProgressNote'
+      'able / able staff name'
+    elsif type == 'Changelog'
+      'creator'
     end
   end
 
-  def is_survey_score_text?(text)
-    texts = ['I feel like my CCW listens to me when I speak.',
-            'My CCW helps me solve my problems.',
-            'My CCW knows of other services and groups of people who can help me, and helps me get in touch with them.',
-            'I can trust my CCW.',
-            'CIF has helped me through difficult times in my life.',
-            'CIF has helped me through difficult times in my life.',
-            'I am happy with the way CIF and my CCW have supported me.',
-            'My CCW cares about what happens to the children I take care of.']
+  def free_text?(val)
+    type = %w(description response additional_note)
+    type.include?(val)
+  end
+
+  def html?(val)
+    strip_tags(val) != val
+  end
+
+  def domain_score_color(type)
+    domain_color = {
+      danger: 'Red',
+      info: 'Blue',
+      primary: 'Green',
+      warning: 'Yellow'
+    }
+    domain_color[type.to_sym]
+  end
+
+  def survey_score_text?(text)
+    texts = [
+        attribute_label[:listening_score],
+        attribute_label[:problem_solving_score],
+        attribute_label[:getting_in_touch_score],
+        attribute_label[:trust_score],
+        attribute_label[:difficulty_help_score],
+        attribute_label[:support_score],
+        attribute_label[:family_need_score],
+        attribute_label[:care_score]
+    ]
     texts.include?(text)
-  end
-
-  def client?(item_type)
-    item_type == 'Client'
-  end
-
-  def survey?(item_type)
-    item_type == 'Survey'
-  end
-
-  def progress_note?(item_type)
-    item_type == 'ProgressNote'
-  end
-
-  def changelog?(item_type)
-    item_type == 'Changelog'
   end
 
   def task?(item_type)
@@ -215,12 +160,58 @@ module VersionHelper
     item_type == 'Case'
   end
 
-  def version_color(event)
-    case event
-    when 'create' then 'primary'
-    when 'delete' then 'danger'
-    when 'update' then 'success'
-    end
+  def model_name(key)
+    eval(key.to_s.singularize.classify)
+  end
+
+  def version_values
+    {
+      booleans:             ['has_been_in_orphanage', 'has_been_in_government_care', 'able', 'dependable_income', 'family_preservation', 'exited', 'exited_from_cif', 'alert_manager'],
+      titleizeTexts:        ['gender', 'state', 'family_type', 'roles'],
+      assessments:          ['assessment_id'],
+      score_colors:         ['score_1_color', 'score_2_color', 'score_3_color', 'score_4_color'],
+      progress_note_types:  ['progress_note_type_id'],
+      materials:            ['material_id'],
+      stages:               ['stage_id'],
+      currencies:           ['household_income'],
+      client_qc:            ['quantitative_case_id'],
+      organizations:        ['organization_id'],
+      agency:               ['agency_id']
+    }
+  end
+
+  def version_values_regular
+    {
+      families:             ['family_id'],
+      provinces:            ['birth_province_id', 'province_id'],
+      referral_sources:     ['referral_source_id'],
+      users:                ['received_by_id', 'followed_up_by_id', 'user_id'],
+      departments:          ['department_id'],
+      domain_groups:        ['domain_group_id'],
+      partners:             ['partner_id'],
+      quantitative_types:   ['quantitative_type_id'],
+      domains:              ['domain_id'],
+      locations:            ['location_id'],
+      clients:              ['client_id'],
+    }
+  end
+
+  def attribute_label
+    {
+      change_version:         'version',
+      attendee:               'present',
+      listening_score:        'I feel like my CCW listens to me when I speak.',
+      problem_solving_score:  'My CCW helps me solve my problems.',
+      getting_in_touch_score: 'My CCW knows of other services and groups of people who can help me, and helps me get in touch with them.',
+      trust_score:            'I can trust my CCW.',
+      difficulty_help_score:  'CIF has helped me through difficult times in my life.',
+      support_score:          'CIF has helped me through difficult times in my life.',
+      family_need_score:      'I am happy with the way CIF and my CCW have supported me.',
+      care_score:             'My CCW cares about what happens to the children I take care of.',
+      contact_person_name:    'contact_name',
+      contact_person_email:   'email',
+      contact_person_mobile:  'contact_mobile'
+    }
   end
 
   def any_time_class(val)
