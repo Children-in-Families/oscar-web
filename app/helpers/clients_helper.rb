@@ -2,8 +2,8 @@ module ClientsHelper
   def user(user)
     if can? :manage, :all
       link_to user.name, user_path(user) if user.present?
-    else
-      user.name if user.present?
+    elsif user.present?
+      user.name
     end
   end
 
@@ -25,7 +25,7 @@ module ClientsHelper
 
   def able_screen_link(client)
     if client.answers.any?
-      link_to '', {"data-target" => "#clientAnswer", "data-toggle" => "modal", :type => "button"} do
+      link_to '', 'data-target': '#clientAnswer', 'data-toggle': :modal, type: :button do
         content_tag(:span, t('.client_able_answers'), class: 'btn btn-xs btn-warning small-btn-margin')
       end
     else
@@ -97,7 +97,7 @@ module ClientsHelper
       family_id:                     t('datagrid.columns.clients.family_id'),
       any_assessments:               t('datagrid.columns.clients.assessments')
     }
-    label_tag "#{column}_",label_column[column.to_sym]
+    label_tag "#{column}_", label_column[column.to_sym]
   end
 
   def case_button(type)

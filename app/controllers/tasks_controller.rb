@@ -4,14 +4,14 @@ class TasksController < AdminController
     @users = get_user
   end
 
-	private
+  private
 
   def get_user
-  	if current_user.admin?
-  		User.order(:first_name, :last_name)
-  	else
-  		User.in_department(current_user.department_id).order(:first_name, :last_name)
-  	end
+    if current_user.admin?
+      User.order(:first_name, :last_name)
+    else
+      User.in_department(current_user.department_id).order(:first_name, :last_name)
+    end
   end
 
   def task_of_user

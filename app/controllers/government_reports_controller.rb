@@ -2,11 +2,11 @@ class GovernmentReportsController < AdminController
 
   before_action :find_client
   before_action :find_government_report, only: [:show, :edit, :update, :destroy]
-  
+
   def index
     @government_report = @client.government_report
   end
-  
+
   def new
     @government_report = @client.build_government_report
   end

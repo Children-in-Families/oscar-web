@@ -184,9 +184,9 @@ describe User, 'methods' do
   let!(:fifth_client) { create(:client, user: fifth_case_worker, status: 'Referred') }
   let!(:fifth_assessment) { create(:assessment, client: fifth_client, created_at: Date.today << 6) }
 
-  context 'has_no_any_associated_objects?' do
-    it { expect(admin.has_no_any_associated_objects?).to be_truthy }
-    it { expect(used_user.has_no_any_associated_objects?).to be_falsey }
+  context 'no_any_associated_objects?' do
+    it { expect(admin.no_any_associated_objects?).to be_truthy }
+    it { expect(used_user.no_any_associated_objects?).to be_falsey }
   end
 
   context 'name' do

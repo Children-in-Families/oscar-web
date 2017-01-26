@@ -13,11 +13,11 @@ class FileUploader < CarrierWave::Uploader::Base
   end
 
   version :thumb, if: :image? do
-    process :resize_to_fill => [100, 100]
+    process resize_to_fill: [100, 100]
   end
 
   def extension_white_list
-    %w(jpg jpeg png doc docx xls xlsx pdf )
+    %w(jpg jpeg png doc docx xls xlsx pdf)
   end
 
   protected

@@ -49,10 +49,10 @@ describe ProgressNote, 'methods' do
   let!(:other_progress_note){ create(:progress_note, location: other_location) }
   context 'other_location?' do
     it 'shoud be true' do
-      expect(progress_note.is_other_location).to be_truthy
+      expect(progress_note.other_location?).to be_truthy
     end
     it 'shoud be false' do
-      expect(other_progress_note.is_other_location).to be_falsey
+      expect(other_progress_note.other_location?).to be_falsey
     end
   end
 end

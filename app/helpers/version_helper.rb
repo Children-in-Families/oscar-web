@@ -28,11 +28,11 @@ module VersionHelper
     end
 
     if version_values[:titleizeTexts].include?(k)
-      if val == both_val[0]
-        val  = both_val[0].downcase == both_val[1].downcase ? '' : val.titleize
-      else
-        val  = val.titleize
-      end
+      val = if val == both_val[0]
+              both_val[0].casecmp(both_val[1]) ? '' : val.titleize
+            else
+              val.titleize
+            end
     elsif val.class == Date
       val = date_format(val)
     elsif any_time_class(val)
@@ -140,14 +140,14 @@ module VersionHelper
 
   def survey_score_text?(text)
     texts = [
-        attribute_label[:listening_score],
-        attribute_label[:problem_solving_score],
-        attribute_label[:getting_in_touch_score],
-        attribute_label[:trust_score],
-        attribute_label[:difficulty_help_score],
-        attribute_label[:support_score],
-        attribute_label[:family_need_score],
-        attribute_label[:care_score]
+      attribute_label[:listening_score],
+      attribute_label[:problem_solving_score],
+      attribute_label[:getting_in_touch_score],
+      attribute_label[:trust_score],
+      attribute_label[:difficulty_help_score],
+      attribute_label[:support_score],
+      attribute_label[:family_need_score],
+      attribute_label[:care_score]
     ]
     texts.include?(text)
   end
@@ -192,7 +192,7 @@ module VersionHelper
       quantitative_types:   ['quantitative_type_id'],
       domains:              ['domain_id'],
       locations:            ['location_id'],
-      clients:              ['client_id'],
+      clients:              ['client_id']
     }
   end
 
