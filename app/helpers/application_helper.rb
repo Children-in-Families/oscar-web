@@ -173,6 +173,10 @@ module ApplicationHelper
         value.reject{ |i| i.empty? }.each do |c|
           concat content_tag(:strong, c, class: 'label label-default')
         end
+      elsif value == 'true'
+        concat 'Yes'
+      elsif value == 'false'
+        concat 'No'
       else
         concat value
       end

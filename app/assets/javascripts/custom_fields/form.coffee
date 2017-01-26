@@ -17,7 +17,8 @@ CIF.Custom_fieldsShow = do ->
       typeUserEvents: {
         checkbox: {
           onadd: (fld) ->
-            $('.toggle-wrap, .className-wrap, .value-wrap, .access-wrap').hide()
+            $('.toggle-wrap, .value-wrap, .access-wrap').hide()
+            $('.className-wrap').addClass('hidden')
         }
         'checkbox-group': {
           onadd: (fld) ->

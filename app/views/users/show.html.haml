@@ -65,4 +65,16 @@
                 %td
                   %strong
                     = @user.province.name if @user.province
+  .col-xs-12
+    .ibox
+      .ibox-title
+        %h5= t('.additional_info')
+      .ibox-content
+        %table.table.table-bordered
+          - @user.properties_objs.try(:each) do |k, v|
+            %tr
+              %td.align-justify
+                = k.titleize
+              %td.align-justify
+                = custom_properties(v)
 = render 'clients'
