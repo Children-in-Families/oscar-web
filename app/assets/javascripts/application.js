@@ -60,3 +60,4 @@
 //= require progress_notes/index
 //= require changelogs/index
 //= require domains/form
+//= require ckeditor/config
