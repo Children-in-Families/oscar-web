@@ -107,3 +107,15 @@
                 %td
                   %strong
                     = @family.family_type.titleize
+  .col-xs-12
+    .ibox
+      .ibox-title
+        %h5= t('.additional_info')
+      .ibox-content
+        %table.table.table-bordered
+          - @family.properties_objs.try(:each) do |k, v|
+            %tr
+              %td.align-justify
+                = k.titleize
+              %td.align-justify
+                = custom_properties(v)
