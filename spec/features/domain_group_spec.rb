@@ -34,7 +34,7 @@ describe 'Domain Group' do
         fill_in 'Name', with: FFaker::Name.name
         click_button 'Save'
       end
-      sleep 1
+      wait_for_ajax
       expect(page).to have_content('Domain Group has been successfully created.')
     end
     scenario 'invalid' do
@@ -42,7 +42,7 @@ describe 'Domain Group' do
       within('#new_domain_group') do
         click_button 'Save'
       end
-      sleep 1
+      wait_for_ajax
       expect(page).to have_content('Failed to create a domain group.')
     end
   end
@@ -58,7 +58,7 @@ describe 'Domain Group' do
         fill_in 'Name', with: name
         click_button 'Save'
       end
-      sleep 1
+      wait_for_ajax
       expect(page).to have_content('Domain Group has been successfully updated')
     end
     scenario 'invalid' do
@@ -68,7 +68,7 @@ describe 'Domain Group' do
         click_button 'Save'
       end
       
-      sleep 1
+      wait_for_ajax
       expect(page).to have_content(I18n.t('domain_groups.update.failed_update'))
     end
   end
@@ -79,7 +79,7 @@ describe 'Domain Group' do
     end
     scenario 'success' do
       find("a[href='#{domain_group_path(domain_group)}'][data-method='delete']").click
-      sleep 1
+      wait_for_ajax
       expect(page).to have_content('Domain Group has been successfully deleted')
     end
     scenario 'disable delete' do

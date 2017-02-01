@@ -7,7 +7,6 @@
         - unless params[:user_id]
           %option{ selected: 'selected' } Select User
         - @users.each do |user|
-          - if user.id.to_i == params[:user_id].to_i
-            %option{ value: user.id, selected: 'selected' }= user.name
-          - else
-            %option{ value: user.id }= user.name      
+          %option{ value: user.id, selected: user.id == params[:user_id].to_i }
+            = user.name
+      

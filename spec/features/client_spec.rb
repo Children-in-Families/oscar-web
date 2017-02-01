@@ -6,7 +6,7 @@ describe 'Client' do
     let!(:client){create(:client, user: user)}
     let!(:other_client) {create(:client)}
     let!(:domain) { create(:domain, name: "1A") }
-    
+
     before do
       login_as(user)
       visit clients_path
@@ -47,9 +47,11 @@ describe 'Client' do
     end
     scenario 'Domain Score Statistic and Case Type Statistic', js: true do
       page.find("#client-statistic").click
-      sleep 1
-      expect(page).to have_content(I18n.t('clients.index.csi_domain_scores'))
-      expect(page).to have_content(I18n.t('clients.index.case_statistics'))
+      wait_for_ajax
+      expect(page).to have_css("#cis-domain-score[data-title='CSI Domain Scores']")
+      expect(page).to have_css("#cis-domain-score[data-yaxis-title='Domain Scores']")
+      expect(page).to have_css("#case-statistic[data-title='Case Statistics']")
+      expect(page).to have_css("#case-statistic[data-yaxis-title='Client Amounts']")
     end
   end
 
@@ -88,20 +90,31 @@ describe 'Client' do
   end
 
   feature 'New' do
+    let!(:province) { create(:province) }
+    let!(:client)   { create(:client, first_name: 'Cornell', gender: 'male', date_of_birth: '1994-04-04', birth_province: province) }
     before do
       login_as(user)
       visit new_client_path
     end
     scenario 'valid', js: true do
       fill_in 'Name', with: FFaker::Name.name
-      click_button 'Save'
-      sleep 1
+      click_link 'Save'
+      wait_for_ajax
       expect(page).to have_content('Client has been successfully created')
     end
 
-    xscenario 'invalid' do
-      click_button 'Save'
-      expect(page).to have_content("can't be blank")
+    xscenario 'warning', js: true do
+      fill_in 'Name', with: 'Cornell'
+
+      gender_selector = find('.client_gender')
+      province_selector = find('.client_birth_province_id')
+
+      select2_select from: gender_selector, with: 'Female'
+      save_and_open_screenshot '2.jpg'
+      select2_select from: province_selector, with: province.name
+
+      click_link 'Save'
+      expect(page).to have_content("has already been register in")
     end
   end
 
@@ -113,8 +126,8 @@ describe 'Client' do
     end
     scenario 'valid', js: true do
       fill_in 'Name', with: FFaker::Name.name
-      click_button 'Save'
-      sleep 1
+      click_link 'Save'
+      wait_for_ajax
       expect(page).to have_content('Client has been successfully updated')
     end
 
@@ -133,7 +146,7 @@ describe 'Client' do
     end
     scenario 'successfully' do
       first("a[data-method='delete'][href='#{client_path(client)}']").click
-      sleep 1
+      wait_for_ajax
       expect(page).to have_content('Client has been successfully deleted')
     end
   end
@@ -163,6 +176,7 @@ describe 'Client' do
       find("input[type='submit'][value='Reject']").click
     end
     scenario 'successfully', js: true do
+      wait_for_ajax
       expect(page).to have_content('Client has been successfully updated')
     end
   end
@@ -215,7 +229,7 @@ describe 'Client' do
       end
 
       scenario 'Emergency Info' do
-        
+
         expect(page).to have_content(emergency_case.start_date.strftime('%B %d, %Y'))
         expect(page).to have_content(emergency_case.carer_names)
         expect(page).to have_content(emergency_case.carer_phone_number)
@@ -406,7 +420,7 @@ describe 'Client' do
       page.find('.exit_date').set(Date.strptime(FFaker::Time.date).strftime('%B %d, %Y'))
       page.find('.exit_note').set(FFaker::Lorem.paragraph)
       page.find("input[type='submit'][value='Exit']").click
-      sleep 1
+      wait_for_ajax
       expect(page).to have_content('Case has been successfully updated')
     end
   end

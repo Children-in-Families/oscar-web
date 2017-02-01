@@ -3,6 +3,7 @@ class Client < ActiveRecord::Base
 
   attr_reader :assessments_count
   attr_accessor :assessment_id
+  attr_accessor :organization
 
   friendly_id :slug, use: :slugged
 
@@ -92,7 +93,19 @@ class Client < ActiveRecord::Base
   scope :without_assessments,  -> { includes(:assessments).where(assessments: { client_id: nil }) }
 
   scope :able,                 -> { where(able_state: ABLE_STATES[0]) }
-  scope :all_active_types, -> { where(status: CLIENT_ACTIVE_STATUS) }
+
+  scope :all_active_types,     -> { where(status: CLIENT_ACTIVE_STATUS) }
+
+  def self.filter(options)
+    query = self.all
+
+    query = query.where(first_name: options[:first_name])                 if options[:first_name].present?
+    query = query.where(date_of_birth: options[:date_of_birth])           if options[:date_of_birth].present?
+    query = query.where(gender: options[:gender])                         if options[:gender].present?
+    query = query.where(birth_province_id: options[:birth_province_id])   if options[:birth_province_id].present?
+
+    query
+  end
 
   def reject?
     state_changed? && state == 'rejected'
