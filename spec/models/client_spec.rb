@@ -93,6 +93,17 @@ describe Client, 'methods' do
     end
   end
 
+  context 'active_day_care' do
+    let!(:case) { create(:case, client: client, exited: false, start_date: 1.year.ago) }
+    it { expect(client.active_day_care).to eq(366.0) }
+  end
+
+  context 'inactive_day_care' do
+    let!(:inactive_case) { create(:case, client: client, exited: true, start_date: 2.years.ago, exit_date: Date.today, exit_note: FFaker::Lorem.paragraph) }
+    let!(:active_case) { create(:case, case_type: 'FC', client: client, exited: true, start_date: 6.months.ago, exit_date: Date.today, exit_note: FFaker::Lorem.paragraph) }
+    it { expect(client.inactive_day_care).to eq(731.0) }
+  end
+
   context 'name' do
     let!(:name){ "#{client.first_name} #{client.last_name}" }
     it { expect(client.name).to eq(name) }
@@ -174,6 +185,26 @@ describe Client, 'methods' do
     end
     it 'does not return neither non able clients nor not managed by current user' do
       expect(Client.in_any_able_states_managed_by(case_worker)).not_to include(able_manager_client)
+    end
+  end
+
+  context 'reminder send mail to admin and ec manager' do
+    let!(:admin)           { create(:user, :admin)}
+    let!(:ec_department)   { create(:department, :emergency_care)}
+    let!(:ec_manager)      { create(:user, :ec_manager, department: ec_department)}
+    let!(:ec_caseworker)   { create(:user, department: ec_department)}
+    let!(:ec_client)       { create(:client, status: 'Active EC', user: ec_caseworker)}
+    let!(:case1)           { create(:case, client: ec_client, exited: false, start_date: Date.today - 90.days) }
+
+    before do
+      Client.ec_reminder_in(90)
+    end
+
+    it 'send mail to ec manager' do
+      expect(ActionMailer::Base.deliveries.first.to).to eq([ec_manager.email])
+    end
+    it 'send mail to admin' do
+      expect(ActionMailer::Base.deliveries.last.to).to eq([admin.email])
     end
   end
 end
