@@ -1,7 +1,10 @@
 class AssessmentDomain < ActiveRecord::Base
-
-  SCORE_COLORS = { has_problem: 'warning', not_ideal: 'info', good: 'primary',
-                    critical_problem: 'danger' }
+  SCORE_COLORS = {
+    has_problem: 'warning',
+    not_ideal: 'info',
+    good: 'primary',
+    critical_problem: 'danger'
+  }.freeze
 
   belongs_to :assessment
   belongs_to :domain

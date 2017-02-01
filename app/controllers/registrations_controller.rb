@@ -1,5 +1,4 @@
 class RegistrationsController < Devise::RegistrationsController
-
   before_action :notify_user, :set_sidebar_basic_info, only: [:edit, :update]
   before_action :set_paper_trail_whodunnit
 

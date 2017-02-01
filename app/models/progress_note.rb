@@ -14,21 +14,21 @@ class ProgressNote < ActiveRecord::Base
   has_paper_trail
 
   validates :client_id, :user_id, :date, presence: true
-  validates :other_location, presence: true, if: :is_other_location
+  validates :other_location, presence: true, if: :other_location?
 
-  scope :other_location_like, -> (value) { where('LOWER(progress_notes.other_location) LIKE ?', "%#{value.downcase}%") }
+  scope :other_location_like, ->(value) { where('LOWER(progress_notes.other_location) LIKE ?', "%#{value.downcase}%") }
 
   before_save :toggle_other_location
 
   def toggle_other_location
-    if location.present? && !is_other_location
+    if location.present? && !other_location?
       self.other_location = ''
     else
-      self.other_location = self.other_location
+      self.other_location = other_location
     end
   end
 
-  def is_other_location
+  def other_location?
     other_location = Location.find_by(name: 'ផ្សេងៗ Other')
     location == other_location
   end
