@@ -24,7 +24,7 @@ bykotahouse_logo = File.open(Rails.root.join('app/assets/images/bykotahouse.png'
 
 ORGANIZATIONS = [
             { full_name: 'Children In Families', short_name: 'cif', logo: cif_logo },
-            { full_name: 'New Smile', short_name: 'newsmile', logo: nso_logo }
+            { full_name: 'New Smile', short_name: 'newsmile', logo: nso_logo },
             { full_name: 'Bykota House', short_name: 'bykotahouse', logo: bykotahouse_logo }
           ]
 domains.each do |domain|
