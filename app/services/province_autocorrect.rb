@@ -8,7 +8,7 @@ class ProvinceAutocorrect
     @kampong_cham      = ['Kampong Cham', 'Kampong Chamm', 'Kompong Cham', 'Phum Kandal']
     @kampong_chhnang   = ['Kampong Chhnang', 'Kampong Chnang', 'Kampong Chhnang', 'Kampong Chhang', 'Kompong Chhnang', 'Kompongchnang', 'Kampongchnang']
     @preah_sihanouk    = ['Preah Sihanouk', 'Kampong Som']
-    @kampot            = %w('Kampot Kampot*)
+    @kampot            = %w(Kampot Kampot)
     @kandal            = ['Kandal', 'kandal  Province', 'Kondal', 'Kien Svay']
     @phnom_penh        = ['Phnom Penh', 'Phonm Penh', 'Phom Phen', 'Phom Penh', 'Phnom Penh (steung Meanchey)']
     @preah_vihear      = ['Preah Vihear', 'Prah Vihea']

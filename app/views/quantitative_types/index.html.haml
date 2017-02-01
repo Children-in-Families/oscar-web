@@ -5,9 +5,10 @@
         %h5= @results
         %span.label.label-info= t('.quantitative_types')
         .ibox-tools
-          = link_to '#', {"data-target" => "#quantitative_typeModal-", "data-toggle" => "modal", :type => "button"} do
-            .btn.btn-primary.btn-add
-              = t('.add_new_quantitative_type')
+          - if can? :manage, QuantitativeType
+            = link_to '#', {"data-target" => "#quantitative_typeModal-", "data-toggle" => "modal", :type => "button"} do
+              .btn.btn-primary.btn-add
+                = t('.add_new_quantitative_type')
       .ibox-content
         - @quantitative_types.each do |qt|
           .panel.panel-default
@@ -16,11 +17,12 @@
                 .col-xs-10
                   %h4
                     = qt.name
-                .col-xs-2.text-right.actions
-                  = link_to '#', {class: 'btn btn-outline btn-success', "data-target" => "#quantitative_typeModal-#{qt.id}", "data-toggle" => "modal", :type => "button"} do
-                    = fa_icon('pencil')
-                  = remove_link(qt, {quantitative_case: qt.quantitative_cases_count}, 'btn-md')
-                = render 'form', quantitative_type: qt
+                - if can? :manage, QuantitativeType
+                  .col-xs-2.text-right.actions
+                    = link_to '#', {class: 'btn btn-outline btn-success', "data-target" => "#quantitative_typeModal-#{qt.id}", "data-toggle" => "modal", :type => "button"} do
+                      = fa_icon('pencil')
+                    = remove_link(qt, {quantitative_case: qt.quantitative_cases_count}, 'btn-md')
+                  = render 'form', quantitative_type: qt
             .panel-body
               %table.table.table-bordered
                 %tbody
@@ -28,13 +30,12 @@
                     %tr
                       %td
                         = qc.value
-                      - if current_user.admin?
+                      - if can? :version, QuantitativeType
                         %td.text-center= link_to t('.view_changelog'), quantitative_case_version_path(qc)
-            - if current_user.admin?
+            - if can? :version, QuantitativeType
               .panel-footer
                 %p= link_to t('.view_changelog'), quantitative_type_version_path(qt)
       .ibox-footer
         .text-center
           = paginate @quantitative_types
-
 = render 'form'

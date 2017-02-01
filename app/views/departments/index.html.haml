@@ -5,9 +5,10 @@
         %h5= @results
         %span.label.label-info= t('.departments')
         .ibox-tools
-          = link_to '#', {"data-target" => "#departmentModal-", "data-toggle" => "modal", :type => "button"} do
-            .btn.btn-primary.btn-add
-              = t('.add_new_department')
+          - if can? :manage?, Department
+            = link_to '#', {"data-target" => "#departmentModal-", "data-toggle" => "modal", :type => "button"} do
+              .btn.btn-primary.btn-add
+                = t('.add_new_department')
       .ibox-content
         .table-responsive
           %table.table.table-bordered.table-striped.table-hover
@@ -15,22 +16,24 @@
               %tr
                 %th.custom_column_name= t('.department_names')
                 %th.custom_column_description= t('.description')
-                %th.text-center.custom_column_manage{ colspan: '2' }= t('.manage')
-                - if current_user.admin?
+                - if can? :manage, Department
+                  %th.text-center.custom_column_manage{ colspan: '2' }= t('.manage')
+                - if can? :version, Department
                   %th.changelog.text-center= t('.changelogs')
             %tbody
               - @departments.each do |department|
                 %tr
                   %td= department.name
                   %td= department.description
-                  %td.text-center
-                    = link_to '#', {class: 'btn btn-outline btn-success btn-xs',
-                                    'data-target': "#departmentModal-#{department.id}",
-                                    'data-toggle': 'modal', type: 'button'} do
-                      = fa_icon('pencil')
-                  %td.text-center
-                    = remove_link(department, { department_usercount: department.users_count })
-                  - if current_user.admin?
+                  - if can? :manage, Department
+                    %td.text-center
+                      = link_to '#', {class: 'btn btn-outline btn-success btn-xs',
+                                      'data-target': "#departmentModal-#{department.id}",
+                                      'data-toggle': 'modal', type: 'button'} do
+                        = fa_icon('pencil')
+                    %td.text-center
+                      = remove_link(department, { department_usercount: department.users_count })
+                  - if can? :version, Department
                     %td.text-center
                       = link_to t('.view'), department_version_path(department)
                   = render 'form', department: department

@@ -1,3 +1,5 @@
 every :day, :at => '12:00 am' do
   runner 'Task.upcoming_incomplete_tasks', output: 'log/whenever.log'
+  runner 'Client.ec_reminder_in(83)', output: 'log/whenever.log'
+  runner 'Client.ec_reminder_in(90)', output: 'log/whenever.log'
 end

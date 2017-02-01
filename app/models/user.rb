@@ -1,6 +1,5 @@
 class User < ActiveRecord::Base
-
-  ROLES = ['admin', 'case worker', 'able manager', 'ec manager', 'fc manager', 'kc manager']
+  ROLES = ['admin', 'case worker', 'able manager', 'ec manager', 'fc manager', 'kc manager', 'visitor'].freeze
   MANAGERS = ROLES.select { |role| role if role.include?('manager') }
 
   devise :database_authenticatable, :registerable,
@@ -22,18 +21,19 @@ class User < ActiveRecord::Base
   validates :roles, presence: true
   validates :email, presence: true, uniqueness: { case_sensitive: false }
 
-  scope :first_name_like, -> (value) { where('LOWER(users.first_name) LIKE ?', "%#{value.downcase}%") }
-  scope :last_name_like,  -> (value) { where('LOWER(users.last_name) LIKE ?', "%#{value.downcase}%") }
-  scope :mobile_like,     -> (value) { where('LOWER(users.mobile) LIKE ?', "%#{value.downcase}%") }
-  scope :email_like,      -> (value) { where('LOWER(users.email) LIKE  ?', "%#{value.downcase}%") }
-  scope :in_department,   -> (value) { where('department_id = ?', value)}
-  scope :job_title_are,   ->         { where.not(job_title: '').pluck(:job_title).uniq }
-  scope :department_are,  ->         { joins(:department).pluck('departments.name', 'departments.id').uniq }
-  scope :case_workers,    ->         { where('users.roles LIKE ?', '%case worker%') }
-  scope :admins,          ->         { where(roles: 'admin') }
-  scope :province_are,    ->         { joins(:province).pluck('provinces.name', 'provinces.id').uniq }
-  scope :has_clients,     ->         { joins(:clients).without_json_fields.uniq }
+  scope :first_name_like, ->(value) { where('LOWER(users.first_name) LIKE ?', "%#{value.downcase}%") }
+  scope :last_name_like,  ->(value) { where('LOWER(users.last_name) LIKE ?', "%#{value.downcase}%") }
+  scope :mobile_like,     ->(value) { where('LOWER(users.mobile) LIKE ?', "%#{value.downcase}%") }
+  scope :email_like,      ->(value) { where('LOWER(users.email) LIKE  ?', "%#{value.downcase}%") }
+  scope :in_department,   ->(value) { where('department_id = ?', value) }
+  scope :job_title_are,   ->        { where.not(job_title: '').pluck(:job_title).uniq }
+  scope :department_are,  ->        { joins(:department).pluck('departments.name', 'departments.id').uniq }
+  scope :case_workers,    ->        { where('users.roles LIKE ?', '%case worker%') }
+  scope :admins,          ->        { where(roles: 'admin') }
+  scope :province_are,    ->        { joins(:province).pluck('provinces.name', 'provinces.id').uniq }
+  scope :has_clients,     ->        { joins(:clients).without_json_fields.uniq }
   scope :managers,        ->        { where(roles: MANAGERS) }
+
   before_save :assign_as_admin
 
   ROLES.each do |role|
@@ -43,7 +43,7 @@ class User < ActiveRecord::Base
   end
 
   def active_for_authentication?
-    super and !self.disable?
+    super && !self.disable?
   end
 
   def name
@@ -66,7 +66,7 @@ class User < ActiveRecord::Base
     any_case_manager? || able_manager?
   end
 
-  def has_no_any_associated_objects?
+  def no_any_associated_objects?
     clients_count.zero? && cases_count.zero? && tasks_count.zero? && changelogs_count.zero? && progress_notes.count.zero?
   end
 

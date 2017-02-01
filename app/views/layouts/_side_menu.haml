@@ -34,21 +34,21 @@
             = fa_icon('child')
             %span.nav-label= t('.clients')
             %span.label.label-primary.pull-right= @dashboard.client_count
-        - if can? :manage, Family
+        - if can? :read, Family
           %li{class: "#{active_menu('families')}"}
             = link_to families_path do
               = fa_icon('users')
               %span.nav-label= t('.families')
               %span.label.label-primary.pull-right= @dashboard.family_count
 
-        - if can? :manage, Partner
+        - if can? :read, Partner
           %li{class: "#{active_menu('partners')}"}
             = link_to partners_path do
               = fa_icon('handshake-o')
               %span.nav-label= t('.partners')
               %span.label.label-primary.pull-right= @dashboard.partner_count
 
-        - if can? :manage, User
+        - if can? :read, User
           %li{class: "#{active_menu('users')}"}
             = link_to users_path do
               = fa_icon('address-book-o')
@@ -63,7 +63,7 @@
           %ul.nav.nav-second-level
             %li{ class: active_menu('agencies') }
               = link_to t('.agencies'), agencies_path
-            - if can? :manage, :all
+            - if can? :read, :all
               %li{ class: active_menu('departments') }
                 = link_to t('.departments'), departments_path
               %li{ class: active_menu('domains') }
@@ -94,11 +94,11 @@
               %li{ class: active_menu('changelogs') }
                 = link_to t('.release_logs'), changelogs_path
 
-            - elsif can? :manage, ReferralSource
+            - elsif can? :read, ReferralSource
               %li{ class: active_menu('referral_sources') }
                 = link_to t('.referral_sources'), referral_sources_path
 
-        - if can? :manage, DataTracker
+        - if can? :read, DataTracker
           %li{ class: active_menu('data_trackers') }
             = link_to data_trackers_path do
               = fa_icon('area-chart')

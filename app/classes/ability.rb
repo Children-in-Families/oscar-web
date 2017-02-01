@@ -6,11 +6,17 @@ class Ability
 
     can :manage, Agency
     can :manage, ReferralSource
-
     can :manage, QuarterlyReport
 
     if user.admin?
       can :manage, :all
+    elsif user.visitor?
+      cannot :manage, Agency
+      cannot :manage, ReferralSource
+      cannot :manage, QuarterlyReport
+
+      can :read, :all
+      can :version, :all
     elsif user.case_worker?
       can :manage, Client, user_id: user.id
       can :manage, ProgressNote

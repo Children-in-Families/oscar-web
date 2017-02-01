@@ -49,7 +49,7 @@ class UsersController < AdminController
   end
 
   def destroy
-    if @user.has_no_any_associated_objects?
+    if @user.no_any_associated_objects?
       @user.destroy
       redirect_to users_url, notice: t('.successfully_deleted')
     else
@@ -63,10 +63,8 @@ class UsersController < AdminController
   end
 
   def disable
-    @user     = User.find(params[:user_id])
-    if @user.update_attributes(disable: !@user.disable)
-      redirect_to users_path, notice: t('.successfully_disable')
-    end
+    @user = User.find(params[:user_id])
+    redirect_to users_path, notice: t('.successfully_disable') if @user.update_attributes(disable: !@user.disable)
   end
 
   private

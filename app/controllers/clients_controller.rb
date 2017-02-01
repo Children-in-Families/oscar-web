@@ -5,7 +5,7 @@ class ClientsController < AdminController
   before_action :set_association, except: [:index, :destroy]
 
   def index
-    if current_user.admin?
+    if current_user.admin? || current_user.visitor?
       admin_client_grid
     elsif current_user.case_worker? || current_user.able_manager? || current_user.any_case_manager?
       non_admin_client_grid
@@ -44,11 +44,11 @@ class ClientsController < AdminController
     @answers_with_stage = []
     @answers_non_stage = []
     @able_screening_questions_with_stage.each do |question|
-      @answers_with_stage <<  @client.answers.build(able_screening_question: question)
+      @answers_with_stage << @client.answers.build(able_screening_question: question)
     end
 
     @able_screening_questions_non_stage.each do |question|
-      @answers_non_stage <<  @client.answers.build(able_screening_question: question)
+      @answers_non_stage << @client.answers.build(able_screening_question: question)
     end
   end
 
@@ -58,7 +58,7 @@ class ClientsController < AdminController
   end
 
   def create
-    @client         = Client.new(client_params)
+    @client = Client.new(client_params)
     if current_user.case_worker? || current_user.any_manager?
       @client.user_id = current_user.id
     end
@@ -102,7 +102,6 @@ class ClientsController < AdminController
     @versions = @client.versions.reorder(created_at: :desc)
   end
 
-
   def find
     render json: find_client_in_organization
   end
@@ -138,18 +137,18 @@ class ClientsController < AdminController
 
   def client_params
     params.require(:client)
-      .permit(:assessment_id, :first_name, :gender, :date_of_birth,
-              :birth_province_id, :initial_referral_date, :referral_source_id,
-              :referral_phone, :received_by_id, :followed_up_by_id,
-              :follow_up_date, :grade, :school_name, :current_address,
-              :has_been_in_orphanage, :has_been_in_government_care,
-              :relevant_referral_information, :user_id, :province_id, :state,
-              :rejected_note, :able, :able_state,
-              agency_ids: [],
-              quantitative_case_ids: [],
-              tasks_attributes: [:name, :domain_id, :completion_date],
-              answers_attributes: [:id, :description, :able_screening_question_id, :client_id, :question_type]
-              )
+          .permit(
+            :assessment_id, :first_name, :gender, :date_of_birth,
+            :birth_province_id, :initial_referral_date, :referral_source_id,
+            :referral_phone, :received_by_id, :followed_up_by_id,
+            :follow_up_date, :grade, :school_name, :current_address,
+            :has_been_in_orphanage, :has_been_in_government_care,
+            :relevant_referral_information, :user_id, :province_id, :state,
+            :rejected_note, :able, :able_state,
+            agency_ids: [],
+            quantitative_case_ids: [],
+            tasks_attributes: [:name, :domain_id, :completion_date],
+            answers_attributes: [:id, :description, :able_screening_question_id, :client_id, :question_type])
   end
 
   def set_association
