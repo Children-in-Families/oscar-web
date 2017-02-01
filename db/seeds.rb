@@ -1,3 +1,5 @@
+Organization.switch_to 'bykotahouse'
+
 domains = [
   { name: '1A', identity: 'Food Security', group: 1, score_1_color: 'danger', score_2_color: 'danger', score_3_color: 'warning', score_4_color: 'primary', description: '<p><b><u>កត្តា ១ក៖ មានអាហារសម្រាប់បរិភោគជាទៀងទាត់<p><p>Domain 1A - Food Security</u><p><br><p>កុមារមានឣាហារបរិភោគគ្រប់គ្រាន់គ្រប់ពេលសំរាប់ឆ្នាំនេះ។</p><p>Goal: The child has enough food to eat at all times of the year.</p><p></p><p>សំនួរគំរូ៖</p><p>Sample Questions:</b></p><ul><li>តើគ្រួសារ / កុមារមានអ្វីបរិភោគខ្លះ? / What do the family and child eat?</li><li>តើគ្រួសារទទួលអាហារដោយរបផបណា? / How does the household get food?</li><li>សូមប្រាប់ខ្ញុំពីពេលវេលាមិនមានអាហារបរិភោគគ្រប់គ្រាន់។ / Tell me about times when there is not enough food?</li><li>តើកុមារនេះត្អូញត្អែពីការអត់ឃ្លានរឺទេ? / Does the child complain about being hungry?</li></ul><br><p><b>សូមសង្កេតមើលប្រសិនបើអាច</p><p>Things to look for during the visit:</b></p><ul><li>Observe the house/farm. Are they crops and/or animals?</li><li>Does the kitchen look as though it was used to prepare food recently?</li></ul><hr><p><b>ឣត្ថន័យនៃពិន្ទុ</p><p>Score Interpretations:</b></p><p>១៖ កុមារក្សត់ឣាហារដើម្បីបរិភោគ និងចូលទៅគេងទាំងឃ្លានស្ទើររាល់យប់។</p><p>1: The child rarely has food to eat and goes to bed hungry most nights.</p><p>២៖ កុមារជាញឹកញាប់ទទួលបានឣាហាសំរាប់បរិភោគជាចាំបាច់តិចតួច ត្អូញត្អែរនៃការអត់ឃ្លាន។</p><p>2: The child frequently has less food to eat than needed, complains of hunger.</p><p>៣៖ កុមារទទួលបានការបរិភោគគ្រប់គ្រាន់នៅពេលខ្លះ ឣាស្រ័យទៅលើរដូវកាល និងការផ្គត់ផ្គងអាហារ។</p><p>3: The child has enough to eat for some of time, depending on season or food supply.</p><p>៤៖កុមារគឺមានការផ្គត់ផ្គង់យ៉ាងល្អ ការបរិភោគមានជាទៀងទាត់។</p><p>4: The child is well fed, eats regularly.</p>' },
   { name: '1B', identity: 'Nutrition and Growth', group: 1, score_1_color: 'danger', score_2_color: 'warning', score_3_color: 'info', score_4_color: 'primary', description: "<p><b><u>កត្តា ១ខ៖ ឣាហាររូបត្ថម្ភ និងការលូតលាស់</p><p>Domain 1B - Nutrition and Growth</u></p><br><p>កុមារគឺកំពុងរីកលូតលាស់បានល្អ បើប្រៀបធៀបទៅនឹងកុមារផ្សេងៗទៀតនៅក្នុងសហគមន៍របស់គាត់។</p><p>Goal: The child is growing well compared to others of his/her age in the community.</p><br><p>សំនួរគំរូ៖</p><p>Sample Questions:</b></p><ul><li>តើការលូតលាស់របស់កុមារមានលក្ខណៈយ៉ាងដូចម្តេច? / How is the child growing?</li><li>តើការលូតលាស់របស់គាត់/នាងមានលក្ខណៈដូចគ្នានឹងកុមារដ៏ទៃទៀតដែលមានអាយុស្របាលគ្នា រឺទេ? / Does he/she seems to be growing like other children the same age?</li><li>តើអ្នកព្រួយបារម្ភពីការលូតលាស់របស់កុមារនេះទេ? ពីទម្ងន់? កម្ពស់? / Are you worried about this child's growth? Weight? Height?</li></ul><br><p></p><p><b>សូមសង្កេតមើលប្រសិនបើអាច</p><p>Things to look for during the visit:</b></p><ul><li>យើងអាចប្រៀបធៀប ការលូតលាស់របស់កុមារនេះ និងកុមារមានអាយុស្របាលគ្នាដែលរស់នៅក្នុងតំបន់នោះ។ / Compare how well the child seems to have grown with other local children the same age.</li></ul><hr><p><b>ឣត្ថន័យនៃពិន្ទុ</p><p>Score Interpretations:</b></p><p>១៖ កុមារមានទម្ងន់តិចយ៉ាងខ្លាំង រឺកម្ពស់ក៏ទាបជាង ខ្វះទម្ងន់បើប្រៀបធៀបទៅនឹងកុមារដែលមានអាយុស្របាលគ្នាផ្សេងទៀតនៅក្នុងសហគមន៌។</p><p>1:The child has very low weight or is too short for his or her age.</p><p>២៖ កុមារមានទម្ងន់ស្រាលជាង មើលទៅកម្ពស់ទាបជាងគេ និង/ឬ ខ្វះភាពស្វាហាប់ជាងកុមារផ្សេងៗទៀតដែលមានអាយុស្របាលគ្នានៅក្នុងសហគមន៌។</p><p>2:The child has low weight, looks shorter, and/or is less energetic compared to others of the same age in the community.</p><p>៣៖ កុមារហាក់ដូចជាកំពុងលូតលាស់បានល្អ ប៉ុន្តែមិនសូវសកម្ម បើប្រៀបធៀបទៅនឹងកុមារផ្សេងៗទៀតនៅក្នុងសហគមន៍គាត់។</p><p>3:The child seems to be growing well but is less active compared to others of the same age in the community.</p><p>៤៖ កុមារគឺកំពុងលូតលាស់បានល្អព្រមទំាងកំពស់ ទម្ងន់ និងកំរិតនៃភាពស្វាហាប់ទៅតាមអាយុគាត់/នាង។</p><p>4:The child is growing well with good height, weight and energy level for his/her age.</p>" },
@@ -13,29 +15,29 @@ domains = [
   { name: '6B', identity: 'Work and Education', group: 6, score_1_color: 'danger', score_2_color: 'danger', score_3_color: 'warning', score_4_color: 'primary', description: "<p><b><u>កត្តា ៦ខ៖ ការអប់រំ និងការងារ</p><p>Domain 6B: Education and Work</u></p><br><p>កុមារគឺបានចុះឈ្មោះចូលរៀនក្នុងសាលា និងចូលរួមវគ្គបណ្តុះបណ្តាលជំនាញ រឺក្នុងអាយុសមរម្យមួយពួកគេបានចូលរួមលេងសកម្មភាពការរៀនសូត្រ ឬការងារ។</p><p>Goal: The child is enrolled and attends school, or skill traning, or is engaged in age-appropriate play, learning, activities or job.</p><br><p>សំនួគំរូ៖</p><p>Sample Questions:</b></p><ul><li>តើកុមារបានរៀនបញ្ចប់នូវថ្នាក់បមឋសិក្សាហើយឬនៅ? / Is the child in, or has he/she completed, primary school?</li><li>សូមប្រាប់ខ្ញុំអំពីសាលារៀនរបស់កុមារ ឬវគ្គបណ្តុះបណ្តាល។ / Tell me about the child's school or training</li><li>តើនរណាជាអ្នកបង់ថ្លៃសាលា និងទិញឯកសណ្ឋាន ហើយនឹងសម្ភារៈការសិក្សា? / Who pays school fee and buys uniforms and school materials?</li><li>(ប្រសិនបើបានចុះឈ្មោះចូលរៀន) តើកុមារនេះបានទៅសាលារៀនទៀងទាត់រឺទេ? / Does the child attend the school regularly?</li><li>តើមានហេតុផល និងភាពញឹកញាប់ប៉ុណ្ណាដែរ ដែលកុមារខកខានមិនទៅសាលារៀន? / How often must the child miss school for any reason?</li><li> តើគាត់/នាងបានទៅធ្វើការទៀងទាត់ទេ? / Does he/she go to work regularly?</li></ul><br><p><b>សូមសង្កេតមើលប្រសិនបើឣាច៖</p><p>Things to look for during the visit:</b></p><ul><li>ប្រសិនបើអាច សូមធ្វើការសង្កេតលើឯកសណ្ឋានសាលារបស់កុមារ ឬសម្ភារៈ និងការប្រើប្រាស់របស់ពួកគេ។ / If possible, observe the child's school uniform, or supplies, or their usage</li><li>សំរាប់ទារក ឬកុមារថ្នាក់មត្តេយ្យសូមសង្កេតទៅលើសកម្មភាពរបស់គាត់/នាងត្រូវបានចូលរួមលេងអ្វីមួយ ឬកំពុងធ្វើសកម្មភាពរៀនសូត្រជាមូយសមាជិកគ្រួសារណាមួយ។ / If an infant or preschooler, observe if he/she is involved in any play or learning with any family member?</li></ul><hr><p><b>ឣត្ថន័យនៃពិន្ទុ៖</p><p>Score Interpretations:</b></p><p>១៖ កុមារគឺពុំបានចុះឈ្មោះចូលរៀនក្នុងសាលា មិនទាន់បានចូលវគ្គះបណ្តុះបណ្តាល ឬពុំបានចូលរួមក្នុងសកម្មភាពផលិត ឬការងារក្នុងអាយុដ៏សមរម្យមួយ។ ទារក រឺកុមារដែលមិនទាន់គ្រប់អាយុមិនមានអ្នកលេងជាមួយ។</p><p>1. The child is not enrolled in school, not attending training, or not involve in an age-appropriate productive activity or job. An infant or preschooler is not played with.</p><p>២៖ កុមារគឺបានចុះឈ្មោះចូលរៀនក្នុងសាលា រឺមានការងារ ប៉ុន្តែគាត់/នាងកម្របានចូលរួម។ ទារក រឺកុមារដែលមិនទាន់គ្រប់អាយុកម្រមានអ្នកលេងជាមួយ។</p><p>2. The child is enrolled in school or has a job, but he/she rarely attends. An infant or preschooler is rarely played with.</p><p>៣៖ កុមារគឺបានចុះឈ្មោះចូលរៀនក្នុងសាលា/ចូលរួមវគ្គបណ្តុះបណ្តាល ប៉ុន្តែការចូលរួមមិនទៀងទាត់ ឬមិនខ្ជាប់ខ្ជួនដែលវាអាចបង្ហាញអោយឃើញពីផលប៉ះពាល់សកម្មភាពលើសកម្មភាពផលិត រឺការងារពួកគាត់។ កូនដែលក្មេងជាងគឺអាចលេងជាមួយនូវពេលខ្លះ ប៉ុន្តែមិនជារៀងរាល់ថ្ងៃ។</p><p>3. The child is enrolled in school or training, but attends irrigularly or shows up inconsistantly for it, or for a productive activity or job. Younger children are played with sometimes, but not daily.</p><p>៤៖ កុមារគឺបានចុះឈ្មោះចូលរៀនក្នុងសាលា និងចូលរួមវគ្គបណ្តុះបណ្តាលទូទៅ។ ទារក រឺកុមារដែលមិនទាន់គ្រប់អាយុអាចអោយលេងជាមួយអ្នកថែទាំ។ កូនដែលធំជាងត្រូវមានការងារធ្វើដ៏សមរម្យមួយ។</p><p>4. The child is enrolled in and attending school/ training regularly. Infants/preschoolers play with their caregiver. An older child has an appropriate job.</p>"}
 ]
 
+domains.each do |domain|
+  dg = DomainGroup.find_or_create_by(name: domain[:group])
+  Domain.find_or_create_by(name: domain[:name], identity: domain[:identity], description: domain[:description], domain_group_id: dg.id, score_1_color: domain[:score_1_color], score_2_color: domain[:score_2_color], score_3_color: domain[:score_3_color], score_4_color: domain[:score_4_color])
+end
+
 QUESTION_GROUPS = {
                 social_skill: 'ជំនាញសង្គម', cognitive_skill: 'ជំនាញនៃការយល់ដឹង',
                 language_skill: 'ជំនាញនៃភាសា', hearing: 'ការស្តាប់ឮ', vision: 'ការមើលឃើញ',
                 fine_motor: 'ចលនាតូច',  gross_motor: 'ចលនាធំ', self_care: 'ការថែរក្សាខ្លួន'
               }
 
-bykotahouse_logo = File.open(Rails.root.join('app/assets/images/bykotahouse.png'))
-
-ORGANIZATIONS = [
-            { full_name: 'Bykota House', short_name: 'bykotahouse', logo: bykotahouse_logo }
-          ]
-
-ORGANIZATIONS.each do |org|
-  Organization.create_and_build_tanent(org)
-end
-
-domains.each do |domain|
-  dg = DomainGroup.find_or_create_by(name: domain[:group])
-  Domain.find_or_create_by(name: domain[:name], identity: domain[:identity], description: domain[:description], domain_group_id: dg.id, score_1_color: domain[:score_1_color], score_2_color: domain[:score_2_color], score_3_color: domain[:score_3_color], score_4_color: domain[:score_4_color])
-end
-
 QUESTION_GROUPS.each do |key, stage_group|
   QuestionGroup.find_or_create_by(name: "#{key.to_s.titleize}/#{stage_group.titleize}")
 end
+
+# bykotahouse_logo = File.open(Rails.root.join('app/assets/images/bykotahouse.png'))
+
+# ORGANIZATIONS = [
+#             { full_name: 'Bykota House', short_name: 'bykotahouse', logo: bykotahouse_logo }
+#           ]
+
+# ORGANIZATIONS.each do |org|
+#   Organization.create_and_build_tanent(org)
+# end
 
 Location.find_or_create_by(name: 'ផ្សេងៗ Other', order_option: 1)
