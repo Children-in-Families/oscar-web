@@ -1,5 +1,4 @@
 class GovernmentReportsController < AdminController
-
   before_action :find_client
   before_action :find_government_report, only: [:show, :edit, :update, :destroy]
 
@@ -29,8 +28,7 @@ class GovernmentReportsController < AdminController
                 show_as_html: params.key?('debug'),
                 header: { html: { template: 'government_reports/pdf/header.pdf.haml' } },
                 footer: { html: { template: 'government_reports/pdf/footer.pdf.haml' },
-                right: '[page] of [topage]'
-              }
+                right: '[page] of [topage]' }
       end
     end
   end

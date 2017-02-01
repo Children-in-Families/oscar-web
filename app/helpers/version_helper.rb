@@ -8,9 +8,9 @@ module VersionHelper
     survey_score_text?(k) ? k : k.titleize
   end
 
-  def type_assessment_domain(type,events)
-    type_assessment = ['score','reason','domain','goal','presence']
-    type_assessment.include?(type) && events != "create"
+  def type_assessment_domain(type, events)
+    type_assessment = %w(score reason domain goal presence)
+    type_assessment.include?(type) && events != 'create'
   end
 
   def version_domain_name(id)
@@ -33,13 +33,15 @@ module VersionHelper
             else
               val.titleize
             end
+
     elsif val.class == Date
       val = date_format(val)
     elsif any_time_class(val)
       val = date_time_format(val)
+
     elsif version_values[:booleans].include?(k)
       val = human_boolean(val)
-    elsif free_text?(k) && html?(val)
+    elsif version_values[:free_text].include?(k) && html?(val)
       val = strip_tags(val)
     elsif version_values[:score_colors].include?(k)
       val = domain_score_color(val)
@@ -71,14 +73,8 @@ module VersionHelper
     val
   end
 
-  def version_item_type_active?(item_type = '', alter = '')
-    if params[:item_type] && alter.present?
-      'active' if params[:item_type].include?(alter)
-    elsif params[:item_type] || item_type.present?
-      'active' if params[:item_type] == item_type
-    else
-      'active'
-    end
+  def version_item_type_active?(item_type = '')
+    'active' if params[:item_type] == item_type || (params[:item_type].nil? && item_type == '')
   end
 
   def version_not_show(item_type)
@@ -87,7 +83,11 @@ module VersionHelper
   end
 
   def version_keys_skipable?(k, item_type = '')
-    k == 'tokens' || k == 'encrypted_password' || k == 'uid' || k == 'able' || (k == 'user_id' && (case?(item_type) || task?(item_type))) || k == 'admin'
+    k == 'admin' || k == 'tokens' || k == 'encrypted_password' || k == 'uid' || k == 'able' || skipable_user_task_and_case?(k, item_type)
+  end
+
+  def skipable_user_task_and_case?(k, item_type)
+    (k == 'user_id' && (case?(item_type) || task?(item_type)))
   end
 
   def version_color(event)
@@ -117,11 +117,6 @@ module VersionHelper
     elsif type == 'Changelog'
       'creator'
     end
-  end
-
-  def free_text?(val)
-    type = %w(description response additional_note)
-    type.include?(val)
   end
 
   def html?(val)
@@ -166,6 +161,7 @@ module VersionHelper
 
   def version_values
     {
+      free_text:            ['description', 'response', 'additional_note'],
       booleans:             ['has_been_in_orphanage', 'has_been_in_government_care', 'able', 'dependable_income', 'family_preservation', 'exited', 'exited_from_cif', 'alert_manager'],
       titleizeTexts:        ['gender', 'state', 'family_type', 'roles'],
       assessments:          ['assessment_id'],

@@ -21,6 +21,7 @@ class FileUploader < CarrierWave::Uploader::Base
   end
 
   protected
+  
   def image?(new_file)
     new_file.content_type.start_with? 'image'
   end

@@ -14,9 +14,19 @@ AllCops:
     - 'spec/**/*'
     - 'app/grids/*'
     - 'Guardfile'
+    - 'Gemfile'
+    - 'Capfile'
   DisplayCopNames: true
   DisplayStyleGuide: true
 
+Style/WordArray:
+  Enabled: false
+Style/SafeNavigation:
+  Enabled: false
+Style/EmptyMethod:
+  EnforcedStyle: expanded
+Security/Eval:
+  Enabled: false
 Metrics/ClassLength:
   Enabled: false
 Metrics/ModuleLength:

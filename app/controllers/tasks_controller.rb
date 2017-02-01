@@ -1,12 +1,12 @@
 class TasksController < AdminController
   def index
     @tasks = Task.incomplete.of_user(task_of_user)
-    @users = get_user
+    @users = all_user
   end
 
   private
 
-  def get_user
+  def all_user
     if current_user.admin?
       User.order(:first_name, :last_name)
     else

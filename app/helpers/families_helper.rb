@@ -22,7 +22,6 @@ module FamiliesHelper
   end
 
   def family_clients_list(object)
-    html_tags = []
     content_tag(:ul, class: 'family-clients-list') do
       object.cases.non_emergency.active.each do |obj|
         if obj.client
@@ -34,7 +33,6 @@ module FamiliesHelper
   end
 
   def family_workers_list(object)
-    html_tags = []
     content_tag(:ul, class: 'family-clients-list') do
       object.joins(:user).group_by(&:user_id).each do |a|
         user = User.find(a.first)
@@ -47,5 +45,4 @@ module FamiliesHelper
   def family_workers_count(object)
     object.joins(:user).group_by(&:user_id).size
   end
-
 end
