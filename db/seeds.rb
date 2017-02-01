@@ -18,13 +18,10 @@ QUESTION_GROUPS = {
                 language_skill: 'ជំនាញនៃភាសា', hearing: 'ការស្តាប់ឮ', vision: 'ការមើលឃើញ',
                 fine_motor: 'ចលនាតូច',  gross_motor: 'ចលនាធំ', self_care: 'ការថែរក្សាខ្លួន'
               }
-cif_logo         = File.open(Rails.root.join('app/assets/images/cif-logo.png'))
-nso_logo         = File.open(Rails.root.join('app/assets/images/nso-logo.jpg'))
+
 bykotahouse_logo = File.open(Rails.root.join('app/assets/images/bykotahouse.png'))
 
 ORGANIZATIONS = [
-            { full_name: 'Children In Families', short_name: 'cif', logo: cif_logo },
-            { full_name: 'New Smile', short_name: 'newsmile', logo: nso_logo },
             { full_name: 'Bykota House', short_name: 'bykotahouse', logo: bykotahouse_logo }
           ]
 domains.each do |domain|
