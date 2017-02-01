@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
-  ROLES = ['admin', 'case worker', 'able manager', 'ec manager', 'fc manager', 'kc manager'].freeze
+  ROLES = ['admin', 'case worker', 'able manager', 'ec manager', 'fc manager', 'kc manager', 'visitor'].freeze
   MANAGERS = ROLES.select { |role| role if role.include?('manager') }
 
   devise :database_authenticatable, :registerable,

@@ -5,9 +5,10 @@
         %h5= @results
         %span.label.label-info= t('.referral_sources')
         .ibox-tools
-          = link_to '#', {"data-target" => "#referral_sourceModal-", "data-toggle" => "modal", :type => "button"} do
-            .btn.btn-primary.btn-add
-              = t('.add_new_referral_source')
+          - if can? :manage, ReferralSource
+            = link_to '#', {"data-target" => "#referral_sourceModal-", "data-toggle" => "modal", :type => "button"} do
+              .btn.btn-primary.btn-add
+                = t('.add_new_referral_source')
       .ibox-content
         .table-responsive
           %table.table.table-bordered.table-striped.table-hover
@@ -15,21 +16,23 @@
               %tr
                 %th.custom_column_name= t('.referral_source_name')
                 %th.custom_column_description= t('.description')
-                %th.text-center.custom_column_manage{:colspan => "2"}
-                  = t('.manage')
-                - if current_user.admin?
+                - if can? :manage, ReferralSource
+                  %th.text-center.custom_column_manage{:colspan => "2"}
+                    = t('.manage')
+                - if can? :version, ReferralSource
                   %th.modification.text-center= t('.changelogs')
             %tbody
               - @referral_sources.each do |referral_source|
                 %tr
                   %td= referral_source.name
                   %td= referral_source.description
-                  %td.text-center
-                    = link_to '#', {class: 'btn btn-outline btn-success btn-xs', "data-target" => "#referral_sourceModal-#{referral_source.id}", "data-toggle" => "modal", :type => "button"} do
-                      = fa_icon('pencil')
-                  %td.text-center
-                    = remove_link(referral_source, { referral_source_client: referral_source.clients_count})
-                  - if current_user.admin?
+                  - if can? :manage, ReferralSource
+                    %td.text-center
+                      = link_to '#', {class: 'btn btn-outline btn-success btn-xs', "data-target" => "#referral_sourceModal-#{referral_source.id}", "data-toggle" => "modal", :type => "button"} do
+                        = fa_icon('pencil')
+                    %td.text-center
+                      = remove_link(referral_source, { referral_source_client: referral_source.clients_count})
+                  - if can? :version, ReferralSource
                     %td.text-center
                       = link_to t('.view'), referral_source_version_path(referral_source)
                   = render 'form', referral_source: referral_source

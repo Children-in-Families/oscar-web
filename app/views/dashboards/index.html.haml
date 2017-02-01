@@ -2,6 +2,6 @@
   .row
     = render 'client'
   .row
-    - if can? :manage, Family
+    - if can? :read, Family
       = render 'family'
     = render 'third_party'
