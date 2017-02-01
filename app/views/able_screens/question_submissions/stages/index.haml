@@ -4,12 +4,14 @@
       .ibox-title
         %h5= t('.able_screening_questions')
         .ibox-tools
-          = link_to new_able_screens_question_submissions_able_screening_question_path do
-            .btn.btn-primary.btn-question
-              = t('.new_general_question')
-          = link_to new_able_screens_question_submissions_stage_path do
-            .btn.btn-primary.btn-question
-              = t('.new_stage_question')
+          - if can? :manage, AbleScreeningQuestion
+            = link_to new_able_screens_question_submissions_able_screening_question_path do
+              .btn.btn-primary.btn-question
+                = t('.new_general_question')
+          - if can? :manage, Stage
+            = link_to new_able_screens_question_submissions_stage_path do
+              .btn.btn-primary.btn-question
+                = t('.new_stage_question')
       .ibox-content
         #non-stage-accordion.panel-group{"aria-multiselectable" => "true", :role => "tablist"}
           .panel.panel-default
@@ -28,8 +30,9 @@
                     %li.list-group-item.stage-list
                       = able_question.question
                       .pull-right
-                        = link_to edit_able_screens_question_submissions_able_screening_question_path(able_question), class: 'btn btn-outline btn-success btn-xs' do
-                          %i.fa.fa-pencil
+                        - if can? :manage, AbleScreeningQuestion
+                          = link_to edit_able_screens_question_submissions_able_screening_question_path(able_question), class: 'btn btn-outline btn-success btn-xs' do
+                            %i.fa.fa-pencil
 
         - @stages.each do |stage|
           .panel-group{"aria-multiselectable" => "true", :role => "tablist"}
@@ -41,8 +44,9 @@
                       %a{"aria-controls" => "collapse-#{stage.id}", "aria-expanded" => "true", "data-toggle" => "collapse", :href => "#collapse-#{stage.id}", :role => "button"}
                         = "#{t('.from')} #{stage.from_age} #{t('.to')} #{stage.to_age} #{t('.year')}"
                   .col-xs-6.text-right
-                    = link_to edit_able_screens_question_submissions_stage_path(stage), class: 'btn btn-outline btn-success btn-xs btn-edit-stage' do
-                      = fa_icon('pencil')
+                    - if can? :manage, Stage
+                      = link_to edit_able_screens_question_submissions_stage_path(stage), class: 'btn btn-outline btn-success btn-xs btn-edit-stage' do
+                        = fa_icon('pencil')
                     %span.badge= t('.question', count: stage.able_screening_questions.count)
               .panel-collapse.collapse.in{"aria-labelledby" => "heading-no#{stage.id}", :role => "tabpanel", id: "collapse-#{stage.id}"}
                 .panel-body.no-padding

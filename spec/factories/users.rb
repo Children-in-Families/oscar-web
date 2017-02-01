@@ -26,5 +26,9 @@ FactoryGirl.define do
     trait :admin do
       roles 'admin'
     end
+
+    trait :visitor do
+      roles 'visitor'
+    end
   end
 end

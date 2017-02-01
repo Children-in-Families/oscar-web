@@ -5,7 +5,7 @@ class ClientsController < AdminController
   before_action :set_association, except: [:index, :destroy]
 
   def index
-    if current_user.admin?
+    if current_user.admin? || current_user.visitor?
       admin_client_grid
     elsif current_user.case_worker? || current_user.able_manager? || current_user.any_case_manager?
       non_admin_client_grid

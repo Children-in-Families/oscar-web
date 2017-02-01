@@ -31,7 +31,7 @@ class Dashboard
   end
 
   def client_count
-    if @user.admin?
+    if @user.admin? || @user.visitor?
       Client.count
     elsif @user.case_worker?
       @user.clients.count
@@ -43,7 +43,7 @@ class Dashboard
   end
 
   def fc_count
-    if @user.admin? || @user.any_case_manager?
+    if @user.admin? || @user.any_case_manager? || @user.visitor?
       Client.active_fc.count
     elsif @user.case_worker?
       @user.clients.active_fc.count
@@ -53,7 +53,7 @@ class Dashboard
   end
 
   def kc_count
-    if @user.admin? || @user.any_case_manager?
+    if @user.admin? || @user.any_case_manager? || @user.visitor?
       Client.active_kc.count
     elsif @user.case_worker?
       @user.clients.active_kc.count
@@ -63,7 +63,7 @@ class Dashboard
   end
 
   def ec_count
-    if @user.admin? || @user.any_case_manager?
+    if @user.admin? || @user.any_case_manager? || @user.visitor?
       Client.active_ec.count
     elsif @user.case_worker?
       @user.clients.active_ec.count
@@ -73,7 +73,7 @@ class Dashboard
   end
 
   def male_count
-    if @user.admin?
+    if @user.admin? || @user.visitor?
       Client.all_active_types.male.size
     elsif @user.case_worker?
       @user.clients.all_active_types.male.size
@@ -85,7 +85,7 @@ class Dashboard
   end
 
   def female_count
-    if @user.admin?
+    if @user.admin? || @user.visitor?
       Client.all_active_types.female.size
     elsif @user.case_worker?
       @user.clients.all_active_types.female.size
@@ -97,7 +97,7 @@ class Dashboard
   end
 
   def able_count
-    if @user.admin? || @user.able_manager?
+    if @user.admin? || @user.able_manager? || @user.visitor?
       Client.able.count
     elsif @user.case_worker?
       @user.clients.able.count

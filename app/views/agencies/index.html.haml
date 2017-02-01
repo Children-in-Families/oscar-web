@@ -5,9 +5,10 @@
         %h5= @results
         %span.label.label-info= t('.agency')
         .ibox-tools
-          = link_to '#', {"data-target" => "#agencyModal-", "data-toggle" => "modal", :type => "button"} do
-            .btn.btn-primary.btn-add
-              = t('.add_new_agency')
+          - if can? :manage, Agency
+            = link_to '#', {"data-target" => "#agencyModal-", "data-toggle" => "modal", :type => "button"} do
+              .btn.btn-primary.btn-add
+                = t('.add_new_agency')
       .ibox-content
         .table-responsive
           %table.table.table-bordered.table-striped.table-hover
@@ -15,23 +16,26 @@
               %tr
                 %th.custom_column_name= t('.agency_names')
                 %th.custom_column_description= t('.description')
-                %th.text-center.custom_column_manage{ colspan: '2' }= t('.manage')
-                - if current_user.admin?
+                - if can? :manage, Agency
+                  %th.text-center.custom_column_manage{ colspan: '2' }= t('.manage')
+                - if can? :version, Agency
                   %th.changelog.text-center= t('.changelogs')
             %tbody
               - @agencies.each do |agency|
                 %tr
                   %td= agency.name
                   %td= agency.description
-                  %td.text-center
-                    = link_to '#', {class: 'btn btn-outline btn-success btn-xs', "data-target" => "#agencyModal-#{agency.id}", "data-toggle" => "modal", :type => "button"} do
-                      = fa_icon('pencil')
-                  %td.text-center
-                    = remove_link(agency, { agency_client: agency.clients.size })
-                  - if current_user.admin?
+                  - if can? :manage, Agency
+                    %td.text-center
+                      = link_to '#', {class: 'btn btn-outline btn-success btn-xs', "data-target" => "#agencyModal-#{agency.id}", "data-toggle" => "modal", :type => "button"} do
+                        = fa_icon('pencil')
+                    %td.text-center
+                      = remove_link(agency, { agency_client: agency.clients.size })
+                  - if can? :read, Agency
                     %td.text-center
                       = link_to t('.view'), agency_version_path(agency)
-                  = render 'form', agency: agency
+                  - if can? :manage, Agency
+                    = render 'form', agency: agency
         .ibox-footer.text-center
           = paginate @agencies
 = render 'form'

@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
 
-  ROLES = ['admin', 'case worker', 'able manager', 'ec manager', 'fc manager', 'kc manager']
+  ROLES = ['admin', 'case worker', 'able manager', 'ec manager', 'fc manager', 'kc manager', 'visitor']
   MANAGERS = ROLES.select { |role| role if role.include?('manager') }
 
   devise :database_authenticatable, :registerable,
