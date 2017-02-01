@@ -10,12 +10,12 @@ CIF.DashboardsIndex = do ->
       setTimeout (->
         window.dispatchEvent new Event('resize')
     ), 220
-     
+
   _clientGenderChart = ->
     element = $('#client-by-gender')
     data    = $(element).data('content-count')
     report = new CIF.ReportCreator(data, '', '', element)
-    report.pieChart()
+    report.donutChart()
 
   _clientStatusChart = ->
     element = $('#client-by-status')
