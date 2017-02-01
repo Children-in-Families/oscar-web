@@ -1,5 +1,4 @@
 module FormsHelper
-
   def radio_button_color(radio)
     radio_button_class = ''
 
@@ -14,7 +13,6 @@ module FormsHelper
       radio_button_class = 'i-checks'
     end
 
-    radio.radio_button(:class => radio_button_class) + radio.label
+    radio.radio_button(class: radio_button_class) + radio.label
   end
-
 end

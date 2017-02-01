@@ -36,17 +36,19 @@ module AbleScreens
       end
 
       private
-        def stage_params
-          params.require(:stage).permit(
-              :from_age, :to_age, :non_stage,
-              able_screening_questions_attributes: [:id, :question, :mode,
-                :question_group_id, :alert_manager, :_destroy,
-                attachments_attributes: [:id, :image]])
-        end
+
+      def stage_params
+        params.require(:stage)
+              .permit(:from_age, :to_age, :non_stage, able_screening_questions_attributes:
+                [:id, :question, :mode, :question_group_id, :alert_manager, :_destroy, attachments_attributes:
+                  [:id, :image]])
+      end
+
       protected
-        def set_stage
-          @stage = Stage.find(params[:id])
-        end
+
+      def set_stage
+        @stage = Stage.find(params[:id])
+      end
     end
   end
 end

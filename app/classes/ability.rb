@@ -6,7 +6,6 @@ class Ability
 
     can :manage, Agency
     can :manage, ReferralSource
-
     can :manage, QuarterlyReport
 
     if user.admin?

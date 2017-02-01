@@ -1,5 +1,4 @@
 class GovernmentReport < ActiveRecord::Base
-
   belongs_to :client
 
   validates :client, presence: true
@@ -22,5 +21,4 @@ class GovernmentReport < ActiveRecord::Base
   def referral_name
     client.referral_source.try(:name)
   end
-
 end

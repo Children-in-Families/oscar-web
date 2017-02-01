@@ -29,17 +29,17 @@ module AbleScreens
       end
 
       private
-        def able_screening_question_params
-          params.require(:able_screening_question)
-                  .permit(:question, :mode, :question_group_id, :alert_manager,
-                          attachments_attributes: [:id, :image])
-        end
+
+      def able_screening_question_params
+        params.require(:able_screening_question)
+              .permit(:question, :mode, :question_group_id, :alert_manager, attachments_attributes: [:id, :image])
+      end
 
       protected
-        def set_able_screening_question
-          @able_screening_question = AbleScreeningQuestion.non_stage
-                                                          .find(params[:id])
-        end
+
+      def set_able_screening_question
+        @able_screening_question = AbleScreeningQuestion.non_stage.find(params[:id])
+      end
     end
   end
 end
