@@ -1,4 +1,4 @@
-class Client < ApplicationMailer
+class ClientMailer < ApplicationMailer
 
   def exited_notification(emails)
     @manager_emails = emails
