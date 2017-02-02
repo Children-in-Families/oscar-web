@@ -402,6 +402,8 @@ km:
         no_dob: 'ទេ'
         changelogs: កំណែប្រែ
         view: មើល
+        placement_start_date: កាលបរិច្ឆេទនៃការបញ្ជូនទៅក្នុងករណី
+        placement_case_type: ប្រភេទករណីដែលត្រូវបានបញ្ជូនទៅ
 
       progress_notes:
         <<: *default_progress_note_fields
@@ -1405,6 +1407,12 @@ km:
       foster_cares_html: ករណី <br/>Foster
       kinship_cares_html:  ករណី <br/>Kinship
       emergency_cares_html: ករណី <br/>Emergency
+      female_emergency_cares: ស្រី EC
+      female_kinship_cares: ស្រី KC
+      female_foster_cares: ស្រី FC
+      male_emergency_cares: ប្រុស EC
+      male_kinship_cares: ប្រុស KC
+      male_foster_cares: ប្រុស FC
 
   case:
     quarterly_reports:

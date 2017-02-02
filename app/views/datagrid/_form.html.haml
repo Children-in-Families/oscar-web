@@ -17,6 +17,7 @@
           - grid.filters.each do |f|
             - next if f.name == :has_date_of_birth || f.name == :quantitative_data
             - next if f.name == :quantitative_types || f.name == :all_domains
+            - next if f.name == :placement_date || f.name == :placement_case_type
             - next if f.name == :domain_1a || f.name == :domain_1b
             - next if f.name == :domain_2a || f.name == :domain_2b
             - next if f.name == :domain_3a || f.name == :domain_3b

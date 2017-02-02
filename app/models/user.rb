@@ -33,6 +33,7 @@ class User < ActiveRecord::Base
   scope :province_are,    ->        { joins(:province).pluck('provinces.name', 'provinces.id').uniq }
   scope :has_clients,     ->        { joins(:clients).without_json_fields.uniq }
   scope :managers,        ->        { where(roles: MANAGERS) }
+  scope :ec_managers,     ->        { where(roles: 'ec manager') }
 
   before_save :assign_as_admin
 

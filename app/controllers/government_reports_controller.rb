@@ -1,4 +1,5 @@
 class GovernmentReportsController < AdminController
+  load_and_authorize_resource
   before_action :find_client
   before_action :find_government_report, only: [:show, :edit, :update, :destroy]
 

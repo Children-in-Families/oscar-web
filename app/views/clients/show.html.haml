@@ -100,8 +100,9 @@
             %span.btn-xs.btn.btn-info.small-btn-margin
               %strong.count-margin= @client.case_notes.count
               = t('.view_case_notes')
-          = link_to new_client_survey_path(@client) do
-            %span.btn-xs.btn.btn-success.small-btn-margin= t('.take_survey')
+          - if can? :manage, Survey
+            = link_to new_client_survey_path(@client) do
+              %span.btn-xs.btn.btn-success.small-btn-margin= t('.take_survey')
           - if @client.surveys.any?
             = link_to client_surveys_path(@client) do
               %span.btn-xs.btn.btn-success.small-btn-margin= t('.survey_history')
@@ -132,7 +133,8 @@
           - if can_read_client_progress_note?
             = link_to client_progress_notes_path(@client) do
               %span.btn-xs.btn.btn-warning.small-btn-margin= t('.progress_note')
-          = able_screen_link(@client)
+          - if can? :manage, AbleScreeningQuestion
+            = able_screen_link(@client)
           = render('client_answers')
 
 .row.mini-margin

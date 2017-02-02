@@ -12,17 +12,17 @@ class Dashboard
         y: male_count,
         active_data: [
           {
-            name: I18n.t('classes.dashboard.emergency_cares_html'),
+            name: I18n.t('classes.dashboard.male_emergency_cares'),
             y: male_ec_count,
             url: clients_path("client_grid[gender]":"Male","client_grid[status]":"Active EC")
           },
           {
-            name: I18n.t('classes.dashboard.kinship_cares_html'),
+            name: I18n.t('classes.dashboard.male_kinship_cares'),
             y: male_kc_count,
             url: clients_path("client_grid[gender]":"Male","client_grid[status]":"Active KC")
           },
           {
-            name: I18n.t('classes.dashboard.foster_cares_html'),
+            name: I18n.t('classes.dashboard.male_foster_cares'),
             y: male_fc_count,
             url: clients_path("client_grid[gender]":"Male","client_grid[status]":"Active FC")
           }
@@ -33,17 +33,17 @@ class Dashboard
         y: female_count,
         active_data: [
          {
-           name: I18n.t('classes.dashboard.emergency_cares_html'),
+           name: I18n.t('classes.dashboard.female_emergency_cares'),
            y: female_ec_count,
            url: clients_path("client_grid[gender]":"Female","client_grid[status]":"Active EC")
          },
          {
-           name: I18n.t('classes.dashboard.kinship_cares_html'),
+           name: I18n.t('classes.dashboard.female_kinship_cares'),
            y: female_kc_count,
            url: clients_path("client_grid[gender]":"Female","client_grid[status]":"Active KC")
          },
          {
-           name: I18n.t('classes.dashboard.foster_cares_html'),
+           name: I18n.t('classes.dashboard.female_foster_cares'),
            y: female_fc_count,
            url: clients_path("client_grid[gender]":"Female","client_grid[status]":"Active FC")
          }
@@ -85,7 +85,7 @@ class Dashboard
   end
 
   def fc_client
-    if @user.admin? || @user.any_case_manager?
+    if @user.admin? || @user.any_case_manager? || @user.visitor?
       Client.active_fc
     elsif @user.case_worker?
       @user.clients.active_fc
@@ -107,7 +107,7 @@ class Dashboard
   end
 
   def kc_client
-    if @user.admin? || @user.any_case_manager?
+    if @user.admin? || @user.any_case_manager? || @user.visitor?
       Client.active_kc
     elsif @user.case_worker?
       @user.clients.active_kc
@@ -129,7 +129,7 @@ class Dashboard
   end
 
   def ec_client
-    if @user.admin? || @user.any_case_manager?
+    if @user.admin? || @user.any_case_manager? || @user.visitor?
       Client.active_ec
     elsif @user.case_worker?
       @user.clients.active_ec
