@@ -42,17 +42,19 @@ class CaseNotesController < AdminController
   end
 
   private
-    def case_note_params
-      params.require(:case_note).permit(:meeting_date, :attendee, case_note_domain_groups_attributes: [:id, :note, :domain_group_id, :task_ids])
-    end
+
+  def case_note_params
+    params.require(:case_note).permit(:meeting_date, :attendee, case_note_domain_groups_attributes: [:id, :note, :domain_group_id, :task_ids])
+  end
 
   protected
-    def set_client
-      @client = Client.accessible_by(current_ability).friendly.find(params[:client_id])
-    end
 
-    def set_case_note
-      @case_note = @client.case_notes.find(params[:id])
-    end
+  def set_client
+    @client = Client.accessible_by(current_ability).friendly.find(params[:client_id])
+  end
+
+  def set_case_note
+    @case_note = @client.case_notes.find(params[:id])
+  end
 
 end
