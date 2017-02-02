@@ -1418,7 +1418,15 @@ km:
   # Thredded - FAQ
   time:
     formats:
+      long: ''
       short: ''
+  date:
+    formats:
+      long: ''
+      short: ''
+  datetime:
+    distance_in_words:
+      about_x_hours: ''
 
   thredded:
     recent_activity: សកម្មភាពថ្មីៗ
@@ -1563,6 +1571,7 @@ km:
         posted: អ្នកកំពុងតាមដានប្រធានបទនេះពីព្រោះអ្នកបានបង្កើតវា
       following_will_receive_emails: អ្នកនឹងទទួលបានអ៊ីម៉ែលសម្រាប់អ្វីៗដែលថ្មី
       form:
+        create_btn: បង្កើតប្រធានបទ
         categories_placeholder: ផ្នែកផ្សេងៗ
         content_label: :thredded.posts.form.content_label
         title_label: ប្រធានបទ

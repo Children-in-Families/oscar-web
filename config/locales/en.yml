@@ -1388,6 +1388,9 @@ en:
       nav:
         sign_out: Sign Out
         sign_in: Sign In
+    topics:
+      form:
+        create_btn: Create New Topic
 
   changelogs:
     changelog_type_fields:

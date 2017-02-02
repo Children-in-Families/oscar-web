@@ -1,5 +1,3 @@
-Organization.switch_to 'bykotahouse'
-
 domains = [
   { name: '1A', identity: 'Food Security', group: 1, score_1_color: 'danger', score_2_color: 'danger', score_3_color: 'warning', score_4_color: 'primary', description: '<p><b><u>កត្តា ១ក៖ មានអាហារសម្រាប់បរិភោគជាទៀងទាត់<p><p>Domain 1A - Food Security</u><p><br><p>កុមារមានឣាហារបរិភោគគ្រប់គ្រាន់គ្រប់ពេលសំរាប់ឆ្នាំនេះ។</p><p>Goal: The child has enough food to eat at all times of the year.</p><p></p><p>សំនួរគំរូ៖</p><p>Sample Questions:</b></p><ul><li>តើគ្រួសារ / កុមារមានអ្វីបរិភោគខ្លះ? / What do the family and child eat?</li><li>តើគ្រួសារទទួលអាហារដោយរបផបណា? / How does the household get food?</li><li>សូមប្រាប់ខ្ញុំពីពេលវេលាមិនមានអាហារបរិភោគគ្រប់គ្រាន់។ / Tell me about times when there is not enough food?</li><li>តើកុមារនេះត្អូញត្អែពីការអត់ឃ្លានរឺទេ? / Does the child complain about being hungry?</li></ul><br><p><b>សូមសង្កេតមើលប្រសិនបើអាច</p><p>Things to look for during the visit:</b></p><ul><li>Observe the house/farm. Are they crops and/or animals?</li><li>Does the kitchen look as though it was used to prepare food recently?</li></ul><hr><p><b>ឣត្ថន័យនៃពិន្ទុ</p><p>Score Interpretations:</b></p><p>១៖ កុមារក្សត់ឣាហារដើម្បីបរិភោគ និងចូលទៅគេងទាំងឃ្លានស្ទើររាល់យប់។</p><p>1: The child rarely has food to eat and goes to bed hungry most nights.</p><p>២៖ កុមារជាញឹកញាប់ទទួលបានឣាហាសំរាប់បរិភោគជាចាំបាច់តិចតួច ត្អូញត្អែរនៃការអត់ឃ្លាន។</p><p>2: The child frequently has less food to eat than needed, complains of hunger.</p><p>៣៖ កុមារទទួលបានការបរិភោគគ្រប់គ្រាន់នៅពេលខ្លះ ឣាស្រ័យទៅលើរដូវកាល និងការផ្គត់ផ្គងអាហារ។</p><p>3: The child has enough to eat for some of time, depending on season or food supply.</p><p>៤៖កុមារគឺមានការផ្គត់ផ្គង់យ៉ាងល្អ ការបរិភោគមានជាទៀងទាត់។</p><p>4: The child is well fed, eats regularly.</p>' },
   { name: '1B', identity: 'Nutrition and Growth', group: 1, score_1_color: 'danger', score_2_color: 'warning', score_3_color: 'info', score_4_color: 'primary', description: "<p><b><u>កត្តា ១ខ៖ ឣាហាររូបត្ថម្ភ និងការលូតលាស់</p><p>Domain 1B - Nutrition and Growth</u></p><br><p>កុមារគឺកំពុងរីកលូតលាស់បានល្អ បើប្រៀបធៀបទៅនឹងកុមារផ្សេងៗទៀតនៅក្នុងសហគមន៍របស់គាត់។</p><p>Goal: The child is growing well compared to others of his/her age in the community.</p><br><p>សំនួរគំរូ៖</p><p>Sample Questions:</b></p><ul><li>តើការលូតលាស់របស់កុមារមានលក្ខណៈយ៉ាងដូចម្តេច? / How is the child growing?</li><li>តើការលូតលាស់របស់គាត់/នាងមានលក្ខណៈដូចគ្នានឹងកុមារដ៏ទៃទៀតដែលមានអាយុស្របាលគ្នា រឺទេ? / Does he/she seems to be growing like other children the same age?</li><li>តើអ្នកព្រួយបារម្ភពីការលូតលាស់របស់កុមារនេះទេ? ពីទម្ងន់? កម្ពស់? / Are you worried about this child's growth? Weight? Height?</li></ul><br><p></p><p><b>សូមសង្កេតមើលប្រសិនបើអាច</p><p>Things to look for during the visit:</b></p><ul><li>យើងអាចប្រៀបធៀប ការលូតលាស់របស់កុមារនេះ និងកុមារមានអាយុស្របាលគ្នាដែលរស់នៅក្នុងតំបន់នោះ។ / Compare how well the child seems to have grown with other local children the same age.</li></ul><hr><p><b>ឣត្ថន័យនៃពិន្ទុ</p><p>Score Interpretations:</b></p><p>១៖ កុមារមានទម្ងន់តិចយ៉ាងខ្លាំង រឺកម្ពស់ក៏ទាបជាង ខ្វះទម្ងន់បើប្រៀបធៀបទៅនឹងកុមារដែលមានអាយុស្របាលគ្នាផ្សេងទៀតនៅក្នុងសហគមន៌។</p><p>1:The child has very low weight or is too short for his or her age.</p><p>២៖ កុមារមានទម្ងន់ស្រាលជាង មើលទៅកម្ពស់ទាបជាងគេ និង/ឬ ខ្វះភាពស្វាហាប់ជាងកុមារផ្សេងៗទៀតដែលមានអាយុស្របាលគ្នានៅក្នុងសហគមន៌។</p><p>2:The child has low weight, looks shorter, and/or is less energetic compared to others of the same age in the community.</p><p>៣៖ កុមារហាក់ដូចជាកំពុងលូតលាស់បានល្អ ប៉ុន្តែមិនសូវសកម្ម បើប្រៀបធៀបទៅនឹងកុមារផ្សេងៗទៀតនៅក្នុងសហគមន៍គាត់។</p><p>3:The child seems to be growing well but is less active compared to others of the same age in the community.</p><p>៤៖ កុមារគឺកំពុងលូតលាស់បានល្អព្រមទំាងកំពស់ ទម្ងន់ និងកំរិតនៃភាពស្វាហាប់ទៅតាមអាយុគាត់/នាង។</p><p>4:The child is growing well with good height, weight and energy level for his/her age.</p>" },
@@ -30,14 +28,6 @@ QUESTION_GROUPS.each do |key, stage_group|
   QuestionGroup.find_or_create_by(name: "#{key.to_s.titleize}/#{stage_group.titleize}")
 end
 
-# bykotahouse_logo = File.open(Rails.root.join('app/assets/images/bykotahouse.png'))
-
-# ORGANIZATIONS = [
-#             { full_name: 'Bykota House', short_name: 'bykotahouse', logo: bykotahouse_logo }
-#           ]
-
-# ORGANIZATIONS.each do |org|
-#   Organization.create_and_build_tanent(org)
-# end
-
 Location.find_or_create_by(name: 'ផ្សេងៗ Other', order_option: 1)
+
+Thredded::MessageboardGroup.find_or_create_by(name: 'Archived')

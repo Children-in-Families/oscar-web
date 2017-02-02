@@ -1,0 +1,11 @@
+= form_for [messageboard, topic], html: { class: "thredded--form thredded--new-topic-form #{local_assigns[:css_class]}", 'data-thredded-topic-form' => true, 'data-autocomplete-url' => autocomplete_users_path, 'data-autocomplete-min-length' => 2 } do |form|
+  %ul.thredded--form-list.on-top
+    %li.title
+      = form.label :title, t('thredded.topics.form.title_label')
+      = form.text_field :title, placeholder: placeholder, required: true
+    - if form.object.categories.any?
+      %li.category
+        = form.select :category_ids, form.object.category_options, {}, { multiple: true, 'data-placeholder' => t('thredded.topics.form.categories_placeholder') }
+    = render 'thredded/posts_common/form/content_field', form: form, content_label: t('thredded.topics.form.content_label')
+    = render 'thredded/topics/topic_form_admin_options', form: form
+    %li= form.submit t('thredded.topics.form.create_btn'), class: 'thredded--form--submit'
