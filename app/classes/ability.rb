@@ -25,6 +25,8 @@ class Ability
       can :manage, Case
       can :manage, Assessment
       can :manage, Survey
+      can :manage, Tasks
+      can :manage, GovernmentReport
       can :update, Assessment do |assessment|
         assessment.client.user_id == user.id
       end
@@ -40,6 +42,7 @@ class Ability
       can :manage, Assessment
       can :manage, Survey
       can :manage, Tasks
+      can :manage, GovernmentReport
       can :update, Assessment do |assessment|
         assessment.client.able?
       end
@@ -56,6 +59,7 @@ class Ability
       can :manage, Assessment
       can :manage, Survey
       can :manage, Tasks
+      can :manage, GovernmentReport
       can :update, Assessment do |assessment|
         assessment.client.active_ec?
       end
@@ -72,6 +76,7 @@ class Ability
       can :manage, Assessment
       can :manage, Survey
       can :manage, Tasks
+      can :manage, GovernmentReport
       can :update, Assessment do |assessment|
         assessment.client.active_fc?
       end
@@ -90,6 +95,7 @@ class Ability
       can :manage, Assessment
       can :manage, Survey
       can :manage, Tasks
+      can :manage, GovernmentReport
       can :update, Assessment do |assessment|
         assessment.client.active_kc?
       end

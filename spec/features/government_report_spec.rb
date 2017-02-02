@@ -52,6 +52,6 @@ describe "government_report" do
 
     scenario 'new link' do
       expect(page).to have_link('Add Government Report', href: new_client_government_report_path(client))
-    end    
+    end
   end
 end
