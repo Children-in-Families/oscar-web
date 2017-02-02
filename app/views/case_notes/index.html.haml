@@ -5,11 +5,12 @@
         %h5= t('.case_note_lists')
         .ibox-tools
           = link_to t('.back'), client_path(@client), { class: 'btn btn-default btn-back-default button' }
-          - if @client.can_create_case_note?
-            = link_to t('.new_case_note'), new_client_case_note_path(@client), { class: 'btn btn-primary button' }
-          - else
-            .btn.btn-default.disabled.btn-back-default.case-note-margin
-              = t('.you_need_to_create_assessment')
+          - if can? :create, CaseNote
+            - if @client.can_create_case_note?
+              = link_to t('.new_case_note'), new_client_case_note_path(@client), { class: 'btn btn-primary button' }
+            - else
+              .btn.btn-default.disabled.btn-back-default.case-note-margin
+                = t('.you_need_to_create_assessment')
       .ibox-content
         - @case_notes.each do |case_note|
           .panel.panel-info

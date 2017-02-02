@@ -19,6 +19,7 @@ class Ability
       can :version, :all
     elsif user.case_worker?
       can :manage, Client, user_id: user.id
+      can :manage, CaseNote
       can :manage, ProgressNote
       can :manage, Attachment
       can :manage, Case
@@ -33,6 +34,7 @@ class Ability
     elsif user.able_manager?
       can :manage, Client, user_id: user.id
       can :manage, Client, able_state: Client::ABLE_STATES
+      can :manage, CaseNote
       can :manage, ProgressNote
       can :manage, Attachment
       can :manage, Assessment
@@ -47,6 +49,7 @@ class Ability
     elsif user.ec_manager?
       can :manage, Client, user_id: user.id
       can :manage, Client, status: 'Active EC'
+      can :manage, CaseNote
       can :manage, Family
       can :manage, Partner
       can :manage, Case, case_type: 'EC'
@@ -62,6 +65,7 @@ class Ability
     elsif user.fc_manager?
       can :manage, Client, user_id: user.id
       can :manage, Client, status: 'Active FC'
+      can :manage, CaseNote
       can :manage, Family
       can :manage, Partner
       can :manage, Case, case_type: 'FC'
@@ -79,6 +83,7 @@ class Ability
     elsif user.kc_manager?
       can :manage, Client, user_id: user.id
       can :manage, Client, status: 'Active KC'
+      can :manage, CaseNote
       can :manage, Family
       can :manage, Partner
       can :manage, Case, case_type: 'KC'
