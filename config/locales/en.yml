@@ -1355,6 +1355,12 @@ en:
       foster_cares_html: Foster <br/>Cares
       kinship_cares_html:  Kinship <br/>Cares
       emergency_cares_html: Emergency <br/>Cares
+      female_emergency_cares: Females <br/>EC
+      female_kinship_cares: Females <br/>KC
+      female_foster_cares: Females <br/>FC
+      male_emergency_cares: Males <br/>EC
+      male_kinship_cares: Males <br/>KC
+      male_foster_cares: Males <br/>FC
 
       overdue_assessments_count:
         one: "You have 1 assessment overdue."
