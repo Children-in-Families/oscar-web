@@ -30,7 +30,7 @@ class ClientGrid
     scope.joins(:cases).where(cases: { id: case_ids, case_type: name })
   end
 
-  filter(:placement_date, :date, range: true) do |values, scope|
+  filter(:placement_date, :date, range: true, header: -> {I18n.t('datagrid.columns.clients.placement_start_date') }) do |values, scope|
     if values.first.present? && values.second.present?
       scope.all_active_types.joins(:cases).where('cases.start_date <= ? AND cases.exit_date >= ?',
                                                   values.first,  values.second)
@@ -41,7 +41,7 @@ class ClientGrid
     end
   end
 
-  filter(:placement_case_type, :enum, select: %w(EC KC FC)) do |value, scope|
+  filter(:placement_case_type, :enum, select: %w(EC KC FC), header: -> {I18n.t('datagrid.columns.clients.placement_case_type') }) do |value, scope|
     scope.joins(:cases).where('cases.case_type = ?', value)
   end
 

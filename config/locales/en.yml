@@ -400,6 +400,8 @@ en:
         case_type: Case Type
         changelogs: Changelog
         view: View
+        placement_start_date: Placement Start Date
+        placement_case_type: Placement Case Type
 
       progress_notes:
         <<: *default_progress_note_fields
