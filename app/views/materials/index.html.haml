@@ -30,9 +30,9 @@
                         = fa_icon('pencil')
                     %td.text-center
                       = remove_link(material, { material_progress_note: material.progress_notes.count })
-                    - if can? :version, Material
-                      %td.text-center
-                        = link_to t('.view'), material_version_path(material)
+                  - if can? :version, Material
+                    %td.text-center
+                      = link_to t('.view'), material_version_path(material)
                 = render 'form', material: material
 
       .ibox-footer.text-center
