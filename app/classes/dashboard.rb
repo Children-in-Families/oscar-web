@@ -85,7 +85,7 @@ class Dashboard
   end
 
   def fc_client
-    if @user.admin? || @user.any_case_manager?
+    if @user.admin? || @user.any_case_manager? || @user.visitor?
       Client.active_fc
     elsif @user.case_worker?
       @user.clients.active_fc
@@ -107,7 +107,7 @@ class Dashboard
   end
 
   def kc_client
-    if @user.admin? || @user.any_case_manager?
+    if @user.admin? || @user.any_case_manager? || @user.visitor?
       Client.active_kc
     elsif @user.case_worker?
       @user.clients.active_kc
@@ -129,7 +129,7 @@ class Dashboard
   end
 
   def ec_client
-    if @user.admin? || @user.any_case_manager?
+    if @user.admin? || @user.any_case_manager? || @user.visitor?
       Client.active_ec
     elsif @user.case_worker?
       @user.clients.active_ec
