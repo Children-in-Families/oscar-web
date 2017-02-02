@@ -1,0 +1,19 @@
+- content_for :thredded_page_title, t('thredded.messageboard.index.page_title')
+- content_for :thredded_page_id, 'thredded--messageboards-index'
+- content_for :thredded_breadcrumbs, render('thredded/shared/breadcrumbs')
+
+= thredded_page do
+  %section.thredded--main-section.thredded--messageboards
+    - @groups.each do |group|
+      - next if group.name.present? && group.name == 'Archived'
+      - if group.name.present?
+        %h3.thredded--messageboards-group--title= group.name
+      .thredded--messageboards-group
+        = render group.messageboards
+    .thredded--messageboards--actions
+      - if policy(Thredded::Messageboard.new).create?
+        %a.thredded--button{:href => new_messageboard_path}
+          = t('thredded.messageboard.create')
+      - if policy(Thredded::MessageboardGroup.new).create?
+        %a.thredded--button{:href => new_messageboard_group_path}
+          = t('thredded.messageboard_group.create')

@@ -540,7 +540,7 @@ km:
 
   clients:
     answer_fields:
-      yes_no: បាទ​/អត់​ទេ
+      yes_no: បាទ/អត់ទេ
       answer: ចំលើយ
     index:
       reports: របាយការណ៍
@@ -582,7 +582,7 @@ km:
       year: ឆ្នាំ
       to: ទៅដល់
       general_question: សំនួរទូរទៅ
-      yes_no: បាទ​/អត់​ទេ
+      yes_no: បាទ/អត់ទេ
       stage: សំនួរ តំណាក់កាល
       answer: ចំលើយ
     show:
@@ -1436,7 +1436,15 @@ km:
   # Thredded - FAQ
   time:
     formats:
+      long: ''
       short: ''
+  date:
+    formats:
+      long: ''
+      short: ''
+  datetime:
+    distance_in_words:
+      about_x_hours: ''
 
   thredded:
     recent_activity: សកម្មភាពថ្មីៗ
@@ -1456,7 +1464,7 @@ km:
         no_group: គ្មានក្រុម
         name: ឈ្មោះ
         description: ការពិពណ៌នា
-        messageboard_group: ក្រុមផ្ទាំងសារ
+        messageboard_group: ក្រុមផ្ទាំងសារ (Archived នឹងមិនត្រូវបានបង្ហាញទៀតទេ)
       index:
         page_title: ផ្ទាំងសារ
       last_updated_by_html: ត្រូវបានកែសម្រួល %{time_ago} <cite>ដោយ %{user}</cite>
@@ -1581,6 +1589,7 @@ km:
         posted: អ្នកកំពុងតាមដានប្រធានបទនេះពីព្រោះអ្នកបានបង្កើតវា
       following_will_receive_emails: អ្នកនឹងទទួលបានអ៊ីម៉ែលសម្រាប់អ្វីៗដែលថ្មី
       form:
+        create_btn: បង្កើតប្រធានបទ
         categories_placeholder: ផ្នែកផ្សេងៗ
         content_label: :thredded.posts.form.content_label
         title_label: ប្រធានបទ

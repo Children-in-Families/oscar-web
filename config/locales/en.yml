@@ -1407,6 +1407,12 @@ en:
       nav:
         sign_out: Sign Out
         sign_in: Sign In
+    topics:
+      form:
+        create_btn: Create New Topic
+    messageboard:
+      form:
+        messageboard_group: Messageboard Group (Archived will not be shown)
 
   changelogs:
     changelog_type_fields:

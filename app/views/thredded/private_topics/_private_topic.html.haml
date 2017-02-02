@@ -1,4 +1,4 @@
-= content_tag :article, id: dom_id(private_topic), class: ['thredded--topics--topic', *topic_css_classes(private_topic)] do
+= content_tag :article, id: dom_id(private_topic), class: ['thredded--topics--topic', topic_read_state(private_topic)] do
   .thredded--topics--posts-count= private_topic.posts_count
   %h1.thredded--topics--title
     = link_to private_topic.title, private_topic.path
