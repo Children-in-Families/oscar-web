@@ -57,10 +57,10 @@ class CIF.ReportCreator
       title: text: ''
       plotOptions: pie:
         shadow: false
-      tooltip: valueSuffix: '%'
       series: [
         {
           data: @data
+          name: 'Gender'
           size: '60%'
           dataLabels:
             formatter: ->
@@ -70,6 +70,7 @@ class CIF.ReportCreator
         }
         {
           data: @data[0].active_data.concat(@data[1].active_data)
+          name: 'Case'
           size: '100%'
           innerSize: '60%'
           allowPointSelect: true
@@ -78,8 +79,7 @@ class CIF.ReportCreator
           point: events: click: ->
             location.href = @options.url
           dataLabels:
-            style:
-              fontSize: '13px'
+            style: fontSize: '13px'
             distance: -30
             color: '#ffffff'
             formatter: ->
