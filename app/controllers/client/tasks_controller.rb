@@ -1,4 +1,5 @@
 class Client::TasksController < AdminController
+  load_and_authorize_resource
   before_action :find_client
 
   def index

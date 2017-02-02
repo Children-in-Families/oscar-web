@@ -2,7 +2,6 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    alias_action :read, :update, :destroy, to: :rud
 
     can :manage, Agency
     can :manage, ReferralSource
@@ -11,9 +10,11 @@ class Ability
     if user.admin?
       can :manage, :all
     elsif user.visitor?
+      cannot :manage, AbleScreeningQuestion
       cannot :manage, Agency
       cannot :manage, ReferralSource
       cannot :manage, QuarterlyReport
+      cannot :manage, CaseNote
 
       can :read, :all
       can :version, :all

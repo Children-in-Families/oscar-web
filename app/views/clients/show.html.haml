@@ -133,7 +133,8 @@
           - if can_read_client_progress_note?
             = link_to client_progress_notes_path(@client) do
               %span.btn-xs.btn.btn-warning.small-btn-margin= t('.progress_note')
-          = able_screen_link(@client)
+          - if can? :manage, AbleScreeningQuestion
+            = able_screen_link(@client)
           = render('client_answers')
 
 .row.mini-margin
