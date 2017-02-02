@@ -13,7 +13,7 @@
             %tr
               %th= t('.created_at')
               - if can? :manage, Survey
-               %th.text-center= t('.action')
+                %th.text-center= t('.action')
           - @surveys.each do |survey|
             %tr
               %td= link_to survey.decorate.created_at, client_survey_path(@client, survey)
