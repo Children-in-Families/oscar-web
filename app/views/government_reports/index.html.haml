@@ -5,7 +5,8 @@
         %h5= @client.name
       .ibox-content
         = link_to t('.back'), client_path(@client), { class: 'btn btn-default btn-form' }
-        = link_to t('.add_report'), new_client_government_report_path(@client), { class: "btn btn-primary btn-outline #{('disabled' if @government_report)}" }
+        - if can? :manage, GovernmentReport
+          = link_to t('.add_report'), new_client_government_report_path(@client), { class: "btn btn-primary btn-outline #{('disabled' if @government_report)}" }
         - if @government_report
           %table.table.table-bordered.reports
             %thead

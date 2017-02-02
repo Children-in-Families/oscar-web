@@ -100,8 +100,9 @@
             %span.btn-xs.btn.btn-info.small-btn-margin
               %strong.count-margin= @client.case_notes.count
               = t('.view_case_notes')
-          = link_to new_client_survey_path(@client) do
-            %span.btn-xs.btn.btn-success.small-btn-margin= t('.take_survey')
+          - if can? :manage, Survey
+            = link_to new_client_survey_path(@client) do
+              %span.btn-xs.btn.btn-success.small-btn-margin= t('.take_survey')
           - if @client.surveys.any?
             = link_to client_surveys_path(@client) do
               %span.btn-xs.btn.btn-success.small-btn-margin= t('.survey_history')
