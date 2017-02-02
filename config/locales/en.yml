@@ -1391,6 +1391,9 @@ en:
     topics:
       form:
         create_btn: Create New Topic
+    messageboard:
+      form:
+        messageboard_group: Messageboard Group (Archived will not be shown)
 
   changelogs:
     changelog_type_fields:

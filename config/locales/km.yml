@@ -540,7 +540,7 @@ km:
 
   clients:
     answer_fields:
-      yes_no: បាទ​/អត់​ទេ
+      yes_no: បាទ/អត់ទេ
       answer: ចំលើយ
     index:
       reports: របាយការណ៍
@@ -576,7 +576,7 @@ km:
       year: ឆ្នាំ
       to: ទៅដល់
       general_question: សំនួរទូរទៅ
-      yes_no: បាទ​/អត់​ទេ
+      yes_no: បាទ/អត់ទេ
       stage: សំនួរ តំណាក់កាល
       answer: ចំលើយ
     show:
@@ -1446,7 +1446,7 @@ km:
         no_group: គ្មានក្រុម
         name: ឈ្មោះ
         description: ការពិពណ៌នា
-        messageboard_group: ក្រុមផ្ទាំងសារ
+        messageboard_group: ក្រុមផ្ទាំងសារ (Archived នឹងមិនត្រូវបានបង្ហាញទៀតទេ)
       index:
         page_title: ផ្ទាំងសារ
       last_updated_by_html: ត្រូវបានកែសម្រួល %{time_ago} <cite>ដោយ %{user}</cite>
