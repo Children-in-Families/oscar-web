@@ -32,36 +32,25 @@ class ClientGrid
 
   filter(:placement_date, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.placement_start_date') }) do |values, scope|
     if values.first.present? && values.second.present?
-      scope.all_active_types.joins(:cases).where('cases.start_date >= ? AND cases.start_date <= ?',
-                                                  values.first,  values.second)
+      ids = scope.joins(:cases).where(cases: { start_date: values[0]..values[1] }).pluck(:id).uniq
     elsif values.first.present? && values.second.blank?
-      scope.all_active_types.joins(:cases).where('DATE(cases.start_date) >= ?', values.first)
+      ids = scope.joins(:cases).where('DATE(cases.start_date) >= ?', values.first).pluck(:id).uniq
     elsif values.second.present? && values.first.blank?
-      scope.all_active_types.joins(:cases).where('cases.start_date <= ?', values.second)
+      ids = scope.joins(:cases).where('cases.start_date <= ?', values.second).pluck(:id).uniq
     end
+    scope.where(id: ids)
   end
 
-  filter(:placement_case_type, :enum, select: %w(EC KC FC), header: -> { I18n.t('datagrid.columns.clients.placement_case_type') }) do |value, scope|
-    scope.joins(:cases).where('cases.case_type = ?', value)
-  end
+  # TODO: filter by placement date of both active and inactive cases
+  # filter(:placement_case_type, :enum, select: %w(EC KC FC), header: -> { I18n.t('datagrid.columns.clients.placement_case_type') }) do |value, scope|
+  #   ids = scope.joins(:cases).where(cases: { case_type: value }).pluck(:id).uniq
+  #   scope.where(id: ids)
+  # end
 
   def case_types
     Case.case_types
   end
   filter(:date_of_birth, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.date_of_birth') })
-
-  # filter(:age, :dynamic, select: :filter_by_age, header: -> { I18n.t('datagrid.columns.clients.age') }) do |(age, operation, value), scope|
-  #   dob = (value.to_f * 12).to_i.months.ago
-  #   if operation == '='
-  #     scope.where.not(date_of_birth: nil).where(date_of_birth: dob)
-  #   else
-  #     scope.where.not("clients.date_of_birth = ? AND clients.date_of_birth #{operation} ?", nil, dob)
-  #   end
-  # end
-
-  # def filter_by_age
-  #   [I18n.t('datagrid.columns.clients.age')]
-  # end
 
   filter(:age, :float, range: true, header: -> { I18n.t('datagrid.columns.clients.age') }) do |value, scope|
     scope.age_between(value[0], value[1]) if value[0].present? && value[1].present?
