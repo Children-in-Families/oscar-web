@@ -1,0 +1,65 @@
+.row
+  .col-xs-12
+    = simple_form_for [@case_note.client, @case_note], {input_html: {id: 'case-note-form'}} do |f|
+      .ibox
+        .ibox-title
+          %h5= t('.meeting_detail')
+        .ibox-content
+          .well.b-r-lg.bg-color
+            %strong= "#{t('.label_note')}: "
+            %strong= @case_note.client.name
+            %span= t('.meeting_with')
+            %strong= current_user.first_name
+          .panel.panel-default
+            .panel-body
+              .form-group.date.optional.case_note_meeting_date
+                %label= t('.on_date')
+                .input-group.date
+                  = f.text_field :meeting_date, class: 'date optional form-control date-picker', type: 'text', name: 'case_note[meeting_date]', id: 'case_note_meeting_date'
+                  %span.input-group-addon
+                    %i.fa.fa-calendar-check-o
+              = f.input :attendee, label: t('.present')
+          = f.simple_fields_for :case_note_domain_groups do |cd|
+            - if cd.object.domain_group.domains.assessment_domains_by_assessment_id(@case_note.assessment_id).any?
+              .ibox.border-left-right.border-bottom
+                .ibox-title
+                  %h5
+                    %strong= "#{t('.domain')} #{cd.object.domain_group.name} "
+                    = "(#{cd.object.domain_group.domain_identities})"
+                  .ibox-tools
+                    - cd.object.domain_group.domains.each do |domain|
+                      - ad = domain.assessment_domains.find_by(assessment_id: @case_note.assessment_id)
+                      %label.margin-score{class: "label label-#{ad.score_color_class} label-lg"}= ad.score
+                .ibox-content
+                  .row
+                    .col-xs-12.col-md-6
+                      = cd.input :note, label: false, input_html: { rows: 6, placeholder: t('.note') }
+                      = cd.hidden_field :domain_group_id
+                    .col-xs-12.col-md-6
+                      - cd.object.domain_group.domains.each do |domain|
+                        - assessment_domain = @case_note.assessment.assessment_domains.find_by(domain_id: domain.id)
+                        - tasks = @case_note.client.tasks.where(domain_id: domain.id)
+
+                        .panel{ class: "panel-#{assessment_domain.score_color_class} task-domain-#{domain.id} #{hidden_class(tasks.blank?)}" }
+                          .panel-heading
+                            %strong= "#{t('.domain')} #{assessment_domain.domain.name}"
+                          .panel-body{id: "tasks-domain-#{domain.id}"}
+                            .row
+                              .col-xs-12
+                                = cd.association :tasks, collection: tasks.incomplete, as: :check_boxes, label: "#{t('.on_going_tasks')}", input_html: { class: 'i-checks'}
+                                %div{ class: "task-arising hidden" }
+                                  %label.control-label
+                                    = t('.tasks_arising')
+                                  %ol.list-group{ type: '1'}
+                              .col-xs-12
+                                = cd.association :tasks, collection: tasks.completed.pluck(:name), as: :check_boxes, label: "#{t('.completed_tasks')}", input_html: { class: 'i-checks'}, disabled: true, checked: tasks.completed.pluck(:name)
+
+                  .row
+                    .col-xs-12
+                      .case-note-task-btn.btn.btn-primary.btn-outline.pull-right{type: 'button', 'data-target' => "#tasksFromModal", 'data-toggle' => 'modal', 'data-domains': "#{cd.object.domain_group.domains.pluck(:id, :name)}"}
+                        = t('.add_task')
+        .ibox-footer
+          = link_to t('.back') , client_case_notes_path(@case_note.client), class: 'btn btn-default btn-form'
+          = f.submit t('.save'), class: 'btn btn-primary btn-form', id: 'case-note-submit-btn'
+
+    = render 'add_task_form'

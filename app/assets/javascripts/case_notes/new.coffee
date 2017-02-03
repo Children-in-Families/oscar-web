@@ -1,4 +1,4 @@
-CIF.Case_notesNew = do ->
+CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUpdate = do ->
   _init = ->
     _handleNewTask()
 
