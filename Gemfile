@@ -51,6 +51,7 @@ gem 'chartkick',              '~> 2.0', '>= 2.0.2'
 gem 'font-awesome-rails',     '~> 4.7'
 gem 'spreadsheet',            '~> 1.1.3'
 gem 'apartment',              '~> 1.2'
+gem 'dropzonejs-rails',       '~> 0.7.3'
 
 group :development, :test do
   gem 'pry'

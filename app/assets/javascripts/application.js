@@ -18,6 +18,7 @@
 //= require datepicker
 //= require metisMenu/jquery.metisMenu.js
 //= require highcharts.js
+//= require dropzone
 
 // WRAPBOOTSTRAP
 //= require iCheck/icheck.min.js

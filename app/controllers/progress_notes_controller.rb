@@ -20,6 +20,7 @@ class ProgressNotesController < AdminController
 
   def new
     @progress_note = @client.progress_notes.new
+    @progress_note.attachments.new
   end
 
   def create
@@ -54,6 +55,10 @@ class ProgressNotesController < AdminController
   def version
     @progress_note = @client.progress_notes.find(params[:progress_note_id])
     @versions      = @progress_note.versions.reorder(created_at: :desc)
+  end
+
+  def attachment_upload
+
   end
 
   private

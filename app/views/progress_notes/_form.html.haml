@@ -1,4 +1,4 @@
-= simple_form_for([@client, @progress_note]) do |f|
+= simple_form_for([@client, @progress_note],html: {class: 'dropzone'}) do |f|
   .ibox-content
     = error_notification(f)
     .row
@@ -40,12 +40,15 @@
     .row
       .col-xs-12
         #attachment
-          = f.simple_fields_for :attachments do |attachment|
-            = render 'attachment_fields', f: attachment
-          .links
-            = link_to_add_association f, :attachments, class: 'btn btn-primary' do
-              %i.glyphicon.glyphicon-plus-sign
-              = t('.add_attachment')
+          -# #upload-attachment.dropzone-previews.dropzone.dz-default.dz-message
+          -# = f.input :file, as: :file
+          = f.simple_fields_for :attachments, input_html: 'dropzone' do |ff|
+            = ff.input :file, as: :file, input_html: { class: 'form-control' }
+          -#   = render 'attachment_fields', f: attachment
+          -# .links
+          -#   = link_to_add_association f, :attachments, class: 'btn btn-primary' do
+          -#     %i.glyphicon.glyphicon-plus-sign
+          -#     = t('.add_attachment')
 
   .ibox-footer
     .form-actions
