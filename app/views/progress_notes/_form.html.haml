@@ -34,9 +34,9 @@
         = f.association :assessment_domains, collection: ads, multiple: true, label: t('.goals_addressed')
     .row
       .col-xs-12.col-md-4
-        = f.input :response, as: :ckeditor, input_html: { class: 'form-control' }, label: t('.response')
+        = f.input :response, as: :text, input_html: { class: 'form-control', rows: 10 }, label: t('.response')
       .col-xs-12.col-md-4
-        = f.input :additional_note, as: :ckeditor, input_html: { class: 'form-control' }, label: t('.additional_notes')
+        = f.input :additional_note, as: :text, input_html: { class: 'form-control', rows: 10 }, label: t('.additional_notes')
     .row
       .col-xs-12
         #attachment
