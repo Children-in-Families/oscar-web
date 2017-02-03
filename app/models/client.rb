@@ -268,14 +268,15 @@ class Client < ActiveRecord::Base
     admins   = User.admins
     clients = active_ec.select{|client| client.active_day_care == day}
 
-    managers.each do |manager|
-      ManagerMailer.remind_of_client(clients, day: day, manager: manager).deliver_now
-    end
+    if clients.present?
+      managers.each do |manager|
+        ManagerMailer.remind_of_client(clients, day: day, manager: manager).deliver_now
+      end
 
-    admins.each do |admin|
-      AdminMailer.remind_of_client(clients, day: day, admin: admin).deliver_now
+      admins.each do |admin|
+        AdminMailer.remind_of_client(clients, day: day, admin: admin).deliver_now
+      end
     end
-
   end
 
 end
