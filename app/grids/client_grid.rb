@@ -33,12 +33,14 @@ class ClientGrid
   filter(:placement_date, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.placement_start_date') }) do |values, scope|
     if values.first.present? && values.second.present?
       ids = scope.joins(:cases).where(cases: { start_date: values[0]..values[1] }).pluck(:id).uniq
+      scope.where(id: ids)
     elsif values.first.present? && values.second.blank?
       ids = scope.joins(:cases).where('DATE(cases.start_date) >= ?', values.first).pluck(:id).uniq
+      scope.where(id: ids)
     elsif values.second.present? && values.first.blank?
       ids = scope.joins(:cases).where('cases.start_date <= ?', values.second).pluck(:id).uniq
+      scope.where(id: ids)
     end
-    scope.where(id: ids)
   end
 
   # TODO: filter by placement date of both active and inactive cases
