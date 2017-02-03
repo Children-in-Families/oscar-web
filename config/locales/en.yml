@@ -1207,7 +1207,7 @@ en:
       completed_tasks: Completed Tasks
       incomplete_tasks: Incomplete Tasks
       note: Note
-    new:
+    form:
       label_note: Note
       meeting_detail: Meeting detail
       meeting_with: Meeting with
@@ -1233,6 +1233,8 @@ en:
       present: Present
     create:
       successfully_created: Case Note has successfully been created.
+    update:
+      successfully_updated: Case Note has successfully been updated.
 
   stages:
     stage: Stage

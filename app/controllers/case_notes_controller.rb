@@ -28,15 +28,13 @@ class CaseNotesController < AdminController
   end
 
   def edit
-    authorize @case_note
-    @case_note.assessment = @client.assessments.latest_record
-    @case_note.populate_notes
   end
 
   def update
     authorize @case_note
     if @case_note.update(case_note_params)
-      redirect_to [@client, @case_note], notice: 'Successfully updated a case note'
+      @case_note.complete_tasks(params[:case_note][:case_note_domain_groups_attributes])
+      redirect_to client_case_notes_path(@client), notice: t('.successfully_updated')
     else
       render :edit
     end
