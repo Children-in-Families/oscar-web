@@ -1,6 +1,6 @@
 .row
   .col-xs-12
-    - if can? :read, Tasks
+    - if can? :read, Task
       - unless current_user.case_worker?
         .panel.panel-default
           .panel-body

@@ -7,7 +7,7 @@
           = link_to client_path(@client) do
             .btn.btn-default.btn-width.btn-back-default
               = t('.back')
-          - if can? :manage, Tasks
+          - if can? :manage, Task
             = link_to new_client_task_path(@client) do
               .btn.btn-primary.btn-width
                 = t('.new_task')
@@ -24,7 +24,7 @@
                       %td= "#{t('.domain')}: #{task.domain.name}"
                       %td.task-name= task.name
                       %td= task.completion_date.strftime("%B %d, %Y")
-                      - if can? :manage, Tasks
+                      - if can? :manage, Task
                         %td.text-center.margin-icon
                           = link_to edit_client_task_path(@client, task) do
                             .btn.btn-outline.btn-success.btn-xs
@@ -45,7 +45,7 @@
                       %td= "#{t('.domain')}: #{task.domain.name}"
                       %td= task.name
                       %td= task.completion_date.strftime("%B %d, %Y")
-                      - if can? :manage, Tasks
+                      - if can? :manage, Task
                         %td.text-center.margin-icon
                           = link_to edit_client_task_path(@client, task) do
                             .btn.btn-outline.btn-success.btn-xs
@@ -66,7 +66,7 @@
                       %td= "#{ t('.domain') }: #{task.domain.name}"
                       %td= task.name
                       %td= task.completion_date.strftime("%B %d, %Y")
-                      - if can? :manage, Tasks
+                      - if can? :manage, Task
                         %td.text-center.margin-icon
                           = link_to edit_client_task_path(@client, task) do
                             .btn.btn-outline.btn-success.btn-xs

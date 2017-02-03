@@ -1,4 +1,6 @@
 class TasksController < AdminController
+  load_and_authorize_resource
+
   def index
     @tasks = Task.incomplete.of_user(task_of_user)
     @users = all_user

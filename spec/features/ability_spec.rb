@@ -43,13 +43,13 @@ feature 'progress_note' do
         visit client_progress_notes_path(fc_progress_note.client)
       end
       scenario 'disabled add button' do
-        expect(page).to have_css('.btn-add.disabled')
+        expect(page).not_to have_css('.btn-add')
       end
       scenario 'disabled edit button' do
-        expect(page).to have_css('.btn-edit.disabled')
+        expect(page).not_to have_css('.btn-edit')
       end
       scenario 'disabled delete button' do
-        expect(page).to have_css('.btn-delete.disabled')
+        expect(page).not_to have_css('.btn-delete')
       end
     end
 
@@ -59,13 +59,13 @@ feature 'progress_note' do
         visit client_progress_notes_path(kc_progress_note.client)
       end
       scenario 'disabled add button' do
-        expect(page).to have_css('.btn-add.disabled')
+        expect(page).not_to have_css('.btn-add')
       end
       scenario 'disabled edit button' do
-        expect(page).to have_css('.btn-edit.disabled')
+        expect(page).not_to have_css('.btn-edit')
       end
       scenario 'disabled delete button' do
-        expect(page).to have_css('.btn-delete.disabled')
+        expect(page).not_to have_css('.btn-delete')
       end
     end
   end
