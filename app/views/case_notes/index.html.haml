@@ -5,19 +5,26 @@
         %h5= t('.case_note_lists')
         .ibox-tools
           = link_to t('.back'), client_path(@client), { class: 'btn btn-default btn-back-default button' }
-          - if @client.can_create_case_note?
-            = link_to t('.new_case_note'), new_client_case_note_path(@client), { class: 'btn btn-primary button' }
-          - else
-            .btn.btn-default.disabled.btn-back-default.case-note-margin
-              = t('.you_need_to_create_assessment')
+          - if can? :create, CaseNote
+            - if @client.can_create_case_note?
+              = link_to t('.new_case_note'), new_client_case_note_path(@client), { class: 'btn btn-primary button' }
+            - else
+              .btn.btn-default.disabled.btn-back-default.case-note-margin
+                = t('.you_need_to_create_assessment')
       .ibox-content
         - @case_notes.each do |case_note|
           .panel.panel-info
             .panel-heading
-              %h4.pull-right
-                = t('.case_note_on')
-                = case_note.meeting_date.strftime('%B %d, %Y') if case_note.meeting_date
-              %h3= "#{t('.present')}: #{case_note.attendee}"
+              .row
+                .col-xs-5
+                  %h3= "#{t('.present')}: #{case_note.attendee}"
+                .col-xs-7.text-right
+                  %h4
+                    = t('.case_note_on')
+                    = case_note.meeting_date.strftime('%B %d, %Y') if case_note.meeting_date
+                    - if can? :manage, CaseNote
+                      = edit_link(@client, case_note)
+
             .panel-body
               - case_note.case_note_domain_groups.each do |cdg|
                 .ibox.border-left-right.border-bottom
@@ -31,23 +38,34 @@
                   .ibox-content
                     .row
                       - if cdg.note.present?
-                        .col-xs-12{ class: ("col-md-6" if cdg.tasks.completed.any?)}
+                        .col-xs-12
                           .panel.panel-default
                             .panel-heading
-                              %h4 Notes
+                              %h4= t('.note')
                             .panel-body
                               = cdg.note
-                      - if cdg.tasks.completed.any?
-                        .col-xs-12{ class: ("col-md-6" if cdg.note.present?)}
+                      - tasks = domains_tasks(case_note, cdg)
+                      - if tasks.any?
+                        .col-xs-12.col-sm-6
+                          .panel.panel-default
+                            .panel-heading
+                              %h4= t('.incomplete_tasks')
+                            .panel-body.no-padding
+                              %ul.list-group
+                                - tasks.incomplete.each_with_index do |task, index|
+                                  %li.list-group-item
+                                    = "#{index + 1}. "
+                                    = task.name
+                        .col-xs-12.col-sm-6
                           .panel.panel-default
                             .panel-heading
                               %h4= t('.completed_tasks')
                             .panel-body.no-padding
                               %ul.list-group
-                                - cdg.tasks.completed.each_with_index do |task, index|
+                                - tasks.completed.each_with_index do |task, index|
                                   %li.list-group-item
                                     = "#{index + 1}. "
-                                    = task.name                 
+                                    = task.name
       .ibox-footer
         .text-center
           = paginate @case_notes

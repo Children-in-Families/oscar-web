@@ -5,9 +5,10 @@
         %h5= @results
         %span.label.label-info= t('.domains')
         .ibox-tools
-          = link_to new_domain_path do
-            .btn.btn.btn-primary.btn-add
-              = t('.add_new_domain')
+          - if can? :manage, Domain
+            = link_to new_domain_path do
+              .btn.btn.btn-primary.btn-add
+                = t('.add_new_domain')
       .ibox-content
         - @domains.each do |domain|
           .panel.panel-default
@@ -22,12 +23,13 @@
                     %label{class: "label label-#{domain.score_3_color}"}= "#{t('.score_3')}"
                     %label{class: "label label-#{domain.score_4_color}"}= "#{t('.score_4')}"
                 .col-md-3.text-right.actions
-                  - if current_user.admin?
+                  - if can? :version, Domain
                     = link_to domain_version_path(domain), class: 'btn btn-outline btn-success margin-left' do
                       = t('.changelog')
-                  = link_to edit_domain_path(domain), class: 'btn btn-outline btn-success margin-left' do
-                    = fa_icon('pencil')
-                  = remove_link(domain, {domain_task: domain.tasks_count, assessment_domains_size: domain.assessment_domains.size}, 'margin-left')
+                  - if can? :manage, Domain
+                    = link_to edit_domain_path(domain), class: 'btn btn-outline btn-success margin-left' do
+                      = fa_icon('pencil')
+                    = remove_link(domain, {domain_task: domain.tasks_count, assessment_domains_size: domain.assessment_domains.size}, 'margin-left')
             .panel-body
               %p= domain.description.html_safe
       .ibox-footer.text-center

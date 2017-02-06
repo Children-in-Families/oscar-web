@@ -93,6 +93,17 @@ describe Client, 'methods' do
     end
   end
 
+  context 'active_day_care' do
+    let!(:case) { create(:case, client: client, exited: false, start_date: 1.year.ago) }
+    it { expect(client.active_day_care).to eq(366.0) }
+  end
+
+  context 'inactive_day_care' do
+    let!(:inactive_case) { create(:case, client: client, exited: true, start_date: 2.years.ago, exit_date: Date.today, exit_note: FFaker::Lorem.paragraph) }
+    let!(:active_case) { create(:case, case_type: 'FC', client: client, exited: true, start_date: 6.months.ago, exit_date: Date.today, exit_note: FFaker::Lorem.paragraph) }
+    it { expect(client.inactive_day_care).to eq(731.0) }
+  end
+
   context 'name' do
     let!(:name){ "#{client.first_name} #{client.last_name}" }
     it { expect(client.name).to eq(name) }
@@ -176,6 +187,26 @@ describe Client, 'methods' do
       expect(Client.in_any_able_states_managed_by(case_worker)).not_to include(able_manager_client)
     end
   end
+
+  context 'reminder send mail to admin and ec manager' do
+    let!(:admin)           { create(:user, :admin)}
+    let!(:ec_department)   { create(:department, :emergency_care)}
+    let!(:ec_manager)      { create(:user, :ec_manager, department: ec_department)}
+    let!(:ec_caseworker)   { create(:user, department: ec_department)}
+    let!(:ec_client)       { create(:client, status: 'Active EC', user: ec_caseworker)}
+    let!(:case1)           { create(:case, client: ec_client, exited: false, start_date: Date.today - 90.days) }
+
+    before do
+      Client.ec_reminder_in(90)
+    end
+
+    it 'send mail to ec manager' do
+      expect(ActionMailer::Base.deliveries.first.to).to eq([ec_manager.email])
+    end
+    it 'send mail to admin' do
+      expect(ActionMailer::Base.deliveries.last.to).to eq([admin.email])
+    end
+  end
 end
 
 describe Client, 'scopes' do
@@ -204,6 +235,14 @@ describe Client, 'scopes' do
   let!(:other_client){ create(:client, state: 'rejected') }
   let!(:able_client) { create(:client, able_state: Client::ABLE_STATES[0]) }
 
+  let(:kc_client) { create(:client, status: 'Active KC', state: 'accepted') }
+  let(:fc_client) { create(:client, status: 'Active FC', state: 'accepted') }
+  let(:ec_client) { create(:client, status: 'Referred', state: 'accepted') }
+  let!(:kc) { create(:case, client: kc_client, case_type: 'KC') }
+  let!(:fc) { create(:case, client: fc_client, case_type: 'FC') }
+
+
+
   context 'first name like' do
     let!(:clients){ Client.first_name_like(client.first_name.downcase) }
     it 'should include record have first name like' do
@@ -211,6 +250,12 @@ describe Client, 'scopes' do
     end
     it 'should not include record not have first name like' do
       expect(clients).not_to include(other_client)
+    end
+  end
+
+  context '.active' do
+    it 'have all active clients' do
+      expect(Client.all_active_types.count).to eq(2)
     end
   end
 

@@ -1,0 +1,47 @@
+- if version.item_type == "Assessment"
+  %div{ class: "panel panel-#{version_color(version.event)}" }
+    .panel-heading
+      %h5
+        - if controller_name == 'data_trackers'
+          %span
+            = "#{version.whodunnit} #{t('.change')} #{t('.on')}"
+            = t(".#{version.item_type}")
+            = "##{version.item_id}."
+        - else
+          %span= "#{version.whodunnit} #{t('.change')}."
+        %span{ class: "pull-right label label-#{version_color(version.event)}" }
+          = version.event_formated
+    .panel-body
+      .table-responsive
+        - if version.event == 'delete'
+          %table.table.table-hover
+            %thead
+              %tr
+                %th.col-sm-4= t('.value_of')
+                %th.col-sm-4= t('.before')
+                %th.col-sm-4= t('.date_deleted')
+            %tbody
+              %tr
+                %td.col-sm-4= t('.id')
+                %td.col-sm-4
+                  = version.reify.id
+                %td.col-sm-4
+                  = date_time_format(version.created_at)
+        - else
+          %table.table.table-hover
+            %thead
+              %tr
+                %th.col-sm-4= t('.value_of')
+                %th.col-sm-4.truncate= t('.before')
+                %th.col-sm-4.truncate= t('.after')
+            %tbody.assessment
+              - version.changeset.each do |k, v|
+                - next if version_keys_skipable?(k, version.item_type)
+                %tr.assessment-row
+                  %td.col-sm-4.assessment-id
+                    = version_attribute(k, version.item_type)
+                  %td.col-sm-4.truncate
+                    = version_value_format(v[0], k, v)
+                  %td.col-sm-4.truncate.assessment-after
+                    = version_value_format(v[1], k, v)
+      = render 'shared/version_type/assessment_domain', assessment_id: version.item_id, event: version.event

@@ -1,5 +1,4 @@
 class Stage < ActiveRecord::Base
-
   MEASUREMENTS = %w(month year).freeze
 
   has_many :able_screening_questions, dependent: :destroy

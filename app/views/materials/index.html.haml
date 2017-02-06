@@ -5,32 +5,35 @@
         %h5= @results
         %span.label.label-info= t('.material')
         .ibox-tools
-          = link_to '#', {"data-target" => "#materialModal-", "data-toggle" => "modal", :type => "button"} do
-            .btn.btn-primary.btn-add
-              = t('.add_new_material')
+          - if can? :manage, Material
+            = link_to '#', {"data-target" => "#materialModal-", "data-toggle" => "modal", :type => "button"} do
+              .btn.btn-primary.btn-add
+                = t('.add_new_material')
       .ibox-content
         .table-responsive
           %table.table.table-bordered.table-striped.table-hover
             %thead
               %tr
                 %th= t('.status')
-                %th.text-center{:colspan => "2"}
-                  = t('.manage')
-                - if current_user.admin?
+                - if can? :manage, Material
+                  %th.text-center{:colspan => "2"}
+                    = t('.manage')
+                - if can? :version, Material
                   %th.text-center= t('.changelogs')
             %tbody
               - @materials.each do |material|
                 %tr
                   %td= material.status
-                  %td.text-center
-                    = link_to '#', {class: 'btn btn-xs btn-outline btn-success', "data-target" => "#materialModal-#{material.id}", "data-toggle" => "modal", :type => "button"} do
-                      = fa_icon('pencil')
-                  %td.text-center
-                    = remove_link(material, { material_progress_note: material.progress_notes.count })
-                  - if current_user.admin?
+                  - if can? :manage, Material
+                    %td.text-center
+                      = link_to '#', {class: 'btn btn-xs btn-outline btn-success', "data-target" => "#materialModal-#{material.id}", "data-toggle" => "modal", :type => "button"} do
+                        = fa_icon('pencil')
+                    %td.text-center
+                      = remove_link(material, { material_progress_note: material.progress_notes.count })
+                  - if can? :version, Material
                     %td.text-center
                       = link_to t('.view'), material_version_path(material)
-                  = render 'form', material: material
+                = render 'form', material: material
 
       .ibox-footer.text-center
         = paginate @materials

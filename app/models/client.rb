@@ -3,6 +3,7 @@ class Client < ActiveRecord::Base
 
   attr_reader :assessments_count
   attr_accessor :assessment_id
+  attr_accessor :organization
 
   friendly_id :slug, use: :slugged
 
@@ -11,7 +12,7 @@ class Client < ActiveRecord::Base
   CLIENT_ACTIVE_STATUS = ['Active EC', 'Active FC', 'Active KC'].freeze
 
   ABLE_STATES = %w(Accepted Rejected Discharged).freeze
-  EXIT_STATUSES   = CLIENT_STATUSES.select { |status| status if status.include?('Exited') }
+  EXIT_STATUSES = CLIENT_STATUSES.select { |status| status if status.include?('Exited') }
 
   belongs_to :referral_source,  counter_cache: true
   belongs_to :province,         counter_cache: true
@@ -39,9 +40,6 @@ class Client < ActiveRecord::Base
   has_many :surveys,        dependent: :destroy
   has_many :progress_notes, dependent: :destroy
 
-  # has_and_belongs_to_many :agencies
-  # has_and_belongs_to_many :quantitative_cases
-
   has_paper_trail
 
   accepts_nested_attributes_for     :tasks
@@ -50,52 +48,43 @@ class Client < ActiveRecord::Base
 
   before_update :reset_user_to_tasks
   after_create  :set_slug_as_alias
-  after_update :set_able_status, if: Proc.new { |client| client.able_state.nil? && answers.any? }
+  after_update :set_able_status, if: proc { |client| client.able_state.nil? && answers.any? }
 
-  scope :first_name_like,      -> (value) { where('LOWER(clients.first_name) LIKE ?', "%#{value.downcase}%") }
 
-  scope :start_with_code,      -> (value) { where('clients.code LIKE ?', "#{value}%") }
+  scope :first_name_like,      ->(value) { where('clients.first_name iLIKE ?', "%#{value}%") }
+  scope :current_address_like, ->(value) { where('clients.current_address iLIKE ?', "%#{value}%") }
+  scope :school_name_like,     ->(value) { where('clients.school_name iLIKE ?', "%#{value}%") }
+  scope :referral_phone_like,  ->(value) { where('clients.referral_phone iLIKE ?', "%#{value}%") }
+  scope :info_like,            ->(value) { where('clients.relevant_referral_information iLIKE ?', "%#{value}%") }
+  scope :slug_like,            ->(value) { where('clients.slug iLIKE ?', "%#{value}%") }
+  scope :start_with_code,      ->(value) { where('clients.code iLIKE ?', "#{value}%") }
+  scope :find_by_family_id,    ->(value) { joins(cases: :family).where('families.id = ?', value).uniq }
+  scope :status_like,          ->        { CLIENT_STATUSES }
+  scope :is_received_by,       ->        { joins(:received_by).pluck("CONCAT(users.first_name, ' ' ,users.last_name)", 'users.id').uniq }
+  scope :referral_source_is,   ->        { joins(:referral_source).pluck('referral_sources.name', 'referral_sources.id').uniq }
+  scope :is_followed_up_by,    ->        { joins(:followed_up_by).pluck("CONCAT(users.first_name, ' ' ,users.last_name)", 'users.id').uniq }
+  scope :province_is,          ->        { joins(:province).pluck('provinces.name', 'provinces.id').uniq }
+  scope :accepted,             ->        { where(state: 'accepted') }
+  scope :rejected,             ->        { where(state: 'rejected') }
+  scope :male,                 ->        { where(gender: 'male') }
+  scope :female,               ->        { where(gender: 'female') }
+  scope :active_ec,            ->        { where(status: 'Active EC') }
+  scope :active_kc,            ->        { where(status: 'Active KC') }
+  scope :active_fc,            ->        { where(status: 'Active FC') }
+  scope :without_assessments,  ->        { includes(:assessments).where(assessments:         { client_id: nil }) }
+  scope :able,                 ->        { where(able_state: ABLE_STATES[0]) }
+  scope :all_active_types,     ->        { where(status: CLIENT_ACTIVE_STATUS) }
 
-  scope :status_like,          ->         { CLIENT_STATUSES }
+  def self.filter(options)
+    query = all
 
-  scope :current_address_like, -> (value) { where('LOWER(clients.current_address) LIKE ?', "%#{value.downcase}%") }
+    query = query.where(first_name: options[:first_name])                 if options[:first_name].present?
+    query = query.where(date_of_birth: options[:date_of_birth])           if options[:date_of_birth].present?
+    query = query.where(gender: options[:gender])                         if options[:gender].present?
+    query = query.where(birth_province_id: options[:birth_province_id])   if options[:birth_province_id].present?
 
-  scope :school_name_like,     -> (value) { where('LOWER(clients.school_name) LIKE ?', "%#{value.downcase}%") }
-
-  scope :referral_phone_like,  -> (value) { where('LOWER(clients.referral_phone) LIKE ?', "%#{value.downcase}%") }
-
-  scope :info_like,            -> (value) { where('LOWER(clients.relevant_referral_information) LIKE ?', "%#{value.downcase}%") }
-
-  scope :slug_like,            -> (value) { where("LOWER(clients.slug) LIKE ?", "%#{value.downcase}%") }
-
-  scope :find_by_family_id,    -> (value) { joins(cases: :family).where('families.id = ?', value).uniq }
-
-  scope :is_received_by,       -> { joins(:received_by).pluck("CONCAT(users.first_name, ' ' ,users.last_name)", 'users.id').uniq }
-
-  scope :referral_source_is,   -> { joins(:referral_source).pluck('referral_sources.name', 'referral_sources.id').uniq }
-
-  scope :is_followed_up_by,    -> { joins(:followed_up_by).pluck("CONCAT(users.first_name, ' ' ,users.last_name)", 'users.id').uniq }
-
-  scope :province_is,          -> { joins(:province).pluck('provinces.name', 'provinces.id').uniq }
-
-  scope :accepted,             -> { where(state: 'accepted') }
-
-  scope :rejected,             -> { where(state: 'rejected') }
-
-  scope :male,                 -> { where(gender: 'male') }
-
-  scope :female,               -> { where(gender: 'female') }
-
-  scope :active_ec,            -> { where(status: 'Active EC') }
-
-  scope :active_kc,            -> { where(status: 'Active KC') }
-
-  scope :active_fc,            -> { where(status: 'Active FC') }
-
-  scope :without_assessments,  -> { includes(:assessments).where(assessments: { client_id: nil }) }
-
-  scope :able,                 -> { where(able_state: ABLE_STATES[0]) }
-  scope :all_active_types, -> { where(status: CLIENT_ACTIVE_STATUS) }
+    query
+  end
 
   def reject?
     state_changed? && state == 'rejected'
@@ -234,38 +223,60 @@ class Client < ActiveRecord::Base
   end
 
   def set_slug_as_alias
-    self.paper_trail.without_versioning { |obj| obj.update_attributes(slug: "#{Organization.current.try(:short_name)}-#{id}") }
+    paper_trail.without_versioning { |obj| obj.update_attributes(slug: "#{Organization.current.try(:short_name)}-#{id}") }
   end
 
   def set_able_status
-    if AbleScreeningQuestion.has_alert_manager?(self) && answers.include_yes?
-      self.update(able_state: ABLE_STATES[0])
-    end
+    update(able_state: ABLE_STATES[0]) if AbleScreeningQuestion.has_alert_manager?(self) && answers.include_yes?
   end
 
   def time_in_care
     if cases.any?
       if cases.active.any?
-        active_cases      = cases.active.order(:created_at)
-        first_active_case = active_cases.active.first
-
-        start_date        = first_active_case.start_date.to_date
-        current_date      = Date.today.to_date
-
-        ((current_date - start_date).to_f / 365).round(1)
-
+        (active_day_care / 365).round(1)
       else
-        inactive_cases     = cases.inactive.order(:updated_at)
-        last_inactive_case = inactive_cases.last
-        end_date           = last_inactive_case.exit_date.to_date
-
-        first_case         = cases.inactive.order(:created_at).first
-        start_date         = first_case.start_date.to_date
-
-        ((end_date - start_date).to_f / 365).round(1)
+        (inactive_day_care / 365).round(1)
       end
     else
       nil
     end
   end
+
+  def active_day_care
+    active_cases      = cases.active.order(:created_at)
+    first_active_case = active_cases.active.first
+
+    start_date        = first_active_case.start_date.to_date
+    current_date      = Date.today.to_date
+
+    (current_date - start_date).to_f
+  end
+
+  def inactive_day_care
+    inactive_cases     = cases.inactive.order(:updated_at)
+    last_inactive_case = inactive_cases.last
+    end_date           = last_inactive_case.exit_date.to_date
+
+    first_case         = cases.inactive.order(:created_at).first
+    start_date         = first_case.start_date.to_date
+
+    (end_date - start_date).to_f
+  end
+
+  def self.ec_reminder_in(day)
+    managers = User.ec_managers
+    admins   = User.admins
+    clients = active_ec.select{|client| client.active_day_care == day}
+
+    if clients.present?
+      managers.each do |manager|
+        ManagerMailer.remind_of_client(clients, day: day, manager: manager).deliver_now
+      end
+
+      admins.each do |admin|
+        AdminMailer.remind_of_client(clients, day: day, admin: admin).deliver_now
+      end
+    end
+  end
+
 end

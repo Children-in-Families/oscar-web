@@ -69,7 +69,7 @@ group :staging, :demo, :production do
 end
 
 group :development do
-  gem 'rubocop',              require: false
+  gem 'rubocop',              '~> 0.47.1', require: false
   gem 'capistrano-rails',     '~> 1.1.1'
   gem 'capistrano-passenger', '~> 0.1.1'
   gem 'capistrano-rvm',       '~> 0.1.2'

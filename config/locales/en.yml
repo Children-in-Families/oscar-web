@@ -400,6 +400,8 @@ en:
         case_type: Case Type
         changelogs: Changelog
         view: View
+        placement_start_date: Placement Start Date
+        placement_case_type: Placement Case Type
 
       progress_notes:
         <<: *default_progress_note_fields
@@ -568,6 +570,12 @@ en:
       new_client_title: New Client
     create:
       successfully_created: Client has been successfully created.
+    confirm_client:
+      confirm: Confirm
+      close: Close
+      title: Warning
+      body_first: Client
+      body_second: has already been registered​ in
     update:
       successfully_updated: Client has been successfully updated.
       assessment_successfully_created: Assessment has been successfully created.
@@ -742,6 +750,8 @@ en:
     destroy:
       successfully_deleted: User has been successfully deleted.
       alert: User cannot be deleted.
+    disable:
+      successfully_disable: User log​​ in permission has been successfully change.
     actions:
       are_you_sure: Are you sure you want to delete?
     version:
@@ -1184,6 +1194,7 @@ en:
       successfully_created: Assessment has been successfully created.
     update:
       successfully_updated: Assessment has been successfully updated.
+
   case_notes:
     index:
       case_note_lists: Case note lists
@@ -1194,7 +1205,9 @@ en:
       case_note_on: Case note on
       present: Present
       completed_tasks: Completed Tasks
-    new:
+      incomplete_tasks: Incomplete Tasks
+      note: Note
+    form:
       label_note: Note
       meeting_detail: Meeting detail
       meeting_with: Meeting with
@@ -1206,6 +1219,7 @@ en:
       back: Back
       save: Save
       on_going_tasks: On Going Tasks
+      completed_tasks: Completed Tasks
       tasks_arising: Tasks Arising
       add_task: Add Task
     add_task_form:
@@ -1219,6 +1233,9 @@ en:
       present: Present
     create:
       successfully_created: Case Note has successfully been created.
+    update:
+      successfully_updated: Case Note has successfully been updated.
+
   stages:
     stage: Stage
     non_stage: Non Stage
@@ -1309,6 +1326,12 @@ en:
     shared:
       links:
         back: Back
+    passwords:
+      edit:
+        change_your_password: Change your password
+        new_password: New password
+        confirm_your_new_password: Confirm your new password
+        change_my_password: Change my password
   dashboards:
     client:
       clients: Clients
@@ -1336,6 +1359,12 @@ en:
       foster_cares_html: Foster <br/>Cares
       kinship_cares_html:  Kinship <br/>Cares
       emergency_cares_html: Emergency <br/>Cares
+      female_emergency_cares: Females <br/>EC
+      female_kinship_cares: Females <br/>KC
+      female_foster_cares: Females <br/>FC
+      male_emergency_cares: Males <br/>EC
+      male_kinship_cares: Males <br/>KC
+      male_foster_cares: Males <br/>FC
 
       overdue_assessments_count:
         one: "You have 1 assessment overdue."
@@ -1388,6 +1417,12 @@ en:
       nav:
         sign_out: Sign Out
         sign_in: Sign In
+    topics:
+      form:
+        create_btn: Create New Topic
+    messageboard:
+      form:
+        messageboard_group: Messageboard Group (Archived will not be shown)
 
   changelogs:
     changelog_type_fields:
@@ -1627,63 +1662,66 @@ en:
       progress_note_types: Types of Note
       able_screening_questions: Able Screening Questions
       stages: Stages
+    per_page_form:
+      show: Show
   shared:
-    client:
-      'on': 'on'
-      change: did the following change
-      no_modification: There are no any changelog.
-      value_of: Value of
-      before: Before
-      after: After
-      date_deleted: Date deleted
-      Client: Client
-    assessment:
-      'on': 'on'
-      change: did the following change
-      no_modification: There are no any changelog.
-      Assessment: Assessment
-      value_of: Value of
-      before: Before
-      after: After
-      date_deleted: Date deleted
-    case_note:
-      'on': 'on'
-      change: did the following change
-      CaseNote: Case Note
-    version:
-      create: Create
-      update: Update
-      delete: Delete
-      change: did the following change
-      value_of: Value of
-      before: Before
-      after: After
-      date_deleted: Date deleted
-      id: ID
-      'on': 'on'
-      no_modification: There are no any changelog.
-      Client: Client
-      Family: Family
-      Partner: Partner
-      User: User
-      Agency: Agency
-      Department: Department
-      Domain: Domain
-      DomainGroup: Domain Group
-      Province: Province
-      ReferralSource: Referral Source
-      QuantitativeType: Quantitative Type
-      QuantitativeCase: Quantitative Data
-      Changelog: Releaselog
-      Case: Case
-      Task: Task
-      Assessment: Assessment
-      CaseNote: Case Note
-      Survey: Survey
-      ProgressNote: Progress Note
-      Material: Equipment/Material
-      Intervention: Intervention
-      Location: Location
-      ProgressNoteType: Type of Note
-      AbleScreeningQuestion: Able Screening Question
-      Stage: Stage
+    version_type:
+      client:
+        'on': 'on'
+        change: did the following change
+        no_modification: There are no any changelog.
+        value_of: Value of
+        before: Before
+        after: After
+        date_deleted: Date deleted
+        Client: Client
+      assessment:
+        'on': 'on'
+        change: did the following change
+        no_modification: There are no any changelog.
+        Assessment: Assessment
+        value_of: Value of
+        before: Before
+        after: After
+        date_deleted: Date deleted
+      case_note:
+        'on': 'on'
+        change: did the following change
+        CaseNote: Case Note
+      common:
+        create: Create
+        update: Update
+        delete: Delete
+        change: did the following change
+        value_of: Value of
+        before: Before
+        after: After
+        date_deleted: Date deleted
+        id: ID
+        'on': 'on'
+        no_modification: There are no any changelog.
+        Client: Client
+        Family: Family
+        Partner: Partner
+        User: User
+        Agency: Agency
+        Department: Department
+        Domain: Domain
+        DomainGroup: Domain Group
+        Province: Province
+        ReferralSource: Referral Source
+        QuantitativeType: Quantitative Type
+        QuantitativeCase: Quantitative Data
+        Changelog: Releaselog
+        Case: Case
+        Task: Task
+        Assessment: Assessment
+        CaseNote: Case Note
+        Survey: Survey
+        ProgressNote: Progress Note
+        Material: Equipment/Material
+        Intervention: Intervention
+        Location: Location
+        ProgressNoteType: Type of Note
+        AbleScreeningQuestion: Able Screening Question
+        Stage: Stage

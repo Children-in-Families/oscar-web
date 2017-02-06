@@ -2,7 +2,8 @@ class ClientSerializer < ActiveModel::Serializer
   attributes :id, :code, :first_name, :last_name, :gender, :date_of_birth, :status,
              :initial_referral_date, :referral_phone, :follow_up_date, :current_address,
              :able, :reason_for_referral, :background, :user, :birth_province, :received_by,
-             :followed_up_by, :referral_source, :cases, :name, :assessments, :most_recent_case_note, :next_appointment_date, :tasks
+             :followed_up_by, :referral_source, :cases, :name, :assessments, :most_recent_case_note, :next_appointment_date, :tasks,
+             :organization
 
   def tasks
     ActiveModel::ArraySerializer.new(object.tasks.incomplete, each_serializer: TaskSerializer)

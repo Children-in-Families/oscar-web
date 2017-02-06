@@ -1,6 +1,6 @@
 describe 'Partner' do
   let!(:admin){ create(:user, roles: 'admin') }
-  let!(:partner){ create(:partner) }
+  let!(:partner){ create(:partner,organisation_type: "NGO") }
   let!(:other_partner){ create(:partner) }
   let!(:case){ create(:case, partner: other_partner) }
   before do
@@ -87,6 +87,19 @@ describe 'Partner' do
     scenario 'disable delete link' do
       visit partner_path(other_partner)
       expect(page).to have_css("a[href='#{partner_path(other_partner)}'][data-method='delete'][class='btn btn-outline btn-danger btn-md disabled']")
+    end
+  end
+
+  feature 'Filter' do
+    before do
+      visit partners_path
+    end
+    scenario 'filter' do
+      find(".btn-filter").click
+      select('NGO', from: 'partner_grid_organisation_type')
+      click_button 'Search'
+      expect(page).to have_content(partner.name)
+      expect(page).to have_content(other_partner.name)
     end
   end
 end

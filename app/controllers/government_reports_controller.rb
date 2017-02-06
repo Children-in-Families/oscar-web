@@ -1,12 +1,12 @@
 class GovernmentReportsController < AdminController
-
+  load_and_authorize_resource
   before_action :find_client
   before_action :find_government_report, only: [:show, :edit, :update, :destroy]
-  
+
   def index
     @government_report = @client.government_report
   end
-  
+
   def new
     @government_report = @client.build_government_report
   end
@@ -29,8 +29,7 @@ class GovernmentReportsController < AdminController
                 show_as_html: params.key?('debug'),
                 header: { html: { template: 'government_reports/pdf/header.pdf.haml' } },
                 footer: { html: { template: 'government_reports/pdf/footer.pdf.haml' },
-                right: '[page] of [topage]'
-              }
+                right: '[page] of [topage]' }
       end
     end
   end

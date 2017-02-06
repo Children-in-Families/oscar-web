@@ -402,6 +402,8 @@ km:
         no_dob: 'ទេ'
         changelogs: កំណែប្រែ
         view: មើល
+        placement_start_date: កាលបរិច្ឆេទនៃការបញ្ជូនទៅក្នុងករណី
+        placement_case_type: ប្រភេទករណីដែលត្រូវបានបញ្ជូនទៅ
 
       progress_notes:
         <<: *default_progress_note_fields
@@ -540,7 +542,7 @@ km:
 
   clients:
     answer_fields:
-      yes_no: បាទ​/អត់​ទេ
+      yes_no: បាទ/អត់ទេ
       answer: ចំលើយ
     index:
       reports: របាយការណ៍
@@ -568,6 +570,12 @@ km:
       successfully_deleted: អតិថិជនត្រូវបានលុបដោយជោគជ័យ
     new:
       new_client_title: បង្កើតអតិថិជនថ្មី
+    confirm_client:
+      confirm: យល់ស្រប
+      close: បិទ
+      title: ប្រុងប្រយ័ត្ន
+      body_first: អតិថិជន
+      body_second: បានចុះឈ្មោះរួចរាល់នៅក្នុង
     edit:
       edit_client_title: កែសម្រួលពត៌មានអតិថិជន
     form:
@@ -576,7 +584,7 @@ km:
       year: ឆ្នាំ
       to: ទៅដល់
       general_question: សំនួរទូរទៅ
-      yes_no: បាទ​/អត់​ទេ
+      yes_no: បាទ/អត់ទេ
       stage: សំនួរ តំណាក់កាល
       answer: ចំលើយ
     show:
@@ -738,6 +746,8 @@ km:
     destroy:
       successfully_deleted: អ្នកប្រើប្រាស់ត្រូវបានលុបដោយជោគជ័យ
       alert: អ្នកប្រើប្រាស់មិនអាចលុបបានទេ
+    disable:
+      successfully_disable: ការអនុញ្ញាតអោយចូលរបស់អ្នកប្រើប្រាស់ត្រូវបានផ្លាស់ប្ដូរដោយជោគជ័យ
     actions:
       are_you_sure: តើអ្នកប្រាកដហើយ?
     version:
@@ -1238,6 +1248,7 @@ km:
       successfully_created: ការប៉ាន់ប្រមាណត្រូវបានបង្កើតដោយជោគជ័យ
     update:
       successfully_updated: ការប៉ាន់ប្រមាណត្រូវបានកែសម្រួលដោយជោគជ័យ
+
   case_notes:
     index:
       case_note_lists: បញ្ជីកំណត់ត្រា
@@ -1248,11 +1259,13 @@ km:
       case_note_on: កំណត់ត្រានៅថ្ងៃ
       present: វត្តមានឣ្នកចូលរួម
       completed_tasks: កាតព្វកិច្ចដែលបានធ្វើរួច
-    new:
+      incomplete_tasks: កាតព្វកិច្ចដែលមិនទាន់បំពេញ
+      note: កំណត់ត្រា
+    form:
       label_note: ចំណាំ
       meeting_detail: ពត៌មាននៃការប្រជុំ
       meeting_with: ប្រជុំជាមួយ
-      on_date: 'ថ្ងៃ ខែ ឆ្នាំ:'
+      on_date: 'កាលបរិច្ឆេទ:'
       present: 'វត្តមានឣ្នកចូលរួម:'
       domain: កត្តា
       note: កំណត់ត្រា
@@ -1260,6 +1273,7 @@ km:
       back: ត្រលប់ក្រោយ
       save: រក្សាទុក
       on_going_tasks: កាតព្វកិច្ចដែលមិនទាន់បំពេញ
+      completed_tasks: កាតព្វកិច្ចដែលបានធ្វើរួច
       tasks_arising: កាតព្វកិច្ចកើតឡើង
       add_task: បន្ថែមកាតព្វកិច្ចថ្មី
     add_task_form:
@@ -1273,6 +1287,8 @@ km:
       present: វត្តមានឣ្នកចូលរួម
     create:
       successfully_created: កំណត់ត្រាត្រូវបានបង្កើតដោយជោគជ័យ
+    update:
+      successfully_updated: កំណត់ត្រាត្រូវបានកែសម្រួលដោយជោគជ័យ
 
   stages:
     stage: តំណាក់កាល
@@ -1360,6 +1376,12 @@ km:
     shared:
       links:
         back: ត្រលប់ក្រោយ
+    passwords:
+      edit:
+        change_your_password: ផ្លាស់ប្ដូរលេខសំងាត់របស់អ្នក
+        new_password: លេខកូដថ្មី
+        confirm_your_new_password: បញ្ជាក់លេខកូដសំងាត់ថ្មី
+        change_my_password: ផ្លាស់ប្ដូរលេខសំងាត់របស់ខ្ញុំ
   dashboards:
     client:
       clients: អតិថិជន
@@ -1387,6 +1409,12 @@ km:
       foster_cares_html: ករណី <br/>Foster
       kinship_cares_html:  ករណី <br/>Kinship
       emergency_cares_html: ករណី <br/>Emergency
+      female_emergency_cares: ស្រី EC
+      female_kinship_cares: ស្រី KC
+      female_foster_cares: ស្រី FC
+      male_emergency_cares: ប្រុស EC
+      male_kinship_cares: ប្រុស KC
+      male_foster_cares: ប្រុស FC
 
   case:
     quarterly_reports:
@@ -1418,7 +1446,15 @@ km:
   # Thredded - FAQ
   time:
     formats:
+      long: ''
       short: ''
+  date:
+    formats:
+      long: ''
+      short: ''
+  datetime:
+    distance_in_words:
+      about_x_hours: ''
 
   thredded:
     recent_activity: សកម្មភាពថ្មីៗ
@@ -1438,7 +1474,7 @@ km:
         no_group: គ្មានក្រុម
         name: ឈ្មោះ
         description: ការពិពណ៌នា
-        messageboard_group: ក្រុមផ្ទាំងសារ
+        messageboard_group: ក្រុមផ្ទាំងសារ (Archived នឹងមិនត្រូវបានបង្ហាញទៀតទេ)
       index:
         page_title: ផ្ទាំងសារ
       last_updated_by_html: ត្រូវបានកែសម្រួល %{time_ago} <cite>ដោយ %{user}</cite>
@@ -1563,6 +1599,7 @@ km:
         posted: អ្នកកំពុងតាមដានប្រធានបទនេះពីព្រោះអ្នកបានបង្កើតវា
       following_will_receive_emails: អ្នកនឹងទទួលបានអ៊ីម៉ែលសម្រាប់អ្វីៗដែលថ្មី
       form:
+        create_btn: បង្កើតប្រធានបទ
         categories_placeholder: ផ្នែកផ្សេងៗ
         content_label: :thredded.posts.form.content_label
         title_label: ប្រធានបទ
@@ -1829,63 +1866,65 @@ km:
       progress_note_types: កំណត់សំគាល់
       able_screening_questions: សំនួរ Able Screening
       stages: តំណាក់កាល
-
+    per_page_form:
+      show: បង្ហាញ
   shared:
-    client:
-      'on': របស់
-      change: បានធ្វើកំណែប្រែខាងក្រោម
-      no_modification: មិនមានកំណែប្រែ
-      value_of: តម្លៃនៃ
-      before: មុនកំណែ
-      after: ក្រោយកំណែ
-      date_deleted: កាលបរិច្ឆេទនៃការលុប
-      Client: អតិថិជន
-    assessment:
-      'on': របស់
-      change: បានធ្វើកំណែប្រែខាងក្រោម
-      Assessment: ការប៉ាន់ប្រមាណ
-      value_of: តម្លៃនៃ
-      before: មុនកំណែ
-      after: ក្រោយកំណែ
-      date_deleted: កាលបរិច្ឆេទនៃការលុប
-    case_note:
-      'on': របស់
-      change: បានធ្វើកំណែប្រែខាងក្រោម
-      CaseNote: កំណត់ត្រាករណី
-    version:
-      create: បង្កើត
-      update: កែសម្រួល
-      delete: លុបចេញ
-      change: បានធ្វើកំណែប្រែខាងក្រោម
-      value_of: តម្លៃនៃ
-      before: មុនកំណែ
-      after: ក្រោយកំណែ
-      date_deleted: កាលបរិច្ឆេទនៃការលុប
-      id: លេខសំគាល់
-      'on': របស់
-      no_modification: មិនមានកំណែប្រែ
-      Client: អតិថិជន
-      Family: គ្រួសារ
-      Partner: ដៃគូ
-      User: អ្នកប្រើ
-      Agency: អង្គភាព
-      Department: កម្មវិធី
-      Domain: កត្តា
-      DomainGroup: ការប្រមូលបណ្ដុំកត្តា
-      Province: ខេត្ត
-      ReferralSource: ប្រភពនៃការបញ្ជូន
-      QuantitativeType: ប្រភេទនៃបរិមាណ
-      QuantitativeCase: ទិន្នន័យនៃបរិមាណ
-      Changelog: ការចេញផ្សាយ
-      Case: ករណី
-      Task: កាតព្វកិច្ច
-      Assessment: ការប៉ាន់ប្រមាណ
-      CaseNote: កំណត់ត្រាករណី
-      Survey: ការស្ទង់មតិ
-      ProgressNote: កំណត់សំគាល់ការរីកចំរើន
-      Material: របស់របរ/សំភារៈ
-      Intervention: ចំនុចដែលត្រូវធ្វើ
-      Location: កន្លែង
-      ProgressNoteType: កំណត់សំគាល់
-      AbleScreeningQuestion: សំនួរ Able Screening
-      Stage: តំណាក់កាល
+    version_type:
+      client:
+        'on': របស់
+        change: បានធ្វើកំណែប្រែខាងក្រោម
+        no_modification: មិនមានកំណែប្រែ
+        value_of: តម្លៃនៃ
+        before: មុនកំណែ
+        after: ក្រោយកំណែ
+        date_deleted: កាលបរិច្ឆេទនៃការលុប
+        Client: អតិថិជន
+      assessment:
+        'on': របស់
+        change: បានធ្វើកំណែប្រែខាងក្រោម
+        Assessment: ការប៉ាន់ប្រមាណ
+        value_of: តម្លៃនៃ
+        before: មុនកំណែ
+        after: ក្រោយកំណែ
+        date_deleted: កាលបរិច្ឆេទនៃការលុប
+      case_note:
+        'on': របស់
+        change: បានធ្វើកំណែប្រែខាងក្រោម
+        CaseNote: កំណត់ត្រាករណី
+      common:
+        create: បង្កើត
+        update: កែសម្រួល
+        delete: លុបចេញ
+        change: បានធ្វើកំណែប្រែខាងក្រោម
+        value_of: តម្លៃនៃ
+        before: មុនកំណែ
+        after: ក្រោយកំណែ
+        date_deleted: កាលបរិច្ឆេទនៃការលុប
+        id: លេខសំគាល់
+        'on': របស់
+        no_modification: មិនមានកំណែប្រែ
+        Client: អតិថិជន
+        Family: គ្រួសារ
+        Partner: ដៃគូ
+        User: អ្នកប្រើ
+        Agency: អង្គភាព
+        Department: កម្មវិធី
+        Domain: កត្តា
+        DomainGroup: ការប្រមូលបណ្ដុំកត្តា
+        Province: ខេត្ត
+        ReferralSource: ប្រភពនៃការបញ្ជូន
+        QuantitativeType: ប្រភេទនៃបរិមាណ
+        QuantitativeCase: ទិន្នន័យនៃបរិមាណ
+        Changelog: ការចេញផ្សាយ
+        Case: ករណី
+        Task: កាតព្វកិច្ច
+        Assessment: ការប៉ាន់ប្រមាណ
+        CaseNote: កំណត់ត្រាករណី
+        Survey: ការស្ទង់មតិ
+        ProgressNote: កំណត់សំគាល់ការរីកចំរើន
+        Material: របស់របរ/សំភារៈ
+        Intervention: ចំនុចដែលត្រូវធ្វើ
+        Location: កន្លែង
+        ProgressNoteType: កំណត់សំគាល់
+        AbleScreeningQuestion: សំនួរ Able Screening
+        Stage: តំណាក់កាល

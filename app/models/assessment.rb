@@ -1,5 +1,4 @@
 class Assessment < ActiveRecord::Base
-
   belongs_to :client, counter_cache: true
 
   has_many :assessment_domains, dependent: :destroy
@@ -21,7 +20,7 @@ class Assessment < ActiveRecord::Base
   def self.latest_record
     most_recents.first
   end
-  
+
   def initial?
     self == client.assessments.most_recents.last || client.assessments.count.zero?
   end
@@ -51,15 +50,11 @@ class Assessment < ActiveRecord::Base
   private
 
   def must_be_six_month_period
-    if new_record? && client.present? && !client.can_create_assessment?
-      errors.add(:base, 'Assessment cannot be created before 6 months')
-    end
+    errors.add(:base, 'Assessment cannot be created before 6 months') if new_record? && client.present? && !client.can_create_assessment?
   end
 
   def only_latest_record_can_be_updated
-    if persisted? && !latest_record?
-      errors.add(:base, 'Assessment cannot be updated')
-    end
+    errors.add(:base, 'Assessment cannot be updated') if persisted? && !latest_record?
   end
 
   def set_previous_score
@@ -67,9 +62,7 @@ class Assessment < ActiveRecord::Base
       previous_assessment = client.assessments.latest_record
       previous_assessment.assessment_domains.each do |previous_assessment_domain|
         assessment_domains.each do |assessment_domain|
-          if assessment_domain.domain_id == previous_assessment_domain.domain_id
-            assessment_domain.previous_score = previous_assessment_domain.score
-          end
+          assessment_domain.previous_score = previous_assessment_domain.score if assessment_domain.domain_id == previous_assessment_domain.domain_id
         end
       end
     end

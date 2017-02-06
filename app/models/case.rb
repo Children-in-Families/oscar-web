@@ -130,6 +130,7 @@ class Case < ActiveRecord::Base
         exit_date: exit_date,
         exit_note: exit_note
       )
+      ClientMailer.exited_notification(User.managers.pluck(:email)).deliver_now
     end
   end
 end

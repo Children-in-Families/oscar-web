@@ -6,7 +6,7 @@
           %h5= t('.forget_password')
         .ibox-content
           .form-inputs
-            = f.error_notification
+            = error_notification(f)
             = f.input :email, required: true, autofocus: true, label: t('.email')
         .ibox-footer
           = f.submit t('.send_reset_password'), class: 'btn btn-outline btn-primary'

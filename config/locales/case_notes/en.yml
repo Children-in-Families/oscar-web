@@ -1,0 +1,41 @@
+en:
+  form: &form
+    label_note: Note
+    meeting_detail: Meeting detail
+    meeting_with: Meeting with
+    on_date: On Date
+    present: Present
+    domain: Domain
+    note: Note
+    tasks: Tasks
+    back: Back
+    save: Save
+    on_going_tasks: On Going Tasks
+    tasks_arising: Tasks Arising
+    add_task: Add Task
+
+  case_notes:
+    index:
+      case_note_lists: Case note lists
+      back: Back
+      domain: Domain
+      you_need_to_create_assessment: You need to create assessment
+      new_case_note: New case note
+      case_note_on: Case note on
+      present: Present
+      completed_tasks: Completed Tasks
+    new:
+      <<: *form
+    edit:
+      <<: *form
+    add_task_form:
+      domain: Domain
+      enter_task_detail:  Enter task details
+      completion_date: Completion Date
+      title: New Task
+      save: Save
+    show:
+      case_note_on: Case note on
+      present: Present
+    create:
+      successfully_created: Case Note has successfully been created.
