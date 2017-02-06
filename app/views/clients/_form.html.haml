@@ -61,6 +61,8 @@
       .row
         .col-xs-12.col-md-8
           = f.input :relevant_referral_information, input_html: { style: 'height: 120px;' }, label: "#{t('.relevant_referral_information')}"
+        .col-xs-12.col-md-4
+          = f.input :able_state, collection: Client::ABLE_STATES, label: t('.able_state')
 
       - QuantitativeType.all.each do |qt|
         .row
@@ -68,9 +70,7 @@
             %label{title: qt.name}
               = qt.name
             = f.association :quantitative_cases, collection: qt.quantitative_cases, multiple: true, label_method: :value, value_method: :id, label: false, input_html: { class: able_related_info(qt.name) }
-      .row
-        .col-xs-12.col-md-8
-          = f.input :able_state, collection: Client::ABLE_STATES, label: t('.able_state') if current_user.able_manager? && @client.persisted?
+
   .ibox-footer
     .form-actions
       = link_to t('save'), '#', class: 'btn btn-primary form-btn', id: 'dummy-button'
