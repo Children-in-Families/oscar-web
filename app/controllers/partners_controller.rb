@@ -66,7 +66,7 @@ class PartnersController < AdminController
                                     :contact_person_email, :contact_person_mobile,
                                     :organisation_type, :affiliation, :engagement,
                                     :background, :start_date, :address,
-                                    :province_id).merge(properties: (params['partner']['properties']).to_json)
+                                    :province_id, custom_field_ids: [])
   end
 
   def set_custom_form

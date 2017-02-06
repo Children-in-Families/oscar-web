@@ -1,11 +1,9 @@
 class Client < ActiveRecord::Base
-  include CustomFieldProperties
+
   extend FriendlyId
 
   attr_reader :assessments_count
   attr_accessor :assessment_id
-
-  serialize :properties, JSON
 
   friendly_id :slug, use: :slugged
 
@@ -35,6 +33,9 @@ class Client < ActiveRecord::Base
   has_many :client_quantitative_cases
   has_many :quantitative_cases, through: :client_quantitative_cases
 
+  has_many :client_custom_fields
+  has_many :custom_fields, through: :client_custom_fields
+
   accepts_nested_attributes_for :tasks
   accepts_nested_attributes_for :answers
   accepts_nested_attributes_for :tasks
@@ -49,11 +50,6 @@ class Client < ActiveRecord::Base
   has_paper_trail
 
   validates :rejected_note, presence: true, on: :update, if: :reject?
-
-  validate do |client|
-    CustomFieldPresentValidator.new(client).validate
-    CustomFieldNumericalityValidator.new(client).validate
-  end
 
   before_update :reset_user_to_tasks
   after_create  :set_slug_as_alias

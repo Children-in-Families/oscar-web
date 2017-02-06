@@ -5,7 +5,8 @@ class CustomFieldNumericalityValidator < ActiveModel::Validator
   end
 
   def validate
-    CustomField.find_by(entity_name: @record.class.name).try(:field_objs).try(:each) do |field|
+    return unless @record.properties
+    @record.custom_field.field_objs.each do |field|
       if field['type'] == 'number' && (field['min'].present? || field['max'].present?)
         if @record.properties_objs[field['name']].to_f < field['min'].to_f
           @record.errors.add(field['name'], "can't be lower then #{field['min']}")

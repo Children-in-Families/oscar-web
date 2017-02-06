@@ -69,7 +69,7 @@ class UsersController < AdminController
     params.require(:user).permit(:first_name, :last_name, :roles, :start_date,
                                 :job_title, :department_id, :mobile, :date_of_birth,
                                 :province_id, :email, :password,
-                                :password_confirmation).merge(properties: (params['user']['properties']).to_json)
+                                :password_confirmation, custom_field_ids: [])
   end
 
   def set_custom_form

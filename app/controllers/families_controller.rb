@@ -66,14 +66,16 @@ class FamiliesController < AdminController
   end
 
   def family_params
+
     params.require(:family).permit(
                             :name, :caregiver_information,
                             :significant_family_member_count, :household_income,
                             :dependable_income, :female_children_count,
                             :male_children_count, :female_adult_count,
                             :male_adult_count, :family_type, :contract_date,
-                            :address, :province_id)
-                              .merge(properties: (params['family']['properties']).to_json)
+                            :address, :province_id,
+                            custom_field_ids: []
+                            )
   end
 
   def find_province
