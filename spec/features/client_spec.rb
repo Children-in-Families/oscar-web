@@ -445,4 +445,28 @@ describe 'Client' do
       expect(page).to have_content(time_in_care)
     end
   end
+
+  feature 'Enable Edit Emergency Care' do
+    let!(:accepted_client) { create(:client, state: 'accepted', user: user) }
+    let!(:ec_case){ create(:case, case_type: 'EC', client: accepted_client) }
+    feature 'of active EC and FC/KC client' do
+      feature 'login as case worker' do
+        let!(:fc_case){ create(:case, case_type: 'FC', client: accepted_client) }
+        before do
+          login_as(user)
+          visit client_path(accepted_client)
+        end
+        it { expect(page).to have_link(nil, href: edit_client_case_path(ec_case.client, ec_case)) }
+      end
+
+      feature 'login as admin' do
+        let!(:kc_case){ create(:case, case_type: 'KC', client: accepted_client) }
+        before do
+          login_as(admin)
+          visit client_path(accepted_client)
+        end
+        it { expect(page).to have_link(nil, href: edit_client_case_path(ec_case.client, ec_case)) }
+      end
+    end
+  end
 end

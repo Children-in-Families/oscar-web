@@ -6,11 +6,11 @@
         .ibox-tools
           - if can? :manage, Case
             - if current_user.admin? || current_user.case_worker? || current_user.ec_manager?
-              - if @client.has_no_latest_kc_and_fc?
-                %small
-                  = link_to edit_client_case_path(ec.client, ec) do
-                    .btn.btn-outline.btn-success
-                      = fa_icon('pencil')
+              %small
+                = link_to edit_client_case_path(ec.client, ec) do
+                  .btn.btn-outline.btn-success
+                    = fa_icon('pencil')
+                - if @client.has_no_latest_kc_and_fc?
                   %button.btn.btn-outline.btn-warning{"data-target" => '#exitFromCase', "data-toggle" => 'modal'}
                     = fa_icon('times', {title: t('.exit_btn')})
       .ibox-content
