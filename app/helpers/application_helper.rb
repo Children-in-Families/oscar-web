@@ -163,4 +163,24 @@ module ApplicationHelper
   def required?(bool)
     'required' if bool
   end
+
+  def custom_properties(value)
+    date = Date.parse(value) rescue nil
+    span = content_tag :span do
+      if date
+        concat date.strftime('%B %d, %Y')
+      elsif value.is_a?(Array)
+        value.reject{ |i| i.empty? }.each do |c|
+          concat content_tag(:strong, c, class: 'label label-default')
+        end
+      elsif value == 'true'
+        concat 'Yes'
+      elsif value == 'false'
+        concat 'No'
+      else
+        concat value
+      end
+    end
+    span
+  end
 end
