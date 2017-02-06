@@ -9,7 +9,6 @@ Rails.application.routes.draw do
 
   get '/dashboards' => 'dashboards#index'
   mount Thredded::Engine => '/forum'
-  mount Ckeditor::Engine => '/ckeditor'
   resources :quarterly_reports
   devise_for :users, controllers: { registrations: 'registrations', sessions: 'sessions', passwords: 'passwords' }
 
