@@ -1,4 +1,5 @@
-describe 'Case' do
+feature 'Case' do
+  let!(:admin){ create(:user, roles: 'admin')}
   let!(:user){ create(:user)}
   let!(:client){ create(:client,  state: 'accepted', user: user)}
   let!(:family){ create(:family)}
@@ -51,6 +52,24 @@ describe 'Case' do
       expect(page).not_to have_content(active_kc.carer_names)
       expect(page).not_to have_content(inactive_ec.carer_names)
       expect(page).not_to have_content(inactive_fc.carer_names)
+    end
+
+    feature 'enable edit link' do
+      before do
+        login_as(admin)
+      end
+      scenario 'EC' do
+        visit client_cases_path(client, case_type: 'EC')
+        expect(page).to have_link(nil, href: edit_client_case_path(inactive_ec.client, inactive_ec))
+      end
+      scenario 'FC' do
+        visit client_cases_path(client, case_type: 'FC')
+        expect(page).to have_link(nil, href: edit_client_case_path(inactive_fc.client, inactive_fc))
+      end
+      scenario 'KC' do
+        visit client_cases_path(client, case_type: 'KC')
+        expect(page).to have_link(nil, href: edit_client_case_path(inactive_kc.client, inactive_kc))
+      end
     end
   end
 

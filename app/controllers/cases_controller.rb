@@ -9,11 +9,11 @@ class CasesController < AdminController
   def index
     @type = params[:case_type]
     if @type == 'EC'
-      @cases = @client.cases.emergencies.inactive
+      @cases = @client.cases.emergencies.inactive.order(exit_date: :desc)
     elsif @type == 'FC'
-      @cases = @client.cases.fosters.inactive
+      @cases = @client.cases.fosters.inactive.order(exit_date: :desc)
     elsif @type == 'KC'
-      @cases = @client.cases.kinships.inactive
+      @cases = @client.cases.kinships.inactive.order(exit_date: :desc)
     end
   end
 
