@@ -46,7 +46,6 @@ class CIF.ReportCreator
         type: 'pie'
         height: 380
         backgroundColor: '#ecf0f1'
-        type: 'pie'
         borderWidth: 1
         borderColor: "#ddd"
       legend:
