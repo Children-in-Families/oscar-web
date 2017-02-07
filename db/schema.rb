@@ -11,12 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170125024120) do
+ActiveRecord::Schema.define(version: 20170113100759) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-  enable_extension "uuid-ossp"
-  enable_extension "hstore"
 
   create_table "able_screening_questions", force: :cascade do |t|
     t.string   "question"
@@ -162,7 +160,6 @@ ActiveRecord::Schema.define(version: 20170125024120) do
     t.float    "time_in_care"
     t.boolean  "exited_from_cif",         default: false
     t.boolean  "current",                 default: true
-    t.text     "properties"
   end
 
   create_table "changelog_types", force: :cascade do |t|
@@ -227,7 +224,6 @@ ActiveRecord::Schema.define(version: 20170125024120) do
     t.string   "slug"
     t.string   "able_state"
     t.integer  "assessments_count"
-    t.text     "properties"
   end
 
   add_index "clients", ["slug"], name: "index_clients_on_slug", unique: true, using: :btree
@@ -237,13 +233,6 @@ ActiveRecord::Schema.define(version: 20170125024120) do
     t.integer  "quantitative_case_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-  end
-
-  create_table "custom_fields", force: :cascade do |t|
-    t.string   "entity_name", default: ""
-    t.text     "fields",      default: ""
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
   end
 
   create_table "departments", force: :cascade do |t|
@@ -296,7 +285,6 @@ ActiveRecord::Schema.define(version: 20170125024120) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "cases_count",                     default: 0
-    t.text     "properties"
   end
 
   create_table "friendly_id_slugs", force: :cascade do |t|
@@ -427,7 +415,6 @@ ActiveRecord::Schema.define(version: 20170125024120) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "cases_count",           default: 0
-    t.text     "properties"
   end
 
   create_table "progress_note_types", force: :cascade do |t|
@@ -804,7 +791,6 @@ ActiveRecord::Schema.define(version: 20170125024120) do
     t.integer  "changelogs_count",       default: 0
     t.integer  "organization_id"
     t.boolean  "disable",                default: false
-    t.text     "properties"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
