@@ -44,10 +44,6 @@ class UserNotification
     end
   end
 
-  def ec_notification_count?
-    ec_notification.count >= 1
-  end
-
   def count
     if @user.admin? || @user.ec_manager?
       ec_notification(83).count + ec_notification(90).count + overdue_tasks_count + due_today_tasks_count + overdue_assessments_count + due_today_assessments_count
