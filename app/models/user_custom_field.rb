@@ -1,6 +1,6 @@
 class UserCustomField < ActiveRecord::Base
   include CustomFieldProperties
-  
+
   belongs_to :user
   belongs_to :custom_field
 

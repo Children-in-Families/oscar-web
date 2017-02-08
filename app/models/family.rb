@@ -1,5 +1,4 @@
 class Family < ActiveRecord::Base
-  include CustomFieldProperties
 
   belongs_to :province, counter_cache: true
   has_many :cases

@@ -162,7 +162,6 @@ ActiveRecord::Schema.define(version: 20170206070346) do
     t.float    "time_in_care"
     t.boolean  "exited_from_cif",         default: false
     t.boolean  "current",                 default: true
-    t.text     "properties"
   end
 
   create_table "changelog_types", force: :cascade do |t|
@@ -249,7 +248,6 @@ ActiveRecord::Schema.define(version: 20170206070346) do
     t.string   "slug"
     t.string   "able_state"
     t.integer  "assessments_count"
-    t.text     "properties"
   end
 
   add_index "clients", ["slug"], name: "index_clients_on_slug", unique: true, using: :btree
@@ -319,7 +317,6 @@ ActiveRecord::Schema.define(version: 20170206070346) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "cases_count",                     default: 0
-    t.text     "properties"
   end
 
   create_table "family_custom_fields", force: :cascade do |t|
@@ -472,7 +469,6 @@ ActiveRecord::Schema.define(version: 20170206070346) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "cases_count",           default: 0
-    t.text     "properties"
   end
 
   create_table "progress_note_types", force: :cascade do |t|
@@ -859,7 +855,6 @@ ActiveRecord::Schema.define(version: 20170206070346) do
     t.boolean  "admin",                  default: false
     t.integer  "changelogs_count",       default: 0
     t.integer  "organization_id"
-    t.text     "properties"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

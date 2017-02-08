@@ -18,8 +18,5 @@ class CustomField < ActiveRecord::Base
   def field_objs
     JSON.parse(fields) if fields.present?
   end
-
-  def self.of_client
-    find_by(entity_name: 'Client')
-  end
+  
 end
