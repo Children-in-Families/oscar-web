@@ -128,7 +128,7 @@ class ClientsController < AdminController
       collection.organization = value
     end
   end
-  
+
   private
 
   def find_client
@@ -148,7 +148,8 @@ class ClientsController < AdminController
             agency_ids: [],
             quantitative_case_ids: [],
             tasks_attributes: [:name, :domain_id, :completion_date],
-            answers_attributes: [:id, :description, :able_screening_question_id, :client_id, :question_type])
+            answers_attributes: [:id, :description, :able_screening_question_id, :client_id, :question_type]
+          )
   end
 
   def set_association
