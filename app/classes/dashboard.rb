@@ -2,10 +2,9 @@ class Dashboard
   include Rails.application.routes.url_helpers
 
   def initialize(user)
-    @user = user
-    @clients = fetch_client
+    @user     = user
+    @clients  = fetch_client
     @families = Family.all
-    @ables = Client.able
     @partners = Partner.all
     @agencies = Agency.all
     @staff    = User.all
@@ -16,21 +15,13 @@ class Dashboard
     if @user.admin? || @user.visitor?
       Client.all
     elsif @user.ec_manager?
-      ids = @user.clients.ids
-      ids += Client.active_ec.ids
-      Client.where(id: ids)
+      Client.managed_by(@user, 'Active EC')
     elsif @user.kc_manager?
-      ids = @user.clients.ids
-      ids += Client.active_kc.ids
-      Client.where(id: ids)
+      Client.managed_by(@user, 'Active KC')
     elsif @user.fc_manager?
-      ids = @user.clients.ids
-      ids += Client.active_fc.ids
-      Client.where(id: ids)
+      Client.managed_by(@user, 'Active FC')
     elsif @user.able_manager?
-      ids = @user.clients.ids
-      ids += Client.able.ids
-      Client.where(id: ids)
+      Client.able_managed_by(@user)
     elsif @user.case_worker?
       @user.clients
     end
