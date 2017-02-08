@@ -196,10 +196,6 @@ describe Client, 'methods' do
     let!(:ec_client)       { create(:client, status: 'Active EC', user: ec_caseworker)}
     let!(:case1)           { create(:case, client: ec_client, exited: false, start_date: Date.today - 90.days) }
 
-    before :all do
-      DatabaseCleaner.clean_with(:transaction)
-    end
-
     before do
       Client.ec_reminder_in(90)
     end
