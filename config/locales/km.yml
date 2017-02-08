@@ -481,7 +481,7 @@ km:
         desc: ↓
   layouts:
     notification:
-      no_task: គ្មានភារកិច្ច
+      no_task: មិនមានពត៌មានដែលត្រូវបង្ហាញ
       overdue_assessments_count:
         one: "អ្នកមានការប៉ាន់ប្រមាណចំនួន1មិនទាន់បានធ្វើ"
         other: "អ្នកមានការប៉ាន់ប្រមាណចំនួន%{count}មិនទាន់បានធ្វើ"
