@@ -72,7 +72,7 @@
           = f.input :able_state, collection: Client::ABLE_STATES, label: t('.able_state') if current_user.able_manager? && @client.persisted?
       .row
         .col-xs-12
-          = f.association :custom_fields, collection: CustomField.where(entity_name: 'Client'), label_method: :form_type, value_method: :id
+          = f.association :custom_fields, collection: CustomField.where(entity_name: 'Client'), label_method: :form_type, value_method: :id, label: 'More Form'
 
   .ibox-footer
     = f.submit t('save'), class: 'btn btn-primary form-btn'

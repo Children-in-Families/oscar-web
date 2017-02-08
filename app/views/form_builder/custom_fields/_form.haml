@@ -1,6 +1,6 @@
 = simple_form_for(@custom_field) do |f|
   .ibox-content
-    = f.input :entity_name, collection: ['Client', 'Family', 'Partner', 'User', 'Case']
+    = f.input :entity_name, collection: ['Client', 'Family', 'Partner', 'User']
     = f.input :form_type
     = f.input :fields, as: :hidden
     .build-wrap{ 'data-fields': @custom_field.fields }
