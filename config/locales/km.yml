@@ -402,7 +402,7 @@ km:
         no_dob: 'ទេ'
         changelogs: កំណែប្រែ
         view: មើល
-        placement_start_date: កាលបរិច្ឆេទនៃការបញ្ជូនទៅក្នុងករណី
+        placement_start_date: ថ្ងៃបញ្ជូនទៅក្នុងករណី
         placement_case_type: ប្រភេទករណីដែលត្រូវបានបញ្ជូនទៅ
 
       progress_notes:
@@ -481,7 +481,7 @@ km:
         desc: ↓
   layouts:
     notification:
-      no_task: គ្មានភារកិច្ច
+      no_task: មិនមានពត៌មានដែលត្រូវបង្ហាញ
       overdue_assessments_count:
         one: "អ្នកមានការប៉ាន់ប្រមាណចំនួន1មិនទាន់បានធ្វើ"
         other: "អ្នកមានការប៉ាន់ប្រមាណចំនួន%{count}មិនទាន់បានធ្វើ"
@@ -494,6 +494,12 @@ km:
       due_today_tasks_count:
         one: "អ្នកមានកាតព្វកិច្ចចំនួន1ដែលត្រូវធ្វើឲ្យហើយនៅថ្ងៃនេះ"
         other: "អ្នកមានកាតព្វកិច្ចចំនួន%{count}ដែលត្រូវធ្វើឲ្យហើយនៅថ្ងៃនេះ"
+      client_notification:
+        one: "មានអតិថិជនចំនួនម្នាក់ដែលនឹងត្រូវបញ្ជូនចេញពីECក្នុងរយៈពេល1សប្តាហ៍"
+        other: "មានអតិថិជនចំនួន%{count}នាក់ដែលនឹងត្រូវបញ្ជូនចេញពីECក្នុងរយៈពេល1សប្តាហ៍"
+      client_notification_today:
+        one: "មានអតិថិជនចំនួនម្នាក់ដែលនឹងត្រូវបញ្ជូនចេញពីECនៅថ្ងៃនេះ"
+        other: "មានអតិថិជនចំនួន%{count}នាក់ដែលនឹងត្រូវបញ្ជូនចេញពីECនៅថ្ងៃនេះ"
       check_tasks: "ដើម្បីពិនិត្យកាព្វកិច្ចរបស់អ្នក សូមចុច"
       click_here: "ទីនេះ"
     side_menu:
@@ -768,7 +774,7 @@ km:
     new:
       already_have_a_case: ឣតិថិជនមានករណីរួចហើយ
     create:
-      successfully_created: ករណីបង្កើតកំណត់ត្រាថ្មីបានដោយជោគជ័យ
+      successfully_created: ករណីត្រូវបានបង្កើតដោយជោគជ័យ
       already_have_a_case: ឣតិថិជនមានករណីរួចហើយ
     update:
       successfully_updated: ករណីត្រូវបានកែសម្រួលដោយជោគជ័យ
