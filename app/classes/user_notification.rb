@@ -39,9 +39,7 @@ class UserNotification
   end
 
   def ec_notification(day)
-    if @user.admin? || @user.ec_manager?
-      clients = Client.active_ec.select{ |client| client.active_day_care == day }
-    end
+    Client.active_ec.select { |client| client.active_day_care == day } if @user.admin? || @user.ec_manager?
   end
 
   def count

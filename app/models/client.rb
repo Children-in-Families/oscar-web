@@ -50,7 +50,6 @@ class Client < ActiveRecord::Base
   after_create  :set_slug_as_alias
   after_update :set_able_status, if: proc { |client| client.able_state.nil? && answers.any? }
 
-
   scope :first_name_like,      ->(value) { where('clients.first_name iLIKE ?', "%#{value}%") }
   scope :current_address_like, ->(value) { where('clients.current_address iLIKE ?', "%#{value}%") }
   scope :school_name_like,     ->(value) { where('clients.school_name iLIKE ?', "%#{value}%") }
@@ -266,7 +265,7 @@ class Client < ActiveRecord::Base
   def self.ec_reminder_in(day)
     managers = User.ec_managers
     admins   = User.admins
-    clients = active_ec.select{|client| client.active_day_care == day}
+    clients = active_ec.select { |client| client.active_day_care == day }
 
     if clients.present?
       managers.each do |manager|
@@ -278,5 +277,4 @@ class Client < ActiveRecord::Base
       end
     end
   end
-
 end
