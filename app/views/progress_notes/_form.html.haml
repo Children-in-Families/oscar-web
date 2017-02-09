@@ -1,4 +1,5 @@
-= simple_form_for([@client, @progress_note],html: {class: 'dropzone'}) do |f|
+= simple_form_for([@client, @progress_note], html: {class: 'dropzone', multipart: true, style:"border: 0;"}) do |f|
+  = hidden_field(:progress_note, :id, value: @progress_note.id) if @progress_note.id.present?
   .ibox-content
     = error_notification(f)
     .row
@@ -8,7 +9,7 @@
             %abbr{ title: 'required' } *
             = t('.date')
           .input-group.date
-            = f.text_field :date, required: true, class: 'date form-control date-picker .datepicker-dropdown date', type: 'text', name: 'progress_note[date]', id: 'progress_note_date'
+            = f.text_field :date, required: true, class: 'date form-control date-picker .datepicker-dropdown date', type: 'text', name: 'progress_note[date]', id: 'progress_note_date', required: true
             %span.input-group-addon
               %i.fa.fa-calendar-check-o
           = f.error :date
@@ -40,10 +41,9 @@
     .row
       .col-xs-12
         #attachment
-          -# #upload-attachment.dropzone-previews.dropzone.dz-default.dz-message
-          -# = f.input :file, as: :file
-          = f.simple_fields_for :attachments, input_html: 'dropzone' do |ff|
-            = ff.input :file, as: :file, input_html: { class: 'form-control' }
+          -# #upload-attachment.dropzone-previews
+          -#   = f.simple_fields_for :attachments, html: { class: "dropzone" } do |ff|
+          -#    = f.input :file, as: :file, label: false, input_html: { class: 'form-control', multiple: true }
           -#   = render 'attachment_fields', f: attachment
           -# .links
           -#   = link_to_add_association f, :attachments, class: 'btn btn-primary' do
@@ -54,3 +54,4 @@
     .form-actions
       = f.submit t('save'), class: 'btn btn-primary form-btn'
       = link_to t('cancel'), client_progress_notes_path(@client), class: 'btn btn-default form-btn'
+%button.btn.btn-success#only-submit Click Submit

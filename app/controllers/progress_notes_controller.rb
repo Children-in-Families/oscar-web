@@ -20,14 +20,18 @@ class ProgressNotesController < AdminController
 
   def new
     @progress_note = @client.progress_notes.new
-    @progress_note.attachments.new
   end
 
   def create
     @progress_note = @client.progress_notes.new(progress_note_params)
     @progress_note.user_id = current_user.id
     if @progress_note.save
-      redirect_to client_progress_note_path(@client, @progress_note), notice: t('.successfully_created')
+      if params[:attachments].present?
+        @progress_note.save_attachment(params)
+        render json: { progress_note: @progress_note, text: t('.successfully_created'), slug_id: @progress_note.client.slug }, status: 200
+      else
+        redirect_to client_progress_note_path(@client, @progress_note, formats: :html), notice: t('.successfully_created')
+      end
     else
       render :new
     end
@@ -41,7 +45,14 @@ class ProgressNotesController < AdminController
 
   def update
     if @progress_note.update_attributes(progress_note_params)
-      redirect_to client_progress_note_path(@client, @progress_note), notice: t('.successfully_updated')
+      if params[:attachments].present?
+        @progress_note.save_attachment(params)
+        @progress_note.update_attachment(params)
+        render json: { progress_note: @progress_note, text: t('.successfully_updated'), slug_id: @progress_note.client_slug_id }, status: 200
+      else
+        @progress_note.update_attachment(params)
+        redirect_to client_progress_note_path(@client, @progress_note), notice: t('.successfully_updated')
+      end
     else
       render :edit
     end
@@ -55,10 +66,6 @@ class ProgressNotesController < AdminController
   def version
     @progress_note = @client.progress_notes.find(params[:progress_note_id])
     @versions      = @progress_note.versions.reorder(created_at: :desc)
-  end
-
-  def attachment_upload
-
   end
 
   private
@@ -80,6 +87,6 @@ class ProgressNotesController < AdminController
   end
 
   def progress_note_params
-    params.require(:progress_note).permit(:date, :progress_note_type_id, :location_id, :other_location, :material_id, :response, :additional_note, attachments_attributes: [:id, :file, :_destroy], intervention_ids: [], assessment_domain_ids: [])
+    params.require(:progress_note).permit(:date, :progress_note_type_id, :location_id, :other_location, :material_id, :response, :additional_note, intervention_ids: [], assessment_domain_ids: [], attachments_attributes: [:id, :file, :_destory])
   end
 end
