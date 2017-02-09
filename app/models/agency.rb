@@ -6,7 +6,6 @@ class Agency < ActiveRecord::Base
   validates :name, presence: true, uniqueness: { case_sensitive: false }
 
   def self.name_like(values = [])
-    downcase_values = values.map { |val| "%#{val.downcase}%" }
-    where('LOWER(agencies.name) ILIKE ANY ( array[?] )', downcase_values)
+    where('name iLIKE ANY ( array[?] )', values)
   end
 end

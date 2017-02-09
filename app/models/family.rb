@@ -9,9 +9,9 @@ class Family < ActiveRecord::Base
 
   has_paper_trail
 
-  scope :name_like,                  ->(value) { where('LOWER(families.name) LIKE ?', "%#{value.downcase}%") }
-  scope :caregiver_information_like, ->(value) { where('LOWER(families.caregiver_information) LIKE ?', "%#{value.downcase}%") }
-  scope :address_like,               ->(value) { where('LOWER(families.address) LIKE ?', "%#{value.downcase}%") }
+  scope :name_like,                  ->(value) { where('name iLIKE ?', "%#{value}%") }
+  scope :caregiver_information_like, ->(value) { where('caregiver_information iLIKE ?', "%#{value}%") }
+  scope :address_like,               ->(value) { where('address iLIKE ?', "%#{value}%") }
   scope :kinship,                    ->        { where(family_type: 'kinship')   }
   scope :foster,                     ->        { where(family_type: 'foster')    }
   scope :emergency,                  ->        { where(family_type: 'emergency') }
