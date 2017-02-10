@@ -87,6 +87,6 @@ class ProgressNotesController < AdminController
   end
 
   def progress_note_params
-    params.require(:progress_note).permit(:date, :progress_note_type_id, :location_id, :other_location, :material_id, :response, :additional_note, intervention_ids: [], assessment_domain_ids: [], attachments_attributes: [:id, :file, :_destory])
+    params.require(:progress_note).permit(:date, :progress_note_type_id, :location_id, :other_location, :material_id, :response, :additional_note, intervention_ids: [], assessment_domain_ids: [])
   end
 end

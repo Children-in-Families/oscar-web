@@ -61,6 +61,7 @@ CIF.Progress_notesNew = CIF.Progress_notesCreate = CIF.Progress_notesEdit = CIF.
               myDropzone.files.push(mockFile)
               beforeUrls.push(attachment.name)
 
+
             form.append("<input type='hidden' name='beforeEdit' value='#{beforeUrls}' />");
           )
         @element.querySelector('input[type=submit]').addEventListener 'click', (e) ->

@@ -2,7 +2,7 @@ body[id=progress_notes-new],
 body[id=progress_notes-edit],
 body[id=progress_notes-create],
 body[id=progress_notes-update]{
-  
+
   input.disabled {
     color: #999a9b !important;
   }
@@ -19,5 +19,15 @@ body[id=progress_notes-update]{
     border-top: 1px solid #cacaca;
     margin-top: 20px;
     padding-top: 20px;
+  }
+  .dropzone .dz-preview .dz-image {
+    background: image-url('file.png');
+    img {
+      display: none;
+    }
+  }
+
+  .dropzone .dz-progress {
+    display: none;
   }
 }
