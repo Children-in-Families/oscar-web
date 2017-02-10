@@ -1,6 +1,7 @@
 describe 'Family' do
   let!(:admin){ create(:user, roles: 'admin') }
-  let!(:family){ create(:family) }
+  let!(:province){create(:province,name:"Phnom Penh")}
+  let!(:family){ create(:family,family_type: "emergency",name:"EC Family",address: "Phnom Penh",province_id: province.id) }
   let!(:other_family){ create(:family) }
   let!(:case){ create(:case, family: other_family) }
   before do
@@ -97,5 +98,54 @@ describe 'Family' do
       visit family_path(other_family)
       expect(page).to have_css("a[href='#{family_path(other_family, locale: I18n.locale)}'][data-method='delete'][class='btn btn-outline btn-danger btn-md disabled']")
     end
+  end
+
+  feature 'Filter' do
+    before do
+      visit families_path
+      find(".btn-filter").click
+    end
+    scenario 'filter by family type' do
+      select('Emergency', from: 'family_grid_family_type')
+      click_button 'Search'
+      expect(page).to have_content(family.name)
+      expect(page).not_to have_content(other_family)
+    end
+
+    scenario 'filter by family like name' do
+      fill_in('family_grid_name',with: 'Family')
+      click_button 'Search'
+      expect(page).to have_content(family.name)
+      expect(page).not_to have_content(other_family)
+    end
+
+    scenario 'filter by family id' do
+      fill_in('family_grid_id',with: family.id)
+      click_button 'Search'
+      expect(page).to have_content(family.name)
+      expect(page).not_to have_content(other_family)
+    end
+
+    scenario 'filter by family address' do
+      fill_in('family_grid_address',with: 'Phnom Penh')
+      click_button 'Search'
+      expect(page).to have_content(family.name)
+      expect(page).not_to have_content(other_family)
+    end
+
+    scenario 'filter by family province' do
+      select('Phnom Penh', from: 'family_grid_province_id')
+      click_button 'Search'
+      expect(page).to have_content(family.name)
+      expect(page).not_to have_content(other_family)
+    end
+
+    scenario 'filter by family dependable income' do
+      select('No', from: 'family_grid_dependable_income')
+      click_button 'Search'
+      expect(page).to have_content(family.name)
+      expect(page).not_to have_content(other_family)
+    end
+
   end
 end

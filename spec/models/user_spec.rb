@@ -29,6 +29,7 @@ end
 
 describe User, 'scopes' do
   let(:department) { create(:department) }
+  let(:other_department) { create(:department) }
   let(:province) { create(:province) }
 
   let!(:user){ create(:user,
@@ -41,7 +42,10 @@ describe User, 'scopes' do
     province: province
   ) }
   let!(:other_user){ create(:user, department: department, province: province) }
+  let!(:no_department_user){ create(:user, province: province) }
+  let!(:user_in_other_department){ create(:user,department: other_department, province: province) }
 
+  let!(:ec_manager){ create(:user, :ec_manager) }
   context 'first name like' do
     subject{ User.first_name_like(user.first_name.downcase) }
     it 'should include first name like' do
@@ -82,6 +86,19 @@ describe User, 'scopes' do
     end
   end
 
+  context 'in department' do
+      subject{ User.in_department(department.id) }
+      it 'should include user in department' do
+        is_expected.to include(user)
+      end
+      it 'should not include user do not have department' do
+        is_expected.not_to include(no_department_user)
+      end
+      it 'should not include user in other department' do
+        is_expected.not_to include(user_in_other_department)
+      end
+    end
+
   context 'job title are' do
     subject{ User.job_title_are }
 
@@ -112,6 +129,19 @@ describe User, 'scopes' do
 
     it 'should include admin role' do
       is_expected.to include(user)
+    end
+  end
+
+  context 'ec_managers' do
+
+    subject{ User.ec_managers}
+
+    it 'should include on ec manager' do
+      is_expected.to include(ec_manager)
+    end
+
+    it 'should not include admin' do
+      is_expected.not_to include(user)
     end
   end
 
@@ -169,9 +199,9 @@ describe User, 'methods' do
   let!(:fifth_client) { create(:client, user: fifth_case_worker, status: 'Referred') }
   let!(:fifth_assessment) { create(:assessment, client: fifth_client, created_at: Date.today << 6) }
 
-  context 'has_no_any_associated_objects?' do
-    it { expect(admin.has_no_any_associated_objects?).to be_truthy }
-    it { expect(used_user.has_no_any_associated_objects?).to be_falsey }
+  context 'no_any_associated_objects?' do
+    it { expect(admin.no_any_associated_objects?).to be_truthy }
+    it { expect(used_user.no_any_associated_objects?).to be_falsey }
   end
 
   context 'name' do

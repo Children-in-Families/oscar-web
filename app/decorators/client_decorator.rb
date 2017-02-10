@@ -6,7 +6,7 @@ class ClientDecorator < Draper::Decorator
   end
 
   def name
-    model.name.present? ? model.name : 'Unknown'  
+    model.name.present? ? model.name : 'Unknown'
   end
 
   def date_of_birth_format
@@ -15,7 +15,7 @@ class ClientDecorator < Draper::Decorator
 
   def age
     if model.date_of_birth
-      year = h.pluralize(model.age_as_years, 'year') 
+      year = h.pluralize(model.age_as_years, 'year')
       month = h.pluralize(model.age_extra_months, 'month')
     end
     h.safe_join([year, " #{month}"])
@@ -66,6 +66,7 @@ class ClientDecorator < Draper::Decorator
   end
 
   private
+
   def can_add_ec?
     return true if h.current_user.admin? || h.current_user.case_worker? || h.current_user.ec_manager?
   end

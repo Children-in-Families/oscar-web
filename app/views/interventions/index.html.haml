@@ -5,28 +5,31 @@
         %h5= @results
         %span.label.label-info= t('.intervention')
         .ibox-tools
-          = link_to '#', {"data-target" => "#interventionModal-", "data-toggle" => "modal", :type => "button"} do
-            .btn.btn-primary.btn-add
-              = t('.add_new_intervention')
+          - if can? :manage, Intervention
+            = link_to '#', {"data-target" => "#interventionModal-", "data-toggle" => "modal", :type => "button"} do
+              .btn.btn-primary.btn-add
+                = t('.add_new_intervention')
       .ibox-content
         .table-responsive
           %table.table.table-bordered.table-striped.table-hover
             %thead
               %tr
                 %th= t('.action')
-                %th.text-center{ colspan: '2' }= t('.manage')
-                - if current_user.admin?
+                - if can? :manage, Intervention
+                  %th.text-center{ colspan: '2' }= t('.manage')
+                - if can? :version, Intervention
                   %th.text-center= t('.changelogs')
             %tbody
               - @interventions.each do |intervention|
                 %tr
                   %td= intervention.action
-                  %td.text-center
-                    = link_to '#', {class: 'btn btn-outline btn-xs btn-success', "data-target" => "#interventionModal-#{intervention.id}", "data-toggle" => "modal", :type => "button"} do
-                      = fa_icon('pencil')
-                  %td.text-center
-                    = remove_link(intervention, { intervention_progress_note: intervention.progress_notes.count})
-                  - if current_user.admin?
+                  - if can? :manage, Intervention
+                    %td.text-center
+                      = link_to '#', {class: 'btn btn-outline btn-xs btn-success', "data-target" => "#interventionModal-#{intervention.id}", "data-toggle" => "modal", :type => "button"} do
+                        = fa_icon('pencil')
+                    %td.text-center
+                      = remove_link(intervention, { intervention_progress_note: intervention.progress_notes.count})
+                  - if can? :version, Intervention
                     %td.text-center
                       = link_to t('.view'), intervention_version_path(intervention)
                   = render 'form', intervention: intervention

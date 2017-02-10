@@ -5,31 +5,34 @@
         %h5= @results
         %span.label.label-info= t('.progress_note_type')
         .ibox-tools
-          = link_to '#', {"data-target" => "#progress_note_typeModal-", "data-toggle" => "modal", :type => "button"} do
-            .btn.btn-primary.btn-add
-              =  t('.add_new_progress_note_type')
+          - if can? :manage, ProgressNoteType
+            = link_to '#', {"data-target" => "#progress_note_typeModal-", "data-toggle" => "modal", :type => "button"} do
+              .btn.btn-primary.btn-add
+                =  t('.add_new_progress_note_type')
       .ibox-content
         .table-responsive
           %table.table.table-bordered.table-striped.table-hover
             %thead
               %tr
                 %th= t('.note_type')
-                %th.text-center{:colspan => "2"}= t('.manage')
-                - if current_user.admin?
-                  %th.text-center= t('.changelogs')
+                - if can? :manage, ProgressNoteType
+                  %th.text-center{:colspan => "2"}= t('.manage')
+                  - if can? :version, ProgressNoteType
+                    %th.text-center= t('.changelogs')
             %tbody
               - @progress_note_types.each do |progress_note_type|
                 %tr
                   %td= progress_note_type.note_type
-                  %td.text-center
-                    = link_to '#', {class: 'btn btn-outline btn-success btn-xs', "data-target" => "#progress_note_typeModal-#{progress_note_type.id}", "data-toggle" => "modal", :type => "button"} do
-                      = fa_icon('pencil')
-                  %td.text-center
-                    = remove_link(progress_note_type, { progress_note_type: progress_note_type.progress_notes.count })
-                  - if current_user.admin?
+                  - if can? :manage, ProgressNoteType
                     %td.text-center
-                      = link_to t('.view'), progress_note_type_version_path(progress_note_type)
-                  = render 'form', progress_note_type: progress_note_type
+                      = link_to '#', {class: 'btn btn-outline btn-success btn-xs', "data-target" => "#progress_note_typeModal-#{progress_note_type.id}", "data-toggle" => "modal", :type => "button"} do
+                        = fa_icon('pencil')
+                    %td.text-center
+                      = remove_link(progress_note_type, { progress_note_type: progress_note_type.progress_notes.count })
+                    - if can? :version, ProgressNoteType
+                      %td.text-center
+                        = link_to t('.view'), progress_note_type_version_path(progress_note_type)
+                = render 'form', progress_note_type: progress_note_type
       .ibox-footer.text-center
         = paginate @progress_note_types
 = render 'form'

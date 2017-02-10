@@ -12,7 +12,7 @@ class Domain < ActiveRecord::Base
 
   default_scope { order('domain_group_id ASC, name ASC') }
 
-  scope :assessment_domains_by_assessment_id, -> (id) { joins(:assessment_domains).where('assessment_domains.assessment_id = ?', id) }
+  scope :assessment_domains_by_assessment_id, ->(id) { joins(:assessment_domains).where('assessment_domains.assessment_id = ?', id) }
 
   enum domain_score_colors: { danger: 'Red', warning: 'Yellow', info: 'Blue', primary: 'Green' }
 end

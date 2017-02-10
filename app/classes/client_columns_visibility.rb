@@ -5,7 +5,7 @@ class ClientColumnsVisibility
   end
 
   def columns_collection
-    columns = {
+    {
       name_: :name,
       gender_: :gender,
       date_of_birth_: :date_of_birth,

@@ -1,4 +1,5 @@
 class ClientMailer < ApplicationMailer
+  default from: 'info@cambodianfamilies.com'
 
   def exited_notification(emails)
     @manager_emails = emails

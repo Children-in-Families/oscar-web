@@ -35,7 +35,7 @@ describe 'Agency' do
         fill_in 'Name', with: FFaker::Name.name
         click_button 'Save'
       end
-      sleep 1
+      wait_for_ajax
       expect(page).to have_content('Agency has been successfully created')
     end
 
@@ -44,7 +44,7 @@ describe 'Agency' do
       within('#new_agency') do
         click_button 'Save'
       end
-      sleep 1
+      wait_for_ajax
       expect(page).to have_content("Failed to create an agency")
     end
   end
@@ -60,7 +60,7 @@ describe 'Agency' do
         fill_in 'Name', with: name
         click_button 'Save'
       end
-      sleep 1
+      wait_for_ajax
       expect(page).to have_content('Agency has been successfully updated')
       expect(page).to have_content(name)
     end
@@ -70,7 +70,7 @@ describe 'Agency' do
         fill_in I18n.t('agencies.form.name'), with: ''
         click_button 'Save'
       end
-      sleep 1
+      wait_for_ajax
       expect(page).to have_content('Failed to update an agency')
     end
   end
@@ -81,11 +81,11 @@ describe 'Agency' do
     end
     scenario 'success' do
       find("a[href='#{agency_path(agency)}'][data-method='delete']").click
-      sleep 1
+      wait_for_ajax
       expect(page).to have_content('Agency has been successfully deleted')
     end
     scenario 'disable link' do
-      sleep 1
+      wait_for_ajax
       expect(page).to have_css("a[href='#{agency_path(other_agency)}'][data-method='delete'][class='btn btn-outline btn-danger btn-xs disabled']")
     end
   end

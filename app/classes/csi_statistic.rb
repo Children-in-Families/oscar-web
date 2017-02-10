@@ -7,9 +7,11 @@ class CsiStatistic
 
   def assessment_domain_score
     assessments_by_index = assessment_amount
-    data, assessments, series = [], [], []
+    data = []
+    assessments = []
+    series = []
 
-    assessment_amount.count.times { |i| assessments << "Assessment (#{ i + 1})" }
+    assessment_amount.count.times { |i| assessments << "Assessment (#{i + 1})" }
     data << assessments
 
     Domain.all.each do |domain|
@@ -27,7 +29,7 @@ class CsiStatistic
       series << h1
     end
     data << series
-    score_by_domain = data
+    data
   end
 
   private
@@ -39,7 +41,7 @@ class CsiStatistic
         max_count.times do |i|
           arr = []
           @clients.each do |c|
-            c.assessments.to_a.at(i).blank? ? arr << nil : arr << c.assessments.to_a.at(i).id
+            arr << (c.assessments.to_a.at(i).blank? ? nil : c.assessments.to_a.at(i).id)
           end
           data << arr.select(&:present?)
         end

@@ -29,7 +29,7 @@ gem 'typhoeus'
 gem 'foreman',                '~> 0.78.0'
 gem 'cancancan',              '~> 1.13', '>= 1.13.1'
 gem 'pundit',                 '~> 1.1'
-gem 'ckeditor'
+gem 'ckeditor',               '4.1.3'
 gem 'bootstrap-datepicker-rails', '~> 1.5'
 gem 'select2-rails',          '~> 3.5.9.3'
 gem 'devise_token_auth',      '~> 0.1.37'
@@ -72,7 +72,7 @@ group :staging, :demo, :production do
 end
 
 group :development do
-  gem 'rubocop',              require: false
+  gem 'rubocop',              '~> 0.47.1', require: false
   gem 'capistrano-rails',     '~> 1.1.1'
   gem 'capistrano-passenger', '~> 0.1.1'
   gem 'capistrano-rvm',       '~> 0.1.2'

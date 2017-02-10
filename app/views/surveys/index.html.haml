@@ -12,14 +12,16 @@
           %thead
             %tr
               %th= t('.created_at')
-              %th.text-center= t('.action')
+              - if can? :manage, Survey
+                %th.text-center= t('.action')
           - @surveys.each do |survey|
             %tr
               %td= link_to survey.decorate.created_at, client_survey_path(@client, survey)
-              %td.action.text-center
-                = link_to edit_client_survey_path(@client, survey), class: 'btn btn-outline btn-success btn-xs' do
-                  = fa_icon('pencil')
-                = link_to client_survey_path(@client, survey), method: :delete, data: { confirm: t('.are_you_sure_you_want_to_delete') }, class: 'btn btn-outline btn-danger btn-xs' do
-                  = fa_icon('trash')
+              - if can? :manage, Survey
+                %td.action.text-center
+                  = link_to edit_client_survey_path(@client, survey), class: 'btn btn-outline btn-success btn-xs' do
+                    = fa_icon('pencil')
+                  = link_to client_survey_path(@client, survey), method: :delete, data: { confirm: t('.are_you_sure_you_want_to_delete') }, class: 'btn btn-outline btn-danger btn-xs' do
+                    = fa_icon('trash')
       .ibox-footer
         = link_to t('.back'), client_path(@client), class: 'btn btn-default btn-back'

@@ -9,7 +9,6 @@ Rails.application.routes.draw do
 
   get '/dashboards' => 'dashboards#index'
   mount Thredded::Engine => '/forum'
-
   resources :quarterly_reports
   devise_for :users, controllers: { registrations: 'registrations', sessions: 'sessions', passwords: 'passwords' }
 
@@ -23,6 +22,7 @@ Rails.application.routes.draw do
     resources :users do
       resources :user_custom_fields
       get 'version' => 'users#version'
+      get 'disable' => 'users#disable'
     end
   end
 
@@ -92,11 +92,7 @@ Rails.application.routes.draw do
     get 'version' => 'interventions#version'
   end
 
-  resources :tasks do
-    collection do
-      put 'set_complete'
-    end
-  end
+  resources :tasks, only: :index
 
   resources :clients do
     resources :client_custom_fields
@@ -115,6 +111,10 @@ Rails.application.routes.draw do
 
     resources :progress_notes do
       get 'version' => 'progress_notes#version'
+    end
+    
+    collection do
+      get '/find' => 'clients#find'
     end
 
     get 'version' => 'clients#version'

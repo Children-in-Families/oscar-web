@@ -2,7 +2,7 @@ class Survey < ActiveRecord::Base
   belongs_to :client
 
   has_paper_trail
-  
+
   validates :listening_score, :problem_solving_score,
             :getting_in_touch_score, :trust_score, :difficulty_help_score,
             :support_score, :family_need_score, :care_score,

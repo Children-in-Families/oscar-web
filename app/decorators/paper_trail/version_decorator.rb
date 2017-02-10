@@ -1,5 +1,4 @@
- class PaperTrail::VersionDecorator < Draper::Decorator
-  # delegate :current_page, :total_pages, :limit_value, to: :_source
+class PaperTrail::VersionDecorator < Draper::Decorator
   delegate_all
 
   def whodunnit
@@ -16,6 +15,6 @@
   end
 
   def event_formated
-    I18n.t(".shared.version.#{event}")
+    I18n.t(".shared.version_type.common.#{event}")
   end
 end

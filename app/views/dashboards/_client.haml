@@ -1,15 +1,14 @@
 .col-xs-12
   .panel.panel-default.client-panel
     .panel-body
-      =link_to clients_path do
-        .widget.style1.widget-client-panel
-          .row.vertical-align
-            .col-xs-3
-              %i.fa.fa-child.fa-3x
-            .col-xs-9.text-right
-              %span.text-font
-                = t('.clients')
-              %h2.font-bold #{@dashboard.client_count}
+      .widget.style1.widget-client-panel
+        .row.vertical-align
+          .col-xs-3
+            %i.fa.fa-child.fa-3x
+          .col-xs-9.text-right
+            %span.text-font
+              = t('.clients')
+            %h2.font-bold= @dashboard.fetch_client.all_active_types.count
       .row
         .col-xs-12.col-md-6
           #client-by-gender{ 'data-content-count' => @dashboard.client_gender_statistic.to_json}

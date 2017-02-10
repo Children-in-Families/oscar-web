@@ -1,6 +1,5 @@
 class AbleScreeningQuestion < ActiveRecord::Base
-
-  MODES  = %w(yes_no free_text).freeze
+  MODES = %w(yes_no free_text).freeze
 
   belongs_to :stage
   belongs_to :question_group
@@ -12,7 +11,7 @@ class AbleScreeningQuestion < ActiveRecord::Base
 
   accepts_nested_attributes_for :attachments
 
-  scope :non_stage, -> { where(stage: nil) }
+  scope :non_stage,  -> { where(stage: nil) }
   scope :with_stage, -> { joins(:stage).order('from_age') }
 
   validates :mode, presence: true
@@ -26,7 +25,7 @@ class AbleScreeningQuestion < ActiveRecord::Base
   before_save :check_mode
 
   def check_mode
-    self.alert_manager = false if self.free_text?
+    self.alert_manager = false if free_text?
     true
   end
 
@@ -51,7 +50,6 @@ class AbleScreeningQuestion < ActiveRecord::Base
   end
 
   def self.has_alert_manager?(client)
-    where(alert_manager: true).joins(:clients)
-                                .where('clients.id = ?', client.id).any?
+    where(alert_manager: true).joins(:clients).where('clients.id = ?', client.id).any?
   end
 end

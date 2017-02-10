@@ -237,6 +237,7 @@ describe Case, 'callbacks' do
   end
 
   context 'update cases to exited from cif' do
+    let!(:fc_manager){ create(:user, :fc_manager) }
     let!(:fc_client){ create(:client) }
     let!(:kinship){ create(:case, case_type: 'KC', client: fc_client) }
     let!(:foster){ create(:case, case_type: 'FC', client: fc_client) }

@@ -1,5 +1,4 @@
 class CaseStatistic
-
   def initialize(clients)
     @clients = clients.all_active_types
     @cases = Case.cases_by_clients(@clients)
@@ -39,11 +38,12 @@ class CaseStatistic
   end
 
   private
-    def one_year_cases
-      @cases.where(start_date: 12.months.ago..Date.today).order('start_date')
-    end
 
-    def cases_count_by(fields =  {})
-      @cases.where('case_type = ? AND start_date < ?', fields[:case_type], 12.months.ago).to_a.count
-    end
+  def one_year_cases
+    @cases.where(start_date: 12.months.ago..Date.today).order('start_date')
+  end
+
+  def cases_count_by(fields = {})
+    @cases.where('case_type = ? AND start_date < ?', fields[:case_type], 12.months.ago).to_a.size
+  end
 end

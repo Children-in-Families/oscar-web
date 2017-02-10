@@ -12,11 +12,11 @@ module AbleScreens
         @answers_with_stage = []
         @answers_non_stage = []
         @able_screening_questions_with_stage.each do |question|
-          @answers_with_stage <<  @client.answers.build(able_screening_question: question)
+          @answers_with_stage << @client.answers.build(able_screening_question: question)
         end
 
         @able_screening_questions_non_stage.each do |question|
-          @answers_non_stage <<  @client.answers.build(able_screening_question: question)
+          @answers_non_stage << @client.answers.build(able_screening_question: question)
         end
       end
 
@@ -30,17 +30,16 @@ module AbleScreens
       end
 
       private
-        def set_client
-          @client = Client.friendly.find(params[:client_id])
-        end
 
-        def answer_params
-          params.require(:client)
-                  .permit(answers_attributes:
-                          [:id, :description, :able_screening_question_id,
-                            :client_id, :question_type]
-                          )
-        end
+      def set_client
+        @client = Client.friendly.find(params[:client_id])
+      end
+
+      def answer_params
+        params.require(:client)
+              .permit(answers_attributes:
+                      [:id, :description, :able_screening_question_id, :client_id, :question_type])
+      end
     end
   end
 end

@@ -5,33 +5,36 @@
         %h5= @results
         %span.label.label-info= t('.location')
         .ibox-tools
-          = link_to '#', {"data-target" => "#locationModal-", "data-toggle" => "modal", :type => "button"} do
-            .btn.btn-primary.btn-add
-              = t('.add_new_location')
+          - if can? :manage, Location
+            = link_to '#', {"data-target" => "#locationModal-", "data-toggle" => "modal", :type => "button"} do
+              .btn.btn-primary.btn-add
+                = t('.add_new_location')
       .ibox-content
         .table-responsive
           %table.table.table-bordered.table-striped.table-hover
             %thead
               %tr
                 %th= t('.name')
-                %th.text-center{ colspan: '2' }= t('.manage')
-                - if current_user.admin?
+                - if can? :manage, Location
+                  %th.text-center{ colspan: '2' }= t('.manage')
+                - if can? :version, Location
                   %th.text-center= t('.changelogs')
             %tbody
               - @locations.each do |location|
                 %tr
                   %td= location.name
-                  %td.text-center
-                    - if location.other_used == 1
-                      .btn.btn-outline.btn-success.btn-xs.disabled
-                        = fa_icon('pencil')
-                    - else
-                      = link_to '#', {class: 'btn btn-xs btn-success btn-outline', "data-target" => "#locationModal-#{location.id}", "data-toggle" => "modal", :type => "button"} do
-                        = fa_icon('pencil')
-                  %td.text-center
-                    = remove_link(location, { location_progress_note: location.progress_notes.count,
-                                              location_other: location.other_used})
-                  - if current_user.admin?
+                  - if can? :manage, Location
+                    %td.text-center
+                      - if location.other_used == 1
+                        .btn.btn-outline.btn-success.btn-xs.disabled
+                          = fa_icon('pencil')
+                      - else
+                        = link_to '#', {class: 'btn btn-xs btn-success btn-outline', "data-target" => "#locationModal-#{location.id}", "data-toggle" => "modal", :type => "button"} do
+                          = fa_icon('pencil')
+                    %td.text-center
+                      = remove_link(location, { location_progress_note: location.progress_notes.count,
+                                                location_other: location.other_used})
+                  - if can? :version, Location
                     %td.text-center
                       = link_to t('.view'), location_version_path(location)
                 = render 'form', location: location

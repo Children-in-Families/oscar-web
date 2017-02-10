@@ -1,4 +1,5 @@
 AllCops:
+  TargetRubyVersion: 2.3
   Exclude:
     - 'bin/**/*'
     - 'config/**/*'
@@ -11,11 +12,27 @@ AllCops:
     - 'app/services/importer.rb'
     - 'db/**/*'
     - 'spec/**/*'
+    - 'app/grids/*'
     - 'Guardfile'
-  RunRailsCops: true
+    - 'Gemfile'
+    - 'Capfile'
   DisplayCopNames: true
   DisplayStyleGuide: true
 
+Style/WordArray:
+  Enabled: false
+Style/SafeNavigation:
+  Enabled: false
+Style/EmptyMethod:
+  EnforcedStyle: expanded
+Security/Eval:
+  Enabled: false
+Metrics/ClassLength:
+  Enabled: false
+Metrics/ModuleLength:
+  Enabled: false
+FrozenStringLiteralComment:
+  Enabled: false
 LineLength:
   Enabled: false
 Style/Documentation:
@@ -26,4 +43,3 @@ Metrics/AbcSize:
   Enabled: false
 Metrics/MethodLength:
   Enabled: false
-

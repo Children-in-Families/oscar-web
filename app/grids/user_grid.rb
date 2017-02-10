@@ -38,11 +38,7 @@ class UserGrid
     User.department_are
   end
 
-  filter(:roles, :enum, select: :role_options,  header: -> { I18n.t('datagrid.columns.users.roles') })
-
-  def role_options
-    User.order(:roles).map { |u| [u.roles.titleize, u.roles] }.uniq
-  end
+  filter(:roles, :enum, select: User::ROLES.map{|val| [val.titleize, val]},  header: -> { I18n.t('datagrid.columns.users.roles') })
 
   filter(:province_id, :enum, select: :province_options,  header: -> { I18n.t('datagrid.columns.users.province') })
   def province_options

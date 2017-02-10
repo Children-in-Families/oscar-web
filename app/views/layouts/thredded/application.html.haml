@@ -1,9 +1,10 @@
 !!!
 %html
   %head
-    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}
     %title
-      CIF | #{yield :thredded_page_title}
+      = organization_name
+      | #{yield :thredded_page_title}
     %meta{:content => "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0", :name => "viewport"}/
     = stylesheet_link_tag 'thredded'
     = csrf_meta_tag
