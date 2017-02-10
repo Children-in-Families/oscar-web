@@ -492,10 +492,10 @@ en:
       due_today_tasks_count:
         one: "You have 1 task due today."
         other: "You have %{count} tasks due today."
-      client_notification:
-        one: "There is a client is about to exit EC program in 7 days"
-        other: "There are %{count} clients are about to exit EC program in 7 days"
-      client_notification_today:
+      client_is_about_to_end_ec:
+        one: "There is a client is about to exit EC program in %{day_count} days"
+        other: "There are %{count} clients are about to exit EC program in %{day_count} days"
+      client_is_end_ec_today:
         one: "There is a client is about to exit EC program today"
         other: "There are %{count} clients are about to exit EC program today"
       check_tasks: "To check your tasks, please"
