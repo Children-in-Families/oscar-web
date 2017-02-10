@@ -123,4 +123,8 @@ module ClientsHelper
   def can_read_client_progress_note?
     @client.able? && (current_user.case_worker? || current_user.able_manager? || current_user.admin? || current_user.fc_manager? || current_user.kc_manager? || current_user.visitor?)
   end
+
+  def disable_case_histories?
+    'disabled' if current_user.able_manager?
+  end
 end

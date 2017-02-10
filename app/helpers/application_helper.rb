@@ -74,7 +74,7 @@ module ApplicationHelper
   # end
 
   def user_dashboard_responsive(user)
-    user.admin? || user.case_worker? ? 'box-pusher' : 'col-xs-12 big-box'
+    user.admin? || user.case_worker? || user.visitor? ? 'box-pusher' : 'col-xs-12 big-box'
   end
 
   def hidden_class(bool)
@@ -90,7 +90,7 @@ module ApplicationHelper
   end
 
   def dynamic_third_party_cols(user)
-    if user.admin?
+    if user.admin? || user.visitor?
       'col-xs-12'
     elsif user.any_case_manager?
       'col-xs-12'
@@ -104,7 +104,7 @@ module ApplicationHelper
   def custom_case_dashboard(user)
     if user.any_case_manager?
       'big-box'
-    elsif user.admin? || user.case_worker?
+    elsif user.admin? || user.case_worker? || user.visitor?
       'top-spacing'
     end
   end
@@ -143,5 +143,9 @@ module ApplicationHelper
 
   def ability_to_delete(object)
     'disabled' if cannot? :delete, object
+  end
+
+  def visitor?
+    current_user.visitor?
   end
 end

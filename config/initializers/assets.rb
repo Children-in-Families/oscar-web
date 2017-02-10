@@ -11,4 +11,3 @@ Rails.application.config.assets.version = '1.0'
 
 # Rich text editor for the Domain
 Rails.application.config.assets.precompile += %w(ckeditor/* jquery.nicescroll.js animate.css toastr.min.css custom.css green.png)
-Rails.application.config.assets.precompile += %w(ckeditor/config.js)

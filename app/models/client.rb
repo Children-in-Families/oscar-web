@@ -48,7 +48,7 @@ class Client < ActiveRecord::Base
 
   before_update :reset_user_to_tasks
   after_create  :set_slug_as_alias
-  after_update :set_able_status, if: proc { |client| client.able_state.nil? && answers.any? }
+  after_update :set_able_status, if: proc { |client| client.able_state.blank? && answers.any? }
 
 
   scope :first_name_like,      ->(value) { where('clients.first_name iLIKE ?', "%#{value}%") }

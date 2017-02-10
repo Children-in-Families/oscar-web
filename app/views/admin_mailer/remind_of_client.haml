@@ -1,5 +1,8 @@
 %p= "Hello #{@admin.first_name} #{@admin.last_name}!"
 %p= "There is Client had been in Emergency Care Program for #{@day} days."
+%p
+  = "Click Link to see the list of Client"
+  = link_to "List", clients_path("client_grid[status]":"Active EC", "client_grid[case_type]":"EC", "client_grid[placement_date]": [(Date.today-@day.to_i).strftime("%Y-%m-%d"), (Date.today-@day.to_i).strftime("%Y-%m-%d")])
 %p To check your client, please click the link below.
 - @clients.each do |client|
   %p= link_to "Check on client #{client.first_name}", client_url(client, subdomain: Organization.current.short_name)

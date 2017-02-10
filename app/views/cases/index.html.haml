@@ -16,8 +16,15 @@
                   %h5= t('.exit_date')
                   %span.label.label-info
                     = case_history.exit_date.strftime('%B %d, %Y')
+                  .ibox-tools
+                    - if can? :manage, Case
+                      - if current_user.admin?
+                        %small
+                          = link_to edit_client_case_path(case_history.client, case_history) do
+                            .btn.btn-outline.btn-success
+                              = fa_icon('pencil')
                 .ibox-content
-                  %table.table
+                  %table.table.table-bordered
                     %tr
                       %td.spacing-first-col.border-right
                         = t('.exit_note')

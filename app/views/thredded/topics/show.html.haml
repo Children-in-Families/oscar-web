@@ -10,7 +10,7 @@
       .thredded--post-form--wrapper
         %h3.thredded--post-form--title= t('thredded.topics.show.add_post')
         = render 'thredded/posts/form', topic: topic, post: @new_post, button_text: t('thredded.posts.form.create_btn')
-    - if topic.can_destroy?
+    - if user_signed_in? && topic.can_destroy?
       .thredded--topic-delete--wrapper
         = button_to t('thredded.topics.delete_topic'), topic.destroy_path, method: :delete, form_class: 'thredded--topic-delete-form', class: 'thredded--button', 'data-confirm' => t('thredded.topics.delete_confirm')
   %footer

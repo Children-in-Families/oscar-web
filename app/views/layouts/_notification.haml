@@ -29,6 +29,22 @@
         %div.notify-margin
           %i.fa.fa-tasks.fa-fw
           = t('.due_today_assessments_count', count: @notification.due_today_assessments_count)
+      %li.divider
+    - if current_user.admin? || current_user.ec_manager?
+      - if @notification.ec_notification(83).count >= 1
+        %li
+          %div
+            = link_to clients_path("client_grid[status]":"Active EC", "client_grid[case_type]":"EC", "client_grid[placement_date]": [(Date.today-83.to_i).strftime("%Y-%m-%d"),(Date.today-83.to_i).strftime("%Y-%m-%d")]) do
+              %i.fa.fa-tasks.fa-fw
+              = t('.client_notification', count: @notification.ec_notification(83).count)
+        %li.divider
+      - if @notification.ec_notification(90).count >= 1
+        %li
+          %div
+            = link_to clients_path("client_grid[status]":"Active EC", "client_grid[case_type]":"EC", "client_grid[placement_date]": [(Date.today-90.to_i).strftime("%Y-%m-%d"),(Date.today-90.to_i).strftime("%Y-%m-%d")]) do
+              %i.fa.fa-tasks.fa-fw
+              = t('.client_notification_today', count: @notification.ec_notification(90).count)
+        %li.divider
     - if @notification.count.zero?
       %li
         %div.notify-margin

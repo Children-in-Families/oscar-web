@@ -485,13 +485,19 @@ en:
         desc: ↓
   layouts:
     notification:
-      no_task: No Task
+      no_task: Nothing to notify
       overdue_tasks_count:
         one: "You have 1 task overdue."
         other: "You have %{count} tasks overdue."
       due_today_tasks_count:
         one: "You have 1 task due today."
         other: "You have %{count} tasks due today."
+      client_notification:
+        one: "There is a client is about to exit EC program in 7 days"
+        other: "There are %{count} clients are about to exit EC program in 7 days"
+      client_notification_today:
+        one: "There is a client is about to exit EC program today"
+        other: "There are %{count} clients are about to exit EC program today"
       check_tasks: "To check your tasks, please"
       click_here: "click here."
 
@@ -751,7 +757,7 @@ en:
       successfully_deleted: User has been successfully deleted.
       alert: User cannot be deleted.
     disable:
-      successfully_disable: User log​​ in permission has been successfully change.
+      successfully_disable: User log in permission has been successfully changed.
     actions:
       are_you_sure: Are you sure you want to delete?
     version:

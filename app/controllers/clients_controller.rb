@@ -128,7 +128,7 @@ class ClientsController < AdminController
       collection.organization = value
     end
   end
-
+  
   private
 
   def find_client
