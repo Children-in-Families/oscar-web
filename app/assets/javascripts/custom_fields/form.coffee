@@ -3,6 +3,7 @@ CIF.Custom_fieldsShow = do ->
 
   _init = ->
     _initFormBuilder()
+    _select2()
 
   _initFormBuilder = ->
     formBuilder = $('.build-wrap').formBuilder({
@@ -56,5 +57,9 @@ CIF.Custom_fieldsShow = do ->
 
     $("#custom-field-submit").click (event)->
       $('#custom_field_fields').val(formBuilder.formData)
+
+  _select2 = ->
+    $('#custom_field_entity_name').select2
+      minimumInputLength: 0
 
   { init: _init }

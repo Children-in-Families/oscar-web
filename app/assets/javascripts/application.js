@@ -71,4 +71,5 @@
 //= require changelogs/index
 //= require domains/form
 //= require custom_fields/form
+//= require custom_fields/shared_fields
 //= require ckeditor/config

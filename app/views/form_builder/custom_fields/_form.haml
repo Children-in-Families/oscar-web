@@ -4,6 +4,8 @@
     = f.input :form_type
     = f.input :fields, as: :hidden
     .build-wrap{ 'data-fields': @custom_field.fields }
+    - if f.object.errors[:fields].any?
+      %span.help-block= t('.blank')
   .ibox-footer
     = f.submit 'Save', class: 'btn btn-primary form-btn', id: 'custom-field-submit'
     = link_to 'Cancel', custom_fields_path, class: 'btn btn-default form-btn'

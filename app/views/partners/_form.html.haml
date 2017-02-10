@@ -26,7 +26,7 @@
           = f.input :background, input_html: { style: 'height: 107px;' }, label: "#{t('.background')}"
       .row
         .col-xs-12
-          = f.association :custom_fields, collection: CustomField.where(entity_name: 'Partner'), label_method: :form_type, value_method: :id, input_html: { class: 'select2' }, label: 'More Form'
+          = f.association :custom_fields, collection: CustomField.where(entity_name: 'Partner'), label_method: :form_type, value_method: :id, input_html: { class: 'select2' }, label: t('.more_forms')
 
   .ibox-footer
     = f.submit t('save'), class: 'btn btn-primary form-btn'
