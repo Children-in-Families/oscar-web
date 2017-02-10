@@ -5,7 +5,6 @@ class UserNotification
   end
 
   def overdue_tasks_count
-    # Task.overdue_incomplete.of_user(@user).size
     @user.tasks.overdue_incomplete.size
   end
 
@@ -14,7 +13,6 @@ class UserNotification
   end
 
   def due_today_tasks_count
-    # Task.today_incomplete.of_user(@user).size
     @user.tasks.today_incomplete.size
   end
 
@@ -40,7 +38,7 @@ class UserNotification
 
   def ec_notification(day)
     if @user.admin? || @user.ec_manager?
-      clients = Client.active_ec.select{ |client| client.active_day_care == day }
+      Client.active_ec.select { |client| client.active_day_care == day }
     end
   end
 
