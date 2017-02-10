@@ -123,4 +123,20 @@ module ClientsHelper
   def can_read_client_progress_note?
     @client.able? && (current_user.case_worker? || current_user.able_manager? || current_user.admin? || current_user.fc_manager? || current_user.kc_manager?)
   end
+
+  def client_properties(value)
+     date = Date.parse(value) rescue nil
+     span = content_tag :span do
+       if date
+         concat date.strftime('%B %d, %Y')
+       elsif value.is_a?(Array)
+         value.reject{ |i| i.empty? }.each do |c|
+           concat content_tag(:strong, c, class: 'label labeldefault')
+         end
+       else
+         concat value
+       end
+     end
+     span
+    end
 end

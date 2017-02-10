@@ -1,13 +1,12 @@
 class Partner < ActiveRecord::Base
-  include CustomFieldProperties
-
   belongs_to :province, counter_cache: true
 
   has_many :cases
 
-  has_paper_trail
+  has_many :partner_custom_fields
+  has_many :custom_fields, through: :partner_custom_fields
 
-  serialize :properties, JSON
+  has_paper_trail
 
   scope :name_like,                  -> (value) { where('LOWER(partners.name) LIKE ?', "%#{value.downcase}%") }
 
@@ -32,10 +31,5 @@ class Partner < ActiveRecord::Base
   scope :NGO,                        ->         { where(organisation_type: 'NGO') }
   scope :local_goverment,            ->         { where(organisation_type: 'Local Goverment') }
   scope :church,                     ->         { where(organisation_type: 'Church') }
-
-  validate do |partner|
-    CustomFieldPresentValidator.new(partner).validate
-    CustomFieldNumericalityValidator.new(partner).validate
-  end
 
 end

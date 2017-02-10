@@ -1,5 +1,10 @@
 .row
   .col-xs-12.partner
+    - @partner.partner_custom_fields.each do |partner_custom_field|
+      - if partner_custom_field.properties_objs.blank?
+        = link_to 'Edit', edit_partner_partner_custom_field_path(@partner, partner_custom_field), class: 'btn btn-default'
+      - else
+        = link_to partner_custom_field.custom_field.form_type, partner_partner_custom_field_path(@partner, partner_custom_field), class: 'btn btn-default'
     .ibox
       .ibox-title
         %h5

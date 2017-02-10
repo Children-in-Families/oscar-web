@@ -124,6 +124,7 @@ class ClientsController < AdminController
               :rejected_note, :able, :able_state, :properties,
               agency_ids: [],
               quantitative_case_ids: [],
+              custom_field_ids: [],
               tasks_attributes: [:name, :domain_id, :completion_date],
               answers_attributes: [:id, :description, :able_screening_question_id, :client_id, :question_type]
               )

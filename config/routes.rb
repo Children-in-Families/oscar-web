@@ -21,6 +21,7 @@ Rails.application.routes.draw do
 
   scope 'admin' do
     resources :users do
+      resources :user_custom_fields
       get 'version' => 'users#version'
     end
   end
@@ -98,6 +99,7 @@ Rails.application.routes.draw do
   end
 
   resources :clients do
+    resources :client_custom_fields
     resources :government_reports
     resources :assessments
     resources :case_notes
@@ -119,10 +121,12 @@ Rails.application.routes.draw do
   end
 
   resources :families do
+    resources :family_custom_fields
     get 'version' => 'families#version'
   end
 
   resources :partners do
+    resources :partner_custom_fields
     get 'version' => 'partners#version'
   end
 

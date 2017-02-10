@@ -39,7 +39,7 @@ class FormBuilder::CustomFieldsController < AdminController
 
   private
     def custom_field_params
-      params.require(:custom_field).permit(:entity_name, :fields)
+      params.require(:custom_field).permit(:entity_name, :fields, :form_type)
     end
 
     def set_custom_field

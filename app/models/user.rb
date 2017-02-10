@@ -1,5 +1,4 @@
 class User < ActiveRecord::Base
-  include CustomFieldProperties
 
   ROLES = ['admin', 'case worker', 'able manager', 'ec manager', 'fc manager', 'kc manager']
   MANAGERS = ROLES.select { |role| role if role.include?('manager') }
@@ -20,12 +19,11 @@ class User < ActiveRecord::Base
   has_many :clients, dependent: :restrict_with_error
   has_many :tasks
 
+  has_many :user_custom_fields
+  has_many :custom_fields, through: :user_custom_fields
+
   validates :roles, presence: true
   validates :email, presence: true, uniqueness: { case_sensitive: false }
-  validate do |user|
-    CustomFieldPresentValidator.new(user).validate
-    CustomFieldNumericalityValidator.new(user).validate
-  end
 
   scope :first_name_like, -> (value) { where('LOWER(users.first_name) LIKE ?', "%#{value.downcase}%") }
   scope :last_name_like,  -> (value) { where('LOWER(users.last_name) LIKE ?', "%#{value.downcase}%") }

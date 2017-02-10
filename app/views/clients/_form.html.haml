@@ -70,8 +70,9 @@
       .row
         .col-xs-12.col-md-8
           = f.input :able_state, collection: Client::ABLE_STATES, label: t('.able_state') if current_user.able_manager? && @client.persisted?
-
-      = render "shared/properties", custom_field: @custom_field, f: f, entity: @client
+      .row
+        .col-xs-12
+          = f.association :custom_fields, collection: CustomField.where(entity_name: 'Client'), label_method: :form_type, value_method: :id, label: 'More Form'
 
   .ibox-footer
     = f.submit t('save'), class: 'btn btn-primary form-btn'
