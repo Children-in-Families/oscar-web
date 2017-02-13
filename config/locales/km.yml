@@ -594,7 +594,7 @@ km:
       yes_no: បាទ/អត់ទេ
       stage: សំនួរ តំណាក់កាល
       answer: ចំលើយ
-      more_forms: ទម្រង់បែបបទបន្ថែម
+      custom_forms: ទម្រង់បែបបទផ្ទាល់ខ្លួន
     show:
       add_client_to_case: បញ្ចូលអតិថិជិនទៅក្នុងករណី
       case_history: ប្រវត្តិនៃករណី
@@ -684,7 +684,7 @@ km:
     form:
       <<: *default_family_fields
       new_family_title: គ្រួសារថ្មី
-      more_forms: ទម្រង់បែបបទបន្ថែម
+      custom_forms: ទម្រង់បែបបទផ្ទាល់ខ្លួន
     show:
       <<: *default_family_fields
       general_info: អំពីគ្រួសារ
@@ -714,7 +714,7 @@ km:
       edit_partner_title: កែប្រែពត៌មានរបស់ដៃគូ
     form:
       <<: *default_partner_fields
-      more_forms: ទម្រង់បែបបទបន្ថែម
+      custom_forms: ទម្រង់បែបបទផ្ទាល់ខ្លួន
     show:
       <<: *default_partner_fields
       general_info: អំពីដៃគូ
@@ -746,7 +746,7 @@ km:
       <<: *default_user_fields
     form:
       <<: *default_user_fields
-      more_forms: ទម្រង់បែបបទបន្ថែម
+      custom_forms: ទម្រង់បែបបទបន្ថែម
     show:
       <<: *default_user_fields
       general_info: អំពីអ្នកប្រើប្រាស់
@@ -1954,8 +1954,17 @@ km:
   form_builder:
     custom_fields:
       index:
+        new_custom_form: បន្ថែមទម្រង់បែបបទថ្មី
         entity_name: ទម្រង់បែបបទបន្ថែម
         form_type: ប្រភេទនៃទម្រង់បែបបទបន្ថែម
         manage: គ្រប់គ្រង
       form:
         blank: មិនអាចរំលង
+        entity_name: ទម្រង់បែបបទបន្ថែម
+        form_type: ប្រភេទនៃទម្រង់បែបបទបន្ថែម
+      edit:
+        form_builder: ការសាងសង់ជាទម្រង់
+      new:
+        save: រក្សាទុក
+        form_builder: ការសាងសង់ជាទម្រង់
+        cancel: ទុកជាមោឃៈ

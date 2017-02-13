@@ -599,7 +599,7 @@ en:
       yes_no: Yes/No
       stage: Stage Question
       answer: Answer
-      more_forms: More Forms
+      custom_forms: Custom Forms
     show:
       add_client_to_case: Add Client to Case
       case_history: Case History
@@ -688,7 +688,7 @@ en:
     form:
       <<: *default_family_fields
       new_family_title: Add New Family
-      more_forms: More Forms
+      custom_forms: Custom Forms
     show:
       <<: *default_family_fields
       general_info: About Family
@@ -718,7 +718,7 @@ en:
       edit_partner_title: Edit Partner
     form:
       <<: *default_partner_fields
-      more_forms: More Forms
+      custom_forms: Custom Forms
     show:
       <<: *default_partner_fields
       general_info: About Partner
@@ -750,7 +750,7 @@ en:
       <<: *default_user_fields
     form:
       <<: *default_user_fields
-      more_forms: More Forms
+      custom_forms: Custom Forms
     show:
       <<: *default_user_fields
       general_info: About User
@@ -1744,8 +1744,16 @@ en:
   form_builder:
     custom_fields:
       index:
+        new_custom_form: New Custom Form
         entity_name: Entity Name
         form_type: Form Type
         manage: Manage
       form:
         blank: can't be blank
+        entity_name: Entity Name
+        form_type: Form Type
+      edit:
+        form_builder: Form Builder
+      new:
+        save: Save
+        form_builder: Form Builder
