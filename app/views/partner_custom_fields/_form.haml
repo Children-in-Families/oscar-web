@@ -1,9 +1,9 @@
-.col-xs-12
+.ibox
   = simple_form_for([@partner, @partner_custom_field]) do |f|
-    .ibox
-      .ibox-title
-        %h5= @partner_custom_field.custom_field.form_type
-      .ibox-content
-        = render "shared/properties", custom_field: @partner_custom_field.custom_field, f: f, entity: @partner_custom_field
-      .ibox-content
-        = f.submit 'Save', class: 'btn btn-primary'
+    .ibox-title
+      %h5= @partner_custom_field.custom_field.form_type
+    .ibox-content
+      = render "shared/properties", custom_field: @partner_custom_field.custom_field, f: f, entity: @partner_custom_field
+    .ibox-content
+      = f.submit 'Save', class: 'btn btn-primary form-btn'
+      = link_to 'Back', partner_partner_custom_field_path(@partner,@partner_custom_field), class: 'btn btn-default form-btn'

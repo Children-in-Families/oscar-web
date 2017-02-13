@@ -2,12 +2,10 @@
   .col-xs-12.family
     - @family.family_custom_fields.each do |family_custom_field|
       - if family_custom_field.properties_objs.blank?
-        = link_to family_custom_field.custom_field.form_type, edit_family_family_custom_field_path(@family, family_custom_field), class: 'btn btn-primary btn-xs'
+        = link_to family_custom_field.custom_field.form_type, edit_family_family_custom_field_path(@family, family_custom_field), class: 'btn btn-success btn-xs small-btn-margin'
       - else
-        = link_to family_custom_field.custom_field.form_type, family_family_custom_field_path(@family, family_custom_field), class: 'btn btn-primary btn-xs'
-
-
-    .ibox
+        = link_to family_custom_field.custom_field.form_type, family_family_custom_field_path(@family, family_custom_field), class: 'btn btn-success btn-xs small-btn-margin'
+    .ibox.mini-margin
       .ibox-title
         %h5= "#{t('.general_info')} #{@family.name}"
         .ibox-tools
