@@ -19,13 +19,8 @@
 //= require datepicker
 //= require metisMenu/jquery.metisMenu.js
 //= require highcharts.js
-//= require formBuilder/src/js/events
-//= require formBuilder/src/js/form-builder
-//= require formBuilder/src/js/form-render
-//= require formBuilder/src/js/helpers
-//= require formBuilder/src/js/kc-toggle
-//= require formBuilder/src/js/polyfills
-//= require formBuilder/src/js/utils
+//= require form-builder.min.js
+//= require form-render.min.js
 
 // WRAPBOOTSTRAP
 //= require iCheck/icheck.min.js
