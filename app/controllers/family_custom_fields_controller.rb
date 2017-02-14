@@ -1,4 +1,6 @@
 class FamilyCustomFieldsController < AdminController
+  load_and_authorize_resource
+  
   before_action :set_family, :set_custom_field
 
   def edit
