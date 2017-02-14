@@ -6,7 +6,7 @@ class UserCustomFieldsController < AdminController
 
   def update
     if @user_custom_field.update(merged_custom_field_params)
-      redirect_to @user, notice: 'Succesfully save information'
+      redirect_to user_user_custom_field_path(@user, @user_custom_field), notice: 'Succesfully save information'
     else
       render :edit
     end

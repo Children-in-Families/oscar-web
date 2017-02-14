@@ -26,5 +26,5 @@ class CustomField < ActiveRecord::Base
   def field_objs
     JSON.parse(fields) if fields.present?
   end
-  
+
 end

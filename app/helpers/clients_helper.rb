@@ -127,20 +127,4 @@ module ClientsHelper
   def disable_case_histories?
     'disabled' if current_user.able_manager?
   end
-
-  def client_properties(value)
-     date = Date.parse(value) rescue nil
-     span = content_tag :span do
-       if date
-         concat date.strftime('%B %d, %Y')
-       elsif value.is_a?(Array)
-         value.reject{ |i| i.empty? }.each do |c|
-           concat content_tag(:strong, c, class: 'label labeldefault')
-         end
-       else
-         concat value
-       end
-     end
-     span
-    end
 end

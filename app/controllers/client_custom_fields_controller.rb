@@ -6,7 +6,7 @@ class ClientCustomFieldsController < AdminController
 
   def update
     if @client_custom_field.update(merged_custom_field_params)
-      redirect_to @client, notice: 'Succesfully save information'
+      redirect_to client_client_custom_field_path(@client, @client_custom_field), notice: 'Succesfully save information'
     else
       render :edit
     end

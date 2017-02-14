@@ -6,7 +6,7 @@ class FamilyCustomFieldsController < AdminController
 
   def update
     if @family_custom_field.update(merged_custom_field_params)
-      redirect_to @family, notice: 'Succesfully save information'
+      redirect_to family_family_custom_field_path(@family, @family_custom_field), notice: 'Succesfully save information'
     else
       render :edit
     end

@@ -6,7 +6,7 @@ class PartnerCustomFieldsController < AdminController
 
   def update
     if @partner_custom_field.update(merged_custom_field_params)
-      redirect_to @partner, notice: 'Succesfully save information'
+      redirect_to partner_partner_custom_field_path(@partner, @partner_custom_field), notice: 'Succesfully save information'
     else
       render :edit
     end
