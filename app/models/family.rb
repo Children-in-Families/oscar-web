@@ -2,6 +2,7 @@ class Family < ActiveRecord::Base
   FAMILY_TYPE = %w(emergency kinship foster).freeze
 
   belongs_to :province, counter_cache: true
+  
   has_many :cases
   has_many :clients, through: :cases
 
@@ -12,9 +13,9 @@ class Family < ActiveRecord::Base
 
   validates :family_type, inclusion: { in: FAMILY_TYPE }
 
-  scope :name_like,                  ->(value) { where('LOWER(families.name) LIKE ?', "%#{value.downcase}%") }
-  scope :caregiver_information_like, ->(value) { where('LOWER(families.caregiver_information) LIKE ?', "%#{value.downcase}%") }
-  scope :address_like,               ->(value) { where('LOWER(families.address) LIKE ?', "%#{value.downcase}%") }
+  scope :name_like,                  ->(value) { where('name iLIKE ?', "%#{value}%") }
+  scope :caregiver_information_like, ->(value) { where('caregiver_information iLIKE ?', "%#{value}%") }
+  scope :address_like,               ->(value) { where('address iLIKE ?', "%#{value}%") }
   scope :kinship,                    ->        { where(family_type: 'kinship')   }
   scope :foster,                     ->        { where(family_type: 'foster')    }
   scope :emergency,                  ->        { where(family_type: 'emergency') }

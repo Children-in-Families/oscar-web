@@ -57,29 +57,29 @@ class Client < ActiveRecord::Base
   after_create :set_slug_as_alias
   after_update :set_able_status, if: proc { |client| client.able_state.blank? && answers.any? }
 
-  scope :able,                 ->        { where(able_state: ABLE_STATES[0]) }
+  scope :first_name_like,      ->(value) { where('clients.first_name iLIKE ?', "%#{value}%") }
+  scope :current_address_like, ->(value) { where('clients.current_address iLIKE ?', "%#{value}%") }
+  scope :school_name_like,     ->(value) { where('clients.school_name iLIKE ?', "%#{value}%") }
+  scope :referral_phone_like,  ->(value) { where('clients.referral_phone iLIKE ?', "%#{value}%") }
+  scope :info_like,            ->(value) { where('clients.relevant_referral_information iLIKE ?', "%#{value}%") }
+  scope :slug_like,            ->(value) { where('clients.slug iLIKE ?', "%#{value}%") }
+  scope :start_with_code,      ->(value) { where('clients.code iLIKE ?', "#{value}%") }
+  scope :find_by_family_id,    ->(value) { joins(cases: :family).where('families.id = ?', value).uniq }
+  scope :status_like,          ->        { CLIENT_STATUSES }
+  scope :is_received_by,       ->        { joins(:received_by).pluck("CONCAT(users.first_name, ' ' ,users.last_name)", 'users.id').uniq }
+  scope :referral_source_is,   ->        { joins(:referral_source).pluck('referral_sources.name', 'referral_sources.id').uniq }
+  scope :is_followed_up_by,    ->        { joins(:followed_up_by).pluck("CONCAT(users.first_name, ' ' ,users.last_name)", 'users.id').uniq }
+  scope :province_is,          ->        { joins(:province).pluck('provinces.name', 'provinces.id').uniq }
   scope :accepted,             ->        { where(state: 'accepted') }
+  scope :rejected,             ->        { where(state: 'rejected') }
+  scope :male,                 ->        { where(gender: 'male') }
+  scope :female,               ->        { where(gender: 'female') }
   scope :active_ec,            ->        { where(status: 'Active EC') }
   scope :active_kc,            ->        { where(status: 'Active KC') }
   scope :active_fc,            ->        { where(status: 'Active FC') }
-  scope :all_active_types,     ->        { where(status: CLIENT_ACTIVE_STATUS) }
-  scope :current_address_like, ->(value) { where('clients.current_address iLIKE ?', "%#{value}%") }
-  scope :female,               ->        { where(gender: 'female') }
-  scope :find_by_family_id,    ->(value) { joins(cases: :family).where('families.id = ?', value).uniq }
-  scope :first_name_like,      ->(value) { where('clients.first_name iLIKE ?', "%#{value}%") }
-  scope :info_like,            ->(value) { where('clients.relevant_referral_information iLIKE ?', "%#{value}%") }
-  scope :is_received_by,       ->        { joins(:received_by).pluck("CONCAT(users.first_name, ' ' ,users.last_name)", 'users.id').uniq }
-  scope :is_followed_up_by,    ->        { joins(:followed_up_by).pluck("CONCAT(users.first_name, ' ' ,users.last_name)", 'users.id').uniq }
-  scope :male,                 ->        { where(gender: 'male') }
-  scope :province_is,          ->        { joins(:province).pluck('provinces.name', 'provinces.id').uniq }
-  scope :referral_phone_like,  ->(value) { where('clients.referral_phone iLIKE ?', "%#{value}%") }
-  scope :referral_source_is,   ->        { joins(:referral_source).pluck('referral_sources.name', 'referral_sources.id').uniq }
-  scope :rejected,             ->        { where(state: 'rejected') }
-  scope :school_name_like,     ->(value) { where('clients.school_name iLIKE ?', "%#{value}%") }
-  scope :slug_like,            ->(value) { where('clients.slug iLIKE ?', "%#{value}%") }
-  scope :start_with_code,      ->(value) { where('clients.code iLIKE ?', "#{value}%") }
-  scope :status_like,          ->        { CLIENT_STATUSES }
   scope :without_assessments,  ->        { includes(:assessments).where(assessments:         { client_id: nil }) }
+  scope :able,                 ->        { where(able_state: ABLE_STATES[0]) }
+  scope :all_active_types,     ->        { where(status: CLIENT_ACTIVE_STATUS) }
 
   def self.filter(options)
     query = all

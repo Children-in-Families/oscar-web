@@ -30,8 +30,7 @@ class AssessmentDomain < ActiveRecord::Base
 
   class << self
     def goal_like(values = [])
-      downcase_values = values.map { |val| "%#{val.downcase}%" }
-      where('LOWER(assessment_domains.goal) ILIKE ANY ( array[?] )', downcase_values)
+      where('assessment_domains.goal iLIKE ANY ( array[?] )', values)
     end
 
     def domain_color_class(domain_id)
