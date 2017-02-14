@@ -15,8 +15,8 @@ ActiveRecord::Schema.define(version: 20170206070346) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-  enable_extension "uuid-ossp"
   enable_extension "hstore"
+  enable_extension "uuid-ossp"
 
   create_table "able_screening_questions", force: :cascade do |t|
     t.string   "question"
@@ -184,6 +184,17 @@ ActiveRecord::Schema.define(version: 20170206070346) do
 
   add_index "changelogs", ["user_id"], name: "index_changelogs_on_user_id", using: :btree
 
+  create_table "client_case_workers", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "client_id"
+    t.boolean  "active"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "client_case_workers", ["client_id"], name: "index_client_case_workers_on_client_id", using: :btree
+  add_index "client_case_workers", ["user_id"], name: "index_client_case_workers_on_user_id", using: :btree
+
   create_table "client_custom_fields", force: :cascade do |t|
     t.text     "properties"
     t.integer  "client_id"
@@ -249,10 +260,10 @@ ActiveRecord::Schema.define(version: 20170206070346) do
   end
 
   create_table "custom_fields", force: :cascade do |t|
-    t.string   "entity_name", default: ""
-    t.text     "fields",      default: ""
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+    t.string   "entity_name"
+    t.string   "fields"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
     t.string   "form_type"
   end
 
@@ -887,6 +898,8 @@ ActiveRecord::Schema.define(version: 20170206070346) do
   add_foreign_key "case_notes", "clients"
   add_foreign_key "changelog_types", "changelogs"
   add_foreign_key "changelogs", "users"
+  add_foreign_key "client_case_workers", "clients"
+  add_foreign_key "client_case_workers", "users"
   add_foreign_key "client_custom_fields", "clients"
   add_foreign_key "client_custom_fields", "custom_fields"
   add_foreign_key "domains", "domain_groups"
@@ -904,6 +917,8 @@ ActiveRecord::Schema.define(version: 20170206070346) do
   add_foreign_key "quarterly_reports", "cases"
   add_foreign_key "surveys", "clients"
   add_foreign_key "tasks", "clients"
+  add_foreign_key "thredded_messageboard_users", "thredded_messageboards"
+  add_foreign_key "thredded_messageboard_users", "thredded_user_details"
   add_foreign_key "user_custom_fields", "custom_fields"
   add_foreign_key "user_custom_fields", "users"
   add_foreign_key "users", "organizations"
