@@ -147,7 +147,8 @@
           = render('client_answers')
           - @client.client_custom_fields.each do |client_custom_field|
             - if client_custom_field.properties_objs.blank?
-              = link_to client_custom_field.custom_field.form_type, edit_client_client_custom_field_path(@client, client_custom_field), class: 'btn-xs btn btn-success small-btn-margin'
+              - if can? :manage, ClientCustomField
+                = link_to client_custom_field.custom_field.form_type, edit_client_client_custom_field_path(@client, client_custom_field), class: 'btn-xs btn btn-success small-btn-margin'
             - else
               = link_to client_custom_field.custom_field.form_type, client_client_custom_field_path(@client, client_custom_field), class: 'btn-xs btn btn-success small-btn-margin'
 

@@ -2,9 +2,10 @@
   .ibox-title
     %h5= @partner_custom_field.custom_field.form_type
     .ibox-tools
-      = link_to edit_partner_partner_custom_field_path(@partner_custom_field.partner, @partner_custom_field) do
-        .btn.btn-xs.btn-outline.btn-success
-          %i.fa.fa-pencil
+      - if can? :manage, PartnerCustomField
+        = link_to edit_partner_partner_custom_field_path(@partner_custom_field.partner, @partner_custom_field) do
+          .btn.btn-xs.btn-outline.btn-success
+            %i.fa.fa-pencil
   .ibox-content
     %table.table.table-bordered
       - @partner_custom_field.properties_objs.try(:each) do |key, value|

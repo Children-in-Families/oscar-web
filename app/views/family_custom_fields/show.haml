@@ -2,9 +2,10 @@
   .ibox-title
     %h5= @family_custom_field.custom_field.form_type
     .ibox-tools
-      = link_to edit_family_family_custom_field_path(@family_custom_field.family, @family_custom_field) do
-        .btn.btn-xs.btn-outline.btn-success
-          %i.fa.fa-pencil
+      - if can? :manage, FamilyCustomField
+        = link_to edit_family_family_custom_field_path(@family_custom_field.family, @family_custom_field) do
+          .btn.btn-xs.btn-outline.btn-success
+            %i.fa.fa-pencil
   .ibox-content
     %table.table.table-bordered
       - @family_custom_field.properties_objs.try(:each) do |key, value|
