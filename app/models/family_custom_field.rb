@@ -7,5 +7,6 @@ class FamilyCustomField < ActiveRecord::Base
   validate do |obj|
     CustomFieldPresentValidator.new(obj).validate
     CustomFieldNumericalityValidator.new(obj).validate
+    CustomFieldEmailValidator.new(obj).validate
   end
 end
