@@ -4,4 +4,4 @@
       .row
         - n_field.each do |field|
           .col-xs-12.col-md-4
-            = render "/shared/fields/#{field['type'].underscore}", f: prop_f, field_props: field
+            = render "/shared/fields/#{field['type'].underscore}", f: prop_f, field_props: field, errors: entity.errors.messages

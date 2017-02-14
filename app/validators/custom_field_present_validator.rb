@@ -1,5 +1,4 @@
 class CustomFieldPresentValidator < ActiveModel::Validator
-
   def initialize(record)
     @record = record
   end

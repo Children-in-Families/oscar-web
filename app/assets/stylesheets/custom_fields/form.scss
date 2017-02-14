@@ -5,4 +5,7 @@ body[id='custom_fields-update'] {
   .help-block {
     color: #a94442;
   }
+  input[type=text].disabled {
+    color: #555555 !important ;
+  }
 }

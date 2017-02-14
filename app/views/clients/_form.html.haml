@@ -74,10 +74,9 @@
         .col-xs-12
           = f.association :custom_fields, collection: CustomField.where(entity_name: 'Client'), label_method: :form_type, value_method: :id, label: t('.custom_forms')
 
-  .ibox-footer
-    .form-actions
-      %button.btn.btn-primary.form-btn#submit-button{ type: 'button' }
-        = t('save')
-      = link_to t('cancel'), clients_path, class: 'btn btn-default form-btn'
+  .ibox-footer.text-right
+    %button.btn.btn-primary.form-btn#submit-button{ type: 'button' }
+      = t('save')
+    = link_to t('cancel'), clients_path, class: 'btn btn-default form-btn'
 
 = render 'confirm_client'

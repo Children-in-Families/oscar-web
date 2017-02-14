@@ -1,4 +1,4 @@
-%div{ class: "#{field_props['className']} date form-group #{required?(field_props['required'])}" }
+%div{ class: "#{field_props['className']} date form-group #{required?(field_props['required'])} #{field_with(field_props['name'],errors)}" }
   %label{ for: field_props['classname'], class: "date control-label #{required?(field_props['required'])}" }
     %abbr{ title: 'required' }= '*' if field_props['required']
     = field_props['label']
@@ -6,3 +6,5 @@
       = f.text_field field_props['name'].parameterize, class: "date optional form-control date-picker #{field_props['className']} #{required?(field_props['required'])}", type: 'text'
       %span.input-group-addon
         %i.fa.fa-calendar-check-o
+  %span.help-block
+    = field_message(field_props['name'], errors)

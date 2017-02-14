@@ -31,11 +31,6 @@ class Case < ActiveRecord::Base
   validates :exit_date, presence: true, if: proc { |client_case| client_case.exited? }
   validates :exit_note, presence: true, if: proc { |client_case| client_case.exited? }
 
-  validate do |case_obj|
-    CustomFieldPresentValidator.new(case_obj).validate
-    CustomFieldNumericalityValidator.new(case_obj).validate
-  end
-
   before_save :update_client_status, :set_current_status
   after_save :update_cases_to_exited_from_cif
   after_create :update_client_code

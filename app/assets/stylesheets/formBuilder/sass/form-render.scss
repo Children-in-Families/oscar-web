@@ -6,9 +6,11 @@
   @import 'base/bs';
 }
 
-  // .form-group .required {
-  //   color: $error;
-  // }
+.form-group.has-error {
+  label {
+    color: $error;
+  }
+}
 
 .form-control {
   &.number {
