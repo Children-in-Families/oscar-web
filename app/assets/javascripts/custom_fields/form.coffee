@@ -9,45 +9,45 @@ CIF.Custom_fieldsShow = do ->
     formBuilder = $('.build-wrap').formBuilder({
       dataType: 'json'
       formData: JSON.stringify($('.build-wrap').data('fields'))
-      disableFields: ['autocomplete', 'header', 'hidden', 'paragraph', 'button', 'file']
+      disableFields: ['autocomplete', 'header', 'hidden', 'paragraph', 'button', 'file','checkbox']
       showActionButtons: false
       messages: {
         cannotBeEmpty: 'name_separated_with_underscore'
       }
 
       typeUserEvents: {
-        checkbox: {
-          onadd: (fld) ->
-            $('.toggle-wrap, .value-wrap, .access-wrap').hide()
-            $('.className-wrap').addClass('hidden')
-        }
+        # checkbox: {
+        #   onadd: (fld) ->
+        #     $('.toggle-wrap, .value-wrap, .access-wrap').hide()
+        #     $('.className-wrap').addClass('hidden')
+        # }
         'checkbox-group': {
           onadd: (fld) ->
-            $('.other-wrap, .className-wrap, .access-wrap').hide()
+            $('.other-wrap, .className-wrap, .access-wrap, .description-wrap').hide()
         }
         date: {
           onadd: (fld) ->
-            $('.className-wrap, .value-wrap, .access-wrap').hide()
+            $('.className-wrap, .value-wrap, .access-wrap, .description-wrap').hide()
         }
         number: {
           onadd: (fld) ->
-            $('.className-wrap, .value-wrap, .step-wrap, .access-wrap').hide()
+            $('.className-wrap, .value-wrap, .step-wrap, .access-wrap, .description-wrap').hide()
         }
         'radio-group': {
           onadd: (fld) ->
-            $('.other-wrap, .className-wrap, .access-wrap').hide()
+            $('.other-wrap, .className-wrap, .access-wrap, .description-wrap').hide()
         }
         select: {
           onadd: (fld) ->
-            $('.className-wrap, .access-wrap').hide()
+            $('.className-wrap, .access-wrap, .description-wrap').hide()
         }
         text: {
           onadd: (fld) ->
-            $('.className-wrap, .value-wrap, .access-wrap, .maxlength-wrap').hide()
+            $('.className-wrap, .value-wrap, .access-wrap, .maxlength-wrap, .description-wrap').hide()
         }
         textarea: {
           onadd: (fld) ->
-            $('.rows-wrap, .className-wrap, .value-wrap, .access-wrap, .maxlength-wrap').hide()
+            $('.rows-wrap, .className-wrap, .value-wrap, .access-wrap, .maxlength-wrap, .description-wrap').hide()
 
         }
 
