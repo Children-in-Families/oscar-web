@@ -13,3 +13,5 @@
             = key.titleize
           %td.align-justify
             = client_properties(value)
+  .ibox-footer
+    = link_to t('.back'), partner_path(@partner_custom_field.partner), class: 'btn btn-default form-btn'

@@ -1951,6 +1951,19 @@ km:
         AbleScreeningQuestion: សំនួរ Able Screening
         Stage: តំណាក់កាល
 
+  client_custom_fields:
+    show:
+      back: ត្រឡប់មកវិញ
+  partner_custom_fields:
+    show:
+      back: ត្រឡប់មកវិញ
+  family_custom_fields:
+    show:
+      back: ត្រឡប់មកវិញ
+  user_custom_fields:
+    show:
+      back: ត្រឡប់មកវិញ
+
   form_builder:
     custom_fields:
       index:

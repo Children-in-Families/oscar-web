@@ -1741,6 +1741,19 @@ en:
         AbleScreeningQuestion: Able Screening Question
         Stage: Stage
 
+  client_custom_fields:
+    show:
+      back: Back
+  partner_custom_fields:
+    show:
+      back: Back
+  family_custom_fields:
+    show:
+      back: Back
+  user_custom_fields:
+    show:
+      back: Back
+
   form_builder:
     custom_fields:
       index:
