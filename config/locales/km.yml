@@ -286,6 +286,7 @@ km:
     'no': ទេ
 
   default_partner_fields: &default_partner_fields
+    id: លេខសំគាល់
     name: ឈ្មោះដៃគូ
     contact_name: ឈ្មោះឣ្នកដែលត្រូវទំនាក់ទំនង
     contact_email: ឣុីម៉ែល

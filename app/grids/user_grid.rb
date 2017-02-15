@@ -2,7 +2,7 @@ class UserGrid
   include Datagrid
 
   scope do
-    User.includes(:department).order(:first_name, :last_name)
+    User.includes(:department, :province).order(:first_name, :last_name)
   end
 
   filter(:first_name, :string, header: -> { I18n.t('datagrid.columns.users.first_name') }) do |value, scope|
@@ -54,7 +54,7 @@ class UserGrid
   column(:first_name, header: -> { I18n.t('datagrid.columns.users.first_name') }, html: false)
   column(:last_name, header: -> { I18n.t('datagrid.columns.users.last_name') }, html: false)
 
-  column(:date_of_birth, header: -> { I18n.t('datagrid.columns.users.date_of_birth') }, html: false)
+  column(:date_of_birth, header: -> { I18n.t('datagrid.columns.users.date_of_birth') })
 
   column(:mobile, header: -> { I18n.t('datagrid.columns.users.mobile') }) do |object|
     object.mobile.phony_formatted(normalize: :KH, format: :international) if object.mobile
@@ -72,9 +72,9 @@ class UserGrid
     object.department.name if object.department
   end
 
-  column(:start_date, header: -> { I18n.t('datagrid.columns.users.start_date') }, html: false)
+  column(:start_date, header: -> { I18n.t('datagrid.columns.users.start_date') })
 
-  column(:province, header: -> { I18n.t('datagrid.columns.users.province') }, html: false) do |object|
+  column(:province, order: 'provinces.name', header: -> { I18n.t('datagrid.columns.users.province') }) do |object|
     object.province.name if object.province
   end
 

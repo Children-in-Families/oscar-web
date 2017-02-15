@@ -284,6 +284,7 @@ en:
     'no': 'No'
 
   default_partner_fields: &default_partner_fields
+    id: ID
     name: Name
     contact_name: Contact Name
     contact_email: Email
