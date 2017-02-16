@@ -524,6 +524,7 @@ km:
       log_out: ចាកចេញ
       log_in: ចូល
       release_logs: ការចេញផ្សាយ
+      custom_fields: ទម្រង់បែបបទ
       progress_note: កត់សំគាល់ការរីកចំរើន
       materials: របស់របរ/សំភារៈ
       locations: កន្លែង
@@ -593,6 +594,7 @@ km:
       yes_no: បាទ/អត់ទេ
       stage: សំនួរ តំណាក់កាល
       answer: ចំលើយ
+      custom_forms: ទម្រង់បែបបទផ្ទាល់ខ្លួន
     show:
       add_client_to_case: បញ្ចូលអតិថិជិនទៅក្នុងករណី
       case_history: ប្រវត្តិនៃករណី
@@ -624,7 +626,8 @@ km:
       placements:
         <<: *default_placement_fields
       additional_details: ពត៌មានលំអិតបន្ថែម
-      general_info: ពត៌មានបន្ថែមរបស់អតិចិជន
+      general_info: អំពីអតិចិជន
+      additional_info: ពត៌មានលំអិតបន្ថែម
       progress_note: កំណត់សំគាល់ការរីកចំរើន
       client_able_answers: ចំលើយ Able
       able_screening_questions: សំនួរ Able
@@ -681,9 +684,11 @@ km:
     form:
       <<: *default_family_fields
       new_family_title: គ្រួសារថ្មី
+      custom_forms: ទម្រង់បែបបទផ្ទាល់ខ្លួន
     show:
       <<: *default_family_fields
-      general_info: ពត៌មានទូទៅសំរាប់គ្រួសារ
+      general_info: អំពីគ្រួសារ
+      additional_info: ពត៌មានលំអិតបន្ថែម
       are_you_sure: តើអ្នកប្រាកដហើយ?
     create:
       successfully_created: គ្រួសារត្រូវបានបង្កើតដោយជោគជ័យ
@@ -709,9 +714,11 @@ km:
       edit_partner_title: កែប្រែពត៌មានរបស់ដៃគូ
     form:
       <<: *default_partner_fields
+      custom_forms: ទម្រង់បែបបទផ្ទាល់ខ្លួន
     show:
       <<: *default_partner_fields
-      general_info: ពត៌មានទូទៅរបស់ដៃគូ
+      general_info: អំពីដៃគូ
+      additional_info: ពត៌មានលំអិតបន្ថែម
       are_you_sure: តើអ្នកប្រាកដហើយ?
     create:
       successfully_created: ដៃគូត្រូវបានបង្កើតដោយជោគជ័យ
@@ -739,9 +746,11 @@ km:
       <<: *default_user_fields
     form:
       <<: *default_user_fields
+      custom_forms: ទម្រង់បែបបទបន្ថែម
     show:
       <<: *default_user_fields
-      general_info: ពត៌មានទូទៅរបស់អ្នកប្រើប្រាស់
+      general_info: អំពីអ្នកប្រើប្រាស់
+      additional_info: ពត៌មានលំអិតបន្ថែម
       are_you_sure: តើអ្នកប្រាកដហើយ?
     clients:
       clients: អតិថិជន
@@ -791,6 +800,13 @@ km:
   activerecord:
     errors:
       models:
+        custom_field:
+          attributes:
+            entity_name:
+              blank: មិនអាចរំលង
+            form_type:
+              blank: មិនអាចរំលង
+              taken: ត្រូវបានប្រើរួចហើយ
         case:
           attributes:
             start_date:
@@ -1934,3 +1950,34 @@ km:
         ProgressNoteType: កំណត់សំគាល់
         AbleScreeningQuestion: សំនួរ Able Screening
         Stage: តំណាក់កាល
+
+  client_custom_fields:
+    show:
+      back: ត្រឡប់មកវិញ
+  partner_custom_fields:
+    show:
+      back: ត្រឡប់មកវិញ
+  family_custom_fields:
+    show:
+      back: ត្រឡប់មកវិញ
+  user_custom_fields:
+    show:
+      back: ត្រឡប់មកវិញ
+
+  form_builder:
+    custom_fields:
+      index:
+        new_custom_form: បន្ថែមទម្រង់បែបបទថ្មី
+        entity_name: ទម្រង់បែបបទបន្ថែម
+        form_type: ប្រភេទនៃទម្រង់បែបបទបន្ថែម
+        manage: គ្រប់គ្រង
+      form:
+        blank: មិនអាចរំលង
+        entity_name: ទម្រង់បែបបទបន្ថែម
+        form_type: ប្រភេទនៃទម្រង់បែបបទបន្ថែម
+      edit:
+        form_builder: ការសាងសង់ជាទម្រង់
+      new:
+        save: រក្សាទុក
+        form_builder: ការសាងសង់ជាទម្រង់
+        cancel: ទុកជាមោឃៈ

@@ -5,6 +5,7 @@ class CasesController < AdminController
   before_action :find_case, only: [:edit, :update]
   before_action :find_association, except: [:index]
   before_action :can_create_case?, only: [:new, :create]
+  before_action :set_custom_field, only: [:new, :create, :edit, :update]
 
   def index
     @type = params[:case_type]
@@ -25,12 +26,12 @@ class CasesController < AdminController
   end
 
   def create
-    @case = @client.cases.new(case_params)
+    @case = @client.cases.new(merged_case_params)
     @case.user_id = @client.user.id if @client.user
     if @case.save
       redirect_to @client, notice: t('.successfully_created')
     else
-      render :new
+      render :new, alert: 'failed to create a case'
     end
   end
 
@@ -38,10 +39,10 @@ class CasesController < AdminController
   end
 
   def update
-    if @case.update(case_params)
+    if @case.update(merged_case_params)
       redirect_to @client, notice: t('.successfully_updated')
     else
-      render :edit
+      render :edit, alert: 'failed to create a case'
     end
   end
 
@@ -52,13 +53,30 @@ class CasesController < AdminController
   end
 
   def case_params
-    params.require(:case).permit(:start_date, :carer_names, :carer_address, :province_id, :carer_phone_number, :support_amount, :case_type, :support_note, :partner_id, :family_id, :exit_date, :exit_note, :exited, :family_preservation, :exited_from_cif, :status)
+    params.require(:case).permit(:start_date, :carer_names, :carer_address,
+                                  :province_id, :carer_phone_number,
+                                  :support_amount, :case_type, :support_note,
+                                  :partner_id, :family_id, :exit_date,
+                                  :exit_note, :exited, :family_preservation,
+                                  :exited_from_cif, :status)
+  end
+
+  def merged_case_params
+    if params['case']['properties'].present?
+      case_params.merge(properties: (params['case']['properties']).to_json)
+    else
+      case_params
+    end
   end
 
   def find_association
     @family   = Family.order(:name)
     @partner  = Partner.order(:name)
     @province = Province.order(:name)
+  end
+
+  def set_custom_field
+    @custom_field = CustomField.find_by(entity_name: 'Case')
   end
 
   def find_case

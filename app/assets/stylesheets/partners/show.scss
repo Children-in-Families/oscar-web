@@ -4,6 +4,11 @@
     padding-bottom: 5px;
   }
 
+  .small-btn-margin {
+    margin-top: 8px;
+    padding: 4px;
+  }
+
   .h3-header {
     margin: 0;
     width: 87%;
@@ -37,4 +42,8 @@
     height: 415px;
   }
 
+  .label.label-default {
+    line-height: 2.2;
+    margin-right: 3px;
+  }
 }

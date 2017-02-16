@@ -1,6 +1,7 @@
 // FRAMEWORK
 //= require jquery
 //= require jquery_ujs
+//= require jquery-ui
 //= require bootstrap-sprockets
 //= require jquery.steps.min
 //= require jquery.validate
@@ -18,6 +19,8 @@
 //= require datepicker
 //= require metisMenu/jquery.metisMenu.js
 //= require highcharts.js
+//= require form-builder.min.js
+//= require form-render.min.js
 
 // WRAPBOOTSTRAP
 //= require iCheck/icheck.min.js
@@ -50,7 +53,9 @@
 //= require surveys/form
 //= require users/show
 //= require users/index
+//= require users/form
 //= require partners/index
+//= require partners/form
 //= require government_reports/form
 //= require stages/form
 //= require able_screening_questions/form
@@ -60,4 +65,6 @@
 //= require progress_notes/index
 //= require changelogs/index
 //= require domains/form
+//= require custom_fields/form
+//= require custom_fields/shared_fields
 //= require ckeditor/config

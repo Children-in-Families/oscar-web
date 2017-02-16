@@ -14,5 +14,5 @@
         %i.fa.fa-calendar-check-o
     = f.error :completion_date
 
-  = link_to t('.back'), client_tasks_path(@task.client), class: 'btn btn-default'
-  = f.submit t('.save'), class: 'btn btn-primary'
+  = f.submit t('.save'), class: 'btn btn-primary form-btn'
+  = link_to t('.back'), client_tasks_path(@task.client), class: 'btn btn-default form-btn'

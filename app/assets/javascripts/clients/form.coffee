@@ -7,7 +7,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
     _toggleAnswer()
 
   _ajaxCheckExistClient = ->
-    $('#dummy-button').on 'click', ->
+    $('#submit-button').on 'click', ->
       name = $('#client_first_name').val()
       gender =  $('#client_gender').val()
       dateOfBirth = $('#client_date_of_birth').val()
@@ -51,12 +51,12 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
 
             $('#confirm-client-modal').modal('show')
             $('#confirm-client-modal #confirm').on 'click', ->
-              $("input[type='submit']").click()
+              $('form').submit()
           else
-            $("input[type='submit']").click()
+            $('form').submit()
         )
       else
-        $("input[type='submit']").click()
+        $('form').submit()
 
 
 

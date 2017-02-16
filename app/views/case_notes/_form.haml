@@ -59,7 +59,7 @@
                       .case-note-task-btn.btn.btn-primary.btn-outline.pull-right{type: 'button', 'data-target' => "#tasksFromModal", 'data-toggle' => 'modal', 'data-domains': "#{cd.object.domain_group.domains.pluck(:id, :name)}"}
                         = t('.add_task')
         .ibox-footer
-          = link_to t('.back') , client_case_notes_path(@case_note.client), class: 'btn btn-default btn-form'
           = f.submit t('.save'), class: 'btn btn-primary btn-form', id: 'case-note-submit-btn'
+          = link_to t('.back') , client_case_notes_path(@case_note.client), class: 'btn btn-default btn-form'
 
     = render 'add_task_form'

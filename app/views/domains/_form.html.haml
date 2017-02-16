@@ -24,6 +24,5 @@
         .col-xs-12
           = f.input :description, as: :text, label: t('.description'), input_html: { rows: 30 }
   .ibox-footer
-    .form-actions
-      = f.submit t('.save'), class: 'btn btn-primary form-btn'
-      = link_to t('.cancel'), domains_path, class: 'btn btn-default form-btn'
+    = f.submit t('.save'), class: 'btn btn-primary form-btn'
+    = link_to t('.cancel'), domains_path, class: 'btn btn-default form-btn'
