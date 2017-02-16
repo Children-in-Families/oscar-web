@@ -32,7 +32,10 @@
 
         .col-xs-12.col-md-4
           = f.input :caregiver_information, input_html: { style: 'height: 182px;' }, label: "#{t('.caregiver_information')}"
+      .row
+        .col-xs-12
+          = f.association :custom_fields, collection: CustomField.where(entity_name: 'Family'), label_method: :form_type, value_method: :id, input_html: { class: 'select2' }, label: t('.custom_forms')
+
   .ibox-footer
-    .form-actions
-      = f.submit t('save'), class: 'btn btn-primary form-btn'
-      = link_to t('cancel'), families_path, class: 'btn btn-default form-btn'
+    = f.submit t('save'), class: 'btn btn-primary form-btn'
+    = link_to t('cancel'), family_path(@family), class: 'btn btn-default form-btn'

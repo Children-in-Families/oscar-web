@@ -106,26 +106,14 @@
     overflow-y: auto;
     height: 400px;
   }
-  .custom-label {
-    .display-label {
-      padding: 8px 0 8px 8px;
-    }
-    ul {
-      padding: 0;
-      margin: 0;
-    }
-    li {
-      font-size: 75%;
-      list-style: none;
-      color: white;
-      display: inline;
-      margin: 2px;
-    }
-    b {
-      background: rgb(119,119,119);
-      border-radius: 3px;
-      padding: 2px 5px;
-    }
+
+  .label.label-default {
+    line-height: 2.2;
+    margin-right: 3px;
+  }
+
+  .label.agency {
+    margin-right: 3px;
   }
 
   .color-blue {
@@ -145,6 +133,12 @@
     top: -30%;
     right: -88%;
   }
+
+  .form-actions {
+    float: left;
+    margin-top: 0;
+  }
+
   @media screen and (max-width: 991px) {
     .case .panel-body {
       height: auto;

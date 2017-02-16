@@ -22,8 +22,12 @@
         .col-xs-12.col-md-4
           = f.input :organisation_type, label: "#{t('.organisation_type')}"
           = f.input :affiliation, label: "#{t('.affiliation')}"
-        .col-xs-12.col-md-4= f.input :background, input_html: { style: 'height: 107px;' }, label: "#{t('.background')}"
+        .col-xs-12.col-md-4
+          = f.input :background, input_html: { style: 'height: 107px;' }, label: "#{t('.background')}"
+      .row
+        .col-xs-12
+          = f.association :custom_fields, collection: CustomField.where(entity_name: 'Partner'), label_method: :form_type, value_method: :id, input_html: { class: 'select2' }, label: t('.custom_forms')
+
   .ibox-footer
-    .form-actions
-      = f.submit t('save'), class: 'btn btn-primary form-btn'
-      = link_to t('cancel'), partners_path, class: 'btn btn-default form-btn'
+    = f.submit t('save'), class: 'btn btn-primary form-btn'
+    = link_to t('cancel'), partner_path(@partner), class: 'btn btn-default form-btn'

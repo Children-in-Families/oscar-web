@@ -1,5 +1,4 @@
 class CsiStatistic
-
   def initialize(clients)
     @clients = clients
     @assessments = Assessment.where(client: @clients)
