@@ -77,6 +77,6 @@
   .ibox-footer
     %button.btn.btn-primary.form-btn#submit-button{ type: 'button' }
       = t('save')
-    = link_to t('cancel'), clients_path, class: 'btn btn-default form-btn'
+    = link_to t('cancel'), client_path(@client), class: 'btn btn-default form-btn'
 
 = render 'confirm_client'
