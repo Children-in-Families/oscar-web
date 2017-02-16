@@ -1,0 +1,18 @@
+.ibox
+  .ibox-title
+    %h5= @client_custom_field.custom_field.form_type
+    .ibox-tools
+      - if can? :manage, ClientCustomField
+        = link_to edit_client_client_custom_field_path(@client_custom_field.client, @client_custom_field) do
+          .btn.btn-xs.btn-outline.btn-success
+            %i.fa.fa-pencil
+  .ibox-content
+    %table.table.table-bordered
+      - @client_custom_field.properties_objs.try(:each) do |key, value|
+        %tr
+          %td.align-justify
+            = key.titleize
+          %td.align-justify
+            = display_custom_properties(value)
+  .ibox-footer
+    = link_to t('.back'), client_path(@client_custom_field.client), class: 'btn btn-default form-btn'

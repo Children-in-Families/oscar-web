@@ -8,16 +8,20 @@ body[id='families-update'] {
     margin-right: 10px;
   }
 
-  .dependable-income {
-    span {
-      display: inline-block;
-      margin-right: 20px;
-    }
+  .i-checks {
     label {
-        padding-left: 0;
+      padding-left: 0;
     }
+
     .iradio_square-green {
       margin-right: 5px;
+    }
+  }
+
+  .i-checks.checkbox, .i-checks.dependable-income {
+    span.radio {
+      display: inline-block;
+      margin-right: 20px;
     }
   }
 

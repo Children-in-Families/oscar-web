@@ -33,4 +33,8 @@ body[id='progress_notes-index'] {
   .dataTables_scrollBody {
     max-height: 500px !important;
   }
+
+  .btn-back-default {
+    min-width: 100px;
+  }
 }

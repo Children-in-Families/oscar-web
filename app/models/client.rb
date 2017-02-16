@@ -1,4 +1,5 @@
 class Client < ActiveRecord::Base
+
   extend FriendlyId
 
   attr_reader :assessments_count
@@ -7,11 +8,14 @@ class Client < ActiveRecord::Base
 
   friendly_id :slug, use: :slugged
 
-  CLIENT_STATUSES = ['Referred', 'Active EC', 'Active KC', 'Active FC', 'Independent - Monitored', 'Exited - Deseased', 'Exited - Age Out', 'Exited Independent', 'Exited Adopted', 'Exited Other'].freeze
+  CLIENT_STATUSES = ['Referred', 'Active EC', 'Active KC', 'Active FC',
+                      'Independent - Monitored', 'Exited - Deseased',
+                      'Exited - Age Out', 'Exited Independent', 'Exited Adopted',
+                      'Exited Other'].freeze
 
   CLIENT_ACTIVE_STATUS = ['Active EC', 'Active FC', 'Active KC'].freeze
-
   ABLE_STATES = %w(Accepted Rejected Discharged).freeze
+
   EXIT_STATUSES = CLIENT_STATUSES.select { |status| status if status.include?('Exited') }
 
   belongs_to :referral_source,  counter_cache: true
@@ -30,8 +34,12 @@ class Client < ActiveRecord::Base
   has_many :client_quantitative_cases
   has_many :quantitative_cases, through: :client_quantitative_cases
 
+  has_many :client_custom_fields
+  has_many :custom_fields, through: :client_custom_fields
+
   accepts_nested_attributes_for :tasks
   accepts_nested_attributes_for :answers
+  accepts_nested_attributes_for :tasks
 
   has_many :cases,          dependent: :destroy
   has_many :families, through: :cases
@@ -42,14 +50,12 @@ class Client < ActiveRecord::Base
 
   has_paper_trail
 
-  accepts_nested_attributes_for     :tasks
-
   validates :rejected_note, presence: true, on: :update, if: :reject?
 
   before_update :reset_user_to_tasks
-  after_create  :set_slug_as_alias
-  after_update :set_able_status, if: proc { |client| client.able_state.blank? && answers.any? }
 
+  after_create :set_slug_as_alias
+  after_update :set_able_status, if: proc { |client| client.able_state.blank? && answers.any? }
 
   scope :first_name_like,      ->(value) { where('clients.first_name iLIKE ?', "%#{value}%") }
   scope :current_address_like, ->(value) { where('clients.current_address iLIKE ?', "%#{value}%") }
@@ -266,7 +272,7 @@ class Client < ActiveRecord::Base
   def self.ec_reminder_in(day)
     managers = User.ec_managers
     admins   = User.admins
-    clients = active_ec.select{|client| client.active_day_care == day}
+    clients = active_ec.select { |client| client.active_day_care == day }
 
     if clients.present?
       managers.each do |manager|
@@ -278,5 +284,4 @@ class Client < ActiveRecord::Base
       end
     end
   end
-
 end

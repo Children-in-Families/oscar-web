@@ -1,0 +1,16 @@
+body[id='client_custom_fields-new'],
+body[id='client_custom_fields-create'],
+body[id='client_custom_fields-edit'],
+body[id='client_custom_fields-update'] {
+  .checkbox {
+    span {
+      display: inline-block;
+    }
+  }
+
+  .checkbox, .checkbox-group, .radio-group {
+    label div {
+      margin-right: 5px;
+    }
+  }
+}

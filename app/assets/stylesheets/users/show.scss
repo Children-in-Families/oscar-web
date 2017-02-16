@@ -3,21 +3,32 @@
     padding-top: 5px;
     padding-bottom: 5px;
   }
+
+  .small-btn-margin {
+    margin-top: 8px;
+    padding: 4px;
+  }
+
   .filters, .btn-apply-filter {
     display: none;
   }
+
   .datagrid-actions {
     padding: 10px 0;
   }
+
   #emergency_case_client_grid_first_name {
     max-width: 150px;
   }
+
   #emergency_case_client_grid_status {
     max-width: 200px;
   }
+
   input.manage.string_filter {
     display: none;
   }
+
   td.manage a {
     margin: 0 5px;
     text-decoration: none;
@@ -97,12 +108,14 @@
       min-width: 120px;
     }
   }
+
   table.clients {
     margin-bottom: 0;
     th {
       border-bottom-width: 0;
     }
   }
+  
   .dataTables_scrollBody {
     max-height: 500px !important;
   }
@@ -113,5 +126,10 @@
 
   .tooltip-demo {
     margin: 2px 0;
+  }
+
+  .label.label-default {
+    line-height: 2.2;
+    margin-right: 3px;
   }
 }

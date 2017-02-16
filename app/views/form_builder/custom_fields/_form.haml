@@ -1,0 +1,13 @@
+= simple_form_for(@custom_field) do |f|
+  .ibox-content
+    = f.label :entity_name, label: t('.entity_name')
+    = f.input :entity_name, collection: ['Client', 'Family', 'Partner', 'User'],label: false, disabled: used_custom_form?(@custom_field)
+    = f.label :form_type, label: t('.form_type')
+    = f.input :form_type,label: false, disabled: used_custom_form?(@custom_field)
+    = f.input :fields, as: :hidden
+    .build-wrap{ 'data-fields': @custom_field.fields }
+    - if f.object.errors[:fields].any?
+      %span.help-block= t('.blank')
+  .ibox-footer
+    = f.submit t('save'), class: 'btn btn-primary form-btn', id: 'custom-field-submit'
+    = link_to t('cancel'), custom_fields_path, class: 'btn btn-default form-btn'

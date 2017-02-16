@@ -16,7 +16,7 @@ class ProgressNote < ActiveRecord::Base
   validates :client_id, :user_id, :date, presence: true
   validates :other_location, presence: true, if: :other_location?
 
-  scope :other_location_like, ->(value) { where('LOWER(progress_notes.other_location) LIKE ?', "%#{value.downcase}%") }
+  scope :other_location_like, ->(value) { where('other_location iLIKE ?', "%#{value}%") }
 
   before_save :toggle_other_location
 

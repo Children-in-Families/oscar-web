@@ -8,7 +8,9 @@ km:
     question_submissions:
       able_screening_questions:
         new:
-          general_question: សំនួរទូទៅ
+          general_question: សំនួរទូទៅថ្មី
+        edit:
+          general_question: កែសម្រួលសំនួរទូទៅ
         form:
           <<: *default_able_screening_question_fields
         attachment_fields:
@@ -45,9 +47,9 @@ km:
           questions: សំនួរ
           add_question: បន្ថែមសំនួរ
         new:
-          new_stage: បន្ថែមដំណាក់កាលថ្មី
+          new_stage: សំនួរដំណាក់កាលថ្មី
         edit:
-          edit_stage: កែរសំរួល ដំណាក់កាល
+          edit_stage: កែសម្រួលសំនួរដំណាក់កាល
         able_screening_question_fields:
           <<: *default_able_screening_question_fields
           are_you_sure: តើអ្នកប្រាកដហើយ?

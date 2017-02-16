@@ -93,6 +93,8 @@
                     = link_to t('.progress_note_types'), progress_note_types_path
               %li{ class: active_menu('changelogs') }
                 = link_to t('.release_logs'), changelogs_path
+              %li{ class: active_menu('custom_fields') }
+                = link_to t('.custom_fields'), custom_fields_path
 
             - elsif can? :read, ReferralSource
               %li{ class: active_menu('referral_sources') }

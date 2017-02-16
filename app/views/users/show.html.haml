@@ -1,6 +1,12 @@
 .row
   .col-xs-12.user
-    .ibox
+    - @user.user_custom_fields.each do |user_custom_field|
+      - if user_custom_field.properties_objs.blank?
+        - if can? :manage, UserCustomField
+          = link_to user_custom_field.custom_field.form_type, edit_user_user_custom_field_path(@user, user_custom_field), class: 'btn btn-success btn-xs small-btn-margin'
+      - else
+        = link_to user_custom_field.custom_field.form_type, user_user_custom_field_path(@user, user_custom_field), class: 'btn btn-success btn-xs small-btn-margin'
+    .ibox.mini-margin
       .ibox-title
         %h5= "#{t('.general_info')} #{@user.name}"
         .ibox-tools

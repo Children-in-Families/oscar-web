@@ -20,6 +20,7 @@ Rails.application.routes.draw do
 
   scope 'admin' do
     resources :users do
+      resources :user_custom_fields
       get 'version' => 'users#version'
       get 'disable' => 'users#disable'
     end
@@ -94,6 +95,7 @@ Rails.application.routes.draw do
   resources :tasks, only: :index
 
   resources :clients do
+    resources :client_custom_fields
     resources :government_reports
     resources :assessments
     resources :case_notes
@@ -121,10 +123,12 @@ Rails.application.routes.draw do
   resources :attachments, only: [:index]
   
   resources :families do
+    resources :family_custom_fields
     get 'version' => 'families#version'
   end
 
   resources :partners do
+    resources :partner_custom_fields
     get 'version' => 'partners#version'
   end
 
@@ -139,4 +143,9 @@ Rails.application.routes.draw do
       end
     end
   end
+
+  scope '', module: 'form_builder' do
+    resources :custom_fields
+  end
+
 end

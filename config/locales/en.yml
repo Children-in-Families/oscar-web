@@ -529,6 +529,7 @@ en:
       log_out: Log out
       log_in: Log in
       release_logs: Release logs
+      custom_fields: Form Builder
       progress_note: Progress Note
       materials: Equipment/Materials
       locations: Locations
@@ -598,6 +599,7 @@ en:
       yes_no: Yes/No
       stage: Stage Question
       answer: Answer
+      custom_forms: Custom Forms
     show:
       add_client_to_case: Add Client to Case
       case_history: Case History
@@ -629,7 +631,8 @@ en:
       placements:
         <<: *default_placement_fields
       additional_details: Additional Details
-      general_info: More Information
+      general_info: About Client
+      additional_info: Additional Information
       progress_note: Progress Note
       client_able_answers: Client Able Answers
       able_screening_questions: Able Screening Questions
@@ -685,9 +688,11 @@ en:
     form:
       <<: *default_family_fields
       new_family_title: Add New Family
+      custom_forms: Custom Forms
     show:
       <<: *default_family_fields
-      general_info: General Information for Family
+      general_info: About Family
+      additional_info: Additional Information
       are_you_sure: Are you sure you want to delete?
     create:
       successfully_created: Family has been successfully created.
@@ -713,9 +718,11 @@ en:
       edit_partner_title: Edit Partner
     form:
       <<: *default_partner_fields
+      custom_forms: Custom Forms
     show:
       <<: *default_partner_fields
-      general_info: General Informatin for Partner
+      general_info: About Partner
+      additional_info: Additional Information
       are_you_sure: Are you sure you want to delete?
     create:
       successfully_created: Partner has been successfully created.
@@ -743,9 +750,11 @@ en:
       <<: *default_user_fields
     form:
       <<: *default_user_fields
+      custom_forms: Custom Forms
     show:
       <<: *default_user_fields
-      general_info: General Information for User
+      general_info: About User
+      additional_info: Additional Information
       are_you_sure: Are you sure you want to delete?
     clients:
       clients: Clients
@@ -1314,7 +1323,7 @@ en:
         header: Edit Personal Information
         first_name: First Name
         last_name: Last Name
-        date_of_birth: Date Of Birth
+        date_of_birth: Date of Birth
         job_title: Job Title
         department: Department
         start_date: Start Date
@@ -1731,3 +1740,33 @@ en:
         ProgressNoteType: Type of Note
         AbleScreeningQuestion: Able Screening Question
         Stage: Stage
+
+  client_custom_fields:
+    show:
+      back: Back
+  partner_custom_fields:
+    show:
+      back: Back
+  family_custom_fields:
+    show:
+      back: Back
+  user_custom_fields:
+    show:
+      back: Back
+
+  form_builder:
+    custom_fields:
+      index:
+        new_custom_form: New Custom Form
+        entity_name: Entity Name
+        form_type: Form Type
+        manage: Manage
+      form:
+        blank: can't be blank
+        entity_name: Entity Name
+        form_type: Form Type
+      edit:
+        form_builder: Form Builder
+      new:
+        save: Save
+        form_builder: Form Builder

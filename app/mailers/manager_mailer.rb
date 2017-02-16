@@ -2,7 +2,7 @@ class ManagerMailer < ActionMailer::Base
   default from: 'info@cambodianfamilies.com'
 
   def remind_of_client(clients, options = {})
-    @clients  = clients
+    @clients = clients
     @manager = options[:manager]
     @day     = options[:day]
 
