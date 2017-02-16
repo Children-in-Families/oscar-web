@@ -318,6 +318,5 @@
           %strong= t('.copy')
         %p= "- #{t('.office')}"
   .ibox-footer
-    .form-actions
-      = f.submit t('save'), class: 'btn btn-primary form-btn'
-      = link_to t('cancel'), client_government_reports_path, class: 'btn btn-default form-btn'
+    = f.submit t('save'), class: 'btn btn-primary form-btn'
+    = link_to t('cancel'), client_government_reports_path, class: 'btn btn-default form-btn'

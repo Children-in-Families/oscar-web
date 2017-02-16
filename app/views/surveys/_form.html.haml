@@ -65,6 +65,5 @@
             = radio_button_color(cb)
 
   .ibox-footer
-    .form-actions
-      = f.submit t('save'), class: 'btn btn-primary form-btn survey-submit'
-      = link_to t('cancel'), client_surveys_path(@client), class: 'btn btn-default form-btn'
+    = f.submit t('save'), class: 'btn btn-primary form-btn survey-submit'
+    = link_to t('cancel'), client_surveys_path(@client), class: 'btn btn-default form-btn'
