@@ -50,9 +50,15 @@ class UserNotification
       (83..90).each do |item|
         count_notification += 1 if ec_notification(item).present?
       end
-      count_notification += overdue_tasks_count + due_today_tasks_count + overdue_assessments_count + due_today_assessments_count
+      count_notification += 1 if overdue_tasks_count >= 1
+      count_notification += 1 if due_today_tasks_count >= 1
+      count_notification += 1 if overdue_assessments_count >= 1
+      count_notification += 1 if due_today_assessments_count >= 1
     else
-      count_notification = overdue_tasks_count + due_today_tasks_count + overdue_assessments_count + due_today_assessments_count
+      count_notification += 1 if overdue_tasks_count >= 1
+      count_notification += 1 if due_today_tasks_count >= 1
+      count_notification += 1 if overdue_assessments_count >= 1
+      count_notification += 1 if due_today_assessments_count >= 1
     end
   end
 end
