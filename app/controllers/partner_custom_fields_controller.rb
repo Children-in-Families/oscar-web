@@ -1,4 +1,6 @@
 class PartnerCustomFieldsController < AdminController
+  load_and_authorize_resource
+
   before_action :set_partner, :set_custom_field
 
   def edit

@@ -43,6 +43,9 @@ CIF.Custom_fieldsShow = do ->
         }
         text: {
           onadd: (fld) ->
+            $('.fld-subtype ').find('option:contains(color)').remove()
+            $('.fld-subtype ').find('option:contains(tel)').remove()
+            $('.fld-subtype ').find('option:contains(password)').remove()
             $('.className-wrap, .value-wrap, .access-wrap, .maxlength-wrap, .description-wrap').hide()
         }
         textarea: {

@@ -8,7 +8,9 @@ en:
     question_submissions:
       able_screening_questions:
         new:
-          general_question: General Question
+          general_question: New General Question
+        edit:
+          general_question: Edit General Question
         form:
           <<: *default_able_screening_question_fields
         attachment_fields:

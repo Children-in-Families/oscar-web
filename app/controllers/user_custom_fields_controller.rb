@@ -1,4 +1,6 @@
 class UserCustomFieldsController < AdminController
+  load_and_authorize_resource
+  
   before_action :set_user, :set_custom_field
 
   def edit

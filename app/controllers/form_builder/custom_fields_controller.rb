@@ -1,4 +1,6 @@
 class FormBuilder::CustomFieldsController < AdminController
+  load_and_authorize_resource
+
   before_action :set_custom_field, only: [:edit, :update, :destroy]
 
   def index
