@@ -1324,7 +1324,7 @@ en:
         header: Edit Personal Information
         first_name: First Name
         last_name: Last Name
-        date_of_birth: Date Of Birth
+        date_of_birth: Date of Birth
         job_title: Job Title
         department: Department
         start_date: Start Date

@@ -48,6 +48,5 @@
               = t('.add_attachment')
 
   .ibox-footer
-    .form-actions
-      = f.submit t('save'), class: 'btn btn-primary form-btn'
-      = link_to t('cancel'), client_progress_notes_path(@client), class: 'btn btn-default form-btn'
+    = f.submit t('save'), class: 'btn btn-primary form-btn'
+    = link_to t('cancel'), client_progress_notes_path(@client), class: 'btn btn-default form-btn'
