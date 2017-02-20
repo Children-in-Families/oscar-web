@@ -60,5 +60,6 @@ class UserNotification
       count_notification += 1 if overdue_assessments_count >= 1
       count_notification += 1 if due_today_assessments_count >= 1
     end
+    count_notification
   end
 end

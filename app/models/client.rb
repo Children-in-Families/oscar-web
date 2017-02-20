@@ -269,6 +269,22 @@ class Client < ActiveRecord::Base
     (end_date - start_date).to_f
   end
 
+  def self.fetch_client(user)
+    if user.admin? || user.visitor?
+      Client.all
+    elsif user.ec_manager?
+      Client.managed_by(user, 'Active EC')
+    elsif user.kc_manager?
+      Client.managed_by(user, 'Active KC')
+    elsif user.fc_manager?
+      Client.managed_by(user, 'Active FC')
+    elsif user.able_manager?
+      Client.able_managed_by(user)
+    elsif user.case_worker?
+      user.clients
+    end
+  end
+
   def self.ec_reminder_in(day)
     managers = User.ec_managers
     admins   = User.admins
