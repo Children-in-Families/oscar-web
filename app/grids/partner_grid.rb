@@ -2,12 +2,14 @@ class PartnerGrid
   include Datagrid
 
   scope do
-    Partner.all.order(:name)
+    Partner.includes(:province).order(:name)
   end
 
   filter(:name, :string, header: -> { I18n.t('datagrid.columns.partners.name') }) do |value, scope|
     scope.name_like(value)
   end
+
+  filter(:id, :integer, header: -> { I18n.t('datagrid.columns.partners.id') })
 
   filter(:contact_person_name, :string, header: -> { I18n.t('datagrid.columns.partners.contact_name') }) do |value, scope|
     scope.contact_person_name_like(value)
@@ -50,6 +52,8 @@ class PartnerGrid
 
   filter(:start_date, :date, range: true, header: -> { I18n.t('datagrid.columns.partners.start_date') })
 
+  column(:id, header: -> { I18n.t('datagrid.columns.partners.id') })
+
   column(:name, html: true, order: 'LOWER(partners.name)', header: -> { I18n.t('datagrid.columns.partners.name') }) do |object|
     name = object.name.blank? ? 'Unknown' : object.name
 
@@ -74,18 +78,17 @@ class PartnerGrid
   column(:organisation_type, header: -> { I18n.t('datagrid.columns.partners.organisation_type') }, html: false)
 
   column(:start_date, header: -> { I18n.t('datagrid.columns.partners.start_date') })
+  column(:affiliation, header: -> { I18n.t('datagrid.columns.partners.affiliation') })
+  column(:engagement, header: -> { I18n.t('datagrid.columns.partners.engagement') })
+  column(:background, header: -> { I18n.t('datagrid.columns.partners.background') })
+  column(:address, header: -> { I18n.t('datagrid.columns.partners.address') })
+
+  column(:province, order: 'provinces.name', header: -> { I18n.t('datagrid.columns.partners.province') }) do |object|
+    object.province.name if object.province
+  end
 
   column(:manage, html: true, class: 'text-center', header: -> { I18n.t('datagrid.columns.partners.manage') }) do |object|
     render partial: 'partners/actions', locals: { object: object }
-  end
-
-  column(:affiliation, html: false, header: -> { I18n.t('datagrid.columns.partners.affiliation') })
-  column(:engagement, html: false, header: -> { I18n.t('datagrid.columns.partners.engagement') })
-  column(:background, html: false, header: -> { I18n.t('datagrid.columns.partners.background') })
-  column(:address, html: false, header: -> { I18n.t('datagrid.columns.partners.address') })
-
-  column(:province, html: false, header: -> { I18n.t('datagrid.columns.partners.province') }) do |object|
-    object.province.name if object.province
   end
 
   column(:changelog, html: true, class: 'text-center', header: -> { I18n.t('datagrid.columns.partners.changelogs') }) do |object|

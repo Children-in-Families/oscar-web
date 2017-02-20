@@ -2,7 +2,7 @@ class FamilyGrid
   include Datagrid
 
   scope do
-    Family.includes(cases: { client: :user }).references(:client, :user).order(:name)
+    Family.includes({cases: [ client: :user ]}, :province).order(:name)
   end
 
   filter(:name, :string, header: -> { I18n.t('datagrid.columns.families.name') }) do |value, scope|
@@ -56,7 +56,11 @@ class FamilyGrid
     object.name
   end
 
-  column(:address, html: false, header: -> { I18n.t('datagrid.columns.families.address') })
+  column(:family_type, header: -> { I18n.t('datagrid.columns.families.family_type') }) do |object|
+    object.family_type.titleize
+  end
+
+  column(:address, header: -> { I18n.t('datagrid.columns.families.address') })
 
   column(:member_count, html: true, header: -> { I18n.t('datagrid.columns.families.member_count') }, order: ('families.female_children_count, families.male_children_count, families.female_adult_count, families.male_adult_count')) do |object|
     render partial: 'families/members', locals: { object: object }
@@ -82,27 +86,27 @@ class FamilyGrid
     render partial: 'families/case_workers', locals: { object: object.cases.non_emergency.active }
   end
 
-  column(:manage, html: true, class: 'text-center', header: -> { I18n.t('datagrid.columns.families.manage') }) do |object|
-    render partial: 'families/actions', locals: { object: object }
-  end
-
-  column(:significant_family_member_count, header: -> { I18n.t('datagrid.columns.families.significant_family_member_count') }, html: false)
+  column(:significant_family_member_count, header: -> { I18n.t('datagrid.columns.families.significant_family_member_count') })
   column(:female_children_count, header: -> { I18n.t('datagrid.columns.families.female_children_count') }, html: false)
   column(:male_children_count, header: -> { I18n.t('datagrid.columns.families.male_children_count') }, html: false)
   column(:female_adult_count, header: -> { I18n.t('datagrid.columns.families.female_adult_count') }, html: false)
   column(:male_adult_count, header: -> { I18n.t('datagrid.columns.families.male_adult_count') }, html: false)
-  column(:contract_date, header: -> { I18n.t('datagrid.columns.families.contract_date') }, html: false)
+  column(:contract_date, header: -> { I18n.t('datagrid.columns.families.contract_date') })
 
-  column(:province, html: false, header: -> { I18n.t('datagrid.columns.families.province') }) do |object|
+  column(:province, order: 'provinces.name', header: -> { I18n.t('datagrid.columns.families.province') }) do |object|
     object.province.name if object.province
-  end
-
-  column(:family_type, header: -> { I18n.t('datagrid.columns.families.family_type') }, html: false) do |object|
-    object.family_type.titleize
   end
 
   column(:cases, header: -> { I18n.t('datagrid.columns.families.clients') }, html: false) do |object|
     object.cases.non_emergency.active.map { |c| c.client.name if c.client }.join(', ')
+  end
+
+  column(:case_worker, header: -> { I18n.t('datagrid.columns.families.case_workers') }, html: false) do |object|
+    User.where(id: object.cases.non_emergency.active.joins(:user).group_by(&:user_id).keys).map{|a| "#{a.first_name} #{a.last_name} "}.join(', ')
+  end
+
+  column(:manage, html: true, class: 'text-center', header: -> { I18n.t('datagrid.columns.families.manage') }) do |object|
+    render partial: 'families/actions', locals: { object: object }
   end
 
   column(:changelog, html: true, class: 'text-center', header: -> { I18n.t('datagrid.columns.families.changelogs') }) do |object|

@@ -24,6 +24,9 @@
     th.name, td.name {
       min-width: 250px !important;
     }
+    th.significant_family_member_count, td.significant_family_member_count {
+      min-width: 275px !important;
+    }
   }
 
   .date_filter {

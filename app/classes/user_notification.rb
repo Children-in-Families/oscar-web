@@ -45,10 +45,21 @@ class UserNotification
   end
 
   def count
+    count_notification = 0
     if @user.admin? || @user.ec_manager?
-      ec_notification(83).count + ec_notification(90).count + overdue_tasks_count + due_today_tasks_count + overdue_assessments_count + due_today_assessments_count
+      (83..90).each do |item|
+        count_notification += 1 if ec_notification(item).present?
+      end
+      count_notification += 1 if overdue_tasks_count >= 1
+      count_notification += 1 if due_today_tasks_count >= 1
+      count_notification += 1 if overdue_assessments_count >= 1
+      count_notification += 1 if due_today_assessments_count >= 1
     else
-      overdue_tasks_count + due_today_tasks_count + overdue_assessments_count + due_today_assessments_count
+      count_notification += 1 if overdue_tasks_count >= 1
+      count_notification += 1 if due_today_tasks_count >= 1
+      count_notification += 1 if overdue_assessments_count >= 1
+      count_notification += 1 if due_today_assessments_count >= 1
     end
+    count_notification
   end
 end

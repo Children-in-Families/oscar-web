@@ -11,6 +11,14 @@ module ApplicationHelper
     end
   end
 
+  def notification_client_exit(day)
+    if day == 90
+      t('.client_is_end_ec_today', count: @notification.ec_notification(day).count)
+    else
+      t('.client_is_about_to_end_ec', count: @notification.ec_notification(day).count, day_count: 90 - day)
+    end
+  end
+
   def authorized_body
     'unauthorized-background' unless user_signed_in?
   end

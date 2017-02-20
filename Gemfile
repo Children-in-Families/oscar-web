@@ -72,7 +72,12 @@ group :staging, :demo, :production do
   gem 'asset_sync'
 end
 
+group :staging do
+  gem 'mail_interceptor', '~> 0.0.7'
+end
+
 group :development do
+  gem 'letter_opener',        '~> 1.4.1'
   gem 'rubocop',              '~> 0.47.1', require: false
   gem 'capistrano-rails',     '~> 1.1.1'
   gem 'capistrano-passenger', '~> 0.1.1'
