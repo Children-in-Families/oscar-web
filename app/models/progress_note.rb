@@ -28,6 +28,26 @@ class ProgressNote < ActiveRecord::Base
     end
   end
 
+  def save_attachment(params)
+    files = params[:attachments][:file].first
+    files.each do |file|
+      attachments.create(file: file[1]) if file[1].present?
+    end
+  end
+
+  def update_attachment(params)
+    if params[:beforeEdit].present?
+      before_edit = params[:beforeEdit].split(',')
+      after_edit = params[:afterEdit].split(',')
+      remove_urls = before_edit - after_edit
+      remove_urls.each do |url|
+        file_name = url
+        attachment = attachments.find_by(file: file_name)
+        attachment.destroy if attachment.present?
+      end
+    end
+  end
+
   def other_location?
     other_location = Location.find_by(name: 'ផ្សេងៗ Other')
     location == other_location

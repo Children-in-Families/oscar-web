@@ -112,7 +112,7 @@ Rails.application.routes.draw do
     resources :progress_notes do
       get 'version' => 'progress_notes#version'
     end
-    
+
     collection do
       get '/find' => 'clients#find'
     end
@@ -120,6 +120,8 @@ Rails.application.routes.draw do
     get 'version' => 'clients#version'
   end
 
+  resources :attachments, only: [:index]
+  
   resources :families do
     resources :family_custom_fields
     get 'version' => 'families#version'
