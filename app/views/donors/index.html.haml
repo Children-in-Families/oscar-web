@@ -1,0 +1,42 @@
+.row
+  .col-xs-12
+    .ibox
+      .ibox-title
+        %h5= @results
+        %span.label.label-info= t('.donors')
+        .ibox-tools
+          - if can? :manage?, Donor
+            = link_to '#', {"data-target" => "#donorModal-", "data-toggle" => "modal", :type => "button"} do
+              .btn.btn-primary.btn-add
+                = t('.add_new_donor')
+      .ibox-content
+        .table-responsive
+          %table.table.table-bordered.table-striped.table-hover
+            %thead
+              %tr
+                %th.custom_column_name= t('.donor_names')
+                %th.custom_column_description= t('.description')
+                - if can? :manage, Donor
+                  %th.text-center.custom_column_manage{ colspan: '2' }= t('.manage')
+                - if can? :version, Donor
+                  %th.changelog.text-center= t('.changelogs')
+            %tbody
+              - @donors.each do |donor|
+                %tr
+                  %td= donor.name
+                  %td= donor.description
+                  - if can? :manage, Donor
+                    %td.text-center
+                      = link_to '#', {class: 'btn btn-outline btn-success btn-xs',
+                                      'data-target': "#donorModal-#{donor.id}",
+                                      'data-toggle': 'modal', type: 'button'} do
+                        = fa_icon('pencil')
+                    -# %td.text-center
+                    -#   = remove_link(department, { department_usercount: donor.users_count })
+                  - if can? :version, Donor
+                    %td.text-center
+                      = link_to t('.view'), donor_version_path(donor)
+                  = render 'form', donor: donor
+      .ibox-footer.text-center
+        = paginate @donors
+= render 'form'

@@ -518,6 +518,7 @@ km:
       referral_sources: ប្រភពនៃការបញ្ជូន
       quantitative_types: ប្រភេទនៃបរិមាណ
       able_screening_questions: សំនួរ Able Screening
+      donors: ម្ចាស់ជំនួយ
       changelogs: កំណែប្រែទិន្នន័យ
       account: គណនី
       edit_profile: កែសម្រួលពត៌មានផ្ទាល់ខ្លួន
@@ -996,6 +997,39 @@ km:
       successfully_deleted: កម្មវិធីត្រូវបានលុបចោលដោយជោគជ័យ
       failed_delete: កម្មវិធីមិនបានលុបចោលដោយជោគជ័យ
       alert: កម្មវិធីមិនអាចលុបចោលបានទេ
+    version:
+      modification_of: កំណែប្រែរបស់
+      back: ត្រលប់ក្រោយ
+  donors:
+    index:
+      add_new_donor: បន្ថែមម្ចាស់ជំនួយថ្មី
+      donors: ម្ចាស់ជំនួយ
+      donor_names: ឈ្មោះម្ចាស់ជំនួយ
+      description: ការបរិយាយពីម្ចាស់ជំនួយ
+      manage: សកម្មភាព
+      are_you_sure: តើអ្នកប្រាកដហើយ?
+      changelogs: កំណែប្រែ
+      view: មើល
+    edit:
+      title: ពិនិត្យកែសម្រួលម្ចាស់ជំនួយ
+    new:
+      title: ម្ចាស់ជំនួយថ្មី
+    form:
+      donor: ម្ចាស់ជំនួយ
+      name: ឈ្មោះម្ចាស់ជំនួយ
+      description: ការបរិយាយ
+      save: រក្សាទុក
+      cancel: ទុកជាមោឃៈ
+    create:
+      successfully_created: ម្ចាស់ជំនួយបង្កើតបានដោយជោគជ័យ
+      failed_create: ម្ចាស់ជំនួយបង្កើតមិនបានជោគជ័យ
+    update:
+      successfully_updated: ម្ចាស់ជំនួយរក្សាបានដោយជោគជ័យ
+      failed_update: ម្ចាស់ជំនួយរក្សាបានមិនបានជោគជ័យ
+    destroy:
+      successfully_deleted: ម្ចាស់ជំនួយត្រូវបានលុបចោលដោយជោគជ័យ
+      failed_delete: ម្ចាស់ជំនួយមិនបានលុបចោលដោយជោគជ័យ
+      alert: ម្ចាស់ជំនួយមិនអាចលុបចោលបានទេ
     version:
       modification_of: កំណែប្រែរបស់
       back: ត្រលប់ក្រោយ

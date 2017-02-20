@@ -54,6 +54,10 @@ Rails.application.routes.draw do
     get 'version' => 'departments#version'
   end
 
+  resources :donors, except: [:show] do
+    get 'version' => 'donors#version'
+  end
+
   resources :changelogs do
     get 'version' => 'changelogs#version'
   end
@@ -112,7 +116,7 @@ Rails.application.routes.draw do
     resources :progress_notes do
       get 'version' => 'progress_notes#version'
     end
-    
+
     collection do
       get '/find' => 'clients#find'
     end
