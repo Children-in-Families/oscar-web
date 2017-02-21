@@ -1,5 +1,5 @@
 #per_page_form
-	= simple_form_for('', url: department_version_path(@department), method: 'GET') do |f|
+	= simple_form_for('', url: url_per_page(controller_name, resource_name), method: 'GET') do |f|
 		.row
 			.col-xs-4
 				%label.page-select-label

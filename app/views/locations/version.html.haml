@@ -8,6 +8,6 @@
           .col-xs-8.col-md-7.text-center
             %u= "#{t('.modification_of')} #{@location.name}"
           .col-xs-12.col-md-3
-            = render 'per_page_form'
+            = render 'shared/per_page_form', resource_name: @location
 
         = render 'shared/version'

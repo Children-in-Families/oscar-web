@@ -1,8 +1,0 @@
-#per_page_form
-	= simple_form_for('', url: domain_version_path(@domain), method: 'GET') do |f|
-		.row
-			.col-xs-4
-				%label.page-select-label
-					= t('.show')
-			.col-xs-8.page-select
-				= f.input :per_page, as: :select, collection: [5, 10 ,15, 20], selected: params[:per_page] || 20, label: false
