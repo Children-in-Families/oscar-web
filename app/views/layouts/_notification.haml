@@ -1,8 +1,8 @@
 %li.dropdown
   %a.dropdown-toggle.count-info{"data-toggle" => "dropdown", :href => "#"}
     %i.fa.fa-bell
-    - if @notification.count >= 1
-      %span.label.label-primary= @notification.count
+    - if @notification.all_count >= 1
+      %span.label.label-primary= @notification.all_count
   %ul.dropdown-menu.dropdown-alerts.animated.fadeInRight
     - if @notification.any_overdue_tasks?
       %li
@@ -41,7 +41,7 @@
                 %i.fa.fa-tasks.fa-fw
                 = notification_client_exit(day)
           %li.divider
-    - if @notification.count.zero?
+    - if @notification.all_count.zero?
       %li
         %div.notify-margin
         %p.text-center
