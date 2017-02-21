@@ -35,8 +35,9 @@ class DepartmentsController < AdminController
   end
 
   def version
+    page = params[:per_page] || 20
     @department = Department.find(params[:department_id])
-    @versions   = @department.versions.reorder(created_at: :desc).page(params[:page]).per(10)
+    @versions   = @department.versions.reorder(created_at: :desc).page(params[:page]).per(page)
   end
 
   private

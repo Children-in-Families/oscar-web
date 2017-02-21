@@ -34,8 +34,9 @@ class LocationsController < AdminController
   end
 
   def version
+    page = params[:per_page] || 20
     @location = Location.find(params[:location_id])
-    @versions = @location.versions.reorder(created_at: :desc).page(params[:page]).per(10)
+    @versions = @location.versions.reorder(created_at: :desc).page(params[:page]).per(page)
   end
 
   private

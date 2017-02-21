@@ -35,8 +35,9 @@ class DomainGroupsController < AdminController
   end
 
   def version
+    page = params[:per_page] || 20
     @domain_group = DomainGroup.find(params[:domain_group_id])
-    @versions     = @domain_group.versions.reorder(created_at: :desc).page(params[:page]).per(10)
+    @versions     = @domain_group.versions.reorder(created_at: :desc).page(params[:page]).per(page)
   end
 
   private

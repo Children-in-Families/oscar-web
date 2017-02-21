@@ -99,8 +99,9 @@ class ClientsController < AdminController
   end
 
   def version
+    page = params[:per_page] || 20
     @client   = Client.accessible_by(current_ability).friendly.find(params[:client_id]).decorate
-    @versions = @client.versions.reorder(created_at: :desc).page(params[:page]).per(10)
+    @versions = @client.versions.reorder(created_at: :desc).page(params[:page]).per(page)
   end
 
   def find
