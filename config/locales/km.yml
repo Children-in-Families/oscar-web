@@ -1023,11 +1023,11 @@ km:
       save: រក្សាទុក
       cancel: ទុកជាមោឃៈ
     create:
-      successfully_created: ម្ចាស់ជំនួយបង្កើតបានដោយជោគជ័យ
+      successfully_created: ម្ចាស់ជំនួយត្ូវបានបង្កើតបានដោយជោគជ័យ
       failed_create: ម្ចាស់ជំនួយបង្កើតមិនបានជោគជ័យ
     update:
-      successfully_updated: ម្ចាស់ជំនួយរក្សាបានដោយជោគជ័យ
-      failed_update: ម្ចាស់ជំនួយរក្សាបានមិនបានជោគជ័យ
+      successfully_updated: ម្ចាស់ជំនួយត្រូវបានកែសម្រួលដោយជោគជ័យ
+      failed_update: ម្ចាស់ជំនួយកែសម្រួលមិនបានជោគជ័យ
     destroy:
       successfully_deleted: ម្ចាស់ជំនួយត្រូវបានលុបចោលដោយជោគជ័យ
       failed_delete: ម្ចាស់ជំនួយមិនបានលុបចោលដោយជោគជ័យ

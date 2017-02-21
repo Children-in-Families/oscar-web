@@ -15,6 +15,8 @@ ActiveRecord::Schema.define(version: 20170220064819) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "uuid-ossp"
+  enable_extension "hstore"
 
   create_table "able_screening_questions", force: :cascade do |t|
     t.string   "question"
@@ -912,8 +914,6 @@ ActiveRecord::Schema.define(version: 20170220064819) do
   add_foreign_key "quarterly_reports", "cases"
   add_foreign_key "surveys", "clients"
   add_foreign_key "tasks", "clients"
-  add_foreign_key "thredded_messageboard_users", "thredded_messageboards"
-  add_foreign_key "thredded_messageboard_users", "thredded_user_details"
   add_foreign_key "user_custom_fields", "custom_fields"
   add_foreign_key "user_custom_fields", "users"
   add_foreign_key "users", "organizations"

@@ -3,6 +3,5 @@ class Donor < ActiveRecord::Base
 
 	has_paper_trail
 
-	validates :name, presence:   true
-	validates :name, uniqueness: true
+	validates :name, presence: true, uniqueness: { case_sensitive: false }
 end
