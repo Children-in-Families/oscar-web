@@ -36,7 +36,7 @@ class DomainGroupsController < AdminController
 
   def version
     @domain_group = DomainGroup.find(params[:domain_group_id])
-    @versions     = @domain_group.versions.reorder(created_at: :desc)
+    @versions     = @domain_group.versions.reorder(created_at: :desc).page(params[:page]).per(10)
   end
 
   private

@@ -53,7 +53,7 @@ class ProgressNotesController < AdminController
 
   def version
     @progress_note = @client.progress_notes.find(params[:progress_note_id])
-    @versions      = @progress_note.versions.reorder(created_at: :desc)
+    @versions      = @progress_note.versions.reorder(created_at: :desc).page(params[:page]).per(10)
   end
 
   private

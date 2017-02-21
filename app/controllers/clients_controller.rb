@@ -100,7 +100,7 @@ class ClientsController < AdminController
 
   def version
     @client   = Client.accessible_by(current_ability).friendly.find(params[:client_id]).decorate
-    @versions = @client.versions.reorder(created_at: :desc)
+    @versions = @client.versions.reorder(created_at: :desc).page(params[:page]).per(10)
   end
 
   def find
@@ -129,7 +129,7 @@ class ClientsController < AdminController
       collection.organization = value
     end
   end
-  
+
   private
 
   def find_client

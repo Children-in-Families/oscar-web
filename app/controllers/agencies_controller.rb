@@ -36,7 +36,7 @@ class AgenciesController < AdminController
 
   def version
     @agency   = Agency.find(params[:agency_id])
-    @versions = @agency.versions.reorder(created_at: :desc)
+    @versions = @agency.versions.reorder(created_at: :desc).page(params[:page]).per(10)
   end
 
   private

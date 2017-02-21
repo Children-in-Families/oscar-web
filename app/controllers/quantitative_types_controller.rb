@@ -36,7 +36,7 @@ class QuantitativeTypesController < AdminController
 
   def version
     @quantitative_type = QuantitativeType.find(params[:quantitative_type_id])
-    @versions          = @quantitative_type.versions.reorder(created_at: :desc)
+    @versions          = @quantitative_type.versions.reorder(created_at: :desc).page(params[:page]).per(10)
   end
 
   private

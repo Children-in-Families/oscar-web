@@ -35,7 +35,7 @@ class LocationsController < AdminController
 
   def version
     @location = Location.find(params[:location_id])
-    @versions = @location.versions.reorder(created_at: :desc)
+    @versions = @location.versions.reorder(created_at: :desc).page(params[:page]).per(10)
   end
 
   private

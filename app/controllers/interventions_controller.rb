@@ -35,7 +35,7 @@ class InterventionsController < AdminController
 
   def version
     @intervention = Intervention.find(params[:intervention_id])
-    @versions     = @intervention.versions.reorder(created_at: :desc)
+    @versions     = @intervention.versions.reorder(created_at: :desc).page(params[:page]).per(10)
   end
 
   private

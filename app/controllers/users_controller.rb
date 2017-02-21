@@ -60,7 +60,7 @@ class UsersController < AdminController
 
   def version
     @user     = User.find(params[:user_id])
-    @versions = @user.versions.reorder(created_at: :desc)
+    @versions = @user.versions.reorder(created_at: :desc).page(params[:page]).per(10)
   end
 
   def disable
