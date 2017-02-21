@@ -1,8 +1,11 @@
 class UserNotification
+
+  attr_reader :all_count
+
   def initialize(user)
     @user        = user
     @assessments = @user.assessment_either_overdue_or_due_today
-    @all_count = count
+    @all_count   = count
   end
 
   def overdue_tasks_count
