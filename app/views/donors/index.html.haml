@@ -14,9 +14,9 @@
           %table.table.table-bordered.table-striped.table-hover
             %thead
               %tr
-                %th.custom-column-name= t('.donor_names')
-                %th.custom-column-client= t('.clients')
-                %th.custom-column-description= t('.description')
+                %th.name= t('.donor_names')
+                %th.description= t('.description')
+                %th= t('.clients')
                 - if can? :manage, Donor
                   %th.text-center.custom_column_manage{ colspan: '2' }= t('.manage')
                 - if can? :version, Donor
@@ -25,11 +25,11 @@
               - @donors.each do |donor|
                 %tr
                   %td= donor.name
+                  %td= donor.description
                   %td
                     - donor.clients.each do |client|
                       %strong.label.label-default.client
                         = link_to client.name, client_path(client)
-                  %td= donor.description
                   - if can? :manage, Donor
                     %td.text-center
                       = link_to '#', {class: 'btn btn-outline btn-success btn-xs',

@@ -176,6 +176,12 @@
             %table.table.table-bordered
               %tr
                 %td.spacing-first-col
+                  = t('.donor')
+                %td
+                  %strong
+                    = @client.donor_name
+              %tr
+                %td.spacing-first-col
                   = t('.address')
                 %td
                   %strong
@@ -279,12 +285,6 @@
                 %td
                   %strong
                     = user @client.user if @client.user
-              %tr
-                %td.spacing-first-col
-                  = t('.donor')
-                %td
-                  %strong
-                    = @client.donor_name
               %tr
                 %td.spacing-first-col
                   = t('.agencies_involved')
