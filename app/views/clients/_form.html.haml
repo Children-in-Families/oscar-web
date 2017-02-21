@@ -63,6 +63,9 @@
           = f.input :relevant_referral_information, input_html: { style: 'height: 120px;' }, label: "#{t('.relevant_referral_information')}"
         .col-xs-12.col-md-4
           = f.input :able_state, collection: Client::ABLE_STATES, label: t('.able_state')
+        .col-xs-12.col-md-4
+          = f.association :donor, collection: @donors, label: t('.donor')
+
 
       - QuantitativeType.all.each do |qt|
         .row

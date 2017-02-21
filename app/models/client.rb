@@ -18,6 +18,8 @@ class Client < ActiveRecord::Base
 
   EXIT_STATUSES = CLIENT_STATUSES.select { |status| status if status.include?('Exited') }
 
+  delegate :name, to: :donor, prefix: true, allow_nil: true
+
   belongs_to :referral_source,  counter_cache: true
   belongs_to :province,         counter_cache: true
   belongs_to :user,             counter_cache: true

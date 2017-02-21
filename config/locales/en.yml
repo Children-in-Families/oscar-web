@@ -241,6 +241,7 @@ en:
     relevant_referral_information: Relevant Referral Information
     state: Accept/Reject
     reject_note: Rejected Note
+    donor: Donor
     case_worker_or_staff: Case Worker / Staff
     followed_up_by: Followed Up By
     address: Address
@@ -941,6 +942,7 @@ en:
   donors:
     index:
       add_new_donor: Add New Donor
+      clients: Clients 
       donors: Donors
       donor_names: Donor Name
       description: Description
@@ -1712,6 +1714,7 @@ en:
       progress_note_types: Types of Note
       able_screening_questions: Able Screening Questions
       stages: Stages
+      donors: Donors
     per_page_form:
       show: Show
   shared:

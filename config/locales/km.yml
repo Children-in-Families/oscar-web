@@ -241,6 +241,7 @@ km:
     current_address: ឣាសយដ្ឋានបច្ចុប្បន្ន
     school_grade: កំរិតថ្នាក់
     has_been_in_orphanage: ធ្លាប់បាននៅក្នុងមណ្ឌលកុមារកំព្រា
+    donor: ម្ចាស់ជំនួយ
     relevant_referral_information: ពត៌មានសំខាន់ៗនៃការបញ្ចួនករណី
     state: ទទួល/បដិសេធ
     case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
@@ -1005,6 +1006,7 @@ km:
       add_new_donor: បន្ថែមម្ចាស់ជំនួយថ្មី
       donors: ម្ចាស់ជំនួយ
       donor_names: ឈ្មោះម្ចាស់ជំនួយ
+      clients: អតិថិជន
       description: ការបរិយាយពីម្ចាស់ជំនួយ
       manage: សកម្មភាព
       are_you_sure: តើអ្នកប្រាកដហើយ?
@@ -1923,6 +1925,7 @@ km:
       progress_note_types: កំណត់សំគាល់
       able_screening_questions: សំនួរ Able Screening
       stages: តំណាក់កាល
+      donors: ម្ចាស់ជំនួយ
     per_page_form:
       show: បង្ហាញ
   shared:

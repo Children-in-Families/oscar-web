@@ -281,6 +281,12 @@
                     = user @client.user if @client.user
               %tr
                 %td.spacing-first-col
+                  = t('.donor')
+                %td
+                  %strong
+                    = @client.donor_name
+              %tr
+                %td.spacing-first-col
                   = t('.agencies_involved')
                 %td
                   - @client.agencies.each do|agency|

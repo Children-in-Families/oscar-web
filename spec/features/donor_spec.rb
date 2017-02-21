@@ -25,65 +25,65 @@ describe 'Donor' do
     end
   end
 
-  # feature 'Create', js: true do
-  #   before do
-  #     visit departments_path
-  #   end
-  #   scenario 'valid' do
-  #     click_link('New Department')
-  #     within('#new_department') do
-  #       fill_in 'Name', with: FFaker::Name.name
-  #       click_button 'Save'
-  #     end
-  #     wait_for_ajax
-  #     expect(page).to have_content('Department has been successfully created.')
-  #   end
-  #   scenario 'invalid' do
-  #     click_link('New Department')
-  #     within('#new_department') do
-  #       click_button 'Save'
-  #     end
-  #     wait_for_ajax
-  #     expect(page).to have_content('Failed to create a department')
-  #   end
-  # end
-  #
-  # feature 'Edit', js: true do
-  #   let!(:name){ FFaker::Name.name }
-  #   before do
-  #     visit departments_path
-  #   end
-  #   scenario 'valid' do
-  #     find("a[data-target='#departmentModal-#{department.id}']").click
-  #     within("#departmentModal-#{department.id}") do
-  #       fill_in 'Name', with: name
-  #       click_button 'Save'
-  #     end
-  #     wait_for_ajax
-  #     expect(page).to have_content('Department has been successfully updated')
-  #   end
-  #   scenario 'invalid' do
-  #     find("a[data-target='#departmentModal-#{department.id}']").click
-  #     within("#departmentModal-#{department.id}") do
-  #       fill_in 'Name', with: ''
-  #       click_button 'Save'
-  #     end
-  #     wait_for_ajax
-  #     expect(page).to have_content(I18n.t('departments.update.failed_update'))
-  #   end
-  # end
-  #
-  # feature 'Delete', js: true do
-  #   before do
-  #     visit departments_path
-  #   end
-  #   scenario 'success' do
-  #     find("a[href='#{department_path(department)}'][data-method='delete']").click
-  #     wait_for_ajax
-  #     expect(page).to have_content('Department has been successfully deleted')
-  #   end
-  #   scenario 'disable' do
-  #     expect(page).to have_css("a[href='#{department_path(other_department)}'][data-method='delete'][class='btn btn-outline btn-danger btn-xs disabled']")
-  #   end
-  # end
+  feature 'Create', js: true do
+    before do
+      visit donors_path
+    end
+    scenario 'valid' do
+      click_link('New Donor')
+      within('#new_donor') do
+        fill_in 'Name', with: FFaker::Name.name
+        click_button 'Save'
+      end
+      wait_for_ajax
+      expect(page).to have_content('Donor has been successfully created.')
+    end
+    scenario 'invalid' do
+      click_link('New Donor')
+      within('#new_donor') do
+        click_button 'Save'
+      end
+      wait_for_ajax
+      expect(page).to have_content('Failed to create a donor')
+    end
+  end
+
+  feature 'Edit', js: true do
+    let!(:name){ FFaker::Name.name }
+    before do
+      visit donors_path
+    end
+    scenario 'valid' do
+      find("a[data-target='#donorModal-#{donor.id}']").click
+      within("#donorModal-#{donor.id}") do
+        fill_in 'Name', with: name
+        click_button 'Save'
+      end
+      wait_for_ajax
+      expect(page).to have_content('Donor has been successfully updated')
+    end
+    scenario 'invalid' do
+      find("a[data-target='#donorModal-#{donor.id}']").click
+      within("#donorModal-#{donor.id}") do
+        fill_in 'Name', with: ''
+        click_button 'Save'
+      end
+      wait_for_ajax
+      expect(page).to have_content('Failed to update a donor')
+    end
+  end
+
+  feature 'Delete', js: true do
+    before do
+      visit donors_path
+    end
+    scenario 'success' do
+      find("a[href='#{donor_path(donor)}'][data-method='delete']").click
+      wait_for_ajax
+      expect(page).to have_content('Donor has been successfully deleted')
+    end
+    # scenario 'disable' do
+    #   expect(page).to have_css("a[href='#{donor_path(other_donor)}'][data-method='delete'][class='btn btn-outline btn-danger btn-xs disabled']")
+    # end
+  end
 end

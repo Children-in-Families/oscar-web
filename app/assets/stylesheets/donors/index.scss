@@ -1,0 +1,21 @@
+body[id=donors-index] {
+  .btn-add {
+    margin: 0 0 10px 0;
+  }
+  .panel-body small a {
+    margin: 0 5px;
+    text-decoration: none;
+  }
+  .custom-column-name {
+    width: 300px;
+  }
+  .custom-column-client {
+    width: 500px;
+  }
+  strong.label.label-default.client {
+    margin-right: 3px;
+  }
+  .changelog {
+    min-width: 100px;
+  }
+}

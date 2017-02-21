@@ -1,6 +1,8 @@
 class Donor < ActiveRecord::Base
-	has_many :clients
+	has_many :clients, dependent: :restrict_with_error
 
-	validates :name, presence: true
+	has_paper_trail
+
+	validates :name, presence:   true
 	validates :name, uniqueness: true
 end
