@@ -1,0 +1,1 @@
+= PaperTrail::Version.where(item_type: 'Client', created_at: Date.yesterday..Date.tomorrow).select{|a| (a.changeset[:gender].last == 'female' if a.changeset[:gender] && a.changeset[:birth_province_id].last == Province.find_by(name: 'សៀមរាប / Siem Reap').id if a.changeset[:birth_province_id])}

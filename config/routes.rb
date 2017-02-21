@@ -146,4 +146,6 @@ Rails.application.routes.draw do
     resources :custom_fields
   end
 
+  resources :papertrail_queries, only: [:index]
+
 end
