@@ -186,7 +186,7 @@ class ClientGrid
        ids << c.id if c.next_assessment_date == Date.today
       end
     else
-      client.all.each do |c|
+      client.each do |c|
        ids << c.id if c.next_assessment_date < Date.today
       end
     end

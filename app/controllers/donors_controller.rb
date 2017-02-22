@@ -34,8 +34,9 @@ class DonorsController < AdminController
   end
 
   def version
+		page = params[:per_page] || 20
     @donor = Donor.find(params[:donor_id])
-    @versions   = @donor.versions.reorder(created_at: :desc)
+    @versions   = @donor.versions.reorder(created_at: :desc).page(params[:page]).per(page)
   end
 
   private
