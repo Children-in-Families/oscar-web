@@ -19,6 +19,7 @@
 //= require datepicker
 //= require metisMenu/jquery.metisMenu.js
 //= require highcharts.js
+//= require dropzone
 //= require form-builder.min.js
 //= require form-render.min.js
 
