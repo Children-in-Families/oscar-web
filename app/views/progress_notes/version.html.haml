@@ -8,6 +8,6 @@
           .col-xs-8.col-md-7.text-center
             %u= "#{t('.modification_of')} #{t('.progress_note')} #{date_format(@progress_note.date)}"
           .col-xs-12.col-md-3
-            = render 'shared/per_page_form', resource_name: @progress_note
+            = render 'shared/per_page_form'
 
         = render 'shared/version'
