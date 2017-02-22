@@ -5,7 +5,6 @@ class CasesController < AdminController
   before_action :find_case, only: [:edit, :update]
   before_action :find_association, except: [:index]
   before_action :can_create_case?, only: [:new, :create]
-  before_action :set_custom_field, only: [:new, :create, :edit, :update]
 
   def index
     @type = params[:case_type]
@@ -73,10 +72,6 @@ class CasesController < AdminController
     @family   = Family.order(:name)
     @partner  = Partner.order(:name)
     @province = Province.order(:name)
-  end
-
-  def set_custom_field
-    @custom_field = CustomField.find_by(entity_name: 'Case')
   end
 
   def find_case

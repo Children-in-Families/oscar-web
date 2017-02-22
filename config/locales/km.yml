@@ -812,6 +812,10 @@ km:
           attributes:
             start_date:
               blank: មិនអាចរំលង
+            exit_date:
+              blank: មិនអាចរំលង
+            exit_note:
+              blank: មិនអាចរំលង
         stage:
           attributes:
             from_age:
