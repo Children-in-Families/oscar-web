@@ -8,6 +8,6 @@
           .col-xs-8.col-md-7.text-center
             %u= "#{t('.modification_of')} #{t('.domain')} #{@domain.name} (#{@domain.identity})"
           .col-xs-12.col-md-3
-            = render 'shared/per_page_form', resource_name: @domain
+            = render 'shared/per_page_form'
 
         = render 'shared/version'
