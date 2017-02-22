@@ -68,3 +68,4 @@
 //= require custom_fields/form
 //= require custom_fields/shared_fields
 //= require ckeditor/config
+//= require shared/version_per_page_form

@@ -35,8 +35,9 @@ class ProvincesController < AdminController
   end
 
   def version
+    page = params[:per_page] || 20
     @province = Province.find(params[:province_id])
-    @versions = @province.versions.reorder(created_at: :desc)
+    @versions = @province.versions.reorder(created_at: :desc).page(params[:page]).per(page)
   end
 
   private

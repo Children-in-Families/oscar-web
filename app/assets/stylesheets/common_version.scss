@@ -21,6 +21,19 @@ body[id='users-version'] {
     margin-bottom: 30px;
   }
 
+  .page-select-label {
+    line-height: 4;
+    margin-bottom: 0px;
+  }
+
+  .page-select {
+    margin-top: 8px;
+    .form-group
+    {
+      margin-bottom: 0px;
+    }
+  }
+  
   .btn-back {
     min-width: 100px;
   }

@@ -34,8 +34,9 @@ class MaterialsController < AdminController
   end
 
   def version
+    page = params[:per_page] || 20
     @material = Material.find(params[:material_id])
-    @versions = @material.versions.reorder(created_at: :desc)
+    @versions = @material.versions.reorder(created_at: :desc).page(params[:page]).per(page)
   end
 
   private
