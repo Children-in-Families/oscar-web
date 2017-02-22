@@ -183,11 +183,11 @@ class ClientGrid
     client = Client.joins(:assessments)
     if value == 'Due Today'
       client.each do |c|
-       ids << c.id if c.next_assessment_date == Date.today
+        ids << c.id if c.next_assessment_date == Date.today
       end
     else
       client.each do |c|
-       ids << c.id if c.next_assessment_date < Date.today
+        ids << c.id if c.next_assessment_date < Date.today
       end
     end
     scope.where(id: ids)

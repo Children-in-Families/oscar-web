@@ -943,7 +943,7 @@ en:
   donors:
     index:
       add_new_donor: Add New Donor
-      clients: Clients 
+      clients: Clients
       donors: Donors
       donor_names: Donor Name
       description: Description
@@ -1719,6 +1719,8 @@ en:
     per_page_form:
       show: Show
   shared:
+    per_page_form:
+      show: Show
     version_type:
       client:
         'on': 'on'
