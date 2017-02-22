@@ -182,11 +182,11 @@ class ClientGrid
     ids = []
     if value == Assessment::DUE_STATES[0]
       Client.all_active_types.each do |c|
-       ids << c.id if c.next_assessment_date == Date.today
+        ids << c.id if c.next_assessment_date == Date.today
       end
     else
       Client.joins(:assessments).all_active_types.each do |c|
-       ids << c.id if c.next_assessment_date < Date.today
+        ids << c.id if c.next_assessment_date < Date.today
       end
     end
     scope.where(id: ids)
