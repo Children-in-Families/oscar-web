@@ -1,5 +1,5 @@
 PaperTrail.config.track_associations = true
-PaperTrail.config.version_limit = 3
+PaperTrail.config.version_limit = nil
 
 # set whodunnit in rails console
 PaperTrail::Rails::Engine.eager_load!

@@ -140,3 +140,9 @@ describe Assessment, 'callbacks' do
     end
   end
 end
+
+describe Assessment, 'CONSTANTS' do
+  context 'DUE_STATES' do
+    it { expect(Assessment::DUE_STATES).to eq(['Due Today', 'Overdue']) }
+  end
+end
