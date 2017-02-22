@@ -37,7 +37,7 @@
                                       'data-toggle': 'modal', type: 'button'} do
                         = fa_icon('pencil')
                     %td.text-center
-                      = remove_link(donor)
+                      = remove_link(donor, donor_client: donor.clients.count)
                   - if can? :version, Donor
                     %td.text-center
                       = link_to t('.view'), donor_version_path(donor)
