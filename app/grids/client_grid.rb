@@ -178,6 +178,21 @@ class ClientGrid
     end
   end
 
+  filter(:assessments_due_to, :enum, select: ['Due Today', 'Overdue'], header: -> { I18n.t('datagrid.columns.clients.assessments_due_to') }) do |value, scope|
+    ids = []
+    client = Client.joins(:assessments)
+    if value == 'Due Today'
+      client.each do |c|
+       ids << c.id if c.next_assessment_date == Date.today
+      end
+    else
+      client.all.each do |c|
+       ids << c.id if c.next_assessment_date < Date.today
+      end
+    end
+    scope.where(id: ids)
+  end
+
   filter(:all_domains, :dynamic, select: ['All CSI'], header: -> { I18n.t('datagrid.columns.clients.domains') }) do |(field, operation, value), scope|
     value = value.to_i
     assessment_id = []
