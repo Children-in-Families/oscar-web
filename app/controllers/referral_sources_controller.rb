@@ -35,8 +35,9 @@ class ReferralSourcesController < AdminController
   end
 
   def version
+    page = params[:per_page] || 20
     @referral_source = ReferralSource.find(params[:referral_source_id])
-    @versions        = @referral_source.versions.reorder(created_at: :desc)
+    @versions        = @referral_source.versions.reorder(created_at: :desc).page(params[:page]).per(page)
   end
 
   private
