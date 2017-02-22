@@ -137,6 +137,8 @@ class ClientGrid
     User.has_clients.map { |user| [user.name, user.id] }
   end
 
+  filter(:donor, :enum, select: -> { Donor.pluck(:name, :id) }, header: -> { I18n.t('datagrid.columns.clients.donor') })
+
   filter(:state, :enum, select: %w(Accepted Rejected), header: -> { I18n.t('datagrid.columns.clients.state') }) do |value, scope|
     value == 'Accepted' ? scope.accepted : scope.rejected
   end
@@ -384,6 +386,10 @@ class ClientGrid
 
   column(:user, order: proc { |scope| scope.joins(:user).reorder('users.first_name') }, header: -> { I18n.t('datagrid.columns.clients.case_worker_or_staff') }) do |object|
     object.user.try(:name)
+  end
+
+  column(:donor, header: -> { I18n.t('datagrid.columns.clients.donor')}) do |object|
+    object.donor_name
   end
 
   column(:case_start_date, order: false, header: -> { I18n.t('datagrid.columns.clients.placements.start_date') }) do |object|
