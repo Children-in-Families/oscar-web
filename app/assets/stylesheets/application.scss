@@ -61,5 +61,6 @@
 @import 'top_navbar';
 @import 'common_version';
 
-@import 'formBuilder/sass/*';
+@import 'formBuilder/form-builder.min';
+@import 'formBuilder/form-render.min';
 @import 'custom_fields/*';
