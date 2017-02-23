@@ -111,7 +111,11 @@ class ClientsController < AdminController
   private
 
   def find_client_by(params)
-    Client.filter(params)
+    if params[:first_name] && params[:gender] && params[:birth_province_id] && params[:date_of_birth]
+      Client.filter(params)
+    else
+      []
+    end
   end
 
   def find_client_in_organization
