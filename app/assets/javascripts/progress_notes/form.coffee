@@ -92,6 +92,7 @@ CIF.Progress_notesNew = CIF.Progress_notesCreate = CIF.Progress_notesEdit = CIF.
         @element.querySelector('input[type=submit]').addEventListener 'click', (e) ->
           e.preventDefault()
           e.stopPropagation()
+          $('.loader').css('display', 'block')
           form = $(this).closest('.dropzone')
           if form.valid() == true
             imgs = $(".dz-preview .dz-details .dz-filename span")
@@ -112,6 +113,7 @@ CIF.Progress_notesNew = CIF.Progress_notesCreate = CIF.Progress_notesEdit = CIF.
           slugId       = response.slug_id
           progressNote = response.progress_note
           if text != '' && successCallBackCount == this.files.length
+            $('.loader').css('display', 'none')
             $('#wrapper').data(
               message: text
               messageType: "notice"
@@ -119,7 +121,7 @@ CIF.Progress_notesNew = CIF.Progress_notesCreate = CIF.Progress_notesEdit = CIF.
             CIF.Common.initNotification()
           setTimeout(->
             window.location.href = "/clients/#{slugId}/progress_notes/#{progressNote.id}"
-          ,1500)
+          ,1000)
       )
 
 

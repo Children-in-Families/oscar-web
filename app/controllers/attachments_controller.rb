@@ -8,7 +8,7 @@ class AttachmentsController < AdminController
     if params[:attachments]
       attachments = params[:attachments]
       Attachment.destroy(attachments)
-      render json: [], status: 200
     end
+    render json: [], status: 200
   end
 end
