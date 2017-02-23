@@ -1,7 +1,4 @@
 class Case < ActiveRecord::Base
-  include CustomFieldProperties
-
-  serialize :properties, JSON
 
   belongs_to :user,   counter_cache: true
   belongs_to :family, counter_cache: true

@@ -945,7 +945,7 @@ en:
       add_new_donor: Add New Donor
       clients: Clients
       donors: Donors
-      donor_names: Donor Name
+      donor_names: Name
       description: Description
       manage: Manage
       are_you_sure: Are you sure you want to delete?

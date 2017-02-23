@@ -73,7 +73,7 @@ class ClientsController < AdminController
   end
 
   def update
-    if @client.update_attributes(merged_client_params)
+    if @client.update_attributes(client_params)
       if params[:client][:assessment_id]
         @assessment = Assessment.find(params[:client][:assessment_id])
         redirect_to client_assessment_path(@client, @assessment), notice: t('.assessment_successfully_created')
@@ -150,21 +150,13 @@ class ClientsController < AdminController
             :follow_up_date, :grade, :school_name, :current_address,
             :has_been_in_orphanage, :has_been_in_government_care,
             :relevant_referral_information, :user_id, :province_id, :donor_id,
-            :state, :rejected_note, :able, :able_state, :properties,
+            :state, :rejected_note, :able, :able_state,
             agency_ids: [],
             quantitative_case_ids: [],
             custom_field_ids: [],
             tasks_attributes: [:name, :domain_id, :completion_date],
             answers_attributes: [:id, :description, :able_screening_question_id, :client_id, :question_type])
 
-  end
-
-  def merged_client_params
-    if params['client']['properties'].present?
-      client_params.merge(properties: (params['client']['properties']).to_json)
-    else
-      client_params
-    end
   end
 
   def set_association
@@ -205,9 +197,5 @@ class ClientsController < AdminController
     else
       @client_grid = ClientGrid.new(params.fetch(:client_grid, {}).merge!(current_user: current_user))
     end
-  end
-
-  def client_properties_params
-    params['client']['properties'].present? ? { properties: (params['client']['properties']).to_json } : {}
   end
 end

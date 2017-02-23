@@ -13,6 +13,9 @@ body[id=donors-index] {
       padding: 0 5px;
     }
   }
+  .name, .clients {
+    min-width: 120px;
+  }
   .changelog {
     min-width: 100px;
   }

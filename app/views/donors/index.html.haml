@@ -16,7 +16,7 @@
               %tr
                 %th.name= t('.donor_names')
                 %th.description= t('.description')
-                %th= t('.clients')
+                %th.clients= t('.clients')
                 - if can? :manage, Donor
                   %th.text-center.custom_column_manage{ colspan: '2' }= t('.manage')
                 - if can? :version, Donor
