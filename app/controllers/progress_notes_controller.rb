@@ -47,7 +47,6 @@ class ProgressNotesController < AdminController
     if @progress_note.update_attributes(progress_note_params)
       if params[:attachments].present?
         @progress_note.save_attachment(params)
-        @progress_note.update_attachment(params)
         render json: { progress_note: @progress_note, text: t('.successfully_updated'), slug_id: @progress_note.client_slug_id }, status: 200
       else
         @progress_note.update_attachment(params)
