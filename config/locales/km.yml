@@ -1415,7 +1415,6 @@ km:
       successfully_updated: សំនួរទូទៅត្រូវបានកែសម្រួលដោយជោគជ័យ
     destroy:
       successfully_deleted: សំនួរទូទៅត្រូវបានលុបដោយជោគជ័យ
-
   devise:
     registrations:
       edit:
@@ -1881,7 +1880,7 @@ km:
     new:
       new_progress_note: កំណត់សំគាល់ការរីកចំរើនថ្មី
     edit:
-      cannot_be_blank: មិនអាចរំលង
+      # cannot_be_blank: មិនអាចរំលង
       edit_progress_note: កែសម្រួលកំណត់សំគាល់ការរីកចំរើន
     form:
       <<: *default_progress_note_fields

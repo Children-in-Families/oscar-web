@@ -1811,7 +1811,3 @@ en:
       new:
         save: Save
         form_builder: Form Builder
-
-  progress_notes:
-    form:
-      cannot_be_blank: can not be blank
