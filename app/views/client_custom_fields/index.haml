@@ -1,0 +1,74 @@
+-# .ibox
+-#   .ibox-title
+-#     .ibox-tools
+-#       = link_to "Add New #{@custom_field.form_title}", new_client_client_custom_field_path(@client, custom_field_id: params[:custom_field_id]), class: 'btn btn-primary'
+-#   .ibox-content
+-#     .table-responsive
+-#       %table.table.table-bordered.table-striped.table-hover
+-#         %thead
+-#           %tr
+-#             %th No.
+-#             %th= t('.form_title')
+-#             %th= "Created Date"
+-#             - if can? :manage, CustomField
+-#               %th.text-center.custom_column_manage{:colspan => "2"}
+-#                 = t('.manage')
+-#         %tbody
+-#           - @client_custom_field.each_with_index do |client_custom_field, index|
+-#             %tr
+-#               %td.align-justify
+-#                 = index + 1
+-#               %td.align-justify
+-#                 = link_to client_custom_field.custom_field.form_title, client_client_custom_field_path(@client, client_custom_field.id)
+-#               %td.align-justify
+-#                 = date_format client_custom_field.created_at
+-#               - if can? :manage, ClientCustomField
+-#                 %td.text-center
+-#                   = link_to edit_client_client_custom_field_path(@client, client_custom_field.id), class: 'btn btn-outline btn-success btn-xs' do
+-#                     = fa_icon('pencil')
+-#                   = link_to client_client_custom_field_path(@client, client_custom_field.id), class: "btn btn-outline btn-danger btn-xs margin-btn", method: :delete, data: { confirm: 'Are you sure you want to delete?' } do
+-#                     = fa_icon('trash')
+-#   .ibox-footer
+-#     = link_to t('.back'), client_path(@client), class: 'btn btn-default form-btn'
+.row
+  .col-xs-12
+    .ibox
+      .ibox-title
+        %h5= "#{@custom_field.form_title} "
+        .ibox-tools
+          = link_to new_client_client_custom_field_path(@client, custom_field_id: params[:custom_field_id]) do
+            .btn.btn-outline.btn-primary.button.form-btn
+              = "Add New #{@custom_field.form_title}"
+          = link_to client_path(@client) do
+            .btn.btn-outline.btn-success.button.form-btn
+              = t('.back')
+      .ibox-content
+        .row
+          - @client_custom_field.each do |client_custom_field|
+            .col-xs-12.col-md-6
+              .ibox.border-left-right.border-bottom
+                .ibox-title
+                  %h5
+                    Created Date
+                  %span.label.label-info
+                    = date_format client_custom_field.created_at
+                  .ibox-tools
+                    - if can? :manage, CustomField
+                      %small
+                        = link_to edit_client_client_custom_field_path(@client, client_custom_field.id) do
+                          .btn.btn-outline.btn-success
+                            = fa_icon('pencil')
+                      %small
+                        = link_to client_client_custom_field_path(@client, client_custom_field.id, custom_field_id: client_custom_field.custom_field_id),  method: :delete, data: { confirm: 'Are you sure you want to delete?' } do
+                          .btn.btn-outline.btn-danger
+                            = fa_icon('trash')
+                .ibox-content
+                  %table.table.table-bordered
+                    - client_custom_field.properties_objs.each do |key, value|
+                      %tr
+                        %td.align-justify
+                          = key.titleize
+                        %td.align-justify
+                          = display_custom_properties(value) || 'Unknow'
+      .ibox-footer.text-center
+        = paginate @client_custom_field
