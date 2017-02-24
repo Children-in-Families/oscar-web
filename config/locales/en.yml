@@ -241,6 +241,7 @@ en:
     relevant_referral_information: Relevant Referral Information
     state: Accept/Reject
     reject_note: Rejected Note
+    donor: Donor
     case_worker_or_staff: Case Worker / Staff
     followed_up_by: Followed Up By
     address: Address
@@ -394,6 +395,7 @@ en:
         quantitative_types: Quantitative Types
         family_id: Family ID
         any_assessments: Has Assessments
+        assessments_due_to: Assessments Due To
         assessments: Assessments
         has_date_of_birth: Has Date of Birth
         has_dob: 'Yes'
@@ -523,6 +525,7 @@ en:
       referral_sources: Referral Sources
       quantitative_types: Quantitative Types
       able_screening_questions: Able Screening Questions
+      donors: Donors
       changelogs: Changelogs
       account: Account
       edit_profile: Edit Profile
@@ -934,6 +937,40 @@ en:
       successfully_deleted: Department has been successfully deleted.
       failed_delete: Failed to delete a department
       alert: Department cannot be deleted.
+    version:
+      modification_of: Changelog of
+      back: Back
+  donors:
+    index:
+      add_new_donor: Add New Donor
+      clients: Clients
+      donors: Donors
+      donor_names: Donor Name
+      description: Description
+      manage: Manage
+      are_you_sure: Are you sure you want to delete?
+      changelogs: Changelog
+      view: View
+    edit:
+      title: Edit Donor
+    new:
+      title: New Donor
+    form:
+      donor: Donor
+      name: Name
+      description: Description
+      save: Save
+      cancel: Cancel
+    create:
+      successfully_created: Donor has been successfully created.
+      failed_create: Failed to create a donor
+    update:
+      successfully_updated: Donor has been successfully updated.
+      failed_update: Failed to update a donor
+    destroy:
+      successfully_deleted: Donor has been successfully deleted.
+      failed_delete: Failed to delete a donor
+      alert: Donor cannot be deleted.
     version:
       modification_of: Changelog of
       back: Back
@@ -1678,9 +1715,12 @@ en:
       progress_note_types: Types of Note
       able_screening_questions: Able Screening Questions
       stages: Stages
+      donors: Donors
     per_page_form:
       show: Show
   shared:
+    per_page_form:
+      show: Show
     version_type:
       client:
         'on': 'on'
@@ -1771,3 +1811,7 @@ en:
       new:
         save: Save
         form_builder: Form Builder
+
+  progress_notes:
+    form:
+      cannot_be_blank: can not be blank

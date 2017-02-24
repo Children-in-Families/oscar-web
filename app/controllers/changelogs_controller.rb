@@ -34,8 +34,9 @@ class ChangelogsController < AdminController
   end
 
   def version
+    page = params[:per_page] || 20
     @changelog = Changelog.find(params[:changelog_id])
-    @versions  = @changelog.versions.reorder(created_at: :desc)
+    @versions  = @changelog.versions.reorder(created_at: :desc).page(params[:page]).per(page)
   end
 
   private

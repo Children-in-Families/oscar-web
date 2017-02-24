@@ -28,6 +28,13 @@ class ProgressNote < ActiveRecord::Base
     end
   end
 
+  def save_attachment(params)
+    files = params[:attachments][:file].first
+    files.each do |file|
+      attachments.create(file: file[1]) if file[1].present?
+    end
+  end
+
   def other_location?
     other_location = Location.find_by(name: 'ផ្សេងៗ Other')
     location == other_location

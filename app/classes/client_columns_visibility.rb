@@ -48,7 +48,8 @@ class ClientColumnsVisibility
       age_: :age,
       slug_: :slug,
       family_id_: :family_id,
-      any_assessments_: :any_assessments
+      any_assessments_: :any_assessments,
+      donor_: :donor
     }
   end
 

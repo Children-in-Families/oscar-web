@@ -55,8 +55,9 @@ class FamiliesController < AdminController
   end
 
   def version
+    page = params[:per_page] || 20
     @family   = Family.find(params[:family_id])
-    @versions = @family.versions.reorder(created_at: :desc)
+    @versions = @family.versions.reorder(created_at: :desc).page(params[:page]).per(page)
   end
 
   private

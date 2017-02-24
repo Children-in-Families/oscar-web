@@ -6,6 +6,7 @@ describe Client, 'associations' do
   it { is_expected.to belong_to(:received_by) }
   it { is_expected.to belong_to(:followed_up_by) }
   it { is_expected.to belong_to(:birth_province) }
+  it { is_expected.to belong_to(:donor) }
 
   it { is_expected.to have_one(:government_report).dependent(:destroy) }
   it { is_expected.to have_many(:cases).dependent(:destroy) }
