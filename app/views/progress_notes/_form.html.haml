@@ -1,5 +1,6 @@
 = simple_form_for([@client, @progress_note], html: {class: 'dropzone', multipart: true, style:"border: 0;"}) do |f|
   = hidden_field(:progress_note, :id, value: @progress_note.id) if @progress_note.id.present?
+  = hidden_field(:progress_note, :error_text, value: t('cannot_be_blank'))
   .ibox-content
     = error_notification(f)
     .row
@@ -9,7 +10,7 @@
             %abbr{ title: 'required' } *
             = t('.date')
           .input-group.date
-            = f.text_field :date, required: true, class: 'date form-control date-picker .datepicker-dropdown date', type: 'text', name: 'progress_note[date]', id: 'progress_note_date', required: true
+            = f.text_field :date, required: true, class: 'date form-control date-picker datepicker-dropdown date', type: 'text', name: 'progress_note[date]', id: 'progress_note_date', required: true
             %span.input-group-addon
               %i.fa.fa-calendar-check-o
           = f.error :date

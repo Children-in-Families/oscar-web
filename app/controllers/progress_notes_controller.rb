@@ -49,7 +49,6 @@ class ProgressNotesController < AdminController
         @progress_note.save_attachment(params)
         render json: { progress_note: @progress_note, text: t('.successfully_updated'), slug_id: @progress_note.client_slug_id }, status: 200
       else
-        @progress_note.update_attachment(params)
         redirect_to client_progress_note_path(@client, @progress_note), notice: t('.successfully_updated')
       end
     else

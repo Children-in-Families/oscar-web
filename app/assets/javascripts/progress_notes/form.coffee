@@ -48,6 +48,15 @@ CIF.Progress_notesNew = CIF.Progress_notesCreate = CIF.Progress_notesEdit = CIF.
     $('.progress_note_location select').change ->
       _toggleOtherLocation()
 
+  _clearProgressNoteDateError = ->
+    $('.help-block').remove()
+    $('.has-error').removeClass('has-error')
+
+  _addProgressNoteDateError = ->
+    errorText = $('#progress_note_error_text').val()
+    $('#progress_note_date').addClass('has-error')
+    $('#progress_note_date').closest('.form-group').append("<span class='help-block' style='display:block;'> #{errorText} </span>")
+
   _initDropzone = ->
     successCallBackCount = 1
     Dropzone.autoDiscover = false
@@ -72,7 +81,6 @@ CIF.Progress_notesNew = CIF.Progress_notesCreate = CIF.Progress_notesEdit = CIF.
             dataType: 'JSON'
           ).success((json) ->
             attachments = json.attachments
-            beforeUrls = []
             for attachment in attachments
               mockFile =
                 name: attachment.name
@@ -83,23 +91,16 @@ CIF.Progress_notesNew = CIF.Progress_notesCreate = CIF.Progress_notesEdit = CIF.
               myDropzone.options.addedfile.call(myDropzone, mockFile)
               myDropzone.options.thumbnail.call(myDropzone, mockFile, attachment.file.file.dropzonethumb.url)
               myDropzone.files.push(mockFile)
-              beforeUrls.push(attachment.name)
               $(".dz-preview:last-child").attr('data-id', attachment.id)
 
-            form.append("<input type='hidden' name='beforeEdit' value='#{beforeUrls}' />");
             _handleCollectingRemoveFileId()
           )
         @element.querySelector('input[type=submit]').addEventListener 'click', (e) ->
           e.preventDefault()
           e.stopPropagation()
           $('.loader').css('display', 'block')
-          form = $(this).closest('.dropzone')
-          if form.valid() == true
-            imgs = $(".dz-preview .dz-details .dz-filename span")
-            filenames = []
-            for img in imgs
-              filenames.push($(img).text())
-            form.append("<input type='hidden' name='afterEdit' value='#{filenames}'/>");
+          if $('#progress_note_date').val() != ''
+            _clearProgressNoteDateError()
             progressNoteId = $('#progress_note_id').val()
             if typeof(progressNoteId) != 'undefined' && myDropzone.files.length >= 1
               myDropzone.uploadFiles(myDropzone.files)
@@ -107,6 +108,9 @@ CIF.Progress_notesNew = CIF.Progress_notesCreate = CIF.Progress_notesEdit = CIF.
               myDropzone.processQueue()
             else
               form.submit()
+          else
+            _addProgressNoteDateError()
+          $('.loader').css('display', 'none')
         @on 'success', (file, response) ->
           successCallBackCount += 1
           text         = response.text
@@ -123,6 +127,5 @@ CIF.Progress_notesNew = CIF.Progress_notesCreate = CIF.Progress_notesEdit = CIF.
             window.location.href = "/clients/#{slugId}/progress_notes/#{progressNote.id}"
           ,1000)
       )
-
 
   { init: _init }
