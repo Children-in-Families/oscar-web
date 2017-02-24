@@ -803,9 +803,9 @@ km:
       models:
         custom_field:
           attributes:
-            entity_name:
+            entity_type:
               blank: មិនអាចរំលង
-            form_type:
+            form_title:
               blank: មិនអាចរំលង
               taken: ត្រូវបានប្រើរួចហើយ
         case:
@@ -1969,13 +1969,13 @@ km:
     custom_fields:
       index:
         new_custom_form: បន្ថែមទម្រង់បែបបទថ្មី
-        entity_name: ទម្រង់បែបបទបន្ថែម
-        form_type: ប្រភេទនៃទម្រង់បែបបទបន្ថែម
+        entity_type: ទម្រង់បែបបទបន្ថែម
+        form_title: ប្រភេទនៃទម្រង់បែបបទបន្ថែម
         manage: គ្រប់គ្រង
       form:
         blank: មិនអាចរំលង
-        entity_name: ទម្រង់បែបបទបន្ថែម
-        form_type: ប្រភេទនៃទម្រង់បែបបទបន្ថែម
+        entity_type: ទម្រង់បែបបទបន្ថែម
+        form_title: ប្រភេទនៃទម្រង់បែបបទបន្ថែម
       edit:
         form_builder: ការសាងសង់ជាទម្រង់
       new:

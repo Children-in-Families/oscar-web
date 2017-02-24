@@ -1,6 +1,6 @@
 .ibox
   .ibox-title
-    %h5= @family_custom_field.custom_field.form_type
+    %h5= @family_custom_field.custom_field.form_title
     .ibox-tools
       - if can? :manage, FamilyCustomField
         = link_to edit_family_family_custom_field_path(@family_custom_field.family, @family_custom_field) do

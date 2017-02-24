@@ -1,7 +1,7 @@
 .ibox
   = simple_form_for([@user, @user_custom_field]) do |f|
     .ibox-title
-      %h5= @user_custom_field.custom_field.form_type
+      %h5= @user_custom_field.custom_field.form_title
     .ibox-content
       = render "shared/properties", custom_field: @user_custom_field.custom_field, f: f, entity: @user_custom_field
     .ibox-content

@@ -1759,13 +1759,13 @@ en:
     custom_fields:
       index:
         new_custom_form: New Custom Form
-        entity_name: Entity Name
-        form_type: Form Type
+        entity_type: Entity Type
+        form_title: Form Title
         manage: Manage
       form:
         blank: can't be blank
-        entity_name: Entity Name
-        form_type: Form Type
+        entity_type: Entity Type
+        form_title: Form Title
       edit:
         form_builder: Form Builder
       new:
