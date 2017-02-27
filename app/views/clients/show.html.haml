@@ -145,12 +145,7 @@
           - if can? :manage, AbleScreeningQuestion
             = able_screen_link(@client)
           = render('client_answers')
-          - @client.client_custom_fields.group_by(&:custom_field_id).each do |client_custom_field|
-            - if can? :manage, ClientCustomField
-              - if client_custom_field[1].first.properties_objs.blank?
-                = link_to client_custom_field[1].first.custom_field.form_title, edit_client_client_custom_field_path(@client, client_custom_field[1].first), class: 'btn-xs btn btn-success small-btn-margin'
-              - else
-                = link_to client_custom_field[1].first.custom_field.form_title, client_client_custom_fields_path(@client, custom_field_id: client_custom_field[1].first.custom_field.id), class: 'btn-xs btn btn-success small-btn-margin'
+          = render 'custom_fields', client: @client
 
 .row.mini-margin
   .col-xs-12

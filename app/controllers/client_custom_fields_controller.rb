@@ -25,7 +25,7 @@ class ClientCustomFieldsController < AdminController
   end
 
   def index
-    @client_custom_field = @client.client_custom_fields.where(custom_field: @custom_field).order(created_at: :desc).page(params[:page]).per(4)
+    @client_custom_field = @client.client_custom_fields.by_custom_field_id(@custom_field).order(created_at: :desc).page(params[:page]).per(4)
   end
 
   def destroy
@@ -34,7 +34,7 @@ class ClientCustomFieldsController < AdminController
   end
 
   private
-  
+
   def custom_field_params
     params.require(:client_custom_field).permit(:properties)
   end

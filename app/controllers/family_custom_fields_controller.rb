@@ -20,12 +20,12 @@ class FamilyCustomFieldsController < AdminController
   end
 
   def new
-    @family_custom_field = FamilyCustomField.new(custom_field: @custom_field, family: @family)
+    @family_custom_field = @family.family_custom_fields.new(custom_field: @custom_field)
     @family_custom_field.save
   end
 
   def index
-    @family_custom_field = @family.family_custom_fields.where(custom_field: @custom_field).order(created_at: :desc).page(params[:page]).per(4)
+    @family_custom_field = @family.family_custom_fields.by_custom_field_id(@custom_field).order(created_at: :desc).page(params[:page]).per(4)
   end
 
   def destroy
@@ -48,7 +48,7 @@ class FamilyCustomFieldsController < AdminController
   end
 
   protected
-  
+
   def set_family
     @family = Family.find(params[:family_id])
   end

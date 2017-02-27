@@ -25,7 +25,7 @@ class PartnerCustomFieldsController < AdminController
   end
 
   def index
-    @partner_custom_field = @partner.partner_custom_fields.where(custom_field: @custom_field).order(created_at: :desc).page(params[:page]).per(4)
+    @partner_custom_field = @partner.partner_custom_fields.by_custom_field_id(@custom_field).order(created_at: :desc).page(params[:page]).per(4)
   end
 
   def destroy

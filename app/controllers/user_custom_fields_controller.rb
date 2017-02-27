@@ -25,7 +25,7 @@ class UserCustomFieldsController < AdminController
   end
 
   def index
-    @user_custom_field = @user.user_custom_fields.where(custom_field: @custom_field).order(created_at: :desc).page(params[:page]).per(4)
+    @user_custom_field = @user.user_custom_fields.by_custom_field_id(@custom_field).order(created_at: :desc).page(params[:page]).per(4)
   end
 
   def destroy
