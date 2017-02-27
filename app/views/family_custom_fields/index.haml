@@ -4,39 +4,39 @@
       .ibox-title
         %h5= "#{@custom_field.form_title} "
         .ibox-tools
-          = link_to new_client_client_custom_field_path(@client, custom_field_id: params[:custom_field_id]) do
+          = link_to new_family_family_custom_field_path(@family, custom_field_id: params[:custom_field_id]) do
             .btn.btn-outline.btn-primary.button.form-btn
               = "Add New #{@custom_field.form_title}"
-          = link_to client_path(@client) do
+          = link_to family_path(@family) do
             .btn.btn-outline.btn-success.button.form-btn
               = t('.back')
       .ibox-content
         .row
-          - @client_custom_field.each do |client_custom_field|
+          - @family_custom_field.each do |family_custom_field|
             .col-xs-12.col-md-6
               .ibox.border-left-right.border-bottom
                 .ibox-title
                   %h5
                     Created Date
                   %span.label.label-info
-                    = date_format client_custom_field.created_at
+                    = date_format family_custom_field.created_at
                   .ibox-tools
                     - if can? :manage, CustomField
                       %small
-                        = link_to edit_client_client_custom_field_path(@client, client_custom_field.id) do
+                        = link_to edit_family_family_custom_field_path(@family, family_custom_field.id) do
                           .btn.btn-outline.btn-success
                             = fa_icon('pencil')
                       %small
-                        = link_to client_client_custom_field_path(@client, client_custom_field.id, custom_field_id: client_custom_field.custom_field_id),  method: :delete, data: { confirm: 'Are you sure you want to delete?' } do
+                        = link_to family_family_custom_field_path(@family, family_custom_field.id, custom_field_id: family_custom_field.custom_field_id),  method: :delete, data: { confirm: 'Are you sure you want to delete?' } do
                           .btn.btn-outline.btn-danger
                             = fa_icon('trash')
                 .ibox-content
                   %table.table.table-bordered
-                    - client_custom_field.properties_objs.each do |key, value|
+                    - family_custom_field.properties_objs.each do |key, value|
                       %tr
                         %td.align-justify
                           = key.titleize
                         %td.align-justify
                           = display_custom_properties(value) || 'Unknow'
       .ibox-footer.text-center
-        = paginate @client_custom_field
+        = paginate @family_custom_field
