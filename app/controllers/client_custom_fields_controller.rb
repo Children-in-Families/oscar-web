@@ -20,8 +20,11 @@ class ClientCustomFieldsController < AdminController
   end
 
   def new
-    @client_custom_field = ClientCustomField.create(custom_field: @custom_field, client: @client)
-    redirect_to edit_client_client_custom_field_path(@client, @client_custom_field), notice: 'Succesfully create new form'
+    @client_custom_field = ClientCustomField.new(custom_field: @custom_field, client: @client)
+    if @client_custom_field.save
+        # rollback @client_custom_field
+      redirect_to edit_client_client_custom_field_path(@client, @client_custom_field), notice: 'Succesfully create new form'
+    end
   end
 
   def index
