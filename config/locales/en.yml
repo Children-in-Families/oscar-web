@@ -1743,15 +1743,39 @@ en:
         Stage: Stage
 
   client_custom_fields:
+    create:
+      successfully_created: Succesfully save information.
+    update:
+      successfully_created: Succesfully save information.
+    destroy:
+      successfully_deleted: Succesfully delete information.
     show:
       back: Back
   partner_custom_fields:
+    create:
+      successfully_created: Succesfully save information.
+    update:
+      successfully_created: Succesfully save information.
+    destroy:
+      successfully_deleted: Succesfully delete information.
     show:
       back: Back
   family_custom_fields:
+    create:
+      successfully_created: Succesfully save information.
+    update:
+      successfully_created: Succesfully save information.
+    destroy:
+      successfully_deleted: Succesfully delete information.
     show:
       back: Back
   user_custom_fields:
+    create:
+      successfully_created: Succesfully save information.
+    update:
+      successfully_created: Succesfully save information.
+    destroy:
+      successfully_deleted: Succesfully delete information.
     show:
       back: Back
 

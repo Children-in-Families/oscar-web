@@ -2,7 +2,7 @@
   .ibox-title
     %h5= @partner_custom_field.custom_field.form_title
     .ibox-tools
-      - if can? :manage, PartnerCustomField
+      - if can? :manage, ClientCustomField
         = link_to edit_partner_partner_custom_field_path(@partner_custom_field.partner, @partner_custom_field) do
           .btn.btn-xs.btn-outline.btn-success
             %i.fa.fa-pencil
@@ -15,4 +15,4 @@
           %td.align-justify
             = display_custom_properties(value)
   .ibox-footer
-    = link_to t('.back'), partner_path(@partner_custom_field.partner), class: 'btn btn-default form-btn'
+    = link_to t('.back'), partner_partner_custom_fields_path(@partner_custom_field.partner, custom_field_id: @partner_custom_field.custom_field_id), class: 'btn btn-default form-btn'

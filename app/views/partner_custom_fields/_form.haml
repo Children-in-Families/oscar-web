@@ -6,4 +6,4 @@
       = render "shared/properties", custom_field: @partner_custom_field.custom_field, f: f, entity: @partner_custom_field
     .ibox-content
       = f.submit 'Save', class: 'btn btn-primary form-btn'
-      = link_to 'Back', partner_partner_custom_field_path(@partner,@partner_custom_field), class: 'btn btn-default form-btn'
+      = link_to 'Back', partner_partner_custom_fields_path(@partner, custom_field_id: @partner_custom_field.custom_field_id), class: 'btn btn-default form-btn'

@@ -10,7 +10,7 @@ class UserCustomFieldsController < AdminController
 
   def update
     if @user_custom_field.update(merged_custom_field_params)
-      redirect_to user_user_custom_field_path(@user, @user_custom_field), notice: 'Succesfully save information'
+      redirect_to user_user_custom_fields_path(@user, custom_field_id: @user_custom_field.custom_field_id), notice: t('.successfully_created')
     else
       render :edit
     end
@@ -21,10 +21,7 @@ class UserCustomFieldsController < AdminController
 
   def new
     @user_custom_field = @user.user_custom_fields.new(custom_field: @custom_field)
-    if @user_custom_field.save
-        # rollback @client_custom_field
-        # redirect_to edit_client_client_custom_field_path(@client, @client_custom_field), notice: 'Succesfully create new form'
-    end
+    @user_custom_field.save
   end
 
   def index

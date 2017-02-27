@@ -1953,15 +1953,39 @@ km:
         Stage: តំណាក់កាល
 
   client_custom_fields:
+    create:
+      successfully_created: ពត័មានត្រូវបានរក្សាដោយជោគជ័យ
+    update:
+      successfully_created: ពត័មានត្រូវបានរក្សាដោយជោគជ័យ
+    destroy:
+      successfully_deleted: ពត័មានត្រូវបានលប់ដោយជោគជ័យ
     show:
       back: ត្រឡប់មកវិញ
   partner_custom_fields:
+    create:
+      successfully_created: ពត័មានត្រូវបានរក្សាដោយជោគជ័យ
+    update:
+      successfully_created: ពត័មានត្រូវបានរក្សាដោយជោគជ័យ
+    destroy:
+      successfully_deleted: ពត័មានត្រូវបានលប់ដោយជោគជ័យ
     show:
       back: ត្រឡប់មកវិញ
   family_custom_fields:
+    create:
+      successfully_created: ពត័មានត្រូវបានរក្សាដោយជោគជ័យ
+    update:
+      successfully_created: ពត័មានត្រូវបានរក្សាដោយជោគជ័យ
+    destroy:
+      successfully_deleted: ពត័មានត្រូវបានលប់ដោយជោគជ័យ
     show:
       back: ត្រឡប់មកវិញ
   user_custom_fields:
+    create:
+      successfully_created: ពត័មានត្រូវបានរក្សាដោយជោគជ័យ
+    update:
+      successfully_created: ពត័មានត្រូវបានរក្សាដោយជោគជ័យ
+    destroy:
+      successfully_deleted: ពត័មានត្រូវបានលប់ដោយជោគជ័យ
     show:
       back: ត្រឡប់មកវិញ
 
