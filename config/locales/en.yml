@@ -1756,6 +1756,9 @@ en:
       successfully_deleted: Succesfully delete information.
     show:
       back: Back
+    form:
+      save: Save
+      cancel: Cancel
   partner_custom_fields:
     index:
       add_new: Add New
@@ -1770,6 +1773,9 @@ en:
       successfully_deleted: Succesfully delete information.
     show:
       back: Back
+    form:
+      save: Save
+      cancel: Cancel
   family_custom_fields:
     index:
       add_new: Add New
@@ -1784,6 +1790,9 @@ en:
       successfully_deleted: Succesfully delete information.
     show:
       back: Back
+    form:
+      save: Save
+      cancel: Cancel
   user_custom_fields:
     index:
       add_new: Add New
@@ -1798,6 +1807,9 @@ en:
       successfully_deleted: Succesfully delete information.
     show:
       back: Back
+    form:
+      save: Save
+      cancel: Cancel
 
   form_builder:
     custom_fields:

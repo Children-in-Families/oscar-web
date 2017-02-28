@@ -1966,6 +1966,9 @@ km:
       successfully_deleted: ពត៌មានត្រូវបានលប់ដោយជោគជ័យ
     show:
       back: ត្រឡប់ក្រោយ
+    form:
+      save: រក្សាទុក
+      cancel: ទុកជាមោឃៈ
   partner_custom_fields:
     index:
       add_new: បន្ថែម
@@ -1980,6 +1983,9 @@ km:
       successfully_deleted: ពត៌មានត្រូវបានលប់ដោយជោគជ័យ
     show:
       back: ត្រឡប់ក្រោយ
+    form:
+      save: រក្សាទុក
+      cancel: ទុកជាមោឃៈ
   family_custom_fields:
     index:
       add_new: បន្ថែម
@@ -1994,6 +2000,9 @@ km:
       successfully_deleted: ពត៌មានត្រូវបានលប់ដោយជោគជ័យ
     show:
       back: ត្រឡប់ក្រោយ
+    form:
+      save: រក្សាទុក
+      cancel: ទុកជាមោឃៈ
   user_custom_fields:
     index:
       add_new: បន្ថែម
@@ -2008,6 +2017,9 @@ km:
       successfully_deleted: ពត៌មានត្រូវបានលប់ដោយជោគជ័យ
     show:
       back: ត្រឡប់ក្រោយ
+    form:
+      save: រក្សាទុក
+      cancel: ទុកជាមោឃៈ
 
   form_builder:
     custom_fields:

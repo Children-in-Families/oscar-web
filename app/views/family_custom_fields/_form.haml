@@ -5,5 +5,5 @@
     .ibox-content
       = render "shared/properties", custom_field: @family_custom_field.custom_field, f: f, entity: @family_custom_field
     .ibox-footer
-      = f.submit 'Save', class: 'btn btn-primary form-btn'
-      = link_to 'Back', family_family_custom_fields_path(@family, custom_field_id: @family_custom_field.custom_field_id), class: 'btn btn-default form-btn'
+      = f.submit t('.save'), class: 'btn btn-primary form-btn'
+      = link_to t('.cancel'), family_family_custom_fields_path(@family, custom_field_id: @family_custom_field.custom_field_id), class: 'btn btn-default form-btn'
