@@ -2,5 +2,6 @@
   - if can? :manage, ClientCustomField
     - if client_custom_field[1].first.properties_objs.blank?
       = link_to client_custom_field[1].first.custom_field.form_title, edit_client_client_custom_field_path(client, client_custom_field[1].first), class: 'btn-xs btn btn-success small-btn-margin'
+      / = link_to client_custom_field[1].first.custom_field.form_title, new_client_client_custom_field_path(client, custom_field_id: client_custom_field[0])
     - else
       = link_to client_custom_field[1].first.custom_field.form_title, client_client_custom_fields_path(client, custom_field_id: client_custom_field[1].first.custom_field.id), class: 'btn-xs btn btn-success small-btn-margin'
