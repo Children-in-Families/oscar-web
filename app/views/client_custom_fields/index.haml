@@ -6,7 +6,7 @@
         .ibox-tools
           = link_to new_client_client_custom_field_path(@client, custom_field_id: params[:custom_field_id]) do
             .btn.btn-outline.btn-primary.button.form-btn
-              = "Add New #{@custom_field.form_title}"
+              = "#{t('.add_new')} #{@custom_field.form_title}"
           = link_to client_path(@client) do
             .btn.btn-outline.btn-success.button.form-btn
               = t('.back')
@@ -17,7 +17,7 @@
               .ibox.border-left-right.border-bottom
                 .ibox-title
                   %h5
-                    Created Date
+                    = t('.created_date')
                   %span.label.label-info
                     = date_format client_custom_field.created_at
                   .ibox-tools
@@ -27,7 +27,7 @@
                           .btn.btn-outline.btn-success
                             = fa_icon('pencil')
                       %small
-                        = link_to client_client_custom_field_path(@client, client_custom_field.id, custom_field_id: client_custom_field.custom_field_id), method: :delete, data: { confirm: 'Are you sure you want to delete?' } do
+                        = link_to client_client_custom_field_path(@client, client_custom_field.id, custom_field_id: client_custom_field.custom_field_id), method: :delete, data: { confirm: t('.are_you_sure') } do
                           .btn.btn-outline.btn-danger
                             = fa_icon('trash')
                 .ibox-content

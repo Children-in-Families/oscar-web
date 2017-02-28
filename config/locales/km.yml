@@ -350,7 +350,7 @@ km:
       user_id: បុគ្គលិកសហគមន៌របស់ខ្ញុំឈ្មោះ
       are_you_sure_you_want_to_delete: តើអ្នកប្រាកដហើយ?
       survey_title: ប្រវត្តិនៃការស្ទង់មតិ
-      created_at: ការបរិច្ឆេទ
+      created_at: កាលបរិច្ឆេទ
       action: សកម្មភាព
       back: ត្រលប់ក្រោយ
     show:
@@ -1611,7 +1611,7 @@ km:
     topics:
       show:
         add_post: បន្ថែមការឆ្លើយតប
-      delete_confirm: តើអ្នកពិតជាចង់លុបប្រធានបទនេះ? បើលុបហើយមិនអាចត្រលប់ក្រោយទេ។
+      delete_confirm: តើអ្នកពិតជាចង់លុបប្រធានបទនេះ? ត្រលប់ក្រោយ
       delete_topic: លុបប្រធានបទ
       deleted_notice: ប្រធានបទត្រូវបានលុប
       edit: កែសម្រួលប្រធានបទ
@@ -1953,56 +1953,77 @@ km:
         Stage: តំណាក់កាល
 
   client_custom_fields:
+    index:
+      add_new: បន្ថែម
+      are_you_sure: តើអ្នកប្រាកដហើយ?
+      back: ត្រឡប់ក្រោយ
+      created_date: កាលបរិច្ឆេទ
     create:
-      successfully_created: ពត័មានត្រូវបានរក្សាដោយជោគជ័យ
+      successfully_created: ពត៌មានត្រូវបានរក្សាដោយជោគជ័យ
     update:
-      successfully_created: ពត័មានត្រូវបានរក្សាដោយជោគជ័យ
+      successfully_created: ពត៌មានត្រូវបានរក្សាដោយជោគជ័យ
     destroy:
-      successfully_deleted: ពត័មានត្រូវបានលប់ដោយជោគជ័យ
+      successfully_deleted: ពត៌មានត្រូវបានលប់ដោយជោគជ័យ
     show:
-      back: ត្រឡប់មកវិញ
+      back: ត្រឡប់ក្រោយ
   partner_custom_fields:
+    index:
+      add_new: បន្ថែម
+      are_you_sure: តើអ្នកប្រាកដហើយ?
+      back: ត្រឡប់ក្រោយ
+      created_date: កាលបរិច្ឆេទ
     create:
-      successfully_created: ពត័មានត្រូវបានរក្សាដោយជោគជ័យ
+      successfully_created: ពត៌មានត្រូវបានរក្សាដោយជោគជ័យ
     update:
-      successfully_created: ពត័មានត្រូវបានរក្សាដោយជោគជ័យ
+      successfully_created: ពត៌មានត្រូវបានរក្សាដោយជោគជ័យ
     destroy:
-      successfully_deleted: ពត័មានត្រូវបានលប់ដោយជោគជ័យ
+      successfully_deleted: ពត៌មានត្រូវបានលប់ដោយជោគជ័យ
     show:
-      back: ត្រឡប់មកវិញ
+      back: ត្រឡប់ក្រោយ
   family_custom_fields:
+    index:
+      add_new: បន្ថែម
+      are_you_sure: តើអ្នកប្រាកដហើយ?
+      back: ត្រឡប់ក្រោយ
+      created_date: កាលបរិច្ឆេទ
     create:
-      successfully_created: ពត័មានត្រូវបានរក្សាដោយជោគជ័យ
+      successfully_created: ពត៌មានត្រូវបានរក្សាដោយជោគជ័យ
     update:
-      successfully_created: ពត័មានត្រូវបានរក្សាដោយជោគជ័យ
+      successfully_created: ពត៌មានត្រូវបានរក្សាដោយជោគជ័យ
     destroy:
-      successfully_deleted: ពត័មានត្រូវបានលប់ដោយជោគជ័យ
+      successfully_deleted: ពត៌មានត្រូវបានលប់ដោយជោគជ័យ
     show:
-      back: ត្រឡប់មកវិញ
+      back: ត្រឡប់ក្រោយ
   user_custom_fields:
+    index:
+      add_new: បន្ថែម
+      are_you_sure: តើអ្នកប្រាកដហើយ?
+      back: ត្រឡប់ក្រោយ
+      created_date: កាលបរិច្ឆេទ
     create:
-      successfully_created: ពត័មានត្រូវបានរក្សាដោយជោគជ័យ
+      successfully_created: ពត៌មានត្រូវបានរក្សាដោយជោគជ័យ
     update:
-      successfully_created: ពត័មានត្រូវបានរក្សាដោយជោគជ័យ
+      successfully_created: ពត៌មានត្រូវបានរក្សាដោយជោគជ័យ
     destroy:
-      successfully_deleted: ពត័មានត្រូវបានលប់ដោយជោគជ័យ
+      successfully_deleted: ពត៌មានត្រូវបានលប់ដោយជោគជ័យ
     show:
-      back: ត្រឡប់មកវិញ
+      back: ត្រឡប់ក្រោយ
 
   form_builder:
     custom_fields:
       index:
         new_custom_form: បន្ថែមទម្រង់បែបបទថ្មី
-        entity_type: ទម្រង់បែបបទបន្ថែម
-        form_title: ប្រភេទនៃទម្រង់បែបបទបន្ថែម
+        entity_type: ទម្រង់បែបបទបន្ថែមនៃ
+        form_title: ឈ្មោះនៃទម្រង់បែបបទ
         manage: គ្រប់គ្រង
+        organization: អង្គការ
       form:
         blank: មិនអាចរំលង
         entity_type: ទម្រង់បែបបទបន្ថែម
-        form_title: ប្រភេទនៃទម្រង់បែបបទបន្ថែម
+        form_title: ឈ្មោះនៃទម្រង់បែបបទបន្ថែម
       edit:
-        form_builder: ការសាងសង់ជាទម្រង់
+        form_builder: ការបង្កើតជាទម្រង់
       new:
         save: រក្សាទុក
-        form_builder: ការសាងសង់ជាទម្រង់
+        form_builder: ការបង្កើតជាទម្រង់
         cancel: ទុកជាមោឃៈ

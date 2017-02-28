@@ -2,7 +2,7 @@
   .ibox-title
     %h5= @partner_custom_field.custom_field.form_title
     .ibox-tools
-      - if can? :manage, ClientCustomField
+      - if can? :manage, PartnerCustomField
         = link_to edit_partner_partner_custom_field_path(@partner_custom_field.partner, @partner_custom_field) do
           .btn.btn-xs.btn-outline.btn-success
             %i.fa.fa-pencil

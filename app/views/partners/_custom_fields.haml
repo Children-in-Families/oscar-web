@@ -1,5 +1,5 @@
 - partner.partner_custom_fields.group_by(&:custom_field_id).each do |partner_custom_field|
-  - if can? :manage, ClientCustomField
+  - if can? :manage, PartnerCustomField
     - if partner_custom_field[1].first.properties_objs.blank?
       = link_to partner_custom_field[1].first.custom_field.form_title, edit_partner_partner_custom_field_path(partner, partner_custom_field[1].first), class: 'btn-xs btn btn-success small-btn-margin'
     - else

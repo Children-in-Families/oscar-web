@@ -6,7 +6,7 @@
         .ibox-tools
           = link_to new_user_user_custom_field_path(@user, custom_field_id: params[:custom_field_id]) do
             .btn.btn-outline.btn-primary.button.form-btn
-              = "Add New #{@custom_field.form_title}"
+              = "#{t('.add_new')} #{@custom_field.form_title}"
           = link_to user_path(@user) do
             .btn.btn-outline.btn-success.button.form-btn
               = t('.back')
@@ -17,7 +17,7 @@
               .ibox.border-left-right.border-bottom
                 .ibox-title
                   %h5
-                    Created Date
+                    = t('.created_date')
                   %span.label.label-info
                     = date_format user_custom_field.created_at
                   .ibox-tools

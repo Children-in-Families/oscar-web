@@ -1743,6 +1743,11 @@ en:
         Stage: Stage
 
   client_custom_fields:
+    index:
+      add_new: Add New
+      are_you_sure: Are you sure you want to delete?
+      back: Back
+      created_date: Created Date
     create:
       successfully_created: Succesfully save information.
     update:
@@ -1752,6 +1757,11 @@ en:
     show:
       back: Back
   partner_custom_fields:
+    index:
+      add_new: Add New
+      are_you_sure: Are you sure you want to delete?
+      back: Back
+      created_date: Created Date
     create:
       successfully_created: Succesfully save information.
     update:
@@ -1761,6 +1771,11 @@ en:
     show:
       back: Back
   family_custom_fields:
+    index:
+      add_new: Add New
+      are_you_sure: Are you sure you want to delete?
+      back: Back
+      created_date: Created Date
     create:
       successfully_created: Succesfully save information.
     update:
@@ -1770,6 +1785,11 @@ en:
     show:
       back: Back
   user_custom_fields:
+    index:
+      add_new: Add New
+      back: Back
+      are_you_sure: Are you sure you want to delete?
+      created_date: Created Date
     create:
       successfully_created: Succesfully save information.
     update:
@@ -1786,6 +1806,7 @@ en:
         entity_type: Entity Type
         form_title: Form Title
         manage: Manage
+        organization: Organisation
       form:
         blank: can't be blank
         entity_type: Entity Type
