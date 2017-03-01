@@ -27,7 +27,7 @@
                           .btn.btn-outline.btn-success
                             = fa_icon('pencil')
                       %small
-                        = link_to user_user_custom_field_path(@user, user_custom_field.id, custom_field_id: user_custom_field.custom_field_id), method: :delete, data: { confirm: 'Are you sure you want to delete?' } do
+                        = link_to user_user_custom_field_path(@user, user_custom_field.id, custom_field_id: user_custom_field.custom_field_id), method: :delete, data: { confirm: t('.are_you_sure') } do
                           .btn.btn-outline.btn-danger
                             = fa_icon('trash')
                 .ibox-content

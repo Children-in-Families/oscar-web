@@ -1,6 +1,8 @@
 describe ClientCustomField, 'associations' do
   it { is_expected.to belong_to(:client) }
   it { is_expected.to belong_to(:custom_field) }
+  it { is_expected.to validate_presence_of(:client_id) }
+  it { is_expected.to validate_presence_of(:custom_field_id) }
 end
 
 describe ClientCustomField, 'scopes' do
@@ -17,6 +19,9 @@ describe ClientCustomField, 'scopes' do
   end
 end
 
-describe ClientCustomField, 'validation' do
-
-end
+# describe ClientCustomField, 'validation' do
+#   client       = Client.create()
+#   custom_field = CustomField.create(fields: ['required':true].to_json)
+#   ccf          = ClientCustomField.new(client: client, custom_field: custom_field , properties: ['name':''].to_json)
+#   it { expect(ccf).to be_invalid }
+# end

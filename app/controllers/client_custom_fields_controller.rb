@@ -20,7 +20,7 @@ class ClientCustomFieldsController < AdminController
     @client_custom_field                 = @client.client_custom_fields.new(client_custom_field_params)
     @client_custom_field.custom_field_id = @custom_field.id
     if @client_custom_field.save
-      redirect_to client_client_custom_fields_path(@client, custom_field_id: @client_custom_field.custom_field.id)
+      redirect_to client_client_custom_fields_path(@client, custom_field_id: @client_custom_field.custom_field.id), notice: t('.successfully_created')
     else
       render :new
     end
@@ -31,7 +31,7 @@ class ClientCustomFieldsController < AdminController
 
   def update
     if @client_custom_field.update(client_custom_field_params)
-      redirect_to client_client_custom_fields_path(@client, custom_field_id: @custom_field.id), notice: t('.successfully_created')
+      redirect_to client_client_custom_fields_path(@client, custom_field_id: @custom_field.id), notice: t('.successfully_updated')
     else
       render :edit
     end

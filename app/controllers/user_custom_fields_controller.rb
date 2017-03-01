@@ -20,7 +20,7 @@ class UserCustomFieldsController < AdminController
     @user_custom_field                 = @user.user_custom_fields.new(user_custom_field_params)
     @user_custom_field.custom_field_id = @custom_field.id
     if @user_custom_field.save
-      redirect_to user_user_custom_fields_path(@user, custom_field_id: @user_custom_field.custom_field.id)
+      redirect_to user_user_custom_fields_path(@user, custom_field_id: @user_custom_field.custom_field.id), notice: t('.successfully_created')
     else
       render :new
     end
@@ -31,7 +31,7 @@ class UserCustomFieldsController < AdminController
 
   def update
     if @user_custom_field.update(user_custom_field_params)
-      redirect_to user_user_custom_fields_path(@user, custom_field_id: @user_custom_field.custom_field_id), notice: t('.successfully_created')
+      redirect_to user_user_custom_fields_path(@user, custom_field_id: @user_custom_field.custom_field_id), notice: t('.successfully_updated')
     else
       render :edit
     end

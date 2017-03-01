@@ -14,7 +14,7 @@ class FormBuilder::CustomFieldsController < AdminController
   def create
     @custom_field = CustomField.new(custom_field_params)
     if @custom_field.save
-      redirect_to custom_fields_path, notice: 'Successfully created a custom fields'
+      redirect_to custom_fields_path, notice: t('.successfully_created')
     else
       render :new
     end
@@ -25,7 +25,7 @@ class FormBuilder::CustomFieldsController < AdminController
 
   def update
     if @custom_field.update(custom_field_params)
-      redirect_to custom_fields_path, notice: 'Successfully update a custom field'
+      redirect_to custom_fields_path, notice: t('.successfully_updated')
     else
       render :edit
     end
@@ -33,9 +33,9 @@ class FormBuilder::CustomFieldsController < AdminController
 
   def destroy
     if @custom_field.destroy
-      redirect_to custom_fields_path, notice: 'Successfully deleted a custom field'
+      redirect_to custom_fields_path, notice: t('.successfully_deleted')
     else
-      redirect_to custom_fields_path, alert: 'Failed to delete a custom field'
+      redirect_to custom_fields_path, alert: t('.failed_to_delete')
     end
   end
 

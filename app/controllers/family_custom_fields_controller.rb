@@ -20,7 +20,7 @@ class FamilyCustomFieldsController < AdminController
     @family_custom_field                 = @family.family_custom_fields.new(family_custom_field_params)
     @family_custom_field.custom_field_id = @custom_field.id
     if @family_custom_field.save
-      redirect_to family_family_custom_fields_path(@family, custom_field_id: @family_custom_field.custom_field.id)
+      redirect_to family_family_custom_fields_path(@family, custom_field_id: @family_custom_field.custom_field.id), notice: t('.successfully_created')
     else
       render :new
     end
@@ -31,7 +31,7 @@ class FamilyCustomFieldsController < AdminController
 
   def update
     if @family_custom_field.update(family_custom_field_params)
-      redirect_to family_family_custom_fields_path(@family, custom_field_id: @family_custom_field.custom_field_id), notice: t('.successfully_created')
+      redirect_to family_family_custom_fields_path(@family, custom_field_id: @family_custom_field.custom_field_id), notice: t('.successfully_updated')
     else
       render :edit
     end

@@ -20,7 +20,7 @@ class PartnerCustomFieldsController < AdminController
     @partner_custom_field                 = @partner.partner_custom_fields.new(partner_custom_field_params)
     @partner_custom_field.custom_field_id = @custom_field.id
     if @partner_custom_field.save
-      redirect_to partner_partner_custom_fields_path(@partner, custom_field_id: @partner_custom_field.custom_field.id)
+      redirect_to partner_partner_custom_fields_path(@partner, custom_field_id: @partner_custom_field.custom_field.id), notice: t('.successfully_created')
     else
       render :new
     end
@@ -31,7 +31,7 @@ class PartnerCustomFieldsController < AdminController
 
   def update
     if @partner_custom_field.update(partner_custom_field_params)
-      redirect_to partner_partner_custom_fields_path(@partner, custom_field_id: @partner_custom_field.custom_field_id), notice: t('.successfully_created')
+      redirect_to partner_partner_custom_fields_path(@partner, custom_field_id: @partner_custom_field.custom_field_id), notice: t('.successfully_updated')
     else
       render :edit
     end

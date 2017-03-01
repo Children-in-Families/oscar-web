@@ -211,6 +211,9 @@ en:
 
   review_problem: 'Please review the problems below:'
   cannot_be_blank: can't be blank
+  cannot_be_lower: can't be lower than %{count}
+  cannot_be_greater: can't be greater than %{count}
+  is_not_email: is not an email
 
   default_client_fields: &default_client_fields
     id: ID
@@ -1749,9 +1752,9 @@ en:
       back: Back
       created_date: Created Date
     create:
-      successfully_created: Succesfully save information.
+      successfully_created: Succesfully created information.
     update:
-      successfully_created: Succesfully save information.
+      successfully_updated: Succesfully updated information.
     destroy:
       successfully_deleted: Succesfully delete information.
     show:
@@ -1766,9 +1769,9 @@ en:
       back: Back
       created_date: Created Date
     create:
-      successfully_created: Succesfully save information.
+      successfully_created: Succesfully created information.
     update:
-      successfully_created: Succesfully save information.
+      successfully_updated: Succesfully updated information.
     destroy:
       successfully_deleted: Succesfully delete information.
     show:
@@ -1783,9 +1786,9 @@ en:
       back: Back
       created_date: Created Date
     create:
-      successfully_created: Succesfully save information.
+      successfully_created: Succesfully created information.
     update:
-      successfully_created: Succesfully save information.
+      successfully_updated: Succesfully updated information.
     destroy:
       successfully_deleted: Succesfully delete information.
     show:
@@ -1796,13 +1799,13 @@ en:
   user_custom_fields:
     index:
       add_new: Add New
-      back: Back
       are_you_sure: Are you sure you want to delete?
+      back: Back
       created_date: Created Date
     create:
-      successfully_created: Succesfully save information.
+      successfully_created: Succesfully created information.
     update:
-      successfully_created: Succesfully save information.
+      successfully_updated: Succesfully updated information.
     destroy:
       successfully_deleted: Succesfully delete information.
     show:
@@ -1819,6 +1822,7 @@ en:
         form_title: Form Title
         manage: Manage
         organization: Organisation
+        are_you_sure: Are you sure you want to delete?
       form:
         blank: can't be blank
         entity_type: Entity Type
@@ -1828,3 +1832,10 @@ en:
       new:
         save: Save
         form_builder: Form Builder
+      create:
+        successfully_created: Custom Form has been successfully created.
+      update:
+        successfully_updated: Custom Form has been successfully updated.
+      destroy:
+        successfully_deleted: Custom Form has been successfully deleted.
+        failed_to_delete: Custom Form cannot be deleted.
