@@ -932,6 +932,8 @@ km:
               blank: មិនអាចរំលង
             other_location:
               blank: មិនអាចរំលង
+        client_custom_field:
+          attributes:
   agencies:
     index:
       add_new_agency: បន្ថែមអង្គភាពថ្មី

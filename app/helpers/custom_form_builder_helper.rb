@@ -12,7 +12,18 @@ module CustomFormBuilderHelper
   end
 
   def field_message(field, errors)
-    errors[field.to_sym].join(', ') if errors[field.to_sym].present?
+    if errors[field.to_sym].present?
+      msg = errors[field.to_sym].join(', ')
+      if msg.include?('blank')
+        t('cannot_be_blank')
+      elsif msg.include?('lower')
+        t('cannot_be_lower')
+      elsif msg.include?('greater')
+        t('cannot_be_greater')
+      elsif msg.include?('email')
+        t('is_not_email')
+      end
+    end
   end
 
   def display_custom_properties(value)

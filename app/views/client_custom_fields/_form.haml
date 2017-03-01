@@ -1,29 +1,10 @@
-/ .ibox
-/   = simple_form_for([@client, @client_custom_field]) do |f|
-/     .ibox-title
-/       %h5= @client_custom_field.custom_field.form_title
-/     .ibox-content
-/       = render "shared/properties", custom_field: @client_custom_field.custom_field, f: f, entity: @client_custom_field
-/     .ibox-content
-/       = f.submit t('.save'), class: 'btn btn-primary form-btn'
-/       = link_to t('.cancel'), client_client_custom_fields_path(@client, custom_field_id: @client_custom_field.custom_field_id), class: 'btn btn-default form-btn'
-/ - binding.pry
 .ibox
   = simple_form_for([@client, @client_custom_field]) do |f|
-    = f.input :custom_field_id, input_html: { value: @custom_field.id }
+    = f.hidden_field :custom_field_id, input_html: { value: @custom_field.id }
     .ibox-title
       %h5= @custom_field.form_title
     .ibox-content
-      / - binding.pry
-      - if @custom_field.present?
-        = f.simple_fields_for :properties do |prop_f|
-          - @client_custom_field.custom_field.field_objs.each_slice(3) do |n_field|
-            .row
-              - binding.pry
-              - n_field.each do |field|
-                .col-xs-12.col-md-4
-                  = render "/shared/fields/#{field['type'].underscore}", f: prop_f, field_props: field, errors: @client_custom_field.errors.messages
-
-    .ibox-content
+      = render "shared/properties", custom_field: @client_custom_field.custom_field, f: f, entity: @client_custom_field
+    .ibox-footer
       = f.submit t('.save'), class: 'btn btn-primary form-btn'
       = link_to t('.cancel'), client_client_custom_fields_path(@client, custom_field_id: @client_custom_field.custom_field_id), class: 'btn btn-default form-btn'
