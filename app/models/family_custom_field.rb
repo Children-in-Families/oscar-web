@@ -4,6 +4,8 @@ class FamilyCustomField < ActiveRecord::Base
   belongs_to :family
   belongs_to :custom_field
 
+  scope :by_custom_field_id, ->(value) { where(custom_field:  value) }
+
   validate do |obj|
     CustomFieldPresentValidator.new(obj).validate
     CustomFieldNumericalityValidator.new(obj).validate

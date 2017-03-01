@@ -1743,29 +1743,86 @@ en:
         Stage: Stage
 
   client_custom_fields:
+    index:
+      add_new: Add New
+      are_you_sure: Are you sure you want to delete?
+      back: Back
+      created_date: Created Date
+    create:
+      successfully_created: Succesfully save information.
+    update:
+      successfully_created: Succesfully save information.
+    destroy:
+      successfully_deleted: Succesfully delete information.
     show:
       back: Back
+    form:
+      save: Save
+      cancel: Cancel
   partner_custom_fields:
+    index:
+      add_new: Add New
+      are_you_sure: Are you sure you want to delete?
+      back: Back
+      created_date: Created Date
+    create:
+      successfully_created: Succesfully save information.
+    update:
+      successfully_created: Succesfully save information.
+    destroy:
+      successfully_deleted: Succesfully delete information.
     show:
       back: Back
+    form:
+      save: Save
+      cancel: Cancel
   family_custom_fields:
+    index:
+      add_new: Add New
+      are_you_sure: Are you sure you want to delete?
+      back: Back
+      created_date: Created Date
+    create:
+      successfully_created: Succesfully save information.
+    update:
+      successfully_created: Succesfully save information.
+    destroy:
+      successfully_deleted: Succesfully delete information.
     show:
       back: Back
+    form:
+      save: Save
+      cancel: Cancel
   user_custom_fields:
+    index:
+      add_new: Add New
+      back: Back
+      are_you_sure: Are you sure you want to delete?
+      created_date: Created Date
+    create:
+      successfully_created: Succesfully save information.
+    update:
+      successfully_created: Succesfully save information.
+    destroy:
+      successfully_deleted: Succesfully delete information.
     show:
       back: Back
+    form:
+      save: Save
+      cancel: Cancel
 
   form_builder:
     custom_fields:
       index:
         new_custom_form: New Custom Form
-        entity_name: Entity Name
-        form_type: Form Type
+        entity_type: Entity Type
+        form_title: Form Title
         manage: Manage
+        organization: Organisation
       form:
         blank: can't be blank
-        entity_name: Entity Name
-        form_type: Form Type
+        entity_type: Entity Type
+        form_title: Form Title
       edit:
         form_builder: Form Builder
       new:

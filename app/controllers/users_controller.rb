@@ -78,7 +78,7 @@ class UsersController < AdminController
   end
 
   def set_custom_form
-    @custom_field = CustomField.find_by(entity_name: 'User')
+    @custom_field = CustomField.find_by(entity_type: 'User')
   end
 
   def find_user

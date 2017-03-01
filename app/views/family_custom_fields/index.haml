@@ -1,0 +1,42 @@
+.row
+  .col-xs-12
+    .ibox
+      .ibox-title
+        %h5= "#{@custom_field.form_title} "
+        .ibox-tools
+          = link_to new_family_family_custom_field_path(@family, custom_field_id: params[:custom_field_id]) do
+            .btn.btn-outline.btn-primary.button.form-btn
+              = "#{t('.add_new')} #{@custom_field.form_title}"
+          = link_to family_path(@family) do
+            .btn.btn-outline.btn-success.button.form-btn
+              = t('.back')
+      .ibox-content
+        .row
+          - @family_custom_field.each do |family_custom_field|
+            .col-xs-12.col-md-6
+              .ibox.border-left-right.border-bottom
+                .ibox-title
+                  %h5
+                    = t('.created_date')
+                  %span.label.label-info
+                    = date_format family_custom_field.created_at
+                  .ibox-tools
+                    - if can? :manage, CustomField
+                      %small
+                        = link_to edit_family_family_custom_field_path(@family, family_custom_field.id) do
+                          .btn.btn-outline.btn-success
+                            = fa_icon('pencil')
+                      %small
+                        = link_to family_family_custom_field_path(@family, family_custom_field.id, custom_field_id: family_custom_field.custom_field_id), method: :delete, data: { confirm: 'Are you sure you want to delete?' } do
+                          .btn.btn-outline.btn-danger
+                            = fa_icon('trash')
+                .ibox-content
+                  %table.table.table-bordered
+                    - family_custom_field.properties_objs.each do |key, value|
+                      %tr
+                        %td.align-justify
+                          = key.titleize
+                        %td.align-justify
+                          = display_custom_properties(value)
+      .ibox-footer.text-center
+        = paginate @family_custom_field

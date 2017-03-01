@@ -1,7 +1,7 @@
 class FormBuilder::CustomFieldsController < AdminController
   load_and_authorize_resource
 
-  before_action :set_custom_field, only: [:edit, :update, :destroy]
+  before_action :set_custom_field, only: [:edit, :update, :destroy, :show]
 
   def index
     @custom_fields = CustomField.all
@@ -41,7 +41,7 @@ class FormBuilder::CustomFieldsController < AdminController
 
   private
     def custom_field_params
-      params.require(:custom_field).permit(:entity_name, :fields, :form_type)
+      params.require(:custom_field).permit(:entity_type, :fields, :form_title)
     end
 
     def set_custom_field

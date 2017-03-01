@@ -8,15 +8,17 @@
       .ibox-content
         %table.table.table-bordered.table-hover
           %thead
-            %th= t('.entity_name')
-            %th= t('.form_type')
+            %th= t('.form_title')
+            %th= t('.entity_type')
+            %th= t('.organization')
             - if can? :manage, CustomField
               %th.text-center= t('.manage')
 
-          - @custom_fields.each do |custom_field|
+          - @custom_fields.order(:entity_type).each do |custom_field|
             %tr
-              %td= custom_field.entity_name
-              %td= custom_field.form_type
+              %td= custom_field.form_title
+              %td= custom_field.entity_type
+              %td= current_organiation.full_name
               - if can? :manage, CustomField
                 %td.text-center
                   = link_to edit_custom_field_path(custom_field), class: 'btn btn-outline btn-success btn-xs' do
