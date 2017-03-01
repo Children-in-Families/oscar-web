@@ -1134,7 +1134,7 @@ en:
     index:
       tasks_of: Tasks Of
       overdue_tasks: Overdue Tasks
-      todays_tasks: Todays Tasks
+      today_tasks: Today Tasks
       upcoming_tasks: Upcoming Tasks
       filter_by_user: Filter By User
       domain: Domain
@@ -1144,7 +1144,7 @@ en:
     tasks:
       index:
         overdue_tasks: Overdue Tasks
-        todays_tasks: Todays Tasks
+        today_tasks: Today Tasks
         upcoming_tasks: Upcoming Tasks
         back: Back
         new_task: New Task
