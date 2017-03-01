@@ -3,11 +3,10 @@ class FileUploader < CarrierWave::Uploader::Base
   include CarrierWave::MimeTypes
 
   process :set_content_type
-  
-  def filename
-    "#{secure_token}_original_#{original_filename}" if original_filename
-  end
 
+  def filename
+    original_filename
+  end
 
   def store_dir
     "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
