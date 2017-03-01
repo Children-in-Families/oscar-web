@@ -120,7 +120,7 @@ class ClientsController < AdminController
 
   def find_client_in_organization
     found = []
-    Organization.all.each do |org|
+    Organization.without_demo.each do |org|
       Organization.switch_to(org.short_name)
       client = find_client_by(params)
       inject_in_organization(client, org.full_name)
