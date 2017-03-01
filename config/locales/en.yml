@@ -262,6 +262,7 @@ en:
     family_preservation:  Family Preservation?
     note: Note
     exit_date: Exit Date
+    exit_status: Exit Status
     exit_note: Exit Note
     exit_btn: Exit
 

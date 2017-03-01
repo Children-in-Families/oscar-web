@@ -265,6 +265,7 @@ km:
     note: កំណត់សំគាល់
     exit_date: ថ្ងៃចាកចេញ
     exit_note: កំណត់ហេតុនៃការចាកចេញ
+    exit_status: ស្ថានភាព
     exit_btn: ចាកចេញ
 
   default_family_fields: &default_family_fields
