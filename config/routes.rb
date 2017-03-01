@@ -124,8 +124,12 @@ Rails.application.routes.draw do
     get 'version' => 'clients#version'
   end
 
-  resources :attachments, only: [:index]
-  
+  resources :attachments, only: [:index] do
+    collection do
+      get 'delete' => 'attachments#delete'
+    end
+  end
+
   resources :families do
     resources :family_custom_fields
     get 'version' => 'families#version'

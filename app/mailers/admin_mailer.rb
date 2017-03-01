@@ -5,6 +5,6 @@ class AdminMailer < ActionMailer::Base
     @clients = clients
     @admin   = options[:admin]
     @day     = options[:day]
-    mail(to: @admin, subject: 'Reminder there is client about to exit emergency case program')
+    mail(to: @admin, subject: 'Reminder [Clients Are About To Exit Emergency Care Program')
   end
 end
