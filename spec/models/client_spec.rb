@@ -95,8 +95,8 @@ describe Client, 'methods' do
   end
 
   context 'active_day_care' do
-    let!(:case) { create(:case, client: client, exited: false, start_date: 1.year.ago) }
-    it { expect(client.active_day_care).to eq(366.0) }
+    let!(:case) { create(:case, client: client, exited: false, start_date: 10.days.ago) }
+    it { expect(client.active_day_care).to eq(10) }
   end
 
   context 'inactive_day_care' do

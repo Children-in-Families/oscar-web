@@ -604,7 +604,7 @@ km:
       add_client_to_case: បញ្ចូលអតិថិជិនទៅក្នុងករណី
       case_history: ប្រវត្តិនៃករណី
       age: អាយុ
-      exit_cif_btn: ចាកចេញពី CIF
+      exit_ngo_btn: ចាកចេញពី NGO
       add_ec_btn: បន្ថែមចូលទៅ EC
       add_kc_btn: បន្ថែមចូលទៅ KC
       add_fc_btn: បន្ថែមចូលទៅ FC
@@ -658,7 +658,7 @@ km:
       exit_ec: ចាកចេញពី EC
       exit_kc: ចាកចេញពី KC
       exit_fc: ចាកចេញពី FC
-      exit_cif: ចាកចេញពី CIF
+      exit_ngo: ចាកចេញពី NGO
       exit_status: ស្ថានភាព
       exit_date: ថ្ងៃចាកចេញ
       exit_note: កំណត់ហេតុនៃការចាកចេញ

@@ -93,7 +93,7 @@
                   %li.divider
                   %li
                     %a{"data-target" => '#exitFromCif', "data-toggle" => 'modal'}
-                      .text-warning= t('.exit_cif_btn')
+                      .text-warning= t('.exit_ngo_btn')
             - if @client.cases.active.any?
               = render 'exit_case_form', client_case: @client.cases.active.last, exit_from_cif: true
 

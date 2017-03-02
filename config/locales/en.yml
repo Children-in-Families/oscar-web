@@ -610,7 +610,7 @@ en:
       case_history: Case History
       id: ID
       age: Age
-      exit_cif_btn: Exit CIF
+      exit_ngo_btn: Exit NGO
       add_ec_btn: Add to EC
       add_kc_btn: Add to KC
       add_fc_btn: Add to FC
@@ -657,7 +657,7 @@ en:
       exit_ec: Exit Emergency Care
       exit_kc: Exit Kinship Care
       exit_fc: Exit Foster Care
-      exit_cif: Exit CIF
+      exit_ngo: Exit NGO
       exit_date: Exit Date
       exit_note: Exit Note
       exit_status: Status

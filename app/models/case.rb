@@ -125,7 +125,7 @@ class Case < ActiveRecord::Base
   def update_cases_to_exited_from_cif
     if exited_from_cif && status_was.empty?
       if client.cases.active.update_all(exited_from_cif: true, exited: true, exit_date: exit_date, exit_note: exit_note)
-        ClientMailer.exited_notification(User.managers.pluck(:email)).deliver_now
+        ClientMailer.exited_notification(client, User.managers.pluck(:email)).deliver_now
       end
     end
   end
