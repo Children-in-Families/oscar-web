@@ -30,4 +30,14 @@ module CustomFormBuilderHelper
     end
     span
   end
+
+  def custom_field_frequency(frequency, time_of_frequency)
+    case frequency
+    when 'Day' then time_of_frequency.day
+    when 'Week' then time_of_frequency.week
+    when 'Month' then time_of_frequency.month
+    when 'Year' then time_of_frequency.year
+    else 0.day
+    end
+  end
 end

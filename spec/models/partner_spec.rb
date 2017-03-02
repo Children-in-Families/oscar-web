@@ -1,6 +1,8 @@
 describe Partner, 'associations' do
   it { is_expected.to belong_to(:province) }
   it { is_expected.to have_many(:cases) }
+  it { is_expected.to have_many(:partner_custom_fields) }
+  it { is_expected.to have_many(:custom_fields).through(:partner_custom_fields) }
 end
 
 describe Partner, 'scopes' do

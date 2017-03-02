@@ -4,6 +4,27 @@ CIF.Custom_fieldsShow = do ->
   _init = ->
     _initFormBuilder()
     _select2()
+    _toggleTimeOfFrequency()
+    _changeSelectOfFrequency()
+    _valTimeOfFrequency()
+
+  _valTimeOfFrequency = ->
+    $('#custom_field_time_of_frequency').val()
+
+  time_of_frequency = _valTimeOfFrequency()
+
+  _toggleTimeOfFrequency = ->
+    frequency = $('#custom_field_frequency').val()
+    if frequency == ''
+      $('#custom_field_time_of_frequency').attr('disabled', 'disabled')
+        .val(0)
+    else
+      $('#custom_field_time_of_frequency').removeAttr('disabled')
+        .val(time_of_frequency || 1)
+
+  _changeSelectOfFrequency = ->
+      $('#custom_field_frequency').change ->
+        _toggleTimeOfFrequency()
 
   _initFormBuilder = ->
     formBuilder = $('.build-wrap').formBuilder({
@@ -16,11 +37,6 @@ CIF.Custom_fieldsShow = do ->
       }
 
       typeUserEvents: {
-        # checkbox: {
-        #   onadd: (fld) ->
-        #     $('.toggle-wrap, .value-wrap, .access-wrap').hide()
-        #     $('.className-wrap').addClass('hidden')
-        # }
         'checkbox-group': {
           onadd: (fld) ->
             $('.other-wrap, .className-wrap, .access-wrap, .description-wrap').hide()

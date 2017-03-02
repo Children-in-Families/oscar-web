@@ -4,9 +4,7 @@
       .ibox-title
         %h5= "#{@custom_field.form_title} "
         .ibox-tools
-          = link_to new_client_client_custom_field_path(@client, custom_field_id: params[:custom_field_id]) do
-            .btn.btn-outline.btn-primary.button.form-btn
-              = "#{t('.add_new')} #{@custom_field.form_title}"
+          = next_entity_type_custom_field(@client_custom_fields, @client, @custom_field)
           = link_to client_path(@client) do
             .btn.btn-outline.btn-success.button.form-btn
               = t('.back')

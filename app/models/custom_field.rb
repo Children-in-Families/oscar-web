@@ -14,8 +14,20 @@ class CustomField < ActiveRecord::Base
 
   validates :entity_type, :form_title, presence: true
   validates :form_title, uniqueness: { case_sensitive: false, scope: :entity_type }
-
   validate :presence_of_fields
+
+  before_save :set_time_of_frequency
+
+  FREQUENCIES  = ['Day', 'Week', 'Month', 'Year'].freeze
+  ENTITY_TYPES = ['Client', 'Family', 'Partner', 'User'].freeze
+
+  def set_time_of_frequency
+    if frequency.present?
+      self.time_of_frequency = time_of_frequency
+    else
+      self.time_of_frequency = 0
+    end
+  end
 
   def presence_of_fields
     if field_objs.empty?
@@ -24,7 +36,6 @@ class CustomField < ActiveRecord::Base
   end
 
   def field_objs
-    JSON.parse(fields) if fields.present?
+    fields.present? ? JSON.parse(fields) : fields
   end
-
 end

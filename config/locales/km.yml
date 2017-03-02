@@ -163,6 +163,30 @@ km:
     child_has_a_criminal_history: កុមារមានទំនាស់នឹងច្បាប់
     parent_carer_has_a_criminal_history: ឪពុកម្តាយ/ឪពុក/ម្តាយ/អ្នកអាណាព្យាបាលមានទំនាស់នឹងច្បាប់
 
+  default_custom_fields: &default_custom_fields
+    entity_type: ទម្រង់បែបបទបន្ថែម
+    form_title: ឈ្មោះនៃទម្រង់បែបបទបន្ថែម
+    frequency: ភាពញិកញាប់
+    time_of_frequency: ពេលវេលានៃភាពញិកញាប់
+
+  default_entity_type_custom_fields: &default_entity_type_custom_fields
+    index:
+      add_new: បន្ថែម
+      are_you_sure: តើអ្នកប្រាកដហើយ?
+      back: ត្រឡប់ក្រោយ
+      created_date: កាលបរិច្ឆេទ
+    create:
+      successfully_created: ពត៌មានត្រូវបានរក្សាទុកដោយជោគជ័យ
+    update:
+      successfully_updated: ពត៌មានត្រូវបានរក្សាទុកដោយជោគជ័យ
+    destroy:
+      successfully_deleted: ពត៌មានត្រូវបានលុបដោយជោគជ័យ
+    show:
+      back: ត្រឡប់ក្រោយ
+    form:
+      save: រក្សាទុក
+      cancel: ទុកជាមោឃៈ
+
   government_reports:
     index:
       back: ត្រលប់ក្រោយ
@@ -1956,87 +1980,25 @@ km:
         Stage: តំណាក់កាល
 
   client_custom_fields:
-    index:
-      add_new: បន្ថែម
-      are_you_sure: តើអ្នកប្រាកដហើយ?
-      back: ត្រឡប់ក្រោយ
-      created_date: កាលបរិច្ឆេទ
-    create:
-      successfully_created: ពត៌មានត្រូវបានរក្សាទុកដោយជោគជ័យ
-    update:
-      successfully_updated: ពត៌មានត្រូវបានរក្សាទុកដោយជោគជ័យ
-    destroy:
-      successfully_deleted: ពត៌មានត្រូវបានលុបដោយជោគជ័យ
-    show:
-      back: ត្រឡប់ក្រោយ
-    form:
-      save: រក្សាទុក
-      cancel: ទុកជាមោឃៈ
+    <<: *default_entity_type_custom_fields
   partner_custom_fields:
-    index:
-      add_new: បន្ថែម
-      are_you_sure: តើអ្នកប្រាកដហើយ?
-      back: ត្រឡប់ក្រោយ
-      created_date: កាលបរិច្ឆេទ
-    create:
-      successfully_created: ពត៌មានត្រូវបានរក្សាទុកដោយជោគជ័យ
-    update:
-      successfully_updated: ពត៌មានត្រូវបានរក្សាទុកដោយជោគជ័យ
-    destroy:
-      successfully_deleted: ពត៌មានត្រូវបានលុបដោយជោគជ័យ
-    show:
-      back: ត្រឡប់ក្រោយ
-    form:
-      save: រក្សាទុក
-      cancel: ទុកជាមោឃៈ
+    <<: *default_entity_type_custom_fields
   family_custom_fields:
-    index:
-      add_new: បន្ថែម
-      are_you_sure: តើអ្នកប្រាកដហើយ?
-      back: ត្រឡប់ក្រោយ
-      created_date: កាលបរិច្ឆេទ
-    create:
-      successfully_created: ពត៌មានត្រូវបានរក្សាទុកដោយជោគជ័យ
-    update:
-      successfully_updated: ពត៌មានត្រូវបានរក្សាទុកដោយជោគជ័យ
-    destroy:
-      successfully_deleted: ពត៌មានត្រូវបានលុបដោយជោគជ័យ
-    show:
-      back: ត្រឡប់ក្រោយ
-    form:
-      save: រក្សាទុក
-      cancel: ទុកជាមោឃៈ
+    <<: *default_entity_type_custom_fields
   user_custom_fields:
-    index:
-      add_new: បន្ថែម
-      are_you_sure: តើអ្នកប្រាកដហើយ?
-      back: ត្រឡប់ក្រោយ
-      created_date: កាលបរិច្ឆេទ
-    create:
-      successfully_created: ពត៌មានត្រូវបានរក្សាទុកដោយជោគជ័យ
-    update:
-      successfully_updated: ពត៌មានត្រូវបានរក្សាទុកដោយជោគជ័យ
-    destroy:
-      successfully_deleted: ពត៌មានត្រូវបានលុបដោយជោគជ័យ
-    show:
-      back: ត្រឡប់ក្រោយ
-    form:
-      save: រក្សាទុក
-      cancel: ទុកជាមោឃៈ
+    <<: *default_entity_type_custom_fields
 
   form_builder:
     custom_fields:
       index:
         new_custom_form: បន្ថែមទម្រង់បែបបទថ្មី
-        entity_type: ទម្រង់បែបបទបន្ថែមនៃ
-        form_title: ឈ្មោះនៃទម្រង់បែបបទ
         manage: គ្រប់គ្រង
         organization: អង្គការ
         are_you_sure: តើអ្នកប្រាកដហើយ?
+        <<: *default_custom_fields
       form:
         blank: មិនអាចរំលង
-        entity_type: ទម្រង់បែបបទបន្ថែម
-        form_title: ឈ្មោះនៃទម្រង់បែបបទបន្ថែម
+        <<: *default_custom_fields
       edit:
         form_builder: ការបង្កើតជាទម្រង់
       new:

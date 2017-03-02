@@ -14,15 +14,14 @@ describe Client, 'associations' do
   it { is_expected.to have_many(:assessments).dependent(:destroy) }
   it { is_expected.to have_many(:surveys).dependent(:destroy) }
   it { is_expected.to have_many(:progress_notes).dependent(:destroy) }
-
   it { is_expected.to have_many(:answers) }
   it { is_expected.to have_many(:able_screening_questions).through(:answers) }
-
   it { is_expected.to have_many(:agency_clients) }
   it { is_expected.to have_many(:agencies).through(:agency_clients) }
-
   it { is_expected.to have_many(:client_quantitative_cases) }
   it { is_expected.to have_many(:quantitative_cases).through(:client_quantitative_cases) }
+  it { is_expected.to have_many(:client_custom_fields) }
+  it { is_expected.to have_many(:custom_fields).through(:client_custom_fields) }
 end
 
 # describe Client, 'paper trail' do
@@ -95,7 +94,7 @@ describe Client, 'methods' do
 
   context 'active_day_care' do
     let!(:case) { create(:case, client: client, exited: false, start_date: 1.year.ago) }
-    it { expect(client.active_day_care).to eq(366.0) }
+    it { expect(client.active_day_care).to eq(365.0) }
   end
 
   context 'inactive_day_care' do

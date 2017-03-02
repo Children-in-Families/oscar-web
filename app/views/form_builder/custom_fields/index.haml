@@ -10,14 +10,18 @@
           %thead
             %th= t('.form_title')
             %th= t('.entity_type')
+            %th= t('.frequency')
+            %th= t('.time_of_frequency')
             %th= t('.organization')
             - if can? :manage, CustomField
               %th.text-center= t('.manage')
 
-          - @custom_fields.order(:entity_type).each do |custom_field|
+          - @custom_fields.each do |custom_field|
             %tr
               %td= custom_field.form_title
               %td= custom_field.entity_type
+              %td= custom_field.frequency
+              %td= custom_field.time_of_frequency
               %td= current_organiation.full_name
               - if can? :manage, CustomField
                 %td.text-center

@@ -164,6 +164,30 @@ en:
     child_has_a_criminal_history: child has a criminal history
     parent_carer_has_a_criminal_history: parent/carer has a criminal history
 
+  default_custom_fields: &default_custom_fields
+    entity_type: Entity Type
+    form_title: Form Title
+    frequency: Frequency
+    time_of_frequency: Time of Frequency
+
+  default_entity_type_custom_fields: &default_entity_type_custom_fields
+    index:
+      add_new: Add New
+      are_you_sure: Are you sure you want to delete?
+      back: Back
+      created_date: Created Date
+    create:
+      successfully_created: Succesfully created information.
+    update:
+      successfully_updated: Succesfully updated information.
+    destroy:
+      successfully_deleted: Succesfully delete information.
+    show:
+      back: Back
+    form:
+      save: Save
+      cancel: Cancel
+
   government_reports:
     index:
       back: Back
@@ -1746,87 +1770,25 @@ en:
         Stage: Stage
 
   client_custom_fields:
-    index:
-      add_new: Add New
-      are_you_sure: Are you sure you want to delete?
-      back: Back
-      created_date: Created Date
-    create:
-      successfully_created: Succesfully created information.
-    update:
-      successfully_updated: Succesfully updated information.
-    destroy:
-      successfully_deleted: Succesfully delete information.
-    show:
-      back: Back
-    form:
-      save: Save
-      cancel: Cancel
+    <<: *default_entity_type_custom_fields
   partner_custom_fields:
-    index:
-      add_new: Add New
-      are_you_sure: Are you sure you want to delete?
-      back: Back
-      created_date: Created Date
-    create:
-      successfully_created: Succesfully created information.
-    update:
-      successfully_updated: Succesfully updated information.
-    destroy:
-      successfully_deleted: Succesfully delete information.
-    show:
-      back: Back
-    form:
-      save: Save
-      cancel: Cancel
+    <<: *default_entity_type_custom_fields
   family_custom_fields:
-    index:
-      add_new: Add New
-      are_you_sure: Are you sure you want to delete?
-      back: Back
-      created_date: Created Date
-    create:
-      successfully_created: Succesfully created information.
-    update:
-      successfully_updated: Succesfully updated information.
-    destroy:
-      successfully_deleted: Succesfully delete information.
-    show:
-      back: Back
-    form:
-      save: Save
-      cancel: Cancel
+    <<: *default_entity_type_custom_fields
   user_custom_fields:
-    index:
-      add_new: Add New
-      are_you_sure: Are you sure you want to delete?
-      back: Back
-      created_date: Created Date
-    create:
-      successfully_created: Succesfully created information.
-    update:
-      successfully_updated: Succesfully updated information.
-    destroy:
-      successfully_deleted: Succesfully delete information.
-    show:
-      back: Back
-    form:
-      save: Save
-      cancel: Cancel
+    <<: *default_entity_type_custom_fields
 
   form_builder:
     custom_fields:
       index:
         new_custom_form: New Custom Form
-        entity_type: Entity Type
-        form_title: Form Title
         manage: Manage
         organization: Organisation
         are_you_sure: Are you sure you want to delete?
+        <<: *default_custom_fields
       form:
         blank: can't be blank
-        entity_type: Entity Type
-        form_title: Form Title
+        <<: *default_custom_fields
       edit:
         form_builder: Form Builder
       new:
