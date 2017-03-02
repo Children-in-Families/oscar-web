@@ -65,12 +65,11 @@ CIF.Progress_notesNew = CIF.Progress_notesCreate = CIF.Progress_notesEdit = CIF.
     form = $('.dropzone')
     form.dropzone(
       autoProcessQueue: false
-      maxFilesize: 100
-      paramName: "attachments[file][]",
+      acceptedFiles: ".jpeg,.jpg,.png,.pdf,.doc,.docx,.xls,.xlsx"
+      paramName: "attachments[file][]"
       addRemoveLinks: true
       uploadMultiple: true
       parallelUploads: 25
-      maxFiles: 25
       init: ->
         myDropzone = this
         progressNoteId = $('#progress_note_id').val()
@@ -132,6 +131,10 @@ CIF.Progress_notesNew = CIF.Progress_notesCreate = CIF.Progress_notesEdit = CIF.
           setTimeout(->
             window.location.href = "/clients/#{slugId}/progress_notes/#{progressNote.id}"
           ,1000)
+        @on 'error', (file, response) ->
+          $('.loader').css('display', 'none')
+          $('form, .dummy-footer').removeClass('hide')
+
       )
 
   { init: _init }

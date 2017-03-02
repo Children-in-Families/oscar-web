@@ -6,7 +6,7 @@ class Attachment < ActiveRecord::Base
   belongs_to :progress_note
 
   validates_processing_of :image
-  
+
   validate :image_size_validation
 
   private
