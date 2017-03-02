@@ -1673,6 +1673,7 @@ en:
       save: Save
       cancel: Cancel
       add_attachment: Add attachment
+      cannot_be_blank: can not be blank
     create:
       successfully_created: Progress Note has been successfully created.
     update:

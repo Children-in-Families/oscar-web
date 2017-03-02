@@ -53,6 +53,8 @@ CIF.Progress_notesNew = CIF.Progress_notesCreate = CIF.Progress_notesEdit = CIF.
     $('.has-error').removeClass('has-error')
 
   _addProgressNoteDateError = ->
+    $('#progress_note_date').removeClass('has-error')
+    $('.help-block').remove()
     errorText = $('#progress_note_error_text').val()
     $('#progress_note_date').addClass('has-error')
     $('#progress_note_date').closest('.form-group').append("<span class='help-block' style='display:block;'> #{errorText} </span>")
@@ -96,9 +98,11 @@ CIF.Progress_notesNew = CIF.Progress_notesCreate = CIF.Progress_notesEdit = CIF.
             _handleCollectingRemoveFileId()
           )
         @element.querySelector('input[type=submit]').addEventListener 'click', (e) ->
+          $('.ibox-content').append("<div class='loader'> </div>")
+          $('form, .dummy-footer').addClass('hide')
+          $('.loader').css('display', 'block')
           e.preventDefault()
           e.stopPropagation()
-          $('.loader').css('display', 'block')
           if $('#progress_note_date').val() != ''
             _clearProgressNoteDateError()
             progressNoteId = $('#progress_note_id').val()
@@ -110,7 +114,8 @@ CIF.Progress_notesNew = CIF.Progress_notesCreate = CIF.Progress_notesEdit = CIF.
               form.submit()
           else
             _addProgressNoteDateError()
-          $('.loader').css('display', 'none')
+            $('form, .dummy-footer').removeClass('hide')
+            $('.loader').css('display', 'none')
         @on 'success', (file, response) ->
           successCallBackCount += 1
           text         = response.text
@@ -118,6 +123,7 @@ CIF.Progress_notesNew = CIF.Progress_notesCreate = CIF.Progress_notesEdit = CIF.
           progressNote = response.progress_note
           if text != '' && successCallBackCount == this.files.length
             $('.loader').css('display', 'none')
+            $('form, .dummy-footer').removeClass('hide')
             $('#wrapper').data(
               message: text
               messageType: "notice"

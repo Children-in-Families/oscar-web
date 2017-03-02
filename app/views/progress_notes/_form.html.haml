@@ -42,8 +42,7 @@
   .ibox-footer.hidden
     .form-actions
       = f.submit t('save'), class: 'btn btn-primary form-btn'
-  .loader
-.ibox-footer
+.ibox-footer.dummy-footer
   %button.btn.btn-success.form-btn#only-submit
     = t('save')
   = link_to t('cancel'), client_progress_notes_path(@client), class: 'btn btn-default form-btn'
