@@ -54,6 +54,7 @@ gem 'spreadsheet',            '~> 1.1.3'
 gem 'apartment',              '~> 1.2'
 gem 'bourbon',                '~> 4.2'
 gem 'neat',                   '~> 1.8'
+gem 'jquery_query_builder-rails', '~> 0.2.2'
 
 group :development, :test do
   gem 'pry'

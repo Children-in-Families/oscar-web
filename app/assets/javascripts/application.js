@@ -21,6 +21,9 @@
 //= require highcharts.js
 //= require form-builder.min.js
 //= require form-render.min.js
+//= require jquery.extendext
+//= require doT
+//= require query-builder
 
 // WRAPBOOTSTRAP
 //= require iCheck/icheck.min.js
@@ -48,6 +51,7 @@
 //= require report_creator
 //= require clients/show
 //= require clients/form
+//= require clients/advanced_search
 //= require families/index
 //= require families/form
 //= require surveys/form

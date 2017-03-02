@@ -1,0 +1,31 @@
+CIF.ClientsAdvanced_search = do ->
+  _init = ->
+    _initJqueryBuilder()
+    _handleSearch()
+
+  _initJqueryBuilder = ->
+    fieldList = $('#builder').data('field-list')
+    $('#builder').queryBuilder
+      lang:
+        operators:
+          equal: 'is'
+          not_equal: 'is not'
+          less: '<'
+          less_or_equal: '<='
+          greater: '>'
+          greater_or_equal: '>='
+          contains: 'includes'
+          not_contains: 'excludes'
+      filters: fieldList
+  _handleSearch = ->
+    query = ''
+    $('#search').on 'click', ->
+      rules =  $('#builder').queryBuilder('getRules')
+      $.ajax
+        url: '/api/v1/advance_searches'
+        data: { search_rules: rules }
+        method: 'GET'
+        success: (response) ->
+          console.log response
+
+  { init: _init }

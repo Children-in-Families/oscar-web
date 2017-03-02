@@ -5,6 +5,12 @@ class ClientsController < AdminController
   before_action :set_association, except: [:index, :destroy]
   before_action :set_custom_field, only: [:new, :create, :edit, :update]
 
+  def advanced_search
+    @advanced_search_field = ClientAdvancedSearch.new(user: current_user).data_fields
+    @advanced_search_field = @advanced_search_field.to_json
+ 
+  end
+
   def index
     if current_user.admin? || current_user.visitor?
       admin_client_grid
