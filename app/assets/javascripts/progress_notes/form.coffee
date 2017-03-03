@@ -131,7 +131,7 @@ CIF.Progress_notesNew = CIF.Progress_notesCreate = CIF.Progress_notesEdit = CIF.
           slugId       = response.slug_id
           progressNote = response.progress_note
           if text != '' && successCallBackCount == this.files.length
-            $('.loader').removeClass('hide')
+            $('.loader').addClass('hide')
             $('form, .dummy-footer').removeClass('hide')
             $('#wrapper').data(
               message: text
