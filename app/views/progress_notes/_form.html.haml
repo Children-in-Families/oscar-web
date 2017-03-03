@@ -1,4 +1,6 @@
-= simple_form_for([@client, @progress_note]) do |f|
+= simple_form_for([@client, @progress_note], html: {class: 'dropzone', multipart: true, style:"border: 0;"}) do |f|
+  = hidden_field(:progress_note, :id, value: @progress_note.id) if @progress_note.id.present?
+  = hidden_field(:progress_note, :error_text, value: t('cannot_be_blank'))
   .ibox-content
     = error_notification(f)
     .row
@@ -8,7 +10,7 @@
             %abbr{ title: 'required' } *
             = t('.date')
           .input-group.date
-            = f.text_field :date, required: true, class: 'date form-control date-picker .datepicker-dropdown date', type: 'text', name: 'progress_note[date]', id: 'progress_note_date'
+            = f.text_field :date, required: true, class: 'date form-control date-picker datepicker-dropdown date', type: 'text', name: 'progress_note[date]', id: 'progress_note_date', required: true
             %span.input-group-addon
               %i.fa.fa-calendar-check-o
           = f.error :date
@@ -37,16 +39,13 @@
         = f.input :response, as: :text, label: t('.response'), input_html: { rows: 10 }
       .col-xs-12.col-md-4
         = f.input :additional_note, as: :text, label: t('.additional_notes'), input_html: { rows: 10 }
-    .row
-      .col-xs-12
-        #attachment
-          = f.simple_fields_for :attachments do |attachment|
-            = render 'attachment_fields', f: attachment
-          .links
-            = link_to_add_association f, :attachments, class: 'btn btn-primary' do
-              %i.glyphicon.glyphicon-plus-sign
-              = t('.add_attachment')
-
-  .ibox-footer
-    = f.submit t('save'), class: 'btn btn-primary form-btn'
-    = link_to t('cancel'), client_progress_notes_path(@client), class: 'btn btn-default form-btn'
+  .ibox-footer.hidden
+    .form-actions
+      = f.submit t('save'), class: 'btn btn-primary form-btn'
+.warning
+  %i Allowed file: png, jpeg, jpg, xls, xlsx, doc, docx and pdf, 5MB maximum.
+.loader.hide
+.ibox-footer.dummy-footer
+  %button.btn.btn-success.form-btn#only-submit
+    = t('save')
+  = link_to t('cancel'), client_progress_notes_path(@client), class: 'btn btn-default form-btn'

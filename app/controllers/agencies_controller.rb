@@ -35,8 +35,9 @@ class AgenciesController < AdminController
   end
 
   def version
+    page = params[:per_page] || 20
     @agency   = Agency.find(params[:agency_id])
-    @versions = @agency.versions.reorder(created_at: :desc)
+    @versions = @agency.versions.reorder(created_at: :desc).page(params[:page]).per(page)
   end
 
   private

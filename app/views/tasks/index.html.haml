@@ -29,7 +29,7 @@
                           %td= task.completion_date.strftime("%B %d, %Y")
           .panel.panel-primary
             .panel-heading
-              %h5= t('.todays_tasks')
+              %h5= t('.today_tasks')
             .panel-body
               - grouped_tasks = @tasks.today.group_by do |task|
                 - task.client

@@ -1,7 +1,4 @@
 class Case < ActiveRecord::Base
-  include CustomFieldProperties
-
-  serialize :properties, JSON
 
   belongs_to :user,   counter_cache: true
   belongs_to :family, counter_cache: true
@@ -28,8 +25,7 @@ class Case < ActiveRecord::Base
 
   validates :family, presence: true, if: proc { |client_case| client_case.case_type != 'EC' }
   validates :case_type, :start_date,  presence: true
-  validates :exit_date, presence: true, if: proc { |client_case| client_case.exited? }
-  validates :exit_note, presence: true, if: proc { |client_case| client_case.exited? }
+  validates :exit_date, :exit_note, presence: true, if: proc { |client_case| client_case.exited? }
 
   before_save :update_client_status, :set_current_status
   after_save :update_cases_to_exited_from_cif
@@ -127,9 +123,9 @@ class Case < ActiveRecord::Base
   end
 
   def update_cases_to_exited_from_cif
-    if exited_from_cif
+    if exited_from_cif && status_was.empty?
       if client.cases.active.update_all(exited_from_cif: true, exited: true, exit_date: exit_date, exit_note: exit_note)
-        ClientMailer.exited_notification(User.managers.pluck(:email)).deliver_now
+        ClientMailer.exited_notification(client, User.managers.pluck(:email)).deliver_now
       end
     end
   end

@@ -18,6 +18,8 @@
         .col-xs-12.col-md-4= f.input :birth_province_id, collection: @province.map{|p| [p.name, p.id]},  label: "#{t('.province')}"
       .row
         .col-xs-12.col-md-4= f.association :province, collection: @province, label: "#{t('.current_province')}", include_blank: false
+        .col-xs-12.col-md-4
+          = f.association :donor, collection: @donors, label: t('.donor')
         .col-xs-12.col-md-4= f.input :current_address, input_html: { rows: '6' }, label: "#{t('.current_address')}"
 
         - if current_user.admin? || (current_user.any_manager? && @client.persisted?)
@@ -29,7 +31,6 @@
               - user_name = @client.user.present? ? @client.user.name : current_user.name
               %input{ type: 'text', value: user_name, id: '#client_user_id', name: 'client[user_id]', class: 'form-control', disabled: 'disabled' }
 
-      .row
         .col-xs-12.col-md-4= f.input :received_by_id, collection: @user.map{|p| [p.name, p.id]}, label: "#{t('.received_by')}", include_blank: false
         .col-xs-12.col-md-4= f.input :followed_up_by_id, collection: @user.map{|p| [p.name, p.id]}, label: "#{t('.followed_up_by')}", include_blank: false
         .col-xs-12.col-md-4.form-group.date.optional.client_follow_up_date
@@ -38,7 +39,7 @@
             = f.text_field :follow_up_date, class: 'date optional form-control date-picker', type: 'text', name: 'client[follow_up_date]', id: 'client_follow_up_date'
             %span.input-group-addon
               %i.fa.fa-calendar-check-o
-      .row
+
         .col-xs-12.col-md-4= f.association :agencies, collection: @agencies, multiple: true, label_method: :name, value_method: :id, label: "#{t('.agencies_involved')}"
         .col-xs-12.col-md-4= f.association :referral_source, collection: @referral_source, label: "#{t('.referral_source')}", include_blank: false
         .col-xs-12.col-md-4.form-group.date.optional.client_initial_referral_date
@@ -47,7 +48,7 @@
             = f.text_field :initial_referral_date, class: 'date optional form-control date-picker', type: 'text', name: 'client[initial_referral_date]', id: 'client_initial_referral_date'
             %span.input-group-addon
               %i.fa.fa-calendar-check-o
-      .row
+
         .col-xs-12.col-md-4
           = f.input :referral_phone, label: "#{t('.referral_phone')}"
         .col-xs-12.col-md-4
@@ -58,11 +59,11 @@
           .i-checks.has-been-in-government-care
             %label= "#{t('.has_been_in_government_care')}?"
             = f.input :has_been_in_government_care, as: :radio_buttons, collection: [['Yes', true],['No', false]], label: false
+        .col-xs-12.col-md-4
+          = f.input :able_state, collection: Client::ABLE_STATES, label: t('.able_state')
       .row
         .col-xs-12.col-md-8
           = f.input :relevant_referral_information, input_html: { style: 'height: 120px;' }, label: "#{t('.relevant_referral_information')}"
-        .col-xs-12.col-md-4
-          = f.input :able_state, collection: Client::ABLE_STATES, label: t('.able_state')
 
       - QuantitativeType.all.each do |qt|
         .row
@@ -71,7 +72,7 @@
               = qt.name
             = f.association :quantitative_cases, collection: qt.quantitative_cases, multiple: true, label_method: :value, value_method: :id, label: false, input_html: { class: able_related_info(qt.name) }
       .row
-        .col-xs-12
+        .col-xs-12.col-md-8
           = f.association :custom_fields, collection: CustomField.where(entity_name: 'Client'), label_method: :form_type, value_method: :id, label: t('.custom_forms')
 
   .ibox-footer

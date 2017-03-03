@@ -1,0 +1,12 @@
+%p Dear Managers,
+
+%p There's a client has exited the NGO.
+
+%p
+  Please click
+  = link_to 'here', client_url(@client, subdomain: Organization.current.short_name), target: :_blank
+  to check client detail.
+
+%p Thanks,
+
+%p= "#{Organization.current.full_name} Team"
