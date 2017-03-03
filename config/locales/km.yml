@@ -1885,6 +1885,8 @@ km:
       edit_progress_note: កែសម្រួលកំណត់សំគាល់ការរីកចំរើន
     form:
       <<: *default_progress_note_fields
+      allowed_file: '*អនុញ្ញាតឯកសារ: .png .jpeg .jpg .xls .xlsx .doc .docx និង .pdf.'
+      max_file_size: '*ទំហំឯកសារអតិបរិមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកឡើង.'
       save: រក្សាទុក
       cancel: ទុកជាមោឃៈ
       add_attachment: បន្ថែមឯកសារ

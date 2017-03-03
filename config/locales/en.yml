@@ -1670,9 +1670,10 @@ en:
       edit_progress_note: Edit Progress Note
     form:
       <<: *default_progress_note_fields
+      allowed_file: '*Allowed file: .png .jpeg .jpg .xls .xlsx .doc .docx and .pdf.'
+      max_file_size: '*Maximum file size: 5MB/file and 30MB/upload.'
       save: Save
       cancel: Cancel
-      add_attachment: Add attachment
       cannot_be_blank: can not be blank
     create:
       successfully_created: Progress Note has been successfully created.

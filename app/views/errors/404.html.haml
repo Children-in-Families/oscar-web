@@ -7,7 +7,7 @@
     %link{:crossorigin => "anonymous", :href => "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css", :integrity => "sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7", :rel => "stylesheet"}
     = stylesheet_link_tag 'application', media: 'all'
 
-  %body{ id: "#{controller_name}-#{params[:action]}" }
+  %body{ id: "#{controller_name}-#{params[:action]}", style: 'background-color: #fff;' }
     .container
       .row
         .col-xs-12.text-center.error-content

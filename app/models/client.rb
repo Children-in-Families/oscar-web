@@ -294,8 +294,8 @@ class Client < ActiveRecord::Base
     clients = active_ec.select { |client| client.active_day_care == day }
 
     if clients.present?
-      ManagerMailer.remind_of_client(clients, day: day, manager: managers).deliver_now
-      AdminMailer.remind_of_client(clients, day: day, admin: admins).deliver_now
+      ManagerMailer.remind_of_client(clients, day: day, manager: managers).deliver_now if managers.present?
+      AdminMailer.remind_of_client(clients, day: day, admin: admins).deliver_now if admins.present?
     end
   end
 end
