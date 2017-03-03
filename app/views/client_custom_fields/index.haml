@@ -4,10 +4,11 @@
       .ibox-title
         %h5= "#{@custom_field.form_title} "
         .ibox-tools
-          = next_entity_type_custom_field(@client_custom_fields, @client, @custom_field)
-          = link_to client_path(@client) do
-            .btn.btn-outline.btn-success.button.form-btn
-              = t('.back')
+          - if can? :manage, ClientCustomField
+            = next_entity_type_custom_field(@client_custom_fields, @client, @custom_field)
+            = link_to client_path(@client) do
+              .btn.btn-outline.btn-success.button.form-btn
+                = t('.back')
       .ibox-content
         .row
           - @client_custom_field.each do |client_custom_field|
@@ -19,7 +20,7 @@
                   %span.label.label-info
                     = date_format client_custom_field.created_at
                   .ibox-tools
-                    - if can? :manage, CustomField
+                    - if can? :manage, ClientCustomField
                       %small
                         = link_to edit_client_client_custom_field_path(@client, client_custom_field.id) do
                           .btn.btn-outline.btn-success

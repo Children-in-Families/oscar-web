@@ -145,7 +145,8 @@
           - if can? :manage, AbleScreeningQuestion
             = able_screen_link(@client)
           = render('client_answers')
-          = render 'custom_fields', client: @client
+          - @client.client_custom_fields.group_by(&:custom_field_id).each do |client_custom_field|
+            = next_custom_field(client_custom_field[1].first, @client, "client")
 
 .row.mini-margin
   .col-xs-12

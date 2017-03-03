@@ -1,6 +1,7 @@
 .row
   .col-xs-12.user
-    = render 'custom_fields', user: @user
+    - @user.user_custom_fields.group_by(&:custom_field_id).each do |user_custom_field|
+      = next_custom_field(user_custom_field[1].first, @user, "user")
     .ibox.mini-margin
       .ibox-title
         %h5= "#{t('.general_info')} #{@user.name}"
