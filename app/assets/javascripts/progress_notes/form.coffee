@@ -1,6 +1,7 @@
 CIF.Progress_notesNew = CIF.Progress_notesCreate = CIF.Progress_notesEdit = CIF.Progress_notesUpdate = do ->
   _init = ->
     self.removeFile = []
+    _handleEnableSubmitButtonWhenRemoveFile()
     _initDropzone()
     _select2()
     _toggleOtherLocation()
@@ -59,6 +60,14 @@ CIF.Progress_notesNew = CIF.Progress_notesCreate = CIF.Progress_notesEdit = CIF.
     $('#progress_note_date').addClass('has-error')
     $('#progress_note_date').closest('.form-group').append("<span class='help-block' style='display:block;'> #{errorText} </span>")
 
+  _handleEnableSubmitButtonWhenRemoveFile = ->
+    $('.dz-remove').on 'click', ->
+      if $('.dz-error-message span').text() != ''
+        $('#only-submit').attr('disabled', 'disabled')
+      else
+        $('#only-submit').removeAttr('disabled')
+
+
   _initDropzone = ->
     successCallBackCount = 1
     Dropzone.autoDiscover = false
@@ -97,9 +106,8 @@ CIF.Progress_notesNew = CIF.Progress_notesCreate = CIF.Progress_notesEdit = CIF.
             _handleCollectingRemoveFileId()
           )
         @element.querySelector('input[type=submit]').addEventListener 'click', (e) ->
-          $('.ibox-content').append("<div class='loader'> </div>")
+          $('.loader').removeClass('hide')
           $('form, .dummy-footer').addClass('hide')
-          $('.loader').css('display', 'block')
           e.preventDefault()
           e.stopPropagation()
           if $('#progress_note_date').val() != ''
@@ -114,14 +122,16 @@ CIF.Progress_notesNew = CIF.Progress_notesCreate = CIF.Progress_notesEdit = CIF.
           else
             _addProgressNoteDateError()
             $('form, .dummy-footer').removeClass('hide')
-            $('.loader').css('display', 'none')
+            $('.loader').addClass('hide')
+        @on 'addedfile', (file)->
+          _handleEnableSubmitButtonWhenRemoveFile()
         @on 'success', (file, response) ->
           successCallBackCount += 1
           text         = response.text
           slugId       = response.slug_id
           progressNote = response.progress_note
           if text != '' && successCallBackCount == this.files.length
-            $('.loader').css('display', 'none')
+            $('.loader').removeClass('hide')
             $('form, .dummy-footer').removeClass('hide')
             $('#wrapper').data(
               message: text
@@ -132,11 +142,12 @@ CIF.Progress_notesNew = CIF.Progress_notesCreate = CIF.Progress_notesEdit = CIF.
             window.location.href = "/clients/#{slugId}/progress_notes/#{progressNote.id}"
           ,1000)
         @on 'error', (file, response) ->
-          debugger
-          $('.loader').css('display', 'none')
+          $('.loader').addClass('hide')
           $('form, .dummy-footer').removeClass('hide')
-          if file.size > 6451221
-            response = 'File Too Large'
+          if file.size > 5242880
+            $('#only-submit').attr('disabled', 'disabled')
+          else
+            $('#only-submit').removeAttr('disabled')
 
       )
 

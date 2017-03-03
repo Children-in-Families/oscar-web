@@ -43,7 +43,8 @@
     .form-actions
       = f.submit t('save'), class: 'btn btn-primary form-btn'
 .warning
-  %i Allowed file types: png, jpeg, jpg, xls, xlsx, doc, docx and pdf
+  %i Allowed file: png, jpeg, jpg, xls, xlsx, doc, docx and pdf, 5MB maximum.
+.loader.hide
 .ibox-footer.dummy-footer
   %button.btn.btn-success.form-btn#only-submit
     = t('save')
