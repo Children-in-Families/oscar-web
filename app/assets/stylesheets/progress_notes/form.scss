@@ -53,4 +53,27 @@ body[id=progress_notes-update]{
   span.help-block {
     color: $red;
   }
+
+  .dz-remove {
+    visibility: hidden;
+    color: black;
+    position: absolute;
+    z-index: 100;
+    right: 3px;
+    top: -8px;
+    &:hover {
+      color: red;
+      text-decoration: none;
+    }
+
+  }
+  .dz-remove:after {
+    font-size: 22px;
+    visibility: visible;;
+    content: "x";
+  }
+  .dropzone .dz-preview .dz-details .dz-size {
+    margin-bottom: 20px;
+    margin-top: 17px;
+  }
 }

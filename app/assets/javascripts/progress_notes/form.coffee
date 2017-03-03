@@ -67,6 +67,7 @@ CIF.Progress_notesNew = CIF.Progress_notesCreate = CIF.Progress_notesEdit = CIF.
       autoProcessQueue: false
       acceptedFiles: ".jpeg,.jpg,.png,.pdf,.doc,.docx,.xls,.xlsx"
       paramName: "attachments[file][]"
+      maxFilesize: 5
       addRemoveLinks: true
       uploadMultiple: true
       parallelUploads: 25
@@ -90,7 +91,6 @@ CIF.Progress_notesNew = CIF.Progress_notesCreate = CIF.Progress_notesEdit = CIF.
                 status: Dropzone.ADDED
 
               myDropzone.options.addedfile.call(myDropzone, mockFile)
-              myDropzone.options.thumbnail.call(myDropzone, mockFile, attachment.file.file.dropzonethumb.url)
               myDropzone.files.push(mockFile)
               $(".dz-preview:last-child").attr('data-id', attachment.id)
 
@@ -132,8 +132,11 @@ CIF.Progress_notesNew = CIF.Progress_notesCreate = CIF.Progress_notesEdit = CIF.
             window.location.href = "/clients/#{slugId}/progress_notes/#{progressNote.id}"
           ,1000)
         @on 'error', (file, response) ->
+          debugger
           $('.loader').css('display', 'none')
           $('form, .dummy-footer').removeClass('hide')
+          if file.size > 6451221
+            response = 'File Too Large'
 
       )
 
