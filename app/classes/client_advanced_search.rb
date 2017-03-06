@@ -1,31 +1,54 @@
-class  ClientAdvancedSearch
+class  ClientAdvancedSearch                  
   def initialize(options = {})
+
+    @drop_list_type_fields = [
+                            ['gender','Gender', { male: 'Male', female: 'Female' }],
+                            ['status', 'Status', client_status],
+                            ['birth_province_id', 'Birth province', provinces],
+                            ['received_by_id,' 'Received by', received_by_options],
+                            ['referral_source_id', 'Referral source', referral_source_options],
+                            ['followed_up_by_id', 'Followed-up by', followed_up_by_options],
+                            ['has_been_in_government_care', 'Has been in government care', { true: 'Yes', false: 'No' }],
+                            ['able_state', 'Able state', client_able_state],
+                            ['has_been_in_orphanage', 'Has been in orphanage', { true: 'Yes', false: 'No'}],
+                            ['user_id', 'Case Worker', user_select_options]
+                          ]
+
     @user = options[:user]
     @drop_list = {
                   gender: { male: 'Male', female: 'Female' },
                   status: client_status, 
-                  case_type: { EC: 'EC', FC: 'FC', KC: 'KC' },
-                  birth_province: provinces, 
-                  current_province: provinces,
-                  received_by: received_by_options,
-                  referral_source: referral_source_options.to_h,
-                  followed_up_by: followed_up_by_options.to_h, 
-                  agency_name: agencies_options, 
+                  # case_type: { EC: 'EC', FC: 'FC', KC: 'KC' },
+                  birth_province_id: provinces, 
+                  # province_id: provinces,
+                  received_by_id: received_by_options,
+                  referral_source_id: referral_source_options,
+                  followed_up_by_id: followed_up_by_options, 
+                  # agency_name: agencies_options, 
                   has_been_in_government_care: { true: 'Yes', false: 'No' }, 
                   able_state: client_able_state,
                   has_been_in_orphanage: { true: 'Yes', false: 'No'},
                   user_id: user_select_options
                 }
-    @text      = [:first_name, :family_name, :id, :referral_phone, :school_name]
+    @text      = [
+                  :first_name, 
+                  # :family_name,
+                  :id, 
+                  :referral_phone, 
+                  :school_name]
     @date      = [:palcement_date, :date_of_birth, :initial_referral_date, :follow_up_date]
-    @number    = [:code, :family_id, :age, :school_grade]
+    @number    = [:code, 
+                  # :family_id, 
+                  :age, :school_grade]
   end
+
+
 
   def data_fields
     text_fields         = @text.map{ |item| text_options(item.to_s, {label: item.to_s.humanize}) }
     number_fields       = @number.map{ |item| number_options(item.to_s, {label: item.to_s.humanize}) }
     date_picker_fields  = @date.map{ |item| date_picker_options(item.to_s, {label: item.to_s.humanize}) }
-    drop_list_fields    = @drop_list.map{ |item| drop_list_options(item.first.to_s, label: item.first.to_s.humanize, values: item.second)}
+    drop_list_fields    = @drop_list_type_fields.map{ |item| drop_list_options(item.first, item.second, item.last)}
 
     text_fields + drop_list_fields + number_fields + date_picker_fields
   end
@@ -69,15 +92,13 @@ class  ClientAdvancedSearch
     }
   end
 
-  def drop_list_options(field_name, options = {})
-    label = options[:label]
-    label = label == 'User' ? 'Case Worker' : label
+  def drop_list_options(field_name, label, values)
     {
       id: field_name,
       label: label,
       type: 'string',
       input: 'select',
-      values: options[:values],
+      values: values,
       operators: ['equal', 'not_equal']
     }
   end

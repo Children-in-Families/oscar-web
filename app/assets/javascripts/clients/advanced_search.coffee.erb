@@ -21,11 +21,32 @@ CIF.ClientsAdvanced_search = do ->
     query = ''
     $('#search').on 'click', ->
       rules =  $('#builder').queryBuilder('getRules')
+       # $('.table-responsive table').DataTable
+       #  ajax:
+       #    url: '/api/v1/advance_searches'
+       #    data: { search_rules: rules }
+       #  columns: []
       $.ajax
         url: '/api/v1/advance_searches'
         data: { search_rules: rules }
         method: 'GET'
         success: (response) ->
-          console.log response
+          $('.table-responsive table').dataTable(
+            data: response
+            # columns: [
+            #   { data: 'id' }
+            #   { data: 'first_name' }
+            # ]
+          )
+
+  _handleGenerateTable = (data) ->
+    # debugger
+    # value = []
+    # for result in data
+    #   id = '<td>#{result.id}</td>'
+    #   name = '<td>#{result.first_name}</td>'
+    #   f
+    #   value.push "<tr>   </tr>"
+    # value
 
   { init: _init }

@@ -3,11 +3,12 @@ class ClientAdvanceFilter
     @condition = search_rules[:condition]
     @query_rules = search_rules[:rules]
     @client = FilterConditions.new(Client.all)
+    @display_fields = [] 
   end
 
   def client_queries
     @query_rules.each do |_id,rule|
-      
+      @display_fields << rule[:field].to_sym
       case rule[:operator]
       when 'equal'
         @client.is(rule[:field], rule[:value])  
@@ -29,7 +30,7 @@ class ClientAdvanceFilter
         @client.not_contains(rule[:field], rule[:value])  
       end
     end
-    binding.pry
+    @client.display_fields = @display_fields.uniq
     result = @client.resource
   end
           

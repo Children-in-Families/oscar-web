@@ -1,10 +1,13 @@
 class FilterConditions
-  attr_reader :resource
-  
+  attr_accessor :display_fields
+
   def initialize(resource)
     @resource = resource
   end
 
+  def resource
+    @resource.select(:id, :first_name, display_fields)  
+  end
 
   def is(column, value)
     @resource = @resource.where("#{column} = ?", "#{value}")
