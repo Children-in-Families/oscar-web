@@ -2,16 +2,16 @@
   .col-xs-12
     .ibox
       .ibox-title
-        %h5= "#{@custom_field.form_title} "
+        %h5= @custom_field.form_title
         .ibox-tools
           - if can? :manage, UserCustomField
-            = next_entity_type_custom_field(@user_custom_fields, @user, @custom_field)
+            = next_entity_type_custom_field(@user, @custom_field)
             = link_to user_path(@user) do
               .btn.btn-outline.btn-success.button.form-btn
                 = t('.back')
       .ibox-content
         .row
-          - @user_custom_field.each do |user_custom_field|
+          - @user_custom_fields.each do |user_custom_field|
             .col-xs-12.col-md-6
               .ibox.border-left-right.border-bottom
                 .ibox-title
@@ -38,4 +38,4 @@
                         %td.align-justify
                           = display_custom_properties(value)
       .ibox-footer.text-center
-        = paginate @user_custom_field
+        = paginate @user_custom_fields

@@ -19,8 +19,10 @@ CIF.Custom_fieldsShow = do ->
       $('#custom_field_time_of_frequency').attr('disabled', 'disabled')
         .val(0)
     else
+      if time_of_frequency == '0'
+        time_of_frequency = 1
       $('#custom_field_time_of_frequency').removeAttr('disabled')
-        .val(time_of_frequency || 1)
+        .val(time_of_frequency)
 
   _changeSelectOfFrequency = ->
       $('#custom_field_frequency').change ->

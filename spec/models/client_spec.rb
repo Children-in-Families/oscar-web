@@ -200,10 +200,10 @@ describe Client, 'methods' do
     end
 
     it 'send mail to ec manager' do
-      expect(ActionMailer::Base.deliveries.first.to).to eq([ec_manager.email])
+      expect(ActionMailer::Base.deliveries.first.to).to include(ec_manager.email)
     end
     it 'send mail to admin' do
-      expect(ActionMailer::Base.deliveries.last.to).to eq([admin.email])
+      expect(ActionMailer::Base.deliveries.last.to).to include(admin.email)
     end
   end
 end

@@ -18,3 +18,16 @@ describe FamilyCustomField, 'scopes' do
     expect(family.family_custom_fields.by_custom_field(cf2)).not_to include(fcf1)
   end
 end
+
+describe FamilyCustomField, 'methods' do
+  context 'can_create_next_custom_field?' do
+    let!(:family){ create(:family) }
+    let!(:custom_field){ create(:custom_field, entity_type: 'Family', form_title: 'Health Record', frequency: 'Day', time_of_frequency: 1) }
+    let!(:family_custom_field){ create(:family_custom_field, custom_field: custom_field, family: family) }
+    let!(:other_custom_field){ create(:custom_field, entity_type: 'Family', form_title: 'Care Record', frequency: '') }
+    let!(:other_family_custom_field){ create(:family_custom_field, custom_field: other_custom_field, family: family) }
+
+    it { expect(family.can_create_next_custom_field?(custom_field)).to be_falsey }
+    it { expect(family.can_create_next_custom_field?(other_custom_field)).to be_truthy }
+  end
+end

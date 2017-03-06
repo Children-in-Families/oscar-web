@@ -18,3 +18,16 @@ describe PartnerCustomField, 'scopes' do
     expect(partner.partner_custom_fields.by_custom_field(cf2)).not_to include(pcf1)
   end
 end
+
+describe PartnerCustomField, 'methods' do
+  context 'can_create_next_custom_field?' do
+    let!(:partner){ create(:partner) }
+    let!(:custom_field){ create(:custom_field, entity_type: 'Partner', form_title: 'Health Record', frequency: 'Day', time_of_frequency: 1) }
+    let!(:partner_custom_field){ create(:partner_custom_field, custom_field: custom_field, partner: partner) }
+    let!(:other_custom_field){ create(:custom_field, entity_type: 'Partner', form_title: 'Care Record', frequency: '') }
+    let!(:other_partner_custom_field){ create(:partner_custom_field, custom_field: other_custom_field, partner: partner) }
+
+    it { expect(partner.can_create_next_custom_field?(custom_field)).to be_falsey }
+    it { expect(partner.can_create_next_custom_field?(other_custom_field)).to be_truthy }
+  end
+end

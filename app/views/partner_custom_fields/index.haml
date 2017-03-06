@@ -2,16 +2,16 @@
   .col-xs-12
     .ibox
       .ibox-title
-        %h5= "#{@custom_field.form_title} "
+        %h5= @custom_field.form_title
         .ibox-tools
           - if can? :manage, PartnerCustomField
-            = next_entity_type_custom_field(@partner_custom_fields, @partner, @custom_field)
+            = next_entity_type_custom_field(@partner, @custom_field)
             = link_to partner_path(@partner) do
               .btn.btn-outline.btn-success.button.form-btn
                 = t('.back')
       .ibox-content
         .row
-          - @partner_custom_field.each do |partner_custom_field|
+          - @partner_custom_fields.each do |partner_custom_field|
             .col-xs-12.col-md-6
               .ibox.border-left-right.border-bottom
                 .ibox-title
@@ -38,4 +38,4 @@
                         %td.align-justify
                           = display_custom_properties(value)
       .ibox-footer.text-center
-        = paginate @partner_custom_field
+        = paginate @partner_custom_fields

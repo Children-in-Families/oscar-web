@@ -4,9 +4,10 @@ class FamilyCustomFieldsController < AdminController
   before_action :set_family
   before_action :set_custom_field
   before_action :set_family_custom_field, only: [:edit, :show, :destroy]
+  before_action :restrict_invalid_family_custom_field, only: [:new, :create]
 
   def index
-    @family_custom_field = @family.family_custom_fields.by_custom_field(@custom_field).order(created_at: :desc).page(params[:page]).per(4)
+    @family_custom_fields = @family.family_custom_fields.by_custom_field(@custom_field).order(created_at: :desc).page(params[:page]).per(4)
   end
 
   def show
@@ -39,7 +40,11 @@ class FamilyCustomFieldsController < AdminController
 
   def destroy
     @family_custom_field.destroy
-    redirect_to family_family_custom_fields_path(@family, custom_field_id: @custom_field.id), notice: t('.successfully_deleted')
+    if @family.family_custom_fields.by_custom_field(@custom_field).empty?
+      redirect_to family_path(@family), notice: t('.successfully_deleted')
+    else
+      redirect_to family_family_custom_fields_path(@family, custom_field_id: @custom_field.id), notice: t('.successfully_deleted')
+    end
   end
 
   private
@@ -64,5 +69,9 @@ class FamilyCustomFieldsController < AdminController
 
   def set_family_custom_field
     @family_custom_field = @family.family_custom_fields.find(params[:id])
+  end
+
+  def restrict_invalid_family_custom_field
+    redirect_to family_family_custom_fields_path(@family, custom_field_id: @custom_field.id), alert: t('.cannot_create') unless @family.can_create_next_custom_field?(@custom_field)
   end
 end

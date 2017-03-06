@@ -178,6 +178,7 @@ en:
       created_date: Created Date
     create:
       successfully_created: Succesfully created information.
+      cannot_create: Form cannot be created.
     update:
       successfully_updated: Succesfully updated information.
     destroy:
@@ -187,6 +188,8 @@ en:
     form:
       save: Save
       cancel: Cancel
+    new:
+      cannot_create: Form cannot be created.
 
   government_reports:
     index:
