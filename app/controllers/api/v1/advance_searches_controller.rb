@@ -3,6 +3,7 @@ module Api
     class AdvanceSearchesController < ApplicationController
 
       def index
+        binding.pry
         render json: query, status: :ok, serializer: nil
       end
 

@@ -1,9 +1,17 @@
 CIF.ClientsAdvanced_search = do ->
   _init = ->
-    _initJqueryBuilder()
+    _initJqueryQueryBuilder()
+    _setRuleJqueryQueryBuilder()
     _handleSearch()
 
-  _initJqueryBuilder = ->
+  _setRuleJqueryQueryBuilder = ->
+    queryRules = $('#builder').data('search-rules')
+    queryCondition = $('#builder').data('search-condition')
+    if queryRules != undefined
+      console.log queryRules
+      $('#builder').queryBuilder('setRules', queryRules)
+
+  _initJqueryQueryBuilder = ->
     fieldList = $('#builder').data('field-list')
     $('#builder').queryBuilder
       lang:
@@ -17,36 +25,25 @@ CIF.ClientsAdvanced_search = do ->
           contains: 'includes'
           not_contains: 'excludes'
       filters: fieldList
-  _handleSearch = ->
-    query = ''
-    $('#search').on 'click', ->
-      rules =  $('#builder').queryBuilder('getRules')
-       # $('.table-responsive table').DataTable
-       #  ajax:
-       #    url: '/api/v1/advance_searches'
-       #    data: { search_rules: rules }
-       #  columns: []
-      $.ajax
-        url: '/api/v1/advance_searches'
-        data: { search_rules: rules }
-        method: 'GET'
-        success: (response) ->
-          $('.table-responsive table').dataTable(
-            data: response
-            # columns: [
-            #   { data: 'id' }
-            #   { data: 'first_name' }
-            # ]
-          )
 
-  _handleGenerateTable = (data) ->
-    # debugger
-    # value = []
-    # for result in data
-    #   id = '<td>#{result.id}</td>'
-    #   name = '<td>#{result.first_name}</td>'
-    #   f
-    #   value.push "<tr>   </tr>"
-    # value
+    $('.table-responsive table').DataTable(
+        'sScrollY': 'auto'
+        'bFilter': false
+        'bAutoWidth': true
+        'bSort': false
+        'sScrollX': '100%'
+        'bInfo': false
+        'bLengthChange': false
+        'bPaginate': false
+      )
+
+
+  _handleSearch = ->
+    $('#search').on 'click', ->
+      rules =  JSON.stringify($('#builder').queryBuilder('getRules'))
+      if !($.isEmptyObject($('#builder').queryBuilder('getRules')))
+        $('#client_search_rules').val(rules)
+        $('#advanced-search').submit()
+         
 
   { init: _init }

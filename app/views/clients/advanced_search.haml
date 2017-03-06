@@ -1,7 +1,36 @@
-#builder{'data-field-list' => @advanced_search_field }`
-%button#search.btn.btn-primary
-  Search
-.table-responsive
-  %table.table
-    .thead
-    .tbody
+.row
+  .col-xs-12
+    .ibox
+      .ibox-title
+        %h5= t('.advanced-search')
+      .ibox-content
+        #builder{ 'data-field-list' => @advanced_search_field, 'data-search-rules' => @advanced_search_params}
+      .ibox-footer
+        %button#search.btn.btn-primary
+          Search
+.row.mini-margin
+  .col-xs-12
+    .ibox
+      - if @filtered_clients
+        .ibox-title
+          %h5= @filtered_clients.size
+          %span.label.label-info= t('.results')
+        .ibox-content
+          .table-responsive
+            %table.table.table-bordered.table-striped.table-hover.clients.dataTable.no-footer
+              %thead
+                %tr
+                  %th ID
+                  %th Name
+              %tbody
+                - @filtered_clients.each do |client|
+                  %tr
+                    %td= client.slug
+                    %td= link_to client.first_name, client_path(client)
+        .ibox-footer.text-center
+          = paginate @filtered_clients
+      - else
+        .ibox-content
+          %span No Result Found
+= simple_form_for :client, url: :advanced_search_clients, method: 'GET', html: { id: 'advanced-search' } do |f|
+  = f.hidden_field :search_rules

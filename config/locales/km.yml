@@ -569,6 +569,7 @@ km:
       sInfoTotal: នៃចំនួនសរុប
       load: កំពុងផ្ទុក...
       end: អស់លទ្ធផល!
+      advanced_search: ការស្វែងរកកម្រិតខ្ពស់ 
     create:
       successfully_created: អតិថិជនត្រូវបានបង្កើតឡើងដោយជោគជ័យ
     update:

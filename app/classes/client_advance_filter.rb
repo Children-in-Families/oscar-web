@@ -3,11 +3,11 @@ class ClientAdvanceFilter
     @condition = search_rules[:condition]
     @query_rules = search_rules[:rules]
     @client = FilterConditions.new(Client.all)
-    @display_fields = [] 
+    @display_fields = []
   end
 
   def client_queries
-    @query_rules.each do |_id,rule|
+    @query_rules.each do |rule|
       @display_fields << rule[:field].to_sym
       case rule[:operator]
       when 'equal'

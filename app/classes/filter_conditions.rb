@@ -6,7 +6,7 @@ class FilterConditions
   end
 
   def resource
-    @resource.select(:id, :first_name, display_fields)  
+    @resource.select(:id, :first_name, :slug, display_fields)  
   end
 
   def is(column, value)
