@@ -80,7 +80,7 @@ CIF.Custom_fieldsShow = do ->
       $('#custom_field_fields').val(formBuilder.formData)
 
   _select2 = ->
-    $('#custom_field_entity_name').select2
+    $('#custom_field_entity_type').select2
       minimumInputLength: 0
 
   { init: _init }
