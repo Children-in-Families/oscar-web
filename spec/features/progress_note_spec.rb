@@ -3,6 +3,7 @@ feature 'progress_note' do
   let!(:client){ create(:client, able_state: Client::ABLE_STATES[0]) }
   let!(:other_location){ create(:location, name: 'ផ្សេងៗ Other') }
   let!(:progress_note){ create(:progress_note, client: client, location: other_location) }
+  let!(:other_progress_note){ create(:progress_note, client: client, location: other_location) }
   let!(:progress_note_type){ create(:progress_note_type) }
   let!(:location){ create(:location) }
   let!(:intervention){ create(:intervention) }
@@ -103,15 +104,16 @@ feature 'progress_note' do
       expect(page).to have_content(I18n.t('progress_notes.create.successfully_created'))
     end
 
-    scenario 'invalid' do
-      click_button I18n.t('progress_notes.form.save')
-      expect(page).to have_content(I18n.t('activerecord.errors.models.progress_note.attributes.date.blank'))
+    scenario 'invalid', js: true do
+      fill_in 'Date', with: ''
+      page.find("#only-submit").click
+      expect(page).to have_content("can't be blank")
     end
   end
 
   feature 'Edit' do
     before do
-      visit edit_client_progress_note_path(progress_note.client, progress_note)
+      visit edit_client_progress_note_path(other_progress_note.client, other_progress_note)
     end
     scenario 'valid', js: true do
       date = Date.today
@@ -121,7 +123,7 @@ feature 'progress_note' do
       expect(page).to have_content(I18n.t('progress_notes.update.successfully_updated'))
       expect(page).to have_content(date.strftime('%d %B, %Y'))
     end
-    scenario 'invalid' do
+    scenario 'invalid', js: true do
       fill_in I18n.t('progress_notes.form.date'), with: ''
       click_button I18n.t('progress_notes.form.save')
       expect(page).to have_content(I18n.t('activerecord.errors.models.progress_note.attributes.date.blank'))

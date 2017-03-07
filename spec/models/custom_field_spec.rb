@@ -18,6 +18,16 @@ describe CustomField, 'validations' do
     custom_field.save
     expect(custom_field.errors[:fields]).to include("can't be blank")
   end
+  it 'validates time of frequency value if frequency' do
+    custom_field = CustomField.new(frequency: 'Day')
+    custom_field.save
+    expect(custom_field.errors[:time_of_frequency]).to include('must be greater than or equal to 1')
+  end
+  it 'validates time of frequency value data type if frequency' do
+    custom_field = CustomField.new(frequency: 'Day', time_of_frequency: 1.1)
+    custom_field.save
+    expect(custom_field.errors[:time_of_frequency]).to include('must be an integer')
+  end
 end
 
 describe CustomField, 'CONSTANTS' do

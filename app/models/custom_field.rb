@@ -14,6 +14,8 @@ class CustomField < ActiveRecord::Base
 
   validates :entity_type, :form_title, presence: true
   validates :form_title, uniqueness: { case_sensitive: false, scope: :entity_type }
+  validates :time_of_frequency, presence: true,
+                                numericality: { only_integer: true, greater_than_or_equal_to: 1 }, if: 'frequency.present?'
   validate :presence_of_fields
 
   before_save :set_time_of_frequency

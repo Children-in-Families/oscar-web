@@ -82,5 +82,8 @@ CIF.Custom_fieldsShow = do ->
   _select2 = ->
     $('#custom_field_entity_type').select2
       minimumInputLength: 0
+    $('#custom_field_frequency').select2
+      minimumInputLength: 0
+      allowClear: true
 
   { init: _init }

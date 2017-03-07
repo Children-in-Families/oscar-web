@@ -166,8 +166,8 @@ km:
   default_custom_fields: &default_custom_fields
     entity_type: ទម្រង់បែបបទបន្ថែម
     form_title: ឈ្មោះនៃទម្រង់បែបបទបន្ថែម
-    frequency: ភាពញិកញាប់
-    time_of_frequency: ពេលវេលានៃភាពញិកញាប់
+    frequency: ភាពញឹកញាប់
+    time_of_frequency: ពេលវេលានៃភាពញឹកញាប់
 
   default_entity_type_custom_fields: &default_entity_type_custom_fields
     index:
@@ -842,6 +842,9 @@ km:
             form_title:
               blank: មិនអាចរំលង
               taken: ត្រូវបានប្រើរួចហើយ
+            time_of_frequency:
+              not_an_integer: អនុញ្ញាតតែលេខគត់ប៉ុណ្ណោះ
+              greater_than_or_equal_to: មិនអាចតូចជាង 1
         case:
           attributes:
             start_date:
