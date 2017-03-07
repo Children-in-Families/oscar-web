@@ -90,9 +90,10 @@ class User < ActiveRecord::Base
     overdue   = []
     due_today = []
     clients.all_active_types.each do |client|
-      if client.next_assessment_date.to_date < Date.today
+      client_next_asseement_date = client.next_assessment_date.to_date
+      if client_next_asseement_date < Date.today
         overdue << client
-      elsif client.next_assessment_date.to_date == Date.today
+      elsif client_next_asseement_date == Date.today
         due_today << client
       end
     end

@@ -22,7 +22,7 @@ class Ability
       can :manage, AbleScreeningQuestion
       can :manage, Assessment
       can :manage, Attachment
-      can :manage, Case
+      can :manage, Case, exited: false
       can :manage, CaseNote
       can :manage, Client, user_id: user.id
       can :manage, GovernmentReport
@@ -61,7 +61,7 @@ class Ability
       can :read, ProgressNote
       can :manage, Family
       can :manage, Partner
-      can :manage, Case, case_type: 'EC'
+      can :manage, Case, { case_type: 'EC', exited: false }
       can :manage, Assessment
       can :manage, Survey
       can :manage, Task
@@ -82,7 +82,7 @@ class Ability
       can :read, ProgressNote
       can :manage, Family
       can :manage, Partner
-      can :manage, Case, case_type: 'FC'
+      can :manage, Case, { case_type: 'FC', exited: false }
       can :manage, Assessment
       can :manage, Survey
       can :manage, Task
@@ -105,7 +105,7 @@ class Ability
       can :read, ProgressNote
       can :manage, Family
       can :manage, Partner
-      can :manage, Case, case_type: 'KC'
+      can :manage, Case, { case_type: 'KC', exited: false }
       can :manage, Assessment
       can :manage, Survey
       can :manage, Task

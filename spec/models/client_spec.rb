@@ -6,6 +6,7 @@ describe Client, 'associations' do
   it { is_expected.to belong_to(:received_by) }
   it { is_expected.to belong_to(:followed_up_by) }
   it { is_expected.to belong_to(:birth_province) }
+  it { is_expected.to belong_to(:donor) }
 
   it { is_expected.to have_one(:government_report).dependent(:destroy) }
   it { is_expected.to have_many(:cases).dependent(:destroy) }
@@ -93,8 +94,8 @@ describe Client, 'methods' do
   end
 
   context 'active_day_care' do
-    let!(:case) { create(:case, client: client, exited: false, start_date: 1.year.ago) }
-    it { expect(client.active_day_care).to eq(365.0) }
+    let!(:case) { create(:case, client: client, exited: false, start_date: 10.day.ago) }
+    it { expect(client.active_day_care).to eq(10) }
   end
 
   context 'inactive_day_care' do

@@ -16,10 +16,9 @@ module CustomFormBuilderHelper
   end
 
   def display_custom_properties(value)
-    date = Date.parse(value) rescue nil
     span = content_tag :span do
-      if date
-        concat date.strftime('%B %d, %Y')
+      if value =~ /(\d{4}[-\/]\d{1,2}[-\/]\d{1,2})/
+        concat value.to_date.strftime('%B %d, %Y')
       elsif value.is_a?(Array)
         value.reject{ |i| i.empty? }.each do |c|
           concat content_tag(:strong, c, class: 'label')

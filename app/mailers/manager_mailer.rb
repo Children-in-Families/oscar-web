@@ -6,6 +6,6 @@ class ManagerMailer < ActionMailer::Base
     @manager = options[:manager]
     @day     = options[:day]
 
-    mail(to: @manager.email, subject: 'Reminder there is client about to exit emergency case program')
+    mail(to: @manager, subject: 'Reminder [Clients Are About To Exit Emergency Care Program')
   end
 end

@@ -293,10 +293,10 @@ ActiveRecord::Schema.define(version: 20170302041000) do
   add_index "domains", ["domain_group_id"], name: "index_domains_on_domain_group_id", using: :btree
 
   create_table "donors", force: :cascade do |t|
-    t.string   "name"
-    t.text     "description"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.string   "name",        default: ""
+    t.text     "description", default: ""
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
   end
 
   create_table "families", force: :cascade do |t|
