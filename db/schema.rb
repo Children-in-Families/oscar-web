@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170206070346) do
+ActiveRecord::Schema.define(version: 20170223064532) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -184,17 +184,6 @@ ActiveRecord::Schema.define(version: 20170206070346) do
 
   add_index "changelogs", ["user_id"], name: "index_changelogs_on_user_id", using: :btree
 
-  create_table "client_case_workers", force: :cascade do |t|
-    t.integer  "user_id"
-    t.integer  "client_id"
-    t.boolean  "active"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  add_index "client_case_workers", ["client_id"], name: "index_client_case_workers_on_client_id", using: :btree
-  add_index "client_case_workers", ["user_id"], name: "index_client_case_workers_on_user_id", using: :btree
-
   create_table "client_custom_fields", force: :cascade do |t|
     t.text     "properties"
     t.integer  "client_id"
@@ -248,8 +237,10 @@ ActiveRecord::Schema.define(version: 20170206070346) do
     t.string   "slug"
     t.string   "able_state"
     t.integer  "assessments_count"
+    t.integer  "donor_id"
   end
 
+  add_index "clients", ["donor_id"], name: "index_clients_on_donor_id", using: :btree
   add_index "clients", ["slug"], name: "index_clients_on_slug", unique: true, using: :btree
 
   create_table "clients_quantitative_cases", force: :cascade do |t|
@@ -260,11 +251,11 @@ ActiveRecord::Schema.define(version: 20170206070346) do
   end
 
   create_table "custom_fields", force: :cascade do |t|
-    t.string   "entity_name"
-    t.string   "fields"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-    t.string   "form_type"
+    t.string   "entity_type", default: ""
+    t.text     "fields",      default: ""
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.string   "form_title",  default: ""
   end
 
   create_table "departments", force: :cascade do |t|
@@ -298,6 +289,13 @@ ActiveRecord::Schema.define(version: 20170206070346) do
   end
 
   add_index "domains", ["domain_group_id"], name: "index_domains_on_domain_group_id", using: :btree
+
+  create_table "donors", force: :cascade do |t|
+    t.string   "name",        default: ""
+    t.text     "description", default: ""
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+  end
 
   create_table "families", force: :cascade do |t|
     t.string   "code"
@@ -898,10 +896,9 @@ ActiveRecord::Schema.define(version: 20170206070346) do
   add_foreign_key "case_notes", "clients"
   add_foreign_key "changelog_types", "changelogs"
   add_foreign_key "changelogs", "users"
-  add_foreign_key "client_case_workers", "clients"
-  add_foreign_key "client_case_workers", "users"
   add_foreign_key "client_custom_fields", "clients"
   add_foreign_key "client_custom_fields", "custom_fields"
+  add_foreign_key "clients", "donors"
   add_foreign_key "domains", "domain_groups"
   add_foreign_key "family_custom_fields", "custom_fields"
   add_foreign_key "family_custom_fields", "families"

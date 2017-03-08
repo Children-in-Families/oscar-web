@@ -1,4 +1,4 @@
-class AdvanceFilterTypes
+class AdvancedFilterTypes
 
   def self.filter(field_name, type, label, values = {})
     if type == :text
@@ -12,7 +12,6 @@ class AdvanceFilterTypes
     end
   end
 
-  private
   def self.text_options(field_name, label)
     {
       id: field_name,

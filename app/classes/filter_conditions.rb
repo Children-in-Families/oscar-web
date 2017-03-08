@@ -1,12 +1,8 @@
 class FilterConditions
-  attr_accessor :display_fields
+  attr_accessor :resource
 
   def initialize(resource)
     @resource = resource
-  end
-
-  def resource
-    @resource.select(:id, :first_name, :slug, display_fields)  
   end
 
   def is(column, value)
@@ -41,7 +37,8 @@ class FilterConditions
     @resource = @resource.where("#{column} NOT ILIKE ?", "%#{value}%")
   end
 
-  def rang_between(column, value)
-    @resource = @resource.where(column.to_sym => (value[0]...value[1]))
+  def range_between(column, value)
+    @resource = @resource.where(column.to_sym => (value[0]..value[1]))
   end
+
 end
