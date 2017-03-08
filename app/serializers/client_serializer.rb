@@ -4,7 +4,7 @@ class ClientSerializer < ActiveModel::Serializer
              :able, :reason_for_referral, :background, :user, :birth_province, :received_by,
              :followed_up_by, :referral_source, :cases, :name, :assessments, :most_recent_case_note, :next_appointment_date, :tasks,
              :organization
-z
+
   def tasks
     ActiveModel::ArraySerializer.new(object.tasks.incomplete, each_serializer: TaskSerializer)
   end

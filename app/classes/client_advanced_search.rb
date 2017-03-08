@@ -18,15 +18,14 @@ class  ClientAdvancedSearch
     [
       ['code', 'Code'], 
       ['school_grade', 'School grade'],
-      #['family_id', ''], 
-      #['age', ''], 
+      # ['age', '']
     ]
   end
 
   def text_list_type_fields
     [
       ['first_name', 'Name'],
-      # :family_name,
+      ['family_name', 'Family name'],
       ['slug', 'ID'],
       ['referral_phone', 'Referral phone'],
       ['school_name', 'School name']
@@ -35,7 +34,7 @@ class  ClientAdvancedSearch
 
   def date_list_type_fields
     [
-      #['palcement_date', ''],
+      ['palcement_date', 'Placement date'],
       ['date_of_birth', 'Date of birth'], 
       ['initial_referral_date', 'Initial referral date'],
       ['follow_up_date', 'Follow-up date']
@@ -45,6 +44,7 @@ class  ClientAdvancedSearch
   def drop_list_type_fields
     [
       ['gender','Gender', { male: 'Male', female: 'Female' }],
+      ['family_id', 'Family ID', family_options],
       ['status', 'Status', client_status],
       ['case_type', 'Case type', { EC: 'EC', KC: 'KC', FC: 'FC' }],
       ['agency_name', 'Agency name', agencies_options],
@@ -93,6 +93,15 @@ class  ClientAdvancedSearch
   end
 
   def user_select_options
-    User.has_clients.map{ |user| { user.id => user.name } }
+    User.has_clients.map{ |user| { user.id => user.name }}
+  end
+
+  def family_options
+    ids = []
+    Case.active.most_recents.joins(:client).group_by(&:client_id).each do |key, c|
+      ids << c.first.id
+    end
+
+    Client.joins(:cases).where("cases.id IN (?)", ids).joins(:families).uniq.map{|f| { f.id => f.id }}
   end
 end

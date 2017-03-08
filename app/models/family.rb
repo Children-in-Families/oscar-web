@@ -2,7 +2,7 @@ class Family < ActiveRecord::Base
   FAMILY_TYPE = %w(emergency kinship foster).freeze
 
   belongs_to :province, counter_cache: true
-  
+
   has_many :cases
   has_many :clients, through: :cases
 

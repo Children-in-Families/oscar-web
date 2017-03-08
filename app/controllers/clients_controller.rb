@@ -142,7 +142,7 @@ class ClientsController < AdminController
       collection.organization = value
     end
   end
-  
+
   private
 
   def find_client
@@ -150,7 +150,7 @@ class ClientsController < AdminController
   end
 
   def set_custom_field
-    @custom_field = CustomField.find_by(entity_name: 'Client')
+    @custom_field = CustomField.find_by(entity_type: 'Client')
   end
 
   def client_params

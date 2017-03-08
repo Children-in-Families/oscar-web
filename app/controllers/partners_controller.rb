@@ -70,7 +70,7 @@ class PartnersController < AdminController
   end
 
   def set_custom_form
-    @custom_field = CustomField.find_by(entity_name: 'Partner')
+    @custom_field = CustomField.find_by(entity_type: 'Partner')
   end
 
   def find_partner

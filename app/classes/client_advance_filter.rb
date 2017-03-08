@@ -15,7 +15,18 @@ class ClientAdvanceFilter
           case_type_query(@client.resource, rule[:operator], rule[:value])
         when 'agency_name'
           agency_query(@client.resource, rule[:operator], rule[:value])
+        when 'family_id'
+          family_id_query(@client.resource, rule[:operator], rule[:value])
         end
+      elsif text_list_associated_fields.include?(rule[:field].to_sym)
+        family_name_query(@client.resource, rule[:operator], rule[:value])
+      # elsif number_list_associated_fields.include?(rule[:field].to_sym)
+      #   case rule[:field]
+      #   when 'age'
+      #     age_query(@client.resource, rule[:operator], rule[:value])
+      #   when 'family_id'
+      #     family_id_query(@client.resource, rule[:operator], rule[:value])
+      #   end
       else  
 
         @display_fields << rule[:field].to_sym
@@ -48,11 +59,49 @@ class ClientAdvanceFilter
   private
 
   def drop_list_associated_fields
-    [:case_type, :agency_name]
+    [:case_type, :agency_name, :family_id]
   end 
 
   def number_list_associated_fields
-    [:age, :family_id, :family_name, :case_type, :placement_date, :agency_name]
+    [:age 
+      # :family_name, :case_type, :placement_date, :agency_name
+    ]
+  end
+
+
+  def text_list_associated_fields
+    [:family_name]
+  end
+
+  def age_query(resource, operator, value)
+    @client.resource.age_between(value[0], value[1])
+  end
+
+  def family_name_query(resource, operator, value)
+    clients = resource.joins(:families)
+    ids = []
+    Case.active.most_recents.joins(:client).group_by(&:client_id).each do |key, c|
+      ids << c.first.id
+    end
+
+    if operator == 'equal'
+      clients = clients.where(families:{ name: value })
+    elsif operator == 'not_equal'
+      clients = clients.where.not(families:{ name: value })
+    elsif operator == 'contains'
+      clients = clients.where('families.name iLike ? ', "%#{value}%")
+    elsif operator == 'not_contains'
+      clients = clients.where.not('families.name iLike ? ', "%#{value}%")
+    end
+    @client.resource = clients.joins(:cases).where("cases.id IN (?)", ids).select("name as family_name")
+  end
+
+  def family_id_query(resource, operator, value)
+    ids = []
+    Case.active.most_recents.joins(:client).group_by(&:client_id).each do |key, c|
+      ids << c.first.id
+    end
+    @client.resource.joins(:cases).where("cases.id IN (?)", ids).where("cases.family_id = ? ", value) if value.present?
   end
 
   def case_type_query(resource, operator, value)
