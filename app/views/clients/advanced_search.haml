@@ -5,15 +5,15 @@
         %h5= t('.advanced-search')
       .ibox-content
         .row
-          .col-xs-12.col-md-10
-            #builder{ 'data-field-list' => @advanced_search_field, 'data-search-rules' => @advanced_search_params}
+          .col-xs-12
+            #builder{ 'data-field-list' => @advanced_filter_fields, 'data-search-rules' => @advanced_filter_params}
       .ibox-footer
-        %button#search.btn.btn-primary
-          Search
+        %button#search.btn.btn-primary= t('.search')
+        = link_to t('.reset'), advanced_search_clients_path, class: 'btn btn-default'
 .row
   .col-xs-12
     .ibox
-      - if @filtered_clients.present?
+      - if @clients_filtered.present?
         .ibox-title
           %h5= @clients_by_user.size
           %span.label.label-info= t('.results')
@@ -24,11 +24,11 @@
                 %tr
                   %th.id-column ID
                   %th Name
-                  - @filtered_clients.first.attributes.keys.each do |column_name|
+                  - @clients_filtered.first.attributes.keys.each do |column_name|
                     - next if column_name == 'slug' || column_name == 'first_name' || column_name == 'id'
                     %th= column_name.titleize
               %tbody
-                - @filtered_clients.each do |client|
+                - @clients_filtered.each do |client|
                   %tr
                     %td.id-column= client.slug
                     %td= link_to client.first_name, client_path(client) 
@@ -36,7 +36,7 @@
                       - next if field_name == 'slug' || field_name == 'first_name' || field_name == 'id'
                       %td= format_advance_search_result(field_name, value)
         .ibox-footer.text-center
-          = paginate @filtered_clients
+          = paginate @clients_filtered
       - else
         .ibox-content
           %span No Result Found

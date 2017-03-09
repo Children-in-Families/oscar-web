@@ -680,6 +680,10 @@ en:
     version:
       modification_of: Changelog of
       back: Back
+    advanced_search:
+      search: Search
+      reset: Reset
+      
   families:
     index:
       results: Results

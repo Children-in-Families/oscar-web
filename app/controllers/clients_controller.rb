@@ -7,14 +7,15 @@ class ClientsController < AdminController
 
   def advanced_search
     if params[:client]
-      @advanced_search_params = params[:client][:search_rules]
-      search_rules_params = eval(@advanced_search_params)
-      @clients_by_user = ClientAdvanceFilter.new(search_rules_params, Client.accessible_by(current_ability)).client_queries
-      @filtered_clients = @clients_by_user.page(params[:page]).per(20)
+      @advanced_filter_params = params[:client][:search_rules]
+      search_rules_params     = eval(@advanced_filter_params)
+      clients                 = ClientAdvancedFilter.new(search_rules_params, Client.accessible_by(current_ability))
+      @clients_by_user        = clients.filter_by_field
+      @clients_filtered       = @clients_by_user.page(params[:page]).per(20)
     end
 
-    @advanced_search_field = ClientAdvancedSearch.new(user: current_user).data_fields
-    @advanced_search_field = @advanced_search_field.to_json
+    @advanced_filter_fields = ClientAdvancedFilterFields.new(user: current_user).render
+    @advanced_filter_fields = @advanced_filter_fields.to_json
  
   end
 

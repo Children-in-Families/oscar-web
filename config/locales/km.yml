@@ -676,6 +676,10 @@ km:
     version:
       modification_of: កំណែប្រែរបស់
       back: ត្រលប់ក្រោយ
+    advanced_search:
+      search: ស្វែងរក
+      reset: សំអាត
+      
   families:
     index:
       results: លទ្ធផល

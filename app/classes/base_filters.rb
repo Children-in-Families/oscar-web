@@ -1,4 +1,4 @@
-class FilterConditions
+class BaseFilters
   attr_accessor :resource
 
   def initialize(resource)
@@ -6,11 +6,11 @@ class FilterConditions
   end
 
   def is(column, value)
-    @resource = @resource.where("#{column} = ?", "#{value}")
+    @resource = @resource.where({column.to_sym => value})
   end
 
   def is_not(column, value)
-    @resource = @resource.where("#{column} != ?", "#{value}")
+    @resource = @resource.where.not({column.to_sym => value})
   end
 
   def less(column, value)
@@ -34,7 +34,7 @@ class FilterConditions
   end
 
   def not_contains(column, value)
-    @resource = @resource.where("#{column} NOT ILIKE ?", "%#{value}%")
+    @resource = @resource.where.not("#{column} ILIKE ?", "%#{value}%")
   end
 
   def range_between(column, value)

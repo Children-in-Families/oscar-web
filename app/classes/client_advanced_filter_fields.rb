@@ -1,28 +1,29 @@
-class  ClientAdvancedSearch                  
+class  ClientAdvancedFilterFields                  
   def initialize(options = {})
     @result = []
     @user = options[:user]
   end
 
-  def data_fields
-    number_fields       = number_list_type_fields.map{ |item| AdvancedFilterTypes.number_options(item.first, item.last) }
-    text_fields         = text_list_type_fields.map{ |item| AdvancedFilterTypes.text_options(item.first, item.last) }
-    date_picker_fields  = date_list_type_fields.map{ |item| AdvancedFilterTypes.date_picker_options(item.first, item.second)}
-    drop_list_fields    = drop_list_type_fields.map{ |item| AdvancedFilterTypes.drop_list_options(item.first, item.second, item.last)}
+  def render
+    number_fields       = number_type_list.map{ |item| AdvancedFilterTypes.number_options(item.first, item.last) }
+    text_fields         = text_type_list.map{ |item| AdvancedFilterTypes.text_options(item.first, item.last) }
+    date_picker_fields  = date_type_list.map{ |item| AdvancedFilterTypes.date_picker_options(item.first, item.second)}
+    drop_list_fields    = drop_down_type_list.map{ |item| AdvancedFilterTypes.drop_list_options(item.first, item.second, item.last)}
 
     text_fields + drop_list_fields + number_fields + date_picker_fields
   end
 
   private
-  def number_list_type_fields
+  def number_type_list
     [
       ['code', 'Code'], 
       ['school_grade', 'School grade'],
+      ['family_id', 'Family ID']
       # ['age', '']
     ]
   end
 
-  def text_list_type_fields
+  def text_type_list
     [
       ['first_name', 'Name'],
       ['family_name', 'Family name'],
@@ -32,19 +33,18 @@ class  ClientAdvancedSearch
     ]
   end
 
-  def date_list_type_fields
+  def date_type_list
     [
-      ['palcement_date', 'Placement date'],
+      ['placement_date', 'Placement start date'],
       ['date_of_birth', 'Date of birth'], 
       ['initial_referral_date', 'Initial referral date'],
       ['follow_up_date', 'Follow-up date']
     ]
   end
 
-  def drop_list_type_fields
+  def drop_down_type_list
     [
       ['gender','Gender', { male: 'Male', female: 'Female' }],
-      ['family_id', 'Family ID', family_options],
       ['status', 'Status', client_status],
       ['case_type', 'Case type', { EC: 'EC', KC: 'KC', FC: 'FC' }],
       ['agency_name', 'Agency name', agencies_options],

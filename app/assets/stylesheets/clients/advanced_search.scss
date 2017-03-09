@@ -1,7 +1,7 @@
 body[id='clients-advanced_search'] {
   .dataTables_scrollBody {
     max-height: 500px !important;
-    margin-top: -22px;
+    margin-top: -20px;
   }
   table, .dataTables_scrollHeadInner {
     width: 100% !important;
@@ -36,6 +36,10 @@ body[id='clients-advanced_search'] {
     select, input {
       width: 180px;  
     }
+  }
+
+  .dataTable td, .dataTable th {
+    min-width: 150px;
   }
 
   .id-column {
