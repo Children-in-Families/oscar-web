@@ -5,6 +5,10 @@ class ProgressNoteDecorator < Draper::Decorator
     model.client.name
   end
 
+  def client_slug_id
+    model.client.slug
+  end
+
   def user
     model.user.name
   end

@@ -7,3 +7,5 @@
         = render 'shared/version_type/client',     version: version
     - else
       %p= t('.no_modification')
+  .text-center
+    = paginate @versions
