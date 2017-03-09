@@ -69,7 +69,7 @@ describe 'Domain Group' do
       end
       
       wait_for_ajax
-      expect(page).to have_content(I18n.t('domain_groups.update.failed_update'))
+      expect(page).to have_content('Failed to update a domain group')
     end
   end
 
