@@ -20,7 +20,7 @@ describe 'Task' do
       expect(panel).to have_content(overdue_task.completion_date.strftime("%B %d, %Y"))
     end
     scenario 'today task' do
-      panel = page.all(:css, '.panel').select { |p| p.all(:css, '.panel-heading').select { |pp| pp.text.include?('Todays Tasks') }.first }.first
+      panel = page.all(:css, '.panel').select { |p| p.all(:css, '.panel-heading').select { |pp| pp.text.include?('Today Tasks') }.first }.first
       expect(panel).to have_content(today_task.name)
       expect(panel).to have_content(today_task.domain.name)
       expect(panel).to have_content(today_task.completion_date.strftime("%B %d, %Y"))
