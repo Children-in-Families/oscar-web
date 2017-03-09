@@ -27,7 +27,7 @@ describe FamilyCustomField, 'methods' do
     let!(:other_custom_field){ create(:custom_field, entity_type: 'Family', form_title: 'Care Record', frequency: '') }
     let!(:other_family_custom_field){ create(:family_custom_field, custom_field: other_custom_field, family: family) }
 
-    it { expect(family.can_create_next_custom_field?(custom_field)).to be_falsey }
-    it { expect(family.can_create_next_custom_field?(other_custom_field)).to be_truthy }
+    it { expect(family.can_create_next_custom_field?(family, custom_field)).to be_falsey }
+    it { expect(family.can_create_next_custom_field?(family, other_custom_field)).to be_truthy }
   end
 end

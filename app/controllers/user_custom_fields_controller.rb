@@ -72,6 +72,6 @@ class UserCustomFieldsController < AdminController
   end
 
   def restrict_invalid_user_custom_field
-    redirect_to user_user_custom_fields_path(@user, custom_field_id: @custom_field.id), alert: t('.cannot_create') unless @user.can_create_next_custom_field?(@custom_field)
+    redirect_to user_user_custom_fields_path(@user, custom_field_id: @custom_field.id), alert: t('.cannot_create') unless @user.can_create_next_custom_field?(@user, @custom_field)
   end
 end

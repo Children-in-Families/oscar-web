@@ -72,6 +72,6 @@ class FamilyCustomFieldsController < AdminController
   end
 
   def restrict_invalid_family_custom_field
-    redirect_to family_family_custom_fields_path(@family, custom_field_id: @custom_field.id), alert: t('.cannot_create') unless @family.can_create_next_custom_field?(@custom_field)
+    redirect_to family_family_custom_fields_path(@family, custom_field_id: @custom_field.id), alert: t('.cannot_create') unless @family.can_create_next_custom_field?(@family, @custom_field)
   end
 end

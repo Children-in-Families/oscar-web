@@ -72,6 +72,6 @@ class PartnerCustomFieldsController < AdminController
   end
 
   def restrict_invalid_partner_custom_field
-    redirect_to partner_partner_custom_fields_path(@partner, custom_field_id: @custom_field.id), alert: t('.cannot_create') unless @partner.can_create_next_custom_field?(@custom_field)
+    redirect_to partner_partner_custom_fields_path(@partner, custom_field_id: @custom_field.id), alert: t('.cannot_create') unless @partner.can_create_next_custom_field?(@partner, @custom_field)
   end
 end

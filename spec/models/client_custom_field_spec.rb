@@ -27,7 +27,7 @@ describe ClientCustomField, 'methods' do
     let!(:other_custom_field){ create(:custom_field, entity_type: 'Client', form_title: 'Care Record', frequency: '') }
     let!(:other_client_custom_field){ create(:client_custom_field, custom_field: other_custom_field, client: client) }
 
-    it { expect(client.can_create_next_custom_field?(custom_field)).to be_falsey }
-    it { expect(client.can_create_next_custom_field?(other_custom_field)).to be_truthy }
+    it { expect(client.can_create_next_custom_field?(client, custom_field)).to be_falsey }
+    it { expect(client.can_create_next_custom_field?(client, other_custom_field)).to be_truthy }
   end
 end

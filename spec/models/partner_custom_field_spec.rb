@@ -27,7 +27,7 @@ describe PartnerCustomField, 'methods' do
     let!(:other_custom_field){ create(:custom_field, entity_type: 'Partner', form_title: 'Care Record', frequency: '') }
     let!(:other_partner_custom_field){ create(:partner_custom_field, custom_field: other_custom_field, partner: partner) }
 
-    it { expect(partner.can_create_next_custom_field?(custom_field)).to be_falsey }
-    it { expect(partner.can_create_next_custom_field?(other_custom_field)).to be_truthy }
+    it { expect(partner.can_create_next_custom_field?(partner, custom_field)).to be_falsey }
+    it { expect(partner.can_create_next_custom_field?(partner, other_custom_field)).to be_truthy }
   end
 end
