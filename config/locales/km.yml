@@ -244,6 +244,7 @@ km:
     current_address: ឣាសយដ្ឋានបច្ចុប្បន្ន
     school_grade: កំរិតថ្នាក់
     has_been_in_orphanage: ធ្លាប់បាននៅក្នុងមណ្ឌលកុមារកំព្រា
+    donor: ម្ចាស់ជំនួយ
     relevant_referral_information: ពត៌មានសំខាន់ៗនៃការបញ្ចួនករណី
     state: ទទួល/បដិសេធ
     case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
@@ -267,6 +268,7 @@ km:
     note: កំណត់សំគាល់
     exit_date: ថ្ងៃចាកចេញ
     exit_note: កំណត់ហេតុនៃការចាកចេញ
+    exit_status: ស្ថានភាព
     exit_btn: ចាកចេញ
 
   default_family_fields: &default_family_fields
@@ -394,6 +396,7 @@ km:
         reason_for_family_separation: ការបែកចេញពីគ្រួសារ
         quantitative_types: ប្រភេទនៃបរិមាណ
         any_assessments: មានការប៉ាន់ប្រមាណ
+        assessments_due_to: ដល់ពេលការប៉ាន់ប្រមាណ
         assessments: ការប៉ាន់ប្រមាណ
 
         name: ឈ្មោះ
@@ -521,6 +524,7 @@ km:
       referral_sources: ប្រភពនៃការបញ្ជូន
       quantitative_types: ប្រភេទនៃបរិមាណ
       able_screening_questions: សំនួរ Able Screening
+      donors: ម្ចាស់ជំនួយ
       changelogs: កំណែប្រែទិន្នន័យ
       account: គណនី
       edit_profile: កែសម្រួលពត៌មានផ្ទាល់ខ្លួន
@@ -604,7 +608,7 @@ km:
       add_client_to_case: បញ្ចូលអតិថិជិនទៅក្នុងករណី
       case_history: ប្រវត្តិនៃករណី
       age: អាយុ
-      exit_cif_btn: ចាកចេញពី CIF
+      exit_ngo_btn: ចាកចេញពី NGO
       add_ec_btn: បន្ថែមចូលទៅ EC
       add_kc_btn: បន្ថែមចូលទៅ KC
       add_fc_btn: បន្ថែមចូលទៅ FC
@@ -658,7 +662,7 @@ km:
       exit_ec: ចាកចេញពី EC
       exit_kc: ចាកចេញពី KC
       exit_fc: ចាកចេញពី FC
-      exit_cif: ចាកចេញពី CIF
+      exit_ngo: ចាកចេញពី NGO
       exit_status: ស្ថានភាព
       exit_date: ថ្ងៃចាកចេញ
       exit_note: កំណត់ហេតុនៃការចាកចេញ
@@ -819,6 +823,10 @@ km:
         case:
           attributes:
             start_date:
+              blank: មិនអាចរំលង
+            exit_date:
+              blank: មិនអាចរំលង
+            exit_note:
               blank: មិនអាចរំលង
         stage:
           attributes:
@@ -1004,6 +1012,40 @@ km:
       successfully_deleted: កម្មវិធីត្រូវបានលុបចោលដោយជោគជ័យ
       failed_delete: កម្មវិធីមិនបានលុបចោលដោយជោគជ័យ
       alert: កម្មវិធីមិនអាចលុបចោលបានទេ
+    version:
+      modification_of: កំណែប្រែរបស់
+      back: ត្រលប់ក្រោយ
+  donors:
+    index:
+      add_new_donor: បន្ថែមម្ចាស់ជំនួយថ្មី
+      donors: ម្ចាស់ជំនួយ
+      donor_names: ឈ្មោះ
+      clients: អតិថិជន
+      description: ការបរិយាយ
+      manage: សកម្មភាព
+      are_you_sure: តើអ្នកប្រាកដហើយ?
+      changelogs: កំណែប្រែ
+      view: មើល
+    edit:
+      title: ពិនិត្យកែសម្រួលម្ចាស់ជំនួយ
+    new:
+      title: ម្ចាស់ជំនួយថ្មី
+    form:
+      donor: ម្ចាស់ជំនួយ
+      name: ឈ្មោះម្ចាស់ជំនួយ
+      description: ការបរិយាយ
+      save: រក្សាទុក
+      cancel: ទុកជាមោឃៈ
+    create:
+      successfully_created: ម្ចាស់ជំនួយត្រូវបានបង្កើតដោយជោគជ័យ
+      failed_create: បង្កើតម្ចាស់ជំនួយមិនបានជោគជ័យ
+    update:
+      successfully_updated: ម្ចាស់ជំនួយត្រូវបានកែសម្រួលដោយជោគជ័យ
+      failed_update: កែសម្រួលម្ចាស់ជំនួយមិនបានជោគជ័យ
+    destroy:
+      successfully_deleted: ម្ចាស់ជំនួយត្រូវបានលុបចោលដោយជោគជ័យ
+      failed_delete: លុបចោលម្ចាស់ជំនួយមិនបានជោគជ័យ
+      alert: មិនអាចលុបចោលម្ចាស់ជំនួយបានទេ
     version:
       modification_of: កំណែប្រែរបស់
       back: ត្រលប់ក្រោយ
@@ -1203,7 +1245,7 @@ km:
     index:
       tasks_of: កាតព្វកិច្ចរបស់
       overdue_tasks: កាតព្វកិច្ចផុតកំណត់
-      todays_tasks: កាតព្វកិច្ចថ្ងៃនេះ
+      today_tasks: កាតព្វកិច្ចថ្ងៃនេះ
       upcoming_tasks: កាតព្វកិច្ចដែលមិនទាន់ធ្វើ
       filter_by_user: ស្វែងរកតាមរយៈអ្នកប្រើប្រាស់
       domain: កត្តា
@@ -1213,7 +1255,7 @@ km:
     tasks:
       index:
         overdue_tasks: កាតព្វកិច្ចផុតកំណត់
-        todays_tasks: កាតព្វកិច្ចថ្ងៃនេះ
+        today_tasks: កាតព្វកិច្ចថ្ងៃនេះ
         upcoming_tasks: កាតព្វកិច្ចដែលមិនទាន់ធ្វើ
         back: ត្រលប់ក្រោយ
         new_task: កាតព្វកិច្ចថ្មី
@@ -1382,7 +1424,6 @@ km:
       successfully_updated: សំនួរទូទៅត្រូវបានកែសម្រួលដោយជោគជ័យ
     destroy:
       successfully_deleted: សំនួរទូទៅត្រូវបានលុបដោយជោគជ័យ
-
   devise:
     registrations:
       edit:
@@ -1848,9 +1889,12 @@ km:
     new:
       new_progress_note: កំណត់សំគាល់ការរីកចំរើនថ្មី
     edit:
+      # cannot_be_blank: មិនអាចរំលង
       edit_progress_note: កែសម្រួលកំណត់សំគាល់ការរីកចំរើន
     form:
       <<: *default_progress_note_fields
+      allowed_file: '*អនុញ្ញាតឯកសារ: .png .jpeg .jpg .xls .xlsx .doc .docx និង .pdf.'
+      max_file_size: '*ទំហំឯកសារអតិបរិមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកឡើង.'
       save: រក្សាទុក
       cancel: ទុកជាមោឃៈ
       add_attachment: បន្ថែមឯកសារ
@@ -1897,9 +1941,12 @@ km:
       progress_note_types: កំណត់សំគាល់
       able_screening_questions: សំនួរ Able Screening
       stages: តំណាក់កាល
+      donors: ម្ចាស់ជំនួយ
     per_page_form:
       show: បង្ហាញ
   shared:
+    per_page_form:
+      show: បង្ហាញ
     version_type:
       client:
         'on': របស់

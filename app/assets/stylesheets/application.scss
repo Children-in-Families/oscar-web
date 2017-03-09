@@ -8,6 +8,9 @@
 @import "bourbon";
 @import "neat";
 @import "query-builder.default";
+@import 'dropzone/dropzone';
+@import 'formBuilder/form-builder.min';
+@import 'formBuilder/form-render.min';
 
 @import 'animate/animate';
 @import 'iCheck/custom';
@@ -58,9 +61,9 @@
 @import 'progress_notes/*';
 @import 'statics/*';
 @import 'able_screening_answers/*';
+@import 'donors/*';
 
 @import 'top_navbar';
 @import 'common_version';
 
-@import 'formBuilder/sass/*';
 @import 'custom_fields/*';

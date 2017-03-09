@@ -17,6 +17,8 @@ class Assessment < ActiveRecord::Base
 
   scope :most_recents, -> { order(created_at: :desc) }
 
+  DUE_STATES = ['Due Today', 'Overdue']
+
   def self.latest_record
     most_recents.first
   end

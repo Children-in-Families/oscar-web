@@ -1,4 +1,4 @@
-class ErrorsController < AdminController
+class ErrorsController < ApplicationController
   layout false
 
   def show

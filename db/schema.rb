@@ -15,8 +15,6 @@ ActiveRecord::Schema.define(version: 20170223064532) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-  enable_extension "hstore"
-  enable_extension "uuid-ossp"
 
   create_table "able_screening_questions", force: :cascade do |t|
     t.string   "question"
@@ -291,10 +289,10 @@ ActiveRecord::Schema.define(version: 20170223064532) do
   add_index "domains", ["domain_group_id"], name: "index_domains_on_domain_group_id", using: :btree
 
   create_table "donors", force: :cascade do |t|
-    t.string   "name",        default: ""
-    t.text     "description", default: ""
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+    t.string   "name"
+    t.text     "description"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
   create_table "families", force: :cascade do |t|

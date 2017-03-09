@@ -98,7 +98,7 @@ describe 'Client' do
     end
     scenario 'valid', js: true do
       fill_in 'Name', with: FFaker::Name.name
-      click_link 'Save'
+      click_button 'Save'
       wait_for_ajax
       expect(page).to have_content('Client has been successfully created')
     end
@@ -113,7 +113,7 @@ describe 'Client' do
       save_and_open_screenshot '2.jpg'
       select2_select from: province_selector, with: province.name
 
-      click_link 'Save'
+      click_button 'Save'
       expect(page).to have_content("has already been register in")
     end
   end
@@ -126,7 +126,7 @@ describe 'Client' do
     end
     scenario 'valid', js: true do
       fill_in 'Name', with: FFaker::Name.name
-      click_link 'Save'
+      click_button 'Save'
       wait_for_ajax
       expect(page).to have_content('Client has been successfully updated')
     end
@@ -456,7 +456,7 @@ describe 'Client' do
           login_as(user)
           visit client_path(accepted_client)
         end
-        it { expect(page).to have_link(nil, href: edit_client_case_path(ec_case.client, ec_case)) }
+        it { expect(page).not_to have_link(nil, href: edit_client_case_path(ec_case.client, ec_case)) }
       end
 
       feature 'login as admin' do

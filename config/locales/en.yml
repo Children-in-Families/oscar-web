@@ -244,6 +244,7 @@ en:
     relevant_referral_information: Relevant Referral Information
     state: Accept/Reject
     reject_note: Rejected Note
+    donor: Donor
     case_worker_or_staff: Case Worker / Staff
     followed_up_by: Followed Up By
     address: Address
@@ -264,6 +265,7 @@ en:
     family_preservation:  Family Preservation?
     note: Note
     exit_date: Exit Date
+    exit_status: Exit Status
     exit_note: Exit Note
     exit_btn: Exit
 
@@ -397,6 +399,7 @@ en:
         quantitative_types: Quantitative Types
         family_id: Family ID
         any_assessments: Has Assessments
+        assessments_due_to: Assessments Due To
         assessments: Assessments
         has_date_of_birth: Has Date of Birth
         has_dob: 'Yes'
@@ -526,6 +529,7 @@ en:
       referral_sources: Referral Sources
       quantitative_types: Quantitative Types
       able_screening_questions: Able Screening Questions
+      donors: Donors
       changelogs: Changelogs
       account: Account
       edit_profile: Edit Profile
@@ -610,7 +614,7 @@ en:
       case_history: Case History
       id: ID
       age: Age
-      exit_cif_btn: Exit CIF
+      exit_ngo_btn: Exit NGO
       add_ec_btn: Add to EC
       add_kc_btn: Add to KC
       add_fc_btn: Add to FC
@@ -657,7 +661,7 @@ en:
       exit_ec: Exit Emergency Care
       exit_kc: Exit Kinship Care
       exit_fc: Exit Foster Care
-      exit_cif: Exit CIF
+      exit_ngo: Exit NGO
       exit_date: Exit Date
       exit_note: Exit Note
       exit_status: Status
@@ -945,6 +949,40 @@ en:
     version:
       modification_of: Changelog of
       back: Back
+  donors:
+    index:
+      add_new_donor: Add New Donor
+      clients: Clients
+      donors: Donors
+      donor_names: Name
+      description: Description
+      manage: Manage
+      are_you_sure: Are you sure you want to delete?
+      changelogs: Changelog
+      view: View
+    edit:
+      title: Edit Donor
+    new:
+      title: New Donor
+    form:
+      donor: Donor
+      name: Name
+      description: Description
+      save: Save
+      cancel: Cancel
+    create:
+      successfully_created: Donor has been successfully created.
+      failed_create: Failed to create a donor
+    update:
+      successfully_updated: Donor has been successfully updated.
+      failed_update: Failed to update a donor
+    destroy:
+      successfully_deleted: Donor has been successfully deleted.
+      failed_delete: Failed to delete a donor
+      alert: Donor cannot be deleted.
+    version:
+      modification_of: Changelog of
+      back: Back
   domains:
     index:
       view: View
@@ -1142,7 +1180,7 @@ en:
     index:
       tasks_of: Tasks Of
       overdue_tasks: Overdue Tasks
-      todays_tasks: Todays Tasks
+      today_tasks: Today Tasks
       upcoming_tasks: Upcoming Tasks
       filter_by_user: Filter By User
       domain: Domain
@@ -1152,7 +1190,7 @@ en:
     tasks:
       index:
         overdue_tasks: Overdue Tasks
-        todays_tasks: Todays Tasks
+        today_tasks: Today Tasks
         upcoming_tasks: Upcoming Tasks
         back: Back
         new_task: New Task
@@ -1640,9 +1678,11 @@ en:
       edit_progress_note: Edit Progress Note
     form:
       <<: *default_progress_note_fields
+      allowed_file: '*Allowed file: .png .jpeg .jpg .xls .xlsx .doc .docx and .pdf.'
+      max_file_size: '*Maximum file size: 5MB/file and 30MB/upload.'
       save: Save
       cancel: Cancel
-      add_attachment: Add attachment
+      cannot_be_blank: can not be blank
     create:
       successfully_created: Progress Note has been successfully created.
     update:
@@ -1686,9 +1726,12 @@ en:
       progress_note_types: Types of Note
       able_screening_questions: Able Screening Questions
       stages: Stages
+      donors: Donors
     per_page_form:
       show: Show
   shared:
+    per_page_form:
+      show: Show
     version_type:
       client:
         'on': 'on'

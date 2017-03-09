@@ -1,7 +1,11 @@
 class UserNotification
+
+  attr_reader :all_count
+
   def initialize(user)
     @user        = user
     @assessments = @user.assessment_either_overdue_or_due_today
+    @all_count   = count
   end
 
   def overdue_tasks_count
@@ -50,16 +54,11 @@ class UserNotification
       (83..90).each do |item|
         count_notification += 1 if ec_notification(item).present?
       end
-      count_notification += 1 if overdue_tasks_count >= 1
-      count_notification += 1 if due_today_tasks_count >= 1
-      count_notification += 1 if overdue_assessments_count >= 1
-      count_notification += 1 if due_today_assessments_count >= 1
-    else
-      count_notification += 1 if overdue_tasks_count >= 1
-      count_notification += 1 if due_today_tasks_count >= 1
-      count_notification += 1 if overdue_assessments_count >= 1
-      count_notification += 1 if due_today_assessments_count >= 1
     end
+    count_notification += 1 if overdue_tasks_count >= 1
+    count_notification += 1 if due_today_tasks_count >= 1
+    count_notification += 1 if overdue_assessments_count >= 1
+    count_notification += 1 if due_today_assessments_count >= 1
     count_notification
   end
 end

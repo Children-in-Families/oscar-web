@@ -1,8 +1,14 @@
-%p= "Hello #{@manager.first_name} #{@manager.last_name}!"
-%p= "There is Client had been in Emergency Care Program for #{@day} days."
+%p Dear Manangers,
+%p= "There #{"is".pluralize(@clients.count)} #{pluralize(@clients.count, 'client')} #{'has'.pluralize(@clients.count)} been in Emergency Care program for #{@day} days."
 %p
-  = "Click Link to see the list of Client"
-  = link_to "List", clients_url("client_grid[status]":"Active EC", "client_grid[case_type]":"EC", "client_grid[placement_date]": [(Date.today-@day.to_i).strftime("%Y-%m-%d").to_s, (Date.today-@day.to_i).strftime("%Y-%m-%d").to_s])
-%p To check your client, please click the link below.
+  = "Click"
+  = link_to 'here', clients_url('client_grid[status]':'Active EC', 'client_grid[case_type]':'EC', 'client_grid[placement_date]': [(Date.today-@day.to_i).strftime('%Y-%m-%d'), (Date.today-@day.to_i).strftime('%Y-%m-%d')], subdomain: Organization.current.short_name), target: :_blank
+  = "to see the list of Client."
+%p To check client detail, please click the link below.
 - @clients.each do |client|
-  %p= link_to "Check on client #{client.first_name}", client_url(client, subdomain: Organization.current.short_name)
+  - name = client.first_name.blank? ? 'Unknown' : client.first_name
+  %p= link_to name, client_url(client, subdomain: Organization.current.short_name), target: :_blank
+
+%p Thanks,
+
+%p= "#{Organization.current.full_name} Team"
