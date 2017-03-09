@@ -87,7 +87,7 @@ class ClientsController < AdminController
   end
 
   def update
-    if @client.update_attributes(merged_client_params)
+    if @client.update_attributes(client_params)
       if params[:client][:assessment_id]
         @assessment = Assessment.find(params[:client][:assessment_id])
         redirect_to client_assessment_path(@client, @assessment), notice: t('.assessment_successfully_created')
@@ -113,8 +113,9 @@ class ClientsController < AdminController
   end
 
   def version
+    page = params[:per_page] || 20
     @client   = Client.accessible_by(current_ability).friendly.find(params[:client_id]).decorate
-    @versions = @client.versions.reorder(created_at: :desc)
+    @versions = @client.versions.reorder(created_at: :desc).page(params[:page]).per(page)
   end
 
   def find
@@ -124,12 +125,16 @@ class ClientsController < AdminController
   private
 
   def find_client_by(params)
-    Client.filter(params)
+    if params[:first_name] && params[:gender] && params[:birth_province_id] && params[:date_of_birth]
+      Client.filter(params)
+    else
+      []
+    end
   end
 
   def find_client_in_organization
     found = []
-    Organization.all.each do |org|
+    Organization.without_demo.each do |org|
       Organization.switch_to(org.short_name)
       client = find_client_by(params)
       inject_in_organization(client, org.full_name)
@@ -162,8 +167,8 @@ class ClientsController < AdminController
             :referral_phone, :received_by_id, :followed_up_by_id,
             :follow_up_date, :grade, :school_name, :current_address,
             :has_been_in_orphanage, :has_been_in_government_care,
-            :relevant_referral_information, :user_id, :province_id, :state,
-            :rejected_note, :able, :able_state, :properties,
+            :relevant_referral_information, :user_id, :province_id, :donor_id,
+            :state, :rejected_note, :able, :able_state,
             agency_ids: [],
             quantitative_case_ids: [],
             custom_field_ids: [],
@@ -172,16 +177,9 @@ class ClientsController < AdminController
 
   end
 
-  def merged_client_params
-    if params['client']['properties'].present?
-      client_params.merge(properties: (params['client']['properties']).to_json)
-    else
-      client_params
-    end
-  end
-
   def set_association
     @agencies        = Agency.order(:name)
+    @donors          = Donor.order(:name)
     @province        = Province.order(:name)
     @referral_source = ReferralSource.order(:name)
     @user            = User.order(:first_name, :last_name)
@@ -217,9 +215,5 @@ class ClientsController < AdminController
     else
       @client_grid = ClientGrid.new(params.fetch(:client_grid, {}).merge!(current_user: current_user))
     end
-  end
-
-  def client_properties_params
-    params['client']['properties'].present? ? { properties: (params['client']['properties']).to_json } : {}
   end
 end

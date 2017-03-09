@@ -182,6 +182,7 @@ module VersionHelper
       provinces:            ['birth_province_id', 'province_id'],
       referral_sources:     ['referral_source_id'],
       users:                ['received_by_id', 'followed_up_by_id', 'user_id'],
+      donors:               ['donor_id'],
       departments:          ['department_id'],
       domain_groups:        ['domain_group_id'],
       partners:             ['partner_id'],

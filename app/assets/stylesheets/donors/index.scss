@@ -1,0 +1,25 @@
+body[id=donors-index] {
+  .btn-add {
+    margin: 0 0 10px 0;
+  }
+  .panel-body small a {
+    margin: 0 5px;
+    text-decoration: none;
+  }
+  strong.label.label-default.client {
+    margin-right: 3px;
+    line-height: 2.2;
+    a {
+      padding: 0 5px;
+    }
+  }
+  .name, .clients {
+    min-width: 120px;
+  }
+  .changelog {
+    min-width: 100px;
+  }
+  .description {
+    min-width: 175px;
+  }
+}

@@ -6,7 +6,7 @@
           %span{"aria-hidden" => 'true'} &times;
         %h4.modal-title
           = t(".exit_#{client_case.case_type.downcase}") if !exit_from_cif
-          = t('.exit_cif') if exit_from_cif
+          = t('.exit_ngo') if exit_from_cif
 
       .modal-body
         = simple_form_for([@client, client_case]) do |f|

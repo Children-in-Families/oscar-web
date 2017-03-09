@@ -32,13 +32,13 @@ class ClientGrid
 
   filter(:placement_date, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.placement_start_date') }) do |values, scope|
     if values.first.present? && values.second.present?
-      ids = scope.joins(:cases).where(cases: { start_date: values[0]..values[1] }).pluck(:id).uniq
+      ids = Client.joins(:cases).where(cases: { start_date: values[0]..values[1] }).pluck(:id).uniq
       scope.where(id: ids)
     elsif values.first.present? && values.second.blank?
-      ids = scope.joins(:cases).where('DATE(cases.start_date) >= ?', values.first).pluck(:id).uniq
+      ids = Client.joins(:cases).where('DATE(cases.start_date) >= ?', values.first).pluck(:id).uniq
       scope.where(id: ids)
     elsif values.second.present? && values.first.blank?
-      ids = scope.joins(:cases).where('cases.start_date <= ?', values.second).pluck(:id).uniq
+      ids = Client.joins(:cases).where('cases.start_date <= ?', values.second).pluck(:id).uniq
       scope.where(id: ids)
     end
   end
@@ -137,6 +137,8 @@ class ClientGrid
     User.has_clients.map { |user| [user.name, user.id] }
   end
 
+  filter(:donor, :enum, select: -> { Donor.pluck(:name, :id) }, header: -> { I18n.t('datagrid.columns.clients.donor') })
+
   filter(:state, :enum, select: %w(Accepted Rejected), header: -> { I18n.t('datagrid.columns.clients.state') }) do |value, scope|
     value == 'Accepted' ? scope.accepted : scope.rejected
   end
@@ -174,6 +176,20 @@ class ClientGrid
     else
       scope.without_assessments
     end
+  end
+
+  filter(:assessments_due_to, :enum, select: Assessment::DUE_STATES, header: -> { I18n.t('datagrid.columns.clients.assessments_due_to') }) do |value, scope|
+    ids = []
+    if value == Assessment::DUE_STATES[0]
+      Client.all_active_types.each do |c|
+        ids << c.id if c.next_assessment_date == Date.today
+      end
+    else
+      Client.joins(:assessments).all_active_types.each do |c|
+        ids << c.id if c.next_assessment_date < Date.today
+      end
+    end
+    scope.where(id: ids)
   end
 
   filter(:all_domains, :dynamic, select: ['All CSI'], header: -> { I18n.t('datagrid.columns.clients.domains') }) do |(field, operation, value), scope|
@@ -384,6 +400,10 @@ class ClientGrid
 
   column(:user, order: proc { |scope| scope.joins(:user).reorder('users.first_name') }, header: -> { I18n.t('datagrid.columns.clients.case_worker_or_staff') }) do |object|
     object.user.try(:name)
+  end
+
+  column(:donor, header: -> { I18n.t('datagrid.columns.clients.donor')}) do |object|
+    object.donor_name
   end
 
   column(:case_start_date, order: false, header: -> { I18n.t('datagrid.columns.clients.placements.start_date') }) do |object|

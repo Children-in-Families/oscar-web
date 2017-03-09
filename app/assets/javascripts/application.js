@@ -19,6 +19,7 @@
 //= require datepicker
 //= require metisMenu/jquery.metisMenu.js
 //= require highcharts.js
+//= require dropzone
 //= require form-builder.min.js
 //= require form-render.min.js
 //= require jquery.extendext
@@ -72,3 +73,4 @@
 //= require custom_fields/form
 //= require custom_fields/shared_fields
 //= require ckeditor/config
+//= require shared/version_per_page_form

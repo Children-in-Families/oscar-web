@@ -18,9 +18,12 @@ class Client < ActiveRecord::Base
 
   EXIT_STATUSES = CLIENT_STATUSES.select { |status| status if status.include?('Exited') }
 
+  delegate :name, to: :donor, prefix: true, allow_nil: true
+
   belongs_to :referral_source,  counter_cache: true
   belongs_to :province,         counter_cache: true
   belongs_to :user,             counter_cache: true
+  belongs_to :donor
   belongs_to :received_by,      class_name: 'User',     foreign_key: 'received_by_id',    counter_cache: true
   belongs_to :followed_up_by,   class_name: 'User',     foreign_key: 'followed_up_by_id', counter_cache: true
   belongs_to :birth_province,   class_name: 'Province', foreign_key: 'birth_province_id', counter_cache: true
@@ -269,19 +272,30 @@ class Client < ActiveRecord::Base
     (end_date - start_date).to_f
   end
 
+  def self.fetch_client(user)
+    if user.admin? || user.visitor?
+      Client.all
+    elsif user.ec_manager?
+      Client.managed_by(user, 'Active EC')
+    elsif user.kc_manager?
+      Client.managed_by(user, 'Active KC')
+    elsif user.fc_manager?
+      Client.managed_by(user, 'Active FC')
+    elsif user.able_manager?
+      Client.able_managed_by(user)
+    elsif user.case_worker?
+      user.clients
+    end
+  end
+
   def self.ec_reminder_in(day)
-    managers = User.ec_managers
-    admins   = User.admins
+    managers = User.ec_managers.pluck(:email).join(', ')
+    admins   = User.admins.pluck(:email).join(', ')
     clients = active_ec.select { |client| client.active_day_care == day }
 
     if clients.present?
-      managers.each do |manager|
-        ManagerMailer.remind_of_client(clients, day: day, manager: manager).deliver_now
-      end
-
-      admins.each do |admin|
-        AdminMailer.remind_of_client(clients, day: day, admin: admin).deliver_now
-      end
+      ManagerMailer.remind_of_client(clients, day: day, manager: managers).deliver_now if managers.present?
+      AdminMailer.remind_of_client(clients, day: day, admin: admins).deliver_now if admins.present?
     end
   end
 end
