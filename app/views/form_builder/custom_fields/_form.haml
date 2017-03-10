@@ -1,9 +1,14 @@
 = simple_form_for(@custom_field) do |f|
   .ibox-content
-    = f.label :entity_type, label: t('.entity_type')
-    = f.input :entity_type, collection: ['Client', 'Family', 'Partner', 'User'],label: false, disabled: used_custom_form?(@custom_field),include_blank: false
-    = f.label :form_title, label: t('.form_title')
-    = f.input :form_title,label: false, disabled: used_custom_form?(@custom_field)
+    .row
+      .col-xs-12.col-md-6
+        = f.input :entity_type, collection: CustomField::ENTITY_TYPES, label: t('.entity_type'), disabled: used_custom_form?(@custom_field), include_blank: false
+      .col-xs-12.col-md-6
+        = f.input :form_title, label: t('.form_title'), disabled: used_custom_form?(@custom_field)
+      .col-xs-12.col-md-6
+        = f.input :frequency, collection: CustomField::FREQUENCIES, label: t('.frequency')
+      .col-xs-12.col-md-6
+        = f.input :time_of_frequency, label: t('.time_of_frequency')
     = f.input :fields, as: :hidden
     .build-wrap{ 'data-fields': @custom_field.fields }
     - if f.object.errors[:fields].any?

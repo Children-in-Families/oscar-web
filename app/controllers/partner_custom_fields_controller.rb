@@ -4,9 +4,10 @@ class PartnerCustomFieldsController < AdminController
   before_action :set_partner
   before_action :set_custom_field
   before_action :set_partner_custom_field, only: [:edit, :show, :destroy]
+  before_action :restrict_invalid_partner_custom_field, only: [:new, :create]
 
   def index
-    @partner_custom_field = @partner.partner_custom_fields.by_custom_field(@custom_field).order(created_at: :desc).page(params[:page]).per(4)
+    @partner_custom_fields = @partner.partner_custom_fields.by_custom_field(@custom_field).order(created_at: :desc).page(params[:page]).per(4)
   end
 
   def show
@@ -39,7 +40,11 @@ class PartnerCustomFieldsController < AdminController
 
   def destroy
     @partner_custom_field.destroy
-    redirect_to partner_partner_custom_fields_path(@partner, custom_field_id: @custom_field.id), notice: t('.successfully_deleted')
+    if @partner.partner_custom_fields.by_custom_field(@custom_field).empty?
+      redirect_to partner_path(@partner), notice: t('.successfully_deleted')
+    else
+      redirect_to partner_partner_custom_fields_path(@partner, custom_field_id: @custom_field.id), notice: t('.successfully_deleted')
+    end
   end
 
   private
@@ -64,5 +69,9 @@ class PartnerCustomFieldsController < AdminController
 
   def set_partner_custom_field
     @partner_custom_field = @partner.partner_custom_fields.find(params[:id])
+  end
+
+  def restrict_invalid_partner_custom_field
+    redirect_to partner_partner_custom_fields_path(@partner, custom_field_id: @custom_field.id), alert: t('.cannot_create') unless @partner.can_create_next_custom_field?(@partner, @custom_field)
   end
 end

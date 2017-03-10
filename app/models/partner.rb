@@ -1,4 +1,5 @@
 class Partner < ActiveRecord::Base
+  include EntityTypeCustomField
   belongs_to :province, counter_cache: true
 
   has_many :cases

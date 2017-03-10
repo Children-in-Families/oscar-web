@@ -107,7 +107,7 @@ feature 'progress_note' do
     scenario 'invalid', js: true do
       fill_in 'Date', with: ''
       page.find("#only-submit").click
-      expect(page).to have_content(I18n.t('activerecord.errors.models.progress_note.attributes.date.blank'))
+      expect(page).to have_content("can't be blank")
     end
   end
 

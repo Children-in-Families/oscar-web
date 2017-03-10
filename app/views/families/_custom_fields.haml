@@ -1,6 +1,0 @@
-- family.family_custom_fields.group_by(&:custom_field_id).each do |family_custom_field|
-  - if can? :manage, FamilyCustomField
-    - if family_custom_field[1].first.properties_objs.blank?
-      = link_to family_custom_field[1].first.custom_field.form_title, edit_family_family_custom_field_path(family, family_custom_field[1].first), class: 'btn btn-success btn-xs small-btn-margin'
-    - else
-      = link_to family_custom_field[1].first.custom_field.form_title, family_family_custom_fields_path(family, custom_field_id: family_custom_field[1].first.custom_field.id), class: 'btn btn-success btn-xs small-btn-margin'

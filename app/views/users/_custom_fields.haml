@@ -1,6 +1,0 @@
-- user.user_custom_fields.group_by(&:custom_field_id).each do |user_custom_field|
-  - if can? :manage, UserCustomField
-    - if user_custom_field[1].first.properties_objs.blank?
-      = link_to user_custom_field[1].first.custom_field.form_title, edit_user_user_custom_field_path(user, user_custom_field[1].first), class: 'btn-xs btn btn-success small-btn-margin'
-    - else
-      = link_to user_custom_field[1].first.custom_field.form_title, user_user_custom_fields_path(user, custom_field_id: user_custom_field[1].first.custom_field.id), class: 'btn-xs btn btn-success small-btn-margin'
