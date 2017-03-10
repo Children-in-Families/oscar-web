@@ -3,7 +3,6 @@ class PartnersController < AdminController
 
   before_action :find_partner,     only:   [:show, :edit, :update, :destroy]
   before_action :find_association, except: [:index, :destroy]
-  before_action :set_custom_form, only: [:new, :create, :edit, :update]
 
   def index
     @partner_grid = PartnerGrid.new(params[:partner_grid])
@@ -68,10 +67,6 @@ class PartnersController < AdminController
                                     :organisation_type, :affiliation, :engagement,
                                     :background, :start_date, :address,
                                     :province_id, custom_field_ids: [])
-  end
-
-  def set_custom_form
-    @custom_field = CustomField.find_by(entity_type: 'Partner')
   end
 
   def find_partner

@@ -176,6 +176,7 @@ en:
       are_you_sure: Are you sure you want to delete?
       back: Back
       created_date: Created Date
+      available_on: This will be enable on
     create:
       successfully_created: Succesfully created information.
       cannot_create: Form cannot be created.
@@ -634,6 +635,7 @@ en:
       sInfoTotal: of
       load: Loading more...
       end: Loading end!
+      advanced_search: Advanced Search
     new:
       new_client_title: New Client
     create:
@@ -736,6 +738,14 @@ en:
     version:
       modification_of: Changelog of
       back: Back
+    advanced_search:
+      advanced_search: Advanced Search
+      add_new_filter: Add New Filter
+      search: Search
+      reset: Reset
+      no_results: No Result Found
+      results: Results
+
   families:
     index:
       results: Results

@@ -18,7 +18,7 @@
           .row
             .col-xs-12.col-md-6= f.association :province, collection: @province, include_blank: false, label: "#{t('.province')}", input_html: { class: 'select2' }
             .col-xs-12.col-md-6.form-group.date.optional.family_contract_date
-              %label.date.optional.control-label{ for: 'family_contract_date' } #{t('.contract_date')}
+              %label.date.optional.control-label{ for: 'family_contract_date' }= t('.contract_date')
               .input-group.date
                 = f.text_field :contract_date, class: 'date optional form-control date-picker', type: 'text', name: 'family[contract_date]', id: 'family_contract_date'
                 %span.input-group-addon

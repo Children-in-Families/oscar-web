@@ -6,10 +6,11 @@
 @import 'select2-bootstrap';
 @import 'bootstrap-datepicker';
 @import 'dropzone/dropzone';
-@import 'bourbon';
-@import 'neat';
 @import 'formBuilder/form-builder.min';
 @import 'formBuilder/form-render.min';
+@import "bourbon";
+@import "neat";
+@import "query-builder.default";
 
 @import 'animate/animate';
 @import 'iCheck/custom';

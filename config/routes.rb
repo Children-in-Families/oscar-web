@@ -99,6 +99,9 @@ Rails.application.routes.draw do
   resources :tasks, only: :index
 
   resources :clients do
+    collection do 
+      get :advanced_search
+    end
     resources :client_custom_fields
     resources :government_reports
     resources :assessments
@@ -146,6 +149,7 @@ Rails.application.routes.draw do
   namespace :api do
     mount_devise_token_auth_for 'User', at: '/v1/auth', skip: [:registrations, :passwords]
     namespace :v1, default: { format: :json } do
+      resources :advance_searches, only: [:index]
       resources :domain_groups, only: [:index]
       resources :clients, only: [:index] do
         resources :assessments, only: [:create]

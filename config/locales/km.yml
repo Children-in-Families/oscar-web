@@ -175,6 +175,7 @@ km:
       are_you_sure: តើអ្នកប្រាកដហើយ?
       back: ត្រឡប់ក្រោយ
       created_date: កាលបរិច្ឆេទ
+      available_on: អាចធ្វើបាននៅថ្ងៃទី
     create:
       successfully_created: ពត៌មានត្រូវបានរក្សាទុកដោយជោគជ័យ
       cannot_create: មិនអាចបង្កើតទម្រង់បានទេ
@@ -628,6 +629,7 @@ km:
       sInfoTotal: នៃចំនួនសរុប
       load: កំពុងផ្ទុក...
       end: អស់លទ្ធផល!
+      advanced_search: ការស្វែងរកកម្រិតខ្ពស់
     create:
       successfully_created: អតិថិជនត្រូវបានបង្កើតឡើងដោយជោគជ័យ
     update:
@@ -731,6 +733,14 @@ km:
     version:
       modification_of: កំណែប្រែរបស់
       back: ត្រលប់ក្រោយ
+    advanced_search:
+      advanced_search: ការស្វែងរកកម្រិតខ្ពស់
+      add_new_filter: បន្ថែមការស្វែងរក
+      search: ស្វែងរក
+      reset: សំអាត
+      no_results:  មិនមានលទ្ធផល
+      results: លទ្ធផល
+
   families:
     index:
       results: លទ្ធផល

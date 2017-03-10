@@ -1,0 +1,49 @@
+body[id='clients-advanced_search'] {
+  .dataTables_scrollBody {
+    max-height: 500px !important;
+    margin-top: -20px;
+  }
+  table, .dataTables_scrollHeadInner {
+    width: 100% !important;
+  }
+
+  .rules-group-container {
+    background: none;
+    border: none;
+    padding-bottom: 30px;
+  }
+
+  .btn-group.group-actions {
+    position: absolute;
+    bottom: -14px;
+    right: 10px;
+  }
+
+  .rule-container {
+    border-radius: 0;
+    padding: 10px;
+    margin: 5px 0;
+  }
+
+  .rule-operator-container, {
+    select {
+      width: 180px;
+    }
+  }
+
+  .rule-value-container {
+    border-left: none;
+    select, input {
+      width: 180px;  
+    }
+  }
+
+  .dataTable td, .dataTable th {
+    min-width: 150px;
+  }
+
+  .id-column {
+    min-width: 65px;
+  }
+
+}

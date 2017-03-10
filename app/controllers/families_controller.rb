@@ -3,7 +3,6 @@ class FamiliesController < AdminController
 
   before_action :find_province, except: [:index, :destroy]
   before_action :find_family, only: [:show, :edit, :update, :destroy]
-  before_action :set_custom_field, only: [:new, :create, :edit, :update]
 
   def index
     @family_grid = FamilyGrid.new(params[:family_grid])
@@ -61,10 +60,6 @@ class FamiliesController < AdminController
   end
 
   private
-
-  def set_custom_field
-    @custom_field = CustomField.find_by(entity_type: 'Family')
-  end
 
   def family_params
 

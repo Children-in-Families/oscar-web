@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/rotati/children-in-families-web.svg?branch=master)](https://travis-ci.org/rotati/children-in-families-web)
+[ ![Codeship Status for rotati/cambodianfamilies-web](https://app.codeship.com/projects/0c400840-e69a-0134-b09a-26edd27a570b/status?branch=master)](https://app.codeship.com/projects/206873)
 
 # Children in Families
 
@@ -18,7 +18,7 @@ Given that you got all the requirements running on your local machine.
 Clone the project to your local machine:
 
 ```
-  git clone https://github.com/rotati/children_in_families.git
+  git clone git@github.com:rotati/cambodianfamilies-web.git
 ```
 
 Navigate to the project directory and create `.env` in project root path, and copy all content in `.env.example` and replace all variable values to fit your local machine.
@@ -41,7 +41,7 @@ Once the steps are done, start the server by running:
   rails server
 ```
 
-Open a web browser and navigate to `http://localhost:3000`, and there you go!
+Open a web browser and navigate to `http://lvh.me:3000`, and there you go!
 
 ### RSpec
 

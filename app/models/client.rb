@@ -5,7 +5,7 @@ class Client < ActiveRecord::Base
 
   attr_reader :assessments_count
   attr_accessor :assessment_id
-  attr_accessor :organization
+  attr_accessor :organization, :case_type
 
   friendly_id :slug, use: :slugged
 
