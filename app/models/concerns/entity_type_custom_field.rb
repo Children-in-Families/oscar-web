@@ -1,5 +1,5 @@
 module EntityTypeCustomField
-  def can_create_next_custom_field?(entity, custom_field)
+	def can_create_next_custom_field?(entity, custom_field)
     Date.today >= next_custom_field_date(entity, custom_field)
   end
 

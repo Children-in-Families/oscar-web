@@ -1,5 +1,6 @@
 class Client < ActiveRecord::Base
   include EntityTypeCustomField
+  include EntityTypeCustomFieldNotification
   extend FriendlyId
 
   attr_reader :assessments_count

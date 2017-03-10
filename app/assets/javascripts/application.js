@@ -38,6 +38,7 @@
 //= require initializer
 //= require common
 //= require jquery.infinitescroll.min
+//= require footable.all.min
 
 //APPLICATION JS
 //= require filters

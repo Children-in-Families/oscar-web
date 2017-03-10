@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
   include EntityTypeCustomField
+  include EntityTypeCustomFieldNotification
   ROLES = ['admin', 'case worker', 'able manager', 'ec manager', 'fc manager', 'kc manager', 'visitor'].freeze
   MANAGERS = ROLES.select { |role| role if role.include?('manager') }
 
@@ -102,5 +103,22 @@ class User < ActiveRecord::Base
 
   def assessments_overdue
     clients.all_active_types
+  end
+
+
+  def client_custom_field_frequency_overdue_or_due_today
+    entity_type_custom_field_notification(clients)
+  end
+
+  def user_custom_field_frequency_overdue_or_due_today
+    entity_type_custom_field_notification(User.all)
+  end
+
+  def partner_custom_field_frequency_overdue_or_due_today
+    entity_type_custom_field_notification(Partner.all)
+  end
+
+  def family_custom_field_frequency_overdue_or_due_today
+    entity_type_custom_field_notification(Family.all)
   end
 end
