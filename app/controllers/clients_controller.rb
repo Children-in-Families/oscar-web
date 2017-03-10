@@ -3,7 +3,6 @@ class ClientsController < AdminController
 
   before_action :find_client, only: [:show, :edit, :update, :destroy]
   before_action :set_association, except: [:index, :destroy]
-  before_action :set_custom_field, only: [:new, :create, :edit, :update]
 
   def advanced_search
     if params[:client]
@@ -40,9 +39,6 @@ class ClientsController < AdminController
 
         send_data @client_grid.to_xls, filename: "client_report-#{Time.now}.xls"
       end
-      # f.js do
-      #   @client_grid.scope { |scope| scope.accessible_by(current_ability).page(params[:page]).per(20) }
-      # end
     end
   end
 
@@ -153,10 +149,6 @@ class ClientsController < AdminController
 
   def find_client
     @client = Client.accessible_by(current_ability).friendly.find(params[:id]).decorate
-  end
-
-  def set_custom_field
-    @custom_field = CustomField.find_by(entity_type: 'Client')
   end
 
   def client_params

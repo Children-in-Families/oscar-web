@@ -1,7 +1,6 @@
 describe UserCustomField, 'associations' do
   it { is_expected.to belong_to(:user) }
   it { is_expected.to belong_to(:custom_field) }
-  it { is_expected.to validate_presence_of(:user_id) }
   it { is_expected.to validate_presence_of(:custom_field_id) }
 end
 

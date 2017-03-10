@@ -4,7 +4,7 @@ class ClientCustomField < ActiveRecord::Base
   belongs_to :client
   belongs_to :custom_field
 
-  validates :client_id, :custom_field_id, presence: true
+  validates :custom_field_id, presence: true
 
   scope :by_custom_field, ->(value) { where(custom_field:  value) }
 

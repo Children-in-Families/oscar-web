@@ -1,7 +1,6 @@
 describe PartnerCustomField, 'associations' do
   it { is_expected.to belong_to(:partner) }
   it { is_expected.to belong_to(:custom_field) }
-  it { is_expected.to validate_presence_of(:partner_id) }
   it { is_expected.to validate_presence_of(:custom_field_id) }
 end
 
