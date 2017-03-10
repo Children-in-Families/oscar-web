@@ -3,7 +3,6 @@ class UsersController < AdminController
 
   before_action :find_user, only: [:show, :edit, :update, :destroy]
   before_action :find_association, except: [:index, :destroy]
-  before_action :set_custom_form, only: [:new, :create, :edit, :update]
 
   def index
     @user_grid = UserGrid.new(params[:user_grid])
@@ -76,10 +75,6 @@ class UsersController < AdminController
                                 :job_title, :department_id, :mobile, :date_of_birth,
                                 :province_id, :email, :password,
                                 :password_confirmation, custom_field_ids: [])
-  end
-
-  def set_custom_form
-    @custom_field = CustomField.find_by(entity_type: 'User')
   end
 
   def find_user

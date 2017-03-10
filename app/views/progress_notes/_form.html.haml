@@ -10,7 +10,7 @@
             %abbr{ title: 'required' } *
             = t('.date')
           .input-group.date
-            = f.text_field :date, required: true, class: 'date form-control date-picker datepicker-dropdown date', type: 'text', name: 'progress_note[date]', id: 'progress_note_date', required: true
+            = f.text_field :date, required: true, class: 'date form-control date-picker datepicker-dropdown date', type: 'text', name: 'progress_note[date]', id: 'progress_note_date'
             %span.input-group-addon
               %i.fa.fa-calendar-check-o
           = f.error :date

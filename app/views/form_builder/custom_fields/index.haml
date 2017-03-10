@@ -14,7 +14,7 @@
             %th= t('.time_of_frequency')
             %th= t('.organization')
             - if can? :manage, CustomField
-              %th.text-center= t('.manage')
+              %th.manage.text-center= t('.manage')
 
           - @custom_fields.each do |custom_field|
             %tr
@@ -24,7 +24,7 @@
               %td= custom_field.time_of_frequency
               %td= current_organiation.full_name
               - if can? :manage, CustomField
-                %td.text-center
+                %td.manage.text-center
                   = link_to edit_custom_field_path(custom_field), class: 'btn btn-outline btn-success btn-xs' do
                     = fa_icon('pencil')
                   = link_to custom_field, class: "btn btn-outline btn-danger btn-xs margin-btn #{disable_action_on_custom_form(custom_field)}", method: :delete, data: { confirm: t('.are_you_sure') } do

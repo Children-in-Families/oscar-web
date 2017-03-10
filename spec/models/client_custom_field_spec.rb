@@ -1,7 +1,6 @@
 describe ClientCustomField, 'associations' do
   it { is_expected.to belong_to(:client) }
   it { is_expected.to belong_to(:custom_field) }
-  it { is_expected.to validate_presence_of(:client_id) }
   it { is_expected.to validate_presence_of(:custom_field_id) }
 end
 

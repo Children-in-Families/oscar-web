@@ -175,6 +175,7 @@ km:
       are_you_sure: តើអ្នកប្រាកដហើយ?
       back: ត្រឡប់ក្រោយ
       created_date: កាលបរិច្ឆេទ
+      available_on: អាចធ្វើបាននៅថ្ងៃទី
     create:
       successfully_created: ពត៌មានត្រូវបានរក្សាទុកដោយជោគជ័យ
       cannot_create: មិនអាចបង្កើតទម្រង់បានទេ

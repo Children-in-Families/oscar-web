@@ -73,7 +73,7 @@
             = f.association :quantitative_cases, collection: qt.quantitative_cases, multiple: true, label_method: :value, value_method: :id, label: false, input_html: { class: able_related_info(qt.name) }
       .row
         .col-xs-12.col-md-8
-          = f.association :custom_fields, collection: CustomField.where(entity_type: 'Client'), label_method: :form_title, value_method: :id, label: t('.custom_forms')
+          = f.association :custom_fields, collection: CustomField.where(entity_type: 'Client'), label_method: :form_title, value_method: :id, label: t('.custom_forms'), multiple: true
 
   .ibox-footer
     %button.btn.btn-primary.form-btn#submit-button{ type: 'button' }
