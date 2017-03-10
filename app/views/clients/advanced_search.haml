@@ -26,7 +26,8 @@
                   %th Name
                   - @clients_filtered.first.attributes.keys.each do |column_name|
                     - next if column_name == 'slug' || column_name == 'first_name' || column_name == 'id'
-                    %th= column_name.titleize
+                    %th
+                      = column_name == 'date_of_birth' ? 'Age' : column_name.titleize
               %tbody
                 - @clients_filtered.each do |client|
                   %tr
@@ -34,7 +35,8 @@
                     %td= link_to client.first_name, client_path(client) 
                     - client.attributes.each do |field_name, value|
                       - next if field_name == 'slug' || field_name == 'first_name' || field_name == 'id'
-                      %td= format_advance_search_result(field_name, value)
+                      %td
+                        = format_advance_search_result(field_name, (field_name == 'date_of_birth' ? client : value))
         .ibox-footer.text-center
           = paginate @clients_filtered
       - else

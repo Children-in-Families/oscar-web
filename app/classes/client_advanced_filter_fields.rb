@@ -18,8 +18,8 @@ class  ClientAdvancedFilterFields
     [
       ['code', 'Code'], 
       ['school_grade', 'School grade'],
-      ['family_id', 'Family ID']
-      # ['age', '']
+      ['family_id', 'Family ID'],
+      ['age', 'Age']
     ]
   end
 
