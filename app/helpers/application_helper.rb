@@ -53,13 +53,23 @@ module ApplicationHelper
   end
 
   def clients_menu_active
-    names = %w(clients tasks assessments case_notes cases)
-    any_active_menu names
+    names = %w(clients tasks assessments case_notes cases government_reports)
+    any_active_menu(names)
   end
 
-  def manage_menu_active
-    names = %w(agencies departments domains domain_groups provinces referral_sources quantitative_types)
-    any_active_menu names
+  def families_menu_active
+    names = %w(families family_custom_fields)
+    any_active_menu(names)
+  end
+
+  def users_menu_active
+    names = %w(users user_custom_fields)
+    any_active_menu(names)
+  end
+
+  def partners_menu_active
+    names = %w(partners partner_custom_fields)
+    any_active_menu(names)
   end
 
   def account_menu_active
@@ -77,24 +87,12 @@ module ApplicationHelper
     controller_name == name || controller_name == alter_name ? 'active' : nil
   end
 
-  # def user_dashboard(user)
-  #   user.admin? || user.any_case_manager? ? 'col-md-6' : ''
-  # end
-
-  def user_dashboard_responsive(user)
-    user.admin? || user.case_worker? || user.visitor? ? 'box-pusher' : 'col-xs-12 big-box'
-  end
-
   def hidden_class(bool)
     'hidden' if bool
   end
 
   def exit_modal_class(bool)
     bool ? 'exitFromCif' : 'exitFromCase'
-  end
-
-  def dynamic_md_col(user)
-    user.any_case_manager? ? 'col-md-12' : 'col-md-6'
   end
 
   def dynamic_third_party_cols(user)
@@ -106,14 +104,6 @@ module ApplicationHelper
       'col-sm-6'
     elsif user.case_worker?
       'col-sm-4'
-    end
-  end
-
-  def custom_case_dashboard(user)
-    if user.any_case_manager?
-      'big-box'
-    elsif user.admin? || user.case_worker? || user.visitor?
-      'top-spacing'
     end
   end
 
@@ -155,26 +145,6 @@ module ApplicationHelper
 
   def required?(bool)
     'required' if bool
-  end
-
-  def custom_properties(value)
-    date = Date.parse(value) rescue nil
-    span = content_tag :span do
-      if date
-        concat date.strftime('%B %d, %Y')
-      elsif value.is_a?(Array)
-        value.reject{ |i| i.empty? }.each do |c|
-          concat content_tag(:strong, c, class: 'label label-default')
-        end
-      elsif value == 'true'
-        concat 'Yes'
-      elsif value == 'false'
-        concat 'No'
-      else
-        concat value
-      end
-    end
-    span
   end
 
   def visitor?

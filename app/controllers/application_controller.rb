@@ -8,9 +8,15 @@ class ApplicationController < ActionController::Base
   before_action :find_association, if: :devise_controller?
   before_action :set_locale
   before_action :set_paper_trail_whodunnit
+  
+  helper_method :current_organiation
 
   rescue_from CanCan::AccessDenied do |exception|
     redirect_to root_url, alert: exception.message
+  end
+
+  def current_organiation
+    Organization.current
   end
 
   private

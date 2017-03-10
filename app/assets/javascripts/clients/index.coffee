@@ -55,15 +55,15 @@ CIF.ClientsIndex = do ->
   _handleHideShowReport = ->
     $('#client-statistic').click ->
       $('#client-statistic-body').slideToggle("slow")
-      _handleResizeChart()
+      _handleResizeWindow()
 
   _clickMenuResizeChart = ->
     $('.minimalize-styl-2').click ->
       setTimeout (->
-        _handleResizeChart()
+        _handleResizeWindow()
       ), 220
 
-  _handleResizeChart = ->
+  _handleResizeWindow = ->
     window.dispatchEvent new Event('resize')
 
   _columnsVisibility = ->
@@ -162,5 +162,6 @@ CIF.ClientsIndex = do ->
           scrollspeed: 30
           cursorwidth: 10
           cursoropacitymax: 0.4
+        _handleResizeWindow()
 
   { init: _init }

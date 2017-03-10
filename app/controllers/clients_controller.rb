@@ -5,6 +5,20 @@ class ClientsController < AdminController
   before_action :set_association, except: [:index, :destroy]
   before_action :set_custom_field, only: [:new, :create, :edit, :update]
 
+  def advanced_search
+    if params[:client]
+      @advanced_filter_params = params[:client][:search_rules]
+      search_rules_params     = eval(@advanced_filter_params)
+      clients                 = ClientAdvancedFilter.new(search_rules_params, Client.accessible_by(current_ability))
+      @clients_by_user        = clients.filter_by_field
+      @clients_filtered       = @clients_by_user.page(params[:page]).per(20)
+    end
+
+    @advanced_filter_fields = ClientAdvancedFilterFields.new(user: current_user).render
+    @advanced_filter_fields = @advanced_filter_fields.to_json
+ 
+  end
+
   def index
     if current_user.admin? || current_user.visitor?
       admin_client_grid
@@ -142,7 +156,7 @@ class ClientsController < AdminController
   end
 
   def set_custom_field
-    @custom_field = CustomField.find_by(entity_name: 'Client')
+    @custom_field = CustomField.find_by(entity_type: 'Client')
   end
 
   def client_params

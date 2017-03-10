@@ -63,7 +63,7 @@ class FamiliesController < AdminController
   private
 
   def set_custom_field
-    @custom_field = CustomField.find_by(entity_name: 'Family')
+    @custom_field = CustomField.find_by(entity_type: 'Family')
   end
 
   def family_params

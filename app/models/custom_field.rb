@@ -12,8 +12,8 @@ class CustomField < ActiveRecord::Base
   has_many :user_custom_fields, dependent: :restrict_with_error
   has_many :user, through: :user_custom_fields
 
-  validates :entity_name, :form_type, presence: true
-  validates :form_type, uniqueness: { case_sensitive: false, scope: :entity_name }
+  validates :entity_type, :form_title, presence: true
+  validates :form_title, uniqueness: { case_sensitive: false, scope: :entity_type }
 
   validate :presence_of_fields
 
