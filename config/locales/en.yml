@@ -525,6 +525,7 @@ en:
       partners: Partner
       users: User
       families: Family
+      form: Form
   layouts:
     notification:
       no_task: Nothing to notify

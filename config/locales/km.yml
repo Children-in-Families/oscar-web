@@ -521,6 +521,7 @@ km:
       families: គ្រួសារ
       partners: ដៃគូ
       users: ឣ្នកប្រើ
+      form: ទម្រង់បែបបទ
   layouts:
     notification:
       no_task: មិនមានពត៌មានដែលត្រូវបង្ហាញ
