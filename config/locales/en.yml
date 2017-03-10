@@ -542,6 +542,32 @@ en:
       due_today_assessments_count:
         one: "You have 1 assessment due today."
         other: "You have %{count} assessments due today."
+
+      due_today_client_custom_field_count:
+        one: "You have 1 client custom field due today"
+        other: "You have %{count} client custom fields due today."
+      overdue_client_custom_field_count:
+        one: "You have 1 client custom field overdue"
+        other: "You have %{count} client custom fields overdue."
+      due_today_user_custom_field_count:
+        one: "You have 1 user custom field due today"
+        other: "You have %{count} user custom fields due today."
+      overdue_user_custom_field_count:
+        one: "You have 1 user custom field overdue"
+        other: "You have %{count} user custom fields overdue."
+      due_today_partner_custom_field_count:
+        one: "You have 1 partner custom field due today"
+        other: "You have %{count} partner custom fields due today."
+      overdue_partner_custom_field_count:
+        one: "You have 1 partner custom field overdue"
+        other: "You have %{count} partner custom fields overdue."
+      due_today_family_custom_field_count:
+        one: "You have 1 family custom field due today"
+        other: "You have %{count} family custom fields due today."
+      overdue_family_custom_field_count:
+        one: "You have 1 family custom field overdue"
+        other: "You have %{count} family custom fields overdue."
+
     side_menu:
       dashboards: Dashboards
       clients: Clients
@@ -719,7 +745,7 @@ en:
       reset: Reset
       no_results: No Result Found
       results: Results
-      
+
   families:
     index:
       results: Results
