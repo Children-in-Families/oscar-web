@@ -4,7 +4,7 @@ class FormBuilder::CustomFieldsController < AdminController
   before_action :set_custom_field, only: [:edit, :update, :destroy, :show]
 
   def index
-    @custom_fields = CustomField.all
+    @custom_fields = CustomField.order(:entity_type, :form_title)
   end
 
   def new
@@ -40,12 +40,12 @@ class FormBuilder::CustomFieldsController < AdminController
   end
 
   private
-    def custom_field_params
-      params.require(:custom_field).permit(:entity_type, :fields, :form_title)
-    end
 
-    def set_custom_field
-      @custom_field = CustomField.find(params[:id])
-    end
+  def custom_field_params
+    params.require(:custom_field).permit(:entity_type, :fields, :form_title, :frequency, :time_of_frequency)
+  end
 
+  def set_custom_field
+    @custom_field = CustomField.find(params[:id])
+  end
 end

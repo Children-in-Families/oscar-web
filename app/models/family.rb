@@ -1,4 +1,5 @@
 class Family < ActiveRecord::Base
+  include EntityTypeCustomField
   FAMILY_TYPE = %w(emergency kinship foster).freeze
 
   belongs_to :province, counter_cache: true

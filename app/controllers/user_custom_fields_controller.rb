@@ -4,9 +4,10 @@ class UserCustomFieldsController < AdminController
   before_action :set_user
   before_action :set_custom_field
   before_action :set_user_custom_field, only: [:edit, :show, :destroy]
+  before_action :restrict_invalid_user_custom_field, only: [:new, :create]
 
   def index
-    @user_custom_field = @user.user_custom_fields.by_custom_field(@custom_field).order(created_at: :desc).page(params[:page]).per(4)
+    @user_custom_fields = @user.user_custom_fields.by_custom_field(@custom_field).order(created_at: :desc).page(params[:page]).per(4)
   end
 
   def show
@@ -39,7 +40,11 @@ class UserCustomFieldsController < AdminController
 
   def destroy
     @user_custom_field.destroy
-    redirect_to user_user_custom_fields_path(@user, custom_field_id: @custom_field.id), notice: t('.successfully_deleted')
+    if @user.user_custom_fields.by_custom_field(@custom_field).empty?
+      redirect_to user_path(@user), notice: t('.successfully_deleted')
+    else
+      redirect_to user_user_custom_fields_path(@user, custom_field_id: @custom_field.id), notice: t('.successfully_deleted')
+    end
   end
 
   private
@@ -64,5 +69,9 @@ class UserCustomFieldsController < AdminController
 
   def set_user_custom_field
     @user_custom_field = @user.user_custom_fields.find(params[:id])
+  end
+
+  def restrict_invalid_user_custom_field
+    redirect_to user_user_custom_fields_path(@user, custom_field_id: @custom_field.id), alert: t('.cannot_create') unless @user.can_create_next_custom_field?(@user, @custom_field)
   end
 end

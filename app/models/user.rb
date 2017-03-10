@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+  include EntityTypeCustomField
   ROLES = ['admin', 'case worker', 'able manager', 'ec manager', 'fc manager', 'kc manager', 'visitor'].freeze
   MANAGERS = ROLES.select { |role| role if role.include?('manager') }
 

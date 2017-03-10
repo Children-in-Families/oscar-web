@@ -1,6 +1,7 @@
 .row
   .col-xs-12.family
-    = render 'custom_fields', family: @family
+    - @family.family_custom_fields.group_by(&:custom_field_id).each do |family_custom_field|
+      = next_custom_field(family_custom_field[1].first, @family, "family")
     .ibox.mini-margin
       .ibox-title
         %h5= "#{t('.general_info')} #{@family.name}"

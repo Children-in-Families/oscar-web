@@ -1,6 +1,7 @@
 .row
   .col-xs-12.partner
-    = render 'custom_fields', partner: @partner
+    - @partner.partner_custom_fields.group_by(&:custom_field_id).each do |partner_custom_field|
+      = next_custom_field(partner_custom_field[1].first, @partner, "partner")
     .ibox.mini-margin
       .ibox-title
         %h5
