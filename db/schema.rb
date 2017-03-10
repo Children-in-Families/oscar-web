@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170302041000) do
+ActiveRecord::Schema.define(version: 20170310043816) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -235,7 +235,7 @@ ActiveRecord::Schema.define(version: 20170302041000) do
     t.text     "background",                       default: ""
     t.integer  "grade",                            default: 0
     t.string   "slug"
-    t.string   "able_state"
+    t.string   "able_state",                       default: ""
     t.integer  "assessments_count"
     t.integer  "donor_id"
   end
