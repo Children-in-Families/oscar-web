@@ -708,8 +708,12 @@ km:
       modification_of: កំណែប្រែរបស់
       back: ត្រលប់ក្រោយ
     advanced_search:
+      advanced_search: ការស្វែងរកកម្រិតខ្ពស់
+      add_new_filter: បន្ថែមការស្វែងរក
       search: ស្វែងរក
       reset: សំអាត
+      no_results:  មិនមានលទ្ធផល
+      results: លទ្ធផល
       
   families:
     index:

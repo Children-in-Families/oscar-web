@@ -712,8 +712,12 @@ en:
       modification_of: Changelog of
       back: Back
     advanced_search:
+      advanced_search: Advanced Search
+      add_new_filter: Add New Filter
       search: Search
       reset: Reset
+      no_results: No Result Found
+      results: Results
       
   families:
     index:

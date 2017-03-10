@@ -2,11 +2,11 @@
   .col-xs-12
     .ibox
       .ibox-title
-        %h5= t('.advanced-search')
+        %h5= t('.advanced_search')
       .ibox-content
         .row
           .col-xs-12
-            #builder{ 'data-field-list' => @advanced_filter_fields, 'data-search-rules' => @advanced_filter_params}
+            #builder{ 'data-field-list' => @advanced_filter_fields, 'data-search-rules' => @advanced_filter_params, 'data-filter-translation' => t('.add_new_filter')}
       .ibox-footer
         %button#search.btn.btn-primary= t('.search')
         = link_to t('.reset'), advanced_search_clients_path, class: 'btn btn-default'
@@ -39,6 +39,6 @@
           = paginate @clients_filtered
       - else
         .ibox-content
-          %span No Result Found
+          = t('.no_results')
 = simple_form_for :client, url: :advanced_search_clients, method: 'GET', html: { id: 'advanced-search' } do |f|
   = f.hidden_field :search_rules

@@ -19,6 +19,7 @@ CIF.ClientsAdvanced_search = do ->
 
   _initJqueryQueryBuilder = ->
     fieldList = $('#builder').data('field-list')
+    filterTranslation = $('#builder').data('filter-translation')
     $('#builder').queryBuilder
       allow_groups: false
       conditions: ['AND']
@@ -27,7 +28,7 @@ CIF.ClientsAdvanced_search = do ->
         remove_rule: 'fa fa-minus'
       lang:
         delete_rule: ''
-        add_rule: 'Add New Filter'
+        add_rule: filterTranslation
         operators:
           equal: 'is'
           not_equal: 'is not'
