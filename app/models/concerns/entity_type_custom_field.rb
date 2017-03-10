@@ -3,8 +3,6 @@ module EntityTypeCustomField
     Date.today >= next_custom_field_date(entity, custom_field)
   end
 
-  private
-
   def next_custom_field_date(entity, custom_field)
     case custom_field.entity_type
     when 'Client'  then entity.client_custom_fields.by_custom_field(custom_field).last.created_at.to_date + custom_field_frequency(custom_field)
@@ -13,6 +11,8 @@ module EntityTypeCustomField
     when 'User'    then entity.user_custom_fields.by_custom_field(custom_field).last.created_at.to_date + custom_field_frequency(custom_field)
     end
   end
+
+  private
 
   def custom_field_frequency(custom_field)
     frequency         = custom_field.frequency

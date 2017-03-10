@@ -176,6 +176,7 @@ en:
       are_you_sure: Are you sure you want to delete?
       back: Back
       created_date: Created Date
+      available_on: This will be enable on
     create:
       successfully_created: Succesfully created information.
       cannot_create: Form cannot be created.
