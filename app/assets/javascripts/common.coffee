@@ -5,7 +5,6 @@ CIF.Common =
     @customCheckBox()
     @initNotification()
     @autoCollapseManagMenu()
-    $('.footable').footable()
 
   customCheckBox: ->
     $('.i-check-red').iCheck

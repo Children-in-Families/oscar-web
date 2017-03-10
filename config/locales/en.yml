@@ -518,6 +518,13 @@ en:
       order:
         asc: ↑
         desc: ↓
+  notifications:
+    index:
+      custom_field_notification: Custom Form Notification
+      clients: Client
+      partners: Partner
+      users: User
+      families: Family
   layouts:
     notification:
       no_task: Nothing to notify
@@ -544,29 +551,29 @@ en:
         other: "You have %{count} assessments due today."
 
       due_today_client_custom_field_count:
-        one: "You have 1 client custom field due today"
-        other: "You have %{count} client custom fields due today."
+        one: "You have 1 client custom form due today."
+        other: "You have %{count} client custom forms due today."
       overdue_client_custom_field_count:
-        one: "You have 1 client custom field overdue"
-        other: "You have %{count} client custom fields overdue."
+        one: "You have 1 client custom form overdue."
+        other: "You have %{count} client custom forms overdue."
       due_today_user_custom_field_count:
-        one: "You have 1 user custom field due today"
-        other: "You have %{count} user custom fields due today."
+        one: "You have 1 user custom form due today."
+        other: "You have %{count} user custom forms due today."
       overdue_user_custom_field_count:
-        one: "You have 1 user custom field overdue"
-        other: "You have %{count} user custom fields overdue."
+        one: "You have 1 user custom form overdue."
+        other: "You have %{count} user custom forms overdue."
       due_today_partner_custom_field_count:
-        one: "You have 1 partner custom field due today"
-        other: "You have %{count} partner custom fields due today."
+        one: "You have 1 partner custom form due today."
+        other: "You have %{count} partner custom forms due today."
       overdue_partner_custom_field_count:
-        one: "You have 1 partner custom field overdue"
-        other: "You have %{count} partner custom fields overdue."
+        one: "You have 1 partner custom form overdue"
+        other: "You have %{count} partner custom forms overdue."
       due_today_family_custom_field_count:
-        one: "You have 1 family custom field due today"
-        other: "You have %{count} family custom fields due today."
+        one: "You have 1 family custom form due today"
+        other: "You have %{count} family custom forms due today."
       overdue_family_custom_field_count:
-        one: "You have 1 family custom field overdue"
-        other: "You have %{count} family custom fields overdue."
+        one: "You have 1 family custom form overdue"
+        other: "You have %{count} family custom forms overdue."
 
     side_menu:
       dashboards: Dashboards

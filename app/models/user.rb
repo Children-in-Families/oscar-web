@@ -105,7 +105,6 @@ class User < ActiveRecord::Base
     clients.all_active_types
   end
 
-
   def client_custom_field_frequency_overdue_or_due_today
     entity_type_custom_field_notification(clients)
   end
