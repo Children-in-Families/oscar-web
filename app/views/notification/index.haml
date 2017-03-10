@@ -1,0 +1,25 @@
+.wrapper.wrapper-content.animated.fadeInRight
+	.row
+		.col-lg-12
+			.ibox.float-e-margins
+				.ibox-title
+					%h5 Custom Field Notification
+				.ibox-content
+					%table.footable.table.table-stripped.toggle-arrow-tiny{"data-page-size" => "8"}
+						%thead
+							%tr
+								%th{"data-toggle" => "true"}= entity_title_custom_field
+								%th{"data-hide" => "all"} Form
+								- @entity_custon_field_notifcation.each do |entity|
+									- entity.custom_fields.uniq.each do |custom_field|
+										- if custom_field.frequency != ''
+											- if entity.next_custom_field_date(entity, custom_field) < Date.today || entity.next_custom_field_date(entity, custom_field) == Date.today
+												%th{"data-hide" => "all"}
+						%tbody
+							- @entity_custon_field_notifcation.each do |entity|
+								%tr
+									%td= entity.name || entity.first_name
+									- entity.custom_fields.uniq.each do |custom_field|
+										- if custom_field.frequency != ''
+											- if entity.next_custom_field_date(entity, custom_field) < Date.today || entity.next_custom_field_date(entity, custom_field) == Date.today
+												%td= entity_custom_field_url(entity, custom_field)

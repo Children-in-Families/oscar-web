@@ -121,8 +121,11 @@ Rails.application.routes.draw do
       get '/find' => 'clients#find'
     end
 
+
     get 'version' => 'clients#version'
   end
+
+  get 'custom_field_notification' => 'notification#index'
 
   resources :attachments, only: [:index] do
     collection do

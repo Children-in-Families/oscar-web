@@ -1,7 +1,7 @@
 class Dashboard
   include Rails.application.routes.url_helpers
   attr_reader :clients
-  
+
   def initialize(user)
     @user     = user
     @clients  = Client.fetch_client(@user)
@@ -11,22 +11,6 @@ class Dashboard
     @staff    = User.all
     @referral_sources = ReferralSource.all
   end
-
-  # def fetch_client
-  #   if @user.admin? || @user.visitor?
-  #     Client.all
-  #   elsif @user.ec_manager?
-  #     Client.managed_by(@user, 'Active EC')
-  #   elsif @user.kc_manager?
-  #     Client.managed_by(@user, 'Active KC')
-  #   elsif @user.fc_manager?
-  #     Client.managed_by(@user, 'Active FC')
-  #   elsif @user.able_manager?
-  #     Client.able_managed_by(@user)
-  #   elsif @user.case_worker?
-  #     @user.clients
-  #   end
-  # end
 
   def client_gender_statistic
     [
