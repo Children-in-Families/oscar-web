@@ -1,5 +1,15 @@
 module AdvancedSearchHelper
-  def format_advance_search_result(field_name, value)
+  def format_advanced_search_header(column_name)
+    if column_name == 'age'
+      'Age'
+    elsif column_name == 'grade'
+      'School Grade'
+    else
+      column_name.titleize
+    end
+  end
+  
+  def format_advanced_search_result(field_name, value)
     associated_value = {
       provinces:            ['birth_province_id', 'province_id'],
       referral_sources:     ['referral_source_id'],

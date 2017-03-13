@@ -83,7 +83,7 @@ class ClientAdvancedFilter
 
   def family_id_field_query(resource, operator, value)
     ids = Case.active.most_recents.joins(:client).group_by(&:client_id).map{|_k, c| c.first.id}
-    clients = resource.joins(:cases).where("cases.id IN (?)", ids)
+    clients = resource.joins(:families).joins(:cases).where("cases.id IN (?)", ids)
 
     case operator
     when 'equal'
@@ -101,12 +101,13 @@ class ClientAdvancedFilter
     when 'between'
       clients = clients.where(cases: { family_id: value[0]..value[1] })
     end
-    @client.resource = clients.joins(:families).uniq.select(:id, 'families.id as family_id')
+    @client.resource = clients.uniq.select(:id, 'families.id as family_id')
+
   end
 
   def family_name_field_query(resource, operator, value)
     ids = Case.active.most_recents.joins(:client).group_by(&:client_id).map{ |_k, c| c.first.id }
-    clients = resource.joins(:cases).where(cases: { id: ids })
+    clients = resource.joins(:families).joins(:cases).where(cases: { id: ids })
 
     case operator
     when 'equal'
@@ -122,7 +123,7 @@ class ClientAdvancedFilter
       families = Family.where('name iLike ? ', "%#{value}%")
       clients = clients.where.not(cases: { family_id: families })
     end
-    @client.resource = clients.joins(:families).uniq.select(:id, 'families.name as family_name')
+    @client.resource = clients.uniq.select(:id, 'families.name as family_name')
   end
 
   def age_field_query(resource, operator, value)

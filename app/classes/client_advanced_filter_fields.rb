@@ -17,7 +17,7 @@ class  ClientAdvancedFilterFields
   def number_type_list
     [
       ['code', 'Code'],
-      ['school_grade', 'School grade'],
+      ['grade', 'School grade'],
       ['family_id', 'Family ID'],
       ['age', 'Age']
     ]
