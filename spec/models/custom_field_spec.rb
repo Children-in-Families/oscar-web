@@ -32,7 +32,7 @@ end
 
 describe CustomField, 'CONSTANTS' do
   it 'FREQUENCIES' do
-    expect(CustomField::FREQUENCIES).to eq(['Day', 'Week', 'Month', 'Year'])
+    expect(CustomField::FREQUENCIES).to eq(['Daily', 'Weekly', 'Monthly', 'Yearly'])
   end
   it 'ENTITY_TYPES' do
     expect(CustomField::ENTITY_TYPES).to eq(['Client', 'Family', 'Partner', 'User'])

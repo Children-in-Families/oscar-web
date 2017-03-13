@@ -18,10 +18,10 @@ module EntityTypeCustomField
     frequency         = custom_field.frequency
     time_of_frequency = custom_field.time_of_frequency
     case frequency
-    when 'Day'   then time_of_frequency.day
-    when 'Week'  then time_of_frequency.week
-    when 'Month' then time_of_frequency.month
-    when 'Year'  then time_of_frequency.year
+    when 'Daily'   then time_of_frequency.day
+    when 'Weekly'  then time_of_frequency.week
+    when 'Monthly' then time_of_frequency.month
+    when 'Yearly'  then time_of_frequency.year
     else 0.day
     end
   end

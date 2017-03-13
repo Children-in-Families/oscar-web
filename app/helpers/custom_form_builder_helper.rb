@@ -32,10 +32,10 @@ module CustomFormBuilderHelper
 
   def custom_field_frequency(frequency, time_of_frequency)
     case frequency
-    when 'Day' then time_of_frequency.day
-    when 'Week' then time_of_frequency.week
-    when 'Month' then time_of_frequency.month
-    when 'Year' then time_of_frequency.year
+    when 'Daily'   then time_of_frequency.day
+    when 'Weekly'  then time_of_frequency.week
+    when 'Monthly' then time_of_frequency.month
+    when 'Yearly'  then time_of_frequency.year
     else 0.day
     end
   end
@@ -46,6 +46,23 @@ module CustomFormBuilderHelper
       link_to "#{entity_custom_field.custom_field.form_title}", send("edit_#{controller_name}_path", entity, entity_custom_field), :class => 'btn-xs btn btn-success small-btn-margin'
     else
       link_to "#{entity_custom_field.custom_field.form_title}", send("#{controller_name}s_path", entity, custom_field_id: entity_custom_field.custom_field.id), :class => 'btn-xs btn btn-success small-btn-margin'
+    end
+  end
+
+  def frequency_note(custom_field)
+    return if custom_field.frequency.empty?
+    frequency = case custom_field.frequency
+                when 'Daily'   then 'day'
+                when 'Weekly'  then 'week'
+                when 'Monthly' then 'month'
+                when 'Yearly'  then 'year'
+                end
+    if custom_field.time_of_frequency == 1
+      "This need to be done once every #{frequency}."
+    elsif custom_field.time_of_frequency > 1
+      "This need to be done once every #{pluralize(custom_field.time_of_frequency, frequency)}."
+    else
+      'This can be done many times and anytime.'
     end
   end
 end

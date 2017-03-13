@@ -7,26 +7,60 @@ CIF.Custom_fieldsShow = do ->
     _toggleTimeOfFrequency()
     _changeSelectOfFrequency()
     _valTimeOfFrequency()
+    _changeTimeOfFrequency()
+    _convertFrequency()
 
   _valTimeOfFrequency = ->
     $('#custom_field_time_of_frequency').val()
 
-  time_of_frequency = _valTimeOfFrequency()
+  timeOfFrequency = parseInt(_valTimeOfFrequency())
 
   _toggleTimeOfFrequency = ->
-    frequency = $('#custom_field_frequency').val()
+    frequency = _convertFrequency()
     if frequency == ''
       $('#custom_field_time_of_frequency').attr('disabled', 'disabled')
         .val(0)
+      $('.frequency-note').addClass('hidden')
     else
-      if time_of_frequency == '0'
-        time_of_frequency = 1
+      if timeOfFrequency == 0
+        timeOfFrequency = 1
       $('#custom_field_time_of_frequency').removeAttr('disabled')
-        .val(time_of_frequency)
+        .val(parseInt(timeOfFrequency))
+
+      _updateFrequencyNote(frequency, timeOfFrequency)
+
+  _changeTimeOfFrequency = ->
+    $('#custom_field_time_of_frequency').change ->
+      frequency = _convertFrequency()
+      _updateFrequencyNote(frequency, parseInt($(this).val()))
+
+  _updateFrequencyNote = (frequency, timeOfFrequency) ->
+    if timeOfFrequency <= 0
+      $('.frequency-note').addClass('hidden')
+    else
+      $('.frequency-note').removeClass('hidden')
+      if timeOfFrequency == 1
+        $('.frequency-note span.frequency').text(" #{frequency}.")
+      else
+        $('.frequency-note span.frequency').text(" #{timeOfFrequency} #{frequency}s.")
 
   _changeSelectOfFrequency = ->
-      $('#custom_field_frequency').change ->
-        _toggleTimeOfFrequency()
+    $('#custom_field_frequency').change ->
+      _toggleTimeOfFrequency()
+
+  _convertFrequency = ->
+    frequency = $('#custom_field_frequency').val()
+    switch(frequency)
+      when 'Daily'
+        frequency = 'day'
+      when 'Weekly'
+        frequency = 'week'
+      when 'Monthly'
+        frequency = 'month'
+      when 'Yearly'
+        frequency = 'year'
+      else
+        frequency = ''
 
   _initFormBuilder = ->
     formBuilder = $('.build-wrap').formBuilder({

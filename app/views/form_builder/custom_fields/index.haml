@@ -11,7 +11,6 @@
             %th= t('.form_title')
             %th= t('.entity_type')
             %th= t('.frequency')
-            %th= t('.time_of_frequency')
             %th= t('.organization')
             - if can? :manage, CustomField
               %th.manage.text-center= t('.manage')
@@ -20,8 +19,7 @@
             %tr
               %td= custom_field.form_title
               %td= custom_field.entity_type
-              %td= custom_field.frequency
-              %td= custom_field.time_of_frequency
+              %td= frequency_note(custom_field)
               %td= current_organiation.full_name
               - if can? :manage, CustomField
                 %td.manage.text-center
