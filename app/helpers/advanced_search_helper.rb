@@ -8,13 +8,14 @@ module AdvancedSearchHelper
 
     if field_name == 'has_been_in_orphanage' || field_name == 'has_been_in_government_care'
       value ? 'Yes' : 'No'
-    elsif associated_value[:provinces].include?(field_name) 
+    elsif associated_value[:provinces].include?(field_name)
       Province.find(value).name
     elsif associated_value[:referral_sources].include?(field_name)
       ReferralSource.find(value).name
     elsif associated_value[:users].include?(field_name)
      User.find(value).name
-    elsif field_name == 'date_of_birth'
+    elsif field_name == 'age'
+      value.date_of_birth = value.age
       "#{value.age_as_years} #{'year'.pluralize(value.age_as_years)} #{value.age_extra_months} #{'month'.pluralize(value.age_extra_months)}" if value.present?
     else
       value

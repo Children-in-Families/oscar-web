@@ -145,16 +145,16 @@ class ClientAdvancedFilter
       clients = resource.where(date_of_birth: values[0]..values[1])
     end
     @client.resource = clients
-    @display_fields << 'clients.date_of_birth'
+    @display_fields << 'clients.date_of_birth as age'
   end
 
   def case_type_field_query(resource, operator, value)
      clients = resource.joins(:cases).where(cases: { exited: false })
 
     if operator == 'equal'
-      case_ids = clients.where(cases: {case_type: value }).map{|c| c.cases.current.id}.uniq
+      case_ids = clients.where(cases: {case_type: value }).map{|c| c.cases.current.id if c.cases.current.case_type == value}.uniq
     else
-      case_ids = clients.where.not(cases: {case_type: value }).map{|c| c.cases.current.id}.uniq
+      case_ids = clients.where.not(cases: {case_type: value }).map{|c| c.cases.current.id if c.cases.current.case_type != value}.uniq
     end
     @client.resource = resource.joins(:cases).where(cases: { id: case_ids}).uniq.select(:id, 'cases.case_type as case_type')
   end
