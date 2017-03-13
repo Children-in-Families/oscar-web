@@ -76,6 +76,6 @@ class ClientDecorator < Draper::Decorator
   end
 
   def can_add_kc?
-    return true if h.current_user.admin? || h.current_user.case_worker? || h.current_user.kc_manager?
+    return true if h.current_user.admin? || h.current_user.case_worker? || h.current_user.kc_manager? 
   end
 end
