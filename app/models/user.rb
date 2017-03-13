@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
   include EntityTypeCustomField
   include EntityTypeCustomFieldNotification
-  ROLES = ['admin', 'case worker', 'able manager', 'ec manager', 'fc manager', 'kc manager', 'visitor'].freeze
+  ROLES = ['admin', 'case worker', 'able manager', 'ec manager', 'fc manager', 'kc manager', 'strategic overviewer'].freeze
   MANAGERS = ROLES.select { |role| role if role.include?('manager') }
 
   devise :database_authenticatable, :registerable,

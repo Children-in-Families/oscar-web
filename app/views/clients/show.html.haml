@@ -128,15 +128,15 @@
                 %span.caret
               %ul.dropdown-menu
                 %li
-                  - if @client.cases.emergencies.inactive.present? && (ec_manageable || visitor?)
+                  - if @client.cases.emergencies.inactive.present? && (ec_manageable || strategic_overviewer?)
                     = link_to client_cases_path(@client, case_type: 'EC') do
                       %span.text-success= t('.view_ec_history_btn_link')
                 %li
-                  - if @client.cases.fosters.inactive.present? && (fc_manageable || visitor?)
+                  - if @client.cases.fosters.inactive.present? && (fc_manageable || strategic_overviewer?)
                     = link_to client_cases_path(@client, case_type: 'FC') do
                       %span.text-success= t('.view_fc_history_btn_link')
                 %li
-                  - if @client.cases.kinships.inactive.present? && (kc_manageable || visitor?)
+                  - if @client.cases.kinships.inactive.present? && (kc_manageable || strategic_overviewer?)
                     = link_to client_cases_path(@client, case_type: 'KC') do
                       %span.text-success= t('.view_kc_history_btn_link')
           - if can_read_client_progress_note?
