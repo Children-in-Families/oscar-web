@@ -20,7 +20,7 @@ class CustomField < ActiveRecord::Base
 
   before_save :set_time_of_frequency
 
-  FREQUENCIES  = ['Day', 'Week', 'Month', 'Year'].freeze
+  FREQUENCIES  = ['Daily', 'Weekly', 'Monthly', 'Yearly'].freeze
   ENTITY_TYPES = ['Client', 'Family', 'Partner', 'User'].freeze
 
   def set_time_of_frequency
