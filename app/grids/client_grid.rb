@@ -84,19 +84,19 @@ class ClientGrid
   filter(:received_by_id, :enum, select: :is_received_by_options, header: -> { I18n.t('datagrid.columns.clients.received_by') })
 
   def is_received_by_options
-    current_user.present? ? scope.where(user_id: current_user.id).is_received_by : scope.is_received_by
+    current_user.present? ? Client.where(user_id: current_user.id).is_received_by : Client.is_received_by
   end
 
   filter(:referral_source_id, :enum, select: :referral_source_options, header: -> { I18n.t('datagrid.columns.clients.referral_source') })
 
   def referral_source_options
-    current_user.present? ? scope.where(user_id: current_user.id).referral_source_is : scope.referral_source_is
+    current_user.present? ? Client.where(user_id: current_user.id).referral_source_is : Client.referral_source_is
   end
 
   filter(:followed_up_by_id, :enum, select: :is_followed_up_by_options, header: -> { I18n.t('datagrid.columns.clients.follow_up_by') })
 
   def is_followed_up_by_options
-    current_user.present? ? scope.where(user_id: current_user.id).is_followed_up_by : scope.is_followed_up_by
+    current_user.present? ? Client.where(user_id: current_user.id).is_followed_up_by : Client.is_followed_up_by
   end
 
   filter(:follow_up_date, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.follow_up_date') })
@@ -137,7 +137,11 @@ class ClientGrid
     User.has_clients.map { |user| [user.name, user.id] }
   end
 
-  filter(:donor, :enum, select: -> { Donor.pluck(:name, :id) }, header: -> { I18n.t('datagrid.columns.clients.donor') })
+  filter(:donor, :enum, select: :donor_select_options, header: -> { I18n.t('datagrid.columns.clients.donor') })
+
+  def donor_select_options
+    Donor.has_clients.map { |donor| [donor.name, donor.id] }
+  end
 
   filter(:state, :enum, select: %w(Accepted Rejected), header: -> { I18n.t('datagrid.columns.clients.state') }) do |value, scope|
     value == 'Accepted' ? scope.accepted : scope.rejected
