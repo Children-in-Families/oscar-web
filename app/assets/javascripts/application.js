@@ -38,6 +38,7 @@
 //= require initializer
 //= require common
 //= require jquery.infinitescroll.min
+//= require footable.all.min
 
 //APPLICATION JS
 //= require filters
@@ -74,3 +75,4 @@
 //= require custom_fields/shared_fields
 //= require ckeditor/config
 //= require shared/version_per_page_form
+//= require notifications/index

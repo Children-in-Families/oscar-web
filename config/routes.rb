@@ -2,7 +2,6 @@ Rails.application.routes.draw do
 
   root 'statics#index'
   get '/robots.txt' => 'statics#robots'
-  # custom error pages
   %w(404 500).each do |code|
     match "/#{code}", to: 'errors#show', code: code, via: :all
   end
@@ -99,7 +98,7 @@ Rails.application.routes.draw do
   resources :tasks, only: :index
 
   resources :clients do
-    collection do 
+    collection do
       get :advanced_search
     end
     resources :client_custom_fields
@@ -124,6 +123,7 @@ Rails.application.routes.draw do
       get '/find' => 'clients#find'
     end
 
+
     get 'version' => 'clients#version'
   end
 
@@ -142,6 +142,8 @@ Rails.application.routes.draw do
     resources :partner_custom_fields
     get 'version' => 'partners#version'
   end
+
+  resources :notifications, only: [:index]
 
   namespace :api do
     mount_devise_token_auth_for 'User', at: '/v1/auth', skip: [:registrations, :passwords]
