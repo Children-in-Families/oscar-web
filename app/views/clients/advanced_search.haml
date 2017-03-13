@@ -32,7 +32,7 @@
                 - @clients_filtered.each do |client|
                   %tr
                     %td.id-column= client.slug
-                    %td= link_to client.first_name, client_path(client) 
+                    %td= link_to client.first_name, client_path(client)
                     - client.attributes.each do |field_name, value|
                       - next if field_name == 'slug' || field_name == 'first_name' || field_name == 'id'
                       %td
