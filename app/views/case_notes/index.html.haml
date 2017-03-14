@@ -26,7 +26,7 @@
                       = edit_link(@client, case_note)
 
             .panel-body
-              - case_note.case_note_domain_groups.each do |cdg|
+              - case_note.case_note_domain_groups.in_order.each do |cdg|
                 .ibox.border-left-right.border-bottom
                   .ibox-title
                     %h5= cdg.domain_group.domain_identities
@@ -44,25 +44,14 @@
                               %h4= t('.note')
                             .panel-body
                               = cdg.note
-                      - tasks = domains_tasks(case_note, cdg)
-                      - if tasks.any?
-                        .col-xs-12.col-sm-6
-                          .panel.panel-default
-                            .panel-heading
-                              %h4= t('.incomplete_tasks')
-                            .panel-body.no-padding
-                              %ul.list-group
-                                - tasks.incomplete.each_with_index do |task, index|
-                                  %li.list-group-item
-                                    = "#{index + 1}. "
-                                    = task.name
+                      - if cdg.completed_tasks.any?
                         .col-xs-12.col-sm-6
                           .panel.panel-default
                             .panel-heading
                               %h4= t('.completed_tasks')
                             .panel-body.no-padding
                               %ul.list-group
-                                - tasks.completed.each_with_index do |task, index|
+                                - cdg.completed_tasks.each_with_index do |task, index|
                                   %li.list-group-item
                                     = "#{index + 1}. "
                                     = task.name

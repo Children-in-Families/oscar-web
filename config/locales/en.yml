@@ -1333,7 +1333,6 @@ en:
       case_note_on: Case note on
       present: Present
       completed_tasks: Completed Tasks
-      incomplete_tasks: Incomplete Tasks
       note: Note
     form:
       label_note: Note
