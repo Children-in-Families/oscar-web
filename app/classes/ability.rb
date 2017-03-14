@@ -9,7 +9,7 @@ class Ability
 
     if user.admin?
       can :manage, :all
-    elsif user.visitor?
+    elsif user.strategic_overviewer?
       cannot :manage, AbleScreeningQuestion
       cannot :manage, Agency
       cannot :manage, ReferralSource
