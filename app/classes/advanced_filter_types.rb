@@ -7,7 +7,7 @@ class AdvancedFilterTypes
       number_options(field_name, label)
     elsif type == :date_picker
       date_picker_options(field_name, label)
-    elsif type == :drop_list        
+    elsif type == :drop_list
       drop_list_options(field_name, label, values)
     end
   end
@@ -17,7 +17,7 @@ class AdvancedFilterTypes
       id: field_name,
       label: label,
       type: 'string',
-      operators: ['equal', 'not_equal', 'contains', 'not_contains']  
+      operators: ['equal', 'not_equal', 'contains', 'not_contains']
     }
   end
 
