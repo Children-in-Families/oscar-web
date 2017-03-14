@@ -21,7 +21,7 @@ end
 describe ClientCustomField, 'methods' do
   context 'can_create_next_custom_field?' do
     let!(:client){ create(:client) }
-    let!(:custom_field){ create(:custom_field, entity_type: 'Client', form_title: 'Health Record', frequency: 'Day', time_of_frequency: 1) }
+    let!(:custom_field){ create(:custom_field, entity_type: 'Client', form_title: 'Health Record', frequency: 'Daily', time_of_frequency: 1) }
     let!(:client_custom_field){ create(:client_custom_field, custom_field: custom_field, client: client) }
     let!(:other_custom_field){ create(:custom_field, entity_type: 'Client', form_title: 'Care Record', frequency: '') }
     let!(:other_client_custom_field){ create(:client_custom_field, custom_field: other_custom_field, client: client) }

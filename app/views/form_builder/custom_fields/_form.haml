@@ -7,6 +7,10 @@
         = f.input :form_title, label: t('.form_title'), disabled: used_custom_form?(@custom_field)
       .col-xs-12.col-md-6
         = f.input :frequency, collection: CustomField::FREQUENCIES, label: t('.frequency')
+        %p.frequency-note.hidden
+          %i
+            %span.main This need to be done once every
+            %span.frequency
       .col-xs-12.col-md-6
         = f.input :time_of_frequency, label: t('.time_of_frequency')
     = f.input :fields, as: :hidden

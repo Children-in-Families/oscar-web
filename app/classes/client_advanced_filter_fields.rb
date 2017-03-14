@@ -1,4 +1,4 @@
-class  ClientAdvancedFilterFields                  
+class  ClientAdvancedFilterFields
   def initialize(options = {})
     @result = []
     @user = options[:user]
@@ -16,8 +16,8 @@ class  ClientAdvancedFilterFields
   private
   def number_type_list
     [
-      ['code', 'Code'], 
-      ['school_grade', 'School grade'],
+      ['code', 'Code'],
+      ['grade', 'School grade'],
       ['family_id', 'Family ID'],
       ['age', 'Age']
     ]
@@ -36,7 +36,7 @@ class  ClientAdvancedFilterFields
   def date_type_list
     [
       ['placement_date', 'Placement start date'],
-      ['date_of_birth', 'Date of birth'], 
+      ['date_of_birth', 'Date of birth'],
       ['initial_referral_date', 'Initial referral date'],
       ['follow_up_date', 'Follow-up date']
     ]
@@ -73,18 +73,18 @@ class  ClientAdvancedFilterFields
   end
 
   def received_by_options
-    clients = @user.present? ? Client.where(user_id: @user.id).is_received_by : Client.is_received_by
+    clients = @user.admin? ? Client.is_received_by : Client.where(user_id: @user.id).is_received_by
     clients.to_h.invert
   end
 
   def referral_source_options
-    clients = @user.present? ? Client.where(user_id: @user.id).referral_source_is : Client.referral_source_is
+    clients = @user.admin? ? Client.referral_source_is : Client.where(user_id: @user.id).referral_source_is
     clients.to_h.invert
   end
-  
+
 
   def followed_up_by_options
-    clients = @user.present? ? Client.where(user_id: @user.id).is_followed_up_by : Client.is_followed_up_by
+    clients = @user.admin? ? Client.is_followed_up_by : Client.where(user_id: @user.id).is_followed_up_by
     clients.to_h.invert
   end
 

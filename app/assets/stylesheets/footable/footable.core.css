@@ -1,14 +1,6 @@
-@font-face {
-  font-family: 'footable';
-  src: url('footable.eot');
-  src: url('footable.eot?#iefix') format('embedded-opentype'), url('footable.woff') format('woff'), url('footable.ttf') format('truetype'), url('footable.svg#footable') format('svg');
-  font-weight: normal;
-  font-style: normal;
-}
 @media screen and (-webkit-min-device-pixel-ratio: 0) {
   @font-face {
-    font-family: 'footable';
-    src: url('footable.svg#footable') format('svg');
+    font-family: FontAwesome;
     font-weight: normal;
     font-style: normal;
   }
@@ -35,7 +27,7 @@
 }
 .footable.breakpoint > tbody > tr > td > span.footable-toggle {
   display: inline-block;
-  font-family: 'footable';
+  font-family: FontAwesome;
   speak: none;
   font-style: normal;
   font-weight: normal;
@@ -98,10 +90,10 @@
   content: "\e00d";
 }
 .footable.breakpoint.toggle-arrow-tiny > tbody > tr.footable-detail-show > td > span.footable-toggle:before {
-  content: "\e01f";
+  content: "\f103";
 }
 .footable.breakpoint.toggle-arrow-tiny > tbody > tr > td > span.footable-toggle:before {
-  content: "\e021";
+  content: "\f101";
 }
 .footable.breakpoint.toggle-arrow-alt > tbody > tr.footable-detail-show > td > span.footable-toggle:before {
   content: "\e017";
@@ -127,14 +119,14 @@
   cursor: pointer;
 }
 .footable > thead > tr > th.footable-sorted > span.footable-sort-indicator:before {
-  content: "\e013";
+  content: "\f0d8";
 }
 .footable > thead > tr > th.footable-sorted-desc > span.footable-sort-indicator:before {
-  content: "\e012";
+  content: "\f0d7";
 }
 .footable > thead > tr > th > span.footable-sort-indicator {
   display: inline-block;
-  font-family: 'footable';
+  font-family: FontAwesome;
   speak: none;
   font-style: normal;
   font-weight: normal;
@@ -144,7 +136,7 @@
   padding-left: 5px;
 }
 .footable > thead > tr > th > span.footable-sort-indicator:before {
-  content: "\e022";
+  content: "\f0d7";
 }
 .footable > tfoot .pagination {
   margin: 0;

@@ -10,12 +10,11 @@ class ClientsController < AdminController
       search_rules_params     = eval(@advanced_filter_params)
       clients                 = ClientAdvancedFilter.new(search_rules_params, Client.accessible_by(current_ability))
       @clients_by_user        = clients.filter_by_field
-      @clients_filtered       = @clients_by_user.page(params[:page]).per(20)
+      @clients_filtered       = @clients_by_user.order(:id).page(params[:page]).per(20)
     end
 
     @advanced_filter_fields = ClientAdvancedFilterFields.new(user: current_user).render
     @advanced_filter_fields = @advanced_filter_fields.to_json
-
   end
 
   def index
