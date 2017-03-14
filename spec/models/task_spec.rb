@@ -12,11 +12,25 @@ describe Task, 'validations' do
 end
 
 describe Task, 'scopes' do
+  let!(:domain){ create(:domain)}
+  let!(:task){ create(:task, domain: domain)}
+  let!(:task_other){ create(:task)}
   let!(:completed_task){ create(:task, completed: true) }
   let!(:incomplete_task){ create(:task, completed: false) }
   let!(:overdue_task){ create(:task, completion_date: Date.today - 1.month) }
   let!(:today_task){ create(:task, completion_date: Date.today) }
   let!(:upcoming_task){ create(:task, completion_date: Date.today + 1.month) }
+
+  context 'by_domain_id' do
+    subject{ Task.by_domain_id(domain.id) }
+    it 'should include by domain task' do
+      is_expected.to include(task)
+    end
+    it 'should not include domain task' do
+      is_expected.not_to include(task_other)
+    end
+  end
+
   context 'completed' do
     subject{ Task.completed }
     it 'should include completed task' do
