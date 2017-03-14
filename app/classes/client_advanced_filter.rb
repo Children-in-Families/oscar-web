@@ -35,23 +35,23 @@ class ClientAdvancedFilter
         @display_fields << rule[:field]
         case rule[:operator]
         when 'equal'
-          @client.is(rule[:field], rule[:value])
+          @client.is('clients', rule[:field], rule[:value])
         when 'not_equal'
-          @client.is_not(rule[:field], rule[:value])
+          @client.is_not('clients', rule[:field], rule[:value])
         when 'less'
-          @client.less(rule[:field], rule[:value])
+          @client.less('clients', rule[:field], rule[:value])
         when 'less_or_equal'
-          @client.less_or_equal(rule[:field], rule[:value])
+          @client.less_or_equal('clients', rule[:field], rule[:value])
         when 'greater'
-          @client.greater(rule[:field], rule[:value])
+          @client.greater('clients', rule[:field], rule[:value])
         when 'greater_or_equal'
-          @client.greater_or_equal(rule[:field], rule[:value])
+          @client.greater_or_equal('clients', rule[:field], rule[:value])
         when 'between'
-          @client.range_between(rule[:field], rule[:value])
+          @client.range_between('clients', rule[:field], rule[:value])
         when 'contains'
-          @client.contains(rule[:field], rule[:value])
+          @client.contains('clients', rule[:field], rule[:value])
         when 'not_contains'
-          @client.not_contains(rule[:field], rule[:value])
+          @client.not_contains('clients', rule[:field], rule[:value])
         end
       end
     end

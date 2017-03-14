@@ -5,39 +5,39 @@ class BaseFilters
     @resource = resource
   end
 
-  def is(column, value)
-    @resource = @resource.where({column.to_sym => value})
+  def is(table_name, column, value)
+    @resource = @resource.where("#{table_name}.#{column} = ?", value)
   end
 
-  def is_not(column, value)
-    @resource = @resource.where.not({column.to_sym => value})
+  def is_not(table_name, column, value)
+    @resource = @resource.where.not("#{table_name}.#{column} = ?", value)
   end
 
-  def less(column, value)
-    @resource = @resource.where("#{column} < ?", "#{value}")
+  def less(table_name, column, value)
+    @resource = @resource.where("#{table_name}.#{column} < ?", value)
   end
 
-  def less_or_equal(column, value)
-    @resource = @resource.where("#{column} <= ?", "#{value}")
+  def less_or_equal(table_name, column, value)
+    @resource = @resource.where("#{table_name}.#{column} <= ?", value)
   end
 
-  def greater(column, value)
-    @resource = @resource.where("#{column} > ?", "#{value}")
+  def greater(table_name, column, value)
+    @resource = @resource.where("#{table_name}.#{column} > ?", value)
   end
 
-  def greater_or_equal(column, value)
-    @resource = @resource.where("#{column} >= ?", "#{value}")
+  def greater_or_equal(table_name, column, value)
+    @resource = @resource.where("#{table_name}.#{column} >= ?", value)
   end
 
-  def contains(column, value)
-    @resource = @resource.where("#{column} ILIKE ?", "%#{value}%")
+  def contains(table_name, column, value)
+    @resource = @resource.where("#{table_name}.#{column} ILIKE ?", "%#{value}%")
   end
 
-  def not_contains(column, value)
-    @resource = @resource.where.not("#{column} ILIKE ?", "%#{value}%")
+  def not_contains(table_name, column, value)
+    @resource = @resource.where.not("#{table_name}.#{column} ILIKE ?", "%#{value}%")
   end
 
-  def range_between(column, value)
+  def range_between(table_name, column, value)
     @resource = @resource.where(column.to_sym => (value[0]..value[1]))
   end
 
