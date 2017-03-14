@@ -37,7 +37,13 @@ en:
   default_releaselog_fields: &default_releaselog_fields
     change_version: Version
     description: Description
-
+  default_notification_custom_fields: &default_notification_custom_fields
+    custom_field_notification: Custom Form Notification
+    clients: Client
+    families: Family
+    partners: Partner
+    users: User
+    form: Form
   default_government_report_fields: &default_government_report_fields
     code: Form
     kingdom_of_cambodia: Kingdom of Cambodia
@@ -519,13 +525,10 @@ en:
         asc: ↑
         desc: ↓
   notifications:
-    index:
-      custom_field_notification: Custom Form Notification
-      clients: Client
-      partners: Partner
-      users: User
-      families: Family
-      form: Form
+    custom_field_due_today:
+      <<: *default_notification_custom_fields
+    custom_field_overdue:
+      <<: *default_notification_custom_fields
   layouts:
     notification:
       no_task: Nothing to notify

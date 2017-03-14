@@ -37,6 +37,13 @@ km:
   default_releaselog_fields: &default_releaselog_fields
     change_version: កំណែ
     description: ការពិពណ៌នា
+  default_notification_custom_fields: &default_notification_custom_fields
+    custom_field_notification: ការជូនដំណឹងនៃទម្រង់បែបបទដែលត្រូវបំពេញ
+    clients: អតិថិជន
+    families: គ្រួសារ
+    partners: ដៃគូ
+    users: ឣ្នកប្រើ
+    form: ទម្រង់បែបបទ
 
   default_government_report_fields: &default_government_report_fields
     code: ទម្រង់
@@ -515,13 +522,10 @@ km:
         asc: ↑
         desc: ↓
   notifications:
-    index:
-      custom_field_notification: ការជូនដំណឹងនៃទម្រង់បែបបទដែលត្រូវបំពេញ
-      clients: ឣតិថិជន
-      families: គ្រួសារ
-      partners: ដៃគូ
-      users: ឣ្នកប្រើ
-      form: ទម្រង់បែបបទ
+    custom_field_due_today:
+      <<: *default_notification_custom_fields
+    custom_field_overdue:
+      <<: *default_notification_custom_fields
   layouts:
     notification:
       no_task: មិនមានពត៌មានដែលត្រូវបង្ហាញ
