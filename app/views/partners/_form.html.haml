@@ -25,7 +25,7 @@
         .col-xs-12.col-md-4
           = f.input :background, input_html: { style: 'height: 107px;' }, label: "#{t('.background')}"
       .row
-        .col-xs-12
+        .col-xs-12.col-md-4
           = f.association :custom_fields, collection: CustomField.where(entity_type: 'Partner'), label_method: :form_title, value_method: :id, input_html: { class: 'select2' }, label: t('.custom_forms')
 
   .ibox-footer

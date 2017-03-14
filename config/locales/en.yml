@@ -183,7 +183,7 @@ en:
     update:
       successfully_updated: Succesfully updated information.
     destroy:
-      successfully_deleted: Succesfully delete information.
+      successfully_deleted: Succesfully deleted information.
     show:
       back: Back
     form:
