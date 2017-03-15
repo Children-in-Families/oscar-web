@@ -150,4 +150,8 @@ module ApplicationHelper
   def strategic_overviewer?
     current_user.strategic_overviewer?
   end
+
+  def entity_name(entity)
+    entity.name.present? ? entity.name : 'Unknown'
+  end
 end

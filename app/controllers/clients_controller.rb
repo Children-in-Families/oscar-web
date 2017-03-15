@@ -173,7 +173,7 @@ class ClientsController < AdminController
     @donors          = Donor.order(:name)
     @province        = Province.order(:name)
     @referral_source = ReferralSource.order(:name)
-    @user            = User.order(:first_name, :last_name)
+    @user            = User.non_strategic_overviewers.order(:first_name, :last_name)
   end
 
   def columns_visibility

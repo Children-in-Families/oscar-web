@@ -164,8 +164,16 @@ describe User, 'scopes' do
       is_expected.to include(other_user)
     end
   end
-end
 
+  context 'non_strategic_overviewers' do
+    let!(:strategic_overviewer) { create(:user, roles: 'strategic overviewer')}
+    subject{ User.non_strategic_overviewers }
+
+    it 'should not include strategic overviewer role' do
+      is_expected.not_to include(strategic_overviewer)
+    end
+  end
+end
 
 describe User, 'methods' do
   let!(:admin){ create(:user, roles: 'admin') }

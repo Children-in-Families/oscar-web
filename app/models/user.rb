@@ -39,6 +39,7 @@ class User < ActiveRecord::Base
   scope :has_clients,     ->        { joins(:clients).without_json_fields.uniq }
   scope :managers,        ->        { where(roles: MANAGERS) }
   scope :ec_managers,     ->        { where(roles: 'ec manager') }
+  scope :non_strategic_overviewers, -> { where.not(roles: 'strategic overviewer') }
 
   before_save :assign_as_admin
 
@@ -106,7 +107,7 @@ class User < ActiveRecord::Base
   end
 
   def client_custom_field_frequency_overdue_or_due_today
-    entity_type_custom_field_notification(Client.fetch_client(self))
+    entity_type_custom_field_notification(clients)
   end
 
   def user_custom_field_frequency_overdue_or_due_today
