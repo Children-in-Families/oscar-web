@@ -1318,6 +1318,9 @@ en:
       edit: Edit
       domain: Domain
       score: Score
+      goal: Goal
+      reason: Reason
+      task: Task
     create:
       successfully_created: Assessment has been successfully created.
     update:

@@ -1385,6 +1385,9 @@ km:
       edit: កែតម្រូវ
       domain: កត្តា
       score: ពិន្ទុ
+      reason: មូលហេតុ
+      goal: គោលដៅ
+      task: កាតព្វកិច្ច
     create:
       successfully_created: ការប៉ាន់ប្រមាណត្រូវបានបង្កើតដោយជោគជ័យ
     update:
