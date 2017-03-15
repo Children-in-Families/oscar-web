@@ -531,7 +531,7 @@ en:
       <<: *default_notification_custom_fields
   layouts:
     notification:
-      no_task: Nothing to notify
+      no_task: Nothing to notify.
       overdue_tasks_count:
         one: "You have 1 task overdue."
         other: "You have %{count} tasks overdue."
@@ -539,11 +539,11 @@ en:
         one: "You have 1 task due today."
         other: "You have %{count} tasks due today."
       client_is_about_to_end_ec:
-        one: "There is a client is about to exit EC program in %{day_count} days"
-        other: "There are %{count} clients are about to exit EC program in %{day_count} days"
+        one: "There is a client is about to exit EC program in %{day_count} days."
+        other: "There are %{count} clients are about to exit EC program in %{day_count} days."
       client_is_end_ec_today:
-        one: "There is a client is about to exit EC program today"
-        other: "There are %{count} clients are about to exit EC program today"
+        one: "There is a client is about to exit EC program today."
+        other: "There are %{count} clients are about to exit EC program today."
       check_tasks: "To check your tasks, please"
       click_here: "click here."
 
@@ -555,29 +555,29 @@ en:
         other: "You have %{count} assessments due today."
 
       due_today_client_custom_field_count:
-        one: "You have 1 client custom form due today."
-        other: "You have %{count} client custom forms due today."
+        one: "There is 1 client custom form due today."
+        other: "There are %{count} client custom forms due today."
       overdue_client_custom_field_count:
-        one: "You have 1 client custom form overdue."
-        other: "You have %{count} client custom forms overdue."
+        one: "There is 1 client custom form overdue."
+        other: "There are %{count} client custom forms overdue."
       due_today_user_custom_field_count:
-        one: "You have 1 user custom form due today."
-        other: "You have %{count} user custom forms due today."
+        one: "There is 1 user custom form due today."
+        other: "There are %{count} user custom forms due today."
       overdue_user_custom_field_count:
-        one: "You have 1 user custom form overdue."
-        other: "You have %{count} user custom forms overdue."
+        one: "There is 1 user custom form overdue."
+        other: "There are %{count} user custom forms overdue."
       due_today_partner_custom_field_count:
-        one: "You have 1 partner custom form due today."
-        other: "You have %{count} partner custom forms due today."
+        one: "There is 1 partner custom form due today."
+        other: "There are %{count} partner custom forms due today."
       overdue_partner_custom_field_count:
-        one: "You have 1 partner custom form overdue"
-        other: "You have %{count} partner custom forms overdue."
+        one: "There is 1 partner custom form overdue."
+        other: "There are %{count} partner custom forms overdue."
       due_today_family_custom_field_count:
-        one: "You have 1 family custom form due today"
-        other: "You have %{count} family custom forms due today."
+        one: "There is 1 family custom form due today."
+        other: "There are %{count} family custom forms due today."
       overdue_family_custom_field_count:
-        one: "You have 1 family custom form overdue"
-        other: "You have %{count} family custom forms overdue."
+        one: "There is 1 family custom form overdue."
+        other: "There are %{count} family custom forms overdue."
 
     side_menu:
       dashboards: Dashboards

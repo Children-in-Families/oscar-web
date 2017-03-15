@@ -56,20 +56,20 @@
               %i.fa.fa-tasks.fa-fw
               = t('.overdue_client_custom_field_count', count: @notification.client_custom_field_frequency_overdue_count)
         %li.divider
-    - if can? :manage, User
-      - if @notification.any_user_custom_field_frequency_due_today?
+    - if can? :manage, Family
+      - if @notification.any_family_custom_field_frequency_due_today?
         %li
           %div
-            = link_to notifications_path(entity_custom_field: 'user_due_today') do
+            = link_to notifications_path(entity_custom_field: 'family_due_today') do
               %i.fa.fa-tasks.fa-fw
-              = t('.due_today_user_custom_field_count', count: @notification.user_custom_field_frequency_due_today_count)
+              = t('.due_today_family_custom_field_count', count: @notification.family_custom_field_frequency_due_today_count)
         %li.divider
-      - if @notification.any_user_custom_field_frequency_overdue?
+      - if @notification.any_family_custom_field_frequency_overdue?
         %li
           %div
-            = link_to notifications_path(entity_custom_field: 'user_overdue') do
+            = link_to notifications_path(entity_custom_field: 'family_overdue') do
               %i.fa.fa-tasks.fa-fw
-              = t('.overdue_user_custom_field_count', count: @notification.user_custom_field_frequency_overdue_count)
+              = t('.overdue_family_custom_field_count', count: @notification.family_custom_field_frequency_overdue_count)
         %li.divider
     - if can? :manage, Partner
       - if @notification.any_partner_custom_field_frequency_due_today?
@@ -86,20 +86,21 @@
               %i.fa.fa-tasks.fa-fw
               = t('.overdue_partner_custom_field_count', count: @notification.partner_custom_field_frequency_overdue_count)
         %li.divider
-    - if can? :manage, Family
-      - if @notification.any_family_custom_field_frequency_due_today?
+    - if can? :manage, User
+      - if @notification.any_user_custom_field_frequency_due_today?
         %li
           %div
-            = link_to notifications_path(entity_custom_field: 'family_due_today') do
+            = link_to notifications_path(entity_custom_field: 'user_due_today') do
               %i.fa.fa-tasks.fa-fw
-              = t('.due_today_family_custom_field_count', count: @notification.family_custom_field_frequency_due_today_count)
+              = t('.due_today_user_custom_field_count', count: @notification.user_custom_field_frequency_due_today_count)
         %li.divider
-      - if @notification.any_family_custom_field_frequency_overdue?
+      - if @notification.any_user_custom_field_frequency_overdue?
         %li
           %div
-            = link_to notifications_path(entity_custom_field: 'family_overdue') do
+            = link_to notifications_path(entity_custom_field: 'user_overdue') do
               %i.fa.fa-tasks.fa-fw
-              = t('.overdue_family_custom_field_count', count: @notification.family_custom_field_frequency_overdue_count)
+              = t('.overdue_user_custom_field_count', count: @notification.user_custom_field_frequency_overdue_count)
+        %li.divider
     - if @notification.all_count.zero?
       %li
         %div.notify-margin
