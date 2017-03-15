@@ -5,7 +5,7 @@
         .ibox-title
           %h5= t('.custom_field_notification')
         .ibox-content
-          %table.footable.table.table-stripped.toggle-arrow-tiny
+          %table.footable.table.table-stripped.toggle-arrow-tiny{"data-page-size" => @entity_custom_field_notifcation.count}
             %thead
               %tr
                 %th{"data-toggle" => "true"}= entity_title_custom_field

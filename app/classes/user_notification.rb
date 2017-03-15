@@ -154,18 +154,24 @@ class UserNotification
         count_notification += 1 if ec_notification(item).present?
       end
     end
-    count_notification += 1 if overdue_tasks_count >= 1
-    count_notification += 1 if due_today_tasks_count >= 1
-    count_notification += 1 if overdue_assessments_count >= 1
-    count_notification += 1 if due_today_assessments_count >= 1
-    count_notification += 1 if client_custom_field_frequency_overdue_count >= 1
-    count_notification += 1 if client_custom_field_frequency_due_today_count >= 1
-    count_notification += 1 if user_custom_field_frequency_overdue_count >= 1
-    count_notification += 1 if user_custom_field_frequency_due_today_count >= 1
-    count_notification += 1 if partner_custom_field_frequency_overdue_count >= 1
-    count_notification += 1 if partner_custom_field_frequency_due_today_count >= 1
-    count_notification += 1 if family_custom_field_frequency_overdue_count >= 1
-    count_notification += 1 if family_custom_field_frequency_due_today_count >= 1
+    if @user.admin?
+      count_notification += 1 if user_custom_field_frequency_overdue_count >= 1
+      count_notification += 1 if user_custom_field_frequency_due_today_count >= 1
+    end
+    if @user.admin? || @user.any_case_manager?
+      count_notification += 1 if partner_custom_field_frequency_overdue_count >= 1
+      count_notification += 1 if partner_custom_field_frequency_due_today_count >= 1
+      count_notification += 1 if family_custom_field_frequency_overdue_count >= 1
+      count_notification += 1 if family_custom_field_frequency_due_today_count >= 1
+    end
+    unless @user.strategic_overviewer?
+      count_notification += 1 if client_custom_field_frequency_overdue_count >= 1
+      count_notification += 1 if client_custom_field_frequency_due_today_count >= 1
+      count_notification += 1 if overdue_tasks_count >= 1
+      count_notification += 1 if due_today_tasks_count >= 1
+      count_notification += 1 if overdue_assessments_count >= 1
+      count_notification += 1 if due_today_assessments_count >= 1
+    end
     count_notification
   end
 end
