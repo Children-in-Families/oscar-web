@@ -1,12 +1,15 @@
 .row
   .col-xs-12
+    = link_to t('.export_to_xls'), current_url(format: 'xls'), class: 'btn btn-info btn-export pull-right'
+.row
+  .col-xs-12
     .ibox
       .ibox-title
         %h5= t('.advanced_search')
       .ibox-content
         .row
           .col-xs-12
-            #builder{ 'data-field-list' => @advanced_filter_fields, 'data-search-rules' => @advanced_filter_params, 'data-filter-translation' => t('.add_new_filter')}
+            #builder{ 'data-search-rules' => @advanced_filter_params, 'data-filter-translation' => t('.add_new_filter')}
       .ibox-footer
         %button#search.btn.btn-primary= t('.search')
         = link_to t('.reset'), advanced_search_clients_path, class: 'btn btn-default'
