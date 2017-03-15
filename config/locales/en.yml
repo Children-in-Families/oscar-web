@@ -652,11 +652,11 @@ en:
     create:
       successfully_created: Client has been successfully created.
     confirm_client:
-      confirm: Confirm
-      close: Close
+      confirm: Save Anyway
+      close: Cancel
       title: Warning
       body_first: Client
-      body_second: has already been registered​ in
+      body_second: has already been registered in
     update:
       successfully_updated: Client has been successfully updated.
       assessment_successfully_created: Assessment has been successfully created.
@@ -1306,6 +1306,9 @@ en:
       add_task: Add Task
       at_least_one_task_required: At least one task is required
       tasks_arising: 'Tasks arising:'
+      next: Next
+      previous: Previous
+      finish: Done
     add_task_form:
       domain: Domain
       enter_task_detail:  Enter task details
