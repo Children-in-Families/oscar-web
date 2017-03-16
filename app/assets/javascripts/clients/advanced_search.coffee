@@ -3,7 +3,9 @@ CIF.ClientsAdvanced_search = do ->
     _initJqueryQueryBuilder()
     _handleInitDatatable()
     _handleSearch()
+    _addRuleCallback()
     _handleScrollTable()
+
 
   _initJqueryQueryBuilder = ->
     filterTranslation = $('#builder').data('filter-translation')
@@ -33,6 +35,29 @@ CIF.ClientsAdvanced_search = do ->
           filters: fieldList
         _setRuleJqueryQueryBuilder()
         _changeButtonAddRuleSize()
+        _handleSelectOptionChange()
+        _initSelect2()
+
+  _initSelect2 = ->
+    $('select').select2(
+      width: 'resolve'
+    )
+
+  _addRuleCallback = ->
+    $('#builder').on 'afterCreateRuleFilters.queryBuilder', ->
+      _initSelect2()
+      _handleSelectOptionChange()
+
+  _handleSelectOptionChange = ->
+    $('select').on 'select2-selecting', (e) ->
+      setTimeout (->
+        $('.rule-operator-container select').select2(
+          width: '180px'
+        )
+        $('.rule-value-container select').select2(
+          width: '180px'
+        )
+      ),100
 
   _changeButtonAddRuleSize = ->
     $("button[data-add='rule']").removeClass('btn-xs btn-success')

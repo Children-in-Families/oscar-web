@@ -1,6 +1,6 @@
 .row
   .col-xs-12
-    = link_to t('.export_to_xls'), current_url(format: 'xls'), class: 'btn btn-info btn-export pull-right'
+    = link_to t('.export_to_xls'), current_url(format: 'xls'), class: "btn btn-info btn-export pull-right #{ @clients_filtered ? 'disabled' : '' }"
 .row
   .col-xs-12
     .ibox
@@ -27,7 +27,7 @@
                 %tr
                   %th.id-column= format_header('slug')
                   %th= format_header('first_name')
-                  
+
                   - @clients_filtered.first.attributes.keys.each do |column_name|
                     - next if column_name == 'slug' || column_name == 'first_name' || column_name == 'id'
                     %th
