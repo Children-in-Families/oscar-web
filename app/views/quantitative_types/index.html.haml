@@ -14,11 +14,11 @@
           .panel.panel-default
             .panel-heading
               .row
-                .col-xs-10
+                .col-xs-8.col-sm-9
                   %h4
                     = qt.name
                 - if can? :manage, QuantitativeType
-                  .col-xs-2.text-right.actions
+                  .col-xs-4.col-sm-3.text-right.actions
                     = link_to '#', {class: 'btn btn-outline btn-success', "data-target" => "#quantitative_typeModal-#{qt.id}", "data-toggle" => "modal", :type => "button"} do
                       = fa_icon('pencil')
                     = remove_link(qt, {quantitative_case: qt.quantitative_cases_count}, 'btn-md')

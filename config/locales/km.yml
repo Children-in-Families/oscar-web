@@ -890,6 +890,7 @@ km:
               blank: មិនអាចរំលង
               taken: ត្រូវបានប្រើរួចហើយ
             time_of_frequency:
+              blank: មិនអាចរំលង
               not_an_integer: អនុញ្ញាតតែលេខគត់ប៉ុណ្ណោះ
               greater_than_or_equal_to: មិនអាចតូចជាង 1
         case:

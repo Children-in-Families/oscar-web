@@ -906,6 +906,10 @@ en:
               taken: has already been taken
             description:
               blank: can't be blank
+        custom_field:
+          attributes:
+            time_of_frequency:
+              blank: can't be blank
         government_report:
           attributes:
             code:
