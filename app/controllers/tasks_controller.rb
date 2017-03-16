@@ -9,7 +9,7 @@ class TasksController < AdminController
   private
 
   def all_user
-    if current_user.admin? || current_user.visitor?
+    if current_user.admin? || current_user.strategic_overviewer?
       User.order(:first_name, :last_name)
     else
       User.in_department(current_user.department_id).order(:first_name, :last_name)

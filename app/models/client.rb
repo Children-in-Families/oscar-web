@@ -274,7 +274,7 @@ class Client < ActiveRecord::Base
   end
 
   def self.fetch_client(user)
-    if user.admin? || user.visitor?
+    if user.admin? || user.strategic_overviewer?
       Client.all
     elsif user.ec_manager?
       Client.managed_by(user, 'Active EC')

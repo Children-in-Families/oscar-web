@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
   include EntityTypeCustomField
   include EntityTypeCustomFieldNotification
-  ROLES = ['admin', 'case worker', 'able manager', 'ec manager', 'fc manager', 'kc manager', 'visitor'].freeze
+  ROLES = ['admin', 'case worker', 'able manager', 'ec manager', 'fc manager', 'kc manager', 'strategic overviewer'].freeze
   MANAGERS = ROLES.select { |role| role if role.include?('manager') }
 
   devise :database_authenticatable, :registerable,
@@ -39,6 +39,7 @@ class User < ActiveRecord::Base
   scope :has_clients,     ->        { joins(:clients).without_json_fields.uniq }
   scope :managers,        ->        { where(roles: MANAGERS) }
   scope :ec_managers,     ->        { where(roles: 'ec manager') }
+  scope :non_strategic_overviewers, -> { where.not(roles: 'strategic overviewer') }
 
   before_save :assign_as_admin
 

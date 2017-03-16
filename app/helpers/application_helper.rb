@@ -96,7 +96,7 @@ module ApplicationHelper
   end
 
   def dynamic_third_party_cols(user)
-    if user.admin? || user.visitor?
+    if user.admin? || user.strategic_overviewer?
       'col-xs-12'
     elsif user.any_case_manager?
       'col-xs-12'
@@ -147,7 +147,11 @@ module ApplicationHelper
     'required' if bool
   end
 
-  def visitor?
-    current_user.visitor?
+  def strategic_overviewer?
+    current_user.strategic_overviewer?
+  end
+
+  def entity_name(entity)
+    entity.name.present? ? entity.name : 'Unknown'
   end
 end

@@ -2,7 +2,7 @@
   .panel.panel-default.bottom-panel
     .panel-body
       .row
-        - if current_user.admin? || current_user.case_worker? || current_user.visitor? || current_user.able_manager?
+        - if current_user.admin? || current_user.case_worker? || current_user.strategic_overviewer? || current_user.able_manager?
           %div{ class: "#{dynamic_third_party_cols(current_user)} text-center" }
             = link_to clients_path("client_grid[able_state]":"Accepted") do
               .widget.style1.widget-able-panel
