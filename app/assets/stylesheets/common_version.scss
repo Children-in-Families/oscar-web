@@ -33,7 +33,7 @@ body[id='users-version'] {
       margin-bottom: 0px;
     }
   }
-  
+
   .btn-back {
     min-width: 100px;
   }
@@ -47,4 +47,38 @@ body[id='users-version'] {
       }
     }
   }
+}
+
+.usaid-logo {
+  width: 220px;
+}
+
+.margin-usain-link {
+  margin-top: 30px;
+  a {
+    color: grey;
+  }
+}
+
+.modal-dialog-width {
+  width: 100%;
+  max-width: 80%;
+}
+
+@media (max-width: 425px) {
+  .margin-usain-link {
+    margin-top: 0px;
+  }
+  .modal-dialog-width {
+    width: 100%;
+    max-width: 95%;
+  }
+}
+
+.no-margin {
+  margin: 0 !important;
+}
+
+.padding-bottom {
+  padding-bottom: 100px;
 }
