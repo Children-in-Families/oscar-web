@@ -1,16 +1,16 @@
 %footer.footer.navbar-fixed-bottom
   .row
     .col-xs-12.col-sm-2.text-center
-      = image_tag 'Horizontal.png',class: 'usaid-logo'
-    .col-xs-12.col-sm-8.col-md-off-set-1.text-center.margin-usain-link
-      %a{"data-target" => "#myModal", "data-toggle" => "modal", :type => "button"}
+      = image_tag('Horizontal_RGB_294.png', class: 'usaid-logo')
+    .col-xs-12.col-sm-8.col-md-off-set-1.text-center.margin-usaid-link
+      %a{ 'data-target' => '#myModal', 'data-toggle' => 'modal', type: 'button' }
         USAID Disclaimer
-#myModal.modal.fade{"aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
-  .modal-dialog.modal-dialog-width{:role => "document"}
+#myModal.modal.fade{ 'aria-labelledby' => 'myModalLabel', :role => 'dialog', tabindex: '-1' }
+  .modal-dialog.modal-disclaimer-width{role: 'document'}
     .modal-content
       .modal-header
-        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
-          %span{"aria-hidden" => "true"} ×
+        %button.close{ 'aria-label' => 'Close', 'data-dismiss' => 'modal', type: 'button' }
+          %span{ 'aria-hidden' => 'true' } ×
         %h3#myModalLabel.modal-title.text-center USAID Disclaimer
       .modal-body
         %ul#selector
@@ -41,4 +41,4 @@
               This Research Report is made possible by the generous support of the American people through the United States Agency for International Development (USAID). The contents of the report do not necessarily reflect the views of USAID or the United States government.
 
       .modal-footer
-        %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Close
+        %button.btn.btn-default{ 'data-dismiss' => 'modal', type: 'button' } Close

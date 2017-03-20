@@ -53,24 +53,25 @@ body[id='users-version'] {
   width: 220px;
 }
 
-.margin-usain-link {
+.margin-usaid-link {
   margin-top: 30px;
+
   a {
     color: grey;
   }
 }
 
-.modal-dialog-width {
+.modal-disclaimer-width {
   width: 100%;
   max-width: 80%;
 }
 
 @media (max-width: 425px) {
-  .margin-usain-link {
+  .margin-usaid-link {
     margin-top: 0px;
   }
-  .modal-dialog-width {
-    width: 100%;
+
+  .modal-disclaimer-width {
     max-width: 95%;
   }
 }
