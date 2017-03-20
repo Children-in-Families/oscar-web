@@ -257,6 +257,8 @@ km:
     id: លេខសំគាល់
     first_name: នាមខ្លួន
     last_name: នាមត្រកូល
+    local_first_name: នាមខ្លួន (Local)
+    local_last_name: នាមត្រកូល (Local)
     able_state: ស្ថានភាព Able
     name: ឈ្មោះ
     date_of_birth: ថ្ងៃ ខែ ឆ្នាំ កំណើត
@@ -418,9 +420,9 @@ km:
         domains: កត្តា CSI ទាំងអស់
         name: ឈ្មោះ
         first_name: នាមខ្លួន
-        last_name: នាមត្រគូល
-        local_first_name: នាមខ្លួន (local)
-        local_last_name: នាមត្រគូល (local)
+        last_name: នាមត្រកូល
+        local_first_name: នាមខ្លួន (Local)
+        local_last_name: នាមត្រកូល (Local)
         age: អាយុ
         <<: *default_client_fields
         placements:
