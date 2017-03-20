@@ -2124,7 +2124,10 @@ km:
       grade: កំរិតថ្នាក់
       family_id: លេខសម្គាល់គ្រួសារ
       age: អាយុ
-      first_name: ឈ្មោះ
+      first_name: នាមខ្លួន
+      last_name:  នាមត្រគូល
+      local_first_name: នាមខ្លួន (Local)
+      local_last_name:  នាមត្រគូល (Local)
       family_name: ឈ្មោះគ្រួសារ
       slug: លេខសម្គាល់
       referral_phone: លេខទូរសព្ទរបស់ឣ្នកបញ្ជូនករណី

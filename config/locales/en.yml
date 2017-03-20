@@ -1905,7 +1905,10 @@ en:
       grade: Grade
       family_id: Family ID
       age: Age
-      first_name: Name
+      first_name: First Name
+      last_name: Last Name
+      local_first_name: Local First Name
+      local_last_name: Local Last Name
       family_name: Family name
       slug: ID
       referral_phone: Referral phone
