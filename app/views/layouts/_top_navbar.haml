@@ -13,10 +13,10 @@
       = render 'layouts/notification' if user_signed_in?
       %li.local-flag
         - if I18n.locale == :en
-          = link_to(url_for(params.merge({locale: 'km'}))) do
+          = link_to(url_for(params.merge({locale: 'km'})), id: 'lang-kh') do
             = image_tag('Cambodia.png')
         - else
-          = link_to(url_for(params.merge({locale: 'en'}))) do
+          = link_to(url_for(params.merge({locale: 'en'})), id: 'lang-en') do
             = image_tag('United-Kingdom.png')
       - if user_signed_in?
         %li
