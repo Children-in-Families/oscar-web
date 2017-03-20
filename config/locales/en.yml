@@ -253,6 +253,8 @@ en:
     id: ID
     first_name: First Name
     last_name: Last Name
+    local_first_name: Local First Name
+    local_last_name: Local Last Name
     name: Name
     able_state: Able State
     date_of_birth: Date of Birth
@@ -417,7 +419,6 @@ en:
       clients:
         domain: Domain
         domains: All CSI
-        name: Name
         age: Age
         <<: *default_client_fields
         placements:
@@ -1899,21 +1900,12 @@ en:
         failed_to_delete: Custom Form cannot be deleted.
   advanced_search:
     fields:
-      code: Code
       grade: Grade
       family_id: Family ID
       age: Age
-      first_name: Name
       family_name: Family name
       slug: ID
-      referral_phone: Referral phone
-      school_name: School name
       placement_date: Placement date
-      date_of_birth: Date of brith
-      initial_referral_date: Initial referral date
-      follow_up_date: Follow up date
-      gender: Gender
-      status: Status
       case_type: Case type
       agency_name: Agency name
       received_by_id: Received by
@@ -1921,7 +1913,5 @@ en:
       province_id: Province
       referral_source_id: Referral source
       followed_up_by_id: Follow up by
-      has_been_in_government_care: Has been in government care
-      able_state: Able state
-      has_been_in_orphanage: Has been in orphanage
       user_id: Case worker
+      <<: *default_client_fields
