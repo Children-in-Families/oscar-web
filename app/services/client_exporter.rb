@@ -1,5 +1,6 @@
 class ClientExporter
   extend AdvancedSearchHelper
+  extend ActionView::Helpers::TextHelper
 
   def self.to_xls(resources)
     headers = rearrange_header(resources.first.attributes.keys)
@@ -23,12 +24,12 @@ class ClientExporter
     new_column = []
     new_column.push format_header('slug')
     new_column.push format_header('first_name')
-    
+
     columns.each do |col|
       next if col == 'id' || col == 'slug' || col =='first_name'
       new_column.push format_header(col)
     end
-    
+
     new_column
   end
 
@@ -36,7 +37,7 @@ class ClientExporter
     id_values       = []
     name_values     = []
     selected_values = []
-    
+
     values.each do |k, v|
       next if k == 'id'
       if k == 'slug'
@@ -53,7 +54,7 @@ class ClientExporter
         selected_values.push(User.find_by(id: v).try(:name) || '')
       elsif k == 'age'
         client = Client.find_by(date_of_birth: v)
-        selected_values.push "#{client.age_as_years} #{'year'.pluralize(client.age_as_years)} #{client.age_extra_months} #{'month'.pluralize(client.age_extra_months)}" if client.present?
+        selected_values.push(pluralize(client.age_as_years, 'year') + ' ' + pluralize(client.age_extra_months, 'month')) if client.present?
       else
         selected_values.push v.to_s
       end
