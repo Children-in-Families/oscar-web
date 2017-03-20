@@ -5,16 +5,20 @@ class ClientsController < AdminController
   before_action :set_association, except: [:index, :destroy]
 
   def advanced_search
-    if params[:client]
+    if params[:client].present? && params[:client][:search_rules].present?
       @advanced_filter_params = params[:client][:search_rules]
       search_rules_params     = eval(@advanced_filter_params)
       clients                 = ClientAdvancedFilter.new(search_rules_params, Client.accessible_by(current_ability))
-      @clients_by_user        = clients.filter_by_field
-      @clients_filtered       = @clients_by_user.order(:id).page(params[:page]).per(20)
+      @clients_by_user        = clients.filter_by_field.order(:id)
+      respond_to do |f|
+        f.html do
+          @clients_filtered       = @clients_by_user.page(params[:page]).per(20)
+        end
+        f.xls do
+          send_data ClientExporter.to_xls(@clients_by_user), filename: "client_report-#{Time.now}.xls"
+        end
+      end
     end
-
-    @advanced_filter_fields = ClientAdvancedFilterFields.new(user: current_user).render
-    @advanced_filter_fields = @advanced_filter_fields.to_json
   end
 
   def index

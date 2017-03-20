@@ -1,12 +1,15 @@
 .row
   .col-xs-12
+    = link_to t('.export_to_xls'), current_url(format: 'xls'), class: "btn btn-info btn-export pull-right #{ @clients_filtered ? '' : 'disabled' }"
+.row
+  .col-xs-12
     .ibox
       .ibox-title
         %h5= t('.advanced_search')
       .ibox-content
         .row
           .col-xs-12
-            #builder{ 'data-field-list' => @advanced_filter_fields, 'data-search-rules' => @advanced_filter_params, 'data-filter-translation' => t('.add_new_filter')}
+            #builder{ 'data-search-rules' => @advanced_filter_params, 'data-filter-translation' => t('.add_new_filter')}
       .ibox-footer
         %button#search.btn.btn-primary= t('.search')
         = link_to t('.reset'), advanced_search_clients_path, class: 'btn btn-default'
@@ -22,12 +25,13 @@
             %table.table.table-bordered.table-striped.table-hover.clients.dataTable.no-footer
               %thead
                 %tr
-                  %th.id-column ID
-                  %th Name
+                  %th.id-column= format_header('slug')
+                  %th= format_header('first_name')
+
                   - @clients_filtered.first.attributes.keys.each do |column_name|
                     - next if column_name == 'slug' || column_name == 'first_name' || column_name == 'id'
                     %th
-                      = format_advanced_search_header(column_name)
+                      = format_header(column_name)
               %tbody
                 - @clients_filtered.each do |client|
                   %tr

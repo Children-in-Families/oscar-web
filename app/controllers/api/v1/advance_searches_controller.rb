@@ -1,15 +1,9 @@
 module Api
   module V1
-    class AdvanceSearchesController < ApplicationController
-
+    class AdvanceSearchesController < AdminController
       def index
-        render json: query, status: :ok, serializer: nil
-      end
-
-      private
-
-      def query
-        ClientAdvanceFilter.new(params[:search_rules]).client_queries
+        @advanced_filter_fields = ClientAdvancedFilterFields.new(user: current_user).render
+        render json: @advanced_filter_fields
       end
     end
   end
