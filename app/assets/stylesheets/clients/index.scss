@@ -80,6 +80,10 @@
     min-width: 130px;
   }
 
+  th.first_name, th.last_name , th.local_first_name, th.local_last_name {
+    min-width: 160px;
+  }
+
   th.state {
     min-width: 135px;
   }

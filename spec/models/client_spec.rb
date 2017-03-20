@@ -43,7 +43,7 @@ end
 describe Client, 'methods' do
   let!(:able_manager) { create(:user, roles: 'able manager') }
   let!(:case_worker) { create(:user, roles: 'case worker') }
-  let!(:client){ create(:client, user: case_worker) }
+  let!(:client){ create(:client, user: case_worker, local_first_name: 'Barry', local_first_name: 'Allen') }
   let!(:other_client) { create(:client, user: case_worker) }
   let!(:able_client) { create(:client, able_state: Client::ABLE_STATES[0]) }
   let!(:able_manager_client) { create(:client, user: able_manager) }
@@ -104,9 +104,24 @@ describe Client, 'methods' do
     it { expect(client.inactive_day_care).to eq(731.0) }
   end
 
-  context 'name' do
-    let!(:name){ "#{client.first_name} #{client.last_name}" }
-    it { expect(client.name).to eq(name) }
+  context 'first_name' do
+    let!(:first_name){ "#{client.first_name}" }
+    it { expect(client.first_name).to eq(first_name) }
+  end
+
+  context 'last_name' do
+    let!(:last_name){ "#{client.last_name}" }
+    it { expect(client.last_name).to eq(last_name) }
+  end
+
+  context 'local_first_name' do
+    let!(:local_first_name){ "#{client.local_first_name}" }
+    it { expect(client.local_first_name).to eq(local_first_name) }
+  end
+
+  context 'local_last_name' do
+    let!(:local_last_name){ "#{client.local_last_name}" }
+    it { expect(client.local_last_name).to eq(local_last_name ) }
   end
 
   context 'next assessment date' do
@@ -198,6 +213,8 @@ describe Client, 'scopes' do
     slug: 'Example id',
     first_name: 'Example First Name',
     last_name: 'Example Last Name',
+    local_first_name: 'Example Local First Name',
+    local_last_name: 'Example Local Last Name',
     school_name: 'Example school',
     school_grade: 'Example grade',
     referral_phone: '012678779',
@@ -229,6 +246,36 @@ describe Client, 'scopes' do
       expect(clients).to include(client)
     end
     it 'should not include record not have first name like' do
+      expect(clients).not_to include(other_client)
+    end
+  end
+
+  context 'last name like' do
+    let!(:clients){ Client.last_name_like(client.last_name.downcase) }
+    it 'should include record have last name like' do
+      expect(clients).to include(client)
+    end
+    it 'should not include record not have last name like' do
+      expect(clients).not_to include(other_client)
+    end
+  end
+
+  context 'local first name like' do
+    let!(:clients){ Client.local_first_name_like(client.local_first_name.downcase) }
+    it 'should include record have local first name like' do
+      expect(clients).to include(client)
+    end
+    it 'should not include record not have local first name like' do
+      expect(clients).not_to include(other_client)
+    end
+  end
+
+  context 'local last name like' do
+    let!(:clients){ Client.local_last_name_like(client.local_last_name.downcase) }
+    it 'should include record have local last name like' do
+      expect(clients).to include(client)
+    end
+    it 'should not include record not have local last name like' do
       expect(clients).not_to include(other_client)
     end
   end

@@ -418,6 +418,10 @@ en:
         domain: Domain
         domains: All CSI
         name: Name
+        first_name: First Name
+        last_name: Last Name
+        local_first_name: Local First Name
+        local_last_name: Local Last Name
         age: Age
         <<: *default_client_fields
         placements:

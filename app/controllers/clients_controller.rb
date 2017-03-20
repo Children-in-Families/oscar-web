@@ -153,7 +153,7 @@ class ClientsController < AdminController
   def client_params
     params.require(:client)
           .permit(
-            :assessment_id, :first_name, :gender, :date_of_birth,
+            :assessment_id, :first_name, :last_name, :local_first_name, :local_last_name, :gender, :date_of_birth,
             :birth_province_id, :initial_referral_date, :referral_source_id,
             :referral_phone, :received_by_id, :followed_up_by_id,
             :follow_up_date, :grade, :school_name, :current_address,

@@ -6,7 +6,10 @@ class ClientColumnsVisibility
 
   def columns_collection
     {
-      name_: :name,
+      first_name_: :first_name,
+      last_name_: :last_name,
+      local_first_name_: :local_first_name,
+      local_last_name_: :local_last_name,
       gender_: :gender,
       date_of_birth_: :date_of_birth,
       status_: :status,

@@ -417,6 +417,10 @@ km:
         domain: កត្តា
         domains: កត្តា CSI ទាំងអស់
         name: ឈ្មោះ
+        first_name: នាមខ្លួន
+        last_name: នាមត្រគូល
+        local_first_name: នាមខ្លួន (local)
+        local_last_name: នាមត្រគូល (local)
         age: អាយុ
         <<: *default_client_fields
         placements:
