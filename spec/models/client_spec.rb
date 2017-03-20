@@ -43,7 +43,7 @@ end
 describe Client, 'methods' do
   let!(:able_manager) { create(:user, roles: 'able manager') }
   let!(:case_worker) { create(:user, roles: 'case worker') }
-  let!(:client){ create(:client, user: case_worker, local_first_name: 'Barry', local_first_name: 'Allen') }
+  let!(:client){ create(:client, user: case_worker, local_first_name: 'Barry', local_last_name: 'Allen') }
   let!(:other_client) { create(:client, user: case_worker) }
   let!(:able_client) { create(:client, able_state: Client::ABLE_STATES[0]) }
   let!(:able_manager_client) { create(:client, user: able_manager) }
@@ -241,7 +241,7 @@ describe Client, 'scopes' do
 
 
   context 'first name like' do
-    let!(:clients){ Client.first_name_like(client.first_name.downcase) }
+    let!(:clients){ Client.first_name_like(client.first_name) }
     it 'should include record have first name like' do
       expect(clients).to include(client)
     end
@@ -251,7 +251,7 @@ describe Client, 'scopes' do
   end
 
   context 'last name like' do
-    let!(:clients){ Client.last_name_like(client.last_name.downcase) }
+    let!(:clients){ Client.last_name_like(client.last_name) }
     it 'should include record have last name like' do
       expect(clients).to include(client)
     end
@@ -261,7 +261,7 @@ describe Client, 'scopes' do
   end
 
   context 'local first name like' do
-    let!(:clients){ Client.local_first_name_like(client.local_first_name.downcase) }
+    let!(:clients){ Client.local_first_name_like(client.local_first_name) }
     it 'should include record have local first name like' do
       expect(clients).to include(client)
     end
@@ -271,7 +271,7 @@ describe Client, 'scopes' do
   end
 
   context 'local last name like' do
-    let!(:clients){ Client.local_last_name_like(client.local_last_name.downcase) }
+    let!(:clients){ Client.local_last_name_like(client.local_last_name) }
     it 'should include record have local last name like' do
       expect(clients).to include(client)
     end
