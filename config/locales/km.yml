@@ -1405,7 +1405,6 @@ km:
       case_note_on: កំណត់ត្រានៅថ្ងៃ
       present: វត្តមានឣ្នកចូលរួម
       completed_tasks: កាតព្វកិច្ចដែលបានធ្វើរួច
-      incomplete_tasks: កាតព្វកិច្ចដែលមិនទាន់បំពេញ
       note: កំណត់ត្រា
     form:
       label_note: ចំណាំ
