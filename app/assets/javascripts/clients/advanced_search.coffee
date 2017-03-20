@@ -2,10 +2,62 @@ CIF.ClientsAdvanced_search = do ->
   _init = ->
     _initJqueryQueryBuilder()
     _handleInitDatatable()
-    _setRuleJqueryQueryBuilder()
     _handleSearch()
+    _addRuleCallback()
     _handleScrollTable()
-    _changeButtonAddRuleSize()
+
+
+  _initJqueryQueryBuilder = ->
+    filterTranslation = $('#builder').data('filter-translation')
+    $.ajax
+      url: '/api/v1/advance_searches/'
+      method: 'GET'
+      success: (response) ->
+        fieldList = response.advance_searches
+        $('#builder').queryBuilder
+          allow_groups: false
+          conditions: ['AND']
+          inputs_separator: ' AND '
+          icons:
+            remove_rule: 'fa fa-minus'
+          lang:
+            delete_rule: ''
+            add_rule: filterTranslation
+            operators:
+              equal: 'is'
+              not_equal: 'is not'
+              less: '<'
+              less_or_equal: '<='
+              greater: '>'
+              greater_or_equal: '>='
+              contains: 'includes'
+              not_contains: 'excludes'
+          filters: fieldList
+        _setRuleJqueryQueryBuilder()
+        _changeButtonAddRuleSize()
+        _handleSelectOptionChange()
+        _initSelect2()
+
+  _initSelect2 = ->
+    $('select').select2(
+      width: 'resolve'
+    )
+
+  _addRuleCallback = ->
+    $('#builder').on 'afterCreateRuleFilters.queryBuilder', ->
+      _initSelect2()
+      _handleSelectOptionChange()
+
+  _handleSelectOptionChange = ->
+    $('select').on 'select2-selecting', (e) ->
+      setTimeout (->
+        $('.rule-operator-container select').select2(
+          width: '180px'
+        )
+        $('.rule-value-container select').select2(
+          width: '180px'
+        )
+      ),100
 
   _changeButtonAddRuleSize = ->
     $("button[data-add='rule']").removeClass('btn-xs btn-success')
@@ -17,30 +69,6 @@ CIF.ClientsAdvanced_search = do ->
     if queryRules != undefined
       $('#builder').queryBuilder('setRules', queryRules)
 
-  _initJqueryQueryBuilder = ->
-    fieldList = $('#builder').data('field-list')
-    filterTranslation = $('#builder').data('filter-translation')
-    $('#builder').queryBuilder
-      allow_groups: false
-      conditions: ['AND']
-      inputs_separator: ' AND '
-      icons:
-        remove_rule: 'fa fa-minus'
-      lang:
-        delete_rule: ''
-        add_rule: filterTranslation
-        operators:
-          equal: 'is'
-          not_equal: 'is not'
-          less: '<'
-          less_or_equal: '<='
-          greater: '>'
-          greater_or_equal: '>='
-          contains: 'includes'
-          not_contains: 'excludes'
-      filters: fieldList
-
-    
   _handleInitDatatable = ->
     $('.client-advanced-search table').DataTable(
         'sScrollY': 'auto'
@@ -70,6 +98,6 @@ CIF.ClientsAdvanced_search = do ->
           cursoropacitymax: 0.4
 
   _handleResizeWindow = ->
-    window.dispatchEvent new Event('resize')    
+    window.dispatchEvent new Event('resize')
 
   { init: _init }

@@ -750,6 +750,7 @@ km:
       modification_of: កំណែប្រែរបស់
       back: ត្រលប់ក្រោយ
     advanced_search:
+      export_to_xls: ទាញចេញជាឯកសារប្រភេទ XLS
       advanced_search: ការស្វែងរកកម្រិតខ្ពស់
       add_new_filter: បន្ថែមការស្វែងរក
       search: ស្វែងរក
@@ -2058,7 +2059,7 @@ km:
         'on': របស់
         no_modification: មិនមានកំណែប្រែ
         Client: អតិថិជន
-        Family: គ្រួសារ
+        គ្រួសារ: គ្រួសារ
         Partner: ដៃគូ
         User: អ្នកប្រើ
         Agency: អង្គភាព
@@ -2116,3 +2117,32 @@ km:
       destroy:
         successfully_deleted: ទម្រង់បែបបទត្រូវបានលុបដោយជោគជ័យ
         failed_to_delete: មិនអាចលុបទម្រង់បែបបទបន្ថែមនេះបានទេ
+
+  advanced_search:
+    fields:
+      code: ទម្រង់
+      grade: កំរិតថ្នាក់
+      family_id: លេខសម្គាល់គ្រួសារ
+      age: អាយុ
+      first_name: ឈ្មោះ
+      family_name: ឈ្មោះគ្រួសារ
+      slug: លេខសម្គាល់
+      referral_phone: លេខទូរសព្ទរបស់ឣ្នកបញ្ជូនករណី
+      school_name: ឈ្មោះសាលារៀន
+      placement_date: ថ្ងៃបញ្ជូនទៅក្នុងករណី
+      date_of_birth: ថ្ងៃខែឆ្នាំកំណើត
+      initial_referral_date: កាលបរិច្ឆេទនៃការបញ្ជូន
+      follow_up_date: កាលបរិច្ឆេទតាមដាន
+      gender: ភេទ
+      status: ស្ថានភាព
+      case_type: ប្រភេទករណី
+      agency_name: ឈ្មោះអង្គភាព
+      received_by_id: បុគ្គលិកដែលទទួលករណី
+      birth_province_id: ស្រុកកំណើត
+      province_id: ខេត្តបច្ចុប្បន្ន
+      referral_source_id: ប្រភពនៃការបញ្ជូន
+      followed_up_by_id: បុគ្គលិកដែលតាមដានករណី
+      has_been_in_government_care: តើធ្លាប់ស្ថិតក្នុងការថែទំារបស់រាជរដ្ឋាភិបាល
+      able_state: ស្ថានភាព Able
+      has_been_in_orphanage: ធ្លាប់បាននៅក្នុងមណ្ឌលកុមារកំព្រា
+      user_id: បុគ្គលិកគ្រប់គ្រងករណី
