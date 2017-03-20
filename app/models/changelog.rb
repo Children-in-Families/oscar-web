@@ -10,4 +10,14 @@ class Changelog < ActiveRecord::Base
 
   validates :change_version, presence: true, uniqueness: true
   validates :user_id, presence: true
+
+  after_create :notify_admins
+
+  private
+
+  def notify_admins
+    admin_emails = User.admins.pluck(:email)
+    return if admin_emails.empty?
+    ReleaselogMailer.notify_admins(admin_emails).deliver_now
+  end
 end
