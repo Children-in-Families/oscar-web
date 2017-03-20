@@ -1,4 +1,5 @@
 class ClientGrid
+  extend ActionView::Helpers::TextHelper
   include Datagrid
 
   attr_accessor :current_user, :qType
@@ -357,7 +358,7 @@ class ClientGrid
   column(:date_of_birth, header: -> { I18n.t('datagrid.columns.clients.date_of_birth') })
 
   column(:age, header: -> { I18n.t('datagrid.columns.clients.age') }, order: 'clients.date_of_birth desc') do |object|
-    "#{object.age_as_years} #{'year'.pluralize(object.age_as_years)} #{object.age_extra_months} #{'month'.pluralize(object.age_extra_months)}" if object.date_of_birth.present?
+    pluralize(object.age_as_years, 'year') + ' ' + pluralize(object.age_extra_months, 'month') if object.date_of_birth.present?
   end
 
   column(:current_address, order: 'clients.current_address', header: -> { I18n.t('datagrid.columns.clients.current_address') })
