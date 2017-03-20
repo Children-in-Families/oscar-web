@@ -10,7 +10,6 @@ module AdvancedSearchHelper
       grade: I18n.t('advanced_search.fields.grade'),
       family_id: I18n.t('advanced_search.fields.family_id'),
       age: I18n.t('advanced_search.fields.age'),
-      first_name: I18n.t('advanced_search.fields.first_name'),
       family_name: I18n.t('advanced_search.fields.family_name'),
       slug: I18n.t('advanced_search.fields.slug'),
       referral_phone: I18n.t('advanced_search.fields.referral_phone'),

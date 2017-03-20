@@ -104,26 +104,6 @@ describe Client, 'methods' do
     it { expect(client.inactive_day_care).to eq(731.0) }
   end
 
-  context 'first_name' do
-    let!(:first_name){ "#{client.first_name}" }
-    it { expect(client.first_name).to eq(first_name) }
-  end
-
-  context 'last_name' do
-    let!(:last_name){ "#{client.last_name}" }
-    it { expect(client.last_name).to eq(last_name) }
-  end
-
-  context 'local_first_name' do
-    let!(:local_first_name){ "#{client.local_first_name}" }
-    it { expect(client.local_first_name).to eq(local_first_name) }
-  end
-
-  context 'local_last_name' do
-    let!(:local_last_name){ "#{client.local_last_name}" }
-    it { expect(client.local_last_name).to eq(local_last_name ) }
-  end
-
   context 'next assessment date' do
     let!(:latest_assessment){ create(:assessment, client: client) }
     it 'should be latest assessment + 6 months' do
