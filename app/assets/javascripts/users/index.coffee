@@ -2,6 +2,7 @@ CIF.UsersIndex = do ->
   _init = ->
     _fixedHeaderTableColumns()
     _handleScrollTable()
+    _getUserPath()
 
   _fixedHeaderTableColumns = ->
     $('.users-table').removeClass('table-responsive')
@@ -25,5 +26,10 @@ CIF.UsersIndex = do ->
           scrollspeed: 30
           cursorwidth: 10
           cursoropacitymax: 0.4
+
+  _getUserPath = ->
+    $('table.users tbody tr').click (e) ->
+      return if $(e.target).hasClass('btn') || $(e.target).hasClass('fa')
+      window.location = $(this).data('href')
 
   { init: _init }

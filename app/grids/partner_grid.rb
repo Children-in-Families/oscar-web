@@ -55,9 +55,7 @@ class PartnerGrid
   column(:id, header: -> { I18n.t('datagrid.columns.partners.id') })
 
   column(:name, html: true, order: 'LOWER(partners.name)', header: -> { I18n.t('datagrid.columns.partners.name') }) do |object|
-    name = object.name.blank? ? 'Unknown' : object.name
-
-    link_to(name, partner_path(object))
+    link_to(entity_name(object), partner_path(object))
   end
 
   column(:name, html: false, header: -> { I18n.t('datagrid.columns.partners.name') })

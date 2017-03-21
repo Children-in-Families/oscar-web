@@ -77,3 +77,4 @@
 //= require shared/version_per_page_form
 //= require notifications/index
 //= require sessions/new
+//= require case/quarterly_reports/index

@@ -80,6 +80,14 @@
     min-width: 130px;
   }
 
+  th.first_name, th.last_name {
+    min-width: 160px;
+  }
+
+  th.local_first_name, th.local_last_name {
+    min-width: 175px;
+  }
+
   th.state {
     min-width: 135px;
   }
@@ -148,10 +156,14 @@
   .dataTables_info {
     padding-top: 15px;
   }
+
+  table.clients tbody tr:hover {
+    cursor: pointer;
+  }
+
   @media screen and (max-width: 700px){
     .client-option {
-      // margin-top: 30px;
-      a{
+      a {
         display: inline-block;
         margin-top: 8px;
       }

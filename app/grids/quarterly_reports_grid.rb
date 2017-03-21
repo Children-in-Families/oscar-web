@@ -14,11 +14,11 @@ class QuarterlyReportsGrid
   column(:visit_date, header: -> { I18n.t('datagrid.columns.quarterly_reports.visit_date') }, html: true)
 
   column(:case, header: -> { I18n.t('datagrid.columns.quarterly_reports.kc_name') }, html: true) do |object|
-    link_to object.case.client.name, client_path(object.case.client) if object.kinship?
+    link_to entity_name(object.case.client), client_path(object.case.client) if object.kinship?
   end
 
   column(:case, header: -> { I18n.t('datagrid.columns.quarterly_reports.fc_name') }, html: true) do |object|
-    link_to object.case.client.name, client_path(object.case.client) if object.foster?
+    link_to entity_name(object.case.client), client_path(object.case.client) if object.foster?
   end
 
   column(:general_health_or_appearance, header: -> { I18n.t('datagrid.columns.quarterly_reports.general_health_or_appearance') }, html: true) do |object|
@@ -26,6 +26,6 @@ class QuarterlyReportsGrid
   end
 
   column(:staff_information, header: -> { I18n.t('datagrid.columns.quarterly_reports.staff_information') }, html: true) do |object|
-    link_to object.staff_information.name, user_path(object.staff_information) if object.staff_information
+    link_to entity_name(object.staff_information), user_path(object.staff_information) if object.staff_information
   end
 end

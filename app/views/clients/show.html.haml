@@ -171,6 +171,18 @@
             %table.table.table-bordered
               %tr
                 %td.spacing-first-col
+                  = t('.local_first_name')
+                %td
+                  %strong
+                    = @client.local_first_name
+              %tr
+                %td.spacing-first-col
+                  = t('.local_last_name')
+                %td
+                  %strong
+                    = @client.local_last_name
+              %tr
+                %td.spacing-first-col
                   = t('.donor')
                 %td
                   %strong
@@ -229,15 +241,15 @@
                 %td
                   %strong
                     = user @client.followed_up_by
+
+          .col-sm-12.col-md-6.second-table
+            %table.table.table-bordered
               %tr
                 %td.spacing-first-col
                   = t('.follow_up_date')
                 %td
                   %strong
-                    = @client.follow_up_date.strftime('%B %d, %Y') if @client.follow_up_date
-
-          .col-sm-12.col-md-6.second-table
-            %table.table.table-bordered
+                    = date_format(@client.follow_up_date) if @client.follow_up_date
               %tr
                 %td.spacing-first-col
                   = t('.school_name')

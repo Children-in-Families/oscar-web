@@ -37,4 +37,8 @@ body[id='progress_notes-index'] {
   .btn-back-default {
     min-width: 100px;
   }
+
+  table.progress-notes tbody tr:hover {
+    cursor: pointer;
+  }
 }

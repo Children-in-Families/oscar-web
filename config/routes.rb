@@ -8,7 +8,7 @@ Rails.application.routes.draw do
 
   get '/dashboards' => 'dashboards#index'
   mount Thredded::Engine => '/forum'
-  resources :quarterly_reports
+
   devise_for :users, controllers: { registrations: 'registrations', sessions: 'sessions', passwords: 'passwords' }
 
   get '/quantitative_data' => 'clients#quantitative_case'
@@ -76,8 +76,6 @@ Rails.application.routes.draw do
       end
     end
   end
-
-  resources :quarterly_reports, only: [:index]
 
   resources :materials, except: [:show] do
     get 'version' => 'materials#version'
