@@ -29,7 +29,7 @@
                   %td
                     - donor.clients.each do |client|
                       %strong.label.label-default.client
-                        = link_to client.name, client_path(client)
+                        = link_to entity_name(client), client_path(client)
                   - if can? :manage, Donor
                     %td.text-center
                       = link_to '#', {class: 'btn btn-outline btn-success btn-xs',

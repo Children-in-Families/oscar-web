@@ -2,6 +2,7 @@ CIF.UsersShow = do ->
   _init = ->
     _fixedHeaderTableColumns()
     _handleScrollTable()
+    _getClientPath()
 
   _fixedHeaderTableColumns = ->
     $('.clients-table').removeClass('table-responsive')
@@ -25,5 +26,10 @@ CIF.UsersShow = do ->
           scrollspeed: 30
           cursorwidth: 10
           cursoropacitymax: 0.4
+
+  _getClientPath = ->
+    $('table.clients tbody tr').click (e) ->
+      return if $(e.target).hasClass('btn') || $(e.target).hasClass('fa')
+      window.location = $(this).data('href')
 
   { init: _init }

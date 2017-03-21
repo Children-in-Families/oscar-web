@@ -1,4 +1,4 @@
-#partners-index {
+body[id='partners-index'] {
   #partner-search-form {
     margin-top: 20px;
   }
@@ -22,5 +22,9 @@
   }
   .dataTables_scrollBody {
     max-height: 500px !important;
+  }
+
+  table.partners tbody tr:hover {
+    cursor: pointer;
   }
 }

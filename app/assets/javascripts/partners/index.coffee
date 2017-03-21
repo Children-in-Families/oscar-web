@@ -2,6 +2,7 @@ CIF.PartnersIndex = do ->
   _init = ->
     _fixedHeaderTableColumns()
     _handleScrollTable()
+    _getPartnerPath()
 
   _fixedHeaderTableColumns = ->
     $('.partners-table').removeClass('table-responsive')
@@ -25,5 +26,10 @@ CIF.PartnersIndex = do ->
           scrollspeed: 30
           cursorwidth: 10
           cursoropacitymax: 0.4
+
+  _getPartnerPath = ->
+    $('table.partners tbody tr').click (e) ->
+      return if $(e.target).hasClass('btn') || $(e.target).hasClass('fa')
+      window.location = $(this).data('href')
 
   { init: _init }

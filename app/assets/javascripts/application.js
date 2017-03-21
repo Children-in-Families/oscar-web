@@ -76,3 +76,4 @@
 //= require ckeditor/config
 //= require shared/version_per_page_form
 //= require notifications/index
+//= require case/quarterly_reports/index

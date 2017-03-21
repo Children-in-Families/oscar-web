@@ -2122,7 +2122,7 @@ km:
       age: អាយុ
       family_name: ឈ្មោះគ្រួសារ
       slug: លេខសម្គាល់
-      placement_date: ថ្ងៃបញ្ជូនទៅក្នុងករណី
+      placement_start_date: ថ្ងៃបញ្ជូនទៅក្នុងករណី
       case_type: ប្រភេទករណី
       agency_name: ឈ្មោះអង្គភាព
       received_by_id: បុគ្គលិកដែលទទួលករណី

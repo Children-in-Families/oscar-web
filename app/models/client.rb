@@ -110,7 +110,9 @@ class Client < ActiveRecord::Base
   end
 
   def name
-    "#{first_name} #{last_name}"
+    name       = "#{first_name} #{last_name}"
+    local_name = "#{local_first_name} #{local_last_name}"
+    name.present? ? name : local_name
   end
 
   def self.next_assessment_candidates

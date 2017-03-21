@@ -253,8 +253,8 @@ en:
     id: ID
     first_name: First Name
     last_name: Last Name
-    local_first_name: Local First Name
-    local_last_name: Local Last Name
+    local_first_name: First Name (Local)
+    local_last_name: Last Name (Local)
     name: Name
     able_state: Able State
     date_of_birth: Date of Birth
@@ -272,7 +272,7 @@ en:
     status: Status
     initial_referral_date: Initial Referral Date
     received_by: Received By
-    follow_up_by: Follow Up By
+    follow_up_by: Followed Up By
     agency_names: Agency Name
     current_address: Current Address
     school_grade: School Grade
@@ -1901,15 +1901,15 @@ en:
       grade: Grade
       family_id: Family ID
       age: Age
-      family_name: Family name
+      family_name: Family Name
       slug: ID
-      placement_date: Placement date
-      case_type: Case type
-      agency_name: Agency name
-      received_by_id: Received by
-      birth_province_id: Birth province
-      province_id: Province
-      referral_source_id: Referral source
-      followed_up_by_id: Follow up by
-      user_id: Case worker
+      placement_start_date: Placement Start Date
+      case_type: Case Type
+      agency_name: Agency Name
+      received_by_id: Received By
+      birth_province_id: Birth Province
+      province_id: Current Province
+      referral_source_id: Referral Source
+      followed_up_by_id: Followed Up By
+      user_id: Case Worker
       <<: *default_client_fields

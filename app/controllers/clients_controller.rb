@@ -12,7 +12,7 @@ class ClientsController < AdminController
       @clients_by_user        = clients.filter_by_field.order(:id)
       respond_to do |f|
         f.html do
-          @clients_filtered       = @clients_by_user.page(params[:page]).per(20)
+          @clients_filtered   = @clients_by_user.page(params[:page]).per(20)
         end
         f.xls do
           send_data ClientExporter.to_xls(@clients_by_user), filename: "client_report-#{Time.now}.xls"

@@ -14,7 +14,7 @@ module AdvancedSearchHelper
       slug: I18n.t('advanced_search.fields.slug'),
       referral_phone: I18n.t('advanced_search.fields.referral_phone'),
       school_name: I18n.t('advanced_search.fields.school_name'),
-      placement_date: I18n.t('advanced_search.fields.placement_date'),
+      placement_date: I18n.t('advanced_search.fields.placement_start_date'),
       date_of_birth: I18n.t('advanced_search.fields.date_of_birth'),
       initial_referral_date: I18n.t('advanced_search.fields.initial_referral_date'),
       follow_up_date: I18n.t('advanced_search.fields.follow_up_date'),

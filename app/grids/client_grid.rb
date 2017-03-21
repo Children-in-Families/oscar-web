@@ -301,37 +301,16 @@ class ClientGrid
   end
 
   column(:first_name, order: 'clients.first_name', header: -> { I18n.t('datagrid.columns.clients.first_name') }, html: true) do |object|
-    name = object.first_name.blank? ? 'Unknown' : object.first_name
-    link_to name, client_path(object)
+    link_to object.first_name, client_path(object)
   end
 
-  column(:last_name, order: 'clients.last_name', header: -> { I18n.t('datagrid.columns.clients.last_name') }, html: true) do |object|
-    name = object.last_name.blank? ? 'Unknown' : object.last_name
-  end
+  column(:first_name, header: -> { I18n.t('datagrid.columns.clients.first_name') }, html: false)
 
-  column(:local_first_name, order: 'clients.local_first_name', header: -> { I18n.t('datagrid.columns.clients.local_first_name') }, html: true) do |object|
-    name = object.local_first_name.blank? ? 'Unknown' : object.local_first_name
-  end
+  column(:last_name, order: 'clients.last_name', header: -> { I18n.t('datagrid.columns.clients.last_name') })
 
-  column(:local_last_name, order: 'clients.local_last_name', header: -> { I18n.t('datagrid.columns.clients.local_last_name') }, html: true) do |object|
-    name = object.local_last_name.blank? ? 'Unknown' : object.local_last_name
-  end
+  column(:local_first_name, order: 'clients.local_first_name', header: -> { I18n.t('datagrid.columns.clients.local_first_name') })
 
-  column(:first_name, header: -> { I18n.t('datagrid.columns.clients.first_name') }, html: false) do |object|
-    object.first_name
-  end
-
-  column(:last_name, header: -> { I18n.t('datagrid.columns.clients.last_name') }, html: false) do |object|
-    object.last_name
-  end
-
-  column(:local_first_name, header: -> { I18n.t('datagrid.columns.clients.local_first_name') }, html: false) do |object|
-    object.local_first_name
-  end
-
-  column(:local_last_name, header: -> { I18n.t('datagrid.columns.clients.local_last_name') }, html: false) do |object|
-    object.local_last_name
-  end
+  column(:local_last_name, order: 'clients.local_last_name', header: -> { I18n.t('datagrid.columns.clients.local_last_name') })
 
   column(:gender, header: -> { I18n.t('datagrid.columns.clients.gender') }) do |object|
     object.gender.try(:titleize)
