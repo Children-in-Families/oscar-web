@@ -69,7 +69,7 @@ describe 'Department' do
         click_button 'Save'
       end
       wait_for_ajax
-      expect(page).to have_content(I18n.t('departments.update.failed_update'))
+      expect(page).to have_content('Failed to update a department')
     end
   end
 

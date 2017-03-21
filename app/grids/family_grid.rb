@@ -48,13 +48,10 @@ class FamilyGrid
   column(:id, header: -> { I18n.t('datagrid.columns.families.id') })
 
   column(:name, html: true, order: 'LOWER(name)', header: -> { I18n.t('datagrid.columns.families.name') }) do |object|
-    name = object.name.blank? ? 'Unknown' : object.name
-    link_to name, family_path(object)
+    link_to entity_name(object), family_path(object)
   end
 
-  column(:name, html: false, header: -> { I18n.t('datagrid.columns.families.name') }) do |object|
-    object.name
-  end
+  column(:name, html: false, header: -> { I18n.t('datagrid.columns.families.name') })
 
   column(:family_type, header: -> { I18n.t('datagrid.columns.families.family_type') }) do |object|
     object.family_type.titleize

@@ -25,8 +25,7 @@ module FamiliesHelper
     content_tag(:ul, class: 'family-clients-list') do
       object.cases.non_emergency.active.each do |obj|
         if obj.client
-          name = obj.client.name.present? ? obj.client.name : 'Unknown'
-          concat(content_tag(:li, link_to(name, client_path(obj.client))))
+          concat(content_tag(:li, link_to(entity_name(obj.client), client_path(obj.client))))
         end
       end
     end
@@ -36,8 +35,7 @@ module FamiliesHelper
     content_tag(:ul, class: 'family-clients-list') do
       object.joins(:user).group_by(&:user_id).each do |a|
         user = User.find(a.first)
-        name = user.name.present? ? user.name : 'Unknown'
-        concat(content_tag(:li, link_to(name, user_path(user))))
+        concat(content_tag(:li, link_to(entity_name(user), user_path(user))))
       end
     end
   end

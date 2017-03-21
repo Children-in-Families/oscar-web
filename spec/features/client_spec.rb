@@ -97,14 +97,14 @@ describe 'Client' do
       visit new_client_path
     end
     scenario 'valid', js: true do
-      fill_in 'Name', with: FFaker::Name.name
+      fill_in 'First Name', with: FFaker::Name.name
       click_button 'Save'
       wait_for_ajax
       expect(page).to have_content('Client has been successfully created')
     end
 
     xscenario 'warning', js: true do
-      fill_in 'Name', with: 'Cornell'
+      fill_in 'First Name', with: 'Cornell'
 
       gender_selector = find('.client_gender')
       province_selector = find('.client_birth_province_id')
@@ -125,14 +125,14 @@ describe 'Client' do
       visit edit_client_path(client)
     end
     scenario 'valid', js: true do
-      fill_in 'Name', with: FFaker::Name.name
+      fill_in 'First Name', with: FFaker::Name.name
       click_button 'Save'
       wait_for_ajax
       expect(page).to have_content('Client has been successfully updated')
     end
 
     xscenario 'invalid' do
-      fill_in 'Name', with: ''
+      fill_in 'First Name', with: ''
       click_button 'Save'
       expect(page).to have_content("can't be blank")
     end

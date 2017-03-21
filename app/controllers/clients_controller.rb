@@ -12,7 +12,7 @@ class ClientsController < AdminController
       @clients_by_user        = clients.filter_by_field.order(:id)
       respond_to do |f|
         f.html do
-          @clients_filtered       = @clients_by_user.page(params[:page]).per(20)
+          @clients_filtered   = @clients_by_user.page(params[:page]).per(20)
         end
         f.xls do
           send_data ClientExporter.to_xls(@clients_by_user), filename: "client_report-#{Time.now}.xls"
@@ -157,7 +157,7 @@ class ClientsController < AdminController
   def client_params
     params.require(:client)
           .permit(
-            :assessment_id, :first_name, :gender, :date_of_birth,
+            :assessment_id, :first_name, :last_name, :local_first_name, :local_last_name, :gender, :date_of_birth,
             :birth_province_id, :initial_referral_date, :referral_source_id,
             :referral_phone, :received_by_id, :followed_up_by_id,
             :follow_up_date, :grade, :school_name, :current_address,

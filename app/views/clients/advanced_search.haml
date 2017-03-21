@@ -1,11 +1,12 @@
 .row
   .col-xs-12
-    = link_to t('.export_to_xls'), current_url(format: 'xls'), class: "btn btn-info btn-export pull-right #{ @clients_filtered ? '' : 'disabled' }"
-.row
-  .col-xs-12
     .ibox
       .ibox-title
-        %h5= t('.advanced_search')
+        .row
+          .col-xs-12.col-sm-6
+            %h5= t('.advanced_search')
+          .col-xs-12.col-sm-6.text-right
+            = link_to t('.export_to_xls'), current_url(format: 'xls'), class: "btn btn-info btn-export #{@clients_filtered.present? ? '' : 'disabled'}"
       .ibox-content
         .row
           .col-xs-12

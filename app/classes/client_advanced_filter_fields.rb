@@ -20,7 +20,7 @@ class  ClientAdvancedFilterFields
   end
 
   def text_type_list
-    ['first_name', 'family_name', 'slug', 'referral_phone', 'school_name']
+    ['first_name', 'last_name', 'local_first_name', 'local_last_name', 'family_name', 'slug', 'referral_phone', 'school_name']
   end
 
   def date_type_list
