@@ -162,9 +162,9 @@ class ClientAdvancedFilter
 
   def agency_field_query(resource, operator, value)
     if operator == 'equal'
-      @client.resource = resource.joins(:agencies).where(agencies: { id: value }).uniq.select(:id, 'agencies.name as agencies_name')
+      @client.resource = resource.joins(:agencies).where(agencies: { id: value }).uniq.select(:id, 'agencies.name as agency_name')
     else
-      @client.resource = resource.joins(:agencies).where.not(agencies: { id: value }).uniq.select(:id, 'agencies.name as agencies_name')
+      @client.resource = resource.joins(:agencies).where.not(agencies: { id: value }).uniq.select(:id, 'agencies.name as agency_name')
     end
   end
 

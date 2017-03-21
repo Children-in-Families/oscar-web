@@ -8,7 +8,7 @@ body[id='clients-advanced_search'] {
     max-height: 500px !important;
     margin-top: -20px;
   }
-  
+
   table, .dataTables_scrollHeadInner {
     width: 100% !important;
   }
@@ -50,6 +50,10 @@ body[id='clients-advanced_search'] {
 
   .id-column {
     min-width: 65px;
+  }
+
+  .order {
+    display: inline-block;
   }
 
 }

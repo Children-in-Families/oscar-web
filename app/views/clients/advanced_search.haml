@@ -25,13 +25,18 @@
             %table.table.table-bordered.table-striped.table-hover.clients.dataTable.no-footer
               %thead
                 %tr
-                  %th.id-column= format_header('slug')
-                  %th= format_header('first_name')
+                  %th.id-column
+                    = format_header('slug')
+                    = render 'advanced_search_sort_header', field: 'id'
+                  %th
+                    = format_header('first_name')
+                    = render 'advanced_search_sort_header', field: 'first_name'
 
                   - @clients_filtered.first.attributes.keys.each do |column_name|
                     - next if column_name == 'slug' || column_name == 'first_name' || column_name == 'id'
                     %th
                       = format_header(column_name)
+                      = render 'advanced_search_sort_header', field: column_name
               %tbody
                 - @clients_filtered.each do |client|
                   %tr

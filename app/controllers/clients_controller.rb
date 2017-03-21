@@ -9,7 +9,7 @@ class ClientsController < AdminController
       @advanced_filter_params = params[:client][:search_rules]
       search_rules_params     = eval(@advanced_filter_params)
       clients                 = ClientAdvancedFilter.new(search_rules_params, Client.accessible_by(current_ability))
-      @clients_by_user        = clients.filter_by_field.order(:id)
+      @clients_by_user        = clients.filter_by_field.order(advanced_search_filter_params)
       respond_to do |f|
         f.html do
           @clients_filtered       = @clients_by_user.page(params[:page]).per(20)
@@ -149,6 +149,14 @@ class ClientsController < AdminController
   end
 
   private
+
+  def advanced_search_filter_params
+    if params[:filter_by].present? && params[:filter_type].present?
+      "#{params[:filter_by]} #{params[:filter_type]}"
+    else
+      'id asc'
+    end
+  end
 
   def find_client
     @client = Client.accessible_by(current_ability).friendly.find(params[:id]).decorate
