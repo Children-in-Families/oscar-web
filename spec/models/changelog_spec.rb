@@ -27,8 +27,7 @@ describe Changelog, 'callbacks' do
       let!(:other_admin) { create(:user, roles: 'admin', email: 'other.admin@gmail.com') }
       it 'send an alert email to admins when there is a new release' do
         FactoryGirl.create(:changelog)
-        expect(ActionMailer::Base.deliveries.size).to eq(1)
-        expect(ActionMailer::Base.deliveries.first.to).to include('admin@gmail.com', 'other.admin@gmail.com')
+        expect(ActionMailer::Base.deliveries.last.to).to include('admin@gmail.com', 'other.admin@gmail.com')
       end
     end
   end
