@@ -52,4 +52,11 @@ class Task < ActiveRecord::Base
       CaseWorkerMailer.tasks_due_tomorrow_of(user).deliver_now
     end
   end
+
+  def self.by_case_note_domain_group(cdg)
+    cdg_tasks  = cdg.tasks.ids
+    incomplete = self.incomplete.ids
+    ids        = cdg_tasks + incomplete
+    where(id: ids)
+  end
 end

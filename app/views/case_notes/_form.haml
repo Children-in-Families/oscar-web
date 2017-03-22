@@ -39,15 +39,16 @@
                       - cd.object.domain_group.domains.each do |domain|
                         - assessment_domain = @case_note.assessment.assessment_domains.find_by(domain_id: domain.id)
                         - tasks = @case_note.client.tasks.where(domain_id: domain.id)
-
+                        - if cd.object.persisted?
+                          - tasks = tasks.by_case_note_domain_group(cd.object)
                         .panel{ class: "panel-#{assessment_domain.score_color_class} task-domain-#{domain.id} #{hidden_class(tasks.incomplete.blank?)}" }
                           .panel-heading
                             %strong= "#{t('.domain')} #{assessment_domain.domain.name}"
                           .panel-body{id: "tasks-domain-#{domain.id}"}
                             .row
                               .col-xs-12
-                                = cd.association :tasks, collection: tasks.incomplete, as: :check_boxes, label: "#{t('.on_going_tasks')}", input_html: { class: 'i-checks'}
-                                %div{ class: "task-arising hidden" }
+                                = cd.association :tasks, collection: tasks.map{ |t| [t.name, t.id, {data: { completed: t.completed }}] }, as: :check_boxes, label: t('.on_going_tasks'), input_html: { class: 'i-checks task' }
+                                %div{ class: 'task-arising hidden' }
                                   %label.control-label
                                     = t('.tasks_arising')
                                   %ol.list-group{ type: '1'}

@@ -138,4 +138,16 @@ describe Task, 'methods' do
       is_expected.not_to include(other_task)
     end
   end
+
+  context 'by_case_note_domain_group' do
+    let!(:domain_group){ create(:domain_group) }
+    let!(:domain){ create(:domain, domain_group: domain_group) }
+    let!(:cdg){ create(:case_note_domain_group, domain_group: domain_group) }
+    let!(:task){ create(:task, case_note_domain_group: cdg, completed: true) }
+    let!(:incomplete_task){ create(:task, domain: domain) }
+    subject { Task.by_case_note_domain_group(cdg) }
+    it 'should include incomplete tasks and tasks of case_note_domain_group' do
+      is_expected.to include(task, incomplete_task)
+    end
+  end
 end
