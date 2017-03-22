@@ -14,7 +14,7 @@
           .panel.panel-default
             .panel-heading
               .row
-                .col-md-9
+                .col-xs-12.col-sm-8
                   %h3
                     = "#{t('.domains')} : #{domain.name} (#{domain.identity})"
                   %h5
@@ -22,7 +22,7 @@
                     %label{class: "label label-#{domain.score_2_color}"}= "#{t('.score_2')}"
                     %label{class: "label label-#{domain.score_3_color}"}= "#{t('.score_3')}"
                     %label{class: "label label-#{domain.score_4_color}"}= "#{t('.score_4')}"
-                .col-md-3.text-right.actions
+                .col-xs-12.col-sm-4.text-right.actions
                   - if can? :version, Domain
                     = link_to domain_version_path(domain), class: 'btn btn-outline btn-success margin-left' do
                       = t('.changelog')

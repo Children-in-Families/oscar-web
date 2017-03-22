@@ -4,79 +4,76 @@
     = f.error_notification
     .form-inputs
       .row
-        .col-xs-12.col-md-4= f.input :first_name, label: t('.first_name')
-        .col-xs-12.col-md-4= f.input :last_name, label: t('.last_name')
-        .col-xs-12.col-md-4= f.input :local_first_name, label: t('.local_first_name')
-        .col-xs-12.col-md-4= f.input :local_last_name, label: t('.local_last_name')
-        .col-xs-12.col-md-4= f.input :gender, collection: [['Male', 'male'], ['Female', 'female']], include_blank: false, label: "#{t('.gender')}"
-        .col-xs-12.col-md-4.form-group.date.optional.client_date_of_birth
-          %label.date.optional.control-label{ for: 'client_date_of_birth' } #{t('.date_of_birth')}
+        .col-xs-12.col-sm-6.col-md-4= f.input :first_name, label: t('.first_name')
+        .col-xs-12.col-sm-6.col-md-4= f.input :last_name, label: t('.last_name')
+        .col-xs-12.col-sm-6.col-md-4= f.input :local_first_name, label: t('.local_first_name')
+        .col-xs-12.col-sm-6.col-md-4= f.input :local_last_name, label: t('.local_last_name')
+        .col-xs-12.col-sm-6.col-md-4= f.input :gender, collection: [['Male', 'male'], ['Female', 'female']], include_blank: false, label: t('.gender')
+        .col-xs-12.col-sm-6.col-md-4.form-group.date.optional.client_date_of_birth
+          %label.date.optional.control-label{ for: 'client_date_of_birth' }= t('.date_of_birth')
           #client-birthdate.input-group.date
             = f.text_field :date_of_birth, class: 'date optional form-control date-picker', type: 'text', name: 'client[date_of_birth]', id: 'client_date_of_birth'
             %span.input-group-addon
               %i.fa.fa-calendar-check-o
-      .row
-        .col-xs-12.col-md-4= f.input :school_name, label: "#{t('.school_name')}"
-        .col-xs-12.col-md-4= f.input :grade, label: "#{t('.school_grade')}"
-        .col-xs-12.col-md-4= f.input :birth_province_id, collection: @province.map{|p| [p.name, p.id]},  label: "#{t('.province')}"
-      .row
-        .col-xs-12.col-md-4= f.association :province, collection: @province, label: "#{t('.current_province')}", include_blank: false
-        .col-xs-12.col-md-4
+        .col-xs-12.col-sm-6.col-md-4= f.input :school_name, label: t('.school_name')
+        .col-xs-12.col-sm-6.col-md-4= f.input :grade, label: t('.school_grade')
+        .col-xs-12.col-sm-6.col-md-4= f.input :birth_province_id, collection: @province.map{|p| [p.name, p.id]},  label: t('.province')
+        .col-xs-12.col-sm-6.col-md-4= f.association :province, collection: @province, label: t('.current_province'), include_blank: false
+        .col-xs-12.col-sm-6.col-md-4
           = f.association :donor, collection: @donors, label: t('.donor')
-        .col-xs-12.col-md-4= f.input :current_address, input_html: { rows: '6' }, label: "#{t('.current_address')}"
+        .col-xs-12.col-sm-6.col-md-4= f.input :current_address, input_html: { rows: '6' }, label: t('.current_address')
 
         - if current_user.admin? || (current_user.any_manager? && @client.persisted?)
-          .col-xs-12.col-md-4= f.association :user, collection: @user, label: "#{t('.case_worker_or_staff')}", include_blank: false
+          .col-xs-12.col-sm-6.col-md-4= f.association :user, collection: @user, label: t('.case_worker_or_staff'), include_blank: false
         - else
-          .col-xs-12.col-md-4
+          .col-xs-12.col-sm-6.col-md-4
             .form-group.select.optional.disabled.client_user
-              %label.select.optional.disabled.control-label{:for => "client_user_id"}= t('.case_worker_or_staff')
+              %label.select.optional.disabled.control-label{ for: 'client_user_id' }= t('.case_worker_or_staff')
               - user_name = @client.user.present? ? @client.user.name : current_user.name
               %input{ type: 'text', value: user_name, id: '#client_user_id', name: 'client[user_id]', class: 'form-control', disabled: 'disabled' }
 
-        .col-xs-12.col-md-4= f.input :received_by_id, collection: @user.map{|p| [p.name, p.id]}, label: "#{t('.received_by')}", include_blank: false
-        .col-xs-12.col-md-4= f.input :followed_up_by_id, collection: @user.map{|p| [p.name, p.id]}, label: "#{t('.followed_up_by')}", include_blank: false
-        .col-xs-12.col-md-4.form-group.date.optional.client_follow_up_date
-          %label.date.optional.control-label{ for: 'client_follow_up_date' } #{t('.follow_up_date')}
+        .col-xs-12.col-sm-6.col-md-4= f.input :received_by_id, collection: @user.map{|p| [p.name, p.id]}, label: t('.received_by'), include_blank: false
+        .col-xs-12.col-sm-6.col-md-4= f.input :followed_up_by_id, collection: @user.map{|p| [p.name, p.id]}, label: t('.followed_up_by'), include_blank: false
+        .col-xs-12.col-sm-6.col-md-4.form-group.date.optional.client_follow_up_date
+          %label.date.optional.control-label{ for: 'client_follow_up_date' }= t('.follow_up_date')
           .input-group.date
             = f.text_field :follow_up_date, class: 'date optional form-control date-picker', type: 'text', name: 'client[follow_up_date]', id: 'client_follow_up_date'
             %span.input-group-addon
               %i.fa.fa-calendar-check-o
 
-        .col-xs-12.col-md-4= f.association :agencies, collection: @agencies, multiple: true, label_method: :name, value_method: :id, label: "#{t('.agencies_involved')}"
-        .col-xs-12.col-md-4= f.association :referral_source, collection: @referral_source, label: "#{t('.referral_source')}", include_blank: false
-        .col-xs-12.col-md-4.form-group.date.optional.client_initial_referral_date
-          %label.date.optional.control-label{ for: 'client_initial_referral_date' } #{t('.initial_referral_date')}
+        .col-xs-12.col-sm-6.col-md-4= f.association :agencies, collection: @agencies, multiple: true, label_method: :name, value_method: :id, label: t('.agencies_involved')
+        .col-xs-12.col-sm-6.col-md-4= f.association :referral_source, collection: @referral_source, label: t('.referral_source'), include_blank: false
+        .col-xs-12.col-sm-6.col-md-4.form-group.date.optional.client_initial_referral_date
+          %label.date.optional.control-label{ for: 'client_initial_referral_date' }= t('.initial_referral_date')
           .input-group.date
             = f.text_field :initial_referral_date, class: 'date optional form-control date-picker', type: 'text', name: 'client[initial_referral_date]', id: 'client_initial_referral_date'
             %span.input-group-addon
               %i.fa.fa-calendar-check-o
 
-        .col-xs-12.col-md-4
-          = f.input :referral_phone, label: "#{t('.referral_phone')}"
-        .col-xs-12.col-md-4
+        .col-xs-12.col-sm-6.col-md-4
+          = f.input :referral_phone, label: t('.referral_phone')
+        .col-xs-12.col-sm-6.col-md-4
           .i-checks.has-been-in-orphanage
             %label= "#{t('.has_been_in_orphanage')}?"
             = f.input :has_been_in_orphanage, as: :radio_buttons, collection: [['Yes', true],['No', false]], label: false
-        .col-xs-12.col-md-4
+        .col-xs-12.col-sm-6.col-md-4
           .i-checks.has-been-in-government-care
             %label= "#{t('.has_been_in_government_care')}?"
             = f.input :has_been_in_government_care, as: :radio_buttons, collection: [['Yes', true],['No', false]], label: false
-        .col-xs-12.col-md-4
+        .col-xs-12.col-sm-6.col-md-4
           = f.input :able_state, collection: Client::ABLE_STATES, label: t('.able_state')
       .row
         .col-xs-12.col-md-8
-          = f.input :relevant_referral_information, input_html: { style: 'height: 120px;' }, label: "#{t('.relevant_referral_information')}"
+          = f.input :relevant_referral_information, input_html: { rows: '5' }, label: t('.relevant_referral_information')
 
       - QuantitativeType.all.each do |qt|
         .row
           .col-xs-12.col-md-8
-            %label{title: qt.name}
-              = qt.name
+            %label{ title: qt.name }= qt.name
             = f.association :quantitative_cases, collection: qt.quantitative_cases, multiple: true, label_method: :value, value_method: :id, label: false, input_html: { class: able_related_info(qt.name) }
       .row
         .col-xs-12.col-md-8
-          = f.association :custom_fields, collection: CustomField.where(entity_type: 'Client'), label_method: :form_title, value_method: :id, label: t('.custom_forms'), multiple: true
+          = f.association :custom_fields, collection: @client_custom_fields, label_method: :form_title, value_method: :id, label: t('.custom_forms'), multiple: true
 
   .ibox-footer
     %button.btn.btn-primary.form-btn#submit-button{ type: 'button' }

@@ -1,5 +1,8 @@
 body[id='custom_fields-index'] {
-  .manage a {
-    margin-right: 5px;
+  .manage {
+    min-width: 100px;
+    a {
+      margin-right: 5px;
+    }
   }
 }

@@ -8,6 +8,16 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
     _addTasks()
     _postTask()
     _addElement()
+    _translatePagination()
+
+  _translatePagination = ->
+    next     = $('#rootwizard').data('next')
+    previous = $('#rootwizard').data('previous')
+    finish   = $('#rootwizard').data('finish')
+    $('#rootwizard a[href="#next"]').text(next)
+    $('#rootwizard a[href="#previous"]').text(previous)
+    $('#rootwizard a[href="#finish"]').text(finish)
+
   _addElement = ->
     $('.actions.clearfix ul').before("<hr/>")
 

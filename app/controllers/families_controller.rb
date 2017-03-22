@@ -1,7 +1,7 @@
 class FamiliesController < AdminController
   load_and_authorize_resource
 
-  before_action :find_province, except: [:index, :destroy]
+  before_action :find_association, except: [:index, :destroy]
   before_action :find_family, only: [:show, :edit, :update, :destroy]
 
   def index
@@ -74,8 +74,9 @@ class FamiliesController < AdminController
                             )
   end
 
-  def find_province
-    @province = Province.order(:name)
+  def find_association
+    @province             = Province.order(:name)
+    @family_custom_fields = CustomField.where(entity_type: 'Family')
   end
 
   def find_family

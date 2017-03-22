@@ -173,11 +173,12 @@ class ClientsController < AdminController
   end
 
   def set_association
-    @agencies        = Agency.order(:name)
-    @donors          = Donor.order(:name)
-    @province        = Province.order(:name)
-    @referral_source = ReferralSource.order(:name)
-    @user            = User.non_strategic_overviewers.order(:first_name, :last_name)
+    @agencies             = Agency.order(:name)
+    @donors               = Donor.order(:name)
+    @province             = Province.order(:name)
+    @referral_source      = ReferralSource.order(:name)
+    @user                 = User.non_strategic_overviewers.order(:first_name, :last_name)
+    @client_custom_fields = CustomField.where(entity_type: 'Client')
   end
 
   def columns_visibility
