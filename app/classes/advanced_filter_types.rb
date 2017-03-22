@@ -1,17 +1,4 @@
 class AdvancedFilterTypes
-
-  def self.filter(field_name, type, label, values = {})
-    if type == :text
-      text_options(field_name, label)
-    elsif type == :number
-      number_options(field_name, label)
-    elsif type == :date_picker
-      date_picker_options(field_name, label)
-    elsif type == :drop_list
-      drop_list_options(field_name, label, values)
-    end
-  end
-
   def self.text_options(field_name, label)
     {
       id: field_name,
