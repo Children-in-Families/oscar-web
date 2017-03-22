@@ -14,8 +14,8 @@ feature 'ClientAdvancedSearch' do
     click_link 'Advanced Search'
     wait_for_ajax
     within '#builder_rule_0' do
-      select2_select('Name', '.rule-filter-container .select2-container')
-      expect(page).to have_content 'Name'
+      select2_select('First Name (Local)', '.rule-filter-container .select2-container')
+      expect(page).to have_content 'First Name (Local)'
       expect(page).to have_content 'is'
     end
   end
@@ -45,8 +45,8 @@ feature 'ClientAdvancedSearch' do
     click_link 'Advanced Search'
     wait_for_ajax
     within '#builder_rule_0' do
-      select2_select('Placement date', '.rule-filter-container .select2-container')
-      expect(page).to have_content 'Placement date'
+      select2_select('Placement Start Date', '.rule-filter-container .select2-container')
+      expect(page).to have_content 'Placement Start Date'
       expect(page).to have_content 'is'
     end
   end
