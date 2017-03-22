@@ -257,6 +257,8 @@ km:
     id: លេខសំគាល់
     first_name: នាមខ្លួន
     last_name: នាមត្រកូល
+    local_first_name: នាមខ្លួន (Local)
+    local_last_name: នាមត្រកូល (Local)
     able_state: ស្ថានភាព Able
     name: ឈ្មោះ
     date_of_birth: ថ្ងៃ ខែ ឆ្នាំ កំណើត
@@ -416,7 +418,6 @@ km:
       clients:
         domain: កត្តា
         domains: កត្តា CSI ទាំងអស់
-        name: ឈ្មោះ
         age: អាយុ
         <<: *default_client_fields
         placements:
@@ -746,6 +747,7 @@ km:
       modification_of: កំណែប្រែរបស់
       back: ត្រលប់ក្រោយ
     advanced_search:
+      export_to_xls: ទាញចេញជាឯកសារប្រភេទ XLS
       advanced_search: ការស្វែងរកកម្រិតខ្ពស់
       add_new_filter: បន្ថែមការស្វែងរក
       search: ស្វែងរក
@@ -1393,6 +1395,9 @@ km:
       edit: កែតម្រូវ
       domain: កត្តា
       score: ពិន្ទុ
+      reason: មូលហេតុ
+      goal: គោលដៅ
+      task: កាតព្វកិច្ច
     create:
       successfully_created: ការប៉ាន់ប្រមាណត្រូវបានបង្កើតដោយជោគជ័យ
     update:
@@ -1408,7 +1413,6 @@ km:
       case_note_on: កំណត់ត្រានៅថ្ងៃ
       present: វត្តមានឣ្នកចូលរួម
       completed_tasks: កាតព្វកិច្ចដែលបានធ្វើរួច
-      incomplete_tasks: កាតព្វកិច្ចដែលមិនទាន់បំពេញ
       note: កំណត់ត្រា
     form:
       label_note: ចំណាំ
@@ -2058,7 +2062,7 @@ km:
         'on': របស់
         no_modification: មិនមានកំណែប្រែ
         Client: អតិថិជន
-        Family: គ្រួសារ
+        គ្រួសារ: គ្រួសារ
         Partner: ដៃគូ
         User: អ្នកប្រើ
         Agency: អង្គភាព
@@ -2116,3 +2120,21 @@ km:
       destroy:
         successfully_deleted: ទម្រង់បែបបទត្រូវបានលុបដោយជោគជ័យ
         failed_to_delete: មិនអាចលុបទម្រង់បែបបទបន្ថែមនេះបានទេ
+
+  advanced_search:
+    fields:
+      grade: កំរិតថ្នាក់
+      family_id: លេខសម្គាល់គ្រួសារ
+      age: អាយុ
+      family_name: ឈ្មោះគ្រួសារ
+      slug: លេខសម្គាល់
+      placement_start_date: ថ្ងៃបញ្ជូនទៅក្នុងករណី
+      case_type: ប្រភេទករណី
+      agency_name: ឈ្មោះអង្គភាព
+      received_by_id: បុគ្គលិកដែលទទួលករណី
+      birth_province_id: ស្រុកកំណើត
+      province_id: ខេត្តបច្ចុប្បន្ន
+      referral_source_id: ប្រភពនៃការបញ្ជូន
+      followed_up_by_id: បុគ្គលិកដែលតាមដានករណី
+      user_id: បុគ្គលិកគ្រប់គ្រងករណី
+      <<: *default_client_fields

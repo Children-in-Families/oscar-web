@@ -1,0 +1,9 @@
+%p Dear Admins,
+
+%p
+  There is a new release today. Please kindly check it
+  = link_to 'here.', changelogs_url(subdomain: Organization.current.short_name), target: :_blank
+
+%p Thanks,
+
+%p= "#{Organization.current.full_name} Team"

@@ -16,12 +16,16 @@
     #wrapper{ data: flash_alert }
       = render 'layouts/side_menu' if user_signed_in?
       - if user_signed_in?
-        #page-wrapper{:class => "gray-bg"}
+        #page-wrapper.gray-bg
           = render 'layouts/top_navbar'
-          .min-margin-layout
+          .min-margin-layout.padding-bottom
             = render 'layouts/alert'
             = yield
+          = render 'layouts/footer'
       - else
-        = render 'layouts/top_navbar'
-        = yield
+        #page-wrapper.gray-bg.no-margin
+          = render 'layouts/top_navbar'
+          = yield
+          .padding-bottom
+            = render 'layouts/footer'
     = javascript_include_tag 'application'

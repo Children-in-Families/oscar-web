@@ -17,7 +17,8 @@ class Task < ActiveRecord::Base
   scope :upcoming,   -> { where('completion_date > ?', Date.today) }
 
   scope :overdue_incomplete, -> { incomplete.overdue }
-  scope :today_incomplete, -> { incomplete.today }
+  scope :today_incomplete,   -> { incomplete.today }
+  scope :by_domain_id,       ->(value) { where('domain_id = ?', value) }
 
   before_save :set_user
 

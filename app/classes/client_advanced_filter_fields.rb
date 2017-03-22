@@ -1,62 +1,47 @@
 class  ClientAdvancedFilterFields
+  include AdvancedSearchHelper
+
   def initialize(options = {})
     @result = []
     @user = options[:user]
   end
 
   def render
-    number_fields       = number_type_list.map{ |item| AdvancedFilterTypes.number_options(item.first, item.last) }
-    text_fields         = text_type_list.map{ |item| AdvancedFilterTypes.text_options(item.first, item.last) }
-    date_picker_fields  = date_type_list.map{ |item| AdvancedFilterTypes.date_picker_options(item.first, item.second)}
-    drop_list_fields    = drop_down_type_list.map{ |item| AdvancedFilterTypes.drop_list_options(item.first, item.second, item.last)}
-
+    number_fields       = number_type_list.map{ |item| AdvancedFilterTypes.number_options(item, format_header(item)) }
+    text_fields         = text_type_list.map{ |item| AdvancedFilterTypes.text_options(item, format_header(item)) }
+    date_picker_fields  = date_type_list.map{ |item| AdvancedFilterTypes.date_picker_options(item, format_header(item)) }
+    drop_list_fields    = drop_down_type_list.map{ |item| AdvancedFilterTypes.drop_list_options(item.first, format_header(item.first), item.last) }
     text_fields + drop_list_fields + number_fields + date_picker_fields
   end
 
   private
   def number_type_list
-    [
-      ['code', 'Code'],
-      ['grade', 'School grade'],
-      ['family_id', 'Family ID'],
-      ['age', 'Age']
-    ]
+    ['code', 'grade', 'family_id', 'age']
   end
 
   def text_type_list
-    [
-      ['first_name', 'Name'],
-      ['family_name', 'Family name'],
-      ['slug', 'ID'],
-      ['referral_phone', 'Referral phone'],
-      ['school_name', 'School name']
-    ]
+    ['first_name', 'last_name', 'local_first_name', 'local_last_name', 'family_name', 'slug', 'referral_phone', 'school_name']
   end
 
   def date_type_list
-    [
-      ['placement_date', 'Placement start date'],
-      ['date_of_birth', 'Date of birth'],
-      ['initial_referral_date', 'Initial referral date'],
-      ['follow_up_date', 'Follow-up date']
-    ]
+    ['placement_date', 'date_of_birth', 'initial_referral_date', 'follow_up_date']
   end
 
   def drop_down_type_list
     [
-      ['gender','Gender', { male: 'Male', female: 'Female' }],
-      ['status', 'Status', client_status],
-      ['case_type', 'Case type', { EC: 'EC', KC: 'KC', FC: 'FC' }],
-      ['agency_name', 'Agency name', agencies_options],
-      ['received_by_id', 'Received by', received_by_options],
-      ['birth_province_id', 'Birth province', provinces],
-      ['province_id', 'Current province', provinces],
-      ['referral_source_id', 'Referral source', referral_source_options],
-      ['followed_up_by_id', 'Followed-up by', followed_up_by_options],
-      ['has_been_in_government_care', 'Has been in government care', { true: 'Yes', false: 'No' }],
-      ['able_state', 'Able state', client_able_state],
-      ['has_been_in_orphanage', 'Has been in orphanage', { true: 'Yes', false: 'No'}],
-      ['user_id', 'Case Worker', user_select_options]
+      ['gender', { male: 'Male', female: 'Female' }],
+      ['status', client_status],
+      ['case_type', { EC: 'EC', KC: 'KC', FC: 'FC' }],
+      ['agency_name', agencies_options],
+      ['received_by_id', received_by_options],
+      ['birth_province_id', provinces],
+      ['province_id', provinces],
+      ['referral_source_id', referral_source_options],
+      ['followed_up_by_id', followed_up_by_options],
+      ['has_been_in_government_care', { true: 'Yes', false: 'No' }],
+      ['able_state', client_able_state],
+      ['has_been_in_orphanage', { true: 'Yes', false: 'No'}],
+      ['user_id', user_select_options]
     ]
   end
 

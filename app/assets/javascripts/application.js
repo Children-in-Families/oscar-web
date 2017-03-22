@@ -45,7 +45,7 @@
 //= require assessments/form
 //= require tasks/form
 //= require dashboards/index
-//= require case_notes/new
+//= require case_notes/form
 //= require cases/form
 //= require admin/tasks
 //= require ckeditor/init
@@ -76,3 +76,5 @@
 //= require ckeditor/config
 //= require shared/version_per_page_form
 //= require notifications/index
+//= require sessions/new
+//= require case/quarterly_reports/index

@@ -1,8 +1,14 @@
 body[id='clients-advanced_search'] {
+
+  .btn-export {
+    margin-top: 0;
+  }
+
   .dataTables_scrollBody {
     max-height: 500px !important;
     margin-top: -20px;
   }
+  
   table, .dataTables_scrollHeadInner {
     width: 100% !important;
   }
@@ -34,7 +40,7 @@ body[id='clients-advanced_search'] {
   .rule-value-container {
     border-left: none;
     select, input {
-      width: 180px;  
+      width: 180px;
     }
   }
 
