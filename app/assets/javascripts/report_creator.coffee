@@ -102,25 +102,27 @@ class CIF.ReportCreator
         y: 10
         itemStyle:
            fontSize: '15px'
-      title: text: ''
+      title:
+        text: ''
       tooltip:
         formatter: ->
           @point.name + ": " + "<b>" + @point.y + "</b>"
         style:
           fontSize: '15px'
-      plotOptions: pie:
-        size:'100%'
-        data: @data
-        allowPointSelect: true
-        cursor: 'pointer'
-        showInLegend: true
-        point: events: click: ->
-          location.href = @options.url
+      plotOptions:
+        pie:
+          size:'100%'
+          data: @data
+          allowPointSelect: true
+          cursor: 'pointer'
+          showInLegend: true
+          point: events: click: ->
+            location.href = @options.url
       series: [ {
-        borderWidth: 0
         dataLabels:
           distance: -30
-          style: fontSize: '1.3em'
+          style:
+            fontSize: '1.3em'
           formatter: ->
             @point.name + ": " + @point.y
       }]
