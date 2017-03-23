@@ -103,18 +103,16 @@ describe 'Client' do
       expect(page).to have_content('Client has been successfully created')
     end
 
-    xscenario 'warning', js: true do
+    scenario 'warning', js: true do
       fill_in 'First Name', with: 'Cornell'
 
-      gender_selector = find('.client_gender')
-      province_selector = find('.client_birth_province_id')
-
-      select2_select from: gender_selector, with: 'Female'
-      save_and_open_screenshot '2.jpg'
-      select2_select from: province_selector, with: province.name
+      select2_select 'Male', '.client_gender'
+      select2_select province.name, '.client_birth_province_id'
+      fill_in 'Date of Birth', with: '1994-04-04'
 
       click_button 'Save'
-      expect(page).to have_content("has already been register in")
+      
+      expect(page).to have_content("Cornell has already been registered")
     end
   end
 

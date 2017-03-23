@@ -64,6 +64,7 @@ describe 'Referral Sources' do
       within("#referral_sourceModal-#{referral_source.id}") do
         fill_in 'Name', with: ''
         click_button 'Save'
+        
       end
       sleep 1
       expect(page).to have_content('Failed to update a referral source.')
