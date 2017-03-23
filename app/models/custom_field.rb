@@ -18,7 +18,7 @@ class CustomField < ActiveRecord::Base
                                 numericality: { only_integer: true, greater_than_or_equal_to: 1 }, if: 'frequency.present?'
   validate :presence_of_fields
 
-  before_save :set_time_of_frequency
+  before_save :set_time_of_frequency, :set_ngo_name
 
   FREQUENCIES  = ['Daily', 'Weekly', 'Monthly', 'Yearly'].freeze
   ENTITY_TYPES = ['Client', 'Family', 'Partner', 'User'].freeze
@@ -28,6 +28,12 @@ class CustomField < ActiveRecord::Base
       self.time_of_frequency = time_of_frequency
     else
       self.time_of_frequency = 0
+    end
+  end
+
+  def set_ngo_name
+    if ngo_name.blank?
+      self.ngo_name = Organization.current.full_name
     end
   end
 

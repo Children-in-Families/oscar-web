@@ -1,29 +1,79 @@
 .row
   .col-xs-12.text-right
     - if can? :manage, CustomField
-      = link_to t('.new_custom_form'), new_custom_field_path, class: 'btn btn-primary'
+      = link_to t('.new_custom_form'), new_custom_field_path, class: 'btn btn-primary form-btn'
+      %a{ 'data-target' => '#myModalf', 'data-toggle' => 'modal', type: 'button', class: 'btn btn-primary form-btn' }
+        =t('.search')
 .row
   .col-xs-12
     .ibox.min-margin-layout
       .ibox-content
-        %table.table.table-bordered.table-hover
-          %thead
-            %th= t('.form_title')
-            %th= t('.entity_type')
-            %th= t('.frequency')
-            %th= t('.organization')
-            - if can? :manage, CustomField
-              %th.manage.text-center= t('.manage')
+        %div
+          %ul.nav.nav-tabs{:role => "tablist"}
+            %li.active{:role => "presentation"}
+              %a{"aria-controls" => "home", "data-toggle" => "tab", :href => "#home", :role => "tab"}= t('.custom_form')
+            %li{:role => "presentation"}
+              %a{"aria-controls" => "profile", "data-toggle" => "tab", :href => "#profile", :role => "tab"}= t('.all_custom_form')
+          .tab-content
+            #home.tab-pane.active{:role => "tabpanel"}
+              %table.table.table-bordered.table-hover
+                %thead
+                  %th= t('.form_title')
+                  %th= t('.entity_type')
+                  %th= t('.frequency')
+                  %th= t('.organization')
+                  - if can? :manage, CustomField
+                    %th.manage.text-center= t('.manage')
 
-          - @custom_fields.each do |custom_field|
-            %tr
-              %td= custom_field.form_title
-              %td= custom_field.entity_type
-              %td= frequency_note(custom_field)
-              %td= current_organiation.full_name
-              - if can? :manage, CustomField
-                %td.manage.text-center
-                  = link_to edit_custom_field_path(custom_field), class: 'btn btn-outline btn-success btn-xs' do
-                    = fa_icon('pencil')
-                  = link_to custom_field, class: "btn btn-outline btn-danger btn-xs margin-btn #{disable_action_on_custom_form(custom_field)}", method: :delete, data: { confirm: t('.are_you_sure') } do
-                    = fa_icon('trash')
+                - @custom_fields.each do |custom_field|
+                  %tr
+                    %td= custom_field.form_title
+                    %td= custom_field.entity_type
+                    %td= frequency_note(custom_field)
+                    %td= custom_field.ngo_name
+                    - if can? :manage, CustomField
+                      %td.manage.text-center
+                        = link_to edit_custom_field_path(custom_field), class: 'btn btn-outline btn-success btn-xs' do
+                          = fa_icon('pencil')
+                        = link_to custom_field, class: "btn btn-outline btn-danger btn-xs margin-btn #{disable_action_on_custom_form(custom_field)}", method: :delete, data: { confirm: t('.are_you_sure') } do
+                          = fa_icon('trash')
+            #profile.tab-pane{:role => "tabpanel"}
+              %table.table.table-bordered.table-hover
+                %thead
+                  %th= t('.form_title')
+                  %th= t('.entity_type')
+                  %th= t('.frequency')
+                  %th= t('.organization')
+                  - if can? :manage, CustomField
+                    %th.manage.text-center= t('.manage')
+
+                - @all_custom_fields.each do |custom_field|
+                  %tr
+                    %td= custom_field.form_title
+                    %td= custom_field.entity_type
+                    %td= frequency_note(custom_field)
+                    %td= custom_field.ngo_name
+                    - if can? :manage, CustomField
+                      %td.manage.text-center
+                        = link_to custom_field_path(custom_field, ngo_name: custom_field.ngo_name), class: 'btn btn-outline btn-success btn-xs' do
+                          = fa_icon('eye')
+                        = link_to new_custom_field_path(custom_field_id: custom_field.id, ngo_name: custom_field.ngo_name), class: 'btn btn-outline btn-primary btn-xs margin-btn' do
+                          = fa_icon('files-o')
+#myModalf.modal.fade{ 'aria-labelledby' => 'myModalLabel', :role => 'dialog', tabindex: '-1' }
+  .modal-dialog{role: 'document'}
+    .modal-content
+      .modal-header
+        %button.close{ 'aria-label' => 'Close', 'data-dismiss' => 'modal', type: 'button' }
+          %span{ 'aria-hidden' => 'true' } ×
+        %h3#myModalLabel.modal-title.text-center=t('.search_custom_form')
+      = form_tag search_path, :method => 'get'  do
+        .modal-body
+          .row
+            .col-xs-12
+              .col-sm-3
+                = label_tag :search, t('.form_title'), class: 'form-title-margin-top'
+              .col-sm-8
+                = text_field_tag :search, nil, class: 'form-control', required: true
+        .modal-footer
+          = submit_tag t('.search'), :name => nil, class: 'btn btn-primary form-btn'
+          %button.btn.btn-default{ 'data-dismiss' => 'modal', type: 'button' }= t('.close')

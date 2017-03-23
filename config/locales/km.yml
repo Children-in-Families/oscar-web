@@ -2099,11 +2099,18 @@ km:
   form_builder:
     custom_fields:
       index:
+        custom_form: បន្ថែមទម្រង់បែបបទ
+        all_custom_form: បន្ថែមទម្រង់បែបបទទាំងអស់
         new_custom_form: បន្ថែមទម្រង់បែបបទថ្មី
         manage: គ្រប់គ្រង
         organization: អង្គការ
         are_you_sure: តើអ្នកប្រាកដហើយ?
+        search: ស្វែងរក
+        search_custom_form: ស្វែងរកបន្ថែមទម្រង់បែបបទ
+        close: បិទ
         <<: *default_custom_fields
+      show:
+        custom_form_list: តារាងបន្ថែមទម្រង់បែបបទ
       form:
         blank: មិនអាចរំលង
         <<: *default_custom_fields
@@ -2120,7 +2127,11 @@ km:
       destroy:
         successfully_deleted: ទម្រង់បែបបទត្រូវបានលុបដោយជោគជ័យ
         failed_to_delete: មិនអាចលុបទម្រង់បែបបទបន្ថែមនេះបានទេ
-
+      search:
+        organization: អង្គការ
+        manage: គ្រប់គ្រង
+        back: ត្រឡប់ក្រោយ
+        <<: *default_custom_fields
   advanced_search:
     fields:
       grade: កំរិតថ្នាក់
