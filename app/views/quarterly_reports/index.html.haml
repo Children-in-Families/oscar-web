@@ -1,9 +1,0 @@
-.row
-  .col-xs-12
-    .ibox
-      .ibox-heading
-        %h3 Legacy Quarterly Reports
-      .ibox-content
-        = datagrid_table @quarterly_reports_grid, html: {class: 'table table-bordered table-striped table-hover'}
-
-    = paginate @quarterly_reports_grid.assets

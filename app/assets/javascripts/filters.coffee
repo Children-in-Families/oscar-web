@@ -4,12 +4,9 @@ $(document).on 'ready page:load', ->
   body = $('body').attr('id')
 
   if indexes.indexOf(body) > -1
-    $('.integer_filter').attr('type': 'number')
-    $('.grid-form .datagrid-filter').each ->
-      $(@).addClass 'form-group col-xs-12 col-sm-4 col-md-3'
-      $(@).children('input, select').addClass 'form-control'
-
-    $('.grid-form .domain-filter').each ->
+    $('.integer_filter').attr('type', 'number')
+    $('.grid-form .datagrid-filter, .grid-form .domain-filter').each ->
+      $(@).addClass 'form-group col-xs-12 col-sm-6 col-lg-4'
       $(@).children('input, select').addClass 'form-control'
       
     $('.date-filter-group').each (index, element) ->

@@ -3,7 +3,7 @@
     .ibox
       .ibox-title
         %h5
-          = "#{t('.quarterly_report_information_for')} #{@case.client.name} #{t('.with_id')} #{@quarterly_report.code}"
+          = "#{t('.quarterly_report_information_for')} #{entity_name(@case.client)} #{t('.with_id')} #{@quarterly_report.code}"
         .ibox-tools
           = link_to t('.back'), :back, {class: 'button btn btn-default btn-back-default'}
       .ibox-content
@@ -12,7 +12,7 @@
             %td.spacing-first-col= t('.date_of_visit')
             %td
               %strong
-                = @quarterly_report.visit_date
+                = date_format(@quarterly_report.visit_date)
 
           - if @quarterly_report.kinship?
             %tr
@@ -86,7 +86,7 @@
             %td.spacing-first-col= t('.money_and_supplies_being_used_appropriately')
             %td
               %strong
-                = @quarterly_report.money_and_supplies_being_used_appropriately
+                = human_boolean(@quarterly_report.money_and_supplies_being_used_appropriately)
           %tr
             %td.spacing-first-col= t('.how_are_they_being_misused')
             %td
@@ -96,7 +96,7 @@
             %td.spacing-first-col= t('.staff_information')
             %td
               %strong
-                = link_to @quarterly_report.staff_information.name, user_path(@quarterly_report.staff_information) if @quarterly_report.staff_information
+                = link_to entity_name(@quarterly_report.staff_information), user_path(@quarterly_report.staff_information) if @quarterly_report.staff_information
           %tr
             %td.spacing-first-col= t('.spiritual_developments_with_the_child_or_family')
             %td

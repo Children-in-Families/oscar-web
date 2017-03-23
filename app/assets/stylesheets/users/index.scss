@@ -1,4 +1,4 @@
-#users-index {
+body[id='users-index'] {
   #user-search-form {
     margin-top: 20px;
   }
@@ -35,5 +35,9 @@
 
   .dataTables_scrollBody {
     max-height: 500px !important;
+  }
+
+  table.users tbody tr:hover {
+    cursor: pointer;
   }
 }

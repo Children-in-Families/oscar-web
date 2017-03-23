@@ -50,15 +50,19 @@ body[id='users-version'] {
 }
 
 .usaid-logo {
-  width: 220px;
+  width: 262px;
 }
 
 .margin-usaid-link {
-  margin-top: 30px;
+  margin-top: 40px;
 
   a {
     color: grey;
   }
+}
+
+.footer {
+  padding: 0px 20px 10px 20px;
 }
 
 .modal-disclaimer-width {
@@ -81,5 +85,11 @@ body[id='users-version'] {
 }
 
 .padding-bottom {
-  padding-bottom: 100px;
+  padding-bottom: 115px;
+}
+
+@media (min-width: 768px) {
+  .footer {
+    padding: 0px 20px 0px 20px;
+  }
 }

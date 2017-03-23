@@ -3,7 +3,7 @@
     .ibox
       .ibox-content
         .row
-          .col-xs-12.col-sm-4.col-md-3
+          .col-xs-12.col-sm-4.col-lg-3
             %h4
               %u= t('.version_list')
             %ul.list-group
@@ -18,7 +18,7 @@
                         = fa_icon('trash')
                 = render 'form', changelog: changelog
 
-          .col-xs-12.col-sm-8.col-md-9.changes
+          .col-xs-12.col-sm-8.col-lg-9.changes
             .row
               .col-xs-12
                 .row
@@ -42,9 +42,9 @@
                         .row
                           .col-xs-12.change
                             .row
-                              .col-xs-3.col-md-2
+                              .col-xs-3.col-lg-2
                                 %div{ class: "change-type label label-#{changelog_type_label(changelog_type.change_type)}" }
                                   = changelog_type.change_type.upcase
-                              .col-xs-9.col-md-10
+                              .col-xs-9.col-lg-10
                                 = changelog_type.description
 = render 'form'

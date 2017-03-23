@@ -257,6 +257,8 @@ km:
     id: លេខសំគាល់
     first_name: នាមខ្លួន
     last_name: នាមត្រកូល
+    local_first_name: នាមខ្លួន (Local)
+    local_last_name: នាមត្រកូល (Local)
     able_state: ស្ថានភាព Able
     name: ឈ្មោះ
     date_of_birth: ថ្ងៃ ខែ ឆ្នាំ កំណើត
@@ -416,7 +418,6 @@ km:
       clients:
         domain: កត្តា
         domains: កត្តា CSI ទាំងអស់
-        name: ឈ្មោះ
         age: អាយុ
         <<: *default_client_fields
         placements:
@@ -652,11 +653,11 @@ km:
     new:
       new_client_title: បង្កើតអតិថិជនថ្មី
     confirm_client:
-      confirm: យល់ស្រប
-      close: បិទ
-      title: ប្រុងប្រយ័ត្ន
+      confirm: រក្សាទុក
+      close: ទុកជាមោឃៈ
+      title: សូមជ្រាប
       body_first: អតិថិជន
-      body_second: បានចុះឈ្មោះរួចរាល់នៅក្នុង
+      body_second: ត្រូវបានចុះឈ្មោះរួចរាល់នៅក្នុង
     edit:
       edit_client_title: កែសម្រួលពត៌មានអតិថិជន
     form:
@@ -891,6 +892,7 @@ km:
               blank: មិនអាចរំលង
               taken: ត្រូវបានប្រើរួចហើយ
             time_of_frequency:
+              blank: មិនអាចរំលង
               not_an_integer: អនុញ្ញាតតែលេខគត់ប៉ុណ្ណោះ
               greater_than_or_equal_to: មិនអាចតូចជាង 1
         case:
@@ -1375,6 +1377,9 @@ km:
       add_task: បន្ថែមកាតព្វកិច្ចថ្មី
       at_least_one_task_required: យ៉ាងហោចណាស់ត្រូវមានកាតព្វកិច្ចមួយយ៉ាងតិច
       tasks_arising: កាតព្វកិច្ចកើតឡើង៖
+      next: ទំព័របន្ទាប់
+      previous: ទំព័រមុន
+      finish: រក្សាទុក
     add_task_form:
       completion_date: ថ្ងៃកំនត់
       domain: កត្តា
@@ -2118,21 +2123,12 @@ km:
 
   advanced_search:
     fields:
-      code: ទម្រង់
       grade: កំរិតថ្នាក់
       family_id: លេខសម្គាល់គ្រួសារ
       age: អាយុ
-      first_name: ឈ្មោះ
       family_name: ឈ្មោះគ្រួសារ
       slug: លេខសម្គាល់
-      referral_phone: លេខទូរសព្ទរបស់ឣ្នកបញ្ជូនករណី
-      school_name: ឈ្មោះសាលារៀន
-      placement_date: ថ្ងៃបញ្ជូនទៅក្នុងករណី
-      date_of_birth: ថ្ងៃខែឆ្នាំកំណើត
-      initial_referral_date: កាលបរិច្ឆេទនៃការបញ្ជូន
-      follow_up_date: កាលបរិច្ឆេទតាមដាន
-      gender: ភេទ
-      status: ស្ថានភាព
+      placement_start_date: ថ្ងៃបញ្ជូនទៅក្នុងករណី
       case_type: ប្រភេទករណី
       agency_name: ឈ្មោះអង្គភាព
       received_by_id: បុគ្គលិកដែលទទួលករណី
@@ -2140,7 +2136,5 @@ km:
       province_id: ខេត្តបច្ចុប្បន្ន
       referral_source_id: ប្រភពនៃការបញ្ជូន
       followed_up_by_id: បុគ្គលិកដែលតាមដានករណី
-      has_been_in_government_care: តើធ្លាប់ស្ថិតក្នុងការថែទំារបស់រាជរដ្ឋាភិបាល
-      able_state: ស្ថានភាព Able
-      has_been_in_orphanage: ធ្លាប់បាននៅក្នុងមណ្ឌលកុមារកំព្រា
       user_id: បុគ្គលិកគ្រប់គ្រងករណី
+      <<: *default_client_fields

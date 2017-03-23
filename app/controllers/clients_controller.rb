@@ -12,7 +12,7 @@ class ClientsController < AdminController
       @clients_by_user        = clients.filter_by_field
       respond_to do |f|
         f.html do
-          @clients_filtered       = @clients_by_user.order(advanced_search_sort_param).page(params[:page]).per(20)
+          @clients_filtered = @clients_by_user.order(advanced_search_sort_param).page(params[:page]).per(20)
         end
         f.xls do
           send_data ClientExporter.to_xls(@clients_by_user.order(advanced_search_sort_param)), filename: "client_report-#{Time.now}.xls"
@@ -165,7 +165,7 @@ class ClientsController < AdminController
   def client_params
     params.require(:client)
           .permit(
-            :assessment_id, :first_name, :gender, :date_of_birth,
+            :assessment_id, :first_name, :last_name, :local_first_name, :local_last_name, :gender, :date_of_birth,
             :birth_province_id, :initial_referral_date, :referral_source_id,
             :referral_phone, :received_by_id, :followed_up_by_id,
             :follow_up_date, :grade, :school_name, :current_address,
@@ -181,11 +181,12 @@ class ClientsController < AdminController
   end
 
   def set_association
-    @agencies        = Agency.order(:name)
-    @donors          = Donor.order(:name)
-    @province        = Province.order(:name)
-    @referral_source = ReferralSource.order(:name)
-    @user            = User.non_strategic_overviewers.order(:first_name, :last_name)
+    @agencies             = Agency.order(:name)
+    @donors               = Donor.order(:name)
+    @province             = Province.order(:name)
+    @referral_source      = ReferralSource.order(:name)
+    @user                 = User.non_strategic_overviewers.order(:first_name, :last_name)
+    @client_custom_fields = CustomField.where(entity_type: 'Client')
   end
 
   def columns_visibility

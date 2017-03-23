@@ -2,15 +2,18 @@
   %div{ class: "panel panel-#{version_color(version.event)}" }
     .panel-heading
       %h5
-        - if controller_name == 'data_trackers'
-          %span
-            = "#{version.whodunnit} #{t('.change')} #{t('.on')}"
-            = t(".#{version.item_type}")
-            = "##{version.item_id}."
-        - else
-          %span= "#{version.whodunnit} #{t('.change')}."
-        %span{ class: "pull-right label label-#{version_color(version.event)}" }
-          = version.event_formated
+        .row
+          .col-xs-12.col-md-9.col-lg-10
+            - if controller_name == 'data_trackers'
+              %p
+                = "#{version.whodunnit} #{t('.change')} #{t('.on')}"
+                = t(".#{version.item_type}")
+                = "##{version.item_id}."
+            - else
+              %p= "#{version.whodunnit} #{t('.change')}."
+          .col-xs-12.col-md-3.col-lg-2.text-right
+            %p{ class: "label label-#{version_color(version.event)}" }
+              = version.event_formated
     .panel-body
       .table-responsive
         - if version.event == 'delete'

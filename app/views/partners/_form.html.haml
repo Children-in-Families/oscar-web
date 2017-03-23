@@ -3,29 +3,27 @@
     = f.error_notification
     .form-inputs
       .row
-        .col-xs-12.col-md-4= f.input :name, label: "#{t('.name')}"
-        .col-xs-12.col-md-4= f.input :contact_person_name, label: "#{t('.contact_name')}"
-        .col-xs-12.col-md-4= f.input :contact_person_email, label: "#{t('.contact_email')}"
-      .row
-        .col-xs-12.col-md-4= f.input :contact_person_mobile, label: "#{t('.contact_mobile')}"
-        .col-xs-12.col-md-4= f.association :province, collection: @province, include_blank: false, label: "#{t('.province')}"
-        .col-xs-12.col-md-4= f.input :address, input_html: { rows: '4' }, label: "#{t('.address')}"
-      .row
-        .col-xs-12.col-md-4
+        .col-xs-12.col-sm-6.col-md-4= f.input :name, label: t('.name')
+        .col-xs-12.col-sm-6.col-md-4= f.input :contact_person_name, label: t('.contact_name')
+        .col-xs-12.col-sm-6.col-md-4= f.input :contact_person_email, label: t('.contact_email')
+        .col-xs-12.col-sm-6.col-md-4= f.input :contact_person_mobile, label: t('.contact_mobile')
+        .col-xs-12.col-sm-6.col-md-4= f.association :province, collection: @province, include_blank: false, label: t('.province')
+        .col-xs-12.col-sm-6.col-md-4= f.input :address, input_html: { rows: '4' }, label: t('.address')
+        .col-xs-12.col-sm-6.col-md-4
           .form-group.date.optional.partner_start_date
             %label.date.optional.control-label{ for: 'partner_start_date' } #{t('.start_date')}
             .input-group.date
               = f.text_field :start_date, class: 'date optional form-control date-picker', type: 'text', name: 'partner[start_date]', id: 'partner_start_date'
               %span.input-group-addon
                 %i.fa.fa-calendar-check-o
-          = f.input :engagement, label: "#{t('.engagement')}"
-        .col-xs-12.col-md-4
-          = f.input :organisation_type, label: "#{t('.organisation_type')}"
-          = f.input :affiliation, label: "#{t('.affiliation')}"
-        .col-xs-12.col-md-4
-          = f.input :background, input_html: { style: 'height: 107px;' }, label: "#{t('.background')}"
+          = f.input :engagement, label: t('.engagement')
+        .col-xs-12.col-sm-6.col-md-4
+          = f.input :organisation_type, label: t('.organisation_type')
+          = f.input :affiliation, label: t('.affiliation')
+        .col-xs-12.col-sm-6.col-md-4
+          = f.input :background, input_html: { style: 'height: 107px;' }, label: t('.background')
       .row
-        .col-xs-12.col-md-4
+        .col-xs-12.col-sm-6.col-md-4
           = f.association :custom_fields, collection: CustomField.where(entity_type: 'Partner'), label_method: :form_title, value_method: :id, input_html: { class: 'select2' }, label: t('.custom_forms')
 
   .ibox-footer

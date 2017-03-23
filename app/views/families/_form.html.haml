@@ -1,40 +1,33 @@
-= simple_form_for(@family, title: "new oops") do |f|
+= simple_form_for(@family) do |f|
   .ibox-content
     = f.error_notification
     .form-inputs
       .row
-        .col-xs-12.col-md-4= f.input :name, label: "#{t('.name')}"
-        .col-xs-12.col-md-4= f.input :address, input_html: { rows: '4' }, label: "#{t('.address')}"
-        .col-xs-12.col-md-4= f.input :family_type, collection: [['Foster', 'foster'], ['Kinship', 'kinship'], ['Emergency', 'emergency']], include_blank: false, label: "#{t('.family_type')}", input_html: { class: 'select2' }
-      .row
-        .col-xs-12.col-md-4= f.input :significant_family_member_count, label: "#{t('.significant_family_member_count')}"
-        .col-xs-12.col-md-4= f.input :female_children_count, label: "#{t('.female_children_count')}"
-        .col-xs-12.col-md-4= f.input :male_children_count, label: "#{t('.male_children_count')}"
-      .row
-        .col-xs-12.col-md-8
-          .row
-            .col-xs-12.col-md-6= f.input :female_adult_count, label: "#{t('.female_adult_count')}"
-            .col-xs-12.col-md-6= f.input :male_adult_count, label: "#{t('.male_adult_count')}"
-          .row
-            .col-xs-12.col-md-6= f.association :province, collection: @province, include_blank: false, label: "#{t('.province')}", input_html: { class: 'select2' }
-            .col-xs-12.col-md-6.form-group.date.optional.family_contract_date
-              %label.date.optional.control-label{ for: 'family_contract_date' }= t('.contract_date')
-              .input-group.date
-                = f.text_field :contract_date, class: 'date optional form-control date-picker', type: 'text', name: 'family[contract_date]', id: 'family_contract_date'
-                %span.input-group-addon
-                  %i.fa.fa-calendar-check-o
-          .row
-            .col-xs-12.col-md-6= f.input :household_income, label: "#{t('.household_income')}($)"
-            .col-xs-12.col-md-6
-              .i-checks.dependable-income
-                %label= t('.dependable_income')
-                = f.input :dependable_income, as: :radio_buttons, collection: [[t('.yes'), true],[t('.no'), false]], label: false
+        .col-xs-12.col-sm-6.col-md-4= f.input :name, label: t('.name')
+        .col-xs-12.col-sm-6.col-md-4= f.input :address, input_html: { rows: '4' }, label: t('.address')
+        .col-xs-12.col-sm-6.col-md-4= f.input :family_type, collection: [['Foster', 'foster'], ['Kinship', 'kinship'], ['Emergency', 'emergency']], include_blank: false, label: ('.family_type'), input_html: { class: 'select2' }
+        .col-xs-12.col-sm-6.col-md-4= f.input :significant_family_member_count, label: t('.significant_family_member_count')
+        .col-xs-12.col-sm-6.col-md-4= f.input :female_children_count, label: t('.female_children_count')
+        .col-xs-12.col-sm-6.col-md-4= f.input :male_children_count, label: t('.male_children_count')
+        .col-xs-12.col-sm-6.col-md-4= f.input :female_adult_count, label: t('.female_adult_count')
+        .col-xs-12.col-sm-6.col-md-4= f.input :male_adult_count, label: t('.male_adult_count')
+        .col-xs-12.col-sm-6.col-md-4= f.association :province, collection: @province, include_blank: false, label: ('.province'), input_html: { class: 'select2' }
+        .col-xs-12.col-sm-6.col-md-4.form-group.date.optional.family_contract_date
+          %label.date.optional.control-label{ for: 'family_contract_date' }= t('.contract_date')
+          .input-group.date
+            = f.text_field :contract_date, class: 'date optional form-control date-picker', type: 'text', name: 'family[contract_date]', id: 'family_contract_date'
+            %span.input-group-addon
+              %i.fa.fa-calendar-check-o
+        .col-xs-12.col-sm-6.col-md-4= f.input :household_income, label: "#{t('.household_income')}($)"
+        .col-xs-12.col-sm-6.col-md-4
+          .i-checks.dependable-income
+            %label= t('.dependable_income')
+            = f.input :dependable_income, as: :radio_buttons, collection: [[t('.yes'), true],[t('.no'), false]], label: false
 
-        .col-xs-12.col-md-4
-          = f.input :caregiver_information, input_html: { style: 'height: 182px;' }, label: "#{t('.caregiver_information')}"
-      .row
-        .col-xs-12.col-md-4
-          = f.association :custom_fields, collection: CustomField.where(entity_type: 'Family'), label_method: :form_title, value_method: :id, input_html: { class: 'select2' }, label: t('.custom_forms')
+        .col-xs-12.col-sm-6.col-md-4
+          = f.input :caregiver_information, input_html: { rows: 5 }, label: t('.caregiver_information')
+        .col-xs-12.col-sm-6.col-md-4
+          = f.association :custom_fields, collection: @family_custom_fields, label_method: :form_title, value_method: :id, input_html: { class: 'select2' }, label: t('.custom_forms')
 
   .ibox-footer
     = f.submit t('save'), class: 'btn btn-primary form-btn'

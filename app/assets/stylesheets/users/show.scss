@@ -73,7 +73,12 @@
     th.name, th.gender, th.status, th.able_state, th.family, th.partner, th.manage, th.any_assessments {
       min-width: 230px;
     }
-
+    th.first_name, th.last_name {
+      min-width: 160px;
+    }
+    th.local_first_name, th.local_last_name {
+      min-width: 175px;
+    }
     th.status {
       min-width: 170px;
     }
@@ -115,7 +120,7 @@
       border-bottom-width: 0;
     }
   }
-  
+
   .dataTables_scrollBody {
     max-height: 500px !important;
   }
@@ -131,5 +136,9 @@
   .label.label-default {
     line-height: 2.2;
     margin-right: 3px;
+  }
+
+  table.clients tbody tr:hover {
+    cursor: pointer;
   }
 }

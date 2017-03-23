@@ -1,7 +1,7 @@
-body[id=assessments-new],
-body[id=assessments-edit],
-body[id=assessments-update],
-body[id=assessments-create] {
+body[id='assessments-new'],
+body[id='assessments-create'],
+body[id='assessments-edit'],
+body[id='assessments-update'] {
   .wizard {
     .steps {
       display: none;
@@ -12,7 +12,6 @@ body[id=assessments-create] {
       min-height: 80em;
       .body {
         width: 100%;
-        // height: 100%;
         padding: 0;
         label {
           margin-bottom: 0;
@@ -145,6 +144,10 @@ body[id=assessments-create] {
     padding:3px;
     text-align:left;;
   }
+  .padding-bottom {
+    padding-bottom: 140px;
+  }
+
   @media only screen and (max-device-width : 767px){
     .assessment-domain-item {
       span {

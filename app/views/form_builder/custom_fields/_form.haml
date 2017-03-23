@@ -1,17 +1,17 @@
 = simple_form_for(@custom_field) do |f|
   .ibox-content
     .row
-      .col-xs-12.col-md-6
+      .col-xs-12.col-sm-6
         = f.input :entity_type, collection: CustomField::ENTITY_TYPES, label: t('.entity_type'), disabled: used_custom_form?(@custom_field), include_blank: false
-      .col-xs-12.col-md-6
+      .col-xs-12.col-sm-6
         = f.input :form_title, label: t('.form_title'), disabled: used_custom_form?(@custom_field)
-      .col-xs-12.col-md-6
+      .col-xs-12.col-sm-6
         = f.input :frequency, collection: CustomField::FREQUENCIES, label: t('.frequency')
         %p.frequency-note.hidden
           %i
             %span.main This need to be done once every
             %span.frequency
-      .col-xs-12.col-md-6
+      .col-xs-12.col-sm-6
         = f.input :time_of_frequency, label: t('.time_of_frequency')
     = f.input :fields, as: :hidden
     .build-wrap{ 'data-fields': @custom_field.fields }
