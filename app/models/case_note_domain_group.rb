@@ -8,7 +8,7 @@ class CaseNoteDomainGroup < ActiveRecord::Base
 
   validates :domain_group, presence: true
 
-  scope :in_order, -> { order(:domain_group_id) }
+  default_scope { order(:domain_group_id) }
 
   def completed_tasks
     tasks.completed
