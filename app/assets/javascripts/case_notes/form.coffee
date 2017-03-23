@@ -1,6 +1,11 @@
 CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUpdate = do ->
   _init = ->
     _handleNewTask()
+    _hideCompletedTasks()
+
+  _hideCompletedTasks = ->
+    $('input.task').each ->
+      $(this).parents('span.checkbox').addClass('hidden') if $(this).data('completed')
 
   _handleNewTask = ->
     _addTaskToServer()
