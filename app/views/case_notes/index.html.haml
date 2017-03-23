@@ -26,7 +26,7 @@
                       = edit_link(@client, case_note)
 
             .panel-body
-              - case_note.case_note_domain_groups.in_order.each do |cdg|
+              - case_note.case_note_domain_groups.each do |cdg|
                 .ibox.border-left-right.border-bottom
                   .ibox-title
                     %h5= cdg.domain_group.domain_identities
