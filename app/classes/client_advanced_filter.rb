@@ -78,7 +78,9 @@ class ClientAdvancedFilter
     when 'between'
       clients = clients.where(cases: { start_date: value[0]..value[1] })
     end
-    @client.resource = clients.uniq
+    ids = clients.map{|c| c.cases.last.id }.uniq
+
+    @client.resource = clients.where(cases: {id: ids}).select(:id, 'cases.start_date as placement_date').group('clients.id', 'cases.id')
   end
 
   def family_id_field_query(resource, operator, value)
@@ -101,7 +103,7 @@ class ClientAdvancedFilter
     when 'between'
       clients = clients.where(cases: { family_id: value[0]..value[1] })
     end
-    @client.resource = clients.uniq.select(:id, 'families.id as family_id')
+    @client.resource = clients.uniq.select(:id, 'families.id as family_id').group('clients.id', 'families.id')
 
   end
 
@@ -123,7 +125,7 @@ class ClientAdvancedFilter
       families = Family.where('name iLike ? ', "%#{value}%")
       clients = clients.where.not(cases: { family_id: families })
     end
-    @client.resource = clients.uniq.select(:id, 'families.name as family_name')
+    @client.resource = clients.uniq.select(:id, 'families.name as family_name').group('clients.id', 'families.id')
   end
 
   def age_field_query(resource, operator, value)
@@ -157,15 +159,17 @@ class ClientAdvancedFilter
     else
       case_ids = clients.where.not(cases: {case_type: value }).map{|c| c.cases.current.id if c.cases.current.case_type != value}.uniq
     end
-    @client.resource = resource.joins(:cases).where(cases: { id: case_ids}).uniq.select(:id, 'cases.case_type as case_type')
+    @client.resource = resource.joins(:cases).where(cases: { id: case_ids}).uniq.select(:id, 'cases.case_type as case_type').group('clients.id', 'cases.id')
   end
 
   def agency_field_query(resource, operator, value)
+    clients = resource.joins(:agencies)
     if operator == 'equal'
-      @client.resource = resource.joins(:agencies).where(agencies: { id: value }).uniq.select(:id, 'agencies.name as agency_name')
+      clients = clients.where(agencies: { id: value }).uniq.select(:id)
     else
-      @client.resource = resource.joins(:agencies).where.not(agencies: { id: value }).uniq.select(:id, 'agencies.name as agency_name')
+      clients = clients.where.not(agencies: { id: value }).uniq.select(:id)
     end
+    @client.resource = clients.select("STRING_AGG(agencies.name, ', ') as agency_name").group('clients.id')
   end
 
   def convert_age_to_date(value)

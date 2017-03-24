@@ -9,13 +9,13 @@ class ClientsController < AdminController
       @advanced_filter_params = params[:client][:search_rules]
       search_rules_params     = eval(@advanced_filter_params)
       clients                 = ClientAdvancedFilter.new(search_rules_params, Client.accessible_by(current_ability))
-      @clients_by_user        = clients.filter_by_field.order(advanced_search_filter_params)
+      @clients_by_user        = clients.filter_by_field
       respond_to do |f|
         f.html do
-          @clients_filtered   = @clients_by_user.page(params[:page]).per(20)
+          @clients_filtered = @clients_by_user.order(advanced_search_sort_param).page(params[:page]).per(20)
         end
         f.xls do
-          send_data ClientExporter.to_xls(@clients_by_user), filename: "client_report-#{Time.now}.xls"
+          send_data ClientExporter.to_xls(@clients_by_user.order(advanced_search_sort_param)), filename: "client_report-#{Time.now}.xls"
         end
       end
     end
@@ -150,7 +150,7 @@ class ClientsController < AdminController
 
   private
 
-  def advanced_search_filter_params
+  def advanced_search_sort_param
     if params[:filter_by].present? && params[:filter_type].present?
       "#{params[:filter_by]} #{params[:filter_type]}"
     else

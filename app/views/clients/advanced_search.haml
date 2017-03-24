@@ -19,7 +19,7 @@
     .ibox
       - if @clients_filtered.present?
         .ibox-title
-          %h5= @clients_by_user.size
+          %h5= @clients_by_user.length
           %span.label.label-info= t('.results')
         .ibox-content
           .client-advanced-search.table-responsive
