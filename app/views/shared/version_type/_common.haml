@@ -44,6 +44,48 @@
                   %td.col-sm-4.attribute
                     = version_attribute(k, version.item_type)
                   %td.col-sm-4.truncate
-                    = version_value_format(v[0], k, v)
+                    - if k == 'properties'
+                      - if v[0].present?
+                        - value = JSON.parse(version_value_format(v[0], k, v))
+                        - value.each do |key, value|
+                          %li
+                            ="#{key}: #{value[0]}"
+                    - elsif k == 'fields'
+                      - if v[0].present?
+                        - fields = JSON.parse(version_value_format(v[0], k, v))
+                        - fields.each_with_index do |value, fields_index|
+                          - index = 1
+                          - value.each do |key, value|
+                            - if index == 1
+                              %ol{start: "#{fields_index + 1}", style: 'padding-left: 15px;'}
+                                %li="#{key}: #{value}"
+                              - index += 1
+                            - else
+                              - unless key == 'values'
+                                %ul
+                                  %li
+                                    ="#{key}: #{value}"
+                    - else
+                      = version_value_format(v[0], k, v)
                   %td.col-sm-4.truncate
-                    = version_value_format(v[1], k, v)
+                    - if k == 'properties'
+                      - value = JSON.parse(version_value_format(v[1], k, v))
+                      - value.each do |key, value|
+                        %li
+                          ="#{key}: #{value[0]}"
+                    - elsif k == 'fields'
+                      - fields = JSON.parse(version_value_format(v[1], k, v))
+                      - fields.each_with_index do |value, fields_index|
+                        - index = 1
+                        - value.each do |key, value|
+                          - if index == 1
+                            %ol{start: "#{fields_index + 1}", style: 'padding-left: 15px;'}
+                              %li="#{key}: #{value}"
+                            - index += 1
+                          - else
+                            - unless key == 'values'
+                              %ul
+                                %li
+                                  ="#{key}: #{value}"
+                    - else
+                      = version_value_format(v[1], k, v)

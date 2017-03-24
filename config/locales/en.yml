@@ -1807,6 +1807,11 @@ en:
       able_screening_questions: Able Screening Questions
       stages: Stages
       donors: Donors
+      client_custom_fields: Client Custom Forms
+      family_custom_fields: Family Custom Forms
+      partner_custom_fields: Partner Custom Forms
+      user_custom_fields: User Custom Forms
+      custom_fields: Custom Forms
     per_page_form:
       show: Show
   shared:
@@ -1872,6 +1877,11 @@ en:
         ProgressNoteType: Type of Note
         AbleScreeningQuestion: Able Screening Question
         Stage: Stage
+        CustomField: Custom For
+        ClientCustomField: Client Custom Forms
+        FamilyCustomField: Family Custom Forms
+        PartnerCustomField: Partner Custom Forms
+        UserCustomField: User Custom Forms
 
   client_custom_fields:
     <<: *default_entity_type_custom_fields

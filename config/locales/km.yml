@@ -2022,6 +2022,11 @@ km:
       able_screening_questions: សំនួរ Able Screening
       stages: តំណាក់កាល
       donors: ម្ចាស់ជំនួយ
+      client_custom_fields: ទម្រង់បែបបទរបស់អតិថិជន
+      family_custom_fields: ទម្រង់បែបបទរបស់គ្រួសារ
+      partner_custom_fields: ទម្រង់បែបបទរបស់ដៃគូ
+      user_custom_fields: ទម្រង់បែបបទរបស់អ្នកប្រើ
+      custom_fields: ទម្រង់បែបបទ
     per_page_form:
       show: បង្ហាញ
   shared:
@@ -2086,6 +2091,11 @@ km:
         ProgressNoteType: កំណត់សំគាល់
         AbleScreeningQuestion: សំនួរ Able Screening
         Stage: តំណាក់កាល
+        CustomField: ទម្រង់បែបបទ
+        ClientCustomField: ទម្រង់បែបបទរបស់អតិថិជន
+        FamilyCustomField: ទម្រង់បែបបទរបស់គ្រួសារ
+        PartnerCustomField: ទម្រង់បែបបទរបស់ដៃគូ
+        UserCustomField: ទម្រង់បែបបទរបស់អ្នកប្រើ
 
   client_custom_fields:
     <<: *default_entity_type_custom_fields
