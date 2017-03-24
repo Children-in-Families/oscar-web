@@ -1,58 +1,29 @@
 class ClientAdvancedFilter
-  DROP_LIST_ASSOCIATED_FIELDS   = [:case_type, :agency_name]
-  DATE_LIST_ASSOCIATED_FIELDS   = [:placement_date]
-  TEXT_LIST_ASSOCIATED_FIELDS   = [:family_name]
-  NUMBER_LIST_ASSOCIATED_FIELDS = [:age, :family_id]
+  DROP_LIST_ASSOCIATED_FIELDS   = [:case_type, :agency_name].freeze
+  DATE_LIST_ASSOCIATED_FIELDS   = [:placement_date].freeze
+  TEXT_LIST_ASSOCIATED_FIELDS   = [:family_name].freeze
+  NUMBER_LIST_ASSOCIATED_FIELDS = [:age, :family_id].freeze
 
   def initialize(search_rules, clients)
-    @condition = search_rules[:condition]
+    @client      = BaseFilters.new(clients)
+    @condition   = search_rules[:condition]
     @query_rules = search_rules[:rules]
-    @client = BaseFilters.new(clients)
     @display_fields = [:id, :slug, :first_name]
   end
 
   def filter_by_field
     @query_rules.each do |rule|
       if DROP_LIST_ASSOCIATED_FIELDS.include?(rule[:field].to_sym)
-        case rule[:field]
-        when 'case_type'
-          case_type_field_query(@client.resource, rule[:operator], rule[:value])
-        when 'agency_name'
-          agency_field_query(@client.resource, rule[:operator], rule[:value])
-        end
+        drop_list_associated_fields(rule)
       elsif NUMBER_LIST_ASSOCIATED_FIELDS.include?(rule[:field].to_sym)
-        case rule[:field]
-        when 'family_id'
-          family_id_field_query(@client.resource, rule[:operator], rule[:value])
-        when 'age'
-          age_field_query(@client.resource, rule[:operator], rule[:value])
-        end
+        number_list_associated_fields(rule)
       elsif TEXT_LIST_ASSOCIATED_FIELDS.include?(rule[:field].to_sym)
-        family_name_field_query(@client.resource, rule[:operator], rule[:value])
+        text_list_associated_fields(rule)
       elsif DATE_LIST_ASSOCIATED_FIELDS.include?(rule[:field].to_sym)
-        placement_date_field_query(@client.resource, rule[:operator], rule[:value])
+        date_list_associated_fields(rule)
       else
         @display_fields << rule[:field]
-        case rule[:operator]
-        when 'equal'
-          @client.is('clients', rule[:field], rule[:value])
-        when 'not_equal'
-          @client.is_not('clients', rule[:field], rule[:value])
-        when 'less'
-          @client.less('clients', rule[:field], rule[:value])
-        when 'less_or_equal'
-          @client.less_or_equal('clients', rule[:field], rule[:value])
-        when 'greater'
-          @client.greater('clients', rule[:field], rule[:value])
-        when 'greater_or_equal'
-          @client.greater_or_equal('clients', rule[:field], rule[:value])
-        when 'between'
-          @client.range_between('clients', rule[:field], rule[:value])
-        when 'contains'
-          @client.contains('clients', rule[:field], rule[:value])
-        when 'not_contains'
-          @client.not_contains('clients', rule[:field], rule[:value])
-        end
+        base_filter_fields(rule)
       end
     end
     @client.resource.select(@display_fields)
@@ -78,20 +49,22 @@ class ClientAdvancedFilter
     when 'between'
       clients = clients.where(cases: { start_date: value[0]..value[1] })
     end
-    ids = clients.map{|c| c.cases.last.id }.uniq
+    ids = clients.map { |c| c.cases.last.id }.uniq
 
-    @client.resource = clients.where(cases: {id: ids}).select(:id, 'cases.start_date as placement_date').group('clients.id', 'cases.id')
+    @client.resource = clients.where(cases: { id: ids })
+                              .select(:id, 'cases.start_date as placement_date')
+                              .group('clients.id', 'cases.id')
   end
 
   def family_id_field_query(resource, operator, value)
-    ids = Case.active.most_recents.joins(:client).group_by(&:client_id).map{|_k, c| c.first.id}
-    clients = resource.joins(:families).joins(:cases).where("cases.id IN (?)", ids)
+    ids = Case.active.most_recents.joins(:client).group_by(&:client_id).map { |_k, c| c.first.id }
+    clients = resource.joins(:families).joins(:cases).where('cases.id IN (?)', ids)
 
     case operator
     when 'equal'
-      clients = clients.where("cases.family_id = ? ", value)
+      clients = clients.where('cases.family_id = ? ', value)
     when 'not_equal'
-      clients = clients.where.not("cases.family_id = ? ", value)
+      clients = clients.where.not('cases.family_id = ? ', value)
     when 'less'
       clients = clients.where('cases.family_id < ?', value)
     when 'less_or_equal'
@@ -103,12 +76,13 @@ class ClientAdvancedFilter
     when 'between'
       clients = clients.where(cases: { family_id: value[0]..value[1] })
     end
-    @client.resource = clients.uniq.select(:id, 'families.id as family_id').group('clients.id', 'families.id')
-
+    @client.resource = clients.uniq
+                              .select(:id, 'families.id as family_id')
+                              .group('clients.id', 'families.id')
   end
 
   def family_name_field_query(resource, operator, value)
-    ids = Case.active.most_recents.joins(:client).group_by(&:client_id).map{ |_k, c| c.first.id }
+    ids = Case.active.most_recents.joins(:client).group_by(&:client_id).map { |_k, c| c.first.id }
     clients = resource.joins(:families).joins(:cases).where(cases: { id: ids })
 
     case operator
@@ -125,7 +99,9 @@ class ClientAdvancedFilter
       families = Family.where('name iLike ? ', "%#{value}%")
       clients = clients.where.not(cases: { family_id: families })
     end
-    @client.resource = clients.uniq.select(:id, 'families.name as family_name').group('clients.id', 'families.id')
+    @client.resource = clients.uniq
+                              .select(:id, 'families.name as family_name')
+                              .group('clients.id', 'families.id')
   end
 
   def age_field_query(resource, operator, value)
@@ -152,14 +128,18 @@ class ClientAdvancedFilter
   end
 
   def case_type_field_query(resource, operator, value)
-     clients = resource.joins(:cases).where(cases: { exited: false })
+    clients = resource.joins(:cases).where(cases: { exited: false })
 
     if operator == 'equal'
-      case_ids = clients.where(cases: {case_type: value }).map{|c| c.cases.current.id if c.cases.current.case_type == value}.uniq
+      case_ids = clients.where(cases: { case_type: value }).map { |c| c.cases.current.id if c.cases.current.case_type == value }.uniq
     else
-      case_ids = clients.where.not(cases: {case_type: value }).map{|c| c.cases.current.id if c.cases.current.case_type != value}.uniq
+      case_ids = clients.where.not(cases: { case_type: value }).map { |c| c.cases.current.id if c.cases.current.case_type != value }.uniq
     end
-    @client.resource = resource.joins(:cases).where(cases: { id: case_ids}).uniq.select(:id, 'cases.case_type as case_type').group('clients.id', 'cases.id')
+    @client.resource = resource.joins(:cases)
+                               .where(cases: { id: case_ids })
+                               .uniq
+                               .select(:id, 'cases.case_type as case_type')
+                               .group('clients.id', 'cases.id')
   end
 
   def agency_field_query(resource, operator, value)
@@ -169,7 +149,8 @@ class ClientAdvancedFilter
     else
       clients = clients.where.not(agencies: { id: value }).uniq.select(:id)
     end
-    @client.resource = clients.select("STRING_AGG(agencies.name, ', ') as agency_name").group('clients.id')
+    @client.resource = clients.select("STRING_AGG(agencies.name, ', ') as agency_name")
+                              .group('clients.id')
   end
 
   def convert_age_to_date(value)
@@ -178,6 +159,55 @@ class ClientAdvancedFilter
     else
       date = value.to_i.year.ago.to_date
       [date.beginning_of_month, date.end_of_month]
+    end
+  end
+
+  def drop_list_associated_fields(rule)
+    case rule[:field]
+    when 'case_type'
+      case_type_field_query(@client.resource, rule[:operator], rule[:value])
+    when 'agency_name'
+      agency_field_query(@client.resource, rule[:operator], rule[:value])
+    end
+  end
+
+  def number_list_associated_fields(rule)
+    case rule[:field]
+    when 'family_id'
+      family_id_field_query(@client.resource, rule[:operator], rule[:value])
+    when 'age'
+      age_field_query(@client.resource, rule[:operator], rule[:value])
+    end
+  end
+
+  def text_list_associated_fields(rule)
+    family_name_field_query(@client.resource, rule[:operator], rule[:value])
+  end
+
+  def date_list_associated_fields(rule)
+    placement_date_field_query(@client.resource, rule[:operator], rule[:value])
+  end
+
+  def base_filter_fields(rule)
+    case rule[:operator]
+    when 'equal'
+      @client.is('clients', rule[:field], rule[:value])
+    when 'not_equal'
+      @client.is_not('clients', rule[:field], rule[:value])
+    when 'less'
+      @client.less('clients', rule[:field], rule[:value])
+    when 'less_or_equal'
+      @client.less_or_equal('clients', rule[:field], rule[:value])
+    when 'greater'
+      @client.greater('clients', rule[:field], rule[:value])
+    when 'greater_or_equal'
+      @client.greater_or_equal('clients', rule[:field], rule[:value])
+    when 'between'
+      @client.range_between('clients', rule[:field], rule[:value])
+    when 'contains'
+      @client.contains('clients', rule[:field], rule[:value])
+    when 'not_contains'
+      @client.not_contains('clients', rule[:field], rule[:value])
     end
   end
 end
