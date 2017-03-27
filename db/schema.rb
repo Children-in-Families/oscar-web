@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170317094317) do
+ActiveRecord::Schema.define(version: 20170327015408) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -240,6 +240,7 @@ ActiveRecord::Schema.define(version: 20170317094317) do
     t.integer  "donor_id"
     t.string   "local_first_name",                 default: ""
     t.string   "local_last_name",                  default: ""
+    t.string   "kid_id",                           default: ""
   end
 
   add_index "clients", ["donor_id"], name: "index_clients_on_donor_id", using: :btree
@@ -299,6 +300,7 @@ ActiveRecord::Schema.define(version: 20170317094317) do
     t.text     "description", default: ""
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
+    t.string   "code",        default: ""
   end
 
   create_table "families", force: :cascade do |t|
@@ -319,6 +321,7 @@ ActiveRecord::Schema.define(version: 20170317094317) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "cases_count",                     default: 0
+    t.string   "case_history",                    default: ""
   end
 
   create_table "family_custom_fields", force: :cascade do |t|

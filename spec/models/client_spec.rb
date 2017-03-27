@@ -218,8 +218,6 @@ describe Client, 'scopes' do
   let!(:kc) { create(:case, client: kc_client, case_type: 'KC') }
   let!(:fc) { create(:case, client: fc_client, case_type: 'FC') }
 
-
-
   context 'first name like' do
     let!(:clients){ Client.first_name_like(client.first_name) }
     it 'should include record have first name like' do
@@ -432,6 +430,18 @@ describe Client, 'scopes' do
     end
     it 'should not return non able client' do
       expect(Client.able).not_to include([client, other_client])
+    end
+  end
+
+  context 'kid_id_like' do
+    let!(:client)       { create(:client, kid_id: 'K000001') }
+    let!(:other_client) { create(:client, kid_id: 'K000002') }
+    let!(:clients)      { Client.kid_id_like('000001') }
+    it 'should include records with kid_id like' do
+      expect(clients).to include(client)
+    end
+    it 'should not include records without kid_id like' do
+      expect(clients).not_to include(other_client)
     end
   end
 end
