@@ -11,7 +11,9 @@ class  ClientAdvancedFilterFields
     text_fields         = text_type_list.map { |item| AdvancedFilterTypes.text_options(item, format_header(item)) }
     date_picker_fields  = date_type_list.map { |item| AdvancedFilterTypes.date_picker_options(item, format_header(item)) }
     drop_list_fields    = drop_down_type_list.map { |item| AdvancedFilterTypes.drop_list_options(item.first, format_header(item.first), item.last) }
-    text_fields + drop_list_fields + number_fields + date_picker_fields
+    search_fields       = text_fields + drop_list_fields + number_fields + date_picker_fields
+    
+    search_fields.sort_by { |f| f[:label] }
   end
 
   private
