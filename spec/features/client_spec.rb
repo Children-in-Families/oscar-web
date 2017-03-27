@@ -111,7 +111,7 @@ describe 'Client' do
       fill_in 'Date of Birth', with: '1994-04-04'
 
       click_button 'Save'
-      
+
       expect(page).to have_content("Cornell has already been registered")
     end
   end
