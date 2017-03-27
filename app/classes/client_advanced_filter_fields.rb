@@ -12,7 +12,7 @@ class  ClientAdvancedFilterFields
     date_picker_fields  = date_type_list.map { |item| AdvancedFilterTypes.date_picker_options(item, format_header(item)) }
     drop_list_fields    = drop_down_type_list.map { |item| AdvancedFilterTypes.drop_list_options(item.first, format_header(item.first), item.last) }
     search_fields       = text_fields + drop_list_fields + number_fields + date_picker_fields
-    
+
     search_fields.sort_by { |f| f[:label] }
   end
 
@@ -32,9 +32,9 @@ class  ClientAdvancedFilterFields
 
   def drop_down_type_list
     [
-      ['gender', { male: 'Male', female: 'Female' }],
+      ['gender', { female: 'Female', male: 'Male' }],
       ['status', client_status],
-      ['case_type', { EC: 'EC', KC: 'KC', FC: 'FC' }],
+      ['case_type', { EC: 'EC', FC: 'FC',  KC: 'KC' }],
       ['agency_name', agencies_options],
       ['received_by_id', received_by_options],
       ['birth_province_id', provinces],
@@ -49,53 +49,37 @@ class  ClientAdvancedFilterFields
   end
 
   def client_status
-    Client::CLIENT_STATUSES.map { |s| { s => s.capitalize } }
+    Client::CLIENT_STATUSES.sort.map { |s| { s => s.capitalize } }
   end
 
   def client_able_state
-    Client::ABLE_STATES.map { |s| { s => s } }
+    Client::ABLE_STATES.sort.map { |s| { s => s } }
   end
 
   def provinces
-    Client.province_is.to_h.invert
+    Client.province_is.map{|s| {s[1].to_s => s[0]}}
   end
 
   def received_by_options
-    clients = @user.admin? ? Client.is_received_by : Client.where(user_id: @user.id).is_received_by
-    clients.to_h.invert
+    recevied_by_clients = @user.admin? ? Client.is_received_by : Client.where(user_id: @user.id).is_received_by
+    recevied_by_clients.sort.map{|s| {s[1].to_s => s[0]}}
   end
 
   def referral_source_options
-    clients = @user.admin? ? Client.referral_source_is : Client.where(user_id: @user.id).referral_source_is
-    clients.to_h.invert
+    referral_source_clients = @user.admin? ? Client.referral_source_is : Client.where(user_id: @user.id).referral_source_is
+    referral_source_clients.sort.map{|s| {s[1].to_s => s[0]}}
   end
 
   def followed_up_by_options
-    clients = @user.admin? ? Client.is_followed_up_by : Client.where(user_id: @user.id).is_followed_up_by
-    clients.to_h.invert
+    followed_up_clients = @user.admin? ? Client.is_followed_up_by : Client.where(user_id: @user.id).is_followed_up_by
+    followed_up_clients.sort.map{|s| {s[1].to_s => s[0]}}
   end
 
   def agencies_options
-    Agency.joins(:clients).pluck(:id, :name).uniq.to_h
+    Agency.joins(:clients).order(:name).uniq.map { |s| { s.id.to_s => s.name } }
   end
 
   def user_select_options
-    User.has_clients.map { |user| { user.id => user.name } }
-  end
-
-  def family_options
-    ids = []
-    Case.active
-        .most_recents
-        .joins(:client)
-        .group_by(&:client_id).each do |_key, c|
-          ids << c.first.id
-        end
-
-    Client.joins(:cases)
-          .where('cases.id IN (?)', ids)
-          .joins(:families)
-          .uniq
-          .map { |f| { f.id => f.id } }
+    User.has_clients.order(:first_name, :last_name).map { |user| { user.id.to_s => user.name } }
   end
 end
