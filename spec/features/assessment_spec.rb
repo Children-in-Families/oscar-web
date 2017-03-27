@@ -56,6 +56,7 @@ describe "Assessment" do
     scenario  'invalid', js: true do
       choose('1')
       fill_in 'Reason', with: FFaker::Lorem.paragraph
+
       click_link 'Done'
       expect(page).to have_content('This field is required')
       expect(page).not_to have_content('Assessment has been successfully created')
