@@ -9,13 +9,13 @@ class ClientsController < AdminController
       @advanced_filter_params = params[:client][:search_rules]
       search_rules_params     = eval(@advanced_filter_params)
       clients                 = ClientAdvancedFilter.new(search_rules_params, Client.accessible_by(current_ability))
-      @clients_by_user        = clients.filter_by_field
+      @clients_by_user        = clients.filter_by_field.order(advanced_search_sort_param)
       respond_to do |f|
         f.html do
-          @clients_filtered = @clients_by_user.order(advanced_search_sort_param).page(params[:page]).per(20)
+          @clients_filtered = @clients_by_user.page(params[:page]).per(20)
         end
         f.xls do
-          send_data ClientExporter.to_xls(@clients_by_user.order(advanced_search_sort_param)), filename: "client_report-#{Time.now}.xls"
+          send_data ClientExporter.to_xls(@clients_by_user), filename: "client_report-#{Time.now}.xls"
         end
       end
     end
@@ -115,37 +115,6 @@ class ClientsController < AdminController
     page = params[:per_page] || 20
     @client   = Client.accessible_by(current_ability).friendly.find(params[:client_id]).decorate
     @versions = @client.versions.reorder(created_at: :desc).page(params[:page]).per(page)
-  end
-
-  def find
-    render json: find_client_in_organization
-  end
-
-  private
-
-  def find_client_by(params)
-    if params[:first_name] && params[:gender] && params[:birth_province_id] && params[:date_of_birth]
-      Client.filter(params)
-    else
-      []
-    end
-  end
-
-  def find_client_in_organization
-    found = []
-    Organization.without_demo.each do |org|
-      Organization.switch_to(org.short_name)
-      client = find_client_by(params)
-      inject_in_organization(client, org.full_name)
-      found << client if client.present?
-    end
-    found.flatten
-  end
-
-  def inject_in_organization(collections, value)
-    collections.each do |collection|
-      collection.organization = value
-    end
   end
 
   private

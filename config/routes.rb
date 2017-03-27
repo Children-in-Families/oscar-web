@@ -149,6 +149,7 @@ Rails.application.routes.draw do
       resources :advance_searches, only: [:index]
       resources :domain_groups, only: [:index]
       resources :clients, only: [:index] do
+        get :compare, on: :collection
         resources :assessments, only: [:create]
         resources :tasks, only: [:create, :update]
         resources :case_notes, only: [:create]
