@@ -7,4 +7,5 @@ class Donor < ActiveRecord::Base
 
   validates :name, presence: true, uniqueness: { case_sensitive: false },               if: 'code.blank?'
   validates :name, presence: true, uniqueness: { case_sensitive: false, scope: :code }, if: 'code.present?'
+  validates :code, uniqueness: { case_sensitive: false }
 end

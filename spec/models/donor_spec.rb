@@ -1,5 +1,6 @@
 describe Donor, 'validation' do
   it { is_expected.to validate_presence_of(:name) }
+  it { is_expected.to validate_uniqueness_of(:code).case_insensitive }
 
   it 'validates uniqueness of name case sensitivity if code is blank' do
     FactoryGirl.create(:donor, name: 'NGO A')

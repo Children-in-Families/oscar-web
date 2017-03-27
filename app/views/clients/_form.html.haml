@@ -9,6 +9,7 @@
         .col-xs-12.col-sm-6.col-md-4= f.input :local_first_name, label: t('.local_first_name')
         .col-xs-12.col-sm-6.col-md-4= f.input :local_last_name, label: t('.local_last_name')
         .col-xs-12.col-sm-6.col-md-4= f.input :gender, collection: [['Male', 'male'], ['Female', 'female']], include_blank: false, label: t('.gender')
+        .col-xs-12.col-sm-6.col-md-4= f.input :kid_id, label: t('.kid_id')
         .col-xs-12.col-sm-6.col-md-4.form-group.date.optional.client_date_of_birth
           %label.date.optional.control-label{ for: 'client_date_of_birth' }= t('.date_of_birth')
           #client-birthdate.input-group.date

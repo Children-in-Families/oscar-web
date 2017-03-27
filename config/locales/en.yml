@@ -251,6 +251,7 @@ en:
 
   default_client_fields: &default_client_fields
     id: ID
+    kid_id: Kid ID
     first_name: First Name
     last_name: Last Name
     local_first_name: First Name (Local)
@@ -307,6 +308,8 @@ en:
 
   default_family_fields: &default_family_fields
     id: ID
+    code: Family ID
+    case_history: Case History
     name: Name
     address: Address
     caregiver_information: Caregiver Information
@@ -1029,6 +1032,7 @@ en:
       add_new_donor: Add New Donor
       clients: Clients
       donors: Donors
+      code: Donor ID
       donor_names: Name
       description: Description
       manage: Manage
@@ -1042,6 +1046,7 @@ en:
     form:
       donor: Donor
       name: Name
+      code: Donor ID
       description: Description
       save: Save
       cancel: Cancel

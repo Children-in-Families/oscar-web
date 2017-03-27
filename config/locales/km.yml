@@ -255,6 +255,7 @@ km:
 
   default_client_fields: &default_client_fields
     id: លេខសំគាល់
+    kid_id: លេខកូដឣតិថិជន
     first_name: នាមខ្លួន
     last_name: នាមត្រកូល
     local_first_name: នាមខ្លួន (Local)
@@ -310,6 +311,8 @@ km:
 
   default_family_fields: &default_family_fields
     id: លេខសំគាល់
+    code: លេខសំគាល់គ្រួសារ
+    case_history: ប្រវត្តិគ្រួសារ
     name: ឈ្មោះរបស់គ្រួសារ
     address: ឣាសយដ្ឋាន
     caregiver_information: ពត៌មាននៃឣ្នកថែទាំ
@@ -1094,6 +1097,7 @@ km:
     index:
       add_new_donor: បន្ថែមម្ចាស់ជំនួយថ្មី
       donors: ម្ចាស់ជំនួយ
+      code: លេខកូដម្ចាស់ជំនួយ
       donor_names: ឈ្មោះ
       clients: អតិថិជន
       description: ការបរិយាយ
@@ -1108,6 +1112,7 @@ km:
     form:
       donor: ម្ចាស់ជំនួយ
       name: ឈ្មោះម្ចាស់ជំនួយ
+      code: លេខកូដម្ចាស់ជំនួយ
       description: ការបរិយាយ
       save: រក្សាទុក
       cancel: ទុកជាមោឃៈ
