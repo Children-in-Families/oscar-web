@@ -13,7 +13,6 @@ class FormBuilder::CustomFieldsController < AdminController
         @all_custom_fields << custom_field
       end
     end
-    @all_custom_field
     Organization.switch_to(current_org_name)
   end
 
@@ -83,6 +82,19 @@ class FormBuilder::CustomFieldsController < AdminController
         redirect_to custom_fields_path, alert: 'dont have this custom field'
       end
     end
+  end
+
+  def find
+    current_org_name = current_organiation.short_name
+    @all_custom_fields = []
+    Organization.without_demo.each do |org|
+      Organization.switch_to(org.short_name)
+      CustomField.select(:form_title, :ngo_name, :id).find_each do |custom_field|
+        @all_custom_fields << custom_field
+      end
+    end
+    Organization.switch_to(current_org_name)
+    render json: @all_custom_fields
   end
 
   private

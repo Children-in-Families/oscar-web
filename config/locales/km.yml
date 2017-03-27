@@ -2114,6 +2114,8 @@ km:
       form:
         blank: មិនអាចរំលង
         <<: *default_custom_fields
+        preview: មើលជាមុន
+        copy: ចម្លងជូន
       edit:
         form_builder: ការបង្កើតជាទម្រង់
       new:

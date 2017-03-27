@@ -1899,6 +1899,8 @@ en:
         custom_form_list: Custom Form List
       form:
         blank: can't be blank
+        preview: Preview
+        copy: Copy
         <<: *default_custom_fields
       edit:
         form_builder: Form Builder
