@@ -37,7 +37,7 @@ feature 'ClientAdvancedSearch' do
       select2_select('Gender', '.rule-filter-container .select2-container')
       expect(page).to have_content 'Gender'
       expect(page).to have_content 'is'
-      expect(page).to have_content 'Male'
+      expect(page).to have_content 'Female'
     end
   end
 
