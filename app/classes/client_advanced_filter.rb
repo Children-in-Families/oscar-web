@@ -8,7 +8,6 @@ class ClientAdvancedFilter
     @client      = BaseFilters.new(clients)
     @condition   = search_rules[:condition]
     @query_rules = search_rules[:rules]
-    @display_fields = [:id, :slug, :first_name]
   end
 
   def filter_by_field
@@ -22,11 +21,10 @@ class ClientAdvancedFilter
       elsif DATE_LIST_ASSOCIATED_FIELDS.include?(rule[:field].to_sym)
         date_list_associated_fields(rule)
       else
-        @display_fields << rule[:field]
         base_filter_fields(rule)
       end
     end
-    @client.resource.select(@display_fields)
+    @client.resource
   end
 
   private
@@ -52,8 +50,6 @@ class ClientAdvancedFilter
     ids = clients.map { |c| c.cases.last.id }.uniq
 
     @client.resource = clients.where(cases: { id: ids })
-                              .select(:id, 'cases.start_date as placement_date')
-                              .group('clients.id', 'cases.id')
   end
 
   def family_id_field_query(resource, operator, value)
@@ -77,8 +73,6 @@ class ClientAdvancedFilter
       clients = clients.where(cases: { family_id: value[0]..value[1] })
     end
     @client.resource = clients.uniq
-                              .select(:id, 'families.id as family_id')
-                              .group('clients.id', 'families.id')
   end
 
   def family_name_field_query(resource, operator, value)
@@ -100,8 +94,6 @@ class ClientAdvancedFilter
       clients = clients.where.not(cases: { family_id: families })
     end
     @client.resource = clients.uniq
-                              .select(:id, 'families.name as family_name')
-                              .group('clients.id', 'families.id')
   end
 
   def age_field_query(resource, operator, value)
@@ -124,7 +116,6 @@ class ClientAdvancedFilter
       clients = resource.where(date_of_birth: values[0]..values[1])
     end
     @client.resource = clients
-    @display_fields << 'clients.date_of_birth as age'
   end
 
   def case_type_field_query(resource, operator, value)
@@ -138,8 +129,6 @@ class ClientAdvancedFilter
     @client.resource = resource.joins(:cases)
                                .where(cases: { id: case_ids })
                                .uniq
-                               .select(:id, 'cases.case_type as case_type')
-                               .group('clients.id', 'cases.id')
   end
 
   def agency_field_query(resource, operator, value)
@@ -149,8 +138,7 @@ class ClientAdvancedFilter
     else
       clients = clients.where.not(agencies: { id: value }).uniq.select(:id)
     end
-    @client.resource = clients.select("STRING_AGG(agencies.name, ', ') as agency_name")
-                              .group('clients.id')
+    @client.resource = clients
   end
 
   def convert_age_to_date(value)

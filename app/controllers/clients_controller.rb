@@ -3,30 +3,32 @@ class ClientsController < AdminController
 
   before_action :find_client, only: [:show, :edit, :update, :destroy]
   before_action :set_association, except: [:index, :destroy]
+  before_action :choose_grid, only: [:index, :advanced_search]
 
   def advanced_search
+    @display_column = []
     if params[:client].present? && params[:client][:search_rules].present?
       @advanced_filter_params = params[:client][:search_rules]
       search_rules_params     = eval(@advanced_filter_params)
       clients                 = ClientAdvancedFilter.new(search_rules_params, Client.accessible_by(current_ability))
       @clients_by_user        = clients.filter_by_field
+      @display_column         = JSON.parse(params[:client][:field_visibility]) 
+
+      @client_grid.column_names = @display_column
       respond_to do |f|
         f.html do
-          @clients_filtered = @clients_by_user.order(advanced_search_sort_param).page(params[:page]).per(20)
+          @client_grid.scope { |scope| scope.where(id: @clients_by_user.ids).accessible_by(current_ability).page(params[:page]).per(20) }
         end
         f.xls do
-          send_data ClientExporter.to_xls(@clients_by_user.order(advanced_search_sort_param)), filename: "client_report-#{Time.now}.xls"
-        end
+          @client_grid.scope { |scope| scope.where(id: @clients_by_user.ids).accessible_by(current_ability) }
+          domain_score_report
+
+          send_data @client_grid.to_xls, filename: "client_report-#{Time.now}.xls" end
       end
     end
   end
 
   def index
-    if current_user.admin? || current_user.strategic_overviewer?
-      admin_client_grid
-    elsif current_user.case_worker? || current_user.able_manager? || current_user.any_case_manager?
-      non_admin_client_grid
-    end
     columns_visibility
 
     respond_to do |f|
@@ -187,6 +189,14 @@ class ClientsController < AdminController
     @referral_source      = ReferralSource.order(:name)
     @user                 = User.non_strategic_overviewers.order(:first_name, :last_name)
     @client_custom_fields = CustomField.where(entity_type: 'Client')
+  end
+
+  def choose_grid
+    if current_user.admin? || current_user.strategic_overviewer?
+      admin_client_grid
+    elsif current_user.case_worker? || current_user.able_manager? || current_user.any_case_manager?
+      non_admin_client_grid
+    end
   end
 
   def columns_visibility

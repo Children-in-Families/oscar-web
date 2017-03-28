@@ -1,5 +1,6 @@
 CIF.ClientsAdvanced_search = do ->
   _init = ->
+    _columnsVisibility()
     _initJqueryQueryBuilder()
     _handleInitDatatable()
     _handleSearch()
@@ -43,6 +44,17 @@ CIF.ClientsAdvanced_search = do ->
       width: 'resolve'
     )
 
+  _columnsVisibility = ->
+    $('.columns-visibility').click (e) ->
+      e.stopPropagation()
+
+   allCheckboxes = $('.all-visibility #all')
+
+   allCheckboxes.on 'ifChecked', ->
+      $('.visibility input[type=checkbox]').iCheck('check')
+    allCheckboxes.on 'ifUnchecked', ->
+      $('.visibility input[type=checkbox]').iCheck('uncheck')
+
   _addRuleCallback = ->
     $('#builder').on 'afterCreateRuleFilters.queryBuilder', ->
       _initSelect2()
@@ -70,7 +82,7 @@ CIF.ClientsAdvanced_search = do ->
       $('#builder').queryBuilder('setRules', queryRules)
 
   _handleInitDatatable = ->
-    $('.client-advanced-search table').DataTable(
+    $('.clients-table table').DataTable(
         'sScrollY': 'auto'
         'bFilter': false
         'bAutoWidth': true
@@ -86,13 +98,22 @@ CIF.ClientsAdvanced_search = do ->
       rules =  JSON.stringify($('#builder').queryBuilder('getRules'))
       if !($.isEmptyObject($('#builder').queryBuilder('getRules')))
         $('#client_search_rules').val(rules)
+        _handleSelectValueCheckBox()
         $('#advanced-search').submit()
+
+  _handleSelectValueCheckBox = ->
+    checkedFields = $('.visibility .checked input, .all-visibility .checked input')
+    checkedFieldsValue = []
+    for field in checkedFields
+      checkedFieldsValue.push($(field).val())
+
+    $('#client_field_visibility').val(JSON.stringify(checkedFieldsValue))
 
   _handleScrollTable = ->
     $(window).load ->
       ua = navigator.userAgent
       unless /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile|CriOS/i.test(ua)
-        $('.client-advanced-search .dataTables_scrollBody').niceScroll
+        $('.clients-table .dataTables_scrollBody').niceScroll
           scrollspeed: 30
           cursorwidth: 10
           cursoropacitymax: 0.4

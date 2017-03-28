@@ -1,4 +1,4 @@
-#clients-index {
+body[id='clients-index'], body[id='clients-advanced_search']{
   @import 'iCheck/custom';
   #client-search-form, #client-advance-search-form {
     margin-top: 16px;
