@@ -57,7 +57,7 @@ class  ClientAdvancedFilterFields
   end
 
   def provinces
-    Client.province_is.map{|s| {s[1].to_s => s[0]}}
+    Client.province_is.sort.map{|s| {s[1].to_s => s[0]}}
   end
 
   def received_by_options
