@@ -10,6 +10,9 @@
       .ibox-content
         .row
           .col-xs-12
+            = render 'advanced_search_column_visibility'
+        .row
+          .col-xs-12
             #builder{ 'data-search-rules' => @advanced_filter_params, 'data-filter-translation' => t('.add_new_filter')}
       .ibox-footer
         %button#search.btn.btn-primary= t('.search')
@@ -17,40 +20,22 @@
 .row
   .col-xs-12
     .ibox
-      - if @clients_filtered.present?
+      - if @clients_by_user.present?
         .ibox-title
           %h5= @clients_by_user.length
           %span.label.label-info= t('.results')
         .ibox-content
-          .client-advanced-search.table-responsive
-            %table.table.table-bordered.table-striped.table-hover.clients.dataTable.no-footer
+          .clients-table
+            %table.table.table-bordered.table-striped.table-hover.clients
               %thead
-                %tr
-                  %th.id-column
-                    = format_header('slug')
-                    = render 'advanced_search_sort_header', field: 'id'
-                  %th
-                    = format_header('first_name')
-                    = render 'advanced_search_sort_header', field: 'first_name'
-
-                  - @clients_filtered.first.attributes.keys.each do |column_name|
-                    - next if column_name == 'slug' || column_name == 'first_name' || column_name == 'id'
-                    %th
-                      = format_header(column_name)
-                      = render 'advanced_search_sort_header', field: column_name
-              %tbody
-                - @clients_filtered.each do |client|
-                  %tr
-                    %td.id-column= client.slug
-                    %td= link_to client.first_name, client_path(client)
-                    - client.attributes.each do |field_name, value|
-                      - next if field_name == 'slug' || field_name == 'first_name' || field_name == 'id'
-                      %td
-                        = format_advanced_search_result(field_name, (field_name == 'age' ? client : value))
+                = datagrid_header(@client_grid)
+              %tbody.page
+                = render 'client_rows'
         .ibox-footer.text-center
-          = paginate @clients_filtered
+          = paginate @client_grid.assets
       - else
         .ibox-content
           = t('.no_results')
 = simple_form_for :client, url: :advanced_search_clients, method: 'GET', html: { id: 'advanced-search' } do |f|
   = f.hidden_field :search_rules
+  = f.hidden_field :field_visibility
