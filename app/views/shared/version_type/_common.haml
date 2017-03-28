@@ -7,7 +7,7 @@
             - if controller_name == 'data_trackers'
               %p
                 = "#{version.whodunnit} #{t('.change')} #{t('.on')}"
-                = t(".#{version.item_type}")
+                = t(".#{version.item_type.underscore}")
                 = "##{version.item_id}."
             - else
               %p= "#{version.whodunnit} #{t('.change')}."
@@ -47,9 +47,10 @@
                     - if k == 'properties'
                       - if v[0].present?
                         - value = JSON.parse(version_value_format(v[0], k, v))
-                        - value.each do |key, value|
-                          %li
-                            ="#{key}: #{value[0]}"
+                        %ul
+                          - value.each do |key, value|
+                            %li
+                              ="#{key}: #{value[0]}"
                     - elsif k == 'fields'
                       - if v[0].present?
                         - fields = JSON.parse(version_value_format(v[0], k, v))
@@ -70,9 +71,10 @@
                   %td.col-sm-4.truncate
                     - if k == 'properties'
                       - value = JSON.parse(version_value_format(v[1], k, v))
-                      - value.each do |key, value|
-                        %li
-                          ="#{key}: #{value[0]}"
+                      %ul
+                        - value.each do |key, value|
+                          %li
+                            ="#{key}: #{value[0]}"
                     - elsif k == 'fields'
                       - fields = JSON.parse(version_value_format(v[1], k, v))
                       - fields.each_with_index do |value, fields_index|
