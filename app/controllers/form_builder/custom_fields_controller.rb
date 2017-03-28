@@ -5,15 +5,7 @@ class FormBuilder::CustomFieldsController < AdminController
 
   def index
     @custom_fields = CustomField.order(:entity_type, :form_title)
-    current_org_name = current_organiation.short_name
-    @all_custom_fields = []
-    Organization.without_demo.each do |org|
-      Organization.switch_to(org.short_name)
-      CustomField.find_each do |custom_field|
-        @all_custom_fields << custom_field
-      end
-    end
-    Organization.switch_to(current_org_name)
+    @all_custom_fields = find_custom_field_in_organization
   end
 
   def new
@@ -85,19 +77,23 @@ class FormBuilder::CustomFieldsController < AdminController
   end
 
   def find
-    current_org_name = current_organiation.short_name
-    @all_custom_fields = []
-    Organization.without_demo.each do |org|
-      Organization.switch_to(org.short_name)
-      CustomField.select(:form_title, :ngo_name, :id).find_each do |custom_field|
-        @all_custom_fields << custom_field
-      end
-    end
-    Organization.switch_to(current_org_name)
-    render json: @all_custom_fields
+    render json: find_custom_field_in_organization
   end
 
   private
+
+  def find_custom_field_in_organization
+    current_org_name = current_organiation.short_name
+    custom_fields = []
+    Organization.without_demo.each do |org|
+      Organization.switch_to(org.short_name)
+      CustomField.find_each do |custom_field|
+        custom_fields << custom_field
+      end
+    end
+    Organization.switch_to(current_org_name)
+    custom_fields
+  end
 
   def find_custom_field(search)
     found = []
