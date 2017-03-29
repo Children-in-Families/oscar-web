@@ -20,6 +20,8 @@ class CustomField < ActiveRecord::Base
 
   before_save :set_time_of_frequency, :set_ngo_name
 
+  scope :by_form_title, ->(value) { where('form_title iLIKE ?', "%#{value}%") }
+
   FREQUENCIES  = ['Daily', 'Weekly', 'Monthly', 'Yearly'].freeze
   ENTITY_TYPES = ['Client', 'Family', 'Partner', 'User'].freeze
 
