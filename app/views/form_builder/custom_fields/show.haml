@@ -8,5 +8,4 @@
           .col-xs-12
             .build-wrap{ 'data-fields': @custom_field.fields }
       .ibox-footer
-        = link_to 'Edit Form', edit_custom_field_path(@custom_field), class: 'btn btn-warning form-btn'
-        = link_to 'Custom Form List', custom_fields_path, class: 'btn btn-success form-btn'
+        = link_to t('.custom_form_list'), custom_fields_path, class: 'btn btn-success form-btn'
