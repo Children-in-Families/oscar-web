@@ -48,7 +48,7 @@ CIF.ClientsAdvanced_search = do ->
     $('.columns-visibility').click (e) ->
       e.stopPropagation()
 
-   allCheckboxes = $('.all-visibility #all')
+   allCheckboxes = $('.all-visibility #all_')
 
    allCheckboxes.on 'ifChecked', ->
       $('.visibility input[type=checkbox]').iCheck('check')
@@ -103,11 +103,7 @@ CIF.ClientsAdvanced_search = do ->
 
   _handleSelectValueCheckBox = ->
     checkedFields = $('.visibility .checked input, .all-visibility .checked input')
-    checkedFieldsValue = []
-    for field in checkedFields
-      checkedFieldsValue.push($(field).val())
-
-    $('#client_field_visibility').val(JSON.stringify(checkedFieldsValue))
+    $('form#advanced-search').append(checkedFields)
 
   _handleScrollTable = ->
     $(window).load ->
