@@ -6,15 +6,12 @@ class ClientsController < AdminController
   before_action :choose_grid, only: [:index, :advanced_search]
 
   def advanced_search
-    @display_column = []
     if params[:client].present? && params[:client][:search_rules].present?
       @advanced_filter_params = params[:client][:search_rules]
       search_rules_params     = eval(@advanced_filter_params)
       clients                 = ClientAdvancedFilter.new(search_rules_params, Client.accessible_by(current_ability))
       @clients_by_user        = clients.filter_by_field
-      @display_column         = JSON.parse(params[:client][:field_visibility]) 
-
-      @client_grid.column_names = @display_column
+      columns_visibility
       respond_to do |f|
         f.html do
           @client_grid.scope { |scope| scope.where(id: @clients_by_user.ids).accessible_by(current_ability).page(params[:page]).per(20) }
