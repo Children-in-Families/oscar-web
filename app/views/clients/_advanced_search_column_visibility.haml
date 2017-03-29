@@ -43,10 +43,6 @@
           = label_tag 'local_last_name', format_header('local_last_name')
       %li
         .visibility.col-sm-12
-          = check_box_tag 'family_name', 'family_name', checked = @display_column.include?('family_name'), class: 'i-checks'
-          = label_tag 'family_name', format_header('family_name')
-      %li
-        .visibility.col-sm-12
           = check_box_tag 'slug', 'slug', checked = @display_column.include?('slug'), class: 'i-checks'
           = label_tag 'slug', format_header('slug')
       %li
@@ -59,7 +55,7 @@
           = label_tag 'school_name', format_header('school_name')
       %li
         .visibility.col-sm-12
-          = check_box_tag 'placement_date', 'placement_date', checked = @display_column.include?('placement_date'), class: 'i-checks'
+          = check_box_tag 'placement_date', 'case_start_date', checked = @display_column.include?('case_start_date'), class: 'i-checks'
           = label_tag 'placement_date', format_header('placement_date')
       %li
         .visibility.col-sm-12
@@ -83,31 +79,31 @@
           = label_tag 'status', format_header('status')
       %li
         .visibility.col-sm-12
-          = check_box_tag 'case_type', 'case_type', checked = @display_column.include?('case_type'), class: 'i-checks'
+          = check_box_tag 'case_type', 'cases', checked = @display_column.include?('cases'), class: 'i-checks'
           = label_tag 'case_type', format_header('case_type')
       %li
         .visibility.col-sm-12
-          = check_box_tag 'agency_name', 'agency_name', checked = @display_column.include?('agency_name'), class: 'i-checks'
+          = check_box_tag 'agency_name', 'agency', checked = @display_column.include?('agency'), class: 'i-checks'
           = label_tag 'agency_name', format_header('agency_name')
       %li
         .visibility.col-sm-12
-          = check_box_tag 'received_by_id', 'received_by_id', checked = @display_column.include?('received_by_id'), class: 'i-checks'
+          = check_box_tag 'received_by_id', 'received_by', checked = @display_column.include?('received_by'), class: 'i-checks'
           = label_tag 'received_by_id', format_header('received_by_id')
       %li
         .visibility.col-sm-12
-          = check_box_tag 'birth_province_id', 'birth_province_id', checked = @display_column.include?('birth_province_id'), class: 'i-checks'
+          = check_box_tag 'birth_province_id', 'birth_province', checked = @display_column.include?('birth_province'), class: 'i-checks'
           = label_tag 'birth_province_id', format_header('birth_province_id')
       %li
         .visibility.col-sm-12
-          = check_box_tag 'province_id', 'province_id', checked = @display_column.include?('province_id'), class: 'i-checks'
+          = check_box_tag 'province_id', 'province', checked = @display_column.include?('province'), class: 'i-checks'
           = label_tag 'province_id', format_header('province_id')
       %li
         .visibility.col-sm-12
-          = check_box_tag 'referral_source_id', 'referral_source_id', checked = @display_column.include?('referral_source_id'), class: 'i-checks'
+          = check_box_tag 'referral_source_id', 'referral_source', checked = @display_column.include?('referral_source'), class: 'i-checks'
           = label_tag 'referral_source_id', format_header('referral_source_id')
       %li
         .visibility.col-sm-12
-          = check_box_tag 'followed_up_by_id', 'followed_up_by_id', checked = @display_column.include?('followed_up_by_id'), class: 'i-checks'
+          = check_box_tag 'followed_up_by_id', 'followed_up_by', checked = @display_column.include?('followed_up_by'), class: 'i-checks'
           = label_tag 'followed_up_by_id', format_header('followed_up_by_id')
       %li
         .visibility.col-sm-12
@@ -123,5 +119,5 @@
           = label_tag 'has_been_in_orphanage', format_header('has_been_in_orphanage')
       %li
         .visibility.col-sm-12
-          = check_box_tag 'user_id', 'user_id', checked = @display_column.include?('user_id'), class: 'i-checks'
+          = check_box_tag 'user_id', 'user', checked = @display_column.include?('user'), class: 'i-checks'
           = label_tag 'user_id', format_header('user_id')
