@@ -10,6 +10,10 @@ class FamilyGrid
   end
 
   filter(:id, :integer, header: -> { I18n.t('datagrid.columns.families.id') })
+  
+  filter(:code, :string, header: -> { I18n.t('datagrid.columns.families.code') }) do |value, scope|
+    scope.family_id_like(value)
+  end
 
   filter(:address, :string, header: -> { I18n.t('datagrid.columns.families.address') }) { |value, scope| scope.address_like(value) }
 
@@ -46,6 +50,8 @@ class FamilyGrid
   end
 
   column(:id, header: -> { I18n.t('datagrid.columns.families.id') })
+  
+  column(:code, header: -> { I18n.t('datagrid.columns.families.code') })
 
   column(:name, html: true, order: 'LOWER(name)', header: -> { I18n.t('datagrid.columns.families.name') }) do |object|
     link_to entity_name(object), family_path(object)

@@ -70,6 +70,7 @@ class Client < ActiveRecord::Base
   scope :referral_phone_like,         ->(value) { where('clients.referral_phone iLIKE ?', "%#{value}%") }
   scope :info_like,                   ->(value) { where('clients.relevant_referral_information iLIKE ?', "%#{value}%") }
   scope :slug_like,                   ->(value) { where('clients.slug iLIKE ?', "%#{value}%") }
+  scope :kid_id_like,                 ->(value) { where('clients.kid_id iLIKE ?', "%#{value}%") }
   scope :start_with_code,             ->(value) { where('clients.code iLIKE ?', "#{value}%") }
   scope :find_by_family_id,           ->(value) { joins(cases: :family).where('families.id = ?', value).uniq }
   scope :status_like,                 ->        { CLIENT_STATUSES }

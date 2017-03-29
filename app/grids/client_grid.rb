@@ -22,6 +22,8 @@ class ClientGrid
   filter(:slug, :string, header: -> { I18n.t('datagrid.columns.clients.id')})  { |value, scope| scope.slug_like(value) }
 
   filter(:code, :integer, header: -> { I18n.t('datagrid.columns.clients.code') }) { |value, scope| scope.start_with_code(value) }
+  
+  filter(:kid_id, :string, header: -> { I18n.t('datagrid.columns.clients.kid_id') }) { |value, scope| scope.kid_id_like(value) }
 
   filter(:status, :enum, select: :status_options, header: -> { I18n.t('datagrid.columns.clients.status') })
 
@@ -299,6 +301,8 @@ class ClientGrid
   column(:code, header: -> { I18n.t('datagrid.columns.clients.code') }) do |object|
     object.code ||= ''
   end
+
+  column(:kid_id, order:'clients.kid_id', header: -> { I18n.t('datagrid.columns.clients.kid_id') })
 
   column(:first_name, order: 'clients.first_name', header: -> { I18n.t('datagrid.columns.clients.first_name') }, html: true) do |object|
     link_to object.first_name, client_path(object)

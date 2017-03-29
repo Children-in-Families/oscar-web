@@ -64,7 +64,7 @@ class FamiliesController < AdminController
   def family_params
 
     params.require(:family).permit(
-                            :name, :caregiver_information,
+                            :name, :code, :case_history, :caregiver_information,
                             :significant_family_member_count, :household_income,
                             :dependable_income, :female_children_count,
                             :male_children_count, :female_adult_count,

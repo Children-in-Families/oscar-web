@@ -10,6 +10,7 @@
           = error_notification(f)
           .form-inputs
             = f.input :name, label: t('.name')
+            = f.input :code, label: t('.code')
             = f.input :description, input_html: { rows: '10' }, label: t('.description')
         .modal-footer
           .pull-left

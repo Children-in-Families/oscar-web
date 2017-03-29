@@ -69,6 +69,7 @@ module ClientsHelper
   def columns_visibility(column)
     label_column = {
       slug:                          t('datagrid.columns.clients.id'),
+      kid_id:                        t('datagrid.columns.clients.kid_id'),
       code:                          t('datagrid.columns.clients.code'),
       case_type:                     t('datagrid.columns.clients.case_type'),
       age:                           t('datagrid.columns.clients.age'),

@@ -15,6 +15,7 @@
             %thead
               %tr
                 %th.name= t('.donor_names')
+                %th.code= t('.code')
                 %th.description= t('.description')
                 %th.clients= t('.clients')
                 - if can? :manage, Donor
@@ -25,6 +26,7 @@
               - @donors.each do |donor|
                 %tr
                   %td= donor.name
+                  %td= donor.code
                   %td= donor.description
                   %td
                     - donor.clients.each do |client|
