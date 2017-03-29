@@ -6,7 +6,7 @@ CIF.ClientsAdvanced_search = do ->
     _handleSearch()
     _addRuleCallback()
     _handleScrollTable()
-
+    _getClientPath()
 
   _initJqueryQueryBuilder = ->
     filterTranslation = $('#builder').data('filter-translation')
@@ -120,5 +120,10 @@ CIF.ClientsAdvanced_search = do ->
 
   _handleResizeWindow = ->
     window.dispatchEvent new Event('resize')
+
+  _getClientPath = ->
+    $('table.clients tbody tr').click (e) ->
+      return if $(e.target).hasClass('btn') || $(e.target).hasClass('fa')
+      window.location = $(this).data('href')
 
   { init: _init }
