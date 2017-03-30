@@ -94,7 +94,7 @@ class FormBuilder::CustomFieldsController < AdminController
     Organization.without_demo.each do |org|
       Organization.switch_to(org.short_name)
       params_custom_field = params[:search] if params[:search].present?
-      found_custom_field = CustomField.find_by(form_title: params_custom_field)
+      found_custom_field = CustomField.by_form_title(params_custom_field)
       found << found_custom_field if found_custom_field.present?
     end
     Organization.switch_to(current_org_name)
