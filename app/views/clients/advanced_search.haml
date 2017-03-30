@@ -6,6 +6,7 @@
           .col-xs-12.col-sm-6
             %h5= t('.advanced_search')
           .col-xs-12.col-sm-6.text-right
+            = link_to t('.csi_domain_scores'), current_url({format: 'xls', type: 'basic_info'}), class: "btn btn-info btn-export #{@clients_by_user.present? ? '' : 'disabled'}"
             = link_to t('.export_to_xls'), current_url(format: 'xls'), class: "btn btn-info btn-export #{@clients_by_user.present? ? '' : 'disabled'}"
       .ibox-content
         .row
