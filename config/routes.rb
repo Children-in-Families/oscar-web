@@ -145,8 +145,13 @@ Rails.application.routes.draw do
 
   namespace :api do
     mount_devise_token_auth_for 'User', at: '/v1/auth', skip: [:registrations, :passwords]
+
+    resources :clients, only: [] do
+      get :compare, on: :collection
+    end
+    resources :advanced_searches, only: [:index]
+
     namespace :v1, default: { format: :json } do
-      resources :advance_searches, only: [:index]
       resources :domain_groups, only: [:index]
       resources :clients, only: [:index] do
         get :compare, on: :collection

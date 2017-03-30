@@ -23,7 +23,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
 
         $.ajax({
           type: 'GET'
-          url: '/api/v1/clients/compare'
+          url: '/api/clients/compare'
           data: data
           dataType: "JSON"
         }).success((json)->
