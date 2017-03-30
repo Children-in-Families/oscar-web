@@ -7,6 +7,7 @@ CIF.ClientsAdvanced_search = do ->
     _addRuleCallback()
     _handleScrollTable()
     _getClientPath()
+    _setDefaultCheckColumnVisibilityAll()
 
   _initJqueryQueryBuilder = ->
     filterTranslation = $('#builder').data('filter-translation')
@@ -54,6 +55,11 @@ CIF.ClientsAdvanced_search = do ->
       $('.visibility input[type=checkbox]').iCheck('check')
     allCheckboxes.on 'ifUnchecked', ->
       $('.visibility input[type=checkbox]').iCheck('uncheck')
+
+  _setDefaultCheckColumnVisibilityAll = ->
+    checkboxes = $('.visibility input[type=checkbox]').prop('checked')
+    if !checkboxes
+      $('.all-visibility #all_').iCheck('check')
 
   _addRuleCallback = ->
     $('#builder').on 'afterCreateRuleFilters.queryBuilder', ->

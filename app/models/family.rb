@@ -15,13 +15,14 @@ class Family < ActiveRecord::Base
   validates :family_type, inclusion: { in: FAMILY_TYPE }
   validates :code, uniqueness: { case_sensitive: false }, if: 'code.present?'
 
-  scope :name_like,                  ->(value) { where('name iLIKE ?', "%#{value}%") }
-  scope :family_id_like,             ->(value) { where('code iLIKE ?', "%#{value}%") }
-  scope :caregiver_information_like, ->(value) { where('caregiver_information iLIKE ?', "%#{value}%") }
   scope :address_like,               ->(value) { where('address iLIKE ?', "%#{value}%") }
-  scope :kinship,                    ->        { where(family_type: 'kinship')   }
-  scope :foster,                     ->        { where(family_type: 'foster')    }
+  scope :caregiver_information_like, ->(value) { where('caregiver_information iLIKE ?', "%#{value}%") }
+  scope :case_history_like,          ->(value) { where('case_history iLIKE ?', "%#{value}%") }
   scope :emergency,                  ->        { where(family_type: 'emergency') }
+  scope :family_id_like,             ->(value) { where('code iLIKE ?', "%#{value}%") }
+  scope :foster,                     ->        { where(family_type: 'foster')    }
+  scope :kinship,                    ->        { where(family_type: 'kinship')   }
+  scope :name_like,                  ->(value) { where('name iLIKE ?', "%#{value}%") }
   scope :province_are,               ->        { joins(:province).pluck('provinces.name', 'provinces.id').uniq }
 
   def member_count

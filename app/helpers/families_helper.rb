@@ -43,4 +43,12 @@ module FamiliesHelper
   def family_workers_count(object)
     object.joins(:user).group_by(&:user_id).size
   end
+
+  def family_case_history(object)
+    if object.case_history =~ /\A#{URI::regexp(['http', 'https'])}\z/
+      link_to object.case_history, object.case_history, class: 'case-history', target: :_blank
+    else
+      object.case_history
+    end
+  end
 end

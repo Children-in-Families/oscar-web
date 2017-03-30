@@ -12,8 +12,14 @@ CIF.ClientsIndex = do ->
     _handleCreateCaseReport()
     _handleCreateCsiDomainReport()
     _handleScrollTable()
-    # _infiniteScroll()
+    _setDefaultCheckColumnVisibilityAll()
     _getClientPath()
+
+
+  _setDefaultCheckColumnVisibilityAll = ->
+    checkboxes = $('.visibility input[type=checkbox]').prop('checked')
+    if !checkboxes
+      $('.all-visibility #all_').iCheck('check')
 
   _infiniteScroll = ->
     $("table.clients .page").infinitescroll
