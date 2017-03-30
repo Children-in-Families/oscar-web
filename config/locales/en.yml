@@ -752,6 +752,7 @@ en:
       modification_of: Changelog of
       back: Back
     advanced_search:
+      csi_domain_scores: CSI Domain Scores
       export_to_xls: Export to XLS
       advanced_search: Advanced Search
       add_new_filter: Add New Filter
@@ -759,6 +760,7 @@ en:
       reset: Reset
       no_results: No Result Found
       results: Results
+      assessments: Assessments
 
   families:
     index:

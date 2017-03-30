@@ -156,7 +156,7 @@ class ClientGrid
     value == 'Accepted' ? scope.accepted : scope.rejected
   end
 
-  filter(:family_id, :integer, header: -> { I18n.t('datagrid.columns.families.family_id') }) do |value, object|
+  filter(:family_id, :integer, header: -> { I18n.t('datagrid.columns.families.code') }) do |value, object|
     ids = []
     Case.active.most_recents.joins(:client).group_by(&:client_id).each do |key, c|
       ids << c.first.id
@@ -456,7 +456,7 @@ class ClientGrid
     object.cases.current.family_preservation ? 'Yes' : 'No' if object.cases.current
   end
 
-  column(:family_id, order: false, header: -> { I18n.t('datagrid.columns.families.family_id') }) do |object|
+  column(:family_id, order: false, header: -> { I18n.t('datagrid.columns.families.code') }) do |object|
     if object.cases.current && object.cases.current.family
       object.cases.current.family.id
     end
