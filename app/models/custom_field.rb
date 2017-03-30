@@ -23,6 +23,11 @@ class CustomField < ActiveRecord::Base
   FREQUENCIES  = ['Daily', 'Weekly', 'Monthly', 'Yearly'].freeze
   ENTITY_TYPES = ['Client', 'Family', 'Partner', 'User'].freeze
 
+  def self.custom_fields_in_tenant(tenant_name)
+    Organization.switch_to tenant_name
+    all
+  end
+
   def set_time_of_frequency
     if frequency.present?
       self.time_of_frequency = time_of_frequency

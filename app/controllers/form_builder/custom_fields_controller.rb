@@ -9,18 +9,10 @@ class FormBuilder::CustomFieldsController < AdminController
   end
 
   def new
-    if params[:ngo_name].present?
-      ngo_name = params[:ngo_name]
-      current_org_name = current_organiation.short_name
-      if ngo_name == current_organiation.full_name
-        @custom_fields = CustomField.find(params[:custom_field_id])
-      else
-        ngo_short_name = Organization.find_by(full_name: ngo_name).short_name
-        Organization.switch_to(ngo_short_name)
-        @custom_fields = CustomField.find(params[:custom_field_id])
-        Organization.switch_to(current_org_name)
-      end
-      @custom_field = CustomField.new(form_title: @custom_fields.form_title, entity_type: @custom_fields.entity_type, fields: @custom_fields.fields, frequency: @custom_fields.frequency, time_of_frequency: @custom_fields.time_of_frequency)
+    ngo_name = params[:ngo_name]
+    if ngo_name.present?
+      original_custom_field = get_custom_field(params[:custom_field_id], ngo_name)
+      @custom_field = CustomField.new(original_custom_field.attributes.merge(id: nil))
     else
       @custom_field = CustomField.new
     end
@@ -56,15 +48,7 @@ class FormBuilder::CustomFieldsController < AdminController
 
   def show
     ngo_name = params[:ngo_name]
-    current_org_name = current_organiation.short_name
-    if ngo_name == current_organiation.full_name
-      @custom_field = CustomField.find(params[:id])
-    else
-      ngo_short_name = Organization.find_by(full_name: ngo_name).short_name
-      Organization.switch_to(ngo_short_name)
-      @custom_field = CustomField.find(params[:id])
-      Organization.switch_to(current_org_name)
-    end
+    @custom_field = get_custom_field(params[:id], ngo_name)
   end
 
   def search
@@ -82,17 +66,26 @@ class FormBuilder::CustomFieldsController < AdminController
 
   private
 
+  def get_custom_field(id, ngo_name)
+    current_org_name = current_organiation.short_name
+    ngo_short_name = Organization.find_by(full_name: ngo_name).short_name
+
+    Organization.switch_to(ngo_short_name)
+    original_custom_field = CustomField.find(id)
+    Organization.switch_to(current_org_name)
+
+    original_custom_field
+  end
+
   def find_custom_field_in_organization
     current_org_name = current_organiation.short_name
     custom_fields = []
     Organization.without_demo.each do |org|
-      Organization.switch_to(org.short_name)
-      CustomField.find_each do |custom_field|
-        custom_fields << custom_field
-      end
+      Organization.switch_to org.short_name
+      custom_fields << CustomField.all.reload
     end
     Organization.switch_to(current_org_name)
-    custom_fields
+    custom_fields.flatten
   end
 
   def find_custom_field(search)

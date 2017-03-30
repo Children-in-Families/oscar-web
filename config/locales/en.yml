@@ -1885,17 +1885,29 @@ en:
   form_builder:
     custom_fields:
       index:
+        search: Search
         custom_form: Custom Form
         all_custom_form: All Custom Form
         new_custom_form: New Custom Form
+        <<: *default_custom_fields
+
+      all_custom_form_tab:
         manage: Manage
         organization: Organization
         are_you_sure: Are you sure you want to delete?
         search_custom_form: Search Custom Form
-        search: Search
         close: Close
         <<: *default_custom_fields
+      current_custom_form_tab:
+        manage: Manage
+        organization: Organization
+        are_you_sure: Are you sure you want to delete?
+        search_custom_form: Search Custom Form
+        close: Close
+        <<: *default_custom_fields
+
       show:
+        copy: Copy
         custom_form_list: Custom Form List
       form:
         blank: can't be blank
