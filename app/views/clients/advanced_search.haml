@@ -40,3 +40,4 @@
 = simple_form_for :client, url: :advanced_search_clients, method: 'GET', html: { id: 'advanced-search' } do |f|
   = f.hidden_field :search_rules
   = f.hidden_field :field_visibility
+  = hidden_field_tag :locale, "#{params[:locale]}"
