@@ -483,7 +483,6 @@ km:
         family_type: ប្រភេទគ្រួសារ
         clients: ឣតិថិជន
         family_preservation: ករណីអភិរក្សគ្រួសារ?
-        family_id: លេខសម្គាល់គ្រួសារ
         case_workers: បុគ្គលិកគ្រប់គ្រងករណី
         total: សរុប
         changelogs: កំណែប្រែ
@@ -1974,7 +1973,6 @@ km:
     new:
       new_progress_note: កំណត់សំគាល់ការរីកចំរើនថ្មី
     edit:
-      # cannot_be_blank: មិនអាចរំលង
       edit_progress_note: កែសម្រួលកំណត់សំគាល់ការរីកចំរើន
     form:
       <<: *default_progress_note_fields

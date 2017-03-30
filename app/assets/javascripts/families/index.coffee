@@ -29,7 +29,7 @@ CIF.FamiliesIndex = do ->
 
   _getFamilyPath = ->
     $('table.families tbody tr').click (e) ->
-      return if $(e.target).hasClass('btn') || $(e.target).hasClass('fa')
+      return if $(e.target).hasClass('btn') || $(e.target).hasClass('fa') || $(e.target).hasClass('case-history')
       window.location = $(this).data('href')
 
   { init: _init }
