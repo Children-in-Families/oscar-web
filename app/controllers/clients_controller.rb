@@ -38,7 +38,6 @@ class ClientsController < AdminController
       f.xls do
         @client_grid.scope { |scope| scope.accessible_by(current_ability) }
         domain_score_report
-
         send_data @client_grid.to_xls, filename: "client_report-#{Time.now}.xls"
       end
     end
@@ -117,14 +116,6 @@ class ClientsController < AdminController
   end
 
   private
-
-  def advanced_search_sort_param
-    if params[:filter_by].present? && params[:filter_type].present?
-      "#{params[:filter_by]} #{params[:filter_type]}"
-    else
-      'id asc'
-    end
-  end
 
   def find_client
     @client = Client.accessible_by(current_ability).friendly.find(params[:id]).decorate

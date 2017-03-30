@@ -4,16 +4,16 @@ RSpec.describe Api::V1::ClientsController, type: :request do
   let(:user) { create(:user) }
   let!(:clients) { create_list(:client, 5, user: user) }
 
-  # describe 'GET #index' do
-  #   context 'when user not loged in' do
-  #     before do
-  #       get '/api/v1/clients'
-  #     end
-  #
-  #     it 'should be return status 401' do
-  #       expect(response).to have_http_status(:unauthorized)
-  #     end
-  #   end
+  describe 'GET #index' do
+    context 'when user not loged in' do
+      before do
+        get '/api/v1/clients'
+      end
+
+      it 'should be return status 401' do
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
 
     context 'when user loged in' do
       before do
