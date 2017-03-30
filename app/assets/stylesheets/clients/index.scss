@@ -1,4 +1,4 @@
-#clients-index {
+body[id='clients-index'], body[id='clients-advanced_search']{
   @import 'iCheck/custom';
   #client-search-form, #client-advance-search-form {
     margin-top: 16px;
@@ -84,7 +84,7 @@
     min-width: 160px;
   }
 
-  th.local_first_name, th.local_last_name {
+  th.local_first_name, th.local_last_name, th.kid_id {
     min-width: 175px;
   }
 

@@ -3,15 +3,6 @@ body[id='clients-advanced_search'] {
     margin-top: 0;
   }
 
-  .dataTables_scrollBody {
-    max-height: 500px !important;
-    margin-top: -20px;
-  }
-
-  table, .dataTables_scrollHeadInner {
-    width: 100% !important;
-  }
-
   .rules-group-container {
     background: none;
     border: none;
@@ -41,14 +32,6 @@ body[id='clients-advanced_search'] {
     select, input {
       width: 180px;
     }
-  }
-
-  .dataTable td, .dataTable th {
-    min-width: 150px;
-  }
-
-  .id-column {
-    min-width: 65px;
   }
 
   .order {

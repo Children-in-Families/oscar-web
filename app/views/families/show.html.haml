@@ -22,6 +22,18 @@
             %table.table.table-bordered
               %tr
                 %td.spacing-first-col
+                  = t('.code')
+                %td
+                  %strong
+                    = @family.code
+              %tr
+                %td.spacing-first-col
+                  = t('.case_history')
+                %td
+                  %strong
+                    = family_case_history(@family)
+              %tr
+                %td.spacing-first-col
                   = t('.address')
                 %td
                   %strong

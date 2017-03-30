@@ -22,6 +22,8 @@ class ClientGrid
   filter(:slug, :string, header: -> { I18n.t('datagrid.columns.clients.id')})  { |value, scope| scope.slug_like(value) }
 
   filter(:code, :integer, header: -> { I18n.t('datagrid.columns.clients.code') }) { |value, scope| scope.start_with_code(value) }
+  
+  filter(:kid_id, :string, header: -> { I18n.t('datagrid.columns.clients.kid_id') }) { |value, scope| scope.kid_id_like(value) }
 
   filter(:status, :enum, select: :status_options, header: -> { I18n.t('datagrid.columns.clients.status') })
 
@@ -154,7 +156,7 @@ class ClientGrid
     value == 'Accepted' ? scope.accepted : scope.rejected
   end
 
-  filter(:family_id, :integer, header: -> { I18n.t('datagrid.columns.families.family_id') }) do |value, object|
+  filter(:family_id, :integer, header: -> { I18n.t('datagrid.columns.families.code') }) do |value, object|
     ids = []
     Case.active.most_recents.joins(:client).group_by(&:client_id).each do |key, c|
       ids << c.first.id
@@ -299,6 +301,8 @@ class ClientGrid
   column(:code, header: -> { I18n.t('datagrid.columns.clients.code') }) do |object|
     object.code ||= ''
   end
+
+  column(:kid_id, order:'clients.kid_id', header: -> { I18n.t('datagrid.columns.clients.kid_id') })
 
   column(:first_name, order: 'clients.first_name', header: -> { I18n.t('datagrid.columns.clients.first_name') }, html: true) do |object|
     link_to object.first_name, client_path(object)
@@ -452,7 +456,7 @@ class ClientGrid
     object.cases.current.family_preservation ? 'Yes' : 'No' if object.cases.current
   end
 
-  column(:family_id, order: false, header: -> { I18n.t('datagrid.columns.families.family_id') }) do |object|
+  column(:family_id, order: false, header: -> { I18n.t('datagrid.columns.families.code') }) do |object|
     if object.cases.current && object.cases.current.family
       object.cases.current.family.id
     end

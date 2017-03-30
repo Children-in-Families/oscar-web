@@ -10,12 +10,20 @@ class FamilyGrid
   end
 
   filter(:id, :integer, header: -> { I18n.t('datagrid.columns.families.id') })
-
-  filter(:address, :string, header: -> { I18n.t('datagrid.columns.families.address') }) { |value, scope| scope.address_like(value) }
+  
+  filter(:code, :string, header: -> { I18n.t('datagrid.columns.families.code') }) do |value, scope|
+    scope.family_id_like(value)
+  end
 
   filter(:family_type, :enum, select: [%w(Kinship kinship), %w(Foster foster), %w(Emergency emergency)], header: -> { I18n.t('datagrid.columns.families.family_type') }) do |value, scope|
     scope.by_family_type(value)
   end
+
+  filter(:case_history, :string, header: -> { I18n.t('datagrid.columns.families.case_history') }) do |value, scope|
+    scope.case_history_like(value)
+  end
+
+  filter(:address, :string, header: -> { I18n.t('datagrid.columns.families.address') }) { |value, scope| scope.address_like(value) }
 
   filter(:significant_family_member_count, :integer, range: true, header: -> { I18n.t('datagrid.columns.families.significant_family_member_count') })
 
@@ -46,6 +54,8 @@ class FamilyGrid
   end
 
   column(:id, header: -> { I18n.t('datagrid.columns.families.id') })
+  
+  column(:code, header: -> { I18n.t('datagrid.columns.families.code') })
 
   column(:name, html: true, order: 'LOWER(name)', header: -> { I18n.t('datagrid.columns.families.name') }) do |object|
     link_to entity_name(object), family_path(object)
@@ -56,6 +66,12 @@ class FamilyGrid
   column(:family_type, header: -> { I18n.t('datagrid.columns.families.family_type') }) do |object|
     object.family_type.titleize
   end
+
+  column(:case_history, html: true, header: -> { I18n.t('datagrid.columns.families.case_history') }) do |object|
+    family_case_history(object)
+  end
+
+  column(:case_history, html: false, header: -> { I18n.t('datagrid.columns.families.case_history') })
 
   column(:address, header: -> { I18n.t('datagrid.columns.families.address') })
 
