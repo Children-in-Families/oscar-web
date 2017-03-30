@@ -75,34 +75,34 @@ CIF.Custom_fieldsShow = do ->
       typeUserEvents: {
         'checkbox-group': {
           onadd: (fld) ->
-            $('.other-wrap, .className-wrap, .access-wrap, .description-wrap').hide()
+            $('.other-wrap, .className-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
         }
         date: {
           onadd: (fld) ->
-            $('.className-wrap, .value-wrap, .access-wrap, .description-wrap').hide()
+            $('.className-wrap, .value-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
         }
         number: {
           onadd: (fld) ->
-            $('.className-wrap, .value-wrap, .step-wrap, .access-wrap, .description-wrap').hide()
+            $('.className-wrap, .value-wrap, .step-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
         }
         'radio-group': {
           onadd: (fld) ->
-            $('.other-wrap, .className-wrap, .access-wrap, .description-wrap').hide()
+            $('.other-wrap, .className-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
         }
         select: {
           onadd: (fld) ->
-            $('.className-wrap, .access-wrap, .description-wrap').hide()
+            $('.className-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
         }
         text: {
           onadd: (fld) ->
             $('.fld-subtype ').find('option:contains(color)').remove()
             $('.fld-subtype ').find('option:contains(tel)').remove()
             $('.fld-subtype ').find('option:contains(password)').remove()
-            $('.className-wrap, .value-wrap, .access-wrap, .maxlength-wrap, .description-wrap').hide()
+            $('.className-wrap, .value-wrap, .access-wrap, .maxlength-wrap, .description-wrap, .name-wrap').hide()
         }
         textarea: {
           onadd: (fld) ->
-            $('.rows-wrap, .className-wrap, .value-wrap, .access-wrap, .maxlength-wrap, .description-wrap').hide()
+            $('.rows-wrap, .className-wrap, .value-wrap, .access-wrap, .maxlength-wrap, .description-wrap, .name-wrap').hide()
 
         }
 
