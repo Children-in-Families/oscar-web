@@ -1,4 +1,4 @@
-%div{class: "form-group #{field_with(field_props['name'],errors)} "}
+%div{ class: "form-group #{field_with(field_props['label'],errors)}" }
   %label{ class: required?(field_props['required'] || false) }
     %abbr{ title: 'required' }= '*' if field_props['required'] || false
     = field_props['label']
