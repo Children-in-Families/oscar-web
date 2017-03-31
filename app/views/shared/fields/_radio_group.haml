@@ -1,4 +1,4 @@
-%div{ class: "i-checks form-group #{field_with(field_props['name'],errors)} #{required?(field_props['required'] || false)}" }
+%div{ class: "i-checks form-group #{field_with(field_props['label'],errors)} #{required?(field_props['required'] || false)}" }
   %label{ class: required?(field_props['required'] || false) }
     %abbr{ title: 'required' }= '*' if field_props['required'] || false
     = field_props['label']
