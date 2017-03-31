@@ -7,6 +7,10 @@ CIF.Progress_notesNew = CIF.Progress_notesCreate = CIF.Progress_notesEdit = CIF.
     _toggleOtherLocation()
     _triggerLocationChanged()
     _handleSubmitForm()
+    _removeUnusedTool()
+
+  _removeUnusedTool = ->
+    $('.strike, .link, .heading-1, .quote, .code, .nesting-level').remove()
 
   _handleSubmitForm = ->
     self = @

@@ -26,6 +26,8 @@
 //= require doT
 //= require query-builder
 
+//= require trix
+
 // WRAPBOOTSTRAP
 //= require iCheck/icheck.min.js
 //= require wrapbootstrap/inspinia.js
@@ -48,7 +50,6 @@
 //= require case_notes/form
 //= require cases/form
 //= require admin/tasks
-//= require ckeditor/init
 //= require clients/index
 //= require report_creator
 //= require clients/show
@@ -73,7 +74,6 @@
 //= require domains/form
 //= require custom_fields/form
 //= require custom_fields/shared_fields
-//= require ckeditor/config
 //= require shared/version_per_page_form
 //= require notifications/index
 //= require sessions/new
