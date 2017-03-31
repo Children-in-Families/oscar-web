@@ -20,9 +20,13 @@
         .col-xs-3
           = f.input :score_4_color, collection: Domain.domain_score_colors.map{ |ds| [ds[1], ds[0]]}, label: t('.score_4'), include_blank: false, input_html: { class: 'select2' }
       %hr
+      -#.row
+        -#.col-xs-12
+          -#= f.input :description, as: :text, label: t('.description'), input_html: { rows: 30 }
       .row
         .col-xs-12
-          = f.input :description, as: :text, label: t('.description'), input_html: { rows: 30 }
+          = f.input :description, as: :hidden, label: t('.description'), input_html: { rows: 30 }
+          %trix-editor{input: 'domain_description'}
   .ibox-footer
     = f.submit t('.save'), class: 'btn btn-primary form-btn'
     = link_to t('.cancel'), domains_path, class: 'btn btn-default form-btn'
