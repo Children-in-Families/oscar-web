@@ -62,6 +62,21 @@ CIF.Custom_fieldsShow = do ->
       else
         frequency = ''
 
+  _generateLabelForSelectAndRadio = (field) ->
+    $(field).find('input.option-value').on 'keyup change', ->
+      value = $(@).val()
+      $(@).siblings('.option-label').val(value)
+
+  _hideOptionLabel = ->
+    $('.option-selected, .option-label').hide()
+
+  _addOptionCallback = (field) ->
+    $('.add-opt').on 'click', ->
+      setTimeout ( ->
+        $(field).find('.option-selected, .option-label').hide()
+        ),50
+
+
   _initFormBuilder = ->
     formBuilder = $('.build-wrap').formBuilder({
       dataType: 'json'
@@ -73,39 +88,65 @@ CIF.Custom_fieldsShow = do ->
       }
 
       typeUserEvents: {
-        'checkbox-group': {
+        'checkbox-group':
           onadd: (fld) ->
-            $('.other-wrap, .className-wrap, .access-wrap, .description-wrap').hide()
-        }
-        date: {
+            $('.other-wrap, .className-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
+            _hideOptionLabel()
+            _addOptionCallback(fld)
+            _generateLabelForSelectAndRadio(fld)
+          onclone: (fld) ->
+            setTimeout ( ->
+              _hideOptionLabel()
+              _addOptionCallback(fld)
+              _generateLabelForSelectAndRadio(fld)
+              ),50
+
+        date:
           onadd: (fld) ->
-            $('.className-wrap, .value-wrap, .access-wrap, .description-wrap').hide()
-        }
-        number: {
+            $('.className-wrap, .value-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
+
+        number:
           onadd: (fld) ->
-            $('.className-wrap, .value-wrap, .step-wrap, .access-wrap, .description-wrap').hide()
-        }
-        'radio-group': {
+            $('.className-wrap, .value-wrap, .step-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
+
+        'radio-group':
           onadd: (fld) ->
-            $('.other-wrap, .className-wrap, .access-wrap, .description-wrap').hide()
-        }
-        select: {
+            $('.other-wrap, .className-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
+            _hideOptionLabel()
+            _addOptionCallback(fld)
+            _generateLabelForSelectAndRadio(fld)
+          onclone: (fld) ->
+            setTimeout ( ->
+              _hideOptionLabel()
+              _addOptionCallback(fld)
+              _generateLabelForSelectAndRadio(fld)
+              ),50
+
+
+        select:
           onadd: (fld) ->
-            $('.className-wrap, .access-wrap, .description-wrap').hide()
-        }
-        text: {
+            $('.className-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
+            _hideOptionLabel()
+            _addOptionCallback(fld)
+            _generateLabelForSelectAndRadio(fld)
+          onclone: (fld) ->
+            setTimeout ( ->
+              _hideOptionLabel()
+              _addOptionCallback(fld)
+              _generateLabelForSelectAndRadio(fld)
+              ),50
+
+
+        text:
           onadd: (fld) ->
             $('.fld-subtype ').find('option:contains(color)').remove()
             $('.fld-subtype ').find('option:contains(tel)').remove()
             $('.fld-subtype ').find('option:contains(password)').remove()
-            $('.className-wrap, .value-wrap, .access-wrap, .maxlength-wrap, .description-wrap').hide()
-        }
-        textarea: {
+            $('.className-wrap, .value-wrap, .access-wrap, .maxlength-wrap, .description-wrap, .name-wrap').hide()
+
+        textarea:
           onadd: (fld) ->
-            $('.rows-wrap, .className-wrap, .value-wrap, .access-wrap, .maxlength-wrap, .description-wrap').hide()
-
-        }
-
+            $('.rows-wrap, .className-wrap, .value-wrap, .access-wrap, .maxlength-wrap, .description-wrap, .name-wrap').hide()
       }
 
     }).data('formBuilder');
