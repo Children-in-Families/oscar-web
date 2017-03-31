@@ -74,7 +74,7 @@ CIF.Custom_fieldsShow = do ->
     $('.add-opt').on 'click', ->
       setTimeout ( ->
         $(field).find('.option-selected, .option-label').hide()
-        ),50
+        )
 
 
   _initFormBuilder = ->
@@ -122,7 +122,6 @@ CIF.Custom_fieldsShow = do ->
               _generateLabelForSelectAndRadio(fld)
               ),50
 
-
         select:
           onadd: (fld) ->
             $('.className-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
@@ -135,7 +134,6 @@ CIF.Custom_fieldsShow = do ->
               _addOptionCallback(fld)
               _generateLabelForSelectAndRadio(fld)
               ),50
-
 
         text:
           onadd: (fld) ->

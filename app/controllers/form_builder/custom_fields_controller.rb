@@ -11,6 +11,9 @@ class FormBuilder::CustomFieldsController < AdminController
     @custom_field = CustomField.new
   end
 
+  def show
+  end
+
   def create
     @custom_field = CustomField.new(custom_field_params)
     if @custom_field.save
