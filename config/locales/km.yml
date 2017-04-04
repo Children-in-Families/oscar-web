@@ -171,7 +171,7 @@ km:
     parent_carer_has_a_criminal_history: ឪពុកម្តាយ/ឪពុក/ម្តាយ/អ្នកអាណាព្យាបាលមានទំនាស់នឹងច្បាប់
 
   default_custom_fields: &default_custom_fields
-    entity_type: ទម្រង់បែបបទបន្ថែម
+    type: ប្រភេទនៃទម្រង់បែបបទបន្ថែម
     form_title: ឈ្មោះនៃទម្រង់បែបបទបន្ថែម
     frequency: ភាពញឹកញាប់
     time_of_frequency: ពេលវេលានៃភាពញឹកញាប់

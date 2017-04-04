@@ -171,7 +171,7 @@ en:
     parent_carer_has_a_criminal_history: parent/carer has a criminal history
 
   default_custom_fields: &default_custom_fields
-    entity_type: Entity Type
+    type: Type
     form_title: Form Title
     frequency: Frequency
     time_of_frequency: Time of Frequency
