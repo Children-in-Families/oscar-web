@@ -46,6 +46,8 @@ class ClientAdvancedFilter
       clients = clients.where('cases.start_date >= ?', value)
     when 'between'
       clients = clients.where(cases: { start_date: value[0]..value[1] })
+    when 'is_empty'
+      clients = clients.where('cases.start_date IS NULL')
     end
     ids = clients.map { |c| c.cases.last.id }.uniq
 
@@ -71,6 +73,8 @@ class ClientAdvancedFilter
       clients = clients.where('cases.family_id >= ?', value)
     when 'between'
       clients = clients.where(cases: { family_id: value[0]..value[1] })
+    when 'is_empty'
+      clients = clients.where('cases.family_id IS NULL')
     end
     @client.resource = clients.uniq
   end
@@ -92,6 +96,9 @@ class ClientAdvancedFilter
     when 'not_contains'
       families = Family.where('name iLike ? ', "%#{value}%")
       clients = clients.where.not(cases: { family_id: families })
+    when 'is_empty'
+      families = Family.where("name = '' OR name IS NULL")
+      clients = clients.where(cases: { family_id: families})
     end
     @client.resource = clients.uniq
   end
@@ -114,6 +121,8 @@ class ClientAdvancedFilter
       clients = resource.where('date_of_birth <= ?', values[0])
     when 'between'
       clients = resource.where(date_of_birth: values[0]..values[1])
+    when 'is_empty'
+      clients = resource.where('date_of_birth IS NULL')
     end
     @client.resource = clients
   end
@@ -121,10 +130,13 @@ class ClientAdvancedFilter
   def case_type_field_query(resource, operator, value)
     clients = resource.joins(:cases).where(cases: { exited: false })
 
-    if operator == 'equal'
+    case operator
+    when 'equal'
       case_ids = clients.where(cases: { case_type: value }).map { |c| c.cases.current.id if c.cases.current.case_type == value }.uniq
-    else
+    when 'not_equal'
       case_ids = clients.where.not(cases: { case_type: value }).map { |c| c.cases.current.id if c.cases.current.case_type != value }.uniq
+    when 'is_empty'
+      case_ids = clients.where("cases.case_type = '' OR cases.case_type IS NULL").map { |c| c.cases.current.id if c.cases.current.case_type == value }.uniq
     end
     @client.resource = resource.joins(:cases)
                                .where(cases: { id: case_ids })
@@ -133,12 +145,15 @@ class ClientAdvancedFilter
 
   def agency_field_query(resource, operator, value)
     clients = resource.joins(:agencies)
-    if operator == 'equal'
-      clients = clients.where(agencies: { id: value }).uniq.select(:id)
-    else
-      clients = clients.where.not(agencies: { id: value }).uniq.select(:id)
+    case operator
+    when 'equal'
+      clients = clients.where(agencies: { id: value })
+    when 'not_equal'
+      clients = clients.where.not(agencies: { id: value })
+    when 'is_empty'
+      clients = clients.where('agencies.id IS NULL')
     end
-    @client.resource = clients
+    @client.resource = clients.uniq
   end
 
   def convert_age_to_date(value)
@@ -196,6 +211,8 @@ class ClientAdvancedFilter
       @client.contains('clients', rule[:field], rule[:value])
     when 'not_contains'
       @client.not_contains('clients', rule[:field], rule[:value])
+    when 'is_empty'
+      @client.is_empty('clients', rule[:field])
     end
   end
 end

@@ -26,6 +26,7 @@ CIF.ClientsAdvanced_search = do ->
             delete_rule: ''
             add_rule: filterTranslation
             operators:
+              is_empty: 'is blank'
               equal: 'is'
               not_equal: 'is not'
               less: '<'
@@ -83,6 +84,7 @@ CIF.ClientsAdvanced_search = do ->
 
   _setRuleJqueryQueryBuilder = ->
     queryRules = $('#builder').data('search-rules')
+
     queryCondition = $('#builder').data('search-condition')
     if queryRules != undefined
       $('#builder').queryBuilder('setRules', queryRules)
@@ -101,7 +103,8 @@ CIF.ClientsAdvanced_search = do ->
 
   _handleSearch = ->
     $('#search').on 'click', ->
-      rules =  JSON.stringify($('#builder').queryBuilder('getRules'))
+      rules = JSON.stringify($('#builder').queryBuilder('getRules'))
+      rules = rules.replace('null', '""')
       if !($.isEmptyObject($('#builder').queryBuilder('getRules')))
         $('#client_search_rules').val(rules)
         _handleSelectValueCheckBox()
