@@ -452,6 +452,10 @@ class ClientGrid
     object.cases.current.try(:support_note)
   end
 
+  column(:form_title, order: false, header: -> { I18n.t('datagrid.columns.clients.form_title') }) do |object|
+    object.custom_fields.pluck(:form_title).join(', ')
+  end
+
   column(:family_preservation, order: false, header: -> { I18n.t('datagrid.columns.families.family_preservation') }) do |object|
     object.cases.current.family_preservation ? 'Yes' : 'No' if object.cases.current
   end

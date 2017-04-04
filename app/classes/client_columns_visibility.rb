@@ -43,6 +43,7 @@ class ClientColumnsVisibility
       carer_phone_number_: :carer_phone_number,
       support_amount_: :support_amount,
       support_note_: :support_note,
+      form_title_: :form_title,
       family_preservation_: :family_preservation,
       family_: :family,
       partner_: :partner,

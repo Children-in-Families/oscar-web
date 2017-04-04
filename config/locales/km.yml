@@ -419,6 +419,7 @@ km:
       reset: សំអាត
     columns:
       clients:
+        <<: *default_custom_fields
         domain: កត្តា
         domains: កត្តា CSI ទាំងអស់
         age: អាយុ
@@ -2141,4 +2142,5 @@ km:
       referral_source_id: ប្រភពនៃការបញ្ជូន
       followed_up_by_id: បុគ្គលិកដែលតាមដានករណី
       user_id: បុគ្គលិកគ្រប់គ្រងករណី
+      <<: *default_custom_fields
       <<: *default_client_fields

@@ -1,5 +1,5 @@
 class ClientAdvancedFilter
-  DROP_LIST_ASSOCIATED_FIELDS   = [:case_type, :agency_name].freeze
+  DROP_LIST_ASSOCIATED_FIELDS   = [:case_type, :agency_name, :form_title].freeze
   DATE_LIST_ASSOCIATED_FIELDS   = [:placement_date].freeze
   TEXT_LIST_ASSOCIATED_FIELDS   = [:family_name].freeze
   NUMBER_LIST_ASSOCIATED_FIELDS = [:age, :family_id].freeze
@@ -96,6 +96,19 @@ class ClientAdvancedFilter
     @client.resource = clients.uniq
   end
 
+  def form_title_field_query(resource, operator, value)
+
+    clients = resource.joins(:custom_fields)
+
+    case operator
+    when 'equal'
+      clients = clients.where(custom_fields: { id: value })
+    when 'not_equal'
+      clients = clients.where.not(custom_fields: { id: value })
+    end
+    @client.resource = clients.uniq
+  end
+
   def age_field_query(resource, operator, value)
     values = convert_age_to_date(value)
 
@@ -156,6 +169,8 @@ class ClientAdvancedFilter
       case_type_field_query(@client.resource, rule[:operator], rule[:value])
     when 'agency_name'
       agency_field_query(@client.resource, rule[:operator], rule[:value])
+    when 'form_title'
+      form_title_field_query(@client.resource, rule[:operator], rule[:value])
     end
   end
 

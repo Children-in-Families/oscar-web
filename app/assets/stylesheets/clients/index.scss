@@ -68,6 +68,10 @@ body[id='clients-index'], body[id='clients-advanced_search']{
     }
   }
 
+  th.form_title {
+    min-width: 200px;
+  }
+
   th.changelog {
     min-width: 100px;
   }
