@@ -62,18 +62,18 @@ CIF.Custom_fieldsShow = do ->
       else
         frequency = ''
 
-  _generateLabelForSelectAndRadio = (field) ->
-    $(field).find('input.option-value').on 'keyup change', ->
+  _generateValueForSelectOption = (field) ->
+    $(field).find('input.option-label').on 'keyup change', ->
       value = $(@).val()
-      $(@).siblings('.option-label').val(value)
+      $(@).siblings('.option-value').val(value)
 
-  _hideOptionLabel = ->
-    $('.option-selected, .option-label').hide()
+  _hideOptionValue = ->
+    $('.option-selected, .option-value').hide()
 
   _addOptionCallback = (field) ->
     $('.add-opt').on 'click', ->
       setTimeout ( ->
-        $(field).find('.option-selected, .option-label').hide()
+        $(field).find('.option-selected, .option-value').hide()
         )
 
 
@@ -91,14 +91,14 @@ CIF.Custom_fieldsShow = do ->
         'checkbox-group':
           onadd: (fld) ->
             $('.other-wrap, .className-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
-            _hideOptionLabel()
+            _hideOptionValue()
             _addOptionCallback(fld)
-            _generateLabelForSelectAndRadio(fld)
+            _generateValueForSelectOption(fld)
           onclone: (fld) ->
             setTimeout ( ->
-              _hideOptionLabel()
+              _hideOptionValue()
               _addOptionCallback(fld)
-              _generateLabelForSelectAndRadio(fld)
+              _generateValueForSelectOption(fld)
               ),50
 
         date:
@@ -112,27 +112,27 @@ CIF.Custom_fieldsShow = do ->
         'radio-group':
           onadd: (fld) ->
             $('.other-wrap, .className-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
-            _hideOptionLabel()
+            _hideOptionValue()
             _addOptionCallback(fld)
-            _generateLabelForSelectAndRadio(fld)
+            _generateValueForSelectOption(fld)
           onclone: (fld) ->
             setTimeout ( ->
-              _hideOptionLabel()
+              _hideOptionValue()
               _addOptionCallback(fld)
-              _generateLabelForSelectAndRadio(fld)
+              _generateValueForSelectOption(fld)
               ),50
 
         select:
           onadd: (fld) ->
             $('.className-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
-            _hideOptionLabel()
+            _hideOptionValue()
             _addOptionCallback(fld)
-            _generateLabelForSelectAndRadio(fld)
+            _generateValueForSelectOption(fld)
           onclone: (fld) ->
             setTimeout ( ->
-              _hideOptionLabel()
+              _hideOptionValue()
               _addOptionCallback(fld)
-              _generateLabelForSelectAndRadio(fld)
+              _generateValueForSelectOption(fld)
               ),50
 
         text:
