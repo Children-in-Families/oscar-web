@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
   before_action :find_association, if: :devise_controller?
   before_action :set_locale
   before_action :set_paper_trail_whodunnit
-  
+
   helper_method :current_organiation
 
   rescue_from CanCan::AccessDenied do |exception|
@@ -39,6 +39,8 @@ class ApplicationController < ActionController::Base
 
   def set_locale
     locale = I18n.available_locales.include?(params[:locale].to_sym) ? params[:locale] : I18n.locale if params[:locale].present?
+    flash.clear
+    flash[:alert] = browser_detection if browser_detection.present? && params[:locale] == 'km'
     I18n.locale = locale || I18n.locale
   end
 
@@ -52,5 +54,37 @@ class ApplicationController < ActionController::Base
 
   def after_sign_out_path_for(_resource_or_scope)
     root_url(host: request.domain)
+  end
+
+  def browser_detection
+    result = request.env['HTTP_USER_AGENT']
+    browser_compatible = ''
+    if result =~ /Safari/
+      unless result =~ /Chrome/
+        version = result.split('Version/')[1].split(' ').first.split('.').first
+        browser_compatible = "Application is not translated properly for Safari version's #{version}, we're sorry to suggest to use Google Chrome broswer instead." if version.to_i < 5
+      else
+        version = result.split('Chrome/')[1].split(' ').first.split('.').first
+        browser_compatible = "Application is not translated properly for Chrome version's #{version}, we're sorry to suggest to use Google Chrome broswer instead." if version.to_i < 15
+      end
+    elsif result =~ /Firefox/
+      version = result.split('Firefox/')[1].split('.').first
+      if os == 'Mac OS'
+        browser_compatible = "Application is not translated properly for Firefox On Mac OS, we're sorry to suggest to use Google Chrome broswer instead."
+      elsif version.to_i < 15
+        browser_compatible = "Application is not translated properly for Firefox version's #{version}, we're sorry to suggest to use Google Chrome broswer instead."
+      end
+    end
+    browser_compatible
+  end
+
+  def os
+    @os ||= (
+      host_os = RbConfig::CONFIG['host_os']
+      case host_os
+      when /darwin|mac os/
+        'Mac OS'
+      end
+    )
   end
 end
