@@ -17,7 +17,7 @@ class FormBuilder::CustomFieldsController < AdminController
   def create
     @custom_field = CustomField.new(custom_field_params)
     if @custom_field.save
-      redirect_to custom_fields_path, notice: t('.successfully_created')
+      redirect_to custom_field_path(@custom_field), notice: t('.successfully_created')
     else
       render :new
     end
@@ -28,7 +28,7 @@ class FormBuilder::CustomFieldsController < AdminController
 
   def update
     if @custom_field.update(custom_field_params)
-      redirect_to custom_fields_path, notice: t('.successfully_updated')
+      redirect_to custom_field_path(@custom_field), notice: t('.successfully_updated')
     else
       render :edit
     end

@@ -2108,6 +2108,9 @@ km:
         organization: អង្គការ
         are_you_sure: តើអ្នកប្រាកដហើយ?
         <<: *default_custom_fields
+      show:
+        back: ត្រឡប់ក្រោយ
+        edit: កែសម្រួល
       form:
         blank: មិនអាចរំលង
         <<: *default_custom_fields

@@ -1895,6 +1895,9 @@ en:
         organization: Organisation
         are_you_sure: Are you sure you want to delete?
         <<: *default_custom_fields
+      show:
+        back: Back
+        edit: Edit
       form:
         blank: can't be blank
         <<: *default_custom_fields
