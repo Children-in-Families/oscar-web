@@ -62,17 +62,17 @@ class ApplicationController < ActionController::Base
     if result =~ /Safari/
       unless result =~ /Chrome/
         version = result.split('Version/')[1].split(' ').first.split('.').first
-        browser_compatible = "Application is not translated properly for Safari version's #{version}, we're sorry to suggest to use Google Chrome broswer instead." if version.to_i < 5
+        browser_compatible = "Application is not translated properly for Safari version's #{version}, please update your Safari." if version.to_i < 5
       else
         version = result.split('Chrome/')[1].split(' ').first.split('.').first
-        browser_compatible = "Application is not translated properly for Chrome version's #{version}, we're sorry to suggest to use Google Chrome broswer instead." if version.to_i < 15
+        browser_compatible = "Application is not translated properly for Google Chrome version's #{version}, please update your Google Chrome" if version.to_i < 15
       end
     elsif result =~ /Firefox/
       version = result.split('Firefox/')[1].split('.').first
       if os == 'Mac OS'
-        browser_compatible = "Application is not translated properly for Firefox On Mac OS, we're sorry to suggest to use Google Chrome broswer instead."
+        browser_compatible = "Application is not translated properly for Firefox on Mac, we're sorry to suggest to use Google Chrome browser instead."
       elsif version.to_i < 15
-        browser_compatible = "Application is not translated properly for Firefox version's #{version}, we're sorry to suggest to use Google Chrome broswer instead."
+        browser_compatible = "Application is not translated properly for Firefox version's #{version}, please update your Firefox."
       end
     end
     browser_compatible
