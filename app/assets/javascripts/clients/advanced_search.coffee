@@ -50,17 +50,19 @@ CIF.ClientsAdvanced_search = do ->
     $('.columns-visibility').click (e) ->
       e.stopPropagation()
 
-   allCheckboxes = $('.all-visibility #all_')
+    allCheckboxes = $('.all-visibility #all_')
 
-   allCheckboxes.on 'ifChecked', ->
+    allCheckboxes.on 'ifChecked', ->
       $('.visibility input[type=checkbox]').iCheck('check')
     allCheckboxes.on 'ifUnchecked', ->
       $('.visibility input[type=checkbox]').iCheck('uncheck')
 
   _setDefaultCheckColumnVisibilityAll = ->
-    checkboxes = $('.visibility input[type=checkbox]').prop('checked')
-    if !checkboxes
-      $('.all-visibility #all_').iCheck('check')
+    setTimeout ( ->
+      checkboxes = $('.visibility input[type=checkbox]').prop('checked')
+      if !checkboxes
+        $('.all-visibility #all_').iCheck('check')
+      )
 
   _addRuleCallback = ->
     $('#builder').on 'afterCreateRuleFilters.queryBuilder', ->
