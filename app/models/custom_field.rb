@@ -37,15 +37,11 @@ class CustomField < ActiveRecord::Base
       object['label']
     end
     duplicate = labels.detect{ |e| labels.count(e) > 1 }
-    if duplicate.present?
-      errors.add(:fields, I18n.t('must_be_uniq'))
-    end
+    errors.add(:fields, I18n.t('must_be_uniq')) if duplicate.present?
   end
 
   def presence_of_fields
-    if field_objs.empty?
-      errors.add(:fields, I18n.t('cannot_be_blank'))
-    end
+    errors.add(:fields, I18n.t('cannot_be_blank')) if field_objs.empty?
   end
 
   def has_no_association?
