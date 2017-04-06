@@ -8,4 +8,5 @@
           .col-xs-12.col-md-8
             .build-wrap{ 'data-fields': @custom_field.fields }
       .ibox-footer
-        = link_to 'Custom Form List', custom_fields_path, class: 'btn btn-success form-btn'
+        = link_to t('.copy'), new_custom_field_path(custom_field_id: @custom_field.id, ngo_name: @custom_field.ngo_name), class: 'btn btn-primary form-btn'
+        = link_to t('.custom_form_list'), custom_fields_path, class: 'btn btn-success form-btn'

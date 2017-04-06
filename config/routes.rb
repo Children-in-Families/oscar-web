@@ -157,7 +157,13 @@ Rails.application.routes.draw do
   end
 
   scope '', module: 'form_builder' do
-    resources :custom_fields
+    resources :custom_fields do
+      collection do
+        get '/find' => 'custom_fields#find'
+      end
+    end
+    get 'copy' => 'custom_fields#copy'
+    get 'search', :to => 'custom_fields#search', :as => :search
   end
 
   resources :papertrail_queries, only: [:index]
