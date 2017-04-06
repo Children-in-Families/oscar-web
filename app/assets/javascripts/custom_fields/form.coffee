@@ -141,7 +141,7 @@ CIF.Custom_fieldsShow = do ->
             copyTranslation = $('#livesearch').data('copy-translation')
             width = $('#custom_field_form_title').css('width')
             $('#livesearch').css('width', width)
-            $('#livesearch').css('visibility', '')
+            $('#livesearch').css('visibility', 'visible')
             ngo_name = custom_field.ngo_name.replace(/\s/g,"+")
             if $('.has-error').length <= 0
               preview_link = "#{custom_field.id}?ngo_name=#{ngo_name}"

@@ -16,19 +16,15 @@ class CustomField < ActiveRecord::Base
   validates :form_title, uniqueness: { case_sensitive: false, scope: :entity_type }
   validates :time_of_frequency, presence: true,
                                 numericality: { only_integer: true, greater_than_or_equal_to: 1 }, if: 'frequency.present?'
-  validate :presence_of_fields
+  validate :presence_of_fields, if: 'field_objs.empty?'
 
-  before_save :set_time_of_frequency, :set_ngo_name
+  before_save :set_time_of_frequency
+  before_save :set_ngo_name, if: 'ngo_name.blank?'
 
   scope :by_form_title, ->(value) { where('form_title iLIKE ?', "%#{value}%") }
 
   FREQUENCIES  = ['Daily', 'Weekly', 'Monthly', 'Yearly'].freeze
   ENTITY_TYPES = ['Client', 'Family', 'Partner', 'User'].freeze
-
-  def self.custom_fields_in_tenant(tenant_name)
-    Organization.switch_to tenant_name
-    all
-  end
 
   def set_time_of_frequency
     if frequency.present?
@@ -39,15 +35,11 @@ class CustomField < ActiveRecord::Base
   end
 
   def set_ngo_name
-    if ngo_name.blank?
-      self.ngo_name = Organization.current.full_name
-    end
+    self.ngo_name = Organization.current.full_name
   end
 
   def presence_of_fields
-    if field_objs.empty?
-      errors.add(:fields, "can't be blank")
-    end
+    errors.add(:fields, "can't be blank")
   end
 
   def field_objs

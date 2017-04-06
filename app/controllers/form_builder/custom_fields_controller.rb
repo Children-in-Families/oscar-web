@@ -31,6 +31,8 @@ class FormBuilder::CustomFieldsController < AdminController
   end
 
   def edit
+    ngo_name = params[:ngo_name]
+    redirect_to custom_fields_path, alert: t('unauthorized.default') if ngo_name.present? && ngo_name != current_organiation.full_name
   end
 
   def update
@@ -57,9 +59,7 @@ class FormBuilder::CustomFieldsController < AdminController
   def search
     if params[:search].present?
       @custom_field = find_custom_field(params[:search])
-      if @custom_field.blank?
-        redirect_to custom_fields_path, alert: t('.no_result')
-      end
+      redirect_to custom_fields_path, alert: t('.no_result') if @custom_field.blank?
     end
   end
 
@@ -92,16 +92,18 @@ class FormBuilder::CustomFieldsController < AdminController
   end
 
   def find_custom_field(search)
-    found = []
+    results = []
     current_org_name = current_organiation.short_name
     Organization.without_demo.each do |org|
       Organization.switch_to(org.short_name)
-      params_custom_field = params[:search] if params[:search].present?
-      found_custom_field = CustomField.by_form_title(params_custom_field)
-      found << found_custom_field if found_custom_field.present?
+      if params[:search].present?
+        form_title   = params[:search]
+        custom_fields = CustomField.by_form_title(form_title)
+        results << custom_fields if custom_fields.present?
+      end
     end
     Organization.switch_to(current_org_name)
-    found.flatten
+    results.flatten
   end
 
   def custom_field_params

@@ -1,6 +1,6 @@
 .row
   .col-xs-12.col-sm-8.col-md-8
-    = form_tag search_path, method: 'get' do
+    = form_tag search_custom_fields_path, method: 'get' do
       .row
         .col-xs-9.col-sm-6.col-md-8.col-lg-4
           = text_field_tag :search, nil, class: 'form-control', placeholder: t('.form_title'), required: true

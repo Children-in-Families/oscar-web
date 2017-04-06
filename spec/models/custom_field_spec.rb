@@ -33,7 +33,7 @@ end
 describe CustomField, 'scopes' do
   context 'find custom fields by form title' do
     let!(:custom_field) { create(:custom_field, form_title: 'Health Record') }
-    let!(:other_custom_field) { create(:custom_field, form_title: 'Prosin Record') }
+    let!(:other_custom_field) { create(:custom_field, form_title: 'Prison Record') }
 
     subject{ CustomField.by_form_title('health record') }
 
