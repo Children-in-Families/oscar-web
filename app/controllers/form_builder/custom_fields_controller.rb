@@ -55,7 +55,7 @@ class FormBuilder::CustomFieldsController < AdminController
     if params[:search].present?
       @custom_field = find_custom_field(params[:search])
       if @custom_field.blank?
-        redirect_to custom_fields_path, alert: 'dont have this custom field'
+        redirect_to custom_fields_path, alert: t('.no_result')
       end
     end
   end
@@ -82,7 +82,7 @@ class FormBuilder::CustomFieldsController < AdminController
     custom_fields = []
     Organization.without_demo.each do |org|
       Organization.switch_to org.short_name
-      custom_fields << CustomField.all.reload
+      custom_fields << CustomField.order(:entity_type, :form_title).reload
     end
     Organization.switch_to(current_org_name)
     custom_fields.flatten

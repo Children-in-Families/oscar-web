@@ -5,10 +5,18 @@ body[id='custom_fields-index'] {
       margin-right: 5px;
     }
   }
-  .nav-tabs li a {
-    border-radius: 0;
-  }
   .form-title-margin-top {
     margin-top: 10px;
+  }
+  .nav-tabs {
+    margin-bottom: 10px;
+    li.active a {
+      border-bottom-color: #fff;
+    }
+  }
+  @media (min-width: 768px) {
+    .no-margin-top {
+      margin-top: 0px;
+    }
   }
 }

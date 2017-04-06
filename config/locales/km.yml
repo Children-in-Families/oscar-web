@@ -2100,8 +2100,8 @@ km:
     custom_fields:
       index:
         search: ស្វែងរក
-        custom_form: បន្ថែមទម្រង់បែបបទ
-        all_custom_form: បន្ថែមទម្រង់បែបបទទាំងអស់
+        custom_form: ទម្រង់បែបបទ
+        all_custom_form: ទម្រង់បែបបទទាំងអស់
         new_custom_form: បន្ថែមទម្រង់បែបបទថ្មី
         <<: *default_custom_fields
 
@@ -2145,6 +2145,7 @@ km:
         organization: អង្គការ
         manage: គ្រប់គ្រង
         back: ត្រឡប់ក្រោយ
+        no_result: មិនមានលទ្ធផលនេះទេ
         <<: *default_custom_fields
   advanced_search:
     fields:

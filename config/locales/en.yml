@@ -1890,7 +1890,6 @@ en:
         all_custom_form: All Custom Form
         new_custom_form: New Custom Form
         <<: *default_custom_fields
-
       all_custom_form_tab:
         manage: Manage
         organization: Organization
@@ -1930,6 +1929,7 @@ en:
         manage: Manage
         organization: Organization
         back: Back
+        no_result: No results found
         <<: *default_custom_fields
   advanced_search:
     fields:

@@ -1,38 +1,24 @@
 .row
-  .col-xs-12.text-right
+  .col-xs-12.col-sm-8.col-md-8
+    = form_tag search_path, method: 'get' do
+      .row
+        .col-xs-9.col-sm-6.col-md-8.col-lg-4
+          = text_field_tag :search, nil, class: 'form-control', placeholder: t('.form_title'), required: true
+        .col-xs-3.col-sm-6.col-md-4
+          = submit_tag t('.search'), name: nil, class: 'btn btn-primary'
+  .col-xs-12.col-sm-4.col-md-4.text-right
     - if can? :manage, CustomField
-      = link_to t('.new_custom_form'), new_custom_field_path, class: 'btn btn-primary form-btn'
-      %a{ 'data-target' => '#myModalf', 'data-toggle' => 'modal', type: 'button', class: 'btn btn-primary form-btn' }
-        =t('.search')
+      = link_to t('.new_custom_form'), new_custom_field_path, class: 'btn btn-primary form-btn no-margin-top'
 .row
   .col-xs-12
     .ibox.min-margin-layout
       .ibox-content
         %div
-          %ul.nav.nav-tabs{:role => "tablist"}
-            %li.active{:role => "presentation"}
-              %a{"aria-controls" => "home", "data-toggle" => "tab", :href => "#home", :role => "tab"}= t('.custom_form')
-            %li{:role => "presentation"}
-              %a{"aria-controls" => "profile", "data-toggle" => "tab", :href => "#profile", :role => "tab"}= t('.all_custom_form')
+          %ul.nav.nav-tabs{role: "tablist"}
+            %li.active{role: "presentation"}
+              %a{"aria-controls" => "custom-form", "data-toggle" => "tab", href: "#custom-form", role: "tab"}= t('.custom_form')
+            %li{role: "presentation"}
+              %a{"aria-controls" => "all-custom-form", "data-toggle" => "tab", href: "#all-custom-form", role: "tab"}= t('.all_custom_form')
           .tab-content
             = render 'current_custom_form_tab'
             = render 'all_custom_form_tab'
-            
-#myModalf.modal.fade{ 'aria-labelledby' => 'myModalLabel', :role => 'dialog', tabindex: '-1' }
-  .modal-dialog{role: 'document'}
-    .modal-content
-      .modal-header
-        %button.close{ 'aria-label' => 'Close', 'data-dismiss' => 'modal', type: 'button' }
-          %span{ 'aria-hidden' => 'true' } ×
-        %h3#myModalLabel.modal-title.text-center=t('.search_custom_form')
-      = form_tag search_path, :method => 'get'  do
-        .modal-body
-          .row
-            .col-xs-12
-              .col-sm-3
-                = label_tag :search, t('.form_title'), class: 'form-title-margin-top'
-              .col-sm-8
-                = text_field_tag :search, nil, class: 'form-control', required: true
-        .modal-footer
-          = submit_tag t('.search'), :name => nil, class: 'btn btn-primary form-btn'
-          %button.btn.btn-default{ 'data-dismiss' => 'modal', type: 'button' }= t('.close')

@@ -136,14 +136,17 @@ CIF.Custom_fieldsShow = do ->
       form_title = $('#custom_field_form_title').val()
       if form_title != ''
         for custom_field in custom_fields
-          if custom_field.form_title.toLowerCase() == form_title.toLowerCase()
+          if custom_field.form_title.toLowerCase().startsWith(form_title.toLowerCase())
             previewTranslation = $('#livesearch').data('preview-translation')
             copyTranslation = $('#livesearch').data('copy-translation')
             width = $('#custom_field_form_title').css('width')
             $('#livesearch').css('width', width)
             $('#livesearch').css('visibility', '')
             ngo_name = custom_field.ngo_name.replace(/\s/g,"+")
-            preview_link = "#{custom_field.id}?ngo_name=#{ngo_name}"
+            if $('.has-error').length <= 0
+              preview_link = "#{custom_field.id}?ngo_name=#{ngo_name}"
+            else
+              preview_link = "custom_fields/#{custom_field.id}?ngo_name=#{ngo_name}"
             copy_link = "new?custom_field_id=#{custom_field.id}&ngo_name=#{ngo_name}"
             $('#livesearch').append("<li><span class='col-xs-8'>#{custom_field.form_title} (#{custom_field.ngo_name})</span>
             <span class='col-xs-4 text-right'><a href=#{preview_link}>#{previewTranslation}</a> | <a href=#{copy_link}>#{copyTranslation}</a></span></li>")
