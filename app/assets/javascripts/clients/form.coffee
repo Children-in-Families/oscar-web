@@ -27,7 +27,6 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
           data: data
           dataType: "JSON"
         }).success((json)->
-          console.log json
           clientId = $('#client_id').val()
           clientIds = []
           clients = json.clients

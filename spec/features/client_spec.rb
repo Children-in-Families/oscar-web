@@ -109,7 +109,6 @@ describe 'Client' do
       select2_select 'Male', '.client_gender'
       select2_select province.name, '.client_birth_province_id'
       fill_in 'Date of Birth', with: '1994-04-04'
-
       click_button 'Save'
 
       expect(page).to have_content("Cornell has already been registered")
