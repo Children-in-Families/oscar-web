@@ -424,6 +424,7 @@ en:
         domain: Domain
         domains: All CSI
         age: Age
+        total: Total
         <<: *default_client_fields
         placements:
           <<: *default_placement_fields

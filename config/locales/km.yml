@@ -420,9 +420,11 @@ km:
     columns:
       clients:
         <<: *default_custom_fields
+        form_title: ទម្រង់បែបបទបន្ថែម
         domain: កត្តា
         domains: កត្តា CSI ទាំងអស់
         age: អាយុ
+        total: សរុប
         <<: *default_client_fields
         placements:
           <<: *default_placement_fields
