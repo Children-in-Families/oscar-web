@@ -39,8 +39,10 @@ class ApplicationController < ActionController::Base
 
   def set_locale
     locale = I18n.available_locales.include?(params[:locale].to_sym) ? params[:locale] : I18n.locale if params[:locale].present?
-    flash.clear
-    flash[:alert] = browser_detection if browser_detection.present? && params[:locale] == 'km'
+    if detect_browser.present?
+      flash.clear
+      flash[:alert] = detect_browser
+    end
     I18n.locale = locale || I18n.locale
   end
 
@@ -56,35 +58,10 @@ class ApplicationController < ActionController::Base
     root_url(host: request.domain)
   end
 
-  def browser_detection
-    result = request.env['HTTP_USER_AGENT']
-    browser_compatible = ''
-    if result =~ /Safari/
-      unless result =~ /Chrome/
-        version = result.split('Version/')[1].split(' ').first.split('.').first
-        browser_compatible = "Application is not translated properly for Safari version's #{version}, please update your Safari." if version.to_i < 5
-      else
-        version = result.split('Chrome/')[1].split(' ').first.split('.').first
-        browser_compatible = "Application is not translated properly for Google Chrome version's #{version}, please update your Google Chrome" if version.to_i < 15
-      end
-    elsif result =~ /Firefox/
-      version = result.split('Firefox/')[1].split('.').first
-      if os == 'Mac OS'
-        browser_compatible = "Application is not translated properly for Firefox on Mac, we're sorry to suggest to use Google Chrome browser instead."
-      elsif version.to_i < 15
-        browser_compatible = "Application is not translated properly for Firefox version's #{version}, please update your Firefox."
-      end
+  def detect_browser
+    lang = params[:locale] || locale.to_s
+    if browser.firefox? && browser.platform.mac? && lang == 'km'
+      "Application is not translated properly for Firefox on Mac, we're sorry to suggest to use Google Chrome browser instead."
     end
-    browser_compatible
-  end
-
-  def os
-    @os ||= (
-      host_os = RbConfig::CONFIG['host_os']
-      case host_os
-      when /darwin|mac os/
-        'Mac OS'
-      end
-    )
   end
 end
