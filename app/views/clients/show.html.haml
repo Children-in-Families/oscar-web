@@ -145,8 +145,22 @@
           - if can? :manage, AbleScreeningQuestion
             = able_screen_link(@client)
           = render('client_answers')
-          - @client.client_custom_fields.group_by(&:custom_field_id).each do |client_custom_field|
-            = next_custom_field(client_custom_field[1].first, @client, "client")
+
+          .btn-group.small-btn-margin
+            %button.btn-xs.btn.btn-success.dropdown-toggle{ 'data-toggle' => 'dropdown', class: ('disabled' if @client_custom_fields.empty?) }
+              = t('.additional_forms')
+              %span.caret
+            %ul.dropdown-menu
+              - @client_custom_fields.each do |client_custom_field|
+                %li= link_to client_custom_field.custom_field.form_title, client_client_custom_fields_path(@client, custom_field_id: client_custom_field.custom_field_id)
+
+          .btn-group.small-btn-margin
+            %button.btn-xs.btn.btn-primary.dropdown-toggle{ 'data-toggle' => 'dropdown', class: ('disabled' if @free_client_forms.empty?) }
+              = t('.add_form')
+              %span.caret
+            %ul.dropdown-menu
+              - @free_client_forms.each do |custom_field|
+                %li= link_to custom_field.form_title, new_client_client_custom_field_path(@client, custom_field_id: custom_field.id)
 
 .row.mini-margin
   .col-xs-12

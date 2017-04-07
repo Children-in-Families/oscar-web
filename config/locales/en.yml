@@ -677,6 +677,8 @@ en:
       answer: Answer
       custom_forms: Custom Forms
     show:
+      add_form: Add Form
+      additional_forms: Additional Forms
       add_client_to_case: Add Client to Case
       case_history: Case History
       id: ID
