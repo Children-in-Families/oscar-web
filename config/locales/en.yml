@@ -1901,18 +1901,35 @@ en:
   form_builder:
     custom_fields:
       index:
+        search: Search
+        custom_form: Custom Form
+        all_custom_form: All Custom Form
         new_custom_form: New Custom Form
-        manage: Manage
-        organization: Organisation
-        are_you_sure: Are you sure you want to delete?
         <<: *default_custom_fields
+      all_custom_form_tab:
+        manage: Manage
+        organization: Organization
+        are_you_sure: Are you sure you want to delete?
+        search_custom_form: Search Custom Form
+        close: Close
+        <<: *default_custom_fields
+      current_custom_form_tab:
+        manage: Manage
+        organization: Organization
+        are_you_sure: Are you sure you want to delete?
+        search_custom_form: Search Custom Form
+        close: Close
+        <<: *default_custom_fields
+      form:
+        blank: can't be blank
+        preview: Preview
       show:
         back: Back
         edit: Edit
+        copy: Copy
       form:
         <<: *default_custom_fields
       edit:
-        failed_to_update: Failed to update custom form
         form_builder: Form Builder
       new:
         save: Save
@@ -1924,6 +1941,12 @@ en:
       destroy:
         successfully_deleted: Custom Form has been successfully deleted.
         failed_to_delete: Custom Form cannot be deleted.
+      search:
+        manage: Manage
+        organization: Organization
+        back: Back
+        no_result: No results found
+        <<: *default_custom_fields
   advanced_search:
     fields:
       grade: Grade

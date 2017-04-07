@@ -17,10 +17,13 @@ class CustomField < ActiveRecord::Base
   validates :form_title, uniqueness: { case_sensitive: false, scope: :entity_type }
   validates :time_of_frequency, presence: true,
                                 numericality: { only_integer: true, greater_than_or_equal_to: 1 }, if: 'frequency.present?'
-  validate :presence_of_fields
+  validate :presence_of_fields, if: 'field_objs.empty?'
   validate :uniq_fields
 
   before_save :set_time_of_frequency
+  before_save :set_ngo_name, if: 'ngo_name.blank?'
+
+  scope :by_form_title, ->(value) { where('form_title iLIKE ?', "%#{value}%") }
 
   FREQUENCIES  = ['Daily', 'Weekly', 'Monthly', 'Yearly'].freeze
   ENTITY_TYPES = ['Client', 'Family', 'Partner', 'User'].freeze
@@ -33,20 +36,20 @@ class CustomField < ActiveRecord::Base
     end
   end
 
+  def set_ngo_name
+    self.ngo_name = Organization.current.full_name
+  end
+
+  def presence_of_fields
+    errors.add(:fields, "can't be blank")
+  end
+
   def uniq_fields
     labels = field_objs.collect do |object|
       object['label']
     end
     duplicate = labels.detect{ |e| labels.count(e) > 1 }
     errors.add(:fields, I18n.t('must_be_uniq')) if duplicate.present?
-  end
-
-  def presence_of_fields
-    errors.add(:fields, I18n.t('cannot_be_blank')) if field_objs.empty?
-  end
-
-  def has_no_association?
-    client_custom_fields.empty? || family_custom_fields.empty? || partner_custom_fields.empty? || user_custom_fields.empty?
   end
 
   def field_objs

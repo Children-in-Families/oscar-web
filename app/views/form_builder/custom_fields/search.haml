@@ -1,0 +1,26 @@
+.row
+  .col-xs-12
+    .ibox.min-margin-layout
+      .ibox-content
+        - if @custom_field.present?
+          %table.table.table-bordered.table-hover
+            %thead
+              %th= t('.form_title')
+              %th= t('.entity_type')
+              %th= t('.organization')
+              - if can? :manage, CustomField
+                %th.manage.text-center= t('.manage')
+
+            - @custom_field.each do |custom_field|
+              %tr
+                %td= custom_field.form_title
+                %td= custom_field.entity_type
+                %td= custom_field.ngo_name
+                - if can? :manage, CustomField
+                  %td.manage.text-center
+                    = link_to custom_field_path(custom_field, ngo_name: custom_field.ngo_name), class: 'btn btn-outline btn-success btn-xs' do
+                      = fa_icon('eye')
+                    = link_to new_custom_field_path(custom_field_id: custom_field.id, ngo_name: custom_field.ngo_name), class: 'btn btn-outline btn-primary btn-xs margin-btn' do
+                      = fa_icon('files-o')
+      .ibox-footer
+        = link_to t('.back'), custom_fields_path, class: 'btn btn-default form-btn'

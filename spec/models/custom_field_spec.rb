@@ -30,6 +30,22 @@ describe CustomField, 'validations' do
   end
 end
 
+describe CustomField, 'scopes' do
+  context 'find custom fields by form title' do
+    let!(:custom_field) { create(:custom_field, form_title: 'Health Record') }
+    let!(:other_custom_field) { create(:custom_field, form_title: 'Prison Record') }
+
+    subject{ CustomField.by_form_title('health record') }
+
+    it 'should include custom field like the form title' do
+      is_expected.to include(custom_field)
+    end
+    it 'should not include custom field like the form title' do
+      is_expected.not_to include(other_custom_field)
+    end
+  end
+end
+
 describe CustomField, 'CONSTANTS' do
   it 'FREQUENCIES' do
     expect(CustomField::FREQUENCIES).to eq(['Daily', 'Weekly', 'Monthly', 'Yearly'])
