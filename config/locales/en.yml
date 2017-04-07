@@ -421,9 +421,11 @@ en:
       reset: Reset
     columns:
       clients:
+        <<: *default_custom_fields
         domain: Domain
         domains: All CSI
         age: Age
+        total: Total
         <<: *default_client_fields
         placements:
           <<: *default_placement_fields
@@ -1941,4 +1943,5 @@ en:
       referral_source_id: Referral Source
       followed_up_by_id: Followed Up By
       user_id: Case Worker
+      <<: *default_custom_fields
       <<: *default_client_fields
