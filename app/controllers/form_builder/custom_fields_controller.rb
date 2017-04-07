@@ -24,6 +24,7 @@ class FormBuilder::CustomFieldsController < AdminController
   end
 
   def edit
+    redirect_to custom_fields_path, alert: t('.failed_to_update') if @custom_field.has_no_association?
   end
 
   def update

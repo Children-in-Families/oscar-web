@@ -18,6 +18,7 @@ class CustomField < ActiveRecord::Base
   validates :time_of_frequency, presence: true,
                                 numericality: { only_integer: true, greater_than_or_equal_to: 1 }, if: 'frequency.present?'
   validate :presence_of_fields
+  validate :uniq_fields
 
   before_save :set_time_of_frequency
 
@@ -32,10 +33,20 @@ class CustomField < ActiveRecord::Base
     end
   end
 
-  def presence_of_fields
-    if field_objs.empty?
-      errors.add(:fields, "can't be blank")
+  def uniq_fields
+    labels = field_objs.collect do |object|
+      object['label']
     end
+    duplicate = labels.detect{ |e| labels.count(e) > 1 }
+    errors.add(:fields, I18n.t('must_be_uniq')) if duplicate.present?
+  end
+
+  def presence_of_fields
+    errors.add(:fields, I18n.t('cannot_be_blank')) if field_objs.empty?
+  end
+
+  def has_no_association?
+    client_custom_fields.empty? || family_custom_fields.empty? || partner_custom_fields.empty? || user_custom_fields.empty?
   end
 
   def field_objs

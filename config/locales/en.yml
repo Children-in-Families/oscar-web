@@ -248,6 +248,7 @@ en:
   cannot_be_lower: can't be lower than %{count}
   cannot_be_greater: can't be greater than %{count}
   is_not_email: is not an email
+  must_be_uniq: field label must be uniq
 
   default_client_fields: &default_client_fields
     id: ID
@@ -1907,9 +1908,9 @@ en:
         are_you_sure: Are you sure you want to delete?
         <<: *default_custom_fields
       form:
-        blank: can't be blank
         <<: *default_custom_fields
       edit:
+        failed_to_update: Failed to update custom form
         form_builder: Form Builder
       new:
         save: Save
