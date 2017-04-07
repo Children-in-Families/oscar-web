@@ -1812,6 +1812,11 @@ en:
       able_screening_questions: Able Screening Questions
       stages: Stages
       donors: Donors
+      client_custom_fields: Client Custom Forms
+      family_custom_fields: Family Custom Forms
+      partner_custom_fields: Partner Custom Forms
+      user_custom_fields: User Custom Forms
+      custom_fields: Custom Forms
     per_page_form:
       show: Show
   shared:
@@ -1826,12 +1831,12 @@ en:
         before: Before
         after: After
         date_deleted: Date deleted
-        Client: Client
+        client: Client
       assessment:
         'on': 'on'
         change: did the following change
         no_modification: There are no any changelog.
-        Assessment: Assessment
+        assessment: Assessment
         value_of: Value of
         before: Before
         after: After
@@ -1839,7 +1844,7 @@ en:
       case_note:
         'on': 'on'
         change: did the following change
-        CaseNote: Case Note
+        case_note: Case Note
       common:
         create: Create
         update: Update
@@ -1852,31 +1857,37 @@ en:
         id: ID
         'on': 'on'
         no_modification: There are no any changelog.
-        Client: Client
-        Family: Family
-        Partner: Partner
-        User: User
-        Agency: Agency
-        Department: Department
-        Domain: Domain
-        DomainGroup: Domain Group
-        Province: Province
-        ReferralSource: Referral Source
-        QuantitativeType: Quantitative Type
-        QuantitativeCase: Quantitative Data
-        Changelog: Releaselog
-        Case: Case
-        Task: Task
-        Assessment: Assessment
-        CaseNote: Case Note
-        Survey: Survey
-        ProgressNote: Progress Note
-        Material: Equipment/Material
-        Intervention: Intervention
-        Location: Location
-        ProgressNoteType: Type of Note
-        AbleScreeningQuestion: Able Screening Question
-        Stage: Stage
+        donor: Donor
+        client: Client
+        family: Family
+        partner: Partner
+        user: User
+        agency: Agency
+        department: Department
+        domain: Domain
+        domain_group: Domain Group
+        province: Province
+        referral_source: Referral Source
+        quantitative_type: Quantitative Type
+        quantitative_case: Quantitative Data
+        changelog: Releaselog
+        case: Case
+        task: Task
+        assessment: Assessment
+        case_cote: Case Note
+        survey: Survey
+        progress_note: Progress Note
+        material: Equipment/Material
+        intervention: Intervention
+        location: Location
+        progress_note_type: Type of Note
+        able_screening_question: Able Screening Question
+        stage: Stage
+        custom_field: Custom Form
+        client_custom_field: Client Custom Forms
+        family_custom_field: Family Custom Forms
+        partner_custom_field: Partner Custom Forms
+        user_custom_field: User Custom Forms
 
   client_custom_fields:
     <<: *default_entity_type_custom_fields

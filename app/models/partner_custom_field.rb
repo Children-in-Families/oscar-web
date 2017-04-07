@@ -4,6 +4,8 @@ class PartnerCustomField < ActiveRecord::Base
   belongs_to :partner
   belongs_to :custom_field
 
+  has_paper_trail
+
   validates :custom_field_id, presence: true
 
   scope :by_custom_field, ->(value) { where(custom_field:  value) }
