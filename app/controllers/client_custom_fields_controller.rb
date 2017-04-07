@@ -4,7 +4,6 @@ class ClientCustomFieldsController < AdminController
   before_action :set_client
   before_action :set_custom_field
   before_action :set_client_custom_field, only: [:show, :destroy]
-  before_action :restrict_invalid_client_custom_field, only: [:new, :create]
 
   def index
     @client_custom_fields = @client.client_custom_fields.by_custom_field(@custom_field).order(created_at: :desc).page(params[:page]).per(4)
@@ -69,9 +68,5 @@ class ClientCustomFieldsController < AdminController
 
   def set_client_custom_field
     @client_custom_field = @client.client_custom_fields.find(params[:id])
-  end
-
-  def restrict_invalid_client_custom_field
-    redirect_to client_client_custom_fields_path(@client, custom_field_id: @custom_field.id), alert: t('.cannot_create') unless @client.can_create_next_custom_field?(@client, @custom_field)
   end
 end

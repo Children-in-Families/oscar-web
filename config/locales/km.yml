@@ -185,7 +185,6 @@ km:
       available_on: អាចធ្វើបាននៅថ្ងៃទី
     create:
       successfully_created: ពត៌មានត្រូវបានរក្សាទុកដោយជោគជ័យ
-      cannot_create: មិនអាចបង្កើតទម្រង់បានទេ
     update:
       successfully_updated: ពត៌មានត្រូវបានរក្សាទុកដោយជោគជ័យ
     destroy:
@@ -195,8 +194,6 @@ km:
     form:
       save: រក្សាទុក
       cancel: ទុកជាមោឃៈ
-    new:
-      cannot_create: មិនអាចបង្កើតទម្រង់បានទេ
 
   government_reports:
     index:
