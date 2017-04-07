@@ -5,35 +5,6 @@ CIF.Common =
     @customCheckBox()
     @initNotification()
     @autoCollapseManagMenu()
-    @switchLanguageNotifitication()
-
-  switchLanguageNotifitication: ->
-    $('a#lang-kh').click (e) ->
-      e.preventDefault()
-      $("#wrapper").data('message-type', 'warning')
-      $("#wrapper").data('message', "If Khmer is not translated properly, we're sorry to suggest to use Google Chrome browser instead.")
-
-      messageOption = {
-        "closeButton": true,
-        "debug": true,
-        "progressBar": true,
-        "positionClass": "toast-top-center",
-        "showDuration": "400",
-        "hideDuration": "1000",
-        "timeOut": "5000",
-        "extendedTimeOut": "1000",
-        "showEasing": "swing",
-        "hideEasing": "linear",
-        "showMethod": "fadeIn",
-        "hideMethod": "fadeOut"
-      }
-      messageInfo = $("#wrapper").data()
-      if Object.keys(messageInfo).length > 0
-        toastr.warning(messageInfo.message, '', messageOption)
-
-      setTimeout (->
-        window.location = $('a#lang-kh').attr('href')
-      ), 5000
 
   customCheckBox: ->
     $('.i-check-red').iCheck
