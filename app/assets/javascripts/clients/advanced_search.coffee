@@ -12,10 +12,10 @@ CIF.ClientsAdvanced_search = do ->
   _initJqueryQueryBuilder = ->
     filterTranslation = $('#builder').data('filter-translation')
     $.ajax
-      url: '/api/v1/advance_searches/'
+      url: '/api/advanced_searches/'
       method: 'GET'
       success: (response) ->
-        fieldList = response.advance_searches
+        fieldList = response.advanced_searches
         $('#builder').queryBuilder
           allow_groups: false
           conditions: ['AND']

@@ -21,7 +21,7 @@ module CustomFormBuilderHelper
         concat value.to_date.strftime('%B %d, %Y')
       elsif value.is_a?(Array)
         value.reject{ |i| i.empty? }.each do |c|
-          concat content_tag(:strong, c, class: 'label')
+          concat content_tag(:strong, c, class: 'label label-margin')
         end
       else
         concat value

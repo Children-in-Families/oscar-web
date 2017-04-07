@@ -62,6 +62,21 @@ CIF.Custom_fieldsShow = do ->
       else
         frequency = ''
 
+  _generateValueForSelectOption = (field) ->
+    $(field).find('input.option-label').on 'keyup change', ->
+      value = $(@).val()
+      $(@).siblings('.option-value').val(value)
+
+  _hideOptionValue = ->
+    $('.option-selected, .option-value').hide()
+
+  _addOptionCallback = (field) ->
+    $('.add-opt').on 'click', ->
+      setTimeout ( ->
+        $(field).find('.option-selected, .option-value').hide()
+        )
+
+
   _initFormBuilder = ->
     formBuilder = $('.build-wrap').formBuilder({
       dataType: 'json'
@@ -73,39 +88,63 @@ CIF.Custom_fieldsShow = do ->
       }
 
       typeUserEvents: {
-        'checkbox-group': {
+        'checkbox-group':
           onadd: (fld) ->
             $('.other-wrap, .className-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
-        }
-        date: {
+            _hideOptionValue()
+            _addOptionCallback(fld)
+            _generateValueForSelectOption(fld)
+          onclone: (fld) ->
+            setTimeout ( ->
+              _hideOptionValue()
+              _addOptionCallback(fld)
+              _generateValueForSelectOption(fld)
+              ),50
+
+        date:
           onadd: (fld) ->
             $('.className-wrap, .value-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
-        }
-        number: {
+
+        number:
           onadd: (fld) ->
             $('.className-wrap, .value-wrap, .step-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
-        }
-        'radio-group': {
+
+        'radio-group':
           onadd: (fld) ->
             $('.other-wrap, .className-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
-        }
-        select: {
+            _hideOptionValue()
+            _addOptionCallback(fld)
+            _generateValueForSelectOption(fld)
+          onclone: (fld) ->
+            setTimeout ( ->
+              _hideOptionValue()
+              _addOptionCallback(fld)
+              _generateValueForSelectOption(fld)
+              ),50
+
+        select:
           onadd: (fld) ->
             $('.className-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
-        }
-        text: {
+            _hideOptionValue()
+            _addOptionCallback(fld)
+            _generateValueForSelectOption(fld)
+          onclone: (fld) ->
+            setTimeout ( ->
+              _hideOptionValue()
+              _addOptionCallback(fld)
+              _generateValueForSelectOption(fld)
+              ),50
+
+        text:
           onadd: (fld) ->
             $('.fld-subtype ').find('option:contains(color)').remove()
             $('.fld-subtype ').find('option:contains(tel)').remove()
             $('.fld-subtype ').find('option:contains(password)').remove()
             $('.className-wrap, .value-wrap, .access-wrap, .maxlength-wrap, .description-wrap, .name-wrap').hide()
-        }
-        textarea: {
+
+        textarea:
           onadd: (fld) ->
             $('.rows-wrap, .className-wrap, .value-wrap, .access-wrap, .maxlength-wrap, .description-wrap, .name-wrap').hide()
-
-        }
-
       }
 
     }).data('formBuilder');
