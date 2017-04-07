@@ -19,4 +19,4 @@
       %span.help-block= f.object.errors[:fields].first
   .ibox-footer
     = f.submit t('save'), class: 'btn btn-primary form-btn', id: 'custom-field-submit'
-    = link_to t('cancel'), custom_fields_path, class: 'btn btn-default form-btn'
+    = link_to t('cancel'), :back, class: 'btn btn-default form-btn'
