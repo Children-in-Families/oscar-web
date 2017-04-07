@@ -40,4 +40,12 @@ class BaseFilters
   def range_between(table_name, column, value)
     @resource = @resource.where(column.to_sym => (value[0]..value[1]))
   end
+
+  def is_empty(table_name, column, null_type)
+   if null_type
+     @resource = @resource.where("#{table_name}.#{column}  IS NULL")
+   else
+     @resource = @resource.where("#{table_name}.#{column}  IS NULL OR #{table_name}.#{column} = ''")
+   end
+  end
 end

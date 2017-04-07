@@ -1,4 +1,4 @@
-feature 'ClientAdvancedSearch' do 
+feature 'ClientAdvancedSearch' do
   given(:admin) { create(:user, roles: 'admin') }
 
   background do

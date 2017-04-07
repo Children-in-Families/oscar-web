@@ -2,7 +2,7 @@
   .ibox-content
     .row
       .col-xs-12.col-sm-6
-        = f.input :entity_type, collection: CustomField::ENTITY_TYPES, label: t('.entity_type'), disabled: used_custom_form?(@custom_field), include_blank: false
+        = f.input :entity_type, collection: CustomField::ENTITY_TYPES, label: t('.type'), disabled: used_custom_form?(@custom_field), include_blank: false
       .col-xs-12.col-sm-6
         = f.input :form_title, label: t('.form_title'), disabled: used_custom_form?(@custom_field), input_html: { list: 'livesearch', autocomplete: 'off' }
         %ul.nav
@@ -18,7 +18,7 @@
     = f.input :fields, as: :hidden
     .build-wrap{ 'data-fields': @custom_field.fields }
     - if f.object.errors[:fields].any?
-      %span.help-block= t('.blank')
+      %span.help-block= f.object.errors[:fields].first
   .ibox-footer
     = f.submit t('save'), class: 'btn btn-primary form-btn', id: 'custom-field-submit'
-    = link_to t('cancel'), custom_fields_path, class: 'btn btn-default form-btn'
+    = link_to t('cancel'), :back, class: 'btn btn-default form-btn'

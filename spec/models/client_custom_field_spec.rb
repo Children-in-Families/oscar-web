@@ -17,16 +17,3 @@ describe ClientCustomField, 'scopes' do
     expect(client.client_custom_fields.by_custom_field(cf2)).not_to include(ccf1)
   end
 end
-
-describe ClientCustomField, 'methods' do
-  context 'can_create_next_custom_field?' do
-    let!(:client){ create(:client) }
-    let!(:custom_field){ create(:custom_field, entity_type: 'Client', form_title: 'Health Record', frequency: 'Daily', time_of_frequency: 1) }
-    let!(:client_custom_field){ create(:client_custom_field, custom_field: custom_field, client: client) }
-    let!(:other_custom_field){ create(:custom_field, entity_type: 'Client', form_title: 'Care Record', frequency: '') }
-    let!(:other_client_custom_field){ create(:client_custom_field, custom_field: other_custom_field, client: client) }
-
-    it { expect(client.can_create_next_custom_field?(client, custom_field)).to be_falsey }
-    it { expect(client.can_create_next_custom_field?(client, other_custom_field)).to be_truthy }
-  end
-end

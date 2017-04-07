@@ -44,8 +44,13 @@ class  ClientAdvancedFilterFields
       ['has_been_in_government_care', { true: 'Yes', false: 'No' }],
       ['able_state', client_able_state],
       ['has_been_in_orphanage', { true: 'Yes', false: 'No' }],
-      ['user_id', user_select_options]
+      ['user_id', user_select_options],
+      ['form_title', client_custom_form_options] 
     ]
+  end
+
+  def client_custom_form_options
+    CustomField.where(entity_type: 'Client').order(:form_title).map{|c| { c.id.to_s => c.form_title}}
   end
 
   def client_status

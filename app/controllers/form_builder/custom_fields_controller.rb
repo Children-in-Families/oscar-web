@@ -24,7 +24,7 @@ class FormBuilder::CustomFieldsController < AdminController
   def create
     @custom_field = CustomField.new(custom_field_params)
     if @custom_field.save
-      redirect_to custom_fields_path, notice: t('.successfully_created')
+      redirect_to custom_field_path(@custom_field), notice: t('.successfully_created')
     else
       render :new
     end
@@ -37,7 +37,7 @@ class FormBuilder::CustomFieldsController < AdminController
 
   def update
     if @custom_field.update(custom_field_params)
-      redirect_to custom_fields_path, notice: t('.successfully_updated')
+      redirect_to custom_field_path(@custom_field), notice: t('.successfully_updated')
     else
       render :edit
     end
@@ -53,7 +53,9 @@ class FormBuilder::CustomFieldsController < AdminController
 
   def show
     ngo_name = params[:ngo_name]
-    @custom_field = get_custom_field(params[:id], ngo_name)
+    if ngo_name.present?
+      @custom_field = get_custom_field(params[:id], ngo_name)
+    end
   end
 
   def search
@@ -72,11 +74,9 @@ class FormBuilder::CustomFieldsController < AdminController
   def get_custom_field(id, ngo_name)
     current_org_name = current_organiation.short_name
     ngo_short_name = Organization.find_by(full_name: ngo_name).short_name
-
     Organization.switch_to(ngo_short_name)
     original_custom_field = CustomField.find(id)
     Organization.switch_to(current_org_name)
-
     original_custom_field
   end
 

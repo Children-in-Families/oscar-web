@@ -10,7 +10,7 @@ development:
 
 test:
   <<: *default
-  database: <%= "#{ENV['DATABASE_NAME']}" %>
+  database: <%= "#{ENV['DATABASE_NAME_TEST']}" %>
 
 staging:
   <<: *default

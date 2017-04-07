@@ -12,10 +12,10 @@ CIF.ClientsAdvanced_search = do ->
   _initJqueryQueryBuilder = ->
     filterTranslation = $('#builder').data('filter-translation')
     $.ajax
-      url: '/api/v1/advance_searches/'
+      url: '/api/advanced_searches/'
       method: 'GET'
       success: (response) ->
-        fieldList = response.advance_searches
+        fieldList = response.advanced_searches
         $('#builder').queryBuilder
           allow_groups: false
           conditions: ['AND']
@@ -26,6 +26,7 @@ CIF.ClientsAdvanced_search = do ->
             delete_rule: ''
             add_rule: filterTranslation
             operators:
+              is_empty: 'is blank'
               equal: 'is'
               not_equal: 'is not'
               less: '<'
@@ -49,17 +50,19 @@ CIF.ClientsAdvanced_search = do ->
     $('.columns-visibility').click (e) ->
       e.stopPropagation()
 
-   allCheckboxes = $('.all-visibility #all_')
+    allCheckboxes = $('.all-visibility #all_')
 
-   allCheckboxes.on 'ifChecked', ->
+    allCheckboxes.on 'ifChecked', ->
       $('.visibility input[type=checkbox]').iCheck('check')
     allCheckboxes.on 'ifUnchecked', ->
       $('.visibility input[type=checkbox]').iCheck('uncheck')
 
   _setDefaultCheckColumnVisibilityAll = ->
-    checkboxes = $('.visibility input[type=checkbox]').prop('checked')
-    if !checkboxes
-      $('.all-visibility #all_').iCheck('check')
+    setTimeout ( ->
+      checkboxes = $('.visibility input[type=checkbox]').prop('checked')
+      if !checkboxes
+        $('.all-visibility #all_').iCheck('check')
+      )
 
   _addRuleCallback = ->
     $('#builder').on 'afterCreateRuleFilters.queryBuilder', ->
@@ -83,6 +86,7 @@ CIF.ClientsAdvanced_search = do ->
 
   _setRuleJqueryQueryBuilder = ->
     queryRules = $('#builder').data('search-rules')
+
     queryCondition = $('#builder').data('search-condition')
     if queryRules != undefined
       $('#builder').queryBuilder('setRules', queryRules)
@@ -101,7 +105,8 @@ CIF.ClientsAdvanced_search = do ->
 
   _handleSearch = ->
     $('#search').on 'click', ->
-      rules =  JSON.stringify($('#builder').queryBuilder('getRules'))
+      rules = JSON.stringify($('#builder').queryBuilder('getRules'))
+      rules = rules.replace('null', '""')
       if !($.isEmptyObject($('#builder').queryBuilder('getRules')))
         $('#client_search_rules').val(rules)
         _handleSelectValueCheckBox()

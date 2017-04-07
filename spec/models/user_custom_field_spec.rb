@@ -17,16 +17,3 @@ describe UserCustomField, 'scopes' do
     expect(user.user_custom_fields.by_custom_field(cf2)).not_to include(ucf1)
   end
 end
-
-describe UserCustomField, 'methods' do
-  context 'can_create_next_custom_field?' do
-    let!(:user){ create(:user) }
-    let!(:custom_field){ create(:custom_field, entity_type: 'User', form_title: 'Health Record', frequency: 'Daily', time_of_frequency: 1) }
-    let!(:user_custom_field){ create(:user_custom_field, custom_field: custom_field, user: user) }
-    let!(:other_custom_field){ create(:custom_field, entity_type: 'User', form_title: 'Care Record', frequency: '') }
-    let!(:other_user_custom_field){ create(:user_custom_field, custom_field: other_custom_field, user: user) }
-
-    it { expect(user.can_create_next_custom_field?(user, custom_field)).to be_falsey }
-    it { expect(user.can_create_next_custom_field?(user, other_custom_field)).to be_truthy }
-  end
-end

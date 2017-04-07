@@ -7,7 +7,7 @@
           - if controller_name == 'data_trackers'
             %span
               = "#{version.whodunnit} #{t('.change')} #{t('.on')}"
-              = t(".#{version.item_type}")
+              = t(".#{version.item_type.underscore}")
               = "##{version.item_id}."
           - else
             %span= "#{version.whodunnit} #{t('.change')}."

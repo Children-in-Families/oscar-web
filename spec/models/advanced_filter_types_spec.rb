@@ -15,7 +15,7 @@ describe AdvancedFilterTypes, 'Method' do
     end
 
     it 'return configuration object with operator' do
-      operators = ['equal', 'not_equal', 'contains', 'not_contains']
+      operators = ['equal', 'not_equal', 'contains', 'not_contains', 'is_empty']
       expect(text_options[:operators]).to eq operators
     end
   end
@@ -36,7 +36,7 @@ describe AdvancedFilterTypes, 'Method' do
     end
 
     it 'return configuration object with operator' do
-      operators = ['equal', 'not_equal', 'less', 'less_or_equal', 'greater', 'greater_or_equal', 'between']
+      operators = ['equal', 'not_equal', 'less', 'less_or_equal', 'greater', 'greater_or_equal', 'between', 'is_empty']
       expect(number_options[:operators]).to eq operators
     end
   end
@@ -66,7 +66,7 @@ describe AdvancedFilterTypes, 'Method' do
     end
 
     it 'return configuration object with operator' do
-      operators = ['equal', 'not_equal']
+      operators = ['equal', 'not_equal', 'is_empty']
       expect(drop_list_options[:operators]).to eq operators
     end
   end
@@ -87,7 +87,7 @@ describe AdvancedFilterTypes, 'Method' do
     end
 
     it 'return configuration object with operator' do
-      operators = ['equal', 'not_equal', 'less', 'less_or_equal', 'greater', 'greater_or_equal', 'between']
+      operators = ['equal', 'not_equal', 'less', 'less_or_equal', 'greater', 'greater_or_equal', 'between', 'is_empty']
       expect(date_picker_options[:operators]).to eq operators
     end
   end
