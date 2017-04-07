@@ -259,6 +259,7 @@ ActiveRecord::Schema.define(version: 20170327015408) do
     t.string   "form_title",        default: ""
     t.string   "frequency",         default: ""
     t.integer  "time_of_frequency", default: 0
+    t.string   "ngo_name",          default: ""
   end
 
   create_table "departments", force: :cascade do |t|
@@ -294,8 +295,8 @@ ActiveRecord::Schema.define(version: 20170327015408) do
   add_index "domains", ["domain_group_id"], name: "index_domains_on_domain_group_id", using: :btree
 
   create_table "donors", force: :cascade do |t|
-    t.string   "name",        default: ""
-    t.text     "description", default: ""
+    t.string   "name"
+    t.text     "description"
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
     t.string   "code",        default: ""

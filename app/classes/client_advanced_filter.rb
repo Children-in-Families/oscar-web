@@ -1,4 +1,5 @@
 class ClientAdvancedFilter
+  NULL_TYPE = %w('date_of_birth initial_referral_date birth_province_id received_by_id followed_up_by_id follow_up_date province_id referral_source_id user_id donor_id')
   DROP_LIST_ASSOCIATED_FIELDS   = [:case_type, :agency_name, :form_title].freeze
   DATE_LIST_ASSOCIATED_FIELDS   = [:placement_date].freeze
   TEXT_LIST_ASSOCIATED_FIELDS   = [:family_name].freeze
@@ -31,11 +32,12 @@ class ClientAdvancedFilter
 
   def placement_date_field_query(resource, operator, value)
     clients = resource.joins(:cases)
+
     case operator
     when 'equal'
       clients = clients.where(cases: { start_date: value })
     when 'not_equal'
-      clients = clients.where.not(cases: { start_date: value })
+      clients = clients.where("cases.start_date != ? OR cases.start_date IS NULL", value)
     when 'less'
       clients = clients.where('cases.start_date < ?', value)
     when 'less_or_equal'
@@ -47,8 +49,13 @@ class ClientAdvancedFilter
     when 'between'
       clients = clients.where(cases: { start_date: value[0]..value[1] })
     end
-    ids = clients.map { |c| c.cases.last.id }.uniq
-    @client.resource = clients.where(cases: { id: ids })
+    if operator == 'is_empty'
+      client_ids = clients.ids
+      @client.resource = resource.where.not(id: client_ids)
+    else
+      ids = clients.map { |c| c.cases.last.id }.uniq
+      @client.resource = clients.where(cases: { id: ids })
+    end
   end
 
   def family_id_field_query(resource, operator, value)
@@ -69,6 +76,8 @@ class ClientAdvancedFilter
       clients = clients.where('cases.family_id >= ?', value)
     when 'between'
       clients = clients.where(cases: { family_id: value[0]..value[1] })
+    when 'is_empty'
+      clients = resource.where.not(id: clients.ids)
     end
     @client.resource = clients.uniq
   end
@@ -88,7 +97,9 @@ class ClientAdvancedFilter
       clients  = clients.where(cases: { family_id: families })
     when 'not_contains'
       families = Family.where('name iLike ? ', "%#{value}%")
-      clients  = clients.where.not(cases: { family_id: families })
+      clients = clients.where.not(cases: { family_id: families })
+    when 'is_empty'
+      clients = resource.where.not(id: clients.ids)
     end
     @client.resource = clients.uniq
   end
@@ -100,6 +111,8 @@ class ClientAdvancedFilter
       clients = clients.where(custom_fields: { id: value })
     when 'not_equal'
       clients = clients.where.not(custom_fields: { id: value })
+    when 'is_empty'
+      clients = resource.where.not(id: clients.ids)
     end
     @client.resource = clients.uniq
   end
@@ -121,30 +134,40 @@ class ClientAdvancedFilter
       clients = resource.where('date_of_birth <= ?', values[0])
     when 'between'
       clients = resource.where(date_of_birth: values[0]..values[1])
+    when 'is_empty'
+      clients = resource.where('date_of_birth IS NULL')
     end
     @client.resource = clients
   end
 
   def case_type_field_query(resource, operator, value)
     clients = resource.joins(:cases).where(cases: { exited: false })
-    if operator == 'equal'
+    case operator
+    when 'equal'
       case_ids = clients.where(cases: { case_type: value }).map { |c| c.cases.current.id if c.cases.current.case_type == value }.uniq
-    else
+      @client.resource = resource.joins(:cases).where(cases: { id: case_ids }).uniq
+    when 'not_equal'
       case_ids = clients.where.not(cases: { case_type: value }).map { |c| c.cases.current.id if c.cases.current.case_type != value }.uniq
+      @client.resource = resource.joins(:cases).where(cases: { id: case_ids }).uniq
+    when 'is_empty'
+      client_ids = clients.ids
+      @client.resource = resource.where.not(id: client_ids)
     end
-    @client.resource = resource.joins(:cases)
-                               .where(cases: { id: case_ids })
-                               .uniq
   end
 
   def agency_field_query(resource, operator, value)
     clients = resource.joins(:agencies)
-    if operator == 'equal'
-      clients = clients.where(agencies: { id: value }).uniq.select(:id)
-    else
-      clients = clients.where.not(agencies: { id: value }).uniq.select(:id)
+    case operator
+    when 'equal'
+      clients = clients.where(agencies: { id: value })
+      @client.resource = clients.uniq
+    when 'not_equal'
+      clients = clients.where.not(agencies: { id: value })
+      @client.resource = clients.uniq
+    when 'is_empty'
+      client_ids = clients.uniq
+      @client.resource = resource.where.not(id: client_ids)
     end
-    @client.resource = clients
   end
 
   def convert_age_to_date(value)
@@ -204,6 +227,10 @@ class ClientAdvancedFilter
       @client.contains('clients', rule[:field], rule[:value])
     when 'not_contains'
       @client.not_contains('clients', rule[:field], rule[:value])
+    when 'is_empty'
+      null_type = NULL_TYPE.include? rule[:field]
+      @client.is_empty('clients', rule[:field], null_type)
     end
   end
+
 end

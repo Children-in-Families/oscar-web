@@ -4,7 +4,7 @@ class AdvancedFilterTypes
       id: field_name,
       label: label,
       type: 'string',
-      operators: ['equal', 'not_equal', 'contains', 'not_contains']
+      operators: ['equal', 'not_equal', 'contains', 'not_contains', 'is_empty']
     }
   end
 
@@ -13,7 +13,7 @@ class AdvancedFilterTypes
       id: field_name,
       label: label,
       type: 'integer',
-      operators: ['equal', 'not_equal', 'less', 'less_or_equal', 'greater', 'greater_or_equal', 'between']
+      operators: ['equal', 'not_equal', 'less', 'less_or_equal', 'greater', 'greater_or_equal', 'between', 'is_empty']
     }
   end
 
@@ -22,7 +22,7 @@ class AdvancedFilterTypes
       id: field_name,
       label: label,
       type: 'date',
-      operators: ['equal', 'not_equal', 'less', 'less_or_equal', 'greater', 'greater_or_equal', 'between'],
+      operators: ['equal', 'not_equal', 'less', 'less_or_equal', 'greater', 'greater_or_equal', 'between', 'is_empty'],
       plugin: 'datepicker',
       plugin_config: {
         format: 'yyyy-mm-dd',
@@ -40,7 +40,7 @@ class AdvancedFilterTypes
       type: 'string',
       input: 'select',
       values: values,
-      operators: ['equal', 'not_equal']
+      operators: ['equal', 'not_equal', 'is_empty']
     }
   end
 end
