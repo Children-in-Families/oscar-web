@@ -7,6 +7,7 @@ class PartnerCustomFieldsController < AdminController
 
   def index
     @partner_custom_fields = @partner.partner_custom_fields.by_custom_field(@custom_field).order(created_at: :desc).page(params[:page]).per(4)
+    redirect_to partner_path(@partner) if @partner_custom_fields.blank?
   end
 
   def show
@@ -39,11 +40,7 @@ class PartnerCustomFieldsController < AdminController
 
   def destroy
     @partner_custom_field.destroy
-    if @partner.partner_custom_fields.by_custom_field(@custom_field).empty?
-      redirect_to partner_path(@partner), notice: t('.successfully_deleted')
-    else
-      redirect_to partner_partner_custom_fields_path(@partner, custom_field_id: @custom_field.id), notice: t('.successfully_deleted')
-    end
+    redirect_to partner_partner_custom_fields_path(@partner, custom_field_id: @custom_field.id), notice: t('.successfully_deleted')
   end
 
   private

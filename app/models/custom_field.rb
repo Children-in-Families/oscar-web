@@ -18,7 +18,7 @@ class CustomField < ActiveRecord::Base
   validates :time_of_frequency, presence: true,
                                 numericality: { only_integer: true, greater_than_or_equal_to: 1 }, if: 'frequency.present?'
   validate :presence_of_fields, if: 'field_objs.empty?'
-  validate :uniq_fields
+  validate :uniq_fields, if: 'fields.present?'
 
   before_save :set_time_of_frequency
   before_save :set_ngo_name, if: 'ngo_name.blank?'
@@ -26,6 +26,8 @@ class CustomField < ActiveRecord::Base
   scope :by_form_title, ->(value) { where('form_title iLIKE ?', "%#{value}%") }
   scope :client_forms,  ->        { where(entity_type: 'Client') }
   scope :family_forms,  ->        { where(entity_type: 'Family') }
+  scope :partner_forms, ->        { where(entity_type: 'Partner') }
+  scope :user_forms,    ->        { where(entity_type: 'User') }
 
   FREQUENCIES  = ['Daily', 'Weekly', 'Monthly', 'Yearly'].freeze
   ENTITY_TYPES = ['Client', 'Family', 'Partner', 'User'].freeze

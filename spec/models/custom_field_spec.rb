@@ -31,16 +31,62 @@ describe CustomField, 'validations' do
 end
 
 describe CustomField, 'scopes' do
-  context 'find custom fields by form title' do
+  context 'find custom forms by form title' do
     let!(:custom_field) { create(:custom_field, form_title: 'Health Record') }
     let!(:other_custom_field) { create(:custom_field, form_title: 'Prison Record') }
-
     subject{ CustomField.by_form_title('health record') }
-
-    it 'should include custom field like the form title' do
+    it 'should include custom form like the given form title' do
       is_expected.to include(custom_field)
     end
-    it 'should not include custom field like the form title' do
+    it 'should not include custom form unlike the given form title' do
+      is_expected.not_to include(other_custom_field)
+    end
+  end
+
+  context 'client forms' do
+    let!(:custom_field) { create(:custom_field, entity_type: 'Client') }
+    let!(:other_custom_field) { create(:custom_field, entity_type: 'Partner') }
+    subject{ CustomField.client_forms }
+    it 'should include forms with client entity type' do
+      is_expected.to include(custom_field)
+    end
+    it 'should not include forms without client entity type' do
+      is_expected.not_to include(other_custom_field)
+    end
+  end
+
+  context 'family forms' do
+    let!(:custom_field) { create(:custom_field, form_title: 'Health Record', entity_type: 'Family') }
+    let!(:other_custom_field) { create(:custom_field, form_title: 'Prison Record', entity_type: 'Partner') }
+    subject{ CustomField.family_forms }
+    it 'should include forms with family entity type' do
+      is_expected.to include(custom_field)
+    end
+    it 'should not include forms without family entity type' do
+      is_expected.not_to include(other_custom_field)
+    end
+  end
+
+  context 'partner forms' do
+    let!(:custom_field) { create(:custom_field, form_title: 'Health Record', entity_type: 'Partner') }
+    let!(:other_custom_field) { create(:custom_field, form_title: 'Prison Record', entity_type: 'Client') }
+    subject{ CustomField.partner_forms }
+    it 'should include forms with parnter entity type' do
+      is_expected.to include(custom_field)
+    end
+    it 'should not include forms without parnter entity type' do
+      is_expected.not_to include(other_custom_field)
+    end
+  end
+
+  context 'user forms' do
+    let!(:custom_field) { create(:custom_field, form_title: 'Health Record', entity_type: 'User') }
+    let!(:other_custom_field) { create(:custom_field, form_title: 'Prison Record', entity_type: 'Partner') }
+    subject{ CustomField.user_forms }
+    it 'should include forms with user entity type' do
+      is_expected.to include(custom_field)
+    end
+    it 'should not include forms without user entity type' do
       is_expected.not_to include(other_custom_field)
     end
   end

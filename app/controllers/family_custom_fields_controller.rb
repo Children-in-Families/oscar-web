@@ -7,6 +7,7 @@ class FamilyCustomFieldsController < AdminController
 
   def index
     @family_custom_fields = @family.family_custom_fields.by_custom_field(@custom_field).order(created_at: :desc).page(params[:page]).per(4)
+    redirect_to family_path(@family) if @family_custom_fields.blank?
   end
 
   def show
@@ -39,11 +40,7 @@ class FamilyCustomFieldsController < AdminController
 
   def destroy
     @family_custom_field.destroy
-    if @family.family_custom_fields.by_custom_field(@custom_field).empty?
-      redirect_to family_path(@family), notice: t('.successfully_deleted')
-    else
-      redirect_to family_family_custom_fields_path(@family, custom_field_id: @custom_field.id), notice: t('.successfully_deleted')
-    end
+    redirect_to family_family_custom_fields_path(@family, custom_field_id: @custom_field.id), notice: t('.successfully_deleted')
   end
 
   private

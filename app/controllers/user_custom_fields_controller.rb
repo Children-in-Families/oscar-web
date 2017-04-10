@@ -7,6 +7,7 @@ class UserCustomFieldsController < AdminController
 
   def index
     @user_custom_fields = @user.user_custom_fields.by_custom_field(@custom_field).order(created_at: :desc).page(params[:page]).per(4)
+    redirect_to user_path(@user) if @user_custom_fields.blank?
   end
 
   def show
@@ -39,11 +40,7 @@ class UserCustomFieldsController < AdminController
 
   def destroy
     @user_custom_field.destroy
-    if @user.user_custom_fields.by_custom_field(@custom_field).empty?
-      redirect_to user_path(@user), notice: t('.successfully_deleted')
-    else
-      redirect_to user_user_custom_fields_path(@user, custom_field_id: @custom_field.id), notice: t('.successfully_deleted')
-    end
+    redirect_to user_user_custom_fields_path(@user, custom_field_id: @custom_field.id), notice: t('.successfully_deleted')
   end
 
   private

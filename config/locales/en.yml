@@ -815,6 +815,8 @@ en:
       general_info: About Partner
       additional_info: Additional Information
       are_you_sure: Are you sure you want to delete?
+      add_form: Add Form
+      additional_forms: Additional Forms
     create:
       successfully_created: Partner has been successfully created.
     update:
@@ -846,6 +848,8 @@ en:
       <<: *default_user_fields
       general_info: About User
       additional_info: Additional Information
+      add_form: Add Form
+      additional_forms: Additional Forms
       are_you_sure: Are you sure you want to delete?
     clients:
       clients: Clients

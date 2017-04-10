@@ -812,6 +812,8 @@ km:
       general_info: អំពីដៃគូ
       additional_info: ពត៌មានលំអិតបន្ថែម
       are_you_sure: តើអ្នកប្រាកដហើយ?
+      add_form: បន្ថែមទម្រង់បែបបទ
+      additional_forms: ទម្រង់បែបបទបន្ថែម
     create:
       successfully_created: ដៃគូត្រូវបានបង្កើតដោយជោគជ័យ
     update:
@@ -844,6 +846,8 @@ km:
       general_info: អំពីអ្នកប្រើប្រាស់
       additional_info: ពត៌មានលំអិតបន្ថែម
       are_you_sure: តើអ្នកប្រាកដហើយ?
+      add_form: បន្ថែមទម្រង់បែបបទ
+      additional_forms: ទម្រង់បែបបទបន្ថែម
     clients:
       clients: អតិថិជន
     create:

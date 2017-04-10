@@ -31,6 +31,9 @@ class UsersController < AdminController
   end
 
   def show
+    custom_field_ids          = @user.user_custom_fields.pluck(:custom_field_id)
+    @free_user_forms          = CustomField.user_forms.where.not(id: custom_field_ids).order(:form_title)
+    @group_user_custom_fields = @user.user_custom_fields.group_by(&:custom_field_id)
     @client_grid = ClientGrid.new(params.fetch(:client_grid, {}).merge!(current_user: @user)) do |scope|
       scope.where(user_id: @user.id)
     end

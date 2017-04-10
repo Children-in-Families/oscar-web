@@ -31,6 +31,9 @@ class PartnersController < AdminController
   end
 
   def show
+    custom_field_ids             = @partner.partner_custom_fields.pluck(:custom_field_id)
+    @free_partner_forms          = CustomField.partner_forms.where.not(id: custom_field_ids).order(:form_title)
+    @group_partner_custom_fields = @partner.partner_custom_fields.group_by(&:custom_field_id)
   end
 
   def edit
