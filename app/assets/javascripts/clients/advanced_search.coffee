@@ -18,7 +18,6 @@ CIF.ClientsAdvanced_search = do ->
         fieldList = response.advanced_searches
         $('#builder').queryBuilder
           allow_groups: false
-          conditions: ['AND']
           inputs_separator: ' AND '
           icons:
             remove_rule: 'fa fa-minus'
@@ -106,7 +105,7 @@ CIF.ClientsAdvanced_search = do ->
   _handleSearch = ->
     $('#search').on 'click', ->
       rules = JSON.stringify($('#builder').queryBuilder('getRules'))
-      rules = rules.replace('null', '""')
+      rules = rules.replace(/null/g, '""')
       if !($.isEmptyObject($('#builder').queryBuilder('getRules')))
         $('#client_search_rules').val(rules)
         _handleSelectValueCheckBox()
