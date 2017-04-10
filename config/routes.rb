@@ -162,10 +162,10 @@ Rails.application.routes.draw do
       collection do
         get 'find'   => 'custom_fields#find'
         get 'search' => 'custom_fields#search', as: :search
+        get 'preview' => 'custom_fields#show', as: 'preview'
       end
     end
   end
 
   resources :papertrail_queries, only: [:index]
-
 end
