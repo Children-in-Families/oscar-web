@@ -31,6 +31,9 @@ class FamiliesController < AdminController
   end
 
   def show
+    custom_field_ids            = @family.family_custom_fields.pluck(:custom_field_id)
+    @free_family_forms          = CustomField.family_forms.where.not(id: custom_field_ids).order(:form_title)
+    @group_family_custom_fields = @family.family_custom_fields.group_by(&:custom_field_id)
   end
 
   def edit
@@ -75,8 +78,7 @@ class FamiliesController < AdminController
   end
 
   def find_association
-    @province             = Province.order(:name)
-    @family_custom_fields = CustomField.where(entity_type: 'Family')
+    @province = Province.order(:name)
   end
 
   def find_family

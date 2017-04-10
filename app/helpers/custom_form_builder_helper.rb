@@ -40,15 +40,6 @@ module CustomFormBuilderHelper
     end
   end
 
-  def next_custom_field(entity_custom_field, entity, entity_type)
-    controller_name = "#{entity_type}_#{entity_custom_field.class.to_s.underscore}"
-    if entity_custom_field.properties_objs.blank?
-      link_to "#{entity_custom_field.custom_field.form_title}", send("edit_#{controller_name}_path", entity, entity_custom_field), :class => 'btn-xs btn btn-success small-btn-margin'
-    else
-      link_to "#{entity_custom_field.custom_field.form_title}", send("#{controller_name}s_path", entity, custom_field_id: entity_custom_field.custom_field.id), :class => 'btn-xs btn btn-success small-btn-margin'
-    end
-  end
-
   def frequency_note(custom_field)
     return if custom_field.frequency.empty?
     frequency = case custom_field.frequency

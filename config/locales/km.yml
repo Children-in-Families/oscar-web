@@ -673,6 +673,8 @@ km:
       answer: ចំលើយ
       custom_forms: ទម្រង់បែបបទបន្ថែម
     show:
+      add_form: បន្ថែមទម្រង់បែបបទ
+      additional_forms: ទម្រង់បែបបទបន្ថែម
       add_client_to_case: បញ្ចូលអតិថិជិនទៅក្នុងករណី
       case_history: ប្រវត្តិនៃករណី
       age: អាយុ
@@ -778,6 +780,8 @@ km:
       general_info: អំពីគ្រួសារ
       additional_info: ពត៌មានលំអិតបន្ថែម
       are_you_sure: តើអ្នកប្រាកដហើយ?
+      add_form: បន្ថែមទម្រង់បែបបទ
+      additional_forms: ទម្រង់បែបបទបន្ថែម
     create:
       successfully_created: គ្រួសារត្រូវបានបង្កើតដោយជោគជ័យ
     update:
@@ -808,6 +812,8 @@ km:
       general_info: អំពីដៃគូ
       additional_info: ពត៌មានលំអិតបន្ថែម
       are_you_sure: តើអ្នកប្រាកដហើយ?
+      add_form: បន្ថែមទម្រង់បែបបទ
+      additional_forms: ទម្រង់បែបបទបន្ថែម
     create:
       successfully_created: ដៃគូត្រូវបានបង្កើតដោយជោគជ័យ
     update:
@@ -840,6 +846,8 @@ km:
       general_info: អំពីអ្នកប្រើប្រាស់
       additional_info: ពត៌មានលំអិតបន្ថែម
       are_you_sure: តើអ្នកប្រាកដហើយ?
+      add_form: បន្ថែមទម្រង់បែបបទ
+      additional_forms: ទម្រង់បែបបទបន្ថែម
     clients:
       clients: អតិថិជន
     create:

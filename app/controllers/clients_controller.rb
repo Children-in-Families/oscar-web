@@ -44,7 +44,10 @@ class ClientsController < AdminController
   end
 
   def show
-    @ordered_client_answers = @client.answers.order(:created_at)
+    @ordered_client_answers     = @client.answers.order(:created_at)
+    custom_field_ids            = @client.client_custom_fields.pluck(:custom_field_id)
+    @free_client_forms          = CustomField.client_forms.where.not(id: custom_field_ids).order(:form_title)
+    @group_client_custom_fields = @client.client_custom_fields.sort_by{ |c| c.custom_field.form_title }.group_by(&:custom_field_id)
   end
 
   def new
@@ -143,7 +146,6 @@ class ClientsController < AdminController
     @province             = Province.order(:name)
     @referral_source      = ReferralSource.order(:name)
     @user                 = User.non_strategic_overviewers.order(:first_name, :last_name)
-    @client_custom_fields = CustomField.where(entity_type: 'Client')
   end
 
   def choose_grid

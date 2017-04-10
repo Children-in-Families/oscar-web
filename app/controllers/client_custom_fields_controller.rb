@@ -7,6 +7,7 @@ class ClientCustomFieldsController < AdminController
 
   def index
     @client_custom_fields = @client.client_custom_fields.by_custom_field(@custom_field).order(created_at: :desc).page(params[:page]).per(4)
+    redirect_to client_path(@client) if @client_custom_fields.blank?
   end
 
   def show
@@ -39,11 +40,7 @@ class ClientCustomFieldsController < AdminController
 
   def destroy
     @client_custom_field.destroy
-    if @client.client_custom_fields.by_custom_field(@custom_field).empty?
-      redirect_to client_path(@client), notice: t('.successfully_deleted')
-    else
-      redirect_to client_client_custom_fields_path(@client, custom_field_id: @custom_field.id), notice: t('.successfully_deleted')
-    end
+    redirect_to client_client_custom_fields_path(@client, custom_field_id: @custom_field.id), notice: t('.successfully_deleted')
   end
 
   private

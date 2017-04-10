@@ -677,6 +677,8 @@ en:
       answer: Answer
       custom_forms: Custom Forms
     show:
+      add_form: Add Form
+      additional_forms: Additional Forms
       add_client_to_case: Add Client to Case
       case_history: Case History
       id: ID
@@ -781,6 +783,8 @@ en:
       general_info: About Family
       additional_info: Additional Information
       are_you_sure: Are you sure you want to delete?
+      add_form: Add Form
+      additional_forms: Additional Forms
     create:
       successfully_created: Family has been successfully created.
     update:
@@ -811,6 +815,8 @@ en:
       general_info: About Partner
       additional_info: Additional Information
       are_you_sure: Are you sure you want to delete?
+      add_form: Add Form
+      additional_forms: Additional Forms
     create:
       successfully_created: Partner has been successfully created.
     update:
@@ -842,6 +848,8 @@ en:
       <<: *default_user_fields
       general_info: About User
       additional_info: Additional Information
+      add_form: Add Form
+      additional_forms: Additional Forms
       are_you_sure: Are you sure you want to delete?
     clients:
       clients: Clients

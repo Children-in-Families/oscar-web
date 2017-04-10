@@ -28,8 +28,6 @@
 
         .col-xs-12.col-sm-6.col-md-4
           = f.input :caregiver_information, input_html: { rows: 5 }, label: t('.caregiver_information')
-        .col-xs-12.col-sm-6.col-md-4
-          = f.association :custom_fields, collection: @family_custom_fields, label_method: :form_title, value_method: :id, input_html: { class: 'select2' }, label: t('.custom_forms')
 
   .ibox-footer
     = f.submit t('save'), class: 'btn btn-primary form-btn'
