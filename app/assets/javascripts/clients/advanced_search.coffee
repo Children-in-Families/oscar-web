@@ -105,7 +105,7 @@ CIF.ClientsAdvanced_search = do ->
   _handleSearch = ->
     $('#search').on 'click', ->
       rules = JSON.stringify($('#builder').queryBuilder('getRules'))
-      rules = rules.replace('null', '""')
+      rules = rules.replace(/null/g, '""')
       if !($.isEmptyObject($('#builder').queryBuilder('getRules')))
         $('#client_search_rules').val(rules)
         _handleSelectValueCheckBox()
