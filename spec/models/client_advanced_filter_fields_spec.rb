@@ -11,7 +11,7 @@ describe ClientAdvancedFilterFields, 'Method' do
     end
 
     it 'return all fields' do
-      expect(@client_fields.size).to equal 29
+      expect(@client_fields.size).to equal 30
     end
   end
 end

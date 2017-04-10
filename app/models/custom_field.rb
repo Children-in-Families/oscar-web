@@ -18,7 +18,7 @@ class CustomField < ActiveRecord::Base
   validates :time_of_frequency, presence: true,
                                 numericality: { only_integer: true, greater_than_or_equal_to: 1 }, if: 'frequency.present?'
   validate :presence_of_fields, if: 'field_objs.empty?'
-  validate :uniq_fields
+  validate :uniq_fields, if: 'fields.present?'
 
   before_save :set_time_of_frequency
   before_save :set_ngo_name, if: 'ngo_name.blank?'
