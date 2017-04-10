@@ -1912,6 +1912,8 @@ en:
         are_you_sure: Are you sure you want to delete?
         search_custom_form: Search Custom Form
         close: Close
+        preview: Preview
+        copy: Copy
         <<: *default_custom_fields
       current_custom_form_tab:
         manage: Manage
@@ -1919,6 +1921,7 @@ en:
         are_you_sure: Are you sure you want to delete?
         search_custom_form: Search Custom Form
         close: Close
+        preview: Preview
         <<: *default_custom_fields
       form:
         blank: can't be blank
@@ -1946,6 +1949,8 @@ en:
         organization: Organization
         back: Back
         no_result: No results found
+        preview: Preview
+        copy: Copy
         <<: *default_custom_fields
   advanced_search:
     fields:
