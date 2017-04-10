@@ -2120,12 +2120,13 @@ km:
         all_custom_form: ទម្រង់បែបបទទាំងអស់
         new_custom_form: បន្ថែមទម្រង់បែបបទថ្មី
         <<: *default_custom_fields
-
       all_custom_form_tab:
         manage: គ្រប់គ្រង
         organization: អង្គការ
         search_custom_form: ស្វែងរកបន្ថែមទម្រង់បែបបទ
         close: បិទ
+        preview: មើលជាមុន
+        copy: ចម្លងជូន
         are_you_sure: តើអ្នកប្រាកដហើយ?
         <<: *default_custom_fields
       current_custom_form_tab:
@@ -2133,6 +2134,7 @@ km:
         organization: អង្គការ
         search_custom_form: ស្វែងរកបន្ថែមទម្រង់បែបបទ
         close: បិទ
+        preview: មើលជាមុន
         are_you_sure: តើអ្នកប្រាកដហើយ?
         <<: *default_custom_fields
       show:
@@ -2161,6 +2163,9 @@ km:
         manage: គ្រប់គ្រង
         back: ត្រឡប់ក្រោយ
         no_result: មិនមានលទ្ធផលនេះទេ
+        preview: មើលជាមុន
+        copy: ចម្លងជូន
+        delete: លុប
         <<: *default_custom_fields
   advanced_search:
     fields:
