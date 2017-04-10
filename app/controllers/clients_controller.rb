@@ -9,8 +9,8 @@ class ClientsController < AdminController
     return unless params[:client].present? && params[:client][:search_rules].present?
     @advanced_filter_params = params[:client][:search_rules]
     search_rules_params     = eval(@advanced_filter_params)
-    clients                 = ClientAdvancedFilter.new(search_rules_params, Client.accessible_by(current_ability))
-    @clients_by_user        = clients.filter_by_field
+    clients                 = ClientAdvancedSearch.new(search_rules_params, Client.accessible_by(current_ability))
+    @clients_by_user        = clients.filter
     columns_visibility
     respond_to do |f|
       f.html do
