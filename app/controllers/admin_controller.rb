@@ -11,6 +11,6 @@ class AdminController < ApplicationController
   end
 
   def set_sidebar_basic_info
-    @dashboard = Dashboard.new(current_user)
+    @dashboard = Dashboard.new(Client.accessible_by(current_ability))
   end
 end

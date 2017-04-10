@@ -2,9 +2,8 @@ class Dashboard
   include Rails.application.routes.url_helpers
   attr_reader :clients
 
-  def initialize(user)
-    @user     = user
-    @clients  = Client.fetch_client(@user)
+  def initialize(clients)
+    @clients  = clients
     @families = Family.all
     @partners = Partner.all
     @agencies = Agency.all

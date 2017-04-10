@@ -258,13 +258,17 @@ class Client < ActiveRecord::Base
     end
   end
 
+  def self.exit_in_week(number_of_day)
+    date = number_of_day.day.ago.to_date
+    active_ec.joins(:cases).where(cases: { case_type: 'EC', start_date: date })
+  end
+
   def active_day_care
     active_cases      = cases.active.order(:created_at)
-    first_active_case = active_cases.active.first
+    first_active_case = active_cases.first
 
     start_date        = first_active_case.start_date.to_date
     current_date      = Date.today.to_date
-
     (current_date - start_date).to_f
   end
 
@@ -277,22 +281,6 @@ class Client < ActiveRecord::Base
     start_date         = first_case.start_date.to_date
 
     (end_date - start_date).to_f
-  end
-
-  def self.fetch_client(user)
-    if user.admin? || user.strategic_overviewer?
-      Client.all
-    elsif user.ec_manager?
-      Client.managed_by(user, 'Active EC')
-    elsif user.kc_manager?
-      Client.managed_by(user, 'Active KC')
-    elsif user.fc_manager?
-      Client.managed_by(user, 'Active FC')
-    elsif user.able_manager?
-      Client.able_managed_by(user)
-    elsif user.case_worker?
-      user.clients
-    end
   end
 
   def self.ec_reminder_in(day)
