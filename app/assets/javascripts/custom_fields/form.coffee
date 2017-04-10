@@ -9,6 +9,7 @@ CIF.Custom_fieldsShow = do ->
     _valTimeOfFrequency()
     _changeTimeOfFrequency()
     _convertFrequency()
+    _searchCustomFields()
 
   _valTimeOfFrequency = ->
     $('#custom_field_time_of_frequency').val()
@@ -62,6 +63,21 @@ CIF.Custom_fieldsShow = do ->
       else
         frequency = ''
 
+  _generateValueForSelectOption = (field) ->
+    $(field).find('input.option-label').on 'keyup change', ->
+      value = $(@).val()
+      $(@).siblings('.option-value').val(value)
+
+  _hideOptionValue = ->
+    $('.option-selected, .option-value').hide()
+
+  _addOptionCallback = (field) ->
+    $('.add-opt').on 'click', ->
+      setTimeout ( ->
+        $(field).find('.option-selected, .option-value').hide()
+        )
+
+
   _initFormBuilder = ->
     formBuilder = $('.build-wrap').formBuilder({
       dataType: 'json'
@@ -73,39 +89,63 @@ CIF.Custom_fieldsShow = do ->
       }
 
       typeUserEvents: {
-        'checkbox-group': {
+        'checkbox-group':
           onadd: (fld) ->
             $('.other-wrap, .className-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
-        }
-        date: {
+            _hideOptionValue()
+            _addOptionCallback(fld)
+            _generateValueForSelectOption(fld)
+          onclone: (fld) ->
+            setTimeout ( ->
+              _hideOptionValue()
+              _addOptionCallback(fld)
+              _generateValueForSelectOption(fld)
+              ),50
+
+        date:
           onadd: (fld) ->
             $('.className-wrap, .value-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
-        }
-        number: {
+
+        number:
           onadd: (fld) ->
             $('.className-wrap, .value-wrap, .step-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
-        }
-        'radio-group': {
+
+        'radio-group':
           onadd: (fld) ->
             $('.other-wrap, .className-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
-        }
-        select: {
+            _hideOptionValue()
+            _addOptionCallback(fld)
+            _generateValueForSelectOption(fld)
+          onclone: (fld) ->
+            setTimeout ( ->
+              _hideOptionValue()
+              _addOptionCallback(fld)
+              _generateValueForSelectOption(fld)
+              ),50
+
+        select:
           onadd: (fld) ->
             $('.className-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
-        }
-        text: {
+            _hideOptionValue()
+            _addOptionCallback(fld)
+            _generateValueForSelectOption(fld)
+          onclone: (fld) ->
+            setTimeout ( ->
+              _hideOptionValue()
+              _addOptionCallback(fld)
+              _generateValueForSelectOption(fld)
+              ),50
+
+        text:
           onadd: (fld) ->
             $('.fld-subtype ').find('option:contains(color)').remove()
             $('.fld-subtype ').find('option:contains(tel)').remove()
             $('.fld-subtype ').find('option:contains(password)').remove()
             $('.className-wrap, .value-wrap, .access-wrap, .maxlength-wrap, .description-wrap, .name-wrap').hide()
-        }
-        textarea: {
+
+        textarea:
           onadd: (fld) ->
             $('.rows-wrap, .className-wrap, .value-wrap, .access-wrap, .maxlength-wrap, .description-wrap, .name-wrap').hide()
-
-        }
-
       }
 
     }).data('formBuilder');
@@ -119,5 +159,35 @@ CIF.Custom_fieldsShow = do ->
     $('#custom_field_frequency').select2
       minimumInputLength: 0
       allowClear: true
+
+  _searchCustomFields = ->
+    custom_fields = ''
+    $.ajax({
+      type: 'GET'
+      url: '/custom_fields/find'
+      dataType: "JSON"
+    }).success((json)->
+      custom_fields = json.custom_fields
+    )
+    $('#custom_field_form_title').keyup ->
+      $('#livesearch').css('visibility', 'hidden')
+      $('#livesearch').empty()
+      form_title = $('#custom_field_form_title').val()
+      if form_title != ''
+        for custom_field in custom_fields
+          if custom_field.form_title.toLowerCase().startsWith(form_title.toLowerCase())
+            previewTranslation = $('#livesearch').data('preview-translation')
+            copyTranslation = $('#livesearch').data('copy-translation')
+            width = $('#custom_field_form_title').css('width')
+            $('#livesearch').css('width', width)
+            $('#livesearch').css('visibility', 'visible')
+            ngo_name = custom_field.ngo_name.replace(/\s/g,"+")
+            if $('.has-error').length <= 0
+              preview_link = "#{custom_field.id}?ngo_name=#{ngo_name}"
+            else
+              preview_link = "custom_fields/#{custom_field.id}?ngo_name=#{ngo_name}"
+            copy_link = "new?custom_field_id=#{custom_field.id}&ngo_name=#{ngo_name}"
+            $('#livesearch').append("<li><span class='col-xs-8'>#{custom_field.form_title} (#{custom_field.ngo_name})</span>
+            <span class='col-xs-4 text-right'><a href=#{preview_link}>#{previewTranslation}</a> | <a href=#{copy_link}>#{copyTranslation}</a></span></li>")
 
   { init: _init }

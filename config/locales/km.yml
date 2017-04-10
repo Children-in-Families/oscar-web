@@ -171,7 +171,7 @@ km:
     parent_carer_has_a_criminal_history: ឪពុកម្តាយ/ឪពុក/ម្តាយ/អ្នកអាណាព្យាបាលមានទំនាស់នឹងច្បាប់
 
   default_custom_fields: &default_custom_fields
-    entity_type: ទម្រង់បែបបទបន្ថែម
+    type: ប្រភេទនៃទម្រង់បែបបទបន្ថែម
     form_title: ឈ្មោះនៃទម្រង់បែបបទបន្ថែម
     frequency: ភាពញឹកញាប់
     time_of_frequency: ពេលវេលានៃភាពញឹកញាប់
@@ -185,7 +185,6 @@ km:
       available_on: អាចធ្វើបាននៅថ្ងៃទី
     create:
       successfully_created: ពត៌មានត្រូវបានរក្សាទុកដោយជោគជ័យ
-      cannot_create: មិនអាចបង្កើតទម្រង់បានទេ
     update:
       successfully_updated: ពត៌មានត្រូវបានរក្សាទុកដោយជោគជ័យ
     destroy:
@@ -195,8 +194,6 @@ km:
     form:
       save: រក្សាទុក
       cancel: ទុកជាមោឃៈ
-    new:
-      cannot_create: មិនអាចបង្កើតទម្រង់បានទេ
 
   government_reports:
     index:
@@ -252,6 +249,7 @@ km:
   cannot_be_lower: មិនអាចតូចជាង %{count}
   cannot_be_greater: មិនអាចធំជាង %{count}
   is_not_email: មិនមែនជាអ៊ីម៉ែល
+  must_be_uniq: ផ្នែកនៃទម្រង់មិនអាចមានឈ្មោះដូចគ្នា
 
   default_client_fields: &default_client_fields
     id: លេខសំគាល់
@@ -419,9 +417,12 @@ km:
       reset: សំអាត
     columns:
       clients:
+        <<: *default_custom_fields
+        form_title: ទម្រង់បែបបទបន្ថែម
         domain: កត្តា
         domains: កត្តា CSI ទាំងអស់
         age: អាយុ
+        total: សរុប
         <<: *default_client_fields
         placements:
           <<: *default_placement_fields
@@ -2026,6 +2027,11 @@ km:
       able_screening_questions: សំនួរ Able Screening
       stages: តំណាក់កាល
       donors: ម្ចាស់ជំនួយ
+      client_custom_fields: ទម្រង់បែបបទរបស់អតិថិជន
+      family_custom_fields: ទម្រង់បែបបទរបស់គ្រួសារ
+      partner_custom_fields: ទម្រង់បែបបទរបស់ដៃគូ
+      user_custom_fields: ទម្រង់បែបបទរបស់អ្នកប្រើ
+      custom_fields: ទម្រង់បែបបទ
     per_page_form:
       show: បង្ហាញ
   shared:
@@ -2040,11 +2046,11 @@ km:
         before: មុនកំណែ
         after: ក្រោយកំណែ
         date_deleted: កាលបរិច្ឆេទនៃការលុប
-        Client: អតិថិជន
+        client: អតិថិជន
       assessment:
         'on': របស់
         change: បានធ្វើកំណែប្រែខាងក្រោម
-        Assessment: ការប៉ាន់ប្រមាណ
+        assessment: ការប៉ាន់ប្រមាណ
         value_of: តម្លៃនៃ
         before: មុនកំណែ
         after: ក្រោយកំណែ
@@ -2052,7 +2058,7 @@ km:
       case_note:
         'on': របស់
         change: បានធ្វើកំណែប្រែខាងក្រោម
-        CaseNote: កំណត់ត្រាករណី
+        case_note: កំណត់ត្រាករណី
       common:
         create: បង្កើត
         update: កែសម្រួល
@@ -2065,31 +2071,37 @@ km:
         id: លេខសំគាល់
         'on': របស់
         no_modification: មិនមានកំណែប្រែ
-        Client: អតិថិជន
-        គ្រួសារ: គ្រួសារ
-        Partner: ដៃគូ
-        User: អ្នកប្រើ
-        Agency: អង្គភាព
-        Department: កម្មវិធី
-        Domain: កត្តា
-        DomainGroup: ការប្រមូលបណ្ដុំកត្តា
-        Province: ខេត្ត
-        ReferralSource: ប្រភពនៃការបញ្ជូន
-        QuantitativeType: ប្រភេទនៃបរិមាណ
-        QuantitativeCase: ទិន្នន័យនៃបរិមាណ
-        Changelog: ការចេញផ្សាយ
-        Case: ករណី
-        Task: កាតព្វកិច្ច
-        Assessment: ការប៉ាន់ប្រមាណ
-        CaseNote: កំណត់ត្រាករណី
-        Survey: ការស្ទង់មតិ
-        ProgressNote: កំណត់សំគាល់ការរីកចំរើន
-        Material: របស់របរ/សំភារៈ
-        Intervention: ចំនុចដែលត្រូវធ្វើ
-        Location: កន្លែង
-        ProgressNoteType: កំណត់សំគាល់
-        AbleScreeningQuestion: សំនួរ Able Screening
-        Stage: តំណាក់កាល
+        client: អតិថិជន
+        family: គ្រួសារ
+        partner: ដៃគូ
+        donor: ម្ចាស់ជំនួយ
+        user: អ្នកប្រើ
+        agency: អង្គភាព
+        department: កម្មវិធី
+        domain: កត្តា
+        domain_group: ការប្រមូលបណ្ដុំកត្តា
+        province: ខេត្ត
+        referral_source: ប្រភពនៃការបញ្ជូន
+        quantitative_type: ប្រភេទនៃបរិមាណ
+        quantitative_case: ទិន្នន័យនៃបរិមាណ
+        changelog: ការចេញផ្សាយ
+        case: ករណី
+        task: កាតព្វកិច្ច
+        assessment: ការប៉ាន់ប្រមាណ
+        case_note: កំណត់ត្រាករណី
+        survey: ការស្ទង់មតិ
+        progress_note: កំណត់សំគាល់ការរីកចំរើន
+        material: របស់របរ/សំភារៈ
+        intervention: ចំនុចដែលត្រូវធ្វើ
+        location: កន្លែង
+        progress_note_type: កំណត់សំគាល់
+        able_screening_question: សំនួរ Able Screening
+        stage: តំណាក់កាល
+        custom_field: ទម្រង់បែបបទ
+        client_custom_field: ទម្រង់បែបបទរបស់អតិថិជន
+        family_custom_field: ទម្រង់បែបបទរបស់គ្រួសារ
+        partner_custom_field: ទម្រង់បែបបទរបស់ដៃគូ
+        user_custom_field: ទម្រង់បែបបទរបស់អ្នកប្រើ
 
   client_custom_fields:
     <<: *default_entity_type_custom_fields
@@ -2103,14 +2115,34 @@ km:
   form_builder:
     custom_fields:
       index:
+        search: ស្វែងរក
+        custom_form: ទម្រង់បែបបទ
+        all_custom_form: ទម្រង់បែបបទទាំងអស់
         new_custom_form: បន្ថែមទម្រង់បែបបទថ្មី
+        <<: *default_custom_fields
+
+      all_custom_form_tab:
         manage: គ្រប់គ្រង
         organization: អង្គការ
+        search_custom_form: ស្វែងរកបន្ថែមទម្រង់បែបបទ
+        close: បិទ
         are_you_sure: តើអ្នកប្រាកដហើយ?
         <<: *default_custom_fields
-      form:
-        blank: មិនអាចរំលង
+      current_custom_form_tab:
+        manage: គ្រប់គ្រង
+        organization: អង្គការ
+        search_custom_form: ស្វែងរកបន្ថែមទម្រង់បែបបទ
+        close: បិទ
+        are_you_sure: តើអ្នកប្រាកដហើយ?
         <<: *default_custom_fields
+      show:
+        back: ត្រឡប់ក្រោយ
+        edit: កែសម្រួល
+        copy: ចម្លងជូន
+      form:
+        <<: *default_custom_fields
+        preview: មើលជាមុន
+        copy: ចម្លងជូន
       edit:
         form_builder: ការបង្កើតជាទម្រង់
       new:
@@ -2124,7 +2156,12 @@ km:
       destroy:
         successfully_deleted: ទម្រង់បែបបទត្រូវបានលុបដោយជោគជ័យ
         failed_to_delete: មិនអាចលុបទម្រង់បែបបទបន្ថែមនេះបានទេ
-
+      search:
+        organization: អង្គការ
+        manage: គ្រប់គ្រង
+        back: ត្រឡប់ក្រោយ
+        no_result: មិនមានលទ្ធផលនេះទេ
+        <<: *default_custom_fields
   advanced_search:
     fields:
       grade: កំរិតថ្នាក់
@@ -2141,4 +2178,5 @@ km:
       referral_source_id: ប្រភពនៃការបញ្ជូន
       followed_up_by_id: បុគ្គលិកដែលតាមដានករណី
       user_id: បុគ្គលិកគ្រប់គ្រងករណី
+      <<: *default_custom_fields
       <<: *default_client_fields

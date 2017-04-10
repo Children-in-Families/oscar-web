@@ -3,8 +3,7 @@ module VersionHelper
     attribute_label[:first_name] = attribute_first_name(item_type)
     attribute_label[:name]       = attribute_name(item_type)
     attribute_label[:user_id]    = attribute_user_id(item_type)
-
-    k = attribute_label[:k] || k
+    k = attribute_label[k.to_sym] || k
     survey_score_text?(k) ? k : k.titleize
   end
 
@@ -66,7 +65,9 @@ module VersionHelper
     elsif version_values[:agency].include?(k) && val.present?
       obj = Agency.find_by(id: val)
       val = obj.present? ? obj.name : "##{val}"
-
+    elsif version_values[:custom_fields].include?(k) && val.present?
+      obj = CustomField.find_by(id: val)
+      val = obj.present? ? obj.form_title : "##{val}"
     elsif k == 'reset_password_token'
       val = content_tag(:span, truncate(val), title: val)
     end
@@ -142,7 +143,9 @@ module VersionHelper
       attribute_label[:difficulty_help_score],
       attribute_label[:support_score],
       attribute_label[:family_need_score],
-      attribute_label[:care_score]
+      attribute_label[:care_score],
+      attribute_label[:custom_field_id]
+
     ]
     texts.include?(text)
   end
@@ -172,7 +175,8 @@ module VersionHelper
       currencies:           ['household_income'],
       client_qc:            ['quantitative_case_id'],
       organizations:        ['organization_id'],
-      agency:               ['agency_id']
+      agency:               ['agency_id'],
+      custom_fields:        ['custom_field_id']
     }
   end
 
@@ -207,7 +211,8 @@ module VersionHelper
       care_score:             'My CCW cares about what happens to the children I take care of.',
       contact_person_name:    'contact_name',
       contact_person_email:   'email',
-      contact_person_mobile:  'contact_mobile'
+      contact_person_mobile:  'contact_mobile',
+      custom_field_id:        'Form Title'
     }
   end
 

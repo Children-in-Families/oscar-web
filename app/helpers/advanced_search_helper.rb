@@ -3,6 +3,7 @@ module AdvancedSearchHelper
   def format_header(key)
     translations = {
       first_name: I18n.t('advanced_search.fields.first_name'),
+      form_title: I18n.t('advanced_search.fields.form_title'),
       last_name: I18n.t('advanced_search.fields.last_name'),
       local_first_name: I18n.t('advanced_search.fields.local_first_name'),
       local_last_name: I18n.t('advanced_search.fields.local_last_name'),

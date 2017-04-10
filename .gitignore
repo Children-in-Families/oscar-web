@@ -17,6 +17,7 @@
 /tmp
 /public
 .env
+.env.test
 .env.development
 # For Mac OS only
 .DS_Store

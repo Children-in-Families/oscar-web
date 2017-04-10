@@ -117,11 +117,6 @@ Rails.application.routes.draw do
       get 'version' => 'progress_notes#version'
     end
 
-    collection do
-      get '/find' => 'clients#find'
-    end
-
-
     get 'version' => 'clients#version'
   end
 
@@ -145,10 +140,16 @@ Rails.application.routes.draw do
 
   namespace :api do
     mount_devise_token_auth_for 'User', at: '/v1/auth', skip: [:registrations, :passwords]
+
+    resources :clients do
+      get :compare, on: :collection
+    end
+    resources :advanced_searches, only: [:index]
+
     namespace :v1, default: { format: :json } do
-      resources :advance_searches, only: [:index]
       resources :domain_groups, only: [:index]
       resources :clients, only: [:index] do
+        get :compare, on: :collection
         resources :assessments, only: [:create]
         resources :tasks, only: [:create, :update]
         resources :case_notes, only: [:create]
@@ -157,7 +158,12 @@ Rails.application.routes.draw do
   end
 
   scope '', module: 'form_builder' do
-    resources :custom_fields
+    resources :custom_fields do
+      collection do
+        get 'find'   => 'custom_fields#find'
+        get 'search' => 'custom_fields#search', as: :search
+      end
+    end
   end
 
   resources :papertrail_queries, only: [:index]

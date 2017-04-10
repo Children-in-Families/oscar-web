@@ -6,21 +6,21 @@ class ClientsController < AdminController
   before_action :choose_grid, only: [:index, :advanced_search]
 
   def advanced_search
-    if params[:client].present? && params[:client][:search_rules].present?
-      @advanced_filter_params = params[:client][:search_rules]
-      search_rules_params     = eval(@advanced_filter_params)
-      clients                 = ClientAdvancedFilter.new(search_rules_params, Client.accessible_by(current_ability))
-      @clients_by_user        = clients.filter_by_field
-      columns_visibility
-      respond_to do |f|
-        f.html do
-          @client_grid.scope { |scope| scope.where(id: @clients_by_user.ids).accessible_by(current_ability).page(params[:page]).per(20) }
-        end
-        f.xls do
-          @client_grid.scope { |scope| scope.where(id: @clients_by_user.ids).accessible_by(current_ability) }
-          domain_score_report
 
-          send_data @client_grid.to_xls, filename: "client_report-#{Time.now}.xls" end
+    return unless params[:client].present? && params[:client][:search_rules].present?
+    @advanced_filter_params = params[:client][:search_rules]
+    search_rules_params     = eval(@advanced_filter_params)
+    clients                 = ClientAdvancedSearch.new(search_rules_params, Client.accessible_by(current_ability))
+    @clients_by_user        = clients.filter
+    columns_visibility
+    respond_to do |f|
+      f.html do
+        @client_grid.scope { |scope| scope.where(id: @clients_by_user.ids).accessible_by(current_ability).page(params[:page]).per(20) }
+      end
+      f.xls do
+        @client_grid.scope { |scope| scope.where(id: @clients_by_user.ids).accessible_by(current_ability) }
+        domain_score_report
+        send_data @client_grid.to_xls, filename: "client_report-#{Time.now}.xls"
       end
     end
   end
@@ -38,7 +38,6 @@ class ClientsController < AdminController
       f.xls do
         @client_grid.scope { |scope| scope.accessible_by(current_ability) }
         domain_score_report
-
         send_data @client_grid.to_xls, filename: "client_report-#{Time.now}.xls"
       end
     end
@@ -72,9 +71,7 @@ class ClientsController < AdminController
 
   def create
     @client = Client.new(client_params)
-    if current_user.case_worker? || current_user.any_manager?
-      @client.user_id = current_user.id
-    end
+    @client.user_id = current_user.id if current_user.case_worker? || current_user.any_manager?
 
     if @client.save
       AbleScreeningMailer.notify_able_manager(@client).deliver_now if @client.able?
@@ -116,46 +113,7 @@ class ClientsController < AdminController
     @versions = @client.versions.reorder(created_at: :desc).page(params[:page]).per(page)
   end
 
-  def find
-    render json: find_client_in_organization
-  end
-
   private
-
-  def find_client_by(params)
-    if params[:first_name] && params[:gender] && params[:birth_province_id] && params[:date_of_birth]
-      Client.filter(params)
-    else
-      []
-    end
-  end
-
-  def find_client_in_organization
-    found = []
-    Organization.without_demo.each do |org|
-      Organization.switch_to(org.short_name)
-      client = find_client_by(params)
-      inject_in_organization(client, org.full_name)
-      found << client if client.present?
-    end
-    found.flatten
-  end
-
-  def inject_in_organization(collections, value)
-    collections.each do |collection|
-      collection.organization = value
-    end
-  end
-
-  private
-
-  def advanced_search_sort_param
-    if params[:filter_by].present? && params[:filter_type].present?
-      "#{params[:filter_by]} #{params[:filter_type]}"
-    else
-      'id asc'
-    end
-  end
 
   def find_client
     @client = Client.accessible_by(current_ability).friendly.find(params[:id]).decorate
@@ -175,8 +133,8 @@ class ClientsController < AdminController
             quantitative_case_ids: [],
             custom_field_ids: [],
             tasks_attributes: [:name, :domain_id, :completion_date],
-            answers_attributes: [:id, :description, :able_screening_question_id, :client_id, :question_type])
-
+            answers_attributes: [:id, :description, :able_screening_question_id, :client_id, :question_type]
+          )
   end
 
   def set_association
@@ -202,18 +160,17 @@ class ClientsController < AdminController
   end
 
   def domain_score_report
-    if params['type'] == 'basic_info'
-      @client_grid.column(:assessments, header: t('.assessments')) do |client|
-        client.assessments.map(&:basic_info).join("\x0D\x0A")
-      end
-      @client_grid.column_names << :assessments if @client_grid.column_names.any?
+    return unless params['type'] == 'basic_info'
+    @client_grid.column(:assessments, header: t('.assessments')) do |client|
+      client.assessments.map(&:basic_info).join("\x0D\x0A")
     end
+    @client_grid.column_names << :assessments if @client_grid.column_names.any?
   end
 
   def admin_client_grid
     if params[:client_grid] && params[:client_grid][:quantitative_types]
-      qType = params[:client_grid][:quantitative_types]
-      @client_grid = ClientGrid.new(params.fetch(:client_grid, {}).merge!(qType: qType))
+      quantitative_types = params[:client_grid][:quantitative_types]
+      @client_grid = ClientGrid.new(params.fetch(:client_grid, {}).merge!(qType: quantitative_types))
     else
       @client_grid = ClientGrid.new(params[:client_grid])
     end
@@ -221,8 +178,8 @@ class ClientsController < AdminController
 
   def non_admin_client_grid
     if params[:client_grid] && params[:client_grid][:quantitative_types]
-      qType = params[:client_grid][:quantitative_types]
-      @client_grid = ClientGrid.new(params.fetch(:client_grid, {}).merge!(current_user: current_user, qType: qType))
+      quantitative_types = params[:client_grid][:quantitative_types]
+      @client_grid = ClientGrid.new(params.fetch(:client_grid, {}).merge!(current_user: current_user, qType: quantitative_types))
     else
       @client_grid = ClientGrid.new(params.fetch(:client_grid, {}).merge!(current_user: current_user))
     end

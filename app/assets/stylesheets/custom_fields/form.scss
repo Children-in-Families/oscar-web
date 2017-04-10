@@ -8,4 +8,19 @@ body[id='custom_fields-update'] {
   .disabled {
     color: inherit !important;
   }
+
+  #livesearch {
+    position: absolute;
+    border: 1px solid #18a689;
+    background-color: white;
+    z-index: 9999;
+    margin-top:-15px;
+    padding-bottom: 10px;
+    visibility: hidden;
+  }
+
+  #livesearch li {
+    list-style-type: none;
+    padding: 10px 10px 20px 10px;
+  }
 }
