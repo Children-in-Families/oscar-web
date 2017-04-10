@@ -6,12 +6,11 @@ class ClientsController < AdminController
   before_action :choose_grid, only: [:index, :advanced_search]
 
   def advanced_search
-
     return unless params[:client].present? && params[:client][:search_rules].present?
     @advanced_filter_params = params[:client][:search_rules]
     search_rules_params     = eval(@advanced_filter_params)
-    clients                 = ClientAdvancedSearch.new(search_rules_params, Client.accessible_by(current_ability))
-    @clients_by_user        = clients.filter
+    clients                 = ClientAdvancedFilter.new(search_rules_params, Client.accessible_by(current_ability))
+    @clients_by_user        = clients.filter_by_field
     columns_visibility
     respond_to do |f|
       f.html do
