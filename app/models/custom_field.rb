@@ -25,6 +25,7 @@ class CustomField < ActiveRecord::Base
 
   scope :by_form_title, ->(value) { where('form_title iLIKE ?', "%#{value}%") }
   scope :client_forms,  ->        { where(entity_type: 'Client') }
+  scope :family_forms,  ->        { where(entity_type: 'Family') }
 
   FREQUENCIES  = ['Daily', 'Weekly', 'Monthly', 'Yearly'].freeze
   ENTITY_TYPES = ['Client', 'Family', 'Partner', 'User'].freeze

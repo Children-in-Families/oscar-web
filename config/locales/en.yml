@@ -783,6 +783,8 @@ en:
       general_info: About Family
       additional_info: Additional Information
       are_you_sure: Are you sure you want to delete?
+      add_form: Add Form
+      additional_forms: Additional Forms
     create:
       successfully_created: Family has been successfully created.
     update:
