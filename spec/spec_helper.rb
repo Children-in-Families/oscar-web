@@ -34,7 +34,7 @@ Capybara.register_driver :poltergeist do |app|
   options = {
     js_errors: false,
     phantomjs_options: ['--load-images=false', '--ignore-ssl-errors=yes', '--ssl-protocol=any'],
-    timeout: 60
+    timeout: 120
   }
   Capybara::Poltergeist::Driver.new(app, options)
 end
@@ -116,8 +116,6 @@ RSpec.configure do |config|
     if Rails.env.test? || Rails.env.cucumber?
       FileUtils.rm_rf(Dir["#{Rails.root}/spec/support/uploads"])
     end
-    # Capybara.reset_sessions!
-    page.driver.reset!
     DatabaseCleaner.clean
   end
 
