@@ -94,18 +94,6 @@ class Dashboard
     @families.emergency.count
   end
 
-  def staff_count
-    @staff.count
-  end
-
-  def partner_count
-    @partners.count
-  end
-
-  def agency_count
-    @agencies.count
-  end
-
   def referral_source_count
     @referral_sources.count
   end
