@@ -116,9 +116,9 @@ RSpec.configure do |config|
     if Rails.env.test? || Rails.env.cucumber?
       FileUtils.rm_rf(Dir["#{Rails.root}/spec/support/uploads"])
     end
-    Capybara.reset_sessions!
-    DatabaseCleaner.clean
+    # Capybara.reset_sessions!
     page.driver.reset!
+    DatabaseCleaner.clean
   end
 
   config.filter_run :focus
