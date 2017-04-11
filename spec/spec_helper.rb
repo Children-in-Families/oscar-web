@@ -34,7 +34,7 @@ Capybara.register_driver :poltergeist do |app|
   options = {
     js_errors: false,
     phantomjs_options: ['--load-images=false', '--ignore-ssl-errors=yes', '--ssl-protocol=any'],
-    timeout: 60
+    timeout: 120
   }
   Capybara::Poltergeist::Driver.new(app, options)
 end
