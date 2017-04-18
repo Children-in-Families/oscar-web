@@ -246,6 +246,7 @@ en:
   cannot_be_greater: can't be greater than %{count}
   is_not_email: is not an email
   must_be_uniq: field label must be uniq
+  cannot_remove: cannot remove
 
   default_client_fields: &default_client_fields
     id: ID
@@ -1932,6 +1933,7 @@ en:
         preview: Preview
         <<: *default_custom_fields
       form:
+        <<: *default_custom_fields
         blank: can't be blank
         preview: Preview
       show:

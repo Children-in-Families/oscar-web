@@ -13,6 +13,7 @@ class CustomField < ActiveRecord::Base
 
   has_paper_trail
 
+  validate  :enable_removie_fields
   validates :entity_type, :form_title, presence: true
   validates :form_title, uniqueness: { case_sensitive: false, scope: :entity_type }
   validates :time_of_frequency, presence: true,
@@ -58,5 +59,48 @@ class CustomField < ActiveRecord::Base
 
   def field_objs
     fields.present? ? JSON.parse(fields) : fields
+  end
+
+  def enable_removie_fields
+    if self.id.present?
+      entity_custom_fields_validate(self)
+    end
+  end
+
+  def entity_custom_fields_validate(custom_field)
+    error_field = []
+    current_fields = []
+    entity_custom_fields = []
+    case custom_field.entity_type
+    when 'Client'
+      entity_custom_fields = custom_field.client_custom_fields
+    when 'Family'
+      entity_custom_fields = custom_field.family_custom_fields
+    when 'Partner'
+      entity_custom_fields = custom_field.partner_custom_fields
+    when 'User'
+      entity_custom_fields = custom_field.user_custom_fields
+    end
+    entity_custom_fields.each do |entity_custom_field|
+      properties = JSON.parse(entity_custom_field.properties)
+      current_fields = custom_field.fields_change.first
+      fields = custom_field.fields_change.last
+      previous_fields = JSON.parse(current_fields) - JSON.parse(fields)
+      next if previous_fields.blank?
+      previous_fields.each do |field|
+        label_name = properties[field['label']]
+        next if label_name.blank?
+        if field['type'] == 'checkbox-group' && label_name.first.present?
+          error_field << field['label']
+        else
+          error_field << field['label']
+        end
+      end
+    end
+    if error_field.present?
+      error_message = "#{error_field.join(', ')} #{I18n.t('cannot_remove')}"
+      custom_field.fields = current_fields
+      errors.add(:fields, "#{error_message} ")
+    end
   end
 end
