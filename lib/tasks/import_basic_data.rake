@@ -1,8 +1,8 @@
-namespace :cif do
-  desc 'Import all CIF task'
+namespace :basic_data do
+  desc 'Import all basic data task'
   task import: :environment do
     Organization.switch_to Organization.last.short_name
-    # Rake::Task['clients:import'].invoke
+
     Rake::Task['agencies:import'].invoke
     Rake::Task['departments:import'].invoke
     Rake::Task['provinces:import'].invoke

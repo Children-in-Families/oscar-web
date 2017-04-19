@@ -2,7 +2,7 @@ module Importer
   class Import
     attr_accessor :path, :headers, :workbook
 
-    def initialize(sheet_name, path = 'vendor/data/cif_non-confidential_data.xlsx')
+    def initialize(sheet_name, path = 'vendor/data/basic_data.xlsx')
       @path     = path
       @workbook = Roo::Excelx.new(path)
 
