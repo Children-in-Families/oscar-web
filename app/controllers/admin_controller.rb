@@ -15,5 +15,7 @@ class AdminController < ApplicationController
     @family_count  = Family.count
     @user_count    = User.count
     @partner_count = Partner.count
+    @agency_count  = Agency.count
+    @referral_source_count = ReferralSource.count
   end
 end
