@@ -11,10 +11,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170327015408) do
+ActiveRecord::Schema.define(version: 20170419023745) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "hstore"
+  enable_extension "uuid-ossp"
 
   create_table "able_screening_questions", force: :cascade do |t|
     t.string   "question"
@@ -202,8 +204,8 @@ ActiveRecord::Schema.define(version: 20170327015408) do
 
   create_table "clients", force: :cascade do |t|
     t.string   "code",                             default: ""
-    t.string   "first_name",                       default: ""
-    t.string   "last_name",                        default: ""
+    t.string   "given_name",                       default: ""
+    t.string   "family_name",                      default: ""
     t.string   "gender",                           default: "Male"
     t.date     "date_of_birth"
     t.string   "status",                           default: "Referred"
@@ -236,8 +238,8 @@ ActiveRecord::Schema.define(version: 20170327015408) do
     t.string   "able_state",                       default: ""
     t.integer  "assessments_count"
     t.integer  "donor_id"
-    t.string   "local_first_name",                 default: ""
-    t.string   "local_last_name",                  default: ""
+    t.string   "local_given_name",                 default: ""
+    t.string   "local_family_name",                default: ""
     t.string   "kid_id",                           default: ""
   end
 
@@ -259,6 +261,7 @@ ActiveRecord::Schema.define(version: 20170327015408) do
     t.string   "form_title",        default: ""
     t.string   "frequency",         default: ""
     t.integer  "time_of_frequency", default: 0
+    t.string   "ngo_name",          default: ""
   end
 
   create_table "departments", force: :cascade do |t|

@@ -91,20 +91,20 @@ describe 'Client' do
 
   feature 'New' do
     let!(:province) { create(:province) }
-    let!(:client)   { create(:client, first_name: 'Cornell', gender: 'male', date_of_birth: '1994-04-04', birth_province: province) }
+    let!(:client)   { create(:client, given_name: 'Cornell', gender: 'male', date_of_birth: '1994-04-04', birth_province: province) }
     before do
       login_as(user)
       visit new_client_path
     end
     scenario 'valid', js: true do
-      fill_in 'First Name', with: FFaker::Name.name
+      fill_in 'Given Name', with: FFaker::Name.name
       click_button 'Save'
       wait_for_ajax
       expect(page).to have_content('Client has been successfully created')
     end
 
     scenario 'warning', js: true do
-      fill_in 'First Name', with: 'Cornell'
+      fill_in 'Given Name', with: 'Cornell'
 
       select2_select 'Male', '.client_gender'
       select2_select province.name, '.client_birth_province_id'
@@ -123,14 +123,14 @@ describe 'Client' do
       visit edit_client_path(client)
     end
     scenario 'valid', js: true do
-      fill_in 'First Name', with: FFaker::Name.name
+      fill_in 'Given Name', with: FFaker::Name.name
       click_button 'Save'
       wait_for_ajax
       expect(page).to have_content('Client has been successfully updated')
     end
 
     xscenario 'invalid' do
-      fill_in 'First Name', with: ''
+      fill_in 'Given Name', with: ''
       click_button 'Save'
       expect(page).to have_content("can't be blank")
     end

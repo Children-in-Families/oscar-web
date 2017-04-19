@@ -1,13 +1,13 @@
 describe ClientAdvancedFilter, 'Method' do
-  let!(:client)   { create(:client, first_name: 'pitou', code: 1000) }
-  let!(:client_2) { create(:client, first_name: 'test1', code: 2000) }
-  let!(:client_3) { create(:client, first_name: 'test2', code: 2010) }
-  let!(:client_4) { create(:client, first_name: 'test3', code: 2020) }
+  let!(:client)   { create(:client, given_name: 'pitou', code: 1000) }
+  let!(:client_2) { create(:client, given_name: 'test1', code: 2000) }
+  let!(:client_3) { create(:client, given_name: 'test2', code: 2010) }
+  let!(:client_4) { create(:client, given_name: 'test3', code: 2020) }
 
 
   context '#filter_by_field with no association' do
     it 'return record with (is) condition' do
-      filter_rules = { condition: "AND", rules: [{id: "first_name", field: "first_name", type: "string", input: "text", operator: "not_equal", value: "pitou"}]}
+      filter_rules = { condition: "AND", rules: [{id: "given_name", field: "given_name", type: "string", input: "text", operator: "not_equal", value: "pitou"}]}
 
       clients = ClientAdvancedFilter.new(filter_rules,  Client.all)
       clients = clients.filter_by_field
@@ -15,7 +15,7 @@ describe ClientAdvancedFilter, 'Method' do
     end
 
     it 'return record with (is_not) condition' do
-      filter_rules = { condition: "AND", rules: [{id: "first_name", field: "first_name", type: "string", input: "text", operator: "equal", value: "pitou"}]}
+      filter_rules = { condition: "AND", rules: [{id: "given_name", field: "given_name", type: "string", input: "text", operator: "equal", value: "pitou"}]}
 
       clients = ClientAdvancedFilter.new(filter_rules,  Client.all)
       clients = clients.filter_by_field
@@ -23,7 +23,7 @@ describe ClientAdvancedFilter, 'Method' do
     end
 
     it 'return record with (not_contains) condition' do
-      filter_rules = { condition: "AND", rules: [{id: "first_name", field: "first_name", type: "string", input: "text", operator: "contains", value: "ou"}]}
+      filter_rules = { condition: "AND", rules: [{id: "given_name", field: "given_name", type: "string", input: "text", operator: "contains", value: "ou"}]}
 
       clients = ClientAdvancedFilter.new(filter_rules,  Client.all)
       clients = clients.filter_by_field
@@ -31,7 +31,7 @@ describe ClientAdvancedFilter, 'Method' do
     end
 
     it 'return record with (contains) condition' do
-      filter_rules = { condition: "AND", rules: [{id: "first_name", field: "first_name", type: "string", input: "text", operator: "not_contains", value: "ou"}]}
+      filter_rules = { condition: "AND", rules: [{id: "given_name", field: "given_name", type: "string", input: "text", operator: "not_contains", value: "ou"}]}
 
       clients = ClientAdvancedFilter.new(filter_rules,  Client.all)
       clients = clients.filter_by_field

@@ -1,9 +1,9 @@
 FactoryGirl.define do
   factory :client do
-    first_name { FFaker::Name.first_name }
-    last_name { FFaker::Name.last_name }
-    local_first_name { FFaker::Name.first_name }
-    local_last_name { FFaker::Name.last_name }
+    given_name { FFaker::Name.first_name }
+    family_name { FFaker::Name.last_name }
+    local_given_name { FFaker::Name.first_name }
+    local_family_name { FFaker::Name.last_name }
     date_of_birth { FFaker::Time.date }
     gender 'male'
     current_address { FFaker::Address.street_address }

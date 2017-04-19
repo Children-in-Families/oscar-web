@@ -1,7 +1,7 @@
 class ClientAdvancedFilter
   DROP_LIST_ASSOCIATED_FIELDS   = [:case_type, :agency_name].freeze
   DATE_LIST_ASSOCIATED_FIELDS   = [:placement_date].freeze
-  TEXT_LIST_ASSOCIATED_FIELDS   = [:family_name].freeze
+  TEXT_LIST_ASSOCIATED_FIELDS   = [:family].freeze
   NUMBER_LIST_ASSOCIATED_FIELDS = [:age, :family_id].freeze
 
   def initialize(search_rules, clients)

@@ -17,14 +17,6 @@
     padding: 10px 0;
   }
 
-  #emergency_case_client_grid_first_name {
-    max-width: 150px;
-  }
-
-  #emergency_case_client_grid_status {
-    max-width: 200px;
-  }
-
   input.manage.string_filter {
     display: none;
   }
@@ -73,10 +65,10 @@
     th.name, th.gender, th.status, th.able_state, th.family, th.partner, th.manage, th.any_assessments {
       min-width: 230px;
     }
-    th.first_name, th.last_name {
+    th.given_name, th.family_name {
       min-width: 160px;
     }
-    th.local_first_name, th.local_last_name {
+    th.local_given_name, th.local_family_name {
       min-width: 175px;
     }
     th.status {

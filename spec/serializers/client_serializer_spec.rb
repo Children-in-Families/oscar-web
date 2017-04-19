@@ -20,14 +20,14 @@ describe ClientSerializer, type: :serializer do
     expect(serializer).to have_json_type(String).at_path('client/code')
   end
 
-  it 'should be have attribute first_name' do
-    expect(serializer).to have_json_path('client/first_name')
-    expect(serializer).to have_json_type(String).at_path('client/first_name')
+  it 'should be have attribute given_name' do
+    expect(serializer).to have_json_path('client/given_name')
+    expect(serializer).to have_json_type(String).at_path('client/given_name')
   end
 
-  it 'should be have attribute last_name' do
-    expect(serializer).to have_json_path('client/last_name')
-    expect(serializer).to have_json_type(String).at_path('client/last_name')
+  it 'should be have attribute family_name' do
+    expect(serializer).to have_json_path('client/family_name')
+    expect(serializer).to have_json_type(String).at_path('client/family_name')
   end
 
   it 'should be have attribute gender' do

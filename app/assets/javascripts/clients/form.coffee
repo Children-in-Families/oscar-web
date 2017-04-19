@@ -8,14 +8,14 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
 
   _ajaxCheckExistClient = ->
     $('#submit-button').on 'click', ->
-      name = $('#client_first_name').val()
+      name = $('#client_given_name').val()
       gender =  $('#client_gender').val()
       dateOfBirth = $('#client_date_of_birth').val()
       birthProvicnceId = $('#client_birth_province_id').val()
 
       if dateOfBirth != '' and name != '' and birthProvicnceId != ''
         data = {
-          first_name: name
+          given_name: name
           gender: gender
           birth_province_id: birthProvicnceId
           date_of_birth: dateOfBirth
@@ -38,7 +38,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
             modalTitle      = $('#hidden_title').val()
             modalTextFirst  = $('#hidden_body_first').val()
             modalTextSecond = $('#hidden_body_second').val()
-            clientName      = $('#client_first_name').val()
+            clientName      = $('#client_given_name').val()
             organizations   = []
             organizations.push(client.organization for client in clients)
             $.unique(organizations[0])

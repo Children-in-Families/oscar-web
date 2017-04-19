@@ -4,16 +4,16 @@ class ClientGrid
 
   attr_accessor :current_user, :qType
   scope do
-    Client.includes({ cases: [:family, :partner] }, :referral_source, :user, :received_by, :followed_up_by, :province, :assessments, :birth_province).order('clients.status, clients.first_name')
+    Client.includes({ cases: [:family, :partner] }, :referral_source, :user, :received_by, :followed_up_by, :province, :assessments, :birth_province).order('clients.status, clients.given_name')
   end
 
-  filter(:first_name, :string, header: -> { I18n.t('datagrid.columns.clients.first_name') }) { |value, scope| scope.first_name_like(value) }
+  filter(:given_name, :string, header: -> { I18n.t('datagrid.columns.clients.given_name') }) { |value, scope| scope.given_name_like(value) }
 
-  filter(:last_name, :string, header: -> { I18n.t('datagrid.columns.clients.last_name') }) { |value, scope| scope.last_name_like(value) }
+  filter(:family_name, :string, header: -> { I18n.t('datagrid.columns.clients.family_name') }) { |value, scope| scope.family_name_like(value) }
 
-  filter(:local_first_name, :string, header: -> { I18n.t('datagrid.columns.clients.local_first_name') }) { |value, scope| scope.local_first_name_like(value) }
+  filter(:local_given_name, :string, header: -> { I18n.t('datagrid.columns.clients.local_given_name') }) { |value, scope| scope.local_given_name_like(value) }
 
-  filter(:local_last_name, :string, header: -> { I18n.t('datagrid.columns.clients.local_last_name') }) { |value, scope| scope.local_last_name_like(value) }
+  filter(:local_family_name, :string, header: -> { I18n.t('datagrid.columns.clients.local_family_name') }) { |value, scope| scope.local_family_name_like(value) }
 
   filter(:gender, :enum, select: %w(Male Female), header: -> { I18n.t('datagrid.columns.clients.gender') }) do |value, scope|
     value == 'Male' ? scope.male : scope.female
@@ -304,17 +304,17 @@ class ClientGrid
 
   column(:kid_id, order:'clients.kid_id', header: -> { I18n.t('datagrid.columns.clients.kid_id') })
 
-  column(:first_name, order: 'clients.first_name', header: -> { I18n.t('datagrid.columns.clients.first_name') }, html: true) do |object|
-    link_to object.first_name, client_path(object)
+  column(:given_name, order: 'clients.given_name', header: -> { I18n.t('datagrid.columns.clients.given_name') }, html: true) do |object|
+    link_to object.given_name, client_path(object)
   end
 
-  column(:first_name, header: -> { I18n.t('datagrid.columns.clients.first_name') }, html: false)
+  column(:given_name, header: -> { I18n.t('datagrid.columns.clients.given_name') }, html: false)
 
-  column(:last_name, order: 'clients.last_name', header: -> { I18n.t('datagrid.columns.clients.last_name') })
+  column(:family_name, order: 'clients.family_name', header: -> { I18n.t('datagrid.columns.clients.family_name') })
 
-  column(:local_first_name, order: 'clients.local_first_name', header: -> { I18n.t('datagrid.columns.clients.local_first_name') })
+  column(:local_given_name, order: 'clients.local_given_name', header: -> { I18n.t('datagrid.columns.clients.local_given_name') })
 
-  column(:local_last_name, order: 'clients.local_last_name', header: -> { I18n.t('datagrid.columns.clients.local_last_name') })
+  column(:local_family_name, order: 'clients.local_family_name', header: -> { I18n.t('datagrid.columns.clients.local_family_name') })
 
   column(:gender, header: -> { I18n.t('datagrid.columns.clients.gender') }) do |object|
     object.gender.try(:titleize)

@@ -2,15 +2,15 @@ module AdvancedSearchHelper
 
   def format_header(key)
     translations = {
-      first_name: I18n.t('advanced_search.fields.first_name'),
-      last_name: I18n.t('advanced_search.fields.last_name'),
-      local_first_name: I18n.t('advanced_search.fields.local_first_name'),
-      local_last_name: I18n.t('advanced_search.fields.local_last_name'),
+      given_name: I18n.t('advanced_search.fields.given_name'),
+      family_name: I18n.t('advanced_search.fields.family_name'),
+      local_given_name: I18n.t('advanced_search.fields.local_given_name'),
+      local_family_name: I18n.t('advanced_search.fields.local_family_name'),
       code: I18n.t('advanced_search.fields.code'),
       grade: I18n.t('advanced_search.fields.grade'),
       family_id: I18n.t('advanced_search.fields.family_id'),
       age: I18n.t('advanced_search.fields.age'),
-      family_name: I18n.t('advanced_search.fields.family_name'),
+      family: I18n.t('advanced_search.fields.family'),
       slug: I18n.t('advanced_search.fields.slug'),
       referral_phone: I18n.t('advanced_search.fields.referral_phone'),
       school_name: I18n.t('advanced_search.fields.school_name'),

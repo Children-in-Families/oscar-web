@@ -1,8 +1,8 @@
 describe BaseFilters, 'Method' do
-  let!(:client) { create(:client, first_name: 'pitou', code: 1000) }
-  let!(:client_2) { create(:client, first_name: 'test1', code: 2000) }
-  let!(:client_3) { create(:client, first_name: 'test2', code: 2010) }
-  let!(:client_4) { create(:client, first_name: 'test3', code: 2020) }
+  let!(:client)   { create(:client, given_name: 'pitou', code: 1000) }
+  let!(:client_2) { create(:client, given_name: 'test1', code: 2000) }
+  let!(:client_3) { create(:client, given_name: 'test2', code: 2010) }
+  let!(:client_4) { create(:client, given_name: 'test3', code: 2020) }
 
   before do
     @filter = BaseFilters.new(Client.all)
@@ -10,14 +10,14 @@ describe BaseFilters, 'Method' do
 
   context 'is' do
     it 'return record exactly with filter' do
-      filter = @filter.is('clients', 'first_name', client.first_name)
+      filter = @filter.is('clients', 'given_name', client.given_name)
       expect(filter.size).to equal 1
     end
   end
 
   context 'is_not' do
     it 'return records that not in filter' do
-      filter = @filter.is_not('clients', 'first_name', client.first_name)
+      filter = @filter.is_not('clients', 'given_name', client.given_name)
       expect(filter.size).to equal 3
     end
   end
@@ -52,14 +52,14 @@ describe BaseFilters, 'Method' do
 
   context 'contains' do
     it 'return records that contains like filter' do
-      filter = @filter.contains('clients', 'first_name', client.first_name)
+      filter = @filter.contains('clients', 'given_name', client.given_name)
       expect(filter.size).to equal 1
     end
   end
 
   context 'not_contains' do
     it 'return records that contains not like filter' do
-      filter = @filter.not_contains('clients', 'first_name', client.first_name)
+      filter = @filter.not_contains('clients', 'given_name', client.given_name)
       expect(filter.size).to equal 3
     end
   end

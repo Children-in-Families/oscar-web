@@ -14,8 +14,8 @@ feature 'ClientAdvancedSearch' do
     click_link 'Advanced Search'
     wait_for_ajax
     within '#builder_rule_0' do
-      select2_select('First Name (Local)', '.rule-filter-container .select2-container')
-      expect(page).to have_content 'First Name (Local)'
+      select2_select('Given Name (Local)', '.rule-filter-container .select2-container')
+      expect(page).to have_content 'Given Name (Local)'
       expect(page).to have_content 'is'
     end
   end
