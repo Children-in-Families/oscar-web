@@ -250,6 +250,7 @@ km:
   cannot_be_greater: មិនអាចធំជាង %{count}
   is_not_email: មិនមែនជាអ៊ីម៉ែល
   must_be_uniq: ផ្នែកនៃទម្រង់មិនអាចមានឈ្មោះដូចគ្នា
+  cannot_remove: មិនអាចលុបបានទេ
 
   default_client_fields: &default_client_fields
     id: លេខសំគាល់
