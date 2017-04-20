@@ -15,8 +15,6 @@ ActiveRecord::Schema.define(version: 20170327015408) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-  enable_extension "hstore"
-  enable_extension "uuid-ossp"
 
   create_table "able_screening_questions", force: :cascade do |t|
     t.string   "question"
@@ -252,6 +250,17 @@ ActiveRecord::Schema.define(version: 20170327015408) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "custom_field_properties", force: :cascade do |t|
+    t.jsonb    "properties",           default: {}
+    t.string   "custom_formable_type"
+    t.integer  "custom_formable_id"
+    t.integer  "custom_field_id"
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
+  end
+
+  add_index "custom_field_properties", ["custom_field_id"], name: "index_custom_field_properties_on_custom_field_id", using: :btree
 
   create_table "custom_fields", force: :cascade do |t|
     t.string   "entity_type",       default: ""
@@ -907,6 +916,7 @@ ActiveRecord::Schema.define(version: 20170327015408) do
   add_foreign_key "client_custom_fields", "clients"
   add_foreign_key "client_custom_fields", "custom_fields"
   add_foreign_key "clients", "donors"
+  add_foreign_key "custom_field_properties", "custom_fields"
   add_foreign_key "domains", "domain_groups"
   add_foreign_key "family_custom_fields", "custom_fields"
   add_foreign_key "family_custom_fields", "families"
