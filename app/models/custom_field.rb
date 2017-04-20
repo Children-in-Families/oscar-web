@@ -83,8 +83,8 @@ class CustomField < ActiveRecord::Base
     end
     entity_custom_fields.each do |entity_custom_field|
       properties = JSON.parse(entity_custom_field.properties)
-      current_fields = custom_field.fields_change.first
-      fields = custom_field.fields_change.last
+      current_fields = CustomField.find(custom_field).fields
+      fields = custom_field.fields
       previous_fields = JSON.parse(current_fields) - JSON.parse(fields)
       next if previous_fields.blank?
       previous_fields.each do |field|
