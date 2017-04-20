@@ -84,8 +84,12 @@ body[id='clients-index'], body[id='clients-advanced_search']{
     min-width: 160px;
   }
 
-  th.local_given_name, th.local_family_name, th.kid_id {
+  th.kid_id {
     min-width: 175px;
+  }
+
+  th.local_given_name, th.local_family_name {
+    min-width: 185px;
   }
 
   th.state {
