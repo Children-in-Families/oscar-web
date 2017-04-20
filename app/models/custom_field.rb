@@ -12,6 +12,8 @@ class CustomField < ActiveRecord::Base
   has_many :user_custom_fields, dependent: :restrict_with_error
   has_many :user, through: :user_custom_fields
 
+  has_paper_trail
+
   validates :entity_type, :form_title, presence: true
   validates :form_title, uniqueness: { case_sensitive: false, scope: :entity_type }
   validates :time_of_frequency, presence: true,
