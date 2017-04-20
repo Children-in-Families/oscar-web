@@ -66,7 +66,7 @@ class ClientBaseSqlBuilder
       if BLANK_FIELDS.include? field
         @sql_string << "clients.#{field} IS NULL"
       else
-        @sql_string << "clients.#{field} IS NULL OR clients.#{field} = ''"
+        @sql_string << "(clients.#{field} IS NULL OR clients.#{field} = '')"
       end
 
     when 'between'
