@@ -19,6 +19,8 @@ class FormBuilder::CustomFieldsController < AdminController
   end
 
   def show
+    ngo_name = params[:ngo_name]
+    @custom_field = get_custom_field(params[:custom_field_id].to_i, ngo_name) if ngo_name.present?
   end
 
   def create
@@ -49,11 +51,6 @@ class FormBuilder::CustomFieldsController < AdminController
     else
       redirect_to custom_fields_path, alert: t('.failed_to_delete')
     end
-  end
-
-  def show
-    ngo_name = params[:ngo_name]
-    @custom_field = get_custom_field(params[:custom_field_id].to_i, ngo_name) if ngo_name.present?
   end
 
   def search
