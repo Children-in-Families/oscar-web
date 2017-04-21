@@ -13,7 +13,7 @@ class CustomField < ActiveRecord::Base
 
   has_paper_trail
 
-  validate  :enable_removie_fields
+  validate  :enable_remove_fields, if: 'id.present?'
   validates :entity_type, :form_title, presence: true
   validates :form_title, uniqueness: { case_sensitive: false, scope: :entity_type }
   validates :time_of_frequency, presence: true,
@@ -61,10 +61,8 @@ class CustomField < ActiveRecord::Base
     fields.present? ? JSON.parse(fields) : fields
   end
 
-  def enable_removie_fields
-    if self.id.present?
-      entity_custom_fields_validate(self)
-    end
+  def enable_remove_fields
+    entity_custom_fields_validate(self)
   end
 
   def entity_custom_fields_validate(custom_field)
