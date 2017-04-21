@@ -61,10 +61,10 @@ class Client < ActiveRecord::Base
   after_create :set_slug_as_alias
   after_update :set_able_status, if: proc { |client| client.able_state.blank? && answers.any? }
 
-  scope :first_name_like,             ->(value) { where('clients.first_name iLIKE ?', "%#{value}%") }
-  scope :last_name_like,              ->(value) { where('clients.last_name iLIKE ?', "%#{value}%") }
-  scope :local_first_name_like,       ->(value) { where('clients.local_first_name iLIKE ?', "%#{value}%") }
-  scope :local_last_name_like,        ->(value) { where('clients.local_last_name iLIKE ?', "%#{value}%") }
+  scope :given_name_like,             ->(value) { where('clients.given_name iLIKE ?', "%#{value}%") }
+  scope :family_name_like,            ->(value) { where('clients.family_name iLIKE ?', "%#{value}%") }
+  scope :local_given_name_like,       ->(value) { where('clients.local_given_name iLIKE ?', "%#{value}%") }
+  scope :local_family_name_like,      ->(value) { where('clients.local_family_name iLIKE ?', "%#{value}%") }
   scope :current_address_like,        ->(value) { where('clients.current_address iLIKE ?', "%#{value}%") }
   scope :school_name_like,            ->(value) { where('clients.school_name iLIKE ?', "%#{value}%") }
   scope :referral_phone_like,         ->(value) { where('clients.referral_phone iLIKE ?', "%#{value}%") }
@@ -74,9 +74,9 @@ class Client < ActiveRecord::Base
   scope :start_with_code,             ->(value) { where('clients.code iLIKE ?', "#{value}%") }
   scope :find_by_family_id,           ->(value) { joins(cases: :family).where('families.id = ?', value).uniq }
   scope :status_like,                 ->        { CLIENT_STATUSES }
-  scope :is_received_by,              ->        { joins(:received_by).pluck("CONCAT(users.first_name, ' ' ,users.last_name)", 'users.id').uniq }
+  scope :is_received_by,              ->        { joins(:received_by).pluck("CONCAT(users.first_name, ' ' , users.last_name)", 'users.id').uniq }
   scope :referral_source_is,          ->        { joins(:referral_source).pluck('referral_sources.name', 'referral_sources.id').uniq }
-  scope :is_followed_up_by,           ->        { joins(:followed_up_by).pluck("CONCAT(users.first_name, ' ' ,users.last_name)", 'users.id').uniq }
+  scope :is_followed_up_by,           ->        { joins(:followed_up_by).pluck("CONCAT(users.first_name, ' ' , users.last_name)", 'users.id').uniq }
   scope :province_is,                 ->        { joins(:province).pluck('provinces.name', 'provinces.id').uniq }
   scope :accepted,                    ->        { where(state: 'accepted') }
   scope :rejected,                    ->        { where(state: 'rejected') }
@@ -92,7 +92,7 @@ class Client < ActiveRecord::Base
   def self.filter(options)
     query = all
 
-    query = query.where(first_name: options[:first_name])                 if options[:first_name].present?
+    query = query.where(given_name: options[:given_name])                 if options[:given_name].present?
     query = query.where(date_of_birth: options[:date_of_birth])           if options[:date_of_birth].present?
     query = query.where(gender: options[:gender])                         if options[:gender].present?
     query = query.where(birth_province_id: options[:birth_province_id])   if options[:birth_province_id].present?
@@ -111,8 +111,8 @@ class Client < ActiveRecord::Base
   end
 
   def name
-    name       = "#{first_name} #{last_name}"
-    local_name = "#{local_first_name} #{local_last_name}"
+    name       = "#{given_name} #{family_name}"
+    local_name = "#{local_given_name} #{local_family_name}"
     name.present? ? name : local_name
   end
 

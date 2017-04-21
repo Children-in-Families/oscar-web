@@ -19,7 +19,7 @@ module Api
     end
 
     def find_client_by(params)
-      if params[:first_name] && params[:gender] && params[:birth_province_id] && params[:date_of_birth]
+      if params[:given_name] && params[:gender] && params[:birth_province_id] && params[:date_of_birth]
         Client.filter(params)
       else
         []

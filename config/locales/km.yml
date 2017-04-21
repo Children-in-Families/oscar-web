@@ -255,10 +255,10 @@ km:
   default_client_fields: &default_client_fields
     id: លេខសំគាល់
     kid_id: លេខកូដឣតិថិជន
-    first_name: នាមខ្លួន
-    last_name: នាមត្រកូល
-    local_first_name: នាមខ្លួន (Local)
-    local_last_name: នាមត្រកូល (Local)
+    given_name: នាមខ្លួន
+    family_name: នាមត្រកូល
+    local_given_name: នាមខ្លួន (Local)
+    local_family_name: នាមត្រកូល (Local)
     able_state: ស្ថានភាព Able
     name: ឈ្មោះ
     date_of_birth: ថ្ងៃ ខែ ឆ្នាំ កំណើត
@@ -2181,7 +2181,7 @@ km:
       grade: កំរិតថ្នាក់
       family_id: លេខសម្គាល់គ្រួសារ
       age: អាយុ
-      family_name: ឈ្មោះគ្រួសារ
+      family: គ្រួសារ
       slug: លេខសម្គាល់
       placement_start_date: ថ្ងៃបញ្ជូនទៅក្នុងករណី
       case_type: ប្រភេទករណី

@@ -1,9 +1,9 @@
 describe AdvancedFilterTypes, 'Method' do
   context '#text_options' do
-    text_options = AdvancedFilterTypes.text_options('first_name', 'Name')
+    text_options = AdvancedFilterTypes.text_options('given_name', 'Name')
 
     it 'return configuration object with id' do
-      expect(text_options[:id]).to eq 'first_name'
+      expect(text_options[:id]).to eq 'given_name'
     end
 
     it 'return configuration object with label' do

@@ -251,10 +251,10 @@ en:
   default_client_fields: &default_client_fields
     id: ID
     kid_id: Kid ID
-    first_name: First Name
-    last_name: Last Name
-    local_first_name: First Name (Local)
-    local_last_name: Last Name (Local)
+    given_name: Given Name
+    family_name: Family Name
+    local_given_name: Given Name (Local)
+    local_family_name: Family Name (Local)
     name: Name
     able_state: Able State
     date_of_birth: Date of Birth
@@ -1967,7 +1967,7 @@ en:
       grade: Grade
       family_id: Family ID
       age: Age
-      family_name: Family Name
+      family: Family
       slug: ID
       placement_start_date: Placement Start Date
       case_type: Case Type
