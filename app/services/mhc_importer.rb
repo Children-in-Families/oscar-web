@@ -22,7 +22,7 @@ module MhcImporter
         last_name  = workbook.row(row)[headers['Last Name']]
         email      = workbook.row(row)[headers['Email']]
         password   = (('a'..'z').to_a + ('A'..'Z').to_a + (0..9).to_a).sample(8).join
-        role       = workbook.row(row)[headers['Permission Level']]
+        role       = workbook.row(row)[headers['Permission Level']].downcase
         User.create(first_name: first_name, last_name: last_name, email: email, password: "#{password}", roles: role)
       end
     end
