@@ -33,7 +33,7 @@ describe 'Referral Sources' do
         fill_in 'Name', with: FFaker::Name.name
         click_button 'Save'
       end
-      sleep 1
+      wait_for_ajax
       expect(page).to have_content('Referral Source has been successfully created')
     end
     scenario 'invalid' do
@@ -41,7 +41,7 @@ describe 'Referral Sources' do
       within('#new_referral_source') do
         click_button 'Save'
       end
-      sleep 1
+      wait_for_ajax
       expect(page).to have_content('Failed to create a referral source.')
     end
   end
@@ -56,7 +56,7 @@ describe 'Referral Sources' do
         fill_in 'Name', with: 'testing'
         click_button 'Save'
       end
-      sleep 1
+      wait_for_ajax
       expect(page).to have_content('Referral Source has been successfully updated')
     end
     scenario 'invalid' do
@@ -66,7 +66,7 @@ describe 'Referral Sources' do
         click_button 'Save'
         
       end
-      sleep 1
+      wait_for_ajax
       expect(page).to have_content('Failed to update a referral source.')
     end
   end
@@ -76,7 +76,7 @@ describe 'Referral Sources' do
     end
     scenario 'success', js: true do
       find("a[href='#{referral_source_path(referral_source)}'][data-method='delete']").click
-      sleep 1
+      wait_for_ajax
       expect(page).to have_content('Referral Source has been successfully deleted')
     end
     scenario 'disable delete' do
