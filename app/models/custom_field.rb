@@ -66,7 +66,7 @@ class CustomField < ActiveRecord::Base
   end
 
   def entity_custom_fields_validate(custom_field)
-    error_field = []
+    error_fields = []
     current_fields = []
     entity_custom_fields = []
     case custom_field.entity_type
@@ -80,23 +80,25 @@ class CustomField < ActiveRecord::Base
       entity_custom_fields = custom_field.user_custom_fields
     end
     entity_custom_fields.each do |entity_custom_field|
-      properties = JSON.parse(entity_custom_field.properties)
-      current_fields = CustomField.find(custom_field).fields
-      fields = custom_field.fields
-      previous_fields = JSON.parse(current_fields) - JSON.parse(fields)
-      next if previous_fields.blank?
-      previous_fields.each do |field|
-        label_name = properties[field['label']]
-        next if label_name.blank?
-        if field['type'] == 'checkbox-group' && label_name.first.present?
-          error_field << field['label']
-        else
-          error_field << field['label']
+      if entity_custom_field.properties.present?
+        properties = JSON.parse(entity_custom_field.properties)
+        current_fields = CustomField.find(custom_field).fields
+        fields = custom_field.fields
+        previous_fields = JSON.parse(current_fields) - JSON.parse(fields)
+        next if previous_fields.blank?
+        previous_fields.each do |field|
+          label_name = properties[field['label']]
+          next if label_name.blank?
+          if field['type'] == 'checkbox-group' && label_name.first.present?
+            error_fields << field['label']
+          else
+            error_fields << field['label']
+          end
         end
       end
     end
-    if error_field.present?
-      error_message = "#{error_field.join(', ')} #{I18n.t('cannot_remove')}"
+    if error_fields.any?
+      error_message       = "#{error_fields.uniq.join(', ')} #{I18n.t('cannot_remove')}"
       custom_field.fields = current_fields
       errors.add(:fields, "#{error_message} ")
     end

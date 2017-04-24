@@ -17,10 +17,6 @@ class TasksController < AdminController
   end
 
   def task_of_user
-    if params[:user_id]
-      User.find(params[:user_id])
-    else
-      current_user
-    end
+    params[:user_id].present? ? User.find(params[:user_id]) : current_user
   end
 end

@@ -1,5 +1,4 @@
 body[id='tasks-index'] {
-
   table {
     margin-bottom: 0;
     td {
@@ -19,5 +18,9 @@ body[id='tasks-index'] {
     h5 {
       color: #fff;
     }
+  }
+  #filtered_by_user .select2-container {
+    min-width: 180px;
+    margin-left: 10px;
   }
 }
