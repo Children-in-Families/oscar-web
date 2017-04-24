@@ -1,10 +1,12 @@
 CIF.DomainsNew = CIF.DomainsCreate = CIF.DomainsEdit = CIF.DomainsUpdate = do ->
   _init = ->
     _initSelect2()
-    _removeUnusedTool()
+    _tinyMCE()
 
-  _removeUnusedTool = ->
-    $('.strike, .link, .heading-1, .quote, .code, .nesting-level').remove()
+  _tinyMCE = ->
+    tinymce.init
+      selector: 'textarea.tinymce'
+      menubar: false
 
   _initSelect2 = ->
     $('.select2').select2();

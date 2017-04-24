@@ -7,10 +7,12 @@ CIF.Progress_notesNew = CIF.Progress_notesCreate = CIF.Progress_notesEdit = CIF.
     _toggleOtherLocation()
     _triggerLocationChanged()
     _handleSubmitForm()
-    _removeUnusedTool()
+    _tinyMCE()
 
-  _removeUnusedTool = ->
-    $('.strike, .link, .heading-1, .quote, .code, .nesting-level').remove()
+  _tinyMCE = ->
+    tinymce.init
+      selector: 'textarea.tinymce'
+      menubar: false
 
   _handleSubmitForm = ->
     self = @
