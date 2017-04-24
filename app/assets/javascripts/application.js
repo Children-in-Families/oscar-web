@@ -46,6 +46,7 @@
 //= require filters
 //= require assessments/form
 //= require tasks/form
+//= require tasks/index
 //= require dashboards/index
 //= require case_notes/form
 //= require cases/form
