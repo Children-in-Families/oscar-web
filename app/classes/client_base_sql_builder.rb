@@ -1,5 +1,5 @@
 class ClientBaseSqlBuilder
-  ASSOCIATION_FIELDS = ['case_type', 'agency_name', 'form_title', 'placement_date', 'family_name', 'age', 'family_id']
+  ASSOCIATION_FIELDS = ['case_type', 'agency_name', 'form_title', 'placement_date', 'family', 'age', 'family_id']
   BLANK_FIELDS= ['date_of_birth', 'initial_referral_date', 'follow_up_date', 'has_been_in_orphanage', 'has_been_in_government_care', 'grade', 'province_id', 'referral_source_id', 'user_id', 'birth_province_id', 'received_by_id', 'followed_up_by_id', ]
 
 

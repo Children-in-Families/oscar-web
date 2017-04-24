@@ -19,7 +19,7 @@ class ClientAssociationFilter
       values = agency_name_field_query
     when 'family_id'
       values = family_id_field_query
-    when 'family_name'
+    when 'family'
       values = family_name_field_query
     when 'age'
       values = age_field_query
