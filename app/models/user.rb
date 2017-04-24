@@ -23,7 +23,7 @@ class User < ActiveRecord::Base
   has_many :user_custom_fields
   has_many :custom_fields, through: :user_custom_fields
 
-  validates :roles, presence: true
+  validates :roles, presence: true, inclusion: { in: ROLES }
   validates :email, presence: true, uniqueness: { case_sensitive: false }
 
   scope :first_name_like, ->(value) { where('first_name iLIKE ?', "%#{value}%") }
