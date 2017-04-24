@@ -6,10 +6,14 @@ class ClientsController < AdminController
   before_action :choose_grid, only: [:index, :advanced_search]
 
   def advanced_search
-    return unless params[:client].present? && params[:client][:search_rules].present?
-    @advanced_filter_params = params[:client][:search_rules]
-    search_rules_params     = eval(@advanced_filter_params)
-    clients                 = ClientAdvancedSearch.new(search_rules_params, Client.accessible_by(current_ability))
+    return unless params[:client].present? && params[:client][:basic_rules].present?
+    @basic_filter_params = params[:client][:basic_rules]
+    basic_rules_params     = eval(@basic_filter_params)
+
+    @custom_form_filter_params = params[:client][:custom_form_rules]
+    custom_form_rules_params     = eval(@custom_form_filter_params)
+
+    clients                 = ClientAdvancedSearch.new(basic_rules_params, custom_form_rules_params, Client.accessible_by(current_ability))
     @clients_by_user        = clients.filter
     columns_visibility
     respond_to do |f|
@@ -44,9 +48,14 @@ class ClientsController < AdminController
 
   def show
     @ordered_client_answers     = @client.answers.order(:created_at)
-    custom_field_ids            = @client.client_custom_fields.pluck(:custom_field_id)
+    custom_field_ids            = @client.custom_field_properties.pluck(:custom_field_id)
     @free_client_forms          = CustomField.client_forms.where.not(id: custom_field_ids).order(:form_title)
-    @group_client_custom_fields = @client.client_custom_fields.sort_by{ |c| c.custom_field.form_title }.group_by(&:custom_field_id)
+    @group_client_custom_fields = @client.custom_field_properties.sort_by{ |c| c.custom_field.form_title }.group_by(&:custom_field_id)
+
+
+    # custom_field_ids            = @client.client_custom_fields.pluck(:custom_field_id)
+    # @free_client_forms          = CustomField.client_forms.where.not(id: custom_field_ids).order(:form_title)
+    # @group_client_custom_fields = @client.client_custom_fields.sort_by{ |c| c.custom_field.form_title }.group_by(&:custom_field_id)
   end
 
   def new

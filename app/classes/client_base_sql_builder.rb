@@ -5,22 +5,25 @@ class ClientBaseSqlBuilder
     @clients     = clients
     @values      = []
     @sql_string  = []
+    condition    = rules[:condition]
+    basic_rules  = rules[:rules] || []
 
-    rules.each do |rule|
+    basic_rules.each do |rule|
       field    = rule[:field]
       operator = rule[:operator]
       value    = rule[:value]
       if ASSOCIATION_FIELDS.include?(field)
         association_filter = ClientAssociationFilter.new(@clients, field, operator, value).get_sql
-        
+
         @sql_string << association_filter[:id]
         @values     << association_filter[:values]
       else
         base_sql(field, operator, value)
       end
-
     end
 
+    @sql_string = @sql_string.join(" #{condition} ")
+    @sql_string = "(#{@sql_string})" if @sql_string.present?
     { sql_string: @sql_string, values: @values }
   end
 

@@ -8,42 +8,107 @@ CIF.ClientsAdvanced_search = do ->
     _handleScrollTable()
     _getClientPath()
     _setDefaultCheckColumnVisibilityAll()
-
-  _initJqueryQueryBuilder = ->
-    filterTranslation = $('#builder').data('filter-translation')
-    $.ajax
-      url: '/api/advanced_searches/'
-      method: 'GET'
-      success: (response) ->
-        fieldList = response.advanced_searches
-        $('#builder').queryBuilder
-          allow_groups: false
-          inputs_separator: ' AND '
-          icons:
-            remove_rule: 'fa fa-minus'
-          lang:
-            delete_rule: ''
-            add_rule: filterTranslation
-            operators:
-              is_empty: 'is blank'
-              equal: 'is'
-              not_equal: 'is not'
-              less: '<'
-              less_or_equal: '<='
-              greater: '>'
-              greater_or_equal: '>='
-              contains: 'includes'
-              not_contains: 'excludes'
-          filters: fieldList
-        _setRuleJqueryQueryBuilder()
-        _changeButtonAddRuleSize()
-        _handleSelectOptionChange()
-        _initSelect2()
+    _handleSelectCustomForm()
+    _handleInitCustomFormBuilder()
 
   _initSelect2 = ->
     $('select').select2(
       width: 'resolve'
     )
+
+  _handleSelectCustomForm = ->
+    $('#select-custom-form').on 'select2-selecting', (e) ->
+      customFormId = e.val
+      if customFormId != ''
+        $('#custom-form').show()
+        _ajaxGetCustomField(customFormId)
+      else
+        $('#custom-form').hide()
+
+  _handleInitCustomFormBuilder = ->
+    customFormValue = $('#select-custom-form').val()
+    if customFormValue != ''
+      $('#custom-form').show()
+      _ajaxGetCustomField(customFormValue)
+
+  _initJqueryQueryBuilder = ->
+    _ajaxGetBasicField()
+
+  _ajaxGetBasicField = ->
+    filterTranslation = $('#builder').data('filter-translation')
+    $.ajax
+      url: '/api/client_advanced_searches/get_basic_field'
+      method: 'GET'
+      success: (response) ->
+        fieldList = response.client_advanced_searches
+        $('#builder').queryBuilder(
+          _queryBuilderOption(fieldList, filterTranslation)
+        )
+        _basicFilterSetRule()
+        _changeButtonAddRuleSize()
+        _handleSelectOptionChange()
+        _initSelect2()
+
+  _ajaxGetCustomField = (customFormId) ->
+    filterTranslation = $('#custom-form').data('filter-translation')
+    $.ajax
+      url: '/api/client_advanced_searches/get_custom_field'
+      data: { custom_form_id: customFormId }
+      method: 'GET'
+      success: (response) ->
+        fieldList = response.client_advanced_searches
+        $('#custom-form').queryBuilder(
+          _queryBuilderOption(fieldList, filterTranslation)
+          )
+
+        $('#custom-form').queryBuilder('reset');
+        $('#custom-form').queryBuilder('setFilters', fieldList)
+        _customFormSetRule()
+        _changeButtonAddRuleSize()
+        _handleSelectOptionChange()
+        _initSelect2()
+
+  _handleSearch = ->
+    $('#search').on 'click', ->
+      customFormValue = $('#select-custom-form').val()
+      $('#client_selected_custom_form').val(customFormValue)
+
+      basicRules = $('#builder').queryBuilder('getRules')
+      customFormRules = _getCustomFormRules(customFormValue)
+
+      if !($.isEmptyObject(basicRules)) || !($.isEmptyObject(customFormRules))
+        $('.has-error').removeClass('has-error')
+        $('#client_basic_rules').val(_handleStringfyRules(basicRules))
+        $('#client_custom_form_rules').val(_handleStringfyRules(customFormRules))
+
+        _handleSelectFieldVisibilityCheckBox()
+        $('#advanced-search').submit()
+
+  _getCustomFormRules = (customFormValue)->
+    if customFormValue == ''
+      {}
+    else
+      $('#custom-form').queryBuilder('getRules')
+
+  _queryBuilderOption = (fieldList, filterTranslation) ->
+    allow_groups: false
+    inputs_separator: ' AND '
+    icons:
+      remove_rule: 'fa fa-minus'
+    lang:
+      delete_rule: ''
+      add_rule: filterTranslation
+      operators:
+        is_empty: 'is blank'
+        equal: 'is'
+        not_equal: 'is not'
+        less: '<'
+        less_or_equal: '<='
+        greater: '>'
+        greater_or_equal: '>='
+        contains: 'includes'
+        not_contains: 'excludes'
+    filters: fieldList
 
   _columnsVisibility = ->
     $('.columns-visibility').click (e) ->
@@ -64,7 +129,7 @@ CIF.ClientsAdvanced_search = do ->
       )
 
   _addRuleCallback = ->
-    $('#builder').on 'afterCreateRuleFilters.queryBuilder', ->
+    $('#builder, #custom-form').on 'afterCreateRuleFilters.queryBuilder', ->
       _initSelect2()
       _handleSelectOptionChange()
 
@@ -83,12 +148,16 @@ CIF.ClientsAdvanced_search = do ->
     $("button[data-add='rule']").removeClass('btn-xs btn-success')
     $("button[data-add='rule']").addClass('btn-primary')
 
-  _setRuleJqueryQueryBuilder = ->
-    queryRules = $('#builder').data('search-rules')
+  _customFormSetRule = ->
+    customFormQueryRules = $('#custom-form').data('custom-form-search-rules')
+    if !$.isEmptyObject customFormQueryRules
+      $('#custom-form').queryBuilder('setRules', customFormQueryRules)
 
+  _basicFilterSetRule = ->
+    basicQueryRules = $('#builder').data('basic-search-rules')
     queryCondition = $('#builder').data('search-condition')
-    if queryRules != undefined
-      $('#builder').queryBuilder('setRules', queryRules)
+    if !$.isEmptyObject basicQueryRules
+      $('#builder').queryBuilder('setRules', basicQueryRules)
 
   _handleInitDatatable = ->
     $('.clients-table table').DataTable(
@@ -102,16 +171,11 @@ CIF.ClientsAdvanced_search = do ->
         'bPaginate': false
       )
 
-  _handleSearch = ->
-    $('#search').on 'click', ->
-      rules = JSON.stringify($('#builder').queryBuilder('getRules'))
-      rules = rules.replace(/null/g, '""')
-      if !($.isEmptyObject($('#builder').queryBuilder('getRules')))
-        $('#client_search_rules').val(rules)
-        _handleSelectValueCheckBox()
-        $('#advanced-search').submit()
+  _handleStringfyRules = (rules) ->
+    rules = JSON.stringify(rules)
+    return rules.replace(/null/g, '""')
 
-  _handleSelectValueCheckBox = ->
+  _handleSelectFieldVisibilityCheckBox = ->
     checkedFields = $('.visibility .checked input, .all-visibility .checked input')
     $('form#advanced-search').append(checkedFields)
 
@@ -123,9 +187,6 @@ CIF.ClientsAdvanced_search = do ->
           scrollspeed: 30
           cursorwidth: 10
           cursoropacitymax: 0.4
-
-  _handleResizeWindow = ->
-    window.dispatchEvent new Event('resize')
 
   _getClientPath = ->
     $('table.clients tbody tr').click (e) ->

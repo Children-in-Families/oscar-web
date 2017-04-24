@@ -1,15 +1,18 @@
 Rails.application.routes.draw do
 
   root 'statics#index'
+
+  devise_for :users, controllers: { registrations: 'registrations', sessions: 'sessions', passwords: 'passwords' }
+
   get '/robots.txt' => 'statics#robots'
+
   %w(404 500).each do |code|
     match "/#{code}", to: 'errors#show', code: code, via: :all
   end
 
   get '/dashboards' => 'dashboards#index'
-  mount Thredded::Engine => '/forum'
 
-  devise_for :users, controllers: { registrations: 'registrations', sessions: 'sessions', passwords: 'passwords' }
+  mount Thredded::Engine => '/forum'
 
   get '/quantitative_data' => 'clients#quantitative_case'
 
@@ -95,6 +98,10 @@ Rails.application.routes.draw do
 
   resources :tasks, only: :index
 
+  resources :clients, :users, :partners, :families, only: [] do
+    resources :custom_field_properties
+  end
+
   resources :clients do
     collection do
       get :advanced_search
@@ -144,7 +151,12 @@ Rails.application.routes.draw do
     resources :clients do
       get :compare, on: :collection
     end
-    resources :advanced_searches, only: [:index]
+    resources :client_advanced_searches, only: [] do
+      collection do
+        get :get_custom_field
+        get :get_basic_field
+      end
+    end
 
     namespace :v1, default: { format: :json } do
       resources :domain_groups, only: [:index]

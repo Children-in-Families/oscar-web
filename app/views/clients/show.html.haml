@@ -152,7 +152,7 @@
               %span.caret
             %ul.dropdown-menu
               - @group_client_custom_fields.each do |_, client_custom_fields|
-                %li= link_to client_custom_fields.first.custom_field.form_title, client_client_custom_fields_path(@client, custom_field_id: client_custom_fields.first.custom_field_id)
+                %li= link_to client_custom_fields.first.custom_field.form_title, client_custom_field_properties_path(@client, custom_field_id: client_custom_fields.first.custom_field_id)
 
           .btn-group.small-btn-margin
             %button.btn-sm.btn.btn-primary.dropdown-toggle{ 'data-toggle' => 'dropdown', class: ('disabled' if @free_client_forms.empty?) }
@@ -160,7 +160,7 @@
               %span.caret
             %ul.dropdown-menu
               - @free_client_forms.each do |custom_field|
-                %li= link_to custom_field.form_title, new_client_client_custom_field_path(@client, custom_field_id: custom_field.id)
+                %li= link_to custom_field.form_title, new_client_custom_field_property_path(@client, custom_field_id: custom_field.id)
 
 .row.mini-margin
   .col-xs-12

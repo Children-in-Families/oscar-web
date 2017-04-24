@@ -1,6 +1,8 @@
 class CustomField < ActiveRecord::Base
-  has_many :client_custom_fields, dependent: :restrict_with_error
-  has_many :clients, through: :client_custom_fields
+  # has_many :client_custom_fields, dependent: :restrict_with_error
+  # has_many :clients, through: :client_custom_fields
+  has_many :custom_field_properties
+  has_many :clients, through: :custom_field_properties, source: :custom_formable, source_type: 'Client'
 
   has_many :family_custom_fields, dependent: :restrict_with_error
   has_many :families, through: :family_custom_fields
@@ -29,8 +31,14 @@ class CustomField < ActiveRecord::Base
   scope :partner_forms, ->        { where(entity_type: 'Partner') }
   scope :user_forms,    ->        { where(entity_type: 'User') }
 
+
   FREQUENCIES  = ['Daily', 'Weekly', 'Monthly', 'Yearly'].freeze
   ENTITY_TYPES = ['Client', 'Family', 'Partner', 'User'].freeze
+
+  def self.client_used_form
+    ids = CustomFieldProperty.where(custom_formable_type: 'Client').pluck(:custom_field_id).uniq
+    where(id: ids)
+  end
 
   def set_time_of_frequency
     if frequency.present?
