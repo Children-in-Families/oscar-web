@@ -2,7 +2,7 @@ module MhcImporter
   class Import
     attr_accessor :path, :headers, :workbook
 
-    def initialize(sheet_name, path = "vendor/data/Mother's Heart Cambodia.xlsx")
+    def initialize(sheet_name, path = "vendor/data/mhc.xlsx")
       @path     = path
       @workbook = Roo::Excelx.new(path)
 
