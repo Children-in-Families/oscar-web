@@ -15,6 +15,8 @@ ActiveRecord::Schema.define(version: 20170419032405) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "hstore"
+  enable_extension "uuid-ossp"
 
   create_table "able_screening_questions", force: :cascade do |t|
     t.string   "question"
@@ -202,8 +204,8 @@ ActiveRecord::Schema.define(version: 20170419032405) do
 
   create_table "clients", force: :cascade do |t|
     t.string   "code",                             default: ""
-    t.string   "first_name",                       default: ""
-    t.string   "last_name",                        default: ""
+    t.string   "given_name",                       default: ""
+    t.string   "family_name",                      default: ""
     t.string   "gender",                           default: "Male"
     t.date     "date_of_birth"
     t.string   "status",                           default: "Referred"
@@ -236,8 +238,8 @@ ActiveRecord::Schema.define(version: 20170419032405) do
     t.string   "able_state",                       default: ""
     t.integer  "assessments_count"
     t.integer  "donor_id"
-    t.string   "local_first_name",                 default: ""
-    t.string   "local_last_name",                  default: ""
+    t.string   "local_given_name",                 default: ""
+    t.string   "local_family_name",                default: ""
     t.string   "kid_id",                           default: ""
   end
 
@@ -306,8 +308,8 @@ ActiveRecord::Schema.define(version: 20170419032405) do
   add_index "domains", ["domain_group_id"], name: "index_domains_on_domain_group_id", using: :btree
 
   create_table "donors", force: :cascade do |t|
-    t.string   "name"
-    t.text     "description"
+    t.string   "name",        default: ""
+    t.text     "description", default: ""
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
     t.string   "code",        default: ""

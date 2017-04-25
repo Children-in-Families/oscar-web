@@ -2,9 +2,8 @@ class Dashboard
   include Rails.application.routes.url_helpers
   attr_reader :clients
 
-  def initialize(user)
-    @user     = user
-    @clients  = Client.fetch_client(@user)
+  def initialize(clients)
+    @clients  = clients
     @families = Family.all
     @partners = Partner.all
     @agencies = Agency.all
@@ -93,18 +92,6 @@ class Dashboard
 
   def emergency_count
     @families.emergency.count
-  end
-
-  def staff_count
-    @staff.count
-  end
-
-  def partner_count
-    @partners.count
-  end
-
-  def agency_count
-    @agencies.count
   end
 
   def referral_source_count

@@ -23,7 +23,7 @@
                   .col-xs-6.text-right
                     %span.text-font
                       = t('.agencies')
-                    %h2.font-bold #{@dashboard.agency_count}
+                    %h2.font-bold #{@agency_count}
         - if can? :read, Partner
           %div{ class: "#{dynamic_third_party_cols(current_user)} text-center" }
             =link_to partners_path do
@@ -34,7 +34,7 @@
                   .col-xs-6.text-right
                     %span.text-font
                       = t('.partners')
-                    %h2.font-bold #{@dashboard.partner_count}
+                    %h2.font-bold #{@partner_count}
         - if can? :read, ReferralSource
           %div{ class: "#{dynamic_third_party_cols(current_user)} text-center" }
             =link_to referral_sources_path do
@@ -45,7 +45,7 @@
                   .col-xs-8.text-right
                     %span.text-font
                       = t('.referral_sources')
-                    %h2.font-bold #{@dashboard.referral_source_count}
+                    %h2.font-bold #{@referral_source_count}
         - if can? :read, User
           %div{ class: "#{dynamic_third_party_cols(current_user)} text-center" }
             =link_to users_path do
@@ -56,4 +56,4 @@
                   .col-xs-6.text-right
                     %span.text-font
                       = t('.staffs')
-                    %h2.font-bold #{@dashboard.staff_count}
+                    %h2.font-bold #{@user_count}

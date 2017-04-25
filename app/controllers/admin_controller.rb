@@ -11,6 +11,11 @@ class AdminController < ApplicationController
   end
 
   def set_sidebar_basic_info
-    @dashboard = Dashboard.new(current_user)
+    @client_count  = Client.accessible_by(current_ability).count
+    @family_count  = Family.count
+    @user_count    = User.count
+    @partner_count = Partner.count
+    @agency_count  = Agency.count
+    @referral_source_count = ReferralSource.count
   end
 end
