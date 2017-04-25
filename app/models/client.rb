@@ -38,7 +38,7 @@ class Client < ActiveRecord::Base
   has_many :client_quantitative_cases
   has_many :quantitative_cases, through: :client_quantitative_cases
 
-  has_many :client_custom_fields
+  has_many :client_custom_fields, dependent: :destroy
   has_many :custom_fields, through: :client_custom_fields
 
   accepts_nested_attributes_for :tasks

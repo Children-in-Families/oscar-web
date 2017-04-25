@@ -5,7 +5,7 @@ describe User, 'associations' do
   it { is_expected.to have_many(:clients)}
   it { is_expected.to have_many(:changelogs)}
   it { is_expected.to have_many(:progress_notes).dependent(:restrict_with_error)}
-  it { is_expected.to have_many(:user_custom_fields) }
+  it { is_expected.to have_many(:user_custom_fields).dependent(:destroy) }
   it { is_expected.to have_many(:custom_fields).through(:user_custom_fields) }
 end
 

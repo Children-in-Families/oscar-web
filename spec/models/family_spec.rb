@@ -6,7 +6,7 @@ describe Family, 'associations' do
   it { is_expected.to belong_to(:province) }
   it { is_expected.to have_many(:cases) }
   it { is_expected.not_to have_many(:tranings) }
-  it { is_expected.to have_many(:family_custom_fields) }
+  it { is_expected.to have_many(:family_custom_fields).dependent(:destroy) }
   it { is_expected.to have_many(:custom_fields).through(:family_custom_fields) }
 end
 

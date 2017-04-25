@@ -20,7 +20,7 @@ class User < ActiveRecord::Base
   has_many :clients, dependent: :restrict_with_error
   has_many :tasks
 
-  has_many :user_custom_fields
+  has_many :user_custom_fields, dependent: :destroy
   has_many :custom_fields, through: :user_custom_fields
 
   validates :roles, presence: true, inclusion: { in: ROLES }
