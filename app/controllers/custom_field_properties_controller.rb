@@ -61,7 +61,7 @@ class CustomFieldPropertiesController < AdminController
     elsif params[:partner_id].present?
       @custom_formable = Partner.find(params[:partner_id])
     elsif params[:user_id].present?
-
+      @custom_formable = User.find(params[:user_id])
     end
   end
 
