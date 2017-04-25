@@ -4,7 +4,7 @@ class Partner < ActiveRecord::Base
 
   has_many :cases
 
-  has_many :partner_custom_fields
+  has_many :partner_custom_fields, dependent: :destroy
   has_many :custom_fields, through: :partner_custom_fields
 
   has_paper_trail
