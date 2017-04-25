@@ -160,7 +160,7 @@
               %span.caret
             %ul.dropdown-menu
               - @free_client_forms.each do |custom_field|
-                %li= link_to custom_field.form_title, new_client_custom_field_property_path(@client, custom_field_id: custom_field.id)
+                %li= link_to custom_field.form_title, new_client_custom_field_property_path(@client, custom_field_id: custom_field)
 
 .row.mini-margin
   .col-xs-12

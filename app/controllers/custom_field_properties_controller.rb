@@ -49,7 +49,8 @@ class CustomFieldPropertiesController < AdminController
   end
 
   def find_custom_field
-    @custom_field = CustomField.find(params[:custom_field_id])
+    @custom_field = CustomField.find_by(entity_type: @custom_formable.class.name, id: params[:custom_field_id])
+    raise ActionController::RoutingError.new('Not Found') if @custom_field.nil?
   end
 
   def find_entity
@@ -57,9 +58,9 @@ class CustomFieldPropertiesController < AdminController
       @custom_formable = Client.friendly.find(params[:client_id])
     elsif params[:family_id].present?
       @custom_formable = Family.find(params[:family_id])
-    elsif params[:user_id].present?
-
     elsif params[:partner_id].present?
+      @custom_formable = Partner.find(params[:partner_id])
+    elsif params[:user_id].present?
 
     end
   end

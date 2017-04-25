@@ -4,8 +4,8 @@ class Partner < ActiveRecord::Base
 
   has_many :cases
 
-  has_many :partner_custom_fields
-  has_many :custom_fields, through: :partner_custom_fields
+  has_many :custom_field_properties, as: :custom_formable
+  has_many :custom_fields, through: :custom_field_properties, as: :custom_formable
 
   has_paper_trail
 
