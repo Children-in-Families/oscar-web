@@ -25,7 +25,7 @@
                   .ibox-tools
                     - if can? :manage, CustomFieldProperty
                       %small
-                        = link_to edit_client_custom_field_property_path(@custom_formable, custom_field_property) do
+                        = link_to edit_client_custom_field_property_path(@custom_formable, custom_field_property, custom_field_id: @custom_field) do
                           .btn.btn-outline.btn-success
                             = fa_icon('pencil')
                       %small

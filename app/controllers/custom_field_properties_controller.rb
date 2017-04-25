@@ -3,14 +3,17 @@ class CustomFieldPropertiesController < AdminController
 
   before_action :find_entity
   before_action :find_custom_field
+  before_action :find_custom_field_property, only: [:edit, :update, :destroy]
 
   def index
     @custom_field_properties = @custom_formable.custom_field_properties.by_custom_field(@custom_field).most_recents.page(params[:page]).per(4)
-    # redirect_to client_path(@client) if @client_custom_fields.blank?
   end
 
   def new
     @custom_field_property = @custom_formable.custom_field_properties.new(custom_field_id: @custom_field)
+  end
+
+  def edit
   end
 
   def create
@@ -22,8 +25,27 @@ class CustomFieldPropertiesController < AdminController
     end
   end
 
+  def update
+    if @custom_field_property.update_attributes(custom_field_property_params)
+      redirect_to polymorphic_path([@custom_formable, CustomFieldProperty], custom_field_id: @custom_field), notice: t('.successfully_updated')
+    else
+      render :edit
+    end
+  end
+
+  def destroy
+    @custom_field_property.destroy
+    redirect_to polymorphic_path([@custom_formable, CustomFieldProperty], custom_field_id: @custom_field), notice: t('.successfully_deleted')
+  end
+
+  private
+
   def custom_field_property_params
     params.require(:custom_field_property).permit({}).merge(properties: (params['custom_field_property']['properties']), custom_field_id: params[:custom_field_id])
+  end
+
+  def find_custom_field_property
+    @custom_field_property = @custom_formable.custom_field_properties.find(params[:id])
   end
 
   def find_custom_field

@@ -2113,7 +2113,7 @@ km:
         partner_custom_field: ទម្រង់បែបបទរបស់ដៃគូ
         user_custom_field: ទម្រង់បែបបទរបស់អ្នកប្រើ
 
-  client_custom_fields:
+  custom_field_properties:
     <<: *default_entity_type_custom_fields
   partner_custom_fields:
     <<: *default_entity_type_custom_fields

@@ -1899,7 +1899,7 @@ en:
         partner_custom_field: Partner Custom Forms
         user_custom_field: User Custom Forms
 
-  client_custom_fields:
+  custom_field_properties:
     <<: *default_entity_type_custom_fields
   partner_custom_fields:
     <<: *default_entity_type_custom_fields
