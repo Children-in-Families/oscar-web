@@ -4,8 +4,8 @@ class FormBuilder::CustomFieldsController < AdminController
   before_action :set_custom_field, only: [:edit, :update, :destroy]
 
   def index
-    @custom_fields = CustomField.order(:entity_type, :form_title)
-    @all_custom_fields = find_custom_field_in_organization
+    @custom_fields = CustomField.order(:entity_type, :form_title).page(params[:page_1]).per(10)
+    @all_custom_fields = Kaminari.paginate_array(find_custom_field_in_organization).page(params[:page_2]).per(10)
   end
 
   def new
@@ -55,8 +55,9 @@ class FormBuilder::CustomFieldsController < AdminController
 
   def search
     if params[:search].present?
-      @custom_field = find_custom_field(params[:search])
-      redirect_to custom_fields_path, alert: t('.no_result') if @custom_field.blank?
+      custom_field = find_custom_field(params[:search])
+      @custom_fields = Kaminari.paginate_array(custom_field).page(params[:page]).per(10)
+      redirect_to custom_fields_path, alert: t('.no_result') if @custom_fields.blank?
     end
   end
 

@@ -23,3 +23,5 @@
                   = fa_icon('pencil')
                 = link_to custom_field, class: "btn btn-outline btn-danger btn-xs margin-btn #{disable_action_on_custom_form(custom_field)}", method: :delete, data: { confirm: t('.are_you_sure') } do
                   = fa_icon('trash')
+  .text-center
+    = paginate @custom_fields, params: { tab: 'current_ngo' }, :param_name => 'page_1'

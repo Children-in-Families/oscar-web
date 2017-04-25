@@ -74,6 +74,7 @@
 //= require changelogs/index
 //= require domains/form
 //= require custom_fields/form
+//= require custom_fields/index
 //= require custom_fields/shared_fields
 //= require shared/version_per_page_form
 //= require notifications/index
