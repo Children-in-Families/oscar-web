@@ -1,4 +1,7 @@
 class CustomField < ActiveRecord::Base
+  FREQUENCIES  = ['Daily', 'Weekly', 'Monthly', 'Yearly'].freeze
+  ENTITY_TYPES = ['Client', 'Family', 'Partner', 'User'].freeze
+
   has_many :client_custom_fields, dependent: :restrict_with_error
   has_many :clients, through: :client_custom_fields
 
@@ -14,6 +17,7 @@ class CustomField < ActiveRecord::Base
   has_paper_trail
 
   validate  :enable_remove_fields, if: 'id.present?'
+  validates :entity_type, inclusion: { in: ENTITY_TYPES }
   validates :entity_type, :form_title, presence: true
   validates :form_title, uniqueness: { case_sensitive: false, scope: :entity_type }
   validates :time_of_frequency, presence: true,
@@ -29,9 +33,6 @@ class CustomField < ActiveRecord::Base
   scope :family_forms,  ->        { where(entity_type: 'Family') }
   scope :partner_forms, ->        { where(entity_type: 'Partner') }
   scope :user_forms,    ->        { where(entity_type: 'User') }
-
-  FREQUENCIES  = ['Daily', 'Weekly', 'Monthly', 'Yearly'].freeze
-  ENTITY_TYPES = ['Client', 'Family', 'Partner', 'User'].freeze
 
   def set_time_of_frequency
     if frequency.present?
@@ -53,7 +54,7 @@ class CustomField < ActiveRecord::Base
     labels = field_objs.collect do |object|
       object['label']
     end
-    duplicate = labels.detect{ |e| labels.count(e) > 1 }
+    duplicate = labels.detect { |e| labels.count(e) > 1 }
     errors.add(:fields, I18n.t('must_be_uniq')) if duplicate.present?
   end
 
@@ -80,20 +81,19 @@ class CustomField < ActiveRecord::Base
       entity_custom_fields = custom_field.user_custom_fields
     end
     entity_custom_fields.each do |entity_custom_field|
-      if entity_custom_field.properties.present?
-        properties = JSON.parse(entity_custom_field.properties)
-        current_fields = CustomField.find(custom_field).fields
-        fields = custom_field.fields
-        previous_fields = JSON.parse(current_fields) - JSON.parse(fields)
-        next if previous_fields.blank?
-        previous_fields.each do |field|
-          label_name = properties[field['label']]
-          next if label_name.blank?
-          if field['type'] == 'checkbox-group' && label_name.first.present?
-            error_fields << field['label']
-          else
-            error_fields << field['label']
-          end
+      next unless entity_custom_field.properties.present?
+      properties = JSON.parse(entity_custom_field.properties)
+      current_fields = CustomField.find(custom_field).fields
+      fields = custom_field.fields
+      previous_fields = JSON.parse(current_fields) - JSON.parse(fields)
+      next if previous_fields.blank?
+      previous_fields.each do |field|
+        label_name = properties[field['label']]
+        next if label_name.blank?
+        if field['type'] == 'checkbox-group' && label_name.first.present?
+          error_fields << field['label']
+        else
+          error_fields << field['label']
         end
       end
     end
