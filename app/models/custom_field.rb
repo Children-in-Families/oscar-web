@@ -26,11 +26,13 @@ class CustomField < ActiveRecord::Base
   before_save :set_time_of_frequency
   before_save :set_ngo_name, if: 'ngo_name.blank?'
 
-  scope :by_form_title, ->(value) { where('form_title iLIKE ?', "%#{value}%") }
-  scope :client_forms,  ->        { where(entity_type: 'Client') }
-  scope :family_forms,  ->        { where(entity_type: 'Family') }
-  scope :partner_forms, ->        { where(entity_type: 'Partner') }
-  scope :user_forms,    ->        { where(entity_type: 'User') }
+  scope :by_form_title,  ->(value)  { where('form_title iLIKE ?', "%#{value}%") }
+  scope :client_forms,   ->         { where(entity_type: 'Client') }
+  scope :family_forms,   ->         { where(entity_type: 'Family') }
+  scope :partner_forms,  ->         { where(entity_type: 'Partner') }
+  scope :user_forms,     ->         { where(entity_type: 'User') }
+  scope :not_used_forms, ->(value)  { where.not(id: value) }
+  scope :order_by_form_title, ->    { order(:form_title) }
 
 
   FREQUENCIES  = ['Daily', 'Weekly', 'Monthly', 'Yearly'].freeze
