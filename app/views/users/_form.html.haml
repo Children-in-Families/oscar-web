@@ -27,9 +27,6 @@
             = f.text_field :start_date, class: 'date optional form-control date-picker', type: 'text', name: 'user[start_date]', id: 'user_start_date'
             %span.input-group-addon
               %i.fa.fa-calendar-check-o
-        .col-xs-12.col-sm-6.col-md-4
-          = f.association :custom_fields, collection: CustomField.where(entity_type: 'User'), label_method: :form_title, value_method: :id, input_html: { class: 'select2' }, label: t('.custom_forms')
-
   .ibox-footer
     = f.submit t('save'), class: 'btn btn-primary form-btn'
     = link_to t('cancel'), users_path, class: 'btn btn-outline btn-default form-btn'
