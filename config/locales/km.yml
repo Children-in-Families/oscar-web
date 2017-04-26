@@ -2126,8 +2126,8 @@ km:
     custom_fields:
       index:
         search: ស្វែងរក
-        my_ngo: ទម្រង់បែបបទរបស់អង្ការខ្ញុំ
-        all_ngo: ទម្រង់បែបបទរបស់អង្ការទាំងអស់
+        my_ngo: ទម្រង់បែបបទរបស់អង្គការខ្ញុំ
+        all_ngo: ទម្រង់បែបបទរបស់អង្គការទាំងអស់
         new_custom_form: បន្ថែមទម្រង់បែបបទថ្មី
         <<: *default_custom_fields
       all_custom_form_tab:
