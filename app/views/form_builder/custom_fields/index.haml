@@ -15,10 +15,10 @@
       .ibox-content
         %div
           %ul.nav.nav-tabs{role: "tablist"}
-            %li.active{role: "presentation"}
-              %a{"aria-controls" => "custom-form", "data-toggle" => "tab", href: "#custom-form", role: "tab"}= t('.custom_form')
-            %li{role: "presentation"}
-              %a{"aria-controls" => "all-custom-form", "data-toggle" => "tab", href: "#all-custom-form", role: "tab"}= t('.all_custom_form')
+            %li#current_ngo.active{role: "presentation"}
+              %a{"aria-controls" => "custom-form", "data-toggle" => "tab", href: "#custom-form", role: "tab"}= t('.my_ngo')
+            %li#all_ngo{role: "presentation"}
+              %a{"aria-controls" => "all-custom-form", "data-toggle" => "tab", href: "#all-custom-form", role: "tab"}= t('.all_ngo')
           .tab-content
             = render 'current_custom_form_tab'
             = render 'all_custom_form_tab'

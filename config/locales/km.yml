@@ -477,6 +477,7 @@ km:
       family: គ្រួសារ
       partner: ដៃគូ
       manage: សកម្មភាព
+      changelog: កំណែប្រែ
       families:
         <<: *default_family_fields
         name: ឈ្មោះរបស់គ្រួសារ
@@ -2125,8 +2126,8 @@ km:
     custom_fields:
       index:
         search: ស្វែងរក
-        custom_form: ទម្រង់បែបបទ
-        all_custom_form: ទម្រង់បែបបទទាំងអស់
+        my_ngo: ទម្រង់បែបបទរបស់អង្ការខ្ញុំ
+        all_ngo: ទម្រង់បែបបទរបស់អង្ការទាំងអស់
         new_custom_form: បន្ថែមទម្រង់បែបបទថ្មី
         <<: *default_custom_fields
       all_custom_form_tab:
