@@ -24,7 +24,7 @@
           = link_to root_path do
             = image_tag(Organization.current.logo, class: 'log-min img-responsive')
       - if user_signed_in?
-        %li{class: "#{active_menu('home')}"}
+        %li{class: "#{active_menu('dashboards')}"}
           = link_to root_path do
             %i.fa.fa-th-large
             %span.nav-label= t('.dashboards')

@@ -142,6 +142,8 @@
     height: auto;
     max-height: 200px;
     overflow-x: hidden;
+    right: 0;
+    left: auto;
   }
 
   @media screen and (max-width: 991px) {
