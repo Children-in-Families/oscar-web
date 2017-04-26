@@ -1956,6 +1956,7 @@ en:
         successfully_deleted: Custom Form has been successfully deleted.
         failed_to_delete: Custom Form cannot be deleted.
       search:
+        entity_type: Type
         manage: Manage
         organization: Organization
         back: Back

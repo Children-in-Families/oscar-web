@@ -2169,6 +2169,7 @@ km:
         successfully_deleted: ទម្រង់បែបបទត្រូវបានលុបដោយជោគជ័យ
         failed_to_delete: មិនអាចលុបទម្រង់បែបបទបន្ថែមនេះបានទេ
       search:
+        entity_type: ប្រភេទនៃទម្រង់បែបបទបន្ថែម
         organization: អង្គការ
         manage: គ្រប់គ្រង
         back: ត្រឡប់ក្រោយ
