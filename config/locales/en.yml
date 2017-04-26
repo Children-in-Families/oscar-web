@@ -473,6 +473,7 @@ en:
       family: Family
       partner: Partner
       manage: Manage
+      changelog: Changelog
 
       families:
         <<: *default_family_fields
@@ -1911,8 +1912,8 @@ en:
     custom_fields:
       index:
         search: Search
-        custom_form: Custom Form
-        all_custom_form: All Custom Form
+        my_ngo: My NGO's Custom Forms
+        all_ngo: All NGOs' Custom Forms
         new_custom_form: New Custom Form
         <<: *default_custom_fields
       all_custom_form_tab:

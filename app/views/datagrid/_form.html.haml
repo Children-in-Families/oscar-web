@@ -95,6 +95,10 @@
             .visibility.col-sm-12
               = check_box_tag 'manage_', 'manage', checked = params[:manage_].present?, class: 'i-checks'
               = label_tag 'manage_', t('datagrid.columns.manage')
+          %li
+            .visibility.col-sm-12
+              = check_box_tag 'changelog_', 'changelog', checked = params[:changelog_].present?, class: 'i-checks'
+              = label_tag 'changelog_', t('datagrid.columns.changelog')
     %hr/
   - if action_name != 'advanced_search'
     .row
