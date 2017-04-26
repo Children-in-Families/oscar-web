@@ -6,18 +6,22 @@ class CustomFieldPropertiesController < AdminController
   before_action :find_custom_field_property, only: [:edit, :update, :destroy]
 
   def index
-    @custom_field_properties = @custom_formable.custom_field_properties.by_custom_field(@custom_field).most_recents.page(params[:page]).per(4)
+    @custom_field_properties = @custom_formable.custom_field_properties.accessible_by(current_ability).by_custom_field(@custom_field).most_recents.page(params[:page]).per(4)
   end
 
   def new
     @custom_field_property = @custom_formable.custom_field_properties.new(custom_field_id: @custom_field)
+    authorize! :new, @custom_field_property
   end
 
   def edit
+    authorize! :edit, @custom_field_property
   end
 
   def create
     @custom_field_property = @custom_formable.custom_field_properties.new(custom_field_property_params)
+    authorize! :create, @custom_field_property
+
     if @custom_field_property.save
       redirect_to polymorphic_path([@custom_formable, CustomFieldProperty], custom_field_id: @custom_field), notice: t('.successfully_created')
     else
@@ -26,6 +30,7 @@ class CustomFieldPropertiesController < AdminController
   end
 
   def update
+    authorize! :update, @custom_field_property
     if @custom_field_property.update_attributes(custom_field_property_params)
       redirect_to polymorphic_path([@custom_formable, CustomFieldProperty], custom_field_id: @custom_field), notice: t('.successfully_updated')
     else
@@ -34,6 +39,7 @@ class CustomFieldPropertiesController < AdminController
   end
 
   def destroy
+    authorize! :destroy, @custom_field_property
     @custom_field_property.destroy
     redirect_to polymorphic_path([@custom_formable, CustomFieldProperty], custom_field_id: @custom_field), notice: t('.successfully_deleted')
   end

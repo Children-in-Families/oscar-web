@@ -29,7 +29,7 @@ class Ability
       can :manage, ProgressNote
       can :manage, Survey
       can :manage, Task
-      can :manage, ClientCustomField
+      can :manage, CustomFieldProperty, custom_formable_type: 'Client'
       can :update, Assessment do |assessment|
         assessment.client.user_id == user.id
       end
@@ -47,7 +47,7 @@ class Ability
       can :manage, ProgressNote
       can :manage, Survey
       can :manage, Task
-      can :manage, ClientCustomField
+      can :manage, CustomFieldProperty, custom_formable_type: "Client"
       can :update, Assessment do |assessment|
         assessment.client.able?
       end
@@ -65,9 +65,9 @@ class Ability
       can :manage, Assessment
       can :manage, Survey
       can :manage, Task
-      can :manage, ClientCustomField
-      can :manage, FamilyCustomField
-      can :manage, PartnerCustomField
+      can :manage, CustomFieldProperty, custom_formable_type: 'Client'
+      can :manage, CustomFieldProperty, custom_formable_type: 'Family'
+      can :manage, CustomFieldProperty, custom_formable_type: 'Partner'
       can :manage, GovernmentReport
       can :update, Assessment do |assessment|
         assessment.client.active_ec?
@@ -86,9 +86,9 @@ class Ability
       can :manage, Assessment
       can :manage, Survey
       can :manage, Task
-      can :manage, ClientCustomField
-      can :manage, FamilyCustomField
-      can :manage, PartnerCustomField
+      can :manage, CustomFieldProperty, custom_formable_type: 'Client'
+      can :manage, CustomFieldProperty, custom_formable_type: 'Family'
+      can :manage, CustomFieldProperty, custom_formable_type: 'Partner'
       can :manage, GovernmentReport
       can :update, Assessment do |assessment|
         assessment.client.active_fc?
@@ -109,9 +109,9 @@ class Ability
       can :manage, Assessment
       can :manage, Survey
       can :manage, Task
-      can :manage, ClientCustomField
-      can :manage, FamilyCustomField
-      can :manage, PartnerCustomField
+      can :manage, CustomFieldProperty, custom_formable_type: 'Client'
+      can :manage, CustomFieldProperty, custom_formable_type: 'Family'
+      can :manage, CustomFieldProperty, custom_formable_type: 'Partner'
       can :manage, GovernmentReport
       can :update, Assessment do |assessment|
         assessment.client.active_kc?

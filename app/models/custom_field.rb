@@ -1,17 +1,6 @@
 class CustomField < ActiveRecord::Base
-  # has_many :client_custom_fields, dependent: :restrict_with_error
-  # has_many :clients, through: :client_custom_fields
-  has_many :custom_field_properties
+  has_many :custom_field_properties, dependent: :restrict_with_error
   has_many :clients, through: :custom_field_properties, source: :custom_formable, source_type: 'Client'
-
-  has_many :family_custom_fields, dependent: :restrict_with_error
-  has_many :families, through: :family_custom_fields
-
-  has_many :partner_custom_fields, dependent: :restrict_with_error
-  has_many :partners, through: :partner_custom_fields
-
-  has_many :user_custom_fields, dependent: :restrict_with_error
-  has_many :user, through: :user_custom_fields
 
   has_paper_trail
 

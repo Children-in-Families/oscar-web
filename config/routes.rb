@@ -22,7 +22,7 @@ Rails.application.routes.draw do
 
   scope 'admin' do
     resources :users do
-      resources :user_custom_fields
+      resources :custom_field_properties
       get 'version' => 'users#version'
       get 'disable' => 'users#disable'
     end
@@ -98,15 +98,11 @@ Rails.application.routes.draw do
 
   resources :tasks, only: :index
 
-  resources :clients, :users, :partners, :families, only: [] do
-    resources :custom_field_properties
-  end
-
   resources :clients do
     collection do
       get :advanced_search
     end
-    resources :client_custom_fields
+    resources :custom_field_properties
     resources :government_reports
     resources :assessments
     resources :case_notes
@@ -134,12 +130,12 @@ Rails.application.routes.draw do
   end
 
   resources :families do
-    resources :family_custom_fields
+    resources :custom_field_properties
     get 'version' => 'families#version'
   end
 
   resources :partners do
-    resources :partner_custom_fields
+    resources :custom_field_properties
     get 'version' => 'partners#version'
   end
 
