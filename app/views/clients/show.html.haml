@@ -150,7 +150,7 @@
             %button.btn-sm.btn.btn-success.dropdown-toggle{ 'data-toggle' => 'dropdown', class: ('disabled' if @group_client_custom_fields.empty?) }
               = t('.additional_forms')
               %span.caret
-            %ul.dropdown-menu
+            %ul.dropdown-menu.scrollable-dropdown-menu
               - @group_client_custom_fields.each do |_, client_custom_fields|
                 %li= link_to client_custom_fields.first.custom_field.form_title, client_client_custom_fields_path(@client, custom_field_id: client_custom_fields.first.custom_field_id)
 
@@ -158,7 +158,7 @@
             %button.btn-sm.btn.btn-primary.dropdown-toggle{ 'data-toggle' => 'dropdown', class: ('disabled' if @free_client_forms.empty?) }
               = t('.add_form')
               %span.caret
-            %ul.dropdown-menu
+            %ul.dropdown-menu.scrollable-dropdown-menu
               - @free_client_forms.each do |custom_field|
                 %li= link_to custom_field.form_title, new_client_client_custom_field_path(@client, custom_field_id: custom_field.id)
 

@@ -130,4 +130,10 @@
   table.clients tbody tr:hover {
     cursor: pointer;
   }
+
+  .scrollable-dropdown-menu {
+    height: auto;
+    max-height: 200px;
+    overflow-x: hidden;
+  }
 }
