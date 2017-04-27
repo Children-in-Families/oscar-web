@@ -116,7 +116,7 @@ class ClientAssociationFilter
     when 'greater_or_equal'
       clients = clients.where('families.id >= ?', @value)
     when 'between'
-      clients = clients.where('family.id BETWEEN ? and ?', @value[0], @value[1])
+      clients = clients.where('families.id BETWEEN ? and ?', @value[0], @value[1])
     when 'is_empty'
       clients = @clients.where.not(id: clients.ids)
     end
