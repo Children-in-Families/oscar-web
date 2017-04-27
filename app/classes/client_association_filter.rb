@@ -99,24 +99,25 @@ class ClientAssociationFilter
   end
 
   def family_id_field_query
+    @values = validate_family_id(@value)
     sub_query = 'SELECT MAX(cases.created_at) FROM cases WHERE cases.exited = FALSE AND cases.client_id = clients.id'
     clients = @clients.joins(:families).joins(:cases).where("cases.created_at = (#{sub_query})")
 
     case @operator
     when 'equal'
-      clients = clients.where('families.id = ? ', @value)
+      clients = clients.where('families.id = ? ', @values)
     when 'not_equal'
-      clients = clients.where.not('families.id = ? ', @value)
+      clients = clients.where.not('families.id = ? ', @values)
     when 'less'
-      clients = clients.where('families.id < ?', @value)
+      clients = clients.where('families.id < ?', @values)
     when 'less_or_equal'
-      clients = clients.where('families.id <= ?', @value)
+      clients = clients.where('families.id <= ?', @values)
     when 'greater'
-      clients = clients.where('families.id > ?', @value)
+      clients = clients.where('families.id > ?', @values)
     when 'greater_or_equal'
-      clients = clients.where('families.id >= ?', @value)
+      clients = clients.where('families.id >= ?', @values)
     when 'between'
-      clients = clients.where('family.id BETWEEN ? and ?', @value[0], @value[1])
+      clients = clients.where('families.id BETWEEN ? and ?', @values[0], @values[1])
     when 'is_empty'
       clients = @clients.where.not(id: clients.ids)
     end
@@ -143,7 +144,8 @@ class ClientAssociationFilter
   end
 
   def age_field_query
-    values = convert_age_to_date(@value)
+    date_formats = convert_age_to_date(@value)
+    values = validate_age(date_formats)
     case @operator
     when 'equal'
       clients = @clients.where(date_of_birth: values[0]..values[1])
@@ -174,4 +176,20 @@ class ClientAssociationFilter
     end
   end
 
+  def validate_age(dates)
+    overdue_year = 999.years.ago.to_date
+    first_date = dates.first < overdue_year ? overdue_year : dates.first
+    last_date  = dates.last < overdue_year ? overdue_year : dates.last
+    [first_date, last_date]
+  end
+
+  def validate_family_id(ids)
+    if ids.is_a?(Array)
+      first_value = ids.first.to_i > 1000000 ? "1000000" : ids.first
+      last_value  = ids.last.to_i > 1000000 ? "1000000" : ids.last
+      [first_value, last_value]
+    else
+      ids.to_i > 1000000 ? "1000000" : ids
+    end 
+  end
 end

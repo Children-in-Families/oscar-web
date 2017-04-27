@@ -70,12 +70,11 @@ CIF.ClientsAdvanced_search = do ->
 
   _handleSearch = ->
     $('#search').on 'click', ->
+
       customFormValue = $('#select-custom-form').val()
       $('#client_selected_custom_form').val(customFormValue)
-
       basicRules = $('#builder').queryBuilder('getRules')
       customFormRules = _getCustomFormRules(customFormValue)
-
       if !($.isEmptyObject(basicRules)) || !($.isEmptyObject(customFormRules))
         $('.has-error').removeClass('has-error')
         $('#client_basic_rules').val(_handleStringfyRules(basicRules))

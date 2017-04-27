@@ -1,7 +1,5 @@
 class ClientCustomFormSqlBuilder
-
   def self.generate(rules)
-
     @sql_string = []
     @values = []
     @custom_form_rules = rules[:rules]
@@ -40,9 +38,9 @@ class ClientCustomFormSqlBuilder
       when 'greater_or_equal'
         properties_result = custom_field_properties.where("properties ->> '#{field}' >= '#{value}' ")
       when 'contains'
-        properties_result = custom_field_properties.where("properties ->> '#{field}' ILIKE '#{value}' ")
+        properties_result = custom_field_properties.where("properties ->> '#{field}' ILIKE '%#{value}%' ")
       when 'not_contains'
-        properties_result = custom_field_properties.where("properties ->> '#{field}' NOT ILIKE '#{value}' ")
+        properties_result = custom_field_properties.where("properties ->> '#{field}' NOT ILIKE '%#{value}%' ")
       when 'is_empty'
         properties_result = custom_field_properties.where("properties -> '#{field}' ? '' ")
       when 'between'
@@ -51,8 +49,5 @@ class ClientCustomFormSqlBuilder
       @sql_string << sql_string
       @values     << properties_result.pluck(:custom_formable_id).uniq
     end
-
-
   end
-
 end

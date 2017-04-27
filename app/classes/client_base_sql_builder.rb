@@ -20,6 +20,7 @@ class ClientBaseSqlBuilder
         @sql_string << association_filter[:id]
         @values     << association_filter[:values]
       else
+        value = field == 'grade' ? validate_integer(value) : value
         base_sql(field, operator, value)
       end
     end
@@ -76,6 +77,16 @@ class ClientBaseSqlBuilder
       @sql_string << "clients.#{field} BETWEEN ? AND ?"
       @values << value.first
       @values << value.last
+    end
+  end
+
+  def self.validate_integer(values)
+    if values.is_a?(Array)
+      first_value = values.first.to_i > 1000000 ? "1000000" : values.first
+      last_value  = values.last.to_i > 1000000 ? "1000000" : values.last
+      [first_value, last_value]
+    else
+      values.to_i > 1000000 ? "1000000" : values
     end
   end
 end
