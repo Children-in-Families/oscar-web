@@ -68,9 +68,24 @@ CIF.ClientsAdvanced_search = do ->
         _handleSelectOptionChange()
         _initSelect2()
 
+  _removeNoFilterSelect = ->
+    allFilters = $('.rule-filter-container select')
+    for filter in allFilters
+      if $(filter).val() == '-1'
+        ruleContainer = $(filter).closest('.rule-container')
+        $(ruleContainer).find(".btn-danger[data-delete='rule']").click()
+
+  _removeNoValueFilter = ->
+    allFilters = $('.rule-value-container input.form-control')
+    for filter in allFilters
+      if $(filter).val() == ''
+        ruleContainer = $(filter).closest('.rule-container')
+        $(ruleContainer).find(".btn-danger[data-delete='rule']").click()
+
   _handleSearch = ->
     $('#search').on 'click', ->
-
+      _removeNoFilterSelect()
+      _removeNoValueFilter()
       customFormValue = $('#select-custom-form').val()
       $('#client_selected_custom_form').val(customFormValue)
       basicRules = $('#builder').queryBuilder('getRules')
