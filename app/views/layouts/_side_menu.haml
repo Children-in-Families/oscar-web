@@ -24,7 +24,7 @@
           = link_to root_path do
             = image_tag(Organization.current.logo, class: 'log-min img-responsive')
       - if user_signed_in?
-        %li{class: "#{active_menu('home')}"}
+        %li{class: "#{active_menu('dashboards')}"}
           = link_to root_path do
             %i.fa.fa-th-large
             %span.nav-label= t('.dashboards')
@@ -93,10 +93,10 @@
                     = link_to t('.materials'), materials_path
                   %li{ class: active_menu('progress_note_types') }
                     = link_to t('.progress_note_types'), progress_note_types_path
-              %li{ class: active_menu('changelogs') }
-                = link_to t('.release_logs'), changelogs_path
               %li{ class: active_menu('custom_fields') }
                 = link_to t('.custom_fields'), custom_fields_path
+              %li{ class: active_menu('changelogs') }
+                = link_to t('.release_logs'), changelogs_path
 
             - elsif can? :read, ReferralSource
               %li{ class: active_menu('referral_sources') }

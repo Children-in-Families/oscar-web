@@ -6,9 +6,9 @@
   = "to see the list of Client."
 %p To check client detail, please click the link below.
 - @clients.each do |client|
-  - name = client.given_name.blank? ? 'Unknown' : client.given_name
+  - name = client.name.blank? ? 'Unknown' : client.name
   %p= link_to name, client_url(client, subdomain: Organization.current.short_name), target: :_blank
 
 %p Thanks,
 
-%p= "#{Organization.current.full_name} Team"
+%p Cambodian Families Team

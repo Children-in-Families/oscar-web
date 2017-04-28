@@ -47,14 +47,15 @@ class ClientColumnsVisibility
       family_preservation_: :family_preservation,
       family_: :family,
       partner_: :partner,
-      manage_: :manage,
       code_: :code,
       age_: :age,
       slug_: :slug,
       kid_id_: :kid_id,
       family_id_: :family_id,
       any_assessments_: :any_assessments,
-      donor_: :donor
+      donor_: :donor,
+      manage_: :manage,
+      changelog_: :changelog
     }
   end
 

@@ -6,7 +6,6 @@ class Family < ActiveRecord::Base
 
   has_many :cases
   has_many :clients, through: :cases
-  
   has_many :custom_field_properties, as: :custom_formable
   has_many :custom_fields, through: :custom_field_properties, as: :custom_formable
 

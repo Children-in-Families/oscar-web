@@ -36,6 +36,9 @@ body[id='clients-advanced_search'] {
     select, input {
       width: 180px;
     }
+    input.form-control {
+      padding: 6px 12px;
+    }
   }
 
   .order {

@@ -138,6 +138,15 @@
     margin-top: 0;
   }
 
+  .scrollable-dropdown-menu {
+    height: auto;
+    max-height: 200px;
+    overflow-x: hidden;
+    right: 0;
+    left: auto;
+    z-index: 2001;
+  }
+
   @media screen and (max-width: 991px) {
     .case .panel-body {
       height: auto;

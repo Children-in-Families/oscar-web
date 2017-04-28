@@ -4,7 +4,7 @@
       %button.btn-sm.btn.btn-success.dropdown-toggle{ 'data-toggle' => 'dropdown', class: ('disabled' if @group_family_custom_fields.empty?) }
         = t('.additional_forms')
         %span.caret
-      %ul.dropdown-menu
+      %ul.dropdown-menu.scrollable-dropdown-menu
         - @group_family_custom_fields.each do |_, family_custom_fields|
           %li= link_to family_custom_fields.first.custom_field.form_title, family_custom_field_properties_path(@family, custom_field_id: family_custom_fields.first.custom_field_id)
 
@@ -12,7 +12,7 @@
       %button.btn-sm.btn.btn-primary.dropdown-toggle{ 'data-toggle' => 'dropdown', class: ('disabled' if @free_family_forms.empty?) }
         = t('.add_form')
         %span.caret
-      %ul.dropdown-menu
+      %ul.dropdown-menu.scrollable-dropdown-menu
         - @free_family_forms.each do |custom_field|
           %li= link_to custom_field.form_title, new_family_custom_field_property_path(@family, custom_field_id: custom_field)
     .ibox.mini-margin
