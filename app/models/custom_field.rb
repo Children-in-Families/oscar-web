@@ -1,6 +1,9 @@
 class CustomField < ActiveRecord::Base
   has_many :custom_field_properties, dependent: :restrict_with_error
   has_many :clients, through: :custom_field_properties, source: :custom_formable, source_type: 'Client'
+  has_many :users, through: :custom_field_properties, source: :custom_formable, source_type: 'User'
+  has_many :partners, through: :custom_field_properties, source: :custom_formable, source_type: 'Partner'
+  has_many :families, through: :custom_field_properties, source: :custom_formable, source_type: 'Family'
 
   FREQUENCIES  = ['Daily', 'Weekly', 'Monthly', 'Yearly'].freeze
   ENTITY_TYPES = ['Client', 'Family', 'Partner', 'User'].freeze

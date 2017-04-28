@@ -1,8 +1,8 @@
 module EntityTypeCustomFieldNotification
-  def entity_type_custom_field_notification(entity)
+  def entity_type_custom_field_notification(entities)
     entity_due_today = []
     entity_overdue = []
-    entity.each do |entity|
+    entities.each do |entity|
       entity.custom_fields.uniq.each do |custom_field|
         if custom_field.frequency.present?
           if entity.next_custom_field_date(entity, custom_field) < Date.today
