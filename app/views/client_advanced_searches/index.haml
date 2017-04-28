@@ -11,7 +11,7 @@
       .ibox-content
         .row
           .col-xs-12
-            = datagrid_form_for @client_grid, url: advanced_search_clients_url, html: { class: 'grid-form' }
+            = datagrid_form_for @client_grid, url: client_advanced_searches_url, html: { class: 'grid-form' }
         .row
           .col-xs-12
             %h4 Basic Filter
@@ -41,13 +41,13 @@
               %thead
                 = datagrid_header(@client_grid)
               %tbody.page
-                = render 'client_rows'
+                = datagrid_rows(@client_grid, @client_grid.assets)
         .ibox-footer.text-center
           = paginate @client_grid.assets
       - else
         .ibox-content
           = t('.no_results')
-= simple_form_for :client, url: :advanced_search_clients, method: 'GET', html: { id: 'advanced-search' } do |f|
+= simple_form_for :client_advanced_search, url: :client_advanced_searches, method: 'GET', html: { id: 'advanced-search' } do |f|
   = f.hidden_field :basic_rules
   = f.hidden_field :custom_form_rules
   = f.hidden_field :field_visibility
