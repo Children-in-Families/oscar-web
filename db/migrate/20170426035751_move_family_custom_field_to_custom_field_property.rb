@@ -3,7 +3,7 @@ class MoveFamilyCustomFieldToCustomFieldProperty < ActiveRecord::Migration
     puts '==========Processing=========='
 
     FamilyCustomField.all.each do |family_custom_field|
-      property = family_custom_field.properties == ('null' || '') ? '{}' : family_custom_field.properties
+      property = family_custom_field.properties.present? ? family_custom_field.properties : '{}'
 
       family_custom_field_property = CustomFieldProperty.new(
         properties: eval(property),

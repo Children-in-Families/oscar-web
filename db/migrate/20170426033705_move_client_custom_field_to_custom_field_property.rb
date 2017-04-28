@@ -3,7 +3,7 @@ class MoveClientCustomFieldToCustomFieldProperty < ActiveRecord::Migration
     puts '==========Processing=========='
 
     ClientCustomField.all.each do |client_custom_field|
-      property = client_custom_field.properties == ('null' || '') ? '{}' : client_custom_field.properties
+      property = client_custom_field.properties.present? ? client_custom_field.properties : '{}'
 
       client_custom_field_property = CustomFieldProperty.new(
         properties: eval(property),
