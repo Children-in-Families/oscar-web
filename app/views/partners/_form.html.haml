@@ -22,10 +22,9 @@
           = f.input :affiliation, label: t('.affiliation')
         .col-xs-12.col-sm-6.col-md-4
           = f.input :background, input_html: { style: 'height: 107px;' }, label: t('.background')
-      .row
-        .col-xs-12.col-sm-6.col-md-4
-          = f.association :custom_fields, collection: CustomField.where(entity_type: 'Partner'), label_method: :form_title, value_method: :id, input_html: { class: 'select2' }, label: t('.custom_forms')
-
   .ibox-footer
     = f.submit t('save'), class: 'btn btn-primary form-btn'
-    = link_to t('cancel'), partners_path, class: 'btn btn-default form-btn'
+    - if @partner.id.present?
+      = link_to t('cancel'), partner_path(@partner), class: 'btn btn-default form-btn'
+    - else
+      = link_to t('cancel'), partners_path, class: 'btn btn-default form-btn'

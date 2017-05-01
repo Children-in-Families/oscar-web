@@ -42,4 +42,10 @@
     line-height: 2.2;
     margin-right: 3px;
   }
+
+  .scrollable-dropdown-menu {
+    height: auto;
+    max-height: 200px;
+    overflow-x: hidden;
+  }
 }

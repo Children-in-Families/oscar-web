@@ -16,9 +16,9 @@
         %div
           %ul.nav.nav-tabs{role: "tablist"}
             %li.active{role: "presentation"}
-              %a{"aria-controls" => "custom-form", "data-toggle" => "tab", href: "#custom-form", role: "tab"}= t('.custom_form')
+              %a{"aria-controls" => "custom-form", "data-toggle" => "tab", href: "#custom-form", role: "tab"}= t('.my_ngo')
             %li{role: "presentation"}
-              %a{"aria-controls" => "all-custom-form", "data-toggle" => "tab", href: "#all-custom-form", role: "tab"}= t('.all_custom_form')
+              %a{"aria-controls" => "all-custom-form", "data-toggle" => "tab", href: "#all-custom-form", role: "tab"}= t('.all_ngo')
           .tab-content
             = render 'current_custom_form_tab'
             = render 'all_custom_form_tab'

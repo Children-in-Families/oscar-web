@@ -139,8 +139,7 @@ CIF.ClientsAdvanced_search = do ->
 
   _setDefaultCheckColumnVisibilityAll = ->
     setTimeout ( ->
-      checkboxes = $('.visibility input[type=checkbox]').prop('checked')
-      if !checkboxes
+      if $('.visibility .checked').length == 0
         $('.all-visibility #all_').iCheck('check')
       )
 

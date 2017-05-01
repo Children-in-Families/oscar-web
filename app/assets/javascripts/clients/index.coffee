@@ -17,8 +17,7 @@ CIF.ClientsIndex = do ->
 
 
   _setDefaultCheckColumnVisibilityAll = ->
-    checkboxes = $('.visibility input[type=checkbox]').prop('checked')
-    if !checkboxes
+    if $('.visibility .checked').length == 0
       $('.all-visibility #all_').iCheck('check')
 
   _infiniteScroll = ->
