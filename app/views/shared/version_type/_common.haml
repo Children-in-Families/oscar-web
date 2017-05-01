@@ -46,11 +46,12 @@
                   %td.col-sm-4.truncate
                     - if k == 'properties'
                       - if v[0].present?
-                        - value = JSON.parse(version_value_format(v[0], k, v))
+                        - value = version_value_format(v[0], k, v)
                         %ul
                           - value.each do |key, value|
                             %li
-                              ="#{key}: #{value[0]}"
+                              ="#{key}:"
+                              = display_custom_properties(value)
                     - elsif k == 'fields'
                       - if v[0].present?
                         - fields = JSON.parse(version_value_format(v[0], k, v))
@@ -70,11 +71,12 @@
                       = version_value_format(v[0], k, v)
                   %td.col-sm-4.truncate
                     - if k == 'properties'
-                      - value = JSON.parse(version_value_format(v[1], k, v))
+                      - value = version_value_format(v[1], k, v)
                       %ul
                         - value.each do |key, value|
                           %li
-                            ="#{key}: #{value[0]}"
+                            ="#{key}:"
+                            = display_custom_properties(value)
                     - elsif k == 'fields'
                       - fields = JSON.parse(version_value_format(v[1], k, v))
                       - fields.each_with_index do |value, fields_index|
