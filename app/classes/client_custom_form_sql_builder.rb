@@ -45,7 +45,7 @@ class ClientCustomFormSqlBuilder
       when 'is_empty'
         properties_result = custom_field_properties.where("properties -> '#{field}' ? '' ")
       when 'between'
-        properties_result = custom_field_properties.where("properties ->> '#{field}' BETWEEN '#{value.first}', '#{value.last}' ")
+        properties_result = custom_field_properties.where("properties ->> '#{field}' BETWEEN '#{value.first}' AND '#{value.last}' ")
       end
       @sql_string << sql_string
       @values     << properties_result.pluck(:custom_formable_id).uniq
