@@ -25,6 +25,7 @@
 //= require jquery.extendext
 //= require doT
 //= require query-builder
+//= require jquery.icalendar
 
 //= require trix
 

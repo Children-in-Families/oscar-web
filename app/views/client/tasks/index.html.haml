@@ -32,6 +32,7 @@
                           = link_to client_task_path(@client, task), method: :delete, data: { confirm: t('.are_you_sure_you_want_to_delete') } do
                             .btn.btn-outline.btn-danger.btn-xs
                               %i.fa.fa-trash
+                      %td.add-to-calendar Add to calendar
 
         .panel.panel-info
           .panel-heading
@@ -63,9 +64,10 @@
                 %table.table.table-bordered
                   - @tasks.incomplete.upcoming.each do |task|
                     %tr
-                      %td= "#{ t('.domain') }: #{task.domain.name}"
-                      %td= task.name
-                      %td= task.completion_date.strftime("%B %d, %Y")
+                      %td.task-domain{ data: { domain: "#{t('.domain')}: #{task.domain.name} (#{task.domain.identity})" } }
+                        = "#{ t('.domain') }: #{task.domain.name}"
+                      %td.task-detail= task.name
+                      %td.task-due-date= task.completion_date.strftime("%B %d, %Y")
                       - if can? :manage, Task
                         %td.text-center.margin-icon
                           = link_to edit_client_task_path(@client, task) do
@@ -74,3 +76,5 @@
                           = link_to client_task_path(@client, task), method: :delete, data: { confirm: t('.are_you_sure_you_want_to_delete') } do
                             .btn.btn-outline.btn-danger.btn-xs
                               %i.fa.fa-trash
+                        %td.calendar
+                          .add-to-calendar

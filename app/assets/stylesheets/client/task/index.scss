@@ -3,4 +3,10 @@ body[id='tasks-index'] {
     margin-bottom: 15px;
     min-width: 100px;
   }
+  .icalendar_list li {
+    width: 35%;
+  }
+  td.calendar {
+    min-width: 300px;
+  }
 }
