@@ -42,4 +42,9 @@ body[id='clients-advanced_search'] {
     display: inline-block;
     float: right;
   }
+
+  .basic-filter-error, .custom-form-error {
+    color: red;
+    display: none;
+  }
 }

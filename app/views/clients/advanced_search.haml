@@ -16,6 +16,8 @@
           .col-xs-12
             %h4 Basic Filter
             #builder{ 'data-basic-search-rules' => @basic_filter_params, 'data-filter-translation' => t('.add_new_filter')}
+            %span.basic-filter-error
+              %i Please Select Field to Filter
 
         %hr
         .row#client-custom-form
@@ -25,6 +27,8 @@
 
           .col-xs-12
             #custom-form{ 'data-custom-form-search-rules' => @custom_form_filter_params, 'data-filter-translation' => t('.add_new_filter')}
+            %span.custom-form-error
+              %i Please Select Field to Filter
       .ibox-footer
         %button#search.btn.btn-primary= t('.search')
         = link_to t('.reset'), advanced_search_clients_path, class: 'btn btn-default'
