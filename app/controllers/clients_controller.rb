@@ -11,7 +11,7 @@ class ClientsController < AdminController
     basic_rules_params     = eval(@basic_filter_params)
 
     @custom_form_filter_params = params[:client][:custom_form_rules]
-    custom_form_rules_params     = eval(@custom_form_filter_params)
+    custom_form_rules_params     = eval(@custom_form_filter_params).merge(selected_custom_form: params[:client][:selected_custom_form])
 
     clients                 = ClientAdvancedSearch.new(basic_rules_params, custom_form_rules_params, Client.accessible_by(current_ability))
     @clients_by_user        = clients.filter

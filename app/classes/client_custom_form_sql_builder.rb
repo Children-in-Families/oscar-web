@@ -2,7 +2,8 @@ class ClientCustomFormSqlBuilder
   def self.generate(rules)
     @sql_string = []
     @values = []
-    @custom_form_rules = rules[:rules]
+    @custom_form_rules    = rules[:rules]
+    @selected_custom_form = rules[:selected_custom_form]
     condition = rules[:condition]
 
     get_sql if @custom_form_rules.present?
@@ -17,7 +18,7 @@ class ClientCustomFormSqlBuilder
 
   def self.get_sql
     sql_string = 'clients.id IN (?)'
-    custom_field_properties = CustomFieldProperty.where(custom_formable_type: 'Client')
+    custom_field_properties = CustomFieldProperty.where(custom_formable_type: 'Client', custom_field_id: @selected_custom_form)
 
     @custom_form_rules.each do |rule|
       field = rule[:field]
