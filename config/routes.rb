@@ -1,15 +1,18 @@
 Rails.application.routes.draw do
 
   root 'statics#index'
+
+  devise_for :users, controllers: { registrations: 'registrations', sessions: 'sessions', passwords: 'passwords' }
+
   get '/robots.txt' => 'statics#robots'
+
   %w(404 500).each do |code|
     match "/#{code}", to: 'errors#show', code: code, via: :all
   end
 
   get '/dashboards' => 'dashboards#index'
-  mount Thredded::Engine => '/forum'
 
-  devise_for :users, controllers: { registrations: 'registrations', sessions: 'sessions', passwords: 'passwords' }
+  mount Thredded::Engine => '/forum'
 
   get '/quantitative_data' => 'clients#quantitative_case'
 
@@ -19,7 +22,7 @@ Rails.application.routes.draw do
 
   scope 'admin' do
     resources :users do
-      resources :user_custom_fields
+      resources :custom_field_properties
       get 'version' => 'users#version'
       get 'disable' => 'users#disable'
     end
@@ -99,7 +102,7 @@ Rails.application.routes.draw do
     collection do
       get :advanced_search
     end
-    resources :client_custom_fields
+    resources :custom_field_properties
     resources :government_reports
     resources :assessments
     resources :case_notes
@@ -127,12 +130,12 @@ Rails.application.routes.draw do
   end
 
   resources :families do
-    resources :family_custom_fields
+    resources :custom_field_properties
     get 'version' => 'families#version'
   end
 
   resources :partners do
-    resources :partner_custom_fields
+    resources :custom_field_properties
     get 'version' => 'partners#version'
   end
 
@@ -144,7 +147,12 @@ Rails.application.routes.draw do
     resources :clients do
       get :compare, on: :collection
     end
-    resources :advanced_searches, only: [:index]
+    resources :client_advanced_searches, only: [] do
+      collection do
+        get :get_custom_field
+        get :get_basic_field
+      end
+    end
 
     namespace :v1, default: { format: :json } do
       resources :domain_groups, only: [:index]

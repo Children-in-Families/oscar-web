@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170419023745) do
+ActiveRecord::Schema.define(version: 20170426041718) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -184,17 +184,6 @@ ActiveRecord::Schema.define(version: 20170419023745) do
 
   add_index "changelogs", ["user_id"], name: "index_changelogs_on_user_id", using: :btree
 
-  create_table "client_custom_fields", force: :cascade do |t|
-    t.text     "properties"
-    t.integer  "client_id"
-    t.integer  "custom_field_id"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
-  end
-
-  add_index "client_custom_fields", ["client_id"], name: "index_client_custom_fields_on_client_id", using: :btree
-  add_index "client_custom_fields", ["custom_field_id"], name: "index_client_custom_fields_on_custom_field_id", using: :btree
-
   create_table "client_quantitative_cases", force: :cascade do |t|
     t.integer  "quantitative_case_id"
     t.integer  "client_id"
@@ -252,6 +241,17 @@ ActiveRecord::Schema.define(version: 20170419023745) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "custom_field_properties", force: :cascade do |t|
+    t.jsonb    "properties",           default: {}
+    t.string   "custom_formable_type"
+    t.integer  "custom_formable_id"
+    t.integer  "custom_field_id"
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
+  end
+
+  add_index "custom_field_properties", ["custom_field_id"], name: "index_custom_field_properties_on_custom_field_id", using: :btree
 
   create_table "custom_fields", force: :cascade do |t|
     t.string   "entity_type",       default: ""
@@ -324,17 +324,6 @@ ActiveRecord::Schema.define(version: 20170419023745) do
     t.integer  "cases_count",                     default: 0
     t.string   "case_history",                    default: ""
   end
-
-  create_table "family_custom_fields", force: :cascade do |t|
-    t.text     "properties"
-    t.integer  "family_id"
-    t.integer  "custom_field_id"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
-  end
-
-  add_index "family_custom_fields", ["custom_field_id"], name: "index_family_custom_fields_on_custom_field_id", using: :btree
-  add_index "family_custom_fields", ["family_id"], name: "index_family_custom_fields_on_family_id", using: :btree
 
   create_table "friendly_id_slugs", force: :cascade do |t|
     t.string   "slug",                      null: false
@@ -448,17 +437,6 @@ ActiveRecord::Schema.define(version: 20170419023745) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
-
-  create_table "partner_custom_fields", force: :cascade do |t|
-    t.text     "properties"
-    t.integer  "partner_id"
-    t.integer  "custom_field_id"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
-  end
-
-  add_index "partner_custom_fields", ["custom_field_id"], name: "index_partner_custom_fields_on_custom_field_id", using: :btree
-  add_index "partner_custom_fields", ["partner_id"], name: "index_partner_custom_fields_on_partner_id", using: :btree
 
   create_table "partners", force: :cascade do |t|
     t.string   "name",                  default: ""
@@ -818,17 +796,6 @@ ActiveRecord::Schema.define(version: 20170419023745) do
 
   add_index "thredded_user_topic_read_states", ["user_id", "postable_id"], name: "thredded_user_topic_read_states_user_postable", unique: true, using: :btree
 
-  create_table "user_custom_fields", force: :cascade do |t|
-    t.text     "properties"
-    t.integer  "user_id"
-    t.integer  "custom_field_id"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
-  end
-
-  add_index "user_custom_fields", ["custom_field_id"], name: "index_user_custom_fields_on_custom_field_id", using: :btree
-  add_index "user_custom_fields", ["user_id"], name: "index_user_custom_fields_on_user_id", using: :btree
-
   create_table "users", force: :cascade do |t|
     t.string   "first_name",             default: ""
     t.string   "last_name",              default: ""
@@ -904,16 +871,11 @@ ActiveRecord::Schema.define(version: 20170419023745) do
   add_foreign_key "case_notes", "clients"
   add_foreign_key "changelog_types", "changelogs"
   add_foreign_key "changelogs", "users"
-  add_foreign_key "client_custom_fields", "clients"
-  add_foreign_key "client_custom_fields", "custom_fields"
   add_foreign_key "clients", "donors"
+  add_foreign_key "custom_field_properties", "custom_fields"
   add_foreign_key "domains", "domain_groups"
-  add_foreign_key "family_custom_fields", "custom_fields"
-  add_foreign_key "family_custom_fields", "families"
   add_foreign_key "interventions_progress_notes", "interventions"
   add_foreign_key "interventions_progress_notes", "progress_notes"
-  add_foreign_key "partner_custom_fields", "custom_fields"
-  add_foreign_key "partner_custom_fields", "partners"
   add_foreign_key "progress_notes", "clients"
   add_foreign_key "progress_notes", "locations"
   add_foreign_key "progress_notes", "materials"
@@ -924,7 +886,5 @@ ActiveRecord::Schema.define(version: 20170419023745) do
   add_foreign_key "tasks", "clients"
   add_foreign_key "thredded_messageboard_users", "thredded_messageboards"
   add_foreign_key "thredded_messageboard_users", "thredded_user_details"
-  add_foreign_key "user_custom_fields", "custom_fields"
-  add_foreign_key "user_custom_fields", "users"
   add_foreign_key "users", "organizations"
 end

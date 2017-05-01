@@ -1,4 +1,12 @@
 module AdvancedSearchHelper
+  def set_value_custom_form
+    if params[:client].present? && params[:client][:selected_custom_form].present?
+      params[:client][:selected_custom_form]
+    else
+      ''
+    end
+  end
+  
   def format_header(key)
     translations = {
       given_name: I18n.t('advanced_search.fields.given_name'),

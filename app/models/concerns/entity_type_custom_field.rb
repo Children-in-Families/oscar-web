@@ -1,11 +1,6 @@
 module EntityTypeCustomField
   def next_custom_field_date(entity, custom_field)
-    case custom_field.entity_type
-    when 'Client'  then entity.client_custom_fields.by_custom_field(custom_field).last.created_at.to_date + custom_field_frequency(custom_field)
-    when 'Family'  then entity.family_custom_fields.by_custom_field(custom_field).last.created_at.to_date + custom_field_frequency(custom_field)
-    when 'Partner' then entity.partner_custom_fields.by_custom_field(custom_field).last.created_at.to_date + custom_field_frequency(custom_field)
-    when 'User'    then entity.user_custom_fields.by_custom_field(custom_field).last.created_at.to_date + custom_field_frequency(custom_field)
-    end
+    (entity.custom_field_properties.by_custom_field(custom_field).last.created_at.to_date) + custom_field_frequency(custom_field)
   end
 
   private

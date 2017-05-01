@@ -6,9 +6,8 @@ class Family < ActiveRecord::Base
 
   has_many :cases
   has_many :clients, through: :cases
-
-  has_many :family_custom_fields, dependent: :destroy
-  has_many :custom_fields, through: :family_custom_fields
+  has_many :custom_field_properties, as: :custom_formable
+  has_many :custom_fields, through: :custom_field_properties, as: :custom_formable
 
   has_paper_trail
 
