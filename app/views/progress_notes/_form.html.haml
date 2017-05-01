@@ -35,11 +35,9 @@
       = f.association :assessment_domains, collection: ads, multiple: true, label: t('.goals_addressed')
   .row
     .col-xs-12.col-md-4
-      = f.input :response, as: :hidden, label: t('.response'), input_html: { rows: 10 }
-      %trix-editor{input: 'progress_note_response'}
+      = f.text_area :response, label: t('.response'), class: 'tinymce', input_html: { rows: 10 }
     .col-xs-12.col-md-4
-      = f.input :additional_note, as: :hidden, label: t('.additional_notes'), input_html: { rows: 10 }
-      %trix-editor{input: 'progress_note_additional_note'}
+      = f.text_area :additional_note, label: t('.additional_notes'), class: 'tinymce', input_html: { rows: 10 }
   .hidden
     .form-actions
       = f.submit t('save'), class: 'btn btn-primary form-btn'

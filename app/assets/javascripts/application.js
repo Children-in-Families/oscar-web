@@ -26,7 +26,7 @@
 //= require doT
 //= require query-builder
 
-//= require trix
+//= require tinymce
 
 // WRAPBOOTSTRAP
 //= require iCheck/icheck.min.js
