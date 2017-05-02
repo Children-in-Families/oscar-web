@@ -46,10 +46,13 @@ class Task < ActiveRecord::Base
   end
 
   def self.upcoming_incomplete_tasks
-    user_ids = incomplete.where(completion_date: Date.tomorrow).pluck(:user_id)
-    users    = User.where(id: user_ids)
-    users.each do |user|
-      CaseWorkerMailer.tasks_due_tomorrow_of(user).deliver_now
+    Organization.all.each do |org|
+      Organization.switch_to org.short_name
+      user_ids = incomplete.where(completion_date: Date.tomorrow).pluck(:user_id)
+      users    = User.where(id: user_ids)
+      users.each do |user|
+        CaseWorkerMailer.tasks_due_tomorrow_of(user).deliver_now
+      end
     end
   end
 
