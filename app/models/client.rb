@@ -284,7 +284,7 @@ class Client < ActiveRecord::Base
   end
 
   def self.ec_reminder_in(day)
-    Organization.each do |org|
+    Organization.all.each do |org|
       Organization.switch_to org.short_name
       managers = User.ec_managers.pluck(:email).join(', ')
       admins   = User.admins.pluck(:email).join(', ')
