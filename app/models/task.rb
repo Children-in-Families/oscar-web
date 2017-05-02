@@ -46,7 +46,7 @@ class Task < ActiveRecord::Base
   end
 
   def self.upcoming_incomplete_tasks
-    Organization.without_demo.each do |org|
+    Organization.each do |org|
       Organization.switch_to org.short_name
       user_ids = incomplete.where(completion_date: Date.tomorrow).pluck(:user_id)
       users    = User.where(id: user_ids)
