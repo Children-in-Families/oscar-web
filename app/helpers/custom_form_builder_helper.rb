@@ -1,10 +1,10 @@
 module CustomFormBuilderHelper
   def used_custom_form?(custom_field)
-    custom_field.user.present? || custom_field.clients.present? || custom_field.partners.present? || custom_field.families.present?
+    custom_field.custom_field_properties.present?
   end
 
   def disable_action_on_custom_form(custom_field)
-    custom_field.user.present? || custom_field.clients.present? || custom_field.partners.present? || custom_field.families.present? ? 'disabled' : ''
+    used_custom_form?(custom_field) ? 'disabled' : ''
   end
 
   def field_with(field,errors)

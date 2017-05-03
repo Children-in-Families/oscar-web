@@ -1,0 +1,17 @@
+.ibox
+  = simple_form_for([@custom_formable, @custom_field_property]) do |f|
+    = hidden_field_tag :custom_field_id, @custom_field.id
+    .ibox-title
+      %h5= @custom_field.form_title
+    .ibox-content
+      - if @custom_field.present?
+        = f.simple_fields_for :properties, OpenStruct.new(@custom_field_property.properties) do |prop_f|
+          - @custom_field.field_objs.each_slice(2) do |n_field|
+            .row
+              - n_field.each do |field|
+                .col-xs-12.col-md-6
+                  = render "/shared/fields/#{field['type'].underscore}", f: prop_f, field_props: field, errors: @custom_field_property.errors.messages
+
+    .ibox-footer
+      = f.submit t('.save'), class: 'btn btn-primary form-btn'
+      = link_to t('.cancel'), polymorphic_path([@custom_formable, CustomFieldProperty], custom_field_id: @custom_field), class: 'btn btn-default form-btn'

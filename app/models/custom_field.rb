@@ -2,17 +2,11 @@ class CustomField < ActiveRecord::Base
   FREQUENCIES  = ['Daily', 'Weekly', 'Monthly', 'Yearly'].freeze
   ENTITY_TYPES = ['Client', 'Family', 'Partner', 'User'].freeze
 
-  has_many :client_custom_fields, dependent: :restrict_with_error
-  has_many :clients, through: :client_custom_fields
-
-  has_many :family_custom_fields, dependent: :restrict_with_error
-  has_many :families, through: :family_custom_fields
-
-  has_many :partner_custom_fields, dependent: :restrict_with_error
-  has_many :partners, through: :partner_custom_fields
-
-  has_many :user_custom_fields, dependent: :restrict_with_error
-  has_many :user, through: :user_custom_fields
+  has_many :custom_field_properties, dependent: :restrict_with_error
+  has_many :clients, through: :custom_field_properties, source: :custom_formable, source_type: 'Client'
+  has_many :users, through: :custom_field_properties, source: :custom_formable, source_type: 'User'
+  has_many :partners, through: :custom_field_properties, source: :custom_formable, source_type: 'Partner'
+  has_many :families, through: :custom_field_properties, source: :custom_formable, source_type: 'Family'
 
   has_paper_trail
 
@@ -28,12 +22,18 @@ class CustomField < ActiveRecord::Base
   before_save :set_time_of_frequency
   before_save :set_ngo_name, if: 'ngo_name.blank?'
 
-  scope :by_form_title, ->(value) { where('form_title iLIKE ?', "%#{value}%") }
-  scope :client_forms,  ->        { where(entity_type: 'Client') }
-  scope :family_forms,  ->        { where(entity_type: 'Family') }
-  scope :partner_forms, ->        { where(entity_type: 'Partner') }
-  scope :user_forms,    ->        { where(entity_type: 'User') }
+  scope :by_form_title,  ->(value)  { where('form_title iLIKE ?', "%#{value}%") }
+  scope :client_forms,   ->         { where(entity_type: 'Client') }
+  scope :family_forms,   ->         { where(entity_type: 'Family') }
+  scope :partner_forms,  ->         { where(entity_type: 'Partner') }
+  scope :user_forms,     ->         { where(entity_type: 'User') }
+  scope :not_used_forms, ->(value)  { where.not(id: value) }
+  scope :order_by_form_title, ->    { order(:form_title) }
 
+  def self.client_used_form
+    ids = CustomFieldProperty.where(custom_formable_type: 'Client').pluck(:custom_field_id).uniq
+    where(id: ids)
+  end
   def set_time_of_frequency
     if frequency.present?
       self.time_of_frequency = time_of_frequency

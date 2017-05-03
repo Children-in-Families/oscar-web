@@ -31,9 +31,9 @@ class FamiliesController < AdminController
   end
 
   def show
-    custom_field_ids            = @family.family_custom_fields.pluck(:custom_field_id)
-    @free_family_forms          = CustomField.family_forms.where.not(id: custom_field_ids).order(:form_title)
-    @group_family_custom_fields = @family.family_custom_fields.group_by(&:custom_field_id)
+    custom_field_ids            = @family.custom_field_properties.pluck(:custom_field_id)
+    @free_family_forms          = CustomField.family_forms.not_used_forms(custom_field_ids).order_by_form_title
+    @group_family_custom_fields = @family.custom_field_properties.group_by(&:custom_field_id)
   end
 
   def edit

@@ -27,7 +27,7 @@
 //= require query-builder
 //= require jquery.icalendar
 
-//= require trix
+//= require tinymce
 
 // WRAPBOOTSTRAP
 //= require iCheck/icheck.min.js

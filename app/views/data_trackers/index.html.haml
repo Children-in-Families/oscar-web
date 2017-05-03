@@ -35,10 +35,10 @@
                   = link_to t('.locations'), data_trackers_path(item_type: 'Location'), class: "list-group-item #{version_item_type_active?('Location')}"
                   = link_to t('.progress_note_types'), data_trackers_path(item_type: 'ProgressNoteType'), class: "list-group-item #{version_item_type_active?('ProgressNoteType')}"
                   = link_to t('.custom_fields'), data_trackers_path(item_type: 'CustomField'), class: "list-group-item #{version_item_type_active?('CustomField')}"
-                  = link_to t('.client_custom_fields'), data_trackers_path(item_type: 'ClientCustomField'), class: "list-group-item #{version_item_type_active?('ClientCustomField')}"
-                  = link_to t('.family_custom_fields'), data_trackers_path(item_type: 'FamilyCustomField'), class: "list-group-item #{version_item_type_active?('FamilyCustomField')}"
-                  = link_to t('.partner_custom_fields'), data_trackers_path(item_type: 'PartnerCustomField'), class: "list-group-item #{version_item_type_active?('PartnerCustomField')}"
-                  = link_to t('.user_custom_fields'), data_trackers_path(item_type: 'UserCustomField'), class: "list-group-item #{version_item_type_active?('UserCustomField')}"
+                  = link_to t('.client_custom_fields'), data_trackers_path(item_type: 'CustomFieldProperty', formable_type: 'Client'), class: "list-group-item #{version_item_type_active?({}, formable_type: 'Client')}"
+                  = link_to t('.family_custom_fields'), data_trackers_path(item_type: 'CustomFieldProperty', formable_type: 'Family'), class: "list-group-item #{version_item_type_active?({}, formable_type: 'Family')}"
+                  = link_to t('.partner_custom_fields'), data_trackers_path(item_type: 'CustomFieldProperty', formable_type: 'Partner'), class: "list-group-item #{version_item_type_active?({}, formable_type: 'Partner')}"
+                  = link_to t('.user_custom_fields'), data_trackers_path(item_type: 'CustomFieldProperty', formable_type: 'User'), class: "list-group-item #{version_item_type_active?({}, formable_type: 'User')}"
                   = link_to t('.releaselogs'), data_trackers_path(item_type: 'Changelog'), class: "list-group-item #{version_item_type_active?('Changelog')}"
 
           .col-xs-12.col-sm-8.col-md-9

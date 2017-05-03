@@ -1,4 +1,8 @@
 body[id='clients-advanced_search'] {
+  select#select-custom-form {
+    width: 180px;
+  }
+
   .btn-export {
     margin-top: 0;
   }
@@ -21,7 +25,7 @@ body[id='clients-advanced_search'] {
     margin: 5px 0;
   }
 
-  .rule-operator-container, {
+  .rule-operator-container {
     select {
       width: 180px;
     }
@@ -40,5 +44,10 @@ body[id='clients-advanced_search'] {
   .order {
     display: inline-block;
     float: right;
+  }
+
+  .basic-filter-error, .custom-form-error {
+    color: red;
+    display: none;
   }
 }
