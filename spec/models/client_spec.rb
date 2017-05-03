@@ -21,8 +21,8 @@ describe Client, 'associations' do
   it { is_expected.to have_many(:agencies).through(:agency_clients) }
   it { is_expected.to have_many(:client_quantitative_cases) }
   it { is_expected.to have_many(:quantitative_cases).through(:client_quantitative_cases) }
-  it { is_expected.to have_many(:client_custom_fields).dependent(:destroy) }
-  it { is_expected.to have_many(:custom_fields).through(:client_custom_fields) }
+  it { is_expected.to have_many(:custom_field_properties).dependent(:destroy) }
+  it { is_expected.to have_many(:custom_fields).through(:custom_field_properties) }
 end
 
 # describe Client, 'paper trail' do

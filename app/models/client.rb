@@ -37,7 +37,7 @@ class Client < ActiveRecord::Base
   has_many :agencies, through: :agency_clients
   has_many :client_quantitative_cases
   has_many :quantitative_cases, through: :client_quantitative_cases
-  has_many :custom_field_properties, as: :custom_formable
+  has_many :custom_field_properties, as: :custom_formable, dependent: :destroy
   has_many :custom_fields, through: :custom_field_properties, as: :custom_formable
 
   accepts_nested_attributes_for :tasks
