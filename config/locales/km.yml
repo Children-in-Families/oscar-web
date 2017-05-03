@@ -610,6 +610,7 @@ km:
       locations: កន្លែង
       progress_note_types: កំណត់សំគាល់
       interventions: ចំនុចដែលត្រូវធ្វើ
+      view_calendars: មើលប្រតិទិន
     top_navbar:
       log_out: ចាកចេញ
       edit_profile: កែសម្រួលពត៌មានផ្ទាល់ខ្លួន
@@ -2116,7 +2117,7 @@ km:
 
   custom_field_properties:
     <<: *default_entity_type_custom_fields
-  
+
   form_builder:
     custom_fields:
       index:

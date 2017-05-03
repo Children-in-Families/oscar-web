@@ -11,6 +11,7 @@
 @import "bourbon";
 @import "neat";
 @import "query-builder.default";
+@import "fullcalendar";
 
 @import 'animate/animate';
 @import 'iCheck/custom';
@@ -27,6 +28,7 @@
 @import 'case/quarterly_reports/*';
 @import 'sessions/*';
 @import 'cases/*';
+@import 'calendars/*';
 @import 'client/task/*';
 @import 'client/custom_fields/*';
 @import 'family/custom_fields/*';

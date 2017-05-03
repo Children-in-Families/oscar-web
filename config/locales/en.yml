@@ -613,6 +613,7 @@ en:
       locations: Locations
       progress_note_types: Types of Note
       interventions: Interventions
+      view_calendar: View Calendar
     top_navbar:
       log_out: Log out
       edit_profile: Edit Profile
@@ -1902,7 +1903,7 @@ en:
 
   custom_field_properties:
     <<: *default_entity_type_custom_fields
-  
+
   form_builder:
     custom_fields:
       index:
