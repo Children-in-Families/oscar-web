@@ -283,13 +283,16 @@ class Client < ActiveRecord::Base
   end
 
   def self.ec_reminder_in(day)
-    managers = User.ec_managers.pluck(:email).join(', ')
-    admins   = User.admins.pluck(:email).join(', ')
-    clients = active_ec.select { |client| client.active_day_care == day }
+    Organization.all.each do |org|
+      Organization.switch_to org.short_name
+      managers = User.ec_managers.pluck(:email).join(', ')
+      admins   = User.admins.pluck(:email).join(', ')
+      clients = active_ec.select { |client| client.active_day_care == day }
 
-    if clients.present?
-      ManagerMailer.remind_of_client(clients, day: day, manager: managers).deliver_now if managers.present?
-      AdminMailer.remind_of_client(clients, day: day, admin: admins).deliver_now if admins.present?
+      if clients.present?
+        ManagerMailer.remind_of_client(clients, day: day, manager: managers).deliver_now if managers.present?
+        AdminMailer.remind_of_client(clients, day: day, admin: admins).deliver_now if admins.present?
+      end
     end
   end
 end
