@@ -20,7 +20,7 @@
               .col-xs-12
                 .table-responsive
                   %table.table.table-bordered
-                    - @tasks.incomplete.overdue.each do |task|
+                    - @tasks.incomplete.overdue.order(:completion_date).each do |task|
                       %tr
                         %td= "#{t('.domain')}: #{task.domain.name}"
                         %td.task-name= task.name
@@ -42,7 +42,7 @@
               .col-xs-12
                 .table-responsive
                   %table.table.table-bordered
-                    - @tasks.incomplete.today.each do |task|
+                    - @tasks.incomplete.today.order(:completion_date).each do |task|
                       %tr
                         %td= "#{t('.domain')}: #{task.domain.name}"
                         %td= task.name
@@ -64,7 +64,7 @@
               .col-xs-12
                 .table-responsive
                   %table.table.table-bordered
-                    - @tasks.incomplete.upcoming.each do |task|
+                    - @tasks.incomplete.upcoming.order(:completion_date).each do |task|
                       %tr
                         %td.task-domain{ data: { domain: "#{t('.domain')}: #{task.domain.name} (#{task.domain.identity})" } }
                           = "#{ t('.domain') }: #{task.domain.name}"

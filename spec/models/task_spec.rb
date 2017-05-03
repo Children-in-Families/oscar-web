@@ -20,16 +20,6 @@ describe Task, 'scopes' do
   let!(:overdue_task){ create(:task, completion_date: Date.today - 1.month) }
   let!(:today_task){ create(:task, completion_date: Date.today) }
   let!(:upcoming_task){ create(:task, completion_date: Date.today + 1.month) }
-  let!(:first_order_task){ create(:task, name: 'Order', completion_date: Date.yesterday) }
-  let!(:second_order_task){ create(:task, name: 'Order', completion_date: Date.today) }
-  let!(:third_order_task){ create(:task, name: 'Order', completion_date: Date.tomorrow) }
-
-  context 'default_scope' do
-    subject { Task.where(name: 'Order') }
-    it 'should be ordered by completion_date' do
-      is_expected.to eq([first_order_task, second_order_task, third_order_task])
-    end
-  end
 
   context 'by_domain_id' do
     subject{ Task.by_domain_id(domain.id) }
