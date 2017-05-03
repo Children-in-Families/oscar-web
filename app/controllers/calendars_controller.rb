@@ -20,39 +20,44 @@ class CalendarsController < AdminController
     })
     response = client.fetch_access_token!
     session[:authorization] = response
-    redirect_to calendars_path
+    redirect_to dashboards_path
   end
 
   def index
+    redirect_to redirect_path if session[:authorization].blank?
   end
 
-  # def new
-  #   if params[:summary].present?
-  #     primary_calendar_id = ''
-  #     client = Signet::OAuth2::Client.new({
-  #       client_id: Rails.application.secrets.google_client_id,
-  #       client_secret: Rails.application.secrets.google_client_secret,
-  #       token_credential_uri: 'https://accounts.google.com/o/oauth2/token'
-  #     })
-  #
-  #     client.update!(session[:authorization])
-  #
-  #     service = Google::Apis::CalendarV3::CalendarService.new
-  #     service.authorization = client
-  #     event = Google::Apis::CalendarV3::Event.new({
-  #       start: Google::Apis::CalendarV3::EventDateTime.new(date: params[:start_date]),
-  #       end: Google::Apis::CalendarV3::EventDateTime.new(date: params[:end_date]),
-  #       summary: params[:summary]
-  #     })
-  #     calendars = service.list_calendar_lists.items
-  #     calendars.each do |calendar|
-  #       primary_calendar_id = calendar.id if calendar.primary == true
-  #     end
-  #     service.insert_event(primary_calendar_id, event)
-  #
-  #     redirect_to calendar_path
-  #   end
-  # end
+  def new
+    if session[:authorization].blank?
+      redirect_to redirect_path
+    else
+      @task = Task.find(params[:task]) if params[:task].present?
+      @domain = Domain.find(@task.domain_id) if @task.present?
+      summary = "#{@task.name + " " + @domain.name}"
+      start_date = "#{@task.completion_date.strftime}"
+      end_date = "#{(@task.completion_date.strftime.to_date + 1).to_s}"
+      primary_calendar_id = ''
+      client = Signet::OAuth2::Client.new({
+        client_id: Rails.application.secrets.google_client_id,
+        client_secret: Rails.application.secrets.google_client_secret,
+        token_credential_uri: 'https://accounts.google.com/o/oauth2/token'
+      })
+      client.update!(session[:authorization])
+      service = Google::Apis::CalendarV3::CalendarService.new
+      service.authorization = client
+      event = Google::Apis::CalendarV3::Event.new({
+        start: Google::Apis::CalendarV3::EventDateTime.new(date: start_date),
+        end: Google::Apis::CalendarV3::EventDateTime.new(date: end_date),
+        summary: summary
+      })
+      calendars = service.list_calendar_lists.items
+      calendars.each do |calendar|
+        primary_calendar_id = calendar.id if calendar.primary == true
+      end
+      service.insert_event(primary_calendar_id, event)
+      redirect_to client_tasks_path(params[:client]), notice: t('add_event_success')
+    end
+  end
 
   def find_event
     client = Signet::OAuth2::Client.new({

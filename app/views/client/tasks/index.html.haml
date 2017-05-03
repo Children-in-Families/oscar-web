@@ -74,3 +74,6 @@
                           = link_to client_task_path(@client, task), method: :delete, data: { confirm: t('.are_you_sure_you_want_to_delete') } do
                             .btn.btn-outline.btn-danger.btn-xs
                               %i.fa.fa-trash
+                          = link_to new_calendar_path(client: @client.id, task: task) do
+                            .btn.btn-outline.btn-primary.btn-xs
+                              %i.fa.fa-plus

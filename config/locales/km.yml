@@ -252,6 +252,7 @@ km:
   is_not_email: មិនមែនជាអ៊ីម៉ែល
   must_be_uniq: ផ្នែកនៃទម្រង់មិនអាចមានឈ្មោះដូចគ្នា
   cannot_remove: មិនអាចលុបបានទេ
+  add_event_success: បន្ថែមព្រឹត្តិការណ៍ដោយជោគជ័យ
 
   default_client_fields: &default_client_fields
     id: លេខសំគាល់
