@@ -13,10 +13,9 @@ var FLASH_ID = 'icalendar-flash-copy';
 /* iCalendar sharing manager. */
 // console.log('app/assets/images/icalendar.png');
 function iCalendar() {
-	// alert 'hi';
 	this._defaults = {
 		sites: [],  // List of site IDs to use, empty for all
-		icons: '', // Horizontal amalgamation of all site icons
+		icons: "/assets/icalendar.png", // Horizontal amalgamation of all site icons
 		iconSize: 16,  // The size of the individual icons
 		target: '_blank',  // The name of the target window for the iCalendar links
 		compact: false,  // True if a compact presentation should be used, false for full

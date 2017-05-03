@@ -10,6 +10,8 @@ class Task < ActiveRecord::Base
   validates :domain, presence: true
   validates :completion_date, presence: true
 
+  default_scope { order(:completion_date) }
+
   scope :completed,  -> { where(completed: true) }
   scope :incomplete, -> { where(completed: false) }
   scope :overdue,    -> { where('completion_date < ?', Date.today) }

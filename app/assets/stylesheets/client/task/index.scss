@@ -3,10 +3,35 @@ body[id='tasks-index'] {
     margin-bottom: 15px;
     min-width: 100px;
   }
+
   .icalendar_list li {
-    width: 35%;
+    width: auto;
   }
-  td.calendar {
-    min-width: 300px;
+
+  @media (min-width: 768px) {
+    td.task-domain {
+      min-width: 95px;
+    }
+    td.task-due-date {
+      min-width: 110px;
+    }
+    td.task-actions {
+      min-width: 80px;
+    }
+    td.calendar {
+      width: auto;
+    }
+  }
+
+  @media (min-width: 1200px) {
+    td.task-detail {
+      min-width: 300px;
+    }
+    td.task-due-date {
+      min-width: 130px;
+    }
+    td.task-actions {
+      min-width: 100px;
+    }
   }
 }

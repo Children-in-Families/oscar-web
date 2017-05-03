@@ -18,7 +18,10 @@ CIF.TasksIndex = do ->
         end: end
         title: title
         description: desc
-      $(this).icalendar($.extend({sites: ['google', 'yahoo']}, AustDayLunch))
+      $(this).icalendar($.extend({sites: ['google']}, AustDayLunch))
+
+      $('.icalendar_list a').addClass('btn btn-xs btn-default')
+      $('.icalendar_list a[title="Google"]').attr('title', 'Google Calendar')
 
   _initSelect2 = ->
     $('select').select2()
