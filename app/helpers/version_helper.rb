@@ -74,8 +74,12 @@ module VersionHelper
     val
   end
 
-  def version_item_type_active?(item_type = '')
-    'active' if params[:item_type] == item_type || (params[:item_type].nil? && item_type == '')
+  def version_item_type_active?(item_type = '', custom_formable_type = {})
+    if params[:item_type] == item_type || (params[:item_type].nil? && item_type == '')
+      'active'
+    elsif custom_formable_type.present? && (params[:formable_type] == custom_formable_type[:formable_type])
+      'active'
+    end
   end
 
   def version_not_show(item_type)

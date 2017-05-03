@@ -17,8 +17,8 @@ RSpec.describe AbleScreeningMailer, type: :mailer do
       expect(mail.from).to eq(['info@cambodianfamilies.com'])
     end
 
-    it 'assigns edit client url' do
-      expect(mail.body.encoded).to match(edit_client_url(client, subdomain: Organization.current.short_name))
+    it 'link to client detail' do
+      expect(mail.body.encoded).to match(client_url(client, subdomain: Organization.current.short_name))
     end
   end
 end

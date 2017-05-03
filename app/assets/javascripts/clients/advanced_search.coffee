@@ -21,6 +21,7 @@ CIF.ClientsAdvanced_search = do ->
       customFormId = e.val
       if customFormId != ''
         $('#custom-form').show()
+        $('#custom-form').data('custom-form-search-rules', {})
         _ajaxGetCustomField(customFormId)
       else
         $('#custom-form').hide()
@@ -60,7 +61,6 @@ CIF.ClientsAdvanced_search = do ->
         $('#custom-form').queryBuilder(
           _queryBuilderOption(fieldList, filterTranslation)
           )
-
         $('#custom-form').queryBuilder('reset');
         $('#custom-form').queryBuilder('setFilters', fieldList)
         _customFormSetRule()
@@ -90,13 +90,15 @@ CIF.ClientsAdvanced_search = do ->
       $('#client_selected_custom_form').val(customFormValue)
       basicRules = $('#builder').queryBuilder('getRules')
       customFormRules = _getCustomFormRules(customFormValue)
+      $('.has-error').removeClass('has-error')
       if !($.isEmptyObject(basicRules)) || !($.isEmptyObject(customFormRules))
-        $('.has-error').removeClass('has-error')
         $('#client_basic_rules').val(_handleStringfyRules(basicRules))
         $('#client_custom_form_rules').val(_handleStringfyRules(customFormRules))
 
         _handleSelectFieldVisibilityCheckBox()
         $('#advanced-search').submit()
+      else
+        $('.basic-filter-error, .custom-form-error').show()
 
   _getCustomFormRules = (customFormValue)->
     if customFormValue == ''

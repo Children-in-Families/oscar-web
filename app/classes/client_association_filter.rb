@@ -190,6 +190,6 @@ class ClientAssociationFilter
       [first_value, last_value]
     else
       ids.to_i > 1000000 ? "1000000" : ids
-    end 
+    end
   end
 end

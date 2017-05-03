@@ -1,12 +1,12 @@
 class CustomField < ActiveRecord::Base
+  FREQUENCIES  = ['Daily', 'Weekly', 'Monthly', 'Yearly'].freeze
+  ENTITY_TYPES = ['Client', 'Family', 'Partner', 'User'].freeze
+
   has_many :custom_field_properties, dependent: :restrict_with_error
   has_many :clients, through: :custom_field_properties, source: :custom_formable, source_type: 'Client'
   has_many :users, through: :custom_field_properties, source: :custom_formable, source_type: 'User'
   has_many :partners, through: :custom_field_properties, source: :custom_formable, source_type: 'Partner'
   has_many :families, through: :custom_field_properties, source: :custom_formable, source_type: 'Family'
-
-  FREQUENCIES  = ['Daily', 'Weekly', 'Monthly', 'Yearly'].freeze
-  ENTITY_TYPES = ['Client', 'Family', 'Partner', 'User'].freeze
 
   has_paper_trail
 
@@ -29,9 +29,6 @@ class CustomField < ActiveRecord::Base
   scope :user_forms,     ->         { where(entity_type: 'User') }
   scope :not_used_forms, ->(value)  { where.not(id: value) }
   scope :order_by_form_title, ->    { order(:form_title) }
-
-  FREQUENCIES  = ['Daily', 'Weekly', 'Monthly', 'Yearly'].freeze
-  ENTITY_TYPES = ['Client', 'Family', 'Partner', 'User'].freeze
 
   def self.client_used_form
     ids = CustomFieldProperty.where(custom_formable_type: 'Client').pluck(:custom_field_id).uniq

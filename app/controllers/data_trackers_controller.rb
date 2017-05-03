@@ -1,10 +1,17 @@
 class DataTrackersController < AdminController
   load_and_authorize_resource
 
+  before_action :find_form_type, :find_item_type
+
   def index
     page = params[:per_page] || 20
-    if params[:item_type].present?
-      @versions = PaperTrail::Version.where(item_type: params[:item_type])
+
+    if @item_type.present?
+      if @form_type.present?
+        @versions = filter_custom_field_versions
+      else
+        @versions = PaperTrail::Version.where(item_type: params[:item_type])
+      end
     else
       @versions = PaperTrail::Version.where.not(item_type: exclude_item_type)
     end
@@ -14,6 +21,21 @@ class DataTrackersController < AdminController
   private
 
   def exclude_item_type
-    %w(AssessmentDomain CaseNoteDomainGroup CaseNote AgencyClient ClientQuantitativeCase)
+    %w(AssessmentDomain CaseNoteDomainGroup CaseNote AgencyClient ClientQuantitativeCase ClientCustomField FamilyCustomField PartnerCustomField UserCustomField)
   end
+
+  def find_form_type
+    @form_type = params[:formable_type]
+  end
+
+  def find_item_type
+    @item_type = params[:item_type]
+  end
+
+  def filter_custom_field_versions
+    PaperTrail::Version
+      .where(item_type: @item_type)
+      .where("object ILIKE '%custom_formable_type: #{@form_type}%' OR object_changes ILIKE '%custom_formable_type:\n- \n- #{@form_type}%'")
+  end
+
 end
