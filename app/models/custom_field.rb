@@ -67,28 +67,19 @@ class CustomField < ActiveRecord::Base
   end
 
   def entity_custom_fields_validate(custom_field)
-    error_fields = []
-    current_fields = []
-    entity_custom_fields = []
-    case custom_field.entity_type
-    when 'Client'
-      entity_custom_fields = custom_field.client_custom_fields
-    when 'Family'
-      entity_custom_fields = custom_field.family_custom_fields
-    when 'Partner'
-      entity_custom_fields = custom_field.partner_custom_fields
-    when 'User'
-      entity_custom_fields = custom_field.user_custom_fields
-    end
+    error_fields         = []
+    current_fields       = []
+    entity_custom_fields = custom_field.custom_field_properties
+
     entity_custom_fields.each do |entity_custom_field|
       next unless entity_custom_field.properties.present?
-      properties = JSON.parse(entity_custom_field.properties)
-      current_fields = CustomField.find(custom_field).fields
-      fields = custom_field.fields
+      properties      = entity_custom_field.properties
+      current_fields  = CustomField.find(custom_field).fields
+      fields          = custom_field.fields
       previous_fields = JSON.parse(current_fields) - JSON.parse(fields)
       next if previous_fields.blank?
       previous_fields.each do |field|
-        label_name = properties[field['label']]
+        label_name    = properties[field['label']]
         next if label_name.blank?
         if field['type'] == 'checkbox-group' && label_name.first.present?
           error_fields << field['label']
