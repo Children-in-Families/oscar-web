@@ -11,7 +11,7 @@
 @import "bourbon";
 @import "neat";
 @import "query-builder.default";
-
+@import 'jquery.icalendar';
 @import 'animate/animate';
 @import 'iCheck/custom';
 @import 'iCheck/brown';
@@ -23,7 +23,6 @@
 
 // Components
 @import 'components/datagrid';
-
 @import 'case/quarterly_reports/*';
 @import 'sessions/*';
 @import 'cases/*';
@@ -66,8 +65,6 @@
 @import 'statics/*';
 @import 'able_screening_answers/*';
 @import 'donors/*';
-
 @import 'top_navbar';
 @import 'common_version';
-
 @import 'custom_fields/*';

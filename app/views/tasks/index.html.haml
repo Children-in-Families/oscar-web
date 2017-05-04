@@ -21,13 +21,13 @@
                   .ibox-title
                     %h5= client.name
                   .ibox-content.no-padding
-                    %table.table
+                    %table.table.active-tasks
                       - tasks.each do |task|
                         %tr
                           %td= "#{t('.domain')} #{task.domain.name}"
                           %td.task-name.border-left-right= task.name
                           %td= task.completion_date.strftime("%B %d, %Y")
-          .panel.panel-primary
+          .panel.panel-info
             .panel-heading
               %h5= t('.today_tasks')
             .panel-body
@@ -38,13 +38,13 @@
                   .ibox-title
                     %h5= client.name
                   .ibox-content.no-padding
-                    %table.table
+                    %table.table.active-tasks
                       - tasks.each do |task|
                         %tr
                           %td= "#{t('.domain')} #{task.domain.name}"
                           %td.task-name.border-left-right= task.name
                           %td= task.completion_date.strftime("%B %d, %Y")
-          .panel.panel-warning
+          .panel.panel-primary
             .panel-heading
               %h5= t('.upcoming_tasks')
             .panel-body
@@ -55,7 +55,7 @@
                   .ibox-title
                     %h5= client.name
                   .ibox-content.no-padding
-                    %table.table
+                    %table.table.active-tasks
                       - tasks.each do |task|
                         %tr
                           %td= "#{t('.domain')} #{task.domain.name}"

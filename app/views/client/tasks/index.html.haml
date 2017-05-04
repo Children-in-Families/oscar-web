@@ -1,5 +1,5 @@
 .row
-  .col-xs-12.col-md-10.col-md-offset-1
+  .col-xs-12
     .ibox
       .ibox-title
         %h5= @client.name
@@ -18,20 +18,21 @@
           .panel-body
             .row
               .col-xs-12
-                %table.table.table-bordered
-                  - @tasks.incomplete.overdue.each do |task|
-                    %tr
-                      %td= "#{t('.domain')}: #{task.domain.name}"
-                      %td.task-name= task.name
-                      %td= task.completion_date.strftime("%B %d, %Y")
-                      - if can? :manage, Task
-                        %td.text-center.margin-icon
-                          = link_to edit_client_task_path(@client, task) do
-                            .btn.btn-outline.btn-success.btn-xs
-                              %i.fa.fa-pencil
-                          = link_to client_task_path(@client, task), method: :delete, data: { confirm: t('.are_you_sure_you_want_to_delete') } do
-                            .btn.btn-outline.btn-danger.btn-xs
-                              %i.fa.fa-trash
+                .table-responsive
+                  %table.table.table-bordered
+                    - @tasks.incomplete.overdue.order(:completion_date).each do |task|
+                      %tr
+                        %td= "#{t('.domain')}: #{task.domain.name}"
+                        %td.task-name= task.name
+                        %td= task.completion_date.strftime("%B %d, %Y")
+                        - if can? :manage, Task
+                          %td.text-center.margin-icon
+                            = link_to edit_client_task_path(@client, task) do
+                              .btn.btn-outline.btn-success.btn-xs
+                                %i.fa.fa-pencil
+                            = link_to client_task_path(@client, task), method: :delete, data: { confirm: t('.are_you_sure_you_want_to_delete') } do
+                              .btn.btn-outline.btn-danger.btn-xs
+                                %i.fa.fa-trash
 
         .panel.panel-info
           .panel-heading
@@ -39,20 +40,21 @@
           .panel-body
             .row
               .col-xs-12
-                %table.table.table-bordered
-                  - @tasks.incomplete.today.each do |task|
-                    %tr
-                      %td= "#{t('.domain')}: #{task.domain.name}"
-                      %td= task.name
-                      %td= task.completion_date.strftime("%B %d, %Y")
-                      - if can? :manage, Task
-                        %td.text-center.margin-icon
-                          = link_to edit_client_task_path(@client, task) do
-                            .btn.btn-outline.btn-success.btn-xs
-                              %i.fa.fa-pencil
-                          = link_to client_task_path(@client, task), method: :delete, data: { confirm: t('.are_you_sure_you_want_to_delete') } do
-                            .btn.btn-outline.btn-danger.btn-xs
-                              %i.fa.fa-trash
+                .table-responsive
+                  %table.table.table-bordered
+                    - @tasks.incomplete.today.order(:completion_date).each do |task|
+                      %tr
+                        %td= "#{t('.domain')}: #{task.domain.name}"
+                        %td= task.name
+                        %td= task.completion_date.strftime("%B %d, %Y")
+                        - if can? :manage, Task
+                          %td.text-center.margin-icon
+                            = link_to edit_client_task_path(@client, task) do
+                              .btn.btn-outline.btn-success.btn-xs
+                                %i.fa.fa-pencil
+                            = link_to client_task_path(@client, task), method: :delete, data: { confirm: t('.are_you_sure_you_want_to_delete') } do
+                              .btn.btn-outline.btn-danger.btn-xs
+                                %i.fa.fa-trash
 
         .panel.panel-primary
           .panel-heading
@@ -60,17 +62,21 @@
           .panel-body
             .row
               .col-xs-12
-                %table.table.table-bordered
-                  - @tasks.incomplete.upcoming.each do |task|
-                    %tr
-                      %td= "#{ t('.domain') }: #{task.domain.name}"
-                      %td= task.name
-                      %td= task.completion_date.strftime("%B %d, %Y")
-                      - if can? :manage, Task
-                        %td.text-center.margin-icon
-                          = link_to edit_client_task_path(@client, task) do
-                            .btn.btn-outline.btn-success.btn-xs
-                              %i.fa.fa-pencil
-                          = link_to client_task_path(@client, task), method: :delete, data: { confirm: t('.are_you_sure_you_want_to_delete') } do
-                            .btn.btn-outline.btn-danger.btn-xs
-                              %i.fa.fa-trash
+                .table-responsive
+                  %table.table.table-bordered
+                    - @tasks.incomplete.upcoming.order(:completion_date).each do |task|
+                      %tr
+                        %td.task-domain{ data: { domain: "#{t('.domain')}: #{task.domain.name} (#{task.domain.identity})" } }
+                          = "#{ t('.domain') }: #{task.domain.name}"
+                        %td.task-detail= task.name
+                        %td.task-due-date= task.completion_date.strftime("%B %d, %Y")
+                        - if can? :manage, Task
+                          %td.text-center.margin-icon.task-actions
+                            = link_to edit_client_task_path(@client, task) do
+                              .btn.btn-outline.btn-success.btn-xs
+                                %i.fa.fa-pencil
+                            = link_to client_task_path(@client, task), method: :delete, data: { confirm: t('.are_you_sure_you_want_to_delete') } do
+                              .btn.btn-outline.btn-danger.btn-xs
+                                %i.fa.fa-trash
+                          %td.calendar
+                            .add-to-calendar
