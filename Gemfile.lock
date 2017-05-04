@@ -704,6 +704,7 @@ DEPENDENCIES
   select2-rails (~> 3.5.9.3)
   shoulda-matchers
   shoulda-whenever (~> 0.0.2)
+  sidekiq (~> 4.1.0)
   simple_form (~> 3.2)
   sinatra
   spreadsheet (~> 1.1.3)

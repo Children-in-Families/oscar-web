@@ -121,4 +121,5 @@ class User < ActiveRecord::Base
   def family_custom_field_frequency_overdue_or_due_today
     entity_type_custom_field_notification(Family.all)
   end
+
 end
