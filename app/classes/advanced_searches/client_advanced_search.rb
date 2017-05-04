@@ -9,8 +9,8 @@ module AdvancedSearches
 
     def filter
       query_array         = []
-      client_base_sql     = AdvancedSearches::ClientBaseSqlBuilder.generate(@clients, @basic_rules)
-      custom_form_sql     = AdvancedSearches::ClientCustomFormSqlBuilder.generate(@custom_form)
+      client_base_sql     = AdvancedSearches::ClientBaseSqlBuilder.new(@clients, @basic_rules).generate
+      custom_form_sql     = AdvancedSearches::ClientCustomFormSqlBuilder.new(@custom_form[:selected_custom_form], @custom_form).generate
 
       if client_base_sql[:sql_string].present? && custom_form_sql[:id].present?
         query_string = ([client_base_sql[:sql_string]] + [custom_form_sql[:id]]).join(" AND ")

@@ -757,7 +757,6 @@ km:
       csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
       export_to_xls: ទាញចេញជាឯកសារប្រភេទ XLS
       advanced_search: ការស្វែងរកកម្រិតខ្ពស់
-      add_new_filter: បន្ថែមការស្វែងរក
       search: ស្វែងរក
       reset: សំអាត
       no_results:  មិនមានលទ្ធផល
@@ -2116,7 +2115,7 @@ km:
 
   custom_field_properties:
     <<: *default_entity_type_custom_fields
-  
+
   form_builder:
     custom_fields:
       index:
@@ -2191,3 +2190,8 @@ km:
       user_id: បុគ្គលិកគ្រប់គ្រងករណី
       <<: *default_custom_fields
       <<: *default_client_fields
+  client_advanced_searches:
+    index:
+      add_new_filter: បន្ថែមការស្វែងរក
+      add_new_group: បន្ថែម​បណ្ដុំ​នៃការ​ស្វែងរក​
+      delete_group: លុប​បណ្ដុំ​នៃការ​ស្វែងរក​

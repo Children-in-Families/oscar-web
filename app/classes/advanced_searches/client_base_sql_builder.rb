@@ -3,37 +3,42 @@ module AdvancedSearches
     ASSOCIATION_FIELDS = ['case_type', 'agency_name', 'form_title', 'placement_date', 'family', 'age', 'family_id']
     BLANK_FIELDS= ['date_of_birth', 'initial_referral_date', 'follow_up_date', 'has_been_in_orphanage', 'has_been_in_government_care', 'grade', 'province_id', 'referral_source_id', 'user_id', 'birth_province_id', 'received_by_id', 'followed_up_by_id', ]
 
-
-    def self.generate(clients, rules)
+    def initialize(clients, rules)
       @clients     = clients
       @values      = []
       @sql_string  = []
-      condition    = rules[:condition]
-      basic_rules  = rules[:rules] || []
+      @condition    = rules[:condition]
+      @basic_rules  = rules[:rules] || []
+    end
 
-      basic_rules.each do |rule|
+    def generate
+      @basic_rules.each do |rule|
         field    = rule[:field]
         operator = rule[:operator]
         value    = rule[:value]
         if ASSOCIATION_FIELDS.include?(field)
           association_filter = AdvancedSearches::ClientAssociationFilter.new(@clients, field, operator, value).get_sql
-
           @sql_string << association_filter[:id]
           @values     << association_filter[:values]
-        else
+
+        elsif field != nil
           value = field == 'grade' ? validate_integer(value) : value
           base_sql(field, operator, value)
+        else
+          nested_query =  AdvancedSearches::ClientBaseSqlBuilder.new(@clients, rule).generate
+          @sql_string << nested_query[:sql_string]
+          nested_query[:values].select{ |v| @values << v }
         end
       end
 
-      @sql_string = @sql_string.join(" #{condition} ")
+      @sql_string = @sql_string.join(" #{@condition} ")
       @sql_string = "(#{@sql_string})" if @sql_string.present?
       { sql_string: @sql_string, values: @values }
     end
 
     private
 
-    def self.base_sql(field, operator, value)
+    def base_sql(field, operator, value)
       case operator
       when 'equal'
         @sql_string << "clients.#{field} = ?"
@@ -81,7 +86,7 @@ module AdvancedSearches
       end
     end
 
-    def self.validate_integer(values)
+    def validate_integer(values)
       if values.is_a?(Array)
         first_value = values.first.to_i > 1000000 ? "1000000" : values.first
         last_value  = values.last.to_i > 1000000 ? "1000000" : values.last
