@@ -11,6 +11,11 @@ Rails.application.routes.draw do
   end
 
   get '/dashboards' => 'dashboards#index'
+  get '/redirect'       => 'calendars#redirect', as: 'redirect'
+  get '/callback'       => 'calendars#callback', as: 'callback'
+  get '/calendars/find' => 'calendars#find_event'
+
+  resources :calendars, only: [:index, :new]
 
   mount Thredded::Engine => '/forum'
 

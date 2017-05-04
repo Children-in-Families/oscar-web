@@ -27,6 +27,8 @@
 //= require query-builder
 
 //= require tinymce
+//= require moment
+//= require fullcalendar
 
 // WRAPBOOTSTRAP
 //= require iCheck/icheck.min.js
@@ -50,6 +52,7 @@
 //= require dashboards/index
 //= require case_notes/form
 //= require cases/form
+//= require calendars/index
 //= require admin/tasks
 //= require clients/index
 //= require report_creator
