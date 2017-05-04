@@ -1,36 +1,14 @@
 class ClientsController < AdminController
+  include ClientGridOptions
+
   load_and_authorize_resource find_by: :slug, except: :quantitative_case
 
   before_action :find_client, only: [:show, :edit, :update, :destroy]
   before_action :set_association, except: [:index, :destroy]
-  before_action :choose_grid, only: [:index, :advanced_search]
-
-  def advanced_search
-    return unless params[:client].present? && params[:client][:basic_rules].present?
-    @basic_filter_params = params[:client][:basic_rules]
-    basic_rules_params     = eval(@basic_filter_params)
-
-    @custom_form_filter_params = params[:client][:custom_form_rules]
-    custom_form_rules_params     = eval(@custom_form_filter_params).merge(selected_custom_form: params[:client][:selected_custom_form])
-
-    clients                 = ClientAdvancedSearch.new(basic_rules_params, custom_form_rules_params, Client.accessible_by(current_ability))
-    @clients_by_user        = clients.filter
-    columns_visibility
-    respond_to do |f|
-      f.html do
-        @client_grid.scope { |scope| scope.where(id: @clients_by_user.ids).accessible_by(current_ability).page(params[:page]).per(20) }
-      end
-      f.xls do
-        @client_grid.scope { |scope| scope.where(id: @clients_by_user.ids).accessible_by(current_ability) }
-        domain_score_report
-        send_data @client_grid.to_xls, filename: "client_report-#{Time.now}.xls"
-      end
-    end
-  end
+  before_action :choose_grid, only: :index
 
   def index
     columns_visibility
-
     respond_to do |f|
       f.html do
         @csi_statistics   = CsiStatistic.new(@client_grid.assets).assessment_domain_score.to_json
@@ -149,44 +127,5 @@ class ClientsController < AdminController
     @province             = Province.order(:name)
     @referral_source      = ReferralSource.order(:name)
     @user                 = User.non_strategic_overviewers.order(:first_name, :last_name)
-  end
-
-  def choose_grid
-    if current_user.admin? || current_user.strategic_overviewer?
-      admin_client_grid
-    elsif current_user.case_worker? || current_user.able_manager? || current_user.any_case_manager?
-      non_admin_client_grid
-    end
-  end
-
-  def columns_visibility
-    @client_columns ||= ClientColumnsVisibility.new(@client_grid, params)
-    @client_columns.visible_columns
-  end
-
-  def domain_score_report
-    return unless params['type'] == 'basic_info'
-    @client_grid.column(:assessments, header: t('.assessments')) do |client|
-      client.assessments.map(&:basic_info).join("\x0D\x0A")
-    end
-    @client_grid.column_names << :assessments if @client_grid.column_names.any?
-  end
-
-  def admin_client_grid
-    if params[:client_grid] && params[:client_grid][:quantitative_types]
-      quantitative_types = params[:client_grid][:quantitative_types]
-      @client_grid = ClientGrid.new(params.fetch(:client_grid, {}).merge!(qType: quantitative_types))
-    else
-      @client_grid = ClientGrid.new(params[:client_grid])
-    end
-  end
-
-  def non_admin_client_grid
-    if params[:client_grid] && params[:client_grid][:quantitative_types]
-      quantitative_types = params[:client_grid][:quantitative_types]
-      @client_grid = ClientGrid.new(params.fetch(:client_grid, {}).merge!(current_user: current_user, qType: quantitative_types))
-    else
-      @client_grid = ClientGrid.new(params.fetch(:client_grid, {}).merge!(current_user: current_user))
-    end
   end
 end

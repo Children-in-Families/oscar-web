@@ -44,8 +44,8 @@ class Client < ActiveRecord::Base
   accepts_nested_attributes_for :answers
   accepts_nested_attributes_for :tasks
 
+  has_many :families,       through: :cases
   has_many :cases,          dependent: :destroy
-  has_many :families, through: :cases
   has_many :case_notes,     dependent: :destroy
   has_many :assessments,    dependent: :destroy
   has_many :surveys,        dependent: :destroy

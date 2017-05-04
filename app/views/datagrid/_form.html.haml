@@ -1,7 +1,7 @@
 = form_for grid, options do |f|
   = hidden_field_tag :locale, params[:locale]
 
-  - if controller_name == 'clients'
+  - if controller_name == 'clients' || controller_name == 'client_advanced_searches'
     %ul.check-columns-visibility
       %li.dropdown
         %a.dropdown-toggle.btn.btn-default{'data-toggle' => 'dropdown', href: '#'}
@@ -100,7 +100,8 @@
               = check_box_tag 'changelog_', 'changelog', checked = params[:changelog_].present?, class: 'i-checks'
               = label_tag 'changelog_', t('datagrid.columns.changelog')
     %hr/
-  - if action_name != 'advanced_search'
+
+  - if controller_name != 'client_advanced_searches'
     .row
       - grid.filters.each do |filter|
         - if filter.type != :dynamic

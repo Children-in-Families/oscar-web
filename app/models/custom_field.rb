@@ -34,6 +34,7 @@ class CustomField < ActiveRecord::Base
     ids = CustomFieldProperty.where(custom_formable_type: 'Client').pluck(:custom_field_id).uniq
     where(id: ids)
   end
+
   def set_time_of_frequency
     if frequency.present?
       self.time_of_frequency = time_of_frequency

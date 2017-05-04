@@ -58,7 +58,6 @@
 //= require report_creator
 //= require clients/show
 //= require clients/form
-//= require clients/advanced_search
 //= require families/index
 //= require families/form
 //= require surveys/form
@@ -83,3 +82,4 @@
 //= require notifications/index
 //= require sessions/new
 //= require case/quarterly_reports/index
+//= require client_advanced_searches/index
