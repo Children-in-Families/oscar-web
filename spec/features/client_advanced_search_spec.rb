@@ -1,15 +1,16 @@
 # feature 'ClientAdvancedSearch' do
 #   given(:admin) { create(:user, roles: 'admin') }
-#
+
 #   background do
 #     login_as(admin)
 #     visit clients_path
 #   end
-#
+
+
 #   scenario 'Advanced search link' do
 #     expect(page).to have_content 'Advanced Search'
 #   end
-#
+
 #   scenario 'Advanced Search Text Field', js: true do
 #     click_link 'Advanced Search'
 #     wait_for_ajax
@@ -19,7 +20,7 @@
 #       expect(page).to have_content 'is'
 #     end
 #   end
-#
+
 #   scenario 'Advanced Search Number Field', js: true do
 #     click_link 'Advanced Search'
 #     wait_for_ajax
@@ -29,7 +30,7 @@
 #       expect(page).to have_content 'is'
 #     end
 #   end
-#
+
 #   scenario 'Advanced Search Drop list Field', js: true do
 #     click_link 'Advanced Search'
 #     wait_for_ajax
@@ -40,7 +41,7 @@
 #       expect(page).to have_content 'Female'
 #     end
 #   end
-#
+
 #   scenario 'Advanced Search Datepicker Field', js: true do
 #     click_link 'Advanced Search'
 #     wait_for_ajax
@@ -50,5 +51,4 @@
 #       expect(page).to have_content 'is'
 #     end
 #   end
-#
 # end

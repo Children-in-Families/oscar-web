@@ -1,0 +1,12 @@
+%p= "Hello #{@user.name},"
+%p  you currently have tasks overdue. Please see the list below.
+%ul
+- @overdue_tasks.each do |task|
+  %li
+    %span Task name:
+    = link_to task.name, tasks_url(subdomain: @short_name), target: :_blank
+    %span 
+      and due on
+      = task.completion_date
+%p Thanks,
+%p Cambodian Families Team

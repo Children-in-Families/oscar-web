@@ -37,7 +37,7 @@ class Client < ActiveRecord::Base
   has_many :agencies, through: :agency_clients
   has_many :client_quantitative_cases
   has_many :quantitative_cases, through: :client_quantitative_cases
-  has_many :custom_field_properties, as: :custom_formable
+  has_many :custom_field_properties, as: :custom_formable, dependent: :destroy
   has_many :custom_fields, through: :custom_field_properties, as: :custom_formable
 
   accepts_nested_attributes_for :tasks
@@ -283,13 +283,16 @@ class Client < ActiveRecord::Base
   end
 
   def self.ec_reminder_in(day)
-    managers = User.ec_managers.pluck(:email).join(', ')
-    admins   = User.admins.pluck(:email).join(', ')
-    clients = active_ec.select { |client| client.active_day_care == day }
+    Organization.all.each do |org|
+      Organization.switch_to org.short_name
+      managers = User.ec_managers.pluck(:email).join(', ')
+      admins   = User.admins.pluck(:email).join(', ')
+      clients = active_ec.select { |client| client.active_day_care == day }
 
-    if clients.present?
-      ManagerMailer.remind_of_client(clients, day: day, manager: managers).deliver_now if managers.present?
-      AdminMailer.remind_of_client(clients, day: day, admin: admins).deliver_now if admins.present?
+      if clients.present?
+        ManagerMailer.remind_of_client(clients, day: day, manager: managers).deliver_now if managers.present?
+        AdminMailer.remind_of_client(clients, day: day, admin: admins).deliver_now if admins.present?
+      end
     end
   end
 end
