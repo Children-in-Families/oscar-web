@@ -3,7 +3,7 @@ class Partner < ActiveRecord::Base
   belongs_to :province, counter_cache: true
 
   has_many :cases
-  has_many :custom_field_properties, as: :custom_formable
+  has_many :custom_field_properties, as: :custom_formable, dependent: :destroy
   has_many :custom_fields, through: :custom_field_properties, as: :custom_formable
 
   has_paper_trail

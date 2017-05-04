@@ -248,6 +248,7 @@ en:
   is_not_email: is not an email
   must_be_uniq: field label must be uniq
   cannot_remove: cannot be removed
+  add_event_success: Add Event Successfully
 
   default_client_fields: &default_client_fields
     id: ID
@@ -613,6 +614,7 @@ en:
       locations: Locations
       progress_note_types: Types of Note
       interventions: Interventions
+      view_calendar: View Calendar
     top_navbar:
       log_out: Log out
       edit_profile: Edit Profile
@@ -1286,6 +1288,7 @@ en:
         new_task: New Task
         are_you_sure_you_want_to_delete: Are you sure you want to delete?
         domain: Domain
+        add_to_calendar: Add To Calendar
       new:
         title: New Task
         new_task_regarding: New Task Regarding
