@@ -3,6 +3,7 @@
 #   let!(:client_2) { create(:client, given_name: 'test', code: 2000)  }
 #   let!(:client_3) { create(:client, given_name: 'test', code: 2010)  }
 #   let!(:client_4) { create(:client, given_name: 'test3', code: 2020) }
+
 #   it 'return clients that has name test and code greater than 2000' do
 #       rules = {condition: "AND", rules:
 #         [
@@ -23,7 +24,6 @@
 #         ]
 #       }
 #       clients = ClientAdvancedSearch.new(rules, Client.all).filter
-
 #     expect(clients).to include(client, client_2, client_3, client_4)
 #   end
 # end
