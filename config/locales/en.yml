@@ -1289,6 +1289,7 @@ en:
         new_task: New Task
         are_you_sure_you_want_to_delete: Are you sure you want to delete?
         domain: Domain
+        add_to_calendar: Add To Calendar
       new:
         title: New Task
         new_task_regarding: New Task Regarding

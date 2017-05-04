@@ -611,7 +611,7 @@ km:
       locations: កន្លែង
       progress_note_types: កំណត់សំគាល់
       interventions: ចំនុចដែលត្រូវធ្វើ
-      view_calendars: មើលប្រតិទិន
+      view_calendar: មើលប្រតិទិន
     top_navbar:
       log_out: ចាកចេញ
       edit_profile: កែសម្រួលពត៌មានផ្ទាល់ខ្លួន
@@ -1355,6 +1355,7 @@ km:
         new_task: កាតព្វកិច្ចថ្មី
         are_you_sure_you_want_to_delete: តើអ្នកប្រាកដហើយ?
         domain: កត្តា
+        add_to_calendar: បន្ថែមទៅប្រតិទិន
       new:
         title: កាតព្វកិច្ចថ្មី
         new_task_regarding: កាតព្វកិច្ចទាក់ទង៖
