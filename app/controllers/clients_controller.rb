@@ -110,6 +110,7 @@ class ClientsController < AdminController
             :birth_province_id, :initial_referral_date, :referral_source_id,
             :referral_phone, :received_by_id, :followed_up_by_id,
             :follow_up_date, :grade, :school_name, :current_address,
+            :house_num, :street_num, :village, :commune, :district,
             :has_been_in_orphanage, :has_been_in_government_care,
             :relevant_referral_information, :user_id, :province_id, :donor_id,
             :state, :rejected_note, :able, :able_state,
