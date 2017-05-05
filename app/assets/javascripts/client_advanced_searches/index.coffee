@@ -1,7 +1,9 @@
 CIF.Client_advanced_searchesIndex = do ->
   _init = ->
+    @filterTranslation = ''
+    _getTranslation()
     _columnsVisibility()
-    _initJqueryQueryBuilder()
+    _ajaxGetBasicField()
     _handleInitDatatable()
     _handleSearch()
     _addRuleCallback()
@@ -19,7 +21,6 @@ CIF.Client_advanced_searchesIndex = do ->
   _handleSelectCustomForm = ->
     $('#select-custom-form').on 'select2-selecting', (e) ->
       customFormId = e.val
-      console.log customFormId
       if customFormId != ''
         $('#custom-form').show()
         _ajaxGetCustomField(customFormId)
@@ -32,26 +33,20 @@ CIF.Client_advanced_searchesIndex = do ->
       $('#custom-form').show()
       _ajaxGetCustomField(customFormValue)
 
-  _initJqueryQueryBuilder = ->
-    _ajaxGetBasicField()
-
   _ajaxGetBasicField = ->
-    filterTranslation = $('#builder').data('filter-translation')
     $.ajax
       url: '/api/client_advanced_searches/get_basic_field'
       method: 'GET'
       success: (response) ->
         fieldList = response.client_advanced_searches
         $('#builder').queryBuilder(
-          _queryBuilderOption(fieldList, filterTranslation)
+          _queryBuilderOption(fieldList)
         )
         _basicFilterSetRule()
-        _changeButtonAddRuleSize()
         _handleSelectOptionChange()
         _initSelect2()
 
   _ajaxGetCustomField = (customFormId) ->
-    filterTranslation = $('#custom-form').data('filter-translation')
     $.ajax
       url: '/api/client_advanced_searches/get_custom_field'
       data: { custom_form_id: customFormId }
@@ -59,13 +54,12 @@ CIF.Client_advanced_searchesIndex = do ->
       success: (response) ->
         fieldList = response.client_advanced_searches
         $('#custom-form').queryBuilder(
-          _queryBuilderOption(fieldList, filterTranslation)
+          _queryBuilderOption(fieldList)
           )
 
         $('#custom-form').queryBuilder('reset');
         $('#custom-form').queryBuilder('setFilters', fieldList)
         _customFormSetRule()
-        _changeButtonAddRuleSize()
         _handleSelectOptionChange()
         _initSelect2()
 
@@ -105,14 +99,15 @@ CIF.Client_advanced_searchesIndex = do ->
     else
       $('#custom-form').queryBuilder('getRules')
 
-  _queryBuilderOption = (fieldList, filterTranslation) ->
-    allow_groups: false
+  _queryBuilderOption = (fieldList) ->
     inputs_separator: ' AND '
     icons:
       remove_rule: 'fa fa-minus'
     lang:
       delete_rule: ''
-      add_rule: filterTranslation
+      add_rule: @filterTranslation.addFilter
+      add_group: @filterTranslation.addGroup
+      delete_group: @filterTranslation.deleteGroup
       operators:
         is_empty: 'is blank'
         equal: 'is'
@@ -158,9 +153,12 @@ CIF.Client_advanced_searchesIndex = do ->
         )
       ),100
 
-  _changeButtonAddRuleSize = ->
-    $("button[data-add='rule']").removeClass('btn-xs btn-success')
-    $("button[data-add='rule']").addClass('btn-primary')
+  _getTranslation = ->
+    @filterTranslation =
+      addFilter: $('#builder').data('filter-translation-add-filter')
+      addGroup: $('#builder').data('filter-translation-add-group')
+      deleteGroup: $('#builder').data('filter-translation-delete-group')
+
 
   _customFormSetRule = ->
     customFormQueryRules = $('#custom-form').data('custom-form-search-rules')

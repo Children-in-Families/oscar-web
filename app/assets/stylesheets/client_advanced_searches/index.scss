@@ -7,16 +7,15 @@ body[id='client_advanced_searches-index'] {
     margin-top: 0;
   }
 
-  .rules-group-container {
-    background: none;
-    border: none;
-    padding-bottom: 30px;
-  }
-
   .btn-group.group-actions {
-    position: absolute;
-    bottom: -14px;
-    right: 10px;
+    button[data-add='rule'] {
+      background-color: #1ab394;
+      border-color: #1ab394;
+      color: #FFFFFF;
+    }
+    button {
+      margin-right: 5px;
+    }
   }
 
   .rule-container {
