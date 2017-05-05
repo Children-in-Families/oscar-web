@@ -53,9 +53,9 @@ class CalendarsController < AdminController
       end
       if events.present?
         if params[:client].present?
-          redirect_to client_tasks_path(params[:client]), alert: t('has_been_add_to_calendar')
+          redirect_to client_tasks_path(params[:client]), alert: t('has_been_added_to_calendar')
         else
-          redirect_to tasks_path, notice: 'This event has been added to the calendar'
+          redirect_to tasks_path, alert: t('has_been_added_to_calendar')
         end
       else
         event = Google::Apis::CalendarV3::Event.new(start: Google::Apis::CalendarV3::EventDateTime.new(date: start_date),
