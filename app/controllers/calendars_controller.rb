@@ -38,27 +38,35 @@ class CalendarsController < AdminController
       start_date = @task.completion_date.to_s
       end_date   = (@task.completion_date + 1).to_s
       primary_calendar_id = ''
+      events = ''
       client = Signet::OAuth2::Client.new(client_id: Rails.application.secrets.google_client_id,
                                           client_secret: Rails.application.secrets.google_client_secret,
                                           token_credential_uri: 'https://accounts.google.com/o/oauth2/token')
       client.update!(session[:authorization])
       service = Google::Apis::CalendarV3::CalendarService.new
       service.authorization = client
-      event = Google::Apis::CalendarV3::Event.new(start: Google::Apis::CalendarV3::EventDateTime.new(date: start_date),
-                                                  end: Google::Apis::CalendarV3::EventDateTime.new(date: end_date),
-                                                  summary: summary)
-      calendars = service.list_calendar_lists.items
-      calendars.each do |calendar|
-        if calendar.primary == true
-          primary_calendar_id = calendar.id
+      service.list_events('primary').items.each do |event|
+        if event.summary == summary
+          events << event.summary
           break
         end
       end
-      service.insert_event(primary_calendar_id, event)
-      if params[:client].present?
-        redirect_to client_tasks_path(params[:client]), notice: t('add_event_success')
+      if events.present?
+        if params[:client].present?
+          redirect_to client_tasks_path(params[:client]), alert: t('has_been_add_to_calendar')
+        else
+          redirect_to tasks_path, notice: 'This event has been added to the calendar'
+        end
       else
-        redirect_to tasks_path, notice: t('add_event_success')
+        event = Google::Apis::CalendarV3::Event.new(start: Google::Apis::CalendarV3::EventDateTime.new(date: start_date),
+                                                    end: Google::Apis::CalendarV3::EventDateTime.new(date: end_date),
+                                                    summary: summary)
+        service.insert_event('primary', event)
+        if params[:client].present?
+          redirect_to client_tasks_path(params[:client]), notice: t('add_event_success')
+        else
+          redirect_to tasks_path, notice: t('add_event_success')
+        end
       end
     end
   end
@@ -72,8 +80,8 @@ class CalendarsController < AdminController
     service = Google::Apis::CalendarV3::CalendarService.new
     service.authorization = client
     event_lists = []
-    calendar_list = service.list_calendar_lists.items
-    calendar_list.each do |list|
+    calendar_lists = service.list_calendar_lists.items
+    calendar_lists.each do |list|
       service.list_events(list.id).items.each do |event|
         event_lists << event
       end

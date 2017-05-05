@@ -252,7 +252,8 @@ km:
   is_not_email: មិនមែនជាអ៊ីម៉ែល
   must_be_uniq: ផ្នែកនៃទម្រង់មិនអាចមានឈ្មោះដូចគ្នា
   cannot_remove: មិនអាចលុបបានទេ
-  add_event_success: បន្ថែមព្រឹត្តិការណ៍ដោយជោគជ័យ
+  add_event_success: ព្រឹត្តិការណ៍ត្រូវបានបន្ថែមទៅក្នុងប្រតិទិនដោយជោគជ័យ
+  has_been_add_to_calendar: ព្រឹត្តិការណ៍នេះត្រូវបានបន្ថែមទៅក្នុងប្រតិទិនរួចហើយ
 
   default_client_fields: &default_client_fields
     id: លេខសំគាល់

@@ -12,10 +12,21 @@ CIF.CalendarsIndex = do ->
       $('#calendar').fullCalendar(
         # displayEventTime: false
         header:
-          left: 'prev,next today myCustomButton',
+          left: 'prev,next today',
           center: 'title',
-          right: 'month,agendaWeek,agendaDay,listWeek'
+          right: 'agendaDay,agendaWeek,month,agendaFourDay'
+        views:
+          agendaFourDay:
+            type: 'agenda',
+            duration: { days: 4 },
+            buttonText: '4 days'
         events: _fillFullCalendarArray(eventLists)
+        eventRender: (event, element) ->
+          element.popover
+            animation: true
+            delay: 300
+            content: event.title
+            trigger: 'hover'
       )
       $('.loader').hide()
     )
@@ -27,11 +38,15 @@ CIF.CalendarsIndex = do ->
       startDate = eventList.start.date || eventList.start.date_time
       endDate = eventList.end.date || eventList.end.date_time
       # eventUrl = eventList.html_link
+      fullDate = null
+      if (Date.parse(startDate) + 86400000) == Date.parse(endDate)
+        fullDate = true
       events.push(
         title: summary
         start: moment.parseZone(startDate)
         end: moment.parseZone(endDate)
         # url: eventUrl
+        allDay: fullDate
       )
     events
 

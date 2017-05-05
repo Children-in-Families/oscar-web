@@ -30,7 +30,29 @@ class Client::TasksController < AdminController
 
   def update
     @task = @client.tasks.find(params[:id])
+    task_name      = @task.name
+    domain_name    = Domain.find(@task.domain_id).name
     if @task.update_attributes(task_params)
+      if session[:authorization].blank? || current_user.expires_at < DateTime.now.in_time_zone
+        redirect_to redirect_path
+      else
+        param_task_name = task_params[:name]
+        param_domain_name = Domain.find(task_params[:domain_id]).name
+        summary    = "#{domain_name} - #{task_name}"
+        client = Signet::OAuth2::Client.new(client_id: Rails.application.secrets.google_client_id,
+                                            client_secret: Rails.application.secrets.google_client_secret,
+                                            token_credential_uri: 'https://accounts.google.com/o/oauth2/token')
+        client.update!(session[:authorization])
+        service = Google::Apis::CalendarV3::CalendarService.new
+        service.authorization = client
+        service.list_events('primary').items.each do |event|
+          if event.summary == summary
+            event.summary = "#{param_domain_name} - #{param_task_name}"
+            service.update_event('primary', event.id, event)
+            break
+          end
+        end
+      end
       redirect_to client_tasks_path(@client), notice: t('.successfully_updated')
     else
       render :edit
@@ -40,7 +62,23 @@ class Client::TasksController < AdminController
   def destroy
     @task = @client.tasks.find(params[:id])
     respond_to do |format|
-      @task.destroy
+      if @task.destroy
+        task_name      = @task.name
+        domain_name    = Domain.find(@task.domain_id).name
+        summary    = "#{domain_name} - #{task_name}"
+        client = Signet::OAuth2::Client.new(client_id: Rails.application.secrets.google_client_id,
+                                            client_secret: Rails.application.secrets.google_client_secret,
+                                            token_credential_uri: 'https://accounts.google.com/o/oauth2/token')
+        client.update!(session[:authorization])
+        service = Google::Apis::CalendarV3::CalendarService.new
+        service.authorization = client
+        service.list_events('primary').items.each do |event|
+          if event.summary == summary
+            service.delete_event('primary', event.id)
+            break
+          end
+        end
+      end
       format.json { head :ok }
       format.html { redirect_to client_tasks_path(@client), notice: t('.successfully_deleted') }
     end
