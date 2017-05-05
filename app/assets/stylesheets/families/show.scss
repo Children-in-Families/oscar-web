@@ -1,4 +1,6 @@
-#families-show {
+body[id='families-show'] {
+	@import 'clients/client_grid';
+
 	.family {
 		.family-detail {
 			padding-top: 5px;

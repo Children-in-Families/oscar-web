@@ -174,6 +174,14 @@ CIF.ClientsAdvanced_search = do ->
     if !$.isEmptyObject basicQueryRules
       $('#builder').queryBuilder('setRules', basicQueryRules)
 
+  _handleStringfyRules = (rules) ->
+    rules = JSON.stringify(rules)
+    return rules.replace(/null/g, '""')
+
+  _handleSelectFieldVisibilityCheckBox = ->
+    checkedFields = $('.visibility .checked input, .all-visibility .checked input')
+    $('form#advanced-search').append(checkedFields)
+
   _handleInitDatatable = ->
     $('.clients-table table').DataTable(
         'sScrollY': 'auto'
@@ -185,14 +193,6 @@ CIF.ClientsAdvanced_search = do ->
         'bLengthChange': false
         'bPaginate': false
       )
-
-  _handleStringfyRules = (rules) ->
-    rules = JSON.stringify(rules)
-    return rules.replace(/null/g, '""')
-
-  _handleSelectFieldVisibilityCheckBox = ->
-    checkedFields = $('.visibility .checked input, .all-visibility .checked input')
-    $('form#advanced-search').append(checkedFields)
 
   _handleScrollTable = ->
     $(window).load ->
