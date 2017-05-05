@@ -248,7 +248,8 @@ en:
   is_not_email: is not an email
   must_be_uniq: field label must be uniq
   cannot_remove: cannot be removed
-  add_event_success: Add Event Successfully
+  add_event_success: Event has been added to calendar successfully.
+  has_been_added_to_calendar: This event has already been added to calendar.
 
   default_client_fields: &default_client_fields
     id: ID
