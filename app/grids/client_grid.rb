@@ -27,6 +27,8 @@ class ClientGrid
 
   filter(:status, :enum, select: :status_options, header: -> { I18n.t('datagrid.columns.clients.status') })
 
+  # filter(:house_number, :string)
+
   def status_options
     scope.status_like
   end
@@ -123,6 +125,16 @@ class ClientGrid
   end
 
   filter(:current_address, :string, header: -> { I18n.t('datagrid.columns.clients.current_address') }) { |value, scope| scope.current_address_like(value) }
+
+  filter(:house_number, :string, header: -> { I18n.t('datagrid.columns.clients.house_num') }) { |value, scope| scope.house_number_like(value) }
+
+  filter(:street_number, :string, header: -> { I18n.t('datagrid.columns.clients.street_num') }) { |value, scope| scope.street_number_like(value) }
+
+  filter(:village, :string, header: -> { I18n.t('datagrid.columns.clients.village') }) { |value, scope| scope.village_like(value) }
+
+  filter(:commune, :string, header: -> { I18n.t('datagrid.columns.clients.commune') }) { |value, scope| scope.commune_like(value) }
+
+  filter(:district, :string, header: -> { I18n.t('datagrid.columns.clients.district') }) { |value, scope| scope.district_like(value) }
 
   filter(:school_name, :string, header: -> { I18n.t('datagrid.columns.clients.school_name') }) { |value, scope| scope.school_name_like(value) }
 
@@ -376,6 +388,16 @@ class ClientGrid
 
   column(:current_address, order: 'clients.current_address', header: -> { I18n.t('datagrid.columns.clients.current_address') })
 
+  column(:house_number, header: -> { I18n.t('datagrid.columns.clients.house_num') })
+
+  column(:street_number, header: -> { I18n.t('datagrid.columns.clients.street_num') })
+
+  column(:village, header: -> { I18n.t('datagrid.columns.clients.village') })
+
+  column(:commune, header: -> { I18n.t('datagrid.columns.clients.commune') })
+
+  column(:district, header: -> { I18n.t('datagrid.columns.clients.district') })
+
   column(:school_name, header: -> { I18n.t('datagrid.columns.clients.school_name') })
 
   column(:grade, header: -> { I18n.t('datagrid.columns.clients.school_grade') })
@@ -493,4 +515,6 @@ class ClientGrid
   column(:changelog, html: true, class: 'text-center', header: -> { I18n.t('datagrid.columns.clients.changelogs') }) do |object|
     link_to t('datagrid.columns.clients.view'), client_version_path(object)
   end
+
+
 end

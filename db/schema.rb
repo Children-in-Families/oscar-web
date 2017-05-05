@@ -230,11 +230,11 @@ ActiveRecord::Schema.define(version: 20170505074620) do
     t.string   "local_given_name",                 default: ""
     t.string   "local_family_name",                default: ""
     t.string   "kid_id",                           default: ""
-    t.string   "house_num"
-    t.string   "street_num"
-    t.string   "village"
-    t.string   "commune"
-    t.string   "district"
+    t.string   "house_number",                     default: ""
+    t.string   "street_number",                    default: ""
+    t.string   "village",                          default: ""
+    t.string   "commune",                          default: ""
+    t.string   "district",                         default: ""
   end
 
   add_index "clients", ["donor_id"], name: "index_clients_on_donor_id", using: :btree
