@@ -9,22 +9,27 @@ class CalendarsController < AdminController
   end
 
   def callback
-    client = Signet::OAuth2::Client.new(client_id: Rails.application.secrets.google_client_id,
-                                        client_secret: Rails.application.secrets.google_client_secret,
-                                        token_credential_uri: 'https://accounts.google.com/o/oauth2/token',
-                                        redirect_uri: callback_url,
-                                        code: params[:code])
-    response = client.fetch_access_token!
-    session[:authorization] = response
-    redirect_to dashboards_path
+    if params[:error].present?
+      redirect_to dashboards_path
+    else
+      client = Signet::OAuth2::Client.new(client_id: Rails.application.secrets.google_client_id,
+                                          client_secret: Rails.application.secrets.google_client_secret,
+                                          token_credential_uri: 'https://accounts.google.com/o/oauth2/token',
+                                          redirect_uri: callback_url,
+                                          code: params[:code])
+      response = client.fetch_access_token!
+      current_user.update(expires_at: DateTime.now + response['expires_in'].seconds)
+      session[:authorization] = response
+      redirect_to dashboards_path
+    end
   end
 
   def index
-    redirect_to redirect_path if session[:authorization].blank?
+    redirect_to redirect_path if session[:authorization].blank? || current_user.expires_at < DateTime.now.in_time_zone
   end
 
   def new
-    if session[:authorization].blank?
+    if session[:authorization].blank? || current_user.expires_at < DateTime.now.in_time_zone
       redirect_to redirect_path
     else
       @task      = Task.find(params[:task])
@@ -50,7 +55,11 @@ class CalendarsController < AdminController
         end
       end
       service.insert_event(primary_calendar_id, event)
-      redirect_to client_tasks_path(params[:client]), notice: t('add_event_success')
+      if params[:client].present?
+        redirect_to client_tasks_path(params[:client]), notice: t('add_event_success')
+      else
+        redirect_to tasks_path, notice: t('add_event_success')
+      end
     end
   end
 
