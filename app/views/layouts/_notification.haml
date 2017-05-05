@@ -1,3 +1,6 @@
+- if current_user.calendar_integration == true
+  = link_to calendars_path, title: 'Google Calendar',class: 'notification-text-color' do
+    %i.fa.fa-calendar-plus-o.fa-fw
 %li.dropdown
   %a.dropdown-toggle.count-info{"data-toggle" => "dropdown", :href => "#"}
     %i.fa.fa-bell

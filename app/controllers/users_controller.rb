@@ -78,7 +78,7 @@ class UsersController < AdminController
     params.require(:user).permit(:first_name, :last_name, :roles, :start_date,
                                 :job_title, :department_id, :mobile, :date_of_birth,
                                 :province_id, :email, :password,
-                                :password_confirmation, custom_field_ids: [])
+                                :password_confirmation, :calendar_integration, custom_field_ids: [])
   end
 
   def find_user

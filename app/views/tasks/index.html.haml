@@ -61,7 +61,7 @@
                           %td= "#{t('.domain')} #{task.domain.name}"
                           %td.task-name.border-left-right= task.name
                           %td= task.completion_date.strftime("%B %d, %Y")
-                          - if current_user.case_worker?
+                          - if current_user.case_worker? && current_user.calendar_integration == true
                             %td.text-center.margin-icon.border-left-right
                               = link_to new_calendar_path(task: task), title: 'Google Calendar' do
                                 .btn.btn-outline.btn-primary.btn-xs

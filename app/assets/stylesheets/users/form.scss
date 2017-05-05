@@ -1,3 +1,12 @@
 #registrations-new, #registrations-create, #registrations-edit, #registrations-update, #users-edit, #users-update {
   margin-bottom: 50px;
+  .calendar-integration {
+    span {
+      display: inline-block;
+      margin-right: 20px;
+    }
+    label {
+        padding-left: 0;
+    }
+  }
 }

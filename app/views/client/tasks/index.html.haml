@@ -74,8 +74,9 @@
                           = link_to client_task_path(@client, task), method: :delete, data: { confirm: t('.are_you_sure_you_want_to_delete') } do
                             .btn.btn-outline.btn-danger.btn-xs
                               %i.fa.fa-trash
-                        %td.text-center.margin-icon
-                          = link_to new_calendar_path(client: @client.id, task: task), title: 'Google Calendar' do
-                            .btn.btn-outline.btn-primary.btn-xs
-                              %i.fa.fa-calendar-plus-o
-                              = t('.add_to_calendar')
+                        - if current_user.calendar_integration == true
+                          %td.text-center.margin-icon
+                            = link_to new_calendar_path(client: @client.id, task: task), title: 'Google Calendar' do
+                              .btn.btn-outline.btn-primary.btn-xs
+                                %i.fa.fa-calendar-plus-o
+                                = t('.add_to_calendar')
