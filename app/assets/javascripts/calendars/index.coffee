@@ -36,6 +36,7 @@ CIF.CalendarsIndex = do ->
   _fillFullCalendarArray = (eventLists) ->
     events = []
     for eventList in eventLists
+      continue if eventList.status == 'cancelled'
       summary = eventList.summary
       startDate = eventList.start.date || eventList.start.date_time
       endDate = eventList.end.date || eventList.end.date_time
