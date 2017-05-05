@@ -24,9 +24,11 @@ CIF.CalendarsIndex = do ->
         eventRender: (event, element) ->
           element.popover
             animation: true
-            delay: 300
+            delay: 200
+            placement: 'top'
             content: event.title
             trigger: 'hover'
+            container: 'body'
       )
       $('.loader').hide()
     )
