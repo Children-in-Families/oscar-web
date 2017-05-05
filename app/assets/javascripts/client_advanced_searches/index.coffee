@@ -21,7 +21,6 @@ CIF.Client_advanced_searchesIndex = do ->
   _handleSelectCustomForm = ->
     $('#select-custom-form').on 'select2-selecting', (e) ->
       customFormId = e.val
-      console.log customFormId
       if customFormId != ''
         $('#custom-form').show()
         _ajaxGetCustomField(customFormId)
