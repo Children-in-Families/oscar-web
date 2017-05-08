@@ -43,7 +43,8 @@ module AdvancedSearchHelper
       has_been_in_government_care: I18n.t('advanced_search.fields.has_been_in_government_care'),
       able_state: I18n.t('advanced_search.fields.able_state'),
       has_been_in_orphanage: I18n.t('advanced_search.fields.has_been_in_orphanage'),
-      user_id: I18n.t('advanced_search.fields.user_id')
+      user_id: I18n.t('advanced_search.fields.user_id'),
+      donor_id: I18n.t('advanced_search.fields.donor_id')
     }
     translations[key.to_sym] || ''
   end

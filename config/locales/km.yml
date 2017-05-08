@@ -772,6 +772,9 @@ km:
       no_results:  មិនមានលទ្ធផល
       results: លទ្ធផល
       assessments: ការប៉ាន់ប្រមាណ
+      add_new_filter: បន្ថែមការស្វែងរក
+      add_new_group: បន្ថែម​បណ្ដុំ​នៃការ​ស្វែងរក​
+      delete_group: លុប​បណ្ដុំ​នៃការ​ស្វែងរក​
   
   families:
     index:
@@ -2199,10 +2202,7 @@ km:
       referral_source_id: ប្រភពនៃការបញ្ជូន
       followed_up_by_id: បុគ្គលិកដែលតាមដានករណី
       user_id: បុគ្គលិកគ្រប់គ្រងករណី
+      donor_id: ម្ចាស់ជំនួយ
       <<: *default_custom_fields
       <<: *default_client_fields
-  client_advanced_searches:
-    index:
-      add_new_filter: បន្ថែមការស្វែងរក
-      add_new_group: បន្ថែម​បណ្ដុំ​នៃការ​ស្វែងរក​
-      delete_group: លុប​បណ្ដុំ​នៃការ​ស្វែងរក​
+      

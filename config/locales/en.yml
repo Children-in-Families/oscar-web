@@ -764,7 +764,8 @@ en:
     version:
       modification_of: Changelog of
       back: Back
-    advanced_search:
+  client_advanced_searches:
+    index:
       csi_domain_scores: CSI Domain Scores
       export_to_xls: Export to XLS
       advanced_search: Advanced Search
@@ -773,6 +774,9 @@ en:
       no_results: No Result Found
       results: Results
       assessments: Assessments
+      add_new_filter: Add New Filter
+      add_new_group: Add Group
+      delete_group: Delete
 
   families:
     index:
@@ -1983,10 +1987,8 @@ en:
       referral_source_id: Referral Source
       followed_up_by_id: Followed Up By
       user_id: Case Worker
+      donor_id: Donor
       <<: *default_custom_fields
       <<: *default_client_fields
-  client_advanced_searches:
-    index:
-      add_new_filter: Add New Filter
-      add_new_group: Add Group
-      delete_group: Delete
+
+      
