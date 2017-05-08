@@ -37,5 +37,9 @@
               .col-xs-12.col-md-4= f.input :password, autocomplete: 'off', hint: t('.leave_blank_if_you_dont_want_to_change'), required: false, label: t('.password')
               .col-xs-12.col-md-4= f.input :password_confirmation, required: false, label: t('.password_confirmation')
               .col-xs-12.col-md-4= f.input :current_password, hint: t('.we_need_your_current_password_to_confirm_your_changes'), required: true, label: t('.current_password')
+            - if policy(resource).task_notify?
+              .row
+                .col-xs-12.col-sm-6.col-md-4
+                  = f.input :task_notify, label: 'Send me overdue task summary', wrapper_html: { class: 'i-checks'}
         .ibox-footer
           = f.submit t('.save'), class: 'btn btn-primary form-btn'

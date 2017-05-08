@@ -1,0 +1,32 @@
+%p= "Hello #{@manager.name},"
+%p The following Case Workers currently have tasks overdue. Please see list below.
+%table{style: "border: 1px solid black; text-align: left;"}
+  %tr
+    %th{style: "border: 1px solid black; text-align: left;"} Case worker
+    %th{style: "border: 1px solid black; text-align: left;"} Amount
+    %th{style: "border: 1px solid black; text-align: left;"} Overdue tasks
+    %th{style: "border: 1px solid black; text-align: left;"} Due date
+  - @case_workers.each do |case_worker|
+    - case_worker_tasks = case_worker.tasks.overdue_incomplete_ordered
+    %tr
+      %td{style: "border: 1px solid black; text-align: left;"}
+        = case_worker.name
+      %td{style: "border: 1px solid black; text-align: left;"}
+        = case_worker_tasks.size
+      %td{style: "border: 1px solid black; text-align: left;"}
+        %ul{style: 'list-style: none; text-align: left; padding-left: 0px;'}
+          - case_worker_tasks.each do |task|
+            %li{style: 'margin: 5px 3px;'}
+              %span
+                Task name:
+                = link_to task.name, tasks_url(subdomain: @org_name), target: :_blank
+      %td{style: "border: 1px solid black; text-align: left;"}
+        %ul{style: 'list-style: none; text-align: left; padding-left: 0px;'}
+          - case_worker_tasks.each do |task|
+            %li{style: 'margin: 5px 3px;'}
+              %span
+                due on
+                = task.completion_date
+
+%p Thanks,
+%p Cambodian Families Team

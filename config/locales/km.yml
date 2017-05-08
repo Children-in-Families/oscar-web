@@ -348,6 +348,7 @@ km:
   default_user_fields: &default_user_fields
     id: លេខសំគាល់
     clients: អតិថិជន
+    manager: អ្នកគ្រប់គ្រង
     first_name: នាមខ្លួន
     last_name: នាមត្រកូល
     date_of_birth: ថ្ងៃ ខែ ឆ្នាំ កំណើត

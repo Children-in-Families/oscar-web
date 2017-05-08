@@ -347,6 +347,7 @@ en:
     clients: Clients
     first_name: First Name
     last_name: Last Name
+    manager: Manager
     date_of_birth: Date of Birth
     start_date: Start Date
     mobile: Mobile
