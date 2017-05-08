@@ -247,6 +247,7 @@ en:
   cannot_be_greater: can't be greater than %{count}
   is_not_email: is not an email
   must_be_uniq: field label must be uniq
+  field_label_cannot_be_blank: field label can't be blank
   cannot_remove: cannot be removed
   add_event_success: Event has been added to calendar successfully.
   has_been_added_to_calendar: This event has already been added to calendar.

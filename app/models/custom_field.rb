@@ -17,7 +17,7 @@ class CustomField < ActiveRecord::Base
   validates :time_of_frequency, presence: true,
                                 numericality: { only_integer: true, greater_than_or_equal_to: 1 }, if: 'frequency.present?'
   validate :presence_of_fields, if: 'field_objs.empty?'
-  validate :uniq_fields, if: 'fields.present?'
+  validate :uniq_fields, :field_label, if: 'fields.present?'
 
   before_save :set_time_of_frequency
   before_save :set_ngo_name, if: 'ngo_name.blank?'
@@ -57,6 +57,15 @@ class CustomField < ActiveRecord::Base
     end
     duplicate = labels.detect { |e| labels.count(e) > 1 }
     errors.add(:fields, I18n.t('must_be_uniq')) if duplicate.present?
+  end
+
+  def field_label
+    field_objs.collect do |object|
+      if object['label'].blank?
+        errors.add(:fields, I18n.t('field_label_cannot_be_blank'))
+        break
+      end
+    end
   end
 
   def field_objs

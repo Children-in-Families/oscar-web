@@ -21,7 +21,7 @@
       %span.help-block= f.object.errors[:fields].first
   .ibox-footer
     = f.submit t('save'), class: 'btn btn-primary form-btn', id: 'custom-field-submit'
-    - if @custom_field.id.present?
+    - if @custom_field.persisted?
       = link_to t('cancel'), custom_field_path(@custom_field), class: 'btn btn-default form-btn'
     - else
       = link_to t('cancel'), custom_fields_path(), class: 'btn btn-default form-btn'
