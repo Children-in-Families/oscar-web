@@ -273,6 +273,8 @@
                 %td
                   %strong
                     = @client.referral_source
+          .col-sm-12.col-md-6.second-table
+            %table.table.table-bordered
               %tr
                 %td.spacing-first-col
                   = t('.referral_phone')
@@ -291,9 +293,6 @@
                 %td
                   %strong
                     = user @client.followed_up_by
-
-          .col-sm-12.col-md-6.second-table
-            %table.table.table-bordered
               %tr
                 %td.spacing-first-col
                   = t('.follow_up_date')

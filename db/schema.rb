@@ -835,7 +835,6 @@ ActiveRecord::Schema.define(version: 20170505081953) do
     t.integer  "organization_id"
     t.boolean  "disable",                default: false
     t.datetime "expires_at"
-    t.integer  "manager_id"
     t.boolean  "calendar_integration",   default: false
   end
 
