@@ -169,7 +169,7 @@ module VersionHelper
   def version_values
     {
       free_text:            ['description', 'response', 'additional_note'],
-      booleans:             ['has_been_in_orphanage', 'has_been_in_government_care', 'able', 'dependable_income', 'family_preservation', 'exited', 'exited_from_cif', 'alert_manager'],
+      booleans:             ['has_been_in_orphanage', 'has_been_in_government_care', 'able', 'dependable_income', 'family_preservation', 'exited', 'exited_from_cif', 'alert_manager', 'calendar_integration'],
       titleizeTexts:        ['gender', 'state', 'family_type', 'roles'],
       assessments:          ['assessment_id'],
       score_colors:         ['score_1_color', 'score_2_color', 'score_3_color', 'score_4_color'],
