@@ -252,7 +252,8 @@ km:
   is_not_email: មិនមែនជាអ៊ីម៉ែល
   must_be_uniq: ផ្នែកនៃទម្រង់មិនអាចមានឈ្មោះដូចគ្នា
   cannot_remove: មិនអាចលុបបានទេ
-  add_event_success: បន្ថែមព្រឹត្តិការណ៍ដោយជោគជ័យ
+  add_event_success: ព្រឹត្តិការណ៍ត្រូវបានបន្ថែមទៅក្នុងប្រតិទិនដោយជោគជ័យ
+  has_been_added_to_calendar: ព្រឹត្តិការណ៍នេះត្រូវបានបន្ថែមទៅក្នុងប្រតិទិនរួចហើយ
 
   default_client_fields: &default_client_fields
     id: លេខសំគាល់
@@ -766,7 +767,6 @@ km:
       csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
       export_to_xls: ទាញចេញជាឯកសារប្រភេទ XLS
       advanced_search: ការស្វែងរកកម្រិតខ្ពស់
-      add_new_filter: បន្ថែមការស្វែងរក
       search: ស្វែងរក
       reset: សំអាត
       no_results:  មិនមានលទ្ធផល
@@ -2201,3 +2201,8 @@ km:
       user_id: បុគ្គលិកគ្រប់គ្រងករណី
       <<: *default_custom_fields
       <<: *default_client_fields
+  client_advanced_searches:
+    index:
+      add_new_filter: បន្ថែមការស្វែងរក
+      add_new_group: បន្ថែម​បណ្ដុំ​នៃការ​ស្វែងរក​
+      delete_group: លុប​បណ្ដុំ​នៃការ​ស្វែងរក​

@@ -60,6 +60,7 @@
 //= require clients/form
 //= require families/index
 //= require families/form
+//= require families/show
 //= require surveys/form
 //= require users/show
 //= require users/index

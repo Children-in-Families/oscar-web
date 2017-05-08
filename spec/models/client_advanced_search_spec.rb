@@ -12,8 +12,10 @@
 #         ]
 #       }
 #       clients = ClientAdvancedSearch.new(rules, Client.all).filter
+#
 #     expect(clients).to include(client_2, client_3)
 #   end
+#
 #   it 'return clients that has name test or code greater than 100' do
 #       rules = {condition: "OR", rules:
 #         [

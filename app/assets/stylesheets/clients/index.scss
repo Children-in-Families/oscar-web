@@ -1,20 +1,12 @@
-body[id='clients-index'], body[id='client_advanced_searches-index']{
+body[id='clients-index'] {
   @import 'iCheck/custom';
-  #client-search-form, #client-advance-search-form {
+  @import 'clients/client_grid';
+  #client-search-form {
     margin-top: 16px;
   }
-  .export-client{
-    margin-top: -16px;
-  }
-  .dataTables_scrollHead,
-  .dataTables_scrollBody{
-    width: 100% !important;
-  }
+
   .highcharts-legend-item path{
     cursor: pointer;
-  }
-  .visibility, .all-visibility{
-    margin: 2px 0 2px 0;
   }
   #client-statistic{
     margin-left: 10px;
@@ -24,23 +16,10 @@ body[id='clients-index'], body[id='client_advanced_searches-index']{
     margin-bottom: 0;
   }
 
-  .table {
-    th, td.gender, td.status, td.follow_up_date, td.date_of_birth, td.grade, td.has_been_in_orphanage, td.has_been_in_government_care, td.initial_referral_date, td.referral_phone, td.able, td.birth_province, td.province, td.state, td.case_start_date, td.carer_phone_number td.support_amount, td.family_preservation, td.cases {
-      text-align: center;
-    }
-  }
-
   .domain-filter-search {
     margin-bottom: 16px;
   }
 
-  td.manage a {
-    margin: 0 5px;
-    text-decoration: none;
-  }
-  .dataTables_scrollHeadInner{
-    padding-right: 0 !important;
-  }
   .datagrid-filter label{
     vertical-align: top;
     padding-top: 5px;
@@ -50,84 +29,6 @@ body[id='clients-index'], body[id='client_advanced_searches-index']{
   }
   #client-search-domain{
     margin-bottom: 20px;
-  }
-  ul.check-columns-visibility {
-    padding-left: 0;
-    li {
-      list-style: none;
-    }
-    .columns-visibility {
-      height: 250px;
-      width: 390px;
-      overflow-y: scroll;
-    }
-    .visibility {
-      label {
-        font-weight: normal;
-      }
-    }
-  }
-
-  th.form_title {
-    min-width: 200px;
-  }
-
-  th.changelog {
-    min-width: 100px;
-  }
-
-  th.age, th.name, th.status, th.state, th.family, th.partner, th.manage, th.cases, th.family_id {
-    min-width: 200px;
-  }
-
-  th.code, th.slug, th.grade, th.gender, th.cases, th.case_start_date {
-    min-width: 130px;
-  }
-
-  th.given_name, th.family_name {
-    min-width: 160px;
-  }
-
-  th.kid_id {
-    min-width: 175px;
-  }
-
-  th.local_given_name, th.local_family_name, th.commune {
-    min-width: 185px;
-  }
-
-  th.state {
-    min-width: 135px;
-  }
-
-  th.age, th.follow_up_date, th.received_by, th.followed_up_by, th.agency, th.date_of_birth, th.school_name, th.referral_phone, th.referral_source, th.birth_province, th.province, th.rejected_note, th.user, th.donor, th.carer_names, th.carer_address, th.support_amount, th.support_note, th.district {
-    min-width: 250px;
-  }
-  td.any_assessments, th.any_assessments, th.able_state, th.house_number, th.street_number, th.village {
-    min-width: 150px;
-  }
-
-  th.has_been_in_orphanage {
-    min-width: 260px;
-  }
-
-  th.has_been_in_government_care, th.relevant_referral_information {
-    min-width: 310px;
-  }
-
-  th.initial_referral_date, th.carer_phone_number, th.family_preservation, th.current_address {
-    min-width: 200px;
-  }
-
-  table.clients {
-    margin-bottom: 0;
-    th {
-      border-bottom-width: 0;
-    }
-  }
-
-  .reason_for_family_separation, .history_of_high_risk_behaviours, .history_of_harm, .history_of_disability_and_or_illness {
-    min-width: 360px;
   }
 
   .select2-container.dynamic_filter{
@@ -144,38 +45,6 @@ body[id='clients-index'], body[id='client_advanced_searches-index']{
     padding: 6px;
   }
 
-  table.clients,
-  .dataTables_scrollHeadInner {
-    width: 100% !important;
-  }
-  .dataTables_scrollBody {
-    max-height: 500px !important;
-  }
-
-  .popover.fade.top.in {
-    max-width: 271px;
-  }
-
-  .btn-assessment {
-    min-width: 100px;
-    margin-bottom: 3px;
-  }
-
-  .dataTables_info {
-    padding-top: 15px;
-  }
-
-  .client-option {
-    line-height: 38px;
-  }
-
-  table.clients tbody tr:hover {
-    cursor: pointer;
-  }
-  .client-custom-fields-list {
-    padding-left: 25px;
-    margin-right: 15px;
-  }
   @media screen and (max-width: 700px){
     .client-option {
       a {
