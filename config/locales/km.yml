@@ -282,6 +282,11 @@ km:
     follow_up_by: បុគ្គលិកដែលតាមដានករណី
     agency_names: ឈ្មោះអង្គភាព
     current_address: ឣាសយដ្ឋានបច្ចុប្បន្ន
+    house_number: លេខផ្ទះ
+    street_number: លេខផ្លូវ
+    village: ភូមិ
+    commune: ឃុំ/សង្កាត់
+    district: ស្រុក/ខណ្ឌ
     school_grade: កំរិតថ្នាក់
     has_been_in_orphanage: ធ្លាប់បាននៅក្នុងមណ្ឌលកុមារកំព្រា
     donor: ម្ចាស់ជំនួយ
@@ -756,7 +761,9 @@ km:
     version:
       modification_of: កំណែប្រែរបស់
       back: ត្រលប់ក្រោយ
-    advanced_search:
+
+  client_advanced_searches:
+    index:
       csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
       export_to_xls: ទាញចេញជាឯកសារប្រភេទ XLS
       advanced_search: ការស្វែងរកកម្រិតខ្ពស់
@@ -765,7 +772,7 @@ km:
       no_results:  មិនមានលទ្ធផល
       results: លទ្ធផល
       assessments: ការប៉ាន់ប្រមាណ
-
+  
   families:
     index:
       results: លទ្ធផល
