@@ -23,8 +23,8 @@
         .col-xs-12.col-sm-6.col-md-4
           = f.association :donor, collection: @donors, label: t('.donor')
         .col-xs-12.col-sm-6.col-md-4= f.input :current_address, input_html: { rows: '6' }, label: t('.current_address')
-        .col-xs-12.col-sm-6.col-md-4= f.input :house_number, label: t('.house_num')
-        .col-xs-12.col-sm-6.col-md-4= f.input :street_number, label: t('.street_num')
+        .col-xs-12.col-sm-6.col-md-4= f.input :house_number, label: t('.house_number')
+        .col-xs-12.col-sm-6.col-md-4= f.input :street_number, label: t('.street_number')
         .col-xs-12.col-sm-6.col-md-4= f.input :village, label: t('.village')
         .col-xs-12.col-sm-6.col-md-4= f.input :commune, label: t('.commune')
         .col-xs-12.col-sm-6.col-md-4= f.input :district, label: t('.district')

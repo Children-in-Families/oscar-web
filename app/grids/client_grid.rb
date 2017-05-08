@@ -126,9 +126,9 @@ class ClientGrid
 
   filter(:current_address, :string, header: -> { I18n.t('datagrid.columns.clients.current_address') }) { |value, scope| scope.current_address_like(value) }
 
-  filter(:house_number, :string, header: -> { I18n.t('datagrid.columns.clients.house_num') }) { |value, scope| scope.house_number_like(value) }
+  filter(:house_number, :string, header: -> { I18n.t('datagrid.columns.clients.house_number') }) { |value, scope| scope.house_number_like(value) }
 
-  filter(:street_number, :string, header: -> { I18n.t('datagrid.columns.clients.street_num') }) { |value, scope| scope.street_number_like(value) }
+  filter(:street_number, :string, header: -> { I18n.t('datagrid.columns.clients.street_number') }) { |value, scope| scope.street_number_like(value) }
 
   filter(:village, :string, header: -> { I18n.t('datagrid.columns.clients.village') }) { |value, scope| scope.village_like(value) }
 
@@ -388,9 +388,9 @@ class ClientGrid
 
   column(:current_address, order: 'clients.current_address', header: -> { I18n.t('datagrid.columns.clients.current_address') })
 
-  column(:house_number, header: -> { I18n.t('datagrid.columns.clients.house_num') })
+  column(:house_number, header: -> { I18n.t('datagrid.columns.clients.house_number') })
 
-  column(:street_number, header: -> { I18n.t('datagrid.columns.clients.street_num') })
+  column(:street_number, header: -> { I18n.t('datagrid.columns.clients.street_number') })
 
   column(:village, header: -> { I18n.t('datagrid.columns.clients.village') })
 

@@ -92,7 +92,7 @@ body[id='clients-index'], body[id='client_advanced_searches-index']{
     min-width: 175px;
   }
 
-  th.local_given_name, th.local_family_name {
+  th.local_given_name, th.local_family_name, th.commune {
     min-width: 185px;
   }
 
@@ -100,10 +100,10 @@ body[id='clients-index'], body[id='client_advanced_searches-index']{
     min-width: 135px;
   }
 
-  th.age, th.follow_up_date, th.received_by, th.followed_up_by, th.agency, th.date_of_birth, th.school_name, th.referral_phone, th.referral_source, th.birth_province, th.province, th.rejected_note, th.user, th.donor, th.carer_names, th.carer_address, th.support_amount, th.support_note {
+  th.age, th.follow_up_date, th.received_by, th.followed_up_by, th.agency, th.date_of_birth, th.school_name, th.referral_phone, th.referral_source, th.birth_province, th.province, th.rejected_note, th.user, th.donor, th.carer_names, th.carer_address, th.support_amount, th.support_note, th.district {
     min-width: 250px;
   }
-  td.any_assessments, th.any_assessments, th.able_state {
+  td.any_assessments, th.any_assessments, th.able_state, th.house_number, th.street_number, th.village {
     min-width: 150px;
   }
 
@@ -183,11 +183,5 @@ body[id='clients-index'], body[id='client_advanced_searches-index']{
         margin-top: 8px;
       }
     }
-  }
-  th.house_number { min-width: 150px; }
-  th.street_number { min-width: 150px; }
-  th.village { min-width: 100px; }
-  th.commune { min-width: 180px; }
-  th.district { min-width: 250px; }
+  } 
 }
-

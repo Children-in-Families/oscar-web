@@ -277,11 +277,11 @@ en:
     follow_up_by: Followed Up By
     agency_names: Agency Name
     current_address: Current Address
-    house_num: House Number
-    street_num: Street Number
+    house_number: House Number
+    street_number: Street Number
     village: Village
     commune: Commune/Sangkat
-    district: Municipality/District/Khan
+    district: District/Khan
     school_grade: School Grade
     has_been_in_orphanage: Has Been In Orphanage
     relevant_referral_information: Relevant Referral Information
