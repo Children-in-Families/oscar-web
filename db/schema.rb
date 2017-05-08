@@ -830,7 +830,7 @@ ActiveRecord::Schema.define(version: 20170505081953) do
     t.integer  "organization_id"
     t.boolean  "disable",                default: false
     t.datetime "expires_at"
-    t.boolean  "calendar_integration",   default: true
+    t.boolean  "calendar_integration",   default: false
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
