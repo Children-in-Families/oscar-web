@@ -46,7 +46,8 @@ module AdvancedSearches
         ['able_state', client_able_state],
         ['has_been_in_orphanage', { true: 'Yes', false: 'No' }],
         ['user_id', user_select_options],
-        ['form_title', client_custom_form_options]
+        ['form_title', client_custom_form_options],
+        ['donor_id', donor_options]
       ]
     end
 
@@ -87,6 +88,10 @@ module AdvancedSearches
 
     def user_select_options
       User.has_clients.order(:first_name, :last_name).map { |user| { user.id.to_s => user.name } }
+    end
+
+    def donor_options
+      Donor.order(:name).map { |donor| { donor.id.to_s => donor.name } }
     end
   end
 end

@@ -1,6 +1,5 @@
 CIF.FamiliesShow = do ->
   _init = ->
-    console.log 'Yolo'
     _handleInitDatatable()
     _handleScrollTable()
 
