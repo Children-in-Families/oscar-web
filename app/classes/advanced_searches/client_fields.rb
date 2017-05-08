@@ -91,7 +91,7 @@ module AdvancedSearches
     end
 
     def donor_options
-      Donor.all.order(:name).map { |donor| { donor.id.to_s => donor.name } }
+      Donor.order(:name).map { |donor| { donor.id.to_s => donor.name } }
     end
   end
 end
