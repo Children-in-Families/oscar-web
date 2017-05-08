@@ -1,12 +1,12 @@
 body[id='families-show'] {
-	@import 'clients/client_grid';
+  @import 'clients/client_grid';
 
-	.family {
-		.family-detail {
-			padding-top: 5px;
-			padding-bottom: 5px;
-		}
-	}
+  .family {
+    .family-detail {
+      padding-top: 5px;
+      padding-bottom: 5px;
+    }
+  }
 
   .small-btn-margin {
     margin-top: 8px;
