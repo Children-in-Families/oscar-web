@@ -22,7 +22,7 @@
     min-width: 135px;
   }
 
-  th.any_assessments, th.able_state {
+  th.any_assessments, th.able_state, th.house_number, th.street_number, th.village {
     min-width: 150px;
   }
 
@@ -34,7 +34,7 @@
     min-width: 175px;
   }
 
-  th.local_given_name, th.local_family_name {
+  th.local_given_name, th.local_family_name, th.commune {
     min-width: 185px;
   }
 
@@ -45,7 +45,7 @@
 
   th.age, th.follow_up_date, th.received_by, th.followed_up_by, th.agency, th.date_of_birth,
   th.school_name, th.referral_phone, th.referral_source, th.birth_province, th.province,
-  th.rejected_note, th.user, th.donor, th.carer_names, th.carer_address, th.support_amount, th.support_note {
+  th.rejected_note, th.user, th.donor, th.carer_names, th.carer_address, th.support_amount, th.support_note, th.district {
     min-width: 250px;
   }
 

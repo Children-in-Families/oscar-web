@@ -230,6 +230,11 @@ ActiveRecord::Schema.define(version: 20170505081953) do
     t.string   "local_given_name",                 default: ""
     t.string   "local_family_name",                default: ""
     t.string   "kid_id",                           default: ""
+    t.string   "house_number",                     default: ""
+    t.string   "street_number",                    default: ""
+    t.string   "village",                          default: ""
+    t.string   "commune",                          default: ""
+    t.string   "district",                         default: ""
   end
 
   add_index "clients", ["donor_id"], name: "index_clients_on_donor_id", using: :btree
@@ -830,6 +835,7 @@ ActiveRecord::Schema.define(version: 20170505081953) do
     t.integer  "organization_id"
     t.boolean  "disable",                default: false
     t.datetime "expires_at"
+    t.integer  "manager_id"
     t.boolean  "calendar_integration",   default: false
   end
 
