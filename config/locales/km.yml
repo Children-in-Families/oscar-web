@@ -775,9 +775,8 @@ km:
       results: លទ្ធផល
       assessments: ការប៉ាន់ប្រមាណ
       add_new_filter: បន្ថែមការស្វែងរក
-      add_new_group: បន្ថែម​បណ្ដុំ​នៃការ​ស្វែងរក​
-      delete_group: លុប​បណ្ដុំ​នៃការ​ស្វែងរក​
-
+      add_new_group: បន្ថែមបណ្ដុំនៃការស្វែងរក
+      delete_group: លុបបណ្ដុំនៃការស្វែងរក
   families:
     index:
       results: លទ្ធផល
