@@ -8,4 +8,8 @@ body[id=calendars-index]{
     height: 200px;
     animation: spin 2s linear infinite;
   }
+
+  .popover {
+    z-index: 2060 !important;
+  }
 }
