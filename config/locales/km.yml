@@ -251,6 +251,7 @@ km:
   cannot_be_greater: មិនអាចធំជាង %{count}
   is_not_email: មិនមែនជាអ៊ីម៉ែល
   must_be_uniq: ផ្នែកនៃទម្រង់មិនអាចមានឈ្មោះដូចគ្នា
+  field_label_cannot_be_blank: ផ្នែកនៃទម្រង់មិនអាចរំលង
   cannot_remove: មិនអាចលុបបានទេ
   add_event_success: ព្រឹត្តិការណ៍ត្រូវបានបន្ថែមទៅក្នុងប្រតិទិនដោយជោគជ័យ
   has_been_added_to_calendar: ព្រឹត្តិការណ៍នេះត្រូវបានបន្ថែមទៅក្នុងប្រតិទិនរួចហើយ
@@ -775,7 +776,7 @@ km:
       add_new_filter: បន្ថែមការស្វែងរក
       add_new_group: បន្ថែម​បណ្ដុំ​នៃការ​ស្វែងរក​
       delete_group: លុប​បណ្ដុំ​នៃការ​ស្វែងរក​
-  
+
   families:
     index:
       results: លទ្ធផល
@@ -2203,6 +2204,8 @@ km:
       followed_up_by_id: បុគ្គលិកដែលតាមដានករណី
       user_id: បុគ្គលិកគ្រប់គ្រងករណី
       donor_id: ម្ចាស់ជំនួយ
+      referred_to_ec: បញ្ជួនទៅករណី EC
+      referred_to_fc: បញ្ជួនទៅករណី FC
+      referred_to_kc: បញ្ជួនទៅករណី KC
       <<: *default_custom_fields
       <<: *default_client_fields
-      

@@ -81,7 +81,7 @@
   .ibox-footer
     %button.btn.btn-primary.form-btn#submit-button{ type: 'button' }
       = t('save')
-    - if @client.id.present?
+    - if @client.persisted?
       = link_to t('cancel'), client_path(@client), class: 'btn btn-default form-btn'
     - else
       = link_to t('cancel'), clients_path, class: 'btn btn-default form-btn'
