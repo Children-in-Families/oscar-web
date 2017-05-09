@@ -3,10 +3,10 @@
 %ul
 - @overdue_tasks.each do |task|
   %li
-    %span Task name:
-    = link_to task.name, tasks_url(subdomain: @short_name), target: :_blank
-    %span 
-      and due on
+    %span
+      = link_to task.name, tasks_url(subdomain: @short_name), target: :_blank
+    %span
+      , due on
       = task.completion_date
 %p Thanks,
 %p Cambodian Families Team

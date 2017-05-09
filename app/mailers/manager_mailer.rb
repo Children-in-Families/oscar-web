@@ -12,7 +12,7 @@ class ManagerMailer < ActionMailer::Base
     @org_name     = org_name
     @manager      = manager
     @case_workers = case_workers
-    return unless @case_workers.present?
+    return unless @case_workers.present? && @manager.task_notify
     mail(to: @manager.email, subject: 'Case workers Overdue Task')
   end
 end
