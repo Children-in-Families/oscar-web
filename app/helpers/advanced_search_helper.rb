@@ -6,7 +6,7 @@ module AdvancedSearchHelper
       ''
     end
   end
-  
+
   def format_header(key)
     translations = {
       given_name: I18n.t('advanced_search.fields.given_name'),
@@ -44,7 +44,10 @@ module AdvancedSearchHelper
       able_state: I18n.t('advanced_search.fields.able_state'),
       has_been_in_orphanage: I18n.t('advanced_search.fields.has_been_in_orphanage'),
       user_id: I18n.t('advanced_search.fields.user_id'),
-      donor_id: I18n.t('advanced_search.fields.donor_id')
+      donor_id: I18n.t('advanced_search.fields.donor_id'),
+      referred_to_ec: I18n.t('advanced_search.fields.referred_to_ec'),
+      referred_to_kc: I18n.t('advanced_search.fields.referred_to_kc'),
+      referred_to_fc: I18n.t('advanced_search.fields.referred_to_fc')
     }
     translations[key.to_sym] || ''
   end

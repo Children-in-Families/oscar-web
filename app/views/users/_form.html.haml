@@ -30,7 +30,7 @@
               %i.fa.fa-calendar-check-o
         .col-xs-12.col-sm-6.col-md-4
           .i-checks.calendar-integration
-            %label= 'Calendar Integration'
+            %label= t('.calendar_integration')
             = f.input :calendar_integration, as: :radio_buttons, collection: [['Yes', true],['No', false]], label: false
   .ibox-footer
     = f.submit t('save'), class: 'btn btn-primary form-btn'

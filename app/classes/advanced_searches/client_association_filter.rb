@@ -24,6 +24,12 @@ module AdvancedSearches
         values = family_name_field_query
       when 'age'
         values = age_field_query
+      when 'referred_to_ec'
+        values = program_placement_date_field_query('EC')
+      when 'referred_to_fc'
+        values = program_placement_date_field_query('FC')
+      when 'referred_to_kc'
+        values = program_placement_date_field_query('KC')
       end
       {id: sql_string, values: values}
     end
@@ -192,6 +198,34 @@ module AdvancedSearches
       else
         ids.to_i > 1000000 ? "1000000" : ids
       end
+    end
+
+    def program_placement_date_field_query(case_type)
+      clients = @clients.joins(:cases)
+
+      case @operator
+      when 'equal'
+        clients = clients.where(cases: { case_type: case_type, start_date: @value })
+      when 'not_equal'
+        clients = clients.where("cases.case_type = ? AND cases.start_date != ? OR cases.start_date IS NULL", case_type, @value)
+      when 'less'
+        clients = clients.where('cases.case_type = ? AND cases.start_date < ?', case_type, @value)
+      when 'less_or_equal'
+        clients = clients.where('cases.case_type = ? AND cases.start_date <= ?', case_type, @value)
+      when 'greater'
+        clients = clients.where('cases.case_type = ? AND cases.start_date > ?', case_type, @value)
+      when 'greater_or_equal'
+        clients = clients.where('cases.case_type = ? AND cases.start_date >= ?', case_type, @value)
+      when 'between'
+        clients = clients.where(cases: { case_type: case_type, start_date: @value[0]..@value[1] })
+      when 'is_empty'
+        ids = @clients.where.not(id: clients.ids).ids
+      end
+
+      if @operator != 'is_empty'
+        ids = clients.ids
+      end
+      ids
     end
   end
 end

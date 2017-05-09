@@ -13,6 +13,16 @@ CIF.Client_advanced_searchesIndex = do ->
     _handleSelectCustomForm()
     _handleInitCustomFormBuilder()
 
+  _referred_to_program = ->
+    $('.rule-filter-container select').change ->
+      selectedOption      = $(this).find('option:selected')
+      selectedOptionValue = $(selectedOption).val()
+      if selectedOptionValue == 'referred_to_ec' || selectedOptionValue == 'referred_to_fc' || selectedOptionValue == 'referred_to_kc'
+        setTimeout ( ->
+          $(selectedOption).parents('.rule-filter-container').siblings('.rule-operator-container').find('select option[value="is_empty"]').remove()
+        ),10
+
+
   _initSelect2 = ->
     $('select').select2(
       width: 'resolve'
@@ -63,35 +73,35 @@ CIF.Client_advanced_searchesIndex = do ->
         _handleSelectOptionChange()
         _initSelect2()
 
-  _removeNoFilterSelect = ->
-    allFilters = $('.rule-filter-container select')
+  _handleValidateSearch = ->
+    filterValidate = []
+    allFilters = $('.rule-container')
     for filter in allFilters
-      if $(filter).val() == '-1'
-        ruleContainer = $(filter).closest('.rule-container')
-        $(ruleContainer).find(".btn-danger[data-delete='rule']").click()
+      filterField     = $(filter).find('.rule-filter-container select').val()
+      filterOperator  = $(filter).find('.rule-operator-container select').val()
+      filterValue     = $(filter).find('.rule-value-container input.form-control').val()
 
-  _removeNoValueFilter = ->
-    allFilters = $('.rule-value-container input.form-control')
-    for filter in allFilters
-      if $(filter).val() == ''
-        ruleContainer = $(filter).closest('.rule-container')
-        $(ruleContainer).find(".btn-danger[data-delete='rule']").click()
+      if (filterField == '-1') || (filterField != '-1' && filterOperator != 'is_empty' && filterValue == '')
+        filterValidate.push filter
+
+    if filterValidate.length == 0
+      $('#advanced-search').submit()
+
 
   _handleSearch = ->
     $('#search').on 'click', ->
-      _removeNoFilterSelect()
-      _removeNoValueFilter()
       customFormValue = $('#select-custom-form').val()
       $('#client_advanced_search_selected_custom_form').val(customFormValue)
+
       basicRules = $('#builder').queryBuilder('getRules')
       customFormRules = _getCustomFormRules(customFormValue)
+
       if !($.isEmptyObject(basicRules)) || !($.isEmptyObject(customFormRules))
-        $('.has-error').removeClass('has-error')
         $('#client_advanced_search_basic_rules').val(_handleStringfyRules(basicRules))
         $('#client_advanced_search_custom_form_rules').val(_handleStringfyRules(customFormRules))
-
         _handleSelectFieldVisibilityCheckBox()
-        $('#advanced-search').submit()
+
+        _handleValidateSearch()
 
   _getCustomFormRules = (customFormValue)->
     if customFormValue == ''
@@ -141,6 +151,7 @@ CIF.Client_advanced_searchesIndex = do ->
     $('#builder, #custom-form').on 'afterCreateRuleFilters.queryBuilder', ->
       _initSelect2()
       _handleSelectOptionChange()
+      _referred_to_program()
 
   _handleSelectOptionChange = ->
     $('select').on 'select2-selecting', (e) ->

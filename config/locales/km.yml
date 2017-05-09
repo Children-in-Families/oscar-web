@@ -777,7 +777,7 @@ km:
       add_new_filter: បន្ថែមការស្វែងរក
       add_new_group: បន្ថែម​បណ្ដុំ​នៃការ​ស្វែងរក​
       delete_group: លុប​បណ្ដុំ​នៃការ​ស្វែងរក​
-  
+
   families:
     index:
       results: លទ្ធផល
@@ -858,6 +858,7 @@ km:
     form:
       <<: *default_user_fields
       custom_forms: ទម្រង់បែបបទបន្ថែម
+      calendar_integration: ការរួមបញ្ចូលប្រតិទិន
     show:
       <<: *default_user_fields
       general_info: អំពីអ្នកប្រើប្រាស់
@@ -1557,6 +1558,8 @@ km:
         save: រក្សាទុក
         delete_my_account: លុបចោលគណនីរបស់ខ្ញុំ
         are_you_sure: តើអ្នកប្រាកដហើយ?
+        calendar_integration: ការរួមបញ្ចូលប្រតិទិន
+        overdue_task_summary_notify: ផ្ញើឱ្យខ្ញុំសេចក្ដីសង្ខេបនៃភារកិច្ចហួសកាលកំណត់
     shared:
       links:
         back: ត្រលប់ក្រោយ
@@ -2205,6 +2208,8 @@ km:
       followed_up_by_id: បុគ្គលិកដែលតាមដានករណី
       user_id: បុគ្គលិកគ្រប់គ្រងករណី
       donor_id: ម្ចាស់ជំនួយ
+      referred_to_ec: បញ្ជួនទៅករណី EC
+      referred_to_fc: បញ្ជួនទៅករណី FC
+      referred_to_kc: បញ្ជួនទៅករណី KC
       <<: *default_custom_fields
       <<: *default_client_fields
-      
