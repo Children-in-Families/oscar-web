@@ -13,6 +13,7 @@ class User < ActiveRecord::Base
 
   belongs_to :province,   counter_cache: true
   belongs_to :department, counter_cache: true
+  belongs_to :manager, class_name: 'User', foreign_key: :manager_id, required: false
   has_many :cases
   has_many :changelogs
   has_many :progress_notes, dependent: :restrict_with_error
@@ -39,6 +40,7 @@ class User < ActiveRecord::Base
   scope :has_clients,     ->        { joins(:clients).without_json_fields.uniq }
   scope :managers,        ->        { where(roles: MANAGERS) }
   scope :ec_managers,     ->        { where(roles: 'ec manager') }
+  scope :admins_managers, ->        { where("roles IN (?) OR roles = 'admin'", MANAGERS) }
   scope :non_strategic_overviewers, -> { where.not(roles: 'strategic overviewer') }
 
   before_save :assign_as_admin
