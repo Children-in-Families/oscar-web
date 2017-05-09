@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :custom_field do
     entity_type FFaker::Name.name
-    fields ['input': 'text'].to_json
+    fields [{'type'=>'text', 'label'=>'Hello World'}].to_json
     form_title FFaker::Name.name
   end
 end
