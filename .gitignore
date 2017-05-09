@@ -19,5 +19,6 @@
 .env
 .env.test
 .env.development
+dump.rdb
 # For Mac OS only
 .DS_Store
