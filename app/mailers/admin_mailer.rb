@@ -12,7 +12,7 @@ class AdminMailer < ActionMailer::Base
     @org_name     = org_name
     @admin        = admin
     @case_workers = case_workers
-    
+    return unless @case_workers.present?
     mail(to: @admin.email, subject: 'Case workers Overdue Task')
   end
 end

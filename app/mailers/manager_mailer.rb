@@ -5,7 +5,6 @@ class ManagerMailer < ActionMailer::Base
     @clients = clients
     @manager = options[:manager]
     @day     = options[:day]
-
     mail(to: @manager, subject: 'Reminder [Clients Are About To Exit Emergency Care Program')
   end
 
@@ -13,7 +12,7 @@ class ManagerMailer < ActionMailer::Base
     @org_name     = org_name
     @manager      = manager
     @case_workers = case_workers
-    
+    return unless @case_workers.present?
     mail(to: @manager.email, subject: 'Case workers Overdue Task')
   end
 end
