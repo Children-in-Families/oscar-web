@@ -1989,7 +1989,8 @@ en:
       followed_up_by_id: Followed Up By
       user_id: Case Worker
       donor_id: Donor
+      referred_to_ec: Referred To EC
+      referred_to_fc: Referred To FC
+      referred_to_kc: Referred To KC
       <<: *default_custom_fields
       <<: *default_client_fields
-
-      

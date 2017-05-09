@@ -13,6 +13,16 @@ CIF.Client_advanced_searchesIndex = do ->
     _handleSelectCustomForm()
     _handleInitCustomFormBuilder()
 
+  _referred_to_program = ->
+    $('.rule-filter-container select').change ->
+      selectedOption      = $(this).find('option:selected')
+      selectedOptionValue = $(selectedOption).val()
+      if selectedOptionValue == 'referred_to_ec' || selectedOptionValue == 'referred_to_fc' || selectedOptionValue == 'referred_to_kc'
+        setTimeout ( ->
+          $(selectedOption).parents('.rule-filter-container').siblings('.rule-operator-container').find('select option[value="is_empty"]').remove()
+        ),10
+
+
   _initSelect2 = ->
     $('select').select2(
       width: 'resolve'
@@ -141,6 +151,7 @@ CIF.Client_advanced_searchesIndex = do ->
     $('#builder, #custom-form').on 'afterCreateRuleFilters.queryBuilder', ->
       _initSelect2()
       _handleSelectOptionChange()
+      _referred_to_program()
 
   _handleSelectOptionChange = ->
     $('select').on 'select2-selecting', (e) ->
