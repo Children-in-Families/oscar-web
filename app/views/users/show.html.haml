@@ -47,6 +47,12 @@
                     = @user.department.name if @user.department
               %tr
                 %td.spacing-first-col
+                  = t('.manager')
+                %td
+                  %strong
+                    = @user.manager.name if @user.manager
+              %tr
+                %td.spacing-first-col
                   = t('.mobile')
                 %td
                   %strong

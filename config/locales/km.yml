@@ -355,6 +355,7 @@ km:
   default_user_fields: &default_user_fields
     id: លេខសំគាល់
     clients: អតិថិជន
+    manager: អ្នកគ្រប់គ្រង
     first_name: នាមខ្លួន
     last_name: នាមត្រកូល
     date_of_birth: ថ្ងៃ ខែ ឆ្នាំ កំណើត
@@ -1558,6 +1559,7 @@ km:
         delete_my_account: លុបចោលគណនីរបស់ខ្ញុំ
         are_you_sure: តើអ្នកប្រាកដហើយ?
         calendar_integration: ការរួមបញ្ចូលប្រតិទិន
+        overdue_task_summary_notify: ផ្ញើឱ្យខ្ញុំសេចក្ដីសង្ខេបនៃភារកិច្ចហួសកាលកំណត់
     shared:
       links:
         back: ត្រលប់ក្រោយ

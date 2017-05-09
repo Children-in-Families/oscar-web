@@ -8,15 +8,9 @@ class CaseWorkerMailer < ActionMailer::Base
 
   def overdue_tasks_notify(user, short_name)
     @user = user
-    @overdue_tasks = overdue_tasks(user)
+    @overdue_tasks = user.tasks.overdue_incomplete_ordered
     @short_name = short_name
     return unless @overdue_tasks.present?
     mail(to: @user.email, subject: 'Overdue Tasks')
-  end
-
-  private
-
-  def overdue_tasks(user)
-     user.tasks.overdue_incomplete.order('completion_date ASC')
   end
 end

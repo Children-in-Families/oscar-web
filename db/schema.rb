@@ -836,6 +836,8 @@ ActiveRecord::Schema.define(version: 20170505081953) do
     t.boolean  "disable",                default: false
     t.datetime "expires_at"
     t.boolean  "calendar_integration",   default: false
+    t.boolean  "task_notify",            default: true
+    t.integer  "manager_id"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
