@@ -247,8 +247,10 @@ en:
   cannot_be_greater: can't be greater than %{count}
   is_not_email: is not an email
   must_be_uniq: field label must be uniq
+  field_label_cannot_be_blank: field label can't be blank
   cannot_remove: cannot be removed
-  add_event_success: Add Event Successfully
+  add_event_success: Event has been added to calendar successfully.
+  has_been_added_to_calendar: This event has already been added to calendar.
 
   default_client_fields: &default_client_fields
     id: ID
@@ -277,6 +279,11 @@ en:
     follow_up_by: Followed Up By
     agency_names: Agency Name
     current_address: Current Address
+    house_number: House Number
+    street_number: Street Number
+    village: Village
+    commune: Commune/Sangkat
+    district: District/Khan
     school_grade: School Grade
     has_been_in_orphanage: Has Been In Orphanage
     relevant_referral_information: Relevant Referral Information
@@ -759,16 +766,19 @@ en:
     version:
       modification_of: Changelog of
       back: Back
-    advanced_search:
+  client_advanced_searches:
+    index:
       csi_domain_scores: CSI Domain Scores
       export_to_xls: Export to XLS
       advanced_search: Advanced Search
-      add_new_filter: Add New Filter
       search: Search
       reset: Reset
       no_results: No Result Found
       results: Results
       assessments: Assessments
+      add_new_filter: Add New Filter
+      add_new_group: Add Group
+      delete_group: Delete
 
   families:
     index:
@@ -1979,5 +1989,8 @@ en:
       referral_source_id: Referral Source
       followed_up_by_id: Followed Up By
       user_id: Case Worker
+      donor_id: Donor
       <<: *default_custom_fields
       <<: *default_client_fields
+
+      

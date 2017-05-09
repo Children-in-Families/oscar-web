@@ -6,7 +6,6 @@
 #     visit clients_path
 #   end
 
-
 #   scenario 'Advanced search link' do
 #     expect(page).to have_content 'Advanced Search'
 #   end

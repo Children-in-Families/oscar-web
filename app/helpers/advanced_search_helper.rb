@@ -21,6 +21,11 @@ module AdvancedSearchHelper
       family: I18n.t('advanced_search.fields.family'),
       slug: I18n.t('advanced_search.fields.slug'),
       referral_phone: I18n.t('advanced_search.fields.referral_phone'),
+      house_number: I18n.t('advanced_search.fields.house_number'),
+      street_number: I18n.t('advanced_search.fields.street_number'),
+      village: I18n.t('advanced_search.fields.village'),
+      commune: I18n.t('advanced_search.fields.commune'),
+      district: I18n.t('advanced_search.fields.district'),
       school_name: I18n.t('advanced_search.fields.school_name'),
       placement_date: I18n.t('advanced_search.fields.placement_start_date'),
       date_of_birth: I18n.t('advanced_search.fields.date_of_birth'),
@@ -38,7 +43,8 @@ module AdvancedSearchHelper
       has_been_in_government_care: I18n.t('advanced_search.fields.has_been_in_government_care'),
       able_state: I18n.t('advanced_search.fields.able_state'),
       has_been_in_orphanage: I18n.t('advanced_search.fields.has_been_in_orphanage'),
-      user_id: I18n.t('advanced_search.fields.user_id')
+      user_id: I18n.t('advanced_search.fields.user_id'),
+      donor_id: I18n.t('advanced_search.fields.donor_id')
     }
     translations[key.to_sym] || ''
   end

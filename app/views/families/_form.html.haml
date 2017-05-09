@@ -31,7 +31,7 @@
 
   .ibox-footer
     = f.submit t('save'), class: 'btn btn-primary form-btn'
-    - if @family.id.present?
+    - if @family.persisted?
       = link_to t('cancel'), family_path(@family), class: 'btn btn-default form-btn'
     - else
       = link_to t('cancel'), families_path, class: 'btn btn-default form-btn'
