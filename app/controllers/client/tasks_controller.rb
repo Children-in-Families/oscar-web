@@ -47,7 +47,9 @@ class Client::TasksController < AdminController
         service.authorization = client
         service.list_events('primary').items.each do |event|
           if event.summary == summary
-            event.summary = "#{param_domain_name} - #{param_task_name}"
+            event.summary    = "#{param_domain_name} - #{param_task_name}"
+            event.start.date = task_params[:completion_date]
+            event.end.date   = (task_params[:completion_date].to_date + 1.days).to_s
             service.update_event('primary', event.id, event)
             break
           end
