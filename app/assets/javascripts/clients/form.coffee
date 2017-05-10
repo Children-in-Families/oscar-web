@@ -8,19 +8,18 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
 
   _ajaxCheckExistClient = ->
     $('#submit-button').on 'click', ->
-      name = $('#client_given_name').val()
-      gender =  $('#client_gender').val()
-      dateOfBirth = $('#client_date_of_birth').val()
-      birthProvicnceId = $('#client_birth_province_id').val()
-
-      if dateOfBirth != '' and name != '' and birthProvicnceId != ''
-        data = {
-          given_name: name
-          gender: gender
-          birth_province_id: birthProvicnceId
-          date_of_birth: dateOfBirth
-        }
-
+      data = {
+        given_name: $('#client_given_name').val()
+        family_name: $('#client_family_name').val()
+        local_given_name: $('#client_local_given_name').val()
+        local_family_name: $('#client_local_family_name').val()
+        birth_province_id: $('#client_birth_province_id').val()
+        current_province_id: $('#client_province_id').val()
+        date_of_birth: $('#client_date_of_birth').val()
+        village: $('#client_village').val()
+        commune: $('#client_commune').val()
+      }
+      if data.date_of_birth != '' and data.given_name != '' and data.birth_province_id != '' and data.family_name != '' and data.local_given_name != '' and data.local_family_name != '' and data.village != '' and data.commune != '' and data.current_province_id != ''
         $.ajax({
           type: 'GET'
           url: '/api/clients/compare'
@@ -30,7 +29,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
           clientId = $('#client_id').val()
           clientIds = []
           clients = json.clients
-
+          debugger
           for client in clients
             clientIds.push(String(client.id))
 
@@ -38,13 +37,14 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
             modalTitle      = $('#hidden_title').val()
             modalTextFirst  = $('#hidden_body_first').val()
             modalTextSecond = $('#hidden_body_second').val()
+            modalTextThird = $('#hidden_body_third').val()
             clientName      = $('#client_given_name').val()
             organizations   = []
             organizations.push(client.organization for client in clients)
             $.unique(organizations[0])
             modalText = []
             for organization in organizations[0]
-              modalText.push("<p>#{modalTextFirst} #{clientName} #{modalTextSecond} #{organization}.<p/>")
+              modalText.push("<p>#{modalTextFirst} #{organization}#{modalTextSecond} #{organization} #{modalTextThird}<p/>")
 
             $('#confirm-client-modal .modal-header .modal-title').text(modalTitle)
             $('#confirm-client-modal .modal-body').html(modalText)
