@@ -255,6 +255,7 @@ km:
   cannot_remove: មិនអាចលុបបានទេ
   add_event_success: ព្រឹត្តិការណ៍ត្រូវបានបន្ថែមទៅក្នុងប្រតិទិនដោយជោគជ័យ
   has_been_added_to_calendar: ព្រឹត្តិការណ៍នេះត្រូវបានបន្ថែមទៅក្នុងប្រតិទិនរួចហើយ
+  signed_in_with_google: ចូលបានជោគជ័យជាមួយនឹង Google Calendar
 
   default_client_fields: &default_client_fields
     id: លេខសំគាល់
@@ -1355,6 +1356,7 @@ km:
       upcoming_tasks: កាតព្វកិច្ចដែលមិនទាន់ធ្វើ
       filter_by_user: ស្វែងរកតាមរយៈអ្នកប្រើប្រាស់
       domain: កត្តា
+      add_to_calendar: បន្ថែមទៅប្រតិទិន
     filter:
       filter_by_user: ស្វែងរកតាមរយៈអ្នកប្រើប្រាស់
   client:
