@@ -1291,7 +1291,8 @@ en:
       filter_by_user: Filter By User
       select_user: Select User
       domain: Domain
-      add_to_calendar: Add To Calendar
+      add_to_calendar: Add to calendar
+      add_all_to_calendar: Add all to calendar
     filter:
       filter_by_user: Filter By User
       select_user: Select User
@@ -1305,7 +1306,8 @@ en:
         new_task: New Task
         are_you_sure_you_want_to_delete: Are you sure you want to delete?
         domain: Domain
-        add_to_calendar: Add To Calendar
+        add_to_calendar: Add to calendar
+        add_all_to_calendar: Add all to calendar
       new:
         title: New Task
         new_task_regarding: New Task Regarding

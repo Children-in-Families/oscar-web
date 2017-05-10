@@ -1358,6 +1358,7 @@ km:
       select_user: ជ្រើសរើស
       domain: កត្តា
       add_to_calendar: បន្ថែមទៅប្រតិទិន
+      add_all_to_calendar: បន្ថែមទាំងអស់ទៅប្រតិទិន
     filter:
       filter_by_user: ស្វែងរកតាមរយៈអ្នកប្រើប្រាស់
       select_user: ជ្រើសរើស
@@ -1372,6 +1373,7 @@ km:
         are_you_sure_you_want_to_delete: តើអ្នកប្រាកដហើយ?
         domain: កត្តា
         add_to_calendar: បន្ថែមទៅប្រតិទិន
+        add_all_to_calendar: បន្ថែមទាំងអស់ទៅប្រតិទិន
       new:
         title: កាតព្វកិច្ចថ្មី
         new_task_regarding: កាតព្វកិច្ចទាក់ទង៖

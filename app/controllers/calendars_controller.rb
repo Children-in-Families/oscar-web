@@ -20,7 +20,7 @@ class CalendarsController < AdminController
       response = client.fetch_access_token!
       current_user.update(expires_at: DateTime.now + response['expires_in'].seconds)
       session[:authorization] = response
-      redirect_to session[:referrer], notice: t('signed_in_with_google')
+      redirect_to session[:referrer]
     end
   end
 
@@ -40,36 +40,67 @@ class CalendarsController < AdminController
       summary    = "#{domain.name} - #{task.name}"
       start_date = task.completion_date.to_s
       end_date   = (task.completion_date + 1).to_s
-      primary_calendar_id = ''
-      events = ''
+      # events = ''
       client = Signet::OAuth2::Client.new(client_id: Rails.application.secrets.google_client_id,
                                           client_secret: Rails.application.secrets.google_client_secret,
                                           token_credential_uri: 'https://accounts.google.com/o/oauth2/token')
       client.update!(session[:authorization])
       service = Google::Apis::CalendarV3::CalendarService.new
       service.authorization = client
-      service.list_events('primary').items.each do |event|
-        if event.summary == summary
-          events << event.summary
-          break
-        end
-      end
-      if events.present?
-        if params[:client].present?
-          redirect_to client_tasks_path(params[:client]), alert: t('has_been_added_to_calendar')
-        else
-          redirect_to tasks_path, alert: t('has_been_added_to_calendar')
-        end
+      # validate dulicap task
+      # service.list_events('primary').items.each do |event|
+      #   if event.summary == summary
+      #     events = event.summary
+      #     break
+      #   end
+      # end
+      # if events.present?
+      #   if params[:client].present?
+      #     redirect_to client_tasks_path(params[:client]), alert: t('has_been_added_to_calendar')
+      #   else
+      #     redirect_to tasks_path, alert: t('has_been_added_to_calendar')
+      #   end
+      # else
+      event = Google::Apis::CalendarV3::Event.new(start: Google::Apis::CalendarV3::EventDateTime.new(date: start_date),
+                                                  end: Google::Apis::CalendarV3::EventDateTime.new(date: end_date),
+                                                  summary: summary)
+      service.insert_event('primary', event)
+      if params[:client].present?
+        redirect_to client_tasks_path(params[:client]), notice: t('add_event_success')
       else
+        redirect_to tasks_path, notice: t('add_event_success')
+      end
+      # end
+    end
+  end
+
+  def all_new
+    if session[:authorization].blank? || current_user.expires_at < DateTime.now.in_time_zone
+      session[:action] = params[:action]
+      session[:referrer] = request.referrer
+      redirect_to redirect_path
+    else
+      tasks = Task.incomplete.of_user(current_user).incomplete.upcoming
+      client = Signet::OAuth2::Client.new(client_id: Rails.application.secrets.google_client_id,
+                                          client_secret: Rails.application.secrets.google_client_secret,
+                                          token_credential_uri: 'https://accounts.google.com/o/oauth2/token')
+      client.update!(session[:authorization])
+      service = Google::Apis::CalendarV3::CalendarService.new
+      service.authorization = client
+      tasks.each do |task|
+        domain    = Domain.find(task.domain_id)
+        summary    = "#{domain.name} - #{task.name}"
+        start_date = task.completion_date.to_s
+        end_date   = (task.completion_date + 1).to_s
         event = Google::Apis::CalendarV3::Event.new(start: Google::Apis::CalendarV3::EventDateTime.new(date: start_date),
                                                     end: Google::Apis::CalendarV3::EventDateTime.new(date: end_date),
                                                     summary: summary)
         service.insert_event('primary', event)
-        if params[:client].present?
-          redirect_to client_tasks_path(params[:client]), notice: t('add_event_success')
-        else
-          redirect_to tasks_path, notice: t('add_event_success')
-        end
+      end
+      if params[:client].present?
+        redirect_to client_tasks_path(params[:client]), notice: t('add_event_success')
+      else
+        redirect_to tasks_path, notice: t('add_event_success')
       end
     end
   end
@@ -83,12 +114,17 @@ class CalendarsController < AdminController
     service = Google::Apis::CalendarV3::CalendarService.new
     service.authorization = client
     event_lists = []
-    calendar_lists = service.list_calendar_lists.items
-    calendar_lists.each do |list|
-      service.list_events(list.id).items.each do |event|
-        event_lists << event
-      end
+    #// get only cif event
+    service.list_events('primary').items.each do |event|
+      event_lists << event
     end
+    #// get all event
+    # calendar_lists = service.list_calendar_lists.items
+    # calendar_lists.each do |list|
+    #   service.list_events(list.id).items.each do |event|
+    #     event_lists << event
+    #   end
+    # end
     render json: event_lists
   end
 end

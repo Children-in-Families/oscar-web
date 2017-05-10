@@ -47,6 +47,12 @@
           .panel.panel-primary
             .panel-heading
               %h5= t('.upcoming_tasks')
+              - if current_user.case_worker? && current_user.calendar_integration? && @tasks.upcoming.count > 0
+                .text-right
+                  = link_to calendars_all_new_path, title: 'Google Calendar' do
+                    .btn.btn-back-default.btn-xs
+                      %i.fa.fa-calendar-plus-o
+                        = t('.add_all_to_calendar')
             .panel-body
               - grouped_tasks = @tasks.upcoming.group_by do |task|
                 - task.client
