@@ -10,7 +10,7 @@ class CalendarsController < AdminController
 
   def callback
     if params[:error].present?
-      redirect_to dashboards_path
+      redirect_to session[:referrer]
     else
       client = Signet::OAuth2::Client.new(client_id: Rails.application.secrets.google_client_id,
                                           client_secret: Rails.application.secrets.google_client_secret,
@@ -20,23 +20,26 @@ class CalendarsController < AdminController
       response = client.fetch_access_token!
       current_user.update(expires_at: DateTime.now + response['expires_in'].seconds)
       session[:authorization] = response
-      redirect_to dashboards_path
+      redirect_to session[:referrer], notice: t('signed_in_with_google')
     end
   end
 
   def index
+    session[:referrer] = url_for
     redirect_to redirect_path if session[:authorization].blank? || current_user.expires_at < DateTime.now.in_time_zone
   end
 
   def new
     if session[:authorization].blank? || current_user.expires_at < DateTime.now.in_time_zone
+      session[:task_id] = params[:task]
+      session[:referrer] = request.referrer
       redirect_to redirect_path
     else
-      @task      = Task.find(params[:task])
-      @domain    = Domain.find(@task.domain_id)
-      summary    = "#{@domain.name} - #{@task.name}"
-      start_date = @task.completion_date.to_s
-      end_date   = (@task.completion_date + 1).to_s
+      task      = Task.find(params[:task])
+      domain    = Domain.find(task.domain_id)
+      summary    = "#{domain.name} - #{task.name}"
+      start_date = task.completion_date.to_s
+      end_date   = (task.completion_date + 1).to_s
       primary_calendar_id = ''
       events = ''
       client = Signet::OAuth2::Client.new(client_id: Rails.application.secrets.google_client_id,
