@@ -3,7 +3,7 @@ class TasksController < AdminController
 
   def index
     @tasks = Task.incomplete.of_user(task_of_user)
-    @users = all_user
+    @users = find_users.order(:first_name, :last_name)
     if session[:task_id].present?
       task      = Task.find(session[:task_id])
       domain    = Domain.find(task.domain_id)
@@ -40,11 +40,13 @@ class TasksController < AdminController
 
   private
 
-  def all_user
+  def find_users
     if current_user.admin? || current_user.strategic_overviewer?
-      User.order(:first_name, :last_name)
+      User.all
+    elsif current_user.manager?
+      User.where('id = ? OR manager_id = ?', current_user.id, current_user.id)
     else
-      User.in_department(current_user.department_id).order(:first_name, :last_name)
+      User.in_department(current_user.department_id)
     end
   end
 

@@ -48,7 +48,7 @@ class CasesController < AdminController
   private
 
   def find_client
-    @client = Client.friendly.find(params[:client_id])
+    @client = Client.accessible_by(current_ability).friendly.find(params[:client_id])
   end
 
   def case_params

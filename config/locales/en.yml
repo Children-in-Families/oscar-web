@@ -1289,10 +1289,12 @@ en:
       today_tasks: Today Tasks
       upcoming_tasks: Upcoming Tasks
       filter_by_user: Filter By User
+      select_user: Select User
       domain: Domain
       add_to_calendar: Add To Calendar
     filter:
       filter_by_user: Filter By User
+      select_user: Select User
   client:
     tasks:
       index:

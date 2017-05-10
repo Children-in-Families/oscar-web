@@ -5,7 +5,7 @@
       %label{ for: 'user_id' }= t('.filter_by_user')
       %select{ id: 'user_id', class: 'form-control', name: 'user_id' }
         - unless params[:user_id]
-          %option{ selected: 'selected' } Select User
+          %option{ selected: 'selected' }= t('.select_user')
         - @users.each do |user|
           %option{ value: user.id, selected: user.id == params[:user_id].to_i }
             = user.name

@@ -88,5 +88,6 @@ class UsersController < AdminController
   def find_association
     @department = Department.order(:name)
     @province   = Province.order(:name)
+    @managers   = User.managers.order(:first_name, :last_name)
   end
 end
