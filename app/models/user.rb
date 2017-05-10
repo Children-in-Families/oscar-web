@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
   include EntityTypeCustomField
   include EntityTypeCustomFieldNotification
-  ROLES = ['admin', 'case worker', 'able manager', 'ec manager', 'fc manager', 'kc manager', 'strategic overviewer'].freeze
+  ROLES = ['admin', 'case worker', 'able manager', 'ec manager', 'fc manager', 'kc manager', 'manager', 'strategic overviewer'].freeze
   MANAGERS = ROLES.select { |role| role if role.include?('manager') }
 
   devise :database_authenticatable, :registerable,
@@ -34,13 +34,12 @@ class User < ActiveRecord::Base
   scope :in_department,   ->(value) { where('department_id = ?', value) }
   scope :job_title_are,   ->        { where.not(job_title: '').pluck(:job_title).uniq }
   scope :department_are,  ->        { joins(:department).pluck('departments.name', 'departments.id').uniq }
-  scope :case_workers,    ->        { where('roles iLIKE ?', '%case worker%') }
+  scope :case_workers,    ->        { where(roles: 'case worker') }
   scope :admins,          ->        { where(roles: 'admin') }
   scope :province_are,    ->        { joins(:province).pluck('provinces.name', 'provinces.id').uniq }
   scope :has_clients,     ->        { joins(:clients).without_json_fields.uniq }
   scope :managers,        ->        { where(roles: MANAGERS) }
   scope :ec_managers,     ->        { where(roles: 'ec manager') }
-  scope :admins_managers, ->        { where("roles IN (?) OR roles = 'admin'", MANAGERS) }
   scope :non_strategic_overviewers, -> { where.not(roles: 'strategic overviewer') }
 
   before_save :assign_as_admin
@@ -72,7 +71,7 @@ class User < ActiveRecord::Base
   end
 
   def any_manager?
-    any_case_manager? || able_manager?
+    any_case_manager? || able_manager? || manager?
   end
 
   def no_any_associated_objects?
