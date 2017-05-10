@@ -2,7 +2,6 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-
     can :manage, Agency
     can :manage, ReferralSource
     can :manage, QuarterlyReport
@@ -121,6 +120,16 @@ class Ability
       cannot :update, Assessment do |assessment|
         Date.current > assessment.created_at + 2.weeks
       end
+    elsif user.manager?
+      can :manage, Client, user_id: user.id
+      can :manage, Client, user: { manager_id: user.id }
+      can :manage, Case
+      can :manage, Task
+      can :manage, Assessment
+      can :manage, CaseNote
+      can :manage, Survey
+      can :manage, GovernmentReport
+      can :manage, CustomFieldProperty, custom_formable_type: 'Client'
     end
   end
 end
