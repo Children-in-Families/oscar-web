@@ -141,8 +141,10 @@ class Client::TasksController < AdminController
           redirect_to client_tasks_path(@client), notice: t('.successfully_deleted')
         end
       else
-        format.json { head :ok }
-        format.html { redirect_to client_tasks_path(@client), notice: t('.successfully_deleted') }
+        respond_to do |format|
+          format.json { head :ok }
+          format.html { redirect_to client_tasks_path(@client), notice: t('.successfully_deleted') }
+        end
       end
     end
   end
