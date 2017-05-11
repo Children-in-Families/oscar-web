@@ -40,6 +40,8 @@ class User < ActiveRecord::Base
   scope :has_clients,     ->        { joins(:clients).without_json_fields.uniq }
   scope :managers,        ->        { where(roles: MANAGERS) }
   scope :ec_managers,     ->        { where(roles: 'ec manager') }
+  scope :fc_managers,     ->        { where(roles: 'fc manager') }
+  scope :kc_managers,     ->        { where(roles: 'kc manager') }
   scope :non_strategic_overviewers, -> { where.not(roles: 'strategic overviewer') }
 
   before_save :assign_as_admin
