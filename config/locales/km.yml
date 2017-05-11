@@ -255,6 +255,7 @@ km:
   cannot_remove: មិនអាចលុបបានទេ
   add_event_success: ព្រឹត្តិការណ៍ត្រូវបានបន្ថែមទៅក្នុងប្រតិទិនដោយជោគជ័យ
   has_been_added_to_calendar: ព្រឹត្តិការណ៍នេះត្រូវបានបន្ថែមទៅក្នុងប្រតិទិនរួចហើយ
+  signed_in_with_google: ចូលបានជោគជ័យជាមួយនឹង Google Calendar
 
   default_client_fields: &default_client_fields
     id: លេខសំគាល់
@@ -1356,6 +1357,8 @@ km:
       filter_by_user: ស្វែងរកតាមរយៈអ្នកប្រើប្រាស់
       select_user: ជ្រើសរើស
       domain: កត្តា
+      add_to_calendar: បន្ថែមទៅប្រតិទិន
+      add_all_to_calendar: បន្ថែមទាំងអស់ទៅប្រតិទិន
     filter:
       filter_by_user: ស្វែងរកតាមរយៈអ្នកប្រើប្រាស់
       select_user: ជ្រើសរើស
@@ -1370,6 +1373,7 @@ km:
         are_you_sure_you_want_to_delete: តើអ្នកប្រាកដហើយ?
         domain: កត្តា
         add_to_calendar: បន្ថែមទៅប្រតិទិន
+        add_all_to_calendar: បន្ថែមទាំងអស់ទៅប្រតិទិន
       new:
         title: កាតព្វកិច្ចថ្មី
         new_task_regarding: កាតព្វកិច្ចទាក់ទង៖

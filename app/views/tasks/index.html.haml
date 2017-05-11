@@ -12,7 +12,9 @@
         .ibox-content
           .panel.panel-danger
             .panel-heading
-              %h5= t('.overdue_tasks')
+              .row
+                .col-xs-6
+                  %h5= t('.overdue_tasks')
             .panel-body
               - grouped_tasks = @tasks.overdue.group_by do |task|
                 - task.client
@@ -29,7 +31,9 @@
                           %td= task.completion_date.strftime("%B %d, %Y")
           .panel.panel-info
             .panel-heading
-              %h5= t('.today_tasks')
+              .row
+                .col-xs-6
+                  %h5= t('.today_tasks')
             .panel-body
               - grouped_tasks = @tasks.today.group_by do |task|
                 - task.client
@@ -46,7 +50,15 @@
                           %td= task.completion_date.strftime("%B %d, %Y")
           .panel.panel-primary
             .panel-heading
-              %h5= t('.upcoming_tasks')
+              .row
+                .col-xs-6
+                  %h5= t('.upcoming_tasks')
+                .col-xs-6.text-right
+                  - if current_user.case_worker? && current_user.calendar_integration? && @tasks.upcoming.count > 0
+                    = link_to calendars_all_new_path, title: 'Google Calendar' do
+                      .btn.btn-primary.btn-xs.btn-add-all
+                        %i.fa.fa-calendar-plus-o
+                          = t('.add_all_to_calendar')
             .panel-body
               - grouped_tasks = @tasks.upcoming.group_by do |task|
                 - task.client
