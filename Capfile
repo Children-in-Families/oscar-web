@@ -23,8 +23,6 @@ require 'capistrano/deploy'
 require 'capistrano/rvm'
 require 'capistrano/passenger'
 require 'capistrano/rails'
-require 'capistrano/sidekiq'
-require 'capistrano/sidekiq/monit'
 
 require "whenever/capistrano"
 # Load custom tasks from `lib/capistrano/tasks` if you have any defined
