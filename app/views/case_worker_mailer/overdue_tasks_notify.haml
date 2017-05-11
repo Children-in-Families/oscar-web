@@ -1,12 +1,14 @@
 %p= "Hello #{@user.name},"
-%p  you currently have tasks overdue. Please see the list below.
+%p= "You currently have #{pluralize(@overdue_tasks.size, 'task')} overdue. Please see the list below."
 %ul
 - @overdue_tasks.each do |task|
   %li
     %span
-      = link_to task.name, tasks_url(subdomain: @short_name), target: :_blank
-    %span
-      , due on
-      = task.completion_date
+      = "#{task.name}, due by #{task.completion_date.strftime('%d %B, %Y')}."
+%p
+  = 'Please click'
+  = link_to 'here', tasks_url(subdomain: @short_name), target: :_blank
+  = "to see all your #{'task'.pluralize(@overdue_tasks.size)}."
+
 %p Thanks,
 %p Cambodian Families Team
