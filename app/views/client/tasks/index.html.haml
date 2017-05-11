@@ -14,7 +14,9 @@
       .ibox-content
         .panel.panel-danger
           .panel-heading
-            = t('.overdue_tasks')
+            .row
+              .col-xs-6
+                = t('.overdue_tasks')
           .panel-body
             .row
               .col-xs-12
@@ -35,7 +37,9 @@
 
         .panel.panel-info
           .panel-heading
-            = t('.today_tasks')
+            .row
+              .col-xs-6
+                = t('.today_tasks')
           .panel-body
             .row
               .col-xs-12
@@ -56,13 +60,16 @@
 
         .panel.panel-primary
           .panel-heading
-            = t('.upcoming_tasks')
-            - if current_user.calendar_integration? && current_user.name == @client.user.name && @tasks.incomplete.upcoming.count > 0
-              .text-right
-                = link_to calendars_all_new_path(client: @client.id), title: 'Google Calendar' do
-                  .btn.btn-back-default.btn-xs
-                    %i.fa.fa-calendar-plus-o
-                      = t('.add_all_to_calendar')
+            .row
+              .col-xs-6
+                = t('.upcoming_tasks')
+              .col-xs-6.text-right
+                - if current_user.calendar_integration? && current_user.name == @client.user.name && @tasks.incomplete.upcoming.count > 0
+                  .text-right
+                    = link_to calendars_all_new_path(client: @client.id), title: 'Google Calendar' do
+                      .btn.btn-primary.btn-xs.btn-add-all
+                        %i.fa.fa-calendar-plus-o
+                          = t('.add_all_to_calendar')
           .panel-body
             .row
               .col-xs-12

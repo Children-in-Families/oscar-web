@@ -85,8 +85,8 @@ class Client::TasksController < AdminController
           param_completion_date = task_params[:completion_date]
           summary    = "#{domain_name} - #{task_name}"
 
-          client = Signet::OAuth2::Client.new(client_id: '304280597205-m9d4o2bcnkrjf6gr7p6n1khufdskv4kv.apps.googleusercontent.com',
-                                              client_secret: '0pdcBK3xm_RlcVvUHYTZ2NVs',
+          client = Signet::OAuth2::Client.new(client_id: Rails.application.secrets.google_client_id,
+                                              client_secret: Rails.application.secrets.google_client_secret,
                                               token_credential_uri: 'https://accounts.google.com/o/oauth2/token')
           client.update!(session[:authorization])
           service = Google::Apis::CalendarV3::CalendarService.new
@@ -125,8 +125,8 @@ class Client::TasksController < AdminController
           domain_name     = Domain.find(@task.domain_id).name
           completion_date = @task.completion_date.to_s
           summary    = "#{domain_name} - #{task_name}"
-          client = Signet::OAuth2::Client.new(client_id: '304280597205-m9d4o2bcnkrjf6gr7p6n1khufdskv4kv.apps.googleusercontent.com',
-                                              client_secret: '0pdcBK3xm_RlcVvUHYTZ2NVs',
+          client = Signet::OAuth2::Client.new(client_id: Rails.application.secrets.google_client_id,
+                                              client_secret: Rails.application.secrets.google_client_secret,
                                               token_credential_uri: 'https://accounts.google.com/o/oauth2/token')
           client.update!(session[:authorization])
           service = Google::Apis::CalendarV3::CalendarService.new
@@ -138,6 +138,7 @@ class Client::TasksController < AdminController
               break
             end
           end
+          redirect_to client_tasks_path(@client), notice: t('.successfully_deleted')
         end
       else
         format.json { head :ok }
