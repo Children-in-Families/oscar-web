@@ -15,7 +15,7 @@
         .row
           .col-xs-12
             %h4 Basic Filter
-            #builder{ 'data-basic-search-rules' => @basic_filter_params, 'data-filter-translation' => { add_filter: t('.add_new_filter'), add_group: t('.add_new_group'), delete_group: t('.delete_group') }}
+            #builder.advanced-search-builder{ 'data-basic-search-rules' => @basic_filter_params, 'data-filter-translation' => { add_filter: t('.add_new_filter'), add_group: t('.add_new_group'), delete_group: t('.delete_group') }}
             %span.basic-filter-error
               %i Please Select Field to Filter
 
@@ -26,7 +26,7 @@
             = select_tag :select_custom_from, options_for_select(CustomField.client_used_form.pluck(:form_title, :id), set_value_custom_form), prompt: '------', class: 'select2', id: 'select-custom-form'
 
           .col-xs-12
-            #custom-form{ 'data-custom-form-search-rules' => @custom_form_filter_params, 'data-filter-translation' => t('.add_new_filter')}
+            #custom-form.advanced-search-builder{ 'data-custom-form-search-rules' => @custom_form_filter_params, 'data-filter-translation' => t('.add_new_filter')}
             %span.custom-form-error
               %i Please Select Field to Filter
       .ibox-footer
