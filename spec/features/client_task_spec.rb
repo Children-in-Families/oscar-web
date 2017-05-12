@@ -1,5 +1,5 @@
 describe 'Task' do
-  let!(:user){ create(:user) }
+  let!(:user){ create(:user, calendar_integration: false) }
   let!(:client){ create(:client, user: user) }
   let!(:domain){ create(:domain) }
   let!(:overdue_task){ create(:task, client: client, completion_date: Date.today - 6.month) }
