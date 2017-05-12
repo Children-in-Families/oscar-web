@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   get '/redirect'       => 'calendars#redirect', as: 'redirect'
   get '/callback'       => 'calendars#callback', as: 'callback'
   get '/calendars/find' => 'calendars#find_event'
+  get '/calendars/all_new' => 'calendars#all_new'
 
   resources :calendars, only: [:index, :new]
 

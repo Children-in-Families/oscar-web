@@ -251,6 +251,7 @@ en:
   cannot_remove: cannot be removed
   add_event_success: Event has been added to calendar successfully.
   has_been_added_to_calendar: This event has already been added to calendar.
+  signed_in_with_google: Signed in with google calendar successfully.
 
   default_client_fields: &default_client_fields
     id: ID
@@ -1290,6 +1291,8 @@ en:
       filter_by_user: Filter By User
       select_user: Select User
       domain: Domain
+      add_to_calendar: Add to calendar
+      add_all_to_calendar: Add all to calendar
     filter:
       filter_by_user: Filter By User
       select_user: Select User
@@ -1303,7 +1306,8 @@ en:
         new_task: New Task
         are_you_sure_you_want_to_delete: Are you sure you want to delete?
         domain: Domain
-        add_to_calendar: Add To Calendar
+        add_to_calendar: Add to calendar
+        add_all_to_calendar: Add all to calendar
       new:
         title: New Task
         new_task_regarding: New Task Regarding
