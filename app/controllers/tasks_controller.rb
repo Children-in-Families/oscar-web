@@ -49,13 +49,7 @@ class TasksController < AdminController
   private
 
   def find_users
-    if current_user.admin? || current_user.strategic_overviewer?
-      User.all
-    elsif current_user.manager?
-      User.where('id = ? OR manager_id = ?', current_user.id, current_user.id)
-    else
-      User.in_department(current_user.department_id)
-    end
+    User.self_and_subordinates(current_user)
   end
 
   def task_of_user
