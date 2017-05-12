@@ -1,6 +1,4 @@
-class AdminMailer < ActionMailer::Base
-  default from: 'info@cambodianfamilies.com'
-
+class AdminMailer < ApplicationMailer
   def remind_of_client(clients, options = {})
     @clients = clients
     @admin   = options[:admin]
