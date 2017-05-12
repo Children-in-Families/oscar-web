@@ -21,8 +21,6 @@
                   %span.input-group-addon
                     %i.fa.fa-calendar-check-o
                 = f.error :meeting_date
-
-
               = f.input :attendee, label: t('.present')
           = f.simple_fields_for :case_note_domain_groups do |cd|
             - if cd.object.domain_group.domains.assessment_domains_by_assessment_id(@case_note.assessment_id).any?
