@@ -51,9 +51,11 @@ CIF.Client_advanced_searchesIndex = do ->
         $('#builder').queryBuilder(
           _queryBuilderOption(fieldList)
         )
+        _hideBasicFilter()
         _basicFilterSetRule()
         _handleSelectOptionChange()
         _initSelect2()
+
 
   _ajaxGetCustomField = (customFormId) ->
     $.ajax
@@ -71,6 +73,9 @@ CIF.Client_advanced_searchesIndex = do ->
         _customFormSetRule()
         _handleSelectOptionChange()
         _initSelect2()
+
+  _hideBasicFilter = ->
+    $("#builder .rule-container button.btn-danger[data-delete='rule']").click()
 
   _handleValidateSearch = ->
     filterValidate = []
