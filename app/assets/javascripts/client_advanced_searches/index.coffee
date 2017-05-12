@@ -22,7 +22,6 @@ CIF.Client_advanced_searchesIndex = do ->
           $(selectedOption).parents('.rule-filter-container').siblings('.rule-operator-container').find('select option[value="is_empty"]').remove()
         ),10
 
-
   _initSelect2 = ->
     $('select').select2(
       width: 'resolve'
@@ -52,7 +51,6 @@ CIF.Client_advanced_searchesIndex = do ->
         $('#builder').queryBuilder(
           _queryBuilderOption(fieldList)
         )
-        _hideBasicFilter()
         _basicFilterSetRule()
         _handleSelectOptionChange()
         _initSelect2()
@@ -75,21 +73,24 @@ CIF.Client_advanced_searchesIndex = do ->
         _handleSelectOptionChange()
         _initSelect2()
 
-  _hideBasicFilter = ->
-    $("#builder .rule-container button.btn-danger[data-delete='rule']").click()
-
   _handleValidateSearch = ->
     filterValidate = []
-    allFilters = $('.rule-container')
-    for filter in allFilters
-      filterField     = $(filter).find('.rule-filter-container select').val()
-      filterOperator  = $(filter).find('.rule-operator-container select').val()
-      filterValue     = $(filter).find('.rule-value-container input.form-control').val()
+    groupFilters = $('.advanced-search-builder')
+    for filters in groupFilters
+      filterLength = $(filters).find('.rule-container').length
+      if filterLength > 1
+        for filter in filters
+          filterField     = $(filter).find('.rule-filter-container select').val()
+          filterOperator  = $(filter).find('.rule-operator-container select').val()
+          filterValue     = $(filter).find('.rule-value-container input.form-control').val()
 
-      if (filterField == '-1') || (filterField != '-1' && filterOperator != 'is_empty' && filterValue == '')
-        filterValidate.push filter
+          if (filterField == '-1') || (filterField != '-1' && filterOperator != 'is_empty' && filterValue == '')
+            filterValidate.push filter
 
-    if filterValidate.length == 0
+      if filterLength == 1 && $(filters).find('.rule-filter-container select').val() == '-1'
+        $('.rule-container').removeClass('has-error')
+
+    if filterValidate.length == 0 && !($('.rule-container').hasClass('has-error'))
       $('#advanced-search').submit()
 
   _handleSearch = ->
@@ -104,7 +105,6 @@ CIF.Client_advanced_searchesIndex = do ->
         $('#client_advanced_search_basic_rules').val(_handleStringfyRules(basicRules))
         $('#client_advanced_search_custom_form_rules').val(_handleStringfyRules(customFormRules))
         _handleSelectFieldVisibilityCheckBox()
-
         _handleValidateSearch()
 
   _getCustomFormRules = (customFormValue)->
@@ -173,7 +173,6 @@ CIF.Client_advanced_searchesIndex = do ->
       addFilter: $('#builder').data('filter-translation-add-filter')
       addGroup: $('#builder').data('filter-translation-add-group')
       deleteGroup: $('#builder').data('filter-translation-delete-group')
-
 
   _customFormSetRule = ->
     customFormQueryRules = $('#custom-form').data('custom-form-search-rules')
