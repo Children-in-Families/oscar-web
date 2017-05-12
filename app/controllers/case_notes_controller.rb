@@ -3,6 +3,7 @@ class CaseNotesController < AdminController
   before_action :set_client
   before_action :set_case_note, only: [:edit, :update]
 
+
   def index
     @case_notes = @client.case_notes.most_recents.page(params[:page]).per(1)
   end
@@ -14,6 +15,7 @@ class CaseNotesController < AdminController
   end
 
   def create
+    binding.pry
     @case_note = @client.case_notes.new(case_note_params)
     if @case_note.save
       @case_note.complete_tasks(params[:case_note][:case_note_domain_groups_attributes])
