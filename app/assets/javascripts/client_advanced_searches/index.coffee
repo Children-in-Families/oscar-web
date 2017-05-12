@@ -51,7 +51,6 @@ CIF.Client_advanced_searchesIndex = do ->
         $('#builder').queryBuilder(
           _queryBuilderOption(fieldList)
         )
-        _hideBasicFilter()
         _basicFilterSetRule()
         _handleSelectOptionChange()
         _initSelect2()
@@ -73,9 +72,6 @@ CIF.Client_advanced_searchesIndex = do ->
         _customFormSetRule()
         _handleSelectOptionChange()
         _initSelect2()
-
-  _hideBasicFilter = ->
-    $("#builder .rule-container button.btn-danger[data-delete='rule']").click()
 
   _handleValidateSearch = ->
     filterValidate = []
@@ -109,7 +105,6 @@ CIF.Client_advanced_searchesIndex = do ->
         $('#client_advanced_search_basic_rules').val(_handleStringfyRules(basicRules))
         $('#client_advanced_search_custom_form_rules').val(_handleStringfyRules(customFormRules))
         _handleSelectFieldVisibilityCheckBox()
-
         _handleValidateSearch()
 
   _getCustomFormRules = (customFormValue)->
