@@ -23,7 +23,14 @@ class Client::TasksController < AdminController
       session[:task_id] = nil
       flash[:notice] = t('add_event_success')
     elsif session[:action].present?
-      tasks = Task.incomplete.of_user(current_user).incomplete.upcoming
+      tasks = []
+      if session[:grouped_tasks] == 'upcoming'
+        tasks = Task.incomplete.of_user(current_user).incomplete.upcoming
+      elsif session[:grouped_tasks] == 'today'
+        tasks = Task.incomplete.of_user(current_user).incomplete.today
+      elsif session[:grouped_tasks] == 'overdue'
+        tasks = Task.incomplete.of_user(current_user).incomplete.overdue
+      end
       client = Signet::OAuth2::Client.new(client_id: Rails.application.secrets.google_client_id,
                                           client_secret: Rails.application.secrets.google_client_secret,
                                           token_credential_uri: 'https://accounts.google.com/o/oauth2/token')
@@ -41,6 +48,7 @@ class Client::TasksController < AdminController
         service.insert_event('primary', event)
       end
       session[:action] = nil
+      session[:grouped_tasks] = nil
       flash[:notice] = t('add_event_success')
     end
   end
