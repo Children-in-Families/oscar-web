@@ -15,12 +15,6 @@
               .row
                 .col-xs-6
                   %h5= t('.overdue_tasks')
-                .col-xs-6.text-right
-                  - if current_user.case_worker? && current_user.calendar_integration? && @tasks.upcoming.count > 0
-                    = link_to calendars_all_new_path(grouped_tasks: 'overdue'), title: 'Google Calendar' do
-                      .btn.btn-danger.btn-xs.btn-add-all
-                        %i.fa.fa-calendar-plus-o
-                          = t('.add_all_to_calendar')
             .panel-body
               - grouped_tasks = @tasks.overdue.group_by do |task|
                 - task.client
@@ -35,23 +29,11 @@
                           %td= "#{t('.domain')} #{task.domain.name}"
                           %td.task-name.border-left-right= task.name
                           %td= task.completion_date.strftime("%B %d, %Y")
-                          - if current_user.case_worker? && current_user.calendar_integration?
-                            %td.text-center.margin-icon.border-left-right
-                              = link_to new_calendar_path(task: task), title: 'Google Calendar' do
-                                .btn.btn-outline.btn-primary.btn-xs
-                                  %i.fa.fa-calendar-plus-o
-                                  = t('.add_to_calendar')
           .panel.panel-info
             .panel-heading
               .row
                 .col-xs-6
                   %h5= t('.today_tasks')
-                .col-xs-6.text-right
-                  - if current_user.case_worker? && current_user.calendar_integration? && @tasks.upcoming.count > 0
-                    = link_to calendars_all_new_path(grouped_tasks: 'today'), title: 'Google Calendar' do
-                      .btn.btn-info.btn-xs.btn-add-all
-                        %i.fa.fa-calendar-plus-o
-                          = t('.add_all_to_calendar')
             .panel-body
               - grouped_tasks = @tasks.today.group_by do |task|
                 - task.client
@@ -66,23 +48,11 @@
                           %td= "#{t('.domain')} #{task.domain.name}"
                           %td.task-name.border-left-right= task.name
                           %td= task.completion_date.strftime("%B %d, %Y")
-                          - if current_user.case_worker? && current_user.calendar_integration?
-                            %td.text-center.margin-icon.border-left-right
-                              = link_to new_calendar_path(task: task), title: 'Google Calendar' do
-                                .btn.btn-outline.btn-primary.btn-xs
-                                  %i.fa.fa-calendar-plus-o
-                                  = t('.add_to_calendar')
           .panel.panel-primary
             .panel-heading
               .row
                 .col-xs-6
                   %h5= t('.upcoming_tasks')
-                .col-xs-6.text-right
-                  - if current_user.case_worker? && current_user.calendar_integration? && @tasks.upcoming.count > 0
-                    = link_to calendars_all_new_path(grouped_tasks: 'upcoming'), title: 'Google Calendar' do
-                      .btn.btn-primary.btn-xs.btn-add-all
-                        %i.fa.fa-calendar-plus-o
-                          = t('.add_all_to_calendar')
             .panel-body
               - grouped_tasks = @tasks.upcoming.group_by do |task|
                 - task.client
@@ -97,9 +67,3 @@
                           %td= "#{t('.domain')} #{task.domain.name}"
                           %td.task-name.border-left-right= task.name
                           %td= task.completion_date.strftime("%B %d, %Y")
-                          - if current_user.case_worker? && current_user.calendar_integration?
-                            %td.text-center.margin-icon.border-left-right
-                              = link_to new_calendar_path(task: task), title: 'Google Calendar' do
-                                .btn.btn-outline.btn-primary.btn-xs
-                                  %i.fa.fa-calendar-plus-o
-                                  = t('.add_to_calendar')

@@ -44,40 +44,6 @@ class CalendarsController < AdminController
   end
 
   def new
-    task      = Task.find(params[:task])
-    domain    = Domain.find(task.domain_id)
-    summary    = "#{domain.name} - #{task.name}"
-    start_date = task.completion_date.to_s
-    end_date   = (task.completion_date + 1).to_s
-    @calendar = Calendar.create(title: summary, start_date: start_date, end_date: end_date, user_id: current_user.id)
-    if params[:client].present?
-      redirect_to client_tasks_path(params[:client]), notice: t('add_event_success')
-    else
-      redirect_to tasks_path, notice: t('add_event_success')
-    end
-  end
-
-  def all_new
-    tasks = []
-    if params[:grouped_tasks] == 'upcoming'
-      tasks = find_tasks.upcoming
-    elsif params[:grouped_tasks] == 'today'
-      tasks = find_tasks.today
-    elsif params[:grouped_tasks] == 'overdue'
-      tasks = find_tasks.overdue
-    end
-    tasks.each do |task|
-      domain    = Domain.find(task.domain_id)
-      summary    = "#{domain.name} - #{task.name}"
-      start_date = task.completion_date.to_s
-      end_date   = (task.completion_date + 1).to_s
-      Calendar.create(title: summary, start_date: start_date, end_date: end_date, user_id: current_user.id)
-    end
-    if params[:client].present?
-      redirect_to client_tasks_path(params[:client]), notice: t('add_event_success')
-    else
-      redirect_to tasks_path, notice: t('add_event_success')
-    end
   end
 
   def sync

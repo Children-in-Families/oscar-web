@@ -17,13 +17,6 @@
             .row
               .col-xs-6
                 = t('.overdue_tasks')
-              .col-xs-6.text-right
-                - if current_user.calendar_integration? && current_user.name == @client.user.name && @tasks.incomplete.overdue.count > 0
-                  .text-right
-                    = link_to calendar_all_new_path(client: @client.id, grouped_tasks: 'overdue'), title: 'Google Calendar' do
-                      .btn.btn-danger.btn-xs.btn-add-all
-                        %i.fa.fa-calendar-plus-o
-                        = t('.add_all_to_calendar')
           .panel-body
             .row
               .col-xs-12
@@ -41,25 +34,12 @@
                           = link_to client_task_path(@client, task), method: :delete, data: { confirm: t('.are_you_sure_you_want_to_delete') } do
                             .btn.btn-outline.btn-danger.btn-xs
                               %i.fa.fa-trash
-                        - if current_user.calendar_integration? && current_user.name == @client.user.name
-                          %td.text-center.margin-icon
-                            = link_to new_calendar_path(client: @client.id, task: task), title: 'Google Calendar' do
-                              .btn.btn-outline.btn-primary.btn-xs
-                                %i.fa.fa-calendar-plus-o
-                                = t('.add_to_calendar')
 
         .panel.panel-info
           .panel-heading
             .row
               .col-xs-6
                 = t('.today_tasks')
-              .col-xs-6.text-right
-                - if current_user.calendar_integration? && current_user.name == @client.user.name && @tasks.incomplete.today.count > 0
-                  .text-right
-                    = link_to calendar_all_new_path(client: @client.id, grouped_tasks: 'today'), title: 'Google Calendar' do
-                      .btn.btn-info.btn-xs.btn-add-all
-                        %i.fa.fa-calendar-plus-o
-                        = t('.add_all_to_calendar')
           .panel-body
             .row
               .col-xs-12
@@ -77,25 +57,11 @@
                           = link_to client_task_path(@client, task), method: :delete, data: { confirm: t('.are_you_sure_you_want_to_delete') } do
                             .btn.btn-outline.btn-danger.btn-xs
                               %i.fa.fa-trash
-                        - if current_user.calendar_integration? && current_user.name == @client.user.name
-                          %td.text-center.margin-icon
-                            = link_to new_calendar_path(client: @client.id, task: task), title: 'Google Calendar' do
-                              .btn.btn-outline.btn-primary.btn-xs
-                                %i.fa.fa-calendar-plus-o
-                                = t('.add_to_calendar')
-
         .panel.panel-primary
           .panel-heading
             .row
               .col-xs-6
                 = t('.upcoming_tasks')
-              .col-xs-6.text-right
-                - if current_user.calendar_integration? && current_user.name == @client.user.name && @tasks.incomplete.upcoming.count > 0
-                  .text-right
-                    = link_to calendar_all_new_path(client: @client.id, grouped_tasks: 'upcoming'), title: 'Google Calendar' do
-                      .btn.btn-primary.btn-xs.btn-add-all
-                        %i.fa.fa-calendar-plus-o
-                        = t('.add_all_to_calendar')
           .panel-body
             .row
               .col-xs-12
@@ -113,9 +79,3 @@
                           = link_to client_task_path(@client, task), method: :delete, data: { confirm: t('.are_you_sure_you_want_to_delete') } do
                             .btn.btn-outline.btn-danger.btn-xs
                               %i.fa.fa-trash
-                        - if current_user.calendar_integration? && current_user.name == @client.user.name
-                          %td.text-center.margin-icon
-                            = link_to new_calendar_path(client: @client.id, task: task), title: 'Google Calendar' do
-                              .btn.btn-outline.btn-primary.btn-xs
-                                %i.fa.fa-calendar-plus-o
-                                = t('.add_to_calendar')
