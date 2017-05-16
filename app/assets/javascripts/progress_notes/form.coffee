@@ -12,6 +12,8 @@ CIF.Progress_notesNew = CIF.Progress_notesCreate = CIF.Progress_notesEdit = CIF.
   _tinyMCE = ->
     tinymce.init
       selector: 'textarea.tinymce'
+      plugins: 'lists'
+      toolbar: 'bold italic numlist bullist'
       menubar: false
 
   _handleSubmitForm = ->
