@@ -7,6 +7,10 @@ FactoryGirl.define do
     password_confirmation '12345678'
     roles 'case worker'
 
+    trait :case_worker do
+      roles 'case worker'
+    end
+
     trait :able_manager do
       roles 'able manager'
     end
@@ -29,6 +33,10 @@ FactoryGirl.define do
 
     trait :strategic_overviewer do
       roles 'strategic overviewer'
+    end
+
+    trait :manager do
+      roles 'manager'
     end
   end
 end

@@ -39,6 +39,7 @@ class User < ActiveRecord::Base
   scope :province_are,    ->        { joins(:province).pluck('provinces.name', 'provinces.id').uniq }
   scope :has_clients,     ->        { joins(:clients).without_json_fields.uniq }
   scope :managers,        ->        { where(roles: MANAGERS) }
+  scope :able_managers,   ->        { where(roles: 'able manager') }
   scope :ec_managers,     ->        { where(roles: 'ec manager') }
   scope :fc_managers,     ->        { where(roles: 'fc manager') }
   scope :kc_managers,     ->        { where(roles: 'kc manager') }
@@ -125,4 +126,24 @@ class User < ActiveRecord::Base
     entity_type_custom_field_notification(Family.all)
   end
 
+  def self.self_and_subordinates(user)
+    if user.admin? || user.strategic_overviewer?
+      User.all
+    elsif user.manager?
+      User.where('id = :user_id OR manager_id = :user_id', { user_id: user.id })
+    elsif user.able_manager?
+      ids = Client.able.pluck(:user_id) << user.id
+      User.where(id: ids.uniq)
+    elsif user.any_case_manager?
+      ids = [user.id]
+      if user.ec_manager?
+        ids << Client.active_ec.pluck(:user_id)
+      elsif user.fc_manager?
+        ids << Client.active_fc.pluck(:user_id)
+      elsif user.kc_manager?
+        ids << Client.active_kc.pluck(:user_id)
+      end
+      User.where(id: ids.flatten.uniq)
+    end
+  end
 end
