@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170505081953) do
+ActiveRecord::Schema.define(version: 20170516022015) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -106,6 +106,17 @@ ActiveRecord::Schema.define(version: 20170505081953) do
 
   add_index "attachments", ["able_screening_question_id"], name: "index_attachments_on_able_screening_question_id", using: :btree
   add_index "attachments", ["progress_note_id"], name: "index_attachments_on_progress_note_id", using: :btree
+
+  create_table "calendars", force: :cascade do |t|
+    t.string   "title"
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "calendars", ["user_id"], name: "index_calendars_on_user_id", using: :btree
 
   create_table "case_contracts", force: :cascade do |t|
     t.date     "signed_on"
@@ -876,6 +887,7 @@ ActiveRecord::Schema.define(version: 20170505081953) do
   add_foreign_key "assessments", "clients"
   add_foreign_key "attachments", "able_screening_questions"
   add_foreign_key "attachments", "progress_notes"
+  add_foreign_key "calendars", "users"
   add_foreign_key "case_contracts", "cases"
   add_foreign_key "case_notes", "clients"
   add_foreign_key "changelog_types", "changelogs"

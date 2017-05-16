@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :calendars
   root 'statics#index'
 
   devise_for :users, controllers: { registrations: 'registrations', sessions: 'sessions', passwords: 'passwords' }
@@ -13,10 +14,11 @@ Rails.application.routes.draw do
   get '/dashboards' => 'dashboards#index'
   get '/redirect'       => 'calendars#redirect', as: 'redirect'
   get '/callback'       => 'calendars#callback', as: 'callback'
-  get '/calendars/find' => 'calendars#find_event'
-  get '/calendars/all_new' => 'calendars#all_new'
+  get '/calendar/find' => 'calendars#find_event'
+  get '/calendar/sync' => 'calendars#sync'
+  get '/calendar/all_new' => 'calendars#all_new'
 
-  resources :calendars, only: [:index, :new]
+  resources :calendars, only: [:index]
 
   mount Thredded::Engine => '/forum'
 
