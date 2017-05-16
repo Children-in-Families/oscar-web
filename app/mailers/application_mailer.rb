@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: 'cifdonotreply@gmail.com'
+  default from:  ENV['SENDER_EMAIL']
   layout 'mailer'
 end
