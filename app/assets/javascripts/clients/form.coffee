@@ -29,7 +29,6 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
           clientId = $('#client_id').val()
           clientIds = []
           clients = json.clients
-          debugger
           for client in clients
             clientIds.push(String(client.id))
 
