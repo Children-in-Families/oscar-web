@@ -373,6 +373,7 @@ km:
     current_password: លេខកូដសំងាត់បច្ចុប្បន្ន
     current_password_hint: យើងត្រូវការពិនិត្យបញ្ជាក់លេខកូដសំងាត់បច្ចុប្បន្នដើម្បីធ្វើការផ្លាស់ប្តូរ
     delete_account_button: លុបចោលគណនីរបស់ខ្ញុំ
+    pin_number: លេខ Pin
 
   default_survey_fields: &default_survey_fields
     user_id: បុគ្គលិកសហគមន៌របស់ខ្ញុំឈ្មោះ

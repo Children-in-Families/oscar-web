@@ -308,4 +308,12 @@ describe User, 'methods' do
       expect(User.self_and_subordinates(manager)).to include(manager, subordinate)
     end
   end
+
+  context 'set_pin_number' do
+    let!(:user) { User.new }
+
+    it 'should set pin after initialize' do
+      expect(user.pin_number.present?).to be_truthy
+    end
+  end
 end

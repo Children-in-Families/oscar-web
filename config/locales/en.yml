@@ -370,6 +370,7 @@ en:
     current_password: Current Password
     current_password_hint: We need to current password to make change
     delete_account_button: Delete Account
+    pin_number: Pin Number
 
   default_survey_fields: &default_survey_fields
     user_id: My Community Case Worker's name is
