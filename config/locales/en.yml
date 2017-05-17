@@ -672,8 +672,9 @@ en:
       confirm: Save Anyway
       close: Cancel
       title: Warning
-      body_first: Client
-      body_second: has already been registered in
+      body_first: The client you are registering appears to be a 75% match of a client that is already registered at
+      body_second: . You may wish to contact
+      body_third: to resolve the issue.
     update:
       successfully_updated: Client has been successfully updated.
       assessment_successfully_created: Assessment has been successfully created.
