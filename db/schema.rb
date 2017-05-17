@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170516082144) do
+ActiveRecord::Schema.define(version: 20170517031807) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -235,10 +235,6 @@ ActiveRecord::Schema.define(version: 20170516082144) do
     t.string   "village",                          default: ""
     t.string   "commune",                          default: ""
     t.string   "district",                         default: ""
-    t.string   "student_id",                       default: ""
-    t.string   "live_with",                        default: ""
-    t.integer  "poverty_certificate",              default: 0
-    t.integer  "rice_support",                     default: 0
   end
 
   add_index "clients", ["donor_id"], name: "index_clients_on_donor_id", using: :btree
@@ -840,9 +836,10 @@ ActiveRecord::Schema.define(version: 20170516082144) do
     t.integer  "organization_id"
     t.boolean  "disable",                default: false
     t.datetime "expires_at"
-    t.boolean  "calendar_integration",   default: false
     t.boolean  "task_notify",            default: true
     t.integer  "manager_id"
+    t.boolean  "calendar_integration",   default: false
+    t.integer  "pin_number"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
