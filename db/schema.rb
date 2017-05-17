@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170505081953) do
+ActiveRecord::Schema.define(version: 20170517082509) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -260,13 +260,14 @@ ActiveRecord::Schema.define(version: 20170505081953) do
 
   create_table "custom_fields", force: :cascade do |t|
     t.string   "entity_type",       default: ""
-    t.text     "fields",            default: ""
+    t.text     "properties",        default: ""
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
     t.string   "form_title",        default: ""
     t.string   "frequency",         default: ""
     t.integer  "time_of_frequency", default: 0
     t.string   "ngo_name",          default: ""
+    t.jsonb    "fields"
   end
 
   create_table "departments", force: :cascade do |t|
@@ -458,6 +459,19 @@ ActiveRecord::Schema.define(version: 20170505081953) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "cases_count",           default: 0
+  end
+
+  create_table "program_streams", force: :cascade do |t|
+    t.string   "name"
+    t.text     "description"
+    t.jsonb    "rules",             default: {}
+    t.jsonb    "enrollment",        default: {}
+    t.jsonb    "tracking",          default: {}
+    t.jsonb    "exit_program",      default: {}
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+    t.string   "frequency",         default: ""
+    t.integer  "time_of_frequency", default: 0
   end
 
   create_table "progress_note_types", force: :cascade do |t|
@@ -835,9 +849,9 @@ ActiveRecord::Schema.define(version: 20170505081953) do
     t.integer  "organization_id"
     t.boolean  "disable",                default: false
     t.datetime "expires_at"
-    t.boolean  "calendar_integration",   default: false
     t.boolean  "task_notify",            default: true
     t.integer  "manager_id"
+    t.boolean  "calendar_integration",   default: false
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

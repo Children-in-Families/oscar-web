@@ -1,0 +1,26 @@
+= simple_form_for @program_stream do |f|
+  .program-steps
+    %h4 Add Rule
+    %section
+      = f.input :name
+      = f.input :description
+      #rule
+    %h4 Enrollment Form
+    %section
+      #enrollment
+      = f.hidden_field :enrollment
+    %h4 Progress Tracking
+    %section
+      .row
+        .col-xs-12.col-md-6
+          = f.input :frequency, collection: ProgramStream::FREQUENCIES, label: t('.frequency')
+        .col-xs-12.col-md-6
+          = f.input :time_of_frequency, label: t('.time_of_frequency')
+      #tracking
+      = f.hidden_field :tracking
+    %h4 Exit Form
+    %section
+      #exit-program
+      = f.hidden_field :exit_program
+    / %h4 Summary
+    / %section

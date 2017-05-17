@@ -66,6 +66,8 @@ Rails.application.routes.draw do
     get 'version' => 'donors#version'
   end
 
+  resources :program_streams
+
   resources :changelogs do
     get 'version' => 'changelogs#version'
   end

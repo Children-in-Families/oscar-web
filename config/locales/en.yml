@@ -35,6 +35,8 @@ en:
   default_material_fields: &default_material_fields
     status: Status
 
+  default_program_stream_fields: &default_program_stream_fields
+
   default_releaselog_fields: &default_releaselog_fields
     change_version: Version
     description: Description
@@ -195,6 +197,12 @@ en:
     form:
       save: Save
       cancel: Cancel
+
+  program_streams:
+    <<: *default_program_stream_fields
+    index:
+      program_list: Programs Stream Listing
+      new_program: Add New Program
 
   government_reports:
     index:
@@ -617,6 +625,7 @@ en:
       log_out: Log out
       log_in: Log in
       release_logs: Release logs
+      program_streams: Programs Stream
       custom_fields: Form Builder
       progress_note: Progress Note
       materials: Equipment/Materials

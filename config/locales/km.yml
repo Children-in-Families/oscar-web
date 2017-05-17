@@ -35,6 +35,9 @@ km:
   default_material_fields: &default_material_fields
     status: ស្ថានភាព
 
+  default_program_stream_fields: &default_program_stream_fields
+    program_streams: កម្មវិធី​បន្ទាប់បន្សំ
+
   default_releaselog_fields: &default_releaselog_fields
     change_version: កំណែ
     description: ការពិពណ៌នា
@@ -195,6 +198,12 @@ km:
     form:
       save: រក្សាទុក
       cancel: ទុកជាមោឃៈ
+
+  program_streams:
+    <<: *default_program_stream_fields
+    index:
+      program_list: បញ្ជីកម្មវិធី​បន្ទាប់បន្សំ
+      new_program: បន្ថែមកម្មវិធីថ្មី
 
   government_reports:
     index:
@@ -615,6 +624,7 @@ km:
       log_in: ចូល
       release_logs: ការចេញផ្សាយ
       custom_fields: ទម្រង់បែបបទ
+      program_streams: កម្មវិធី​បន្ទាប់បន្សំ
       progress_note: កត់សំគាល់ការរីកចំរើន
       materials: របស់របរ/សំភារៈ
       locations: កន្លែង

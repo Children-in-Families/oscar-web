@@ -1,0 +1,21 @@
+.row
+  .col-xs-12
+    .ibox
+      .ibox-title
+        %h5= t('.program_list')
+        .ibox-tools
+          = link_to t('.new_program'), new_program_stream_path, class: 'btn btn-primary btn-add'
+      .ibox-content
+        %table.table.table-striped
+          %thead
+            %tr
+              %th Name
+              %th Description
+              %th Action
+          %tbody
+            - 20.times do |ps|
+              %tr
+                %td= "Name #{ps}"
+                %td= "Description #{ps}"
+                %td Haha
+      .ibox-footer
