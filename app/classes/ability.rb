@@ -47,6 +47,7 @@ class Ability
       can :manage, Survey
       can :manage, Task
       can :manage, CustomFieldProperty, custom_formable_type: "Client"
+      can :manage, CustomField
       can :update, Assessment do |assessment|
         assessment.client.able?
       end
@@ -67,6 +68,7 @@ class Ability
       can :manage, CustomFieldProperty, custom_formable_type: 'Client'
       can :manage, CustomFieldProperty, custom_formable_type: 'Family'
       can :manage, CustomFieldProperty, custom_formable_type: 'Partner'
+      can :manage, CustomField
       can :manage, GovernmentReport
       can :update, Assessment do |assessment|
         assessment.client.active_ec?
@@ -88,6 +90,7 @@ class Ability
       can :manage, CustomFieldProperty, custom_formable_type: 'Client'
       can :manage, CustomFieldProperty, custom_formable_type: 'Family'
       can :manage, CustomFieldProperty, custom_formable_type: 'Partner'
+      can :manage, CustomField
       can :manage, GovernmentReport
       can :update, Assessment do |assessment|
         assessment.client.active_fc?
@@ -111,6 +114,7 @@ class Ability
       can :manage, CustomFieldProperty, custom_formable_type: 'Client'
       can :manage, CustomFieldProperty, custom_formable_type: 'Family'
       can :manage, CustomFieldProperty, custom_formable_type: 'Partner'
+      can :manage, CustomField
       can :manage, GovernmentReport
       can :update, Assessment do |assessment|
         assessment.client.active_kc?
@@ -130,6 +134,7 @@ class Ability
       can :manage, Survey
       can :manage, GovernmentReport
       can :manage, CustomFieldProperty, custom_formable_type: 'Client'
+      can :manage, CustomField
     end
   end
 end
