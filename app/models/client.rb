@@ -54,6 +54,7 @@ class Client < ActiveRecord::Base
   has_paper_trail
 
   validates :rejected_note, presence: true, on: :update, if: :reject?
+  validates :student_id, uniqueness: { case_sensitive: false }, if: 'student_id.present?'
 
   before_update :reset_user_to_tasks
 

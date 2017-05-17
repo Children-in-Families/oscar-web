@@ -495,3 +495,25 @@ describe Client, 'scopes' do
     end
   end
 end
+
+describe 'validations' do
+  subject{ Client.new }
+
+  context 'rejected_note' do
+    before do
+      subject.save
+      subject.state = 'rejected'
+    end
+    it { is_expected.to validate_presence_of(:rejected_note) }
+  end
+
+  context 'student_id' do
+    let!(:client){ create(:client, student_id: 'STID-01') }
+    let!(:valid_client){ build(:client) }
+    let!(:invalid_client){ build(:client, student_id: 'stid-01') }
+    before { subject.student_id = 'STiD-01' }
+    it { is_expected.to validate_uniqueness_of(:student_id).case_insensitive }
+    it { expect(valid_client).to be_valid }
+    it { expect(invalid_client).to be_invalid }
+  end
+end
