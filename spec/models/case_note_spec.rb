@@ -7,6 +7,11 @@ describe CaseNote, 'associations' do
   it { is_expected.to accept_nested_attributes_for(:case_note_domain_groups) }
 end
 
+describe CaseNote, 'validations' do
+  it { is_expected.to validate_presence_of(:meeting_date) }
+  it { is_expected.to validate_presence_of(:attendee) }
+end
+
 describe CaseNote, 'methods' do
   let!(:case_note){ create(:case_note) }
   
