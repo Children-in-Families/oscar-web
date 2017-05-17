@@ -5,10 +5,9 @@ class CustomFieldPresentValidator < ActiveModel::Validator
 
   def validate
     return unless @record.properties
-    @record.custom_field.field_objs.each do |field|
-      if field['required'] && (@record.properties[field['label']].blank? || @record.properties[field['label']][0].blank?)
-        @record.errors.add(field['label'], I18n.t('cannot_be_blank'))
-      end
+    @record.custom_field.fields.each do |field|
+      next unless field['required'] && (@record.properties[field['label']].blank? || @record.properties[field['label']][0].blank?)
+      @record.errors.add(field['label'], I18n.t('cannot_be_blank'))
     end
   end
 end
