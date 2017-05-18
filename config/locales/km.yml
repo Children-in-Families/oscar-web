@@ -916,6 +916,12 @@ km:
   activerecord:
     errors:
       models:
+        case_note:
+          attributes:
+            meeting_date:
+              blank: មិនអាចរំលង
+            attendee:
+              blank: មិនអាចរំលង
         custom_field:
           attributes:
             entity_type:
@@ -1454,6 +1460,14 @@ km:
       present: វត្តមានឣ្នកចូលរួម
       completed_tasks: កាតព្វកិច្ចដែលបានធ្វើរួច
       note: កំណត់ត្រា
+    form_with_assessment_domains:
+      domain: កត្តា
+      note: កំណត់ត្រា
+      add_task: បន្ថែមកាតព្វកិច្ចថ្មី
+    form_without_assessment_domains:
+      domain: កត្តា
+      note: កំណត់ត្រា
+      add_task: បន្ថែមកាតព្វកិច្ចថ្មី
     form:
       label_note: ចំណាំ
       meeting_detail: ពត៌មាននៃការប្រជុំ
