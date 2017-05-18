@@ -1,5 +1,5 @@
 namespace :mhc do
-  desc "Import Mother's Heart Cambodia users"
+  desc "Import Mother's Heart Cambodia Clients"
   task import: :environment do
     Organization.switch_to 'mhc'
     import = MhcImporter::Import.new('Clients')
