@@ -1387,14 +1387,20 @@ en:
       present: Present
       completed_tasks: Completed Tasks
       note: Note
+    form_with_assessment_domains:
+      domain: Domain
+      note: Note
+      add_task: Add Task
+    form_without_assessment_domains:
+      domain: Domain
+      note: Note
+      add_task: Add Task
     form:
       label_note: Note
       meeting_detail: Meeting detail
       meeting_with: Meeting with
       on_date: On Date
       present: Present
-      domain: Domain
-      note: Note
       tasks: Tasks
       back: Back
       save: Save

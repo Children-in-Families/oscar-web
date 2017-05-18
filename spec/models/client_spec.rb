@@ -120,11 +120,6 @@ describe Client, 'methods' do
     it { expect(other_client.can_create_assessment?).to be_falsey }
   end
 
-  context 'can create case note' do
-    it { expect(client.can_create_case_note?).to be_truthy }
-    it { expect(other_client.can_create_case_note?).to be_falsey }
-  end
-
   context 'age as years' do
     let!(:age_as_years){ client.age_as_years }
     let!(:total_present_months){ Date.today.year * 12 + Date.today.month }

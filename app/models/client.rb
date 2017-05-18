@@ -154,10 +154,6 @@ class Client < ActiveRecord::Base
     Date.today >= next_assessment_date
   end
 
-  def can_create_case_note?
-    assessments.count > 0
-  end
-
   def self.able_managed_by(user)
     where('able_state = ? or user_id = ?', ABLE_STATES[0], user.id)
   end
