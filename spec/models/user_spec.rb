@@ -12,7 +12,6 @@ end
 describe User, 'validations' do
   it { is_expected.to validate_presence_of(:roles) }
   it { is_expected.to validate_presence_of(:email) }
-  it { is_expected.to validate_presence_of(:pin_number) }
   it { is_expected.to validate_uniqueness_of(:email).case_insensitive }
   it { is_expected.to validate_inclusion_of(:roles).in_array(User::ROLES)}
 end
@@ -307,14 +306,6 @@ describe User, 'methods' do
     end
     it 'current user is Manager' do
       expect(User.self_and_subordinates(manager)).to include(manager, subordinate)
-    end
-  end
-
-  context 'set_pin_number' do
-    let!(:user) { User.new }
-
-    it 'should set pin after initialize' do
-      expect(user.pin_number.present?).to be_truthy
     end
   end
 end
