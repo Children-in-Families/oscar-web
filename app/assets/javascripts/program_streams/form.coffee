@@ -1,5 +1,5 @@
 CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = CIF.Program_streamsUpdate = do ->
-  @formBuilder = 'ss'
+  @formBuilder = ''
   _init = ->
     _initProgramSteps()
     # _initProgramBuilder()
@@ -23,7 +23,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         )
 
   _initProgramBuilder = (element) ->
-    @formBuilder = $(element).formBuilder({
+    formBuilder = $(element).formBuilder({
       dataType: 'json'
       formData: ''
       disableFields: ['autocomplete', 'header', 'hidden', 'paragraph', 'button', 'file','checkbox']
@@ -94,6 +94,11 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
 
     }).data('formBuilder');
 
+
+    $('#save').click ->
+
+      # $('#program_stream_enrollment').val(formBuilder.formData)
+
   _initProgramSteps = ->
     self = @
     form = $('.new_program_stream')
@@ -102,10 +107,10 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       bodyTag: 'section'
       transitionEffect: 'slideLeft'
       onStepChanging: (event, currentIndex, newIndex) ->
-      #   if newIndex == 1
-      #     enrollment = $('#enrollment')
-      #     _initProgramBuilder(enrollment)
-      #     # $('#program_stream_enrollment').val(enrollmentBuilder.formData)
+      # if newIndex == 1
+      #   enrollment = $('#enrollment')
+      #   _initProgramBuilder(enrollment)
+      #   # $('#program_stream_enrollment').val(enrollmentBuilder.formData)
       #   else if newIndex == 2
       #     tracking = $('#tracking')
       #     _initProgramBuilder(tracking)
@@ -113,19 +118,27 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       #     exitProgram = $('#exit-program')
       #     _initProgramBuilder(exitProgram)
       #     # $('#program_stream_exit_program').val(exitProgramBuilder.formData)
-      # onStepChanged: (event, currentIndex, newIndex) ->
+        if newIndex == 1
+          enrollment = $('#enrollment')
+          _initProgramBuilder(enrollment)
+
+
+
+        $('section ul.frmb.ui-sortable').css('min-height', '266px')
+        $(form).validate().settings.ignore = ':disabled,:hidden'
+        $(form).valid()
+      onStepChanged: (event, currentIndex, newIndex) ->
+        $('#save').trigger 'click'
+        debugger
       #   console.log currentIndex
       #   if currentIndex == 2
       #     console.log self.formBuilder
       #     $('#program_stream_enrollment').val(self.formBuilder.formData)
       #     console.log $('#program_stream_enrollment').val()
 
-        $('section ul.frmb.ui-sortable').css('min-height', '266px')
-        $(form).validate().settings.ignore = ':disabled,:hidden'
-        $(form).valid()
       onFinishing: (event, currentIndex) ->
-        form.validate().settings.ignore = ':disabled'
-        form.valid()
+        # form.validate().settings.ignore = ':disabled'
+        # form.valid()
       onFinished: (event, currentIndex) ->
         $('.actions a:contains("Done")').removeAttr('href')
         # form.submit()

@@ -260,14 +260,13 @@ ActiveRecord::Schema.define(version: 20170517082509) do
 
   create_table "custom_fields", force: :cascade do |t|
     t.string   "entity_type",       default: ""
-    t.text     "properties",        default: ""
+    t.text     "fields",            default: ""
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
     t.string   "form_title",        default: ""
     t.string   "frequency",         default: ""
     t.integer  "time_of_frequency", default: 0
     t.string   "ngo_name",          default: ""
-    t.jsonb    "fields"
   end
 
   create_table "departments", force: :cascade do |t|
@@ -849,8 +848,8 @@ ActiveRecord::Schema.define(version: 20170517082509) do
     t.integer  "organization_id"
     t.boolean  "disable",                default: false
     t.datetime "expires_at"
-    t.boolean  "task_notify",            default: true
     t.integer  "manager_id"
+    t.boolean  "task_notify",            default: true
     t.boolean  "calendar_integration",   default: false
   end
 
