@@ -106,7 +106,10 @@ module ClientsHelper
       family_id:                     t('datagrid.columns.clients.family_id'),
       any_assessments:               t('datagrid.columns.clients.assessments'),
       donor:                         t('datagrid.columns.clients.donor'),
-      changelog:                     t('datagrid.columns.clients.changelog')
+      changelog:                     t('datagrid.columns.clients.changelog'),
+      live_with:                     t('datagrid.columns.clients.live_with'),
+      poverty_certificate:           t('datagrid.columns.clients.poverty_certificate'),
+      rice_support:                  t('datagrid.columns.clients.rice_support')
     }
     label_tag "#{column}_", label_column[column.to_sym]
   end
