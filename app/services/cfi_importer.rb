@@ -19,6 +19,8 @@ module CfiImporter
     def clients
       ((workbook.first_row + 1)..workbook.last_row).each do |row|
         user                  = User.find_by(first_name: workbook.row(row)[headers['Case Worker']])
+        given_name            = workbook.row(row)[headers['Given Name']]
+        family_name           = workbook.row(row)[headers['Family Name']]
         gender                = case workbook.row(row)[headers['Gender']]
                                 when 'M' then 'male'
                                 when 'F' then 'female'
@@ -40,8 +42,8 @@ module CfiImporter
         family_code           = workbook.row(row)[headers['Family ID#']]
         family                = Family.find_by(code: family_code)
         c = Client.new(
-          given_name: FFaker::Name.name,
-          family_name: FFaker::Name.name,
+          given_name: given_name,
+          family_name: family_name,
           gender: gender,
           date_of_birth: dob,
           village: village,
@@ -59,10 +61,10 @@ module CfiImporter
 
     def families
       ((workbook.first_row + 1)..workbook.last_row).each do |row|
-        name         = FFaker::Name.name
         code         = workbook.row(row)[headers['Family ID#']]
+        family_name  = workbook.row(row)[headers['Family Name']]
         family_type  = workbook.row(row)[headers['Family Type']]
-        Family.create(name: name, code: code, family_type: family_type)
+        Family.create(name: family_name, code: code, family_type: family_type)
       end
     end
 
