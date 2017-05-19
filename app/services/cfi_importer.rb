@@ -2,7 +2,7 @@ module CfiImporter
   class Import
     attr_accessor :path, :headers, :workbook
 
-    def initialize(sheet_name, path = 'vendor/data/cfi.xlsx')
+    def initialize(sheet_name, path = 'vendor/data/cfi_clients.xlsx')
       @path     = path
       @workbook = Roo::Excelx.new(path)
 
@@ -23,12 +23,22 @@ module CfiImporter
                                 when 'M' then 'male'
                                 when 'F' then 'female'
                                 end
-        dob                   = workbook.row(row)[headers['Date of birth']]
+        dob                   = workbook.row(row)[headers['Date of Birth']]
+        if dob.present?
+          begin
+            dob = Date.parse(dob.to_s)
+          rescue ArgumentError
+            dob = Date.strptime(dob, '%m/%d/%Y').to_s
+          end
+        end
+
         village               = workbook.row(row)[headers['Address (Village)']]
-        student_id            = workbook.row(row)[headers['Students ID']]
+        kid_id                = workbook.row(row)[headers['Students ID']]
         live_with             = workbook.row(row)[headers['Who to live with']]
-        poverty_certificate   = workbook.row(row)[headers['Poverty Certificate']]
-        rice_support          = workbook.row(row)[headers['Rice Support']]
+        poverty_certificate   = workbook.row(row)[headers['Poverty Certificate']] || 0
+        rice_support          = workbook.row(row)[headers['Rice Support']] || 0
+        family_code           = workbook.row(row)[headers['Family ID#']]
+        family                = Family.find_by(code: family_code)
         c = Client.new(
           given_name: FFaker::Name.name,
           family_name: FFaker::Name.name,
@@ -37,21 +47,20 @@ module CfiImporter
           village: village,
           state: 'accepted',
           user: user,
-          student_id: student_id,
+          kid_id: kid_id,
           live_with: live_with,
           poverty_certificate: poverty_certificate,
           rice_support: rice_support
         )
         c.save
-
-        Case.create(client_id: c.id, case_type: 'FC', start_date: Date.today, family_id: family_id, user_id: c.user_id)
+        c.cases.create(case_type: 'FC', start_date: Date.today, family: family, user_id: c.user_id)
       end
     end
 
     def families
       ((workbook.first_row + 1)..workbook.last_row).each do |row|
         name         = FFaker::Name.name
-        code         = workbook.row(row)[headers['Family Code']]
+        code         = workbook.row(row)[headers['Family ID#']]
         family_type  = workbook.row(row)[headers['Family Type']]
         Family.create(name: name, code: code, family_type: family_type)
       end

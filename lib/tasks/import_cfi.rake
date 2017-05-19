@@ -10,7 +10,7 @@ namespace :cfi do
     import     = CfiImporter::Import.new('users')
     import.users
 
-    # import     = CfiImporter::Import.new('clients')
-    # import.clients
+    import     = CfiImporter::Import.new('clients')
+    import.clients
   end
 end

@@ -86,4 +86,10 @@
                 %td
                   %strong
                     = @user.province.name if @user.province
+              %tr
+                %td.spacing-first-col
+                  = t('.pin_number')
+                %td
+                  %strong
+                    = @user.pin_number
 = render 'clients'
