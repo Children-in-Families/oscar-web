@@ -1,9 +1,9 @@
 describe User, 'associations' do
   it { is_expected.to belong_to(:province)}
   it { is_expected.to belong_to(:department)}
-  it { is_expected.to have_many(:cases)}
-  it { is_expected.to have_many(:clients)}
-  it { is_expected.to have_many(:changelogs)}
+  it { is_expected.to have_many(:cases).dependent(:restrict_with_error)}
+  it { is_expected.to have_many(:clients).dependent(:restrict_with_error)}
+  it { is_expected.to have_many(:changelogs).dependent(:restrict_with_error)}
   it { is_expected.to have_many(:progress_notes).dependent(:restrict_with_error)}
   it { is_expected.to have_many(:custom_field_properties).dependent(:destroy) }
   it { is_expected.to have_many(:custom_fields).through(:custom_field_properties) }

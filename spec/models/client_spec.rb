@@ -489,4 +489,38 @@ describe Client, 'scopes' do
       expect(clients).not_to include(other_client)
     end
   end
+
+  context 'live_with_like' do
+    let!(:client)       { create(:client, live_with: 'Rainy') }
+    let!(:other_client) { create(:client, live_with: 'Nico') }
+    let!(:clients)      { Client.live_with_like('rain') }
+    it 'should include records with live_with like' do
+      expect(clients).to include(client)
+    end
+    it 'should not include records without live_with like' do
+      expect(clients).not_to include(other_client)
+    end
+  end
+end
+
+describe 'validations' do
+  subject{ Client.new }
+
+  context 'rejected_note' do
+    before do
+      subject.save
+      subject.state = 'rejected'
+    end
+    it { is_expected.to validate_presence_of(:rejected_note) }
+  end
+
+  context 'kid_id' do
+    let!(:client){ create(:client, kid_id: 'STID-01') }
+    let!(:valid_client){ build(:client) }
+    let!(:invalid_client){ build(:client, kid_id: 'stid-01') }
+    before { subject.kid_id = 'STiD-01' }
+    it { is_expected.to validate_uniqueness_of(:kid_id).case_insensitive }
+    it { expect(valid_client).to be_valid }
+    it { expect(invalid_client).to be_invalid }
+  end
 end

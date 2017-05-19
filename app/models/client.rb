@@ -53,12 +53,14 @@ class Client < ActiveRecord::Base
   has_paper_trail
 
   validates :rejected_note, presence: true, on: :update, if: :reject?
+  validates :kid_id, uniqueness: { case_sensitive: false }, if: 'kid_id.present?'
 
   before_update :reset_user_to_tasks
 
   after_create :set_slug_as_alias
   after_update :set_able_status, if: proc { |client| client.able_state.blank? && answers.any? }
 
+  scope :live_with_like,              ->(value) { where('clients.live_with iLIKE ?', "%#{value}%") }
   scope :given_name_like,             ->(value) { where('clients.given_name iLIKE ?', "%#{value}%") }
   scope :family_name_like,            ->(value) { where('clients.family_name iLIKE ?', "%#{value}%") }
   scope :local_given_name_like,       ->(value) { where('clients.local_given_name iLIKE ?', "%#{value}%") }

@@ -258,6 +258,9 @@ km:
   signed_in_with_google: ចូលបានជោគជ័យជាមួយនឹង Google Calendar
 
   default_client_fields: &default_client_fields
+    live_with: រស់នៅជាមួយ
+    rice_support: អង្ករដែលផ្គត់ផ្គង់
+    poverty_certificate: ប័ណ្ណក្រីក្រ
     id: លេខសំគាល់
     kid_id: លេខកូដឣតិថិជន
     given_name: នាមខ្លួន
