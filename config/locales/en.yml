@@ -254,6 +254,9 @@ en:
   signed_in_with_google: Signed in with google calendar successfully.
 
   default_client_fields: &default_client_fields
+    live_with: Who to live with
+    rice_support: Rice Support
+    poverty_certificate: Poverty Certificate
     id: ID
     kid_id: Kid ID
     given_name: Given Name
