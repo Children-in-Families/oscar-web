@@ -204,6 +204,27 @@ km:
     index:
       program_list: បញ្ជីកម្មវិធី​បន្ទាប់បន្សំ
       new_program: បន្ថែមកម្មវិធីថ្មី
+    new:
+      new_program_stream: កម្មវិធីថ្មី
+    actions:
+      are_you_sure: តើអ្នកប្រាកដហើយ?
+    form:
+      add_rule: បន្ថែមលក្ខខណ្ឌថ្មី 
+      name: ឈ្មោះកម្មវិធី​បន្ទាប់បន្សំ
+      description: ការបរិយាយ
+      rule: លក្ខខណ្ឌ
+      enrollment_form: ទម្រង់បែបបទចុះឈ្មោះ
+      tracking_form: ទម្រង់បែបបទតាមដានការរីកចំរើន
+      frequency: ភាពញឹកញាប់
+      time_of_frequency: ពេលវេលានៃភាពញឹកញាប់
+      exit_form: ទម្រង់បែបបទចាកចេញ
+      summary: សេចក្តីសង្ខេប  
+      add_new_filter: បន្ថែមការស្វែងរក
+      add_new_group: បន្ថែមបណ្ដុំនៃការស្វែងរក
+      delete_group: លុបបណ្ដុំនៃការស្វែងរក
+      previous: 'ទំព័រមុន'
+      next: 'ទំព័របន្ទាប់'
+      finish: 'រក្សាទុក'
 
   government_reports:
     index:
@@ -533,6 +554,10 @@ km:
         code: លេខសំគាល់
       cases:
         case_type: ប្រភេទករណី
+      program_streams:
+        name: ឈ្មោះកម្មវិធី​បន្ទាប់បន្សំ
+        description: ការបរិយាយ
+        action: សកម្មភាព
     filters:
       xboolean:
         "yes": "បាទ/ចាស"

@@ -1,5 +1,56 @@
-body[id='program_streams-new'] {
+body[id='program_streams-new'], body[id='program_streams-edit'],
+body[id='program_streams-update'], body[id='program_streams-create'] {
+  
   .wizard > .steps > ul > li {
     width: 20%;
   }
+  
+  #program-rule {
+  	select#select-custom-form {
+	    width: 180px;
+	  }
+
+	  .btn-group.group-actions {
+	    button[data-add='rule'] {
+	      background-color: #1ab394;
+	      border-color: #1ab394;
+	      color: #FFFFFF;
+	    }
+	    button {
+	      margin-right: 5px;
+	    }
+	  }
+
+	  .rule-container {
+	    border-radius: 0;
+	    padding: 10px;
+	    margin: 5px 0;
+	  }
+
+	  .rule-operator-container {
+	    select {
+	      width: 180px;
+	    }
+	  }
+
+	  .rule-value-container {
+	    border-left: none;
+	    select, input {
+	      width: 180px;
+	    }
+	    input.form-control {
+	      padding: 6px 12px;
+	    }
+	  }
+
+	  .order {
+	    display: inline-block;
+	    float: right;
+	  }
+
+	  .filter-error {
+	    color: red;
+	    display: none;
+	  }
+  }  
 }

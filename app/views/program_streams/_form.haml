@@ -1,16 +1,20 @@
 = simple_form_for @program_stream do |f|
   .program-steps
-    %h4 Add Rule
+    %h4= t('.add_rule')
     %section
-      = f.input :name
-      = f.input :description
-      #rule
-    %h4 Enrollment Form
+      = f.input :name, label: t('.name')
+      = f.input :description, label: t('.description')
+      %h3= t('.rule')
+      #program-rule{ 'data-filter-translation' => { add_filter: t('.add_new_filter'), add_group: t('.add_new_group'), delete_group: t('.delete_group'), next: t('.next'), previous: t('.previous'), finish: t('.finish') }}
+      / %span.filter-error
+      /   %i Please Select Field to Filter
+      = f.hidden_field :rules 
+    %h4= t('.enrollment_form')
     %section
       #enrollment
-      = link_to 'submit', '#', id: 'save'
+      = link_to 'submit', '#', id: 'enrollment-link', style: 'display:none;'
       = f.hidden_field :enrollment
-    %h4 Progress Tracking
+    %h4= t('.tracking_form')
     %section
       .row
         .col-xs-12.col-md-6
@@ -18,10 +22,35 @@
         .col-xs-12.col-md-6
           = f.input :time_of_frequency, label: t('.time_of_frequency')
       #tracking
+      = link_to 'submit', '#', id: 'tracking-link', style: 'display:none;'
       = f.hidden_field :tracking
-    %h4 Exit Form
+    %h4= t('.exit_form')
     %section
       #exit-program
+      = link_to 'submit', '#', id: 'exit-program-link', style: 'display:none;'
       = f.hidden_field :exit_program
-    / %h4 Summary
-    / %section
+    %h4= t('.summary')
+    %section
+      .row
+        .col-xs-12.col-md-3
+          %label Name:
+        .col-xs-12.col-md-9
+          %h3#program-name
+      .row
+        .col-xs-12.col-md-3
+          %label Description:
+        .col-xs-12.col-md-9
+          %p#program-description
+      .row
+        .col-xs-12.col-md-3
+          %label Rule:
+        .col-xs-12.col-md-9
+          %p#program-rule Active EC
+      .row
+        .col-xs-12
+          = link_to 'Enrollment Form', '#'
+        .col-xs-12
+          = link_to 'Progress Tracking Form', '#'
+        .col-xs-12
+          = link_to 'Exit Form', '#'
+

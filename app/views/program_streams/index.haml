@@ -6,16 +6,6 @@
         .ibox-tools
           = link_to t('.new_program'), new_program_stream_path, class: 'btn btn-primary btn-add'
       .ibox-content
-        %table.table.table-striped
-          %thead
-            %tr
-              %th Name
-              %th Description
-              %th Action
-          %tbody
-            - 20.times do |ps|
-              %tr
-                %td= "Name #{ps}"
-                %td= "Description #{ps}"
-                %td Haha
+        = datagrid_table @program_stream_grid, html: { class: 'table table-bordered table-striped table-hover program-streams'}
       .ibox-footer
+        = paginate @program_stream_grid.assets

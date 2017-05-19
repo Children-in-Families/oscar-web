@@ -161,6 +161,11 @@ Rails.application.routes.draw do
         get :get_basic_field
       end
     end
+    resources :program_stream_add_rule, only: [] do
+      collection do
+        get :get_fields
+      end
+    end
 
     namespace :v1, default: { format: :json } do
       resources :domain_groups, only: [:index]

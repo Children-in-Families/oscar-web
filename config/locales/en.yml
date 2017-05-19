@@ -203,6 +203,27 @@ en:
     index:
       program_list: Programs Stream Listing
       new_program: Add New Program
+    new:
+      new_program_stream: New Program Stream
+    actions:
+      are_you_sure: Are you sure you want to delete?
+    form:
+      add_rule: Add rule
+      name: Name
+      description: Description
+      rule: Rule
+      enrollment_form: Enrollment Form
+      tracking_form: Progress Tracking Form
+      frequency: Frequency
+      time_of_frequency: Time of Frequency
+      exit_form: Exit Form
+      summary: Summary
+      add_new_filter: Add New Filter
+      add_new_group: Add Group
+      delete_group: Delete
+      previous: Previous
+      next: Next
+      finish: Create
 
   government_reports:
     index:
@@ -532,6 +553,11 @@ en:
         code: Code
       cases:
         case_type: Case Type
+      program_streams:
+        name: Name
+        description: Description
+        action: Action
+
     filters:
       xboolean:
         "yes": "Yes"

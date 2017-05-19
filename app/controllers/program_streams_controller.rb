@@ -2,7 +2,9 @@ class ProgramStreamsController < AdminController
   # load_and_authorize_resource
 
   def index
-
+    @program_stream_grid = ProgramStreamGrid.new(params[:program_stream_grid])
+    @results = @program_stream_grid.assets.size
+    @program_stream_grid.scope { |scope| scope.page(params[:page]).per(20) }
   end
 
   def new
@@ -15,12 +17,18 @@ class ProgramStreamsController < AdminController
 
   def create
     @program_stream = ProgramStream.new(program_stream_params)
+
+    if @program_stream.save
+      redirect_to program_streams_path
+    else
+      render :new
+    end
   end
 
   private
 
   def program_stream_params
-    params.require(:program_stream).permit(:name)
+    params.require(:program_stream).permit(:name, :rules, :enrollment, :tracking, :frequency, :time_of_frequency, :exit_program)
   end
 
 end

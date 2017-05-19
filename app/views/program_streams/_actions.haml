@@ -1,0 +1,5 @@
+= link_to edit_program_stream_path(object), class: 'btn btn-outline btn-success btn-xs' do
+  = fa_icon('pencil')
+= link_to program_stream_path(object), method: 'delete',  data: { confirm: t('.are_you_sure') }, class: "btn btn-outline btn-danger btn-xs" do
+  = fa_icon('trash')
+/ = remove_link(object, {case_report: object.cases.with_reports.size, case_contract: object.cases.with_contracts.size})
