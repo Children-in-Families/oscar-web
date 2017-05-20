@@ -78,9 +78,17 @@ class CalendarsController < AdminController
     if session[:authorization].blank? || current_user.expires_at < DateTime.now.in_time_zone
       session[:action] = params[:action]
       session[:referrer] = request.referrer
+      session[:grouped_tasks] = params[:grouped_tasks]
       redirect_to redirect_path
     else
-      tasks = Task.incomplete.of_user(current_user).incomplete.upcoming
+      tasks = []
+      if params[:grouped_tasks] == 'upcoming'
+        tasks = Task.incomplete.of_user(current_user).incomplete.upcoming
+      elsif params[:grouped_tasks] == 'today'
+        tasks = Task.incomplete.of_user(current_user).incomplete.today
+      elsif params[:grouped_tasks] == 'overdue'
+        tasks = Task.incomplete.of_user(current_user).incomplete.overdue
+      end
       client = Signet::OAuth2::Client.new(client_id: Rails.application.secrets.google_client_id,
                                           client_secret: Rails.application.secrets.google_client_secret,
                                           token_credential_uri: 'https://accounts.google.com/o/oauth2/token')
