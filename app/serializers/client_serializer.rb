@@ -4,9 +4,10 @@ class ClientSerializer < ActiveModel::Serializer
               :house_number, :street_number, :village, :commune, :district, :completed, :time_in_care,
               :initial_referral_date, :referral_phone, :referral_source,:follow_up_date, :followed_up_by,
               :able, :reason_for_referral, :background, :able_state, :rejected_note, :user, :birth_province,
-              :received_by, :school_name, :school_grade, :has_been_in_orphanage, :state, :agencies_involved,
-              :has_been_in_government_care, :relevant_referral_information, :cases, :name, :assessments,
-              :most_recent_case_note, :next_appointment_date, :tasks, :organization
+              :received_by, :school_name, :school_grade, :has_been_in_orphanage, :state, :has_been_in_government_care,
+              :relevant_referral_information, :cases, :name, :assessments, :most_recent_case_note, :next_appointment_date,
+              :tasks, :organization
+  has_many    :agencies
 
   def tasks
     ActiveModel::ArraySerializer.new(object.tasks.incomplete, each_serializer: TaskSerializer)
@@ -29,7 +30,7 @@ class ClientSerializer < ActiveModel::Serializer
   end
 
   def birth_province
-    object.province if object.province
+    object.province
   end
 
   def received_by
@@ -53,7 +54,7 @@ class ClientSerializer < ActiveModel::Serializer
   end
 
   def current_province
-    object.province.name if object.province
+    object.province
   end
 
   def rejected_note
@@ -61,14 +62,10 @@ class ClientSerializer < ActiveModel::Serializer
   end
 
   def birth_province
-    object.birth_province.name if object.birth_province
+    object.birth_province
   end
 
   def received_by
-    object.received_by.name if object.received_by
-  end
-
-  def agencies_involved
-    object.agencies.map(&:name) if object.agencies
+    object.received_by
   end
 end
