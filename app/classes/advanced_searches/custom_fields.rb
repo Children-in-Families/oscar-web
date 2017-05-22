@@ -27,20 +27,17 @@ module AdvancedSearches
 
     def generate_field_by_type
       custom_fields = CustomField.find(@custom_form_id).fields
-      custom_fields = eval custom_fields
-
       custom_fields.each do |json_field|
-
-        if json_field[:type] == 'text' || json_field[:type] == 'textarea'
-          @text_type_list << json_field[:label]
-        elsif json_field[:type] == 'number'
-          @number_type_list << json_field[:label]
-        elsif json_field[:type] == 'date'
-          @date_type_list << json_field[:label]
-        elsif json_field[:type] == 'select' || json_field[:type] == 'checkbox-group' || json_field[:type] == 'radio-group'
+        if json_field['type'] == 'text' || json_field['type'] == 'textarea'
+          @text_type_list << json_field['label']
+        elsif json_field['type'] == 'number'
+          @number_type_list << json_field['label']
+        elsif json_field['type'] == 'date'
+          @date_type_list << json_field['label']
+        elsif json_field['type'] == 'select' || json_field['type'] == 'checkbox-group' || json_field['type'] == 'radio-group'
           drop_list_values = []
-          drop_list_values << json_field[:label]
-          drop_list_values << json_field[:values].map{|value| { value[:label] => value[:label] }}
+          drop_list_values << json_field['label']
+          drop_list_values << json_field['values'].map{|value| { value['label'] => value['label'] }}
           @drop_down_type_list << drop_list_values
         end
       end
