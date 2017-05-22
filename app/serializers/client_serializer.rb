@@ -1,6 +1,6 @@
 class ClientSerializer < ActiveModel::Serializer
   attributes  :id, :code, :given_name, :family_name, :local_given_name, :local_family_name, :gender,
-              :date_of_birth, :kid_id, :donor_name, :status, :current_province, :current_address,
+              :date_of_birth, :kid_id, :donor_name, :status, :province, :current_address,
               :house_number, :street_number, :village, :commune, :district, :completed, :time_in_care,
               :initial_referral_date, :referral_phone, :referral_source,:follow_up_date, :followed_up_by,
               :able, :reason_for_referral, :background, :able_state, :rejected_note, :user, :birth_province,
@@ -29,10 +29,6 @@ class ClientSerializer < ActiveModel::Serializer
     object.user.as_json(only: [:first_name, :last_name, :email], methods: [:name])
   end
 
-  def birth_province
-    object.province
-  end
-
   def received_by
     object.received_by.as_json(only: [:first_name, :last_name, :email], methods: [:name]) if object.received_by
   end
@@ -53,19 +49,7 @@ class ClientSerializer < ActiveModel::Serializer
     object.next_appointment_date.to_date
   end
 
-  def current_province
-    object.province
-  end
-
   def rejected_note
     object.rejected_note if object.state == "rejected"
-  end
-
-  def birth_province
-    object.birth_province
-  end
-
-  def received_by
-    object.received_by
   end
 end
