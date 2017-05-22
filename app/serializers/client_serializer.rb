@@ -1,9 +1,12 @@
 class ClientSerializer < ActiveModel::Serializer
-  attributes :id, :code, :given_name, :family_name, :gender, :date_of_birth, :status,
-             :initial_referral_date, :referral_phone, :follow_up_date, :current_address,
-             :able, :reason_for_referral, :background, :user, :birth_province, :received_by,
-             :followed_up_by, :referral_source, :cases, :name, :assessments, :most_recent_case_note, :next_appointment_date, :tasks,
-             :organization
+  attributes  :id, :code, :given_name, :family_name, :local_given_name, :local_family_name, :gender,
+              :date_of_birth, :kid_id, :donor_name, :status, :current_province, :current_address,
+              :house_number, :street_number, :village, :commune, :district, :completed, :time_in_care,
+              :initial_referral_date, :referral_phone, :referral_source,:follow_up_date, :followed_up_by,
+              :able, :reason_for_referral, :background, :able_state, :rejected_note, :user, :birth_province,
+              :received_by, :school_name, :school_grade, :has_been_in_orphanage, :state, :agencies_involved,
+              :has_been_in_government_care, :relevant_referral_information, :cases, :name, :assessments,
+              :most_recent_case_note, :next_appointment_date, :tasks, :organization
 
   def tasks
     ActiveModel::ArraySerializer.new(object.tasks.incomplete, each_serializer: TaskSerializer)
@@ -47,5 +50,25 @@ class ClientSerializer < ActiveModel::Serializer
 
   def next_appointment_date
     object.next_appointment_date.to_date
+  end
+
+  def current_province
+    object.province.name if object.province
+  end
+
+  def rejected_note
+    object.rejected_note if object.state == "rejected"
+  end
+
+  def birth_province
+    object.birth_province.name if object.birth_province
+  end
+
+  def received_by
+    object.received_by.name if object.received_by
+  end
+
+  def agencies_involved
+    object.agencies.map(&:name) if object.agencies
   end
 end
