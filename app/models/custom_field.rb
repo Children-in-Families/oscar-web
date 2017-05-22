@@ -79,7 +79,7 @@ class CustomField < ActiveRecord::Base
       end
     end
     return unless error_fields.present?
-    error_message = "#{error_fields.uniq.join(', ')} #{I18n.t('cannot_remove')}"
+    error_message = "#{error_fields.uniq.join(', ')} #{I18n.t('cannot_remove_or_update')}"
     errors.add(:fields, "#{error_message} ")
   end
 end
