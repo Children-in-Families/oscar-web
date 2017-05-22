@@ -1,10 +1,10 @@
 Rails.application.routes.draw do
 
-  root 'statics#index'
+  root 'organizations#index'
 
   devise_for :users, controllers: { registrations: 'registrations', sessions: 'sessions', passwords: 'passwords' }
 
-  get '/robots.txt' => 'statics#robots'
+  get '/robots.txt' => 'organizations#robots'
 
   %w(404 500).each do |code|
     match "/#{code}", to: 'errors#show', code: code, via: :all

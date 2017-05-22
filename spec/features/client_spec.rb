@@ -91,7 +91,7 @@ describe 'Client' do
 
   feature 'New' do
     let!(:province) { create(:province) }
-    let!(:client)   { create(:client, given_name: 'Branderson', family_name: 'Anderson', local_given_name: 'Vin', 
+    let!(:client)   { create(:client, given_name: 'Branderson', family_name: 'Anderson', local_given_name: 'Vin',
                              local_family_name: 'Kell', date_of_birth: '2017-05-01', birth_province: province,
                              province: province, village: 'Sabay', commune: 'Vealvong') }
     before do
@@ -106,10 +106,10 @@ describe 'Client' do
     end
 
     scenario 'warning', js: true do
-      fill_in 'Given Name', with: 'Branderson'
-      fill_in 'Family Name', with: 'Anderson'
-      fill_in 'Given Name (Local)', with: 'Vin'
-      fill_in 'Family Name (Local)', with: 'Kell'
+      fill_in 'Given Name', with: 'Branderjo'
+      fill_in 'Family Name', with: 'Anderjo'
+      fill_in 'Given Name (Local)', with: 'Viny'
+      fill_in 'Family Name (Local)', with: 'Kelly'
       fill_in 'Date of Birth', with: '2017-05-01'
 
       select2_select province.name, '.client_province'
@@ -121,7 +121,7 @@ describe 'Client' do
       click_button 'Save'
       wait_for_ajax
 
-      expect(page).to have_content("The client you are registering appears to be a 75% match of a client that is already registered")
+      expect(page).to have_content("The client you are registering has many attributes that match a client who is already registered at")
     end
   end
 
