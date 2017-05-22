@@ -1,4 +1,4 @@
-class StaticsController < ApplicationController
+class OrganizationsController < ApplicationController
   def index
     @organizations = Organization.order(:created_at)
     redirect_to dashboards_url(subdomain: Organization.current.short_name) if user_signed_in?
