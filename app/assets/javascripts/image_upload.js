@@ -9,7 +9,7 @@
      $(button).click(function() {
        $(uploader).trigger('click');
      });
-     
+
      $(uploader).change(function(e) {
        var files = e.target.files;
        if(FileReader && files && files.length) {

@@ -1,0 +1,7 @@
+.nested-fields
+  .col-xs-12.col-md-2
+    = image_tag f.object.file.url, class: 'thumbnail'
+    .hide
+      = f.input :file, as: :file, label: false, input_html: { class: 'attachment-upload' }
+    = link_to_remove_association f, class: 'btn btn-danger btn-xs' do
+      %i.fa.fa-trash

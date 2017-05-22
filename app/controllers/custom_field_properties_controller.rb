@@ -11,6 +11,7 @@ class CustomFieldPropertiesController < AdminController
 
   def new
     @custom_field_property = @custom_formable.custom_field_properties.new(custom_field_id: @custom_field)
+    @custom_field_property.attachments.build(1)
     authorize! :new, @custom_field_property
   end
 
@@ -21,7 +22,6 @@ class CustomFieldPropertiesController < AdminController
   def create
     @custom_field_property = @custom_formable.custom_field_properties.new(custom_field_property_params)
     authorize! :create, @custom_field_property
-
     if @custom_field_property.save
       redirect_to polymorphic_path([@custom_formable, CustomFieldProperty], custom_field_id: @custom_field), notice: t('.successfully_created')
     else
@@ -47,7 +47,7 @@ class CustomFieldPropertiesController < AdminController
   private
 
   def custom_field_property_params
-    params.require(:custom_field_property).permit({}).merge(properties: (params['custom_field_property']['properties']), custom_field_id: params[:custom_field_id])
+    params.require(:custom_field_property).permit({}).merge(properties: (params['custom_field_property']['properties']), attachments_attributes: (params['custom_field_property']['attachments_attributes']), custom_field_id: params[:custom_field_id])
   end
 
   def find_custom_field_property

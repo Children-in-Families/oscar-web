@@ -29,6 +29,10 @@
 //= require tinymce
 //= require moment
 //= require fullcalendar
+//= require bootstrap_file_input/purify.min.js
+//= require bootstrap_file_input/fileinput.js
+//= require bootstrap_file_input/fa/theme.min.js
+//= require bootstrap_file_input/explorer/theme.min.js
 
 // WRAPBOOTSTRAP
 //= require iCheck/icheck.min.js
@@ -84,3 +88,4 @@
 //= require sessions/new
 //= require case/quarterly_reports/index
 //= require client_advanced_searches/index
+//= require custom_field_properties/form

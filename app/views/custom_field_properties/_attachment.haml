@@ -1,0 +1,8 @@
+%tr
+  %td File
+  %td.file
+    - custom_field_property.attachments.each do |attachment|
+      .row
+        .col-xs-12
+          = image_tag attachment.file, class: 'thumbnail'
+

@@ -1,0 +1,25 @@
+body[id='custom_field_properties-new'],
+body[id='custom_field_properties-create'],
+body[id='custom_field_properties-edit'],
+body[id='custom_field_properties-update'] {
+  
+  .links img, .nested-fields img {
+    width: 150px;
+    cursor: pointer;
+  }
+ 
+  .links {
+    position: relative;
+    left: 16px;
+    width: 150px;
+    height: 150px;
+    float: left;
+  }
+
+  .remove_fields {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    z-index: 1000;
+  }
+}

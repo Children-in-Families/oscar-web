@@ -4,6 +4,7 @@ class Attachment < ActiveRecord::Base
 
   belongs_to :able_screening_question
   belongs_to :progress_note
+  belongs_to :custom_field_property
 
   validates_processing_of :image
 
