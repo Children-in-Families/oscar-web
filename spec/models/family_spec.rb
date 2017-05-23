@@ -15,6 +15,8 @@ describe Family, 'scopes' do
   let!(:family){ create(:family, family_type: 'kinship', province: province)}
   let!(:other_family){ create(:family, family_type: 'foster')}
   let!(:emergency_family){ create(:family, family_type: 'emergency')}
+  let!(:inactive_family){ create(:family, family_type: 'inactive')}
+  let!(:birth_family){ create(:family, family_type: 'birth_family')}
 
   context 'name like' do
     let!(:families){ Family.name_like(family.name.downcase) }
@@ -71,6 +73,26 @@ describe Family, 'scopes' do
     it 'should not include not emergency type' do
       expect(Family.emergency).not_to include(family)
       expect(Family.emergency).not_to include(other_family)
+    end
+  end
+
+  context 'inactive' do
+    it 'should include inactive type' do
+      expect(Family.inactive).to include(inactive_family)
+    end
+    it 'should not include not inactive type' do
+      expect(Family.inactive).not_to include(family)
+      expect(Family.inactive).not_to include(other_family)
+    end
+  end
+
+  context 'birth_family' do
+    it 'should include birth_family type' do
+      expect(Family.birth_family).to include(birth_family)
+    end
+    it 'should not include not birth_family type' do
+      expect(Family.birth_family).not_to include(family)
+      expect(Family.birth_family).not_to include(other_family)
     end
   end
 
