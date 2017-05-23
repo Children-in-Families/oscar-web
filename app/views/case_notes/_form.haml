@@ -24,42 +24,10 @@
               = f.input :attendee, label: t('.present')
           = f.simple_fields_for :case_note_domain_groups do |cd|
             - if cd.object.domain_group.domains.assessment_domains_by_assessment_id(@case_note.assessment_id).any?
-              .ibox.border-left-right.border-bottom
-                .ibox-title
-                  %h5
-                    %strong= "#{t('.domain')} #{cd.object.domain_group.name} "
-                    = "(#{cd.object.domain_group.domain_identities})"
-                  .ibox-tools
-                    - cd.object.domain_group.domains.each do |domain|
-                      - ad = domain.assessment_domains.find_by(assessment_id: @case_note.assessment_id)
-                      %label.margin-score{class: "label label-#{ad.score_color_class} label-lg"}= ad.score
-                .ibox-content
-                  .row
-                    .col-xs-12.col-md-6
-                      = cd.input :note, label: false, input_html: { rows: 6, placeholder: t('.note') }
-                      = cd.hidden_field :domain_group_id
-                    .col-xs-12.col-md-6
-                      - cd.object.domain_group.domains.each do |domain|
-                        - assessment_domain = @case_note.assessment.assessment_domains.find_by(domain_id: domain.id)
-                        - tasks = @case_note.client.tasks.where(domain_id: domain.id)
-                        - if cd.object.persisted?
-                          - tasks = tasks.by_case_note_domain_group(cd.object)
-                        .panel{ class: "panel-#{assessment_domain.score_color_class} task-domain-#{domain.id} #{hidden_class(tasks.incomplete.blank?)}" }
-                          .panel-heading
-                            %strong= "#{t('.domain')} #{assessment_domain.domain.name}"
-                          .panel-body{id: "tasks-domain-#{domain.id}"}
-                            .row
-                              .col-xs-12
-                                = cd.association :tasks, collection: tasks.map{ |t| [t.name, t.id, {data: { completed: t.completed }}] }, as: :check_boxes, label: t('.on_going_tasks'), input_html: { class: 'i-checks task' }
-                                %div{ class: 'task-arising hidden' }
-                                  %label.control-label
-                                    = t('.tasks_arising')
-                                  %ol.list-group{ type: '1'}
+              = render 'form_with_assessment_domains', { cd: cd }
+            - else
+              = render 'form_without_assessment_domains', { cd: cd }
 
-                  .row
-                    .col-xs-12
-                      .case-note-task-btn.btn.btn-primary.btn-outline.pull-right{type: 'button', 'data-target' => "#tasksFromModal", 'data-toggle' => 'modal', 'data-domains': "#{cd.object.domain_group.domains.pluck(:id, :name)}"}
-                        = t('.add_task')
         .ibox-footer
           = f.submit t('.save'), class: 'btn btn-primary btn-form', id: 'case-note-submit-btn'
           = link_to t('.back') , client_case_notes_path(@case_note.client), class: 'btn btn-default btn-form'

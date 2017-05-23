@@ -1,9 +1,9 @@
 describe User, 'associations' do
   it { is_expected.to belong_to(:province)}
   it { is_expected.to belong_to(:department)}
-  it { is_expected.to have_many(:cases)}
-  it { is_expected.to have_many(:clients)}
-  it { is_expected.to have_many(:changelogs)}
+  it { is_expected.to have_many(:cases).dependent(:restrict_with_error)}
+  it { is_expected.to have_many(:clients).dependent(:restrict_with_error)}
+  it { is_expected.to have_many(:changelogs).dependent(:restrict_with_error)}
   it { is_expected.to have_many(:progress_notes).dependent(:restrict_with_error)}
   it { is_expected.to have_many(:custom_field_properties).dependent(:destroy) }
   it { is_expected.to have_many(:custom_fields).through(:custom_field_properties) }
@@ -12,7 +12,6 @@ end
 describe User, 'validations' do
   it { is_expected.to validate_presence_of(:roles) }
   it { is_expected.to validate_presence_of(:email) }
-  it { is_expected.to validate_presence_of(:pin_number) }
   it { is_expected.to validate_uniqueness_of(:email).case_insensitive }
   it { is_expected.to validate_inclusion_of(:roles).in_array(User::ROLES)}
 end
@@ -307,14 +306,6 @@ describe User, 'methods' do
     end
     it 'current user is Manager' do
       expect(User.self_and_subordinates(manager)).to include(manager, subordinate)
-    end
-  end
-
-  context 'set_pin_number' do
-    let!(:user) { User.new }
-
-    it 'should set pin after initialize' do
-      expect(user.pin_number.present?).to be_truthy
     end
   end
 end

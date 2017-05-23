@@ -1,10 +1,10 @@
 Rails.application.routes.draw do
 
-  root 'statics#index'
+  root 'organizations#index'
 
   devise_for :users, controllers: { registrations: 'registrations', sessions: 'sessions', passwords: 'passwords' }
 
-  get '/robots.txt' => 'statics#robots'
+  get '/robots.txt' => 'organizations#robots'
 
   %w(404 500).each do |code|
     match "/#{code}", to: 'errors#show', code: code, via: :all
@@ -161,7 +161,8 @@ Rails.application.routes.draw do
 
     namespace :v1, default: { format: :json } do
       resources :domain_groups, only: [:index]
-      resources :clients, only: [:index] do
+      resources :users, only: [:update]
+      resources :clients, except: [:edit, :new] do
         get :compare, on: :collection
         resources :assessments, only: [:create]
         resources :tasks, only: [:create, :update]

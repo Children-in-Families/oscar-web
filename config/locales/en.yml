@@ -249,11 +249,15 @@ en:
   must_be_uniq: field label must be uniq
   field_label_cannot_be_blank: field label can't be blank
   cannot_remove: cannot be removed
+  cannot_remove_or_update: cannot be removed/updated since it is already in use.
   add_event_success: Event has been added to calendar successfully.
   has_been_added_to_calendar: This event has already been added to calendar.
   signed_in_with_google: Signed in with google calendar successfully.
 
   default_client_fields: &default_client_fields
+    live_with: Who to live with
+    rice_support: Rice Support
+    poverty_certificate: Poverty Certificate
     id: ID
     kid_id: Kid ID
     given_name: Given Name
@@ -672,7 +676,7 @@ en:
       confirm: Save Anyway
       close: Cancel
       title: Warning
-      body_first: The client you are registering appears to be a 75% match of a client that is already registered at
+      body_first: The client you are registering has many attributes that match a client who is already registered at
       body_second: . You may wish to contact
       body_third: to resolve the issue.
     update:
@@ -1388,14 +1392,20 @@ en:
       present: Present
       completed_tasks: Completed Tasks
       note: Note
+    form_with_assessment_domains:
+      domain: Domain
+      note: Note
+      add_task: Add Task
+    form_without_assessment_domains:
+      domain: Domain
+      note: Note
+      add_task: Add Task
     form:
       label_note: Note
       meeting_detail: Meeting detail
       meeting_with: Meeting with
       on_date: On Date
       present: Present
-      domain: Domain
-      note: Note
       tasks: Tasks
       back: Back
       save: Save
