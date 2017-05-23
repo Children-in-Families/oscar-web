@@ -1,53 +1,43 @@
 CIF.Custom_field_propertiesNew = CIF.Custom_field_propertiesCreate = CIF.Custom_field_propertiesEdit = CIF.Custom_field_propertiesUpdate = do ->
   _init = ->
     _initUploader()
-    _handleCocoonAdd()
+    _handleDeleteAttachment()
 
   _initUploader = ->
-    $('.nested-fields').each (index, element)->
-      image = $(element).find('.thumbnail')
-      uploader = $(element).find('input[type="file"]')
-      $(image).on 'click', ->
-        $(image).previewImage
-          uploader: uploader
-        $(uploader).click()
+    $("#custom_field_property_attachments").fileinput
+      showUpload: false
+      theme: "explorer"
+      allowedFileExtensions: ['jpg', 'png', 'gif', 'doc', 'docx', 'xls', 'xlsx', 'pdf']
 
-    # $(".attachment-upload").fileinput
-    #   showUpload: false
-    #   theme: "explorer"
+  _handleDeleteAttachment = ->
+    rows = $('.row-file')
+    $(rows).each (_k, element) ->
+      deleteBtn = $(element).find('.delete')
+      url = $(deleteBtn).data('url')
+      $(element).click ->
+        $.ajax
+          dataType: "json"
+          url: url
+          method: 'DELETE'
+          success: (response) ->
+            _initNotification(response.message)
+            $(element).remove()
 
-    # $('#custom_field_property_attachments').fileinput
-    #   showUpload: false
-    #   theme: "fa"
-    #   console.log 's'
-      
-
-  #   image = $('.nested-fields img')
-  #   uploader = $('.attachment-upload')
-  #   $(image).previewImage
-  #     uploader: uploader
-  #   $(uploader).click()
-
-  _handleCocoonAdd = ->
-    $('#attachments').on 'cocoon:after-insert', (e, element)->
-      image = $(element).find('img.thumbnail')
-      uploader = $(element).find('input[type="file"]')
-      $(uploader).click()
-      $(image).previewImage
-        uploader: uploader
-
-      # input = element.find('input[type="file"]')
-      # $(input).fileinput
-      #   showUpload: false
-      #   theme: "explorer"
-  #     # debugger
-  #     image = $(element).children().find('img')
-  #     console.log image
-  #     $(image).click ->
-
-  #       uploader = $(element).find('input[type="hiddend"]')
-  #       $(image).previewImage
-  #         uploader: uploader
-  #       $(uploader).click()
+  _initNotification = (message)->
+    messageOption = {
+      "closeButton": true,
+      "debug": true,
+      "progressBar": true,
+      "positionClass": "toast-top-center",
+      "showDuration": "400",
+      "hideDuration": "1000",
+      "timeOut": "7000",
+      "extendedTimeOut": "1000",
+      "showEasing": "swing",
+      "hideEasing": "linear",
+      "showMethod": "fadeIn",
+      "hideMethod": "fadeOut"
+    }
+    toastr.success(message, '', messageOption)
 
   { init: _init }

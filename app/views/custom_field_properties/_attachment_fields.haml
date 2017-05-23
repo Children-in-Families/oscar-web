@@ -1,7 +1,15 @@
-.nested-fields
-  .col-xs-12.col-md-2
-    = image_tag f.object.file.url, class: 'thumbnail'
-    .hide
-      = f.input :file, as: :file, label: false, input_html: { class: 'attachment-upload' }
-    = link_to_remove_association f, class: 'btn btn-danger btn-xs' do
-      %i.fa.fa-trash
+%table.table.table-bordered.attachment-table
+  %tbody
+    - @custom_field_property.attachments.each_with_index do |attachment, index|
+      %tr.row-file
+        %td
+          .show-attachment
+            = image_tag attachment.url, class: 'thumbnail'
+        %td.image-title.vert-align
+          = attachment.file.file.split('/').last
+        %td.vert-align.text-center
+          .delete.fa.fa-trash.btn.btn-outline.btn-danger.btn-xs{ data: { url: (polymorphic_path([@custom_formable, @custom_field_property], custom_field_id: @custom_field, file_index: index)) }}
+
+.row
+  .col-xs-12
+    = f.input :attachments, label: t('.attachments'), as: :file, input_html: { multiple: true }

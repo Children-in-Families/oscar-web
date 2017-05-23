@@ -2141,6 +2141,11 @@ km:
 
   custom_field_properties:
     <<: *default_entity_type_custom_fields
+    attachment:
+      are_you_sure: តើអ្នកប្រាកដហើយ?
+    attachment_fields:
+      attachments: ឯកសារ​ភ្ជាប់
+      are_you_sure: តើអ្នកប្រាកដហើយ?
 
   form_builder:
     custom_fields:

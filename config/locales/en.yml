@@ -1927,6 +1927,11 @@ en:
 
   custom_field_properties:
     <<: *default_entity_type_custom_fields
+    attachment:
+      are_you_sure: Are you sure you want to delete?
+    attachment_fields:
+      attachments: Attachments
+      are_you_sure: Are you sure you want to delete?
 
   form_builder:
     custom_fields:

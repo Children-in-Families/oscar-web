@@ -12,16 +12,9 @@
               - n_field.each do |field|
                 .col-xs-12.col-md-6
                   = render "/shared/fields/#{field['type'].underscore}", f: prop_f, field_props: field, errors: @custom_field_property.errors.messages
-
         .row
-          #attachments
-            %p Files Upload
-            = f.simple_fields_for :attachments do |att|
-              = render 'attachment_fields', f: att
-            .links
-              = link_to_add_association f, :attachments do
-                = image_tag 'file.png'
-          
+          .col-xs-12
+            = render 'attachment_fields', f: f
     .ibox-footer
       = f.submit t('.save'), class: 'btn btn-primary form-btn'
       = link_to t('.cancel'), polymorphic_path([@custom_formable, CustomFieldProperty], custom_field_id: @custom_field), class: 'btn btn-default form-btn'

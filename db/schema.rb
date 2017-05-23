@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170522030431) do
+ActiveRecord::Schema.define(version: 20170518031811) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -102,7 +102,6 @@ ActiveRecord::Schema.define(version: 20170522030431) do
     t.datetime "updated_at",                              null: false
     t.string   "file",                       default: ""
     t.integer  "progress_note_id"
-    t.integer  "custom_field_property_id"
   end
 
   add_index "attachments", ["able_screening_question_id"], name: "index_attachments_on_able_screening_question_id", using: :btree

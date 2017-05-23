@@ -22,4 +22,19 @@ body[id='custom_field_properties-update'] {
     right: -5px;
     z-index: 1000;
   }
+  .show-attachment img {
+    margin: 0 auto;
+    width: 150px;
+  }
+
+  .image-title{
+    width: 70%;
+  }
+
+  .table.attachment-table tbody>tr>td{
+    vertical-align: top;
+  }
+  .table.attachment-table tbody>tr>td.vert-align{
+    vertical-align: middle;
+  }
 }

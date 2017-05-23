@@ -1,8 +1,10 @@
 %tr
   %td File
   %td.file
-    - custom_field_property.attachments.each do |attachment|
+    - custom_field_property.attachments.each_with_index do |attachment, index|
       .row
-        .col-xs-12
-          = image_tag attachment.file, class: 'thumbnail'
-
+        .col-xs-10
+          = image_tag attachment.url, class: 'thumbnail'
+        .col-xs-2
+          = link_to (polymorphic_path([@custom_formable, custom_field_property], custom_field_id: @custom_field, file_index: index)), method: :delete, data: { confirm: t('.are_you_sure') } do
+            %i.fa.fa-trash.btn.btn-outline.btn-danger.btn-xs
