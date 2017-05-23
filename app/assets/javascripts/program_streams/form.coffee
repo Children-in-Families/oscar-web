@@ -5,8 +5,13 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     _getTranslation()
     _initProgramSteps()
     _initSelect2()
-    _ajaxGetProgramStreamField()
+    _handleInitProgramRules()
   
+  _handleSetRules = ->
+    rules = $('#program_stream_rules').val()
+    rules = JSON.parse(rules.replace(/=>/g, ':'))
+    $('#program-rule').queryBuilder('setRules', rules) unless $.isEmptyObject(rules)
+
   _getTranslation = ->
     @filterTranslation =
       addFilter: $('#rule-builder').data('filter-translation-add-filter')
@@ -27,7 +32,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         )
       ),100
 
-  _ajaxGetProgramStreamField = ->
+  _handleInitProgramRules = ->
     $.ajax
       url: '/api/program_stream_add_rule/get_fields'
       method: 'GET'
@@ -36,6 +41,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         $('#program-rule').queryBuilder(
           _queryBuilderOption(fieldList)
         )
+        _handleSetRules()
         _handleSelectOptionChange()
 
   _queryBuilderOption = (fieldList) ->
@@ -83,10 +89,11 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         $(field).find('.option-selected, .option-value').hide()
         )
 
-  _initProgramBuilder = (element) ->
+  _initProgramBuilder = (element, data) ->
+    data = if data != '' then data.replace(/=>/g, ':') else ''
     @formBuilder = $(element).formBuilder({
       dataType: 'json'
-      formData: ''
+      formData: data
       disableFields: ['autocomplete', 'header', 'hidden', 'paragraph', 'button', 'file','checkbox']
       showActionButtons: false
       messages: {
@@ -157,21 +164,25 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       
   _initProgramSteps = ->
     self = @
-    form = $('.new_program_stream')
+    form = $('#program-stream')
     form.children('.program-steps').steps
       headerTag: 'h4'
       bodyTag: 'section'
       transitionEffect: 'slideLeft'
 
       onStepChanging: (event, currentIndex, newIndex) ->
-        data = JSON.parse(self.formBuilder.formData) if self.formBuilder != ''
-        if currentIndex == 1 and newIndex == 2 and $('#enrollment').is(':visible')
-          console.log self.formBuilder.formData
-          return false if data.length == 0
+        formData = JSON.parse(self.formBuilder.formData) if self.formBuilder != ''
+        if currentIndex == 0 and newIndex == 1 and $('#program-rule').is(':visible')
+          return false if $.isEmptyObject($('#program-rule').queryBuilder('getRules'))
+        else if currentIndex == 1 and newIndex == 2 and $('#enrollment').is(':visible')
+          return false if formData.length == 0
+          $('#program_stream_enrollment').val(self.formBuilder.formData)
         else if currentIndex == 2 and newIndex == 3 and $('#tracking').is(':visible')
-          return false if data.length == 0
+          return false if formData.length == 0
+          $('#program_stream_tracking').val(self.formBuilder.formData)
         else if currentIndex == 3 and newIndex == 4 and $('#exit-program').is(':visible')
-          return false if data.length == 0
+          return false if formData.length == 0
+          $('#program_stream_exit_program').val(self.formBuilder.formData)
 
         $('section ul.frmb.ui-sortable').css('min-height', '266px')
         $(form).validate().settings.ignore = ':disabled,:hidden'
@@ -180,13 +191,16 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       onStepChanged: (event, currentIndex, newIndex) ->
         if $('#enrollment').is(':visible')
           enrollment = $('#enrollment')
-          _initProgramBuilder(enrollment) unless _preventDuplicateFormBuilder(enrollment)
+          enrollmentValue = $(enrollment).data('enrollment')
+          _initProgramBuilder(enrollment, enrollmentValue) unless _preventDuplicateFormBuilder(enrollment)
         else if $('#tracking').is(':visible')
           tracking = $('#tracking')
-          _initProgramBuilder(tracking) unless _preventDuplicateFormBuilder(tracking)
+          trackingValue = $(tracking).data('tracking')
+          _initProgramBuilder(tracking, trackingValue) unless _preventDuplicateFormBuilder(tracking)
         else if $('#exit-program').is(':visible')
           exitProgram = $('#exit-program')
-          _initProgramBuilder(exitProgram) unless _preventDuplicateFormBuilder(exitProgram)  
+          exitProgramValue = $(exitProgram).data('exit-program')
+          _initProgramBuilder(exitProgram, exitProgramValue) unless _preventDuplicateFormBuilder(exitProgram)  
 
       onFinishing: (event, currentIndex) ->
         form.validate().settings.ignore = ':disabled'
@@ -195,7 +209,6 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       onFinished: (event, currentIndex) ->
         $('.actions a:contains("Done")').removeAttr('href')
         _handleRemoveUnuseInput()
-        # _handleAddFormBuildToInput()
         _handleAddRuleBuilderToInput()
         form.submit()
       labels:
@@ -204,21 +217,11 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         previous: @filterTranslation.previous
 
   _handleRemoveUnuseInput = ->
-    $('#enrollment .form-wrap.form-builder, #tracking .form-wrap.form-builder, #exit-program .form-wrap.form-builder').find('input, select, radio, checkbox, textarea').remove()
+    elements = $('#program-rule ,#enrollment .form-wrap.form-builder, #tracking .form-wrap.form-builder, #exit-program .form-wrap.form-builder')
+    $(elements).find('input, select, radio, checkbox, textarea').remove()
 
   _preventDuplicateFormBuilder = (element) ->
     $(element).children().hasClass('form-builder')
-
-  _handleAddFormBuildToInput = ->
-    for formBuilder in @formBuilder
-      element = formBuilder.element
-      formData = formBuilder.formData
-      if $(element).is('#enrollment')
-        $('#program_stream_enrollment').val(formData)
-      else if $(element).is('#tracking')
-        $('#program_stream_tracking').val(formData)
-      else if $(element).is('#exit-program') 
-        $('#program_stream_exit_program').val(formData)
 
   _handleAddRuleBuilderToInput = ->
     rules = $('#program-rule').queryBuilder('getRules')

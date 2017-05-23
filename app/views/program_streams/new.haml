@@ -3,5 +3,9 @@
     .ibox
       .ibox-title
         %h5= t('.new_program_stream')
+        .ibox-tools
+          = link_to program_streams_path do
+            .btn.btn-default.btn-back-default.button
+              = t('.back')
       .ibox-content
         = render 'form'

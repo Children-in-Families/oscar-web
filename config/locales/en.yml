@@ -203,8 +203,18 @@ en:
     index:
       program_list: Programs Stream Listing
       new_program: Add New Program
+    create:
+      successfully_created: Program Stream has been successfully created.
+    update:
+      successfully_updated: Program Stream has been successfully updated.
+    destroy:
+      successfully_deleted: Program has been successfully deleted.
     new:
       new_program_stream: New Program Stream
+      back: Back
+    edit:
+      edit_program_stream: Edit Program Stream
+      back: Back
     actions:
       are_you_sure: Are you sure you want to delete?
     form:
@@ -212,8 +222,8 @@ en:
       name: Name
       description: Description
       rule: Rule
-      enrollment_form: Enrollment Form
-      tracking_form: Progress Tracking Form
+      enrollment_form: Enrollment
+      tracking_form: Progress Tracking
       frequency: Frequency
       time_of_frequency: Time of Frequency
       exit_form: Exit Form

@@ -205,7 +205,17 @@ km:
       program_list: បញ្ជីកម្មវិធី​បន្ទាប់បន្សំ
       new_program: បន្ថែមកម្មវិធីថ្មី
     new:
-      new_program_stream: កម្មវិធីថ្មី
+      new_program_stream: បន្ថែមកម្មវិធីថ្មី
+      back: ត្រលប់ក្រោយ
+    edit:
+      edit_program_stream: កែសម្រួលកម្មវិធី 
+      back: ត្រលប់ក្រោយ
+    create:
+      successfully_created: កម្មវិធីរក្សាទុកដោយជោគជ័យ
+    update:
+      successfully_updated: កម្មវិធីរក្សាទុកដោយជោគជ័យ
+    destroy:
+      successfully_deleted: កម្មវិធីលុបដោយជោគជ័យ
     actions:
       are_you_sure: តើអ្នកប្រាកដហើយ?
     form:
