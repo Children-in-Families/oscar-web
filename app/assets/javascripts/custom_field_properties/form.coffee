@@ -6,6 +6,8 @@ CIF.Custom_field_propertiesNew = CIF.Custom_field_propertiesCreate = CIF.Custom_
   _initUploader = ->
     $("#custom_field_property_attachments").fileinput
       showUpload: false
+      removeClass: 'btn btn-danger btn-outline'
+      browseLabel: 'Browse'
       theme: "explorer"
       allowedFileExtensions: ['jpg', 'png', 'gif', 'doc', 'docx', 'xls', 'xlsx', 'pdf']
 
@@ -14,7 +16,8 @@ CIF.Custom_field_propertiesNew = CIF.Custom_field_propertiesCreate = CIF.Custom_
     $(rows).each (_k, element) ->
       deleteBtn = $(element).find('.delete')
       url = $(deleteBtn).data('url')
-      $(element).click ->
+      $(deleteBtn).click ->
+        $('input[type="submit"].form-btn').attr('disabled', 'disabled')
         $.ajax
           dataType: "json"
           url: url
@@ -22,6 +25,7 @@ CIF.Custom_field_propertiesNew = CIF.Custom_field_propertiesCreate = CIF.Custom_
           success: (response) ->
             _initNotification(response.message)
             $(element).remove()
+            $('input[type="submit"].form-btn').removeAttr('disabled')
 
   _initNotification = (message)->
     messageOption = {
@@ -39,5 +43,6 @@ CIF.Custom_field_propertiesNew = CIF.Custom_field_propertiesCreate = CIF.Custom_
       "hideMethod": "fadeOut"
     }
     toastr.success(message, '', messageOption)
+
 
   { init: _init }

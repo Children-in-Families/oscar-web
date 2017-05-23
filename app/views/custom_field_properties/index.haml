@@ -12,35 +12,33 @@
               .btn.btn-outline.btn-success.form-btn
                 = t('.back')
       .ibox-content
-        .row
-          - @custom_field_properties.each_slice(2) do |n_field|
-            .row
-              - n_field.each do |custom_field_property|
-                .col-xs-12.col-md-6
-                  .ibox.border-left-right.border-bottom
-                    .ibox-title
-                      %h5
-                        = t('.created_date')
-                      %span.label.label-info
-                        = date_format custom_field_property.created_at
-                      .ibox-tools
-                        - if can? :manage, CustomFieldProperty
-                          %small
-                            = link_to edit_polymorphic_path([@custom_formable, custom_field_property], custom_field_id: @custom_field) do
-                              .btn.btn-outline.btn-success
-                                = fa_icon('pencil')
-                          %small
-                            = link_to polymorphic_path([@custom_formable, custom_field_property], custom_field_id: @custom_field), method: :delete, data: { confirm: t('are_you_sure') } do
-                              .btn.btn-outline.btn-danger
-                                = fa_icon('trash')
-                    .ibox-content
-                      %table.table.table-bordered
-                        - custom_field_property.properties.each do |key, value|
-                          %tr
-                            %td.align-justify
-                              = key.titleize
-                            %td.align-justify
-                              = display_custom_properties(value)
-                        = render 'attachment', custom_field_property: custom_field_property
+        - @custom_field_properties.each do |custom_field_property|
+          .row
+            .col-xs-12
+              .ibox.border-left-right.border-bottom
+                .ibox-title
+                  %h5
+                    = t('.created_date')
+                  %span.label.label-info
+                    = date_format custom_field_property.created_at
+                  .ibox-tools
+                    - if can? :manage, CustomFieldProperty
+                      %small
+                        = link_to edit_polymorphic_path([@custom_formable, custom_field_property], custom_field_id: @custom_field) do
+                          .btn.btn-outline.btn-success
+                            = fa_icon('pencil')
+                      %small
+                        = link_to polymorphic_path([@custom_formable, custom_field_property], custom_field_id: @custom_field), method: :delete, data: { confirm: t('are_you_sure') } do
+                          .btn.btn-outline.btn-danger
+                            = fa_icon('trash')
+                .ibox-content
+                  %table.table.table-bordered
+                    - custom_field_property.properties.each do |key, value|
+                      %tr
+                        %td.align-justify
+                          = key.titleize
+                        %td.align-justify
+                          = display_custom_properties(value)
+                    = render 'attachment', custom_field_property: custom_field_property
       .ibox-footer.text-center
         = paginate @custom_field_properties

@@ -2143,6 +2143,8 @@ km:
     <<: *default_entity_type_custom_fields
     attachment:
       are_you_sure: តើអ្នកប្រាកដហើយ?
+      preview_download: មើលនិងទាញយក
+      download: ទាញយក
     attachment_fields:
       attachments: ឯកសារ​ភ្ជាប់
       are_you_sure: តើអ្នកប្រាកដហើយ?
