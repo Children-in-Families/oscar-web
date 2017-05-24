@@ -9,7 +9,7 @@ CIF.Custom_field_propertiesNew = CIF.Custom_field_propertiesCreate = CIF.Custom_
       removeClass: 'btn btn-danger btn-outline'
       browseLabel: 'Browse'
       theme: "explorer"
-      allowedFileExtensions: ['jpg', 'png', 'gif', 'doc', 'docx', 'xls', 'xlsx', 'pdf']
+      allowedFileExtensions: ['jpg', 'png', 'jpeg', 'doc', 'docx', 'xls', 'xlsx', 'pdf']
 
   _handleDeleteAttachment = ->
     rows = $('.row-file')

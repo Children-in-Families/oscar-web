@@ -29,7 +29,8 @@ class CustomFieldPropertiesController < AdminController
 
   def update
     authorize! :update, @custom_field_property
-    add_more_attachments(params['custom_field_property']['attachments'])
+    attachments = params['custom_field_property']['attachments']
+    add_more_attachments(attachments) if attachments.present?
     if @custom_field_property.update_attributes(custom_field_property_params) && @custom_field_property.save
       redirect_to polymorphic_path([@custom_formable, CustomFieldProperty], custom_field_id: @custom_field), notice: t('.successfully_updated')
     else
@@ -45,10 +46,10 @@ class CustomFieldPropertiesController < AdminController
     else
       @custom_field_property.destroy
     end
-    flash_alert = message.present? ? message : t('.successfully_deleted')
+    message ||= t('.successfully_deleted')
     respond_to do |f|
-      f.html { redirect_to polymorphic_path([@custom_formable, CustomFieldProperty], custom_field_id: @custom_field), notice: flash_alert }
-      f.json { render json: { message: flash_alert }, status: '200' }
+      f.html { redirect_to polymorphic_path([@custom_formable, CustomFieldProperty], custom_field_id: @custom_field), notice: message }
+      f.json { render json: { message: message }, status: '200' }
     end
   end
 
