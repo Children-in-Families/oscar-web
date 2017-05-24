@@ -59,7 +59,6 @@ gem 'neat',                   '~> 1.8'
 gem 'jquery_query_builder-rails', '~> 0.2.2'
 gem 'sidekiq',                '~> 4.1.0'
 gem 'mongoid',                '~> 5.2', '>= 5.2.1'
-gem 'mongoid-multitenancy',   '~> 0.4.3'
 
 group :development, :test do
   gem 'pry'

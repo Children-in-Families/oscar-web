@@ -59,6 +59,7 @@ class Client < ActiveRecord::Base
 
   after_create :set_slug_as_alias
   after_update :set_able_status, if: proc { |client| client.able_state.blank? && answers.any? }
+  after_save :create_client_history
 
   scope :live_with_like,              ->(value) { where('clients.live_with iLIKE ?', "%#{value}%") }
   scope :given_name_like,             ->(value) { where('clients.given_name iLIKE ?', "%#{value}%") }
@@ -93,6 +94,10 @@ class Client < ActiveRecord::Base
   scope :without_assessments,         ->        { includes(:assessments).where(assessments:         { client_id: nil }) }
   scope :able,                        ->        { where(able_state: ABLE_STATES[0]) }
   scope :all_active_types,            ->        { where(status: CLIENT_ACTIVE_STATUS) }
+
+  def create_client_history
+    ClientHistory.initial(self)
+  end
 
   def self.filter(options)
     query = all
