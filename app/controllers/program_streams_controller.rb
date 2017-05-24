@@ -40,7 +40,7 @@ class ProgramStreamsController < AdminController
   private
 
   def program_stream_params
-    params.require(:program_stream).permit(:name, :rules, :description, :enrollment, :tracking, :frequency, :time_of_frequency, :exit_program)
+    params.require(:program_stream).permit(:name, :rules, :description, :enrollment, :tracking, :frequency, :time_of_frequency, :exit_program, :quantity, domain_ids: [])
   end
 
   def find_program_stream

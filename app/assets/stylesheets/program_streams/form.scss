@@ -1,12 +1,16 @@
 body[id='program_streams-new'], body[id='program_streams-edit'],
 body[id='program_streams-update'], body[id='program_streams-create'] {
   
-  .wizard > .steps > ul > li {
-    width: 20%;
+  .wizard > .content > .body {
+  	#enrollment, #tracking, #exit-program {
+	  	input[type='radio'] {
+	  		display: inline-block;
+	  	}
+	  }
   }
-  
+
   #program-rule {
-  	select#select-custom-form {
+  	.select2-container {
 	    width: 180px;
 	  }
 

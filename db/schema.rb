@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170518031811) do
+ActiveRecord::Schema.define(version: 20170524071015) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -287,6 +287,13 @@ ActiveRecord::Schema.define(version: 20170518031811) do
     t.integer  "domains_count", default: 0
   end
 
+  create_table "domain_program_streams", force: :cascade do |t|
+    t.integer  "program_stream_id"
+    t.integer  "domain_id"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+  end
+
   create_table "domains", force: :cascade do |t|
     t.string   "name",            default: ""
     t.string   "identity",        default: ""
@@ -473,6 +480,7 @@ ActiveRecord::Schema.define(version: 20170518031811) do
     t.datetime "updated_at",                     null: false
     t.string   "frequency",         default: ""
     t.integer  "time_of_frequency", default: 0
+    t.integer  "quantity"
   end
 
   create_table "progress_note_types", force: :cascade do |t|
