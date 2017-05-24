@@ -139,7 +139,7 @@
 
 .wizard > .content
 {
-    /*background: #eee;*/
+    background: #f9f9f9;
     display: block;
     margin: 0.5em;
     min-height: 35em;
