@@ -298,11 +298,15 @@ km:
   must_be_uniq: ផ្នែកនៃទម្រង់មិនអាចមានឈ្មោះដូចគ្នា
   field_label_cannot_be_blank: ផ្នែកនៃទម្រង់មិនអាចរំលង
   cannot_remove: មិនអាចលុបបានទេ
+  cannot_remove_or_update: មិនអាចលុបរឺកែសម្រួលបានទេដោយសារតែត្រូវបានប្រើរួចហើយ
   add_event_success: ព្រឹត្តិការណ៍ត្រូវបានបន្ថែមទៅក្នុងប្រតិទិនដោយជោគជ័យ
   has_been_added_to_calendar: ព្រឹត្តិការណ៍នេះត្រូវបានបន្ថែមទៅក្នុងប្រតិទិនរួចហើយ
   signed_in_with_google: ចូលបានជោគជ័យជាមួយនឹង Google Calendar
 
   default_client_fields: &default_client_fields
+    live_with: រស់នៅជាមួយ
+    rice_support: អង្ករដែលផ្គត់ផ្គង់
+    poverty_certificate: ប័ណ្ណក្រីក្រ
     id: លេខសំគាល់
     kid_id: លេខកូដឣតិថិជន
     given_name: នាមខ្លួន
@@ -418,6 +422,7 @@ km:
     current_password: លេខកូដសំងាត់បច្ចុប្បន្ន
     current_password_hint: យើងត្រូវការពិនិត្យបញ្ជាក់លេខកូដសំងាត់បច្ចុប្បន្នដើម្បីធ្វើការផ្លាស់ប្តូរ
     delete_account_button: លុបចោលគណនីរបស់ខ្ញុំ
+    pin_number: លេខ Pin
 
   default_survey_fields: &default_survey_fields
     user_id: បុគ្គលិកសហគមន៌របស់ខ្ញុំឈ្មោះ
@@ -724,8 +729,9 @@ km:
       confirm: រក្សាទុក
       close: ទុកជាមោឃៈ
       title: សូមជ្រាប
-      body_first: អតិថិជន
-      body_second: ត្រូវបានចុះឈ្មោះរួចរាល់នៅក្នុង
+      body_first: អតិថិជនដែលអ្នកកំពុងចុះឈ្មោះមានភាពប្រហាក់ប្រហែលគ្នាជាមួយនឹងអតិថិជនដែលត្រូវបានចុះឈ្មោះរួចហើយ
+      body_second: ៕​​ អ្នកប្រហែលជាអាចនឺងទាក់ទង
+      body_third: ដើម្បីដោះស្រាយបញ្ហានេះ៕
     edit:
       edit_client_title: កែសម្រួលពត៌មានអតិថិជន
     form:
@@ -966,6 +972,12 @@ km:
   activerecord:
     errors:
       models:
+        case_note:
+          attributes:
+            meeting_date:
+              blank: មិនអាចរំលង
+            attendee:
+              blank: មិនអាចរំលង
         custom_field:
           attributes:
             entity_type:
@@ -1504,6 +1516,14 @@ km:
       present: វត្តមានឣ្នកចូលរួម
       completed_tasks: កាតព្វកិច្ចដែលបានធ្វើរួច
       note: កំណត់ត្រា
+    form_with_assessment_domains:
+      domain: កត្តា
+      note: កំណត់ត្រា
+      add_task: បន្ថែមកាតព្វកិច្ចថ្មី
+    form_without_assessment_domains:
+      domain: កត្តា
+      note: កំណត់ត្រា
+      add_task: បន្ថែមកាតព្វកិច្ចថ្មី
     form:
       label_note: ចំណាំ
       meeting_detail: ពត៌មាននៃការប្រជុំ

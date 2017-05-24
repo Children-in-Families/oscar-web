@@ -235,6 +235,9 @@ ActiveRecord::Schema.define(version: 20170524071015) do
     t.string   "village",                          default: ""
     t.string   "commune",                          default: ""
     t.string   "district",                         default: ""
+    t.string   "live_with",                        default: ""
+    t.integer  "poverty_certificate",              default: 0
+    t.integer  "rice_support",                     default: 0
   end
 
   add_index "clients", ["donor_id"], name: "index_clients_on_donor_id", using: :btree
@@ -448,8 +451,9 @@ ActiveRecord::Schema.define(version: 20170524071015) do
     t.string   "full_name"
     t.string   "short_name"
     t.string   "logo"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.boolean  "fcf_ngo",    default: false
   end
 
   create_table "partners", force: :cascade do |t|

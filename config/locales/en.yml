@@ -293,11 +293,15 @@ en:
   must_be_uniq: field label must be uniq
   field_label_cannot_be_blank: field label can't be blank
   cannot_remove: cannot be removed
+  cannot_remove_or_update: cannot be removed/updated since it is already in use.
   add_event_success: Event has been added to calendar successfully.
   has_been_added_to_calendar: This event has already been added to calendar.
   signed_in_with_google: Signed in with google calendar successfully.
 
   default_client_fields: &default_client_fields
+    live_with: Who to live with
+    rice_support: Rice Support
+    poverty_certificate: Poverty Certificate
     id: ID
     kid_id: Kid ID
     given_name: Given Name
@@ -414,6 +418,7 @@ en:
     current_password: Current Password
     current_password_hint: We need to current password to make change
     delete_account_button: Delete Account
+    pin_number: Pin Number
 
   default_survey_fields: &default_survey_fields
     user_id: My Community Case Worker's name is
@@ -723,8 +728,9 @@ en:
       confirm: Save Anyway
       close: Cancel
       title: Warning
-      body_first: Client
-      body_second: has already been registered in
+      body_first: The client you are registering has many attributes that match a client who is already registered at
+      body_second: . You may wish to contact
+      body_third: to resolve the issue.
     update:
       successfully_updated: Client has been successfully updated.
       assessment_successfully_created: Assessment has been successfully created.
@@ -1438,14 +1444,20 @@ en:
       present: Present
       completed_tasks: Completed Tasks
       note: Note
+    form_with_assessment_domains:
+      domain: Domain
+      note: Note
+      add_task: Add Task
+    form_without_assessment_domains:
+      domain: Domain
+      note: Note
+      add_task: Add Task
     form:
       label_note: Note
       meeting_detail: Meeting detail
       meeting_with: Meeting with
       on_date: On Date
       present: Present
-      domain: Domain
-      note: Note
       tasks: Tasks
       back: Back
       save: Save

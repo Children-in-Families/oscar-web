@@ -91,7 +91,9 @@ describe 'Client' do
 
   feature 'New' do
     let!(:province) { create(:province) }
-    let!(:client)   { create(:client, given_name: 'Cornell', gender: 'male', date_of_birth: '1994-04-04', birth_province: province) }
+    let!(:client)   { create(:client, given_name: 'Branderson', family_name: 'Anderson', local_given_name: 'Vin',
+                             local_family_name: 'Kell', date_of_birth: '2017-05-01', birth_province: province,
+                             province: province, village: 'Sabay', commune: 'Vealvong') }
     before do
       login_as(user)
       visit new_client_path
@@ -104,14 +106,22 @@ describe 'Client' do
     end
 
     scenario 'warning', js: true do
-      fill_in 'Given Name', with: 'Cornell'
+      fill_in 'Given Name', with: 'Branderjo'
+      fill_in 'Family Name', with: 'Anderjo'
+      fill_in 'Given Name (Local)', with: 'Viny'
+      fill_in 'Family Name (Local)', with: 'Kelly'
+      fill_in 'Date of Birth', with: '2017-05-01'
 
-      select2_select 'Male', '.client_gender'
+      select2_select province.name, '.client_province'
       select2_select province.name, '.client_birth_province_id'
-      fill_in 'Date of Birth', with: '1994-04-04'
-      click_button 'Save'
 
-      expect(page).to have_content("Cornell has already been registered")
+      fill_in 'Village', with: 'Sabay'
+      fill_in 'Commune', with: 'Vealvong'
+
+      click_button 'Save'
+      wait_for_ajax
+
+      expect(page).to have_content("The client you are registering has many attributes that match a client who is already registered at")
     end
   end
 

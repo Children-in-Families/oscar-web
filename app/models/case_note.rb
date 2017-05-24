@@ -4,6 +4,8 @@ class CaseNote < ActiveRecord::Base
   has_many   :case_note_domain_groups, dependent: :destroy
   has_many   :domain_groups, through: :case_note_domain_groups
 
+  validates :meeting_date, :attendee, presence: true
+
   has_paper_trail
 
   accepts_nested_attributes_for :case_note_domain_groups
