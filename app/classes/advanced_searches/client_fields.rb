@@ -52,7 +52,7 @@ module AdvancedSearches
     end
 
     def client_custom_form_options
-      CustomField.where(entity_type: 'Client').order(:form_title).map{|c| { c.id.to_s => c.form_title}}
+      CustomField.joins(:custom_field_properties).client_forms.uniq.map{ |c| { c.id.to_s => c.form_title }}
     end
 
     def client_status

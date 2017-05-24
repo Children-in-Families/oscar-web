@@ -148,7 +148,7 @@ Rails.application.routes.draw do
   resources :notifications, only: [:index]
 
   namespace :api do
-    mount_devise_token_auth_for 'User', at: '/v1/auth', skip: [:registrations, :passwords]
+    mount_devise_token_auth_for 'User', at: '/v1/auth', skip: [:passwords]
     resources :clients do
       get :compare, on: :collection
     end

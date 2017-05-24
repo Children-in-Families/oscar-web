@@ -1,6 +1,6 @@
 class Family < ActiveRecord::Base
   include EntityTypeCustomField
-  FAMILY_TYPE = %w(emergency kinship foster).freeze
+  FAMILY_TYPE = %w(emergency kinship foster inactive birth_family).freeze
 
   belongs_to :province, counter_cache: true
 
@@ -21,6 +21,8 @@ class Family < ActiveRecord::Base
   scope :family_id_like,             ->(value) { where('code iLIKE ?', "%#{value}%") }
   scope :foster,                     ->        { where(family_type: 'foster')    }
   scope :kinship,                    ->        { where(family_type: 'kinship')   }
+  scope :inactive,                   ->        { where(family_type: 'inactive')   }
+  scope :birth_family,               ->        { where(family_type: 'birth_family')   }
   scope :name_like,                  ->(value) { where('name iLIKE ?', "%#{value}%") }
   scope :province_are,               ->        { joins(:province).pluck('provinces.name', 'provinces.id').uniq }
 
@@ -35,6 +37,10 @@ class Family < ActiveRecord::Base
       kinship
     elsif type == 'foster'
       foster
+    elsif type == 'inactive'
+      inactive
+    elsif type == 'birth_family'
+      birth_family
     end
   end
 end
