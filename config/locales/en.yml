@@ -35,6 +35,8 @@ en:
   default_material_fields: &default_material_fields
     status: Status
 
+  default_program_stream_fields: &default_program_stream_fields
+
   default_releaselog_fields: &default_releaselog_fields
     change_version: Version
     description: Description
@@ -195,6 +197,48 @@ en:
     form:
       save: Save
       cancel: Cancel
+
+  program_streams:
+    <<: *default_program_stream_fields
+    index:
+      program_list: Programs Stream Listing
+      new_program: Add New Program
+    create:
+      successfully_created: Program Stream has been successfully created.
+    update:
+      successfully_updated: Program Stream has been successfully updated.
+    destroy:
+      successfully_deleted: Program Stream has been successfully deleted.
+    new:
+      new_program_stream: New Program Stream
+      back: Back
+    edit:
+      edit_program_stream: Edit Program Stream
+      back: Back
+    actions:
+      are_you_sure: Are you sure you want to delete?
+    program_rule:
+      add_new_filter: Add New Filter
+      add_new_group: Add Group
+      delete_group: Delete
+      name: Name
+      description: Description
+      rule: Rules
+      quantity: Quantity
+      domain: Domain
+      add_rule: Add rule
+    enrollment:
+      enrollment_form: Enrollment
+    tracking:
+      tracking_form: Progress Tracking
+      frequency: Frequency
+      time_of_frequency: Time of Frequency
+    exit_field:
+      exit_form: Exit Form
+    form:
+      previous: Previous
+      next: Next
+      finish: Create
 
   government_reports:
     index:
@@ -529,6 +573,13 @@ en:
         code: Code
       cases:
         case_type: Case Type
+      program_streams:
+        name: Name
+        description: Description
+        domain: Domains
+        quantity: Quantity
+        action: Action
+
     filters:
       xboolean:
         "yes": "Yes"
@@ -622,6 +673,7 @@ en:
       log_out: Log out
       log_in: Log in
       release_logs: Release logs
+      program_streams: Programs Stream
       custom_fields: Form Builder
       progress_note: Progress Note
       materials: Equipment/Materials

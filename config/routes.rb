@@ -66,6 +66,8 @@ Rails.application.routes.draw do
     get 'version' => 'donors#version'
   end
 
+  resources :program_streams
+
   resources :changelogs do
     get 'version' => 'changelogs#version'
   end
@@ -157,6 +159,11 @@ Rails.application.routes.draw do
       collection do
         get :get_custom_field
         get :get_basic_field
+      end
+    end
+    resources :program_stream_add_rule, only: [] do
+      collection do
+        get :get_fields
       end
     end
 
