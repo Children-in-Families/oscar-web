@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170518031811) do
+ActiveRecord::Schema.define(version: 20170524033834) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -444,8 +444,9 @@ ActiveRecord::Schema.define(version: 20170518031811) do
     t.string   "full_name"
     t.string   "short_name"
     t.string   "logo"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.boolean  "fcf_ngo",    default: false
   end
 
   create_table "partners", force: :cascade do |t|
