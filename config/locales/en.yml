@@ -35,8 +35,6 @@ en:
   default_material_fields: &default_material_fields
     status: Status
 
-  default_program_stream_fields: &default_program_stream_fields
-
   default_releaselog_fields: &default_releaselog_fields
     change_version: Version
     description: Description
@@ -199,7 +197,6 @@ en:
       cancel: Cancel
 
   program_streams:
-    <<: *default_program_stream_fields
     index:
       program_list: Programs Stream Listing
       new_program: Add New Program
@@ -209,6 +206,8 @@ en:
       successfully_updated: Program Stream has been successfully updated.
     destroy:
       successfully_deleted: Program Stream has been successfully deleted.
+    show:
+      back: Back
     new:
       new_program_stream: New Program Stream
       back: Back

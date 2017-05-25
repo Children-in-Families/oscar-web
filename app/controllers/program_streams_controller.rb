@@ -1,6 +1,6 @@
 class ProgramStreamsController < AdminController
   # load_and_authorize_resource
-  before_action :find_program_stream, only: [:edit, :update, :destroy]
+  before_action :find_program_stream, except: [:index, :new]
 
   def index
     @program_stream_grid = ProgramStreamGrid.new(params[:program_stream_grid])
@@ -13,6 +13,10 @@ class ProgramStreamsController < AdminController
   end
 
   def edit
+  end
+
+  def show
+    
   end
 
   def create
@@ -39,11 +43,11 @@ class ProgramStreamsController < AdminController
 
   private
 
-  def program_stream_params
-    params.require(:program_stream).permit(:name, :rules, :description, :enrollment, :tracking, :frequency, :time_of_frequency, :exit_program, :quantity, domain_ids: [])
-  end
-
   def find_program_stream
     @program_stream = ProgramStream.find(params[:id])
+  end
+
+  def program_stream_params
+    params.require(:program_stream).permit(:name, :rules, :description, :enrollment, :tracking, :frequency, :time_of_frequency, :exit_program, :quantity, domain_ids: [])
   end
 end

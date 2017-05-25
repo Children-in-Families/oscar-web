@@ -85,3 +85,5 @@
 //= require case/quarterly_reports/index
 //= require client_advanced_searches/index
 //= require program_streams/form
+//= require program_streams/index
+//= require program_streams/show
