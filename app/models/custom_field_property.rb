@@ -1,4 +1,6 @@
 class CustomFieldProperty < ActiveRecord::Base
+  mount_uploaders :attachments, CustomFieldPropertyUploader
+
   belongs_to :custom_formable, polymorphic: true
   belongs_to :custom_field
 
