@@ -23,33 +23,46 @@
             %tr
               %td Quantity
               %td= @program_stream.quantity
-        #rules{ data: { program: @program_stream.rules}}
-          .panel-body
-            #program-rules
+          
         .panel-group
           .panel.panel-default
             .panel-heading
               %h4.panel-title
-                %a{"data-toggle" => "collapse", href: "#rules"} Rules
-
-          .panel.panel-default
-            .panel-heading
-              %h4.panel-title
-                %a{"data-toggle" => "collapse", href: "#enrollment"} Enrollment
-            #enrollment.panel-collapse.collapse
-              .panel-body Panel Bodysdfff
-              .panel-footer Panel Footer
-          .panel.panel-default
-            .panel-heading
-              %h4.panel-title
-                %a{"data-toggle" => "collapse", href: "#tracking"} Tracking
-            #tracking.panel-collapse.collapse
-              .panel-body Panel Body
-              .panel-footer Panel Foo
-          .panel.panel-default
-            .panel-heading
-              %h4.panel-title
-                %a{"data-toggle" => "collapse", href: "#exit-program"} Exit Program
-            #exit-program.panel-collapse.collapse
-              .panel-body Panel Body fsdfkldj
-              .panel-footer Panel Footer
+                %a{"data-toggle": "collapse", href: "#rules"} Rules
+            #rules{ data: { program: @program_stream.rules}}
+              .panel-body
+                #program-rules
+          
+            .panel.panel-default
+              .panel-heading
+                %h4.panel-title
+                  %a{"data-toggle": "collapse", href: "#enrollment"} Enrollment
+              #enrollment.panel-collapse.collapse
+                .panel-body
+                  - @program_stream.enrollment.each do |enrollment|
+                    .row
+                      .col-xs-12
+                        = render "program_streams/fields/#{enrollment['type'].underscore}", field_props: enrollment
+                
+            .panel.panel-default
+              .panel-heading
+                %h4.panel-title
+                  %a{"data-toggle": "collapse", href: "#tracking"} Tracking
+              #tracking.panel-collapse.collapse
+                .panel-body
+                  - @program_stream.tracking.each do |tracking|
+                    .row
+                      .col-xs-12
+                        = render "program_streams/fields/#{tracking['type'].underscore}", field_props: tracking
+                 
+            .panel.panel-default
+              .panel-heading
+                %h4.panel-title
+                  %a{"data-toggle": "collapse", href: "#exit-program"} Exit Program
+              #exit-program.panel-collapse.collapse
+                .panel-body
+                  - @program_stream.exit_program.each do |exit_program|
+                    .row
+                      .col-xs-12
+                        = render "program_streams/fields/#{exit_program['type'].underscore}", field_props: exit_program
+               

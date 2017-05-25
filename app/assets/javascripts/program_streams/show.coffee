@@ -1,8 +1,8 @@
 CIF.Program_streamsShow = do ->
   _init = ->
     _initProgramRule()
-    # _handleRemoveButtonOnProgramRules()
-
+    _initSelect2()
+  
   _initProgramRule = ->
     $.ajax
       url: '/api/program_stream_add_rule/get_fields'
@@ -12,7 +12,13 @@ CIF.Program_streamsShow = do ->
         $('#program-rules').queryBuilder(
           _queryBuilderOption(fieldList)
         )
+        setTimeout ( ->
+          _handleRemoveButtonOnProgramRules()
+          )
         _handleSetRules()
+
+  _initSelect2 = ->
+    $('select').select2()
 
   _handleSetRules = ->
     rules = $('#rules').data('program-rules')
@@ -34,5 +40,6 @@ CIF.Program_streamsShow = do ->
         not_contains: 'excludes'
     filters: fieldList
 
-  # _handleRemoveButtonOnProgramRules = ->
+  _handleRemoveButtonOnProgramRules = ->
+    $('.panel').find('#program-rules button').remove()
   { init: _init }

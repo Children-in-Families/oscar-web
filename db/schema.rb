@@ -862,8 +862,8 @@ ActiveRecord::Schema.define(version: 20170524071015) do
     t.integer  "organization_id"
     t.boolean  "disable",                default: false
     t.datetime "expires_at"
-    t.boolean  "task_notify",            default: true
     t.integer  "manager_id"
+    t.boolean  "task_notify",            default: true
     t.boolean  "calendar_integration",   default: false
     t.integer  "pin_number"
   end

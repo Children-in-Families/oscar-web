@@ -1,0 +1,8 @@
+.check-box-group
+  .row.form-group
+    .col-xs-12
+      %label= field_props['label']
+      - field_props['values'].each do |field|
+        %li
+          = check_box_tag :nil, field['label'], false, { class: 'i-checks' }
+          = label_tag field['label']

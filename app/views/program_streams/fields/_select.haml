@@ -1,0 +1,6 @@
+.select
+  .row
+    .col-xs-12
+      %label= field_props['label']
+    .col-xs-12.form-group
+      = select_tag '', options_for_select( field_props['values'].collect { |f| [ f['label'], ''] } )
