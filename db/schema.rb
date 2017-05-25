@@ -107,6 +107,17 @@ ActiveRecord::Schema.define(version: 20170524033834) do
   add_index "attachments", ["able_screening_question_id"], name: "index_attachments_on_able_screening_question_id", using: :btree
   add_index "attachments", ["progress_note_id"], name: "index_attachments_on_progress_note_id", using: :btree
 
+  create_table "calendars", force: :cascade do |t|
+    t.string   "title"
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "calendars", ["user_id"], name: "index_calendars_on_user_id", using: :btree
+
   create_table "case_contracts", force: :cascade do |t|
     t.date     "signed_on"
     t.integer  "case_id"
@@ -464,19 +475,6 @@ ActiveRecord::Schema.define(version: 20170524033834) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "cases_count",           default: 0
-  end
-
-  create_table "program_streams", force: :cascade do |t|
-    t.string   "name"
-    t.text     "description"
-    t.jsonb    "rules",             default: {}
-    t.jsonb    "enrollment",        default: {}
-    t.jsonb    "tracking",          default: {}
-    t.jsonb    "exit_program",      default: {}
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
-    t.string   "frequency",         default: ""
-    t.integer  "time_of_frequency", default: 0
   end
 
   create_table "progress_note_types", force: :cascade do |t|
@@ -854,8 +852,8 @@ ActiveRecord::Schema.define(version: 20170524033834) do
     t.integer  "organization_id"
     t.boolean  "disable",                default: false
     t.datetime "expires_at"
-    t.integer  "manager_id"
     t.boolean  "task_notify",            default: true
+    t.integer  "manager_id"
     t.boolean  "calendar_integration",   default: false
     t.integer  "pin_number"
   end
@@ -896,6 +894,7 @@ ActiveRecord::Schema.define(version: 20170524033834) do
   add_foreign_key "assessments", "clients"
   add_foreign_key "attachments", "able_screening_questions"
   add_foreign_key "attachments", "progress_notes"
+  add_foreign_key "calendars", "users"
   add_foreign_key "case_contracts", "cases"
   add_foreign_key "case_notes", "clients"
   add_foreign_key "changelog_types", "changelogs"

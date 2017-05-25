@@ -1,8 +1,8 @@
 class NgoUsageReportMailer < ApplicationMailer
 
-  def send_report
+  def send_report(date_time)
     email = 'chris@childreninfamilies.org'
-    attachments['ngo_usage_report.xlsx'] = File.read(Rails.root.join('tmp/test.xlsx'))
+    attachments["cambodian-families-usage-report-#{date_time}.xlsx"] = File.read(Rails.root.join("cambodian-families-usage-report-#{date_time}.xlsx"))
     mail(to: email, subject: 'NGO Usage Report')
   end
 end

@@ -2,7 +2,7 @@ class NgoUsageReportWorker
   include Sidekiq::Worker
   sidekiq_options queue: 'send_email'
 
-  def perform
-    NgoUsageReportMailer.send_report.deliver_now
+  def perform(date_time)
+    NgoUsageReportMailer.send_report(date_time).deliver_now
   end
 end
