@@ -1,5 +1,6 @@
 class SessionsController < Devise::SessionsController
   before_action :set_whodunnit, :set_current_ngo, :detect_browser
+  after_action :sign_in_count, only: :create
 
   def set_whodunnit
     if current_user
@@ -19,5 +20,9 @@ class SessionsController < Devise::SessionsController
       flash.clear
       flash[:alert] = "Application is not translated properly for Firefox on Mac, we're sorry to suggest to use Google Chrome browser instead."
     end
+  end
+
+  def sign_in_count
+    Visit.create(user: current_user)
   end
 end

@@ -4,7 +4,6 @@ class Organization < ActiveRecord::Base
   has_many :employees, class_name: 'User'
 
   scope :without_demo, -> { where.not(full_name: 'Demo') }
-  scope :fcf_ngos, -> { where(fcf_ngo: true) }
 
   validates :full_name, :short_name, presence: true
   validates :short_name, uniqueness: { case_sensitive: false }
