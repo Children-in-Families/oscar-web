@@ -2,6 +2,7 @@ CIF.Custom_field_propertiesNew = CIF.Custom_field_propertiesCreate = CIF.Custom_
   _init = ->
     _initUploader()
     _handleDeleteAttachment()
+    _handlePreventCheckbox()
 
   _initUploader = ->
     $("#custom_field_property_attachments").fileinput
@@ -43,6 +44,24 @@ CIF.Custom_field_propertiesNew = CIF.Custom_field_propertiesCreate = CIF.Custom_
       "hideMethod": "fadeOut"
     }
     toastr.success(message, '', messageOption)
+
+
+  _handlePreventCheckbox = ->
+    form = $('form.simple_form')
+    $(form).on 'submit', (e) ->
+      checkboxes = $(form).find('input[type="checkbox"]')
+      otherInputs = $(form).find('input:not([type="checkbox"], [type="file"], [type="hidden"], [type="submit"])')
+      checked = false
+
+      for checkbox in checkboxes
+        if $(checkbox).prop('checked')
+          checked = true
+          break
+
+      if checkboxes.length > 0 and !checked and otherInputs.length == 0
+        e.preventDefault()
+        $('#message').text("Please select a checkbox")
+
 
 
   { init: _init }
