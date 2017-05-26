@@ -24,7 +24,7 @@ class NgoUsageReport
       values          = [ngo_name, fcf, user_count, client_count, login_per_month]
       worksheet.insert_row(index += 1, values)
     end
-    book.write("tmp/usage_report/cambodian-families-usage-report-#{date_time}.xls")
+    book.write("tmp/cambodian-families-usage-report-#{date_time}.xls")
     generate(date_time, previous_month)
   end
 
