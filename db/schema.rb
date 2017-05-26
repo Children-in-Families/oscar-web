@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170524071015) do
+ActiveRecord::Schema.define(version: 20170525081727) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -290,13 +290,6 @@ ActiveRecord::Schema.define(version: 20170524071015) do
     t.integer  "domains_count", default: 0
   end
 
-  create_table "domain_program_streams", force: :cascade do |t|
-    t.integer  "program_stream_id"
-    t.integer  "domain_id"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
-  end
-
   create_table "domains", force: :cascade do |t|
     t.string   "name",            default: ""
     t.string   "identity",        default: ""
@@ -471,20 +464,6 @@ ActiveRecord::Schema.define(version: 20170524071015) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "cases_count",           default: 0
-  end
-
-  create_table "program_streams", force: :cascade do |t|
-    t.string   "name"
-    t.text     "description"
-    t.jsonb    "rules",             default: {}
-    t.jsonb    "enrollment",        default: {}
-    t.jsonb    "tracking",          default: {}
-    t.jsonb    "exit_program",      default: {}
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
-    t.string   "frequency",         default: ""
-    t.integer  "time_of_frequency", default: 0
-    t.integer  "quantity"
   end
 
   create_table "progress_note_types", force: :cascade do |t|
@@ -862,9 +841,9 @@ ActiveRecord::Schema.define(version: 20170524071015) do
     t.integer  "organization_id"
     t.boolean  "disable",                default: false
     t.datetime "expires_at"
+    t.boolean  "calendar_integration",   default: false
     t.boolean  "task_notify",            default: true
     t.integer  "manager_id"
-    t.boolean  "calendar_integration",   default: false
     t.integer  "pin_number"
   end
 
@@ -895,6 +874,14 @@ ActiveRecord::Schema.define(version: 20170524071015) do
   add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
   add_index "versions", ["transaction_id"], name: "index_versions_on_transaction_id", using: :btree
 
+  create_table "visits", force: :cascade do |t|
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "visits", ["user_id"], name: "index_visits_on_user_id", using: :btree
+
   add_foreign_key "able_screening_questions", "question_groups"
   add_foreign_key "able_screening_questions", "stages"
   add_foreign_key "answers", "able_screening_questions"
@@ -924,4 +911,5 @@ ActiveRecord::Schema.define(version: 20170524071015) do
   add_foreign_key "thredded_messageboard_users", "thredded_messageboards"
   add_foreign_key "thredded_messageboard_users", "thredded_user_details"
   add_foreign_key "users", "organizations"
+  add_foreign_key "visits", "users"
 end
