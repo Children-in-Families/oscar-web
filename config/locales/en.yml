@@ -785,6 +785,7 @@ en:
       progress_note: Progress Note
       client_able_answers: Client Able Answers
       able_screening_questions: Able Screening Questions
+      program_streams: Program Streams
     client_answers:
       client_able_answers: Client Able Answers
       question: Q
@@ -837,6 +838,15 @@ en:
       add_new_filter: Add New Filter
       add_new_group: Add Group
       delete_group: Delete
+  
+  client_program_streams:
+    index:
+      program_lists: Program Lists
+    create:
+      successfully_created: Enrollment has been created successfully.
+    form:
+      save: Save
+      cancel: Cancel
 
   families:
     index:

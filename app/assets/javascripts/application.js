@@ -87,3 +87,4 @@
 //= require program_streams/form
 //= require program_streams/index
 //= require program_streams/show
+//= require client_program_streams/form
