@@ -10,10 +10,6 @@
           = link_to root_path do
             = image_tag(ENV['NGO_LOGO'], class: 'navbar-minimalize minimalize-styl-2')
     %ul.nav.navbar-top-links.navbar-right.pull-right
-      - if user_signed_in?
-        - if current_organiation.fcf_ngo?
-          %li
-            %span.m-r-sm.text-muted.welcome-message Family Care First Cambodia
       = render 'layouts/notification' if user_signed_in?
       %li.local-flag
         - if I18n.locale == :en
