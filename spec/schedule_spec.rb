@@ -36,7 +36,7 @@ describe 'Scheduler' do
   describe 'Cambodian Families Usage Report' do
     let(:whenever) { Whenever::JobList.new(file: File.join(Rails.root, 'config', 'schedule.rb').to_s) }
     it 'sends usage report every month at 7:00 am' do
-      expect(whenever).to schedule('generate:ngo_usage_report').every(:month).at('7:00 am')
+      expect(whenever).to schedule('ngo_usage_report:generate').every(:month).at('7:00 am')
     end
   end
 end
