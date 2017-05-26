@@ -19,8 +19,8 @@ class User < ActiveRecord::Base
   has_many :progress_notes, dependent: :restrict_with_error
 
   has_many :clients, dependent: :restrict_with_error
-  has_many :tasks
-  has_many :visits
+  has_many :tasks,   dependent: :destroy
+  has_many :visits,  dependent: :destroy
 
   has_many :custom_field_properties, as: :custom_formable, dependent: :destroy
   has_many :custom_fields, through: :custom_field_properties, as: :custom_formable

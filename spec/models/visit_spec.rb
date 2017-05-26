@@ -8,7 +8,7 @@ describe Visit, 'scopes' do
   let!(:other_visit) { create(:visit, user: user, created_at: 2.months.ago) }
 
   context 'find user login per month' do
-    subject{ Visit.find_user_login_per_month }
+    subject{ Visit.previous_month_logins }
     it 'should include visit in this month' do
       is_expected.to include(visit)
     end

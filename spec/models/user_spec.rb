@@ -1,8 +1,8 @@
 describe User, 'associations' do
   it { is_expected.to belong_to(:province)}
   it { is_expected.to belong_to(:department)}
-  it { is_expected.to have_many(:visits) }
-  it { is_expected.to have_many(:tasks) }
+  it { is_expected.to have_many(:visits).dependent(:destroy) }
+  it { is_expected.to have_many(:tasks).dependent(:destroy) }
   it { is_expected.to have_many(:cases).dependent(:restrict_with_error)}
   it { is_expected.to have_many(:clients).dependent(:restrict_with_error)}
   it { is_expected.to have_many(:changelogs).dependent(:restrict_with_error)}

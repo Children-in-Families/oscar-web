@@ -1,6 +1,6 @@
 class SessionsController < Devise::SessionsController
   before_action :set_whodunnit, :set_current_ngo, :detect_browser
-  after_action :sign_in_count, only: :create
+  after_action :increase_visit_count, only: :create
 
   def set_whodunnit
     if current_user
@@ -22,7 +22,7 @@ class SessionsController < Devise::SessionsController
     end
   end
 
-  def sign_in_count
+  def increase_visit_count
     Visit.create(user: current_user)
   end
 end
