@@ -9,5 +9,5 @@ every :monday, at: '7:00 am' do
 end
 
 every :month, at: '7:00 am' do
-  rake 'generate:ngo_usage_report', output: 'log/whenever.log'
+  rake 'ngo_usage_report:generate', output: 'log/whenever.log'
 end
