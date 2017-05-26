@@ -24,11 +24,11 @@ class NgoUsageReport
       values          = [ngo_name, fcf, user_count, client_count, login_per_month]
       worksheet.insert_row(index += 1, values)
     end
-    book.write("tmp/usage_report/cambodian-families-usage-report-#{date_time}.xlsx")
-    generate(date_time)
+    book.write("tmp/usage_report/cambodian-families-usage-report-#{date_time}.xls")
+    generate(date_time, previous_month)
   end
 
-  def generate(date_time)
-    NgoUsageReportWorker.perform_async(date_time)
+  def generate(date_time, previous_month)
+    NgoUsageReportWorker.perform_async(date_time, previous_month)
   end
 end
