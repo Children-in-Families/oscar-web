@@ -4,5 +4,5 @@
       %label= field_props['label']
       - field_props['values'].each do |field|
         %li
-          = radio_button_tag :nil, field['label'], field['label'], class: 'i-checks'
+          = radio_button_tag :nil, field['label'], field['selected'], class: 'i-checks'
           = label_tag field['label']

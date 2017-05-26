@@ -2,6 +2,7 @@ CIF.Program_streamsShow = do ->
   _init = ->
     _initProgramRule()
     _initSelect2()
+    _handleDisabledInputs()
   
   _initProgramRule = ->
     $.ajax
@@ -14,7 +15,9 @@ CIF.Program_streamsShow = do ->
         )
         setTimeout ( ->
           _handleRemoveButtonOnProgramRules()
+          _handleDisabledInputs()
           )
+
         _handleSetRules()
 
   _initSelect2 = ->
@@ -42,4 +45,8 @@ CIF.Program_streamsShow = do ->
 
   _handleRemoveButtonOnProgramRules = ->
     $('.panel').find('#program-rules button').remove()
+
+  _handleDisabledInputs = ->
+    $('input, select, textarea').attr( 'disabled', 'disabled' )
+
   { init: _init }

@@ -1,5 +1,7 @@
 .text-area
-  .row.form-group
-    .col-xs-12
+  .row
+    .col-xs-12.col-md-6.form-group
       %label= field_props['label']
-      = text_area_tag field_props['label']
+  .row
+    .col-xs-12.col-md-6.form-group
+      = text_area_tag field_props['label'], '', class: 'text form-control form-control'
