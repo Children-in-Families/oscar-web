@@ -82,14 +82,7 @@ RSpec.describe AbleScreeningQuestion, type: :model do
         expect(second_question.has_image?).to be_falsey
       end
     end
-    context 'first_image' do
-      it 'returns first image' do
-        expect(first_question.first_image.url).to eq(attachment.image.url)
-      end
-      it 'returns nil' do
-        expect(second_question.first_image).to be nil
-      end
-    end
+  
     context 'has_stage?' do
       it 'returns true' do
         expect(second_question.has_stage?).to be_truthy
