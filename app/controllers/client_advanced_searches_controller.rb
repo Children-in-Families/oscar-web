@@ -13,6 +13,7 @@ class ClientAdvancedSearchesController < AdminController
 
     clients              = AdvancedSearches::ClientAdvancedSearch.new(basic_rules, custom_form_rules, Client.accessible_by(current_ability))
     @clients_by_user     = clients.filter
+    binding.pry
 
     columns_visibility
     respond_to do |f|
