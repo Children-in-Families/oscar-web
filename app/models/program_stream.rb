@@ -4,8 +4,8 @@ class ProgramStream < ActiveRecord::Base
 
   has_many   :domain_program_streams
   has_many   :domains, through: :domain_program_streams
-  has_many   :client_program_streams
-  has_many   :clients, through: :client_program_streams
+  has_many   :client_enrollments
+  has_many   :clients, through: :client_enrollments
 
   validates :name, :rules, :enrollment, :tracking, :exit_program, presence: true
   validate  :form_builder_field_uniqueness
@@ -18,5 +18,17 @@ class ProgramStream < ActiveRecord::Base
       errors_massage << (errors.add field.to_sym, "Fields duplicated!") unless (labels.uniq.length == labels.length)
     end
     errors_massage
+  end
+
+  def has_enrollment?
+    client_enrollments.present?
+  end
+
+  def last_enrollment
+    client_enrollments.last
+  end
+
+  def has_exit_program?
+    has_enrollment? && last_enrollment.exit_program.present?
   end
 end

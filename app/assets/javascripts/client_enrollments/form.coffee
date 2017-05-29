@@ -1,4 +1,4 @@
-CIF.Client_program_streamsNew = CIF.Client_program_streamsCreate = do -> 
+CIF.Client_enrollmentsNew = CIF.Client_enrollmentsCreate = do -> 
   _init = ->
     _initSelect2()
 
