@@ -249,6 +249,7 @@ en:
   must_be_uniq: field label must be uniq
   field_label_cannot_be_blank: field label can't be blank
   cannot_remove: cannot be removed
+  cannot_remove_or_update: cannot be removed/updated since it is already in use.
   add_event_success: Event has been added to calendar successfully.
   has_been_added_to_calendar: This event has already been added to calendar.
   signed_in_with_google: Signed in with google calendar successfully.
@@ -675,7 +676,7 @@ en:
       confirm: Save Anyway
       close: Cancel
       title: Warning
-      body_first: The client you are registering appears to be a 75% match of a client that is already registered at
+      body_first: The client you are registering has many attributes that match a client who is already registered at
       body_second: . You may wish to contact
       body_third: to resolve the issue.
     update:
@@ -1936,6 +1937,20 @@ en:
 
   custom_field_properties:
     <<: *default_entity_type_custom_fields
+    attachment:
+      attachments: Attachments
+      are_you_sure: Are you sure you want to delete?
+      preview_download: Preview Download
+      download: Download
+    attachment_fields:
+      attachments: Attachments
+      are_you_sure: Are you sure you want to delete?
+    create:
+      successfully_created: Custom Field Property has been successfully created.
+    update:
+      successfully_updated: Custom Field Property has been successfully updated.
+    destroy:
+      successfully_deleted: Custom Field Property has been successfully deleted.
 
   form_builder:
     custom_fields:

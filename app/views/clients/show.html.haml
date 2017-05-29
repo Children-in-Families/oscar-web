@@ -273,14 +273,32 @@
                 %td
                   %strong
                     = @client.referral_source
-          .col-sm-12.col-md-6.second-table
-            %table.table.table-bordered
               %tr
                 %td.spacing-first-col
                   = t('.referral_phone')
                 %td
                   %strong
                     = @client.referral_phone
+          .col-sm-12.col-md-6.second-table
+            %table.table.table-bordered
+              %tr
+                %td.spacing-first-col
+                  = t('.live_with')
+                %td
+                  %strong
+                    = @client.live_with
+              %tr
+                %td.spacing-first-col
+                  = t('.poverty_certificate')
+                %td
+                  %strong
+                    = @client.poverty_certificate
+              %tr
+                %td.spacing-first-col
+                  = t('.rice_support')
+                %td
+                  %strong
+                    = @client.rice_support
               %tr
                 %td.spacing-first-col
                   = t('.received_by')

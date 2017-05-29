@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170517031807) do
+ActiveRecord::Schema.define(version: 20170525081727) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -257,6 +257,7 @@ ActiveRecord::Schema.define(version: 20170517031807) do
     t.integer  "custom_field_id"
     t.datetime "created_at",                        null: false
     t.datetime "updated_at",                        null: false
+    t.jsonb    "attachments"
   end
 
   add_index "custom_field_properties", ["custom_field_id"], name: "index_custom_field_properties_on_custom_field_id", using: :btree
@@ -443,8 +444,9 @@ ActiveRecord::Schema.define(version: 20170517031807) do
     t.string   "full_name"
     t.string   "short_name"
     t.string   "logo"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.boolean  "fcf_ngo",    default: false
   end
 
   create_table "partners", force: :cascade do |t|
@@ -872,6 +874,14 @@ ActiveRecord::Schema.define(version: 20170517031807) do
   add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
   add_index "versions", ["transaction_id"], name: "index_versions_on_transaction_id", using: :btree
 
+  create_table "visits", force: :cascade do |t|
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "visits", ["user_id"], name: "index_visits_on_user_id", using: :btree
+
   add_foreign_key "able_screening_questions", "question_groups"
   add_foreign_key "able_screening_questions", "stages"
   add_foreign_key "answers", "able_screening_questions"
@@ -901,4 +911,5 @@ ActiveRecord::Schema.define(version: 20170517031807) do
   add_foreign_key "thredded_messageboard_users", "thredded_messageboards"
   add_foreign_key "thredded_messageboard_users", "thredded_user_details"
   add_foreign_key "users", "organizations"
+  add_foreign_key "visits", "users"
 end
