@@ -95,10 +95,6 @@ class Client < ActiveRecord::Base
   scope :able,                        ->        { where(able_state: ABLE_STATES[0]) }
   scope :all_active_types,            ->        { where(status: CLIENT_ACTIVE_STATUS) }
 
-  def create_client_history
-    ClientHistory.initial(self)
-  end
-
   def self.filter(options)
     query = all
 
@@ -313,5 +309,11 @@ class Client < ActiveRecord::Base
         AdminMailer.remind_of_client(clients, day: day, admin: admins).deliver_now if admins.present?
       end
     end
+  end
+
+  private
+
+  def create_client_history
+    ClientHistory.initial(self)
   end
 end

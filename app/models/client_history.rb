@@ -7,8 +7,20 @@ class ClientHistory
   field :object, type: Hash
   field :tenant, type: String, default: ->{ Organization.current.short_name }
 
-  def self.initial(obj)
-    create(object: obj.attributes)
+  embeds_many :agency_client_histories
+
+  after_save :create_agency_client_history, if: 'object.key?("agency_ids")'
+
+  def self.initial(client)
+    attributes = client.attributes
+    attributes = attributes.merge('agency_ids' => client.agency_ids) if client.agency_ids.any?
+    create(object: attributes)
+  end
+
+  private
+
+  def create_agency_client_history
+    agency_client_histories.create(agency_ids: object['agency_ids'])
   end
 end
 
