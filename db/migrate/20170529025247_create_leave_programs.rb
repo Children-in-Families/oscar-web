@@ -1,6 +1,6 @@
-class CreateExitPrograms < ActiveRecord::Migration
+class CreateLeavePrograms < ActiveRecord::Migration
   def change
-    create_table :exit_programs do |t|
+    create_table :leave_programs do |t|
       t.jsonb :properties
       t.references :client_enrollment, index: true, foreign_key: true
 

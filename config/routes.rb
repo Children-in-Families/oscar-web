@@ -112,7 +112,7 @@ Rails.application.routes.draw do
     end
     resources :client_enrollments, only: [:new, :index, :create] do
       resources :trackings
-      resources :exit_programs
+      resources :leave_programs
     end
     resources :custom_field_properties
     resources :government_reports

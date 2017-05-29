@@ -848,6 +848,19 @@ en:
       save: Save
       cancel: Cancel
 
+  trackings:
+    create:
+      successfully_created: Tracking has been created successfully.
+    form:
+      save: Save
+      cancel: Cancel
+  leave_programs:
+    create:
+      successfully_created: Client has successfully exited from the program.
+    form:
+      save: Save
+      cancel: Cancel
+
   families:
     index:
       results: Results

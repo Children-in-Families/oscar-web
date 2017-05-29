@@ -1,4 +1,4 @@
 class Tracking < ActiveRecord::Base
-  belongs_to :enrollment
+  belongs_to :client_enrollment
   
 end

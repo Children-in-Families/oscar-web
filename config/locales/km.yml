@@ -840,11 +840,25 @@ km:
       add_new_group: បន្ថែមបណ្ដុំនៃការស្វែងរក
       delete_group: លុបបណ្ដុំនៃការស្វែងរក
 
-  client_enrollment`s:
+  client_enrollments:
     index:
       program_lists: តារាងកម្មវិធី​បន្ទាប់បន្សំ
     create:
-      successfully_created: Enrollment has been created successfully.
+      successfully_created: ការចុះឈ្មោះត្រូវបានរក្សាទុកដោយជោគជ័យ
+    form:
+      save: រក្សាទុក
+      cancel: ទុកជាមោឃៈ
+
+  trackings:
+    create:
+      successfully_created: ការ​តាមដានត្រូវបានរក្សាទុកដោយជោគជ័យ
+    form:
+      save: រក្សាទុក
+      cancel: ទុកជាមោឃៈ
+
+  leave_programs:
+    create:
+      successfully_created: អតិថិជនត្រូវបានចាកចេញពីកម្មវិធីដោយជោគជ័យ
     form:
       save: រក្សាទុក
       cancel: ទុកជាមោឃៈ

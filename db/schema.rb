@@ -333,15 +333,6 @@ ActiveRecord::Schema.define(version: 20170529025247) do
     t.string   "code",        default: ""
   end
 
-  create_table "exit_programs", force: :cascade do |t|
-    t.jsonb    "properties"
-    t.integer  "client_enrollment_id"
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
-  end
-
-  add_index "exit_programs", ["client_enrollment_id"], name: "index_exit_programs_on_client_enrollment_id", using: :btree
-
   create_table "families", force: :cascade do |t|
     t.string   "code"
     t.string   "name",                            default: ""
@@ -454,6 +445,15 @@ ActiveRecord::Schema.define(version: 20170529025247) do
 
   add_index "interventions_progress_notes", ["intervention_id"], name: "index_interventions_progress_notes_on_intervention_id", using: :btree
   add_index "interventions_progress_notes", ["progress_note_id"], name: "index_interventions_progress_notes_on_progress_note_id", using: :btree
+
+  create_table "leave_programs", force: :cascade do |t|
+    t.jsonb    "properties"
+    t.integer  "client_enrollment_id"
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+  end
+
+  add_index "leave_programs", ["client_enrollment_id"], name: "index_leave_programs_on_client_enrollment_id", using: :btree
 
   create_table "locations", force: :cascade do |t|
     t.string   "name",         default: ""
@@ -943,9 +943,9 @@ ActiveRecord::Schema.define(version: 20170529025247) do
   add_foreign_key "clients", "donors"
   add_foreign_key "custom_field_properties", "custom_fields"
   add_foreign_key "domains", "domain_groups"
-  add_foreign_key "exit_programs", "client_enrollments"
   add_foreign_key "interventions_progress_notes", "interventions"
   add_foreign_key "interventions_progress_notes", "progress_notes"
+  add_foreign_key "leave_programs", "client_enrollments"
   add_foreign_key "progress_notes", "clients"
   add_foreign_key "progress_notes", "locations"
   add_foreign_key "progress_notes", "materials"
