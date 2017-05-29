@@ -7,7 +7,11 @@ class ClientEnrollmentsController < AdminController
   end
 
   def new
-    @client_enrollment = @client.client_enrollments.new(program_stream_id: @program_stream)
+    if valid_client?
+      @client_enrollment = @client.client_enrollments.new(program_stream_id: @program_stream)
+    else
+      redirect_to client_client_enrollments_path(@client), notice: t('.client_not_valid')
+    end
   end
   
   def show
@@ -38,5 +42,13 @@ class ClientEnrollmentsController < AdminController
 
   def find_program_stream
     @program_stream = ProgramStream.find(params[:program_stream_id])
+  end
+
+  def client_filtered
+    AdvancedSearches::ClientAdvancedSearch.new(@program_stream.rules, {}, Client.all).filter
+  end
+
+  def valid_client?
+    client_filtered.ids.include? @client.id
   end
 end

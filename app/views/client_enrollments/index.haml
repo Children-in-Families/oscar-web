@@ -19,10 +19,11 @@
             %td 
               = link_to 'View', '#'
             %td
-              - if program_stream.has_exit_program? || !program_stream.has_enrollment?
+              - if (program_stream.has_exit_program? || !program_stream.has_enrollment?) && (@client.has_enrollment? || !@client.has_exit_program?)
                 = link_to new_client_client_enrollment_path(@client, program_stream_id: program_stream.id) do
                   .btn.btn-primary= t('.enroll')
               - else
+
                 = link_to new_client_client_enrollment_leave_program_path(@client, program_stream.last_enrollment) do
                   .btn.btn-primary= t('.exit')
                 = link_to new_client_client_enrollment_tracking_path(@client, program_stream.last_enrollment) do

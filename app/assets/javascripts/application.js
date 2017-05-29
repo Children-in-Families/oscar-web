@@ -29,6 +29,10 @@
 //= require tinymce
 //= require moment
 //= require fullcalendar
+//= require bootstrap_file_input/purify.min.js
+//= require bootstrap_file_input/fileinput.js
+//= require bootstrap_file_input/fa/theme.min.js
+//= require bootstrap_file_input/explorer/theme.min.js
 
 // WRAPBOOTSTRAP
 //= require iCheck/icheck.min.js
@@ -90,3 +94,4 @@
 //= require client_enrollments/form
 //= require leave_programs/form
 //= require trackings/form
+//= require custom_field_properties/form
