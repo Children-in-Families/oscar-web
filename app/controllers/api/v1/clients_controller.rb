@@ -30,7 +30,7 @@ module Api
 
       def destroy
         @client.destroy
-        render json: { status: :success }
+        head 204
       end
 
       private

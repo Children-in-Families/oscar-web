@@ -147,8 +147,12 @@ RSpec.describe Api::V1::ClientsController, type: :request do
           delete "/api/v1/clients/#{clients[0].id}", @auth_headers
         end
 
-        it 'should return status 200' do
-          expect(response).to have_http_status(:success)
+        it 'should return status 204' do
+          expect(response).to have_http_status(:no_content)
+        end
+
+        it 'should not contain deleted client' do
+          expect(Client.all.map{ |client| client.id }).not_to include(clients[0].id)
         end
       end
     end
