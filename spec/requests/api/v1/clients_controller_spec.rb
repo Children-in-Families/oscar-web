@@ -27,7 +27,7 @@ RSpec.describe Api::V1::ClientsController, type: :request do
 
       it 'should returns the clients with the correct data' do
         expect(json['clients'].size).to eq 5
-        expect(json['clients'].map { |client| client['user']['email'] }).to include(user.email)
+        expect(json['clients'].map { |client| client['case_worker']['email'] }).to include(user.email)
       end
     end
   end
