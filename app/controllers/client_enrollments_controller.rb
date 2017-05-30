@@ -3,11 +3,18 @@ class ClientEnrollmentsController < AdminController
   before_action :find_program_stream, except: :index
 
   def index
-    @program_streams = ProgramStream.all
+    # @program_streams = ProgramStream.all
+    @client_enrollment_grid = ClientEnrollmentGrid.new(params[:client_enrollment_grid])
+    @results = @client_enrollment_grid.assets.size
+    @client_enrollment_grid.scope { |scope| scope.page(params[:page]).per(20) }
   end
 
   def new
-    @client_enrollment = @client.client_enrollments.new(program_stream_id: @program_stream)
+    if valid_client?
+      @client_enrollment = @client.client_enrollments.new(program_stream_id: @program_stream)
+    else
+      redirect_to client_client_enrollments_path(@client), notice: t('.client_not_valid')
+    end
   end
   
   def show
@@ -38,5 +45,13 @@ class ClientEnrollmentsController < AdminController
 
   def find_program_stream
     @program_stream = ProgramStream.find(params[:program_stream_id])
+  end
+
+  def client_filtered
+    AdvancedSearches::ClientAdvancedSearch.new(@program_stream.rules, {}, Client.all).filter
+  end
+
+  def valid_client?
+    client_filtered.ids.include? @client.id
   end
 end

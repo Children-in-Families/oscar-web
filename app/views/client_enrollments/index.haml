@@ -2,29 +2,6 @@
   .ibox-title
     %h5= t('.program_lists')
   .ibox-content
-    %table.table.table-bordered
-      %thead
-        %tr
-          %th Status
-          %th Program Name
-          %th Report
-          %th Actions
-      %tbody
-        - @program_streams.each do |program_stream|
-          %tr
-            %td.text-center
-              %div{ class: "#{status_label(program_stream)}"}
-                = status_value(program_stream)
-            %td= program_stream.name
-            %td 
-              = link_to 'View', '#'
-            %td
-              - if program_stream.has_exit_program? || !program_stream.has_enrollment?
-                = link_to new_client_client_enrollment_path(@client, program_stream_id: program_stream.id) do
-                  .btn.btn-primary= t('.enroll')
-              - else
-                = link_to new_client_client_enrollment_leave_program_path(@client, program_stream.last_enrollment) do
-                  .btn.btn-primary= t('.exit')
-                = link_to new_client_client_enrollment_tracking_path(@client, program_stream.last_enrollment) do
-                  .btn.btn-primary= t('.tracking') 
+    = datagrid_table @client_enrollment_grid, html: { class: 'table table-bordered table-striped table-hover client_enrollment'}
   .ibox-footer
+    = paginate @client_enrollment_grid.assets

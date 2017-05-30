@@ -515,7 +515,13 @@ km:
         view: មើល
         placement_start_date: ថ្ងៃបញ្ជូនទៅក្នុងករណី
         placement_case_type: ប្រភេទករណីដែលត្រូវបានបញ្ជូនទៅ
-
+      
+      client_enrollments:
+        status: ស្ថានភាព
+        name: ឈ្មោះកម្មវិធី
+        report: របាយការណ៍
+        action: សកម្មភាព
+      
       progress_notes:
         <<: *default_progress_note_fields
         manage: គ្រប់គ្រង
@@ -841,11 +847,15 @@ km:
       delete_group: លុបបណ្ដុំនៃការស្វែងរក
 
   client_enrollments:
-    index:
-      program_lists: តារាងកម្មវិធី​បន្ទាប់បន្សំ
+    manage:
       enroll: ចុះឈ្មោះ
       exit: ចាកចេញ
       tracking: តាមដាន
+      full_program: កម្មវិធីនេះពេញ
+    new:
+      client_not_valid: អតិថិជនមិនអាចចូលរូមកម្មវិធីនេះ
+    index:
+      program_lists: តារាងកម្មវិធី​បន្ទាប់បន្សំ
     create:
       successfully_created: ការចុះឈ្មោះត្រូវបានរក្សាទុកដោយជោគជ័យ
     form:
