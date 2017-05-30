@@ -7,7 +7,7 @@ class ClientSerializer < ActiveModel::Serializer
               :referral_phone, :who_live_with, :poverty_certificate, :rice_support, :received_by,
               :followed_up_by, :follow_up_date, :school_name, :school_grade, :has_been_in_orphanage,
               :able_state, :has_been_in_government_care, :relevant_referral_information,
-              :case_worker, :agencies, :state, :rejected_note, :emergency_case
+              :case_worker, :agencies, :state, :rejected_note, :emergency_case, :organization
 
   def case_worker
     object.user
@@ -27,5 +27,9 @@ class ClientSerializer < ActiveModel::Serializer
 
   def emergency_case
      ActiveModel::ArraySerializer.new(object.cases, each_serializer: CaseSerializer)
+  end
+
+  def organization
+    object.organization
   end
 end
