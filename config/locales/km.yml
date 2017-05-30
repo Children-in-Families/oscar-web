@@ -784,6 +784,7 @@ km:
       progress_note: កំណត់សំគាល់ការរីកចំរើន
       client_able_answers: ចំលើយ Able
       able_screening_questions: សំនួរ Able
+      program_streams: កម្មវិធី​បន្ទាប់បន្សំ
     client_answers:
       client_able_answers: ចំលើយ Able របស់អតិថិជន
       question: សំនួរ
@@ -838,6 +839,16 @@ km:
       add_new_filter: បន្ថែមការស្វែងរក
       add_new_group: បន្ថែមបណ្ដុំនៃការស្វែងរក
       delete_group: លុបបណ្ដុំនៃការស្វែងរក
+
+  client_program_streams:
+    index:
+      program_lists: តារាងកម្មវិធី​បន្ទាប់បន្សំ
+    create:
+      successfully_created: Enrollment has been created successfully.
+    form:
+      save: រក្សាទុក
+      cancel: ទុកជាមោឃៈ
+
   families:
     index:
       results: លទ្ធផល

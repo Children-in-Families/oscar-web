@@ -92,3 +92,4 @@
 //= require custom_field_properties/form
 //= require program_streams/index
 //= require program_streams/show
+//= require client_program_streams/form
