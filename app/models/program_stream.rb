@@ -29,6 +29,6 @@ class ProgramStream < ActiveRecord::Base
   end
 
   def has_exit_program?
-    has_enrollment? && last_enrollment.exit_program.present?
+    has_enrollment? && last_enrollment.leave_program.present?
   end
 end

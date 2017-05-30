@@ -12,8 +12,9 @@
       %tbody
         - @program_streams.each do |program_stream|
           %tr
-            %td
-              .label.label-primary= program_stream.client_enrollments.last.try(:status) 
+            %td.text-center
+              .label{ class: "#{status_label(program_stream)}"}
+                = status_value(program_stream)
             %td= program_stream.name
             %td 
               = link_to 'View', '#'
@@ -22,7 +23,7 @@
                 = link_to new_client_client_enrollment_path(@client, program_stream_id: program_stream.id) do
                   .btn.btn-primary Enroll
               - else
-                = link_to new_client_client_enrollment_exit_program_path(@client, program_stream.last_enrollment) do
+                = link_to new_client_client_enrollment_leave_program_path(@client, program_stream.last_enrollment) do
                   .btn.btn-primary Exit
                 = link_to new_client_client_enrollment_tracking_path(@client, program_stream.last_enrollment) do
                   .btn.btn-primary Tracking  
