@@ -507,6 +507,12 @@ en:
         view: View
         placement_start_date: Placement Start Date
         placement_case_type: Placement Case Type
+    
+      client_enrollments:
+        status: Status
+        name: Program Name
+        report: Report
+        action: Action
 
       progress_notes:
         <<: *default_progress_note_fields
@@ -840,13 +846,15 @@ en:
       delete_group: Delete
   
   client_enrollments:
-    new:
-      client_not_valid: Client doesn't match with this program rules.  
-    index:
-      program_lists: Program Lists
+    manage:
       enroll: Enroll
       tracking: Tracking
       exit: Exit
+      full_program: This Program is full
+    new:
+      client_not_valid: Client doesn't match with this program rules.  
+    index:
+      program_lists: Program Lists  
     create:
       successfully_created: Enrollment has been created successfully.
     form:

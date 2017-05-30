@@ -3,7 +3,10 @@ class ClientEnrollmentsController < AdminController
   before_action :find_program_stream, except: :index
 
   def index
-    @program_streams = ProgramStream.all
+    # @program_streams = ProgramStream.all
+    @client_enrollment_grid = ClientEnrollmentGrid.new(params[:client_enrollment_grid])
+    @results = @client_enrollment_grid.assets.size
+    @client_enrollment_grid.scope { |scope| scope.page(params[:page]).per(20) }
   end
 
   def new
