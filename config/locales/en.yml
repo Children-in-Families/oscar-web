@@ -842,6 +842,9 @@ en:
   client_enrollments:
     index:
       program_lists: Program Lists
+      enroll: Enroll
+      tracking: Tracking
+      exit: Exit
     create:
       successfully_created: Enrollment has been created successfully.
     form:
@@ -849,12 +852,17 @@ en:
       cancel: Cancel
 
   trackings:
+    new:
+      new_tracking: New Tracking
     create:
       successfully_created: Tracking has been created successfully.
     form:
       save: Save
       cancel: Cancel
+
   leave_programs:
+    new: 
+      new_exit_program: New Exit Program
     create:
       successfully_created: Client has successfully exited from the program.
     form:

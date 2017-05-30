@@ -843,6 +843,9 @@ km:
   client_enrollments:
     index:
       program_lists: តារាងកម្មវិធី​បន្ទាប់បន្សំ
+      enroll: ចុះឈ្មោះ
+      exit: ចាកចេញ
+      tracking: តាមដាន
     create:
       successfully_created: ការចុះឈ្មោះត្រូវបានរក្សាទុកដោយជោគជ័យ
     form:
@@ -850,6 +853,8 @@ km:
       cancel: ទុកជាមោឃៈ
 
   trackings:
+    new:
+      new_tracking: ការ​តាមដានថ្មី
     create:
       successfully_created: ការ​តាមដានត្រូវបានរក្សាទុកដោយជោគជ័យ
     form:
@@ -857,6 +862,8 @@ km:
       cancel: ទុកជាមោឃៈ
 
   leave_programs:
+    new:
+      new_exit_program: ការចាកចេញពីកម្មវិធីថ្មី
     create:
       successfully_created: អតិថិជនត្រូវបានចាកចេញពីកម្មវិធីដោយជោគជ័យ
     form:
