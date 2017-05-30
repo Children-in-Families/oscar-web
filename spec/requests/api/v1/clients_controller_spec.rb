@@ -152,7 +152,7 @@ RSpec.describe Api::V1::ClientsController, type: :request do
         end
 
         it 'should not contain deleted client' do
-          expect(Client.all.map{ |client| client.id }).not_to include(clients[0].id)
+          expect(Client.ids).not_to include(clients[0].id)
         end
       end
     end
