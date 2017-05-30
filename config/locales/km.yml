@@ -471,6 +471,7 @@ km:
     head:
       changelog: កំណែប្រែ
     row:
+      view: មើល
       changelog: កំណែប្រែ
     no_results: មិនមានលទ្ធផល
     from: ចាប់ពី
@@ -517,7 +518,6 @@ km:
         placement_case_type: ប្រភេទករណីដែលត្រូវបានបញ្ជូនទៅ
       
       client_enrollments:
-        status: ស្ថានភាព
         name: ឈ្មោះកម្មវិធី
         report: របាយការណ៍
         action: សកម្មភាព
@@ -847,6 +847,9 @@ km:
       delete_group: លុបបណ្ដុំនៃការស្វែងរក
 
   client_enrollments:
+    report:
+      programs_list: តារាងកម្មវិធី​បន្ទាប់បន្សំ
+      view: មើល
     manage:
       enroll: ចុះឈ្មោះ
       exit: ចាកចេញ
