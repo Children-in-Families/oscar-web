@@ -1,51 +1,35 @@
 class ClientSerializer < ActiveModel::Serializer
-  attributes :id, :code, :given_name, :family_name, :gender, :date_of_birth, :status,
-             :initial_referral_date, :referral_phone, :follow_up_date, :current_address,
-             :able, :reason_for_referral, :background, :user, :birth_province, :received_by,
-             :followed_up_by, :referral_source, :cases, :name, :assessments, :most_recent_case_note, :next_appointment_date, :tasks,
-             :organization
 
-  def tasks
-    ActiveModel::ArraySerializer.new(object.tasks.incomplete, each_serializer: TaskSerializer)
+  attributes  :id, :given_name, :family_name, :gender, :code, :status, :date_of_birth,
+              :current_province, :local_given_name, :local_family_name, :kid_id, :donor_name,
+              :current_address, :house_number, :street_number, :village, :commune, :district,
+              :completed, :birth_province, :time_in_care, :initial_referral_date, :referral_source,
+              :referral_phone, :who_live_with, :poverty_certificate, :rice_support, :received_by,
+              :followed_up_by, :follow_up_date, :school_name, :school_grade, :has_been_in_orphanage,
+              :able_state, :has_been_in_government_care, :relevant_referral_information,
+              :case_worker, :agencies, :state, :rejected_note, :emergency_case, :organization
+
+  def case_worker
+    object.user
   end
 
-  def name
-    object.name.strip
+  def rejected_note
+    object.rejected_note if status == "rejected"
   end
 
-  def assessments
-    ActiveModel::ArraySerializer.new(object.assessments, each_serializer: AssessmentSerializer)
+  def current_province
+    object.province
   end
 
-  def cases
-    ActiveModel::ArraySerializer.new(object.cases, each_serializer: CaseSerializer)
+  def who_live_with
+    object.live_with
   end
 
-  def user
-    object.user.as_json(only: [:first_name, :last_name, :email], methods: [:name])
+  def emergency_case
+     ActiveModel::ArraySerializer.new(object.cases, each_serializer: CaseSerializer)
   end
 
-  def birth_province
-    object.province if object.province
-  end
-
-  def received_by
-    object.received_by.as_json(only: [:first_name, :last_name, :email], methods: [:name]) if object.received_by
-  end
-
-  def followed_up_by
-    object.followed_up_by.as_json(only: [:first_name, :last_name, :email], methods: [:name]) if object.followed_up_by
-  end
-
-  def referral_source
-    object.referral_source if object.referral_source
-  end
-
-  def most_recent_case_note
-    object.case_notes.most_recents.first.meeting_date.try(:to_date) if object.case_notes.any?
-  end
-
-  def next_appointment_date
-    object.next_appointment_date.to_date
+  def organization
+    object.organization
   end
 end

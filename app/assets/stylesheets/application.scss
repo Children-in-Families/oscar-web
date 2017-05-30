@@ -21,6 +21,8 @@
 @import 'toastr/toastr.min';
 @import 'wrapbootstrap/style';
 @import 'footable/footable.core';
+@import 'bootstrap_file_input/file_input.min';
+@import 'bootstrap_file_input/explorer/theme.min';
 
 // Components
 
@@ -64,7 +66,7 @@
 @import 'progress_note_types/*';
 @import 'interventions/*';
 @import 'progress_notes/*';
-@import 'statics/*';
+@import 'organizations/*';
 @import 'able_screening_answers/*';
 @import 'donors/*';
 @import 'client_advanced_searches/*';
@@ -74,4 +76,4 @@
 @import 'common_version';
 
 @import 'custom_fields/*';
-
+@import 'custom_field_properties/*';

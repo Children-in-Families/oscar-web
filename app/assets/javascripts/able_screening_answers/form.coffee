@@ -1,5 +1,6 @@
 CIF.Able_screening_answersNew = CIF.Able_screening_answersCreate = CIF.Able_screening_answersEdit = CIF.Able_screening_answersUpdate = do ->
   _init = ->
+    _removeClassDisabled()
 
   _toggleAnswer = ->
     answers = $('.answer')
@@ -17,5 +18,8 @@ CIF.Able_screening_answersNew = CIF.Able_screening_answersCreate = CIF.Able_scre
           answerObj.addClass('disable-qa')
           answerObj.find('input').attr('disabled', true)
           answerObj.hide()
+
+  _removeClassDisabled = ->
+    $('.client_answers_description').removeClass('disabled')
 
   { init: _init }

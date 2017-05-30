@@ -10,13 +10,13 @@ class CustomField < ActiveRecord::Base
 
   has_paper_trail
 
-  validate  :enable_remove_fields, if: 'id.present?'
+  validate  :validate_remove_field, if: 'id.present?'
   validates :entity_type, inclusion: { in: ENTITY_TYPES }
   validates :entity_type, :form_title, presence: true
   validates :form_title, uniqueness: { case_sensitive: false, scope: :entity_type }
   validates :time_of_frequency, presence: true,
                                 numericality: { only_integer: true, greater_than_or_equal_to: 1 }, if: 'frequency.present?'
-  validate :presence_of_fields, if: 'field_objs.empty?'
+  validates :fields, presence: true
   validate :uniq_fields, :field_label, if: 'fields.present?'
 
   before_save :set_time_of_frequency
@@ -52,15 +52,13 @@ class CustomField < ActiveRecord::Base
   end
 
   def uniq_fields
-    labels = field_objs.collect do |object|
-      object['label']
-    end
+    labels = fields.map{ |f| f['label'] }
     duplicate = labels.detect { |e| labels.count(e) > 1 }
     errors.add(:fields, I18n.t('must_be_uniq')) if duplicate.present?
   end
 
   def field_label
-    field_objs.collect do |object|
+    fields.each do |object|
       if object['label'].blank?
         errors.add(:fields, I18n.t('field_label_cannot_be_blank'))
         break
@@ -68,40 +66,20 @@ class CustomField < ActiveRecord::Base
     end
   end
 
-  def field_objs
-    fields.present? ? JSON.parse(fields) : fields
-  end
+  def validate_remove_field
+    error_fields = []
+    properties = custom_field_properties.pluck(:properties).select(&:present?)
 
-  def enable_remove_fields
-    entity_custom_fields_validate(self)
-  end
-
-  def entity_custom_fields_validate(custom_field)
-    error_fields         = []
-    current_fields       = []
-    entity_custom_fields = custom_field.custom_field_properties
-
-    entity_custom_fields.each do |entity_custom_field|
-      next unless entity_custom_field.properties.present?
-      properties      = entity_custom_field.properties
-      current_fields  = CustomField.find(custom_field).fields
-      fields          = custom_field.fields
-      previous_fields = JSON.parse(current_fields) - JSON.parse(fields)
-      next if previous_fields.blank?
-      previous_fields.each do |field|
-        label_name    = properties[field['label']]
-        next if label_name.blank?
-        if field['type'] == 'checkbox-group' && label_name.first.present?
-          error_fields << field['label']
-        else
-          error_fields << field['label']
-        end
+    return unless fields_changed?
+    properties.each do |property|
+      field_remove = fields_change.first - fields_change.last
+      field_remove.each do |field|
+        label_name = property[field['label']]
+        error_fields << field['label'] if label_name.present?
       end
     end
-    if error_fields.any?
-      error_message       = "#{error_fields.uniq.join(', ')} #{I18n.t('cannot_remove')}"
-      custom_field.fields = current_fields
-      errors.add(:fields, "#{error_message} ")
-    end
+    return unless error_fields.present?
+    error_message = "#{error_fields.uniq.join(', ')} #{I18n.t('cannot_remove_or_update')}"
+    errors.add(:fields, "#{error_message} ")
   end
 end

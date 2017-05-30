@@ -26,15 +26,15 @@ body[id='client_advanced_searches-index'] {
       min-width: 135px;
     }
 
-    th.any_assessments, th.able_state, th.house_number, th.street_number, th.village {
+    th.any_assessments, th.able_state, th.house_number, th.street_number, th.village, th.rice_support {
       min-width: 150px;
     }
 
-    th.given_name, th.family_name {
+    th.given_name, th.family_name, th.live_with {
       min-width: 160px;
     }
 
-    th.kid_id {
+    th.kid_id, th.poverty_certificate {
       min-width: 175px;
     }
 

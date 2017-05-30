@@ -27,7 +27,7 @@ module CustomFormBuilderHelper
         concat value
       end
     end
-    span
+    raw(span.gsub("\n",'<br />'))
   end
 
   def custom_field_frequency(frequency, time_of_frequency)

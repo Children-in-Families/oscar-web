@@ -10,12 +10,12 @@ class FamilyGrid
   end
 
   filter(:id, :integer, header: -> { I18n.t('datagrid.columns.families.id') })
-  
+
   filter(:code, :string, header: -> { I18n.t('datagrid.columns.families.code') }) do |value, scope|
     scope.family_id_like(value)
   end
 
-  filter(:family_type, :enum, select: [%w(Kinship kinship), %w(Foster foster), %w(Emergency emergency)], header: -> { I18n.t('datagrid.columns.families.family_type') }) do |value, scope|
+  filter(:family_type, :enum, select: [['Birth Family', 'birth_family'], %w(Emergency emergency), %w(Foster foster), %w(Inactive inactive), %w(Kinship kinship)], header: -> { I18n.t('datagrid.columns.families.family_type') }) do |value, scope|
     scope.by_family_type(value)
   end
 
@@ -54,7 +54,7 @@ class FamilyGrid
   end
 
   column(:id, header: -> { I18n.t('datagrid.columns.families.id') })
-  
+
   column(:code, header: -> { I18n.t('datagrid.columns.families.code') })
 
   column(:name, html: true, order: 'LOWER(name)', header: -> { I18n.t('datagrid.columns.families.name') }) do |object|
