@@ -110,7 +110,10 @@ Rails.application.routes.draw do
     collection do
       get :advanced_search
     end
-    resources :client_program_streams
+    resources :client_enrollments, only: [:new, :index, :create] do
+      resources :trackings
+      resources :exit_programs
+    end
     resources :custom_field_properties
     resources :government_reports
     resources :assessments

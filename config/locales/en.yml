@@ -839,7 +839,7 @@ en:
       add_new_group: Add Group
       delete_group: Delete
   
-  client_program_streams:
+  client_enrollments:
     index:
       program_lists: Program Lists
     create:

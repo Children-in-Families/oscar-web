@@ -1,0 +1,29 @@
+.ibox
+  .ibox-title
+    %h5= t('.program_lists')
+  .ibox-content
+    %table.table.table-bordered
+      %thead
+        %tr
+          %th Status
+          %th Program Name
+          %th Report
+          %th Actions
+      %tbody
+        - @program_streams.each do |program_stream|
+          %tr
+            %td
+              .label.label-primary= program_stream.client_enrollments.last.try(:status) 
+            %td= program_stream.name
+            %td 
+              = link_to 'View', '#'
+            %td
+              - if program_stream.has_exit_program? || !program_stream.has_enrollment?
+                = link_to new_client_client_enrollment_path(@client, program_stream_id: program_stream.id) do
+                  .btn.btn-primary Enroll
+              - else
+                = link_to new_client_client_enrollment_exit_program_path(@client, program_stream.last_enrollment) do
+                  .btn.btn-primary Exit
+                = link_to new_client_client_enrollment_tracking_path(@client, program_stream.last_enrollment) do
+                  .btn.btn-primary Tracking  
+  .ibox-footer

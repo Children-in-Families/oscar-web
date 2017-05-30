@@ -840,7 +840,7 @@ km:
       add_new_group: បន្ថែមបណ្ដុំនៃការស្វែងរក
       delete_group: លុបបណ្ដុំនៃការស្វែងរក
 
-  client_program_streams:
+  client_enrollment`s:
     index:
       program_lists: តារាងកម្មវិធី​បន្ទាប់បន្សំ
     create:
