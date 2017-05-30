@@ -17,7 +17,10 @@ CIF.Custom_field_propertiesNew = CIF.Custom_field_propertiesCreate = CIF.Custom_
     $(rows).each (_k, element) ->
       deleteBtn = $(element).find('.delete')
       url = $(deleteBtn).data('url')
+      confirmDelete = $(deleteBtn).data('comfirm')
       $(deleteBtn).click ->
+        result = confirm(confirmDelete)
+        return unless result
         $('input[type="submit"].form-btn').attr('disabled', 'disabled')
         $.ajax
           dataType: "json"

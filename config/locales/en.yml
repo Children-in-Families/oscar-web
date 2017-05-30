@@ -1943,6 +1943,8 @@ en:
       preview_download: Preview Download
       download: Download
     attachment_fields:
+      preview_download: Preview Download
+      download: Download
       attachments: Attachments
       are_you_sure: Are you sure you want to delete?
     create:

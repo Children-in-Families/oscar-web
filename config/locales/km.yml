@@ -2165,6 +2165,8 @@ km:
       preview_download: មើលនិងទាញយក
       download: ទាញយក
     attachment_fields:
+      preview_download: មើលនិងទាញយក
+      download: ទាញយក
       attachments: ឯកសារភ្ជាប់
       are_you_sure: តើអ្នកប្រាកដហើយ?
     create:
