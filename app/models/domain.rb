@@ -4,6 +4,8 @@ class Domain < ActiveRecord::Base
   has_many   :assessment_domains, dependent: :restrict_with_error
   has_many   :assessments, through: :assessment_domains
   has_many   :tasks, dependent: :restrict_with_error
+  has_many   :domain_program_streams
+  has_many   :program_streams, through: :domain_program_streams
 
   has_paper_trail
 

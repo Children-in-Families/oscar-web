@@ -1,54 +1,6 @@
 = simple_form_for @program_stream, html: { id: 'program-stream' } do |f|
-  .program-steps
-    %h4= t('.add_rule')
-    %section
-      = f.input :name, label: t('.name')
-      = f.input :description, label: t('.description')
-      %h3= t('.rule')
-      #program-rule
-      = f.hidden_field :rules 
-    %h4= t('.enrollment_form')
-    %section
-      #enrollment{ data: { enrollment: @program_stream.enrollment }}
-      = link_to 'submit', '#', id: 'enrollment-link', style: 'display:none;'
-      = f.hidden_field :enrollment
-    %h4= t('.tracking_form')
-    %section
-      .row
-        .col-xs-12.col-md-6
-          = f.input :frequency, collection: ProgramStream::FREQUENCIES, label: t('.frequency')
-        .col-xs-12.col-md-6
-          = f.input :time_of_frequency, label: t('.time_of_frequency')
-      #tracking{ data: { tracking: @program_stream.tracking }}
-      = link_to 'submit', '#', id: 'tracking-link', style: 'display:none;'
-      = f.hidden_field :tracking
-    %h4= t('.exit_form')
-    %section
-      #exit-program{ data: { exit_program: @program_stream.exit_program }}
-      = link_to 'submit', '#', id: 'exit-program-link', style: 'display:none;'
-      = f.hidden_field :exit_program
-    %h4= t('.summary')
-    %section
-      .row
-        .col-xs-12.col-md-3
-          %label Name:
-        .col-xs-12.col-md-9
-          %h3#program-name
-      .row
-        .col-xs-12.col-md-3
-          %label Description:
-        .col-xs-12.col-md-9
-          %p#program-description
-      .row
-        .col-xs-12.col-md-3
-          %label Rule:
-        .col-xs-12.col-md-9
-          %p#program-rule Active EC
-      .row
-        .col-xs-12
-          = link_to 'Enrollment Form', '#'
-        .col-xs-12
-          = link_to 'Progress Tracking Form', '#'
-        .col-xs-12
-          = link_to 'Exit Form', '#'
-
+  .program-steps{ data: { next: t('.next'), previous: t('.previous'), finish: t('.finish') } }
+    = render 'program_rule', f: f
+    = render 'enrollment', f: f
+    = render 'tracking', f: f
+    = render 'exit_field', f: f

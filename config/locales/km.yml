@@ -218,20 +218,25 @@ km:
       successfully_deleted: កម្មវិធីលុបដោយជោគជ័យ
     actions:
       are_you_sure: តើអ្នកប្រាកដហើយ?
-    form:
+    program_rule:
+      add_new_filter: បន្ថែមការស្វែងរក
+      add_new_group: បន្ថែមបណ្ដុំនៃការស្វែងរក
+      delete_group: លុបបណ្ដុំនៃការស្វែងរក
       add_rule: បន្ថែមលក្ខខណ្ឌថ្មី 
       name: ឈ្មោះកម្មវិធី​បន្ទាប់បន្សំ
       description: ការបរិយាយ
       rule: លក្ខខណ្ឌ
+      quantity: បរិមាណ
+      domain: កត្តា
+    enrollment:
       enrollment_form: ទម្រង់បែបបទចុះឈ្មោះ
+    tracking:
       tracking_form: ទម្រង់បែបបទតាមដានការរីកចំរើន
       frequency: ភាពញឹកញាប់
       time_of_frequency: ពេលវេលានៃភាពញឹកញាប់
+    exit_field:
       exit_form: ទម្រង់បែបបទចាកចេញ
-      summary: សេចក្តីសង្ខេប  
-      add_new_filter: បន្ថែមការស្វែងរក
-      add_new_group: បន្ថែមបណ្ដុំនៃការស្វែងរក
-      delete_group: លុបបណ្ដុំនៃការស្វែងរក
+    form:
       previous: 'ទំព័រមុន'
       next: 'ទំព័របន្ទាប់'
       finish: 'រក្សាទុក'
@@ -572,6 +577,8 @@ km:
       program_streams:
         name: ឈ្មោះកម្មវិធី​បន្ទាប់បន្សំ
         description: ការបរិយាយ
+        domain: កត្តា
+        quantity: បរិមាណ
         action: សកម្មភាព
     filters:
       xboolean:

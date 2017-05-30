@@ -208,7 +208,7 @@ en:
     update:
       successfully_updated: Program Stream has been successfully updated.
     destroy:
-      successfully_deleted: Program has been successfully deleted.
+      successfully_deleted: Program Stream has been successfully deleted.
     new:
       new_program_stream: New Program Stream
       back: Back
@@ -217,20 +217,25 @@ en:
       back: Back
     actions:
       are_you_sure: Are you sure you want to delete?
-    form:
-      add_rule: Add rule
-      name: Name
-      description: Description
-      rule: Rule
-      enrollment_form: Enrollment
-      tracking_form: Progress Tracking
-      frequency: Frequency
-      time_of_frequency: Time of Frequency
-      exit_form: Exit Form
-      summary: Summary
+    program_rule:
       add_new_filter: Add New Filter
       add_new_group: Add Group
       delete_group: Delete
+      name: Name
+      description: Description
+      rule: Rules
+      quantity: Quantity
+      domain: Domain
+      add_rule: Add rule
+    enrollment:
+      enrollment_form: Enrollment
+    tracking:
+      tracking_form: Progress Tracking
+      frequency: Frequency
+      time_of_frequency: Time of Frequency
+    exit_field:
+      exit_form: Exit Form
+    form:
       previous: Previous
       next: Next
       finish: Create
@@ -571,6 +576,8 @@ en:
       program_streams:
         name: Name
         description: Description
+        domain: Domains
+        quantity: Quantity
         action: Action
 
     filters:
