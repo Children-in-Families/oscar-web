@@ -110,7 +110,8 @@ Rails.application.routes.draw do
     collection do
       get :advanced_search
     end
-    resources :client_enrollments, only: [:new, :index, :create] do
+    resources :client_enrollments, only: [:new, :index, :create, :show] do
+      get :report, on: :collection
       resources :trackings
       resources :leave_programs
     end

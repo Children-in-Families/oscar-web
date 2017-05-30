@@ -468,6 +468,7 @@ en:
     head:
       changelog: Changelog
     row:
+      view: View
       changelog: Changelog
     no_results: No results found
     from: From
@@ -846,6 +847,9 @@ en:
       delete_group: Delete
   
   client_enrollments:
+    report:
+      programs_list: Programs List
+      view: View
     manage:
       enroll: Enroll
       tracking: Tracking
@@ -854,7 +858,7 @@ en:
     new:
       client_not_valid: Client doesn't match with this program rules.  
     index:
-      program_lists: Program Lists  
+      program_lists: Programs List  
     create:
       successfully_created: Enrollment has been created successfully.
     form:

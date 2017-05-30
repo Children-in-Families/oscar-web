@@ -1,0 +1,39 @@
+.row
+  .col-xs-12
+    .ibox
+      .ibox-title
+        %h5 Report
+        .ibox-tools
+          = link_to client_client_enrollments_path(@client) do
+            .btn.btn-primary
+              = t('.programs_list')
+      .ibox-content
+        - @enrollments.each do |enrollment|
+          .ibox.border-left-right.border-bottom
+            .ibox-title
+              %h5= "Enrollment on #{enrollment.created_at.strftime('%b %d, %Y')}"
+              .ibox-tools
+                = link_to client_client_enrollment_path(@client, enrollment, program_stream_id: @program_stream) do
+                  .btn.btn-info
+                    = t('.view')
+            .ibox-content
+              %table.table.table-bordered.table-striped.table-hover
+                %thead
+                  %tr
+                    %th Date
+                    %th Forms
+                    %th Actions
+                %thbody
+                  - enrollment.trackings.each do |tracking|
+                    %tr
+                      %td= "#{tracking.created_at.strftime('%b %d, %Y') if tracking.present?}"
+                      %td Tracking
+                      %td= link_to t('.view'), '#'
+                  %tr
+                    %td= "#{ (enrollment.leave_program.created_at.strftime('%b %d, %Y')) if enrollment.leave_program.present? }"
+                    %td Exit
+                    %td= link_to t('.view'), '#'
+
+
+        
+      
