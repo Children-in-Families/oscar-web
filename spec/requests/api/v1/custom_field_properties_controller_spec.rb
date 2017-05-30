@@ -183,7 +183,7 @@ RSpec.describe Api::V1::CustomFieldPropertiesController, type: :request do
         end
 
         it 'should not have contain custom field properties' do
-          expect(CustomFieldProperty.all.map { |cfp| cfp.id }).not_to include(custom_field_property.id)
+          expect(CustomFieldProperty.ids).not_to include(custom_field_property.id)
         end
       end
 
