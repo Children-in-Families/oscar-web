@@ -207,6 +207,8 @@ km:
     new:
       new_program_stream: បន្ថែមកម្មវិធីថ្មី
       back: ត្រលប់ក្រោយ
+    show:
+      back: ត្រលប់ក្រោយ
     edit:
       edit_program_stream: កែសម្រួលកម្មវិធី 
       back: ត្រលប់ក្រោយ
