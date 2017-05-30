@@ -8,12 +8,15 @@ class ClientHistory
   field :tenant, type: String, default: ->{ Organization.current.short_name }
 
   embeds_many :agency_client_histories
+  embeds_many :client_family_histories
 
   after_save :create_agency_client_history, if: 'object.key?("agency_ids")'
+  after_save :create_client_family_history, if: 'object.key?("family_ids")'
 
   def self.initial(client)
     attributes = client.attributes
     attributes = attributes.merge('agency_ids' => client.agency_ids) if client.agency_ids.any?
+    attributes = attributes.merge('family_ids' => client.family_ids) if client.family_ids.any?
     create(object: attributes)
   end
 
@@ -22,8 +25,11 @@ class ClientHistory
   def create_agency_client_history
     agency_client_histories.create(agency_ids: object['agency_ids'])
   end
-end
 
+  def create_client_family_history
+    client_family_histories.create(family_ids: object['family_ids'])
+  end
+end
 
 # To anser the questions:
   
