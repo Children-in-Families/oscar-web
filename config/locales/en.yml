@@ -678,7 +678,7 @@ en:
       title: Warning
       body_first: The client you are registering has many attributes that match a client who is already registered at
       body_second: . You may wish to contact
-      body_third: to resolve the issue.
+      body_third: to discuss this.
     update:
       successfully_updated: Client has been successfully updated.
       assessment_successfully_created: Assessment has been successfully created.

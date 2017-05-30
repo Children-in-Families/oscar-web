@@ -678,8 +678,8 @@ km:
       close: ទុកជាមោឃៈ
       title: សូមជ្រាប
       body_first: អតិថិជនដែលអ្នកកំពុងចុះឈ្មោះមានភាពប្រហាក់ប្រហែលគ្នាជាមួយនឹងអតិថិជនដែលត្រូវបានចុះឈ្មោះរួចហើយ
-      body_second: ៕​​ អ្នកប្រហែលជាអាចនឺងទាក់ទង
-      body_third: ដើម្បីដោះស្រាយបញ្ហានេះ៕
+      body_second: ៕ អ្នកប្រហែលជាអាចនឺងទាក់ទង
+      body_third: ដើម្បីពិភាក្សាពីបញ្ហានេះ៕
     edit:
       edit_client_title: កែសម្រួលពត៌មានអតិថិជន
     form:
@@ -2160,12 +2160,12 @@ km:
   custom_field_properties:
     <<: *default_entity_type_custom_fields
     attachment:
-      attachments: ឯកសារ​ភ្ជាប់
+      attachments: ឯកសារភ្ជាប់
       are_you_sure: តើអ្នកប្រាកដហើយ?
       preview_download: មើលនិងទាញយក
       download: ទាញយក
     attachment_fields:
-      attachments: ឯកសារ​ភ្ជាប់
+      attachments: ឯកសារភ្ជាប់
       are_you_sure: តើអ្នកប្រាកដហើយ?
     create:
       successfully_created: ទម្រង់បែបបទត្រូវបានរក្សាទុកដោយជោគជ័យ
