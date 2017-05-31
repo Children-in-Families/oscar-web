@@ -6,5 +6,8 @@ body[id='program_streams-show'] {
       margin-top:  5px;
     }
   }
+  input, ins {
+    cursor: not-allowed;
+  }
 
 }

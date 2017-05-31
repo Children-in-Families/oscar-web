@@ -9,7 +9,9 @@ class ClientEnrollmentGrid
     render partial: 'client_enrollments/status', locals: { object: object } 
   end
 
-  column(:name, html: true, header: -> { I18n.t('datagrid.columns.client_enrollments.name') } )
+  column(:name, html: true, header: -> { I18n.t('datagrid.columns.client_enrollments.name') } ) do |object|
+    link_to object.name, program_stream_path(object)
+  end
 
   column(:domain, html: true, header: -> { I18n.t('datagrid.columns.client_enrollments.domain') } ) do |object|
     object.domains.pluck(:identity).join(', ')

@@ -6,7 +6,6 @@ class ProgramStreamGrid
   end
 
   column(:name, html: true, header: -> { I18n.t('datagrid.columns.program_streams.name') } )
-  column(:description, html: true, header: -> { I18n.t('datagrid.columns.program_streams.description') } )
   column(:domains, html: true, header: -> { I18n.t('datagrid.columns.program_streams.domain') } ) do |object|
     object.domains.pluck(:identity).join(', ')
   end

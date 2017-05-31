@@ -208,6 +208,13 @@ km:
       new_program_stream: បន្ថែមកម្មវិធីថ្មី
       back: ត្រលប់ក្រោយ
     show:
+      description: ការបរិយាយ
+      domain: កត្តា
+      quantity: បរិមាណ
+      rules: លក្ខខណ្ឌ
+      tracking: តាមដាន
+      enrollment: ចុះឈ្មោះ
+      exit_program: ចាកចេញពីកម្មវិធី
       back: ត្រលប់ក្រោយ
     edit:
       edit_program_stream: កែសម្រួលកម្មវិធី 
@@ -519,7 +526,7 @@ km:
       
       client_enrollments:
         name: ឈ្មោះកម្មវិធី
-        doamin: កត្តា
+        domain: កត្តា
         report: របាយការណ៍
         action: សកម្មភាព
         status: ស្ថានភាព

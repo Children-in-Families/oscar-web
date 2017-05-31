@@ -207,6 +207,13 @@ en:
     destroy:
       successfully_deleted: Program Stream has been successfully deleted.
     show:
+      description: Description
+      domain: Domain
+      quantity: Quantity
+      rules: Rules
+      tracking: Tracking
+      enrollment: Enrollment
+      exit_program: Exit Program
       back: Back
     new:
       new_program_stream: New Program Stream

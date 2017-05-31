@@ -6,6 +6,7 @@
         .ibox-tools
           = link_to t('.new_program'), new_program_stream_path, class: 'btn btn-primary btn-add'
       .ibox-content
-        = datagrid_table @program_stream_grid, html: { class: 'table table-bordered table-striped table-hover program-streams'}
+        .table-responsive
+          = datagrid_table @program_stream_grid, html: { class: 'table table-bordered table-striped table-hover program-streams'}
       .ibox-footer
         = paginate @program_stream_grid.assets
