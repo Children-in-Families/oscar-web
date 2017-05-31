@@ -7,7 +7,8 @@ class ClientSerializer < ActiveModel::Serializer
               :referral_phone, :who_live_with, :poverty_certificate, :rice_support, :received_by,
               :followed_up_by, :follow_up_date, :school_name, :school_grade, :has_been_in_orphanage,
               :able_state, :has_been_in_government_care, :relevant_referral_information,
-              :case_worker, :agencies, :state, :rejected_note, :emergency_case, :organization
+              :case_worker, :agencies, :state, :rejected_note, :emergency_case, :organization,
+              :additional_form, :tasks, :assessments, :case_notes
 
   def case_worker
     object.user
@@ -31,5 +32,17 @@ class ClientSerializer < ActiveModel::Serializer
 
   def organization
     object.organization
+  end
+
+  def additional_form
+    ActiveModel::ArraySerializer.new(object.custom_fields.uniq, each_serializer: CustomFieldSerializer)
+  end
+
+  def tasks
+    ActiveModel::ArraySerializer.new(object.tasks.incomplete, each_serializer: TaskSerializer)
+  end
+
+  def case_notes
+    object.case_notes.most_recents
   end
 end
