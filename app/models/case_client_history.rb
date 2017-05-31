@@ -1,4 +1,4 @@
-class ClientFamilyHistory
+class CaseClientHistory
   include Mongoid::Document
   include Mongoid::Timestamps
 

@@ -9,13 +9,16 @@ class ClientHistory
 
   embeds_many :agency_client_histories
   embeds_many :client_family_histories
+  embeds_many :case_client_histories
 
   after_save :create_agency_client_history, if: 'object.key?("agency_ids")'
+  after_save :create_case_client_history,   if: 'object.key?("case_ids")'
   after_save :create_client_family_history, if: 'object.key?("family_ids")'
 
   def self.initial(client)
     attributes = client.attributes
     attributes = attributes.merge('agency_ids' => client.agency_ids) if client.agency_ids.any?
+    attributes = attributes.merge('case_ids' => client.case_ids) if client.case_ids.any?
     attributes = attributes.merge('family_ids' => client.family_ids) if client.family_ids.any?
     create(object: attributes)
   end
@@ -23,11 +26,24 @@ class ClientHistory
   private
 
   def create_agency_client_history
-    agency_client_histories.create(agency_ids: object['agency_ids'])
+    object['agency_ids'].each do |agency_id|
+      agency = Agency.find_by(id: agency_id).try(:attributes)
+      agency_client_histories.create(object: agency)
+    end
+  end
+
+  def create_case_client_history
+    object['case_ids'].each do |case_id|
+      c_case = Case.find_by(id: case_id).try(:attributes)
+      case_client_histories.create(object: c_case)
+    end
   end
 
   def create_client_family_history
-    client_family_histories.create(family_ids: object['family_ids'])
+    object['family_ids'].each do |family_id|
+      family = Family.find_by(id: family_id).try(:attributes)
+      client_family_histories.create(object: family)
+    end
   end
 end
 
