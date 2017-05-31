@@ -11,28 +11,30 @@
         - @enrollments.each do |enrollment|
           .ibox.border-left-right.border-bottom
             .ibox-title
-              %h5= "Enrollment on #{enrollment.created_at.strftime('%b %d, %Y')}"
+              %h5= "Enrollment on #{ date_format enrollment.created_at }"
               .ibox-tools
                 = link_to client_client_enrollment_path(@client, enrollment, program_stream_id: @program_stream) do
                   .btn.btn-info
                     = t('.view')
             .ibox-content
-              %table.table.table-bordered.table-striped.table-hover
-                %thead
-                  %tr
-                    %th Date
-                    %th Forms
-                    %th Actions
-                %thbody
-                  - enrollment.trackings.each do |tracking|
+              .table-responsive
+                %table.table.table-bordered.table-striped.table-hover
+                  %thead
                     %tr
-                      %td= "#{tracking.created_at.strftime('%b %d, %Y') if tracking.present?}"
-                      %td Tracking
-                      %td= link_to t('.view'), '#'
-                  %tr
-                    %td= "#{ (enrollment.leave_program.created_at.strftime('%b %d, %Y')) if enrollment.leave_program.present? }"
-                    %td Exit
-                    %td= link_to t('.view'), '#'
+                      %th Date
+                      %th Forms
+                      %th Actions
+                  %thbody
+                    - enrollment.trackings.each do |tracking|
+                      %tr
+                        %td= "#{ date_format(tracking.created_at) if tracking.present? }"
+                        %td Tracking
+                        %td= link_to t('.view'), client_client_enrollment_tracking_path(@client, enrollment, tracking)
+                    - if enrollment.leave_program.present?
+                      %tr
+                        %td= "#{ date_format(enrollment.leave_program.created_at) }"
+                        %td Exit
+                        %td= link_to t('.view'), client_client_enrollment_leave_program_path(@client, enrollment, enrollment.leave_program)
 
 
         

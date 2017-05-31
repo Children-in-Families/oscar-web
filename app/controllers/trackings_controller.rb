@@ -14,6 +14,10 @@ class TrackingsController < AdminController
     end
   end
 
+  def show
+    @tracking = @enrollment.trackings.find(params[:id])
+  end
+
   private
 
   def tracking_params

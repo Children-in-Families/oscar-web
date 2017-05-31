@@ -23,15 +23,15 @@
             %tr
               %td Quantity
               %td= @program_stream.quantity
-        #rules{ data: { program: @program_stream.rules}}
-          .panel-body
-            #program-rules
         .panel-group
           .panel.panel-default
             .panel-heading
               %h4.panel-title
                 %a{"data-toggle" => "collapse", href: "#rules"} Rules
 
+            #rules.panel-collapse.collapse{ data: { program: @program_stream.rules}}
+              .panel-body
+                #program-rules
           .panel.panel-default
             .panel-heading
               %h4.panel-title

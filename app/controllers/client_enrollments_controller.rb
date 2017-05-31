@@ -1,6 +1,7 @@
 class ClientEnrollmentsController < AdminController
   before_action :find_client
   before_action :find_program_stream, except: :index
+  before_action :find_client_enrollment, only: :show
 
   def index
     @client_enrollment_grid = ClientEnrollmentGrid.new(params[:client_enrollment_grid])
@@ -17,7 +18,6 @@ class ClientEnrollmentsController < AdminController
   end
   
   def show
-    @enrollment = @client.client_enrollments.find(params[:id])
   end
 
   def create
@@ -37,6 +37,10 @@ class ClientEnrollmentsController < AdminController
 
   def client_enrollment_params
     params.require(:client_enrollment).permit({}).merge(properties: params[:client_enrollment][:properties], program_stream_id: params[:program_stream_id])
+  end
+
+  def find_client_enrollment
+    @client_enrollment = @client.client_enrollments.find(params[:id])
   end
 
   def find_client

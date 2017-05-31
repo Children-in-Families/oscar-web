@@ -15,6 +15,10 @@ class LeaveProgramsController < AdminController
     end
   end
 
+  def show
+    @leave_program = @enrollment.leave_program
+  end
+
   private
 
   def leave_program_params

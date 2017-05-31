@@ -519,8 +519,10 @@ km:
       
       client_enrollments:
         name: ឈ្មោះកម្មវិធី
+        doamin: កត្តា
         report: របាយការណ៍
         action: សកម្មភាព
+        status: ស្ថានភាព
       
       progress_notes:
         <<: *default_progress_note_fields
@@ -847,6 +849,8 @@ km:
       delete_group: លុបបណ្ដុំនៃការស្វែងរក
 
   client_enrollments:
+    show:
+      back: ត្រលប់ក្រោយ
     report:
       programs_list: តារាងកម្មវិធី​បន្ទាប់បន្សំ
       view: មើល
@@ -866,6 +870,8 @@ km:
       cancel: ទុកជាមោឃៈ
 
   trackings:
+    show:
+      back: ត្រលប់ក្រោយ
     new:
       new_tracking: ការ​តាមដានថ្មី
     create:
@@ -875,6 +881,8 @@ km:
       cancel: ទុកជាមោឃៈ
 
   leave_programs:
+    show:
+      back: ត្រលប់ក្រោយ
     new:
       new_exit_program: ការចាកចេញពីកម្មវិធីថ្មី
     create:

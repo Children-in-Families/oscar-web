@@ -2,13 +2,13 @@
   .col-xs-12
     .ibox
       .ibox-title
-        %h5= "Enrollment Form #{ date_format @client_enrollment.created_at }"
+        %h5= "Tracking Form #{ date_format @tracking.created_at }"
         .ibox-tools
           = link_to report_client_client_enrollments_path(@client, program_stream_id: @program_stream) do
             .btn.btn-success.btn-outline
               = t('.back')
       .ibox-content
-        - @client_enrollment.properties.each do |key, value|
+        - @tracking.properties.each do |key, value|
           .row
             .col-xs-12
               %p.question

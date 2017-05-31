@@ -237,7 +237,7 @@ en:
     form:
       previous: Previous
       next: Next
-      finish: Create
+      finish: Save
 
   government_reports:
     index:
@@ -511,6 +511,7 @@ en:
     
       client_enrollments:
         status: Status
+        domain: Domain
         name: Program Name
         report: Report
         action: Action
@@ -847,6 +848,8 @@ en:
       delete_group: Delete
   
   client_enrollments:
+    show:
+      back: Back
     report:
       programs_list: Programs List
       view: View
@@ -866,6 +869,8 @@ en:
       cancel: Cancel
 
   trackings:
+    show:
+      back: Back
     new:
       new_tracking: New Tracking
     create:
@@ -875,6 +880,8 @@ en:
       cancel: Cancel
 
   leave_programs:
+    show:
+      back: Back
     new: 
       new_exit_program: New Exit Program
     create:
