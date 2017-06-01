@@ -1,7 +1,7 @@
 module AdvancedSearches
   class ClientAdvancedSearch
     def initialize(basic_rules, custom_form_rules, clients)
-      @condition          = basic_rules[:condition]
+      @condition          = basic_rules['condition']
       @clients            = clients
       @basic_rules        = basic_rules
       @custom_form        = custom_form_rules

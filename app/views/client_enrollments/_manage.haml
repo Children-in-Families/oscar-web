@@ -1,0 +1,11 @@
+- if enroll?(@client, object)
+  - if object.quantity.present? && programs_active(@client, object).size >= object.quantity
+    .label.label-info= t('.full_program')
+  - else
+    = link_to new_client_client_enrollment_path(@client, program_stream_id: object.id) do
+      .btn.btn-primary= t('.enroll') 
+- else
+  = link_to new_client_client_enrollment_tracking_path(@client, object.last_enrollment) do
+    .btn.btn-primary= t('.tracking') 
+  = link_to new_client_client_enrollment_leave_program_path(@client, object.last_enrollment) do
+    .btn.btn-danger= t('.exit')
