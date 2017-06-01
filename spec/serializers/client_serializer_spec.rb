@@ -212,11 +212,16 @@ describe ClientSerializer, type: :serializer do
 
   it 'should be have attribute emergency_case' do
     expect(serializer).to have_json_path('client/emergency_case')
-    expect(serializer).to have_json_type(Array).at_path('client/emergency_case')
+    expect(serializer).to have_json_type(Object).at_path('client/emergency_case')
   end
 
   it 'should be have attribute organization' do
     expect(serializer).to have_json_path('client/organization')
     expect(serializer).to have_json_type(Object).at_path('client/organization')
+  end
+
+  it 'should be have attribute grade' do
+    expect(serializer).to have_json_path('client/grade')
+    expect(serializer).to have_json_type(Integer).at_path('client/grade')
   end
 end
