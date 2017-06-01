@@ -1,4 +1,6 @@
 class LeaveProgramsController < AdminController
+  load_and_authorize_resource
+  
   before_action :find_client, :find_enrollment, :find_program_stream
 
   def new
@@ -26,7 +28,7 @@ class LeaveProgramsController < AdminController
   end
 
   def find_client
-    @client = Client.friendly.find params[:client_id]
+    @client = Client.accessible_by(current_ability).friendly.find params[:client_id]
   end
 
   def find_enrollment

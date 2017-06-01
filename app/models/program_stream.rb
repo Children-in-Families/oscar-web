@@ -2,12 +2,13 @@ class ProgramStream < ActiveRecord::Base
   enum frequencies: { day: 'Daily', week: 'Weekly', month: 'Monthly', year: 'Yearly' }
   FORM_BUILDER_FIELDS = ['enrollment', 'tracking', 'exit_program'].freeze
 
-  has_many   :domain_program_streams
+  has_many   :domain_program_streams, dependent: :destroy
   has_many   :domains, through: :domain_program_streams
-  has_many   :client_enrollments
+  has_many   :client_enrollments, dependent: :restrict_with_error
   has_many   :clients, through: :client_enrollments
 
   validates :name, :rules, :enrollment, :tracking, :exit_program, presence: true
+  validates  :name, uniqueness: true
   validate  :form_builder_field_uniqueness
  
   def form_builder_field_uniqueness
@@ -20,15 +21,7 @@ class ProgramStream < ActiveRecord::Base
     errors_massage
   end
 
-  def has_enrollment?
-    client_enrollments.present?
-  end
-
   def last_enrollment
     client_enrollments.last
-  end
-
-  def has_exit_program?
-    has_enrollment? && last_enrollment.leave_program.present?
   end
 end
