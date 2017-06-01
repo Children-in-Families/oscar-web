@@ -27,7 +27,7 @@ class ClientSerializer < ActiveModel::Serializer
   end
 
   def emergency_case
-     ActiveModel::ArraySerializer.new(object.cases, each_serializer: CaseSerializer)
+    CaseSerializer.new(object.cases.current).serializable_hash
   end
 
   def organization
