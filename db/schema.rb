@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170525081727) do
+ActiveRecord::Schema.define(version: 20170529025247) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -184,6 +184,26 @@ ActiveRecord::Schema.define(version: 20170525081727) do
 
   add_index "changelogs", ["user_id"], name: "index_changelogs_on_user_id", using: :btree
 
+  create_table "client_enrollments", force: :cascade do |t|
+    t.jsonb    "properties"
+    t.string   "status",            default: "Active"
+    t.integer  "client_id"
+    t.integer  "program_stream_id"
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
+  end
+
+  add_index "client_enrollments", ["client_id"], name: "index_client_enrollments_on_client_id", using: :btree
+  add_index "client_enrollments", ["program_stream_id"], name: "index_client_enrollments_on_program_stream_id", using: :btree
+
+  create_table "client_program_streams", force: :cascade do |t|
+    t.integer  "client_id"
+    t.integer  "program_stream_id"
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
+    t.string   "status",            default: "Active"
+  end
+
   create_table "client_quantitative_cases", force: :cascade do |t|
     t.integer  "quantitative_case_id"
     t.integer  "client_id"
@@ -290,6 +310,13 @@ ActiveRecord::Schema.define(version: 20170525081727) do
     t.integer  "domains_count", default: 0
   end
 
+  create_table "domain_program_streams", force: :cascade do |t|
+    t.integer  "program_stream_id"
+    t.integer  "domain_id"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+  end
+
   create_table "domains", force: :cascade do |t|
     t.string   "name",            default: ""
     t.string   "identity",        default: ""
@@ -313,6 +340,26 @@ ActiveRecord::Schema.define(version: 20170525081727) do
     t.datetime "updated_at",               null: false
     t.string   "code",        default: ""
   end
+
+  create_table "enrollments", force: :cascade do |t|
+    t.jsonb    "properties"
+    t.integer  "client_program_stream_id"
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+  end
+
+  add_index "enrollments", ["client_program_stream_id"], name: "index_enrollments_on_client_program_stream_id", using: :btree
+
+  create_table "exit_programs", force: :cascade do |t|
+    t.jsonb    "properties"
+    t.integer  "client_program_stream_id"
+    t.integer  "enrollment_id"
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+  end
+
+  add_index "exit_programs", ["client_program_stream_id"], name: "index_exit_programs_on_client_program_stream_id", using: :btree
+  add_index "exit_programs", ["enrollment_id"], name: "index_exit_programs_on_enrollment_id", using: :btree
 
   create_table "families", force: :cascade do |t|
     t.string   "code"
@@ -427,6 +474,15 @@ ActiveRecord::Schema.define(version: 20170525081727) do
   add_index "interventions_progress_notes", ["intervention_id"], name: "index_interventions_progress_notes_on_intervention_id", using: :btree
   add_index "interventions_progress_notes", ["progress_note_id"], name: "index_interventions_progress_notes_on_progress_note_id", using: :btree
 
+  create_table "leave_programs", force: :cascade do |t|
+    t.jsonb    "properties"
+    t.integer  "client_enrollment_id"
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+  end
+
+  add_index "leave_programs", ["client_enrollment_id"], name: "index_leave_programs_on_client_enrollment_id", using: :btree
+
   create_table "locations", force: :cascade do |t|
     t.string   "name",         default: ""
     t.datetime "created_at"
@@ -464,6 +520,20 @@ ActiveRecord::Schema.define(version: 20170525081727) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "cases_count",           default: 0
+  end
+
+  create_table "program_streams", force: :cascade do |t|
+    t.string   "name"
+    t.text     "description"
+    t.jsonb    "rules",             default: {}
+    t.jsonb    "enrollment",        default: {}
+    t.jsonb    "tracking",          default: {}
+    t.jsonb    "exit_program",      default: {}
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+    t.string   "frequency",         default: ""
+    t.integer  "time_of_frequency", default: 0
+    t.integer  "quantity"
   end
 
   create_table "progress_note_types", force: :cascade do |t|
@@ -807,6 +877,15 @@ ActiveRecord::Schema.define(version: 20170525081727) do
 
   add_index "thredded_user_topic_read_states", ["user_id", "postable_id"], name: "thredded_user_topic_read_states_user_postable", unique: true, using: :btree
 
+  create_table "trackings", force: :cascade do |t|
+    t.jsonb    "properties"
+    t.integer  "client_enrollment_id"
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+  end
+
+  add_index "trackings", ["client_enrollment_id"], name: "index_trackings_on_client_enrollment_id", using: :btree
+
   create_table "users", force: :cascade do |t|
     t.string   "first_name",             default: ""
     t.string   "last_name",              default: ""
@@ -841,9 +920,9 @@ ActiveRecord::Schema.define(version: 20170525081727) do
     t.integer  "organization_id"
     t.boolean  "disable",                default: false
     t.datetime "expires_at"
-    t.boolean  "calendar_integration",   default: false
     t.boolean  "task_notify",            default: true
     t.integer  "manager_id"
+    t.boolean  "calendar_integration",   default: false
     t.integer  "pin_number"
   end
 
@@ -895,11 +974,17 @@ ActiveRecord::Schema.define(version: 20170525081727) do
   add_foreign_key "case_notes", "clients"
   add_foreign_key "changelog_types", "changelogs"
   add_foreign_key "changelogs", "users"
+  add_foreign_key "client_enrollments", "clients"
+  add_foreign_key "client_enrollments", "program_streams"
   add_foreign_key "clients", "donors"
   add_foreign_key "custom_field_properties", "custom_fields"
   add_foreign_key "domains", "domain_groups"
+  add_foreign_key "enrollments", "client_program_streams"
+  add_foreign_key "exit_programs", "client_program_streams"
+  add_foreign_key "exit_programs", "enrollments"
   add_foreign_key "interventions_progress_notes", "interventions"
   add_foreign_key "interventions_progress_notes", "progress_notes"
+  add_foreign_key "leave_programs", "client_enrollments"
   add_foreign_key "progress_notes", "clients"
   add_foreign_key "progress_notes", "locations"
   add_foreign_key "progress_notes", "materials"
@@ -910,6 +995,7 @@ ActiveRecord::Schema.define(version: 20170525081727) do
   add_foreign_key "tasks", "clients"
   add_foreign_key "thredded_messageboard_users", "thredded_messageboards"
   add_foreign_key "thredded_messageboard_users", "thredded_user_details"
+  add_foreign_key "trackings", "client_enrollments"
   add_foreign_key "users", "organizations"
   add_foreign_key "visits", "users"
 end

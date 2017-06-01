@@ -39,6 +39,8 @@ class Client < ActiveRecord::Base
   has_many :quantitative_cases, through: :client_quantitative_cases
   has_many :custom_field_properties, as: :custom_formable, dependent: :destroy
   has_many :custom_fields, through: :custom_field_properties, as: :custom_formable
+  has_many :client_enrollments
+  has_many :program_streams, through: :client_enrollments
 
   accepts_nested_attributes_for :tasks
   accepts_nested_attributes_for :answers
@@ -294,6 +296,14 @@ class Client < ActiveRecord::Base
     start_date         = first_case.start_date.to_date
 
     (end_date - start_date).to_f
+  end
+
+  def has_enrollment?
+    client_enrollments.present?
+  end
+
+  def has_exit_program?
+    has_enrollment? && last_enrollment.leave_program.present?
   end
 
   def self.ec_reminder_in(day)

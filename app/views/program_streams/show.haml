@@ -1,0 +1,67 @@
+.row
+  .col-xs-12
+    .ibox
+      .ibox-title
+        %h5= @program_stream.name
+        .ibox-tools
+          = link_to edit_program_stream_path(@program_stream), class: 'btn btn-outline btn-success' do
+            = fa_icon('pencil')
+          = link_to request.referrer do
+            .btn.btn-default.btn-back-default.button
+              = t('.back')
+      .ibox-content
+        %table.table.table-bordered
+          %tbody
+            %tr
+              %td= t('.description')
+              %td= @program_stream.description
+            %tr
+              %td= t('.domain')
+              %td
+                - @program_stream.domains.pluck(:identity).each do |d|
+                  %span.label.label-margin= d
+            %tr
+              %td= t('.quantity')
+              %td= @program_stream.quantity
+          
+        .panel-group
+          .panel.panel-default
+            .panel-heading
+              %h4.panel-title
+                %a{"data-toggle": "collapse", href: "#rules"}= t('.rules')
+            #rules.panel-collapse.collapse{ data: { program: @program_stream.rules}}
+              .panel-bodyEnrollment
+                #program-rules
+          
+          .panel.panel-default
+            .panel-heading
+              %h4.panel-title
+                %a{"data-toggle": "collapse", href: "#enrollment"}= t('.enrollment')
+            #enrollment.panel-collapse.collapse
+              .panel-body
+                - @program_stream.enrollment.each do |enrollment|
+                  .row
+                    .col-xs-12
+                      = render "program_streams/fields/#{enrollment['type'].underscore}", field_props: enrollment
+              
+          .panel.panel-default
+            .panel-heading
+              %h4.panel-title
+                %a{"data-toggle": "collapse", href: "#tracking"}= t('.tracking')
+            #tracking.panel-collapse.collapse
+              .panel-body
+                - @program_stream.tracking.each do |tracking|
+                  .row
+                    .col-xs-12
+                      = render "program_streams/fields/#{tracking['type'].underscore}", field_props: tracking
+               
+          .panel.panel-default
+            .panel-heading
+              %h4.panel-title
+                %a{"data-toggle": "collapse", href: "#exit-program"}= t('.exit_program')
+            #exit-program.panel-collapse.collapse
+              .panel-body
+                - @program_stream.exit_program.each do |exit_program|
+                  .row
+                    .col-xs-12
+                      = render "program_streams/fields/#{exit_program['type'].underscore}", field_props: exit_program

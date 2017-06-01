@@ -1,0 +1,11 @@
+= simple_form_for ([@client, @enrollment, @leave_program]) do |f|
+  .ibox-content
+    = f.simple_fields_for :properties do |prop_f|
+      - @program_stream.exit_program.each_slice(2) do |n_field|
+        .row
+          - n_field.each do |exit_program|
+            .col-xs-12.col-md-6
+              = render "/shared/fields/#{exit_program['type'].underscore}", f: prop_f, field_props: exit_program, errors: @leave_program.errors.messages
+  .ibox-footer
+    = f.submit t('.save'), class: 'btn btn-primary form-btn'
+    = link_to t('.cancel'), client_client_enrollments_path(@client), class: 'btn btn-default form-btn'
