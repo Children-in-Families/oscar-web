@@ -47,7 +47,7 @@ class User < ActiveRecord::Base
   scope :non_strategic_overviewers, -> { where.not(roles: 'strategic overviewer') }
 
   before_save :assign_as_admin
-  after_save :set_manager_id, if: 'roles_changed?'
+  after_save :reset_manager, if: 'roles_changed?'
 
   ROLES.each do |role|
     define_method("#{role.parameterize.underscore}?") do
@@ -149,8 +149,8 @@ class User < ActiveRecord::Base
     end
   end
 
-  def set_manager_id
-    if roles_change.first == 'manager'
+  def reset_manager
+    if roles_change.last == 'case worker' || roles_change.last == 'strategic overviewer'
       User.where(manager_id: self).map{|u| u.update(manager_id: nil)}
     end
   end
