@@ -6,8 +6,8 @@ class TrackingsController < AdminController
   end
 
   def create
-    tracking = @enrollment.trackings.new(tracking_params)
-    if tracking.save
+    @tracking = @enrollment.trackings.new(tracking_params)
+    if @tracking.save
       redirect_to client_client_enrollments_path(@client), notice: t('.successfully_created')
     else
       render :new
@@ -21,7 +21,7 @@ class TrackingsController < AdminController
   private
 
   def tracking_params
-    params.require(:tracking).permit({}).merge(properties: params[:tracking][:properties])
+    params.require(:tracking).permit({}).merge(properties: params[:tracking][:properties], program_stream_id: @program_stream.id)
   end
 
   def find_client

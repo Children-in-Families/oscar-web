@@ -175,7 +175,9 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
 
       onStepChanging: (event, currentIndex, newIndex) ->
         if currentIndex == 0 and newIndex == 1 and $('#program-rule').is(':visible')
-          return false if $.isEmptyObject($('#program-rule').queryBuilder('getRules'))
+          form.valid()
+          name = $('#program_stream_name').val() == ''
+          return false if $.isEmptyObject($('#program-rule').queryBuilder('getRules')) || name
 
         else if currentIndex == 1 and newIndex == 2 and $('#enrollment').is(':visible')
           elements = $('#enrollment').find('.frmb li')
@@ -185,14 +187,8 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
           elements = $('#tracking').find('.frmb li')
           return false if $(elements).length == 0
 
-        else if currentIndex == 3 and $('#exit-program').is(':visible')
-          elements = $('#exit-program').find('.frmb li')
-          return false if $(elements).length == 0
-
         $('section ul.frmb.ui-sortable').css('min-height', '266px')
-        $(form).validate().settings.ignore = ':disabled,:hidden'
-        $(form).valid()
-
+        
       onStepChanged: (event, currentIndex, newIndex) ->
         if $('#enrollment').is(':visible')
           enrollment = $('#enrollment')
@@ -208,8 +204,10 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
           _initProgramBuilder(exitProgram, (exitProgramValue || [])) unless _preventDuplicateFormBuilder(exitProgram)  
 
       onFinishing: (event, currentIndex) ->
-        form.validate().settings.ignore = ':disabled'
-        form.valid()
+        if currentIndex == 3 and $('#exit-program').is(':visible')
+          elements = $('#exit-program').find('.frmb li')
+          return false if $(elements).length == 0
+        return true
 
       onFinished: (event, currentIndex) ->
         $('.actions a:contains("Finish")').removeAttr('href')

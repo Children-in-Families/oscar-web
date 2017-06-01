@@ -6,6 +6,8 @@ class ProgramStream < ActiveRecord::Base
   has_many   :domains, through: :domain_program_streams
   has_many   :client_enrollments
   has_many   :clients, through: :client_enrollments
+  has_many   :trakings
+  has_many   :leave_programs
 
   validates :name, :rules, :enrollment, :tracking, :exit_program, presence: true
   validate  :form_builder_field_uniqueness
