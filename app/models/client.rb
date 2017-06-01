@@ -298,13 +298,6 @@ class Client < ActiveRecord::Base
     (end_date - start_date).to_f
   end
 
-  def has_enrollment?
-    client_enrollments.present?
-  end
-
-  def has_exit_program?
-    has_enrollment? && last_enrollment.leave_program.present?
-  end
 
   def self.ec_reminder_in(day)
     Organization.all.each do |org|

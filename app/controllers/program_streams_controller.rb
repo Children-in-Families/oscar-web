@@ -1,6 +1,6 @@
 class ProgramStreamsController < AdminController
   # load_and_authorize_resource
-  before_action :find_program_stream, except: [:index, :new]
+  before_action :find_program_stream, except: [:index, :new, :create]
 
   def index
     @program_stream_grid = ProgramStreamGrid.new(params[:program_stream_grid])
