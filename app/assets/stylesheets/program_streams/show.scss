@@ -1,0 +1,13 @@
+body[id='program_streams-show'] {
+  .radio-group, .check-box-group {
+    margin-top: 10px;
+    li {
+      list-style-type: none;
+      margin-top:  5px;
+    }
+  }
+  input, ins {
+    cursor: not-allowed;
+  }
+
+}
