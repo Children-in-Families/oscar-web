@@ -7,8 +7,8 @@ class ClientSerializer < ActiveModel::Serializer
               :referral_phone, :who_live_with, :poverty_certificate, :rice_support, :received_by,
               :followed_up_by, :follow_up_date, :school_name, :school_grade, :has_been_in_orphanage,
               :able_state, :has_been_in_government_care, :relevant_referral_information,
-              :case_worker, :agencies, :state, :rejected_note, :emergency_case, :organization,
-              :additional_form, :tasks, :assessments, :case_notes
+              :case_worker, :agencies, :state, :rejected_note, :emergency_care, :foster_care, :kinship_care,
+              :organization, :additional_form, :tasks, :assessments, :case_notes
 
   def case_worker
     object.user
@@ -26,8 +26,8 @@ class ClientSerializer < ActiveModel::Serializer
     object.live_with
   end
 
-  def emergency_case
-    CaseSerializer.new(object.cases.current).serializable_hash
+  def emergency_care
+    CaseSerializer.new(object.cases.active.latest_emergency).serializable_hash
   end
 
   def organization
@@ -44,5 +44,13 @@ class ClientSerializer < ActiveModel::Serializer
 
   def case_notes
     object.case_notes.most_recents
+  end
+
+  def foster_care
+    CaseSerializer.new(object.cases.active.latest_foster).serializable_hash
+  end
+
+  def kinship_care
+    CaseSerializer.new(object.cases.active.latest_kinship).serializable_hash
   end
 end

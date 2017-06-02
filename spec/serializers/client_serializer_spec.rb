@@ -210,9 +210,9 @@ describe ClientSerializer, type: :serializer do
     expect(serializer).to have_json_type(NilClass).at_path('client/rejected_note')
   end
 
-  it 'should be have attribute emergency_case' do
-    expect(serializer).to have_json_path('client/emergency_case')
-    expect(serializer).to have_json_type(Object).at_path('client/emergency_case')
+  it 'should be have attribute emergency_care' do
+    expect(serializer).to have_json_path('client/emergency_care')
+    expect(serializer).to have_json_type(Object).at_path('client/emergency_care')
   end
 
   it 'should be have attribute organization' do
@@ -223,5 +223,15 @@ describe ClientSerializer, type: :serializer do
   it 'should be have attribute grade' do
     expect(serializer).to have_json_path('client/grade')
     expect(serializer).to have_json_type(Integer).at_path('client/grade')
+  end
+
+  it 'should be have attribute kinship_care' do
+    expect(serializer).to have_json_path('client/kinship_care')
+    expect(serializer).to have_json_type(Object).at_path('client/kinship_care')
+  end
+
+  it 'should be have attribute foster_care' do
+    expect(serializer).to have_json_path('client/foster_care')
+    expect(serializer).to have_json_type(Object).at_path('client/foster_care')
   end
 end
