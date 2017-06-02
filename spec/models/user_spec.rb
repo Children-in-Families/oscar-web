@@ -30,7 +30,31 @@ describe User, 'callbacks' do
       expect(user.admin).to be_truthy
     end
   end
+
+  context 'reset_manager' do
+    let!(:manager){ create(:user, :manager) }
+    let!(:case_worker){ create(:user, :case_worker, manager_id: manager.id) }
+
+    it 'should reset manager if manager is changed to strategic overviewer' do
+      manager.update(roles: 'strategic overviewer')
+      case_worker.reload
+      expect(case_worker.manager_id).to be_nil
+    end
+
+    it 'should reset manager if manager is changed to case worker' do
+      manager.update(roles: 'case worker')
+      case_worker.reload
+      expect(case_worker.manager_id).to be_nil
+    end
+
+    it 'should not reset manager if manager is changed to other manager or admin' do
+      manager.update(roles: 'admin')
+      case_worker.reload
+      expect(case_worker.manager_id).to eq(manager.id)
+    end
+  end
 end
+
 
 describe User, 'scopes' do
   let(:department) { create(:department) }
