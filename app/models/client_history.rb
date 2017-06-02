@@ -10,16 +10,19 @@ class ClientHistory
   embeds_many :agency_client_histories
   embeds_many :client_family_histories
   embeds_many :case_client_histories
+  embeds_many :client_custom_field_property_histories
 
   after_save :create_agency_client_history, if: 'object.key?("agency_ids")'
   after_save :create_case_client_history,   if: 'object.key?("case_ids")'
   after_save :create_client_family_history, if: 'object.key?("family_ids")'
+  after_save :create_client_custom_field_property_history, if: 'object.key?("custom_field_property_ids")'
 
   def self.initial(client)
     attributes = client.attributes
     attributes = attributes.merge('agency_ids' => client.agency_ids) if client.agency_ids.any?
     attributes = attributes.merge('case_ids' => client.case_ids) if client.case_ids.any?
     attributes = attributes.merge('family_ids' => client.family_ids) if client.family_ids.any?
+    attributes = attributes.merge('custom_field_property_ids' => client.custom_field_properties.ids) if client.custom_field_properties.any?
     create(object: attributes)
   end
 
@@ -36,6 +39,13 @@ class ClientHistory
     object['case_ids'].each do |case_id|
       c_case = Case.find_by(id: case_id).try(:attributes)
       case_client_histories.create(object: c_case)
+    end
+  end
+
+  def create_client_custom_field_property_history
+    object['custom_field_property_ids'].each do |ccfp_id|
+      custom_field_property = CustomFieldProperty.find_by(id: ccfp_id).try(:attributes)
+      client_custom_field_property_histories.create(object: custom_field_property)
     end
   end
 

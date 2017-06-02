@@ -14,11 +14,7 @@
 # Ignore all logfiles and tempfiles.
 /log/*
 !/log/.keep
-/tmp/cache/
-/tmp/letter_opener/
-/tmp/pids/
-/tmp/sessions/
-/tmp/sockets/
+tmp
 /public
 .env
 .env.test
