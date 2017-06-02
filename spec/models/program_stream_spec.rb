@@ -34,8 +34,13 @@ describe ProgramStream, 'methods' do
   let!(:program_stream) { create(:program_stream) }
   let!(:client_enrollment) { create(:client_enrollment, client: client, program_stream: program_stream)}
   let!(:second_client_enrollment) { create(:client_enrollment, client: second_client, program_stream: program_stream)}
-
-  it 'return last record of program stream' do
-    expect(program_stream.last_enrollment).to eq second_client_enrollment
+  
+  context 'last_enrollment' do
+    it 'should return last record of program stream' do
+      expect(program_stream.last_enrollment).to eq second_client_enrollment
+    end
+    it 'should not return record that not last' do
+      expect(program_stream.last_enrollment).not_to eq client_enrollment
+    end
   end
 end

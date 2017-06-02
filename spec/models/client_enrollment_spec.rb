@@ -5,43 +5,67 @@ describe ClientEnrollment, 'associations' do
   it { is_expected.to have_one(:leave_program) }
 end
 
+describe ClientEnrollment, 'validations' do
+  let!(:client) { create(:client) }
+  let!(:program_stream) { create(:program_stream)}
+
+  context 'custom form email validator' do
+    it 'return is not an email' do
+      properties = {"e-mail"=>"cifcambodianfamily", "age"=>"3", "description"=>"this is testing"}
+      client_enrollment = ClientEnrollment.new(program_stream: program_stream, client: client, properties: properties)
+      client_enrollment.save
+      expect(client_enrollment.errors.full_messages).to include("E-mail is not an email")
+    end
+  end
+
+  context 'custom form present validator' do
+    it 'return cant be blank' do
+      properties = {"e-mail"=>"cif@cambodianfamily.com", "age"=>"3", "description"=>""}
+      client_enrollment = ClientEnrollment.new(program_stream: program_stream, client: client, properties: properties)
+      client_enrollment.save
+      expect(client_enrollment.errors.full_messages).to include("Description can't be blank")
+    end 
+  end
+
+  context 'custom form number validator' do
+    it 'return cant be greater' do
+      properties = {"e-mail"=>"cif@cambodianfamily.com", "age"=>"6", "description"=>"this is testing"}
+      client_enrollment = ClientEnrollment.new(program_stream: program_stream, client: client, properties: properties)
+      client_enrollment.save
+      expect(client_enrollment.errors.full_messages).to include("Age can't be greater than 5")
+    end 
+
+    it 'return cant be lower' do
+      properties = {"e-mail"=>"cif@cambodianfamily.com", "age"=>"0", "description"=>"this is testing"}
+      client_enrollment = ClientEnrollment.new(program_stream: program_stream, client: client, properties: properties)
+      client_enrollment.save
+      expect(client_enrollment.errors.full_messages).to include("Age can't be lower than 1")
+    end 
+  end
+end
+
 describe ClientEnrollment, 'scopes' do
   let!(:client) { create(:client) }
   let!(:program_stream) { create(:program_stream) }
   let!(:client_enrollment) { create(:client_enrollment, program_stream: program_stream, client: client)}
-
-  properties = {"Select"=>"Option 3", "Text Area"=>"daf", "Text Field"=>"asdf", "Radio Group"=>"Option 2", "Checkbox Group"=>["Option 1", ""]}.to_json
-  let!(:exited_status_client_enrollment) { create(:client_enrollment, program_stream: program_stream, client: client, status: 'Exited', properties: properties) }
   
-
   context 'enrollments_by' do
-    let!(:enrollments_by){ ClientEnrollment.enrollments_by(client, program_stream) }
-    it 'find client enrollments' do
-      expect(enrollments_by).to include(client_enrollment)
+    subject{ ClientEnrollment.enrollments_by(client, program_stream) }
+    it 'return client enrollments with client and program_stream' do
+      is_expected.to include(client_enrollment)
     end
   end
 
   context 'active' do
-    let!(:active_status){ ClientEnrollment.active }
+    let!(:exited_client_enrollment) { create(:client_enrollment, program_stream: program_stream, client: client, status: 'Exited') }
+
+    subject{ ClientEnrollment.active }
     it 'should return client enrollment with active status' do
-      expect(active_status).to include(client_enrollment)
+      is_expected.to include(client_enrollment)
     end
 
     it 'should return client enrollment with exited status' do
-      expect(active_status).not_to include(exited_status_client_enrollment) 
+      is_expected.not_to include(exited_client_enrollment) 
     end
-  end
-end
-
-describe ClientEnrollment, 'validation of presence, email and numberical fields' do
-  let!(:client) { create(:client) }
-  let!(:program_stream) { create(:program_stream) }
-  properties = {"Select"=>"Option 3", "Text Area"=>"daf", "Text Field"=>"asdf", "Radio Group"=>"Option 2", "Checkbox Group"=>["Option 1", ""]}.to_json
-  client_enrollment = ClientEnrollment.new(client_id: client, program_stream_id: program_stream, properties: properties)
-  # let!(:client_enrollment) { create(:client_enrollment, program_stream: program_stream, client: client)}
-
-
-  it 'it return cant be blank' do
-    
   end
 end
