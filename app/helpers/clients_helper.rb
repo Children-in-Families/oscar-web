@@ -149,4 +149,16 @@ module ClientsHelper
       end
     end
   end
+
+  def client_current_address(client)
+    current_address = []
+    current_address << "##{client.house_number}" if client.house_number.present?
+    current_address << "Street #{client.street_number}" if client.street_number.present?
+    current_address << "Village #{client.village}" if client.house_number.present?
+    current_address << "Sangkat #{client.district}" if client.house_number.present?
+    current_address << "Khan #{client.commune}" if client.house_number.present?
+    current_address << client.province.name.split(' / ').second
+    current_address << "Cambodia"
+    current_address.compact.join(', ')
+  end
 end
