@@ -34,10 +34,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
   _handleSelectOptionChange = ->
     $('select').on 'select2-selecting', (e) ->
       setTimeout (->
-        $('.rule-operator-container select').select2(
-          width: '180px'
-        )
-        $('.rule-value-container select').select2(
+        $('.rule-operator-container select, .rule-value-container select').select2(
           width: '180px'
         )
       ),100
@@ -188,7 +185,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
           return false if $(elements).length == 0
 
         $('section ul.frmb.ui-sortable').css('min-height', '266px')
-        
+
       onStepChanged: (event, currentIndex, newIndex) ->
         if $('#enrollment').is(':visible')
           enrollment = $('#enrollment')
