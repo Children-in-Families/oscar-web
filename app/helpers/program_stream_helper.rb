@@ -16,7 +16,7 @@ module ProgramStreamHelper
     (enrollments.present? && enrollments.last.status == 'Exited') || enrollments.empty?
   end
 
-  def programs_active(client, program_stream)
+  def active_programs(client, program_stream)
     program_stream.client_enrollments.active
   end
 

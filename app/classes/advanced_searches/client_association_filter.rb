@@ -159,13 +159,13 @@ module AdvancedSearches
       when 'not_equal'
         clients = @clients.where.not(date_of_birth: values[0]..values[1])
       when 'less'
-        clients = @clients.where('date_of_birth > ?', values[0])
+        clients = @clients.where('date_of_birth > ?', values[1])
       when 'less_or_equal'
-        clients = @clients.where('date_of_birth >= ?', values[0])
+        clients = @clients.where('date_of_birth >= ?', values[1])
       when 'greater'
-        clients = @clients.where('date_of_birth < ?', values[0])
+        clients = @clients.where('date_of_birth < ?', values[1])
       when 'greater_or_equal'
-        clients = @clients.where('date_of_birth <= ?', values[0])
+        clients = @clients.where('date_of_birth <= ?', values[1])
       when 'between'
         clients = @clients.where(date_of_birth: values[0]..values[1])
       when 'is_empty'
@@ -176,10 +176,10 @@ module AdvancedSearches
 
     def convert_age_to_date(value)
       if value.is_a?(Array)
-        [value[1].to_i.year.ago.to_date.beginning_of_month, value[0].to_i.year.ago.to_date.end_of_month]
+        [value[1].to_i.year.ago.to_date.beginning_of_month, value[0].to_i.year.ago.to_date]
       else
         date = value.to_i.year.ago.to_date
-        [date.beginning_of_month, date.end_of_month]
+        [date.beginning_of_month, date]
       end
     end
 

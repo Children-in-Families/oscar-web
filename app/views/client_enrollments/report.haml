@@ -11,7 +11,7 @@
         - @enrollments.each do |enrollment|
           .ibox.border-left-right.border-bottom
             .ibox-title
-              %h5= "Enrollment on #{ date_format enrollment.created_at }"
+              %h5= "#{t('.enrollment')} #{ date_format enrollment.created_at }"
               .ibox-tools
                 = link_to client_client_enrollment_path(@client, enrollment, program_stream_id: @program_stream) do
                   .btn.btn-info
@@ -21,19 +21,19 @@
                 %table.table.table-bordered.table-striped.table-hover
                   %thead
                     %tr
-                      %th Date
-                      %th Forms
-                      %th Actions
+                      %th= t('.date')
+                      %th= t('.forms')
+                      %th= t('.actions')
                   %thbody
                     - enrollment.trackings.each do |tracking|
                       %tr
-                        %td= "#{ date_format(tracking.created_at) if tracking.present? }"
-                        %td Tracking
+                        %td= date_format(tracking.created_at) if tracking.present?
+                        %td= t('.tracking')
                         %td= link_to t('.view'), client_client_enrollment_tracking_path(@client, enrollment, tracking)
                     - if enrollment.leave_program.present?
                       %tr
-                        %td= "#{ date_format(enrollment.leave_program.created_at) }"
-                        %td Exit
+                        %td= date_format(enrollment.leave_program.created_at)
+                        %td= t('.exit')
                         %td= link_to t('.view'), client_client_enrollment_leave_program_path(@client, enrollment, enrollment.leave_program)
 
 

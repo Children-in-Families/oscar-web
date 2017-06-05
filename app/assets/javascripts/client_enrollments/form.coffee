@@ -22,5 +22,4 @@ CIF.Client_enrollmentsNew = CIF.Client_enrollmentsCreate = do ->
         e.preventDefault()
         $('#message').text("Please select a checkbox")
 
-
   { init: _init }

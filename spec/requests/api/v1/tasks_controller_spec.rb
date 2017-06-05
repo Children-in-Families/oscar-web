@@ -4,6 +4,7 @@ RSpec.describe Api::V1::TasksController, type: :request do
   let(:user) { create(:user) }
   let!(:client) { create(:client, user: user) }
   let!(:domains) { create_list(:domain, 12) }
+  let!(:task) { create(:task, client: client) }
 
   describe 'POST #create' do
     context 'when user not loged in' do
@@ -44,6 +45,63 @@ RSpec.describe Api::V1::TasksController, type: :request do
 
         it 'should be return validation message' do
           expect(json['domain']).to eq ['can\'t be blank']
+        end
+      end
+    end
+  end
+
+  describe 'PUT #update' do
+    context 'when user not loged in' do
+      before do
+        put "/api/v1/clients/#{client.id}/tasks/#{task.id}"
+      end
+
+      it 'should be return status 401' do
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when user loged in' do
+      before do
+        sign_in(user)
+      end
+
+      context 'when try to update task' do
+        before do
+          task_params = { format: 'json', task: { completion_date: 1.month.from_now} }
+          put "/api/v1/clients/#{client.id}/tasks/#{task.id}", task_params, @auth_headers
+        end
+
+        it 'should be return status 200' do
+          expect(response).to have_http_status(:success)
+        end
+      end
+    end
+  end
+
+  describe 'DELETE #destroy' do
+    context 'when user not loged in' do
+      before do
+        delete "/api/v1/clients/#{client.id}/tasks/#{task.id}"
+      end
+
+      it 'should be return status 401' do
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when user loged in' do
+      before do
+        sign_in(user)
+      end
+
+      context 'when try to delete task' do
+        before do
+          delete "/api/v1/clients/#{client.id}/tasks/#{task.id}", @auth_headers
+        end
+
+        it 'should be return status 204' do
+          expect(response).to have_http_status(:no_content)
         end
       end
     end
