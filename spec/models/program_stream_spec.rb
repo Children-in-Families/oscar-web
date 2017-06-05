@@ -1,7 +1,7 @@
 describe ProgramStream, 'associations' do
-  it { is_expected.to have_many(:domain_program_streams) }
+  it { is_expected.to have_many(:domain_program_streams).dependent(:destroy) }
   it { is_expected.to have_many(:domains).through(:domain_program_streams) }
-  it { is_expected.to have_many(:client_enrollments) }
+  it { is_expected.to have_many(:client_enrollments).dependent(:restrict_with_error) }
   it { is_expected.to have_many(:clients).through(:client_enrollments) }
   it { is_expected.to have_many(:trackings) }
   it { is_expected.to have_many(:leave_programs) }
@@ -9,6 +9,7 @@ end
 
 describe ProgramStream, 'validations' do
   it { is_expected.to validate_presence_of(:name) }
+  it { is_expected.to validate_uniqueness_of(:name) }
   it { is_expected.to validate_presence_of(:rules) }
   it { is_expected.to validate_presence_of(:enrollment) }
   it { is_expected.to validate_presence_of(:tracking) }
