@@ -8,9 +8,9 @@ class LeaveProgramsController < AdminController
   end
 
   def create
-    leave_program = @enrollment.create_leave_program(leave_program_params)
-    if leave_program.save
-      leave_program.client_enrollment.update_attributes(status: 'Exited')
+    @leave_program = @enrollment.create_leave_program(leave_program_params)
+    if @leave_program.save
+      @leave_program.client_enrollment.update_columns(status: 'Exited')
       redirect_to client_client_enrollments_path(@client), notice: t('.successfully_created')
     else
       render :new
@@ -24,7 +24,7 @@ class LeaveProgramsController < AdminController
   private
 
   def leave_program_params
-    params.require(:leave_program).permit({}).merge(properties: params[:leave_program][:properties])
+    params.require(:leave_program).permit({}).merge(properties: params[:leave_program][:properties], program_stream_id: params[:program_stream_id])
   end
 
   def find_client

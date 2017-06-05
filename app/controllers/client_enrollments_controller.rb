@@ -23,11 +23,11 @@ class ClientEnrollmentsController < AdminController
   end
 
   def create
-    client_enrollment = @client.client_enrollments.new(client_enrollment_params)
-    if client_enrollment.save
+    @client_enrollment = @client.client_enrollments.new(client_enrollment_params)
+    if @client_enrollment.save
       redirect_to client_client_enrollments_path(@client), notice: t('.successfully_created')
     else
-      redirect_to :new
+      render :new
     end
   end
 
