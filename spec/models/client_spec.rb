@@ -25,18 +25,49 @@ describe Client, 'associations' do
   it { is_expected.to have_many(:custom_fields).through(:custom_field_properties) }
 end
 
-# describe Client, 'paper trail' do
-#   let!(:agency){ create(:agency) }
-#   let!(:client){ create(:client, agency_ids: agency.id) }
-#   context 'create a version of joined table of habtm association' do
-#     it { expect{PaperTrail::Version.count}.to change{PaperTrail::Version.count}.from(2).to(3) }
-#   end
-# end
+describe Client, 'paper trail' do
+  let!(:agency){ create(:agency) }
+  let!(:client){ create(:client, agency_ids: agency.id) }
+  context 'create a version of joined table of habtm association' do
+    it { expect(PaperTrail::Version.count).to eq(3) }
+  end
+end
 
 describe Client, 'callbacks' do
-  let!(:client){ create(:client) }
+  before do
+    ClientHistory.destroy_all
+  end
   context 'set slug as alias' do
+    let!(:client){ create(:client) }
     it { expect(client.slug).to eq("#{Organization.current.short_name}-#{client.id}") }
+  end
+
+  context 'create_client_history' do
+    it 'should have two client histories' do
+      client = FactoryGirl.create(:client)
+      # 2 client_histories because client has an after_save callback to update slug column
+      expect(ClientHistory.where('object.id' => client.id).count).to eq(2)
+      expect(ClientHistory.where('object.id' => client.id).pluck(:id)).to eq(ClientHistory.all.pluck(:id))
+    end
+
+    it 'should have 2 client histories and 2 agency client histories each' do
+      agencies      = FactoryGirl.create_list(:agency, 2)
+      agency_client = FactoryGirl.create(:client, agency_ids: agencies.map(&:id))
+      expect(ClientHistory.where('object.id' => agency_client.id).count).to eq(2)
+      expect(ClientHistory.where('object.id' => agency_client.id).first.object['agency_ids']).to eq(agencies.map(&:id))
+      expect(ClientHistory.where('object.id' => agency_client.id).last.object['agency_ids']).to eq(agencies.map(&:id))
+      expect(ClientHistory.where('object.id' => agency_client.id).first.agency_client_histories.count).to eq(2)
+      expect(ClientHistory.where('object.id' => agency_client.id).last.agency_client_histories.count).to eq(2)
+    end
+
+    it 'should have maybe 4 client histories, one case client history, and one client family history' do
+      client  = FactoryGirl.create(:client)
+      family  = FactoryGirl.create(:family)
+      ec_case = FactoryGirl.create(:case, client: client, family: family)
+      binding.pry
+      expect(ClientHistory.where('object.case_ids' => ec_case.id).count).to eq(1)
+      expect(ClientHistory.where('object.family_ids' => family.id).count).to eq(1)
+    end
   end
 end
 
@@ -253,7 +284,7 @@ describe Client, 'scopes' do
     end
   end
 
-  context '.active' do
+  context 'active' do
     it 'have all active clients' do
       expect(Client.all_active_types.count).to eq(2)
     end

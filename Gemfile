@@ -69,6 +69,7 @@ group :development, :test do
   gem 'poltergeist',          '~> 1.9.0'
   gem 'shoulda-whenever',     '~> 0.0.2'
   gem 'bullet', '~> 5.4', '>= 5.4.3'
+  gem 'mongoid-rspec',        '~> 3.0'
 end
 
 group :staging, :demo, :production do
