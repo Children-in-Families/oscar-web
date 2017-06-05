@@ -94,7 +94,8 @@ feature 'program_stream' do
 
   feature 'create', js: true do
     before do
-      visit new_program_stream_path
+      visit program_streams_path
+      page.click_link 'Add New Program'
     end
 
     scenario 'valid' do
@@ -118,6 +119,48 @@ feature 'program_stream' do
       page.click_link 'Next'
       element = page.find('dl.rules-group-container')
       expect(element).to have_css '.has-error'
+    end
+  end
+
+  feature 'edit', js: true  do
+    before do 
+      visit program_streams_path
+    end
+
+    scenario 'expect to have edit link' do
+      expect(page).to have_link(nil, href: edit_program_stream_path(program_stream))
+    end
+
+    scenario 'valid' do
+      page.click_link(nil, href: edit_program_stream_path(program_stream))
+      fill_in 'Name', with: FFaker::Name.name
+      page.click_link 'Next'
+      sleep 1
+      page.click_link 'Next'
+      sleep 1
+      page.click_link 'Next'
+      sleep 1
+      page.click_link 'Save'
+      expect(page).to have_content('Program Stream has been successfully updated.')
+    end
+
+    scenario 'invalid' do
+      page.click_link(nil, href: edit_program_stream_path(program_stream))
+      fill_in 'Name', with: ''
+      page.click_link 'Next'
+      expect(page).to have_css '.error'
+    end
+  end
+
+  feature 'Delete', js: true do
+    before do 
+      visit program_streams_path
+    end
+
+    scenario 'delete successfully' do
+      find("a[href='#{program_stream_path(program_stream)}'][data-method='delete']").click
+      wait_for_ajax
+      expect(page).to have_content('Program Stream has been successfully deleted')
     end
   end
 end
