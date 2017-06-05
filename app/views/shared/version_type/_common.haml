@@ -45,10 +45,12 @@
                     = version_attribute(k, version.item_type)
                   %td.col-sm-4.truncate
                     - if k == 'properties'
-                      - next if v[0] == '{}' || v[0] == {}
-                      - if v[0].present? && (v[0] != '{}' || v[0] != {})
+                      - values = v[0]
+                      - values = eval(v[0]) if v[0].class == String
+                      - next if values == {}
+                      - if values.present?
                         %ul
-                          - v[0].each do |key, value|
+                          - values.each do |key, value|
                             %li
                               ="#{key}:"
                               = display_custom_properties(value)
@@ -70,10 +72,12 @@
                       = version_value_format(v[0], k, v)
                   %td.col-sm-4.truncate
                     - if k == 'properties'
-                      - next if v[1] == '{}' || v[1] == {}
-                      - if v[1].present?
+                      - values = v[1]
+                      - values = eval(v[1]) if v[1].class == String
+                      - next if values == {}
+                      - if values.present?
                         %ul
-                          - v[1].each do |key, value|
+                          - values.each do |key, value|
                             %li
                               ="#{key}:"
                               = display_custom_properties(value)
