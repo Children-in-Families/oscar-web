@@ -10,7 +10,7 @@ class ProgramStream < ActiveRecord::Base
   has_many   :leave_programs
 
   validates :name, :rules, :enrollment, :tracking, :exit_program, presence: true
-  validates  :name, uniqueness: true
+  validates :name, uniqueness: true
   validate  :form_builder_field_uniqueness
  
   def form_builder_field_uniqueness
