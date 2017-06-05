@@ -856,8 +856,16 @@ en:
   
   client_enrollments:
     show:
+      enrollment: Enrollment Form
       back: Back
     report:
+      enrollment: Enrollment on
+      reports: Reports
+      tracking: Tracking
+      exit: Exit
+      date: Date
+      forms: Forms
+      actions: Actions
       programs_list: Programs List
       view: View
     manage:
@@ -866,11 +874,12 @@ en:
       exit: Exit
       full_program: This Program is full
     new:
+      new_enrollment: New Enrollment
       client_not_valid: Client doesn't match with this program rules.  
     index:
       program_lists: Programs List  
     create:
-      successfully_created: Enrollment has been created successfully.
+      successfully_created: Enrollment has been successfully created.
     form:
       save: Save
       cancel: Cancel
@@ -881,7 +890,7 @@ en:
     new:
       new_tracking: New Tracking
     create:
-      successfully_created: Tracking has been created successfully.
+      successfully_created: Tracking has been successfully created.
     form:
       save: Save
       cancel: Cancel

@@ -240,15 +240,15 @@ km:
     enrollment:
       enrollment_form: ទម្រង់បែបបទចុះឈ្មោះ
     tracking:
-      tracking_form: ទម្រង់បែបបទតាមដានការរីកចំរើន
+      tracking_form: ទម្រង់បែបបទតាមដាន
       frequency: ភាពញឹកញាប់
       time_of_frequency: ពេលវេលានៃភាពញឹកញាប់
     exit_field:
       exit_form: ទម្រង់បែបបទចាកចេញ
     form:
-      previous: 'ទំព័រមុន'
-      next: 'ទំព័របន្ទាប់'
-      finish: 'រក្សាទុក'
+      previous: ទំព័រមុន
+      next: ទំព័របន្ទាប់
+      finish: រក្សាទុក
 
   government_reports:
     index:
@@ -857,8 +857,16 @@ km:
 
   client_enrollments:
     show:
+      enrollment: ទម្រង់បែបបទ​នៃ​ចុះឈ្មោះ
       back: ត្រលប់ក្រោយ
     report:
+      reports: របាយការណ៏
+      tracking: ការតាមដាន
+      exit: ចាកចេញ
+      date: កាលបរិច្ឆេទ
+      forms: ទម្រង់បែបបទ
+      actions: សកម្មភាព
+      enrollment: ចុះឈ្មោះ
       programs_list: តារាងកម្មវិធី​បន្ទាប់បន្សំ
       view: មើល
     manage:
@@ -867,6 +875,7 @@ km:
       tracking: តាមដាន
       full_program: កម្មវិធីនេះពេញ
     new:
+      new_enrollment: ការចុះឈ្មោះថ្មី
       client_not_valid: អតិថិជនមិនអាចចូលរូមកម្មវិធីនេះ
     index:
       program_lists: តារាងកម្មវិធី​បន្ទាប់បន្សំ

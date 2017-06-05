@@ -1,4 +1,6 @@
 class ClientEnrollmentsController < AdminController
+  load_and_authorize_resource
+
   before_action :find_client
   before_action :find_program_stream, except: :index
   before_action :find_client_enrollment, only: :show
@@ -44,7 +46,7 @@ class ClientEnrollmentsController < AdminController
   end
 
   def find_client
-    @client = Client.friendly.find(params[:client_id])
+    @client = Client.accessible_by(current_ability).friendly.find(params[:client_id])
   end
 
   def find_program_stream
