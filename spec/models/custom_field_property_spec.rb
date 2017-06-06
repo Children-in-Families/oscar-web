@@ -66,6 +66,7 @@ describe CustomFieldProperty, 'callbacks' do
       let!(:client){ create(:client, state: 'accepted') }
       let!(:client_form) { create(:custom_field_property, custom_formable: client, custom_field: custom_field) }
       it { expect(ClientHistory.where('object.custom_field_property_ids' => client_form.id).count).to eq(1) }
+      it { expect(ClientHistory.where('object.custom_field_property_ids' => client_form.id).first.client_custom_field_property_histories.count).to eq(1) }
     end
   end  
 end
