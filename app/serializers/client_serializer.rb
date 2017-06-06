@@ -59,8 +59,9 @@ class ClientSerializer < ActiveModel::Serializer
 
   def assessments
     object.assessments.map do |assessment|
-      formatted_assessment_domain = assessment.assessment_domains.map do |ad|
-        ad.as_json.merge(domain: ad.domain.as_json(only: [:name, :identity]))
+      formatted_assessment_domain = assessment.assessment_domains_in_order.map do |ad|
+        incomplete_tasks = object.tasks.by_domain_id(ad.domain_id).incomplete
+        ad.as_json.merge(domain: ad.domain.as_json(only: [:name, :identity]), incomplete_tasks: incomplete_tasks.as_json(only: :name))
       end
       assessment.as_json.merge(assessment_domain: formatted_assessment_domain)
     end
