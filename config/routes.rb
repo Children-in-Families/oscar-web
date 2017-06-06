@@ -176,7 +176,7 @@ Rails.application.routes.draw do
       resources :users, only: [:update]
       resources :clients, except: [:edit, :new] do
         get :compare, on: :collection
-        resources :assessments, only: [:create]
+        resources :assessments, only: [:create, :update]
         resources :tasks, only: [:create, :update, :destroy]
         resources :case_notes, only: [:create]
         resources :custom_field_properties, except: :edit
