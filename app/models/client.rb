@@ -122,8 +122,8 @@ class Client < ActiveRecord::Base
   end
 
   def self.age_between(min_age, max_age)
-    min = (min_age * 12).to_i.months.ago.to_date.end_of_month
-    max = (max_age * 12).to_i.months.ago.to_date.beginning_of_month
+    min = (min_age * 12).to_i.months.ago.to_date
+    max = (max_age * 12).to_i.months.ago.to_date
     where(date_of_birth: max..min)
   end
 
@@ -208,23 +208,12 @@ class Client < ActiveRecord::Base
     cases.active.latest_kinship.presence || cases.active.latest_foster.presence
   end
 
-  def age_as_years
-    calculate_as('year')
+  def age_as_years(date = Date.today)
+    ((date - date_of_birth) / 365).to_i
   end
 
-  def age_extra_months
-    calculate_as('months')
-  end
-
-  def calculate_as(method)
-    total_present_months = Date.today.year * 12 + Date.today.month
-    total_dob_months     = date_of_birth.year * 12 + date_of_birth.month
-    case method
-    when 'year'
-      (total_present_months - total_dob_months) / 12
-    when 'months'
-      (total_present_months - total_dob_months) % 12
-    end
+  def age_extra_months(date = Date.today)
+    ((date - date_of_birth) % 365 / 31).to_i
   end
 
   def able?
