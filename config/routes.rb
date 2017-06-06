@@ -178,7 +178,7 @@ Rails.application.routes.draw do
         get :compare, on: :collection
         resources :assessments, only: [:create]
         resources :tasks, only: [:create, :update, :destroy]
-        resources :case_notes, only: [:create]
+        resources :case_notes, only: [:create, :update]
         resources :custom_field_properties, except: :edit
       end
     end
