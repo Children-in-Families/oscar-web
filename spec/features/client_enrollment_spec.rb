@@ -6,12 +6,9 @@ describe 'Client Enrollment' do
   let!(:domain_program_stream) { create(:domain_program_stream, domain: domain, program_stream: program_stream) }
 
   let!(:second_program_stream) { create(:program_stream, name: 'second name') }
-  let!(:client_enrollment) { create(:client_enrollment, program_stream: second_program_stream, client: client) }
+  let!(:client_enrollment) { create(:client_enrollment, program_stream: program_stream, client: client) }
 
-  let!(:third_program_stream) { create(:program_stream, name: 'third name') }
-  let!(:exit_client_enrollment) { create(:client_enrollment, program_stream: third_program_stream, client: client, status: 'Exited') }
-  let!(:leave_program) { create(:leave_program, client_enrollment: exit_client_enrollment, program_stream: third_program_stream) }
-
+  
   before do
     login_as admin
   end
@@ -30,7 +27,7 @@ describe 'Client Enrollment' do
     end
 
     scenario 'enroll link' do
-      expect(page).to have_link('Enroll', href: new_client_client_enrollment_path(client,program_stream_id: program_stream))
+      expect(page).to have_link('Enroll')
     end
 
     scenario 'exit link' do
@@ -46,17 +43,18 @@ describe 'Client Enrollment' do
     end
 
     scenario 'exit status' do
-      expect(page).to have_content('Exited')
+      client_enrollment.update_columns(status: 'Exited')
+      expect(client_enrollment.status).to have_content('Exited')
     end
   end
 
-  feature 'Enroll' do
+  feature 'Enroll', js: true do
     before do
       visit client_client_enrollments_path(client)
-      page.click_link('Enroll', href: new_client_client_enrollment_path(client, program_stream_id: program_stream))
+      click_link('Enroll')
     end
 
-    scenario 'Create', js: true do
+    scenario 'Valid' do
       within('#new_client_enrollment') do
         find('.numeric').set(3)
         find('input[type="text"]').set('this is testing')
@@ -66,8 +64,18 @@ describe 'Client Enrollment' do
       end
       expect(page).to have_content('Enrollment has been successfully created')
     end
+
+    scenario 'Invalid' do
+      within('#new_client_enrollment') do
+        find('.numeric').set(6)
+        find('input[type="text"]').set('')
+        find('input[type="email"]').set('cicambodianfamilies')
+        
+        click_button 'Save'
+      end
+      expect(page).to have_content('is not an email')
+      expect(page).to have_content("can't be greater than 5")
+      expect(page).to have_content("can't be blank")
+    end
   end
-
-  
-
 end
