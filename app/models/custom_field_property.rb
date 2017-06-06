@@ -19,13 +19,13 @@ class CustomFieldProperty < ActiveRecord::Base
     CustomFieldEmailValidator.new(obj).validate
   end
 
-  private
-
   def client_form?
     custom_formable_type == 'Client'
   end
 
+  private
+
   def create_client_history
-    ClientHistory.initial(self.custom_formable)
+    ClientHistory.initial(custom_formable)
   end
 end

@@ -59,15 +59,6 @@ describe Client, 'callbacks' do
       expect(ClientHistory.where('object.id' => agency_client.id).first.agency_client_histories.count).to eq(2)
       expect(ClientHistory.where('object.id' => agency_client.id).last.agency_client_histories.count).to eq(2)
     end
-
-    it 'should have maybe 4 client histories, one case client history, and one client family history' do
-      client  = FactoryGirl.create(:client)
-      family  = FactoryGirl.create(:family)
-      ec_case = FactoryGirl.create(:case, client: client, family: family)
-      binding.pry
-      expect(ClientHistory.where('object.case_ids' => ec_case.id).count).to eq(1)
-      expect(ClientHistory.where('object.family_ids' => family.id).count).to eq(1)
-    end
   end
 end
 

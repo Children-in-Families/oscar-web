@@ -233,28 +233,44 @@ describe Case, 'callbacks' do
       expect(ec_client.status).to eq('Referred')
       expect(fc_client.status).to eq('Referred')
     end
-
   end
 
-  context 'update cases to exited from cif' do
-    let!(:fc_manager){ create(:user, :fc_manager) }
-    let!(:fc_client){ create(:client) }
-    let!(:kinship){ create(:case, case_type: 'KC', client: fc_client) }
-    let!(:foster){ create(:case, case_type: 'FC', client: fc_client) }
+  context 'after_save' do
     before do
-      foster.update(
-        exited_from_cif: true,
-        exit_date: Time.now,
-        exit_note: FFaker::Lorem.paragraph
-      )
-      kinship.reload
+      ClientHistory.destroy_all
     end
-    it 'should update all cases' do
-      expect(kinship.exited_from_cif).to be_truthy
-      expect(kinship.exited).to be_truthy
-      expect(kinship.exit_date).to eq(foster.exit_date)
-      expect(kinship.exit_note).to eq(foster.exit_note)
+    context 'update cases to exited from cif' do
+      let!(:fc_manager){ create(:user, :fc_manager) }
+      let!(:fc_client){ create(:client) }
+      let!(:kinship){ create(:case, case_type: 'KC', client: fc_client) }
+      let!(:foster){ create(:case, case_type: 'FC', client: fc_client) }
+      before do
+        foster.update(
+          exited_from_cif: true,
+          exit_date: Time.now,
+          exit_note: FFaker::Lorem.paragraph
+        )
+        kinship.reload
+      end
+      it 'should update all cases' do
+        expect(kinship.exited_from_cif).to be_truthy
+        expect(kinship.exited).to be_truthy
+        expect(kinship.exit_date).to eq(foster.exit_date)
+        expect(kinship.exit_note).to eq(foster.exit_note)
+      end
+    end
+
+    context 'create_client_history' do
+      it 'should have maybe some client histories, one case client history, and one client family history' do
+        client  = FactoryGirl.create(:client, given_name: 'AAAA', state: 'accepted')
+        family  = FactoryGirl.create(:family, name: 'AAAA', family_type: 'emergency')
+        ec_case = FactoryGirl.create(:case, client: client, family: family)
+
+        expect(ClientHistory.where('object.family_ids' => family.id).count).to eq(1)
+        expect(ClientHistory.where('object.family_ids' => family.id).first.client_family_histories.count).to eq(1)
+        expect(ClientHistory.where('object.case_ids' => ec_case.id).count).to eq(1)
+        expect(ClientHistory.where('object.case_ids' => ec_case.id).first.case_client_histories.count).to eq(1)
+      end
     end
   end
-
 end
