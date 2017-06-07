@@ -179,7 +179,7 @@ Rails.application.routes.draw do
         resources :assessments, only: [:create]
         resources :tasks, only: [:create, :update, :destroy]
         resources :case_notes, only: [:create, :update]
-        resources :custom_field_properties, except: :edit
+        resources :custom_field_properties, only: [:create, :update, :destroy]
       end
     end
   end

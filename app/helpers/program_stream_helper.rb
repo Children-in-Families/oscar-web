@@ -20,6 +20,10 @@ module ProgramStreamHelper
     program_stream.client_enrollments.active
   end
 
+  def disable_delete_button(program_stream)
+    program_stream.client_enrollments.present? ? 'disabled' : ''
+  end
+
   private
 
   def enrollments_by(client, program_stream)
