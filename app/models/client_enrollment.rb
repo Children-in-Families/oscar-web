@@ -5,7 +5,7 @@ class ClientEnrollment < ActiveRecord::Base
   has_many :trackings, dependent: :destroy
   has_one :leave_program, dependent: :destroy
 
-  scope :enrollments_by, ->(client, program_stream) { where(client_id: client, program_stream_id: program_stream) }
+  scope :enrollments_by, ->(client) { where(client_id: client).order(:created_at) }
   scope :active, -> { where(status: 'Active') }
 
   validate do |obj|
