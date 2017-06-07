@@ -8,7 +8,7 @@ class ClientSerializer < ActiveModel::Serializer
               :followed_up_by, :follow_up_date, :school_name, :school_grade, :has_been_in_orphanage,
               :able_state, :has_been_in_government_care, :relevant_referral_information,
               :case_worker, :agencies, :state, :rejected_note, :emergency_care, :foster_care, :kinship_care,
-              :organization, :additional_form, :tasks, :assessments, :case_notes
+              :organization, :additional_form, :tasks, :assessments, :case_notes, :quantitative_cases
 
   def case_worker
     object.user
@@ -77,6 +77,14 @@ class ClientSerializer < ActiveModel::Serializer
         cdg.as_json.merge(domain_group_identities: cdg.domain_group.domain_identities, domain_scores: domain_scores, completed_tasks: cdg.completed_tasks)
       end
       case_note.as_json.merge(case_note_domain_group: formatted_case_note_domain_group)
+    end
+  end
+
+  def quantitative_cases
+    object.quantitative_cases.group_by(&:quantitative_type).map do |qtypes|
+      qtype = qtypes.first.name
+      qcases = qtypes.last.map{ |qcase| qcase.value }
+      { quantitative_type: qtype, client_quantitative_cases: qcases }
     end
   end
 end

@@ -234,4 +234,9 @@ describe ClientSerializer, type: :serializer do
     expect(serializer).to have_json_path('client/foster_care')
     expect(serializer).to have_json_type(Object).at_path('client/foster_care')
   end
+
+  it 'should be have attribute quantitative_cases' do
+    expect(serializer).to have_json_path('client/quantitative_cases')
+    expect(serializer).to have_json_type(Array).at_path('client/quantitative_cases')
+  end
 end
