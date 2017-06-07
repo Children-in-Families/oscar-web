@@ -6,5 +6,5 @@
     .col-xs-12.col-md-6
       = f.input :time_of_frequency, label: t('.time_of_frequency')
   #tracking{ data: { tracking: @program_stream.tracking }}
-  = f.error :tracking, class: 'text-danger'
+  .text-danger= @program_stream.errors[:tracking].join(' and ')
   = f.hidden_field :tracking

@@ -27,34 +27,19 @@ class ProgramStream < ActiveRecord::Base
 
   def validate_remove_field
     FORM_BUILDER_FIELDS.each do |field|
-      next unless send "#{ field }_changed?" 
-      column_change = send "#{ field }_change"
-      error_fields = []
-
+      next unless send "#{ field }_changed?"
+      error_translation = I18n.t('cannot_remove_or_update')
+      
       if field == 'enrollment'
-        client_enrollment_properties.each do |property|
-          field_remove = column_change.first - column_change.last
-          field_remove.map{ |f| error_fields << f['label'] if property[f['label']].present? }
-        end
-        break unless error_fields.present?
-        error_message = "#{error_fields.join(', ')} #{I18n.t('cannot_remove_or_update')}"
-        errors.add(:enrollment, "#{error_message} ")
+        break unless enrollment_errors_message.present?
+        errors.add(:enrollment, "#{enrollment_errors_message} #{error_translation}")
       elsif field == 'tracking'
-        tracking_properties.each do |property|
-          field_remove = column_change.first - column_change.last
-          field_remove.map{ |f| error_fields << f['label'] if property[f['label']].present? }
-        end
-        break unless error_fields.present?
-        error_message = "#{error_fields.join(', ')} #{I18n.t('cannot_remove_or_update')}"
-        errors.add(:tracking, "#{error_message} ")
+        break unless tracking_errors_message.present?
+        errors.add(:tracking, "#{tracking_errors_message} #{error_translation}")
+
       elsif field == 'exit_program'
-        leave_program_properties.each do |property|
-          field_remove = column_change.first - column_change.last
-          field_remove.map{ |f| error_fields << f['label'] if property[f['label']].present? }
-        end
-        break unless error_fields.present?
-        error_message = "#{error_fields.join(', ')} #{I18n.t('cannot_remove_or_update')}"
-        errors.add(:exit_program, "#{error_message} ")
+        break unless exit_program_errors_message.present?
+        errors.add(:exit_program, "#{exit_program_errors_message} #{error_translation}")
       end    
     end
     errors
@@ -66,15 +51,27 @@ class ProgramStream < ActiveRecord::Base
 
   private
 
-  def client_enrollment_properties
-    client_enrollments.pluck(:properties).select(&:present?)
+  def enrollment_errors_message
+    properties = client_enrollments.pluck(:properties).select(&:present?)
+    error_fields(properties, enrollment_change).join(', ')
   end
 
-  def tracking_properties
-    trackings.pluck(:properties).select(&:present?)
+  def tracking_errors_message
+    properties = trackings.pluck(:properties).select(&:present?)
+    error_fields(properties, tracking_change).join(', ')
   end
 
-  def leave_program_properties
-    leave_programs.pluck(:properties).select(&:present?)
+  def exit_program_errors_message
+    properties = leave_programs.pluck(:properties).select(&:present?)
+    error_fields(properties, exit_program_change).join(', ')
+  end
+
+  def error_fields(properties, column_change)
+    error_fields = []
+    properties.each do |property|
+      field_remove = column_change.first - column_change.last
+      field_remove.map{ |f| error_fields << f['label'] if property[f['label']].present? }
+    end
+    error_fields.uniq
   end
 end
