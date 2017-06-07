@@ -47,7 +47,7 @@
                     - if k == 'properties'
                       - values = v[0]
                       - values = eval(v[0]) if v[0].class == String
-                      - next if values == {}
+                      - next if values == '{}'
                       - if values.present?
                         %ul
                           - values.each do |key, value|
@@ -74,7 +74,7 @@
                     - if k == 'properties'
                       - values = v[1]
                       - values = eval(v[1]) if v[1].class == String
-                      - next if values == {}
+                      - next if values == '{}'
                       - if values.present?
                         %ul
                           - values.each do |key, value|
