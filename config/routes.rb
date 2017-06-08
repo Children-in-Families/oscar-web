@@ -26,8 +26,6 @@ Rails.application.routes.draw do
     get 'version' => 'agencies#version'
   end
 
-  resources :versions
-
   scope 'admin' do
     resources :users do
       resources :custom_field_properties
