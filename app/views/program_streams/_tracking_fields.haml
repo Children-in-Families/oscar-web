@@ -1,0 +1,23 @@
+.nested-fields
+  .ibox.border-left-right.border-bottom
+    .ibox-content
+      .row
+        .col-xs-12.col-md-3
+          .row
+            .col-xs-12
+              = f.input :name
+          .row
+            .col-xs-12
+              = f.input :frequency, collection: ProgramStream.frequencies.invert.to_a, label: t('.frequency')
+          .row
+            .col-xs-12
+              = f.input :time_of_frequency, label: t('.time_of_frequency')
+        .col-xs-12.col-md-9
+          .tracking-builder{ data: { tracking: f.object.fields }}
+            .tracking-field-hidden
+              = f.input :fields, as: :hidden
+    .ibox-footer
+      .row
+        .col-xs-12
+          = link_to_remove_association "Remove Tracking", f, class: 'btn btn-danger'
+  %hr
