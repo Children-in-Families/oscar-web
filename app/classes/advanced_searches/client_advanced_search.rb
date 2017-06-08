@@ -1,15 +1,16 @@
 module AdvancedSearches
   class ClientAdvancedSearch
-    def initialize(basic_rules, custom_form_rules, clients)
-      @condition          = basic_rules[:condition]
-      @clients            = clients
-      @basic_rules        = basic_rules
-      @custom_form        = custom_form_rules
+    def initialize(basic_rules, custom_form_rules, clients, date_range = [])
+      @condition   = basic_rules[:condition]
+      @clients     = clients
+      @basic_rules = basic_rules
+      @custom_form = custom_form_rules
+      @date_range  = date_range
     end
 
     def filter
       query_array         = []
-      client_base_sql     = AdvancedSearches::ClientBaseSqlBuilder.new(@clients, @basic_rules).generate
+      client_base_sql     = AdvancedSearches::ClientBaseSqlBuilder.new(@clients, @basic_rules, @date_range).generate
       custom_form_sql     = AdvancedSearches::ClientCustomFormSqlBuilder.new(@custom_form[:selected_custom_form], @custom_form).generate
 
       if client_base_sql[:sql_string].present? && custom_form_sql[:id].present?

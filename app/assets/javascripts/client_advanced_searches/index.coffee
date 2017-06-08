@@ -94,9 +94,13 @@ CIF.Client_advanced_searchesIndex = do ->
       $('#advanced-search').submit()
 
   _handleSearch = ->
-    $('#search').on 'click', ->
+    $('#search').on 'click', (e)->
       customFormValue = $('#select-custom-form').val()
+      startDate       = $('.date-range-picker #start_date').val()
+      endDate         = $('.date-range-picker #end_date').val()
       $('#client_advanced_search_selected_custom_form').val(customFormValue)
+      $('#client_advanced_search_start_date').val(startDate)
+      $('#client_advanced_search_end_date').val(endDate)
 
       basicRules = $('#builder').queryBuilder('getRules')
       customFormRules = _getCustomFormRules(customFormValue)
