@@ -217,7 +217,7 @@ km:
       exit_program: ចាកចេញពីកម្មវិធី
       back: ត្រលប់ក្រោយ
     edit:
-      edit_program_stream: កែសម្រួលកម្មវិធី 
+      edit_program_stream: កែសម្រួលកម្មវិធី
       back: ត្រលប់ក្រោយ
     create:
       successfully_created: កម្មវិធីរក្សាទុកដោយជោគជ័យ
@@ -231,7 +231,7 @@ km:
       add_new_filter: បន្ថែមការស្វែងរក
       add_new_group: បន្ថែមបណ្ដុំនៃការស្វែងរក
       delete_group: លុបបណ្ដុំនៃការស្វែងរក
-      add_rule: បន្ថែមលក្ខខណ្ឌថ្មី 
+      add_rule: បន្ថែមលក្ខខណ្ឌថ្មី
       name: ឈ្មោះកម្មវិធី​បន្ទាប់បន្សំ
       description: ការបរិយាយ
       rule: លក្ខខណ្ឌ
@@ -358,6 +358,7 @@ km:
     province: ខេត្តកំណើត
     agencies_involved: អង្គភាពដែលពាក់ព័ន្ធ
     completed: ពេញលេញហើយឬនៅ?
+    cambodia: កម្ពុជា 
 
   default_placement_fields: &default_placement_fields
     start_date: ថ្ងៃចាប់ផ្តើម
@@ -523,14 +524,14 @@ km:
         view: មើល
         placement_start_date: ថ្ងៃបញ្ជូនទៅក្នុងករណី
         placement_case_type: ប្រភេទករណីដែលត្រូវបានបញ្ជូនទៅ
-      
+
       client_enrollments:
         name: ឈ្មោះកម្មវិធី
         domain: កត្តា
         report: របាយការណ៍
         action: សកម្មភាព
         status: ស្ថានភាព
-      
+
       progress_notes:
         <<: *default_progress_note_fields
         manage: គ្រប់គ្រង
