@@ -32,7 +32,7 @@ class ClientEnrollmentsController < AdminController
   end
 
   def report
-    @enrollments = ClientEnrollment.enrollments_by(@client, @program_stream).order(:created_at)
+    @enrollments = @program_stream.client_enrollments.enrollments_by(@client).order(:created_at)
   end
 
   private
