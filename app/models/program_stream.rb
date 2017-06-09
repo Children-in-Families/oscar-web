@@ -1,6 +1,6 @@
 class ProgramStream < ActiveRecord::Base
   enum frequencies: { day: 'Daily', week: 'Weekly', month: 'Monthly', year: 'Yearly' }
-  FORM_BUILDER_FIELDS = ['enrollment', 'tracking', 'exit_program'].freeze
+  FORM_BUILDER_FIELDS = ['enrollment', 'exit_program'].freeze
 
   has_many   :domain_program_streams, dependent: :destroy
   has_many   :domains, through: :domain_program_streams
