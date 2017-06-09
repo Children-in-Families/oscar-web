@@ -174,6 +174,7 @@ Rails.application.routes.draw do
     namespace :v1, default: { format: :json } do
       resources :domain_groups, only: [:index]
       resources :users, only: [:update]
+      resources :families, only: [:index, :create, :update]
       resources :clients, except: [:edit, :new] do
         get :compare, on: :collection
         resources :assessments, only: [:create]
