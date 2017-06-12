@@ -66,6 +66,8 @@ Rails.application.routes.draw do
     get 'version' => 'donors#version'
   end
 
+  resources :program_streams
+
   resources :changelogs do
     get 'version' => 'changelogs#version'
   end
@@ -107,6 +109,11 @@ Rails.application.routes.draw do
   resources :clients do
     collection do
       get :advanced_search
+    end
+    resources :client_enrollments, only: [:new, :index, :create, :show] do
+      get :report, on: :collection
+      resources :trackings
+      resources :leave_programs
     end
     resources :custom_field_properties
     resources :government_reports
@@ -158,6 +165,11 @@ Rails.application.routes.draw do
         get :get_basic_field
       end
     end
+    resources :program_stream_add_rule, only: [] do
+      collection do
+        get :get_fields
+      end
+    end
 
     namespace :v1, default: { format: :json } do
       resources :domain_groups, only: [:index]
@@ -165,9 +177,12 @@ Rails.application.routes.draw do
       resources :clients, except: [:edit, :new] do
         get :compare, on: :collection
         resources :assessments, only: [:create]
-        resources :tasks, only: [:create, :update]
         resources :case_notes, only: [:create]
-        resources :custom_field_properties, except: :edit
+        resources :custom_field_properties, only: [:create, :update, :destroy]
+
+        scope module: 'client_tasks' do
+          resources :tasks, only: [:create, :update, :destroy]
+        end
       end
     end
   end

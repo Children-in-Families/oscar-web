@@ -7,15 +7,15 @@ module AdvancedSearches
       @clients     = clients
       @values      = []
       @sql_string  = []
-      @condition    = rules[:condition]
-      @basic_rules  = rules[:rules] || []
+      @condition    = rules['condition']
+      @basic_rules  = rules['rules'] || []
     end
 
     def generate
       @basic_rules.each do |rule|
-        field    = rule[:field]
-        operator = rule[:operator]
-        value    = rule[:value]
+        field    = rule['field']
+        operator = rule['operator']
+        value    = rule['value']
         if ASSOCIATION_FIELDS.include?(field)
           association_filter = AdvancedSearches::ClientAssociationFilter.new(@clients, field, operator, value).get_sql
           @sql_string << association_filter[:id]

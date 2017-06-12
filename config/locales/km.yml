@@ -35,6 +35,9 @@ km:
   default_material_fields: &default_material_fields
     status: ស្ថានភាព
 
+  default_program_stream_fields: &default_program_stream_fields
+    program_streams: កម្មវិធី​បន្ទាប់បន្សំ
+
   default_releaselog_fields: &default_releaselog_fields
     change_version: កំណែ
     description: ការពិពណ៌នា
@@ -196,6 +199,57 @@ km:
       save: រក្សាទុក
       cancel: ទុកជាមោឃៈ
 
+  program_streams:
+    <<: *default_program_stream_fields
+    index:
+      program_list: បញ្ជីកម្មវិធី​បន្ទាប់បន្សំ
+      new_program: បន្ថែមកម្មវិធីថ្មី
+    new:
+      new_program_stream: បន្ថែមកម្មវិធីថ្មី
+      back: ត្រលប់ក្រោយ
+    show:
+      description: ការបរិយាយ
+      domain: កត្តា
+      quantity: បរិមាណ
+      rules: លក្ខខណ្ឌ
+      tracking: តាមដាន
+      enrollment: ចុះឈ្មោះ
+      exit_program: ចាកចេញពីកម្មវិធី
+      back: ត្រលប់ក្រោយ
+    edit:
+      edit_program_stream: កែសម្រួលកម្មវិធី
+      back: ត្រលប់ក្រោយ
+    create:
+      successfully_created: កម្មវិធីរក្សាទុកដោយជោគជ័យ
+    update:
+      successfully_updated: កម្មវិធីរក្សាទុកដោយជោគជ័យ
+    destroy:
+      successfully_deleted: កម្មវិធីលុបដោយជោគជ័យ
+    actions:
+      are_you_sure: តើអ្នកប្រាកដហើយ?
+    program_rule:
+      add_new_filter: បន្ថែមការស្វែងរក
+      add_new_group: បន្ថែមបណ្ដុំនៃការស្វែងរក
+      delete_group: លុបបណ្ដុំនៃការស្វែងរក
+      add_rule: បន្ថែមលក្ខខណ្ឌថ្មី
+      name: ឈ្មោះកម្មវិធី​បន្ទាប់បន្សំ
+      description: ការបរិយាយ
+      rule: លក្ខខណ្ឌ
+      quantity: បរិមាណ
+      domain: កត្តា
+    enrollment:
+      enrollment_form: ទម្រង់បែបបទចុះឈ្មោះ
+    tracking:
+      tracking_form: ទម្រង់បែបបទតាមដាន
+      frequency: ភាពញឹកញាប់
+      time_of_frequency: ពេលវេលានៃភាពញឹកញាប់
+    exit_field:
+      exit_form: ទម្រង់បែបបទចាកចេញ
+    form:
+      previous: ទំព័រមុន
+      next: ទំព័របន្ទាប់
+      finish: រក្សាទុក
+
   government_reports:
     index:
       back: ត្រលប់ក្រោយ
@@ -304,6 +358,7 @@ km:
     province: ខេត្តកំណើត
     agencies_involved: អង្គភាពដែលពាក់ព័ន្ធ
     completed: ពេញលេញហើយឬនៅ?
+    cambodia: កម្ពុជា
 
   default_placement_fields: &default_placement_fields
     start_date: ថ្ងៃចាប់ផ្តើម
@@ -424,6 +479,7 @@ km:
     head:
       changelog: កំណែប្រែ
     row:
+      view: មើល
       changelog: កំណែប្រែ
     no_results: មិនមានលទ្ធផល
     from: ចាប់ពី
@@ -468,6 +524,13 @@ km:
         view: មើល
         placement_start_date: ថ្ងៃបញ្ជូនទៅក្នុងករណី
         placement_case_type: ប្រភេទករណីដែលត្រូវបានបញ្ជូនទៅ
+
+      client_enrollments:
+        name: ឈ្មោះកម្មវិធី
+        domain: កត្តា
+        report: របាយការណ៍
+        action: សកម្មភាព
+        status: ស្ថានភាព
 
       progress_notes:
         <<: *default_progress_note_fields
@@ -529,6 +592,12 @@ km:
         code: លេខសំគាល់
       cases:
         case_type: ប្រភេទករណី
+      program_streams:
+        name: ឈ្មោះកម្មវិធី​បន្ទាប់បន្សំ
+        description: ការបរិយាយ
+        domain: កត្តា
+        quantity: បរិមាណ
+        action: សកម្មភាព
     filters:
       xboolean:
         "yes": "បាទ/ចាស"
@@ -620,6 +689,7 @@ km:
       log_in: ចូល
       release_logs: ការចេញផ្សាយ
       custom_fields: ទម្រង់បែបបទ
+      program_streams: កម្មវិធី​បន្ទាប់បន្សំ
       progress_note: កត់សំគាល់ការរីកចំរើន
       materials: របស់របរ/សំភារៈ
       locations: កន្លែង
@@ -730,6 +800,7 @@ km:
       progress_note: កំណត់សំគាល់ការរីកចំរើន
       client_able_answers: ចំលើយ Able
       able_screening_questions: សំនួរ Able
+      program_streams: កម្មវិធី​បន្ទាប់បន្សំ
     client_answers:
       client_able_answers: ចំលើយ Able របស់អតិថិជន
       question: សំនួរ
@@ -784,6 +855,59 @@ km:
       add_new_filter: បន្ថែមការស្វែងរក
       add_new_group: បន្ថែមបណ្ដុំនៃការស្វែងរក
       delete_group: លុបបណ្ដុំនៃការស្វែងរក
+
+  client_enrollments:
+    show:
+      enrollment: ទម្រង់បែបបទ​នៃ​ចុះឈ្មោះ
+      back: ត្រលប់ក្រោយ
+    report:
+      reports: របាយការណ៏
+      tracking: ការតាមដាន
+      exit: ចាកចេញ
+      date: កាលបរិច្ឆេទ
+      forms: ទម្រង់បែបបទ
+      actions: សកម្មភាព
+      enrollment: ចុះឈ្មោះ
+      programs_list: តារាងកម្មវិធី​បន្ទាប់បន្សំ
+      view: មើល
+    manage:
+      enroll: ចុះឈ្មោះ
+      exit: ចាកចេញ
+      tracking: តាមដាន
+      full_program: កម្មវិធីនេះពេញ
+    new:
+      new_enrollment: ការចុះឈ្មោះថ្មី
+      client_not_valid: អតិថិជនមិនអាចចូលរូមកម្មវិធីនេះ
+    index:
+      program_lists: តារាងកម្មវិធី​បន្ទាប់បន្សំ
+    create:
+      successfully_created: ការចុះឈ្មោះត្រូវបានរក្សាទុកដោយជោគជ័យ
+    form:
+      save: រក្សាទុក
+      cancel: ទុកជាមោឃៈ
+
+  trackings:
+    show:
+      back: ត្រលប់ក្រោយ
+    new:
+      new_tracking: ការ​តាមដានថ្មី
+    create:
+      successfully_created: ការ​តាមដានត្រូវបានរក្សាទុកដោយជោគជ័យ
+    form:
+      save: រក្សាទុក
+      cancel: ទុកជាមោឃៈ
+
+  leave_programs:
+    show:
+      back: ត្រលប់ក្រោយ
+    new:
+      new_exit_program: ការចាកចេញពីកម្មវិធីថ្មី
+    create:
+      successfully_created: អតិថិជនត្រូវបានចាកចេញពីកម្មវិធីដោយជោគជ័យ
+    form:
+      save: រក្សាទុក
+      cancel: ទុកជាមោឃៈ
+
   families:
     index:
       results: លទ្ធផល

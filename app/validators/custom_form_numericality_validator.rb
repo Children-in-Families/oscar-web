@@ -1,12 +1,14 @@
-class CustomFieldNumericalityValidator < ActiveModel::Validator
+class CustomFormNumericalityValidator < ActiveModel::Validator
 
-  def initialize(record)
-    @record = record
+  def initialize(record,table_name,field)
+    @record     = record
+    @table_name = table_name
+    @field      = field
   end
 
   def validate
     return unless @record.properties
-    @record.custom_field.fields.each do |field|
+    @record.send(@table_name).send(@field).each do |field|
       next unless field['type'] == 'number' && (field['min'].present? || field['max'].present?)
       if @record.properties[field['label']].to_f < field['min'].to_f
         @record.errors.add(field['label'], I18n.t('cannot_be_lower', count: field['min'])) if @record.errors[field['label']].empty?

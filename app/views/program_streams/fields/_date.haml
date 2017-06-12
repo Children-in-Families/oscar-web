@@ -1,0 +1,11 @@
+.date
+  .row
+    .col-xs-12.col-md-6.form-group
+      %label= field_props['label']
+  .row  
+    .col-xs-12.col-md-6.form-group
+      .date.input-group
+        = text_field_tag '', '', class: 'date optional form-control date-picker calendar'
+        %span.input-group-addon
+          %i.fa.fa-calendar-check-o
+

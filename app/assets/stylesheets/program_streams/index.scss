@@ -1,0 +1,18 @@
+body[id='program_streams-index'] {
+  table.program-streams tbody tr:hover{
+    cursor: pointer;
+  }
+  .quantity, .action {
+    min-width: 110px;
+  }
+
+  th.name {
+    width: 200px;
+  }
+
+  td.action {
+    a {
+      margin-left: 5px;
+    }
+  }
+}

@@ -10,17 +10,17 @@ class CustomField < ActiveRecord::Base
 
   has_paper_trail
 
-  validate  :validate_remove_field, if: 'id.present?'
+  validate  :validate_remove_field, if: -> { id.present? }
   validates :entity_type, inclusion: { in: ENTITY_TYPES }
   validates :entity_type, :form_title, presence: true
   validates :form_title, uniqueness: { case_sensitive: false, scope: :entity_type }
   validates :time_of_frequency, presence: true,
-                                numericality: { only_integer: true, greater_than_or_equal_to: 1 }, if: 'frequency.present?'
+                                numericality: { only_integer: true, greater_than_or_equal_to: 1 }, if: -> { frequency.present? }
   validates :fields, presence: true
-  validate :uniq_fields, :field_label, if: 'fields.present?'
+  validate  :uniq_fields, :field_label, if: -> { fields.present? }
 
   before_save :set_time_of_frequency
-  before_save :set_ngo_name, if: 'ngo_name.blank?'
+  before_save :set_ngo_name, if: -> { ngo_name.blank? }
 
   scope :by_form_title,  ->(value)  { where('form_title iLIKE ?', "%#{value}%") }
   scope :client_forms,   ->         { where(entity_type: 'Client') }
