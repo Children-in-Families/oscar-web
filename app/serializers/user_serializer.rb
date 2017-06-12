@@ -1,5 +1,5 @@
 class UserSerializer < ActiveModel::Serializer
-  attributes :id, :first_name, :last_name, :roles, :overdue_tasks, :today_tasks, :upcoming_tasks
+  attributes :id, :first_name, :last_name, :roles, :mobile, :date_of_birth, :archived, :admin, :manager_id, :pin_number, :overdue_tasks, :today_tasks, :upcoming_tasks
 
   def overdue_tasks
     overdue_tasks = Task.incomplete.of_user(object).overdue.group_by{ |task| task.client }

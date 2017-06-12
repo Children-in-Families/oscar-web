@@ -3,8 +3,7 @@ module Api
     class UsersController < Api::V1::BaseApiController
 
       def index
-        users = User.self_and_subordinates(current_user)
-        render json: users
+        render json: User.all
       end
 
     end
