@@ -1,5 +1,4 @@
 class ProgramStream < ActiveRecord::Base
-  enum frequencies: { day: 'Daily', week: 'Weekly', month: 'Monthly', year: 'Yearly' }
   FORM_BUILDER_FIELDS = ['enrollment', 'exit_program'].freeze
 
   has_many   :domain_program_streams, dependent: :destroy
@@ -15,6 +14,8 @@ class ProgramStream < ActiveRecord::Base
   validates :name, uniqueness: true
   validate  :form_builder_field_uniqueness
   validate  :validate_remove_field, if: -> { id.present? }
+
+  scope     :ordered,  ->  { order(:name) }
  
   def form_builder_field_uniqueness
     errors_massage = []

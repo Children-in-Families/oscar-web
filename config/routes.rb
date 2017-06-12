@@ -112,7 +112,9 @@ Rails.application.routes.draw do
     end
     resources :client_enrollments, only: [:new, :index, :create, :show] do
       get :report, on: :collection
-      resources :trackings
+      resources :client_enrollment_trackings do
+        get :report, on: :collection
+      end
       resources :leave_programs
     end
     resources :custom_field_properties

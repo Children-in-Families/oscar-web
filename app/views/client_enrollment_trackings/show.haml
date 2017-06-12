@@ -1,0 +1,21 @@
+.row
+  .col-xs-12
+    .ibox
+      .ibox-title
+        %h5= @client_enrollment_tracking.try(:name)
+        .ibox-tools
+          = link_to client_client_enrollment_client_enrollment_trackings_path(@client, @enrollment, @client_enrollment_tracking, tracking_id: @client_enrollment_tracking.tracking.id) do
+            .btn.btn-primary.btn-outline
+              = t('.trackings_list')
+          = link_to report_client_client_enrollments_path(@client, program_stream_id: @program_stream) do
+            .btn.btn-success.btn-outline
+              = t('.back')
+      .ibox-content
+        .table-responsive
+          %table.table.table-bordered
+            - @client_enrollment_tracking.properties.each do |key, value|
+              %tr
+                %td.align-justify
+                  = key.titleize
+                %td.align-justify
+                  = display_custom_properties(value)    

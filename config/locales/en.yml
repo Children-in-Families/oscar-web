@@ -523,6 +523,13 @@ en:
         report: Report
         action: Action
 
+      trackings:
+        name: Name
+        frequency: Frequency
+        times_of_frequency: Times of Frequency
+        action: Action
+        report: Report
+
       progress_notes:
         <<: *default_progress_note_fields
         manage: Manage
@@ -859,8 +866,8 @@ en:
       enrollment: Enrollment Form
       back: Back
     report:
-      enrollment: Enrollment on
-      reports: Reports
+      enrollment: Enrollment
+      report: Reports
       tracking: Tracking
       exit: Exit
       date: Date
@@ -870,7 +877,7 @@ en:
       view: View
     manage:
       enroll: Enroll
-      tracking: Tracking
+      tracking: Trackings
       exit: Exit
       full_program: This Program is full
     new:
@@ -880,6 +887,29 @@ en:
       program_lists: Programs List  
     create:
       successfully_created: Enrollment has been successfully created.
+    form:
+      save: Save
+      cancel: Cancel
+
+  client_enrollment_trackings:
+    create:
+      successfully_created: Tracking Program has been created successfully.
+    update:
+      successfully_updated: Tracking Program has been updated successfully.
+    report:
+      back: Back
+      new_tracking: New Tracking
+      created_at: Created Date
+    new:
+      new_tracking: New Tracking
+    show:
+      back: Back
+      trackings_list: Client Trackings List
+    index:
+      tracking_lists: Trackings List
+      programs_list: Programs List
+    action:
+      new_tracking: New Tracking
     form:
       save: Save
       cancel: Cancel

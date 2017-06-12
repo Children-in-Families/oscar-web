@@ -1,0 +1,33 @@
+.row
+  .col-xs-12
+    .ibox
+      .ibox-title
+        %h5= @tracking.name
+        .ibox-tools
+          = link_to new_client_client_enrollment_client_enrollment_tracking_path(@client, @enrollment, tracking_id: @client_enrollment_trackings.last.tracking) do
+            .btn.btn-primary.btn-outline= t('.new_tracking')
+          = link_to client_client_enrollment_client_enrollment_trackings_path(@client, @enrollment, tracking_id: @client_enrollment_trackings.last.tracking) do
+            .btn.btn-success.btn-outline= t('.back')
+      .ibox-content
+        - @client_enrollment_trackings.each_slice(2) do |n_enrollment_trackings|
+          .row
+            - n_enrollment_trackings.each do |enrollment_tracking|
+              .col-xs-12.col-md-6
+                .ibox.border-left-right.border-bottom
+                  .ibox-title
+                    %h5= t('.created_at')
+                    %span.label.label-primary
+                      = date_format(enrollment_tracking.created_at)
+                    .ibox-tools
+                      = link_to edit_client_client_enrollment_client_enrollment_tracking_path(@client, @enrollment, enrollment_tracking, tracking_id: enrollment_tracking.tracking) do
+                        .btn.btn-success.btn-outline
+                          = fa_icon('pencil')
+                  .ibox-content
+                    .table-responsive
+                      %table.table.table-bordered
+                        - enrollment_tracking.properties.each do |key, value|
+                          %tr
+                            %td.align-justify
+                              = key.titleize
+                            %td.align-justify
+                              = display_custom_properties(value)

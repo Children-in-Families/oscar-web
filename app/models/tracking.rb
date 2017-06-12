@@ -1,6 +1,8 @@
 class Tracking < ActiveRecord::Base
+   FREQUENCIES = ['Daily', 'Weekly', 'Monthly', 'Yearly'].freeze
   belongs_to :program_stream
   has_many :client_enrollment_trackings
+  has_many :client_enrollments, through: :client_enrollment_trackings
 
   validates :name, :fields, presence: true
   validates :name, uniqueness: true

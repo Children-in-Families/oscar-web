@@ -530,6 +530,13 @@ km:
         report: របាយការណ៍
         action: សកម្មភាព
         status: ស្ថានភាព
+
+      trackings:
+        name: ឈ្មោះកម្មវិធី
+        action: សកម្មភាព
+        frequency: ភាពញឹកញាប់
+        times_of_frequency: ពេលវេលានៃភាពញឹកញាប់
+        report: របាយការណ៍
       
       progress_notes:
         <<: *default_progress_note_fields
@@ -860,7 +867,7 @@ km:
       enrollment: ទម្រង់បែបបទ​នៃ​ចុះឈ្មោះ
       back: ត្រលប់ក្រោយ
     report:
-      reports: របាយការណ៏
+      report: របាយការណ៏
       tracking: ការតាមដាន
       exit: ចាកចេញ
       date: កាលបរិច្ឆេទ
@@ -885,11 +892,34 @@ km:
       save: រក្សាទុក
       cancel: ទុកជាមោឃៈ
 
+  client_enrollment_trackings:
+    create:
+      successfully_created: ការ​តាមដានត្រូវបានរក្សាទុកដោយជោគជ័យ
+    update:
+      successfully_updated: ការ​តាមដានត្រូវបានកែសម្រួលដោយជោគជ័យ
+    report:
+      back: ត្រលប់ក្រោយ
+      new_tracking: បន្ថែមការតាមដានថ្មី
+      created_at: កាលបរិច្ឆេទ
+    show:
+      back: ត្រលប់ក្រោយ
+      trackings_list: តារាងការតាមដាន
+    new:
+      new_tracking: បន្ថែមការតាមដានថ្មី
+    index:
+      tracking_lists: តារាងការតាមដាន
+      programs_list: តារាងកម្មវិធី​
+    action:
+      new_tracking: បន្ថែមការតាមដានថ្មី
+    form:
+      save: រក្សាទុក
+      cancel: ទុកជាមោឃៈ
+
   trackings:
     show:
       back: ត្រលប់ក្រោយ
     new:
-      new_tracking: ការ​តាមដានថ្មី
+      new_tracking: បន្ថែមការ​តាមដានថ្មី
     create:
       successfully_created: ការ​តាមដានត្រូវបានរក្សាទុកដោយជោគជ័យ
     form:

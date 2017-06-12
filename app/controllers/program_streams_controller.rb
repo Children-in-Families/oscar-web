@@ -6,7 +6,7 @@ class ProgramStreamsController < AdminController
   def index
     @program_stream_grid = ProgramStreamGrid.new(params[:program_stream_grid])
     @results = @program_stream_grid.assets.size
-    @program_stream_grid.scope { |scope| scope.page(params[:page]).per(20) }
+    @program_stream_grid.scope { |scope| scope.ordered.page(params[:page]).per(20) }
   end
 
   def new

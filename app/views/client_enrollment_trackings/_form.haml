@@ -1,0 +1,15 @@
+= simple_form_for ([@client, @enrollment, @client_enrollment_tracking]) do |f|
+  .ibox-content
+    = f.simple_fields_for :properties do |prop_f|
+      - @tracking.fields.each_slice(2) do |n_field|
+        .row
+          - n_field.each do |field|
+            .col-xs-12.col-md-6
+              = render "/shared/fields/#{field['type'].underscore}", f: prop_f, field_props: field, errors: @client_enrollment_tracking.errors.messages
+        .row
+          .col-xs-12
+            #message.text-danger
+  .ibox-footer
+    = hidden_field_tag :tracking_id, @tracking.id
+    = f.submit t('.save'), class: 'btn btn-primary form-btn'
+    = link_to t('.cancel'), report_client_client_enrollment_client_enrollment_trackings_path(@client, @enrollment, tracking_id: @tracking), class: 'btn btn-default form-btn'

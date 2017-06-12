@@ -2,7 +2,7 @@ class ClientEnrollmentGrid
   include Datagrid
 
   scope do
-    ProgramStream.all
+    ProgramStream.includes(:client_enrollments).order('client_enrollments.status ASC', :name).uniq
   end
 
   column(:status, html: true, header: -> { I18n.t('datagrid.columns.client_enrollments.status') } ) do |object|
