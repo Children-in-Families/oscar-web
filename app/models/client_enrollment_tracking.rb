@@ -4,15 +4,9 @@ class ClientEnrollmentTracking < ActiveRecord::Base
 
   scope :ordered, -> { order(:created_at) }
 
-  # validate do |obj|
-  #   CustomFormPresentValidator.new(obj, 'program_stream', 'tracking').validate
-  #   CustomFormNumericalityValidator.new(obj, 'program_stream', 'tracking').validate
-  #   CustomFormEmailValidator.new(obj, 'program_stream', 'tracking').validate
-  # end
-
   validate do |obj|
-    CustomFormPresentValidator.new(obj, 'program_stream', 'tracking').validate
-    CustomFormNumericalityValidator.new(obj, 'program_stream', 'tracking').validate
-    CustomFormEmailValidator.new(obj, 'program_stream', 'tracking').validate
+    CustomFormPresentValidator.new(obj, 'tracking', 'fields').validate
+    CustomFormNumericalityValidator.new(obj, 'tracking', 'fields').validate
+    CustomFormEmailValidator.new(obj, 'tracking', 'fields').validate
   end
 end
