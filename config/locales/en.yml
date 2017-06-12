@@ -869,7 +869,7 @@ en:
     edit:
       enrollment: Edit Enrollment
     show:
-      enrollment: Enrollment Form
+      enrollment_date: Enroll Date
       back: Back
       are_you_sure: Are you sure you want to delete?
     report:

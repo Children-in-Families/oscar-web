@@ -23,12 +23,14 @@
                   %td
                     = link_to client_client_enrollment_path(@client, enrollment, program_stream_id: @program_stream) do
                       = t('.view')
+
                 - if enrollment.has_client_enrollment_tracking?      
                   - enrollment.client_enrollment_trackings.ordered.each do |enrollment_tracking|
                     %tr
                       %td= date_format(enrollment_tracking.created_at)
                       %td= "#{t('.tracking')} (#{enrollment_tracking.tracking.try(:name)})"
                       %td= link_to t('.view'), client_client_enrollment_client_enrollment_tracking_path(@client, enrollment, enrollment_tracking)
+
                 - if enrollment.leave_program.present?
                   %tr
                     %td= date_format(enrollment.leave_program.created_at)
