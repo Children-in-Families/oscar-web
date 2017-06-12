@@ -17,7 +17,7 @@ class ClientEnrollmentTrackingsController < AdminController
   def create
     @client_enrollment_tracking = @enrollment.client_enrollment_trackings.new(client_enrollment_tracking_params)
     if @client_enrollment_tracking.save
-      redirect_to report_client_client_enrollment_client_enrollment_trackings_path(@client, @enrollment, @client_enrollment_tracking, tracking_id: @tracking.id), notice: t('.successfully_created')
+      redirect_to report_client_client_enrollment_client_enrollment_trackings_path(@client, @enrollment, tracking_id: @tracking.id), notice: t('.successfully_created')
     else
       render :new
     end
@@ -31,10 +31,15 @@ class ClientEnrollmentTrackingsController < AdminController
 
   def update
     if @client_enrollment_tracking.update_attributes(client_enrollment_tracking_params)
-      redirect_to report_client_client_enrollment_client_enrollment_trackings_path(@client, @enrollment, @client_enrollment_tracking, tracking_id: @tracking.id), notice: t('.successfully_updated')
+      redirect_to report_client_client_enrollment_client_enrollment_trackings_path(@client, @enrollment, tracking_id: @tracking.id), notice: t('.successfully_updated')
     else
       render :edit
     end
+  end
+
+  def destroy
+    @client_enrollment_tracking.destroy
+    redirect_to report_client_client_enrollment_client_enrollment_trackings_path(@client, @enrollment, tracking_id: @tracking.id), notice: t('.successfully_deleted')
   end
 
   def report

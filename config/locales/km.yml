@@ -863,7 +863,10 @@ km:
       delete_group: លុបបណ្ដុំនៃការស្វែងរក
 
   client_enrollments:
+    edit:
+      enrollment: ទម្រង់បែបបទ​នៃ​ចុះឈ្មោះ
     show:
+      are_you_sure: តើអ្នកប្រាកដហើយ?
       enrollment: ទម្រង់បែបបទ​នៃ​ចុះឈ្មោះ
       back: ត្រលប់ក្រោយ
     report:
@@ -881,6 +884,10 @@ km:
       exit: ចាកចេញ
       tracking: តាមដាន
       full_program: កម្មវិធីនេះពេញ
+    destroy:
+      successfully_deleted: ការចុះឈ្មោះត្រូវបានលុបដោយជោគជ័យ
+    update:
+      successfully_updated: ការចុះឈ្មោះត្រូវបានកែសម្រួលដោយជោគជ័យ
     new:
       new_enrollment: ការចុះឈ្មោះថ្មី
       client_not_valid: អតិថិជនមិនអាចចូលរូមកម្មវិធីនេះ
@@ -897,7 +904,10 @@ km:
       successfully_created: ការ​តាមដានត្រូវបានរក្សាទុកដោយជោគជ័យ
     update:
       successfully_updated: ការ​តាមដានត្រូវបានកែសម្រួលដោយជោគជ័យ
+    destroy:
+      successfully_deleted: ការ​តាមដានត្រូវបានលុបដោយជោគជ័យ
     report:
+      are_you_sure: តើអ្នកប្រាកដហើយ?
       back: ត្រលប់ក្រោយ
       new_tracking: បន្ថែមការតាមដានថ្មី
       created_at: កាលបរិច្ឆេទ
@@ -927,7 +937,12 @@ km:
       cancel: ទុកជាមោឃៈ
 
   leave_programs:
+    update:
+      successfully_updated: កម្មវិធីត្រូវបានកែសម្រួលដោយជោគជ័យ
+    edit:
+      leave_program: កែសម្រួលការចាកចេញពីកម្មវិធី
     show:
+      exit_date: ថ្ងៃចាកចេញ
       back: ត្រលប់ក្រោយ
     new:
       new_exit_program: ការចាកចេញពីកម្មវិធីថ្មី

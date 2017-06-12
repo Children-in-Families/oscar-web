@@ -6,7 +6,7 @@
         .ibox-tools
           = link_to new_client_client_enrollment_client_enrollment_tracking_path(@client, @enrollment, tracking_id: @client_enrollment_trackings.last.tracking) do
             .btn.btn-primary.btn-outline= t('.new_tracking')
-          = link_to client_client_enrollment_client_enrollment_trackings_path(@client, @enrollment, tracking_id: @client_enrollment_trackings.last.tracking) do
+          = link_to client_client_enrollment_client_enrollment_trackings_path(@client, @enrollment, tracking_id: @tracking.id) do
             .btn.btn-success.btn-outline= t('.back')
       .ibox-content
         - @client_enrollment_trackings.each_slice(2) do |n_enrollment_trackings|
@@ -22,6 +22,9 @@
                       = link_to edit_client_client_enrollment_client_enrollment_tracking_path(@client, @enrollment, enrollment_tracking, tracking_id: enrollment_tracking.tracking) do
                         .btn.btn-success.btn-outline
                           = fa_icon('pencil')
+                      = link_to client_client_enrollment_client_enrollment_tracking_path(@client, @enrollment, enrollment_tracking, tracking_id: enrollment_tracking.tracking), method: 'delete',  data: { confirm: t('.are_you_sure') } do
+                        .btn.btn-danger.btn-outline
+                          = fa_icon('trash')
                   .ibox-content
                     .table-responsive
                       %table.table.table-bordered

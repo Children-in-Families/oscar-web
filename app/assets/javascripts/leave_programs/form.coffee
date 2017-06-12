@@ -1,4 +1,4 @@
-CIF.Leave_programsNew = CIF.Leave_programsCreate = do -> 
+CIF.Leave_programsNew = CIF.Leave_programsCreate = CIF.Leave_programsEdit = CIF.Leave_programsUpdate =do -> 
   _init = ->
     _initSelect2()
     _handlePreventCheckbox()

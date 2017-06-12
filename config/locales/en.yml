@@ -862,9 +862,12 @@ en:
       delete_group: Delete
   
   client_enrollments:
+    edit:
+      enrollment: Edit Enrollment
     show:
       enrollment: Enrollment Form
       back: Back
+      are_you_sure: Are you sure you want to delete?
     report:
       enrollment: Enrollment
       report: Reports
@@ -880,6 +883,10 @@ en:
       tracking: Trackings
       exit: Exit
       full_program: This Program is full
+    destroy:
+      successfully_deleted: Enrollment has been successfully deleted.
+    update:
+      successfully_updated: Enrollment has been successfully updated.
     new:
       new_enrollment: New Enrollment
       client_not_valid: Client doesn't match with this program rules.  
@@ -893,10 +900,13 @@ en:
 
   client_enrollment_trackings:
     create:
-      successfully_created: Tracking Program has been created successfully.
+      successfully_created: Tracking Program has been successfully created.
     update:
-      successfully_updated: Tracking Program has been updated successfully.
+      successfully_updated: Tracking Program has been successfully updated.
+    destroy:
+      successfully_deleted: Tracking Program has been successfully deleted.
     report:
+      are_you_sure: Are you sure you want to delete?
       back: Back
       new_tracking: New Tracking
       created_at: Created Date
@@ -926,10 +936,15 @@ en:
       cancel: Cancel
 
   leave_programs:
+    edit:
+      leave_program: Edit Leave Program
     show:
       back: Back
+      exit_date: Exit Date
     new: 
       new_exit_program: New Exit Program
+    update:
+      successfully_updated: Exit Program has successfully updated.
     create:
       successfully_created: Client has successfully exited from the program.
     form:

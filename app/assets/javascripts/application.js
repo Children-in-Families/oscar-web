@@ -94,4 +94,4 @@
 //= require program_streams/show
 //= require client_enrollments/form
 //= require leave_programs/form
-//= require trackings/form
+//= require client_enrollment_trackings/form
