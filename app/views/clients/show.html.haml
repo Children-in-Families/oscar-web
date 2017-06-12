@@ -161,7 +161,6 @@
             %ul.dropdown-menu.scrollable-dropdown-menu
               - @free_client_forms.each do |custom_field|
                 %li= link_to custom_field.form_title, new_client_custom_field_property_path(@client, custom_field_id: custom_field)
-
 .row.mini-margin
   .col-xs-12
     .ibox
@@ -212,37 +211,10 @@
                   = t('.address')
                 %td
                   %strong
-                    = @client.current_address
-              %tr
-                %td.spacing-first-col
-                  = t('.house_number')
-                %td
-                  %strong
-                    = @client.house_number
-              %tr
-                %td.spacing-first-col
-                  = t('.street_number')
-                %td
-                  %strong
-                    = @client.street_number
-              %tr
-                %td.spacing-first-col
-                  = t('.village')
-                %td
-                  %strong
-                    = @client.village
-              %tr
-                %td.spacing-first-col
-                  = t('.commune')
-                %td
-                  %strong
-                    = @client.commune
-              %tr
-                %td.spacing-first-col
-                  = t('.district')
-                %td
-                  %strong
-                    = @client.district
+                    - if @client.current_address.present?
+                      = @client.current_address
+                    - else
+                      = merged_address(@client)
               %tr
                 %td.spacing-first-col
                   = t('.completed')
@@ -279,8 +251,6 @@
                 %td
                   %strong
                     = @client.referral_phone
-          .col-sm-12.col-md-6.second-table
-            %table.table.table-bordered
               %tr
                 %td.spacing-first-col
                   = t('.live_with')
@@ -299,6 +269,8 @@
                 %td
                   %strong
                     = @client.rice_support
+          .col-sm-12.col-md-6.second-table
+            %table.table.table-bordered
               %tr
                 %td.spacing-first-col
                   = t('.received_by')

@@ -149,4 +149,20 @@ module ClientsHelper
       end
     end
   end
+
+  def merged_address(client)
+    current_address = []
+    current_address << "#{I18n.t('datagrid.columns.clients.house_number')} #{client.house_number}" if client.house_number.present?
+    current_address << "#{I18n.t('datagrid.columns.clients.street_number')} #{client.street_number}" if client.street_number.present?
+    current_address << "#{I18n.t('datagrid.columns.clients.village')} #{client.village}" if client.village.present?
+    current_address << "#{I18n.t('datagrid.columns.clients.commune')} #{client.commune}" if client.commune.present?
+    current_address << "#{I18n.t('datagrid.columns.clients.district')} #{client.district}" if client.district.present?
+    if locale == :km
+      current_address << client.province.name.split(' / ').first
+    else
+      current_address << client.province.name.split(' / ').second
+    end
+    current_address << I18n.t('datagrid.columns.clients.cambodia')
+    current_address.compact.join(', ')
+  end
 end

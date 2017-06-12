@@ -288,11 +288,12 @@ km:
     follow_up_by: បុគ្គលិកដែលតាមដានករណី
     agency_names: ឈ្មោះអង្គភាព
     current_address: ឣាសយដ្ឋានបច្ចុប្បន្ន
-    house_number: លេខផ្ទះ
-    street_number: លេខផ្លូវ
+    house_number: ផ្ទះលេខ
+    street_number: ផ្លូវ
     village: ភូមិ
     commune: ឃុំ/សង្កាត់
     district: ស្រុក/ខណ្ឌ
+    cambodia: កម្ពុជា
     school_grade: កំរិតថ្នាក់
     has_been_in_orphanage: ធ្លាប់បាននៅក្នុងមណ្ឌលកុមារកំព្រា
     donor: ម្ចាស់ជំនួយ
