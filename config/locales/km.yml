@@ -534,6 +534,13 @@ km:
         report: របាយការណ៍
         action: សកម្មភាព
         status: ស្ថានភាព
+
+      trackings:
+        name: ឈ្មោះកម្មវិធី
+        action: សកម្មភាព
+        frequency: ភាពញឹកញាប់
+        times_of_frequency: ពេលវេលានៃភាពញឹកញាប់
+        report: របាយការណ៍
       
       progress_notes:
         <<: *default_progress_note_fields
@@ -860,11 +867,14 @@ km:
       delete_group: លុបបណ្ដុំនៃការស្វែងរក
 
   client_enrollments:
+    edit:
+      enrollment: ទម្រង់បែបបទ​នៃ​ចុះឈ្មោះ
     show:
+      are_you_sure: តើអ្នកប្រាកដហើយ?
       enrollment: ទម្រង់បែបបទ​នៃ​ចុះឈ្មោះ
       back: ត្រលប់ក្រោយ
     report:
-      reports: របាយការណ៏
+      report: របាយការណ៏
       tracking: ការតាមដាន
       exit: ចាកចេញ
       date: កាលបរិច្ឆេទ
@@ -878,6 +888,10 @@ km:
       exit: ចាកចេញ
       tracking: តាមដាន
       full_program: កម្មវិធីនេះពេញ
+    destroy:
+      successfully_deleted: ការចុះឈ្មោះត្រូវបានលុបដោយជោគជ័យ
+    update:
+      successfully_updated: ការចុះឈ្មោះត្រូវបានកែសម្រួលដោយជោគជ័យ
     new:
       new_enrollment: ការចុះឈ្មោះថ្មី
       client_not_valid: អតិថិជនមិនអាចចូលរូមកម្មវិធីនេះ
@@ -889,11 +903,37 @@ km:
       save: រក្សាទុក
       cancel: ទុកជាមោឃៈ
 
+  client_enrollment_trackings:
+    create:
+      successfully_created: ការ​តាមដានត្រូវបានរក្សាទុកដោយជោគជ័យ
+    update:
+      successfully_updated: ការ​តាមដានត្រូវបានកែសម្រួលដោយជោគជ័យ
+    destroy:
+      successfully_deleted: ការ​តាមដានត្រូវបានលុបដោយជោគជ័យ
+    report:
+      are_you_sure: តើអ្នកប្រាកដហើយ?
+      back: ត្រលប់ក្រោយ
+      new_tracking: បន្ថែមការតាមដានថ្មី
+      created_at: កាលបរិច្ឆេទ
+    show:
+      back: ត្រលប់ក្រោយ
+      trackings_list: តារាងការតាមដាន
+    new:
+      new_tracking: បន្ថែមការតាមដានថ្មី
+    index:
+      tracking_lists: តារាងការតាមដាន
+      programs_list: តារាងកម្មវិធី​
+    action:
+      new_tracking: បន្ថែមការតាមដានថ្មី
+    form:
+      save: រក្សាទុក
+      cancel: ទុកជាមោឃៈ
+
   trackings:
     show:
       back: ត្រលប់ក្រោយ
     new:
-      new_tracking: ការ​តាមដានថ្មី
+      new_tracking: បន្ថែមការ​តាមដានថ្មី
     create:
       successfully_created: ការ​តាមដានត្រូវបានរក្សាទុកដោយជោគជ័យ
     form:
@@ -901,7 +941,12 @@ km:
       cancel: ទុកជាមោឃៈ
 
   leave_programs:
+    update:
+      successfully_updated: កម្មវិធីត្រូវបានកែសម្រួលដោយជោគជ័យ
+    edit:
+      leave_program: កែសម្រួលការចាកចេញពីកម្មវិធី
     show:
+      exit_date: ថ្ងៃចាកចេញ
       back: ត្រលប់ក្រោយ
     new:
       new_exit_program: ការចាកចេញពីកម្មវិធីថ្មី

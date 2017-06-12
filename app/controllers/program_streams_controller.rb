@@ -6,7 +6,7 @@ class ProgramStreamsController < AdminController
   def index
     @program_stream_grid = ProgramStreamGrid.new(params[:program_stream_grid])
     @results = @program_stream_grid.assets.size
-    @program_stream_grid.scope { |scope| scope.page(params[:page]).per(20) }
+    @program_stream_grid.scope { |scope| scope.ordered.page(params[:page]).per(20) }
   end
 
   def new
@@ -50,6 +50,5 @@ class ProgramStreamsController < AdminController
 
   def program_stream_params
     params.require(:program_stream).permit(:name, :rules, :description, :enrollment, :tracking, :frequency, :time_of_frequency, :exit_program, :quantity, domain_ids: []).merge(trackings_attributes:  params[:program_stream][:trackings_attributes])
-    # params.require(:program_stream).permit(:name, :rules, :description, :enrollment, :tracking, :frequency, :time_of_frequency, :exit_program, :quantity, :trackings_attributes,domain_ids: [])
   end
 end

@@ -7,7 +7,7 @@
             .col-xs-12.col-md-4
               = f.input :name, label: t('.name')
             .col-xs-12.col-md-4
-              = f.input :frequency, collection: ProgramStream.frequencies.invert.to_a, label: t('.frequency')
+              = f.input :frequency, collection: Tracking::FREQUENCIES, label: t('.frequency')
             .col-xs-12.col-md-4
               = f.input :time_of_frequency, label: t('.time_of_frequency')
       .row

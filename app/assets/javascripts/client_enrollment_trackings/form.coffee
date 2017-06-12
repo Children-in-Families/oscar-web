@@ -1,4 +1,5 @@
-CIF.TrackingsNew = CIF.TrackingsCreate = do -> 
+CIF.Client_enrollment_trackingsNew = CIF.Client_enrollment_trackingsCreate = CIF.Client_enrollment_trackingsEdit = CIF.Client_enrollment_trackingsUpdate = do ->
+  
   _init = ->
     _initSelect2()
     _handlePreventCheckbox()

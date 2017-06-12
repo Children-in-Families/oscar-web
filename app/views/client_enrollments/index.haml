@@ -2,6 +2,7 @@
   .ibox-title
     %h5= t('.program_lists')
   .ibox-content
-    = datagrid_table @client_enrollment_grid, html: { class: 'table table-bordered table-striped table-hover client_enrollment'}
+    .table-responsive
+      = datagrid_table @client_enrollment_grid, html: { class: 'table table-bordered table-striped table-hover client_enrollment'}
   .ibox-footer
     = paginate @client_enrollment_grid.assets
