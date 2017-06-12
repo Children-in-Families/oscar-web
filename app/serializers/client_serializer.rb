@@ -15,7 +15,7 @@ class ClientSerializer < ActiveModel::Serializer
   end
 
   def rejected_note
-    object.rejected_note if status == "rejected"
+    object.rejected_note if object.status == "rejected"
   end
 
   def current_province
@@ -72,8 +72,8 @@ class ClientSerializer < ActiveModel::Serializer
       formatted_case_note_domain_group = case_note.case_note_domain_groups.map do |cdg|
         domain_scores = cdg.domain_group.domains.map do |domain|
           ad = domain.assessment_domains.find_by(assessment_id: case_note.assessment_id)
-          ad.score
-        end
+          ad.try(:score)
+        end.compact
         cdg.as_json.merge(domain_group_identities: cdg.domain_group.domain_identities, domain_scores: domain_scores, completed_tasks: cdg.completed_tasks)
       end
       case_note.as_json.merge(case_note_domain_group: formatted_case_note_domain_group)

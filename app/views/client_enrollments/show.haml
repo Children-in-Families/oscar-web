@@ -7,7 +7,7 @@
           = link_to edit_client_client_enrollment_path(@client, @client_enrollment, program_stream_id: @program_stream) do
             .btn.btn-success.btn-outline
               = fa_icon('pencil')
-          = link_to client_client_enrollment_path(@client, @client_enrollment, program_stream_id: @program_stream), method: :delete, data: { confirm: t('.are_you_sure')}, class: "btn btn-danger btn-outline #{disable_client_enrollment_button(@client_enrollment)}" do
+          = link_to client_client_enrollment_path(@client, @client_enrollment, program_stream_id: @program_stream), method: :delete, data: { confirm: t('.are_you_sure')}, class: "btn btn-danger btn-outline" do
             = fa_icon('trash')
       .ibox-content
         .table-responsive

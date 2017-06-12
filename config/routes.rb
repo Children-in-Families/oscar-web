@@ -179,9 +179,12 @@ Rails.application.routes.draw do
       resources :clients, except: [:edit, :new] do
         get :compare, on: :collection
         resources :assessments, only: [:create]
-        resources :tasks, only: [:create, :update, :destroy]
         resources :case_notes, only: [:create]
         resources :custom_field_properties, only: [:create, :update, :destroy]
+
+        scope module: 'client_tasks' do
+          resources :tasks, only: [:create, :update, :destroy]
+        end
       end
     end
   end
