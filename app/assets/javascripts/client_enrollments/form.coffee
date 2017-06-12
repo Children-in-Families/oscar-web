@@ -1,4 +1,4 @@
-CIF.Client_enrollmentsNew = CIF.Client_enrollmentsCreate = do -> 
+CIF.Client_enrollmentsNew = CIF.Client_enrollmentsCreate = CIF.Client_enrollmentsEdit = CIF.Client_enrollmentsUpdate = do -> 
   _init = ->
     _initSelect2()
     _handlePreventCheckbox()

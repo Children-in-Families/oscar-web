@@ -27,6 +27,6 @@ module ProgramStreamHelper
   private
 
   def enrollments_by(client, program_stream)
-    ClientEnrollment.enrollments_by(client, program_stream)
+    program_stream.client_enrollments.enrollments_by(client)
   end
 end

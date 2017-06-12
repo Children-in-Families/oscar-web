@@ -110,9 +110,11 @@ Rails.application.routes.draw do
     collection do
       get :advanced_search
     end
-    resources :client_enrollments, only: [:new, :index, :create, :show] do
+    resources :client_enrollments do
       get :report, on: :collection
-      resources :trackings
+      resources :client_enrollment_trackings do
+        get :report, on: :collection
+      end
       resources :leave_programs
     end
     resources :custom_field_properties
@@ -177,9 +179,12 @@ Rails.application.routes.draw do
       resources :clients, except: [:edit, :new] do
         get :compare, on: :collection
         resources :assessments, only: [:create]
-        resources :tasks, only: [:create, :update, :destroy]
         resources :case_notes, only: [:create, :update]
         resources :custom_field_properties, only: [:create, :update, :destroy]
+
+        scope module: 'client_tasks' do
+          resources :tasks, only: [:create, :update, :destroy]
+        end
       end
     end
   end
