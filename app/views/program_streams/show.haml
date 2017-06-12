@@ -50,11 +50,21 @@
                 %a{"data-toggle": "collapse", href: "#tracking"}= t('.tracking')
             #tracking.panel-collapse.collapse
               .panel-body
-                - @program_stream.tracking.each do |tracking|
-                  .row
-                    .col-xs-12
-                      = render "program_streams/fields/#{tracking['type'].underscore}", field_props: tracking
-               
+                .row
+                  - @program_stream.trackings.each do |tracking|
+                    .col-xs-12.col-md-6
+                      .ibox.border-left-right.border-bottom
+                        .ibox-content
+                          .row.input-margin
+                            .col-xs-12
+                              %label= tracking.name
+                            .col-xs-12
+                              = text_field_tag 'Name', '', class: 'form-control'
+                          .row
+                            .col-xs-12
+                              - tracking['fields'].each do |field|
+                                = render "program_streams/fields/#{field['type'].underscore}", field_props: field
+
           .panel.panel-default
             .panel-heading
               %h4.panel-title

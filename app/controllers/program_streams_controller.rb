@@ -49,7 +49,6 @@ class ProgramStreamsController < AdminController
   end
 
   def program_stream_params
-
     params.require(:program_stream).permit(:name, :rules, :description, :enrollment, :tracking, :frequency, :time_of_frequency, :exit_program, :quantity, domain_ids: []).merge(trackings_attributes:  params[:program_stream][:trackings_attributes])
     # params.require(:program_stream).permit(:name, :rules, :description, :enrollment, :tracking, :frequency, :time_of_frequency, :exit_program, :quantity, :trackings_attributes,domain_ids: [])
   end

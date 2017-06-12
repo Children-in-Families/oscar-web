@@ -207,14 +207,6 @@ ActiveRecord::Schema.define(version: 20170608044102) do
   add_index "client_enrollments", ["client_id"], name: "index_client_enrollments_on_client_id", using: :btree
   add_index "client_enrollments", ["program_stream_id"], name: "index_client_enrollments_on_program_stream_id", using: :btree
 
-  create_table "client_program_streams", force: :cascade do |t|
-    t.integer  "client_id"
-    t.integer  "program_stream_id"
-    t.datetime "created_at",                           null: false
-    t.datetime "updated_at",                           null: false
-    t.string   "status",            default: "Active"
-  end
-
   create_table "client_quantitative_cases", force: :cascade do |t|
     t.integer  "quantitative_case_id"
     t.integer  "client_id"
@@ -351,26 +343,6 @@ ActiveRecord::Schema.define(version: 20170608044102) do
     t.datetime "updated_at",               null: false
     t.string   "code",        default: ""
   end
-
-  create_table "enrollments", force: :cascade do |t|
-    t.jsonb    "properties"
-    t.integer  "client_program_stream_id"
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
-  end
-
-  add_index "enrollments", ["client_program_stream_id"], name: "index_enrollments_on_client_program_stream_id", using: :btree
-
-  create_table "exit_programs", force: :cascade do |t|
-    t.jsonb    "properties"
-    t.integer  "client_program_stream_id"
-    t.integer  "enrollment_id"
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
-  end
-
-  add_index "exit_programs", ["client_program_stream_id"], name: "index_exit_programs_on_client_program_stream_id", using: :btree
-  add_index "exit_programs", ["enrollment_id"], name: "index_exit_programs_on_enrollment_id", using: :btree
 
   create_table "families", force: :cascade do |t|
     t.string   "code"
@@ -546,7 +518,6 @@ ActiveRecord::Schema.define(version: 20170608044102) do
     t.string   "frequency",         default: ""
     t.integer  "time_of_frequency", default: 0
     t.integer  "quantity"
-    t.string   "ngo_name",          default: ""
   end
 
   create_table "progress_note_types", force: :cascade do |t|
@@ -936,8 +907,8 @@ ActiveRecord::Schema.define(version: 20170608044102) do
     t.integer  "organization_id"
     t.boolean  "disable",                default: false
     t.datetime "expires_at"
-    t.boolean  "task_notify",            default: true
     t.integer  "manager_id"
+    t.boolean  "task_notify",            default: true
     t.boolean  "calendar_integration",   default: false
     t.integer  "pin_number"
   end
@@ -996,9 +967,6 @@ ActiveRecord::Schema.define(version: 20170608044102) do
   add_foreign_key "clients", "donors"
   add_foreign_key "custom_field_properties", "custom_fields"
   add_foreign_key "domains", "domain_groups"
-  add_foreign_key "enrollments", "client_program_streams"
-  add_foreign_key "exit_programs", "client_program_streams"
-  add_foreign_key "exit_programs", "enrollments"
   add_foreign_key "interventions_progress_notes", "interventions"
   add_foreign_key "interventions_progress_notes", "progress_notes"
   add_foreign_key "leave_programs", "client_enrollments"
