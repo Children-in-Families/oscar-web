@@ -5,7 +5,7 @@ class Tracking < ActiveRecord::Base
   has_many :client_enrollments, through: :client_enrollment_trackings
 
   validates :name, :fields, presence: true
-  validates :name, uniqueness: true
+  # validates :name, uniqueness: true
 
   validate :form_builder_field_uniqueness
   validate :validate_remove_field
