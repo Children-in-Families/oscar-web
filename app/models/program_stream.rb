@@ -1,6 +1,6 @@
 class ProgramStream < ActiveRecord::Base
   enum frequencies: { day: 'Daily', week: 'Weekly', month: 'Monthly', year: 'Yearly' }
-  FORM_BUILDER_FIELDS = ['enrollment', 'tracking', 'exit_program'].freeze
+  FORM_BUILDER_FIELDS = ['enrollment', 'exit_program'].freeze
 
   has_many   :domain_program_streams, dependent: :destroy
   has_many   :domains, through: :domain_program_streams
@@ -9,7 +9,9 @@ class ProgramStream < ActiveRecord::Base
   has_many   :trackings
   has_many   :leave_programs
 
-  validates :name, :rules, :enrollment, :tracking, :exit_program, presence: true
+  accepts_nested_attributes_for :trackings, reject_if: :all_blank, allow_destroy: true
+
+  validates :name, :rules, :enrollment, :exit_program, presence: true
   validates :name, uniqueness: true
   validate  :form_builder_field_uniqueness
   validate  :validate_remove_field, if: -> { id.present? }

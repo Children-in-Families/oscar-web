@@ -11,13 +11,13 @@ class ProgramStreamsController < AdminController
 
   def new
     @program_stream = ProgramStream.new
+    @tracking = @program_stream.trackings.build
   end
 
   def edit
   end
 
   def show
-    
   end
 
   def create
@@ -49,6 +49,7 @@ class ProgramStreamsController < AdminController
   end
 
   def program_stream_params
-    params.require(:program_stream).permit(:name, :rules, :description, :enrollment, :tracking, :frequency, :time_of_frequency, :exit_program, :quantity, domain_ids: [])
+    params.require(:program_stream).permit(:name, :rules, :description, :enrollment, :tracking, :frequency, :time_of_frequency, :exit_program, :quantity, domain_ids: []).merge(trackings_attributes:  params[:program_stream][:trackings_attributes])
+    # params.require(:program_stream).permit(:name, :rules, :description, :enrollment, :tracking, :frequency, :time_of_frequency, :exit_program, :quantity, :trackings_attributes,domain_ids: [])
   end
 end

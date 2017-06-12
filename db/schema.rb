@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170601025654) do
+ActiveRecord::Schema.define(version: 20170608044102) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -183,6 +183,17 @@ ActiveRecord::Schema.define(version: 20170601025654) do
   end
 
   add_index "changelogs", ["user_id"], name: "index_changelogs_on_user_id", using: :btree
+
+  create_table "client_enrollment_trackings", force: :cascade do |t|
+    t.jsonb    "properties"
+    t.integer  "client_enrollment_id"
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+    t.integer  "program_stream_id"
+    t.integer  "tracking_id"
+  end
+
+  add_index "client_enrollment_trackings", ["client_enrollment_id"], name: "index_client_enrollment_trackings_on_client_enrollment_id", using: :btree
 
   create_table "client_enrollments", force: :cascade do |t|
     t.jsonb    "properties"
@@ -851,14 +862,16 @@ ActiveRecord::Schema.define(version: 20170601025654) do
   add_index "thredded_user_topic_read_states", ["user_id", "postable_id"], name: "thredded_user_topic_read_states_user_postable", unique: true, using: :btree
 
   create_table "trackings", force: :cascade do |t|
-    t.jsonb    "properties"
-    t.integer  "client_enrollment_id"
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
+    t.string   "name",              default: ""
+    t.jsonb    "fields"
+    t.string   "frequency",         default: ""
+    t.integer  "time_of_frequency"
     t.integer  "program_stream_id"
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
   end
 
-  add_index "trackings", ["client_enrollment_id"], name: "index_trackings_on_client_enrollment_id", using: :btree
+  add_index "trackings", ["program_stream_id"], name: "index_trackings_on_program_stream_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "first_name",             default: ""
@@ -948,6 +961,7 @@ ActiveRecord::Schema.define(version: 20170601025654) do
   add_foreign_key "case_notes", "clients"
   add_foreign_key "changelog_types", "changelogs"
   add_foreign_key "changelogs", "users"
+  add_foreign_key "client_enrollment_trackings", "client_enrollments"
   add_foreign_key "client_enrollments", "clients"
   add_foreign_key "client_enrollments", "program_streams"
   add_foreign_key "clients", "donors"
@@ -966,7 +980,7 @@ ActiveRecord::Schema.define(version: 20170601025654) do
   add_foreign_key "tasks", "clients"
   add_foreign_key "thredded_messageboard_users", "thredded_messageboards"
   add_foreign_key "thredded_messageboard_users", "thredded_user_details"
-  add_foreign_key "trackings", "client_enrollments"
+  add_foreign_key "trackings", "program_streams"
   add_foreign_key "users", "organizations"
   add_foreign_key "visits", "users"
 end
