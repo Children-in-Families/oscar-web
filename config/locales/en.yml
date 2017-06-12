@@ -338,8 +338,8 @@ en:
     follow_up_by: Followed Up By
     agency_names: Agency Name
     current_address: Current Address
-    house_number: House Number
-    street_number: Street Number
+    house_number: House
+    street_number: Street
     village: Village
     commune: Commune/Sangkat
     district: District/Khan
@@ -355,6 +355,7 @@ en:
     province: Birth Province
     agencies_involved: Agencies Involved
     completed: Completed
+    cambodia: Cambodia
 
   default_placement_fields: &default_placement_fields
     start_date: Start Date
@@ -519,7 +520,7 @@ en:
         view: View
         placement_start_date: Placement Start Date
         placement_case_type: Placement Case Type
-    
+
       client_enrollments:
         status: Status
         domain: Domain
@@ -857,7 +858,7 @@ en:
       add_new_filter: Add New Filter
       add_new_group: Add Group
       delete_group: Delete
-  
+
   client_enrollments:
     show:
       enrollment: Enrollment Form
@@ -879,9 +880,9 @@ en:
       full_program: This Program is full
     new:
       new_enrollment: New Enrollment
-      client_not_valid: Client doesn't match with this program rules.  
+      client_not_valid: Client doesn't match with this program rules.
     index:
-      program_lists: Programs List  
+      program_lists: Programs List
     create:
       successfully_created: Enrollment has been successfully created.
     form:
@@ -902,7 +903,7 @@ en:
   leave_programs:
     show:
       back: Back
-    new: 
+    new:
       new_exit_program: New Exit Program
     create:
       successfully_created: Client has successfully exited from the program.
