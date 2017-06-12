@@ -31,7 +31,7 @@ class Ability
       can :manage, Task
       can :manage, CustomFieldProperty, custom_formable_type: 'Client'
       can :manage, ClientEnrollment
-      can :manage, Tracking
+      can :manage, ClientEnrollmentTracking
       can :manage, LeaveProgram
       can :update, Assessment do |assessment|
         assessment.client.user_id == user.id
@@ -54,7 +54,7 @@ class Ability
       can :manage, CustomField
       can :manage, ProgramStream
       can :manage, ClientEnrollment
-      can :manage, Tracking
+      can :manage, ClientEnrollmentTracking
       can :manage, LeaveProgram
       can :update, Assessment do |assessment|
         assessment.client.able?
@@ -80,7 +80,7 @@ class Ability
       can :manage, GovernmentReport
       can :manage, ProgramStream
       can :manage, ClientEnrollment
-      can :manage, Tracking
+      can :manage, ClientEnrollmentTracking
       can :manage, LeaveProgram
       can :update, Assessment do |assessment|
         assessment.client.active_ec?
@@ -106,7 +106,7 @@ class Ability
       can :manage, GovernmentReport
       can :manage, ProgramStream
       can :manage, ClientEnrollment
-      can :manage, Tracking
+      can :manage, ClientEnrollmentTracking
       can :manage, LeaveProgram
       can :update, Assessment do |assessment|
         assessment.client.active_fc?
@@ -134,7 +134,7 @@ class Ability
       can :manage, GovernmentReport
       can :manage, ProgramStream
       can :manage, ClientEnrollment
-      can :manage, Tracking
+      can :manage, ClientEnrollmentTracking
       can :manage, LeaveProgram
       can :update, Assessment do |assessment|
         assessment.client.active_kc?
@@ -157,7 +157,7 @@ class Ability
       can :manage, CustomField
       can :manage, ProgramStream
       can :manage, ClientEnrollment
-      can :manage, Tracking
+      can :manage, ClientEnrollmentTracking
       can :manage, LeaveProgram
     end
   end

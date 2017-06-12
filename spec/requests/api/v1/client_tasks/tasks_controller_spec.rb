@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe Api::V1::TasksController, type: :request do
+RSpec.describe Api::V1::ClientTasks::TasksController, type: :request do
   let(:user) { create(:user) }
   let!(:client) { create(:client, user: user) }
   let!(:domains) { create_list(:domain, 12) }

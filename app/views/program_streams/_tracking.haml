@@ -1,10 +1,7 @@
 %h4= t('.tracking_form')
 %section
-  .row
-    .col-xs-12.col-md-6
-      = f.input :frequency, collection: ProgramStream.frequencies.invert.to_a, label: t('.frequency')
-    .col-xs-12.col-md-6
-      = f.input :time_of_frequency, label: t('.time_of_frequency')
-  #tracking{ data: { tracking: @program_stream.tracking }}
-  = f.error :tracking, class: 'text-danger'
-  = f.hidden_field :tracking
+  #trackings
+    = f.simple_fields_for :trackings, @tracking do |ff|
+      = render 'tracking_fields', f: ff
+    .links
+      = link_to_add_association t('.add_tracking'), f, :trackings, class: 'btn btn-primary pull-right'

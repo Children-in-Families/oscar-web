@@ -9,4 +9,10 @@ body[id='program_streams-index'] {
   th.name {
     width: 200px;
   }
+
+  td.action {
+    a {
+      margin-left: 5px;
+    }
+  }
 }
