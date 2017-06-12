@@ -5,7 +5,7 @@
         .col-xs-12
           .row
             .col-xs-12.col-md-4
-              = f.input :name
+              = f.input :name, label: t('.name')
             .col-xs-12.col-md-4
               = f.input :frequency, collection: ProgramStream.frequencies.invert.to_a, label: t('.frequency')
             .col-xs-12.col-md-4
@@ -21,5 +21,5 @@
     .ibox-footer
       .row
         .col-xs-12
-          = link_to_remove_association "Remove Tracking", f, class: 'btn btn-danger'
+          = link_to_remove_association t('.remove_tracking'), f, class: 'btn btn-danger'
   %hr

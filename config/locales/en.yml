@@ -235,10 +235,14 @@ en:
       add_rule: Add rule
     enrollment:
       enrollment_form: Enrollment
-    tracking:
-      tracking_form: Progress Tracking
+    tracking_fields:
       frequency: Frequency
       time_of_frequency: Time of Frequency
+      name: Name
+      remove_tracking: Remove Tracking
+    tracking:
+      add_tracking: Add Tracking
+      tracking_form: Progress Tracking
     exit_field:
       exit_form: Exit Form
     form:

@@ -4,4 +4,4 @@
     = f.simple_fields_for :trackings, @tracking do |ff|
       = render 'tracking_fields', f: ff
     .links
-      = link_to_add_association 'Add Tracking', f, :trackings, class: 'btn btn-primary pull-right'
+      = link_to_add_association t('.add_tracking'), f, :trackings, class: 'btn btn-primary pull-right'
