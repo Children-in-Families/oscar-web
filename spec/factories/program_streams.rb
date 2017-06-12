@@ -7,7 +7,7 @@ FactoryGirl.define do
     name FFaker::Name.name
     rules { rule_condition }
     enrollment default_field
-    tracking default_field
+    # tracking default_field
     exit_program default_field
   end
 end

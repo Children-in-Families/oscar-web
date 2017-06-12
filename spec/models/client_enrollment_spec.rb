@@ -1,7 +1,7 @@
 describe ClientEnrollment, 'associations' do
   it { is_expected.to belong_to(:client) }
   it { is_expected.to belong_to(:program_stream) }
-  it { is_expected.to have_many(:trackings).dependent(:destroy) }
+  it { is_expected.to have_many(:trackings).through(:client_enrollment_trackings) }
   it { is_expected.to have_one(:leave_program).dependent(:destroy) }
 end
 

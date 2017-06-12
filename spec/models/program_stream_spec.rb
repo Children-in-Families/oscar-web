@@ -12,20 +12,19 @@ describe ProgramStream, 'validations' do
   it { is_expected.to validate_uniqueness_of(:name) }
   it { is_expected.to validate_presence_of(:rules) }
   it { is_expected.to validate_presence_of(:enrollment) }
-  it { is_expected.to validate_presence_of(:tracking) }
   it { is_expected.to validate_presence_of(:exit_program) }
 end
 
 describe ProgramStream, 'uniqueness enrollment tracking and exit_program' do
   rules         = {'rules'=>[{'id'=>'age', 'type'=>'integer', 'field'=>'age', 'input'=>'text', 'value'=>'2', 'operator'=>'equal'}], 'condition'=>'AND'}.to_json
   enrollment    = [{'label'=>'hello','type'=>'text'}, {'label'=>'hello','type'=>'text'}]
-  tracking      = [{'label'=>'world','type'=>'text'}, {'label'=>'world','type'=>'text'}]
+  # tracking      = [[{'label'=>'world','type'=>'text'}], [{'label'=>'world','type'=>'text'}]]
   exit_program  = [{'label'=>'Mr.ABC','type'=>'text'}, {'label'=>'Mr.ABC','type'=>'text'}]
-  program_stream_duplicate = ProgramStream.new(name: 'Test', rules: rules, enrollment: enrollment, tracking: tracking, exit_program: exit_program)
+  program_stream_duplicate = ProgramStream.new(name: 'Test', rules: rules, enrollment: enrollment, exit_program: exit_program)
 
   it 'return errors fields duplicate' do
     program_stream_duplicate.save
-    expect(program_stream_duplicate.errors.full_messages).to include("Enrollment Fields duplicated!", "Tracking Fields duplicated!", "Exit program Fields duplicated!")
+    expect(program_stream_duplicate.errors.full_messages).to include("Enrollment Fields duplicated!", "Exit program Fields duplicated!")
   end
 end
 
