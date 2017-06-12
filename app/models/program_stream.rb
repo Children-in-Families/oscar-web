@@ -11,7 +11,7 @@ class ProgramStream < ActiveRecord::Base
   accepts_nested_attributes_for :trackings, reject_if: :all_blank, allow_destroy: true
 
   validates :name, :rules, :enrollment, :exit_program, presence: true
-  #   
+  validates :name, uniqueness: true
   validate  :form_builder_field_uniqueness
   validate  :validate_remove_field, if: -> { id.present? }
 
