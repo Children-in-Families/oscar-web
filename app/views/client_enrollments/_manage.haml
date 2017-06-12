@@ -4,9 +4,9 @@
       .label.label-info= t('.full_program')
     - else
       = link_to new_client_client_enrollment_path(@client, program_stream_id: object.id) do
-        .btn.btn-primary= t('.enroll') 
+        .btn.btn-primary.btn-xs= t('.enroll')
   - else
-    = link_to new_client_client_enrollment_tracking_path(@client, object.client_enrollments.enrollments_by(@client).last) do
-      .btn.btn-primary= t('.tracking') 
+    = link_to client_client_enrollment_client_enrollment_trackings_path(@client, object.client_enrollments.enrollments_by(@client).last) do
+      .btn.btn-primary.btn-xs= t('.tracking')
     = link_to new_client_client_enrollment_leave_program_path(@client, object.client_enrollments.enrollments_by(@client).last) do
-      .btn.btn-danger= t('.exit')
+      .btn.btn-danger.btn-xs= t('.exit')
