@@ -7,18 +7,33 @@ describe ProgramStream, 'associations' do
   it { is_expected.to have_many(:leave_programs) }
 end
 
+describe ProgramStream, 'scope' do
+  let!(:first_program_stream) { create(:program_stream, name: 'def') }
+  let!(:second_program_stream) { create(:program_stream, name: 'abc') }
+
+  context 'ordered' do
+    it 'return the second record first' do
+      expect(ProgramStream.ordered.first).to eq second_program_stream
+    end
+
+    it 'return the first record second' do
+      expect(ProgramStream.ordered.last).to eq first_program_stream
+    end
+  end
+end
+
 describe ProgramStream, 'validations' do
   it { is_expected.to validate_presence_of(:name) }
   it { is_expected.to validate_uniqueness_of(:name) }
   it { is_expected.to validate_presence_of(:rules) }
   it { is_expected.to validate_presence_of(:enrollment) }
   it { is_expected.to validate_presence_of(:exit_program) }
+  it { is_expected.to accept_nested_attributes_for(:trackings) }
 end
 
 describe ProgramStream, 'uniqueness enrollment tracking and exit_program' do
   rules         = {'rules'=>[{'id'=>'age', 'type'=>'integer', 'field'=>'age', 'input'=>'text', 'value'=>'2', 'operator'=>'equal'}], 'condition'=>'AND'}.to_json
   enrollment    = [{'label'=>'hello','type'=>'text'}, {'label'=>'hello','type'=>'text'}]
-  # tracking      = [[{'label'=>'world','type'=>'text'}], [{'label'=>'world','type'=>'text'}]]
   exit_program  = [{'label'=>'Mr.ABC','type'=>'text'}, {'label'=>'Mr.ABC','type'=>'text'}]
   program_stream_duplicate = ProgramStream.new(name: 'Test', rules: rules, enrollment: enrollment, exit_program: exit_program)
 
