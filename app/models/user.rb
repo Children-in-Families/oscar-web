@@ -133,7 +133,7 @@ class User < ActiveRecord::Base
     if user.admin? || user.strategic_overviewer?
       User.all
     elsif user.manager?
-      User.where('id = :user_id OR manager_id = :user_id', { user_id: user.id })
+      User.where('manager_ids && ARRAY[?]', user.id)
     elsif user.able_manager?
       ids = Client.able.pluck(:user_id) << user.id
       User.where(id: ids.uniq)
