@@ -4,12 +4,13 @@
       .ibox-title
         %h5= "#{t('.enrollment_date')} #{ date_format @client_enrollment.created_at }"
         .ibox-tools
-          - if policy(@client_enrollment).update?
-            = link_to edit_client_client_enrollment_path(@client, @client_enrollment, program_stream_id: @program_stream) do
-              .btn.btn-success.btn-outline
-                = fa_icon('pencil')
-          = link_to client_client_enrollment_path(@client, @client_enrollment, program_stream_id: @program_stream), method: :delete, data: { confirm: t('.are_you_sure')}, class: "btn btn-danger btn-outline" do
-            = fa_icon('trash')
+          - if can? :manage, ClientEnrollment
+            - if policy(@client_enrollment).update?
+              = link_to edit_client_client_enrollment_path(@client, @client_enrollment, program_stream_id: @program_stream) do
+                .btn.btn-success.btn-outline
+                  = fa_icon('pencil')
+            = link_to client_client_enrollment_path(@client, @client_enrollment, program_stream_id: @program_stream), method: :delete, data: { confirm: t('.are_you_sure')}, class: "btn btn-danger btn-outline" do
+              = fa_icon('trash')
       .ibox-content
         .table-responsive
           %table.table.table-bordered
