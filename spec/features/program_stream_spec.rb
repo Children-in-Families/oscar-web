@@ -2,6 +2,7 @@ feature 'program_stream' do
   let!(:admin){ create(:user, roles: 'admin') }
   let!(:domain) { create(:domain) }
   let!(:program_stream) { create(:program_stream) }
+  let!(:tracking) { create(:tracking, program_stream: program_stream) }
   let!(:domain_program_stream){ create(:domain_program_stream, domain: domain, program_stream: program_stream) }
 
   before do 
@@ -106,6 +107,7 @@ feature 'program_stream' do
       page.find('.icon-calendar').click
       page.click_link 'Next'
       sleep 1
+      fill_in 'Name', with: FFaker::Name.name
       page.find('.icon-text-input').click
       page.click_link 'Next'
       sleep 1
@@ -157,9 +159,14 @@ feature 'program_stream' do
       visit program_streams_path
     end
 
-    scenario 'delete successfully' do
+    scenario 'delete fail' do
       find("a[href='#{program_stream_path(program_stream)}'][data-method='delete']").click
-      wait_for_ajax
+      expect(page).to have_content('Program Stream cannot be deleted')
+    end
+
+    scenario 'delete successfully' do
+      tracking.destroy
+      find("a[href='#{program_stream_path(program_stream)}'][data-method='delete']").click
       expect(page).to have_content('Program Stream has been successfully deleted')
     end
   end

@@ -225,6 +225,7 @@ km:
       successfully_updated: កម្មវិធីរក្សាទុកដោយជោគជ័យ
     destroy:
       successfully_deleted: កម្មវិធីលុបដោយជោគជ័យ
+      alert: កម្មវិធីមិនអាចលុបបានទេ
     actions:
       are_you_sure: តើអ្នកប្រាកដហើយ?
     program_rule:

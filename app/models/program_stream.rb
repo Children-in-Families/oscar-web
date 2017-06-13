@@ -5,7 +5,7 @@ class ProgramStream < ActiveRecord::Base
   has_many   :domains, through: :domain_program_streams
   has_many   :client_enrollments, dependent: :restrict_with_error
   has_many   :clients, through: :client_enrollments
-  has_many   :trackings
+  has_many   :trackings, dependent: :restrict_with_error
   has_many   :leave_programs
 
   accepts_nested_attributes_for :trackings, reject_if: :all_blank, allow_destroy: true

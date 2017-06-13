@@ -80,45 +80,86 @@ describe 'Client Enrollment' do
   end
 
   feature 'Report' do
-    let!(:tracking) { create(:tracking, client_enrollment: client_enrollment, program_stream: second_program_stream) }
-    let!(:leave_program) { create(:leave_program, client_enrollment: client_enrollment, program_stream: second_program_stream)}
+    let!(:tracking) { create(:tracking, program_stream: second_program_stream) }
+    # let!(:leave_program) { create(:leave_program, client_enrollment: client_enrollment, program_stream: second_program_stream)}
 
     before do
       visit report_client_client_enrollments_path(client, program_stream_id: program_stream)
     end
 
-    scenario 'List Tracking' do
+    scenario 'Date' do
       expect(page).to have_content(program_stream.created_at.strftime '%d %B, %Y')
-      expect(page).to have_content('Tracking')
+    end
+
+    scenario 'View Link' do
       expect(page).to have_link('View')
     end
 
-    scenario 'List Exit' do
-      expect(page).to have_content(program_stream.created_at.strftime '%d %B, %Y')
-      expect(page).to have_content('Exit')
-      expect(page).to have_link('View')
+    scenario 'Program List Link' do
+      expect(page).to have_link('Programs List')
     end
   end
 
   feature 'Show' do
     before do
-      visit client_client_enrollment_path(client, client_enrollment, program_stream_id: program_stream)
+      visit client_client_enrollment_path(client, client_enrollment, program_stream_id: program_stream.id)
+    end
+
+    scenario 'Date' do
+      expect(page).to have_content(client_enrollment.created_at.strftime '%d %B, %Y')
     end
 
     scenario 'Age' do
-      expect(page).to have_content("age")
+      expect(page).to have_content('3')
     end
 
     scenario 'Email' do
-      expect(page).to have_content("e-mail")
+      expect(page).to have_content('cif@cambodianfamily.com')
     end
-    
+
     scenario 'Description' do
-      expect(page).to have_content("description")
+      expect(page).to have_content('this is testing')
     end
 
     scenario 'Back Link' do
-      expect(page).to have_link("Back")
+      expect(page).to have_link('Back')
+    end
+
+    scenario 'Edit Link' do
+      expect(page).to have_link(nil, edit_client_client_enrollment_path(client, client_enrollment, program_stream_id: program_stream.id))
+    end
+
+    scenario 'Delete Link' do
+      expect(page).to have_css("a[href='#{client_client_enrollment_path(client, client_enrollment, program_stream_id: program_stream.id)}'][data-method='delete']")
+    end
+  end
+
+  feature 'Update', js: true do
+    before do
+      visit edit_client_client_enrollment_path(client, client_enrollment, program_stream_id: program_stream.id)
+    end
+
+    scenario 'success' do
+      find('input[type="text"]').set('this is editing')
+      find('input[type="submit"]').click
+      expect(page).to have_content('Enrollment has been successfully updated')
+    end
+
+    scenario 'fail' do
+      find('input[type="text"]').set('')
+      find('input[type="submit"]').click
+      expect(page).to have_content("description can't be blank")
+    end
+  end
+
+  feature 'Destroy', js: true do
+    before do
+      visit client_client_enrollment_path(client, client_enrollment, program_stream_id: program_stream.id)
+    end
+
+    scenario 'success' do
+      find("a[data-method='delete'][href='#{client_client_enrollment_path(client, client_enrollment, program_stream_id: program_stream.id)}']").click
+      expect(page).to have_content('Enrollment has been successfully deleted.')
     end
   end
 end
