@@ -81,7 +81,6 @@ describe 'Client Enrollment' do
 
   feature 'Report' do
     let!(:tracking) { create(:tracking, program_stream: second_program_stream) }
-    # let!(:leave_program) { create(:leave_program, client_enrollment: client_enrollment, program_stream: second_program_stream)}
 
     before do
       visit report_client_client_enrollments_path(client, program_stream_id: program_stream)

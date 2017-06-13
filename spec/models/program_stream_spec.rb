@@ -3,7 +3,7 @@ describe ProgramStream, 'associations' do
   it { is_expected.to have_many(:domains).through(:domain_program_streams) }
   it { is_expected.to have_many(:client_enrollments).dependent(:restrict_with_error) }
   it { is_expected.to have_many(:clients).through(:client_enrollments) }
-  it { is_expected.to have_many(:trackings) }
+  it { is_expected.to have_many(:trackings).dependent(:restrict_with_error) }
   it { is_expected.to have_many(:leave_programs) }
 end
 

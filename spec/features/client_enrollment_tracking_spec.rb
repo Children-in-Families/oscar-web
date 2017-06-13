@@ -126,16 +126,34 @@ describe ClientEnrollmentTracking, 'Client Enrollment Tracking' do
     end
   end
 
-  feature 'Update' do
+  feature 'Update', js: true do
     before do
-      visit edit_client_client_enrollment_client_enrollment_tracking_path(client, client_enrollment, client_enrollment_tracking)
+      visit edit_client_client_enrollment_client_enrollment_tracking_path(client, client_enrollment, client_enrollment_tracking, tracking_id: tracking.id)
     end
 
     scenario 'success' do
-      
+      find('input[type="text"]').set('this is editing')
+      find('input[type="submit"]').click
+      expect(page).to have_content('Tracking Program has been successfully updated')
     end
 
     scenario 'fail' do
+      find('input[type="text"]').set('')
+      find('input[type="submit"]').click
+      expect(page).to have_content("description can't be blank")
     end
   end
+
+  # feature 'Destroy', js: true do
+  #   before do
+  #     visit client_client_enrollment_client_enrollment_tracking_path(client, client_enrollment, client_enrollment_tracking, tracking_id: tracking.id)
+  #   end
+
+  #   scenario 'success' do
+  #     save_and_open_screenshot
+  #     find("a[data-method='delete'][href='#{client_client_enrollment_client_enrollment_tracking_path(client, client_enrollment, client_enrollment_tracking, tracking_id: tracking.id)}']").click
+  #     save_and_open_screenshot
+  #     expect(page).to have_content('Tracking has been successfully deleted')
+  #   end
+  # end
 end
