@@ -1,6 +1,6 @@
 = simple_form_for ([@client, @client_enrollment]) do |f|
   .ibox-content
-    = f.simple_fields_for :properties do |prop_f|
+    = f.simple_fields_for :properties, OpenStruct.new(@client_enrollment.properties) do |prop_f|
       - @program_stream.enrollment.each_slice(2) do |n_field|
         .row
           - n_field.each do |enrollment|

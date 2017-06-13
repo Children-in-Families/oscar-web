@@ -110,9 +110,11 @@ Rails.application.routes.draw do
     collection do
       get :advanced_search
     end
-    resources :client_enrollments, only: [:new, :index, :create, :show] do
+    resources :client_enrollments do
       get :report, on: :collection
-      resources :trackings
+      resources :client_enrollment_trackings do
+        get :report, on: :collection
+      end
       resources :leave_programs
     end
     resources :custom_field_properties
@@ -173,12 +175,12 @@ Rails.application.routes.draw do
 
     namespace :v1, default: { format: :json } do
       resources :domain_groups, only: [:index]
-      resources :users, only: [:update]
       resources :families, only: [:index, :create, :update]
+      resources :users, only: [:index]
       resources :clients, except: [:edit, :new] do
         get :compare, on: :collection
-        resources :assessments, only: [:create]
-        resources :case_notes, only: [:create]
+        resources :assessments, only: [:create, :update]
+        resources :case_notes, only: [:create, :update]
         resources :custom_field_properties, only: [:create, :update, :destroy]
 
         scope module: 'client_tasks' do
