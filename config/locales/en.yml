@@ -521,6 +521,7 @@ en:
         placement_case_type: Placement Case Type
     
       client_enrollments:
+        quantity: Number of Place Available
         status: Status
         domain: Domain
         name: Program Name

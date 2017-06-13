@@ -4,9 +4,10 @@
       .ibox-title
         %h5= "#{t('.exit_date')} #{ date_format @leave_program.created_at }"
         .ibox-tools
-          = link_to edit_client_client_enrollment_leave_program_path(@client, @enrollment, @leave_program, program_stream_id: @program_stream) do
-            .btn.btn-success.btn-outline
-              = fa_icon('pencil')
+          - if can? :manage, LeaveProgram
+            = link_to edit_client_client_enrollment_leave_program_path(@client, @enrollment, @leave_program, program_stream_id: @program_stream) do
+              .btn.btn-success.btn-outline
+                = fa_icon('pencil')
           = link_to report_client_client_enrollments_path(@client, program_stream_id: @program_stream) do
             .btn.btn-default.btn-back-default
               = t('.back')
