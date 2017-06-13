@@ -53,6 +53,45 @@ describe User, 'callbacks' do
       expect(case_worker.manager_id).to eq(manager.id)
     end
   end
+
+  context 'multiple manager' do
+    let!(:manager_level_3){ create(:user, :manager) }
+    let!(:manager_level_2){ create(:user, :manager) }
+    let!(:manager_level_1){ create(:user, :manager) }
+    let!(:other_manager){ create(:user, :manager) }
+    let!(:case_worker){ create(:user, :case_worker, manager_id: manager_level_1.id) }
+    it 'create a case_worker managed by manager level_1' do
+      expect(case_worker.manager_ids).to include(manager_level_1.id)
+    end
+
+    it "update manager level_1 managed_by manager level_2" do
+      manager_level_1.update(manager_id: manager_level_2.id)
+      expect(manager_level_1.manager_ids).to include(manager_level_2.id)
+      expect(case_worker.reload.manager_ids).to include(manager_level_1.id, manager_level_2.id)
+    end
+
+    it "update manager level_2 managed_by manager level_3" do
+      manager_level_1.update(manager_id: manager_level_2.id)
+      manager_level_2.update(manager_id: manager_level_3.id)
+      expect(manager_level_2.manager_ids).to include(manager_level_3.id)
+      expect(manager_level_1.reload.manager_ids).to include(manager_level_2.id, manager_level_3.id)
+      expect(case_worker.reload.manager_ids).to include(manager_level_1.id, manager_level_2.id, manager_level_3.id)
+    end
+
+    it "update manager A to manager B" do
+      manager_level_1.update(manager_id: manager_level_2.id)
+      manager_level_2.update(manager_id: manager_level_3.id)
+      case_worker.update(manager_id: other_manager.id)
+      expect(case_worker.manager_ids).not_to include(manager_level_1.id, manager_level_2.id, manager_level_3.id)
+    end
+
+    it "update case worker manager manager_level_1 to other_manager" do
+      other_manager.update(manager_id: manager_level_2.id)
+      manager_level_2.update(manager_id: manager_level_3.id)
+      case_worker.update(manager_id: other_manager.id)
+      expect(case_worker.manager_ids).to include(other_manager.id, manager_level_2.id, manager_level_3.id)
+    end
+  end
 end
 
 
