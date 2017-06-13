@@ -15,7 +15,7 @@ class ClientEnrollmentsController < AdminController
     if valid_client?
       @client_enrollment = @client.client_enrollments.new(program_stream_id: @program_stream)
     else
-      redirect_to client_client_enrollments_path(@client), notice: t('.client_not_valid')
+      redirect_to client_client_enrollments_path(@client), alert: t('.client_not_valid')
     end
   end
 
