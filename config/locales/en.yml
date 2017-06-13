@@ -522,6 +522,7 @@ en:
         placement_case_type: Placement Case Type
     
       client_enrollments:
+        quantity: Number of Place Available
         status: Status
         domain: Domain
         name: Program Name
@@ -870,7 +871,7 @@ en:
     edit:
       enrollment: Edit Enrollment
     show:
-      enrollment: Enrollment Form
+      enrollment_date: Enroll Date
       back: Back
       are_you_sure: Are you sure you want to delete?
     report:

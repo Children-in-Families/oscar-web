@@ -530,6 +530,7 @@ km:
         placement_case_type: ប្រភេទករណីដែលត្រូវបានបញ្ជូនទៅ
       
       client_enrollments:
+        quantity: ចំនួនដែលនៅទំនរេសំរាប់អតិថិជន
         name: ឈ្មោះកម្មវិធី
         domain: កត្តា
         report: របាយការណ៍
@@ -872,7 +873,7 @@ km:
       enrollment: ទម្រង់បែបបទ​នៃ​ចុះឈ្មោះ
     show:
       are_you_sure: តើអ្នកប្រាកដហើយ?
-      enrollment: ទម្រង់បែបបទ​នៃ​ចុះឈ្មោះ
+      enrollment_date: កាលបរិច្ឆេទចុះឈ្មោះ
       back: ត្រលប់ក្រោយ
     report:
       report: របាយការណ៏

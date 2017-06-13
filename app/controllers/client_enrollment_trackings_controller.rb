@@ -12,10 +12,13 @@ class ClientEnrollmentTrackingsController < AdminController
 
   def new
     @client_enrollment_tracking = @enrollment.client_enrollment_trackings.new
+    authorize @client_enrollment_tracking
   end
 
   def create
     @client_enrollment_tracking = @enrollment.client_enrollment_trackings.new(client_enrollment_tracking_params)
+    authorize @client_enrollment_tracking
+
     if @client_enrollment_tracking.save
       redirect_to report_client_client_enrollment_client_enrollment_trackings_path(@client, @enrollment, tracking_id: @tracking.id), notice: t('.successfully_created')
     else
@@ -24,12 +27,14 @@ class ClientEnrollmentTrackingsController < AdminController
   end
 
   def edit
+    authorize @client_enrollment_tracking
   end
 
   def show
   end
 
   def update
+    authorize @client_enrollment_tracking
     if @client_enrollment_tracking.update_attributes(client_enrollment_tracking_params)
       redirect_to report_client_client_enrollment_client_enrollment_trackings_path(@client, @enrollment, tracking_id: @tracking.id), notice: t('.successfully_updated')
     else
@@ -43,7 +48,7 @@ class ClientEnrollmentTrackingsController < AdminController
   end
 
   def report
-    @client_enrollment_trackings = @enrollment.client_enrollment_trackings
+    @client_enrollment_trackings = @enrollment.client_enrollment_trackings.enrollment_trackings_by(@tracking)
   end
 
   private
