@@ -15,7 +15,14 @@ class ClientEnrollmentGrid
 
   column(:domain, html: true, header: -> { I18n.t('datagrid.columns.client_enrollments.domain') } ) do |object|
     object.domains.pluck(:identity).join(', ')
-  end 
+  end
+
+  column(:quantity, html: true, header: -> { I18n.t('datagrid.columns.client_enrollments.quantity') } ) do |object|
+    next unless object.quantity.present?
+    active_enrollments = object.client_enrollments.active
+
+    object.quantity - active_enrollments.size
+  end
 
   column(:report, html: true, header: -> { I18n.t('datagrid.columns.client_enrollments.report') } ) do |object|
     link_to t('.view'), report_client_client_enrollments_path(@client, program_stream_id: object)
