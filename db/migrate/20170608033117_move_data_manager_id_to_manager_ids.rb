@@ -10,7 +10,7 @@ class MoveDataManagerIdToManagerIds < ActiveRecord::Migration
           user.manager_ids << user.manager_id
           user.save
         rescue
-          unprocessable_users << client.id
+          unprocessable_users << user.id
         end
       end
     end
