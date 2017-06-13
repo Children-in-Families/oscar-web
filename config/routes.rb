@@ -186,6 +186,12 @@ Rails.application.routes.draw do
           resources :tasks, only: [:create, :update, :destroy]
         end
       end
+      resources :provinces, only: [:index]
+      resources :donors, only: [:index]
+      resources :agencies, only: [:index]
+      resources :referral_sources, only: [:index]
+      resources :domains, only: [:index]
+      resources :quantitative_types, only: [:index]
     end
   end
 
