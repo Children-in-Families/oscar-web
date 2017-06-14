@@ -9,6 +9,6 @@ class ClientEnrollmentPolicy < ApplicationPolicy
   end
 
   def client_ids
-    ClientEnrollment.active.pluck(:client_id).uniq
+    ClientEnrollment.active.where(program_stream_id: record.program_stream).pluck(:client_id).uniq
   end
 end
