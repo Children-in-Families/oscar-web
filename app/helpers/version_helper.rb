@@ -88,7 +88,7 @@ module VersionHelper
   end
 
   def version_keys_skipable?(k, item_type = '')
-    k == 'admin' || k == 'tokens' || k == 'encrypted_password' || k == 'uid' || k == 'able' || skipable_user_task_and_case?(k, item_type)
+    k == 'attachments' || k == 'admin' || k == 'tokens' || k == 'encrypted_password' || k == 'uid' || k == 'able' || skipable_user_task_and_case?(k, item_type)
   end
 
   def skipable_user_task_and_case?(k, item_type)

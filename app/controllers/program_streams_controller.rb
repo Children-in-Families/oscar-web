@@ -43,8 +43,11 @@ class ProgramStreamsController < AdminController
   end
 
   def destroy
-    @program_stream.destroy
-    redirect_to program_streams_path, notice: t('.successfully_deleted')
+    if @program_stream.destroy
+      redirect_to program_streams_path, notice: t('.successfully_deleted')
+    else
+      redirect_to program_streams_path, alert: t('.alert')
+    end
   end
 
   private
