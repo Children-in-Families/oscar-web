@@ -26,7 +26,7 @@ class UserReminder
     case_workers_by_manager.each do |manager_id, case_workers|
       if manager_id.present?
         manager = User.find manager_id
-        manager_ids = manager.manager_ids
+        manager_ids = manager.manager_ids.present? ? manager.manager_ids : Array(manager.id)
         return if main_manager_id == manager_ids.last
         if manager_ids.any?
           user_ids = User.where('manager_ids && ARRAY[?]', manager_ids).map(&:id)

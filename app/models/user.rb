@@ -157,12 +157,17 @@ class User < ActiveRecord::Base
   end
 
   def set_manager_ids
-    return if manager_id.nil?
-    manager_ids = User.find(manager_id).manager_ids
-    update_manager_ids(self, manager_ids.unshift(manager_id))
+    if manager_id.nil?
+      self.manager_ids = []
+      manager_id = self.id
+      update_manager_ids(self)
+    else
+      manager_ids = User.find(self.manager_id).manager_ids
+      update_manager_ids(self, manager_ids.unshift(self.manager_id))
+    end
   end
 
-  def update_manager_ids(user, manager_ids)
+  def update_manager_ids(user, manager_ids = [])
     user.manager_ids = manager_ids
     user.save unless user.id == id
     return if user.case_worker?
