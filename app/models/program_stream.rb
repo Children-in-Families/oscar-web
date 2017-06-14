@@ -17,7 +17,6 @@ class ProgramStream < ActiveRecord::Base
 
   scope     :ordered,  ->  { order(:name) }
 
-
   def form_builder_field_uniqueness
     errors_massage = []
     FORM_BUILDER_FIELDS.each do |field|
