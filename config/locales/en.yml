@@ -206,6 +206,7 @@ en:
       successfully_updated: Program Stream has been successfully updated.
     destroy:
       successfully_deleted: Program Stream has been successfully deleted.
+      alert: Program Stream cannot be deleted.
     show:
       description: Description
       domain: Domain
