@@ -15,7 +15,7 @@ RSpec.describe AdminMailer, type: :mailer do
     end
 
     it 'renders the sender email' do
-      expect(mail.from).to eq(['info@cambodianfamilies.com'])
+      expect(mail.from).to eq(ENV['SENDER_EMAIL'])
     end
 
     it 'assigns edit client url' do
