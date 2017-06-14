@@ -2259,6 +2259,7 @@ km:
       family_custom_fields: ទម្រង់បែបបទរបស់គ្រួសារ
       partner_custom_fields: ទម្រង់បែបបទរបស់ដៃគូ
       user_custom_fields: ទម្រង់បែបបទរបស់អ្នកប្រើ
+      program_streams: កម្មវិធី​បន្ទាប់បន្សំ
       custom_fields: ទម្រង់បែបបទ
     per_page_form:
       show: បង្ហាញ
