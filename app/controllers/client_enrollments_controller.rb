@@ -37,7 +37,7 @@ class ClientEnrollmentsController < AdminController
 
   def create
     @client_enrollment = @client.client_enrollments.new(client_enrollment_params)
-    authorize @client_enrollment
+    # authorize @client_enrollment
     if @client_enrollment.save
       redirect_to client_client_enrollment_path(@client, @client_enrollment, program_stream_id: @program_stream), notice: t('.successfully_created')
     else
