@@ -100,14 +100,17 @@ feature 'program_stream' do
     end
 
     scenario 'valid' do
-      fill_in 'Name', with: FFaker::Name.name
+      fill_in 'program_stream_name', with: FFaker::Name.name
       page.find(".rule-filter-container select option[value='gender']", visible: false).select_option
       expect(page).to have_content 'Gender'
+
       page.click_link 'Next'
       page.find('.icon-calendar').click
       page.click_link 'Next'
       sleep 1
-      fill_in 'Name', with: FFaker::Name.name
+      within('#trackings') do
+        fill_in 'Name', with: FFaker::Name.name
+      end
       page.find('.icon-text-input').click
       page.click_link 'Next'
       sleep 1
@@ -117,7 +120,7 @@ feature 'program_stream' do
     end
 
     scenario 'invalid' do
-      fill_in 'Name', with: FFaker::Name.name
+      fill_in 'program_stream_name', with: FFaker::Name.name
       page.click_link 'Next'
       element = page.find('dl.rules-group-container')
       expect(element).to have_css '.has-error'
@@ -135,7 +138,7 @@ feature 'program_stream' do
 
     scenario 'valid' do
       page.click_link(nil, href: edit_program_stream_path(program_stream))
-      fill_in 'Name', with: FFaker::Name.name
+      fill_in 'program_stream_name', with: FFaker::Name.name
       page.click_link 'Next'
       sleep 1
       page.click_link 'Next'
@@ -148,7 +151,7 @@ feature 'program_stream' do
 
     scenario 'invalid' do
       page.click_link(nil, href: edit_program_stream_path(program_stream))
-      fill_in 'Name', with: ''
+      fill_in 'program_stream_name', with: ''
       page.click_link 'Next'
       expect(page).to have_css '.error'
     end
@@ -157,11 +160,6 @@ feature 'program_stream' do
   feature 'Delete', js: true do
     before do 
       visit program_streams_path
-    end
-
-    scenario 'delete fail' do
-      find("a[href='#{program_stream_path(program_stream)}'][data-method='delete']").click
-      expect(page).to have_content('Program Stream cannot be deleted')
     end
 
     scenario 'delete successfully' do

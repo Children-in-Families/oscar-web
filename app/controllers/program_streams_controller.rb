@@ -22,9 +22,14 @@ class ProgramStreamsController < AdminController
 
   def create
     @program_stream = ProgramStream.new(program_stream_params)
-    if @program_stream.save
-      redirect_to program_streams_path, notice: t('.successfully_created')
-    else
+    begin
+      if @program_stream.save
+        redirect_to program_streams_path, notice: t('.successfully_created')
+      else
+        render :new
+      end
+    rescue ActiveRecord::RecordNotUnique => e
+      flash[:alert] = t('.alert')
       render :new
     end
   end
@@ -37,7 +42,7 @@ class ProgramStreamsController < AdminController
         render :edit
       end
     rescue ActiveRecord::RecordNotDestroyed => e
-      flash[:alert] = e.record.errors.messages[:base].first
+      flash[:alert] = t('.alert')
       render :edit
     end
   end
