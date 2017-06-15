@@ -14,7 +14,7 @@ RSpec.describe AbleScreeningMailer, type: :mailer do
     end
 
     it 'renders the sender email' do
-      expect(mail.from).to eq(ENV['SENDER_EMAIL'])
+      expect(mail.from).to eq([ENV['SENDER_EMAIL']])
     end
 
     it 'link to client detail' do
