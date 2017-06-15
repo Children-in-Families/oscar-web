@@ -239,4 +239,9 @@ describe ClientSerializer, type: :serializer do
     expect(serializer).to have_json_path('client/quantitative_cases')
     expect(serializer).to have_json_type(Array).at_path('client/quantitative_cases')
   end
+
+  it 'should be have attribute program_streams' do
+    expect(serializer).to have_json_path('client/program_streams')
+    expect(serializer).to have_json_type(Array).at_path('client/program_streams')
+  end
 end

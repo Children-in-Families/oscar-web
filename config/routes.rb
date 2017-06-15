@@ -175,6 +175,7 @@ Rails.application.routes.draw do
 
     namespace :v1, default: { format: :json } do
       resources :domain_groups, only: [:index]
+      resources :families, only: [:index, :create, :update]
       resources :users, only: [:index]
       resources :clients, except: [:edit, :new] do
         get :compare, on: :collection
@@ -185,7 +186,19 @@ Rails.application.routes.draw do
         scope module: 'client_tasks' do
           resources :tasks, only: [:create, :update, :destroy]
         end
+
+        resources :client_enrollments, only: [:create, :update] do
+          resources :client_enrollment_trackings, only: [:create, :update]
+          resources :leave_programs, only: [:create, :update]
+        end
       end
+      resources :program_streams, only: [:index]
+      resources :provinces, only: [:index]
+      resources :donors, only: [:index]
+      resources :agencies, only: [:index]
+      resources :referral_sources, only: [:index]
+      resources :domains, only: [:index]
+      resources :quantitative_types, only: [:index]
     end
   end
 
