@@ -12,7 +12,6 @@
                   %td.col-sm-4.attribute.ad-id
                     = version_attribute(k, version.item_type)
                   %td.col-sm-4.truncate
-                    - binding.pry
                     - if k == 'fields'
                       - if v[1].present?
                         - v[1].each_with_index do |value, fields_index|
