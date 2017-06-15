@@ -1,6 +1,10 @@
 - if can? :manage, User
-  = link_to edit_user_path(object), class: 'btn btn-outline btn-success btn-xs' do
-    = fa_icon('pencil')
+  - if current_user.admin?
+    = link_to edit_user_path(object), class: 'btn btn-outline btn-success btn-xs' do
+      = fa_icon('pencil')
+  - else
+    %a.btn.btn-outline.btn-success.btn-xs.disabled
+      = fa_icon('pencil')
   = link_to user_disable_path(object), class: 'btn btn-outline btn-primary btn-xs' do
     = fa_icon(object.disable ? 'lock' : 'unlock')
   = remove_link(object, { user_client: object.clients_count, user_case: object.cases_count,
