@@ -187,9 +187,10 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
           return false if $(elements).length == 0
 
         else if currentIndex == 2 and newIndex == 3 and $('#trackings').is(':visible')
-          inputs = $('#trackings').find('input.string.required')
+          return false unless $('.form-wrap').is(':visible')
+          inputsName = $('#trackings').find('input.string.required')
           emptyValues = []
-          $.map(inputs, (input) -> emptyValues.push input if $(input).val() == '')
+          $.map(inputsName, (input) -> emptyValues.push input if $(input).val() == '')
           if emptyValues.length > 0
             for input in emptyValues
               $(input).valid()

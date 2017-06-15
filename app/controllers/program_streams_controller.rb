@@ -30,16 +30,24 @@ class ProgramStreamsController < AdminController
   end
 
   def update
-    if @program_stream.update_attributes(program_stream_params)
-      redirect_to program_streams_path, notice: t('.successfully_updated')
-    else
+    begin
+      if @program_stream.update_attributes(program_stream_params)
+        redirect_to program_streams_path, notice: t('.successfully_updated')
+      else
+        render :edit
+      end
+    rescue ActiveRecord::RecordNotDestroyed => e
+      flash[:alert] = e.record.errors.messages[:base].first
       render :edit
     end
   end
 
   def destroy
-    @program_stream.destroy
-    redirect_to program_streams_path, notice: t('.successfully_deleted')
+    if @program_stream.destroy
+      redirect_to program_streams_path, notice: t('.successfully_deleted')
+    else
+      redirect_to program_streams_path, alert: t('.alert')
+    end
   end
 
   private
@@ -49,6 +57,6 @@ class ProgramStreamsController < AdminController
   end
 
   def program_stream_params
-    params.require(:program_stream).permit(:name, :rules, :description, :enrollment, :tracking, :frequency, :time_of_frequency, :exit_program, :quantity, domain_ids: []).merge(trackings_attributes:  params[:program_stream][:trackings_attributes])
+    params.require(:program_stream).permit(:name, :rules, :description, :enrollment, :tracking, :exit_program, :quantity, trackings_attributes: [:frequency, :time_of_frequency, :fields, :_destroy, :name, :id], domain_ids: [])
   end
 end
