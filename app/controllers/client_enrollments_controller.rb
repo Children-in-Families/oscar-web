@@ -31,7 +31,7 @@ class ClientEnrollmentsController < AdminController
       render :edit
     end
   end
-  
+
   def show
   end
 

@@ -185,7 +185,13 @@ Rails.application.routes.draw do
         scope module: 'client_tasks' do
           resources :tasks, only: [:create, :update, :destroy]
         end
+
+        resources :client_enrollments, only: [:create, :update] do
+          resources :client_enrollment_trackings, only: [:create, :update]
+          resources :leave_programs, only: [:create, :update]
+        end
       end
+      resources :program_streams, only: [:index]
     end
   end
 

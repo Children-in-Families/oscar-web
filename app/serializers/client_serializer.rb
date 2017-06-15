@@ -8,7 +8,8 @@ class ClientSerializer < ActiveModel::Serializer
               :followed_up_by, :follow_up_date, :school_name, :school_grade, :has_been_in_orphanage,
               :able_state, :has_been_in_government_care, :relevant_referral_information,
               :case_worker, :agencies, :state, :rejected_note, :emergency_care, :foster_care, :kinship_care,
-              :organization, :additional_form, :tasks, :assessments, :case_notes, :quantitative_cases
+              :organization, :additional_form, :tasks, :assessments, :case_notes, :quantitative_cases,
+              :program_streams
 
   def case_worker
     object.user
@@ -88,6 +89,18 @@ class ClientSerializer < ActiveModel::Serializer
       qtype = qtypes.first.name
       qcases = qtypes.last.map{ |qcase| qcase.value }
       { quantitative_type: qtype, client_quantitative_cases: qcases }
+    end
+  end
+
+  def program_streams
+    object.program_streams.map do |program_stream|
+      formatted_enrollments = program_stream.client_enrollments.map do |enrollment|
+        trackings = enrollment.client_enrollment_trackings
+        leave_program = enrollment.leave_program
+        enrollment.as_json.merge( trackings: trackings, leave_program: leave_program )
+      end
+      domains = program_stream.domains.map(&:identity)
+      program_stream.as_json(only: [:id, :name, :description, :quantity]).merge(domain: domains, enrollments: formatted_enrollments)
     end
   end
 end
