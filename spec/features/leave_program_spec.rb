@@ -40,25 +40,43 @@ describe LeaveProgram, 'Leave Program' do
     end
   end
 
-  feature 'Show' do
+  feature 'Show', js: true do
     before do
       visit client_client_enrollment_leave_program_path(client, client_enrollment, leave_program)
     end
     
     scenario 'Age' do
-      expect(page).to have_content("age")
+      expect(page).to have_content('3')
     end
 
     scenario 'Email' do
-      expect(page).to have_content("e-mail")
+      expect(page).to have_content('cif@cambodianfamily.com')
     end
 
     scenario 'Description' do
-      expect(page).to have_content("description")
+      expect(page).to have_content('this is testing')
     end
 
     scenario 'Back link' do
       expect(page).to have_link("Back")
+    end
+  end
+
+  feature 'Update', js: true do
+    before do
+      visit edit_client_client_enrollment_leave_program_path(client, client_enrollment, leave_program, program_stream_id: program_stream.id)
+    end
+
+    scenario 'success' do
+      find('input[type="text"]').set('this is editing')
+      find('input[type="submit"]').click
+      expect(page).to have_content('Exit Program has successfully updated')
+    end
+
+    scenario 'fail' do
+      find('input[type="text"]').set('')
+      find('input[type="submit"]').click
+      expect(page).to have_content("description can't be blank")
     end
   end
 end
