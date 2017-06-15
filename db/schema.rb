@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170608044102) do
+ActiveRecord::Schema.define(version: 20170614085443) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -900,6 +900,7 @@ ActiveRecord::Schema.define(version: 20170608044102) do
     t.datetime "updated_at",                     null: false
   end
 
+  add_index "trackings", ["program_stream_id", "name"], name: "index_trackings_on_program_stream_id_and_name", unique: true, using: :btree
   add_index "trackings", ["program_stream_id"], name: "index_trackings_on_program_stream_id", using: :btree
 
   create_table "users", force: :cascade do |t|

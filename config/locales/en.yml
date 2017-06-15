@@ -201,8 +201,10 @@ en:
       program_list: Programs Stream Listing
       new_program: Add New Program
     create:
+      alert: Name of Tracking has already been taken.
       successfully_created: Program Stream has been successfully created.
     update:
+      alert: Tracking cannot be deleted.
       successfully_updated: Program Stream has been successfully updated.
     destroy:
       successfully_deleted: Program Stream has been successfully deleted.

@@ -220,8 +220,10 @@ km:
       edit_program_stream: កែសម្រួលកម្មវិធី 
       back: ត្រលប់ក្រោយ
     create:
+      alert: ឈ្មោះនៃការតាមដានត្រូវបានប្រើរួចហើយ
       successfully_created: កម្មវិធីរក្សាទុកដោយជោគជ័យ
     update:
+      alert: កម្មវិធីការតាមដានមិនអាចលុបបានទេ
       successfully_updated: កម្មវិធីរក្សាទុកដោយជោគជ័យ
     destroy:
       successfully_deleted: កម្មវិធីលុបដោយជោគជ័យ
