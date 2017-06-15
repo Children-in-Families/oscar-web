@@ -2062,6 +2062,16 @@ en:
         'on': 'on'
         change: did the following change
         case_note: Case Note
+      program_stream:
+        'on': 'on'
+        change: did the following change
+        no_modification: There are no any changelog.
+        program_stream: Program Stream
+        value_of: Value of
+        before: Before
+        after: After
+        date_deleted: Date 
+        more_detail: More Details
       common:
         create: Create
         update: Update

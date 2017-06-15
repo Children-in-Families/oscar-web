@@ -15,6 +15,11 @@ class DataTrackerVersion
     PaperTrail::Version.where.not(item_type: exclude_item_type).where('item_id IN (?) AND item_type = ? OR item_id IN (?) AND item_type = ? AND event = ?', agency_ids, 'AgencyClient', qc_ids, 'ClientQuantitativeCase', event)
   end
 
+  def self.tracking(program_stream_id, event)
+    ids = Tracking.where(program_stream_id: program_stream_id).pluck(:id)
+    PaperTrail::Version.where.not(item_type: exclude_item_type).where('item_id IN (?) AND event = ? AND item_type = ?', ids, event, Tracking)
+  end
+
   private
 
   def self.exclude_item_type

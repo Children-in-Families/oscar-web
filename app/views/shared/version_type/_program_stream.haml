@@ -27,7 +27,7 @@
               %tr
                 %td.col-sm-4= t('.id')
                 %td.col-sm-4
-                  = version.reify.slug
+                  = version.reify.id
                 %td.col-sm-4
                   = date_time_format(version.created_at)
         - else
@@ -37,14 +37,57 @@
                 %th.col-sm-4= t('.value_of')
                 %th.col-sm-4.truncate= t('.before')
                 %th.col-sm-4.truncate= t('.after')
-            %tbody.client
+            %tbody
               - version.changeset.each do |k, v|
                 - next if version_keys_skipable?(k, version.item_type)
-                %tr.client-row
-                  %td.col-sm-4.client-id
+                %tr.get-value
+                  %td.col-sm-4.attribute
                     = version_attribute(k, version.item_type)
                   %td.col-sm-4.truncate
-                    = version_value_format(v[0], k, v)
-                  %td.col-sm-4.truncate.client-after
-                    = version_value_format(v[1], k, v)
-      / = render 'shared/version_type/agency_and_quantitative_case', client_id: version.item_id, event: version.event, version_created_at: version.created_at
+                    - if k == 'enrollment' || k == 'exit_program'
+                      - if v[0].present?
+                        - v[0].each_with_index do |value, fields_index|
+                          - index = 1
+                          - value.each do |key, value|
+                            - if index == 1
+                              %ol{start: "#{fields_index + 1}", style: 'padding-left: 15px;'}
+                                %li="#{key}: #{value}"
+                              - index += 1
+                            - else
+                              - unless key == 'values'
+                                %ul
+                                  %li
+                                    ="#{key}: #{value}"
+                    - elsif k == 'rules'
+                      %a.btn.btn-info{ 'data-target' => '#before', 'data-toggle' => 'modal', type: 'button' }
+                        = t('.more_detail')
+                      #rule-before{'data-program-rules': v[0].to_json}
+
+                    - else
+                      = version_value_format(v[0], k, v)
+                  %td.col-sm-4.truncate
+                    - if k == 'enrollment' || k == 'exit_program'
+                      - if v[1].present? && (v[1] != '{}' || v[1] != {})
+                        - v[1].each_with_index do |value, fields_index|
+                          - index = 1
+                          - value.each do |key, value|
+                            - if index == 1
+                              %ol{start: "#{fields_index + 1}", style: 'padding-left: 15px;'}
+                                %li="#{key}: #{value}"
+                              - index += 1
+                            - else
+                              - unless key == 'values'
+                                %ul
+                                  %li
+                                    ="#{key}: #{value}"
+                    - elsif k == 'rules'
+                      %a.btn.btn-info{ 'data-target' => '#after', 'data-toggle' => 'modal', type: 'button' }
+                        = t('.more_detail')
+                      #rule-after{'data-program-rules': v[1].to_json}
+                    - else
+                      = version_value_format(v[1], k, v)
+      = render 'shared/version_type/tracking', program_stream_id: version.item_id, event: version.event
+
+  = render 'shared/version_type/program_rule_before'
+  = render 'shared/version_type/program_rule_after'
+
