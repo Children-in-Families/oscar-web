@@ -4,7 +4,7 @@ default: &defaults
   push_api_key: "ee5237aa-38e9-4ab7-8ee0-12bd645ecfe9"
 
   # Your app's name
-  name: "CifWeb"
+  name: "OSCaR"
 
   # Actions that should not be monitored by AppSignal
   # ignore_actions:
