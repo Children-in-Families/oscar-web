@@ -2,9 +2,10 @@
   .panel-body
     - if @versions.any?
       - @versions.decorate.each do |version|
-        = render 'shared/version_type/common',     version: version
-        = render 'shared/version_type/assessment', version: version
-        = render 'shared/version_type/client',     version: version
+        = render 'shared/version_type/common',             version: version
+        = render 'shared/version_type/assessment',         version: version
+        = render 'shared/version_type/client',             version: version
+        = render 'shared/version_type/program_stream',     version: version
     - else
       %p= t('.no_modification')
   .text-center

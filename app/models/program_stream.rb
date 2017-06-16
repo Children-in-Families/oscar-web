@@ -8,6 +8,8 @@ class ProgramStream < ActiveRecord::Base
   has_many   :trackings, dependent: :destroy
   has_many   :leave_programs
 
+  has_paper_trail
+
   accepts_nested_attributes_for :trackings, reject_if: :all_blank, allow_destroy: true
 
   validates_associated :trackings

@@ -2261,6 +2261,7 @@ km:
       family_custom_fields: ទម្រង់បែបបទរបស់គ្រួសារ
       partner_custom_fields: ទម្រង់បែបបទរបស់ដៃគូ
       user_custom_fields: ទម្រង់បែបបទរបស់អ្នកប្រើ
+      program_streams: កម្មវិធី​បន្ទាប់បន្សំ
       custom_fields: ទម្រង់បែបបទ
     per_page_form:
       show: បង្ហាញ
@@ -2285,6 +2286,15 @@ km:
         before: មុនកំណែ
         after: ក្រោយកំណែ
         date_deleted: កាលបរិច្ឆេទនៃការលុប
+      program_stream:
+        'on': របស់
+        change: បានធ្វើកំណែប្រែខាងក្រោម
+        program_stream: កម្មវិធី​បន្ទាប់បន្សំ
+        value_of: តម្លៃនៃ
+        before: មុនកំណែ
+        after: ក្រោយកំណែ
+        date_deleted: កាលបរិច្ឆេទនៃការលុប
+        more_detail: ព័​ត៍​មាន​បន្ថែម
       case_note:
         'on': របស់
         change: បានធ្វើកំណែប្រែខាងក្រោម

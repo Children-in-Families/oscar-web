@@ -83,7 +83,7 @@ module VersionHelper
   end
 
   def version_not_show(item_type)
-    arr = %w(AssessmentDomain Assessment CaseNote CaseNoteDomainGroup AgencyClient Client ClientQuantitativeCase)
+    arr = %w(AssessmentDomain Assessment CaseNote CaseNoteDomainGroup AgencyClient Client ClientQuantitativeCase ProgramStream Tracking)
     arr.exclude?(item_type)
   end
 
