@@ -19,6 +19,9 @@ class ClientAdvancedSearchesController < AdminController
       clients           = AdvancedSearches::ClientAdvancedSearch.new(basic_rules, custom_form_rules, Client.accessible_by(current_ability))
     end
     @clients_by_user    = clients.filter
+    ids = @clients_by_user.map{|a| a.object['id']}
+    @clients_by_user    = Client.where(id: ids)
+    # binding.pry
 
     columns_visibility
     respond_to do |f|

@@ -17,21 +17,39 @@ module AdvancedSearches
         field    = rule[:field]
         operator = rule[:operator]
         value    = rule[:value]
-        @sql_string << history_base_sql(field, operator, value)
+        binding.pry
 
         # if field != nil
         #   value = field == 'grade' ? validate_integer(value) : value
         #   history_base_sql(field, operator, value)
         # else
         #   nested_query =  AdvancedSearches::ClientHistoryBaseSqlBuilder.new(@client_histories, rule).generate
+        #   binding.pry
         #   @sql_string << nested_query[:sql_string]
         #   nested_query[:values].select{ |v| @values << v }
         # end
+        # if field == nil
+        #   nested_query =  AdvancedSearches::ClientHistoryBaseSqlBuilder.new(@client_histories, rule).generate
+        #   binding.pry
+        #   @sql_string << nested_query
+        #   # nested_query[:values].select{ |v| @values << v }
+        # end
 
-        # if ASSOCIATION_FIELDS.include?(field)
-        #   association_filter = AdvancedSearches::ClientAssociationFilter.new(@clients, field, operator, value).get_sql
-        #   @sql_string << association_filter[:id]
-        #   @values     << association_filter[:values]
+        # @sql_string << history_base_sql(field, operator, value)
+        if ASSOCIATION_FIELDS.include?(field)
+          association_filter = AdvancedSearches::ClientHistoryAssociationFilter.new(@client_histories, field, operator, value).get_sql
+          @sql_string << association_filter
+          # binding.pry
+        else
+          if field != nil
+            @sql_string << history_base_sql(field, operator, value)
+          else
+            nested_query =  AdvancedSearches::ClientHistoryBaseSqlBuilder.new(@client_histories, rule).generate
+            binding.pry
+            @sql_string << nested_query
+            # nested_query[:values].select{ |v| @values << v }
+          end
+        end
 
         # elsif field != nil
         #   value = field == 'grade' ? validate_integer(value) : value
@@ -46,7 +64,9 @@ module AdvancedSearches
         #   nested_query[:values].select{ |v| @values << v }
         # end
       end
-      a = {"$#{@condition.downcase}" => @sql_string}
+      # binding.pry
+      # binding.pry
+      {"$#{@condition.downcase}" => @sql_string}
       # binding.pry
 
       # @sql_string = @sql_string.join(" #{@condition} ")
@@ -95,13 +115,16 @@ module AdvancedSearches
         @values << "%#{value}%"
 
       when 'is_empty'
-        if BLANK_FIELDS.include? field
-          @sql_string << "object.#{field} IS NULL"
-        else
-          @sql_string << "(object.#{field} IS NULL OR object.#{field} = '')"
-        end
+        a = "object.#{field}"
+        {a => value}
+        # if BLANK_FIELDS.include? field
+        #   @sql_string << "object.#{field} IS NULL"
+        # else
+        #   @sql_string << "(object.#{field} IS NULL OR object.#{field} = '')"
+        # end
 
       when 'between'
+        # binding.pry
         @sql_string << "object.#{field} BETWEEN ? AND ?"
         @values << value.first
         @values << value.last
