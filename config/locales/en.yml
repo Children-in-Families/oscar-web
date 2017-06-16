@@ -2034,6 +2034,7 @@ en:
       user_custom_fields: User Custom Forms
       program_streams: Program Streams
       custom_fields: Custom Forms
+      client_enrollments: Client Enrollment
     per_page_form:
       show: Show
   shared:
@@ -2072,6 +2073,15 @@ en:
         after: After
         date_deleted: Date 
         more_detail: More Details
+      client_enrollment:
+        'on': 'on'
+        change: did the following change
+        no_modification: There are no any changelog.
+        client_enrollment: Client Enrollment
+        value_of: Value of
+        before: Before
+        after: After
+        date_deleted: Date 
       common:
         create: Create
         update: Update

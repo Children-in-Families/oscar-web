@@ -20,6 +20,16 @@ class DataTrackerVersion
     PaperTrail::Version.where.not(item_type: exclude_item_type).where('item_id IN (?) AND event = ? AND item_type = ?', ids, event, Tracking)
   end
 
+  def self.client_enrollment_tracking(client_enrollment_id, event)
+    ids = ClientEnrollmentTracking.where(client_enrollment_id: client_enrollment_id).pluck(:id)
+    PaperTrail::Version.where.not(item_type: exclude_item_type).where('item_id IN (?) AND event = ? AND item_type = ?', ids, event, ClientEnrollmentTracking)
+  end
+
+  def self.leave_program(client_enrollment_id, event)
+    ids = LeaveProgram.where(client_enrollment_id: client_enrollment_id).pluck(:id)
+    PaperTrail::Version.where.not(item_type: exclude_item_type).where('item_id IN (?) AND event = ? AND item_type = ?', ids, event, LeaveProgram)
+  end
+
   private
 
   def self.exclude_item_type
