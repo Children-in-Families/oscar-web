@@ -6,13 +6,15 @@ end
 
 describe Tracking, 'validations' do
   it { is_expected.to validate_presence_of(:name) }
+  it { is_expected.to validate_presence_of(:fields) }
+  it { is_expected.to validate_uniqueness_of(:name).scoped_to(:program_stream_id) }
 end
 
-describe Tracking, 'duplicate field' do
+describe Tracking, 'form_builder_field_uniqueness' do
   fields = [ {'label'=>'world','type'=>'text'}, {'label'=>'world','type'=>'text'} ]
   duplicate_tracking = Tracking.create(name: 'test', fields: fields)
 
-  it 'return field duplicate' do
+  it 'return field duplicated' do
     duplicate_tracking.save
     expect(duplicate_tracking.errors.full_messages).to include("Fields Fields duplicated!")
   end

@@ -4,8 +4,11 @@
       .ibox-title
         %h5= @program_stream.name
         .ibox-tools
-          = link_to edit_program_stream_path(@program_stream), class: 'btn btn-outline btn-success' do
-            = fa_icon('pencil')
+          - if current_organiation.full_name == @program_stream.ngo_name
+            = link_to edit_program_stream_path(@program_stream), class: 'btn btn-outline btn-success' do
+              = fa_icon('pencil')
+          = link_to new_program_stream_path(program_stream_id: @program_stream.id, ngo_name: @program_stream.ngo_name), class: 'btn btn-outline btn-success', title: t('.copy') do
+            = fa_icon('files-o')
           = link_to request.referrer do
             .btn.btn-default.btn-back-default.button
               = t('.back')
@@ -30,7 +33,7 @@
               %h4.panel-title
                 %a{"data-toggle": "collapse", href: "#rules"}= t('.rules')
             #rules.panel-collapse.collapse{ data: { program: @program_stream.rules}}
-              .panel-bodyEnrollment
+              .panel-body
                 #program-rules
           
           .panel.panel-default

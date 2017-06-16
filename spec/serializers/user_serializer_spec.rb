@@ -24,6 +24,11 @@ RSpec.describe UserSerializer, type: :serializer do
     expect(serializer).to have_json_type(String).at_path('user/last_name')
   end
 
+  it 'should be have attribute email' do
+    expect(serializer).to have_json_path('user/email')
+    expect(serializer).to have_json_type(String).at_path('user/email')
+  end
+
   it 'should be have attribute roles' do
     expect(serializer).to have_json_path('user/roles')
     expect(serializer).to have_json_type(String).at_path('user/roles')

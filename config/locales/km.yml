@@ -200,14 +200,29 @@ km:
       cancel: ទុកជាមោឃៈ
 
   program_streams:
-    <<: *default_program_stream_fields
+    current_program_streams_tab:
+      name: ឈ្មោះកម្មវិធី​បន្ទាប់បន្សំ
+      domain: កត្តា
+      quantity: បរិមាណ
+      actions: សកម្មភាព
+    others_ngo_program_streams_tab:
+      preview: មើលជាមុន
+      copy: ចម្លងជូន
+      name: ឈ្មោះកម្មវិធី​បន្ទាប់បន្សំ
+      domain: កត្តា
+      quantity: បរិមាណ
+      organization: អង្គការ
+      actions: សកម្មភាព
     index:
+      current_ngo: កម្មវិធី​បន្ទាប់បន្សំរបស់អង្គការខ្ញុំ
+      ngo_programs: កម្មវិធី​បន្ទាប់បន្សំរបស់អង្គការទាំងអស់
       program_list: បញ្ជីកម្មវិធី​បន្ទាប់បន្សំ
       new_program: បន្ថែមកម្មវិធីថ្មី
     new:
       new_program_stream: បន្ថែមកម្មវិធីថ្មី
       back: ត្រលប់ក្រោយ
     show:
+      copy: ចម្លងជូន
       description: ការបរិយាយ
       domain: កត្តា
       quantity: បរិមាណ
@@ -220,8 +235,10 @@ km:
       edit_program_stream: កែសម្រួលកម្មវិធី 
       back: ត្រលប់ក្រោយ
     create:
+      alert: ឈ្មោះនៃការតាមដានត្រូវបានប្រើរួចហើយ
       successfully_created: កម្មវិធីរក្សាទុកដោយជោគជ័យ
     update:
+      alert: កម្មវិធីការតាមដានមិនអាចលុបបានទេ
       successfully_updated: កម្មវិធីរក្សាទុកដោយជោគជ័យ
     destroy:
       successfully_deleted: កម្មវិធីលុបដោយជោគជ័យ
