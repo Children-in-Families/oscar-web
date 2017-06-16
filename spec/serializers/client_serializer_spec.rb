@@ -244,4 +244,9 @@ describe ClientSerializer, type: :serializer do
     expect(serializer).to have_json_path('client/program_streams')
     expect(serializer).to have_json_type(Array).at_path('client/program_streams')
   end
+
+  it 'should be have attribute add_forms' do
+    expect(serializer).to have_json_path('client/add_forms')
+    expect(serializer).to have_json_type(Array).at_path('client/add_forms')
+  end
 end
