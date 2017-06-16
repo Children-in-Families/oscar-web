@@ -32,7 +32,7 @@
             .panel-heading
               %h4.panel-title
                 %a{"data-toggle": "collapse", href: "#rules"}= t('.rules')
-            #rules.panel-collapse.collapse{ data: { program: @program_stream.rules}}
+            #rules.panel-collapse.collapse{ data: { program_rules: @program_stream.rules.to_json}}
               .panel-body
                 #program-rules
           

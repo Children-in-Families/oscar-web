@@ -25,7 +25,6 @@ CIF.Program_streamsShow = CIF.Program_streamsPreview = do ->
 
   _handleSetRules = ->
     rules = $('#rules').data('program-rules')
-    rules = JSON.parse(rules.replace(/=>/g, ':'))
     $('#program-rules').queryBuilder('setRules', rules) unless $.isEmptyObject(rules)
 
   _queryBuilderOption = (fieldList) ->
