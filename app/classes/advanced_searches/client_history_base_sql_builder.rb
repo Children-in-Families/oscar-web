@@ -124,10 +124,11 @@ module AdvancedSearches
         # end
 
       when 'between'
+        a = "object.#{field}"
+        {a=>{'$gte'=>value[0], '$lte'=>value[1]}}
+        # query = {a=>{'$gte'=>value[0], '$lte'=>value[1]}}
+        # @sql_string << query
         # binding.pry
-        @sql_string << "object.#{field} BETWEEN ? AND ?"
-        @values << value.first
-        @values << value.last
       end
     end
 
