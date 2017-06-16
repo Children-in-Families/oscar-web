@@ -1,9 +1,9 @@
 require 'spec_helper'
 
 describe ProgramStreamSerializer, type: :serializer do
-  let(:program_stream) { create(:program_stream) }
-  let!(:trackings) { create_list(:tracking, 2, program_stream: program_stream)}
-  let(:serializer) { ProgramStreamSerializer.new(program_stream).to_json }
+  let(:program_stream)  { create(:program_stream) }
+  let!(:tracking)       { create(:tracking, program_stream: program_stream)}
+  let(:serializer)      { ProgramStreamSerializer.new(program_stream).to_json }
 
   it 'should be have attribute program_stream as root path' do
     expect(serializer).to have_json_size(1)
