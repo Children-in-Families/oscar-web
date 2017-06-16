@@ -2293,7 +2293,11 @@ km:
         before: មុនកំណែ
         after: ក្រោយកំណែ
         date_deleted: កាលបរិច្ឆេទនៃការលុប
-        more_detail: ព័​ត៍​មាន​បន្ថែម
+        more_detail: ពត៌មាន​បន្ថែម
+      program_rule_before:
+        before: មុនកំណែ
+      program_rule_after:
+        after: ក្រោយកំណែ
       client_enrollment:
         'on': របស់
         change: បានធ្វើកំណែប្រែខាងក្រោម

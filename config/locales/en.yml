@@ -2073,6 +2073,13 @@ en:
         after: After
         date_deleted: Date 
         more_detail: More Details
+
+      program_rule_before:
+        before: Before
+
+      program_rule_after:
+        after: After
+
       client_enrollment:
         'on': 'on'
         change: did the following change

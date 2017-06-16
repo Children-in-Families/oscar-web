@@ -45,6 +45,7 @@
                     = version_attribute(k, version.item_type)
                   %td.col-sm-4.truncate
                     - if k == 'enrollment' || k == 'exit_program'
+                      - next if v[0] == '{}' || v[0] == {}
                       - if v[0].present?
                         - v[0].each_with_index do |value, fields_index|
                           - index = 1
