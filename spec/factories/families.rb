@@ -9,5 +9,6 @@ FactoryGirl.define do
     female_adult_count 1
     male_adult_count 1
     contract_date { FFaker::Time.date }
+    association :province
   end
 end

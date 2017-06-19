@@ -88,4 +88,10 @@
 //= require sessions/new
 //= require case/quarterly_reports/index
 //= require client_advanced_searches/index
+//= require program_streams/form
 //= require custom_field_properties/form
+//= require program_streams/index
+//= require program_streams/show
+//= require client_enrollments/form
+//= require leave_programs/form
+//= require client_enrollment_trackings/form

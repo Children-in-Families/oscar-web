@@ -196,6 +196,63 @@ en:
       save: Save
       cancel: Cancel
 
+  program_streams:
+    index:
+      program_list: Programs Stream Listing
+      new_program: Add New Program
+    create:
+      alert: Name of Tracking has already been taken.
+      successfully_created: Program Stream has been successfully created.
+    update:
+      alert: Tracking cannot be deleted.
+      successfully_updated: Program Stream has been successfully updated.
+    destroy:
+      successfully_deleted: Program Stream has been successfully deleted.
+      alert: Program Stream cannot be deleted.
+    show:
+      description: Description
+      domain: Domain
+      quantity: Quantity
+      rules: Rules
+      tracking: Tracking
+      enrollment: Enrollment
+      exit_program: Exit Program
+      back: Back
+    new:
+      new_program_stream: New Program Stream
+      back: Back
+    edit:
+      edit_program_stream: Edit Program Stream
+      back: Back
+    actions:
+      are_you_sure: Are you sure you want to delete?
+    program_rule:
+      add_new_filter: Add New Filter
+      add_new_group: Add Group
+      delete_group: Delete
+      name: Name
+      description: Description
+      rule: Rules
+      quantity: Quantity
+      domain: Domain
+      add_rule: Add rule
+    enrollment:
+      enrollment_form: Enrollment
+    tracking_fields:
+      frequency: Frequency
+      time_of_frequency: Time of Frequency
+      name: Name
+      remove_tracking: Remove Tracking
+    tracking:
+      add_tracking: Add Tracking
+      tracking_form: Progress Tracking
+    exit_field:
+      exit_form: Exit Form
+    form:
+      previous: Previous
+      next: Next
+      finish: Save
+
   government_reports:
     index:
       back: Back
@@ -284,11 +341,12 @@ en:
     follow_up_by: Followed Up By
     agency_names: Agency Name
     current_address: Current Address
-    house_number: House Number
-    street_number: Street Number
+    house_number: House
+    street_number: Street
     village: Village
     commune: Commune/Sangkat
     district: District/Khan
+    cambodia: Cambodia
     school_grade: School Grade
     has_been_in_orphanage: Has Been In Orphanage
     relevant_referral_information: Relevant Referral Information
@@ -425,6 +483,7 @@ en:
     head:
       changelog: Changelog
     row:
+      view: View
       changelog: Changelog
     no_results: No results found
     from: From
@@ -464,6 +523,21 @@ en:
         view: View
         placement_start_date: Placement Start Date
         placement_case_type: Placement Case Type
+    
+      client_enrollments:
+        quantity: Number of Place Available
+        status: Status
+        domain: Domain
+        name: Program Name
+        report: Report
+        action: Action
+
+      trackings:
+        name: Name
+        frequency: Frequency
+        times_of_frequency: Times of Frequency
+        action: Action
+        report: Report
 
       progress_notes:
         <<: *default_progress_note_fields
@@ -529,6 +603,13 @@ en:
         code: Code
       cases:
         case_type: Case Type
+      program_streams:
+        name: Name
+        description: Description
+        domain: Domains
+        quantity: Quantity
+        action: Action
+
     filters:
       xboolean:
         "yes": "Yes"
@@ -622,6 +703,7 @@ en:
       log_out: Log out
       log_in: Log in
       release_logs: Release logs
+      program_streams: Programs Stream
       custom_fields: Form Builder
       progress_note: Progress Note
       materials: Equipment/Materials
@@ -734,6 +816,7 @@ en:
       progress_note: Progress Note
       client_able_answers: Client Able Answers
       able_screening_questions: Able Screening Questions
+      program_streams: Program Streams
     client_answers:
       client_able_answers: Client Able Answers
       question: Q
@@ -786,6 +869,96 @@ en:
       add_new_filter: Add New Filter
       add_new_group: Add Group
       delete_group: Delete
+  
+  client_enrollments:
+    edit:
+      enrollment: Edit Enrollment
+    show:
+      enrollment_date: Enroll Date
+      back: Back
+      are_you_sure: Are you sure you want to delete?
+    report:
+      enrollment: Enrollment
+      report: Reports
+      tracking: Tracking
+      exit: Exit
+      date: Date
+      forms: Forms
+      actions: Actions
+      programs_list: Programs List
+      view: View
+    manage:
+      enroll: Enroll
+      tracking: Trackings
+      exit: Exit
+      full_program: This Program is full
+    destroy:
+      successfully_deleted: Enrollment has been successfully deleted.
+    update:
+      successfully_updated: Enrollment has been successfully updated.
+    new:
+      new_enrollment: New Enrollment
+      client_not_valid: Client doesn't match with this program rules.  
+    index:
+      program_lists: Programs List  
+    create:
+      successfully_created: Enrollment has been successfully created.
+    form:
+      save: Save
+      cancel: Cancel
+
+  client_enrollment_trackings:
+    create:
+      successfully_created: Tracking Program has been successfully created.
+    update:
+      successfully_updated: Tracking Program has been successfully updated.
+    destroy:
+      successfully_deleted: Tracking Program has been successfully deleted.
+    report:
+      are_you_sure: Are you sure you want to delete?
+      back: Back
+      new_tracking: New Tracking
+      created_at: Created Date
+    new:
+      new_tracking: New Tracking
+    show:
+      back: Back
+      trackings_list: Client Trackings List
+    index:
+      tracking_lists: Trackings List
+      programs_list: Programs List
+    action:
+      new_tracking: New Tracking
+    form:
+      save: Save
+      cancel: Cancel
+
+  trackings:
+    show:
+      back: Back
+    new:
+      new_tracking: New Tracking
+    create:
+      successfully_created: Tracking has been successfully created.
+    form:
+      save: Save
+      cancel: Cancel
+
+  leave_programs:
+    edit:
+      leave_program: Edit Leave Program
+    show:
+      back: Back
+      exit_date: Exit Date
+    new: 
+      new_exit_program: New Exit Program
+    update:
+      successfully_updated: Exit Program has successfully updated.
+    create:
+      successfully_created: Client has successfully exited from the program.
+    form:
+      save: Save
+      cancel: Cancel
 
   families:
     index:
@@ -1862,7 +2035,9 @@ en:
       family_custom_fields: Family Custom Forms
       partner_custom_fields: Partner Custom Forms
       user_custom_fields: User Custom Forms
+      program_streams: Program Streams
       custom_fields: Custom Forms
+      client_enrollments: Client Enrollment
     per_page_form:
       show: Show
   shared:
@@ -1891,6 +2066,32 @@ en:
         'on': 'on'
         change: did the following change
         case_note: Case Note
+      program_stream:
+        'on': 'on'
+        change: did the following change
+        no_modification: There are no any changelog.
+        program_stream: Program Stream
+        value_of: Value of
+        before: Before
+        after: After
+        date_deleted: Date 
+        more_detail: More Details
+
+      program_rule_before:
+        before: Before
+
+      program_rule_after:
+        after: After
+
+      client_enrollment:
+        'on': 'on'
+        change: did the following change
+        no_modification: There are no any changelog.
+        client_enrollment: Client Enrollment
+        value_of: Value of
+        before: Before
+        after: After
+        date_deleted: Date 
       common:
         create: Create
         update: Update

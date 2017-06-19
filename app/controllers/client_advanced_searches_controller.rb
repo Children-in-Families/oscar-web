@@ -7,7 +7,7 @@ class ClientAdvancedSearchesController < AdminController
 
   def index
     return unless has_params?
-    basic_rules          = eval(@basic_filter_params)
+    basic_rules          = JSON.parse @basic_filter_params
     custom_form_rules    = eval(@custom_form_filter_params).merge(selected_custom_form: params[:client_advanced_search][:selected_custom_form])
 
     clients              = AdvancedSearches::ClientAdvancedSearch.new(basic_rules, custom_form_rules, Client.accessible_by(current_ability))

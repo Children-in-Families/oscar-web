@@ -28,7 +28,7 @@
 .tabcontrol ul > li
 {
     display: block;
-    padding: 0;
+    /*padding: 0;*/
 }
 
 /* Accessibility */
@@ -139,7 +139,7 @@
 
 .wizard > .content
 {
-    background: #eee;
+    background: #f9f9f9;
     display: block;
     margin: 0.5em;
     min-height: 35em;
@@ -171,7 +171,7 @@
 
 .wizard > .content > .body ul
 {
-    list-style: disc !important;
+    list-style: none !important;
 }
 
 .wizard > .content > .body ul > li
@@ -373,7 +373,7 @@
 
 .tabcontrol > .content > .body ul
 {
-    list-style: disc !important;
+    list-style: none !important;
 }
 
 .tabcontrol > .content > .body ul > li

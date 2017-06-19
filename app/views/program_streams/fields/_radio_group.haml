@@ -1,0 +1,8 @@
+.radio-group
+  .row.form-group
+    .col-xs-12
+      %label= field_props['label']
+      - field_props['values'].each do |field|
+        %li
+          = radio_button_tag :nil, field['label'], field['selected'], class: 'i-checks'
+          = label_tag field['label']

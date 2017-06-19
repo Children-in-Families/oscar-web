@@ -1,21 +1,8 @@
 module Api
   module V1
     class CustomFieldPropertiesController < Api::V1::BaseApiController
-      before_action :find_client, :find_custom_field
-      before_action :find_custom_field_property, only: [:show, :update, :destroy]
-
-      def index
-        @custom_field_properties = @client.custom_field_properties.accessible_by(current_ability).by_custom_field(@custom_field).most_recents
-        render json: { custom_field_properties: @custom_field_properties, custom_field: @custom_field }
-      end
-
-      def show
-        render json: { custom_field_properties: @custom_field_property, custom_field: @custom_field }
-      end
-
-      def new
-        render json: { custom_field: @custom_field }
-      end
+      before_action :find_client
+      before_action :find_custom_field_property, only: [:update, :destroy]
 
       def create
         custom_field_property = @client.custom_field_properties.new(custom_field_property_params)
@@ -50,10 +37,6 @@ module Api
 
       def find_custom_field_property
         @custom_field_property = @client.custom_field_properties.find(params[:id])
-      end
-
-      def find_custom_field
-        @custom_field = CustomField.find_by(entity_type: "Client", id: params[:custom_field_id])
       end
 
       def custom_field_property_params

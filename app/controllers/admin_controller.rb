@@ -13,7 +13,7 @@ class AdminController < ApplicationController
   def set_sidebar_basic_info
     @client_count  = Client.accessible_by(current_ability).count
     @family_count  = Family.count
-    @user_count    = User.count
+    @user_count    = User.accessible_by(current_ability).count
     @partner_count = Partner.count
     @agency_count  = Agency.count
     @referral_source_count = ReferralSource.count
