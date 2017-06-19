@@ -518,6 +518,7 @@ ActiveRecord::Schema.define(version: 20170614085443) do
     t.string   "frequency",         default: ""
     t.integer  "time_of_frequency", default: 0
     t.integer  "quantity"
+    t.string   "ngo_name",          default: ""
   end
 
   create_table "progress_note_types", force: :cascade do |t|
@@ -908,8 +909,8 @@ ActiveRecord::Schema.define(version: 20170614085443) do
     t.integer  "organization_id"
     t.boolean  "disable",                default: false
     t.datetime "expires_at"
-    t.integer  "manager_id"
     t.boolean  "task_notify",            default: true
+    t.integer  "manager_id"
     t.boolean  "calendar_integration",   default: false
     t.integer  "pin_number"
     t.integer  "manager_ids",            default: [],                         array: true
