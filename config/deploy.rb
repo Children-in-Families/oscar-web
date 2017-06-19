@@ -1,7 +1,7 @@
 lock '3.4.0'
 
 # set :application, 'children-in-families-web'
-set :application, 'cambodianfamilies-web'
+set :application, 'oscar-web'
 set :repo_url, "git@github.com:rotati/#{fetch(:application)}.git"
 
 if ENV['CISERVER']

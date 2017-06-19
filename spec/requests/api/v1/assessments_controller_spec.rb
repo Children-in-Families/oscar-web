@@ -50,4 +50,55 @@ RSpec.describe Api::V1::AssessmentsController, type: :request do
       end
     end
   end
+
+  describe 'PUT #update' do
+    let!(:assessment) { create(:assessment, client: client) }
+    let!(:assessment_domains) { create_list(:assessment_domain, 12, assessment: assessment) }
+
+    context 'when user not loged in' do
+      before do
+        put "/api/v1/clients/#{client.id}/assessments/#{assessment.id}"
+      end
+
+      it 'should be return status 401' do
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when user loged in' do
+      before do
+        sign_in(user)
+      end
+
+      context 'when try update assessment' do
+        before do
+          assessment_params = { format: 'json', assessment: { assessment_domains_attributes: [{ id: assessment_domains[0].id, domain_id: domain.id, score: score, reason: FFaker::Lorem.paragraph, goal: "Testing Goal"}] } }
+          put "/api/v1/clients/#{client.id}/assessments/#{assessment.id}", assessment_params, @auth_headers
+        end
+
+        it 'should be return status 200' do
+          expect(response).to have_http_status(:success)
+        end
+
+        it 'should be return correct data' do
+          expect(json['assessment']['assessment_domains'].map{ |ad| ad['goal'] }).to include("Testing Goal")
+        end
+      end
+
+      context 'when try update assessment without domain' do
+        before do
+          assessment_params_ = { format: 'json', assessment: { assessment_domains_attributes: [{score: score, reason: FFaker::Lorem.paragraph, goal: FFaker::Lorem.paragraph}] } }
+          put "/api/v1/clients/#{client.id}/assessments/#{assessment.id}", assessment_params_, @auth_headers
+        end
+
+        it 'should be return status 422' do
+          expect(response).to have_http_status(:unprocessable_entity)
+        end
+
+        it 'should be return validation message' do
+          expect(json['assessment_domains.domain']).to eq ['can\'t be blank']
+        end
+      end
+    end
+  end
 end

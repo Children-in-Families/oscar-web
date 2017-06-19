@@ -24,19 +24,9 @@ RSpec.describe TaskSerializer, type: :serializer do
     expect(serializer).to have_json_type(String).at_path('task/completion_date')
   end
 
-  it 'should be have attribute remind_at' do
-    expect(serializer).to have_json_path('task/remind_at')
-    expect(serializer).to have_json_type(NilClass).at_path('task/remind_at')
-  end
-
-  it 'should be have attribute case_note_domain_group_id' do
-    expect(serializer).to have_json_path('task/case_note_domain_group_id')
-    expect(serializer).to have_json_type(Integer).at_path('task/case_note_domain_group_id')
-  end
-
-  it 'should be have attribute domain_id' do
-    expect(serializer).to have_json_path('task/domain_id')
-    expect(serializer).to have_json_type(Integer).at_path('task/domain_id')
+  it 'should be have attribute domain' do
+    expect(serializer).to have_json_path('task/domain')
+    expect(serializer).to have_json_type(Object).at_path('task/domain')
   end
 
   it 'should be have attribute completed' do

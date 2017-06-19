@@ -210,13 +210,63 @@ describe ClientSerializer, type: :serializer do
     expect(serializer).to have_json_type(NilClass).at_path('client/rejected_note')
   end
 
-  it 'should be have attribute emergency_case' do
-    expect(serializer).to have_json_path('client/emergency_case')
-    expect(serializer).to have_json_type(Array).at_path('client/emergency_case')
+  it 'should be have attribute emergency_care' do
+    expect(serializer).to have_json_path('client/emergency_care')
+    expect(serializer).to have_json_type(Object).at_path('client/emergency_care')
   end
 
   it 'should be have attribute organization' do
     expect(serializer).to have_json_path('client/organization')
     expect(serializer).to have_json_type(Object).at_path('client/organization')
+  end
+
+  it 'should be have attribute grade' do
+    expect(serializer).to have_json_path('client/grade')
+    expect(serializer).to have_json_type(Integer).at_path('client/grade')
+  end
+
+  it 'should be have attribute kinship_care' do
+    expect(serializer).to have_json_path('client/kinship_care')
+    expect(serializer).to have_json_type(Object).at_path('client/kinship_care')
+  end
+
+  it 'should be have attribute foster_care' do
+    expect(serializer).to have_json_path('client/foster_care')
+    expect(serializer).to have_json_type(Object).at_path('client/foster_care')
+  end
+
+  it 'should be have attribute quantitative_cases' do
+    expect(serializer).to have_json_path('client/quantitative_cases')
+    expect(serializer).to have_json_type(Array).at_path('client/quantitative_cases')
+  end
+
+  it 'should be have attribute program_streams' do
+    expect(serializer).to have_json_path('client/program_streams')
+    expect(serializer).to have_json_type(Array).at_path('client/program_streams')
+  end
+
+  it 'should be have attribute add_forms' do
+    expect(serializer).to have_json_path('client/add_forms')
+    expect(serializer).to have_json_type(Array).at_path('client/add_forms')
+  end
+
+  it 'should be have attribute additional_form' do
+    expect(serializer).to have_json_path('client/additional_form')
+    expect(serializer).to have_json_type(Array).at_path('client/additional_form')
+  end
+
+  it 'should be have attribute tasks' do
+    expect(serializer).to have_json_path('client/tasks')
+    expect(serializer).to have_json_type(Object).at_path('client/tasks')
+  end
+
+  it 'should be have attribute assessments' do
+    expect(serializer).to have_json_path('client/assessments')
+    expect(serializer).to have_json_type(Array).at_path('client/assessments')
+  end
+
+  it 'should be have attribute case_notes' do
+    expect(serializer).to have_json_path('client/case_notes')
+    expect(serializer).to have_json_type(Array).at_path('client/case_notes')
   end
 end

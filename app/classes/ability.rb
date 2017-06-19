@@ -17,6 +17,7 @@ class Ability
 
       can :read, :all
       can :version, :all
+      can :report, :all
     elsif user.case_worker?
       can :manage, AbleScreeningQuestion
       can :manage, Assessment
@@ -29,6 +30,9 @@ class Ability
       can :manage, Survey
       can :manage, Task
       can :manage, CustomFieldProperty, custom_formable_type: 'Client'
+      can :manage, ClientEnrollment
+      can :manage, ClientEnrollmentTracking
+      can :manage, LeaveProgram
       can :update, Assessment do |assessment|
         assessment.client.user_id == user.id
       end
@@ -48,6 +52,10 @@ class Ability
       can :manage, Task
       can :manage, CustomFieldProperty, custom_formable_type: "Client"
       can :manage, CustomField
+      can :manage, ProgramStream
+      can :manage, ClientEnrollment
+      can :manage, ClientEnrollmentTracking
+      can :manage, LeaveProgram
       can :update, Assessment do |assessment|
         assessment.client.able?
       end
@@ -70,6 +78,10 @@ class Ability
       can :manage, CustomFieldProperty, custom_formable_type: 'Partner'
       can :manage, CustomField
       can :manage, GovernmentReport
+      can :manage, ProgramStream
+      can :manage, ClientEnrollment
+      can :manage, ClientEnrollmentTracking
+      can :manage, LeaveProgram
       can :update, Assessment do |assessment|
         assessment.client.active_ec?
       end
@@ -92,6 +104,10 @@ class Ability
       can :manage, CustomFieldProperty, custom_formable_type: 'Partner'
       can :manage, CustomField
       can :manage, GovernmentReport
+      can :manage, ProgramStream
+      can :manage, ClientEnrollment
+      can :manage, ClientEnrollmentTracking
+      can :manage, LeaveProgram
       can :update, Assessment do |assessment|
         assessment.client.active_fc?
       end
@@ -116,6 +132,10 @@ class Ability
       can :manage, CustomFieldProperty, custom_formable_type: 'Partner'
       can :manage, CustomField
       can :manage, GovernmentReport
+      can :manage, ProgramStream
+      can :manage, ClientEnrollment
+      can :manage, ClientEnrollmentTracking
+      can :manage, LeaveProgram
       can :update, Assessment do |assessment|
         assessment.client.active_kc?
       end
@@ -136,6 +156,10 @@ class Ability
       can :manage, GovernmentReport
       can :manage, CustomFieldProperty, custom_formable_type: 'Client'
       can :manage, CustomField
+      can :manage, ProgramStream
+      can :manage, ClientEnrollment
+      can :manage, ClientEnrollmentTracking
+      can :manage, LeaveProgram
     end
   end
 end
