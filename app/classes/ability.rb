@@ -13,11 +13,13 @@ class Ability
       cannot :manage, Agency
       cannot :manage, ReferralSource
       cannot :manage, QuarterlyReport
-      cannot :manage, CaseNote
+      cannot :manage, CustomFieldProperty
 
       can :read, :all
       can :version, :all
       can :report, :all
+
+      cannot :manage, CaseNote
     elsif user.case_worker?
       can :manage, AbleScreeningQuestion
       can :manage, Assessment
