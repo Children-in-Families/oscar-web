@@ -25,9 +25,7 @@ class Ability
       can :manage, Case, exited: false
       can :manage, CaseNote
       can :manage, Client, user_id: user.id
-      can :manage, GovernmentReport
       can :manage, ProgressNote
-      can :manage, Survey
       can :manage, Task
       can :manage, CustomFieldProperty, custom_formable_type: 'Client'
       can :manage, ClientEnrollment
@@ -46,9 +44,7 @@ class Ability
       can :manage, CaseNote
       can :manage, Client, able_state: Client::ABLE_STATES
       can :manage, Client, user_id: user.id
-      can :manage, GovernmentReport
       can :manage, ProgressNote
-      can :manage, Survey
       can :manage, Task
       can :manage, CustomFieldProperty, custom_formable_type: "Client"
       can :manage, CustomField
@@ -71,13 +67,11 @@ class Ability
       can :manage, Partner
       can :manage, Case, { case_type: 'EC', exited: false }
       can :manage, Assessment
-      can :manage, Survey
       can :manage, Task
       can :manage, CustomFieldProperty, custom_formable_type: 'Client'
       can :manage, CustomFieldProperty, custom_formable_type: 'Family'
       can :manage, CustomFieldProperty, custom_formable_type: 'Partner'
       can :manage, CustomField
-      can :manage, GovernmentReport
       can :manage, ProgramStream
       can :manage, ClientEnrollment
       can :manage, ClientEnrollmentTracking
@@ -97,13 +91,11 @@ class Ability
       can :manage, Partner
       can :manage, Case, { case_type: 'FC', exited: false }
       can :manage, Assessment
-      can :manage, Survey
       can :manage, Task
       can :manage, CustomFieldProperty, custom_formable_type: 'Client'
       can :manage, CustomFieldProperty, custom_formable_type: 'Family'
       can :manage, CustomFieldProperty, custom_formable_type: 'Partner'
       can :manage, CustomField
-      can :manage, GovernmentReport
       can :manage, ProgramStream
       can :manage, ClientEnrollment
       can :manage, ClientEnrollmentTracking
@@ -125,13 +117,11 @@ class Ability
       can :manage, Partner
       can :manage, Case, { case_type: 'KC', exited: false }
       can :manage, Assessment
-      can :manage, Survey
       can :manage, Task
       can :manage, CustomFieldProperty, custom_formable_type: 'Client'
       can :manage, CustomFieldProperty, custom_formable_type: 'Family'
       can :manage, CustomFieldProperty, custom_formable_type: 'Partner'
       can :manage, CustomField
-      can :manage, GovernmentReport
       can :manage, ProgramStream
       can :manage, ClientEnrollment
       can :manage, ClientEnrollmentTracking
@@ -152,8 +142,6 @@ class Ability
       can :manage, Task
       can :manage, Assessment
       can :manage, CaseNote
-      can :manage, Survey
-      can :manage, GovernmentReport
       can :manage, CustomFieldProperty, custom_formable_type: 'Client'
       can :manage, CustomField
       can :manage, ProgramStream
