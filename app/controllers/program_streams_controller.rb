@@ -1,6 +1,6 @@
 class ProgramStreamsController < AdminController
   load_and_authorize_resource
-  
+
   before_action :find_program_stream, except: [:index, :new, :create, :preview]
   before_action :find_ngo
   before_action :authorize_program, only: [:edit, :update, :destroy]
@@ -23,7 +23,7 @@ class ProgramStreamsController < AdminController
   end
 
   def edit
-    redirect_to program_streams_path, alert: t('unauthorized.default') if @ngo_name.present? && @ngo_name != current_organiation.full_name
+    redirect_to program_streams_path, alert: t('unauthorized.default') if @ngo_name.present? && @ngo_name != current_organization.full_name
   end
 
   def show
@@ -76,7 +76,7 @@ class ProgramStreamsController < AdminController
   end
 
   def program_stream_params
-    ngo_name = current_organiation.full_name
+    ngo_name = current_organization.full_name
     params.require(:program_stream).permit(:name, :rules, :description, :enrollment, :tracking, :exit_program, :quantity, trackings_attributes: [:frequency, :time_of_frequency, :fields, :_destroy, :name, :id], domain_ids: []).merge(ngo_name: ngo_name)
   end
 
@@ -85,7 +85,7 @@ class ProgramStreamsController < AdminController
   end
 
   def find_another_ngo_program_stream
-    current_ngo_short_name = current_organiation.short_name
+    current_ngo_short_name = current_organization.short_name
     program_stream_id = params[:program_stream_id]
     ngo = Organization.find_by(full_name: @ngo_name)
     Organization.switch_to ngo.short_name
@@ -95,7 +95,7 @@ class ProgramStreamsController < AdminController
   end
 
   def program_streams_all_organizations
-    current_org_name = current_organiation.short_name
+    current_org_name = current_organization.short_name
     program_streams = []
     Organization.without_demo.each do |org|
       Organization.switch_to org.short_name
@@ -111,7 +111,7 @@ class ProgramStreamsController < AdminController
   end
 
   def authorize_program
-    if @program_stream.present? && @program_stream.ngo_name != current_organiation.full_name
+    if @program_stream.present? && @program_stream.ngo_name != current_organization.full_name
       redirect_to program_streams_path, alert: t('unauthorized.default')
     end
   end
