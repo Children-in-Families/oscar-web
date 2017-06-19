@@ -522,7 +522,7 @@ en:
         view: View
         placement_start_date: Placement Start Date
         placement_case_type: Placement Case Type
-    
+
       client_enrollments:
         quantity: Number of Place Available
         status: Status
@@ -868,7 +868,7 @@ en:
       add_new_filter: Add New Filter
       add_new_group: Add Group
       delete_group: Delete
-  
+
   client_enrollments:
     edit:
       enrollment: Edit Enrollment
@@ -897,9 +897,9 @@ en:
       successfully_updated: Enrollment has been successfully updated.
     new:
       new_enrollment: New Enrollment
-      client_not_valid: Client doesn't match with this program rules.  
+      client_not_valid: Client doesn't match with this program rules.
     index:
-      program_lists: Programs List  
+      program_lists: Programs List
     create:
       successfully_created: Enrollment has been successfully created.
     form:
@@ -949,7 +949,7 @@ en:
     show:
       back: Back
       exit_date: Exit Date
-    new: 
+    new:
       new_exit_program: New Exit Program
     update:
       successfully_updated: Exit Program has successfully updated.
@@ -1699,7 +1699,7 @@ en:
         change_my_password: Change my password
   dashboards:
     client:
-      clients: Clients
+      clients: Active Clients
       foster_cares_html: Foster <br/>Cares
       kinship_cares_html:  Kinship <br/>Cares
       emergency_cares_html: Emergency <br/>Cares
@@ -1715,7 +1715,7 @@ en:
       agencies: Agencies
       partners: Partners
       referral_sources: Referral Sources
-      staffs: Staffs
+      staffs: Staff Members
 
   classes:
     dashboard:
@@ -2073,7 +2073,7 @@ en:
         value_of: Value of
         before: Before
         after: After
-        date_deleted: Date 
+        date_deleted: Date
         more_detail: More Details
 
       program_rule_before:
@@ -2090,7 +2090,7 @@ en:
         value_of: Value of
         before: Before
         after: After
-        date_deleted: Date 
+        date_deleted: Date
       common:
         create: Create
         update: Update
