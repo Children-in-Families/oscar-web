@@ -1,5 +1,7 @@
 = simple_form_for ([@client, @enrollment, @client_enrollment_tracking]) do |f|
   .ibox-content
+    %h3.text-center
+      = client_enrollment_tracking_title(@client, @tracking, @program_stream)
     = f.simple_fields_for :properties, OpenStruct.new(@client_enrollment_tracking.properties) do |prop_f|
       - @tracking.fields.each_slice(2) do |n_field|
         .row
