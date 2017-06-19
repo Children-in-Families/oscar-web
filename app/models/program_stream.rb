@@ -19,6 +19,7 @@ class ProgramStream < ActiveRecord::Base
   validate  :validate_remove_field, if: -> { id.present? }
 
   scope     :ordered,  ->  { order(:name) }
+  scope     :ordered_by, ->(column) { order(column)}
 
   def form_builder_field_uniqueness
     errors_massage = []
