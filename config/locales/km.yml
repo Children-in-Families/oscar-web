@@ -232,7 +232,7 @@ km:
       exit_program: ចាកចេញពីកម្មវិធី
       back: ត្រលប់ក្រោយ
     edit:
-      edit_program_stream: កែសម្រួលកម្មវិធី 
+      edit_program_stream: កែសម្រួលកម្មវិធី
       back: ត្រលប់ក្រោយ
     create:
       alert: ឈ្មោះនៃការតាមដានត្រូវបានប្រើរួចហើយ
@@ -249,7 +249,7 @@ km:
       add_new_filter: បន្ថែមការស្វែងរក
       add_new_group: បន្ថែមបណ្ដុំនៃការស្វែងរក
       delete_group: លុបបណ្ដុំនៃការស្វែងរក
-      add_rule: បន្ថែមលក្ខខណ្ឌថ្មី 
+      add_rule: បន្ថែមលក្ខខណ្ឌថ្មី
       name: ឈ្មោះកម្មវិធី​បន្ទាប់បន្សំ
       description: ការបរិយាយ
       rule: លក្ខខណ្ឌ
@@ -336,8 +336,7 @@ km:
 
   default_client_fields: &default_client_fields
     live_with: រស់នៅជាមួយ
-    rice_support: អង្ករដែលផ្គត់ផ្គង់
-    poverty_certificate: ប័ណ្ណក្រីក្រ
+    id_poor: ប័ណ្ណក្រីក្រ
     id: លេខសំគាល់
     kid_id: លេខកូដឣតិថិជន
     given_name: នាមខ្លួន
@@ -546,7 +545,7 @@ km:
         view: មើល
         placement_start_date: ថ្ងៃបញ្ជូនទៅក្នុងករណី
         placement_case_type: ប្រភេទករណីដែលត្រូវបានបញ្ជូនទៅ
-      
+
       client_enrollments:
         quantity: ចំនួនដែលនៅទំនរេសំរាប់អតិថិជន
         name: ឈ្មោះកម្មវិធី
@@ -561,7 +560,7 @@ km:
         frequency: ភាពញឹកញាប់
         times_of_frequency: ពេលវេលានៃភាពញឹកញាប់
         report: របាយការណ៍
-      
+
       progress_notes:
         <<: *default_progress_note_fields
         manage: គ្រប់គ្រង
@@ -2324,7 +2323,7 @@ km:
         before: មុនកំណែ
         after: ក្រោយកំណែ
         date_deleted: កាលបរិច្ឆេទនៃការលុប
-        
+
       case_note:
         'on': របស់
         change: បានធ្វើកំណែប្រែខាងក្រោម
