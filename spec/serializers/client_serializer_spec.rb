@@ -244,4 +244,29 @@ describe ClientSerializer, type: :serializer do
     expect(serializer).to have_json_path('client/program_streams')
     expect(serializer).to have_json_type(Array).at_path('client/program_streams')
   end
+
+  it 'should be have attribute add_forms' do
+    expect(serializer).to have_json_path('client/add_forms')
+    expect(serializer).to have_json_type(Array).at_path('client/add_forms')
+  end
+
+  it 'should be have attribute additional_form' do
+    expect(serializer).to have_json_path('client/additional_form')
+    expect(serializer).to have_json_type(Array).at_path('client/additional_form')
+  end
+
+  it 'should be have attribute tasks' do
+    expect(serializer).to have_json_path('client/tasks')
+    expect(serializer).to have_json_type(Object).at_path('client/tasks')
+  end
+
+  it 'should be have attribute assessments' do
+    expect(serializer).to have_json_path('client/assessments')
+    expect(serializer).to have_json_type(Array).at_path('client/assessments')
+  end
+
+  it 'should be have attribute case_notes' do
+    expect(serializer).to have_json_path('client/case_notes')
+    expect(serializer).to have_json_type(Array).at_path('client/case_notes')
+  end
 end

@@ -9,7 +9,7 @@ class ClientSerializer < ActiveModel::Serializer
               :able_state, :has_been_in_government_care, :relevant_referral_information,
               :case_worker, :agencies, :state, :rejected_note, :emergency_care, :foster_care, :kinship_care,
               :organization, :additional_form, :tasks, :assessments, :case_notes, :quantitative_cases,
-              :program_streams
+              :program_streams, :add_forms
 
   def case_worker
     object.user
@@ -103,4 +103,10 @@ class ClientSerializer < ActiveModel::Serializer
       program_stream.as_json(only: [:id, :name, :description, :quantity]).merge(domain: domains, enrollments: formatted_enrollments)
     end
   end
+
+  def add_forms
+    custom_field_ids = object.custom_field_properties.pluck(:custom_field_id)
+    CustomField.client_forms.not_used_forms(custom_field_ids).order_by_form_title
+  end
+
 end
