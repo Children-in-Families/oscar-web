@@ -18,16 +18,36 @@ RSpec.describe Api::V1::ClientsController, type: :request do
     context 'when user loged in' do
       before do
         sign_in(user)
-        get '/api/v1/clients', @auth_headers
       end
 
-      it 'should return status 200' do
-        expect(response).to have_http_status(:success)
+      context 'when max result is set' do
+        before do
+          get '/api/v1/clients?max_result=3', @auth_headers
+        end
+
+        it 'should return status 200' do
+          expect(response).to have_http_status(:success)
+        end
+
+        it 'should returns the clients with the correct data' do
+          expect(json['clients'].size).to eq 3
+          expect(json['clients'].map { |client| client['case_worker']['email'] }).to include(user.email)
+        end
       end
 
-      it 'should returns the clients with the correct data' do
-        expect(json['clients'].size).to eq 5
-        expect(json['clients'].map { |client| client['user']['email'] }).to include(user.email)
+      context 'when max result is not set' do
+        before do
+          get '/api/v1/clients', @auth_headers
+        end
+
+        it 'should return status 200' do
+          expect(response).to have_http_status(:success)
+        end
+
+        it 'should returns the clients with the correct data' do
+          expect(json['clients'].size).to eq 5
+          expect(json['clients'].map { |client| client['case_worker']['email'] }).to include(user.email)
+        end
       end
     end
   end
@@ -147,8 +167,12 @@ RSpec.describe Api::V1::ClientsController, type: :request do
           delete "/api/v1/clients/#{clients[0].id}", @auth_headers
         end
 
-        it 'should return status 200' do
-          expect(response).to have_http_status(:success)
+        it 'should return status 204' do
+          expect(response).to have_http_status(:no_content)
+        end
+
+        it 'should not contain deleted client' do
+          expect(Client.ids).not_to include(clients[0].id)
         end
       end
     end

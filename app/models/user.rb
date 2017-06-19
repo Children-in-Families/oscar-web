@@ -47,6 +47,8 @@ class User < ActiveRecord::Base
   scope :non_strategic_overviewers, -> { where.not(roles: 'strategic overviewer') }
 
   before_save :assign_as_admin
+  before_save :set_manager_ids, if: 'manager_id_changed?'
+  after_save :reset_manager, if: 'roles_changed?'
 
   ROLES.each do |role|
     define_method("#{role.parameterize.underscore}?") do
@@ -131,7 +133,7 @@ class User < ActiveRecord::Base
     if user.admin? || user.strategic_overviewer?
       User.all
     elsif user.manager?
-      User.where('id = :user_id OR manager_id = :user_id', { user_id: user.id })
+      User.where('id = :user_id OR manager_ids && ARRAY[:user_id]', { user_id: user.id })
     elsif user.able_manager?
       ids = Client.able.pluck(:user_id) << user.id
       User.where(id: ids.uniq)
@@ -145,6 +147,35 @@ class User < ActiveRecord::Base
         ids << Client.active_kc.pluck(:user_id)
       end
       User.where(id: ids.flatten.uniq)
+    end
+  end
+
+  def reset_manager
+    if roles_change.last == 'case worker' || roles_change.last == 'strategic overviewer'
+      User.where(manager_id: self).map{|u| u.update(manager_id: nil)}
+    end
+  end
+
+  def set_manager_ids
+    if manager_id.nil?
+      self.manager_ids = []
+      manager_id = self.id
+      update_manager_ids(self)
+    else
+      manager_ids = User.find(self.manager_id).manager_ids
+      update_manager_ids(self, manager_ids.unshift(self.manager_id))
+    end
+  end
+
+  def update_manager_ids(user, manager_ids = [])
+    user.manager_ids = manager_ids
+    user.save unless user.id == id
+    return if user.case_worker?
+    case_workers = User.where(manager_id: user.id)
+    if case_workers.present?
+      case_workers.each do |case_worker|
+        update_manager_ids(case_worker, manager_ids.unshift(user.id))
+      end
     end
   end
 end

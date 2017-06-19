@@ -65,13 +65,37 @@ end
 describe Client, 'methods' do
   let!(:able_manager) { create(:user, roles: 'able manager') }
   let!(:case_worker) { create(:user, roles: 'case worker') }
-  let!(:client){ create(:client, user: case_worker, local_given_name: 'Barry', local_family_name: 'Allen') }
+  let!(:client){ create(:client, user: case_worker, local_given_name: 'Barry', local_family_name: 'Allen', date_of_birth: '2007-05-15') }
   let!(:other_client) { create(:client, user: case_worker) }
   let!(:able_client) { create(:client, able_state: Client::ABLE_STATES[0]) }
   let!(:able_manager_client) { create(:client, user: able_manager) }
   let!(:assessment){ create(:assessment, created_at: Date.today - 6.month, client: client) }
   let!(:able_rejected_client) { create(:client, able_state: Client::ABLE_STATES[1]) }
   let!(:able_discharged_client) { create(:client, able_state: Client::ABLE_STATES[2]) }
+  let!(:client_a){ create(:client, date_of_birth: '2017-05-05') }
+  let!(:client_b){ create(:client, date_of_birth: '2016-06-05') }
+  let!(:client_c){ create(:client, date_of_birth: '2016-06-06') }
+  let!(:client_d){ create(:client, date_of_birth: '2015-10-06') }
+
+  context 'age' do
+    let(:current_date) { '2017-06-05'.to_date }
+    let(:dob)          { client.date_of_birth }
+    it 'returns age of year' do
+      expect(client.age_as_years(current_date)).to eq(10)
+      expect(client_a.age_as_years(current_date)).to eq(0)
+      expect(client_b.age_as_years(current_date)).to eq(1)
+      expect(client_c.age_as_years(current_date)).to eq(0)
+      expect(client_d.age_as_years(current_date)).to eq(1)
+    end
+
+    it 'returns age of month' do
+      expect(client.age_extra_months(current_date)).to eq(0)
+      expect(client_a.age_extra_months(current_date)).to eq(1)
+      expect(client_b.age_extra_months(current_date)).to eq(0)
+      expect(client_c.age_extra_months(current_date)).to eq(11)
+      expect(client_d.age_extra_months(current_date)).to eq(7)
+    end
+  end
 
   context 'time in care' do
     context 'without any cases' do
@@ -140,22 +164,6 @@ describe Client, 'methods' do
     let!(:other_assessment) { create(:assessment, client: other_client) }
     it { expect(client.can_create_assessment?).to be_truthy }
     it { expect(other_client.can_create_assessment?).to be_falsey }
-  end
-
-  context 'age as years' do
-    let!(:age_as_years){ client.age_as_years }
-    let!(:total_present_months){ Date.today.year * 12 + Date.today.month }
-    let!(:total_dob_months){ client.date_of_birth.year * 12 + client.date_of_birth.month }
-    let!(:years){ (total_present_months - total_dob_months) / 12 }
-    it { expect(client.age_as_years).to eq(years) }
-  end
-
-  context 'age extra months' do
-    let!(:age_extra_months){ client.age_extra_months }
-    let!(:total_present_months){ Date.today.year * 12 + Date.today.month }
-    let!(:total_dob_months){ client.date_of_birth.year * 12 + client.date_of_birth.month }
-    let!(:months){ (total_present_months - total_dob_months) % 12 }
-    it { expect(client.age_extra_months).to eq(months) }
   end
 
   context 'age between' do

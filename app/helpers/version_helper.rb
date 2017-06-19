@@ -83,12 +83,12 @@ module VersionHelper
   end
 
   def version_not_show(item_type)
-    arr = %w(AssessmentDomain Assessment CaseNote CaseNoteDomainGroup AgencyClient Client ClientQuantitativeCase)
+    arr = %w(AssessmentDomain Assessment CaseNote CaseNoteDomainGroup AgencyClient Client ClientQuantitativeCase ProgramStream Tracking ClientEnrollment ClientEnrollmentTracking)
     arr.exclude?(item_type)
   end
 
   def version_keys_skipable?(k, item_type = '')
-    k == 'admin' || k == 'tokens' || k == 'encrypted_password' || k == 'uid' || k == 'able' || skipable_user_task_and_case?(k, item_type)
+    k == 'attachments' || k == 'admin' || k == 'tokens' || k == 'encrypted_password' || k == 'uid' || k == 'able' || skipable_user_task_and_case?(k, item_type)
   end
 
   def skipable_user_task_and_case?(k, item_type)
@@ -197,7 +197,9 @@ module VersionHelper
       quantitative_types:   ['quantitative_type_id'],
       domains:              ['domain_id'],
       locations:            ['location_id'],
-      clients:              ['client_id']
+      clients:              ['client_id'],
+      trackings:            ['tracking_id'],
+      program_streams:      ['program_stream_id']
     }
   end
 
@@ -216,7 +218,8 @@ module VersionHelper
       contact_person_name:    'contact_name',
       contact_person_email:   'email',
       contact_person_mobile:  'contact_mobile',
-      custom_field_id:        'Form Title'
+      custom_field_id:        'Form Title',
+      client_enrollment_id:   'Client Enrollment ID'
     }
   end
 

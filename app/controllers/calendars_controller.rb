@@ -10,6 +10,8 @@ class CalendarsController < AdminController
 
   def callback
     if params[:error].present?
+      session[:task_id] = nil
+      session[:action] = nil
       redirect_to session[:referrer]
     else
       client = Signet::OAuth2::Client.new(client_id: Rails.application.secrets.google_client_id,

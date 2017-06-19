@@ -32,13 +32,14 @@
                           .btn.btn-outline.btn-danger
                             = fa_icon('trash')
                 .ibox-content
-                  %table.table.table-bordered
-                    - custom_field_property.properties.each do |key, value|
-                      %tr
-                        %td.align-justify
-                          = key.titleize
-                        %td.align-justify
-                          = display_custom_properties(value)
-                    = render 'attachment', custom_field_property: custom_field_property
+                  .table-responsive
+                    %table.table.table-bordered
+                      - custom_field_property.properties.each do |key, value|
+                        %tr
+                          %td.align-justify
+                            = key.titleize
+                          %td.align-justify
+                            = display_custom_properties(value)
+                      = render 'attachment', custom_field_property: custom_field_property
       .ibox-footer.text-center
         = paginate @custom_field_properties

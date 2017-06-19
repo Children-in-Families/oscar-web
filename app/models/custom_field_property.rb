@@ -14,9 +14,9 @@ class CustomFieldProperty < ActiveRecord::Base
   validates :custom_field_id, presence: true
 
   validate do |obj|
-    CustomFieldPresentValidator.new(obj).validate
-    CustomFieldNumericalityValidator.new(obj).validate
-    CustomFieldEmailValidator.new(obj).validate
+    CustomFormPresentValidator.new(obj, 'custom_field', 'fields').validate
+    CustomFormNumericalityValidator.new(obj, 'custom_field', 'fields').validate
+    CustomFormEmailValidator.new(obj, 'custom_field', 'fields').validate
   end
 
   def client_form?

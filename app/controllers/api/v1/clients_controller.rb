@@ -4,7 +4,12 @@ module Api
       before_action :find_client, except: [:index, :create]
 
       def index
-        render json: Client.accessible_by(current_ability)
+        clients = if params[:max_result].present?
+                    Client.accessible_by(current_ability).take(params[:max_result].to_i)
+                  else
+                    Client.accessible_by(current_ability)
+                  end
+        render json: clients
       end
 
       def show
@@ -30,7 +35,7 @@ module Api
 
       def destroy
         @client.destroy
-        render json: { status: :success }
+        head 204
       end
 
       private

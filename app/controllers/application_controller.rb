@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
   before_action :set_locale
   before_action :set_paper_trail_whodunnit
 
-  helper_method :current_organiation
+  helper_method :current_organization
 
   rescue_from CanCan::AccessDenied do |exception|
     redirect_to root_url, alert: exception.message
@@ -19,7 +19,7 @@ class ApplicationController < ActionController::Base
     redirect_to root_url, alert: t('unauthorized.default')
   end
 
-  def current_organiation
+  def current_organization
     Organization.current
   end
 
