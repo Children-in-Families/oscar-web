@@ -912,6 +912,7 @@ ActiveRecord::Schema.define(version: 20170614085443) do
     t.integer  "manager_id"
     t.boolean  "calendar_integration",   default: false
     t.integer  "pin_number"
+    t.integer  "manager_ids",            default: [],                         array: true
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

@@ -146,7 +146,8 @@ class Ability
       end
     elsif user.manager?
       can :manage, Client, user_id: user.id
-      can :manage, Client, user: { manager_id: user.id }
+      can :manage, Client, user: User.where('manager_ids && ARRAY[?]', user.id)
+      can :manage, User, id: User.where('manager_ids && ARRAY[?]', user.id).map(&:id)
       can :manage, Case
       can :manage, Task
       can :manage, Assessment

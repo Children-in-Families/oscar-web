@@ -151,23 +151,22 @@ module AdvancedSearches
     end
 
     def age_field_query
-      date_formats = convert_age_to_date(@value)
-      values = validate_age(date_formats)
+      date_format = convert_age_to_date(@value)
       case @operator
       when 'equal'
-        clients = @clients.where(date_of_birth: values[0]..values[1])
+        clients = @clients.where(date_of_birth: date_format)
       when 'not_equal'
-        clients = @clients.where.not(date_of_birth: values[0]..values[1])
+        clients = @clients.where.not(date_of_birth: date_format)
       when 'less'
-        clients = @clients.where('date_of_birth > ?', values[1])
+        clients = @clients.where('date_of_birth > ?', date_format)
       when 'less_or_equal'
-        clients = @clients.where('date_of_birth >= ?', values[1])
+        clients = @clients.where('date_of_birth >= ?', date_format)
       when 'greater'
-        clients = @clients.where('date_of_birth < ?', values[1])
+        clients = @clients.where('date_of_birth < ?', date_format)
       when 'greater_or_equal'
-        clients = @clients.where('date_of_birth <= ?', values[1])
+        clients = @clients.where('date_of_birth <= ?', date_format)
       when 'between'
-        clients = @clients.where(date_of_birth: values[0]..values[1])
+        clients = @clients.where(date_of_birth: date_format[0]..date_format[1])
       when 'is_empty'
         clients = @clients.where('date_of_birth IS NULL')
       end
@@ -175,19 +174,17 @@ module AdvancedSearches
     end
 
     def convert_age_to_date(value)
-      if value.is_a?(Array)
-        [value[1].to_i.year.ago.to_date.beginning_of_month, value[0].to_i.year.ago.to_date]
-      else
-        date = value.to_i.year.ago.to_date
-        [date.beginning_of_month, date]
-      end
-    end
-
-    def validate_age(dates)
       overdue_year = 999.years.ago.to_date
-      first_date = dates.first < overdue_year ? overdue_year : dates.first
-      last_date  = dates.last < overdue_year ? overdue_year : dates.last
-      [first_date, last_date]
+      if value.is_a?(Array)
+        min_age = (value[0].to_i * 12).months.ago.to_date
+        max_age = (value[1].to_i * 12).months.ago.to_date
+        min_age = min_age > overdue_year ? min_age : overdue_year
+        max_age = max_age > overdue_year ? max_age : overdue_year
+        [max_age, min_age]
+      else
+        age = (value.to_i * 12).months.ago.to_date
+        age > overdue_year ? age : overdue_year
+      end
     end
 
     def validate_family_id(ids)

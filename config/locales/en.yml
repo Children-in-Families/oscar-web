@@ -341,11 +341,12 @@ en:
     follow_up_by: Followed Up By
     agency_names: Agency Name
     current_address: Current Address
-    house_number: House Number
-    street_number: Street Number
+    house_number: House
+    street_number: Street
     village: Village
     commune: Commune/Sangkat
     district: District/Khan
+    cambodia: Cambodia
     school_grade: School Grade
     has_been_in_orphanage: Has Been In Orphanage
     relevant_referral_information: Relevant Referral Information
