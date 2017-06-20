@@ -546,14 +546,6 @@ km:
         placement_start_date: ថ្ងៃបញ្ជូនទៅក្នុងករណី
         placement_case_type: ប្រភេទករណីដែលត្រូវបានបញ្ជូនទៅ
 
-      client_enrollments:
-        quantity: ចំនួនដែលនៅទំនរេសំរាប់អតិថិជន
-        name: ឈ្មោះកម្មវិធី
-        domain: កត្តា
-        report: របាយការណ៍
-        action: សកម្មភាព
-        status: ស្ថានភាព
-
       trackings:
         name: ឈ្មោះកម្មវិធី
         action: សកម្មភាព
@@ -886,6 +878,8 @@ km:
       delete_group: លុបបណ្ដុំនៃការស្វែងរក
 
   client_enrollments:
+    create:
+      successfully_create: ការចុះឈ្មោះរក្សាទុកដោយជោគជ័យ
     edit:
       enrollment: ទម្រង់បែបបទ​នៃ​ចុះឈ្មោះ
     show:
@@ -915,6 +909,12 @@ km:
       new_enrollment: ការចុះឈ្មោះថ្មី
       client_not_valid: អតិថិជនមិនអាចចូលរូមកម្មវិធីនេះ
     index:
+      quantity: ចំនួនកន្លែងដែលនៅទំនេរ
+      name: ឈ្មោះកម្មវិធី
+      domain: កត្តា
+      report: របាយការណ៍
+      actions: សកម្មភាព
+      status: ស្ថានភាព
       program_lists: តារាងកម្មវិធី​បន្ទាប់បន្សំ
       back: ត្រលប់ក្រោយ
     create:

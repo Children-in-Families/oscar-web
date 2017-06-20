@@ -538,14 +538,6 @@ en:
         placement_start_date: Placement Start Date
         placement_case_type: Placement Case Type
 
-      client_enrollments:
-        quantity: Number of Place Available
-        status: Status
-        domain: Domain
-        name: Program Name
-        report: Report
-        action: Action
-
       trackings:
         name: Name
         frequency: Frequency
@@ -914,6 +906,11 @@ en:
       new_enrollment: New Enrollment
       client_not_valid: Client doesn't match with this program rules.
     index:
+      status: Status
+      domain: Domain
+      name: Program Name
+      report: Report
+      actions: Actions
       program_lists: Programs List
       back: Back
     create:
