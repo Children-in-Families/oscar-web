@@ -65,6 +65,10 @@ class ProgramStream < ActiveRecord::Base
     client_enrollments.last
   end
 
+  def number_available_for_client
+    quantity - client_enrollments.active.size
+  end
+
   private
 
   def enrollment_errors_message

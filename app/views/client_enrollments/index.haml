@@ -33,7 +33,7 @@
               %td.domain
                 = ps.domains.pluck(:identity).join(', ')
               %td.quantity
-                = ps.quantity - ps.client_enrollments.active.size if ps.quantity.present?
+                = ps.number_available_for_client if ps.quantity.present?
               %td.report
                 = link_to t('.view'), report_client_client_enrollments_path(@client, program_stream_id: ps)
               %td.manage

@@ -546,14 +546,6 @@ km:
         placement_start_date: ថ្ងៃបញ្ជូនទៅក្នុងករណី
         placement_case_type: ប្រភេទករណីដែលត្រូវបានបញ្ជូនទៅ
 
-      client_enrollments:
-        quantity: ចំនួនដែលនៅទំនេសំរាប់អតិថិជន
-        name: ឈ្មោះកម្មវិធី
-        domain: កត្តា
-        report: របាយការណ៍
-        action: សកម្មភាព
-        status: ស្ថានភាព
-
       trackings:
         name: ឈ្មោះកម្មវិធី
         action: សកម្មភាព
