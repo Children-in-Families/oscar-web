@@ -135,18 +135,10 @@ class Client < ActiveRecord::Base
     name.present? ? name : local_name
   end
 
-  def both_name
-    name = "#{given_name} #{family_name}"
+  def en_and_local_name
+    en_name = "#{given_name} #{family_name}"
     local_name = "#{local_given_name} #{local_family_name}"
-    if name.present? && local_name.present?
-      "#{name} (#{local_name})"
-    elsif name.present?
-      "#{name}"
-    elsif local_name.present?
-      "#{local_name}"
-    else
-      ""
-    end
+    "#{en_name} (#{local_name})"
   end
 
   def self.next_assessment_candidates
