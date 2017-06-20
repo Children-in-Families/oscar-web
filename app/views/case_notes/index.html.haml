@@ -52,6 +52,15 @@
                                   %li.list-group-item
                                     = "#{index + 1}. "
                                     = task.name
+                      .col-xs-12.col-sm-6
+                        %p Goal :
+                        %ul
+                          - cdg.domain_group.domains.each do |domain|
+                            - assessment_domain = domain.assessment_domains.find_by(assessment_id: case_note.assessment_id)
+                            - if assessment_domain.present?
+                              - goal = assessment_domain.goal
+                              %li
+                                = "#{domain.name} : #{goal}"
       .ibox-footer
         .text-center
           = paginate @case_notes
