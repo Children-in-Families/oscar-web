@@ -3,7 +3,8 @@ require 'spec_helper'
 RSpec.describe Api::V1::ProgramStreamsController, type: :request do
   let(:user) { create(:user) }
   let!(:program_stream) { create(:program_stream) }
-  let!(:trackings) { create_list(:tracking, 2, program_stream: program_stream) }
+  let!(:tracking)       { create(:tracking, program_stream: program_stream, name: FFaker::Name.name) }
+  let!(:other_tracking) { create(:tracking, program_stream: program_stream, name: FFaker::Name.name) }
 
   describe 'GET #index' do
     context 'when user not loged in' do

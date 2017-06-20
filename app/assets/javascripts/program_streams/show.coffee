@@ -1,4 +1,4 @@
-CIF.Program_streamsShow = do ->
+CIF.Program_streamsShow = CIF.Program_streamsPreview = do ->
   _init = ->
     _initProgramRule()
     _initSelect2()

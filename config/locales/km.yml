@@ -200,14 +200,29 @@ km:
       cancel: ទុកជាមោឃៈ
 
   program_streams:
-    <<: *default_program_stream_fields
+    current_program_streams_tab:
+      name: ឈ្មោះកម្មវិធី​បន្ទាប់បន្សំ
+      domain: កត្តា
+      quantity: បរិមាណ
+      actions: សកម្មភាព
+    others_ngo_program_streams_tab:
+      preview: មើលជាមុន
+      copy: ចម្លងជូន
+      name: ឈ្មោះកម្មវិធី​បន្ទាប់បន្សំ
+      domain: កត្តា
+      quantity: បរិមាណ
+      organization: អង្គការ
+      actions: សកម្មភាព
     index:
+      current_ngo: កម្មវិធី​បន្ទាប់បន្សំរបស់អង្គការខ្ញុំ
+      ngo_programs: កម្មវិធី​បន្ទាប់បន្សំរបស់អង្គការទាំងអស់
       program_list: បញ្ជីកម្មវិធី​បន្ទាប់បន្សំ
       new_program: បន្ថែមកម្មវិធីថ្មី
     new:
       new_program_stream: បន្ថែមកម្មវិធីថ្មី
       back: ត្រលប់ក្រោយ
     show:
+      copy: ចម្លងជូន
       description: ការបរិយាយ
       domain: កត្តា
       quantity: បរិមាណ
@@ -217,7 +232,7 @@ km:
       exit_program: ចាកចេញពីកម្មវិធី
       back: ត្រលប់ក្រោយ
     edit:
-      edit_program_stream: កែសម្រួលកម្មវិធី 
+      edit_program_stream: កែសម្រួលកម្មវិធី
       back: ត្រលប់ក្រោយ
     create:
       alert: ឈ្មោះនៃការតាមដានត្រូវបានប្រើរួចហើយ
@@ -234,7 +249,7 @@ km:
       add_new_filter: បន្ថែមការស្វែងរក
       add_new_group: បន្ថែមបណ្ដុំនៃការស្វែងរក
       delete_group: លុបបណ្ដុំនៃការស្វែងរក
-      add_rule: បន្ថែមលក្ខខណ្ឌថ្មី 
+      add_rule: បន្ថែមលក្ខខណ្ឌថ្មី
       name: ឈ្មោះកម្មវិធី​បន្ទាប់បន្សំ
       description: ការបរិយាយ
       rule: លក្ខខណ្ឌ
@@ -321,8 +336,7 @@ km:
 
   default_client_fields: &default_client_fields
     live_with: រស់នៅជាមួយ
-    rice_support: អង្ករដែលផ្គត់ផ្គង់
-    poverty_certificate: ប័ណ្ណក្រីក្រ
+    id_poor: ប័ណ្ណក្រីក្រ
     id: លេខសំគាល់
     kid_id: លេខកូដឣតិថិជន
     given_name: នាមខ្លួន
@@ -349,11 +363,12 @@ km:
     follow_up_by: បុគ្គលិកដែលតាមដានករណី
     agency_names: ឈ្មោះអង្គភាព
     current_address: ឣាសយដ្ឋានបច្ចុប្បន្ន
-    house_number: លេខផ្ទះ
-    street_number: លេខផ្លូវ
+    house_number: ផ្ទះលេខ
+    street_number: ផ្លូវ
     village: ភូមិ
     commune: ឃុំ/សង្កាត់
     district: ស្រុក/ខណ្ឌ
+    cambodia: កម្ពុជា
     school_grade: កំរិតថ្នាក់
     has_been_in_orphanage: ធ្លាប់បាននៅក្នុងមណ្ឌលកុមារកំព្រា
     donor: ម្ចាស់ជំនួយ
@@ -530,9 +545,9 @@ km:
         view: មើល
         placement_start_date: ថ្ងៃបញ្ជូនទៅក្នុងករណី
         placement_case_type: ប្រភេទករណីដែលត្រូវបានបញ្ជូនទៅ
-      
+
       client_enrollments:
-        quantity: ចំនួនដែលនៅទំនរេសំរាប់អតិថិជន
+        quantity: ចំនួនដែលនៅទំនេសំរាប់អតិថិជន
         name: ឈ្មោះកម្មវិធី
         domain: កត្តា
         report: របាយការណ៍
@@ -545,7 +560,7 @@ km:
         frequency: ភាពញឹកញាប់
         times_of_frequency: ពេលវេលានៃភាពញឹកញាប់
         report: របាយការណ៍
-      
+
       progress_notes:
         <<: *default_progress_note_fields
         manage: គ្រប់គ្រង
@@ -871,6 +886,8 @@ km:
       delete_group: លុបបណ្ដុំនៃការស្វែងរក
 
   client_enrollments:
+    create:
+      successfully_create: ការចុះឈ្មោះរក្សាទុកដោយជោគជ័យ
     edit:
       enrollment: ទម្រង់បែបបទ​នៃ​ចុះឈ្មោះ
     show:
@@ -2314,7 +2331,7 @@ km:
         before: មុនកំណែ
         after: ក្រោយកំណែ
         date_deleted: កាលបរិច្ឆេទនៃការលុប
-        
+
       case_note:
         'on': របស់
         change: បានធ្វើកំណែប្រែខាងក្រោម

@@ -6,7 +6,7 @@ class ClientEnrollmentsController < AdminController
   before_action :find_client_enrollment, only: [:show, :edit, :update]
 
   def index
-    @program_streams = Kaminari.paginate_array(program_stream_ordered).page(params[:page]).per(20)
+    @program_streams = Kaminari.paginate_array(ordered_program).page(params[:page]).per(20)
   end
 
   def new
@@ -74,11 +74,24 @@ class ClientEnrollmentsController < AdminController
     AdvancedSearches::ClientAdvancedSearch.new(@program_stream.rules, {}, Client.all).filter
   end
 
-  def program_stream_ordered
+  def program_stream_order_by_enrollment
     client_enrollments_with_status = ProgramStream.orderd_name_and_enrollment_status(@client)
     client_enrollments_without_status = ProgramStream.without_status_by(@client)
 
     client_enrollments_with_status + client_enrollments_without_status
+  end
+
+  def ordered_program
+    column = params[:order]
+    descending = params[:descending] == 'true'
+    if column.present? && column != 'status'
+      ordered = program_stream_order_by_enrollment.sort_by{ |ps| ps.send(column) || 0 }
+      descending ? ordered.reverse : ordered
+    elsif column.present? && column == 'status'
+      descending ? program_stream_order_by_enrollment.reverse : program_stream_order_by_enrollment
+    else
+      program_stream_order_by_enrollment
+    end
   end
 
   def valid_client?

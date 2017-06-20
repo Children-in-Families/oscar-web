@@ -13,11 +13,13 @@ class Ability
       cannot :manage, Agency
       cannot :manage, ReferralSource
       cannot :manage, QuarterlyReport
-      cannot :manage, CaseNote
+      cannot :manage, CustomFieldProperty
 
       can :read, :all
       can :version, :all
       can :report, :all
+
+      cannot :manage, CaseNote
     elsif user.case_worker?
       can :manage, AbleScreeningQuestion
       can :manage, Assessment
@@ -146,7 +148,8 @@ class Ability
       end
     elsif user.manager?
       can :manage, Client, user_id: user.id
-      can :manage, Client, user: { manager_id: user.id }
+      can :manage, Client, user: User.where('manager_ids && ARRAY[?]', user.id)
+      can :manage, User, id: User.where('manager_ids && ARRAY[?]', user.id).map(&:id)
       can :manage, Case
       can :manage, Task
       can :manage, Assessment

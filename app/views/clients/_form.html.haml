@@ -41,19 +41,19 @@
 
         .col-xs-12.col-sm-6.col-md-4= f.input :received_by_id, collection: @user.map{|p| [p.name, p.id]}, label: t('.received_by'), include_blank: false
         .col-xs-12.col-sm-6.col-md-4= f.input :followed_up_by_id, collection: @user.map{|p| [p.name, p.id]}, label: t('.followed_up_by'), include_blank: false
-        .col-xs-12.col-sm-6.col-md-4.form-group.date.optional.client_follow_up_date
-          %label.date.optional.control-label{ for: 'client_follow_up_date' }= t('.follow_up_date')
+        .col-xs-12.col-sm-6.col-md-4.form-group.date.optional.client_initial_referral_date
+          %label.date.optional.control-label{ for: 'client_initial_referral_date' }= t('.initial_referral_date')
           .input-group.date
-            = f.text_field :follow_up_date, class: 'date optional form-control date-picker', type: 'text', name: 'client[follow_up_date]', id: 'client_follow_up_date'
+            = f.text_field :initial_referral_date, class: 'date optional form-control date-picker', type: 'text', name: 'client[initial_referral_date]', id: 'client_initial_referral_date'
             %span.input-group-addon
               %i.fa.fa-calendar-check-o
 
         .col-xs-12.col-sm-6.col-md-4= f.association :agencies, collection: @agencies, multiple: true, label_method: :name, value_method: :id, label: t('.agencies_involved')
         .col-xs-12.col-sm-6.col-md-4= f.association :referral_source, collection: @referral_source, label: t('.referral_source'), include_blank: false
-        .col-xs-12.col-sm-6.col-md-4.form-group.date.optional.client_initial_referral_date
-          %label.date.optional.control-label{ for: 'client_initial_referral_date' }= t('.initial_referral_date')
+        .col-xs-12.col-sm-6.col-md-4.form-group.date.optional.client_follow_up_date
+          %label.date.optional.control-label{ for: 'client_follow_up_date' }= t('.follow_up_date')
           .input-group.date
-            = f.text_field :initial_referral_date, class: 'date optional form-control date-picker', type: 'text', name: 'client[initial_referral_date]', id: 'client_initial_referral_date'
+            = f.text_field :follow_up_date, class: 'date optional form-control date-picker', type: 'text', name: 'client[follow_up_date]', id: 'client_follow_up_date'
             %span.input-group-addon
               %i.fa.fa-calendar-check-o
 
@@ -72,9 +72,7 @@
         .col-xs-12.col-sm-6.col-md-4
           = f.input :live_with, label: t('.live_with')
         .col-xs-12.col-sm-6.col-md-4
-          = f.input :poverty_certificate, label: t('.poverty_certificate')
-        .col-xs-12.col-sm-6.col-md-4
-          = f.input :rice_support, label: t('.rice_support')
+          = f.input :id_poor, label: t('.id_poor')
       .row
         .col-xs-12.col-md-8
           = f.input :relevant_referral_information, input_html: { rows: '5' }, label: t('.relevant_referral_information')

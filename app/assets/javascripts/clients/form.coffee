@@ -19,7 +19,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
         village: $('#client_village').val()
         commune: $('#client_commune').val()
       }
-      if data.date_of_birth != '' and data.given_name != '' and data.birth_province_id != '' and data.family_name != '' and data.local_given_name != '' and data.local_family_name != '' and data.village != '' and data.commune != '' and data.current_province_id != ''
+      if data.date_of_birth != '' or data.given_name != '' or data.birth_province_id != '' or data.family_name != '' or data.local_given_name != '' or data.local_family_name != '' or data.village != '' or data.commune != '' or data.current_province_id != ''
         $.ajax({
           type: 'GET'
           url: '/api/clients/compare'

@@ -197,7 +197,21 @@ en:
       cancel: Cancel
 
   program_streams:
+    current_program_streams_tab:
+      name: Name
+      domain: Domains
+      quantity: Quantity
+      actions: Action
+    others_ngo_program_streams_tab:
+      preview: Preview
+      copy: Copy
+      name: Name
+      domain: Domains
+      quantity: Quantity
+      actions: Action
     index:
+      current_ngo: My NGO's Program Streams
+      ngo_programs: All NGO's Program Streams
       program_list: Programs Stream Listing
       new_program: Add New Program
     create:
@@ -210,6 +224,7 @@ en:
       successfully_deleted: Program Stream has been successfully deleted.
       alert: Program Stream cannot be deleted.
     show:
+      copy: Copy
       description: Description
       domain: Domain
       quantity: Quantity
@@ -313,8 +328,7 @@ en:
 
   default_client_fields: &default_client_fields
     live_with: Who to live with
-    rice_support: Rice Support
-    poverty_certificate: Poverty Certificate
+    id_poor: ID Poor
     id: ID
     kid_id: Kid ID
     given_name: Given Name
@@ -341,11 +355,12 @@ en:
     follow_up_by: Followed Up By
     agency_names: Agency Name
     current_address: Current Address
-    house_number: House Number
-    street_number: Street Number
+    house_number: House
+    street_number: Street
     village: Village
     commune: Commune/Sangkat
     district: District/Khan
+    cambodia: Cambodia
     school_grade: School Grade
     has_been_in_orphanage: Has Been In Orphanage
     relevant_referral_information: Relevant Referral Information
@@ -423,7 +438,7 @@ en:
     email: Email
     job_title: Job Title
     department: Department
-    roles: Roles
+    roles: Permission Set
     province: Province
     password: Password
     password_hint: Leave it blank if you don't want to change password
@@ -522,7 +537,7 @@ en:
         view: View
         placement_start_date: Placement Start Date
         placement_case_type: Placement Case Type
-    
+
       client_enrollments:
         quantity: Number of Place Available
         status: Status
@@ -868,7 +883,7 @@ en:
       add_new_filter: Add New Filter
       add_new_group: Add Group
       delete_group: Delete
-  
+
   client_enrollments:
     edit:
       enrollment: Edit Enrollment
@@ -886,6 +901,8 @@ en:
       actions: Actions
       programs_list: Programs List
       view: View
+    create:
+      successfully_created: Enrollment has been successfully created.
     manage:
       enroll: Enroll
       tracking: Trackings
@@ -897,7 +914,7 @@ en:
       successfully_updated: Enrollment has been successfully updated.
     new:
       new_enrollment: New Enrollment
-      client_not_valid: Client doesn't match with this program rules.  
+      client_not_valid: Client doesn't match with this program rules.
     index:
       status: Status
       domain: Domain
@@ -905,7 +922,6 @@ en:
       report: Report
       actions: Actions
       program_lists: Programs List  
-    create:
       successfully_created: Enrollment has been successfully created.
     form:
       save: Save
@@ -954,7 +970,7 @@ en:
     show:
       back: Back
       exit_date: Exit Date
-    new: 
+    new:
       new_exit_program: New Exit Program
     update:
       successfully_updated: Exit Program has successfully updated.
@@ -1566,7 +1582,7 @@ en:
       you_need_to_create_assessment: You need to create assessment
       new_case_note: New case note
       case_note_on: Case note on
-      present: Present
+      present: Who was there during the visit or conversation?
       completed_tasks: Completed Tasks
       note: Note
     form_with_assessment_domains:
@@ -1582,7 +1598,7 @@ en:
       meeting_detail: Meeting detail
       meeting_with: Meeting with
       on_date: On Date
-      present: Present
+      present: Who was there during the visit or conversation?
       tasks: Tasks
       back: Back
       save: Save
@@ -1598,7 +1614,7 @@ en:
       save: Save
     show:
       case_note_on: Case note on
-      present: Present
+      present: Who was there during the visit or conversation?
     create:
       successfully_created: Case Note has successfully been created.
     update:
@@ -1704,7 +1720,7 @@ en:
         change_my_password: Change my password
   dashboards:
     client:
-      clients: Clients
+      clients: Active Clients
       foster_cares_html: Foster <br/>Cares
       kinship_cares_html:  Kinship <br/>Cares
       emergency_cares_html: Emergency <br/>Cares
@@ -1720,7 +1736,7 @@ en:
       agencies: Agencies
       partners: Partners
       referral_sources: Referral Sources
-      staffs: Staffs
+      staffs: Staff Members
 
   classes:
     dashboard:
@@ -2078,7 +2094,7 @@ en:
         value_of: Value of
         before: Before
         after: After
-        date_deleted: Date 
+        date_deleted: Date
         more_detail: More Details
 
       program_rule_before:
@@ -2095,7 +2111,7 @@ en:
         value_of: Value of
         before: Before
         after: After
-        date_deleted: Date 
+        date_deleted: Date
       common:
         create: Create
         update: Update

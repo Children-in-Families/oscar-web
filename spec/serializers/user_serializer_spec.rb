@@ -65,18 +65,8 @@ RSpec.describe UserSerializer, type: :serializer do
     expect(serializer).to have_json_type(NilClass).at_path('user/pin_number')
   end
 
-  it 'should be have attribute overdue_tasks' do
-    expect(serializer).to have_json_path('user/overdue_tasks')
-    expect(serializer).to have_json_type(Array).at_path('user/overdue_tasks')
-  end
-
-  it 'should be have attribute today_tasks' do
-    expect(serializer).to have_json_path('user/today_tasks')
-    expect(serializer).to have_json_type(Array).at_path('user/today_tasks')
-  end
-
-  it 'should be have attribute upcoming_tasks' do
-    expect(serializer).to have_json_path('user/upcoming_tasks')
-    expect(serializer).to have_json_type(Array).at_path('user/upcoming_tasks')
+  it 'should be have attribute clients' do
+    expect(serializer).to have_json_path('user/clients')
+    expect(serializer).to have_json_type(Array).at_path('user/clients')
   end
 end

@@ -6,10 +6,19 @@
       %table.table.table-bordered.table-striped.table-hover.client_enrollment
         %thead
           %tr
-            %th.status= t('.status')
-            %th.name= t('.name')
+            %th.status
+              = t('.status')
+              .pull-right
+                = render 'order', column: :status
+            %th.name
+              = t('.name')
+              .pull-right
+                = render 'order', column: :name
             %th.domain= t('.domain')
-            %th.quantity= t('.quantity')
+            %th.quantity
+              = t('.quantity')
+              .pull-right
+                = render 'order', column: :quantity
             %th.report= t('.report')
             %th.manage= t('.actions')
         %tbody

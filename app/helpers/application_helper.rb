@@ -119,10 +119,6 @@ module ApplicationHelper
     controller_name == 'clients'
   end
 
-  def organization_name
-    Organization.current.try(:full_name) || 'Cambodian Families'
-  end
-
   def date_format(date)
     date.strftime('%d %B, %Y')
   end

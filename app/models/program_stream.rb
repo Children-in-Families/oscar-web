@@ -19,6 +19,7 @@ class ProgramStream < ActiveRecord::Base
   validate  :validate_remove_field, if: -> { id.present? }
 
   scope     :ordered,  ->  { order(:name) }
+  scope     :ordered_by, ->(column) { order(column)}
 
   def self.orderd_name_and_enrollment_status(client)
     includes(:client_enrollments).where(client_enrollments: { client_id: client.id }).order('client_enrollments.status ASC', :name).uniq
