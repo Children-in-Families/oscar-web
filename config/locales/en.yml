@@ -901,8 +901,6 @@ en:
       actions: Actions
       programs_list: Programs List
       view: View
-    create:
-      successfully_created: Enrollment has been successfully created.
     manage:
       enroll: Enroll
       tracking: Trackings
@@ -921,7 +919,9 @@ en:
       name: Program Name
       report: Report
       actions: Actions
-      program_lists: Programs List  
+      program_lists: Programs List
+      back: Back
+    create:
       successfully_created: Enrollment has been successfully created.
     form:
       save: Save
@@ -1585,14 +1585,17 @@ en:
       present: Who was there during the visit or conversation?
       completed_tasks: Completed Tasks
       note: Note
+      goal: Goal
     form_with_assessment_domains:
       domain: Domain
       note: Note
       add_task: Add Task
+      goal: Goal
     form_without_assessment_domains:
       domain: Domain
       note: Note
       add_task: Add Task
+      goal: Goal
     form:
       label_note: Note
       meeting_detail: Meeting detail

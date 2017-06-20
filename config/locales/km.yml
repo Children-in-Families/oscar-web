@@ -924,6 +924,7 @@ km:
       actions: សកម្មភាព
       status: ស្ថានភាព
       program_lists: តារាងកម្មវិធី​បន្ទាប់បន្សំ
+      back: ត្រលប់ក្រោយ
     create:
       successfully_created: ការចុះឈ្មោះត្រូវបានរក្សាទុកដោយជោគជ័យ
     form:
@@ -1663,14 +1664,17 @@ km:
       present: វត្តមានឣ្នកចូលរួម
       completed_tasks: កាតព្វកិច្ចដែលបានធ្វើរួច
       note: កំណត់ត្រា
+      goal: គោលដៅ
     form_with_assessment_domains:
       domain: កត្តា
       note: កំណត់ត្រា
       add_task: បន្ថែមកាតព្វកិច្ចថ្មី
+      goal: គោលដៅ
     form_without_assessment_domains:
       domain: កត្តា
       note: កំណត់ត្រា
       add_task: បន្ថែមកាតព្វកិច្ចថ្មី
+      goal: គោលដៅ
     form:
       label_note: ចំណាំ
       meeting_detail: ពត៌មាននៃការប្រជុំ
