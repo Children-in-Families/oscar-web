@@ -3,6 +3,29 @@
     %h5= t('.program_lists')
   .ibox-content
     .table-responsive
-      = datagrid_table @client_enrollment_grid, html: { class: 'table table-bordered table-striped table-hover client_enrollment'}
-  .ibox-footer
-    = paginate @client_enrollment_grid.assets
+      %table.table.table-bordered.table-striped.table-hover.client_enrollment
+        %thead
+          %tr
+            %th.status= t('.status')
+            %th.name= t('.name')
+            %th.domain= t('.domain')
+            %th.quantity= t('.quantity')
+            %th.report= t('.report')
+            %th.manage= t('.actions')
+        %tbody
+          - @program_streams.each do |ps|
+            %tr
+              %td.status
+                = render 'status', object: ps
+              %td.name
+                = ps.name
+              %td.domain
+                = ps.domains.pluck(:identity).join(', ')
+              %td.quantity
+                = ps.quantity - ps.client_enrollments.active.size if ps.quantity.present?
+              %td.report
+                = link_to t('.view'), report_client_client_enrollments_path(@client, program_stream_id: ps)
+              %td.manage
+                = render 'manage', object: ps
+  .ibox-footer.text-center
+    = paginate @program_streams
