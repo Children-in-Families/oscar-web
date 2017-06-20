@@ -9,10 +9,23 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     _addRuleCallback()
     _initSelect2()
     _handleAddCocoon()
+    _handleSaveProgramStream()
 
   _initSelect2 = ->
     $('select').select2()
+
+  _initBtnSave = ->
+    form = $('form')
+    form.find("[aria-label=Pagination]").append('<li><button id="program_stream_submit" type="submit" class="btn btn-primary btn-sm">Save</button></li>')
   
+  _handleSaveProgramStream = ->
+    form = $('form')
+    $(form).on 'submit', (e) ->
+      debugger
+      e.preventDefault()
+      _handleAddRuleBuilderToInput()
+      form.submit()
+
   _handleSetRules = ->
     rules = $('#program_stream_rules').val()
     rules = JSON.parse(rules.replace(/=>/g, ':'))
@@ -51,6 +64,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         )
         setTimeout (->
           _initSelect2()
+          _initBtnSave()
           ), 100
         _handleSetRules()
         _handleSelectOptionChange()

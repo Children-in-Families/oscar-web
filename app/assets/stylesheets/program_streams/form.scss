@@ -19,7 +19,7 @@ body[id='program_streams-update'], body[id='program_streams-create'] {
       width: 180px;
     }
 
-  .btn-group.group-actions {
+    .btn-group.group-actions {
       button[data-add='rule'] {
         background-color: #1ab394;
         border-color: #1ab394;
@@ -73,4 +73,5 @@ body[id='program_streams-update'], body[id='program_streams-create'] {
       padding-left: 16px !important;
     }
   }
+
 }
