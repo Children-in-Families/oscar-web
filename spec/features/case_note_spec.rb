@@ -31,7 +31,7 @@ describe 'CaseNote' do
 
     scenario 'valid', js: true do
       fill_in 'case_note_meeting_date', with: Date.strptime(FFaker::Time.date).strftime('%B %d, %Y')
-      fill_in 'Present', with: FFaker::Name.name
+      fill_in 'Who was there during the visit or conversation?', with: FFaker::Name.name
       fill_in 'Note', with: FFaker::Lorem.paragraph
 
       add_tasks(5)
