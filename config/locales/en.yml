@@ -1579,14 +1579,17 @@ en:
       present: Who was there during the visit or conversation?
       completed_tasks: Completed Tasks
       note: Note
+      goal: Goal
     form_with_assessment_domains:
       domain: Domain
       note: Note
       add_task: Add Task
+      goal: Goal
     form_without_assessment_domains:
       domain: Domain
       note: Note
       add_task: Add Task
+      goal: Goal
     form:
       label_note: Note
       meeting_detail: Meeting detail

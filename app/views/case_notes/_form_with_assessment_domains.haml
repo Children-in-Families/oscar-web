@@ -12,6 +12,14 @@
       .col-xs-12.col-md-6
         = cd.input :note, label: false, input_html: { rows: 6, placeholder: t('.note') }
         = cd.hidden_field :domain_group_id
+        %p
+          %strong= "#{t('.goal')} :"
+        %ul
+          - cd.object.domain_group.domains.each do |domain|
+            - assessment_domain = @case_note.assessment.assessment_domains.find_by(domain_id: domain.id)
+            - if assessment_domain.present?
+              - goal = assessment_domain.goal
+              %li= goal
       .col-xs-12.col-md-6
         - cd.object.domain_group.domains.each do |domain|
           - assessment_domain = @case_note.assessment.assessment_domains.find_by(domain_id: domain.id)
@@ -22,7 +30,6 @@
             .panel-heading
               %strong= "#{t('.domain')} #{assessment_domain.domain.name}"
             = render 'tasks_list', { cd: cd, domain: domain, tasks: tasks }
-
     .row
       .col-xs-12
         .case-note-task-btn.btn.btn-primary.btn-outline.pull-right{type: 'button', 'data-target' => "#tasksFromModal", 'data-toggle' => 'modal', 'data-domains': "#{cd.object.domain_group.domains.pluck(:id, :name)}"}
