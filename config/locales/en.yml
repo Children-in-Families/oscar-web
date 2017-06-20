@@ -915,6 +915,7 @@ en:
       client_not_valid: Client doesn't match with this program rules.
     index:
       program_lists: Programs List
+      back: Back
     create:
       successfully_created: Enrollment has been successfully created.
     form:
