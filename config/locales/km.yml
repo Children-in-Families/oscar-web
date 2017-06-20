@@ -917,6 +917,7 @@ km:
       client_not_valid: អតិថិជនមិនអាចចូលរូមកម្មវិធីនេះ
     index:
       program_lists: តារាងកម្មវិធី​បន្ទាប់បន្សំ
+      back: ត្រលប់ក្រោយ
     create:
       successfully_created: ការចុះឈ្មោះត្រូវបានរក្សាទុកដោយជោគជ័យ
     form:
