@@ -105,10 +105,11 @@
             %span.btn-sm.btn.btn-info.small-btn-margin
               %strong.count-margin= @client.assessments.count
               = t('.view_assessments')
-          = link_to client_case_notes_path(@client) do
-            %span.btn-sm.btn.btn-info.small-btn-margin
-              %strong.count-margin= @client.case_notes.count
-              = t('.view_case_notes')
+          - if can? :manage, CaseNote
+            = link_to client_case_notes_path(@client) do
+              %span.btn-sm.btn.btn-info.small-btn-margin
+                %strong.count-margin= @client.case_notes.count
+                = t('.view_case_notes')
           -# Client ask to hide #147254199    
           -# - if can? :manage, Survey
           -#   = link_to new_client_survey_path(@client) do
@@ -154,14 +155,14 @@
             %ul.dropdown-menu.scrollable-dropdown-menu
               - @group_client_custom_fields.each do |_, client_custom_fields|
                 %li= link_to client_custom_fields.first.custom_field.form_title, client_custom_field_properties_path(@client, custom_field_id: client_custom_fields.first.custom_field_id)
-
-          .btn-group.small-btn-margin
-            %button.btn-sm.btn.btn-primary.dropdown-toggle{ 'data-toggle' => 'dropdown', class: ('disabled' if @free_client_forms.empty?) }
-              = t('.add_form')
-              %span.caret
-            %ul.dropdown-menu.scrollable-dropdown-menu
-              - @free_client_forms.each do |custom_field|
-                %li= link_to custom_field.form_title, new_client_custom_field_property_path(@client, custom_field_id: custom_field)
+          - if can? :manage, CustomFieldProperty
+            .btn-group.small-btn-margin
+              %button.btn-sm.btn.btn-primary.dropdown-toggle{ 'data-toggle' => 'dropdown', class: ('disabled' if @free_client_forms.empty?) }
+                = t('.add_form')
+                %span.caret
+              %ul.dropdown-menu.scrollable-dropdown-menu
+                - @free_client_forms.each do |custom_field|
+                  %li= link_to custom_field.form_title, new_client_custom_field_property_path(@client, custom_field_id: custom_field)
           = link_to client_client_enrollments_path(@client) do
             .btn.btn-primary.small-btn-margin.btn-sm
               = t('.program_streams')
@@ -240,10 +241,10 @@
                     = @client.time_in_care
               %tr
                 %td.spacing-first-col
-                  = t('.initial_referral_date')
+                  = t('.follow_up_date')
                 %td
                   %strong
-                    = @client.referral_date
+                    = date_format(@client.follow_up_date) if @client.follow_up_date
               %tr
                 %td.spacing-first-col
                   = t('.referral_source')
@@ -264,16 +265,10 @@
                     = @client.live_with
               %tr
                 %td.spacing-first-col
-                  = t('.poverty_certificate')
+                  = t('.id_poor')
                 %td
                   %strong
-                    = @client.poverty_certificate
-              %tr
-                %td.spacing-first-col
-                  = t('.rice_support')
-                %td
-                  %strong
-                    = @client.rice_support
+                    = @client.id_poor
           .col-sm-12.col-md-6.second-table
             %table.table.table-bordered
               %tr
@@ -290,10 +285,10 @@
                     = user @client.followed_up_by
               %tr
                 %td.spacing-first-col
-                  = t('.follow_up_date')
+                  = t('.initial_referral_date')
                 %td
                   %strong
-                    = date_format(@client.follow_up_date) if @client.follow_up_date
+                    = @client.referral_date
               %tr
                 %td.spacing-first-col
                   = t('.school_name')

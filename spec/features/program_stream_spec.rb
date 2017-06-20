@@ -1,7 +1,7 @@
 feature 'program_stream' do
   let!(:admin){ create(:user, roles: 'admin') }
   let!(:domain) { create(:domain) }
-  let!(:program_stream) { create(:program_stream) }
+  let!(:program_stream) { create(:program_stream, ngo_name: Organization.current.full_name) }
   let!(:tracking) { create(:tracking, program_stream: program_stream) }
   let!(:domain_program_stream){ create(:domain_program_stream, domain: domain, program_stream: program_stream) }
 
@@ -84,7 +84,7 @@ feature 'program_stream' do
       expect(page).to have_content('e-mail')
     end
 
-    scenario 'edit link' do
+    scenario 'edit link',js: true do
       expect(page).to have_link(nil, href: edit_program_stream_path(program_stream))
     end
 
@@ -166,6 +166,91 @@ feature 'program_stream' do
       tracking.destroy
       find("a[href='#{program_stream_path(program_stream)}'][data-method='delete']").click
       expect(page).to have_content('Program Stream has been successfully deleted')
+    end
+  end
+
+  feature 'Copy', js: true do
+    before do
+      visit program_streams_path
+    end
+
+    scenario 'valid' do
+      click_link "All NGO's Program Streams"
+      all_ngos = find('#ngos-program-streams')
+      all_ngos.click_link(nil, href: new_program_stream_path(program_stream_id: program_stream.id, ngo_name: program_stream.ngo_name))
+      fill_in 'program_stream_name', with: 'Program Copy'
+      click_link 'Next'
+      sleep 1
+      click_link 'Next'
+      sleep 1
+      click_link 'Next'
+      sleep 1
+      click_link 'Save'
+
+      expect(page).to have_content('Program Stream has been successfully created.')
+    end
+
+    scenario 'invalid' do
+      click_link "All NGO's Program Streams"
+      all_ngos = find('#ngos-program-streams')
+      all_ngos.click_link(nil, href: new_program_stream_path(program_stream_id: program_stream.id, ngo_name: program_stream.ngo_name))
+      fill_in 'program_stream_name', with: ''
+      click_link 'Next'
+
+      expect(page).to have_css '.error'
+    end
+  end
+
+  feature 'Preview Other NGOs' do
+    before do
+      visit program_streams_path
+      click_link "All NGO's Program Streams"
+      all_ngos = find('#ngos-program-streams')
+      all_ngos.click_link(nil, href: preview_program_streams_path(program_stream_id: program_stream.id, ngo_name: program_stream.ngo_name))
+    end
+
+    scenario 'name' do
+      expect(page).to have_content(program_stream.name)
+    end
+
+    scenario 'description' do
+      expect(page).to have_content(program_stream.description)
+    end
+
+    scenario 'domains' do
+      expect(page).to have_content(program_stream.domains.pluck(:identity).join(', '))
+    end
+
+    scenario 'quantity' do
+      expect(page).to have_content(program_stream.quantity)
+    end
+
+    scenario 'rules', js: true do
+      page.click_link('Rules')
+      expect(page).to have_content('Age')
+    end
+
+    scenario 'enrollment', js: true do
+      page.click_link('Enrollment')
+      expect(page).to have_content('e-mail')
+    end
+
+    scenario 'tracking', js: true do
+      page.click_link('Tracking')
+      expect(page).to have_content('e-mail')
+    end
+
+    scenario 'leave_program', js: true do
+      page.click_link('Exit Program')
+      expect(page).to have_content('e-mail')
+    end
+
+    scenario 'copy link', js: true do
+      expect(page).to have_link(nil, href: new_program_stream_path(program_stream_id: program_stream.id, ngo_name: program_stream.ngo_name))
+    end
+
+    scenario 'edit link',js: true do
+      expect(page).to have_link(nil, href: edit_program_stream_path(program_stream))
     end
   end
 end

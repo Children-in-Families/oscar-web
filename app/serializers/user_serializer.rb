@@ -5,8 +5,12 @@ class UserSerializer < ActiveModel::Serializer
     object.clients.map do |client|
       incompleted_tasks = client.tasks.incomplete
       next unless incompleted_tasks.present?
-      formatted_client = client.as_json(only: [:id, :given_name, :family_name, :local_given_name, :local_family_name])
-      formatted_client.merge(overdue: incompleted_tasks.overdue, today: incompleted_tasks.today, upcoming: incompleted_tasks.upcoming)
+      formatted_client  = client.as_json(only: [:id, :given_name, :family_name, :local_given_name, :local_family_name])
+      overdue_tasks     = ActiveModel::ArraySerializer.new(incompleted_tasks.overdue, each_serializer: TaskSerializer)
+      today_tasks       = ActiveModel::ArraySerializer.new(incompleted_tasks.today, each_serializer: TaskSerializer)
+      upcoming_tasks    = ActiveModel::ArraySerializer.new(incompleted_tasks.upcoming, each_serializer: TaskSerializer)
+
+      formatted_client.merge(overdue: overdue_tasks, today: today_tasks, upcoming: upcoming_tasks)
     end.compact
   end
 end

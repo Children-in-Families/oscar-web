@@ -6,7 +6,14 @@
         .ibox-tools
           = link_to t('.new_program'), new_program_stream_path, class: 'btn btn-primary btn-add'
       .ibox-content
-        .table-responsive
-          = datagrid_table @program_stream_grid, html: { class: 'table table-bordered table-striped table-hover program-streams'}
-      .ibox-footer
-        = paginate @program_stream_grid.assets 
+        %div
+          %ul.nav.nav-tabs{role: "tablist"}
+            %li.active{role: "presentation"}
+              %a{"data-toggle": "tab", href: "#current-program-streams", role: "tab"}
+                = t('.current_ngo')
+            %li{role: "presentation"}
+              %a{"data-toggle": "tab", href: "#ngos-program-streams", role: "tab"}
+                = t('.ngo_programs')
+          .tab-content
+            = render 'current_program_streams_tab'
+            = render 'others_ngo_program_streams_tab'
