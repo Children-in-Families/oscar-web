@@ -1576,7 +1576,7 @@ en:
       you_need_to_create_assessment: You need to create assessment
       new_case_note: New case note
       case_note_on: Case note on
-      present: Present
+      present: Who was there during the visit or conversation?
       completed_tasks: Completed Tasks
       note: Note
     form_with_assessment_domains:
@@ -1592,7 +1592,7 @@ en:
       meeting_detail: Meeting detail
       meeting_with: Meeting with
       on_date: On Date
-      present: Present
+      present: Who was there during the visit or conversation?
       tasks: Tasks
       back: Back
       save: Save
@@ -1608,7 +1608,7 @@ en:
       save: Save
     show:
       case_note_on: Case note on
-      present: Present
+      present: Who was there during the visit or conversation?
     create:
       successfully_created: Case Note has successfully been created.
     update:
