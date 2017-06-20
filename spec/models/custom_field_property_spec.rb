@@ -64,7 +64,7 @@ describe CustomFieldProperty, 'callbacks' do
     context 'create_client_history if client form' do
       let!(:custom_field){ create(:custom_field, entity_type: 'Client') }
       let!(:client){ create(:client, state: 'accepted') }
-      let!(:client_form) { create(:custom_field_property, custom_formable: client, custom_field: custom_field) }
+      let!(:client_form) { create(:custom_field_property, custom_formable: client, custom_field: custom_field, custom_formable_type: 'Client') }
       it { expect(ClientHistory.where('object.custom_field_property_ids' => client_form.id).count).to eq(1) }
       it { expect(ClientHistory.where('object.custom_field_property_ids' => client_form.id).first.client_custom_field_property_histories.count).to eq(1) }
     end
@@ -94,8 +94,8 @@ describe CustomFieldProperty, 'instance methods' do
   let!(:family_custom_field){ create(:custom_field, entity_type: 'Family') }
   let!(:client){ create(:client) }
   let!(:family){ create(:family) }
-  let!(:client_custom_field_property){ create(:custom_field_property, custom_field: client_custom_field, custom_formable: client) }
-  let!(:family_custom_field_property){ create(:custom_field_property, custom_field: family_custom_field, custom_formable: family) }
+  let!(:client_custom_field_property){ create(:custom_field_property, custom_field: client_custom_field, custom_formable: client, custom_formable_type: 'Client') }
+  let!(:family_custom_field_property){ create(:custom_field_property, custom_field: family_custom_field, custom_formable: family, custom_formable_type: 'Family') }
 
   context 'client_form?' do
     it 'returns true if client form' do
