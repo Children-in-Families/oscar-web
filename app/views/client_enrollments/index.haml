@@ -1,6 +1,6 @@
 .ibox
   .ibox-title
-    %h5= t('.program_lists')
+    %h5= "#{@client.name} - #{t('.program_lists')}"
   .ibox-content
     .table-responsive
       = datagrid_table @client_enrollment_grid, html: { class: 'table table-bordered table-striped table-hover client_enrollment'}
