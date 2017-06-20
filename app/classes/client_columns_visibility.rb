@@ -7,8 +7,7 @@ class ClientColumnsVisibility
   def columns_collection
     {
       live_with_: :live_with,
-      rice_support_: :rice_support,
-      poverty_certificate_: :poverty_certificate,
+      id_poor_: :id_poor,
       given_name_: :given_name,
       family_name_: :family_name,
       local_given_name_: :local_given_name,
