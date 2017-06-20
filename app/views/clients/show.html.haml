@@ -163,7 +163,7 @@
                 %li= link_to custom_field.form_title, new_client_custom_field_property_path(@client, custom_field_id: custom_field)
           = link_to client_client_enrollments_path(@client) do
             .btn.btn-primary.small-btn-margin.btn-sm
-              = t('.program_streams')           
+              = t('.program_streams')
 
 .row.mini-margin
   .col-xs-12
@@ -239,10 +239,10 @@
                     = @client.time_in_care
               %tr
                 %td.spacing-first-col
-                  = t('.initial_referral_date')
+                  = t('.follow_up_date')
                 %td
                   %strong
-                    = @client.referral_date
+                    = date_format(@client.follow_up_date) if @client.follow_up_date
               %tr
                 %td.spacing-first-col
                   = t('.referral_source')
@@ -289,10 +289,10 @@
                     = user @client.followed_up_by
               %tr
                 %td.spacing-first-col
-                  = t('.follow_up_date')
+                  = t('.initial_referral_date')
                 %td
                   %strong
-                    = date_format(@client.follow_up_date) if @client.follow_up_date
+                    = @client.referral_date
               %tr
                 %td.spacing-first-col
                   = t('.school_name')
