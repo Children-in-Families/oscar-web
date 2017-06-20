@@ -17,20 +17,17 @@ module AdvancedSearches
         field    = rule[:field]
         operator = rule[:operator]
         value    = rule[:value]
-        binding.pry
 
         # if field != nil
         #   value = field == 'grade' ? validate_integer(value) : value
         #   history_base_sql(field, operator, value)
         # else
         #   nested_query =  AdvancedSearches::ClientHistoryBaseSqlBuilder.new(@client_histories, rule).generate
-        #   binding.pry
         #   @sql_string << nested_query[:sql_string]
         #   nested_query[:values].select{ |v| @values << v }
         # end
         # if field == nil
         #   nested_query =  AdvancedSearches::ClientHistoryBaseSqlBuilder.new(@client_histories, rule).generate
-        #   binding.pry
         #   @sql_string << nested_query
         #   # nested_query[:values].select{ |v| @values << v }
         # end
@@ -39,13 +36,11 @@ module AdvancedSearches
         if ASSOCIATION_FIELDS.include?(field)
           association_filter = AdvancedSearches::ClientHistoryAssociationFilter.new(@client_histories, field, operator, value).get_sql
           @sql_string << association_filter
-          # binding.pry
         else
           if field != nil
             @sql_string << history_base_sql(field, operator, value)
           else
             nested_query =  AdvancedSearches::ClientHistoryBaseSqlBuilder.new(@client_histories, rule).generate
-            binding.pry
             @sql_string << nested_query
             # nested_query[:values].select{ |v| @values << v }
           end
@@ -64,10 +59,7 @@ module AdvancedSearches
         #   nested_query[:values].select{ |v| @values << v }
         # end
       end
-      # binding.pry
-      # binding.pry
       {"$#{@condition.downcase}" => @sql_string}
-      # binding.pry
 
       # @sql_string = @sql_string.join(" #{@condition} ")
       # @sql_string = "(#{@sql_string})" if @sql_string.present?
@@ -128,7 +120,6 @@ module AdvancedSearches
         {a=>{'$gte'=>value[0], '$lte'=>value[1]}}
         # query = {a=>{'$gte'=>value[0], '$lte'=>value[1]}}
         # @sql_string << query
-        # binding.pry
       end
     end
 

@@ -8,19 +8,19 @@ class ClientAdvancedSearchesController < AdminController
   def index
     return unless has_params?
     basic_rules          = JSON.parse @basic_filter_params
-    custom_form_rules    = eval(@custom_form_filter_params).merge(selected_custom_form: params[:client_advanced_search][:selected_custom_form])
+    # custom_form_rules    = eval(@custom_form_filter_params).merge(selected_custom_form: params[:client_advanced_search][:selected_custom_form])
     date_range           = @date_range_filter_params
 
     if date_range.present?
       @client_histories = ClientHistory.all
       clients           = AdvancedSearches::ClientHistoryAdvancedSearch.new(basic_rules, custom_form_rules, @client_histories, date_range)
     else
-      clients           = AdvancedSearches::ClientAdvancedSearch.new(basic_rules, custom_form_rules, Client.accessible_by(current_ability))
+      # clients           = AdvancedSearches::ClientAdvancedSearch.new(basic_rules, custom_form_rules, Client.accessible_by(current_ability))
+      clients           = AdvancedSearches::ClientAdvancedSearch.new(basic_rules, Client.accessible_by(current_ability))
     end
     @clients_by_user    = clients.filter
     ids = @clients_by_user.map{|a| a.object['id']}
     @clients_by_user    = Client.where(id: ids)
-    # binding.pry
 
     columns_visibility
     respond_to do |f|
@@ -55,6 +55,8 @@ class ClientAdvancedSearchesController < AdminController
   end
 
   def date_range_params
-    @date_range_filter_params = [@advanced_search_params[:start_date], @advanced_search_params[:end_date]]
+    if @advanced_search_params[:start_date].present? && @advanced_search_params[:start_date].present?
+      @date_range_filter_params = [@advanced_search_params[:start_date], @advanced_search_params[:end_date]]
+    end
   end
 end

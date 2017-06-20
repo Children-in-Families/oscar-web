@@ -17,7 +17,11 @@ module AdvancedSearches
         field    = rule['field']
         operator = rule['operator']
         value    = rule['value']
-        if ASSOCIATION_FIELDS.include?(field)
+        id       = rule['id']
+        
+        if id.include?('custom-field')
+          custom_form_sql = AdvancedSearches::ClientCustomFormSqlBuilder.new(@basic_rules, @condition).generate
+        elsif ASSOCIATION_FIELDS.include?(field)
           association_filter = AdvancedSearches::ClientAssociationFilter.new(@clients, field, operator, value).get_sql
           @sql_string << association_filter[:id]
           @values     << association_filter[:values]
@@ -43,9 +47,9 @@ module AdvancedSearches
 
     private
 
-    def history_base_sql(field, operator, value)
+    # def history_base_sql(field, operator, value)
       
-    end
+    # end
 
     def base_sql(field, operator, value)
       case operator

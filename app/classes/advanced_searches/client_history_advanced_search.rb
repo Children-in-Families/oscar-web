@@ -13,7 +13,6 @@ module AdvancedSearches
       client_base_sql     = AdvancedSearches::ClientHistoryBaseSqlBuilder.new(@client_histories, @basic_rules, @date_range).generate
       # custom_form_sql     = AdvancedSearches::ClientCustomFormSqlBuilder.new(@custom_form[:selected_custom_form], @custom_form).generate
 
-      # binding.pry
       # query_string = client_base_sql[:sql_string].present? ? client_base_sql[:sql_string] : custom_form_sql[:id]
       # if client_base_sql[:sql_string].present? && custom_form_sql[:id].present?
       #   query_string = ([client_base_sql[:sql_string]] + [custom_form_sql[:id]]).join(" AND ")
@@ -26,7 +25,6 @@ module AdvancedSearches
       # query_array << query_string
       # client_base_values.map{ |v| query_array << v }
       # custom_form_values.map{ |v| query_array << v }
-      binding.pry
       @client_histories.where(client_base_sql)
     end
   end
