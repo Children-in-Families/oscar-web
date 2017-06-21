@@ -110,14 +110,15 @@
               %span.btn-sm.btn.btn-info.small-btn-margin
                 %strong.count-margin= @client.case_notes.count
                 = t('.view_case_notes')
-          - if can? :manage, Survey
-            = link_to new_client_survey_path(@client) do
-              %span.btn-sm.btn.btn-success.small-btn-margin= t('.take_survey')
-          - if @client.surveys.any?
-            = link_to client_surveys_path(@client) do
-              %span.btn-sm.btn.btn-success.small-btn-margin= t('.survey_history')
-          = link_to client_government_reports_path(@client) do
-            %span.btn-sm.btn.btn-success.small-btn-margin= t('.government_report')
+          -# Client ask to hide #147254199    
+          -# - if can? :manage, Survey
+          -#   = link_to new_client_survey_path(@client) do
+          -#     %span.btn-sm.btn.btn-success.small-btn-margin= t('.take_survey')
+          -# - if @client.surveys.any?
+          -#   = link_to client_surveys_path(@client) do
+          -#     %span.btn-sm.btn.btn-success.small-btn-margin= t('.survey_history')
+          -# = link_to client_government_reports_path(@client) do
+          -#   %span.btn-sm.btn.btn-success.small-btn-margin= t('.government_report')
           - if @client.has_any_quarterly_reports?
             - if can? :manage, QuarterlyReport
               = link_to client_case_quarterly_reports_path(@client,@client.latest_case) do
@@ -264,16 +265,10 @@
                     = @client.live_with
               %tr
                 %td.spacing-first-col
-                  = t('.poverty_certificate')
+                  = t('.id_poor')
                 %td
                   %strong
-                    = @client.poverty_certificate
-              %tr
-                %td.spacing-first-col
-                  = t('.rice_support')
-                %td
-                  %strong
-                    = @client.rice_support
+                    = @client.id_poor
           .col-sm-12.col-md-6.second-table
             %table.table.table-bordered
               %tr

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170614085443) do
+ActiveRecord::Schema.define(version: 20170621055038) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -259,7 +259,7 @@ ActiveRecord::Schema.define(version: 20170614085443) do
     t.string   "commune",                          default: ""
     t.string   "district",                         default: ""
     t.string   "live_with",                        default: ""
-    t.integer  "poverty_certificate",              default: 0
+    t.integer  "id_poor",                          default: 0
     t.integer  "rice_support",                     default: 0
   end
 
@@ -864,7 +864,7 @@ ActiveRecord::Schema.define(version: 20170614085443) do
 
   create_table "trackings", force: :cascade do |t|
     t.string   "name",              default: ""
-    t.jsonb    "fields"
+    t.jsonb    "fields",            default: {}
     t.string   "frequency",         default: ""
     t.integer  "time_of_frequency"
     t.integer  "program_stream_id"

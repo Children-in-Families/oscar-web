@@ -1,8 +1,42 @@
 .ibox
   .ibox-title
     %h5= "#{@client.en_and_local_name} - #{t('.program_lists')}"
+    .ibox-tools
+      = link_to t('.back'), client_path(@client), class: 'btn btn-default btn-back-default btn-back'
   .ibox-content
     .table-responsive
-      = datagrid_table @client_enrollment_grid, html: { class: 'table table-bordered table-striped table-hover client_enrollment'}
-  .ibox-footer
-    = paginate @client_enrollment_grid.assets
+      %table.table.table-bordered.table-striped.table-hover.client_enrollment
+        %thead
+          %tr
+            %th.status
+              = t('.status')
+              .pull-right
+                = render 'order', column: :status
+            %th.name
+              = t('.name')
+              .pull-right
+                = render 'order', column: :name
+            %th.domain= t('.domain')
+            %th.quantity
+              = t('.quantity')
+              .pull-right
+                = render 'order', column: :quantity
+            %th.report= t('.report')
+            %th.manage= t('.actions')
+        %tbody
+          - @program_streams.each do |ps|
+            %tr
+              %td.status
+                = render 'status', object: ps
+              %td.name
+                = ps.name
+              %td.domain
+                = ps.domains.pluck(:identity).join(', ')
+              %td.quantity
+                = ps.number_available_for_client if ps.quantity.present?
+              %td.report
+                = link_to t('.view'), report_client_client_enrollments_path(@client, program_stream_id: ps)
+              %td.manage
+                = render 'manage', object: ps
+  .ibox-footer.text-center
+    = paginate @program_streams
