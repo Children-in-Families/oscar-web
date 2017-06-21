@@ -9,10 +9,18 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     _addRuleCallback()
     _initSelect2()
     _handleAddCocoon()
+    _initButtonSave()
+    _handleSaveProgramStream()
 
   _initSelect2 = ->
     $('select').select2()
   
+  _handleSaveProgramStream = ->
+    form = $('form')
+    $(form).submit (e) ->
+      _handleAddRuleBuilderToInput()
+      _handleSetValueToField()
+
   _handleSetRules = ->
     rules = $('#program_stream_rules').val()
     rules = JSON.parse(rules.replace(/=>/g, ':'))
@@ -181,47 +189,33 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
           form.valid()
           name = $('#program_stream_name').val() == ''
           return false if $.isEmptyObject($('#program-rule').queryBuilder('getRules')) || name
-
-        else if currentIndex == 1 and newIndex == 2 and $('#enrollment').is(':visible')
-          elements = $('#enrollment').find('.frmb li')
-          return false if $(elements).length == 0
-
-        else if currentIndex == 2 and newIndex == 3 and $('#trackings').is(':visible')
-          return false unless $('.form-wrap').is(':visible')
-          inputsName = $('#trackings').find('input.string.required')
-          emptyValues = []
-          $.map(inputsName, (input) -> emptyValues.push input if $(input).val() == '')
-          if emptyValues.length > 0
-            for input in emptyValues
-              $(input).valid()
-            return false
-
-          trackingBuilders = $('.tracking-builder:visible')
-          for tracking in trackingBuilders
-            return false if $(tracking).find('.frmb li').length == 0
-
+        else if $('#tracking').is(':visible')
+          return true
+        
         $('section ul.frmb.ui-sortable').css('min-height', '266px')
 
       onStepChanged: (event, currentIndex, newIndex) ->
+        buttonSave = $('#program_stream_submit')
         if $('#enrollment').is(':visible')
           enrollment = $('#enrollment')
           enrollmentValue = $(enrollment).data('enrollment')
           _initProgramBuilder(enrollment, (enrollmentValue || [])) unless _preventDuplicateFormBuilder(enrollment)
+        
         else if $('#trackings').is(':visible')
           trackings = $('.tracking-builder')
           for tracking in trackings
             trackingValue = $(tracking).data('tracking')
             _initProgramBuilder(tracking, (trackingValue || [])) unless _preventDuplicateFormBuilder(tracking)
+        
+          if $('#trackings').find('.frmb').length == 0
+            $('.links a').trigger('click')
+
         else if $('#exit-program').is(':visible')
           exitProgram = $('#exit-program')
           exitProgramValue = $(exitProgram).data('exit-program')
           _initProgramBuilder(exitProgram, (exitProgramValue || [])) unless _preventDuplicateFormBuilder(exitProgram)  
 
-      onFinishing: (event, currentIndex) ->
-        if currentIndex == 3 and $('#exit-program').is(':visible')
-          elements = $('#exit-program').find('.frmb li')
-          return false if $(elements).length == 0
-        return true
+        if $('#exit-program').is(':visible') then $(buttonSave).hide() else $(buttonSave).show()
 
       onFinished: (event, currentIndex) ->
         $('.actions a:contains("Finish")').removeAttr('href')
@@ -233,6 +227,10 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         finish: self.filterTranslation.finish
         next: self.filterTranslation.next
         previous: self.filterTranslation.previous
+
+  _initButtonSave = ->
+    form = $('form')
+    form.find("[aria-label=Pagination]").append('<li><button id="program_stream_submit" type="submit" class="btn btn-primary btn-sm">Save</button></li>')
 
   _handleRemoveUnuseInput = ->
     elements = $('#program-rule ,#enrollment .form-wrap.form-builder, #tracking .form-wrap.form-builder, #exit-program .form-wrap.form-builder')

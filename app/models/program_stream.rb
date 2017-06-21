@@ -10,10 +10,10 @@ class ProgramStream < ActiveRecord::Base
 
   has_paper_trail
 
-  accepts_nested_attributes_for :trackings, reject_if: :all_blank, allow_destroy: true
+  accepts_nested_attributes_for :trackings, allow_destroy: true
 
-  validates_associated :trackings
-  validates :name, :rules, :enrollment, :exit_program, presence: true
+  # validates_associated :trackings
+  validates :name, :rules, presence: true
   validates :name, uniqueness: true
   validate  :form_builder_field_uniqueness
   validate  :validate_remove_field, if: -> { id.present? }
@@ -34,9 +34,9 @@ class ProgramStream < ActiveRecord::Base
 
   def validate_remove_field
     FORM_BUILDER_FIELDS.each do |field|
-      next unless send "#{ field }_changed?"
+      next unless (send "#{ field }_changed?") && send(field).present?
       error_translation = I18n.t('cannot_remove_or_update')
-      
+
       if field == 'enrollment'
         break unless enrollment_errors_message.present?
         errors.add(:enrollment, "#{enrollment_errors_message} #{error_translation}")
