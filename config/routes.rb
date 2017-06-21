@@ -122,7 +122,7 @@ Rails.application.routes.draw do
       resources :leave_programs
     end
     resources :custom_field_properties
-    resources :government_reports
+    # resources :government_reports
     resources :assessments
     resources :case_notes
     resources :cases do
@@ -133,7 +133,7 @@ Rails.application.routes.draw do
     scope module: 'client' do
       resources :tasks
     end
-    resources :surveys
+    # resources :surveys
 
     resources :progress_notes do
       get 'version' => 'progress_notes#version'

@@ -310,9 +310,7 @@ class ClientGrid
 
   filter(:live_with, :string, header: -> { I18n.t('datagrid.columns.clients.live_with') }) { |value, scope| scope.live_with_like(value) }
 
-  filter(:poverty_certificate, :integer, header: -> { I18n.t('datagrid.columns.clients.poverty_certificate') })
-
-  filter(:rice_support, :integer, header: -> { I18n.t('datagrid.columns.clients.rice_support') })
+  filter(:id_poor, :integer, header: -> { I18n.t('datagrid.columns.clients.id_poor') })
 
   column(:slug, order:'clients.id', header: -> { I18n.t('datagrid.columns.clients.id') })
 
@@ -366,11 +364,9 @@ class ClientGrid
 
   column(:follow_up_date, header: -> { I18n.t('datagrid.columns.clients.follow_up_date') })
 
-  column(:poverty_certificate, header: -> { I18n.t('datagrid.columns.clients.poverty_certificate') })
+  column(:id_poor, header: -> { I18n.t('datagrid.columns.clients.id_poor') })
 
   column(:live_with, header: -> { I18n.t('datagrid.columns.clients.live_with') })
-
-  column(:rice_support, header: -> { I18n.t('datagrid.columns.clients.rice_support') })
 
   column(:received_by, html: true, header: -> { I18n.t('datagrid.columns.clients.received_by') }) do |object|
     render partial: 'clients/users', locals: { object: object.received_by } if object.received_by

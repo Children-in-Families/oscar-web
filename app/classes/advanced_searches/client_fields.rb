@@ -27,7 +27,7 @@ module AdvancedSearches
     private
 
     def number_type_list
-      ['code', 'grade', 'family_id', 'age']
+      ['code', 'grade', 'family_id', 'age', 'id_poor']
     end
 
     def text_type_list
