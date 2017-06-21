@@ -187,6 +187,26 @@ describe Client, 'methods' do
       expect(Client.in_any_able_states_managed_by(case_worker)).not_to include(able_manager_client)
     end
   end
+
+  context 'name' do
+    let!(:client_name) { create(:client, given_name: 'Adam', family_name: 'Eve') }
+    let!(:client_local_name) { create(:client, given_name: '', family_name: '', local_given_name: 'Romeo', local_family_name: 'Juliet') }
+
+    it 'return name' do
+      expect(client_name.name).to eq("Adam Eve")
+    end
+
+    it 'reutrn local name' do
+      expect(client_local_name.name).to eq("Romeo Juliet")
+    end
+  end
+
+  context 'en and local name' do
+    let!(:client) { create(:client, given_name: 'Adam', family_name: 'Eve', local_given_name: 'Romeo', local_family_name: 'Juliet') }
+    it 'return english and local name' do
+      expect(client.en_and_local_name).to eq("Adam Eve (Romeo Juliet)")
+    end
+  end
 end
 
 describe Client, 'scopes' do
