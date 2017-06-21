@@ -439,7 +439,7 @@ en:
     email: Email
     job_title: Job Title
     department: Department
-    roles: Roles
+    roles: Permission Set
     province: Province
     password: Password
     password_hint: Leave it blank if you don't want to change password
