@@ -14,6 +14,10 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
 
   _initSelect2 = ->
     $('select').select2()
+
+  _initBtnSave = ->
+    form = $('form')
+    form.find("[aria-label=Pagination]").append('<li><button id="program_stream_submit" type="submit" class="btn btn-primary btn-sm">Save</button></li>')
   
   _handleSaveProgramStream = ->
     form = $('form')
@@ -59,6 +63,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         )
         setTimeout (->
           _initSelect2()
+          _initBtnSave()
           ), 100
         _handleSetRules()
         _handleSelectOptionChange()

@@ -31,6 +31,7 @@ class ProgramStreamsController < AdminController
 
   def create
     @program_stream = ProgramStream.new(program_stream_params)
+    binding.pry
     begin
       if @program_stream.save
         redirect_to program_streams_path, notice: t('.successfully_created')
