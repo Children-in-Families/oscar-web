@@ -34,24 +34,32 @@
                             %label.margin-score{class: "label label-#{ad.score_color_class} label-lg"}= ad.score
                   .ibox-content
                     .row
-                      - if cdg.note.present?
-                        .col-xs-12
-                          .panel.panel-default
-                            .panel-heading
-                              %h4= t('.note')
-                            .panel-body
-                              = cdg.note
-                      - if cdg.completed_tasks.any?
+                      .col-xs-12.col-sm-6
+                        - if cdg.note.present?
+                          .col-xs-12
+                            .panel.panel-default
+                              .panel-heading
+                                %h4= t('.note')
+                              .panel-body
+                                = cdg.note
+                        - if cdg.completed_tasks.any?
+                          .col-xs-12
+                            .panel.panel-default
+                              .panel-heading
+                                %h4= t('.completed_tasks')
+                              .panel-body.no-padding
+                                %ul.list-group
+                                  - cdg.completed_tasks.each_with_index do |task, index|
+                                    %li.list-group-item
+                                      = "#{index + 1}. "
+                                      = task.name
+                      - if cdg.attachments.any?
                         .col-xs-12.col-sm-6
                           .panel.panel-default
                             .panel-heading
-                              %h4= t('.completed_tasks')
-                            .panel-body.no-padding
-                              %ul.list-group
-                                - cdg.completed_tasks.each_with_index do |task, index|
-                                  %li.list-group-item
-                                    = "#{index + 1}. "
-                                    = task.name
+                              %h4= t('.attachments')
+                            .panel-body
+                              = render 'attachment', cdg: cdg
       .ibox-footer
         .text-center
           = paginate @case_notes

@@ -22,6 +22,8 @@
             .panel-heading
               %strong= "#{t('.domain')} #{assessment_domain.domain.name}"
             = render 'tasks_list', { cd: cd, domain: domain, tasks: tasks }
+      .col-xs-12
+        = render 'attachment_fields', { cd: cd }
 
     .row
       .col-xs-12

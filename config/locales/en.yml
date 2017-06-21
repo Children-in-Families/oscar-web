@@ -1580,6 +1580,7 @@ en:
       present: Present
       completed_tasks: Completed Tasks
       note: Note
+      attachments: Attachments
     form_with_assessment_domains:
       domain: Domain
       note: Note
@@ -1588,6 +1589,14 @@ en:
       domain: Domain
       note: Note
       add_task: Add Task
+    attachment_fields:
+      are_you_sure: Are you sure you want to delete?
+      attachments: Attachments
+      preview_download: Preview & Download
+      download: Download
+    attachment:
+      preview_download: Preview & Download
+      download: Download
     form:
       label_note: Note
       meeting_detail: Meeting detail
@@ -1614,6 +1623,8 @@ en:
       successfully_created: Case Note has successfully been created.
     update:
       successfully_updated: Case Note has successfully been updated.
+    destroy:
+      successfully_deleted: Attachment has been successfully deleted.
 
   stages:
     stage: Stage

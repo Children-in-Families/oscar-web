@@ -1,7 +1,80 @@
 CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUpdate = do ->
   _init = ->
+    _initUploader()
+    _handleDeleteAttachment()
     _handleNewTask()
     _hideCompletedTasks()
+    _handlePreventBlankInput()
+
+  _handlePreventBlankInput = ->
+    $('#case-note-submit-btn').click ->
+      case_note_meeting_date = $('#case_note_meeting_date').val()
+      case_note_attendee = $('#case_note_attendee').val()
+      if case_note_meeting_date == ''
+        document.getElementById('new_case_note').onsubmit = ->
+          false
+        $('.case_note_meeting_date').addClass('has-error')
+        $('#meeting-date-message').text("can't be blank")
+      else
+        if case_note_attendee != ''
+          document.getElementById('new_case_note').onsubmit = ->
+            true
+        $('.case_note_meeting_date').removeClass('has-error')
+        $('#meeting-date-message').text('')
+      if case_note_attendee == ''
+        document.getElementById('new_case_note').onsubmit = ->
+          false
+        $('.case_note_attendee').addClass('has-error')
+        $('#attendee-message').text("can't be blank")
+      else
+        if case_note_meeting_date != ''
+          document.getElementById('new_case_note').onsubmit = ->
+            true
+        $('.case_note_attendee').removeClass('has-error')
+        $('#attendee-message').text('')
+
+  _initUploader = ->
+    $('.file .optional').fileinput
+      showUpload: false
+      removeClass: 'btn btn-danger btn-outline'
+      browseLabel: 'Browse'
+      theme: "explorer"
+      allowedFileExtensions: ['jpg', 'png', 'jpeg', 'doc', 'docx', 'xls', 'xlsx', 'pdf']
+
+  _handleDeleteAttachment = ->
+    rows = $('.row-file')
+    $(rows).each (_k, element) ->
+      deleteBtn = $(element).find('.delete')
+      url = $(deleteBtn).data('url')
+      confirmDelete = $(deleteBtn).data('comfirm')
+      $(deleteBtn).click ->
+        result = confirm(confirmDelete)
+        return unless result
+        $('input[type="submit"].form-btn').attr('disabled', 'disabled')
+        $.ajax
+          dataType: "json"
+          url: url
+          method: 'DELETE'
+          success: (response) ->
+            _initNotification(response.message)
+            $(element).remove()
+
+  _initNotification = (message)->
+    messageOption = {
+      "closeButton": true,
+      "debug": true,
+      "progressBar": true,
+      "positionClass": "toast-top-center",
+      "showDuration": "400",
+      "hideDuration": "1000",
+      "timeOut": "7000",
+      "extendedTimeOut": "1000",
+      "showEasing": "swing",
+      "hideEasing": "linear",
+      "showMethod": "fadeIn",
+      "hideMethod": "fadeOut"
+    }
+    toastr.success(message, '', messageOption)
 
   _hideCompletedTasks = ->
     $('input.task').each ->
