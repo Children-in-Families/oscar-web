@@ -31,7 +31,6 @@ class ProgramStreamsController < AdminController
 
   def create
     @program_stream = ProgramStream.new(program_stream_params)
-    binding.pry
     begin
       if @program_stream.save
         redirect_to program_streams_path, notice: t('.successfully_created')
@@ -78,16 +77,16 @@ class ProgramStreamsController < AdminController
 
   def program_stream_params
     ngo_name = current_organization.full_name
-    default_params = [:name, :rules, :description, :enrollment, :tracking, :exit_program, :quantity, domain_ids: []]
-    default_params << { trackings_attributes: [:frequency, :time_of_frequency, :fields, :_destroy, :name, :id] } if has_tracking_params
+    default_params = [:name, :rules, :description, :enrollment, :exit_program, :quantity, domain_ids: []]
+    default_params << { trackings_attributes: [:name, :frequency, :time_of_frequency, :fields, :_destroy, :id] } if has_tracking_params
 
     params.require(:program_stream).permit(default_params).merge(ngo_name: ngo_name)
     
   end
 
   def has_tracking_params
-    tracking = params[:program_stream][:trackings_attributes].first[1]
-    tracking[:name].present? || tracking[:fields].present?
+    tracking = params[:program_stream][:trackings_attributes]
+    tracking.present? && (tracking.first[1][:name].present? || tracking.first[1][:fields].length > 2)
   end
 
   def find_ngo

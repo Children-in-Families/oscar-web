@@ -12,11 +12,12 @@ class ProgramStream < ActiveRecord::Base
 
   accepts_nested_attributes_for :trackings, allow_destroy: true
 
-  # validates_associated :trackings
   validates :name, :rules, presence: true
   validates :name, uniqueness: true
   validate  :form_builder_field_uniqueness
   validate  :validate_remove_field, if: -> { id.present? }
+
+  after_save :set_program_completed
 
   scope     :ordered,  ->  { order(:name) }
   scope     :ordered_by, ->(column) { order(column)}
@@ -57,6 +58,14 @@ class ProgramStream < ActiveRecord::Base
   end
 
   private
+
+  def set_program_completed
+    if enrollment.present? && exit_program.present? && trackings.present?
+      update_columns(completed: true)
+    else
+      update_columns(completed: false)
+    end
+  end
 
   def enrollment_errors_message
     properties = client_enrollments.pluck(:properties).select(&:present?)

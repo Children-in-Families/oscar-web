@@ -9,21 +9,22 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     _addRuleCallback()
     _initSelect2()
     _handleAddCocoon()
+    _handleInitProgramFields()
     _initButtonSave()
     _handleSaveProgramStream()
+    _handleClickAddTracking()
+
 
   _initSelect2 = ->
-    $('select').select2()
-
-  _initBtnSave = ->
-    form = $('form')
-    form.find("[aria-label=Pagination]").append('<li><button id="program_stream_submit" type="submit" class="btn btn-primary btn-sm">Save</button></li>')
+    $('#rule-tab select').select2()
   
   _handleSaveProgramStream = ->
     form = $('form')
-    $(form).submit (e) ->
+    $('#program_stream_submit').on 'click', ->
+      _handleRemoveUnuseInput()
       _handleAddRuleBuilderToInput()
       _handleSetValueToField()
+      $(form).submit()
 
   _handleSetRules = ->
     rules = $('#program_stream_rules').val()
@@ -63,7 +64,6 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         )
         setTimeout (->
           _initSelect2()
-          _initBtnSave()
           ), 100
         _handleSetRules()
         _handleSelectOptionChange()
@@ -201,25 +201,6 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
 
       onStepChanged: (event, currentIndex, newIndex) ->
         buttonSave = $('#program_stream_submit')
-        if $('#enrollment').is(':visible')
-          enrollment = $('#enrollment')
-          enrollmentValue = $(enrollment).data('enrollment')
-          _initProgramBuilder(enrollment, (enrollmentValue || [])) unless _preventDuplicateFormBuilder(enrollment)
-        
-        else if $('#trackings').is(':visible')
-          trackings = $('.tracking-builder')
-          for tracking in trackings
-            trackingValue = $(tracking).data('tracking')
-            _initProgramBuilder(tracking, (trackingValue || [])) unless _preventDuplicateFormBuilder(tracking)
-        
-          if $('#trackings').find('.frmb').length == 0
-            $('.links a').trigger('click')
-
-        else if $('#exit-program').is(':visible')
-          exitProgram = $('#exit-program')
-          exitProgramValue = $(exitProgram).data('exit-program')
-          _initProgramBuilder(exitProgram, (exitProgramValue || [])) unless _preventDuplicateFormBuilder(exitProgram)  
-
         if $('#exit-program').is(':visible') then $(buttonSave).hide() else $(buttonSave).show()
 
       onFinished: (event, currentIndex) ->
@@ -233,9 +214,23 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         next: self.filterTranslation.next
         previous: self.filterTranslation.previous
 
+  _handleClickAddTracking = ->
+    if $('#trackings .frmb').length == 0
+      $('.links a').trigger('click')
+      
+  _handleInitProgramFields = ->
+    for element in $('#enrollment, #exit-program')
+      dataElement = $(element).data('field')
+      _initProgramBuilder($(element), (dataElement || []))
+
+    trackings = $('.tracking-builder')
+    for tracking in trackings
+      trackingValue = $(tracking).data('tracking')
+      _initProgramBuilder(tracking, (trackingValue || []))
+
   _initButtonSave = ->
     form = $('form')
-    form.find("[aria-label=Pagination]").append('<li><button id="program_stream_submit" type="submit" class="btn btn-primary btn-sm">Save</button></li>')
+    form.find("[aria-label=Pagination]").append('<li><span id="program_stream_submit" class="btn btn-primary btn-sm">Save</span></li>')
 
   _handleRemoveUnuseInput = ->
     elements = $('#program-rule ,#enrollment .form-wrap.form-builder, #tracking .form-wrap.form-builder, #exit-program .form-wrap.form-builder')

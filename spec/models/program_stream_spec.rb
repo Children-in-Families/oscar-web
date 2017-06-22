@@ -12,22 +12,43 @@ describe ProgramStream, 'scope' do
   let!(:second_program_stream) { create(:program_stream, name: 'abc') }
 
   context 'ordered' do
-    it 'return the second record first' do
+    it 'return the correct order of name' do
       expect(ProgramStream.ordered.first).to eq second_program_stream
     end
+  end
 
-    it 'return the first record second' do
-      expect(ProgramStream.ordered.last).to eq first_program_stream
+  context 'ordered_by' do
+    it 'order the record of the given column' do
+      expect(ProgramStream.ordered_by('name ASC').first).to eq second_program_stream
+    end
+  end
+end
+
+describe ProgramStream, 'callback' do
+  context 'valid' do
+    let!(:completed_program_stream) { create(:program_stream)}
+    let!(:tracking) { create(:tracking, program_stream: completed_program_stream) }
+
+    it 'return completed field equal true' do
+      completed_program_stream.reload
+      completed_program_stream.update(name: FFaker::Name.name)
+      expect(completed_program_stream.completed).to be true
+    end
+  end
+
+  context 'invalid' do
+    let!(:program_stream) { create(:program_stream)}
+    
+    it 'return completed field equal false' do
+      expect(program_stream.completed).to be false
     end
   end
 end
 
 describe ProgramStream, 'validations' do
   it { is_expected.to validate_presence_of(:name) }
-  it { is_expected.to validate_uniqueness_of(:name) }
   it { is_expected.to validate_presence_of(:rules) }
-  it { is_expected.to validate_presence_of(:enrollment) }
-  it { is_expected.to validate_presence_of(:exit_program) }
+  it { is_expected.to validate_uniqueness_of(:name) }
   it { is_expected.to accept_nested_attributes_for(:trackings) }
 end
 

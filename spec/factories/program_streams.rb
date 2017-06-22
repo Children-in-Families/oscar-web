@@ -4,10 +4,9 @@ FactoryGirl.define do
   rule_condition = {'rules'=>[{'id'=>'age', 'type'=>'integer', 'field'=>'age', 'input'=>'text', 'value'=>'2', 'operator'=>'greater'}], 'condition'=>'AND'}.to_json
 
   factory :program_stream do
-    name FFaker::Name.name
+    sequence(:name)  { |n| "#{FFaker::Name.name}-#{n}" }
     rules { rule_condition }
     enrollment default_field
-    # tracking default_field
     exit_program default_field
   end
 end

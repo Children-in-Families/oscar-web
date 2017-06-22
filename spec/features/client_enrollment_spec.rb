@@ -8,7 +8,6 @@ describe 'Client Enrollment' do
   let!(:second_program_stream) { create(:program_stream, name: 'second name') }
   let!(:client_enrollment) { create(:client_enrollment, program_stream: program_stream, client: client) }
 
-  
   before do
     login_as admin
   end
