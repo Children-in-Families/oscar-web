@@ -12,11 +12,17 @@ en:
     destroy:
       alert: Able Screening cannot be deleted.
       successfully_deleted: Able Screening has been successfully deleted.
+    edit:
+      general_question: General Question
     form:
       alert_manager: Alert Manager
+      cancel: Cancel
       general_question: General Question
+      group: Group
       mode: Mode
       question: Question
+      questions: Questions
+      save: Save
     new:
       general_question: General Question
     update:
@@ -32,9 +38,24 @@ en:
               blank: can't be blank
             question_group:
               blank: can't be blank
+        agency:
+          attributes:
+            name:
+              blank: can't be blank
+              taken: has already been taken
         case:
           attributes:
+            exit_date:
+              blank: can't be blank
+            exit_note:
+              blank: can't be blank
             start_date:
+              blank: can't be blank
+        case_note:
+          attributes:
+            attendee:
+              blank: can't be blank
+            meeting_date:
               blank: can't be blank
         changelog:
           attributes:
@@ -49,8 +70,33 @@ en:
               blank: can't be blank
         custom_field:
           attributes:
+            entity_type:
+              blank: can't be blank
+            form_title:
+              blank: can't be blank
+              taken: has already been taken
             time_of_frequency:
               blank: can't be blank
+              greater_than_or_equal_to: must be greater than or equal to 1
+              not_an_integer: not an integer
+        department:
+          attributes:
+            name:
+              blank: can't be blank
+              taken: has already been taken
+        domain:
+          attributes:
+            identity:
+              blank: can't be blank
+              taken: has already been taken
+            name:
+              blank: can't be blank
+              taken: has already been taken
+        domain_group:
+          attributes:
+            name:
+              blank: can't be blank
+              taken: has already been taken
         government_report:
           attributes:
             code:
@@ -82,12 +128,35 @@ en:
             note_type:
               blank: can't be blank
               taken: has already been taken
+        province:
+          attributes:
+            name:
+              blank: can't be blank
+              taken: has already been taken
+        quantitative_case:
+          attributes:
+            value:
+              blank: can't be blank
+              taken: has already been taken
+        quantitative_type:
+          attributes:
+            name:
+              blank: can't be blank
+              taken: has already been taken
+        referral_source:
+          attributes:
+            name:
+              blank: can't be blank
+              taken: has already been taken
         stage:
           attributes:
             from_age:
               blank: can't be blank
             to_age:
               blank: can't be blank
+              greater_than:
+                one: ''
+                other: must be greater than %{count}
               taken: has already been taken
         task:
           attributes:
@@ -101,7 +170,13 @@ en:
               blank: This field is required
               invalid: Invalid
             email:
+              blank: can't be blank
               taken: has already been taken
+            password:
+              blank: can't be blank
+              too_short: too short
+            password_confirmation:
+              confirmation: does not match
   add_event_success: Event has been added to calendar successfully.
   advanced_search:
     fields:
@@ -294,9 +369,11 @@ en:
       add_task: Add Task
       back: Back
       completed_tasks: Completed Tasks
+      domain: Domain
       label_note: Note
       meeting_detail: Meeting detail
       meeting_with: Meeting with
+      note: Note
       on_date: On Date
       on_going_tasks: On Going Tasks
       present: Who was there during the visit or conversation?
@@ -524,6 +601,7 @@ en:
       domain: Domain
       name: Program Name
       program_lists: Programs List
+      quantity: Quantity
       report: Report
       status: Status
     manage:
@@ -792,6 +870,7 @@ en:
       referral_phone: Referral Phone
       referral_source: Referral Source
       reject: Reject
+      reject_client: Reject
       reject_note: Rejected Note
       relevant_referral_information: Relevant Referral Information
       school_grade: School Grade
@@ -1303,6 +1382,7 @@ en:
     drug_abuse_alcohol_and_gambling: Drug abuse, alcohol and gambling
     education: School Grade
     emotional_abuse: emotional abuse
+    emotional_health: Emotional health
     emotional_heath: Emotional health
     essential_needs: Essential Needs
     every_point: all which apply
@@ -1418,6 +1498,8 @@ en:
     start_date: Start Date
     support_amount: Support Amount
     support_note: Support Note
+  default_program_stream_fields:
+    program_streams: Program Streams
   default_progress_note_fields:
     additional_notes: Additional Notes
     child: Child
@@ -1746,8 +1828,10 @@ en:
       edit:
         form_builder: Form Builder
       form:
+        copy: Copy
         form_title: Form Title
         frequency: Frequency
+        preview: Preview
         time_of_frequency: Time of Frequency
         type: Type
       index:
@@ -1760,11 +1844,13 @@ en:
         time_of_frequency: Time of Frequency
         type: Type
       new:
+        cancel: Cancel
         form_builder: Form Builder
         save: Save
       search:
         back: Back
         copy: Copy
+        delete: Delete
         entity_type: Type
         form_title: Form Title
         frequency: Frequency
@@ -1837,6 +1923,7 @@ en:
       education_need: Education (Needs)
       education_plan: Education (Intervention Plan)
       emotional_abuse: emotional abuse
+      emotional_health: Emotional health
       emotional_health_need: Emotional health (Needs)
       emotional_health_plan: Emotional health (Intervention Plan)
       emotional_heath: Emotional health
@@ -1983,6 +2070,7 @@ en:
           drug_abuse_alcohol_and_gambling: Drug abuse, alcohol and gambling
           education: School Grade
           emotional_abuse: emotional abuse
+          emotional_health: Emotional health
           emotional_heath: Emotional health
           essential_needs: Essential Needs
           every_point: all which apply
@@ -2004,6 +2092,7 @@ en:
           health_care_and_medical_treatment: Health care and medical treatment
           house_number: House
           if_exist: 'If yes:'
+          information: Information
           initial_capital: Capital
           initial_city: District
           initial_commune: Commune
@@ -2151,6 +2240,7 @@ en:
       domains: Domains
       donors: Donors
       edit_profile: Edit Profile
+      en: English
       families: Families
       interventions: Interventions
       km: ខ្មែរ
@@ -2172,12 +2262,6 @@ en:
     top_navbar:
       edit_profile: Edit Profile
       log_out: Log out
-      test_another_key: Test Another Key Updated on Localeapp
-      test_fifth_key: Test Fifth Key
-      test_fourth_key: Test Fourth Key
-      test_new_key: Test New Key
-      test_six_key: Test Seventh Key
-      test_third_key: Test Third Key
   leave_programs:
     create:
       successfully_created: Client has successfully exited from the program.
@@ -2199,6 +2283,7 @@ en:
       successfully_created: Location has been successfully created.
     destroy:
       failed_delete: Failed to delete a location.
+      failed_update: Failed to delete a location.
       successfully_deleted: Location has been successfully deleted.
       unsuccessfully_deleted: Location cannot be deleted.
     edit:
@@ -2362,6 +2447,7 @@ en:
       copy: Copy
       domain: Domains
       name: Name
+      organization: Organization
       preview: Preview
       quantity: Quantity
     program_rule:
@@ -2572,8 +2658,6 @@ en:
       are_you_sure: Are you sure you want to delete?
       quantitative_types: Quantitative Types
       view_changelog: View changelog
-    new:
-      title: Add Quantitative Type
     quantitative_case_fields:
       are_you_sure: Are you sure you want to delete?
       quantitative_data: Quantitative Data
@@ -2674,6 +2758,7 @@ en:
         before: Before
         case: Case
         case_cote: Case Note
+        case_note: Casenote
         change: did the following change
         changelog: Releaselog
         client: Client
@@ -2731,6 +2816,7 @@ en:
       group: Group
       mode: Mode
       question: Question
+      questions: Questions
     attachment_fields:
       browse: Browse
     create:
@@ -2758,6 +2844,8 @@ en:
       question:
         one: 1 Question
         other: "%{count} Questions"
+      stage: Stage
+      stage_question: Stage Question
       to: To
       year: year
     new:
@@ -2827,18 +2915,173 @@ en:
       today_tasks: Today Tasks
       upcoming_tasks: Upcoming Tasks
   thredded:
+    content_moderation_states:
+      content_blocked_notice: Blocked
+      content_blocked_notice_with_record_html: Blocked by %{moderator} %{time_ago}
+    errors:
+      login_required: Login required
+      not_authorized: Unauthorized
+      private_topic_create_denied: Unauthorized
+      private_topic_not_found: Private topic not found
+    form:
+      update: Update
     messageboard:
+      create: Create a New Messageboard
       form:
+        description: Description
         messageboard_group: Messageboard Group (Archived will not be shown)
+        name: Name
+        no_group: No Group
+      index:
+        page_title: Page title
+      last_updated_by_html: 'Updated %{time_ago} <cite>by %{user}</cite>'
+      topics_and_posts_counts: "%{topics_count} topics / %{posts_count} replies"
+      update: Update
+      updated_notice: Messageboard has been updated
+    messageboard_group:
+      create: Create a New Messageboard Group
+      created_notice: Create notice
+      new:
+        name: Name
+    moderation:
+      approve_btn: Approve
+      block_btn: Block
+      pending:
+        empty:
+          content: Moderated
+          title: Title
+      post_approved_html: Post approved by %{moderator} %{time_ago}.
+      post_blocked_html: Post blocked by %{moderator} %{time_ago}.
+      post_deleted_notice: Post was deleted
+      posts_content_changed_since_moderation_html: |-
+        The <a href="%{post_url}">post's</a> content change since it was moderated. Below is the content at the
+                time it was moderated.
+      search_users:
+        form_label: Search users
+        form_placeholder: Search users
+        no_results_message: No results
+        results_message: Found results
     nav:
+      all_messageboards: All Messageboards
+      edit_messageboard: Edit Messageboard
+      edit_post: Edit Post
+      edit_private_topic: Edit Private Topic
+      edit_topic: Edit Topic
       home: Home
+      mark_all_read: Mark all as read
+      moderation: Moderation
+      moderation_activity: Moderation Activity
+      moderation_history: Moderation History
+      moderation_pending: Pending Moderation
+      moderation_users: Moderation Users
+      private_topics: Private Messages
+      settings: Notification Settings
+    null_user_name: Delete user
+    posts:
+      delete: Delete
+      delete_confirm: Are you sure you want to delete?
+      deleted_notice: Your post has been deleted.
+      edit: Edit Post
+      form:
+        content_label: Content
+        create_btn: Submit Reply
+        update_btn: Update Post
+      pending_moderation_notice: Pending moderation
+    preferences:
+      edit:
+        page_title: Notification
+      form:
+        global_preferences_label: Global Settings
+        messageboard_notify_on_mention:
+          hint: "When someone mentions you by your username (eg: @sam) in this messageboard you will follow the topic. You will receive emails with the contents of that post and any replies."
+          label: Follow topics you are mentioned in
+        messageboard_preferences_label_html: Notification Settings for <em>%{messageboard}</em>
+        notify_on_mention:
+          hint: "When someone mentions you by your username (eg: @sam) you will follow the topic. You will receive emails with the contents of that post and any replies."
+          label: Follow topics you are mentioned in
+        notify_on_message:
+          hint: When you are added to a private conversation you will receive an email with its content.
+          label: Private Message Notifications
+        submit_btn: Update Settings
+        title: Settings
+      updated_notice: Your settings has been updated
+    private_posts:
+      form:
+        content_label: Post
+        create_btn: Send Message
+    private_topics:
+      edit: Edit
+      errors:
+        user_ids_length: User required
+      form:
+        content_label: Message
+        create_btn: Send Message
+        title_label: Title
+        title_placeholder_new: New private topic
+        title_placeholder_start: Start a new conversation
+        update_btn: Update
+        users_label: Participants
+        users_placeholder: Select users to participate in this conversation
+      no_private_topics:
+        create_btn: Create your first topic
+        title: You don't have any private topics
+      updated_notice: Topic has been updated
+    recent_activity: Recent Activity
+    search:
+      form:
+        btn_submit: Search
+        label: Search
+        placeholder: Search Topics and Posts
     shared:
       nav:
         sign_in: Sign In
         sign_out: Sign Out
     topics:
+      delete_confirm: Are you sure you want to delete?
+      delete_topic: Delete Topic
+      deleted_notice: Topic has been deleted
+      edit: Edit topic
+      followed_notice: You are now following this topic
+      following:
+        manual: You are following this topic
+        mentioned: You are following this topic because someone mentioned you in the topic
+        posted: You are following this topic because you posted to it.
+      following_will_receive_emails: You will receive email updates.
       form:
+        categories_placeholder: Categories
+        content_label: Content
         create_btn: Create New Topic
+        title_label: Title
+        title_placeholder: Topic
+        title_placeholder_start: Start a New Topic
+        update_btn: Update
+      search:
+        no_results_message: There are no results for your search - %{query}
+        page_title: Found results
+        results_message: Search Results for %{query}
+      show:
+        add_post: Add Post
+      started_by_html: Started %{time_ago} by %{user}
+      unfollowed_notice: You are no longer following this topic
+      updated_notice: Topic has been updated
+    users:
+      last_active_html: Last active %{time_ago}
+      posted_in_topic_html: Posted in %{topic_link}
+      posts_count:
+        one: Posted once
+        other: Posted %{count} times
+      recent_activity: Recent Activity
+      started_topic_html: Started %{topic_link}
+      started_topics_count:
+        one: Started once
+        other: Started %{count} times
+      user_posted_in_topic_html: "%{user_link} posted in %{topic_link}"
+      user_since_html: user since %{time_ago}
+      user_started_topic_html: "%{user_link} started %{topic_link}"
+  time:
+    formats:
+      long: ""
+      short: ""
   trackings:
     create:
       successfully_created: Tracking has been successfully created.
@@ -2965,6 +3208,13 @@ en:
     version:
       back: Back
       modification_of: Changelog of
+  views:
+    pagination:
+      first: "&laquo; First"
+      last: "Last &raquo;"
+      next: "Next &rsaquo;"
+      previous: "&lsaquo; Previous"
+      truncate: "&hellip;"
   will_paginate:
     next_label: Next Page
     page_gap: "..."
