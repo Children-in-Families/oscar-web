@@ -2962,8 +2962,6 @@ km:
       search_users:
         form_label: ស្វែងរកអ្នកប្រើប្រាស់
         form_placeholder: :thredded.moderation.search_users.form_label
-        no_results_message: មិនមានអ្នកប្រើប្រាស់ដែលមានឈ្មោះផ្ដើមដោយ %{query} ទេ
-        results_message: អ្នកប្រើប្រាស់ដែលមានឈ្មោះផ្ដើមដោយ %{query}
     nav:
       all_messageboards: ផ្ទាំងសារទាំអស់
       edit_messageboard: កែសម្រួលផ្ទាំងសារ
