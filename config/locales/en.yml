@@ -906,6 +906,7 @@ en:
       new_enrollment: New Enrollment
       client_not_valid: Client doesn't match with this program rules.
     index:
+      quantity: Number of Place Available
       status: Status
       domain: Domain
       name: Program Name
