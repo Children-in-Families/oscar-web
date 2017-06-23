@@ -4,7 +4,7 @@ class ClientEnrollmentPolicy < ApplicationPolicy
   end
 
   def create?
-    if get_client_enrollments.empty? || client_enrollment_status == 'Exited'
+    if enrollments_by_client.empty? || enrollments_by_client.last.status == 'Exited'
       return true unless record.program_stream.quantity.present?
       client_ids.size < record.program_stream.quantity
     else
@@ -18,14 +18,9 @@ class ClientEnrollmentPolicy < ApplicationPolicy
 
   private
 
-  def client_enrollment_status
+  def enrollments_by_client
     client_id = record.client_id
     program_stream_id = record.program_stream_id
-
-    ClientEnrollment.where(client_id: client_id, program_stream_id: program_stream_id).order(:created_at).last.status
-  end
-
-  def get_client_enrollments
-    record.program_stream.client_enrollments
+    ClientEnrollment.where(client_id: client_id, program_stream_id: program_stream_id).order(:created_at)
   end
 end

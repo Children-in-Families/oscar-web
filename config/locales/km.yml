@@ -336,8 +336,7 @@ km:
 
   default_client_fields: &default_client_fields
     live_with: រស់នៅជាមួយ
-    rice_support: អង្ករដែលផ្គត់ផ្គង់
-    poverty_certificate: ប័ណ្ណក្រីក្រ
+    id_poor: ប័ណ្ណក្រីក្រ
     id: លេខសំគាល់
     kid_id: លេខកូដឣតិថិជន
     given_name: នាមខ្លួន
@@ -887,6 +886,8 @@ km:
       delete_group: លុបបណ្ដុំនៃការស្វែងរក
 
   client_enrollments:
+    create:
+      successfully_create: ការចុះឈ្មោះរក្សាទុកដោយជោគជ័យ
     edit:
       enrollment: ទម្រង់បែបបទ​នៃ​ចុះឈ្មោះ
     show:
@@ -916,7 +917,14 @@ km:
       new_enrollment: ការចុះឈ្មោះថ្មី
       client_not_valid: អតិថិជនមិនអាចចូលរូមកម្មវិធីនេះ
     index:
+      quantity: ចំនួនកន្លែងដែលនៅទំនេរ
+      name: ឈ្មោះកម្មវិធី
+      domain: កត្តា
+      report: របាយការណ៍
+      actions: សកម្មភាព
+      status: ស្ថានភាព
       program_lists: តារាងកម្មវិធី​បន្ទាប់បន្សំ
+      back: ត្រលប់ក្រោយ
     create:
       successfully_created: ការចុះឈ្មោះត្រូវបានរក្សាទុកដោយជោគជ័យ
     form:
@@ -1657,14 +1665,17 @@ km:
       completed_tasks: កាតព្វកិច្ចដែលបានធ្វើរួច
       note: កំណត់ត្រា
       attachments: ឯកសារភ្ជាប់
+      goal: គោលដៅ
     form_with_assessment_domains:
       domain: កត្តា
       note: កំណត់ត្រា
       add_task: បន្ថែមកាតព្វកិច្ចថ្មី
+      goal: គោលដៅ
     form_without_assessment_domains:
       domain: កត្តា
       note: កំណត់ត្រា
       add_task: បន្ថែមកាតព្វកិច្ចថ្មី
+      goal: គោលដៅ
     attachment_fields:
       are_you_sure: តើអ្នកប្រាកដហើយ?
       attachments: ឯកសារភ្ជាប់
@@ -1701,6 +1712,7 @@ km:
       successfully_updated: កំណត់ត្រាត្រូវបានកែសម្រួលដោយជោគជ័យ
     destroy:
       successfully_deleted: ឯកសារភ្ជាប់ត្រូវបានកែសម្រួលដោយជោគជ័យ
+      fail_delete_attachment: បានបរាជ័យក្នុងការលុបឯកសារភ្ជាប់
 
   stages:
     stage: តំណាក់កាល

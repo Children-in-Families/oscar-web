@@ -8,12 +8,14 @@ describe Client, 'associations' do
   it { is_expected.to belong_to(:birth_province) }
   it { is_expected.to belong_to(:donor) }
 
-  it { is_expected.to have_one(:government_report).dependent(:destroy) }
+  # Client ask to hide #147254199
+  # it { is_expected.to have_one(:government_report).dependent(:destroy) }
+  # it { is_expected.to have_many(:surveys).dependent(:destroy) }
+
   it { is_expected.to have_many(:cases).dependent(:destroy) }
   it { is_expected.to have_many(:tasks).dependent(:destroy) }
   it { is_expected.to have_many(:case_notes).dependent(:destroy) }
   it { is_expected.to have_many(:assessments).dependent(:destroy) }
-  it { is_expected.to have_many(:surveys).dependent(:destroy) }
   it { is_expected.to have_many(:progress_notes).dependent(:destroy) }
   it { is_expected.to have_many(:answers) }
   it { is_expected.to have_many(:able_screening_questions).through(:answers) }
@@ -183,6 +185,26 @@ describe Client, 'methods' do
     end
     it 'does not return neither non able clients nor not managed by current user' do
       expect(Client.in_any_able_states_managed_by(case_worker)).not_to include(able_manager_client)
+    end
+  end
+
+  context 'name' do
+    let!(:client_name) { create(:client, given_name: 'Adam', family_name: 'Eve') }
+    let!(:client_local_name) { create(:client, given_name: '', family_name: '', local_given_name: 'Romeo', local_family_name: 'Juliet') }
+
+    it 'return name' do
+      expect(client_name.name).to eq("Adam Eve")
+    end
+
+    it 'reutrn local name' do
+      expect(client_local_name.name).to eq("Romeo Juliet")
+    end
+  end
+
+  context 'en and local name' do
+    let!(:client) { create(:client, given_name: 'Adam', family_name: 'Eve', local_given_name: 'Romeo', local_family_name: 'Juliet') }
+    it 'return english and local name' do
+      expect(client.en_and_local_name).to eq("Adam Eve (Romeo Juliet)")
     end
   end
 end

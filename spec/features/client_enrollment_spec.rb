@@ -1,8 +1,8 @@
 describe 'Client Enrollment' do
   let!(:admin){ create(:user, roles: 'admin') }
-  let!(:client) { create(:client, date_of_birth: 10.years.ago) }
+  let!(:client) { create(:client, given_name: 'Adam', family_name: 'Eve', local_given_name: 'Romeo', local_family_name: 'Juliet', date_of_birth: 10.years.ago) }
   let!(:domain) { create(:domain) }
-  let!(:program_stream) { create(:program_stream) }
+  let!(:program_stream) { create(:program_stream, name: 'Fitness') }
   let!(:domain_program_stream) { create(:domain_program_stream, domain: domain, program_stream: program_stream) }
 
   let!(:second_program_stream) { create(:program_stream, name: 'second name') }
@@ -16,6 +16,10 @@ describe 'Client Enrollment' do
   feature 'List' do
     before do
       visit client_client_enrollments_path(client)
+    end
+
+    scenario 'program lists' do
+      expect(page).to have_content('Adam Eve (Romeo Juliet) - Programs List')
     end
 
     scenario 'program name' do

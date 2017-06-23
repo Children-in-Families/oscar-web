@@ -129,7 +129,7 @@ class ProgramStreamsController < AdminController
   def all_ngos_ordered
     if params[:tab] == 'all_ngo'
       column = params[:order]
-      ordered = program_streams_all_organizations.sort_by{ |p| p.send(column) || 0}
+      ordered = program_streams_all_organizations.sort_by{ |p| p.send(column).to_s.downcase }
       params[:descending] == 'true' ? ordered.reverse : ordered
     else
       program_streams_all_organizations.sort_by(&:name)

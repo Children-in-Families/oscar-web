@@ -29,7 +29,7 @@ class Client < ActiveRecord::Base
   belongs_to :followed_up_by,   class_name: 'User',     foreign_key: 'followed_up_by_id', counter_cache: true
   belongs_to :birth_province,   class_name: 'Province', foreign_key: 'birth_province_id', counter_cache: true
 
-  has_one  :government_report, dependent: :destroy
+  # has_one  :government_report, dependent: :destroy
   has_many :answers, dependent: :destroy
   has_many :able_screening_questions, through: :answers
   has_many :tasks,          dependent: :destroy
@@ -49,7 +49,7 @@ class Client < ActiveRecord::Base
   has_many :cases,          dependent: :destroy
   has_many :case_notes,     dependent: :destroy
   has_many :assessments,    dependent: :destroy
-  has_many :surveys,        dependent: :destroy
+  # has_many :surveys,        dependent: :destroy
   has_many :progress_notes, dependent: :destroy
 
   has_paper_trail
@@ -133,6 +133,12 @@ class Client < ActiveRecord::Base
     name       = "#{given_name} #{family_name}"
     local_name = "#{local_given_name} #{local_family_name}"
     name.present? ? name : local_name
+  end
+
+  def en_and_local_name
+    en_name = "#{given_name} #{family_name}"
+    local_name = "#{local_given_name} #{local_family_name}"
+    "#{en_name} (#{local_name})"
   end
 
   def self.next_assessment_candidates

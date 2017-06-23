@@ -271,7 +271,7 @@ ActiveRecord::Schema.define(version: 20170620035801) do
     t.string   "commune",                          default: ""
     t.string   "district",                         default: ""
     t.string   "live_with",                        default: ""
-    t.integer  "poverty_certificate",              default: 0
+    t.integer  "id_poor",                          default: 0
     t.integer  "rice_support",                     default: 0
   end
 
