@@ -61,3 +61,6 @@
                         %ul
                           - incomplete_tasks.each do |task|
                             %li= task.name
+                    - if ad.attachments.any?
+                      %button.btn.btn-info.btn-sm{"data-target" => "#attachments#{ad.id}", "data-toggle" => "modal", :type => "button"}= t('.show_attachment')
+                      = render 'attachment', { ad: ad }

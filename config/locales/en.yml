@@ -1561,10 +1561,23 @@ en:
       goal: Goal
       reason: Reason
       task: Task
+      show_attachment: Show Attachments
     create:
       successfully_created: Assessment has been successfully created.
     update:
       successfully_updated: Assessment has been successfully updated.
+    destroy:
+      successfully_deleted: Attachment has been successfully deleted.
+      fail_delete_attachment: Failed deleting attachment
+    attachment:
+      attachments: Attachments
+      preview_download: Preview & Download
+      download: Download
+    attachment_fields:
+      are_you_sure: Are you sure you want to delete??
+      attachments: Attachments
+      preview_download: Preview & Download
+      download: Download
 
   case_notes:
     index:

@@ -12,6 +12,10 @@ module AttachmentHelper
     t('.download')
   end
 
+  def target_blank(object)
+    return '_blank' if pdf?(object) || image?(object)
+  end
+
   private
 
   def pdf?(object)
