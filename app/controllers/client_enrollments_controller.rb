@@ -85,7 +85,7 @@ class ClientEnrollmentsController < AdminController
     column = params[:order]
     descending = params[:descending] == 'true'
     if column.present? && column != 'status'
-      ordered = program_stream_order_by_enrollment.sort_by{ |ps| ps.send(column) || 0 }
+      ordered = program_stream_order_by_enrollment.sort_by{ |ps| ps.send(column).to_s.downcase }
       descending ? ordered.reverse : ordered
     elsif column.present? && column == 'status'
       descending ? program_stream_order_by_enrollment.reverse : program_stream_order_by_enrollment
