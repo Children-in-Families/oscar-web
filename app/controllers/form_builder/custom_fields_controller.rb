@@ -1,7 +1,8 @@
 class FormBuilder::CustomFieldsController < AdminController
   load_and_authorize_resource
 
-  before_action :set_custom_field, only: [:edit, :update, :destroy]
+  before_action :set_custom_field, only: [:edit, :update, :destroy, :show]
+  before_action :find_ngo_name
 
   def index
     @custom_fields = CustomField.order(:entity_type, :form_title).page(params[:page_1]).per(20)
@@ -9,9 +10,8 @@ class FormBuilder::CustomFieldsController < AdminController
   end
 
   def new
-    ngo_name = params[:ngo_name]
-    if ngo_name.present?
-      original_custom_field = get_custom_field(params[:custom_field_id], ngo_name)
+    if @ngo_name.present?
+      original_custom_field = get_custom_field(params[:custom_field_id], @ngo_name)
       @custom_field = CustomField.new(original_custom_field.attributes.merge(id: nil))
     else
       @custom_field = CustomField.new
@@ -19,8 +19,7 @@ class FormBuilder::CustomFieldsController < AdminController
   end
 
   def show
-    ngo_name = params[:ngo_name]
-    @custom_field = get_custom_field(params[:custom_field_id].to_i, ngo_name) if ngo_name.present?
+    @custom_field = get_custom_field(params[:id], @ngo_name) if @ngo_name.present? && @ngo_name != current_organization.full_name
   end
 
   def create
@@ -33,8 +32,7 @@ class FormBuilder::CustomFieldsController < AdminController
   end
 
   def edit
-    ngo_name = params[:ngo_name]
-    redirect_to custom_fields_path, alert: t('unauthorized.default') if ngo_name.present? && ngo_name != current_organization.full_name
+    redirect_to custom_fields_path, alert: t('unauthorized.default') if @ngo_name.present? && @ngo_name != current_organization.full_name
   end
 
   def update
@@ -108,5 +106,9 @@ class FormBuilder::CustomFieldsController < AdminController
 
   def set_custom_field
     @custom_field = CustomField.find(params[:id])
+  end
+
+  def find_ngo_name
+    @ngo_name = params[:ngo_name]
   end
 end
