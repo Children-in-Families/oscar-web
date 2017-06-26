@@ -9,6 +9,10 @@ class ApplicationController < ActionController::Base
   before_action :set_locale
   before_action :set_paper_trail_whodunnit
 
+  rescue_from ActiveRecord::RecordNotFound do |exception|
+   render file: "#{Rails.root}/app/views/errors/404", layout: false, status: :not_found
+  end
+
   helper_method :current_organization
 
   rescue_from CanCan::AccessDenied do |exception|

@@ -1,9 +1,9 @@
 describe ClientEnrollmentTracking, 'Client Enrollment Tracking' do
   let!(:admin){ create(:user, roles: 'admin') }
-  let!(:client) { create(:client, date_of_birth: 10.years.ago) }
-  let!(:program_stream) { create(:program_stream) }
+  let!(:client) { create(:client, given_name: 'Adam', family_name: 'Eve', local_given_name: 'Romeo', local_family_name: 'Juliet', date_of_birth: 10.years.ago) }
+  let!(:program_stream) { create(:program_stream, name: 'Fitness') }
   let!(:client_enrollment) { create(:client_enrollment, program_stream: program_stream, client: client) }
-  let!(:tracking) { create(:tracking, program_stream: program_stream) }
+  let!(:tracking) { create(:tracking, name: 'Soccer', program_stream: program_stream) }
   let!(:client_enrollment_tracking) { create(:client_enrollment_tracking, client_enrollment: client_enrollment, tracking: tracking) }
 
   before do
@@ -11,13 +11,17 @@ describe ClientEnrollmentTracking, 'Client Enrollment Tracking' do
   end
 
   feature 'Create', js: true do
-    before do 
+    before do
+      program_stream.reload
+      program_stream.update_columns(completed: true)
+      
       visit client_client_enrollments_path(client)
       click_link('Tracking')
     end
 
     scenario 'Valid' do
       click_link('New Tracking')
+      expect(page).to have_content('Adam Eve (Romeo Juliet) - Soccer - Fitness')
       within('#new_client_enrollment_tracking') do
         find('.numeric').set(4)
         find('input[type="text"]').set('Good client')
@@ -30,6 +34,7 @@ describe ClientEnrollmentTracking, 'Client Enrollment Tracking' do
 
     scenario 'Invalid' do
       click_link('New Tracking')
+      expect(page).to have_content('Adam Eve (Romeo Juliet) - Soccer - Fitness')
       within('#new_client_enrollment_tracking') do
         find('.numeric').set(6)
         find('input[type="text"]').set('')
@@ -132,12 +137,14 @@ describe ClientEnrollmentTracking, 'Client Enrollment Tracking' do
     end
 
     scenario 'success' do
+      expect(page).to have_content('Adam Eve (Romeo Juliet) - Soccer - Fitness')
       find('input[type="text"]').set('this is editing')
       find('input[type="submit"]').click
       expect(page).to have_content('Tracking Program has been successfully updated')
     end
 
     scenario 'fail' do
+      expect(page).to have_content('Adam Eve (Romeo Juliet) - Soccer - Fitness')
       find('input[type="text"]').set('')
       find('input[type="submit"]').click
       expect(page).to have_content("description can't be blank")

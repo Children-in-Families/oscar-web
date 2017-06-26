@@ -19,8 +19,18 @@ class ProgramStream < ActiveRecord::Base
 
   after_save :set_program_completed
 
-  scope     :ordered,  ->  { order(:name) }
-  scope     :ordered_by, ->(column) { order(column)}
+  scope     :ordered,    -> { order(:name) }
+  scope     :ordered_by, ->(column) { order(column) }
+  scope     :completed,  -> { where(completed: true) }
+
+  def self.orderd_name_and_enrollment_status(client)
+    includes(:client_enrollments).where(client_enrollments: { client_id: client.id }).order('client_enrollments.status ASC', :name).uniq
+  end
+
+  def self.without_status_by(client)
+    ids = orderd_name_and_enrollment_status(client).collect(&:id)
+    where.not(id: ids).order(:name)
+  end
 
   def form_builder_field_uniqueness
     errors_massage = []
@@ -55,6 +65,15 @@ class ProgramStream < ActiveRecord::Base
 
   def last_enrollment
     client_enrollments.last
+  end
+
+  def number_available_for_client
+    quantity - client_enrollments.active.size
+  end
+
+  def enroll?(client)
+    enrollments = client_enrollments.enrollments_by(client)
+    (enrollments.present? && enrollments.last.status == 'Exited') || enrollments.empty?
   end
 
   private

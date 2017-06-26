@@ -18,6 +18,17 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
   _initSelect2 = ->
     $('#rule-tab select').select2()
   
+  _handleSelectTab = ->
+    tab = $('.program-steps').data('tab')
+    $('li[role="tab"]').each ->
+      tabNumber = $(@).find('span.number').text()[0]
+      if parseInt(tabNumber) == tab
+        $(@).removeClass('disabled')
+        $(@).find('a').trigger('click')
+      else if parseInt(tabNumber) < tab
+        $(@).removeClass('disabled')
+        $(@).addClass('done')
+
   _handleSaveProgramStream = ->
     form = $('form')
     $('#program_stream_submit').on 'click', ->
@@ -63,6 +74,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
           _queryBuilderOption(fieldList)
         )
         setTimeout (->
+          _handleSelectTab()
           _initSelect2()
           ), 100
         _handleSetRules()

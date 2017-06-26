@@ -200,14 +200,17 @@ en:
     current_program_streams_tab:
       name: Name
       domain: Domains
-      quantity: Quantity
+      status: Status
+      enrolled: Enrolled
+      maximum: Maximum Program Enrollment
       actions: Action
-    others_ngo_program_streams_tab:
+    all_ngos_program_streams_tab:
       preview: Preview
       copy: Copy
       name: Name
       domain: Domains
-      quantity: Quantity
+      status: Status
+      quantity: Maximum Program Enrollment
       actions: Action
     index:
       current_ngo: My NGO's Program Streams
@@ -227,7 +230,7 @@ en:
       copy: Copy
       description: Description
       domain: Domain
-      quantity: Quantity
+      quantity: Maximum Program Enrollment
       rules: Rules
       tracking: Tracking
       enrollment: Enrollment
@@ -328,8 +331,7 @@ en:
 
   default_client_fields: &default_client_fields
     live_with: Who to live with
-    rice_support: Rice Support
-    poverty_certificate: Poverty Certificate
+    id_poor: ID Poor
     id: ID
     kid_id: Kid ID
     given_name: Given Name
@@ -538,14 +540,6 @@ en:
         view: View
         placement_start_date: Placement Start Date
         placement_case_type: Placement Case Type
-
-      client_enrollments:
-        quantity: Number of Place Available
-        status: Status
-        domain: Domain
-        name: Program Name
-        report: Report
-        action: Action
 
       trackings:
         name: Name
@@ -915,7 +909,14 @@ en:
       new_enrollment: New Enrollment
       client_not_valid: Client doesn't match with this program rules.
     index:
+      quantity: Number of Place Available
+      status: Status
+      domain: Domain
+      name: Program Name
+      report: Report
+      actions: Actions
       program_lists: Programs List
+      back: Back
     create:
       successfully_created: Enrollment has been successfully created.
     form:
@@ -1577,23 +1578,26 @@ en:
       you_need_to_create_assessment: You need to create assessment
       new_case_note: New case note
       case_note_on: Case note on
-      present: Present
+      present: Who was there during the visit or conversation?
       completed_tasks: Completed Tasks
       note: Note
+      goal: Goal
     form_with_assessment_domains:
       domain: Domain
       note: Note
       add_task: Add Task
+      goal: Goal
     form_without_assessment_domains:
       domain: Domain
       note: Note
       add_task: Add Task
+      goal: Goal
     form:
       label_note: Note
       meeting_detail: Meeting detail
       meeting_with: Meeting with
       on_date: On Date
-      present: Present
+      present: Who was there during the visit or conversation?
       tasks: Tasks
       back: Back
       save: Save
@@ -1609,7 +1613,7 @@ en:
       save: Save
     show:
       case_note_on: Case note on
-      present: Present
+      present: Who was there during the visit or conversation?
     create:
       successfully_created: Case Note has successfully been created.
     update:

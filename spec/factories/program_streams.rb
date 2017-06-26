@@ -8,5 +8,6 @@ FactoryGirl.define do
     rules { rule_condition }
     enrollment default_field
     exit_program default_field
+    quantity 10
   end
 end

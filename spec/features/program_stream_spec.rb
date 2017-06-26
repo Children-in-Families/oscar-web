@@ -22,6 +22,10 @@ feature 'program_stream' do
       expect(page).to have_content(program_stream.domains.pluck(:identity).join(', '))
     end
 
+    scenario 'status' do
+      expect(page).to have_content('Incompleted')
+    end
+
     scenario 'quantity' do
       expect(page).to have_content(program_stream.quantity)
     end

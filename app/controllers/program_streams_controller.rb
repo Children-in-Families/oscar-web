@@ -7,8 +7,8 @@ class ProgramStreamsController < AdminController
   before_action :find_another_ngo_program_stream, if: -> { @ngo_name.present? }
 
   def index
-    @program_streams = ProgramStream.ordered_by(column_order).page(params[:page_1]).per(20)
-    @ngos_program_streams = Kaminari.paginate_array(all_ngos_ordered).page(params[:page_2]).per(20)
+    @program_streams = paginate_collection(decorate_programs(column_order)).page(params[:page_1]).per(20)
+    @ngos_program_streams = paginate_collection(decorate_programs(all_ngos_ordered)).page(params[:page_2]).per(20)
   end
 
   def new
@@ -27,6 +27,7 @@ class ProgramStreamsController < AdminController
   end
 
   def show
+    @program_stream = @program_stream.decorate
   end
 
   def create
@@ -129,19 +130,28 @@ class ProgramStreamsController < AdminController
     if params[:tab] == 'current'
       column = params[:order]
       sort_by = params[:descending] == 'true' ? 'desc' : 'asc'
-      "#{column} #{sort_by}"
+      order_string = "#{column} #{sort_by}"
     else
-      'name'
+      order_string = 'name'
     end
+    ProgramStream.ordered_by(order_string)
   end
 
   def all_ngos_ordered
     if params[:tab] == 'all_ngo'
       column = params[:order]
-      ordered = program_streams_all_organizations.sort_by{ |p| p.send(column) || 0}
+      ordered = program_streams_all_organizations.sort_by{ |p| p.send(column).to_s.downcase }
       params[:descending] == 'true' ? ordered.reverse : ordered
     else
       program_streams_all_organizations.sort_by(&:name)
     end
+  end
+
+  def decorate_programs(values)
+    ProgramStreamDecorator.decorate_collection(values)
+  end
+
+  def paginate_collection(values)
+    Kaminari.paginate_array(values)
   end
 end

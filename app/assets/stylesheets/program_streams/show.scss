@@ -6,12 +6,17 @@ body[id='program_streams-show'], body[id='program_streams-preview'] {
       margin-top:  5px;
     }
   }
+
   input, ins {
     cursor: not-allowed;
   }
 
   .input-margin {
     margin-bottom: 10px;
+  }
+
+  .panel-heading {
+    cursor: pointer;
   }
 
 }

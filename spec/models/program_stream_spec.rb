@@ -22,6 +22,15 @@ describe ProgramStream, 'scope' do
       expect(ProgramStream.ordered_by('name ASC').first).to eq second_program_stream
     end
   end
+
+  context 'completed' do
+    let!(:tracking) { create(:tracking, program_stream: first_program_stream) }
+    it 'return record that is completed' do
+      first_program_stream.reload
+      first_program_stream.update(name: FFaker::Name.name)
+      expect(ProgramStream.completed.first).to eq first_program_stream 
+    end
+  end
 end
 
 describe ProgramStream, 'callback' do
@@ -91,6 +100,18 @@ describe ProgramStream, 'methods' do
     end
     it 'should not return record that not last' do
       expect(program_stream.last_enrollment).not_to eq client_enrollment
+    end
+  end
+
+  context 'orderd_name_and_enrollment_status' do
+    it 'return records of client enrollment' do
+      expect(ProgramStream.orderd_name_and_enrollment_status(client).first).to eq program_stream
+    end
+  end
+
+  context 'without_status_by' do
+    it 'return records of different client enrollment' do
+      expect(ProgramStream.without_status_by(client).first).not_to eq program_stream
     end
   end
 end
