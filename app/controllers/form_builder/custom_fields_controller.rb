@@ -59,10 +59,6 @@ class FormBuilder::CustomFieldsController < AdminController
     end
   end
 
-  def find
-    render json: find_custom_field_in_organization
-  end
-
   private
 
   def get_custom_field(id, ngo_name)

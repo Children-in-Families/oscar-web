@@ -163,6 +163,9 @@ Rails.application.routes.draw do
     resources :clients do
       get :compare, on: :collection
     end
+    resources :custom_fields do
+      get :fetch_custom_fields, on: :collection
+    end
     resources :client_advanced_searches, only: [] do
       collection do
         get :get_custom_field
@@ -208,7 +211,6 @@ Rails.application.routes.draw do
   scope '', module: 'form_builder' do
     resources :custom_fields do
       collection do
-        get 'find'   => 'custom_fields#find'
         get 'search' => 'custom_fields#search', as: :search
       end
     end
