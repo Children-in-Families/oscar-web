@@ -219,7 +219,8 @@ module VersionHelper
       contact_person_email:   'email',
       contact_person_mobile:  'contact_mobile',
       custom_field_id:        'Form Title',
-      client_enrollment_id:   'Client Enrollment ID'
+      client_enrollment_id:   'Client Enrollment ID',
+      roles:   'Permission set'
     }
   end
 
