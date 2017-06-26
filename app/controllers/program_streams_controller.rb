@@ -66,7 +66,7 @@ class ProgramStreamsController < AdminController
   end
 
   def preview
-    @program_stream = @another_program_stream
+    @program_stream = @another_program_stream.decorate
     render :show
   end
 
