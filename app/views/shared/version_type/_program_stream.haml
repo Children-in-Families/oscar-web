@@ -45,9 +45,10 @@
                     = version_attribute(k, version.item_type)
                   %td.col-sm-4.truncate
                     - if k == 'enrollment' || k == 'exit_program'
-                      - next if v[0] == '{}' || v[0] == {}
+                      - next if v[0] == '{}' || v[0] == {} || v[0] == '[]'
                       - if v[0].present?
-                        - v[0].each_with_index do |value, fields_index|
+                        - v[0].class == String ? values = eval(v[0]) : values = v[0]
+                        - values.each_with_index do |value, fields_index|
                           - index = 1
                           - value.each do |key, value|
                             - if index == 1
@@ -55,7 +56,7 @@
                                 %li="#{key}: #{value}"
                               - index += 1
                             - else
-                              - unless key == 'values'
+                              - unless key == 'value'
                                 %ul
                                   %li
                                     ="#{key}: #{value}"
@@ -68,8 +69,9 @@
                       = version_value_format(v[0], k, v)
                   %td.col-sm-4.truncate
                     - if k == 'enrollment' || k == 'exit_program'
-                      - if v[1].present? && (v[1] != '{}' || v[1] != {})
-                        - v[1].each_with_index do |value, fields_index|
+                      - if v[1].present? && (v[1] != '{}' || v[1] != {} || v[1] != '[]')
+                        - v[1].class == String ? values = eval(v[1]) : values = v[1]
+                        - values.each_with_index do |value, fields_index|
                           - index = 1
                           - value.each do |key, value|
                             - if index == 1
