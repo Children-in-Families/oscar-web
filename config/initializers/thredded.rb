@@ -42,7 +42,7 @@ Thredded.content_visible_while_pending_moderation = true
 
 # ==> Email Configuration
 # Email "From:" field will use the following
-Thredded.email_from = 'info@cambodianfamilies.com'
+Thredded.email_from = ENV['SENDER_EMAIL']
 
 # Incoming email will be directed to this host
 Thredded.email_incoming_host = ENV['HOST_SERVER']

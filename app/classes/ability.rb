@@ -13,11 +13,13 @@ class Ability
       cannot :manage, Agency
       cannot :manage, ReferralSource
       cannot :manage, QuarterlyReport
-      cannot :manage, CaseNote
+      cannot :manage, CustomFieldProperty
 
       can :read, :all
       can :version, :all
       can :report, :all
+
+      cannot :manage, CaseNote
     elsif user.case_worker?
       can :manage, AbleScreeningQuestion
       can :manage, Assessment
@@ -25,13 +27,11 @@ class Ability
       can :manage, Case, exited: false
       can :manage, CaseNote
       can :manage, Client, user_id: user.id
-      can :manage, GovernmentReport
       can :manage, ProgressNote
-      can :manage, Survey
       can :manage, Task
       can :manage, CustomFieldProperty, custom_formable_type: 'Client'
       can :manage, ClientEnrollment
-      can :manage, Tracking
+      can :manage, ClientEnrollmentTracking
       can :manage, LeaveProgram
       can :update, Assessment do |assessment|
         assessment.client.user_id == user.id
@@ -46,15 +46,13 @@ class Ability
       can :manage, CaseNote
       can :manage, Client, able_state: Client::ABLE_STATES
       can :manage, Client, user_id: user.id
-      can :manage, GovernmentReport
       can :manage, ProgressNote
-      can :manage, Survey
       can :manage, Task
       can :manage, CustomFieldProperty, custom_formable_type: "Client"
       can :manage, CustomField
       can :manage, ProgramStream
       can :manage, ClientEnrollment
-      can :manage, Tracking
+      can :manage, ClientEnrollmentTracking
       can :manage, LeaveProgram
       can :update, Assessment do |assessment|
         assessment.client.able?
@@ -71,16 +69,14 @@ class Ability
       can :manage, Partner
       can :manage, Case, { case_type: 'EC', exited: false }
       can :manage, Assessment
-      can :manage, Survey
       can :manage, Task
       can :manage, CustomFieldProperty, custom_formable_type: 'Client'
       can :manage, CustomFieldProperty, custom_formable_type: 'Family'
       can :manage, CustomFieldProperty, custom_formable_type: 'Partner'
       can :manage, CustomField
-      can :manage, GovernmentReport
       can :manage, ProgramStream
       can :manage, ClientEnrollment
-      can :manage, Tracking
+      can :manage, ClientEnrollmentTracking
       can :manage, LeaveProgram
       can :update, Assessment do |assessment|
         assessment.client.active_ec?
@@ -97,16 +93,14 @@ class Ability
       can :manage, Partner
       can :manage, Case, { case_type: 'FC', exited: false }
       can :manage, Assessment
-      can :manage, Survey
       can :manage, Task
       can :manage, CustomFieldProperty, custom_formable_type: 'Client'
       can :manage, CustomFieldProperty, custom_formable_type: 'Family'
       can :manage, CustomFieldProperty, custom_formable_type: 'Partner'
       can :manage, CustomField
-      can :manage, GovernmentReport
       can :manage, ProgramStream
       can :manage, ClientEnrollment
-      can :manage, Tracking
+      can :manage, ClientEnrollmentTracking
       can :manage, LeaveProgram
       can :update, Assessment do |assessment|
         assessment.client.active_fc?
@@ -125,16 +119,14 @@ class Ability
       can :manage, Partner
       can :manage, Case, { case_type: 'KC', exited: false }
       can :manage, Assessment
-      can :manage, Survey
       can :manage, Task
       can :manage, CustomFieldProperty, custom_formable_type: 'Client'
       can :manage, CustomFieldProperty, custom_formable_type: 'Family'
       can :manage, CustomFieldProperty, custom_formable_type: 'Partner'
       can :manage, CustomField
-      can :manage, GovernmentReport
       can :manage, ProgramStream
       can :manage, ClientEnrollment
-      can :manage, Tracking
+      can :manage, ClientEnrollmentTracking
       can :manage, LeaveProgram
       can :update, Assessment do |assessment|
         assessment.client.active_kc?
@@ -146,18 +138,18 @@ class Ability
       end
     elsif user.manager?
       can :manage, Client, user_id: user.id
-      can :manage, Client, user: { manager_id: user.id }
+      can :manage, Client, user_id: User.where('manager_ids && ARRAY[?]', user.id).map(&:id)
+      can :manage, User, id: User.where('manager_ids && ARRAY[?]', user.id).map(&:id)
+      can :manage, User, id: user.id
       can :manage, Case
       can :manage, Task
       can :manage, Assessment
       can :manage, CaseNote
-      can :manage, Survey
-      can :manage, GovernmentReport
       can :manage, CustomFieldProperty, custom_formable_type: 'Client'
       can :manage, CustomField
       can :manage, ProgramStream
       can :manage, ClientEnrollment
-      can :manage, Tracking
+      can :manage, ClientEnrollmentTracking
       can :manage, LeaveProgram
     end
   end

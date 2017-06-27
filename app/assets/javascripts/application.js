@@ -65,13 +65,11 @@
 //= require families/index
 //= require families/form
 //= require families/show
-//= require surveys/form
 //= require users/show
 //= require users/index
 //= require users/form
 //= require partners/index
 //= require partners/form
-//= require government_reports/form
 //= require stages/form
 //= require able_screening_questions/form
 //= require able_screening_answers/form
@@ -94,4 +92,4 @@
 //= require program_streams/show
 //= require client_enrollments/form
 //= require leave_programs/form
-//= require trackings/form
+//= require client_enrollment_trackings/form

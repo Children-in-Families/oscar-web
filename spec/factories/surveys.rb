@@ -1,5 +1,5 @@
 FactoryGirl.define do
   factory :survey do
-    association :client, factory: :client
+    # association :client, factory: :client
   end
 end

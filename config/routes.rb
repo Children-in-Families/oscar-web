@@ -66,7 +66,9 @@ Rails.application.routes.draw do
     get 'version' => 'donors#version'
   end
 
-  resources :program_streams
+  resources :program_streams do
+    get :preview, on: :collection
+  end
 
   resources :changelogs do
     get 'version' => 'changelogs#version'
@@ -110,13 +112,15 @@ Rails.application.routes.draw do
     collection do
       get :advanced_search
     end
-    resources :client_enrollments, only: [:new, :index, :create, :show] do
+    resources :client_enrollments do
       get :report, on: :collection
-      resources :trackings
+      resources :client_enrollment_trackings do
+        get :report, on: :collection
+      end
       resources :leave_programs
     end
     resources :custom_field_properties
-    resources :government_reports
+    # resources :government_reports
     resources :assessments
     resources :case_notes
     resources :cases do
@@ -127,7 +131,7 @@ Rails.application.routes.draw do
     scope module: 'client' do
       resources :tasks
     end
-    resources :surveys
+    # resources :surveys
 
     resources :progress_notes do
       get 'version' => 'progress_notes#version'
@@ -159,6 +163,9 @@ Rails.application.routes.draw do
     resources :clients do
       get :compare, on: :collection
     end
+    resources :custom_fields do
+      get :fetch_custom_fields, on: :collection
+    end
     resources :client_advanced_searches, only: [] do
       collection do
         get :get_custom_field
@@ -173,14 +180,30 @@ Rails.application.routes.draw do
 
     namespace :v1, default: { format: :json } do
       resources :domain_groups, only: [:index]
-      resources :users, only: [:update]
+      resources :families, only: [:index, :create, :update]
+      resources :users, only: [:index]
       resources :clients, except: [:edit, :new] do
         get :compare, on: :collection
-        resources :assessments, only: [:create]
-        resources :tasks, only: [:create, :update, :destroy]
-        resources :case_notes, only: [:create]
-        resources :custom_field_properties, except: :edit
+        resources :assessments, only: [:create, :update]
+        resources :case_notes, only: [:create, :update]
+        resources :custom_field_properties, only: [:create, :update, :destroy]
+
+        scope module: 'client_tasks' do
+          resources :tasks, only: [:create, :update, :destroy]
+        end
+
+        resources :client_enrollments, only: [:create, :update] do
+          resources :client_enrollment_trackings, only: [:create, :update]
+          resources :leave_programs, only: [:create, :update]
+        end
       end
+      resources :program_streams, only: [:index]
+      resources :provinces, only: [:index]
+      resources :donors, only: [:index]
+      resources :agencies, only: [:index]
+      resources :referral_sources, only: [:index]
+      resources :domains, only: [:index]
+      resources :quantitative_types, only: [:index]
     end
   end
 
@@ -188,9 +211,7 @@ Rails.application.routes.draw do
   scope '', module: 'form_builder' do
     resources :custom_fields do
       collection do
-        get 'find'   => 'custom_fields#find'
         get 'search' => 'custom_fields#search', as: :search
-        get 'preview' => 'custom_fields#show', as: 'preview'
       end
     end
   end

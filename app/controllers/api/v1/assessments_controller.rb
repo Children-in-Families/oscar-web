@@ -7,7 +7,17 @@ module Api
         assessment = @client.assessments.new(assessment_params)
 
         if assessment.save
-          render json: { id: assessment.id }
+          render json: assessment
+        else
+          render json: assessment.errors, status: :unprocessable_entity
+        end
+      end
+
+      def update
+        assessment = @client.assessments.find(params[:id])
+        if assessment.update_attributes(assessment_params)
+          assessment.update(updated_at: DateTime.now)
+          render json: assessment
         else
           render json: assessment.errors, status: :unprocessable_entity
         end

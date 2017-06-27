@@ -2,20 +2,23 @@
   .col-xs-12
     .ibox
       .ibox-title
-        %h5= "Enrollment Form #{ date_format @client_enrollment.created_at }"
+        %h5= "#{t('.enrollment_date')} #{ date_format @client_enrollment.created_at }"
         .ibox-tools
-          = link_to report_client_client_enrollments_path(@client, program_stream_id: @program_stream) do
-            .btn.btn-success.btn-outline
-              = t('.back')
+          - if can? :manage, ClientEnrollment
+            - if policy(@client_enrollment).update?
+              = link_to edit_client_client_enrollment_path(@client, @client_enrollment, program_stream_id: @program_stream) do
+                .btn.btn-success.btn-outline
+                  = fa_icon('pencil')
+            = link_to client_client_enrollment_path(@client, @client_enrollment, program_stream_id: @program_stream), method: :delete, data: { confirm: t('.are_you_sure')}, class: "btn btn-danger btn-outline" do
+              = fa_icon('trash')
       .ibox-content
-        - @client_enrollment.properties.each do |key, value|
-          .row
-            .col-xs-12
-              %p.question
-                %strong= "Q: #{key}"
-              %p.answer
-                - if value.is_a? Array
-                  - value.each do |v|
-                    %p.answer= "A: #{v}"
-                - else
-                  = "A: #{value}"
+        .table-responsive
+          %table.table.table-bordered
+            - @client_enrollment.properties.each do |key, value|
+              %tr
+                %td.align-justify
+                  = key.titleize
+                %td.align-justify
+                  = display_custom_properties(value)
+      .ibox-footer
+        = link_to t('.back'), client_client_enrollments_path(@client, program_stream_id: @program_stream), class: 'btn btn-default form-btn'

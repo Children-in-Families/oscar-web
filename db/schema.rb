@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170601025654) do
+ActiveRecord::Schema.define(version: 20170621055038) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -184,6 +184,17 @@ ActiveRecord::Schema.define(version: 20170601025654) do
 
   add_index "changelogs", ["user_id"], name: "index_changelogs_on_user_id", using: :btree
 
+  create_table "client_enrollment_trackings", force: :cascade do |t|
+    t.jsonb    "properties"
+    t.integer  "client_enrollment_id"
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+    t.integer  "program_stream_id"
+    t.integer  "tracking_id"
+  end
+
+  add_index "client_enrollment_trackings", ["client_enrollment_id"], name: "index_client_enrollment_trackings_on_client_enrollment_id", using: :btree
+
   create_table "client_enrollments", force: :cascade do |t|
     t.jsonb    "properties"
     t.string   "status",            default: "Active"
@@ -248,7 +259,7 @@ ActiveRecord::Schema.define(version: 20170601025654) do
     t.string   "commune",                          default: ""
     t.string   "district",                         default: ""
     t.string   "live_with",                        default: ""
-    t.integer  "poverty_certificate",              default: 0
+    t.integer  "id_poor",                          default: 0
     t.integer  "rice_support",                     default: 0
   end
 
@@ -507,6 +518,7 @@ ActiveRecord::Schema.define(version: 20170601025654) do
     t.string   "frequency",         default: ""
     t.integer  "time_of_frequency", default: 0
     t.integer  "quantity"
+    t.string   "ngo_name",          default: ""
   end
 
   create_table "progress_note_types", force: :cascade do |t|
@@ -851,14 +863,17 @@ ActiveRecord::Schema.define(version: 20170601025654) do
   add_index "thredded_user_topic_read_states", ["user_id", "postable_id"], name: "thredded_user_topic_read_states_user_postable", unique: true, using: :btree
 
   create_table "trackings", force: :cascade do |t|
-    t.jsonb    "properties"
-    t.integer  "client_enrollment_id"
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
+    t.string   "name",              default: ""
+    t.jsonb    "fields",            default: {}
+    t.string   "frequency",         default: ""
+    t.integer  "time_of_frequency"
     t.integer  "program_stream_id"
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
   end
 
-  add_index "trackings", ["client_enrollment_id"], name: "index_trackings_on_client_enrollment_id", using: :btree
+  add_index "trackings", ["name", "program_stream_id"], name: "index_trackings_on_name_and_program_stream_id", unique: true, using: :btree
+  add_index "trackings", ["program_stream_id"], name: "index_trackings_on_program_stream_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "first_name",             default: ""
@@ -898,6 +913,7 @@ ActiveRecord::Schema.define(version: 20170601025654) do
     t.boolean  "task_notify",            default: true
     t.boolean  "calendar_integration",   default: false
     t.integer  "pin_number"
+    t.integer  "manager_ids",            default: [],                         array: true
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
@@ -948,6 +964,7 @@ ActiveRecord::Schema.define(version: 20170601025654) do
   add_foreign_key "case_notes", "clients"
   add_foreign_key "changelog_types", "changelogs"
   add_foreign_key "changelogs", "users"
+  add_foreign_key "client_enrollment_trackings", "client_enrollments"
   add_foreign_key "client_enrollments", "clients"
   add_foreign_key "client_enrollments", "program_streams"
   add_foreign_key "clients", "donors"
@@ -966,7 +983,7 @@ ActiveRecord::Schema.define(version: 20170601025654) do
   add_foreign_key "tasks", "clients"
   add_foreign_key "thredded_messageboard_users", "thredded_messageboards"
   add_foreign_key "thredded_messageboard_users", "thredded_user_details"
-  add_foreign_key "trackings", "client_enrollments"
+  add_foreign_key "trackings", "program_streams"
   add_foreign_key "users", "organizations"
   add_foreign_key "visits", "users"
 end

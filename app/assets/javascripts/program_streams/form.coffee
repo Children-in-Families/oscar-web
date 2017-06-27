@@ -8,6 +8,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     _handleInitProgramRules()
     _addRuleCallback()
     _initSelect2()
+    _handleAddCocoon()
 
   _initSelect2 = ->
     $('select').select2()
@@ -74,6 +75,11 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         contains: 'includes'
         not_contains: 'excludes'
     filters: fieldList
+
+  _handleAddCocoon = ->
+    $('#trackings').on 'cocoon:after-insert', (e, element) ->
+      trackingBuilder = $(element).find('.tracking-builder')
+      _initProgramBuilder(trackingBuilder, [])
 
   _generateValueForSelectOption = (field) ->
     $(field).find('input.option-label').on 'keyup change', ->
@@ -180,9 +186,19 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
           elements = $('#enrollment').find('.frmb li')
           return false if $(elements).length == 0
 
-        else if currentIndex == 2 and newIndex == 3 and $('#tracking').is(':visible')
-          elements = $('#tracking').find('.frmb li')
-          return false if $(elements).length == 0
+        else if currentIndex == 2 and newIndex == 3 and $('#trackings').is(':visible')
+          return false unless $('.form-wrap').is(':visible')
+          inputsName = $('#trackings').find('input.string.required')
+          emptyValues = []
+          $.map(inputsName, (input) -> emptyValues.push input if $(input).val() == '')
+          if emptyValues.length > 0
+            for input in emptyValues
+              $(input).valid()
+            return false
+
+          trackingBuilders = $('.tracking-builder:visible')
+          for tracking in trackingBuilders
+            return false if $(tracking).find('.frmb li').length == 0
 
         $('section ul.frmb.ui-sortable').css('min-height', '266px')
 
@@ -191,10 +207,11 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
           enrollment = $('#enrollment')
           enrollmentValue = $(enrollment).data('enrollment')
           _initProgramBuilder(enrollment, (enrollmentValue || [])) unless _preventDuplicateFormBuilder(enrollment)
-        else if $('#tracking').is(':visible')
-          tracking = $('#tracking')
-          trackingValue = $(tracking).data('tracking')
-          _initProgramBuilder(tracking, (trackingValue || [])) unless _preventDuplicateFormBuilder(tracking)
+        else if $('#trackings').is(':visible')
+          trackings = $('.tracking-builder')
+          for tracking in trackings
+            trackingValue = $(tracking).data('tracking')
+            _initProgramBuilder(tracking, (trackingValue || [])) unless _preventDuplicateFormBuilder(tracking)
         else if $('#exit-program').is(':visible')
           exitProgram = $('#exit-program')
           exitProgramValue = $(exitProgram).data('exit-program')
@@ -210,7 +227,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         $('.actions a:contains("Finish")').removeAttr('href')
         _handleRemoveUnuseInput()
         _handleAddRuleBuilderToInput()
-        _handleValidateFormBuilder()
+        _handleSetValueToField()
         form.submit()
       labels:
         finish: self.filterTranslation.finish
@@ -228,13 +245,14 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     rules = $('#program-rule').queryBuilder('getRules')
     $('#program_stream_rules').val(_handleStringfyRules(rules)) if !($.isEmptyObject(rules))
 
-  _handleValidateFormBuilder = ->
+  _handleSetValueToField = ->
     for formBuilder in @formBuilder
       element = formBuilder.element
       if $(element).is('#enrollment')
         $('#program_stream_enrollment').val(formBuilder.formData)
-      else if $(element).is('#tracking')
-        $('#program_stream_tracking').val(formBuilder.formData)
+      else if $(element).is('.tracking-builder')
+        hiddenField = $(element).find('.tracking-field-hidden input[type="hidden"]')
+        $(hiddenField).val(formBuilder.formData)
       else if $(element).is('#exit-program')
         $('#program_stream_exit_program').val(formBuilder.formData)
 

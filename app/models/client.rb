@@ -10,7 +10,7 @@ class Client < ActiveRecord::Base
   friendly_id :slug, use: :slugged
 
   CLIENT_STATUSES = ['Referred', 'Active EC', 'Active KC', 'Active FC',
-                      'Independent - Monitored', 'Exited - Deseased',
+                      'Independent - Monitored', 'Exited - Dead',
                       'Exited - Age Out', 'Exited Independent', 'Exited Adopted',
                       'Exited Other'].freeze
 
@@ -29,7 +29,7 @@ class Client < ActiveRecord::Base
   belongs_to :followed_up_by,   class_name: 'User',     foreign_key: 'followed_up_by_id', counter_cache: true
   belongs_to :birth_province,   class_name: 'Province', foreign_key: 'birth_province_id', counter_cache: true
 
-  has_one  :government_report, dependent: :destroy
+  # has_one  :government_report, dependent: :destroy
   has_many :answers, dependent: :destroy
   has_many :able_screening_questions, through: :answers
   has_many :tasks,          dependent: :destroy
@@ -49,7 +49,7 @@ class Client < ActiveRecord::Base
   has_many :cases,          dependent: :destroy
   has_many :case_notes,     dependent: :destroy
   has_many :assessments,    dependent: :destroy
-  has_many :surveys,        dependent: :destroy
+  # has_many :surveys,        dependent: :destroy
   has_many :progress_notes, dependent: :destroy
 
   has_paper_trail
@@ -108,10 +108,10 @@ class Client < ActiveRecord::Base
     query = query.where("commune iLIKE ?", "%#{fetch_75_chars_of(options[:commune])}%")                       if options[:commune].present?
     query = query.where("EXTRACT(MONTH FROM date_of_birth) = ? AND EXTRACT(YEAR FROM date_of_birth) = ?", Date.parse(options[:date_of_birth]).month, Date.parse(options[:date_of_birth]).year)  if options[:date_of_birth].present?
 
-    
+
     query = query.where(birth_province_id: options[:birth_province_id])   if options[:birth_province_id].present?
     query = query.where(province_id: options[:current_province_id])       if options[:current_province_id].present?
-    
+
     query
   end
 
@@ -125,8 +125,8 @@ class Client < ActiveRecord::Base
   end
 
   def self.age_between(min_age, max_age)
-    min = (min_age * 12).to_i.months.ago.to_date.end_of_month
-    max = (max_age * 12).to_i.months.ago.to_date.beginning_of_month
+    min = (min_age * 12).to_i.months.ago.to_date
+    max = (max_age * 12).to_i.months.ago.to_date
     where(date_of_birth: max..min)
   end
 
@@ -134,6 +134,12 @@ class Client < ActiveRecord::Base
     name       = "#{given_name} #{family_name}"
     local_name = "#{local_given_name} #{local_family_name}"
     name.present? ? name : local_name
+  end
+
+  def en_and_local_name
+    en_name = "#{given_name} #{family_name}"
+    local_name = "#{local_given_name} #{local_family_name}"
+    "#{en_name} (#{local_name})"
   end
 
   def self.next_assessment_candidates
@@ -211,23 +217,12 @@ class Client < ActiveRecord::Base
     cases.active.latest_kinship.presence || cases.active.latest_foster.presence
   end
 
-  def age_as_years
-    calculate_as('year')
+  def age_as_years(date = Date.today)
+    ((date - date_of_birth) / 365).to_i
   end
 
-  def age_extra_months
-    calculate_as('months')
-  end
-
-  def calculate_as(method)
-    total_present_months = Date.today.year * 12 + Date.today.month
-    total_dob_months     = date_of_birth.year * 12 + date_of_birth.month
-    case method
-    when 'year'
-      (total_present_months - total_dob_months) / 12
-    when 'months'
-      (total_present_months - total_dob_months) % 12
-    end
+  def age_extra_months(date = Date.today)
+    ((date - date_of_birth) % 365 / 31).to_i
   end
 
   def able?

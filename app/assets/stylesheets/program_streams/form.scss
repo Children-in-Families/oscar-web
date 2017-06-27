@@ -2,12 +2,17 @@ body[id='program_streams-new'], body[id='program_streams-edit'],
 body[id='program_streams-update'], body[id='program_streams-create'] {
   
   .wizard > .content > .body {
-    #enrollment, #tracking, #exit-program {
+    #enrollment, #trackings, #exit-program {
       input[type='radio'] {
         display: inline-block;
       }
     }
   }
+
+  .content.clearfix section {
+    width: 100%;
+  }
+
 
   #program-rule {
     .select2-container {
@@ -44,6 +49,7 @@ body[id='program_streams-update'], body[id='program_streams-create'] {
       }
       input.form-control {
         padding: 6px 12px;
+        display: inline-block;
       }
     }
 
@@ -56,5 +62,15 @@ body[id='program_streams-update'], body[id='program_streams-create'] {
       color: red;
       display: none;
     }
-  }  
+  }
+
+  ul.frmb {
+    border: 1px solid #ccc !important;
+    margin-right: 5px !important;
+
+    li {
+      padding-top: 13px !important;
+      padding-left: 16px !important;
+    }
+  }
 }

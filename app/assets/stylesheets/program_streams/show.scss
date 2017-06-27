@@ -1,4 +1,4 @@
-body[id='program_streams-show'] {
+body[id='program_streams-show'], body[id='program_streams-preview'] {
   .radio-group, .check-box-group {
     margin-top: 10px;
     li {
@@ -8,6 +8,10 @@ body[id='program_streams-show'] {
   }
   input, ins {
     cursor: not-allowed;
+  }
+
+  .input-margin {
+    margin-bottom: 10px;
   }
 
 }

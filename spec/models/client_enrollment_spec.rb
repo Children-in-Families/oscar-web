@@ -1,7 +1,8 @@
 describe ClientEnrollment, 'associations' do
   it { is_expected.to belong_to(:client) }
   it { is_expected.to belong_to(:program_stream) }
-  it { is_expected.to have_many(:trackings).dependent(:destroy) }
+  it { is_expected.to have_many(:client_enrollment_trackings).dependent(:destroy) }
+  it { is_expected.to have_many(:trackings).through(:client_enrollment_trackings) }
   it { is_expected.to have_one(:leave_program).dependent(:destroy) }
 end
 
@@ -50,7 +51,7 @@ describe ClientEnrollment, 'scopes' do
   let!(:client_enrollment) { create(:client_enrollment, program_stream: program_stream, client: client)}
   
   context 'enrollments_by' do
-    subject{ ClientEnrollment.enrollments_by(client, program_stream) }
+    subject{ ClientEnrollment.enrollments_by(client) }
     it 'return client enrollments with client and program_stream' do
       is_expected.to include(client_enrollment)
     end

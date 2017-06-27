@@ -8,7 +8,18 @@ module Api
 
         if case_note.save
           case_note.api_complete_tasks(params[:case_note][:case_note_domain_groups_attributes])
-          render json: { id: case_note.id }
+          render json: case_note
+        else
+          render json: case_note.errors, status: :unprocessable_entity
+        end
+      end
+
+      def update
+        case_note = @client.case_notes.find(params[:id])
+
+        if case_note.update_attributes(case_note_params)
+          case_note.api_complete_tasks(params[:case_note][:case_note_domain_groups_attributes])
+          render json: case_note
         else
           render json: case_note.errors, status: :unprocessable_entity
         end
