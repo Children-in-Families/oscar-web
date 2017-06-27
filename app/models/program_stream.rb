@@ -32,6 +32,15 @@ class ProgramStream < ActiveRecord::Base
     where.not(id: ids).order(:name)
   end
 
+  def self.orderd_name_and_enrollment_status(client)
+    includes(:client_enrollments).where(client_enrollments: { client_id: client.id }).order('client_enrollments.status ASC', :name).uniq
+  end
+
+  def self.without_status_by(client)
+    ids = orderd_name_and_enrollment_status(client).collect(&:id)
+    where.not(id: ids).order(:name)
+  end
+
   def form_builder_field_uniqueness
     errors_massage = []
     FORM_BUILDER_FIELDS.each do |field|

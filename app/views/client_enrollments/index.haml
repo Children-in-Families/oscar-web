@@ -38,5 +38,6 @@
                 = link_to t('.view'), report_client_client_enrollments_path(@client, program_stream_id: ps)
               %td.manage
                 = render 'manage', program_stream: ps
+
   .ibox-footer.text-center
     = paginate @program_streams

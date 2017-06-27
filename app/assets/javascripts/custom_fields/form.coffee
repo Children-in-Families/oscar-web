@@ -165,7 +165,7 @@ CIF.Custom_fieldsShow = do ->
     custom_fields = ''
     $.ajax({
       type: 'GET'
-      url: '/custom_fields/find'
+      url: '/api/custom_fields/fetch_custom_fields'
       dataType: "JSON"
     }).success((json)->
       custom_fields = json.custom_fields
