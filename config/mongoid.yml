@@ -144,3 +144,11 @@ test:
         read:
           mode: :primary
         max_pool_size: 1
+
+staging:
+  clients:
+    default:
+      database: oscar_history_staging
+      hosts:
+        - localhost:27017
+      options:
