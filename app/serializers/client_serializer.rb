@@ -77,6 +77,7 @@ class ClientSerializer < ActiveModel::Serializer
         domain_scores = cdg.domain_group.domains.map do |domain|
           ad = domain.assessment_domains.find_by(assessment_id: case_note.assessment_id)
           ad.try(:score)
+          { domain_id: ad.domain_id, score: ad.score } if ad.present?
         end.compact
         cdg.as_json.merge(domain_group_identities: cdg.domain_group.domain_identities, domain_scores: domain_scores, completed_tasks: cdg.completed_tasks)
       end

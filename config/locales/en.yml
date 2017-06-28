@@ -340,6 +340,53 @@ en:
     form:
       add_task: Add Task
       at_least_one_task_required: At least one task is required
+      cancel: Cancel
+
+  program_streams:
+    current_program_streams_tab:
+      name: Name
+      domain: Domains
+      status: Status
+      enrolled: Enrolled
+      maximum: Maximum Program Enrollment
+      actions: Action
+    all_ngos_program_streams_tab:
+      preview: Preview
+      copy: Copy
+      name: Name
+      domain: Domains
+      status: Status
+      quantity: Maximum Program Enrollment
+      actions: Action
+    index:
+      current_ngo: My NGO's Program Streams
+      ngo_programs: All NGO's Program Streams
+      program_list: Programs Stream Listing
+      new_program: Add New Program
+    create:
+      alert: Name of Tracking has already been taken.
+      successfully_created: Program Stream has been successfully created.
+    update:
+      alert: Tracking cannot be deleted.
+      successfully_updated: Program Stream has been successfully updated.
+    destroy:
+      successfully_deleted: Program Stream has been successfully deleted.
+      alert: Program Stream cannot be deleted.
+    show:
+      copy: Copy
+      description: Description
+      domain: Domain
+      quantity: Maximum Program Enrollment
+      rules: Rules
+      tracking: Tracking
+      enrollment: Enrollment
+      exit_program: Exit Program
+      back: Back
+    new:
+      new_program_stream: New Program Stream
+      back: Back
+    edit:
+      edit_program_stream: Edit Program Stream
       back: Back
       domain: Domain
       finish: Done
@@ -606,6 +653,54 @@ en:
       reset: Reset
       results: Results
       search: Search
+      assessments: Assessments
+      add_new_filter: Add New Filter
+      add_new_group: Add Group
+      delete_group: Delete
+
+  client_enrollments:
+    edit:
+      enrollment: Edit Enrollment
+    show:
+      enrollment_date: Enroll Date
+      back: Back
+      are_you_sure: Are you sure you want to delete?
+    report:
+      enrollment: Enrollment
+      report: Reports
+      tracking: Tracking
+      exit: Exit
+      date: Date
+      forms: Forms
+      actions: Actions
+      programs_list: Programs List
+      view: View
+    manage:
+      enroll: Enroll
+      tracking: Trackings
+      exit: Exit
+      full_program: This Program is full
+    destroy:
+      successfully_deleted: Enrollment has been successfully deleted.
+    update:
+      successfully_updated: Enrollment has been successfully updated.
+    new:
+      new_enrollment: New Enrollment
+      client_not_valid: Client doesn't match with this program rules.
+    index:
+      quantity: Number of Place Available
+      status: Status
+      domain: Domain
+      name: Program Name
+      report: Report
+      actions: Actions
+      program_lists: Programs List
+      back: Back
+    create:
+      successfully_created: Enrollment has been successfully created.
+    form:
+      save: Save
+      cancel: Cancel
   client_enrollment_trackings:
     action:
       new_tracking: New Tracking

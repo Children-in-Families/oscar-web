@@ -436,6 +436,19 @@ km:
       domain: កត្តា
       goal: គោលដៅ
       note: កំណត់ត្រា
+      status: ស្ថានភាព
+      places_available: កន្លែងនៅសល់
+      maximum: បរិមាណ
+      actions: សកម្មភាព
+    all_ngos_program_streams_tab:
+      preview: មើលជាមុន
+      copy: ចម្លងជូន
+      name: ឈ្មោះកម្មវិធី​បន្ទាប់បន្សំ
+      domain: កត្តា
+      status: ស្ថានភាព
+      quantity: បរិមាណ
+      organization: អង្គការ
+      actions: សកម្មភាព
     index:
       back: ត្រលប់ក្រោយ
       case_note_lists: បញ្ជីកំណត់ត្រា

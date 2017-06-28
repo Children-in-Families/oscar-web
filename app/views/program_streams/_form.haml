@@ -1,5 +1,5 @@
 = simple_form_for @program_stream, html: { id: 'program-stream' } do |f|
-  .program-steps{ data: { next: t('.next'), previous: t('.previous'), finish: t('.finish') } }
+  .program-steps{ data: { next: t('.next'), previous: t('.previous'), finish: t('.finish'), tab: params[:tab] || 0 } }
     = render 'program_rule', f: f
     = render 'enrollment', f: f
     = render 'tracking', f: f
