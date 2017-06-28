@@ -4,7 +4,7 @@
     = f.input :name, label: t('.name')
     = f.input :description, label: t('.description')
     = f.association :domains, label_method: :identity, value_method: :id, multiple: true, label: t('.domain')
-    = f.input :quantity, label: t('.quantity')
+    = f.input :quantity, label: t('.maximum')
     %h3= t('.rule')
     #program-rule{ 'data-filter-translation' => { add_filter: t('.add_new_filter'), add_group: t('.add_new_group'), delete_group: t('.delete_group') } }
     = f.hidden_field :rules 

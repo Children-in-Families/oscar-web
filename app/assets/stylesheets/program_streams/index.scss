@@ -2,6 +2,7 @@ body[id='program_streams-index'] {
   table.program-streams tbody tr:hover{
     cursor: pointer;
   }
+
   .quantity, .actions {
     min-width: 110px;
   }
@@ -28,9 +29,14 @@ body[id='program_streams-index'] {
       border-bottom-color: #fff;
     }
   }
+
   @media (min-width: 768px) {
     .no-margin-top {
       margin-top: 0px;
     }
+  }
+
+  th.quantity {
+    min-width: 261px;
   }
 }
