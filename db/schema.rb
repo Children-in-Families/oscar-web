@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170621055038) do
+ActiveRecord::Schema.define(version: 20170622041205) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -513,12 +513,13 @@ ActiveRecord::Schema.define(version: 20170621055038) do
     t.jsonb    "enrollment",        default: {}
     t.jsonb    "tracking",          default: {}
     t.jsonb    "exit_program",      default: {}
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
     t.string   "frequency",         default: ""
     t.integer  "time_of_frequency", default: 0
     t.integer  "quantity"
     t.string   "ngo_name",          default: ""
+    t.boolean  "completed",         default: false
   end
 
   create_table "progress_note_types", force: :cascade do |t|

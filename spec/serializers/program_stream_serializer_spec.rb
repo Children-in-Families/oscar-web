@@ -52,7 +52,7 @@ describe ProgramStreamSerializer, type: :serializer do
 
   it 'should be have attribute quantity' do
     expect(serializer).to have_json_path('program_stream/quantity')
-    expect(serializer).to have_json_type(NilClass).at_path('program_stream/quantity')
+    expect(serializer).to have_json_type(Integer).at_path('program_stream/quantity')
   end
 
   it 'should be have attribute trackings' do

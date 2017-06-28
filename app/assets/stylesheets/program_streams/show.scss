@@ -6,6 +6,7 @@ body[id='program_streams-show'], body[id='program_streams-preview'] {
       margin-top:  5px;
     }
   }
+
   input, ins {
     cursor: not-allowed;
   }
@@ -14,4 +15,25 @@ body[id='program_streams-show'], body[id='program_streams-preview'] {
     margin-bottom: 10px;
   }
 
+  .panel-heading {
+    cursor: pointer;
+    padding: 0;
+  }
+
+  .full-height {
+    height: 50px;
+    line-height: 50px;
+    vertical-align: middle;
+    padding-left: 16px;
+    margin-top: 0 !important;
+  }
+
+  .height-row {
+    height: 50px;
+  }
+
+  .btn-edit-margin {
+    margin-right: 10px;
+    margin-top: 10px;
+  }
 }

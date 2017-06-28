@@ -1,8 +1,12 @@
 CIF.Custom_field_propertiesNew = CIF.Custom_field_propertiesCreate = CIF.Custom_field_propertiesEdit = CIF.Custom_field_propertiesUpdate = do ->
   _init = ->
+    _initSelect2()
     _initUploader()
     _handleDeleteAttachment()
     _handlePreventCheckbox()
+
+  _initSelect2 = ->
+    $('select').select2()
 
   _initUploader = ->
     $("#custom_field_property_attachments").fileinput
