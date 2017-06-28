@@ -737,6 +737,82 @@ km:
       start_date: ថ្ងៃចាប់ផ្តើម
       end_date: ថ្ងៃចុងក្រោយ
 
+  able_screens:
+    answer_submissions:
+      able_screening_answers:
+        form:
+          stage: សំនួរ តំណាក់កាល
+          general_question: សំនួរទូទៅ
+          year: ឆ្នាំ
+          from: ចាប់ពី
+          to: ទៅដល់
+          answer: ចំលើយ
+        create:
+          successfully_created: ចំលើយ Able ត្រូវបានបង្កើតដោយជោគជ័យ
+    question_submissions:
+      able_screening_questions:
+        new:
+          general_question: សំនួរទូទៅថ្មី
+        edit:
+          general_question: កែសម្រួលសំនួរទូទៅ
+        form:
+          question: សំនួរ
+          mode: ម៉ូដ
+          alert_manager: ជូនដំណឹងអ្នកគ្រប់គ្រង
+        attachment_fields:
+          browse: រកមើល
+        create:
+          successfully_created: សំនួរ Able Screening បានបង្កើតដោយជោគជ័យ
+        update:
+          successfully_updated: សំនួរ Able Screening ត្រូវបានកែសម្រួលដោយជោគជ័យ
+        destroy:
+          successfully_deleted: សំនួរ Able Screening ត្រូវបានលុបដោយជោគជ័យ
+      stages:
+        stage: តំណាក់កាល
+        questions: សំនួរ
+        attachment_fields:
+          browse: រកមើល
+        index:
+          stage: តំណាក់កាល
+          able_screening_questions: សំនួរ Able Screening
+          new_stage_question: បន្ថែមសំនួូរដំណាក់កាលថ្មី
+          new_general_question: បន្ថែមសំនួរទូទៅថ្មី
+          general_question: សំនួរទូទៅ
+          stage_question: សំនួូរដំណាក់កាល
+          question: សំនួរ
+          from: ចាប់ពី
+          to: ទៅដល់
+          year: ឆ្នាំ
+          question:
+            one: 1 សំនួរ
+            other: '%{count} សំនួរ'
+
+        form:
+          question: សំនួរ
+          mode: ម៉ូដ
+          alert_manager: ជូនដំណឹងអ្នកគ្រប់គ្រង
+          from_age: ចាប់ពីអាយុ (គិតជាឆ្នាំ)
+          to_age: ទៅដល់អាយុ (គិតជាឆ្នាំ)
+          questions: សំនួរ
+          add_question: បន្ថែមសំនួរ
+        new:
+          new_stage: សំនួរដំណាក់កាលថ្មី
+        edit:
+          edit_stage: កែសម្រួលសំនួរដំណាក់កាល
+        able_screening_question_fields:
+          question: សំនួរ
+          mode: ម៉ូដ
+          alert_manager: ជូនដំណឹងអ្នកគ្រប់គ្រង
+          are_you_sure: តើអ្នកប្រាកដហើយ?
+          group: ក្រុម
+          questions: សំនួរ
+        create:
+          successfully_created: ដំណាក់កាលបានបង្កើតដោយជោគជ័យ
+        update:
+          successfully_updated: ដំណាក់កាលត្រូវបានកែសម្រួលដោយជោគជ័យ
+        destroy:
+          successfully_deleted: ដំណាក់កាលត្រូវបានលុបដោយជោគជ័យ
+
   clients:
     answer_fields:
       yes_no: បាទ/អត់ទេ
@@ -1741,57 +1817,6 @@ km:
     destroy:
       successfully_deleted: ដំណាក់ការត្រូវបានលុបដោយជោគជ័យ
 
-  able_screening_questions:
-    attachment_fields:
-      browse: រកមើល
-    edit:
-      general_question: សំនួរទូទៅ
-    new:
-      general_question: សំនួរទូទៅ
-    form:
-      <<: *default_able_screening_question_fields
-      group: ក្រុម
-      questions: សំនួរ
-      save: រក្សាទុក
-      cancel: ទុកជាមោឃៈ
-    create:
-      successfully_created: ដំណាក់ការសំនួរទូទៅបានបង្កើតដោយជោគជ័យ
-    update:
-      successfully_updated: សំនួរទូទៅត្រូវបានកែសម្រួលដោយជោគជ័យ
-    destroy:
-      successfully_deleted: សំនួរទូទៅត្រូវបានលុបដោយជោគជ័យ
-  devise:
-    registrations:
-      edit:
-        header: កែសម្រួលពត៌មានផ្ទាល់ខ្លួន
-        first_name: នាមខ្លួន
-        last_name: នាមត្រកូល
-        date_of_birth: ថ្ងៃ ខែ ឆ្នាំ កំណើត
-        job_title: មុខតំណែង
-        department: កម្មវិធី
-        start_date: កាលបរិច្ឆេទចាប់ផ្តើម
-        province: ខេត្ត
-        mobile: លេខទូរសព្ទ
-        email: ឣុីម៉ែល
-        leave_blank_if_you_dont_want_to_change: រំលងប្រសិនបើឣ្នកមិនចង់ធ្វើការផ្លាស់ប្តូរ
-        password: លេខកូដសំងាត់
-        password_confirmation: បញ្ជាក់លេខកូដសំងាត់ថ្មី
-        we_need_your_current_password_to_confirm_your_changes: យើងត្រូវការពិនិត្យបញ្ជាក់លេខកូដសំងាត់បច្ចុប្បន្នដើម្បីធ្វើការផ្លាស់ប្តូរ
-        current_password: លេខកូដសំងាត់បច្ចុប្បន្ន
-        save: រក្សាទុក
-        delete_my_account: លុបចោលគណនីរបស់ខ្ញុំ
-        are_you_sure: តើអ្នកប្រាកដហើយ?
-        calendar_integration: ការរួមបញ្ចូលប្រតិទិន
-        overdue_task_summary_notify: ផ្ញើឱ្យខ្ញុំសេចក្ដីសង្ខេបនៃភារកិច្ចហួសកាលកំណត់
-    shared:
-      links:
-        back: ត្រលប់ក្រោយ
-    passwords:
-      edit:
-        change_your_password: ផ្លាស់ប្ដូរលេខសំងាត់របស់អ្នក
-        new_password: លេខកូដថ្មី
-        confirm_your_new_password: បញ្ជាក់លេខកូដសំងាត់ថ្មី
-        change_my_password: ផ្លាស់ប្ដូរលេខសំងាត់របស់ខ្ញុំ
   dashboards:
     client:
       clients: អតិថិជន
@@ -2476,3 +2501,106 @@ km:
       referred_to_kc: បញ្ជួនទៅករណី KC
       <<: *default_custom_fields
       <<: *default_client_fields
+  devise:
+    confirmations:
+      confirmed: "អាសយដ្ឋានអ៊ីម៉ែល របស់អ្នកត្រូវបាន បញ្ជាក់ ដោយជោគជ័យ"
+      send_instructions: "អ្នកនឹងទទួលបាន អ៊ីម៉ែលមួយ ជាមួយនឹងការណែនាំ អំពីរបៀប ដើម្បីបញ្ជាក់ អាសយដ្ឋានអ៊ីមែល របស់អ្នកនៅក្នុងពេលប៉ុន្មាននាទីខាងមុខ"
+      send_paranoid_instructions: "ប្រសិនបើមាន អាសយដ្ឋានអ៊ីមែលរបស់អ្នក មាននៅក្នុង មូលដ្ឋានទិន្នន័យរបស់យើង នោះអ្នក នឹងទទួលបាន អ៊ីម៉ែលមួយ ជាមួយនឹងការណែនាំ អំពីរបៀប ដើម្បីបញ្ជាក់ អាសយដ្ឋានអ៊ីមែល របស់អ្នកនៅក្នុងពេលប៉ុន្មាននាទីខាងមុខ"
+    failure:
+      already_authenticated: "អ្នកបានចូលរួចហើយ"
+      inactive: "គណនីរបស់អ្នក មិនត្រូវបានបញ្ជាក់ នៅឡើយទេ"
+
+      invalid: "អ៊ីម៉ែលឬពាក្យសម្ងាត់មិនត្រឹមត្រូវ"
+      locked: "គណនីរបស់អ្នកត្រូវ បានចាក់សោ"
+      last_attempt: "អ្នកអាចព្យាយាមចូលម្ដងទៀត មុនពេលគណនីរបស់អ្នក ត្រូវចាក់សោ"
+      not_found_in_database: "អ៊ីម៉ែលឬពាក្យសម្ងាត់មិនត្រឹមត្រូវ"
+      timeout: "ប្រតិបត្តិការរបស់អ្នក ត្រូវបានផុតកំណត់។ សូមចូលម្ដងទៀត ដើម្បីបន្ត"
+      unauthenticated: "អ្នកត្រូវតែចូល ឬ បង្កើតគណនីមុនធ្វើសកម្មភាពបន្ត"
+      unconfirmed: "អ្នកត្រូវតែបញ្ជាក់អាសយដ្ឋានអ៊ីម៉ែល របស់អ្នក មុនធ្វើសកម្មភាពបន្ត"
+    mailer:
+      confirmation_instructions:
+        subject: "សេចក្តីណែនាំពីការបញ្ជាក់"
+      reset_password_instructions:
+        subject: "សេចក្តីណែនាំពីការកំណត់ឡើងវិញនៃពាក្យសំងាត់"
+      unlock_instructions:
+        subject: "សេចក្តីណែនាំពីការដោះសោរ"
+      password_change:
+        subject: "លេខសំងាត់ត្រូវបានផ្លាស់ប្តូរ"
+    omniauth_callbacks:
+      failure: "មិនអាច ផ្ទៀងផ្ទាត់ភាពត្រឹមត្រូវរបស់ អ្នកពី %{kind} ដោយសារ \"%{reason}\"."
+      success: "ផ្ទៀងផ្ទាត់ភាពត្រឹមត្រូវ ដោយជោគជ័យ ពី %{kind} គណនី"
+    passwords:
+      no_token: "អ្នកមិន អាចចូលដំណើរការទំព័រ នេះដោយគ្មាន មកពី អ៊ីម៉ែល កំណត់ពាក្យសម្ងាត់ឡើងវិញ។ ប្រសិនបើអ្នកធ្វើ មកពី អ៊ីម៉ែល កំណត់ពាក្យសម្ងាត់ឡើងវិញ , សូម ធ្វើឱ្យប្រាកដថា អ្នកបានប្រើ URL ពេញលេញ ដែលបានផ្តល់ឱ្យ"
+      send_instructions: "អ្នកនឹងទទួលបានសេចក្ដីណែនាំពីការផ្លាស់ប្ដូរលេខសំងាត់ក្នុងរយៈពេលពីរឬបីនាទីខាងមុខ"
+      send_paranoid_instructions: "ប្រសិនបើអ៊ីមែលរបស់អ្នកមាននៅក្នុងទិន្នន័យរបស់យើងនោះអ្នកនឹងទទួលបាននូវតំណភ្ជាប់(Link)សម្រាប់ធ្វើការប្តូរលេខសំងាត់នៅក្នុងអ៊ីមែលរបស់អ្នកនៅក្នុងពេលប៉ុន្មាននាទីខាងមុខ"
+      updated: "លេខសំងាត់របស់អ្នកត្រូវបានផ្លាស់ប្ដូរដោយជោគជ័យ អ្នកបានចូលក្នុងប្រព័ន្ធនេះហើយ"
+      updated_not_active: "ពាក្យសំងាត់របស់អ្នកត្រូវបានផ្លាស់ប្តូរដោយជោគជ័យ"
+      new:
+        forget_password: "តើឣ្នកភ្លេចលេខសំងាត់?"
+        email: "អ៊ីម៉ែល"
+        send_reset_password: "ផ្ញើសេចក្តីណែនាំដើម្បីផ្លាស់ប្ដូរលេខសំងាត់"
+      edit:
+        change_your_password: ផ្លាស់ប្ដូរលេខសំងាត់របស់អ្នក
+        new_password: លេខកូដថ្មី
+        confirm_your_new_password: បញ្ជាក់លេខកូដសំងាត់ថ្មី
+        change_my_password: ផ្លាស់ប្ដូរលេខសំងាត់របស់ខ្ញុំ
+    registrations:
+      destroyed: "លាសិនហើយ ! គណនីរបស់អ្នក ត្រូវបានលុបចោល ដោយជោគជ័យ។ យើងសង្ឃឹមថានឹង ឃើញអ្នក ជាថ្មីម្តងទៀត ក្នុងពេលឆាប់ៗ"
+      signed_up: "ស្វាគមន៏ ! អ្នកបានចូលដោយជោគជ័យ"
+      signed_up_but_inactive: "អ្នកបានចុះឈ្មោះ ដោយជោគជ័យ។ ទោះយ៉ាងណា យើងមិនអាច ឱ្យអ្នកចូល ទេព្រោះ គណនីរបស់អ្នក មិនទាន់ដំណើរការទេ"
+      signed_up_but_locked: "អ្នកបានចុះឈ្មោះ ដោយជោគជ័យ។ ទោះយ៉ាងណា យើងមិនអាច ឱ្យអ្នកចូល ទេព្រោះ គណនីរបស់អ្នកត្រូវ បានចាក់សោ"
+      signed_up_but_unconfirmed: "សារ ដែលមានតំណ បញ្ជាក់មួយ ត្រូវបានផ្ញើ ទៅអាសយដ្ឋាន អ៊ីមែលរបស់អ្នក។ សូមទៅតាមតំណ ដើម្បីដំណើរការ គណនីរបស់អ្នក"
+      update_needs_confirmation: "គណនីរបស់អ្នកត្រូវបានកែប្រែដោយជោគជ័យ, ប៉ុន្តែយើងត្រូវ ការផ្ទៀងផ្ទាត់ អាសយដ្ឋានអ៊ីម៉ែល ថ្មីរបស់អ្នក។ សូមពិនិត្យមើល អ៊ីមែលរបស់អ្នក និងធ្វើតាម តំណការបញ្ជាក់ ដើម្បីបញ្ជាក់ អាសយដ្ឋានអ៊ីមែលថ្មី របស់អ្នក"
+      updated: "គណនី របស់អ្នកត្រូវបានធ្វើការកែប្រែ ដោយជោគជ័យ"
+      edit:
+        header: កែសម្រួលពត៌មានផ្ទាល់ខ្លួន
+        first_name: នាមខ្លួន
+        last_name: នាមត្រកូល
+        date_of_birth: ថ្ងៃ ខែ ឆ្នាំ កំណើត
+        job_title: មុខតំណែង
+        department: កម្មវិធី
+        start_date: កាលបរិច្ឆេទចាប់ផ្តើម
+        province: ខេត្ត
+        mobile: លេខទូរសព្ទ
+        email: ឣុីម៉ែល
+        leave_blank_if_you_dont_want_to_change: រំលងប្រសិនបើឣ្នកមិនចង់ធ្វើការផ្លាស់ប្តូរ
+        password: លេខកូដសំងាត់
+        password_confirmation: បញ្ជាក់លេខកូដសំងាត់ថ្មី
+        we_need_your_current_password_to_confirm_your_changes: យើងត្រូវការពិនិត្យបញ្ជាក់លេខកូដសំងាត់បច្ចុប្បន្នដើម្បីធ្វើការផ្លាស់ប្តូរ
+        current_password: លេខកូដសំងាត់បច្ចុប្បន្ន
+        save: រក្សាទុក
+        delete_my_account: លុបចោលគណនីរបស់ខ្ញុំ
+        are_you_sure: តើអ្នកប្រាកដហើយ?
+        calendar_integration: ការរួមបញ្ចូលប្រតិទិន
+        overdue_task_summary_notify: ផ្ញើឱ្យខ្ញុំសេចក្ដីសង្ខេបនៃភារកិច្ចហួសកាលកំណត់
+    sessions:
+      signed_in: "ចូលបានជោគជ័យ"
+      signed_out: "ចាកចេញដោយជោគជ័យ"
+      already_signed_out: "បានចេញដោយជោគជ័យ"
+      new:
+        login: "ចូល"
+        email: "អ៊ីម៉ែល"
+        password: "លេខសំងាត់"
+        remember_me: "ចងចាំខ្ញុំ"
+    unlocks:
+      send_instructions: "អ្នកនឹងទទួលបាន អ៊ីម៉ែលមួយ ជាមួយនឹងការណែនាំ សម្រាប់របៀបក្នុងការ ដោះសោគណនី របស់អ្នកនៅក្នុងពេលប៉ុន្មាននាទីខាងមុខ"
+      send_paranoid_instructions: "បើគណនីរបស់អ្នក មានរួចហើយ, អ្នកនឹងទទួលបាន អ៊ីម៉ែលមួយ ជាមួយនឹងការណែនាំ អំពីរបៀប ដើម្បីដោះសោ វានៅក្នុងពេល ពីរឬបីនាទីខាងមុខ"
+      unlocked: "គណនីរបស់អ្នកត្រូវ បានដោះសោ ដោយជោគជ័យ។ សូមចូលទៅ បន្ត"
+    shared:
+      links:
+        back: ត្រលប់ក្រោយ
+        forget_password: "តើឣ្នកភ្លេចលេខសំងាត់?"
+        receive_confirm_instruction: "មិនបានទទួល សេចក្ដីណែនាំអំពីការ បញ្ជាក់?"
+        receive_unlock_instruction: "មិនបានទទួល សេចក្តីណែនាំអំពីការ ដោះសោ?"
+  errors:
+    messages:
+      already_confirmed: "ត្រូវបានបញ្ជាក់ រួចទៅហើយ សូម សាកល្បងចូល"
+      already_in_use: "ប្រើប្រាស់រួចហើយ"
+      confirmation_period_expired: "ត្រូវការបញ្ជាក់ជាមួយ %{period} សូម ស្នើសុំ ថ្មីមួយទៀត"
+      expired: "បានផុតកំណត់សូម ស្នើសុំ ថ្មីមួយទៀត"
+      not_found: "រកមិនឃើញ"
+      not_locked: "មិនត្រូវបានចាក់សោ"
+      not_saved:
+        one: "កំហុស ១  បានហាមឃាត់  %{resource} ពីការរក្សាទុក"
+        other: "%{count} កំហុស បានហាមឃាត់ %{resource} ពីការរក្សាទុក"
+      not_email: "មិនមែនជាឣុីម៉ែល"
