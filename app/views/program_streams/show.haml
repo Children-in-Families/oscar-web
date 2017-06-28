@@ -30,13 +30,13 @@
         .panel-group
           .panel.panel-default
             .panel-heading
-              .row
+              .row.height-row
                 .col-xs-10.col-md-11{"data-toggle": "collapse", href: "#description"}
-                  %h4.panel-title
+                  %h4.panel-title.full-height
                     %a= t('.description')
                 .col-xs-2.col-md-1.text-right
                   - if current_organization.full_name == @program_stream.ngo_name
-                    = link_to edit_program_stream_path(@program_stream, tab: '1'), class: 'btn btn-outline btn-success btn-sm' do
+                    = link_to edit_program_stream_path(@program_stream, tab: '1'), class: 'btn btn-outline btn-success btn-sm btn-edit-margin' do
                       = fa_icon('pencil')
             #description.panel-collapse.collapse
               .panel-body
@@ -44,13 +44,13 @@
           
           .panel.panel-default
             .panel-heading
-              .row
+              .row.height-row
                 .col-xs-10.col-md-11{"data-toggle": "collapse", href: "#rules"}
-                  %h4.panel-title
+                  %h4.panel-title.full-height
                     %a= t('.rules')
                 .col-xs-2.col-md-1.text-right
                   - if current_organization.full_name == @program_stream.ngo_name
-                    = link_to edit_program_stream_path(@program_stream, tab: '1'), class: 'btn btn-outline btn-success btn-sm' do
+                    = link_to edit_program_stream_path(@program_stream, tab: '1'), class: 'btn btn-outline btn-success btn-sm btn-edit-margin' do
                       = fa_icon('pencil')
             #rules.panel-collapse.collapse{ data: { program_rules: @program_stream.rules.to_json}}
               .panel-body
@@ -58,61 +58,62 @@
 
           .panel.panel-default
             .panel-heading
-              .row
+              .row.height-row
                 .col-xs-10.col-md-11{"data-toggle": "collapse", href: "#enrollment"}
-                  %h4.panel-title
+                  %h4.panel-title.full-height
                     %a= t('.enrollment')
                 .col-xs-2.col-md-1.text-right
                   - if current_organization.full_name == @program_stream.ngo_name
-                    = link_to edit_program_stream_path(@program_stream, tab: '2'), class: 'btn btn-outline btn-success btn-sm' do
+                    = link_to edit_program_stream_path(@program_stream, tab: '2'), class: 'btn btn-outline btn-success btn-sm btn-edit-margin' do
                       = fa_icon('pencil')
             #enrollment.panel-collapse.collapse
               .panel-body
                 - @program_stream.enrollment.each do |enrollment|
                   .row
                     .col-xs-12
-                      = render "program_streams/fields/#{enrollment['type'].underscore}", field_props: enrollment
+                      = render "program_streams/fields/#{enrollment['type'].underscore}", field_props: enrollment, full_width: false
 
           .panel.panel-default
             .panel-heading
-              .row
+              .row.height-row
                 .col-xs-10.col-md-11{"data-toggle": "collapse", href: "#tracking"}
-                  %h4.panel-title
+                  %h4.panel-title.full-height
                     %a= t('.tracking')
                 .col-xs-2.col-md-1.text-right
                   - if current_organization.full_name == @program_stream.ngo_name
-                    = link_to edit_program_stream_path(@program_stream, tab: '3'), class: 'btn btn-outline btn-success btn-sm' do
+                    = link_to edit_program_stream_path(@program_stream, tab: '3'), class: 'btn btn-outline btn-success btn-sm btn-edit-margin' do
                       = fa_icon('pencil')
             #tracking.panel-collapse.collapse
               .panel-body
-                .row
-                  - @program_stream.trackings.each do |tracking|
-                    .col-xs-12.col-md-6
-                      .ibox.border-left-right.border-bottom
-                        .ibox-content
-                          .row.input-margin
-                            .col-xs-12
-                              %label= tracking.name
-                            .col-xs-12
-                              = text_field_tag 'Name', '', class: 'form-control'
-                          .row
-                            .col-xs-12
-                              - tracking['fields'].each do |field|
-                                = render "program_streams/fields/#{field['type'].underscore}", field_props: field
+                - @program_stream.trackings.each_slice(2) do |trackings|
+                  .row
+                    - trackings.each do |tracking|
+                      .col-xs-12.col-md-6
+                        .ibox.border-left-right.border-bottom
+                          .ibox-content
+                            .row.input-margin
+                              .col-xs-12
+                                %label= tracking.name
+                              .col-xs-12
+                                = text_field_tag 'Name', '', class: 'form-control'
+                            .row
+                              .col-xs-12
+                                - tracking['fields'].each do |field|
+                                  = render "program_streams/fields/#{field['type'].underscore}", field_props: field, full_width: true
 
           .panel.panel-default
             .panel-heading
-              .row
+              .row.height-row
                 .col-xs-10.col-md-11{"data-toggle": "collapse", href: "#exit-program"}
-                  %h4.panel-title
+                  %h4.panel-title.full-height
                     %a= t('.exit_program')
                 .col-xs-2.col-md-1.text-right
                   - if current_organization.full_name == @program_stream.ngo_name
-                    = link_to edit_program_stream_path(@program_stream, tab: '4'), class: 'btn btn-outline btn-success btn-sm' do
+                    = link_to edit_program_stream_path(@program_stream, tab: '4'), class: 'btn btn-outline btn-success btn-sm btn-edit-margin' do
                       = fa_icon('pencil')
             #exit-program.panel-collapse.collapse
               .panel-body
                 - @program_stream.exit_program.each do |exit_program|
                   .row
                     .col-xs-12
-                      = render "program_streams/fields/#{exit_program['type'].underscore}", field_props: exit_program
+                      = render "program_streams/fields/#{exit_program['type'].underscore}", field_props: exit_program, full_width: false
