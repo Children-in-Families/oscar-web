@@ -203,13 +203,16 @@ km:
     current_program_streams_tab:
       name: ឈ្មោះកម្មវិធី​បន្ទាប់បន្សំ
       domain: កត្តា
-      quantity: បរិមាណ
+      status: ស្ថានភាព
+      places_available: កន្លែងនៅសល់  
+      maximum: បរិមាណ
       actions: សកម្មភាព
-    others_ngo_program_streams_tab:
+    all_ngos_program_streams_tab:
       preview: មើលជាមុន
       copy: ចម្លងជូន
       name: ឈ្មោះកម្មវិធី​បន្ទាប់បន្សំ
       domain: កត្តា
+      status: ស្ថានភាព
       quantity: បរិមាណ
       organization: អង្គការ
       actions: សកម្មភាព

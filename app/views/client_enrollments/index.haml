@@ -27,16 +27,17 @@
           - @program_streams.each do |ps|
             %tr
               %td.status
-                = render 'status', object: ps
+                = render 'status', program_stream: ps
               %td.name
                 = ps.name
               %td.domain
-                = ps.domains.pluck(:identity).join(', ')
+                = ps.domains_format
               %td.quantity
-                = ps.number_available_for_client if ps.quantity.present?
+                = ps.place_available
               %td.report
                 = link_to t('.view'), report_client_client_enrollments_path(@client, program_stream_id: ps)
               %td.manage
-                = render 'manage', object: ps
+                = render 'manage', program_stream: ps
+
   .ibox-footer.text-center
     = paginate @program_streams

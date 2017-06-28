@@ -200,14 +200,17 @@ en:
     current_program_streams_tab:
       name: Name
       domain: Domains
-      quantity: Quantity
+      status: Status
+      enrolled: Enrolled
+      maximum: Maximum Program Enrollment
       actions: Action
-    others_ngo_program_streams_tab:
+    all_ngos_program_streams_tab:
       preview: Preview
       copy: Copy
       name: Name
       domain: Domains
-      quantity: Quantity
+      status: Status
+      quantity: Maximum Program Enrollment
       actions: Action
     index:
       current_ngo: My NGO's Program Streams
@@ -227,7 +230,7 @@ en:
       copy: Copy
       description: Description
       domain: Domain
-      quantity: Quantity
+      quantity: Maximum Program Enrollment
       rules: Rules
       tracking: Tracking
       enrollment: Enrollment

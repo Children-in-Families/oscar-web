@@ -8,6 +8,8 @@
             = render 'order', column: :name, ngo: 'all_ngo'
         %th.domain
           = t('.domain')
+        %th.status
+          = t('.status')
         %th.quantity
           = t('.quantity')
           .pull-right
@@ -22,6 +24,9 @@
           %tr
             %td.name= program_stream.name
             %td.domain= program_stream.domains.pluck(:identity).join(', ')
+            %td.status
+              %label{ class: "#{program_stream.completed_label_class}"}
+                = program_stream.completed_status
             %td.quantity= program_stream.quantity
             %td.organization= program_stream.ngo_name
             %td.actions
