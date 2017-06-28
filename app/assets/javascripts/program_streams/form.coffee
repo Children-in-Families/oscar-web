@@ -35,7 +35,8 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       _handleRemoveUnuseInput()
       _handleAddRuleBuilderToInput()
       _handleSetValueToField()
-      $('.tracking-builder').find('input[type="date"]').removeAttr('required')
+      $('.tracking-builder').find('input').removeAttr('required')
+      $('.tracking-builder').find('textarea').removeAttr('required')
       $(form).submit()
 
   _handleSetRules = ->
