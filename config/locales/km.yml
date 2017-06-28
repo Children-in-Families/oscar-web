@@ -204,8 +204,8 @@ km:
       name: ឈ្មោះកម្មវិធី​បន្ទាប់បន្សំ
       domain: កត្តា
       status: ស្ថានភាព
-      places_available: កន្លែងនៅសល់  
-      maximum: បរិមាណ
+      enrolled: ចំនួនដែលចូលរូមកម្មវិធី
+      maximum: ចំនួនដែលអាចចូលរូមកម្មវិធីច្រើនបំផុត
       actions: សកម្មភាព
     all_ngos_program_streams_tab:
       preview: មើលជាមុន
@@ -225,6 +225,8 @@ km:
       new_program_stream: បន្ថែមកម្មវិធីថ្មី
       back: ត្រលប់ក្រោយ
     show:
+      enrolled: ចំនួនដែលចូលរូមកម្មវិធី
+      maximum: ចំនួនដែលអាចចូលរូមកម្មវិធីច្រើនបំផុត
       copy: ចម្លងជូន
       description: ការបរិយាយ
       domain: កត្តា
@@ -256,7 +258,7 @@ km:
       name: ឈ្មោះកម្មវិធី​បន្ទាប់បន្សំ
       description: ការបរិយាយ
       rule: លក្ខខណ្ឌ
-      quantity: បរិមាណ
+      maximum: ចំនួនដែលអាចចូលរូមកម្មវិធីច្រើនបំផុត
       domain: កត្តា
     enrollment:
       enrollment_form: ទម្រង់បែបបទចុះឈ្មោះ
@@ -273,7 +275,7 @@ km:
     form:
       previous: ទំព័រមុន
       next: ទំព័របន្ទាប់
-      finish: រក្សាទុក
+      save: រក្សាទុក
 
   government_reports:
     index:
@@ -912,6 +914,7 @@ km:
       new_enrollment: ការចុះឈ្មោះថ្មី
       client_not_valid: អតិថិជនមិនអាចចូលរូមកម្មវិធីនេះ
     index:
+      view: មើល
       quantity: ចំនួនកន្លែងដែលនៅទំនេរ
       name: ឈ្មោះកម្មវិធី
       domain: កត្តា
