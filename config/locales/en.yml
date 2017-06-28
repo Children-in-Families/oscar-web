@@ -737,6 +737,82 @@ en:
       start_date: Start Date
       end_date: End Date
 
+  able_screens:
+    answer_submissions:
+      able_screening_answers:
+        form:
+          stage: Stage
+          general_question: General Question
+          year: Year
+          from: From
+          to: To
+          answer: Answer
+        create:
+          successfully_created: Able Screening Answers has been successfully created.
+    question_submissions:
+      able_screening_questions:
+        new:
+          general_question: New General Question
+        edit:
+          general_question: Edit General Question
+        form:
+          question: Question
+          mode: Mode
+          alert_manager: Alert Manager
+        attachment_fields:
+          browse: Browse
+        create:
+          successfully_created: Successfully created
+        update:
+          successfully_updated: Successfully updated
+        destroy:
+          successfully_deleted: Successfully deleted
+
+      stages:
+        stage: Stage
+        questions: Question
+        attachment_fields:
+          browse: Browse
+        index:
+          stage: Stage
+          able_screening_questions: Able Screening Question
+          new_stage_question: New Stage Question
+          new_general_question: New General Question
+          general_question: General Question
+          stage_question: Stage Question
+          question: Question
+          from: From
+          to: To
+          year: Year
+          question:
+            one: 1 question
+            other: '%{count} question'
+        form:
+          question: Question
+          mode: Mode
+          alert_manager: Alert Manager
+          from_age: From Age (As Year)
+          to_age: To Age (As Year)
+          questions: Questions
+          add_question: Add Question
+        new:
+          new_stage: New Stage
+        edit:
+          edit_stage: Edit Stage
+        able_screening_question_fields:
+          question: Question
+          mode: Mode
+          alert_manager: Alert Manager
+          group: Group
+          are_you_sure: Are you sure ?
+          questions: Questions
+        create:
+          successfully_created: Successfully created
+        update:
+          successfully_updated: Successfully updated
+        destroy:
+          successfully_deleted: Successfully deleted
+
   clients:
     answer_fields:
       yes_no: Yes/No
@@ -1662,28 +1738,6 @@ en:
     destroy:
       successfully_deleted: Stage has been successfully deleted.
       alert: Stage cannot be deleted.
-
-
-  able_screening_questions:
-    attachment_fields:
-      browse: Browse
-    form:
-      <<: *default_able_screening_question_fields
-      general_question: General Question
-    able_screening_question_field:
-      question: Question
-      mode: Mode
-      group: Group
-      alert_manager: Alert Manager
-    new:
-      general_question: General Question
-    create:
-      successfully_created: Able Screening has been successfully created.
-    update:
-      successfully_updated: Able Screening has been successfully updated.
-    destroy:
-      successfully_deleted: Able Screening has been successfully deleted.
-      alert: Able Screening cannot be deleted.
 
   devise:
     registrations:

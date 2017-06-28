@@ -737,6 +737,82 @@ km:
       start_date: ថ្ងៃចាប់ផ្តើម
       end_date: ថ្ងៃចុងក្រោយ
 
+  able_screens:
+    answer_submissions:
+      able_screening_answers:
+        form:
+          stage: សំនួរ តំណាក់កាល
+          general_question: សំនួរទូទៅ
+          year: ឆ្នាំ
+          from: ចាប់ពី
+          to: ទៅដល់
+          answer: ចំលើយ
+        create:
+          successfully_created: ចំលើយ Able ត្រូវបានបង្កើតដោយជោគជ័យ
+    question_submissions:
+      able_screening_questions:
+        new:
+          general_question: សំនួរទូទៅថ្មី
+        edit:
+          general_question: កែសម្រួលសំនួរទូទៅ
+        form:
+          question: សំនួរ
+          mode: ម៉ូដ
+          alert_manager: ជូនដំណឹងអ្នកគ្រប់គ្រង
+        attachment_fields:
+          browse: រកមើល
+        create:
+          successfully_created: សំនួរ Able Screening បានបង្កើតដោយជោគជ័យ
+        update:
+          successfully_updated: សំនួរ Able Screening ត្រូវបានកែសម្រួលដោយជោគជ័យ
+        destroy:
+          successfully_deleted: សំនួរ Able Screening ត្រូវបានលុបដោយជោគជ័យ
+      stages:
+        stage: តំណាក់កាល
+        questions: សំនួរ
+        attachment_fields:
+          browse: រកមើល
+        index:
+          stage: តំណាក់កាល
+          able_screening_questions: សំនួរ Able Screening
+          new_stage_question: បន្ថែមសំនួូរដំណាក់កាលថ្មី
+          new_general_question: បន្ថែមសំនួរទូទៅថ្មី
+          general_question: សំនួរទូទៅ
+          stage_question: សំនួូរដំណាក់កាល
+          question: សំនួរ
+          from: ចាប់ពី
+          to: ទៅដល់
+          year: ឆ្នាំ
+          question:
+            one: 1 សំនួរ
+            other: '%{count} សំនួរ'
+
+        form:
+          question: សំនួរ
+          mode: ម៉ូដ
+          alert_manager: ជូនដំណឹងអ្នកគ្រប់គ្រង
+          from_age: ចាប់ពីអាយុ (គិតជាឆ្នាំ)
+          to_age: ទៅដល់អាយុ (គិតជាឆ្នាំ)
+          questions: សំនួរ
+          add_question: បន្ថែមសំនួរ
+        new:
+          new_stage: សំនួរដំណាក់កាលថ្មី
+        edit:
+          edit_stage: កែសម្រួលសំនួរដំណាក់កាល
+        able_screening_question_fields:
+          question: សំនួរ
+          mode: ម៉ូដ
+          alert_manager: ជូនដំណឹងអ្នកគ្រប់គ្រង
+          are_you_sure: តើអ្នកប្រាកដហើយ?
+          group: ក្រុម
+          questions: សំនួរ
+        create:
+          successfully_created: ដំណាក់កាលបានបង្កើតដោយជោគជ័យ
+        update:
+          successfully_updated: ដំណាក់កាលត្រូវបានកែសម្រួលដោយជោគជ័យ
+        destroy:
+          successfully_deleted: ដំណាក់កាលត្រូវបានលុបដោយជោគជ័យ
+
   clients:
     answer_fields:
       yes_no: បាទ/អត់ទេ
@@ -1741,25 +1817,6 @@ km:
     destroy:
       successfully_deleted: ដំណាក់ការត្រូវបានលុបដោយជោគជ័យ
 
-  able_screening_questions:
-    attachment_fields:
-      browse: រកមើល
-    edit:
-      general_question: សំនួរទូទៅ
-    new:
-      general_question: សំនួរទូទៅ
-    form:
-      <<: *default_able_screening_question_fields
-      group: ក្រុម
-      questions: សំនួរ
-      save: រក្សាទុក
-      cancel: ទុកជាមោឃៈ
-    create:
-      successfully_created: ដំណាក់ការសំនួរទូទៅបានបង្កើតដោយជោគជ័យ
-    update:
-      successfully_updated: សំនួរទូទៅត្រូវបានកែសម្រួលដោយជោគជ័យ
-    destroy:
-      successfully_deleted: សំនួរទូទៅត្រូវបានលុបដោយជោគជ័យ
   devise:
     registrations:
       edit:
