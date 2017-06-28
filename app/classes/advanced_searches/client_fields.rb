@@ -83,7 +83,7 @@ module AdvancedSearches
     end
 
     def agencies_options
-      Agency.joins(:clients).order(:name).uniq.map { |s| { s.id.to_s => s.name } }
+      Agency.order(:name).map { |s| { s.id.to_s => s.name } }
     end
 
     def user_select_options

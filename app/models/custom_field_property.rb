@@ -9,10 +9,23 @@ class CustomFieldProperty < ActiveRecord::Base
 
   has_paper_trail
 
+  after_save :create_client_history, if: :client_form?
+
   validates :custom_field_id, presence: true
+
   validate do |obj|
     CustomFormPresentValidator.new(obj, 'custom_field', 'fields').validate
     CustomFormNumericalityValidator.new(obj, 'custom_field', 'fields').validate
     CustomFormEmailValidator.new(obj, 'custom_field', 'fields').validate
+  end
+
+  def client_form?
+    custom_formable_type == 'Client'
+  end
+
+  private
+
+  def create_client_history
+    ClientHistory.initial(custom_formable)
   end
 end
