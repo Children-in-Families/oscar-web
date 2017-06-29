@@ -49,7 +49,7 @@ class NgoUsageReport
         worksheet.row(index).set_format(i, column_format)
       end
     end
-    book.write("tmp/cambodian-families-usage-report-#{date_time}.xls")
+    book.write("tmp/OSCaR-usage-report-#{date_time}.xls")
     generate(date_time, previous_month)
   end
 

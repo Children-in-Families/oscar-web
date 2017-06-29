@@ -68,27 +68,23 @@ feature 'program_stream' do
       expect(page).to have_content(program_stream.quantity)
     end
 
-    scenario 'rules', js: true do
-      page.click_link('Rules')
+    scenario 'rules' do
       expect(page).to have_content('Age')
     end
 
-    scenario 'enrollment', js: true do
-      page.click_link('Enrollment')
+    scenario 'enrollment' do
       expect(page).to have_content('e-mail')
     end
 
-    scenario 'tracking', js: true do
-      page.click_link('Tracking')
+    scenario 'tracking' do
       expect(page).to have_content('e-mail')
     end
 
-    scenario 'leave_program', js: true do
-      page.click_link('Exit Program')
+    scenario 'leave_program' do
       expect(page).to have_content('e-mail')
     end
 
-    scenario 'edit link',js: true do
+    scenario 'edit link' do
       expect(page).to have_link(nil, href: edit_program_stream_path(program_stream))
     end
 
