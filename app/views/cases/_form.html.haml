@@ -19,7 +19,7 @@
         .col-xs-12.col-sm-6.col-md-4= f.association :province, collection: @province, label: t('.province')
         .col-xs-12.col-sm-6.col-md-4= f.input :case_type, as: :string, label: t('.case_type'), default: params[:case_type], input_html: { readonly: 'readonly' }
         .col-xs-12.col-sm-6.col-md-4= f.association :partner, collection: @partner, label: t('.ongoing_partner'), include_blank: false
-        .col-xs-12.col-sm-6.col-md-4= f.association :family, collection: @family, include_blank: false, label: t('.family')
+        .col-xs-12.col-sm-6.col-md-4= f.association :family, collection: @family.map{|family| [family.name.present? ? family.name : 'Unknown', family.id] }, include_blank: false, label: t('.family')
         .col-xs-12.col-sm-6.col-md-4= f.input :support_amount, label: "#{t('.support_amount')}($)"
         .col-xs-12.col-sm-6.col-md-4
           .i-checks.family-preservation

@@ -8,13 +8,20 @@ module AdvancedSearches
     end
 
     def render
-      number_fields       = number_type_list.map { |item| AdvancedSearches::FilterTypes.number_options(item, format_header(item)) }
-      text_fields         = text_type_list.map { |item| AdvancedSearches::FilterTypes.text_options(item, format_header(item)) }
-      date_picker_fields  = date_type_list.map { |item| AdvancedSearches::FilterTypes.date_picker_options(item, format_header(item)) }
-      drop_list_fields    = drop_down_type_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first, format_header(item.first), item.last) }
-      search_fields       = text_fields + drop_list_fields + number_fields + date_picker_fields
+      custom_field_property_fields = []
+      custom_fields = CustomField.joins(:custom_field_properties).where(custom_field_properties: { custom_formable_type: 'Client' }).uniq
+      custom_fields.each do |custom_field|
+        custom_field_property_fields << AdvancedSearches::CustomFields.new(custom_form_id: custom_field.id).render
+      end
+      # custom_field_property_fields = AdvancedSearches::CustomFields.new(custom_form_id: CustomField.first.id).render
 
-      search_fields.sort_by { |f| f[:label] }
+      # number_fields       = number_type_list.map { |item| AdvancedSearches::FilterTypes.number_options(item, format_header(item)) }
+      # # text_fields         = text_type_list.map { |item| AdvancedSearches::FilterTypes.text_options(item, format_header(item)) }
+      # date_picker_fields  = date_type_list.map { |item| AdvancedSearches::FilterTypes.date_picker_options(item, format_header(item)) }
+      # drop_list_fields    = drop_down_type_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first, format_header(item.first), item.last) }
+      # search_fields       =   drop_list_fields + number_fields + date_picker_fields
+      # search_fields << custom_field_property_fields
+      custom_field_property_fields.flatten.sort_by { |f| f[:label] }
     end
 
     private
@@ -83,7 +90,7 @@ module AdvancedSearches
     end
 
     def agencies_options
-      Agency.joins(:clients).order(:name).uniq.map { |s| { s.id.to_s => s.name } }
+      Agency.order(:name).map { |s| { s.id.to_s => s.name } }
     end
 
     def user_select_options

@@ -28,7 +28,7 @@ class Case < ActiveRecord::Base
   validates :exit_date, :exit_note, presence: true, if: proc { |client_case| client_case.exited? }
 
   before_save :update_client_status, :set_current_status
-  after_save :update_cases_to_exited_from_cif
+  after_save :update_cases_to_exited_from_cif, :create_client_history
   after_create :update_client_code
 
   def short_start_date
@@ -128,5 +128,9 @@ class Case < ActiveRecord::Base
         ClientMailer.exited_notification(client, User.managers.pluck(:email)).deliver_now
       end
     end
+  end
+
+  def create_client_history
+    ClientHistory.initial(client)
   end
 end

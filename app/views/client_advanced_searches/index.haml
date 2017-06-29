@@ -9,9 +9,25 @@
             = link_to t('.csi_domain_scores'), current_url({format: 'xls', type: 'basic_info'}), class: "btn btn-info btn-export #{@clients_by_user.present? ? '' : 'disabled'}"
             = link_to t('.export_to_xls'), current_url(format: 'xls'), class: "btn btn-info btn-export #{@clients_by_user.present? ? '' : 'disabled'}"
       .ibox-content
+
         .row
           .col-xs-12
-            = datagrid_form_for @client_grid, url: client_advanced_searches_url, html: { class: 'grid-form' }
+            = datagrid_form_for @client_grid, url: client_advanced_searches_url, html: { class: 'grid-form column-visibility' }
+        .row
+          .col-xs-12.date-range-picker
+            .row
+              .col-xs-12.col-sm-6.form-group.date.optional.start-date
+                %label.date.optional.control-label{ for: 'start_date' }= t('.from_date')
+                #start-date.input-group.date
+                  = text_field_tag 'start_date', params[:client_advanced_search].present? ? params[:client_advanced_search][:start_date] : '', maxlength: '', size: '', class: 'date optional form-control date-picker'
+                  %span.input-group-addon
+                    %i.fa.fa-calendar-check-o
+              .col-xs-12.col-sm-6.form-group.date.optional.end-date
+                %label.date.optional.control-label{ for: 'end_date' }= t('.to_date')
+                #end-date.input-group.date
+                  = text_field_tag 'end_date', params[:client_advanced_search].present? ? params[:client_advanced_search][:end_date] : '', maxlength: '', size: '', class: 'date optional form-control date-picker'
+                  %span.input-group-addon
+                    %i.fa.fa-calendar-check-o
         .row
           .col-xs-12
             %h4 Basic Filter
@@ -56,4 +72,6 @@
   = f.hidden_field :custom_form_rules
   = f.hidden_field :field_visibility
   = f.hidden_field :selected_custom_form
+  = f.hidden_field :start_date
+  = f.hidden_field :end_date
   = hidden_field_tag :locale, "#{params[:locale]}"
