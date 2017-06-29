@@ -10,6 +10,7 @@ CIF.Data_trackersIndex = do ->
       $('#per_page_form form').submit();
 
   _initProgramRule = ->
+    return false unless $('#after, #before').length > 0
     $.ajax
       url: '/api/program_stream_add_rule/get_fields'
       method: 'GET'
@@ -58,6 +59,6 @@ CIF.Data_trackersIndex = do ->
     $('#program-rules-after').find('button').remove()
 
   _handleDisabledInputs = ->
-    $('input, select, textarea').attr( 'disabled', 'disabled' )
+    $('.modal-body').find('input, select, textarea').attr( 'disabled', 'disabled' )
     
   { init: _init }

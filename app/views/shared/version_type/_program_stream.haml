@@ -52,11 +52,11 @@
                           - index = 1
                           - value.each do |key, value|
                             - if index == 1
-                              %ol{start: "#{fields_index + 1}", style: 'padding-left: 15px;'}
+                              %ol.list-padding{start: "#{fields_index + 1}"}
                                 %li="#{key}: #{value}"
                               - index += 1
                             - else
-                              - unless key == 'value'
+                              - unless key.to_sym == :values
                                 %ul
                                   %li
                                     ="#{key}: #{value}"
@@ -75,11 +75,12 @@
                           - index = 1
                           - value.each do |key, value|
                             - if index == 1
-                              %ol{start: "#{fields_index + 1}", style: 'padding-left: 15px;'}
+                              %ol.list-padding{start: "#{fields_index + 1}"}
                                 %li="#{key}: #{value}"
                               - index += 1
                             - else
-                              - unless key == 'values'
+
+                              - unless key.to_sym == :values
                                 %ul
                                   %li
                                     ="#{key}: #{value}"
