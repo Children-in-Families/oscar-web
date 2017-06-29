@@ -11,7 +11,7 @@
                   = fa_icon('pencil')
             = link_to client_client_enrollment_path(@client, @client_enrollment, program_stream_id: @program_stream), method: :delete, data: { confirm: t('.are_you_sure')}, class: "btn btn-danger btn-outline" do
               = fa_icon('trash')
-            = link_to t('.back'), report_client_client_enrollments_path(@client, program_stream_id: @program_stream), class: 'btn btn-default form-btn'
+            = link_to t('.back'), report_client_client_enrollments_path(@client, program_stream_id: @program_stream), class: 'btn btn-back-default btn-default form-btn'
       .ibox-content
         .table-responsive
           %table.table.table-bordered
