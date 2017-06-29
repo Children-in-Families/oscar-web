@@ -35,6 +35,8 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       _handleRemoveUnuseInput()
       _handleAddRuleBuilderToInput()
       _handleSetValueToField()
+      $('.tracking-builder').find('input').removeAttr('required')
+      $('.tracking-builder').find('textarea').removeAttr('required')
       $(form).submit()
 
   _handleSetRules = ->
@@ -54,7 +56,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       deleteGroup: $('#program-rule').data('filter-translation-delete-group')
       next: $('.program-steps').data('next')
       previous: $('.program-steps').data('previous')
-      finish: $('.program-steps').data('finish')
+      save: $('.program-steps').data('save')
 
   _handleSelectOptionChange = ->
     $('select').on 'select2-selecting', (e) ->
@@ -222,7 +224,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         _handleSetValueToField()
         form.submit()
       labels:
-        finish: self.filterTranslation.finish
+        finish: self.filterTranslation.save
         next: self.filterTranslation.next
         previous: self.filterTranslation.previous
 
@@ -242,7 +244,8 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
 
   _initButtonSave = ->
     form = $('form')
-    form.find("[aria-label=Pagination]").append('<li><span id="program_stream_submit" class="btn btn-primary btn-sm">Save</span></li>')
+    btnSaveTranslation = filterTranslation.save
+    form.find("[aria-label=Pagination]").append("<li><span id='program_stream_submit' class='btn btn-primary btn-sm'>#{btnSaveTranslation}</span></li>")
 
   _handleRemoveUnuseInput = ->
     elements = $('#program-rule ,#enrollment .form-wrap.form-builder, #tracking .form-wrap.form-builder, #exit-program .form-wrap.form-builder')

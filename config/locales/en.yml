@@ -373,6 +373,8 @@ en:
       successfully_deleted: Program Stream has been successfully deleted.
       alert: Program Stream cannot be deleted.
     show:
+      enrolled: Enrolled
+      maximum: Maximum Program Enrollment
       copy: Copy
       description: Description
       domain: Domain
@@ -388,6 +390,16 @@ en:
     edit:
       edit_program_stream: Edit Program Stream
       back: Back
+    actions:
+      are_you_sure: Are you sure you want to delete?
+    program_rule:
+      add_new_filter: Add New Filter
+      add_new_group: Add Group
+      delete_group: Delete
+      name: Name
+      description: Description
+      rule: Rules
+      maximum: Maximum Program Enrollment
       domain: Domain
       finish: Done
       goal: Goal
@@ -395,6 +407,9 @@ en:
       previous: Previous
       reason: Reason
       tasks_arising: 'Tasks arising:'
+      save: Save
+
+  government_reports:
     index:
       assessment_history: Assessment History
       back: Back
@@ -688,6 +703,7 @@ en:
       new_enrollment: New Enrollment
       client_not_valid: Client doesn't match with this program rules.
     index:
+      view: View
       quantity: Number of Place Available
       status: Status
       domain: Domain
