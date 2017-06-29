@@ -2488,9 +2488,11 @@ en:
       description: Description
       domain: Domain
       name: Name
-      quantity: Quantity
+      maximum: Maximum Program Enrollment
       rule: Rules
     show:
+      enrolled: Enrolled
+      maximum: Maximum Program Enrollment
       back: Back
       copy: Copy
       description: Description
