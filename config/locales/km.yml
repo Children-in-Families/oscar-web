@@ -403,73 +403,53 @@ km:
         what_is_my_plan_for_the_next_visit_to_the_client: ផែនការរបស់ខ្ញុំសម្រាប់ដំណើរទស្សនកិច្ចបន្ទាប់ទៅលើអតិថិជន?
         with_id: ជាមួយលេខសម្គាល់
   case_notes:
+    index:
+      case_note_lists: បញ្ជីកំណត់ត្រា
+      back: ត្រលប់ក្រោយ
+      domain: កត្តា
+      you_need_to_create_assessment: ត្រូវបង្កើតការប៉ាន់ប្រមាណជាមុនសិន
+      new_case_note: កំណត់ត្រាថ្មី
+      case_note_on: កំណត់ត្រានៅថ្ងៃ
+      present: វត្តមានឣ្នកចូលរួម
+      completed_tasks: កាតព្វកិច្ចដែលបានធ្វើរួច
+      note: កំណត់ត្រា
+      goal: គោលដៅ
+    form_with_assessment_domains:
+      domain: កត្តា
+      note: កំណត់ត្រា
+      add_task: បន្ថែមកាតព្វកិច្ចថ្មី
+      goal: គោលដៅ
+    form_without_assessment_domains:
+      domain: កត្តា
+      note: កំណត់ត្រា
+      add_task: បន្ថែមកាតព្វកិច្ចថ្មី
+      goal: គោលដៅ
+    form:
+      label_note: ចំណាំ
+      meeting_detail: ពត៌មាននៃការប្រជុំ
+      meeting_with: ប្រជុំជាមួយ
+      on_date: 'កាលបរិច្ឆេទ:'
+      present: 'វត្តមានឣ្នកចូលរួម:'
+      domain: កត្តា
+      note: កំណត់ត្រា
+      tasks: កាតព្វកិច្ច
+      back: ត្រលប់ក្រោយ
+      save: រក្សាទុក
+      on_going_tasks: កាតព្វកិច្ចដែលមិនទាន់បំពេញ
+      completed_tasks: កាតព្វកិច្ចដែលបានធ្វើរួច
+      tasks_arising: កាតព្វកិច្ចកើតឡើង
+      add_task: បន្ថែមកាតព្វកិច្ចថ្មី
     add_task_form:
       completion_date: ថ្ងៃកំនត់
       domain: កត្តា
       enter_task_detail: ពត៌មានកាតព្វកិច្ច
-      save: រក្សាទុក
       title: បន្ថែមកាតព្វកិច្ចថ្មី
+      save: រក្សាទុក
+    show:
+      case_note_on: កំណត់ត្រានៅថ្ងៃ
+      present: វត្តមានឣ្នកចូលរួម
     create:
       successfully_created: កំណត់ត្រាត្រូវបានបង្កើតដោយជោគជ័យ
-    form:
-      add_task: បន្ថែមកាតព្វកិច្ចថ្មី
-      back: ត្រលប់ក្រោយ
-      completed_tasks: កាតព្វកិច្ចដែលបានធ្វើរួច
-      domain: កត្តា
-      label_note: ចំណាំ
-      meeting_detail: ពត៌មាននៃការប្រជុំ
-      meeting_with: ប្រជុំជាមួយ
-      note: កំណត់ត្រា
-      on_date: 'កាលបរិច្ឆេទ:'
-      on_going_tasks: កាតព្វកិច្ចដែលមិនទាន់បំពេញ
-      present: 'វត្តមានឣ្នកចូលរួម:'
-      save: រក្សាទុក
-      tasks: កាតព្វកិច្ច
-      tasks_arising: កាតព្វកិច្ចកើតឡើង
-    form_with_assessment_domains:
-      add_task: បន្ថែមកាតព្វកិច្ចថ្មី
-      domain: កត្តា
-      goal: គោលដៅ
-      note: កំណត់ត្រា
-    form_without_assessment_domains:
-      add_task: បន្ថែមកាតព្វកិច្ចថ្មី
-      domain: កត្តា
-      goal: គោលដៅ
-      note: កំណត់ត្រា
-      status: ស្ថានភាព
-      places_available: កន្លែងនៅសល់
-      maximum: បរិមាណ
-      enrolled: ចំនួនដែលចូលរូមកម្មវិធី
-      maximum: ចំនួនដែលអាចចូលរូមកម្មវិធីច្រើនបំផុត
-      actions: សកម្មភាព
-    all_ngos_program_streams_tab:
-      preview: មើលជាមុន
-      copy: ចម្លងជូន
-      name: ឈ្មោះកម្មវិធី​បន្ទាប់បន្សំ
-      domain: កត្តា
-      status: ស្ថានភាព
-      quantity: បរិមាណ
-      organization: អង្គការ
-      actions: សកម្មភាព
-    index:
-      back: ត្រលប់ក្រោយ
-      case_note_lists: បញ្ជីកំណត់ត្រា
-      case_note_on: កំណត់ត្រានៅថ្ងៃ
-      completed_tasks: កាតព្វកិច្ចដែលបានធ្វើរួច
-    show:
-      enrolled: ចំនួនដែលចូលរូមកម្មវិធី
-      maximum: ចំនួនដែលអាចចូលរូមកម្មវិធីច្រើនបំផុត
-      copy: ចម្លងជូន
-      description: ការបរិយាយ
-      domain: កត្តា
-      goal: គោលដៅ
-      new_case_note: កំណត់ត្រាថ្មី
-      note: កំណត់ត្រា
-      present: វត្តមានឣ្នកចូលរួម
-      you_need_to_create_assessment: ត្រូវបង្កើតការប៉ាន់ប្រមាណជាមុនសិន
-    show:
-      case_note_on: កំណត់ត្រានៅថ្ងៃ
-      present: វត្តមានឣ្នកចូលរួម
     update:
       successfully_updated: កំណត់ត្រាត្រូវបានកែសម្រួលដោយជោគជ័យ
   cases:
@@ -626,98 +606,77 @@ km:
       reset: សំអាត
       results: លទ្ធផល
       search: ស្វែងរក
-  client_enrollment_trackings:
-    action:
-      new_tracking: បន្ថែមការតាមដានថ្មី
-    create:
-      successfully_created: ការតាមដានត្រូវបានរក្សាទុកដោយជោគជ័យ
-    destroy:
-      successfully_deleted: ការតាមដានត្រូវបានលុបដោយជោគជ័យ
-    form:
-      cancel: ទុកជាមោឃៈ
-      save: រក្សាទុក
-      add_rule: បន្ថែមលក្ខខណ្ឌថ្មី
-      name: ឈ្មោះកម្មវិធី​បន្ទាប់បន្សំ
-      description: ការបរិយាយ
-      rule: លក្ខខណ្ឌ
-      maximum: ចំនួនដែលអាចចូលរូមកម្មវិធីច្រើនបំផុត
-      domain: កត្តា
-    enrollment:
-      enrollment_form: ទម្រង់បែបបទចុះឈ្មោះ
-    tracking_fields:
-      frequency: ភាពញឹកញាប់
-      time_of_frequency: ពេលវេលានៃភាពញឹកញាប់
-      name: ឈ្មោះ
-      remove_tracking: លុបកាតាមដាន
-    tracking:
-      add_tracking: បន្ថែមកាតាមដាន
-      tracking_form: ទម្រង់បែបបទតាមដាន
-    exit_field:
-      exit_form: ទម្រង់បែបបទចាកចេញ
-    form:
-      previous: ទំព័រមុន
-      next: ទំព័របន្ទាប់
-      save: រក្សាទុក
-
-  government_reports:
-    index:
-      programs_list: តារាងកម្មវិធី
-      tracking_lists: តារាងការតាមដាន
-    new:
-      new_tracking: បន្ថែមការតាមដានថ្មី
-    report:
-      are_you_sure: តើអ្នកប្រាកដហើយ?
-      back: ត្រលប់ក្រោយ
-      created_at: កាលបរិច្ឆេទ
-      new_tracking: បន្ថែមការតាមដានថ្មី
-    show:
-      back: ត្រលប់ក្រោយ
-      trackings_list: តារាងការតាមដាន
-    update:
-      successfully_updated: ការតាមដានត្រូវបានកែសម្រួលដោយជោគជ័យ
   client_enrollments:
     create:
-      successfully_created: ការចុះឈ្មោះត្រូវបានរក្សាទុកដោយជោគជ័យ
-    destroy:
-      successfully_deleted: ការចុះឈ្មោះត្រូវបានលុបដោយជោគជ័យ
+      successfully_create: ការចុះឈ្មោះរក្សាទុកដោយជោគជ័យ
     edit:
-      enrollment: ទម្រង់បែបបទនៃចុះឈ្មោះ
-    form:
-      cancel: ទុកជាមោឃៈ
-      save: រក្សាទុក
-    index:
-      actions: សកម្មភាព
+      enrollment: ទម្រង់បែបបទ​នៃ​ចុះឈ្មោះ
+    show:
+      are_you_sure: តើអ្នកប្រាកដហើយ?
+      enrollment_date: កាលបរិច្ឆេទចុះឈ្មោះ
       back: ត្រលប់ក្រោយ
-      domain: កត្តា
-      name: ឈ្មោះកម្មវិធី
-      program_lists: តារាងកម្មវិធីបន្ទាប់បន្សំ
-      quantity: ចំនួនកន្លែងដែលនៅទំនេរ
-      report: របាយការណ៍
-      status: ស្ថានភាព
+    report:
+      report: របាយការណ៏
+      tracking: ការតាមដាន
+      exit: ចាកចេញ
+      date: កាលបរិច្ឆេទ
+      forms: ទម្រង់បែបបទ
+      actions: សកម្មភាព
+      enrollment: ចុះឈ្មោះ
+      programs_list: តារាងកម្មវិធី​បន្ទាប់បន្សំ
+      view: មើល
     manage:
       enroll: ចុះឈ្មោះ
       exit: ចាកចេញ
-      full_program: កម្មវិធីនេះពេញ
       tracking: តាមដាន
-    new:
-      client_not_valid: អតិថិជនមិនអាចចូលរូមកម្មវិធីនេះ
-      new_enrollment: ការចុះឈ្មោះថ្មី
-    report:
-      actions: សកម្មភាព
-      date: កាលបរិច្ឆេទ
-      enrollment: ចុះឈ្មោះ
-      exit: ចាកចេញ
-      forms: ទម្រង់បែបបទ
-      programs_list: តារាងកម្មវិធីបន្ទាប់បន្សំ
-      report: របាយការណ៏
-      tracking: ការតាមដាន
-      view: មើល
-    show:
-      are_you_sure: តើអ្នកប្រាកដហើយ?
-      back: ត្រលប់ក្រោយ
-      enrollment_date: កាលបរិច្ឆេទចុះឈ្មោះ
+      full_program: កម្មវិធីនេះពេញ
+    destroy:
+      successfully_deleted: ការចុះឈ្មោះត្រូវបានលុបដោយជោគជ័យ
     update:
       successfully_updated: ការចុះឈ្មោះត្រូវបានកែសម្រួលដោយជោគជ័យ
+    new:
+      new_enrollment: ការចុះឈ្មោះថ្មី
+      client_not_valid: អតិថិជនមិនអាចចូលរូមកម្មវិធីនេះ
+    index:
+      view: មើល
+      quantity: ចំនួនកន្លែងដែលនៅទំនេរ
+      name: ឈ្មោះកម្មវិធី
+      domain: កត្តា
+      report: របាយការណ៍
+      actions: សកម្មភាព
+      status: ស្ថានភាព
+      program_lists: តារាងកម្មវិធី​បន្ទាប់បន្សំ
+      back: ត្រលប់ក្រោយ
+    create:
+      successfully_created: ការចុះឈ្មោះត្រូវបានរក្សាទុកដោយជោគជ័យ
+    form:
+      save: រក្សាទុក
+      cancel: ទុកជាមោឃៈ
+  client_enrollment_trackings:
+    create:
+      successfully_created: ការ​តាមដានត្រូវបានរក្សាទុកដោយជោគជ័យ
+    update:
+      successfully_updated: ការ​តាមដានត្រូវបានកែសម្រួលដោយជោគជ័យ
+    destroy:
+      successfully_deleted: ការ​តាមដានត្រូវបានលុបដោយជោគជ័យ
+    report:
+      are_you_sure: តើអ្នកប្រាកដហើយ?
+      back: ត្រលប់ក្រោយ
+      new_tracking: បន្ថែមការតាមដានថ្មី
+      created_at: កាលបរិច្ឆេទ
+    show:
+      back: ត្រលប់ក្រោយ
+      trackings_list: តារាងការតាមដាន
+    new:
+      new_tracking: បន្ថែមការតាមដានថ្មី
+    index:
+      tracking_lists: តារាងការតាមដាន
+      programs_list: តារាងកម្មវិធី​
+    action:
+      new_tracking: បន្ថែមការតាមដានថ្មី
+    form:
+      save: រក្សាទុក
+      cancel: ទុកជាមោឃៈ
   clients:
     actions:
       are_you_sure: តើអ្នកប្រាកដហើយ?
@@ -1666,12 +1625,12 @@ km:
       save: រក្សាទុក
     index:
       add_new_department: បន្ថែមកម្មវិធីថ្មី
-      are_you_sure: តើអ្នកប្រាកដហើយ?
-      changelogs: កំណែប្រែ
-      department_names: ឈ្មោះកម្មវិធី
       departments: កម្មវិធី
+      department_names: ឈ្មោះកម្មវិធី
       description: ការបរិយាយពីកម្មវិធី
       manage: សកម្មភាព
+      are_you_sure: តើអ្នកប្រាកដហើយ?
+      changelogs: កំណែប្រែ
       view: មើល
     new:
       title: កម្មវិធីថ្មី
@@ -1679,17 +1638,6 @@ km:
       failed_update: កម្មវិធីរក្សាបានមិនបានជោគជ័យ
       successfully_updated: កម្មវិធីរក្សាបានដោយជោគជ័យ
     version:
-      new_enrollment: ការចុះឈ្មោះថ្មី
-      client_not_valid: អតិថិជនមិនអាចចូលរូមកម្មវិធីនេះ
-    index:
-      view: មើល
-      quantity: ចំនួនកន្លែងដែលនៅទំនេរ
-      name: ឈ្មោះកម្មវិធី
-      domain: កត្តា
-      report: របាយការណ៍
-      actions: សកម្មភាព
-      status: ស្ថានភាព
-      program_lists: តារាងកម្មវិធី​បន្ទាប់បន្សំ
       back: ត្រលប់ក្រោយ
       modification_of: កំណែប្រែរបស់
   domain_groups:
@@ -2492,10 +2440,12 @@ km:
       alert: ឈ្មោះនៃការតាមដានត្រូវបានប្រើរួចហើយ
       successfully_created: កម្មវិធីរក្សាទុកដោយជោគជ័យ
     current_program_streams_tab:
-      actions: សកម្មភាព
+      name: ឈ្មោះកម្មវិធី​បន្ទាប់បន្សំ
       domain: កត្តា
-      name: ឈ្មោះកម្មវិធីបន្ទាប់បន្សំ
-      quantity: បរិមាណ
+      status: ស្ថានភាព
+      enrolled: ចំនួនដែលចូលរូមកម្មវិធី
+      maximum: ចំនួនដែលអាចចូលរូមកម្មវិធីច្រើនបំផុត
+      actions: សកម្មភាព
     destroy:
       alert: កម្មវិធីមិនអាចលុបបានទេ
       successfully_deleted: កម្មវិធីលុបដោយជោគជ័យ
@@ -2510,6 +2460,7 @@ km:
       finish: រក្សាទុក
       next: ទំព័របន្ទាប់
       previous: ទំព័រមុន
+      save: រក្សាទុក
     index:
       current_ngo: កម្មវិធីបន្ទាប់បន្សំរបស់អង្គការខ្ញុំ
       new_program: បន្ថែមកម្មវិធីថ្មី
@@ -2518,14 +2469,17 @@ km:
     new:
       back: ត្រលប់ក្រោយ
       new_program_stream: បន្ថែមកម្មវិធីថ្មី
-    others_ngo_program_streams_tab:
-      actions: សកម្មភាព
-      copy: ចម្លងជូន
-      domain: កត្តា
+    all_ngos_program_streams_tab:
+      quantity: ចំនួនកន្លែងដែលនៅទំនេរ
       name: ឈ្មោះកម្មវិធីបន្ទាប់បន្សំ
+      domain: កត្តា
+      report: របាយការណ៍
+      actions: សកម្មភាព
+      status: ស្ថានភាព
+      program_lists: តារាងកម្មវិធី​បន្ទាប់បន្សំ
       organization: អង្គការ
-      preview: មើលជាមុន
-      quantity: បរិមាណ
+      copy: ចំលង
+      preview: មើល
     program_rule:
       add_new_filter: បន្ថែមការស្វែងរក
       add_new_group: បន្ថែមបណ្ដុំនៃការស្វែងរក
@@ -2885,52 +2839,6 @@ km:
         program_stream: កម្មវិធីបន្ទាប់បន្សំ
         value_of: តម្លៃនៃ
   signed_in_with_google: ចូលបានជោគជ័យជាមួយនឹង Google Calendar
-  stages:
-    able_screening_question_fields:
-      alert_manager: ជូនដំណឹងអ្នកគ្រប់គ្រង
-      are_you_sure: តើអ្នកប្រាកដហើយ?
-      group: ក្រុម
-      mode: ម៉ូដ
-      question: សំនួរ
-      questions: សំនួរ
-    attachment_fields:
-      browse: រកមើល
-    create:
-      successfully_created: ដំណាក់ការបានបង្កើតដោយជោគជ័យ
-    destroy:
-      alert: តំណាក់កាលមិនអាចលុបបានទេ
-      successfully_deleted: ដំណាក់ការត្រូវបានលុបដោយជោគជ័យ
-    edit:
-      edit_stage: កែរសំរួល ដំណាក់កាល
-    form:
-      add_question: បន្ថែមសំនួរ
-      alert_manager: ជូនដំណឹងអ្នកគ្រប់គ្រង
-      from_age: ចាប់ពីអាយុ (គិតជាឆ្នាំ)
-      group: ក្រុម
-      mode: ម៉ូដ
-      questions: សំនួរ
-      to_age: ទៅដល់អាយុ (គិតជាឆ្នាំ)
-    index:
-      able_screening_questions: សំនួរ Able Screening
-      edit_and_add_question: កែសម្រួល/បន្ថែមសំនួរ
-      from: ចាប់ពី
-      general_question: សំនួរទូទៅ
-      new_general_question: បន្ថែមសំនួរទូទៅថ្មី
-      new_stage_question: បន្ថែមសំនួូរដំណាក់កាលថ្មី
-      question:
-        one: 1 សំនួរ
-        other: "%{count} សំនួរ"
-      stage: តំណាក់កាល
-      stage_question: សំនួូរដំណាក់កាល
-      to: ទៅដល់
-      year: ឆ្នាំ
-    new:
-      new_stage: បន្ថែមដំណាក់កាលថ្មី
-    non_stage: មិនមានដំណាក់កាល
-    questions: សំនួរ
-    stage: តំណាក់កាល
-    update:
-      successfully_updated: ដំណាក់ការត្រូវបានកែសម្រួលដោយជោគជ័យ
   surveys:
     create:
       successfully_created: ការស្ទង់មតិត្រូវបានបង្កើតដោយជោគជ័យ
@@ -3029,10 +2937,14 @@ km:
       post_approved_html: ការឆ្លើយតបត្រូវបានអនុញាតដោយ %{moderator} %{time_ago}.
       post_blocked_html: ការឆ្លើយតបត្រូវបានបិទដោយ %{moderator} %{time_ago}.
       post_deleted_notice: ការឆ្លើយតបនេះត្រូវបានលុប
-      posts_content_changed_since_moderation_html: The <a href="%{post_url}">post's</a> content change since it was moderated. Below is the content at the time it was moderated.
+      posts_content_changed_since_moderation_html: >-
+        The <a href="%{post_url}">post's</a> content change since it was moderated. Below is the content at the
+        time it was moderated.
       search_users:
         form_label: ស្វែងរកអ្នកប្រើប្រាស់
         form_placeholder: :thredded.moderation.search_users.form_label
+        results_message: អ្នកប្រើប្រាស់ដែលមានឈ្មោះផ្ដើមដោយ %{query}
+        no_results_message: មិនមានអ្នកប្រើប្រាស់ដែលមានឈ្មោះផ្ដើមដោយ %{query} ទេ
     nav:
       all_messageboards: ផ្ទាំងសារទាំអស់
       edit_messageboard: កែសម្រួលផ្ទាំងសារ
@@ -3299,7 +3211,6 @@ km:
     failure:
       already_authenticated: "អ្នកបានចូលរួចហើយ"
       inactive: "គណនីរបស់អ្នក មិនត្រូវបានបញ្ជាក់ នៅឡើយទេ"
-
       invalid: "អ៊ីម៉ែលឬពាក្យសម្ងាត់មិនត្រឹមត្រូវ"
       locked: "គណនីរបស់អ្នកត្រូវ បានចាក់សោ"
       last_attempt: "អ្នកអាចព្យាយាមចូលម្ដងទៀត មុនពេលគណនីរបស់អ្នក ត្រូវចាក់សោ"
