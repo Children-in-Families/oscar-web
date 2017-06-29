@@ -10,7 +10,7 @@ development:
 test:
   clients:
     default:
-      database: <%= ENV['HISTORY_DATABASE_NAME_TEST'] %>
+      database: oscar_history_test
       hosts:
         - localhost:27017
       options:
