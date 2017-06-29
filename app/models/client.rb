@@ -35,7 +35,7 @@ class Client < ActiveRecord::Base
   has_many :tasks,          dependent: :destroy
   has_many :agency_clients
   has_many :agencies, through: :agency_clients
-  has_many :client_quantitative_cases
+  has_many :client_quantitative_cases, dependent: :destroy
   has_many :quantitative_cases, through: :client_quantitative_cases
   has_many :custom_field_properties, as: :custom_formable, dependent: :destroy
   has_many :custom_fields, through: :custom_field_properties, as: :custom_formable
@@ -139,7 +139,7 @@ class Client < ActiveRecord::Base
   def en_and_local_name
     en_name = "#{given_name} #{family_name}"
     local_name = "#{local_given_name} #{local_family_name}"
-    
+
     local_name.present? ? "#{en_name} (#{local_name})" : en_name
   end
 

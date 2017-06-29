@@ -1,78 +1,105 @@
 en:
+  able_screening_questions:
+    able_screening_question_field:
+      alert_manager: Alert Manager
+      group: Group
+      mode: Mode
+      question: Question
+    attachment_fields:
+      browse: Browse
+    create:
+      successfully_created: Able Screening has been successfully created.
+    destroy:
+      alert: Able Screening cannot be deleted.
+      successfully_deleted: Able Screening has been successfully deleted.
+    edit:
+      general_question: General Question
+    form:
+      alert_manager: Alert Manager
+      cancel: Cancel
+      general_question: General Question
+      group: Group
+      mode: Mode
+      question: Question
+      questions: Questions
+      save: Save
+    new:
+      general_question: General Question
+    update:
+      successfully_updated: Able Screening has been successfully updated.
   able_screens:
     answer_submissions:
       able_screening_answers:
-        form:
-          stage: Stage
-          general_question: General Question
-          year: Year
-          from: From
-          to: To
-          answer: Answer
         create:
           successfully_created: Able Screening Answers has been successfully created.
+        form:
+          answer: Answer
+          from: From
+          general_question: General Question
+          stage: Stage
+          to: To
+          year: Year
     question_submissions:
       able_screening_questions:
-        new:
-          general_question: New General Question
+        attachment_fields:
+          browse: Browse
+        create:
+          successfully_created: Successfully created
+        destroy:
+          successfully_deleted: Successfully deleted
         edit:
           general_question: Edit General Question
         form:
-          question: Question
-          mode: Mode
           alert_manager: Alert Manager
+          mode: Mode
+          question: Question
+        new:
+          general_question: New General Question
+        update:
+          successfully_updated: Successfully updated
+      stages:
+        able_screening_question_fields:
+          alert_manager: Alert Manager
+          are_you_sure: Are you sure ?
+          group: Group
+          mode: Mode
+          question: Question
+          questions: Questions
         attachment_fields:
           browse: Browse
         create:
           successfully_created: Successfully created
-        update:
-          successfully_updated: Successfully updated
         destroy:
           successfully_deleted: Successfully deleted
-      stages:
-        stage: Stage
-        questions: Question
-        attachment_fields:
-          browse: Browse
-        index:
-          stage: Stage
-          able_screening_questions: Able Screening Question
-          new_stage_question: New Stage Question
-          new_general_question: New General Question
-          general_question: General Question
-          stage_question: Stage Question
-          question: Question
-          from: From
-          to: To
-          year: Year
-          question:
-            one: 1 question
-            other: '%{count} question'
-        form:
-          question: Question
-          mode: Mode
-          alert_manager: Alert Manager
-          from_age: From Age (As Year)
-          to_age: To Age (As Year)
-          questions: Questions
-          add_question: Add Question
-        new:
-          new_stage: New Stage
         edit:
           edit_stage: Edit Stage
-        able_screening_question_fields:
-          question: Question
-          mode: Mode
+        form:
+          add_question: Add Question
           alert_manager: Alert Manager
-          group: Group
-          are_you_sure: Are you sure ?
+          from_age: From Age (As Year)
+          mode: Mode
+          question: Question
           questions: Questions
-        create:
-          successfully_created: Successfully created
+          to_age: To Age (As Year)
+        index:
+          able_screening_questions: Able Screening Question
+          from: From
+          general_question: General Question
+          new_general_question: New General Question
+          new_stage_question: New Stage Question
+          question:
+            one: 1 question
+            other: "%{count} question"
+          stage: Stage
+          stage_question: Stage Question
+          to: To
+          year: Year
+        new:
+          new_stage: New Stage
+        questions: Question
+        stage: Stage
         update:
           successfully_updated: Successfully updated
-        destroy:
-          successfully_deleted: Successfully deleted
   activerecord:
     errors:
       models:
@@ -329,45 +356,45 @@ en:
       modification_of: Changelog of
   are_you_sure: Are you sure you want to delete?
   assessments:
-    index:
-      assessment_history: Assessment History
-      initial_assessment: Initial Assessment
-      six_month_assessment: 6 Monthly Assessment
-      begin_now: Begin now
-      view_report: View Report
-      next_six_monthly_review: Next 6 Monthly Review
-      back: Back
-    form:
-      domain: Domain
-      back: Back
-      reason: Reason
-      goal: Goal
-      add_task: Add Task
-      at_least_one_task_required: At least one task is required
-      tasks_arising: 'Tasks arising:'
-      next: Next
-      previous: Previous
-      finish: Done
     add_task_form:
-      domain: Domain
-      enter_task_detail:  Enter task details
       completion_date: Completion Date
-      title: New Task
-      save: Save
-    show:
-      initial_assessment_of: Initial Assessment Of
-      six_month_assessment_report: 6 Monthly Assessment Report
-      assessment_completed_by: Assessment completed by
-      on_date: On Date
-      back_to_assessment_history:  Back to assessment history
-      edit: Edit
       domain: Domain
-      score: Score
-      goal: Goal
-      reason: Reason
-      task: Task
+      enter_task_detail: Enter task details
+      save: Save
+      title: New Task
     create:
       successfully_created: Assessment has been successfully created.
+    form:
+      add_task: Add Task
+      at_least_one_task_required: At least one task is required
+      back: Back
+      domain: Domain
+      finish: Done
+      goal: Goal
+      next: Next
+      previous: Previous
+      reason: Reason
+      tasks_arising: 'Tasks arising:'
+    index:
+      assessment_history: Assessment History
+      back: Back
+      begin_now: Begin now
+      initial_assessment: Initial Assessment
+      next_six_monthly_review: Next 6 Monthly Review
+      six_month_assessment: 6 Monthly Assessment
+      view_report: View Report
+    show:
+      assessment_completed_by: Assessment completed by
+      back_to_assessment_history: Back to assessment history
+      domain: Domain
+      edit: Edit
+      goal: Goal
+      initial_assessment_of: Initial Assessment Of
+      on_date: On Date
+      reason: Reason
+      score: Score
+      six_month_assessment_report: 6 Monthly Assessment Report
+      task: Task
     update:
       successfully_updated: Assessment has been successfully updated.
   cancel: Cancel
@@ -403,53 +430,53 @@ en:
         what_is_my_plan_for_the_next_visit_to_the_client: What is my plan for the next visit to the client?
         with_id: With ID
   case_notes:
-    index:
-      case_note_lists: Case note lists
-      back: Back
+    add_task_form:
+      completion_date: Completion Date
       domain: Domain
-      you_need_to_create_assessment: You need to create assessment
-      new_case_note: New case note
-      case_note_on: Case note on
-      present: Who was there during the visit or conversation?
-      completed_tasks: Completed Tasks
-      note: Note
-      goal: Goal
-    form_with_assessment_domains:
-      domain: Domain
-      note: Note
-      add_task: Add Task
-      goal: Goal
-    form_without_assessment_domains:
-      domain: Domain
-      note: Note
-      add_task: Add Task
-      goal: Goal
+      enter_task_detail: Enter task details
+      save: Save
+      title: New Task
+    create:
+      successfully_created: Case Note has successfully been created.
     form:
+      add_task: Add Task
+      back: Back
+      completed_tasks: Completed Tasks
+      domain: Domain
       label_note: Note
       meeting_detail: Meeting detail
       meeting_with: Meeting with
-      on_date: On Date
-      present: Who was there during the visit or conversation?
-      domain: Domain
       note: Note
-      tasks: Tasks
-      back: Back
-      save: Save
+      on_date: On Date
       on_going_tasks: On Going Tasks
-      completed_tasks: Completed Tasks
-      tasks_arising: Tasks Arising
-      add_task: Add Task
-    add_task_form:
-      domain: Domain
-      enter_task_detail:  Enter task details
-      completion_date: Completion Date
-      title: New Task
+      present: Who was there during the visit or conversation?
       save: Save
+      tasks: Tasks
+      tasks_arising: Tasks Arising
+    form_with_assessment_domains:
+      add_task: Add Task
+      domain: Domain
+      goal: Goal
+      note: Note
+    form_without_assessment_domains:
+      add_task: Add Task
+      domain: Domain
+      goal: Goal
+      note: Note
+    index:
+      back: Back
+      case_note_lists: Case note lists
+      case_note_on: Case note on
+      completed_tasks: Completed Tasks
+      domain: Domain
+      goal: Goal
+      new_case_note: New case note
+      note: Note
+      present: Who was there during the visit or conversation?
+      you_need_to_create_assessment: You need to create assessment
     show:
       case_note_on: Case note on
       present: Who was there during the visit or conversation?
-    create:
-      successfully_created: Case Note has successfully been created.
     update:
       successfully_updated: Case Note has successfully been updated.
   cases:
@@ -606,52 +633,6 @@ en:
       reset: Reset
       results: Results
       search: Search
-  client_enrollments:
-    create:
-      successfully_create: Enrollment has been successfully created.
-    edit:
-      enrollment: Edit Enrollment
-    show:
-      enrollment_date: Enroll Date
-      back: Back
-      are_you_sure: Are you sure you want to delete?
-    report:
-      enrollment: Enrollment
-      report: Reports
-      tracking: Tracking
-      exit: Exit
-      date: Date
-      forms: Forms
-      actions: Actions
-      programs_list: Programs List
-      view: View
-    manage:
-      enroll: Enroll
-      tracking: Trackings
-      exit: Exit
-      full_program: This Program is full
-    destroy:
-      successfully_deleted: Enrollment has been successfully deleted.
-    update:
-      successfully_updated: Enrollment has been successfully updated.
-    new:
-      new_enrollment: New Enrollment
-      client_not_valid: Client doesn't match with this program rules.
-    index:
-      view: View
-      quantity: Number of Place Available
-      status: Status
-      domain: Domain
-      name: Program Name
-      report: Report
-      actions: Actions
-      program_lists: Programs List
-      back: Back
-    create:
-      successfully_created: Enrollment has been successfully created.
-    form:
-      save: Save
-      cancel: Cancel
   client_enrollment_trackings:
     action:
       new_tracking: New Tracking
@@ -677,6 +658,50 @@ en:
       trackings_list: Client Trackings List
     update:
       successfully_updated: Tracking Program has been successfully updated.
+  client_enrollments:
+    create:
+      successfully_created: Enrollment has been successfully created.
+    destroy:
+      successfully_deleted: Enrollment has been successfully deleted.
+    edit:
+      enrollment: Edit Enrollment
+    form:
+      cancel: Cancel
+      save: Save
+    index:
+      actions: Actions
+      back: Back
+      domain: Domain
+      name: Program Name
+      program_lists: Programs List
+      quantity: Number of Place Available
+      report: Report
+      status: Status
+      view: View
+    manage:
+      enroll: Enroll
+      exit: Exit
+      full_program: This Program is full
+      tracking: Trackings
+    new:
+      client_not_valid: Client doesn't match with this program rules.
+      new_enrollment: New Enrollment
+    report:
+      actions: Actions
+      date: Date
+      enrollment: Enrollment
+      exit: Exit
+      forms: Forms
+      programs_list: Programs List
+      report: Reports
+      tracking: Tracking
+      view: View
+    show:
+      are_you_sure: Are you sure you want to delete?
+      back: Back
+      enrollment_date: Enroll Date
+    update:
+      successfully_updated: Enrollment has been successfully updated.
   clients:
     actions:
       are_you_sure: Are you sure you want to delete?
@@ -1293,11 +1318,11 @@ en:
     to: To
   date:
     formats:
-      long: ""
-      short: ""
+      long: '""'
+      short: '""'
   datetime:
     distance_in_words:
-      about_x_hours: ""
+      about_x_hours: '""'
   default_able_screening_question_fields:
     alert_manager: Alert Manager
     mode: Mode
@@ -1625,12 +1650,12 @@ en:
       save: Save
     index:
       add_new_department: Add New Department
-      departments: Departments
-      department_names: Department Name
-      description: Description
-      manage: Manage
       are_you_sure: Are you sure you want to delete?
       changelogs: Changelog
+      department_names: Department Name
+      departments: Departments
+      description: Description
+      manage: Manage
       view: View
     new:
       title: New Department
@@ -1640,6 +1665,96 @@ en:
     version:
       back: Back
       modification_of: Changelog of
+  devise:
+    confirmations:
+      confirmed: Your email address has been successfully confirmed.
+      send_instructions: You will receive an email with instructions for how to confirm your email address in a few minutes.
+      send_paranoid_instructions: If your email address exists in our database, you will receive an email with instructions for how to confirm your email address in a few minutes.
+    failure:
+      already_authenticated: You are already signed in.
+      inactive: Your account is not activated yet.
+      invalid: Invalid %{authentication_keys} or password.
+      last_attempt: You have one more attempt before your account is locked.
+      locked: Your account is locked.
+      not_found_in_database: Invalid %{authentication_keys} or password.
+      timeout: Your session expired. Please sign in again to continue.
+      unauthenticated: You need to sign in or sign up before continuing.
+      unconfirmed: You have to confirm your email address before continuing.
+    mailer:
+      confirmation_instructions:
+        subject: Confirmation instructions
+      password_change:
+        subject: Password Changed
+      reset_password_instructions:
+        subject: Reset password instructions
+      unlock_instructions:
+        subject: Unlock instructions
+    omniauth_callbacks:
+      failure: Could not authenticate you from %{kind} because "%{reason}".
+      success: Successfully authenticated from %{kind} account.
+    passwords:
+      edit:
+        change_my_password: Change my password
+        change_your_password: Change your password
+        confirm_your_new_password: Confirm your new password
+        new_password: New password
+      new:
+        email: Email
+        forget_password: Forgot your password?
+        send_reset_password: Send me reset password instructions
+      no_token: You can't access this page without coming from a password reset email. If you do come from a password reset email, please make sure you used the full URL provided.
+      send_instructions: You will receive an email with instructions on how to reset your password in a few minutes.
+      send_paranoid_instructions: If your email address exists in our database, you will receive a password recovery link at your email address in a few minutes.
+      updated: Your password has been changed successfully. You are now signed in.
+      updated_not_active: Your password has been changed successfully.
+    registrations:
+      destroyed: Bye! Your account has been successfully cancelled. We hope to see you again soon.
+      edit:
+        are_you_sure: Are you sure?
+        calendar_integration: Calendar Integration
+        current_password: Current Password
+        date_of_birth: Date of Birth
+        delete_my_account: Delete My Account
+        department: Department
+        email: Email
+        first_name: First Name
+        header: Edit Personal Information
+        job_title: Job Title
+        last_name: Last Name
+        leave_blank_if_you_dont_want_to_change: Leave this blank if you do not want to change
+        mobile: Mobile
+        overdue_task_summary_notify: Send me overdue task summary
+        password: Password
+        password_confirmation: Confirm Password
+        province: Province
+        save: Save
+        start_date: Start Date
+        we_need_your_current_password_to_confirm_your_changes: We need your current password to confirm your changes
+      signed_up: Welcome! You have signed up successfully.
+      signed_up_but_inactive: You have signed up successfully. However, we could not sign you in because your account is not yet activated.
+      signed_up_but_locked: You have signed up successfully. However, we could not sign you in because your account is locked.
+      signed_up_but_unconfirmed: A message with a confirmation link has been sent to your email address. Please follow the link to activate your account.
+      update_needs_confirmation: You updated your account successfully, but we need to verify your new email address. Please check your email and follow the confirm link to confirm your new email address.
+      updated: Your account has been updated successfully.
+    sessions:
+      already_signed_out: Signed out successfully.
+      new:
+        email: Email
+        login: Log in
+        password: Password
+        remember_me: Remember Me
+      signed_in: Signed in successfully.
+      signed_out: Signed out successfully.
+    shared:
+      links:
+        back: Back
+        forget_password: Forgot your password?
+        receive_confirm_instruction: Didn't receive confirmation instructions?
+        receive_unlock_instruction: Didn't receive unlock instructions?
+    unlocks:
+      send_instructions: You will receive an email with instructions for how to unlock your account in a few minutes.
+      send_paranoid_instructions: If your account exists, you will receive an email with instructions for how to unlock it in a few minutes.
+      unlocked: Your account has been unlocked successfully. Please sign in to continue.
   domain_groups:
     create:
       failed_create: Failed to create a domain group.
@@ -1748,6 +1863,18 @@ en:
     version:
       back: Back
       modification_of: Changelog of
+  errors:
+    messages:
+      already_confirmed: was already confirmed, please try signing in
+      already_in_use: already in use
+      confirmation_period_expired: needs to be confirmed within %{period}, please request a new one
+      expired: has expired, please request a new one
+      not_email: Not an email
+      not_found: not found
+      not_locked: was not locked
+      not_saved:
+        one: '1 error prohibited this %{resource} from being saved:'
+        other: "%{count} errors prohibited this %{resource} from being saved:"
   families:
     actions:
       are_you_sure: Are you sure you want to delete?
@@ -2436,16 +2563,26 @@ en:
   program_streams:
     actions:
       are_you_sure: Are you sure you want to delete?
+    all_ngos_program_streams_tab:
+      actions: Action
+      copy: Copy
+      domain: Domains
+      name: Name
+      organization: Organization
+      preview: Preview
+      quantity: Quantity
+      status: Status
     create:
       alert: Name of Tracking has already been taken.
       successfully_created: Program Stream has been successfully created.
     current_program_streams_tab:
-      name: Name
+      actions: Action
       domain: Domains
-      status: Status
       enrolled: Enrolled
       maximum: Maximum Program Enrollment
-      actions: Action
+      name: Name
+      quantity: Quantity
+      status: Status
     destroy:
       alert: Program Stream cannot be deleted.
       successfully_deleted: Program Stream has been successfully deleted.
@@ -2469,17 +2606,14 @@ en:
     new:
       back: Back
       new_program_stream: New Program Stream
-    all_ngos_program_streams_tab:
+    others_ngo_program_streams_tab:
       actions: Action
-      quantity: Quantity
       copy: Copy
       domain: Domains
       name: Name
       organization: Organization
       preview: Preview
       quantity: Quantity
-      copy: Copy
-      preview: Preview
     program_rule:
       add_new_filter: Add New Filter
       add_new_group: Add Group
@@ -2487,18 +2621,19 @@ en:
       delete_group: Delete
       description: Description
       domain: Domain
-      name: Name
       maximum: Maximum Program Enrollment
+      name: Name
+      quantity: Quantity
       rule: Rules
     show:
-      enrolled: Enrolled
-      maximum: Maximum Program Enrollment
       back: Back
       copy: Copy
       description: Description
       domain: Domain
+      enrolled: Enrolled
       enrollment: Enrollment
       exit_program: Exit Program
+      maximum: Maximum Program Enrollment
       quantity: Quantity
       rules: Rules
       tracking: Tracking
@@ -2841,6 +2976,62 @@ en:
         program_stream: Program Stream
         value_of: Value of
   signed_in_with_google: Signed in with google calendar successfully.
+  simple_form:
+    cancel: បោះបង់
+    error_notification:
+      default_message: 'Please review the problems below:'
+    'no': 'No'
+    required:
+      mark: "*"
+      text: required
+    save: រក្សាទុកy
+    'yes': 'Yes'
+  stages:
+    able_screening_question_fields:
+      alert_manager: Alert Manager
+      are_you_sure: Remove question with have sigificant affect to client answers, Are you sure you want to delete?
+      group: Group
+      mode: Mode
+      question: Question
+      questions: Questions
+    attachment_fields:
+      browse: Browse
+    create:
+      successfully_created: Stage has been successfully created.
+    destroy:
+      alert: Stage cannot be deleted.
+      successfully_deleted: Stage has been successfully deleted.
+    edit:
+      edit_stage: Edit Stage
+    form:
+      add_question: Add Question
+      alert_manager: Alert Manager
+      from_age: From Age (As Year)
+      group: Group
+      mode: Mode
+      questions: Questions
+      to_age: To Age (As Year)
+    index:
+      able_screening_questions: Able Screening Question
+      edit_and_add_question: Edit/Add Question
+      from: From
+      general_question: General Question
+      new_general_question: New General Question
+      new_stage_question: New Stage Question
+      question:
+        one: 1 Question
+        other: "%{count} Questions"
+      stage: Stage
+      stage_question: Stage Question
+      to: To
+      year: year
+    new:
+      new_stage: New Stage
+    non_stage: Non Stage
+    questions: Questions
+    stage: Stage
+    update:
+      successfully_updated: Stage has been successfully updated.
   surveys:
     create:
       successfully_created: Survey has been successfully created.
@@ -2920,7 +3111,7 @@ en:
         no_group: No Group
       index:
         page_title: Page title
-      last_updated_by_html: 'Updated %{time_ago} <cite>by %{user}</cite>'
+      last_updated_by_html: Updated %{time_ago} <cite>by %{user}</cite>
       topics_and_posts_counts: "%{topics_count} topics / %{posts_count} replies"
       update: Update
       updated_notice: Messageboard has been updated
@@ -2979,11 +3170,11 @@ en:
       form:
         global_preferences_label: Global Settings
         messageboard_notify_on_mention:
-          hint: "When someone mentions you by your username (eg: @sam) in this messageboard you will follow the topic. You will receive emails with the contents of that post and any replies."
+          hint: 'When someone mentions you by your username (eg: @sam) in this messageboard you will follow the topic. You will receive emails with the contents of that post and any replies.'
           label: Follow topics you are mentioned in
         messageboard_preferences_label_html: Notification Settings for <em>%{messageboard}</em>
         notify_on_mention:
-          hint: "When someone mentions you by your username (eg: @sam) you will follow the topic. You will receive emails with the contents of that post and any replies."
+          hint: 'When someone mentions you by your username (eg: @sam) you will follow the topic. You will receive emails with the contents of that post and any replies.'
           label: Follow topics you are mentioned in
         notify_on_message:
           hint: When you are added to a private conversation you will receive an email with its content.
@@ -3066,8 +3257,8 @@ en:
       user_started_topic_html: "%{user_link} started %{topic_link}"
   time:
     formats:
-      long: ""
-      short: ""
+      long: '""'
+      short: '""'
   trackings:
     create:
       successfully_created: Tracking has been successfully created.
@@ -3197,123 +3388,11 @@ en:
   views:
     pagination:
       first: "&laquo; First"
-      last: "Last &raquo;"
-      next: "Next &rsaquo;"
+      last: Last &raquo;
+      next: Next &rsaquo;
       previous: "&lsaquo; Previous"
       truncate: "&hellip;"
   will_paginate:
     next_label: Next Page
     page_gap: "..."
     previous_label: Previous Page
-  devise:
-    confirmations:
-      confirmed: "Your email address has been successfully confirmed."
-      send_instructions: "You will receive an email with instructions for how to confirm your email address in a few minutes."
-      send_paranoid_instructions: "If your email address exists in our database, you will receive an email with instructions for how to confirm your email address in a few minutes."
-    failure:
-      already_authenticated: "You are already signed in."
-      inactive: "Your account is not activated yet."
-      invalid: "Invalid %{authentication_keys} or password."
-      locked: "Your account is locked."
-      last_attempt: "You have one more attempt before your account is locked."
-      not_found_in_database: "Invalid %{authentication_keys} or password."
-      timeout: "Your session expired. Please sign in again to continue."
-      unauthenticated: "You need to sign in or sign up before continuing."
-      unconfirmed: "You have to confirm your email address before continuing."
-    mailer:
-      confirmation_instructions:
-        subject: "Confirmation instructions"
-      reset_password_instructions:
-        subject: "Reset password instructions"
-      unlock_instructions:
-        subject: "Unlock instructions"
-      password_change:
-        subject: "Password Changed"
-    omniauth_callbacks:
-      failure: "Could not authenticate you from %{kind} because \"%{reason}\"."
-      success: "Successfully authenticated from %{kind} account."
-    passwords:
-      no_token: "You can't access this page without coming from a password reset email. If you do come from a password reset email, please make sure you used the full URL provided."
-      send_instructions: "You will receive an email with instructions on how to reset your password in a few minutes."
-      send_paranoid_instructions: "If your email address exists in our database, you will receive a password recovery link at your email address in a few minutes."
-      updated: "Your password has been changed successfully. You are now signed in."
-      updated_not_active: "Your password has been changed successfully."
-      new:
-        email: "Email"
-        send_reset_password: "Send me reset password instructions"
-        forget_password: "Forgot your password?"
-      edit:
-        change_your_password: Change your password
-        new_password: New password
-        confirm_your_new_password: Confirm your new password
-        change_my_password: Change my password
-    registrations:
-      destroyed: "Bye! Your account has been successfully cancelled. We hope to see you again soon."
-      signed_up: "Welcome! You have signed up successfully."
-      signed_up_but_inactive: "You have signed up successfully. However, we could not sign you in because your account is not yet activated."
-      signed_up_but_locked: "You have signed up successfully. However, we could not sign you in because your account is locked."
-      signed_up_but_unconfirmed: "A message with a confirmation link has been sent to your email address. Please follow the link to activate your account."
-      update_needs_confirmation: "You updated your account successfully, but we need to verify your new email address. Please check your email and follow the confirm link to confirm your new email address."
-      updated: "Your account has been updated successfully."
-      edit:
-        header: Edit Personal Information
-        first_name: First Name
-        last_name: Last Name
-        date_of_birth: Date of Birth
-        job_title: Job Title
-        department: Department
-        start_date: Start Date
-        province: Province
-        mobile: Mobile
-        email: Email
-        leave_blank_if_you_dont_want_to_change: Leave this blank if you do not want to change
-        password: Password
-        password_confirmation: Confirm Password
-        we_need_your_current_password_to_confirm_your_changes: We need your current password to confirm your changes
-        current_password: Current Password
-        save: Save
-        delete_my_account: Delete My Account
-        are_you_sure: Are you sure?
-        calendar_integration: Calendar Integration
-        overdue_task_summary_notify: Send me overdue task summary
-    sessions:
-      signed_in: "Signed in successfully."
-      signed_out: "Signed out successfully."
-      already_signed_out: "Signed out successfully."
-      new:
-        login: "Log in"
-        email: "Email"
-        password: "Password"
-        remember_me: "Remember Me"
-    unlocks:
-      send_instructions: "You will receive an email with instructions for how to unlock your account in a few minutes."
-      send_paranoid_instructions: "If your account exists, you will receive an email with instructions for how to unlock it in a few minutes."
-      unlocked: "Your account has been unlocked successfully. Please sign in to continue."
-    shared:
-      links:
-        back: Back
-        forget_password: "Forgot your password?"
-        receive_confirm_instruction: "Didn't receive confirmation instructions?"
-        receive_unlock_instruction: "Didn't receive unlock instructions?"
-  errors:
-    messages:
-      already_confirmed: "was already confirmed, please try signing in"
-      already_in_use: already in use
-      confirmation_period_expired: "needs to be confirmed within %{period}, please request a new one"
-      expired: "has expired, please request a new one"
-      not_found: "not found"
-      not_locked: "was not locked"
-      not_saved:
-        one: "1 error prohibited this %{resource} from being saved:"
-        other: "%{count} errors prohibited this %{resource} from being saved:"
-      not_email: Not an email
-  simple_form:
-    "yes": 'Yes'
-    "no": 'No'
-    required:
-      text: 'required'
-      mark: '*'
-    save: រក្សាទុកy
-    cancel: បោះបង់
-    error_notification:
-      default_message: "Please review the problems below:"
