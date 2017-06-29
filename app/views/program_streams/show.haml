@@ -34,8 +34,8 @@
                     %tr
                       %td.domain= t('.domain')
                       %td
-                        - @program_stream.domains.pluck(:identity).each do |d|
-                          %span.label.label-margin= d
+                        - @program_stream.domains.pluck(:identity).each do |identity|
+                          %span.label.label-margin= identity
                     %tr
                       %td.enrolled= t('.enrolled')
                       %td= @program_stream.enrolled
