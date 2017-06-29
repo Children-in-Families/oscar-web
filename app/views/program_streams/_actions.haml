@@ -2,5 +2,4 @@
   = fa_icon('eye')
 = link_to edit_program_stream_path(program_stream), class: 'btn btn-outline btn-success btn-xs' do
   = fa_icon('pencil')
-= link_to program_stream_path(program_stream), method: 'delete',  data: { confirm: t('.are_you_sure') }, class: "btn btn-outline btn-danger btn-xs #{program_stream.disabled_delete_button}" do
-  = fa_icon('trash')
+= delete_button(program_stream)
