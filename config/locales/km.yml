@@ -1,78 +1,105 @@
 km:
+  able_screening_questions:
+    able_screening_question_field:
+      alert_manager: ជូនដំណឹងអ្នកគ្រប់គ្រង
+      group: ក្រុម
+      mode: ម៉ូដ
+      question: សំនួរ
+    attachment_fields:
+      browse: រកមើល
+    create:
+      successfully_created: ដំណាក់ការសំនួរទូទៅបានបង្កើតដោយជោគជ័យ
+    destroy:
+      alert: មិនអាចលុបបានទេ
+      successfully_deleted: សំនួរទូទៅត្រូវបានលុបដោយជោគជ័យ
+    edit:
+      general_question: សំនួរទូទៅ
+    form:
+      alert_manager: ជូនដំណឹងអ្នកគ្រប់គ្រង
+      cancel: ទុកជាមោឃៈ
+      general_question: សំនួរទូទៅ
+      group: ក្រុម
+      mode: ម៉ូដ
+      question: សំនួរ
+      questions: សំនួរ
+      save: រក្សាទុក
+    new:
+      general_question: សំនួរទូទៅ
+    update:
+      successfully_updated: សំនួរទូទៅត្រូវបានកែសម្រួលដោយជោគជ័យ
   able_screens:
     answer_submissions:
       able_screening_answers:
-        form:
-          stage: សំនួរ តំណាក់កាល
-          general_question: សំនួរទូទៅ
-          year: ឆ្នាំ
-          from: ចាប់ពី
-          to: ទៅដល់
-          answer: ចំលើយ
         create:
           successfully_created: ចំលើយ Able ត្រូវបានបង្កើតដោយជោគជ័យ
+        form:
+          answer: ចំលើយ
+          from: ចាប់ពី
+          general_question: សំនួរទូទៅ
+          stage: សំនួរ តំណាក់កាល
+          to: ទៅដល់
+          year: ឆ្នាំ
     question_submissions:
       able_screening_questions:
-        new:
-          general_question: សំនួរទូទៅថ្មី
-        edit:
-          general_question: កែសម្រួលសំនួរទូទៅ
-        form:
-          question: សំនួរ
-          mode: ម៉ូដ
-          alert_manager: ជូនដំណឹងអ្នកគ្រប់គ្រង
         attachment_fields:
           browse: រកមើល
         create:
           successfully_created: សំនួរ Able Screening បានបង្កើតដោយជោគជ័យ
-        update:
-          successfully_updated: សំនួរ Able Screening ត្រូវបានកែសម្រួលដោយជោគជ័យ
         destroy:
           successfully_deleted: សំនួរ Able Screening ត្រូវបានលុបដោយជោគជ័យ
-      stages:
-        stage: តំណាក់កាល
-        questions: សំនួរ
-        attachment_fields:
-          browse: រកមើល
-        index:
-          stage: តំណាក់កាល
-          able_screening_questions: សំនួរ Able Screening
-          new_stage_question: បន្ថែមសំនួូរដំណាក់កាលថ្មី
-          new_general_question: បន្ថែមសំនួរទូទៅថ្មី
-          general_question: សំនួរទូទៅ
-          stage_question: សំនួូរដំណាក់កាល
-          question: សំនួរ
-          from: ចាប់ពី
-          to: ទៅដល់
-          year: ឆ្នាំ
-          question:
-            one: 1 សំនួរ
-            other: '%{count} សំនួរ'
-        form:
-          question: សំនួរ
-          mode: ម៉ូដ
-          alert_manager: ជូនដំណឹងអ្នកគ្រប់គ្រង
-          from_age: ចាប់ពីអាយុ (គិតជាឆ្នាំ)
-          to_age: ទៅដល់អាយុ (គិតជាឆ្នាំ)
-          questions: សំនួរ
-          add_question: បន្ថែមសំនួរ
-        new:
-          new_stage: សំនួរដំណាក់កាលថ្មី
         edit:
-          edit_stage: កែសម្រួលសំនួរដំណាក់កាល
-        able_screening_question_fields:
-          question: សំនួរ
+          general_question: កែសម្រួលសំនួរទូទៅ
+        form:
+          alert_manager: ជូនដំណឹងអ្នកគ្រប់គ្រង
           mode: ម៉ូដ
+          question: សំនួរ
+        new:
+          general_question: សំនួរទូទៅថ្មី
+        update:
+          successfully_updated: សំនួរ Able Screening ត្រូវបានកែសម្រួលដោយជោគជ័យ
+      stages:
+        able_screening_question_fields:
           alert_manager: ជូនដំណឹងអ្នកគ្រប់គ្រង
           are_you_sure: តើអ្នកប្រាកដហើយ?
           group: ក្រុម
+          mode: ម៉ូដ
+          question: សំនួរ
           questions: សំនួរ
+        attachment_fields:
+          browse: រកមើល
         create:
           successfully_created: ដំណាក់កាលបានបង្កើតដោយជោគជ័យ
-        update:
-          successfully_updated: ដំណាក់កាលត្រូវបានកែសម្រួលដោយជោគជ័យ
         destroy:
           successfully_deleted: ដំណាក់កាលត្រូវបានលុបដោយជោគជ័យ
+        edit:
+          edit_stage: កែសម្រួលសំនួរដំណាក់កាល
+        form:
+          add_question: បន្ថែមសំនួរ
+          alert_manager: ជូនដំណឹងអ្នកគ្រប់គ្រង
+          from_age: ចាប់ពីអាយុ (គិតជាឆ្នាំ)
+          mode: ម៉ូដ
+          question: សំនួរ
+          questions: សំនួរ
+          to_age: ទៅដល់អាយុ (គិតជាឆ្នាំ)
+        index:
+          able_screening_questions: សំនួរ Able Screening
+          from: ចាប់ពី
+          general_question: សំនួរទូទៅ
+          new_general_question: បន្ថែមសំនួរទូទៅថ្មី
+          new_stage_question: បន្ថែមសំនួូរដំណាក់កាលថ្មី
+          question:
+            one: 1 សំនួរ
+            other: "%{count} សំនួរ"
+          stage: តំណាក់កាល
+          stage_question: សំនួូរដំណាក់កាល
+          to: ទៅដល់
+          year: ឆ្នាំ
+        new:
+          new_stage: សំនួរដំណាក់កាលថ្មី
+        questions: សំនួរ
+        stage: តំណាក់កាល
+        update:
+          successfully_updated: ដំណាក់កាលត្រូវបានកែសម្រួលដោយជោគជ័យ
   activerecord:
     errors:
       models:
@@ -403,53 +430,53 @@ km:
         what_is_my_plan_for_the_next_visit_to_the_client: ផែនការរបស់ខ្ញុំសម្រាប់ដំណើរទស្សនកិច្ចបន្ទាប់ទៅលើអតិថិជន?
         with_id: ជាមួយលេខសម្គាល់
   case_notes:
-    index:
-      case_note_lists: បញ្ជីកំណត់ត្រា
-      back: ត្រលប់ក្រោយ
-      domain: កត្តា
-      you_need_to_create_assessment: ត្រូវបង្កើតការប៉ាន់ប្រមាណជាមុនសិន
-      new_case_note: កំណត់ត្រាថ្មី
-      case_note_on: កំណត់ត្រានៅថ្ងៃ
-      present: វត្តមានឣ្នកចូលរួម
-      completed_tasks: កាតព្វកិច្ចដែលបានធ្វើរួច
-      note: កំណត់ត្រា
-      goal: គោលដៅ
-    form_with_assessment_domains:
-      domain: កត្តា
-      note: កំណត់ត្រា
-      add_task: បន្ថែមកាតព្វកិច្ចថ្មី
-      goal: គោលដៅ
-    form_without_assessment_domains:
-      domain: កត្តា
-      note: កំណត់ត្រា
-      add_task: បន្ថែមកាតព្វកិច្ចថ្មី
-      goal: គោលដៅ
-    form:
-      label_note: ចំណាំ
-      meeting_detail: ពត៌មាននៃការប្រជុំ
-      meeting_with: ប្រជុំជាមួយ
-      on_date: 'កាលបរិច្ឆេទ:'
-      present: 'វត្តមានឣ្នកចូលរួម:'
-      domain: កត្តា
-      note: កំណត់ត្រា
-      tasks: កាតព្វកិច្ច
-      back: ត្រលប់ក្រោយ
-      save: រក្សាទុក
-      on_going_tasks: កាតព្វកិច្ចដែលមិនទាន់បំពេញ
-      completed_tasks: កាតព្វកិច្ចដែលបានធ្វើរួច
-      tasks_arising: កាតព្វកិច្ចកើតឡើង
-      add_task: បន្ថែមកាតព្វកិច្ចថ្មី
     add_task_form:
       completion_date: ថ្ងៃកំនត់
       domain: កត្តា
       enter_task_detail: ពត៌មានកាតព្វកិច្ច
-      title: បន្ថែមកាតព្វកិច្ចថ្មី
       save: រក្សាទុក
+      title: បន្ថែមកាតព្វកិច្ចថ្មី
+    create:
+      successfully_created: កំណត់ត្រាត្រូវបានបង្កើតដោយជោគជ័យ
+    form:
+      add_task: បន្ថែមកាតព្វកិច្ចថ្មី
+      back: ត្រលប់ក្រោយ
+      completed_tasks: កាតព្វកិច្ចដែលបានធ្វើរួច
+      domain: កត្តា
+      label_note: ចំណាំ
+      meeting_detail: ពត៌មាននៃការប្រជុំ
+      meeting_with: ប្រជុំជាមួយ
+      note: កំណត់ត្រា
+      on_date: 'កាលបរិច្ឆេទ:'
+      on_going_tasks: កាតព្វកិច្ចដែលមិនទាន់បំពេញ
+      present: 'វត្តមានឣ្នកចូលរួម:'
+      save: រក្សាទុក
+      tasks: កាតព្វកិច្ច
+      tasks_arising: កាតព្វកិច្ចកើតឡើង
+    form_with_assessment_domains:
+      add_task: បន្ថែមកាតព្វកិច្ចថ្មី
+      domain: កត្តា
+      goal: គោលដៅ
+      note: កំណត់ត្រា
+    form_without_assessment_domains:
+      add_task: បន្ថែមកាតព្វកិច្ចថ្មី
+      domain: កត្តា
+      goal: គោលដៅ
+      note: កំណត់ត្រា
+    index:
+      back: ត្រលប់ក្រោយ
+      case_note_lists: បញ្ជីកំណត់ត្រា
+      case_note_on: កំណត់ត្រានៅថ្ងៃ
+      completed_tasks: កាតព្វកិច្ចដែលបានធ្វើរួច
+      domain: កត្តា
+      goal: គោលដៅ
+      new_case_note: កំណត់ត្រាថ្មី
+      note: កំណត់ត្រា
+      present: វត្តមានឣ្នកចូលរួម
+      you_need_to_create_assessment: ត្រូវបង្កើតការប៉ាន់ប្រមាណជាមុនសិន
     show:
       case_note_on: កំណត់ត្រានៅថ្ងៃ
       present: វត្តមានឣ្នកចូលរួម
-    create:
-      successfully_created: កំណត់ត្រាត្រូវបានបង្កើតដោយជោគជ័យ
     update:
       successfully_updated: កំណត់ត្រាត្រូវបានកែសម្រួលដោយជោគជ័យ
   cases:
@@ -606,77 +633,75 @@ km:
       reset: សំអាត
       results: លទ្ធផល
       search: ស្វែងរក
+  client_enrollment_trackings:
+    action:
+      new_tracking: បន្ថែមការតាមដានថ្មី
+    create:
+      successfully_created: ការ​តាមដានត្រូវបានរក្សាទុកដោយជោគជ័យ
+    destroy:
+      successfully_deleted: ការ​តាមដានត្រូវបានលុបដោយជោគជ័យ
+    form:
+      cancel: ទុកជាមោឃៈ
+      save: រក្សាទុក
+    index:
+      programs_list: តារាងកម្មវិធី​
+      tracking_lists: តារាងការតាមដាន
+    new:
+      new_tracking: បន្ថែមការតាមដានថ្មី
+    report:
+      are_you_sure: តើអ្នកប្រាកដហើយ?
+      back: ត្រលប់ក្រោយ
+      created_at: កាលបរិច្ឆេទ
+      new_tracking: បន្ថែមការតាមដានថ្មី
+    show:
+      back: ត្រលប់ក្រោយ
+      trackings_list: តារាងការតាមដាន
+    update:
+      successfully_updated: ការ​តាមដានត្រូវបានកែសម្រួលដោយជោគជ័យ
   client_enrollments:
     create:
-      successfully_create: ការចុះឈ្មោះរក្សាទុកដោយជោគជ័យ
+      successfully_created: ការចុះឈ្មោះត្រូវបានរក្សាទុកដោយជោគជ័យ
+    destroy:
+      successfully_deleted: ការចុះឈ្មោះត្រូវបានលុបដោយជោគជ័យ
     edit:
       enrollment: ទម្រង់បែបបទ​នៃ​ចុះឈ្មោះ
-    show:
-      are_you_sure: តើអ្នកប្រាកដហើយ?
-      enrollment_date: កាលបរិច្ឆេទចុះឈ្មោះ
-      back: ត្រលប់ក្រោយ
-    report:
-      report: របាយការណ៏
-      tracking: ការតាមដាន
-      exit: ចាកចេញ
-      date: កាលបរិច្ឆេទ
-      forms: ទម្រង់បែបបទ
+    form:
+      cancel: ទុកជាមោឃៈ
+      save: រក្សាទុក
+    index:
       actions: សកម្មភាព
-      enrollment: ចុះឈ្មោះ
-      programs_list: តារាងកម្មវិធី​បន្ទាប់បន្សំ
+      back: ត្រលប់ក្រោយ
+      domain: កត្តា
+      name: ឈ្មោះកម្មវិធី
+      program_lists: តារាងកម្មវិធី​បន្ទាប់បន្សំ
+      quantity: ចំនួនកន្លែងដែលនៅទំនេរ
+      report: របាយការណ៍
+      status: ស្ថានភាព
       view: មើល
     manage:
       enroll: ចុះឈ្មោះ
       exit: ចាកចេញ
-      tracking: តាមដាន
       full_program: កម្មវិធីនេះពេញ
-    destroy:
-      successfully_deleted: ការចុះឈ្មោះត្រូវបានលុបដោយជោគជ័យ
-    update:
-      successfully_updated: ការចុះឈ្មោះត្រូវបានកែសម្រួលដោយជោគជ័យ
+      tracking: តាមដាន
     new:
-      new_enrollment: ការចុះឈ្មោះថ្មី
       client_not_valid: អតិថិជនមិនអាចចូលរូមកម្មវិធីនេះ
-    index:
-      view: មើល
-      quantity: ចំនួនកន្លែងដែលនៅទំនេរ
-      name: ឈ្មោះកម្មវិធី
-      domain: កត្តា
-      report: របាយការណ៍
-      actions: សកម្មភាព
-      status: ស្ថានភាព
-      program_lists: តារាងកម្មវិធី​បន្ទាប់បន្សំ
-      back: ត្រលប់ក្រោយ
-    create:
-      successfully_created: ការចុះឈ្មោះត្រូវបានរក្សាទុកដោយជោគជ័យ
-    form:
-      save: រក្សាទុក
-      cancel: ទុកជាមោឃៈ
-  client_enrollment_trackings:
-    create:
-      successfully_created: ការ​តាមដានត្រូវបានរក្សាទុកដោយជោគជ័យ
-    update:
-      successfully_updated: ការ​តាមដានត្រូវបានកែសម្រួលដោយជោគជ័យ
-    destroy:
-      successfully_deleted: ការ​តាមដានត្រូវបានលុបដោយជោគជ័យ
+      new_enrollment: ការចុះឈ្មោះថ្មី
     report:
+      actions: សកម្មភាព
+      date: កាលបរិច្ឆេទ
+      enrollment: ចុះឈ្មោះ
+      exit: ចាកចេញ
+      forms: ទម្រង់បែបបទ
+      programs_list: តារាងកម្មវិធី​បន្ទាប់បន្សំ
+      report: របាយការណ៏
+      tracking: ការតាមដាន
+      view: មើល
+    show:
       are_you_sure: តើអ្នកប្រាកដហើយ?
       back: ត្រលប់ក្រោយ
-      new_tracking: បន្ថែមការតាមដានថ្មី
-      created_at: កាលបរិច្ឆេទ
-    show:
-      back: ត្រលប់ក្រោយ
-      trackings_list: តារាងការតាមដាន
-    new:
-      new_tracking: បន្ថែមការតាមដានថ្មី
-    index:
-      tracking_lists: តារាងការតាមដាន
-      programs_list: តារាងកម្មវិធី​
-    action:
-      new_tracking: បន្ថែមការតាមដានថ្មី
-    form:
-      save: រក្សាទុក
-      cancel: ទុកជាមោឃៈ
+      enrollment_date: កាលបរិច្ឆេទចុះឈ្មោះ
+    update:
+      successfully_updated: ការចុះឈ្មោះត្រូវបានកែសម្រួលដោយជោគជ័យ
   clients:
     actions:
       are_you_sure: តើអ្នកប្រាកដហើយ?
@@ -1293,11 +1318,11 @@ km:
     to: ដល់
   date:
     formats:
-      long: ""
-      short: ""
+      long: '""'
+      short: '""'
   datetime:
     distance_in_words:
-      about_x_hours: ""
+      about_x_hours: '""'
   default_able_screening_question_fields:
     alert_manager: ជូនដំណឹងអ្នកគ្រប់គ្រង
     mode: ម៉ូដ
@@ -1625,12 +1650,12 @@ km:
       save: រក្សាទុក
     index:
       add_new_department: បន្ថែមកម្មវិធីថ្មី
-      departments: កម្មវិធី
-      department_names: ឈ្មោះកម្មវិធី
-      description: ការបរិយាយពីកម្មវិធី
-      manage: សកម្មភាព
       are_you_sure: តើអ្នកប្រាកដហើយ?
       changelogs: កំណែប្រែ
+      department_names: ឈ្មោះកម្មវិធី
+      departments: កម្មវិធី
+      description: ការបរិយាយពីកម្មវិធី
+      manage: សកម្មភាព
       view: មើល
     new:
       title: កម្មវិធីថ្មី
@@ -1640,6 +1665,96 @@ km:
     version:
       back: ត្រលប់ក្រោយ
       modification_of: កំណែប្រែរបស់
+  devise:
+    confirmations:
+      confirmed: អាសយដ្ឋានអ៊ីម៉ែល របស់អ្នកត្រូវបាន បញ្ជាក់ ដោយជោគជ័យ
+      send_instructions: អ្នកនឹងទទួលបាន អ៊ីម៉ែលមួយ ជាមួយនឹងការណែនាំ អំពីរបៀប ដើម្បីបញ្ជាក់ អាសយដ្ឋានអ៊ីមែល របស់អ្នកនៅក្នុងពេលប៉ុន្មាននាទីខាងមុខ
+      send_paranoid_instructions: ប្រសិនបើមាន អាសយដ្ឋានអ៊ីមែលរបស់អ្នក មាននៅក្នុង មូលដ្ឋានទិន្នន័យរបស់យើង នោះអ្នក នឹងទទួលបាន អ៊ីម៉ែលមួយ ជាមួយនឹងការណែនាំ អំពីរបៀប ដើម្បីបញ្ជាក់ អាសយដ្ឋានអ៊ីមែល របស់អ្នកនៅក្នុងពេលប៉ុន្មាននាទីខាងមុខ
+    failure:
+      already_authenticated: អ្នកបានចូលរួចហើយ
+      inactive: គណនីរបស់អ្នក មិនត្រូវបានបញ្ជាក់ នៅឡើយទេ
+      invalid: 
+      last_attempt: អ្នកអាចព្យាយាមចូលម្ដងទៀត មុនពេលគណនីរបស់អ្នក ត្រូវចាក់សោ
+      locked: គណនីរបស់អ្នកត្រូវ បានចាក់សោ
+      not_found_in_database: 
+      timeout: ប្រតិបត្តិការរបស់អ្នក ត្រូវបានផុតកំណត់។ សូមចូលម្ដងទៀត ដើម្បីបន្ត
+      unauthenticated: អ្នកត្រូវតែចូល ឬ បង្កើតគណនីមុនធ្វើសកម្មភាពបន្ត
+      unconfirmed: អ្នកត្រូវតែបញ្ជាក់អាសយដ្ឋានអ៊ីម៉ែល របស់អ្នក មុនធ្វើសកម្មភាពបន្ត
+    mailer:
+      confirmation_instructions:
+        subject: សេចក្តីណែនាំពីការបញ្ជាក់
+      password_change:
+        subject: លេខសំងាត់ត្រូវបានផ្លាស់ប្តូរ
+      reset_password_instructions:
+        subject: សេចក្តីណែនាំពីការកំណត់ឡើងវិញនៃពាក្យសំងាត់
+      unlock_instructions:
+        subject: សេចក្តីណែនាំពីការដោះសោរ
+    omniauth_callbacks:
+      failure: មិនអាច ផ្ទៀងផ្ទាត់ភាពត្រឹមត្រូវរបស់ អ្នកពី %{kind} ដោយសារ "%{reason}".
+      success: ផ្ទៀងផ្ទាត់ភាពត្រឹមត្រូវ ដោយជោគជ័យ ពី %{kind} គណនី
+    passwords:
+      edit:
+        change_my_password: ផ្លាស់ប្ដូរលេខសំងាត់របស់ខ្ញុំ
+        change_your_password: ផ្លាស់ប្ដូរលេខសំងាត់របស់អ្នក
+        confirm_your_new_password: បញ្ជាក់លេខកូដសំងាត់ថ្មី
+        new_password: លេខកូដថ្មី
+      new:
+        email: អ៊ីម៉ែល
+        forget_password: តើឣ្នកភ្លេចលេខសំងាត់?
+        send_reset_password: ផ្ញើសេចក្តីណែនាំដើម្បីផ្លាស់ប្ដូរលេខសំងាត់
+      no_token: អ្នកមិន អាចចូលដំណើរការទំព័រ នេះដោយគ្មាន មកពី អ៊ីម៉ែល កំណត់ពាក្យសម្ងាត់ឡើងវិញ។ ប្រសិនបើអ្នកធ្វើ មកពី អ៊ីម៉ែល កំណត់ពាក្យសម្ងាត់ឡើងវិញ , សូម ធ្វើឱ្យប្រាកដថា អ្នកបានប្រើ URL ពេញលេញ ដែលបានផ្តល់ឱ្យ
+      send_instructions: អ្នកនឹងទទួលបានសេចក្ដីណែនាំពីការផ្លាស់ប្ដូរលេខសំងាត់ក្នុងរយៈពេលពីរឬបីនាទីខាងមុខ
+      send_paranoid_instructions: ប្រសិនបើអ៊ីមែលរបស់អ្នកមាននៅក្នុងទិន្នន័យរបស់យើងនោះអ្នកនឹងទទួលបាននូវតំណភ្ជាប់(Link)សម្រាប់ធ្វើការប្តូរលេខសំងាត់នៅក្នុងអ៊ីមែលរបស់អ្នកនៅក្នុងពេលប៉ុន្មាននាទីខាងមុខ
+      updated: លេខសំងាត់របស់អ្នកត្រូវបានផ្លាស់ប្ដូរដោយជោគជ័យ អ្នកបានចូលក្នុងប្រព័ន្ធនេះហើយ
+      updated_not_active: ពាក្យសំងាត់របស់អ្នកត្រូវបានផ្លាស់ប្តូរដោយជោគជ័យ
+    registrations:
+      destroyed: លាសិនហើយ ! គណនីរបស់អ្នក ត្រូវបានលុបចោល ដោយជោគជ័យ។ យើងសង្ឃឹមថានឹង ឃើញអ្នក ជាថ្មីម្តងទៀត ក្នុងពេលឆាប់ៗ
+      edit:
+        are_you_sure: តើអ្នកប្រាកដហើយ?
+        calendar_integration: ការរួមបញ្ចូលប្រតិទិន
+        current_password: លេខកូដសំងាត់បច្ចុប្បន្ន
+        date_of_birth: ថ្ងៃ ខែ ឆ្នាំ កំណើត
+        delete_my_account: លុបចោលគណនីរបស់ខ្ញុំ
+        department: កម្មវិធី
+        email: ឣុីម៉ែល
+        first_name: នាមខ្លួន
+        header: កែសម្រួលពត៌មានផ្ទាល់ខ្លួន
+        job_title: មុខតំណែង
+        last_name: នាមត្រកូល
+        leave_blank_if_you_dont_want_to_change: រំលងប្រសិនបើឣ្នកមិនចង់ធ្វើការផ្លាស់ប្តូរ
+        mobile: លេខទូរសព្ទ
+        overdue_task_summary_notify: ផ្ញើឱ្យខ្ញុំសេចក្ដីសង្ខេបនៃភារកិច្ចហួសកាលកំណត់
+        password: លេខកូដសំងាត់
+        password_confirmation: បញ្ជាក់លេខកូដសំងាត់ថ្មី
+        province: ខេត្ត
+        save: រក្សាទុក
+        start_date: កាលបរិច្ឆេទចាប់ផ្តើម
+        we_need_your_current_password_to_confirm_your_changes: យើងត្រូវការពិនិត្យបញ្ជាក់លេខកូដសំងាត់បច្ចុប្បន្នដើម្បីធ្វើការផ្លាស់ប្តូរ
+      signed_up: ស្វាគមន៏ ! អ្នកបានចូលដោយជោគជ័យ
+      signed_up_but_inactive: អ្នកបានចុះឈ្មោះ ដោយជោគជ័យ។ ទោះយ៉ាងណា យើងមិនអាច ឱ្យអ្នកចូល ទេព្រោះ គណនីរបស់អ្នក មិនទាន់ដំណើរការទេ
+      signed_up_but_locked: អ្នកបានចុះឈ្មោះ ដោយជោគជ័យ។ ទោះយ៉ាងណា យើងមិនអាច ឱ្យអ្នកចូល ទេព្រោះ គណនីរបស់អ្នកត្រូវ បានចាក់សោ
+      signed_up_but_unconfirmed: សារ ដែលមានតំណ បញ្ជាក់មួយ ត្រូវបានផ្ញើ ទៅអាសយដ្ឋាន អ៊ីមែលរបស់អ្នក។ សូមទៅតាមតំណ ដើម្បីដំណើរការ គណនីរបស់អ្នក
+      update_needs_confirmation: គណនីរបស់អ្នកត្រូវបានកែប្រែដោយជោគជ័យ, ប៉ុន្តែយើងត្រូវ ការផ្ទៀងផ្ទាត់ អាសយដ្ឋានអ៊ីម៉ែល ថ្មីរបស់អ្នក។ សូមពិនិត្យមើល អ៊ីមែលរបស់អ្នក និងធ្វើតាម តំណការបញ្ជាក់ ដើម្បីបញ្ជាក់ អាសយដ្ឋានអ៊ីមែលថ្មី របស់អ្នក
+      updated: គណនី របស់អ្នកត្រូវបានធ្វើការកែប្រែ ដោយជោគជ័យ
+    sessions:
+      already_signed_out: បានចេញដោយជោគជ័យ
+      new:
+        email: អ៊ីម៉ែល
+        login: ចូល
+        password: លេខសំងាត់
+        remember_me: ចងចាំខ្ញុំ
+      signed_in: ចូលបានជោគជ័យ
+      signed_out: ចាកចេញដោយជោគជ័យ
+    shared:
+      links:
+        back: ត្រលប់ក្រោយ
+        forget_password: តើឣ្នកភ្លេចលេខសំងាត់?
+        receive_confirm_instruction: មិនបានទទួល សេចក្ដីណែនាំអំពីការ បញ្ជាក់?
+        receive_unlock_instruction: មិនបានទទួល សេចក្តីណែនាំអំពីការ ដោះសោ?
+    unlocks:
+      send_instructions: អ្នកនឹងទទួលបាន អ៊ីម៉ែលមួយ ជាមួយនឹងការណែនាំ សម្រាប់របៀបក្នុងការ ដោះសោគណនី របស់អ្នកនៅក្នុងពេលប៉ុន្មាននាទីខាងមុខ
+      send_paranoid_instructions: បើគណនីរបស់អ្នក មានរួចហើយ, អ្នកនឹងទទួលបាន អ៊ីម៉ែលមួយ ជាមួយនឹងការណែនាំ អំពីរបៀប ដើម្បីដោះសោ វានៅក្នុងពេល ពីរឬបីនាទីខាងមុខ
+      unlocked: គណនីរបស់អ្នកត្រូវ បានដោះសោ ដោយជោគជ័យ។ សូមចូលទៅ បន្ត
   domain_groups:
     create:
       failed_create: ការប្រមូលផ្តុំកត្តាមិនត្រូវបានបង្កើត
@@ -1748,6 +1863,18 @@ km:
     version:
       back: ត្រលប់ក្រោយ
       modification_of: កំណែប្រែរបស់
+  errors:
+    messages:
+      already_confirmed: ត្រូវបានបញ្ជាក់ រួចទៅហើយ សូម សាកល្បងចូល
+      already_in_use: ប្រើប្រាស់រួចហើយ
+      confirmation_period_expired: ត្រូវការបញ្ជាក់ជាមួយ %{period} សូម ស្នើសុំ ថ្មីមួយទៀត
+      expired: បានផុតកំណត់សូម ស្នើសុំ ថ្មីមួយទៀត
+      not_email: មិនមែនជាឣុីម៉ែល
+      not_found: រកមិនឃើញ
+      not_locked: មិនត្រូវបានចាក់សោ
+      not_saved:
+        one: កំហុស ១  បានហាមឃាត់  %{resource} ពីការរក្សាទុក
+        other: "%{count} កំហុស បានហាមឃាត់ %{resource} ពីការរក្សាទុក"
   families:
     actions:
       are_you_sure: តើអ្នកប្រាកដហើយ?
@@ -2436,16 +2563,26 @@ km:
   program_streams:
     actions:
       are_you_sure: តើអ្នកប្រាកដហើយ?
+    all_ngos_program_streams_tab:
+      actions: សកម្មភាព
+      copy: ចំលង
+      domain: កត្តា
+      name: ឈ្មោះកម្មវិធីបន្ទាប់បន្សំ
+      organization: អង្គការ
+      preview: មើល
+      quantity: ចំនួនកន្លែងដែលនៅទំនេរ
+      status: ស្ថានភាព
     create:
       alert: ឈ្មោះនៃការតាមដានត្រូវបានប្រើរួចហើយ
       successfully_created: កម្មវិធីរក្សាទុកដោយជោគជ័យ
     current_program_streams_tab:
-      name: ឈ្មោះកម្មវិធី​បន្ទាប់បន្សំ
+      actions: សកម្មភាព
       domain: កត្តា
-      status: ស្ថានភាព
       enrolled: ចំនួនដែលចូលរូមកម្មវិធី
       maximum: ចំនួនដែលអាចចូលរូមកម្មវិធីច្រើនបំផុត
-      actions: សកម្មភាព
+      name: ឈ្មោះកម្មវិធី​បន្ទាប់បន្សំ
+      quantity: បរិមាណ
+      status: ស្ថានភាព
     destroy:
       alert: កម្មវិធីមិនអាចលុបបានទេ
       successfully_deleted: កម្មវិធីលុបដោយជោគជ័យ
@@ -2469,17 +2606,14 @@ km:
     new:
       back: ត្រលប់ក្រោយ
       new_program_stream: បន្ថែមកម្មវិធីថ្មី
-    all_ngos_program_streams_tab:
-      quantity: ចំនួនកន្លែងដែលនៅទំនេរ
-      name: ឈ្មោះកម្មវិធីបន្ទាប់បន្សំ
-      domain: កត្តា
-      report: របាយការណ៍
+    others_ngo_program_streams_tab:
       actions: សកម្មភាព
-      status: ស្ថានភាព
-      program_lists: តារាងកម្មវិធី​បន្ទាប់បន្សំ
+      copy: ចម្លងជូន
+      domain: កត្តា
+      name: ឈ្មោះកម្មវិធីបន្ទាប់បន្សំ
       organization: អង្គការ
-      copy: ចំលង
-      preview: មើល
+      preview: មើលជាមុន
+      quantity: បរិមាណ
     program_rule:
       add_new_filter: បន្ថែមការស្វែងរក
       add_new_group: បន្ថែមបណ្ដុំនៃការស្វែងរក
@@ -2487,18 +2621,19 @@ km:
       delete_group: លុបបណ្ដុំនៃការស្វែងរក
       description: ការបរិយាយ
       domain: កត្តា
-      name: ឈ្មោះកម្មវិធីបន្ទាប់បន្សំ
       maximum: ចំនួនដែលអាចចូលរូមកម្មវិធីច្រើនបំផុត
+      name: ឈ្មោះកម្មវិធីបន្ទាប់បន្សំ
+      quantity: បរិមាណ
       rule: លក្ខខណ្ឌ
     show:
-      enrolled: ចំនួនដែលចូលរូមកម្មវិធី
-      maximum: ចំនួនដែលអាចចូលរូមកម្មវិធីច្រើនបំផុត
       back: ត្រលប់ក្រោយ
       copy: ចម្លងជូន
       description: ការបរិយាយ
       domain: កត្តា
+      enrolled: ចំនួនដែលចូលរូមកម្មវិធី
       enrollment: ចុះឈ្មោះ
       exit_program: ចាកចេញពីកម្មវិធី
+      maximum: ចំនួនដែលអាចចូលរូមកម្មវិធីច្រើនបំផុត
       quantity: បរិមាណ
       rules: លក្ខខណ្ឌ
       tracking: តាមដាន
@@ -2841,6 +2976,62 @@ km:
         program_stream: កម្មវិធីបន្ទាប់បន្សំ
         value_of: តម្លៃនៃ
   signed_in_with_google: ចូលបានជោគជ័យជាមួយនឹង Google Calendar
+  simple_form:
+    cancel: Cancel
+    error_notification:
+      default_message: 'Please review the problems below:'
+    'no': 'No'
+    required:
+      mark: "*"
+      text: required
+    save: Save
+    'yes': 'Yes'
+  stages:
+    able_screening_question_fields:
+      alert_manager: ជូនដំណឹងអ្នកគ្រប់គ្រង
+      are_you_sure: តើអ្នកប្រាកដហើយ?
+      group: ក្រុម
+      mode: ម៉ូដ
+      question: សំនួរ
+      questions: សំនួរ
+    attachment_fields:
+      browse: រកមើល
+    create:
+      successfully_created: ដំណាក់ការបានបង្កើតដោយជោគជ័យ
+    destroy:
+      alert: តំណាក់កាលមិនអាចលុបបានទេ
+      successfully_deleted: ដំណាក់ការត្រូវបានលុបដោយជោគជ័យ
+    edit:
+      edit_stage: កែរសំរួល ដំណាក់កាល
+    form:
+      add_question: បន្ថែមសំនួរ
+      alert_manager: ជូនដំណឹងអ្នកគ្រប់គ្រង
+      from_age: ចាប់ពីអាយុ (គិតជាឆ្នាំ)
+      group: ក្រុម
+      mode: ម៉ូដ
+      questions: សំនួរ
+      to_age: ទៅដល់អាយុ (គិតជាឆ្នាំ)
+    index:
+      able_screening_questions: សំនួរ Able Screening
+      edit_and_add_question: កែសម្រួល/បន្ថែមសំនួរ
+      from: ចាប់ពី
+      general_question: សំនួរទូទៅ
+      new_general_question: បន្ថែមសំនួរទូទៅថ្មី
+      new_stage_question: បន្ថែមសំនួូរដំណាក់កាលថ្មី
+      question:
+        one: 1 សំនួរ
+        other: "%{count} សំនួរ"
+      stage: តំណាក់កាល
+      stage_question: សំនួូរដំណាក់កាល
+      to: ទៅដល់
+      year: ឆ្នាំ
+    new:
+      new_stage: បន្ថែមដំណាក់កាលថ្មី
+    non_stage: មិនមានដំណាក់កាល
+    questions: សំនួរ
+    stage: តំណាក់កាល
+    update:
+      successfully_updated: ដំណាក់ការត្រូវបានកែសម្រួលដោយជោគជ័យ
   surveys:
     create:
       successfully_created: ការស្ទង់មតិត្រូវបានបង្កើតដោយជោគជ័យ
@@ -2939,14 +3130,12 @@ km:
       post_approved_html: ការឆ្លើយតបត្រូវបានអនុញាតដោយ %{moderator} %{time_ago}.
       post_blocked_html: ការឆ្លើយតបត្រូវបានបិទដោយ %{moderator} %{time_ago}.
       post_deleted_notice: ការឆ្លើយតបនេះត្រូវបានលុប
-      posts_content_changed_since_moderation_html: >-
-        The <a href="%{post_url}">post's</a> content change since it was moderated. Below is the content at the
-        time it was moderated.
+      posts_content_changed_since_moderation_html: The <a href="%{post_url}">post's</a> content change since it was moderated. Below is the content at the time it was moderated.
       search_users:
         form_label: ស្វែងរកអ្នកប្រើប្រាស់
         form_placeholder: :thredded.moderation.search_users.form_label
-        results_message: អ្នកប្រើប្រាស់ដែលមានឈ្មោះផ្ដើមដោយ %{query}
-        no_results_message: មិនមានអ្នកប្រើប្រាស់ដែលមានឈ្មោះផ្ដើមដោយ %{query} ទេ
+        no_results_message: 
+        results_message: 
     nav:
       all_messageboards: ផ្ទាំងសារទាំអស់
       edit_messageboard: កែសម្រួលផ្ទាំងសារ
@@ -3066,8 +3255,8 @@ km:
       user_started_topic_html: "%{user_link} បានបង្កើត %{topic_link}"
   time:
     formats:
-      long: ""
-      short: ""
+      long: '""'
+      short: '""'
   trackings:
     create:
       successfully_created: ការតាមដានត្រូវបានរក្សាទុកដោយជោគជ័យ
@@ -3205,105 +3394,3 @@ km:
     next_label: ទំព័របន្ទាប់
     page_gap: "..."
     previous_label: ទំព័រមុន
-  devise:
-    confirmations:
-      confirmed: "អាសយដ្ឋានអ៊ីម៉ែល របស់អ្នកត្រូវបាន បញ្ជាក់ ដោយជោគជ័យ"
-      send_instructions: "អ្នកនឹងទទួលបាន អ៊ីម៉ែលមួយ ជាមួយនឹងការណែនាំ អំពីរបៀប ដើម្បីបញ្ជាក់ អាសយដ្ឋានអ៊ីមែល របស់អ្នកនៅក្នុងពេលប៉ុន្មាននាទីខាងមុខ"
-      send_paranoid_instructions: "ប្រសិនបើមាន អាសយដ្ឋានអ៊ីមែលរបស់អ្នក មាននៅក្នុង មូលដ្ឋានទិន្នន័យរបស់យើង នោះអ្នក នឹងទទួលបាន អ៊ីម៉ែលមួយ ជាមួយនឹងការណែនាំ អំពីរបៀប ដើម្បីបញ្ជាក់ អាសយដ្ឋានអ៊ីមែល របស់អ្នកនៅក្នុងពេលប៉ុន្មាននាទីខាងមុខ"
-    failure:
-      already_authenticated: "អ្នកបានចូលរួចហើយ"
-      inactive: "គណនីរបស់អ្នក មិនត្រូវបានបញ្ជាក់ នៅឡើយទេ"
-      invalid: "អ៊ីម៉ែលឬពាក្យសម្ងាត់មិនត្រឹមត្រូវ"
-      locked: "គណនីរបស់អ្នកត្រូវ បានចាក់សោ"
-      last_attempt: "អ្នកអាចព្យាយាមចូលម្ដងទៀត មុនពេលគណនីរបស់អ្នក ត្រូវចាក់សោ"
-      not_found_in_database: "អ៊ីម៉ែលឬពាក្យសម្ងាត់មិនត្រឹមត្រូវ"
-      timeout: "ប្រតិបត្តិការរបស់អ្នក ត្រូវបានផុតកំណត់។ សូមចូលម្ដងទៀត ដើម្បីបន្ត"
-      unauthenticated: "អ្នកត្រូវតែចូល ឬ បង្កើតគណនីមុនធ្វើសកម្មភាពបន្ត"
-      unconfirmed: "អ្នកត្រូវតែបញ្ជាក់អាសយដ្ឋានអ៊ីម៉ែល របស់អ្នក មុនធ្វើសកម្មភាពបន្ត"
-    mailer:
-      confirmation_instructions:
-        subject: "សេចក្តីណែនាំពីការបញ្ជាក់"
-      reset_password_instructions:
-        subject: "សេចក្តីណែនាំពីការកំណត់ឡើងវិញនៃពាក្យសំងាត់"
-      unlock_instructions:
-        subject: "សេចក្តីណែនាំពីការដោះសោរ"
-      password_change:
-        subject: "លេខសំងាត់ត្រូវបានផ្លាស់ប្តូរ"
-    omniauth_callbacks:
-      failure: "មិនអាច ផ្ទៀងផ្ទាត់ភាពត្រឹមត្រូវរបស់ អ្នកពី %{kind} ដោយសារ \"%{reason}\"."
-      success: "ផ្ទៀងផ្ទាត់ភាពត្រឹមត្រូវ ដោយជោគជ័យ ពី %{kind} គណនី"
-    passwords:
-      no_token: "អ្នកមិន អាចចូលដំណើរការទំព័រ នេះដោយគ្មាន មកពី អ៊ីម៉ែល កំណត់ពាក្យសម្ងាត់ឡើងវិញ។ ប្រសិនបើអ្នកធ្វើ មកពី អ៊ីម៉ែល កំណត់ពាក្យសម្ងាត់ឡើងវិញ , សូម ធ្វើឱ្យប្រាកដថា អ្នកបានប្រើ URL ពេញលេញ ដែលបានផ្តល់ឱ្យ"
-      send_instructions: "អ្នកនឹងទទួលបានសេចក្ដីណែនាំពីការផ្លាស់ប្ដូរលេខសំងាត់ក្នុងរយៈពេលពីរឬបីនាទីខាងមុខ"
-      send_paranoid_instructions: "ប្រសិនបើអ៊ីមែលរបស់អ្នកមាននៅក្នុងទិន្នន័យរបស់យើងនោះអ្នកនឹងទទួលបាននូវតំណភ្ជាប់(Link)សម្រាប់ធ្វើការប្តូរលេខសំងាត់នៅក្នុងអ៊ីមែលរបស់អ្នកនៅក្នុងពេលប៉ុន្មាននាទីខាងមុខ"
-      updated: "លេខសំងាត់របស់អ្នកត្រូវបានផ្លាស់ប្ដូរដោយជោគជ័យ អ្នកបានចូលក្នុងប្រព័ន្ធនេះហើយ"
-      updated_not_active: "ពាក្យសំងាត់របស់អ្នកត្រូវបានផ្លាស់ប្តូរដោយជោគជ័យ"
-      new:
-        forget_password: "តើឣ្នកភ្លេចលេខសំងាត់?"
-        email: "អ៊ីម៉ែល"
-        send_reset_password: "ផ្ញើសេចក្តីណែនាំដើម្បីផ្លាស់ប្ដូរលេខសំងាត់"
-      edit:
-        change_your_password: ផ្លាស់ប្ដូរលេខសំងាត់របស់អ្នក
-        new_password: លេខកូដថ្មី
-        confirm_your_new_password: បញ្ជាក់លេខកូដសំងាត់ថ្មី
-        change_my_password: ផ្លាស់ប្ដូរលេខសំងាត់របស់ខ្ញុំ
-    registrations:
-      destroyed: "លាសិនហើយ ! គណនីរបស់អ្នក ត្រូវបានលុបចោល ដោយជោគជ័យ។ យើងសង្ឃឹមថានឹង ឃើញអ្នក ជាថ្មីម្តងទៀត ក្នុងពេលឆាប់ៗ"
-      signed_up: "ស្វាគមន៏ ! អ្នកបានចូលដោយជោគជ័យ"
-      signed_up_but_inactive: "អ្នកបានចុះឈ្មោះ ដោយជោគជ័យ។ ទោះយ៉ាងណា យើងមិនអាច ឱ្យអ្នកចូល ទេព្រោះ គណនីរបស់អ្នក មិនទាន់ដំណើរការទេ"
-      signed_up_but_locked: "អ្នកបានចុះឈ្មោះ ដោយជោគជ័យ។ ទោះយ៉ាងណា យើងមិនអាច ឱ្យអ្នកចូល ទេព្រោះ គណនីរបស់អ្នកត្រូវ បានចាក់សោ"
-      signed_up_but_unconfirmed: "សារ ដែលមានតំណ បញ្ជាក់មួយ ត្រូវបានផ្ញើ ទៅអាសយដ្ឋាន អ៊ីមែលរបស់អ្នក។ សូមទៅតាមតំណ ដើម្បីដំណើរការ គណនីរបស់អ្នក"
-      update_needs_confirmation: "គណនីរបស់អ្នកត្រូវបានកែប្រែដោយជោគជ័យ, ប៉ុន្តែយើងត្រូវ ការផ្ទៀងផ្ទាត់ អាសយដ្ឋានអ៊ីម៉ែល ថ្មីរបស់អ្នក។ សូមពិនិត្យមើល អ៊ីមែលរបស់អ្នក និងធ្វើតាម តំណការបញ្ជាក់ ដើម្បីបញ្ជាក់ អាសយដ្ឋានអ៊ីមែលថ្មី របស់អ្នក"
-      updated: "គណនី របស់អ្នកត្រូវបានធ្វើការកែប្រែ ដោយជោគជ័យ"
-      edit:
-        header: កែសម្រួលពត៌មានផ្ទាល់ខ្លួន
-        first_name: នាមខ្លួន
-        last_name: នាមត្រកូល
-        date_of_birth: ថ្ងៃ ខែ ឆ្នាំ កំណើត
-        job_title: មុខតំណែង
-        department: កម្មវិធី
-        start_date: កាលបរិច្ឆេទចាប់ផ្តើម
-        province: ខេត្ត
-        mobile: លេខទូរសព្ទ
-        email: ឣុីម៉ែល
-        leave_blank_if_you_dont_want_to_change: រំលងប្រសិនបើឣ្នកមិនចង់ធ្វើការផ្លាស់ប្តូរ
-        password: លេខកូដសំងាត់
-        password_confirmation: បញ្ជាក់លេខកូដសំងាត់ថ្មី
-        we_need_your_current_password_to_confirm_your_changes: យើងត្រូវការពិនិត្យបញ្ជាក់លេខកូដសំងាត់បច្ចុប្បន្នដើម្បីធ្វើការផ្លាស់ប្តូរ
-        current_password: លេខកូដសំងាត់បច្ចុប្បន្ន
-        save: រក្សាទុក
-        delete_my_account: លុបចោលគណនីរបស់ខ្ញុំ
-        are_you_sure: តើអ្នកប្រាកដហើយ?
-        calendar_integration: ការរួមបញ្ចូលប្រតិទិន
-        overdue_task_summary_notify: ផ្ញើឱ្យខ្ញុំសេចក្ដីសង្ខេបនៃភារកិច្ចហួសកាលកំណត់
-    sessions:
-      signed_in: "ចូលបានជោគជ័យ"
-      signed_out: "ចាកចេញដោយជោគជ័យ"
-      already_signed_out: "បានចេញដោយជោគជ័យ"
-      new:
-        login: "ចូល"
-        email: "អ៊ីម៉ែល"
-        password: "លេខសំងាត់"
-        remember_me: "ចងចាំខ្ញុំ"
-    unlocks:
-      send_instructions: "អ្នកនឹងទទួលបាន អ៊ីម៉ែលមួយ ជាមួយនឹងការណែនាំ សម្រាប់របៀបក្នុងការ ដោះសោគណនី របស់អ្នកនៅក្នុងពេលប៉ុន្មាននាទីខាងមុខ"
-      send_paranoid_instructions: "បើគណនីរបស់អ្នក មានរួចហើយ, អ្នកនឹងទទួលបាន អ៊ីម៉ែលមួយ ជាមួយនឹងការណែនាំ អំពីរបៀប ដើម្បីដោះសោ វានៅក្នុងពេល ពីរឬបីនាទីខាងមុខ"
-      unlocked: "គណនីរបស់អ្នកត្រូវ បានដោះសោ ដោយជោគជ័យ។ សូមចូលទៅ បន្ត"
-    shared:
-      links:
-        back: ត្រលប់ក្រោយ
-        forget_password: "តើឣ្នកភ្លេចលេខសំងាត់?"
-        receive_confirm_instruction: "មិនបានទទួល សេចក្ដីណែនាំអំពីការ បញ្ជាក់?"
-        receive_unlock_instruction: "មិនបានទទួល សេចក្តីណែនាំអំពីការ ដោះសោ?"
-  errors:
-    messages:
-      already_confirmed: "ត្រូវបានបញ្ជាក់ រួចទៅហើយ សូម សាកល្បងចូល"
-      already_in_use: "ប្រើប្រាស់រួចហើយ"
-      confirmation_period_expired: "ត្រូវការបញ្ជាក់ជាមួយ %{period} សូម ស្នើសុំ ថ្មីមួយទៀត"
-      expired: "បានផុតកំណត់សូម ស្នើសុំ ថ្មីមួយទៀត"
-      not_found: "រកមិនឃើញ"
-      not_locked: "មិនត្រូវបានចាក់សោ"
-      not_saved:
-        one: "កំហុស ១  បានហាមឃាត់  %{resource} ពីការរក្សាទុក"
-        other: "%{count} កំហុស បានហាមឃាត់ %{resource} ពីការរក្សាទុក"
-      not_email: "មិនមែនជាឣុីម៉ែល"
