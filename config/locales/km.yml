@@ -1673,10 +1673,10 @@ km:
     failure:
       already_authenticated: អ្នកបានចូលរួចហើយ
       inactive: គណនីរបស់អ្នក មិនត្រូវបានបញ្ជាក់ នៅឡើយទេ
-      invalid:
+      invalid: 
       last_attempt: អ្នកអាចព្យាយាមចូលម្ដងទៀត មុនពេលគណនីរបស់អ្នក ត្រូវចាក់សោ
       locked: គណនីរបស់អ្នកត្រូវ បានចាក់សោ
-      not_found_in_database:
+      not_found_in_database: 
       timeout: ប្រតិបត្តិការរបស់អ្នក ត្រូវបានផុតកំណត់។ សូមចូលម្ដងទៀត ដើម្បីបន្ត
       unauthenticated: អ្នកត្រូវតែចូល ឬ បង្កើតគណនីមុនធ្វើសកម្មភាពបន្ត
       unconfirmed: អ្នកត្រូវតែបញ្ជាក់អាសយដ្ឋានអ៊ីម៉ែល របស់អ្នក មុនធ្វើសកម្មភាពបន្ត
@@ -3134,8 +3134,8 @@ km:
       search_users:
         form_label: ស្វែងរកអ្នកប្រើប្រាស់
         form_placeholder: :thredded.moderation.search_users.form_label
-        no_results_message:
-        results_message:
+        no_results_message: 
+        results_message: 
     nav:
       all_messageboards: ផ្ទាំងសារទាំអស់
       edit_messageboard: កែសម្រួលផ្ទាំងសារ

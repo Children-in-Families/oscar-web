@@ -25,10 +25,6 @@ class ProgramStreamDecorator < Draper::Decorator
     model.quantity.present? && model.client_enrollments.active.size >= model.quantity
   end
 
-  def disabled_delete_button
-    model.client_enrollments.present? ? 'disabled' : ''
-  end
-
   def place_available
     model.quantity.present? ? model.number_available_for_client : ''
   end
