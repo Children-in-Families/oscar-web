@@ -1,0 +1,37 @@
+development:
+  clients:
+    default:
+      database: <%= ENV['HISTORY_DATABASE_NAME'] %>
+      hosts:
+        - localhost:27017
+      options:
+  options:
+
+test:
+  clients:
+    default:
+      database: oscar_history_test
+      hosts:
+        - localhost:27017
+      options:
+        read:
+          mode: :primary
+        max_pool_size: 1
+
+staging:
+  clients:
+    default:
+      database: <%= ENV['HISTORY_DATABASE_NAME'] %>
+      hosts:
+        - localhost:27017
+      options:
+  options:
+
+production:
+  clients:
+    default:
+      database: <%= ENV['HISTORY_DATABASE_NAME'] %>
+      hosts:
+        - localhost:27017
+      options:
+  options:
