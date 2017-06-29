@@ -34,7 +34,7 @@ class ProgramStreamsController < AdminController
     @program_stream = ProgramStream.new(program_stream_params)
     begin
       if @program_stream.save
-        redirect_to program_streams_path, notice: t('.successfully_created')
+        redirect_to program_stream_path(@program_stream), notice: t('.successfully_created')
       else
         render :new
       end
@@ -47,7 +47,7 @@ class ProgramStreamsController < AdminController
   def update
     begin
       if @program_stream.update_attributes(program_stream_params)
-        redirect_to program_streams_path, notice: t('.successfully_updated')
+        redirect_to program_stream_path(@program_stream), notice: t('.successfully_updated')
       else
         render :edit
       end
@@ -58,11 +58,8 @@ class ProgramStreamsController < AdminController
   end
 
   def destroy
-    if @program_stream.destroy
-      redirect_to program_streams_path, notice: t('.successfully_deleted')
-    else
-      redirect_to program_streams_path, alert: t('.alert')
-    end
+    @program_stream.destroy
+    redirect_to program_streams_path, notice: t('.successfully_deleted')
   end
 
   def preview

@@ -36,4 +36,12 @@ body[id='program_streams-show'], body[id='program_streams-preview'] {
     margin-right: 10px;
     margin-top: 10px;
   }
+  tr {
+    td.description,
+    td.domain,
+    td.enrolled,
+    td.maximum {
+      width: 300px;
+    }
+  }
 }
