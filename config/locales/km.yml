@@ -621,7 +621,6 @@ km:
       assessments: ការប៉ាន់ប្រមាណ
       csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
       delete_group: លុបបណ្ដុំនៃការស្វែងរក
-<<<<<<< HEAD
       export_to_xls: ទាញចេញជាឯកសារប្រភេទ XLS
       no_results: មិនមានលទ្ធផល
       reset: សំអាត
@@ -637,7 +636,6 @@ km:
     form:
       cancel: ទុកជាមោឃៈ
       save: រក្សាទុក
-=======
       add_rule: បន្ថែមលក្ខខណ្ឌថ្មី
       name: ឈ្មោះកម្មវិធី​បន្ទាប់បន្សំ
       description: ការបរិយាយ
@@ -662,7 +660,6 @@ km:
       save: រក្សាទុក
 
   government_reports:
->>>>>>> master
     index:
       programs_list: តារាងកម្មវិធី
       tracking_lists: តារាងការតាមដាន
@@ -1677,13 +1674,11 @@ km:
       manage: សកម្មភាព
       view: មើល
     new:
-<<<<<<< HEAD
       title: កម្មវិធីថ្មី
     update:
       failed_update: កម្មវិធីរក្សាបានមិនបានជោគជ័យ
       successfully_updated: កម្មវិធីរក្សាបានដោយជោគជ័យ
     version:
-=======
       new_enrollment: ការចុះឈ្មោះថ្មី
       client_not_valid: អតិថិជនមិនអាចចូលរូមកម្មវិធីនេះ
     index:
