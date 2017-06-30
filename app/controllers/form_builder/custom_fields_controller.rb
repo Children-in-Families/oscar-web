@@ -1,8 +1,8 @@
 class FormBuilder::CustomFieldsController < AdminController
   load_and_authorize_resource
 
-  before_action :set_custom_field, only: [:edit, :update, :destroy, :show]
   before_action :find_ngo_name
+  before_action :set_custom_field, only: [:edit, :update, :destroy, :show]
 
   def index
     @custom_fields = CustomField.order(:entity_type, :form_title).page(params[:page_1]).per(20)
