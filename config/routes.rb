@@ -212,7 +212,6 @@ Rails.application.routes.draw do
     resources :custom_fields do
       collection do
         get 'search' => 'custom_fields#search', as: :search
-        get 'preview' => 'custom_fields#show', as: 'preview'
       end
     end
   end
