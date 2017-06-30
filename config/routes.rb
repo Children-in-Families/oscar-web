@@ -66,9 +66,9 @@ Rails.application.routes.draw do
     get 'version' => 'donors#version'
   end
 
-  resources :program_streams do
-    get :preview, on: :collection
-  end
+  # resources :program_streams do
+  #   get :preview, on: :collection
+  # end
 
   resources :changelogs do
     get 'version' => 'changelogs#version'
@@ -112,13 +112,13 @@ Rails.application.routes.draw do
     collection do
       get :advanced_search
     end
-    resources :client_enrollments do
-      get :report, on: :collection
-      resources :client_enrollment_trackings do
-        get :report, on: :collection
-      end
-      resources :leave_programs
-    end
+    # resources :client_enrollments do
+    #   get :report, on: :collection
+    #   resources :client_enrollment_trackings do
+    #     get :report, on: :collection
+    #   end
+    #   resources :leave_programs
+    # end
     resources :custom_field_properties
     # resources :government_reports
     resources :assessments
@@ -172,11 +172,11 @@ Rails.application.routes.draw do
         get :get_basic_field
       end
     end
-    resources :program_stream_add_rule, only: [] do
-      collection do
-        get :get_fields
-      end
-    end
+    # resources :program_stream_add_rule, only: [] do
+    #   collection do
+    #     get :get_fields
+    #   end
+    # end
 
     namespace :v1, default: { format: :json } do
       resources :domain_groups, only: [:index]
@@ -192,12 +192,12 @@ Rails.application.routes.draw do
           resources :tasks, only: [:create, :update, :destroy]
         end
 
-        resources :client_enrollments, only: [:create, :update] do
-          resources :client_enrollment_trackings, only: [:create, :update]
-          resources :leave_programs, only: [:create, :update]
-        end
+        # resources :client_enrollments, only: [:create, :update] do
+        #   resources :client_enrollment_trackings, only: [:create, :update]
+        #   resources :leave_programs, only: [:create, :update]
+        # end
       end
-      resources :program_streams, only: [:index]
+      # resources :program_streams, only: [:index]
       resources :provinces, only: [:index]
       resources :donors, only: [:index]
       resources :agencies, only: [:index]
