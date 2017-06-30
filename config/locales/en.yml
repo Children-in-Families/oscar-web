@@ -2401,7 +2401,7 @@ en:
       manage: Manage
       materials: Equipment/Materials
       partners: Partners
-      program_streams: Programs Stream
+      program_streams: Program Streams
       progress_note: Progress Note
       progress_note_types: Types of Note
       provinces: Provinces
@@ -2602,7 +2602,7 @@ en:
       current_ngo: My NGO's Program Streams
       new_program: Add New Program
       ngo_programs: All NGO's Program Streams
-      program_list: Programs Stream Listing
+      program_list: Program Streams Listing
     new:
       back: Back
       new_program_stream: New Program Stream

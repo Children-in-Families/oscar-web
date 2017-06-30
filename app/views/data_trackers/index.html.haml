@@ -38,8 +38,8 @@
                   = link_to t('.family_custom_fields'), data_trackers_path(item_type: 'CustomFieldProperty', formable_type: 'Family'), class: "list-group-item #{version_item_type_active?({}, formable_type: 'Family')}"
                   = link_to t('.partner_custom_fields'), data_trackers_path(item_type: 'CustomFieldProperty', formable_type: 'Partner'), class: "list-group-item #{version_item_type_active?({}, formable_type: 'Partner')}"
                   = link_to t('.user_custom_fields'), data_trackers_path(item_type: 'CustomFieldProperty', formable_type: 'User'), class: "list-group-item #{version_item_type_active?({}, formable_type: 'User')}"
-                  / = link_to t('.program_streams'), data_trackers_path(item_type: 'ProgramStream'), class: "list-group-item #{version_item_type_active?('ProgramStream')}"
-                  / = link_to t('.client_enrollments'), data_trackers_path(item_type: 'ClientEnrollment'), class: "list-group-item #{version_item_type_active?('ClientEnrollment')}"
+                  = link_to t('.program_streams'), data_trackers_path(item_type: 'ProgramStream'), class: "list-group-item #{version_item_type_active?('ProgramStream')}"
+                  = link_to t('.client_enrollments'), data_trackers_path(item_type: 'ClientEnrollment'), class: "list-group-item #{version_item_type_active?('ClientEnrollment')}"
                   = link_to t('.releaselogs'), data_trackers_path(item_type: 'Changelog'), class: "list-group-item #{version_item_type_active?('Changelog')}"
 
           .col-xs-12.col-sm-8.col-md-9
