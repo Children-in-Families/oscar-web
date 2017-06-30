@@ -112,13 +112,13 @@ Rails.application.routes.draw do
     collection do
       get :advanced_search
     end
-    resources :client_enrollments do
-      get :report, on: :collection
-      resources :client_enrollment_trackings do
-        get :report, on: :collection
-      end
-      resources :leave_programs
-    end
+    # resources :client_enrollments do
+    #   get :report, on: :collection
+    #   resources :client_enrollment_trackings do
+    #     get :report, on: :collection
+    #   end
+    #   resources :leave_programs
+    # end
     resources :custom_field_properties
     # resources :government_reports
     resources :assessments
