@@ -22,7 +22,7 @@
                   %h4.panel-title.full-height
                     %a= t('.description')
                 .col-xs-2.col-md-1.text-right
-                  - if can? :update, ProgramStream && current_organization.full_name == @program_stream.ngo_name
+                  - if (can? :update, ProgramStream) && (current_organization.full_name == @program_stream.ngo_name)
                     = link_to edit_program_stream_path(@program_stream, tab: '1'), class: 'btn btn-outline btn-success btn-sm btn-edit-margin' do
                       = fa_icon('pencil')
             #description.panel-collapse.collapse
@@ -51,7 +51,7 @@
                   %h4.panel-title.full-height
                     %a= t('.rules')
                 .col-xs-2.col-md-1.text-right
-                  - if can? :update, ProgramStream && current_organization.full_name == @program_stream.ngo_name
+                  - if (can? :update, ProgramStream) && (current_organization.full_name == @program_stream.ngo_name)
                     = link_to edit_program_stream_path(@program_stream, tab: '1'), class: 'btn btn-outline btn-success btn-sm btn-edit-margin' do
                       = fa_icon('pencil')
             #rules.panel-collapse.collapse{ data: { program_rules: @program_stream.rules.to_json}}
@@ -65,7 +65,7 @@
                   %h4.panel-title.full-height
                     %a= t('.enrollment')
                 .col-xs-2.col-md-1.text-right
-                  - if can? :update, ProgramStream && current_organization.full_name == @program_stream.ngo_name
+                  - if (can? :update, ProgramStream) && (current_organization.full_name == @program_stream.ngo_name)
                     = link_to edit_program_stream_path(@program_stream, tab: '2'), class: 'btn btn-outline btn-success btn-sm btn-edit-margin' do
                       = fa_icon('pencil')
             #enrollment.panel-collapse.collapse
@@ -82,7 +82,7 @@
                   %h4.panel-title.full-height
                     %a= t('.tracking')
                 .col-xs-2.col-md-1.text-right
-                  - if can? :update, ProgramStream && current_organization.full_name == @program_stream.ngo_name
+                  - if (can? :update, ProgramStream) && (current_organization.full_name == @program_stream.ngo_name)
                     = link_to edit_program_stream_path(@program_stream, tab: '3'), class: 'btn btn-outline btn-success btn-sm btn-edit-margin' do
                       = fa_icon('pencil')
             #tracking.panel-collapse.collapse
@@ -110,7 +110,7 @@
                   %h4.panel-title.full-height
                     %a= t('.exit_program')
                 .col-xs-2.col-md-1.text-right
-                  - if can? :update, ProgramStream && current_organization.full_name == @program_stream.ngo_name
+                  - if (can? :update, ProgramStream) && (current_organization.full_name == @program_stream.ngo_name)
                     = link_to edit_program_stream_path(@program_stream, tab: '4'), class: 'btn btn-outline btn-success btn-sm btn-edit-margin' do
                       = fa_icon('pencil')
             #exit-program.panel-collapse.collapse
