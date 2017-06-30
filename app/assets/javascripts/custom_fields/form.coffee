@@ -184,7 +184,7 @@ CIF.Custom_fieldsShow = do ->
             $('#livesearch').css('visibility', 'visible')
             ngo_name = custom_field.ngo_name.replace(/\s/g,"+")
             url_origin = document.location.origin
-            preview_link = "#{url_origin}/custom_fields/#{custom_field.id}?ngo_name=#{ngo_name}"
+            preview_link = "#{url_origin}/custom_fields/preview?custom_field_id=#{custom_field.id}&ngo_name=#{ngo_name}"
             $('#livesearch').append("<li><span class='col-xs-8'>#{custom_field.form_title} (#{custom_field.ngo_name})</span>
             <span class='col-xs-4 text-right'><a href=#{preview_link}>#{previewTranslation}</a></span></li>")
 
