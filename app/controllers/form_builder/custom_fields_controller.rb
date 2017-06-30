@@ -2,7 +2,7 @@ class FormBuilder::CustomFieldsController < AdminController
   load_and_authorize_resource
 
   before_action :find_ngo_name
-  before_action :set_custom_field, only: [:edit, :update, :destroy]
+  before_action :set_custom_field, only: [:edit, :update, :destroy, :show]
 
   def index
     @custom_fields = CustomField.order(:entity_type, :form_title).page(params[:page_1]).per(20)
@@ -19,7 +19,7 @@ class FormBuilder::CustomFieldsController < AdminController
   end
 
   def show
-    @custom_field = get_custom_field(params[:custom_field_id].to_i, @ngo_name) if @ngo_name.present?
+    @custom_field = get_custom_field(params[:id], @ngo_name) if @ngo_name.present? && @ngo_name != current_organization.full_name
   end
 
   def create
