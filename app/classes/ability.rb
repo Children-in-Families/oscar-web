@@ -39,6 +39,7 @@ class Ability
       cannot :update, Assessment do |assessment|
         Date.current > assessment.created_at + 2.weeks
       end
+      can :read, ProgramStream
     elsif user.able_manager?
       can :manage, AbleScreeningQuestion
       can :manage, Assessment
