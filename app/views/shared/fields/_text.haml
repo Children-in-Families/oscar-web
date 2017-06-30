@@ -2,6 +2,6 @@
   %label{ class: required?(field_props['required'] || false) }
     %abbr{ title: 'required' }= '*' if field_props['required'] || false
     = field_props['label']
-  = f.input field_props['label'], required: field_props['required'], input_html: { class: field_props['className'], placeholder: field_props['placeholder'], title: field_props['description'], name: "custom_field_property[properties][#{field_props['label']}]",  type: field_props['subtype'] }, label: false
+  = f.input field_props['label'], required: field_props['required'], input_html: { class: field_props['className'], placeholder: field_props['placeholder'], title: field_props['description'], name: "#{f.object_name}[#{field_props['label']}]",  type: field_props['subtype'] }, label: false
   %span.help-block
     = field_message(field_props['label'], errors)
