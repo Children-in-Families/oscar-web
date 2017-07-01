@@ -70,7 +70,7 @@ class ClientHistory
   def format_custom_field_property(custom_field_property)
     mappings = {}
     custom_field_property['properties'].each do |k, v|
-      mappings[k] = k.gsub(/\W/, '_')
+      mappings[k] = k.gsub(/(\s|[.])/, '_')
     end
     custom_field_property['properties'].map {|k, v| [mappings[k].downcase, v] }.to_h
   end
