@@ -54,7 +54,8 @@ class ClientHistory
 
   def create_client_custom_field_property_history
     object['custom_field_property_ids'].each do |ccfp_id|
-      custom_field_property = CustomFieldProperty.find_by(id: ccfp_id).try(:attributes)
+      custom_field_property               = CustomFieldProperty.find_by(id: ccfp_id).try(:attributes)
+      custom_field_property['properties'] = format_custom_field_property(custom_field_property)
       client_custom_field_property_histories.create(object: custom_field_property)
     end
   end
@@ -64,5 +65,13 @@ class ClientHistory
       family = Family.find_by(id: family_id).try(:attributes)
       client_family_histories.create(object: family)
     end
+  end
+
+  def format_custom_field_property(custom_field_property)
+    mappings = {}
+    custom_field_property['properties'].each do |k, v|
+      mappings[k] = k.gsub(/\W/, '_')
+    end
+    custom_field_property['properties'].map {|k, v| [mappings[k].downcase, v] }.to_h
   end
 end
