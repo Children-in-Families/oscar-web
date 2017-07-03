@@ -146,6 +146,8 @@ class Ability
       can :manage, Task
       can :manage, Assessment
       can :manage, CaseNote
+      can :manage, Family
+      can :manage, Partner
       can :manage, CustomFieldProperty, custom_formable_type: 'Client'
       can :manage, CustomField
       can :manage, ProgramStream

@@ -66,8 +66,10 @@ Rails.application.routes.draw do
     get 'version' => 'donors#version'
   end
 
-  resources :program_streams do
-    get :preview, on: :collection
+  unless Rails.env.production?
+    resources :program_streams do
+      get :preview, on: :collection
+    end
   end
 
   resources :changelogs do
@@ -112,12 +114,14 @@ Rails.application.routes.draw do
     collection do
       get :advanced_search
     end
-    resources :client_enrollments do
-      get :report, on: :collection
-      resources :client_enrollment_trackings do
+    unless Rails.env.production?
+      resources :client_enrollments do
         get :report, on: :collection
+        resources :client_enrollment_trackings do
+          get :report, on: :collection
+        end
+        resources :leave_programs
       end
-      resources :leave_programs
     end
     resources :custom_field_properties
     # resources :government_reports

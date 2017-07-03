@@ -49,6 +49,7 @@ module AdvancedSearchHelper
       referred_to_ec: I18n.t('advanced_search.fields.referred_to_ec'),
       referred_to_kc: I18n.t('advanced_search.fields.referred_to_kc'),
       referred_to_fc: I18n.t('advanced_search.fields.referred_to_fc'),
+      exit_date: I18n.t('advanced_search.fields.exit_date')
     }
     translations[key.to_sym] || ''
   end

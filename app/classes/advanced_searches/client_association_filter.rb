@@ -30,11 +30,37 @@ module AdvancedSearches
         values = program_placement_date_field_query('FC')
       when 'referred_to_kc'
         values = program_placement_date_field_query('KC')
+      when 'exit_date'
+        values = exit_date_field_query
       end
       {id: sql_string, values: values}
     end
 
     private
+
+    def exit_date_field_query
+      clients = @clients.joins(:cases).where(cases: { exited: true })
+
+      case @operator
+      when 'equal'
+        clients = clients.where(cases: { exit_date: @value })
+      when 'not_equal'
+        clients = clients.where.not(cases: { exit_date: @value })
+      when 'less'
+        clients = clients.where('cases.exit_date < ?', @value)
+      when 'less_or_equal'
+        clients = clients.where('cases.exit_date <= ?', @value)
+      when 'greater'
+        clients = clients.where('cases.exit_date > ?', @value)
+      when 'greater_or_equal'
+        clients = clients.where('cases.exit_date >= ?', @value)
+      when 'between'
+        clients = clients.where(cases: { exit_date: @value[0]..@value[1] })
+      when 'is_empty'
+        clients = @clients.where.not(id: clients.ids)
+      end
+      clients.uniq.ids
+    end
 
     def placement_date_field_query
       clients = @clients.joins(:cases)
