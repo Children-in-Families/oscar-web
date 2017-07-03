@@ -1,6 +1,9 @@
 class User < ActiveRecord::Base
   include EntityTypeCustomField
   include EntityTypeCustomFieldNotification
+  include NextClientEnrollmentTracking
+  include ClientEnrollmentTrackingNotification
+
   ROLES = ['admin', 'case worker', 'able manager', 'ec manager', 'fc manager', 'kc manager', 'manager', 'strategic overviewer'].freeze
   MANAGERS = ROLES.select { |role| role if role.include?('manager') }
 
@@ -127,6 +130,10 @@ class User < ActiveRecord::Base
 
   def family_custom_field_frequency_overdue_or_due_today
     entity_type_custom_field_notification(Family.all)
+  end
+
+  def client_enrollment_tracking_overdue_or_due_today
+    client_enrollment_tracking_notification(clients)
   end
 
   def self.self_and_subordinates(user)
