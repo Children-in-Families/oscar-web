@@ -321,6 +321,7 @@ en:
       type: Type
       user_id: Case Worker
       village: Village
+      exit_date: Exited Date
   agencies:
     create:
       failed_create: Failed to create an agency
