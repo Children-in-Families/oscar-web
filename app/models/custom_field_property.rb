@@ -9,7 +9,7 @@ class CustomFieldProperty < ActiveRecord::Base
 
   has_paper_trail
 
-  after_save :create_client_history, if: :client_form?
+  # after_save :create_client_history, if: :client_form?
 
   validates :custom_field_id, presence: true
 
