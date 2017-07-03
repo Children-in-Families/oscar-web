@@ -6,7 +6,7 @@ class UserNotification
     @user                 = user
     @assessments          = @user.assessment_either_overdue_or_due_today
     @client_custom_field  = @user.client_custom_field_frequency_overdue_or_due_today
-    @user_custom_field    = @user.user_custom_field_frequency_overdue_or_due_today
+    @user_custom_field    = @user.user_custom_field_frequency_overdue_or_due_today if @user.admin? || @user.manager?
     @partner_custom_field = @user.partner_custom_field_frequency_overdue_or_due_today
     @family_custom_field  = @user.family_custom_field_frequency_overdue_or_due_today
     @all_count            = count
@@ -154,11 +154,11 @@ class UserNotification
         count_notification += 1 if ec_notification(item).present?
       end
     end
-    if @user.admin?
+    if @user.admin? || @user.manager?
       count_notification += 1 if user_custom_field_frequency_overdue_count >= 1
       count_notification += 1 if user_custom_field_frequency_due_today_count >= 1
     end
-    if @user.admin? || @user.any_case_manager?
+    if @user.admin? || @user.any_case_manager? || @user.manager?
       count_notification += 1 if partner_custom_field_frequency_overdue_count >= 1
       count_notification += 1 if partner_custom_field_frequency_due_today_count >= 1
       count_notification += 1 if family_custom_field_frequency_overdue_count >= 1
