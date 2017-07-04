@@ -30,6 +30,12 @@ module AdvancedSearches
         values = program_placement_date_field_query('FC')
       when 'referred_to_kc'
         values = program_placement_date_field_query('KC')
+      when 'exit_ec_date'
+        values = program_exit_date_field_query('EC')
+      when 'exit_fc_date'
+        values = program_exit_date_field_query('FC')
+      when 'exit_kc_date'
+        values = program_exit_date_field_query('KC')
       end
       {id: sql_string, values: values}
     end
@@ -151,23 +157,22 @@ module AdvancedSearches
     end
 
     def age_field_query
-      date_formats = convert_age_to_date(@value)
-      values = validate_age(date_formats)
+      date_format = convert_age_to_date(@value)
       case @operator
       when 'equal'
-        clients = @clients.where(date_of_birth: values[0]..values[1])
+        clients = @clients.where(date_of_birth: date_format)
       when 'not_equal'
-        clients = @clients.where.not(date_of_birth: values[0]..values[1])
+        clients = @clients.where.not(date_of_birth: date_format)
       when 'less'
-        clients = @clients.where('date_of_birth > ?', values[0])
+        clients = @clients.where('date_of_birth > ?', date_format)
       when 'less_or_equal'
-        clients = @clients.where('date_of_birth >= ?', values[0])
+        clients = @clients.where('date_of_birth >= ?', date_format)
       when 'greater'
-        clients = @clients.where('date_of_birth < ?', values[0])
+        clients = @clients.where('date_of_birth < ?', date_format)
       when 'greater_or_equal'
-        clients = @clients.where('date_of_birth <= ?', values[0])
+        clients = @clients.where('date_of_birth <= ?', date_format)
       when 'between'
-        clients = @clients.where(date_of_birth: values[0]..values[1])
+        clients = @clients.where(date_of_birth: date_format[0]..date_format[1])
       when 'is_empty'
         clients = @clients.where('date_of_birth IS NULL')
       end
@@ -175,19 +180,17 @@ module AdvancedSearches
     end
 
     def convert_age_to_date(value)
-      if value.is_a?(Array)
-        [value[1].to_i.year.ago.to_date.beginning_of_month, value[0].to_i.year.ago.to_date.end_of_month]
-      else
-        date = value.to_i.year.ago.to_date
-        [date.beginning_of_month, date.end_of_month]
-      end
-    end
-
-    def validate_age(dates)
       overdue_year = 999.years.ago.to_date
-      first_date = dates.first < overdue_year ? overdue_year : dates.first
-      last_date  = dates.last < overdue_year ? overdue_year : dates.last
-      [first_date, last_date]
+      if value.is_a?(Array)
+        min_age = (value[0].to_i * 12).months.ago.to_date
+        max_age = (value[1].to_i * 12).months.ago.to_date
+        min_age = min_age > overdue_year ? min_age : overdue_year
+        max_age = max_age > overdue_year ? max_age : overdue_year
+        [max_age, min_age]
+      else
+        age = (value.to_i * 12).months.ago.to_date
+        age > overdue_year ? age : overdue_year
+      end
     end
 
     def validate_family_id(ids)
@@ -226,6 +229,30 @@ module AdvancedSearches
         ids = clients.ids
       end
       ids
+    end
+
+    def program_exit_date_field_query(case_type)
+      clients = @clients.joins(:cases).where(cases: { exited: true })
+
+      case @operator
+      when 'equal'
+        clients = clients.where(cases: { case_type: case_type, exit_date: @value })
+      when 'not_equal'
+        clients = clients.where("cases.case_type = ? AND cases.exit_date != ?", case_type, @value)
+      when 'less'
+        clients = clients.where('cases.case_type = ? AND cases.exit_date < ?', case_type, @value)
+      when 'less_or_equal'
+        clients = clients.where('cases.case_type = ? AND cases.exit_date <= ?', case_type, @value)
+      when 'greater'
+        clients = clients.where('cases.case_type = ? AND cases.exit_date > ?', case_type, @value)
+      when 'greater_or_equal'
+        clients = clients.where('cases.case_type = ? AND cases.exit_date >= ?', case_type, @value)
+      when 'between'
+        clients = clients.where(cases: { case_type: case_type, exit_date: @value[0]..@value[1] })
+      when 'is_empty'
+        clients = @clients.includes(:cases).where('cases.exited = ? OR cases.id IS NULL', false)
+      end
+      clients.ids.uniq
     end
   end
 end

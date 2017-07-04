@@ -1,21 +1,21 @@
 module AdvancedSearches
   class ClientBaseSqlBuilder
-    ASSOCIATION_FIELDS = ['case_type', 'agency_name', 'form_title', 'placement_date', 'family', 'age', 'family_id', 'referred_to_ec', 'referred_to_fc', 'referred_to_kc']
+    ASSOCIATION_FIELDS = ['case_type', 'agency_name', 'form_title', 'placement_date', 'family', 'age', 'family_id', 'referred_to_ec', 'referred_to_fc', 'referred_to_kc', 'exit_ec_date', 'exit_fc_date', 'exit_kc_date']
     BLANK_FIELDS= ['date_of_birth', 'initial_referral_date', 'follow_up_date', 'has_been_in_orphanage', 'has_been_in_government_care', 'grade', 'province_id', 'referral_source_id', 'user_id', 'birth_province_id', 'received_by_id', 'followed_up_by_id', 'donor_id']
 
     def initialize(clients, rules)
       @clients     = clients
       @values      = []
       @sql_string  = []
-      @condition    = rules[:condition]
-      @basic_rules  = rules[:rules] || []
+      @condition    = rules['condition']
+      @basic_rules  = rules['rules'] || []
     end
 
     def generate
       @basic_rules.each do |rule|
-        field    = rule[:field]
-        operator = rule[:operator]
-        value    = rule[:value]
+        field    = rule['field']
+        operator = rule['operator']
+        value    = rule['value']
         if ASSOCIATION_FIELDS.include?(field)
           association_filter = AdvancedSearches::ClientAssociationFilter.new(@clients, field, operator, value).get_sql
           @sql_string << association_filter[:id]

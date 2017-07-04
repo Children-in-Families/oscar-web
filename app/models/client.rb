@@ -10,7 +10,7 @@ class Client < ActiveRecord::Base
   friendly_id :slug, use: :slugged
 
   CLIENT_STATUSES = ['Referred', 'Active EC', 'Active KC', 'Active FC',
-                      'Independent - Monitored', 'Exited - Deseased',
+                      'Independent - Monitored', 'Exited - Dead',
                       'Exited - Age Out', 'Exited Independent', 'Exited Adopted',
                       'Exited Other'].freeze
 
@@ -29,37 +29,41 @@ class Client < ActiveRecord::Base
   belongs_to :followed_up_by,   class_name: 'User',     foreign_key: 'followed_up_by_id', counter_cache: true
   belongs_to :birth_province,   class_name: 'Province', foreign_key: 'birth_province_id', counter_cache: true
 
-  has_one  :government_report, dependent: :destroy
+  # has_one  :government_report, dependent: :destroy
   has_many :answers, dependent: :destroy
   has_many :able_screening_questions, through: :answers
   has_many :tasks,          dependent: :destroy
   has_many :agency_clients
   has_many :agencies, through: :agency_clients
-  has_many :client_quantitative_cases
+  has_many :client_quantitative_cases, dependent: :destroy
   has_many :quantitative_cases, through: :client_quantitative_cases
   has_many :custom_field_properties, as: :custom_formable, dependent: :destroy
   has_many :custom_fields, through: :custom_field_properties, as: :custom_formable
+  has_many :client_enrollments, dependent: :destroy
+  has_many :program_streams, through: :client_enrollments
 
   accepts_nested_attributes_for :tasks
   accepts_nested_attributes_for :answers
-  accepts_nested_attributes_for :tasks
 
   has_many :families,       through: :cases
   has_many :cases,          dependent: :destroy
   has_many :case_notes,     dependent: :destroy
   has_many :assessments,    dependent: :destroy
-  has_many :surveys,        dependent: :destroy
+  # has_many :surveys,        dependent: :destroy
   has_many :progress_notes, dependent: :destroy
 
   has_paper_trail
 
   validates :rejected_note, presence: true, on: :update, if: :reject?
+  validates :kid_id, uniqueness: { case_sensitive: false }, if: 'kid_id.present?'
 
   before_update :reset_user_to_tasks
 
   after_create :set_slug_as_alias
   after_update :set_able_status, if: proc { |client| client.able_state.blank? && answers.any? }
+  after_save :create_client_history
 
+  scope :live_with_like,              ->(value) { where('clients.live_with iLIKE ?', "%#{value}%") }
   scope :given_name_like,             ->(value) { where('clients.given_name iLIKE ?', "%#{value}%") }
   scope :family_name_like,            ->(value) { where('clients.family_name iLIKE ?', "%#{value}%") }
   scope :local_given_name_like,       ->(value) { where('clients.local_given_name iLIKE ?', "%#{value}%") }
@@ -96,12 +100,24 @@ class Client < ActiveRecord::Base
   def self.filter(options)
     query = all
 
-    query = query.where(given_name: options[:given_name])                 if options[:given_name].present?
-    query = query.where(date_of_birth: options[:date_of_birth])           if options[:date_of_birth].present?
-    query = query.where(gender: options[:gender])                         if options[:gender].present?
+    query = query.where("given_name iLIKE ?", "%#{fetch_75_chars_of(options[:given_name])}%")                 if options[:given_name].present?
+    query = query.where("family_name iLIKE ?", "%#{fetch_75_chars_of(options[:family_name])}%")               if options[:family_name].present?
+    query = query.where("local_given_name iLIKE ?", "%#{fetch_75_chars_of(options[:local_given_name])}%")     if options[:local_given_name].present?
+    query = query.where("local_family_name iLIKE ?", "%#{fetch_75_chars_of(options[:local_family_name])}%")   if options[:local_family_name].present?
+    query = query.where("village iLIKE ?", "%#{fetch_75_chars_of(options[:village])}%")                       if options[:village].present?
+    query = query.where("commune iLIKE ?", "%#{fetch_75_chars_of(options[:commune])}%")                       if options[:commune].present?
+    query = query.where("EXTRACT(MONTH FROM date_of_birth) = ? AND EXTRACT(YEAR FROM date_of_birth) = ?", Date.parse(options[:date_of_birth]).month, Date.parse(options[:date_of_birth]).year)  if options[:date_of_birth].present?
+
+
     query = query.where(birth_province_id: options[:birth_province_id])   if options[:birth_province_id].present?
+    query = query.where(province_id: options[:current_province_id])       if options[:current_province_id].present?
 
     query
+  end
+
+  def self.fetch_75_chars_of(value)
+    number_of_char = (value.length * 75) / 100
+    value[0..(number_of_char-1)]
   end
 
   def reject?
@@ -109,8 +125,8 @@ class Client < ActiveRecord::Base
   end
 
   def self.age_between(min_age, max_age)
-    min = (min_age * 12).to_i.months.ago.to_date.end_of_month
-    max = (max_age * 12).to_i.months.ago.to_date.beginning_of_month
+    min = (min_age * 12).to_i.months.ago.to_date
+    max = (max_age * 12).to_i.months.ago.to_date
     where(date_of_birth: max..min)
   end
 
@@ -118,6 +134,13 @@ class Client < ActiveRecord::Base
     name       = "#{given_name} #{family_name}"
     local_name = "#{local_given_name} #{local_family_name}"
     name.present? ? name : local_name
+  end
+
+  def en_and_local_name
+    en_name = "#{given_name} #{family_name}"
+    local_name = "#{local_given_name} #{local_family_name}"
+
+    local_name.present? ? "#{en_name} (#{local_name})" : en_name
   end
 
   def self.next_assessment_candidates
@@ -141,10 +164,6 @@ class Client < ActiveRecord::Base
 
   def can_create_assessment?
     Date.today >= next_assessment_date
-  end
-
-  def can_create_case_note?
-    assessments.count > 0
   end
 
   def self.able_managed_by(user)
@@ -199,23 +218,12 @@ class Client < ActiveRecord::Base
     cases.active.latest_kinship.presence || cases.active.latest_foster.presence
   end
 
-  def age_as_years
-    calculate_as('year')
+  def age_as_years(date = Date.today)
+    ((date - date_of_birth) / 365).to_i
   end
 
-  def age_extra_months
-    calculate_as('months')
-  end
-
-  def calculate_as(method)
-    total_present_months = Date.today.year * 12 + Date.today.month
-    total_dob_months     = date_of_birth.year * 12 + date_of_birth.month
-    case method
-    when 'year'
-      (total_present_months - total_dob_months) / 12
-    when 'months'
-      (total_present_months - total_dob_months) % 12
-    end
+  def age_extra_months(date = Date.today)
+    ((date - date_of_birth) % 365 / 31).to_i
   end
 
   def able?
@@ -287,6 +295,7 @@ class Client < ActiveRecord::Base
     (end_date - start_date).to_f
   end
 
+
   def self.ec_reminder_in(day)
     Organization.all.each do |org|
       Organization.switch_to org.short_name
@@ -299,5 +308,11 @@ class Client < ActiveRecord::Base
         AdminMailer.remind_of_client(clients, day: day, admin: admins).deliver_now if admins.present?
       end
     end
+  end
+
+  private
+
+  def create_client_history
+    ClientHistory.initial(self)
   end
 end

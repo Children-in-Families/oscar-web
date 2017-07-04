@@ -20,7 +20,7 @@ module AdvancedSearches
     private
 
     def number_type_list
-      ['code', 'grade', 'family_id', 'age']
+      ['code', 'grade', 'family_id', 'age', 'id_poor']
     end
 
     def text_type_list
@@ -28,7 +28,7 @@ module AdvancedSearches
     end
 
     def date_type_list
-      ['placement_date', 'date_of_birth', 'initial_referral_date', 'follow_up_date', 'referred_to_ec', 'referred_to_fc', 'referred_to_kc']
+      ['placement_date', 'date_of_birth', 'initial_referral_date', 'follow_up_date', 'referred_to_ec', 'referred_to_fc', 'referred_to_kc', 'exit_ec_date', 'exit_fc_date', 'exit_kc_date']
     end
 
     def drop_down_type_list
@@ -52,7 +52,7 @@ module AdvancedSearches
     end
 
     def client_custom_form_options
-      CustomField.where(entity_type: 'Client').order(:form_title).map{|c| { c.id.to_s => c.form_title}}
+      CustomField.joins(:custom_field_properties).client_forms.uniq.map{ |c| { c.id.to_s => c.form_title }}
     end
 
     def client_status
@@ -83,7 +83,7 @@ module AdvancedSearches
     end
 
     def agencies_options
-      Agency.joins(:clients).order(:name).uniq.map { |s| { s.id.to_s => s.name } }
+      Agency.order(:name).map { |s| { s.id.to_s => s.name } }
     end
 
     def user_select_options

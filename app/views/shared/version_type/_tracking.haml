@@ -1,0 +1,47 @@
+- DataTrackerVersion.tracking(program_stream_id, event).each do |version|
+  %div{ class: "panel panel-#{version_color(version.event)}" }
+    .panel-body
+      %h4 Tracking
+      .table-responsive
+        %table.table.table-hover
+          %tbody
+            - version.changeset.each do |k, v|
+              - next if version_keys_skipable?(k, version.item_type)
+              - if k != "created_at" && k != "updated_at" && k != "id"
+                %tr.ad
+                  %td.col-sm-4.attribute.ad-id
+                    = version_attribute(k, version.item_type)
+                  %td.col-sm-4.truncate
+                    - if k == 'fields'
+                      - if v[0].present?
+                        - v[0].each_with_index do |value, fields_index|
+                          - index = 1
+                          - value.each do |key, value|
+                            - if index == 1
+                              %ol{start: "#{fields_index + 1}", style: 'padding-left: 15px;'}
+                                %li="#{key}: #{value}"
+                              - index += 1
+                            - else
+                              - unless key == 'values'
+                                %ul
+                                  %li
+                                    ="#{key}: #{value}" 
+                    - else
+                      = version_value_format(v[0], k, v)
+                  %td.col-sm-4.truncate
+                    - if k == 'fields'
+                      - if v[1].present?
+                        - v[1].each_with_index do |value, fields_index|
+                          - index = 1
+                          - value.each do |key, value|
+                            - if index == 1
+                              %ol{start: "#{fields_index + 1}", style: 'padding-left: 15px;'}
+                                %li="#{key}: #{value}"
+                              - index += 1
+                            - else
+                              - unless key == 'values'
+                                %ul
+                                  %li
+                                    ="#{key}: #{value}"
+                    - else
+                      = version_value_format(v[1], k, v)

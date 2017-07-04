@@ -9,7 +9,11 @@ class ApplicationController < ActionController::Base
   before_action :set_locale
   before_action :set_paper_trail_whodunnit
 
-  helper_method :current_organiation
+  rescue_from ActiveRecord::RecordNotFound do |exception|
+   render file: "#{Rails.root}/app/views/errors/404", layout: false, status: :not_found
+  end
+
+  helper_method :current_organization
 
   rescue_from CanCan::AccessDenied do |exception|
     redirect_to root_url, alert: exception.message
@@ -19,7 +23,7 @@ class ApplicationController < ActionController::Base
     redirect_to root_url, alert: t('unauthorized.default')
   end
 
-  def current_organiation
+  def current_organization
     Organization.current
   end
 
@@ -36,6 +40,7 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.for(:account_update) << :mobile
     devise_parameter_sanitizer.for(:account_update) << :task_notify
     devise_parameter_sanitizer.for(:account_update) << :calendar_integration
+    devise_parameter_sanitizer.for(:account_update) << :pin_number
   end
 
   def find_association

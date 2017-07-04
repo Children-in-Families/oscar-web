@@ -1,0 +1,97 @@
+- if version.item_type == "ProgramStream"
+  %div{ class: "panel panel-#{version_color(version.event)}" }
+    .panel-heading
+      %h5
+        .row
+          .col-xs-12.col-md-9.col-lg-10
+            - if controller_name == 'data_trackers'
+              %p
+                = "#{version.whodunnit} #{t('.change')} #{t('.on')}"
+                = t(".#{version.item_type.underscore}")
+                = "##{version.item_id}."
+            - else
+              %p= "#{version.whodunnit} #{t('.change')}."
+          .col-xs-12.col-md-3.col-lg-2.text-right
+            %p{ class: "label label-#{version_color(version.event)}" }
+              = version.event_formated
+    .panel-body
+      .table-responsive
+        - if version.event == 'delete'
+          %table.table.table-hover
+            %thead
+              %tr
+                %th.col-sm-4= t('.value_of')
+                %th.col-sm-4= t('.before')
+                %th.col-sm-4= t('.date_deleted')
+            %tbody
+              %tr
+                %td.col-sm-4= t('.id')
+                %td.col-sm-4
+                  = version.reify.id
+                %td.col-sm-4
+                  = date_time_format(version.created_at)
+        - else
+          %table.table.table-hover
+            %thead
+              %tr
+                %th.col-sm-4= t('.value_of')
+                %th.col-sm-4.truncate= t('.before')
+                %th.col-sm-4.truncate= t('.after')
+            %tbody
+              - version.changeset.each do |k, v|
+                - next if version_keys_skipable?(k, version.item_type)
+                %tr.get-value
+                  %td.col-sm-4.attribute
+                    = version_attribute(k, version.item_type)
+                  %td.col-sm-4.truncate
+                    - if k == 'enrollment' || k == 'exit_program'
+                      - next if v[0] == '{}' || v[0] == {} || v[0] == '[]'
+                      - if v[0].present?
+                        - v[0].class == String ? values = eval(v[0]) : values = v[0]
+                        - values.each_with_index do |value, fields_index|
+                          - index = 1
+                          - value.each do |key, value|
+                            - if index == 1
+                              %ol.list-padding{start: "#{fields_index + 1}"}
+                                %li="#{key}: #{value}"
+                              - index += 1
+                            - else
+                              - unless key.to_sym == :values
+                                %ul
+                                  %li
+                                    ="#{key}: #{value}"
+                    - elsif k == 'rules'
+                      %a.btn.btn-info{ 'data-target' => '#before', 'data-toggle' => 'modal', type: 'button' }
+                        = t('.more_detail')
+                      #rule-before{'data-program-rules': v[0].to_json}
+
+                    - else
+                      = version_value_format(v[0], k, v)
+                  %td.col-sm-4.truncate
+                    - if k == 'enrollment' || k == 'exit_program'
+                      - if v[1].present? && (v[1] != '{}' || v[1] != {} || v[1] != '[]')
+                        - v[1].class == String ? values = eval(v[1]) : values = v[1]
+                        - values.each_with_index do |value, fields_index|
+                          - index = 1
+                          - value.each do |key, value|
+                            - if index == 1
+                              %ol.list-padding{start: "#{fields_index + 1}"}
+                                %li="#{key}: #{value}"
+                              - index += 1
+                            - else
+
+                              - unless key.to_sym == :values
+                                %ul
+                                  %li
+                                    ="#{key}: #{value}"
+                    - elsif k == 'rules'
+                      %a.btn.btn-info{ 'data-target' => '#after', 'data-toggle' => 'modal', type: 'button' }
+                        = t('.more_detail')
+                      #rule-after{'data-program-rules': v[1].to_json}
+                    - else
+                      = version_value_format(v[1], k, v)
+      = render 'shared/version_type/tracking', program_stream_id: version.item_id, event: version.event
+
+  = render 'shared/version_type/program_rule_before'
+  = render 'shared/version_type/program_rule_after'
+

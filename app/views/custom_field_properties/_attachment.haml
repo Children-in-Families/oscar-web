@@ -1,0 +1,13 @@
+%tr
+  %td= t('.attachments')
+  %td.file
+    %table.table.table-bordered
+      - custom_field_property.attachments.each_with_index do |attachment, index|
+        %tr
+          %td= original_filename(attachment)
+          %td
+            = link_to preview_or_download(attachment), attachment.url, class: 'btn btn-info btn-sm btn-download'
+          %td.text-center
+            = link_to (polymorphic_path([@custom_formable, custom_field_property], custom_field_id: @custom_field, file_index: index)), method: :delete, data: { confirm: t('.are_you_sure') } do
+              %i.fa.fa-trash.btn.btn-outline.btn-danger.btn-xs
+            

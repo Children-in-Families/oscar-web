@@ -79,9 +79,10 @@ CIF.Custom_fieldsShow = do ->
 
 
   _initFormBuilder = ->
+    fields = "#{$('.build-wrap').data('fields')}" || ''
     formBuilder = $('.build-wrap').formBuilder({
       dataType: 'json'
-      formData: JSON.stringify($('.build-wrap').data('fields'))
+      formData:  fields.replace(/=>/g, ':')
       disableFields: ['autocomplete', 'header', 'hidden', 'paragraph', 'button', 'file','checkbox']
       showActionButtons: false
       messages: {
@@ -164,7 +165,7 @@ CIF.Custom_fieldsShow = do ->
     custom_fields = ''
     $.ajax({
       type: 'GET'
-      url: '/custom_fields/find'
+      url: '/api/custom_fields/fetch_custom_fields'
       dataType: "JSON"
     }).success((json)->
       custom_fields = json.custom_fields

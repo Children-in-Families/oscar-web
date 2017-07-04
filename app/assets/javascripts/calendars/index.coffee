@@ -5,7 +5,7 @@ CIF.CalendarsIndex = do ->
   _calendars = ->
     $.ajax({
       type: 'GET'
-      url: '/calendar/find'
+      url: 'api/calendars/find_event'
       dataType: "JSON"
     }).success((json)->
       eventLists = json.calendars

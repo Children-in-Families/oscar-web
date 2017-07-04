@@ -1,0 +1,17 @@
+.row
+  .col-xs-12
+    .table-responsive
+      %table.table.table-bordered.table-hover.attachment-table
+        %tbody
+          - @custom_field_property.attachments.each_with_index do |attachment, index|
+            %tr.row-file
+              %td.image-title.vert-align
+                = original_filename(attachment)
+              %td.vert-align
+                = link_to preview_or_download(attachment), attachment.url, class: 'btn btn-info btn-sm btn-download'
+              %td.vert-align.text-center
+                .delete.fa.fa-trash.btn.btn-outline.btn-danger{ data: { url: (polymorphic_path([@custom_formable, @custom_field_property], custom_field_id: @custom_field, file_index: index)), comfirm: t('.are_you_sure') }}
+
+.row
+  .col-xs-12
+    = f.input :attachments, label: t('.attachments'), as: :file, input_html: { multiple: true }

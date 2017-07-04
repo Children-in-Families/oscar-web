@@ -1,0 +1,17 @@
+body[id='client_enrollments-index'] {
+  td.manage {
+    min-width: 150px;
+  }
+
+  th.quantity, td.quantity {
+    min-width: 250px;
+  }
+
+  th.name, td.name {
+    min-width: 150px;
+  }
+
+  th.status, th.report, td.status, td.report {
+    min-width: 100px;
+  }
+}

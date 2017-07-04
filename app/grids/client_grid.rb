@@ -308,6 +308,10 @@ class ClientGrid
     client_by_domain(operation, value, domain_id, scope)
   end
 
+  filter(:live_with, :string, header: -> { I18n.t('datagrid.columns.clients.live_with') }) { |value, scope| scope.live_with_like(value) }
+
+  filter(:id_poor, :integer, header: -> { I18n.t('datagrid.columns.clients.id_poor') })
+
   column(:slug, order:'clients.id', header: -> { I18n.t('datagrid.columns.clients.id') })
 
   column(:code, header: -> { I18n.t('datagrid.columns.clients.code') }) do |object|
@@ -359,6 +363,10 @@ class ClientGrid
   end
 
   column(:follow_up_date, header: -> { I18n.t('datagrid.columns.clients.follow_up_date') })
+
+  column(:id_poor, header: -> { I18n.t('datagrid.columns.clients.id_poor') })
+
+  column(:live_with, header: -> { I18n.t('datagrid.columns.clients.live_with') })
 
   column(:received_by, html: true, header: -> { I18n.t('datagrid.columns.clients.received_by') }) do |object|
     render partial: 'clients/users', locals: { object: object.received_by } if object.received_by
@@ -515,6 +523,4 @@ class ClientGrid
   column(:changelog, html: true, class: 'text-center', header: -> { I18n.t('datagrid.columns.clients.changelogs') }) do |object|
     link_to t('datagrid.columns.clients.view'), client_version_path(object)
   end
-
-
 end

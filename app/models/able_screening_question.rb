@@ -33,10 +33,6 @@ class AbleScreeningQuestion < ActiveRecord::Base
     attachments.any?
   end
 
-  def first_image
-    attachments.first.image if attachments.any?
-  end
-
   def has_stage?
     stage.present?
   end

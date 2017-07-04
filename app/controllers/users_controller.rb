@@ -8,8 +8,8 @@ class UsersController < AdminController
     @user_grid = UserGrid.new(params[:user_grid])
     respond_to do |f|
       f.html do
-        @results = @user_grid.assets.size
-        @user_grid.scope { |scope| scope.page(params[:page]).per(20) }
+        @results = @user_grid.scope { |scope| scope.accessible_by(current_ability) }.assets.size
+        @user_grid.scope { |scope| scope.accessible_by(current_ability).page(params[:page]).per(20) }
       end
       f.xls do
         send_data @user_grid.to_xls, filename: "user_report-#{Time.now}.xls"
@@ -78,7 +78,7 @@ class UsersController < AdminController
     params.require(:user).permit(:first_name, :last_name, :roles, :start_date,
                                 :job_title, :department_id, :mobile, :date_of_birth,
                                 :province_id, :email, :password,:password_confirmation,
-                                :manager_id, :calendar_integration, custom_field_ids: [])
+                                :manager_id, :calendar_integration, :pin_number, custom_field_ids: [])
   end
 
   def find_user
@@ -89,5 +89,6 @@ class UsersController < AdminController
     @department = Department.order(:name)
     @province   = Province.order(:name)
     @managers   = User.managers.order(:first_name, :last_name)
+    @managers   = @managers.where.not(id: params[:id]) if params[:action] == 'edit' || params[:action] == 'update'
   end
 end

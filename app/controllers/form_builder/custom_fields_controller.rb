@@ -11,8 +11,8 @@ class FormBuilder::CustomFieldsController < AdminController
   def new
     ngo_name = params[:ngo_name]
     if ngo_name.present?
-      original_custom_field = get_custom_field(params[:custom_field_id], ngo_name)
-      @custom_field = CustomField.new(original_custom_field.attributes.merge(id: nil))
+       original_custom_field = get_custom_field(params[:custom_field_id], ngo_name)
+       @custom_field = CustomField.new(original_custom_field.attributes.merge(id: nil))
     else
       @custom_field = CustomField.new
     end
@@ -34,7 +34,7 @@ class FormBuilder::CustomFieldsController < AdminController
 
   def edit
     ngo_name = params[:ngo_name]
-    redirect_to custom_fields_path, alert: t('unauthorized.default') if ngo_name.present? && ngo_name != current_organiation.full_name
+    redirect_to custom_fields_path, alert: t('unauthorized.default') if ngo_name.present? && ngo_name != current_organization.full_name
   end
 
   def update
@@ -61,14 +61,10 @@ class FormBuilder::CustomFieldsController < AdminController
     end
   end
 
-  def find
-    render json: find_custom_field_in_organization
-  end
-
   private
 
   def get_custom_field(id, ngo_name)
-    current_org_name = current_organiation.short_name
+    current_org_name = current_organization.short_name
     ngo_short_name = Organization.find_by(full_name: ngo_name).short_name
     Organization.switch_to(ngo_short_name)
     original_custom_field = CustomField.find(id)
@@ -77,7 +73,7 @@ class FormBuilder::CustomFieldsController < AdminController
   end
 
   def find_custom_field_in_organization
-    current_org_name = current_organiation.short_name
+    current_org_name = current_organization.short_name
     custom_fields = []
     Organization.without_demo.each do |org|
       Organization.switch_to org.short_name
@@ -89,7 +85,7 @@ class FormBuilder::CustomFieldsController < AdminController
 
   def find_custom_field(search)
     results = []
-    current_org_name = current_organiation.short_name
+    current_org_name = current_organization.short_name
     Organization.without_demo.each do |org|
       Organization.switch_to(org.short_name)
       if params[:search].present?
@@ -108,5 +104,9 @@ class FormBuilder::CustomFieldsController < AdminController
 
   def set_custom_field
     @custom_field = CustomField.find(params[:id])
+  end
+
+  def find_ngo_name
+    @ngo_name = params[:ngo_name]
   end
 end

@@ -1,4 +1,4 @@
-body[id=case_notes-index] {
+body[id='case_notes-index'] {
   .margin-score {
     display: inline-block;
     font-size: 20px;
@@ -15,11 +15,5 @@ body[id=case_notes-index] {
 
   h4 .btn {
     margin-left: 10px;
-  }
-
-  @media screen and(max-width: 450px){
-    .case-note-margin{
-      margin: 10px 10px 0 5px;
-    }
   }
 }

@@ -1,0 +1,35 @@
+#current-program-streams.tab-pane.active{role: "tabpanel"}
+  .table-responsive
+    %table.table.table-bordered.table-hover
+      %thead
+        %th.name
+          = t('.name')
+          .pull-right
+            = render 'order', column: :name, ngo: 'current'
+        %th.domain
+          = t('.domain')
+        %th.status
+          = t('.status')
+        %th.places
+          = t('.enrolled')
+        %th.quantity
+          = t('.maximum')
+          .pull-right
+            = render 'order', column: :quantity, ngo: 'current'
+        %th.actions
+          = t('.actions')
+
+      %tbody
+        - @program_streams.each do |program_stream|
+          %tr
+            %td.name= program_stream.name
+            %td.domain= program_stream.domains.pluck(:identity).join(', ')
+            %td.status
+              %label{ class: "#{program_stream.completed_label_class}"}
+                = program_stream.completed_status
+            %td.places= program_stream.enrolled
+            %td.quantity= program_stream.quantity
+            %td.actions
+              = render 'actions', program_stream: program_stream
+  .text-center
+    = paginate @program_streams, params: { tab: 'current_ngo' }, param_name: 'page_1'

@@ -1,11 +1,10 @@
 Rails.application.routes.draw do
 
-  resources :calendars
-  root 'statics#index'
+  root 'organizations#index'
 
   devise_for :users, controllers: { registrations: 'registrations', sessions: 'sessions', passwords: 'passwords' }
 
-  get '/robots.txt' => 'statics#robots'
+  get '/robots.txt' => 'organizations#robots'
 
   %w(404 500).each do |code|
     match "/#{code}", to: 'errors#show', code: code, via: :all
@@ -14,11 +13,10 @@ Rails.application.routes.draw do
   get '/dashboards' => 'dashboards#index'
   get '/redirect'       => 'calendars#redirect', as: 'redirect'
   get '/callback'       => 'calendars#callback', as: 'callback'
-  get '/calendar/find' => 'calendars#find_event'
   get '/calendar/sync' => 'calendars#sync'
   get '/calendar/all_new' => 'calendars#all_new'
 
-  resources :calendars, only: [:index]
+  resources :calendars
 
   mount Thredded::Engine => '/forum'
 
@@ -68,6 +66,12 @@ Rails.application.routes.draw do
     get 'version' => 'donors#version'
   end
 
+  unless Rails.env.production?
+    resources :program_streams do
+      get :preview, on: :collection
+    end
+  end
+
   resources :changelogs do
     get 'version' => 'changelogs#version'
   end
@@ -110,8 +114,19 @@ Rails.application.routes.draw do
     collection do
       get :advanced_search
     end
+
+    unless Rails.env.production?
+      resources :client_enrollments do
+        get :report, on: :collection
+        resources :client_enrollment_trackings do
+          get :report, on: :collection
+        end
+        resources :leave_programs
+      end
+    end
+
     resources :custom_field_properties
-    resources :government_reports
+    # resources :government_reports
     resources :assessments
     resources :case_notes
     resources :cases do
@@ -122,7 +137,7 @@ Rails.application.routes.draw do
     scope module: 'client' do
       resources :tasks
     end
-    resources :surveys
+    # resources :surveys
 
     resources :progress_notes do
       get 'version' => 'progress_notes#version'
@@ -150,10 +165,12 @@ Rails.application.routes.draw do
   resources :notifications, only: [:index]
 
   namespace :api do
-    mount_devise_token_auth_for 'User', at: '/v1/auth', skip: [:registrations, :passwords]
-
+    mount_devise_token_auth_for 'User', at: '/v1/auth', skip: [:passwords]
     resources :clients do
       get :compare, on: :collection
+    end
+    resources :custom_fields do
+      get :fetch_custom_fields, on: :collection
     end
     resources :client_advanced_searches, only: [] do
       collection do
@@ -161,15 +178,41 @@ Rails.application.routes.draw do
         get :get_basic_field
       end
     end
+    resources :calendars do
+      get :find_event, on: :collection
+    end
+    # resources :program_stream_add_rule, only: [] do
+    #   collection do
+    #     get :get_fields
+    #   end
+    # end
 
     namespace :v1, default: { format: :json } do
       resources :domain_groups, only: [:index]
-      resources :clients, only: [:index] do
+      resources :families, only: [:index, :create, :update]
+      resources :users, only: [:index]
+      resources :clients, except: [:edit, :new] do
         get :compare, on: :collection
-        resources :assessments, only: [:create]
-        resources :tasks, only: [:create, :update]
-        resources :case_notes, only: [:create]
+        resources :assessments, only: [:create, :update]
+        resources :case_notes, only: [:create, :update]
+        resources :custom_field_properties, only: [:create, :update, :destroy]
+
+        scope module: 'client_tasks' do
+          resources :tasks, only: [:create, :update, :destroy]
+        end
+
+        # resources :client_enrollments, only: [:create, :update] do
+        #   resources :client_enrollment_trackings, only: [:create, :update]
+        #   resources :leave_programs, only: [:create, :update]
+        # end
       end
+      # resources :program_streams, only: [:index]
+      resources :provinces, only: [:index]
+      resources :donors, only: [:index]
+      resources :agencies, only: [:index]
+      resources :referral_sources, only: [:index]
+      resources :domains, only: [:index]
+      resources :quantitative_types, only: [:index]
     end
   end
 
@@ -177,7 +220,6 @@ Rails.application.routes.draw do
   scope '', module: 'form_builder' do
     resources :custom_fields do
       collection do
-        get 'find'   => 'custom_fields#find'
         get 'search' => 'custom_fields#search', as: :search
         get 'preview' => 'custom_fields#show', as: 'preview'
       end

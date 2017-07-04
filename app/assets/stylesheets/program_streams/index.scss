@@ -1,0 +1,42 @@
+body[id='program_streams-index'] {
+  table.program-streams tbody tr:hover{
+    cursor: pointer;
+  }
+
+  .quantity, .actions {
+    min-width: 110px;
+  }
+
+  .organization {
+    min-width: 160px;
+  }
+
+  th.name {
+    width: 200px;
+  }
+
+  .domain {
+    min-width: 300px;
+  }
+
+  td a.btn, div.btn {
+    margin-left: 5px;
+  }
+
+  .nav-tabs {
+    margin-bottom: 10px;
+    li.active a {
+      border-bottom-color: #fff;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .no-margin-top {
+      margin-top: 0px;
+    }
+  }
+
+  th.quantity {
+    min-width: 261px;
+  }
+}

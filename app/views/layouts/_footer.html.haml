@@ -5,6 +5,10 @@
     .col-xs-12.col-sm-8.col-md-off-set-1.text-center.margin-usaid-link
       %a{ 'data-target' => '#myModal', 'data-toggle' => 'modal', type: 'button' }
         USAID Disclaimer
+    - if user_signed_in?
+      - if current_organization.fcf_ngo?
+        .col-xs-2.hidden-xs.fcf_ngo.text-right
+          %span FCF
 #myModal.modal.fade{ 'aria-labelledby' => 'myModalLabel', :role => 'dialog', tabindex: '-1' }
   .modal-dialog.modal-disclaimer-width{role: 'document'}
     .modal-content

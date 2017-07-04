@@ -45,21 +45,24 @@
                     = version_attribute(k, version.item_type)
                   %td.col-sm-4.truncate
                     - if k == 'properties'
-                      - if v[0].present?
-                        - value = version_value_format(v[0], k, v)
+                      - values = v[0]
+                      - values = eval(v[0]) if v[0].class == String
+                      - next if values == '{}'
+                      - if values.present?
                         %ul
-                          - value.each do |key, value|
+                          - values.each do |key, value|
                             %li
                               ="#{key}:"
                               = display_custom_properties(value)
                     - elsif k == 'fields'
                       - if v[0].present?
-                        - fields = JSON.parse(version_value_format(v[0], k, v))
-                        - fields.each_with_index do |value, fields_index|
+                        - values = v[0]
+                        - values = eval(v[0]) if v[0].class == String
+                        - values.each_with_index do |value, fields_index|
                           - index = 1
                           - value.each do |key, value|
                             - if index == 1
-                              %ol{start: "#{fields_index + 1}", style: 'padding-left: 15px;'}
+                              %ol.list-padding{start: "#{fields_index + 1}"}
                                 %li="#{key}: #{value}"
                               - index += 1
                             - else
@@ -71,25 +74,30 @@
                       = version_value_format(v[0], k, v)
                   %td.col-sm-4.truncate
                     - if k == 'properties'
-                      - value = version_value_format(v[1], k, v)
-                      %ul
-                        - value.each do |key, value|
-                          %li
-                            ="#{key}:"
-                            = display_custom_properties(value)
+                      - values = v[1]
+                      - values = eval(v[1]) if v[1].class == String
+                      - next if values == '{}'
+                      - if values.present?
+                        %ul
+                          - values.each do |key, value|
+                            %li
+                              ="#{key}:"
+                              = display_custom_properties(value)
                     - elsif k == 'fields'
-                      - fields = JSON.parse(version_value_format(v[1], k, v))
-                      - fields.each_with_index do |value, fields_index|
-                        - index = 1
-                        - value.each do |key, value|
-                          - if index == 1
-                            %ol{start: "#{fields_index + 1}", style: 'padding-left: 15px;'}
-                              %li="#{key}: #{value}"
-                            - index += 1
-                          - else
-                            - unless key == 'values'
-                              %ul
-                                %li
-                                  ="#{key}: #{value}"
+                      - if v[1].present? && (v[1] != '{}' || v[1] != {})
+                        - values = v[1]
+                        - values = eval(v[1]) if v[1].class == String
+                        - values.each_with_index do |value, fields_index|
+                          - index = 1
+                          - value.each do |key, value|
+                            - if index == 1
+                              %ol.list-padding{start: "#{fields_index + 1}"}
+                                %li="#{key}: #{value}"
+                              - index += 1
+                            - else
+                              - unless key == 'values'
+                                %ul
+                                  %li
+                                    ="#{key}: #{value}"
                     - else
                       = version_value_format(v[1], k, v)

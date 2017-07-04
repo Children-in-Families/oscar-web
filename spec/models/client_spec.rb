@@ -8,48 +8,96 @@ describe Client, 'associations' do
   it { is_expected.to belong_to(:birth_province) }
   it { is_expected.to belong_to(:donor) }
 
-  it { is_expected.to have_one(:government_report).dependent(:destroy) }
+  # Client ask to hide #147254199
+  # it { is_expected.to have_one(:government_report).dependent(:destroy) }
+  # it { is_expected.to have_many(:surveys).dependent(:destroy) }
+
   it { is_expected.to have_many(:cases).dependent(:destroy) }
   it { is_expected.to have_many(:tasks).dependent(:destroy) }
   it { is_expected.to have_many(:case_notes).dependent(:destroy) }
   it { is_expected.to have_many(:assessments).dependent(:destroy) }
-  it { is_expected.to have_many(:surveys).dependent(:destroy) }
   it { is_expected.to have_many(:progress_notes).dependent(:destroy) }
   it { is_expected.to have_many(:answers) }
   it { is_expected.to have_many(:able_screening_questions).through(:answers) }
   it { is_expected.to have_many(:agency_clients) }
   it { is_expected.to have_many(:agencies).through(:agency_clients) }
-  it { is_expected.to have_many(:client_quantitative_cases) }
+  it { is_expected.to have_many(:client_quantitative_cases).dependent(:destroy) }
   it { is_expected.to have_many(:quantitative_cases).through(:client_quantitative_cases) }
   it { is_expected.to have_many(:custom_field_properties).dependent(:destroy) }
   it { is_expected.to have_many(:custom_fields).through(:custom_field_properties) }
 end
 
-# describe Client, 'paper trail' do
-#   let!(:agency){ create(:agency) }
-#   let!(:client){ create(:client, agency_ids: agency.id) }
-#   context 'create a version of joined table of habtm association' do
-#     it { expect{PaperTrail::Version.count}.to change{PaperTrail::Version.count}.from(2).to(3) }
-#   end
-# end
+describe Client, 'paper trail' do
+  let!(:agency){ create(:agency) }
+  let!(:client){ create(:client, agency_ids: agency.id) }
+  context 'create a version of joined table of habtm association' do
+    it { expect(PaperTrail::Version.count).to eq(3) }
+  end
+end
 
 describe Client, 'callbacks' do
-  let!(:client){ create(:client) }
+  before do
+    ClientHistory.destroy_all
+  end
   context 'set slug as alias' do
+    let!(:client){ create(:client) }
     it { expect(client.slug).to eq("#{Organization.current.short_name}-#{client.id}") }
+  end
+
+  context 'create_client_history' do
+    it 'should have two client histories' do
+      client = FactoryGirl.create(:client)
+      # 2 client_histories because client has an after_save callback to update slug column
+      expect(ClientHistory.where('object.id' => client.id).count).to eq(2)
+      expect(ClientHistory.where('object.id' => client.id).pluck(:id)).to eq(ClientHistory.all.pluck(:id))
+    end
+
+    it 'should have 2 client histories and 2 agency client histories each' do
+      agencies      = FactoryGirl.create_list(:agency, 2)
+      agency_client = FactoryGirl.create(:client, agency_ids: agencies.map(&:id))
+      expect(ClientHistory.where('object.id' => agency_client.id).count).to eq(2)
+      expect(ClientHistory.where('object.id' => agency_client.id).first.object['agency_ids']).to eq(agencies.map(&:id))
+      expect(ClientHistory.where('object.id' => agency_client.id).last.object['agency_ids']).to eq(agencies.map(&:id))
+      expect(ClientHistory.where('object.id' => agency_client.id).first.agency_client_histories.count).to eq(2)
+      expect(ClientHistory.where('object.id' => agency_client.id).last.agency_client_histories.count).to eq(2)
+    end
   end
 end
 
 describe Client, 'methods' do
   let!(:able_manager) { create(:user, roles: 'able manager') }
   let!(:case_worker) { create(:user, roles: 'case worker') }
-  let!(:client){ create(:client, user: case_worker, local_given_name: 'Barry', local_family_name: 'Allen') }
+  let!(:client){ create(:client, user: case_worker, local_given_name: 'Barry', local_family_name: 'Allen', date_of_birth: '2007-05-15') }
   let!(:other_client) { create(:client, user: case_worker) }
   let!(:able_client) { create(:client, able_state: Client::ABLE_STATES[0]) }
   let!(:able_manager_client) { create(:client, user: able_manager) }
   let!(:assessment){ create(:assessment, created_at: Date.today - 6.month, client: client) }
   let!(:able_rejected_client) { create(:client, able_state: Client::ABLE_STATES[1]) }
   let!(:able_discharged_client) { create(:client, able_state: Client::ABLE_STATES[2]) }
+  let!(:client_a){ create(:client, date_of_birth: '2017-05-05') }
+  let!(:client_b){ create(:client, date_of_birth: '2016-06-05') }
+  let!(:client_c){ create(:client, date_of_birth: '2016-06-06') }
+  let!(:client_d){ create(:client, date_of_birth: '2015-10-06') }
+
+  context 'age' do
+    let(:current_date) { '2017-06-05'.to_date }
+    let(:dob)          { client.date_of_birth }
+    it 'returns age of year' do
+      expect(client.age_as_years(current_date)).to eq(10)
+      expect(client_a.age_as_years(current_date)).to eq(0)
+      expect(client_b.age_as_years(current_date)).to eq(1)
+      expect(client_c.age_as_years(current_date)).to eq(0)
+      expect(client_d.age_as_years(current_date)).to eq(1)
+    end
+
+    it 'returns age of month' do
+      expect(client.age_extra_months(current_date)).to eq(0)
+      expect(client_a.age_extra_months(current_date)).to eq(1)
+      expect(client_b.age_extra_months(current_date)).to eq(0)
+      expect(client_c.age_extra_months(current_date)).to eq(11)
+      expect(client_d.age_extra_months(current_date)).to eq(7)
+    end
+  end
 
   context 'time in care' do
     context 'without any cases' do
@@ -120,27 +168,6 @@ describe Client, 'methods' do
     it { expect(other_client.can_create_assessment?).to be_falsey }
   end
 
-  context 'can create case note' do
-    it { expect(client.can_create_case_note?).to be_truthy }
-    it { expect(other_client.can_create_case_note?).to be_falsey }
-  end
-
-  context 'age as years' do
-    let!(:age_as_years){ client.age_as_years }
-    let!(:total_present_months){ Date.today.year * 12 + Date.today.month }
-    let!(:total_dob_months){ client.date_of_birth.year * 12 + client.date_of_birth.month }
-    let!(:years){ (total_present_months - total_dob_months) / 12 }
-    it { expect(client.age_as_years).to eq(years) }
-  end
-
-  context 'age extra months' do
-    let!(:age_extra_months){ client.age_extra_months }
-    let!(:total_present_months){ Date.today.year * 12 + Date.today.month }
-    let!(:total_dob_months){ client.date_of_birth.year * 12 + client.date_of_birth.month }
-    let!(:months){ (total_present_months - total_dob_months) % 12 }
-    it { expect(client.age_extra_months).to eq(months) }
-  end
-
   context 'age between' do
     let!(:follower){ create(:user)}
     let!(:province){ create(:province) }
@@ -180,6 +207,26 @@ describe Client, 'methods' do
     end
     it 'does not return neither non able clients nor not managed by current user' do
       expect(Client.in_any_able_states_managed_by(case_worker)).not_to include(able_manager_client)
+    end
+  end
+
+  context 'name' do
+    let!(:client_name) { create(:client, given_name: 'Adam', family_name: 'Eve') }
+    let!(:client_local_name) { create(:client, given_name: '', family_name: '', local_given_name: 'Romeo', local_family_name: 'Juliet') }
+
+    it 'return name' do
+      expect(client_name.name).to eq("Adam Eve")
+    end
+
+    it 'reutrn local name' do
+      expect(client_local_name.name).to eq("Romeo Juliet")
+    end
+  end
+
+  context 'en and local name' do
+    let!(:client) { create(:client, given_name: 'Adam', family_name: 'Eve', local_given_name: 'Romeo', local_family_name: 'Juliet') }
+    it 'return english and local name' do
+      expect(client.en_and_local_name).to eq("Adam Eve (Romeo Juliet)")
     end
   end
 end
@@ -258,7 +305,7 @@ describe Client, 'scopes' do
     end
   end
 
-  context '.active' do
+  context 'active' do
     it 'have all active clients' do
       expect(Client.all_active_types.count).to eq(2)
     end
@@ -493,5 +540,39 @@ describe Client, 'scopes' do
     it 'should not include records without kid_id like' do
       expect(clients).not_to include(other_client)
     end
+  end
+
+  context 'live_with_like' do
+    let!(:client)       { create(:client, live_with: 'Rainy') }
+    let!(:other_client) { create(:client, live_with: 'Nico') }
+    let!(:clients)      { Client.live_with_like('rain') }
+    it 'should include records with live_with like' do
+      expect(clients).to include(client)
+    end
+    it 'should not include records without live_with like' do
+      expect(clients).not_to include(other_client)
+    end
+  end
+end
+
+describe 'validations' do
+  subject{ Client.new }
+
+  context 'rejected_note' do
+    before do
+      subject.save
+      subject.state = 'rejected'
+    end
+    it { is_expected.to validate_presence_of(:rejected_note) }
+  end
+
+  context 'kid_id' do
+    let!(:client){ create(:client, kid_id: 'STID-01') }
+    let!(:valid_client){ build(:client) }
+    let!(:invalid_client){ build(:client, kid_id: 'stid-01') }
+    before { subject.kid_id = 'STiD-01' }
+    it { is_expected.to validate_uniqueness_of(:kid_id).case_insensitive }
+    it { expect(valid_client).to be_valid }
+    it { expect(invalid_client).to be_invalid }
   end
 end

@@ -1,0 +1,42 @@
+.row
+  .col-xs-12
+    .ibox
+      .ibox-title
+        %h5= t('.report')
+        .ibox-tools
+          = link_to client_client_enrollments_path(@client) do
+            .btn.btn-primary
+              = t('.programs_list')
+      .ibox-content
+        .table-responsive
+          %table.table.table-bordered.table-striped.table-hover
+            %thead
+              %tr
+                %th= t('.date')
+                %th= t('.forms')
+                %th= t('.actions')
+            %tbody
+              - @enrollments.each do |enrollment|
+                %tr
+                  %td=date_format enrollment.created_at
+                  %td= t('.enrollment')
+                  %td
+                    = link_to client_client_enrollment_path(@client, enrollment, program_stream_id: @program_stream) do
+                      = t('.view')
+
+                - if enrollment.has_client_enrollment_tracking?      
+                  - enrollment.client_enrollment_trackings.ordered.each do |enrollment_tracking|
+                    %tr
+                      %td= date_format(enrollment_tracking.created_at)
+                      %td= "#{t('.tracking')} (#{enrollment_tracking.tracking.try(:name)})"
+                      %td= link_to t('.view'), client_client_enrollment_client_enrollment_tracking_path(@client, enrollment, enrollment_tracking)
+
+                - if enrollment.leave_program.present?
+                  %tr
+                    %td= date_format(enrollment.leave_program.created_at)
+                    %td= t('.exit')
+                    %td= link_to t('.view'), client_client_enrollment_leave_program_path(@client, enrollment, enrollment.leave_program)
+
+
+        
+      

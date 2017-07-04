@@ -29,6 +29,10 @@
 //= require tinymce
 //= require moment
 //= require fullcalendar
+//= require bootstrap_file_input/purify.min.js
+//= require bootstrap_file_input/fileinput.js
+//= require bootstrap_file_input/fa/theme.min.js
+//= require bootstrap_file_input/explorer/theme.min.js
 
 // WRAPBOOTSTRAP
 //= require iCheck/icheck.min.js
@@ -61,13 +65,11 @@
 //= require families/index
 //= require families/form
 //= require families/show
-//= require surveys/form
 //= require users/show
 //= require users/index
 //= require users/form
 //= require partners/index
 //= require partners/form
-//= require government_reports/form
 //= require stages/form
 //= require able_screening_questions/form
 //= require able_screening_answers/form
@@ -84,3 +86,10 @@
 //= require sessions/new
 //= require case/quarterly_reports/index
 //= require client_advanced_searches/index
+//= require program_streams/form
+//= require custom_field_properties/form
+//= require program_streams/index
+//= require program_streams/show
+//= require client_enrollments/form
+//= require leave_programs/form
+//= require client_enrollment_trackings/form
