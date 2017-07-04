@@ -22,6 +22,10 @@ feature 'program_stream' do
       expect(page).to have_content(program_stream.domains.pluck(:identity).join(', '))
     end
 
+    scenario 'status' do
+      expect(page).to have_content('Incompleted')
+    end
+
     scenario 'quantity' do
       expect(page).to have_content(program_stream.quantity)
     end
@@ -64,27 +68,23 @@ feature 'program_stream' do
       expect(page).to have_content(program_stream.quantity)
     end
 
-    scenario 'rules', js: true do
-      page.click_link('Rules')
+    scenario 'rules' do
       expect(page).to have_content('Age')
     end
 
-    scenario 'enrollment', js: true do
-      page.click_link('Enrollment')
+    scenario 'enrollment' do
       expect(page).to have_content('e-mail')
     end
 
-    scenario 'tracking', js: true do
-      page.click_link('Tracking')
+    scenario 'tracking' do
       expect(page).to have_content('e-mail')
     end
 
-    scenario 'leave_program', js: true do
-      page.click_link('Exit Program')
+    scenario 'leave_program' do
       expect(page).to have_content('e-mail')
     end
 
-    scenario 'edit link',js: true do
+    scenario 'edit link' do
       expect(page).to have_link(nil, href: edit_program_stream_path(program_stream))
     end
 
@@ -99,61 +99,93 @@ feature 'program_stream' do
       page.click_link 'Add New Program'
     end
 
-    scenario 'valid' do
-      fill_in 'program_stream_name', with: FFaker::Name.name
-      page.find(".rule-filter-container select option[value='gender']", visible: false).select_option
-      expect(page).to have_content 'Gender'
+    context 'full step creation' do
+      scenario 'valid' do
+        fill_in 'program_stream_name', with: FFaker::Name.name
+        page.find(".rule-filter-container select option[value='gender']", visible: false).select_option
+        expect(page).to have_content 'Gender'
 
-      page.click_link 'Next'
-      page.find('.icon-calendar').click
-      page.click_link 'Next'
-      sleep 1
-      within('#trackings') do
-        fill_in 'Name', with: FFaker::Name.name
+        page.click_link 'Next'
+        page.find('.icon-calendar').click
+        page.click_link 'Next'
+        sleep 1
+        within('#trackings') do
+          fill_in 'Name', with: FFaker::Name.name
+        end
+        page.find('.icon-text-input').click
+        page.click_link 'Next'
+        sleep 1
+        page.find('.icon-text-area').click
+        page.click_link 'Save'
+        expect(page).to have_content('Program Stream has been successfully created.')
       end
-      page.find('.icon-text-input').click
-      page.click_link 'Next'
-      sleep 1
-      page.find('.icon-text-area').click
-      page.click_link 'Save'
-      expect(page).to have_content('Program Stream has been successfully created.')
+
+      scenario 'invalid' do
+        fill_in 'program_stream_name', with: FFaker::Name.name
+        page.click_link 'Next'
+        element = page.find('dl.rules-group-container')
+        expect(element).to have_css '.has-error'
+      end
     end
 
-    scenario 'invalid' do
-      fill_in 'program_stream_name', with: FFaker::Name.name
-      page.click_link 'Next'
-      element = page.find('dl.rules-group-container')
-      expect(element).to have_css '.has-error'
+    context 'save draft' do
+      scenario 'valid' do
+        fill_in 'program_stream_name', with: FFaker::Name.name
+        page.find(".rule-filter-container select option[value='gender']", visible: false).select_option
+        expect(page).to have_content 'Gender'
+        find('#program_stream_submit').click
+        expect(page).to have_content('Program Stream has been successfully created.')
+      end
+
+      scenario 'invalid' do
+        fill_in 'program_stream_name', with: FFaker::Name.name
+        page.click_link 'Next'
+        element = page.find('dl.rules-group-container')
+        expect(element).to have_css '.has-error'
+      end
     end
+
   end
 
   feature 'edit', js: true  do
     before do 
       visit program_streams_path
-    end
-
-    scenario 'expect to have edit link' do
       expect(page).to have_link(nil, href: edit_program_stream_path(program_stream))
+      click_link(nil, href: edit_program_stream_path(program_stream))
     end
 
-    scenario 'valid' do
-      page.click_link(nil, href: edit_program_stream_path(program_stream))
-      fill_in 'program_stream_name', with: FFaker::Name.name
-      page.click_link 'Next'
-      sleep 1
-      page.click_link 'Next'
-      sleep 1
-      page.click_link 'Next'
-      sleep 1
-      page.click_link 'Save'
-      expect(page).to have_content('Program Stream has been successfully updated.')
+    context 'full step' do
+      scenario 'valid' do
+        fill_in 'program_stream_name', with: FFaker::Name.name
+        page.click_link 'Next'
+        sleep 1
+        page.click_link 'Next'
+        sleep 1
+        page.click_link 'Next'
+        sleep 1
+        page.click_link 'Save'
+        expect(page).to have_content('Program Stream has been successfully updated.')
+      end
+
+      scenario 'invalid' do
+        fill_in 'program_stream_name', with: ''
+        page.click_link 'Next'
+        expect(page).to have_css '.error'
+      end
     end
 
-    scenario 'invalid' do
-      page.click_link(nil, href: edit_program_stream_path(program_stream))
-      fill_in 'program_stream_name', with: ''
-      page.click_link 'Next'
-      expect(page).to have_css '.error'
+    context 'save draft' do
+      scenario 'valid' do
+        fill_in 'program_stream_name', with: FFaker::Name.name
+        find('span#program_stream_submit').click 
+        expect(page).to have_content('Program Stream has been successfully updated.')
+      end
+
+      scenario 'invalid' do
+        fill_in 'program_stream_name', with: ''
+        page.click_link 'Next'
+        expect(page).to have_css '.error'
+      end
     end
   end
 
@@ -163,7 +195,6 @@ feature 'program_stream' do
     end
 
     scenario 'delete successfully' do
-      tracking.destroy
       find("a[href='#{program_stream_path(program_stream)}'][data-method='delete']").click
       expect(page).to have_content('Program Stream has been successfully deleted')
     end
@@ -225,31 +256,27 @@ feature 'program_stream' do
       expect(page).to have_content(program_stream.quantity)
     end
 
-    scenario 'rules', js: true do
-      page.click_link('Rules')
+    scenario 'rules' do
       expect(page).to have_content('Age')
     end
 
-    scenario 'enrollment', js: true do
-      page.click_link('Enrollment')
+    scenario 'enrollment' do
       expect(page).to have_content('e-mail')
     end
 
-    scenario 'tracking', js: true do
-      page.click_link('Tracking')
+    scenario 'tracking' do
       expect(page).to have_content('e-mail')
     end
 
-    scenario 'leave_program', js: true do
-      page.click_link('Exit Program')
+    scenario 'leave_program' do
       expect(page).to have_content('e-mail')
     end
 
-    scenario 'copy link', js: true do
+    scenario 'copy link' do
       expect(page).to have_link(nil, href: new_program_stream_path(program_stream_id: program_stream.id, ngo_name: program_stream.ngo_name))
     end
 
-    scenario 'edit link',js: true do
+    scenario 'edit link' do
       expect(page).to have_link(nil, href: edit_program_stream_path(program_stream))
     end
   end

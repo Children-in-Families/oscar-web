@@ -39,6 +39,7 @@ class Ability
       cannot :update, Assessment do |assessment|
         Date.current > assessment.created_at + 2.weeks
       end
+      can :read, ProgramStream
     elsif user.able_manager?
       can :manage, AbleScreeningQuestion
       can :manage, Assessment
@@ -145,6 +146,8 @@ class Ability
       can :manage, Task
       can :manage, Assessment
       can :manage, CaseNote
+      can :manage, Family
+      can :manage, Partner
       can :manage, CustomFieldProperty, custom_formable_type: 'Client'
       can :manage, CustomField
       can :manage, ProgramStream

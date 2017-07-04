@@ -11,8 +11,8 @@ class FormBuilder::CustomFieldsController < AdminController
   def new
     ngo_name = params[:ngo_name]
     if ngo_name.present?
-      original_custom_field = get_custom_field(params[:custom_field_id], ngo_name)
-      @custom_field = CustomField.new(original_custom_field.attributes.merge(id: nil))
+       original_custom_field = get_custom_field(params[:custom_field_id], ngo_name)
+       @custom_field = CustomField.new(original_custom_field.attributes.merge(id: nil))
     else
       @custom_field = CustomField.new
     end
@@ -61,10 +61,6 @@ class FormBuilder::CustomFieldsController < AdminController
     end
   end
 
-  def find
-    render json: find_custom_field_in_organization
-  end
-
   private
 
   def get_custom_field(id, ngo_name)
@@ -108,5 +104,9 @@ class FormBuilder::CustomFieldsController < AdminController
 
   def set_custom_field
     @custom_field = CustomField.find(params[:id])
+  end
+
+  def find_ngo_name
+    @ngo_name = params[:ngo_name]
   end
 end
