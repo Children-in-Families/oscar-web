@@ -11,7 +11,10 @@ describe ClientEnrollmentTracking, 'Client Enrollment Tracking' do
   end
 
   feature 'Create', js: true do
-    before do 
+    before do
+      program_stream.reload
+      program_stream.update_columns(completed: true)
+      
       visit client_client_enrollments_path(client)
       click_link('Tracking')
     end

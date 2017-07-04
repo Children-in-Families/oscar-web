@@ -1,6 +1,6 @@
 .check-box-group
   .row
-    .col-xs-12.col-md-6.form-group
+    .col-xs-12.form-group{ class: html_column(full_width) }
       %label= field_props['label']
       - field_props['values'].each do |field|
         %li

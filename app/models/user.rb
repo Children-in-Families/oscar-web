@@ -118,15 +118,23 @@ class User < ActiveRecord::Base
   end
 
   def user_custom_field_frequency_overdue_or_due_today
-    entity_type_custom_field_notification(User.all)
+    if self.manager?
+      entity_type_custom_field_notification(User.where('manager_ids && ARRAY[?]', self.id))
+    elsif self.admin?
+      entity_type_custom_field_notification(User.all)
+    end
   end
 
   def partner_custom_field_frequency_overdue_or_due_today
-    entity_type_custom_field_notification(Partner.all)
+    if self.admin? || self.any_case_manager? || self.manager?
+      entity_type_custom_field_notification(Partner.all)
+    end
   end
 
   def family_custom_field_frequency_overdue_or_due_today
-    entity_type_custom_field_notification(Family.all)
+    if self.admin? || self.any_case_manager? || self.manager?
+      entity_type_custom_field_notification(Family.all)
+    end
   end
 
   def self.self_and_subordinates(user)

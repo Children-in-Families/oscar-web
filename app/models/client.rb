@@ -35,7 +35,7 @@ class Client < ActiveRecord::Base
   has_many :tasks,          dependent: :destroy
   has_many :agency_clients
   has_many :agencies, through: :agency_clients
-  has_many :client_quantitative_cases
+  has_many :client_quantitative_cases, dependent: :destroy
   has_many :quantitative_cases, through: :client_quantitative_cases
   has_many :custom_field_properties, as: :custom_formable, dependent: :destroy
   has_many :custom_fields, through: :custom_field_properties, as: :custom_formable
@@ -61,6 +61,7 @@ class Client < ActiveRecord::Base
 
   after_create :set_slug_as_alias
   after_update :set_able_status, if: proc { |client| client.able_state.blank? && answers.any? }
+  after_save :create_client_history
 
   scope :live_with_like,              ->(value) { where('clients.live_with iLIKE ?', "%#{value}%") }
   scope :given_name_like,             ->(value) { where('clients.given_name iLIKE ?', "%#{value}%") }
@@ -138,7 +139,8 @@ class Client < ActiveRecord::Base
   def en_and_local_name
     en_name = "#{given_name} #{family_name}"
     local_name = "#{local_given_name} #{local_family_name}"
-    "#{en_name} (#{local_name})"
+
+    local_name.present? ? "#{en_name} (#{local_name})" : en_name
   end
 
   def self.next_assessment_candidates
@@ -306,5 +308,11 @@ class Client < ActiveRecord::Base
         AdminMailer.remind_of_client(clients, day: day, admin: admins).deliver_now if admins.present?
       end
     end
+  end
+
+  private
+
+  def create_client_history
+    ClientHistory.initial(self)
   end
 end

@@ -83,7 +83,7 @@ module VersionHelper
   end
 
   def version_not_show(item_type)
-    arr = %w(AssessmentDomain Assessment CaseNote CaseNoteDomainGroup AgencyClient Client ClientQuantitativeCase ProgramStream Tracking ClientEnrollment ClientEnrollmentTracking)
+    arr = %w(AssessmentDomain Assessment CaseNote CaseNoteDomainGroup AgencyClient Client ClientQuantitativeCase ProgramStream Tracking ClientEnrollment ClientEnrollmentTracking Survey)
     arr.exclude?(item_type)
   end
 
@@ -219,7 +219,8 @@ module VersionHelper
       contact_person_email:   'email',
       contact_person_mobile:  'contact_mobile',
       custom_field_id:        'Form Title',
-      client_enrollment_id:   'Client Enrollment ID'
+      client_enrollment_id:   'Client Enrollment ID',
+      roles:   'Permission set'
     }
   end
 

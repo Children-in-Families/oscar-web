@@ -157,9 +157,9 @@ module ClientsHelper
     current_address << "#{I18n.t('datagrid.columns.clients.commune')} #{client.commune}" if client.commune.present?
     current_address << "#{I18n.t('datagrid.columns.clients.district')} #{client.district}" if client.district.present?
     if locale == :km
-      current_address << client.province.name.split(' / ').first
+      current_address << client.province.name.split(' / ').first if client.province.present?
     else
-      current_address << client.province.name.split(' / ').second
+      current_address << client.province.name.split(' / ').last if client.province.present?
     end
     current_address << I18n.t('datagrid.columns.clients.cambodia')
     current_address.compact.join(', ')

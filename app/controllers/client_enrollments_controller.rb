@@ -6,7 +6,8 @@ class ClientEnrollmentsController < AdminController
   before_action :find_client_enrollment, only: [:show, :edit, :update]
 
   def index
-    @program_streams = Kaminari.paginate_array(ordered_program).page(params[:page]).per(20)
+    program_streams = ProgramStreamDecorator.decorate_collection(ordered_program)
+    @program_streams = Kaminari.paginate_array(program_streams).page(params[:page]).per(20)
   end
 
   def new
@@ -75,8 +76,8 @@ class ClientEnrollmentsController < AdminController
   end
 
   def program_stream_order_by_enrollment
-    client_enrollments_with_status = ProgramStream.orderd_name_and_enrollment_status(@client)
-    client_enrollments_without_status = ProgramStream.without_status_by(@client)
+    client_enrollments_with_status = ProgramStream.orderd_name_and_enrollment_status(@client).completed
+    client_enrollments_without_status = ProgramStream.without_status_by(@client).completed
 
     client_enrollments_with_status + client_enrollments_without_status
   end
