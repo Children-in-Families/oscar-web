@@ -3,7 +3,6 @@ module AdvancedSearches
     include AdvancedSearchHelper
 
     def initialize(options = {})
-      @result = []
       @user = options[:user]
     end
 
@@ -12,8 +11,9 @@ module AdvancedSearches
       text_fields         = text_type_list.map { |item| AdvancedSearches::FilterTypes.text_options(item, format_header(item)) }
       date_picker_fields  = date_type_list.map { |item| AdvancedSearches::FilterTypes.date_picker_options(item, format_header(item)) }
       drop_list_fields    = drop_down_type_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first, format_header(item.first), item.last) }
-      search_fields       = text_fields + drop_list_fields + number_fields + date_picker_fields
 
+      custom_fields = AdvancedSearches::CustomFields.new().render
+      search_fields       = text_fields + drop_list_fields + number_fields + date_picker_fields + custom_fields
       search_fields.sort_by { |f| f[:label] }
     end
 
@@ -28,7 +28,7 @@ module AdvancedSearches
     end
 
     def date_type_list
-      ['placement_date', 'date_of_birth', 'initial_referral_date', 'follow_up_date', 'referred_to_ec', 'referred_to_fc', 'referred_to_kc', 'exit_date']
+      ['placement_date', 'date_of_birth', 'initial_referral_date', 'follow_up_date', 'referred_to_ec', 'referred_to_fc', 'referred_to_kc', 'exit_ec_date', 'exit_fc_date', 'exit_kc_date']
     end
 
     def drop_down_type_list

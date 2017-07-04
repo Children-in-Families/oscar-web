@@ -275,6 +275,9 @@ km:
       district: ស្រុក/ខណ្ឌ
       donor: ម្ចាស់ជំនួយ
       donor_id: ម្ចាស់ជំនួយ
+      exit_ec_date: ថ្ងៃចាកចេញពី EC
+      exit_fc_date: ថ្ងៃចាកចេញពី FC
+      exit_kc_date: ថ្ងៃចាកចេញពី KC
       family: គ្រួសារ
       family_id: លេខសម្គាល់គ្រួសារ
       family_name: នាមត្រកូល
@@ -321,7 +324,6 @@ km:
       type: ប្រភេទនៃទម្រង់បែបបទបន្ថែម
       user_id: បុគ្គលិកគ្រប់គ្រងករណី
       village: ភូមិ
-      exit_date: ថ្ងៃចាកចេញ
   agencies:
     create:
       failed_create: ឣង្គភាពបង្កើតកំណត់ត្រាថ្មីបានមិនបានជោគជ័យ

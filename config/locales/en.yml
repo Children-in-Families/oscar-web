@@ -275,6 +275,9 @@ en:
       district: District/Khan
       donor: Donor
       donor_id: Donor
+      exit_ec_date: Exit EC Date
+      exit_fc_date: Exit FC Date
+      exit_kc_date: Exit KC Date
       family: Family
       family_id: Family ID
       family_name: Family Name
@@ -321,7 +324,6 @@ en:
       type: Type
       user_id: Case Worker
       village: Village
-      exit_date: Exited Date
   agencies:
     create:
       failed_create: Failed to create an agency
