@@ -13,7 +13,10 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     _initButtonSave()
     _handleSaveProgramStream()
     _handleClickAddTracking()
+    _stickyFill()
 
+  _stickyFill = ->
+    $('.cb-wrap').Stickyfill();
 
   _initSelect2 = ->
     $('#rule-tab select').select2()
@@ -107,6 +110,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     $('#trackings').on 'cocoon:after-insert', (e, element) ->
       trackingBuilder = $(element).find('.tracking-builder')
       _initProgramBuilder(trackingBuilder, [])
+      _stickyFill()
 
   _generateValueForSelectOption = (field) ->
     $(field).find('input.option-label').on 'keyup change', ->
