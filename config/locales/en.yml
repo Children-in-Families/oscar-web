@@ -2364,7 +2364,7 @@ en:
         other: There are %{count} user custom forms due today.
       due_today_client_enrollment_tracking:
         one: There is 1 client enrollment tracking form due today.
-        other: There are %{count} client enrollment tracking form due today.
+        other: There are %{count} client enrollment trackings form due today.
       no_task: Nothing to notify.
       overdue_assessments_count:
         one: You have 1 assessment overdue.
@@ -2386,7 +2386,7 @@ en:
         other: There are %{count} user custom forms overdue.
       overdue_client_enrollment_tracking:
         one: There is 1 client enrollment tracking form overdue.
-        other: There are %{count} client enrollment tracking form overdue.
+        other: There are %{count} client enrollment trackings form overdue.
     side_menu:
       able_screening_questions: Able Screening Questions
       account: Account
