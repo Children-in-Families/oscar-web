@@ -22,7 +22,7 @@ module AdvancedSearches
     end
 
     def generate_field_by_type
-      CustomField.all.each do |custom_field|
+      CustomField.client_forms.each do |custom_field|
         title = custom_field.form_title
         custom_field.fields.each do |json_field|
           if json_field['type'] == 'text' || json_field['type'] == 'textarea'
