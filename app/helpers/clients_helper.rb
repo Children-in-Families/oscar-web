@@ -159,7 +159,7 @@ module ClientsHelper
     if locale == :km
       current_address << client.province.name.split(' / ').first
     else
-      current_address << client.province.name.split(' / ').second
+      current_address << client.province.name.split(' / ').last
     end
     current_address << I18n.t('datagrid.columns.clients.cambodia')
     current_address.compact.join(', ')
