@@ -251,7 +251,10 @@ km:
             password_confirmation:
               confirmation: បញ្ជាក់លេខកូដសំងាត់ថ្មីមិនត្រឹមត្រូវ
   add_event_success: ព្រឹត្តិការណ៍ត្រូវបានបន្ថែមទៅក្នុងប្រតិទិនដោយជោគជ័យ
+<<<<<<< HEAD
   existed_event: ព្រឹត្តិការណ៍មាននៅក្នុងប្រតិទិនរួចហើយ
+=======
+>>>>>>> master
   advanced_search:
     fields:
       able: ឣតិថិជនក្នុងកម្មវិធីABLE
@@ -407,9 +410,12 @@ km:
   cannot_be_lower: មិនអាចតូចជាង %{count}
   cannot_remove: មិនអាចលុបបានទេ
   cannot_remove_or_update: មិនអាចលុបរឺកែសម្រួលបានទេដោយសារតែត្រូវបានប្រើរួចហើយ
+<<<<<<< HEAD
   calendars:
     index:
       sync_with_google: បញ្ចូលព្រឹត្តិការណ៍ទៅក្នុងប្រតិទិន Google
+=======
+>>>>>>> master
   case:
     quarterly_reports:
       index:
@@ -1680,10 +1686,17 @@ km:
     failure:
       already_authenticated: អ្នកបានចូលរួចហើយ
       inactive: គណនីរបស់អ្នក មិនត្រូវបានបញ្ជាក់ នៅឡើយទេ
+<<<<<<< HEAD
       invalid: 
       last_attempt: អ្នកអាចព្យាយាមចូលម្ដងទៀត មុនពេលគណនីរបស់អ្នក ត្រូវចាក់សោ
       locked: គណនីរបស់អ្នកត្រូវ បានចាក់សោ
       not_found_in_database: 
+=======
+      invalid:
+      last_attempt: អ្នកអាចព្យាយាមចូលម្ដងទៀត មុនពេលគណនីរបស់អ្នក ត្រូវចាក់សោ
+      locked: គណនីរបស់អ្នកត្រូវ បានចាក់សោ
+      not_found_in_database:
+>>>>>>> master
       timeout: ប្រតិបត្តិការរបស់អ្នក ត្រូវបានផុតកំណត់។ សូមចូលម្ដងទៀត ដើម្បីបន្ត
       unauthenticated: អ្នកត្រូវតែចូល ឬ បង្កើតគណនីមុនធ្វើសកម្មភាពបន្ត
       unconfirmed: អ្នកត្រូវតែបញ្ជាក់អាសយដ្ឋានអ៊ីម៉ែល របស់អ្នក មុនធ្វើសកម្មភាពបន្ត
@@ -2344,6 +2357,7 @@ km:
       click_here: ទីនេះ
       client_is_about_to_end_ec:
         one: មានអតិថិជនចំនួនម្នាក់ដែលនឹងត្រូវបញ្ជូនចេញពីECក្នុងរយៈពេល%{day_count}ថ្ងៃ
+<<<<<<< HEAD
         other: មានអតិថិជនចំនួន%{count}នាក់ដែលនឹងត្រូវបញ្ជូនចេញពីECក្នុងរយៈពេល%{day_count}ថ្ងៃ
       client_is_end_ec_today:
         one: មានអតិថិជនចំនួនម្នាក់ដែលនឹងត្រូវបញ្ជូនចេញពីECនៅថ្ងៃនេះ
@@ -2379,12 +2393,59 @@ km:
       overdue_partner_custom_field_count:
         one: មានទម្រង់បែបបទរបស់ដៃគូចំនួន1ដែលផុតកំណត់
         other: មានទម្រង់បែបបទរបស់ដៃគូចំនួន%{count}ដែលផុតកំណត់
+=======
+        other: មានអតិថិជនចំនួន %{count} នាក់ដែលនឹងត្រូវបញ្ជូនចេញពីECក្នុងរយៈពេល%{day_count}ថ្ងៃ
+      client_is_end_ec_today:
+        one: មានអតិថិជនចំនួនម្នាក់ដែលនឹងត្រូវបញ្ជូនចេញពីECនៅថ្ងៃនេះ
+        other: មានអតិថិជនចំនួន %{count} នាក់ដែលនឹងត្រូវបញ្ជូនចេញពីECនៅថ្ងៃនេះ
+      due_today_assessments_count:
+        one: អ្នកមានការប៉ាន់ប្រមាណចំនួន1ដែលត្រូវបំពេញនៅថ្ងៃនេះ
+        other: អ្នកមានការប៉ាន់ប្រមាណចំនួន %{count} ដែលត្រូវបំពេញនៅថ្ងៃនេះ
+      due_today_client_custom_field_count:
+        one: មានទម្រង់បែបបទរបស់អតិថិជនចំនួន1ដែលត្រូវបំពេញនៅថ្ងៃនេះ
+        other: មានទម្រង់បែបបទរបស់អតិថិជនចំនួន %{count} ដែលត្រូវបំពេញនៅថ្ងៃនេះ
+      due_today_family_custom_field_count:
+        one: មានទម្រង់បែបបទរបស់គ្រួសារចំនួន1ដែលត្រូវបំពេញនៅថ្ងៃនេះ
+        other: មានទម្រង់បែបបទរបស់គ្រួសារចំនួន %{count} ដែលត្រូវបំពេញនៅថ្ងៃនេះ
+      due_today_partner_custom_field_count:
+        one: មានទម្រង់បែបបទរបស់ដៃគូចំនួន1ដែលត្រូវបំពេញនៅថ្ងៃនេះ
+        other: មានទម្រង់បែបបទរបស់ដៃគូចំនួន %{count} ដែលត្រូវបំពេញនៅថ្ងៃនេះ
+      due_today_tasks_count:
+        one: អ្នកមានកាតព្វកិច្ចចំនួន1ដែលត្រូវបំពេញនៅថ្ងៃនេះ
+        other: អ្នកមានកាតព្វកិច្ចចំនួន %{count} ដែលត្រូវបំពេញនៅថ្ងៃនេះ
+      due_today_user_custom_field_count:
+        one: មានទម្រង់បែបបទរបស់អ្នកប្រើចំនួន1ដែលត្រូវបំពេញនៅថ្ងៃនេះ
+        other: មានទម្រង់បែបបទរបស់អ្នកប្រើចំនួន %{count} ដែលត្រូវបំពេញនៅថ្ងៃនេះ
+      due_today_client_enrollment_tracking:
+        one: ការ​តាមដានរបស់អ្នកប្រើចំនួន1ដែលត្រូវបំពេញនៅថ្ងៃនេះ
+        other: ការ​តាមដានរបស់អ្នកប្រើចំនួន %{count} ដែលត្រូវបំពេញនៅថ្ងៃនេះ
+      no_task: មិនមានពត៌មានដែលត្រូវបង្ហាញ
+      overdue_assessments_count:
+        one: អ្នកមានការប៉ាន់ប្រមាណចំនួន1មិនទាន់បានធ្វើ
+        other: អ្នកមានការប៉ាន់ប្រមាណចំនួន %{count} មិនទាន់បានធ្វើ
+      overdue_client_custom_field_count:
+        one: មានទម្រង់បែបបទរបស់អតិថិជនចំនួន1ដែលផុតកំណត់
+        other: មានទម្រង់បែបបទរបស់អតិថិជនចំនួន %{count} ដែលផុតកំណត់
+      overdue_family_custom_field_count:
+        one: មានទម្រង់បែបបទរបស់គ្រួសារចំនួន1ដែលផុតកំណត់
+        other: មានទម្រង់បែបបទរបស់គ្រួសារចំនួន %{count} ដែលផុតកំណត់
+      overdue_partner_custom_field_count:
+        one: មានទម្រង់បែបបទរបស់ដៃគូចំនួន1ដែលផុតកំណត់
+        other: មានទម្រង់បែបបទរបស់ដៃគូចំនួន %{count} ដែលផុតកំណត់
+>>>>>>> master
       overdue_tasks_count:
         one: អ្នកមានកាតព្វកិច្ចចំនួន 1 កាតព្វកិច្ចផុតកំណត់
         other: អ្នកមានកាតព្វកិច្ចចំនួន %{count} កាតព្វកិច្ចផុតកំណត់
       overdue_user_custom_field_count:
         one: មានទម្រង់បែបបទរបស់អ្នកប្រើចំនួន1ដែលផុតកំណត់
+<<<<<<< HEAD
         other: មានទម្រង់បែបបទរបស់អ្នកប្រើចំនួន%{count}ដែលផុតកំណត់
+=======
+        other: មានទម្រង់បែបបទរបស់អ្នកប្រើចំនួន %{count} ដែលផុតកំណត់
+      overdue_client_enrollment_tracking:
+        one: ការ​តាមដានរបស់អ្នកប្រើចំនួន1ដែលផុតកំណត
+        other: ការ​តាមដានរបស់អ្នកប្រើចំនួន %{count} ដែលផុតកំណត
+>>>>>>> master
     side_menu:
       able_screening_questions: សំនួរ Able Screening
       account: គណនី
@@ -2514,6 +2575,15 @@ km:
       form: ទម្រង់បែបបទ
       partners: ដៃគូ
       users: ឣ្នកប្រើ
+<<<<<<< HEAD
+=======
+    client_enrollment_tracking_due_today:
+      clients: អតិថិជន
+      client_enrollment_tracking_notification: ការជូនដំណឹងនៃការ​តាមដានដែលត្រូវបំពេញ
+    client_enrollment_tracking_overdue:
+      clients: អតិថិជន
+      client_enrollment_tracking_notification: ការជូនដំណឹងនៃការ​តាមដានដែលត្រូវបំពេញ
+>>>>>>> master
   partners:
     actions:
       are_you_sure: តើអ្នកប្រាកដហើយ?
@@ -3141,8 +3211,13 @@ km:
       search_users:
         form_label: ស្វែងរកអ្នកប្រើប្រាស់
         form_placeholder: :thredded.moderation.search_users.form_label
+<<<<<<< HEAD
         no_results_message: 
         results_message: 
+=======
+        no_results_message:
+        results_message:
+>>>>>>> master
     nav:
       all_messageboards: ផ្ទាំងសារទាំអស់
       edit_messageboard: កែសម្រួលផ្ទាំងសារ

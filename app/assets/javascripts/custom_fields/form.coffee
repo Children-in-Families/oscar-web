@@ -88,6 +88,13 @@ CIF.Custom_fieldsShow = do ->
       messages: {
         cannotBeEmpty: 'name_separated_with_underscore'
       }
+      stickyControls: {
+        enable: true
+        offset:
+          top: 20,
+          right: 20,
+          left: 'auto'
+      }
 
       typeUserEvents: {
         'checkbox-group':

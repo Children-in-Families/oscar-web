@@ -151,7 +151,11 @@ en:
             time_of_frequency:
               blank: can't be blank
               greater_than_or_equal_to: must be greater than or equal to 1
+<<<<<<< HEAD
               not_an_integer: not an integer
+=======
+              not_an_integer: must be an integer
+>>>>>>> master
         department:
           attributes:
             name:
@@ -251,7 +255,10 @@ en:
             password_confirmation:
               confirmation: does not match
   add_event_success: Event has been added to calendar successfully.
+<<<<<<< HEAD
   existed_event: Event already exsits in calendar.
+=======
+>>>>>>> master
   advanced_search:
     fields:
       able: Able
@@ -407,9 +414,12 @@ en:
   cannot_be_lower: can't be lower than %{count}
   cannot_remove: cannot be removed
   cannot_remove_or_update: cannot be removed/updated since it is already in use.
+<<<<<<< HEAD
   calendars:
     index:
       sync_with_google: Sync with Google Calendar
+=======
+>>>>>>> master
   case:
     quarterly_reports:
       index:
@@ -2366,6 +2376,12 @@ en:
       due_today_user_custom_field_count:
         one: There is 1 user custom form due today.
         other: There are %{count} user custom forms due today.
+<<<<<<< HEAD
+=======
+      due_today_client_enrollment_tracking:
+        one: There is 1 client enrollment tracking form due today.
+        other: There are %{count} client enrollment trackings form due today.
+>>>>>>> master
       no_task: Nothing to notify.
       overdue_assessments_count:
         one: You have 1 assessment overdue.
@@ -2385,6 +2401,12 @@ en:
       overdue_user_custom_field_count:
         one: There is 1 user custom form overdue.
         other: There are %{count} user custom forms overdue.
+<<<<<<< HEAD
+=======
+      overdue_client_enrollment_tracking:
+        one: There is 1 client enrollment tracking form overdue.
+        other: There are %{count} client enrollment trackings form overdue.
+>>>>>>> master
     side_menu:
       able_screening_questions: Able Screening Questions
       account: Account
@@ -2514,6 +2536,15 @@ en:
       form: Form
       partners: Partner
       users: User
+<<<<<<< HEAD
+=======
+    client_enrollment_tracking_due_today:
+      clients: Client
+      client_enrollment_tracking_notification: Client Enrollment Tracking Notification
+    client_enrollment_tracking_overdue:
+      clients: Client
+      client_enrollment_tracking_notification: Client Enrollment Tracking Notification
+>>>>>>> master
   partners:
     actions:
       are_you_sure: Are you sure you want to delete?

@@ -11,7 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 20170704070624) do
+=======
+ActiveRecord::Schema.define(version: 20170703035138) do
+>>>>>>> master
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -201,7 +205,10 @@ ActiveRecord::Schema.define(version: 20170704070624) do
     t.integer  "client_enrollment_id"
     t.datetime "created_at",           null: false
     t.datetime "updated_at",           null: false
+<<<<<<< HEAD
     t.integer  "program_stream_id"
+=======
+>>>>>>> master
     t.integer  "tracking_id"
   end
 
@@ -521,6 +528,7 @@ ActiveRecord::Schema.define(version: 20170704070624) do
   create_table "program_streams", force: :cascade do |t|
     t.string   "name"
     t.text     "description"
+<<<<<<< HEAD
     t.jsonb    "rules",             default: {}
     t.jsonb    "enrollment",        default: {}
     t.jsonb    "tracking",          default: {}
@@ -532,6 +540,16 @@ ActiveRecord::Schema.define(version: 20170704070624) do
     t.integer  "quantity"
     t.string   "ngo_name",          default: ""
     t.boolean  "completed",         default: false
+=======
+    t.jsonb    "rules",        default: {}
+    t.jsonb    "enrollment",   default: {}
+    t.jsonb    "exit_program", default: {}
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.integer  "quantity"
+    t.string   "ngo_name",     default: ""
+    t.boolean  "completed",    default: false
+>>>>>>> master
   end
 
   create_table "progress_note_types", force: :cascade do |t|
@@ -922,8 +940,13 @@ ActiveRecord::Schema.define(version: 20170704070624) do
     t.integer  "organization_id"
     t.boolean  "disable",                default: false
     t.datetime "expires_at"
+<<<<<<< HEAD
     t.integer  "manager_id"
     t.boolean  "task_notify",            default: true
+=======
+    t.boolean  "task_notify",            default: true
+    t.integer  "manager_id"
+>>>>>>> master
     t.boolean  "calendar_integration",   default: false
     t.integer  "pin_number"
     t.integer  "manager_ids",            default: [],                         array: true

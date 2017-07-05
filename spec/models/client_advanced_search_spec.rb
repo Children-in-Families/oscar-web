@@ -11,7 +11,11 @@ describe AdvancedSearches::ClientAdvancedSearch, 'Method' do
         {:id=>"code", :field=>"code", :type=>"integer", :input=>"text", :operator=>"greater", :value=>"1000"}
       ]
     }
+<<<<<<< HEAD
     clients = AdvancedSearches::ClientAdvancedSearch.new(rules, {}, Client.all).filter
+=======
+    clients = AdvancedSearches::ClientAdvancedSearch.new(rules, Client.all).filter
+>>>>>>> master
 
     expect(clients).to include(client_2, client_3)
   end
@@ -23,7 +27,11 @@ describe AdvancedSearches::ClientAdvancedSearch, 'Method' do
         {:id=>"code", :field=>"code", :type=>"integer", :input=>"text", :operator=>"greater", :value=>"100"}
       ]
     }
+<<<<<<< HEAD
     clients = AdvancedSearches::ClientAdvancedSearch.new(rules, {}, Client.all).filter
+=======
+    clients = AdvancedSearches::ClientAdvancedSearch.new(rules, Client.all).filter
+>>>>>>> master
     expect(clients).to include(client, client_2, client_3, client_4)
   end
 end
