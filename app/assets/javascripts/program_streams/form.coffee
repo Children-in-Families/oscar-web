@@ -13,10 +13,10 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     _initButtonSave()
     _handleSaveProgramStream()
     _handleClickAddTracking()
-    _stickyFill()
 
   _stickyFill = ->
-    $('.cb-wrap').Stickyfill();
+    if $('.form-wrap').is(':visible')
+      $('.cb-wrap').Stickyfill()
 
   _initSelect2 = ->
     $('#rule-tab select').select2()
@@ -218,6 +218,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         $('section ul.frmb.ui-sortable').css('min-height', '266px')
 
       onStepChanged: (event, currentIndex, newIndex) ->
+        _stickyFill()
         buttonSave = $('#program_stream_submit')
         if $('#exit-program').is(':visible') then $(buttonSave).hide() else $(buttonSave).show()
 
