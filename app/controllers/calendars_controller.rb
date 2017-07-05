@@ -43,15 +43,16 @@ class CalendarsController < AdminController
       client.update!(session[:authorization])
       service = Google::Apis::CalendarV3::CalendarService.new
       service.authorization = client
-      calendars = current_user.calendars
+      calendars = current_user.calendars.sync_status_false
       calendars.each do |event_list|
         event = Google::Apis::CalendarV3::Event.new(start: Google::Apis::CalendarV3::EventDateTime.new(date: event_list.start_date.to_date.to_s),
                                                     end: Google::Apis::CalendarV3::EventDateTime.new(date: event_list.end_date.to_date.to_s),
-                                                    summary: event_list.title,
-                                                    id: event_list.calendar_id)
-        service.insert_event('primary', event) 
+                                                    summary: event_list.title)
+        service.insert_event('primary', event)
+        event_list.update(sync_status: true)
       end
-      redirect_to calendars_path, notice: t('add_event_success')
+      calendars.present? ? message = t('add_event_success') : message = t('existed_event')
+      redirect_to calendars_path, notice: message
     end
   end
 end

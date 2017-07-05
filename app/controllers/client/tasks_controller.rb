@@ -1,5 +1,4 @@
 class Client::TasksController < AdminController
-  # include Base32Hex
 
   load_and_authorize_resource
   before_action :find_client
@@ -19,11 +18,10 @@ class Client::TasksController < AdminController
       if @task.save
         domain     = Domain.find(task_params[:domain_id])
         title    = "#{domain.name} - #{task_params[:name]}"
-        binding.pry
-        calendar_id = encode32hex(title)
+        
         start_date = task_params[:completion_date]
         end_date   = (task_params[:completion_date].to_date + 1.day).to_s
-        Calendar.create(title: title, start_date: start_date, end_date: end_date, user_id: current_user.id, calendar_id: calendar_id)
+        Calendar.create(title: title, start_date: start_date, end_date: end_date, user_id: current_user.id)
         
         format.json { render json: @task.to_json, status: 200 }
         format.html { redirect_to client_tasks_path(@client), notice: t('.successfully_created') }
@@ -53,7 +51,7 @@ class Client::TasksController < AdminController
         param_start_date = task_params[:completion_date]
         param_end_date   = (task_params[:completion_date].to_date + 1.day).to_s
         calendar = Calendar.find_by(title: title, start_date: start_date, end_date: end_date)
-        calendar.update(title: param_title, start_date: param_start_date, end_date: param_end_date) if calendar.present?
+        calendar.update(title: param_title, start_date: param_start_date, end_date: param_end_date, sync_status: false) if calendar.present?
       end
       redirect_to client_tasks_path(@client), notice: t('.successfully_updated')
     else

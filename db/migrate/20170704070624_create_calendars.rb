@@ -4,7 +4,7 @@ class CreateCalendars < ActiveRecord::Migration
       t.string :title
       t.datetime :start_date
       t.datetime :end_date
-      t.string :calendar_id
+      t.boolean :sync_status, default: false
       t.references :user, index: true, foreign_key: true
 
       t.timestamps null: false

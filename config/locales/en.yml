@@ -251,6 +251,7 @@ en:
             password_confirmation:
               confirmation: does not match
   add_event_success: Event has been added to calendar successfully.
+  existed_event: Event already exsits in calendar.
   advanced_search:
     fields:
       able: Able
@@ -406,6 +407,9 @@ en:
   cannot_be_lower: can't be lower than %{count}
   cannot_remove: cannot be removed
   cannot_remove_or_update: cannot be removed/updated since it is already in use.
+  calendars:
+    index:
+      sync_with_google: Sync with Google Calendar
   case:
     quarterly_reports:
       index:

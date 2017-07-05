@@ -251,6 +251,7 @@ km:
             password_confirmation:
               confirmation: បញ្ជាក់លេខកូដសំងាត់ថ្មីមិនត្រឹមត្រូវ
   add_event_success: ព្រឹត្តិការណ៍ត្រូវបានបន្ថែមទៅក្នុងប្រតិទិនដោយជោគជ័យ
+  existed_event: ព្រឹត្តិការណ៍មាននៅក្នុងប្រតិទិនរួចហើយ
   advanced_search:
     fields:
       able: ឣតិថិជនក្នុងកម្មវិធីABLE
@@ -406,6 +407,9 @@ km:
   cannot_be_lower: មិនអាចតូចជាង %{count}
   cannot_remove: មិនអាចលុបបានទេ
   cannot_remove_or_update: មិនអាចលុបរឺកែសម្រួលបានទេដោយសារតែត្រូវបានប្រើរួចហើយ
+  calendars:
+    index:
+      sync_with_google: បញ្ចូលព្រឹត្តិការណ៍ទៅក្នុងប្រតិទិន Google
   case:
     quarterly_reports:
       index:
