@@ -34,7 +34,6 @@ CIF.Client_advanced_searchesIndex = do ->
         $(element).attr('title', value)
         truncate = value.substring(0, 42)
         result = if truncate.length == 42 then "#{truncate} ..." else truncate
-        console.log result
         $(element).find('.select2-result-label').text(result)
 
   _ajaxGetBasicField = ->
