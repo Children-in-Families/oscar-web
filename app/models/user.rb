@@ -141,7 +141,7 @@ class User < ActiveRecord::Base
   end
 
   def client_enrollment_tracking_overdue_or_due_today
-    client_enrollment_tracking_notification(clients)
+    client_enrollment_tracking_notification(clients) unless Rails.env.production?
   end
 
   def self.self_and_subordinates(user)
