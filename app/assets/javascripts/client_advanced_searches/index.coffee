@@ -21,18 +21,20 @@ CIF.Client_advanced_searchesIndex = do ->
         ),10
 
   _initSelect2 = ->
-    $('select').select2(
-      width: '320px'
-    )
+    $('.rule-filter-container select').select2(width: '320px')
+    $('.rule-operator-container select, .rule-value-container select').select2(width: 'resolve')
 
   _handleSetTitleToOption = ->
     $('.rule-filter-container select').on 'select2-open', ->
+      self = @
       elements = $('ul.select2-results li')
-      for element in elements
-        value = $(element).text()
+      $(elements).each (index, element) ->
+        option = $(self).find('option')[index]
+        value = $(option).text()
         $(element).attr('title', value)
         truncate = value.substring(0, 42)
         result = if truncate.length == 42 then "#{truncate} ..." else truncate
+        console.log result
         $(element).find('.select2-result-label').text(result)
 
   _ajaxGetBasicField = ->
@@ -117,21 +119,26 @@ CIF.Client_advanced_searchesIndex = do ->
       )
 
   _addRuleCallback = ->
-    $('#builder').on 'afterCreateRuleFilters.queryBuilder', ->
+    $('#builder').on 'afterCreateRuleFilters.queryBuilder', (_e, obj) ->
       _initSelect2()
-      _handleSelectOptionChange()
+      _handleSetTitleToOption()
+      _handleSelectOptionChange(obj)
       _referred_to_program()
 
-  _handleSelectOptionChange = ->
-    $('select').on 'select2-selecting', (e) ->
-      setTimeout (->
-        $('.rule-operator-container select').select2(
-          width: '180px'
-        )
-        $('.rule-value-container select').select2(
-          width: '180px'
-        )
-      ),100
+  _handleSelectOptionChange = (obj) ->
+    if obj != undefined
+      rowBuilderRule = obj.$el[0]
+      ruleFiltersSelect = $(rowBuilderRule).find('.rule-filter-container select')
+      $(ruleFiltersSelect).on 'select2-close', ->
+        setTimeout ( ->
+          _initSelect2()
+          operatorSelect = $(rowBuilderRule).find('.rule-operator-container select')
+          $(operatorSelect).on 'select2-close', ->
+            setTimeout ( ->
+              $(rowBuilderRule).find('.rule-value-container select').select2(
+                width: '180px')
+              )
+          )
 
   _getTranslation = ->
     @filterTranslation =
