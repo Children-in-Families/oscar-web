@@ -25,6 +25,7 @@
 //= require jquery.extendext
 //= require doT
 //= require query-builder
+//= require stickyfill.js
 
 //= require tinymce
 //= require moment

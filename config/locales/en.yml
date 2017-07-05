@@ -2374,6 +2374,9 @@ en:
       due_today_user_custom_field_count:
         one: There is 1 user custom form due today.
         other: There are %{count} user custom forms due today.
+      due_today_client_enrollment_tracking:
+        one: There is 1 client enrollment tracking form due today.
+        other: There are %{count} client enrollment trackings form due today.
       no_task: Nothing to notify.
       overdue_assessments_count:
         one: You have 1 assessment overdue.
@@ -2393,6 +2396,9 @@ en:
       overdue_user_custom_field_count:
         one: There is 1 user custom form overdue.
         other: There are %{count} user custom forms overdue.
+      overdue_client_enrollment_tracking:
+        one: There is 1 client enrollment tracking form overdue.
+        other: There are %{count} client enrollment trackings form overdue.
     side_menu:
       able_screening_questions: Able Screening Questions
       account: Account
@@ -2522,6 +2528,12 @@ en:
       form: Form
       partners: Partner
       users: User
+    client_enrollment_tracking_due_today:
+      clients: Client
+      client_enrollment_tracking_notification: Client Enrollment Tracking Notification
+    client_enrollment_tracking_overdue:
+      clients: Client
+      client_enrollment_tracking_notification: Client Enrollment Tracking Notification
   partners:
     actions:
       are_you_sure: Are you sure you want to delete?

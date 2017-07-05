@@ -1,0 +1,29 @@
+.wrapper.wrapper-content.animated.fadeInRight
+  .row
+    .col-xs-12
+      .ibox.float-e-margins
+        .ibox-title
+          %h5= t('.client_enrollment_tracking_notification')
+        .ibox-content
+          %table.footable.table.table-hover.toggle-arrow-tiny{"data-page-size" => @client_enrollment_tracking_notification.count}
+            %thead
+              %tr
+                %th{"data-toggle" => "true"}= t('.clients')
+                %th{"data-hide" => "all"}= t('.form')
+                - @client_enrollment_tracking_notification.each do |client|
+                  - client.client_enrollments.active.each do |client_active_enrollment|
+                    - last_client_enrollment_tracking = client_active_enrollment.client_enrollment_trackings.last
+                    - client_active_enrollment.trackings.each do |tracking|
+                      - if tracking.frequency.present?
+                        - if client.next_client_enrollment_tracking_date(tracking, last_client_enrollment_tracking) < Date.today
+                          %th{"data-hide" => "all"}
+            %tbody
+              - @client_enrollment_tracking_notification.each do |client|
+                %tr
+                  %td= entity_name(client)
+                  - client.client_enrollments.active.each do |client_active_enrollment|
+                    - last_client_enrollment_tracking = client_active_enrollment.client_enrollment_trackings.last
+                    - client_active_enrollment.trackings.each do |tracking|
+                      - if tracking.frequency.present?
+                        - if client.next_client_enrollment_tracking_date(tracking, last_client_enrollment_tracking) < Date.today
+                          %td= link_to tracking.name, client_client_enrollment_client_enrollment_trackings_path(client, client_active_enrollment)

@@ -44,7 +44,7 @@ module AdvancedSearches
     private
     def format_label(value)
       value = value.split('_').last(2)
-      value.join('-')
+      value.join(' | ')
     end
   end
 end
