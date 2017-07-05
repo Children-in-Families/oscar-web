@@ -54,7 +54,7 @@ module Api
                 :house_number, :street_number, :village, :commune, :district,
                 :has_been_in_orphanage, :has_been_in_government_care,
                 :relevant_referral_information, :user_id, :province_id, :donor_id,
-                :state, :rejected_note, :able, :able_state,
+                :state, :rejected_note, :able, :able_state, :poor_id, :live_with,
                 agency_ids: [],
                 quantitative_case_ids: [],
                 custom_field_ids: [],
