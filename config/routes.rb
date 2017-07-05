@@ -10,11 +10,10 @@ Rails.application.routes.draw do
     match "/#{code}", to: 'errors#show', code: code, via: :all
   end
 
-  get '/dashboards' => 'dashboards#index'
+  get '/dashboards'     => 'dashboards#index'
   get '/redirect'       => 'calendars#redirect', as: 'redirect'
   get '/callback'       => 'calendars#callback', as: 'callback'
-  get '/calendar/sync' => 'calendars#sync'
-  get '/calendar/all_new' => 'calendars#all_new'
+  get '/calendar/sync'  => 'calendars#sync'
 
   resources :calendars
 

@@ -29,9 +29,6 @@ class CalendarsController < AdminController
   def index
   end
 
-  def new
-  end
-
   def sync
     if session[:authorization].blank? || current_user.expires_at < DateTime.now.in_time_zone
       session[:referrer] = request.referrer
