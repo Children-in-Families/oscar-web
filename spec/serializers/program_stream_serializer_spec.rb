@@ -40,23 +40,8 @@ describe ProgramStreamSerializer, type: :serializer do
     expect(serializer).to have_json_type(Object).at_path('program_stream/exit_program')
   end
 
-  it 'should be have attribute frequency' do
-    expect(serializer).to have_json_path('program_stream/frequency')
-    expect(serializer).to have_json_type(String).at_path('program_stream/frequency')
-  end
-
-  it 'should be have attribute time_of_frequency' do
-    expect(serializer).to have_json_path('program_stream/time_of_frequency')
-    expect(serializer).to have_json_type(Integer).at_path('program_stream/time_of_frequency')
-  end
-
   it 'should be have attribute quantity' do
     expect(serializer).to have_json_path('program_stream/quantity')
     expect(serializer).to have_json_type(Integer).at_path('program_stream/quantity')
-  end
-
-  it 'should be have attribute trackings' do
-    expect(serializer).to have_json_path('program_stream/trackings')
-    expect(serializer).to have_json_type(Array).at_path('program_stream/trackings')
   end
 end
