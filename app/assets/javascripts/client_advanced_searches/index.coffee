@@ -22,8 +22,18 @@ CIF.Client_advanced_searchesIndex = do ->
 
   _initSelect2 = ->
     $('select').select2(
-      width: 'resolve'
+      width: '320px'
     )
+
+  _handleSetTitleToOption = ->
+    $('.rule-filter-container select').on 'select2-open', ->
+      elements = $('ul.select2-results li')
+      for element in elements
+        value = $(element).text()
+        $(element).attr('title', value)
+        truncate = value.substring(0, 42)
+        result = if truncate.length == 42 then "#{truncate} ..." else truncate
+        $(element).find('.select2-result-label').text(result)
 
   _ajaxGetBasicField = ->
     $.ajax
@@ -35,8 +45,9 @@ CIF.Client_advanced_searchesIndex = do ->
           _queryBuilderOption(fieldList)
         )
         _basicFilterSetRule()
-        _handleSelectOptionChange()
+        _handleSetTitleToOption()
         _initSelect2()
+        _handleSelectOptionChange()
 
   _handleValidateSearch = ->
     filterValidate = []
