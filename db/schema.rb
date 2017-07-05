@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170622041205) do
+ActiveRecord::Schema.define(version: 20170703035138) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -191,7 +191,6 @@ ActiveRecord::Schema.define(version: 20170622041205) do
     t.datetime "created_at",           null: false
     t.datetime "updated_at",           null: false
     t.integer  "tracking_id"
-    t.integer  "program_stream_id"
   end
 
   add_index "client_enrollment_trackings", ["client_enrollment_id"], name: "index_client_enrollment_trackings_on_client_enrollment_id", using: :btree
@@ -510,17 +509,14 @@ ActiveRecord::Schema.define(version: 20170622041205) do
   create_table "program_streams", force: :cascade do |t|
     t.string   "name"
     t.text     "description"
-    t.jsonb    "rules",             default: {}
-    t.jsonb    "enrollment",        default: {}
-    t.jsonb    "exit_program",      default: {}
-    t.datetime "created_at",                        null: false
-    t.datetime "updated_at",                        null: false
+    t.jsonb    "rules",        default: {}
+    t.jsonb    "enrollment",   default: {}
+    t.jsonb    "exit_program", default: {}
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
     t.integer  "quantity"
-    t.string   "ngo_name",          default: ""
-    t.boolean  "completed",         default: false
-    t.integer  "time_of_frequency"
-    t.string   "frequency"
-    t.jsonb    "tracking"
+    t.string   "ngo_name",     default: ""
+    t.boolean  "completed",    default: false
   end
 
   create_table "progress_note_types", force: :cascade do |t|

@@ -77,4 +77,15 @@ body[id='program_streams-update'], body[id='program_streams-create'] {
     }
   }
 
+  .cb-wrap {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+  }
+
+  .cb-wrap:before,
+  .cb-wrap:after {
+    content: '';
+    display: table;
+  }
 }
