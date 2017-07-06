@@ -760,6 +760,12 @@ en:
       start_date: Start Date
       support_amount: Support Amount
       support_note: Support Note
+    exit_ngo_form:
+      exit_btn: Exit
+      exit_date: Exit Date
+      exit_ngo: Exit NGO
+      exit_note: Exit Note
+      exit_status: Status
     exit_case_form:
       exit_btn: Exit
       exit_date: Exit Date
@@ -915,7 +921,12 @@ en:
       date_of_birth: Date of Birth
       district: District/Khan
       donor: Donor
+      exit_date: Exit Date
+      exit_from_ec: Exit From EC
+      exit_from_fc: Exit From FC
+      exit_from_kc: Exit From KC
       exit_ngo_btn: Exit NGO
+      exit_note: Exit Note
       family_name: Family Name
       follow_up_by: Followed Up By
       follow_up_date: Follow Up Date
