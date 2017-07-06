@@ -23,7 +23,7 @@ module AdvancedSearches
       when 'family'
         values = family_name_field_query
       when 'age'
-        values = age_field_query
+        values = age_field_queryg
       when 'referred_to_ec'
         values = program_placement_date_field_query('EC')
       when 'referred_to_fc'

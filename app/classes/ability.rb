@@ -149,6 +149,8 @@ class Ability
       can :manage, Family
       can :manage, Partner
       can :manage, CustomFieldProperty, custom_formable_type: 'Client'
+      can :manage, CustomFieldProperty, custom_formable_type: 'Family'
+      can :manage, CustomFieldProperty, custom_formable_type: 'Partner'
       can :manage, CustomField
       can :manage, ProgramStream
       can :manage, ClientEnrollment
