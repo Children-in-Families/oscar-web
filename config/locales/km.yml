@@ -439,23 +439,35 @@ km:
       enter_task_detail: ពត៌មានកាតព្វកិច្ច
       save: រក្សាទុក
       title: បន្ថែមកាតព្វកិច្ចថ្មី
+    attachment_fields:
+      are_you_sure: តើអ្នកប្រាកដហើយ?
+      attachments: ឯកសារភ្ជាប់
+    attachment:
+      preview_download: មើលនិងទាញយក
+      download: ទាញយក
+    add_task_form:
+      completion_date: ថ្ងៃកំនត់
+      domain: កត្តា
+      enter_task_detail: ពត៌មានកាតព្វកិច្ច
+      title: បន្ថែមកាតព្វកិច្ចថ្មី
+      save: រក្សាទុក
     create:
       successfully_created: កំណត់ត្រាត្រូវបានបង្កើតដោយជោគជ័យ
     form:
-      add_task: បន្ថែមកាតព្វកិច្ចថ្មី
-      back: ត្រលប់ក្រោយ
-      completed_tasks: កាតព្វកិច្ចដែលបានធ្វើរួច
-      domain: កត្តា
       label_note: ចំណាំ
       meeting_detail: ពត៌មាននៃការប្រជុំ
       meeting_with: ប្រជុំជាមួយ
-      note: កំណត់ត្រា
       on_date: 'កាលបរិច្ឆេទ:'
-      on_going_tasks: កាតព្វកិច្ចដែលមិនទាន់បំពេញ
       present: 'វត្តមានឣ្នកចូលរួម:'
-      save: រក្សាទុក
+      domain: កត្តា
+      note: កំណត់ត្រា
       tasks: កាតព្វកិច្ច
+      back: ត្រលប់ក្រោយ
+      save: រក្សាទុក
+      on_going_tasks: កាតព្វកិច្ចដែលមិនទាន់បំពេញ
+      completed_tasks: កាតព្វកិច្ចដែលបានធ្វើរួច
       tasks_arising: កាតព្វកិច្ចកើតឡើង
+      add_task: បន្ថែមកាតព្វកិច្ចថ្មី
     form_with_assessment_domains:
       add_task: បន្ថែមកាតព្វកិច្ចថ្មី
       domain: កត្តា
@@ -477,11 +489,15 @@ km:
       note: កំណត់ត្រា
       present: វត្តមានឣ្នកចូលរួម
       you_need_to_create_assessment: ត្រូវបង្កើតការប៉ាន់ប្រមាណជាមុនសិន
+      attachments: ឯកសារភ្ជាប់
     show:
       case_note_on: កំណត់ត្រានៅថ្ងៃ
       present: វត្តមានឣ្នកចូលរួម
     update:
       successfully_updated: កំណត់ត្រាត្រូវបានកែសម្រួលដោយជោគជ័យ
+    destroy:
+      successfully_deleted: ឯកសារភ្ជាប់ត្រូវបានកែសម្រួលដោយជោគជ័យ
+      fail_delete_attachment: បានបរាជ័យក្នុងការលុបឯកសារភ្ជាប់
   cases:
     create:
       already_have_a_case: ឣតិថិជនមានករណីរួចហើយ
@@ -1676,10 +1692,10 @@ km:
     failure:
       already_authenticated: អ្នកបានចូលរួចហើយ
       inactive: គណនីរបស់អ្នក មិនត្រូវបានបញ្ជាក់ នៅឡើយទេ
-      invalid:
+      invalid: អ៊ីម៉ែលឬពាក្យសម្ងាត់មិនត្រឹមត្រូវ
       last_attempt: អ្នកអាចព្យាយាមចូលម្ដងទៀត មុនពេលគណនីរបស់អ្នក ត្រូវចាក់សោ
       locked: គណនីរបស់អ្នកត្រូវ បានចាក់សោ
-      not_found_in_database:
+      not_found_in_database: អ៊ីម៉ែលឬពាក្យសម្ងាត់មិនត្រឹមត្រូវ
       timeout: ប្រតិបត្តិការរបស់អ្នក ត្រូវបានផុតកំណត់។ សូមចូលម្ដងទៀត ដើម្បីបន្ត
       unauthenticated: អ្នកត្រូវតែចូល ឬ បង្កើតគណនីមុនធ្វើសកម្មភាពបន្ត
       unconfirmed: អ្នកត្រូវតែបញ្ជាក់អាសយដ្ឋានអ៊ីម៉ែល របស់អ្នក មុនធ្វើសកម្មភាពបន្ត
