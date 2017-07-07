@@ -10,9 +10,8 @@ class CalendarsController < AdminController
 
   def callback
     if params[:error].present?
-      session[:task_id] = nil
-      session[:action] = nil
-      redirect_to session[:referrer]
+      session[:sync] = nil
+      redirect_to calendars_path
     else
       client = Signet::OAuth2::Client.new(client_id: Rails.application.secrets.google_client_id,
                                           client_secret: Rails.application.secrets.google_client_secret,
@@ -43,14 +42,13 @@ class CalendarsController < AdminController
         event_list.update(sync_status: true)
       end
       message = calendars.present? ? t('add_event_success') : t('existed_event')
-      session[:sync] = ''
+      session[:sync] = nil
       redirect_to calendars_path, alert: message
     end
   end
 
   def sync
     if session[:authorization].blank? || current_user.expires_at < DateTime.now.in_time_zone
-      session[:referrer] = request.referrer
       session[:sync] = 'connected'
       redirect_to redirect_path
     else
