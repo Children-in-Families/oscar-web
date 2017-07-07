@@ -1,20 +1,22 @@
 CIF.FamiliesShow = do ->
   _init = ->
-    _handleInitDatatable()
-    _handleScrollTable()
+    _fixedHeaderTableColumns()
     _getClientPath()
+    _handleScrollTable()
 
-  _handleInitDatatable = ->
-    $('.clients-table table').DataTable(
-        'sScrollY': 'auto'
-        'bFilter': false
-        'bAutoWidth': true
-        'bSort': false
-        'sScrollX': '100%'
-        'bInfo': false
-        'bLengthChange': false
+  _fixedHeaderTableColumns = ->
+    $('.clients-table').removeClass('table-responsive')
+    if !$('table.clients tbody tr td').hasClass('noresults')
+      $('table.clients').dataTable(
         'bPaginate': false
-      )
+        'bFilter': false
+        'bInfo': false
+        'bSort': false
+        'sScrollY': 'auto'
+        'bAutoWidth': true
+        'sScrollX': '100%')
+    else
+      $('.clients-table').addClass('table-responsive')
 
   _handleScrollTable = ->
     $(window).load ->

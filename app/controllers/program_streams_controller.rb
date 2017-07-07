@@ -104,7 +104,8 @@ class ProgramStreamsController < AdminController
   def program_streams_all_organizations
     current_org_name = current_organization.short_name
     program_streams = []
-    Organization.without_demo.each do |org|
+    orgs = current_org_name == 'demo' ? Organization.all : Organization.without_demo
+    orgs.each do |org|
       Organization.switch_to org.short_name
       program_streams << ProgramStream.all.reload
     end
