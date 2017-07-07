@@ -188,15 +188,6 @@ describe 'Client' do
     end
   end
 
-  feature 'Exit' do
-    xscenario 'success' do
-    end
-    xscenario 'disable' do
-      visit client_path(other_client)
-      expect(page).not_to have_link('Exit From CIF')
-    end
-  end
-
   feature 'Accept and Reject' do
     let!(:non_status_client){ create(:client, state: '', user: user) }
     let!(:rejected_client){ create(:client, state: 'rejected', rejected_note: 'Something', user: user) }
@@ -329,6 +320,10 @@ describe 'Client' do
       scenario 'Kinship Case Button' do
         expect(page).to have_link('Add to KC', href: new_client_case_path(blank_client, case_type: 'KC'))
       end
+
+      scenario 'Exit NGO Button' do
+        expect(page).to have_content('Exit From NGO')
+      end
     end
 
     feature 'Emergency Active Client' do
@@ -345,13 +340,47 @@ describe 'Client' do
       end
 
       scenario 'Foster Case Button' do
-        expect(page).to have_link('Add to FC', href: new_client_case_path(ec_client, case_type: 'FC'))
+        expect(page).not_to have_link('Add to FC', href: new_client_case_path(ec_client, case_type: 'FC'))
       end
 
       scenario 'Kinship Case Button' do
-        expect(page).to have_link('Add to KC', href: new_client_case_path(ec_client, case_type: 'KC'))
+        expect(page).not_to have_link('Add to KC', href: new_client_case_path(ec_client, case_type: 'KC'))
+      end
+
+      scenario 'Exit From EC' do
+        exit_case_button = find('.exit-case-warning')
+        expect(exit_case_button).to have_content('Exit From EC')
       end
     end
+
+    feature 'Active Foster Client' do
+      let!(:fc_client){ create(:client, state: 'accepted', user: user) }
+      let!(:case){ create(:case, case_type: 'FC', client: fc_client, exited: false) }
+
+      before do
+        login_as(user)
+        visit client_path(fc_client)
+      end
+      scenario 'FC' do
+        exit_case_button = find('.exit-case-warning')
+        expect(exit_case_button).to have_content('Exit From FC')
+      end
+    end
+
+    feature 'Active Kinship Client' do
+      let!(:kc_client){ create(:client, state: 'accepted', user: user) }
+      let!(:case){ create(:case, case_type: 'KC', client: kc_client, exited: false) }
+
+      before do
+        login_as(user)
+        visit client_path(kc_client)
+      end
+      scenario 'KC' do
+        exit_case_button = find('.exit-case-warning')
+        expect(exit_case_button).to have_content('Exit From KC')
+      end
+    end
+
     feature 'Not Emergency Active Client' do
       let!(:active_client){ create(:client, state: 'accepted', user: user) }
       let!(:case){ create(:case, case_type: ['FC', 'KC'].sample, client: active_client, exited: false) }
@@ -417,17 +446,17 @@ describe 'Client' do
       visit client_path(accepted_client)
     end
     scenario 'Exit Button' do
-      button = find("button[data-target='#exitFromCase']")
-      expect(button).to have_css('.fa-times')
+      button = find("button[data-target='#exit-from-case']")
+      expect(button).to have_content('Remove Client from Program')
     end
     scenario 'Note', js: true do
-      page.find("button[data-target='#exitFromCase']").click
-      page.find(:css, '#exitFromCase')
-
-      page.find('.exit_date').set(Date.strptime(FFaker::Time.date).strftime('%B %d, %Y'))
-      page.find('.exit_note').set(FFaker::Lorem.paragraph)
+      page.find("button[data-target='#exit-from-case']").click
+      page.find(:css, '#exit-from-case')
+      within '#exit-from-case' do
+        fill_in 'Exit Date', with: '2017-07-07'
+        fill_in 'Exit Note', with: FFaker::Lorem.paragraph
+      end
       page.find("input[type='submit'][value='Exit']").click
-      wait_for_ajax
       expect(page).to have_content('Case has been successfully updated')
     end
   end
