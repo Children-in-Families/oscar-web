@@ -415,6 +415,9 @@ en:
       attachments: Attachments
       preview_download: Preview & Download
       download: Download
+  calendars:
+    index:
+      sync_with_google: Sync with Google Calendar
   cancel: Cancel
   cannot_be_blank: can't be blank
   cannot_be_greater: can't be greater than %{count}
@@ -1905,6 +1908,7 @@ en:
       not_saved:
         one: '1 error prohibited this %{resource} from being saved:'
         other: "%{count} errors prohibited this %{resource} from being saved:"
+  existed_event: Event already exsits in calendar.
   families:
     actions:
       are_you_sure: Are you sure you want to delete?

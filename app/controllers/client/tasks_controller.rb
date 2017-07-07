@@ -1,48 +1,10 @@
 class Client::TasksController < AdminController
+
   load_and_authorize_resource
   before_action :find_client
 
   def index
     @tasks = @client.tasks
-    if session[:task_id].present?
-      task      = Task.find(session[:task_id])
-      domain    = Domain.find(task.domain_id)
-      summary    = "#{domain.name} - #{task.name}"
-      start_date = task.completion_date.to_s
-      end_date   = (task.completion_date + 1).to_s
-      client = Signet::OAuth2::Client.new(client_id: Rails.application.secrets.google_client_id,
-                                          client_secret: Rails.application.secrets.google_client_secret,
-                                          token_credential_uri: 'https://accounts.google.com/o/oauth2/token')
-      client.update!(session[:authorization])
-      service = Google::Apis::CalendarV3::CalendarService.new
-      service.authorization = client
-      event = Google::Apis::CalendarV3::Event.new(start: Google::Apis::CalendarV3::EventDateTime.new(date: start_date),
-                                                  end: Google::Apis::CalendarV3::EventDateTime.new(date: end_date),
-                                                  summary: summary)
-      service.insert_event('primary', event)
-      session[:task_id] = nil
-      flash[:notice] = t('add_event_success')
-    elsif session[:action].present?
-      tasks = Task.incomplete.of_user(current_user).incomplete.upcoming
-      client = Signet::OAuth2::Client.new(client_id: Rails.application.secrets.google_client_id,
-                                          client_secret: Rails.application.secrets.google_client_secret,
-                                          token_credential_uri: 'https://accounts.google.com/o/oauth2/token')
-      client.update!(session[:authorization])
-      service = Google::Apis::CalendarV3::CalendarService.new
-      service.authorization = client
-      tasks.each do |task|
-        domain    = Domain.find(task.domain_id)
-        summary    = "#{domain.name} - #{task.name}"
-        start_date = task.completion_date.to_s
-        end_date   = (task.completion_date + 1).to_s
-        event = Google::Apis::CalendarV3::Event.new(start: Google::Apis::CalendarV3::EventDateTime.new(date: start_date),
-                                                    end: Google::Apis::CalendarV3::EventDateTime.new(date: end_date),
-                                                    summary: summary)
-        service.insert_event('primary', event)
-      end
-      session[:action] = nil
-      flash[:notice] = t('add_event_success')
-    end
   end
 
   def new
@@ -54,6 +16,13 @@ class Client::TasksController < AdminController
     @task.user_id = @client.user.id if @client.user
     respond_to do |format|
       if @task.save
+        domain     = Domain.find(task_params[:domain_id])
+        title    = "#{domain.name} - #{task_params[:name]}"
+
+        start_date = task_params[:completion_date]
+        end_date   = (task_params[:completion_date].to_date + 1.day).to_s
+        Calendar.create(title: title, start_date: start_date, end_date: end_date, user_id: @task.user_id)
+
         format.json { render json: @task.to_json, status: 200 }
         format.html { redirect_to client_tasks_path(@client), notice: t('.successfully_created') }
       else
@@ -69,43 +38,22 @@ class Client::TasksController < AdminController
 
   def update
     @task = @client.tasks.find(params[:id])
-    if current_user.calendar_integration?
-      task_name       = @task.name
-      domain_name     = Domain.find(@task.domain_id).name
-      completion_date = @task.completion_date.to_s
-    end
+    task_name = @task.name
+    domain     = Domain.find(@task.domain_id)
+    title    = "#{domain.name} - #{task_name}"
+    start_date = @task.completion_date.to_s
+    end_date   = (@task.completion_date + 1.day).to_s
     if @task.update_attributes(task_params)
       if current_user.calendar_integration?
-        if session[:authorization].blank? || current_user.expires_at < DateTime.now.in_time_zone
-          session[:referrer] = url_for
-          redirect_to redirect_path
-        else
-          param_task_name = task_params[:name]
-          param_domain_name = Domain.find(task_params[:domain_id]).name
-          param_completion_date = task_params[:completion_date]
-          summary    = "#{domain_name} - #{task_name}"
-
-          client = Signet::OAuth2::Client.new(client_id: Rails.application.secrets.google_client_id,
-                                              client_secret: Rails.application.secrets.google_client_secret,
-                                              token_credential_uri: 'https://accounts.google.com/o/oauth2/token')
-          client.update!(session[:authorization])
-          service = Google::Apis::CalendarV3::CalendarService.new
-          service.authorization = client
-          service.list_events('primary').items.each do |event|
-            event_start_date = event.start.date || event.start.date_time
-            if event.summary == summary && event_start_date == completion_date
-              event.summary    = "#{param_domain_name} - #{param_task_name}"
-              event.start.date = param_completion_date
-              event.end.date   = (param_completion_date.to_date + 1.day).to_s
-              service.update_event('primary', event.id, event)
-              break
-            end
-          end
-          redirect_to client_tasks_path(@client), notice: t('.successfully_updated')
-        end
-      else
-        redirect_to client_tasks_path(@client), notice: t('.successfully_updated')
+        param_task_name = task_params[:name]
+        param_domain_name     = Domain.find(task_params[:domain_id])
+        param_title    = "#{param_domain_name.name} - #{param_task_name}"
+        param_start_date = task_params[:completion_date]
+        param_end_date   = (task_params[:completion_date].to_date + 1.day).to_s
+        calendar = Calendar.find_by(title: title, start_date: start_date, end_date: end_date)
+        calendar.update(title: param_title, start_date: param_start_date, end_date: param_end_date, sync_status: false) if calendar.present?
       end
+      redirect_to client_tasks_path(@client), notice: t('.successfully_updated')
     else
       render :edit
     end
@@ -113,39 +61,20 @@ class Client::TasksController < AdminController
 
   def destroy
     @task = @client.tasks.find(params[:id])
-    if @task.destroy
-      if current_user.calendar_integration?
-        if session[:authorization].blank? || current_user.expires_at < DateTime.now.in_time_zone
-          session[:referrer] = request.referrer
-          session[:action] = params[:action]
-          session[:task_id] = @task.id
-          redirect_to redirect_path
-        else
-          task_name       = @task.name
-          domain_name     = Domain.find(@task.domain_id).name
-          completion_date = @task.completion_date.to_s
-          summary    = "#{domain_name} - #{task_name}"
-          client = Signet::OAuth2::Client.new(client_id: Rails.application.secrets.google_client_id,
-                                              client_secret: Rails.application.secrets.google_client_secret,
-                                              token_credential_uri: 'https://accounts.google.com/o/oauth2/token')
-          client.update!(session[:authorization])
-          service = Google::Apis::CalendarV3::CalendarService.new
-          service.authorization = client
-          service.list_events('primary').items.each do |event|
-            event_start_date = event.start.date || event.start.date_time
-            if event.summary == summary && event_start_date == completion_date
-              service.delete_event('primary', event.id)
-              break
-            end
-          end
-          redirect_to client_tasks_path(@client), notice: t('.successfully_deleted')
-        end
-      else
-        respond_to do |format|
-          format.json { head :ok }
-          format.html { redirect_to client_tasks_path(@client), notice: t('.successfully_deleted') }
+    task_name = @task.name
+    domain     = Domain.find(@task.domain_id)
+    title    = "#{domain.name} - #{task_name}"
+    start_date = @task.completion_date.to_s
+    end_date   = (@task.completion_date + 1.day).to_s
+    respond_to do |format|
+      if @task.destroy
+        if current_user.calendar_integration?
+          calendar = Calendar.find_by(title: title, start_date: start_date, end_date: end_date)
+          calendar.destroy if calendar.present?
         end
       end
+      format.json { head :ok }
+      format.html { redirect_to client_tasks_path(@client), notice: t('.successfully_deleted') }
     end
   end
 
@@ -157,5 +86,27 @@ class Client::TasksController < AdminController
 
   def task_params
     params.require(:task).permit(:domain_id, :name, :completion_date, :remind_at)
+  end
+
+  def encode32hex(str)
+    str.gsub(/\G(.{5})|(.{1,4}\z)/mn) do
+      full = $1; frag = $2
+      n, c = (full || frag.ljust(5, "\0")).unpack("NC")
+      full = ((n << 8) | c).to_s(32).rjust(8, "0")
+      if frag
+        full[0, (frag.length*8+4).div(5)].ljust(8, "=")
+      else
+        full
+      end
+    end
+  end
+
+  HEX = '[0-9a-v]'
+  def decode32hex(str)
+    str.gsub(/\G\s*(#{HEX}{8}|#{HEX}{7}=|#{HEX}{5}={3}|#{HEX}{4}={4}|#{HEX}{2}={6}|(\S))/imno) do
+      raise "invalid base32" if $2
+      s = $1
+      s.tr("=", "0").to_i(32).divmod(256).pack("NC")[0,(s.count("^=")*5).div(8)]
+    end
   end
 end

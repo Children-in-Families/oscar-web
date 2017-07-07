@@ -10,13 +10,12 @@ Rails.application.routes.draw do
     match "/#{code}", to: 'errors#show', code: code, via: :all
   end
 
-  get '/dashboards' => 'dashboards#index'
+  get '/dashboards'     => 'dashboards#index'
   get '/redirect'       => 'calendars#redirect', as: 'redirect'
   get '/callback'       => 'calendars#callback', as: 'callback'
-  get '/calendars/find' => 'calendars#find_event'
-  get '/calendars/all_new' => 'calendars#all_new'
+  get '/calendar/sync'  => 'calendars#sync'
 
-  resources :calendars, only: [:index, :new]
+  resources :calendars
 
   mount Thredded::Engine => '/forum'
 
@@ -178,6 +177,9 @@ Rails.application.routes.draw do
         get :get_basic_field
       end
     end
+    resources :calendars do
+      get :find_event, on: :collection
+    end
     resources :program_stream_add_rule, only: [] do
       collection do
         get :get_fields
@@ -197,7 +199,6 @@ Rails.application.routes.draw do
         scope module: 'client_tasks' do
           resources :tasks, only: [:create, :update, :destroy]
         end
-
         resources :client_enrollments, only: [:create, :update] do
           resources :client_enrollment_trackings, only: [:create, :update]
           resources :leave_programs, only: [:create, :update]
