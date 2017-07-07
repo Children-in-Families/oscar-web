@@ -48,7 +48,7 @@ class CalendarsController < AdminController
         service.insert_event('primary', event)
         event_list.update(sync_status: true)
       end
-      calendars.present? ? message = t('add_event_success') : message = t('existed_event')
+      message = calendars.present? ? t('add_event_success') : t('existed_event')
       redirect_to calendars_path, notice: message
     end
   end

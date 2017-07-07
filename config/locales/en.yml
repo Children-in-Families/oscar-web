@@ -151,11 +151,7 @@ en:
             time_of_frequency:
               blank: can't be blank
               greater_than_or_equal_to: must be greater than or equal to 1
-<<<<<<< HEAD
-              not_an_integer: not an integer
-=======
               not_an_integer: must be an integer
->>>>>>> master
         department:
           attributes:
             name:
@@ -255,10 +251,6 @@ en:
             password_confirmation:
               confirmation: does not match
   add_event_success: Event has been added to calendar successfully.
-<<<<<<< HEAD
-  existed_event: Event already exsits in calendar.
-=======
->>>>>>> master
   advanced_search:
     fields:
       able: Able
@@ -406,20 +398,32 @@ en:
       score: Score
       six_month_assessment_report: 6 Monthly Assessment Report
       task: Task
+      show_attachment: Show Attachments
+    create:
+      successfully_created: Assessment has been successfully created.
     update:
       successfully_updated: Assessment has been successfully updated.
+    destroy:
+      successfully_deleted: Attachment has been successfully deleted.
+      fail_delete_attachment: Failed deleting attachment
+    attachment:
+      attachments: Attachments
+      preview_download: Preview & Download
+      download: Download
+    attachment_fields:
+      are_you_sure: Are you sure you want to delete??
+      attachments: Attachments
+      preview_download: Preview & Download
+      download: Download
+  calendars:
+    index:
+      sync_with_google: Sync with Google Calendar
   cancel: Cancel
   cannot_be_blank: can't be blank
   cannot_be_greater: can't be greater than %{count}
   cannot_be_lower: can't be lower than %{count}
   cannot_remove: cannot be removed
   cannot_remove_or_update: cannot be removed/updated since it is already in use.
-<<<<<<< HEAD
-  calendars:
-    index:
-      sync_with_google: Sync with Google Calendar
-=======
->>>>>>> master
   case:
     quarterly_reports:
       index:
@@ -447,6 +451,14 @@ en:
         what_is_my_plan_for_the_next_visit_to_the_client: What is my plan for the next visit to the client?
         with_id: With ID
   case_notes:
+    attachment_fields:
+      are_you_sure: Are you sure you want to delete?
+      attachments: Attachments
+      preview_download: Preview & Download
+      download: Download
+    attachment:
+      preview_download: Preview & Download
+      download: Download
     add_task_form:
       completion_date: Completion Date
       domain: Domain
@@ -491,11 +503,15 @@ en:
       note: Note
       present: Who was there during the visit or conversation?
       you_need_to_create_assessment: You need to create assessment
+      attachments: Attachments
     show:
       case_note_on: Case note on
       present: Who was there during the visit or conversation?
     update:
       successfully_updated: Case Note has successfully been updated.
+    destroy:
+      successfully_deleted: Attachment has been successfully deleted.
+      fail_delete_attachment: Failed deleting attachment
   cases:
     create:
       already_have_a_case: Client is already have a case.
@@ -1892,6 +1908,7 @@ en:
       not_saved:
         one: '1 error prohibited this %{resource} from being saved:'
         other: "%{count} errors prohibited this %{resource} from being saved:"
+  existed_event: Event already exsits in calendar.
   families:
     actions:
       are_you_sure: Are you sure you want to delete?
@@ -2376,12 +2393,9 @@ en:
       due_today_user_custom_field_count:
         one: There is 1 user custom form due today.
         other: There are %{count} user custom forms due today.
-<<<<<<< HEAD
-=======
       due_today_client_enrollment_tracking:
         one: There is 1 client enrollment tracking form due today.
         other: There are %{count} client enrollment trackings form due today.
->>>>>>> master
       no_task: Nothing to notify.
       overdue_assessments_count:
         one: You have 1 assessment overdue.
@@ -2401,12 +2415,9 @@ en:
       overdue_user_custom_field_count:
         one: There is 1 user custom form overdue.
         other: There are %{count} user custom forms overdue.
-<<<<<<< HEAD
-=======
       overdue_client_enrollment_tracking:
         one: There is 1 client enrollment tracking form overdue.
         other: There are %{count} client enrollment trackings form overdue.
->>>>>>> master
     side_menu:
       able_screening_questions: Able Screening Questions
       account: Account
@@ -2536,15 +2547,12 @@ en:
       form: Form
       partners: Partner
       users: User
-<<<<<<< HEAD
-=======
     client_enrollment_tracking_due_today:
       clients: Client
       client_enrollment_tracking_notification: Client Enrollment Tracking Notification
     client_enrollment_tracking_overdue:
       clients: Client
       client_enrollment_tracking_notification: Client Enrollment Tracking Notification
->>>>>>> master
   partners:
     actions:
       are_you_sure: Are you sure you want to delete?

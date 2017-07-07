@@ -68,11 +68,7 @@ describe CustomFieldProperty, 'callbacks' do
       it { expect(ClientHistory.where('object.custom_field_property_ids' => client_form.id).count).to eq(1) }
       it { expect(ClientHistory.where('object.custom_field_property_ids' => client_form.id).first.client_custom_field_property_histories.count).to eq(1) }
     end
-<<<<<<< HEAD
-  end  
-=======
   end
->>>>>>> master
 end
 
 describe CustomFieldProperty, 'scopes' do
@@ -93,26 +89,6 @@ describe CustomFieldProperty, 'scopes' do
   end
 end
 
-<<<<<<< HEAD
-describe CustomFieldProperty, 'instance methods' do
-  let!(:client_custom_field){ create(:custom_field, entity_type: 'Client') }
-  let!(:family_custom_field){ create(:custom_field, entity_type: 'Family') }
-  let!(:client){ create(:client) }
-  let!(:family){ create(:family) }
-  let!(:client_custom_field_property){ create(:custom_field_property, custom_field: client_custom_field, custom_formable: client) }
-  let!(:family_custom_field_property){ create(:custom_field_property, custom_field: family_custom_field, custom_formable: family) }
-
-  context 'client_form?' do
-    it 'returns true if client form' do
-      expect(client_custom_field_property.client_form?).to be_truthy
-    end
-
-    it 'returns false if family form' do
-      expect(family_custom_field_property.client_form?).to be_falsey
-    end
-  end
-end
-=======
 # describe CustomFieldProperty, 'instance methods' do
 #   let!(:client_custom_field){ create(:custom_field, entity_type: 'Client') }
 #   let!(:family_custom_field){ create(:custom_field, entity_type: 'Family') }
@@ -131,4 +107,3 @@ end
 #     end
 #   end
 # end
->>>>>>> master
