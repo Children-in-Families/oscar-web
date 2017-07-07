@@ -28,7 +28,7 @@ describe ProgramStream, 'scope' do
     it 'return record that is completed' do
       first_program_stream.reload
       first_program_stream.update(name: FFaker::Name.name)
-      expect(ProgramStream.completed.first).to eq first_program_stream 
+      expect(ProgramStream.completed.first).to eq first_program_stream
     end
   end
 end
@@ -47,7 +47,7 @@ describe ProgramStream, 'callback' do
 
   context 'invalid' do
     let!(:program_stream) { create(:program_stream)}
-    
+
     it 'return completed field equal false' do
       expect(program_stream.completed).to be false
     end
@@ -56,7 +56,6 @@ end
 
 describe ProgramStream, 'validations' do
   it { is_expected.to validate_presence_of(:name) }
-  it { is_expected.to validate_presence_of(:rules) }
   it { is_expected.to validate_uniqueness_of(:name) }
   it { is_expected.to accept_nested_attributes_for(:trackings) }
 end
@@ -79,7 +78,7 @@ describe ProgramStream, 'validate remove fields' do
   let!(:client_enrollment) { create(:client_enrollment, client: client, program_stream: program_stream) }
 
   default_fields = [{"max"=>"5", "min"=>"1", "name"=>"age", "type"=>"number", "label"=>"age", "required"=>true, "className"=>"form-control"}, {"name"=>"description", "type"=>"text", "label"=>"description", "subtype"=>"text", "required"=>true, "className"=>"form-control"}]
-  
+
   it 'return Enrollment cannot remove field since it already in use' do
     program_stream.update_attributes(enrollment: default_fields)
     expect(program_stream.errors.full_messages).to include("Enrollment e-mail cannot be removed/updated since it is already in use.")
@@ -93,7 +92,7 @@ describe ProgramStream, 'methods' do
   let!(:program_stream) { create(:program_stream) }
   let!(:client_enrollment) { create(:client_enrollment, client: client, program_stream: program_stream)}
   let!(:second_client_enrollment) { create(:client_enrollment, client: second_client, program_stream: program_stream)}
-  
+
   context 'last_enrollment' do
     it 'should return last record of program stream' do
       expect(program_stream.last_enrollment).to eq second_client_enrollment
