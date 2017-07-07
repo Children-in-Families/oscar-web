@@ -745,10 +745,11 @@ en:
       carer_address: Carer Address
       carer_names: Carer Names
       carer_phone_number: Carer Phone Number
+      edit_btn: Edit
       emergency_care: Emergency Care
       emergency_case:
         emergency_care: Emergency Care
-      exit_btn: Exit
+      exit_btn: Remove Client from Program
       exit_date: Exit Date
       exit_note: Exit Note
       exit_status: Exit Status
@@ -834,7 +835,8 @@ en:
       carer_address: Carer Address
       carer_names: Carer Names
       carer_phone_number: Carer Phone Number
-      exit_btn: Exit
+      edit_btn: Edit
+      exit_btn: Remove Client from Program
       exit_date: Exit Date
       exit_note: Exit Note
       exit_status: Exit Status
@@ -870,7 +872,8 @@ en:
       carer_address: Carer Address
       carer_names: Carer Names
       carer_phone_number: Carer Phone Number
-      exit_btn: Exit
+      edit_btn: Edit
+      exit_btn: Remove Client from Program
       exit_date: Exit Date
       exit_note: Exit Note
       exit_status: Exit Status

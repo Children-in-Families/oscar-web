@@ -10,10 +10,10 @@
                 - if current_user.admin? || ec.current?
                   = link_to edit_client_case_path(ec.client, ec) do
                     .btn.btn-outline.btn-success
-                      = fa_icon('pencil')
+                      = t('.edit_btn')
                 - if @client.has_no_latest_kc_and_fc?
-                  %button.btn.btn-outline.btn-warning{"data-target" => '#exitFromCase', "data-toggle" => 'modal'}
-                    = fa_icon('times', {title: t('.exit_btn')})
+                  %button.btn.btn-outline.btn-warning{"data-target" => '#exit-from-case', "data-toggle" => 'modal'}
+                    = t('.exit_btn')
       .ibox-content
         %section.overflow-case
           %table.table.table-bordered

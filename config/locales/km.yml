@@ -749,10 +749,11 @@ km:
       carer_address: អាសយដ្ឋានអ្នកថែទាំ
       carer_names: ឈ្មោះអ្នកថែទាំ
       carer_phone_number: លេខទូរសព្ទអ្នកថែទាំ
+      edit_btn: កែសម្រូល
       emergency_care: ករណី Emergency
       emergency_case:
         emergency_care: ករណី Emergency
-      exit_btn: ចាកចេញ
+      exit_btn: ចាកចេញពីកម្មវិធី
       exit_date: ថ្ងៃចាកចេញ
       exit_note: កំណត់ហេតុនៃការចាកចេញ
       exit_status: ស្ថានភាព
@@ -838,7 +839,8 @@ km:
       carer_address: អាសយដ្ឋានអ្នកថែទាំ
       carer_names: ឈ្មោះអ្នកថែទាំ
       carer_phone_number: លេខទូរសព្ទអ្នកថែទាំ
-      exit_btn: ចាកចេញ
+      edit_btn: កែសម្រូល
+      exit_btn: ចាកចេញពីកម្មវិធី
       exit_date: ថ្ងៃចាកចេញ
       exit_note: កំណត់ហេតុនៃការចាកចេញ
       exit_status: ស្ថានភាព
@@ -874,7 +876,8 @@ km:
       carer_address: អាសយដ្ឋានអ្នកថែទាំ
       carer_names: ឈ្មោះអ្នកថែទាំ
       carer_phone_number: លេខទូរសព្ទអ្នកថែទាំ
-      exit_btn: ចាកចេញ
+      edit_btn: កែសម្រូល
+      exit_btn: ចាកចេញពីកម្មវិធី
       exit_date: ថ្ងៃចាកចេញ
       exit_note: កំណត់ហេតុនៃការចាកចេញ
       exit_status: ស្ថានភាព
