@@ -20,7 +20,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
 
   _initSelect2 = ->
     $('#rule-tab select').select2()
-  
+
   _handleSelectTab = ->
     tab = $('.program-steps').data('tab')
     $('li[role="tab"]').each ->
@@ -198,7 +198,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       }
 
     }).data('formBuilder');
-      
+
   _initProgramSteps = ->
     self = @
     form = $('#program-stream')
@@ -211,10 +211,10 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         if currentIndex == 0 and newIndex == 1 and $('#program-rule').is(':visible')
           form.valid()
           name = $('#program_stream_name').val() == ''
-          return false if $.isEmptyObject($('#program-rule').queryBuilder('getRules')) || name
+          return false if name
         else if $('#tracking').is(':visible')
           return true
-        
+
         $('section ul.frmb.ui-sortable').css('min-height', '266px')
 
       onStepChanged: (event, currentIndex, newIndex) ->
@@ -236,7 +236,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
   _handleClickAddTracking = ->
     if $('#trackings .frmb').length == 0
       $('.links a').trigger('click')
-      
+
   _handleInitProgramFields = ->
     for element in $('#enrollment, #exit-program')
       dataElement = $(element).data('field')

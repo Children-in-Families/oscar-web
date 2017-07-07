@@ -11,11 +11,10 @@ class ClientEnrollmentsController < AdminController
   end
 
   def new
-    if valid_client?
-      @client_enrollment = @client.client_enrollments.new(program_stream_id: @program_stream)
-    else
-      redirect_to client_client_enrollments_path(@client), alert: t('.client_not_valid')
+    if @program_stream.rules.present?
+      redirect_to client_client_enrollments_path(@client), alert: t('.client_not_valid') unless valid_client?
     end
+    @client_enrollment = @client.client_enrollments.new(program_stream_id: @program_stream)
   end
 
   def edit
