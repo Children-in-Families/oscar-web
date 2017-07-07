@@ -23,7 +23,6 @@ feature 'ClientAdvancedSearch', js: true do
     expect(page).to have_content 'Code'
     expect(page).to have_content 'is'
   end
-
   xscenario 'Advanced Search Drop list Field' do
     click_link 'Advanced Search'
     find(".rule-filter-container select option[value='able_state']", visible: false).select_option

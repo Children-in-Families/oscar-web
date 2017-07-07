@@ -398,8 +398,26 @@ en:
       score: Score
       six_month_assessment_report: 6 Monthly Assessment Report
       task: Task
+      show_attachment: Show Attachments
+    create:
+      successfully_created: Assessment has been successfully created.
     update:
       successfully_updated: Assessment has been successfully updated.
+    destroy:
+      successfully_deleted: Attachment has been successfully deleted.
+      fail_delete_attachment: Failed deleting attachment
+    attachment:
+      attachments: Attachments
+      preview_download: Preview & Download
+      download: Download
+    attachment_fields:
+      are_you_sure: Are you sure you want to delete??
+      attachments: Attachments
+      preview_download: Preview & Download
+      download: Download
+  calendars:
+    index:
+      sync_with_google: Sync with Google Calendar
   cancel: Cancel
   cannot_be_blank: can't be blank
   cannot_be_greater: can't be greater than %{count}
@@ -1904,6 +1922,7 @@ en:
       not_saved:
         one: '1 error prohibited this %{resource} from being saved:'
         other: "%{count} errors prohibited this %{resource} from being saved:"
+  existed_event: Event already exsits in calendar.
   families:
     actions:
       are_you_sure: Are you sure you want to delete?

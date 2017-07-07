@@ -5,12 +5,11 @@ CIF.CalendarsIndex = do ->
   _calendars = ->
     $.ajax({
       type: 'GET'
-      url: '/calendars/find'
+      url: 'api/calendars/find_event'
       dataType: "JSON"
     }).success((json)->
       eventLists = json.calendars
       $('#calendar').fullCalendar(
-        # displayEventTime: false
         header:
           left: 'prev,next today',
           center: 'title',
@@ -36,11 +35,9 @@ CIF.CalendarsIndex = do ->
   _fillFullCalendarArray = (eventLists) ->
     events = []
     for eventList in eventLists
-      continue if eventList.status == 'cancelled'
-      summary = eventList.summary
-      startDate = eventList.start.date || eventList.start.date_time
-      endDate = eventList.end.date || eventList.end.date_time
-      # eventUrl = eventList.html_link
+      summary = eventList.title
+      startDate = eventList.start_date
+      endDate = eventList.end_date
       fullDate = null
       if (Date.parse(startDate) + 86400000) == Date.parse(endDate)
         fullDate = true
@@ -48,7 +45,6 @@ CIF.CalendarsIndex = do ->
         title: summary
         start: moment.parseZone(startDate)
         end: moment.parseZone(endDate)
-        # url: eventUrl
         allDay: fullDate
       )
     events
