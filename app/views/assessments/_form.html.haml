@@ -23,6 +23,7 @@
 
                 = ad.input :reason, label: t('.reason'), required: true, input_html: { class: 'reason' }
                 = ad.input :goal, label: t('.goal'), required: true, input_html: { class: 'goal' }
+                = render 'attachment_fields', ad: ad
                 .form-group
                   %p.text-danger.task_required.hidden
                     %abbr{ title: 'required' } *

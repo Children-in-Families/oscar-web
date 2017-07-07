@@ -398,8 +398,23 @@ km:
       score: ពិន្ទុ
       six_month_assessment_report: របាយការណ៍ការប៉ាន់ប្រមាណទៀងទាត់
       task: កាតព្វកិច្ច
+      show_attachment: បង្ហាញឯកសារភ្ជាប់
+    create:
+      successfully_created: ការប៉ាន់ប្រមាណត្រូវបានបង្កើតដោយជោគជ័យ
     update:
       successfully_updated: ការប៉ាន់ប្រមាណត្រូវបានកែសម្រួលដោយជោគជ័យ
+    destroy:
+      successfully_deleted: ឯកសារភ្ជាប់ត្រូវបានកែសម្រួលដោយជោគជ័យ
+      fail_delete_attachment: បានបរាជ័យក្នុងការលុបឯកសារភ្ជាប់
+    attachment:
+      attachments: ឯកសារភ្ជាប់
+      preview_download: មើលនិងទាញយក
+      download: ទាញយក
+    attachment_fields:
+      are_you_sure: តើអ្នកប្រាកដហើយ?
+      attachments: ឯកសារភ្ជាប់
+      preview_download: មើលនិងទាញយក
+      download: ទាញយក
   cancel: ទុកជាមោឃៈ
   cannot_be_blank: មិនអាចរំលង
   cannot_be_greater: មិនអាចធំជាង %{count}
