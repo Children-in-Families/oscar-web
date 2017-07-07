@@ -154,6 +154,9 @@ Rails.application.routes.draw do
   resources :families do
     resources :custom_field_properties
     get 'version' => 'families#version'
+    scope module: 'family' do
+      resources :cases, only: [:new, :create]
+    end
   end
 
   resources :partners do

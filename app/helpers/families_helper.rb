@@ -51,4 +51,14 @@ module FamiliesHelper
       object.case_history
     end
   end
+
+  def family_case_type(family)
+    type = family.family_type
+    case type
+    when 'emergency' then ['EC']
+    when 'foster' then ['FC']
+    when 'kinship' then ['KC']
+    else ['EC', 'FC', 'KC']
+    end
+  end
 end
