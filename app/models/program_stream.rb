@@ -23,21 +23,16 @@ class ProgramStream < ActiveRecord::Base
   scope     :ordered_by, ->(column) { order(column) }
   scope     :completed,  -> { where(completed: true) }
 
-  def self.orderd_name_and_enrollment_status(client)
-    includes(:client_enrollments).where(client_enrollments: { client_id: client.id }).order('client_enrollments.status ASC', :name).uniq
+  def self.enrollment_status_not_active(client)
+    includes(:client_enrollments).where('client_enrollments.status != ? and client_enrollments.client_id = ?', 'Active', client.id).order('client_enrollments.status ASC', :name).uniq
+  end
+
+  def self.enrollment_status_active(client)
+    includes(:client_enrollments).where('client_enrollments.status = ? and client_enrollments.client_id = ?', 'Active', client.id).order('client_enrollments.status ASC', :name).uniq
   end
 
   def self.without_status_by(client)
-    ids = orderd_name_and_enrollment_status(client).collect(&:id)
-    where.not(id: ids).order(:name)
-  end
-
-  def self.orderd_name_and_enrollment_status(client)
-    includes(:client_enrollments).where(client_enrollments: { client_id: client.id }).order('client_enrollments.status ASC', :name).uniq
-  end
-
-  def self.without_status_by(client)
-    ids = orderd_name_and_enrollment_status(client).collect(&:id)
+    ids = includes(:client_enrollments).where(client_enrollments: { client_id: client.id }).order('client_enrollments.status ASC', :name).uniq.collect(&:id)
     where.not(id: ids).order(:name)
   end
 
@@ -67,7 +62,7 @@ class ProgramStream < ActiveRecord::Base
       elsif field == 'exit_program'
         break unless exit_program_errors_message.present?
         errors.add(:exit_program, "#{exit_program_errors_message} #{error_translation}")
-      end    
+      end
     end
     errors
   end

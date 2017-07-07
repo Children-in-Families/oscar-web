@@ -76,10 +76,16 @@ class ClientEnrollmentsController < AdminController
   end
 
   def program_stream_order_by_enrollment
-    client_enrollments_with_status = ProgramStream.orderd_name_and_enrollment_status(@client).completed
-    client_enrollments_without_status = ProgramStream.without_status_by(@client).completed
-
-    client_enrollments_with_status + client_enrollments_without_status
+    program_streams = []
+    if params[:program_streams] == 'enrollment program streams'
+      client_enrollments_with_status_active    = ProgramStream.enrollment_status_active(@client).completed
+      program_streams = client_enrollments_with_status_active
+    else
+      client_enrollments_with_status_not_active    = ProgramStream.enrollment_status_not_active(@client).completed
+      client_enrollments_without_status = ProgramStream.without_status_by(@client).completed
+      program_streams = client_enrollments_with_status_not_active + client_enrollments_without_status
+    end
+    program_streams
   end
 
   def ordered_program
