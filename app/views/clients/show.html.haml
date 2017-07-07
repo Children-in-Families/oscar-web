@@ -93,7 +93,7 @@
                 - if @client.cases.current.present?
                   %li
                     %a{"data-target" => '#exit-from-case', "data-toggle" => 'modal'}
-                      .text-warning= t(".exit_from_#{@client.cases.current.case_type.downcase}")
+                      .text-warning.exit-case-warning= t(".exit_from_#{@client.cases.current.case_type.downcase}")
             - if @client.status == 'Referred' && @client.exit_date.nil? || @client.cases.current.nil?
               = render 'exit_ngo_form', client: @client
             - if @client.cases.current.present?
