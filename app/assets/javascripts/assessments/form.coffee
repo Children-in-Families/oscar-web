@@ -9,6 +9,8 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
     _postTask()
     _addElement()
     _translatePagination()
+    _initUploader()
+    _handleDeleteAttachment()
 
   _translatePagination = ->
     next     = $('#rootwizard').data('next')
@@ -179,5 +181,60 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
     task = '#assessment_domain_task'
     $("#{task} #task_name").val('')
     $("#{task} #task_completion_date").val('')
+
+  _initUploader = ->
+    $('.file .optional').fileinput
+      showUpload: false
+      removeClass: 'btn btn-danger btn-outline'
+      browseLabel: 'Browse'
+      theme: "explorer"
+      allowedFileExtensions: ['jpg', 'png', 'jpeg', 'doc', 'docx', 'xls', 'xlsx', 'pdf']
+
+  _handleDeleteAttachment = ->
+    rows = $('.row-file')
+    $(rows).each (_k, element) ->
+      deleteBtn = $(element).find('.delete')
+      confirmDelete = $(deleteBtn).data('comfirm')
+      $(deleteBtn).click ->
+        result = confirm(confirmDelete)
+        return unless result
+        BtnURL = $(deleteBtn)[0].dataset.url
+        $.ajax
+          dataType: "json"
+          url: BtnURL
+          method: 'DELETE'
+          success: (response) ->
+            $(element).remove()
+            index = 0
+            attachments = $('.row-file:visible')
+            if attachments.length > 0
+              for td in attachments
+                td.getElementsByClassName('delete')[0].dataset.url = _replaceUrlParam(td.getElementsByClassName('delete')[0].dataset.url, 'file_index', index++)
+            _initNotification(response.message)
+
+  _initNotification = (message)->
+    messageOption = {
+      "closeButton": true,
+      "debug": true,
+      "progressBar": true,
+      "positionClass": "toast-top-center",
+      "showDuration": "400",
+      "hideDuration": "1000",
+      "timeOut": "7000",
+      "extendedTimeOut": "1000",
+      "showEasing": "swing",
+      "hideEasing": "linear",
+      "showMethod": "fadeIn",
+      "hideMethod": "fadeOut"
+    }
+    toastr.success(message, '', messageOption)
+
+  _replaceUrlParam = (url, paramName, paramValue) ->
+    if paramValue == null
+      paramValue = ''
+    pattern = new RegExp('\\b(' + paramName + '=).*?(&|$)')
+    if url.search(pattern) >= 0
+      return url.replace(pattern, '$1' + paramValue + '$2')
+    url + (if url.indexOf('?') > 0 then '&' else '?') + paramName + '=' + paramValue
 
   { init: _init }

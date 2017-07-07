@@ -87,7 +87,7 @@ class CustomFieldPropertiesController < AdminController
   end
 
   def add_more_attachments(new_files)
-    files = @custom_field_property.attachments 
+    files = @custom_field_property.attachments
     files += new_files
     @custom_field_property.attachments = files
   end

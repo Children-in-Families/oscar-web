@@ -25,7 +25,7 @@ body[id=case_notes-create] {
     width: 110px;
     margin-right: 5px;
   }
-  ol li.list-group-item{ 
+  ol li.list-group-item{
     list-style: decimal inside;
     display: list-item;
   }
@@ -37,5 +37,30 @@ body[id=case_notes-create] {
   }
   .disabled label {
     color: #333333;
+  }
+
+  .links img, .nested-fields img {
+    width: 150px;
+    cursor: pointer;
+  }
+
+  .file {
+    margin-right: 0;
+  }
+
+  .show-attachment img {
+    margin: 0 auto;
+    width: 150px;
+  }
+
+  .image-title{
+    width: 70%;
+  }
+
+  .table.attachment-table tbody>tr>td{
+    vertical-align: top;
+  }
+  .table.attachment-table tbody>tr>td.vert-align{
+    vertical-align: middle;
   }
 }

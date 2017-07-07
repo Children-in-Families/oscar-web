@@ -61,6 +61,13 @@
                               - if assessment_domain.present?
                                 - goal = assessment_domain.goal
                                 %li= goal
+                        - if cdg.attachments.any?
+                          .col-xs-12.col-sm-6
+                            .panel.panel-default
+                              .panel-heading
+                                %h4= t('.attachments')
+                              .panel-body
+                                = render 'attachment', cdg: cdg
       .ibox-footer
         .text-center
           = paginate @case_notes
