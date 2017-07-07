@@ -25,7 +25,7 @@ class Family::CasesController < AdminController
   end
 
   def find_associations
-    @clients   = Client.accepted.where(status: 'Referred').order(:given_name, :family_name)
+    @clients   = Client.accessible_by(current_ability).accepted.where(status: 'Referred').order(:given_name, :family_name)
     @partners  = Partner.order(:name)
     @provinces = Province.order(:name)
   end
