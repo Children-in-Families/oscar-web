@@ -84,18 +84,20 @@
                   %li= @client.ec_button
                   %li= @client.fc_button
                   %li= @client.kc_button
-                - else
-                  - unless @client.cases.current.fc_or_kc?
-                    %li= @client.fc_button
-                    %li= @client.kc_button
+                  - if @client.exit_date.nil? || @client.cases.current.nil?
+                    %li.divider
+                    %li
+                      %a{"data-target" => '#exitFromNgo', "data-toggle" => 'modal'}
+                        .text-warning= t('.exit_ngo_btn')
 
-                - if @client.cases.active.any?
-                  %li.divider
+                - if @client.cases.current.present?
                   %li
-                    %a{"data-target" => '#exitFromCif', "data-toggle" => 'modal'}
-                      .text-warning= t('.exit_ngo_btn')
-            - if @client.cases.active.any?
-              = render 'exit_case_form', client_case: @client.cases.active.last, exit_from_cif: true
+                    %a{"data-target" => '#exit-from-case', "data-toggle" => 'modal'}
+                      .text-warning= t(".exit_from_#{@client.cases.current.case_type.downcase}")
+            - if @client.status == 'Referred' && @client.exit_date.nil? || @client.cases.current.nil?
+              = render 'exit_ngo_form', client: @client
+            - if @client.cases.current.present?
+              = render 'exit_case_form', client_case: @client.cases.current, exit_from_cif: true
 
           = link_to client_tasks_path(@client) do
             %span.btn-sm.btn.btn-info.small-btn-margin
@@ -341,6 +343,20 @@
                       = agency.name
 
               = render 'state'
+              - if @client.exit_date
+                %tr
+                  %td.spacing-first-col
+                    = t('.exit_date')
+                  %td
+                    %strong
+                      = date_format(@client.exit_date)
+                %tr
+                  %td.spacing-first-col
+                    = t('.exit_note')
+                  %td
+                    %strong
+                      = @client.exit_note
+
         .row
           .col-xs-12
             %table.table.table-bordered

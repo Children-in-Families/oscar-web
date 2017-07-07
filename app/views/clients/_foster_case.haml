@@ -1,18 +1,18 @@
-- if kc.present?
+- if fc.present?
   .col-xs-12.col-sm-12.col-md-6.case#case
     .ibox
       .ibox-title
-        %h5= t('.kinship_case.kinship_care')
+        %h5= t('.foster_case.foster_care')
         .ibox-tools
           - if can? :manage, Case
-            - if current_user.admin? || current_user.case_worker? || current_user.kc_manager?
+            - if current_user.admin? || current_user.case_worker? || current_user.fc_manager?
               %small
-                = link_to edit_client_case_path(kc.client, kc) do
+                = link_to edit_client_case_path(fc.client, fc) do
                   .btn.btn-outline.btn-success
-                    = fa_icon('pencil')
-                - unless @client.cases.latest_kinship.exited
-                  %button.btn.btn-outline.btn-warning{"data-target" => '#exitFromCase', "data-toggle" => 'modal'}
-                    %i.fa.fa-times{title: t('.exit_btn')}
+                    = t('.edit_btn')
+                - unless @client.cases.latest_foster.exited
+                  %button.btn.btn-outline.btn-warning{"data-target" => '#exit-from-case', "data-toggle" => 'modal'}
+                    = t('.exit_btn')
       .ibox-content
         %section.overflow-case
           %table.table.table-bordered
@@ -21,59 +21,59 @@
                 = t('.start_date')
               %td
                 %strong
-                  = kc.start_date.strftime('%B %d, %Y') if kc.start_date
+                  = fc.start_date.strftime('%B %d, %Y') if fc.start_date
             %tr
               %td.spacing-first-col
                 = t('.carer_names')
               %td
                 %strong
-                  = kc.carer_names
+                  = fc.carer_names
             %tr
               %td.spacing-first-col
                 = t('.carer_address')
               %td
                 %strong
-                  = kc.carer_address
+                  = fc.carer_address
             %tr
               %td.spacing-first-col
                 = t('.province')
               %td
                 %strong
-                  = kc.province.name if kc.province
+                  = fc.province.name if fc.province
             %tr
               %td.spacing-first-col
                 = t('.carer_phone_number')
               %td
                 %strong
-                  = kc.carer_phone_number.phony_formatted(normalize: :KH, format: :international) if kc.carer_phone_number
+                  = fc.carer_phone_number.phony_formatted(normalize: :KH, format: :international) if fc.carer_phone_number
             %tr
               %td.spacing-first-col
                 = t('.support_amount')
               %td
                 %strong
-                  = number_to_currency(kc.support_amount)
+                  = number_to_currency(fc.support_amount)
             %tr
               %td.spacing-first-col
                 = t('.support_note')
               %td
                 %strong
-                  = kc.support_note
+                  = fc.support_note
             %tr
               %td.spacing-first-col
                 = t('.ongoing_partner')
               %td
                 %strong
-                  = partner kc.partner if kc.partner
+                  = partner fc.partner if fc.partner
             %tr
               %td.spacing-first-col
                 = t('.family')
               %td
                 %strong
-                  = family kc.family if kc.family
+                  = family fc.family if fc.family
             %tr
               %td.spacing-first-col
                 = t('.family_preservation')
               %td
                 %strong
-                  = human_boolean(kc.family_preservation)
-  = render 'exit_case_form', client_case: @client.cases.latest_kinship, exit_from_cif: false
+                  = human_boolean(fc.family_preservation)
+  = render 'exit_case_form', client_case: @client.cases.latest_foster, exit_from_cif: false

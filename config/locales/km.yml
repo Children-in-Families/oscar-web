@@ -767,10 +767,11 @@ km:
       carer_address: អាសយដ្ឋានអ្នកថែទាំ
       carer_names: ឈ្មោះអ្នកថែទាំ
       carer_phone_number: លេខទូរសព្ទអ្នកថែទាំ
+      edit_btn: កែសម្រូល
       emergency_care: ករណី Emergency
       emergency_case:
         emergency_care: ករណី Emergency
-      exit_btn: ចាកចេញ
+      exit_btn: ចាកចេញពីកម្មវិធី
       exit_date: ថ្ងៃចាកចេញ
       exit_note: កំណត់ហេតុនៃការចាកចេញ
       exit_status: ស្ថានភាព
@@ -782,6 +783,12 @@ km:
       start_date: ថ្ងៃចាប់ផ្តើម
       support_amount: ប្រាក់ឧបត្ថម្ភ
       support_note: ពត៌មានពីប្រាក់ឧប្ថម្ភ
+    exit_ngo_form:
+      exit_btn: ចាកចេញ
+      exit_date: ថ្ងៃចាកចេញ
+      exit_ngo: ចាកចេញពី NGO
+      exit_note: កំណត់ហេតុនៃការចាកចេញ
+      exit_status: ស្ថានភាព
     exit_case_form:
       exit_btn: ចាកចេញ
       exit_date: ថ្ងៃចាកចេញ
@@ -850,7 +857,8 @@ km:
       carer_address: អាសយដ្ឋានអ្នកថែទាំ
       carer_names: ឈ្មោះអ្នកថែទាំ
       carer_phone_number: លេខទូរសព្ទអ្នកថែទាំ
-      exit_btn: ចាកចេញ
+      edit_btn: កែសម្រូល
+      exit_btn: ចាកចេញពីកម្មវិធី
       exit_date: ថ្ងៃចាកចេញ
       exit_note: កំណត់ហេតុនៃការចាកចេញ
       exit_status: ស្ថានភាព
@@ -886,7 +894,8 @@ km:
       carer_address: អាសយដ្ឋានអ្នកថែទាំ
       carer_names: ឈ្មោះអ្នកថែទាំ
       carer_phone_number: លេខទូរសព្ទអ្នកថែទាំ
-      exit_btn: ចាកចេញ
+      edit_btn: កែសម្រូល
+      exit_btn: ចាកចេញពីកម្មវិធី
       exit_date: ថ្ងៃចាកចេញ
       exit_note: កំណត់ហេតុនៃការចាកចេញ
       exit_status: ស្ថានភាព
@@ -937,7 +946,12 @@ km:
       date_of_birth: ថ្ងៃ ខែ ឆ្នាំ កំណើត
       district: ស្រុក/ខណ្ឌ
       donor: ម្ចាស់ជំនួយ
+      exit_date: ថ្ងៃចាកចេញ
+      exit_from_ec: ចាកចេញពី EC
+      exit_from_fc: ចាកចេញពី FC
+      exit_from_kc: ចាកចេញពី KC
       exit_ngo_btn: ចាកចេញពី NGO
+      exit_note: កំណត់ហេតុនៃការចាកចេញ
       family_name: នាមត្រកូល
       follow_up_by: បុគ្គលិកដែលតាមដានករណី
       follow_up_date: កាលបរិច្ឆេទតាមដាន

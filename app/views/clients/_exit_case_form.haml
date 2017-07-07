@@ -1,12 +1,11 @@
-.modal.fade{ role: 'dialog', tabindex: '-1', id: exit_modal_class(exit_from_cif) }
+.modal.fade{ role: 'dialog', tabindex: '-1', id: 'exit-from-case' }
   .modal-dialog{ role: 'document'}
     .modal-content
       .modal-header
         %button.close{"aria-label" => "#{t('.close')}", "data-dismiss" => 'modal'}
           %span{"aria-hidden" => 'true'} &times;
         %h4.modal-title
-          = t(".exit_#{client_case.case_type.downcase}") if !exit_from_cif
-          = t('.exit_ngo') if exit_from_cif
+          = t(".exit_#{client_case.case_type.downcase}")
 
       .modal-body
         = simple_form_for([@client, client_case]) do |f|
@@ -15,22 +14,17 @@
             .form-group.date.case_exit_date
               %label.date.required.control-label{ for: 'case_exit_date' }
                 %abbr{ title: 'required' } *
-                = "#{t('.exit_date')}"
+                = t('.exit_date')
               .input-group.date
                 = f.text_field :exit_date, required: true, class: 'date form-control date-picker .datepicker-dropdown exit_date', type: 'text', name: 'case[exit_date]', id: 'case_exit_date'
                 %span.input-group-addon
                   %i.fa.fa-calendar-check-o
 
-          - if exit_from_cif
-            .form-inputs
-              = f.input :status, collection: Client::EXIT_STATUSES, include_blank: false, label: "#{t('.exit_status')}"
-              = f.hidden_field :exited_from_cif, value: true
-
           .form-inputs
-            = f.input :exit_note, required: true, label: "#{t('.exit_note')}", input_html: { class: 'exit_note' }
+            = f.input :exit_note, required: true, label: t('.exit_note'), input_html: { class: 'exit_note' }
 
           .form-inputs
             = f.hidden_field :exited, value: true
           .text-right
-            %button.btn.btn-default{"data-dismiss" => 'modal'} #{t('cancel')}
-            = f.submit "#{t('.exit_btn')}", class: 'btn btn-danger case_confirm_exit', disabled: :disabled
+            %button.btn.btn-default{"data-dismiss" => 'modal'}= t('cancel')
+            = f.submit t('.exit_btn'), class: 'btn btn-danger case_confirm_exit', disabled: :disabled

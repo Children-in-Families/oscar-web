@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170704070624) do
+ActiveRecord::Schema.define(version: 20170706083521) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -112,10 +112,10 @@ ActiveRecord::Schema.define(version: 20170704070624) do
     t.string   "title"
     t.datetime "start_date"
     t.datetime "end_date"
-    t.string   "calendar_id"
+    t.boolean  "sync_status", default: false
     t.integer  "user_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
   end
 
   add_index "calendars", ["user_id"], name: "index_calendars_on_user_id", using: :btree
@@ -274,6 +274,8 @@ ActiveRecord::Schema.define(version: 20170704070624) do
     t.string   "live_with",                        default: ""
     t.integer  "id_poor",                          default: 0
     t.integer  "rice_support",                     default: 0
+    t.text     "exit_note",                        default: ""
+    t.date     "exit_date"
   end
 
   add_index "clients", ["donor_id"], name: "index_clients_on_donor_id", using: :btree
@@ -522,13 +524,13 @@ ActiveRecord::Schema.define(version: 20170704070624) do
   create_table "program_streams", force: :cascade do |t|
     t.string   "name"
     t.text     "description"
-    t.jsonb    "rules",        default: {}
-    t.jsonb    "enrollment",   default: {}
-    t.jsonb    "exit_program", default: {}
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
     t.integer  "quantity"
     t.string   "ngo_name",     default: ""
+    t.jsonb    "rules",        default: {}
+    t.jsonb    "enrollment",   default: {}
+    t.jsonb    "exit_program", default: {}
     t.boolean  "completed",    default: false
   end
 
