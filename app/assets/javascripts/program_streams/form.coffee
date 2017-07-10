@@ -13,8 +13,9 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     _initButtonSave()
     _handleSaveProgramStream()
     _handleClickAddTracking()
-    # _handleRemoveDuplicateWarning()
-
+    # _alertDuplicateWarning()
+    # _removeDuplicateWarning()
+    
   _stickyFill = ->
     if $('.form-wrap').is(':visible')
       $('.cb-wrap').Stickyfill()
@@ -146,12 +147,13 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         'checkbox-group':
           onadd: (fld) ->
             $('.other-wrap, .className-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
-            # _preventDuplicateField('checkbox-group-field', fld)
+            _duplicateFieldLable()
             _hideOptionValue()
             _addOptionCallback(fld)
             _generateValueForSelectOption(fld)
           onclone: (fld) ->
             setTimeout ( ->
+              _duplicateFieldLable()
               _hideOptionValue()
               _addOptionCallback(fld)
               _generateValueForSelectOption(fld)
@@ -160,22 +162,23 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         date:
           onadd: (fld) ->
             $('.className-wrap, .value-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
-            # _preventDuplicateField('date-field', fld)
+            _duplicateFieldLable()
 
         number:
           onadd: (fld) ->
             $('.className-wrap, .value-wrap, .step-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
-            # _preventDuplicateField('number-field', fld)
+            _duplicateFieldLable()
 
         'radio-group':
           onadd: (fld) ->
             $('.other-wrap, .className-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
-            # _preventDuplicateField('radio-group-field', fld)
+            _duplicateFieldLable()
             _hideOptionValue()
             _addOptionCallback(fld)
             _generateValueForSelectOption(fld)
           onclone: (fld) ->
             setTimeout ( ->
+              _duplicateFieldLable()
               _hideOptionValue()
               _addOptionCallback(fld)
               _generateValueForSelectOption(fld)
@@ -184,12 +187,13 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         select:
           onadd: (fld) ->
             $('.className-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
-            # _preventDuplicateField('select-field', fld)
+            _duplicateFieldLable()
             _hideOptionValue()
             _addOptionCallback(fld)
             _generateValueForSelectOption(fld)
           onclone: (fld) ->
             setTimeout ( ->
+              _duplicateFieldLable()
               _hideOptionValue()
               _addOptionCallback(fld)
               _generateValueForSelectOption(fld)
@@ -201,34 +205,122 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
             $('.fld-subtype ').find('option:contains(tel)').remove()
             $('.fld-subtype ').find('option:contains(password)').remove()
             $('.className-wrap, .value-wrap, .access-wrap, .maxlength-wrap, .description-wrap, .name-wrap').hide()
-            # _preventDuplicateField('text-field', fld)
+            _duplicateFieldLable()
         textarea:
           onadd: (fld) ->
             $('.rows-wrap, .className-wrap, .value-wrap, .access-wrap, .maxlength-wrap, .description-wrap, .name-wrap').hide()
-            # _preventDuplicateField('textarea-field', fld)
+            _duplicateFieldLable()
       }
 
     }).data('formBuilder');
 
   _duplicateFieldLable = ->
     labelFields = $('.form-wrap:visible').find("ul li input[name='label']")
-    duplicateLabels = false
+    # labelFields = $('.form-wrap:visible').find("label.field-label")
+    # duplicateLabels = false
+    # labels = []
+
+    # $(labelFields).each (value, index) ->
+    #   console.log value
+    #   console.log index
+    # for labelField in $(labelFields)
+    #   labels.push $(labelField).text()
+    #   # debugger
+    #   i = 0
+    #   for i in [i...labels.length]
+    #     continue if i = labels.length-1
+    #     if labels.includes($(labelFields).text())
+    #       parentElement = $(labelFields).parents('li.form-field')
+    #       $(parentElement).addClass('has-error')
+    #       unless $(parentElement).find('label.error').is(':visible')
+    #         $(parentElement).append('<label class="error">This field is duplicated.</label>')
+    #       $(parentElement).find('input, textarea, select').addClass('error')          
+    #       duplicateLabels = true 
+    #     i++
+    # debugger
     i = 0
-    for i in [i..labelFields.length]
+    for i in [i..labelFields.length - 1]
       label = $(labelFields[i]).val()
-      j= 0
-      for j in [j..labelFields.length]
+      j = 0
+      for j in [j..labelFields.length - 1]
         continue if i == j
         if label == $(labelFields[j]).val()
-          $(labelFields[j]).parents('li.form-field').addClass('has-error')
-          $(labelFields[j]).parents('li.form-field').append('<label class="error">This field is duplicated.</label>')
-          $(labelFields[j]).parents('li.form-field').find('input, textarea, select').addClass('error')          
+          parentElement = $(labelFields[i]).parents('li.form-field')
+          $(parentElement).addClass('has-error')
+          unless $(parentElement).find('label.error').is(':visible')
+            $(parentElement).append('<label class="error">This field is duplicated.</label>')
+          $(parentElement).find('input, textarea, select').addClass('error')          
           duplicateLabels = true 
     
     if duplicateLabels == true
-      $('section:visible .text-danger').text('Duplicate fields')
-    
-    return duplicateLabels
+      $('section:visible .text-danger').text('Duplicate fields')  
+      return duplicateLabels
+
+    # $(labelFields).each (index, label) ->
+      # displayText = $(label).text()
+      # $(labelFields).each (cIndex, cLabel) ->
+      #   continue if cIndex == index
+      #   cText = $(cLabel).text()
+      #   if cText == displayText
+      #     parentElement = $(label).parents('li.form-field')
+      #     $(parentElement).addClass('has-error')
+      #     unless $(parentElement).find('label.error').is(':visible')
+      #       $(parentElement).append('<label class="error">This field is duplicated.</label>')
+      #     $(parentElement).find('input, textarea, select').addClass('error')          
+      #     duplicateLabels = true 
+
+
+  _removeDuplicateWarning = ->
+    $('.field-actions a.del-button').on 'click', (e) ->
+      removedField = $(@).parents().children('label.field-label')
+      labelFields = $('.form-wrap:visible').find('label.field-label')
+      labels = []
+
+      for labelField in $(labelFields)
+        labels.push $(labelField).text()
+
+      counts = {}
+      labels.forEach (x) ->
+        counts[x] = (counts[x] or 0) + 1
+
+      if counts[$(removedField).text()] == 2
+        # field = $(@)
+        # $(labelFields).each (index, label)->
+        for labelField in $(labelFields)
+          debugger
+          # if $(label).contentText == $(removedField).text()
+
+      else if counts[$(removedField).text()] > 2
+        $(removedField).parent().removeClass('has-error')
+        $(removedField).parent().find('label.error').remove()
+        $(removedField).parent().find('input, textarea, select').removeClass('error')
+
+      # duplicatFields = $('.form-wrap:visible').find('label.error').text()
+
+      # if duplicatFields.length == 2
+        # $('li.form-field').find('label.error').remove()
+        # $('li.form-field').removeClass('has-error')
+        # $('li.form-field').find('input, textarea, select').removeClass('error')        
+        # $('section:visible .text-danger').text('')
+  
+  _alertDuplicateWarning = ->
+    $(".form-wrap:visible .input-wrap input[name='label']").on 'blur', ->
+      labelFields = $('.form-wrap:visible').find('label.field-label')
+      i = 0
+      for i in [i..labelFields.length - 1]
+        label = $(labelFields[i]).text()
+        j = 0
+        for j in [j..labelFields.length - 1]
+          continue if i == j
+          if label == $(labelFields[j]).text()
+            $(labelFields[i]).parents('li.form-field').addClass('has-error')
+            $(labelFields[i]).parents('li.form-field').append('<label class="error">This field is duplicated.</label>')
+            $(labelFields[i]).parents('li.form-field').find('input, textarea, select').addClass('error')
+          else
+            $(labelFields[i]).parents('li.form-field').find('label.error').remove()
+            $(labelFields[i]).parents('li.form-field').removeClass('has-error')
+            $(labelFields[i]).parents('li.form-field').find('input, textarea, select').removeClass('error')
+            $('section:visible .text-danger').text('')
 
   _initProgramSteps = ->
     self = @
@@ -254,6 +346,8 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
 
       onStepChanged: (event, currentIndex, newIndex) ->
         _stickyFill()
+        _alertDuplicateWarning()
+        _removeDuplicateWarning()
         buttonSave = $('#program_stream_submit')
         if $('#exit-program').is(':visible') then $(buttonSave).hide() else $(buttonSave).show()
 
