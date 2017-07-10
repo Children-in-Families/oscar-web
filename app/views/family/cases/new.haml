@@ -1,5 +1,6 @@
 .row
   .col-xs-12
     .ibox
-      .ibox-content
-        = render 'form'
+      .ibox-title
+        %h5= t('.new_case_title')
+      = render 'form'
