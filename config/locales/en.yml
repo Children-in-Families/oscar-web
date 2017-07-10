@@ -1998,16 +1998,18 @@ en:
       create:
         successfully_created: Successfully added client to family
       form:
-          carer_address: Carer Address
-          carer_names: Carer Names
-          carer_phone_number: Carer Phone Number
-          case_type: Case Type
-          client: Client
-          ongoing_partner: Ongoing Partner
-          province: Province
-          start_date: Start Date
-          support_amount: Support Amount
-          support_note: Support Note
+        carer_address: Carer Address
+        carer_names: Carer Names
+        carer_phone_number: Carer Phone Number
+        case_type: Case Type
+        client: Client
+        ongoing_partner: Ongoing Partner
+        province: Province
+        start_date: Start Date
+        support_amount: Support Amount
+        support_note: Support Note
+      new:
+        new_case_title: New Case
   faq: FAQ
   field_label_cannot_be_blank: field label can't be blank
   form_builder:
