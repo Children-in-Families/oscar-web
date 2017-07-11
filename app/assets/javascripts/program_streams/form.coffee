@@ -347,7 +347,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         if currentIndex == 0 and newIndex == 1 and $('#program-rule').is(':visible')
           form.valid()
           name = $('#program_stream_name').val() == ''
-          return false if $.isEmptyObject($('#program-rule').queryBuilder('getRules')) || name
+          return false if name
         else if $('#enrollment').is(':visible')
           return false if _duplicateFieldLabel()
         else if $('#tracking').is(':visible')
@@ -402,6 +402,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
 
   _handleAddRuleBuilderToInput = ->
     rules = $('#program-rule').queryBuilder('getRules')
+    $('ul.rules-list li').removeClass('has-error') if ($.isEmptyObject(rules))
     $('#program_stream_rules').val(_handleStringfyRules(rules)) if !($.isEmptyObject(rules))
 
   _handleSetValueToField = ->
