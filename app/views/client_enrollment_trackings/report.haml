@@ -5,9 +5,9 @@
         %h5= @tracking.name
         .ibox-tools
           - if (policy(@enrollment).update?) && (can? :manage, ClientEnrollmentTracking)
-            = link_to new_client_client_enrollment_client_enrollment_tracking_path(@client, @enrollment, tracking_id: @tracking) do
+            = link_to new_client_client_enrollment_client_enrollment_tracking_path(@client, @enrollment, tracking_id: @tracking, program_streams: params[:program_streams]) do
               .btn.btn-primary.btn-outline= t('.new_tracking')
-          = link_to client_client_enrollment_client_enrollment_trackings_path(@client, @enrollment, tracking_id: @tracking.id) do
+          = link_to client_client_enrollment_client_enrollment_trackings_path(@client, @enrollment, tracking_id: @tracking.id, program_streams: params[:program_streams]) do
             .btn.btn-success.btn-outline= t('.back')
       .ibox-content
         - @client_enrollment_trackings.each_slice(2) do |n_enrollment_trackings|
@@ -22,7 +22,7 @@
                     .ibox-tools
                       - if can? :manage, ClientEnrollmentTracking
                         - if policy(enrollment_tracking).update?
-                          = link_to edit_client_client_enrollment_client_enrollment_tracking_path(@client, @enrollment, enrollment_tracking, tracking_id: enrollment_tracking.tracking) do
+                          = link_to edit_client_client_enrollment_client_enrollment_tracking_path(@client, @enrollment, enrollment_tracking, tracking_id: enrollment_tracking.tracking, program_streams: params[:program_streams]) do
                             .btn.btn-success.btn-outline
                               = fa_icon('pencil')
                         = link_to client_client_enrollment_client_enrollment_tracking_path(@client, @enrollment, enrollment_tracking, tracking_id: enrollment_tracking.tracking), method: 'delete',  data: { confirm: t('.are_you_sure') } do

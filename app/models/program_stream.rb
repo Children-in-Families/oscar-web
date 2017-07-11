@@ -23,12 +23,12 @@ class ProgramStream < ActiveRecord::Base
   scope     :ordered_by, ->(column) { order(column) }
   scope     :completed,  -> { where(completed: true) }
 
-  def self.enrollment_status_not_active(client)
-    includes(:client_enrollments).where('client_enrollments.status != ? and client_enrollments.client_id = ?', 'Active', client.id).order('client_enrollments.status ASC', :name).uniq
+  def self.enrollment_status_inactive(client)
+    joins(:client_enrollments).where("client_id = ? AND client_enrollments.created_at = (SELECT MAX(client_enrollments.created_at) FROM client_enrollments WHERE client_enrollments.program_stream_id = program_streams.id) AND client_enrollments.status = 'Exited'", client.id)
   end
 
   def self.enrollment_status_active(client)
-    includes(:client_enrollments).where('client_enrollments.status = ? and client_enrollments.client_id = ?', 'Active', client.id).order('client_enrollments.status ASC', :name).uniq
+    joins(:client_enrollments).where("client_id = ? AND client_enrollments.created_at = (SELECT MAX(client_enrollments.created_at) FROM client_enrollments WHERE client_enrollments.program_stream_id = program_streams.id) AND client_enrollments.status = 'Active'", client.id)
   end
 
   def self.without_status_by(client)

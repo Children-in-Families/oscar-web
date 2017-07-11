@@ -12,7 +12,7 @@ class ClientEnrollmentsController < AdminController
 
   def new
     if @program_stream.rules.present?
-      redirect_to client_client_enrollments_path(@client), alert: t('.client_not_valid') unless valid_client?
+      redirect_to client_client_enrollments_path(@client, program_streams: 'program-streams'), alert: t('.client_not_valid') unless valid_client?
     end
     @client_enrollment = @client.client_enrollments.new(program_stream_id: @program_stream)
   end
@@ -37,7 +37,7 @@ class ClientEnrollmentsController < AdminController
     @client_enrollment = @client.client_enrollments.new(client_enrollment_params)
     authorize @client_enrollment
     if @client_enrollment.save
-      redirect_to client_client_enrollment_path(@client, @client_enrollment, program_stream_id: @program_stream), notice: t('.successfully_created')
+      redirect_to client_client_enrollment_path(@client, @client_enrollment, program_stream_id: @program_stream, program_streams: 'enrollment-program-streams'), notice: t('.successfully_created')
     else
       render :new
     end
@@ -76,13 +76,13 @@ class ClientEnrollmentsController < AdminController
 
   def program_stream_order_by_enrollment
     program_streams = []
-    if params[:program_streams] == 'enrollment program streams'
-      client_enrollments_with_status_active    = ProgramStream.enrollment_status_active(@client).completed
-      program_streams = client_enrollments_with_status_active
-    else
-      client_enrollments_with_status_not_active    = ProgramStream.enrollment_status_not_active(@client).completed
-      client_enrollments_without_status = ProgramStream.without_status_by(@client).completed
-      program_streams = client_enrollments_with_status_not_active + client_enrollments_without_status
+    if params[:program_streams] == 'enrollment-program-streams'
+      client_enrollments_active = ProgramStream.enrollment_status_active(@client).completed
+      program_streams           = client_enrollments_active
+    elsif params[:program_streams] == 'program-streams'
+      client_enrollments_exited         = ProgramStream.enrollment_status_inactive(@client).completed
+      client_enrollments_inactive = ProgramStream.without_status_by(@client).completed
+      program_streams                   = client_enrollments_exited + client_enrollments_inactive
     end
     program_streams
   end

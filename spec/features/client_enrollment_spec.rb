@@ -23,7 +23,7 @@ describe 'Client Enrollment' do
       program_stream_active.reload
       program_stream_active.update_columns(completed: true)
 
-      visit client_client_enrollments_path(client, program_streams: 'enrollment program streams')
+      visit client_client_enrollments_path(client, program_streams: 'enrollment-program-streams')
     end
 
     scenario 'program lists' do
@@ -60,7 +60,7 @@ describe 'Client Enrollment' do
       program_stream_exited.reload
       program_stream_exited.update_columns(completed: true)
 
-      visit client_client_enrollments_path(client, program_streams: 'program streams')
+      visit client_client_enrollments_path(client, program_streams: 'program-streams')
     end
 
     scenario 'program lists' do
@@ -96,8 +96,7 @@ describe 'Client Enrollment' do
 
       second_program_stream.reload
       second_program_stream.update_columns(completed: true)
-
-      visit client_client_enrollments_path(client)
+      visit client_client_enrollments_path(client, program_streams: 'program-streams')
       click_link('Enroll')
     end
 
