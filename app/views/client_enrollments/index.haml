@@ -35,7 +35,7 @@
               %td.quantity
                 = ps.place_available
               %td.report
-                = link_to t('.view'), report_client_client_enrollments_path(@client, program_stream_id: ps)
+                = link_to t('.view'), report_client_client_enrollments_path(@client, program_stream_id: ps, program_streams: params[:program_streams])
               %td.manage
                 = render 'manage', program_stream: ps
 

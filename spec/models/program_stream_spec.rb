@@ -90,7 +90,11 @@ describe ProgramStream, 'methods' do
   let!(:client) { create(:client) }
   let!(:second_client) { create(:client) }
   let!(:program_stream) { create(:program_stream) }
-  let!(:client_enrollment) { create(:client_enrollment, client: client, program_stream: program_stream)}
+  let!(:program_stream_active) { create(:program_stream) }
+  let!(:program_stream_inactive) { create(:program_stream) }
+  let!(:client_enrollment) { create(:client_enrollment, client: client, program_stream: program_stream, status: 'Exited')}
+  let!(:client_enrollments_inactive) { create(:client_enrollment, client: client, program_stream: program_stream_inactive, status: 'Exited')}
+  let!(:client_enrollment_active) { create(:client_enrollment, client: client, program_stream: program_stream_active, status: 'Active')}
   let!(:second_client_enrollment) { create(:client_enrollment, client: second_client, program_stream: program_stream)}
 
   context 'last_enrollment' do
@@ -102,9 +106,15 @@ describe ProgramStream, 'methods' do
     end
   end
 
-  context 'orderd_name_and_enrollment_status' do
+  context 'enrollment_status_active' do
     it 'return records of client enrollment' do
-      expect(ProgramStream.orderd_name_and_enrollment_status(client).first).to eq program_stream
+      expect(ProgramStream.enrollment_status_active(client).first).to eq program_stream_active
+    end
+  end
+
+  context 'enrollment_status_inactive' do
+    it 'return records of client enrollment' do
+      expect(ProgramStream.enrollment_status_inactive(client).first).to eq program_stream_inactive
     end
   end
 

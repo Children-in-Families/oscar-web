@@ -13,4 +13,4 @@
     = hidden_field_tag :program_stream_id, @program_stream.id
   .ibox-footer
     = f.submit t('.save'), class: 'btn btn-primary form-btn'
-    = link_to t('.cancel'), client_client_enrollments_path(@client), class: 'btn btn-default form-btn'
+    = link_to t('.cancel'), client_client_enrollments_path(@client, program_streams: params[:program_streams]), class: 'btn btn-default form-btn'

@@ -3,24 +3,64 @@ describe 'Client Enrollment' do
   let!(:client) { create(:client, given_name: 'Adam', family_name: 'Eve', local_given_name: 'Romeo', local_family_name: 'Juliet', date_of_birth: 10.years.ago) }
   let!(:domain) { create(:domain) }
   let!(:program_stream) { create(:program_stream, name: 'Fitness') }
+  let!(:program_stream_active) { create(:program_stream, name: 'Second Fitness') }
+  let!(:program_stream_exited) { create(:program_stream, name: 'Third Fitness') }
   let!(:domain_program_stream) { create(:domain_program_stream, domain: domain, program_stream: program_stream) }
+  let!(:domain_program_stream_exited) { create(:domain_program_stream, domain: domain, program_stream: program_stream_exited) }
+  let!(:domain_program_stream_active) { create(:domain_program_stream, domain: domain, program_stream: program_stream_active) }
 
   let!(:second_program_stream) { create(:program_stream, name: 'second name') }
   let!(:client_enrollment) { create(:client_enrollment, program_stream: program_stream, client: client) }
+  let!(:client_enrollment_active) { create(:client_enrollment, program_stream: program_stream_active, client: client, status: 'Active') }
+  let!(:client_enrollment_exited) { create(:client_enrollment, program_stream: program_stream_exited, client: client, status: 'Exited') }
 
   before do
     login_as admin
   end
 
-  feature 'List' do
+  feature 'List client enrollment status active' do
     before do
-      program_stream.reload
-      program_stream.update_columns(completed: true)
+      program_stream_active.reload
+      program_stream_active.update_columns(completed: true)
 
-      second_program_stream.reload
-      second_program_stream.update_columns(completed: true)
-      
-      visit client_client_enrollments_path(client)
+      visit client_client_enrollments_path(client, program_streams: 'enrollment-program-streams')
+    end
+
+    scenario 'program lists' do
+      expect(page).to have_content('Adam Eve (Romeo Juliet) - Programs List')
+    end
+
+    scenario 'program name' do
+      expect(page).to have_content(program_stream.name)
+    end
+
+    scenario 'quantity' do
+      expect(page).to have_content('9')
+    end
+
+    scenario 'domain' do
+      expect(page).to have_content(program_stream.domains.pluck(:identity).join(', '))
+    end
+
+    scenario 'exit link' do
+      expect(page).to have_link('Exit')
+    end
+
+    scenario 'tracking link' do
+      expect(page).to have_link('Tracking')
+    end
+
+    scenario 'active status' do
+      expect(page).to have_content('Active')
+    end
+  end
+
+  feature 'List client enrollment not status active' do
+    before do
+      program_stream_exited.reload
+      program_stream_exited.update_columns(completed: true)
+
+      visit client_client_enrollments_path(client, program_streams: 'program-streams')
     end
 
     scenario 'program lists' do
@@ -43,18 +83,6 @@ describe 'Client Enrollment' do
       expect(page).to have_link('Enroll')
     end
 
-    scenario 'exit link' do
-      expect(page).to have_link('Exit')
-    end
-
-    scenario 'tracking link' do
-      expect(page).to have_link('Tracking')
-    end
-
-    scenario 'active status' do
-      expect(page).to have_content('Active')
-    end
-
     scenario 'exit status' do
       client_enrollment.update_columns(status: 'Exited')
       expect(client_enrollment.status).to have_content('Exited')
@@ -68,8 +96,7 @@ describe 'Client Enrollment' do
 
       second_program_stream.reload
       second_program_stream.update_columns(completed: true)
-
-      visit client_client_enrollments_path(client)
+      visit client_client_enrollments_path(client, program_streams: 'program-streams')
       click_link('Enroll')
     end
 
@@ -78,7 +105,7 @@ describe 'Client Enrollment' do
         find('.numeric').set(3)
         find('input[type="text"]').set('this is testing')
         find('input[type="email"]').set('cif@cambodianfamilies.com')
-        
+
         click_button 'Save'
       end
       expect(page).to have_content('Enrollment has been successfully created')
@@ -89,7 +116,7 @@ describe 'Client Enrollment' do
         find('.numeric').set(6)
         find('input[type="text"]').set('')
         find('input[type="email"]').set('cicambodianfamilies')
-        
+
         click_button 'Save'
       end
       expect(page).to have_content('is not an email')
