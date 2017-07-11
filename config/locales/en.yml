@@ -2663,10 +2663,10 @@ en:
       quantity: Quantity
       status: Status
     program_detail:
-      detail: Program Details
       description: Description
-      name: Name
+      detail: Program Details
       domain: Domain
+      name: Name
     destroy:
       alert: Program Stream cannot be deleted.
       successfully_deleted: Program Stream has been successfully deleted.

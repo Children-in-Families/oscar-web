@@ -2672,8 +2672,8 @@ km:
     program_detail:
       description: ការបរិយាយ
       detail: ពត័មានកម្មវិធីលម្អិត
-      name: ឈ្មោះកម្មវិធីបន្ទាប់បន្សំ
       domain: កត្តា
+      name: ឈ្មោះកម្មវិធីបន្ទាប់បន្សំ
     edit:
       back: ត្រលប់ក្រោយ
       edit_program_stream: កែសម្រួលកម្មវិធី
