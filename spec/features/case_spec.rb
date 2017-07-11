@@ -134,29 +134,17 @@ feature 'Case' do
   feature 'Exit' do
     before do
       visit client_path(accepted_client)
-      fill_in
-    end
-
-    def fill_in
-      page.find("button[data-target='#exitFromCase']").click
-      modal = find(:css, '#exitFromCase')
-      modal.find('.exit_date').set(Date.strptime(FFaker::Time.date).strftime('%B %d, %Y'))
-      modal.find('.exit_note').set(FFaker::Lorem.paragraph)
-      modal.find('input[type="submit"][value="Exit"]').click
     end
 
     scenario 'success', js: true do
+      page.find("button[data-target='#exit-from-case']").click
+      within('#exit-from-case') do
+        fill_in 'Exit Date', with: '2017-07-01'
+        fill_in 'Exit Note', with: FFaker::Lorem.paragraph
+      end
+      page.find('input[type="submit"][value="Exit"]').click
+
       expect(page).to have_content('Case has been successfully updated')
-    end
-
-    scenario 'new case note link' do
-      expect(page).to have_link('Add to EC', href: new_client_case_path(accepted_client, case_type: 'EC'))
-      expect(page).to have_link('Add to FC', href: new_client_case_path(accepted_client, case_type: 'FC'))
-      expect(page).to have_link('Add to KC', href: new_client_case_path(accepted_client, case_type: 'KC'))
-    end
-
-    scenario 'case type history link' do
-      expect(page).to have_link("#{kc_case.case_type} History", href: client_cases_path(accepted_client, case_type: kc_case.case_type))
     end
   end
 end

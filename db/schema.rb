@@ -524,13 +524,13 @@ ActiveRecord::Schema.define(version: 20170706083521) do
   create_table "program_streams", force: :cascade do |t|
     t.string   "name"
     t.text     "description"
+    t.jsonb    "rules",        default: {}
+    t.jsonb    "enrollment",   default: {}
+    t.jsonb    "exit_program", default: {}
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
     t.integer  "quantity"
     t.string   "ngo_name",     default: ""
-    t.jsonb    "rules",        default: {}
-    t.jsonb    "enrollment",   default: {}
-    t.jsonb    "exit_program", default: {}
     t.boolean  "completed",    default: false
   end
 

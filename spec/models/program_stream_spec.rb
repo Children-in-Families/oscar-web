@@ -56,7 +56,6 @@ end
 
 describe ProgramStream, 'validations' do
   it { is_expected.to validate_presence_of(:name) }
-  it { is_expected.to validate_presence_of(:rules) }
   it { is_expected.to validate_uniqueness_of(:name) }
   it { is_expected.to accept_nested_attributes_for(:trackings) }
 end

@@ -35,10 +35,12 @@ class UsersController < AdminController
     @free_user_forms          = CustomField.user_forms.not_used_forms(custom_field_ids).order_by_form_title
     @group_user_custom_fields = @user.custom_field_properties.group_by(&:custom_field_id)
 
-    @client_grid = ClientGrid.new(params.fetch(:client_grid, {}).merge!(current_user: @user)) do |scope|
-      scope.where(user_id: @user.id).page(params[:page]).per(20)
+    @client_grid = ClientGrid.new(params.fetch(:client_grid, {}).merge!(current_user: @user))
+    @results     = @client_grid.scope { |scope| scope.where(user_id: @user.id) }.assets.size
+
+    @client_grid.scope do |scope|
+      scope.where(user_id: @user.id).page(params[:page]).per(10)
     end
-    @results = @client_grid.assets.size
   end
 
   def edit
