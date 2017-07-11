@@ -1,6 +1,8 @@
 module AttachmentHelper
   def original_filename(object)
-    File.basename(object.file.path)
+    file_name = File.basename(object.file.path).split('.').first.titleize
+    extention = File.basename(object.file.path).split('.').last
+    "#{file_name}.#{extention}"
   end
 
   def original_filetype(object)
