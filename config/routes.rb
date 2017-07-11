@@ -191,6 +191,7 @@ Rails.application.routes.draw do
 
     namespace :v1, default: { format: :json } do
       resources :domain_groups, only: [:index]
+      resources :departments, only: [:index]
       resources :families, only: [:index, :create, :update]
       resources :users, only: [:index]
       resources :clients, except: [:edit, :new] do
