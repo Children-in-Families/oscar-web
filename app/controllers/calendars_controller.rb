@@ -41,9 +41,12 @@ class CalendarsController < AdminController
         service.insert_event('primary', event)
         event_list.update(sync_status: true)
       end
-      message = calendars.present? ? t('add_event_success') : t('existed_event')
       session[:sync] = nil
-      redirect_to calendars_path, alert: message
+      if calendars.present?
+        redirect_to calendars_path, notice: t('add_event_success')
+      else
+        redirect_to calendars_path, alert: t('existed_event')
+      end
     end
   end
 
