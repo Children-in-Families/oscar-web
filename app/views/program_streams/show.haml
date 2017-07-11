@@ -20,7 +20,7 @@
               .row.height-row
                 .col-xs-10.col-md-11{"data-toggle": "collapse", href: "#description"}
                   %h4.panel-title.full-height
-                    %a= t('.description')
+                    %a= t('.detail')
                 .col-xs-2.col-md-1.text-right
                   - if (can? :update, ProgramStream) && (current_organization.full_name == @program_stream.ngo_name)
                     = link_to edit_program_stream_path(@program_stream, tab: '1'), class: 'btn btn-outline btn-success btn-sm btn-edit-margin' do
@@ -40,9 +40,6 @@
                     %tr
                       %td.enrolled= t('.enrolled')
                       %td= @program_stream.enrolled
-                    %tr
-                      %td.maximum= t('.maximum')
-                      %td= @program_stream.quantity
           
           .panel.panel-default
             .panel-heading
@@ -52,10 +49,15 @@
                     %a= t('.rules')
                 .col-xs-2.col-md-1.text-right
                   - if (can? :update, ProgramStream) && (current_organization.full_name == @program_stream.ngo_name)
-                    = link_to edit_program_stream_path(@program_stream, tab: '1'), class: 'btn btn-outline btn-success btn-sm btn-edit-margin' do
+                    = link_to edit_program_stream_path(@program_stream, tab: '2'), class: 'btn btn-outline btn-success btn-sm btn-edit-margin' do
                       = fa_icon('pencil')
             #rules.panel-collapse.collapse{ data: { program_rules: @program_stream.rules.to_json}}
               .panel-body
+                %table.table.table-bordered
+                  %tbody
+                    %tr
+                      %td.maximum= t('.maximum')
+                      %td= @program_stream.quantity
                 #program-rules
 
           .panel.panel-default
@@ -66,7 +68,7 @@
                     %a= t('.enrollment')
                 .col-xs-2.col-md-1.text-right
                   - if (can? :update, ProgramStream) && (current_organization.full_name == @program_stream.ngo_name)
-                    = link_to edit_program_stream_path(@program_stream, tab: '2'), class: 'btn btn-outline btn-success btn-sm btn-edit-margin' do
+                    = link_to edit_program_stream_path(@program_stream, tab: '3'), class: 'btn btn-outline btn-success btn-sm btn-edit-margin' do
                       = fa_icon('pencil')
             #enrollment.panel-collapse.collapse
               .panel-body
@@ -83,7 +85,7 @@
                     %a= t('.tracking')
                 .col-xs-2.col-md-1.text-right
                   - if (can? :update, ProgramStream) && (current_organization.full_name == @program_stream.ngo_name)
-                    = link_to edit_program_stream_path(@program_stream, tab: '3'), class: 'btn btn-outline btn-success btn-sm btn-edit-margin' do
+                    = link_to edit_program_stream_path(@program_stream, tab: '4'), class: 'btn btn-outline btn-success btn-sm btn-edit-margin' do
                       = fa_icon('pencil')
             #tracking.panel-collapse.collapse
               .panel-body
@@ -111,7 +113,7 @@
                     %a= t('.exit_program')
                 .col-xs-2.col-md-1.text-right
                   - if (can? :update, ProgramStream) && (current_organization.full_name == @program_stream.ngo_name)
-                    = link_to edit_program_stream_path(@program_stream, tab: '4'), class: 'btn btn-outline btn-success btn-sm btn-edit-margin' do
+                    = link_to edit_program_stream_path(@program_stream, tab: '5'), class: 'btn btn-outline btn-success btn-sm btn-edit-margin' do
                       = fa_icon('pencil')
             #exit-program.panel-collapse.collapse
               .panel-body

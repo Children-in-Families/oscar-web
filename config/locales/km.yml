@@ -2669,6 +2669,11 @@ km:
     destroy:
       alert: កម្មវិធីមិនអាចលុបបានទេ
       successfully_deleted: កម្មវិធីលុបដោយជោគជ័យ
+    program_detail:
+      description: ការបរិយាយ
+      detail: ពត័មានកម្មវិធីលម្អិត
+      name: ឈ្មោះកម្មវិធីបន្ទាប់បន្សំ
+      domain: កត្តា
     edit:
       back: ត្រលប់ក្រោយ
       edit_program_stream: កែសម្រួលកម្មវិធី
@@ -2711,6 +2716,7 @@ km:
     show:
       back: ត្រលប់ក្រោយ
       copy: ចម្លងជូន
+      detail: ពត័មានកម្មវិធីលម្អិត
       description: ការបរិយាយ
       domain: កត្តា
       enrolled: ចំនួនដែលចូលរូមកម្មវិធី
