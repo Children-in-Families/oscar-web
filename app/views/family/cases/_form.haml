@@ -24,6 +24,10 @@
         .col-xs-12.col-sm-6.col-md-4= f.association :client, collection: @clients.map{|client| [client.en_and_local_name.present? ? client.en_and_local_name : 'Unknown', client.id] }, include_blank: false, label: t('.client')
         .col-xs-12.col-sm-6.col-md-4= f.input :support_amount, label: "#{t('.support_amount')}($)"
       .row
+        .col-xs-12.col-sm-6.col-md-4
+          .i-checks.family-preservation
+            %label= t('.family_preservation')
+            = f.input :family_preservation, as: :radio_buttons, collection: [['Yes', true],['No', false]], label: false
         .col-xs-12.col-sm-6.col-md-4= f.input :support_note, input_html: { rows: 5 }, label: t('.support_note')
   .ibox-footer
     = f.submit t('save'), class: 'btn btn-primary form-btn'
