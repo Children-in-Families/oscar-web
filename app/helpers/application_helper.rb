@@ -54,12 +54,12 @@ module ApplicationHelper
 
   def clients_menu_active
     names = %w(clients tasks assessments case_notes cases government_reports)
-    any_active_menu(names)
+    'active' if names.include?(controller_name) && params[:family_id].nil?
   end
 
   def families_menu_active
-    names = %w(families family_custom_fields)
-    any_active_menu(names)
+    names = %w(families family_custom_fields cases)
+    'active' if names.include?(controller_name) && params[:client_id].nil?
   end
 
   def users_menu_active

@@ -21,7 +21,7 @@ class Family::CasesController < AdminController
     params.require(:case).permit(:start_date, :carer_names, :carer_address,
                                   :province_id, :carer_phone_number,
                                   :support_amount, :case_type, :support_note,
-                                  :partner_id, :client_id)
+                                  :partner_id, :client_id, :family_preservation)
   end
 
   def find_associations
