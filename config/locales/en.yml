@@ -942,6 +942,7 @@ en:
       date_of_birth: Date of Birth
       district: District/Khan
       donor: Donor
+      enrolled_program_streams: Enrolled Program Streams
       exit_date: Exit Date
       exit_from_ec: Exit From EC
       exit_from_fc: Exit From FC
@@ -2662,6 +2663,11 @@ en:
       name: Name
       quantity: Quantity
       status: Status
+    program_detail:
+      description: Description
+      detail: Program Details
+      domain: Domain
+      name: Name
     destroy:
       alert: Program Stream cannot be deleted.
       successfully_deleted: Program Stream has been successfully deleted.
@@ -2696,18 +2702,16 @@ en:
     program_rule:
       add_new_filter: Add New Filter
       add_new_group: Add Group
-      add_rule: Add rule
+      add_rule: Rules
       delete_group: Delete
       description: Description
-      domain: Domain
       maximum: Maximum Program Enrollment
-      name: Name
-      quantity: Quantity
       rule: Rules
     show:
       back: Back
       copy: Copy
       description: Description
+      detail: Program Detail
       domain: Domain
       enrolled: Enrolled
       enrollment: Enrollment

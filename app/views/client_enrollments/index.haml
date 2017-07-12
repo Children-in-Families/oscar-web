@@ -35,7 +35,11 @@
               %td.quantity
                 = ps.place_available
               %td.report
-                = link_to t('.view'), report_client_client_enrollments_path(@client, program_stream_id: ps)
+                - if params[:program_streams] == 'program-streams' && ps.client_enrollments.present?
+                  - if ps.client_enrollments.last.status == 'Exited'
+                    = link_to t('.view'), report_client_client_enrollments_path(@client, program_stream_id: ps, program_streams: params[:program_streams])
+                - elsif params[:program_streams] == 'enrolled-program-streams'
+                  = link_to t('.view'), report_client_client_enrollments_path(@client, program_stream_id: ps, program_streams: params[:program_streams])
               %td.manage
                 = render 'manage', program_stream: ps
 

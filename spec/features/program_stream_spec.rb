@@ -102,6 +102,8 @@ feature 'program_stream' do
     context 'full step creation' do
       scenario 'valid' do
         fill_in 'program_stream_name', with: FFaker::Name.name
+        sleep 1
+        click_link 'Next'
         page.find(".rule-filter-container select option[value='gender']", visible: false).select_option
         expect(page).to have_content 'Gender'
 
@@ -121,27 +123,21 @@ feature 'program_stream' do
       end
 
       scenario 'invalid' do
-        fill_in 'program_stream_name', with: FFaker::Name.name
         page.click_link 'Next'
-        element = page.find('dl.rules-group-container')
-        expect(element).to have_css '.has-error'
+        expect(page).to have_css '.error'
       end
     end
 
     context 'save draft' do
       scenario 'valid' do
         fill_in 'program_stream_name', with: FFaker::Name.name
-        page.find(".rule-filter-container select option[value='gender']", visible: false).select_option
-        expect(page).to have_content 'Gender'
         find('#program_stream_submit').click
         expect(page).to have_content('Program Stream has been successfully created.')
       end
 
       scenario 'invalid' do
-        fill_in 'program_stream_name', with: FFaker::Name.name
         page.click_link 'Next'
-        element = page.find('dl.rules-group-container')
-        expect(element).to have_css '.has-error'
+        expect(page).to have_css '.error'
       end
     end
 
@@ -156,7 +152,8 @@ feature 'program_stream' do
 
     context 'full step' do
       scenario 'valid' do
-        fill_in 'program_stream_name', with: FFaker::Name.name
+        page.click_link 'Next'
+        sleep 1
         page.click_link 'Next'
         sleep 1
         page.click_link 'Next'
@@ -176,7 +173,6 @@ feature 'program_stream' do
 
     context 'save draft' do
       scenario 'valid' do
-        fill_in 'program_stream_name', with: FFaker::Name.name
         find('span#program_stream_submit').click 
         expect(page).to have_content('Program Stream has been successfully updated.')
       end
@@ -210,6 +206,8 @@ feature 'program_stream' do
       all_ngos = find('#ngos-program-streams')
       all_ngos.click_link(nil, href: new_program_stream_path(program_stream_id: program_stream.id, ngo_name: program_stream.ngo_name))
       fill_in 'program_stream_name', with: 'Program Copy'
+      click_link 'Next'
+      sleep 1
       click_link 'Next'
       sleep 1
       click_link 'Next'

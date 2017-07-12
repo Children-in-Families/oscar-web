@@ -20,7 +20,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       $('.cb-wrap').Stickyfill()
 
   _initSelect2 = ->
-    $('#rule-tab select').select2()
+    $('#description select, #rule-tab select').select2()
 
   _handleSelectTab = ->
     tab = $('.program-steps').data('tab')
@@ -380,7 +380,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       transitionEffect: 'slideLeft'
 
       onStepChanging: (event, currentIndex, newIndex) ->
-        if currentIndex == 0 and newIndex == 1 and $('#program-rule').is(':visible')
+        if currentIndex == 0 and newIndex == 1 and $('#description').is(':visible')
           form.valid()
           name = $('#program_stream_name').val() == ''
           return false if name
@@ -439,6 +439,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
 
   _handleAddRuleBuilderToInput = ->
     rules = $('#program-rule').queryBuilder('getRules')
+    $('ul.rules-list li').removeClass('has-error') if ($.isEmptyObject(rules))
     $('#program_stream_rules').val(_handleStringfyRules(rules)) if !($.isEmptyObject(rules))
 
   _handleSetValueToField = ->

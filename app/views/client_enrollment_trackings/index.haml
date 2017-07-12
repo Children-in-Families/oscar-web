@@ -2,7 +2,7 @@
   .ibox-title
     %h5= t('.tracking_lists')
     .ibox-tools
-      = link_to client_client_enrollments_path(@client) do
+      = link_to client_client_enrollments_path(@client, program_streams: params[:program_streams]) do
         .btn.btn-primary.btn-outline
           = t('.programs_list')
   .ibox-content

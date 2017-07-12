@@ -1,10 +1,12 @@
 CIF.Program_streamsShow = CIF.Program_streamsPreview = do ->
   _init = ->
     _initProgramRule()
-    _initSelect2()
     _handleDisabledInputs()
+    _initSelect2()
   
   _initProgramRule = ->
+    rules = $('#rules').data('program-rules')
+    return if $.isEmptyObject(rules)
     $.ajax
       url: '/api/program_stream_add_rule/get_fields'
       method: 'GET'
@@ -14,6 +16,7 @@ CIF.Program_streamsShow = CIF.Program_streamsPreview = do ->
           _queryBuilderOption(fieldList)
         )
         setTimeout ( ->
+          _initSelect2()
           _handleRemoveButtonOnProgramRules()
           _handleDisabledInputs()
           )
@@ -21,7 +24,8 @@ CIF.Program_streamsShow = CIF.Program_streamsPreview = do ->
         _handleSetRules()
 
   _initSelect2 = ->
-    $('select').select2()
+    $('.rule-filter-container select').select2(width: '220px')
+    $('.rule-operator-container select, .rule-value-container select').select2(width: '180px')
 
   _handleSetRules = ->
     rules = $('#rules').data('program-rules')
