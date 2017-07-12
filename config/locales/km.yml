@@ -1942,6 +1942,7 @@ km:
       address: ឣាសយដ្ឋាន
       caregiver_information: ពត៌មាននៃឣ្នកថែទាំ
       case_history: ប្រវត្តិគ្រួសារ
+      clients: អតិថិជន
       code: លេខសំគាល់គ្រួសារ
       contract_date: កាលបរិច្ឆេទនៃទំនាក់ទំនង
       custom_forms: ទម្រង់បែបបទបន្ថែម
@@ -1968,7 +1969,6 @@ km:
     new:
       new_family_title: គ្រួសារថ្មី
     show:
-      add_client_to_family: បន្ថែមអតិថិជនទៅគ្រួសារ
       add_form: បន្ថែមទម្រង់បែបបទ
       additional_forms: ទម្រង់បែបបទបន្ថែម
       additional_info: ពត៌មានលំអិតបន្ថែម
@@ -1998,24 +1998,6 @@ km:
     version:
       back: ត្រលប់ក្រោយ
       modification_of: កំណែប្រែរបស់
-  family:
-    cases:
-      create:
-        successfully_created: អតិថិជនត្រូវបានបញ្ជូនទៅក្នុងគ្រួសារ
-      form:
-        carer_address: អាសយដ្ឋានអ្នកថែទាំ
-        carer_names: ឈ្មោះអ្នកថែទាំ
-        carer_phone_number: លេខទូរសព្ទអ្នកថែទាំ
-        case_type: ប្រភេទករណី
-        client: អតិថិជន
-        family_preservation: ករណីអភិរក្សគ្រួសារ?
-        ongoing_partner: ដៃគូបន្ត
-        province: ខេត្ត
-        start_date: ថ្ងៃចាប់ផ្តើម
-        support_amount: ប្រាក់ឧបត្ថម្ភ
-        support_note: ពត៌មានពីប្រាក់ឧប្ថម្ភ
-      new:
-        new_case_title: ករណីថ្មី
   faq: FAQ
   field_label_cannot_be_blank: ផ្នែកនៃទម្រង់មិនអាចរំលង
   form_builder:
