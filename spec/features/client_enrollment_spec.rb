@@ -23,7 +23,7 @@ describe 'Client Enrollment' do
       program_stream_active.reload
       program_stream_active.update_columns(completed: true)
 
-      visit client_client_enrollments_path(client, program_streams: 'enrollment-program-streams')
+      visit client_client_enrollments_path(client, program_streams: 'enrolled-program-streams')
     end
 
     scenario 'program lists' do

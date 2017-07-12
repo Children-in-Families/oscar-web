@@ -20,7 +20,7 @@ class ClientEnrollmentTrackingsController < AdminController
     authorize @client_enrollment_tracking
 
     if @client_enrollment_tracking.save
-      redirect_to report_client_client_enrollment_client_enrollment_trackings_path(@client, @enrollment, tracking_id: @tracking.id, program_streams: 'enrollment-program-streams'), notice: t('.successfully_created')
+      redirect_to report_client_client_enrollment_client_enrollment_trackings_path(@client, @enrollment, tracking_id: @tracking.id, program_streams: 'enrolled-program-streams'), notice: t('.successfully_created')
     else
       render :new
     end
@@ -36,7 +36,7 @@ class ClientEnrollmentTrackingsController < AdminController
   def update
     authorize @client_enrollment_tracking
     if @client_enrollment_tracking.update_attributes(client_enrollment_tracking_params)
-      redirect_to report_client_client_enrollment_client_enrollment_trackings_path(@client, @enrollment, tracking_id: @tracking.id, program_streams: 'enrollment-program-streams'), notice: t('.successfully_updated')
+      redirect_to report_client_client_enrollment_client_enrollment_trackings_path(@client, @enrollment, tracking_id: @tracking.id, program_streams: 'enrolled-program-streams'), notice: t('.successfully_updated')
     else
       render :edit
     end
