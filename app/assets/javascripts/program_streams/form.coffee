@@ -9,6 +9,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     _addRuleCallback()
     _initSelect2()
     _handleAddCocoon()
+    _handleRemoveCocoon()
     _handleInitProgramFields()
     _initButtonSave()
     _handleSaveProgramStream()
@@ -115,7 +116,12 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       trackingBuilder = $(element).find('.tracking-builder')
       _initProgramBuilder(trackingBuilder, [])
       _stickyFill()
-      _validateTrackingFormName()
+      _editTrackingFormName()
+
+  _handleRemoveCocoon = ->
+    $('#trackings').on 'cocoon:after-remove', ->
+      _checkDuplicateTrackingName()
+    
 
   _generateValueForSelectOption = (field) ->
     $(field).find('input.option-label').on 'keyup change', ->
@@ -259,38 +265,42 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     }).data('formBuilder');
 
   _handleCheckingDuplicateFields = ->
-    errorFields = $('.ibox-content:visible').find('label.error')
+    if $('#trackings').is(':visible')
+      errorFields = $('#trackings').find('label.error')
+    else
+      errorFields = $('.form-wrap').find('label.error')
+
     if $(errorFields).length > 0 then true else false
 
-  _validateTrackingFormName = ->
+  _editTrackingFormName = ->
     $(".program_stream_trackings_name input[type='text']").on 'blur', ->
+      _checkDuplicateTrackingName()
 
-      trackingFormName = $(@).val()
+  _checkDuplicateTrackingName = ->
+    values = []
+    nameFields = $('.ibox-content').find(".program_stream_trackings_name input[type='text']")
 
-      values = []
-      nameFields = $('.ibox-content').find(".program_stream_trackings_name input[type='text']")
+    $(nameFields).each (index, name) ->
+      values.push $(name).val()
 
-      $(nameFields).each (index, name) ->
-        values.push $(name).val()
+    counts = {}
+    values.forEach (x) ->
+      counts[x] = (counts[x] or 0) + 1
 
-      counts = {}
-      values.forEach (x) ->
-        counts[x] = (counts[x] or 0) + 1
+    $.each counts, (nameText, numberOfField) ->
+      $(nameFields).each (index, text) ->
+        if (numberOfField == 1) && ($(text).val() == nameText)
+          $(text).removeClass('error')
+          $(text).parent().find('label.error').remove()
 
-      $.each counts, (nameText, numberOfField) ->
-        $(nameFields).each (index, text) ->
-          if (numberOfField == 1) && ($(text).val() == nameText)
-            $(text).removeClass('error')
-            $(text).parent().find('label.error').remove()
+        else if (numberOfField > 1) && ($(text).val() == nameText)
+          $(text).addClass('error')
+          unless $(text).parent().find('label.error').is(':visible')
+            $(text).parent().append('<label class="error">Names are duplicate!!</label>')
 
-          else if (numberOfField > 1) && ($(text).val() == nameText)
-            $(text).addClass('error')
-            unless $(text).parent().find('label.error').is(':visible')
-              $(text).parent().append('<label class="error">Names are duplicate!!</label>')
-
-      errors = $('.ibox-content:visible').find('label.error')
-      unless errors.length > 0
-        $('.steps ul li.current').removeClass('error')
+    errors = $('.ibox-content:visible').find('label.error')
+    unless errors.length > 0
+      $('.steps ul li.current').removeClass('error')
 
   _duplicateLabelField = (fld)->
     duplicateLabels = false
@@ -385,7 +395,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
 
       onStepChanged: (event, currentIndex, newIndex) ->
         _stickyFill()
-        _validateTrackingFormName()
+        _editTrackingFormName()
         _alertDuplicateWarning()
         buttonSave = $('#program_stream_submit')
         if $('#exit-program').is(':visible') then $(buttonSave).hide() else $(buttonSave).show()
