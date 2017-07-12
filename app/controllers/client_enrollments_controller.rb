@@ -37,7 +37,7 @@ class ClientEnrollmentsController < AdminController
     @client_enrollment = @client.client_enrollments.new(client_enrollment_params)
     authorize @client_enrollment
     if @client_enrollment.save
-      redirect_to client_client_enrollment_path(@client, @client_enrollment, program_stream_id: @program_stream, program_streams: params[:program_streams]), notice: t('.successfully_created')
+      redirect_to client_client_enrollment_path(@client, @client_enrollment, program_stream_id: @program_stream, program_streams: 'enrolled-program-streams'), notice: t('.successfully_created')
     else
       render :new
     end
@@ -49,7 +49,7 @@ class ClientEnrollmentsController < AdminController
   end
 
   def report
-    @enrollments = @program_stream.client_enrollments.enrollments_by(@client).order(:created_at)
+    @enrollments = @program_stream.client_enrollments.where(client_id: @client).order(created_at: :DESC)
   end
 
   private
