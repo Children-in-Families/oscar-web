@@ -10,6 +10,8 @@ CIF.Client_advanced_searchesIndex = do ->
     _handleScrollTable()
     _getClientPath()
     _setDefaultCheckColumnVisibilityAll()
+    _handleSelectCustomForm()
+    _handleInitCustomFormBuilder()
 
   _referred_to_program = ->
     $('.rule-filter-container select').change ->
@@ -21,20 +23,24 @@ CIF.Client_advanced_searchesIndex = do ->
         ),10
 
   _initSelect2 = ->
-    $('.rule-filter-container select').select2(width: '320px')
-    $('.rule-operator-container select, .rule-value-container select').select2(width: 'resolve')
+    $('select').select2(
+      width: 'resolve'
+    )
 
-  _handleSetTitleToOption = ->
-    $('.rule-filter-container select').on 'select2-open', ->
-      self = @
-      elements = $('ul.select2-results li')
-      $(elements).each (index, element) ->
-        option = $(self).find('option')[index]
-        value = $(option).text()
-        $(element).attr('title', value)
-        truncate = value.substring(0, 42)
-        result = if truncate.length == 42 then "#{truncate} ..." else truncate
-        $(element).find('.select2-result-label').text(result)
+  _handleSelectCustomForm = ->
+    $('#select-custom-form').on 'select2-selecting', (e) ->
+      customFormId = e.val
+      if customFormId != ''
+        $('#custom-form').show()
+        _ajaxGetCustomField(customFormId)
+      else
+        $('#custom-form').hide()
+
+  _handleInitCustomFormBuilder = ->
+    customFormValue = $('#select-custom-form').val()
+    if customFormValue != ''
+      $('#custom-form').show()
+      _ajaxGetCustomField(customFormValue)
 
   _ajaxGetBasicField = ->
     $.ajax
@@ -45,10 +51,25 @@ CIF.Client_advanced_searchesIndex = do ->
         $('#builder').queryBuilder(
           _queryBuilderOption(fieldList)
         )
-        _basicFilterSetRule()
-        _handleSetTitleToOption()
+        _basicFilterSetRule() 
         _initSelect2()
-        _handleSelectOptionChange()
+
+
+  _ajaxGetCustomField = (customFormId) ->
+    $.ajax
+      url: '/api/client_advanced_searches/get_custom_field'
+      data: { custom_form_id: customFormId }
+      method: 'GET'
+      success: (response) ->
+        fieldList = response.client_advanced_searches
+        $('#custom-form').queryBuilder(
+          _queryBuilderOption(fieldList)
+          )
+
+        $('#custom-form').queryBuilder('reset');
+        $('#custom-form').queryBuilder('setFilters', fieldList)
+        _customFormSetRule()
+        _initSelect2()
 
   _handleValidateSearch = ->
     filterValidate = []
@@ -72,12 +93,23 @@ CIF.Client_advanced_searchesIndex = do ->
 
   _handleSearch = ->
     $('#search').on 'click', ->
-      basicRules = $('#builder').queryBuilder('getRules')
+      customFormValue = $('#select-custom-form').val()
+      $('#client_advanced_search_selected_custom_form').val(customFormValue)
 
-      if !($.isEmptyObject(basicRules))
+      basicRules = $('#builder').queryBuilder('getRules')
+      customFormRules = _getCustomFormRules(customFormValue)
+
+      if !($.isEmptyObject(basicRules)) || !($.isEmptyObject(customFormRules))
         $('#client_advanced_search_basic_rules').val(_handleStringfyRules(basicRules))
+        $('#client_advanced_search_custom_form_rules').val(_handleStringfyRules(customFormRules))
         _handleSelectFieldVisibilityCheckBox()
         _handleValidateSearch()
+
+  _getCustomFormRules = (customFormValue)->
+    if customFormValue == ''
+      {}
+    else
+      $('#custom-form').queryBuilder('getRules')
 
   _queryBuilderOption = (fieldList) ->
     inputs_separator: ' AND '
@@ -118,13 +150,12 @@ CIF.Client_advanced_searchesIndex = do ->
       )
 
   _addRuleCallback = ->
-    $('#builder').on 'afterCreateRuleFilters.queryBuilder', (_e, obj) ->
+    $('#builder, #custom-form').on 'afterCreateRuleFilters.queryBuilder', (_e, obj) ->
       _initSelect2()
-      _handleSetTitleToOption()
       _handleSelectOptionChange(obj)
       _referred_to_program()
 
-  _handleSelectOptionChange = (obj) ->
+  _handleSelectOptionChange = (obj)->
     if obj != undefined
       rowBuilderRule = obj.$el[0]
       ruleFiltersSelect = $(rowBuilderRule).find('.rule-filter-container select')
@@ -134,16 +165,30 @@ CIF.Client_advanced_searchesIndex = do ->
           operatorSelect = $(rowBuilderRule).find('.rule-operator-container select')
           $(operatorSelect).on 'select2-close', ->
             setTimeout ( ->
-              $(rowBuilderRule).find('.rule-value-container select').select2(
-                width: '180px')
-              )
-          )
+              $(rowBuilderRule).find('.rule-value-container select').select2(width: '180px')
+            )
+        )
+
+    $('select').on 'select2-selecting', (e) ->
+      setTimeout (->
+        $('.rule-operator-container select').select2(
+          width: '180px'
+        )
+        $('.rule-value-container select').select2(
+          width: '180px'
+        )
+      ),100
 
   _getTranslation = ->
     @filterTranslation =
       addFilter: $('#builder').data('filter-translation-add-filter')
       addGroup: $('#builder').data('filter-translation-add-group')
       deleteGroup: $('#builder').data('filter-translation-delete-group')
+
+  _customFormSetRule = ->
+    customFormQueryRules = $('#custom-form').data('custom-form-search-rules')
+    if !$.isEmptyObject customFormQueryRules
+      $('#custom-form').queryBuilder('setRules', customFormQueryRules)
 
   _basicFilterSetRule = ->
     basicQueryRules = $('#builder').data('basic-search-rules')
