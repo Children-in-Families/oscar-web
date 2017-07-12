@@ -51,8 +51,7 @@ CIF.Client_advanced_searchesIndex = do ->
         $('#builder').queryBuilder(
           _queryBuilderOption(fieldList)
         )
-        _basicFilterSetRule()
-        _handleSelectOptionChange()
+        _basicFilterSetRule() 
         _initSelect2()
 
 
@@ -70,7 +69,6 @@ CIF.Client_advanced_searchesIndex = do ->
         $('#custom-form').queryBuilder('reset');
         $('#custom-form').queryBuilder('setFilters', fieldList)
         _customFormSetRule()
-        _handleSelectOptionChange()
         _initSelect2()
 
   _handleValidateSearch = ->
@@ -152,12 +150,25 @@ CIF.Client_advanced_searchesIndex = do ->
       )
 
   _addRuleCallback = ->
-    $('#builder, #custom-form').on 'afterCreateRuleFilters.queryBuilder', ->
+    $('#builder, #custom-form').on 'afterCreateRuleFilters.queryBuilder', (_e, obj) ->
       _initSelect2()
-      _handleSelectOptionChange()
+      _handleSelectOptionChange(obj)
       _referred_to_program()
 
-  _handleSelectOptionChange = ->
+  _handleSelectOptionChange = (obj)->
+    if obj != undefined
+      rowBuilderRule = obj.$el[0]
+      ruleFiltersSelect = $(rowBuilderRule).find('.rule-filter-container select')
+      $(ruleFiltersSelect).on 'select2-close', ->
+        setTimeout ( ->
+          _initSelect2()
+          operatorSelect = $(rowBuilderRule).find('.rule-operator-container select')
+          $(operatorSelect).on 'select2-close', ->
+            setTimeout ( ->
+              $(rowBuilderRule).find('.rule-value-container select').select2(width: '180px')
+            )
+        )
+
     $('select').on 'select2-selecting', (e) ->
       setTimeout (->
         $('.rule-operator-container select').select2(

@@ -34,11 +34,10 @@ class FamiliesController < AdminController
     custom_field_ids            = @family.custom_field_properties.pluck(:custom_field_id)
     @free_family_forms          = CustomField.family_forms.not_used_forms(custom_field_ids).order_by_form_title
     @group_family_custom_fields = @family.custom_field_properties.group_by(&:custom_field_id)
+    @client_grid = ClientGrid.new(params.fetch(:client_grid, {}).merge!(family_id: @family.id))
 
-    @client_grid = ClientGrid.new(params.fetch(:client_grid, {}).merge!(family_id: @family.id)) do |scope|
-      scope.page(params[:page]).per(20)
-    end
     @results = @client_grid.assets.size
+    @client_grid.scope { |scope| scope.page(params[:page]).per(5) }
   end
 
   def edit
@@ -78,11 +77,13 @@ class FamiliesController < AdminController
                             :male_children_count, :female_adult_count,
                             :male_adult_count, :family_type, :contract_date,
                             :address, :province_id,
-                            custom_field_ids: []
+                            custom_field_ids: [],
+                            client_ids: []
                             )
   end
 
   def find_association
+    @clients  = Client.accessible_by(current_ability).joins('LEFT OUTER JOIN cases ON cases.client_id = clients.id').where('cases.family_id = ? OR (clients.status = ? AND clients.state = ?)', @family.id, 'Referred', 'accepted')
     @province = Province.order(:name)
   end
 

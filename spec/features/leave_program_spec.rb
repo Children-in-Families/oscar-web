@@ -13,8 +13,8 @@ describe LeaveProgram, 'Leave Program' do
     before do
       program_stream.reload
       program_stream.update_columns(completed: true)
-      
-      visit client_client_enrollments_path(client)
+
+      visit client_client_enrollments_path(client, program_streams: 'enrolled-program-streams')
       click_link('Exit')
     end
 
@@ -34,7 +34,7 @@ describe LeaveProgram, 'Leave Program' do
         find('.numeric').set(6)
         find('input[type="text"]').set('')
         find('input[type="email"]').set('cicambodianfamilies')
-        
+
         click_button 'Save'
       end
       expect(page).to have_content('is not an email')
@@ -47,7 +47,7 @@ describe LeaveProgram, 'Leave Program' do
     before do
       visit client_client_enrollment_leave_program_path(client, client_enrollment, leave_program)
     end
-    
+
     scenario 'Age' do
       expect(page).to have_content('3')
     end

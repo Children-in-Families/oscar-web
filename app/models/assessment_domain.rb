@@ -1,4 +1,6 @@
 class AssessmentDomain < ActiveRecord::Base
+  mount_uploaders :attachments, FileUploader
+
   SCORE_COLORS = {
     has_problem: 'warning',
     not_ideal: 'info',

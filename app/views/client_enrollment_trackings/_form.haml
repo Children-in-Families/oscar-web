@@ -13,5 +13,6 @@
             #message.text-danger
   .ibox-footer
     = hidden_field_tag :tracking_id, @tracking.id
+    = hidden_field_tag :program_streams, params[:program_streams]
     = f.submit t('.save'), class: 'btn btn-primary form-btn'
-    = link_to t('.cancel'), report_client_client_enrollment_client_enrollment_trackings_path(@client, @enrollment, tracking_id: @tracking), class: 'btn btn-default form-btn'
+    = link_to t('.cancel'), report_client_client_enrollment_client_enrollment_trackings_path(@client, @enrollment, tracking_id: @tracking, program_streams: params[:program_streams]), class: 'btn btn-default form-btn'

@@ -12,7 +12,7 @@ class ProgramStream < ActiveRecord::Base
 
   accepts_nested_attributes_for :trackings, allow_destroy: true
 
-  validates :name, :rules, presence: true
+  validates :name, presence: true
   validates :name, uniqueness: true
   validate  :form_builder_field_uniqueness
   validate  :validate_remove_field, if: -> { id.present? }
@@ -23,21 +23,16 @@ class ProgramStream < ActiveRecord::Base
   scope     :ordered_by, ->(column) { order(column) }
   scope     :completed,  -> { where(completed: true) }
 
-  def self.orderd_name_and_enrollment_status(client)
-    includes(:client_enrollments).where(client_enrollments: { client_id: client.id }).order('client_enrollments.status ASC', :name).uniq
+  def self.enrollment_status_inactive(client)
+    joins(:client_enrollments).where("client_id = ? AND client_enrollments.created_at = (SELECT MAX(client_enrollments.created_at) FROM client_enrollments WHERE client_enrollments.program_stream_id = program_streams.id) AND client_enrollments.status = 'Exited'", client.id).order('lower(name) ASC')
+  end
+
+  def self.enrollment_status_active(client)
+    joins(:client_enrollments).where("client_id = ? AND client_enrollments.created_at = (SELECT MAX(client_enrollments.created_at) FROM client_enrollments WHERE client_enrollments.program_stream_id = program_streams.id) AND client_enrollments.status = 'Active'", client.id).order('lower(name) ASC')
   end
 
   def self.without_status_by(client)
-    ids = orderd_name_and_enrollment_status(client).collect(&:id)
-    where.not(id: ids).order(:name)
-  end
-
-  def self.orderd_name_and_enrollment_status(client)
-    includes(:client_enrollments).where(client_enrollments: { client_id: client.id }).order('client_enrollments.status ASC', :name).uniq
-  end
-
-  def self.without_status_by(client)
-    ids = orderd_name_and_enrollment_status(client).collect(&:id)
+    ids = includes(:client_enrollments).where(client_enrollments: { client_id: client.id }).order('client_enrollments.status ASC', :name).uniq.collect(&:id)
     where.not(id: ids).order(:name)
   end
 
@@ -67,7 +62,7 @@ class ProgramStream < ActiveRecord::Base
       elsif field == 'exit_program'
         break unless exit_program_errors_message.present?
         errors.add(:exit_program, "#{exit_program_errors_message} #{error_translation}")
-      end    
+      end
     end
     errors
   end

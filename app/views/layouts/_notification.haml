@@ -1,6 +1,5 @@
-- if current_user.calendar_integration?
-  = link_to calendars_path, title: 'Google Calendar', class: 'notification-text-color' do
-    %i.fa.fa-calendar-plus-o.fa-fw
+= link_to calendars_path, title: 'Google Calendar', class: 'notification-text-color' do
+  %i.fa.fa-calendar-plus-o.fa-fw
 %li.dropdown
   %a.dropdown-toggle.count-info{"data-toggle" => "dropdown", :href => "#"}
     %i.fa.fa-bell
@@ -103,6 +102,21 @@
             = link_to notifications_path(entity_custom_field: 'user_overdue') do
               %i.fa.fa-tasks.fa-fw
               = t('.overdue_user_custom_field_count', count: @notification.user_custom_field_frequency_overdue_count)
+        %li.divider
+    - unless Rails.env.production?
+      - if @notification.any_client_enrollment_tracking_frequency_due_today?
+        %li
+          %div
+            = link_to notifications_path(client_enrollment_tracking: 'client_enrollment_tracking_due_today') do
+              %i.fa.fa-tasks.fa-fw
+              = t('.due_today_client_enrollment_tracking', count: @notification.client_enrollment_tracking_frequency_due_today_count)
+        %li.divider
+      - if @notification.any_client_enrollment_tracking_frequency_overdue?
+        %li
+          %div
+            = link_to notifications_path(client_enrollment_tracking: 'client_enrollment_tracking_overdue') do
+              %i.fa.fa-tasks.fa-fw
+              = t('.overdue_client_enrollment_tracking', count: @notification.client_enrollment_tracking_frequency_overdue_count)
         %li.divider
     - if @notification.all_count.zero?
       %li

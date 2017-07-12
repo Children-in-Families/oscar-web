@@ -2,6 +2,7 @@ CIF.ClientsShow = do ->
   _init = ->
     _rejectModal()
     _exitModalValidate()
+    _exitNgoValidator()
     _initSelect2()
   _initSelect2 = ->
     $('select').select2()
@@ -20,26 +21,33 @@ CIF.ClientsShow = do ->
       else
         $('.confirm-reject').removeAttr 'disabled'
 
+  _exitNgoValidator = ->
+    exitDate = $('#exitFromNgo #client_exit_date')
+    exitNote = $('#exitFromNgo #client_exit_note')
+    formId = $('#exitFromNgo')
+
+    _validateExitButton(formId, exitDate, exitNote)
+
+    $(exitDate).add(exitNote).bind 'keyup change', ->
+      _validateExitButton(formId, exitDate, exitNote)
+
   _exitModalValidate = ->
-    exitFromCaseId = '#exitFromCase'
-    exitFromCifId  = '#exitFromCif'
+    exitDate = $('#case_exit_date')
+    exitNote = $('#case_exit_note')
+    formId = $('#exit-from-case')
 
-    $("#{exitFromCaseId} .exit_note").val('')
-    $("#{exitFromCifId} .exit_note").val('')
+    _validateExitButton(formId, exitDate, exitNote)
 
-    $("#{exitFromCaseId} .exit_note, #{exitFromCaseId} .exit_date").bind 'keyup change', ->
-      _validateExitButton(exitFromCaseId)
+    $(exitDate).add(exitNote).bind 'keyup change', ->
+      _validateExitButton(formId, exitDate, exitNote)
 
-    $("#{exitFromCifId} .exit_note, #{exitFromCifId} .exit_date").bind 'keyup change', ->
-      _validateExitButton(exitFromCifId)
-
-  _validateExitButton = (id) ->
-    exitNote = $("#{id} .exit_note").val()
-    exitDate = $("#{id} input.exit_date").val()
+  _validateExitButton = (formId, exitDate, exitNote) ->
+    exitDate = $(exitDate).val()
+    exitNote = $(exitNote).val()
 
     if exitNote == '' or exitDate == ''
-      $("#{id} .case_confirm_exit").attr 'disabled', 'disabled'
+      $(formId).find('.confirm-exit').attr 'disabled', 'disabled'
     else
-      $("#{id} .case_confirm_exit").removeAttr 'disabled'
+      $(formId).find('.confirm-exit').removeAttr 'disabled'
 
   { init: _init }

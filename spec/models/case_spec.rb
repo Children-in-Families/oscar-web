@@ -10,34 +10,52 @@ describe Case, 'associations' do
 end
 
 describe Case, 'validations' do
-  subject{ Case.new(case_type: 'FC') }
+  let!(:ec_family){ create(:family) }
+  let!(:fc_family){ create(:family) }
+  let!(:kc_family){ create(:family) }
+  let!(:client){ create(:client) }
 
-  it { is_expected.to validate_presence_of(:start_date) }
-  it { is_expected.to validate_presence_of(:case_type) }
-  it { is_expected.to validate_presence_of(:family) }
+  context 'case_type' do
+    subject{ Case.new(client: client, family: fc_family, start_date: Date.today) }
+    it { is_expected.to validate_presence_of(:case_type) }
+  end
+
+  context 'family' do
+    subject{ Case.new(client: client, start_date: Date.today, case_type: 'FC') }
+    it { is_expected.to validate_presence_of(:family) }
+  end
 
   context 'if active' do
+    subject{ Case.new(case_type: 'FC', client: client, family: fc_family) }
     before { subject.exited = true }
     it { is_expected.to validate_presence_of(:exit_date) }
     it { is_expected.to validate_presence_of(:exit_note) }
   end
 
   context 'if inactive' do
+    subject{ Case.new(case_type: 'FC', client: client, family: fc_family) }
     before { subject.exited = false }
     it { is_expected.not_to validate_presence_of(:exit_date) }
     it { is_expected.not_to validate_presence_of(:exit_note) }
   end
 
   context 'if not EC' do
-    before { subject.case_type = ['KC', 'FC'].sample }
+    subject{ Case.new(case_type: 'FC', client: client, start_date: Date.today) }
+    before do
+      subject.case_type = 'FC'
+      subject.family = fc_family
+    end
     it { is_expected.to validate_presence_of(:family) }
   end
 
   context 'if EC' do
-    before { subject.case_type = 'EC' }
+    subject{ Case.new(case_type: 'EC', client: client, start_date: Date.today) }
+    before do
+      subject.case_type = 'EC'
+      subject.family = ec_family
+    end
     it { is_expected.not_to validate_presence_of(:family) }
   end
-
 end
 
 describe Case, 'scopes' do

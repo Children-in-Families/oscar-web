@@ -398,8 +398,26 @@ km:
       score: ពិន្ទុ
       six_month_assessment_report: របាយការណ៍ការប៉ាន់ប្រមាណទៀងទាត់
       task: កាតព្វកិច្ច
+      show_attachment: បង្ហាញឯកសារភ្ជាប់
+    create:
+      successfully_created: ការប៉ាន់ប្រមាណត្រូវបានបង្កើតដោយជោគជ័យ
     update:
       successfully_updated: ការប៉ាន់ប្រមាណត្រូវបានកែសម្រួលដោយជោគជ័យ
+    destroy:
+      successfully_deleted: ឯកសារភ្ជាប់ត្រូវបានកែសម្រួលដោយជោគជ័យ
+      fail_delete_attachment: បានបរាជ័យក្នុងការលុបឯកសារភ្ជាប់
+    attachment:
+      attachments: ឯកសារភ្ជាប់
+      preview_download: មើលនិងទាញយក
+      download: ទាញយក
+    attachment_fields:
+      are_you_sure: តើអ្នកប្រាកដហើយ?
+      attachments: ឯកសារភ្ជាប់
+      preview_download: មើលនិងទាញយក
+      download: ទាញយក
+  calendars:
+    index:
+      sync_with_google: បញ្ចូលព្រឹត្តិការណ៍ទៅក្នុងប្រតិទិន Google
   cancel: ទុកជាមោឃៈ
   cannot_be_blank: មិនអាចរំលង
   cannot_be_greater: មិនអាចធំជាង %{count}
@@ -439,23 +457,35 @@ km:
       enter_task_detail: ពត៌មានកាតព្វកិច្ច
       save: រក្សាទុក
       title: បន្ថែមកាតព្វកិច្ចថ្មី
+    attachment_fields:
+      are_you_sure: តើអ្នកប្រាកដហើយ?
+      attachments: ឯកសារភ្ជាប់
+    attachment:
+      preview_download: មើលនិងទាញយក
+      download: ទាញយក
+    add_task_form:
+      completion_date: ថ្ងៃកំនត់
+      domain: កត្តា
+      enter_task_detail: ពត៌មានកាតព្វកិច្ច
+      title: បន្ថែមកាតព្វកិច្ចថ្មី
+      save: រក្សាទុក
     create:
       successfully_created: កំណត់ត្រាត្រូវបានបង្កើតដោយជោគជ័យ
     form:
-      add_task: បន្ថែមកាតព្វកិច្ចថ្មី
-      back: ត្រលប់ក្រោយ
-      completed_tasks: កាតព្វកិច្ចដែលបានធ្វើរួច
-      domain: កត្តា
       label_note: ចំណាំ
       meeting_detail: ពត៌មាននៃការប្រជុំ
       meeting_with: ប្រជុំជាមួយ
-      note: កំណត់ត្រា
       on_date: 'កាលបរិច្ឆេទ:'
-      on_going_tasks: កាតព្វកិច្ចដែលមិនទាន់បំពេញ
       present: 'វត្តមានឣ្នកចូលរួម:'
-      save: រក្សាទុក
+      domain: កត្តា
+      note: កំណត់ត្រា
       tasks: កាតព្វកិច្ច
+      back: ត្រលប់ក្រោយ
+      save: រក្សាទុក
+      on_going_tasks: កាតព្វកិច្ចដែលមិនទាន់បំពេញ
+      completed_tasks: កាតព្វកិច្ចដែលបានធ្វើរួច
       tasks_arising: កាតព្វកិច្ចកើតឡើង
+      add_task: បន្ថែមកាតព្វកិច្ចថ្មី
     form_with_assessment_domains:
       add_task: បន្ថែមកាតព្វកិច្ចថ្មី
       domain: កត្តា
@@ -477,11 +507,15 @@ km:
       note: កំណត់ត្រា
       present: វត្តមានឣ្នកចូលរួម
       you_need_to_create_assessment: ត្រូវបង្កើតការប៉ាន់ប្រមាណជាមុនសិន
+      attachments: ឯកសារភ្ជាប់
     show:
       case_note_on: កំណត់ត្រានៅថ្ងៃ
       present: វត្តមានឣ្នកចូលរួម
     update:
       successfully_updated: កំណត់ត្រាត្រូវបានកែសម្រួលដោយជោគជ័យ
+    destroy:
+      successfully_deleted: ឯកសារភ្ជាប់ត្រូវបានកែសម្រួលដោយជោគជ័យ
+      fail_delete_attachment: បានបរាជ័យក្នុងការលុបឯកសារភ្ជាប់
   cases:
     create:
       already_have_a_case: ឣតិថិជនមានករណីរួចហើយ
@@ -733,10 +767,11 @@ km:
       carer_address: អាសយដ្ឋានអ្នកថែទាំ
       carer_names: ឈ្មោះអ្នកថែទាំ
       carer_phone_number: លេខទូរសព្ទអ្នកថែទាំ
+      edit_btn: កែសម្រូល
       emergency_care: ករណី Emergency
       emergency_case:
         emergency_care: ករណី Emergency
-      exit_btn: ចាកចេញ
+      exit_btn: ចាកចេញពីកម្មវិធី
       exit_date: ថ្ងៃចាកចេញ
       exit_note: កំណត់ហេតុនៃការចាកចេញ
       exit_status: ស្ថានភាព
@@ -748,6 +783,12 @@ km:
       start_date: ថ្ងៃចាប់ផ្តើម
       support_amount: ប្រាក់ឧបត្ថម្ភ
       support_note: ពត៌មានពីប្រាក់ឧប្ថម្ភ
+    exit_ngo_form:
+      exit_btn: ចាកចេញ
+      exit_date: ថ្ងៃចាកចេញ
+      exit_ngo: ចាកចេញពី NGO
+      exit_note: កំណត់ហេតុនៃការចាកចេញ
+      exit_status: ស្ថានភាព
     exit_case_form:
       exit_btn: ចាកចេញ
       exit_date: ថ្ងៃចាកចេញ
@@ -816,7 +857,8 @@ km:
       carer_address: អាសយដ្ឋានអ្នកថែទាំ
       carer_names: ឈ្មោះអ្នកថែទាំ
       carer_phone_number: លេខទូរសព្ទអ្នកថែទាំ
-      exit_btn: ចាកចេញ
+      edit_btn: កែសម្រូល
+      exit_btn: ចាកចេញពីកម្មវិធី
       exit_date: ថ្ងៃចាកចេញ
       exit_note: កំណត់ហេតុនៃការចាកចេញ
       exit_status: ស្ថានភាព
@@ -852,7 +894,8 @@ km:
       carer_address: អាសយដ្ឋានអ្នកថែទាំ
       carer_names: ឈ្មោះអ្នកថែទាំ
       carer_phone_number: លេខទូរសព្ទអ្នកថែទាំ
-      exit_btn: ចាកចេញ
+      edit_btn: កែសម្រូល
+      exit_btn: ចាកចេញពីកម្មវិធី
       exit_date: ថ្ងៃចាកចេញ
       exit_note: កំណត់ហេតុនៃការចាកចេញ
       exit_status: ស្ថានភាព
@@ -903,7 +946,13 @@ km:
       date_of_birth: ថ្ងៃ ខែ ឆ្នាំ កំណើត
       district: ស្រុក/ខណ្ឌ
       donor: ម្ចាស់ជំនួយ
+      enrollment_program_streams: ចុះឈ្មោះកម្មវិធីបន្ទាប់បន្សំ
+      exit_date: ថ្ងៃចាកចេញ
+      exit_from_ec: ចាកចេញពី EC
+      exit_from_fc: ចាកចេញពី FC
+      exit_from_kc: ចាកចេញពី KC
       exit_ngo_btn: ចាកចេញពី NGO
+      exit_note: កំណត់ហេតុនៃការចាកចេញ
       family_name: នាមត្រកូល
       follow_up_by: បុគ្គលិកដែលតាមដានករណី
       follow_up_date: កាលបរិច្ឆេទតាមដាន
@@ -1676,10 +1725,10 @@ km:
     failure:
       already_authenticated: អ្នកបានចូលរួចហើយ
       inactive: គណនីរបស់អ្នក មិនត្រូវបានបញ្ជាក់ នៅឡើយទេ
-      invalid: 
+      invalid: អ៊ីម៉ែលឬពាក្យសម្ងាត់មិនត្រឹមត្រូវ
       last_attempt: អ្នកអាចព្យាយាមចូលម្ដងទៀត មុនពេលគណនីរបស់អ្នក ត្រូវចាក់សោ
       locked: គណនីរបស់អ្នកត្រូវ បានចាក់សោ
-      not_found_in_database: 
+      not_found_in_database: អ៊ីម៉ែលឬពាក្យសម្ងាត់មិនត្រឹមត្រូវ
       timeout: ប្រតិបត្តិការរបស់អ្នក ត្រូវបានផុតកំណត់។ សូមចូលម្ដងទៀត ដើម្បីបន្ត
       unauthenticated: អ្នកត្រូវតែចូល ឬ បង្កើតគណនីមុនធ្វើសកម្មភាពបន្ត
       unconfirmed: អ្នកត្រូវតែបញ្ជាក់អាសយដ្ឋានអ៊ីម៉ែល របស់អ្នក មុនធ្វើសកម្មភាពបន្ត
@@ -1878,6 +1927,7 @@ km:
       not_saved:
         one: កំហុស ១  បានហាមឃាត់  %{resource} ពីការរក្សាទុក
         other: "%{count} កំហុស បានហាមឃាត់ %{resource} ពីការរក្សាទុក"
+  existed_event: ព្រឹត្តិការណ៍មាននៅក្នុងប្រតិទិនរួចហើយ
   families:
     actions:
       are_you_sure: តើអ្នកប្រាកដហើយ?
@@ -1892,6 +1942,7 @@ km:
       address: ឣាសយដ្ឋាន
       caregiver_information: ពត៌មាននៃឣ្នកថែទាំ
       case_history: ប្រវត្តិគ្រួសារ
+      clients: អតិថិជន
       code: លេខសំគាល់គ្រួសារ
       contract_date: កាលបរិច្ឆេទនៃទំនាក់ទំនង
       custom_forms: ទម្រង់បែបបទបន្ថែម
@@ -2340,47 +2391,53 @@ km:
       click_here: ទីនេះ
       client_is_about_to_end_ec:
         one: មានអតិថិជនចំនួនម្នាក់ដែលនឹងត្រូវបញ្ជូនចេញពីECក្នុងរយៈពេល%{day_count}ថ្ងៃ
-        other: មានអតិថិជនចំនួន%{count}នាក់ដែលនឹងត្រូវបញ្ជូនចេញពីECក្នុងរយៈពេល%{day_count}ថ្ងៃ
+        other: មានអតិថិជនចំនួន %{count} នាក់ដែលនឹងត្រូវបញ្ជូនចេញពីECក្នុងរយៈពេល%{day_count}ថ្ងៃ
       client_is_end_ec_today:
         one: មានអតិថិជនចំនួនម្នាក់ដែលនឹងត្រូវបញ្ជូនចេញពីECនៅថ្ងៃនេះ
-        other: មានអតិថិជនចំនួន%{count}នាក់ដែលនឹងត្រូវបញ្ជូនចេញពីECនៅថ្ងៃនេះ
+        other: មានអតិថិជនចំនួន %{count} នាក់ដែលនឹងត្រូវបញ្ជូនចេញពីECនៅថ្ងៃនេះ
       due_today_assessments_count:
         one: អ្នកមានការប៉ាន់ប្រមាណចំនួន1ដែលត្រូវបំពេញនៅថ្ងៃនេះ
-        other: អ្នកមានការប៉ាន់ប្រមាណចំនួន%{count}ដែលត្រូវបំពេញនៅថ្ងៃនេះ
+        other: អ្នកមានការប៉ាន់ប្រមាណចំនួន %{count} ដែលត្រូវបំពេញនៅថ្ងៃនេះ
       due_today_client_custom_field_count:
         one: មានទម្រង់បែបបទរបស់អតិថិជនចំនួន1ដែលត្រូវបំពេញនៅថ្ងៃនេះ
-        other: មានទម្រង់បែបបទរបស់អតិថិជនចំនួន%{count}ដែលត្រូវបំពេញនៅថ្ងៃនេះ
+        other: មានទម្រង់បែបបទរបស់អតិថិជនចំនួន %{count} ដែលត្រូវបំពេញនៅថ្ងៃនេះ
       due_today_family_custom_field_count:
         one: មានទម្រង់បែបបទរបស់គ្រួសារចំនួន1ដែលត្រូវបំពេញនៅថ្ងៃនេះ
-        other: មានទម្រង់បែបបទរបស់គ្រួសារចំនួន%{count}ដែលត្រូវបំពេញនៅថ្ងៃនេះ
+        other: មានទម្រង់បែបបទរបស់គ្រួសារចំនួន %{count} ដែលត្រូវបំពេញនៅថ្ងៃនេះ
       due_today_partner_custom_field_count:
         one: មានទម្រង់បែបបទរបស់ដៃគូចំនួន1ដែលត្រូវបំពេញនៅថ្ងៃនេះ
-        other: មានទម្រង់បែបបទរបស់ដៃគូចំនួន%{count}ដែលត្រូវបំពេញនៅថ្ងៃនេះ
+        other: មានទម្រង់បែបបទរបស់ដៃគូចំនួន %{count} ដែលត្រូវបំពេញនៅថ្ងៃនេះ
       due_today_tasks_count:
         one: អ្នកមានកាតព្វកិច្ចចំនួន1ដែលត្រូវបំពេញនៅថ្ងៃនេះ
-        other: អ្នកមានកាតព្វកិច្ចចំនួន%{count}ដែលត្រូវបំពេញនៅថ្ងៃនេះ
+        other: អ្នកមានកាតព្វកិច្ចចំនួន %{count} ដែលត្រូវបំពេញនៅថ្ងៃនេះ
       due_today_user_custom_field_count:
         one: មានទម្រង់បែបបទរបស់អ្នកប្រើចំនួន1ដែលត្រូវបំពេញនៅថ្ងៃនេះ
-        other: មានទម្រង់បែបបទរបស់អ្នកប្រើចំនួន%{count}ដែលត្រូវបំពេញនៅថ្ងៃនេះ
+        other: មានទម្រង់បែបបទរបស់អ្នកប្រើចំនួន %{count} ដែលត្រូវបំពេញនៅថ្ងៃនេះ
+      due_today_client_enrollment_tracking:
+        one: ការ​តាមដានរបស់អ្នកប្រើចំនួន1ដែលត្រូវបំពេញនៅថ្ងៃនេះ
+        other: ការ​តាមដានរបស់អ្នកប្រើចំនួន %{count} ដែលត្រូវបំពេញនៅថ្ងៃនេះ
       no_task: មិនមានពត៌មានដែលត្រូវបង្ហាញ
       overdue_assessments_count:
         one: អ្នកមានការប៉ាន់ប្រមាណចំនួន1មិនទាន់បានធ្វើ
-        other: អ្នកមានការប៉ាន់ប្រមាណចំនួន%{count}មិនទាន់បានធ្វើ
+        other: អ្នកមានការប៉ាន់ប្រមាណចំនួន %{count} មិនទាន់បានធ្វើ
       overdue_client_custom_field_count:
         one: មានទម្រង់បែបបទរបស់អតិថិជនចំនួន1ដែលផុតកំណត់
-        other: មានទម្រង់បែបបទរបស់អតិថិជនចំនួន%{count}ដែលផុតកំណត់
+        other: មានទម្រង់បែបបទរបស់អតិថិជនចំនួន %{count} ដែលផុតកំណត់
       overdue_family_custom_field_count:
         one: មានទម្រង់បែបបទរបស់គ្រួសារចំនួន1ដែលផុតកំណត់
-        other: មានទម្រង់បែបបទរបស់គ្រួសារចំនួន%{count}ដែលផុតកំណត់
+        other: មានទម្រង់បែបបទរបស់គ្រួសារចំនួន %{count} ដែលផុតកំណត់
       overdue_partner_custom_field_count:
         one: មានទម្រង់បែបបទរបស់ដៃគូចំនួន1ដែលផុតកំណត់
-        other: មានទម្រង់បែបបទរបស់ដៃគូចំនួន%{count}ដែលផុតកំណត់
+        other: មានទម្រង់បែបបទរបស់ដៃគូចំនួន %{count} ដែលផុតកំណត់
       overdue_tasks_count:
         one: អ្នកមានកាតព្វកិច្ចចំនួន 1 កាតព្វកិច្ចផុតកំណត់
         other: អ្នកមានកាតព្វកិច្ចចំនួន %{count} កាតព្វកិច្ចផុតកំណត់
       overdue_user_custom_field_count:
         one: មានទម្រង់បែបបទរបស់អ្នកប្រើចំនួន1ដែលផុតកំណត់
-        other: មានទម្រង់បែបបទរបស់អ្នកប្រើចំនួន%{count}ដែលផុតកំណត់
+        other: មានទម្រង់បែបបទរបស់អ្នកប្រើចំនួន %{count} ដែលផុតកំណត់
+      overdue_client_enrollment_tracking:
+        one: ការ​តាមដានរបស់អ្នកប្រើចំនួន1ដែលផុតកំណត
+        other: ការ​តាមដានរបស់អ្នកប្រើចំនួន %{count} ដែលផុតកំណត
     side_menu:
       able_screening_questions: សំនួរ Able Screening
       account: គណនី
@@ -2510,6 +2567,12 @@ km:
       form: ទម្រង់បែបបទ
       partners: ដៃគូ
       users: ឣ្នកប្រើ
+    client_enrollment_tracking_due_today:
+      clients: អតិថិជន
+      client_enrollment_tracking_notification: ការជូនដំណឹងនៃការ​តាមដានដែលត្រូវបំពេញ
+    client_enrollment_tracking_overdue:
+      clients: អតិថិជន
+      client_enrollment_tracking_notification: ការជូនដំណឹងនៃការ​តាមដានដែលត្រូវបំពេញ
   partners:
     actions:
       are_you_sure: តើអ្នកប្រាកដហើយ?
@@ -2589,6 +2652,11 @@ km:
     destroy:
       alert: កម្មវិធីមិនអាចលុបបានទេ
       successfully_deleted: កម្មវិធីលុបដោយជោគជ័យ
+    program_detail:
+      description: ការបរិយាយ
+      detail: ពត័មានកម្មវិធីលម្អិត
+      domain: កត្តា
+      name: ឈ្មោះកម្មវិធីបន្ទាប់បន្សំ
     edit:
       back: ត្រលប់ក្រោយ
       edit_program_stream: កែសម្រួលកម្មវិធី
@@ -2631,6 +2699,7 @@ km:
     show:
       back: ត្រលប់ក្រោយ
       copy: ចម្លងជូន
+      detail: ពត័មានកម្មវិធីលម្អិត
       description: ការបរិយាយ
       domain: កត្តា
       enrolled: ចំនួនដែលចូលរូមកម្មវិធី
@@ -3137,8 +3206,8 @@ km:
       search_users:
         form_label: ស្វែងរកអ្នកប្រើប្រាស់
         form_placeholder: :thredded.moderation.search_users.form_label
-        no_results_message: 
-        results_message: 
+        no_results_message:
+        results_message:
     nav:
       all_messageboards: ផ្ទាំងសារទាំអស់
       edit_messageboard: កែសម្រួលផ្ទាំងសារ

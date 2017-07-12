@@ -1,6 +1,8 @@
 module AttachmentHelper
   def original_filename(object)
-    File.basename(object.file.path)
+    file_name = File.basename(object.file.path).split('.').first.titleize
+    extention = File.basename(object.file.path).split('.').last
+    "#{file_name}.#{extention}"
   end
 
   def original_filetype(object)
@@ -10,6 +12,10 @@ module AttachmentHelper
   def preview_or_download(object)
     return t('.preview_download') if pdf?(object) || image?(object)
     t('.download')
+  end
+
+  def target_blank(object)
+    return '_blank' if pdf?(object) || image?(object)
   end
 
   private

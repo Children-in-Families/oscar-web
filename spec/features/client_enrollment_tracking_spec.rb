@@ -14,9 +14,8 @@ describe ClientEnrollmentTracking, 'Client Enrollment Tracking' do
     before do
       program_stream.reload
       program_stream.update_columns(completed: true)
-      
-      visit client_client_enrollments_path(client)
-      click_link('Tracking')
+      visit client_client_enrollments_path(client, program_streams: 'enrolled-program-streams')
+      click_link('Trackings')
     end
 
     scenario 'Valid' do
@@ -26,7 +25,7 @@ describe ClientEnrollmentTracking, 'Client Enrollment Tracking' do
         find('.numeric').set(4)
         find('input[type="text"]').set('Good client')
         find('input[type="email"]').set('cif@cambodianfamilies.com')
-        
+
         click_button 'Save'
       end
       expect(page).to have_content('Tracking Program has been successfully created')
@@ -39,7 +38,7 @@ describe ClientEnrollmentTracking, 'Client Enrollment Tracking' do
         find('.numeric').set(6)
         find('input[type="text"]').set('')
         find('input[type="email"]').set('cicambodianfamilies')
-        
+
         click_button 'Save'
       end
       expect(page).to have_content('is not an email')
@@ -52,7 +51,7 @@ describe ClientEnrollmentTracking, 'Client Enrollment Tracking' do
     before do
       visit client_client_enrollment_client_enrollment_trackings_path(client, client_enrollment)
     end
-    
+
     scenario 'Name' do
       expect(page).to have_content(tracking.name)
     end

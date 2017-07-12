@@ -4,6 +4,8 @@ describe 'Family' do
   let!(:family){ create(:family,family_type: "emergency",name:"EC Family",address: "Phnom Penh",province_id: province.id) }
   let!(:other_family){ create(:family) }
   let!(:case){ create(:case, family: other_family) }
+  let!(:client){ create(:client, status: 'Referred', state: 'accepted') }
+  let!(:other_client){ create(:client, status: 'Referred', state: '') }
   before do
     login_as(admin)
   end
@@ -41,9 +43,12 @@ describe 'Family' do
       fill_in 'Name', with: FFaker::Name.name
       fill_in 'Address', with: FFaker::Address.street_address
       fill_in 'Caregiver Information', with: FFaker::Lorem.paragraph
+      select(client.name, from: 'family_client_ids')
       click_button 'Save'
       sleep 1
       expect(page).to have_content('Family has been successfully created')
+      expect(page).to have_content(client.given_name)
+      expect(page).not_to have_content(other_client.given_name)
     end
 
     xscenario 'invalid' do

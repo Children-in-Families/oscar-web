@@ -11,11 +11,10 @@ class ClientEnrollmentsController < AdminController
   end
 
   def new
-    if valid_client?
-      @client_enrollment = @client.client_enrollments.new(program_stream_id: @program_stream)
-    else
-      redirect_to client_client_enrollments_path(@client), alert: t('.client_not_valid')
+    if @program_stream.rules.present?
+      redirect_to client_client_enrollments_path(@client, program_streams: params[:program_streams]), alert: t('.client_not_valid') unless valid_client?
     end
+    @client_enrollment = @client.client_enrollments.new(program_stream_id: @program_stream)
   end
 
   def edit
@@ -25,7 +24,7 @@ class ClientEnrollmentsController < AdminController
   def update
     authorize @client_enrollment
     if @client_enrollment.update_attributes(client_enrollment_params)
-      redirect_to client_client_enrollment_path(@client, @client_enrollment, program_stream_id: @program_stream), notice: t('.successfully_updated')
+      redirect_to client_client_enrollment_path(@client, @client_enrollment, program_stream_id: @program_stream, program_streams: params[:program_streams]), notice: t('.successfully_updated')
     else
       render :edit
     end
@@ -38,7 +37,7 @@ class ClientEnrollmentsController < AdminController
     @client_enrollment = @client.client_enrollments.new(client_enrollment_params)
     authorize @client_enrollment
     if @client_enrollment.save
-      redirect_to client_client_enrollment_path(@client, @client_enrollment, program_stream_id: @program_stream), notice: t('.successfully_created')
+      redirect_to client_client_enrollment_path(@client, @client_enrollment, program_stream_id: @program_stream, program_streams: 'enrolled-program-streams'), notice: t('.successfully_created')
     else
       render :new
     end
@@ -46,11 +45,11 @@ class ClientEnrollmentsController < AdminController
 
   def destroy
     @client_enrollment.destroy
-    redirect_to report_client_client_enrollments_path(@client, program_stream_id: @program_stream), notice: t('.successfully_deleted')
+    redirect_to report_client_client_enrollments_path(@client, program_stream_id: @program_stream, program_streams: params[:program_streams]), notice: t('.successfully_deleted')
   end
 
   def report
-    @enrollments = @program_stream.client_enrollments.enrollments_by(@client).order(:created_at)
+    @enrollments = @program_stream.client_enrollments.where(client_id: @client).order(created_at: :DESC)
   end
 
   private
@@ -72,14 +71,20 @@ class ClientEnrollmentsController < AdminController
   end
 
   def client_filtered
-    AdvancedSearches::ClientAdvancedSearch.new(@program_stream.rules, {}, Client.all).filter
+    AdvancedSearches::ClientAdvancedSearch.new(@program_stream.rules, Client.all).filter
   end
 
   def program_stream_order_by_enrollment
-    client_enrollments_with_status = ProgramStream.orderd_name_and_enrollment_status(@client).completed
-    client_enrollments_without_status = ProgramStream.without_status_by(@client).completed
-
-    client_enrollments_with_status + client_enrollments_without_status
+    program_streams = []
+    if params[:program_streams] == 'enrolled-program-streams'
+      client_enrollments_active = ProgramStream.enrollment_status_active(@client).completed
+      program_streams           = client_enrollments_active
+    elsif params[:program_streams] == 'program-streams'
+      client_enrollments_exited     = ProgramStream.enrollment_status_inactive(@client).completed
+      client_enrollments_inactive   = ProgramStream.without_status_by(@client).completed
+      program_streams               = client_enrollments_exited + client_enrollments_inactive
+    end
+    program_streams
   end
 
   def ordered_program

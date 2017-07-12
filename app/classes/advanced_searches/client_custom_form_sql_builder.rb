@@ -23,6 +23,7 @@ module AdvancedSearches
     def get_sql
       sql_string = 'clients.id IN (?)'
       custom_field_properties = CustomFieldProperty.where(custom_formable_type: 'Client', custom_field_id: @selected_custom_form)
+
       @custom_form_rules.each do |rule|
         field = rule[:field]
         value = rule[:value]
@@ -34,13 +35,13 @@ module AdvancedSearches
           when 'not_equal'
             properties_result = custom_field_properties.where.not("properties -> '#{field}' ? '#{value}' ")
           when 'less'
-            properties_result = custom_field_properties.where("properties ->> '#{field}' < '#{value}' ")
+            properties_result = custom_field_properties.where("(properties ->> '#{field}')#{'::int' if integer? } < '#{value}' AND properties ->> '#{field}' != '' ")
           when 'less_or_equal'
-            properties_result = custom_field_properties.where("properties ->> '#{field}' <= '#{value}' ")
+            properties_result = custom_field_properties.where("(properties ->> '#{field}')#{ '::int' if integer? } <= '#{value}' AND properties ->> '#{field}' != '' ")
           when 'greater'
-            properties_result = custom_field_properties.where("properties ->> '#{field}' > '#{value}' ")
+            properties_result = custom_field_properties.where("(properties ->> '#{field}')#{ '::int' if integer? } > '#{value}' AND properties ->> '#{field}' != '' ")
           when 'greater_or_equal'
-            properties_result = custom_field_properties.where("properties ->> '#{field}' >= '#{value}' ")
+            properties_result = custom_field_properties.where("(properties ->> '#{field}')#{ '::int' if integer? } >= '#{value}' AND properties ->> '#{field}' != '' ")
           when 'contains'
             properties_result = custom_field_properties.where("properties ->> '#{field}' ILIKE '%#{value}%' ")
           when 'not_contains'
@@ -48,7 +49,7 @@ module AdvancedSearches
           when 'is_empty'
             properties_result = custom_field_properties.where("properties -> '#{field}' ? '' ")
           when 'between'
-            properties_result = custom_field_properties.where("properties ->> '#{field}' BETWEEN '#{value.first}' AND '#{value.last}' ")
+            properties_result = custom_field_properties.where("(properties ->> '#{field}')#{ '::int' if integer? } BETWEEN '#{value.first}' AND '#{value.last}' AND properties ->> '#{field}' != ''")
           end
           @sql_string << sql_string
           @values     << properties_result.pluck(:custom_formable_id).uniq
@@ -58,6 +59,11 @@ module AdvancedSearches
           nested_query[:values].select { |v| @values << v}
         end
       end
+    end
+
+    private
+    def integer?
+      @type == 'integer'
     end
   end
 end

@@ -151,7 +151,7 @@ en:
             time_of_frequency:
               blank: can't be blank
               greater_than_or_equal_to: must be greater than or equal to 1
-              not_an_integer: not an integer
+              not_an_integer: must be an integer
         department:
           attributes:
             name:
@@ -398,8 +398,26 @@ en:
       score: Score
       six_month_assessment_report: 6 Monthly Assessment Report
       task: Task
+      show_attachment: Show Attachments
+    create:
+      successfully_created: Assessment has been successfully created.
     update:
       successfully_updated: Assessment has been successfully updated.
+    destroy:
+      successfully_deleted: Attachment has been successfully deleted.
+      fail_delete_attachment: Failed deleting attachment
+    attachment:
+      attachments: Attachments
+      preview_download: Preview & Download
+      download: Download
+    attachment_fields:
+      are_you_sure: Are you sure you want to delete??
+      attachments: Attachments
+      preview_download: Preview & Download
+      download: Download
+  calendars:
+    index:
+      sync_with_google: Sync with Google Calendar
   cancel: Cancel
   cannot_be_blank: can't be blank
   cannot_be_greater: can't be greater than %{count}
@@ -433,6 +451,14 @@ en:
         what_is_my_plan_for_the_next_visit_to_the_client: What is my plan for the next visit to the client?
         with_id: With ID
   case_notes:
+    attachment_fields:
+      are_you_sure: Are you sure you want to delete?
+      attachments: Attachments
+      preview_download: Preview & Download
+      download: Download
+    attachment:
+      preview_download: Preview & Download
+      download: Download
     add_task_form:
       completion_date: Completion Date
       domain: Domain
@@ -477,11 +503,15 @@ en:
       note: Note
       present: Who was there during the visit or conversation?
       you_need_to_create_assessment: You need to create assessment
+      attachments: Attachments
     show:
       case_note_on: Case note on
       present: Who was there during the visit or conversation?
     update:
       successfully_updated: Case Note has successfully been updated.
+    destroy:
+      successfully_deleted: Attachment has been successfully deleted.
+      fail_delete_attachment: Failed deleting attachment
   cases:
     create:
       already_have_a_case: Client is already have a case.
@@ -733,10 +763,11 @@ en:
       carer_address: Carer Address
       carer_names: Carer Names
       carer_phone_number: Carer Phone Number
+      edit_btn: Edit
       emergency_care: Emergency Care
       emergency_case:
         emergency_care: Emergency Care
-      exit_btn: Exit
+      exit_btn: Remove Client from Program
       exit_date: Exit Date
       exit_note: Exit Note
       exit_status: Exit Status
@@ -748,6 +779,12 @@ en:
       start_date: Start Date
       support_amount: Support Amount
       support_note: Support Note
+    exit_ngo_form:
+      exit_btn: Exit
+      exit_date: Exit Date
+      exit_ngo: Exit NGO
+      exit_note: Exit Note
+      exit_status: Status
     exit_case_form:
       exit_btn: Exit
       exit_date: Exit Date
@@ -816,7 +853,8 @@ en:
       carer_address: Carer Address
       carer_names: Carer Names
       carer_phone_number: Carer Phone Number
-      exit_btn: Exit
+      edit_btn: Edit
+      exit_btn: Remove Client from Program
       exit_date: Exit Date
       exit_note: Exit Note
       exit_status: Exit Status
@@ -852,7 +890,8 @@ en:
       carer_address: Carer Address
       carer_names: Carer Names
       carer_phone_number: Carer Phone Number
-      exit_btn: Exit
+      edit_btn: Edit
+      exit_btn: Remove Client from Program
       exit_date: Exit Date
       exit_note: Exit Note
       exit_status: Exit Status
@@ -903,7 +942,13 @@ en:
       date_of_birth: Date of Birth
       district: District/Khan
       donor: Donor
-      exit_ngo_btn: Exit NGO
+      enrolled_program_streams: Enrolled Program Streams
+      exit_date: Exit Date
+      exit_from_ec: Exit From EC
+      exit_from_fc: Exit From FC
+      exit_from_kc: Exit From KC
+      exit_ngo_btn: Exit From NGO
+      exit_note: Exit Note
       family_name: Family Name
       follow_up_by: Followed Up By
       follow_up_date: Follow Up Date
@@ -1878,6 +1923,7 @@ en:
       not_saved:
         one: '1 error prohibited this %{resource} from being saved:'
         other: "%{count} errors prohibited this %{resource} from being saved:"
+  existed_event: Event already exsits in calendar.
   families:
     actions:
       are_you_sure: Are you sure you want to delete?
@@ -1892,6 +1938,7 @@ en:
       address: Address
       caregiver_information: Caregiver Information
       case_history: Case History
+      clients: Clients
       code: Family ID
       contract_date: Contract Date
       custom_forms: Custom Forms
@@ -2362,6 +2409,9 @@ en:
       due_today_user_custom_field_count:
         one: There is 1 user custom form due today.
         other: There are %{count} user custom forms due today.
+      due_today_client_enrollment_tracking:
+        one: There is 1 client enrollment tracking form due today.
+        other: There are %{count} client enrollment trackings form due today.
       no_task: Nothing to notify.
       overdue_assessments_count:
         one: You have 1 assessment overdue.
@@ -2381,6 +2431,9 @@ en:
       overdue_user_custom_field_count:
         one: There is 1 user custom form overdue.
         other: There are %{count} user custom forms overdue.
+      overdue_client_enrollment_tracking:
+        one: There is 1 client enrollment tracking form overdue.
+        other: There are %{count} client enrollment trackings form overdue.
     side_menu:
       able_screening_questions: Able Screening Questions
       account: Account
@@ -2510,6 +2563,12 @@ en:
       form: Form
       partners: Partner
       users: User
+    client_enrollment_tracking_due_today:
+      clients: Client
+      client_enrollment_tracking_notification: Client Enrollment Tracking Notification
+    client_enrollment_tracking_overdue:
+      clients: Client
+      client_enrollment_tracking_notification: Client Enrollment Tracking Notification
   partners:
     actions:
       are_you_sure: Are you sure you want to delete?
@@ -2586,6 +2645,11 @@ en:
       name: Name
       quantity: Quantity
       status: Status
+    program_detail:
+      description: Description
+      detail: Program Details
+      domain: Domain
+      name: Name
     destroy:
       alert: Program Stream cannot be deleted.
       successfully_deleted: Program Stream has been successfully deleted.
@@ -2620,18 +2684,16 @@ en:
     program_rule:
       add_new_filter: Add New Filter
       add_new_group: Add Group
-      add_rule: Add rule
+      add_rule: Rules
       delete_group: Delete
       description: Description
-      domain: Domain
       maximum: Maximum Program Enrollment
-      name: Name
-      quantity: Quantity
       rule: Rules
     show:
       back: Back
       copy: Copy
       description: Description
+      detail: Program Detail
       domain: Domain
       enrolled: Enrolled
       enrollment: Enrollment

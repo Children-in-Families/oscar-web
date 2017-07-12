@@ -1,6 +1,9 @@
 class User < ActiveRecord::Base
   include EntityTypeCustomField
   include EntityTypeCustomFieldNotification
+  include NextClientEnrollmentTracking
+  include ClientEnrollmentTrackingNotification
+
   ROLES = ['admin', 'case worker', 'able manager', 'ec manager', 'fc manager', 'kc manager', 'manager', 'strategic overviewer'].freeze
   MANAGERS = ROLES.select { |role| role if role.include?('manager') }
 
@@ -19,7 +22,8 @@ class User < ActiveRecord::Base
   has_many :progress_notes, dependent: :restrict_with_error
 
   has_many :clients, dependent: :restrict_with_error
-  has_many :tasks,   dependent: :destroy
+  has_many :tasks, dependent: :destroy
+  has_many :calendars
   has_many :visits,  dependent: :destroy
 
   has_many :custom_field_properties, as: :custom_formable, dependent: :destroy
@@ -135,6 +139,11 @@ class User < ActiveRecord::Base
     if self.admin? || self.any_case_manager? || self.manager?
       entity_type_custom_field_notification(Family.all)
     end
+
+  end
+
+  def client_enrollment_tracking_overdue_or_due_today
+    client_enrollment_tracking_notification(clients) unless Rails.env.production?
   end
 
   def self.self_and_subordinates(user)

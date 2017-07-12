@@ -10,13 +10,12 @@ Rails.application.routes.draw do
     match "/#{code}", to: 'errors#show', code: code, via: :all
   end
 
-  get '/dashboards' => 'dashboards#index'
+  get '/dashboards'     => 'dashboards#index'
   get '/redirect'       => 'calendars#redirect', as: 'redirect'
   get '/callback'       => 'calendars#callback', as: 'callback'
-  get '/calendars/find' => 'calendars#find_event'
-  get '/calendars/all_new' => 'calendars#all_new'
+  get '/calendar/sync'  => 'calendars#sync'
 
-  resources :calendars, only: [:index, :new]
+  resources :calendars
 
   mount Thredded::Engine => '/forum'
 
@@ -178,32 +177,35 @@ Rails.application.routes.draw do
         get :get_basic_field
       end
     end
-    # resources :program_stream_add_rule, only: [] do
-    #   collection do
-    #     get :get_fields
-    #   end
-    # end
+    resources :calendars do
+      get :find_event, on: :collection
+    end
+    resources :program_stream_add_rule, only: [] do
+      collection do
+        get :get_fields
+      end
+    end
 
     namespace :v1, default: { format: :json } do
       resources :domain_groups, only: [:index]
+      resources :departments, only: [:index]
       resources :families, only: [:index, :create, :update]
       resources :users, only: [:index]
       resources :clients, except: [:edit, :new] do
         get :compare, on: :collection
-        resources :assessments, only: [:create, :update]
-        resources :case_notes, only: [:create, :update]
+        resources :assessments, only: [:create, :update, :destroy]
+        resources :case_notes, only: [:create, :update, :delete]
         resources :custom_field_properties, only: [:create, :update, :destroy]
 
         scope module: 'client_tasks' do
           resources :tasks, only: [:create, :update, :destroy]
         end
-
-        # resources :client_enrollments, only: [:create, :update] do
-        #   resources :client_enrollment_trackings, only: [:create, :update]
-        #   resources :leave_programs, only: [:create, :update]
-        # end
+        resources :client_enrollments, only: [:create, :update] do
+          resources :client_enrollment_trackings, only: [:create, :update]
+          resources :leave_programs, only: [:create, :update]
+        end
       end
-      # resources :program_streams, only: [:index]
+      resources :program_streams, only: [:index]
       resources :provinces, only: [:index]
       resources :donors, only: [:index]
       resources :agencies, only: [:index]

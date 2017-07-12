@@ -84,18 +84,20 @@
                   %li= @client.ec_button
                   %li= @client.fc_button
                   %li= @client.kc_button
-                - else
-                  - unless @client.cases.current.fc_or_kc?
-                    %li= @client.fc_button
-                    %li= @client.kc_button
+                  - if @client.exit_date.nil? || @client.cases.current.nil?
+                    %li.divider
+                    %li
+                      %a{"data-target" => '#exitFromNgo', "data-toggle" => 'modal'}
+                        .text-warning= t('.exit_ngo_btn')
 
-                - if @client.cases.active.any?
-                  %li.divider
+                - if @client.cases.current.present?
                   %li
-                    %a{"data-target" => '#exitFromCif', "data-toggle" => 'modal'}
-                      .text-warning= t('.exit_ngo_btn')
-            - if @client.cases.active.any?
-              = render 'exit_case_form', client_case: @client.cases.active.last, exit_from_cif: true
+                    %a{"data-target" => '#exit-from-case', "data-toggle" => 'modal'}
+                      .text-warning.exit-case-warning= t(".exit_from_#{@client.cases.current.case_type.downcase}")
+            - if @client.status == 'Referred' && @client.exit_date.nil? || @client.cases.current.nil?
+              = render 'exit_ngo_form', client: @client
+            - if @client.cases.current.present?
+              = render 'exit_case_form', client_case: @client.cases.current, exit_from_cif: true
 
           = link_to client_tasks_path(@client) do
             %span.btn-sm.btn.btn-info.small-btn-margin
@@ -110,7 +112,7 @@
               %span.btn-sm.btn.btn-info.small-btn-margin
                 %strong.count-margin= @client.case_notes.count
                 = t('.view_case_notes')
-          -# Client ask to hide #147254199    
+          -# Client ask to hide #147254199
           -# - if can? :manage, Survey
           -#   = link_to new_client_survey_path(@client) do
           -#     %span.btn-sm.btn.btn-success.small-btn-margin= t('.take_survey')
@@ -164,10 +166,12 @@
                 - @free_client_forms.each do |custom_field|
                   %li= link_to custom_field.form_title, new_client_custom_field_property_path(@client, custom_field_id: custom_field)
           - unless Rails.env.production?
-            = link_to client_client_enrollments_path(@client) do
+            = link_to client_client_enrollments_path(@client, program_streams: 'enrolled-program-streams') do
+              .btn.btn-primary.small-btn-margin.btn-sm
+                = t('.enrolled_program_streams')
+            = link_to client_client_enrollments_path(@client, program_streams: 'program-streams') do
               .btn.btn-primary.small-btn-margin.btn-sm
                 = t('.program_streams')
-
 .row.mini-margin
   .col-xs-12
     .ibox
@@ -341,6 +345,20 @@
                       = agency.name
 
               = render 'state'
+              - if @client.exit_date
+                %tr
+                  %td.spacing-first-col
+                    = t('.exit_date')
+                  %td
+                    %strong
+                      = date_format(@client.exit_date)
+                %tr
+                  %td.spacing-first-col
+                    = t('.exit_note')
+                  %td
+                    %strong
+                      = @client.exit_note
+
         .row
           .col-xs-12
             %table.table.table-bordered
