@@ -14,7 +14,7 @@ describe LeaveProgram, 'Leave Program' do
       program_stream.reload
       program_stream.update_columns(completed: true)
 
-      visit client_client_enrollments_path(client, program_streams: 'enrollment-program-streams')
+      visit client_client_enrollments_path(client, program_streams: 'enrolled-program-streams')
       click_link('Exit')
     end
 

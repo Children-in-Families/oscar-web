@@ -12,7 +12,7 @@ class ClientEnrollmentsController < AdminController
 
   def new
     if @program_stream.rules.present?
-      redirect_to client_client_enrollments_path(@client, program_streams: 'program-streams'), alert: t('.client_not_valid') unless valid_client?
+      redirect_to client_client_enrollments_path(@client, program_streams: params[:program_streams]), alert: t('.client_not_valid') unless valid_client?
     end
     @client_enrollment = @client.client_enrollments.new(program_stream_id: @program_stream)
   end
@@ -24,7 +24,7 @@ class ClientEnrollmentsController < AdminController
   def update
     authorize @client_enrollment
     if @client_enrollment.update_attributes(client_enrollment_params)
-      redirect_to client_client_enrollment_path(@client, @client_enrollment, program_stream_id: @program_stream), notice: t('.successfully_updated')
+      redirect_to client_client_enrollment_path(@client, @client_enrollment, program_stream_id: @program_stream, program_streams: params[:program_streams]), notice: t('.successfully_updated')
     else
       render :edit
     end
@@ -37,7 +37,7 @@ class ClientEnrollmentsController < AdminController
     @client_enrollment = @client.client_enrollments.new(client_enrollment_params)
     authorize @client_enrollment
     if @client_enrollment.save
-      redirect_to client_client_enrollment_path(@client, @client_enrollment, program_stream_id: @program_stream, program_streams: 'enrollment-program-streams'), notice: t('.successfully_created')
+      redirect_to client_client_enrollment_path(@client, @client_enrollment, program_stream_id: @program_stream, program_streams: params[:program_streams]), notice: t('.successfully_created')
     else
       render :new
     end
@@ -45,7 +45,7 @@ class ClientEnrollmentsController < AdminController
 
   def destroy
     @client_enrollment.destroy
-    redirect_to report_client_client_enrollments_path(@client, program_stream_id: @program_stream), notice: t('.successfully_deleted')
+    redirect_to report_client_client_enrollments_path(@client, program_stream_id: @program_stream, program_streams: params[:program_streams]), notice: t('.successfully_deleted')
   end
 
   def report
@@ -76,13 +76,13 @@ class ClientEnrollmentsController < AdminController
 
   def program_stream_order_by_enrollment
     program_streams = []
-    if params[:program_streams] == 'enrollment-program-streams'
+    if params[:program_streams] == 'enrolled-program-streams'
       client_enrollments_active = ProgramStream.enrollment_status_active(@client).completed
       program_streams           = client_enrollments_active
     elsif params[:program_streams] == 'program-streams'
-      client_enrollments_exited         = ProgramStream.enrollment_status_inactive(@client).completed
-      client_enrollments_inactive = ProgramStream.without_status_by(@client).completed
-      program_streams                   = client_enrollments_exited + client_enrollments_inactive
+      client_enrollments_exited     = ProgramStream.enrollment_status_inactive(@client).completed
+      client_enrollments_inactive   = ProgramStream.without_status_by(@client).completed
+      program_streams               = client_enrollments_exited + client_enrollments_inactive
     end
     program_streams
   end

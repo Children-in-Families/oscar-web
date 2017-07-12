@@ -11,7 +11,7 @@ class LeaveProgramsController < AdminController
     @leave_program = @enrollment.create_leave_program(leave_program_params)
     if @leave_program.save
       @leave_program.client_enrollment.update_columns(status: 'Exited')
-      redirect_to client_client_enrollment_leave_program_path(@client, @enrollment, @leave_program, program_streams: 'enrollment-program-streams'), notice: t('.successfully_created')
+      redirect_to client_client_enrollment_leave_program_path(@client, @enrollment, @leave_program, program_streams: params[:program_streams]), notice: t('.successfully_created')
     else
       render :new
     end
@@ -22,7 +22,7 @@ class LeaveProgramsController < AdminController
 
   def update
     if @leave_program.update_attributes(leave_program_params)
-      redirect_to client_client_enrollment_leave_program_path(@client, @enrollment, @leave_program), notice: t('.successfully_updated')
+      redirect_to client_client_enrollment_leave_program_path(@client, @enrollment, @leave_program, program_streams: params[:program_streams]), notice: t('.successfully_updated')
     else
       render :edit
     end
