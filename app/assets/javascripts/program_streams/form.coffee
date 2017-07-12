@@ -9,6 +9,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     _addRuleCallback()
     _initSelect2()
     _handleAddCocoon()
+    _handleRemoveCocoon()
     _handleInitProgramFields()
     _initButtonSave()
     _handleSaveProgramStream()
@@ -35,7 +36,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
   _handleSaveProgramStream = ->
     form = $('form')
     $('#program_stream_submit').on 'click', ->
-      if _duplicateFieldLabel()
+      if _handleCheckingDuplicateFields()
         return false
       else
         _handleRemoveUnuseInput()
@@ -115,6 +116,12 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       trackingBuilder = $(element).find('.tracking-builder')
       _initProgramBuilder(trackingBuilder, [])
       _stickyFill()
+      _editTrackingFormName()
+
+  _handleRemoveCocoon = ->
+    $('#trackings').on 'cocoon:after-remove', ->
+      _checkDuplicateTrackingName()
+    
 
   _generateValueForSelectOption = (field) ->
     $(field).find('input.option-label').on 'keyup change', ->
@@ -145,7 +152,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         'checkbox-group':
           onadd: (fld) ->
             $('.other-wrap, .className-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
-            _duplicateFieldLabel()
+            _duplicateLabelField(fld)
             _removeDuplicateWarning()
             _alertDuplicateWarning()
             _hideOptionValue()
@@ -153,7 +160,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
             _generateValueForSelectOption(fld)
           onclone: (fld) ->
             setTimeout ( ->
-              _duplicateFieldLabel()
+              _duplicateLabelField(fld)
               _removeDuplicateWarning()
               _alertDuplicateWarning()
               _hideOptionValue()
@@ -164,12 +171,12 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         date:
           onadd: (fld) ->
             $('.className-wrap, .value-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
-            _duplicateFieldLabel()
+            _duplicateLabelField(fld)
             _removeDuplicateWarning()
             _alertDuplicateWarning()
           onclone: (fld) ->
             setTimeout ( ->
-              _duplicateFieldLabel()
+              _duplicateLabelField(fld)
               _removeDuplicateWarning()
               _alertDuplicateWarning()
             ),50
@@ -177,12 +184,12 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         number:
           onadd: (fld) ->
             $('.className-wrap, .value-wrap, .step-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
-            _duplicateFieldLabel()
+            _duplicateLabelField(fld)
             _removeDuplicateWarning()
             _alertDuplicateWarning()
           onclone: (fld) ->
             setTimeout ( ->
-              _duplicateFieldLabel()
+              _duplicateLabelField(fld)
               _removeDuplicateWarning()
               _alertDuplicateWarning()
             ),50
@@ -190,7 +197,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         'radio-group':
           onadd: (fld) ->
             $('.other-wrap, .className-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
-            _duplicateFieldLabel()
+            _duplicateLabelField(fld)
             _removeDuplicateWarning()
             _alertDuplicateWarning()
             _hideOptionValue()
@@ -198,7 +205,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
             _generateValueForSelectOption(fld)
           onclone: (fld) ->
             setTimeout ( ->
-              _duplicateFieldLabel()
+              _duplicateLabelField(fld)
               _removeDuplicateWarning()
               _alertDuplicateWarning()
               _hideOptionValue()
@@ -209,7 +216,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         select:
           onadd: (fld) ->
             $('.className-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
-            _duplicateFieldLabel()
+            _duplicateLabelField(fld)
             _removeDuplicateWarning()
             _alertDuplicateWarning()
             _hideOptionValue()
@@ -217,7 +224,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
             _generateValueForSelectOption(fld)
           onclone: (fld) ->
             setTimeout ( ->
-              _duplicateFieldLabel()
+              _duplicateLabelField(fld)
               _removeDuplicateWarning()
               _alertDuplicateWarning()
               _hideOptionValue()
@@ -231,12 +238,12 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
             $('.fld-subtype ').find('option:contains(tel)').remove()
             $('.fld-subtype ').find('option:contains(password)').remove()
             $('.className-wrap, .value-wrap, .access-wrap, .maxlength-wrap, .description-wrap, .name-wrap').hide()
-            _duplicateFieldLabel()
+            _duplicateLabelField(fld)
             _removeDuplicateWarning()
             _alertDuplicateWarning()
           onclone: (fld) ->
             setTimeout ( ->
-              _duplicateFieldLabel()
+              _duplicateLabelField(fld)
               _removeDuplicateWarning()
               _alertDuplicateWarning()
             ),50
@@ -244,12 +251,12 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         textarea:
           onadd: (fld) ->
             $('.rows-wrap, .className-wrap, .value-wrap, .access-wrap, .maxlength-wrap, .description-wrap, .name-wrap').hide()
-            _duplicateFieldLabel()
+            _duplicateLabelField(fld)
             _removeDuplicateWarning()
             _alertDuplicateWarning()
           onclone: (fld) ->
             setTimeout ( ->
-              _duplicateFieldLabel()
+              _duplicateLabelField(fld)
               _removeDuplicateWarning()
               _alertDuplicateWarning()
             ),50
@@ -257,9 +264,48 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
 
     }).data('formBuilder');
 
-  _duplicateFieldLabel = ->
-    labelFields = $('.form-wrap:visible').find("label.field-label")
+  _handleCheckingDuplicateFields = ->
+    if $('#trackings').is(':visible')
+      errorFields = $('#trackings').find('label.error')
+    else
+      errorFields = $('.form-wrap').find('label.error')
+
+    if $(errorFields).length > 0 then true else false
+
+  _editTrackingFormName = ->
+    $(".program_stream_trackings_name input[type='text']").on 'blur', ->
+      _checkDuplicateTrackingName()
+
+  _checkDuplicateTrackingName = ->
+    values = []
+    nameFields = $('.ibox-content').find(".program_stream_trackings_name input[type='text']")
+
+    $(nameFields).each (index, name) ->
+      values.push $(name).val()
+
+    counts = {}
+    values.forEach (x) ->
+      counts[x] = (counts[x] or 0) + 1
+
+    $.each counts, (nameText, numberOfField) ->
+      $(nameFields).each (index, text) ->
+        if (numberOfField == 1) && ($(text).val() == nameText)
+          $(text).removeClass('error')
+          $(text).parent().find('label.error').remove()
+
+        else if (numberOfField > 1) && ($(text).val() == nameText)
+          $(text).addClass('error')
+          unless $(text).parent().find('label.error').is(':visible')
+            $(text).parent().append('<label class="error">Names are duplicate!!</label>')
+
+    errors = $('.ibox-content:visible').find('label.error')
+    unless errors.length > 0
+      $('.steps ul li.current').removeClass('error')
+
+  _duplicateLabelField = (fld)->
     duplicateLabels = false
+
+    labelFields = $(fld).parents('.form-wrap:visible').find('label.field-label')
 
     $(labelFields).each (index, label) ->
       displayText = $(label).text()
@@ -270,14 +316,8 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
           parentElement = $(label).parents('li.form-field')
           $(parentElement).addClass('has-error')
           unless $(parentElement).find('label.error').is(':visible')
-            $(parentElement).append('<label class="error">This field is duplicated.</label>')
+            $(parentElement).append('<label class="error">Field labels must be unique, please click the edit icon to set a unique field label</label>')
           $(parentElement).find('input, textarea, select').addClass('error')
-          duplicateLabels = true 
-
-    if duplicateLabels == true
-      $('section:visible .text-danger').text('Duplicate fields')
-      return duplicateLabels
-
 
   _removeDuplicateWarning = ->
     $('.field-actions a.del-button').on 'click', ->
@@ -285,7 +325,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       removedField = $(@).parents().children('label.field-label')
 
       labels = []
-      labelFields = $('.form-wrap:visible').find('label.field-label')
+      labelFields = $(@).parents('.form-wrap:visible').find('label.field-label')
       $(labelFields).each (index, label) ->
         labels.push $(label).text()
 
@@ -300,16 +340,12 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
               $(label).parent().removeClass('has-error')
               $(label).parent().find('label.error').remove()
               $(label).parent().find('input, textarea, select').removeClass('error')
-
-      unless $('label.error').is(':visible')
-        $('section:visible .text-danger').text('')
+              $('.steps ul li.current').removeClass('error')
 
   _alertDuplicateWarning = ->
     $(".form-wrap:visible .input-wrap input[name='label']").on 'blur', ->
-      renamedLabel = $(@).parents().children('label.field-label')
-
       labels = []
-      labelFields = $('.form-wrap:visible').find('label.field-label')
+      labelFields = $(@).parents('.form-wrap:visible').find('label.field-label')
 
       $(labelFields).each (index, label) ->
         labels.push $(label).text()
@@ -328,12 +364,12 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
           else if (numberOfField > 1) && (label.textContent == labelText)
             $(label).parent().addClass('has-error')
             unless $(label).parent().find('label.error').is(':visible')
-              $(label).parent().append('<label class="error">This field is duplicated.</label>')
+              $(label).parent().append('<label class="error">Field labels must be unique, please click the edit icon to set a unique field label</label>')
             $(label).parent().find('input, textarea, select').addClass('error')
-            $('section:visible .text-danger').text('Duplicate fields')
 
-      unless $('label.error').is(':visible')
-        $('section:visible .text-danger').text('')
+      errors = $('.form-wrap:visible').find('label.error')
+      unless errors.length > 0
+        $('.steps ul li.current').removeClass('error')
 
   _initProgramSteps = ->
     self = @
@@ -349,16 +385,17 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
           name = $('#program_stream_name').val() == ''
           return false if name
         else if $('#enrollment').is(':visible')
-          return false if _duplicateFieldLabel()
-        else if $('#tracking').is(':visible')
-          return false if _duplicateFieldLabel()
+          return false if _handleCheckingDuplicateFields()
+        else if $('#trackings').is(':visible')
+          return false if _handleCheckingDuplicateFields()
         else if $('#exit-program').is(':visible')
-          return false if _duplicateFieldLabel()
+          return false if _handleCheckingDuplicateFields()
         
         $('section ul.frmb.ui-sortable').css('min-height', '266px')
 
       onStepChanged: (event, currentIndex, newIndex) ->
         _stickyFill()
+        _editTrackingFormName()
         _alertDuplicateWarning()
         buttonSave = $('#program_stream_submit')
         if $('#exit-program').is(':visible') then $(buttonSave).hide() else $(buttonSave).show()
