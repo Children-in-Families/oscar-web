@@ -31,6 +31,19 @@ class Case < ActiveRecord::Base
   after_save :update_cases_to_exited_from_cif, :create_client_history
   after_create :update_client_code
 
+  before_validation :set_attributes, if: -> { new_record? && start_date.nil? }
+
+  def set_attributes
+    self.case_type =  case family.family_type
+                        when 'emergency' then 'EC'
+                        when 'foster'    then 'FC'
+                        when 'kinship'   then 'KC'
+                        else 'EC'
+                        end
+    self.start_date = Date.today
+    self.user_id    = client.user_id
+  end
+
   def short_start_date
     start_date.end_of_month.strftime '%b-%y'
   end

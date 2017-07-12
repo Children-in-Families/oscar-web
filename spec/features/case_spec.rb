@@ -84,14 +84,6 @@ feature 'Case' do
       expect(page).to have_content('Carer Name')
     end
 
-    scenario 'invalid' do
-      visit new_client_case_path(client, case_type: 'KC')
-      fill_in 'Carer Name', with: ''
-      fill_in 'Start Date', with: ''
-      click_button 'Save'
-      expect(page).to have_content("can't be blank")
-    end
-
     scenario 'case type' do
       visit new_client_case_path(client, case_type: 'FC')
       value = page.find(:css, '#case_case_type').value()

@@ -77,11 +77,13 @@ class FamiliesController < AdminController
                             :male_children_count, :female_adult_count,
                             :male_adult_count, :family_type, :contract_date,
                             :address, :province_id,
-                            custom_field_ids: []
+                            custom_field_ids: [],
+                            client_ids: []
                             )
   end
 
   def find_association
+    @clients  = Client.accessible_by(current_ability).joins('LEFT OUTER JOIN cases ON cases.client_id = clients.id').where('cases.family_id = ? OR (clients.status = ? AND clients.state = ?)', @family.id, 'Referred', 'accepted')
     @province = Province.order(:name)
   end
 
