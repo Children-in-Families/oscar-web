@@ -25,7 +25,7 @@
                       = t('.view')
 
                 - if enrollment.has_client_enrollment_tracking?
-                  - enrollment.client_enrollment_trackings.ordered.each do |enrollment_tracking|
+                  - enrollment.client_enrollment_trackings.order(created_at: :DESC).each do |enrollment_tracking|
                     %tr
                       %td= date_format(enrollment_tracking.created_at)
                       %td= "#{t('.tracking')} (#{enrollment_tracking.tracking.try(:name)})"
