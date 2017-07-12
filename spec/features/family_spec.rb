@@ -103,11 +103,6 @@ describe 'Family' do
       visit family_path(other_family)
       expect(page).to have_css("a[href='#{family_path(other_family, locale: I18n.locale)}'][data-method='delete'][class='btn btn-outline btn-danger btn-md disabled']")
     end
-
-    scenario 'link add client to family' do
-      visit family_path(family)
-      expect(page).to have_link('Add client to family', href: new_family_case_path(family))
-    end
   end
 
   feature 'Filter' do
