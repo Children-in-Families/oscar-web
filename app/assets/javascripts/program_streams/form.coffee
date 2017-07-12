@@ -402,10 +402,14 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
 
       onFinished: (event, currentIndex) ->
         $('.actions a:contains("Finish")').removeAttr('href')
-        _handleRemoveUnuseInput()
-        _handleAddRuleBuilderToInput()
-        _handleSetValueToField()
-        form.submit()
+        if _handleCheckingDuplicateFields()
+          return false
+        else
+          _handleRemoveUnuseInput()
+          _handleAddRuleBuilderToInput()
+          _handleSetValueToField()
+          form.submit()
+
       labels:
         finish: self.filterTranslation.save
         next: self.filterTranslation.next
