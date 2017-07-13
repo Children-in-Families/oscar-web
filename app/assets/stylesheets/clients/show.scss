@@ -1,5 +1,8 @@
-#clients-show {
-  margin-bottom: 30px;
+body[id='clients-show'] {
+  .label-default.family {
+    border: 1px solid #cacaca;
+    background-color: #fff;
+  }
 
   .panel-heading small a {
     text-decoration: none;

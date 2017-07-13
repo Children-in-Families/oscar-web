@@ -90,4 +90,4 @@
                 %td
                   %strong
                     = ec.exit_note
-  = render 'exit_case_form', client_case: @client.cases.latest_emergency, exit_from_cif: false if @client.has_no_latest_kc_and_fc?
+  = render 'exit_case_form', client_case: @client.cases.exclude_referred.latest_emergency, exit_from_cif: false if @client.has_no_latest_kc_and_fc?

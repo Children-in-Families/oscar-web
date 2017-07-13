@@ -43,7 +43,7 @@ describe 'Family' do
       fill_in 'Name', with: FFaker::Name.name
       fill_in 'Address', with: FFaker::Address.street_address
       fill_in 'Caregiver Information', with: FFaker::Lorem.paragraph
-      select(client.name, from: 'family_client_ids')
+      find(".family_clients select option[value='#{client.id}']", visible: false).select_option
       click_button 'Save'
       sleep 1
       expect(page).to have_content('Family has been successfully created')

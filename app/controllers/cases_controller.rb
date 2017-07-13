@@ -9,11 +9,11 @@ class CasesController < AdminController
   def index
     @type = params[:case_type]
     if @type == 'EC'
-      @cases = @client.cases.emergencies.inactive.order(exit_date: :desc)
+      @cases = @client.cases.exclude_referred.emergencies.inactive.order(exit_date: :desc)
     elsif @type == 'FC'
-      @cases = @client.cases.fosters.inactive.order(exit_date: :desc)
+      @cases = @client.cases.exclude_referred.fosters.inactive.order(exit_date: :desc)
     elsif @type == 'KC'
-      @cases = @client.cases.kinships.inactive.order(exit_date: :desc)
+      @cases = @client.cases.exclude_referred.kinships.inactive.order(exit_date: :desc)
     end
   end
 
@@ -67,13 +67,13 @@ class CasesController < AdminController
   end
 
   def find_case
-    @case = @client.cases.find(params[:id])
+    @case = @client.cases.exclude_referred.find(params[:id])
   end
 
   def can_create_case?
-    return if @client.cases.active.size.zero?
-    return if @client.cases.active.any? && @client.cases.current.exited
-    return if @client.cases.current.case_type == 'EC'
+    return if @client.cases.exclude_referred.active.size.zero?
+    return if @client.cases.exclude_referred.active.any? && @client.cases.exclude_referred.current.exited
+    return if @client.cases.exclude_referred.current.case_type == 'EC'
     redirect_to @client, notice: t('.already_have_a_case')
   end
 end
