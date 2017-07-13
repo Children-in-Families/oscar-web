@@ -62,6 +62,16 @@ describe Case, 'scopes' do
   let!(:emergency){ create(:case, case_type: 'EC') }
   let!(:kinship){ create(:case, :inactive, case_type: 'KC') }
   let!(:foster){ create(:case, case_type: 'FC') }
+  let!(:referred) { create(:case, case_type: 'Referred') }
+
+  context 'exclude_referred' do
+    it 'should include emergency foster and kinship' do
+      expect(Case.exclude_referred).to include(emergency, kinship, foster)
+    end
+    it 'should not include referred' do
+      expect(Case.exclude_referred).not_to include(referred)
+    end
+  end
 
   context 'emergencies' do
     let!(:emergencies){ Case.emergencies }
