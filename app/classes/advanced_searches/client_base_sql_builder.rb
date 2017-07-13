@@ -22,9 +22,16 @@ module AdvancedSearches
           @sql_string << association_filter[:id]
           @values     << association_filter[:values]
 
+        elsif form_builder.first == 'formbuilder'
+          custom_form = CustomField.find_by(form_title: form_builder.second)
+          custom_field = AdvancedSearches::ClientCustomFormSqlBuilder.new(custom_form, rule).get_sql
+          @sql_string << custom_field[:id]
+          @values << custom_field[:values]
+
         elsif field != nil
           value = field == 'grade' ? validate_integer(value) : value
           base_sql(field, operator, value)
+
         else
           nested_query =  AdvancedSearches::ClientBaseSqlBuilder.new(@clients, rule).generate
           @sql_string << nested_query[:sql_string]

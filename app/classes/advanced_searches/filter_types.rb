@@ -1,26 +1,29 @@
 module AdvancedSearches
   class FilterTypes
-    def self.text_options(field_name, label)
+    def self.text_options(field_name, label, group)
       {
         id: field_name,
+        optgroup: group,
         label: label,
         type: 'string',
         operators: ['equal', 'not_equal', 'contains', 'not_contains', 'is_empty']
       }
     end
 
-    def self.number_options(field_name, label)
+    def self.number_options(field_name, label, group)
       {
         id: field_name,
+        optgroup: group,
         label: label,
         type: 'integer',
         operators: ['equal', 'not_equal', 'less', 'less_or_equal', 'greater', 'greater_or_equal', 'between', 'is_empty']
       }
     end
 
-    def self.date_picker_options(field_name, label)
+    def self.date_picker_options(field_name, label, group)
       {
         id: field_name,
+        optgroup: group,
         label: label,
         type: 'date',
         operators: ['equal', 'not_equal', 'less', 'less_or_equal', 'greater', 'greater_or_equal', 'between', 'is_empty'],
@@ -34,9 +37,10 @@ module AdvancedSearches
       }
     end
 
-    def self.drop_list_options(field_name, label, values)
+    def self.drop_list_options(field_name, label, values, group)
       {
         id: field_name,
+        optgroup: group,
         label: label,
         type: 'string',
         input: 'select',

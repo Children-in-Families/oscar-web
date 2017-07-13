@@ -1,8 +1,11 @@
 CIF.Client_advanced_searchesIndex = do ->
   _init = ->
     @filterTranslation = ''
+    _initSelect2()
     _getTranslation()
     _columnsVisibility()
+    _handleAddCustomFormFilter()
+    _handleAddProgramStreamFilter()
     _ajaxGetBasicField()
     _handleInitDatatable()
     _handleSearch()
@@ -10,8 +13,24 @@ CIF.Client_advanced_searchesIndex = do ->
     _handleScrollTable()
     _getClientPath()
     _setDefaultCheckColumnVisibilityAll()
-    _handleSelectCustomForm()
-    _handleInitCustomFormBuilder()
+
+  _handleAddCustomFormFilter = ->
+    $('#custom-form-checkbox').on 'ifChecked', ->
+      $(@).parents('#custom-form-wrapper').find('.custom-form').show()
+
+    $('#custom-form-checkbox').on 'ifUnchecked', ->
+      customForm = $(@).parents('#custom-form-wrapper').find('.custom-form')
+      $(customForm).hide()
+      $(customForm).find('select').select2("val", "")
+
+  _handleAddProgramStreamFilter = ->
+    $('#program-stream-checkbox').on 'ifChecked', ->
+      $(@).parents('#program-stream-wrapper').find('.program-stream').show()
+
+    $('#program-stream-checkbox').on 'ifUnchecked', ->
+      programStream = $(@).parents('#program-stream-wrapper').find('.program-stream')
+      $(programStream).hide()
+      $(programStream).find('select').select2("val", "")
 
   _referred_to_program = ->
     $('.rule-filter-container select').change ->
@@ -23,24 +42,9 @@ CIF.Client_advanced_searchesIndex = do ->
         ),10
 
   _initSelect2 = ->
-    $('select').select2(
-      width: 'resolve'
-    )
-
-  _handleSelectCustomForm = ->
-    $('#select-custom-form').on 'select2-selecting', (e) ->
-      customFormId = e.val
-      if customFormId != ''
-        $('#custom-form').show()
-        _ajaxGetCustomField(customFormId)
-      else
-        $('#custom-form').hide()
-
-  _handleInitCustomFormBuilder = ->
-    customFormValue = $('#select-custom-form').val()
-    if customFormValue != ''
-      $('#custom-form').show()
-      _ajaxGetCustomField(customFormValue)
+    $('#custom-form-select, #program-stream-select').select2(width: '220px')
+    $('.rule-filter-container select').select2(width: '320px')
+    $('.rule-operator-container select, .rule-value-container select').select2(width: 'resolve')
 
   _ajaxGetBasicField = ->
     $.ajax
@@ -52,23 +56,6 @@ CIF.Client_advanced_searchesIndex = do ->
           _queryBuilderOption(fieldList)
         )
         _basicFilterSetRule() 
-        _initSelect2()
-
-
-  _ajaxGetCustomField = (customFormId) ->
-    $.ajax
-      url: '/api/client_advanced_searches/get_custom_field'
-      data: { custom_form_id: customFormId }
-      method: 'GET'
-      success: (response) ->
-        fieldList = response.client_advanced_searches
-        $('#custom-form').queryBuilder(
-          _queryBuilderOption(fieldList)
-          )
-
-        $('#custom-form').queryBuilder('reset');
-        $('#custom-form').queryBuilder('setFilters', fieldList)
-        _customFormSetRule()
         _initSelect2()
 
   _handleValidateSearch = ->
@@ -93,23 +80,12 @@ CIF.Client_advanced_searchesIndex = do ->
 
   _handleSearch = ->
     $('#search').on 'click', ->
-      customFormValue = $('#select-custom-form').val()
-      $('#client_advanced_search_selected_custom_form').val(customFormValue)
-
       basicRules = $('#builder').queryBuilder('getRules')
-      customFormRules = _getCustomFormRules(customFormValue)
 
-      if !($.isEmptyObject(basicRules)) || !($.isEmptyObject(customFormRules))
+      if !($.isEmptyObject(basicRules))
         $('#client_advanced_search_basic_rules').val(_handleStringfyRules(basicRules))
-        $('#client_advanced_search_custom_form_rules').val(_handleStringfyRules(customFormRules))
         _handleSelectFieldVisibilityCheckBox()
         _handleValidateSearch()
-
-  _getCustomFormRules = (customFormValue)->
-    if customFormValue == ''
-      {}
-    else
-      $('#custom-form').queryBuilder('getRules')
 
   _queryBuilderOption = (fieldList) ->
     inputs_separator: ' AND '
@@ -130,6 +106,7 @@ CIF.Client_advanced_searchesIndex = do ->
         greater_or_equal: '>='
         contains: 'includes'
         not_contains: 'excludes'
+    plugins: ['sortable','bt-tooltip-errors']
     filters: fieldList
 
   _columnsVisibility = ->
@@ -169,30 +146,14 @@ CIF.Client_advanced_searchesIndex = do ->
             )
         )
 
-    $('select').on 'select2-selecting', (e) ->
-      setTimeout (->
-        $('.rule-operator-container select').select2(
-          width: '180px'
-        )
-        $('.rule-value-container select').select2(
-          width: '180px'
-        )
-      ),100
-
   _getTranslation = ->
     @filterTranslation =
       addFilter: $('#builder').data('filter-translation-add-filter')
       addGroup: $('#builder').data('filter-translation-add-group')
       deleteGroup: $('#builder').data('filter-translation-delete-group')
 
-  _customFormSetRule = ->
-    customFormQueryRules = $('#custom-form').data('custom-form-search-rules')
-    if !$.isEmptyObject customFormQueryRules
-      $('#custom-form').queryBuilder('setRules', customFormQueryRules)
-
   _basicFilterSetRule = ->
     basicQueryRules = $('#builder').data('basic-search-rules')
-    queryCondition = $('#builder').data('search-condition')
     if !$.isEmptyObject basicQueryRules
       $('#builder').queryBuilder('setRules', basicQueryRules)
 

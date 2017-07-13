@@ -1,0 +1,33 @@
+%h4 Please choose your filter option below:
+.well
+  .row
+    .col-xs-12.col-md-3
+      #client-basic-field
+        .form-group
+          = check_box_tag :nil, '1', true, { class: 'i-checks' }
+          %label Client Basic
+        
+    .col-xs-12.col-md-3
+      #custom-form-wrapper
+        .row
+          .col-xs-12
+            .form-group
+              = check_box_tag :nil, '1', false, { class: 'i-checks', id: 'custom-form-checkbox' }
+              %label Custom Form
+        .row
+          .col-xs-12
+            .form-group.custom-form
+              %label Form Title
+              = select_tag(:nil, options_for_select(@custom_fields.pluck(:form_title, :id)), { id: 'custom-form-select', class: 'form-control', prompt: 'Please select form title'} )
+    .col-xs-12.col-md-3
+      #program-stream-wrapper
+        .row
+          .col-xs-12
+            .form-group
+              = check_box_tag :nil, '1', false, { class: 'i-checks', id: 'program-stream-checkbox' }
+              %label Program Stream
+        .row
+          .col-xs-12
+            .form-group.program-stream
+              %label Program Stream Name
+              = select_tag(:nil, options_for_select(@program_streams.pluck(:name, :id)), { id: 'program-stream-select', class: 'form-control', prompt: 'Please select program name'} )
