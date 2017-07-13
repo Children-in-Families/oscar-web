@@ -14,7 +14,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     _initButtonSave()
     _handleSaveProgramStream()
     _handleClickAddTracking()
-    
+
   _stickyFill = ->
     if $('.form-wrap').is(':visible')
       $('.cb-wrap').Stickyfill()
@@ -254,8 +254,8 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
 
     _removeTabErrorClass()
 
-  _handleCheckingForm = (field) ->
-    if $('#trackings').is(':visible')
+  _handleCheckingForm = (field={}) ->
+    if $('#trackings').is(':visible') and $('.nested-fields').length > 1
       _handleRemoveCocoon()
       _editTrackingFormName()
 
@@ -282,9 +282,8 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       removedField = $(@).parents().children('label.field-label')
 
       labelFields = $(@).parents('.form-wrap:visible').find('label.field-label')
-      
-      counts = _countDuplicateLabel(labelFields)
 
+      counts = _countDuplicateLabel(labelFields)
       $.each counts, (labelText, numberOfField) ->
         if numberOfField == 2
           $(labelFields).each (index, label) ->
@@ -298,7 +297,6 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       labelFields = $(@).parents('.form-wrap:visible').find('label.field-label')
 
       counts = _countDuplicateLabel(labelFields)
-
       $.each counts, (labelText, numberOfField) ->
         $(labelFields).each (index, label) ->
           if (numberOfField == 1) && (label.textContent == labelText)
@@ -311,10 +309,12 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
 
   _countDuplicateLabel = (element) ->
     labels = []
-
-    if $('#trackings').is(':visible')
+    if $('#trackings').is(':visible') and $('.nested-fields').length > 1
       $(element).each (index, label) ->
-        labels.push $(label).val()
+        if $(label).val() != ''
+          labels.push $(label).val()
+        else
+          labels.push $(label).text()
     else
       $(element).each (index, label) ->
         labels.push $(label).text()
@@ -335,26 +335,28 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       $('.steps ul li.current').removeClass('error')
 
   _removeDuplicateWarning = (element) ->
-    if $('#trackings').is(':visible')
+    parentElement = $(element).parents('li.form-field')
+    $(parentElement).removeClass('has-error')
+    $(parentElement).find('input, textarea, select').removeClass('error')
+    $(parentElement).find('label.error:last-child').remove()
+
+    if $('#trackings').is(':visible') and $('.nested-fields').length > 1
       $(element).removeClass('error')
       $(element).parent().find('label.error').remove()
-    else
-      parentElement = $(element).parents('li.form-field')
-      $(parentElement).removeClass('has-error')
-      $(parentElement).find('label.error').remove()
-      $(parentElement).find('input, textarea, select').removeClass('error')
+
 
   _addDuplicateWarning = (element) ->
-    if $('#trackings').is(':visible')
+    parentElement = $(element).parents('li.form-field')
+    $(parentElement).addClass('has-error')
+    $(parentElement).find('input, textarea, select').addClass('error')
+    unless $(parentElement).find('label.error').is(':visible')
+      $(parentElement).append('<label class="error">Field labels must be unique, please click the edit icon to set a unique field label</label>')
+
+    if $('#trackings').is(':visible') and $('.nested-fields').length > 1
       $(element).addClass('error')
       unless $(element).parent().find('label.error').is(':visible')
         $(element).parent().append('<label class="error">Names are duplicate!!</label>')
-    else
-      parentElement = $(element).parents('li.form-field')
-      $(parentElement).addClass('has-error')
-      $(parentElement).find('input, textarea, select').addClass('error')
-      unless $(parentElement).find('label.error').is(':visible')
-        $(parentElement).append('<label class="error">Field labels must be unique, please click the edit icon to set a unique field label</label>')
+
 
   _handleCheckingDuplicateFields = ->
     if $('#trackings').is(':visible')
@@ -379,7 +381,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
           return false if name
         else if currentIndex >= 2
           return false if _handleCheckingDuplicateFields()
-        
+
         $('section ul.frmb.ui-sortable').css('min-height', '266px')
 
       onStepChanged: (event, currentIndex, newIndex) ->
