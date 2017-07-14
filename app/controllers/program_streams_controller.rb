@@ -76,15 +76,9 @@ class ProgramStreamsController < AdminController
   def program_stream_params
     ngo_name = current_organization.full_name
     default_params = [:name, :rules, :description, :enrollment, :exit_program, :quantity, domain_ids: []]
-    default_params << { trackings_attributes: [:name, :frequency, :time_of_frequency, :fields, :_destroy, :id] } if has_tracking_params
+    default_params << { trackings_attributes: [:name, :frequency, :time_of_frequency, :fields, :_destroy, :id] }
 
     params.require(:program_stream).permit(default_params).merge(ngo_name: ngo_name)
-    
-  end
-
-  def has_tracking_params
-    tracking = params[:program_stream][:trackings_attributes]
-    tracking.present? && (tracking.first[1][:name].present? || tracking.first[1][:fields].length > 2)
   end
 
   def find_ngo

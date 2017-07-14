@@ -117,6 +117,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       _initProgramBuilder(trackingBuilder, [])
       _stickyFill()
       _editTrackingFormName()
+      _handleRemoveCocoon()
 
   _generateValueForSelectOption = (field) ->
     $(field).find('input.option-label').on 'keyup change', ->
@@ -247,6 +248,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     counts = _countDuplicateLabel(nameFields)
 
     $.each counts, (nameText, numberOfField) ->
+      return if nameText == ''
       $(nameFields).each (index, text) ->
         if (numberOfField == 1) && ($(text).val() == nameText)
           _removeDuplicateWarning(text)
@@ -257,7 +259,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     _removeTabErrorClass()
 
   _handleCheckingForm = (field={}) ->
-    if $('#trackings').is(':visible') and $('.nested-fields').length > 1
+    if $('#trackings').is(':visible') and $('.nested-fields').is(':visible')
       _handleRemoveCocoon()
       _editTrackingFormName()
 
@@ -311,14 +313,11 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
 
   _countDuplicateLabel = (element) ->
     labels = []
-    if $('#trackings').is(':visible') and $('.nested-fields').length > 1
-      $(element).each (index, label) ->
-        if $(label).val() != ''
-          labels.push $(label).val()
-        else
-          labels.push $(label).text()
-    else
-      $(element).each (index, label) ->
+
+    $(element).each (index, label) ->
+      if $(label).val() != ''
+        labels.push $(label).val()
+      else
         labels.push $(label).text()
 
     counts = {}
@@ -329,11 +328,11 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
 
   _removeTabErrorClass = ->
     if $('#trackings').is(':visible')
-      errors = $('.ibox-content:visible').find('label.error')
+      errors = $('.nested-fields:visible').find('label.error')
     else
       errors = $('.form-wrap:visible').find('label.error')
 
-    unless errors.length > 0
+    if errors.length == 0
       $('.steps ul li.current').removeClass('error')
 
   _removeDuplicateWarning = (element) ->
@@ -342,7 +341,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     $(parentElement).find('input, textarea, select').removeClass('error')
     $(parentElement).find('label.error:last-child').remove()
 
-    if $('#trackings').is(':visible') and $('.nested-fields').length > 1
+    if $('#trackings').is(':visible') and $('.nested-fields').is(':visible')
       $(element).removeClass('error')
       $(element).parent().find('label.error').remove()
 
@@ -353,15 +352,15 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     unless $(parentElement).find('label.error').is(':visible')
       $(parentElement).append('<label class="error">Field labels must be unique, please click the edit icon to set a unique field label</label>')
 
-    if $('#trackings').is(':visible') and $('.nested-fields').length > 1
+    if $('#trackings').is(':visible') and $('.nested-fields').is(':visible')
       $(element).addClass('error')
       unless $(element).parent().find('label.error').is(':visible')
-        $(element).parent().append('<label class="error">Tracking name must be unique!!!</label>')
+        $(element).parent().append('<label class="error">Tracking name must be unique</label>')
 
 
   _handleCheckingDuplicateFields = ->
     if $('#trackings').is(':visible')
-      errorFields = $('#trackings').find('label.error')
+      errorFields = $('.nested-fields:visible').find('label.error')
     else
       errorFields = $('.form-wrap').find('label.error')
 
@@ -424,7 +423,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
   _initButtonSave = ->
     form = $('form')
     btnSaveTranslation = filterTranslation.save
-    form.find("[aria-label=Pagination]").append("<li><span id='program_stream_submit' class='btn btn-primary btn-sm'>#{btnSaveTranslation}</span></li>")
+    form.find("[aria-label=Pagination]").append("<li><span id='btn-save-draft' class='btn btn-primary btn-sm'>#{btnSaveTranslation}</span></li>")
 
   _handleRemoveUnuseInput = ->
     elements = $('#program-rule ,#enrollment .form-wrap.form-builder, #tracking .form-wrap.form-builder, #exit-program .form-wrap.form-builder')
