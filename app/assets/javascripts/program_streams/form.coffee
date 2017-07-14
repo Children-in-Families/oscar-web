@@ -35,7 +35,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
 
   _handleSaveProgramStream = ->
     form = $('form')
-    $('#program_stream_submit').on 'click', ->
+    $('#btn-save-draft').on 'click', ->
       if _handleCheckingDuplicateFields()
         return false
       else
@@ -233,14 +233,16 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
 
   _editTrackingFormName = ->
     $(".program_stream_trackings_name input[type='text']").on 'blur', ->
-      _checkDuplicateTrackingName()
+      allLabel = $('.nested-fields:visible').find(".program_stream_trackings_name input[type='text']")
+      _checkDuplicateTrackingName(allLabel)
 
   _handleRemoveCocoon = ->
     $('#trackings').on 'cocoon:after-remove', ->
-      _checkDuplicateTrackingName()
+      allLabel = $('.nested-fields:visible').find(".program_stream_trackings_name input[type='text']")
+      _checkDuplicateTrackingName(allLabel)
 
-  _checkDuplicateTrackingName = ->
-    nameFields = $('.ibox-content').find(".program_stream_trackings_name input[type='text']")
+  _checkDuplicateTrackingName = (element)->
+    nameFields = element
 
     counts = _countDuplicateLabel(nameFields)
 
@@ -344,7 +346,6 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       $(element).removeClass('error')
       $(element).parent().find('label.error').remove()
 
-
   _addDuplicateWarning = (element) ->
     parentElement = $(element).parents('li.form-field')
     $(parentElement).addClass('has-error')
@@ -355,7 +356,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     if $('#trackings').is(':visible') and $('.nested-fields').length > 1
       $(element).addClass('error')
       unless $(element).parent().find('label.error').is(':visible')
-        $(element).parent().append('<label class="error">Names are duplicate!!</label>')
+        $(element).parent().append('<label class="error">Tracking name must be unique!!!</label>')
 
 
   _handleCheckingDuplicateFields = ->
@@ -379,7 +380,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
           form.valid()
           name = $('#program_stream_name').val() == ''
           return false if name
-        else if currentIndex >= 2
+        else if $('#enrollment, #trackings, #exit-program').is(':visible')
           return false if _handleCheckingDuplicateFields()
 
         $('section ul.frmb.ui-sortable').css('min-height', '266px')
@@ -388,7 +389,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         _stickyFill()
         _editTrackingFormName()
         _handleEditLabelName()
-        buttonSave = $('#program_stream_submit')
+        buttonSave = $('#btn-save-draft')
         if $('#exit-program').is(':visible') then $(buttonSave).hide() else $(buttonSave).show()
 
       onFinished: (event, currentIndex) ->
