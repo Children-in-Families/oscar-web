@@ -125,7 +125,7 @@ describe Case, 'scopes' do
     let!(:recents){ Case.most_recents }
     subject{ recents }
     it 'should have correct order' do
-      is_expected.to eq([foster, kinship, emergency])
+      is_expected.to eq([referred, foster, kinship, emergency])
     end
   end
 

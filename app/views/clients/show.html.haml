@@ -215,12 +215,12 @@
                   = t('.families')
                 %td
                   %strong
-                    - @client.families.uniq.each do |family|
+                    - @client.families.as_non_cases.uniq.each do |family|
                       %strong.label.label-default.family
                         - if can? :read, Family
-                          = link_to family.name, family_path(family)
+                          = link_to family(family), family_path(family)
                         - else
-                          = family.name
+                          = family(family)
               %tr
                 %td.spacing-first-col
                   = t('.donor')
