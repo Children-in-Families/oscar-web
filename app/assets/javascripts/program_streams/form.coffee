@@ -14,7 +14,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     _initButtonSave()
     _handleSaveProgramStream()
     _handleClickAddTracking()
-    
+
   _stickyFill = ->
     if $('.form-wrap').is(':visible')
       $('.cb-wrap').Stickyfill()
@@ -101,6 +101,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       delete_group: @filterTranslation.deleteGroup
       operators:
         is_empty: 'is blank'
+        is_not_empty: 'is not blank'
         equal: 'is'
         not_equal: 'is not'
         less: '<'
@@ -121,7 +122,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
   _handleRemoveCocoon = ->
     $('#trackings').on 'cocoon:after-remove', ->
       _checkDuplicateTrackingName()
-    
+
 
   _generateValueForSelectOption = (field) ->
     $(field).find('input.option-label').on 'keyup change', ->
@@ -390,7 +391,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
           return false if _handleCheckingDuplicateFields()
         else if $('#exit-program').is(':visible')
           return false if _handleCheckingDuplicateFields()
-        
+
         $('section ul.frmb.ui-sortable').css('min-height', '266px')
 
       onStepChanged: (event, currentIndex, newIndex) ->
