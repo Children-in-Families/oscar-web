@@ -169,11 +169,12 @@ class ClientGrid
   end
 
   filter(:family_id, :integer, header: -> { I18n.t('datagrid.columns.families.code') }) do |value, object|
-    ids = []
-    Case.active.most_recents.joins(:client).group_by(&:client_id).each do |key, c|
-      ids << c.first.id
-    end
-    object.joins(:cases).where("cases.id IN (?)", ids).where("cases.family_id = ? ", value) if value.present?
+    # ids = []
+    # Case.most_recents.joins(:client).group_by(&:client_id).each do |key, c|
+    #   ids << c.first.id
+    # end
+    # # comment above, so user can search family_id of all family types they associate with
+    object.joins(:cases).where("cases.family_id = ? ", value) if value.present?
   end
 
   def quantitative_type_options
@@ -495,14 +496,14 @@ class ClientGrid
   end
 
   column(:family_id, order: false, header: -> { I18n.t('datagrid.columns.families.code') }) do |object|
-    if object.cases.current && object.cases.current.family
-      object.cases.current.family.id
+    if object.cases.most_recents.first && object.cases.most_recents.first.family
+      object.cases.most_recents.first.family.id
     end
   end
 
   column(:family, order: false, header: -> { I18n.t('datagrid.columns.clients.placements.family') }) do |object|
-    if object.cases.current && object.cases.current.family
-      object.cases.current.family.name
+    if object.cases.most_recents.first && object.cases.most_recents.first.family
+      object.cases.most_recents.first.family.name
     end
   end
 

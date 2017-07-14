@@ -18,6 +18,11 @@ describe Family, 'scopes' do
   let!(:inactive_family){ create(:family, family_type: 'inactive')}
   let!(:birth_family){ create(:family, family_type: 'birth_family')}
 
+  context 'as_non_cases' do
+    it { expect(Family.as_non_cases).to include(inactive_family, birth_family) }
+    it { expect(Family.as_non_cases).not_to include(family, other_family, emergency_family) }
+  end
+
   context 'name like' do
     let!(:families){ Family.name_like(family.name.downcase) }
     it 'should include record have family name like' do
@@ -107,7 +112,8 @@ describe Family, 'scopes' do
 end
 
 describe Family, 'methods' do
-
+  let!(:inactive_family){ create(:family, family_type: 'inactive')}
+  let!(:birth_family){ create(:family, family_type: 'birth_family')}
   context 'member count' do
     let!(:family){ create(:family,
       male_adult_count: 1,
@@ -116,5 +122,13 @@ describe Family, 'methods' do
     it 'should return total family member' do
       expect(family.member_count).to eq(2)
     end
+  end
+
+  context 'inactive?' do
+    it { expect(inactive_family.inactive?).to be true }
+  end
+
+  context 'birth_family?' do
+    it { expect(birth_family.birth_family?).to be true }
   end
 end
