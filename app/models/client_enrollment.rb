@@ -20,4 +20,5 @@ class ClientEnrollment < ActiveRecord::Base
   def has_client_enrollment_tracking?
     client_enrollment_trackings.present?
   end
+
 end
