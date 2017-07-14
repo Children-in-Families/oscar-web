@@ -84,7 +84,7 @@ module AdvancedSearches
         if BLANK_FIELDS.include? field
           @sql_string << "clients.#{field} IS NOT NULL"
         else
-          @sql_string << "(clients.#{field} <> NULL OR clients.#{field} != '')"
+          @sql_string << "(clients.#{field} IS NOT NULL AND clients.#{field} != '')"
         end
 
       when 'between'
