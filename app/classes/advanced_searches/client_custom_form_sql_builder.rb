@@ -26,8 +26,8 @@ module AdvancedSearches
 
       @custom_form_rules.each do |rule|
         field = rule[:field].gsub("'", "''")
-        value = rule[:value].gsub("'", "''")
-        type  = rule[:input]
+        value = rule[:value].is_a?(Array) ? rule[:value] : rule[:value].gsub("'", "''")
+        @type = rule[:type]
         if rule[:field] != nil
           case rule[:operator]
           when 'equal'
