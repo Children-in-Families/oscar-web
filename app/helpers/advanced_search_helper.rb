@@ -1,9 +1,17 @@
 module AdvancedSearchHelper
   def set_value_custom_form
-    if params[:client_advanced_search].present? && params[:client_advanced_search][:selected_custom_form].present?
-      params[:client_advanced_search][:selected_custom_form]
+    if params[:client_advanced_search].present? && params[:client_advanced_search][:custom_form_selected].present?
+      params[:client_advanced_search][:custom_form_selected]
     else
       ''
+    end
+  end
+
+  def custom_form_disable_values
+    if params[:client_advanced_search].present? && params[:client_advanced_search][:custom_form_disables].present?
+      params[:client_advanced_search][:custom_form_disables]
+    else
+      '[]'
     end
   end
 

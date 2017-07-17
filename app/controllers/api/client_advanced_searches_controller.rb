@@ -6,8 +6,8 @@ module Api
     end
 
     def get_custom_field
-      custom_form_id = params[:custom_form_id]
-      @advanced_filter_custom_field = AdvancedSearches::CustomFields.new(user: current_user, custom_form_id: custom_form_id).render
+      custom_form_ids = params[:custom_form_ids]
+      @advanced_filter_custom_field = AdvancedSearches::CustomFields.new(custom_form_ids).render
       render json: @advanced_filter_custom_field
     end
   end

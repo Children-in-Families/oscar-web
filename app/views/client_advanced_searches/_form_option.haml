@@ -12,13 +12,13 @@
         .row
           .col-xs-12
             .form-group
-              = check_box_tag :nil, '1', false, { class: 'i-checks', id: 'custom-form-checkbox' }
+              = check_box_tag :nil, '1', set_value_custom_form.present?, { class: 'i-checks', id: 'custom-form-checkbox' }
               %label Custom Form
         .row
           .col-xs-12
-            .form-group.custom-form
+            .form-group.custom-form{ data: { value: custom_form_disable_values } }
               %label Form Title
-              = select_tag(:nil, options_for_select(@custom_fields.pluck(:form_title, :id)), { id: 'custom-form-select', class: 'form-control', prompt: 'Please select form title'} )
+              = select_tag(:nil, options_for_select(@custom_fields.map{|form| [form.form_title, form.id, { disabled: ( "disabled" if eval(custom_form_disable_values).include?(form.id.to_i)) }] }, set_value_custom_form), { id: 'custom-form-select', class: 'form-control', prompt: 'Please select form title'} )
     .col-xs-12.col-md-3
       #program-stream-wrapper
         .row

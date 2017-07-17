@@ -45,6 +45,8 @@
         .ibox-content
           = t('.no_results')
 = simple_form_for :client_advanced_search, url: :client_advanced_searches, method: 'GET', html: { id: 'advanced-search' } do |f|
+  = f.hidden_field :custom_form_selected
+  = f.hidden_field :custom_form_disables, value: custom_form_disable_values
   = f.hidden_field :basic_rules
   = f.hidden_field :field_visibility
   = hidden_field_tag :locale, "#{params[:locale]}"

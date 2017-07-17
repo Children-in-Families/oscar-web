@@ -1,32 +1,90 @@
 CIF.Client_advanced_searchesIndex = do ->
+  @customFormSelected = ''
+  @customFormOption = ''
+  @customFormDisabled = []
   _init = ->
     @filterTranslation = ''
     _initSelect2()
+    _setValueToCustomFormDisabled()
     _getTranslation()
     _columnsVisibility()
-    _handleAddCustomFormFilter()
-    _handleAddProgramStreamFilter()
     _ajaxGetBasicField()
+    _handleShowCustomFormSelect()
+    _handleHideCustomFormSelect()
+    _customFormSelectChange()
     _handleInitDatatable()
     _handleSearch()
     _addRuleCallback()
+    _handleShowProgramStreamFilter()
+    _handleHideProgramStreamSelect
     _handleScrollTable()
     _getClientPath()
     _setDefaultCheckColumnVisibilityAll()
 
-  _handleAddCustomFormFilter = ->
+  _setValueToCustomFormDisabled = ->
+    @customFormDisabled = $('.custom-form').data('value')
+    customFormSelected = $('#custom-form-select').val()
+    if customFormSelected != ''
+      @customFormSelected = parseInt customFormSelected
+
+  _handleShowCustomFormSelect = ->
+    if $('#custom-form-checkbox').prop('checked')
+      $('.custom-form').show() 
     $('#custom-form-checkbox').on 'ifChecked', ->
-      $(@).parents('#custom-form-wrapper').find('.custom-form').show()
+      $('.custom-form').show()
 
+  _handleHideCustomFormSelect = ->
     $('#custom-form-checkbox').on 'ifUnchecked', ->
-      customForm = $(@).parents('#custom-form-wrapper').find('.custom-form')
-      $(customForm).hide()
-      $(customForm).find('select').select2("val", "")
+      self.customFormOption = ''
+      self.customFormDisabled = []
+      _handleRemoveCustomFormFilter()
+      $('.custom-form select').select2("val", "")
+      $('.custom-form select option').removeAttr('disabled')
+      $('.custom-form').hide()
 
-  _handleAddProgramStreamFilter = ->
+  _customFormSelectChange = ->
+    self = @
+    $('#custom-form-wrapper select').on 'change', ->
+      customFormId = $(@).val()
+      option = $(':selected', $(@))
+      if self.customFormOption != '' and $(@).val() != ''
+        self.customFormOption.attr('disabled', 'disabled')
+        self.customFormDisabled.push self.customFormOption.val()
+      self.customFormOption = option
+
+      _handleAddCustomFormFilter(customFormId)
+
+  _handleAddCustomFormFilter = (formId)->
+    if formId.length > 0
+      $.ajax
+        url: '/api/client_advanced_searches/get_custom_field'
+        data: { custom_form_ids: formId }
+        method: 'GET'
+        success: (response) ->
+          fieldList = response.client_advanced_searches
+          $('#builder').queryBuilder('addFilter', fieldList)
+          _initSelect2()
+
+  _handleRemoveCustomFormFilter = ->
+    filterSelects = $('.rule-container .rule-filter-container select')
+    values = []
+    for select in filterSelects
+      optGroup = $(':selected', select).parents('optgroup')
+      if $(select).val() != '-1'
+        optLabel = optGroup[0].label.split('|')[0].trim()
+        if optLabel == 'Custom Fields'
+          $(select).parents('.rule-container').find('.rule-header button').trigger('click')
+          $(optGroup).find('option').each ->
+            values.push $(@).val()
+
+    $('#builder').queryBuilder('removeFilter', values)
+    _initSelect2()
+
+  _handleShowProgramStreamFilter = ->
     $('#program-stream-checkbox').on 'ifChecked', ->
       $(@).parents('#program-stream-wrapper').find('.program-stream').show()
 
+  _handleHideProgramStreamSelect = ->
     $('#program-stream-checkbox').on 'ifUnchecked', ->
       programStream = $(@).parents('#program-stream-wrapper').find('.program-stream')
       $(programStream).hide()
@@ -47,16 +105,21 @@ CIF.Client_advanced_searchesIndex = do ->
     $('.rule-operator-container select, .rule-value-container select').select2(width: 'resolve')
 
   _ajaxGetBasicField = ->
+    customFromIds = @customFormDisabled
+    if @customFormSelected != '' then customFromIds.push @customFormSelected
+
     $.ajax
       url: '/api/client_advanced_searches/get_basic_field'
       method: 'GET'
       success: (response) ->
         fieldList = response.client_advanced_searches
-        $('#builder').queryBuilder(
-          _queryBuilderOption(fieldList)
-        )
-        _basicFilterSetRule() 
-        _initSelect2()
+        $('#builder').queryBuilder(_queryBuilderOption(fieldList))
+        _handleAddCustomFormFilter(customFromIds)
+        setTimeout ( ->
+          _basicFilterSetRule()
+          _initSelect2()
+          _initRuleOperatorSelect2($('#builder'))
+        ), 300
 
   _handleValidateSearch = ->
     filterValidate = []
@@ -79,8 +142,11 @@ CIF.Client_advanced_searchesIndex = do ->
       $('#advanced-search').submit()
 
   _handleSearch = ->
+    self = @
     $('#search').on 'click', ->
       basicRules = $('#builder').queryBuilder('getRules')
+      $('#client_advanced_search_custom_form_disables').val("[#{self.customFormDisabled}]")
+      $('#client_advanced_search_custom_form_selected').val($('#custom-form-select').val())
 
       if !($.isEmptyObject(basicRules))
         $('#client_advanced_search_basic_rules').val(_handleStringfyRules(basicRules))
@@ -127,7 +193,7 @@ CIF.Client_advanced_searchesIndex = do ->
       )
 
   _addRuleCallback = ->
-    $('#builder, #custom-form').on 'afterCreateRuleFilters.queryBuilder', (_e, obj) ->
+    $('#builder').on 'afterCreateRuleFilters.queryBuilder', (_e, obj) ->
       _initSelect2()
       _handleSelectOptionChange(obj)
       _referred_to_program()
@@ -139,12 +205,15 @@ CIF.Client_advanced_searchesIndex = do ->
       $(ruleFiltersSelect).on 'select2-close', ->
         setTimeout ( ->
           _initSelect2()
-          operatorSelect = $(rowBuilderRule).find('.rule-operator-container select')
-          $(operatorSelect).on 'select2-close', ->
-            setTimeout ( ->
-              $(rowBuilderRule).find('.rule-value-container select').select2(width: '180px')
-            )
+          _initRuleOperatorSelect2(rowBuilderRule)
         )
+
+  _initRuleOperatorSelect2 = (rowBuilderRule) ->
+    operatorSelect = $(rowBuilderRule).find('.rule-operator-container select')
+    $(operatorSelect).on 'select2-close', ->
+      setTimeout ( ->
+        $(rowBuilderRule).find('.rule-value-container select').select2(width: '180px')
+      )
 
   _getTranslation = ->
     @filterTranslation =
