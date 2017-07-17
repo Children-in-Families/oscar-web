@@ -1,7 +1,7 @@
 describe 'Family' do
   let!(:admin){ create(:user, roles: 'admin') }
   let!(:province){create(:province,name:"Phnom Penh")}
-  let!(:family){ create(:family,family_type: "emergency",name:"EC Family",address: "Phnom Penh",province_id: province.id) }
+  let!(:family){ create(:family, :emergency, name: 'EC Family', address: 'Phnom Penh', province_id: province.id) }
   let!(:other_family){ create(:family) }
   let!(:case){ create(:case, family: other_family) }
   let!(:client){ create(:client, status: 'Referred', state: 'accepted') }
@@ -112,7 +112,7 @@ describe 'Family' do
     end
   end
 
-  feature 'Edit', js: true do
+  feature 'Update', js: true do
     let!(:name) { FFaker::Name.name }
     before do
       visit edit_family_path(family)
@@ -124,7 +124,8 @@ describe 'Family' do
       expect(page).to have_content('Family has been successfully updated')
       expect(page).to have_content(name)
     end
-    xscenario 'invalid'
+    xscenario 'invalid removing clients from case family' do
+    end
   end
 
   feature 'Delete', js: true do

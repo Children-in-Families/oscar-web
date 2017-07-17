@@ -14,5 +14,9 @@ FactoryGirl.define do
       exit_date { Time.now }
       exit_note FFaker::Lorem.paragraph
     end
+
+    trait :emergency do
+      case_type 'EC'
+    end
   end
 end

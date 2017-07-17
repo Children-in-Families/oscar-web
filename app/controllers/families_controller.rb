@@ -43,10 +43,14 @@ class FamiliesController < AdminController
   end
 
   def update
-    if @family.update_attributes(family_params)
-      redirect_to @family, notice: t('.successfully_updated')
+    if client_associations.any? && @family.is_case?
+      redirect_to request.referrer, alert: t('.not_allowed_to_detach_clients')
     else
-      render :edit
+      if @family.update_attributes(family_params)
+        redirect_to @family, notice: t('.successfully_updated')
+      else
+        render :edit
+      end
     end
   end
 
@@ -88,5 +92,9 @@ class FamiliesController < AdminController
 
   def find_family
     @family = Family.find(params[:id])
+  end
+
+  def client_associations
+    @family.client_ids.uniq - params[:family][:client_ids].map{|a| a.to_i }
   end
 end

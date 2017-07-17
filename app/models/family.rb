@@ -31,14 +31,6 @@ class Family < ActiveRecord::Base
     male_adult_count.to_i + female_adult_count.to_i + male_children_count.to_i + female_children_count.to_i
   end
 
-  def inactive?
-    family_type == 'inactive'
-  end
-
-  def birth_family?
-    family_type == 'birth_family'
-  end
-
   def self.by_family_type(type)
     if type == 'emergency'
       emergency
@@ -51,5 +43,15 @@ class Family < ActiveRecord::Base
     elsif type == 'birth_family'
       birth_family
     end
+  end
+
+  FAMILY_TYPE.each do |type|
+    define_method "#{type}?" do
+      family_type == type
+    end
+  end
+
+  def is_case?
+    emergency? || foster? || kinship?
   end
 end
