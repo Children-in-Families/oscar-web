@@ -704,6 +704,7 @@ km:
       enrollment: ទម្រង់បែបបទ​នៃ​ចុះឈ្មោះ
     form:
       cancel: ទុកជាមោឃៈ
+      enrollment_date: ថ្ងៃចុះឈ្មោះ
       save: រក្សាទុក
     index:
       actions: សកម្មភាព

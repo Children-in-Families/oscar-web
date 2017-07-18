@@ -7,6 +7,8 @@ describe ClientEnrollment, 'associations' do
 end
 
 describe ClientEnrollment, 'validations' do
+  it { is_expected.to validate_presence_of(:enrollment_date) }
+
   let!(:client) { create(:client) }
   let!(:program_stream) { create(:program_stream)}
 

@@ -103,7 +103,8 @@ describe 'Client Enrollment' do
     scenario 'Valid' do
       within('#new_client_enrollment') do
         find('.numeric').set(3)
-        find('input[type="text"]').set('this is testing')
+        find('#enrollment_date').set('2017-04-01')
+        find('#client_enrollment_properties_description').set('this is testing')
         find('input[type="email"]').set('cif@cambodianfamilies.com')
 
         click_button 'Save'
@@ -114,7 +115,7 @@ describe 'Client Enrollment' do
     scenario 'Invalid' do
       within('#new_client_enrollment') do
         find('.numeric').set(6)
-        find('input[type="text"]').set('')
+        find('#client_enrollment_properties_description').set('')
         find('input[type="email"]').set('cicambodianfamilies')
 
         click_button 'Save'

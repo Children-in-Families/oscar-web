@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170706083521) do
+ActiveRecord::Schema.define(version: 20170718034828) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -215,6 +215,7 @@ ActiveRecord::Schema.define(version: 20170706083521) do
     t.integer  "program_stream_id"
     t.datetime "created_at",                           null: false
     t.datetime "updated_at",                           null: false
+    t.date     "enrollment_date"
   end
 
   add_index "client_enrollments", ["client_id"], name: "index_client_enrollments_on_client_id", using: :btree
@@ -524,14 +525,16 @@ ActiveRecord::Schema.define(version: 20170706083521) do
   create_table "program_streams", force: :cascade do |t|
     t.string   "name"
     t.text     "description"
-    t.jsonb    "rules",        default: {}
-    t.jsonb    "enrollment",   default: {}
-    t.jsonb    "exit_program", default: {}
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
+    t.jsonb    "rules",             default: {}
+    t.jsonb    "enrollment",        default: {}
+    t.jsonb    "exit_program",      default: {}
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
     t.integer  "quantity"
-    t.string   "ngo_name",     default: ""
-    t.boolean  "completed",    default: false
+    t.string   "ngo_name",          default: ""
+    t.boolean  "completed",         default: false
+    t.integer  "program_exclusive", default: [],                 array: true
+    t.integer  "mutual_dependence", default: [],                 array: true
   end
 
   create_table "progress_note_types", force: :cascade do |t|
