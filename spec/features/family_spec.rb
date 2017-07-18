@@ -4,8 +4,8 @@ describe 'Family' do
   let!(:family){ create(:family, :emergency, name: 'EC Family', address: 'Phnom Penh', province_id: province.id) }
   let!(:other_family){ create(:family) }
   let!(:case){ create(:case, family: other_family) }
-  let!(:client){ create(:client, status: 'Referred', state: 'accepted') }
-  let!(:other_client){ create(:client, status: 'Referred', state: '') }
+  let!(:client){ create(:client, :accepted) }
+  let!(:other_client){ create(:client, state: '') }
   before do
     login_as(admin)
   end
@@ -114,17 +114,41 @@ describe 'Family' do
 
   feature 'Update', js: true do
     let!(:name) { FFaker::Name.name }
-    before do
-      visit edit_family_path(family)
+    let!(:pirunseng){ create(:client, :accepted, given_name: 'Pirun', family_name: 'Seng') }
+    let!(:ec_family){ create(:family, :emergency, name: 'Emergency Family') }
+    let!(:non_case_family){ create(:family, family_type: ['birth_family', 'inactive'].sample) }
+    let!(:non_case){ create(:case, case_type: 'Referred', client: pirunseng, family: non_case_family) }
+    let!(:ec_case){ create(:case, :emergency, client: pirunseng, family: ec_family) }
+
+    feature 'valid' do
+      before do
+        visit edit_family_path(ec_family)
+      end
+      scenario 'name' do
+        fill_in 'Name', with: name
+        click_button 'Save'
+        sleep 1
+        expect(page).to have_content('Family has been successfully updated')
+        expect(page).to have_content(name)
+      end
     end
-    scenario 'valid' do
-      fill_in 'Name', with: name
-      click_button 'Save'
-      sleep 1
-      expect(page).to have_content('Family has been successfully updated')
-      expect(page).to have_content(name)
-    end
-    xscenario 'invalid removing clients from case family' do
+
+    feature 'remove clients from' do
+      scenario 'case family is invalid' do
+        visit edit_family_path(ec_family)
+        unselect('Pirun Seng', from: 'Clients', visible: false)
+        click_button 'Save'
+        sleep 1
+        expect(page).to have_content("You're not allowed to detach clients from the family through this form!")
+      end
+
+      scenario 'birth or inactive family is valid' do
+        visit edit_family_path(non_case_family)
+        unselect('Pirun Seng', from: 'Clients', visible: false)
+        click_button 'Save'
+        sleep 1
+        expect(page).to have_content('Family has been successfully updated')
+      end
     end
   end
 
