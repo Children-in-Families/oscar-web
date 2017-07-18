@@ -1,16 +1,16 @@
 CIF.Client_advanced_searchesIndex = do ->
-  @customFormSelected = ''
-  @customFormDisableOption = []
+  @customFormSelected = []
   _init = ->
     @filterTranslation = ''
     _initSelect2()
-    _setValueToCustomFormDisabled()
+    _setValueToCustomFormSelected()
     _getTranslation()
     _ajaxGetBasicField()
     _handleShowProgramStreamFilter()
     _handleHideProgramStreamSelect()
     _handleShowCustomFormSelect()
     _customFormSelectChange()
+    _customFormSelectRemove()
     _handleHideCustomFormSelect()
     _columnsVisibility()
     _handleInitDatatable()
@@ -25,10 +25,8 @@ CIF.Client_advanced_searchesIndex = do ->
     $('.rule-filter-container select').select2(width: '320px')
     $('.rule-operator-container select, .rule-value-container select').select2(width: 'resolve')
 
-  _setValueToCustomFormDisabled = ->
-    @customFormDisableOption = $('.custom-form').data('value')
-    customFormSelected = $('.custom-form select')
-    @customFormSelected = $(':selected', customFormSelected)
+  _setValueToCustomFormSelected = ->
+    @customFormSelected = $('.custom-form').data('value')
 
   _handleShowProgramStreamFilter = ->
     $('#program-stream-checkbox').on 'ifChecked', ->
@@ -52,23 +50,39 @@ CIF.Client_advanced_searchesIndex = do ->
     self = @
     $('#custom-form-checkbox').on 'ifUnchecked', ->
       _handleRemoveCustomFormFilter()
-      self.customFormSelected = ''
-      self.customFormDisableOption = []
+      self.customFormSelected = []
       $('.custom-form select').select2('val', '')
-      $('.custom-form select option').removeAttr('disabled')
       $('.custom-form').hide()
 
   _customFormSelectChange = ->
-    self = @
-    $('#custom-form-wrapper select').on 'change', ->
-      customFormId = $(@).val()
-      option = $(':selected', $(@))
-      if self.customFormSelected != '' and customFormId != ''
-        self.customFormSelected.attr('disabled', 'disabled')
-        self.customFormDisableOption.push self.customFormSelected.val()
-      self.customFormSelected = option
+    $('#custom-form-wrapper select').on 'select2-selecting', (element) ->
+      _handleAddCustomFormFilter(element.val)
 
-      _handleAddCustomFormFilter(customFormId)
+  _customFormSelectRemove = ->
+    $('#custom-form-wrapper select').on 'select2-removed', (element) ->
+      values = []
+      removeValue = element.choice.text
+      filterSelects = $('.rule-container .rule-filter-container select')
+      for select in filterSelects
+        optGroup  = $(':selected', select).parents('optgroup')
+        if $(select).val() != '-1' and optGroup[0] != undefined
+          label = optGroup[0].label
+          if label.includes('Custom Fields') and label.split('|')[1].trim() == removeValue
+            $(select).parents('.rule-container').find('.rule-header button').trigger('click')
+
+      optGroups = $(filterSelects[0]).find('optgroup')
+      for optGroup in optGroups
+        label = optGroup.label
+        if label != 'Client Basic Fields'
+          formTitle = label.split('|')[1].trim()
+          if formTitle == removeValue
+            $(optGroup).find('option').each ->
+              values.push $(@).val()
+
+      setTimeout ( ->
+        $('#builder').queryBuilder('removeFilter', values)
+        _initSelect2()
+        ),100
 
   _handleAddCustomFormFilter = (customFormIds)->
     if customFormIds.length > 0
@@ -85,8 +99,8 @@ CIF.Client_advanced_searchesIndex = do ->
     values = []
     filterSelects = $('.rule-container .rule-filter-container select')
     for select in filterSelects
-      if $(select).val() != '-1'
-        optGroup = $(':selected', select).parents('optgroup')
+      optGroup = $(':selected', select).parents('optgroup')
+      if $(select).val() != '-1' and optGroup[0] != undefined
         optLabel = optGroup[0].label.split('|')[0].trim()
         if optLabel == 'Custom Fields'
           $(select).parents('.rule-container').find('.rule-header button').trigger('click')
@@ -109,43 +123,21 @@ CIF.Client_advanced_searchesIndex = do ->
       success: (response) ->
         fieldList = response.client_advanced_searches
         $('#builder').queryBuilder(_queryBuilderOption(fieldList))
-        _handleAddCustomFormFilter(self.customFormDisableOption)
+        _handleAddCustomFormFilter(self.customFormSelected)
         setTimeout ( ->
           _basicFilterSetRule()
           _initSelect2()
           _initRuleOperatorSelect2($('#builder'))
-        ), 400
+        ), 300
 
   _handleSearch = ->
-    self = @
     $('#search').on 'click', ->
       basicRules = $('#builder').queryBuilder('getRules')
-      $('#client_advanced_search_custom_form_disables').val("[#{self.customFormDisableOption}]")
-      $('#client_advanced_search_custom_form_selected').val($('#custom-form-select').val())
+      $('#client_advanced_search_custom_form_selected').val("[#{$('#custom-form-select').val()}]")
       if !($.isEmptyObject(basicRules))
         $('#client_advanced_search_basic_rules').val(_handleStringfyRules(basicRules))
         _handleSelectFieldVisibilityCheckBox()
-        _handleValidateSearch()
-
-  _handleValidateSearch = ->
-    filterValidate = []
-    groupFilters = $('.advanced-search-builder')
-    for filters in groupFilters
-      filterLength = $(filters).find('.rule-container').length
-      if filterLength > 1
-        for filter in filters
-          filterField     = $(filter).find('.rule-filter-container select').val()
-          filterOperator  = $(filter).find('.rule-operator-container select').val()
-          filterValue     = $(filter).find('.rule-value-container input.form-control').val()
-
-          if (filterField == '-1') || (filterField != '-1' && filterOperator != 'is_empty' && filterValue == '')
-            filterValidate.push filter
-
-      if filterLength == 1 && $(filters).find('.rule-filter-container select').val() == '-1'
-        $('.rule-container').removeClass('has-error')
-
-    if filterValidate.length == 0 && !($('.rule-container').hasClass('has-error'))
-      $('#advanced-search').submit()
+        $('#advanced-search').submit()
 
   _queryBuilderOption = (fieldList) ->
     inputs_separator: ' AND '

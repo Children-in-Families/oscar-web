@@ -18,7 +18,7 @@
           .col-xs-12
             .form-group.custom-form{ data: { value: custom_form_disable_values } }
               %label Form Title
-              = select_tag(:nil, options_for_select(@custom_fields.map{|form| [form.form_title, form.id, { disabled: ( "disabled" if eval(custom_form_disable_values).include?(form.id.to_i)) }] }, set_value_custom_form), { id: 'custom-form-select', class: 'form-control', prompt: 'Please select form title'} )
+              = select_tag(:nil, options_for_select(@custom_fields.pluck(:form_title, :id), eval(set_value_custom_form)), { multiple: true, id: 'custom-form-select', class: 'form-control' } )
     .col-xs-12.col-md-3
       #program-stream-wrapper
         .row
