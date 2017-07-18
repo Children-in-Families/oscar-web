@@ -113,7 +113,7 @@ module AdvancedSearches
 
     def family_id_field_query
       @values = validate_family_id(@value)
-      sub_query = 'SELECT MAX(cases.created_at) FROM cases WHERE cases.exited = FALSE AND cases.client_id = clients.id'
+      sub_query = 'SELECT MAX(cases.created_at) FROM cases WHERE cases.client_id = clients.id'
       clients = @clients.joins(:families).joins(:cases).where("cases.created_at = (#{sub_query})")
 
       case @operator
@@ -138,7 +138,7 @@ module AdvancedSearches
     end
 
     def family_name_field_query
-      sub_query = 'SELECT MAX(cases.created_at) FROM cases WHERE cases.exited = FALSE AND cases.client_id = clients.id'
+      sub_query = 'SELECT MAX(cases.created_at) FROM cases WHERE cases.client_id = clients.id'
       clients = @clients.joins(:families).joins(:cases).where("cases.created_at = (#{sub_query})")
 
       case @operator

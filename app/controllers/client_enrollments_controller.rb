@@ -71,7 +71,7 @@ class ClientEnrollmentsController < AdminController
   end
 
   def client_filtered
-    AdvancedSearches::ClientAdvancedSearch.new(@program_stream.rules, Client.all).filter
+    AdvancedSearches::ClientAdvancedSearch.new(@program_stream.rules, {}, Client.all).filter
   end
 
   def program_stream_order_by_enrollment

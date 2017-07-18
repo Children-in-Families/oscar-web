@@ -946,13 +946,14 @@ km:
       date_of_birth: ថ្ងៃ ខែ ឆ្នាំ កំណើត
       district: ស្រុក/ខណ្ឌ
       donor: ម្ចាស់ជំនួយ
-      enrollment_program_streams: ចុះឈ្មោះកម្មវិធីបន្ទាប់បន្សំ
+      enrolled_program_streams: កម្មវិធីបន្ទាប់បន្សំដែលបានចូលរួម
       exit_date: ថ្ងៃចាកចេញ
       exit_from_ec: ចាកចេញពី EC
       exit_from_fc: ចាកចេញពី FC
       exit_from_kc: ចាកចេញពី KC
       exit_ngo_btn: ចាកចេញពី NGO
       exit_note: កំណត់ហេតុនៃការចាកចេញ
+      families: គ្រួសារ
       family_name: នាមត្រកូល
       follow_up_by: បុគ្គលិកដែលតាមដានករណី
       follow_up_date: កាលបរិច្ឆេទតាមដាន
@@ -1994,6 +1995,7 @@ km:
       significant_family_member_count: ចំនួននៃសមាជិកគ្រួសារសំខាន់ៗ
       'yes': បាទ/ចាស
     update:
+      not_allowed_to_detach_clients: អ្នកមិនអាចយកអតិថិជនចេញពីគ្រួសារតាមទម្រង់នេះបានទេ
       successfully_updated: គ្រួសារត្រូវបានកែសម្រួលដោយជោគជ័យ
     version:
       back: ត្រលប់ក្រោយ

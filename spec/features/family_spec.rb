@@ -1,11 +1,11 @@
 describe 'Family' do
   let!(:admin){ create(:user, roles: 'admin') }
   let!(:province){create(:province,name:"Phnom Penh")}
-  let!(:family){ create(:family,family_type: "emergency",name:"EC Family",address: "Phnom Penh",province_id: province.id) }
+  let!(:family){ create(:family, :emergency, name: 'EC Family', address: 'Phnom Penh', province_id: province.id) }
   let!(:other_family){ create(:family) }
   let!(:case){ create(:case, family: other_family) }
-  let!(:client){ create(:client, status: 'Referred', state: 'accepted') }
-  let!(:other_client){ create(:client, status: 'Referred', state: '') }
+  let!(:client){ create(:client, :accepted) }
+  let!(:other_client){ create(:client, state: '') }
   before do
     login_as(admin)
   end
@@ -43,7 +43,7 @@ describe 'Family' do
       fill_in 'Name', with: FFaker::Name.name
       fill_in 'Address', with: FFaker::Address.street_address
       fill_in 'Caregiver Information', with: FFaker::Lorem.paragraph
-      select(client.name, from: 'family_client_ids')
+      find(".family_clients select option[value='#{client.id}']", visible: false).select_option
       click_button 'Save'
       sleep 1
       expect(page).to have_content('Family has been successfully created')
@@ -55,21 +55,101 @@ describe 'Family' do
       click_button 'Save'
       expect(page).to have_content("can't be blank")
     end
-  end
 
-  feature 'Edit', js: true do
-    let!(:name) { FFaker::Name.name }
-    before do
-      visit edit_family_path(family)
-    end
-    scenario 'valid' do
-      fill_in 'Name', with: name
+    scenario 'Inactive Family' do
+      fill_in 'Name', with: 'Inactive Family'
+      find(".family_family_type select option[value='inactive']", visible: false).select_option
+      find(".family_clients select option[value='#{client.id}']", visible: false).select_option
       click_button 'Save'
       sleep 1
-      expect(page).to have_content('Family has been successfully updated')
-      expect(page).to have_content(name)
+      expect(page).to have_content('Family has been successfully created')
+      client.reload
+      expect(client.status).to eq('Referred')
     end
-    xscenario 'invalid'
+
+    scenario 'Birth Family' do
+      fill_in 'Name', with: 'Inactive Family'
+      find(".family_family_type select option[value='birth_family']", visible: false).select_option
+      find(".family_clients select option[value='#{client.id}']", visible: false).select_option
+      click_button 'Save'
+      sleep 1
+      expect(page).to have_content('Family has been successfully created')
+      client.reload
+      expect(client.status).to eq('Referred')
+    end
+
+    scenario 'Emergency Family' do
+      fill_in 'Name', with: 'Emergency Family'
+      find(".family_family_type select option[value='emergency']", visible: false).select_option
+      find(".family_clients select option[value='#{client.id}']", visible: false).select_option
+      click_button 'Save'
+      sleep 1
+      expect(page).to have_content('Family has been successfully created')
+      client.reload
+      expect(client.status).to eq('Active EC')
+    end
+
+    scenario 'Foster Family' do
+      fill_in 'Name', with: 'Foster Family'
+      find(".family_family_type select option[value='foster']", visible: false).select_option
+      find(".family_clients select option[value='#{client.id}']", visible: false).select_option
+      click_button 'Save'
+      sleep 1
+      expect(page).to have_content('Family has been successfully created')
+      client.reload
+      expect(client.status).to eq('Active FC')
+    end
+
+    scenario 'Kinship Family' do
+      fill_in 'Name', with: 'Kinship Family'
+      find(".family_family_type select option[value='kinship']", visible: false).select_option
+      find(".family_clients select option[value='#{client.id}']", visible: false).select_option
+      click_button 'Save'
+      sleep 1
+      expect(page).to have_content('Family has been successfully created')
+      client.reload
+      expect(client.status).to eq('Active KC')
+    end
+  end
+
+  feature 'Update', js: true do
+    let!(:name) { FFaker::Name.name }
+    let!(:pirunseng){ create(:client, :accepted, given_name: 'Pirun', family_name: 'Seng') }
+    let!(:ec_family){ create(:family, :emergency, name: 'Emergency Family') }
+    let!(:non_case_family){ create(:family, family_type: ['birth_family', 'inactive'].sample) }
+    let!(:non_case){ create(:case, case_type: 'Referred', client: pirunseng, family: non_case_family) }
+    let!(:ec_case){ create(:case, :emergency, client: pirunseng, family: ec_family) }
+
+    feature 'valid' do
+      before do
+        visit edit_family_path(ec_family)
+      end
+      scenario 'name' do
+        fill_in 'Name', with: name
+        click_button 'Save'
+        sleep 1
+        expect(page).to have_content('Family has been successfully updated')
+        expect(page).to have_content(name)
+      end
+    end
+
+    feature 'remove clients from' do
+      scenario 'case family is invalid' do
+        visit edit_family_path(ec_family)
+        unselect('Pirun Seng', from: 'Clients', visible: false)
+        click_button 'Save'
+        sleep 1
+        expect(page).to have_content("You're not allowed to detach clients from the family through this form!")
+      end
+
+      scenario 'birth or inactive family is valid' do
+        visit edit_family_path(non_case_family)
+        unselect('Pirun Seng', from: 'Clients', visible: false)
+        click_button 'Save'
+        sleep 1
+        expect(page).to have_content('Family has been successfully updated')
+      end
+    end
   end
 
   feature 'Delete', js: true do
