@@ -2695,7 +2695,9 @@ km:
       description: ការបរិយាយ
       domain: កត្តា
       maximum: ចំនួនដែលអាចចូលរូមកម្មវិធីច្រើនបំផុត
+      mutual_dependence: កម្មវិធីអាស្រ័យគ្នា
       name: ឈ្មោះកម្មវិធីបន្ទាប់បន្សំ
+      program_exclusive: កម្មវិធីផ្តាច់មុខ
       quantity: បរិមាណ
       rule: លក្ខខណ្ឌ
     show:

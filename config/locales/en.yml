@@ -2690,6 +2690,8 @@ en:
       delete_group: Delete
       description: Description
       maximum: Maximum Program Enrollment
+      mutual_dependence: Mutual Dependence
+      program_exclusive: Program Exclusive
       rule: Rules
     show:
       back: Back

@@ -8,8 +8,9 @@ describe ProgramStream, 'associations' do
 end
 
 describe ProgramStream, 'scope' do
-  let!(:first_program_stream) { create(:program_stream, name: 'def') }
+  let!(:first_program_stream)  { create(:program_stream, name: 'def') }
   let!(:second_program_stream) { create(:program_stream, name: 'abc') }
+  let!(:third_program_stream)  { create(:program_stream, name: 'abcf', mutual_dependence: [second_program_stream.id, first_program_stream.id]) }
 
   context 'ordered' do
     it 'return the correct order of name' do
@@ -29,6 +30,12 @@ describe ProgramStream, 'scope' do
       first_program_stream.reload
       first_program_stream.update(name: FFaker::Name.name)
       expect(ProgramStream.completed.first).to eq first_program_stream
+    end
+  end
+
+  context 'get_program_stream' do
+    it 'return records of programs' do
+      expect(ProgramStream.get_program_streams(third_program_stream.mutual_dependence)).to include(first_program_stream, second_program_stream)
     end
   end
 end
