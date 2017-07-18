@@ -12,7 +12,13 @@ class ClientEnrollmentsController < AdminController
 
   def new
     if @program_stream.rules.present?
-      redirect_to client_client_enrollments_path(@client, program_streams: params[:program_streams]), alert: t('.client_not_valid') unless valid_client?
+      if @program_stream.program_exclusive.any? || @program_stream.mutual_dependence.any?
+        redirect_to client_client_enrollments_path(@client, program_streams: params[:program_streams]), alert: t('.client_not_valid') unless valid_client? && valid_program?
+      else
+        redirect_to client_client_enrollments_path(@client, program_streams: params[:program_streams]), alert: t('.client_not_valid') unless valid_client?
+      end
+    else
+      redirect_to client_client_enrollments_path(@client, program_streams: params[:program_streams]), alert: t('.client_not_valid') unless valid_program?
     end
     @client_enrollment = @client.client_enrollments.new(program_stream_id: @program_stream)
   end
@@ -102,5 +108,10 @@ class ClientEnrollmentsController < AdminController
 
   def valid_client?
     client_filtered.ids.include? @client.id
+  end
+
+  def valid_program?
+    program_active_status_ids   = ProgramStream.enrollment_status_active(@client).pluck(:id)
+    (@program_stream.program_exclusive & program_active_status_ids).empty? && (@program_stream.mutual_dependence - program_active_status_ids).empty?
   end
 end

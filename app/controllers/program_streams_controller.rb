@@ -27,6 +27,8 @@ class ProgramStreamsController < AdminController
   end
 
   def show
+    @program_exclusive = ProgramStream.find_program_streams(@program_stream.program_exclusive) if @program_stream.program_exclusive.any?
+    @mutual_dependence = ProgramStream.find_program_streams(@program_stream.mutual_dependence) if @program_stream.mutual_dependence.any?
     @program_stream = @program_stream.decorate
   end
 
@@ -75,11 +77,9 @@ class ProgramStreamsController < AdminController
 
   def program_stream_params
     ngo_name = current_organization.full_name
-    default_params = [:name, :rules, :description, :enrollment, :exit_program, :quantity, domain_ids: []]
+    default_params = [:name, :rules, :description, :enrollment, :exit_program, :quantity, program_exclusive: [], mutual_dependence: [], domain_ids: []]
     default_params << { trackings_attributes: [:name, :frequency, :time_of_frequency, :fields, :_destroy, :id] } if has_tracking_params
-
     params.require(:program_stream).permit(default_params).merge(ngo_name: ngo_name)
-    
   end
 
   def has_tracking_params
