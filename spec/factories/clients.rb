@@ -17,7 +17,7 @@ FactoryGirl.define do
     relevant_referral_information { FFaker::Lorem.paragraph }
 
     trait :accepted do
-      state 'Accepted'
+      state 'accepted'
     end
   end
 end
