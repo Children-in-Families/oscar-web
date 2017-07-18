@@ -2,6 +2,8 @@ class LeaveProgram < ActiveRecord::Base
   belongs_to :client_enrollment
   belongs_to :program_stream
 
+  validates :exit_date, presence: true
+
   has_paper_trail
 
   validate do |obj|

@@ -2478,6 +2478,7 @@ en:
       leave_program: Edit Leave Program
     form:
       cancel: Cancel
+      exit_date: Exit Date
       save: Save
     new:
       new_exit_program: New Exit Program
