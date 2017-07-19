@@ -83,11 +83,8 @@ class ProgramStream < ActiveRecord::Base
   private
 
   def set_program_completed
-    if enrollment.present? && exit_program.present? && trackings.present?
-      update_columns(completed: true)
-    else
-      update_columns(completed: false)
-    end
+    return update_columns(completed: false) if enrollment.empty? || exit_program.empty? || trackings.empty? || trackings.pluck(:name).include?('') || trackings.pluck(:fields).include?([]) 
+    update_columns(completed: true)
   end
 
   def enrollment_errors_message
