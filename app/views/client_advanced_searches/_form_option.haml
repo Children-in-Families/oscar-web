@@ -1,13 +1,13 @@
 %h4 Please choose your filter option below:
 .well
   .row
-    .col-xs-12.col-md-3
-      #client-basic-field
-        .form-group
-          = check_box_tag :nil, '1', true, { class: 'i-checks' }
-          %label Client Basic
+    / .col-xs-12.col-md-3
+    /   #client-basic-field
+    /     .form-group
+    /       = check_box_tag :nil, '1', true, { class: 'i-checks' }
+    /       %label Client Basic
         
-    .col-xs-12.col-md-3
+    .col-xs-12.col-md-4
       #custom-form-wrapper
         .row
           .col-xs-12
@@ -16,10 +16,9 @@
               %label Custom Form
         .row
           .col-xs-12
-            .form-group.custom-form{ data: { value: custom_form_disable_values } }
-              %label Form Title
-              = select_tag(:nil, options_for_select(@custom_fields.pluck(:form_title, :id), eval(set_value_custom_form)), { multiple: true, id: 'custom-form-select', class: 'form-control' } )
-    .col-xs-12.col-md-3
+            .form-group.custom-form{ data: { value: set_value_custom_form } }
+              = select_tag(:nil, options_for_select(@custom_fields.pluck(:form_title, :id), set_value_custom_form), { multiple: true, id: 'custom-form-select', class: 'form-control' } )
+    .col-xs-12.col-md-4
       #program-stream-wrapper
         .row
           .col-xs-12
@@ -29,5 +28,16 @@
         .row
           .col-xs-12
             .form-group.program-stream
-              %label Program Stream Name
-              = select_tag(:nil, options_for_select(@program_streams.pluck(:name, :id)), { id: 'program-stream-select', class: 'form-control', prompt: 'Please select program name'} )
+              = select_tag(:nil, options_for_select(@program_streams.pluck(:name, :id)), { multiple: true, id: 'program-stream-select', class: 'form-control' } )
+        .row
+          .col-xs-12
+            .program-assocation
+              .form-group
+                = check_box_tag :nil, '1', false, { class: 'i-checks', id: 'enrollment-checkbox' }
+                %label Enrollment
+              .form-group
+                = check_box_tag :nil, '1', false, { class: 'i-checks', id: 'tracking-checkbox' }
+                %label Trackings
+              .form-group
+                = check_box_tag :nil, '1', false, { class: 'i-checks', id: 'exit-form-checkbox' }
+                %label Exit Program

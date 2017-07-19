@@ -31,7 +31,7 @@ class ClientAdvancedSearchesController < AdminController
   end
 
   def get_program_streams
-    @program_streams = ProgramStream.ordered
+    @program_streams = ProgramStream.completed.ordered
   end
 
   def has_params?

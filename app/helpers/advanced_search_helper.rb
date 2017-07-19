@@ -1,9 +1,9 @@
 module AdvancedSearchHelper
   def set_value_custom_form
     if params[:client_advanced_search].present? && params[:client_advanced_search][:custom_form_selected].present?
-      params[:client_advanced_search][:custom_form_selected]
+      eval params[:client_advanced_search][:custom_form_selected]
     else
-      ''
+      []
     end
   end
 
