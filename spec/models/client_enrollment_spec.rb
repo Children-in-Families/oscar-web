@@ -23,7 +23,7 @@ describe ClientEnrollment, 'validations' do
 
   context 'custom form present validator' do
     it 'return cant be blank' do
-      properties = {"e-mail"=>"cif@cambodianfamily.com", "age"=>"3", "description"=>""}
+      properties = {"e-mail"=>"test@example.com", "age"=>"3", "description"=>""}
       client_enrollment = ClientEnrollment.new(program_stream: program_stream, client: client, properties: properties)
       client_enrollment.save
       expect(client_enrollment.errors.full_messages).to include("Description can't be blank")
@@ -32,14 +32,14 @@ describe ClientEnrollment, 'validations' do
 
   context 'custom form number validator' do
     it 'return cant be greater' do
-      properties = {"e-mail"=>"cif@cambodianfamily.com", "age"=>"6", "description"=>"this is testing"}
+      properties = {"e-mail"=>"test@example.com", "age"=>"6", "description"=>"this is testing"}
       client_enrollment = ClientEnrollment.new(program_stream: program_stream, client: client, properties: properties)
       client_enrollment.save
       expect(client_enrollment.errors.full_messages).to include("Age can't be greater than 5")
     end 
 
     it 'return cant be lower' do
-      properties = {"e-mail"=>"cif@cambodianfamily.com", "age"=>"0", "description"=>"this is testing"}
+      properties = {"e-mail"=>"test@example.com", "age"=>"0", "description"=>"this is testing"}
       client_enrollment = ClientEnrollment.new(program_stream: program_stream, client: client, properties: properties)
       client_enrollment.save
       expect(client_enrollment.errors.full_messages).to include("Age can't be lower than 1")

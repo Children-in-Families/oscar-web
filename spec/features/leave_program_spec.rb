@@ -53,7 +53,7 @@ describe LeaveProgram, 'Leave Program' do
     end
 
     scenario 'Email' do
-      expect(page).to have_content('cif@cambodianfamily.com')
+      expect(page).to have_content('test@example.com')
     end
 
     scenario 'Description' do
