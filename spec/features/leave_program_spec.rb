@@ -21,7 +21,7 @@ describe LeaveProgram, 'Leave Program' do
     scenario 'Valid' do
       within('#new_leave_program') do
         find('.numeric').set(4)
-        find('#exit_date').set('2017-04-01')
+        find('#exit_date').set(FFaker::Time.date)
         find('#leave_program_properties_description').set('Good client')
         find('input[type="email"]').set('cif@cambodianflamilies.com')
 
@@ -72,7 +72,7 @@ describe LeaveProgram, 'Leave Program' do
     end
 
     scenario 'success' do
-      find('#exit_date').set('2017-04-02')
+      find('#exit_date').set(FFaker::Time.date)
       find('#leave_program_properties_description').set('this is editing')
       find('input[type="submit"]').click
       expect(page).to have_content('Exit Program has successfully updated')
