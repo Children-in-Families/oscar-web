@@ -3,7 +3,7 @@ CIF.Custom_field_propertiesNew = CIF.Custom_field_propertiesCreate = CIF.Custom_
     _initSelect2()
     _initUploader()
     _handleDeleteAttachment()
-    _handlePreventCheckbox()
+    # _handlePreventCheckbox()
 
   _initSelect2 = ->
     $('select').select2()
@@ -53,21 +53,21 @@ CIF.Custom_field_propertiesNew = CIF.Custom_field_propertiesCreate = CIF.Custom_
     toastr.success(message, '', messageOption)
 
 
-  _handlePreventCheckbox = ->
-    form = $('form.simple_form')
-    $(form).on 'submit', (e) ->
-      checkboxes = $(form).find('input[type="checkbox"]')
-      otherInputs = $(form).find('input:not([type="checkbox"], [type="file"], [type="hidden"], [type="submit"])')
-      checked = false
-
-      for checkbox in checkboxes
-        if $(checkbox).prop('checked')
-          checked = true
-          break
-
-      if checkboxes.length > 0 and !checked and otherInputs.length == 0
-        e.preventDefault()
-        $('#message').text("Please select a checkbox")
+  # _handlePreventCheckbox = ->
+  #   form = $('form.simple_form')
+  #   $(form).on 'submit', (e) ->
+  #     checkboxes = $(form).find('input[type="checkbox"]')
+  #     otherInputs = $(form).find('input:not([type="checkbox"], [type="file"], [type="hidden"], [type="submit"])')
+  #     checked = false
+  #
+  #     for checkbox in checkboxes
+  #       if $(checkbox).prop('checked')
+  #         checked = true
+  #         break
+  #
+  #     if checkboxes.length > 0 and !checked and otherInputs.length == 0
+  #       e.preventDefault()
+  #       $('#message').text("Please select a checkbox")
 
 
 
