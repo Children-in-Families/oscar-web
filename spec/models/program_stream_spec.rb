@@ -29,13 +29,19 @@ describe ProgramStream, 'scope' do
     it 'return record that is completed' do
       first_program_stream.reload
       first_program_stream.update(name: FFaker::Name.name)
-      expect(ProgramStream.completed.first).to eq first_program_stream
+      expect(ProgramStream.complete.first).to eq first_program_stream
     end
   end
 
-  context 'get_program_stream' do
+  context 'filter program streams' do
     it 'return records of programs' do
-      expect(ProgramStream.get_program_streams(third_program_stream.mutual_dependence)).to include(first_program_stream, second_program_stream)
+      expect(ProgramStream.filter(third_program_stream.mutual_dependence)).to include(first_program_stream, second_program_stream)
+    end
+  end
+
+  context 'name_like' do
+    it 'return program streams by name' do
+      expect(ProgramStream.name_like(['def', 'abc'])).to include(first_program_stream, second_program_stream)
     end
   end
 end
@@ -113,15 +119,15 @@ describe ProgramStream, 'methods' do
     end
   end
 
-  context 'enrollment_status_active' do
+  context 'active_enrollments' do
     it 'return records of client enrollment' do
-      expect(ProgramStream.enrollment_status_active(client).first).to eq program_stream_active
+      expect(ProgramStream.active_enrollments(client).first).to eq program_stream_active
     end
   end
 
-  context 'enrollment_status_inactive' do
+  context 'inactive_enrollments' do
     it 'return records of client enrollment' do
-      expect(ProgramStream.enrollment_status_inactive(client).first).to eq program_stream_inactive
+      expect(ProgramStream.inactive_enrollments(client).first).to eq program_stream_inactive
     end
   end
 

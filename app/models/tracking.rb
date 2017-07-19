@@ -6,7 +6,6 @@ class Tracking < ActiveRecord::Base
 
   has_paper_trail
 
-  validates :name, :fields, presence: true
   validates :name, uniqueness: { scope: :program_stream_id }
 
   validate :form_builder_field_uniqueness

@@ -1202,6 +1202,7 @@ km:
           start_date: ថ្ងៃចាប់ផ្តើម
           support_amount: ប្រាក់ឧបត្ថម្ភ
           support_note: ពត៌មានពីប្រាក់ឧប្ថម្ភ
+        program_name: ឈ្មោះកម្មវិធី
         province: ខេត្តកំណើត
         quantitative_case_values: ទិន្នន័យនៃបរិមាណ
         quantitative_types: ប្រភេទនៃបរិមាណ
