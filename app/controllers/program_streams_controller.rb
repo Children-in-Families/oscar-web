@@ -4,7 +4,7 @@ class ProgramStreamsController < AdminController
   before_action :find_program_stream, except: [:index, :new, :create, :preview]
   before_action :find_ngo
   before_action :authorize_program, only: [:edit, :update, :destroy]
-  before_action :program_stream_collection, only: [:new, :create, :edit, :update]
+  before_action :complete_program_steam, only: [:new, :create, :edit, :update]
   before_action :find_another_ngo_program_stream, if: -> { @ngo_name.present? }
 
   def index
@@ -28,8 +28,8 @@ class ProgramStreamsController < AdminController
   end
 
   def show
-    @program_exclusive = ProgramStream.get_program_streams(@program_stream.program_exclusive) if @program_stream.program_exclusive.any?
-    @mutual_dependence = ProgramStream.get_program_streams(@program_stream.mutual_dependence) if @program_stream.mutual_dependence.any?
+    @program_exclusive = ProgramStream.filter(@program_stream.program_exclusive) if @program_stream.program_exclusive.any?
+    @mutual_dependence = ProgramStream.filter(@program_stream.mutual_dependence) if @program_stream.mutual_dependence.any?
     @program_stream = @program_stream.decorate
   end
 
@@ -154,7 +154,7 @@ class ProgramStreamsController < AdminController
     Kaminari.paginate_array(values)
   end
 
-  def program_stream_collection
-    @program_stream_collection = ProgramStream.where.not(id: @program_stream).completed
+  def complete_program_steam
+    @complete_program_steam = ProgramStream.where.not(id: @program_stream).complete
   end
 end

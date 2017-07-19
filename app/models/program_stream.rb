@@ -21,14 +21,14 @@ class ProgramStream < ActiveRecord::Base
 
   scope     :ordered,               -> { order(:name) }
   scope     :ordered_by,            ->(column) { order(column) }
-  scope     :completed,             -> { where(completed: true) }
-  scope     :get_program_streams,   ->(value) { where(id: value) }
+  scope     :complete,             -> { where(completed: true) }
+  scope     :filter,   ->(value) { where(id: value) }
 
-  def self.enrollment_status_inactive(client)
+  def self.inactive_enrollments(client)
     joins(:client_enrollments).where("client_id = ? AND client_enrollments.created_at = (SELECT MAX(client_enrollments.created_at) FROM client_enrollments WHERE client_enrollments.program_stream_id = program_streams.id) AND client_enrollments.status = 'Exited'", client.id).order('lower(name) ASC')
   end
 
-  def self.enrollment_status_active(client)
+  def self.active_enrollments(client)
     joins(:client_enrollments).where("client_id = ? AND client_enrollments.created_at = (SELECT MAX(client_enrollments.created_at) FROM client_enrollments WHERE client_enrollments.program_stream_id = program_streams.id) AND client_enrollments.status = 'Active'", client.id).order('lower(name) ASC')
   end
 

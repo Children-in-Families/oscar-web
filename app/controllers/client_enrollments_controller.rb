@@ -83,11 +83,11 @@ class ClientEnrollmentsController < AdminController
   def program_stream_order_by_enrollment
     program_streams = []
     if params[:program_streams] == 'enrolled-program-streams'
-      client_enrollments_active = ProgramStream.enrollment_status_active(@client).completed
+      client_enrollments_active = ProgramStream.active_enrollments(@client).complete
       program_streams           = client_enrollments_active
     elsif params[:program_streams] == 'program-streams'
-      client_enrollments_exited     = ProgramStream.enrollment_status_inactive(@client).completed
-      client_enrollments_inactive   = ProgramStream.without_status_by(@client).completed
+      client_enrollments_exited     = ProgramStream.inactive_enrollments(@client).complete
+      client_enrollments_inactive   = ProgramStream.without_status_by(@client).complete
       program_streams               = client_enrollments_exited + client_enrollments_inactive
     end
     program_streams
@@ -111,7 +111,7 @@ class ClientEnrollmentsController < AdminController
   end
 
   def valid_program?
-    program_active_status_ids   = ProgramStream.enrollment_status_active(@client).pluck(:id)
+    program_active_status_ids   = ProgramStream.active_enrollments(@client).pluck(:id)
     (@program_stream.program_exclusive & program_active_status_ids).empty? && (@program_stream.mutual_dependence - program_active_status_ids).empty?
   end
 end
