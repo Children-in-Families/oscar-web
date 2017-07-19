@@ -4,6 +4,8 @@ describe LeaveProgram, 'associations' do
 end
 
 describe LeaveProgram, 'validations' do
+  it { is_expected.to validate_presence_of(:exit_date) }
+
   let!(:client) { create(:client) }
   let!(:program_stream) { create(:program_stream)}
 

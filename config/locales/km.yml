@@ -1203,6 +1203,7 @@ km:
           start_date: ថ្ងៃចាប់ផ្តើម
           support_amount: ប្រាក់ឧបត្ថម្ភ
           support_note: ពត៌មានពីប្រាក់ឧប្ថម្ភ
+        program_name: ឈ្មោះកម្មវិធី
         province: ខេត្តកំណើត
         quantitative_case_values: ទិន្នន័យនៃបរិមាណ
         quantitative_types: ប្រភេទនៃបរិមាណ
@@ -2483,6 +2484,7 @@ km:
       leave_program: កែសម្រួលការចាកចេញពីកម្មវិធី
     form:
       cancel: ទុកជាមោឃៈ
+      exit_date: ថ្ងៃចាកចេញ
       save: រក្សាទុក
     new:
       new_exit_program: ការចាកចេញពីកម្មវិធីថ្មី
@@ -2696,7 +2698,9 @@ km:
       description: ការបរិយាយ
       domain: កត្តា
       maximum: ចំនួនដែលអាចចូលរូមកម្មវិធីច្រើនបំផុត
+      mutual_dependence: កម្មវិធីអាស្រ័យគ្នា
       name: ឈ្មោះកម្មវិធីបន្ទាប់បន្សំ
+      program_exclusive: កម្មវិធីផ្តាច់មុខ
       quantity: បរិមាណ
       rule: លក្ខខណ្ឌ
     show:

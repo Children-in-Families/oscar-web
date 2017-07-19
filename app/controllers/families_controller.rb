@@ -1,7 +1,7 @@
 class FamiliesController < AdminController
   load_and_authorize_resource
 
-  before_action :find_association, except: [:index, :destroy]
+  before_action :find_association, except: [:index, :destroy, :version]
   before_action :find_family, only: [:show, :edit, :update, :destroy]
 
   def index
