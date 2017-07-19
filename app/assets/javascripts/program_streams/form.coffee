@@ -14,6 +14,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     _initButtonSave()
     _handleSaveProgramStream()
     _handleClickAddTracking()
+    _handleRemoveProgramList()
 
   _stickyFill = ->
     if $('.form-wrap').is(':visible')
@@ -21,6 +22,19 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
 
   _initSelect2 = ->
     $('#description select, #rule-tab select').select2()
+
+  _handleRemoveProgramList = ->
+    $('#program_stream_program_exclusive').on 'change', ->
+      $("#program_stream_mutual_dependence option:disabled").removeAttr('disabled')
+      values = $(@).val()
+      for value in values
+        $("#program_stream_mutual_dependence option[value=#{value}]").attr('disabled', true)
+
+    $('#program_stream_mutual_dependence').on 'change', ->
+      $("#program_stream_program_exclusive option:disabled").removeAttr('disabled')
+      values = $(@).val()
+      for value in values
+        $("#program_stream_program_exclusive option[value=#{value}]").attr('disabled', true)
 
   _handleSelectTab = ->
     tab = $('.program-steps').data('tab')

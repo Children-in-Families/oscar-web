@@ -19,16 +19,17 @@ class ProgramStream < ActiveRecord::Base
 
   after_save :set_program_completed
 
-  scope     :ordered,    ->         { order(:name) }
-  scope     :completed,  ->         { where(completed: true) }
-  scope     :ordered_by, ->(column) { order(column) }
-  scope     :name_like,  ->(value)  { where(name: value) }
+  scope  :ordered,     ->         { order(:name) }
+  scope  :complete,    ->         { where(completed: true) }
+  scope  :ordered_by,  ->(column) { order(column) }
+  scope  :filter,      ->(value)  { where(id: value) }
+  scope  :name_like,   ->(value)  { where(name: value) }
 
-  def self.enrollment_status_inactive(client)
+  def self.inactive_enrollments(client)
     joins(:client_enrollments).where("client_id = ? AND client_enrollments.created_at = (SELECT MAX(client_enrollments.created_at) FROM client_enrollments WHERE client_enrollments.program_stream_id = program_streams.id) AND client_enrollments.status = 'Exited'", client.id).order('lower(name) ASC')
   end
 
-  def self.enrollment_status_active(client)
+  def self.active_enrollments(client)
     joins(:client_enrollments).where("client_id = ? AND client_enrollments.created_at = (SELECT MAX(client_enrollments.created_at) FROM client_enrollments WHERE client_enrollments.program_stream_id = program_streams.id) AND client_enrollments.status = 'Active'", client.id).order('lower(name) ASC')
   end
 
@@ -84,7 +85,7 @@ class ProgramStream < ActiveRecord::Base
   private
 
   def set_program_completed
-    return update_columns(completed: false) if enrollment.empty? || exit_program.empty? || trackings.empty? || trackings.pluck(:name).include?('') || trackings.pluck(:fields).include?([]) 
+    return update_columns(completed: false) if enrollment.empty? || exit_program.empty? || trackings.empty? || trackings.pluck(:name).include?('') || trackings.pluck(:fields).include?([])
     update_columns(completed: true)
   end
 

@@ -58,6 +58,18 @@
                     %tr
                       %td.maximum= t('.maximum')
                       %td= @program_stream.quantity
+                    %tr
+                      %td.exclusive= t('.exclusive')
+                      %td
+                        - if @program_exclusive.present?
+                          - @program_exclusive.pluck(:name).each do |name|
+                            %span.label.label-margin= name
+                    %tr  
+                      %td.exclusive= t('.mutual')
+                      %td
+                        - if @mutual_dependence.present?
+                          - @mutual_dependence.pluck(:name).each do |name|
+                            %span.label.label-margin= name
                 #program-rules
 
           .panel.panel-default
