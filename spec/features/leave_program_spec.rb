@@ -21,7 +21,8 @@ describe LeaveProgram, 'Leave Program' do
     scenario 'Valid' do
       within('#new_leave_program') do
         find('.numeric').set(4)
-        find('input[type="text"]').set('Good client')
+        find('#exit_date').set(FFaker::Time.date)
+        find('#leave_program_properties_description').set('Good client')
         find('input[type="email"]').set('cif@cambodianflamilies.com')
 
         click_button 'Save'
@@ -32,7 +33,7 @@ describe LeaveProgram, 'Leave Program' do
     scenario 'Invalid' do
       within('#new_leave_program') do
         find('.numeric').set(6)
-        find('input[type="text"]').set('')
+        find('#leave_program_properties_description').set('')
         find('input[type="email"]').set('cicambodianfamilies')
 
         click_button 'Save'
@@ -71,13 +72,14 @@ describe LeaveProgram, 'Leave Program' do
     end
 
     scenario 'success' do
-      find('input[type="text"]').set('this is editing')
+      find('#exit_date').set(FFaker::Time.date)
+      find('#leave_program_properties_description').set('this is editing')
       find('input[type="submit"]').click
       expect(page).to have_content('Exit Program has successfully updated')
     end
 
     scenario 'fail' do
-      find('input[type="text"]').set('')
+      find('#leave_program_properties_description').set('')
       find('input[type="submit"]').click
       expect(page).to have_content("description can't be blank")
     end

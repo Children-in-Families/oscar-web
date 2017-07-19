@@ -2483,6 +2483,7 @@ km:
       leave_program: កែសម្រួលការចាកចេញពីកម្មវិធី
     form:
       cancel: ទុកជាមោឃៈ
+      exit_date: ថ្ងៃចាកចេញ
       save: រក្សាទុក
     new:
       new_exit_program: ការចាកចេញពីកម្មវិធីថ្មី

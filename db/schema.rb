@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170714025348) do
+ActiveRecord::Schema.define(version: 20170718090148) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -215,6 +215,7 @@ ActiveRecord::Schema.define(version: 20170714025348) do
     t.integer  "program_stream_id"
     t.datetime "created_at",                           null: false
     t.datetime "updated_at",                           null: false
+    t.date     "enrollment_date"
   end
 
   add_index "client_enrollments", ["client_id"], name: "index_client_enrollments_on_client_id", using: :btree
@@ -478,6 +479,7 @@ ActiveRecord::Schema.define(version: 20170714025348) do
     t.datetime "created_at",           null: false
     t.datetime "updated_at",           null: false
     t.integer  "program_stream_id"
+    t.date     "exit_date"
   end
 
   add_index "leave_programs", ["client_enrollment_id"], name: "index_leave_programs_on_client_enrollment_id", using: :btree
