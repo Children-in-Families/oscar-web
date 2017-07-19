@@ -84,7 +84,7 @@
                   %li= @client.ec_button
                   %li= @client.fc_button
                   %li= @client.kc_button
-                  - if @client.status == 'Referred' && @client.exit_date.nil? && @client.cases.exclude_referred.current.nil? && @client.find_client_enrollment_active.empty?
+                  - if @client.status == 'Referred' && (@client.exit_date.nil? || @client.cases.exclude_referred.current.nil?) && @client.find_client_enrollment_active.empty?
                     %li.divider
                     %li
                       %a{"data-target" => '#exitFromNgo', "data-toggle" => 'modal'}
@@ -93,7 +93,7 @@
                   %li
                     %a{"data-target" => '#exit-from-case', "data-toggle" => 'modal'}
                       .text-warning.exit-case-warning= t(".exit_from_#{@client.cases.exclude_referred.current.case_type.downcase}")
-            - if @client.status == 'Referred' && @client.exit_date.nil? && @client.cases.exclude_referred.current.nil? && @client.find_client_enrollment_active.empty?
+            - if @client.status == 'Referred' && (@client.exit_date.nil? || @client.cases.exclude_referred.current.nil?) && @client.find_client_enrollment_active.empty?
               = render 'exit_ngo_form', client: @client
             - if @client.cases.exclude_referred.current.present?
               = render 'exit_case_form', client_case: @client.cases.exclude_referred.current, exit_from_cif: true
