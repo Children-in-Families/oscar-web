@@ -4,6 +4,7 @@ class ProgramStreamsController < AdminController
   before_action :find_program_stream, except: [:index, :new, :create, :preview]
   before_action :find_ngo
   before_action :authorize_program, only: [:edit, :update, :destroy]
+  before_action :complete_program_steam, only: [:new, :create, :edit, :update]
   before_action :find_another_ngo_program_stream, if: -> { @ngo_name.present? }
 
   def index
@@ -27,6 +28,8 @@ class ProgramStreamsController < AdminController
   end
 
   def show
+    @program_exclusive = ProgramStream.filter(@program_stream.program_exclusive) if @program_stream.program_exclusive.any?
+    @mutual_dependence = ProgramStream.filter(@program_stream.mutual_dependence) if @program_stream.mutual_dependence.any?
     @program_stream = @program_stream.decorate
   end
 
@@ -75,16 +78,10 @@ class ProgramStreamsController < AdminController
 
   def program_stream_params
     ngo_name = current_organization.full_name
-    default_params = [:name, :rules, :description, :enrollment, :exit_program, :quantity, domain_ids: []]
-    default_params << { trackings_attributes: [:name, :frequency, :time_of_frequency, :fields, :_destroy, :id] } if has_tracking_params
+    default_params = [:name, :rules, :description, :enrollment, :exit_program, :quantity, program_exclusive: [], mutual_dependence: [], domain_ids: []]
+    default_params << { trackings_attributes: [:name, :frequency, :time_of_frequency, :fields, :_destroy, :id] }
 
     params.require(:program_stream).permit(default_params).merge(ngo_name: ngo_name)
-    
-  end
-
-  def has_tracking_params
-    tracking = params[:program_stream][:trackings_attributes]
-    tracking.present? && (tracking.first[1][:name].present? || tracking.first[1][:fields].length > 2)
   end
 
   def find_ngo
@@ -151,5 +148,9 @@ class ProgramStreamsController < AdminController
 
   def paginate_collection(values)
     Kaminari.paginate_array(values)
+  end
+
+  def complete_program_steam
+    @complete_program_steam = ProgramStream.where.not(id: @program_stream).complete
   end
 end

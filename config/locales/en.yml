@@ -1198,6 +1198,7 @@ en:
           start_date: Start Date
           support_amount: Support Amount
           support_note: Support Note
+        program_name: Program Name
         province: Birth Province
         quantitative_case_values: Quantitative Case
         quantitative_types: Quantitative Types
@@ -2691,6 +2692,8 @@ en:
       delete_group: Delete
       description: Description
       maximum: Maximum Program Enrollment
+      mutual_dependence: Mutual Dependence
+      program_exclusive: Program Exclusive
       rule: Rules
     show:
       back: Back

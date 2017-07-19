@@ -5,8 +5,6 @@ describe Tracking, 'associations' do
 end
 
 describe Tracking, 'validations' do
-  it { is_expected.to validate_presence_of(:name) }
-  it { is_expected.to validate_presence_of(:fields) }
   it { is_expected.to validate_uniqueness_of(:name).scoped_to(:program_stream_id) }
 end
 

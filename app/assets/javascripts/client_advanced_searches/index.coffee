@@ -51,7 +51,7 @@ CIF.Client_advanced_searchesIndex = do ->
         $('#builder').queryBuilder(
           _queryBuilderOption(fieldList)
         )
-        _basicFilterSetRule() 
+        _basicFilterSetRule()
         _initSelect2()
 
 
@@ -122,6 +122,7 @@ CIF.Client_advanced_searchesIndex = do ->
       delete_group: @filterTranslation.deleteGroup
       operators:
         is_empty: 'is blank'
+        is_not_empty: 'is not blank'
         equal: 'is'
         not_equal: 'is not'
         less: '<'

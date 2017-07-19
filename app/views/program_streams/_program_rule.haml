@@ -2,6 +2,8 @@
 %section
   #rule-tab
     = f.input :quantity, label: t('.maximum')
+    = f.input :program_exclusive, label: t('.program_exclusive'), collection: @complete_program_steam.map {|ps| [ps.name, ps.id] }, input_html: { multiple: true }, include_hidden: false
+    = f.input :mutual_dependence, label: t('.mutual_dependence'), collection: @complete_program_steam.map {|ps| [ps.name, ps.id] }, input_html: { multiple: true }, include_hidden: false
     %h3= t('.rule')
     #program-rule{ 'data-filter-translation' => { add_filter: t('.add_new_filter'), add_group: t('.add_new_group'), delete_group: t('.delete_group') } }
     = f.hidden_field :rules 
