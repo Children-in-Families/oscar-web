@@ -25,9 +25,9 @@ module AdvancedSearches
       custom_field_properties = CustomFieldProperty.where(custom_formable_type: 'Client', custom_field_id: @selected_custom_form)
 
       @custom_form_rules.each do |rule|
-        field = rule[:field]
-        value = rule[:value]
-        type  = rule[:input]
+        field = rule[:field].gsub("'", "''")
+        value = rule[:value].is_a?(Array) ? rule[:value] : rule[:value].gsub("'", "''")
+        @type = rule[:type]
         if rule[:field] != nil
           case rule[:operator]
           when 'equal'
@@ -48,6 +48,8 @@ module AdvancedSearches
             properties_result = custom_field_properties.where("properties ->> '#{field}' NOT ILIKE '%#{value}%' ")
           when 'is_empty'
             properties_result = custom_field_properties.where("properties -> '#{field}' ? '' ")
+          when 'is_not_empty'
+            properties_result = custom_field_properties.where.not("properties -> '#{field}' ? '' ")
           when 'between'
             properties_result = custom_field_properties.where("(properties ->> '#{field}')#{ '::int' if integer? } BETWEEN '#{value.first}' AND '#{value.last}' AND properties ->> '#{field}' != ''")
           end

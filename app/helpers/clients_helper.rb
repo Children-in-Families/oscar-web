@@ -16,10 +16,11 @@ module ClientsHelper
   end
 
   def family(family)
+    family_name = family.name.present? ? family.name : 'Unknown'
     if can? :manage, :all
-      link_to family.name, family_path(family)
+      link_to family_name, family_path(family)
     else
-      family.name
+      family_name
     end
   end
 
