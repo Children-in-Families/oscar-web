@@ -19,9 +19,10 @@ class ProgramStream < ActiveRecord::Base
 
   after_save :set_program_completed
 
-  scope     :ordered,    -> { order(:name) }
+  scope     :ordered,    ->         { order(:name) }
+  scope     :completed,  ->         { where(completed: true) }
   scope     :ordered_by, ->(column) { order(column) }
-  scope     :completed,  -> { where(completed: true) }
+  scope     :name_like,  ->(value)  { where(name: value) }
 
   def self.enrollment_status_inactive(client)
     joins(:client_enrollments).where("client_id = ? AND client_enrollments.created_at = (SELECT MAX(client_enrollments.created_at) FROM client_enrollments WHERE client_enrollments.program_stream_id = program_streams.id) AND client_enrollments.status = 'Exited'", client.id).order('lower(name) ASC')
