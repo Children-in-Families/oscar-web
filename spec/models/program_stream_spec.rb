@@ -31,6 +31,12 @@ describe ProgramStream, 'scope' do
       expect(ProgramStream.completed.first).to eq first_program_stream
     end
   end
+
+  context 'name_like' do
+    it 'return program streams by name' do
+      expect(ProgramStream.name_like(['def', 'abc'])).to include(first_program_stream, second_program_stream)
+    end
+  end
 end
 
 describe ProgramStream, 'callback' do
