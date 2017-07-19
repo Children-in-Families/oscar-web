@@ -27,14 +27,6 @@ describe Client, 'associations' do
   it { is_expected.to have_many(:custom_fields).through(:custom_field_properties) }
 end
 
-describe Client, 'paper trail' do
-  let!(:agency){ create(:agency) }
-  let!(:client){ create(:client, agency_ids: agency.id) }
-  context 'create a version of joined table of habtm association' do
-    it { expect(PaperTrail::Version.count).to eq(3) }
-  end
-end
-
 describe Client, 'callbacks' do
   before do
     ClientHistory.destroy_all
@@ -556,7 +548,9 @@ describe Client, 'scopes' do
 end
 
 describe 'validations' do
-  subject{ Client.new }
+  it { should validate_presence_of(:user_id) }
+
+  subject{ FactoryGirl.build(:client) }
 
   context 'rejected_note' do
     before do

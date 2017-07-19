@@ -19,5 +19,7 @@ FactoryGirl.define do
     trait :accepted do
       state 'accepted'
     end
+
+    association :user, factory: :user
   end
 end

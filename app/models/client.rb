@@ -56,6 +56,7 @@ class Client < ActiveRecord::Base
 
   validates :rejected_note, presence: true, on: :update, if: :reject?
   validates :kid_id, uniqueness: { case_sensitive: false }, if: 'kid_id.present?'
+  validates :user_id, presence: true
 
   before_update :reset_user_to_tasks
 

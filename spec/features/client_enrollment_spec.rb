@@ -152,7 +152,7 @@ describe 'Client Enrollment' do
     end
 
     scenario 'Date' do
-      expect(page).to have_content(client_enrollment.created_at.strftime '%d %B, %Y')
+      expect(page).to have_content(client_enrollment.enrollment_date.strftime '%d %B, %Y')
     end
 
     scenario 'Age' do
@@ -186,13 +186,13 @@ describe 'Client Enrollment' do
     end
 
     scenario 'success' do
-      find('input[type="text"]').set('this is editing')
+      find('input[type="text"]:last-child').set('this is editing')
       find('input[type="submit"]').click
       expect(page).to have_content('Enrollment has been successfully updated')
     end
 
     scenario 'fail' do
-      find('input[type="text"]').set('')
+      find('input[type="text"]:last-child').set('')
       find('input[type="submit"]').click
       expect(page).to have_content("description can't be blank")
     end

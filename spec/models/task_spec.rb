@@ -89,7 +89,7 @@ end
 describe Task, 'methods' do
   let!(:user){ create(:user) }
   let!(:other_user){ create(:user) }
-  let!(:client) { create(:client) }
+  let!(:client) { create(:client, user: user) }
   let!(:other_client) { create(:client) }
   let!(:task){ create(:task, user: user, client: client) }
   let!(:other_task){ create(:task, user: other_user, client: other_client) }

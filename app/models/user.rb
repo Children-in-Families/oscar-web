@@ -65,7 +65,8 @@ class User < ActiveRecord::Base
   end
 
   def name
-    "#{first_name} #{last_name}"
+    full_name = "#{first_name} #{last_name}"
+    full_name.present? ? full_name : 'Unknown'
   end
 
   def assign_as_admin

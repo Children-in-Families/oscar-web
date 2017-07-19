@@ -7,10 +7,10 @@ RSpec.describe Api::V1::LeaveProgramsController, type: :request do
   let(:program_stream)         { create(:program_stream) }
   let(:client_enrollment)      { create(:client_enrollment, client: client, program_stream: program_stream) }
   let(:leave_program)          { create(:leave_program, client_enrollment: client_enrollment, program_stream: program_stream) }
-  let(:valid_params)           { params(FFaker::Internet.email, "2", FFaker::Lorem.paragraph) }
-  let(:invalid_params)         { params(FFaker::Name.name, "7", nil) }
-  let(:valid_updated_params)   { params(FFaker::Internet.email, "2", FFaker::Lorem.paragraph) }
-  let(:invalid_updated_params) { params(FFaker::Name.name, "7", nil) }
+  let(:valid_params)           { params(FFaker::Internet.email, "2", FFaker::Lorem.paragraph, FFaker::Time.date) }
+  let(:invalid_params)         { params(FFaker::Name.name, "7", nil, nil) }
+  let(:valid_updated_params)   { params(FFaker::Internet.email, "2", FFaker::Lorem.paragraph, FFaker::Time.date) }
+  let(:invalid_updated_params) { params(FFaker::Name.name, "7", nil, nil) }
   let(:leave_programs_path)    { "/api/v1/clients/#{client.id}/client_enrollments/#{client_enrollment.id}/leave_programs" }
 
   describe 'POST #create' do
@@ -114,7 +114,7 @@ RSpec.describe Api::V1::LeaveProgramsController, type: :request do
     params[:leave_program][:properties]
   end
 
-  def params(email, age, description)
-    { format: 'json', leave_program: { properties: { "e-mail" => email, "age" => age, "description" => description } } }
+  def params(email, age, description, exit_date)
+    { format: 'json', leave_program: { exit_date: exit_date, properties: { "e-mail" => email, "age" => age, "description" => description } } }
   end
 end
