@@ -700,6 +700,7 @@ en:
       enrollment: Edit Enrollment
     form:
       cancel: Cancel
+      enrollment_date: Enrollment Date
       save: Save
     index:
       actions: Actions
@@ -1198,6 +1199,7 @@ en:
           start_date: Start Date
           support_amount: Support Amount
           support_note: Support Note
+        program_name: Program Name
         province: Birth Province
         quantitative_case_values: Quantitative Case
         quantitative_types: Quantitative Types
@@ -1991,6 +1993,7 @@ en:
       significant_family_member_count: Significant Family Member Count
       'yes': 'Yes'
     update:
+      not_allowed_to_detach_clients: You're not allowed to detach clients from the family through this form!
       successfully_updated: Family has been successfully updated.
     version:
       back: Back
@@ -2477,6 +2480,7 @@ en:
       leave_program: Edit Leave Program
     form:
       cancel: Cancel
+      exit_date: Exit Date
       save: Save
     new:
       new_exit_program: New Exit Program
@@ -2689,6 +2693,8 @@ en:
       delete_group: Delete
       description: Description
       maximum: Maximum Program Enrollment
+      mutual_dependence: Mutual Dependence
+      program_exclusive: Program Exclusive
       rule: Rules
     show:
       back: Back

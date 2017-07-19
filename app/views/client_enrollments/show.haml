@@ -2,7 +2,7 @@
   .col-xs-12
     .ibox
       .ibox-title
-        %h5= "#{t('.enrollment_date')} #{ date_format @client_enrollment.created_at }"
+        %h5= "#{t('.enrollment_date')} #{ date_format @client_enrollment.enrollment_date }"
         .ibox-tools
           - if can? :manage, ClientEnrollment
             - if policy(@client_enrollment).update?

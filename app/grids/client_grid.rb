@@ -313,6 +313,16 @@ class ClientGrid
 
   filter(:id_poor, :integer, header: -> { I18n.t('datagrid.columns.clients.id_poor') })
 
+  filter(:program_streams, :enum, multiple: true, select: :program_stream_options, header: -> { I18n.t('datagrid.columns.clients.program_name') }) do |name, scope|
+    program_stream_ids = ProgramStream.name_like(name).ids
+    ids = scope.joins(:program_streams).where(program_streams: { id: program_stream_ids } ).pluck(:id).uniq
+    scope.where(id: ids)
+  end
+
+  def program_stream_options
+    ProgramStream.joins(:clients).completed.pluck(:name).uniq
+  end
+
   column(:slug, order:'clients.id', header: -> { I18n.t('datagrid.columns.clients.id') })
 
   column(:code, header: -> { I18n.t('datagrid.columns.clients.code') }) do |object|
