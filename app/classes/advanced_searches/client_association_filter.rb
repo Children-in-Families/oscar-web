@@ -114,7 +114,7 @@ module AdvancedSearches
         clients.where.not('agencies.id = ?', @value ).ids
       when 'is_empty'
         @clients.where.not(id: clients.ids).ids
-      when 'is_empty'
+      when 'is_not_empty'
         @clients.where(id: clients.ids).ids
       end
     end
