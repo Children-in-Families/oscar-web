@@ -320,7 +320,7 @@ class ClientGrid
   end
 
   def program_stream_options
-    ProgramStream.joins(:clients).completed.pluck(:name).uniq
+    ProgramStream.joins(:clients).complete.pluck(:name).uniq
   end
 
   column(:slug, order:'clients.id', header: -> { I18n.t('datagrid.columns.clients.id') })
