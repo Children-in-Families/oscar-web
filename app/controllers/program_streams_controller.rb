@@ -155,6 +155,6 @@ class ProgramStreamsController < AdminController
   end
 
   def program_stream_collection
-    @program_stream_collection = ProgramStream.where.not(id: @program_stream, completed: false)
+    @program_stream_collection = ProgramStream.where.not(id: @program_stream).completed
   end
 end
