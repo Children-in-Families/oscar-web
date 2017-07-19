@@ -103,8 +103,9 @@ describe 'Client Enrollment' do
     scenario 'Valid' do
       within('#new_client_enrollment') do
         find('.numeric').set(3)
-        find('input[type="text"]').set('this is testing')
-        find('input[type="email"]').set('cif@cambodianfamilies.com')
+        find('#enrollment_date').set(FFaker::Time.date)
+        find('#client_enrollment_properties_description').set('this is testing')
+        find('input[type="email"]').set('test@example.com')
 
         click_button 'Save'
       end
@@ -114,8 +115,8 @@ describe 'Client Enrollment' do
     scenario 'Invalid' do
       within('#new_client_enrollment') do
         find('.numeric').set(6)
-        find('input[type="text"]').set('')
-        find('input[type="email"]').set('cicambodianfamilies')
+        find('#client_enrollment_properties_description').set('')
+        find('input[type="email"]').set('testexample')
 
         click_button 'Save'
       end
@@ -159,7 +160,7 @@ describe 'Client Enrollment' do
     end
 
     scenario 'Email' do
-      expect(page).to have_content('cif@cambodianfamily.com')
+      expect(page).to have_content('test@example.com')
     end
 
     scenario 'Description' do

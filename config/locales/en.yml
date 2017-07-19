@@ -700,6 +700,7 @@ en:
       enrollment: Edit Enrollment
     form:
       cancel: Cancel
+      enrollment_date: Enrollment Date
       save: Save
     index:
       actions: Actions
