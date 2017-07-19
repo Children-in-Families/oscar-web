@@ -15,12 +15,12 @@ class Case < ActiveRecord::Base
   scope :non_emergency,  -> { where.not(case_type: 'EC') }
   scope :kinships,       -> { where(case_type: 'KC') }
   scope :fosters,        -> { where(case_type: 'FC') }
-  scope :most_recents,   -> { exclude_referred.order('created_at desc') }
+  scope :most_recents,   -> { order('created_at desc') }
   scope :active,         -> { where(exited: false) }
   scope :inactive,       -> { where(exited: true) }
   scope :with_reports,   -> { joins(:quarterly_reports).uniq }
   scope :with_contracts, -> { joins(:case_contracts).uniq }
-  scope :case_types,     -> { pluck(:case_type).uniq }
+  scope :case_types,     -> { exclude_referred.pluck(:case_type).uniq }
   scope :currents,       -> { active.where(current: true) }
   scope :exclude_referred, -> { where.not(case_type: 'Referred') }
 
@@ -35,6 +35,11 @@ class Case < ActiveRecord::Base
   before_validation :set_attributes, if: -> { new_record? && start_date.nil? }
 
   def set_attributes
+    if family.inactive? || family.birth_family?
+      self.exited    = true
+      self.exit_date = Date.today
+      self.exit_note = family.family_type
+    end
     self.case_type =  case family.family_type
                       when 'emergency' then 'EC'
                       when 'foster' then 'FC'
@@ -119,7 +124,7 @@ class Case < ActiveRecord::Base
     elsif exited && !exited_from_cif
       client.status =
         case case_type
-        when 'EC' then 'Referred'
+        when 'EC', 'Referred' then 'Referred'
         when 'KC', 'FC'
           client.cases.emergencies.active.any? ? 'Active EC' : 'Referred'
         end

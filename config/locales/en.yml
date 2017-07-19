@@ -1991,6 +1991,7 @@ en:
       significant_family_member_count: Significant Family Member Count
       'yes': 'Yes'
     update:
+      not_allowed_to_detach_clients: You're not allowed to detach clients from the family through this form!
       successfully_updated: Family has been successfully updated.
     version:
       back: Back

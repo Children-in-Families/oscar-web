@@ -25,6 +25,7 @@ class Family < ActiveRecord::Base
   scope :birth_family,               ->        { where(family_type: 'birth_family')   }
   scope :name_like,                  ->(value) { where('name iLIKE ?', "%#{value}%") }
   scope :province_are,               ->        { joins(:province).pluck('provinces.name', 'provinces.id').uniq }
+  scope :as_non_cases,               ->        { where.not(family_type: ['emergency', 'foster', 'kinship']) }
 
   def member_count
     male_adult_count.to_i + female_adult_count.to_i + male_children_count.to_i + female_children_count.to_i
@@ -42,5 +43,15 @@ class Family < ActiveRecord::Base
     elsif type == 'birth_family'
       birth_family
     end
+  end
+
+  FAMILY_TYPE.each do |type|
+    define_method "#{type}?" do
+      family_type == type
+    end
+  end
+
+  def is_case?
+    emergency? || foster? || kinship?
   end
 end

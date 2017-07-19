@@ -1995,6 +1995,7 @@ km:
       significant_family_member_count: ចំនួននៃសមាជិកគ្រួសារសំខាន់ៗ
       'yes': បាទ/ចាស
     update:
+      not_allowed_to_detach_clients: អ្នកមិនអាចយកអតិថិជនចេញពីគ្រួសារតាមទម្រង់នេះបានទេ
       successfully_updated: គ្រួសារត្រូវបានកែសម្រួលដោយជោគជ័យ
     version:
       back: ត្រលប់ក្រោយ
