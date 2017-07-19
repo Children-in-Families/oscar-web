@@ -25,7 +25,7 @@ module Api
       private
 
       def client_enrollment_params
-        params.require(:client_enrollment).permit({}).merge(properties: params[:client_enrollment][:properties], program_stream_id: params[:program_stream_id])
+        params.require(:client_enrollment).permit(:enrollment_date, {}).merge(properties: params[:client_enrollment][:properties], program_stream_id: params[:program_stream_id])
       end
 
       def find_client_enrollment
