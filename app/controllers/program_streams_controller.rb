@@ -78,6 +78,10 @@ class ProgramStreamsController < AdminController
 
   def program_stream_params
     ngo_name = current_organization.full_name
+
+    params[:program_stream][:program_exclusive].delete('') if params[:program_stream][:program_exclusive].count > 1
+    params[:program_stream][:mutual_dependence].delete('') if params[:program_stream][:mutual_dependence].count > 1
+
     default_params = [:name, :rules, :description, :enrollment, :exit_program, :quantity, program_exclusive: [], mutual_dependence: [], domain_ids: []]
     default_params << { trackings_attributes: [:name, :frequency, :time_of_frequency, :fields, :_destroy, :id] }
 
