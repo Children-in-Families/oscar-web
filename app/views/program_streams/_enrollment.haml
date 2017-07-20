@@ -1,6 +1,7 @@
 %h4= t('.enrollment_form')
 %section
   #enrollment{ data: { field: @program_stream.enrollment }}
-  %label.text-danger Note: The Date of Enrolment field is added automatically to this enrolment form.
+  %label
+    %i= t('.note')
   .text-danger= @program_stream.errors[:enrollment].join(' and ')
   = f.hidden_field :enrollment
