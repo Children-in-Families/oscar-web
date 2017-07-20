@@ -2663,8 +2663,10 @@ en:
       edit_program_stream: Edit Program Stream
     enrollment:
       enrollment_form: Enrollment
+      note: 'Note: The Date of Enrollment field is added automatically to this enrolment form.'
     exit_field:
       exit_form: Exit Form
+      note: 'Note: The Date of Program Exit field is added automatically to the Exit Program form.'
     form:
       finish: Save
       next: Next
