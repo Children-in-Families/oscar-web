@@ -1,5 +1,5 @@
 module AdvancedSearchHelper
-  def set_value_custom_form
+  def custom_form_values
     if params[:client_advanced_search].present? && params[:client_advanced_search][:custom_form_selected].present?
       eval params[:client_advanced_search][:custom_form_selected]
     else
@@ -7,12 +7,24 @@ module AdvancedSearchHelper
     end
   end
 
-  def custom_form_disable_values
-    if params[:client_advanced_search].present? && params[:client_advanced_search][:custom_form_disables].present?
-      params[:client_advanced_search][:custom_form_disables]
+  def program_stream_values
+    if params[:client_advanced_search].present? && params[:client_advanced_search][:program_selected].present?
+      eval params[:client_advanced_search][:program_selected]
     else
-      '[]'
+      []
     end
+  end
+
+  def enrollment_check
+    params[:client_advanced_search].present? && params[:client_advanced_search][:enrollment_check].present? ? true : false
+  end
+
+  def tracking_check
+    params[:client_advanced_search].present? && params[:client_advanced_search][:tracking_check].present? ? true : false
+  end
+
+  def exit_form_check
+    params[:client_advanced_search].present? && params[:client_advanced_search][:exit_form_check].present? ? true : false
   end
 
   def format_header(key)

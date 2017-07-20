@@ -28,6 +28,10 @@ module AdvancedSearches
           @sql_string << custom_field[:id]
           @values << custom_field[:values]
 
+        elsif form_builder.first == 'enrollment'
+          @sql_string << ['clients.id IN (?)']
+          @values << []
+
         elsif field != nil
           value = field == 'grade' ? validate_integer(value) : value
           base_sql(field, operator, value)
