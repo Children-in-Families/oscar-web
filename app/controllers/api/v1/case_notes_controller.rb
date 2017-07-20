@@ -27,6 +27,13 @@ module Api
         end
       end
 
+      def destroy
+        if params[:file_index].present?
+          remove_attachment_at_index(params[:file_index].to_i)
+          head 204
+        end
+      end
+
       private
 
       def case_note_params
@@ -39,12 +46,21 @@ module Api
 
       def add_more_attachments(new_file, case_note_domain_group_id)
         if new_file.present?
-          case_note_domain_group = @case_note.case_note_domain_groups.find(case_note_domain_group_id)
+          case_note_domain_group = CaseNoteDomainGroup.find(case_note_domain_group_id)
           files = case_note_domain_group.attachments
           files += new_file
           case_note_domain_group.attachments = files
           case_note_domain_group.save
         end
+      end
+
+      def remove_attachment_at_index(index)
+        case_note_domain_group = CaseNoteDomainGroup.find(params[:case_note_domain_group_id])
+        remain_attachment = case_note_domain_group.attachments
+        deleted_attachment = remain_attachment.delete_at(index)
+        deleted_attachment.try(:remove!)
+        remain_attachment.empty? ? case_note_domain_group.remove_attachments! : (case_note_domain_group.attachments = remain_attachment )
+        message = t('.fail_delete_attachment') unless case_note_domain_group.save
       end
     end
   end
