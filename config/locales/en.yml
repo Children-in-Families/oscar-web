@@ -2634,10 +2634,10 @@ en:
       actions: Action
       copy: Copy
       domain: Domains
+      maximum: Maximum Program Enrollment
       name: Name
       organization: Organization
       preview: Preview
-      quantity: Quantity
       status: Status
     create:
       alert: Name of Tracking has already been taken.
