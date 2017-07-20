@@ -15,7 +15,7 @@ class ProgramStream < ActiveRecord::Base
   validates :name, presence: true
   validates :name, uniqueness: true
   validate  :form_builder_field_uniqueness
-  validate  :validate_remove_field, if: -> { id.present? }
+  validate  :validate_remove_enrollment_field, :validate_remove_exit_program_field, if: -> { id.present? }
 
   after_save :set_program_completed
 
@@ -49,24 +49,38 @@ class ProgramStream < ActiveRecord::Base
     errors_massage
   end
 
-  def validate_remove_field
-    FORM_BUILDER_FIELDS.each do |field|
-      next unless (send "#{ field }_changed?") && send(field).present?
-      error_translation = I18n.t('cannot_remove_or_update')
-
-      if field == 'enrollment'
-        break unless enrollment_errors_message.present?
-        errors.add(:enrollment, "#{enrollment_errors_message} #{error_translation}")
-      elsif field == 'tracking'
-        break unless tracking_errors_message.present?
-        errors.add(:tracking, "#{tracking_errors_message} #{error_translation}")
-
-      elsif field == 'exit_program'
-        break unless exit_program_errors_message.present?
-        errors.add(:exit_program, "#{exit_program_errors_message} #{error_translation}")
+  def validate_remove_enrollment_field
+    return unless enrollment_changed?
+    error_fields = []
+    properties = client_enrollments.pluck(:properties).select(&:present?)
+    properties.each do |property|
+      field_remove = enrollment_change.first - enrollment_change.last
+      field_remove.each do |field|
+        label_name = property[field['label']]
+        error_fields << field['label'] if label_name.present?
       end
     end
-    errors
+    return unless error_fields.present?
+    error_message = "#{error_fields.uniq.join(', ')} #{I18n.t('cannot_remove_or_update')}"
+    errors.add(:enrollment, "#{error_message} ")
+    errors.add(:tab, '3')
+  end
+
+  def validate_remove_exit_program_field
+    return unless exit_program_changed?
+    error_fields = []
+    properties = leave_programs.pluck(:properties).select(&:present?)
+    properties.each do |property|
+      field_remove = exit_program_change.first - exit_program_change.last
+      field_remove.each do |field|
+        label_name = property[field['label']]
+        error_fields << field['label'] if label_name.present?
+      end
+    end
+    return unless error_fields.present?
+    error_message = "#{error_fields.uniq.join(', ')} #{I18n.t('cannot_remove_or_update')}"
+    errors.add(:exit_program, "#{error_message} ")
+    errors.add(:tab, '5')
   end
 
   def last_enrollment

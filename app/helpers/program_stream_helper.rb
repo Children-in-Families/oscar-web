@@ -14,4 +14,8 @@ module ProgramStreamHelper
       end
     end
   end
+
+  def used_tracking?(tracking)
+    tracking.client_enrollment_trackings.present?
+  end
 end
