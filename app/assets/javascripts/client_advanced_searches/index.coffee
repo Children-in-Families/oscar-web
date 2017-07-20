@@ -4,6 +4,10 @@ CIF.Client_advanced_searchesIndex = do ->
   @exitCheckbox        = $('#exit-form-checkbox')
   @customFormSelected  = []
   @programSelected     = []
+  ENROLLMENT_URL       = '/api/client_advanced_searches/get_enrollment_field'
+  TRACKING_URL         = '/api/client_advanced_searches/get_tracking_field'
+  EXIT_PROGRAM_URL     = '/api/client_advanced_searches/get_exit_program_field'
+  CUSTOM_FORM_URL      = '/api/client_advanced_searches/get_custom_field'
 
   _init = ->
     @filterTranslation = ''
@@ -22,9 +26,11 @@ CIF.Client_advanced_searchesIndex = do ->
     _handleProgramSelectChange()
     _triggerEnrollmentFields()
     _triggerTrackingFields()
+    _triggerExitProgramFields()
     _handleSelect2RemoveProgram()
     _handleUncheckedEnrollment()
     _handleUncheckedTracking()
+    _handleUncheckedExitProgram()
 
     _columnsVisibility()
     _handleInitDatatable()
@@ -38,12 +44,6 @@ CIF.Client_advanced_searchesIndex = do ->
     $('#custom-form-select, #program-stream-select').select2(width: '220px')
     $('.rule-filter-container select').select2(width: '320px')
     $('.rule-operator-container select, .rule-value-container select').select2(width: 'resolve')
-
-  _handleGenerateIndex = (keyWord)->
-    if keyWord == 'custom_form'
-      return 1
-    else if keyWord == 'program'
-      return 0
 
   _setValueToBuilderSelected = ->
     @customFormSelected = $('.custom-form').data('value')
@@ -66,19 +66,27 @@ CIF.Client_advanced_searchesIndex = do ->
         name = $(@).text()
         _handleRemoveFilterBuilder(name, 'Enrollment')
         _handleRemoveFilterBuilder(name, 'Tracking')
-        _handleRemoveFilterBuilder(name, 'Exit Form')
+        _handleRemoveFilterBuilder(name, 'Exit Program')
       $('.program-association input[type="checkbox"]').iCheck('uncheck')
       $('#program-stream-select').select2("val", "")
 
   _triggerEnrollmentFields = ->
     self = @
     $('#enrollment-checkbox').on 'ifChecked', ->
-      _addEnrollmentFields(self.programSelected)
+      _addCustomBuildersFields(self.programSelected, ENROLLMENT_URL)
+      # _addEnrollmentFields(self.programSelected)
 
   _triggerTrackingFields = ->
     self = @
     $('#tracking-checkbox').on 'ifChecked', ->
-      _addTrackingFields(self.programSelected)
+      _addCustomBuildersFields(self.programSelected, TRACKING_URL)
+      # _addTrackingFields(self.programSelected)
+
+  _triggerExitProgramFields = ->
+    self = @
+    $('#exit-form-checkbox').on 'ifChecked', ->
+      _addCustomBuildersFields(self.programSelected, EXIT_PROGRAM_URL)
+      # _addExitProgramFields(self.programSelected)
 
   _handleUncheckedEnrollment = ->
     $('#enrollment-checkbox').on 'ifUnchecked', ->
@@ -92,6 +100,12 @@ CIF.Client_advanced_searchesIndex = do ->
         name = $(option).text()
         _handleRemoveFilterBuilder(name, "Tracking")
 
+  _handleUncheckedExitProgram = ->
+    $('#exit-form-checkbox').on 'ifUnchecked', ->
+      for option in $('#program-stream-select option:selected')
+        name = $(option).text()
+        _handleRemoveFilterBuilder(name, "Exit Program")
+
   _handleSelect2RemoveProgram = ->
     self = @
     $('#program-stream-select').on 'select2-removed', (element) ->
@@ -101,6 +115,7 @@ CIF.Client_advanced_searchesIndex = do ->
       _handleRemoveFilterBuilder(programName, 'Enrollment')
       setTimeout ( ->
         _handleRemoveFilterBuilder(programName, 'Tracking')
+        _handleRemoveFilterBuilder(programName, 'Exit Program')
         )
 
       if $.isEmptyObject($(@).val())
@@ -115,9 +130,11 @@ CIF.Client_advanced_searchesIndex = do ->
       self.programSelected.push programId
       $('.program-association').show()
       if $('#enrollment-checkbox').prop('checked')
-        _addEnrollmentFields(programId)
+        _addCustomBuildersFields(programId, ENROLLMENT_URL)
       if $('#tracking-checkbox').prop('checked')
-        _addTrackingFields(programId)
+        _addCustomBuildersFields(programId, TRACKING_URL)
+      if $('#exit-form-checkbox').prop('checked')
+        _addCustomBuildersFields(programId, EXIT_PROGRAM_URL)
 
   _handleShowCustomFormSelect = ->
     if $('#custom-form-checkbox').prop('checked')
@@ -138,38 +155,17 @@ CIF.Client_advanced_searchesIndex = do ->
 
   _customFormSelectChange = ->
     $('#custom-form-wrapper select').on 'select2-selecting', (element) ->
-      _handleAddCustomFormFilter(element.val)
+      _addCustomBuildersFields(element.val, CUSTOM_FORM_URL)
 
   _customFormSelectRemove = ->
     $('#custom-form-wrapper select').on 'select2-removed', (element) ->
       removeValue = element.choice.text
       _handleRemoveFilterBuilder(removeValue, 'Custom Fields')
 
-  _handleAddCustomFormFilter = (customFormIds)->
-    if customFormIds.length > 0
-      $.ajax
-        url: '/api/client_advanced_searches/get_custom_field'
-        data: { custom_form_ids: customFormIds }
-        method: 'GET'
-        success: (response) ->
-          fieldList = response.client_advanced_searches
-          $('#builder').queryBuilder('addFilter', fieldList)
-          _initSelect2()
-
-  _addEnrollmentFields = (programIds) ->
+   _addCustomBuildersFields = (ids, url) ->
     $.ajax
-      url: '/api/client_advanced_searches/get_enrollment_field'
-      data: { program_stream_ids: programIds }
-      method: 'GET'
-      success: (response) ->
-        fieldList = response.client_advanced_searches
-        $('#builder').queryBuilder('addFilter', fieldList)
-        _initSelect2()
-
-  _addTrackingFields = (programIds) ->
-    $.ajax
-      url: '/api/client_advanced_searches/get_tracking_field'
-      data: { program_stream_ids: programIds }
+      url: url
+      data: { ids: ids }
       method: 'GET'
       success: (response) ->
         fieldList = response.client_advanced_searches
@@ -177,6 +173,7 @@ CIF.Client_advanced_searchesIndex = do ->
         _initSelect2()
 
   _ajaxGetBasicField = ->
+    rulesLength = $('#builder').data('basic-search-rules').rules.length
     self = @
     $.ajax
       url: '/api/client_advanced_searches/get_basic_field'
@@ -184,14 +181,18 @@ CIF.Client_advanced_searchesIndex = do ->
       success: (response) ->
         fieldList = response.client_advanced_searches
         $('#builder').queryBuilder(_queryBuilderOption(fieldList))
-        _handleAddCustomFormFilter(self.customFormSelected)
-        _addEnrollmentFields(self.programSelected)
-        _addTrackingFields(self.programSelected)
+        _addCustomBuildersFields(self.customFormSelected, CUSTOM_FORM_URL)
+        if self.enrollmentCheckbox.prop('checked')
+          _addCustomBuildersFields(self.programSelected, ENROLLMENT_URL)
+        if self.trackingCheckbox.prop('checked')
+          _addCustomBuildersFields(self.programSelected, TRACKING_URL)
+        if self.exitCheckbox.prop('checked')
+          _addCustomBuildersFields(self.programSelected, EXIT_PROGRAM_URL)
         setTimeout ( ->
           _basicFilterSetRule()
           _initSelect2()
           _initRuleOperatorSelect2($('#builder'))
-        ), 300
+        ), 100 * rulesLength
 
   _handleSearch = ->
     $('#search').on 'click', ->
