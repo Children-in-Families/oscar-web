@@ -3,7 +3,7 @@ CIF.Program_streamsShow = CIF.Program_streamsPreview = do ->
     _initProgramRule()
     _handleDisabledInputs()
     _initSelect2()
-  
+
   _initProgramRule = ->
     rules = $('#rules').data('program-rules')
     return if $.isEmptyObject(rules)
@@ -36,6 +36,7 @@ CIF.Program_streamsShow = CIF.Program_streamsPreview = do ->
     lang:
       operators:
         is_empty: 'is blank'
+        is_not_empty: 'is not blank'
         equal: 'is'
         not_equal: 'is not'
         less: '<'
