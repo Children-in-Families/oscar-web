@@ -176,6 +176,7 @@ Rails.application.routes.draw do
         get :get_custom_field
         get :get_basic_field
         get :get_enrollment_field
+        get :get_tracking_field
       end
     end
     resources :calendars do

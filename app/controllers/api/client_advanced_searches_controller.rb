@@ -16,5 +16,11 @@ module Api
       advanced_filter_enrollment_field = AdvancedSearches::EnrollmentFields.new(program_stream_ids).render
       render json: advanced_filter_enrollment_field
     end
+
+    def get_tracking_field
+      program_stream_ids = params[:program_stream_ids]
+      advanced_filter_enrollment_field = AdvancedSearches::TrackingFields.new(program_stream_ids).render
+      render json: advanced_filter_enrollment_field
+    end
   end
 end

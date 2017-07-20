@@ -21,8 +21,10 @@ CIF.Client_advanced_searchesIndex = do ->
     _handleHideProgramStreamSelect()
     _handleProgramSelectChange()
     _triggerEnrollmentFields()
+    _triggerTrackingFields()
     _handleSelect2RemoveProgram()
     _handleUncheckedEnrollment()
+    _handleUncheckedTracking()
 
     _columnsVisibility()
     _handleInitDatatable()
@@ -62,9 +64,9 @@ CIF.Client_advanced_searchesIndex = do ->
       $('.program-stream, .program-association').hide()
       $('#program-stream-select option:selected').each ->
         name = $(@).text()
-        _handleRemoveFilterBuilder(name, 'program', 'Enrollment')
-        _handleRemoveFilterBuilder(name, 'program', 'Tracking')
-        _handleRemoveFilterBuilder(name, 'program', 'Exit Form')
+        _handleRemoveFilterBuilder(name, 'Enrollment')
+        _handleRemoveFilterBuilder(name, 'Tracking')
+        _handleRemoveFilterBuilder(name, 'Exit Form')
       $('.program-association input[type="checkbox"]').iCheck('uncheck')
       $('#program-stream-select').select2("val", "")
 
@@ -73,24 +75,38 @@ CIF.Client_advanced_searchesIndex = do ->
     $('#enrollment-checkbox').on 'ifChecked', ->
       _addEnrollmentFields(self.programSelected)
 
+  _triggerTrackingFields = ->
+    self = @
+    $('#tracking-checkbox').on 'ifChecked', ->
+      _addTrackingFields(self.programSelected)
+
   _handleUncheckedEnrollment = ->
     $('#enrollment-checkbox').on 'ifUnchecked', ->
-      $('#program-stream-select option:selected').each ->
-        name = $(@).text()
-        _handleRemoveFilterBuilder(name, 'program', "Enrollment")
+      for option in $('#program-stream-select option:selected')
+        name = $(option).text()
+        _handleRemoveFilterBuilder(name, "Enrollment")
+
+  _handleUncheckedTracking = ->
+    $('#tracking-checkbox').on 'ifUnchecked', ->
+      for option in $('#program-stream-select option:selected')
+        name = $(option).text()
+        _handleRemoveFilterBuilder(name, "Tracking")
 
   _handleSelect2RemoveProgram = ->
     self = @
     $('#program-stream-select').on 'select2-removed', (element) ->
+      programName = element.choice.text
+      $.map self.programSelected, (val, i) ->
+        if val == element.val then delete(self.programSelected[i])
+      _handleRemoveFilterBuilder(programName, 'Enrollment')
+      setTimeout ( ->
+        _handleRemoveFilterBuilder(programName, 'Tracking')
+        )
+
       if $.isEmptyObject($(@).val())
         programStreamAssociation = $('.program-association')
         $(programStreamAssociation).find('.i-checks').iCheck('uncheck')
         $(programStreamAssociation).hide()
-
-      programName = element.choice.text
-      _handleRemoveFilterBuilder(programName, 'program', 'Enrollment')
-      $.map self.programSelected, (val, i) ->
-        if val == element.val then delete(self.programSelected[i])
 
   _handleProgramSelectChange = ->
     self = @
@@ -100,6 +116,8 @@ CIF.Client_advanced_searchesIndex = do ->
       $('.program-association').show()
       if $('#enrollment-checkbox').prop('checked')
         _addEnrollmentFields(programId)
+      if $('#tracking-checkbox').prop('checked')
+        _addTrackingFields(programId)
 
   _handleShowCustomFormSelect = ->
     if $('#custom-form-checkbox').prop('checked')
@@ -112,7 +130,7 @@ CIF.Client_advanced_searchesIndex = do ->
     $('#custom-form-checkbox').on 'ifUnchecked', ->
       $('#custom-form-select option:selected').each ->
         formTitle = $(@).text()
-        _handleRemoveFilterBuilder(formTitle, 'custom_form', 'Custom Fields')
+        _handleRemoveFilterBuilder(formTitle, 'Custom Fields')
 
       self.customFormSelected = []
       $('.custom-form select').select2('val', '')
@@ -125,7 +143,7 @@ CIF.Client_advanced_searchesIndex = do ->
   _customFormSelectRemove = ->
     $('#custom-form-wrapper select').on 'select2-removed', (element) ->
       removeValue = element.choice.text
-      _handleRemoveFilterBuilder(removeValue, 'custom_form', 'Custom Fields')
+      _handleRemoveFilterBuilder(removeValue, 'Custom Fields')
 
   _handleAddCustomFormFilter = (customFormIds)->
     if customFormIds.length > 0
@@ -148,6 +166,16 @@ CIF.Client_advanced_searchesIndex = do ->
         $('#builder').queryBuilder('addFilter', fieldList)
         _initSelect2()
 
+  _addTrackingFields = (programIds) ->
+    $.ajax
+      url: '/api/client_advanced_searches/get_tracking_field'
+      data: { program_stream_ids: programIds }
+      method: 'GET'
+      success: (response) ->
+        fieldList = response.client_advanced_searches
+        $('#builder').queryBuilder('addFilter', fieldList)
+        _initSelect2()
+
   _ajaxGetBasicField = ->
     self = @
     $.ajax
@@ -158,6 +186,7 @@ CIF.Client_advanced_searchesIndex = do ->
         $('#builder').queryBuilder(_queryBuilderOption(fieldList))
         _handleAddCustomFormFilter(self.customFormSelected)
         _addEnrollmentFields(self.programSelected)
+        _addTrackingFields(self.programSelected)
         setTimeout ( ->
           _basicFilterSetRule()
           _initSelect2()
@@ -186,9 +215,9 @@ CIF.Client_advanced_searchesIndex = do ->
     trackingCheck   = $('#client_advanced_search_tracking_check')
     exitFormCheck   = $('#client_advanced_search_exit_form_check')
 
-    if $('#enrollment-checkbox').prop('checked') then $(enrollmentCheck).val(1)
-    if $('#tracking-checkbox').prop('checked') then $(trackingCheck).val(1)
-    if $('#exit-form-checkbox').prop('checked') then $(exitFormCheck).val(1)
+    if @enrollmentCheckbox.prop('checked') then $(enrollmentCheck).val(1)
+    if @trackingCheckbox.prop('checked') then $(trackingCheck).val(1)
+    if @exitCheckbox.prop('checked') then $(exitFormCheck).val(1)
 
   _queryBuilderOption = (fieldList) ->
     inputs_separator: ' AND '
@@ -252,24 +281,30 @@ CIF.Client_advanced_searchesIndex = do ->
         $(rowBuilderRule).find('.rule-value-container select').select2(width: '180px')
       )
 
-  _handleRemoveFilterBuilder = (resourceName, keyWord, resourcelabel) ->
-    index = _handleGenerateIndex(keyWord)
-
-    values = []
+  _handleRemoveFilterBuilder = (resourceName, resourcelabel) ->
+    a = 1
     filterSelects = $('.rule-container .rule-filter-container select')
+
     for select in filterSelects
       optGroup  = $(':selected', select).parents('optgroup')
       if $(select).val() != '-1' and optGroup[0] != undefined and optGroup[0].label != 'Client Basic Fields'
-        label = optGroup[0].label
-        if label.includes(resourcelabel) and label.split('|')[index].trim() == resourceName
+        label = optGroup[0].label.split('|')
+        if $(label).last()[0].trim() == resourcelabel and label[0].trim() == resourceName
           $(select).parents('.rule-container').find('.rule-header button').trigger('click')
+ 
+    if $('.rule-container .rule-filter-container select').length == 0
+      $('button[data-add="rule"]').trigger('click')
+      filterSelects = $('.rule-container .rule-filter-container select')
+    _handleRemoveBuilderOption(filterSelects, resourceName, resourcelabel)
 
+  _handleRemoveBuilderOption = (filterSelects, resourceName, resourcelabel) ->
+    values = []
     optGroups = $(filterSelects[0]).find('optgroup')
     for optGroup in optGroups
       label = optGroup.label
       if label != 'Client Basic Fields'
-        name = label.split('|')[index].trim()
-        if label.includes(label) and name == resourceName
+        labelValue = label.split('|')
+        if $(labelValue).last()[0].trim() == resourcelabel and labelValue[0].trim() == resourceName
           $(optGroup).find('option').each ->
             values.push $(@).val()
 
