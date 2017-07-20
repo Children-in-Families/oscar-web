@@ -124,8 +124,12 @@ class ProgramStreamsController < AdminController
   def column_order
     if params[:tab] == 'current'
       column = params[:order]
-      sort_by = params[:descending] == 'true' ? 'desc' : 'asc'
-      order_string = "#{column} #{sort_by}"
+      if column.present?
+        sort_by = params[:descending] == 'true' ? 'desc' : 'asc'
+        order_string = "#{column} #{sort_by}"
+      else
+        order_string = 'name'
+      end
     else
       order_string = 'name'
     end
@@ -135,8 +139,12 @@ class ProgramStreamsController < AdminController
   def all_ngos_ordered
     if params[:tab] == 'all_ngo'
       column = params[:order]
-      ordered = program_streams_all_organizations.sort_by{ |p| p.send(column).to_s.downcase }
-      params[:descending] == 'true' ? ordered.reverse : ordered
+      if column.present?
+        ordered = program_streams_all_organizations.sort_by{ |p| p.send(column).to_s.downcase }
+        params[:descending] == 'true' ? ordered.reverse : ordered
+      else
+        program_streams_all_organizations.sort_by(&:name)
+      end
     else
       program_streams_all_organizations.sort_by(&:name)
     end
@@ -151,6 +159,6 @@ class ProgramStreamsController < AdminController
   end
 
   def complete_program_steam
-    @complete_program_steam = ProgramStream.where.not(id: @program_stream).complete
+    @complete_program_steam = ProgramStream.where.not(id: @program_stream).complete.ordered
   end
 end
