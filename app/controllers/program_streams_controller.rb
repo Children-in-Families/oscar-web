@@ -151,6 +151,6 @@ class ProgramStreamsController < AdminController
   end
 
   def complete_program_steam
-    @complete_program_steam = ProgramStream.where.not(id: @program_stream).complete
+    @complete_program_steam = ProgramStream.where.not(id: @program_stream).complete.ordered
   end
 end
