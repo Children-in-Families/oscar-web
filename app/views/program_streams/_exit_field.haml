@@ -2,6 +2,6 @@
 %section
   #exit-program{ data: { field: @program_stream.exit_program }}
   %label
-    %i Note: The Date of Program Exit field is added automatically to the Exit Program form.
+    %i= t('.note')
   .text-danger= @program_stream.errors[:exit_program].join(' and ')
   = f.hidden_field :exit_program
