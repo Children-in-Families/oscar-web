@@ -209,44 +209,6 @@ describe 'Client' do
   feature 'List Case' do
     let!(:accepted_client){ create(:client, state: 'accepted', user: user) }
 
-    feature 'All Case' do
-      let!(:emergency_case){ create(:case, case_type: 'EC', client: accepted_client) }
-      let!(:foster_case){ create(:case, case_type: 'FC', client: accepted_client) }
-      let!(:kinship_case){ create(:case, case_type: 'KC', client: accepted_client) }
-
-      before do
-        login_as(user)
-        visit client_path(accepted_client)
-      end
-
-      scenario 'All Panel' do
-        click_button (I18n.t('clients.show.add_client_to_case'))
-        expect(page).to have_content('Emergency Care')
-        expect(page).to have_content('Foster Care')
-        expect(page).to have_content('Kinship Care')
-      end
-
-      scenario 'Emergency Info' do
-
-        expect(page).to have_content(emergency_case.start_date.strftime('%B %d, %Y'))
-        expect(page).to have_content(emergency_case.carer_names)
-        expect(page).to have_content(emergency_case.carer_phone_number)
-      end
-
-      scenario 'Foster Info' do
-        expect(page).to have_content(foster_case.carer_address)
-        expect(page).to have_content(foster_case.province.name)
-        expect(page).to have_content(ActionController::Base.helpers.number_to_currency(foster_case.support_amount))
-      end
-
-      scenario 'Kinship Info' do
-
-        expect(page).to have_content(foster_case.support_note)
-        expect(page).to have_content(foster_case.partner.name)
-      end
-
-    end
-
     feature 'Emergency Case' do
       let!(:emergency_case){ create(:case, case_type: 'EC', client: accepted_client) }
 
@@ -439,7 +401,7 @@ describe 'Client' do
 
   feature 'Exit Case' do
     let(:accepted_client) { create(:client, state: 'accepted', user: user) }
-    let!(:client_case) { create(:case, case_type: ['EC', 'FC', 'KC'].sample, client: accepted_client) }
+    let!(:client_case) { create(:case, case_type: 'EC', client: accepted_client) }
 
     before do
       login_as(user)

@@ -211,12 +211,28 @@ class Client < ActiveRecord::Base
     !latest_case
   end
 
+  def has_no_latest_fc_and_ec?
+    !latest_case_fc_and_ec
+  end
+
+  def has_no_latest_kc_and_ec?
+    !latest_case_kc_and_ec
+  end
+
   def has_any_quarterly_reports?
     (cases.active.latest_kinship.present? && cases.latest_kinship.quarterly_reports.any?) || (cases.active.latest_foster.present? && cases.latest_foster.quarterly_reports.any?)
   end
 
   def latest_case
     cases.active.latest_kinship.presence || cases.active.latest_foster.presence
+  end
+
+  def latest_case_fc_and_ec
+    cases.active.latest_emergency.presence || cases.active.latest_foster.presence
+  end
+
+  def latest_case_kc_and_ec
+    cases.active.latest_emergency.presence || cases.active.latest_kinship.presence
   end
 
   def age_as_years(date = Date.today)
