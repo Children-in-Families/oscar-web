@@ -7,10 +7,11 @@
           - if can? :manage, Case
             - if current_user.admin? || current_user.case_worker? || current_user.fc_manager?
               %small
-                = link_to edit_client_case_path(fc.client, fc) do
-                  .btn.btn-outline.btn-success
-                    = t('.edit_btn')
-                - unless @client.cases.exclude_referred.latest_foster.exited
+                - if current_user.admin? || fc.current?
+                  = link_to edit_client_case_path(fc.client, fc) do
+                    .btn.btn-outline.btn-success
+                      = t('.edit_btn')
+                - if @client.has_no_latest_kc_and_ec?
                   %button.btn.btn-outline.btn-warning{"data-target" => '#exit-from-case', "data-toggle" => 'modal'}
                     = t('.exit_btn')
       .ibox-content
@@ -76,4 +77,4 @@
               %td
                 %strong
                   = human_boolean(fc.family_preservation)
-  = render 'exit_case_form', client_case: @client.cases.exclude_referred.latest_foster, exit_from_cif: false
+  = render 'exit_case_form', client_case: @client.cases.exclude_referred.latest_foster, exit_from_cif: false if @client.has_no_latest_fc_and_ec?
