@@ -15,7 +15,7 @@ CIF.Client_advanced_searchesIndex = do ->
     _initSelect2()
     _setValueToBuilderSelected()
     _getTranslation()
-    _ajaxGetBasicField()
+    _initBuilderFilter()
 
     _handleShowCustomFormSelect()
     _customFormSelectChange()
@@ -170,10 +170,12 @@ CIF.Client_advanced_searchesIndex = do ->
         $('#builder').queryBuilder('addFilter', fieldList)
         _initSelect2()
 
-  _ajaxGetBasicField = ->
+  _initBuilderFilter = ->
     builderFields = $('#client-builder-fields').data('fields')
     $('#builder').queryBuilder(_queryBuilderOption(builderFields))
     _basicFilterSetRule()
+    _initSelect2()
+    _initRuleOperatorSelect2($('#builder'))
 
   _handleSearch = ->
     $('#search').on 'click', ->

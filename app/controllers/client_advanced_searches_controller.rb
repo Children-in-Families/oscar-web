@@ -39,11 +39,19 @@ class ClientAdvancedSearchesController < AdminController
   end
 
   def program_stream_params
-    eval @advanced_search_params[:program_selected]
+    if  @advanced_search_params.present? && @advanced_search_params[:program_selected]
+      eval @advanced_search_params[:program_selected]
+    else
+      []
+    end
   end
 
   def custom_form_params
-    eval @advanced_search_params[:custom_form_selected]
+    if @advanced_search_params.present? && @advanced_search_params[:custom_form_selected].present?
+      eval @advanced_search_params[:custom_form_selected]
+    else
+      []
+    end
   end
 
   def get_client_basic_fields
@@ -55,7 +63,7 @@ class ClientAdvancedSearchesController < AdminController
   end
 
   def get_enrollment_fields
-    if @advanced_search_params[:enrollment_check].present?
+    if @advanced_search_params.present? && @advanced_search_params[:enrollment_check].present?
       AdvancedSearches::EnrollmentFields.new(program_stream_params).render
     else
       []
@@ -63,7 +71,7 @@ class ClientAdvancedSearchesController < AdminController
   end
 
   def get_tracking_fields
-    if @advanced_search_params[:tracking_check].present?
+    if @advanced_search_params.present? && @advanced_search_params[:tracking_check].present?
       AdvancedSearches::TrackingFields.new(program_stream_params).render
     else
       []
@@ -71,7 +79,7 @@ class ClientAdvancedSearchesController < AdminController
   end
 
   def get_exit_program_fields
-    if @advanced_search_params[:exit_form_check].present?
+    if @advanced_search_params.present? && @advanced_search_params[:exit_form_check].present?
       AdvancedSearches::ExitProgramFields.new(program_stream_params).render
     else
       []
