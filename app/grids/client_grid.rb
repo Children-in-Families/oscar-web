@@ -315,12 +315,12 @@ class ClientGrid
 
   filter(:program_streams, :enum, multiple: true, select: :program_stream_options, header: -> { I18n.t('datagrid.columns.clients.program_name') }) do |name, scope|
     program_stream_ids = ProgramStream.name_like(name).ids
-    ids = scope.joins(:program_streams).where(program_streams: { id: program_stream_ids } ).pluck(:id).uniq
+    ids = Client.joins(:client_enrollments).where(client_enrollments: { status: 'Active', program_stream_id: program_stream_ids } ).pluck(:id).uniq
     scope.where(id: ids)
   end
 
   def program_stream_options
-    ProgramStream.joins(:clients).complete.pluck(:name).uniq
+    ProgramStream.joins(:client_enrollments).where(client_enrollments: {status: 'Active'}).complete.order('lower(name) ASC').pluck(:name).uniq
   end
 
   column(:slug, order:'clients.id', header: -> { I18n.t('datagrid.columns.clients.id') })

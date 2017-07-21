@@ -312,7 +312,7 @@ class Client < ActiveRecord::Base
   end
 
   def find_client_enrollment_active
-    ClientEnrollment.joins(:program_stream).where("client_id = ? AND client_enrollments.created_at = (SELECT MAX(client_enrollments.created_at) FROM client_enrollments WHERE client_enrollments.program_stream_id = program_streams.id) AND client_enrollments.status = 'Active'", self.id).order('lower(name) ASC')
+    ClientEnrollment.joins(:program_stream).where(client_enrollments: { status: 'Active', client_id: self.id } )
   end
 
   private
