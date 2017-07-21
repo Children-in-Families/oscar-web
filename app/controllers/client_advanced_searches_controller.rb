@@ -2,7 +2,7 @@ class ClientAdvancedSearchesController < AdminController
   include ClientGridOptions
 
   before_action :choose_grid
-  before_action :find_params_advanced_search, :get_custom_fields, :get_program_streams
+  before_action :find_params_advanced_search, :get_custom_fields, :get_program_streams, :client_builder_fields
   before_action :basic_params, if: :has_params?
 
   def index
@@ -26,12 +26,56 @@ class ClientAdvancedSearchesController < AdminController
 
   private
 
+  def client_builder_fields
+    @builder_fields = get_client_basic_fields + get_custom_form_fields + get_enrollment_fields + get_tracking_fields + get_exit_program_fields
+  end
+
   def get_custom_fields
     @custom_fields  = CustomField.client_forms.order_by_form_title
   end
 
   def get_program_streams
     @program_streams = ProgramStream.completed.ordered
+  end
+
+  def program_stream_params
+    eval @advanced_search_params[:program_selected]
+  end
+
+  def custom_form_params
+    eval @advanced_search_params[:custom_form_selected]
+  end
+
+  def get_client_basic_fields
+    AdvancedSearches::ClientFields.new(user: current_user).render
+  end
+
+  def get_custom_form_fields
+    @enrollment_fields = AdvancedSearches::CustomFields.new(custom_form_params).render
+  end
+
+  def get_enrollment_fields
+    if @advanced_search_params[:enrollment_check].present?
+      AdvancedSearches::EnrollmentFields.new(program_stream_params).render
+    else
+      []
+    end
+  end
+
+  def get_tracking_fields
+    if @advanced_search_params[:tracking_check].present?
+      AdvancedSearches::TrackingFields.new(program_stream_params).render
+    else
+      []
+    end
+  end
+
+  def get_exit_program_fields
+    if @advanced_search_params[:exit_form_check].present?
+      AdvancedSearches::ExitProgramFields.new(program_stream_params).render
+    else
+      []
+    end
   end
 
   def has_params?

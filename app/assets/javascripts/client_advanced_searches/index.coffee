@@ -1,13 +1,14 @@
 CIF.Client_advanced_searchesIndex = do ->
+  ENROLLMENT_URL       = '/api/client_advanced_searches/get_enrollment_field'
+  TRACKING_URL         = '/api/client_advanced_searches/get_tracking_field'
+  EXIT_PROGRAM_URL     = '/api/client_advanced_searches/get_exit_program_field'
+  CUSTOM_FORM_URL      = '/api/client_advanced_searches/get_custom_field'
   @enrollmentCheckbox  = $('#enrollment-checkbox')
   @trackingCheckbox    = $('#tracking-checkbox')
   @exitCheckbox        = $('#exit-form-checkbox')
   @customFormSelected  = []
   @programSelected     = []
-  ENROLLMENT_URL       = '/api/client_advanced_searches/get_enrollment_field'
-  TRACKING_URL         = '/api/client_advanced_searches/get_tracking_field'
-  EXIT_PROGRAM_URL     = '/api/client_advanced_searches/get_exit_program_field'
-  CUSTOM_FORM_URL      = '/api/client_advanced_searches/get_custom_field'
+  @requests            = []
 
   _init = ->
     @filterTranslation = ''
@@ -74,19 +75,16 @@ CIF.Client_advanced_searchesIndex = do ->
     self = @
     $('#enrollment-checkbox').on 'ifChecked', ->
       _addCustomBuildersFields(self.programSelected, ENROLLMENT_URL)
-      # _addEnrollmentFields(self.programSelected)
 
   _triggerTrackingFields = ->
     self = @
     $('#tracking-checkbox').on 'ifChecked', ->
       _addCustomBuildersFields(self.programSelected, TRACKING_URL)
-      # _addTrackingFields(self.programSelected)
 
   _triggerExitProgramFields = ->
     self = @
     $('#exit-form-checkbox').on 'ifChecked', ->
       _addCustomBuildersFields(self.programSelected, EXIT_PROGRAM_URL)
-      # _addExitProgramFields(self.programSelected)
 
   _handleUncheckedEnrollment = ->
     $('#enrollment-checkbox').on 'ifUnchecked', ->
@@ -173,26 +171,9 @@ CIF.Client_advanced_searchesIndex = do ->
         _initSelect2()
 
   _ajaxGetBasicField = ->
-    rulesLength = $('#builder').data('basic-search-rules').rules.length
-    self = @
-    $.ajax
-      url: '/api/client_advanced_searches/get_basic_field'
-      method: 'GET'
-      success: (response) ->
-        fieldList = response.client_advanced_searches
-        $('#builder').queryBuilder(_queryBuilderOption(fieldList))
-        _addCustomBuildersFields(self.customFormSelected, CUSTOM_FORM_URL)
-        if self.enrollmentCheckbox.prop('checked')
-          _addCustomBuildersFields(self.programSelected, ENROLLMENT_URL)
-        if self.trackingCheckbox.prop('checked')
-          _addCustomBuildersFields(self.programSelected, TRACKING_URL)
-        if self.exitCheckbox.prop('checked')
-          _addCustomBuildersFields(self.programSelected, EXIT_PROGRAM_URL)
-        setTimeout ( ->
-          _basicFilterSetRule()
-          _initSelect2()
-          _initRuleOperatorSelect2($('#builder'))
-        ), 100 * rulesLength
+    builderFields = $('#client-builder-fields').data('fields')
+    $('#builder').queryBuilder(_queryBuilderOption(builderFields))
+    _basicFilterSetRule()
 
   _handleSearch = ->
     $('#search').on 'click', ->
