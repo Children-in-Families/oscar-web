@@ -311,10 +311,6 @@ class Client < ActiveRecord::Base
     end
   end
 
-  def find_client_enrollment_active
-    ClientEnrollment.joins(:program_stream).where(client_enrollments: { status: 'Active', client_id: self.id } )
-  end
-
   private
 
   def create_client_history
