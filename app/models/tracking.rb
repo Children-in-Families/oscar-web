@@ -30,6 +30,6 @@ class Tracking < ActiveRecord::Base
 
     return unless error_fields.present?
     errors.add(:fields, "#{error_fields.uniq.join(', ')} #{error_translation}")
-    errors.add(:tab, '4')
+    errors.add(:tab, 4)
   end
 end

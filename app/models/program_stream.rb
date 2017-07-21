@@ -62,7 +62,7 @@ class ProgramStream < ActiveRecord::Base
     end
     return unless error_fields.present?
     error_message = "#{error_fields.uniq.join(', ')} #{I18n.t('cannot_remove_or_update')}"
-    errors.add(:enrollment, "#{error_message} ")
+    errors.add(:enrollment, "#{error_message}")
     errors.add(:tab, '3')
   end
 
@@ -79,7 +79,7 @@ class ProgramStream < ActiveRecord::Base
     end
     return unless error_fields.present?
     error_message = "#{error_fields.uniq.join(', ')} #{I18n.t('cannot_remove_or_update')}"
-    errors.add(:exit_program, "#{error_message} ")
+    errors.add(:exit_program, "#{error_message}")
     errors.add(:tab, '5')
   end
 
