@@ -32,4 +32,8 @@ class Tracking < ActiveRecord::Base
     errors.add(:fields, "#{error_fields.uniq.join(', ')} #{error_translation}")
     errors.add(:tab, 4)
   end
+
+  def is_used?
+    client_enrollment_trackings.present?
+  end
 end

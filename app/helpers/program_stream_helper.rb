@@ -15,10 +15,6 @@ module ProgramStreamHelper
     end
   end
 
-  def is_used?(tracking)
-    tracking.client_enrollment_trackings.present?
-  end
-
   def program_stream_redirect_path
     params[:client] == 'true' ? request.referer : program_streams_path
   end
