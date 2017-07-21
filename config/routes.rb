@@ -193,8 +193,8 @@ Rails.application.routes.draw do
       resources :users, only: [:index]
       resources :clients, except: [:edit, :new] do
         get :compare, on: :collection
-        resources :assessments, only: [:create, :update, :destroy]
-        resources :case_notes, only: [:create, :update, :delete]
+        resources :assessments, only: [:create, :update, :destroy, :delete]
+        resources :case_notes, only: [:create, :update, :delete, :destroy]
         resources :custom_field_properties, only: [:create, :update, :destroy]
 
         scope module: 'client_tasks' do
