@@ -136,4 +136,10 @@ describe ProgramStream, 'methods' do
       expect(ProgramStream.without_status_by(client).first).not_to eq program_stream
     end
   end
+
+  context 'is_used?' do
+    it 'return active client enrollment of the program' do
+      expect(program_stream_active.is_used?).to be_truthy
+    end
+  end
 end
