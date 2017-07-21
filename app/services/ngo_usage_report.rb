@@ -61,8 +61,8 @@ class NgoUsageReport
       user_count             = User.count
       login_per_month        = Visit.previous_month_logins.count
       previous_month_clients = PaperTrail::Version.where(item_type: 'Client', created_at: beginning_of_month..end_of_month)
-      client_added_count     = previous_month_clients.where(event: 'create')
-      client_deleted_count   = previous_month_clients.where(event: 'delete')
+      client_added_count     = previous_month_clients.where(event: 'create').count
+      client_deleted_count   = previous_month_clients.where(event: 'delete').count
       values                 = [ngo_name, ngo_on_board, fcf, user_count, client_count, client_added_count, client_deleted_count, login_per_month]
       worksheet.insert_row(index += 1, values)
       length_of_column.times do |i|
