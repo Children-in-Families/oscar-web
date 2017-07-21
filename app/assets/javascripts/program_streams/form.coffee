@@ -394,7 +394,10 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
           form.valid()
           name = $('#program_stream_name').val() == ''
           return false if name
-        else if $('#enrollment, #trackings, #exit-program').is(':visible')
+        else if currentIndex == 3 and newIndex == 4 and $('#trackings').is(':visible')
+          _handleCheckTrackingName()
+          return false if _handleCheckingDuplicateFields()
+        else if $('#enrollment, #exit-program').is(':visible')
           return false if _handleCheckingDuplicateFields()
 
         $('section ul.frmb.ui-sortable').css('min-height', '266px')
@@ -420,6 +423,13 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         finish: self.filterTranslation.save
         next: self.filterTranslation.next
         previous: self.filterTranslation.previous
+
+  _handleCheckTrackingName = ->
+    trackingNames = $('.nested-fields .program_stream_trackings_name')
+    for name in trackingNames
+      if $(name).find('input').val() == ''
+        $(name).find('input').addClass('error')
+        $(name).append("<label class='error'>Tracking name can't be blank</label>") unless $(name).find('label.error').is(':visible')
 
   _handleClickAddTracking = ->
     if $('#trackings .frmb').length == 0
