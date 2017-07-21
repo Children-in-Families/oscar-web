@@ -17,7 +17,7 @@ class ClientEnrollmentsController < AdminController
       else
         redirect_to client_client_enrollments_path(@client, program_streams: params[:program_streams]), alert: t('.client_not_valid') unless valid_client?
       end
-    else
+    elsif @program_stream.mutual_dependence.any? || @program_stream.program_exclusive.any?
       redirect_to client_client_enrollments_path(@client, program_streams: params[:program_streams]), alert: t('.client_not_valid') unless valid_program?
     end
     @client_enrollment = @client.client_enrollments.new(program_stream_id: @program_stream)
