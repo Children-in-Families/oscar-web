@@ -123,7 +123,7 @@ CIF.Client_advanced_searchesIndex = do ->
         _handleRemoveFilterBuilder(programName, TRACKING_TRANSTATE)
         _handleRemoveFilterBuilder(programName, EXIT_PROGRAM_TRANSTATE)
         )
-
+      
       if $.isEmptyObject($(@).val())
         programStreamAssociation = $('.program-association')
         $(programStreamAssociation).find('.i-checks').iCheck('uncheck')
@@ -224,6 +224,7 @@ CIF.Client_advanced_searchesIndex = do ->
       delete_group: @filterTranslation.deleteGroup
       operators:
         is_empty: 'is blank'
+        is_not_empty: 'is not blank'
         equal: 'is'
         not_equal: 'is not'
         less: '<'

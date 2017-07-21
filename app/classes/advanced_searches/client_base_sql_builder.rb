@@ -101,6 +101,13 @@ module AdvancedSearches
           @sql_string << "(clients.#{field} IS NULL OR clients.#{field} = '')"
         end
 
+      when 'is_not_empty'
+        if BLANK_FIELDS.include? field
+          @sql_string << "clients.#{field} IS NOT NULL"
+        else
+          @sql_string << "(clients.#{field} IS NOT NULL AND clients.#{field} != '')"
+        end
+
       when 'between'
         @sql_string << "clients.#{field} BETWEEN ? AND ?"
         @values << value.first

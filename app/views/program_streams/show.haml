@@ -10,7 +10,7 @@
                 = fa_icon('pencil')
             = link_to new_program_stream_path(program_stream_id: @program_stream.id, ngo_name: @program_stream.ngo_name), class: 'btn btn-outline btn-success', title: t('.copy') do
               = fa_icon('files-o')
-          = link_to request.referer do
+          = link_to program_stream_redirect_path do
             .btn.btn-default.btn-back-default.button
               = t('.back')
       .ibox-content
@@ -40,7 +40,7 @@
                     %tr
                       %td.enrolled= t('.enrolled')
                       %td= @program_stream.enrolled
-          
+
           .panel.panel-default
             .panel-heading
               .row.height-row
@@ -58,6 +58,18 @@
                     %tr
                       %td.maximum= t('.maximum')
                       %td= @program_stream.quantity
+                    %tr
+                      %td.exclusive= t('.program_exclusive')
+                      %td
+                        - if @program_exclusive.present?
+                          - @program_exclusive.pluck(:name).each do |name|
+                            %span.label.label-margin= name
+                    %tr
+                      %td.exclusive= t('.mutual_dependence')
+                      %td
+                        - if @mutual_dependence.present?
+                          - @mutual_dependence.pluck(:name).each do |name|
+                            %span.label.label-margin= name
                 #program-rules
 
           .panel.panel-default
@@ -95,11 +107,12 @@
                       .col-xs-12.col-md-6
                         .ibox.border-left-right.border-bottom
                           .ibox-content
-                            .row.input-margin
-                              .col-xs-12
-                                %label= tracking.name
-                              .col-xs-12
-                                = text_field_tag 'Name', '', class: 'form-control'
+                            - if tracking.name.present?
+                              .row.input-margin
+                                .col-xs-12
+                                  %label= tracking.name
+                                .col-xs-12
+                                  = text_field_tag 'Name', '', class: 'form-control'
                             .row
                               .col-xs-12
                                 - tracking['fields'].each do |field|

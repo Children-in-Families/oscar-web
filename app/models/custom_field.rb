@@ -67,10 +67,9 @@ class CustomField < ActiveRecord::Base
   end
 
   def validate_remove_field
+    return unless fields_changed?
     error_fields = []
     properties = custom_field_properties.pluck(:properties).select(&:present?)
-
-    return unless fields_changed?
     properties.each do |property|
       field_remove = fields_change.first - fields_change.last
       field_remove.each do |field|

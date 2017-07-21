@@ -12,7 +12,13 @@ class ClientEnrollmentsController < AdminController
 
   def new
     if @program_stream.rules.present?
-      redirect_to client_client_enrollments_path(@client, program_streams: params[:program_streams]), alert: t('.client_not_valid') unless valid_client?
+      if @program_stream.program_exclusive.any? || @program_stream.mutual_dependence.any?
+        redirect_to client_client_enrollments_path(@client, program_streams: params[:program_streams]), alert: t('.client_not_valid') unless valid_client? && valid_program?
+      else
+        redirect_to client_client_enrollments_path(@client, program_streams: params[:program_streams]), alert: t('.client_not_valid') unless valid_client?
+      end
+    elsif @program_stream.mutual_dependence.any? || @program_stream.program_exclusive.any?
+      redirect_to client_client_enrollments_path(@client, program_streams: params[:program_streams]), alert: t('.client_not_valid') unless valid_program?
     end
     @client_enrollment = @client.client_enrollments.new(program_stream_id: @program_stream)
   end
@@ -55,7 +61,10 @@ class ClientEnrollmentsController < AdminController
   private
 
   def client_enrollment_params
-    params.require(:client_enrollment).permit({}).merge(properties: params[:client_enrollment][:properties], program_stream_id: params[:program_stream_id])
+    params[:client_enrollment][:properties].keys.each do |k|
+      params[:client_enrollment][:properties][k].delete('') if params[:client_enrollment][:properties][k].class == Array && params[:client_enrollment][:properties][k].count > 1
+    end
+    params.require(:client_enrollment).permit(:enrollment_date, {}).merge(properties: params[:client_enrollment][:properties], program_stream_id: params[:program_stream_id])
   end
 
   def find_client_enrollment
@@ -71,17 +80,17 @@ class ClientEnrollmentsController < AdminController
   end
 
   def client_filtered
-    AdvancedSearches::ClientAdvancedSearch.new(@program_stream.rules, Client.all).filter
+    AdvancedSearches::ClientAdvancedSearch.new(@program_stream.rules, {}, Client.all).filter
   end
 
   def program_stream_order_by_enrollment
     program_streams = []
     if params[:program_streams] == 'enrolled-program-streams'
-      client_enrollments_active = ProgramStream.enrollment_status_active(@client).completed
+      client_enrollments_active = ProgramStream.active_enrollments(@client).complete
       program_streams           = client_enrollments_active
     elsif params[:program_streams] == 'program-streams'
-      client_enrollments_exited     = ProgramStream.enrollment_status_inactive(@client).completed
-      client_enrollments_inactive   = ProgramStream.without_status_by(@client).completed
+      client_enrollments_exited     = ProgramStream.inactive_enrollments(@client).complete
+      client_enrollments_inactive   = ProgramStream.without_status_by(@client).complete
       program_streams               = client_enrollments_exited + client_enrollments_inactive
     end
     program_streams
@@ -102,5 +111,10 @@ class ClientEnrollmentsController < AdminController
 
   def valid_client?
     client_filtered.ids.include? @client.id
+  end
+
+  def valid_program?
+    program_active_status_ids   = ProgramStream.active_enrollments(@client).pluck(:id)
+    (@program_stream.program_exclusive & program_active_status_ids).empty? && (@program_stream.mutual_dependence - program_active_status_ids).empty?
   end
 end

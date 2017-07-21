@@ -15,25 +15,27 @@ class ProgramStream < ActiveRecord::Base
   validates :name, presence: true
   validates :name, uniqueness: true
   validate  :form_builder_field_uniqueness
-  validate  :validate_remove_field, if: -> { id.present? }
+  validate  :validate_remove_enrollment_field, :validate_remove_exit_program_field, if: -> { id.present? }
 
   after_save :set_program_completed
 
-  scope     :ordered,    -> { order(:name) }
-  scope     :ordered_by, ->(column) { order(column) }
-  scope     :completed,  -> { where(completed: true) }
+  scope  :ordered,     ->         { order('lower(name) ASC') }
+  scope  :complete,    ->         { where(completed: true) }
+  scope  :ordered_by,  ->(column) { order(column) }
+  scope  :filter,      ->(value)  { where(id: value) }
+  scope  :name_like,   ->(value)  { where(name: value) }
 
-  def self.enrollment_status_inactive(client)
-    joins(:client_enrollments).where("client_id = ? AND client_enrollments.created_at = (SELECT MAX(client_enrollments.created_at) FROM client_enrollments WHERE client_enrollments.program_stream_id = program_streams.id) AND client_enrollments.status = 'Exited'", client.id).order('lower(name) ASC')
+  def self.inactive_enrollments(client)
+    joins(:client_enrollments).where("client_id = ? AND client_enrollments.created_at = (SELECT MAX(client_enrollments.created_at) FROM client_enrollments WHERE client_enrollments.program_stream_id = program_streams.id AND client_enrollments.client_id = #{client.id}) AND client_enrollments.status = 'Exited' ", client.id).ordered
   end
 
-  def self.enrollment_status_active(client)
-    joins(:client_enrollments).where("client_id = ? AND client_enrollments.created_at = (SELECT MAX(client_enrollments.created_at) FROM client_enrollments WHERE client_enrollments.program_stream_id = program_streams.id) AND client_enrollments.status = 'Active'", client.id).order('lower(name) ASC')
+  def self.active_enrollments(client)
+    joins(:client_enrollments).where(client_enrollments: { status: 'Active', client_id: client.id } ).ordered
   end
 
   def self.without_status_by(client)
     ids = includes(:client_enrollments).where(client_enrollments: { client_id: client.id }).order('client_enrollments.status ASC', :name).uniq.collect(&:id)
-    where.not(id: ids).order(:name)
+    where.not(id: ids).ordered
   end
 
   def form_builder_field_uniqueness
@@ -47,24 +49,38 @@ class ProgramStream < ActiveRecord::Base
     errors_massage
   end
 
-  def validate_remove_field
-    FORM_BUILDER_FIELDS.each do |field|
-      next unless (send "#{ field }_changed?") && send(field).present?
-      error_translation = I18n.t('cannot_remove_or_update')
-
-      if field == 'enrollment'
-        break unless enrollment_errors_message.present?
-        errors.add(:enrollment, "#{enrollment_errors_message} #{error_translation}")
-      elsif field == 'tracking'
-        break unless tracking_errors_message.present?
-        errors.add(:tracking, "#{tracking_errors_message} #{error_translation}")
-
-      elsif field == 'exit_program'
-        break unless exit_program_errors_message.present?
-        errors.add(:exit_program, "#{exit_program_errors_message} #{error_translation}")
+  def validate_remove_enrollment_field
+    return unless enrollment_changed?
+    error_fields = []
+    properties = client_enrollments.pluck(:properties).select(&:present?)
+    properties.each do |property|
+      field_remove = enrollment_change.first - enrollment_change.last
+      field_remove.each do |field|
+        label_name = property[field['label']]
+        error_fields << field['label'] if label_name.present?
       end
     end
-    errors
+    return unless error_fields.present?
+    error_message = "#{error_fields.uniq.join(', ')} #{I18n.t('cannot_remove_or_update')}"
+    errors.add(:enrollment, "#{error_message}")
+    errors.add(:tab, '3')
+  end
+
+  def validate_remove_exit_program_field
+    return unless exit_program_changed?
+    error_fields = []
+    properties = leave_programs.pluck(:properties).select(&:present?)
+    properties.each do |property|
+      field_remove = exit_program_change.first - exit_program_change.last
+      field_remove.each do |field|
+        label_name = property[field['label']]
+        error_fields << field['label'] if label_name.present?
+      end
+    end
+    return unless error_fields.present?
+    error_message = "#{error_fields.uniq.join(', ')} #{I18n.t('cannot_remove_or_update')}"
+    errors.add(:exit_program, "#{error_message}")
+    errors.add(:tab, '5')
   end
 
   def last_enrollment
@@ -83,11 +99,8 @@ class ProgramStream < ActiveRecord::Base
   private
 
   def set_program_completed
-    if enrollment.present? && exit_program.present? && trackings.present?
-      update_columns(completed: true)
-    else
-      update_columns(completed: false)
-    end
+    return update_columns(completed: false) if enrollment.empty? || exit_program.empty? || trackings.empty? || trackings.pluck(:name).include?('') || trackings.pluck(:fields).include?([])
+    update_columns(completed: true)
   end
 
   def enrollment_errors_message

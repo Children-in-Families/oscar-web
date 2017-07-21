@@ -1,5 +1,7 @@
 %h4= t('.enrollment_form')
 %section
   #enrollment{ data: { field: @program_stream.enrollment }}
+  %label
+    %i= t('.note')
   .text-danger= @program_stream.errors[:enrollment].join(' and ')
   = f.hidden_field :enrollment

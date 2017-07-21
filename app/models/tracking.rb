@@ -6,11 +6,10 @@ class Tracking < ActiveRecord::Base
 
   has_paper_trail
 
-  validates :name, :fields, presence: true
   validates :name, uniqueness: { scope: :program_stream_id }
 
   validate :form_builder_field_uniqueness
-  validate :validate_remove_field
+  validate :validate_remove_field, if: -> { id.present? }
 
   def form_builder_field_uniqueness
     return unless fields.present?
@@ -31,5 +30,10 @@ class Tracking < ActiveRecord::Base
 
     return unless error_fields.present?
     errors.add(:fields, "#{error_fields.uniq.join(', ')} #{error_translation}")
+    errors.add(:tab, 4)
+  end
+
+  def is_used?
+    client_enrollment_trackings.present?
   end
 end

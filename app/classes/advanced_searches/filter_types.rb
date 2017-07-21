@@ -6,7 +6,7 @@ module AdvancedSearches
         optgroup: group,
         label: label,
         type: 'string',
-        operators: ['equal', 'not_equal', 'contains', 'not_contains', 'is_empty']
+        operators: ['equal', 'not_equal', 'contains', 'not_contains', 'is_empty', 'is_not_empty']
       }
     end
 
@@ -16,7 +16,7 @@ module AdvancedSearches
         optgroup: group,
         label: label,
         type: 'integer',
-        operators: ['equal', 'not_equal', 'less', 'less_or_equal', 'greater', 'greater_or_equal', 'between', 'is_empty']
+        operators: ['equal', 'not_equal', 'less', 'less_or_equal', 'greater', 'greater_or_equal', 'between', 'is_empty', 'is_not_empty']
       }
     end
 
@@ -26,7 +26,7 @@ module AdvancedSearches
         optgroup: group,
         label: label,
         type: 'date',
-        operators: ['equal', 'not_equal', 'less', 'less_or_equal', 'greater', 'greater_or_equal', 'between', 'is_empty'],
+        operators: ['equal', 'not_equal', 'less', 'less_or_equal', 'greater', 'greater_or_equal', 'between', 'is_empty', 'is_not_empty'],
         plugin: 'datepicker',
         plugin_config: {
           format: 'yyyy-mm-dd',
@@ -45,7 +45,7 @@ module AdvancedSearches
         type: 'string',
         input: 'select',
         values: values,
-        operators: ['equal', 'not_equal', 'is_empty']
+        operators: ['equal', 'not_equal', 'is_empty', 'is_not_empty']
       }
     end
   end

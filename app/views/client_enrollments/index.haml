@@ -29,7 +29,7 @@
               %td.status
                 = render 'status', program_stream: ps
               %td.name
-                = link_to ps.name, program_stream_path(ps)
+                = link_to ps.name, program_stream_path(ps, client: true)
               %td.domain
                 = ps.domains_format
               %td.quantity

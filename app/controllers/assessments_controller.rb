@@ -89,7 +89,7 @@ class AssessmentsController < AdminController
 
   def add_more_attachments(new_file, assessment_domain_id)
     if new_file.present?
-      assessment_domain = @assessment.assessment_domains.find(assessment_domain_id)
+      assessment_domain = AssessmentDomain.find(assessment_domain_id)
       files = assessment_domain.attachments
       files += new_file
       assessment_domain.attachments = files

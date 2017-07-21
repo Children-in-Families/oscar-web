@@ -169,11 +169,12 @@ class ClientGrid
   end
 
   filter(:family_id, :integer, header: -> { I18n.t('datagrid.columns.families.code') }) do |value, object|
-    ids = []
-    Case.active.most_recents.joins(:client).group_by(&:client_id).each do |key, c|
-      ids << c.first.id
-    end
-    object.joins(:cases).where("cases.id IN (?)", ids).where("cases.family_id = ? ", value) if value.present?
+    # ids = []
+    # Case.most_recents.joins(:client).group_by(&:client_id).each do |key, c|
+    #   ids << c.first.id
+    # end
+    # # comment above, so user can search family_id of all family types they associate with
+    object.joins(:cases).where("cases.family_id = ? ", value) if value.present?
   end
 
   def quantitative_type_options
@@ -311,6 +312,16 @@ class ClientGrid
   filter(:live_with, :string, header: -> { I18n.t('datagrid.columns.clients.live_with') }) { |value, scope| scope.live_with_like(value) }
 
   filter(:id_poor, :integer, header: -> { I18n.t('datagrid.columns.clients.id_poor') })
+
+  filter(:program_streams, :enum, multiple: true, select: :program_stream_options, header: -> { I18n.t('datagrid.columns.clients.program_name') }) do |name, scope|
+    program_stream_ids = ProgramStream.name_like(name).ids
+    ids = Client.joins(:client_enrollments).where(client_enrollments: { status: 'Active', program_stream_id: program_stream_ids } ).pluck(:id).uniq
+    scope.where(id: ids)
+  end
+
+  def program_stream_options
+    ProgramStream.joins(:client_enrollments).where(client_enrollments: {status: 'Active'}).complete.ordered.pluck(:name).uniq
+  end
 
   column(:slug, order:'clients.id', header: -> { I18n.t('datagrid.columns.clients.id') })
 
@@ -495,14 +506,14 @@ class ClientGrid
   end
 
   column(:family_id, order: false, header: -> { I18n.t('datagrid.columns.families.code') }) do |object|
-    if object.cases.current && object.cases.current.family
-      object.cases.current.family.id
+    if object.cases.most_recents.first && object.cases.most_recents.first.family
+      object.cases.most_recents.first.family.id
     end
   end
 
   column(:family, order: false, header: -> { I18n.t('datagrid.columns.clients.placements.family') }) do |object|
-    if object.cases.current && object.cases.current.family
-      object.cases.current.family.name
+    if object.cases.most_recents.first && object.cases.most_recents.first.family
+      object.cases.most_recents.first.family.name
     end
   end
 
