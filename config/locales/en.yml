@@ -2696,6 +2696,7 @@ en:
       description: Description
       maximum: Maximum Program Enrollment
       mutual_dependence: Mutual Dependence
+      name: Name
       program_exclusive: Program Exclusive
       rule: Rules
     show:
@@ -2708,6 +2709,8 @@ en:
       enrollment: Enrollment
       exit_program: Exit Program
       maximum: Maximum Program Enrollment
+      mutual_dependence: Mutual Dependence
+      program_exclusive: Program Exclusive
       quantity: Quantity
       rules: Rules
       tracking: Tracking

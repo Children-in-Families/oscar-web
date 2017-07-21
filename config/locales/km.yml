@@ -2714,6 +2714,8 @@ km:
       enrollment: ចុះឈ្មោះ
       exit_program: ចាកចេញពីកម្មវិធី
       maximum: ចំនួនដែលអាចចូលរូមកម្មវិធីច្រើនបំផុត
+      mutual_dependence: កម្មវិធីអាស្រ័យគ្នា
+      program_exclusive: កម្មវិធីផ្តាច់មុខ
       quantity: បរិមាណ
       rules: លក្ខខណ្ឌ
       tracking: តាមដាន
