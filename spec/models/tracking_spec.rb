@@ -40,11 +40,8 @@ describe Tracking, 'method' do
   let!(:client_enrollment) { create(:client_enrollment, program_stream: program_stream)}
   let!(:client_enrollment_tracking) { create(:client_enrollment_tracking, tracking: tracking, client_enrollment: client_enrollment) }
 
-  it 'tracking is used' do
+  it 'is_used?' do
     expect(tracking.is_used?).to be_truthy
-  end
-
-  it 'tracking is not used' do
     expect(tracking_other.is_used?).to be_falsey
   end
 end
