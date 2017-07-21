@@ -53,7 +53,8 @@ module AdvancedSearches
 
     def format_optgroup(value)
       name = value.split('_').second
-      "#{name} | Exit Program"
+      key_word = format_header('exit_program')
+      "#{name} | #{key_word}"
     end
   end
 end

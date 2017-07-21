@@ -324,6 +324,11 @@ km:
       type: ប្រភេទនៃទម្រង់បែបបទបន្ថែម
       user_id: បុគ្គលិកគ្រប់គ្រងករណី
       village: ភូមិ
+      enrollment: ទម្រង់បែបបទនៃចុះឈ្មោះ
+      tracking: តាមដាន
+      exit_program: ចាកចេញពីកម្មវិធី
+      basic_fields: ពត៌មានទូទៅរបស់អតិថិជន
+      custom_form: ទម្រង់បែបបទបន្ថែម
   agencies:
     create:
       failed_create: ឣង្គភាពបង្កើតកំណត់ត្រាថ្មីបានមិនបានជោគជ័យ
@@ -658,6 +663,14 @@ km:
       update:
         successfully_updated: កាតព្វកិច្ចត្រូវបានកែសម្រួលដោយជោគជ័យ
   client_advanced_searches:
+    form_option:
+      basic_fields: ពត៌មានទូទៅរបស់អតិថិជន
+      custom_form: ទម្រង់បែបបទបន្ថែម
+      enrollment: ទម្រង់បែបបទនៃចុះឈ្មោះ
+      exit_program: ចាកចេញពីកម្មវិធី
+      filter_option: សូមជ្រើសរើសជម្រើសនែការស្វែងរកខាងក្រោម
+      program_stream: កម្មវិធីបន្ទាប់បន្សំ
+      tracking: តាមដាន
     index:
       add_new_filter: បន្ថែមការស្វែងរក
       add_new_group: បន្ថែមបណ្ដុំនៃការស្វែងរក

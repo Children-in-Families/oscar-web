@@ -7,7 +7,7 @@ module AdvancedSearches
     end
 
     def render
-      group = 'Client Basic Fields'
+      group = format_header('basic_fields')
       number_fields       = number_type_list.map { |item| AdvancedSearches::FilterTypes.number_options(item, format_header(item), group) }
       text_fields         = text_type_list.map { |item| AdvancedSearches::FilterTypes.text_options(item, format_header(item), group) }
       date_picker_fields  = date_type_list.map { |item| AdvancedSearches::FilterTypes.date_picker_options(item, format_header(item), group) }

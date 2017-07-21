@@ -53,7 +53,8 @@ module AdvancedSearches
 
     def format_optgroup(value)
       name = value.split('_').second
-      "#{name} | Enrollment"
+      key_word = format_header('enrollment')
+      "#{name} | #{key_word}"
     end
   end
 end

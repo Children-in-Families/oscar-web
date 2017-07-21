@@ -324,6 +324,11 @@ en:
       type: Type
       user_id: Case Worker
       village: Village
+      enrollment: Enrollment
+      tracking: Tracking
+      exit_program: Exit Program
+      basic_fields: Client Basic Fields
+      custom_form: Custom Form
   agencies:
     create:
       failed_create: Failed to create an agency
@@ -654,6 +659,14 @@ en:
       update:
         successfully_updated: Task has successfully been updated.
   client_advanced_searches:
+    form_option:
+      basic_fields: Client Basic Fields
+      custom_form: Custom Form
+      enrollment: Enrollment
+      exit_program: Exit Program
+      filter_option: Please choose the filter option below
+      program_stream: Program Stream
+      tracking: Tracking
     index:
       add_new_filter: Add New Filter
       add_new_group: Add Group
