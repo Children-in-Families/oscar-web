@@ -14,7 +14,7 @@ describe ProgramStream, 'scope' do
 
   context 'ordered' do
     it 'return the correct order of name' do
-      expect(ProgramStream.ordered.first).to eq second_program_stream
+      expect(ProgramStream.ordered).to eq [second_program_stream, third_program_stream, first_program_stream]
     end
   end
 
