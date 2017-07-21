@@ -40,7 +40,7 @@
                     %tr
                       %td.enrolled= t('.enrolled')
                       %td= @program_stream.enrolled
-          
+
           .panel.panel-default
             .panel-heading
               .row.height-row
@@ -59,13 +59,13 @@
                       %td.maximum= t('.maximum')
                       %td= @program_stream.quantity
                     %tr
-                      %td.exclusive= t('.exclusive')
+                      %td.exclusive= t('.program_exclusive')
                       %td
                         - if @program_exclusive.present?
                           - @program_exclusive.pluck(:name).each do |name|
                             %span.label.label-margin= name
-                    %tr  
-                      %td.exclusive= t('.mutual')
+                    %tr
+                      %td.exclusive= t('.mutual_dependence')
                       %td
                         - if @mutual_dependence.present?
                           - @mutual_dependence.pluck(:name).each do |name|
