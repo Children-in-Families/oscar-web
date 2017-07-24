@@ -2,15 +2,13 @@ class ClientAdvancedSearchesController < AdminController
   include ClientGridOptions
 
   before_action :choose_grid
-  before_action :find_params_advanced_search
-  before_action :basic_params, :custom_field_params, if: :has_params?
+  before_action :find_params_advanced_search, :get_custom_fields, :get_program_streams, :client_builder_fields
+  before_action :basic_params, if: :has_params?
 
   def index
     return unless has_params?
     basic_rules          = JSON.parse @basic_filter_params
-    custom_form_rules    = eval(@custom_form_filter_params).merge(selected_custom_form: params[:client_advanced_search][:selected_custom_form])
-
-    clients              = AdvancedSearches::ClientAdvancedSearch.new(basic_rules, custom_form_rules, Client.accessible_by(current_ability))
+    clients              = AdvancedSearches::ClientAdvancedSearch.new(basic_rules, Client.accessible_by(current_ability))
     @clients_by_user     = clients.filter
 
     columns_visibility
@@ -28,9 +26,68 @@ class ClientAdvancedSearchesController < AdminController
 
   private
 
+  def client_builder_fields
+    @builder_fields = get_client_basic_fields + get_custom_form_fields + get_enrollment_fields + get_tracking_fields + get_exit_program_fields
+  end
+
+  def get_custom_fields
+    @custom_fields  = CustomField.client_forms.order_by_form_title
+  end
+
+  def get_program_streams
+    @program_streams = ProgramStream.complete.ordered
+  end
+
+  def program_stream_params
+    if  @advanced_search_params.present? && @advanced_search_params[:program_selected]
+      eval @advanced_search_params[:program_selected]
+    else
+      []
+    end
+  end
+
+  def custom_form_params
+    if @advanced_search_params.present? && @advanced_search_params[:custom_form_selected].present?
+      eval @advanced_search_params[:custom_form_selected]
+    else
+      []
+    end
+  end
+
+  def get_client_basic_fields
+    AdvancedSearches::ClientFields.new(user: current_user).render
+  end
+
+  def get_custom_form_fields
+    @enrollment_fields = AdvancedSearches::CustomFields.new(custom_form_params).render
+  end
+
+  def get_enrollment_fields
+    if @advanced_search_params.present? && @advanced_search_params[:enrollment_check].present?
+      AdvancedSearches::EnrollmentFields.new(program_stream_params).render
+    else
+      []
+    end
+  end
+
+  def get_tracking_fields
+    if @advanced_search_params.present? && @advanced_search_params[:tracking_check].present?
+      AdvancedSearches::TrackingFields.new(program_stream_params).render
+    else
+      []
+    end
+  end
+
+  def get_exit_program_fields
+    if @advanced_search_params.present? && @advanced_search_params[:exit_form_check].present?
+      AdvancedSearches::ExitProgramFields.new(program_stream_params).render
+    else
+      []
+    end
+  end
+
   def has_params?
-    advanced_search_param = params[:client_advanced_search]
-    advanced_search_param.present? && (advanced_search_param[:basic_rules].present? || advanced_search_param[:custom_form_rules].present?)
+    @advanced_search_params.present? && @advanced_search_params[:basic_rules].present?
   end
 
   def find_params_advanced_search
@@ -39,9 +96,5 @@ class ClientAdvancedSearchesController < AdminController
 
   def basic_params
     @basic_filter_params  = @advanced_search_params[:basic_rules]
-  end
-
-  def custom_field_params
-    @custom_form_filter_params  = @advanced_search_params[:custom_form_rules]
   end
 end

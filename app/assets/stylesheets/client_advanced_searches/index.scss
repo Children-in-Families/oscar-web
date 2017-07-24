@@ -7,6 +7,10 @@ body[id='client_advanced_searches-index'] {
     width: 180px;
   }
 
+  li.select2-disabled div:hover {
+    cursor: not-allowed;
+  }
+
   .btn-export {
     margin-top: 0;
   }
@@ -51,6 +55,10 @@ body[id='client_advanced_searches-index'] {
 
   .basic-filter-error, .custom-form-error {
     color: red;
+    display: none;
+  }
+
+  .custom-form, .program-stream, .selected-custom-form, .program-association {
     display: none;
   }
 }

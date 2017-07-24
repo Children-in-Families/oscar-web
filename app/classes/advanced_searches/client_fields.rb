@@ -7,10 +7,12 @@ module AdvancedSearches
     end
 
     def render
-      number_fields       = number_type_list.map { |item| AdvancedSearches::FilterTypes.number_options(item, format_header(item)) }
-      text_fields         = text_type_list.map { |item| AdvancedSearches::FilterTypes.text_options(item, format_header(item)) }
-      date_picker_fields  = date_type_list.map { |item| AdvancedSearches::FilterTypes.date_picker_options(item, format_header(item)) }
-      drop_list_fields    = drop_down_type_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first, format_header(item.first), item.last) }
+      group = format_header('basic_fields')
+      number_fields       = number_type_list.map { |item| AdvancedSearches::FilterTypes.number_options(item, format_header(item), group) }
+      text_fields         = text_type_list.map { |item| AdvancedSearches::FilterTypes.text_options(item, format_header(item), group) }
+      date_picker_fields  = date_type_list.map { |item| AdvancedSearches::FilterTypes.date_picker_options(item, format_header(item), group) }
+      drop_list_fields    = drop_down_type_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first, format_header(item.first), item.last, group) }
+
       search_fields       = text_fields + drop_list_fields + number_fields + date_picker_fields
 
       search_fields.sort_by { |f| f[:label].downcase }

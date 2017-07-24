@@ -1,10 +1,30 @@
 module AdvancedSearchHelper
-  def set_value_custom_form
-    if params[:client_advanced_search].present? && params[:client_advanced_search][:selected_custom_form].present?
-      params[:client_advanced_search][:selected_custom_form]
+  def custom_form_values
+    if params[:client_advanced_search].present? && params[:client_advanced_search][:custom_form_selected].present?
+      eval params[:client_advanced_search][:custom_form_selected]
     else
-      ''
+      []
     end
+  end
+
+  def program_stream_values
+    if params[:client_advanced_search].present? && params[:client_advanced_search][:program_selected].present?
+      eval params[:client_advanced_search][:program_selected]
+    else
+      []
+    end
+  end
+
+  def enrollment_check
+    params[:client_advanced_search].present? && params[:client_advanced_search][:enrollment_check].present? ? true : false
+  end
+
+  def tracking_check
+    params[:client_advanced_search].present? && params[:client_advanced_search][:tracking_check].present? ? true : false
+  end
+
+  def exit_form_check
+    params[:client_advanced_search].present? && params[:client_advanced_search][:exit_form_check].present? ? true : false
   end
 
   def format_header(key)
@@ -51,7 +71,12 @@ module AdvancedSearchHelper
       referred_to_fc: I18n.t('advanced_search.fields.referred_to_fc'),
       exit_ec_date: I18n.t('advanced_search.fields.exit_ec_date'),
       exit_fc_date: I18n.t('advanced_search.fields.exit_fc_date'),
-      exit_kc_date: I18n.t('advanced_search.fields.exit_kc_date')
+      exit_kc_date: I18n.t('advanced_search.fields.exit_kc_date'),
+      enrollment: I18n.t('advanced_search.fields.enrollment'),
+      tracking: I18n.t('advanced_search.fields.tracking'),
+      exit_program: I18n.t('advanced_search.fields.exit_program'),
+      basic_fields: I18n.t('advanced_search.fields.basic_fields'),
+      custom_form: I18n.t('advanced_search.fields.custom_form')
     }
     translations[key.to_sym] || ''
   end

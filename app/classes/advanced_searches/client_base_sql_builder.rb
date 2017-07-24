@@ -22,9 +22,30 @@ module AdvancedSearches
           @sql_string << association_filter[:id]
           @values     << association_filter[:values]
 
+        elsif form_builder.first == 'formbuilder'
+          custom_form = CustomField.find_by(form_title: form_builder.second)
+          custom_field = AdvancedSearches::ClientCustomFormSqlBuilder.new(custom_form, rule).get_sql
+          @sql_string << custom_field[:id]
+          @values << custom_field[:values]
+
+        elsif form_builder.first == 'enrollment'
+          program_stream = ProgramStream.find_by(name: form_builder.second)
+          enrollment_fields = AdvancedSearches::EnrollmentSqlBuilder.new(program_stream.id, rule).get_sql
+          @sql_string << enrollment_fields[:id]
+          @values << enrollment_fields[:values]
+
+        elsif form_builder.first == 'tracking'
+          @sql_string << ['clients.id IN (?)']
+          @values << []
+
+        elsif form_builder.first == 'exitprogram'
+          @sql_string << ['clients.id IN (?)']
+          @values << []
+
         elsif field != nil
           value = field == 'grade' ? validate_integer(value) : value
           base_sql(field, operator, value)
+
         else
           nested_query =  AdvancedSearches::ClientBaseSqlBuilder.new(@clients, rule).generate
           @sql_string << nested_query[:sql_string]

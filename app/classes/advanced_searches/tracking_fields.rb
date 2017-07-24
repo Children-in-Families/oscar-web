@@ -1,10 +1,10 @@
 module AdvancedSearches
-  class CustomFields
+  class TrackingFields
 
     include AdvancedSearchHelper
 
-    def initialize(custom_form_ids)
-      @custom_form_ids = custom_form_ids
+    def initialize(program_ids)
+      @program_ids = program_ids
 
       @number_type_list     = []
       @text_type_list       = []
@@ -26,20 +26,23 @@ module AdvancedSearches
     end
 
     def generate_field_by_type
-      @custom_fields = CustomField.client_forms.where(id: @custom_form_ids)
+      program_streams = ProgramStream.where(id: @program_ids).includes(:trackings)
+      trackings       = program_streams.collect(&:trackings).flatten
 
-      @custom_fields.each do |custom_field|
+      trackings.each do |tracking|
+        program_name  = tracking.program_stream.name
+        tracking_name = tracking.name
 
-        custom_field.fields.each do |json_field|
+        tracking.fields.each do |json_field|
           if json_field['type'] == 'text' || json_field['type'] == 'textarea'
-            @text_type_list << "formbuilder_#{custom_field.form_title}_#{json_field['label']}"
+            @text_type_list << "tracking_#{program_name}_#{tracking_name}_#{json_field['label']}"
           elsif json_field['type'] == 'number'
-            @number_type_list << "formbuilder_#{custom_field.form_title}_#{json_field['label']}"
+            @number_type_list << "tracking_#{program_name}_#{tracking_name}_#{json_field['label']}"
           elsif json_field['type'] == 'date'
-            @date_type_list << "formbuilder_#{custom_field.form_title}_#{json_field['label']}"
+            @date_type_list << "tracking_#{program_name}_#{tracking_name}_#{json_field['label']}"
           elsif json_field['type'] == 'select' || json_field['type'] == 'checkbox-group' || json_field['type'] == 'radio-group'
             drop_list_values = []
-            drop_list_values << "formbuilder_#{custom_field.form_title}_#{json_field['label']}"
+            drop_list_values << "tracking_#{program_name}_#{tracking_name}_#{json_field['label']}"
             drop_list_values << json_field['values'].map{|value| { value['label'] => value['label'] }}
             @drop_down_type_list << drop_list_values
           end
@@ -53,9 +56,11 @@ module AdvancedSearches
     end
 
     def format_optgroup(value)
-      form_title = value.split('_').second
-      key_word = format_header('custom_form')
-      "#{form_title} | #{key_word}"
+      label = value.split('_')
+      program_name = label.second
+      tracking_name = label.third
+      key_word = format_header('tracking')
+      "#{program_name} | #{tracking_name} | #{key_word}"
     end
   end
 end
