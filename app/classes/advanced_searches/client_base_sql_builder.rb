@@ -41,8 +41,10 @@ module AdvancedSearches
           @values << tracking_fields[:values]
 
         elsif form_builder.first == 'exitprogram'
-          @sql_string << ['clients.id IN (?)']
-          @values << []
+          program_stream = ProgramStream.find_by(name: form_builder.second)
+          exit_program_fields = AdvancedSearches::ExitProgramSqlBuilder.new(program_stream.id, rule).get_sql
+          @sql_string << exit_program_fields[:id]
+          @values << exit_program_fields[:values]
 
         elsif field != nil
           value = field == 'grade' ? validate_integer(value) : value

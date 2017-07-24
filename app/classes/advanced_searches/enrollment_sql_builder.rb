@@ -6,7 +6,7 @@ module AdvancedSearches
       field     = rule['field']
       @field    = field.split('_').last.gsub("'", "''")
       @operator = rule['operator']
-      @value    = rule['value'].gsub("'", "''")
+      @value    = format_value(rule['value'])
       @type     = rule['type']
     end
 
@@ -43,6 +43,10 @@ module AdvancedSearches
     private
     def integer?
       @type == 'integer'
+    end
+
+    def format_value(value)
+      value.is_a?(Array) ? value : value.gsub("'", "''")
     end
   end
 end
