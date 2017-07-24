@@ -830,6 +830,7 @@ en:
       donor: Donor
       exit_date: Exit Date
       exit_note: Exit Note
+      exit_status: Exit Status
       family_name: Family Name
       follow_up_by: Followed Up By
       follow_up_date: Follow Up Date
