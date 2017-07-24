@@ -284,12 +284,17 @@ CIF.Client_advanced_searchesIndex = do ->
         label = optGroup[0].label.split('|')
         if $(label).last()[0].trim() == resourcelabel and label[0].trim() == resourceName
           container = $(select).parents('.rule-container')
-          $(container).find('.rule-header button').trigger('click')
+          $(container).find('select').select2('destroy')
+          setTimeout ( ->
+            $(container).find('.rule-header button').trigger('click')
+            )
 
-    if $('.rule-container .rule-filter-container select').length == 0
-      $('button[data-add="rule"]').trigger('click')
-      filterSelects = $('.rule-container .rule-filter-container select')
-    _handleRemoveBuilderOption(filterSelects, resourceName, resourcelabel)
+    setTimeout ( ->
+      if $('.rule-container .rule-filter-container select').length == 0
+        $('button[data-add="rule"]').trigger('click')
+        filterSelects = $('.rule-container .rule-filter-container select')
+      _handleRemoveBuilderOption(filterSelects, resourceName, resourcelabel)
+      )
 
   _handleRemoveBuilderOption = (filterSelects, resourceName, resourcelabel) ->
     values = []

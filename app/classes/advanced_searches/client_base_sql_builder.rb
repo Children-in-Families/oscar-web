@@ -35,8 +35,10 @@ module AdvancedSearches
           @values << enrollment_fields[:values]
 
         elsif form_builder.first == 'tracking'
-          @sql_string << ['clients.id IN (?)']
-          @values << []
+          tracking = Tracking.find_by(name: form_builder.third)
+          tracking_fields = AdvancedSearches::TrackingSqlBuilder.new(tracking.id, rule).get_sql
+          @sql_string << tracking_fields[:id]
+          @values << tracking_fields[:values]
 
         elsif form_builder.first == 'exitprogram'
           @sql_string << ['clients.id IN (?)']
