@@ -30,7 +30,7 @@ class ProgramStream < ActiveRecord::Base
   end
 
   def self.active_enrollments(client)
-    joins(:client_enrollments).where(client_enrollments: { status: 'Active', client_id: client.id } ).ordered
+    joins(:client_enrollments).where("client_id = ? AND client_enrollments.created_at = (SELECT MAX(client_enrollments.created_at) FROM client_enrollments WHERE client_enrollments.program_stream_id = program_streams.id AND client_enrollments.client_id = #{client.id}) AND client_enrollments.status = 'Active' ", client.id).ordered
   end
 
   def self.without_status_by(client)
