@@ -97,7 +97,7 @@ class ProgramStream < ActiveRecord::Base
   end
 
   def is_used?
-    client_enrollments.where(status: 'Active').present?
+    client_enrollments.active.present?
   end
 
   private
