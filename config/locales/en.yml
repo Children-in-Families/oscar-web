@@ -828,6 +828,8 @@ en:
       date_of_birth: Date of Birth
       district: District/Khan
       donor: Donor
+      exit_date: Exit Date
+      exit_note: Exit Note
       family_name: Family Name
       follow_up_by: Followed Up By
       follow_up_date: Follow Up Date

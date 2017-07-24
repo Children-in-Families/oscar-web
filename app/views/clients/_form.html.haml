@@ -73,6 +73,15 @@
           = f.input :live_with, label: t('.live_with')
         .col-xs-12.col-sm-6.col-md-4
           = f.input :id_poor, label: t('.id_poor')
+        - if @client.exit_date.present?
+          .col-xs-12.col-sm-6.col-md-4.form-group.date.optional
+            %label.date.optional.control-label= t('.exit_date')
+            #client-birthdate.input-group.date
+              = f.text_field :exit_date, class: 'date optional form-control date-picker', type: 'text', name: 'client[exit_date]', id: 'client_exit_date'
+              %span.input-group-addon
+                %i.fa.fa-calendar-check-o
+          .col-xs-12.col-sm-6.col-md-4
+            = f.input :exit_note, label: t('.exit_note')
       .row
         .col-xs-12.col-md-8
           = f.input :relevant_referral_information, input_html: { rows: '5' }, label: t('.relevant_referral_information')
