@@ -16,6 +16,11 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     _handleClickAddTracking()
     _handleRemoveProgramList()
 
+  _handleDisabledRulesInputs = ->
+    disble = $('#program-rule').attr('data-disable')
+    if disble == 'true'
+      $('#program-rule').find('input, select, textarea, button').attr( 'disabled', 'disabled' )  
+
   _stickyFill = ->
     if $('.form-wrap').is(':visible')
       $('.cb-wrap').Stickyfill()
@@ -408,6 +413,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         _handleEditLabelName()
         buttonSave = $('#btn-save-draft')
         if $('#exit-program').is(':visible') then $(buttonSave).hide() else $(buttonSave).show()
+        _handleDisabledRulesInputs() if $('#rule-tab').is(':visible') 
 
       onFinished: (event, currentIndex) ->
         $('.actions a:contains("Finish")').removeAttr('href')

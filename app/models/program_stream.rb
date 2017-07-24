@@ -96,6 +96,10 @@ class ProgramStream < ActiveRecord::Base
     (enrollments.present? && enrollments.last.status == 'Exited') || enrollments.empty?
   end
 
+  def is_used?
+    client_enrollments.active.present?
+  end
+
   private
 
   def set_program_completed
