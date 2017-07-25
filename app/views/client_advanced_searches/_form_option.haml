@@ -33,8 +33,8 @@
               .form-group
                 = check_box_tag :nil, '1', tracking_check, { class: 'i-checks', id: 'tracking-checkbox' }
                 %label= t('.tracking')
-              / .form-group
-              /   = check_box_tag :nil, '1', exit_form_check, { class: 'i-checks', id: 'exit-form-checkbox' }
-              /   %label= t('.exit_program')
+              .form-group
+                = check_box_tag :nil, '1', exit_form_check, { class: 'i-checks', id: 'exit-form-checkbox' }
+                %label= t('.exit_program')
 
 #opt-group-translation{ data: { enrollment: t('.enrollment'), tracking: t('.tracking'), exit_program: t('.exit_program'), basic_fields: t('.basic_fields'), custom_form: t('.custom_form') }}
