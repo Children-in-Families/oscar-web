@@ -84,9 +84,9 @@
                 %i.fa.fa-calendar-check-o
             = f.error :exit_date
           .col-xs-12.col-sm-6.col-md-4
-            = f.input :exit_note, label: t('.exit_note'), required: true
-          .col-xs-12.col-sm-6.col-md-4
             = f.input :status, collection: Client::EXIT_STATUSES, include_blank: false, label: t('.exit_status')
+          .col-xs-12.col-sm-6.col-md-4
+            = f.input :exit_note, label: t('.exit_note'), required: true
       .row
         .col-xs-12.col-md-8
           = f.input :relevant_referral_information, input_html: { rows: '5' }, label: t('.relevant_referral_information')
