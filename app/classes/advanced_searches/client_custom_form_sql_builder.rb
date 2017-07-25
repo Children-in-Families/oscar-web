@@ -6,8 +6,8 @@ module AdvancedSearches
       field     = rule['field']
       @field    = field.split('_').last.gsub("'", "''")
       @operator = rule['operator']
-      @value    = rule['value'].gsub("'", "''")
-      @type     = rule['custom_formable_type']
+      @value    = rule['value'].is_a?(Array) ? rule['value'] : rule['value'].gsub("'", "''")
+      @type     = rule['type']
     end
 
     def get_sql

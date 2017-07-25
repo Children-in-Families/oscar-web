@@ -127,13 +127,19 @@ describe ProgramStream, 'methods' do
 
   context 'inactive_enrollments' do
     it 'return records of client enrollment' do
-      expect(ProgramStream.inactive_enrollments(client).first).to eq program_stream_inactive
+      expect(ProgramStream.inactive_enrollments(client)).to include(program_stream,  program_stream_inactive)
     end
   end
 
   context 'without_status_by' do
     it 'return records of different client enrollment' do
       expect(ProgramStream.without_status_by(client).first).not_to eq program_stream
+    end
+  end
+
+  context 'is_used?' do
+    it 'return active client enrollment of the program' do
+      expect(program_stream_active.is_used?).to be_truthy
     end
   end
 end
