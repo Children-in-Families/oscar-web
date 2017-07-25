@@ -35,8 +35,8 @@ class FamiliesController < AdminController
     @free_family_forms          = CustomField.family_forms.not_used_forms(custom_field_ids).order_by_form_title
     @group_family_custom_fields = @family.custom_field_properties.group_by(&:custom_field_id)
     @client_grid = ClientGrid.new(params.fetch(:client_grid, {}).merge!(family_id: @family.id))
-    @results = @client_grid.assets.size
-    @client_grid.scope { |scope| scope.page(params[:page]).per(5) }
+    @results = @client_grid.assets.uniq.size
+    @client_grid.scope { |scope| scope.page(params[:page]).per(5).uniq }
   end
 
   def edit

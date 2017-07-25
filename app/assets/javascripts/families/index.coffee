@@ -28,6 +28,7 @@ CIF.FamiliesIndex = do ->
           cursoropacitymax: 0.4
 
   _getFamilyPath = ->
+    return if $('table.families tbody tr').text().trim() == 'No results found' || $('table.families tbody tr').text().trim() == 'មិនមានលទ្ធផល'
     $('table.families tbody tr').click (e) ->
       return if $(e.target).hasClass('btn') || $(e.target).hasClass('fa') || $(e.target).hasClass('case-history')
       window.location = $(this).data('href')

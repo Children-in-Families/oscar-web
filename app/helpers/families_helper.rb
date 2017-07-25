@@ -23,10 +23,8 @@ module FamiliesHelper
 
   def family_clients_list(object)
     content_tag(:ul, class: 'family-clients-list') do
-      object.cases.non_emergency.active.each do |obj|
-        if obj.client
-          concat(content_tag(:li, link_to(entity_name(obj.client), client_path(obj.client))))
-        end
+      object.cases.non_emergency.active.map(&:client).each do |client|
+        concat(content_tag(:li, link_to(entity_name(client), client_path(client))))
       end
     end
   end
