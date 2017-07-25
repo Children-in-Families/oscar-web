@@ -3,7 +3,7 @@ require 'spec_helper'
 RSpec.describe Api::V1::LeaveProgramsController, type: :request do
 
   let(:user)                   { create(:user) }
-  let(:client)                 { create(:client, user: user) }
+  let(:client)                 { create(:client, users: [user]) }
   let(:program_stream)         { create(:program_stream) }
   let(:client_enrollment)      { create(:client_enrollment, client: client, program_stream: program_stream) }
   let(:leave_program)          { create(:leave_program, client_enrollment: client_enrollment, program_stream: program_stream) }

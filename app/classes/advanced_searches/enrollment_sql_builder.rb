@@ -39,7 +39,7 @@ module AdvancedSearches
         properties_result = client_enrollments.where("(properties ->> '#{@field}')#{ '::int' if integer? } BETWEEN '#{@value.first}' AND '#{@value.last}' AND properties ->> '#{@field}' != ''")
       end
       client_ids = properties_result.pluck(:client_id).uniq
-      {id: sql_string, values: client_ids}
+      { id: sql_string, values: client_ids }
     end
 
     private

@@ -36,10 +36,10 @@ class UsersController < AdminController
     @group_user_custom_fields = @user.custom_field_properties.group_by(&:custom_field_id)
 
     @client_grid = ClientGrid.new(params.fetch(:client_grid, {}).merge!(current_user: @user))
-    @results     = @client_grid.scope { |scope| scope.where(user_id: @user.id) }.assets.size
+    @results     = @client_grid.scope { |scope| scope.of_case_worker(@user.id) }.assets.size
 
     @client_grid.scope do |scope|
-      scope.where(user_id: @user.id).page(params[:page]).per(10)
+      scope.of_case_worker(@user.id).page(params[:page]).per(10)
     end
   end
 

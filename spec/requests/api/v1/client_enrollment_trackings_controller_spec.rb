@@ -3,7 +3,7 @@ require 'spec_helper'
 RSpec.describe Api::V1::ClientEnrollmentTrackingsController, type: :request do
 
   let(:user)                            { create(:user) }
-  let(:client)                          { create(:client, user: user) }
+  let(:client)                          { create(:client, users: [user]) }
   let(:program_stream)                  { create(:program_stream) }
   let(:client_enrollment)               { create(:client_enrollment, client: client, program_stream: program_stream) }
   let(:tracking)                        { create(:tracking, program_stream: program_stream) }

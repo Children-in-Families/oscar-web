@@ -4,6 +4,9 @@ class Task < ActiveRecord::Base
   belongs_to :case_note_domain_group
   belongs_to :client
 
+  has_many :case_worker_tasks, dependent: :destroy
+  has_many :users, through: :case_worker_tasks
+
   has_paper_trail
 
   validates :name, presence: true
@@ -22,14 +25,14 @@ class Task < ActiveRecord::Base
   
   scope :overdue_incomplete_ordered, -> { overdue_incomplete.order('completion_date ASC') }
 
-  before_save :set_user
+  after_save :set_users
 
-  def set_user
-    self.user_id = client.user.id if client.user
+  def set_users
+    client.users.map { |user| CaseWorkerTask.find_or_create_by(task_id: id, user_id: user.id) }
   end
 
   def self.of_user(user)
-    where(user_id: user.id)
+    joins(:case_worker_tasks).where(case_worker_tasks: { user_id: user.id })
   end
 
   def self.set_complete
@@ -39,18 +42,18 @@ class Task < ActiveRecord::Base
   def self.filter(params)
     user     = User.find(params[:user_id]) if params[:user_id]
     relation = all
-    relation = relation.where(user_id: user.id) if user.present?
+    relation = relation.joins(:case_worker_tasks).where(case_worker_tasks: { user_id: user.id }) if user.present?
     relation
   end
 
   def self.under(user, client)
-    where(user_id: user.id, client_id: client.id)
+    joins(:case_worker_tasks).where(case_worker_tasks: { user_id: user.id }).where(client_id: client.id)
   end
 
   def self.upcoming_incomplete_tasks
     Organization.all.each do |org|
       Organization.switch_to org.short_name
-      user_ids = incomplete.where(completion_date: Date.tomorrow).pluck(:user_id)
+      user_ids = incomplete.where(completion_date: Date.tomorrow).map(&:user_ids).flatten.uniq
       users    = User.where(id: user_ids)
       users.each do |user|
         CaseWorkerMailer.tasks_due_tomorrow_of(user).deliver_now

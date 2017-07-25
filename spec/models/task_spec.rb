@@ -1,8 +1,10 @@
 describe Task, 'associations' do
-  it { is_expected.to belong_to(:user) }
   it { is_expected.to belong_to(:domain)}
   it { is_expected.to belong_to(:case_note_domain_group)}
   it { is_expected.to belong_to(:client)}
+
+  it { is_expected.to have_many(:case_worker_tasks).dependent(:destroy) }
+  it { is_expected.to have_many(:users).through(:case_worker_tasks) }
 end
 
 describe Task, 'validations' do
@@ -84,15 +86,13 @@ describe Task, 'scopes' do
   end
 end
 
-
-
 describe Task, 'methods' do
   let!(:user){ create(:user) }
   let!(:other_user){ create(:user) }
-  let!(:client) { create(:client, user: user) }
+  let!(:client) { create(:client, user_ids: [user.id]) }
   let!(:other_client) { create(:client) }
-  let!(:task){ create(:task, user: user, client: client) }
-  let!(:other_task){ create(:task, user: other_user, client: other_client) }
+  let!(:task){ create(:task, user_ids: client.user_ids, client: client) }
+  let!(:other_task){ create(:task, user_ids: other_client.user_ids, client: other_client) }
 
   context 'of user' do
     subject{ Task.of_user(user) }
@@ -150,6 +150,46 @@ describe Task, 'methods' do
     it 'should include incomplete tasks and tasks of case_note_domain_group' do
       is_expected.to include(task, incomplete_task)
       is_expected.not_to include(other_task)
+    end
+  end
+end
+
+describe User, 'callbacks' do
+  let!(:case_worker_a){ create(:user, :case_worker) }
+  let!(:case_worker_b){ create(:user, :case_worker) }
+  let!(:case_worker_c){ create(:user, :case_worker) }
+  let!(:client){ create(:client, :accepted, users: [case_worker_a, case_worker_b]) }
+  let!(:task){ create(:task, client: client) }
+  context 'after_save' do
+    context 'set_users' do
+      it 'should have cases workers of the client it belongs to' do
+        expect(task.users).to include(case_worker_a, case_worker_b)
+        expect(task.users).not_to include(case_worker_c)
+      end
+
+      context 'when case workers of the client were changed, need to update its case workers too' do
+        before do
+          client.user_ids = [case_worker_a.id, case_worker_c.id]
+          client.save
+        end
+
+        it 'should have new case workers of the client it belongs to' do
+          expect(task.users).to include(case_worker_a, case_worker_c)
+        end
+
+        it 'should not have case workers who are not associated with its client anymore' do
+          expect(task.users).not_to include(case_worker_b)
+        end
+
+        it 'case workers of its client should have it as their task' do
+          expect(case_worker_a.case_worker_tasks.size).to eq(1)
+          expect(case_worker_c.case_worker_tasks.size).to eq(1)
+        end
+
+        it 'case workers who are not associated with its client should not have it as their task' do
+          expect(case_worker_b.case_worker_tasks.size).to eq(0)
+        end
+      end
     end
   end
 end

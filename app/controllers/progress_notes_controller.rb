@@ -24,7 +24,6 @@ class ProgressNotesController < AdminController
 
   def create
     @progress_note = @client.progress_notes.new(progress_note_params)
-    @progress_note.user_id = current_user.id
     if @progress_note.save
       if params[:attachments].present?
         @progress_note.save_attachment(params)
@@ -83,9 +82,10 @@ class ProgressNotesController < AdminController
     @locations           = Location.order('order_option, name')
     @interventions       = Intervention.order(:action)
     @materials           = Material.order(:status)
+    @case_workers        = @client.users.order(:first_name, :last_name)
   end
 
   def progress_note_params
-    params.require(:progress_note).permit(:date, :progress_note_type_id, :location_id, :other_location, :material_id, :response, :additional_note, intervention_ids: [], assessment_domain_ids: [])
+    params.require(:progress_note).permit(:date, :user_id, :progress_note_type_id, :location_id, :other_location, :material_id, :response, :additional_note, intervention_ids: [], assessment_domain_ids: [])
   end
 end

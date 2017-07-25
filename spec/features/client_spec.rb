@@ -3,7 +3,7 @@ describe 'Client' do
   let(:user) { create(:user) }
 
   feature 'List' do
-    let!(:client){create(:client, user: user)}
+    let!(:client){create(:client, users: [user])}
     let!(:other_client) {create(:client)}
     let!(:domain) { create(:domain, name: "1A") }
 
@@ -56,7 +56,7 @@ describe 'Client' do
   end
 
   feature 'Show' do
-    let!(:client){ create(:client, user: user, state: 'accepted') }
+    let!(:client){ create(:client, users: [user], state: 'accepted') }
     let!(:other_client){create(:client)}
     before do
       login_as(user)
@@ -100,9 +100,17 @@ describe 'Client' do
     end
     scenario 'valid', js: true do
       fill_in 'Given Name', with: FFaker::Name.name
+      find(".client_users select option[value='#{user.id}']", visible: false).select_option
       click_button 'Save'
       wait_for_ajax
       expect(page).to have_content('Client has been successfully created')
+    end
+
+    scenario 'invalid as missing case workers', js: true do
+      fill_in 'Given Name', with: FFaker::Name.name
+      click_button 'Save'
+      wait_for_ajax
+      expect(page).to have_content("can't be blank")
     end
 
     scenario 'warning', js: true do
@@ -111,6 +119,7 @@ describe 'Client' do
       fill_in 'Given Name (Local)', with: 'Viny'
       fill_in 'Family Name (Local)', with: 'Kelly'
       fill_in 'Date of Birth', with: '2017-05-01'
+      find(".client_users select option[value='#{user.id}']", visible: false).select_option
 
       select2_select province.name, '.client_province'
       select2_select province.name, '.client_birth_province_id'
@@ -126,7 +135,7 @@ describe 'Client' do
   end
 
   feature 'Update', js: true do
-    let!(:client){ create(:client, user: user) }
+    let!(:client){ create(:client, users: [user]) }
     before do
       login_as(user)
       visit edit_client_path(client)
@@ -146,20 +155,20 @@ describe 'Client' do
   end
 
   feature 'Delete', js: true do
-    let!(:client){ create(:client, user: user) }
+    let!(:client){ create(:client, users: [user]) }
     before do
       login_as(user)
       visit clients_path
     end
     scenario 'successfully' do
-      first("a[data-method='delete'][href='#{client_path(client)}']").click
-      wait_for_ajax
+      first("a[data-method='delete'][href='#{client_path(client.reload)}']").click
+      sleep 1
       expect(page).to have_content('Client has been successfully deleted')
     end
   end
 
   feature 'Accept' do
-    let!(:client){create(:client, user: user)}
+    let!(:client){create(:client, users: [user])}
     before do
       login_as(user)
       visit client_path(client)
@@ -173,7 +182,7 @@ describe 'Client' do
   end
 
   feature 'Reject' do
-    let!(:client){create(:client, user: user)}
+    let!(:client){create(:client, users: [user])}
     before do
       login_as(user)
       visit client_path(client)
@@ -189,8 +198,8 @@ describe 'Client' do
   end
 
   feature 'Accept and Reject' do
-    let!(:non_status_client){ create(:client, state: '', user: user) }
-    let!(:rejected_client){ create(:client, state: 'rejected', rejected_note: 'Something', user: user) }
+    let!(:non_status_client){ create(:client, state: '', users: [user]) }
+    let!(:rejected_client){ create(:client, state: 'rejected', rejected_note: 'Something', users: [user]) }
     before do
       login_as(user)
     end
@@ -207,7 +216,7 @@ describe 'Client' do
   end
 
   feature 'List Case' do
-    let!(:accepted_client){ create(:client, state: 'accepted', user: user) }
+    let!(:accepted_client){ create(:client, state: 'accepted', users: [user]) }
 
     feature 'All Case' do
       let!(:emergency_case){ create(:case, case_type: 'EC', client: accepted_client) }
@@ -302,7 +311,7 @@ describe 'Client' do
 
   feature 'Case Button' do
     feature 'Blank Client' do
-      let!(:blank_client){ create(:client, state: 'accepted', user: user) }
+      let!(:blank_client){ create(:client, state: 'accepted', users: [user]) }
 
       before do
         login_as(user)
@@ -327,7 +336,7 @@ describe 'Client' do
     end
 
     feature 'Emergency Active Client' do
-      let!(:ec_client){ create(:client, state: 'accepted', user: user) }
+      let!(:ec_client){ create(:client, state: 'accepted', users: [user]) }
       let!(:case){ create(:case, case_type: 'EC', client: ec_client, exited: false) }
 
       before do
@@ -354,7 +363,7 @@ describe 'Client' do
     end
 
     feature 'Active Foster Client' do
-      let!(:fc_client){ create(:client, state: 'accepted', user: user) }
+      let!(:fc_client){ create(:client, state: 'accepted', users: [user]) }
       let!(:case){ create(:case, case_type: 'FC', client: fc_client, exited: false) }
 
       before do
@@ -368,7 +377,7 @@ describe 'Client' do
     end
 
     feature 'Active Kinship Client' do
-      let!(:kc_client){ create(:client, state: 'accepted', user: user) }
+      let!(:kc_client){ create(:client, state: 'accepted', users: [user]) }
       let!(:case){ create(:case, case_type: 'KC', client: kc_client, exited: false) }
 
       before do
@@ -382,7 +391,7 @@ describe 'Client' do
     end
 
     feature 'Not Emergency Active Client' do
-      let!(:active_client){ create(:client, state: 'accepted', user: user) }
+      let!(:active_client){ create(:client, state: 'accepted', users: [user]) }
       let!(:case){ create(:case, case_type: ['FC', 'KC'].sample, client: active_client, exited: false) }
 
       before do
@@ -403,7 +412,7 @@ describe 'Client' do
       end
     end
     feature 'Inactive Client' do
-      let!(:inactive_client){ create(:client, state: 'accepted', user: user) }
+      let!(:inactive_client){ create(:client, state: 'accepted', users: [user]) }
       let!(:case){ create(:case, :inactive, case_type: ['EC', 'FC', 'KC'].sample, client: inactive_client) }
 
       before do
@@ -425,7 +434,7 @@ describe 'Client' do
   end
 
   feature 'Qualify Report' do
-    let!(:accepted_client){ create(:client, state: 'accepted', user: user) }
+    let!(:accepted_client){ create(:client, state: 'accepted', users: [user]) }
     let!(:client_case){ create(:case, case_type: 'KC', client: accepted_client) }
     let!(:quarterly_report){ create(:quarterly_report, case: client_case) }
     before do
@@ -438,7 +447,7 @@ describe 'Client' do
   end
 
   feature 'Exit Case' do
-    let(:accepted_client) { create(:client, state: 'accepted', user: user) }
+    let(:accepted_client) { create(:client, state: 'accepted', users: [user]) }
     let!(:client_case) { create(:case, case_type: ['EC', 'FC', 'KC'].sample, client: accepted_client) }
 
     before do
@@ -462,7 +471,7 @@ describe 'Client' do
   end
 
   feature 'Time in care' do
-    let!(:accepted_client) { create(:client, state: 'accepted', user: user) }
+    let!(:accepted_client) { create(:client, state: 'accepted', users: [user]) }
     before do
       login_as(user)
     end
@@ -483,7 +492,7 @@ describe 'Client' do
   end
 
   feature 'Enable Edit Emergency Care' do
-    let!(:accepted_client) { create(:client, state: 'accepted', user: user) }
+    let!(:accepted_client) { create(:client, state: 'accepted', users: [user]) }
     let!(:ec_case){ create(:case, case_type: 'EC', client: accepted_client) }
     let!(:kc_manager){ create(:user, roles: 'kc manager') }
     feature 'of active EC and FC/KC client' do

@@ -141,6 +141,10 @@ km:
           attributes:
             description:
               blank: មិនអាចរំលង
+        client:
+          attributes:
+            user_ids:
+              blank: មិនអាចរំលង
         custom_field:
           attributes:
             entity_type:
@@ -504,7 +508,7 @@ km:
       note: កំណត់ត្រា
     index:
       back: ត្រលប់ក្រោយ
-      case_note_lists: បញ្ជីកំណត់ត្រា
+      case_note_lists: បញ្ជីកំណត់ត្រារបស់
       case_note_on: កំណត់ត្រានៅថ្ងៃ
       completed_tasks: កាតព្វកិច្ចដែលបានធ្វើរួច
       domain: កត្តា

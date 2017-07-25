@@ -4,7 +4,8 @@ class ClientGrid
 
   attr_accessor :current_user, :qType
   scope do
-    Client.includes({ cases: [:family, :partner] }, :referral_source, :user, :received_by, :followed_up_by, :province, :assessments, :birth_province).order('clients.status, clients.given_name')
+    # Client.includes({ cases: [:family, :partner] }, :referral_source, :user, :received_by, :followed_up_by, :province, :assessments, :birth_province).order('clients.status, clients.given_name')
+    Client.includes({ cases: [:family, :partner] }, :referral_source, :received_by, :followed_up_by, :province, :assessments, :birth_province).order('clients.status, clients.given_name')
   end
 
   filter(:given_name, :string, header: -> { I18n.t('datagrid.columns.clients.given_name') }) { |value, scope| scope.given_name_like(value) }
@@ -95,19 +96,20 @@ class ClientGrid
   filter(:received_by_id, :enum, select: :is_received_by_options, header: -> { I18n.t('datagrid.columns.clients.received_by') })
 
   def is_received_by_options
-    current_user.present? ? Client.where(user_id: current_user.id).is_received_by : Client.is_received_by
+    current_user.present? ? Client.joins(:case_worker_clients).where(case_worker_clients: { user_id: current_user.id }).is_received_by : Client.is_received_by
   end
+  # Client.joins(:case_worker_clients).where(case_worker_clients: { user_id: current_user.id })
 
   filter(:referral_source_id, :enum, select: :referral_source_options, header: -> { I18n.t('datagrid.columns.clients.referral_source') })
 
   def referral_source_options
-    current_user.present? ? Client.where(user_id: current_user.id).referral_source_is : Client.referral_source_is
+    current_user.present? ? Client.joins(:case_worker_clients).where(case_worker_clients: { user_id: current_user.id }).referral_source_is : Client.referral_source_is
   end
 
   filter(:followed_up_by_id, :enum, select: :is_followed_up_by_options, header: -> { I18n.t('datagrid.columns.clients.follow_up_by') })
 
   def is_followed_up_by_options
-    current_user.present? ? Client.where(user_id: current_user.id).is_followed_up_by : Client.is_followed_up_by
+    current_user.present? ? Client.joins(:case_worker_clients).where(case_worker_clients: { user_id: current_user.id }).is_followed_up_by : Client.is_followed_up_by
   end
 
   filter(:follow_up_date, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.follow_up_date') })
@@ -152,10 +154,20 @@ class ClientGrid
 
   filter(:relevant_referral_information, :string, header: -> { I18n.t('datagrid.columns.clients.relevant_referral_information') }) { |value, scope| scope.info_like(value) }
 
-  filter(:user_id, :enum, select: :user_select_options, header: -> { I18n.t('datagrid.columns.clients.case_worker') })
+  # filter(:user_id, :enum, select: :user_select_options, header: -> { I18n.t('datagrid.columns.clients.case_worker') })
 
-  def user_select_options
-    User.has_clients.map { |user| [user.name, user.id] }
+  filter(:user_ids, :enum, multiple: true, select: :case_worker_options, header: -> { I18n.t('datagrid.columns.clients.case_worker') }) do |ids, scope|
+    ids = ids.map{ |id| id.to_i }
+    if user_ids ||= User.where(id: ids).ids
+      client_ids = Client.joins(:users).where(users: { id: user_ids }).ids.uniq
+      scope.where(id: client_ids)
+    else
+      scope.joins(:users).where(users: { id: nil })
+    end
+  end
+
+  def case_worker_options
+    User.has_clients.map { |user| ["#{user.first_name} #{user.last_name}", user.id] }
   end
 
   filter(:donor, :enum, select: :donor_select_options, header: -> { I18n.t('datagrid.columns.clients.donor') })
@@ -457,8 +469,12 @@ class ClientGrid
 
   column(:rejected_note, header: -> { I18n.t('datagrid.columns.clients.rejected_note') })
 
-  column(:user, order: proc { |scope| scope.joins(:user).reorder('users.first_name') }, header: -> { I18n.t('datagrid.columns.clients.case_worker_or_staff') }) do |object|
-    object.user.try(:name)
+  # column(:user, order: proc { |scope| scope.joins(:user).reorder('users.first_name') }, header: -> { I18n.t('datagrid.columns.clients.case_worker_or_staff') }) do |object|
+  #   object.user.try(:name)
+  # end
+
+  column(:user, order: false, header: -> { I18n.t('datagrid.columns.clients.case_worker_or_staff') }) do |object|
+    object.users.map{|u| u.name }.join(', ')
   end
 
   column(:donor, header: -> { I18n.t('datagrid.columns.clients.donor')}) do |object|

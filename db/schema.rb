@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170718090148) do
+ActiveRecord::Schema.define(version: 20170721064826) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -149,6 +149,26 @@ ActiveRecord::Schema.define(version: 20170718090148) do
 
   add_index "case_notes", ["client_id"], name: "index_case_notes_on_client_id", using: :btree
 
+  create_table "case_worker_clients", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "client_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "case_worker_clients", ["client_id"], name: "index_case_worker_clients_on_client_id", using: :btree
+  add_index "case_worker_clients", ["user_id"], name: "index_case_worker_clients_on_user_id", using: :btree
+
+  create_table "case_worker_tasks", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "task_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "case_worker_tasks", ["task_id"], name: "index_case_worker_tasks_on_task_id", using: :btree
+  add_index "case_worker_tasks", ["user_id"], name: "index_case_worker_tasks_on_user_id", using: :btree
+
   create_table "cases", force: :cascade do |t|
     t.date     "start_date"
     t.string   "carer_names",             default: ""
@@ -220,14 +240,6 @@ ActiveRecord::Schema.define(version: 20170718090148) do
 
   add_index "client_enrollments", ["client_id"], name: "index_client_enrollments_on_client_id", using: :btree
   add_index "client_enrollments", ["program_stream_id"], name: "index_client_enrollments_on_program_stream_id", using: :btree
-
-  create_table "client_program_streams", force: :cascade do |t|
-    t.integer  "client_id"
-    t.integer  "program_stream_id"
-    t.datetime "created_at",                           null: false
-    t.datetime "updated_at",                           null: false
-    t.string   "status",            default: "Active"
-  end
 
   create_table "client_quantitative_cases", force: :cascade do |t|
     t.integer  "quantitative_case_id"
@@ -367,26 +379,6 @@ ActiveRecord::Schema.define(version: 20170718090148) do
     t.datetime "updated_at",               null: false
     t.string   "code",        default: ""
   end
-
-  create_table "enrollments", force: :cascade do |t|
-    t.jsonb    "properties"
-    t.integer  "client_program_stream_id"
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
-  end
-
-  add_index "enrollments", ["client_program_stream_id"], name: "index_enrollments_on_client_program_stream_id", using: :btree
-
-  create_table "exit_programs", force: :cascade do |t|
-    t.jsonb    "properties"
-    t.integer  "client_program_stream_id"
-    t.integer  "enrollment_id"
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
-  end
-
-  add_index "exit_programs", ["client_program_stream_id"], name: "index_exit_programs_on_client_program_stream_id", using: :btree
-  add_index "exit_programs", ["enrollment_id"], name: "index_exit_programs_on_enrollment_id", using: :btree
 
   create_table "families", force: :cascade do |t|
     t.string   "code"
@@ -909,7 +901,7 @@ ActiveRecord::Schema.define(version: 20170718090148) do
 
   create_table "trackings", force: :cascade do |t|
     t.string   "name",              default: ""
-    t.jsonb    "fields",            default: {}
+    t.jsonb    "fields"
     t.string   "frequency",         default: ""
     t.integer  "time_of_frequency"
     t.integer  "program_stream_id"
@@ -917,7 +909,7 @@ ActiveRecord::Schema.define(version: 20170718090148) do
     t.datetime "updated_at",                     null: false
   end
 
-  add_index "trackings", ["program_stream_id", "name"], name: "index_trackings_on_program_stream_id_and_name", unique: true, using: :btree
+  add_index "trackings", ["name", "program_stream_id"], name: "index_trackings_on_name_and_program_stream_id", unique: true, using: :btree
   add_index "trackings", ["program_stream_id"], name: "index_trackings_on_program_stream_id", using: :btree
 
   create_table "users", force: :cascade do |t|
@@ -1008,6 +1000,10 @@ ActiveRecord::Schema.define(version: 20170718090148) do
   add_foreign_key "calendars", "users"
   add_foreign_key "case_contracts", "cases"
   add_foreign_key "case_notes", "clients"
+  add_foreign_key "case_worker_clients", "clients"
+  add_foreign_key "case_worker_clients", "users"
+  add_foreign_key "case_worker_tasks", "tasks"
+  add_foreign_key "case_worker_tasks", "users"
   add_foreign_key "changelog_types", "changelogs"
   add_foreign_key "changelogs", "users"
   add_foreign_key "client_enrollment_trackings", "client_enrollments"
@@ -1016,9 +1012,6 @@ ActiveRecord::Schema.define(version: 20170718090148) do
   add_foreign_key "clients", "donors"
   add_foreign_key "custom_field_properties", "custom_fields"
   add_foreign_key "domains", "domain_groups"
-  add_foreign_key "enrollments", "client_program_streams"
-  add_foreign_key "exit_programs", "client_program_streams"
-  add_foreign_key "exit_programs", "enrollments"
   add_foreign_key "interventions_progress_notes", "interventions"
   add_foreign_key "interventions_progress_notes", "progress_notes"
   add_foreign_key "leave_programs", "client_enrollments"

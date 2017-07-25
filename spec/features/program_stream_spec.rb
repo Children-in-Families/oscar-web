@@ -131,7 +131,7 @@ feature 'program_stream' do
     context 'save draft' do
       scenario 'valid' do
         fill_in 'program_stream_name', with: FFaker::Name.name
-        find('#btn-save-draft').click
+        find('span', text: 'Save').click
         expect(page).to have_content('Program Stream has been successfully created.')
       end
 
@@ -173,7 +173,7 @@ feature 'program_stream' do
 
     context 'save draft' do
       scenario 'valid' do
-        find('span#btn-save-draft').click
+        find('span', text: 'Save').click
         expect(page).to have_content('Program Stream has been successfully updated.')
       end
 

@@ -2,7 +2,7 @@ require 'spec_helper'
 
 RSpec.describe Api::V1::ClientsController, type: :request do
   let(:user) { create(:user) }
-  let!(:clients) { create_list(:client, 5, user: user) }
+  let!(:clients) { create_list(:client, 5, users: [user]) }
 
   describe 'GET #index' do
     context 'when user not loged in' do
@@ -31,7 +31,7 @@ RSpec.describe Api::V1::ClientsController, type: :request do
 
         it 'should returns the clients with the correct data' do
           expect(json['clients'].size).to eq 3
-          expect(json['clients'].map { |client| client['case_worker']['email'] }).to include(user.email)
+          expect(json['clients'].map { |client| client['case_workers'].sort_by{|a| a['id'] }[0]['email'] }).to include(user.email)
         end
       end
 
@@ -46,7 +46,7 @@ RSpec.describe Api::V1::ClientsController, type: :request do
 
         it 'should returns the clients with the correct data' do
           expect(json['clients'].size).to eq 5
-          expect(json['clients'].map { |client| client['case_worker']['email'] }).to include(user.email)
+          expect(json['clients'].map { |client| client['case_workers'].sort_by{|a| a['id'] }[0]['email'] }).to include(user.email)
         end
       end
     end
@@ -97,7 +97,7 @@ RSpec.describe Api::V1::ClientsController, type: :request do
 
       context 'when try to create client' do
         before do
-          client = { format: 'json', client: { given_name: "example", family_name: FFaker::Name.name, gender: "Male", user_id: user.id.to_s} }
+          client = { format: 'json', client: { given_name: "example", family_name: FFaker::Name.name, gender: "Male", user_ids: [user.id.to_s]} }
           post "/api/v1/clients", client, @auth_headers
         end
 

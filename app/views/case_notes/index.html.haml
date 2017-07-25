@@ -2,7 +2,7 @@
   .col-xs-12
     .ibox
       .ibox-title
-        %h5= t('.case_note_lists')
+        %h5= "#{t('.case_note_lists')} #{@client.name}"
         .ibox-tools
           = link_to t('.back'), client_path(@client), { class: 'btn btn-default btn-back-default button' }
           - if can? :create, CaseNote
@@ -13,7 +13,7 @@
             .panel-heading
               .row
                 .col-xs-5
-                  %h3= "#{t('.present')}: #{case_note.attendee}"
+                  %h3= "#{t('.present')} #{case_note.attendee}"
                 .col-xs-7.text-right
                   %h4
                     = t('.case_note_on')

@@ -2,7 +2,7 @@ require 'spec_helper'
 
 RSpec.describe Api::V1::CustomFieldPropertiesController, type: :request do
   let(:user) { create(:user) }
-  let!(:client) { create(:client, user: user) }
+  let!(:client) { create(:client, users: [user]) }
   let!(:custom_field) { create(:custom_field) }
   let!(:custom_field_property) { create(:custom_field_property, custom_field_id: custom_field.id, custom_formable_id: client.id) }
   let!(:second_custom_field_property) { create(:custom_field_property, custom_field_id: custom_field.id, custom_formable_id: client.id) }

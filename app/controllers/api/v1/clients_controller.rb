@@ -34,7 +34,7 @@ module Api
       end
 
       def destroy
-        @client.destroy
+        @client.reload.destroy
         head 204
       end
 
@@ -53,8 +53,9 @@ module Api
                 :follow_up_date, :grade, :school_name, :current_address,
                 :house_number, :street_number, :village, :commune, :district,
                 :has_been_in_orphanage, :has_been_in_government_care,
-                :relevant_referral_information, :user_id, :province_id, :donor_id,
+                :relevant_referral_information, :province_id, :donor_id,
                 :state, :rejected_note, :able, :able_state, :id_poor, :live_with,
+                user_ids: [],
                 agency_ids: [],
                 quantitative_case_ids: [],
                 custom_field_ids: [],

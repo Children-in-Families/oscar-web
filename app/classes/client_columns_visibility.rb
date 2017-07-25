@@ -37,7 +37,7 @@ class ClientColumnsVisibility
       has_been_in_orphanage_: :has_been_in_orphanage,
       has_been_in_government_care_: :has_been_in_government_care,
       relevant_referral_information_: :relevant_referral_information,
-      user_id_: :user,
+      user_ids_: :user,
       state_: :state,
       history_of_disability_and_or_illness_: :history_of_disability_and_or_illness,
       history_of_harm_: :history_of_harm,

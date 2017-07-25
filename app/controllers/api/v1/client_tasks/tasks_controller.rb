@@ -31,8 +31,7 @@ module Api
         private
 
         def task_params
-          permitted_params = params.require(:task).permit(:domain_id, :name, :completion_date, :remind_at)
-          permitted_params.merge({ user_id: @client.user.id }) if @client.user
+          params.require(:task).permit(:domain_id, :name, :completion_date, :remind_at, user_ids: [])
         end
 
         def find_task
