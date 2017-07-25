@@ -4,10 +4,9 @@ module AdvancedSearches
     def initialize(program_stream_id, rule)
       @program_stream_id = program_stream_id
       field     = rule['field']
-      @field    = field.split('_').last.gsub("'", "''")
+      @field    = field.split('_').last
       @operator = rule['operator']
-      @value    = format_value(rule['value'])
-      @type     = rule['type']
+      @value    = rule['value']
     end
 
     def get_sql

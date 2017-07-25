@@ -46,6 +46,11 @@ module AdvancedSearches
           @sql_string << exit_program_fields[:id]
           @values << exit_program_fields[:values]
 
+        elsif form_builder.first == 'quantitative'
+          quantitative_filter = AdvancedSearches::QuantitativeCaseSqlBuilder.new(@clients, rule).get_sql
+          @sql_string << quantitative_filter[:id]
+          @values << quantitative_filter[:values]
+
         elsif field != nil
           value = field == 'grade' ? validate_integer(value) : value
           base_sql(field, operator, value)
