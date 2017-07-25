@@ -73,7 +73,7 @@
           = f.input :live_with, label: t('.live_with')
         .col-xs-12.col-sm-6.col-md-4
           = f.input :id_poor, label: t('.id_poor')
-        - if Client::EXIT_STATUSES.include?(@client.status)
+        - if @client.exit_date_was.present?
           .col-xs-12.col-sm-6.col-md-4.form-group.date.optional{ class: ('has-error' if f.error :exit_date) }
             %label.date.optional.control-label
               %abbr{ title: 'required' } *
