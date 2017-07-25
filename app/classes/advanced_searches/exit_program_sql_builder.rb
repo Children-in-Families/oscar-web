@@ -32,6 +32,8 @@ module AdvancedSearches
         properties_result = leave_programs.where("leave_programs.properties ->> '#{@field}' NOT ILIKE '%#{@value}%' ")
       when 'is_empty'
         properties_result = leave_programs.where("leave_programs.properties -> '#{@field}' ? '' ")
+      when 'is_not_empty'
+        properties_result = leave_programs.where.not("leave_programs.properties -> '#{@field}' ? '' ")
       when 'between'
         properties_result = leave_programs.where("(leave_programs.properties ->> '#{@field}')#{ '::int' if integer? } BETWEEN '#{@value.first}' AND '#{@value.last}' AND leave_programs.properties ->> '#{@field}' != ''")
       end

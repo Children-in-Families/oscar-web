@@ -33,6 +33,8 @@ module AdvancedSearches
         properties_result = client_enrollments.where("properties ->> '#{@field}' NOT ILIKE '%#{@value}%' ")
       when 'is_empty'
         properties_result = client_enrollments.where("properties -> '#{@field}' ? '' ")
+      when 'is_not_empty'
+        properties_result = client_enrollments.where.not("properties -> '#{@field}' ? '' ")
       when 'between'
         properties_result = client_enrollments.where("(properties ->> '#{@field}')#{ '::int' if integer? } BETWEEN '#{@value.first}' AND '#{@value.last}' AND properties ->> '#{@field}' != ''")
       end
