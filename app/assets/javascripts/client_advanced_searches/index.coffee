@@ -61,7 +61,7 @@ CIF.Client_advanced_searchesIndex = do ->
   _handleShowProgramStreamFilter = ->
     if $('#program-stream-checkbox').prop('checked')
       $('.program-stream').show()
-    if @enrollmentCheckbox.prop('checked') || @trackingCheckbox.prop('checked') || @exitCheckbox.prop('checked')
+    if @enrollmentCheckbox.prop('checked') || @trackingCheckbox.prop('checked') || @exitCheckbox.prop('checked') || @programSelected.length > 0
       $('.program-association').show()
     $('#program-stream-checkbox').on 'ifChecked', ->
       $('.program-stream').show()
@@ -123,7 +123,6 @@ CIF.Client_advanced_searchesIndex = do ->
         _handleRemoveFilterBuilder(programName, TRACKING_TRANSTATE)
         _handleRemoveFilterBuilder(programName, EXIT_PROGRAM_TRANSTATE)
         )
-      
       if $.isEmptyObject($(@).val())
         programStreamAssociation = $('.program-association')
         $(programStreamAssociation).find('.i-checks').iCheck('uncheck')
@@ -194,7 +193,6 @@ CIF.Client_advanced_searchesIndex = do ->
       programSelectedValues = $('#program-stream-select').val()
       customFormValues = if customFormSelectedValues == null then '[]' else "[#{customFormSelectedValues}]"
       programValues = if programSelectedValues == null then '[]' else "[#{programSelectedValues}]"
-
       _setValueToProgramAssociation()
       $('#client_advanced_search_custom_form_selected').val(customFormValues)
       $('#client_advanced_search_program_selected').val(programValues)
@@ -306,7 +304,6 @@ CIF.Client_advanced_searchesIndex = do ->
         if $(labelValue).last()[0].trim() == resourcelabel and labelValue[0].trim() == resourceName
           $(optGroup).find('option').each ->
             values.push $(@).val()
-
     $('#builder').queryBuilder('removeFilter', values)
     _initSelect2()
 
