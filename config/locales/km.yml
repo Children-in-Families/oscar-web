@@ -329,6 +329,7 @@ km:
       exit_program: ចាកចេញពីកម្មវិធី
       basic_fields: ពត៌មានទូទៅរបស់អតិថិជន
       custom_form: ទម្រង់បែបបទបន្ថែម
+      quantitative: ប្រភេទនៃបរិមាណ
   agencies:
     create:
       failed_create: ឣង្គភាពបង្កើតកំណត់ត្រាថ្មីបានមិនបានជោគជ័យ
@@ -671,6 +672,7 @@ km:
       filter_option: សូមជ្រើសរើសជម្រើសនែការស្វែងរកខាងក្រោម
       program_stream: កម្មវិធីបន្ទាប់បន្សំ
       tracking: តាមដាន
+      quantitative: ប្រភេទនៃបរិមាណ
     index:
       add_new_filter: បន្ថែមការស្វែងរក
       add_new_group: បន្ថែមបណ្ដុំនៃការស្វែងរក

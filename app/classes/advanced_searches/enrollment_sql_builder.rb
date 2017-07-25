@@ -6,7 +6,7 @@ module AdvancedSearches
       field     = rule['field']
       @field    = field.split('_').last.gsub("'", "''")
       @operator = rule['operator']
-      @value    = rule['value'].gsub("'", "''")
+      @value    = format_value(rule['value'])
       @type     = rule['type']
     end
 
@@ -33,6 +33,8 @@ module AdvancedSearches
         properties_result = client_enrollments.where("properties ->> '#{@field}' NOT ILIKE '%#{@value}%' ")
       when 'is_empty'
         properties_result = client_enrollments.where("properties -> '#{@field}' ? '' ")
+      when 'is_not_empty'
+        properties_result = client_enrollments.where.not("properties -> '#{@field}' ? '' ")
       when 'between'
         properties_result = client_enrollments.where("(properties ->> '#{@field}')#{ '::int' if integer? } BETWEEN '#{@value.first}' AND '#{@value.last}' AND properties ->> '#{@field}' != ''")
       end
@@ -43,6 +45,10 @@ module AdvancedSearches
     private
     def integer?
       @type == 'integer'
+    end
+
+    def format_value(value)
+      value.is_a?(Array) ? value : value.gsub("'", "''")
     end
   end
 end

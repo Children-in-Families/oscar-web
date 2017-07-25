@@ -61,4 +61,8 @@ body[id='client_advanced_searches-index'] {
   .custom-form, .program-stream, .selected-custom-form, .program-association {
     display: none;
   }
+
+  .program-association, .program-stream {
+    margin-left: 16px;
+  }
 }

@@ -1,8 +1,8 @@
 class ClientAdvancedSearchesController < AdminController
   include ClientGridOptions
 
-  before_action :choose_grid
-  before_action :find_params_advanced_search, :get_custom_fields, :get_program_streams, :client_builder_fields
+  before_action :choose_grid, :get_quantitative_fields
+  before_action :find_params_advanced_search, :get_custom_form, :get_program_streams, :client_builder_fields
   before_action :basic_params, if: :has_params?
 
   def index
@@ -25,65 +25,81 @@ class ClientAdvancedSearchesController < AdminController
   end
 
   private
-
-  def client_builder_fields
-    @builder_fields = get_client_basic_fields + get_custom_form_fields + get_enrollment_fields + get_tracking_fields + get_exit_program_fields
+  def get_custom_form
+    @custom_fields  = CustomField.client_forms.order_by_form_title
   end
 
-  def get_custom_fields
-    @custom_fields  = CustomField.client_forms.order_by_form_title
+  def client_builder_fields
+    custom_program_fields = get_enrollment_fields + get_tracking_fields + get_exit_program_fields
+    @builder_fields = get_client_basic_fields + get_custom_form_fields + custom_program_fields
+    @builder_fields = @builder_fields + @quantitative_fields if quantitative_check?
   end
 
   def get_program_streams
     @program_streams = ProgramStream.complete.ordered
   end
 
-  def program_stream_params
-    if  @advanced_search_params.present? && @advanced_search_params[:program_selected]
-      eval @advanced_search_params[:program_selected]
-    else
-      []
-    end
+  def program_stream_values
+    program_stream_value? ? eval(@advanced_search_params[:program_selected]) : []
   end
 
-  def custom_form_params
-    if @advanced_search_params.present? && @advanced_search_params[:custom_form_selected].present?
-      eval @advanced_search_params[:custom_form_selected]
-    else
-      []
-    end
+  def quantitative_check?
+    @advanced_search_params.present? && @advanced_search_params[:quantitative_check].present?
   end
 
   def get_client_basic_fields
     AdvancedSearches::ClientFields.new(user: current_user).render
   end
 
+  def custom_form_values
+    custom_form_value? ? eval(@advanced_search_params[:custom_form_selected]) : []
+  end
+
   def get_custom_form_fields
-    @enrollment_fields = AdvancedSearches::CustomFields.new(custom_form_params).render
+    @enrollment_fields = AdvancedSearches::CustomFields.new(custom_form_values).render
+  end
+
+  def get_quantitative_fields
+    @quantitative_fields = AdvancedSearches::QuantitativeCaseFields.render
   end
 
   def get_enrollment_fields
-    if @advanced_search_params.present? && @advanced_search_params[:enrollment_check].present?
-      AdvancedSearches::EnrollmentFields.new(program_stream_params).render
-    else
-      []
-    end
+    @enrollment_fields = AdvancedSearches::EnrollmentFields.new(program_stream_values).render
+    enrollment_check? ? @enrollment_fields : []
   end
 
   def get_tracking_fields
-    if @advanced_search_params.present? && @advanced_search_params[:tracking_check].present?
-      AdvancedSearches::TrackingFields.new(program_stream_params).render
-    else
-      []
-    end
+    @tracking_fields = AdvancedSearches::TrackingFields.new(program_stream_values).render
+    tracking_check? ? @tracking_fields : []
   end
 
   def get_exit_program_fields
-    if @advanced_search_params.present? && @advanced_search_params[:exit_form_check].present?
-      AdvancedSearches::ExitProgramFields.new(program_stream_params).render
-    else
-      []
-    end
+    @exit_program_fields = AdvancedSearches::ExitProgramFields.new(program_stream_values).render
+    exit_program_check? ? @exit_program_fields : []
+  end
+
+  def program_stream_value?
+    @advanced_search_params.present? && @advanced_search_params[:program_selected].present?
+  end
+
+  def custom_form_value?
+    @advanced_search_params.present? && @advanced_search_params[:custom_form_selected].present?
+  end
+
+  def enrollment_check?
+    @advanced_search_params.present? && @advanced_search_params[:enrollment_check].present?
+  end
+
+  def tracking_check?
+    @advanced_search_params.present? && @advanced_search_params[:tracking_check].present?
+  end
+
+  def exit_program_check?
+    @advanced_search_params.present? && @advanced_search_params[:exit_form_check].present?
+  end
+
+  def quantitative_check?
+    @advanced_search_params.present? && @advanced_search_params[:quantitative_check].present?
   end
 
   def has_params?

@@ -35,12 +35,21 @@ module AdvancedSearches
           @values << enrollment_fields[:values]
 
         elsif form_builder.first == 'tracking'
-          @sql_string << ['clients.id IN (?)']
-          @values << []
+          tracking = Tracking.find_by(name: form_builder.third)
+          tracking_fields = AdvancedSearches::TrackingSqlBuilder.new(tracking.id, rule).get_sql
+          @sql_string << tracking_fields[:id]
+          @values << tracking_fields[:values]
 
         elsif form_builder.first == 'exitprogram'
-          @sql_string << ['clients.id IN (?)']
-          @values << []
+          program_stream = ProgramStream.find_by(name: form_builder.second)
+          exit_program_fields = AdvancedSearches::ExitProgramSqlBuilder.new(program_stream.id, rule).get_sql
+          @sql_string << exit_program_fields[:id]
+          @values << exit_program_fields[:values]
+
+        elsif form_builder.first == 'quantitative'
+          quantitative_filter = AdvancedSearches::QuantitativeCaseSqlBuilder.new(@clients, rule).get_sql
+          @sql_string << quantitative_filter[:id]
+          @values << quantitative_filter[:values]
 
         elsif field != nil
           value = field == 'grade' ? validate_integer(value) : value

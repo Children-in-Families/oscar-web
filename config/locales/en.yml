@@ -329,6 +329,7 @@ en:
       exit_program: Exit Program
       basic_fields: Client Basic Fields
       custom_form: Custom Form
+      quantitative: Quantitative Type
   agencies:
     create:
       failed_create: Failed to create an agency
@@ -667,6 +668,7 @@ en:
       filter_option: Please choose the filter option below
       program_stream: Program Stream
       tracking: Tracking
+      quantitative: Quantitative Type
     index:
       add_new_filter: Add New Filter
       add_new_group: Add Group
