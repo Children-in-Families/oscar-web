@@ -834,6 +834,9 @@ km:
       date_of_birth: ថ្ងៃ ខែ ឆ្នាំ កំណើត
       district: ស្រុក/ខណ្ឌ
       donor: ម្ចាស់ជំនួយ
+      exit_date: កាលបរិច្ឆេទនៃការចាកចេញ
+      exit_note: មូលហេតុនៃការចាកចេញ
+      exit_status: ស្ថានភាព
       family_name: នាមត្រកូល
       follow_up_by: បុគ្គលិកដែលតាមដានករណី
       follow_up_date: កាលបរិច្ឆេទតាមដាន

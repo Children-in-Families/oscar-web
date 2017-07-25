@@ -18,7 +18,8 @@
             %tbody
               - @enrollments.each do |enrollment|
                 %tr
-                  %td=date_format enrollment.created_at
+                  %td
+                    = enrollment.enrollment_date? ? date_format(enrollment.enrollment_date) : date_format(enrollment.created_at)
                   %td= t('.enrollment')
                   %td
                     = link_to client_client_enrollment_path(@client, enrollment, program_stream_id: @program_stream, program_streams: params[:program_streams]) do
@@ -33,6 +34,7 @@
 
                 - if enrollment.leave_program.present?
                   %tr
-                    %td= date_format(enrollment.leave_program.created_at)
+                    %td
+                      = enrollment.leave_program.exit_date? ? date_format(enrollment.leave_program.exit_date) : date_format(enrollment.leave_program.created_at)
                     %td= t('.exit')
                     %td= link_to t('.view'), client_client_enrollment_leave_program_path(@client, enrollment, enrollment.leave_program, program_streams: params[:program_streams])

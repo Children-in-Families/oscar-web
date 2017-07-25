@@ -75,8 +75,7 @@ CIF.Client_advanced_searchesIndex = do ->
   _handleShowProgramStreamFilter = ->
     if $('#program-stream-checkbox').prop('checked')
       $('.program-stream').show()
-
-    if @enrollmentCheckbox.prop('checked') || @trackingCheckbox.prop('checked') || @exitCheckbox.prop('checked') || $('#program-stream-select').select2('val').length > 0
+    if @enrollmentCheckbox.prop('checked') || @trackingCheckbox.prop('checked') || @exitCheckbox.prop('checked') || @programSelected.length > 0
       $('.program-association').show()
     $('#program-stream-checkbox').on 'ifChecked', ->
       $('.program-stream').show()
@@ -132,13 +131,13 @@ CIF.Client_advanced_searchesIndex = do ->
     $('#program-stream-select').on 'select2-removed', (element) ->
       programName = element.choice.text
       $.map self.programSelected, (val, i) ->
-        if val == element.val then delete(self.programSelected[i])
+        if parseInt(val) == parseInt(element.val) then self.programSelected.splice(i, 1)
+
       _handleRemoveFilterBuilder(programName, ENROLLMENT_TRANSLATE)
       setTimeout ( ->
         _handleRemoveFilterBuilder(programName, TRACKING_TRANSTATE)
         _handleRemoveFilterBuilder(programName, EXIT_PROGRAM_TRANSTATE)
         )
-      
       if $.isEmptyObject($(@).val())
         programStreamAssociation = $('.program-association')
         $(programStreamAssociation).find('.i-checks').iCheck('uncheck')
@@ -185,7 +184,7 @@ CIF.Client_advanced_searchesIndex = do ->
     $('#custom-form-wrapper select').on 'select2-removed', (element) ->
       removeValue = element.choice.text
       $.map self.customFormSelected, (val, i) ->
-        if val == element.val then delete(self.customFormSelected[i])
+        if parseInt(val) == parseInt(element.val) then self.customFormSelected.splice(i, 1)
 
       setTimeout ( ->
         _handleRemoveFilterBuilder(removeValue, CUSTOM_FORM_TRANSLATE)
@@ -334,7 +333,6 @@ CIF.Client_advanced_searchesIndex = do ->
         if $(labelValue).last()[0].trim() == resourcelabel and labelValue[0].trim() == resourceName
           $(optGroup).find('option').each ->
             values.push $(@).val()
-
     $('#builder').queryBuilder('removeFilter', values)
     _initSelect2()
 

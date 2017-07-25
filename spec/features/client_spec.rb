@@ -485,11 +485,12 @@ describe 'Client' do
   feature 'Enable Edit Emergency Care' do
     let!(:accepted_client) { create(:client, state: 'accepted', user: user) }
     let!(:ec_case){ create(:case, case_type: 'EC', client: accepted_client) }
+    let!(:kc_manager){ create(:user, roles: 'kc manager') }
     feature 'of active EC and FC/KC client' do
       feature 'login as case worker' do
         let!(:fc_case){ create(:case, case_type: 'FC', client: accepted_client) }
         before do
-          login_as(user)
+          login_as(kc_manager)
           visit client_path(accepted_client)
         end
         it { expect(page).not_to have_link(nil, href: edit_client_case_path(ec_case.client, ec_case)) }
