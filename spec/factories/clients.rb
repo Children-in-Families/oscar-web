@@ -15,5 +15,11 @@ FactoryGirl.define do
     status 'Referred'
     school_grade '4'
     relevant_referral_information { FFaker::Lorem.paragraph }
+
+    trait :accepted do
+      state 'accepted'
+    end
+
+    association :user, factory: :user
   end
 end

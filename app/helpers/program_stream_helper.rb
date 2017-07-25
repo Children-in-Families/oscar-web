@@ -14,4 +14,8 @@ module ProgramStreamHelper
       end
     end
   end
+
+  def program_stream_redirect_path
+    params[:client] == 'true' ? request.referer : program_streams_path
+  end
 end

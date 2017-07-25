@@ -1,5 +1,5 @@
 module AdvancedSearches
-  class  ClientFields
+  class  RuleFields
     include AdvancedSearchHelper
 
     def initialize(options = {})
@@ -38,11 +38,11 @@ module AdvancedSearches
         ['status', client_status],
         ['case_type', { EC: 'EC', FC: 'FC',  KC: 'KC' }],
         ['agency_name', agencies_options],
-        ['received_by_id', received_by_options],
+        ['received_by_id', user_select_options],
         ['birth_province_id', provinces],
         ['province_id', provinces],
         ['referral_source_id', referral_source_options],
-        ['followed_up_by_id', followed_up_by_options],
+        ['followed_up_by_id', user_select_options],
         ['has_been_in_government_care', { true: 'Yes', false: 'No' }],
         ['able_state', client_able_state],
         ['has_been_in_orphanage', { true: 'Yes', false: 'No' }],
@@ -53,11 +53,11 @@ module AdvancedSearches
     end
 
     def client_custom_form_options
-      CustomField.joins(:custom_field_properties).client_forms.uniq.map{ |c| { c.id.to_s => c.form_title }}
+      CustomField.client_forms.order(:form_title).map{ |c| { c.id.to_s => c.form_title }}
     end
 
     def client_status
-      Client::CLIENT_STATUSES.sort.map { |s| { s => s.capitalize } }
+      Client::CLIENT_STATUSES.sort.map { |s| { s => s } }
     end
 
     def client_able_state
@@ -65,22 +65,11 @@ module AdvancedSearches
     end
 
     def provinces
-      Client.province_is.sort.map{|s| {s[1].to_s => s[0]}}
-    end
-
-    def received_by_options
-      recevied_by_clients = @user.admin? ? Client.is_received_by : Client.where(user_id: @user.id).is_received_by
-      recevied_by_clients.sort.map{|s| {s[1].to_s => s[0]}}
+      Province.order(:name).map { |s| { s.id.to_s => s.name } }
     end
 
     def referral_source_options
-      referral_source_clients = @user.admin? ? Client.referral_source_is : Client.where(user_id: @user.id).referral_source_is
-      referral_source_clients.sort.map{|s| {s[1].to_s => s[0]}}
-    end
-
-    def followed_up_by_options
-      followed_up_clients = @user.admin? ? Client.is_followed_up_by : Client.where(user_id: @user.id).is_followed_up_by
-      followed_up_clients.sort.map{|s| {s[1].to_s => s[0]}}
+      ReferralSource.order(:name).map { |s| { s.id.to_s => s.name } }
     end
 
     def agencies_options
@@ -88,7 +77,7 @@ module AdvancedSearches
     end
 
     def user_select_options
-      User.has_clients.order(:first_name, :last_name).map { |user| { user.id.to_s => user.name } }
+      User.non_strategic_overviewers.order(:first_name, :last_name).map { |user| { user.id.to_s => user.name } }
     end
 
     def donor_options

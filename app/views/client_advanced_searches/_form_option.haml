@@ -1,4 +1,4 @@
-%h4 Please choose your filter option below:
+%h4= t('.filter_option')
 .well
   .row
     .col-xs-12.col-md-4
@@ -7,7 +7,7 @@
           .col-xs-12
             .form-group
               = check_box_tag :nil, '1', custom_form_values.present?, { class: 'i-checks', id: 'custom-form-checkbox' }
-              %label Custom Form
+              %label= t('.custom_form')
         .row
           .col-xs-12
             .form-group.custom-form{ data: { value: custom_form_values } }
@@ -29,9 +29,11 @@
               .form-group
                 = check_box_tag :nil, '1', enrollment_check, { class: 'i-checks', id: 'enrollment-checkbox' }
                 %label Enrollment
-              .form-group
-                = check_box_tag :nil, '1', tracking_check, { class: 'i-checks', id: 'tracking-checkbox' }
-                %label Trackings
-              .form-group
-                = check_box_tag :nil, '1', exit_form_check, { class: 'i-checks', id: 'exit-form-checkbox' }
-                %label Exit Program
+              / .form-group
+              /   = check_box_tag :nil, '1', tracking_check, { class: 'i-checks', id: 'tracking-checkbox' }
+              /   %label Trackings
+              / .form-group
+              /   = check_box_tag :nil, '1', exit_form_check, { class: 'i-checks', id: 'exit-form-checkbox' }
+              /   %label Exit Program
+
+#opt-group-translation{ data: { enrollment: t('.enrollment'), tracking: t('.tracking'), exit_program: t('.exit_program'), basic_fields: t('.basic_fields'), custom_form: t('.custom_form') }}

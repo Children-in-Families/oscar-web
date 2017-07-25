@@ -1,6 +1,6 @@
-- if @client.cases.emergencies.present?
-  = render 'emergency_case', ec: @client.cases.active.latest_emergency
-- if @client.cases.kinships.present?
-  = render 'kinship_case', kc: @client.cases.active.latest_kinship
-- if @client.cases.fosters.present?
-  = render 'foster_case', fc: @client.cases.active.latest_foster
+- if @client.cases.exclude_referred.emergencies.present?
+  = render 'emergency_case', ec: @client.cases.exclude_referred.active.latest_emergency
+- if @client.cases.exclude_referred.kinships.present?
+  = render 'kinship_case', kc: @client.cases.exclude_referred.active.latest_kinship
+- if @client.cases.exclude_referred.fosters.present?
+  = render 'foster_case', fc: @client.cases.exclude_referred.active.latest_foster

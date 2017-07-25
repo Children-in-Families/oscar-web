@@ -5,12 +5,12 @@
         %h5= t('.kinship_case.kinship_care')
         .ibox-tools
           - if can? :manage, Case
-            - if current_user.admin? || current_user.case_worker? || current_user.kc_manager?
+            - if current_user.admin? || current_user.case_worker? || current_user.kc_manager? || current_user.manager?
               %small
                 = link_to edit_client_case_path(kc.client, kc) do
                   .btn.btn-outline.btn-success
                     = t('.edit_btn')
-                - unless @client.cases.latest_kinship.exited
+                - unless @client.cases.exclude_referred.latest_kinship.exited
                   %button.btn.btn-outline.btn-warning{"data-target" => '#exit-from-case', "data-toggle" => 'modal'}
                     = t('.exit_btn')
       .ibox-content
@@ -76,4 +76,4 @@
               %td
                 %strong
                   = human_boolean(kc.family_preservation)
-  = render 'exit_case_form', client_case: @client.cases.latest_kinship, exit_from_cif: false
+  = render 'exit_case_form', client_case: @client.cases.exclude_referred.latest_kinship, exit_from_cif: false

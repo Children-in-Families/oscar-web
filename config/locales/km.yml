@@ -324,6 +324,11 @@ km:
       type: ប្រភេទនៃទម្រង់បែបបទបន្ថែម
       user_id: បុគ្គលិកគ្រប់គ្រងករណី
       village: ភូមិ
+      enrollment: ទម្រង់បែបបទនៃចុះឈ្មោះ
+      tracking: តាមដាន
+      exit_program: ចាកចេញពីកម្មវិធី
+      basic_fields: ពត៌មានទូទៅរបស់អតិថិជន
+      custom_form: ទម្រង់បែបបទបន្ថែម
   agencies:
     create:
       failed_create: ឣង្គភាពបង្កើតកំណត់ត្រាថ្មីបានមិនបានជោគជ័យ
@@ -658,6 +663,14 @@ km:
       update:
         successfully_updated: កាតព្វកិច្ចត្រូវបានកែសម្រួលដោយជោគជ័យ
   client_advanced_searches:
+    form_option:
+      basic_fields: ពត៌មានទូទៅរបស់អតិថិជន
+      custom_form: ទម្រង់បែបបទបន្ថែម
+      enrollment: ទម្រង់បែបបទនៃចុះឈ្មោះ
+      exit_program: ចាកចេញពីកម្មវិធី
+      filter_option: សូមជ្រើសរើសជម្រើសនែការស្វែងរកខាងក្រោម
+      program_stream: កម្មវិធីបន្ទាប់បន្សំ
+      tracking: តាមដាន
     index:
       add_new_filter: បន្ថែមការស្វែងរក
       add_new_group: បន្ថែមបណ្ដុំនៃការស្វែងរក
@@ -704,6 +717,7 @@ km:
       enrollment: ទម្រង់បែបបទ​នៃ​ចុះឈ្មោះ
     form:
       cancel: ទុកជាមោឃៈ
+      enrollment_date: ថ្ងៃចុះឈ្មោះ
       save: រក្សាទុក
     index:
       actions: សកម្មភាព
@@ -818,6 +832,9 @@ km:
       date_of_birth: ថ្ងៃ ខែ ឆ្នាំ កំណើត
       district: ស្រុក/ខណ្ឌ
       donor: ម្ចាស់ជំនួយ
+      exit_date: កាលបរិច្ឆេទនៃការចាកចេញ
+      exit_note: មូលហេតុនៃការចាកចេញ
+      exit_status: ស្ថានភាព
       family_name: នាមត្រកូល
       follow_up_by: បុគ្គលិកដែលតាមដានករណី
       follow_up_date: កាលបរិច្ឆេទតាមដាន
@@ -946,13 +963,14 @@ km:
       date_of_birth: ថ្ងៃ ខែ ឆ្នាំ កំណើត
       district: ស្រុក/ខណ្ឌ
       donor: ម្ចាស់ជំនួយ
-      enrollment_program_streams: ចុះឈ្មោះកម្មវិធីបន្ទាប់បន្សំ
+      enrolled_program_streams: កម្មវិធីបន្ទាប់បន្សំដែលបានចូលរួម
       exit_date: ថ្ងៃចាកចេញ
       exit_from_ec: ចាកចេញពី EC
       exit_from_fc: ចាកចេញពី FC
       exit_from_kc: ចាកចេញពី KC
       exit_ngo_btn: ចាកចេញពី NGO
       exit_note: កំណត់ហេតុនៃការចាកចេញ
+      families: គ្រួសារ
       family_name: នាមត្រកូល
       follow_up_by: បុគ្គលិកដែលតាមដានករណី
       follow_up_date: កាលបរិច្ឆេទតាមដាន
@@ -1201,6 +1219,7 @@ km:
           start_date: ថ្ងៃចាប់ផ្តើម
           support_amount: ប្រាក់ឧបត្ថម្ភ
           support_note: ពត៌មានពីប្រាក់ឧប្ថម្ភ
+        program_name: ឈ្មោះកម្មវិធី
         province: ខេត្តកំណើត
         quantitative_case_values: ទិន្នន័យនៃបរិមាណ
         quantitative_types: ប្រភេទនៃបរិមាណ
@@ -1994,6 +2013,7 @@ km:
       significant_family_member_count: ចំនួននៃសមាជិកគ្រួសារសំខាន់ៗ
       'yes': បាទ/ចាស
     update:
+      not_allowed_to_detach_clients: អ្នកមិនអាចយកអតិថិជនចេញពីគ្រួសារតាមទម្រង់នេះបានទេ
       successfully_updated: គ្រួសារត្រូវបានកែសម្រួលដោយជោគជ័យ
     version:
       back: ត្រលប់ក្រោយ
@@ -2480,6 +2500,7 @@ km:
       leave_program: កែសម្រួលការចាកចេញពីកម្មវិធី
     form:
       cancel: ទុកជាមោឃៈ
+      exit_date: ថ្ងៃចាកចេញ
       save: រក្សាទុក
     new:
       new_exit_program: ការចាកចេញពីកម្មវិធីថ្មី
@@ -2633,10 +2654,10 @@ km:
       actions: សកម្មភាព
       copy: ចំលង
       domain: កត្តា
+      maximum: ចំនួនដែលអាចចូលរូមកម្មវិធីច្រើនបំផុត
       name: ឈ្មោះកម្មវិធីបន្ទាប់បន្សំ
       organization: អង្គការ
       preview: មើល
-      quantity: ចំនួនកន្លែងដែលនៅទំនេរ
       status: ស្ថានភាព
     create:
       alert: ឈ្មោះនៃការតាមដានត្រូវបានប្រើរួចហើយ
@@ -2647,7 +2668,6 @@ km:
       enrolled: ចំនួនដែលចូលរូមកម្មវិធី
       maximum: ចំនួនដែលអាចចូលរូមកម្មវិធីច្រើនបំផុត
       name: ឈ្មោះកម្មវិធី​បន្ទាប់បន្សំ
-      quantity: បរិមាណ
       status: ស្ថានភាព
     destroy:
       alert: កម្មវិធីមិនអាចលុបបានទេ
@@ -2662,8 +2682,10 @@ km:
       edit_program_stream: កែសម្រួលកម្មវិធី
     enrollment:
       enrollment_form: ទម្រង់បែបបទចុះឈ្មោះ
+      note: 'ចំណាំ: កាលបរិច្ឆេទនៃការចុះឈ្មោះត្រូវបានបន្ថែមក្នុងទម្រង់បែបបទនេះរួចស្រេចហើយ'
     exit_field:
       exit_form: ទម្រង់បែបបទចាកចេញ
+      note: 'ចំណាំ: កាលបរិច្ឆេទនៃការចាកចេញត្រូវបានបន្ថែមក្នុងទម្រង់បែបបទនេះរូចស្រេចហើយ'
     form:
       finish: រក្សាទុក
       next: ទំព័របន្ទាប់
@@ -2693,7 +2715,9 @@ km:
       description: ការបរិយាយ
       domain: កត្តា
       maximum: ចំនួនដែលអាចចូលរូមកម្មវិធីច្រើនបំផុត
+      mutual_dependence: កម្មវិធីអាស្រ័យគ្នា
       name: ឈ្មោះកម្មវិធីបន្ទាប់បន្សំ
+      program_exclusive: កម្មវិធីផ្តាច់មុខ
       quantity: បរិមាណ
       rule: លក្ខខណ្ឌ
     show:
@@ -2706,6 +2730,8 @@ km:
       enrollment: ចុះឈ្មោះ
       exit_program: ចាកចេញពីកម្មវិធី
       maximum: ចំនួនដែលអាចចូលរូមកម្មវិធីច្រើនបំផុត
+      mutual_dependence: កម្មវិធីអាស្រ័យគ្នា
+      program_exclusive: កម្មវិធីផ្តាច់មុខ
       quantity: បរិមាណ
       rules: លក្ខខណ្ឌ
       tracking: តាមដាន

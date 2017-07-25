@@ -35,7 +35,10 @@ class LeaveProgramsController < AdminController
   private
 
   def leave_program_params
-    params.require(:leave_program).permit({}).merge(properties: params[:leave_program][:properties], program_stream_id: params[:program_stream_id])
+    params[:leave_program][:properties].keys.each do |k|
+      params[:leave_program][:properties][k].delete('') if params[:leave_program][:properties][k].class == Array && params[:leave_program][:properties][k].count > 1
+    end
+    params.require(:leave_program).permit(:exit_date, {}).merge(properties: params[:leave_program][:properties], program_stream_id: params[:program_stream_id])
   end
 
   def find_client

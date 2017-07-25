@@ -12,67 +12,77 @@ end
 
 describe Family, 'scopes' do
   let(:province) { create(:province) }
-  let!(:family){ create(:family, family_type: 'kinship', province: province)}
-  let!(:other_family){ create(:family, family_type: 'foster')}
-  let!(:emergency_family){ create(:family, family_type: 'emergency')}
-  let!(:inactive_family){ create(:family, family_type: 'inactive')}
-  let!(:birth_family){ create(:family, family_type: 'birth_family')}
+  let!(:kc_family){ create(:family, :kinship, province: province)}
+  let!(:fc_family){ create(:family, :foster)}
+  let!(:ec_family){ create(:family, :emergency)}
+  let!(:inactive_family){ create(:family, :inactive)}
+  let!(:birth_family){ create(:family, :birth_family)}
+
+  context 'as_non_cases' do
+    it 'include inactive and birth_family' do
+      expect(Family.as_non_cases).to include(inactive_family, birth_family)
+    end
+
+    it 'exclude emergency foster and kinship family' do
+      expect(Family.as_non_cases).not_to include(kc_family, fc_family, ec_family)
+    end
+  end
 
   context 'name like' do
-    let!(:families){ Family.name_like(family.name.downcase) }
+    let!(:families){ Family.name_like(kc_family.name.downcase) }
     it 'should include record have family name like' do
-      expect(families).to include(family)
+      expect(families).to include(kc_family)
     end
     it 'should not include record not have family name like' do
-      expect(families).not_to include(other_family)
+      expect(families).not_to include(fc_family)
     end
   end
 
   context 'caregiver information like' do
-    let!(:families){ Family.caregiver_information_like(family.caregiver_information.downcase) }
+    let!(:families){ Family.caregiver_information_like(kc_family.caregiver_information.downcase) }
     it 'should include record have caregiver information like' do
-      expect(families).to include(family)
+      expect(families).to include(kc_family)
     end
     it 'should not include record not have caregiver information like' do
-      expect(families).not_to include(other_family)
+      expect(families).not_to include(fc_family)
     end
   end
 
   context 'address like' do
-    let!(:families){ Family.address_like(family.address.downcase) }
+    let!(:families){ Family.address_like(kc_family.address.downcase) }
     it 'should include record have address like' do
-      expect(families).to include(family)
+      expect(families).to include(kc_family)
     end
     it 'should not include record not address like' do
-      expect(families).not_to include(other_family)
+      expect(families).not_to include(fc_family)
     end
   end
 
   context 'kinship' do
     it 'should include kinship type ' do
-      expect(Family.kinship).to include(family)
+      expect(Family.kinship).to include(kc_family)
     end
     it 'should not include not kinship type ' do
-      expect(Family.kinship).not_to include(other_family)
+      expect(Family.kinship).not_to include(fc_family)
     end
   end
 
   context 'foster' do
     it 'should include foster type' do
-      expect(Family.foster).to include(other_family)
+      expect(Family.foster).to include(fc_family)
     end
     it 'should not include not foster type' do
-      expect(Family.foster).not_to include(family)
+      expect(Family.foster).not_to include(kc_family)
     end
   end
 
   context 'emergency' do
     it 'should include emergency type' do
-      expect(Family.emergency).to include(emergency_family)
+      expect(Family.emergency).to include(ec_family)
     end
     it 'should not include not emergency type' do
-      expect(Family.emergency).not_to include(family)
-      expect(Family.emergency).not_to include(other_family)
+      expect(Family.emergency).not_to include(kc_family)
+      expect(Family.emergency).not_to include(fc_family)
     end
   end
 
@@ -81,8 +91,8 @@ describe Family, 'scopes' do
       expect(Family.inactive).to include(inactive_family)
     end
     it 'should not include not inactive type' do
-      expect(Family.inactive).not_to include(family)
-      expect(Family.inactive).not_to include(other_family)
+      expect(Family.inactive).not_to include(kc_family)
+      expect(Family.inactive).not_to include(fc_family)
     end
   end
 
@@ -91,8 +101,8 @@ describe Family, 'scopes' do
       expect(Family.birth_family).to include(birth_family)
     end
     it 'should not include not birth_family type' do
-      expect(Family.birth_family).not_to include(family)
-      expect(Family.birth_family).not_to include(other_family)
+      expect(Family.birth_family).not_to include(kc_family)
+      expect(Family.birth_family).not_to include(fc_family)
     end
   end
 
@@ -106,15 +116,61 @@ describe Family, 'scopes' do
   end
 end
 
-describe Family, 'methods' do
-
+describe Family, 'instance methods' do
+  let!(:inactive_family){ create(:family, :inactive) }
+  let!(:birth_family){ create(:family, :birth_family) }
+  let!(:ec_family){ create(:family, :emergency) }
+  let!(:fc_family){ create(:family, :foster) }
+  let!(:kc_family){ create(:family, :kinship) }
   context 'member count' do
     let!(:family){ create(:family,
       male_adult_count: 1,
       female_adult_count: 1
     ) }
     it 'should return total family member' do
-      expect(family.member_count).to eq(2)
+      expect(kc_family.member_count).to eq(2)
+    end
+  end
+
+  context 'inactive?' do
+    it { expect(inactive_family.inactive?).to be_truthy }
+  end
+
+  context 'birth_family?' do
+    it { expect(birth_family.birth_family?).to be_truthy }
+  end
+
+  context 'emergency?' do
+    it { expect(ec_family.emergency?).to be_truthy }
+  end
+
+  context 'foster?' do
+    it { expect(fc_family.foster?).to be_truthy }
+  end
+
+  context 'kinship?' do
+    it { expect(kc_family.kinship?).to be_truthy }
+  end
+
+  context 'is_case?' do
+    it 'emergency should be true' do
+      expect(ec_family.is_case?).to be_truthy
+    end
+
+    it 'foster should be true' do
+      expect(fc_family.is_case?).to be_truthy
+    end
+
+    it 'kinship should be true' do
+      expect(kc_family.is_case?).to be_truthy
+    end
+
+    it 'inactive should be false' do
+      expect(inactive_family.is_case?).to be_falsey
+    end
+
+    it 'birth_family should be false' do
+      expect(birth_family.is_case?).to be_falsey
     end
   end
 end

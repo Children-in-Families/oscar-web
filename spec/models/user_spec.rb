@@ -254,6 +254,7 @@ end
 describe User, 'methods' do
   let!(:admin){ create(:user, roles: 'admin') }
   let!(:case_worker){ create(:user, roles: 'case worker', first_name: 'First Name', last_name: 'Last Name') }
+  let!(:unknown_user){ create(:user, first_name: '', last_name: '') }
   let!(:ec_manager){ create(:user, roles: 'ec manager') }
   let!(:fc_manager){ create(:user, roles: 'fc manager') }
   let!(:kc_manager){ create(:user, roles: 'kc manager') }
@@ -298,6 +299,7 @@ describe User, 'methods' do
 
   context 'name' do
     it{ expect(case_worker.name).to eq('First Name Last Name') }
+    it{ expect(unknown_user.name).to eq('Unknown') }
   end
 
   context 'admin?' do

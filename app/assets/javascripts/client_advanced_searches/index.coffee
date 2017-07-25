@@ -1,8 +1,16 @@
 CIF.Client_advanced_searchesIndex = do ->
+  optionTranslation      = $('#opt-group-translation')
+  BASIC_FIELD_TRANSLATE  = $(optionTranslation).data('basicFields')
+  CUSTOM_FORM_STANSTATE  = $(optionTranslation).data('customForm')
+  ENROLLMENT_STANSTATE   = $(optionTranslation).data('enrollment')
+  EXIT_PROGRAM_TRANSTATE = $(optionTranslation).data('exitProgram')
+  TRACKING_TRANSTATE     = $(optionTranslation).data('tracking')
+
   ENROLLMENT_URL       = '/api/client_advanced_searches/get_enrollment_field'
   TRACKING_URL         = '/api/client_advanced_searches/get_tracking_field'
   EXIT_PROGRAM_URL     = '/api/client_advanced_searches/get_exit_program_field'
   CUSTOM_FORM_URL      = '/api/client_advanced_searches/get_custom_field'
+
   @enrollmentCheckbox  = $('#enrollment-checkbox')
   @trackingCheckbox    = $('#tracking-checkbox')
   @exitCheckbox        = $('#exit-form-checkbox')
@@ -53,7 +61,7 @@ CIF.Client_advanced_searchesIndex = do ->
   _handleShowProgramStreamFilter = ->
     if $('#program-stream-checkbox').prop('checked')
       $('.program-stream').show()
-    if @enrollmentCheckbox.prop('checked') || @trackingCheckbox.prop('checked') || @exitCheckbox.prop('checked')
+    if @enrollmentCheckbox.prop('checked') || @trackingCheckbox.prop('checked') || @exitCheckbox.prop('checked') || @programSelected.length > 0
       $('.program-association').show()
     $('#program-stream-checkbox').on 'ifChecked', ->
       $('.program-stream').show()
@@ -65,9 +73,9 @@ CIF.Client_advanced_searchesIndex = do ->
       $('.program-stream, .program-association').hide()
       $('#program-stream-select option:selected').each ->
         name = $(@).text()
-        _handleRemoveFilterBuilder(name, 'Enrollment')
-        _handleRemoveFilterBuilder(name, 'Tracking')
-        _handleRemoveFilterBuilder(name, 'Exit Program')
+        _handleRemoveFilterBuilder(name, BASIC_FIELD_TRANSLATE)
+        _handleRemoveFilterBuilder(name, TRACKING_TRANSTATE)
+        _handleRemoveFilterBuilder(name, EXIT_PROGRAM_TRANSTATE)
       $('.program-association input[type="checkbox"]').iCheck('uncheck')
       $('#program-stream-select').select2("val", "")
 
@@ -90,19 +98,19 @@ CIF.Client_advanced_searchesIndex = do ->
     $('#enrollment-checkbox').on 'ifUnchecked', ->
       for option in $('#program-stream-select option:selected')
         name = $(option).text()
-        _handleRemoveFilterBuilder(name, "Enrollment")
+        _handleRemoveFilterBuilder(name, ENROLLMENT_STANSTATE)
 
   _handleUncheckedTracking = ->
     $('#tracking-checkbox').on 'ifUnchecked', ->
       for option in $('#program-stream-select option:selected')
         name = $(option).text()
-        _handleRemoveFilterBuilder(name, "Tracking")
+        _handleRemoveFilterBuilder(name, TRACKING_TRANSTATE)
 
   _handleUncheckedExitProgram = ->
     $('#exit-form-checkbox').on 'ifUnchecked', ->
       for option in $('#program-stream-select option:selected')
         name = $(option).text()
-        _handleRemoveFilterBuilder(name, "Exit Program")
+        _handleRemoveFilterBuilder(name, EXIT_PROGRAM_TRANSTATE)
 
   _handleSelect2RemoveProgram = ->
     self = @
@@ -110,12 +118,11 @@ CIF.Client_advanced_searchesIndex = do ->
       programName = element.choice.text
       $.map self.programSelected, (val, i) ->
         if val == element.val then delete(self.programSelected[i])
-      _handleRemoveFilterBuilder(programName, 'Enrollment')
+      _handleRemoveFilterBuilder(programName, ENROLLMENT_STANSTATE)
       setTimeout ( ->
-        _handleRemoveFilterBuilder(programName, 'Tracking')
-        _handleRemoveFilterBuilder(programName, 'Exit Program')
+        _handleRemoveFilterBuilder(programName, TRACKING_TRANSTATE)
+        _handleRemoveFilterBuilder(programName, EXIT_PROGRAM_TRANSTATE)
         )
-
       if $.isEmptyObject($(@).val())
         programStreamAssociation = $('.program-association')
         $(programStreamAssociation).find('.i-checks').iCheck('uncheck')
@@ -145,7 +152,7 @@ CIF.Client_advanced_searchesIndex = do ->
     $('#custom-form-checkbox').on 'ifUnchecked', ->
       $('#custom-form-select option:selected').each ->
         formTitle = $(@).text()
-        _handleRemoveFilterBuilder(formTitle, 'Custom Fields')
+        _handleRemoveFilterBuilder(formTitle, CUSTOM_FORM_STANSTATE)
 
       self.customFormSelected = []
       $('.custom-form select').select2('val', '')
@@ -158,7 +165,9 @@ CIF.Client_advanced_searchesIndex = do ->
   _customFormSelectRemove = ->
     $('#custom-form-wrapper select').on 'select2-removed', (element) ->
       removeValue = element.choice.text
-      _handleRemoveFilterBuilder(removeValue, 'Custom Fields')
+      setTimeout ( ->
+        _handleRemoveFilterBuilder(removeValue, CUSTOM_FORM_STANSTATE)
+        ),100
 
    _addCustomBuildersFields = (ids, url) ->
     $.ajax
@@ -184,7 +193,6 @@ CIF.Client_advanced_searchesIndex = do ->
       programSelectedValues = $('#program-stream-select').val()
       customFormValues = if customFormSelectedValues == null then '[]' else "[#{customFormSelectedValues}]"
       programValues = if programSelectedValues == null then '[]' else "[#{programSelectedValues}]"
-
       _setValueToProgramAssociation()
       $('#client_advanced_search_custom_form_selected').val(customFormValues)
       $('#client_advanced_search_program_selected').val(programValues)
@@ -214,6 +222,7 @@ CIF.Client_advanced_searchesIndex = do ->
       delete_group: @filterTranslation.deleteGroup
       operators:
         is_empty: 'is blank'
+        is_not_empty: 'is not blank'
         equal: 'is'
         not_equal: 'is not'
         less: '<'
@@ -266,16 +275,15 @@ CIF.Client_advanced_searchesIndex = do ->
       )
 
   _handleRemoveFilterBuilder = (resourceName, resourcelabel) ->
-    a = 1
     filterSelects = $('.rule-container .rule-filter-container select')
-
     for select in filterSelects
       optGroup  = $(':selected', select).parents('optgroup')
-      if $(select).val() != '-1' and optGroup[0] != undefined and optGroup[0].label != 'Client Basic Fields'
+      if $(select).val() != '-1' and optGroup[0] != undefined and optGroup[0].label != BASIC_FIELD_TRANSLATE
         label = optGroup[0].label.split('|')
         if $(label).last()[0].trim() == resourcelabel and label[0].trim() == resourceName
-          $(select).parents('.rule-container').find('.rule-header button').trigger('click')
- 
+          container = $(select).parents('.rule-container')
+          $(container).find('.rule-header button').trigger('click')
+
     if $('.rule-container .rule-filter-container select').length == 0
       $('button[data-add="rule"]').trigger('click')
       filterSelects = $('.rule-container .rule-filter-container select')
@@ -286,12 +294,11 @@ CIF.Client_advanced_searchesIndex = do ->
     optGroups = $(filterSelects[0]).find('optgroup')
     for optGroup in optGroups
       label = optGroup.label
-      if label != 'Client Basic Fields'
+      if label != BASIC_FIELD_TRANSLATE
         labelValue = label.split('|')
         if $(labelValue).last()[0].trim() == resourcelabel and labelValue[0].trim() == resourceName
           $(optGroup).find('option').each ->
             values.push $(@).val()
-
     setTimeout ( ->
       $('#builder').queryBuilder('removeFilter', values)
       _initSelect2()

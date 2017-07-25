@@ -5,12 +5,12 @@
         %h5= t('.foster_case.foster_care')
         .ibox-tools
           - if can? :manage, Case
-            - if current_user.admin? || current_user.case_worker? || current_user.fc_manager?
+            - if current_user.admin? || current_user.case_worker? || current_user.fc_manager? || current_user.manager?
               %small
                 = link_to edit_client_case_path(fc.client, fc) do
                   .btn.btn-outline.btn-success
                     = t('.edit_btn')
-                - unless @client.cases.latest_foster.exited
+                - unless @client.cases.exclude_referred.latest_foster.exited
                   %button.btn.btn-outline.btn-warning{"data-target" => '#exit-from-case', "data-toggle" => 'modal'}
                     = t('.exit_btn')
       .ibox-content
@@ -76,4 +76,4 @@
               %td
                 %strong
                   = human_boolean(fc.family_preservation)
-  = render 'exit_case_form', client_case: @client.cases.latest_foster, exit_from_cif: false
+  = render 'exit_case_form', client_case: @client.cases.exclude_referred.latest_foster, exit_from_cif: false

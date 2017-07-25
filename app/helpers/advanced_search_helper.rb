@@ -71,7 +71,12 @@ module AdvancedSearchHelper
       referred_to_fc: I18n.t('advanced_search.fields.referred_to_fc'),
       exit_ec_date: I18n.t('advanced_search.fields.exit_ec_date'),
       exit_fc_date: I18n.t('advanced_search.fields.exit_fc_date'),
-      exit_kc_date: I18n.t('advanced_search.fields.exit_kc_date')
+      exit_kc_date: I18n.t('advanced_search.fields.exit_kc_date'),
+      enrollment: I18n.t('advanced_search.fields.enrollment'),
+      tracking: I18n.t('advanced_search.fields.tracking'),
+      exit_program: I18n.t('advanced_search.fields.exit_program'),
+      basic_fields: I18n.t('advanced_search.fields.basic_fields'),
+      custom_form: I18n.t('advanced_search.fields.custom_form')
     }
     translations[key.to_sym] || ''
   end

@@ -1,15 +1,12 @@
-require 'spec_helper'
-
-RSpec.describe Api::V1::ClientEnrollmentsController, type: :request do
-
+describe Api::V1::ClientEnrollmentsController do
   let(:user)                      { create(:user) }
-  let(:client)                    { create(:client, user: user) }
+  let(:client)                    { create(:client, user_id: user.id, date_of_birth: 3.years.ago) }
   let(:program_stream)            { create(:program_stream) }
   let(:client_enrollment)         { create(:client_enrollment, client: client, program_stream: program_stream) }
-  let(:valid_params)              { params(FFaker::Internet.email, "2", FFaker::Lorem.paragraph) }
-  let(:invalid_params)            { params(FFaker::Name.name, "7", nil) }
-  let(:valid_updated_params)      { params(FFaker::Internet.email, "2", FFaker::Lorem.paragraph) }
-  let(:invalid_updated_params)    { params(FFaker::Name.name, "7", nil) }
+  let(:valid_params)              { params(FFaker::Internet.email, client.age_as_years.to_s, FFaker::Lorem.paragraph, FFaker::Time.date) }
+  let(:invalid_params)            { params(FFaker::Name.name, "7", nil, nil) }
+  let(:valid_updated_params)      { params(FFaker::Internet.email, "2", FFaker::Lorem.paragraph, FFaker::Time.date) }
+  let(:invalid_updated_params)    { params(FFaker::Name.name, "7", nil, nil) }
 
   describe 'POST #create' do
     context 'when user not loged in' do
@@ -112,7 +109,7 @@ RSpec.describe Api::V1::ClientEnrollmentsController, type: :request do
     params[:client_enrollment][:properties]
   end
 
-  def params(email, age, description)
-    { format: 'json', client_enrollment: { properties: { "e-mail" => email, "age" => age, "description" => description } } }
+  def params(email, age, description, enrollment_date)
+    { format: 'json', client_enrollment: { enrollment_date: enrollment_date, properties: { "e-mail" => email, "age" => age, "description" => description } } }
   end
 end

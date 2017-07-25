@@ -5,12 +5,11 @@
         %h5= t('.emergency_case.emergency_care')
         .ibox-tools
           - if can? :manage, Case
-            - if current_user.admin? || current_user.case_worker? || current_user.ec_manager?
+            - if current_user.admin? || current_user.case_worker? || current_user.ec_manager? || current_user.manager?
               %small
-                - if current_user.admin? || ec.current?
-                  = link_to edit_client_case_path(ec.client, ec) do
-                    .btn.btn-outline.btn-success
-                      = t('.edit_btn')
+                = link_to edit_client_case_path(ec.client, ec) do
+                  .btn.btn-outline.btn-success
+                    = t('.edit_btn')
                 - if @client.has_no_latest_kc_and_fc?
                   %button.btn.btn-outline.btn-warning{"data-target" => '#exit-from-case', "data-toggle" => 'modal'}
                     = t('.exit_btn')
@@ -90,4 +89,4 @@
                 %td
                   %strong
                     = ec.exit_note
-  = render 'exit_case_form', client_case: @client.cases.latest_emergency, exit_from_cif: false if @client.has_no_latest_kc_and_fc?
+  = render 'exit_case_form', client_case: @client.cases.exclude_referred.latest_emergency, exit_from_cif: false if @client.has_no_latest_kc_and_fc?

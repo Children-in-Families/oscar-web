@@ -5,7 +5,7 @@
         .col-xs-12
           .row
             .col-xs-12.col-md-4
-              = f.input :name, label: t('.name')
+              = f.input :name, label: t('.name'), readonly: f.object.is_used?
             .col-xs-12.col-md-4
               = f.input :frequency, collection: Tracking::FREQUENCIES, label: t('.frequency')
             .col-xs-12.col-md-4

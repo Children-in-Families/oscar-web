@@ -5,8 +5,6 @@ describe Tracking, 'associations' do
 end
 
 describe Tracking, 'validations' do
-  it { is_expected.to validate_presence_of(:name) }
-  it { is_expected.to validate_presence_of(:fields) }
   it { is_expected.to validate_uniqueness_of(:name).scoped_to(:program_stream_id) }
 end
 
@@ -33,3 +31,17 @@ describe Tracking, 'validate remove field' do
   end
 end
 
+
+describe Tracking, 'method' do
+  let!(:program_stream) { create(:program_stream) }
+  let!(:program_stream_other) { create(:program_stream) }
+  let!(:tracking) { create(:tracking, program_stream: program_stream) }
+  let!(:tracking_other) { create(:tracking, program_stream: program_stream_other) }
+  let!(:client_enrollment) { create(:client_enrollment, program_stream: program_stream)}
+  let!(:client_enrollment_tracking) { create(:client_enrollment_tracking, tracking: tracking, client_enrollment: client_enrollment) }
+
+  it 'is_used?' do
+    expect(tracking.is_used?).to be_truthy
+    expect(tracking_other.is_used?).to be_falsey
+  end
+end

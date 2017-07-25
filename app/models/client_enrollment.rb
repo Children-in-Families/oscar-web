@@ -6,6 +6,8 @@ class ClientEnrollment < ActiveRecord::Base
   has_many :trackings, through: :client_enrollment_trackings
   has_one :leave_program, dependent: :destroy
 
+  validates :enrollment_date, presence: true
+
   has_paper_trail
 
   scope :enrollments_by, ->(client) { where(client_id: client).order(:created_at) }
@@ -20,4 +22,5 @@ class ClientEnrollment < ActiveRecord::Base
   def has_client_enrollment_tracking?
     client_enrollment_trackings.present?
   end
+
 end

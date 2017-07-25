@@ -27,14 +27,6 @@ describe Client, 'associations' do
   it { is_expected.to have_many(:custom_fields).through(:custom_field_properties) }
 end
 
-describe Client, 'paper trail' do
-  let!(:agency){ create(:agency) }
-  let!(:client){ create(:client, agency_ids: agency.id) }
-  context 'create a version of joined table of habtm association' do
-    it { expect(PaperTrail::Version.count).to eq(3) }
-  end
-end
-
 describe Client, 'callbacks' do
   before do
     ClientHistory.destroy_all
@@ -556,7 +548,9 @@ describe Client, 'scopes' do
 end
 
 describe 'validations' do
-  subject{ Client.new }
+  it { should validate_presence_of(:user_id) }
+
+  subject{ FactoryGirl.build(:client) }
 
   context 'rejected_note' do
     before do
@@ -574,5 +568,16 @@ describe 'validations' do
     it { is_expected.to validate_uniqueness_of(:kid_id).case_insensitive }
     it { expect(valid_client).to be_valid }
     it { expect(invalid_client).to be_invalid }
+  end
+
+  context 'exit_ngo' do
+    let!(:valid_client){ create(:client, exit_date: '2017-07-21', exit_note: 'testing', status: 'Exited - Dead') }
+    before do
+      valid_client.exit_date = ''
+      valid_client.exit_note = ''
+      valid_client.valid?
+    end
+    it { expect(valid_client.valid?).to be_falsey }
+    it { expect(valid_client.errors.full_messages.first).to include("can't be blank") }
   end
 end

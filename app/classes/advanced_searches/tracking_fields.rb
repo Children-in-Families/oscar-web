@@ -59,7 +59,8 @@ module AdvancedSearches
       label = value.split('_')
       program_name = label.second
       tracking_name = label.third
-      "#{program_name} | #{tracking_name} | Tracking"
+      key_word = format_header('tracking')
+      "#{program_name} | #{tracking_name} | #{key_word}"
     end
   end
 end

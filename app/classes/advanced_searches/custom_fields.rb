@@ -54,7 +54,8 @@ module AdvancedSearches
 
     def format_optgroup(value)
       form_title = value.split('_').second
-      "#{form_title} | Custom Fields"
+      key_word = format_header('custom_form')
+      "#{form_title} | #{key_word}"
     end
   end
 end
