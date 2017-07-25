@@ -5,11 +5,11 @@
         .ibox-title
           %h5= t('.meeting_detail')
         .ibox-content
-          .well.b-r-lg.bg-color
-            %strong= "#{t('.label_note')}: "
-            %strong= @case_note.client.name
-            %span= t('.meeting_with')
-            %strong= current_user.first_name
+          / .well.b-r-lg.bg-color
+          /   %strong= "#{t('.label_note')}: "
+          /   %strong= @case_note.client.name
+          /   %span= t('.meeting_with')
+          /   %strong= current_user.first_name
           .panel.panel-default
             .panel-body
               .form-group.date.optional.case_note_meeting_date{ class: ('has-error' if f.error :meeting_date) }

@@ -7,12 +7,12 @@ class ClientSerializer < ActiveModel::Serializer
               :referral_phone, :live_with, :id_poor, :received_by,
               :followed_up_by, :follow_up_date, :school_name, :school_grade, :has_been_in_orphanage,
               :able_state, :has_been_in_government_care, :relevant_referral_information,
-              :case_worker, :agencies, :state, :rejected_note, :emergency_care, :foster_care, :kinship_care,
+              :case_workers, :agencies, :state, :rejected_note, :emergency_care, :foster_care, :kinship_care,
               :organization, :additional_form, :tasks, :assessments, :case_notes, :quantitative_cases,
               :program_streams, :add_forms
 
-  def case_worker
-    object.user
+  def case_workers
+    object.users
   end
 
   def rejected_note

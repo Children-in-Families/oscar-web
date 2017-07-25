@@ -345,7 +345,9 @@
                   = t('.case_worker_or_staff')
                 %td
                   %strong
-                    = user @client.user if @client.user
+                    - @client.case_worker_clients.each do |case_worker|
+                      %strong.label.label-default
+                        = user case_worker.user
               %tr
                 %td.spacing-first-col
                   = t('.agencies_involved')

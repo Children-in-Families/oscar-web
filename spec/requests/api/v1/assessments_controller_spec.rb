@@ -3,7 +3,7 @@ require 'spec_helper'
 RSpec.describe Api::V1::AssessmentsController, type: :request do
 
   let(:user) { create(:user) }
-  let!(:client) { create(:client, user: user) }
+  let!(:client) { create(:client, users: [user]) }
   let!(:domain) { create(:domain) }
   let(:score) { [1, 2, 3, 4].sample }
 

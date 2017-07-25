@@ -23,7 +23,6 @@ class Client < ActiveRecord::Base
 
   belongs_to :referral_source,  counter_cache: true
   belongs_to :province,         counter_cache: true
-  belongs_to :user,             counter_cache: true
   belongs_to :donor
   belongs_to :received_by,      class_name: 'User',     foreign_key: 'received_by_id',    counter_cache: true
   belongs_to :followed_up_by,   class_name: 'User',     foreign_key: 'followed_up_by_id', counter_cache: true
@@ -33,7 +32,7 @@ class Client < ActiveRecord::Base
   has_many :answers, dependent: :destroy
   has_many :able_screening_questions, through: :answers
   has_many :tasks,          dependent: :destroy
-  has_many :agency_clients
+  has_many :agency_clients, dependent: :destroy
   has_many :agencies, through: :agency_clients
   has_many :client_quantitative_cases, dependent: :destroy
   has_many :quantitative_cases, through: :client_quantitative_cases
@@ -41,6 +40,8 @@ class Client < ActiveRecord::Base
   has_many :custom_fields, through: :custom_field_properties, as: :custom_formable
   has_many :client_enrollments, dependent: :destroy
   has_many :program_streams, through: :client_enrollments
+  has_many :case_worker_clients, dependent: :destroy
+  has_many :users, through: :case_worker_clients
 
   accepts_nested_attributes_for :tasks
   accepts_nested_attributes_for :answers
@@ -58,9 +59,9 @@ class Client < ActiveRecord::Base
   validates :exit_date, presence: true, on: :update, if: :exit_ngo?
   validates :exit_note, presence: true, on: :update, if: :exit_ngo?
   validates :kid_id, uniqueness: { case_sensitive: false }, if: 'kid_id.present?'
-  validates :user_id, presence: true
+  validates :user_ids, presence: true
 
-  before_update :reset_user_to_tasks
+  after_update :reset_tasks_of_users
 
   after_create :set_slug_as_alias
   after_update :set_able_status, if: proc { |client| client.able_state.blank? && answers.any? }
@@ -99,6 +100,7 @@ class Client < ActiveRecord::Base
   scope :without_assessments,         ->        { includes(:assessments).where(assessments:         { client_id: nil }) }
   scope :able,                        ->        { where(able_state: ABLE_STATES[0]) }
   scope :all_active_types,            ->        { where(status: CLIENT_ACTIVE_STATUS) }
+  scope :of_case_worker,              -> (user_id) { joins(:case_worker_clients).where(case_worker_clients: { user_id: user_id }) }
 
   def self.filter(options)
     query = all
@@ -178,15 +180,19 @@ class Client < ActiveRecord::Base
   end
 
   def self.in_any_able_states_managed_by(user)
-    where('user_id = ? OR able_state IN(?)', user.id, ABLE_STATES)
+    joins(:case_worker_clients).where('able_state IN(?) OR case_worker_clients.user_id = ?', ABLE_STATES, user.id)
   end
 
   def self.managed_by(user, status)
     where('status = ? or user_id = ?', status, user.id)
   end
 
-  def reset_user_to_tasks
-    tasks.update_all(user_id: user_id) if user_id_changed?
+  def reset_tasks_of_users
+    return unless tasks.any? && user_ids != tasks.pluck(:user_id)
+    tasks.each do |task|
+      users.map { |user| CaseWorkerTask.find_or_create_by(task_id: task.id, user_id: user.id) }
+    end
+    CaseWorkerTask.where.not(user_id: user_ids).destroy_all
   end
 
   def has_no_ec_or_any_cases?

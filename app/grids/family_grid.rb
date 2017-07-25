@@ -2,7 +2,7 @@ class FamilyGrid
   include Datagrid
 
   scope do
-    Family.includes({cases: [ client: :user ]}, :province).order(:name)
+    Family.includes({cases: [:client]}, :province).order(:name)
   end
 
   filter(:name, :string, header: -> { I18n.t('datagrid.columns.families.name') }) do |value, scope|

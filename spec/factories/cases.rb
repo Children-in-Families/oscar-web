@@ -18,5 +18,13 @@ FactoryGirl.define do
     trait :emergency do
       case_type 'EC'
     end
+
+    trait :foster do
+      case_type 'FC'
+    end
+
+    trait :kinship do
+      case_type 'KC'
+    end
   end
 end

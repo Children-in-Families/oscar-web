@@ -2,6 +2,7 @@ class Client::TasksController < AdminController
 
   load_and_authorize_resource
   before_action :find_client
+  before_action :find_task, only: [:edit, :update, :destroy]
 
   def index
     @tasks = @client.tasks
@@ -13,15 +14,10 @@ class Client::TasksController < AdminController
 
   def create
     @task = @client.tasks.new(task_params)
-    @task.user_id = @client.user.id if @client.user
+    @task.user_ids = @client.user_ids
     respond_to do |format|
       if @task.save
-        domain     = Domain.find(task_params[:domain_id])
-        title    = "#{domain.name} - #{task_params[:name]}"
-
-        start_date = task_params[:completion_date]
-        end_date   = (task_params[:completion_date].to_date + 1.day).to_s
-        Calendar.create(title: title, start_date: start_date, end_date: end_date, user_id: @task.user_id)
+        Calendar.populate_tasks(@task)
 
         format.json { render json: @task.to_json, status: 200 }
         format.html { redirect_to client_tasks_path(@client), notice: t('.successfully_created') }
@@ -33,26 +29,14 @@ class Client::TasksController < AdminController
   end
 
   def edit
-    @task = @client.tasks.find(params[:id])
   end
 
   def update
-    @task = @client.tasks.find(params[:id])
-    task_name = @task.name
-    domain     = Domain.find(@task.domain_id)
-    title    = "#{domain.name} - #{task_name}"
-    start_date = @task.completion_date.to_s
-    end_date   = (@task.completion_date + 1.day).to_s
+    find_calendars(@task)
+
     if @task.update_attributes(task_params)
-      if current_user.calendar_integration?
-        param_task_name = task_params[:name]
-        param_domain_name     = Domain.find(task_params[:domain_id])
-        param_title    = "#{param_domain_name.name} - #{param_task_name}"
-        param_start_date = task_params[:completion_date]
-        param_end_date   = (task_params[:completion_date].to_date + 1.day).to_s
-        calendar = Calendar.find_by(title: title, start_date: start_date, end_date: end_date)
-        calendar.update(title: param_title, start_date: param_start_date, end_date: param_end_date, sync_status: false) if calendar.present?
-      end
+      Calendar.update_tasks(@calendars, task_params) if current_user.calendar_integration? && @calendars.present?
+
       redirect_to client_tasks_path(@client), notice: t('.successfully_updated')
     else
       render :edit
@@ -60,18 +44,11 @@ class Client::TasksController < AdminController
   end
 
   def destroy
-    @task = @client.tasks.find(params[:id])
-    task_name = @task.name
-    domain     = Domain.find(@task.domain_id)
-    title    = "#{domain.name} - #{task_name}"
-    start_date = @task.completion_date.to_s
-    end_date   = (@task.completion_date + 1.day).to_s
+    find_calendars(@task)
+
     respond_to do |format|
       if @task.destroy
-        if current_user.calendar_integration?
-          calendar = Calendar.find_by(title: title, start_date: start_date, end_date: end_date)
-          calendar.destroy if calendar.present?
-        end
+        @calendars.destroy_all if current_user.calendar_integration? && @calendars.present?
       end
       format.json { head :ok }
       format.html { redirect_to client_tasks_path(@client), notice: t('.successfully_deleted') }
@@ -108,5 +85,18 @@ class Client::TasksController < AdminController
       s = $1
       s.tr("=", "0").to_i(32).divmod(256).pack("NC")[0,(s.count("^=")*5).div(8)]
     end
+  end
+
+  def find_task
+    @task = @client.tasks.find(params[:id])
+  end
+
+  def find_calendars(task)
+    task_name  = task.name
+    domain     = Domain.find(task.domain_id)
+    title      = "#{domain.name} - #{task_name}"
+    start_date = task.completion_date
+    end_date   = (start_date + 1.day).to_s
+    @calendars  = Calendar.where(title: title, start_date: start_date, end_date: end_date)
   end
 end

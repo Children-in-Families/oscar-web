@@ -16,6 +16,8 @@ module AdvancedSearches
         values = form_title_field_query
       when 'case_type'
         values = case_type_field_query
+      when 'user_id'
+        values = user_id_field_query
       when 'agency_name'
         values = agency_name_field_query
       when 'family_id'
@@ -112,6 +114,20 @@ module AdvancedSearches
         clients.where('agencies.id = ?', @value ).ids
       when 'not_equal'
         clients.where.not('agencies.id = ?', @value ).ids
+      when 'is_empty'
+        @clients.where.not(id: clients.ids).ids
+      when 'is_not_empty'
+        @clients.where(id: clients.ids).ids
+      end
+    end
+
+    def user_id_field_query
+      clients = @clients.joins(:users)
+      case @operator
+      when 'equal'
+        clients.where('users.id = ?', @value ).ids
+      when 'not_equal'
+        clients.where.not('users.id = ?', @value ).ids
       when 'is_empty'
         @clients.where.not(id: clients.ids).ids
       when 'is_not_empty'
