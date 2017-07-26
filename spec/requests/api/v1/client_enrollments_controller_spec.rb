@@ -1,6 +1,6 @@
 describe Api::V1::ClientEnrollmentsController do
   let(:user)                      { create(:user) }
-  let(:client)                    { create(:client, user_id: user.id, date_of_birth: 3.years.ago) }
+  let(:client)                    { create(:client, users: [user], date_of_birth: 3.years.ago) }
   let(:program_stream)            { create(:program_stream) }
   let(:client_enrollment)         { create(:client_enrollment, client: client, program_stream: program_stream) }
   let(:valid_params)              { params(FFaker::Internet.email, client.age_as_years.to_s, FFaker::Lorem.paragraph, FFaker::Time.date) }

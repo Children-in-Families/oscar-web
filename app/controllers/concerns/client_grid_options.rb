@@ -37,5 +37,4 @@ module ClientGridOptions
       @client_grid = ClientGrid.new(params.fetch(:client_grid, {}).merge!(current_user: current_user))
     end
   end
-  
 end

@@ -1,7 +1,7 @@
 = simple_form_for(@client) do |f|
   = hidden_field(:client, :id, value: @client.id)
   .ibox-content
-    = f.error_notification
+    = error_notification(f)
     .form-inputs
       .row
         .col-xs-12.col-sm-6.col-md-4= f.input :given_name, label: t('.given_name')
@@ -29,18 +29,10 @@
         .col-xs-12.col-sm-6.col-md-4= f.input :village, label: t('.village')
         .col-xs-12.col-sm-6.col-md-4= f.input :commune, label: t('.commune')
         .col-xs-12.col-sm-6.col-md-4= f.input :district, label: t('.district')
+        .col-xs-12.col-sm-6.col-md-4= f.association :users, collection: @users, label: t('.case_worker_or_staff'), include_blank: false, multiple: true
 
-        - if current_user.admin? || (current_user.any_manager? && @client.persisted?)
-          .col-xs-12.col-sm-6.col-md-4= f.association :user, collection: @user, label: t('.case_worker_or_staff'), include_blank: false
-        - else
-          .col-xs-12.col-sm-6.col-md-4
-            .form-group.select.optional.disabled.client_user
-              %label.select.optional.disabled.control-label{ for: 'client_user_id' }= t('.case_worker_or_staff')
-              - user_name = @client.user.present? ? @client.user.name : current_user.name
-              %input{ type: 'text', value: user_name, id: '#client_user_id', name: 'client[user_id]', class: 'form-control', disabled: 'disabled' }
-
-        .col-xs-12.col-sm-6.col-md-4= f.input :received_by_id, collection: @user.map{|p| [p.name, p.id]}, label: t('.received_by'), include_blank: false
-        .col-xs-12.col-sm-6.col-md-4= f.input :followed_up_by_id, collection: @user.map{|p| [p.name, p.id]}, label: t('.followed_up_by'), include_blank: false
+        .col-xs-12.col-sm-6.col-md-4= f.input :received_by_id, collection: @users, label: t('.received_by'), include_blank: false
+        .col-xs-12.col-sm-6.col-md-4= f.input :followed_up_by_id, collection: @users, label: t('.followed_up_by'), include_blank: false
         .col-xs-12.col-sm-6.col-md-4.form-group.date.optional.client_initial_referral_date
           %label.date.optional.control-label{ for: 'client_initial_referral_date' }= t('.initial_referral_date')
           .input-group.date
@@ -73,7 +65,7 @@
           = f.input :live_with, label: t('.live_with')
         .col-xs-12.col-sm-6.col-md-4
           = f.input :id_poor, label: t('.id_poor')
-        - if Client::EXIT_STATUSES.include?(@client.status)
+        - if @client.exit_date_was.present?
           .col-xs-12.col-sm-6.col-md-4.form-group.date.optional{ class: ('has-error' if f.error :exit_date) }
             %label.date.optional.control-label
               %abbr{ title: 'required' } *
@@ -84,9 +76,9 @@
                 %i.fa.fa-calendar-check-o
             = f.error :exit_date
           .col-xs-12.col-sm-6.col-md-4
-            = f.input :exit_note, label: t('.exit_note'), required: true
-          .col-xs-12.col-sm-6.col-md-4
             = f.input :status, collection: Client::EXIT_STATUSES, include_blank: false, label: t('.exit_status')
+          .col-xs-12.col-sm-6.col-md-4
+            = f.input :exit_note, label: t('.exit_note'), required: true
       .row
         .col-xs-12.col-md-8
           = f.input :relevant_referral_information, input_html: { rows: '5' }, label: t('.relevant_referral_information')

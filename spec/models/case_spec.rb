@@ -1,5 +1,4 @@
 describe Case, 'associations' do
-  it { is_expected.to belong_to(:user) }
   it { is_expected.to belong_to(:family) }
   it { is_expected.to belong_to(:client) }
   it { is_expected.to belong_to(:partner) }

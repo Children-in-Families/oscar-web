@@ -28,6 +28,7 @@ CIF.UsersIndex = do ->
           cursoropacitymax: 0.4
 
   _getUserPath = ->
+    return if $('table.users tbody tr').text().trim() == 'No results found'|| $('table.users tbody tr').text().trim() == 'មិនមានលទ្ធផល'
     $('table.users tbody tr').click (e) ->
       return if $(e.target).hasClass('btn') || $(e.target).hasClass('fa')
       window.location = $(this).data('href')

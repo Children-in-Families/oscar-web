@@ -1,6 +1,6 @@
 describe CsiStatistic, 'statistic data' do
   let!(:user) { create(:user) }
-  let!(:client) { create(:client, state: 'accepted', user: user) }
+  let!(:client) { create(:client, :accepted, users: [user]) }
   let!(:domain) { create(:domain, name: '1A') }
 
   let!(:assessment){ create(:assessment, client: client, created_at: 7.months.ago) }

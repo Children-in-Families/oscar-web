@@ -97,7 +97,7 @@ class FormBuilder::CustomFieldsController < AdminController
       end
     end
     Organization.switch_to(current_org_name)
-    results.flatten
+    results.flatten.sort! {|x, y| x.form_title.downcase <=> y.form_title.downcase}
   end
 
   def custom_field_params

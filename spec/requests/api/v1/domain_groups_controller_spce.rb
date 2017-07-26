@@ -2,7 +2,7 @@ require 'spec_helper'
 
 RSpec.describe Api::V1::DomainGroupsController, type: :request do
   let(:user) { create(:user) }
-  let!(:clients) { create_list(:client, 5, user: user) }
+  let!(:clients) { create_list(:client, 5, users: [user]) }
   let!(:domains) { create_list(:domain, 12) }
 
   describe 'GET #index' do

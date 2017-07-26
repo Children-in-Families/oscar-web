@@ -134,7 +134,9 @@ describe 'Client Enrollment' do
     end
 
     scenario 'Date' do
-      expect(page).to have_content(program_stream.created_at.strftime '%d %B, %Y')
+      expect(page).to have_content(client_enrollment.enrollment_date.strftime '%d %B, %Y')
+      expect(page).to have_content(client_enrollment_active.enrollment_date.strftime '%d %B, %Y')
+      expect(page).to have_content(client_enrollment_exited.enrollment_date.strftime '%d %B, %Y')
     end
 
     scenario 'View Link' do

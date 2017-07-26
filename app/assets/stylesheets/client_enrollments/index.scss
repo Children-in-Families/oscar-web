@@ -1,6 +1,9 @@
 body[id='client_enrollments-index'] {
   td.manage {
     min-width: 150px;
+    .btn-width {
+      min-width: 60px;
+    }
   }
 
   th.quantity, td.quantity {

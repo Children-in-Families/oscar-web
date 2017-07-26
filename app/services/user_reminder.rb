@@ -55,14 +55,14 @@ class UserReminder
 
   def clients_by_manager(client_ids)
     {
-      able: Client.able.where(id: client_ids).pluck(:user_id).uniq,
-      ec:   Client.active_ec.where(id: client_ids).pluck(:user_id).uniq,
-      fc:   Client.active_fc.where(id: client_ids).pluck(:user_id).uniq,
-      kc:   Client.active_kc.where(id: client_ids).pluck(:user_id).uniq
+      able: Client.able.where(id: client_ids).map(&:user_ids).flatten.uniq,
+      ec:   Client.active_ec.where(id: client_ids).map(&:user_ids).flatten.uniq,
+      fc:   Client.active_fc.where(id: client_ids).map(&:user_ids).flatten.uniq,
+      kc:   Client.active_kc.where(id: client_ids).map(&:user_ids).flatten.uniq
     }
   end
 
   def admin_case_workers(client_ids)
-    Client.where.not(status: ['Active EC', 'Active FC', 'Active KC'], able_state: 'Accepted').where(id: client_ids).pluck(:user_id).uniq
+    Client.where.not(status: ['Active EC', 'Active FC', 'Active KC'], able_state: 'Accepted').where(id: client_ids).map(&:user_ids).flatten.uniq
   end
 end

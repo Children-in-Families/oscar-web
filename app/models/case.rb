@@ -1,6 +1,4 @@
 class Case < ActiveRecord::Base
-
-  belongs_to :user,   counter_cache: true
   belongs_to :family, counter_cache: true
   belongs_to :client
   belongs_to :partner, counter_cache: true
@@ -47,7 +45,6 @@ class Case < ActiveRecord::Base
                       when 'inactive', 'birth_family' then 'Referred'
                       end
     self.start_date = Date.today
-    self.user_id    = client.user_id
   end
 
   def short_start_date
