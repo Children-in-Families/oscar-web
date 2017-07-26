@@ -43,6 +43,7 @@ class ClientEnrollmentsController < AdminController
     @client_enrollment = @client.client_enrollments.new(client_enrollment_params)
     authorize @client_enrollment
     if @client_enrollment.save
+      @client.update_attributes(status: client_status) if @client.status != 'Active' && client_status.present?
       redirect_to client_client_enrollment_path(@client, @client_enrollment, program_stream_id: @program_stream, program_streams: 'enrolled-program-streams'), notice: t('.successfully_created')
     else
       render :new
@@ -116,5 +117,9 @@ class ClientEnrollmentsController < AdminController
   def valid_program?
     program_active_status_ids   = ProgramStream.active_enrollments(@client).pluck(:id)
     (@program_stream.program_exclusive & program_active_status_ids).empty? && (@program_stream.mutual_dependence - program_active_status_ids).empty?
+  end
+
+  def client_status
+    status = 'Active' if ProgramStream.active_enrollments(@client).count > 0
   end
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170721064826) do
+ActiveRecord::Schema.define(version: 20170724041626) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -297,6 +297,8 @@ ActiveRecord::Schema.define(version: 20170721064826) do
     t.integer  "rice_support",                     default: 0
     t.text     "exit_note",                        default: ""
     t.date     "exit_date"
+    t.date     "accepted_date"
+    t.date     "rejected_date"
   end
 
   add_index "clients", ["donor_id"], name: "index_clients_on_donor_id", using: :btree
@@ -901,7 +903,7 @@ ActiveRecord::Schema.define(version: 20170721064826) do
 
   create_table "trackings", force: :cascade do |t|
     t.string   "name",              default: ""
-    t.jsonb    "fields"
+    t.jsonb    "fields",            default: {}
     t.string   "frequency",         default: ""
     t.integer  "time_of_frequency"
     t.integer  "program_stream_id"
@@ -946,8 +948,8 @@ ActiveRecord::Schema.define(version: 20170721064826) do
     t.integer  "organization_id"
     t.boolean  "disable",                default: false
     t.datetime "expires_at"
-    t.boolean  "task_notify",            default: true
     t.integer  "manager_id"
+    t.boolean  "task_notify",            default: true
     t.boolean  "calendar_integration",   default: false
     t.integer  "pin_number"
     t.integer  "manager_ids",            default: [],                         array: true

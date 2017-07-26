@@ -11,6 +11,7 @@ class LeaveProgramsController < AdminController
     @leave_program = @enrollment.create_leave_program(leave_program_params)
     if @leave_program.save
       @leave_program.client_enrollment.update_columns(status: 'Exited')
+      @client.update_attributes(status: client_status) if client_status.present?
       redirect_to client_client_enrollment_leave_program_path(@client, @enrollment, @leave_program, program_streams: params[:program_streams]), notice: t('.successfully_created')
     else
       render :new
@@ -51,5 +52,10 @@ class LeaveProgramsController < AdminController
 
   def find_program_stream
     @program_stream = @enrollment.program_stream
+  end
+
+  def client_status
+    case_status = @client.cases.exclude_referred.current.case_type
+    status = "Active #{case_status}" if ProgramStream.active_enrollments(@client).count == 0
   end
 end
