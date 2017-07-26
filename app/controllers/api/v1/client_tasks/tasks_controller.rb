@@ -7,6 +7,7 @@ module Api
 
         def create
           task = @client.tasks.new(task_params)
+          task.user_ids = @client.user_ids
 
           if task.save
             render json: task
