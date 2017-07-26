@@ -7,6 +7,10 @@ module ClientsHelper
     end
   end
 
+  def order_case_worker(client)
+    client.users.order("lower(first_name)", "lower(last_name)")
+  end
+
   def partner(partner)
     if can? :manage, :all
       link_to partner.name, partner_path(partner)
