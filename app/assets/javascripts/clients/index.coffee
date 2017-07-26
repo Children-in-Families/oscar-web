@@ -176,4 +176,6 @@ CIF.ClientsIndex = do ->
       return if $(e.target).hasClass('btn') || $(e.target).hasClass('fa')
       window.location = $(this).data('href')
 
+    return if $('table.clients tbody tr').text().trim() == 'No data available in table' || $('table.clients tbody tr').text().trim() == 'មិនមានលទ្ធផល'
+
   { init: _init }

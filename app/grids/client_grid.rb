@@ -335,6 +335,32 @@ class ClientGrid
     ProgramStream.joins(:client_enrollments).where(client_enrollments: {status: 'Active'}).complete.ordered.pluck(:name).uniq
   end
 
+  filter(:enrollment_date, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.enrollment_date') }) do |values, scope|
+    if values.first.present? && values.second.present?
+      ids = Client.joins(:client_enrollments).where(client_enrollments: { status: 'Active', enrollment_date: values[0]..values[1]} ).pluck(:id).uniq
+      scope.where(id: ids)
+    elsif values.first.present? && values.second.blank?
+      ids = Client.joins(:client_enrollments).where("DATE(client_enrollments.enrollment_date) >= ? AND client_enrollments.status = 'Active'", values.first).pluck(:id).uniq
+      scope.where(id: ids)
+    elsif values.second.present? && values.first.blank?
+      ids = Client.joins(:client_enrollments).where("DATE(client_enrollments.enrollment_date) <= ? AND client_enrollments.status = 'Active'", values.second).pluck(:id).uniq
+      scope.where(id: ids)
+    end
+  end
+
+  filter(:exit_date, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.exit_date') }) do |values, scope|
+    if values.first.present? && values.second.present?
+      ids = ClientEnrollment.joins(:leave_program).where(leave_programs: {exit_date: values[0]..values[1]}).pluck(:client_id).uniq
+      scope.where(id: ids)
+    elsif values.first.present? && values.second.blank?
+      ids = ClientEnrollment.joins(:leave_program).where("DATE(leave_programs.exit_date) >= ?", values.first).pluck(:client_id).uniq
+      scope.where(id: ids)
+    elsif values.second.present? && values.first.blank?
+      ids = ClientEnrollment.joins(:leave_program).where("DATE(leave_programs.exit_date) <= ?", values.second).pluck(:client_id).uniq
+      scope.where(id: ids)
+    end
+  end
+
   column(:slug, order:'clients.id', header: -> { I18n.t('datagrid.columns.clients.id') })
 
   column(:code, header: -> { I18n.t('datagrid.columns.clients.code') }) do |object|

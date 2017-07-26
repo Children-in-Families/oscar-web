@@ -1172,6 +1172,8 @@ en:
         domain: Domain
         domains: All CSI
         donor: Donor
+        enrollment_date: Enrollment Date
+        exit_date: Exit Date
         family_id: Family ID
         family_name: Family Name
         follow_up_by: Followed Up By
