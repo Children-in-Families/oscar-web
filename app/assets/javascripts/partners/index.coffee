@@ -28,6 +28,7 @@ CIF.PartnersIndex = do ->
           cursoropacitymax: 0.4
 
   _getPartnerPath = ->
+    return if $('table.partners tbody tr').text().trim() == 'No results found' || $('table.partners tbody tr').text().trim() == 'មិនមានលទ្ធផល'
     $('table.partners tbody tr').click (e) ->
       return if $(e.target).hasClass('btn') || $(e.target).hasClass('fa')
       window.location = $(this).data('href')

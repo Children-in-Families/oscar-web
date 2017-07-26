@@ -26,7 +26,8 @@ class Ability
       can :manage, Attachment
       can :manage, Case, exited: false
       can :manage, CaseNote
-      can :manage, Client, user_id: user.id
+      can :create, Client
+      can :manage, Client, case_worker_clients: { user_id: user.id }
       can :manage, ProgressNote
       can :manage, Task
       can :manage, CustomFieldProperty, custom_formable_type: 'Client'
@@ -45,8 +46,9 @@ class Ability
       can :manage, Assessment
       can :manage, Attachment
       can :manage, CaseNote
+      can :create, Client
       can :manage, Client, able_state: Client::ABLE_STATES
-      can :manage, Client, user_id: user.id
+      can :manage, Client, case_worker_clients: { user_id: user.id }
       can :manage, ProgressNote
       can :manage, Task
       can :manage, CustomFieldProperty, custom_formable_type: "Client"
@@ -62,8 +64,9 @@ class Ability
         Date.current > assessment.created_at + 2.weeks
       end
     elsif user.ec_manager?
-      can :manage, Client, user_id: user.id
+      can :create, Client
       can :manage, Client, status: 'Active EC'
+      can :manage, Client, case_worker_clients: { user_id: user.id }
       can :manage, CaseNote
       can :read, ProgressNote
       can :manage, Family
@@ -86,8 +89,9 @@ class Ability
         Date.current > assessment.created_at + 2.weeks
       end
     elsif user.fc_manager?
-      can :manage, Client, user_id: user.id
+      can :create, Client
       can :manage, Client, status: 'Active FC'
+      can :manage, Client, case_worker_clients: { user_id: user.id }
       can :manage, CaseNote
       can :read, ProgressNote
       can :manage, Family
@@ -106,14 +110,14 @@ class Ability
       can :update, Assessment do |assessment|
         assessment.client.active_fc?
       end
-      can :read, ProgressNote
       can :read, Attachment
       cannot :update, Assessment do |assessment|
         Date.current > assessment.created_at + 2.weeks
       end
     elsif user.kc_manager?
-      can :manage, Client, user_id: user.id
+      can :create, Client
       can :manage, Client, status: 'Active KC'
+      can :manage, Client, case_worker_clients: { user_id: user.id }
       can :manage, CaseNote
       can :read, ProgressNote
       can :manage, Family
@@ -132,14 +136,14 @@ class Ability
       can :update, Assessment do |assessment|
         assessment.client.active_kc?
       end
-      can :read, ProgressNote
       can :read, Attachment
       cannot :update, Assessment do |assessment|
         Date.current > assessment.created_at + 2.weeks
       end
     elsif user.manager?
-      can :manage, Client, user_id: user.id
-      can :manage, Client, user_id: User.where('manager_ids && ARRAY[?]', user.id).map(&:id)
+      can :manage, AbleScreeningQuestion
+      can :create, Client
+      can :manage, Client, case_worker_clients: { user_id: User.where('manager_ids && ARRAY[:user_id] OR id = :user_id', { user_id: user.id }).map(&:id) }
       can :manage, User, id: User.where('manager_ids && ARRAY[?]', user.id).map(&:id)
       can :manage, User, id: user.id
       can :manage, Case
@@ -156,6 +160,7 @@ class Ability
       can :manage, ClientEnrollment
       can :manage, ClientEnrollmentTracking
       can :manage, LeaveProgram
+      can :read, ProgressNote
     end
   end
 end

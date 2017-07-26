@@ -79,7 +79,7 @@ describe ClientEnrollmentTracking, 'Client Enrollment Tracking' do
     end
 
     scenario 'E-mail' do
-      expect(page).to have_content('cif@cambodianfamily.com')
+      expect(page).to have_content('test@example.com')
     end
 
     scenario 'Description' do
@@ -113,7 +113,7 @@ describe ClientEnrollmentTracking, 'Client Enrollment Tracking' do
     end
 
     scenario 'E-mail' do
-      expect(page).to have_content('cif@cambodianfamily.com')
+      expect(page).to have_content('test@example.com')
     end
 
     scenario 'Description' do

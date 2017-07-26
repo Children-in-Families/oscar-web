@@ -2,7 +2,7 @@ require 'spec_helper'
 
 RSpec.describe Api::V1::ClientTasks::TasksController, type: :request do
   let(:user) { create(:user) }
-  let!(:client) { create(:client, user: user) }
+  let!(:client) { create(:client, users: [user]) }
   let!(:domains) { create_list(:domain, 12) }
   let!(:task) { create(:task, client: client) }
 
@@ -24,7 +24,7 @@ RSpec.describe Api::V1::ClientTasks::TasksController, type: :request do
 
       context 'when try to create task' do
         before do
-          task = { format: 'json', task: { domain_id: domains.sample.id, name: FFaker::Lorem.paragraph, completion_date: 1.month.from_now} }
+          task = { format: 'json', task: { user_ids: client.user_ids, domain_id: domains.sample.id, name: FFaker::Lorem.paragraph, completion_date: 1.month.from_now} }
           post "/api/v1/clients/#{client.id}/tasks", task, @auth_headers
         end
 
@@ -35,7 +35,7 @@ RSpec.describe Api::V1::ClientTasks::TasksController, type: :request do
 
       context 'when try to create task without domain' do
         before do
-          task = { format: 'json', task: {name: FFaker::Lorem.paragraph, completion_date: 1.month.from_now}  }
+          task = { format: 'json', task: { user_ids: client.user_ids, name: FFaker::Lorem.paragraph, completion_date: 1.month.from_now}  }
           post "/api/v1/clients/#{client.id}/tasks", task, @auth_headers
         end
 
@@ -68,7 +68,7 @@ RSpec.describe Api::V1::ClientTasks::TasksController, type: :request do
 
       context 'when try to update task' do
         before do
-          task_params = { format: 'json', task: { completion_date: 1.month.from_now} }
+          task_params = { format: 'json', task: { user_ids: client.user_ids, completion_date: 1.month.from_now} }
           put "/api/v1/clients/#{client.id}/tasks/#{task.id}", task_params, @auth_headers
         end
 

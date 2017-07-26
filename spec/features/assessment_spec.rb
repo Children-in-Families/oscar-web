@@ -1,6 +1,6 @@
 describe "Assessment" do
   let!(:user) { create(:user) }
-  let!(:client) { create(:client, state: 'accepted', user: user) }
+  let!(:client) { create(:client, :accepted, users: [user]) }
   let!(:fc_case) { create(:case, case_type: 'FC', client: client) }
   let!(:domain) { create(:domain, name: FFaker::Name.name) }
 
@@ -66,7 +66,7 @@ describe "Assessment" do
   feature 'List' do
     let!(:assessment){ create(:assessment, client: client) }
     let!(:assessment_domain){ create(:assessment_domain, assessment: assessment, domain: domain) }
-    let!(:other_client){ create(:client, state: 'accepted', user: user) }
+    let!(:other_client){ create(:client, :accepted, users: [user]) }
     let!(:last_assessment){ create(:assessment, created_at: Time.now - 7.month, client: other_client) }
     let!(:last_assessment_domain){ create(:assessment_domain, assessment: last_assessment, domain: domain) }
 

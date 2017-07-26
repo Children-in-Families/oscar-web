@@ -23,25 +23,23 @@ module FamiliesHelper
 
   def family_clients_list(object)
     content_tag(:ul, class: 'family-clients-list') do
-      object.cases.non_emergency.active.each do |obj|
-        if obj.client
-          concat(content_tag(:li, link_to(entity_name(obj.client), client_path(obj.client))))
-        end
+      object.cases.non_emergency.active.map(&:client).each do |client|
+        concat(content_tag(:li, link_to(entity_name(client), client_path(client))))
       end
     end
   end
 
   def family_workers_list(object)
     content_tag(:ul, class: 'family-clients-list') do
-      object.joins(:user).group_by(&:user_id).each do |a|
-        user = User.find(a.first)
+      user_ids = Client.joins(:cases).where(cases: { id: object.ids }).joins(:case_worker_clients).map(&:user_ids).flatten.uniq
+      User.where(id: user_ids).each do |user|
         concat(content_tag(:li, link_to(entity_name(user), user_path(user))))
       end
     end
   end
 
   def family_workers_count(object)
-    object.joins(:user).group_by(&:user_id).size
+    Client.joins(:cases).where(cases: { id: object.ids }).joins(:case_worker_clients).map(&:user_ids).flatten.uniq.size
   end
 
   def family_case_history(object)

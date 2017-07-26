@@ -3,7 +3,7 @@ require 'spec_helper'
 RSpec.describe Api::V1::AssessmentsController, type: :request do
 
   let(:user) { create(:user) }
-  let!(:client) { create(:client, user: user) }
+  let!(:client) { create(:client, users: [user]) }
   let!(:domain) { create(:domain) }
   let(:score) { [1, 2, 3, 4].sample }
 
@@ -72,7 +72,7 @@ RSpec.describe Api::V1::AssessmentsController, type: :request do
 
       context 'when try update assessment' do
         before do
-          assessment_params = { format: 'json', assessment: { assessment_domains_attributes: [{ id: assessment_domains[0].id, domain_id: domain.id, score: score, reason: FFaker::Lorem.paragraph, goal: "Testing Goal"}] } }
+          assessment_params = { format: 'json', assessment: { assessment_domains_attributes: {'0' => { id: assessment_domains[0].id, domain_id: domain.id, score: score, reason: FFaker::Lorem.paragraph, goal: "Testing Goal"} } } }
           put "/api/v1/clients/#{client.id}/assessments/#{assessment.id}", assessment_params, @auth_headers
         end
 
@@ -87,7 +87,7 @@ RSpec.describe Api::V1::AssessmentsController, type: :request do
 
       context 'when try update assessment without domain' do
         before do
-          assessment_params_ = { format: 'json', assessment: { assessment_domains_attributes: [{score: score, reason: FFaker::Lorem.paragraph, goal: FFaker::Lorem.paragraph}] } }
+          assessment_params_ = { format: 'json', assessment: { assessment_domains_attributes: {'0' => {score: score, reason: FFaker::Lorem.paragraph, goal: FFaker::Lorem.paragraph} } } }
           put "/api/v1/clients/#{client.id}/assessments/#{assessment.id}", assessment_params_, @auth_headers
         end
 

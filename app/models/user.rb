@@ -17,15 +17,15 @@ class User < ActiveRecord::Base
   belongs_to :province,   counter_cache: true
   belongs_to :department, counter_cache: true
   belongs_to :manager, class_name: 'User', foreign_key: :manager_id, required: false
-  has_many :cases, dependent: :restrict_with_error
+
   has_many :changelogs, dependent: :restrict_with_error
   has_many :progress_notes, dependent: :restrict_with_error
-
-  has_many :clients, dependent: :restrict_with_error
-  has_many :tasks, dependent: :destroy
+  has_many :case_worker_clients, dependent: :restrict_with_error
+  has_many :clients, through: :case_worker_clients
+  has_many :case_worker_tasks, dependent: :destroy
+  has_many :tasks, through: :case_worker_tasks
   has_many :calendars
   has_many :visits,  dependent: :destroy
-
   has_many :custom_field_properties, as: :custom_formable, dependent: :destroy
   has_many :custom_fields, through: :custom_field_properties, as: :custom_formable
 
@@ -65,7 +65,8 @@ class User < ActiveRecord::Base
   end
 
   def name
-    "#{first_name} #{last_name}"
+    full_name = "#{first_name} #{last_name}"
+    full_name.present? ? full_name : 'Unknown'
   end
 
   def assign_as_admin
@@ -85,7 +86,7 @@ class User < ActiveRecord::Base
   end
 
   def no_any_associated_objects?
-    clients_count.zero? && cases_count.zero? && tasks_count.zero? && changelogs_count.zero? && progress_notes.count.zero?
+    clients_count.zero? && tasks_count.zero? && changelogs_count.zero? && progress_notes.count.zero?
   end
 
   def client_status
@@ -152,18 +153,18 @@ class User < ActiveRecord::Base
     elsif user.manager?
       User.where('id = :user_id OR manager_ids && ARRAY[:user_id]', { user_id: user.id })
     elsif user.able_manager?
-      ids = Client.able.pluck(:user_id) << user.id
-      User.where(id: ids.uniq)
+      user_ids = Client.able.map(&:user_ids).flatten << user.id
+      User.where(id: user_ids.uniq)
     elsif user.any_case_manager?
-      ids = [user.id]
+      user_ids = [user.id]
       if user.ec_manager?
-        ids << Client.active_ec.pluck(:user_id)
+        user_ids << Client.active_ec.map(&:user_ids).flatten
       elsif user.fc_manager?
-        ids << Client.active_fc.pluck(:user_id)
+        user_ids << Client.active_fc.map(&:user_ids).flatten
       elsif user.kc_manager?
-        ids << Client.active_kc.pluck(:user_id)
+        user_ids << Client.active_kc.map(&:user_ids).flatten
       end
-      User.where(id: ids.flatten.uniq)
+      User.where(id: user_ids.flatten.uniq)
     end
   end
 

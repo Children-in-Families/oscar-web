@@ -1,7 +1,6 @@
 describe Client, 'associations' do
 
   it { is_expected.to belong_to(:referral_source) }
-  it { is_expected.to belong_to(:user) }
   it { is_expected.to belong_to(:province) }
   it { is_expected.to belong_to(:received_by) }
   it { is_expected.to belong_to(:followed_up_by) }
@@ -25,14 +24,8 @@ describe Client, 'associations' do
   it { is_expected.to have_many(:quantitative_cases).through(:client_quantitative_cases) }
   it { is_expected.to have_many(:custom_field_properties).dependent(:destroy) }
   it { is_expected.to have_many(:custom_fields).through(:custom_field_properties) }
-end
-
-describe Client, 'paper trail' do
-  let!(:agency){ create(:agency) }
-  let!(:client){ create(:client, agency_ids: agency.id) }
-  context 'create a version of joined table of habtm association' do
-    it { expect(PaperTrail::Version.count).to eq(3) }
-  end
+  it { is_expected.to have_many(:users).through(:case_worker_clients) }
+  it { is_expected.to have_many(:case_worker_clients).dependent(:destroy) }
 end
 
 describe Client, 'callbacks' do
@@ -62,15 +55,40 @@ describe Client, 'callbacks' do
       expect(ClientHistory.where('object.id' => agency_client.id).last.agency_client_histories.count).to eq(2)
     end
   end
+
+  context 'before_update' do
+    let!(:case_worker_a){ create(:user) }
+    let!(:case_worker_b){ create(:user) }
+    let!(:case_worker_c){ create(:user) }
+    let!(:client_a){ create(:client, given_name: 'Client A', user_ids: [case_worker_a.id, case_worker_b.id]) }
+    let!(:my_task){ create(:task, client: client_a, name: 'My Task')}
+
+
+    context 'reset_tasks_of_users' do
+      before do
+        client_a.user_ids = [case_worker_a.id, case_worker_c.id]
+        client_a.save
+      end
+
+      it 'case workers of the client should have tasks related to the client' do
+        expect(case_worker_a.case_worker_tasks.size).to eq(1)
+        expect(case_worker_c.case_worker_tasks.size).to eq(1)
+      end
+
+      it 'case workers who are not associated with the client should not have this task' do
+        expect(case_worker_b.case_worker_tasks.size).to eq(0)
+      end
+    end
+  end
 end
 
 describe Client, 'methods' do
   let!(:able_manager) { create(:user, roles: 'able manager') }
   let!(:case_worker) { create(:user, roles: 'case worker') }
-  let!(:client){ create(:client, user: case_worker, local_given_name: 'Barry', local_family_name: 'Allen', date_of_birth: '2007-05-15') }
-  let!(:other_client) { create(:client, user: case_worker) }
+  let!(:client){ create(:client, user_ids: [case_worker.id], local_given_name: 'Barry', local_family_name: 'Allen', date_of_birth: '2007-05-15') }
+  let!(:other_client) { create(:client, user_ids: [case_worker.id]) }
   let!(:able_client) { create(:client, able_state: Client::ABLE_STATES[0]) }
-  let!(:able_manager_client) { create(:client, user: able_manager) }
+  let!(:able_manager_client) { create(:client, user_ids: [able_manager.id]) }
   let!(:assessment){ create(:assessment, created_at: Date.today - 6.month, client: client) }
   let!(:able_rejected_client) { create(:client, able_state: Client::ABLE_STATES[1]) }
   let!(:able_discharged_client) { create(:client, able_state: Client::ABLE_STATES[2]) }
@@ -179,7 +197,7 @@ describe Client, 'methods' do
       followed_up_by: follower,
       birth_province: province,
       province: province,
-      user: user
+      user_ids: [user.id]
     )}
     let!(:other_specific_client){ create(:client,
       date_of_birth: 2.year.ago.to_date,
@@ -188,7 +206,7 @@ describe Client, 'methods' do
       followed_up_by: follower,
       birth_province: province,
       province: province,
-      user: user
+      user_ids: [user.id]
     )}
 
     min_age = 1
@@ -253,7 +271,7 @@ describe Client, 'scopes' do
     followed_up_by: follower,
     birth_province: province,
     province: province,
-    user: user
+    user_ids: [user.id]
   )}
   let!(:assessment) { create(:assessment, client: client) }
   let!(:other_client){ create(:client, state: 'rejected') }
@@ -556,23 +574,38 @@ describe Client, 'scopes' do
 end
 
 describe 'validations' do
-  subject{ Client.new }
-
   context 'rejected_note' do
+    let!(:client){ create(:client, state: '', rejected_note: '') }
     before do
-      subject.save
-      subject.state = 'rejected'
+      client.state = 'rejected'
+      client.rejected_note = ''
+      client.valid?
     end
-    it { is_expected.to validate_presence_of(:rejected_note) }
+
+    it { expect(client.valid?).to be_falsey }
+    it { expect(client.errors[:rejected_note]).to include("can't be blank") }
   end
 
   context 'kid_id' do
-    let!(:client){ create(:client, kid_id: 'STID-01') }
-    let!(:valid_client){ build(:client) }
-    let!(:invalid_client){ build(:client, kid_id: 'stid-01') }
+    subject{ FactoryGirl.build(:client) }
+    let!(:user){ create(:user) }
+    let!(:client){ create(:client, kid_id: 'STID-01', user_ids: [user.id]) }
+    let!(:valid_client){ build(:client, user_ids: [user.id]) }
+    let!(:invalid_client){ build(:client, kid_id: 'stid-01', user_ids: [user.id]) }
     before { subject.kid_id = 'STiD-01' }
     it { is_expected.to validate_uniqueness_of(:kid_id).case_insensitive }
     it { expect(valid_client).to be_valid }
     it { expect(invalid_client).to be_invalid }
+  end
+
+  context 'exit_ngo' do
+    let!(:valid_client){ create(:client, exit_date: '2017-07-21', exit_note: 'testing', status: 'Exited - Dead') }
+    before do
+      valid_client.exit_date = ''
+      valid_client.exit_note = ''
+      valid_client.valid?
+    end
+    it { expect(valid_client.valid?).to be_falsey }
+    it { expect(valid_client.errors.full_messages.first).to include("can't be blank") }
   end
 end

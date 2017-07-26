@@ -25,7 +25,7 @@ module Api
       private
 
       def leave_program_params
-        params.require(:leave_program).permit({}).merge(properties: params[:leave_program][:properties], program_stream_id: params[:program_stream_id])
+        params.require(:leave_program).permit(:exit_date, {}).merge(properties: params[:leave_program][:properties], program_stream_id: params[:program_stream_id])
       end
 
       def find_client

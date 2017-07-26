@@ -2,7 +2,7 @@
   .col-xs-12
     .ibox
       .ibox-title
-        %h5= "#{t('.enrollment_date')} #{ date_format @client_enrollment.created_at }"
+        %h5= "#{t('.enrollment_date')} #{ @client_enrollment.enrollment_date? ? date_format(@client_enrollment.enrollment_date) : date_format(@client_enrollment.created_at) }"
         .ibox-tools
           - if can? :manage, ClientEnrollment
             - if policy(@client_enrollment).update?
@@ -11,7 +11,7 @@
                   = fa_icon('pencil')
             = link_to client_client_enrollment_path(@client, @client_enrollment, program_stream_id: @program_stream, program_streams: params[:program_streams]), method: :delete, data: { confirm: t('.are_you_sure')}, class: "btn btn-danger btn-outline" do
               = fa_icon('trash')
-            = link_to t('.back'), report_client_client_enrollments_path(@client, program_stream_id: @program_stream, program_streams: params[:program_streams]), class: 'btn btn-back-default btn-default form-btn'
+            = link_to t('.back'), report_client_client_enrollments_path(@client, program_stream_id: @program_stream, program_streams: params[:program_streams]), class: 'btn btn-back-default btn-default form-btn margin-btn'
       .ibox-content
         .table-responsive
           %table.table.table-bordered

@@ -16,6 +16,10 @@ FactoryGirl.define do
     school_grade '4'
     relevant_referral_information { FFaker::Lorem.paragraph }
 
+    before(:create) do |client|
+      client.users << FactoryGirl.create(:user)
+    end
+
     trait :accepted do
       state 'accepted'
     end

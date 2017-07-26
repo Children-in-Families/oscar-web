@@ -1,17 +1,37 @@
 describe 'Family' do
   let!(:admin){ create(:user, roles: 'admin') }
   let!(:province){create(:province,name:"Phnom Penh")}
+
+  let(:foster_family){ create(:family, :foster, name: 'A') }
+  let!(:case_worker_a){ create(:user, first_name: 'CW A') }
+  let!(:case_worker_b){ create(:user, first_name: 'CW B') }
+  let!(:case_worker_c){ create(:user, first_name: 'CW C') }
+  let!(:client_a){ create(:client, :accepted, users: [case_worker_a, case_worker_c]) }
+  let!(:client_b){ create(:client, :accepted, users: [case_worker_b]) }
+  let!(:case_a){ create(:case, :foster, client: client_a, family: foster_family) }
+  let!(:case_b){ create(:case, :foster, client: client_b, family: foster_family) }
+
   let!(:family){ create(:family, :emergency, name: 'EC Family', address: 'Phnom Penh', province_id: province.id) }
-  let!(:other_family){ create(:family) }
+  let!(:other_family){ create(:family, name: 'Unknown') }
   let!(:case){ create(:case, family: other_family) }
   let!(:client){ create(:client, :accepted) }
   let!(:other_client){ create(:client, state: '') }
+
+
   before do
     login_as(admin)
   end
   feature 'List' do
     before do
       visit families_path
+    end
+
+    scenario 'case workers', js: true do
+      first('td.case_worker a[href="#"]').click
+      sleep 1
+      expect(page).to have_content(case_worker_a.name)
+      expect(page).to have_content(case_worker_b.name)
+      expect(page).to have_content(case_worker_c.name)
     end
 
     scenario 'name' do

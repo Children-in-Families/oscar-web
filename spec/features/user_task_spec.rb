@@ -11,12 +11,12 @@ describe Task do
   let!(:kc_caseworker)   { create(:user, first_name: 'kc', last_name: 'caseworker') }
   let!(:subordinate)     { create(:user, :case_worker, first_name: 'subordinate', manager_id: manager.id) }
 
-  let!(:able_client)     { create(:client, user: able_caseworker, able_state: 'Accepted') }
-  let!(:client2)         { create(:client, user: able_manager) }
-  let!(:ec_client)       { create(:client, status: 'Active EC', user: ec_caseworker) }
-  let!(:fc_client)       { create(:client, status: 'Active FC', user: fc_caseworker) }
-  let!(:kc_client)       { create(:client, status: 'Active KC', user: kc_caseworker) }
-  let!(:sub_client)      { create(:client, user: subordinate) }
+  let!(:able_client)     { create(:client, users: [able_caseworker], able_state: 'Accepted') }
+  let!(:client2)         { create(:client, users: [able_manager]) }
+  let!(:ec_client)       { create(:client, status: 'Active EC', users: [ec_caseworker]) }
+  let!(:fc_client)       { create(:client, status: 'Active FC', users: [fc_caseworker]) }
+  let!(:kc_client)       { create(:client, status: 'Active KC', users: [kc_caseworker]) }
+  let!(:sub_client)      { create(:client, users: [subordinate]) }
 
   let!(:ec_task)   { create(:task, client: ec_client) }
   let!(:fc_task)   { create(:task, client: fc_client) }

@@ -9,8 +9,8 @@
     background-image: none;
     color: white;
 }
-ul.select2-results li:hover,
-ul.select2-results li.select2-highlighted{
+.select2-results .select2-highlighted,
+.select2-highlighted:hover{
   background-color: #1ab394;
   color: white;
 }

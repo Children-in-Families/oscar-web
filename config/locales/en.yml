@@ -324,6 +324,12 @@ en:
       type: Type
       user_id: Case Worker
       village: Village
+      enrollment: Enrollment
+      tracking: Tracking
+      exit_program: Exit Program
+      basic_fields: Client Basic Fields
+      custom_form: Custom Form
+      quantitative: Quantitative Type
   agencies:
     create:
       failed_create: Failed to create an agency
@@ -494,7 +500,7 @@ en:
       note: Note
     index:
       back: Back
-      case_note_lists: Case note lists
+      case_note_lists: Case note lists of
       case_note_on: Case note on
       completed_tasks: Completed Tasks
       domain: Domain
@@ -654,6 +660,15 @@ en:
       update:
         successfully_updated: Task has successfully been updated.
   client_advanced_searches:
+    form_option:
+      basic_fields: Client Basic Fields
+      custom_form: Custom Form
+      enrollment: Enrollment
+      exit_program: Exit Program
+      filter_option: Please choose the filter option below
+      program_stream: Program Stream
+      tracking: Tracking
+      quantitative: Quantitative Type
     index:
       add_new_filter: Add New Filter
       add_new_group: Add Group
@@ -700,6 +715,7 @@ en:
       enrollment: Edit Enrollment
     form:
       cancel: Cancel
+      enrollment_date: Enrollment Date
       save: Save
     index:
       actions: Actions
@@ -814,6 +830,9 @@ en:
       date_of_birth: Date of Birth
       district: District/Khan
       donor: Donor
+      exit_date: Exit Date
+      exit_note: Exit Note
+      exit_status: Exit Status
       family_name: Family Name
       follow_up_by: Followed Up By
       follow_up_date: Follow Up Date
@@ -1198,6 +1217,7 @@ en:
           start_date: Start Date
           support_amount: Support Amount
           support_note: Support Note
+        program_name: Program Name
         province: Birth Province
         quantitative_case_values: Quantitative Case
         quantitative_types: Quantitative Types
@@ -2478,6 +2498,7 @@ en:
       leave_program: Edit Leave Program
     form:
       cancel: Cancel
+      exit_date: Exit Date
       save: Save
     new:
       new_exit_program: New Exit Program
@@ -2631,10 +2652,10 @@ en:
       actions: Action
       copy: Copy
       domain: Domains
+      maximum: Maximum Program Enrollment
       name: Name
       organization: Organization
       preview: Preview
-      quantity: Quantity
       status: Status
     create:
       alert: Name of Tracking has already been taken.
@@ -2660,8 +2681,10 @@ en:
       edit_program_stream: Edit Program Stream
     enrollment:
       enrollment_form: Enrollment
+      note: 'Note: The Date of Enrollment field is added automatically to this enrollment form.'
     exit_field:
       exit_form: Exit Form
+      note: 'Note: The Date of Program Exit field is added automatically to the Exit Program form.'
     form:
       finish: Save
       next: Next
@@ -2690,6 +2713,9 @@ en:
       delete_group: Delete
       description: Description
       maximum: Maximum Program Enrollment
+      mutual_dependence: Mutual Dependence
+      name: Name
+      program_exclusive: Program Exclusive
       rule: Rules
     show:
       back: Back
@@ -2701,6 +2727,8 @@ en:
       enrollment: Enrollment
       exit_program: Exit Program
       maximum: Maximum Program Enrollment
+      mutual_dependence: Mutual Dependence
+      program_exclusive: Program Exclusive
       quantity: Quantity
       rules: Rules
       tracking: Tracking

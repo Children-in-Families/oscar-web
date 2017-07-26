@@ -40,7 +40,7 @@ class CsiStatistic
         max_count.times do |i|
           arr = []
           @clients.each do |c|
-            arr << (c.assessments.to_a.at(i).blank? ? nil : c.assessments.to_a.at(i).id)
+            arr << (c.assessments.order(:created_at).to_a.at(i).blank? ? nil : c.assessments.order(:created_at).to_a.at(i).id)
           end
           data << arr.select(&:present?)
         end

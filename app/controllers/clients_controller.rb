@@ -55,7 +55,7 @@ class ClientsController < AdminController
 
   def create
     @client = Client.new(client_params)
-    @client.user_id = current_user.id if current_user.case_worker? || current_user.any_manager?
+    # @client.user_id = current_user.id if current_user.case_worker? || current_user.any_manager?
 
     if @client.save
       AbleScreeningMailer.notify_able_manager(@client).deliver_now if @client.able?
@@ -79,7 +79,8 @@ class ClientsController < AdminController
   end
 
   def destroy
-    @client.destroy
+    @client.reload.destroy
+
     redirect_to clients_url, notice: t('.successfully_deleted')
   end
 
@@ -113,8 +114,9 @@ class ClientsController < AdminController
             :follow_up_date, :grade, :school_name, :current_address,
             :house_number, :street_number, :village, :commune, :district,
             :has_been_in_orphanage, :has_been_in_government_care,
-            :relevant_referral_information, :user_id, :province_id, :donor_id,
+            :relevant_referral_information, :province_id, :donor_id,
             :state, :rejected_note, :able, :able_state, :live_with, :id_poor,
+            user_ids: [],
             agency_ids: [],
             quantitative_case_ids: [],
             custom_field_ids: [],
@@ -124,10 +126,10 @@ class ClientsController < AdminController
   end
 
   def set_association
-    @agencies             = Agency.order(:name)
-    @donors               = Donor.order(:name)
-    @province             = Province.order(:name)
-    @referral_source      = ReferralSource.order(:name)
-    @user                 = User.non_strategic_overviewers.order(:first_name, :last_name)
+    @agencies        = Agency.order(:name)
+    @donors          = Donor.order(:name)
+    @province        = Province.order(:name)
+    @referral_source = ReferralSource.order(:name)
+    @users           = User.non_strategic_overviewers.order(:first_name, :last_name)
   end
 end

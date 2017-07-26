@@ -46,14 +46,14 @@ describe ClientEnrollmentTracking, 'validations' do
 
   context 'custom form number validator' do
     it 'return cant be greater' do
-      properties = {"e-mail"=>"cif@cambodianfamily.com", "age"=>"6", "description"=>"this is testing"}
+      properties = {"e-mail"=>"test@example.com", "age"=>"6", "description"=>"this is testing"}
       client_enrollment_tracking = ClientEnrollmentTracking.new(properties: properties, tracking: tracking, client_enrollment: client_enrollment)
       client_enrollment_tracking.save
       expect(client_enrollment_tracking.errors.full_messages).to include("Age can't be greater than 5")
     end 
 
     it 'return cant be lower' do
-      properties = {"e-mail"=>"cif@cambodianfamily.com", "age"=>"0", "description"=>"this is testing"}
+      properties = {"e-mail"=>"test@example.com", "age"=>"0", "description"=>"this is testing"}
       client_enrollment_tracking = ClientEnrollmentTracking.new(properties: properties, tracking: tracking, client_enrollment: client_enrollment)
       client_enrollment_tracking.save
       expect(client_enrollment_tracking.errors.full_messages).to include("Age can't be lower than 1")

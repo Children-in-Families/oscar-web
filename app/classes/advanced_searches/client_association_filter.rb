@@ -16,6 +16,8 @@ module AdvancedSearches
         values = form_title_field_query
       when 'case_type'
         values = case_type_field_query
+      when 'user_id'
+        values = user_id_field_query
       when 'agency_name'
         values = agency_name_field_query
       when 'family_id'
@@ -62,6 +64,8 @@ module AdvancedSearches
         clients = clients.where(cases: { start_date: @value[0]..@value[1] })
       when 'is_empty'
         ids = @clients.where.not(id: clients.ids).ids
+      when 'is_not_empty'
+        ids = @clients.where(id: clients.ids).ids
       end
 
       if @operator != 'is_empty'
@@ -80,6 +84,8 @@ module AdvancedSearches
         clients = clients.where.not('custom_fields.id = ?', @value)
       when 'is_empty'
         clients = @clients.where.not(id: clients.ids)
+      when 'is_not_empty'
+        clients = @clients.where(id: clients.ids)
       end
       clients.uniq.ids
     end
@@ -96,6 +102,8 @@ module AdvancedSearches
         @clients.joins(:cases).where(cases: { id: case_ids }).ids
       when 'is_empty'
         @clients.where.not(id: clients.ids).ids
+      when 'is_not_empty'
+        @clients.where(id: clients.ids).ids
       end
     end
 
@@ -108,6 +116,22 @@ module AdvancedSearches
         clients.where.not('agencies.id = ?', @value ).ids
       when 'is_empty'
         @clients.where.not(id: clients.ids).ids
+      when 'is_not_empty'
+        @clients.where(id: clients.ids).ids
+      end
+    end
+
+    def user_id_field_query
+      clients = @clients.joins(:users)
+      case @operator
+      when 'equal'
+        clients.where('users.id = ?', @value ).ids
+      when 'not_equal'
+        clients.where.not('users.id = ?', @value ).ids
+      when 'is_empty'
+        @clients.where.not(id: clients.ids).ids
+      when 'is_not_empty'
+        @clients.where(id: clients.ids).ids
       end
     end
 
@@ -133,6 +157,8 @@ module AdvancedSearches
         clients = clients.where('families.id BETWEEN ? and ?', @values[0], @values[1])
       when 'is_empty'
         clients = @clients.where.not(id: clients.ids)
+      when 'is_not_empty'
+        clients = @clients.where(id: clients.ids)
       end
       clients.ids.uniq
     end
@@ -152,6 +178,8 @@ module AdvancedSearches
         clients  = clients.where.not('families.name ILIKE ?', "%#{@value}%")
       when 'is_empty'
         clients = @clients.where.not(id: clients.ids)
+      when 'is_not_empty'
+        clients = @clients.where(id: clients.ids)
       end
       clients.uniq.ids
     end
@@ -175,6 +203,8 @@ module AdvancedSearches
         clients = @clients.where(date_of_birth: date_format[0]..date_format[1])
       when 'is_empty'
         clients = @clients.where('date_of_birth IS NULL')
+      when 'is_not_empty'
+        clients = @clients.where.not('date_of_birth IS NULL')
       end
       clients.ids
     end
@@ -223,6 +253,8 @@ module AdvancedSearches
         clients = clients.where(cases: { case_type: case_type, start_date: @value[0]..@value[1] })
       when 'is_empty'
         ids = @clients.where.not(id: clients.ids).ids
+      when 'is_not_empty'
+        ids = @clients.where(id: clients.ids).ids
       end
 
       if @operator != 'is_empty'
@@ -251,6 +283,8 @@ module AdvancedSearches
         clients = clients.where(cases: { case_type: case_type, exit_date: @value[0]..@value[1] })
       when 'is_empty'
         clients = @clients.includes(:cases).where('cases.exited = ? OR cases.id IS NULL', false)
+      when 'is_not_empty'
+        clients = @clients.includes(:cases).where.not('cases.exited = ? OR cases.id IS NULL', false)
       end
       clients.ids.uniq
     end

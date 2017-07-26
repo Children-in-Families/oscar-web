@@ -32,8 +32,8 @@ describe CustomField, 'validations' do
     expect(custom_field_unit.errors[:fields]).to include('field label must be uniq')
   end
   it "validates remove fields if fields haven't used" do
-    client = Client.create(given_name: 'Jonh')
-    custom_field_textarea = CustomField.create(entity_type: 'Client', form_title: 'Spec', fields: "[\r\n\t{\r\n\t\t\"type\": \"textarea\",\r\n\t\t\"label\": \"Text Area\",\r\n\t\t\"className\": \"form-control\",\r\n\t\t\"name\": \"textarea-1493086701693\"\r\n\t}\r\n]")
+    client = FactoryGirl.create(:client, given_name: 'Jonh')
+    custom_field_textarea = FactoryGirl.create(:custom_field, entity_type: 'Client', form_title: 'Spec', fields: "[\r\n\t{\r\n\t\t\"type\": \"textarea\",\r\n\t\t\"label\": \"Text Area\",\r\n\t\t\"className\": \"form-control\",\r\n\t\t\"name\": \"textarea-1493086701693\"\r\n\t}\r\n]")
     client_custom_field = client.custom_field_properties.create(properties: '{"Text Area":"Spec"}', custom_field_id: custom_field_textarea.id)
     custom_field_textarea.update(fields: '[]')
     expect(custom_field_textarea.errors[:fields]).to include('Text Area cannot be removed/updated since it is already in use. ')

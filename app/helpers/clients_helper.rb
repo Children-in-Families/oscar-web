@@ -1,10 +1,14 @@
 module ClientsHelper
   def user(user)
-    if can? :manage, :all
+    if can? :read, User
       link_to user.name, user_path(user) if user.present?
     elsif user.present?
       user.name
     end
+  end
+
+  def order_case_worker(client)
+    client.users.order("lower(first_name)", "lower(last_name)")
   end
 
   def partner(partner)
@@ -102,7 +106,7 @@ module ClientsHelper
       has_been_in_orphanage:         t('datagrid.columns.clients.has_been_in_orphanage'),
       has_been_in_government_care:   t('datagrid.columns.clients.has_been_in_government_care'),
       relevant_referral_information: t('datagrid.columns.clients.relevant_referral_information'),
-      user_id:                       t('datagrid.columns.clients.case_worker'),
+      user_ids:                      t('datagrid.columns.clients.case_worker'),
       state:                         t('datagrid.columns.clients.state'),
       family_id:                     t('datagrid.columns.clients.family_id'),
       any_assessments:               t('datagrid.columns.clients.assessments'),
@@ -135,7 +139,7 @@ module ClientsHelper
   end
 
   def can_read_client_progress_note?
-    @client.able? && (current_user.case_worker? || current_user.able_manager? || current_user.admin? || current_user.fc_manager? || current_user.kc_manager? || current_user.strategic_overviewer?)
+    @client.able? && (current_user.case_worker? || current_user.able_manager? || current_user.admin? || current_user.fc_manager? || current_user.manager? || current_user.kc_manager? || current_user.strategic_overviewer?)
   end
 
   def disable_case_histories?

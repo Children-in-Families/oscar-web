@@ -1,9 +1,9 @@
 feature 'Case' do
   let!(:admin){ create(:user, roles: 'admin')}
   let!(:user){ create(:user)}
-  let!(:client){ create(:client,  state: 'accepted', user: user)}
+  let!(:client){ create(:client,  state: 'accepted', users: [user])}
   let!(:family){ create(:family)}
-  let!(:accepted_client) { create(:client, state: 'accepted', user: user) }
+  let!(:accepted_client) { create(:client, state: 'accepted', users: [user]) }
   let!(:kc_case){ create(:case, case_type: 'KC', client: accepted_client) }
 
   before do

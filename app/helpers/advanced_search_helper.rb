@@ -1,10 +1,36 @@
 module AdvancedSearchHelper
-  def set_value_custom_form
-    if params[:client_advanced_search].present? && params[:client_advanced_search][:selected_custom_form].present?
-      params[:client_advanced_search][:selected_custom_form]
-    else
-      ''
-    end
+  def custom_form_values
+    has_custom_form_selected = has_advanced_search? && advanced_search_params[:custom_form_selected].present?
+    has_custom_form_selected ? eval(advanced_search_params[:custom_form_selected]) : []
+  end
+
+  def program_stream_values
+    has_program_selected = has_advanced_search? && advanced_search_params[:program_selected].present?
+    has_program_selected ? eval(advanced_search_params[:program_selected]) : []
+  end
+
+  def quantitative_check
+    has_advanced_search? && advanced_search_params[:quantitative_check].present? ? true : false
+  end
+
+  def enrollment_check
+    has_advanced_search? && advanced_search_params[:enrollment_check].present? ? true : false
+  end
+
+  def tracking_check
+    has_advanced_search? && advanced_search_params[:tracking_check].present? ? true : false
+  end
+
+  def exit_form_check
+    has_advanced_search? && advanced_search_params[:exit_form_check].present? ? true : false
+  end
+
+  def has_advanced_search?
+    params[:client_advanced_search].present?
+  end
+
+  def advanced_search_params
+    params[:client_advanced_search]
   end
 
   def format_header(key)
@@ -51,7 +77,13 @@ module AdvancedSearchHelper
       referred_to_fc: I18n.t('advanced_search.fields.referred_to_fc'),
       exit_ec_date: I18n.t('advanced_search.fields.exit_ec_date'),
       exit_fc_date: I18n.t('advanced_search.fields.exit_fc_date'),
-      exit_kc_date: I18n.t('advanced_search.fields.exit_kc_date')
+      exit_kc_date: I18n.t('advanced_search.fields.exit_kc_date'),
+      enrollment: I18n.t('advanced_search.fields.enrollment'),
+      tracking: I18n.t('advanced_search.fields.tracking'),
+      exit_program: I18n.t('advanced_search.fields.exit_program'),
+      basic_fields: I18n.t('advanced_search.fields.basic_fields'),
+      custom_form: I18n.t('advanced_search.fields.custom_form'),
+      quantitative: I18n.t('advanced_search.fields.quantitative')
     }
     translations[key.to_sym] || ''
   end

@@ -1,6 +1,6 @@
 describe 'Task' do
-  let!(:user){ create(:user, calendar_integration: false) }
-  let!(:client){ create(:client, user: user) }
+  let!(:user){ create(:user, calendar_integration: true) }
+  let!(:client){ create(:client, users: [user]) }
   let!(:domain){ create(:domain) }
   let!(:overdue_task){ create(:task, client: client, completion_date: Date.today - 6.month) }
   let!(:today_task){ create(:task, client: client, completion_date: Date.today) }
@@ -55,11 +55,22 @@ describe 'Task' do
       visit new_client_task_path(client)
     end
     scenario 'valid', js: true do
-      fill_in 'Enter task details', with: FFaker::Name.name
-      fill_in 'Completion Date', with: Date.today.strftime('%B %d, %Y')
+      fill_in 'Enter task details', with: 'My Task'
+      fill_in 'Completion Date', with: Date.today.to_s
       click_button 'Save'
       sleep 1
       expect(page).to have_content('Task has successfully been created')
+
+      task       = client.tasks.find_by(name: 'My Task')
+      task_name  = task.name
+      domain     = Domain.find(task.domain_id)
+      title      = "#{domain.name} - #{task_name}"
+      start_date = task.completion_date
+      end_date   = (start_date + 1.day).to_s
+      calendar   = Calendar.where(title: title, start_date: start_date, end_date: end_date)
+
+      expect(calendar.size).to eq(2)
+      expect(calendar.pluck(:user_id)).to include(task.users.first.id)
     end
     scenario 'invalid' do
       click_button 'Save'
@@ -72,7 +83,7 @@ describe 'Task' do
       visit edit_client_task_path(client, upcoming_task)
     end
     scenario 'valid', js: true do
-      fill_in 'Enter task details', with: FFaker::Name.name
+      fill_in 'Enter task details', with: 'Task Updated'
       click_button 'Save'
       sleep 1
       expect(page).to have_content('Task has successfully been updated')

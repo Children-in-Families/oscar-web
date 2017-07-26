@@ -17,7 +17,7 @@
           .col-xs-12
             %span= t('.assessment_completed_by')
             %strong
-              %u= @assessment.client.user.first_name
+              %u= @assessment.client.users.map{|u| u.first_name }.join(' & ')
             %span= t('.on_date')
             %strong
               %u= @assessment.created_at.strftime("%B %d, %Y")

@@ -1,11 +1,13 @@
 describe User, 'associations' do
   it { is_expected.to belong_to(:province)}
   it { is_expected.to belong_to(:department)}
+
   it { is_expected.to have_many(:calendars)}
   it { is_expected.to have_many(:visits).dependent(:destroy) }
-  it { is_expected.to have_many(:tasks).dependent(:destroy) }
-  it { is_expected.to have_many(:cases).dependent(:restrict_with_error)}
-  it { is_expected.to have_many(:clients).dependent(:restrict_with_error)}
+  it { is_expected.to have_many(:case_worker_tasks).dependent(:destroy) }
+  it { is_expected.to have_many(:tasks).through(:case_worker_tasks) }
+  it { is_expected.to have_many(:clients).through(:case_worker_clients)}
+  it { is_expected.to have_many(:case_worker_clients).dependent(:restrict_with_error)}
   it { is_expected.to have_many(:changelogs).dependent(:restrict_with_error)}
   it { is_expected.to have_many(:progress_notes).dependent(:restrict_with_error)}
   it { is_expected.to have_many(:custom_field_properties).dependent(:destroy) }
@@ -233,7 +235,7 @@ describe User, 'scopes' do
   end
 
   context 'has clients' do
-    let!(:client) { create(:client, user: other_user) }
+    let!(:client) { create(:client, users: [other_user]) }
     subject { User.has_clients }
 
     it 'should include user that has clients' do
@@ -254,42 +256,42 @@ end
 describe User, 'methods' do
   let!(:admin){ create(:user, roles: 'admin') }
   let!(:case_worker){ create(:user, roles: 'case worker', first_name: 'First Name', last_name: 'Last Name') }
+  let!(:unknown_user){ create(:user, first_name: '', last_name: '') }
   let!(:ec_manager){ create(:user, roles: 'ec manager') }
   let!(:fc_manager){ create(:user, roles: 'fc manager') }
   let!(:kc_manager){ create(:user, roles: 'kc manager') }
   let!(:able_manager){ create(:user, roles: 'able manager') }
-  let!(:client) { create(:client, user: case_worker) }
+  let!(:client) { create(:client, users: [case_worker]) }
   let!(:assessment) { create(:assessment, client: client, created_at: Date.today) }
 
   let!(:ec_case_worker){ create(:user, roles: 'case worker', first_name: FFaker::Name.name, last_name: FFaker::Name.name) }
-  let!(:second_client) { create(:client, user: ec_case_worker, status: 'Active EC') }
+  let!(:second_client) { create(:client, users: [ec_case_worker], status: 'Active EC') }
   let!(:second_assessment) { create(:assessment, client: second_client, created_at: 7.months.ago) }
 
   let!(:fc_case_worker){ create(:user, roles: 'case worker', first_name: FFaker::Name.name, last_name: FFaker::Name.name) }
-  let!(:third_client) { create(:client, user: fc_case_worker, status: 'Active FC') }
+  let!(:third_client) { create(:client, users: [fc_case_worker], status: 'Active FC') }
   let!(:third_assessment) { create(:assessment, client: third_client, created_at: Date.today << 6) }
 
   let!(:used_user) { create(:user) }
-  let!(:other_clent) { create(:client, user: used_user) }
-  let!(:case) { create(:case, user: used_user) }
-  let!(:task) { create(:task, user: used_user) }
+  let!(:other_clent) { create(:client, users: [used_user]) }
+  let!(:task) { create(:task, users: [used_user]) }
   let!(:changelog) { create(:changelog, user: used_user) }
   let!(:location){ create(:location, name: 'ផ្សេងៗ Other') }
   let!(:progress_note) { create(:progress_note, user: used_user, location: location) }
 
   let!(:kc_case_worker){ create(:user, roles: 'case worker', first_name: FFaker::Name.name, last_name: FFaker::Name.name) }
-  let!(:fourth_client) { create(:client, user: kc_case_worker, status: 'Active KC') }
+  let!(:fourth_client) { create(:client, users: [kc_case_worker], status: 'Active KC') }
   let!(:fourth_assessment) { create(:assessment, client: fourth_client, created_at: Date.today << 6) }
 
   let!(:fifth_case_worker){ create(:user, roles: 'case worker', first_name: FFaker::Name.name, last_name: FFaker::Name.name) }
-  let!(:fifth_client) { create(:client, user: fifth_case_worker, status: 'Referred') }
+  let!(:fifth_client) { create(:client, users: [fifth_case_worker], status: 'Referred') }
   let!(:fifth_assessment) { create(:assessment, client: fifth_client, created_at: Date.today << 6) }
 
   let!(:manager){ create(:user, roles: 'manager') }
   let!(:subordinate){ create(:user, roles: 'case worker', manager_id: manager.id) }
   let!(:strategic_overviewer){ create(:user, roles: 'strategic overviewer') }
   let!(:able_case_worker){ create(:user, roles: 'case worker') }
-  let!(:able_client){ create(:client, user: able_case_worker, able_state: 'Accepted') }
+  let!(:able_client){ create(:client, users: [able_case_worker], able_state: 'Accepted') }
 
   context 'no_any_associated_objects?' do
     it { expect(admin.no_any_associated_objects?).to be_truthy }
@@ -298,6 +300,7 @@ describe User, 'methods' do
 
   context 'name' do
     it{ expect(case_worker.name).to eq('First Name Last Name') }
+    it{ expect(unknown_user.name).to eq('Unknown') }
   end
 
   context 'admin?' do

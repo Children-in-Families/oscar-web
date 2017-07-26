@@ -79,11 +79,6 @@ describe CaseSerializer, type: :serializer do
     expect(serializer).to have_json_type(String).at_path('case/exit_note')
   end
 
-  it 'should be have attribute user' do
-    expect(serializer).to have_json_path('case/user')
-    expect(serializer).to have_json_type(Object).at_path('case/user')
-  end
-
   it 'should be have attribute partner' do
     expect(serializer).to have_json_path('case/partner')
     expect(serializer).to have_json_type(Object).at_path('case/partner')

@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe ClientSerializer, type: :serializer do
   let(:user) { create(:user) }
-  let(:client) { create(:client, user: user) }
+  let(:client) { create(:client, users: [user]) }
   let(:serializer) { ClientSerializer.new(client).to_json }
 
   it 'should be have attribute client as root path' do
@@ -185,9 +185,9 @@ describe ClientSerializer, type: :serializer do
     expect(serializer).to have_json_type(String).at_path('client/relevant_referral_information')
   end
 
-  it 'should be have attribute case_worker' do
-    expect(serializer).to have_json_path('client/case_worker')
-    expect(serializer).to have_json_type(Object).at_path('client/case_worker')
+  it 'should be have attribute case_workers' do
+    expect(serializer).to have_json_path('client/case_workers')
+    expect(serializer).to have_json_type(Object).at_path('client/case_workers')
   end
 
   it 'should be have attribute agencies' do

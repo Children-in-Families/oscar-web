@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170706083521) do
+ActiveRecord::Schema.define(version: 20170721064826) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -149,6 +149,26 @@ ActiveRecord::Schema.define(version: 20170706083521) do
 
   add_index "case_notes", ["client_id"], name: "index_case_notes_on_client_id", using: :btree
 
+  create_table "case_worker_clients", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "client_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "case_worker_clients", ["client_id"], name: "index_case_worker_clients_on_client_id", using: :btree
+  add_index "case_worker_clients", ["user_id"], name: "index_case_worker_clients_on_user_id", using: :btree
+
+  create_table "case_worker_tasks", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "task_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "case_worker_tasks", ["task_id"], name: "index_case_worker_tasks_on_task_id", using: :btree
+  add_index "case_worker_tasks", ["user_id"], name: "index_case_worker_tasks_on_user_id", using: :btree
+
   create_table "cases", force: :cascade do |t|
     t.date     "start_date"
     t.string   "carer_names",             default: ""
@@ -215,6 +235,7 @@ ActiveRecord::Schema.define(version: 20170706083521) do
     t.integer  "program_stream_id"
     t.datetime "created_at",                           null: false
     t.datetime "updated_at",                           null: false
+    t.date     "enrollment_date"
   end
 
   add_index "client_enrollments", ["client_id"], name: "index_client_enrollments_on_client_id", using: :btree
@@ -478,6 +499,7 @@ ActiveRecord::Schema.define(version: 20170706083521) do
     t.datetime "created_at",           null: false
     t.datetime "updated_at",           null: false
     t.integer  "program_stream_id"
+    t.date     "exit_date"
   end
 
   add_index "leave_programs", ["client_enrollment_id"], name: "index_leave_programs_on_client_enrollment_id", using: :btree
@@ -524,14 +546,16 @@ ActiveRecord::Schema.define(version: 20170706083521) do
   create_table "program_streams", force: :cascade do |t|
     t.string   "name"
     t.text     "description"
-    t.jsonb    "rules",        default: {}
-    t.jsonb    "enrollment",   default: {}
-    t.jsonb    "exit_program", default: {}
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
+    t.jsonb    "rules",             default: {}
+    t.jsonb    "enrollment",        default: {}
+    t.jsonb    "exit_program",      default: {}
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
     t.integer  "quantity"
-    t.string   "ngo_name",     default: ""
-    t.boolean  "completed",    default: false
+    t.string   "ngo_name",          default: ""
+    t.boolean  "completed",         default: false
+    t.integer  "program_exclusive", default: [],                 array: true
+    t.integer  "mutual_dependence", default: [],                 array: true
   end
 
   create_table "progress_note_types", force: :cascade do |t|
@@ -877,7 +901,7 @@ ActiveRecord::Schema.define(version: 20170706083521) do
 
   create_table "trackings", force: :cascade do |t|
     t.string   "name",              default: ""
-    t.jsonb    "fields",            default: {}
+    t.jsonb    "fields"
     t.string   "frequency",         default: ""
     t.integer  "time_of_frequency"
     t.integer  "program_stream_id"
@@ -922,8 +946,8 @@ ActiveRecord::Schema.define(version: 20170706083521) do
     t.integer  "organization_id"
     t.boolean  "disable",                default: false
     t.datetime "expires_at"
-    t.integer  "manager_id"
     t.boolean  "task_notify",            default: true
+    t.integer  "manager_id"
     t.boolean  "calendar_integration",   default: false
     t.integer  "pin_number"
     t.integer  "manager_ids",            default: [],                         array: true
@@ -976,6 +1000,10 @@ ActiveRecord::Schema.define(version: 20170706083521) do
   add_foreign_key "calendars", "users"
   add_foreign_key "case_contracts", "cases"
   add_foreign_key "case_notes", "clients"
+  add_foreign_key "case_worker_clients", "clients"
+  add_foreign_key "case_worker_clients", "users"
+  add_foreign_key "case_worker_tasks", "tasks"
+  add_foreign_key "case_worker_tasks", "users"
   add_foreign_key "changelog_types", "changelogs"
   add_foreign_key "changelogs", "users"
   add_foreign_key "client_enrollment_trackings", "client_enrollments"
