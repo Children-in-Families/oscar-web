@@ -325,14 +325,16 @@ class ClientGrid
 
   filter(:id_poor, :integer, header: -> { I18n.t('datagrid.columns.clients.id_poor') })
 
-  filter(:program_streams, :enum, multiple: true, select: :program_stream_options, header: -> { I18n.t('datagrid.columns.clients.program_name') }) do |name, scope|
-    program_stream_ids = ProgramStream.name_like(name).ids
-    ids = Client.joins(:client_enrollments).where(client_enrollments: { status: 'Active', program_stream_id: program_stream_ids } ).pluck(:id).uniq
-    scope.where(id: ids)
-  end
+  unless Rails.env.production?
+    filter(:program_streams, :enum, multiple: true, select: :program_stream_options, header: -> { I18n.t('datagrid.columns.clients.program_name') }) do |name, scope|
+      program_stream_ids = ProgramStream.name_like(name).ids
+      ids = Client.joins(:client_enrollments).where(client_enrollments: { status: 'Active', program_stream_id: program_stream_ids } ).pluck(:id).uniq
+      scope.where(id: ids)
+    end
 
-  def program_stream_options
-    ProgramStream.joins(:client_enrollments).where(client_enrollments: {status: 'Active'}).complete.ordered.pluck(:name).uniq
+    def program_stream_options
+      ProgramStream.joins(:client_enrollments).where(client_enrollments: {status: 'Active'}).complete.ordered.pluck(:name).uniq
+    end
   end
 
   column(:slug, order:'clients.id', header: -> { I18n.t('datagrid.columns.clients.id') })
