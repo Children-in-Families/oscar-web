@@ -331,10 +331,10 @@ class ClientGrid
       ids = Client.joins(:client_enrollments).where(client_enrollments: { status: 'Active', program_stream_id: program_stream_ids } ).pluck(:id).uniq
       scope.where(id: ids)
     end
-  end
 
-  def program_stream_options
-    ProgramStream.joins(:client_enrollments).where(client_enrollments: {status: 'Active'}).complete.ordered.pluck(:name).uniq
+    def program_stream_options
+      ProgramStream.joins(:client_enrollments).where(client_enrollments: {status: 'Active'}).complete.ordered.pluck(:name).uniq
+    end
   end
 
   column(:slug, order:'clients.id', header: -> { I18n.t('datagrid.columns.clients.id') })
