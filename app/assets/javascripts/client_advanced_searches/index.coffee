@@ -30,16 +30,16 @@ CIF.Client_advanced_searchesIndex = do ->
     _customFormSelectRemove()
     _handleHideCustomFormSelect()
     
-    _handleShowProgramStreamFilter()
-    _handleHideProgramStreamSelect()
-    _handleProgramSelectChange()
-    _triggerEnrollmentFields()
-    _triggerTrackingFields()
-    _triggerExitProgramFields()
-    _handleSelect2RemoveProgram()
-    _handleUncheckedEnrollment()
-    _handleUncheckedTracking()
-    _handleUncheckedExitProgram()
+    # _handleShowProgramStreamFilter()
+    # _handleHideProgramStreamSelect()
+    # _handleProgramSelectChange()
+    # _triggerEnrollmentFields()
+    # _triggerTrackingFields()
+    # _triggerExitProgramFields()
+    # _handleSelect2RemoveProgram()
+    # _handleUncheckedEnrollment()
+    # _handleUncheckedTracking()
+    # _handleUncheckedExitProgram()
 
     _handleAddQuantitativeFilter()
     _handleRemoveQuantitativFilter()
@@ -60,7 +60,7 @@ CIF.Client_advanced_searchesIndex = do ->
 
   _setValueToBuilderSelected = ->
     @customFormSelected = $('.custom-form').data('value')
-    @programSelected    = $('.program-stream').data('value')
+    # @programSelected    = $('.program-stream').data('value')
 
   _handleAddQuantitativeFilter = ->
     fields = $('#quantitative-fields').data('fields')
