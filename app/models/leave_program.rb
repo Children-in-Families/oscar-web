@@ -18,8 +18,13 @@ class LeaveProgram < ActiveRecord::Base
     self.client_enrollment.update_columns(status: 'Exited')
 
     client = Client.find self.client_enrollment.client_id
-    case_status = client.cases.exclude_referred.current.case_type
-    client_status = "Active #{case_status}" if ProgramStream.active_enrollments(client).count == 0
+
+    if client.cases.exclude_referred.current.present?
+      case_status = client.cases.exclude_referred.current.case_type
+      client_status = "Active #{case_status}" if ProgramStream.active_enrollments(client).count == 0
+    else
+      client_status = "Referred"
+    end
     client.update_attributes(status: client_status) if client_status.present?
   end
 end
