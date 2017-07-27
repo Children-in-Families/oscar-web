@@ -25,7 +25,6 @@ class ClientsController < AdminController
   end
 
   def show
-    binding.pry
     @ordered_client_answers     = @client.answers.order(:created_at)
     custom_field_ids            = @client.custom_field_properties.pluck(:custom_field_id)
     @free_client_forms          = CustomField.client_forms.not_used_forms(custom_field_ids).order_by_form_title
