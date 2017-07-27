@@ -1183,7 +1183,7 @@ km:
         donor: ម្ចាស់ជំនួយ
         enrollment_date: កាលបរិច្ឆេទចុះឈ្មោះ
         exit_date: កាលបរិច្ឆេទនៃការចាកចេញ
-        exit_enrollment_date: កាលបរិច្ឆេទចេញពីការចុះឈ្មោះ
+        program_exit_date: កាលបរិច្ឆេទនៃការចាកចេញពីកម្មវិធី
         family_id: លេខសម្គាល់គ្រួសារ
         family_name: នាមត្រកូល
         follow_up_by: បុគ្គលិកដែលតាមដានករណី

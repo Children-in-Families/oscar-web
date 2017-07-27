@@ -25,6 +25,7 @@ class ClientsController < AdminController
   end
 
   def show
+    binding.pry
     @ordered_client_answers     = @client.answers.order(:created_at)
     custom_field_ids            = @client.custom_field_properties.pluck(:custom_field_id)
     @free_client_forms          = CustomField.client_forms.not_used_forms(custom_field_ids).order_by_form_title
@@ -115,7 +116,7 @@ class ClientsController < AdminController
             :house_number, :street_number, :village, :commune, :district,
             :has_been_in_orphanage, :has_been_in_government_care,
             :relevant_referral_information, :province_id, :donor_id,
-            :state, :rejected_note, :able, :able_state, :live_with, :id_poor,
+            :state, :rejected_note, :able, :able_state, :live_with, :id_poor, :accepted_date,
             user_ids: [],
             agency_ids: [],
             quantitative_case_ids: [],

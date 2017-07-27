@@ -350,7 +350,7 @@ class ClientGrid
     end
   end
 
-  filter(:exit_enrollment_date, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.exit_enrollment_date') }) do |values, scope|
+  filter(:program_exit_date, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.program_exit_date') }) do |values, scope|
     if values.first.present? && values.second.present?
       ids = ClientEnrollment.joins(:leave_program).where(leave_programs: {exit_date: values[0]..values[1]}).pluck(:client_id).uniq
       scope.where(id: ids)
@@ -368,10 +368,10 @@ class ClientGrid
       ids = Client.where(accepted_date: values[0]..values[1]).pluck(:id).uniq
       scope.where(id: ids)
     elsif values.first.present? && values.second.blank?
-      ids = Client.where('DATE(accepted_date) => ?', values.first).pluck(:id).uniq
+      ids = Client.where('DATE(accepted_date) >= ?', values.first).pluck(:id).uniq
       scope.where(id: ids)
     elsif values.second.present? && values.first.blank?
-      ids = Client.where('DATE(accepted_date) <= ?', values.first).pluck(:id).uniq
+      ids = Client.where('DATE(accepted_date) =< ?', values.first).pluck(:id).uniq
       scope.where(id: ids)
     end
   end
@@ -381,7 +381,7 @@ class ClientGrid
       ids = Client.where(exit_date: values[0]..values[1]).pluck(:id).uniq
       scope.where(id: ids)
     elsif values.first.present? && values.second.blank?
-      ids = Client.where('DATE(exit_date) => ?', values.first).pluck(:id).uniq
+      ids = Client.where('DATE(exit_date) >= ?', values.first).pluck(:id).uniq
       scope.where(id: ids)
     elsif values.second.present? && values.first.blank?
       ids = Client.where('DATE(exit_date) <= ?', values.first).pluck(:id).uniq
@@ -521,12 +521,12 @@ class ClientGrid
     object.state.titleize
   end
 
-  column(:accepted_date, order: false, header: -> { I18n.t('datagrid.columns.clients.accepted_date') }) do |object|
+  column(:accepted_date, header: -> { I18n.t('datagrid.columns.clients.accepted_date') }) do |object|
     object.accepted_date
   end
 
-  column(:exit_date, order: false, header: -> { I18n.t('datagrid.columns.clients.exit_date') }) do |object|
-    object.accepted_date
+  column(:exit_date, header: -> { I18n.t('datagrid.columns.clients.exit_date') }) do |object|
+    object.exit_date
   end
 
   column(:rejected_note, header: -> { I18n.t('datagrid.columns.clients.rejected_note') })
