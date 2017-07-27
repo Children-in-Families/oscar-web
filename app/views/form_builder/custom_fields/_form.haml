@@ -16,6 +16,7 @@
       .col-xs-12.col-sm-6
         = f.input :time_of_frequency, label: t('.time_of_frequency')
     = f.input :fields, as: :hidden
+    = hidden_field_tag :custom_field_id, @custom_field.id
     .build-wrap{ 'data-fields': @custom_field.fields || ''}
     - if f.object.errors[:fields].any?
       %span.help-block= f.object.errors[:fields].first

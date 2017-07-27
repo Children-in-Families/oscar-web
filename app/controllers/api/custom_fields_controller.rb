@@ -4,6 +4,12 @@ module Api
       render json: find_custom_field_in_organization
     end
 
+    def fields
+      custom_field = CustomField.find params[:custom_field_id]
+      properties = custom_field.custom_field_properties.pluck(:properties).select(&:present?).map(&:keys).flatten.uniq
+      render json: properties
+    end
+
     private
 
     def find_custom_field_in_organization

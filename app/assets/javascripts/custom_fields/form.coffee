@@ -2,7 +2,7 @@ CIF.Custom_fieldsNew = CIF.Custom_fieldsCreate = CIF.Custom_fieldsEdit = CIF.Cus
 CIF.Custom_fieldsShow = do ->
 
   _init = ->
-    _initFormBuilder()
+    _initFormBuilderWithPrevent()
     _select2()
     _toggleTimeOfFrequency()
     _changeSelectOfFrequency()
@@ -10,6 +10,10 @@ CIF.Custom_fieldsShow = do ->
     _changeTimeOfFrequency()
     _convertFrequency()
     _searchCustomFields()
+
+  _initFormBuilderWithPrevent = ->
+    _initFormBuilder()
+    _preventRemoveFields()
 
   _valTimeOfFrequency = ->
     $('#custom_field_time_of_frequency').val()
@@ -194,5 +198,22 @@ CIF.Custom_fieldsShow = do ->
             preview_link = "#{url_origin}/custom_fields/preview?custom_field_id=#{custom_field.id}&ngo_name=#{ngo_name}"
             $('#livesearch').append("<li><span class='col-xs-8'>#{custom_field.form_title} (#{custom_field.ngo_name})</span>
             <span class='col-xs-4 text-right'><a href=#{preview_link}>#{previewTranslation}</a></span></li>")
+
+  _preventRemoveFields = ->
+    fields = ''
+    customFieldId = $('#custom_field_id').val()
+    $.ajax({
+      type: 'GET'
+      url: "/api/custom_fields/#{customFieldId}/fields"
+      dataType: "JSON"
+    }).success((json)->
+      fields = json.custom_fields
+      labelFields = $('label.field-label')
+      for labelField in labelFields
+        parent = $(labelField).parent()
+        for field in fields
+          if labelField.textContent == field
+            $(parent).children('div.field-actions').remove()
+    )
 
   { init: _init }
