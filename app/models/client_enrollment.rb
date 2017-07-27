@@ -13,6 +13,8 @@ class ClientEnrollment < ActiveRecord::Base
   scope :enrollments_by, ->(client) { where(client_id: client).order(:created_at) }
   scope :active, -> { where(status: 'Active') }
 
+  after_create :set_client_status
+
   validate do |obj|
     CustomFormPresentValidator.new(obj, 'program_stream', 'enrollment').validate
     CustomFormNumericalityValidator.new(obj, 'program_stream', 'enrollment').validate
@@ -23,4 +25,9 @@ class ClientEnrollment < ActiveRecord::Base
     client_enrollment_trackings.present?
   end
 
+  def set_client_status
+    client = Client.find self.client_id
+    client_status = 'Active' if ProgramStream.active_enrollments(client).count > 0
+    client.update_attributes(status: client_status) if client.status != 'Active' && client_status.present?
+  end
 end
