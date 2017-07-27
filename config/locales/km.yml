@@ -1180,6 +1180,8 @@ km:
         domain: កត្តា
         domains: កត្តា CSI ទាំងអស់
         donor: ម្ចាស់ជំនួយ
+        enrollment_date: កាលបរិច្ឆេទចុះឈ្មោះ
+        exit_date: កាលបរិច្ឆេទនៃការចាកចេញ
         family_id: លេខសម្គាល់គ្រួសារ
         family_name: នាមត្រកូល
         follow_up_by: បុគ្គលិកដែលតាមដានករណី
