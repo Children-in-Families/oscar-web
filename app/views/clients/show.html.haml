@@ -36,6 +36,7 @@
                   = simple_form_for @client, method: :put, url: client_path(@client) do |f|
                     .form-inputs
                       = f.hidden_field :state, value: 'accepted'
+                      = f.hidden_field :accepted_date, value: Date.today
                     .form-actions
                       = f.submit t('.accept'), class: 'btn btn-success agree-btn'
                 .col-xs-12
