@@ -15,6 +15,7 @@ class ProgramStream < ActiveRecord::Base
   validates :name, presence: true
   validates :name, uniqueness: true
   validate  :form_builder_field_uniqueness
+
   # validate  :validate_remove_enrollment_field, :validate_remove_exit_program_field, if: -> { id.present? }
 
   after_save :set_program_completed
