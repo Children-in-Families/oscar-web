@@ -350,7 +350,7 @@ class ClientGrid
     end
   end
 
-  filter(:exit_date, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.exit_date') }) do |values, scope|
+  filter(:exit_enrollment_date, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.exit_enrollment_date') }) do |values, scope|
     if values.first.present? && values.second.present?
       ids = ClientEnrollment.joins(:leave_program).where(leave_programs: {exit_date: values[0]..values[1]}).pluck(:client_id).uniq
       scope.where(id: ids)
@@ -359,6 +359,32 @@ class ClientGrid
       scope.where(id: ids)
     elsif values.second.present? && values.first.blank?
       ids = ClientEnrollment.joins(:leave_program).where("DATE(leave_programs.exit_date) <= ?", values.second).pluck(:client_id).uniq
+      scope.where(id: ids)
+    end
+  end
+
+  filter(:accepted_date, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.accepted_date') }) do |values, scope|
+    if values.first.present? && values.second.present?
+      ids = Client.where(accepted_date: values[0]..values[1]).pluck(:id).uniq
+      scope.where(id: ids)
+    elsif values.first.present? && values.second.blank?
+      ids = Client.where('DATE(accepted_date) => ?', values.first).pluck(:id).uniq
+      scope.where(id: ids)
+    elsif values.second.present? && values.first.blank?
+      ids = Client.where('DATE(accepted_date) <= ?', values.first).pluck(:id).uniq
+      scope.where(id: ids)
+    end
+  end
+
+  filter(:exit_date, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.exit_date') }) do |values, scope|
+    if values.first.present? && values.second.present?
+      ids = Client.where(exit_date: values[0]..values[1]).pluck(:id).uniq
+      scope.where(id: ids)
+    elsif values.first.present? && values.second.blank?
+      ids = Client.where('DATE(exit_date) => ?', values.first).pluck(:id).uniq
+      scope.where(id: ids)
+    elsif values.second.present? && values.first.blank?
+      ids = Client.where('DATE(exit_date) <= ?', values.first).pluck(:id).uniq
       scope.where(id: ids)
     end
   end
@@ -493,6 +519,14 @@ class ClientGrid
 
   column(:state, header: -> { I18n.t('datagrid.columns.clients.state') }) do |object|
     object.state.titleize
+  end
+
+  column(:accepted_date, order: false, header: -> { I18n.t('datagrid.columns.clients.accepted_date') }) do |object|
+    object.accepted_date
+  end
+
+  column(:exit_date, order: false, header: -> { I18n.t('datagrid.columns.clients.exit_date') }) do |object|
+    object.accepted_date
   end
 
   column(:rejected_note, header: -> { I18n.t('datagrid.columns.clients.rejected_note') })

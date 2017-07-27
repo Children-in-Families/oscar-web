@@ -1149,6 +1149,7 @@ en:
       clients:
         able: Able
         able_state: Able State
+        accepted_date: Accepted Date
         address: Address
         age: Age
         agencies_involved: Agencies Involved
@@ -1174,6 +1175,7 @@ en:
         donor: Donor
         enrollment_date: Enrollment Date
         exit_date: Exit Date
+        exit_enrollment_date: Exit Enrollment Date
         family_id: Family ID
         family_name: Family Name
         follow_up_by: Followed Up By
