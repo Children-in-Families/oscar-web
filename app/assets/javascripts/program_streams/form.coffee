@@ -540,6 +540,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
           for field in fields[name]
             if labelField.textContent == field
               $(parent).children('div.field-actions').remove()
+              $(tracking).find('.ibox-footer').remove()
     )
 
   { init: _init }
