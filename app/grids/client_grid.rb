@@ -2,7 +2,7 @@ class ClientGrid
   extend ActionView::Helpers::TextHelper
   include Datagrid
 
-  attr_accessor :current_user, :qType
+  attr_accessor :current_user, :qType, :dynamic_columns
   scope do
     # Client.includes({ cases: [:family, :partner] }, :referral_source, :user, :received_by, :followed_up_by, :province, :assessments, :birth_province).order('clients.status, clients.given_name')
     Client.includes({ cases: [:family, :partner] }, :referral_source, :received_by, :followed_up_by, :province, :assessments, :birth_province).order('clients.status, clients.given_name')
@@ -543,6 +543,19 @@ class ClientGrid
 
   column(:any_assessments, class: 'text-center', header: -> { I18n.t('datagrid.columns.clients.assessments') }, html: true) do |object|
     render partial: 'clients/assessments', locals: { object: object }
+  end
+
+  dynamic do 
+    next unless dynamic_columns.present?
+    dynamic_columns.each do |column_builder|
+      fields = column_builder.split('_')
+      column(:"#{fields.last.parameterize('_')}", class: 'form-builder', header: -> {fields.last}, html: true) do |object|
+        if fields.first == 'formbuilder'
+          custom_field_properties = object.custom_field_properties.properties_by(fields.last)
+          render partial: 'clients/form_builder_dynamic/custom_form_value', locals: { custom_field_properties: custom_field_properties }
+        end
+      end
+    end
   end
 
   column(:manage, html: true, class: 'text-center', header: -> { I18n.t('datagrid.columns.clients.manage') }) do |object|

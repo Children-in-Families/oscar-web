@@ -169,4 +169,8 @@ module ClientsHelper
     current_address << I18n.t('datagrid.columns.clients.cambodia')
     current_address.compact.join(', ')
   end
+
+  def format_properties_value(value)
+    value.is_a?(Array) ? value.join(', ') : value 
+  end
 end
