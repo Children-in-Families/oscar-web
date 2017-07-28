@@ -11,6 +11,8 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
     _translatePagination()
     _initUploader()
     _handleDeleteAttachment()
+    _removeTask()
+    _removeHiddenTaskArising()
 
   _translatePagination = ->
     next     = $('#rootwizard').data('next')
@@ -145,6 +147,15 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
     $(".domain-#{data.domain_id} .task-arising ol").append(element)
     _clearTaskForm()
 
+    $('a.remove-task').on 'click', (e) ->
+      _deleteTask(e)
+
+  _removeHiddenTaskArising = ->
+    tasksList = $('li.list-group-item')
+    if $(tasksList).length > 0
+      $(tasksList).parents('.task-arising').removeClass('hidden')
+
+  _removeTask = ->
     $('a.remove-task').on 'click', (e) ->
       _deleteTask(e)
 

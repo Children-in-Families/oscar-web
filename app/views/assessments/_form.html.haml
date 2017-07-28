@@ -32,6 +32,10 @@
                     %label.control-label
                       = t('.tasks_arising')
                     %ol.tasks-list{ type: '1'}
+                      - @client.tasks.by_domain_id(domain).incomplete.each do |task|
+                        %li.list-group-item{style: 'padding-bottom: 11px'}
+                          = task.name
+                          %a.pull-right.remove-task.fa.fa-trash.btn.btn-outline.btn-danger.btn-xs{'data-url' => "/clients/#{@client.id}/tasks/#{task.id}", :style => "margin: 0;"}
                 .form-group
                   %button.assessment-task-btn.hidden.btn.btn-primary.pull-right{type: 'button', 'data-target' => "#tasksFromModal", 'data-toggle' => 'modal', 'data-domain-id': "#{domain.id}"}
                     = t('.add_task')
