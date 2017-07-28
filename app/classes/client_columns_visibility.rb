@@ -8,6 +8,9 @@ class ClientColumnsVisibility
     {
       live_with_: :live_with,
       id_poor_: :id_poor,
+      program_streams_: :program_streams,
+      program_enrollment_date_: :program_enrollment_date,
+      program_exit_date_: :program_exit_date,
       given_name_: :given_name,
       family_name_: :family_name,
       local_given_name_: :local_given_name,
