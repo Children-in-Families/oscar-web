@@ -115,6 +115,7 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
 
   _postTask = ->
     $('.add-task-btn').on 'click', (e) ->
+      $('.add-task-btn').attr('disabled','disabled')
       e.preventDefault()
       actionUrl = undefined
       data      = undefined
@@ -127,8 +128,10 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
         data: data
         success: (response) ->
           _addElementToDom(response, actionUrl)
+          $('.add-task-btn').removeAttr('disabled')
           $('#tasksFromModal').modal('hide')
         error: (response) ->
+          $('.add-task-btn').removeAttr('disabled')
           _showTaskError(response.responseJSON)
 
   _addElementToDom = (data, actionUrl) ->
