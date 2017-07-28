@@ -2,7 +2,7 @@
   .row.assessment-domains
     .col-xs-12
       #rootwizard{ data: { next: t('.next'), previous: t('.previous'), finish: t('.finish') } }
-        = f.simple_fields_for :assessment_domains do |ad|
+        = f.simple_fields_for 'assessment_domains', @assessment.assessment_domains_in_order do |ad|
           - domain = ad.object.domain
           %h4= domain.name
           %div{ class: "assessment-domain-item domain-#{domain.id}" }
