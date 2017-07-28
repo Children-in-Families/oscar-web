@@ -115,6 +115,12 @@ class ClientEnrollmentsController < AdminController
 
   def valid_program?
     program_active_status_ids   = ProgramStream.active_enrollments(@client).pluck(:id)
-    (@program_stream.program_exclusive & program_active_status_ids).empty? && (@program_stream.mutual_dependence - program_active_status_ids).empty?
+    if @program_stream.program_exclusive.any? && @program_stream.mutual_dependence.any?
+      (@program_stream.program_exclusive & program_active_status_ids).empty? && (@program_stream.mutual_dependence - program_active_status_ids).empty?
+    elsif @program_stream.mutual_dependence.any?
+      (@program_stream.mutual_dependence - program_active_status_ids).empty?
+    elsif @program_stream.program_exclusive.any?
+      (@program_stream.program_exclusive & program_active_status_ids).empty?
+    end
   end
 end
