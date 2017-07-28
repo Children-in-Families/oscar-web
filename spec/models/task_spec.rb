@@ -172,6 +172,7 @@ describe User, 'callbacks' do
         before do
           client.user_ids = [case_worker_a.id, case_worker_c.id]
           client.save
+          task.reload
         end
 
         it 'should have new case workers of the client it belongs to' do

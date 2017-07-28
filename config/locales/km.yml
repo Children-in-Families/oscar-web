@@ -1158,7 +1158,6 @@ km:
       clients:
         able: ឣតិថិជនក្នុងកម្មវិធីABLE
         able_state: ស្ថានភាព Able
-        accepted_date: កាលបរិច្ឆេទទទួលយក
         address: ឣាសយដ្ឋាន
         age: អាយុ
         agencies_involved: អង្គភាពដែលពាក់ព័ន្ធ
@@ -1182,9 +1181,6 @@ km:
         domain: កត្តា
         domains: កត្តា CSI ទាំងអស់
         donor: ម្ចាស់ជំនួយ
-        enrollment_date: កាលបរិច្ឆេទចុះឈ្មោះ
-        exit_date: កាលបរិច្ឆេទនៃការចាកចេញ
-        program_exit_date: កាលបរិច្ឆេទនៃការចាកចេញពីកម្មវិធី
         family_id: លេខសម្គាល់គ្រួសារ
         family_name: នាមត្រកូល
         follow_up_by: បុគ្គលិកដែលតាមដានករណី
@@ -1211,6 +1207,8 @@ km:
         local_given_name: នាមខ្លួន (Local)
         manage: សកម្មភាព
         name: ឈ្មោះ
+        ngo_accepted_date: កាលបរិច្ឆេទទទួលយកចូលអង្គការ
+        ngo_exit_date: កាលបរិច្ឆេទនៃការចាកចេញពីអង្គការ
         no_dob: ទេ
         placement_case_type: ប្រភេទករណីដែលត្រូវបានបញ្ជូនទៅ
         placement_start_date: ថ្ងៃបញ្ជូនទៅក្នុងករណី
@@ -1230,7 +1228,9 @@ km:
           start_date: ថ្ងៃចាប់ផ្តើម
           support_amount: ប្រាក់ឧបត្ថម្ភ
           support_note: ពត៌មានពីប្រាក់ឧប្ថម្ភ
-        program_name: ឈ្មោះកម្មវិធី
+        program_enrollment_date: កាលបរិច្ឆេទចុះឈ្មោះ
+        program_exit_date: កាលបរិច្ឆេទនៃការចាកចេញពីកម្មវិធី
+        program_streams: ឈ្មោះកម្មវិធី
         province: ខេត្តកំណើត
         quantitative_case_values: ទិន្នន័យនៃបរិមាណ
         quantitative_types: ប្រភេទនៃបរិមាណ

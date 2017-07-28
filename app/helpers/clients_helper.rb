@@ -114,6 +114,11 @@ module ClientsHelper
       changelog:                     t('datagrid.columns.clients.changelog'),
       live_with:                     t('datagrid.columns.clients.live_with'),
       id_poor:                       t('datagrid.columns.clients.id_poor'),
+      program_streams:               t('datagrid.columns.clients.program_streams'),
+      program_enrollment_date:       t('datagrid.columns.clients.program_enrollment_date'),
+      program_exit_date:             t('datagrid.columns.clients.program_exit_date'),
+      accepted_date:                 t('datagrid.columns.clients.ngo_accepted_date'),
+      exit_date:                     t('datagrid.columns.clients.ngo_exit_date')
     }
     label_tag "#{column}_", label_column[column.to_sym]
   end

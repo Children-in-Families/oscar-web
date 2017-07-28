@@ -326,7 +326,7 @@ class ClientGrid
   filter(:id_poor, :integer, header: -> { I18n.t('datagrid.columns.clients.id_poor') })
 
   unless Rails.env.production?
-    filter(:program_streams, :enum, multiple: true, select: :program_stream_options, header: -> { I18n.t('datagrid.columns.clients.program_name') }) do |name, scope|
+    filter(:program_streams, :enum, multiple: true, select: :program_stream_options, header: -> { I18n.t('datagrid.columns.clients.program_streams') }) do |name, scope|
       program_stream_ids = ProgramStream.name_like(name).ids
       ids = Client.joins(:client_enrollments).where(client_enrollments: { status: 'Active', program_stream_id: program_stream_ids } ).pluck(:id).uniq
       scope.where(id: ids)
@@ -337,7 +337,7 @@ class ClientGrid
     end
   end
 
-  filter(:enrollment_date, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.enrollment_date') }) do |values, scope|
+  filter(:program_enrollment_date, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.program_enrollment_date') }) do |values, scope|
     if values.first.present? && values.second.present?
       ids = Client.joins(:client_enrollments).where(client_enrollments: { status: 'Active', enrollment_date: values[0]..values[1]} ).pluck(:id).uniq
       scope.where(id: ids)
@@ -363,7 +363,7 @@ class ClientGrid
     end
   end
 
-  filter(:accepted_date, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.accepted_date') }) do |values, scope|
+  filter(:accepted_date, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.ngo_accepted_date') }) do |values, scope|
     if values.first.present? && values.second.present?
       ids = Client.where(accepted_date: values[0]..values[1]).pluck(:id).uniq
       scope.where(id: ids)
@@ -376,7 +376,7 @@ class ClientGrid
     end
   end
 
-  filter(:exit_date, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.exit_date') }) do |values, scope|
+  filter(:exit_date, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.ngo_exit_date') }) do |values, scope|
     if values.first.present? && values.second.present?
       ids = Client.where(exit_date: values[0]..values[1]).pluck(:id).uniq
       scope.where(id: ids)
@@ -442,6 +442,28 @@ class ClientGrid
   column(:follow_up_date, header: -> { I18n.t('datagrid.columns.clients.follow_up_date') })
 
   column(:id_poor, header: -> { I18n.t('datagrid.columns.clients.id_poor') })
+
+  column(:program_streams, order: false, header: -> { I18n.t('datagrid.columns.clients.program_streams') }) do |object|
+    # object.agencies.pluck(:name).join(', ')
+    object.client_enrollments.active.map{ |c| c.program_stream.name }.uniq.join(', ')
+  end
+
+  column(:program_enrollment_date, html: true, order: false, header: -> { I18n.t('datagrid.columns.clients.program_enrollment_date') }) do |object|
+    render partial: 'clients/active_client_enrollments', locals: { active_client_enrollments: object.client_enrollments.active } if object.client_enrollments.active.any?
+  end
+
+  column(:program_enrollment_date, html: false, header: -> { I18n.t('datagrid.columns.clients.program_enrollment_date') }) do |object|
+    object.client_enrollments.active.map{|a| a.enrollment_date }.join(' | ')
+  end
+
+  column(:program_exit_date, html: true, order: false, header: -> { I18n.t('datagrid.columns.clients.program_exit_date') }) do |object|
+    # object.client_enrollments.inactive.joins(:leave_program).map{|ce| ce.leave_program.exit_date }
+    render partial: 'clients/inactive_client_enrollments', locals: { inactive_client_enrollments: object.client_enrollments.inactive.joins(:leave_program) } if object.client_enrollments.inactive.joins(:leave_program).any?
+  end
+
+  column(:program_exit_date, html: false, header: -> { I18n.t('datagrid.columns.clients.program_exit_date') }) do |object|
+    object.client_enrollments.inactive.joins(:leave_program).map{|a| a.leave_program.exit_date }.join(' | ')
+  end
 
   column(:live_with, header: -> { I18n.t('datagrid.columns.clients.live_with') })
 
@@ -521,11 +543,11 @@ class ClientGrid
     object.state.titleize
   end
 
-  column(:accepted_date, header: -> { I18n.t('datagrid.columns.clients.accepted_date') }) do |object|
+  column(:accepted_date, header: -> { I18n.t('datagrid.columns.clients.ngo_accepted_date') }) do |object|
     object.accepted_date
   end
 
-  column(:exit_date, header: -> { I18n.t('datagrid.columns.clients.exit_date') }) do |object|
+  column(:exit_date, header: -> { I18n.t('datagrid.columns.clients.ngo_exit_date') }) do |object|
     object.exit_date
   end
 
