@@ -383,6 +383,7 @@ en:
       next: Next
       previous: Previous
       reason: Reason
+      save: Save
       tasks_arising: 'Tasks arising:'
     index:
       assessment_history: Assessment History
