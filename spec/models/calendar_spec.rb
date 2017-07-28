@@ -10,6 +10,7 @@ describe Calendar do
     let!(:task_1){ create(:task, client: client_1, name: 'My Task', completion_date: Date.today) }
     context 'populate_tasks' do
       before do
+        task_1.reload
         Calendar.populate_tasks(task_1)
       end
       it 'should include tasks of case workers of the client' do
