@@ -552,7 +552,10 @@ class ClientGrid
       column(:"#{fields.last.parameterize('_')}", class: 'form-builder', header: -> {fields.last}, html: true) do |object|
         if fields.first == 'formbuilder'
           custom_field_properties = object.custom_field_properties.properties_by(fields.last)
-          render partial: 'clients/form_builder_dynamic/custom_form_value', locals: { custom_field_properties: custom_field_properties }
+          render partial: 'clients/form_builder_dynamic/properties_value', locals: { properties: custom_field_properties }
+        elsif fields.first == 'enrollment'
+          enrollment_properties = object.client_enrollments.properties_by(fields.last)
+          render partial: 'clients/form_builder_dynamic/properties_value', locals: { properties:  enrollment_properties }
         end
       end
     end

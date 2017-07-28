@@ -9,7 +9,7 @@ module ClientGridOptions
   end
 
   def columns_visibility
-    @client_columns ||= ClientColumnsVisibility.new(@client_grid, params.merge(column_form_builder: column_form_builder))
+    @client_columns ||= ClientColumnsVisibility.new(@client_grid, params.merge(column_form_builder: form_builder_params))
     @client_columns.visible_columns
   end
 
@@ -25,8 +25,16 @@ module ClientGridOptions
     column_form_builder.each do |field|
       fields = field.split('_')
       @client_grid.column(:"#{fields.last.parameterize('_')}", header: fields.last) do |client|
-        custom_field_properties = client.custom_field_properties.properties_by(fields.last)
-        custom_field_properties.map{ |properties| format_properties_value(properties) }.join("\n")
+        if fields.first == 'formbuilder'
+          custom_field_properties = client.custom_field_properties.properties_by(fields.last)
+          custom_field_properties.map{ |properties| format_properties_value(properties) }.join("\n")
+        elsif fields.first == 'enrollment'
+          enrollment_properties = client.client_enrollments.properties_by(fields.last)
+          enrollment_properties.map{ |properties| format_properties_value(properties) }.join("\n")
+        elsif fields.first == 'tracking'
+        elsif fields.first == 'exitprogram'
+              
+        end
       end
     end
   end
@@ -34,9 +42,8 @@ module ClientGridOptions
   def admin_client_grid
     if params[:client_grid] && params[:client_grid][:quantitative_types]
       quantitative_types = params[:client_grid][:quantitative_types]
-      @client_grid = ClientGrid.new(params.fetch(:client_grid, {}).merge!(qType: quantitative_types))
+      @client_grid = ClientGrid.new(params.fetch(:client_grid, {}).merge!(qType: quantitative_types, dynamic_columns: column_form_builder))
     else
-      # @client_grid = ClientGrid.new(params[:client_grid].merge!(dynamic_columns: form_builder_column))
       @client_grid = ClientGrid.new(params.fetch(:client_grid, {}).merge!(dynamic_columns: column_form_builder))
     end
   end
@@ -44,18 +51,23 @@ module ClientGridOptions
   def non_admin_client_grid
     if params[:client_grid] && params[:client_grid][:quantitative_types]
       quantitative_types = params[:client_grid][:quantitative_types]
-      @client_grid = ClientGrid.new(params.fetch(:client_grid, {}).merge!(current_user: current_user, qType: quantitative_types))
+      @client_grid = ClientGrid.new(params.fetch(:client_grid, {}).merge!(current_user: current_user, qType: quantitative_types, dynamic_columns: column_form_builder))
     else
-      @client_grid = ClientGrid.new(params.fetch(:client_grid, {}).merge!(current_user: current_user))
+
+      @client_grid = ClientGrid.new(params.fetch(:client_grid, {}).merge!(current_user: current_user, dynamic_columns: column_form_builder))
     end
   end
 
   def column_form_builder
     advanced_search_params = params[:client_advanced_search]
     if advanced_search_params.present? && advanced_search_params[:basic_rules].present?
-      AdvancedSearches::ColumnGenerator.new(eval advanced_search_params[:basic_rules]).generate
+      @form_builder = AdvancedSearches::ColumnGenerator.new(eval advanced_search_params[:basic_rules]).generate.uniq
     else
-      []
+      @form_builder = []
     end
+  end
+
+  def form_builder_params
+    params[:form_builder].present? ? nil : column_form_builder
   end
 end

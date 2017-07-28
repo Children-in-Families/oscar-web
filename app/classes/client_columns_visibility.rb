@@ -74,6 +74,8 @@ class ClientColumnsVisibility
         field = column.split('_').last
         @grid.column_names << field.parameterize('_').to_sym
       end
+    elsif @params[:column_form_builder].nil?
+      @params[:form_builder].map{ |key, value| @grid.column_names << value }
     end
     columns_collection.each do |key, value|
       @grid.column_names << value if @params[key]

@@ -173,4 +173,12 @@ module ClientsHelper
   def format_properties_value(value)
     value.is_a?(Array) ? value.join(', ') : value 
   end
+
+  def form_builder_format_key(value)
+    value.split('_').last.parameterize('_')
+  end
+
+  def form_builder_format(value)
+    value.split('_').last
+  end
 end
