@@ -1,7 +1,7 @@
 = simple_form_for [@assessment.client, @assessment] do |f|
   .row.assessment-domains
     .col-xs-12
-      #rootwizard{ data: { next: t('.next'), previous: t('.previous'), finish: t('.finish') } }
+      #rootwizard{ data: { next: t('.next'), previous: t('.previous'), finish: t('.finish'), save: t('.save'), action: params['action'] } }
         = f.simple_fields_for 'assessment_domains', @assessment.assessment_domains_in_order do |ad|
           - domain = ad.object.domain
           %h4= domain.name
