@@ -51,9 +51,4 @@ class LeaveProgramsController < AdminController
   def find_program_stream
     @program_stream = @enrollment.program_stream
   end
-
-  def client_status
-    case_status = @client.cases.exclude_referred.current.case_type
-    status = "Active #{case_status}" if ProgramStream.active_enrollments(@client).count == 0
-  end
 end

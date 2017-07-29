@@ -12,6 +12,7 @@ class ClientEnrollment < ActiveRecord::Base
 
   scope :enrollments_by, ->(client) { where(client_id: client).order(:created_at) }
   scope :active, -> { where(status: 'Active') }
+  scope :inactive, -> { where(status: 'Exited') }
 
   after_create :set_client_status
 

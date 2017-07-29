@@ -274,7 +274,7 @@ describe User, 'methods' do
 
   let!(:used_user) { create(:user) }
   let!(:other_clent) { create(:client, users: [used_user]) }
-  let!(:task) { create(:task, user: used_user) }
+  let!(:task) { create(:task, users: [used_user]) }
   let!(:changelog) { create(:changelog, user: used_user) }
   let!(:location){ create(:location, name: 'ផ្សេងៗ Other') }
   let!(:progress_note) { create(:progress_note, user: used_user, location: location) }

@@ -163,6 +163,7 @@ describe User, 'callbacks' do
   context 'after_save' do
     context 'set_users' do
       it 'should have cases workers of the client it belongs to' do
+        task.reload
         expect(task.users).to include(case_worker_a, case_worker_b)
         expect(task.users).not_to include(case_worker_c)
       end
@@ -171,13 +172,16 @@ describe User, 'callbacks' do
         before do
           client.user_ids = [case_worker_a.id, case_worker_c.id]
           client.save
+          task.reload
         end
 
         it 'should have new case workers of the client it belongs to' do
+          task.reload
           expect(task.users).to include(case_worker_a, case_worker_c)
         end
 
         it 'should not have case workers who are not associated with its client anymore' do
+          task.reload
           expect(task.users).not_to include(case_worker_b)
         end
 

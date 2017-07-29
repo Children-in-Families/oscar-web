@@ -19,7 +19,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
   _handleDisabledRulesInputs = ->
     disble = $('#program-rule').attr('data-disable')
     if disble == 'true'
-      $('#program-rule').find('input, select, textarea, button').attr( 'disabled', 'disabled' )  
+      $('#program-rule').find('input, select, textarea, button').attr( 'disabled', 'disabled' )
 
   _stickyFill = ->
     if $('.form-wrap').is(':visible')
@@ -249,7 +249,6 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
               _handleCheckingForm(fld)
             ),50
       }
-
     }).data('formBuilder');
 
   _editTrackingFormName = ->
@@ -413,7 +412,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         _handleEditLabelName()
         buttonSave = $('#btn-save-draft')
         if $('#exit-program').is(':visible') then $(buttonSave).hide() else $(buttonSave).show()
-        _handleDisabledRulesInputs() if $('#rule-tab').is(':visible') 
+        _handleDisabledRulesInputs() if $('#rule-tab').is(':visible')
 
       onFinished: (event, currentIndex) ->
         $('.actions a:contains("Finish")').removeAttr('href')
@@ -445,11 +444,14 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     for element in $('#enrollment, #exit-program')
       dataElement = $(element).data('field')
       _initProgramBuilder($(element), (dataElement || []))
+    _preventRemoveEnrollmentField()
+    _preventRemoveExitProgramField()
 
     trackings = $('.tracking-builder')
     for tracking in trackings
       trackingValue = $(tracking).data('tracking')
       _initProgramBuilder(tracking, (trackingValue || []))
+    _preventRemoveTrackingField()
 
   _initButtonSave = ->
     form = $('form')
@@ -485,5 +487,60 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
 
   _addFooterForSubmitForm = ->
     $('.actions.clearfix').addClass('ibox-footer')
+
+  _preventRemoveEnrollmentField = ->
+    fields = ''
+    programStreamId = $('#program_stream_id').val()
+    $.ajax({
+      type: 'GET'
+      url: "/api/program_streams/#{programStreamId}/enrollment_fields"
+      dataType: "JSON"
+    }).success((json)->
+      fields = json.program_streams
+      labelFields = $('#steps-uid-0-p-2 label.field-label')
+      for labelField in labelFields
+        parent = $(labelField).parent()
+        for field in fields
+          if labelField.textContent == field
+            $(parent).children('div.field-actions').remove()
+    )
+
+  _preventRemoveExitProgramField = ->
+    fields = ''
+    programStreamId = $('#program_stream_id').val()
+    $.ajax({
+      type: 'GET'
+      url: "/api/program_streams/#{programStreamId}/exit_program_fields"
+      dataType: "JSON"
+    }).success((json)->
+      fields = json.program_streams
+      labelFields = $('#steps-uid-0-p-4 label.field-label')
+      for labelField in labelFields
+        parent = $(labelField).parent()
+        for field in fields
+          if labelField.textContent == field
+            $(parent).children('div.field-actions').remove()
+    )
+
+  _preventRemoveTrackingField = ->
+    fields = ''
+    programStreamId = $('#program_stream_id').val()
+    $.ajax({
+      type: 'GET'
+      url: "/api/program_streams/#{programStreamId}/tracking_fields"
+      dataType: "JSON"
+    }).success((json)->
+      fields = json
+      trackings = $('#trackings .nested-fields')
+      for tracking in trackings
+        name = $(tracking).find('input.string.optional.readonly.form-control').val()
+        labelFields = $(tracking).find('label.field-label')
+        for labelField in labelFields
+          parent = $(labelField).parent()
+          for field in fields[name]
+            if labelField.textContent == field
+              $(parent).children('div.field-actions').remove()
+              $(tracking).find('.ibox-footer').remove()
+    )
 
   { init: _init }

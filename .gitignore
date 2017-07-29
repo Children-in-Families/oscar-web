@@ -23,3 +23,4 @@ dump.rdb
 # For Mac OS only
 .DS_Store
 dump.rdb
+vendor/data

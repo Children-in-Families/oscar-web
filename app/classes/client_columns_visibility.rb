@@ -8,6 +8,9 @@ class ClientColumnsVisibility
     {
       live_with_: :live_with,
       id_poor_: :id_poor,
+      program_streams_: :program_streams,
+      program_enrollment_date_: :program_enrollment_date,
+      program_exit_date_: :program_exit_date,
       given_name_: :given_name,
       family_name_: :family_name,
       local_given_name_: :local_given_name,
@@ -39,6 +42,8 @@ class ClientColumnsVisibility
       relevant_referral_information_: :relevant_referral_information,
       user_ids_: :user,
       state_: :state,
+      accepted_date_: :accepted_date,
+      exit_date_: :exit_date,
       history_of_disability_and_or_illness_: :history_of_disability_and_or_illness,
       history_of_harm_: :history_of_harm,
       history_of_high_risk_behaviours_: :history_of_high_risk_behaviours,

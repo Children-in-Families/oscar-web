@@ -36,6 +36,7 @@
                   = simple_form_for @client, method: :put, url: client_path(@client) do |f|
                     .form-inputs
                       = f.hidden_field :state, value: 'accepted'
+                      = f.hidden_field :accepted_date, value: Date.today
                     .form-actions
                       = f.submit t('.accept'), class: 'btn btn-success agree-btn'
                 .col-xs-12
@@ -345,9 +346,9 @@
                   = t('.case_worker_or_staff')
                 %td
                   %strong
-                    - @client.case_worker_clients.each do |case_worker|
+                    - order_case_worker(@client).each do |case_worker|
                       %strong.label.label-default
-                        = user case_worker.user
+                        = user case_worker
               %tr
                 %td.spacing-first-col
                   = t('.agencies_involved')

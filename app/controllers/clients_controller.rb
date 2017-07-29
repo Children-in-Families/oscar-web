@@ -115,7 +115,7 @@ class ClientsController < AdminController
             :house_number, :street_number, :village, :commune, :district,
             :has_been_in_orphanage, :has_been_in_government_care,
             :relevant_referral_information, :province_id, :donor_id,
-            :state, :rejected_note, :able, :able_state, :live_with, :id_poor,
+            :state, :rejected_note, :able, :able_state, :live_with, :id_poor, :accepted_date,
             user_ids: [],
             agency_ids: [],
             quantitative_case_ids: [],
@@ -126,21 +126,10 @@ class ClientsController < AdminController
   end
 
   def set_association
-    @agencies             = Agency.order(:name)
-    @donors               = Donor.order(:name)
-    @province             = Province.order(:name)
-    @referral_source      = ReferralSource.order(:name)
-    @users                = User.non_strategic_overviewers.order(:first_name, :last_name)
-    @users                = users
-  end
-
-  def users
-    if current_user.admin?
-      User.order(:first_name, :last_name)
-    elsif current_user.any_manager?
-      User.where('id = :user_id OR manager_ids = ARRAY[:user_id]', { user_id: current_user.id }).order(:first_name, :last_name)
-    elsif current_user.case_worker?
-      User.where(id: current_user.id).order(:first_name, :last_name)
-    end
+    @agencies        = Agency.order(:name)
+    @donors          = Donor.order(:name)
+    @province        = Province.order(:name)
+    @referral_source = ReferralSource.order(:name)
+    @users           = User.non_strategic_overviewers.order(:first_name, :last_name)
   end
 end

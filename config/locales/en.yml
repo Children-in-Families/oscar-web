@@ -383,6 +383,7 @@ en:
       next: Next
       previous: Previous
       reason: Reason
+      save: Save
       tasks_arising: 'Tasks arising:'
     index:
       assessment_history: Assessment History
@@ -1198,6 +1199,8 @@ en:
         local_given_name: Given Name (Local)
         manage: Manage
         name: Name
+        ngo_accepted_date: NGO Accepted Date
+        ngo_exit_date: NGO Exit Date
         no_dob: 'No'
         placement_case_type: Placement Case Type
         placement_start_date: Placement Start Date
@@ -1217,7 +1220,9 @@ en:
           start_date: Start Date
           support_amount: Support Amount
           support_note: Support Note
-        program_name: Program Name
+        program_enrollment_date: Program Enrollment Date
+        program_exit_date: Program Exit Date
+        program_streams: Program Streams
         province: Birth Province
         quantitative_case_values: Quantitative Case
         quantitative_types: Quantitative Types

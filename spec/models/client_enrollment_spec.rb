@@ -50,25 +50,34 @@ end
 describe ClientEnrollment, 'scopes' do
   let!(:client) { create(:client) }
   let!(:program_stream) { create(:program_stream) }
-  let!(:client_enrollment) { create(:client_enrollment, program_stream: program_stream, client: client)}
+  let!(:active_client_enrollment) { create(:client_enrollment, program_stream: program_stream, client: client)}
+  let!(:inactive_client_enrollment) { create(:client_enrollment, program_stream: program_stream, client: client, status: 'Exited') }
   
   context 'enrollments_by' do
     subject{ ClientEnrollment.enrollments_by(client) }
     it 'return client enrollments with client and program_stream' do
-      is_expected.to include(client_enrollment)
+      is_expected.to include(active_client_enrollment)
     end
   end
 
   context 'active' do
-    let!(:exited_client_enrollment) { create(:client_enrollment, program_stream: program_stream, client: client, status: 'Exited') }
-
     subject{ ClientEnrollment.active }
     it 'should return client enrollment with active status' do
-      is_expected.to include(client_enrollment)
+      is_expected.to include(active_client_enrollment)
     end
 
     it 'should return client enrollment with exited status' do
-      is_expected.not_to include(exited_client_enrollment) 
+      is_expected.not_to include(inactive_client_enrollment)
+    end
+  end
+
+  context 'inactive' do
+    subject{ ClientEnrollment.inactive }
+    it 'should return inactive client enrollments' do
+      is_expected.to include(inactive_client_enrollment)
+    end
+    it 'should not return active client enrollments' do
+      is_expected.not_to include(active_client_enrollment)
     end
   end
 end

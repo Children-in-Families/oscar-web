@@ -170,6 +170,7 @@ Rails.application.routes.draw do
     end
     resources :custom_fields do
       get :fetch_custom_fields, on: :collection
+      get :fields
     end
     resources :client_advanced_searches, only: [] do
       collection do
@@ -189,11 +190,17 @@ Rails.application.routes.draw do
       end
     end
 
+    resources :program_streams, only: [] do
+      get :enrollment_fields
+      get :exit_program_fields
+      get :tracking_fields
+    end
+
     namespace :v1, default: { format: :json } do
       resources :domain_groups, only: [:index]
       resources :departments, only: [:index]
       resources :families, only: [:index, :create, :update]
-      resources :users, only: [:index]
+      resources :users, only: [:index, :show]
       resources :clients, except: [:edit, :new] do
         get :compare, on: :collection
         resources :assessments, only: [:create, :update, :destroy, :delete]
