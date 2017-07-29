@@ -82,6 +82,30 @@ describe ClientEnrollment, 'scopes' do
   end
 end
 
+describe ClientEnrollment, 'callbacks' do
+  let!(:program_stream) { create(:program_stream) }
+  let!(:client) { create(:client) }
+  let!(:client_enrollment) { create(:client_enrollment, program_stream: program_stream, client: client) }
+
+  context 'set_client_status' do
+    it 'return client status active when not in any case' do
+      expect(client_enrollment.client.status).to eq("Referred")
+      client_enrollment.reload
+      client_enrollment.update(enrollment_date: FFaker::Time.date)
+      expect(client_enrollment.client.status).to eq("Active")
+    end
+
+    it 'return client status active when in case EC' do
+      case_client = FactoryGirl.create(:case, client: client)
+      case_client_enrollment = FactoryGirl.create(:client_enrollment, program_stream: program_stream, client: client)
+      expect(case_client_enrollment.client.status).to eq("Active EC")
+      case_client_enrollment.reload
+      case_client_enrollment.update(enrollment_date: FFaker::Time.date)
+      expect(case_client_enrollment.client.status).to eq("Active")
+    end
+  end
+end
+
 describe ClientEnrollment, 'methods' do
   context 'has_client_enrollment_tracking?' do
     let!(:client) { create(:client) }
