@@ -94,3 +94,4 @@
 //= require client_enrollments/form
 //= require leave_programs/form
 //= require client_enrollment_trackings/form
+//= require organizations/index
