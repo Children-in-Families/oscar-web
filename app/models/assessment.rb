@@ -46,7 +46,6 @@ class Assessment < ActiveRecord::Base
   end
 
   def assessment_domains_in_order
-    binding.pry
     assessment_domains.order('created_at')
   end
 
