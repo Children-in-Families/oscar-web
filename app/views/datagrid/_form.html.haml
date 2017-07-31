@@ -94,7 +94,7 @@
             - @form_builder.each do |field|
               %li
                 .visibility.col-sm-12
-                  = check_box_tag "form_builder[#{form_builder_format_key(field)}_]", form_builder_format_key(field), checked = params[:form_builder].present? && params[:form_builder][:"#{form_builder_format_key(field)}_"].present?, class: 'i-checks'
+                  = check_box_tag "#{form_builder_format_key(field)}_", form_builder_format_key(field), params[:"#{form_builder_format_key(field)}_"].present?, class: 'i-checks'
                   = label_tag "#{form_builder_format_key(field)}_", form_builder_format(field)
           %li
             .visibility.col-sm-12

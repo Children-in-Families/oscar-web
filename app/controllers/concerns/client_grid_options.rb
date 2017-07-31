@@ -9,7 +9,7 @@ module ClientGridOptions
   end
 
   def columns_visibility
-    @client_columns ||= ClientColumnsVisibility.new(@client_grid, params.merge(column_form_builder: form_builder_params))
+    @client_columns ||= ClientColumnsVisibility.new(@client_grid, params.merge(column_form_builder: column_form_builder))
     @client_columns.visible_columns
   end
 
@@ -31,8 +31,8 @@ module ClientGridOptions
         elsif fields.first == 'enrollment'
           enrollment_properties = client.client_enrollments.properties_by(fields.last)
           enrollment_properties.map{ |properties| format_properties_value(properties) }.join("\n")
-        elsif fields.first == 'tracking'
-        elsif fields.first == 'exitprogram'
+        # elsif fields.first == 'tracking'
+        # elsif fields.first == 'exitprogram'
               
         end
       end

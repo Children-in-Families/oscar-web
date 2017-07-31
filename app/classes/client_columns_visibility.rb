@@ -62,23 +62,25 @@ class ClientColumnsVisibility
       any_assessments_: :any_assessments,
       donor_: :donor,
       manage_: :manage,
-      radio_group_: :radio_group,
       changelog_: :changelog
     }
   end
 
   def visible_columns
     @grid.column_names = []
+    add_custom_builder_columns.each do |key, value|
+      @grid.column_names << value if @params[key]
+    end
+  end
+
+  def add_custom_builder_columns
+    columns = columns_collection
     if @params[:column_form_builder].present?
       @params[:column_form_builder].each do |column|
         field = column.split('_').last
-        @grid.column_names << field.parameterize('_').to_sym
+        columns = columns.merge!("#{field.parameterize('_')}_": field.parameterize('_').to_sym)
       end
-    elsif @params[:column_form_builder].nil?
-      @params[:form_builder].map{ |key, value| @grid.column_names << value }
     end
-    columns_collection.each do |key, value|
-      @grid.column_names << value if @params[key]
-    end
+    columns
   end
 end
