@@ -15,7 +15,7 @@
       .ibox-content
         .table-responsive
           %table.table.table-bordered
-            - @client_enrollment.properties.each do |key, value|
+            - @client_enrollment.properties.reverse_each do |key, value|
               %tr
                 %td.align-justify
                   = key.titleize
