@@ -53,7 +53,6 @@ class Ability
       can :manage, Task
       can :manage, CustomFieldProperty, custom_formable_type: "Client"
       can :manage, CustomField
-      can :manage, ProgramStream
       can :manage, ClientEnrollment
       can :manage, ClientEnrollmentTracking
       can :manage, LeaveProgram
@@ -63,6 +62,7 @@ class Ability
       cannot :update, Assessment do |assessment|
         Date.current > assessment.created_at + 2.weeks
       end
+      can :read, ProgramStream
     elsif user.ec_manager?
       can :create, Client
       can :manage, Client, status: 'Active EC'
@@ -78,7 +78,6 @@ class Ability
       can :manage, CustomFieldProperty, custom_formable_type: 'Family'
       can :manage, CustomFieldProperty, custom_formable_type: 'Partner'
       can :manage, CustomField
-      can :manage, ProgramStream
       can :manage, ClientEnrollment
       can :manage, ClientEnrollmentTracking
       can :manage, LeaveProgram
@@ -88,6 +87,7 @@ class Ability
       cannot :update, Assessment do |assessment|
         Date.current > assessment.created_at + 2.weeks
       end
+      can :read, ProgramStream
     elsif user.fc_manager?
       can :create, Client
       can :manage, Client, status: 'Active FC'
@@ -103,7 +103,6 @@ class Ability
       can :manage, CustomFieldProperty, custom_formable_type: 'Family'
       can :manage, CustomFieldProperty, custom_formable_type: 'Partner'
       can :manage, CustomField
-      can :manage, ProgramStream
       can :manage, ClientEnrollment
       can :manage, ClientEnrollmentTracking
       can :manage, LeaveProgram
@@ -114,6 +113,7 @@ class Ability
       cannot :update, Assessment do |assessment|
         Date.current > assessment.created_at + 2.weeks
       end
+      can :read, ProgramStream
     elsif user.kc_manager?
       can :create, Client
       can :manage, Client, status: 'Active KC'
@@ -129,17 +129,17 @@ class Ability
       can :manage, CustomFieldProperty, custom_formable_type: 'Family'
       can :manage, CustomFieldProperty, custom_formable_type: 'Partner'
       can :manage, CustomField
-      can :manage, ProgramStream
       can :manage, ClientEnrollment
       can :manage, ClientEnrollmentTracking
       can :manage, LeaveProgram
       can :update, Assessment do |assessment|
         assessment.client.active_kc?
       end
-      can :read, Attachment
       cannot :update, Assessment do |assessment|
         Date.current > assessment.created_at + 2.weeks
       end
+      can :read, Attachment
+      can :read, ProgramStream
     elsif user.manager?
       can :manage, AbleScreeningQuestion
       can :create, Client
@@ -156,10 +156,10 @@ class Ability
       can :manage, CustomFieldProperty, custom_formable_type: 'Family'
       can :manage, CustomFieldProperty, custom_formable_type: 'Partner'
       can :manage, CustomField
-      can :manage, ProgramStream
       can :manage, ClientEnrollment
       can :manage, ClientEnrollmentTracking
       can :manage, LeaveProgram
+      can :read, ProgramStream
       can :read, ProgressNote
     end
   end

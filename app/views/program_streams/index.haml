@@ -4,7 +4,8 @@
       .ibox-title
         %h5= t('.program_list')
         .ibox-tools
-          = link_to t('.new_program'), new_program_stream_path, class: 'btn btn-primary btn-add'
+          - if can? :manage, ProgramStream
+            = link_to t('.new_program'), new_program_stream_path, class: 'btn btn-primary btn-add'
       .ibox-content
         %div
           %ul.nav.nav-tabs{role: "tablist"}
