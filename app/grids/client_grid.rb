@@ -333,7 +333,7 @@ class ClientGrid
     end
 
     def program_stream_options
-      ProgramStream.joins(:client_enrollments).where(client_enrollments: {status: 'Active'}).complete.ordered.pluck(:name).uniq
+      ProgramStream.complete.ordered.pluck(:name).uniq
     end
   end
 
