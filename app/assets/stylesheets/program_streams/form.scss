@@ -1,6 +1,6 @@
 body[id='program_streams-new'], body[id='program_streams-edit'],
 body[id='program_streams-update'], body[id='program_streams-create'] {
-  
+
   .wizard > .content > .body {
     #enrollment, #trackings, #exit-program {
       input[type='radio'] {
@@ -103,4 +103,8 @@ body[id='program_streams-update'], body[id='program_streams-create'] {
     }
   }
 
+  .hide-tracking-form {
+    pointer-events: none;
+    opacity: 0.4;
+  }
 }
