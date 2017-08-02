@@ -328,12 +328,12 @@ class ClientGrid
   unless Rails.env.production?
     filter(:program_streams, :enum, multiple: true, select: :program_stream_options, header: -> { I18n.t('datagrid.columns.clients.program_streams') }) do |name, scope|
       program_stream_ids = ProgramStream.name_like(name).ids
-      ids = Client.joins(:client_enrollments).where(client_enrollments: { status: 'Active', program_stream_id: program_stream_ids } ).pluck(:id).uniq
+      ids = Client.joins(:client_enrollments).where(client_enrollments: { program_stream_id: program_stream_ids } ).pluck(:id).uniq
       scope.where(id: ids)
     end
 
     def program_stream_options
-      ProgramStream.joins(:client_enrollments).where(client_enrollments: {status: 'Active'}).complete.ordered.pluck(:name).uniq
+      ProgramStream.joins(:client_enrollments).complete.ordered.pluck(:name).uniq
     end
   end
 
@@ -444,8 +444,7 @@ class ClientGrid
   column(:id_poor, header: -> { I18n.t('datagrid.columns.clients.id_poor') })
 
   column(:program_streams, order: false, header: -> { I18n.t('datagrid.columns.clients.program_streams') }) do |object|
-    # object.agencies.pluck(:name).join(', ')
-    object.client_enrollments.active.map{ |c| c.program_stream.name }.uniq.join(', ')
+    object.client_enrollments.map{ |c| c.program_stream.name }.uniq.join(', ')
   end
 
   column(:program_enrollment_date, html: true, order: false, header: -> { I18n.t('datagrid.columns.clients.program_enrollment_date') }) do |object|
