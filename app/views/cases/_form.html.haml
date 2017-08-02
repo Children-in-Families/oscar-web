@@ -26,7 +26,7 @@
             %label= t('.family_preservation')
             = f.input :family_preservation, as: :radio_buttons, collection: [['Yes', true],['No', false]], label: false
         .col-xs-12.col-sm-6.col-md-4= f.input :support_note, input_html: { rows: 5 }, label: t('.support_note')
-      - if (can? :manage, :all) && @case.persisted? && @case.exited?
+      - if (current_user.admin? || current_user.manager?) && @case.persisted? && @case.exited?
         .row
           .col-xs-12.col-sm-6.col-md-4.form-group.date.optional.case_exit_datee{ class: ('has-error' if f.error :exit_date) }
             %label.date.required.control-label{ for: 'case_exit_date' }
