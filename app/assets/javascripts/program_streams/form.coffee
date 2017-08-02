@@ -22,6 +22,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
   _initCheckbox = ->
     $('.i-checks').iCheck
       checkboxClass: 'icheckbox_square-green'
+    $($('.icheckbox_square-green.checked')[0]).removeClass('checked')
 
   _handleDisabledRulesInputs = ->
     disble = $('#program-rule').attr('data-disable')
@@ -509,6 +510,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
   _preventRemoveEnrollmentField = ->
     fields = ''
     programStreamId = $('#program_stream_id').val()
+    return if programStreamId == ''
     $.ajax({
       type: 'GET'
       url: "/api/program_streams/#{programStreamId}/enrollment_fields"
@@ -526,6 +528,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
   _preventRemoveExitProgramField = ->
     fields = ''
     programStreamId = $('#program_stream_id').val()
+    return if programStreamId == ''
     $.ajax({
       type: 'GET'
       url: "/api/program_streams/#{programStreamId}/exit_program_fields"
@@ -543,6 +546,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
   _preventRemoveTrackingField = ->
     fields = ''
     programStreamId = $('#program_stream_id').val()
+    return if programStreamId == ''
     $.ajax({
       type: 'GET'
       url: "/api/program_streams/#{programStreamId}/tracking_fields"
