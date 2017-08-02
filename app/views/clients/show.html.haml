@@ -132,7 +132,7 @@
                 %span.caret
               %ul.dropdown-menu
                 %li
-                  - if @client.cases.exclude_referred.emergencies.inactive.present? && (ec_manageable ||strategic_overviewer?)
+                  - if @client.cases.exclude_referred.emergencies.inactive.present? && (ec_manageable || strategic_overviewer?)
                     = link_to client_cases_path(@client, case_type: 'EC') do
                       %span.text-success= t('.view_ec_history_btn_link')
                 %li
