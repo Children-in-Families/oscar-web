@@ -34,6 +34,12 @@ module AdvancedSearches
           @sql_string << enrollment_fields[:id]
           @values << enrollment_fields[:values]
 
+        elsif form_builder.first == 'enrollmentdate'
+          program_stream = ProgramStream.find_by(name: form_builder.second)
+          enrollment_date = AdvancedSearches::EnrollmentDateSqlBuilder.new(program_stream.id, rule).get_sql
+          @sql_string << enrollment_date[:id]
+          @values << enrollment_date[:values]
+
         elsif form_builder.first == 'tracking'
           tracking = Tracking.find_by(name: form_builder.third)
           tracking_fields = AdvancedSearches::TrackingSqlBuilder.new(tracking.id, rule).get_sql
