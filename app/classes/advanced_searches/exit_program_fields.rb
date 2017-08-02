@@ -29,6 +29,7 @@ module AdvancedSearches
       program_streams = ProgramStream.where(id: @program_ids)
 
       program_streams.each do |program_stream|
+        @date_type_list << "programexitdate_#{program_stream.name}_Exit Date"
         program_stream.exit_program.each do |json_field|
           if json_field['type'] == 'text' || json_field['type'] == 'textarea'
             @text_type_list << "exitprogram_#{program_stream.name}_#{json_field['label']}"
