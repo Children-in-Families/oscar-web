@@ -2740,7 +2740,7 @@ en:
     tracking:
       add_tracking: Add Tracking
       tracking_form: Progress Tracking
-      not_require_tracking: This Program Stream does not require any tracking form
+      not_require_tracking: This Program Stream does not require any tracking form.
     tracking_fields:
       frequency: Frequency
       name: Name
