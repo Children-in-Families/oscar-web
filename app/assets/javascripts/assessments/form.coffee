@@ -15,6 +15,13 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
     _removeHiddenTaskArising()
     _saveAssessment(form)
 
+  _handleAppendAddTaskBtn = ->
+    scores = $('.score_option:visible').find('label.collection_radio_buttons.label-danger, label.collection_radio_buttons.label-warning')
+    if $(scores).length > 0
+      $(".assessment-task-btn, .task_required").removeClass('hidden').show()
+    else
+      $(".assessment-task-btn, .task_required").hide()
+
   _translatePagination = ->
     next     = $('#rootwizard').data('next')
     previous = $('#rootwizard').data('previous')
@@ -63,6 +70,7 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       onInit: (event, currentIndex) ->
         _formEdit(currentIndex)
         _appendSaveButton()
+        _handleAppendAddTaskBtn()
 
       onStepChanging: (event, currentIndex, newIndex) ->
         if currentIndex > newIndex
@@ -74,6 +82,7 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
 
       onStepChanged: (event, currentIndex, priorIndex) ->
         _formEdit(currentIndex)
+        _handleAppendAddTaskBtn()
         if currentIndex == 11
           $("#rootwizard a[href='#save']").remove()
 
