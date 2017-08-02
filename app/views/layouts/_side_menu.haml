@@ -104,7 +104,7 @@
               - if can? :read, CustomField
                 %li{ class: active_menu('custom_fields') }
                   = link_to t('.custom_fields'), custom_fields_path
-              - if can? :manage, ProgramStream
+              - if can? :read, ProgramStream
                 - unless Rails.env.production?
                   %li{ class: active_menu('program_streams') }
                     = link_to t('.program_streams'), program_streams_path
