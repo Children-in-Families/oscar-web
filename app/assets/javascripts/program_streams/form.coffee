@@ -498,13 +498,13 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     $('.actions.clearfix').addClass('ibox-footer')
 
   _handleHideTracking = ->
-    if $('#program_stream_tracking').prop('checked')
+    if $('#program_stream_tracking_required').prop('checked')
       $('#trackings').addClass('hide-tracking-form')
-    $('#program_stream_tracking').on 'ifChecked', ->
+    $('#program_stream_tracking_required').on 'ifChecked', ->
       $('#trackings').addClass('hide-tracking-form')
 
   _handleShowTracking = ->
-    $('#program_stream_tracking').on 'ifUnchecked', ->
+    $('#program_stream_tracking_required').on 'ifUnchecked', ->
       $('#trackings').removeClass('hide-tracking-form')
 
   _preventRemoveEnrollmentField = ->

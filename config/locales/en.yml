@@ -749,7 +749,7 @@ en:
     show:
       are_you_sure: Are you sure you want to delete?
       back: Back
-      enrollment_date: Enroll Date
+      enrollment_date: Enrolled on
     update:
       successfully_updated: Enrollment has been successfully updated.
   clients:

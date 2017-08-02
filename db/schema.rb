@@ -547,17 +547,17 @@ ActiveRecord::Schema.define(version: 20170801072754) do
   create_table "program_streams", force: :cascade do |t|
     t.string   "name"
     t.text     "description"
-    t.jsonb    "rules",             default: {}
-    t.jsonb    "enrollment",        default: {}
-    t.jsonb    "exit_program",      default: {}
     t.datetime "created_at",                        null: false
     t.datetime "updated_at",                        null: false
     t.integer  "quantity"
     t.string   "ngo_name",          default: ""
+    t.jsonb    "rules",             default: {}
+    t.jsonb    "enrollment",        default: {}
+    t.jsonb    "exit_program",      default: {}
     t.boolean  "completed",         default: false
     t.integer  "program_exclusive", default: [],                 array: true
     t.integer  "mutual_dependence", default: [],                 array: true
-    t.boolean  "tracking",          default: false
+    t.boolean  "tracking_required", default: false
   end
 
   create_table "progress_note_types", force: :cascade do |t|
@@ -903,7 +903,7 @@ ActiveRecord::Schema.define(version: 20170801072754) do
 
   create_table "trackings", force: :cascade do |t|
     t.string   "name",              default: ""
-    t.jsonb    "fields",            default: {}
+    t.jsonb    "fields"
     t.string   "frequency",         default: ""
     t.integer  "time_of_frequency"
     t.integer  "program_stream_id"
