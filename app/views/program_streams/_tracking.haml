@@ -5,3 +5,5 @@
       = render 'tracking_fields', f: ff
     .links
       = link_to_add_association t('.add_tracking'), f, :trackings, class: 'btn btn-primary pull-right'
+  #not-require-tracking
+    = f.input :tracking, label: 'This Program Stream does not require any tracking form', input_html: { class: 'i-checks' }
