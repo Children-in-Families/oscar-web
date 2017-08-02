@@ -132,15 +132,15 @@ module ClientsHelper
   end
 
   def ec_manageable
-    current_user.admin? || current_user.case_worker? || current_user.ec_manager?
+    current_user.admin? || current_user.case_worker? || current_user.ec_manager? || current_user.manager?
   end
 
   def fc_manageable
-    current_user.admin? || current_user.case_worker? || current_user.fc_manager?
+    current_user.admin? || current_user.case_worker? || current_user.fc_manager? || current_user.manager?
   end
 
   def kc_manageable
-    current_user.admin? || current_user.case_worker? || current_user.kc_manager?
+    current_user.admin? || current_user.case_worker? || current_user.kc_manager? || current_user.manager?
   end
 
   def can_read_client_progress_note?
