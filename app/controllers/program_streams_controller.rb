@@ -1,6 +1,5 @@
 class ProgramStreamsController < AdminController
   load_and_authorize_resource
-  skip_authorize_resource only: :preview
 
   before_action :find_program_stream, except: [:index, :new, :create, :preview]
   before_action :find_ngo

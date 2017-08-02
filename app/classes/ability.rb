@@ -5,6 +5,8 @@ class Ability
     can :manage, Agency
     can :manage, ReferralSource
     can :manage, QuarterlyReport
+    can :read, ProgramStream
+    can :preview, ProgramStream
 
     if user.admin?
       can :manage, :all
@@ -40,7 +42,6 @@ class Ability
       cannot :update, Assessment do |assessment|
         Date.current > assessment.created_at + 2.weeks
       end
-      can :read, ProgramStream
     elsif user.able_manager?
       can :manage, AbleScreeningQuestion
       can :manage, Assessment
@@ -62,7 +63,6 @@ class Ability
       cannot :update, Assessment do |assessment|
         Date.current > assessment.created_at + 2.weeks
       end
-      can :read, ProgramStream
     elsif user.ec_manager?
       can :create, Client
       can :manage, Client, status: 'Active EC'
@@ -87,7 +87,6 @@ class Ability
       cannot :update, Assessment do |assessment|
         Date.current > assessment.created_at + 2.weeks
       end
-      can :read, ProgramStream
     elsif user.fc_manager?
       can :create, Client
       can :manage, Client, status: 'Active FC'
@@ -113,7 +112,6 @@ class Ability
       cannot :update, Assessment do |assessment|
         Date.current > assessment.created_at + 2.weeks
       end
-      can :read, ProgramStream
     elsif user.kc_manager?
       can :create, Client
       can :manage, Client, status: 'Active KC'
@@ -139,7 +137,6 @@ class Ability
         Date.current > assessment.created_at + 2.weeks
       end
       can :read, Attachment
-      can :read, ProgramStream
     elsif user.manager?
       can :manage, AbleScreeningQuestion
       can :create, Client
@@ -159,7 +156,6 @@ class Ability
       can :manage, ClientEnrollment
       can :manage, ClientEnrollmentTracking
       can :manage, LeaveProgram
-      can :read, ProgramStream
       can :read, ProgressNote
     end
   end
