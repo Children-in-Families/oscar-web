@@ -55,7 +55,7 @@ CIF.Client_advanced_searchesIndex = do ->
 
   _initSelect2 = ->
     $('#custom-form-select, #program-stream-select, #quantitative-case-select').select2()
-    $('.rule-filter-container select').select2(width: '320px')
+    $('.rule-filter-container select').select2(width: '250px')
     $('.rule-operator-container select, .rule-value-container select').select2(width: 'resolve')
 
   _setValueToBuilderSelected = ->
