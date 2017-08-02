@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170727032556) do
+ActiveRecord::Schema.define(version: 20170801072754) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -585,6 +585,7 @@ ActiveRecord::Schema.define(version: 20170727032556) do
     t.boolean  "completed",         default: false
     t.integer  "program_exclusive", default: [],                 array: true
     t.integer  "mutual_dependence", default: [],                 array: true
+    t.boolean  "tracking_required", default: false
   end
 
   create_table "progress_note_types", force: :cascade do |t|
