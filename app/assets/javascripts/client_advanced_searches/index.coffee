@@ -312,9 +312,7 @@ CIF.Client_advanced_searchesIndex = do ->
         if $(label).last()[0].trim() == resourcelabel and label[0].trim() == resourceName
           container = $(select).parents('.rule-container')
           $(container).find('select').select2('destroy')
-          setTimeout ( ->
-            $(container).find('.rule-header button').trigger('click')
-            )
+          $(container).find('.rule-header button').trigger('click')
 
     setTimeout ( ->
       if $('.rule-container .rule-filter-container select').length == 0
