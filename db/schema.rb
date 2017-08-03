@@ -557,7 +557,6 @@ ActiveRecord::Schema.define(version: 20170802065632) do
     t.boolean  "completed",         default: false
     t.integer  "program_exclusive", default: [],                 array: true
     t.integer  "mutual_dependence", default: [],                 array: true
-    t.boolean  "tracking",          default: false
     t.boolean  "tracking_required", default: false
   end
 
