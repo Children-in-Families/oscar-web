@@ -749,7 +749,7 @@ en:
     show:
       are_you_sure: Are you sure you want to delete?
       back: Back
-      enrollment_date: Enroll Date
+      enrollment_date: Enrolled on
     update:
       successfully_updated: Enrollment has been successfully updated.
   clients:
@@ -2737,9 +2737,11 @@ en:
       quantity: Quantity
       rules: Rules
       tracking: Tracking
+      not_require_tracking: This Program Stream does not require any tracking form.
     tracking:
       add_tracking: Add Tracking
       tracking_form: Progress Tracking
+      not_require_tracking: This Program Stream does not require any tracking form.
     tracking_fields:
       frequency: Frequency
       name: Name

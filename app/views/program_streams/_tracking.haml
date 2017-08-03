@@ -5,3 +5,5 @@
       = render 'tracking_fields', f: ff
     .links
       = link_to_add_association t('.add_tracking'), f, :trackings, class: 'btn btn-primary pull-right'
+  #not-require-tracking
+    = f.input :tracking_required, label: t('.not_require_tracking'), input_html: { class: 'i-checks' }

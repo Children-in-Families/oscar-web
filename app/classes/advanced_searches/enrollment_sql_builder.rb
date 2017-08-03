@@ -12,7 +12,7 @@ module AdvancedSearches
 
     def get_sql
       sql_string = 'clients.id IN (?)'
-      client_enrollments = ClientEnrollment.active.where(program_stream_id: @program_stream_id)
+      client_enrollments = ClientEnrollment.where(program_stream_id: @program_stream_id)
 
       case @operator
       when 'equal'
