@@ -16,9 +16,9 @@
       .ibox-content
         .table-responsive
           %table.table.table-bordered
-            - @client_enrollment.properties.each do |key, value|
+            - @program_stream.enrollment.map{|properties| properties['label']}.each do |key|
               %tr
                 %td.align-justify
-                  = key.titleize
+                  = key
                 %td.align-justify
-                  = display_custom_properties(value)
+                  = display_custom_properties(@client_enrollment.properties[key])
