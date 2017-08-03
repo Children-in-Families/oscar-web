@@ -56,7 +56,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         $(@).addClass('done')
 
   _handleSaveProgramStream = ->
-    form = $('form')
+    form = $('#program-stream')
     $('#btn-save-draft').on 'click', ->
       if _handleCheckingDuplicateFields()
         return false
@@ -550,7 +550,9 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       fields = json
       trackings = $('#trackings .nested-fields')
       for tracking in trackings
-        name = $(tracking).find('input.string.optional.readonly.form-control').val()
+        trackingName = $(tracking).find('input.string.optional.readonly.form-control')
+        return if $(trackingName).length == 0
+        name = $(trackingName).val()
         labelFields = $(tracking).find('label.field-label')
         for labelField in labelFields
           parent = $(labelField).parent()
