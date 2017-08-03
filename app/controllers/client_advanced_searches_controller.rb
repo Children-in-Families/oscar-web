@@ -36,7 +36,7 @@ class ClientAdvancedSearchesController < AdminController
   end
 
   def get_program_streams
-    @program_streams = ProgramStream.complete.ordered
+    @program_streams = ProgramStream.complete.joins(:client_enrollments).order(:name).uniq
   end
 
   def program_stream_values

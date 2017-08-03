@@ -10,6 +10,7 @@ module AdvancedSearches
       @text_type_list       = []
       @date_type_list       = []
       @drop_down_type_list  = []
+      @enrollment_data_list = []
 
       generate_field_by_type
     end
@@ -20,16 +21,20 @@ module AdvancedSearches
       date_picker_fields  = @date_type_list.map { |item| AdvancedSearches::FilterTypes.date_picker_options(item, format_label(item), format_optgroup(item)) }
       drop_list_fields    = @drop_down_type_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first, format_label(item.first) , item.last, format_optgroup(item.first)) }
 
-      results = text_fields + drop_list_fields + number_fields + date_picker_fields
 
+      results = text_fields + drop_list_fields + number_fields + date_picker_fields
       results.sort_by { |f| f[:label].downcase }
+
+      @enrollment_data_list.map{ |item|results.unshift AdvancedSearches::FilterTypes.date_picker_options(item, format_label(item), format_optgroup(item)) }
+      
+      results
     end
 
     def generate_field_by_type
       program_streams = ProgramStream.where(id: @program_ids)
 
       program_streams.each do |program_stream|
-        @date_type_list << "enrollmentdate_#{program_stream.name}_Enrollment Date"
+        @enrollment_data_list << "enrollmentdate_#{program_stream.name}_Enrollment Date"
         program_stream.enrollment.each do |json_field|
           if json_field['type'] == 'text' || json_field['type'] == 'textarea'
             @text_type_list << "enrollment_#{program_stream.name}_#{json_field['label']}"
