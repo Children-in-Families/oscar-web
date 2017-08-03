@@ -1,4 +1,4 @@
-= simple_form_for(@client) do |f|
+= simple_form_for(@client, html: { class: 'client-form' }) do |f|
   = hidden_field(:client, :id, value: @client.id)
   .ibox-content
     = error_notification(f)
