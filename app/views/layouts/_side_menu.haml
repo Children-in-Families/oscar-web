@@ -100,7 +100,7 @@
                   - if current_user.program_warning?
                     = link_to t('.program_streams'), program_streams_path
                   - else
-                    %a{"data-target" => ".bs-example-modal-lg", "data-toggle" => "modal", :type => "button"}=t('.program_streams')
+                    %a{"data-target" => "#warning-program", "data-toggle" => "modal", :type => "button"}=t('.program_streams')
               %li{ class: active_menu('changelogs') }
                 = link_to t('.release_logs'), changelogs_path
             - else

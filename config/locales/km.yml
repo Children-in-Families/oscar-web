@@ -2606,7 +2606,7 @@ km:
     client_enrollment_tracking_overdue:
       clients: អតិថិជន
       client_enrollment_tracking_notification: ការជូនដំណឹងនៃការ​តាមដានដែលត្រូវបំពេញ
-  ok: ទទួលយក
+  ok: យល់ព្រម
   partners:
     actions:
       are_you_sure: តើអ្នកប្រាកដហើយ?
@@ -2751,6 +2751,7 @@ km:
     tracking:
       add_tracking: បន្ថែមកាតាមដាន
       tracking_form: ទម្រង់បែបបទតាមដាន
+      not_require_tracking: ទម្រង់បែបបទនេះមិនត្រូវការទម្រង់តាមដានទេ
     tracking_fields:
       frequency: ភាពញឹកញាប់
       name: ឈ្មោះ

@@ -4,6 +4,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     @filterTranslation = ''
     _getTranslation()
     _initProgramSteps()
+    _initCheckbox()
     _addFooterForSubmitForm()
     _handleInitProgramRules()
     _addRuleCallback()
@@ -15,6 +16,13 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     _handleSaveProgramStream()
     _handleClickAddTracking()
     _handleRemoveProgramList()
+    _handleShowTracking()
+    _handleHideTracking()
+
+  _initCheckbox = ->
+    $('.i-checks').iCheck
+      checkboxClass: 'icheckbox_square-green'
+    $($('.icheckbox_square-green.checked')[0]).removeClass('checked')
 
   _handleDisabledRulesInputs = ->
     disble = $('#program-rule').attr('data-disable')
@@ -399,6 +407,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
           name = $('#program_stream_name').val() == ''
           return false if name
         else if currentIndex == 3 and newIndex == 4 and $('#trackings').is(':visible')
+          return true if $('#trackings').hasClass('hide-tracking-form')
           _handleCheckTrackingName()
           return false if _handleCheckingDuplicateFields()
         else if $('#enrollment, #exit-program').is(':visible')
@@ -488,9 +497,20 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
   _addFooterForSubmitForm = ->
     $('.actions.clearfix').addClass('ibox-footer')
 
+  _handleHideTracking = ->
+    if $('#program_stream_tracking_required').prop('checked')
+      $('#trackings').addClass('hide-tracking-form')
+    $('#program_stream_tracking_required').on 'ifChecked', ->
+      $('#trackings').addClass('hide-tracking-form')
+
+  _handleShowTracking = ->
+    $('#program_stream_tracking_required').on 'ifUnchecked', ->
+      $('#trackings').removeClass('hide-tracking-form')
+
   _preventRemoveEnrollmentField = ->
     fields = ''
     programStreamId = $('#program_stream_id').val()
+    return if programStreamId == ''
     $.ajax({
       type: 'GET'
       url: "/api/program_streams/#{programStreamId}/enrollment_fields"
@@ -508,6 +528,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
   _preventRemoveExitProgramField = ->
     fields = ''
     programStreamId = $('#program_stream_id').val()
+    return if programStreamId == ''
     $.ajax({
       type: 'GET'
       url: "/api/program_streams/#{programStreamId}/exit_program_fields"
@@ -525,6 +546,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
   _preventRemoveTrackingField = ->
     fields = ''
     programStreamId = $('#program_stream_id').val()
+    return if programStreamId == ''
     $.ajax({
       type: 'GET'
       url: "/api/program_streams/#{programStreamId}/tracking_fields"

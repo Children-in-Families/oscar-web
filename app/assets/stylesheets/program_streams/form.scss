@@ -103,4 +103,13 @@ body[id='program_streams-update'], body[id='program_streams-create'] {
     }
   }
 
+  #not-require-tracking {
+    width: 80%;
+  }
+
+  .hide-tracking-form {
+    pointer-events: none;
+    opacity: 0.4;
+  }
+
 }
