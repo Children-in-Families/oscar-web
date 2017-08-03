@@ -301,6 +301,8 @@ en:
       local_family_name: Family Name (Local)
       local_given_name: Given Name (Local)
       name: Name
+      ngo_accepted_date: NGO Accepted Date
+      ngo_exit_date: NGO Exit Date
       placement_start_date: Placement Start Date
       province: Birth Province
       province_id: Current Province
