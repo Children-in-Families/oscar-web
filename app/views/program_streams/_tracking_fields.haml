@@ -5,6 +5,7 @@
         .col-xs-12
           .row
             .col-xs-12.col-md-4
+              %abbr.pull-left{ title: 'required' } *
               = f.input :name, label: t('.name'), readonly: f.object.is_used?
             .col-xs-12.col-md-4
               = f.input :frequency, collection: Tracking::FREQUENCIES, label: t('.frequency')
