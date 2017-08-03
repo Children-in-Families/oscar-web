@@ -10,6 +10,7 @@ module AdvancedSearches
       @text_type_list       = []
       @date_type_list       = []
       @drop_down_type_list  = []
+      @exit_data_list       = []
 
       generate_field_by_type
     end
@@ -23,13 +24,17 @@ module AdvancedSearches
       results = text_fields + drop_list_fields + number_fields + date_picker_fields
 
       results.sort_by { |f| f[:label].downcase }
+
+      @exit_data_list.map{ |item|results.unshift AdvancedSearches::FilterTypes.date_picker_options(item, format_label(item), format_optgroup(item)) }
+      
+      results
     end
 
     def generate_field_by_type
       program_streams = ProgramStream.where(id: @program_ids)
 
       program_streams.each do |program_stream|
-        @date_type_list << "programexitdate_#{program_stream.name}_Exit Date"
+        @exit_data_list << "programexitdate_#{program_stream.name}_Exit Date"
         program_stream.exit_program.each do |json_field|
           if json_field['type'] == 'text' || json_field['type'] == 'textarea'
             @text_type_list << "exitprogram_#{program_stream.name}_#{json_field['label']}"
