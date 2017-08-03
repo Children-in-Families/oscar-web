@@ -116,7 +116,7 @@ class FamilyGrid
 
   column(:case_worker, header: -> { I18n.t('datagrid.columns.families.case_workers') }, html: false) do |object|
     user_ids = Client.joins(:cases).where(cases: { id: object.cases.non_emergency.active.ids }).joins(:case_worker_clients).map(&:user_ids).flatten.uniq
-    User.where(id: user_ids).map{|a| "#{a.first_name} #{a.last_name} "}.join(', ')
+    User.where(id: user_ids).map{|u| u.name }.join(', ')
   end
 
   column(:manage, html: true, class: 'text-center', header: -> { I18n.t('datagrid.columns.families.manage') }) do |object|
