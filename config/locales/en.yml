@@ -422,6 +422,7 @@ en:
       attachments: Attachments
       preview_download: Preview & Download
       download: Download
+  back: Back
   calendars:
     index:
       sync_with_google: Sync with Google Calendar
@@ -2597,6 +2598,7 @@ en:
     client_enrollment_tracking_overdue:
       clients: Client
       client_enrollment_tracking_notification: Client Enrollment Tracking Notification
+  ok: OK
   partners:
     actions:
       are_you_sure: Are you sure you want to delete?
@@ -3494,6 +3496,7 @@ en:
       next: Next &rsaquo;
       previous: "&lsaquo; Previous"
       truncate: "&hellip;"
+  warning: Warning
   will_paginate:
     next_label: Next Page
     page_gap: "..."

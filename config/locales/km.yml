@@ -426,6 +426,7 @@ km:
       attachments: ឯកសារភ្ជាប់
       preview_download: មើលនិងទាញយក
       download: ទាញយក
+  back: ត្រលប់ក្រោយ
   calendars:
     index:
       sync_with_google: បញ្ចូលព្រឹត្តិការណ៍ទៅក្នុងប្រតិទិន Google
@@ -2605,6 +2606,7 @@ km:
     client_enrollment_tracking_overdue:
       clients: អតិថិជន
       client_enrollment_tracking_notification: ការជូនដំណឹងនៃការ​តាមដានដែលត្រូវបំពេញ
+  ok: យល់ព្រម
   partners:
     actions:
       are_you_sure: តើអ្នកប្រាកដហើយ?
@@ -3501,6 +3503,7 @@ km:
       next: ទំព័របន្ទាប់ &rsaquo;
       previous: "&lsaquo; ទំព័រមុន"
       truncate: "&hellip;"
+  warning: ប្រុងប្រយ័ត្ន
   will_paginate:
     next_label: ទំព័របន្ទាប់
     page_gap: "..."
