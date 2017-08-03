@@ -301,7 +301,7 @@ en:
       local_family_name: Family Name (Local)
       local_given_name: Given Name (Local)
       name: Name
-      ngo_accepted_date: NGO Accepted Date
+      ngo_accepted_date: NGO Accept Date
       ngo_exit_date: NGO Exit Date
       placement_start_date: Placement Start Date
       province: Birth Province
@@ -1202,7 +1202,7 @@ en:
         local_given_name: Given Name (Local)
         manage: Manage
         name: Name
-        ngo_accepted_date: NGO Accepted Date
+        ngo_accepted_date: NGO Accept Date
         ngo_exit_date: NGO Exit Date
         no_dob: 'No'
         placement_case_type: Placement Case Type
