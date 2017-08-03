@@ -4,7 +4,7 @@ CIF.Data_trackersIndex = do ->
     _initProgramRule()
     _initSelect2()
     _handleDisabledInputs()
-    
+
   _submitPerPageParams = ->
     $('#per_page_form form select').on 'change', ->
       $('#per_page_form form').submit();
@@ -59,6 +59,6 @@ CIF.Data_trackersIndex = do ->
     $('#program-rules-after').find('button').remove()
 
   _handleDisabledInputs = ->
-    $('.modal-body').find('input, select, textarea').attr( 'disabled', 'disabled' )
-    
+    $('.modal-body .rules-group-container').find('input, select, textarea, .group-conditions label').attr( 'disabled', 'disabled' )
+
   { init: _init }
