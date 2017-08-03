@@ -18,4 +18,10 @@ module ProgramStreamHelper
   def program_stream_redirect_path
     params[:client] == 'true' ? request.referer : program_streams_path
   end
+
+  def disable_rules_is_used(object)
+    if object.is_used?
+      "hide-tracking-form"
+    end
+  end
 end

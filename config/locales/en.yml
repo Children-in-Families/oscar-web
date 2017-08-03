@@ -2737,6 +2737,7 @@ en:
       quantity: Quantity
       rules: Rules
       tracking: Tracking
+      not_require_tracking: This Program Stream does not require any tracking form.
     tracking:
       add_tracking: Add Tracking
       tracking_form: Progress Tracking

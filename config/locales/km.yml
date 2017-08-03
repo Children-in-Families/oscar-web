@@ -2746,6 +2746,7 @@ km:
       quantity: បរិមាណ
       rules: លក្ខខណ្ឌ
       tracking: តាមដាន
+      not_require_tracking: ទម្រង់បែបបទនេះមិនត្រូវការទម្រង់តាមដានទេ
     tracking:
       add_tracking: បន្ថែមកាតាមដាន
       tracking_form: ទម្រង់បែបបទតាមដាន
