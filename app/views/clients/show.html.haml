@@ -364,13 +364,13 @@
                     = t('.accepted_date')
                   %td
                     %strong
-                      = date_format(@client.accepted_date)
+                      = date_format(@client.accepted_date) if @client.accepted_date
                 %tr
                   %td.spacing-first-col
                     = t('.exit_date')
                   %td
                     %strong
-                      = date_format(@client.exit_date)
+                      = date_format(@client.exit_date) if @client.exit_date
                 %tr
                   %td.spacing-first-col
                     = t('.exit_note')
