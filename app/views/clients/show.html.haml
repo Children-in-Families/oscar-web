@@ -361,6 +361,12 @@
               - if @client.exit_date
                 %tr
                   %td.spacing-first-col
+                    = t('.accepted_date')
+                  %td
+                    %strong
+                      = date_format(@client.accepted_date)
+                %tr
+                  %td.spacing-first-col
                     = t('.exit_date')
                   %td
                     %strong
