@@ -17,6 +17,6 @@
             - @program_stream.exit_program.map{|properties| properties['label']}.each do |key|
               %tr
                 %td.align-justify
-                  = key.titleize
+                  = key
                 %td.align-justify
                   = display_custom_properties(@leave_program.properties[key])

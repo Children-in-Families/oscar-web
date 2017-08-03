@@ -19,9 +19,10 @@
       .ibox-content
         .table-responsive
           %table.table.table-bordered
-            - @program_stream.trackings.fields.map{|field| field['label']}.each do |key|
-              %tr
-                %td.align-justify
-                  = key.titleize
-                %td.align-justify
-                  = display_custom_properties(@tracking.fields[key])
+            - @program_stream.trackings.each do |tracking|
+              - tracking.fields.map{|field| field['label']}.each do |key|
+                %tr
+                  %td.align-justify
+                    = key
+                  %td.align-justify
+                    = display_custom_properties(@client_enrollment_tracking.properties[key])
