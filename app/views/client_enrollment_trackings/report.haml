@@ -31,9 +31,9 @@
                   .ibox-content
                     .table-responsive
                       %table.table.table-bordered
-                        - enrollment_tracking.properties.each do |key, value|
+                        - tracking_report(enrollment_tracking).map{|field| field['label']}.each do |key|
                           %tr
                             %td.align-justify
                               = key
                             %td.align-justify
-                              = display_custom_properties(value)
+                              = display_custom_properties(enrollment_tracking.properties[key])
