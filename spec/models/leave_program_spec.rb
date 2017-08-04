@@ -45,27 +45,40 @@ describe LeaveProgram, 'validations' do
 end
 
 describe LeaveProgram, 'callbacks' do
-  let!(:program_stream) { create(:program_stream) }
-  let!(:case_client) { create(:client) }
-  let!(:case) { create(:case, client: case_client) }
-  let!(:case_client_enrollment) { create(:client_enrollment, program_stream: program_stream, client: case_client) }
-
+  let!(:ec_client) { create(:client) }
   let!(:client) { create(:client) }
-  let!(:client_enrollment) { create(:client_enrollment, program_stream: program_stream, client: client) }
+  let!(:ec_case) { create(:case, :emergency, client: ec_client) }
+  let!(:first_program_stream) { create(:program_stream) }
+  let!(:second_program_stream) { create(:program_stream) }
+  let!(:third_program_stream) { create(:program_stream) }
+  let!(:client_enrollment) { create(:client_enrollment, client: ec_client, program_stream: first_program_stream) }
+  let!(:first_client_enrollment) { create(:client_enrollment, client: client, program_stream: first_program_stream) }
+  let!(:second_client_enrollment) { create(:client_enrollment, client: client, program_stream: second_program_stream) }
+  let!(:third_client_enrollment) { create(:client_enrollment, client: client, program_stream: third_program_stream) }
 
   context 'set_client_status' do
-    let!(:case_leave_program) { create(:leave_program, client_enrollment: case_client_enrollment, program_stream: program_stream) }
-    let!(:leave_program) { create(:leave_program, client_enrollment: client_enrollment, program_stream: program_stream) }
-    it 'return client status Active EC when in EC' do
-      case_leave_program.reload
-      case_leave_program.update(exit_date: FFaker::Time.date)
-      expect(case_leave_program.client_enrollment.client.status).to eq("Active EC")
+    context 'The client is Active EC' do
+      let!(:leave_program) { create(:leave_program, client_enrollment: client_enrollment, program_stream: first_program_stream) }
+      it 'status should remain Active EC' do
+        expect(ec_client.status).to eq('Active EC')
+      end
     end
 
-    it 'return client status Referred when not in any case' do
-      leave_program.reload
-      leave_program.update(exit_date: FFaker::Time.date)
-      expect(leave_program.client_enrollment.client.status).to eq("Referred")
+    context 'The client is not active in any cases EC/FC/KC' do
+      context 'The client is active in only one program' do
+        let!(:leave_program) { create(:leave_program, client_enrollment: first_client_enrollment, program_stream: first_program_stream) }
+        it 'status should remain Referred' do
+          expect(client.status).to eq('Referred')
+        end
+      end
+
+      context 'The client is active in more than one program' do
+        let!(:leave_program) { create(:leave_program, client_enrollment: second_client_enrollment, program_stream: second_program_stream) }
+        it 'status should remain Active' do
+          client.reload
+          expect(client.status).to eq('Active')
+        end
+      end
     end
   end
 end

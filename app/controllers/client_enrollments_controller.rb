@@ -49,10 +49,10 @@ class ClientEnrollmentsController < AdminController
     end
   end
 
-  def destroy
-    @client_enrollment.destroy
-    redirect_to report_client_client_enrollments_path(@client, program_stream_id: @program_stream, program_streams: params[:program_streams]), notice: t('.successfully_deleted')
-  end
+  # def destroy
+  #   @client_enrollment.destroy
+  #   redirect_to report_client_client_enrollments_path(@client, program_stream_id: @program_stream, program_streams: params[:program_streams]), notice: t('.successfully_deleted')
+  # end
 
   def report
     @enrollments = @program_stream.client_enrollments.where(client_id: @client).order(created_at: :DESC)

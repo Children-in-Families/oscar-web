@@ -119,12 +119,16 @@ class Case < ActiveRecord::Base
     elsif exited_from_cif
       client.status = status
     elsif exited && !exited_from_cif
-      client.status =
-        case case_type
-        when 'EC', 'Referred' then 'Referred'
-        when 'KC', 'FC'
-          client.cases.emergencies.active.any? ? 'Active EC' : 'Referred'
-        end
+      if client.client_enrollments.active.empty?
+        client.status =
+          case case_type
+          when 'EC', 'Referred' then 'Referred'
+          when 'KC', 'FC'
+            client.cases.emergencies.active.any? ? 'Active EC' : 'Referred'
+          end
+      else
+        client.status = 'Active'
+      end
     end
     client.save
   end
