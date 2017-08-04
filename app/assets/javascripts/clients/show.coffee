@@ -4,6 +4,7 @@ CIF.ClientsShow = do ->
     _exitModalValidate()
     _exitNgoValidator()
     _initSelect2()
+
   _initSelect2 = ->
     $('select').select2()
 

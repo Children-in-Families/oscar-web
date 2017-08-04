@@ -933,6 +933,9 @@ en:
       new_client_title: New Client
     placement:
       view_legacy_quarterly_reports: View Legacy Quarterly Reports
+    remaining_programs:
+      close: Close
+      warning: Warning
     show:
       able: Able
       able_screening_questions: Able Screening Questions
