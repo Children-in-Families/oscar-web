@@ -942,8 +942,8 @@ km:
     placement:
       view_legacy_quarterly_reports: មើល Quarterly Reports ចាស់ៗ
     remaining_programs:
-      warning: ប្រុងប្រយ័ត្ន
       close: បិទ
+      warning: ប្រុងប្រយ័ត្ន
     show:
       able: ឣតិថិជនក្នុងកម្មវិធីABLE
       able_screening_questions: សំនួរ Able
