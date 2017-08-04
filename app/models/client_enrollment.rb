@@ -28,7 +28,7 @@ class ClientEnrollment < ActiveRecord::Base
 
   def set_client_status
     client = Client.find self.client_id
-    client_status = 'Active' if ProgramStream.active_enrollments(client).count > 0
-    client.update_attributes(status: client_status) if client.status != 'Active' && client_status.present?
+    client_status = 'Active' unless client.cases.exclude_referred.currents.present?
+    client.update_attributes(status: client_status) if client_status.present?
   end
 end
