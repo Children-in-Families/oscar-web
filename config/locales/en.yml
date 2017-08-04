@@ -692,6 +692,8 @@ en:
       successfully_created: Tracking Program has been successfully created.
     destroy:
       successfully_deleted: Tracking Program has been successfully deleted.
+    edit:
+      edit_tracking: Edit Tracking
     form:
       cancel: Cancel
       save: Save
