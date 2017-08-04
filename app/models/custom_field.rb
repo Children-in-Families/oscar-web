@@ -19,7 +19,7 @@ class CustomField < ActiveRecord::Base
   validates :fields, presence: true
   validate  :uniq_fields, :field_label, if: -> { fields.present? }
 
-  before_save :set_time_of_frequency
+  # before_save :set_time_of_frequency
   before_save :set_ngo_name, if: -> { ngo_name.blank? }
 
   scope :by_form_title,  ->(value)  { where('form_title iLIKE ?', "%#{value}%") }

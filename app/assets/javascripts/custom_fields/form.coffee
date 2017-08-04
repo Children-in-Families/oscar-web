@@ -23,13 +23,13 @@ CIF.Custom_fieldsShow = do ->
   _toggleTimeOfFrequency = ->
     frequency = _convertFrequency()
     if frequency == ''
-      $('#custom_field_time_of_frequency').attr('disabled', 'disabled')
+      $('#custom_field_time_of_frequency').attr('readonly', 'true')
         .val(0)
       $('.frequency-note').addClass('hidden')
     else
       if timeOfFrequency == 0
         timeOfFrequency = 1
-      $('#custom_field_time_of_frequency').removeAttr('disabled')
+      $('#custom_field_time_of_frequency').removeAttr('readonly')
         .val(parseInt(timeOfFrequency))
 
       _updateFrequencyNote(frequency, timeOfFrequency)

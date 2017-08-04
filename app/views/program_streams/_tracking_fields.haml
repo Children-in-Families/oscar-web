@@ -8,7 +8,12 @@
               %abbr.pull-left{ title: 'required' } *
               = f.input :name, label: t('.name'), readonly: f.object.is_used?
             .col-xs-12.col-md-4
+              = hidden_field_tag :time, f.object.time_of_frequency || 0, class: 'time'
               = f.input :frequency, collection: Tracking::FREQUENCIES, label: t('.frequency')
+              %p.frequency-note.hidden
+                %i
+                  %span.main This need to be done once every
+                  %span.frequency
             .col-xs-12.col-md-4
               = f.input :time_of_frequency, label: t('.time_of_frequency')
       .row
