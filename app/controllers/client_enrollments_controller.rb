@@ -63,14 +63,12 @@ class ClientEnrollmentsController < AdminController
   private
 
   def client_enrollment_params
+    (properties_params.values.map{ |v| v.delete('') if (v.is_a?Array) && v.size > 1 }) if properties_params.present?
+
     default_params = params.require(:client_enrollment).permit(:enrollment_date).merge!(properties: params[:client_enrollment][:properties], program_stream_id: params[:program_stream_id])
     default_params.merge!(form_builder_attachments_attributes: params[:client_enrollment][:form_builder_attachments_attributes]) if action_name == 'create'
     default_params
-    # params[:client_enrollment][:properties].keys.each do |k|
-    #   params[:client_enrollment][:properties][k].delete('') if params[:client_enrollment][:properties][k].class == Array && params[:client_enrollment][:properties][k].count > 1
-    # end
-    # attachtmens = params[:client_enrollment][:form_builder_attachments]
-    # params.require(:client_enrollment).permit(:enrollment_date, {}).merge(properties: params[:client_enrollment][:properties], program_stream_id: params[:program_stream_id])
+
   end
 
   def find_client_enrollment
@@ -146,11 +144,8 @@ class ClientEnrollmentsController < AdminController
     end
   end
 
-  def remove_attachment_at_index(index)
-    remain_attachment = @custom_field_property.attachments
-    deleted_attachment = remain_attachment.delete_at(index)
-    deleted_attachment.try(:remove!)
-    remain_attachment.empty? ? @custom_field_property.remove_attachments! : (@custom_field_property.attachments = remain_attachment )
+  def properties_params
+    params[:client_enrollment][:properties]
   end
 
   def attachment_params

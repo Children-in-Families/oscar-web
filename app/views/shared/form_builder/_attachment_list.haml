@@ -1,0 +1,12 @@
+.table-responsive
+  %table.table.table-bordered.table-hover.attachment-table
+    %tbody
+      - form_buildable.form_builder_attachments.file_by_name(f.object.name).file.each_with_index do |attachment, index|
+        %tr.row-file
+          %td.image-title.vert-align
+            = original_filename(attachment)
+          %td.vert-align
+            = link_to preview_or_download(attachment), attachment.url, target: target_blank(attachment), class: 'btn btn-info btn-sm btn-download'
+          - if action_name == 'edit'
+            %td.vert-align.text-center
+              .delete.fa.fa-trash.btn.btn-outline.btn-danger{ data: { url: (api_form_builder_attachment_path(f.object.id, file_index: index, file_name: f.object.name)), comfirm: t('.are_you_sure') }}

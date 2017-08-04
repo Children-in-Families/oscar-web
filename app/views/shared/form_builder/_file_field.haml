@@ -2,6 +2,6 @@
 %label= property['label']
 = f.input :file, as: :file, label: false, input_html: { name:  "#{entity.object_name}[form_builder_attachments_attributes][#{property['name'].split('-').last}][file][]", multiple: property['multiple'].present? }
 %p
-  %i.small Allowed file types: (.jpg, .jpeg, .png, .doc, .docx, .xls, .xlsx, .pdf)
+  %i.small="#{t('.allow_file_size')} (.jpg, .jpeg, .png, .doc, .docx, .xls, .xlsx, .pdf)"
 %p
-  %i.small Maximum upload size: 30MB
+  %i.small= t('.max_file_size')

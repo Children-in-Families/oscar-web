@@ -422,6 +422,10 @@ en:
       attachments: Attachments
       preview_download: Preview & Download
       download: Download
+  api:
+    form_builder_attachments:
+      destroy:
+        successfully_deleted: Attachment has been successfully deleted.
   calendars:
     index:
       sync_with_google: Sync with Google Calendar
@@ -2984,8 +2988,12 @@ en:
   save: Save
   shared:
     form_builder:
-      delete_file:
+      attachment_list:
         are_you_sure: Are you sure you want to delete?
+        preview_download: Preview & Download
+      file_field:
+        allow_file_size: Allowed file types
+        max_file_size: "*Maximum file size: 5MB/file and 30MB/upload."
     per_page_form:
       show: Show
     version_type:

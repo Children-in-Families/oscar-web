@@ -1,17 +1,6 @@
 - if action_name == 'edit' || action_name == 'update'
   - if f.object.name == property['label']
-    .table-responsive
-      %table.table.table-bordered.table-hover.attachment-table
-        %tbody
-          - form_buildable.form_builder_attachments.file_by_name(property['label']).file.each_with_index do |attachment, index|
-            %tr.row-file
-              %td.image-title.vert-align
-                = original_filename(attachment)
-              %td.vert-align
-                = link_to preview_or_download(attachment), attachment.url, class: 'btn btn-info btn-sm btn-download'
-              %td.vert-align.text-center
-                = render 'shared/form_builder/delete_file', form_buildable: form_buildable, index: index
-
+    = render 'shared/form_builder/attachment_list', f: f, form_buildable: form_buildable
     = render 'shared/form_builder/file_field', f: f, property: property, entity: entity
 
 - elsif action_name == 'new'
