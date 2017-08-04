@@ -97,7 +97,10 @@
                 = link_to t('.custom_fields'), custom_fields_path
               - unless Rails.env.production?
                 %li{ class: active_menu('program_streams') }
-                  = link_to t('.program_streams'), program_streams_path
+                  - if current_user.program_warning?
+                    = link_to t('.program_streams'), program_streams_path
+                  - else
+                    %a{"data-target" => "#warning-program", "data-toggle" => "modal", :type => "button"}=t('.program_streams')
               %li{ class: active_menu('changelogs') }
                 = link_to t('.release_logs'), changelogs_path
             - else

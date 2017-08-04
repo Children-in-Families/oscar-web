@@ -98,10 +98,9 @@ describe ClientEnrollment, 'callbacks' do
     it 'return client status active when in case EC' do
       case_client = FactoryGirl.create(:case, client: client)
       case_client_enrollment = FactoryGirl.create(:client_enrollment, program_stream: program_stream, client: client)
-      expect(case_client_enrollment.client.status).to eq("Active EC")
       case_client_enrollment.reload
       case_client_enrollment.update(enrollment_date: FFaker::Time.date)
-      expect(case_client_enrollment.client.status).to eq("Active")
+      expect(case_client_enrollment.client.status).to eq("Active EC")
     end
   end
 end

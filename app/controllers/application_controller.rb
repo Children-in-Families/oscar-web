@@ -61,10 +61,6 @@ class ApplicationController < ActionController::Base
     { locale: I18n.locale }.merge(options)
   end
 
-  def after_sign_in_path_for(_resource)
-    dashboards_path
-  end
-
   def after_sign_out_path_for(_resource_or_scope)
     root_url(host: request.domain)
   end

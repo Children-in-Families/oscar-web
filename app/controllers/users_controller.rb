@@ -48,7 +48,11 @@ class UsersController < AdminController
 
   def update
     if @user.update_attributes(user_params)
-      redirect_to @user, notice: t('.successfully_updated')
+      if user_params['program_warning'].present?
+        redirect_to program_streams_path
+      else
+        redirect_to @user, notice: t('.successfully_updated')
+      end
     else
       render :edit
     end
@@ -77,7 +81,7 @@ class UsersController < AdminController
   private
 
   def user_params
-    params.require(:user).permit(:first_name, :last_name, :roles, :start_date,
+    params.require(:user).permit(:first_name, :last_name, :roles, :start_date, :program_warning,
                                 :job_title, :department_id, :mobile, :date_of_birth,
                                 :province_id, :email, :password,:password_confirmation,
                                 :manager_id, :calendar_integration, :pin_number, custom_field_ids: [])

@@ -3,6 +3,7 @@
     .organizations
       .row
         - @organizations.each do |org|
+          - next if org.short_name == 'mhc'
           .col-xs-6.col-sm-4
             = link_to dashboards_url(subdomain: org.short_name), class: 'org-link' do
               .organization
