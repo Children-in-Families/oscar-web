@@ -1,8 +1,11 @@
 class LeaveProgram < ActiveRecord::Base
   belongs_to :client_enrollment
   belongs_to :program_stream
+  has_many :form_builder_attachments, as: :form_buildable, dependent: :destroy
 
   validates :exit_date, presence: true
+
+  accepts_nested_attributes_for :form_builder_attachments, reject_if: proc { |attributes| attributes['name'].blank? &&  attributes['file'].blank? }
 
   after_create :set_client_status
 

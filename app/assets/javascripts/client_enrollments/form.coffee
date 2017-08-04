@@ -19,11 +19,11 @@ CIF.Client_enrollmentsNew = CIF.Client_enrollmentsCreate = CIF.Client_enrollment
     rows = $('.row-file')
     $(rows).each (_k, element) ->
       deleteBtn = $(element).find('.delete')
-      url = $(deleteBtn).data('url')
       confirmDelete = $(deleteBtn).data('comfirm')
       $(deleteBtn).click ->
         result = confirm(confirmDelete)
         return unless result
+        url = $(deleteBtn).data('url')
         $('td .delete').attr('disabled', 'disabled')
         $.ajax
           dataType: "json"
@@ -31,7 +31,9 @@ CIF.Client_enrollmentsNew = CIF.Client_enrollmentsCreate = CIF.Client_enrollment
           method: 'DELETE'
           success: (response) ->
             _initNotification(response.message)
+            btns = $(element).parent()
             $(element).remove()
+            _generateNewFileIdex(btns)
             $('td .delete').removeAttr('disabled')
 
   _initNotification = (message)->
@@ -50,5 +52,20 @@ CIF.Client_enrollmentsNew = CIF.Client_enrollmentsCreate = CIF.Client_enrollment
       "hideMethod": "fadeOut"
     }
     toastr.success(message, '', messageOption)
+
+  _generateNewFileIdex = (element)->
+    btnDeletes = $(element).find('.delete')
+    index = 0
+    return if btnDeletes.length == 0
+    for btnDelete in btnDeletes
+      btnDelete.dataset.url = _replaceUrlParam(btnDelete.dataset.url, 'file_index', index++)
+
+  _replaceUrlParam = (url, paramName, paramValue) ->
+    if paramValue == null
+      paramValue = ''
+    pattern = new RegExp('\\b(' + paramName + '=).*?(&|$)')
+    if url.search(pattern) >= 0
+      return url.replace(pattern, '$1' + paramValue + '$2')
+    url + (if url.indexOf('?') > 0 then '&' else '?') + paramName + '=' + paramValue
 
   { init: _init }

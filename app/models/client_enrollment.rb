@@ -8,7 +8,7 @@ class ClientEnrollment < ActiveRecord::Base
   has_one :leave_program, dependent: :destroy
 
   validates :enrollment_date, presence: true
-  accepts_nested_attributes_for :form_builder_attachments
+  accepts_nested_attributes_for :form_builder_attachments, reject_if: proc { |attributes| attributes['name'].blank? &&  attributes['file'].blank? }
 
   has_paper_trail
 

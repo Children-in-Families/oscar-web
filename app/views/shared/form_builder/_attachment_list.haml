@@ -1,6 +1,6 @@
 .table-responsive
   %table.table.table-bordered.table-hover.attachment-table
-    %tbody
+    %tbody.uplod-file
       - form_buildable.form_builder_attachments.file_by_name(f.object.name).file.each_with_index do |attachment, index|
         %tr.row-file
           %td.image-title.vert-align

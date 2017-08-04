@@ -4,7 +4,7 @@ module Api
 
     def destroy
       index = params[:file_index].to_i
-      remain_file = @attachment.file
+      remain_file  = @attachment.file
       deleted_file = remain_file.delete_at(index)
       deleted_file.try(:remove!)
       remain_file.empty? ? @attachment.remove_file! : @attachment.file = remain_file

@@ -19,7 +19,7 @@
               - unless enrollment['type'] == 'file'
                 = render "/shared/fields/#{enrollment['type'].underscore}", f: prop_f, field_props: enrollment, errors: @client_enrollment.errors.messages, entity: f
 
-              - if enrollment['type'] == 'file'
+              - else
                 = f.simple_fields_for :form_builder_attachments, @attachment do |attachment|
                   = render 'shared/form_builder/attachment', f: attachment, property: enrollment, entity: f, form_buildable: @client_enrollment
           .row

@@ -167,7 +167,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       typeUserEvents: {
         file:
           onadd: (fld) ->
-            $('.className-wrap, .value-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
+            $('.className-wrap, .value-wrap, .access-wrap, .description-wrap, .name-wrap, .required-wrap').hide()
             _handleCheckingForm(fld)
           onclone: (fld) ->
             $('.className-wrap, .value-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
