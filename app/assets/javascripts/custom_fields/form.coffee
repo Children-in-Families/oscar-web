@@ -36,6 +36,8 @@ CIF.Custom_fieldsShow = do ->
 
   _changeTimeOfFrequency = ->
     $('#custom_field_time_of_frequency').change ->
+      if $(this).val() == ''
+        $(this).val(1)
       frequency = _convertFrequency()
       _updateFrequencyNote(frequency, parseInt($(this).val()))
 
