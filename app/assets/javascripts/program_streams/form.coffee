@@ -18,6 +18,11 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     _handleRemoveProgramList()
     _handleShowTracking()
     _handleHideTracking()
+    _toggleNestedTrackingOfTimeOfFrequency()
+    _changeSelectOfFrequency()
+    _changeTimeOfFrequency()
+    _convertFrequency()
+    _initSelect2TimeOfFrequency()
 
   _initCheckbox = ->
     $('.i-checks').iCheck
@@ -30,6 +35,11 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
 
   _initSelect2 = ->
     $('#description select, #rule-tab select').select2()
+
+  _initSelect2TimeOfFrequency = ->
+    $('.program_stream_trackings_frequency select').select2
+      minimumInputLength: 0
+      allowClear: true
 
   _handleRemoveProgramList = ->
     $('#program_stream_program_exclusive').on 'change', ->
@@ -141,6 +151,11 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       _stickyFill()
       _editTrackingFormName()
       _handleRemoveCocoon()
+      _initSelect2TimeOfFrequency()
+      _toggleTimeOfFrequency()
+      _changeSelectOfFrequency()
+      _changeTimeOfFrequency()
+      _convertFrequency()
 
   _generateValueForSelectOption = (field) ->
     $(field).find('input.option-label').on 'keyup change', ->
@@ -561,5 +576,73 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
               $(parent).children('div.field-actions').remove()
               $(tracking).find('.ibox-footer').remove()
     )
+
+  _toggleTimeOfFrequency = (element) ->
+    timeOfFrequency = parseInt($(element).parent().siblings('#time').val())
+    frequency = _convertFrequency($(element).val())
+    if frequency == ''
+      $(element).parent().closest('.col-xs-12').siblings().find('.program_stream_trackings_time_of_frequency input').attr('readonly', 'true')
+        .val(0)
+      $(element).parent().siblings('.frequency-note').addClass('hidden')
+    else
+      if timeOfFrequency == 0
+        timeOfFrequency = 1
+      $(element).parent().closest('.col-xs-12').siblings().find('.program_stream_trackings_time_of_frequency input').removeAttr('readonly')
+        .val(parseInt(timeOfFrequency))
+      frequencyNote = $(element).parent().siblings('.frequency-note')
+      _updateFrequencyNote(frequency, timeOfFrequency, frequencyNote)
+
+  _toggleNestedTrackingOfTimeOfFrequency = ->
+    trackings = $('#trackings .nested-fields')
+    for tracking in trackings
+      timeOfFrequency = parseInt($(tracking).find('#time').val())
+      frequency = _convertFrequency($(tracking).find('.program_stream_trackings_frequency select').val())
+      if frequency == ''
+        $(tracking).find('.program_stream_trackings_time_of_frequency input').attr('readonly', 'true')
+          .val(0)
+        $(tracking).find('.frequency-note').addClass('hidden')
+      else
+        if timeOfFrequency == 0
+          timeOfFrequency = 1
+        $(tracking).find('.program_stream_trackings_time_of_frequency input').removeAttr('readonly')
+          .val(parseInt(timeOfFrequency))
+      frequencyNote = $(tracking).find('.frequency-note')
+      _updateFrequencyNote(frequency, timeOfFrequency, frequencyNote)
+
+  _changeTimeOfFrequency = ->
+    $('.program_stream_trackings_time_of_frequency input').change ->
+      if $(this).val() == ''
+        $(this).val(1) 
+      frequencyElement = $(this).parent().closest('.col-xs-12').siblings()
+      frequencyNote = $(frequencyElement).find('.frequency-note')
+      frequency = _convertFrequency($(frequencyElement).find('.program_stream_trackings_frequency select').val())
+      _updateFrequencyNote(frequency, parseInt($(this).val()), frequencyNote)
+
+  _updateFrequencyNote = (frequency, timeOfFrequency, frequencyNote) ->
+    if timeOfFrequency <= 0
+      $(frequencyNote).addClass('hidden')
+    else
+      $(frequencyNote).removeClass('hidden')
+      if timeOfFrequency == 1
+        $(frequencyNote).find('span.frequency').text(" #{frequency}.")
+      else
+        $(frequencyNote).find('span.frequency').text(" #{timeOfFrequency} #{frequency}s.")
+
+  _changeSelectOfFrequency = ->
+    $('.program_stream_trackings_frequency select').change ->
+      _toggleTimeOfFrequency(this)
+
+  _convertFrequency = (frequency)->
+    switch(frequency)
+      when 'Daily'
+        frequency = 'day'
+      when 'Weekly'
+        frequency = 'week'
+      when 'Monthly'
+        frequency = 'month'
+      when 'Yearly'
+        frequency = 'year'
+      else
+        frequency = ''
 
   { init: _init }
