@@ -85,16 +85,21 @@
                   %li= @client.ec_button
                   %li= @client.fc_button
                   %li= @client.kc_button
-                  - if @client.status == 'Referred' && (@client.exit_date.nil? || @client.cases.exclude_referred.current.nil?) && @client.client_enrollments.active.empty?
-                    %li.divider
-                    %li
+                  %li.divider
+                  %li
+                    - if @client.client_enrollments.active.count > 0
+                      %a{"data-target" => '#remaining-programs-modal', "data-toggle" => 'modal'}
+                        .text-warning= t('.exit_ngo_btn')
+                    - else
                       %a{"data-target" => '#exitFromNgo', "data-toggle" => 'modal'}
                         .text-warning= t('.exit_ngo_btn')
                 - if @client.cases.exclude_referred.current.present?
                   %li
                     %a{"data-target" => '#exit-from-case', "data-toggle" => 'modal'}
                       .text-warning.exit-case-warning= t(".exit_from_#{@client.cases.exclude_referred.current.case_type.downcase}")
-            - if @client.status == 'Referred' && (@client.exit_date.nil? || @client.cases.exclude_referred.current.nil?) && @client.client_enrollments.active.empty?
+            - if @client.client_enrollments.active.count > 0
+              = render 'remaining_programs', client: @client
+            - else
               = render 'exit_ngo_form', client: @client
             - if @client.cases.exclude_referred.current.present?
               = render 'exit_case_form', client_case: @client.cases.exclude_referred.current, exit_from_cif: true
