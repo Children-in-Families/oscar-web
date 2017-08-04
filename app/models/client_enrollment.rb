@@ -3,12 +3,12 @@ class ClientEnrollment < ActiveRecord::Base
   belongs_to :program_stream
 
   has_many :client_enrollment_trackings, dependent: :destroy
-  has_many :form_builder_attachments, dependent: :destroy
+  has_many :form_builder_attachments, as: :form_buildable, dependent: :destroy
   has_many :trackings, through: :client_enrollment_trackings
   has_one :leave_program, dependent: :destroy
 
   validates :enrollment_date, presence: true
-  # accepts_nested_attributes_for :form_builder_attachments
+  accepts_nested_attributes_for :form_builder_attachments
 
   has_paper_trail
 

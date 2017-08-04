@@ -2992,6 +2992,9 @@ km:
   review_problem: សូមពិនិត្យបញ្ហាសារឡើងវិញនៅខាងក្រោម៖
   save: រក្សាទុក
   shared:
+    form_builder:
+      delete_file:
+        are_you_sure: តើអ្នកប្រាកដហើយ?
     per_page_form:
       show: បង្ហាញ
     version_type:

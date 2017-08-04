@@ -2983,6 +2983,9 @@ en:
   review_problem: 'Please review the problems below:'
   save: Save
   shared:
+    form_builder:
+      delete_file:
+        are_you_sure: Are you sure you want to delete?
     per_page_form:
       show: Show
     version_type:

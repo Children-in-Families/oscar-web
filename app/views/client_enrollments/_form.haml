@@ -17,16 +17,14 @@
           - n_field.each do |enrollment|
             .col-xs-12.col-md-6
               - unless enrollment['type'] == 'file'
-                = render "/shared/fields/#{enrollment['type'].underscore}", f: prop_f, field_props: enrollment, errors: @client_enrollment.errors.messages
+                = render "/shared/fields/#{enrollment['type'].underscore}", f: prop_f, field_props: enrollment, errors: @client_enrollment.errors.messages, entity: f
+
               - if enrollment['type'] == 'file'
-                = f.simple_fields_for :form_builder_attachments do |attachment|
-                  %label= enrollment['label']
-                  = attachment.input :file, as: :file, label: false
-        .row
-          .col-xs-12
-            #message.text-danger
-    -# = f.simple_fields_for :form_builder_attachments do |attachment|
-    -#   = attachment.input :file, as: :file
+                = f.simple_fields_for :form_builder_attachments, @attachment do |attachment|
+                  = render 'shared/form_builder/attachment', f: attachment, property: enrollment, entity: f, form_buildable: @client_enrollment
+          .row
+            .col-xs-12
+              #message.text-danger
   .ibox-footer
     = hidden_field_tag :program_stream_id, @program_stream.id
     = hidden_field_tag :program_streams, params[:program_streams]

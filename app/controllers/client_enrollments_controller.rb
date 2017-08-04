@@ -21,6 +21,7 @@ class ClientEnrollmentsController < AdminController
       redirect_to client_client_enrollments_path(@client, program_streams: params[:program_streams]), alert: t('.client_not_valid') unless valid_program?
     end
     @client_enrollment = @client.client_enrollments.new(program_stream_id: @program_stream)
+    @attachment = @client_enrollment.form_builder_attachments.build
   end
 
   def edit
@@ -30,6 +31,7 @@ class ClientEnrollmentsController < AdminController
   def update
     authorize @client_enrollment
     if @client_enrollment.update_attributes(client_enrollment_params)
+      add_more_attachments
       redirect_to client_client_enrollment_path(@client, @client_enrollment, program_stream_id: @program_stream, program_streams: params[:program_streams]), notice: t('.successfully_updated')
     else
       render :edit
@@ -61,10 +63,14 @@ class ClientEnrollmentsController < AdminController
   private
 
   def client_enrollment_params
-    params[:client_enrollment][:properties].keys.each do |k|
-      params[:client_enrollment][:properties][k].delete('') if params[:client_enrollment][:properties][k].class == Array && params[:client_enrollment][:properties][k].count > 1
-    end
-    params.require(:client_enrollment).permit(:enrollment_date, {}).merge(properties: params[:client_enrollment][:properties], program_stream_id: params[:program_stream_id])
+    default_params = params.require(:client_enrollment).permit(:enrollment_date).merge!(properties: params[:client_enrollment][:properties], program_stream_id: params[:program_stream_id])
+    default_params.merge!(form_builder_attachments_attributes: params[:client_enrollment][:form_builder_attachments_attributes]) if action_name == 'create'
+    default_params
+    # params[:client_enrollment][:properties].keys.each do |k|
+    #   params[:client_enrollment][:properties][k].delete('') if params[:client_enrollment][:properties][k].class == Array && params[:client_enrollment][:properties][k].count > 1
+    # end
+    # attachtmens = params[:client_enrollment][:form_builder_attachments]
+    # params.require(:client_enrollment).permit(:enrollment_date, {}).merge(properties: params[:client_enrollment][:properties], program_stream_id: params[:program_stream_id])
   end
 
   def find_client_enrollment
@@ -122,5 +128,32 @@ class ClientEnrollmentsController < AdminController
     elsif @program_stream.program_exclusive.any?
       (@program_stream.program_exclusive & program_active_status_ids).empty?
     end
+  end
+
+  def add_more_attachments
+    return unless attachment_params.present?
+    attachment_params.each do |_k, attachment|
+      name = attachment['name']
+      if name.present? && attachment['file'].present?
+        form_builder_attachment = @client_enrollment.form_builder_attachments.file_by_name(name)
+        modify_files = form_builder_attachment.file
+        modify_files += attachment['file']
+
+        form_builder_attachment = @client_enrollment.form_builder_attachments.find_by(name: name)
+        form_builder_attachment.file = modify_files
+        form_builder_attachment.save
+      end
+    end
+  end
+
+  def remove_attachment_at_index(index)
+    remain_attachment = @custom_field_property.attachments
+    deleted_attachment = remain_attachment.delete_at(index)
+    deleted_attachment.try(:remove!)
+    remain_attachment.empty? ? @custom_field_property.remove_attachments! : (@custom_field_property.attachments = remain_attachment )
+  end
+
+  def attachment_params
+    params[:client_enrollment][:form_builder_attachments_attributes]
   end
 end

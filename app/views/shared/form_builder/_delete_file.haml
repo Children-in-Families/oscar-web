@@ -1,0 +1,4 @@
+- if controller_name == 'client_enrollment_rrackings'
+  .s
+- else
+  .delete.fa.fa-trash.btn.btn-outline.btn-danger{ data: { url: (polymorphic_path([@client, form_buildable, @custom_field_property], custom_field_id: @custom_field, file_index: index)), comfirm: t('.are_you_sure') }}
