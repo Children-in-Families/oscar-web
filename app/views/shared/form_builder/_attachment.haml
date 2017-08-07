@@ -1,9 +1,9 @@
 - if action_name == 'edit' || action_name == 'update'
   - if f.object.name == property['label']
-    = render 'shared/form_builder/attachment_list', f: f, form_buildable: form_buildable
+    = render 'shared/form_builder/list_attachment', f: f, form_buildable: form_buildable
     = render 'shared/form_builder/file_field', f: f, property: property, entity: entity
 
 - elsif action_name == 'new'
-  = render 'shared/form_builder/file_field', f: f, property: property, entity: entity  
+  = render 'shared/form_builder/file_field', f: f, property: property, entity: entity
 - elsif action_name == 'create' && f.object.name == property['label']
-  = render 'shared/form_builder/file_field', f: f, property: property, entity: entity  
+  = render 'shared/form_builder/file_field', f: f, property: property, entity: entity

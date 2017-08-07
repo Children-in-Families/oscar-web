@@ -20,9 +20,12 @@
         .table-responsive
           %table.table.table-bordered
             - @program_stream.trackings.each do |tracking|
-              - tracking.fields.map{|field| field['label']}.each do |key|
+              - tracking.fields.map{|field| [field['type'], field['label']]}.each do |type, key|
                 %tr
                   %td.align-justify
                     = key
                   %td.align-justify
-                    = display_custom_properties(@client_enrollment_tracking.properties[key])
+                    - if type == 'file'
+                      = render 'shared/form_builder/list_attachment_file', name: key, form_buildable: @client_enrollment_tracking
+                    - else
+                      = display_custom_properties(@client_enrollment_tracking.properties[key])
