@@ -150,4 +150,8 @@ module ApplicationHelper
   def entity_name(entity)
     entity.name.present? ? entity.name : 'Unknown'
   end
+
+  def progarm_stream_action
+    ['show', 'report']
+  end
 end

@@ -19,6 +19,6 @@
                   = key
                 %td.align-justify
                   - if type == 'file'
-                    = render 'shared/form_builder/list_attachment_file', name: key, form_buildable: @client_enrollment
+                    = render 'shared/form_builder/list_attachment', name: key, form_buildable: @client_enrollment
                   - else
                     = display_custom_properties(@client_enrollment.properties[key])

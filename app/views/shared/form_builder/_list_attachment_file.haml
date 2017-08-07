@@ -1,9 +1,0 @@
-.table-responsive
-  %table.table.table-bordered
-    - attachments = form_buildable.form_builder_attachments.file_by_name(name).try(:file)
-    - return if attachments.nil?
-    - form_buildable.form_builder_attachments.file_by_name(name).file.each_with_index do |attachment, index|
-      %tr
-        %td= original_filename(attachment)
-        %td.text-center
-          = link_to preview_or_download(attachment), attachment.url, class: 'btn btn-info btn-sm btn-download', target: target_blank(attachment)

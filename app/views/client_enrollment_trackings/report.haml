@@ -38,6 +38,6 @@
                               = key
                             %td.align-justify
                               - if type == 'file'
-                                = render 'shared/form_builder/list_attachment_file', name: key, form_buildable: enrollment_tracking
+                                = render 'shared/form_builder/list_attachment', name: key, form_buildable: enrollment_tracking
                               - else
                               = display_custom_properties(enrollment_tracking.properties[key])
