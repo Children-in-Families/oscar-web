@@ -24,11 +24,9 @@ class ClientEnrollmentsController < AdminController
   end
 
   def edit
-    authorize @client_enrollment
   end
 
   def update
-    authorize @client_enrollment
     if @client_enrollment.update_attributes(client_enrollment_params)
       redirect_to client_client_enrollment_path(@client, @client_enrollment, program_stream_id: @program_stream, program_streams: params[:program_streams]), notice: t('.successfully_updated')
     else
