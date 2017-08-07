@@ -3,8 +3,8 @@ class ClientEnrollmentTrackingsController < AdminController
 
   before_action :find_client, :find_enrollment, :find_program_stream
   before_action :find_tracking, except: [:index]
-  before_action :find_client_enrollment_tracking, only: [:show, :update, :destroy]
-  before_action :get_attachments, only: [:new, :edit, :update]
+  before_action :find_client_enrollment_tracking, only: [:edit, :show, :update, :destroy]
+  before_action :get_attachments, only: [:new, :create, :edit, :update]
 
   def index
     @tracking_grid = TrackingGrid.new(params[:tracking_grid])
@@ -13,7 +13,6 @@ class ClientEnrollmentTrackingsController < AdminController
 
   def new
     @client_enrollment_tracking = @enrollment.client_enrollment_trackings.new
-    @attachment                 = @client_enrollment_tracking.form_builder_attachments.build
     authorize @client_enrollment_tracking
   end
 
@@ -96,6 +95,7 @@ class ClientEnrollmentTrackingsController < AdminController
   end
 
   def get_attachments
+    @client_enrollment_tracking ||= @enrollment.client_enrollment_trackings.new
     @attachments = @client_enrollment_tracking.form_builder_attachments
   end
 

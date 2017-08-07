@@ -4,7 +4,7 @@ class ClientEnrollmentsController < AdminController
   before_action :find_client
   before_action :find_program_stream, except: :index
   before_action :find_client_enrollment, only: [:show, :edit, :update, :destroy]
-  before_action :get_attachments, only: [:new, :edit, :update]
+  before_action :get_attachments, only: [:new, :edit, :update, :create]
 
   def index
     program_streams = ProgramStreamDecorator.decorate_collection(ordered_program)

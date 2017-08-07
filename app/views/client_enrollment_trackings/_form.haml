@@ -10,7 +10,7 @@
               - unless field['type'] == 'file'
                 = render "/shared/fields/#{field['type'].underscore}", f: prop_f, field_props: field, errors: @client_enrollment_tracking.errors.messages, entity: f
               - else
-                = f.simple_fields_for :form_builder_attachments, @attachments.file_by_name(field['label'] || @attachments.build) do |attachment|
+                = f.simple_fields_for :form_builder_attachments, @attachments.file_by_name(field['label']) || @attachments.build do |attachment|
                   = render 'shared/form_builder/attachment', f: attachment, property: field, entity: f, resource: @client_enrollment_tracking
         .row
           .col-xs-12

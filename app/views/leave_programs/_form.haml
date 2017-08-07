@@ -19,7 +19,7 @@
               - unless exit_program['type'] == 'file'
                 = render "/shared/fields/#{exit_program['type'].underscore}", f: prop_f, field_props: exit_program, errors: @leave_program.errors.messages, entity: f
               - else
-                = f.simple_fields_for :form_builder_attachments, @attachments.file_by_name(exit_program['label'] || @attachments.build) do |attachment|
+                = f.simple_fields_for :form_builder_attachments, @attachments.file_by_name(exit_program['label']) || @attachments.build do |attachment|
                   = render 'shared/form_builder/attachment', f: attachment, property: exit_program, entity: f, resource: @leave_program
         .row
           .col-xs-12
