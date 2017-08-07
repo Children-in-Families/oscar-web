@@ -2,6 +2,7 @@ class LeaveProgramsController < AdminController
   load_and_authorize_resource
 
   before_action :find_client, :find_enrollment, :find_program_stream
+  before_action :get_attachments, only: [:new, :edit, :update, :create]
 
   def new
     @leave_program = @enrollment.build_leave_program
@@ -33,6 +34,16 @@ class LeaveProgramsController < AdminController
     @leave_program = @enrollment.leave_program
   end
 
+  def destroy
+    name = params[:file_name]
+    index = params[:file_index].to_i
+    params_program_streams = params[:program_streams]
+    if name.present? && index.present?
+      delete_form_builder_attachment(name, index)
+    end
+    redirect_to request.referer, notice: t('.delete_attachment_successfully')
+  end
+
   private
 
   def leave_program_params
@@ -57,6 +68,10 @@ class LeaveProgramsController < AdminController
     @program_stream = @enrollment.program_stream
   end
 
+  def get_attachments
+    @attachments = @leave_program.form_builder_attachments
+  end
+
   def properties_params
     params[:leave_program][:properties]
   end
@@ -65,16 +80,29 @@ class LeaveProgramsController < AdminController
     return unless attachment_params.present?
     attachment_params.each do |_k, attachment|
       name = attachment['name']
-      if name.present? && attachment['file'].present?
-        form_builder_attachment = @leave_program.form_builder_attachments.file_by_name(name)
+      next unless name.present? && attachment['file'].present?
+      form_builder_attachment = @leave_program.form_builder_attachments.file_by_name(name)
+      if form_builder_attachment.present?
         modify_files = form_builder_attachment.file
         modify_files += attachment['file']
 
         form_builder_attachment = @leave_program.form_builder_attachments.find_by(name: name)
         form_builder_attachment.file = modify_files
         form_builder_attachment.save
+      else
+        @leave_program.form_builder_attachments.create(name: attachment['name'], file: attachment['file'])
       end
     end
+  end
+
+  def delete_form_builder_attachment(name, index)
+    @leave_program = @enrollment.leave_program
+    attachment = @leave_program.get_form_builder_attachment(name)
+    remain_file  = attachment.file
+    deleted_file = remain_file.delete_at(index)
+    deleted_file.try(:remove!)
+    remain_file.empty? ? attachment.remove_file! : attachment.file = remain_file
+    attachment.save
   end
 
   def attachment_params

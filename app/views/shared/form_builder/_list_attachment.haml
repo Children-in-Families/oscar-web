@@ -1,15 +1,14 @@
-- label_name = progarm_stream_action.include?(action_name) ? name : f.object.name
-- attachments = form_buildable.form_builder_attachments.file_by_name(label_name).try(:file)
-- return if attachments.nil?
+- attachment_by_label = resource.get_form_builder_attachment(label)
+- return unless attachment_by_label.present?
 .table-responsive
   %table.table.table-bordered.table-hover.attachment-table
     %tbody.uplod-file
-      - attachments.each_with_index do |attachment, index|
+      - attachment_by_label.file.each_with_index do |attachment, index|
         %tr.row-file
           %td.image-title.vert-align
             = original_filename(attachment)
-          %td.vert-align
+          %td.vert-align.preview.text-center
             = link_to preview_or_download(attachment), attachment.url, target: target_blank(attachment), class: 'btn btn-info btn-sm btn-download'
-          - if action_name == 'edit'
-            %td.vert-align.text-center
-              .delete.fa.fa-trash.btn.btn-outline.btn-danger{ data: { url: (api_form_builder_attachment_path(f.object.id, file_index: index, file_name: f.object.name)), comfirm: t('.are_you_sure') }}
+          - if action_name == 'show' || action_name == 'report'
+            %td.vert-align.text-center.action
+              = form_buildable_path(resource, index, label, params['program_streams'])

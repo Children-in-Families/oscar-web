@@ -29,7 +29,7 @@
                     %tr
                       %td= date_format(enrollment_tracking.created_at)
                       %td= "#{t('.tracking')} (#{enrollment_tracking.tracking.try(:name)})"
-                      %td= link_to t('.view'), client_client_enrollment_client_enrollment_tracking_path(@client, enrollment, enrollment_tracking, program_streams: params[:program_streams])
+                      %td= link_to t('.view'), client_client_enrollment_client_enrollment_tracking_path(@client, enrollment, enrollment_tracking, program_streams: params[:program_streams], tracking_id: enrollment_tracking.tracking.id)
 
                 %tr
                   %td

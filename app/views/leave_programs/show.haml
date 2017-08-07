@@ -20,6 +20,6 @@
                   = key
                 %td.align-justify
                   - if type == 'file'
-                    = render 'shared/form_builder/list_attachment', name: key, form_buildable: @leave_program
+                    = render 'shared/form_builder/list_attachment', resource: @leave_program, label: key
                   - else
                     = display_custom_properties(@leave_program.properties[key])

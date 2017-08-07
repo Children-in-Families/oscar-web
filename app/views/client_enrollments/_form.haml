@@ -11,7 +11,9 @@
             %i.fa.fa-calendar-check-o
         - if f.object.errors[:enrollment_date].any?
           %span.help-block= t('cannot_be_blank')
+
     = f.simple_fields_for :properties, OpenStruct.new(@client_enrollment.properties) do |prop_f|
+      
       - @program_stream.enrollment.each_slice(2) do |n_field|
         .row
           - n_field.each do |enrollment|
@@ -20,8 +22,8 @@
                 = render "/shared/fields/#{enrollment['type'].underscore}", f: prop_f, field_props: enrollment, errors: @client_enrollment.errors.messages, entity: f
 
               - else
-                = f.simple_fields_for :form_builder_attachments, @attachment do |attachment|
-                  = render 'shared/form_builder/attachment', f: attachment, property: enrollment, entity: f, form_buildable: @client_enrollment
+                = f.simple_fields_for :form_builder_attachments, @attachments.file_by_name(enrollment['label']) ||  @attachments.build do |attachment|
+                  = render 'shared/form_builder/attachment', f: attachment, property: enrollment, entity: f, resource: @client_enrollment
           .row
             .col-xs-12
               #message.text-danger

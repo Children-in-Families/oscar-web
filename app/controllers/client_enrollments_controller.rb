@@ -3,7 +3,8 @@ class ClientEnrollmentsController < AdminController
 
   before_action :find_client
   before_action :find_program_stream, except: :index
-  before_action :find_client_enrollment, only: [:show, :edit, :update]
+  before_action :find_client_enrollment, only: [:show, :edit, :update, :destroy]
+  before_action :get_attachments, only: [:new, :edit, :update]
 
   def index
     program_streams = ProgramStreamDecorator.decorate_collection(ordered_program)
@@ -21,7 +22,6 @@ class ClientEnrollmentsController < AdminController
       redirect_to client_client_enrollments_path(@client, program_streams: params[:program_streams]), alert: t('.client_not_valid') unless valid_program?
     end
     @client_enrollment = @client.client_enrollments.new(program_stream_id: @program_stream)
-    @attachment = @client_enrollment.form_builder_attachments.build
   end
 
   def edit
@@ -51,10 +51,17 @@ class ClientEnrollmentsController < AdminController
     end
   end
 
-  # def destroy
-  #   @client_enrollment.destroy
-  #   redirect_to report_client_client_enrollments_path(@client, program_stream_id: @program_stream, program_streams: params[:program_streams]), notice: t('.successfully_deleted')
-  # end
+  def destroy
+    name = params[:file_name]
+    index = params[:file_index].to_i
+    params_program_streams = params[:program_streams]
+    if name.present? && index.present?
+      delete_form_builder_attachment(name, index)
+    end
+    redirect_to request.referer, notice: t('.delete_attachment_successfully')
+    # @client_enrollment.destroy
+    # redirect_to report_client_client_enrollments_path(@client, program_stream_id: @program_stream, program_streams: params[:program_streams]), notice: t('.successfully_deleted')
+  end
 
   def report
     @enrollments = @program_stream.client_enrollments.where(client_id: @client).order(created_at: :DESC)
@@ -74,6 +81,10 @@ class ClientEnrollmentsController < AdminController
 
   def find_client_enrollment
     @client_enrollment = @client.client_enrollments.find(params[:id])
+  end
+
+  def get_attachments
+    @attachments = @client_enrollment.form_builder_attachments
   end
 
   def find_client
@@ -133,16 +144,28 @@ class ClientEnrollmentsController < AdminController
     return unless attachment_params.present?
     attachment_params.each do |_k, attachment|
       name = attachment['name']
-      if name.present? && attachment['file'].present?
-        form_builder_attachment = @client_enrollment.form_builder_attachments.file_by_name(name)
+      next unless name.present? && attachment['file'].present?
+      form_builder_attachment = @client_enrollment.form_builder_attachments.file_by_name(name)
+      if form_builder_attachment.present?
         modify_files = form_builder_attachment.file
         modify_files += attachment['file']
 
         form_builder_attachment = @client_enrollment.form_builder_attachments.find_by(name: name)
         form_builder_attachment.file = modify_files
         form_builder_attachment.save
+      else
+        @client_enrollment.form_builder_attachments.create(name: attachment['name'], file: attachment['file'])
       end
     end
+  end
+
+  def delete_form_builder_attachment(name, index)
+    attachment = @client_enrollment.get_form_builder_attachment(name)
+    remain_file  = attachment.file
+    deleted_file = remain_file.delete_at(index)
+    deleted_file.try(:remove!)
+    remain_file.empty? ? attachment.remove_file! : attachment.file = remain_file
+    attachment.save
   end
 
   def properties_params

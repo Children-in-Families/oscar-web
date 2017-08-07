@@ -696,11 +696,14 @@ en:
       successfully_created: Tracking Program has been successfully created.
     destroy:
       successfully_deleted: Tracking Program has been successfully deleted.
+      delete_attachment_successfully: Attachment has been successfully deleted.
     edit:
       edit_tracking: Edit Tracking
     form:
+      allow_file_size: Allowed file types
       cancel: Cancel
       save: Save
+      max_file_size: "*Maximum file size: 5MB/file and 30MB/upload."  
     index:
       programs_list: Programs List
       tracking_lists: Trackings List
@@ -721,12 +724,15 @@ en:
       successfully_created: Enrollment has been successfully created.
     destroy:
       successfully_deleted: Enrollment has been successfully deleted.
+      delete_attachment_successfully: Attachment has been successfully deleted.
     edit:
       enrollment: Edit Enrollment
     form:
+      allow_file_size: Allowed file types
       cancel: Cancel
       enrollment_date: Enrollment Date
       save: Save
+      max_file_size: "*Maximum file size: 5MB/file and 30MB/upload."
     index:
       actions: Actions
       back: Back
@@ -2514,10 +2520,14 @@ en:
       successfully_created: Client has successfully exited from the program.
     edit:
       leave_program: Edit Leave Program
+    destroy:
+      delete_attachment_successfully: Attachment has been successfully deleted.
     form:
+      allow_file_size: Allowed file types
       cancel: Cancel
       exit_date: Exit Date
       save: Save
+      max_file_size: "*Maximum file size: 5MB/file and 30MB/upload."
     new:
       new_exit_program: New Exit Program
     show:
@@ -3000,7 +3010,7 @@ en:
   save: Save
   shared:
     form_builder:
-      attachment_list:
+      list_attachment:
         are_you_sure: Are you sure you want to delete?
         preview_download: Preview & Download
       file_field:

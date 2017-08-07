@@ -2,8 +2,9 @@ class ClientEnrollmentTrackingsController < AdminController
   load_and_authorize_resource
 
   before_action :find_client, :find_enrollment, :find_program_stream
-  before_action :find_tracking, except: [:index, :show]
+  before_action :find_tracking, except: [:index]
   before_action :find_client_enrollment_tracking, only: [:show, :update, :destroy]
+  before_action :get_attachments, only: [:new, :edit, :update]
 
   def index
     @tracking_grid = TrackingGrid.new(params[:tracking_grid])
@@ -45,8 +46,18 @@ class ClientEnrollmentTrackingsController < AdminController
   end
 
   def destroy
-    @client_enrollment_tracking.destroy
-    redirect_to report_client_client_enrollment_client_enrollment_trackings_path(@client, @enrollment, tracking_id: @tracking.id), notice: t('.successfully_deleted')
+    name = params[:file_name]
+    index = params[:file_index].to_i
+    params_program_streams = params[:program_streams]
+    notice = ""
+    if name.present? && index.present?
+      delete_form_builder_attachment(name, index)
+      notice = t('.delete_attachment_successfully')
+    else
+      @client_enrollment_tracking.destroy
+      notice = t('.successfully_deleted')
+    end
+    redirect_to request.referer, notice: notice
   end
 
   def report
@@ -84,6 +95,10 @@ class ClientEnrollmentTrackingsController < AdminController
     @client_enrollment_tracking = @enrollment.client_enrollment_trackings.find params[:id]
   end
 
+  def get_attachments
+    @attachments = @client_enrollment_tracking.form_builder_attachments
+  end
+
   def properties_params
     params[:client_enrollment_tracking][:properties]
   end
@@ -102,6 +117,15 @@ class ClientEnrollmentTrackingsController < AdminController
         form_builder_attachment.save
       end
     end
+  end
+
+  def delete_form_builder_attachment(name, index)
+    attachment = @client_enrollment_tracking.get_form_builder_attachment(name)
+    remain_file  = attachment.file
+    deleted_file = remain_file.delete_at(index)
+    deleted_file.try(:remove!)
+    remain_file.empty? ? attachment.remove_file! : attachment.file = remain_file
+    attachment.save
   end
 
   def attachment_params

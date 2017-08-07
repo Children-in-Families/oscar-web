@@ -16,6 +16,7 @@ module Api
     end
 
     private
+
     def find_attachment
       id = params[:id]
       name = params[:file_name]
