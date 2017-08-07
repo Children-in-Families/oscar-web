@@ -23,6 +23,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     _changeTimeOfFrequency()
     _convertFrequency()
     _initSelect2TimeOfFrequency()
+    _handleValidateTimeOfFrequency()
 
   _initCheckbox = ->
     $('.i-checks').iCheck
@@ -374,7 +375,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
 
   _removeTabErrorClass = ->
     if $('#trackings').is(':visible')
-      errors = $('.nested-fields:visible').find('label.error')
+      errors = $('.nested-fields:visible').find('label.error:visible')
     else
       errors = $('.form-wrap:visible').find('label.error')
 
@@ -585,6 +586,12 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
               $(parent).children('div.field-actions').remove()
               $(tracking).find('.ibox-footer').remove()
     )
+
+  _handleValidateTimeOfFrequency = ->
+    $('.program_stream_trackings_time_of_frequency input').on 'blur', ->
+      unless $('.program_stream_trackings_time_of_frequency input').hasClass('error')
+        _removeTabErrorClass()
+        $('.program_stream_trackings_time_of_frequency label.error').remove()
 
   _toggleTimeOfFrequency = (element) ->
     timeOfFrequency = parseInt($(element).parent().siblings('#time').val())
