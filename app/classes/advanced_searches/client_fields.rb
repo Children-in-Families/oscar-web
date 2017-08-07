@@ -48,8 +48,13 @@ module AdvancedSearches
         ['has_been_in_orphanage', { true: 'Yes', false: 'No' }],
         ['user_id', user_select_options],
         ['form_title', client_custom_form_options],
-        ['donor_id', donor_options]
+        ['donor_id', donor_options],
+        ['program_stream', program_options]
       ]
+    end
+
+    def program_options
+      ProgramStream.joins(:client_enrollments).where("client_enrollments.program_stream_id = program_streams.id AND client_enrollments.status = 'Active'").order(:name).map { |ps| { ps.id.to_s => ps.name } }.uniq
     end
 
     def client_custom_form_options

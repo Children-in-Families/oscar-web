@@ -85,7 +85,8 @@ module AdvancedSearchHelper
       custom_form: I18n.t('advanced_search.fields.custom_form'),
       quantitative: I18n.t('advanced_search.fields.quantitative'),
       exit_date: I18n.t('advanced_search.fields.ngo_exit_date'),
-      accepted_date: I18n.t('advanced_search.fields.ngo_accepted_date')
+      accepted_date: I18n.t('advanced_search.fields.ngo_accepted_date'),
+      program_stream: I18n.t('advanced_search.fields.program_stream'),
     }
     translations[key.to_sym] || ''
   end

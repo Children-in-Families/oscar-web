@@ -308,6 +308,7 @@ km:
       ngo_accepted_date: កាលបរិច្ឆេទទទួលយកចូលអង្គការ
       ngo_exit_date: កាលបរិច្ឆេទនៃការចាកចេញពីអង្គការ
       placement_start_date: ថ្ងៃបញ្ជូនទៅក្នុងករណី
+      program_stream: កម្មវិធីបន្ទាប់បន្សំ
       province: ខេត្តកំណើត
       province_id: ខេត្តបច្ចុប្បន្ន
       received_by: បុគ្គលិកដែលទទួលករណី
