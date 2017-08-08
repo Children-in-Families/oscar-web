@@ -157,6 +157,8 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       _changeSelectOfFrequency()
       _changeTimeOfFrequency()
       _convertFrequency()
+      _toggleNestedTrackingOfTimeOfFrequency()
+      _handleValidateTimeOfFrequency()
 
   _generateValueForSelectOption = (field) ->
     $(field).find('input.option-label').on 'keyup change', ->
@@ -580,6 +582,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
 
   _handleValidateTimeOfFrequency = ->
     $('.program_stream_trackings_time_of_frequency input').on 'blur', ->
+      $('.program_stream_trackings_time_of_frequency input').valid()
       unless $('.program_stream_trackings_time_of_frequency input').hasClass('error')
         _removeTabErrorClass()
         $('.program_stream_trackings_time_of_frequency label.error').remove()
