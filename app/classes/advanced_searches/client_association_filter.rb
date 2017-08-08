@@ -50,7 +50,6 @@ module AdvancedSearches
       clients = @clients.joins(:client_enrollments).where(client_enrollments: { status: 'Active' })
       case @operator
       when 'equal'
-        # binding.pry
         clients.where('client_enrollments.program_stream_id = ?', @value ).ids
       when 'not_equal'
         clients.where.not('client_enrollments.program_stream_id = ?', @value ).ids
