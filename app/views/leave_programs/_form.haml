@@ -9,8 +9,7 @@
           = f.text_field :exit_date, class: 'date optional form-control date-picker', type: 'text', id: 'exit_date'
           %span.input-group-addon
             %i.fa.fa-calendar-check-o
-        - if f.object.errors[:exit_date].any?
-          %span.help-block= t('cannot_be_blank')
+        %span.help-block.hidden= t('cannot_be_blank')
     = f.simple_fields_for :properties, OpenStruct.new(@leave_program.properties) do |prop_f|
       - @program_stream.exit_program.each_slice(2) do |n_field|
         .row

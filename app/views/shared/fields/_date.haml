@@ -1,10 +1,11 @@
 %div{ class: "form-group #{field_with(field_props['label'],errors)}" }
-  %label{ class: required?(field_props['required'] || false) }
+  %label.control-label{ class: required?(field_props['required'] || false) }
     %abbr{ title: 'required' }= '*' if field_props['required'] || false
     = field_props['label']
   %div{ class: "date input-group #{required?(field_props['required'])}" }
-    = f.text_field field_props['label'], class: "date optional form-control date-picker #{field_props['className']} #{required?(field_props['required'])}", type: 'text', name: "#{f.object_name}[#{field_props['label']}]"
+    = f.text_field field_props['label'], class: "date optional form-control date-picker #{field_props['className']} #{required?((field_props['required'] || false))}", type: 'text', name: "#{f.object_name}[#{field_props['label']}]"
     %span.input-group-addon
       %i.fa.fa-calendar-check-o
-  %span.help-block
-    = field_message(field_props['label'], errors)
+  = error_message(controller_name, field_message(field_props['label'], errors))
+  -# %span.help-block
+  -#   = field_message(field_props['label'], errors)
