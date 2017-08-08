@@ -34,6 +34,6 @@ class ProgramStreamDecorator < Draper::Decorator
   end
 
   def domains_format
-    model.domains.pluck(:identity).join(', ')
+    model.domains.pluck(:identity)
   end
 end

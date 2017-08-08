@@ -31,7 +31,8 @@
               %td.name
                 = link_to ps.name, program_stream_path(ps, client: true)
               %td.domain
-                = ps.domains_format
+                - ps.domains_format.each do |domain|
+                  %strong.label.label-default= domain
               %td.quantity
                 = ps.place_available
               %td.report
