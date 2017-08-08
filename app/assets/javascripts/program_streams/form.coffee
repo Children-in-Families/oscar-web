@@ -157,6 +157,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       _changeSelectOfFrequency()
       _changeTimeOfFrequency()
       _convertFrequency()
+      _toggleNestedTrackingOfTimeOfFrequency()
 
   _generateValueForSelectOption = (field) ->
     $(field).find('input.option-label').on 'keyup change', ->
@@ -619,7 +620,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
   _changeTimeOfFrequency = ->
     $('.program_stream_trackings_time_of_frequency input').change ->
       if $(this).val() == ''
-        $(this).val(1) 
+        $(this).val(1)
       frequencyElement = $(this).parent().closest('.col-xs-12').siblings()
       frequencyNote = $(frequencyElement).find('.frequency-note')
       frequency = _convertFrequency($(frequencyElement).find('.program_stream_trackings_frequency select').val())

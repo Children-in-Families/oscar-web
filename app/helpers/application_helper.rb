@@ -150,4 +150,12 @@ module ApplicationHelper
   def entity_name(entity)
     entity.name.present? ? entity.name : 'Unknown'
   end
+
+  def error_message(controller_name, field_message = '')
+    if %(client_enrollments leave_programs client_enrollment_trackings).include?(controller_name)
+      content_tag(:span, t('cannot_be_blank'), class: 'help-block hidden')
+    else
+      content_tag(:span, field_message, class: 'help-block')
+    end
+  end
 end
