@@ -192,7 +192,7 @@ class Client < ActiveRecord::Base
     tasks.each do |task|
       users.map { |user| CaseWorkerTask.find_or_create_by(task_id: task.id, user_id: user.id) }
     end
-    CaseWorkerTask.where.not(user_id: user_ids).destroy_all
+    CaseWorkerTask.where(task_id: tasks.ids).where.not(user_id: user_ids).destroy_all
   end
 
   def has_no_ec_or_any_cases?

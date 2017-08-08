@@ -1,6 +1,6 @@
 CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.AssessmentsUpdate = do ->
   _init = ->
-    formid = $('form').attr('id')
+    formid = $('form.assessment-form').attr('id')
     form   = $('#'+formid)
 
     _formValidate(form)
