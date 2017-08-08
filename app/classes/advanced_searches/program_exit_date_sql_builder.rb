@@ -24,7 +24,7 @@ module AdvancedSearches
       when 'greater_or_equal'
         leave_program_date = leave_programs.where('exit_date >= ?', @value)
       when 'is_empty'
-        client_ids = ClientEnrollment.where(program_stream_id: 58).select("client_id").group(:client_id).having("count(*) = 1 and max(status)= 'Active'")
+        client_ids = ClientEnrollment.where(program_stream_id: @program_stream_id).select("client_id").group(:client_id).having("count(*) = 1 and max(status)= 'Active'")
       when 'is_not_empty'
         leave_program_date = leave_programs.where.not(exit_date: nil)
       when 'between'
