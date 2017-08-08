@@ -4,11 +4,22 @@ class LeaveProgram < ActiveRecord::Base
 
   validates :exit_date, presence: true
 
+  after_create :set_client_status
+
   has_paper_trail
 
   validate do |obj|
     CustomFormPresentValidator.new(obj, 'program_stream', 'exit_program').validate
     CustomFormNumericalityValidator.new(obj, 'program_stream', 'exit_program').validate
     CustomFormEmailValidator.new(obj, 'program_stream', 'exit_program').validate
+  end
+
+  def set_client_status
+    self.client_enrollment.update_columns(status: 'Exited')
+
+    client = Client.find(self.client_enrollment.client_id)
+    if client.cases.current.nil? && client.client_enrollments.active.empty?
+      client.update_attributes(status: 'Referred')
+    end
   end
 end

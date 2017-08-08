@@ -83,10 +83,14 @@ class ProgramStreamsController < AdminController
 
     params[:program_stream][:mutual_dependence].delete('') if params[:program_stream][:mutual_dependence].present? && params[:program_stream][:mutual_dependence].count > 1
 
-    default_params = [:name, :rules, :description, :enrollment, :exit_program, :quantity, program_exclusive: [], mutual_dependence: [], domain_ids: []]
-    default_params << { trackings_attributes: [:name, :frequency, :time_of_frequency, :fields, :_destroy, :id] }
+    default_params = [:name, :rules, :description, :enrollment, :exit_program, :tracking_required, :quantity, program_exclusive: [], mutual_dependence: [], domain_ids: []]
+    default_params << { trackings_attributes: [:name, :frequency, :time_of_frequency, :fields, :_destroy, :id] } unless program_without_tracking?
 
     params.require(:program_stream).permit(default_params).merge(ngo_name: ngo_name)
+  end
+
+  def program_without_tracking?
+    params[:program_stream][:tracking_required].to_i == 1 ? true : false
   end
 
   def find_ngo

@@ -114,6 +114,11 @@ module ClientsHelper
       changelog:                     t('datagrid.columns.clients.changelog'),
       live_with:                     t('datagrid.columns.clients.live_with'),
       id_poor:                       t('datagrid.columns.clients.id_poor'),
+      program_streams:               t('datagrid.columns.clients.program_streams'),
+      program_enrollment_date:       t('datagrid.columns.clients.program_enrollment_date'),
+      program_exit_date:             t('datagrid.columns.clients.program_exit_date'),
+      accepted_date:                 t('datagrid.columns.clients.ngo_accepted_date'),
+      exit_date:                     t('datagrid.columns.clients.ngo_exit_date')
     }
     label_tag "#{column}_", label_column[column.to_sym]
   end
@@ -127,15 +132,15 @@ module ClientsHelper
   end
 
   def ec_manageable
-    current_user.admin? || current_user.case_worker? || current_user.ec_manager?
+    current_user.admin? || current_user.case_worker? || current_user.ec_manager? || current_user.manager?
   end
 
   def fc_manageable
-    current_user.admin? || current_user.case_worker? || current_user.fc_manager?
+    current_user.admin? || current_user.case_worker? || current_user.fc_manager? || current_user.manager?
   end
 
   def kc_manageable
-    current_user.admin? || current_user.case_worker? || current_user.kc_manager?
+    current_user.admin? || current_user.case_worker? || current_user.kc_manager? || current_user.manager?
   end
 
   def can_read_client_progress_note?

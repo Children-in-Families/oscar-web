@@ -95,19 +95,20 @@
                     = link_to t('.progress_note_types'), progress_note_types_path
               %li{ class: active_menu('custom_fields') }
                 = link_to t('.custom_fields'), custom_fields_path
-              - unless Rails.env.production?
-                %li{ class: active_menu('program_streams') }
+              %li{ class: active_menu('program_streams') }
+                - if current_user.program_warning?
                   = link_to t('.program_streams'), program_streams_path
+                - else
+                  %a{"data-target" => "#warning-program", "data-toggle" => "modal", :type => "button"}=t('.program_streams')
               %li{ class: active_menu('changelogs') }
                 = link_to t('.release_logs'), changelogs_path
             - else
               - if can? :read, CustomField
                 %li{ class: active_menu('custom_fields') }
                   = link_to t('.custom_fields'), custom_fields_path
-              - if can? :manage, ProgramStream
-                - unless Rails.env.production?
-                  %li{ class: active_menu('program_streams') }
-                    = link_to t('.program_streams'), program_streams_path
+              - if can? :read, ProgramStream
+                %li{ class: active_menu('program_streams') }
+                  = link_to t('.program_streams'), program_streams_path
               - if can? :read, ReferralSource
                 %li{ class: active_menu('referral_sources') }
                   = link_to t('.referral_sources'), referral_sources_path

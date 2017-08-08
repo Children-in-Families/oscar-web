@@ -18,7 +18,7 @@
                     = case_history.exit_date.strftime('%B %d, %Y')
                   .ibox-tools
                     - if can? :manage, Case
-                      - if current_user.admin?
+                      - if current_user.admin? || current_user.manager?
                         %small
                           = link_to edit_client_case_path(case_history.client, case_history) do
                             .btn.btn-outline.btn-success

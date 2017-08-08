@@ -50,12 +50,12 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
 
             $('#confirm-client-modal').modal('show')
             $('#confirm-client-modal #confirm').on 'click', ->
-              $('form').submit()
+              $('form.client-form').submit()
           else
-            $('form').submit()
+            $('form.client-form').submit()
         )
       else
-        $('form').submit()
+        $('form.client-form').submit()
 
 
 

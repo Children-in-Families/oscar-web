@@ -1,4 +1,4 @@
-= simple_form_for [@task.client, @task] do |f|
+= simple_form_for([@task.client, @task], html: { class: 'task-form' }) do |f|
   = error_notification(f)
 
   = f.association :domain, collection: Domain.all, label_method: ->(domain){"#{domain.name} #{domain.identity}"}, include_blank: false, label: t('.domain')

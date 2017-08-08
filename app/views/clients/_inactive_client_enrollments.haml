@@ -1,0 +1,3 @@
+%ul
+  - inactive_client_enrollments.each do |client_enrollment|
+    %li= "#{client_enrollment.program_stream.name} : #{client_enrollment.leave_program.exit_date}"

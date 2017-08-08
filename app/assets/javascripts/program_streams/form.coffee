@@ -4,6 +4,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     @filterTranslation = ''
     _getTranslation()
     _initProgramSteps()
+    _initCheckbox()
     _addFooterForSubmitForm()
     _handleInitProgramRules()
     _addRuleCallback()
@@ -15,11 +16,19 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     _handleSaveProgramStream()
     _handleClickAddTracking()
     _handleRemoveProgramList()
+    _handleShowTracking()
+    _handleHideTracking()
+    _toggleNestedTrackingOfTimeOfFrequency()
+    _changeSelectOfFrequency()
+    _changeTimeOfFrequency()
+    _convertFrequency()
+    _initSelect2TimeOfFrequency()
+    _handleValidateTimeOfFrequency()
 
-  _handleDisabledRulesInputs = ->
-    disble = $('#program-rule').attr('data-disable')
-    if disble == 'true'
-      $('#program-rule').find('input, select, textarea, button').attr( 'disabled', 'disabled' )  
+  _initCheckbox = ->
+    $('.i-checks').iCheck
+      checkboxClass: 'icheckbox_square-green'
+    $($('.icheckbox_square-green.checked')[0]).removeClass('checked')
 
   _stickyFill = ->
     if $('.form-wrap').is(':visible')
@@ -27,6 +36,11 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
 
   _initSelect2 = ->
     $('#description select, #rule-tab select').select2()
+
+  _initSelect2TimeOfFrequency = ->
+    $('.program_stream_trackings_frequency select').select2
+      minimumInputLength: 0
+      allowClear: true
 
   _handleRemoveProgramList = ->
     $('#program_stream_program_exclusive').on 'change', ->
@@ -53,7 +67,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         $(@).addClass('done')
 
   _handleSaveProgramStream = ->
-    form = $('form')
+    form = $('#program-stream')
     $('#btn-save-draft').on 'click', ->
       if _handleCheckingDuplicateFields()
         return false
@@ -138,6 +152,13 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       _stickyFill()
       _editTrackingFormName()
       _handleRemoveCocoon()
+      _initSelect2TimeOfFrequency()
+      _toggleTimeOfFrequency()
+      _changeSelectOfFrequency()
+      _changeTimeOfFrequency()
+      _convertFrequency()
+      _toggleNestedTrackingOfTimeOfFrequency()
+      _handleValidateTimeOfFrequency()
 
   _generateValueForSelectOption = (field) ->
     $(field).find('input.option-label').on 'keyup change', ->
@@ -249,7 +270,6 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
               _handleCheckingForm(fld)
             ),50
       }
-
     }).data('formBuilder');
 
   _editTrackingFormName = ->
@@ -348,7 +368,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
 
   _removeTabErrorClass = ->
     if $('#trackings').is(':visible')
-      errors = $('.nested-fields:visible').find('label.error')
+      errors = $('.nested-fields:visible').find('label.error:visible')
     else
       errors = $('.form-wrap:visible').find('label.error')
 
@@ -400,6 +420,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
           name = $('#program_stream_name').val() == ''
           return false if name
         else if currentIndex == 3 and newIndex == 4 and $('#trackings').is(':visible')
+          return true if $('#trackings').hasClass('hide-tracking-form')
           _handleCheckTrackingName()
           return false if _handleCheckingDuplicateFields()
         else if $('#enrollment, #exit-program').is(':visible')
@@ -413,7 +434,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         _handleEditLabelName()
         buttonSave = $('#btn-save-draft')
         if $('#exit-program').is(':visible') then $(buttonSave).hide() else $(buttonSave).show()
-        _handleDisabledRulesInputs() if $('#rule-tab').is(':visible') 
+
 
       onFinished: (event, currentIndex) ->
         $('.actions a:contains("Finish")').removeAttr('href')
@@ -445,14 +466,17 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     for element in $('#enrollment, #exit-program')
       dataElement = $(element).data('field')
       _initProgramBuilder($(element), (dataElement || []))
+    _preventRemoveEnrollmentField()
+    _preventRemoveExitProgramField()
 
     trackings = $('.tracking-builder')
     for tracking in trackings
       trackingValue = $(tracking).data('tracking')
       _initProgramBuilder(tracking, (trackingValue || []))
+    _preventRemoveTrackingField()
 
   _initButtonSave = ->
-    form = $('form')
+    form = $('form#program-stream')
     btnSaveTranslation = filterTranslation.save
     form.find("[aria-label=Pagination]").append("<li><span id='btn-save-draft' class='btn btn-primary btn-sm'>#{btnSaveTranslation}</span></li>")
 
@@ -485,5 +509,151 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
 
   _addFooterForSubmitForm = ->
     $('.actions.clearfix').addClass('ibox-footer')
+
+  _handleHideTracking = ->
+    if $('#program_stream_tracking_required').prop('checked')
+      $('#trackings').addClass('hide-tracking-form')
+    $('#program_stream_tracking_required').on 'ifChecked', ->
+      $('#trackings').addClass('hide-tracking-form')
+
+  _handleShowTracking = ->
+    $('#program_stream_tracking_required').on 'ifUnchecked', ->
+      $('#trackings').removeClass('hide-tracking-form')
+
+  _preventRemoveEnrollmentField = ->
+    fields = ''
+    programStreamId = $('#program_stream_id').val()
+    return if programStreamId == ''
+    $.ajax({
+      type: 'GET'
+      url: "/api/program_streams/#{programStreamId}/enrollment_fields"
+      dataType: "JSON"
+    }).success((json)->
+      fields = json.program_streams
+      labelFields = $('#steps-uid-0-p-2 label.field-label')
+      for labelField in labelFields
+        parent = $(labelField).parent()
+        for field in fields
+          if labelField.textContent == field
+            $(parent).children('div.field-actions').remove()
+    )
+
+  _preventRemoveExitProgramField = ->
+    fields = ''
+    programStreamId = $('#program_stream_id').val()
+    return if programStreamId == ''
+    $.ajax({
+      type: 'GET'
+      url: "/api/program_streams/#{programStreamId}/exit_program_fields"
+      dataType: "JSON"
+    }).success((json)->
+      fields = json.program_streams
+      labelFields = $('#steps-uid-0-p-4 label.field-label')
+      for labelField in labelFields
+        parent = $(labelField).parent()
+        for field in fields
+          if labelField.textContent == field
+            $(parent).children('div.field-actions').remove()
+    )
+
+  _preventRemoveTrackingField = ->
+    fields = ''
+    programStreamId = $('#program_stream_id').val()
+    return if programStreamId == ''
+    $.ajax({
+      type: 'GET'
+      url: "/api/program_streams/#{programStreamId}/tracking_fields"
+      dataType: "JSON"
+    }).success((json)->
+      fields = json
+      trackings = $('#trackings .nested-fields')
+      for tracking in trackings
+        trackingName = $(tracking).find('input.string.optional.readonly.form-control')
+        return if $(trackingName).length == 0
+        name = $(trackingName).val()
+        labelFields = $(tracking).find('label.field-label')
+        for labelField in labelFields
+          parent = $(labelField).parent()
+          for field in fields[name]
+            if labelField.textContent == field
+              $(parent).children('div.field-actions').remove()
+              $(tracking).find('.ibox-footer').remove()
+    )
+
+  _handleValidateTimeOfFrequency = ->
+    element = $('.program_stream_trackings_time_of_frequency')
+    $(element).find('input').on 'blur', ->
+      $(element).find('input').valid()
+      unless $(element).find('input').hasClass('error')
+        $(element).find('label.error').remove()
+        _removeTabErrorClass()
+
+  _toggleTimeOfFrequency = (element) ->
+    timeOfFrequency = parseInt($(element).parent().siblings('#time').val())
+    frequency = _convertFrequency($(element).val())
+    if frequency == ''
+      $(element).parent().closest('.col-xs-12').siblings().find('.program_stream_trackings_time_of_frequency input').attr('readonly', 'true')
+        .val(0)
+      $(element).parent().siblings('.frequency-note').addClass('hidden')
+    else
+      if timeOfFrequency == 0
+        timeOfFrequency = 1
+      $(element).parent().closest('.col-xs-12').siblings().find('.program_stream_trackings_time_of_frequency input').removeAttr('readonly')
+        .val(parseInt(timeOfFrequency))
+      frequencyNote = $(element).parent().siblings('.frequency-note')
+      _updateFrequencyNote(frequency, timeOfFrequency, frequencyNote)
+
+  _toggleNestedTrackingOfTimeOfFrequency = ->
+    trackings = $('#trackings .nested-fields')
+    for tracking in trackings
+      timeOfFrequency = parseInt($(tracking).find('#time').val())
+      frequency = _convertFrequency($(tracking).find('.program_stream_trackings_frequency select').val())
+      if frequency == ''
+        $(tracking).find('.program_stream_trackings_time_of_frequency input').attr('readonly', 'true')
+          .val(0)
+        $(tracking).find('.frequency-note').addClass('hidden')
+      else
+        if timeOfFrequency == 0
+          timeOfFrequency = 1
+        $(tracking).find('.program_stream_trackings_time_of_frequency input').removeAttr('readonly')
+          .val(parseInt(timeOfFrequency))
+      frequencyNote = $(tracking).find('.frequency-note')
+      _updateFrequencyNote(frequency, timeOfFrequency, frequencyNote)
+
+  _changeTimeOfFrequency = ->
+    $('.program_stream_trackings_time_of_frequency input').change ->
+      if $(this).val() == ''
+        $(this).val(1)
+      frequencyElement = $(this).parent().closest('.col-xs-12').siblings()
+      frequencyNote = $(frequencyElement).find('.frequency-note')
+      frequency = _convertFrequency($(frequencyElement).find('.program_stream_trackings_frequency select').val())
+      _updateFrequencyNote(frequency, parseInt($(this).val()), frequencyNote)
+
+  _updateFrequencyNote = (frequency, timeOfFrequency, frequencyNote) ->
+    if timeOfFrequency <= 0
+      $(frequencyNote).addClass('hidden')
+    else
+      $(frequencyNote).removeClass('hidden')
+      if timeOfFrequency == 1
+        $(frequencyNote).find('span.frequency').text(" #{frequency}.")
+      else
+        $(frequencyNote).find('span.frequency').text(" #{timeOfFrequency} #{frequency}s.")
+
+  _changeSelectOfFrequency = ->
+    $('.program_stream_trackings_frequency select').change ->
+      _toggleTimeOfFrequency(this)
+
+  _convertFrequency = (frequency)->
+    switch(frequency)
+      when 'Daily'
+        frequency = 'day'
+      when 'Weekly'
+        frequency = 'week'
+      when 'Monthly'
+        frequency = 'month'
+      when 'Yearly'
+        frequency = 'year'
+      else
+        frequency = ''
 
   { init: _init }

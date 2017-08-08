@@ -24,11 +24,9 @@ class ClientEnrollmentsController < AdminController
   end
 
   def edit
-    authorize @client_enrollment
   end
 
   def update
-    authorize @client_enrollment
     if @client_enrollment.update_attributes(client_enrollment_params)
       redirect_to client_client_enrollment_path(@client, @client_enrollment, program_stream_id: @program_stream, program_streams: params[:program_streams]), notice: t('.successfully_updated')
     else
@@ -49,10 +47,10 @@ class ClientEnrollmentsController < AdminController
     end
   end
 
-  def destroy
-    @client_enrollment.destroy
-    redirect_to report_client_client_enrollments_path(@client, program_stream_id: @program_stream, program_streams: params[:program_streams]), notice: t('.successfully_deleted')
-  end
+  # def destroy
+  #   @client_enrollment.destroy
+  #   redirect_to report_client_client_enrollments_path(@client, program_stream_id: @program_stream, program_streams: params[:program_streams]), notice: t('.successfully_deleted')
+  # end
 
   def report
     @enrollments = @program_stream.client_enrollments.where(client_id: @client).order(created_at: :DESC)
@@ -115,6 +113,12 @@ class ClientEnrollmentsController < AdminController
 
   def valid_program?
     program_active_status_ids   = ProgramStream.active_enrollments(@client).pluck(:id)
-    (@program_stream.program_exclusive & program_active_status_ids).empty? && (@program_stream.mutual_dependence - program_active_status_ids).empty?
+    if @program_stream.program_exclusive.any? && @program_stream.mutual_dependence.any?
+      (@program_stream.program_exclusive & program_active_status_ids).empty? && (@program_stream.mutual_dependence - program_active_status_ids).empty?
+    elsif @program_stream.mutual_dependence.any?
+      (@program_stream.mutual_dependence - program_active_status_ids).empty?
+    elsif @program_stream.program_exclusive.any?
+      (@program_stream.program_exclusive & program_active_status_ids).empty?
+    end
   end
 end

@@ -17,7 +17,7 @@ class Client < ActiveRecord::Base
   CLIENT_ACTIVE_STATUS = ['Active EC', 'Active FC', 'Active KC'].freeze
   ABLE_STATES = %w(Accepted Rejected Discharged).freeze
 
-  EXIT_STATUSES = CLIENT_STATUSES.select { |status| status if status.include?('Exited') }
+  EXIT_STATUSES = CLIENT_STATUSES.select { |status| status if status.include?('Exited') || status.include?('Independent - Monitored')  }
 
   delegate :name, to: :donor, prefix: true, allow_nil: true
 

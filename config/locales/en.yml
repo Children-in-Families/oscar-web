@@ -301,7 +301,10 @@ en:
       local_family_name: Family Name (Local)
       local_given_name: Given Name (Local)
       name: Name
+      ngo_accepted_date: NGO Accept Date
+      ngo_exit_date: NGO Exit Date
       placement_start_date: Placement Start Date
+      program_stream: Program Stream
       province: Birth Province
       province_id: Current Province
       received_by: Received By
@@ -383,6 +386,7 @@ en:
       next: Next
       previous: Previous
       reason: Reason
+      save: Save
       tasks_arising: 'Tasks arising:'
     index:
       assessment_history: Assessment History
@@ -421,6 +425,7 @@ en:
       attachments: Attachments
       preview_download: Preview & Download
       download: Download
+  back: Back
   calendars:
     index:
       sync_with_google: Sync with Google Calendar
@@ -688,6 +693,8 @@ en:
       successfully_created: Tracking Program has been successfully created.
     destroy:
       successfully_deleted: Tracking Program has been successfully deleted.
+    edit:
+      edit_tracking: Edit Tracking
     form:
       cancel: Cancel
       save: Save
@@ -748,7 +755,7 @@ en:
     show:
       are_you_sure: Are you sure you want to delete?
       back: Back
-      enrollment_date: Enroll Date
+      enrollment_date: Enrolled on
     update:
       successfully_updated: Enrollment has been successfully updated.
   clients:
@@ -830,7 +837,7 @@ en:
       date_of_birth: Date of Birth
       district: District/Khan
       donor: Donor
-      exit_date: Exit Date
+      exit_date: NGO Exit Date
       exit_note: Exit Note
       exit_status: Exit Status
       family_name: Family Name
@@ -929,11 +936,15 @@ en:
       new_client_title: New Client
     placement:
       view_legacy_quarterly_reports: View Legacy Quarterly Reports
+    remaining_programs:
+      close: Close
+      warning: Warning
     show:
       able: Able
       able_screening_questions: Able Screening Questions
       able_state: Able State
       accept: Accept
+      accepted_date: NGO Accept Date
       add_client_to_case: Add Client to Case
       add_ec_btn: Add to EC
       add_fc_btn: Add to FC
@@ -962,7 +973,7 @@ en:
       district: District/Khan
       donor: Donor
       enrolled_program_streams: Enrolled Program Streams
-      exit_date: Exit Date
+      exit_date: NGO Exit Date
       exit_from_ec: Exit From EC
       exit_from_fc: Exit From FC
       exit_from_kc: Exit From KC
@@ -1198,6 +1209,8 @@ en:
         local_given_name: Given Name (Local)
         manage: Manage
         name: Name
+        ngo_accepted_date: NGO Accept Date
+        ngo_exit_date: NGO Exit Date
         no_dob: 'No'
         placement_case_type: Placement Case Type
         placement_start_date: Placement Start Date
@@ -1217,7 +1230,9 @@ en:
           start_date: Start Date
           support_amount: Support Amount
           support_note: Support Note
-        program_name: Program Name
+        program_enrollment_date: Program Enrollment Date
+        program_exit_date: Program Exit Date
+        program_streams: Program Streams
         province: Birth Province
         quantitative_case_values: Quantitative Case
         quantitative_types: Quantitative Types
@@ -2592,6 +2607,7 @@ en:
     client_enrollment_tracking_overdue:
       clients: Client
       client_enrollment_tracking_notification: Client Enrollment Tracking Notification
+  ok: OK
   partners:
     actions:
       are_you_sure: Are you sure you want to delete?
@@ -2732,9 +2748,11 @@ en:
       quantity: Quantity
       rules: Rules
       tracking: Tracking
+      not_require_tracking: This Program Stream does not require any tracking form.
     tracking:
       add_tracking: Add Tracking
       tracking_form: Progress Tracking
+      not_require_tracking: This Program Stream does not require any tracking form.
     tracking_fields:
       frequency: Frequency
       name: Name
@@ -3487,6 +3505,7 @@ en:
       next: Next &rsaquo;
       previous: "&lsaquo; Previous"
       truncate: "&hellip;"
+  warning: Warning
   will_paginate:
     next_label: Next Page
     page_gap: "..."

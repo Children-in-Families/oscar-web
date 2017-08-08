@@ -22,10 +22,12 @@
             = render 'layouts/alert'
             = yield
           = render 'layouts/footer'
+          = render 'program_streams/program_stream_warning'
       - else
         #page-wrapper.gray-bg.no-margin
           = render 'layouts/top_navbar'
           = yield
           .padding-bottom
             = render 'layouts/footer'
+
     = javascript_include_tag 'application'

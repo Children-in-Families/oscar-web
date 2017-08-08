@@ -31,12 +31,13 @@
               %td.name
                 = link_to ps.name, program_stream_path(ps, client: true)
               %td.domain
-                = ps.domains_format
+                - ps.domains_format.each do |domain|
+                  %strong.label.label-default= domain
               %td.quantity
                 = ps.place_available
               %td.report
                 - if params[:program_streams] == 'program-streams' && ps.client_enrollments.present?
-                  - if ps.client_enrollments.last.status == 'Exited'
+                  - if ps.client_enrollments.enrollments_by(@client.id).last.try(:status) == 'Exited'
                     = link_to t('.view'), report_client_client_enrollments_path(@client, program_stream_id: ps, program_streams: params[:program_streams])
                 - elsif params[:program_streams] == 'enrolled-program-streams'
                   = link_to t('.view'), report_client_client_enrollments_path(@client, program_stream_id: ps, program_streams: params[:program_streams])

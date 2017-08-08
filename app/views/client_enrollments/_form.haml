@@ -9,8 +9,7 @@
           = f.text_field :enrollment_date, class: 'date optional form-control date-picker', type: 'text', id: 'enrollment_date'
           %span.input-group-addon
             %i.fa.fa-calendar-check-o
-        - if f.object.errors[:enrollment_date].any?
-          %span.help-block= t('cannot_be_blank')
+        %span.help-block.hidden= t('cannot_be_blank')
     = f.simple_fields_for :properties, OpenStruct.new(@client_enrollment.properties) do |prop_f|
       - @program_stream.enrollment.each_slice(2) do |n_field|
         .row
@@ -24,4 +23,7 @@
     = hidden_field_tag :program_stream_id, @program_stream.id
     = hidden_field_tag :program_streams, params[:program_streams]
     = f.submit t('.save'), class: 'btn btn-primary form-btn'
-    = link_to t('.cancel'), client_client_enrollments_path(@client, program_streams: params[:program_streams]), class: 'btn btn-default form-btn'
+    - if params[:action] == 'new' || params[:action] == 'create'
+      = link_to t('.cancel'), client_client_enrollments_path(@client, program_streams: 'program-streams'), class: 'btn btn-default form-btn'
+    - elsif params[:action] == 'edit' || params[:action] == 'update'
+      = link_to t('.cancel'), client_client_enrollment_path(@client, @client_enrollment, program_stream_id: params[:program_stream_id]), class: 'btn btn-default form-btn'

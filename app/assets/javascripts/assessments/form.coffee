@@ -1,6 +1,6 @@
 CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.AssessmentsUpdate = do ->
   _init = ->
-    formid = $('form').attr('id')
+    formid = $('form.assessment-form').attr('id')
     form   = $('#'+formid)
 
     _formValidate(form)
@@ -11,13 +11,25 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
     _translatePagination()
     _initUploader()
     _handleDeleteAttachment()
+    _removeTask()
+    _removeHiddenTaskArising()
+    _saveAssessment(form)
+
+  _handleAppendAddTaskBtn = ->
+    scores = $('.score_option:visible').find('label.collection_radio_buttons.label-danger, label.collection_radio_buttons.label-warning')
+    if $(scores).length > 0
+      $(".assessment-task-btn, .task_required").removeClass('hidden').show()
+    else
+      $(".assessment-task-btn, .task_required").hide()
 
   _translatePagination = ->
     next     = $('#rootwizard').data('next')
     previous = $('#rootwizard').data('previous')
     finish   = $('#rootwizard').data('finish')
+    save     = $('#rootwizard').data('save')
     $('#rootwizard a[href="#next"]').text(next)
     $('#rootwizard a[href="#previous"]').text(previous)
+    $('#rootwizard a[href="#save"]').text(save)
     $('#rootwizard a[href="#finish"]').text(finish)
 
   _addElement = ->
@@ -57,6 +69,8 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
 
       onInit: (event, currentIndex) ->
         _formEdit(currentIndex)
+        _appendSaveButton()
+        _handleAppendAddTaskBtn()
 
       onStepChanging: (event, currentIndex, newIndex) ->
         if currentIndex > newIndex
@@ -68,6 +82,9 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
 
       onStepChanged: (event, currentIndex, priorIndex) ->
         _formEdit(currentIndex)
+        _handleAppendAddTaskBtn()
+        if currentIndex == 11
+          $("#rootwizard a[href='#save']").remove()
 
       onFinishing: (event, currentIndex, newIndex) ->
         form.validate().settings.ignore = ':disabled'
@@ -79,6 +96,16 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
         form.submit()
       labels:
         finish: 'Done'
+
+  _appendSaveButton = ->
+    action = $('#rootwizard').data('action')
+    if action == 'edit'
+      $('#rootwizard').find("[aria-label=Pagination]").append("<li><a id='btn-save' href='#save' class='btn btn-info' style='background: #21b9bb;'></a></li>")
+
+  _saveAssessment = (form)->
+    $("#rootwizard a[href='#save']").on 'click', ->
+      form.valid()
+      form.submit()
 
   _formEdit = (currentIndex) ->
     currentTab  = "#rootwizard-p-#{currentIndex}"
@@ -115,6 +142,7 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
 
   _postTask = ->
     $('.add-task-btn').on 'click', (e) ->
+      $('.add-task-btn').attr('disabled','disabled')
       e.preventDefault()
       actionUrl = undefined
       data      = undefined
@@ -127,8 +155,10 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
         data: data
         success: (response) ->
           _addElementToDom(response, actionUrl)
+          $('.add-task-btn').removeAttr('disabled')
           $('#tasksFromModal').modal('hide')
         error: (response) ->
+          $('.add-task-btn').removeAttr('disabled')
           _showTaskError(response.responseJSON)
 
   _addElementToDom = (data, actionUrl) ->
@@ -142,6 +172,15 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
     $(".domain-#{data.domain_id} .task-arising ol").append(element)
     _clearTaskForm()
 
+    $('a.remove-task').on 'click', (e) ->
+      _deleteTask(e)
+
+  _removeHiddenTaskArising = ->
+    tasksList = $('li.list-group-item')
+    if $(tasksList).length > 0
+      $(tasksList).parents('.task-arising').removeClass('hidden')
+
+  _removeTask = ->
     $('a.remove-task').on 'click', (e) ->
       _deleteTask(e)
 

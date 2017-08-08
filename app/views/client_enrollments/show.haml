@@ -5,19 +5,16 @@
         %h5= "#{t('.enrollment_date')} #{ @client_enrollment.enrollment_date? ? date_format(@client_enrollment.enrollment_date) : date_format(@client_enrollment.created_at) }"
         .ibox-tools
           - if can? :manage, ClientEnrollment
-            - if policy(@client_enrollment).update?
-              = link_to edit_client_client_enrollment_path(@client, @client_enrollment, program_stream_id: @program_stream, program_streams: params[:program_streams]) do
-                .btn.btn-success.btn-outline
-                  = fa_icon('pencil')
-            = link_to client_client_enrollment_path(@client, @client_enrollment, program_stream_id: @program_stream, program_streams: params[:program_streams]), method: :delete, data: { confirm: t('.are_you_sure')}, class: "btn btn-danger btn-outline" do
-              = fa_icon('trash')
+            = link_to edit_client_client_enrollment_path(@client, @client_enrollment, program_stream_id: @program_stream, program_streams: params[:program_streams]) do
+              .btn.btn-success.btn-outline
+                = fa_icon('pencil')
             = link_to t('.back'), report_client_client_enrollments_path(@client, program_stream_id: @program_stream, program_streams: params[:program_streams]), class: 'btn btn-back-default btn-default form-btn margin-btn'
       .ibox-content
         .table-responsive
           %table.table.table-bordered
-            - @client_enrollment.properties.each do |key, value|
+            - @program_stream.enrollment.map{|properties| properties['label']}.each do |key|
               %tr
                 %td.align-justify
-                  = key.titleize
+                  = key
                 %td.align-justify
-                  = display_custom_properties(value)
+                  = display_custom_properties(@client_enrollment.properties[key])
