@@ -13,6 +13,6 @@ CIF.TasksNew = CIF.TasksCreate = CIF.TasksEdit = CIF.TasksUpdate = do ->
       taskCompletionDate = $('#task_completion_date').val()
       if domain != '' && taskName != '' && taskCompletionDate != ''
         $('input[type=submit]').attr('disabled', 'disabled')
-        $('form').submit()
+        $('form.task-form').submit()
 
   { init: _init }

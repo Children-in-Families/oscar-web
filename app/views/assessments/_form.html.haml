@@ -1,4 +1,4 @@
-= simple_form_for [@assessment.client, @assessment] do |f|
+= simple_form_for([@assessment.client, @assessment], html: { class: 'assessment-form' }) do |f|
   .row.assessment-domains
     .col-xs-12
       #rootwizard{ data: { next: t('.next'), previous: t('.previous'), finish: t('.finish'), save: t('.save'), action: params['action'] } }
