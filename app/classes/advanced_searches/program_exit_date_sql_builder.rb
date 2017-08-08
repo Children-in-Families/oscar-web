@@ -24,17 +24,14 @@ module AdvancedSearches
       when 'greater_or_equal'
         leave_program_date = leave_programs.where('exit_date >= ?', @value)
       when 'is_empty'
-        leave_program_date = leave_programs.where(exit_date: nil)
-        non_left_program_client_ids = ClientEnrollment.where(program_stream_id: @program_stream_id).select{|a| a.leave_program.nil? }.map(&:client_id).uniq
+        client_ids = ClientEnrollment.where(program_stream_id: @program_stream_id).group_by{|c| [c.client_id, c.program_stream_id]}.collect{|k, v| k.first if v.size == 1 && v.last.status == 'Active'}.select(&:present?)
       when 'is_not_empty'
         leave_program_date = leave_programs.where.not(exit_date: nil)
       when 'between'
         leave_program_date = leave_programs.where('exit_date BETWEEN ? AND ?', @value.first, @value.last)
       end
-
-      client_ids = leave_program_date.joins(:client_enrollment).pluck('client_enrollments.client_id').uniq
-      client_ids << non_left_program_client_ids if non_left_program_client_ids.present?
-      { id: sql_string, values: client_ids.flatten.uniq }
+      client_ids = leave_program_date.joins(:client_enrollment).pluck('client_enrollments.client_id') if leave_program_date.present?
+      { id: sql_string, values: client_ids.uniq }
     end
   end
 end
