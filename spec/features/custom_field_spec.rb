@@ -20,7 +20,7 @@ feature 'custom_field' do
     end
 
     scenario 'frequency' do
-      expect(page).to have_content('This need to be done once every day.')
+      expect(page).to have_content('This needs to be done once every day.')
     end
 
     scenario 'organization' do
