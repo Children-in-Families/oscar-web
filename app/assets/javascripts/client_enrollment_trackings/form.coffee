@@ -9,7 +9,7 @@ CIF.Client_enrollment_trackingsNew = CIF.Client_enrollment_trackingsCreate = CIF
     $('select').select2()
 
   _preventRequireFieldInput = ->
-    form = $('form.simple_form')
+    form = $('form.client-enrollment-tracking')
     $(form).on 'submit', (e) ->
       requiredFields = $('input[type="text"], textarea, input[type=number]').parents('div.required')
       for requiredField in requiredFields
@@ -23,7 +23,7 @@ CIF.Client_enrollment_trackingsNew = CIF.Client_enrollment_trackingsCreate = CIF
           $(requiredField).siblings('.help-block').addClass('hidden')
 
   _preventCheckBox = ->
-    form = $('form.simple_form')
+    form = $('form.client-enrollment-tracking')
     $(form).on 'submit', (e) ->
       checkBoxs = $('input[type="checkbox"]').parents('div.required')
       for checkBox in checkBoxs
