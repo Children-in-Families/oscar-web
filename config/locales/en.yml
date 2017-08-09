@@ -2727,6 +2727,7 @@ en:
       add_new_filter: Add New Filter
       add_new_group: Add Group
       add_rule: Rules
+      cannot_be_lower: Maximum program enrollment cannot be lower than active enrolled
       delete_group: Delete
       description: Description
       maximum: Maximum Program Enrollment

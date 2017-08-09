@@ -69,7 +69,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
   _handleSaveProgramStream = ->
     form = $('#program-stream')
     $('#btn-save-draft').on 'click', ->
-      if _handleCheckingDuplicateFields()
+      if _handleCheckingDuplicateFields() || _handleMaximumProgramEnrollment()
         return false
       else
         _handleRemoveUnuseInput()
@@ -425,7 +425,8 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
           return false if _handleCheckingDuplicateFields()
         else if $('#enrollment, #exit-program').is(':visible')
           return false if _handleCheckingDuplicateFields()
-
+        else if $('#rule-tab').is(':visible')
+          return false if _handleMaximumProgramEnrollment()
         $('section ul.frmb.ui-sortable').css('min-height', '266px')
 
       onStepChanged: (event, currentIndex, newIndex) ->
@@ -655,5 +656,13 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         frequency = 'year'
       else
         frequency = ''
+
+  _handleMaximumProgramEnrollment = ->
+    if $('#program_stream_quantity').val() < $('#program_stream_quantity').data('maximun') && $('#program_stream_quantity').val() != ''
+      $('.help-block.quantity').removeClass('hidden')
+      return true
+    else
+      $('.help-block.quantity').addClass('hidden')
+      return false
 
   { init: _init }
