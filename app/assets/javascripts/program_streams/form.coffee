@@ -426,7 +426,6 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         else if $('#enrollment, #exit-program').is(':visible')
           return false if _handleCheckingDuplicateFields()
         else if $('#rule-tab').is(':visible')
-          debugger
           return false if _handleMaximumProgramEnrollment()
         $('section ul.frmb.ui-sortable').css('min-height', '266px')
 
