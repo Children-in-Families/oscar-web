@@ -263,6 +263,10 @@ class Client < ActiveRecord::Base
     status == 'Active EC'
   end
 
+  def active_case?
+    active_ec? || active_fc? || active_kc?
+  end
+
   def set_slug_as_alias
     paper_trail.without_versioning { |obj| obj.update_attributes(slug: "#{Organization.current.try(:short_name)}-#{id}") }
   end
