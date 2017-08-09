@@ -108,7 +108,10 @@
                   = link_to t('.custom_fields'), custom_fields_path
               - if can? :read, ProgramStream
                 %li{ class: active_menu('program_streams') }
-                  = link_to t('.program_streams'), program_streams_path
+                  - if current_user.program_warning?
+                    = link_to t('.program_streams'), program_streams_path
+                  - else
+                    %a{"data-target" => "#warning-program", "data-toggle" => "modal", :type => "button"}=t('.program_streams')
               - if can? :read, ReferralSource
                 %li{ class: active_menu('referral_sources') }
                   = link_to t('.referral_sources'), referral_sources_path

@@ -10,6 +10,25 @@ class RegistrationsController < Devise::RegistrationsController
     redirect_to new_user_session_path, notice: 'Registrations are not allowed.'
   end
 
+  protected
+
+  def update_resource(resource, params)
+    if params[:program_warning].present?
+      resource.update_without_password(params)
+    else
+      super
+    end
+  end
+
+  def after_update_path_for(resource)
+    if params[:user][:program_warning].present?
+      flash[:notice] = nil
+      program_streams_path
+    else
+      super
+    end
+  end
+
   private
 
   def notify_user
