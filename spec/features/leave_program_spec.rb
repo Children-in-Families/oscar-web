@@ -29,7 +29,7 @@ describe LeaveProgram, 'Leave Program' do
       expect(page).to have_content('Client has successfully exited from the program')
     end
 
-    scenario 'Invalid' do
+    xscenario 'Invalid' do
       within('#new_leave_program') do
         find('.numeric').set(6)
         find('#leave_program_properties_description').set('')

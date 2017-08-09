@@ -84,23 +84,48 @@ end
 
 describe ClientEnrollment, 'callbacks' do
   let!(:program_stream) { create(:program_stream) }
+  let!(:other_program_stream) { create(:program_stream) }
   let!(:client) { create(:client) }
   let!(:client_enrollment) { create(:client_enrollment, program_stream: program_stream, client: client) }
+  let!(:other_client_enrollment) { create(:client_enrollment, program_stream: other_program_stream, client: client) }
 
-  context 'set_client_status' do
-    it 'return client status active when not in any case' do
-      expect(client_enrollment.client.status).to eq("Referred")
-      client_enrollment.reload
-      client_enrollment.update(enrollment_date: FFaker::Time.date)
-      expect(client_enrollment.client.status).to eq("Active")
+  context 'after_create' do
+    context 'set_client_status' do
+      it 'return client status active when not in any case' do
+        expect(client_enrollment.client.status).to eq("Referred")
+        client_enrollment.reload
+        client_enrollment.update(enrollment_date: FFaker::Time.date)
+        expect(client_enrollment.client.status).to eq("Active")
+      end
+
+      it 'return client status active when in case EC' do
+        case_client = FactoryGirl.create(:case, client: client)
+        case_client_enrollment = FactoryGirl.create(:client_enrollment, program_stream: program_stream, client: client)
+        case_client_enrollment.reload
+        case_client_enrollment.update(enrollment_date: FFaker::Time.date)
+        expect(case_client_enrollment.client.status).to eq("Active EC")
+      end
     end
+  end
 
-    it 'return client status active when in case EC' do
-      case_client = FactoryGirl.create(:case, client: client)
-      case_client_enrollment = FactoryGirl.create(:client_enrollment, program_stream: program_stream, client: client)
-      case_client_enrollment.reload
-      case_client_enrollment.update(enrollment_date: FFaker::Time.date)
-      expect(case_client_enrollment.client.status).to eq("Active EC")
+  context 'after_destroy' do
+    context 'reset_client_status' do
+      it 'return client status active when not in any cases but still actively enrolled in other programs' do
+        client.reload
+        other_client_enrollment.destroy
+        expect(client.status).to eq('Active')
+      end
+
+      it 'return client status Active EC when in case EC' do
+        case_client = FactoryGirl.create(:case, client: client, case_type: 'EC')
+        other_client_enrollment.destroy
+        expect(client.status).to eq('Active EC')
+      end
+
+      it 'return client status Referred when not active in any cases or programs' do
+        other_client_enrollment.destroy
+        expect(client.status).to eq('Referred')
+      end
     end
   end
 end

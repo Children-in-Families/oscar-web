@@ -723,6 +723,7 @@ en:
     form:
       cancel: Cancel
       enrollment_date: Enrollment Date
+      not_an_email: not an email
       save: Save
     index:
       actions: Actions

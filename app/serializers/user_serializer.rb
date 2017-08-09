@@ -4,7 +4,6 @@ class UserSerializer < ActiveModel::Serializer
   def clients
     object.clients.map do |client|
       incompleted_tasks = client.tasks.incomplete
-      next unless incompleted_tasks.present?
       formatted_client  = client.as_json(only: [:id, :given_name, :family_name, :local_given_name, :local_family_name])
       overdue_tasks     = ActiveModel::ArraySerializer.new(incompleted_tasks.overdue, each_serializer: TaskSerializer)
       today_tasks       = ActiveModel::ArraySerializer.new(incompleted_tasks.today, each_serializer: TaskSerializer)
