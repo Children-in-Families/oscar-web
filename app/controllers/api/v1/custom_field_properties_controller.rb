@@ -40,8 +40,11 @@ module Api
       end
 
       def custom_field_property_params
-        default_params = params.require(:custom_field_property).permit({}).merge(properties: (params['custom_field_property']['properties']), custom_field_id: params[:custom_field_id])
-        default_params = default_params.merge(attachments: (params['custom_field_property']['attachments'])) if action_name == 'create'
+        params[:custom_field_property][:properties].keys.each do |k|
+          params[:custom_field_property][:properties][k].delete('') if params[:custom_field_property][:properties][k].class == Array && params[:custom_field_property][:properties][k].count > 1
+        end
+        default_params = params.require(:custom_field_property).permit({}).merge(properties: params[:custom_field_property][:properties], custom_field_id: params[:custom_field_id])
+        default_params = default_params.merge(attachments: params[:custom_field_property][:attachments]) if action_name == 'create'
         default_params
       end
 
