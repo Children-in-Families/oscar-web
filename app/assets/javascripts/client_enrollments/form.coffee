@@ -31,19 +31,9 @@ CIF.Client_enrollmentsNew = CIF.Client_enrollmentsCreate = CIF.Client_enrollment
             $(requiredField).parent().addClass('has-error')
             $(requiredField).siblings('.help-block').removeClass('hidden')
             e.preventDefault()
-        else if $(requiredField).find('input').val() != '' && !_validateEmail($(requiredField).find('input[type="email"]').val())
-          invalid_email = $(requiredField).siblings('.help-block').data('email')
-          $(requiredField).siblings('.help-block').text(invalid_email)
-          $(requiredField).parent().parent().addClass('has-error')
-          $(requiredField).siblings('.help-block').removeClass('hidden')
-          e.preventDefault()
         else
-          $(requiredField).parents('.has-error').removeClass('has-error')
+          $(requiredField).parent().removeClass('has-error')
           $(requiredField).siblings('.help-block').addClass('hidden')
-
-  _validateEmail = (email) ->
-    re = /\S+@\S+\.\S+/
-    re.test email
 
   _preventCheckBox = ->
     form = $('form.client-enrollment')
