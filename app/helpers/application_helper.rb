@@ -153,7 +153,7 @@ module ApplicationHelper
 
   def error_message(controller_name, field_message = '')
     if %(client_enrollments leave_programs client_enrollment_trackings).include?(controller_name)
-      content_tag(:span, t('cannot_be_blank'), class: 'help-block hidden')
+      content_tag(:span, t('cannot_be_blank'), class: 'help-block hidden', data: { email: I18n.t('client_enrollments.form.not_an_email') })
     else
       content_tag(:span, field_message, class: 'help-block')
     end
