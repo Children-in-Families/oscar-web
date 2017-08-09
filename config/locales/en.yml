@@ -433,6 +433,8 @@ en:
   cannot_be_blank: can't be blank
   cannot_be_greater: can't be greater than %{count}
   cannot_be_lower: can't be lower than %{count}
+  cannot_be_greater_in_program_stream: can't be greater than
+  cannot_be_lower_in_program_stream: can't be lower than
   cannot_remove: cannot be removed
   cannot_remove_or_update: cannot be removed/updated since it is already in use.
   case:

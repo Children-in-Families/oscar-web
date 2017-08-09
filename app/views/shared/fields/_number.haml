@@ -1,8 +1,14 @@
-%div{ class: "form-group #{field_with(field_props['label'],errors)}" }
+%div{ class: "form-group #{field_with(field_props['label'],errors)} prevent" }
   %label.control-label{ class: required?(field_props['required'] || false) }
     %abbr{ title: 'required' }= '*' if field_props['required'] || false
     = field_props['label']
-  = f.input field_props['label'], as: :integer, required: (field_props['required'] || false), input_html: { class: field_props['className'], name: "#{f.object_name}[#{field_props['label']}]" }, label: false
+  = f.input field_props['label'], as: :integer, required: (field_props['required'] || false), input_html: { min_value: field_props['min'], max: field_props['max'], class: field_props['className'], name: "#{f.object_name}[#{field_props['label']}]" }, label: false
   = error_message(controller_name, field_message(field_props['label'], errors))
+  - if field_props['max'].present?
+    %span.help-block-number.hidden.greater
+      = t('cannot_be_greater_in_program_stream')
+  - if field_props['min'].present?
+    %span.help-block-number.hidden.lower
+      = t('cannot_be_lower_in_program_stream')
   -# %span.help-block
   -#   = field_message(field_props['label'], errors)
