@@ -100,8 +100,13 @@ class ProgramStreamsController < AdminController
     ngo = Organization.find_by(full_name: @ngo_name)
     Organization.switch_to ngo.short_name
     program_stream = ProgramStream.where(id: program_stream_id).includes(:trackings).first
+    program_exclusive = ProgramStream.filter(program_stream.program_exclusive)
+    mutual_dependence = ProgramStream.filter(program_stream.mutual_dependence)
+
     Organization.switch_to current_ngo_short_name
     @another_program_stream = program_stream
+    @program_exclusive = program_exclusive
+    @mutual_dependence = mutual_dependence
   end
 
   def program_streams_all_organizations
@@ -140,9 +145,9 @@ class ProgramStreamsController < AdminController
 
   def all_ngos_ordered
     programs = program_streams_all_organizations.sort_by(&:name)
-    return programs unless params[:tab] == 'all_ngo'
-
     column = params[:order]
+    return programs unless params[:tab] == 'all_ngo' && column
+
     ordered = program_streams_all_organizations.sort_by{ |p| p.send(column).to_s.downcase }
     programs = (column.present? && params[:descending] == 'true' ? ordered.reverse : ordered)
     programs
