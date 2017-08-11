@@ -1,4 +1,4 @@
-= simple_form_for([@client, @progress_note], html: {class: 'dropzone', multipart: true, style:"border: 0;"}) do |f|
+= simple_form_for([@client, @progress_note], html: {class: 'progress-note dropzone', multipart: true, style:"border: 0;"}) do |f|
   = hidden_field(:progress_note, :id, value: @progress_note.id) if @progress_note.persisted?
   = hidden_field(:progress_note, :error_text, value: t('cannot_be_blank'))
   = error_notification(f)
