@@ -5,7 +5,7 @@ feature 'program_stream' do
   let!(:tracking) { create(:tracking, program_stream: program_stream) }
   let!(:domain_program_stream){ create(:domain_program_stream, domain: domain, program_stream: program_stream) }
 
-  before do 
+  before do
     login_as(admin)
   end
 
@@ -48,7 +48,7 @@ feature 'program_stream' do
   end
 
   feature 'show' do
-    before do 
+    before do
       visit program_stream_path(program_stream)
     end
 
@@ -132,7 +132,11 @@ feature 'program_stream' do
       scenario 'valid' do
         fill_in 'program_stream_name', with: FFaker::Name.name
         find('span', text: 'Save').click
-        expect(page).to have_content('Incompleted')
+        expect(page).to have_content('Program Detail')
+        expect(page).to have_content('Rules')
+        expect(page).to have_content('Enrollment')
+        expect(page).to have_content('Tracking')
+        expect(page).to have_content('Exit Program')
       end
 
       scenario 'invalid' do
@@ -144,7 +148,7 @@ feature 'program_stream' do
   end
 
   feature 'edit', js: true  do
-    before do 
+    before do
       visit program_streams_path
       expect(page).to have_link(nil, href: edit_program_stream_path(program_stream))
       click_link(nil, href: edit_program_stream_path(program_stream))
@@ -174,7 +178,11 @@ feature 'program_stream' do
     context 'save draft' do
       scenario 'valid' do
         find('span', text: 'Save').click
-        expect(page).to have_content(program_stream.name)
+        expect(page).to have_content('Program Detail')
+        expect(page).to have_content('Rules')
+        expect(page).to have_content('Enrollment')
+        expect(page).to have_content('Tracking')
+        expect(page).to have_content('Exit Program')
       end
 
       scenario 'invalid' do
@@ -186,7 +194,7 @@ feature 'program_stream' do
   end
 
   feature 'Delete', js: true do
-    before do 
+    before do
       visit program_streams_path
     end
 
