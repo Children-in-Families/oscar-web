@@ -50,6 +50,9 @@
 //= require footable.all.min
 
 //APPLICATION JS
+//= require advanced_filter_builder
+//= require custom_form_builder
+//= require table_scroll
 //= require filters
 //= require assessments/form
 //= require tasks/form

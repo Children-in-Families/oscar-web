@@ -15,7 +15,6 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     _initButtonSave()
     _handleSaveProgramStream()
     _handleClickAddTracking()
-    _handleRemoveProgramList()
     _handleShowTracking()
     _handleHideTracking()
     _toggleNestedTrackingOfTimeOfFrequency()
@@ -31,8 +30,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     $($('.icheckbox_square-green.checked')[0]).removeClass('checked')
 
   _stickyFill = ->
-    if $('.form-wrap').is(':visible')
-      $('.cb-wrap').Stickyfill()
+    if $('.form-wrap').is(':visible') then $('.cb-wrap').Stickyfill()
 
   _initSelect2 = ->
     $('#description select, #rule-tab select').select2()
@@ -41,19 +39,32 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     $('.program_stream_trackings_frequency select').select2
       minimumInputLength: 0
       allowClear: true
-
+      
   _handleRemoveProgramList = ->
-    $('#program_stream_program_exclusive').on 'change', ->
-      $("#program_stream_mutual_dependence option:disabled").removeAttr('disabled')
-      values = $(@).val()
-      for value in values
-        $("#program_stream_mutual_dependence option[value=#{value}]").attr('disabled', true)
+    programExclusive = $('#program_stream_program_exclusive')
+    mutualDependence = $('#program_stream_mutual_dependence')
+    _selectOptonProgramExclusive(programExclusive, mutualDependence)
+    _selectOptonMutualDependence(programExclusive, mutualDependence)
 
-    $('#program_stream_mutual_dependence').on 'change', ->
-      $("#program_stream_program_exclusive option:disabled").removeAttr('disabled')
-      values = $(@).val()
-      for value in values
-        $("#program_stream_program_exclusive option[value=#{value}]").attr('disabled', true)
+  _selectOptonProgramExclusive = (programExclusive, mutualDependence) ->
+    for value in programExclusive.val()
+      $(mutualDependence).find("option[value=#{value}]").attr('disabled', true)
+
+    $(programExclusive).on 'select2-selecting', (select)->
+      $(mutualDependence).find("option[#{select.val}]").attr('disabled', true)
+
+    $(programExclusive).on 'select2-removed', (select)->
+      $(mutualDependence).find("option[#{select.val}]").removeAttr('disabled')
+
+  _selectOptonMutualDependence = (programExclusive, mutualDependence) ->
+    for value in mutualDependence.val()
+      $(programExclusive).find("option[value=#{value}]").attr('disabled', true)
+
+    $(mutualDependence).on 'select2-selecting', (select)->
+      $(programExclusive).find("option[#{select.val}]").attr('disabled', true)
+
+    $(mutualDependence).on 'select2-removed', (select)->
+      $(programExclusive).find("option[#{select.val}]").removeAttr('disabled')
 
   _handleSelectTab = ->
     tab = $('.program-steps').data('tab')
@@ -78,7 +89,6 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         $('.tracking-builder').find('input').removeAttr('required')
         $('.tracking-builder').find('textarea').removeAttr('required')
         $(form).submit()
-
 
   _handleSetRules = ->
     rules = $('#program_stream_rules').val()
@@ -113,37 +123,14 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       method: 'GET'
       success: (response) ->
         fieldList = response.program_stream_add_rule
-        $('#program-rule').queryBuilder(
-          _queryBuilderOption(fieldList)
-        )
+        builder = new CIF.AdvancedFilterBuilder($('#program-rule'), fieldList, filterTranslation)
+        builder.initRule()
         setTimeout (->
           _handleSelectTab()
           _initSelect2()
           ), 100
         _handleSetRules()
         _handleSelectOptionChange()
-
-  _queryBuilderOption = (fieldList) ->
-    inputs_separator: ' AND '
-    icons:
-      remove_rule: 'fa fa-minus'
-    lang:
-      delete_rule: ''
-      add_rule: @filterTranslation.addFilter
-      add_group: @filterTranslation.addGroup
-      delete_group: @filterTranslation.deleteGroup
-      operators:
-        is_empty: 'is blank'
-        is_not_empty: 'is not blank'
-        equal: 'is'
-        not_equal: 'is not'
-        less: '<'
-        less_or_equal: '<='
-        greater: '>'
-        greater_or_equal: '>='
-        contains: 'includes'
-        not_contains: 'excludes'
-    filters: fieldList
 
   _handleAddCocoon = ->
     $('#trackings').on 'cocoon:after-insert', (e, element) ->
@@ -160,21 +147,13 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       _toggleNestedTrackingOfTimeOfFrequency()
       _handleValidateTimeOfFrequency()
 
-  _generateValueForSelectOption = (field) ->
-    $(field).find('input.option-label').on 'keyup change', ->
-      value = $(@).val()
-      $(@).siblings('.option-value').val(value)
-
-  _hideOptionValue = ->
-    $('.option-selected, .option-value').hide()
-
-  _addOptionCallback = (field) ->
-    $('.add-opt').on 'click', ->
-      setTimeout ( ->
-        $(field).find('.option-selected, .option-value').hide()
-        )
+  _actionFormBuilder = ->
+    builderOption = new CIF.CustomFormBuilder()
+    builderOption.actionRemoveField()
+    builderOption.actionEditField()
 
   _initProgramBuilder = (element, data) ->
+    builderOption = new CIF.CustomFormBuilder()
     data = if data.length != 0 then data.replace(/=>/g, ':') else ''
     @formBuilder.push $(element).formBuilder({
       dataType: 'json'
@@ -186,225 +165,27 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       }
 
       typeUserEvents: {
-        'checkbox-group':
-          onadd: (fld) ->
-            $('.other-wrap, .className-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
-            _handleCheckingForm(fld)
-            _hideOptionValue()
-            _addOptionCallback(fld)
-            _generateValueForSelectOption(fld)
-          onclone: (fld) ->
-            setTimeout ( ->
-              _handleCheckingForm(fld)
-              _hideOptionValue()
-              _addOptionCallback(fld)
-              _generateValueForSelectOption(fld)
-              ),50
-
-        date:
-          onadd: (fld) ->
-            $('.className-wrap, .value-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
-            _handleCheckingForm(fld)
-          onclone: (fld) ->
-            setTimeout ( ->
-              _handleCheckingForm(fld)
-            ),50
-
-        number:
-          onadd: (fld) ->
-            $('.className-wrap, .value-wrap, .step-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
-            _handleCheckingForm(fld)
-          onclone: (fld) ->
-            setTimeout ( ->
-              _handleCheckingForm(fld)
-            ),50
-
-        'radio-group':
-          onadd: (fld) ->
-            $('.other-wrap, .className-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
-            _handleCheckingForm(fld)
-            _hideOptionValue()
-            _addOptionCallback(fld)
-            _generateValueForSelectOption(fld)
-          onclone: (fld) ->
-            setTimeout ( ->
-              _handleCheckingForm(fld)
-              _hideOptionValue()
-              _addOptionCallback(fld)
-              _generateValueForSelectOption(fld)
-              ),50
-
-        select:
-          onadd: (fld) ->
-            $('.className-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
-            _handleCheckingForm(fld)
-            _hideOptionValue()
-            _addOptionCallback(fld)
-            _generateValueForSelectOption(fld)
-          onclone: (fld) ->
-            setTimeout ( ->
-              _handleCheckingForm(fld)
-              _hideOptionValue()
-              _addOptionCallback(fld)
-              _generateValueForSelectOption(fld)
-              ),50
-
-        text:
-          onadd: (fld) ->
-            $('.fld-subtype ').find('option:contains(color)').remove()
-            $('.fld-subtype ').find('option:contains(tel)').remove()
-            $('.fld-subtype ').find('option:contains(password)').remove()
-            $('.className-wrap, .value-wrap, .access-wrap, .maxlength-wrap, .description-wrap, .name-wrap').hide()
-            _handleCheckingForm(fld)
-          onclone: (fld) ->
-            setTimeout ( ->
-              _handleCheckingForm(fld)
-            ),50
-
-        textarea:
-          onadd: (fld) ->
-            $('.rows-wrap, .className-wrap, .value-wrap, .access-wrap, .maxlength-wrap, .description-wrap, .name-wrap').hide()
-            _handleCheckingForm(fld)
-          onclone: (fld) ->
-            setTimeout ( ->
-              _handleCheckingForm(fld)
-            ),50
+        'checkbox-group': builderOption.eventCheckoutOption()
+        date: builderOption.eventDateOption()
+        number: builderOption.eventNumberOption()
+        'radio-group': builderOption.eventRadioOption()
+        select: builderOption.eventSelectOption()
+        text: builderOption.eventTextFieldOption()
+        textarea: builderOption.eventTextAreaOption()
       }
     }).data('formBuilder');
+   
 
-  _editTrackingFormName = ->
-    $(".program_stream_trackings_name input[type='text']").on 'blur', ->
-      allLabel = $('.nested-fields:visible').find(".program_stream_trackings_name input[type='text']")
-      _checkDuplicateTrackingName(allLabel)
+ 
 
   _handleRemoveCocoon = ->
     $('#trackings').on 'cocoon:after-remove', ->
       allLabel = $('.nested-fields:visible').find(".program_stream_trackings_name input[type='text']")
-      _checkDuplicateTrackingName(allLabel)
-
-  _checkDuplicateTrackingName = (element)->
-    nameFields = element
-
-    counts = _countDuplicateLabel(nameFields)
-
-    $.each counts, (nameText, numberOfField) ->
-      return if nameText == ''
-      $(nameFields).each (index, text) ->
-        if (numberOfField == 1) && ($(text).val() == nameText)
-          _removeDuplicateWarning(text)
-
-        else if (numberOfField > 1) && ($(text).val() == nameText)
-          _addDuplicateWarning(text)
-
-    _removeTabErrorClass()
-
-  _handleCheckingForm = (field={}) ->
-    if $('#trackings').is(':visible') and $('.nested-fields').is(':visible')
-      _handleRemoveCocoon()
-      _editTrackingFormName()
-
-    _handleDisplayDuplicateWarning(field)
-    _handleDeleteField()
-    _handleEditLabelName()
-
-  _handleDisplayDuplicateWarning = (fld)->
-    duplicateLabels = false
-
-    labelFields = $(fld).parents('.form-wrap:visible').find('label.field-label')
-
-    $(labelFields).each (index, label) ->
-      displayText = $(label).text()
-      $(labelFields).each (cIndex, cLabel) ->
-        return if cIndex == index
-        cText = $(cLabel).text()
-        if cText == displayText
-          _addDuplicateWarning(label)
-
-  _handleDeleteField = ->
-    $('.field-actions a.del-button').on 'click', ->
-      removedField = {}
-      removedField = $(@).parents().children('label.field-label')
-
-      labelFields = $(@).parents('.form-wrap:visible').find('label.field-label')
-
-      counts = _countDuplicateLabel(labelFields)
-      $.each counts, (labelText, numberOfField) ->
-        if numberOfField == 2
-          $(labelFields).each (index, label) ->
-            if label.textContent == removedField.text()
-              _removeDuplicateWarning(label)
-
-      _removeTabErrorClass()
-
-  _handleEditLabelName = ->
-    $(".form-wrap:visible .input-wrap input[name='label']").on 'blur', ->
-      labelFields = $(@).parents('.form-wrap:visible').find('label.field-label')
-
-      counts = _countDuplicateLabel(labelFields)
-      $.each counts, (labelText, numberOfField) ->
-        $(labelFields).each (index, label) ->
-          if (numberOfField == 1) && (label.textContent == labelText)
-            _removeDuplicateWarning(label)
-
-          else if (numberOfField > 1) && (label.textContent == labelText)
-            _addDuplicateWarning(label)
-
-      _removeTabErrorClass()
-
-  _countDuplicateLabel = (element) ->
-    labels = []
-
-    $(element).each (index, label) ->
-      if $(label).val() != ''
-        labels.push $(label).val()
-      else
-        labels.push $(label).text()
-
-    counts = {}
-    labels.forEach (x) ->
-      counts[x] = (counts[x] or 0) + 1
-
-    counts
-
-  _removeTabErrorClass = ->
-    if $('#trackings').is(':visible')
-      errors = $('.nested-fields:visible').find('label.error:visible')
-    else
-      errors = $('.form-wrap:visible').find('label.error')
-
-    if errors.length == 0
-      $('.steps ul li.current').removeClass('error')
-
-  _removeDuplicateWarning = (element) ->
-    parentElement = $(element).parents('li.form-field')
-    $(parentElement).removeClass('has-error')
-    $(parentElement).find('input, textarea, select').removeClass('error')
-    $(parentElement).find('label.error:last-child').remove()
-
-    if $('#trackings').is(':visible') and $('.nested-fields').is(':visible')
-      $(element).removeClass('error')
-      $(element).parent().find('label.error').remove()
-
-  _addDuplicateWarning = (element) ->
-    parentElement = $(element).parents('li.form-field')
-    $(parentElement).addClass('has-error')
-    $(parentElement).find('input, textarea, select').addClass('error')
-    unless $(parentElement).find('label.error').is(':visible')
-      $(parentElement).append('<label class="error">Field labels must be unique, please click the edit icon to set a unique field label</label>')
-
-    if $('#trackings').is(':visible') and $('.nested-fields').is(':visible')
-      $(element).addClass('error')
-      unless $(element).parent().find('label.error').is(':visible')
-        $(element).parent().append('<label class="error">Tracking name must be unique</label>')
-
+      # _checkDuplicateTrackingName(allLabel)
 
   _handleCheckingDuplicateFields = ->
-    if $('#trackings').is(':visible')
-      errorFields = $('.nested-fields:visible').find('label.error')
-    else
-      errorFields = $('.form-wrap').find('label.error')
-
-    if $(errorFields).length > 0 then true else false
+    errorNumber = $('.form-wrap.form-builder:visible').find('.has-error').size()
+    if errorNumber > 0 then false else true
 
   _initProgramSteps = ->
     self = @
@@ -416,25 +197,25 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
 
       onStepChanging: (event, currentIndex, newIndex) ->
         if currentIndex == 0 and newIndex == 1 and $('#description').is(':visible')
+          setTimeout (-> _handleRemoveProgramList())
           form.valid()
           name = $('#program_stream_name').val() == ''
           return false if name
         else if currentIndex == 3 and newIndex == 4 and $('#trackings').is(':visible')
           return true if $('#trackings').hasClass('hide-tracking-form')
           _handleCheckTrackingName()
-          return false if _handleCheckingDuplicateFields()
+          return _handleCheckingDuplicateFields()
         else if $('#enrollment, #exit-program').is(':visible')
-          return false if _handleCheckingDuplicateFields()
+          return _handleCheckingDuplicateFields()
 
         $('section ul.frmb.ui-sortable').css('min-height', '266px')
 
       onStepChanged: (event, currentIndex, newIndex) ->
         _stickyFill()
-        _editTrackingFormName()
-        _handleEditLabelName()
+        # _editTrackingFormName()
+        # _handleEditLabelName()
         buttonSave = $('#btn-save-draft')
         if $('#exit-program').is(':visible') then $(buttonSave).hide() else $(buttonSave).show()
-
 
       onFinished: (event, currentIndex) ->
         $('.actions a:contains("Finish")').removeAttr('href')
