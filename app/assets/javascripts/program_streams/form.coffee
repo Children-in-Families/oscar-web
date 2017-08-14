@@ -84,6 +84,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
   _handleSaveProgramStream = ->
     $('#btn-save-draft').on 'click', ->
       return false unless _handleCheckingDuplicateFields()
+      return false if _handleMaximumProgramEnrollment()
       _handleRemoveUnuseInput()
       _handleAddRuleBuilderToInput()
       _handleSetValueToField()
@@ -220,7 +221,9 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
           return _handleCheckingDuplicateFields() and _handleCheckTrackingName() 
         else if $('#enrollment, #exit-program').is(':visible')
           return _handleCheckingDuplicateFields()
-
+          return false if _handleCheckingDuplicateFields()
+        else if $('#rule-tab').is(':visible')
+          return false if _handleMaximumProgramEnrollment()
         $('section ul.frmb.ui-sortable').css('min-height', '266px')
 
       onStepChanged: (event, currentIndex, newIndex) ->
@@ -413,5 +416,14 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         frequency = 'year'
       else
         frequency = ''
+
+  _handleMaximumProgramEnrollment = ->
+    quantity = $('#program_stream_quantity')
+    if $(quantity).val() < $(quantity).data('maximun') && $(quantity).val() != ''
+      $('.help-block.quantity').removeClass('hidden')
+      return true
+    else
+      $('.help-block.quantity').addClass('hidden')
+      return false
 
   { init: _init }

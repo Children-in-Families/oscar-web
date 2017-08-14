@@ -31,7 +31,7 @@ describe ClientEnrollmentTracking, 'Client Enrollment Tracking' do
       expect(page).to have_content('Tracking Program has been successfully created')
     end
 
-    xscenario 'Invalid' do
+    scenario 'Invalid' do
       click_link('New Tracking')
       expect(page).to have_content('Adam Eve (Romeo Juliet) - Soccer - Fitness')
       within('#new_client_enrollment_tracking') do
@@ -41,9 +41,7 @@ describe ClientEnrollmentTracking, 'Client Enrollment Tracking' do
 
         click_button 'Save'
       end
-      expect(page).to have_content('is not an email')
-      expect(page).to have_content("can't be greater than 5")
-      expect(page).to have_content("can't be blank")
+      expect(page).to have_css('div.form-group.has-error')
     end
   end
 
@@ -146,7 +144,7 @@ describe ClientEnrollmentTracking, 'Client Enrollment Tracking' do
       expect(page).to have_content('Adam Eve (Romeo Juliet) - Soccer - Fitness')
       find('input[type="text"]').set('')
       find('input[type="submit"]').click
-      expect(page).to have_content("description can't be blank")
+      expect(page).to have_css('div.has-error')
     end
   end
 

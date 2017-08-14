@@ -241,12 +241,12 @@
                       = @client.current_address
                     - else
                       = merged_address(@client)
-              %tr
-                %td.spacing-first-col
-                  = t('.completed')
-                %td
-                  %strong
-                    = human_boolean(@client.completed)
+              / %tr
+              /   %td.spacing-first-col
+              /     = t('.completed')
+              /   %td
+              /     %strong
+              /       = human_boolean(@client.completed)
               %tr
                 %td.spacing-first-col
                   = t('.birth_province')

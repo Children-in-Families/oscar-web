@@ -29,7 +29,7 @@ describe LeaveProgram, 'Leave Program' do
       expect(page).to have_content('Client has successfully exited from the program')
     end
 
-    xscenario 'Invalid' do
+    scenario 'Invalid' do
       within('#new_leave_program') do
         find('.numeric').set(6)
         find('#leave_program_properties_description').set('')
@@ -37,9 +37,7 @@ describe LeaveProgram, 'Leave Program' do
 
         click_button 'Save'
       end
-      expect(page).to have_content('is not an email')
-      expect(page).to have_content("can't be greater than 5")
-      expect(page).to have_content("can't be blank")
+      expect(page).to have_css('div.form-group.has-error')
     end
   end
 
@@ -84,7 +82,7 @@ describe LeaveProgram, 'Leave Program' do
     scenario 'fail' do
       find('#leave_program_properties_description').set('')
       find('input[type="submit"]').click
-      expect(page).to have_content("description can't be blank")
+      expect(page).to have_css('div.form-group.has-error')
     end
   end
 end

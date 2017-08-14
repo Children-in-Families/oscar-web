@@ -45,3 +45,15 @@ describe Tracking, 'method' do
     expect(tracking_other.is_used?).to be_falsey
   end
 end
+
+describe Tracking, 'scopes' do
+  let!(:program_stream) { create(:program_stream) }
+  let!(:tracking) { create(:tracking, program_stream: program_stream) }
+  let!(:another_tracking) { create(:tracking, program_stream: program_stream) }
+
+  context 'default_scope' do
+    it 'should order tracking by create_at' do
+      expect(program_stream.trackings.all).to eq([tracking, another_tracking])
+    end
+  end
+end
