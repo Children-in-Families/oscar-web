@@ -29,7 +29,7 @@ class ClientEnrollmentsController < AdminController
 
   def update
     if @client_enrollment.update_attributes(client_enrollment_params)
-      redirect_to client_client_enrolled_program_path(@client, @client_enrollment, program_stream_id: @program_stream), notice: t('.successfully_updated')
+      redirect_to client_client_enrollment_path(@client, @client_enrollment, program_stream_id: @program_stream), notice: t('.successfully_updated')
     else
       render :edit
     end
