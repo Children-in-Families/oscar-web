@@ -41,6 +41,7 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.for(:account_update) << :task_notify
     devise_parameter_sanitizer.for(:account_update) << :calendar_integration
     devise_parameter_sanitizer.for(:account_update) << :pin_number
+    devise_parameter_sanitizer.for(:account_update) << :program_warning
   end
 
   def find_association

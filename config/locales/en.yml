@@ -304,6 +304,7 @@ en:
       ngo_accepted_date: NGO Accept Date
       ngo_exit_date: NGO Exit Date
       placement_start_date: Placement Start Date
+      program_stream: Program Stream
       province: Birth Province
       province_id: Current Province
       received_by: Received By
@@ -726,6 +727,7 @@ en:
     form:
       cancel: Cancel
       enrollment_date: Enrollment Date
+      not_an_email: not an email
       save: Save
     index:
       actions: Actions
@@ -2522,7 +2524,7 @@ en:
       new_exit_program: New Exit Program
     show:
       back: Back
-      exit_date: Exit Date
+      exit_date: Exited on
     update:
       successfully_updated: Exit Program has successfully updated.
   locations:
@@ -2729,6 +2731,7 @@ en:
       add_new_filter: Add New Filter
       add_new_group: Add Group
       add_rule: Rules
+      cannot_be_lower: Maximum program enrollment cannot be lower than active enrolled
       delete_group: Delete
       description: Description
       maximum: Maximum Program Enrollment
@@ -3000,7 +3003,7 @@ en:
   save: Save
   shared:
     form_builder:
-      attachment_list:
+      list_attachment:
         are_you_sure: Are you sure you want to delete?
         preview_download: Preview & Download
       file_field:

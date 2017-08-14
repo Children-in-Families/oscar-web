@@ -38,11 +38,27 @@ module AdvancedSearches
         values = program_exit_date_field_query('FC')
       when 'exit_kc_date'
         values = program_exit_date_field_query('KC')
+      when 'program_stream'
+        values = program_stream_query
       end
       {id: sql_string, values: values}
     end
 
     private
+
+    def program_stream_query
+      clients = @clients.joins(:client_enrollments).where(client_enrollments: { status: 'Active' })
+      case @operator
+      when 'equal'
+        clients.where('client_enrollments.program_stream_id = ?', @value ).ids
+      when 'not_equal'
+        clients.where.not('client_enrollments.program_stream_id = ?', @value ).ids
+      when 'is_empty'
+        @clients.where.not(id: clients.ids).ids
+      when 'is_not_empty'
+        @clients.where(id: clients.ids).ids
+      end
+    end
 
     def placement_date_field_query
       clients = @clients.joins(:cases)

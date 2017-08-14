@@ -9,7 +9,7 @@ class UserNotification
     @user_custom_field             = @user.user_custom_field_frequency_overdue_or_due_today if @user.admin? || @user.manager?
     @partner_custom_field          = @user.partner_custom_field_frequency_overdue_or_due_today
     @family_custom_field           = @user.family_custom_field_frequency_overdue_or_due_today
-    @client_enrollment_tracking    = @user.client_enrollment_tracking_overdue_or_due_today unless Rails.env.production?
+    @client_enrollment_tracking    = @user.client_enrollment_tracking_overdue_or_due_today
     @all_count                     = count
   end
 
@@ -195,8 +195,8 @@ class UserNotification
       count_notification += 1 if any_due_today_tasks?
       count_notification += 1 if any_overdue_assessments?
       count_notification += 1 if any_due_today_assessments?
-      count_notification += 1 if any_client_enrollment_tracking_frequency_due_today? unless Rails.env.production?
-      count_notification += 1 if any_client_enrollment_tracking_frequency_overdue? unless Rails.env.production?
+      count_notification += 1 if any_client_enrollment_tracking_frequency_due_today?
+      count_notification += 1 if any_client_enrollment_tracking_frequency_overdue?
     end
     count_notification
   end

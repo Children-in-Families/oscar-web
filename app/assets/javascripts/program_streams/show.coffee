@@ -59,7 +59,7 @@ CIF.Program_streamsShow = CIF.Program_streamsPreview = do ->
     $('.panel').find('#program-rules button').remove()
 
   _handleDisabledInputs = ->
-    $('input, select, textarea').attr( 'disabled', 'disabled' )
-    $('.rules-group-header .group-conditions label').attr('disabled', 'disabled')
+    $('#program-stream-info :input').attr( 'disabled', 'disabled' )
+    $('#program-stream-info .rules-group-header .group-conditions label').attr('disabled', 'disabled')
 
   { init: _init }

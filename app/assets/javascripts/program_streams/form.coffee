@@ -69,7 +69,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
   _handleSaveProgramStream = ->
     form = $('#program-stream')
     $('#btn-save-draft').on 'click', ->
-      if _handleCheckingDuplicateFields()
+      if _handleCheckingDuplicateFields() || _handleMaximumProgramEnrollment()
         return false
       else
         _handleRemoveUnuseInput()
@@ -157,6 +157,8 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       _changeSelectOfFrequency()
       _changeTimeOfFrequency()
       _convertFrequency()
+      _toggleNestedTrackingOfTimeOfFrequency()
+      _handleValidateTimeOfFrequency()
 
   _generateValueForSelectOption = (field) ->
     $(field).find('input.option-label').on 'keyup change', ->
@@ -432,7 +434,8 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
           return false if _handleCheckingDuplicateFields()
         else if $('#enrollment, #exit-program').is(':visible')
           return false if _handleCheckingDuplicateFields()
-
+        else if $('#rule-tab').is(':visible')
+          return false if _handleMaximumProgramEnrollment()
         $('section ul.frmb.ui-sortable').css('min-height', '266px')
 
       onStepChanged: (event, currentIndex, newIndex) ->
@@ -483,7 +486,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     _preventRemoveTrackingField()
 
   _initButtonSave = ->
-    form = $('form')
+    form = $('form#program-stream')
     btnSaveTranslation = filterTranslation.save
     form.find("[aria-label=Pagination]").append("<li><span id='btn-save-draft' class='btn btn-primary btn-sm'>#{btnSaveTranslation}</span></li>")
 
@@ -588,10 +591,12 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     )
 
   _handleValidateTimeOfFrequency = ->
-    $('.program_stream_trackings_time_of_frequency input').on 'blur', ->
-      unless $('.program_stream_trackings_time_of_frequency input').hasClass('error')
+    element = $('.program_stream_trackings_time_of_frequency')
+    $(element).find('input').on 'blur', ->
+      $(element).find('input').valid()
+      unless $(element).find('input').hasClass('error')
+        $(element).find('label.error').remove()
         _removeTabErrorClass()
-        $('.program_stream_trackings_time_of_frequency label.error').remove()
 
   _toggleTimeOfFrequency = (element) ->
     timeOfFrequency = parseInt($(element).parent().siblings('#time').val())
@@ -628,7 +633,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
   _changeTimeOfFrequency = ->
     $('.program_stream_trackings_time_of_frequency input').change ->
       if $(this).val() == ''
-        $(this).val(1) 
+        $(this).val(1)
       frequencyElement = $(this).parent().closest('.col-xs-12').siblings()
       frequencyNote = $(frequencyElement).find('.frequency-note')
       frequency = _convertFrequency($(frequencyElement).find('.program_stream_trackings_frequency select').val())
@@ -660,5 +665,13 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         frequency = 'year'
       else
         frequency = ''
+
+  _handleMaximumProgramEnrollment = ->
+    if $('#program_stream_quantity').val() < $('#program_stream_quantity').data('maximun') && $('#program_stream_quantity').val() != ''
+      $('.help-block.quantity').removeClass('hidden')
+      return true
+    else
+      $('.help-block.quantity').addClass('hidden')
+      return false
 
   { init: _init }
