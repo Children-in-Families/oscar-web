@@ -437,6 +437,8 @@ km:
   cannot_be_blank: មិនអាចរំលង
   cannot_be_greater: មិនអាចធំជាង %{count}
   cannot_be_lower: មិនអាចតូចជាង %{count}
+  cannot_be_greater_in_program_stream: មិនអាចធំជាង
+  cannot_be_lower_in_program_stream: មិនអាចតូចជាង
   cannot_remove: មិនអាចលុបបានទេ
   cannot_remove_or_update: មិនអាចលុបរឺកែសម្រួលបានទេដោយសារតែត្រូវបានប្រើរួចហើយ
   case:

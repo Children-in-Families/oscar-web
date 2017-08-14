@@ -1,4 +1,4 @@
-= simple_form_for ([@client, @enrollment, @leave_program]) do |f|
+= simple_form_for([@client, @enrollment, @leave_program], html: { class: 'leave_program' }) do |f|
   .ibox-content
     .row
       .col-xs-12.col-sm-6.col-md-4.form-group.date.optional.client_date_of_birth{ class: ('has-error' if f.error :exit_date) }
