@@ -83,11 +83,11 @@
                   = t('.start_date')
                 %td
                   %strong
-                    = @partner.start_date.strftime('%B %d, %Y') if @partner.start_date
+                    = date_format(@partner.start_date)
 
               %tr
                 %td.spacing-first-col
                   = t('.province')
                 %td
                   %strong
-                    = "#{@partner.province.name}" if @partner.province
+                    = @partner.province.try(:name)

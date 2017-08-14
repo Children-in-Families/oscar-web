@@ -201,22 +201,22 @@ module AdvancedSearches
     end
 
     def age_field_query
-      date_format = convert_age_to_date(@value)
+      date_value_format = convert_age_to_date(@value)
       case @operator
       when 'equal'
-        clients = @clients.where(date_of_birth: date_format)
+        clients = @clients.where(date_of_birth: date_value_format)
       when 'not_equal'
-        clients = @clients.where.not(date_of_birth: date_format)
+        clients = @clients.where.not(date_of_birth: date_value_format)
       when 'less'
-        clients = @clients.where('date_of_birth > ?', date_format)
+        clients = @clients.where('date_of_birth > ?', date_value_format)
       when 'less_or_equal'
-        clients = @clients.where('date_of_birth >= ?', date_format)
+        clients = @clients.where('date_of_birth >= ?', date_value_format)
       when 'greater'
-        clients = @clients.where('date_of_birth < ?', date_format)
+        clients = @clients.where('date_of_birth < ?', date_value_format)
       when 'greater_or_equal'
-        clients = @clients.where('date_of_birth <= ?', date_format)
+        clients = @clients.where('date_of_birth <= ?', date_value_format)
       when 'between'
-        clients = @clients.where(date_of_birth: date_format[0]..date_format[1])
+        clients = @clients.where(date_of_birth: date_value_format[0]..date_value_format[1])
       when 'is_empty'
         clients = @clients.where('date_of_birth IS NULL')
       when 'is_not_empty'

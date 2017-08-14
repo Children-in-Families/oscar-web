@@ -45,13 +45,13 @@
                   = t('.department')
                 %td
                   %strong
-                    = @user.department.name if @user.department
+                    = @user.department.try(:name)
               %tr
                 %td.spacing-first-col
                   = t('.manager')
                 %td
                   %strong
-                    = @user.manager.name if @user.manager
+                    = @user.manager.try(:name)
               %tr
                 %td.spacing-first-col
                   = t('.mobile')
@@ -73,20 +73,20 @@
                   = t('.date_of_birth')
                 %td
                   %strong
-                    = @user.date_of_birth.strftime('%B %d, %Y') if @user.date_of_birth
+                    = date_format(@user.date_of_birth)
               %tr
                 %td.spacing-first-col
                   = t('.start_date')
                 %td
                   %strong
-                    = @user.start_date.strftime('%B %d, %Y') if @user.start_date
+                    = date_format(@user.start_date)
 
               %tr
                 %td.spacing-first-col
                   = t('.province')
                 %td
                   %strong
-                    = @user.province.name if @user.province
+                    = @user.province.try(:name)
               %tr
                 %td.spacing-first-col
                   = t('.pin_number')

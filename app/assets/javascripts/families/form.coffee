@@ -3,6 +3,7 @@ CIF.FamiliesNew = CIF.FamiliesCreate = CIF.FamiliesEdit = CIF.FamiliesUpdate = d
     _initSelect2()
 
   _initSelect2 = ->
-    $('select').select2()
+    $('select').select2
+      allowClear: true
 
   { init: _init }
