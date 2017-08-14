@@ -1,6 +1,8 @@
 class LeaveProgramsController < AdminController
   load_and_authorize_resource
 
+  include FormBuilderAttachments
+
   before_action :find_client, :find_enrollment, :find_program_stream
 
   def new
@@ -22,7 +24,7 @@ class LeaveProgramsController < AdminController
 
   def update
     if @leave_program.update_attributes(leave_program_params)
-      add_more_attachments
+      add_more_attachments(@leave_program)
       redirect_to client_client_enrollment_leave_program_path(@client, @enrollment, @leave_program, program_streams: params[:program_streams]), notice: t('.successfully_updated')
     else
       render :edit
@@ -59,25 +61,5 @@ class LeaveProgramsController < AdminController
 
   def properties_params
     params[:leave_program][:properties]
-  end
-
-  def add_more_attachments
-    return unless attachment_params.present?
-    attachment_params.each do |_k, attachment|
-      name = attachment['name']
-      if name.present? && attachment['file'].present?
-        form_builder_attachment = @leave_program.form_builder_attachments.file_by_name(name)
-        modify_files = form_builder_attachment.file
-        modify_files += attachment['file']
-
-        form_builder_attachment = @leave_program.form_builder_attachments.find_by(name: name)
-        form_builder_attachment.file = modify_files
-        form_builder_attachment.save
-      end
-    end
-  end
-
-  def attachment_params
-    params[:leave_program][:form_builder_attachments_attributes]
   end
 end

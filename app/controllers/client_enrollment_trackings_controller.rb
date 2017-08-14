@@ -1,6 +1,8 @@
 class ClientEnrollmentTrackingsController < AdminController
   load_and_authorize_resource
 
+  include FormBuilderAttachments
+
   before_action :find_client, :find_enrollment, :find_program_stream
   before_action :find_tracking, except: [:index, :show]
   before_action :find_client_enrollment_tracking, only: [:show, :update, :destroy]
@@ -37,7 +39,7 @@ class ClientEnrollmentTrackingsController < AdminController
   def update
     authorize @client_enrollment_tracking
     if @client_enrollment_tracking.update_attributes(client_enrollment_tracking_params)
-      add_more_attachments
+      add_more_attachments(@client_enrollment_tracking)
       redirect_to report_client_client_enrollment_client_enrollment_trackings_path(@client, @enrollment, tracking_id: @tracking.id, program_streams: 'enrolled-program-streams'), notice: t('.successfully_updated')
     else
       render :edit
@@ -86,25 +88,5 @@ class ClientEnrollmentTrackingsController < AdminController
 
   def properties_params
     params[:client_enrollment_tracking][:properties]
-  end
-
-  def add_more_attachments
-    return unless attachment_params.present?
-    attachment_params.each do |_k, attachment|
-      name = attachment['name']
-      if name.present? && attachment['file'].present?
-        form_builder_attachment = @client_enrollment_tracking.form_builder_attachments.file_by_name(name)
-        modify_files = form_builder_attachment.file
-        modify_files += attachment['file']
-
-        form_builder_attachment = @client_enrollment_tracking.form_builder_attachments.find_by(name: name)
-        form_builder_attachment.file = modify_files
-        form_builder_attachment.save
-      end
-    end
-  end
-
-  def attachment_params
-    params[:client_enrollment_tracking][:form_builder_attachments_attributes]
   end
 end

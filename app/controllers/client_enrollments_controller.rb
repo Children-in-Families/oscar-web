@@ -1,6 +1,8 @@
 class ClientEnrollmentsController < AdminController
   load_and_authorize_resource
 
+  include FormBuilderAttachments
+
   before_action :find_client
   before_action :find_program_stream, except: :index
   before_action :find_client_enrollment, only: [:show, :edit, :update]
@@ -30,6 +32,7 @@ class ClientEnrollmentsController < AdminController
 
   def update
     if @client_enrollment.update_attributes(client_enrollment_params)
+      add_more_attachments(@client_enrollment)
       redirect_to client_client_enrollment_path(@client, @client_enrollment, program_stream_id: @program_stream, program_streams: 'enrolled-program-streams'), notice: t('.successfully_updated')
     else
       render :edit
@@ -65,7 +68,7 @@ class ClientEnrollmentsController < AdminController
 
     default_params = params.require(:client_enrollment).permit(:enrollment_date).merge!(program_stream_id: params[:program_stream_id])
     default_params = default_params.merge!(properties: params[:client_enrollment][:properties]) if properties_params.present?
-    default_params = default_params.merge!(form_builder_attachments_attributes: params[:client_enrollment][:form_builder_attachments_attributes]) if action_name == 'create'
+    default_params = default_params.merge!(form_builder_attachments_attributes: params[:client_enrollment][:form_builder_attachments_attributes]) if action_name == 'create' && attachment_params.present?
     default_params
 
   end
@@ -128,27 +131,7 @@ class ClientEnrollmentsController < AdminController
     end
   end
 
-  def add_more_attachments
-    return unless attachment_params.present?
-    attachment_params.each do |_k, attachment|
-      name = attachment['name']
-      if name.present? && attachment['file'].present?
-        form_builder_attachment = @client_enrollment.form_builder_attachments.file_by_name(name)
-        modify_files = form_builder_attachment.file
-        modify_files += attachment['file']
-
-        form_builder_attachment = @client_enrollment.form_builder_attachments.find_by(name: name)
-        form_builder_attachment.file = modify_files
-        form_builder_attachment.save
-      end
-    end
-  end
-
   def properties_params
     params[:client_enrollment][:properties]
-  end
-
-  def attachment_params
-    params[:client_enrollment][:form_builder_attachments_attributes]
   end
 end
