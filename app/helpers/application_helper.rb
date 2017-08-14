@@ -53,7 +53,7 @@ module ApplicationHelper
   end
 
   def clients_menu_active
-    names = %w(clients tasks assessments case_notes cases government_reports)
+    names = %w(clients tasks assessments case_notes cases government_reports leave_programs client_enrollments client_enrollment_trackings client_advanced_searches)
     'active' if names.include?(controller_name) && params[:family_id].nil?
   end
 
@@ -153,5 +153,13 @@ module ApplicationHelper
 
   def progarm_stream_action
     ['show', 'report']
+  end
+
+  def error_message(controller_name, field_message = '')
+    if %(client_enrollments leave_programs client_enrollment_trackings).include?(controller_name)
+      content_tag(:span, t('cannot_be_blank'), class: 'help-block hidden', data: { email: I18n.t('client_enrollments.form.not_an_email') })
+    else
+      content_tag(:span, field_message, class: 'help-block')
+    end
   end
 end

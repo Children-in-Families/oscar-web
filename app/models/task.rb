@@ -11,7 +11,7 @@ class Task < ActiveRecord::Base
   validates :name, presence: true
   validates :domain, presence: true
   validates :completion_date, presence: true
-  validates :user_ids, presence: true
+  # validates :user_ids, presence: true
 
   scope :completed,  -> { where(completed: true) }
   scope :incomplete, -> { where(completed: false) }

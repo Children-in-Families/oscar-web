@@ -11,7 +11,7 @@ describe AdvancedSearches::ClientFields, 'Method' do
     end
 
     it 'return all fields' do
-      expect(@client_fields.size).to equal 43
+      expect(@client_fields.size).to equal 46
     end
   end
 end

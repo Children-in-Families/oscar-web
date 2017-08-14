@@ -21,7 +21,7 @@ CIF.Progress_notesNew = CIF.Progress_notesCreate = CIF.Progress_notesEdit = CIF.
     self = @
     $('#only-submit').on 'click', ->
       _handleRemoveImageFileById()
-      $('input[type=submit]').click()
+      $('form.progress-note input[type=submit]').click()
 
   _handleCollectingRemoveFileId = ->
     $('.dz-remove').on 'click', ->
@@ -114,7 +114,7 @@ CIF.Progress_notesNew = CIF.Progress_notesCreate = CIF.Progress_notesEdit = CIF.
 
             _handleCollectingRemoveFileId()
           )
-        @element.querySelector('input[type=submit]').addEventListener 'click', (e) ->
+        @element.querySelector('form.progress-note input[type=submit]').addEventListener 'click', (e) ->
           $('.loader').removeClass('hide')
           $('form, .dummy-footer').addClass('hide')
           e.preventDefault()

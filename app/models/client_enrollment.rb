@@ -12,11 +12,12 @@ class ClientEnrollment < ActiveRecord::Base
 
   has_paper_trail
 
-  scope :enrollments_by, ->(client) { where(client_id: client).order(:created_at) }
+  scope :enrollments_by, ->(client) { where(client_id: client).order(created_at: :DESC) }
   scope :active, -> { where(status: 'Active') }
   scope :inactive, -> { where(status: 'Exited') }
 
   after_create :set_client_status
+  after_destroy :reset_client_status
 
   validate do |obj|
     CustomFormPresentValidator.new(obj, 'program_stream', 'enrollment').validate
@@ -36,5 +37,12 @@ class ClientEnrollment < ActiveRecord::Base
 
   def get_form_builder_attachment(value)
     form_builder_attachments.find_by(name: value)
+  end
+
+  def reset_client_status
+    client = Client.find(client_id)
+    return if client.active_case? || client.client_enrollments.active.any?
+
+    client.update(status: 'Referred')
   end
 end

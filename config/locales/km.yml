@@ -308,6 +308,7 @@ km:
       ngo_accepted_date: កាលបរិច្ឆេទទទួលយកចូលអង្គការ
       ngo_exit_date: កាលបរិច្ឆេទនៃការចាកចេញពីអង្គការ
       placement_start_date: ថ្ងៃបញ្ជូនទៅក្នុងករណី
+      program_stream: កម្មវិធីបន្ទាប់បន្សំ
       province: ខេត្តកំណើត
       province_id: ខេត្តបច្ចុប្បន្ន
       received_by: បុគ្គលិកដែលទទួលករណី
@@ -739,6 +740,7 @@ km:
       allow_file_size: ប្រភេទឯកសារដែលបានអនុញ្ញាត
       cancel: ទុកជាមោឃៈ
       enrollment_date: ថ្ងៃចុះឈ្មោះ
+      not_an_email: មិនមែនជាឣុីម៉ែល
       save: រក្សាទុក
       max_file_size: "*ទំហំឯកសារអតិបរិមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកឡើង."
     index:
@@ -2746,6 +2748,7 @@ km:
       add_new_filter: បន្ថែមការស្វែងរក
       add_new_group: បន្ថែមបណ្ដុំនៃការស្វែងរក
       add_rule: បន្ថែមលក្ខខណ្ឌថ្មី
+      cannot_be_lower: ចំនួនដែលអាចចូលរូមកម្មវិធីច្រើនបំផុតមិនអាចតូចជាងចំនួនអតិថិជនដែលចូលរូមកម្មវិធី
       delete_group: លុបបណ្ដុំនៃការស្វែងរក
       description: ការបរិយាយ
       domain: កត្តា
