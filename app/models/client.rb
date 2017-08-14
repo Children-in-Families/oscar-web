@@ -149,7 +149,7 @@ class Client < ActiveRecord::Base
     en_name = "#{given_name} #{family_name}"
     local_name = "#{local_given_name} #{local_family_name}"
 
-    local_name.present? ? "#{en_name} (#{local_name})" : en_name
+    local_name.present? ? "#{en_name} (#{local_name})" : en_name.present? ? en_name : 'Unknown'
   end
 
   def self.next_assessment_candidates
