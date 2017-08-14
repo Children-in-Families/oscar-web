@@ -1,4 +1,8 @@
 CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = CIF.Program_streamsUpdate = CIF.Program_streamsShow = do ->
+  @programStreamId = $('#program_stream_id').val()
+  ENROLLMENT_URL   = "/api/program_streams/#{@programStreamId}/enrollment_fields"
+  EXIT_PROGRAM_URL = "/api/program_streams/#{@programStreamId}/exit_program_fields"
+  TRACKING_URL     = "/api/program_streams/#{@programStreamId}/tracking_fields"
   @formBuilder = []
   _init = ->
     @filterTranslation = ''
@@ -78,17 +82,13 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         $(@).addClass('done')
 
   _handleSaveProgramStream = ->
-    form = $('#program-stream')
     $('#btn-save-draft').on 'click', ->
-      if _handleCheckingDuplicateFields()
-        return false
-      else
-        _handleRemoveUnuseInput()
-        _handleAddRuleBuilderToInput()
-        _handleSetValueToField()
-        $('.tracking-builder').find('input').removeAttr('required')
-        $('.tracking-builder').find('textarea').removeAttr('required')
-        $(form).submit()
+      return false unless _handleCheckingDuplicateFields()
+      _handleRemoveUnuseInput()
+      _handleAddRuleBuilderToInput()
+      _handleSetValueToField()
+      $('.tracking-builder').find('input, textarea').removeAttr('required')
+      $('#program-stream').submit()
 
   _handleSetRules = ->
     rules = $('#program_stream_rules').val()
@@ -147,11 +147,6 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       _toggleNestedTrackingOfTimeOfFrequency()
       _handleValidateTimeOfFrequency()
 
-  _actionFormBuilder = ->
-    builderOption = new CIF.CustomFormBuilder()
-    builderOption.actionRemoveField()
-    builderOption.actionEditField()
-
   _initProgramBuilder = (element, data) ->
     builderOption = new CIF.CustomFormBuilder()
     data = if data.length != 0 then data.replace(/=>/g, ':') else ''
@@ -175,13 +170,32 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       }
     }).data('formBuilder');
    
+   _editTrackingFormName = ->
+    $(".program_stream_trackings_name input[type='text']").on 'blur', ->
+      _checkDuplicateTrackingName()
 
- 
+  _checkDuplicateTrackingName = (element)->
+    nameFields = $('.program_stream_trackings_name:visible input[type="text"]')
+    values    = $(nameFields).map(-> $(@).val().trim()).get()
+    
+    duplicateValues = Object.values(values.getDuplicates())
+    indexs    = [].concat.apply([], duplicateValues)
+
+    noneDuplicates = values.elementWitoutDuplicates()
+    $(nameFields).each (index, element) ->
+      inputWrapper = $(element).parent()
+      if indexs.includes(index)
+        $(element).addClass('error')
+        unless $(inputWrapper).find('label.error').is(':visible')
+          $(inputWrapper).append('<label class="error">Tracking name must be unique</label>')
+      else if noneDuplicates.includes($(element).val())
+        $(element).removeClass('error')
+        if $(inputWrapper).find('label.error').is(':visible')
+          $(inputWrapper).find('label.error').remove()
 
   _handleRemoveCocoon = ->
     $('#trackings').on 'cocoon:after-remove', ->
-      allLabel = $('.nested-fields:visible').find(".program_stream_trackings_name input[type='text']")
-      # _checkDuplicateTrackingName(allLabel)
+      _checkDuplicateTrackingName()
 
   _handleCheckingDuplicateFields = ->
     errorNumber = $('.form-wrap.form-builder:visible').find('.has-error').size()
@@ -203,8 +217,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
           return false if name
         else if currentIndex == 3 and newIndex == 4 and $('#trackings').is(':visible')
           return true if $('#trackings').hasClass('hide-tracking-form')
-          _handleCheckTrackingName()
-          return _handleCheckingDuplicateFields()
+          return _handleCheckingDuplicateFields() and _handleCheckTrackingName() 
         else if $('#enrollment, #exit-program').is(':visible')
           return _handleCheckingDuplicateFields()
 
@@ -212,20 +225,16 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
 
       onStepChanged: (event, currentIndex, newIndex) ->
         _stickyFill()
-        # _editTrackingFormName()
-        # _handleEditLabelName()
         buttonSave = $('#btn-save-draft')
         if $('#exit-program').is(':visible') then $(buttonSave).hide() else $(buttonSave).show()
 
       onFinished: (event, currentIndex) ->
         $('.actions a:contains("Finish")').removeAttr('href')
-        if _handleCheckingDuplicateFields()
-          return false
-        else
-          _handleRemoveUnuseInput()
-          _handleAddRuleBuilderToInput()
-          _handleSetValueToField()
-          form.submit()
+        return false unless _handleCheckingDuplicateFields()
+        _handleRemoveUnuseInput()
+        _handleAddRuleBuilderToInput()
+        _handleSetValueToField()
+        form.submit()
 
       labels:
         finish: self.filterTranslation.save
@@ -233,11 +242,8 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         previous: self.filterTranslation.previous
 
   _handleCheckTrackingName = ->
-    trackingNames = $('.nested-fields .program_stream_trackings_name')
-    for name in trackingNames
-      if $(name).find('input').val() == ''
-        $(name).find('input').addClass('error')
-        $(name).append("<label class='error'>Tracking name can't be blank</label>") unless $(name).find('label.error').is(':visible')
+    nameFields = $('.program_stream_trackings_name:visible input[type="text"].error')
+    if $(nameFields).length > 0 then false else true
 
   _handleClickAddTracking = ->
     if $('#trackings .frmb').length == 0
@@ -247,14 +253,16 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     for element in $('#enrollment, #exit-program')
       dataElement = $(element).data('field')
       _initProgramBuilder($(element), (dataElement || []))
-    _preventRemoveEnrollmentField()
-    _preventRemoveExitProgramField()
+      if element.id == 'enrollment'
+        _preventRemoveField(ENROLLMENT_URL, '#enrollment')
+      else if element.id == 'exit-program'
+        _preventRemoveField(EXIT_PROGRAM_URL, '#exit-program')
 
     trackings = $('.tracking-builder')
     for tracking in trackings
       trackingValue = $(tracking).data('tracking')
       _initProgramBuilder(tracking, (trackingValue || []))
-    _preventRemoveTrackingField()
+    _preventRemoveField(TRACKING_URL, '')
 
   _initButtonSave = ->
     form = $('form#program-stream')
@@ -264,9 +272,6 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
   _handleRemoveUnuseInput = ->
     elements = $('#program-rule ,#enrollment .form-wrap.form-builder, #tracking .form-wrap.form-builder, #exit-program .form-wrap.form-builder')
     $(elements).find('input, select, radio, checkbox, textarea').remove()
-
-  _preventDuplicateFormBuilder = (element) ->
-    $(element).children().hasClass('form-builder')
 
   _handleAddRuleBuilderToInput = ->
     rules = $('#program-rule').queryBuilder('getRules')
@@ -301,65 +306,37 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     $('#program_stream_tracking_required').on 'ifUnchecked', ->
       $('#trackings').removeClass('hide-tracking-form')
 
-  _preventRemoveEnrollmentField = ->
-    fields = ''
-    programStreamId = $('#program_stream_id').val()
-    return if programStreamId == ''
-    $.ajax({
-      type: 'GET'
-      url: "/api/program_streams/#{programStreamId}/enrollment_fields"
+  _preventRemoveField = (url, elementId) ->
+    return false if @programStreamId == ''
+    $.ajax
+      method: 'GET'
+      url: url
       dataType: "JSON"
-    }).success((json)->
-      fields = json.program_streams
-      labelFields = $('#steps-uid-0-p-2 label.field-label')
-      for labelField in labelFields
-        parent = $(labelField).parent()
-        for field in fields
-          if labelField.textContent == field
-            $(parent).children('div.field-actions').remove()
-    )
-
-  _preventRemoveExitProgramField = ->
-    fields = ''
-    programStreamId = $('#program_stream_id').val()
-    return if programStreamId == ''
-    $.ajax({
-      type: 'GET'
-      url: "/api/program_streams/#{programStreamId}/exit_program_fields"
-      dataType: "JSON"
-    }).success((json)->
-      fields = json.program_streams
-      labelFields = $('#steps-uid-0-p-4 label.field-label')
-      for labelField in labelFields
-        parent = $(labelField).parent()
-        for field in fields
-          if labelField.textContent == field
-            $(parent).children('div.field-actions').remove()
-    )
-
-  _preventRemoveTrackingField = ->
-    fields = ''
-    programStreamId = $('#program_stream_id').val()
-    return if programStreamId == ''
-    $.ajax({
-      type: 'GET'
-      url: "/api/program_streams/#{programStreamId}/tracking_fields"
-      dataType: "JSON"
-    }).success((json)->
-      fields = json
-      trackings = $('#trackings .nested-fields')
-      for tracking in trackings
-        trackingName = $(tracking).find('input.string.optional.readonly.form-control')
-        return if $(trackingName).length == 0
-        name = $(trackingName).val()
-        labelFields = $(tracking).find('label.field-label')
-        for labelField in labelFields
-          parent = $(labelField).parent()
-          for field in fields[name]
-            if labelField.textContent == field
+      success: (response) ->
+        if response.field == 'tracking'
+          _hideActionInTracking(response)
+        else
+          fields = response.program_streams
+          labelFields = $(elementId).find('label.field-label')
+          for labelField in labelFields
+            text = labelField.textContent
+            if fields.includes(text)
+              parent = $(labelField).parent()
               $(parent).children('div.field-actions').remove()
-              $(tracking).find('.ibox-footer').remove()
-    )
+
+  _hideActionInTracking = (fields) ->
+    trackings = $('#trackings .nested-fields')
+    for tracking in trackings
+      trackingName = $(tracking).find('input.string.optional.readonly.form-control')
+      return if $(trackingName).length == 0
+      name = $(trackingName).val()
+      labelFields = $(tracking).find('label.field-label')
+      for labelField in labelFields
+        parent = $(labelField).parent()
+        for field in fields[name]
+          if labelField.textContent == field
+            $(parent).children('div.field-actions').remove()
+            $(tracking).find('.ibox-footer').remove()
 
   _handleValidateTimeOfFrequency = ->
     element = $('.program_stream_trackings_time_of_frequency')

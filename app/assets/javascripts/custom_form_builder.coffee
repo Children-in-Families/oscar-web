@@ -110,17 +110,24 @@ class CIF.CustomFormBuilder
     @actionRemoveField()
     @actionEditField()
 
-  handleDisplayDuplicateWarning: ->
-    self = @
-    labels = $('.field-label:visible')
+  getDuplicateValues: (elements) ->
+    labels    = $(elements).map(-> $(@).text().trim()).get()
+    duplicateValues = Object.values(labels.getDuplicates())
+    [].concat.apply([], duplicateValues)
 
-    $(labels).each (index, label) ->
-      labelText = $(label).text()
-      $(labels).each (i, cLabel) ->
-        return if i == index
-        text = $(cLabel).text()
-        if text == labelText
-          self.addDuplicateWarning(label)
+  handleDisplayDuplicateWarning: ->
+    if $('#trackings').is(':visible') and $('.nested-fields').is(':visible')
+      elementFrmbs = $('ul.frmb:visible')
+      for element in elementFrmbs
+        elements  = $(element).find('.field-label:visible')
+        duplicateValues = @getDuplicateValues(elements)
+        for value in duplicateValues
+          @addDuplicateWarning(elements[value])
+    else
+      elements = $('ul.frmb:visible .field-label:visible')
+      duplicateValues = @getDuplicateValues(elements)
+      for value in duplicateValues
+        @addDuplicateWarning(elements[value])
 
   addDuplicateWarning: (element) ->
     errorText = 'Field labels must be unique, please click the edit icon to set a unique field label'
@@ -130,40 +137,37 @@ class CIF.CustomFormBuilder
     unless $(parentElement).find('label.error').is(':visible')
       $(parentElement).append("<label class='error'>#{errorText}</label>")
 
-    if $('#trackings').is(':visible') and $('.nested-fields').is(':visible')
-      $(element).addClass('error')
-      unless $(element).parent().find('label.error').is(':visible')
-        $(element).parent().append('<label class="error">Tracking name must be unique</label>')
-
   actionRemoveField: ->
     self = @
     $('.field-actions a.del-button').click ->
-      self.removeFieldDuplicate(deleteBtn)
+      setTimeout ( -> self.removeFieldDuplicate()),300
 
   actionEditField: ->
     self = @
     labels = $('.field-label:visible')
     $('.field-actions a.icon-pencil').click ->
-      editElement = @
-      $("input[name='label']").on 'blur', ->
+      setTimeout ( ->
+        self.removeFieldDuplicate()
         self.handleDisplayDuplicateWarning()
+      ), 300
 
-        counts = self.countDuplicateLabel(labels)
-        $.each counts, (labelText, numberOfField) ->
-          $(labels).each (index, label) ->
-            if (numberOfField == 1) && (label.textContent == labelText)
-              self.removeDuplicateWarning(label)
+  getNoneDuplicateLabel: (elements) ->
+    labels    = $(elements).map(-> $(@).text().trim()).get()
+    values = labels.elementWitoutDuplicates()
+    for element in elements
+      text = $(element).text().trim()
+      if values.includes(text)
+        @removeDuplicateWarning(element)
 
-  removeFieldDuplicate: (element)->
-    duplicates = []
-    labels = $('.field-label:visible')
-    currentLabel  = $(element).parents('.field-actions').next().text()
-    for label in labels
-      duplicates.push label if currentLabel == $(label).text()
-
-    if duplicates.length == 2
-      for field in duplicates
-        @removeDuplicateWarning(field)
+  removeFieldDuplicate: ->
+    if $('#trackings').is(':visible') and $('.nested-fields').is(':visible')
+      elementFrmbs = $('ul.frmb:visible')
+      for element in elementFrmbs
+        elements  = $(element).find('.field-label:visible')
+        @getNoneDuplicateLabel(elements)
+    else
+      elements = $('ul.frmb:visible .field-label:visible')
+      @getNoneDuplicateLabel(elements)
 
   removeDuplicateWarning: (element) ->
     field = $(element).parents('li.form-field')
@@ -171,13 +175,4 @@ class CIF.CustomFormBuilder
     $(field).find('input, textarea, select').removeClass('error')
     $(field).find('label.error').remove()
 
-    if $('#trackings').is(':visible') and $('.nested-fields').is(':visible')
-      $(field).removeClass('error')
-      $(field).parent().find('label.error').remove()
-
-  countDuplicateLabel: (elements) ->
-    counts = {}
-    labels = $(elements).map(-> if $(@).val() != '' then $(@).val() else $(@).text()).get()
-    $(labels).map(-> counts[@] = (counts[@] or 0) + 1)
-    counts
 
