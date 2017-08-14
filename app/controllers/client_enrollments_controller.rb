@@ -1,6 +1,8 @@
 class ClientEnrollmentsController < AdminController
   load_and_authorize_resource
 
+  include FormBuilderAttachments
+
   before_action :find_client
   before_action :find_program_stream, except: :index
   before_action :find_client_enrollment, only: [:show, :edit, :update, :destroy]
@@ -31,7 +33,7 @@ class ClientEnrollmentsController < AdminController
   def update
     authorize @client_enrollment
     if @client_enrollment.update_attributes(client_enrollment_params)
-      add_more_attachments
+      add_more_attachments(@client_enrollment)
       redirect_to client_client_enrollment_path(@client, @client_enrollment, program_stream_id: @program_stream, program_streams: params[:program_streams]), notice: t('.successfully_updated')
     else
       render :edit
@@ -56,7 +58,7 @@ class ClientEnrollmentsController < AdminController
     index = params[:file_index].to_i
     params_program_streams = params[:program_streams]
     if name.present? && index.present?
-      delete_form_builder_attachment(name, index)
+      delete_form_builder_attachment(@client_enrollment, name, index)
     end
     redirect_to request.referer, notice: t('.delete_attachment_successfully')
     # @client_enrollment.destroy
@@ -74,7 +76,7 @@ class ClientEnrollmentsController < AdminController
 
     default_params = params.require(:client_enrollment).permit(:enrollment_date).merge!(program_stream_id: params[:program_stream_id])
     default_params = default_params.merge!(properties: params[:client_enrollment][:properties]) if properties_params.present?
-    default_params = default_params.merge!(form_builder_attachments_attributes: params[:client_enrollment][:form_builder_attachments_attributes]) if action_name == 'create'
+    default_params = default_params.merge!(form_builder_attachments_attributes: params[:client_enrollment][:form_builder_attachments_attributes]) if action_name == 'create' && attachment_params.present?
     default_params
 
   end
@@ -138,41 +140,5 @@ class ClientEnrollmentsController < AdminController
     elsif @program_stream.program_exclusive.any?
       (@program_stream.program_exclusive & program_active_status_ids).empty?
     end
-  end
-
-  def add_more_attachments
-    return unless attachment_params.present?
-    attachment_params.each do |_k, attachment|
-      name = attachment['name']
-      next unless name.present? && attachment['file'].present?
-      form_builder_attachment = @client_enrollment.form_builder_attachments.file_by_name(name)
-      if form_builder_attachment.present?
-        modify_files = form_builder_attachment.file
-        modify_files += attachment['file']
-
-        form_builder_attachment = @client_enrollment.form_builder_attachments.find_by(name: name)
-        form_builder_attachment.file = modify_files
-        form_builder_attachment.save
-      else
-        @client_enrollment.form_builder_attachments.create(name: attachment['name'], file: attachment['file'])
-      end
-    end
-  end
-
-  def delete_form_builder_attachment(name, index)
-    attachment = @client_enrollment.get_form_builder_attachment(name)
-    remain_file  = attachment.file
-    deleted_file = remain_file.delete_at(index)
-    deleted_file.try(:remove!)
-    remain_file.empty? ? attachment.remove_file! : attachment.file = remain_file
-    attachment.save
-  end
-
-  def properties_params
-    params[:client_enrollment][:properties]
-  end
-
-  def attachment_params
-    params[:client_enrollment][:form_builder_attachments_attributes]
   end
 end

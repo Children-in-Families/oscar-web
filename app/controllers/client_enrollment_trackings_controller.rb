@@ -1,6 +1,8 @@
 class ClientEnrollmentTrackingsController < AdminController
   load_and_authorize_resource
 
+  include FormBuilderAttachments
+
   before_action :find_client, :find_enrollment, :find_program_stream
   before_action :find_tracking, except: [:index]
   before_action :find_client_enrollment_tracking, only: [:edit, :show, :update, :destroy]
@@ -37,7 +39,7 @@ class ClientEnrollmentTrackingsController < AdminController
   def update
     authorize @client_enrollment_tracking
     if @client_enrollment_tracking.update_attributes(client_enrollment_tracking_params)
-      add_more_attachments
+      add_more_attachments(@client_enrollment_tracking)
       redirect_to report_client_client_enrollment_client_enrollment_trackings_path(@client, @enrollment, tracking_id: @tracking.id, program_streams: 'enrolled-program-streams'), notice: t('.successfully_updated')
     else
       render :edit
@@ -50,7 +52,7 @@ class ClientEnrollmentTrackingsController < AdminController
     params_program_streams = params[:program_streams]
     notice = ""
     if name.present? && index.present?
-      delete_form_builder_attachment(name, index)
+      delete_form_builder_attachment(@client_enrollment_tracking, name, index)
       notice = t('.delete_attachment_successfully')
     else
       @client_enrollment_tracking.destroy
@@ -97,38 +99,5 @@ class ClientEnrollmentTrackingsController < AdminController
   def get_attachments
     @client_enrollment_tracking ||= @enrollment.client_enrollment_trackings.new
     @attachments = @client_enrollment_tracking.form_builder_attachments
-  end
-
-  def properties_params
-    params[:client_enrollment_tracking][:properties]
-  end
-
-  def add_more_attachments
-    return unless attachment_params.present?
-    attachment_params.each do |_k, attachment|
-      name = attachment['name']
-      if name.present? && attachment['file'].present?
-        form_builder_attachment = @client_enrollment_tracking.form_builder_attachments.file_by_name(name)
-        modify_files = form_builder_attachment.file
-        modify_files += attachment['file']
-
-        form_builder_attachment = @client_enrollment_tracking.form_builder_attachments.find_by(name: name)
-        form_builder_attachment.file = modify_files
-        form_builder_attachment.save
-      end
-    end
-  end
-
-  def delete_form_builder_attachment(name, index)
-    attachment = @client_enrollment_tracking.get_form_builder_attachment(name)
-    remain_file  = attachment.file
-    deleted_file = remain_file.delete_at(index)
-    deleted_file.try(:remove!)
-    remain_file.empty? ? attachment.remove_file! : attachment.file = remain_file
-    attachment.save
-  end
-
-  def attachment_params
-    params[:client_enrollment_tracking][:form_builder_attachments_attributes]
   end
 end
