@@ -1,6 +1,8 @@
 class ClientEnrollmentTrackingsController < AdminController
   load_and_authorize_resource
 
+  include FormBuilderAttachments
+
   before_action :find_client, :find_enrollment, :find_program_stream
   before_action :find_tracking, except: [:index, :show]
   before_action :find_client_enrollment_tracking, only: [:show, :update, :destroy]
@@ -12,6 +14,7 @@ class ClientEnrollmentTrackingsController < AdminController
 
   def new
     @client_enrollment_tracking = @enrollment.client_enrollment_trackings.new
+    @attachment                 = @client_enrollment_tracking.form_builder_attachments.build
     authorize @client_enrollment_tracking
   end
 
@@ -36,6 +39,7 @@ class ClientEnrollmentTrackingsController < AdminController
   def update
     authorize @client_enrollment_tracking
     if @client_enrollment_tracking.update_attributes(client_enrollment_tracking_params)
+      add_more_attachments(@client_enrollment_tracking)
       redirect_to report_client_client_enrollment_client_enrollment_trackings_path(@client, @enrollment, tracking_id: @tracking.id, program_streams: 'enrolled-program-streams'), notice: t('.successfully_updated')
     else
       render :edit
@@ -54,7 +58,12 @@ class ClientEnrollmentTrackingsController < AdminController
   private
 
   def client_enrollment_tracking_params
-    params.require(:client_enrollment_tracking).permit({}).merge(properties: params[:client_enrollment_tracking][:properties], tracking_id: params[:tracking_id])
+    # params.require(:client_enrollment_tracking).permit({}).merge(properties: params[:client_enrollment_tracking][:properties], tracking_id: params[:tracking_id])
+
+    default_params = params.require(:client_enrollment_tracking).permit({}).merge!(tracking_id: params[:tracking_id])
+    default_params = default_params.merge!(properties: params[:client_enrollment_tracking][:properties]) if properties_params.present?
+    default_params = default_params.merge!(form_builder_attachments_attributes: params[:client_enrollment_tracking][:form_builder_attachments_attributes]) if action_name == 'create' && attachment_params.present?
+    default_params
   end
 
   def find_client
@@ -75,5 +84,9 @@ class ClientEnrollmentTrackingsController < AdminController
 
   def find_client_enrollment_tracking
     @client_enrollment_tracking = @enrollment.client_enrollment_trackings.find params[:id]
+  end
+
+  def properties_params
+    params[:client_enrollment_tracking][:properties]
   end
 end

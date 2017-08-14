@@ -16,9 +16,12 @@
       .ibox-content
         .table-responsive
           %table.table.table-bordered
-            - @program_stream.enrollment.map{|properties| properties['label']}.each do |key|
+            - @program_stream.enrollment.map{|properties| [properties['type'], properties['label']]}.each do |type, key|
               %tr
                 %td.align-justify
                   = key
                 %td.align-justify
-                  = display_custom_properties(@client_enrollment.properties[key])
+                  - if type == 'file'
+                    = render 'shared/form_builder/list_attachment', name: key, form_buildable: @client_enrollment
+                  - else
+                    = display_custom_properties(@client_enrollment.properties[key])

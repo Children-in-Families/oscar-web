@@ -1,6 +1,8 @@
 class ClientEnrollmentsController < AdminController
   load_and_authorize_resource
 
+  include FormBuilderAttachments
+
   before_action :find_client
   before_action :find_program_stream, except: :index
   before_action :find_client_enrollment, only: [:show, :edit, :update]
@@ -22,6 +24,7 @@ class ClientEnrollmentsController < AdminController
     end
 
     @client_enrollment = @client.client_enrollments.new(program_stream_id: @program_stream)
+    @attachment = @client_enrollment.form_builder_attachments.build
   end
 
   def edit
@@ -29,6 +32,7 @@ class ClientEnrollmentsController < AdminController
 
   def update
     if @client_enrollment.update_attributes(client_enrollment_params)
+      add_more_attachments(@client_enrollment)
       redirect_to client_client_enrollment_path(@client, @client_enrollment, program_stream_id: @program_stream, program_streams: 'enrolled-program-streams'), notice: t('.successfully_updated')
     else
       render :edit
@@ -60,10 +64,13 @@ class ClientEnrollmentsController < AdminController
   private
 
   def client_enrollment_params
-    params[:client_enrollment][:properties].keys.each do |k|
-      params[:client_enrollment][:properties][k].delete('') if params[:client_enrollment][:properties][k].class == Array && params[:client_enrollment][:properties][k].count > 1
-    end
-    params.require(:client_enrollment).permit(:enrollment_date, {}).merge(properties: params[:client_enrollment][:properties], program_stream_id: params[:program_stream_id])
+    (properties_params.values.map{ |v| v.delete('') if (v.is_a?Array) && v.size > 1 }) if properties_params.present?
+
+    default_params = params.require(:client_enrollment).permit(:enrollment_date).merge!(program_stream_id: params[:program_stream_id])
+    default_params = default_params.merge!(properties: params[:client_enrollment][:properties]) if properties_params.present?
+    default_params = default_params.merge!(form_builder_attachments_attributes: params[:client_enrollment][:form_builder_attachments_attributes]) if action_name == 'create' && attachment_params.present?
+    default_params
+
   end
 
   def client_enrollment_index_path
@@ -122,5 +129,9 @@ class ClientEnrollmentsController < AdminController
     elsif @program_stream.has_program_exclusive?
       (@program_stream.program_exclusive & program_active_status_ids).empty?
     end
+  end
+
+  def properties_params
+    params[:client_enrollment][:properties]
   end
 end

@@ -179,13 +179,22 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     @formBuilder.push $(element).formBuilder({
       dataType: 'json'
       formData: data
-      disableFields: ['autocomplete', 'header', 'hidden', 'paragraph', 'button', 'file','checkbox']
+      disableFields: ['autocomplete', 'header', 'hidden', 'paragraph', 'button','checkbox']
       showActionButtons: false
       messages: {
         cannotBeEmpty: 'name_separated_with_underscore'
       }
 
       typeUserEvents: {
+        file:
+          onadd: (fld) ->
+            $('.className-wrap, .value-wrap, .access-wrap, .description-wrap, .name-wrap, .required-wrap').hide()
+            _handleCheckingForm(fld)
+          onclone: (fld) ->
+            $('.className-wrap, .value-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
+            setTimeout ( ->
+              _handleCheckingForm(fld)
+            )
         'checkbox-group':
           onadd: (fld) ->
             $('.other-wrap, .className-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
