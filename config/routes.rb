@@ -120,6 +120,14 @@ Rails.application.routes.draw do
       resources :leave_programs
     end
 
+    resources :client_enrolled_programs do
+      get :report, on: :collection
+      resources :client_enrolled_program_trackings do
+        get :report, on: :collection
+      end
+      resources :client_enrolled_program_leave_programs
+    end
+
     resources :custom_field_properties
     # resources :government_reports
     resources :assessments

@@ -1,4 +1,8 @@
-= simple_form_for([@client, @enrollment, @client_enrollment_tracking], html: { class: 'client-enrollment-tracking' }) do |f|
+- if action_name.in?(%(new create))
+  - url = client_client_enrolled_program_client_enrolled_program_trackings_path(@client, @enrollment)
+- else
+  - url = client_client_enrolled_program_client_enrolled_program_tracking_path(@client, @enrollment, @client_enrollment_tracking)
+= simple_form_for([@client, @enrollment, @client_enrollment_tracking], url: url, html: { class: 'client-enrolled-program-tracking' }) do |f|
   .ibox-content
     %h3
       = "#{@client.en_and_local_name} - #{@tracking.name} - #{@program_stream.name}"
@@ -14,4 +18,4 @@
   .ibox-footer
     = hidden_field_tag :tracking_id, @tracking.id
     = f.submit t('.save'), class: 'btn btn-primary form-btn'
-    = link_to t('.cancel'), report_client_client_enrollment_client_enrollment_trackings_path(@client, @enrollment, tracking_id: @tracking), class: 'btn btn-default form-btn'
+    = link_to t('.cancel'), report_client_client_enrolled_program_client_enrolled_program_trackings_path(@client, @enrollment, tracking_id: @tracking), class: 'btn btn-default form-btn'

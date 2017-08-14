@@ -1,4 +1,8 @@
-= simple_form_for ([@client, @enrollment, @leave_program]) do |f|
+- if action_name.in?(%(new create))
+  - url = client_client_enrolled_program_client_enrolled_program_leave_programs_path(@client, @enrollment)
+- else
+  - url = client_client_enrolled_program_client_enrolled_program_leave_program_path(@client, @enrollment, @leave_program)
+= simple_form_for([@client, @enrollment, @leave_program], url: url, html: { class: 'client-enrolled-program-leave-program' }) do |f|
   .ibox-content
     .row
       .col-xs-12.col-sm-6.col-md-4.form-group.date.optional.client_date_of_birth{ class: ('has-error' if f.error :exit_date) }
@@ -20,6 +24,7 @@
           .col-xs-12
             #message.text-danger
     = hidden_field_tag :program_stream_id, @program_stream.id
+    = hidden_field_tag :program_streams, params[:program_streams]
   .ibox-footer
     = f.submit t('.save'), class: 'btn btn-primary form-btn'
-    = link_to t('.cancel'), client_client_enrollments_path(@client), class: 'btn btn-default form-btn'
+    = link_to t('.cancel'), client_client_enrolled_programs_path(@client), class: 'btn btn-default form-btn'

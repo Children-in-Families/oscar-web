@@ -170,7 +170,7 @@
               %ul.dropdown-menu.scrollable-dropdown-menu
                 - @free_client_forms.each do |custom_field|
                   %li= link_to custom_field.form_title, new_client_custom_field_property_path(@client, custom_field_id: custom_field)
-          = link_to client_client_enrollments_path(@client, program_streams: 'enrolled-program-streams') do
+          = link_to client_client_enrolled_programs_path(@client) do
             .btn.btn-primary.small-btn-margin.btn-sm
               = t('.enrolled_program_streams')
           = link_to client_client_enrollments_path(@client) do

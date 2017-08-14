@@ -10,7 +10,7 @@ class ClientEnrollment < ActiveRecord::Base
 
   has_paper_trail
 
-  scope :enrollments_by, ->(client) { where(client_id: client).order(created_at: :DESC) }
+  scope :enrollments_by, ->(client) { where(client_id: client).order(:created_at) }
   scope :active, -> { where(status: 'Active') }
   scope :inactive, -> { where(status: 'Exited') }
 

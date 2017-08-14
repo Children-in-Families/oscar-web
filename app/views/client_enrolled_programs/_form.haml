@@ -1,12 +1,12 @@
 = simple_form_for([@client, @client_enrollment], html: { class: 'client-enrollment' }) do |f|
   .ibox-content
     .row
-      .col-xs-12.col-md-6.form-group.date.optional
+      .col-xs-12.col-sm-6.col-md-4.form-group.date.optional.client_date_of_birth{ class: ('has-error' if f.error :enrollment_date) }
         %label.date.optional.control-label
           %abbr{ title: 'required' } *
           = t('.enrollment_date')
-        .input-group.date
-          = f.input_field :enrollment_date, as: :string, class: 'date optional form-control date-picker', id: 'enrollment_date'
+        #client-birthdate.input-group.date
+          = f.text_field :enrollment_date, class: 'date optional form-control date-picker', type: 'text', id: 'enrollment_date'
           %span.input-group-addon
             %i.fa.fa-calendar-check-o
         %span.help-block.hidden= t('cannot_be_blank')
@@ -21,5 +21,9 @@
             #message.text-danger
   .ibox-footer
     = hidden_field_tag :program_stream_id, @program_stream.id
+    = hidden_field_tag :program_streams, params[:program_streams]
     = f.submit t('.save'), class: 'btn btn-primary form-btn'
-    = cancel_url
+    - if params[:action] == 'new' || params[:action] == 'create'
+      = link_to t('.cancel'), client_client_enrolled_programs_path(@client, program_streams: 'program-streams'), class: 'btn btn-default form-btn'
+    - elsif params[:action] == 'edit' || params[:action] == 'update'
+      = link_to t('.cancel'), client_client_enrolled_program_path(@client, @client_enrollment, program_stream_id: params[:program_stream_id]), class: 'btn btn-default form-btn'

@@ -1,12 +1,12 @@
-class ClientEnrollmentTrackingsController < AdminController
-  load_and_authorize_resource
+class ClientEnrolledProgramTrackingsController < AdminController
+  load_and_authorize_resource :ClientEnrollmentTracking
 
   before_action :find_client, :find_enrollment, :find_program_stream
   before_action :find_tracking, except: [:index, :show]
   before_action :find_client_enrollment_tracking, only: [:show, :update, :destroy, :edit]
 
   def index
-    @tracking_grid = TrackingGrid.new(params[:tracking_grid])
+    @tracking_grid = ClientEnrolledProgramTrackingGrid.new(params[:tracking_grid])
     @tracking_grid.scope { |scope| scope.where(program_stream_id: @program_stream).page(params[:page]).per(20) }
   end
 
@@ -20,7 +20,7 @@ class ClientEnrollmentTrackingsController < AdminController
     authorize @client_enrollment_tracking
 
     if @client_enrollment_tracking.save
-      redirect_to report_client_client_enrollment_client_enrollment_trackings_path(@client, @enrollment, tracking_id: @tracking.id), notice: t('.successfully_created')
+      redirect_to report_client_client_enrolled_program_client_enrolled_program_trackings_path(@client, @enrollment, tracking_id: @tracking.id), notice: t('.successfully_created')
     else
       render :new
     end
@@ -36,7 +36,7 @@ class ClientEnrollmentTrackingsController < AdminController
   def update
     authorize @client_enrollment_tracking
     if @client_enrollment_tracking.update_attributes(client_enrollment_tracking_params)
-      redirect_to report_client_client_enrollment_client_enrollment_trackings_path(@client, @enrollment, tracking_id: @tracking.id), notice: t('.successfully_updated')
+      redirect_to report_client_client_enrolled_program_client_enrolled_program_trackings_path(@client, @enrollment, tracking_id: @tracking.id), notice: t('.successfully_updated')
     else
       render :edit
     end
@@ -44,7 +44,7 @@ class ClientEnrollmentTrackingsController < AdminController
 
   def destroy
     @client_enrollment_tracking.destroy
-    redirect_to report_client_client_enrollment_client_enrollment_trackings_path(@client, @enrollment, tracking_id: @tracking.id), notice: t('.successfully_deleted')
+    redirect_to report_client_client_enrolled_program_client_enrolled_program_trackings_path(@client, @enrollment, tracking_id: @tracking.id), notice: t('.successfully_deleted')
   end
 
   def report
@@ -62,7 +62,7 @@ class ClientEnrollmentTrackingsController < AdminController
   end
 
   def find_enrollment
-    @enrollment = @client.client_enrollments.find params[:client_enrollment_id]
+    @enrollment = @client.client_enrollments.find params[:client_enrolled_program_id]
   end
 
   def find_program_stream

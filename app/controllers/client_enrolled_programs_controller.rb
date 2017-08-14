@@ -1,5 +1,5 @@
-class ClientEnrollmentsController < AdminController
-  load_and_authorize_resource
+class ClientEnrolledProgramsController < AdminController
+  load_and_authorize_resource :ClientEnrollment
 
   before_action :find_client
   before_action :find_program_stream, except: :index
@@ -11,16 +11,15 @@ class ClientEnrollmentsController < AdminController
   end
 
   def new
-    if @program_stream.has_rule?
-      if @program_stream.has_program_exclusive? || @program_stream.has_mutual_dependence?
-        client_enrollment_index_path unless valid_client? && valid_program?
+    if @program_stream.rules.present?
+      if @program_stream.program_exclusive.any? || @program_stream.mutual_dependence.any?
+        redirect_to client_client_enrolled_programs_path(@client), alert: t('.client_not_valid') unless valid_client? && valid_program?
       else
-        client_enrollment_index_path unless valid_client?
+        redirect_to client_client_enrolled_programs_path(@client), alert: t('.client_not_valid') unless valid_client?
       end
-    elsif @program_stream.has_program_exclusive? || @program_stream.has_mutual_dependence?
-      client_enrollment_index_path unless valid_program?
+    elsif @program_stream.mutual_dependence.any? || @program_stream.program_exclusive.any?
+      redirect_to client_client_enrolled_programs_path(@client), alert: t('.client_not_valid') unless valid_program?
     end
-
     @client_enrollment = @client.client_enrollments.new(program_stream_id: @program_stream)
   end
 
@@ -50,11 +49,11 @@ class ClientEnrollmentsController < AdminController
 
   def destroy
     @client_enrollment.destroy
-    redirect_to report_client_client_enrollments_path(@client, program_stream_id: @program_stream), notice: t('.successfully_deleted')
+    redirect_to report_client_client_enrolled_programs_path(@client, program_stream_id: @program_stream), notice: t('.successfully_deleted')
   end
 
   def report
-    @enrollments = @program_stream.client_enrollments.enrollments_by(@client).order(created_at: :DESC)
+    @enrollments = @program_stream.client_enrollments.where(client_id: @client).order(created_at: :DESC)
   end
 
   private
@@ -64,10 +63,6 @@ class ClientEnrollmentsController < AdminController
       params[:client_enrollment][:properties][k].delete('') if params[:client_enrollment][:properties][k].class == Array && params[:client_enrollment][:properties][k].count > 1
     end
     params.require(:client_enrollment).permit(:enrollment_date, {}).merge(properties: params[:client_enrollment][:properties], program_stream_id: params[:program_stream_id])
-  end
-
-  def client_enrollment_index_path
-    redirect_to client_client_enrollments_path(@client), alert: t('.client_not_valid')
   end
 
   def find_client_enrollment
@@ -87,10 +82,7 @@ class ClientEnrollmentsController < AdminController
   end
 
   def program_stream_order_by_enrollment
-    program_streams = []
-    client_enrollments_exited     = ProgramStream.inactive_enrollments(@client).complete
-    client_enrollments_inactive   = ProgramStream.without_status_by(@client).complete
-    program_streams               = client_enrollments_exited + client_enrollments_inactive
+    ProgramStream.active_enrollments(@client).complete
   end
 
   def ordered_program
@@ -112,11 +104,11 @@ class ClientEnrollmentsController < AdminController
 
   def valid_program?
     program_active_status_ids   = ProgramStream.active_enrollments(@client).pluck(:id)
-    if @program_stream.has_program_exclusive? && @program_stream.has_mutual_dependence?
+    if @program_stream.program_exclusive.any? && @program_stream.mutual_dependence.any?
       (@program_stream.program_exclusive & program_active_status_ids).empty? && (@program_stream.mutual_dependence - program_active_status_ids).empty?
-    elsif @program_stream.has_mutual_dependence?
+    elsif @program_stream.mutual_dependence.any?
       (@program_stream.mutual_dependence - program_active_status_ids).empty?
-    elsif @program_stream.has_program_exclusive?
+    elsif @program_stream.program_exclusive.any?
       (@program_stream.program_exclusive & program_active_status_ids).empty?
     end
   end
