@@ -121,14 +121,14 @@
                   = t('.contract_date')
                 %td
                   %strong
-                    = @family.contract_date.strftime('%B %d, %Y') if @family.contract_date
+                    = date_format(@family.contract_date)
 
               %tr
                 %td.spacing-first-col
                   = t('.province')
                 %td
                   %strong
-                    = @family.province.name if @family.province
+                    = @family.province.try(:name)
 
               %tr
                 %td.spacing-first-col

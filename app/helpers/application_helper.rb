@@ -120,7 +120,7 @@ module ApplicationHelper
   end
 
   def date_format(date)
-    date.strftime('%d %B, %Y')
+    date.strftime('%d %B, %Y') if date.present?
   end
 
   def date_time_format(date_time)
