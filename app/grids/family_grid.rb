@@ -107,7 +107,7 @@ class FamilyGrid
   column(:contract_date, header: -> { I18n.t('datagrid.columns.families.contract_date') })
 
   column(:province, order: 'provinces.name', header: -> { I18n.t('datagrid.columns.families.province') }) do |object|
-    object.province.name if object.province
+    object.province.try(:name)
   end
 
   column(:cases, header: -> { I18n.t('datagrid.columns.families.clients') }, html: false) do |object|

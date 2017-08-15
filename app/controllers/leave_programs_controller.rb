@@ -49,13 +49,12 @@ class LeaveProgramsController < AdminController
   private
 
   def leave_program_params
-    (properties_params.values.map{ |v| v.delete('') if (v.is_a?Array) && v.size > 1 }) if properties_params.present?
+    properties_params.values.map{ |v| v.delete('') if (v.is_a?Array) && v.size > 1 }
+    
     default_params = params.require(:leave_program).permit(:exit_date).merge!(program_stream_id: params[:program_stream_id])
-    default_params = default_params.merge!(properties: params[:leave_program][:properties]) if properties_params.present?
+    default_params = default_params.merge!(properties: properties_params)
     default_params = default_params.merge!(form_builder_attachments_attributes: params[:leave_program][:form_builder_attachments_attributes]) if action_name == 'create' && attachment_params.present?
     default_params
-
-    # params.require(:leave_program).permit(:exit_date, {}).merge(properties: params[:leave_program][:properties], program_stream_id: params[:program_stream_id])
   end
 
   def find_client

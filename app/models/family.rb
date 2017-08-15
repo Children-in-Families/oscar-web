@@ -11,7 +11,7 @@ class Family < ActiveRecord::Base
 
   has_paper_trail
 
-  validates :family_type, inclusion: { in: FAMILY_TYPE }
+  validates :family_type, presence: true, inclusion: { in: FAMILY_TYPE }
   validates :code, uniqueness: { case_sensitive: false }, if: 'code.present?'
 
   scope :address_like,               ->(value) { where('address iLIKE ?', "%#{value}%") }

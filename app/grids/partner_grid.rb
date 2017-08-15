@@ -82,7 +82,7 @@ class PartnerGrid
   column(:address, header: -> { I18n.t('datagrid.columns.partners.address') })
 
   column(:province, order: 'provinces.name', header: -> { I18n.t('datagrid.columns.partners.province') }) do |object|
-    object.province.name if object.province
+    object.province.try(:name)
   end
 
   column(:manage, html: true, class: 'text-center', header: -> { I18n.t('datagrid.columns.partners.manage') }) do |object|

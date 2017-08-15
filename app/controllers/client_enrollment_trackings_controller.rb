@@ -62,16 +62,16 @@ class ClientEnrollmentTrackingsController < AdminController
   end
 
   def report
-    @client_enrollment_trackings = @enrollment.client_enrollment_trackings.enrollment_trackings_by(@tracking)
+    @client_enrollment_trackings = @enrollment.client_enrollment_trackings.enrollment_trackings_by(@tracking).order(created_at: :desc)
   end
 
   private
 
   def client_enrollment_tracking_params
-    # params.require(:client_enrollment_tracking).permit({}).merge(properties: params[:client_enrollment_tracking][:properties], tracking_id: params[:tracking_id])
+    properties_params.values.map{ |v| v.delete('') if (v.is_a?Array) && v.size > 1 }
 
     default_params = params.require(:client_enrollment_tracking).permit({}).merge!(tracking_id: params[:tracking_id])
-    default_params = default_params.merge!(properties: params[:client_enrollment_tracking][:properties]) if properties_params.present?
+    default_params = default_params.merge!(properties: properties_params)
     default_params = default_params.merge!(form_builder_attachments_attributes: params[:client_enrollment_tracking][:form_builder_attachments_attributes]) if action_name == 'create' && attachment_params.present?
     default_params
   end

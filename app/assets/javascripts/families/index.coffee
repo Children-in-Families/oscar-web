@@ -3,6 +3,12 @@ CIF.FamiliesIndex = do ->
     _fixedHeaderTableColumns()
     _handleScrollTable()
     _getFamilyPath()
+    _initSelect2()
+
+  _initSelect2 = ->
+    $('select').select2
+      allowClear: true
+
 
   _fixedHeaderTableColumns = ->
     $('.families-table').removeClass('table-responsive')
