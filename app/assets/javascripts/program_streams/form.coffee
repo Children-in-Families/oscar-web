@@ -21,12 +21,10 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     _handleClickAddTracking()
     _handleShowTracking()
     _handleHideTracking()
-    _toggleNestedTrackingOfTimeOfFrequency()
-    _changeSelectOfFrequency()
-    _changeTimeOfFrequency()
-    _convertFrequency()
     _initSelect2TimeOfFrequency()
-    _handleValidateTimeOfFrequency()
+    _handleRemoveFrequency()
+    _handleSelectFrequency()
+    _initFrequencyNote()
     _editTrackingFormName()
 
   _initCheckbox = ->
@@ -142,12 +140,9 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       _editTrackingFormName()
       _handleRemoveCocoon()
       _initSelect2TimeOfFrequency()
-      _toggleTimeOfFrequency()
-      _changeSelectOfFrequency()
-      _changeTimeOfFrequency()
-      _convertFrequency()
-      _toggleNestedTrackingOfTimeOfFrequency()
-      _handleValidateTimeOfFrequency()
+      _handleRemoveFrequency()
+      _handleSelectFrequency()
+      _initFrequencyNote()
 
   _initProgramBuilder = (element, data) ->
     builderOption = new CIF.CustomFormBuilder()
@@ -219,8 +214,9 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
           name = $('#program_stream_name').val() == ''
           return false if name
         else if currentIndex == 3 and newIndex == 4 and $('#trackings').is(':visible')
+          _initSelect2Tracking()
           return true if $('#trackings').hasClass('hide-tracking-form')
-          return _handleCheckingDuplicateFields() and _handleCheckingValidTrackingFields()
+          return _handleCheckingDuplicateFields() and _handleCheckTrackingName() 
         else if $('#enrollment, #exit-program').is(':visible')
           return _handleCheckingDuplicateFields()
           return false if _handleCheckingDuplicateFields()
@@ -246,11 +242,9 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         next: self.filterTranslation.next
         previous: self.filterTranslation.previous
 
-  _handleCheckingValidTrackingFields = ->
-    errorNameFields = $('.program_stream_trackings_name:visible input[type="text"].error').size()
-    errorfrequencyFields = $('.program_stream_trackings_time_of_frequency:visible input[type="number"].error').size()
-    errorFields = errorNameFields + errorfrequencyFields
-    if errorFields > 0 then false else true
+  _handleCheckTrackingName = ->
+    nameFields = $('.program_stream_trackings_name:visible input[type="text"].error')
+    if $(nameFields).length > 0 then false else true
 
   _handleClickAddTracking = ->
     if $('#trackings .frmb').length == 0
@@ -345,68 +339,55 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
             $(parent).children('div.field-actions').remove()
             $(tracking).find('.ibox-footer').remove()
 
-  _handleValidateTimeOfFrequency = ->
-    element = $('.program_stream_trackings_time_of_frequency')
-    $(element).find('input').on 'blur', ->
-      $(element).find('input').valid()
-      unless $(element).find('input').hasClass('error')
-        $(element).find('label.error').remove()
-        _removeTabErrorClass()
+  _initFrequencyNote = ->
+    for nestedField in $('.nested-fields')
+      select        = $(nestedField).find('.program_stream_trackings_frequency select')
+      timeFrequency = $(nestedField).find('.program_stream_trackings_time_of_frequency input')
+      elementNote   = $(nestedField).find('.frequency-note')
+      frequency     = _convertFrequency($(select).val())
+      value         = parseInt(timeFrequency.val())
+      $(timeFrequency).attr(readonly: true) if frequency == ''
+      _updateFrequencyNote(value, frequency, elementNote) if value > 0
+      _timeOfFrequencyChange(timeFrequency, frequency, elementNote)
 
-  _toggleTimeOfFrequency = (element) ->
-    timeOfFrequency = parseInt($(element).parent().siblings('#time').val())
-    frequency = _convertFrequency($(element).val())
-    if frequency == ''
-      $(element).parent().closest('.col-xs-12').siblings().find('.program_stream_trackings_time_of_frequency input').attr('readonly', 'true')
-        .val(0)
-      $(element).parent().siblings('.frequency-note').addClass('hidden')
-    else
-      if timeOfFrequency == 0
-        timeOfFrequency = 1
-      $(element).parent().closest('.col-xs-12').siblings().find('.program_stream_trackings_time_of_frequency input').removeAttr('readonly')
-        .val(parseInt(timeOfFrequency))
-      frequencyNote = $(element).parent().siblings('.frequency-note')
-      _updateFrequencyNote(frequency, timeOfFrequency, frequencyNote)
+  _handleRemoveFrequency = ->
+    frequencies = $('.program_stream_trackings_frequency select')
+    $(frequencies).on 'select2-removed', (element) ->
+      select          = element.currentTarget
+      nestedField     = $(select).parents('.nested-fields')
+      timeOfFrequency = $(nestedField).find('.program_stream_trackings_time_of_frequency input')
+      $(nestedField).find('.frequency-note i').text('')
+      $(timeOfFrequency).val(0)
+      $(timeOfFrequency).attr(readonly: true)
 
-  _toggleNestedTrackingOfTimeOfFrequency = ->
-    trackings = $('#trackings .nested-fields')
-    for tracking in trackings
-      timeOfFrequency = parseInt($(tracking).find('#time').val())
-      frequency = _convertFrequency($(tracking).find('.program_stream_trackings_frequency select').val())
-      if frequency == ''
-        $(tracking).find('.program_stream_trackings_time_of_frequency input').attr('readonly', 'true')
-          .val(0)
-        $(tracking).find('.frequency-note').addClass('hidden')
-      else
-        if timeOfFrequency == 0
-          timeOfFrequency = 1
-        $(tracking).find('.program_stream_trackings_time_of_frequency input').removeAttr('readonly')
-          .val(parseInt(timeOfFrequency))
-      frequencyNote = $(tracking).find('.frequency-note')
-      _updateFrequencyNote(frequency, timeOfFrequency, frequencyNote)
+  _handleSelectFrequency = ->
+    frequencies = $('.program_stream_trackings_frequency select')
+    $(frequencies).on 'select2-selecting', (element) ->
+      select          = element.currentTarget
+      frequencyNote   = select.parentElement.nextElementSibling
+      frequencyValue  = _convertFrequency(element.val)
 
-  _changeTimeOfFrequency = ->
-    $('.program_stream_trackings_time_of_frequency input').change ->
-      if $(this).val() == ''
-        $(this).val(1)
-      frequencyElement = $(this).parent().closest('.col-xs-12').siblings()
-      frequencyNote = $(frequencyElement).find('.frequency-note')
-      frequency = _convertFrequency($(frequencyElement).find('.program_stream_trackings_frequency select').val())
-      _updateFrequencyNote(frequency, parseInt($(this).val()), frequencyNote)
+      nested = $(select).parents('.nested-fields')
+      timeOfFrequency = $(nested).find('.program_stream_trackings_time_of_frequency input')
+      $(timeOfFrequency).removeAttr('readonly')
+      $(timeOfFrequency).val(1) if $(timeOfFrequency).val() <= 0
+      value = parseInt($(timeOfFrequency).val())
+      _updateFrequencyNote(value, frequencyValue, frequencyNote)
+      _timeOfFrequencyChange(timeOfFrequency, frequencyValue, frequencyNote)
 
-  _updateFrequencyNote = (frequency, timeOfFrequency, frequencyNote) ->
-    if timeOfFrequency <= 0
-      $(frequencyNote).addClass('hidden')
-    else
-      $(frequencyNote).removeClass('hidden')
-      if timeOfFrequency == 1
-        $(frequencyNote).find('span.frequency').text(" #{frequency}.")
-      else
-        $(frequencyNote).find('span.frequency').text(" #{timeOfFrequency} #{frequency}s.")
+  _timeOfFrequencyChange = (timeOfFrequency, frequencyValue, frequencyNote) ->
+    $(timeOfFrequency).on 'change', ->
+      value = parseInt($(@).val())
+      $(@).val(0) if value < 0
+      _updateFrequencyNote(value, frequencyValue, frequencyNote)
 
-  _changeSelectOfFrequency = ->
-    $('.program_stream_trackings_frequency select').change ->
-      _toggleTimeOfFrequency(this)
+  _updateFrequencyNote = (value, frequency, element) ->
+    frequencyNote = 'This needs to be done once every'
+    single = "#{frequencyNote} #{frequency}"
+    plural = "#{frequencyNote} #{value} #{frequency}s"
+    frequencNoteUpdate = if value == 1 then single else if value > 1 then plural
+    $(element).find('i').text('')
+    $(element).find('i').text(frequencNoteUpdate) if value > 0
 
   _convertFrequency = (frequency)->
     switch(frequency)
