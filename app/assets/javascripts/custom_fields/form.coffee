@@ -1,6 +1,8 @@
 CIF.Custom_fieldsNew = CIF.Custom_fieldsCreate = CIF.Custom_fieldsEdit = CIF.Custom_fieldsUpdate =
 CIF.Custom_fieldsShow = do ->
-
+  @customFieldId = $('#custom_field_id').val()
+  FIELDS_URL = "/api/custom_fields/#{customFieldId}/fields"
+  CUSTOM_FIELDS_URL = '/api/custom_fields/fetch_custom_fields'
   _init = ->
     _initFormBuilderWithPrevent()
     _select2()
@@ -9,11 +11,11 @@ CIF.Custom_fieldsShow = do ->
     _valTimeOfFrequency()
     _changeTimeOfFrequency()
     _convertFrequency()
-    _searchCustomFields()
+    _searchCustomFields(CUSTOM_FIELDS_URL)
 
   _initFormBuilderWithPrevent = ->
     _initFormBuilder()
-    _preventRemoveFields()
+    _preventRemoveFields(FIELDS_URL)
 
   _valTimeOfFrequency = ->
     $('#custom_field_time_of_frequency').val()
@@ -69,22 +71,8 @@ CIF.Custom_fieldsShow = do ->
       else
         frequency = ''
 
-  _generateValueForSelectOption = (field) ->
-    $(field).find('input.option-label').on 'keyup change', ->
-      value = $(@).val()
-      $(@).siblings('.option-value').val(value)
-
-  _hideOptionValue = ->
-    $('.option-selected, .option-value').hide()
-
-  _addOptionCallback = (field) ->
-    $('.add-opt').on 'click', ->
-      setTimeout ( ->
-        $(field).find('.option-selected, .option-value').hide()
-        )
-
-
   _initFormBuilder = ->
+    builderOption = new CIF.CustomFormBuilder()
     fields = "#{$('.build-wrap').data('fields')}" || ''
     formBuilder = $('.build-wrap').formBuilder({
       dataType: 'json'
@@ -103,72 +91,13 @@ CIF.Custom_fieldsShow = do ->
       }
 
       typeUserEvents: {
-        'checkbox-group':
-          onadd: (fld) ->
-            $('.other-wrap, .className-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
-            _hideOptionValue()
-            _addOptionCallback(fld)
-            _generateValueForSelectOption(fld)
-            _handleCheckingForm()
-          onclone: (fld) ->
-            setTimeout ( ->
-              _hideOptionValue()
-              _addOptionCallback(fld)
-              _generateValueForSelectOption(fld)
-              _handleCheckingForm()
-              ),50
-
-        date:
-          onadd: (fld) ->
-            $('.className-wrap, .value-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
-            _handleCheckingForm()
-
-        number:
-          onadd: (fld) ->
-            $('.className-wrap, .value-wrap, .step-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
-            _handleCheckingForm()
-
-        'radio-group':
-          onadd: (fld) ->
-            $('.other-wrap, .className-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
-            _hideOptionValue()
-            _addOptionCallback(fld)
-            _generateValueForSelectOption(fld)
-            _handleCheckingForm()
-          onclone: (fld) ->
-            setTimeout ( ->
-              _hideOptionValue()
-              _addOptionCallback(fld)
-              _generateValueForSelectOption(fld)
-              _handleCheckingForm()
-              ),50
-
-        select:
-          onadd: (fld) ->
-            $('.className-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
-            _hideOptionValue()
-            _addOptionCallback(fld)
-            _generateValueForSelectOption(fld)
-            _handleCheckingForm()
-          onclone: (fld) ->
-            setTimeout ( ->
-              _hideOptionValue()
-              _addOptionCallback(fld)
-              _generateValueForSelectOption(fld)
-              _handleCheckingForm()
-              ),50
-
-        text:
-          onadd: (fld) ->
-            $('.fld-subtype ').find('option:contains(color)').remove()
-            $('.fld-subtype ').find('option:contains(tel)').remove()
-            $('.fld-subtype ').find('option:contains(password)').remove()
-            $('.className-wrap, .value-wrap, .access-wrap, .maxlength-wrap, .description-wrap, .name-wrap').hide()
-            _handleCheckingForm()
-        textarea:
-          onadd: (fld) ->
-            $('.rows-wrap, .className-wrap, .value-wrap, .access-wrap, .maxlength-wrap, .description-wrap, .name-wrap').hide()
-            _handleCheckingForm()
+        'checkbox-group': builderOption.eventCheckoutOption()
+        date: builderOption.eventDateOption()
+        number: builderOption.eventNumberOption()
+        'radio-group': builderOption.eventRadioOption()
+        select: builderOption.eventSelectOption()
+        text: builderOption.eventTextFieldOption()
+        textarea: builderOption.eventTextAreaOption()
       }
 
     }).data('formBuilder');
@@ -183,15 +112,15 @@ CIF.Custom_fieldsShow = do ->
       minimumInputLength: 0
       allowClear: true
 
-  _searchCustomFields = ->
+  _searchCustomFields = (url) ->
     custom_fields = ''
-    $.ajax({
+    $.ajax
       type: 'GET'
-      url: '/api/custom_fields/fetch_custom_fields'
+      url: url
       dataType: "JSON"
-    }).success((json)->
-      custom_fields = json.custom_fields
-    )
+      success: (response)->
+        custom_fields = response.custom_fields
+
     $('#custom_field_form_title').keyup ->
       $('#livesearch').css('visibility', 'hidden')
       $('#livesearch').empty()
@@ -210,95 +139,19 @@ CIF.Custom_fieldsShow = do ->
             $('#livesearch').append("<li><span class='col-xs-8'>#{custom_field.form_title} (#{custom_field.ngo_name})</span>
             <span class='col-xs-4 text-right'><a href=#{preview_link}>#{previewTranslation}</a></span></li>")
 
-  _preventRemoveFields = ->
-    fields = ''
-    customFieldId = $('#custom_field_id').val()
-    return if customFieldId == ''
-    $.ajax({
-      type: 'GET'
-      url: "/api/custom_fields/#{customFieldId}/fields"
+  _preventRemoveFields = (url) ->
+    return if @customFieldId == ''
+    $.ajax
+      method: 'GET'
+      url: url
       dataType: "JSON"
-    }).success((json)->
-      fields = json.custom_fields
-      labelFields = $('label.field-label')
-      for labelField in labelFields
-        parent = $(labelField).parent()
-        for field in fields
-          if labelField.textContent == field
-            $(parent).children('div.field-actions').remove()
-    )
-
-  _handleCheckingForm = ->
-    _handleDisplayDuplicateWarning()
-    _handleDeleteField()
-    _handleEditLabelName()
-
-  _handleDisplayDuplicateWarning = ->
-    duplicateLabels = false
-    labelFields = $('label.field-label')
-    $(labelFields).each (index, label) ->
-      displayText = $(label).text()
-      $(labelFields).each (cIndex, cLabel) ->
-        return if cIndex == index
-        cText = $(cLabel).text()
-        if cText == displayText
-          _addDuplicateWarning(label)
-
-  _handleDeleteField = ->
-    $('.field-actions a.del-button').on 'click', ->
-      removedField = {}
-      removedField = $(@).parents().children('label.field-label')
-      labelFields = $(@).parents('.form-wrap').find('label.field-label')
-
-      counts = _countDuplicateLabel(labelFields)
-      $.each counts, (labelText, numberOfField) ->
-        if numberOfField == 2
-          $(labelFields).each (index, label) ->
-            if label.textContent == removedField.text()
-              _removeDuplicateWarning(label)
-
-  _handleEditLabelName = ->
-    $(".form-wrap:visible .input-wrap input[name='label']").on 'blur', ->
-      labelFields = $(@).parents('.form-wrap').find('label.field-label')
-
-      counts = _countDuplicateLabel(labelFields)
-      $.each counts, (labelText, numberOfField) ->
-        $(labelFields).each (index, label) ->
-          if (numberOfField == 1) && (label.textContent == labelText)
-            _removeDuplicateWarning(label)
-
-          else if (numberOfField > 1) && (label.textContent == labelText)
-            _addDuplicateWarning(label)
-
-  _countDuplicateLabel = (element) ->
-    labels = []
-
-    $(element).each (index, label) ->
-      if $(label).val() != ''
-        labels.push $(label).val()
-      else
-        labels.push $(label).text()
-
-    counts = {}
-    labels.forEach (x) ->
-      counts[x] = (counts[x] or 0) + 1
-
-    counts
-
-  _addDuplicateWarning = (element) ->
-    parentElement = $(element).parents('li.form-field')
-    $(parentElement).addClass('has-error')
-    $(parentElement).find('input, textarea, select').addClass('error')
-    unless $(parentElement).find('label.error').is(':visible')
-      $(parentElement).append('<label class="error">Field labels must be unique, please click the edit icon to set a unique field label</label>')
-      $('#custom-field-submit').attr('disabled', 'true')
-
-  _removeDuplicateWarning = (element) ->
-    parentElement = $(element).parents('li.form-field')
-    $(parentElement).removeClass('has-error')
-    $(parentElement).find('input, textarea, select').removeClass('error')
-    $(parentElement).find('label.error:last-child').remove()
-    if $('.form-field.has-error').length == 0
-      $('#custom-field-submit').removeAttr('disabled')
+      success: (response) ->
+        fields = response.custom_fields
+        labelFields = $('label.field-label')
+        for labelField in labelFields
+          parent = $(labelField).parent()
+          for field in fields
+            if labelField.textContent == field
+              $(parent).children('div.field-actions').remove()
 
   { init: _init }
