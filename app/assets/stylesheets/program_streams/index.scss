@@ -11,6 +11,10 @@ body[id='program_streams-index'] {
     min-width: 160px;
   }
 
+  th.status, td,status {
+    min-width: 110px;
+  }
+
   th.name {
     min-width: 200px;
   }
@@ -38,5 +42,9 @@ body[id='program_streams-index'] {
 
   th.quantity {
     min-width: 261px;
+  }
+
+  .dataTables_scrollBody {
+    top: -22px;
   }
 }
