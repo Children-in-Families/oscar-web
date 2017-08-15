@@ -27,6 +27,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     _convertFrequency()
     _initSelect2TimeOfFrequency()
     _handleValidateTimeOfFrequency()
+    _editTrackingFormName()
 
   _initCheckbox = ->
     $('.i-checks').iCheck
@@ -172,10 +173,11 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     }).data('formBuilder');
    
    _editTrackingFormName = ->
-    $(".program_stream_trackings_name input[type='text']").on 'blur', ->
+    inputNames = $(".program_stream_trackings_name input[type='text']")
+    $(inputNames).on 'change', ->
       _checkDuplicateTrackingName()
 
-  _checkDuplicateTrackingName = (element)->
+  _checkDuplicateTrackingName = ->
     nameFields = $('.program_stream_trackings_name:visible input[type="text"]')
     values    = $(nameFields).map(-> $(@).val().trim()).get()
     
@@ -218,7 +220,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
           return false if name
         else if currentIndex == 3 and newIndex == 4 and $('#trackings').is(':visible')
           return true if $('#trackings').hasClass('hide-tracking-form')
-          return _handleCheckingDuplicateFields() and _handleCheckTrackingName() 
+          return _handleCheckingDuplicateFields() and _handleCheckingValidTrackingFields()
         else if $('#enrollment, #exit-program').is(':visible')
           return _handleCheckingDuplicateFields()
           return false if _handleCheckingDuplicateFields()
@@ -244,9 +246,11 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         next: self.filterTranslation.next
         previous: self.filterTranslation.previous
 
-  _handleCheckTrackingName = ->
-    nameFields = $('.program_stream_trackings_name:visible input[type="text"].error')
-    if $(nameFields).length > 0 then false else true
+  _handleCheckingValidTrackingFields = ->
+    errorNameFields = $('.program_stream_trackings_name:visible input[type="text"].error').size()
+    errorfrequencyFields = $('.program_stream_trackings_time_of_frequency:visible input[type="number"].error').size()
+    errorFields = errorNameFields + errorfrequencyFields
+    if errorFields > 0 then false else true
 
   _handleClickAddTracking = ->
     if $('#trackings .frmb').length == 0
