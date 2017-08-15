@@ -103,7 +103,7 @@ describe ClientEnrollmentTracking, 'Client Enrollment Tracking' do
 
   feature 'Show' do
     before do
-      visit client_client_enrollment_client_enrollment_tracking_path(client, client_enrollment, client_enrollment_tracking)
+      visit client_client_enrollment_client_enrollment_tracking_path(client, client_enrollment, client_enrollment_tracking, tracking_id: tracking.id)
     end
 
     scenario 'Age' do

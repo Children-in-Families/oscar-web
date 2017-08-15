@@ -13,7 +13,7 @@
         - @client_enrollment_trackings.each_slice(2) do |n_enrollment_trackings|
           .row
             - n_enrollment_trackings.each do |enrollment_tracking|
-              .col-xs-12.col-md-6
+              .col-xs-12
                 .ibox.border-left-right.border-bottom
                   .ibox-title
                     %h5= t('.created_at')
@@ -31,9 +31,12 @@
                   .ibox-content
                     .table-responsive
                       %table.table.table-bordered
-                        - tracking_report(enrollment_tracking).map{|field| field['label']}.each do |key|
+                        - tracking_report(enrollment_tracking).map{|field| [field['type'], field['label']]}.each do |type, key|
                           %tr
                             %td.align-justify
                               = key
                             %td.align-justify
+                              - if type == 'file'
+                                = render 'shared/form_builder/list_attachment', label: key, resource: enrollment_tracking
+                              - else
                               = display_custom_properties(enrollment_tracking.properties[key])

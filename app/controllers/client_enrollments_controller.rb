@@ -1,9 +1,12 @@
 class ClientEnrollmentsController < AdminController
   load_and_authorize_resource
 
+  include FormBuilderAttachments
+
   before_action :find_client
   before_action :find_program_stream, except: :index
-  before_action :find_client_enrollment, only: [:show, :edit, :update]
+  before_action :find_client_enrollment, only: [:show, :edit, :update, :destroy]
+  before_action :get_attachments, only: [:new, :edit, :update, :create]
 
   def index
     program_streams = ProgramStreamDecorator.decorate_collection(ordered_program)
@@ -29,6 +32,7 @@ class ClientEnrollmentsController < AdminController
 
   def update
     if @client_enrollment.update_attributes(client_enrollment_params)
+      add_more_attachments(@client_enrollment)
       redirect_to client_client_enrollment_path(@client, @client_enrollment, program_stream_id: @program_stream, program_streams: 'enrolled-program-streams'), notice: t('.successfully_updated')
     else
       render :edit
@@ -49,8 +53,15 @@ class ClientEnrollmentsController < AdminController
   end
 
   def destroy
-    @client_enrollment.destroy
-    redirect_to report_client_client_enrollments_path(@client, program_stream_id: @program_stream, program_streams: params[:program_streams]), notice: t('.successfully_deleted')
+    name = params[:file_name]
+    index = params[:file_index].to_i
+    params_program_streams = params[:program_streams]
+    if name.present? && index.present?
+      delete_form_builder_attachment(@client_enrollment, name, index)
+    end
+    redirect_to request.referer, notice: t('.delete_attachment_successfully')
+    # @client_enrollment.destroy
+    # redirect_to report_client_client_enrollments_path(@client, program_stream_id: @program_stream, program_streams: params[:program_streams]), notice: t('.successfully_deleted')
   end
 
   def report
@@ -60,8 +71,12 @@ class ClientEnrollmentsController < AdminController
   private
 
   def client_enrollment_params
-    params[:client_enrollment][:properties].values.map{|v| v.delete('')}
-    params.require(:client_enrollment).permit(:enrollment_date, {}).merge(properties: params[:client_enrollment][:properties], program_stream_id: params[:program_stream_id])
+    properties_params.values.map{ |v| v.delete('') if (v.is_a?Array) && v.size > 1 }
+
+    default_params = params.require(:client_enrollment).permit(:enrollment_date).merge!(program_stream_id: params[:program_stream_id])
+    default_params = default_params.merge!(properties: properties_params)
+    default_params = default_params.merge!(form_builder_attachments_attributes: params[:client_enrollment][:form_builder_attachments_attributes]) if action_name == 'create' && attachment_params.present?
+    default_params
   end
 
   def client_enrollment_index_path
@@ -70,6 +85,10 @@ class ClientEnrollmentsController < AdminController
 
   def find_client_enrollment
     @client_enrollment = @client.client_enrollments.find(params[:id])
+  end
+
+  def get_attachments
+    @attachments = @client_enrollment.form_builder_attachments
   end
 
   def find_client

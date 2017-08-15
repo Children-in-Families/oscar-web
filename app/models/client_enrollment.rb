@@ -3,10 +3,12 @@ class ClientEnrollment < ActiveRecord::Base
   belongs_to :program_stream
 
   has_many :client_enrollment_trackings, dependent: :destroy
+  has_many :form_builder_attachments, as: :form_buildable, dependent: :destroy
   has_many :trackings, through: :client_enrollment_trackings
   has_one :leave_program, dependent: :destroy
 
   validates :enrollment_date, presence: true
+  accepts_nested_attributes_for :form_builder_attachments, reject_if: proc { |attributes| attributes['name'].blank? &&  attributes['file'].blank? }
 
   has_paper_trail
 
@@ -31,6 +33,10 @@ class ClientEnrollment < ActiveRecord::Base
     client = Client.find self.client_id
     client_status = 'Active' unless client.cases.exclude_referred.currents.present?
     client.update_attributes(status: client_status) if client_status.present?
+  end
+
+  def get_form_builder_attachment(value)
+    form_builder_attachments.find_by(name: value)
   end
 
   def reset_client_status

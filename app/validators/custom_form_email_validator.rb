@@ -7,7 +7,7 @@ class CustomFormEmailValidator < ActiveModel::Validator
   end
 
   def validate
-    return unless @record.properties
+    return unless @record.properties.present?
     @record.send(@table_name).send(@field).each do |field|
       next if field['subtype'] != 'email'
       unless @record.properties[field['label']] =~ /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i

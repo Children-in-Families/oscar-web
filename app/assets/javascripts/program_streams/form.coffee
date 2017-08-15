@@ -155,7 +155,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     @formBuilder.push $(element).formBuilder({
       dataType: 'json'
       formData: data
-      disableFields: ['autocomplete', 'header', 'hidden', 'paragraph', 'button', 'file','checkbox']
+      disableFields: ['autocomplete', 'header', 'hidden', 'paragraph', 'button','checkbox']
       showActionButtons: false
       messages: {
         cannotBeEmpty: 'name_separated_with_underscore'
