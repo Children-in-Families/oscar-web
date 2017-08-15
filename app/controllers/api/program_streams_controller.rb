@@ -12,7 +12,7 @@ module Api
       program_stream.trackings.each do |tracking|
         properties.store(tracking.name,tracking.client_enrollment_trackings.pluck(:properties).select(&:present?).map(&:keys).flatten.uniq)
       end
-      render json: properties
+      render json: properties.merge(field: 'tracking')
     end
 
     def exit_program_fields
