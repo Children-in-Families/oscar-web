@@ -26,7 +26,7 @@ describe LeaveProgram, 'Leave Program' do
 
         click_button 'Save'
       end
-      expect(page).to have_content('Client has successfully exited from the program')
+      expect(page).to have_content('Client has been successfully exited from the program.')
     end
 
     scenario 'Invalid' do
@@ -76,7 +76,7 @@ describe LeaveProgram, 'Leave Program' do
       find('#exit_date').set(FFaker::Time.date)
       find('#leave_program_properties_description').set('this is editing')
       find('input[type="submit"]').click
-      expect(page).to have_content('Exit Program has successfully updated')
+      expect(page).to have_content('Exit Program has been successfully updated.')
     end
 
     scenario 'fail' do

@@ -109,7 +109,7 @@ describe 'Client Enrollment' do
 
         click_button 'Save'
       end
-      expect(page).to have_content('Enrollment has been successfully created')
+      expect(page).to have_content('Enrollment has been successfully created.')
     end
 
     scenario 'Invalid' do
@@ -188,7 +188,7 @@ describe 'Client Enrollment' do
     scenario 'success' do
       find('input[type="text"]:last-child').set('this is editing')
       find('input[type="submit"]').click
-      expect(page).to have_content('Enrollment has been successfully updated')
+      expect(page).to have_content('Enrollment has been successfully updated.')
     end
 
     scenario 'fail' do
