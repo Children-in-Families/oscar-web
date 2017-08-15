@@ -707,7 +707,7 @@ km:
       cancel: ទុកជាមោឃៈ
       save: រក្សាទុក
     index:
-      programs_list: តារាងកម្មវិធី
+      programs_list: តារាងកម្មវិធីបន្ទាប់បន្សំ
       tracking_lists: តារាងការតាមដាន
     new:
       new_tracking: បន្ថែមការតាមដានថ្មី
@@ -767,7 +767,7 @@ km:
       enrollment_date: កាលបរិច្ឆេទចុះឈ្មោះ
     update:
       successfully_updated: ការចុះឈ្មោះត្រូវបានកែសម្រួលដោយជោគជ័យ
-  client_enrolled_program_leave_programs:
+  leave_enrolled_programs:
     create:
       successfully_created: អតិថិជនត្រូវបានចាកចេញពីកម្មវិធីដោយជោគជ័យ
     edit:
@@ -777,7 +777,7 @@ km:
       exit_date: ថ្ងៃចាកចេញ
       save: រក្សាទុក
     new:
-      new_exit_program: ការចាកចេញពីកម្មវិធីថ្មី
+      new_exit_program: ការចាកចេញពីកម្មវិធី
     show:
       back: ត្រលប់ក្រោយ
       exit_date: ថ្ងៃចាកចេញ
@@ -796,7 +796,7 @@ km:
       cancel: ទុកជាមោឃៈ
       save: រក្សាទុក
     index:
-      programs_list: តារាងកម្មវិធី
+      programs_list: តារាងកម្មវិធីបន្ទាប់បន្សំ
       tracking_lists: តារាងការតាមដាន
     new:
       new_tracking: បន្ថែមការតាមដានថ្មី
@@ -820,7 +820,6 @@ km:
     form:
       cancel: ទុកជាមោឃៈ
       enrollment_date: ថ្ងៃចុះឈ្មោះ
-      not_an_email: មិនមែនជាឣុីម៉ែល
       save: រក្សាទុក
     index:
       actions: សកម្មភាព
@@ -838,7 +837,7 @@ km:
       full_program: កម្មវិធីនេះពេញ
       tracking: តាមដាន
     new:
-      client_not_valid: អតិថិជនមិនអាចចូលរូមកម្មវិធីនេះ
+      client_not_valid: អតិថិជនមិនអាចចូលរូមកម្មវិធីនេះទេ
       new_enrollment: ការចុះឈ្មោះថ្មី
     report:
       actions: សកម្មភាព
@@ -866,7 +865,6 @@ km:
     form:
       cancel: ទុកជាមោឃៈ
       enrollment_date: ថ្ងៃចុះឈ្មោះ
-      not_an_email: មិនមែនជាឣុីម៉ែល
       save: រក្សាទុក
     index:
       actions: សកម្មភាព
@@ -884,7 +882,6 @@ km:
       full_program: កម្មវិធីនេះពេញ
       tracking: តាមដាន
     new:
-      client_not_valid: អតិថិជនមិនអាចចូលរូមកម្មវិធីនេះ
       new_enrollment: ការចុះឈ្មោះថ្មី
     report:
       actions: សកម្មភាព

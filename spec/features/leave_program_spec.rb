@@ -45,7 +45,7 @@ describe LeaveProgram, 'Leave Program' do
     let!(:leave_program) { create(:leave_program, client_enrollment: client_enrollment, program_stream: program_stream) }
 
     before do
-      visit client_client_enrolled_program_client_enrolled_program_leave_program_path(client, client_enrollment, leave_program)
+      visit client_client_enrolled_program_leave_enrolled_program_path(client, client_enrollment, leave_program)
     end
 
     scenario 'Age' do
@@ -69,7 +69,7 @@ describe LeaveProgram, 'Leave Program' do
     let!(:leave_program) { create(:leave_program, client_enrollment: client_enrollment, program_stream: program_stream) }
 
     before do
-      visit edit_client_client_enrolled_program_client_enrolled_program_leave_program_path(client, client_enrollment, leave_program, program_stream_id: program_stream.id)
+      visit edit_client_client_enrolled_program_leave_enrolled_program_path(client, client_enrollment, leave_program, program_stream_id: program_stream.id)
     end
 
     scenario 'success' do

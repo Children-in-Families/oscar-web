@@ -2,8 +2,7 @@
   .col-xs-12
     .ibox
       .ibox-title
-        - exit_date = "#{t('.exit_date')} #{ @leave_program.exit_date? ? date_format(@leave_program.exit_date) : date_format(@leave_program.created_at) }"
-        %h5= "#{@client.en_and_local_name} - #{exit_date}"
+        %h5= "#{@client.en_and_local_name} - #{t('.exit_date')} #{date_format(@leave_program.exit_date)}"
         .ibox-tools
           - if can? :manage, LeaveProgram
             = link_to edit_client_client_enrollment_leave_program_path(@client, @enrollment, @leave_program, program_stream_id: @program_stream) do

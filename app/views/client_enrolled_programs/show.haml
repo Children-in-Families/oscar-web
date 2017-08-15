@@ -2,7 +2,7 @@
   .col-xs-12
     .ibox
       .ibox-title
-        %h5= "#{t('.enrollment_date')} #{ @client_enrollment.enrollment_date? ? date_format(@client_enrollment.enrollment_date) : date_format(@client_enrollment.created_at) }"
+        %h5= "#{t('.enrollment_date')} #{date_format(@client_enrollment.enrollment_date)}"
         .ibox-tools
           - if can? :manage, ClientEnrollment
             = link_to edit_client_client_enrolled_program_path(@client, @client_enrollment, program_stream_id: @program_stream) do

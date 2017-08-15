@@ -125,7 +125,7 @@ Rails.application.routes.draw do
       resources :client_enrolled_program_trackings do
         get :report, on: :collection
       end
-      resources :client_enrolled_program_leave_programs
+      resources :leave_enrolled_programs
     end
 
     resources :custom_field_properties

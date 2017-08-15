@@ -713,9 +713,9 @@ en:
       trackings_list: Client Trackings List
     update:
       successfully_updated: Tracking Program has been successfully updated.
-  client_enrolled_program_leave_programs:
+  leave_enrolled_programs:
     create:
-      successfully_created: Client has successfully exited from the program.
+      successfully_created: Client has been successfully exited from the program.
     edit:
       leave_program: Edit Leave Program
     form:
@@ -728,7 +728,7 @@ en:
       back: Back
       exit_date: Exit Date
     update:
-      successfully_updated: Exit Program has successfully updated.
+      successfully_updated: Exit Program has been successfully updated.
   client_enrolled_program_trackings:
     action:
       new_tracking: New Tracking
@@ -766,7 +766,6 @@ en:
     form:
       cancel: Cancel
       enrollment_date: Enrollment Date
-      not_an_email: not an email
       save: Save
     index:
       actions: Actions
@@ -781,7 +780,7 @@ en:
     manage:
       enroll: Enroll
       exit: Exit
-      full_program: This Program is full
+      full_program: This Program is full.
       tracking: Trackings
     new:
       client_not_valid: Client doesn't match with this program rules.
@@ -2598,7 +2597,7 @@ en:
       log_out: Log out
   leave_programs:
     create:
-      successfully_created: Client has successfully exited from the program.
+      successfully_created: Client has been successfully exited from the program.
     edit:
       leave_program: Edit Leave Program
     form:
@@ -2611,7 +2610,7 @@ en:
       back: Back
       exit_date: Exited on
     update:
-      successfully_updated: Exit Program has successfully updated.
+      successfully_updated: Exit Program has been successfully updated.
   locations:
     create:
       failed_create: Failed to create a location.
