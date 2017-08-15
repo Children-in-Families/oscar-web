@@ -2,6 +2,7 @@ class ClientEnrolledProgramTrackingsController < AdminController
   load_and_authorize_resource :ClientEnrollmentTracking
 
   include ClientEnrollmentTrackingsConcern
+  include FormBuilderAttachments
 
   def index
     @tracking_grid = ClientEnrolledProgramTrackingGrid.new(params[:tracking_grid])
@@ -10,6 +11,7 @@ class ClientEnrolledProgramTrackingsController < AdminController
 
   def new
     @client_enrollment_tracking = @enrollment.client_enrollment_trackings.new
+    @attachment        = @client_enrollment_tracking.form_builder_attachments.build
     authorize @client_enrollment_tracking
   end
 
@@ -28,12 +30,10 @@ class ClientEnrolledProgramTrackingsController < AdminController
     authorize @client_enrollment_tracking
   end
 
-  def show
-  end
-
   def update
     authorize @client_enrollment_tracking
     if @client_enrollment_tracking.update_attributes(client_enrollment_tracking_params)
+      add_more_attachments(@client_enrollment_tracking)
       redirect_to report_client_client_enrolled_program_client_enrolled_program_trackings_path(@client, @enrollment, tracking_id: @tracking.id), notice: t('.successfully_updated')
     else
       render :edit
@@ -41,8 +41,17 @@ class ClientEnrolledProgramTrackingsController < AdminController
   end
 
   def destroy
-    @client_enrollment_tracking.destroy
-    redirect_to report_client_client_enrolled_program_client_enrolled_program_trackings_path(@client, @enrollment, tracking_id: @tracking.id), notice: t('.successfully_deleted')
+    name = params[:file_name]
+    index = params[:file_index].to_i
+    params_program_streams = params[:program_streams]
+    notice = ""
+    if name.present? && index.present?
+      delete_form_builder_attachment(@client_enrollment_tracking, name, index)
+      redirect_to request.referer, notice: t('.delete_attachment_successfully')
+    else
+      @client_enrollment_tracking.destroy
+      redirect_to report_client_client_enrolled_program_client_enrolled_program_trackings_path(@client, @enrollment, tracking_id: @tracking.id), notice: t('.successfully_deleted')
+    end
   end
 
   def report

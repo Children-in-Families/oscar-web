@@ -2,6 +2,7 @@ class ClientEnrollmentsController < AdminController
   load_and_authorize_resource
 
   include ClientEnrollmentConcern
+  include FormBuilderAttachments
 
   def index
     program_streams = ProgramStreamDecorator.decorate_collection(ordered_program)
@@ -20,6 +21,7 @@ class ClientEnrollmentsController < AdminController
     end
 
     @client_enrollment = @client.client_enrollments.new(program_stream_id: @program_stream)
+    @attachment        = @client_enrollment.form_builder_attachments.build
   end
 
   def edit
@@ -27,6 +29,7 @@ class ClientEnrollmentsController < AdminController
 
   def update
     if @client_enrollment.update_attributes(client_enrollment_params)
+      add_more_attachments(@client_enrollment)
       redirect_to client_client_enrollment_path(@client, @client_enrollment, program_stream_id: @program_stream), notice: t('.successfully_updated')
     else
       render :edit
@@ -47,8 +50,16 @@ class ClientEnrollmentsController < AdminController
   end
 
   def destroy
-    @client_enrollment.destroy
-    redirect_to report_client_client_enrollments_path(@client, program_stream_id: @program_stream), notice: t('.successfully_deleted')
+    name = params[:file_name]
+    index = params[:file_index].to_i
+    params_program_streams = params[:program_streams]
+    if name.present? && index.present?
+      delete_form_builder_attachment(@client_enrollment, name, index)
+      redirect_to request.referer, notice: t('.delete_attachment_successfully')
+    else
+      @client_enrollment.destroy
+      redirect_to report_client_client_enrollments_path(@client, program_stream_id: @program_stream), notice: t('.successfully_deleted')      
+    end
   end
 
   def report

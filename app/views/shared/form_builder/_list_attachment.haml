@@ -1,0 +1,14 @@
+- attachment_by_label = resource.get_form_builder_attachment(label)
+- return unless attachment_by_label.present?
+.table-responsive
+  %table.table.table-bordered.table-hover.attachment-table
+    %tbody.uplod-file
+      - attachment_by_label.file.each_with_index do |attachment, index|
+        %tr.row-file
+          %td.image-title.vert-align
+            = original_filename(attachment)
+          %td.vert-align.preview.text-center
+            = link_to preview_or_download(attachment), attachment.url, target: target_blank(attachment), class: 'btn btn-info btn-sm btn-download'
+          - if action_name == 'show' || action_name == 'report'
+            %td.vert-align.text-center.action
+              = form_buildable_path(resource, index, label, params['program_streams'])

@@ -4,11 +4,7 @@ module Api
       before_action :find_client, except: [:index, :create]
 
       def index
-        clients = if params[:max_result].present?
-                    Client.accessible_by(current_ability).take(params[:max_result].to_i)
-                  else
-                    Client.accessible_by(current_ability)
-                  end
+        clients = current_user.clients
         render json: clients
       end
 

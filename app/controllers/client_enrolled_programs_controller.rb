@@ -2,24 +2,25 @@ class ClientEnrolledProgramsController < AdminController
   load_and_authorize_resource :ClientEnrollment
 
   include ClientEnrollmentConcern
+  include FormBuilderAttachments
 
   def index
     program_streams = ProgramStreamDecorator.decorate_collection(ordered_program)
     @program_streams = Kaminari.paginate_array(program_streams).page(params[:page]).per(20)
   end
 
-  def new
-    if @program_stream.rules.present?
-      if @program_stream.program_exclusive.any? || @program_stream.mutual_dependence.any?
-        redirect_to client_client_enrolled_programs_path(@client), alert: t('.client_not_valid') unless valid_client? && valid_program?
-      else
-        redirect_to client_client_enrolled_programs_path(@client), alert: t('.client_not_valid') unless valid_client?
-      end
-    elsif @program_stream.mutual_dependence.any? || @program_stream.program_exclusive.any?
-      redirect_to client_client_enrolled_programs_path(@client), alert: t('.client_not_valid') unless valid_program?
-    end
-    @client_enrollment = @client.client_enrollments.new(program_stream_id: @program_stream)
-  end
+  # def new
+  #   if @program_stream.rules.present?
+  #     if @program_stream.program_exclusive.any? || @program_stream.mutual_dependence.any?
+  #       redirect_to client_client_enrolled_programs_path(@client), alert: t('.client_not_valid') unless valid_client? && valid_program?
+  #     else
+  #       redirect_to client_client_enrolled_programs_path(@client), alert: t('.client_not_valid') unless valid_client?
+  #     end
+  #   elsif @program_stream.mutual_dependence.any? || @program_stream.program_exclusive.any?
+  #     redirect_to client_client_enrolled_programs_path(@client), alert: t('.client_not_valid') unless valid_program?
+  #   end
+  #   @client_enrollment = @client.client_enrollments.new(program_stream_id: @program_stream)
+  # end
 
   def edit
   end
@@ -35,15 +36,15 @@ class ClientEnrolledProgramsController < AdminController
   def show
   end
 
-  def create
-    @client_enrollment = @client.client_enrollments.new(client_enrollment_params)
-    authorize @client_enrollment
-    if @client_enrollment.save
-      redirect_to client_client_enrolled_program_path(@client, @client_enrollment, program_stream_id: @program_stream), notice: t('.successfully_created')
-    else
-      render :new
-    end
-  end
+  # def create
+  #   @client_enrollment = @client.client_enrollments.new(client_enrollment_params)
+  #   authorize @client_enrollment
+  #   if @client_enrollment.save
+  #     redirect_to client_client_enrolled_program_path(@client, @client_enrollment, program_stream_id: @program_stream), notice: t('.successfully_created')
+  #   else
+  #     render :new
+  #   end
+  # end
 
   def destroy
     @client_enrollment.destroy
