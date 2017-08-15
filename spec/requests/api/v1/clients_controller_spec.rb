@@ -14,42 +14,6 @@ RSpec.describe Api::V1::ClientsController, type: :request do
         expect(response).to have_http_status(:unauthorized)
       end
     end
-
-    context 'when user loged in' do
-      before do
-        sign_in(user)
-      end
-
-      context 'when max result is set' do
-        before do
-          get '/api/v1/clients?max_result=3', @auth_headers
-        end
-
-        it 'should return status 200' do
-          expect(response).to have_http_status(:success)
-        end
-
-        it 'should returns the clients with the correct data' do
-          expect(json['clients'].size).to eq 3
-          expect(json['clients'].map { |client| client['case_workers'].sort_by{|a| a['id'] }[0]['email'] }).to include(user.email)
-        end
-      end
-
-      context 'when max result is not set' do
-        before do
-          get '/api/v1/clients', @auth_headers
-        end
-
-        it 'should return status 200' do
-          expect(response).to have_http_status(:success)
-        end
-
-        it 'should returns the clients with the correct data' do
-          expect(json['clients'].size).to eq 5
-          expect(json['clients'].map { |client| client['case_workers'].sort_by{|a| a['id'] }[0]['email'] }).to include(user.email)
-        end
-      end
-    end
   end
 
   describe 'GET #show' do
