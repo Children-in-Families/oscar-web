@@ -31,9 +31,14 @@ module ClientGridOptions
         elsif fields.first == 'enrollment'
           enrollment_properties = client.client_enrollments.properties_by(fields.last)
           enrollment_properties.map{ |properties| format_properties_value(properties) }.join("\n")
-        # elsif fields.first == 'tracking'
-        # elsif fields.first == 'exitprogram'
-              
+        elsif fields.first == 'tracking'
+          ids = client.client_enrollments.ids
+          enrollment_tracking_properties = ClientEnrollmentTracking.where(client_enrollment_id: ids).properties_by(fields.last)
+          enrollment_tracking_properties.map{ |properties| format_properties_value(properties) }.join("\n")
+        elsif fields.first == 'exitprogram'
+          ids = client.client_enrollments.inactive.ids
+          leave_program_properties = LeaveProgram.where(client_enrollment_id: ids).properties_by(fields.last)
+          leave_program_properties.map{ |properties| format_properties_value(properties) }.join("\n")
         end
       end
     end

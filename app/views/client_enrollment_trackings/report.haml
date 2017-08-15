@@ -2,9 +2,9 @@
   .col-xs-12
     .ibox
       .ibox-title
-        %h5= @tracking.name
+        %h5= "#{@client.en_and_local_name} - #{@tracking.name} - #{@program_stream.name}"
         .ibox-tools
-          - if (policy(@enrollment).update?) && (can? :manage, ClientEnrollmentTracking)
+          - if (can? :manage, ClientEnrollmentTracking) && !@enrollment.program_stream.tracking_required?
             = link_to new_client_client_enrollment_client_enrollment_tracking_path(@client, @enrollment, tracking_id: @tracking, program_streams: params[:program_streams]) do
               .btn.btn-primary.btn-outline= t('.new_tracking')
           = link_to client_client_enrollment_client_enrollment_trackings_path(@client, @enrollment, tracking_id: @tracking.id, program_streams: params[:program_streams]) do
@@ -13,7 +13,7 @@
         - @client_enrollment_trackings.each_slice(2) do |n_enrollment_trackings|
           .row
             - n_enrollment_trackings.each do |enrollment_tracking|
-              .col-xs-12.col-md-6
+              .col-xs-12
                 .ibox.border-left-right.border-bottom
                   .ibox-title
                     %h5= t('.created_at')
@@ -31,9 +31,12 @@
                   .ibox-content
                     .table-responsive
                       %table.table.table-bordered
-                        - enrollment_tracking.properties.each do |key, value|
+                        - tracking_report(enrollment_tracking).map{|field| [field['type'], field['label']]}.each do |type, key|
                           %tr
                             %td.align-justify
-                              = key.titleize
+                              = key
                             %td.align-justify
-                              = display_custom_properties(value)
+                              - if type == 'file'
+                                = render 'shared/form_builder/list_attachment', label: key, resource: enrollment_tracking
+                              - else
+                              = display_custom_properties(enrollment_tracking.properties[key])

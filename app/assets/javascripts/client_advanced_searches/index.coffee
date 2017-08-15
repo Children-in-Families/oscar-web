@@ -55,7 +55,7 @@ CIF.Client_advanced_searchesIndex = do ->
 
   _initSelect2 = ->
     $('#custom-form-select, #program-stream-select, #quantitative-case-select').select2()
-    $('.rule-filter-container select').select2(width: '320px')
+    $('.rule-filter-container select').select2(width: '250px')
     $('.rule-operator-container select, .rule-value-container select').select2(width: 'resolve')
 
   _setValueToBuilderSelected = ->
@@ -312,9 +312,7 @@ CIF.Client_advanced_searchesIndex = do ->
         if $(label).last()[0].trim() == resourcelabel and label[0].trim() == resourceName
           container = $(select).parents('.rule-container')
           $(container).find('select').select2('destroy')
-          setTimeout ( ->
-            $(container).find('.rule-header button').trigger('click')
-            )
+          $(container).find('.rule-header button').trigger('click')
 
     setTimeout ( ->
       if $('.rule-container .rule-filter-container select').length == 0

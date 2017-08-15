@@ -1,9 +1,12 @@
 class ClientEnrollmentTrackingsController < AdminController
   load_and_authorize_resource
 
+  include FormBuilderAttachments
+
   before_action :find_client, :find_enrollment, :find_program_stream
-  before_action :find_tracking, except: [:index, :show]
-  before_action :find_client_enrollment_tracking, only: [:show, :update, :destroy]
+  before_action :find_tracking, except: [:index]
+  before_action :find_client_enrollment_tracking, only: [:edit, :show, :update, :destroy]
+  before_action :get_attachments, only: [:new, :create, :edit, :update]
 
   def index
     @tracking_grid = TrackingGrid.new(params[:tracking_grid])
@@ -36,6 +39,7 @@ class ClientEnrollmentTrackingsController < AdminController
   def update
     authorize @client_enrollment_tracking
     if @client_enrollment_tracking.update_attributes(client_enrollment_tracking_params)
+      add_more_attachments(@client_enrollment_tracking)
       redirect_to report_client_client_enrollment_client_enrollment_trackings_path(@client, @enrollment, tracking_id: @tracking.id, program_streams: 'enrolled-program-streams'), notice: t('.successfully_updated')
     else
       render :edit
@@ -43,18 +47,33 @@ class ClientEnrollmentTrackingsController < AdminController
   end
 
   def destroy
-    @client_enrollment_tracking.destroy
-    redirect_to report_client_client_enrollment_client_enrollment_trackings_path(@client, @enrollment, tracking_id: @tracking.id), notice: t('.successfully_deleted')
+    name = params[:file_name]
+    index = params[:file_index].to_i
+    params_program_streams = params[:program_streams]
+    notice = ""
+    if name.present? && index.present?
+      delete_form_builder_attachment(@client_enrollment_tracking, name, index)
+      notice = t('.delete_attachment_successfully')
+    else
+      @client_enrollment_tracking.destroy
+      notice = t('.successfully_deleted')
+    end
+    redirect_to request.referer, notice: notice
   end
 
   def report
-    @client_enrollment_trackings = @enrollment.client_enrollment_trackings.enrollment_trackings_by(@tracking)
+    @client_enrollment_trackings = @enrollment.client_enrollment_trackings.enrollment_trackings_by(@tracking).order(created_at: :desc)
   end
 
   private
 
   def client_enrollment_tracking_params
-    params.require(:client_enrollment_tracking).permit({}).merge(properties: params[:client_enrollment_tracking][:properties], tracking_id: params[:tracking_id])
+    properties_params.values.map{ |v| v.delete('') if (v.is_a?Array) && v.size > 1 }
+
+    default_params = params.require(:client_enrollment_tracking).permit({}).merge!(tracking_id: params[:tracking_id])
+    default_params = default_params.merge!(properties: properties_params) if properties_params.present?
+    default_params = default_params.merge!(form_builder_attachments_attributes: params[:client_enrollment_tracking][:form_builder_attachments_attributes]) if action_name == 'create' && attachment_params.present?
+    default_params
   end
 
   def find_client
@@ -75,5 +94,10 @@ class ClientEnrollmentTrackingsController < AdminController
 
   def find_client_enrollment_tracking
     @client_enrollment_tracking = @enrollment.client_enrollment_trackings.find params[:id]
+  end
+
+  def get_attachments
+    @client_enrollment_tracking ||= @enrollment.client_enrollment_trackings.new
+    @attachments = @client_enrollment_tracking.form_builder_attachments
   end
 end

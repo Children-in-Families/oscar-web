@@ -325,15 +325,65 @@ class ClientGrid
 
   filter(:id_poor, :integer, header: -> { I18n.t('datagrid.columns.clients.id_poor') })
 
-  unless Rails.env.production?
-    filter(:program_streams, :enum, multiple: true, select: :program_stream_options, header: -> { I18n.t('datagrid.columns.clients.program_name') }) do |name, scope|
-      program_stream_ids = ProgramStream.name_like(name).ids
-      ids = Client.joins(:client_enrollments).where(client_enrollments: { status: 'Active', program_stream_id: program_stream_ids } ).pluck(:id).uniq
+  filter(:program_streams, :enum, multiple: true, select: :program_stream_options, header: -> { I18n.t('datagrid.columns.clients.program_streams') }) do |name, scope|
+    program_stream_ids = ProgramStream.name_like(name).ids
+    ids = Client.joins(:client_enrollments).where(client_enrollments: { program_stream_id: program_stream_ids } ).pluck(:id).uniq
+    scope.where(id: ids)
+  end
+
+  def program_stream_options
+    ProgramStream.joins(:client_enrollments).complete.ordered.pluck(:name).uniq
+  end
+
+  filter(:program_enrollment_date, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.program_enrollment_date') }) do |values, scope|
+    if values.first.present? && values.second.present?
+      ids = Client.joins(:client_enrollments).where(client_enrollments: { status: 'Active', enrollment_date: values[0]..values[1]} ).pluck(:id).uniq
+      scope.where(id: ids)
+    elsif values.first.present? && values.second.blank?
+      ids = Client.joins(:client_enrollments).where("DATE(client_enrollments.enrollment_date) >= ? AND client_enrollments.status = 'Active'", values.first).pluck(:id).uniq
+      scope.where(id: ids)
+    elsif values.second.present? && values.first.blank?
+      ids = Client.joins(:client_enrollments).where("DATE(client_enrollments.enrollment_date) <= ? AND client_enrollments.status = 'Active'", values.second).pluck(:id).uniq
       scope.where(id: ids)
     end
+  end
 
-    def program_stream_options
-      ProgramStream.joins(:client_enrollments).where(client_enrollments: {status: 'Active'}).complete.ordered.pluck(:name).uniq
+  filter(:program_exit_date, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.program_exit_date') }) do |values, scope|
+    if values.first.present? && values.second.present?
+      ids = ClientEnrollment.joins(:leave_program).where(leave_programs: {exit_date: values[0]..values[1]}).pluck(:client_id).uniq
+      scope.where(id: ids)
+    elsif values.first.present? && values.second.blank?
+      ids = ClientEnrollment.joins(:leave_program).where("DATE(leave_programs.exit_date) >= ?", values.first).pluck(:client_id).uniq
+      scope.where(id: ids)
+    elsif values.second.present? && values.first.blank?
+      ids = ClientEnrollment.joins(:leave_program).where("DATE(leave_programs.exit_date) <= ?", values.second).pluck(:client_id).uniq
+      scope.where(id: ids)
+    end
+  end
+
+  filter(:accepted_date, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.ngo_accepted_date') }) do |values, scope|
+    if values.first.present? && values.second.present?
+      ids = Client.where(accepted_date: values[0]..values[1]).pluck(:id).uniq
+      scope.where(id: ids)
+    elsif values.first.present? && values.second.blank?
+      ids = Client.where('DATE(accepted_date) >= ?', values.first).pluck(:id).uniq
+      scope.where(id: ids)
+    elsif values.second.present? && values.first.blank?
+      ids = Client.where('DATE(accepted_date) =< ?', values.first).pluck(:id).uniq
+      scope.where(id: ids)
+    end
+  end
+
+  filter(:exit_date, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.ngo_exit_date') }) do |values, scope|
+    if values.first.present? && values.second.present?
+      ids = Client.where(exit_date: values[0]..values[1]).pluck(:id).uniq
+      scope.where(id: ids)
+    elsif values.first.present? && values.second.blank?
+      ids = Client.where('DATE(exit_date) >= ?', values.first).pluck(:id).uniq
+      scope.where(id: ids)
+    elsif values.second.present? && values.first.blank?
+      ids = Client.where('DATE(exit_date) <= ?', values.first).pluck(:id).uniq
+      scope.where(id: ids)
     end
   end
 
@@ -390,6 +440,27 @@ class ClientGrid
   column(:follow_up_date, header: -> { I18n.t('datagrid.columns.clients.follow_up_date') })
 
   column(:id_poor, header: -> { I18n.t('datagrid.columns.clients.id_poor') })
+
+  column(:program_streams, order: false, header: -> { I18n.t('datagrid.columns.clients.program_streams') }) do |object|
+    object.client_enrollments.map{ |c| c.program_stream.name }.uniq.join(', ')
+  end
+
+  column(:program_enrollment_date, html: true, order: false, header: -> { I18n.t('datagrid.columns.clients.program_enrollment_date') }) do |object|
+    render partial: 'clients/active_client_enrollments', locals: { active_client_enrollments: object.client_enrollments.active } if object.client_enrollments.active.any?
+  end
+
+  column(:program_enrollment_date, html: false, header: -> { I18n.t('datagrid.columns.clients.program_enrollment_date') }) do |object|
+    object.client_enrollments.active.map{|a| a.enrollment_date }.join(' | ')
+  end
+
+  column(:program_exit_date, html: true, order: false, header: -> { I18n.t('datagrid.columns.clients.program_exit_date') }) do |object|
+    # object.client_enrollments.inactive.joins(:leave_program).map{|ce| ce.leave_program.exit_date }
+    render partial: 'clients/inactive_client_enrollments', locals: { inactive_client_enrollments: object.client_enrollments.inactive.joins(:leave_program) } if object.client_enrollments.inactive.joins(:leave_program).any?
+  end
+
+  column(:program_exit_date, html: false, header: -> { I18n.t('datagrid.columns.clients.program_exit_date') }) do |object|
+    object.client_enrollments.inactive.joins(:leave_program).map{|a| a.leave_program.exit_date }.join(' | ')
+  end
 
   column(:live_with, header: -> { I18n.t('datagrid.columns.clients.live_with') })
 
@@ -467,6 +538,14 @@ class ClientGrid
 
   column(:state, header: -> { I18n.t('datagrid.columns.clients.state') }) do |object|
     object.state.titleize
+  end
+
+  column(:accepted_date, header: -> { I18n.t('datagrid.columns.clients.ngo_accepted_date') }) do |object|
+    object.accepted_date
+  end
+
+  column(:exit_date, header: -> { I18n.t('datagrid.columns.clients.ngo_exit_date') }) do |object|
+    object.exit_date
   end
 
   column(:rejected_note, header: -> { I18n.t('datagrid.columns.clients.rejected_note') })
@@ -556,6 +635,14 @@ class ClientGrid
         elsif fields.first == 'enrollment'
           enrollment_properties = object.client_enrollments.properties_by(fields.last)
           render partial: 'clients/form_builder_dynamic/properties_value', locals: { properties:  enrollment_properties }
+        elsif fields.first == 'tracking'
+          ids = object.client_enrollments.ids
+          enrollment_tracking_properties = ClientEnrollmentTracking.where(client_enrollment_id: ids).properties_by(fields.last)
+          render partial: 'clients/form_builder_dynamic/properties_value', locals: { properties:  enrollment_tracking_properties }
+        elsif fields.first == 'exitprogram'
+          ids = object.client_enrollments.inactive.ids
+          leave_program_properties = LeaveProgram.where(client_enrollment_id: ids).properties_by(fields.last)
+          render partial: 'clients/form_builder_dynamic/properties_value', locals: { properties:  leave_program_properties }
         end
       end
     end

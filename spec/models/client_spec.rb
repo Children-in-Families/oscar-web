@@ -96,6 +96,27 @@ describe Client, 'methods' do
   let!(:client_b){ create(:client, date_of_birth: '2016-06-05') }
   let!(:client_c){ create(:client, date_of_birth: '2016-06-06') }
   let!(:client_d){ create(:client, date_of_birth: '2015-10-06') }
+  let!(:ec_case){ create(:case, client: client_a, case_type: 'EC') }
+  let!(:fc_case){ create(:case, client: client_b, case_type: 'FC') }
+  let!(:kc_case){ create(:case, client: client_c, case_type: 'KC') }
+
+  context 'active_ec?' do
+    it { expect(client_a.active_ec?).to be_truthy }
+  end
+
+  context 'active_fc?' do
+    it { expect(client_b.active_fc?).to be_truthy }
+  end
+
+  context 'active_kc?' do
+    it { expect(client_c.active_kc?).to be_truthy }
+  end
+
+  context 'active_case?' do
+    it { expect(client_a.active_case?).to be_truthy }
+    it { expect(client_b.active_case?).to be_truthy }
+    it { expect(client_c.active_case?).to be_truthy }
+  end
 
   context 'age' do
     let(:current_date) { '2017-06-05'.to_date }

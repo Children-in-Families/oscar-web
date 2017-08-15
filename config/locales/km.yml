@@ -305,7 +305,10 @@ km:
       local_family_name: នាមត្រកូល (Local)
       local_given_name: នាមខ្លួន (Local)
       name: ឈ្មោះ
+      ngo_accepted_date: កាលបរិច្ឆេទទទួលយកចូលអង្គការ
+      ngo_exit_date: កាលបរិច្ឆេទនៃការចាកចេញពីអង្គការ
       placement_start_date: ថ្ងៃបញ្ជូនទៅក្នុងករណី
+      program_stream: កម្មវិធីបន្ទាប់បន្សំ
       province: ខេត្តកំណើត
       province_id: ខេត្តបច្ចុប្បន្ន
       received_by: បុគ្គលិកដែលទទួលករណី
@@ -387,6 +390,7 @@ km:
       next: ទំព័របន្ទាប់
       previous: ទំព័រមុន
       reason: មូលហេតុ
+      save: រក្សាទុក
       tasks_arising: កាតព្វកិច្ចកើតឡើង៖
     index:
       assessment_history: ការប៉ាន់ប្រមាណចាស់ៗ
@@ -425,6 +429,11 @@ km:
       attachments: ឯកសារភ្ជាប់
       preview_download: មើលនិងទាញយក
       download: ទាញយក
+  api:
+    form_builder_attachments:
+      destroy:
+        successfully_updated: ការប៉ាន់ប្រមាណត្រូវបានកែសម្រួលដោយជោគជ័យ
+  back: ត្រលប់ក្រោយ
   calendars:
     index:
       sync_with_google: បញ្ចូលព្រឹត្តិការណ៍ទៅក្នុងប្រតិទិន Google
@@ -693,14 +702,19 @@ km:
     action:
       new_tracking: បន្ថែមការតាមដានថ្មី
     create:
-      successfully_created: ការ​តាមដានត្រូវបានរក្សាទុកដោយជោគជ័យ
+      successfully_created: ការតាមដានត្រូវបានរក្សាទុកដោយជោគជ័យ
     destroy:
-      successfully_deleted: ការ​តាមដានត្រូវបានលុបដោយជោគជ័យ
+      successfully_deleted: ការតាមដានត្រូវបានលុបដោយជោគជ័យ
+      delete_attachment_successfully: ឯកសារភ្ជាប់ត្រូវបានកែសម្រួលដោយជោគជ័យ
+    edit:
+      edit_tracking: កែសម្រូលការតាមដាន
     form:
+      allow_file_size: ប្រភេទឯកសារដែលបានអនុញ្ញាត
       cancel: ទុកជាមោឃៈ
       save: រក្សាទុក
+      max_file_size: "*ទំហំឯកសារអតិបរិមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកឡើង."
     index:
-      programs_list: តារាងកម្មវិធី​
+      programs_list: តារាងកម្មវិធី
       tracking_lists: តារាងការតាមដាន
     new:
       new_tracking: បន្ថែមការតាមដានថ្មី
@@ -713,24 +727,28 @@ km:
       back: ត្រលប់ក្រោយ
       trackings_list: តារាងការតាមដាន
     update:
-      successfully_updated: ការ​តាមដានត្រូវបានកែសម្រួលដោយជោគជ័យ
+      successfully_updated: ការតាមដានត្រូវបានកែសម្រួលដោយជោគជ័យ
   client_enrollments:
     create:
       successfully_created: ការចុះឈ្មោះត្រូវបានរក្សាទុកដោយជោគជ័យ
     destroy:
       successfully_deleted: ការចុះឈ្មោះត្រូវបានលុបដោយជោគជ័យ
+      delete_attachment_successfully: ឯកសារភ្ជាប់ត្រូវបានកែសម្រួលដោយជោគជ័យ
     edit:
-      enrollment: ទម្រង់បែបបទ​នៃ​ចុះឈ្មោះ
+      enrollment: ទម្រង់បែបបទនៃចុះឈ្មោះ
     form:
+      allow_file_size: ប្រភេទឯកសារដែលបានអនុញ្ញាត
       cancel: ទុកជាមោឃៈ
       enrollment_date: ថ្ងៃចុះឈ្មោះ
+      not_an_email: មិនមែនជាឣុីម៉ែល
       save: រក្សាទុក
+      max_file_size: "*ទំហំឯកសារអតិបរិមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកឡើង."
     index:
       actions: សកម្មភាព
       back: ត្រលប់ក្រោយ
       domain: កត្តា
       name: ឈ្មោះកម្មវិធី
-      program_lists: តារាងកម្មវិធី​បន្ទាប់បន្សំ
+      program_lists: តារាងកម្មវិធីបន្ទាប់បន្សំ
       quantity: ចំនួនកន្លែងដែលនៅទំនេរ
       report: របាយការណ៍
       status: ស្ថានភាព
@@ -749,7 +767,7 @@ km:
       enrollment: ចុះឈ្មោះ
       exit: ចាកចេញ
       forms: ទម្រង់បែបបទ
-      programs_list: តារាងកម្មវិធី​បន្ទាប់បន្សំ
+      programs_list: តារាងកម្មវិធីបន្ទាប់បន្សំ
       report: របាយការណ៏
       tracking: ការតាមដាន
       view: មើល
@@ -937,11 +955,15 @@ km:
       new_client_title: បង្កើតអតិថិជនថ្មី
     placement:
       view_legacy_quarterly_reports: មើល Quarterly Reports ចាស់ៗ
+    remaining_programs:
+      close: បិទ
+      warning: ប្រុងប្រយ័ត្ន
     show:
       able: ឣតិថិជនក្នុងកម្មវិធីABLE
       able_screening_questions: សំនួរ Able
       able_state: ស្ថានភាព Able
       accept: ទទួលយក
+      accepted_date: កាលបរិច្ឆេទទទួលយកចូលអង្គការ
       add_client_to_case: បញ្ចូលអតិថិជិនទៅក្នុងករណី
       add_ec_btn: បន្ថែមចូលទៅ EC
       add_fc_btn: បន្ថែមចូលទៅ FC
@@ -1206,6 +1228,8 @@ km:
         local_given_name: នាមខ្លួន (Local)
         manage: សកម្មភាព
         name: ឈ្មោះ
+        ngo_accepted_date: កាលបរិច្ឆេទទទួលយកចូលអង្គការ
+        ngo_exit_date: កាលបរិច្ឆេទនៃការចាកចេញពីអង្គការ
         no_dob: ទេ
         placement_case_type: ប្រភេទករណីដែលត្រូវបានបញ្ជូនទៅ
         placement_start_date: ថ្ងៃបញ្ជូនទៅក្នុងករណី
@@ -1225,7 +1249,9 @@ km:
           start_date: ថ្ងៃចាប់ផ្តើម
           support_amount: ប្រាក់ឧបត្ថម្ភ
           support_note: ពត៌មានពីប្រាក់ឧប្ថម្ភ
-        program_name: ឈ្មោះកម្មវិធី
+        program_enrollment_date: កាលបរិច្ឆេទចុះឈ្មោះ
+        program_exit_date: កាលបរិច្ឆេទនៃការចាកចេញពីកម្មវិធី
+        program_streams: ឈ្មោះកម្មវិធី
         province: ខេត្តកំណើត
         quantitative_case_values: ទិន្នន័យនៃបរិមាណ
         quantitative_types: ប្រភេទនៃបរិមាណ
@@ -2440,8 +2466,8 @@ km:
         one: មានទម្រង់បែបបទរបស់អ្នកប្រើចំនួន1ដែលត្រូវបំពេញនៅថ្ងៃនេះ
         other: មានទម្រង់បែបបទរបស់អ្នកប្រើចំនួន %{count} ដែលត្រូវបំពេញនៅថ្ងៃនេះ
       due_today_client_enrollment_tracking:
-        one: ការ​តាមដានរបស់អ្នកប្រើចំនួន1ដែលត្រូវបំពេញនៅថ្ងៃនេះ
-        other: ការ​តាមដានរបស់អ្នកប្រើចំនួន %{count} ដែលត្រូវបំពេញនៅថ្ងៃនេះ
+        one: ការតាមដានរបស់អ្នកប្រើចំនួន1ដែលត្រូវបំពេញនៅថ្ងៃនេះ
+        other: ការតាមដានរបស់អ្នកប្រើចំនួន %{count} ដែលត្រូវបំពេញនៅថ្ងៃនេះ
       no_task: មិនមានពត៌មានដែលត្រូវបង្ហាញ
       overdue_assessments_count:
         one: អ្នកមានការប៉ាន់ប្រមាណចំនួន1មិនទាន់បានធ្វើ
@@ -2462,8 +2488,8 @@ km:
         one: មានទម្រង់បែបបទរបស់អ្នកប្រើចំនួន1ដែលផុតកំណត់
         other: មានទម្រង់បែបបទរបស់អ្នកប្រើចំនួន %{count} ដែលផុតកំណត់
       overdue_client_enrollment_tracking:
-        one: ការ​តាមដានរបស់អ្នកប្រើចំនួន1ដែលផុតកំណត
-        other: ការ​តាមដានរបស់អ្នកប្រើចំនួន %{count} ដែលផុតកំណត
+        one: ការតាមដានរបស់អ្នកប្រើចំនួន1ដែលផុតកំណត
+        other: ការតាមដានរបស់អ្នកប្រើចំនួន %{count} ដែលផុតកំណត
     side_menu:
       able_screening_questions: សំនួរ Able Screening
       account: គណនី
@@ -2504,10 +2530,14 @@ km:
       successfully_created: អតិថិជនត្រូវបានចាកចេញពីកម្មវិធីដោយជោគជ័យ
     edit:
       leave_program: កែសម្រួលការចាកចេញពីកម្មវិធី
+    destroy:
+      delete_attachment_successfully: ឯកសារភ្ជាប់ត្រូវបានកែសម្រួលដោយជោគជ័យ
     form:
+      allow_file_size: ប្រភេទឯកសារដែលបានអនុញ្ញាត
       cancel: ទុកជាមោឃៈ
       exit_date: ថ្ងៃចាកចេញ
       save: រក្សាទុក
+      max_file_size: "*ទំហំឯកសារអតិបរិមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកឡើង."
     new:
       new_exit_program: ការចាកចេញពីកម្មវិធីថ្មី
     show:
@@ -2596,10 +2626,11 @@ km:
       users: ឣ្នកប្រើ
     client_enrollment_tracking_due_today:
       clients: អតិថិជន
-      client_enrollment_tracking_notification: ការជូនដំណឹងនៃការ​តាមដានដែលត្រូវបំពេញ
+      client_enrollment_tracking_notification: ការជូនដំណឹងនៃការតាមដានដែលត្រូវបំពេញ
     client_enrollment_tracking_overdue:
       clients: អតិថិជន
-      client_enrollment_tracking_notification: ការជូនដំណឹងនៃការ​តាមដានដែលត្រូវបំពេញ
+      client_enrollment_tracking_notification: ការជូនដំណឹងនៃការតាមដានដែលត្រូវបំពេញ
+  ok: យល់ព្រម
   partners:
     actions:
       are_you_sure: តើអ្នកប្រាកដហើយ?
@@ -2673,7 +2704,7 @@ km:
       domain: កត្តា
       enrolled: ចំនួនដែលចូលរូមកម្មវិធី
       maximum: ចំនួនដែលអាចចូលរូមកម្មវិធីច្រើនបំផុត
-      name: ឈ្មោះកម្មវិធី​បន្ទាប់បន្សំ
+      name: ឈ្មោះកម្មវិធីបន្ទាប់បន្សំ
       status: ស្ថានភាព
     destroy:
       alert: កម្មវិធីមិនអាចលុបបានទេ
@@ -2717,6 +2748,7 @@ km:
       add_new_filter: បន្ថែមការស្វែងរក
       add_new_group: បន្ថែមបណ្ដុំនៃការស្វែងរក
       add_rule: បន្ថែមលក្ខខណ្ឌថ្មី
+      cannot_be_lower: ចំនួនដែលអាចចូលរូមកម្មវិធីច្រើនបំផុតមិនអាចតូចជាងចំនួនអតិថិជនដែលចូលរូមកម្មវិធី
       delete_group: លុបបណ្ដុំនៃការស្វែងរក
       description: ការបរិយាយ
       domain: កត្តា
@@ -2741,9 +2773,11 @@ km:
       quantity: បរិមាណ
       rules: លក្ខខណ្ឌ
       tracking: តាមដាន
+      not_require_tracking: ទម្រង់បែបបទនេះមិនត្រូវការទម្រង់តាមដានទេ
     tracking:
-      add_tracking: បន្ថែមកាតាមដាន
+      add_tracking: បន្ថែមការតាមដាន
       tracking_form: ទម្រង់បែបបទតាមដាន
+      not_require_tracking: ទម្រង់បែបបទនេះមិនត្រូវការទម្រង់តាមដានទេ
     tracking_fields:
       frequency: ភាពញឹកញាប់
       name: ឈ្មោះ
@@ -2987,6 +3021,13 @@ km:
   review_problem: សូមពិនិត្យបញ្ហាសារឡើងវិញនៅខាងក្រោម៖
   save: រក្សាទុក
   shared:
+    form_builder:
+      list_attachment:
+        are_you_sure: តើអ្នកប្រាកដហើយ?
+        preview_download: មើលនិងទាញយក
+      file_field:
+        allow_file_size: ប្រភេទឯកសារដែលបានអនុញ្ញាត
+        max_file_size: "*ទំហំឯកសារអតិបរិមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកឡើង."
     per_page_form:
       show: បង្ហាញ
     version_type:
@@ -3494,6 +3535,7 @@ km:
       next: ទំព័របន្ទាប់ &rsaquo;
       previous: "&lsaquo; ទំព័រមុន"
       truncate: "&hellip;"
+  warning: ប្រុងប្រយ័ត្ន
   will_paginate:
     next_label: ទំព័របន្ទាប់
     page_gap: "..."

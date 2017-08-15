@@ -43,3 +43,42 @@ describe LeaveProgram, 'validations' do
     end 
   end
 end
+
+describe LeaveProgram, 'callbacks' do
+  let!(:ec_client) { create(:client) }
+  let!(:client) { create(:client) }
+  let!(:ec_case) { create(:case, :emergency, client: ec_client) }
+  let!(:first_program_stream) { create(:program_stream) }
+  let!(:second_program_stream) { create(:program_stream) }
+  let!(:third_program_stream) { create(:program_stream) }
+  let!(:client_enrollment) { create(:client_enrollment, client: ec_client, program_stream: first_program_stream) }
+  let!(:first_client_enrollment) { create(:client_enrollment, client: client, program_stream: first_program_stream) }
+  let!(:second_client_enrollment) { create(:client_enrollment, client: client, program_stream: second_program_stream) }
+  let!(:third_client_enrollment) { create(:client_enrollment, client: client, program_stream: third_program_stream) }
+
+  context 'set_client_status' do
+    context 'The client is Active EC' do
+      let!(:leave_program) { create(:leave_program, client_enrollment: client_enrollment, program_stream: first_program_stream) }
+      it 'status should remain Active EC' do
+        expect(ec_client.status).to eq('Active EC')
+      end
+    end
+
+    context 'The client is not active in any cases EC/FC/KC' do
+      context 'The client is active in only one program' do
+        let!(:leave_program) { create(:leave_program, client_enrollment: first_client_enrollment, program_stream: first_program_stream) }
+        it 'status should remain Referred' do
+          expect(client.status).to eq('Referred')
+        end
+      end
+
+      context 'The client is active in more than one program' do
+        let!(:leave_program) { create(:leave_program, client_enrollment: second_client_enrollment, program_stream: second_program_stream) }
+        it 'status should remain Active' do
+          client.reload
+          expect(client.status).to eq('Active')
+        end
+      end
+    end
+  end
+end

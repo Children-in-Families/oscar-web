@@ -5,11 +5,15 @@
         .col-xs-12
           .row
             .col-xs-12.col-md-4
+              %abbr.pull-left{ title: 'required' } *
               = f.input :name, label: t('.name'), readonly: f.object.is_used?
             .col-xs-12.col-md-4
+              = hidden_field_tag :time, f.object.time_of_frequency || 0, class: 'time'
               = f.input :frequency, collection: Tracking::FREQUENCIES, label: t('.frequency')
+              %p.frequency-note
+                %i
             .col-xs-12.col-md-4
-              = f.input :time_of_frequency, label: t('.time_of_frequency')
+              = f.input :time_of_frequency, label: t('.time_of_frequency'), input_html: { min: 0, value: f.object.time_of_frequency || 0}
       .row
         .col-xs-12
           .tracking-builder{ data: { tracking: f.object.fields }}

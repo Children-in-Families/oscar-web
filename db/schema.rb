@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170721064826) do
+ActiveRecord::Schema.define(version: 20170804045738) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -219,17 +219,17 @@ ActiveRecord::Schema.define(version: 20170721064826) do
   add_index "changelogs", ["user_id"], name: "index_changelogs_on_user_id", using: :btree
 
   create_table "client_enrollment_trackings", force: :cascade do |t|
-    t.jsonb    "properties"
+    t.jsonb    "properties",           default: {}
     t.integer  "client_enrollment_id"
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
     t.integer  "tracking_id"
   end
 
   add_index "client_enrollment_trackings", ["client_enrollment_id"], name: "index_client_enrollment_trackings_on_client_enrollment_id", using: :btree
 
   create_table "client_enrollments", force: :cascade do |t|
-    t.jsonb    "properties"
+    t.jsonb    "properties",        default: {}
     t.string   "status",            default: "Active"
     t.integer  "client_id"
     t.integer  "program_stream_id"
@@ -297,6 +297,7 @@ ActiveRecord::Schema.define(version: 20170721064826) do
     t.integer  "rice_support",                     default: 0
     t.text     "exit_note",                        default: ""
     t.date     "exit_date"
+    t.date     "accepted_date"
   end
 
   add_index "clients", ["donor_id"], name: "index_clients_on_donor_id", using: :btree
@@ -401,6 +402,15 @@ ActiveRecord::Schema.define(version: 20170721064826) do
     t.string   "case_history",                    default: ""
   end
 
+  create_table "form_builder_attachments", force: :cascade do |t|
+    t.string   "name",                default: ""
+    t.jsonb    "file",                default: []
+    t.string   "form_buildable_type"
+    t.integer  "form_buildable_id"
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+  end
+
   create_table "friendly_id_slugs", force: :cascade do |t|
     t.string   "slug",                      null: false
     t.integer  "sluggable_id",              null: false
@@ -494,10 +504,10 @@ ActiveRecord::Schema.define(version: 20170721064826) do
   add_index "interventions_progress_notes", ["progress_note_id"], name: "index_interventions_progress_notes_on_progress_note_id", using: :btree
 
   create_table "leave_programs", force: :cascade do |t|
-    t.jsonb    "properties"
+    t.jsonb    "properties",           default: {}
     t.integer  "client_enrollment_id"
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
     t.integer  "program_stream_id"
     t.date     "exit_date"
   end
@@ -556,6 +566,8 @@ ActiveRecord::Schema.define(version: 20170721064826) do
     t.boolean  "completed",         default: false
     t.integer  "program_exclusive", default: [],                 array: true
     t.integer  "mutual_dependence", default: [],                 array: true
+    t.boolean  "tracking",          default: false
+    t.boolean  "tracking_required", default: false
   end
 
   create_table "progress_note_types", force: :cascade do |t|
@@ -901,7 +913,7 @@ ActiveRecord::Schema.define(version: 20170721064826) do
 
   create_table "trackings", force: :cascade do |t|
     t.string   "name",              default: ""
-    t.jsonb    "fields"
+    t.jsonb    "fields",            default: {}
     t.string   "frequency",         default: ""
     t.integer  "time_of_frequency"
     t.integer  "program_stream_id"
@@ -951,6 +963,7 @@ ActiveRecord::Schema.define(version: 20170721064826) do
     t.boolean  "calendar_integration",   default: false
     t.integer  "pin_number"
     t.integer  "manager_ids",            default: [],                         array: true
+    t.boolean  "program_warning",        default: false
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

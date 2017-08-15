@@ -1,9 +1,12 @@
 class ClientEnrollmentsController < AdminController
   load_and_authorize_resource
 
+  include FormBuilderAttachments
+
   before_action :find_client
   before_action :find_program_stream, except: :index
-  before_action :find_client_enrollment, only: [:show, :edit, :update]
+  before_action :find_client_enrollment, only: [:show, :edit, :update, :destroy]
+  before_action :get_attachments, only: [:new, :edit, :update, :create]
 
   def index
     program_streams = ProgramStreamDecorator.decorate_collection(ordered_program)
@@ -11,26 +14,26 @@ class ClientEnrollmentsController < AdminController
   end
 
   def new
-    if @program_stream.rules.present?
-      if @program_stream.program_exclusive.any? || @program_stream.mutual_dependence.any?
-        redirect_to client_client_enrollments_path(@client, program_streams: params[:program_streams]), alert: t('.client_not_valid') unless valid_client? && valid_program?
+    if @program_stream.has_rule?
+      if @program_stream.has_program_exclusive? || @program_stream.has_mutual_dependence?
+        client_enrollment_index_path unless valid_client? && valid_program?
       else
-        redirect_to client_client_enrollments_path(@client, program_streams: params[:program_streams]), alert: t('.client_not_valid') unless valid_client?
+        client_enrollment_index_path unless valid_client?
       end
-    elsif @program_stream.mutual_dependence.any? || @program_stream.program_exclusive.any?
-      redirect_to client_client_enrollments_path(@client, program_streams: params[:program_streams]), alert: t('.client_not_valid') unless valid_program?
+    elsif @program_stream.has_program_exclusive? || @program_stream.has_mutual_dependence?
+      client_enrollment_index_path unless valid_program?
     end
+
     @client_enrollment = @client.client_enrollments.new(program_stream_id: @program_stream)
   end
 
   def edit
-    authorize @client_enrollment
   end
 
   def update
-    authorize @client_enrollment
     if @client_enrollment.update_attributes(client_enrollment_params)
-      redirect_to client_client_enrollment_path(@client, @client_enrollment, program_stream_id: @program_stream, program_streams: params[:program_streams]), notice: t('.successfully_updated')
+      add_more_attachments(@client_enrollment)
+      redirect_to client_client_enrollment_path(@client, @client_enrollment, program_stream_id: @program_stream, program_streams: 'enrolled-program-streams'), notice: t('.successfully_updated')
     else
       render :edit
     end
@@ -50,25 +53,42 @@ class ClientEnrollmentsController < AdminController
   end
 
   def destroy
-    @client_enrollment.destroy
-    redirect_to report_client_client_enrollments_path(@client, program_stream_id: @program_stream, program_streams: params[:program_streams]), notice: t('.successfully_deleted')
+    name = params[:file_name]
+    index = params[:file_index].to_i
+    params_program_streams = params[:program_streams]
+    if name.present? && index.present?
+      delete_form_builder_attachment(@client_enrollment, name, index)
+    end
+    redirect_to request.referer, notice: t('.delete_attachment_successfully')
+    # @client_enrollment.destroy
+    # redirect_to report_client_client_enrollments_path(@client, program_stream_id: @program_stream, program_streams: params[:program_streams]), notice: t('.successfully_deleted')
   end
 
   def report
-    @enrollments = @program_stream.client_enrollments.where(client_id: @client).order(created_at: :DESC)
+    @enrollments = @program_stream.client_enrollments.enrollments_by(@client)
   end
 
   private
 
   def client_enrollment_params
-    params[:client_enrollment][:properties].keys.each do |k|
-      params[:client_enrollment][:properties][k].delete('') if params[:client_enrollment][:properties][k].class == Array && params[:client_enrollment][:properties][k].count > 1
-    end
-    params.require(:client_enrollment).permit(:enrollment_date, {}).merge(properties: params[:client_enrollment][:properties], program_stream_id: params[:program_stream_id])
+    properties_params.values.map{ |v| v.delete('') if (v.is_a?Array) && v.size > 1 }
+
+    default_params = params.require(:client_enrollment).permit(:enrollment_date).merge!(program_stream_id: params[:program_stream_id])
+    default_params = default_params.merge!(properties: properties_params) if properties_params.present?
+    default_params = default_params.merge!(form_builder_attachments_attributes: params[:client_enrollment][:form_builder_attachments_attributes]) if action_name == 'create' && attachment_params.present?
+    default_params
+  end
+
+  def client_enrollment_index_path
+    redirect_to client_client_enrollments_path(@client), alert: t('.client_not_valid')
   end
 
   def find_client_enrollment
     @client_enrollment = @client.client_enrollments.find(params[:id])
+  end
+
+  def get_attachments
+    @attachments = @client_enrollment.form_builder_attachments
   end
 
   def find_client
@@ -84,16 +104,13 @@ class ClientEnrollmentsController < AdminController
   end
 
   def program_stream_order_by_enrollment
-    program_streams = []
     if params[:program_streams] == 'enrolled-program-streams'
-      client_enrollments_active = ProgramStream.active_enrollments(@client).complete
-      program_streams           = client_enrollments_active
-    elsif params[:program_streams] == 'program-streams'
+      ProgramStream.active_enrollments(@client).complete
+    else
       client_enrollments_exited     = ProgramStream.inactive_enrollments(@client).complete
       client_enrollments_inactive   = ProgramStream.without_status_by(@client).complete
-      program_streams               = client_enrollments_exited + client_enrollments_inactive
+      client_enrollments_exited + client_enrollments_inactive
     end
-    program_streams
   end
 
   def ordered_program
@@ -115,6 +132,12 @@ class ClientEnrollmentsController < AdminController
 
   def valid_program?
     program_active_status_ids   = ProgramStream.active_enrollments(@client).pluck(:id)
-    (@program_stream.program_exclusive & program_active_status_ids).empty? && (@program_stream.mutual_dependence - program_active_status_ids).empty?
+    if @program_stream.has_program_exclusive? && @program_stream.has_mutual_dependence?
+      (@program_stream.program_exclusive & program_active_status_ids).empty? && (@program_stream.mutual_dependence - program_active_status_ids).empty?
+    elsif @program_stream.has_mutual_dependence?
+      (@program_stream.mutual_dependence - program_active_status_ids).empty?
+    elsif @program_stream.has_program_exclusive?
+      (@program_stream.program_exclusive & program_active_status_ids).empty?
+    end
   end
 end

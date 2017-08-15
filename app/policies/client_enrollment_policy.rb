@@ -1,8 +1,4 @@
 class ClientEnrollmentPolicy < ApplicationPolicy  
-  def update?
-    record.status == 'Active'
-  end
-
   def create?
     if enrollments_by_client.empty? || enrollments_by_client.last.status == 'Exited'
       return true unless record.program_stream.quantity.present?

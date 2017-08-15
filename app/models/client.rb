@@ -17,7 +17,7 @@ class Client < ActiveRecord::Base
   CLIENT_ACTIVE_STATUS = ['Active EC', 'Active FC', 'Active KC'].freeze
   ABLE_STATES = %w(Accepted Rejected Discharged).freeze
 
-  EXIT_STATUSES = CLIENT_STATUSES.select { |status| status if status.include?('Exited') }
+  EXIT_STATUSES = CLIENT_STATUSES.select { |status| status if status.include?('Exited') || status.include?('Independent - Monitored')  }
 
   delegate :name, to: :donor, prefix: true, allow_nil: true
 
@@ -149,7 +149,7 @@ class Client < ActiveRecord::Base
     en_name = "#{given_name} #{family_name}"
     local_name = "#{local_given_name} #{local_family_name}"
 
-    local_name.present? ? "#{en_name} (#{local_name})" : en_name
+    local_name.present? ? "#{en_name} (#{local_name})" : en_name.present? ? en_name : 'Unknown'
   end
 
   def self.next_assessment_candidates
@@ -192,7 +192,7 @@ class Client < ActiveRecord::Base
     tasks.each do |task|
       users.map { |user| CaseWorkerTask.find_or_create_by(task_id: task.id, user_id: user.id) }
     end
-    CaseWorkerTask.where.not(user_id: user_ids).destroy_all
+    CaseWorkerTask.where(task_id: tasks.ids).where.not(user_id: user_ids).destroy_all
   end
 
   def has_no_ec_or_any_cases?
@@ -261,6 +261,10 @@ class Client < ActiveRecord::Base
 
   def active_ec?
     status == 'Active EC'
+  end
+
+  def active_case?
+    active_ec? || active_fc? || active_kc?
   end
 
   def set_slug_as_alias

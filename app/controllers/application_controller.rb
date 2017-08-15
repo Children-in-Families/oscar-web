@@ -41,6 +41,7 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.for(:account_update) << :task_notify
     devise_parameter_sanitizer.for(:account_update) << :calendar_integration
     devise_parameter_sanitizer.for(:account_update) << :pin_number
+    devise_parameter_sanitizer.for(:account_update) << :program_warning
   end
 
   def find_association
@@ -59,10 +60,6 @@ class ApplicationController < ActionController::Base
 
   def default_url_options(options = {})
     { locale: I18n.locale }.merge(options)
-  end
-
-  def after_sign_in_path_for(_resource)
-    dashboards_path
   end
 
   def after_sign_out_path_for(_resource_or_scope)

@@ -49,9 +49,9 @@ module CustomFormBuilderHelper
                 when 'Yearly'  then 'year'
                 end
     if custom_field.time_of_frequency == 1
-      "This need to be done once every #{frequency}."
+      "This needs to be done once every #{frequency}."
     elsif custom_field.time_of_frequency > 1
-      "This need to be done once every #{pluralize(custom_field.time_of_frequency, frequency)}."
+      "This needs to be done once every #{pluralize(custom_field.time_of_frequency, frequency)}."
     else
       'This can be done many times and anytime.'
     end

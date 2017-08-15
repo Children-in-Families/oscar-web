@@ -7,7 +7,7 @@
   .col-xs-12
     .ibox
       .ibox-title
-        %h5= @client_enrollment_tracking.tracking.try(:name)
+        %h5= "#{@client.en_and_local_name} - #{@client_enrollment_tracking.tracking.try(:name)} - #{@program_stream.name}"
         .ibox-tools
           - if (can? :manage, ClientEnrollmentTracking) && (policy(@client_enrollment_tracking).update?)
             = link_to edit_client_client_enrollment_client_enrollment_tracking_path(@client, @enrollment, @client_enrollment_tracking, tracking_id: @client_enrollment_tracking.tracking, program_streams: params[:program_streams]) do
@@ -19,9 +19,13 @@
       .ibox-content
         .table-responsive
           %table.table.table-bordered
-            - @client_enrollment_tracking.properties.each do |key, value|
-              %tr
-                %td.align-justify
-                  = key.titleize
-                %td.align-justify
-                  = display_custom_properties(value)
+            - @program_stream.trackings.each do |tracking|
+              - tracking.fields.map{|field| [field['type'], field['label']]}.each do |type, key|
+                %tr
+                  %td.align-justify
+                    = key
+                  %td.align-justify
+                    - if type == 'file'
+                      = render 'shared/form_builder/list_attachment', label: key, resource: @client_enrollment_tracking
+                    - else
+                      = display_custom_properties(@client_enrollment_tracking.properties[key])

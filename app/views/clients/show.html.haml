@@ -36,6 +36,7 @@
                   = simple_form_for @client, method: :put, url: client_path(@client) do |f|
                     .form-inputs
                       = f.hidden_field :state, value: 'accepted'
+                      = f.hidden_field :accepted_date, value: Date.today
                     .form-actions
                       = f.submit t('.accept'), class: 'btn btn-success agree-btn'
                 .col-xs-12
@@ -84,16 +85,21 @@
                   %li= @client.ec_button
                   %li= @client.fc_button
                   %li= @client.kc_button
-                  - if @client.status == 'Referred' && (@client.exit_date.nil? || @client.cases.exclude_referred.current.nil?) && @client.client_enrollments.active.empty?
-                    %li.divider
-                    %li
+                  %li.divider
+                  %li
+                    - if @client.client_enrollments.active.count > 0
+                      %a{"data-target" => '#remaining-programs-modal', "data-toggle" => 'modal'}
+                        .text-warning= t('.exit_ngo_btn')
+                    - else
                       %a{"data-target" => '#exitFromNgo', "data-toggle" => 'modal'}
                         .text-warning= t('.exit_ngo_btn')
                 - if @client.cases.exclude_referred.current.present?
                   %li
                     %a{"data-target" => '#exit-from-case', "data-toggle" => 'modal'}
                       .text-warning.exit-case-warning= t(".exit_from_#{@client.cases.exclude_referred.current.case_type.downcase}")
-            - if @client.status == 'Referred' && (@client.exit_date.nil? || @client.cases.exclude_referred.current.nil?) && @client.client_enrollments.active.empty?
+            - if @client.client_enrollments.active.count > 0
+              = render 'remaining_programs', client: @client
+            - else
               = render 'exit_ngo_form', client: @client
             - if @client.cases.exclude_referred.current.present?
               = render 'exit_case_form', client_case: @client.cases.exclude_referred.current, exit_from_cif: true
@@ -164,13 +170,12 @@
               %ul.dropdown-menu.scrollable-dropdown-menu
                 - @free_client_forms.each do |custom_field|
                   %li= link_to custom_field.form_title, new_client_custom_field_property_path(@client, custom_field_id: custom_field)
-          - unless Rails.env.production?
-            = link_to client_client_enrollments_path(@client, program_streams: 'enrolled-program-streams') do
-              .btn.btn-primary.small-btn-margin.btn-sm
-                = t('.enrolled_program_streams')
-            = link_to client_client_enrollments_path(@client, program_streams: 'program-streams') do
-              .btn.btn-primary.small-btn-margin.btn-sm
-                = t('.program_streams')
+          = link_to client_client_enrollments_path(@client, program_streams: 'enrolled-program-streams') do
+            .btn.btn-primary.small-btn-margin.btn-sm
+              = t('.enrolled_program_streams')
+          = link_to client_client_enrollments_path(@client) do
+            .btn.btn-primary.small-btn-margin.btn-sm
+              = t('.program_streams')
 .row.mini-margin
   .col-xs-12
     .ibox
@@ -236,12 +241,12 @@
                       = @client.current_address
                     - else
                       = merged_address(@client)
-              %tr
-                %td.spacing-first-col
-                  = t('.completed')
-                %td
-                  %strong
-                    = human_boolean(@client.completed)
+              / %tr
+              /   %td.spacing-first-col
+              /     = t('.completed')
+              /   %td
+              /     %strong
+              /       = human_boolean(@client.completed)
               %tr
                 %td.spacing-first-col
                   = t('.birth_province')
@@ -259,7 +264,7 @@
                   = t('.follow_up_date')
                 %td
                   %strong
-                    = date_format(@client.follow_up_date) if @client.follow_up_date
+                    = date_format(@client.follow_up_date)
               %tr
                 %td.spacing-first-col
                   = t('.referral_source')
@@ -358,6 +363,12 @@
 
               = render 'state'
               - if @client.exit_date
+                %tr
+                  %td.spacing-first-col
+                    = t('.accepted_date')
+                  %td
+                    %strong
+                      = date_format(@client.accepted_date)
                 %tr
                   %td.spacing-first-col
                     = t('.exit_date')

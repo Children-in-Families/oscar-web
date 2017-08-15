@@ -3,7 +3,6 @@ describe LeaveProgram, 'Leave Program' do
   let!(:client) { create(:client, date_of_birth: 10.years.ago) }
   let!(:program_stream) { create(:program_stream) }
   let!(:client_enrollment) { create(:client_enrollment, program_stream: program_stream, client: client) }
-  let!(:leave_program) { create(:leave_program, client_enrollment: client_enrollment, program_stream: program_stream) }
 
   before do
     login_as admin
@@ -38,13 +37,13 @@ describe LeaveProgram, 'Leave Program' do
 
         click_button 'Save'
       end
-      expect(page).to have_content('is not an email')
-      expect(page).to have_content("can't be greater than 5")
-      expect(page).to have_content("can't be blank")
+      expect(page).to have_css('div.form-group.has-error')
     end
   end
 
   feature 'Show', js: true do
+    let!(:leave_program) { create(:leave_program, client_enrollment: client_enrollment, program_stream: program_stream) }
+
     before do
       visit client_client_enrollment_leave_program_path(client, client_enrollment, leave_program)
     end
@@ -67,6 +66,8 @@ describe LeaveProgram, 'Leave Program' do
   end
 
   feature 'Update', js: true do
+    let!(:leave_program) { create(:leave_program, client_enrollment: client_enrollment, program_stream: program_stream) }
+
     before do
       visit edit_client_client_enrollment_leave_program_path(client, client_enrollment, leave_program, program_stream_id: program_stream.id)
     end
@@ -81,7 +82,7 @@ describe LeaveProgram, 'Leave Program' do
     scenario 'fail' do
       find('#leave_program_properties_description').set('')
       find('input[type="submit"]').click
-      expect(page).to have_content("description can't be blank")
+      expect(page).to have_css('div.form-group.has-error')
     end
   end
 end

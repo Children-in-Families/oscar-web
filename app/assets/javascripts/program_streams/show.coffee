@@ -1,5 +1,6 @@
 CIF.Program_streamsShow = CIF.Program_streamsPreview = do ->
   _init = ->
+    _initFileInput()
     _initProgramRule()
     _handleDisabledInputs()
     _initSelect2()
@@ -22,6 +23,13 @@ CIF.Program_streamsShow = CIF.Program_streamsPreview = do ->
           )
 
         _handleSetRules()
+
+  _initFileInput = ->
+    $('.file').fileinput
+      showUpload: false
+      removeClass: 'btn btn-danger btn-outline'
+      browseLabel: 'Browse'
+      theme: "explorer"
 
   _initSelect2 = ->
     $('.rule-filter-container select').select2(width: '220px')
@@ -51,6 +59,7 @@ CIF.Program_streamsShow = CIF.Program_streamsPreview = do ->
     $('.panel').find('#program-rules button').remove()
 
   _handleDisabledInputs = ->
-    $('input, select, textarea').attr( 'disabled', 'disabled' )
+    $('#program-stream-info :input').attr( 'disabled', 'disabled' )
+    $('#program-stream-info .rules-group-header .group-conditions label').attr('disabled', 'disabled')
 
   { init: _init }

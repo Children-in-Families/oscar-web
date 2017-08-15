@@ -5,4 +5,4 @@
       - field_props['values'].each do |field|
         %li
           = check_box_tag :nil, field['label'], field['selected'], { class: 'i-checks' }
-          = label_tag field['label']
+          = label_tag '', field['label']

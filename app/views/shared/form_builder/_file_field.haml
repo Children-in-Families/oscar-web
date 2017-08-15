@@ -1,0 +1,10 @@
+= f.input :name, as: :hidden, input_html: { name: "#{entity.object_name}[form_builder_attachments_attributes][#{property['name'].split('-').last}][name]", value: property['label'] }
+%label
+  %abbr{ title: 'repuired' }
+    = '*' if property['required'].present?
+  = property['label']
+= f.input :file, as: :file, label: false, required: property['required'].present?, input_html: { name: "#{entity.object_name}[form_builder_attachments_attributes][#{property['name'].split('-').last}][file][]", multiple: property['multiple'].present? }
+%p
+  %i.small="#{t('.allow_file_size')} (.jpg, .jpeg, .png, .doc, .docx, .xls, .xlsx, .pdf)"
+%p
+  %i.small= t('.max_file_size')

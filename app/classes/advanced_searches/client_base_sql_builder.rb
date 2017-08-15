@@ -1,7 +1,7 @@
 module AdvancedSearches
   class ClientBaseSqlBuilder
-    ASSOCIATION_FIELDS = ['user_id', 'case_type', 'agency_name', 'form_title', 'placement_date', 'family', 'age', 'family_id', 'referred_to_ec', 'referred_to_fc', 'referred_to_kc', 'exit_ec_date', 'exit_fc_date', 'exit_kc_date']
-    BLANK_FIELDS = ['date_of_birth', 'initial_referral_date', 'follow_up_date', 'has_been_in_orphanage', 'has_been_in_government_care', 'grade', 'province_id', 'referral_source_id', 'birth_province_id', 'received_by_id', 'followed_up_by_id', 'donor_id', 'id_poor']
+    ASSOCIATION_FIELDS = ['user_id', 'case_type', 'agency_name', 'form_title', 'placement_date', 'family', 'age', 'family_id', 'referred_to_ec', 'referred_to_fc', 'referred_to_kc', 'exit_ec_date', 'exit_fc_date', 'exit_kc_date', 'program_stream']
+    BLANK_FIELDS = ['date_of_birth', 'initial_referral_date', 'follow_up_date', 'has_been_in_orphanage', 'has_been_in_government_care', 'grade', 'province_id', 'referral_source_id', 'birth_province_id', 'received_by_id', 'followed_up_by_id', 'donor_id', 'id_poor', 'exit_date', 'accepted_date']
 
     def initialize(clients, rules)
       @clients     = clients
@@ -36,6 +36,12 @@ module AdvancedSearches
           @sql_string << enrollment_fields[:id]
           @values << enrollment_fields[:values]
 
+        elsif form_builder.first == 'enrollmentdate'
+          program_stream = ProgramStream.find_by(name: form_builder.second)
+          enrollment_date = AdvancedSearches::EnrollmentDateSqlBuilder.new(program_stream.id, rule).get_sql
+          @sql_string << enrollment_date[:id]
+          @values << enrollment_date[:values]
+
         elsif form_builder.first == 'tracking'
           tracking = Tracking.find_by(name: form_builder.third)
           tracking_fields = AdvancedSearches::TrackingSqlBuilder.new(tracking.id, rule).get_sql
@@ -47,6 +53,12 @@ module AdvancedSearches
           exit_program_fields = AdvancedSearches::ExitProgramSqlBuilder.new(program_stream.id, rule).get_sql
           @sql_string << exit_program_fields[:id]
           @values << exit_program_fields[:values]
+
+        elsif form_builder.first == 'programexitdate'
+          program_stream = ProgramStream.find_by(name: form_builder.second)
+          exit_date = AdvancedSearches::ProgramExitDateSqlBuilder.new(program_stream.id, rule).get_sql
+          @sql_string << exit_date[:id]
+          @values << exit_date[:values]
 
         elsif form_builder.first == 'quantitative'
           quantitative_filter = AdvancedSearches::QuantitativeCaseSqlBuilder.new(@clients, rule).get_sql

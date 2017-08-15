@@ -65,10 +65,8 @@ Rails.application.routes.draw do
     get 'version' => 'donors#version'
   end
 
-  unless Rails.env.production?
-    resources :program_streams do
-      get :preview, on: :collection
-    end
+  resources :program_streams do
+    get :preview, on: :collection
   end
 
   resources :changelogs do
@@ -114,14 +112,12 @@ Rails.application.routes.draw do
       get :advanced_search
     end
 
-    unless Rails.env.production?
-      resources :client_enrollments do
+    resources :client_enrollments do
+      get :report, on: :collection
+      resources :client_enrollment_trackings do
         get :report, on: :collection
-        resources :client_enrollment_trackings do
-          get :report, on: :collection
-        end
-        resources :leave_programs
       end
+      resources :leave_programs
     end
 
     resources :custom_field_properties
@@ -165,11 +161,14 @@ Rails.application.routes.draw do
 
   namespace :api do
     mount_devise_token_auth_for 'User', at: '/v1/auth', skip: [:passwords]
+    resources :form_builder_attachments, only: :destroy
+
     resources :clients do
       get :compare, on: :collection
     end
     resources :custom_fields do
       get :fetch_custom_fields, on: :collection
+      get :fields
     end
     resources :client_advanced_searches, only: [] do
       collection do
@@ -189,11 +188,18 @@ Rails.application.routes.draw do
       end
     end
 
+    resources :program_streams, only: [] do
+      get :enrollment_fields
+      get :exit_program_fields
+      get :tracking_fields
+    end
+
     namespace :v1, default: { format: :json } do
+      resources :organizations, only: [:index]
       resources :domain_groups, only: [:index]
       resources :departments, only: [:index]
       resources :families, only: [:index, :create, :update]
-      resources :users, only: [:index]
+      resources :users, only: [:index, :show]
       resources :clients, except: [:edit, :new] do
         get :compare, on: :collection
         resources :assessments, only: [:create, :update, :destroy, :delete]

@@ -10,7 +10,7 @@ class CustomField < ActiveRecord::Base
 
   has_paper_trail
 
-  validate  :validate_remove_field, if: -> { id.present? }
+  # validate  :validate_remove_field, if: -> { id.present? }
   validates :entity_type, inclusion: { in: ENTITY_TYPES }
   validates :entity_type, :form_title, presence: true
   validates :form_title, uniqueness: { case_sensitive: false, scope: :entity_type }
@@ -19,7 +19,7 @@ class CustomField < ActiveRecord::Base
   validates :fields, presence: true
   validate  :uniq_fields, :field_label, if: -> { fields.present? }
 
-  before_save :set_time_of_frequency
+  # before_save :set_time_of_frequency
   before_save :set_ngo_name, if: -> { ngo_name.blank? }
 
   scope :by_form_title,  ->(value)  { where('form_title iLIKE ?', "%#{value}%") }
@@ -66,19 +66,19 @@ class CustomField < ActiveRecord::Base
     end
   end
 
-  def validate_remove_field
-    return unless fields_changed?
-    error_fields = []
-    properties = custom_field_properties.pluck(:properties).select(&:present?)
-    properties.each do |property|
-      field_remove = fields_change.first - fields_change.last
-      field_remove.each do |field|
-        label_name = property[field['label']]
-        error_fields << field['label'] if label_name.present?
-      end
-    end
-    return unless error_fields.present?
-    error_message = "#{error_fields.uniq.join(', ')} #{I18n.t('cannot_remove_or_update')}"
-    errors.add(:fields, "#{error_message} ")
-  end
+  # def validate_remove_field
+  #   return unless fields_changed?
+  #   error_fields = []
+  #   properties = custom_field_properties.pluck(:properties).select(&:present?)
+  #   properties.each do |property|
+  #     field_remove = fields_change.first - fields_change.last
+  #     field_remove.each do |field|
+  #       label_name = property[field['label']]
+  #       error_fields << field['label'] if label_name.present?
+  #     end
+  #   end
+  #   return unless error_fields.present?
+  #   error_message = "#{error_fields.uniq.join(', ')} #{I18n.t('cannot_remove_or_update')}"
+  #   errors.add(:fields, "#{error_message} ")
+  # end
 end

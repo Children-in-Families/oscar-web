@@ -50,6 +50,10 @@
 //= require footable.all.min
 
 //APPLICATION JS
+//= require check_duplicate_array.js
+//= require advanced_filter_builder
+//= require custom_form_builder
+//= require table_scroll
 //= require filters
 //= require assessments/form
 //= require tasks/form
@@ -94,3 +98,4 @@
 //= require client_enrollments/form
 //= require leave_programs/form
 //= require client_enrollment_trackings/form
+//= require organizations/index

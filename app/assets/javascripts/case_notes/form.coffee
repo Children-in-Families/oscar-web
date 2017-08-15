@@ -60,6 +60,7 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
 
   _postTask = ->
     $('.add-task-btn').on 'click', (e) ->
+      $('.add-task-btn').attr('disabled','disabled')
       actionUrl = undefined
       data      = undefined
       data      = $('#case_note_task').serializeArray()
@@ -70,9 +71,11 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
           data: data
           success: (response) ->
             _addElementToDom(response, actionUrl)
+            $('.add-task-btn').removeAttr('disabled')
             $('#tasksFromModal').modal('hide')
           error: (response) ->
             _showError(response.responseJSON)
+            $('.add-task-btn').removeAttr('disabled')
 
   _addElementToDom = (data, actionUrl) ->
     appendElement  = $("#tasks-domain-#{data.domain_id} .task-arising");

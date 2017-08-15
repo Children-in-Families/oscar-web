@@ -1,8 +1,11 @@
 .row
   .col-xs-12
-    .ibox
+    .ibox#program-stream-info
       .ibox-title
-        %h5= @program_stream.name
+        %h5
+          = @program_stream.name
+          %span{ class: "#{@program_stream.completed_label_class}"}
+            = @program_stream.completed_status
         .ibox-tools
           - if can? :update, ProgramStream
             - if current_organization.full_name == @program_stream.ngo_name
@@ -61,15 +64,13 @@
                     %tr
                       %td.exclusive= t('.program_exclusive')
                       %td
-                        - if @program_exclusive.present?
-                          - @program_exclusive.pluck(:name).each do |name|
-                            %span.label.label-margin= name
+                        - @program_exclusive.pluck(:name).each do |name|
+                          %span.label.label-margin= name
                     %tr
                       %td.exclusive= t('.mutual_dependence')
                       %td
-                        - if @mutual_dependence.present?
-                          - @mutual_dependence.pluck(:name).each do |name|
-                            %span.label.label-margin= name
+                        - @mutual_dependence.pluck(:name).each do |name|
+                          %span.label.label-margin= name
                 #program-rules
 
           .panel.panel-default
@@ -101,22 +102,25 @@
                       = fa_icon('pencil')
             #tracking.panel-collapse.collapse
               .panel-body
-                - @program_stream.trackings.each_slice(2) do |trackings|
-                  .row
-                    - trackings.each do |tracking|
-                      .col-xs-12.col-md-6
-                        .ibox.border-left-right.border-bottom
-                          .ibox-content
-                            - if tracking.name.present?
-                              .row.input-margin
+                - if @program_stream.tracking_required?
+                  %i= "* #{t('.not_require_tracking')}"
+                - else
+                  - @program_stream.trackings.each_slice(2) do |trackings|
+                    .row
+                      - trackings.each do |tracking|
+                        .col-xs-12.col-md-6
+                          .ibox.border-left-right.border-bottom
+                            .ibox-content
+                              - if tracking.name.present?
+                                .row.input-margin
+                                  .col-xs-12
+                                    %label= tracking.name
+                                  .col-xs-12
+                                    = text_field_tag 'Name', '', class: 'form-control'
+                              .row
                                 .col-xs-12
-                                  %label= tracking.name
-                                .col-xs-12
-                                  = text_field_tag 'Name', '', class: 'form-control'
-                            .row
-                              .col-xs-12
-                                - tracking['fields'].each do |field|
-                                  = render "program_streams/fields/#{field['type'].underscore}", field_props: field, full_width: true
+                                  - tracking['fields'].each do |field|
+                                    = render "program_streams/fields/#{field['type'].underscore}", field_props: field, full_width: true
 
           .panel.panel-default
             .panel-heading
