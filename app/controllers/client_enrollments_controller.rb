@@ -59,9 +59,7 @@ class ClientEnrollmentsController < AdminController
   private
 
   def client_enrollment_params
-    params[:client_enrollment][:properties].keys.each do |k|
-      params[:client_enrollment][:properties][k].delete('') if params[:client_enrollment][:properties][k].class == Array && params[:client_enrollment][:properties][k].count > 1
-    end
+    params[:client_enrollment][:properties].values.map{ |v| v.delete('') if (v.is_a?Array) && v.size > 1 } if params[:client_enrollment][:properties].present?
     params.require(:client_enrollment).permit(:enrollment_date, {}).merge(properties: params[:client_enrollment][:properties], program_stream_id: params[:program_stream_id])
   end
 

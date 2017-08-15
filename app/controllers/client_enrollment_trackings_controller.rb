@@ -48,12 +48,13 @@ class ClientEnrollmentTrackingsController < AdminController
   end
 
   def report
-    @client_enrollment_trackings = @enrollment.client_enrollment_trackings.enrollment_trackings_by(@tracking)
+    @client_enrollment_trackings = @enrollment.client_enrollment_trackings.enrollment_trackings_by(@tracking).order(created_at: :desc)
   end
 
   private
 
   def client_enrollment_tracking_params
+    params[:client_enrollment_tracking][:properties].values.map{ |v| v.delete('') if (v.is_a?Array) && v.size > 1 } if params[:client_enrollment_tracking][:properties].present?
     params.require(:client_enrollment_tracking).permit({}).merge(properties: params[:client_enrollment_tracking][:properties], tracking_id: params[:tracking_id])
   end
 

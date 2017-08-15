@@ -44,4 +44,10 @@ body[id='program_streams-show'], body[id='program_streams-preview'] {
       width: 300px;
     }
   }
+
+  #program-stream-info {
+    .label-primary, .label-danger {
+      float: none;
+    }
+  }
 }

@@ -56,6 +56,10 @@ feature 'program_stream' do
       expect(page).to have_content(program_stream.name)
     end
 
+    scenario 'status' do
+      expect(page).to have_content(program_stream.decorate.completed_status)
+    end
+
     scenario 'description' do
       expect(page).to have_content(program_stream.description)
     end
