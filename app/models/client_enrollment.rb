@@ -23,6 +23,10 @@ class ClientEnrollment < ActiveRecord::Base
     CustomFormEmailValidator.new(obj, 'program_stream', 'enrollment').validate
   end
 
+  def active?
+    status == 'Active'
+  end
+
   def has_client_enrollment_tracking?
     client_enrollment_trackings.present?
   end

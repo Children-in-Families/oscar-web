@@ -154,8 +154,10 @@ class ProgramStreamsController < AdminController
   end
 
   def delete_select_option_empty
-    params[:program_stream][:program_exclusive].delete('') if params[:program_stream][:program_exclusive]
-    params[:program_stream][:mutual_dependence].delete('') if params[:program_stream][:mutual_dependence]
+    program_exclusive = params[:program_stream][:program_exclusive]
+    mutual_dependence = params[:program_stream][:mutual_dependence]
+    program_exclusive.delete('') if program_exclusive.present?
+    mutual_dependence.delete('') if mutual_dependence.present?
   end
 
   def decorate_programs(values)

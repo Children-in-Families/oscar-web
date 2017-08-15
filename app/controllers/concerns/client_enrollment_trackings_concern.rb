@@ -8,6 +8,7 @@ module ClientEnrollmentTrackingsConcern
   end
 
   def client_enrollment_tracking_params
+    params[:client_enrollment_tracking][:properties].values.map{|v| v.delete('')}
     params.require(:client_enrollment_tracking).permit({}).merge(properties: params[:client_enrollment_tracking][:properties], tracking_id: params[:tracking_id])
   end
 

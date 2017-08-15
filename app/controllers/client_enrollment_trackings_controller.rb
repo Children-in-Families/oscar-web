@@ -46,6 +46,6 @@ class ClientEnrollmentTrackingsController < AdminController
   end
 
   def report
-    @client_enrollment_trackings = @enrollment.client_enrollment_trackings.enrollment_trackings_by(@tracking)
+    @client_enrollment_trackings = @enrollment.client_enrollment_trackings.enrollment_trackings_by(@tracking).order(created_at: :desc)
   end
 end

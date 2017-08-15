@@ -56,6 +56,10 @@ feature 'program_stream' do
       expect(page).to have_content(program_stream.name)
     end
 
+    scenario 'status' do
+      expect(page).to have_content(program_stream.decorate.completed_status)
+    end
+
     scenario 'description' do
       expect(page).to have_content(program_stream.description)
     end
@@ -178,11 +182,7 @@ feature 'program_stream' do
     context 'save draft' do
       scenario 'valid' do
         find('span', text: 'Save').click
-        expect(page).to have_content('Program Detail')
-        expect(page).to have_content('Rules')
-        expect(page).to have_content('Enrollment')
-        expect(page).to have_content('Tracking')
-        expect(page).to have_content('Exit Program')
+        expect(page).to have_content(program_stream.name)
       end
 
       scenario 'invalid' do

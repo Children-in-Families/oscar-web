@@ -1,6 +1,6 @@
 class ClientEnrollmentTrackingPolicy < ApplicationPolicy
   def create?
-    record.client_enrollment.status == 'Active'
+    record.client_enrollment.active?
   end
 
   def update?

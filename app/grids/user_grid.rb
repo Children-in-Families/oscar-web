@@ -71,13 +71,13 @@ class UserGrid
   column(:job_title, header: -> { I18n.t('datagrid.columns.users.job_title') })
 
   column(:department, order: 'departments.name', header: -> { I18n.t('datagrid.columns.users.department') }) do |object|
-    object.department.name if object.department
+    object.department.try(:name)
   end
 
   column(:start_date, header: -> { I18n.t('datagrid.columns.users.start_date') })
 
   column(:province, order: 'provinces.name', header: -> { I18n.t('datagrid.columns.users.province') }) do |object|
-    object.province.name if object.province
+    object.province.try(:name)
   end
 
   column(:roles, header: -> { I18n.t('datagrid.columns.users.roles') }) do |object|
