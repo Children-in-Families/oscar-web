@@ -34,9 +34,7 @@ class LeaveProgramsController < AdminController
   private
 
   def leave_program_params
-    params[:leave_program][:properties].keys.each do |k|
-      params[:leave_program][:properties][k].delete('') if params[:leave_program][:properties][k].class == Array && params[:leave_program][:properties][k].count > 1
-    end
+    params[:leave_program][:properties].values.map{ |v| v.delete('') if (v.is_a?Array) && v.size > 1 } if params[:leave_program][:properties].present?
     params.require(:leave_program).permit(:exit_date, {}).merge(properties: params[:leave_program][:properties], program_stream_id: params[:program_stream_id])
   end
 

@@ -2,7 +2,10 @@
   .col-xs-12
     .ibox#program-stream-info
       .ibox-title
-        %h5= @program_stream.name
+        %h5
+          = @program_stream.name
+          %span{ class: "#{@program_stream.completed_label_class}"}
+            = @program_stream.completed_status
         .ibox-tools
           - if can? :update, ProgramStream
             - if current_organization.full_name == @program_stream.ngo_name

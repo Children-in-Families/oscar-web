@@ -2,7 +2,7 @@ class TrackingGrid
   include Datagrid
 
   scope do
-    Tracking.all
+    Tracking.order(created_at: :desc)
   end
   column(:name, html: true, header: -> { I18n.t('datagrid.columns.trackings.name') } )
 
