@@ -200,6 +200,7 @@ Rails.application.routes.draw do
       resources :departments, only: [:index]
       resources :families, only: [:index, :create, :update]
       resources :users, only: [:index, :show]
+      resources :tasks, only: [:index]
       resources :clients, except: [:edit, :new] do
         get :compare, on: :collection
         resources :assessments, only: [:create, :update, :destroy, :delete]
