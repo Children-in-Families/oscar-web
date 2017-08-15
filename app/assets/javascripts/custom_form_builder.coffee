@@ -146,10 +146,11 @@ class CIF.CustomFormBuilder
     self = @
     labels = $('.field-label:visible')
     $('.field-actions a.icon-pencil').click ->
-      setTimeout ( ->
-        self.removeFieldDuplicate()
-        self.handleDisplayDuplicateWarning()
-      ), 300
+      $(".form-elements input[name='label']").on 'change', ->
+        setTimeout ( ->
+          self.removeFieldDuplicate()
+          self.handleDisplayDuplicateWarning()
+        ), 300
 
   getNoneDuplicateLabel: (elements) ->
     labels    = $(elements).map(-> $(@).text().trim()).get()

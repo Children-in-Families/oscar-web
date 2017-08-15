@@ -25,6 +25,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     _handleRemoveFrequency()
     _handleSelectFrequency()
     _initFrequencyNote()
+    _editTrackingFormName()
 
   _initCheckbox = ->
     $('.i-checks').iCheck
@@ -167,10 +168,11 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     }).data('formBuilder');
    
    _editTrackingFormName = ->
-    $(".program_stream_trackings_name input[type='text']").on 'blur', ->
+    inputNames = $(".program_stream_trackings_name input[type='text']")
+    $(inputNames).on 'change', ->
       _checkDuplicateTrackingName()
 
-  _checkDuplicateTrackingName = (element)->
+  _checkDuplicateTrackingName = ->
     nameFields = $('.program_stream_trackings_name:visible input[type="text"]')
     values    = $(nameFields).map(-> $(@).val().trim()).get()
     
@@ -346,6 +348,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       value         = parseInt(timeFrequency.val())
       $(timeFrequency).attr(readonly: true) if frequency == ''
       _updateFrequencyNote(value, frequency, elementNote) if value > 0
+      _timeOfFrequencyChange(timeFrequency, frequency, elementNote)
 
   _handleRemoveFrequency = ->
     frequencies = $('.program_stream_trackings_frequency select')
@@ -370,11 +373,13 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       $(timeOfFrequency).val(1) if $(timeOfFrequency).val() <= 0
       value = parseInt($(timeOfFrequency).val())
       _updateFrequencyNote(value, frequencyValue, frequencyNote)
+      _timeOfFrequencyChange(timeOfFrequency, frequencyValue, frequencyNote)
 
-      $(timeOfFrequency).on 'change', ->
-        value = parseInt($(@).val())
-        $(@).val(0) if value < 0
-        _updateFrequencyNote(value, frequencyValue, frequencyNote)
+  _timeOfFrequencyChange = (timeOfFrequency, frequencyValue, frequencyNote) ->
+    $(timeOfFrequency).on 'change', ->
+      value = parseInt($(@).val())
+      $(@).val(0) if value < 0
+      _updateFrequencyNote(value, frequencyValue, frequencyNote)
 
   _updateFrequencyNote = (value, frequency, element) ->
     frequencyNote = 'This needs to be done once every'
