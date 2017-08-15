@@ -10,12 +10,10 @@
             .col-xs-12.col-md-4
               = hidden_field_tag :time, f.object.time_of_frequency || 0, class: 'time'
               = f.input :frequency, collection: Tracking::FREQUENCIES, label: t('.frequency')
-              %p.frequency-note.hidden
+              %p.frequency-note
                 %i
-                  %span.main This needs to be done once every
-                  %span.frequency
             .col-xs-12.col-md-4
-              = f.input :time_of_frequency, label: t('.time_of_frequency'), input_html: { min: 0 }
+              = f.input :time_of_frequency, label: t('.time_of_frequency'), input_html: { min: 0, value: f.object.time_of_frequency || 0}
       .row
         .col-xs-12
           .tracking-builder{ data: { tracking: f.object.fields }}
