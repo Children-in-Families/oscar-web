@@ -1,7 +1,7 @@
 CIF.Program_streamsIndex = do ->
   _init = ->
     _getFamilyPath()
-    _fixedHeaderTableColumns()
+    # _fixedHeaderTableColumns()
     _handleScrollTable()
     _activeTab()
 
@@ -18,7 +18,9 @@ CIF.Program_streamsIndex = do ->
       window.location = $(@).data('href')
 
   _activeTab = ->
-    if window.location.href.split('tab')[1].substr(1) == 'all_ngo'
+    tab = window.location.href.split('tab')[1]
+    return if tab == undefined
+    if tab.substr(1) == 'all_ngo'
       $('a[href="#ngos-program-streams"]').tab('show')
 
   { init: _init }

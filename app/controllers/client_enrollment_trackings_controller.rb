@@ -2,7 +2,7 @@ class ClientEnrollmentTrackingsController < AdminController
   load_and_authorize_resource
 
   include ClientEnrollmentTrackingsConcern
-  include FormBuilderAttachments  
+  include FormBuilderAttachments
 
   def index
     @tracking_grid = TrackingGrid.new(params[:tracking_grid])
@@ -23,17 +23,19 @@ class ClientEnrollmentTrackingsController < AdminController
     end
   end
 
+  def show
+  end
+
   def destroy
     name = params[:file_name]
     index = params[:file_index].to_i
-    params_program_streams = params[:program_streams]
     notice = ""
     if name.present? && index.present?
       delete_form_builder_attachment(@client_enrollment_tracking, name, index)
       redirect_to request.referer, notice: t('.delete_attachment_successfully')
     else
       @client_enrollment_tracking.destroy
-      redirect_to report_client_client_enrolled_program_client_enrolled_program_trackings_path(@client, @enrollment, tracking_id: @tracking.id), notice: t('.successfully_deleted')
+      redirect_to report_client_client_enrolled_program_client_enrolled_program_trackings_path(@client, @enrollment, tracking_id: @client_enrollment_tracking.tracking.id), notice: t('.successfully_deleted')
     end
   end
 

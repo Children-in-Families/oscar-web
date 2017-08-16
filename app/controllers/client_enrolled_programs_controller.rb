@@ -47,8 +47,16 @@ class ClientEnrolledProgramsController < AdminController
   # end
 
   def destroy
-    @client_enrollment.destroy
-    redirect_to report_client_client_enrolled_programs_path(@client, program_stream_id: @program_stream), notice: t('.successfully_deleted')
+    name = params[:file_name]
+    index = params[:file_index].to_i
+    params_program_streams = params[:program_streams]
+    if name.present? && index.present?
+      delete_form_builder_attachment(@client_enrollment, name, index)
+      redirect_to request.referer, notice: t('.delete_attachment_successfully')
+    else
+      @client_enrollment.destroy
+      redirect_to report_client_client_enrolled_programs_path(@client, program_stream_id: @program_stream), notice: t('.successfully_deleted')
+    end
   end
 
   def report

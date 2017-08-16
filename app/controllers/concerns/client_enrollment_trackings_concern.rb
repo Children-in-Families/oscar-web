@@ -3,8 +3,8 @@ module ClientEnrollmentTrackingsConcern
 
   included do
     before_action :find_client, :find_enrollment, :find_program_stream
-    before_action :find_tracking, except: [:index]
-    before_action :find_client_enrollment_tracking, only: [:update, :destroy, :edit]
+    before_action :find_tracking, except: [:index, :show, :destroy]
+    before_action :find_client_enrollment_tracking, only: [:update, :destroy, :edit, :show]
     before_action :get_attachments, only: [:new, :create, :edit, :update]
   end
 
