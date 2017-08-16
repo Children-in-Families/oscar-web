@@ -60,8 +60,9 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
 
 
   _clientSelectOption = ->
-    $("#clients-edit select, #clients-new select, #clients-update select, #clients-create select").select2
+    $('select').select2
       minimumInputLength: 0
+      _clearSelectedOption()
 
     $('select.able-related-info').change ->
       qtSelectedSize = $('select.able-related-info option:selected').length
@@ -72,6 +73,10 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
       else
         $('#client_able').val(false)
         $('#fake_client_able').prop('checked', false)
+
+  _clearSelectedOption = ->
+    formAction = $('body').attr('id')
+    $('#client_gender').val('') unless formAction.includes('edit')
 
   _fixedHeaderStageQuestion = ->
     $('#stage-question table.client-new').dataTable(
