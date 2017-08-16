@@ -9,7 +9,8 @@
           = f.text_field :exit_date, class: 'date optional form-control date-picker', type: 'text', id: 'exit_date'
           %span.input-group-addon
             %i.fa.fa-calendar-check-o
-        %span.help-block.hidden= t('cannot_be_blank')
+        - if f.error :exit_date
+          %span.help-block= t('cannot_be_blank')
     = f.simple_fields_for :properties, OpenStruct.new(@leave_program.properties) do |prop_f|
       - @program_stream.exit_program.each_slice(2) do |n_field|
         .row
@@ -24,7 +25,6 @@
           .col-xs-12
             #message.text-danger
     = hidden_field_tag :program_stream_id, @program_stream.id
-    = hidden_field_tag :program_streams, params[:program_streams]
   .ibox-footer
     = f.submit t('.save'), class: 'btn btn-primary form-btn'
-    = link_to t('.cancel'), client_client_enrollments_path(@client, program_streams: params[:program_streams]), class: 'btn btn-default form-btn'
+    = link_to t('.cancel'), client_client_enrollments_path(@client), class: 'btn btn-default form-btn'

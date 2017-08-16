@@ -4,7 +4,7 @@
       .ibox-title
         %h5= "#{@client.en_and_local_name} - #{t('.report')}"
         .ibox-tools
-          = link_to client_client_enrollments_path(@client, program_streams: params[:program_streams]) do
+          = link_to client_client_enrollments_path(@client) do
             .btn.btn-primary
               = t('.programs_list')
       .ibox-content
@@ -22,19 +22,19 @@
                     %td
                       = enrollment.leave_program.exit_date? ? date_format(enrollment.leave_program.exit_date) : date_format(enrollment.leave_program.created_at)
                     %td= t('.exit')
-                    %td= link_to t('.view'), client_client_enrollment_leave_program_path(@client, enrollment, enrollment.leave_program, program_streams: params[:program_streams])
+                    %td= link_to t('.view'), client_client_enrollment_leave_program_path(@client, enrollment, enrollment.leave_program)
 
                 - if enrollment.has_client_enrollment_tracking?
                   - enrollment.client_enrollment_trackings.order(created_at: :DESC).each do |enrollment_tracking|
                     %tr
                       %td= date_format(enrollment_tracking.created_at)
                       %td= "#{t('.tracking')} (#{enrollment_tracking.tracking.try(:name)})"
-                      %td= link_to t('.view'), client_client_enrollment_client_enrollment_tracking_path(@client, enrollment, enrollment_tracking, program_streams: params[:program_streams], tracking_id: enrollment_tracking.tracking.id)
+                      %td= link_to t('.view'), client_client_enrollment_client_enrollment_tracking_path(@client, enrollment, enrollment_tracking)
 
                 %tr
                   %td
                     = enrollment.enrollment_date? ? date_format(enrollment.enrollment_date) : date_format(enrollment.created_at)
                   %td= t('.enrollment')
                   %td
-                    = link_to client_client_enrollment_path(@client, enrollment, program_stream_id: @program_stream, program_streams: params[:program_streams]) do
+                    = link_to client_client_enrollment_path(@client, enrollment, program_stream_id: @program_stream) do
                       = t('.view')

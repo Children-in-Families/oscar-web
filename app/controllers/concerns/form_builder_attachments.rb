@@ -25,31 +25,31 @@ module FormBuilderAttachments
   end
 
   def attachment_params
-    if controller_name == 'client_enrollments'
+    if controller_name == 'client_enrollments' || controller_name == 'client_enrolled_programs'
       params[:client_enrollment][:form_builder_attachments_attributes]
-    elsif controller_name == 'client_enrollment_trackings'
+    elsif controller_name == 'client_enrollment_trackings' || controller_name == 'client_enrolled_program_trackings'
       params[:client_enrollment_tracking][:form_builder_attachments_attributes]
-    elsif controller_name == 'leave_programs'
+    elsif controller_name == 'leave_programs' || controller_name == 'leave_enrolled_programs'
       params[:leave_program][:form_builder_attachments_attributes]
     end
   end
 
   def attachment_params
-    if controller_name == 'client_enrollments'
+    if controller_name == 'client_enrollments' || controller_name == 'client_enrolled_programs'
       params[:client_enrollment][:form_builder_attachments_attributes]
-    elsif controller_name == 'client_enrollment_trackings'
+    elsif controller_name == 'client_enrollment_trackings' || controller_name == 'client_enrolled_program_trackings'
       params[:client_enrollment_tracking][:form_builder_attachments_attributes]
-    elsif controller_name == 'leave_programs'
+    elsif controller_name == 'leave_programs' || controller_name == 'leave_enrolled_programs'
       params[:leave_program][:form_builder_attachments_attributes]
     end
   end
 
   def properties_params
-    if controller_name == 'client_enrollments'
+    if controller_name == 'client_enrollments' || controller_name == 'client_enrolled_programs'
       params[:client_enrollment][:properties]
-    elsif controller_name == 'client_enrollment_trackings'
+    elsif controller_name == 'client_enrollment_trackings' || controller_name == 'client_enrolled_program_trackings'
       params[:client_enrollment_tracking][:properties]
-    elsif controller_name == 'leave_programs'
+    elsif controller_name == 'leave_programs' || controller_name == 'leave_enrolled_programs'
       params[:leave_program][:properties]
     end
   end

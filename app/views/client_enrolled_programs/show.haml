@@ -1,0 +1,26 @@
+.row
+  .col-xs-12
+    .ibox
+      .ibox-title
+        %h5= "#{t('.enrollment_date')} #{date_format(@client_enrollment.enrollment_date)}"
+        .ibox-tools
+          - if can? :manage, ClientEnrollment
+            = link_to edit_client_client_enrolled_program_path(@client, @client_enrollment, program_stream_id: @program_stream) do
+              .btn.btn-success.btn-outline
+                = fa_icon('pencil')
+            = link_to client_client_enrolled_program_path(@client, @client_enrollment, program_stream_id: @program_stream), method: 'delete', data: { confirm: t('.are_you_sure') } do
+              .btn.btn-outline.btn-danger
+                %i.fa.fa-trash
+            = link_to t('.back'), report_client_client_enrolled_programs_path(@client, program_stream_id: @program_stream), class: 'btn btn-back-default btn-default form-btn margin-btn'
+      .ibox-content
+        .table-responsive
+          %table.table.table-bordered
+            - @program_stream.enrollment.map{|properties| [properties['type'], properties['label']]}.each do |type, key|
+              %tr
+                %td.align-justify
+                  = key
+                %td.align-justify
+                  - if type == 'file'
+                    = render 'shared/form_builder/list_attachment', label: key, resource: @client_enrollment
+                  - else
+                    = display_custom_properties(@client_enrollment.properties[key])

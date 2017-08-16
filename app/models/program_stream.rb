@@ -93,7 +93,7 @@ class ProgramStream < ActiveRecord::Base
   end
 
   def enroll?(client)
-    enrollments = client_enrollments.enrollments_by(client)
+    enrollments = client_enrollments.enrollments_by(client).order(:created_at)
     (enrollments.present? && enrollments.first.status == 'Exited') || enrollments.empty?
   end
 
