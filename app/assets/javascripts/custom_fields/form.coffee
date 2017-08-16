@@ -5,8 +5,8 @@ CIF.Custom_fieldsShow = do ->
   CUSTOM_FIELDS_URL = '/api/custom_fields/fetch_custom_fields'
   _init = ->
     _initFormBuilder()
-    _retriveData(FIELDS_URL)
-    _retriveData(CUSTOM_FIELDS_URL)
+    _retrieveData(FIELDS_URL)
+    _retrieveData(CUSTOM_FIELDS_URL)
     _select2()
     _toggleTimeOfFrequency()
     _changeSelectOfFrequency()
@@ -88,7 +88,7 @@ CIF.Custom_fieldsShow = do ->
       }
 
       typeUserEvents: {
-        'checkbox-group': builderOption.eventCheckoutOption()
+        'checkbox-group': builderOption.eventCheckboxOption()
         date: builderOption.eventDateOption()
         number: builderOption.eventNumberOption()
         'radio-group': builderOption.eventRadioOption()
@@ -109,7 +109,7 @@ CIF.Custom_fieldsShow = do ->
       minimumInputLength: 0
       allowClear: true
 
-  _retriveData = (url) ->
+  _retrieveData = (url) ->
     $.ajax
       method: 'GET'
       url: url
