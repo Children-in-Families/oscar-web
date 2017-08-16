@@ -79,7 +79,6 @@ feature 'Case' do
       fill_in 'Carer Name', with: 'Carer Name'
       fill_in 'Start Date', with: FFaker::Time.date
       click_button 'Save'
-      expect(page).to have_content('Case has been successfully created')
       expect(page).to have_content('Foster Care')
       expect(page).to have_content('Carer Name')
     end
@@ -92,10 +91,11 @@ feature 'Case' do
 
     scenario 'EC without family', js: true do
       visit new_client_case_path(client, case_type: 'EC')
-      fill_in 'Carer Names', with: FFaker::Name.name
-      fill_in 'Start Date', with: FFaker::Time.date
+      fill_in 'Carer Names', with: 'Jonh'
+      fill_in 'Start Date', with: '2017-04-01'
       click_button 'Save'
-      expect(page).to have_content('Case has been successfully created')
+      expect(page).to have_content('Jonh')
+      expect(page).to have_content('April 01, 2017')
     end
   end
 
@@ -111,7 +111,7 @@ feature 'Case' do
       click_button 'Save'
 
       sleep 1
-      expect(page).to have_content('Case has been successfully updated')
+      expect(page).to have_content('Carer Name')
     end
 
     scenario 'invalid', js: true do
@@ -136,7 +136,7 @@ feature 'Case' do
       end
       page.find('input[type="submit"][value="Exit"]').click
 
-      expect(page).to have_content('Case has been successfully updated')
+      expect(page).to have_content('Referred')
     end
   end
 end

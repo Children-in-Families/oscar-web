@@ -28,7 +28,8 @@ describe ClientEnrollmentTracking, 'Client Enrollment Tracking' do
 
         click_button 'Save'
       end
-      expect(page).to have_content('Tracking Program has been successfully created')
+      expect(page).to have_content('Good client')
+      expect(page).to have_content('cif@cambodianfamilies.com')
     end
 
     scenario 'Invalid' do
@@ -137,7 +138,7 @@ describe ClientEnrollmentTracking, 'Client Enrollment Tracking' do
       expect(page).to have_content('Adam Eve (Romeo Juliet) - Soccer - Fitness')
       find('input[type="text"]').set('this is editing')
       find('input[type="submit"]').click
-      expect(page).to have_content('Tracking Program has been successfully updated')
+      expect(page).to have_content('this is editing')
     end
 
     xscenario 'fail' do
