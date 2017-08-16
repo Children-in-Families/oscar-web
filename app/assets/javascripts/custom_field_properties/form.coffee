@@ -9,7 +9,7 @@ CIF.Custom_field_propertiesNew = CIF.Custom_field_propertiesCreate = CIF.Custom_
     $('select').select2()
 
   _initUploader = ->
-    $("#custom_field_property_attachments").fileinput
+    $(".file").fileinput
       showUpload: false
       removeClass: 'btn btn-danger btn-outline'
       browseLabel: 'Browse'
