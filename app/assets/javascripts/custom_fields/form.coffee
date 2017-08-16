@@ -142,8 +142,7 @@ CIF.Custom_fieldsShow = do ->
     labelFields = $('label.field-label')
     for labelField in labelFields
       parent = $(labelField).parent()
-      for field in fields
-        if labelField.textContent == field
-          $(parent).children('div.field-actions').remove()
+      text = labelField.textContent
+      $(parent).children('div.field-actions').remove() if fields.includes(text)
 
   { init: _init }
