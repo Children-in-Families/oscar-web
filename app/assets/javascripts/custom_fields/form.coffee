@@ -5,8 +5,8 @@ CIF.Custom_fieldsShow = do ->
   CUSTOM_FIELDS_URL = '/api/custom_fields/fetch_custom_fields'
   _init = ->
     _initFormBuilder()
-    _preventRemoveFields(FIELDS_URL)
-    _searchCustomFields(CUSTOM_FIELDS_URL)
+    _retriveData(FIELDS_URL)
+    _retriveData(CUSTOM_FIELDS_URL)
     _select2()
     _toggleTimeOfFrequency()
     _changeSelectOfFrequency()
@@ -110,48 +110,40 @@ CIF.Custom_fieldsShow = do ->
       allowClear: true
 
   _retriveData = (url) ->
-    return if url.includes(undefined)
-    data = {}
     $.ajax
       method: 'GET'
       url: url
       dataType: 'JSON'
-      async: false
       success: (response) ->
-        data = response.custom_fields
+        _preventRemoveFields(response.fields) if response.hasOwnProperty('fields')
+        _searchCustomFields(response.custom_fields) if response.hasOwnProperty('custom_fields')
 
-    data
 
-  _searchCustomFields = (url) ->
-    datas =  _retriveData(url)
-
+  _searchCustomFields = (fields) ->
     $('#custom_field_form_title').keyup ->
       $('#livesearch').css('visibility', 'hidden')
       $('#livesearch').empty()
       form_title = $('#custom_field_form_title').val()
       if form_title != ''
-        for data in datas
-          if data.form_title.toLowerCase().startsWith(form_title.toLowerCase())
+        for field in fields
+          if field.form_title.toLowerCase().startsWith(form_title.toLowerCase())
             previewTranslation = $('#livesearch').data('preview-translation')
             copyTranslation = $('#livesearch').data('copy-translation')
             width = $('#custom_field_form_title').css('width')
             $('#livesearch').css('width', width)
             $('#livesearch').css('visibility', 'visible')
-            ngo_name = data.ngo_name.replace(/\s/g,"+")
+            ngo_name = field.ngo_name.replace(/\s/g,"+")
             url_origin = document.location.origin
-            preview_link = "#{url_origin}/datas/preview?custom_field_id=#{data.id}&ngo_name=#{ngo_name}"
-            $('#livesearch').append("<li><span class='col-xs-8'>#{data.form_title} (#{data.ngo_name})</span>
+            preview_link = "#{url_origin}/fields/preview?custom_field_id=#{field.id}&ngo_name=#{ngo_name}"
+            $('#livesearch').append("<li><span class='col-xs-8'>#{field.form_title} (#{field.ngo_name})</span>
             <span class='col-xs-4 text-right'><a href=#{preview_link}>#{previewTranslation}</a></span></li>")
 
-  _preventRemoveFields = (url) ->
-    return if @customFieldId == '' || @customFieldId == undefined
-    datas = _retriveData(url)
-
+  _preventRemoveFields = (fields) ->
     labelFields = $('label.field-label')
     for labelField in labelFields
       parent = $(labelField).parent()
-      for data in datas
-        if labelField.textContent == data
+      for field in fields
+        if labelField.textContent == field
           $(parent).children('div.field-actions').remove()
 
   { init: _init }
