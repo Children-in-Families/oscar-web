@@ -1,7 +1,7 @@
 class CIF.CustomFormBuilder
   constructor: () ->
 
-  eventCheckoutOption: ->
+  eventCheckboxOption: ->
     self = @
     onadd: (fld) ->
       $('.other-wrap, .className-wrap, .access-wrap, .description-wrap, .name-wrap').hide()

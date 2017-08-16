@@ -157,7 +157,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       }
 
       typeUserEvents: {
-        'checkbox-group': builderOption.eventCheckoutOption()
+        'checkbox-group': builderOption.eventCheckboxOption()
         date: builderOption.eventDateOption()
         number: builderOption.eventNumberOption()
         'radio-group': builderOption.eventRadioOption()
