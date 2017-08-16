@@ -31,6 +31,7 @@
                         .ibox-tools
                           - cdg.domain_group.domains.each do |domain|
                             - ad = domain.assessment_domains.find_by(assessment_id: case_note.assessment_id)
+                            - next if ad.nil?
                             %a.collapse-link
                               %label.margin-score{class: "label label-#{ad.score_color_class} label-lg"}= ad.score
                     .ibox-content
