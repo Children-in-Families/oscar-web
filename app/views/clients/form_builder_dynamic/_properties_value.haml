@@ -1,4 +1,3 @@
 %ul
   - properties.each do |property|
-    - next unless property.is_a?(Array) && property.reject(&:empty?).present?
     %li= format_properties_value(property)
