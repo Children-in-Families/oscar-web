@@ -23,6 +23,11 @@ class CustomFieldProperty < ActiveRecord::Base
     custom_formable_type == 'Client'
   end
 
+  def self.properties_by(value)
+    field_properties = select("id, properties ->  '#{value}' as field_properties").collect(&:field_properties)
+    field_properties.select(&:present?)
+  end
+
   private
 
   def create_client_history

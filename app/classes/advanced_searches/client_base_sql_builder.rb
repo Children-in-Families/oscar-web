@@ -9,6 +9,8 @@ module AdvancedSearches
       @sql_string  = []
       @condition    = rules['condition']
       @basic_rules  = rules['rules'] || []
+
+      @columns_visibility = []
     end
 
     def generate
