@@ -2,7 +2,7 @@
   .col-xs-12
     .ibox
       .ibox-title
-        %h5= @tracking.name
+        %h5= "#{@client.en_and_local_name} - #{@tracking.name} - #{@program_stream.name}"
         .ibox-tools
           - unless @enrollment.program_stream.tracking_required?
             - if can? :manage, ClientEnrollmentTracking
