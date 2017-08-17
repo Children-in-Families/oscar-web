@@ -58,7 +58,7 @@ class ClientEnrollmentsController < AdminController
       redirect_to request.referer, notice: t('.delete_attachment_successfully')
     else
       @client_enrollment.destroy
-      redirect_to report_client_client_enrollments_path(@client, program_stream_id: @program_stream), notice: t('.successfully_deleted')      
+      redirect_to report_client_client_enrollments_path(@client, program_stream_id: @program_stream), notice: t('.successfully_deleted')
     end
   end
 
