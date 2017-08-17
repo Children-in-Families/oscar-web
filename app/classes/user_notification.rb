@@ -3,14 +3,14 @@ class UserNotification
   attr_reader :all_count
 
   def initialize(user)
-    @user                          = user
-    @assessments                   = @user.assessment_either_overdue_or_due_today
-    @client_custom_field           = @user.client_custom_field_frequency_overdue_or_due_today
-    @user_custom_field             = @user.user_custom_field_frequency_overdue_or_due_today if @user.admin? || @user.manager?
-    @partner_custom_field          = @user.partner_custom_field_frequency_overdue_or_due_today
-    @family_custom_field           = @user.family_custom_field_frequency_overdue_or_due_today
-    @client_enrollment_tracking    = @user.client_enrollment_tracking_overdue_or_due_today
-    @all_count                     = count
+    @user                                            = user
+    @assessments                                     = @user.assessment_either_overdue_or_due_today
+    @client_custom_field                             = @user.client_custom_field_frequency_overdue_or_due_today
+    @user_custom_field                               = @user.user_custom_field_frequency_overdue_or_due_today if @user.admin? || @user.manager?
+    @partner_custom_field                            = @user.partner_custom_field_frequency_overdue_or_due_today
+    @family_custom_field                             = @user.family_custom_field_frequency_overdue_or_due_today
+    @client_enrollment_tracking_user_notification    = @user.client_enrollment_tracking_overdue_or_due_today
+    @all_count                                       = count
   end
 
   def overdue_tasks_count
@@ -148,11 +148,11 @@ class UserNotification
   end
 
   def client_enrollment_tracking_frequency_due_today_count
-    @client_enrollment_tracking[:clients_due_today].count
+    @client_enrollment_tracking_user_notification[:clients_due_today].count
   end
 
   def client_enrollment_tracking_frequency_overdue_count
-    @client_enrollment_tracking[:clients_overdue].count
+    @client_enrollment_tracking_user_notification[:clients_overdue].count
   end
 
   def any_client_enrollment_tracking_frequency_due_today?
@@ -164,11 +164,11 @@ class UserNotification
   end
 
   def client_enrollment_tracking_frequency_due_today
-    @client_enrollment_tracking[:clients_due_today]
+    @client_enrollment_tracking_user_notification[:clients_due_today]
   end
 
   def client_enrollment_tracking_frequency_overdue
-    @client_enrollment_tracking[:clients_overdue]
+    @client_enrollment_tracking_user_notification[:clients_overdue]
   end
 
   def count

@@ -3,6 +3,5 @@
     %abbr{ title: 'required' }= '*' if field_props['required'] || false
     = field_props['label']
   = f.input field_props['label'], as: :radio_buttons, collection: field_props['values'].map { |f| [f['label'], f['label']] }, checked: f.object[field_props['label']] || field_props['values'].first['label'], required: field_props['required'] || false, label: false, input_html: { title: field_props['description'], name: "#{f.object_name}[#{field_props['label']}]" }
-  = error_message(controller_name, field_message(field_props['label'], errors))
-  -# %span.help-block
-  -#   = field_message(field_props['label'], errors)
+  %span.help-block
+    = field_message(field_props['label'], errors)

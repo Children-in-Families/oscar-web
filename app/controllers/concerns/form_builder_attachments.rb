@@ -25,11 +25,11 @@ module FormBuilderAttachments
   end
 
   def attachment_params
-    if controller_name == 'client_enrollments'
+    if controller_name == 'client_enrollments' || controller_name == 'client_enrolled_programs'
       params[:client_enrollment][:form_builder_attachments_attributes]
-    elsif controller_name == 'client_enrollment_trackings'
+    elsif controller_name == 'client_enrollment_trackings' || controller_name == 'client_enrolled_program_trackings'
       params[:client_enrollment_tracking][:form_builder_attachments_attributes]
-    elsif controller_name == 'leave_programs'
+    elsif controller_name == 'leave_programs' || controller_name == 'leave_enrolled_programs'
       params[:leave_program][:form_builder_attachments_attributes]
     elsif controller_name == 'custom_field_properties'
       params[:custom_field_property][:form_builder_attachments_attributes]
@@ -37,11 +37,11 @@ module FormBuilderAttachments
   end
 
   def properties_params
-    if controller_name == 'client_enrollments'
+    if controller_name == 'client_enrollments' || controller_name == 'client_enrolled_programs'
       params[:client_enrollment][:properties]
-    elsif controller_name == 'client_enrollment_trackings'
+    elsif controller_name == 'client_enrollment_trackings' || controller_name == 'client_enrolled_program_trackings'
       params[:client_enrollment_tracking][:properties]
-    elsif controller_name == 'leave_programs'
+    elsif controller_name == 'leave_programs' || controller_name == 'leave_enrolled_programs'
       params[:leave_program][:properties]
     elsif controller_name == 'custom_field_properties'
       params[:custom_field_property][:properties]

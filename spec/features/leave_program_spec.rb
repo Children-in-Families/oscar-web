@@ -13,7 +13,7 @@ describe LeaveProgram, 'Leave Program' do
       program_stream.reload
       program_stream.update_columns(completed: true)
 
-      visit client_client_enrollments_path(client, program_streams: 'enrolled-program-streams')
+      visit client_client_enrolled_programs_path(client)
       click_link('Exit')
     end
 
@@ -26,7 +26,7 @@ describe LeaveProgram, 'Leave Program' do
 
         click_button 'Save'
       end
-      expect(page).to have_content('Client has successfully exited from the program')
+      expect(page).to have_content('Client has been successfully exited from the program.')
     end
 
     scenario 'Invalid' do
@@ -45,7 +45,7 @@ describe LeaveProgram, 'Leave Program' do
     let!(:leave_program) { create(:leave_program, client_enrollment: client_enrollment, program_stream: program_stream) }
 
     before do
-      visit client_client_enrollment_leave_program_path(client, client_enrollment, leave_program)
+      visit client_client_enrolled_program_leave_enrolled_program_path(client, client_enrollment, leave_program)
     end
 
     scenario 'Age' do
@@ -69,14 +69,14 @@ describe LeaveProgram, 'Leave Program' do
     let!(:leave_program) { create(:leave_program, client_enrollment: client_enrollment, program_stream: program_stream) }
 
     before do
-      visit edit_client_client_enrollment_leave_program_path(client, client_enrollment, leave_program, program_stream_id: program_stream.id)
+      visit edit_client_client_enrolled_program_leave_enrolled_program_path(client, client_enrollment, leave_program, program_stream_id: program_stream.id)
     end
 
     scenario 'success' do
       find('#exit_date').set(FFaker::Time.date)
       find('#leave_program_properties_description').set('this is editing')
       find('input[type="submit"]').click
-      expect(page).to have_content('Exit Program has successfully updated')
+      expect(page).to have_content('Exit Program has been successfully updated.')
     end
 
     scenario 'fail' do
