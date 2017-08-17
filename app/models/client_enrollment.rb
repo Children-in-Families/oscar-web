@@ -33,6 +33,11 @@ class ClientEnrollment < ActiveRecord::Base
     client_enrollment_trackings.present?
   end
 
+  def self.properties_by(value)
+    field_properties = select("id, properties ->  '#{value}' as field_properties").collect(&:field_properties)
+    field_properties.select(&:present?)
+  end
+
   def set_client_status
     client = Client.find self.client_id
     client_status = 'Active' unless client.cases.exclude_referred.currents.present?

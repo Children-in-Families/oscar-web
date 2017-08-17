@@ -31,6 +31,11 @@ class CustomFieldProperty < ActiveRecord::Base
     form_builder_attachments.find_by(name: value)
   end
 
+  def self.properties_by(value)
+    field_properties = select("id, properties ->  '#{value}' as field_properties").collect(&:field_properties)
+    field_properties.select(&:present?)
+  end
+
   private
 
   def create_client_history

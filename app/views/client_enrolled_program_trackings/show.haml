@@ -7,7 +7,7 @@
   .col-xs-12
     .ibox
       .ibox-title
-        %h5= @client_enrollment_tracking.tracking.try(:name)
+        %h5= "#{@client.en_and_local_name} - #{@client_enrollment_tracking.tracking.try(:name)} - #{@program_stream.name}"
         .ibox-tools
           - if (can? :manage, ClientEnrollmentTracking) && (policy(@client_enrollment_tracking).update?)
             = link_to edit_client_client_enrolled_program_client_enrolled_program_tracking_path(@client, @enrollment, @client_enrollment_tracking, tracking_id: @client_enrollment_tracking.tracking.id) do
