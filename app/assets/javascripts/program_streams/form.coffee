@@ -50,24 +50,26 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     _selectOptonMutualDependence(programExclusive, mutualDependence)
 
   _selectOptonProgramExclusive = (programExclusive, mutualDependence) ->
-    for value in programExclusive.val()
-      $(mutualDependence).find("option[value=#{value}]").attr('disabled', true)
+    if $(programExclusive).val() != null
+      for value in $(programExclusive).val()
+        $(mutualDependence).find("option[value=#{value}]").attr('disabled', true)
 
     $(programExclusive).on 'select2-selecting', (select)->
-      $(mutualDependence).find("option[#{select.val}]").attr('disabled', true)
+      $(mutualDependence).find("option[value=#{select.val}]").attr('disabled', true)
 
     $(programExclusive).on 'select2-removed', (select)->
-      $(mutualDependence).find("option[#{select.val}]").removeAttr('disabled')
+      $(mutualDependence).find("option[value=#{select.val}]").removeAttr('disabled')
 
   _selectOptonMutualDependence = (programExclusive, mutualDependence) ->
-    for value in mutualDependence.val()
-      $(programExclusive).find("option[value=#{value}]").attr('disabled', true)
+    if $(mutualDependence).val() != null
+      for value in mutualDependence.val()
+        $(programExclusive).find("option[value=#{value}]").attr('disabled', true)
 
     $(mutualDependence).on 'select2-selecting', (select)->
-      $(programExclusive).find("option[#{select.val}]").attr('disabled', true)
+      $(programExclusive).find("option[value=#{select.val}]").attr('disabled', true)
 
     $(mutualDependence).on 'select2-removed', (select)->
-      $(programExclusive).find("option[#{select.val}]").removeAttr('disabled')
+      $(programExclusive).find("option[value=#{select.val}]").removeAttr('disabled')
 
   _handleSelectTab = ->
     tab = $('.program-steps').data('tab')
@@ -210,7 +212,6 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
 
       onStepChanging: (event, currentIndex, newIndex) ->
         if currentIndex == 0 and newIndex == 1 and $('#description').is(':visible')
-          setTimeout (-> _handleRemoveProgramList())
           form.valid()
           name = $('#program_stream_name').val() == ''
           return false if name
@@ -227,7 +228,9 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       onStepChanged: (event, currentIndex, newIndex) ->
         _stickyFill()
         buttonSave = $('#btn-save-draft')
-        if $('#exit-program').is(':visible') then $(buttonSave).hide() else $(buttonSave).show()
+        if $('#rule-tab').is(':visible')
+          _handleRemoveProgramList()
+        else if $('#exit-program').is(':visible') then $(buttonSave).hide() else $(buttonSave).show()
 
       onFinished: (event, currentIndex) ->
         $('.actions a:contains("Finish")').removeAttr('href')
