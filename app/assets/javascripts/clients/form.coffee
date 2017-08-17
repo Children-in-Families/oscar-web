@@ -62,6 +62,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
   _clientSelectOption = ->
     $('select').select2
       minimumInputLength: 0
+      allowClear: true
       _clearSelectedOption()
 
     $('select.able-related-info').change ->
