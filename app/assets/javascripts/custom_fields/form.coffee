@@ -90,7 +90,7 @@ CIF.Custom_fieldsShow = do ->
       typeUserEvents: {
         'checkbox-group': builderOption.eventCheckboxOption()
         date: builderOption.eventDateOption()
-        file: builderOption.eventNumberOption()
+        file: builderOption.eventFileOption()
         number: builderOption.eventNumberOption()
         'radio-group': builderOption.eventRadioOption()
         select: builderOption.eventSelectOption()

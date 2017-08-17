@@ -42,7 +42,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     $('.program_stream_trackings_frequency select').select2
       minimumInputLength: 0
       allowClear: true
-      
+
   _handleRemoveProgramList = ->
     programExclusive = $('#program_stream_program_exclusive')
     mutualDependence = $('#program_stream_mutual_dependence')
@@ -159,7 +159,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       typeUserEvents: {
         'checkbox-group': builderOption.eventCheckboxOption()
         date: builderOption.eventDateOption()
-        file: builderOption.eventNumberOption()
+        file: builderOption.eventFileOption()
         number: builderOption.eventNumberOption()
         'radio-group': builderOption.eventRadioOption()
         select: builderOption.eventSelectOption()
@@ -167,7 +167,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         textarea: builderOption.eventTextAreaOption()
       }
     }).data('formBuilder');
-   
+
    _editTrackingFormName = ->
     inputNames = $(".program_stream_trackings_name input[type='text']")
     $(inputNames).on 'change', ->
@@ -176,7 +176,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
   _checkDuplicateTrackingName = ->
     nameFields = $('.program_stream_trackings_name:visible input[type="text"]')
     values    = $(nameFields).map(-> $(@).val().trim()).get()
-    
+
     duplicateValues = Object.values(values.getDuplicates())
     indexs    = [].concat.apply([], duplicateValues)
 
@@ -216,7 +216,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
           return false if name
         else if currentIndex == 3 and newIndex == 4 and $('#trackings').is(':visible')
           return true if $('#trackings').hasClass('hide-tracking-form')
-          return _handleCheckingDuplicateFields() and _handleCheckTrackingName() 
+          return _handleCheckingDuplicateFields() and _handleCheckTrackingName()
         else if $('#enrollment, #exit-program').is(':visible')
           return _handleCheckingDuplicateFields()
           return false if _handleCheckingDuplicateFields()

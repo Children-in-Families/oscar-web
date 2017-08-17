@@ -704,7 +704,7 @@ en:
       allow_file_size: Allowed file types
       cancel: Cancel
       save: Save
-      max_file_size: "*Maximum file size: 5MB/file and 30MB/upload."  
+      max_file_size: "*Maximum file size: 5MB/file and 30MB/upload."
     index:
       programs_list: Programs List
       tracking_lists: Trackings List
@@ -1167,6 +1167,7 @@ en:
     create:
       successfully_created: Custom Field Property has been successfully created.
     destroy:
+      delete_attachment_successfully: Attachment has been successfully deleted.
       successfully_deleted: Custom Field Property has been successfully deleted.
     form:
       cancel: Cancel

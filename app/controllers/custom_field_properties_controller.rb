@@ -47,10 +47,11 @@ class CustomFieldPropertiesController < AdminController
     index = params[:file_index].to_i
     if name.present? && index.present?
       delete_form_builder_attachment(@custom_field_property, name, index)
+      redirect_to request.referer, notice: t('.delete_attachment_successfully')
     else
       @custom_field_property.destroy
+      redirect_to polymorphic_path([@custom_formable, CustomFieldProperty], custom_field_id: @custom_field), notice: t('.successfully_deleted')
     end
-    redirect_to polymorphic_path([@custom_formable, CustomFieldProperty], custom_field_id: @custom_field), notice: t('.successfully_deleted')
   end
 
   private
