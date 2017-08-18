@@ -29,7 +29,6 @@
               .visibility.col-sm-12
                 = check_box_tag "#{f.name}_", f.name, checked = params["#{f.name}_"].present?, class: 'i-checks'
                 = columns_visibility f.name
-
           %li
             .visibility.col-sm-12
               = check_box_tag 'history_of_harm_', 'history_of_harm', checked = params[:history_of_harm_].present?, class: 'i-checks'
@@ -91,6 +90,12 @@
             .visibility.col-sm-12
               = check_box_tag 'partner_', 'partner', checked = params[:partner_].present?, class: 'i-checks'
               = label_tag 'partner_', t('datagrid.columns.partner')
+          - if @form_builder.present?
+            - @form_builder.each do |field|
+              %li
+                .visibility.col-sm-12
+                  = check_box_tag "#{form_builder_format_key(field)}_", form_builder_format_key(field), params[:"#{form_builder_format_key(field)}_"].present?, class: 'i-checks'
+                  = label_tag "#{form_builder_format_key(field)}_", form_builder_format(field)
           %li
             .visibility.col-sm-12
               = check_box_tag 'manage_', 'manage', checked = params[:manage_].present?, class: 'i-checks'

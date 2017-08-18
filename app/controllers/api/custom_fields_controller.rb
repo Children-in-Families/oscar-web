@@ -7,7 +7,7 @@ module Api
     def fields
       custom_field = CustomField.find params[:custom_field_id]
       properties = custom_field.custom_field_properties.pluck(:properties).select(&:present?).map(&:keys).flatten.uniq
-      render json: properties
+      render json: { fields: properties }
     end
 
     private
@@ -21,7 +21,7 @@ module Api
         custom_fields << CustomField.order(:entity_type, :form_title).reload
       end
       Organization.switch_to(current_org_name)
-      custom_fields.flatten
+      { custom_fields: custom_fields.flatten }
     end
   end
 end

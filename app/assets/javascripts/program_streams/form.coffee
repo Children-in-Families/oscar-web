@@ -42,7 +42,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     $('.program_stream_trackings_frequency select').select2
       minimumInputLength: 0
       allowClear: true
-      
+
   _handleRemoveProgramList = ->
     programExclusive = $('#program_stream_program_exclusive')
     mutualDependence = $('#program_stream_mutual_dependence')
@@ -50,24 +50,26 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     _selectOptonMutualDependence(programExclusive, mutualDependence)
 
   _selectOptonProgramExclusive = (programExclusive, mutualDependence) ->
-    for value in programExclusive.val()
-      $(mutualDependence).find("option[value=#{value}]").attr('disabled', true)
+    if $(programExclusive).val() != null
+      for value in $(programExclusive).val()
+        $(mutualDependence).find("option[value=#{value}]").attr('disabled', true)
 
     $(programExclusive).on 'select2-selecting', (select)->
-      $(mutualDependence).find("option[#{select.val}]").attr('disabled', true)
+      $(mutualDependence).find("option[value=#{select.val}]").attr('disabled', true)
 
     $(programExclusive).on 'select2-removed', (select)->
-      $(mutualDependence).find("option[#{select.val}]").removeAttr('disabled')
+      $(mutualDependence).find("option[value=#{select.val}]").removeAttr('disabled')
 
   _selectOptonMutualDependence = (programExclusive, mutualDependence) ->
-    for value in mutualDependence.val()
-      $(programExclusive).find("option[value=#{value}]").attr('disabled', true)
+    if $(mutualDependence).val() != null
+      for value in mutualDependence.val()
+        $(programExclusive).find("option[value=#{value}]").attr('disabled', true)
 
     $(mutualDependence).on 'select2-selecting', (select)->
-      $(programExclusive).find("option[#{select.val}]").attr('disabled', true)
+      $(programExclusive).find("option[value=#{select.val}]").attr('disabled', true)
 
     $(mutualDependence).on 'select2-removed', (select)->
-      $(programExclusive).find("option[#{select.val}]").removeAttr('disabled')
+      $(programExclusive).find("option[value=#{select.val}]").removeAttr('disabled')
 
   _handleSelectTab = ->
     tab = $('.program-steps').data('tab')
@@ -157,8 +159,9 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       }
 
       typeUserEvents: {
-        'checkbox-group': builderOption.eventCheckoutOption()
+        'checkbox-group': builderOption.eventCheckboxOption()
         date: builderOption.eventDateOption()
+        file: builderOption.eventFileOption()
         number: builderOption.eventNumberOption()
         'radio-group': builderOption.eventRadioOption()
         select: builderOption.eventSelectOption()
@@ -166,7 +169,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         textarea: builderOption.eventTextAreaOption()
       }
     }).data('formBuilder');
-   
+
    _editTrackingFormName = ->
     inputNames = $(".program_stream_trackings_name input[type='text']")
     $(inputNames).on 'change', ->
@@ -175,7 +178,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
   _checkDuplicateTrackingName = ->
     nameFields = $('.program_stream_trackings_name:visible input[type="text"]')
     values    = $(nameFields).map(-> $(@).val().trim()).get()
-    
+
     duplicateValues = Object.values(values.getDuplicates())
     indexs    = [].concat.apply([], duplicateValues)
 
@@ -209,13 +212,12 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
 
       onStepChanging: (event, currentIndex, newIndex) ->
         if currentIndex == 0 and newIndex == 1 and $('#description').is(':visible')
-          setTimeout (-> _handleRemoveProgramList())
           form.valid()
           name = $('#program_stream_name').val() == ''
           return false if name
         else if currentIndex == 3 and newIndex == 4 and $('#trackings').is(':visible')
           return true if $('#trackings').hasClass('hide-tracking-form')
-          return _handleCheckingDuplicateFields() and _handleCheckTrackingName() 
+          return _handleCheckingDuplicateFields() and _handleCheckTrackingName()
         else if $('#enrollment, #exit-program').is(':visible')
           return _handleCheckingDuplicateFields()
           return false if _handleCheckingDuplicateFields()
@@ -226,7 +228,9 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       onStepChanged: (event, currentIndex, newIndex) ->
         _stickyFill()
         buttonSave = $('#btn-save-draft')
-        if $('#exit-program').is(':visible') then $(buttonSave).hide() else $(buttonSave).show()
+        if $('#rule-tab').is(':visible')
+          _handleRemoveProgramList()
+        else if $('#exit-program').is(':visible') then $(buttonSave).hide() else $(buttonSave).show()
 
       onFinished: (event, currentIndex) ->
         $('.actions a:contains("Finish")').removeAttr('href')

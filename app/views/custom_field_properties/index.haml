@@ -34,12 +34,15 @@
                 .ibox-content
                   .table-responsive
                     %table.table.table-bordered
-                      - custom_field_property.custom_field.fields.map{|a| a['label']}.each do |key|
+                      - custom_field_property.custom_field.fields.map{|a| [a['type'], a['label']]}.each do |type, key|
+
                         %tr
                           %td.align-justify
                             = key
                           %td.align-justify
-                            = display_custom_properties(custom_field_property.properties[key])
-                      = render 'attachment', custom_field_property: custom_field_property
+                            - if type == 'file'
+                              = render 'shared/form_builder/list_attachment', label: key, resource: custom_field_property
+                            - else
+                              = display_custom_properties(custom_field_property.properties[key])
       .ibox-footer.text-center
         = paginate @custom_field_properties

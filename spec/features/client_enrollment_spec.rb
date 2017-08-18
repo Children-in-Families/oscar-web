@@ -23,7 +23,7 @@ describe 'Client Enrollment' do
       program_stream_active.reload
       program_stream_active.update_columns(completed: true)
 
-      visit client_client_enrollments_path(client, program_streams: 'enrolled-program-streams')
+      visit client_client_enrolled_programs_path(client)
     end
 
     scenario 'program lists' do
@@ -60,7 +60,7 @@ describe 'Client Enrollment' do
       program_stream_exited.reload
       program_stream_exited.update_columns(completed: true)
 
-      visit client_client_enrollments_path(client, program_streams: 'program-streams')
+      visit client_client_enrollments_path(client)
     end
 
     scenario 'program lists' do
@@ -96,7 +96,7 @@ describe 'Client Enrollment' do
 
       second_program_stream.reload
       second_program_stream.update_columns(completed: true)
-      visit client_client_enrollments_path(client, program_streams: 'program-streams')
+      visit client_client_enrollments_path(client)
       click_link('Enroll')
     end
 
@@ -130,7 +130,7 @@ describe 'Client Enrollment' do
     let!(:tracking) { create(:tracking, program_stream: second_program_stream) }
 
     before do
-      visit report_client_client_enrollments_path(client, program_stream_id: program_stream)
+      visit report_client_client_enrolled_programs_path(client, program_stream_id: program_stream)
     end
 
     scenario 'Date' do
@@ -150,7 +150,7 @@ describe 'Client Enrollment' do
 
   feature 'Show' do
     before do
-      visit client_client_enrollment_path(client, client_enrollment, program_stream_id: program_stream.id)
+      visit client_client_enrolled_program_path(client, client_enrollment, program_stream_id: program_stream.id)
     end
 
     scenario 'Date' do
@@ -174,7 +174,7 @@ describe 'Client Enrollment' do
     end
 
     scenario 'Edit Link' do
-      expect(page).to have_link(nil, edit_client_client_enrollment_path(client, client_enrollment, program_stream_id: program_stream.id))
+      expect(page).to have_link(nil, edit_client_client_enrolled_program_path(client, client_enrollment, program_stream_id: program_stream.id))
     end
 
     # xscenario 'Delete Link' do
@@ -184,7 +184,7 @@ describe 'Client Enrollment' do
 
   feature 'Update', js: true do
     before do
-      visit edit_client_client_enrollment_path(client, client_enrollment, program_stream_id: program_stream.id)
+      visit edit_client_client_enrolled_program_path(client, client_enrollment, program_stream_id: program_stream.id)
     end
 
     scenario 'success' do
@@ -193,21 +193,21 @@ describe 'Client Enrollment' do
       expect(page).to have_content('this is editing')
     end
 
-    xscenario 'fail' do
+    scenario 'fail' do
       find('input[type="text"]:last-child').set('')
       find('input[type="submit"]').click
       expect(page).to have_css('div.form-group.has-error')
     end
   end
 
-  # xfeature 'Destroy', js: true do
-  #   before do
-  #     visit client_client_enrollment_path(client, client_enrollment, program_stream_id: program_stream.id)
-  #   end
-  #
-  #   scenario 'success' do
-  #     find("a[data-method='delete'][href='#{client_client_enrollment_path(client, client_enrollment, program_stream_id: program_stream.id)}']").click
-  #     expect(page).to have_content('Enrollment has been successfully deleted.')
-  #   end
-  # end
+  feature 'Destroy', js: true do
+    before do
+      visit client_client_enrollment_path(client, client_enrollment, program_stream_id: program_stream.id)
+    end
+
+    scenario 'success' do
+      find("a[data-method='delete'][href='#{client_client_enrollment_path(client, client_enrollment, program_stream_id: program_stream.id)}']").click
+      expect(page).not_to have_content(client_enrollment.enrollment_date.strftime('%d %B, %Y'))
+    end
+  end
 end

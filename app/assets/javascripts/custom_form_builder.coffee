@@ -1,7 +1,7 @@
 class CIF.CustomFormBuilder
   constructor: () ->
 
-  eventCheckoutOption: ->
+  eventCheckboxOption: ->
     self = @
     onadd: (fld) ->
       $('.other-wrap, .className-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
@@ -18,6 +18,16 @@ class CIF.CustomFormBuilder
         ),50
 
   eventDateOption: ->
+    self = @
+    onadd: (fld) ->
+      $('.className-wrap, .value-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
+      self.handleCheckingForm()
+    onclone: (fld) ->
+      setTimeout ( ->
+        self.handleCheckingForm()
+      ),50
+
+  eventFileOption: ->
     self = @
     onadd: (fld) ->
       $('.className-wrap, .value-wrap, .access-wrap, .description-wrap, .name-wrap').hide()

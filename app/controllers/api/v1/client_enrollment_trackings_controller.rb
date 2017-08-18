@@ -23,6 +23,9 @@ module Api
         end
       end
 
+      def show
+      end
+
       private
 
       def client_enrollment_tracking_params

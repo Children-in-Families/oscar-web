@@ -17,6 +17,11 @@ class LeaveProgram < ActiveRecord::Base
     CustomFormEmailValidator.new(obj, 'program_stream', 'exit_program').validate
   end
 
+  def self.properties_by(value)
+    field_properties = select("leave_programs.id, leave_programs.properties ->  '#{value}' as field_properties").collect(&:field_properties)
+    field_properties.select(&:present?)
+  end
+
   def set_client_status
     self.client_enrollment.update_columns(status: 'Exited')
 

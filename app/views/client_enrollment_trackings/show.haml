@@ -1,6 +1,6 @@
 .row
   .col-xs-12
-    = link_to client_client_enrollment_client_enrollment_trackings_path(@client, @enrollment, program_streams: params[:program_streams]) do
+    = link_to client_client_enrollment_client_enrollment_trackings_path(@client, @enrollment) do
       .btn.btn-primary.btn-outline.pull-right
         = t('.trackings_list')
 .row
@@ -10,22 +10,21 @@
         %h5= "#{@client.en_and_local_name} - #{@client_enrollment_tracking.tracking.try(:name)} - #{@program_stream.name}"
         .ibox-tools
           - if (can? :manage, ClientEnrollmentTracking) && (policy(@client_enrollment_tracking).update?)
-            = link_to edit_client_client_enrollment_client_enrollment_tracking_path(@client, @enrollment, @client_enrollment_tracking, tracking_id: @client_enrollment_tracking.tracking, program_streams: params[:program_streams]) do
+            = link_to edit_client_client_enrollment_client_enrollment_tracking_path(@client, @enrollment, @client_enrollment_tracking, tracking_id: @client_enrollment_tracking.tracking) do
               .btn.btn-success.btn-outline
                 = fa_icon('pencil')
-          = link_to report_client_client_enrollments_path(@client, program_stream_id: @program_stream, program_streams: params[:program_streams]) do
+          = link_to report_client_client_enrollments_path(@client, program_stream_id: @program_stream) do
             .btn.btn-default.btn-back-default
               = t('.back')
       .ibox-content
         .table-responsive
           %table.table.table-bordered
-            - @program_stream.trackings.each do |tracking|
-              - tracking.fields.map{|field| [field['type'], field['label']]}.each do |type, key|
-                %tr
-                  %td.align-justify
-                    = key
-                  %td.align-justify
-                    - if type == 'file'
-                      = render 'shared/form_builder/list_attachment', label: key, resource: @client_enrollment_tracking
-                    - else
-                      = display_custom_properties(@client_enrollment_tracking.properties[key])
+            - @client_enrollment_tracking.tracking.fields.map{|field| [field['type'], field['label']]}.each do |type, key|
+              %tr
+                %td.align-justify
+                  = key
+                %td.align-justify
+                  - if type == 'file'
+                    = render 'shared/form_builder/list_attachment', label: key, resource: @client_enrollment_tracking
+                  - else
+                    = display_custom_properties(@client_enrollment_tracking.properties[key])

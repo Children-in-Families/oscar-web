@@ -12,7 +12,7 @@ class ClientEnrollment < ActiveRecord::Base
 
   has_paper_trail
 
-  scope :enrollments_by, ->(client) { where(client_id: client).order(created_at: :DESC) }
+  scope :enrollments_by, ->(client) { where(client_id: client) }
   scope :active, -> { where(status: 'Active') }
   scope :inactive, -> { where(status: 'Exited') }
 
@@ -25,8 +25,17 @@ class ClientEnrollment < ActiveRecord::Base
     CustomFormEmailValidator.new(obj, 'program_stream', 'enrollment').validate
   end
 
+  def active?
+    status == 'Active'
+  end
+
   def has_client_enrollment_tracking?
     client_enrollment_trackings.present?
+  end
+
+  def self.properties_by(value)
+    field_properties = select("client_enrollments.id, client_enrollments.properties ->  '#{value}' as field_properties").collect(&:field_properties)
+    field_properties.select(&:present?)
   end
 
   def set_client_status
