@@ -26,18 +26,18 @@ module ClientGridOptions
       fields = field.split('_')
       @client_grid.column(:"#{fields.last.parameterize('_')}", header: fields.last) do |client|
         if fields.first == 'formbuilder'
-          custom_field_properties = client.custom_field_properties.properties_by(fields.last)
+          custom_field_properties = client.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).properties_by(fields.last)
           custom_field_properties.map{ |properties| format_properties_value(properties) }.join("\n")
         elsif fields.first == 'enrollment'
-          enrollment_properties = client.client_enrollments.properties_by(fields.last)
+          enrollment_properties = client.client_enrollments.joins(:program_stream).where(program_streams: { name: fields.second }).properties_by(fields.last)
           enrollment_properties.map{ |properties| format_properties_value(properties) }.join("\n")
         elsif fields.first == 'tracking'
           ids = client.client_enrollments.ids
-          enrollment_tracking_properties = ClientEnrollmentTracking.where(client_enrollment_id: ids).properties_by(fields.last)
+          enrollment_tracking_properties = ClientEnrollmentTracking.joins(:tracking).where(trackings: { name: fields.third }, client_enrollment_trackings: { client_enrollment_id: ids }).properties_by(fields.last)
           enrollment_tracking_properties.map{ |properties| format_properties_value(properties) }.join("\n")
         elsif fields.first == 'exitprogram'
           ids = client.client_enrollments.inactive.ids
-          leave_program_properties = LeaveProgram.where(client_enrollment_id: ids).properties_by(fields.last)
+          leave_program_properties = LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { client_enrollment_id: ids }).properties_by(fields.last)
           leave_program_properties.map{ |properties| format_properties_value(properties) }.join("\n")
         end
       end

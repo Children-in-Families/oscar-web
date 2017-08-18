@@ -24,7 +24,7 @@ class CustomFieldProperty < ActiveRecord::Base
   end
 
   def self.properties_by(value)
-    field_properties = select("id, properties ->  '#{value}' as field_properties").collect(&:field_properties)
+    field_properties = select("custom_field_properties.id, custom_field_properties.properties ->  '#{value}' as field_properties").collect(&:field_properties)
     field_properties.select(&:present?)
   end
 

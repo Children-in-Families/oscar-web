@@ -18,7 +18,7 @@ class ClientEnrollmentTracking < ActiveRecord::Base
   end
 
   def self.properties_by(value)
-    field_properties = select("id, properties ->  '#{value}' as field_properties").collect(&:field_properties)
+    field_properties = select("client_enrollment_trackings.id, client_enrollment_trackings.properties ->  '#{value}' as field_properties").collect(&:field_properties)
     field_properties.select(&:present?)
   end
 

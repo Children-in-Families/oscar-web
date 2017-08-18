@@ -18,7 +18,7 @@ class LeaveProgram < ActiveRecord::Base
   end
 
   def self.properties_by(value)
-    field_properties = select("id, properties ->  '#{value}' as field_properties").collect(&:field_properties)
+    field_properties = select("leave_programs.id, leave_programs.properties ->  '#{value}' as field_properties").collect(&:field_properties)
     field_properties.select(&:present?)
   end
 
