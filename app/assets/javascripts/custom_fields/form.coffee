@@ -74,7 +74,7 @@ CIF.Custom_fieldsShow = do ->
     formBuilder = $('.build-wrap').formBuilder({
       dataType: 'json'
       formData:  fields.replace(/=>/g, ':')
-      disableFields: ['autocomplete', 'header', 'hidden', 'paragraph', 'button', 'file','checkbox']
+      disableFields: ['autocomplete', 'header', 'hidden', 'paragraph', 'button', 'checkbox']
       showActionButtons: false
       messages: {
         cannotBeEmpty: 'name_separated_with_underscore'
@@ -90,6 +90,7 @@ CIF.Custom_fieldsShow = do ->
       typeUserEvents: {
         'checkbox-group': builderOption.eventCheckboxOption()
         date: builderOption.eventDateOption()
+        file: builderOption.eventFileOption()
         number: builderOption.eventNumberOption()
         'radio-group': builderOption.eventRadioOption()
         select: builderOption.eventSelectOption()

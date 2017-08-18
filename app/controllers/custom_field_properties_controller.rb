@@ -1,8 +1,11 @@
 class CustomFieldPropertiesController < AdminController
   load_and_authorize_resource
 
+  include FormBuilderAttachments
+
   before_action :find_entity, :find_custom_field
   before_action :find_custom_field_property, only: [:edit, :update, :destroy]
+  before_action :get_form_builder_attachments, only: [:edit, :update]
 
   def index
     @custom_field_properties = @custom_formable.custom_field_properties.accessible_by(current_ability).by_custom_field(@custom_field).most_recents.page(params[:page]).per(4)
@@ -10,6 +13,7 @@ class CustomFieldPropertiesController < AdminController
 
   def new
     @custom_field_property = @custom_formable.custom_field_properties.new(custom_field_id: @custom_field)
+    @attachments = @custom_field_property.form_builder_attachments
     authorize! :new, @custom_field_property
   end
 
@@ -29,9 +33,8 @@ class CustomFieldPropertiesController < AdminController
 
   def update
     authorize! :update, @custom_field_property
-    attachments = params['custom_field_property']['attachments']
-    add_more_attachments(attachments) if attachments.present?
-    if @custom_field_property.update_attributes(custom_field_property_params) && @custom_field_property.save
+    if @custom_field_property.update_attributes(custom_field_property_params)
+      add_more_attachments(@custom_field_property)
       redirect_to polymorphic_path([@custom_formable, CustomFieldProperty], custom_field_id: @custom_field), notice: t('.successfully_updated')
     else
       render :edit
@@ -40,32 +43,30 @@ class CustomFieldPropertiesController < AdminController
 
   def destroy
     authorize! :destroy, @custom_field_property
-    if params[:file_index].present?
-      remove_attachment_at_index(params[:file_index].to_i)
-      message = "Failed deleting attachment" unless @custom_field_property.save
+    name = params[:file_name]
+    index = params[:file_index].to_i
+    if name.present? && index.present?
+      delete_form_builder_attachment(@custom_field_property, name, index)
+      redirect_to request.referer, notice: t('.delete_attachment_successfully')
     else
       @custom_field_property.destroy
-    end
-    message ||= t('.successfully_deleted')
-    respond_to do |f|
-      f.html { redirect_to polymorphic_path([@custom_formable, CustomFieldProperty], custom_field_id: @custom_field), notice: message }
-      f.json { render json: { message: message }, status: '200' }
+      redirect_to polymorphic_path([@custom_formable, CustomFieldProperty], custom_field_id: @custom_field), notice: t('.successfully_deleted')
     end
   end
 
   private
 
   def custom_field_property_params
-    params[:custom_field_property][:properties].keys.each do |k|
-      params[:custom_field_property][:properties][k].delete('') if params[:custom_field_property][:properties][k].class == Array && params[:custom_field_property][:properties][k].count > 1
-    end
-    default_params = params.require(:custom_field_property).permit({}).merge(properties: params[:custom_field_property][:properties], custom_field_id: params[:custom_field_id])
-    default_params = default_params.merge(attachments: params[:custom_field_property][:attachments]) if action_name == 'create'
+    properties_params.values.map{ |v| v.delete('') if (v.is_a?Array) && v.size > 1 } if properties_params.present?
+
+    default_params = params.require(:custom_field_property).permit({}).merge(custom_field_id: params[:custom_field_id])
+    default_params = default_params.merge(properties: properties_params) if properties_params.present?
+    default_params = default_params.merge(form_builder_attachments_attributes: attachment_params) if action_name == 'create' && attachment_params.present?
     default_params
+  end
 
-
-
-    # params.require(:custom_field_property).permit({}).merge(properties: (params['custom_field_property']['properties']), attachments: (params['custom_field_property']['attachments']), custom_field_id: params[:custom_field_id])
+  def get_form_builder_attachments
+    @attachments = @custom_field_property.form_builder_attachments
   end
 
   def find_custom_field_property
@@ -89,16 +90,4 @@ class CustomFieldPropertiesController < AdminController
     end
   end
 
-  def add_more_attachments(new_files)
-    files = @custom_field_property.attachments
-    files += new_files
-    @custom_field_property.attachments = files
-  end
-
-  def remove_attachment_at_index(index)
-    remain_attachment = @custom_field_property.attachments
-    deleted_attachment = remain_attachment.delete_at(index)
-    deleted_attachment.try(:remove!)
-    remain_attachment.empty? ? @custom_field_property.remove_attachments! : (@custom_field_property.attachments = remain_attachment )
-  end
 end
