@@ -3,10 +3,11 @@ CIF.Leave_enrolled_programsNew = CIF.Leave_enrolled_programsCreate = CIF.Leave_e
   _init = ->
     _initSelect2()
     _initFileInput()
-  
+    _preventRequireFileUploader()
+
   _initSelect2 = ->
     $('select').select2()
-  
+
   _initFileInput = ->
     $('.file').fileinput
       showUpload: false
@@ -14,5 +15,9 @@ CIF.Leave_enrolled_programsNew = CIF.Leave_enrolled_programsCreate = CIF.Leave_e
       browseLabel: 'Browse'
       theme: "explorer"
       allowedFileExtensions: ['jpg', 'png', 'jpeg', 'doc', 'docx', 'xls', 'xlsx', 'pdf']
+
+  _preventRequireFileUploader = ->
+    prevent = new CIF.PreventRequiredFileUploader()
+    prevent.preventFileUploader()
 
   { init: _init }
