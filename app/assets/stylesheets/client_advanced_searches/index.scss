@@ -69,4 +69,13 @@ body[id='client_advanced_searches-index'] {
   .form-builder {
     min-width: 200px;
   }
+
+  .checkbox-margin {
+    padding-left: 18px;
+  }
+
+  .disabled-column {
+    pointer-events: none;
+    opacity: 0.5;
+  }
 }

@@ -180,10 +180,22 @@ module ClientsHelper
   end
 
   def form_builder_format_key(value)
-    value.split('_').last.parameterize('_')
+    value.downcase.parameterize('_')
   end
 
   def form_builder_format(value)
     value.split('_').last
+  end
+
+  def entity_format(value)
+    entities  = { exitprogram: 'Exit program', tracking: 'Tracking', enrollment: 'Enrollment' }
+    entity    = entities[value.last.to_sym]
+    value     = value - [value.last]
+    result    = value << entity
+    result.join(' | ')
+  end
+
+  def group_entity_by(value)
+    value.group_by{ |field| field.split('_').first}
   end
 end

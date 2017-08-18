@@ -628,7 +628,7 @@ class ClientGrid
     next unless dynamic_columns.present?
     dynamic_columns.each do |column_builder|
       fields = column_builder.split('_')
-      column(:"#{fields.last.parameterize('_')}", class: 'form-builder', header: -> {fields.last}, html: true) do |object|
+      column(:"#{column_builder.downcase.parameterize('_')}", class: 'form-builder', header: -> {fields.last}, html: true) do |object|
         if fields.first == 'formbuilder'
           custom_field_properties = object.custom_field_properties.properties_by(fields.last)
           render partial: 'clients/form_builder_dynamic/properties_value', locals: { properties: custom_field_properties }

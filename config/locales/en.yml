@@ -679,6 +679,9 @@ en:
       tracking: Tracking
       quantitative: Quantitative Type
     index:
+      client_column: Client basic columns
+      custom_form_column: Custom form columns
+      program_stream_column: Program stream columns
       add_new_filter: Add New Filter
       add_new_group: Add Group
       advanced_search: Advanced Search

@@ -687,6 +687,9 @@ km:
       tracking: តាមដាន
       quantitative: ប្រភេទនៃបរិមាណ
     index:
+      client_column: ជួរឈរពត៌មានទូទៅរបស់អតិថិជន
+      custom_form_column: ជួរឈរទម្រង់បែបបទបន្ថែម
+      program_stream_column: ជួរឈរកម្មវិធីបន្ទាប់បន្សំ
       add_new_filter: បន្ថែមការស្វែងរក
       add_new_group: បន្ថែមបណ្ដុំនៃការស្វែងរក
       advanced_search: ការស្វែងរកកម្រិតខ្ពស់
