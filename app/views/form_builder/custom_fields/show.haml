@@ -3,10 +3,11 @@
     .ibox
       .ibox-title
         %h4= @custom_field.form_title
-      .ibox-content
-        .row
-          .col-xs-12.col-md-8
-            .build-wrap{ 'data-fields': @custom_field.fields }
+      .hide-custom-field
+        .ibox-content
+          .row
+            .col-xs-12.col-md-8
+              .build-wrap{ 'data-fields': @custom_field.fields }
       .ibox-footer
         - if current_organization.full_name != params[:ngo_name] && params[:ngo_name].present?
           = link_to t('.copy'), new_custom_field_path(custom_field_id: @custom_field.id, ngo_name: @custom_field.ngo_name), class: 'btn btn-primary form-btn'
