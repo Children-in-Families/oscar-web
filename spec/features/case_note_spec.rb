@@ -30,15 +30,17 @@ describe 'CaseNote' do
     end
 
     scenario 'valid', js: true do
-      fill_in 'case_note_meeting_date', with: Date.strptime(FFaker::Time.date).strftime('%B %d, %Y')
-      fill_in 'Who was there during the visit or conversation?', with: FFaker::Name.name
-      fill_in 'Note', with: FFaker::Lorem.paragraph
+      fill_in 'case_note_meeting_date', with: '2017-04-01'
+      fill_in 'Who was there during the visit or conversation?', with: 'Jonh'
+      fill_in 'Note', with: 'This is valid'
 
       add_tasks(5)
       find('#case-note-submit-btn').click
       
       sleep 1
-      expect(page).to have_content('Case Note has successfully been created')
+      expect(page).to have_content('April 01, 2017')
+      expect(page).to have_content('Jonh')
+      expect(page).to have_content('This is valid')
     end
 
     xscenario 'invalid' do

@@ -99,11 +99,11 @@ describe 'Client' do
       visit new_client_path
     end
     scenario 'valid', js: true do
-      fill_in 'Given Name', with: FFaker::Name.name
+      fill_in 'Given Name', with: 'Kema'
       find(".client_users select option[value='#{user.id}']", visible: false).select_option
       click_button 'Save'
       wait_for_ajax
-      expect(page).to have_content('Client has been successfully created')
+      expect(page).to have_content('Kema')
     end
 
     scenario 'invalid as missing case workers', js: true do
@@ -141,10 +141,10 @@ describe 'Client' do
       visit edit_client_path(client)
     end
     scenario 'valid', js: true do
-      fill_in 'Given Name', with: FFaker::Name.name
+      fill_in 'Given Name', with: 'Allen'
       click_button 'Save'
       wait_for_ajax
-      expect(page).to have_content('Client has been successfully updated')
+      expect(page).to have_content('Allen')
     end
 
     xscenario 'invalid' do
@@ -188,12 +188,12 @@ describe 'Client' do
       visit client_path(client)
       click_button 'Reject'
 
-      fill_in 'Note', with: FFaker::Lorem.paragraph
+      fill_in 'Note', with: 'Rejected'
       find("input[type='submit'][value='Reject']").click
     end
     scenario 'successfully', js: true do
       wait_for_ajax
-      expect(page).to have_content('Client has been successfully updated')
+      expect(page).to have_content('Rejected')
     end
   end
 
@@ -466,7 +466,7 @@ describe 'Client' do
         fill_in 'Exit Note', with: FFaker::Lorem.paragraph
       end
       page.find("input[type='submit'][value='Exit']").click
-      expect(page).to have_content('Case has been successfully updated')
+      expect(page).to have_content('Referred')
     end
   end
 

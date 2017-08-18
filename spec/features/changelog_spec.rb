@@ -42,23 +42,25 @@ describe 'Changelog' do
 
     scenario 'valid' do
       click_link('Add New Release')
+      sleep 2
       within('#new_changelog') do
-        fill_in 'changelog_change_version', with: FFaker::Name.name
+        fill_in 'changelog_change_version', with: 'Stable Version'
         click_link('Add change')
-        find(:css, "input.description").set(FFaker::Lorem.paragraph)
-        click_button I18n.t('changelogs.form.save')
+        find(:css, "input.description").set('This is valid')
+        click_button 'Save'
       end
-      sleep 1
-      expect(page).to have_content(I18n.t('changelogs.create.successfully_created'))
+      expect(page).to have_content('Stable Version')
+      expect(page).to have_content('This is valid')
     end
 
     scenario 'invalid' do
       click_link('Add New Release')
       within('#new_changelog') do
-        click_button I18n.t('changelogs.form.save')
+        click_button 'Save'
       end
       sleep 1
-      expect(page).to have_content('Failed to create a releaselog.')
+      expect(page).to have_content(changelog.change_version)
+      expect(page).to have_content(changelog.created_at.strftime('%d %b, %Y'))
     end
   end
 
@@ -73,20 +75,20 @@ describe 'Changelog' do
       find("a[data-target='#changelogModal-#{changelog.id}']").click
       within("#changelogModal-#{changelog.id}") do
         fill_in 'changelog_change_version', with: change_version
-        click_button I18n.t('changelogs.form.save')
+        click_button 'Save'
       end
       sleep 1
-      expect(page).to have_content(I18n.t('changelogs.update.successfully_updated'))
       expect(page).to have_content(change_version)
     end
     scenario 'invalid' do
       find("a[data-target='#changelogModal-#{changelog.id}']").click
       within("#changelogModal-#{changelog.id}") do
         fill_in 'changelog_change_version', with: '0.1'
-        click_button I18n.t('changelogs.form.save')
+        click_button 'Save'
       end
       sleep 1
-      expect(page).to have_content('Failed to update a releaselog.')
+      expect(page).to have_content(changelog.change_version)
+      expect(page).to have_content(changelog.created_at.strftime('%d %b, %Y'))
     end
   end
 

@@ -18,17 +18,18 @@ describe ClientEnrollmentTracking, 'Client Enrollment Tracking' do
       click_link('Trackings')
     end
 
-    scenario 'Valid' do
+    scenario 'Valid', js: true do
       click_link('New Tracking')
       expect(page).to have_content('Adam Eve (Romeo Juliet) - Soccer - Fitness')
       within('#new_client_enrollment_tracking') do
         find('.numeric').set(4)
         find('input[type="text"]').set('Good client')
-        find('input[type="email"]').set('cif@cambodianfamilies.com')
+        find('input[type="email"]').set('test@example.com')
 
         click_button 'Save'
       end
-      expect(page).to have_content('Tracking Program has been successfully created')
+      expect(page).to have_content('Good client')
+      expect(page).to have_content('test@example.com')
     end
 
     scenario 'Invalid' do
@@ -137,7 +138,7 @@ describe ClientEnrollmentTracking, 'Client Enrollment Tracking' do
       expect(page).to have_content('Adam Eve (Romeo Juliet) - Soccer - Fitness')
       find('input[type="text"]').set('this is editing')
       find('input[type="submit"]').click
-      expect(page).to have_content('Tracking Program has been successfully updated')
+      expect(page).to have_content('this is editing')
     end
 
     xscenario 'fail' do
