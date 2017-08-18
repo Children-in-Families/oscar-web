@@ -1,4 +1,4 @@
-CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = CIF.Program_streamsUpdate = CIF.Program_streamsShow = do ->
+CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = CIF.Program_streamsUpdate = do ->
   @programStreamId = $('#program_stream_id').val()
   ENROLLMENT_URL   = "/api/program_streams/#{@programStreamId}/enrollment_fields"
   EXIT_PROGRAM_URL = "/api/program_streams/#{@programStreamId}/exit_program_fields"
@@ -257,16 +257,16 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     for element in $('#enrollment, #exit-program')
       dataElement = $(element).data('field')
       _initProgramBuilder($(element), (dataElement || []))
-      if element.id == 'enrollment'
+      if element.id == 'enrollment' and $('#program_stream_id').val() != ''
         _preventRemoveField(ENROLLMENT_URL, '#enrollment')
-      else if element.id == 'exit-program'
+      else if element.id == 'exit-program' and $('#program_stream_id').val() != ''
         _preventRemoveField(EXIT_PROGRAM_URL, '#exit-program')
 
     trackings = $('.tracking-builder')
     for tracking in trackings
       trackingValue = $(tracking).data('tracking')
       _initProgramBuilder(tracking, (trackingValue || []))
-    _preventRemoveField(TRACKING_URL, '')
+    _preventRemoveField(TRACKING_URL, '') if $('#program_stream_id').val() != ''
 
   _initButtonSave = ->
     form = $('form#program-stream')
