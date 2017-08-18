@@ -56,11 +56,11 @@ describe 'Task' do
     end
     scenario 'valid', js: true do
       fill_in 'Enter task details', with: 'My Task'
-      fill_in 'Completion Date', with: '2017-04-01'
+      fill_in 'Completion Date', with: '2017-08-01'
       click_button 'Save'
       sleep 1
       expect(page).to have_content('My Task')
-      expect(page).to have_content('April 01, 2017')
+      expect(page).to have_content('August 01, 2017')
 
       task       = client.tasks.find_by(name: 'My Task')
       task_name  = task.name

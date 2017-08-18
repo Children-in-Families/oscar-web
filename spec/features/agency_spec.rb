@@ -54,10 +54,10 @@ describe 'Agency' do
     scenario 'valid' do
       find("a[data-target='#agencyModal-#{agency.id}']").click
       within("#agencyModal-#{agency.id}") do
-        fill_in 'Name', with: 'Update Name'
+        fill_in 'Name', with: 'Rotati'
         click_button 'Save'
       end
-      expect(page).to have_content('Update Name')
+      expect(page).to have_content('Rotati')
     end
     scenario 'invalid' do
       find("a[data-target='#agencyModal-#{agency.id}']").click
@@ -75,7 +75,7 @@ describe 'Agency' do
     end
     scenario 'success' do
       find("a[href='#{agency_path(agency)}'][data-method='delete']").click
-      expect(page).not_to have_content(agency)
+      expect(page).not_to have_content(agency.name)
     end
     scenario 'disable link' do
       expect(page).to have_css("a[href='#{agency_path(other_agency)}'][data-method='delete'][class='btn btn-outline btn-danger btn-xs disabled']")
