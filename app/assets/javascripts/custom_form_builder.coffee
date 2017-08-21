@@ -27,6 +27,16 @@ class CIF.CustomFormBuilder
         self.handleCheckingForm()
       ),50
 
+  eventFileOption: ->
+    self = @
+    onadd: (fld) ->
+      $('.className-wrap, .value-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
+      self.handleCheckingForm()
+    onclone: (fld) ->
+      setTimeout ( ->
+        self.handleCheckingForm()
+      ),50
+
   eventNumberOption: ->
     self = @
     onadd: (fld) ->

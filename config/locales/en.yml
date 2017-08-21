@@ -707,7 +707,7 @@ en:
       allow_file_size: Allowed file types
       cancel: Cancel
       save: Save
-      max_file_size: "*Maximum file size: 5MB/file and 30MB/upload."  
+      max_file_size: "*Maximum file size: 5MB/file and 30MB/upload."
     index:
       programs_list: Programs List
       tracking_lists: Trackings List
@@ -736,7 +736,7 @@ en:
       new_exit_program: New Exit Program
     show:
       back: Back
-      exit_date: Exit Date
+      exit_date: Exited on
     update:
       successfully_updated: Exit Program has been successfully updated.
   client_enrolled_program_trackings:
@@ -1170,6 +1170,7 @@ en:
     create:
       successfully_created: Custom Field Property has been successfully created.
     destroy:
+      delete_attachment_successfully: Attachment has been successfully deleted.
       successfully_deleted: Custom Field Property has been successfully deleted.
     form:
       cancel: Cancel

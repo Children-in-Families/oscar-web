@@ -11,6 +11,8 @@ class LeaveProgram < ActiveRecord::Base
 
   has_paper_trail
 
+  scope :find_by_program_stream_id, -> (value) { where(program_stream_id: value) }
+
   validate do |obj|
     CustomFormPresentValidator.new(obj, 'program_stream', 'exit_program').validate
     CustomFormNumericalityValidator.new(obj, 'program_stream', 'exit_program').validate
@@ -18,7 +20,7 @@ class LeaveProgram < ActiveRecord::Base
   end
 
   def self.properties_by(value)
-    field_properties = select("id, properties ->  '#{value}' as field_properties").collect(&:field_properties)
+    field_properties = select("leave_programs.id, leave_programs.properties ->  '#{value}' as field_properties").collect(&:field_properties)
     field_properties.select(&:present?)
   end
 

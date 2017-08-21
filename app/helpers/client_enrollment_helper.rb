@@ -20,4 +20,12 @@ module ClientEnrollmentHelper
       link_to t('.cancel'), client_client_enrolled_program_path(@client, @client_enrollment, program_stream_id: params[:program_stream_id]), class: 'btn btn-default form-btn'
     end
   end
+
+  def client_enrollment_form_action_path
+    if action_name.in?(%(new create))
+      client_client_enrolled_programs_path(@client)
+    else
+      client_client_enrolled_program_path(@client, @client_enrollment)
+    end
+  end
 end

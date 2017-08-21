@@ -1222,6 +1222,7 @@ km:
     create:
       successfully_created: ទម្រង់បែបបទត្រូវបានរក្សាទុកដោយជោគជ័យ
     destroy:
+      delete_attachment_successfully: ឯកសារភ្ជាប់ត្រូវបានកែសម្រួលដោយជោគជ័យ
       successfully_deleted: ទម្រង់បែបបទត្រូវបានលុបដោយជោគជ័យ
     form:
       cancel: ទុកជាមោឃៈ

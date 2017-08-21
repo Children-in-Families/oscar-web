@@ -631,32 +631,23 @@ class ClientGrid
       fields = column_builder.split('_')
       column(:"#{column_builder.downcase.parameterize('_')}", class: 'form-builder', header: -> {form_builder_format_header(fields)}, html: true) do |object|
         if fields.first == 'formbuilder'
-          custom_field_properties = object.custom_field_properties.properties_by(fields.last)
+          custom_field_properties = object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).properties_by(fields.last)
           render partial: 'clients/form_builder_dynamic/properties_value', locals: { properties: custom_field_properties }
         elsif fields.first == 'enrollment'
-          enrollment_properties = object.client_enrollments.properties_by(fields.last)
+          enrollment_properties = object.client_enrollments.joins(:program_stream).where(program_streams: { name: fields.second }).properties_by(fields.last)
           render partial: 'clients/form_builder_dynamic/properties_value', locals: { properties:  enrollment_properties }
         elsif fields.first == 'tracking'
           ids = object.client_enrollments.ids
-          enrollment_tracking_properties = ClientEnrollmentTracking.where(client_enrollment_id: ids).properties_by(fields.last)
+          enrollment_tracking_properties = ClientEnrollmentTracking.joins(:tracking).where(trackings: { name: fields.third }, client_enrollment_trackings: { client_enrollment_id: ids }).properties_by(fields.last)
           render partial: 'clients/form_builder_dynamic/properties_value', locals: { properties:  enrollment_tracking_properties }
         elsif fields.first == 'exitprogram'
           ids = object.client_enrollments.inactive.ids
-          leave_program_properties = LeaveProgram.where(client_enrollment_id: ids).properties_by(fields.last)
+          leave_program_properties = LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { client_enrollment_id: ids }).properties_by(fields.last)
           render partial: 'clients/form_builder_dynamic/properties_value', locals: { properties:  leave_program_properties }
         end
       end
     end
   end
-
-  # def form_builder_format_header(value)
-  #   entities  = { exitprogram: 'Exit program', tracking: 'Tracking', enrollment: 'Enrollment' }
-  #   key_word  = value.first
-  #   entity    = entities[key_word.to_sym]
-  #   value     = value - [key_word]
-  #   result    = value << entity
-  #   result.join(' | ')
-  # end
 
   column(:manage, html: true, class: 'text-center', header: -> { I18n.t('datagrid.columns.clients.manage') }) do |object|
     render partial: 'clients/actions', locals: { object: object }

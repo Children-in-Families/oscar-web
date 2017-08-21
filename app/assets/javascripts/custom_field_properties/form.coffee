@@ -3,13 +3,14 @@ CIF.Custom_field_propertiesNew = CIF.Custom_field_propertiesCreate = CIF.Custom_
     _initSelect2()
     _initUploader()
     _handleDeleteAttachment()
+    _preventRequireFileUploader()
     # _handlePreventCheckbox()
 
   _initSelect2 = ->
     $('select').select2()
 
   _initUploader = ->
-    $("#custom_field_property_attachments").fileinput
+    $(".file").fileinput
       showUpload: false
       removeClass: 'btn btn-danger btn-outline'
       browseLabel: 'Browse'
@@ -52,7 +53,6 @@ CIF.Custom_field_propertiesNew = CIF.Custom_field_propertiesCreate = CIF.Custom_
     }
     toastr.success(message, '', messageOption)
 
-
   # _handlePreventCheckbox = ->
   #   form = $('form.simple_form')
   #   $(form).on 'submit', (e) ->
@@ -69,6 +69,8 @@ CIF.Custom_field_propertiesNew = CIF.Custom_field_propertiesCreate = CIF.Custom_
   #       e.preventDefault()
   #       $('#message').text("Please select a checkbox")
 
-
+  _preventRequireFileUploader = ->
+    prevent = new CIF.PreventRequiredFileUploader()
+    prevent.preventFileUploader()
 
   { init: _init }

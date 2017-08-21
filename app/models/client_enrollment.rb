@@ -12,9 +12,10 @@ class ClientEnrollment < ActiveRecord::Base
 
   has_paper_trail
 
-  scope :enrollments_by, ->(client) { where(client_id: client) }
-  scope :active, -> { where(status: 'Active') }
-  scope :inactive, -> { where(status: 'Exited') }
+  scope :enrollments_by,              ->(client)         { where(client_id: client) }
+  scope :find_by_program_stream_id,   ->(value)          { where(program_stream_id: value) }
+  scope :active,                      ->                 { where(status: 'Active') }
+  scope :inactive,                    ->                 { where(status: 'Exited') }
 
   after_create :set_client_status
   after_destroy :reset_client_status
@@ -34,7 +35,7 @@ class ClientEnrollment < ActiveRecord::Base
   end
 
   def self.properties_by(value)
-    field_properties = select("id, properties ->  '#{value}' as field_properties").collect(&:field_properties)
+    field_properties = select("client_enrollments.id, client_enrollments.properties ->  '#{value}' as field_properties").collect(&:field_properties)
     field_properties.select(&:present?)
   end
 

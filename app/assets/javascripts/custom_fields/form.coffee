@@ -1,12 +1,11 @@
-CIF.Custom_fieldsNew = CIF.Custom_fieldsCreate = CIF.Custom_fieldsEdit = CIF.Custom_fieldsUpdate =
-CIF.Custom_fieldsShow = do ->
+CIF.Custom_fieldsNew = CIF.Custom_fieldsCreate = CIF.Custom_fieldsEdit = CIF.Custom_fieldsUpdate = do ->
   @customFieldId = $('#custom_field_id').val()
   FIELDS_URL = "/api/custom_fields/#{@customFieldId}/fields"
   CUSTOM_FIELDS_URL = '/api/custom_fields/fetch_custom_fields'
   _init = ->
     _initFormBuilder()
-    _retrieveData(FIELDS_URL)
-    _retrieveData(CUSTOM_FIELDS_URL)
+    _retrieveData(FIELDS_URL) if $('#custom_field_id').val() != ''
+    _retrieveData(CUSTOM_FIELDS_URL) if $('#custom_field_form_title').attr('disabled') != 'disabled'
     _select2()
     _toggleTimeOfFrequency()
     _changeSelectOfFrequency()
@@ -74,7 +73,7 @@ CIF.Custom_fieldsShow = do ->
     formBuilder = $('.build-wrap').formBuilder({
       dataType: 'json'
       formData:  fields.replace(/=>/g, ':')
-      disableFields: ['autocomplete', 'header', 'hidden', 'paragraph', 'button', 'file','checkbox']
+      disableFields: ['autocomplete', 'header', 'hidden', 'paragraph', 'button', 'checkbox']
       showActionButtons: false
       messages: {
         cannotBeEmpty: 'name_separated_with_underscore'
@@ -90,6 +89,7 @@ CIF.Custom_fieldsShow = do ->
       typeUserEvents: {
         'checkbox-group': builderOption.eventCheckboxOption()
         date: builderOption.eventDateOption()
+        file: builderOption.eventFileOption()
         number: builderOption.eventNumberOption()
         'radio-group': builderOption.eventRadioOption()
         select: builderOption.eventSelectOption()
@@ -117,7 +117,6 @@ CIF.Custom_fieldsShow = do ->
       success: (response) ->
         _preventRemoveFields(response.fields) if response.hasOwnProperty('fields')
         _searchCustomFields(response.custom_fields) if response.hasOwnProperty('custom_fields')
-
 
   _searchCustomFields = (fields) ->
     $('#custom_field_form_title').keyup ->
