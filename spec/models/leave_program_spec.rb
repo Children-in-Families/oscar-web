@@ -24,7 +24,7 @@ describe LeaveProgram, 'validations' do
       client_enrollment = ClientEnrollment.new(program_stream: program_stream, client: client, properties: properties)
       client_enrollment.save
       expect(client_enrollment.errors.full_messages).to include("Description can't be blank")
-    end 
+    end
   end
 
   context 'custom form number validator' do
@@ -33,14 +33,31 @@ describe LeaveProgram, 'validations' do
       client_enrollment = ClientEnrollment.new(program_stream: program_stream, client: client, properties: properties)
       client_enrollment.save
       expect(client_enrollment.errors.full_messages).to include("Age can't be greater than 5")
-    end 
+    end
 
     it 'return cant be lower' do
       properties = {"e-mail"=>"test@example.com", "age"=>"0", "description"=>"this is testing"}
       client_enrollment = ClientEnrollment.new(program_stream: program_stream, client: client, properties: properties)
       client_enrollment.save
       expect(client_enrollment.errors.full_messages).to include("Age can't be lower than 1")
-    end 
+    end
+  end
+end
+
+describe ClientEnrollment, 'scopes' do
+  let!(:client) { create(:client) }
+  let!(:client_other) { create(:client) }
+  let!(:program_stream) { create(:program_stream) }
+  let!(:client_enrollment) { create(:client_enrollment, program_stream: program_stream, client: client, status: 'Active')}
+  let!(:client_enrollment_other) { create(:client_enrollment, program_stream: program_stream, client: client_other, status: 'Active')}
+  let!(:leave_program) { create(:leave_program, program_stream: program_stream, client_enrollment: client_enrollment) }
+  let!(:leave_program_other) { create(:leave_program, program_stream: program_stream, client_enrollment: client_enrollment_other) }
+
+  context 'find_by_program_stream_id' do
+    subject{ LeaveProgram.find_by_program_stream_id(program_stream.id) }
+    it 'return leave programs with client and program_stream' do
+      is_expected.to include(leave_program, leave_program_other)
+    end
   end
 end
 

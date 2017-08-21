@@ -27,7 +27,7 @@ describe ClientEnrollment, 'validations' do
       client_enrollment = ClientEnrollment.new(program_stream: program_stream, client: client, properties: properties)
       client_enrollment.save
       expect(client_enrollment.errors.full_messages).to include("Description can't be blank")
-    end 
+    end
   end
 
   context 'custom form number validator' do
@@ -36,14 +36,14 @@ describe ClientEnrollment, 'validations' do
       client_enrollment = ClientEnrollment.new(program_stream: program_stream, client: client, properties: properties)
       client_enrollment.save
       expect(client_enrollment.errors.full_messages).to include("Age can't be greater than 5")
-    end 
+    end
 
     it 'return cant be lower' do
       properties = {"e-mail"=>"test@example.com", "age"=>"0", "description"=>"this is testing"}
       client_enrollment = ClientEnrollment.new(program_stream: program_stream, client: client, properties: properties)
       client_enrollment.save
       expect(client_enrollment.errors.full_messages).to include("Age can't be lower than 1")
-    end 
+    end
   end
 end
 
@@ -52,11 +52,18 @@ describe ClientEnrollment, 'scopes' do
   let!(:program_stream) { create(:program_stream) }
   let!(:active_client_enrollment) { create(:client_enrollment, program_stream: program_stream, client: client)}
   let!(:inactive_client_enrollment) { create(:client_enrollment, program_stream: program_stream, client: client, status: 'Exited') }
-  
+
   context 'enrollments_by' do
     subject{ ClientEnrollment.enrollments_by(client) }
     it 'return client enrollments with client and program_stream' do
       is_expected.to include(active_client_enrollment)
+    end
+  end
+
+  context 'find_by' do
+    subject{ ClientEnrollment.find_by_program_stream_id(program_stream.id) }
+    it 'return client enrollments that used this program_stream' do
+      is_expected.to include(active_client_enrollment, inactive_client_enrollment)
     end
   end
 

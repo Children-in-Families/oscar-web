@@ -5,12 +5,16 @@ module FormBuilderAttachments
       name = attachment['name']
       if name.present? && attachment['file'].present?
         form_builder_attachment = resource.form_builder_attachments.file_by_name(name)
-        modify_files = form_builder_attachment.file
-        modify_files += attachment['file']
+        if form_builder_attachment.nil?
+          resource.form_builder_attachments.create(name: name, file: attachment[:file])
+        else
+          modify_files = form_builder_attachment.file
+          modify_files += attachment['file']
 
-        form_builder_attachment = resource.form_builder_attachments.file_by_name(name)
-        form_builder_attachment.file = modify_files
-        form_builder_attachment.save
+          form_builder_attachment = resource.form_builder_attachments.file_by_name(name)
+          form_builder_attachment.file = modify_files
+          form_builder_attachment.save
+        end
       end
     end
   end

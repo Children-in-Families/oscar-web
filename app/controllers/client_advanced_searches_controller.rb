@@ -11,6 +11,8 @@ class ClientAdvancedSearchesController < AdminController
     clients              = AdvancedSearches::ClientAdvancedSearch.new(basic_rules, Client.accessible_by(current_ability))
     @clients_by_user     = clients.filter
 
+    custom_form_column
+    program_stream_column
     columns_visibility
     respond_to do |f|
       f.html do
@@ -26,8 +28,26 @@ class ClientAdvancedSearchesController < AdminController
   end
 
   private
+
+  def custom_form_column
+    custom_form_columns    = @form_builder.select{ |c| c if c.include?('formbuilder_') }
+    @custom_form_columns   = custom_form_columns.group_by{ |c| c.split('_').second }
+  end
+
+  def program_stream_column
+    program_stream_columns  = @form_builder.select{ |c| c if c.exclude?('formbuilder_') }
+
+    @program_stream_columns = program_stream_columns.group_by do |c|
+      fields = c.split('_')
+      program_name  = fields.second
+      key_word      = fields.first
+      tracking_name = fields.third
+      fields.size < 4 ? [program_name, key_word] : [program_name, tracking_name, key_word]
+    end
+  end
+
   def get_custom_form
-    @custom_fields  = CustomField.client_forms.order_by_form_title
+    @custom_fields  = CustomField.joins(:custom_field_properties).client_forms.order_by_form_title.uniq
   end
 
   def client_builder_fields
@@ -42,10 +62,6 @@ class ClientAdvancedSearchesController < AdminController
 
   def program_stream_values
     program_stream_value? ? eval(@advanced_search_params[:program_selected]) : []
-  end
-
-  def quantitative_check?
-    @advanced_search_params.present? && @advanced_search_params[:quantitative_check].present?
   end
 
   def get_client_basic_fields

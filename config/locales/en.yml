@@ -679,6 +679,9 @@ en:
       tracking: Tracking
       quantitative: Quantitative Type
     index:
+      client_column: Client basic columns
+      custom_form_column: Custom form columns
+      program_stream_column: Program stream columns
       add_new_filter: Add New Filter
       add_new_group: Add Group
       advanced_search: Advanced Search
@@ -733,7 +736,7 @@ en:
       new_exit_program: New Exit Program
     show:
       back: Back
-      exit_date: Exit Date
+      exit_date: Exited on
     update:
       successfully_updated: Exit Program has been successfully updated.
   client_enrolled_program_trackings:

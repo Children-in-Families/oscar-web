@@ -11,6 +11,8 @@ class LeaveProgram < ActiveRecord::Base
 
   has_paper_trail
 
+  scope :find_by_program_stream_id, -> (value) { where(program_stream_id: value) }
+
   validate do |obj|
     CustomFormPresentValidator.new(obj, 'program_stream', 'exit_program').validate
     CustomFormNumericalityValidator.new(obj, 'program_stream', 'exit_program').validate
