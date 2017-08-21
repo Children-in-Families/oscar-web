@@ -187,10 +187,11 @@ module ClientsHelper
     value.split('_').last
   end
 
-  def entity_format(value)
-    entities  = { exitprogram: 'Exit program', tracking: 'Tracking', enrollment: 'Enrollment' }
-    entity    = entities[value.last.to_sym]
-    value     = value - [value.last]
+  def form_builder_format_header(value)
+    entities  = { formbuilder: 'Custom form', exitprogram: 'Exit program', tracking: 'Tracking', enrollment: 'Enrollment' }
+    key_word  = value.first
+    entity    = entities[key_word.to_sym]
+    value     = value - [key_word]
     result    = value << entity
     result.join(' | ')
   end

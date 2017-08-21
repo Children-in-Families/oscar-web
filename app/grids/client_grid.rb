@@ -1,6 +1,7 @@
 class ClientGrid
   extend ActionView::Helpers::TextHelper
   include Datagrid
+  include ClientsHelper
 
   attr_accessor :current_user, :qType, :dynamic_columns
   scope do
@@ -628,7 +629,7 @@ class ClientGrid
     next unless dynamic_columns.present?
     dynamic_columns.each do |column_builder|
       fields = column_builder.split('_')
-      column(:"#{column_builder.downcase.parameterize('_')}", class: 'form-builder', header: -> {fields.last}, html: true) do |object|
+      column(:"#{column_builder.downcase.parameterize('_')}", class: 'form-builder', header: -> {form_builder_format_header(fields)}, html: true) do |object|
         if fields.first == 'formbuilder'
           custom_field_properties = object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).properties_by(fields.last)
           render partial: 'clients/form_builder_dynamic/properties_value', locals: { properties: custom_field_properties }

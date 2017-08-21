@@ -42,7 +42,7 @@ class ClientAdvancedSearchesController < AdminController
       program_name  = fields.second
       key_word      = fields.first
       tracking_name = fields.third
-      fields.size < 4 ? [program_name, key_word] : [program_name, tracking_name, key_word]
+      fields.size < 4 ? [key_word, program_name] : [key_word, program_name, tracking_name]
     end
   end
 
