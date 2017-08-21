@@ -3,6 +3,7 @@ CIF.Client_enrolled_programsNew = CIF.Client_enrolled_programsCreate = CIF.Clien
   _init = ->
     _initSelect2()
     _initFileInput()
+    _preventRequireFileUploader()
 
   _initSelect2 = ->
     $('select').select2()
@@ -14,5 +15,9 @@ CIF.Client_enrolled_programsNew = CIF.Client_enrolled_programsCreate = CIF.Clien
       browseLabel: 'Browse'
       theme: "explorer"
       allowedFileExtensions: ['jpg', 'png', 'jpeg', 'doc', 'docx', 'xls', 'xlsx', 'pdf']
+
+  _preventRequireFileUploader = ->
+    prevent = new CIF.PreventRequiredFileUploader()
+    prevent.preventFileUploader()
 
   { init: _init }
