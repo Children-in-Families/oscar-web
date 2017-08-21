@@ -44,7 +44,7 @@ describe 'Domain' do
       fill_in 'Name', with: 'Another Domain'
       fill_in 'Identity', with: 'Domain Identity'
       click_button 'Save'
-      expect(page).to have_content('Please review the problems below')
+      expect(page).to have_content('has already been taken')
     end
   end
 

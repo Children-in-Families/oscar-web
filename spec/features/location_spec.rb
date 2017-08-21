@@ -38,6 +38,7 @@ describe 'Location' do
   end
 
   feature 'Create', js: true do
+    let!(:other_location) { create(:location, name: 'Other Location') }
     before do
       visit locations_path
     end
@@ -55,10 +56,11 @@ describe 'Location' do
     scenario 'invalid' do
       click_link('Add New Location')
       within('#new_location') do
+        fill_in 'Name', with: 'Other Location'
         click_button 'Save'
       end
       sleep 1
-      expect(page).to have_content('Failed to create a location.')
+      expect(page).to have_content('Other Location', count: 1)
     end
   end
 
