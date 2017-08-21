@@ -10,8 +10,17 @@
             = link_to t('.export_to_xls'), current_url(format: 'xls'), class: "btn btn-info btn-export #{@clients_by_user.present? ? '' : 'disabled'}"
       .ibox-content
         .row
-          .col-xs-12
-            = datagrid_form_for @client_grid, url: client_advanced_searches_url, html: { class: 'grid-form' }
+          .col-xs-12.col-md-4
+            %label= t('.client_column')
+            #client-column
+              = datagrid_form_for @client_grid, url: client_advanced_searches_url, html: { class: 'grid-form' }
+          .col-xs-12.col-md-4
+            %label= t('.custom_form_column')
+            = render 'custom_form_column'
+          .col-xs-12.col-md-4
+            %label= t('.program_stream_column') 
+            = render 'program_stream_column'
+        %hr/
         .row
           .col-xs-12
             = render 'form_option'
