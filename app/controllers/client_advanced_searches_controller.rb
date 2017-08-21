@@ -39,12 +39,15 @@ class ClientAdvancedSearchesController < AdminController
 
     @program_stream_columns = program_stream_columns.group_by do |c|
       fields = c.split('_')
-      fields.size < 4 ? [fields.second, fields.first] : [fields.second, fields.third, fields.first]
+      program_name  = fields.second
+      key_word      = fields.first
+      tracking_name = fields.third
+      fields.size < 4 ? [program_name, key_word] : [program_name, tracking_name, key_word]
     end
   end
 
   def get_custom_form
-    @custom_fields  = CustomField.client_forms.order_by_form_title
+    @custom_fields  = CustomField.joins(:custom_field_properties).client_forms.order_by_form_title.uniq
   end
 
   def client_builder_fields
