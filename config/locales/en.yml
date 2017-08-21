@@ -733,7 +733,7 @@ en:
       new_exit_program: New Exit Program
     show:
       back: Back
-      exit_date: Exit Date
+      exit_date: Exited on
     update:
       successfully_updated: Exit Program has been successfully updated.
   client_enrolled_program_trackings:
