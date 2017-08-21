@@ -34,6 +34,7 @@ describe 'Intervention' do
   end
 
   feature 'Create', js: true do
+    let!(:other_intervention) { create(:intervention, action: 'Other Intervention') }
     before do
       visit interventions_path
     end
@@ -51,10 +52,11 @@ describe 'Intervention' do
     scenario 'invalid' do
       click_link('New Intervention')
       within('#new_intervention') do
+        fill_in 'Action', with: 'Other Intervention'
         click_button 'Save'
       end
       sleep 1
-      expect(page).to have_content('Failed to create an intervention.')
+      expect(page).to have_content('Other Intervention', count: 1)
     end
   end
 
@@ -79,7 +81,7 @@ describe 'Intervention' do
         click_button 'Save'
       end
       sleep 1
-      expect(page).to have_content('Failed to update an intervention')
+      expect(page).to have_content('Counseling', count: 1)
     end
   end
 
@@ -90,7 +92,7 @@ describe 'Intervention' do
     scenario 'success' do
       find("a[href='#{intervention_path(intervention)}'][data-method='delete']").click
       sleep 1
-      expect(page).to have_content('Intervention has been successfully deleted.')
+      expect(page).not_to have_content(intervention.action)
     end
   end
 end

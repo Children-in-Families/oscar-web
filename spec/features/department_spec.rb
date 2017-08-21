@@ -26,6 +26,7 @@ describe 'Department' do
   end
 
   feature 'Create', js: true do
+    let!(:another_department) { create(:department, name: 'Another Department') }
     before do
       visit departments_path
     end
@@ -36,15 +37,16 @@ describe 'Department' do
         click_button 'Save'
       end
       wait_for_ajax
-      expect(page).to have_content('')
+      expect(page).to have_content('Department Name')
     end
     scenario 'invalid' do
       click_link('New Department')
       within('#new_department') do
+        fill_in 'Name', with: 'Another Department'
         click_button 'Save'
       end
       wait_for_ajax
-      expect(page).to have_content('Department Name')
+      expect(page).to have_content('Another Department', count: 1)
     end
   end
 
@@ -79,7 +81,7 @@ describe 'Department' do
     scenario 'success' do
       find("a[href='#{department_path(department)}'][data-method='delete']").click
       wait_for_ajax
-      expect(page).to have_content('Department has been successfully deleted')
+      expect(page).not_to have_content(department.name)
     end
     scenario 'disable' do
       expect(page).to have_css("a[href='#{department_path(other_department)}'][data-method='delete'][class='btn btn-outline btn-danger btn-xs disabled']")

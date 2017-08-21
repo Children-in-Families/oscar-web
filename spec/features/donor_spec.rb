@@ -26,6 +26,7 @@ describe 'Donor' do
   end
 
   feature 'Create', js: true do
+    let!(:antoher_donor) { create(:donor, name: 'Another Donor') }
     before do
       visit donors_path
     end
@@ -41,11 +42,11 @@ describe 'Donor' do
     scenario 'invalid' do
       click_link('New Donor')
       within('#new_donor') do
+        fill_in 'Name', with: 'Another Donor'
         click_button 'Save'
       end
       wait_for_ajax
-      expect(page).to have_content(donor.name)
-      expect(page).to have_content(other_donor.name)
+      expect(page).to have_content('Another Donor', count: 1)
     end
   end
 
@@ -81,7 +82,7 @@ describe 'Donor' do
     scenario 'success' do
       find("a[href='#{donor_path(donor)}'][data-method='delete']").click
       wait_for_ajax
-      expect(page).to have_content('Donor has been successfully deleted')
+      expect(page).not_to have_content(donor.name)
     end
     # scenario 'disable' do
     #   expect(page).to have_css("a[href='#{donor_path(other_donor)}'][data-method='delete'][class='btn btn-outline btn-danger btn-xs disabled']")
