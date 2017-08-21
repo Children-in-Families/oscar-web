@@ -261,17 +261,17 @@ CIF.Client_advanced_searchesIndex = do ->
     $('.columns-visibility').click (e) ->
       e.stopPropagation()
 
-    allCheckboxes = $('.all-visibility #all_')
+    allCheckboxes = $('#client-column .all-visibility #all_')
 
     allCheckboxes.on 'ifChecked', ->
-      $('.visibility input[type=checkbox]').iCheck('check')
+      $('#client-column .visibility input[type=checkbox]').iCheck('check')
     allCheckboxes.on 'ifUnchecked', ->
-      $('.visibility input[type=checkbox]').iCheck('uncheck')
+      $('#client-column .visibility input[type=checkbox]').iCheck('uncheck')
 
   _setDefaultCheckColumnVisibilityAll = ->
     setTimeout ( ->
-      if $('.visibility .checked').length == 0
-        $('.all-visibility #all_').iCheck('check')
+      if $('#client-column .visibility .checked').length == 0
+        $('#client-column .all-visibility #all_').iCheck('check')
       )
 
   _addRuleCallback = ->

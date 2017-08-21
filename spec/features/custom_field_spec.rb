@@ -2,7 +2,7 @@ feature 'custom_field' do
   let!(:admin){ create(:user, roles: 'admin') }
   let!(:custom_field) { create(:custom_field, frequency: 'Daily', time_of_frequency: 1) }
 
-  before do 
+  before do
     login_as(admin)
   end
 
@@ -76,14 +76,14 @@ feature 'custom_field' do
       find("select option[value='Daily']", visible: false).select_option
       find('.icon-text-input').click
       find("input[type=submit]").click
-      expect(page).to have_content('Testing') 
+      expect(page).to have_content('Testing')
     end
 
     scenario 'invalid' do
       fill_in 'Form Title', with: FFaker::Name.name
       find("select option[value='Daily']", visible: false).select_option
       find("input[type=submit]").click
-      expect(page).to have_content("can't be blank") 
+      expect(page).to have_content("can't be blank")
     end
   end
 
@@ -101,7 +101,7 @@ feature 'custom_field' do
     scenario 'invalid' do
       fill_in 'Form Title', with: ''
       find("input[type=submit]").click
-      expect(page).to have_content("can't be blank") 
+      expect(page).to have_content("can't be blank")
     end
   end
 

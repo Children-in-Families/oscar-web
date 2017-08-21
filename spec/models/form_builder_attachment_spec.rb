@@ -1,5 +1,7 @@
-require 'rails_helper'
+describe FormBuilderAttachment, 'associations' do
+  it { is_expected.to belong_to(:form_buildable)}
+end
 
-RSpec.describe FormBuilderAttachment, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+describe FormBuilderAttachment, 'validations' do
+  it { is_expected.to validate_uniqueness_of(:name).scoped_to(:form_buildable_type, :form_buildable_id) }
 end
