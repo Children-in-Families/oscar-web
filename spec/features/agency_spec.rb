@@ -25,53 +25,47 @@ describe 'Agency' do
     end
   end
 
-  feature 'Create' do
+  feature 'Create', js: true do
     before do
       visit agencies_path
     end
-    scenario 'valid', js: true do
+    scenario 'valid' do
       click_link 'Add New Agency'
       within("#new_agency") do
-        fill_in 'Name', with: FFaker::Name.name
+        fill_in 'Name', with: 'Test Agency'
         click_button 'Save'
       end
-      wait_for_ajax
-      expect(page).to have_content('Agency has been successfully created')
+      expect(page).to have_content('Test Agency')
     end
 
-    scenario 'invalid', js: true do
+    scenario 'invalid' do
       click_link 'Add New Agency'
       within('#new_agency') do
         click_button 'Save'
       end
-      wait_for_ajax
       expect(page).to have_content("Failed to create an agency")
     end
   end
 
   feature 'Edit', js: true do
-    let!(:name){ FFaker::Name.name }
     before do
       visit agencies_path
     end
     scenario 'valid' do
       find("a[data-target='#agencyModal-#{agency.id}']").click
       within("#agencyModal-#{agency.id}") do
-        fill_in 'Name', with: name
+        fill_in 'Name', with: 'Rotati'
         click_button 'Save'
       end
-      wait_for_ajax
-      expect(page).to have_content('Agency has been successfully updated')
-      expect(page).to have_content(name)
+      expect(page).to have_content('Rotati')
     end
     scenario 'invalid' do
       find("a[data-target='#agencyModal-#{agency.id}']").click
       within("#agencyModal-#{agency.id}") do
-        fill_in I18n.t('agencies.form.name'), with: ''
+        fill_in 'Name', with: ''
         click_button 'Save'
       end
-      wait_for_ajax
-      expect(page).to have_content('Failed to update an agency')
+      expect(page).to have_content(agency.name)
     end
   end
 
@@ -81,11 +75,9 @@ describe 'Agency' do
     end
     scenario 'success' do
       find("a[href='#{agency_path(agency)}'][data-method='delete']").click
-      wait_for_ajax
-      expect(page).to have_content('Agency has been successfully deleted')
+      expect(page).not_to have_content(agency.name)
     end
     scenario 'disable link' do
-      wait_for_ajax
       expect(page).to have_css("a[href='#{agency_path(other_agency)}'][data-method='delete'][class='btn btn-outline btn-danger btn-xs disabled']")
     end
   end

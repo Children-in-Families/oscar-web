@@ -109,7 +109,9 @@ describe 'Client Enrollment' do
 
         click_button 'Save'
       end
-      expect(page).to have_content('Enrollment has been successfully created.')
+      expect(page).to have_content('3')
+      expect(page).to have_content('this is testing')
+      expect(page).to have_content('test@example.com')
     end
 
     scenario 'Invalid' do
@@ -188,7 +190,7 @@ describe 'Client Enrollment' do
     scenario 'success' do
       find('input[type="text"]:last-child').set('this is editing')
       find('input[type="submit"]').click
-      expect(page).to have_content('Enrollment has been successfully updated.')
+      expect(page).to have_content('this is editing')
     end
 
     scenario 'fail' do
@@ -198,14 +200,14 @@ describe 'Client Enrollment' do
     end
   end
 
-  # xfeature 'Destroy', js: true do
-  #   before do
-  #     visit client_client_enrollment_path(client, client_enrollment, program_stream_id: program_stream.id)
-  #   end
-  #
-  #   scenario 'success' do
-  #     find("a[data-method='delete'][href='#{client_client_enrollment_path(client, client_enrollment, program_stream_id: program_stream.id)}']").click
-  #     expect(page).to have_content('Enrollment has been successfully deleted.')
-  #   end
-  # end
+  feature 'Destroy', js: true do
+    before do
+      visit client_client_enrollment_path(client, client_enrollment, program_stream_id: program_stream.id)
+    end
+
+    scenario 'success' do
+      find("a[data-method='delete'][href='#{client_client_enrollment_path(client, client_enrollment, program_stream_id: program_stream.id)}']").click
+      expect(page).not_to have_content(client_enrollment.enrollment_date.strftime('%d %B, %Y'))
+    end
+  end
 end

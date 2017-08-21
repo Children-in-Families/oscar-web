@@ -70,6 +70,7 @@ class ClientSerializer < ActiveModel::Serializer
   def case_notes
     object.case_notes.most_recents.map do |case_note|
       formatted_case_note_domain_group = case_note.case_note_domain_groups.map do |cdg|
+        next if cdg.domain_group.nil?
         domain_scores = cdg.domain_group.domains.map do |domain|
           ad = domain.assessment_domains.find_by(assessment_id: case_note.assessment_id)
           ad.try(:score)
