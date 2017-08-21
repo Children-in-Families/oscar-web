@@ -270,7 +270,10 @@ CIF.Client_advanced_searchesIndex = do ->
 
   _setDefaultCheckColumnVisibilityAll = ->
     setTimeout ( ->
-      if $('#client-column .visibility .checked').length == 0
+      clientCheckboxChecked     = $('#client-column .visibility .checked')
+      programCheckboxChecked    = $('#program-stream-column .visibility .checked')
+      customFormCheckboxChecked = $('#custom-form-column .visibility .checked')
+      if $(clientCheckboxChecked).length == 0 and $(programCheckboxChecked).length == 0 and $(customFormCheckboxChecked).length == 0
         $('#client-column .all-visibility #all_').iCheck('check')
       )
 

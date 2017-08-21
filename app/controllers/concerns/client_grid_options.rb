@@ -24,7 +24,7 @@ module ClientGridOptions
   def form_builder_report
     column_form_builder.each do |field|
       fields = field.split('_')
-      @client_grid.column(:"#{field.downcase.parameterize('_')}", header: fields.last) do |client|
+      @client_grid.column(:"#{field.downcase.parameterize('_')}", header: form_builder_format_header(fields)) do |client|
         if fields.first == 'formbuilder'
           custom_field_properties = client.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).properties_by(fields.last)
           custom_field_properties.map{ |properties| format_properties_value(properties) }.join("\n")

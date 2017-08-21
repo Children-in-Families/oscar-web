@@ -8,7 +8,7 @@
         - if @program_stream_columns.present?
           - @program_stream_columns.each do |key, fields|
             %li.dropdown-header
-              = entity_format(key)
+              = form_builder_format_header(key)
             - fields.each do |field|
               %li
                 .visibility.checkbox-margin
