@@ -32,11 +32,11 @@ describe 'Department' do
     scenario 'valid' do
       click_link('New Department')
       within('#new_department') do
-        fill_in 'Name', with: FFaker::Name.name
+        fill_in 'Name', with: 'Department Name'
         click_button 'Save'
       end
       wait_for_ajax
-      expect(page).to have_content('Department has been successfully created.')
+      expect(page).to have_content('')
     end
     scenario 'invalid' do
       click_link('New Department')
@@ -44,23 +44,22 @@ describe 'Department' do
         click_button 'Save'
       end
       wait_for_ajax
-      expect(page).to have_content('Failed to create a department')
+      expect(page).to have_content('Department Name')
     end
   end
 
   feature 'Edit', js: true do
-    let!(:name){ FFaker::Name.name }
     before do
       visit departments_path
     end
     scenario 'valid' do
       find("a[data-target='#departmentModal-#{department.id}']").click
       within("#departmentModal-#{department.id}") do
-        fill_in 'Name', with: name
+        fill_in 'Name', with: 'Update Department Name'
         click_button 'Save'
       end
       wait_for_ajax
-      expect(page).to have_content('Department has been successfully updated')
+      expect(page).to have_content('Update Department Name')
     end
     scenario 'invalid' do
       find("a[data-target='#departmentModal-#{department.id}']").click
@@ -69,7 +68,7 @@ describe 'Department' do
         click_button 'Save'
       end
       wait_for_ajax
-      expect(page).to have_content('Failed to update a department')
+      expect(page).to have_content(department.name)
     end
   end
 

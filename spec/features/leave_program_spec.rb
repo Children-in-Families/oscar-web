@@ -20,13 +20,16 @@ describe LeaveProgram, 'Leave Program' do
     scenario 'Valid' do
       within('#new_leave_program') do
         find('.numeric').set(4)
-        find('#exit_date').set(FFaker::Time.date)
+        find('#exit_date').set('2017-04-01')
         find('#leave_program_properties_description').set('Good client')
         find('input[type="email"]').set('cif@cambodianflamilies.com')
 
         click_button 'Save'
       end
-      expect(page).to have_content('Client has been successfully exited from the program.')
+      expect(page).to have_content('4')
+      expect(page).to have_content('01 April, 2017')
+      expect(page).to have_content('Good client')
+      expect(page).to have_content('cif@cambodianflamilies.com')
     end
 
     scenario 'Invalid' do
@@ -73,10 +76,11 @@ describe LeaveProgram, 'Leave Program' do
     end
 
     scenario 'success' do
-      find('#exit_date').set(FFaker::Time.date)
+      find('#exit_date').set('2017-04-02')
       find('#leave_program_properties_description').set('this is editing')
       find('input[type="submit"]').click
-      expect(page).to have_content('Exit Program has been successfully updated.')
+      expect(page).to have_content('02 April, 2017')
+      expect(page).to have_content('this is editing')
     end
 
     scenario 'fail' do

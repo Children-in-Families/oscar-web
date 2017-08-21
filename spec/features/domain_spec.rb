@@ -32,11 +32,12 @@ describe 'Domain' do
       visit new_domain_path
     end
     scenario 'valid' do
-      fill_in 'Name', with: FFaker::Name.name
-      fill_in 'Identity', with: FFaker::Name.name
+      fill_in 'Name', with: 'Domain Name'
+      fill_in 'Identity', with: 'Domain Identity'
       click_button 'Save'
       sleep 1
-      expect(page).to have_content('Domain has been successfully created')
+      expect(page).to have_content('Domain Name')
+      expect(page).to have_content('Domain Identity')
     end
     scenario 'invalid' do
       click_button 'Save'
@@ -45,15 +46,14 @@ describe 'Domain' do
   end
 
   feature 'Edit' do
-    let!(:name){ FFaker::Name.name }
     before do
       visit edit_domain_path(domain)
     end
     scenario 'valid', js: true do
-      fill_in 'Name', with: name
+      fill_in 'Name', with: 'Updated Domain Name'
       click_button 'Save'
       sleep 1
-      expect(page).to have_content('Domain has been successfully updated')
+      expect(page).to have_content('Updated Domain Name')
     end
     scenario 'invalid' do
       fill_in 'Name', with: ''

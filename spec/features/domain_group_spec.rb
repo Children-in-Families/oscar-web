@@ -31,11 +31,11 @@ describe 'Domain Group' do
     scenario 'valid' do
       click_link('New Domain Group')
       within('#new_domain_group') do
-        fill_in 'Name', with: FFaker::Name.name
+        fill_in 'Name', with: 'New Dormain Group'
         click_button 'Save'
       end
       wait_for_ajax
-      expect(page).to have_content('Domain Group has been successfully created.')
+      expect(page).to have_content('New Dormain Group')
     end
     scenario 'invalid' do
       click_link('New Domain Group')
@@ -43,23 +43,23 @@ describe 'Domain Group' do
         click_button 'Save'
       end
       wait_for_ajax
-      expect(page).to have_content('Failed to create a domain group.')
+      expect(page).to have_content(domain_group.name)
+      expect(page).to have_content(other_domain_group.name)
     end
   end
 
   feature 'Edit', js: true do
-    let!(:name){ FFaker::Name.name }
     before do
       visit domain_groups_path
     end
     scenario 'valid' do
       find("a[data-target='#domain_groupModal-#{domain_group.id}']").click
       within("#domain_groupModal-#{domain_group.id}") do
-        fill_in 'Name', with: name
+        fill_in 'Name', with: 'Update Domain Name'
         click_button 'Save'
       end
       wait_for_ajax
-      expect(page).to have_content('Domain Group has been successfully updated')
+      expect(page).to have_content('Update Domain Name')
     end
     scenario 'invalid' do
       find("a[data-target='#domain_groupModal-#{domain_group.id}']").click
@@ -67,9 +67,8 @@ describe 'Domain Group' do
         fill_in 'Name', with: ''
         click_button 'Save'
       end
-      
       wait_for_ajax
-      expect(page).to have_content('Failed to update a domain group')
+      expect(page).to have_content(domain_group.name)
     end
   end
 
