@@ -18,4 +18,12 @@ module FormBuilderAttachmentsHelper
       end
     end
   end
+
+  def custom_field_property_attachment(field)
+    if action_name == 'create'
+      @attachments = @custom_field_property.form_builder_attachments.build
+    else
+      @attachments.file_by_name(field) || @attachments.build
+    end
+  end
 end
