@@ -114,30 +114,31 @@ class CIF.CustomFormBuilder
     $(field).find('input.option-label').on 'keyup change', ->
       value = $(@).val()
       $(@).siblings('.option-value').val(value)
-  
+
   handleCheckingForm: ->
     @handleDisplayDuplicateWarning()
     @actionRemoveField()
     @actionEditField()
 
   getDuplicateValues: (elements) ->
-    labels    = $(elements).map(-> $(@).text().trim()).get()
-    duplicateValues = Object.values(labels.getDuplicates())
-    [].concat.apply([], duplicateValues)
+    self = @
+    $(elements).each (index, label) ->
+      displayText = $(label).text()
+      $(elements).each (cIndex, cLabel) ->
+        return if cIndex == index
+        cText = $(cLabel).text()
+        if cText == displayText
+          self.addDuplicateWarning(label)
 
   handleDisplayDuplicateWarning: ->
     if $('#trackings').is(':visible') and $('.nested-fields').is(':visible')
       elementFrmbs = $('ul.frmb:visible')
       for element in elementFrmbs
         elements  = $(element).find('.field-label:visible')
-        duplicateValues = @getDuplicateValues(elements)
-        for value in duplicateValues
-          @addDuplicateWarning(elements[value])
+        @getDuplicateValues(elements)
     else
       elements = $('ul.frmb:visible .field-label:visible')
-      duplicateValues = @getDuplicateValues(elements)
-      for value in duplicateValues
-        @addDuplicateWarning(elements[value])
+      @getDuplicateValues(elements)
 
   addDuplicateWarning: (element) ->
     errorText = 'Field labels must be unique, please click the edit icon to set a unique field label'
@@ -146,6 +147,7 @@ class CIF.CustomFormBuilder
     $(parentElement).find('input, textarea, select').addClass('error')
     unless $(parentElement).find('label.error').is(':visible')
       $(parentElement).append("<label class='error'>#{errorText}</label>")
+      $('#custom-field-submit').attr('disabled', 'true') if $('#custom-field-submit').length
 
   actionRemoveField: ->
     self = @
@@ -159,7 +161,7 @@ class CIF.CustomFormBuilder
       $(".form-elements input[name='label']").on 'change', ->
         setTimeout ( ->
           self.removeFieldDuplicate()
-          self.handleDisplayDuplicateWarning()
+          self.handleDisplayDuplicateWarning(labels)
         ), 300
 
   getNoneDuplicateLabel: (elements) ->
@@ -185,5 +187,4 @@ class CIF.CustomFormBuilder
     $(field).removeClass('has-error')
     $(field).find('input, textarea, select').removeClass('error')
     $(field).find('label.error').remove()
-
-
+    $('#custom-field-submit').removeAttr('disabled') if $('#custom-field-submit').length
