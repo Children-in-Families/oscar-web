@@ -121,15 +121,14 @@ describe 'Client' do
       fill_in 'Date of Birth', with: '2017-05-01'
       find(".client_users select option[value='#{user.id}']", visible: false).select_option
 
-      select2_select province.name, '.client_province'
-      select2_select province.name, '.client_birth_province_id'
+      find(".client_province select option[value='#{province.id}']", visible: false).select_option
+      find(".client_birth_province_id select option[value='#{province.id}']", visible: false).select_option
 
       fill_in 'Village', with: 'Sabay'
       fill_in 'Commune', with: 'Vealvong'
 
       click_button 'Save'
       wait_for_ajax
-
       expect(page).to have_content("The client you are registering has many attributes that match a client who is already registered at")
     end
   end
