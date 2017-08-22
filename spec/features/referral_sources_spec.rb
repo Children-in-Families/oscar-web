@@ -24,29 +24,30 @@ describe 'Referral Sources' do
     end
   end
   feature 'Create', js: true do
+    let!(:another_referral_source) { create(:referral_source, name: 'Another Referral Source') }
     before do
       visit referral_sources_path
     end
     scenario 'valid' do
       click_link('Add New Referral Source')
       within('#new_referral_source') do
-        fill_in 'Name', with: FFaker::Name.name
+        fill_in 'Name', with: 'Test'
         click_button 'Save'
       end
       wait_for_ajax
-      expect(page).to have_content('Referral Source has been successfully created')
+      expect(page).to have_content('Test')
     end
     scenario 'invalid' do
       click_link('Add New Referral Source')
       within('#new_referral_source') do
+        fill_in 'Name', with: 'Another Referral Source'
         click_button 'Save'
       end
       wait_for_ajax
-      expect(page).to have_content('Failed to create a referral source.')
+      expect(page).to have_content('Another Referral Source', count: 1)
     end
   end
   feature 'Edit', js: true do
-    let!(:name){ FFaker::Name.name }
     before do
       visit referral_sources_path
     end
@@ -57,17 +58,16 @@ describe 'Referral Sources' do
         click_button 'Save'
       end
       wait_for_ajax
-      expect(page).to have_content('Referral Source has been successfully updated')
+      expect(page).to have_content('testing')
     end
     scenario 'invalid' do
       find("a[data-target='#referral_sourceModal-#{referral_source.id}']").click
       within("#referral_sourceModal-#{referral_source.id}") do
         fill_in 'Name', with: ''
         click_button 'Save'
-        
       end
       wait_for_ajax
-      expect(page).to have_content('Failed to update a referral source.')
+      expect(page).to have_content(referral_source.name)
     end
   end
   feature 'Delete' do
@@ -77,7 +77,7 @@ describe 'Referral Sources' do
     scenario 'success', js: true do
       find("a[href='#{referral_source_path(referral_source)}'][data-method='delete']").click
       wait_for_ajax
-      expect(page).to have_content('Referral Source has been successfully deleted')
+      expect(page).not_to have_content(referral_source.name)
     end
     scenario 'disable delete' do
       expect(page).to have_css("a[href='#{referral_source_path(other_referral_source)}'][data-method='delete'][class='btn btn-outline btn-danger btn-xs disabled']")

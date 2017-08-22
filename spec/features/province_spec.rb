@@ -22,41 +22,42 @@ describe 'Province' do
   end
 
   feature 'Create', js: true do
+    let!(:other_province) { create(:province, name: 'SR') }
     before do
       visit provinces_path
     end
     scenario 'valid' do
       click_link('Add New Province')
       within('#new_province') do
-        fill_in 'Name', with: FFaker::Name.name
+        fill_in 'Name', with: 'Phnom Penh'
         click_button 'Save'
       end
       sleep 1
-      expect(page).to have_content('Province has been successfully created')
+      expect(page).to have_content('Phnom Penh')
     end
     scenario 'invalid' do
       click_link('Add New Province')
       within('#new_province') do
+        fill_in 'Name', with: 'SR'
         click_button 'Save'
       end
       sleep 1
-      expect(page).to have_content('Failed to create a province.')
+      expect(page).to have_content('SR', count: 1)
     end
   end
 
   feature 'Edit', js: true do
-    let!(:name){ FFaker::Name.name }
     before do
       visit provinces_path
     end
     scenario 'valid' do
       find("a[data-target='#provinceModal-#{province.id}']").click
       within("#provinceModal-#{province.id}") do
-        fill_in 'Name', with: name
+        fill_in 'Name', with: 'TK'
         click_button 'Save'
       end
       sleep 1
-      expect(page).to have_content('Province has been successfully updated')
+      expect(page).to have_content('TK')
     end
     scenario 'invalid' do
       find("a[data-target='#provinceModal-#{province.id}']").click
@@ -65,7 +66,7 @@ describe 'Province' do
         click_button 'Save'
       end
       sleep 1
-      expect(page).to have_content('Failed to update a province.')
+      expect(page).to have_content(province.name)
     end
   end
 
@@ -74,12 +75,12 @@ describe 'Province' do
       visit provinces_path
     end
     scenario 'success' do
-      find("a[href='#{province_path(province, locale: I18n.locale)}'][data-method='delete']").click
+      find("a[href='#{province_path(province)}'][data-method='delete']").click
       sleep 1
-      expect(page).to have_content('Province has been successfully deleted')
+      expect(page).not_to have_content(province.name)
     end
     scenario 'disable delete' do
-      expect(page).to have_css("a[href='#{province_path(other_province, locale: I18n.locale)}'][data-method='delete'][class='btn btn-outline btn-danger btn-xs disabled']")
+      expect(page).to have_css("a[href='#{province_path(other_province)}'][data-method='delete'][class='btn btn-outline btn-danger btn-xs disabled']")
     end
   end
 end
