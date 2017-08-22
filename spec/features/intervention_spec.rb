@@ -25,7 +25,7 @@ describe 'Intervention' do
     end
 
     scenario 'new link' do
-      expect(page).to have_link(I18n.t('interventions.index.add_new_intervention'), new_intervention_path)
+      expect(page).to have_link('Add New Intervention', new_intervention_path)
     end
 
     scenario 'pagination' do
@@ -34,6 +34,7 @@ describe 'Intervention' do
   end
 
   feature 'Create', js: true do
+    let!(:other_intervention) { create(:intervention, action: 'Other Intervention') }
     before do
       visit interventions_path
     end
@@ -41,25 +42,25 @@ describe 'Intervention' do
     scenario 'valid' do
       click_link('New Intervention')
       within('#new_intervention') do
-        fill_in I18n.t('interventions.form.action'), with: FFaker::HealthcareIpsum.word
-        click_button I18n.t('interventions.form.save')
+        fill_in 'Action', with: 'New Intervention'
+        click_button 'Save'
       end
       sleep 1
-      expect(page).to have_content(I18n.t('interventions.create.successfully_created'))
+      expect(page).to have_content('New Intervention')
     end
 
     scenario 'invalid' do
       click_link('New Intervention')
       within('#new_intervention') do
-        click_button I18n.t('interventions.form.save')
+        fill_in 'Action', with: 'Other Intervention'
+        click_button 'Save'
       end
       sleep 1
-      expect(page).to have_content('Failed to create an intervention.')
+      expect(page).to have_content('Other Intervention', count: 1)
     end
   end
 
   feature 'Edit', js: true do
-    let!(:action) { FFaker::HealthcareIpsum.word }
     let!(:other_intervention) { create(:intervention, action: 'Counseling') }
     before do
       visit interventions_path
@@ -67,21 +68,20 @@ describe 'Intervention' do
     scenario 'valid' do
       find("a[data-target='#interventionModal-#{intervention.id}']").click
       within("#interventionModal-#{intervention.id}") do
-        fill_in I18n.t('interventions.form.action'), with: action
-        click_button I18n.t('interventions.form.save')
+        fill_in 'Action', with: 'Updated Action'
+        click_button 'Save'
       end
       sleep 1
-      expect(page).to have_content(I18n.t('interventions.update.successfully_updated'))
-      expect(page).to have_content(action)
+      expect(page).to have_content('Updated Action')
     end
     scenario 'invalid' do
       find("a[data-target='#interventionModal-#{intervention.id}']").click
       within("#interventionModal-#{intervention.id}") do
-        fill_in I18n.t('interventions.form.action'), with: 'Counseling'
-        click_button I18n.t('interventions.form.save')
+        fill_in 'Action', with: 'Counseling'
+        click_button 'Save'
       end
       sleep 1
-      expect(page).to have_content('Failed to update an intervention')
+      expect(page).to have_content('Counseling', count: 1)
     end
   end
 
@@ -92,7 +92,7 @@ describe 'Intervention' do
     scenario 'success' do
       find("a[href='#{intervention_path(intervention)}'][data-method='delete']").click
       sleep 1
-      expect(page).to have_content(I18n.t('interventions.destroy.successfully_deleted'))
+      expect(page).not_to have_content(intervention.action)
     end
   end
 end

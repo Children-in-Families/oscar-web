@@ -60,12 +60,15 @@ describe 'Family' do
       visit new_family_path
     end
     scenario 'valid' do
-      fill_in 'Name', with: FFaker::Name.name
-      fill_in 'Address', with: FFaker::Address.street_address
-      fill_in 'Caregiver Information', with: FFaker::Lorem.paragraph
+      fill_in 'Name', with: 'Family Name'
+      fill_in 'Address', with: 'Family Address'
+      fill_in 'Caregiver Information', with: 'Caregiver info'
       find(".family_clients select option[value='#{client.id}']", visible: false).select_option
       click_button 'Save'
       sleep 1
+      expect(page).to have_content('Family Name')
+      expect(page).to have_content('Family Address')
+      expect(page).to have_content('Caregiver info')
       expect(page).to have_content('Family has been successfully created')
       expect(page).to have_content(client.given_name)
       expect(page).not_to have_content(other_client.given_name)
@@ -82,18 +85,18 @@ describe 'Family' do
       find(".family_clients select option[value='#{client.id}']", visible: false).select_option
       click_button 'Save'
       sleep 1
-      expect(page).to have_content('Family has been successfully created')
+      expect(page).to have_content('Inactive Family')
       client.reload
       expect(client.status).to eq('Referred')
     end
 
     scenario 'Birth Family' do
-      fill_in 'Name', with: 'Inactive Family'
+      fill_in 'Name', with: 'Birth Family'
       find(".family_family_type select option[value='birth_family']", visible: false).select_option
       find(".family_clients select option[value='#{client.id}']", visible: false).select_option
       click_button 'Save'
       sleep 1
-      expect(page).to have_content('Family has been successfully created')
+      expect(page).to have_content('Birth Family')
       client.reload
       expect(client.status).to eq('Referred')
     end
@@ -104,7 +107,7 @@ describe 'Family' do
       find(".family_clients select option[value='#{client.id}']", visible: false).select_option
       click_button 'Save'
       sleep 1
-      expect(page).to have_content('Family has been successfully created')
+      expect(page).to have_content('Emergency Family')
       client.reload
       expect(client.status).to eq('Active EC')
     end
@@ -115,7 +118,7 @@ describe 'Family' do
       find(".family_clients select option[value='#{client.id}']", visible: false).select_option
       click_button 'Save'
       sleep 1
-      expect(page).to have_content('Family has been successfully created')
+      expect(page).to have_content('Foster Family')
       client.reload
       expect(client.status).to eq('Active FC')
     end
@@ -126,14 +129,13 @@ describe 'Family' do
       find(".family_clients select option[value='#{client.id}']", visible: false).select_option
       click_button 'Save'
       sleep 1
-      expect(page).to have_content('Family has been successfully created')
+      expect(page).to have_content('Kinship Family')
       client.reload
       expect(client.status).to eq('Active KC')
     end
   end
 
   feature 'Update', js: true do
-    let!(:name) { FFaker::Name.name }
     let!(:pirunseng){ create(:client, :accepted, given_name: 'Pirun', family_name: 'Seng') }
     let!(:ec_family){ create(:family, :emergency, name: 'Emergency Family') }
     let!(:non_case_family){ create(:family, family_type: ['birth_family', 'inactive'].sample) }
@@ -145,11 +147,10 @@ describe 'Family' do
         visit edit_family_path(ec_family)
       end
       scenario 'name' do
-        fill_in 'Name', with: name
+        fill_in 'Name', with: 'Family Name'
         click_button 'Save'
         sleep 1
-        expect(page).to have_content('Family has been successfully updated')
-        expect(page).to have_content(name)
+        expect(page).to have_content('Family Name')
       end
     end
 
@@ -179,7 +180,7 @@ describe 'Family' do
     scenario 'success' do
       find("a[href='#{family_path(family)}'][data-method='delete']").click
       sleep 1
-      expect(page).to have_content('Family has been successfully deleted')
+      expect(page).not_to have_content(family.name)
     end
     scenario 'unsuccess' do
       expect(page).to have_css("a[href='#{family_path(other_family)}'][data-method='delete'][class='btn btn-outline btn-danger btn-xs disabled']")
@@ -194,14 +195,14 @@ describe 'Family' do
       expect(page).to have_content(family.name)
     end
     scenario 'link to edit' do
-      expect(page).to have_link(nil, href: edit_family_path(family, locale: I18n.locale))
+      expect(page).to have_link(nil, href: edit_family_path(family))
     end
     scenario 'link to delete' do
-      expect(page).to have_css("a[href='#{family_path(family, locale: I18n.locale)}'][data-method='delete']")
+      expect(page).to have_css("a[href='#{family_path(family)}'][data-method='delete']")
     end
     scenario 'disable delete' do
       visit family_path(other_family)
-      expect(page).to have_css("a[href='#{family_path(other_family, locale: I18n.locale)}'][data-method='delete'][class='btn btn-outline btn-danger btn-md disabled']")
+      expect(page).to have_css("a[href='#{family_path(other_family)}'][data-method='delete'][class='btn btn-outline btn-danger btn-md disabled']")
     end
   end
 
