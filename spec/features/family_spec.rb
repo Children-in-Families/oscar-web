@@ -85,7 +85,7 @@ describe 'Family' do
       find(".family_clients select option[value='#{client.id}']", visible: false).select_option
       click_button 'Save'
       sleep 1
-      expect(page).to have_content('Inactive Family')
+      expect(page).to have_content('About Family Inactive Family')
       client.reload
       expect(client.status).to eq('Referred')
     end
@@ -96,7 +96,7 @@ describe 'Family' do
       find(".family_clients select option[value='#{client.id}']", visible: false).select_option
       click_button 'Save'
       sleep 1
-      expect(page).to have_content('Birth Family')
+      expect(page).to have_content('About Family Birth Family')
       client.reload
       expect(client.status).to eq('Referred')
     end
@@ -107,7 +107,7 @@ describe 'Family' do
       find(".family_clients select option[value='#{client.id}']", visible: false).select_option
       click_button 'Save'
       sleep 1
-      expect(page).to have_content('Emergency Family')
+      expect(page).to have_content('About Family Emergency Family')
       client.reload
       expect(client.status).to eq('Active EC')
     end
@@ -118,7 +118,7 @@ describe 'Family' do
       find(".family_clients select option[value='#{client.id}']", visible: false).select_option
       click_button 'Save'
       sleep 1
-      expect(page).to have_content('Foster Family')
+      expect(page).to have_content('About Family Foster Family')
       client.reload
       expect(client.status).to eq('Active FC')
     end
@@ -129,7 +129,7 @@ describe 'Family' do
       find(".family_clients select option[value='#{client.id}']", visible: false).select_option
       click_button 'Save'
       sleep 1
-      expect(page).to have_content('Kinship Family')
+      expect(page).to have_content('About Family Kinship Family')
       client.reload
       expect(client.status).to eq('Active KC')
     end
