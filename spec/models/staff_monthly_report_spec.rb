@@ -22,12 +22,12 @@ describe 'Staff Monthly Report' do
   let!(:case_note) { FactoryGirl.create(:case_note, client: client_1, created_at: Date.today.last_month) }
   let!(:case_notes) { FactoryGirl.create_list(:case_note, 62, client: client_2, created_at: Date.today.last_month) }
 
-  let!(:case_note_domain_group_1) { FactoryGirl.create(:case_note_domain_group, case_note: case_note, domain_group: domain_group_1, note: ('a' * Date.today.last_month.end_of_month.day)) }
-  let!(:case_note_domain_group_2) { FactoryGirl.create(:case_note_domain_group, case_note: case_note, domain_group: domain_group_2, note: ('a' * Date.today.last_month.end_of_month.day)) }
-  let!(:case_note_domain_group_3) { FactoryGirl.create(:case_note_domain_group, case_note: case_note, domain_group: domain_group_3, note: ('a' * Date.today.last_month.end_of_month.day)) }
-  let!(:case_note_domain_group_4) { FactoryGirl.create(:case_note_domain_group, case_note: case_note, domain_group: domain_group_4, note: ('a' * Date.today.last_month.end_of_month.day)) }
-  let!(:case_note_domain_group_5) { FactoryGirl.create(:case_note_domain_group, case_note: case_note, domain_group: domain_group_5, note: ('a' * Date.today.last_month.end_of_month.day)) }
-  let!(:case_note_domain_group_6) { FactoryGirl.create(:case_note_domain_group, case_note: case_note, domain_group: domain_group_6, note: ('a' * Date.today.last_month.end_of_month.day)) }
+  let!(:case_note_domain_group_1) { FactoryGirl.create(:case_note_domain_group, case_note: case_note, domain_group: domain_group_1, note: ('Test')) }
+  let!(:case_note_domain_group_2) { FactoryGirl.create(:case_note_domain_group, case_note: case_note, domain_group: domain_group_2, note: ('Test')) }
+  let!(:case_note_domain_group_3) { FactoryGirl.create(:case_note_domain_group, case_note: case_note, domain_group: domain_group_3, note: ('Test')) }
+  let!(:case_note_domain_group_4) { FactoryGirl.create(:case_note_domain_group, case_note: case_note, domain_group: domain_group_4, note: ('Test')) }
+  let!(:case_note_domain_group_5) { FactoryGirl.create(:case_note_domain_group, case_note: case_note, domain_group: domain_group_5, note: ('Test')) }
+  let!(:case_note_domain_group_6) { FactoryGirl.create(:case_note_domain_group, case_note: case_note, domain_group: domain_group_6, note: ('Test')) }
 
   let!(:assessment_1) { FactoryGirl.create(:assessment, client: client_1, created_at: (Date.today.last_month - 8.months)) }
   let!(:assessment_2) { FactoryGirl.create(:assessment, client: client_1, created_at: Date.today.last_month) }
@@ -44,7 +44,7 @@ describe 'Staff Monthly Report' do
     end
 
     scenario 'average characters count of casenote' do
-      expect(StaffMonthlyReport.average_casenote_characters(user_1)).to eq(6)
+      expect(StaffMonthlyReport.average_casenote_characters(user_1)).to eq(24)
       expect(StaffMonthlyReport.average_casenote_characters(user_2)).to eq(0)
     end
 
