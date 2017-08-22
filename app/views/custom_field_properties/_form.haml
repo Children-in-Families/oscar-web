@@ -15,7 +15,7 @@
                     = render "/shared/fields/#{field['type'].underscore}", f: prop_f, field_props: field, errors: @custom_field_property.errors.messages
 
                   - else
-                    = f.simple_fields_for :form_builder_attachments, @attachments.file_by_name(field['label']) || @attachments.build do |attachment|
+                    = f.simple_fields_for :form_builder_attachments, custom_field_property_attachment(field['label']) do |attachment|
                       = render 'shared/form_builder/attachment', f: attachment, property: field, entity: f, resource: @custom_field_property
         .row
           .col-xs-12
