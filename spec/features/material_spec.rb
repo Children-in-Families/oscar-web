@@ -37,6 +37,7 @@ describe 'Material' do
   end
 
   feature 'Create', js: true do
+    let!(:other_material) { create(:material, status: 'Other Material') }
     before do
       visit materials_path
     end
@@ -54,10 +55,11 @@ describe 'Material' do
     scenario 'invalid' do
       click_link('Add New Equipment/Material')
       within('#new_material') do
+        fill_in 'Status', with: 'Other Material'
         click_button 'Save'
       end
       sleep 1
-      expect(page).to have_content('Failed to create an Equipment/Material')
+      expect(page).to have_content('Other Material', count: 1)
     end
   end
 
@@ -78,11 +80,11 @@ describe 'Material' do
     scenario 'invalid' do
       find("a[data-target='#materialModal-#{other_material.id}']").click
       within("#materialModal-#{other_material.id}") do
-        fill_in 'Status', with: ''
+        fill_in 'Status', with: 'Loan'
         click_button 'Save'
       end
       sleep 1
-      expect(page).to have_content('Failed to update an Equipment/Material')
+      expect(page).to have_content('Loan', count: 1)
     end
   end
 
@@ -93,7 +95,7 @@ describe 'Material' do
     scenario 'success' do
       find("a[href='#{material_path(material)}'][data-method='delete']").click
       sleep 1
-      expect(page).to have_content('Equipment/Material has been successfully deleted.')
+      expect(page).not_to have_content(material.status)
     end
 
     scenario 'does not succeed' do

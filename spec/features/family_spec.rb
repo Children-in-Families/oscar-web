@@ -180,7 +180,7 @@ describe 'Family' do
     scenario 'success' do
       find("a[href='#{family_path(family)}'][data-method='delete']").click
       sleep 1
-      expect(page).to have_content('Family has been successfully deleted')
+      expect(page).not_to have_content(family.name)
     end
     scenario 'unsuccess' do
       expect(page).to have_css("a[href='#{family_path(other_family)}'][data-method='delete'][class='btn btn-outline btn-danger btn-xs disabled']")

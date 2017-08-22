@@ -25,26 +25,27 @@ describe 'Domain Group' do
   end
 
   feature 'Create', js: true do
+    let!(:another_domain_group) { create(:domain_group, name: 'Another Domain Group') }
     before do
       visit domain_groups_path
     end
     scenario 'valid' do
       click_link('New Domain Group')
       within('#new_domain_group') do
-        fill_in 'Name', with: 'New Dormain Group'
+        fill_in 'Name', with: 'New Domain Group'
         click_button 'Save'
       end
       wait_for_ajax
-      expect(page).to have_content('New Dormain Group')
+      expect(page).to have_content('New Domain Group')
     end
     scenario 'invalid' do
       click_link('New Domain Group')
       within('#new_domain_group') do
+        fill_in 'Name', with: 'Another Domain Group'
         click_button 'Save'
       end
       wait_for_ajax
-      expect(page).to have_content(domain_group.name)
-      expect(page).to have_content(other_domain_group.name)
+      expect(page).to have_content('Another Domain Group', count: 1)
     end
   end
 
@@ -79,7 +80,7 @@ describe 'Domain Group' do
     scenario 'success' do
       find("a[href='#{domain_group_path(domain_group)}'][data-method='delete']").click
       wait_for_ajax
-      expect(page).to have_content('Domain Group has been successfully deleted')
+      expect(page).not_to have_content(domain_group.name)
     end
     scenario 'disable delete' do
       expect(page).to have_css("a[href='#{domain_group_path(other_domain_group)}'][data-method='delete'][class='btn btn-outline btn-danger btn-xs disabled']")
