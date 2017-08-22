@@ -1,3 +1,17 @@
-// Place all the styles related to the ClientProgramStream controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+.file-details-cell {
+  .explorer-caption {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  @media only screen and (max-width: 500px) {
+    .explorer-caption {
+      width: 200px;
+    }
+  }
+  @media only screen and (min-width: 600px) {
+    .explorer-caption {
+      width: 400px;
+    }
+  }
+}
