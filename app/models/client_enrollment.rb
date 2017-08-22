@@ -35,6 +35,7 @@ class ClientEnrollment < ActiveRecord::Base
   end
 
   def self.properties_by(value)
+    value = value.gsub("'", "''")
     field_properties = select("client_enrollments.id, client_enrollments.properties ->  '#{value}' as field_properties").collect(&:field_properties)
     field_properties.select(&:present?)
   end

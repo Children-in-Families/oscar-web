@@ -16,7 +16,7 @@ describe 'User' do
     scenario 'disable user from log in', js: true do
       visit users_path
       find("a[href='#{user_disable_path(used_user)}']").click
-      expect(page).to have_content(I18n.t('users.disable.successfully_disable'))
+      expect(page).to have_css("i.fa.fa-lock", count: 2)
     end
     scenario 'user unable to log in when disable', js: true do
       logout
@@ -24,7 +24,7 @@ describe 'User' do
       fill_in 'Email', with: 'aa@bb.com'
       fill_in 'Password', with: '12345678'
       click_button 'Log in'
-      expect(page).to have_content 'Your account is not activated yet'
+      expect(current_path).to eql('/users/sign_in')
     end
   end
 
@@ -35,7 +35,7 @@ describe 'User' do
     scenario 'success', js: true do
       find("a[href='#{user_path(user)}'][data-method='delete']").click
       sleep 1
-      expect(page).to have_content(I18n.t('users.destroy.successfully_deleted'))
+      expect(page).not_to have_content(user.name)
     end
 
     scenario 'does not succeed' do
