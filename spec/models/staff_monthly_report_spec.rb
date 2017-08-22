@@ -3,6 +3,9 @@ describe 'Staff Monthly Report' do
   let!(:user_2) { create(:user) }
   let!(:user_3) { create(:user) }
 
+  let!(:user_1_tasks) { create_list(:task, Date.today.last_month.end_of_month.day, :incomplete, completion_date: Date.today.last_month, users: [user_1]) }
+  let!(:user_2_tasks) { create_list(:task, (Date.today.last_month.end_of_month.day * 2), :incomplete, completion_date: Date.today.last_month, users: [user_2]) }
+
   let!(:visit_1){ FactoryGirl.create(:visit, user: user_1, created_at: Date.today.last_month) }
   let!(:visit_2){ FactoryGirl.create(:visit, user: user_1, created_at: Date.today.last_month) }
   let!(:visits){ FactoryGirl.create_list(:visit, 32, user: user_1, created_at: Date.today.last_month) }
@@ -58,8 +61,17 @@ describe 'Staff Monthly Report' do
       expect(StaffMonthlyReport.average_length_of_time_completing_csi_for_each_client(user_2)).to eq(6)
       expect(StaffMonthlyReport.average_length_of_time_completing_csi_for_each_client(user_3)).to eq(0)
     end
+
+    scenario 'average number of due today tasks each day' do
+      TaskHistory.update_all(created_at: Date.today.last_month, updated_at: Date.today.last_month)
+      expect(StaffMonthlyReport.average_number_of_duetoday_tasks_each_day(user_1)).to eq(1)
+      expect(StaffMonthlyReport.average_number_of_duetoday_tasks_each_day(user_2)).to eq(2)
+    end
+
+    scenario 'average number of overdue tasks each day' do
+      TaskHistory.update_all(created_at: Date.today.last_month, updated_at: Date.today.last_month)
+      expect(StaffMonthlyReport.average_number_of_overdue_tasks_each_day(user_1)).to eq(1)
+      expect(StaffMonthlyReport.average_number_of_overdue_tasks_each_day(user_2)).to eq(2)
+    end
   end
 end
-
-# Done with above spec and implementation
-# Remaining, time machine, task overdue and due today.

@@ -22,10 +22,10 @@ class Task < ActiveRecord::Base
   scope :overdue_incomplete, -> { incomplete.overdue }
   scope :today_incomplete,   -> { incomplete.today }
   scope :by_domain_id,       ->(value) { where('domain_id = ?', value) }
-  
+
   scope :overdue_incomplete_ordered, -> { overdue_incomplete.order('completion_date ASC') }
 
-  after_save :set_users
+  after_save :set_users, :create_task_history
 
   def set_users
     client.users.map { |user| CaseWorkerTask.find_or_create_by(task_id: id, user_id: user.id) }
@@ -66,5 +66,9 @@ class Task < ActiveRecord::Base
     incomplete = self.incomplete.ids
     ids        = cdg_tasks + incomplete
     where(id: ids)
+  end
+
+  def create_task_history
+    TaskHistory.initial(self)
   end
 end

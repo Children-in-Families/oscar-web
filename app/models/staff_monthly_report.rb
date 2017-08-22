@@ -42,4 +42,30 @@ class StaffMonthlyReport
     end
     average = (duration.to_f  / client_with_two_assessments.to_f).ceil
   end
+
+  def self.average_number_of_duetoday_tasks_each_day(user)
+    total_day_of_month    = 1.month.ago.end_of_month.day
+    due_today_tasks_count = 0
+    start_date = 1.month.ago.beginning_of_month.to_date
+    end_date = 1.month.ago.end_of_month.to_date
+    (start_date..end_date).each do |date|
+      incomplete_today_task_histories_count = TaskHistory.where({ '$and' => [{'object.completion_date' => date}, {'object.completed' => false}, {'object.user_ids': user.id}] }).group_by{|t| t.object['id'] }.size
+      due_today_tasks_count += incomplete_today_task_histories_count
+    end
+    return 0 if due_today_tasks_count == 0
+    average = (due_today_tasks_count.to_f / total_day_of_month.to_f).ceil
+  end
+
+  def self.average_number_of_overdue_tasks_each_day(user)
+    total_day_of_month    = 1.month.ago.end_of_month.day
+    overdue_tasks_count = 0
+    start_date = 1.month.ago.beginning_of_month.to_date
+    end_date = 1.month.ago.end_of_month.to_date
+    (start_date..end_date).each do |date|
+      incomplete_overdue_task_histories_count = TaskHistory.lte('object.completion_date' => date).where({ '$and' => [{'object.completed' => false}, {'object.user_ids': user.id}] }).group_by{|t| t.object['id'] }.size
+      overdue_tasks_count = incomplete_overdue_task_histories_count
+    end
+    return 0 if overdue_tasks_count == 0
+    average = (overdue_tasks_count.to_f / total_day_of_month.to_f).ceil
+  end
 end
