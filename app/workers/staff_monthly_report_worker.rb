@@ -2,7 +2,9 @@ class StaffMonthlyReportWorker
   include Sidekiq::Worker
   sidekiq_options queue: 'send_email'
 
-  def perform(date_time, previous_month)
-    StaffMonthlyReportMailer.send_report(date_time, previous_month).deliver_now
+  def perform(user_ids, file_name, previous_month, org_short_name)
+    Organization.switch_to org_short_name
+    users = User.where(id: user_ids)
+    StaffMonthlyReportMailer.send_report(users, file_name, previous_month, org_short_name).deliver_now
   end
 end

@@ -1,10 +1,10 @@
 class StaffMonthlyReportMailer < ApplicationMailer
-
-  def send_report(date_time, previous_month)
+  def send_report(users, file_name, previous_month, org_short_name)
     @previous_month = previous_month
-    emails    = ['chris@childreninfamilies.org', 'sam-ol@childreninfamilies.org']
+    emails    = users.map(&:email)
     dev_email = ['sengpirun.rain@gmail.com']
-    attachments["staff-monthly-report-#{date_time}.xls"] = File.read(Rails.root.join("tmp/staff-monthly-report-#{date_time}.xls"))
-    mail(to: emails, subject: "Staff Monthly Report of #{@previous_month}", bcc: dev_email)
+    attachments["#{file_name}"] = File.read(Rails.root.join("tmp/#{file_name}"))
+    cc_email = ['chris@childreninfamilies.org', 'sam-ol@childreninfamilies.org'] if org_short_name == 'cif'
+    mail(to: emails, subject: "Subordinates Performence Report of #{@previous_month}", bcc: dev_email, cc: cc_email)
   end
 end
