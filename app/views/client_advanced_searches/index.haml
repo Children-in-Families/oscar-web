@@ -10,6 +10,9 @@
             = link_to t('.export_to_xls'), current_url(format: 'xls'), class: "btn btn-info btn-export #{@clients_by_user.present? ? '' : 'disabled'}"
       .ibox-content
         .row
+          .col-xs-12
+            = render 'form_option'
+        .row
           .col-xs-12.col-md-4
             %label= t('.client_column')
             #client-column
@@ -21,9 +24,7 @@
             %label= t('.program_stream_column') 
             = render 'program_stream_column'
         %hr/
-        .row
-          .col-xs-12
-            = render 'form_option'
+        
         .row
           .col-xs-12
             #builder.advanced-search-builder{ 'data-basic-search-rules' => @basic_filter_params, 'data-filter-translation' => { add_filter: t('.add_new_filter'), add_group: t('.add_new_group'), delete_group: t('.delete_group') }}

@@ -1,5 +1,7 @@
 module ClientGridOptions
+  extend ActiveSupport::Concern
   include ClientsHelper
+
   def choose_grid
     if current_user.admin? || current_user.strategic_overviewer?
       admin_client_grid
@@ -23,8 +25,8 @@ module ClientGridOptions
 
   def form_builder_report
     column_form_builder.each do |field|
-      fields = field.split('_')
-      @client_grid.column(:"#{field.downcase.parameterize('_')}", header: form_builder_format_header(fields)) do |client|
+      fields = field[:id].split('_')
+      @client_grid.column(:"#{field[:id].downcase.parameterize('_')}", header: form_builder_format_header(fields)) do |client|
         if fields.first == 'formbuilder'
           custom_field_properties = client.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).properties_by(fields.last)
           custom_field_properties.map{ |properties| format_properties_value(properties) }.join("\n")
@@ -64,11 +66,10 @@ module ClientGridOptions
   end
 
   def column_form_builder
-    advanced_search_params = params[:client_advanced_search]
-    if advanced_search_params.present? && advanced_search_params[:basic_rules].present?
-      @form_builder = AdvancedSearches::ColumnGenerator.new(eval advanced_search_params[:basic_rules]).generate.uniq
+    if @custom_form_fields.present? || @program_stream_fields.present?
+      @custom_form_fields + @program_stream_fields
     else
-      @form_builder = []
+      []
     end
   end
 

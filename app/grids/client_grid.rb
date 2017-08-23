@@ -625,11 +625,20 @@ class ClientGrid
     render partial: 'clients/assessments', locals: { object: object }
   end
 
+
+  column(:manage, html: true, class: 'text-center', header: -> { I18n.t('datagrid.columns.clients.manage') }) do |object|
+    render partial: 'clients/actions', locals: { object: object }
+  end
+
+  column(:changelog, html: true, class: 'text-center', header: -> { I18n.t('datagrid.columns.clients.changelogs') }) do |object|
+    link_to t('datagrid.columns.clients.view'), client_version_path(object)
+  end
+  
   dynamic do 
     next unless dynamic_columns.present?
     dynamic_columns.each do |column_builder|
-      fields = column_builder.split('_')
-      column(:"#{column_builder.downcase.parameterize('_')}", class: 'form-builder', header: -> {form_builder_format_header(fields)}, html: true) do |object|
+      fields = column_builder[:id].split('_')
+      column(:"#{column_builder[:id].downcase.parameterize('_')}", class: 'form-builder', header: -> {form_builder_format_header(fields)}, html: true) do |object|
         if fields.first == 'formbuilder'
           custom_field_properties = object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).properties_by(fields.last)
           render partial: 'clients/form_builder_dynamic/properties_value', locals: { properties: custom_field_properties }
@@ -647,13 +656,5 @@ class ClientGrid
         end
       end
     end
-  end
-
-  column(:manage, html: true, class: 'text-center', header: -> { I18n.t('datagrid.columns.clients.manage') }) do |object|
-    render partial: 'clients/actions', locals: { object: object }
-  end
-
-  column(:changelog, html: true, class: 'text-center', header: -> { I18n.t('datagrid.columns.clients.changelogs') }) do |object|
-    link_to t('datagrid.columns.clients.view'), client_version_path(object)
   end
 end

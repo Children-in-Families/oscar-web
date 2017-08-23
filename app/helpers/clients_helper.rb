@@ -199,4 +199,11 @@ module ClientsHelper
   def group_entity_by(value)
     value.group_by{ |field| field.split('_').first}
   end
+
+  def format_class_header(value)
+    values = value.split('|')
+    name   = values.first.strip
+    label  = values.last.strip
+    "#{name} #{label}".downcase.parameterize('_')
+  end
 end

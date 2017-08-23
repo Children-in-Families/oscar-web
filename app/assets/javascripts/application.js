@@ -26,6 +26,7 @@
 //= require doT
 //= require query-builder
 //= require stickyfill.js
+//= require lodash/lodash.min.js
 
 //= require tinymce
 //= require moment

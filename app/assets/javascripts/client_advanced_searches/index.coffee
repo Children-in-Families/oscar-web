@@ -83,6 +83,7 @@ CIF.Client_advanced_searchesIndex = do ->
   _handleHideProgramStreamSelect = ->
     self = @
     $('#program-stream-checkbox').on 'ifUnchecked', ->
+      $('#custom-form-column ul.append-child li').remove()
       self.programSelected = []
       $('.program-stream, .program-association').hide()
       $('#program-stream-select option:selected').each ->
@@ -111,25 +112,42 @@ CIF.Client_advanced_searchesIndex = do ->
   _handleUncheckedEnrollment = ->
     $('#enrollment-checkbox').on 'ifUnchecked', ->
       for option in $('#program-stream-select option:selected')
-        name = $(option).text()
+        name          = $(option).text()
+        programName   = name.trim()
+        headerClass   = _.replace("#{programName} Enrollment".toLowerCase(), new RegExp(' ', 'g'), '_')
+
+        _removeCheckboxColumnPicker(headerClass)
         _handleRemoveFilterBuilder(name, ENROLLMENT_TRANSLATE)
 
   _handleUncheckedTracking = ->
     $('#tracking-checkbox').on 'ifUnchecked', ->
       for option in $('#program-stream-select option:selected')
-        name = $(option).text()
+        name          = $(option).text()
+        programName   = name.trim()
+        headerClass   = _.replace("#{programName} Tracking".toLowerCase(), new RegExp(' ', 'g'), '_')
+
+        _removeCheckboxColumnPicker(headerClass)
         _handleRemoveFilterBuilder(name, TRACKING_TRANSTATE)
 
   _handleUncheckedExitProgram = ->
     $('#exit-form-checkbox').on 'ifUnchecked', ->
       for option in $('#program-stream-select option:selected')
-        name = $(option).text()
+        name          = $(option).text()
+        programName   = name.trim()
+        headerClass   = _.replace("#{programName} Exit Program".toLowerCase(), new RegExp(' ', 'g'), '_')
+
+        _removeCheckboxColumnPicker(headerClass)
         _handleRemoveFilterBuilder(name, EXIT_PROGRAM_TRANSTATE)
 
   _handleSelect2RemoveProgram = ->
     self = @
     $('#program-stream-select').on 'select2-removed', (element) ->
       programName = element.choice.text
+      programStreamKeyword = ['Enrollment', 'Tracking', 'Exit Program']
+      _.forEach programStreamKeyword, (value) ->
+        headerClass   = _.replace("#{programName.trim()} #{value}".toLowerCase(), new RegExp(' ', 'g'), '_')
+        _removeCheckboxColumnPicker(headerClass)
+
       $.map self.programSelected, (val, i) ->
         if parseInt(val) == parseInt(element.val) then self.programSelected.splice(i, 1)
 
@@ -165,6 +183,8 @@ CIF.Client_advanced_searchesIndex = do ->
   _handleHideCustomFormSelect = ->
     self = @
     $('#custom-form-checkbox').on 'ifUnchecked', ->
+      $('#custom-form-column ul.append-child li').remove()
+
       $('#custom-form-select option:selected').each ->
         formTitle = $(@).text()
         _handleRemoveFilterBuilder(formTitle, CUSTOM_FORM_TRANSLATE)
@@ -183,6 +203,10 @@ CIF.Client_advanced_searchesIndex = do ->
     self = @
     $('#custom-form-wrapper select').on 'select2-removed', (element) ->
       removeValue = element.choice.text
+      formTitle   = removeValue.trim()
+      formTitle   = _.replace("#{formTitle} Custom Form".toLowerCase(), new RegExp(' ', 'g'), '_')
+
+      _removeCheckboxColumnPicker(formTitle)
       $.map self.customFormSelected, (val, i) ->
         if parseInt(val) == parseInt(element.val) then self.customFormSelected.splice(i, 1)
 
@@ -190,7 +214,39 @@ CIF.Client_advanced_searchesIndex = do ->
         _handleRemoveFilterBuilder(removeValue, CUSTOM_FORM_TRANSLATE)
         ),100
 
-   _addCustomBuildersFields = (ids, url) ->
+  _addFieldToColumnPicker = (element, fieldList) ->
+    customFormColumnPicker = $("#{element} ul.append-child")
+    fieldsGroupByOptgroup = _.groupBy(fieldList, 'optgroup')
+
+    _.forEach fieldsGroupByOptgroup, (values, key) ->
+      headerClass = _formBuiderFormatHeader(key)
+      $(customFormColumnPicker).append("<li class='dropdown-header #{headerClass}'>#{key}</li>")
+      _.forEach values, (value, _key) ->
+        fieldName = value.id.toLowerCase()
+        checkField = _.replace(fieldName, new RegExp(' ', 'g'), '_')
+        label     = value.label
+        $(customFormColumnPicker).append(_checkboxElement(checkField, headerClass, label))
+        $(".#{headerClass} input.i-checks").iCheck
+          checkboxClass: 'icheckbox_square-green'
+
+  _formBuiderFormatHeader = (value) ->
+    keyWords = value.split('|')
+    name = _.first(keyWords).trim()
+    label = _.last(keyWords).trim()
+    _.replace("#{name} #{label}".toLowerCase(), new RegExp(' ', 'g'), '_')
+
+  _removeCheckboxColumnPicker = (name) ->
+    $("#custom-form-column ul.append-child li.#{name}").remove()
+
+  _checkboxElement = (field, name, label) ->
+   "<li class='visibility checkbox-margin #{name}'>
+      <input type='checkbox' name='#{field}_' id='#{field}_' value='#{field}' class='i-checks' style='position: absolute; opacity: 0;'>
+      <label for='#{field}_'>#{label}</label>
+    </li>"
+
+  _addCustomBuildersFields = (ids, url) ->
+    action  = _.last(url.split('/'))
+    element = if action == 'get_custom_field' then '#custom-form-column' else '#program-stream-column'
     $.ajax
       url: url
       data: { ids: ids }
@@ -199,6 +255,7 @@ CIF.Client_advanced_searchesIndex = do ->
         fieldList = response.client_advanced_searches
         $('#builder').queryBuilder('addFilter', fieldList)
         _initSelect2()
+        _addFieldToColumnPicker(element, fieldList)
 
   _initBuilderFilter = ->
     builderFields = $('#client-builder-fields').data('fields')
