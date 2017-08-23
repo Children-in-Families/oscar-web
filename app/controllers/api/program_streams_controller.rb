@@ -3,7 +3,7 @@ module Api
     def enrollment_fields
       program_stream = ProgramStream.find params[:program_stream_id]
       client_enrollment_ids = ClientEnrollment.find_by_program_stream_id(program_stream.id).ids
-      file_uploader = FormBuilderAttachment.find_by_form_buildable(client_enrollment_ids, 'ClientEnrollment').map { |c| c.name if c.file.any? }
+      file_uploader = FormBuilderAttachment.find_by_form_buildable(client_enrollment_ids, 'ClientEnrollment').pluck(:name)
       properties = program_stream.client_enrollments.pluck(:properties).select(&:present?).map(&:keys).flatten.uniq
       properties += file_uploader
       render json: properties
@@ -14,7 +14,7 @@ module Api
       properties = {}
       program_stream.trackings.each do |tracking|
         client_enrollment_tracking_ids = ClientEnrollmentTracking.enrollment_trackings_by(tracking.id).ids
-        file_uploader = FormBuilderAttachment.find_by_form_buildable(client_enrollment_tracking_ids, 'ClientEnrollmentTracking').map { |c| c.name if c.file.any? }
+        file_uploader = FormBuilderAttachment.find_by_form_buildable(client_enrollment_tracking_ids, 'ClientEnrollmentTracking').pluck(:name)
         tracking_fields = tracking.client_enrollment_trackings.pluck(:properties).select(&:present?).map(&:keys).flatten.uniq
         tracking_fields += file_uploader
         properties.store(tracking.name, tracking_fields)
@@ -25,7 +25,7 @@ module Api
     def exit_program_fields
       program_stream = ProgramStream.find params[:program_stream_id]
       leave_program_ids = LeaveProgram.find_by_program_stream_id(program_stream.id).ids
-      file_uploader = FormBuilderAttachment.find_by_form_buildable(leave_program_ids, 'LeaveProgram').map { |c| c.name if c.file.any? }
+      file_uploader = FormBuilderAttachment.find_by_form_buildable(leave_program_ids, 'LeaveProgram').pluck(:name)
       properties = program_stream.leave_programs.pluck(:properties).select(&:present?).map(&:keys).flatten.uniq
       properties += file_uploader
       render json: properties
