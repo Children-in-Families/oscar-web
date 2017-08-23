@@ -138,7 +138,7 @@ Rails.application.routes.draw do
       end
     end
     scope module: 'client' do
-      resources :tasks
+      resources :tasks, except: [:new, :create]
     end
     # resources :surveys
 

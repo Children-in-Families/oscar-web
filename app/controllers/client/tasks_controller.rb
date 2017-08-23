@@ -8,25 +8,21 @@ class Client::TasksController < AdminController
     @tasks = @client.tasks
   end
 
-  def new
-    @task = @client.tasks.new
-  end
+  # def create
+  #   @task = @client.tasks.new(task_params)
+  #   @task.user_ids = @client.user_ids
+  #   respond_to do |format|
+  #     if @task.save
+  #       Calendar.populate_tasks(@task)
 
-  def create
-    @task = @client.tasks.new(task_params)
-    @task.user_ids = @client.user_ids
-    respond_to do |format|
-      if @task.save
-        Calendar.populate_tasks(@task)
-
-        format.json { render json: @task.to_json, status: 200 }
-        format.html { redirect_to client_tasks_path(@client), notice: t('.successfully_created') }
-      else
-        format.html { render :new }
-        format.json { render json: @task.errors, status: 422 }
-      end
-    end
-  end
+  #       format.json { render json: @task.to_json, status: 200 }
+  #       format.html { redirect_to client_tasks_path(@client), notice: t('.successfully_created') }
+  #     else
+  #       format.html { render :new }
+  #       format.json { render json: @task.errors, status: 422 }
+  #     end
+  #   end
+  # end
 
   def edit
   end
