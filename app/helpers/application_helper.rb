@@ -120,7 +120,7 @@ module ApplicationHelper
   end
 
   def date_format(date)
-    date.strftime('%d %B, %Y')
+    date.strftime('%d %B, %Y') if date.present?
   end
 
   def date_time_format(date_time)
@@ -149,6 +149,10 @@ module ApplicationHelper
 
   def entity_name(entity)
     entity.name.present? ? entity.name : 'Unknown'
+  end
+
+  def progarm_stream_action
+    ['show', 'report']
   end
 
   def error_message(controller_name, field_message = '')

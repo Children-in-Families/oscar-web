@@ -5,7 +5,13 @@ CIF.UsersNew = CIF.UsersCreate = CIF.UsersEdit = CIF.UsersUpdate = do ->
     _disableManagerField()
 
   _initSelect2 = ->
-    $('select').select2({ allowClear: true })
+    $('select').select2
+      allowClear: true
+      _clearSelectedOption()
+
+  _clearSelectedOption = ->
+    formAction = $('body').attr('id')
+    $('#user_roles').val('') unless formAction.includes('edit')
 
   _handleDisableManagerField = ->
     $('#user_roles').on 'select2-selected', ->

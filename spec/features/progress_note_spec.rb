@@ -49,7 +49,7 @@ feature 'progress_note' do
     end
 
     scenario 'back link' do
-      expect(page).to have_link(I18n.t('progress_notes.show.back'), client_progress_notes_path(progress_note.client))
+      expect(page).to have_link('Back', client_progress_notes_path(progress_note.client))
     end
   end
 
@@ -77,7 +77,7 @@ feature 'progress_note' do
     end
 
     scenario 'new link' do
-      expect(page).to have_link(I18n.t('progress_notes.index.add_new_progress_note'), new_client_progress_note_path(progress_note.client))
+      expect(page).to have_link('Add New Progress Note', new_client_progress_note_path(progress_note.client))
     end
 
     scenario 'pagination' do
@@ -91,7 +91,7 @@ feature 'progress_note' do
     end
 
     xscenario 'valid', js: true do
-      fill_in I18n.t('progress_notes.form.date'), with: FFaker::Time.date
+      fill_in 'Date', with: Date.today
       # select progress_note_type.note_type, from: I18n.t('progress_notes.form.progress_note_type')
       # select location.name, from: I18n.t('progress_notes.form.location').last
       # select intervention.action, from: I18n.t('progress_notes.form.interventions')
@@ -99,9 +99,9 @@ feature 'progress_note' do
       # fill_in I18n.t('progress_notes.form.other_location'), with: 'test'
       page.find('#select2-chosen-2').click
       page.find('#select2-result-label-6').click
-      click_button I18n.t('progress_notes.form.save')
+      click_button 'Save'
       sleep 1
-      expect(page).to have_content(I18n.t('progress_notes.create.successfully_created'))
+      expect(page).to have_content(Date.today.strftime('%d %B, %Y'))
     end
 
     scenario 'invalid', js: true do
@@ -116,17 +116,15 @@ feature 'progress_note' do
       visit edit_client_progress_note_path(other_progress_note.client, other_progress_note)
     end
     scenario 'valid', js: true do
-      date = Date.today
-      fill_in I18n.t('progress_notes.form.date'), with: date.to_s
-      click_button I18n.t('progress_notes.form.save')
+      fill_in 'Date', with: Date.today
+      click_button 'Save'
       sleep 1
-      expect(page).to have_content(I18n.t('progress_notes.update.successfully_updated'))
-      expect(page).to have_content(date.strftime('%d %B, %Y'))
+      expect(page).to have_content(Date.today.strftime('%d %B, %Y'))
     end
     scenario 'invalid', js: true do
-      fill_in I18n.t('progress_notes.form.date'), with: ''
-      click_button I18n.t('progress_notes.form.save')
-      expect(page).to have_content(I18n.t('activerecord.errors.models.progress_note.attributes.date.blank'))
+      fill_in 'Date', with: ''
+      click_button 'Save'
+      expect(page).to have_content("can't be blank")
     end
   end
 
@@ -137,7 +135,7 @@ feature 'progress_note' do
     scenario 'success' do
       find("a[href='#{client_progress_note_path(progress_note.client, progress_note)}'][data-method='delete']").click
       sleep 1
-      expect(page).to have_content(I18n.t('progress_notes.destroy.successfully_deleted'))
+      expect(page).not_to have_content(progress_note.date.to_s)
     end
   end
 end

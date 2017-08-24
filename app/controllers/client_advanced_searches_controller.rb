@@ -1,9 +1,11 @@
 class ClientAdvancedSearchesController < AdminController
-  include ClientGridOptions
-
-  before_action :choose_grid, :get_quantitative_fields
-  before_action :find_params_advanced_search, :get_custom_form, :get_program_streams, :client_builder_fields
+  before_action :get_quantitative_fields
+  before_action :find_params_advanced_search, :get_custom_form, :get_program_streams
+  before_action :get_custom_form_fields, :program_stream_fields, :client_builder_fields
   before_action :basic_params, if: :has_params?
+
+  include ClientGridOptions
+  before_action :choose_grid
 
   def index
     return unless has_params?
@@ -12,6 +14,9 @@ class ClientAdvancedSearchesController < AdminController
     @clients_by_user     = clients.filter
 
     columns_visibility
+
+    custom_form_column
+    program_stream_column
     respond_to do |f|
       f.html do
         @client_grid.scope { |scope| scope.where(id: @clients_by_user.ids).accessible_by(current_ability).page(params[:page]).per(20) }
@@ -19,19 +24,32 @@ class ClientAdvancedSearchesController < AdminController
       f.xls do
         @client_grid.scope { |scope| scope.where(id: @clients_by_user.ids).accessible_by(current_ability) }
         domain_score_report
+        form_builder_report
         send_data @client_grid.to_xls, filename: "client_report-#{Time.now}.xls"
       end
     end
   end
 
   private
+
+  def custom_form_column
+    @custom_form_columns = get_custom_form_fields.group_by{ |field| field[:optgroup] }
+  end
+
+  def program_stream_column
+    @program_stream_columns = program_stream_fields.group_by{ |field| field[:optgroup] }
+  end
+
   def get_custom_form
-    @custom_fields  = CustomField.client_forms.order_by_form_title
+    @custom_fields  = CustomField.joins(:custom_field_properties).client_forms.order_by_form_title.uniq
+  end
+
+  def program_stream_fields
+    @program_stream_fields = get_enrollment_fields + get_tracking_fields + get_exit_program_fields
   end
 
   def client_builder_fields
-    custom_program_fields = get_enrollment_fields + get_tracking_fields + get_exit_program_fields
-    @builder_fields = get_client_basic_fields + get_custom_form_fields + custom_program_fields
+    @builder_fields = get_client_basic_fields + get_custom_form_fields + program_stream_fields
     @builder_fields = @builder_fields + @quantitative_fields if quantitative_check?
   end
 
@@ -43,10 +61,6 @@ class ClientAdvancedSearchesController < AdminController
     program_stream_value? ? eval(@advanced_search_params[:program_selected]) : []
   end
 
-  def quantitative_check?
-    @advanced_search_params.present? && @advanced_search_params[:quantitative_check].present?
-  end
-
   def get_client_basic_fields
     AdvancedSearches::ClientFields.new(user: current_user).render
   end
@@ -56,7 +70,7 @@ class ClientAdvancedSearchesController < AdminController
   end
 
   def get_custom_form_fields
-    @enrollment_fields = AdvancedSearches::CustomFields.new(custom_form_values).render
+    @custom_form_fields = AdvancedSearches::CustomFields.new(custom_form_values).render
   end
 
   def get_quantitative_fields

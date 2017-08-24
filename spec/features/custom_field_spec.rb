@@ -2,7 +2,7 @@ feature 'custom_field' do
   let!(:admin){ create(:user, roles: 'admin') }
   let!(:custom_field) { create(:custom_field, frequency: 'Daily', time_of_frequency: 1) }
 
-  before do 
+  before do
     login_as(admin)
   end
 
@@ -72,18 +72,18 @@ feature 'custom_field' do
     end
 
     scenario 'valid' do
-      fill_in 'Form Title', with: FFaker::Name.name
+      fill_in 'Form Title', with: 'Testing'
       find("select option[value='Daily']", visible: false).select_option
       find('.icon-text-input').click
       find("input[type=submit]").click
-      expect(page).to have_content('Custom Form has been successfully created.') 
+      expect(page).to have_content('Testing')
     end
 
     scenario 'invalid' do
       fill_in 'Form Title', with: FFaker::Name.name
       find("select option[value='Daily']", visible: false).select_option
       find("input[type=submit]").click
-      expect(page).to have_content("can't be blank") 
+      expect(page).to have_content("can't be blank")
     end
   end
 
@@ -93,15 +93,15 @@ feature 'custom_field' do
     end
 
     scenario 'valid' do
-      fill_in 'Form Title', with: FFaker::Name.name
+      fill_in 'Form Title', with: 'Update Form'
       find("input[type=submit]").click
-      expect(page).to have_content('Custom Form has been successfully updated.') 
+      expect(page).to have_content('Update Form') 
     end
 
     scenario 'invalid' do
       fill_in 'Form Title', with: ''
       find("input[type=submit]").click
-      expect(page).to have_content("can't be blank") 
+      expect(page).to have_content("can't be blank")
     end
   end
 
@@ -124,9 +124,9 @@ feature 'custom_field' do
     scenario 'valid' do
       click_link "All NGOs' Custom Forms"
       click_link(nil, href: new_custom_field_path(custom_field_id: custom_field.id, ngo_name: custom_field.ngo_name))
-      fill_in 'Form Title', with: FFaker::Name.name
+      fill_in 'Form Title', with: 'Copy'
       find("input[type=submit]").click
-      expect(page).to have_content('Custom Form has been successfully created.')
+      expect(page).to have_content('Copy')
     end
 
     scenario 'invalid' do

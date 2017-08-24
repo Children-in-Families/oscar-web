@@ -28,7 +28,7 @@ describe 'Material' do
     end
 
     scenario 'new link' do
-      expect(page).to have_link(I18n.t('materials.index.add_new_material'), new_material_path)
+      expect(page).to have_link('Add New Equipment/Material', new_material_path)
     end
 
     scenario 'pagination' do
@@ -37,6 +37,7 @@ describe 'Material' do
   end
 
   feature 'Create', js: true do
+    let!(:other_material) { create(:material, status: 'Other Material') }
     before do
       visit materials_path
     end
@@ -44,25 +45,25 @@ describe 'Material' do
     scenario 'valid' do
       click_link('Add New Equipment/Material')
       within('#new_material') do
-        fill_in I18n.t('materials.form.status'), with: FFaker::Lorem.word
-        click_button I18n.t('materials.form.save')
+        fill_in 'Status', with: 'Good Quality'
+        click_button 'Save'
       end
       sleep 1
-      expect(page).to have_content(I18n.t('materials.create.successfully_created'))
+      expect(page).to have_content('Good Quality')
     end
 
     scenario 'invalid' do
       click_link('Add New Equipment/Material')
       within('#new_material') do
-        click_button I18n.t('materials.form.save')
+        fill_in 'Status', with: 'Other Material'
+        click_button 'Save'
       end
       sleep 1
-      expect(page).to have_content('Failed to create an Equipment/Material')
+      expect(page).to have_content('Other Material', count: 1)
     end
   end
 
   feature 'Edit', js: true do
-    let!(:status) { FFaker::Name.name }
     let!(:other_material) { create(:material, status: 'Loan') }
     before do
       visit materials_path
@@ -70,21 +71,20 @@ describe 'Material' do
     scenario 'valid' do
       find("a[data-target='#materialModal-#{other_material.id}']").click
       within("#materialModal-#{other_material.id}") do
-        fill_in I18n.t('materials.form.status'), with: status
-        click_button I18n.t('materials.form.save')
+        fill_in 'Status', with: 'Updated Status'
+        click_button 'Save'
       end
       sleep 1
-      expect(page).to have_content(I18n.t('materials.update.successfully_updated'))
-      expect(page).to have_content(status)
+      expect(page).to have_content('Updated Status')
     end
     scenario 'invalid' do
       find("a[data-target='#materialModal-#{other_material.id}']").click
       within("#materialModal-#{other_material.id}") do
-        fill_in I18n.t('materials.form.status'), with: ''
-        click_button I18n.t('materials.form.save')
+        fill_in 'Status', with: 'Loan'
+        click_button 'Save'
       end
       sleep 1
-      expect(page).to have_content('Failed to update an Equipment/Material')
+      expect(page).to have_content('Loan', count: 1)
     end
   end
 
@@ -95,7 +95,7 @@ describe 'Material' do
     scenario 'success' do
       find("a[href='#{material_path(material)}'][data-method='delete']").click
       sleep 1
-      expect(page).to have_content(I18n.t('materials.destroy.successfully_deleted'))
+      expect(page).not_to have_content(material.status)
     end
 
     scenario 'does not succeed' do

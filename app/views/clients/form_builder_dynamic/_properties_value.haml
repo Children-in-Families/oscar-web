@@ -1,0 +1,4 @@
+%ul
+  - properties.each do |property|
+    - next unless field_not_blank?(property)
+    %li= format_properties_value(property)

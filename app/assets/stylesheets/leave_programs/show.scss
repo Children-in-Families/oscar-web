@@ -1,5 +1,21 @@
+body[id='leave_enrolled_rograms-show'],
 body[id='leave_programs-show'] {
   .answer {
     padding-left: 16px;
+  }
+
+  .preview {
+    width: 30%;
+  }
+
+  .action {
+    width: 15%;
+  }
+
+  .image-title {
+    max-width: 500px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }

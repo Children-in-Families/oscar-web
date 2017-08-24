@@ -1,8 +1,9 @@
 class ClientGrid
   extend ActionView::Helpers::TextHelper
   include Datagrid
+  include ClientsHelper
 
-  attr_accessor :current_user, :qType
+  attr_accessor :current_user, :qType, :dynamic_columns
   scope do
     # Client.includes({ cases: [:family, :partner] }, :referral_source, :user, :received_by, :followed_up_by, :province, :assessments, :birth_province).order('clients.status, clients.given_name')
     Client.includes({ cases: [:family, :partner] }, :referral_source, :received_by, :followed_up_by, :province, :assessments, :birth_province).order('clients.status, clients.given_name')
@@ -624,11 +625,33 @@ class ClientGrid
     render partial: 'clients/assessments', locals: { object: object }
   end
 
-  column(:manage, html: true, class: 'text-center', header: -> { I18n.t('datagrid.columns.clients.manage') }) do |object|
-    render partial: 'clients/actions', locals: { object: object }
+  dynamic do 
+    next unless dynamic_columns.present?
+    dynamic_columns.each do |column_builder|
+      fields = column_builder[:id].split('_')
+      column(column_builder[:id].downcase.parameterize('_').to_sym, class: 'form-builder', header: -> { form_builder_format_header(fields) }, html: true) do |object|
+        if fields.first == 'formbuilder'
+          properties = object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).properties_by(fields.last)
+        elsif fields.first == 'enrollment'
+          properties = object.client_enrollments.joins(:program_stream).where(program_streams: { name: fields.second }).properties_by(fields.last)
+        elsif fields.first == 'tracking'
+          ids = object.client_enrollments.ids
+          properties = ClientEnrollmentTracking.joins(:tracking).where(trackings: { name: fields.third }, client_enrollment_trackings: { client_enrollment_id: ids }).properties_by(fields.last)
+        elsif fields.first == 'exitprogram'
+          ids = object.client_enrollments.inactive.ids
+          properties = LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { client_enrollment_id: ids }).properties_by(fields.last)
+        end
+        render partial: 'clients/form_builder_dynamic/properties_value', locals: { properties:  properties }
+      end
+    end
   end
 
-  column(:changelog, html: true, class: 'text-center', header: -> { I18n.t('datagrid.columns.clients.changelogs') }) do |object|
-    link_to t('datagrid.columns.clients.view'), client_version_path(object)
+  dynamic do
+    column(:manage, html: true, class: 'text-center', header: -> { I18n.t('datagrid.columns.clients.manage') }) do |object|
+      render partial: 'clients/actions', locals: { object: object }
+    end
+    column(:changelog, html: true, class: 'text-center', header: -> { I18n.t('datagrid.columns.clients.changelogs') }) do |object|
+      link_to t('datagrid.columns.clients.view'), client_version_path(object)
+    end
   end
 end

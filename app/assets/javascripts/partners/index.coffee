@@ -3,6 +3,11 @@ CIF.PartnersIndex = do ->
     _fixedHeaderTableColumns()
     _handleScrollTable()
     _getPartnerPath()
+    _initSelect2()
+
+  _initSelect2 = ->
+    $('select').select2
+      allowClear: true
 
   _fixedHeaderTableColumns = ->
     $('.partners-table').removeClass('table-responsive')

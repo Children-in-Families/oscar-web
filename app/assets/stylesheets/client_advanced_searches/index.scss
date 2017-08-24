@@ -2,7 +2,7 @@ body[id='client_advanced_searches-index'] {
   #client-advance-search-form {
     margin-top: 16px;
   }
-  
+
   select#select-custom-form {
     width: 180px;
   }
@@ -60,5 +60,26 @@ body[id='client_advanced_searches-index'] {
 
   .custom-form, .program-stream, .selected-custom-form, .program-association {
     display: none;
+  }
+
+  .program-association, .program-stream {
+    margin-left: 16px;
+  }
+
+  th.form-builder, td.form-builder {
+    min-width: 480px;
+  }
+
+  .checkbox-margin {
+    padding-left: 18px;
+  }
+
+  .disabled-column {
+    pointer-events: none;
+    opacity: 0.5;
+  }
+
+  table.clients.table tr th {
+    cursor: default;
   }
 }

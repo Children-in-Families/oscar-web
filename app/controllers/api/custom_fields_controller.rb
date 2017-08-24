@@ -6,8 +6,11 @@ module Api
 
     def fields
       custom_field = CustomField.find params[:custom_field_id]
+      custom_field_property_ids = CustomFieldProperty.by_custom_field(custom_field).ids
+      file_uploader = FormBuilderAttachment.find_by_form_buildable(custom_field_property_ids, 'CustomFieldProperty').map { |c| c.name if c.file.any? }
       properties = custom_field.custom_field_properties.pluck(:properties).select(&:present?).map(&:keys).flatten.uniq
-      render json: properties
+      properties += file_uploader
+      render json: { fields: properties }
     end
 
     private
@@ -21,7 +24,7 @@ module Api
         custom_fields << CustomField.order(:entity_type, :form_title).reload
       end
       Organization.switch_to(current_org_name)
-      custom_fields.flatten
+      { custom_fields: custom_fields.flatten }
     end
   end
 end

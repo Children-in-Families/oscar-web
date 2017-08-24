@@ -2,5 +2,5 @@
   .col-xs-12
     .ibox
       .ibox-title
-        %h5= t('.edit_tracking')
+        %h5= "#{@client.en_and_local_name} - #{@client_enrollment_tracking.tracking.try(:name)} - #{@program_stream.name}"
       = render 'form'

@@ -29,7 +29,6 @@
               .visibility.col-sm-12
                 = check_box_tag "#{f.name}_", f.name, checked = params["#{f.name}_"].present?, class: 'i-checks'
                 = columns_visibility f.name
-
           %li
             .visibility.col-sm-12
               = check_box_tag 'history_of_harm_', 'history_of_harm', checked = params[:history_of_harm_].present?, class: 'i-checks'
@@ -99,9 +98,10 @@
             .visibility.col-sm-12
               = check_box_tag 'changelog_', 'changelog', checked = params[:changelog_].present?, class: 'i-checks'
               = label_tag 'changelog_', t('datagrid.columns.changelog')
-    %hr/
+
 
   - if controller_name != 'client_advanced_searches'
+    %hr/
     .row
       - grid.filters.each do |filter|
         - if filter.type != :dynamic

@@ -5,7 +5,7 @@ feature 'program_stream' do
   let!(:tracking) { create(:tracking, program_stream: program_stream) }
   let!(:domain_program_stream){ create(:domain_program_stream, domain: domain, program_stream: program_stream) }
 
-  before do 
+  before do
     login_as(admin)
   end
 
@@ -48,7 +48,7 @@ feature 'program_stream' do
   end
 
   feature 'show' do
-    before do 
+    before do
       visit program_stream_path(program_stream)
     end
 
@@ -105,7 +105,7 @@ feature 'program_stream' do
 
     context 'full step creation' do
       scenario 'valid' do
-        fill_in 'program_stream_name', with: FFaker::Name.name
+        fill_in 'program_stream_name', with: 'Program Name'
         sleep 1
         click_link 'Next'
         page.find(".rule-filter-container select option[value='gender']", visible: false).select_option
@@ -116,14 +116,14 @@ feature 'program_stream' do
         page.click_link 'Next'
         sleep 1
         within('#trackings') do
-          fill_in 'Name', with: FFaker::Name.name
+          fill_in 'Name', with: 'Tracking Name'
         end
         page.find('.icon-text-input').click
         page.click_link 'Next'
         sleep 1
         page.find('.icon-text-area').click
         page.click_link 'Save'
-        expect(page).to have_content('Program Stream has been successfully created.')
+        expect(page).to have_content('Program Name')
       end
 
       scenario 'invalid' do
@@ -134,9 +134,14 @@ feature 'program_stream' do
 
     context 'save draft' do
       scenario 'valid' do
-        fill_in 'program_stream_name', with: FFaker::Name.name
+        fill_in 'program_stream_name', with: 'Save Draft'
         find('span', text: 'Save').click
-        expect(page).to have_content('Program Stream has been successfully created.')
+        expect(page).to have_content('Program Detail')
+        expect(page).to have_content('Save Draft')
+        expect(page).to have_content('Rules')
+        expect(page).to have_content('Enrollment')
+        expect(page).to have_content('Tracking')
+        expect(page).to have_content('Exit Program')
       end
 
       scenario 'invalid' do
@@ -148,7 +153,7 @@ feature 'program_stream' do
   end
 
   feature 'edit', js: true  do
-    before do 
+    before do
       visit program_streams_path
       expect(page).to have_link(nil, href: edit_program_stream_path(program_stream))
       click_link(nil, href: edit_program_stream_path(program_stream))
@@ -178,7 +183,7 @@ feature 'program_stream' do
     context 'save draft' do
       scenario 'valid' do
         find('span', text: 'Save').click
-        expect(page).to have_content('Program Stream has been successfully updated.')
+        expect(page).to have_content(program_stream.name)
       end
 
       scenario 'invalid' do
@@ -190,13 +195,13 @@ feature 'program_stream' do
   end
 
   feature 'Delete', js: true do
-    before do 
+    before do
       visit program_streams_path
     end
 
     scenario 'delete successfully' do
       find("a[href='#{program_stream_path(program_stream)}'][data-method='delete']").click
-      expect(page).to have_content('Program Stream has been successfully deleted')
+      expect(page).not_to have_content(program_stream.name)
     end
   end
 
@@ -220,7 +225,7 @@ feature 'program_stream' do
       sleep 1
       click_link 'Save'
 
-      expect(page).to have_content('Program Stream has been successfully created.')
+      expect(page).to have_content('Program Copy')
     end
 
     scenario 'invalid' do

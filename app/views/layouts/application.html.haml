@@ -22,7 +22,8 @@
             = render 'layouts/alert'
             = yield
           = render 'layouts/footer'
-          = render 'program_streams/program_stream_warning'
+          - unless current_user.program_warning?
+            = render 'program_streams/program_stream_warning'
       - else
         #page-wrapper.gray-bg.no-margin
           = render 'layouts/top_navbar'

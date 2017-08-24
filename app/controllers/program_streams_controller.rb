@@ -28,8 +28,8 @@ class ProgramStreamsController < AdminController
   end
 
   def show
-    @program_exclusive = ProgramStream.filter(@program_stream.program_exclusive) if @program_stream.program_exclusive.any?
-    @mutual_dependence = ProgramStream.filter(@program_stream.mutual_dependence) if @program_stream.mutual_dependence.any?
+    @program_exclusive = ProgramStream.filter(@program_stream.program_exclusive)
+    @mutual_dependence = ProgramStream.filter(@program_stream.mutual_dependence)
     @program_stream = @program_stream.decorate
   end
 
@@ -78,10 +78,7 @@ class ProgramStreamsController < AdminController
 
   def program_stream_params
     ngo_name = current_organization.full_name
-
-    params[:program_stream][:program_exclusive].delete('') if params[:program_stream][:program_exclusive].present? && params[:program_stream][:program_exclusive].count > 1
-
-    params[:program_stream][:mutual_dependence].delete('') if params[:program_stream][:mutual_dependence].present? && params[:program_stream][:mutual_dependence].count > 1
+    delete_select_option_empty
 
     default_params = [:name, :rules, :description, :enrollment, :exit_program, :tracking_required, :quantity, program_exclusive: [], mutual_dependence: [], domain_ids: []]
     default_params << { trackings_attributes: [:name, :frequency, :time_of_frequency, :fields, :_destroy, :id] } unless program_without_tracking?
@@ -90,7 +87,7 @@ class ProgramStreamsController < AdminController
   end
 
   def program_without_tracking?
-    params[:program_stream][:tracking_required].to_i == 1 ? true : false
+    params[:program_stream][:tracking_required].to_i == 1
   end
 
   def find_ngo
@@ -103,8 +100,13 @@ class ProgramStreamsController < AdminController
     ngo = Organization.find_by(full_name: @ngo_name)
     Organization.switch_to ngo.short_name
     program_stream = ProgramStream.where(id: program_stream_id).includes(:trackings).first
+    program_exclusive = ProgramStream.filter(program_stream.program_exclusive)
+    mutual_dependence = ProgramStream.filter(program_stream.mutual_dependence)
+
     Organization.switch_to current_ngo_short_name
     @another_program_stream = program_stream
+    @program_exclusive = program_exclusive
+    @mutual_dependence = mutual_dependence
   end
 
   def program_streams_all_organizations
@@ -131,32 +133,31 @@ class ProgramStreamsController < AdminController
   end
 
   def column_order
-    if params[:tab] == 'current'
-      column = params[:order]
-      if column.present?
-        sort_by = params[:descending] == 'true' ? 'desc' : 'asc'
-        order_string = "#{column} #{sort_by}"
-      else
-        order_string = 'name'
-      end
-    else
-      order_string = 'name'
-    end
+    order_string = 'name'
+    order_string unless params[:tab] == 'current'
+
+    column = params[:order]
+    sort_by = params[:descending] == 'true' ? 'desc' : 'asc'
+    (order_string = "#{column} #{sort_by}") if column.present?
+
     ProgramStream.ordered_by(order_string)
   end
 
   def all_ngos_ordered
-    if params[:tab] == 'all_ngo'
-      column = params[:order]
-      if column.present?
-        ordered = program_streams_all_organizations.sort_by{ |p| p.send(column).to_s.downcase }
-        params[:descending] == 'true' ? ordered.reverse : ordered
-      else
-        program_streams_all_organizations.sort_by(&:name)
-      end
-    else
-      program_streams_all_organizations.sort_by(&:name)
-    end
+    programs = program_streams_all_organizations.sort_by(&:name)
+    column = params[:order]
+    return programs unless params[:tab] == 'all_ngo' && column
+
+    ordered = program_streams_all_organizations.sort_by{ |p| p.send(column).to_s.downcase }
+    programs = (column.present? && params[:descending] == 'true' ? ordered.reverse : ordered)
+    programs
+  end
+
+  def delete_select_option_empty
+    program_exclusive = params[:program_stream][:program_exclusive]
+    mutual_dependence = params[:program_stream][:mutual_dependence]
+    program_exclusive.delete('') if program_exclusive.present?
+    mutual_dependence.delete('') if mutual_dependence.present?
   end
 
   def decorate_programs(values)

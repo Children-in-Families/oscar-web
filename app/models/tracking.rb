@@ -11,6 +11,8 @@ class Tracking < ActiveRecord::Base
   validate :form_builder_field_uniqueness
   validate :validate_remove_field, if: -> { id.present? }
 
+  default_scope { order(:created_at) }
+
   def form_builder_field_uniqueness
     return unless fields.present?
     labels = fields.map{ |obj| obj['label'] }

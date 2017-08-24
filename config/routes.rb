@@ -120,6 +120,14 @@ Rails.application.routes.draw do
       resources :leave_programs
     end
 
+    resources :client_enrolled_programs do
+      get :report, on: :collection
+      resources :client_enrolled_program_trackings do
+        get :report, on: :collection
+      end
+      resources :leave_enrolled_programs
+    end
+
     resources :custom_field_properties
     # resources :government_reports
     resources :assessments
@@ -161,6 +169,8 @@ Rails.application.routes.draw do
 
   namespace :api do
     mount_devise_token_auth_for 'User', at: '/v1/auth', skip: [:passwords]
+    resources :form_builder_attachments, only: :destroy
+
     resources :clients do
       get :compare, on: :collection
     end

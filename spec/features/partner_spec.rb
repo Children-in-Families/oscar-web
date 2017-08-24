@@ -1,6 +1,6 @@
 describe 'Partner' do
   let!(:admin){ create(:user, roles: 'admin') }
-  let!(:partner){ create(:partner,organisation_type: "NGO") }
+  let!(:partner){ create(:partner,organisation_type: "NGO", name: 'Jonh') }
   let!(:other_partner){ create(:partner) }
   let!(:case){ create(:case, partner: other_partner) }
   before do
@@ -33,11 +33,12 @@ describe 'Partner' do
       visit new_partner_path
     end
     scenario 'valid', js: true do
-      fill_in 'Name', with: FFaker::Name.name
-      fill_in 'Email', with: FFaker::Internet.email
+      fill_in 'Name', with: 'Partner Name'
+      fill_in 'Email', with: 'test@example.com'
       click_button 'Save'
       sleep 1
-      expect(page).to have_content('Partner has been successfully created')
+      expect(page).to have_content('Partner Name')
+      expect(page).to have_content('test@example.com')
     end
     xscenario 'invalid' do
       click_button 'Save'
@@ -49,11 +50,12 @@ describe 'Partner' do
       visit edit_partner_path(partner)
     end
     scenario 'valid' do
-      fill_in 'Name', with: FFaker::Name.name
-      fill_in 'Email', with: FFaker::Internet.email
+      fill_in 'Name', with: 'Updated Partner Name'
+      fill_in 'Email', with: 'test@example1.com'
       click_button 'Save'
       sleep 1
-      expect(page).to have_content('Partner has been successfully updated')
+      expect(page).to have_content('Updated Partner Name')
+      expect(page).to have_content('test@example1.com')
     end
     xscenario 'invalid'
   end
@@ -64,7 +66,7 @@ describe 'Partner' do
     scenario 'success', js: true do
       find("a[href='#{partner_path(partner)}'][data-method='delete']").click
       sleep 1
-      expect(page).to have_content('Partner has been successfully deleted')
+      expect(page).not_to have_content(partner.name)
     end
     scenario 'unsuccess' do
       expect(page).to have_css("a[href='#{partner_path(other_partner)}'][class='btn btn-outline btn-danger btn-xs disabled']")
@@ -99,7 +101,6 @@ describe 'Partner' do
       select('NGO', from: 'partner_grid_organisation_type')
       click_button 'Search'
       expect(page).to have_content(partner.name)
-      expect(page).to have_content(other_partner.name)
     end
   end
 end

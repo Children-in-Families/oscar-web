@@ -26,41 +26,42 @@ describe 'Donor' do
   end
 
   feature 'Create', js: true do
+    let!(:antoher_donor) { create(:donor, name: 'Another Donor') }
     before do
       visit donors_path
     end
     scenario 'valid' do
       click_link('New Donor')
       within('#new_donor') do
-        fill_in 'Name', with: FFaker::Name.name
+        fill_in 'Name', with: 'Donor Name'
         click_button 'Save'
       end
       wait_for_ajax
-      expect(page).to have_content('Donor has been successfully created.')
+      expect(page).to have_content('Donor Name')
     end
     scenario 'invalid' do
       click_link('New Donor')
       within('#new_donor') do
+        fill_in 'Name', with: 'Another Donor'
         click_button 'Save'
       end
       wait_for_ajax
-      expect(page).to have_content('Failed to create a donor')
+      expect(page).to have_content('Another Donor', count: 1)
     end
   end
 
   feature 'Edit', js: true do
-    let!(:name){ FFaker::Name.name }
     before do
       visit donors_path
     end
     scenario 'valid' do
       find("a[data-target='#donorModal-#{donor.id}']").click
       within("#donorModal-#{donor.id}") do
-        fill_in 'Name', with: name
+        fill_in 'Name', with: 'Updated Donor Name'
         click_button 'Save'
       end
       wait_for_ajax
-      expect(page).to have_content('Donor has been successfully updated')
+      expect(page).to have_content('Updated Donor Name')
     end
     scenario 'invalid' do
       find("a[data-target='#donorModal-#{donor.id}']").click
@@ -69,7 +70,8 @@ describe 'Donor' do
         click_button 'Save'
       end
       wait_for_ajax
-      expect(page).to have_content('Failed to update a donor')
+      expect(page).to have_content(donor.name)
+      expect(page).to have_content(other_donor.name)
     end
   end
 
@@ -80,7 +82,7 @@ describe 'Donor' do
     scenario 'success' do
       find("a[href='#{donor_path(donor)}'][data-method='delete']").click
       wait_for_ajax
-      expect(page).to have_content('Donor has been successfully deleted')
+      expect(page).not_to have_content(donor.name)
     end
     # scenario 'disable' do
     #   expect(page).to have_css("a[href='#{donor_path(other_donor)}'][data-method='delete'][class='btn btn-outline btn-danger btn-xs disabled']")

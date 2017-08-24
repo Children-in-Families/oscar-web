@@ -11,10 +11,12 @@
             .row
               - n_field.each do |field|
                 .col-xs-12.col-md-6
-                  = render "/shared/fields/#{field['type'].underscore}", f: prop_f, field_props: field, errors: @custom_field_property.errors.messages
-        .row
-          .col-xs-12
-            = render 'attachment_fields', f: f
+                  - unless field['type'] == 'file'
+                    = render "/shared/fields/#{field['type'].underscore}", f: prop_f, field_props: field, errors: @custom_field_property.errors.messages
+
+                  - else
+                    = f.simple_fields_for :form_builder_attachments, custom_field_property_attachment(field['label']) do |attachment|
+                      = render 'shared/form_builder/attachment', f: attachment, property: field, entity: f, resource: @custom_field_property
         .row
           .col-xs-12
             #message.text-danger

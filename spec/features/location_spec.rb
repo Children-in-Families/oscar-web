@@ -29,7 +29,7 @@ describe 'Location' do
     end
 
     scenario 'new link' do
-      expect(page).to have_link(I18n.t('locations.index.add_new_location'), new_location_path)
+      expect(page).to have_link('Add New Location', new_location_path)
     end
 
     scenario 'pagination' do
@@ -38,6 +38,7 @@ describe 'Location' do
   end
 
   feature 'Create', js: true do
+    let!(:other_location) { create(:location, name: 'Other Location') }
     before do
       visit locations_path
     end
@@ -45,25 +46,25 @@ describe 'Location' do
     scenario 'valid' do
       click_link('Add New Location')
       within('#new_location') do
-        fill_in I18n.t('locations.form.name'), with: FFaker::Company.name
-        click_button I18n.t('locations.form.save')
+        fill_in 'Name', with: 'Location Name'
+        click_button 'Save'
       end
       sleep 1
-      expect(page).to have_content(I18n.t('locations.create.successfully_created'))
+      expect(page).to have_content('Location Name')
     end
 
     scenario 'invalid' do
       click_link('Add New Location')
       within('#new_location') do
-        click_button I18n.t('locations.form.save')
+        fill_in 'Name', with: 'Other Location'
+        click_button 'Save'
       end
       sleep 1
-      expect(page).to have_content('Failed to create a location.')
+      expect(page).to have_content('Other Location', count: 1)
     end
   end
 
   feature 'Edit', js: true do
-    let!(:name) { FFaker::Company.name }
     let!(:other_location) { create(:location, name: 'Home') }
     before do
       visit locations_path
@@ -71,21 +72,20 @@ describe 'Location' do
     scenario 'valid' do
       find("a[data-target='#locationModal-#{other_location.id}']").click
       within("#locationModal-#{other_location.id}") do
-        fill_in I18n.t('locations.form.name'), with: name
-        click_button I18n.t('locations.form.save')
+        fill_in 'Name', with: 'Updated Name'
+        click_button 'Save'
       end
       sleep 1
-      expect(page).to have_content(I18n.t('locations.update.successfully_updated'))
-      expect(page).to have_content(name)
+      expect(page).to have_content('Updated Name')
     end
     scenario 'invalid' do
       find("a[data-target='#locationModal-#{other_location.id}']").click
       within("#locationModal-#{other_location.id}") do
-        fill_in I18n.t('locations.form.name'), with: ''
-        click_button I18n.t('locations.form.save')
+        fill_in 'Name', with: ''
+        click_button 'Save'
       end
       sleep 1
-      expect(page).to have_content('Failed to update a location.')
+      expect(page).to have_content('Home', count: 1)
     end
   end
 
@@ -96,7 +96,7 @@ describe 'Location' do
     scenario 'success' do
       find("a[href='#{location_path(new_location)}'][data-method='delete']").click
       sleep 1
-      expect(page).to have_content(I18n.t('locations.destroy.successfully_deleted'))
+      expect(page).not_to have_content(new_location.name)
     end
 
     scenario 'does not succeed' do

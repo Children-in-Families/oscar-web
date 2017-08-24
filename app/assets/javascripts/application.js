@@ -26,6 +26,7 @@
 //= require doT
 //= require query-builder
 //= require stickyfill.js
+//= require lodash/lodash.min.js
 
 //= require tinymce
 //= require moment
@@ -50,6 +51,10 @@
 //= require footable.all.min
 
 //APPLICATION JS
+//= require check_duplicate_array.js
+//= require advanced_filter_builder
+//= require custom_form_builder
+//= require table_scroll
 //= require filters
 //= require assessments/form
 //= require tasks/form
@@ -81,6 +86,7 @@
 //= require domains/form
 //= require custom_fields/form
 //= require custom_fields/index
+//= require custom_fields/show
 //= require custom_fields/shared_fields
 //= require shared/version_per_page_form
 //= require notifications/index
@@ -95,3 +101,4 @@
 //= require leave_programs/form
 //= require client_enrollment_trackings/form
 //= require organizations/index
+//= require prevent_required_file_uploader

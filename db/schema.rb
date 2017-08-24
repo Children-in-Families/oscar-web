@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170802065632) do
+ActiveRecord::Schema.define(version: 20170824021544) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -219,17 +219,17 @@ ActiveRecord::Schema.define(version: 20170802065632) do
   add_index "changelogs", ["user_id"], name: "index_changelogs_on_user_id", using: :btree
 
   create_table "client_enrollment_trackings", force: :cascade do |t|
-    t.jsonb    "properties"
+    t.jsonb    "properties",           default: {}
     t.integer  "client_enrollment_id"
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
     t.integer  "tracking_id"
   end
 
   add_index "client_enrollment_trackings", ["client_enrollment_id"], name: "index_client_enrollment_trackings_on_client_enrollment_id", using: :btree
 
   create_table "client_enrollments", force: :cascade do |t|
-    t.jsonb    "properties"
+    t.jsonb    "properties",        default: {}
     t.string   "status",            default: "Active"
     t.integer  "client_id"
     t.integer  "program_stream_id"
@@ -402,6 +402,15 @@ ActiveRecord::Schema.define(version: 20170802065632) do
     t.string   "case_history",                    default: ""
   end
 
+  create_table "form_builder_attachments", force: :cascade do |t|
+    t.string   "name",                default: ""
+    t.jsonb    "file",                default: []
+    t.string   "form_buildable_type"
+    t.integer  "form_buildable_id"
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+  end
+
   create_table "friendly_id_slugs", force: :cascade do |t|
     t.string   "slug",                      null: false
     t.integer  "sluggable_id",              null: false
@@ -495,10 +504,10 @@ ActiveRecord::Schema.define(version: 20170802065632) do
   add_index "interventions_progress_notes", ["progress_note_id"], name: "index_interventions_progress_notes_on_progress_note_id", using: :btree
 
   create_table "leave_programs", force: :cascade do |t|
-    t.jsonb    "properties"
+    t.jsonb    "properties",           default: {}
     t.integer  "client_enrollment_id"
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
     t.integer  "program_stream_id"
     t.date     "exit_date"
   end
@@ -915,45 +924,46 @@ ActiveRecord::Schema.define(version: 20170802065632) do
   add_index "trackings", ["program_stream_id"], name: "index_trackings_on_program_stream_id", using: :btree
 
   create_table "users", force: :cascade do |t|
-    t.string   "first_name",             default: ""
-    t.string   "last_name",              default: ""
-    t.string   "roles",                  default: "case worker"
+    t.string   "first_name",                     default: ""
+    t.string   "last_name",                      default: ""
+    t.string   "roles",                          default: "case worker"
     t.date     "start_date"
-    t.string   "job_title",              default: ""
-    t.string   "mobile",                 default: ""
+    t.string   "job_title",                      default: ""
+    t.string   "mobile",                         default: ""
     t.date     "date_of_birth"
-    t.boolean  "archived",               default: false
+    t.boolean  "archived",                       default: false
     t.integer  "province_id"
     t.integer  "department_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "email",                  default: "",            null: false
-    t.string   "encrypted_password",     default: "",            null: false
+    t.string   "email",                          default: "",            null: false
+    t.string   "encrypted_password",             default: "",            null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,             null: false
+    t.integer  "sign_in_count",                  default: 0,             null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.inet     "current_sign_in_ip"
     t.inet     "last_sign_in_ip"
-    t.integer  "clients_count",          default: 0
-    t.integer  "cases_count",            default: 0
-    t.integer  "tasks_count",            default: 0
-    t.string   "provider",               default: "email",       null: false
-    t.string   "uid",                    default: "",            null: false
+    t.integer  "clients_count",                  default: 0
+    t.integer  "cases_count",                    default: 0
+    t.integer  "tasks_count",                    default: 0
+    t.string   "provider",                       default: "email",       null: false
+    t.string   "uid",                            default: "",            null: false
     t.json     "tokens"
-    t.boolean  "admin",                  default: false
-    t.integer  "changelogs_count",       default: 0
+    t.boolean  "admin",                          default: false
+    t.integer  "changelogs_count",               default: 0
     t.integer  "organization_id"
-    t.boolean  "disable",                default: false
+    t.boolean  "disable",                        default: false
     t.datetime "expires_at"
+    t.boolean  "task_notify",                    default: true
     t.integer  "manager_id"
-    t.boolean  "task_notify",            default: true
-    t.boolean  "calendar_integration",   default: false
+    t.boolean  "calendar_integration",           default: false
     t.integer  "pin_number"
-    t.integer  "manager_ids",            default: [],                         array: true
-    t.boolean  "program_warning",        default: false
+    t.integer  "manager_ids",                    default: [],                         array: true
+    t.boolean  "program_warning",                default: false
+    t.boolean  "staff_performance_notification", default: true
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
@@ -982,6 +992,14 @@ ActiveRecord::Schema.define(version: 20170802065632) do
 
   add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
   add_index "versions", ["transaction_id"], name: "index_versions_on_transaction_id", using: :btree
+
+  create_table "visit_clients", force: :cascade do |t|
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "visit_clients", ["user_id"], name: "index_visit_clients_on_user_id", using: :btree
 
   create_table "visits", force: :cascade do |t|
     t.integer  "user_id"
@@ -1030,5 +1048,6 @@ ActiveRecord::Schema.define(version: 20170802065632) do
   add_foreign_key "thredded_messageboard_users", "thredded_user_details"
   add_foreign_key "trackings", "program_streams"
   add_foreign_key "users", "organizations"
+  add_foreign_key "visit_clients", "users"
   add_foreign_key "visits", "users"
 end

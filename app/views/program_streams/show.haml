@@ -64,15 +64,13 @@
                     %tr
                       %td.exclusive= t('.program_exclusive')
                       %td
-                        - if @program_exclusive.present?
-                          - @program_exclusive.pluck(:name).each do |name|
-                            %span.label.label-margin= name
+                        - @program_exclusive.pluck(:name).each do |name|
+                          %span.label.label-margin= name
                     %tr
                       %td.exclusive= t('.mutual_dependence')
                       %td
-                        - if @mutual_dependence.present?
-                          - @mutual_dependence.pluck(:name).each do |name|
-                            %span.label.label-margin= name
+                        - @mutual_dependence.pluck(:name).each do |name|
+                          %span.label.label-margin= name
                 #program-rules
 
           .panel.panel-default

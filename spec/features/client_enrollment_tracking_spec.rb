@@ -14,24 +14,25 @@ describe ClientEnrollmentTracking, 'Client Enrollment Tracking' do
     before do
       program_stream.reload
       program_stream.update_columns(completed: true)
-      visit client_client_enrollments_path(client, program_streams: 'enrolled-program-streams')
+      visit client_client_enrolled_programs_path(client)
       click_link('Trackings')
     end
 
-    scenario 'Valid' do
+    scenario 'Valid', js: true do
       click_link('New Tracking')
       expect(page).to have_content('Adam Eve (Romeo Juliet) - Soccer - Fitness')
       within('#new_client_enrollment_tracking') do
         find('.numeric').set(4)
         find('input[type="text"]').set('Good client')
-        find('input[type="email"]').set('cif@cambodianfamilies.com')
+        find('input[type="email"]').set('test@example.com')
 
         click_button 'Save'
       end
-      expect(page).to have_content('Tracking Program has been successfully created')
+      expect(page).to have_content('Good client')
+      expect(page).to have_content('test@example.com')
     end
 
-    xscenario 'Invalid' do
+    scenario 'Invalid' do
       click_link('New Tracking')
       expect(page).to have_content('Adam Eve (Romeo Juliet) - Soccer - Fitness')
       within('#new_client_enrollment_tracking') do
@@ -41,15 +42,13 @@ describe ClientEnrollmentTracking, 'Client Enrollment Tracking' do
 
         click_button 'Save'
       end
-      expect(page).to have_content('is not an email')
-      expect(page).to have_content("can't be greater than 5")
-      expect(page).to have_content("can't be blank")
+      expect(page).to have_css('div.form-group.has-error')
     end
   end
 
   feature 'Lists' do
     before do
-      visit client_client_enrollment_client_enrollment_trackings_path(client, client_enrollment)
+      visit client_client_enrolled_program_client_enrolled_program_trackings_path(client, client_enrollment)
     end
 
     scenario 'Name' do
@@ -71,7 +70,7 @@ describe ClientEnrollmentTracking, 'Client Enrollment Tracking' do
 
   feature 'Report' do
     before do
-      visit report_client_client_enrollment_client_enrollment_trackings_path(client, client_enrollment, tracking_id: tracking.id)
+      visit report_client_client_enrolled_program_client_enrolled_program_trackings_path(client, client_enrollment, tracking_id: tracking.id)
     end
 
     scenario 'Age' do
@@ -95,17 +94,17 @@ describe ClientEnrollmentTracking, 'Client Enrollment Tracking' do
     end
 
     scenario 'Edit Link' do
-      expect(page).to have_link(nil, edit_client_client_enrollment_client_enrollment_tracking_path(client, client_enrollment, client_enrollment_tracking))
+      expect(page).to have_link(nil, edit_client_client_enrolled_program_client_enrolled_program_tracking_path(client, client_enrollment, client_enrollment_tracking))
     end
 
     scenario 'Destroy Link' do
-      expect(page).to have_css("a[href='#{client_client_enrollment_client_enrollment_tracking_path(client, client_enrollment, client_enrollment_tracking, tracking_id: tracking.id)}'][data-method='delete']")
+      expect(page).to have_css("a[href='#{client_client_enrolled_program_client_enrolled_program_tracking_path(client, client_enrollment, client_enrollment_tracking, tracking_id: tracking.id)}'][data-method='delete']")
     end
   end
 
   feature 'Show' do
     before do
-      visit client_client_enrollment_client_enrollment_tracking_path(client, client_enrollment, client_enrollment_tracking)
+      visit client_client_enrollment_client_enrollment_tracking_path(client, client_enrollment, client_enrollment_tracking, tracking_id: tracking.id)
     end
 
     scenario 'Age' do
@@ -132,21 +131,21 @@ describe ClientEnrollmentTracking, 'Client Enrollment Tracking' do
 
   feature 'Update', js: true do
     before do
-      visit edit_client_client_enrollment_client_enrollment_tracking_path(client, client_enrollment, client_enrollment_tracking, tracking_id: tracking.id)
+      visit edit_client_client_enrolled_program_client_enrolled_program_tracking_path(client, client_enrollment, client_enrollment_tracking, tracking_id: tracking.id)
     end
 
     scenario 'success' do
       expect(page).to have_content('Adam Eve (Romeo Juliet) - Soccer - Fitness')
       find('input[type="text"]').set('this is editing')
       find('input[type="submit"]').click
-      expect(page).to have_content('Tracking Program has been successfully updated')
+      expect(page).to have_content('this is editing')
     end
 
-    scenario 'fail' do
+    xscenario 'fail' do
       expect(page).to have_content('Adam Eve (Romeo Juliet) - Soccer - Fitness')
       find('input[type="text"]').set('')
       find('input[type="submit"]').click
-      expect(page).to have_content("description can't be blank")
+      expect(page).to have_css('div.has-error')
     end
   end
 

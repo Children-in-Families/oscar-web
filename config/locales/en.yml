@@ -425,6 +425,10 @@ en:
       attachments: Attachments
       preview_download: Preview & Download
       download: Download
+  api:
+    form_builder_attachments:
+      destroy:
+        successfully_deleted: Attachment has been successfully deleted.
   back: Back
   calendars:
     index:
@@ -670,11 +674,14 @@ en:
       custom_form: Custom Form
       enrollment: Enrollment
       exit_program: Exit Program
-      filter_option: Please choose the filter option below
+      filter_option: Please choose your query options below
       program_stream: Program Stream
       tracking: Tracking
       quantitative: Quantitative Type
     index:
+      client_column: Client basic columns
+      custom_form_column: Custom form columns
+      program_stream_column: Program stream columns
       add_new_filter: Add New Filter
       add_new_group: Add Group
       advanced_search: Advanced Search
@@ -687,6 +694,52 @@ en:
       results: Results
       search: Search
   client_enrollment_trackings:
+    action:
+      new_tracking: New Tracking
+    create:
+      successfully_created: Tracking Program has been successfully created.
+    destroy:
+      successfully_deleted: Tracking Program has been successfully deleted.
+      delete_attachment_successfully: Attachment has been successfully deleted.
+    edit:
+      edit_tracking: Edit Tracking
+    form:
+      allow_file_size: Allowed file types
+      cancel: Cancel
+      save: Save
+      max_file_size: "*Maximum file size: 5MB/file and 30MB/upload."
+    index:
+      programs_list: Programs List
+      tracking_lists: Trackings List
+    new:
+      new_tracking: New Tracking
+    report:
+      are_you_sure: Are you sure you want to delete?
+      back: Back
+      created_at: Created Date
+      new_tracking: New Tracking
+    show:
+      back: Back
+      trackings_list: Client Trackings List
+    update:
+      successfully_updated: Tracking Program has been successfully updated.
+  leave_enrolled_programs:
+    create:
+      successfully_created: Client has been successfully exited from the program.
+    edit:
+      leave_program: Edit Leave Program
+    form:
+      cancel: Cancel
+      exit_date: Exit Date
+      save: Save
+    new:
+      new_exit_program: New Exit Program
+    show:
+      back: Back
+      exit_date: Exited on
+    update:
+      successfully_updated: Exit Program has been successfully updated.
+  client_enrolled_program_trackings:
     action:
       new_tracking: New Tracking
     create:
@@ -713,7 +766,7 @@ en:
       trackings_list: Client Trackings List
     update:
       successfully_updated: Tracking Program has been successfully updated.
-  client_enrollments:
+  client_enrolled_programs:
     create:
       successfully_created: Enrollment has been successfully created.
     destroy:
@@ -723,8 +776,56 @@ en:
     form:
       cancel: Cancel
       enrollment_date: Enrollment Date
+      save: Save
+    index:
+      actions: Actions
+      back: Back
+      domain: Domain
+      name: Program Name
+      program_lists: Programs List
+      quantity: Number of Place Available
+      report: Report
+      status: Status
+      view: View
+    manage:
+      enroll: Enroll
+      exit: Exit
+      full_program: This Program is full.
+      tracking: Trackings
+    new:
+      client_not_valid: Client doesn't match with this program rules.
+      new_enrollment: New Enrollment
+    report:
+      actions: Actions
+      date: Date
+      enrollment: Enrollment
+      exit: Exit
+      forms: Forms
+      programs_list: Programs List
+      report: Reports
+      tracking: Tracking
+      view: View
+    show:
+      are_you_sure: Are you sure you want to delete?
+      back: Back
+      enrollment_date: Enrolled on
+    update:
+      successfully_updated: Enrollment has been successfully updated.
+  client_enrollments:
+    create:
+      successfully_created: Enrollment has been successfully created.
+    destroy:
+      successfully_deleted: Enrollment has been successfully deleted.
+      delete_attachment_successfully: Attachment has been successfully deleted.
+    edit:
+      enrollment: Edit Enrollment
+    form:
+      allow_file_size: Allowed file types
+      cancel: Cancel
+      enrollment_date: Enrollment Date
       not_an_email: not an email
       save: Save
+      max_file_size: "*Maximum file size: 5MB/file and 30MB/upload."
     index:
       actions: Actions
       back: Back
@@ -1069,6 +1170,7 @@ en:
     create:
       successfully_created: Custom Field Property has been successfully created.
     destroy:
+      delete_attachment_successfully: Attachment has been successfully deleted.
       successfully_deleted: Custom Field Property has been successfully deleted.
     form:
       cancel: Cancel
@@ -1813,6 +1915,7 @@ en:
         password_confirmation: Confirm Password
         province: Province
         save: Save
+        staff_performance_notification: Send me staff performance report
         start_date: Start Date
         we_need_your_current_password_to_confirm_your_changes: We need your current password to confirm your changes
       signed_up: Welcome! You have signed up successfully.
@@ -2509,20 +2612,24 @@ en:
       log_out: Log out
   leave_programs:
     create:
-      successfully_created: Client has successfully exited from the program.
+      successfully_created: Client has been successfully exited from the program.
     edit:
       leave_program: Edit Leave Program
+    destroy:
+      delete_attachment_successfully: Attachment has been successfully deleted.
     form:
+      allow_file_size: Allowed file types
       cancel: Cancel
       exit_date: Exit Date
       save: Save
+      max_file_size: "*Maximum file size: 5MB/file and 30MB/upload."
     new:
       new_exit_program: New Exit Program
     show:
       back: Back
-      exit_date: Exit Date
+      exit_date: Exited on
     update:
-      successfully_updated: Exit Program has successfully updated.
+      successfully_updated: Exit Program has been successfully updated.
   locations:
     create:
       failed_create: Failed to create a location.
@@ -2998,6 +3105,13 @@ en:
   review_problem: 'Please review the problems below:'
   save: Save
   shared:
+    form_builder:
+      list_attachment:
+        are_you_sure: Are you sure you want to delete?
+        preview_download: Preview & Download
+      file_field:
+        allow_file_size: Allowed file types
+        max_file_size: "*Maximum file size: 5MB/file and 30MB/upload."
     per_page_form:
       show: Show
     version_type:

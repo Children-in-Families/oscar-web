@@ -9,6 +9,8 @@ module AdvancedSearches
       @sql_string  = []
       @condition    = rules['condition']
       @basic_rules  = rules['rules'] || []
+
+      @columns_visibility = []
     end
 
     def generate
@@ -41,7 +43,7 @@ module AdvancedSearches
           @values << enrollment_date[:values]
 
         elsif form_builder.first == 'tracking'
-          tracking = Tracking.find_by(name: form_builder.third)
+          tracking = Tracking.joins(:program_stream).where(program_streams: {name: form_builder.second}, trackings: {name: form_builder.third}).last
           tracking_fields = AdvancedSearches::TrackingSqlBuilder.new(tracking.id, rule).get_sql
           @sql_string << tracking_fields[:id]
           @values << tracking_fields[:values]

@@ -13,33 +13,34 @@ describe LeaveProgram, 'Leave Program' do
       program_stream.reload
       program_stream.update_columns(completed: true)
 
-      visit client_client_enrollments_path(client, program_streams: 'enrolled-program-streams')
+      visit client_client_enrolled_programs_path(client)
       click_link('Exit')
     end
 
     scenario 'Valid' do
       within('#new_leave_program') do
         find('.numeric').set(4)
-        find('#exit_date').set(FFaker::Time.date)
+        find('#exit_date').set(Date.today)
         find('#leave_program_properties_description').set('Good client')
-        find('input[type="email"]').set('cif@cambodianflamilies.com')
+        find('input[type="email"]').set('test@example.com')
 
         click_button 'Save'
       end
-      expect(page).to have_content('Client has successfully exited from the program')
+      expect(page).to have_content('4')
+      expect(page).to have_content(Date.today.strftime('%d %B, %Y'))
+      expect(page).to have_content('Good client')
+      expect(page).to have_content('test@example.com')
     end
 
-    xscenario 'Invalid' do
+    scenario 'Invalid' do
       within('#new_leave_program') do
         find('.numeric').set(6)
         find('#leave_program_properties_description').set('')
-        find('input[type="email"]').set('cicambodianfamilies')
+        find('input[type="email"]').set('testexample')
 
         click_button 'Save'
       end
-      expect(page).to have_content('is not an email')
-      expect(page).to have_content("can't be greater than 5")
-      expect(page).to have_content("can't be blank")
+      expect(page).to have_css('div.form-group.has-error')
     end
   end
 
@@ -47,7 +48,7 @@ describe LeaveProgram, 'Leave Program' do
     let!(:leave_program) { create(:leave_program, client_enrollment: client_enrollment, program_stream: program_stream) }
 
     before do
-      visit client_client_enrollment_leave_program_path(client, client_enrollment, leave_program)
+      visit client_client_enrolled_program_leave_enrolled_program_path(client, client_enrollment, leave_program)
     end
 
     scenario 'Age' do
@@ -71,20 +72,21 @@ describe LeaveProgram, 'Leave Program' do
     let!(:leave_program) { create(:leave_program, client_enrollment: client_enrollment, program_stream: program_stream) }
 
     before do
-      visit edit_client_client_enrollment_leave_program_path(client, client_enrollment, leave_program, program_stream_id: program_stream.id)
+      visit edit_client_client_enrolled_program_leave_enrolled_program_path(client, client_enrollment, leave_program, program_stream_id: program_stream.id)
     end
 
     scenario 'success' do
-      find('#exit_date').set(FFaker::Time.date)
+      find('#exit_date').set(Date.today)
       find('#leave_program_properties_description').set('this is editing')
       find('input[type="submit"]').click
-      expect(page).to have_content('Exit Program has successfully updated')
+      expect(page).to have_content(Date.today.strftime('%d %B, %Y'))
+      expect(page).to have_content('this is editing')
     end
 
     scenario 'fail' do
       find('#leave_program_properties_description').set('')
       find('input[type="submit"]').click
-      expect(page).to have_content("description can't be blank")
+      expect(page).to have_css('div.form-group.has-error')
     end
   end
 end

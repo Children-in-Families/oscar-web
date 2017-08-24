@@ -28,32 +28,35 @@ describe 'Domain' do
   end
 
   feature 'Create', js: true do
+    let!(:another_domain) { create(:domain, name: 'Another Domain') }
     before do
       visit new_domain_path
     end
     scenario 'valid' do
-      fill_in 'Name', with: FFaker::Name.name
-      fill_in 'Identity', with: FFaker::Name.name
+      fill_in 'Name', with: 'Domain Name'
+      fill_in 'Identity', with: 'Domain Identity'
       click_button 'Save'
       sleep 1
-      expect(page).to have_content('Domain has been successfully created')
+      expect(page).to have_content('Domain Name')
+      expect(page).to have_content('Domain Identity')
     end
     scenario 'invalid' do
+      fill_in 'Name', with: 'Another Domain'
+      fill_in 'Identity', with: 'Domain Identity'
       click_button 'Save'
-      expect(page).to have_content("can't be blank")
+      expect(page).to have_content('has already been taken')
     end
   end
 
   feature 'Edit' do
-    let!(:name){ FFaker::Name.name }
     before do
       visit edit_domain_path(domain)
     end
     scenario 'valid', js: true do
-      fill_in 'Name', with: name
+      fill_in 'Name', with: 'Updated Domain Name'
       click_button 'Save'
       sleep 1
-      expect(page).to have_content('Domain has been successfully updated')
+      expect(page).to have_content('Updated Domain Name')
     end
     scenario 'invalid' do
       fill_in 'Name', with: ''
@@ -69,7 +72,7 @@ describe 'Domain' do
     scenario 'success' do
       find("a[href='#{domain_path(domain)}'][data-method='delete']").click
       sleep 1
-      expect(page).to have_content('Domain has been successfully deleted')
+      expect(page).not_to have_content(domain.name)
     end
     scenario 'disable delete' do
       expect(page).to have_css("a[href='#{domain_path(other_domain)}'][data-method='delete'][class='btn btn-outline btn-danger margin-left disabled']")

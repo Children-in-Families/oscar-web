@@ -48,7 +48,6 @@ describe "Assessment" do
 
       click_link 'Done'
       sleep 1
-      expect(page).to have_content('Assessment has been successfully created')
       expect(page).to have_content(domain.name)
       expect(page.find('.domain-score')).to have_content('4')
     end
@@ -59,7 +58,6 @@ describe "Assessment" do
 
       click_link 'Done'
       expect(page).to have_content('This field is required')
-      expect(page).not_to have_content('Assessment has been successfully created')
     end
   end
 

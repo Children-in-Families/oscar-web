@@ -1,0 +1,12 @@
+.ibox
+  .ibox-title
+    %h5= "#{@client.en_and_local_name} - #{t('.tracking_lists')}"
+    .ibox-tools
+      = link_to client_client_enrolled_programs_path(@client) do
+        .btn.btn-primary.btn-outline
+          = t('.programs_list')
+  .ibox-content
+    .table-responsive
+      = datagrid_table @tracking_grid, html: { class: 'table table-bordered table-striped table-hover client_enrolled_program_tracking'}
+  .ibox-footer
+    = paginate @tracking_grid.assets

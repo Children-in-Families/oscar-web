@@ -1,0 +1,17 @@
+body[id='leave_enrolled_rograms-report'],
+body[id='leave_programs-report'] {
+  .preview {
+    width: 30%;
+  }
+
+  .image-title {
+    max-width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .action {
+    width: 15%;
+  }
+}

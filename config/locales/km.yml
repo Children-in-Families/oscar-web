@@ -429,6 +429,10 @@ km:
       attachments: ឯកសារភ្ជាប់
       preview_download: មើលនិងទាញយក
       download: ទាញយក
+  api:
+    form_builder_attachments:
+      destroy:
+        successfully_updated: ការប៉ាន់ប្រមាណត្រូវបានកែសម្រួលដោយជោគជ័យ
   back: ត្រលប់ក្រោយ
   calendars:
     index:
@@ -678,11 +682,14 @@ km:
       custom_form: ទម្រង់បែបបទបន្ថែម
       enrollment: ទម្រង់បែបបទនៃចុះឈ្មោះ
       exit_program: ចាកចេញពីកម្មវិធី
-      filter_option: សូមជ្រើសរើសជម្រើសនែការស្វែងរកខាងក្រោម
+      filter_option: សូមជ្រើសជម្រើសសំណួររបស់អ្នកខាងក្រោម
       program_stream: កម្មវិធីបន្ទាប់បន្សំ
       tracking: តាមដាន
       quantitative: ប្រភេទនៃបរិមាណ
     index:
+      client_column: ជួរឈរពត៌មានទូទៅរបស់អតិថិជន
+      custom_form_column: ជួរឈរទម្រង់បែបបទបន្ថែម
+      program_stream_column: ជួរឈរកម្មវិធីបន្ទាប់បន្សំ
       add_new_filter: បន្ថែមការស្វែងរក
       add_new_group: បន្ថែមបណ្ដុំនៃការស្វែងរក
       advanced_search: ការស្វែងរកកម្រិតខ្ពស់
@@ -701,13 +708,108 @@ km:
       successfully_created: ការតាមដានត្រូវបានរក្សាទុកដោយជោគជ័យ
     destroy:
       successfully_deleted: ការតាមដានត្រូវបានលុបដោយជោគជ័យ
+      delete_attachment_successfully: ឯកសារភ្ជាប់ត្រូវបានកែសម្រួលដោយជោគជ័យ
+    edit:
+      edit_tracking: កែសម្រូលការតាមដាន
+    form:
+      allow_file_size: ប្រភេទឯកសារដែលបានអនុញ្ញាត
+      cancel: ទុកជាមោឃៈ
+      save: រក្សាទុក
+      max_file_size: "*ទំហំឯកសារអតិបរិមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកឡើង."
+    index:
+      programs_list: តារាងកម្មវិធីបន្ទាប់បន្សំ
+      tracking_lists: តារាងការតាមដាន
+    new:
+      new_tracking: បន្ថែមការតាមដានថ្មី
+    report:
+      are_you_sure: តើអ្នកប្រាកដហើយ?
+      back: ត្រលប់ក្រោយ
+      created_at: កាលបរិច្ឆេទ
+      new_tracking: បន្ថែមការតាមដានថ្មី
+    show:
+      back: ត្រលប់ក្រោយ
+      trackings_list: តារាងការតាមដាន
+    update:
+      successfully_updated: ការតាមដានត្រូវបានកែសម្រួលដោយជោគជ័យ
+  client_enrollments:
+    create:
+      successfully_created: ការចុះឈ្មោះត្រូវបានរក្សាទុកដោយជោគជ័យ
+    destroy:
+      successfully_deleted: ការចុះឈ្មោះត្រូវបានលុបដោយជោគជ័យ
+      delete_attachment_successfully: ឯកសារភ្ជាប់ត្រូវបានកែសម្រួលដោយជោគជ័យ
+    edit:
+      enrollment: ទម្រង់បែបបទនៃចុះឈ្មោះ
+    form:
+      allow_file_size: ប្រភេទឯកសារដែលបានអនុញ្ញាត
+      cancel: ទុកជាមោឃៈ
+      enrollment_date: ថ្ងៃចុះឈ្មោះ
+      not_an_email: មិនមែនជាឣុីម៉ែល
+      save: រក្សាទុក
+      max_file_size: "*ទំហំឯកសារអតិបរិមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកឡើង."
+    index:
+      actions: សកម្មភាព
+      back: ត្រលប់ក្រោយ
+      domain: កត្តា
+      name: ឈ្មោះកម្មវិធី
+      program_lists: តារាងកម្មវិធីបន្ទាប់បន្សំ
+      quantity: ចំនួនកន្លែងដែលនៅទំនេរ
+      report: របាយការណ៍
+      status: ស្ថានភាព
+      view: មើល
+    manage:
+      enroll: ចុះឈ្មោះ
+      exit: ចាកចេញ
+      full_program: កម្មវិធីនេះពេញ
+      tracking: តាមដាន
+    new:
+      client_not_valid: អតិថិជនមិនអាចចូលរូមកម្មវិធីនេះ
+      new_enrollment: ការចុះឈ្មោះថ្មី
+    report:
+      actions: សកម្មភាព
+      date: កាលបរិច្ឆេទ
+      enrollment: ចុះឈ្មោះ
+      exit: ចាកចេញ
+      forms: ទម្រង់បែបបទ
+      programs_list: តារាងកម្មវិធីបន្ទាប់បន្សំ
+      report: របាយការណ៏
+      tracking: ការតាមដាន
+      view: មើល
+    show:
+      are_you_sure: តើអ្នកប្រាកដហើយ?
+      back: ត្រលប់ក្រោយ
+      enrollment_date: កាលបរិច្ឆេទចុះឈ្មោះ
+    update:
+      successfully_updated: ការចុះឈ្មោះត្រូវបានកែសម្រួលដោយជោគជ័យ
+  leave_enrolled_programs:
+    create:
+      successfully_created: អតិថិជនត្រូវបានចាកចេញពីកម្មវិធីដោយជោគជ័យ
+    edit:
+      leave_program: កែសម្រួលការចាកចេញពីកម្មវិធី
+    form:
+      cancel: ទុកជាមោឃៈ
+      exit_date: ថ្ងៃចាកចេញ
+      save: រក្សាទុក
+    new:
+      new_exit_program: ការចាកចេញពីកម្មវិធី
+    show:
+      back: ត្រលប់ក្រោយ
+      exit_date: ថ្ងៃចាកចេញ
+    update:
+      successfully_updated: កម្មវិធីត្រូវបានកែសម្រួលដោយជោគជ័យ
+  client_enrolled_program_trackings:
+    action:
+      new_tracking: បន្ថែមការតាមដានថ្មី
+    create:
+      successfully_created: ការតាមដានត្រូវបានរក្សាទុកដោយជោគជ័យ
+    destroy:
+      successfully_deleted: ការតាមដានត្រូវបានលុបដោយជោគជ័យ
     edit:
       edit_tracking: កែសម្រូលការតាមដាន
     form:
       cancel: ទុកជាមោឃៈ
       save: រក្សាទុក
     index:
-      programs_list: តារាងកម្មវិធី
+      programs_list: តារាងកម្មវិធីបន្ទាប់បន្សំ
       tracking_lists: តារាងការតាមដាន
     new:
       new_tracking: បន្ថែមការតាមដានថ្មី
@@ -731,7 +833,6 @@ km:
     form:
       cancel: ទុកជាមោឃៈ
       enrollment_date: ថ្ងៃចុះឈ្មោះ
-      not_an_email: មិនមែនជាឣុីម៉ែល
       save: រក្សាទុក
     index:
       actions: សកម្មភាព
@@ -749,7 +850,51 @@ km:
       full_program: កម្មវិធីនេះពេញ
       tracking: តាមដាន
     new:
-      client_not_valid: អតិថិជនមិនអាចចូលរូមកម្មវិធីនេះ
+      client_not_valid: អតិថិជនមិនអាចចូលរូមកម្មវិធីនេះទេ
+      new_enrollment: ការចុះឈ្មោះថ្មី
+    report:
+      actions: សកម្មភាព
+      date: កាលបរិច្ឆេទ
+      enrollment: ចុះឈ្មោះ
+      exit: ចាកចេញ
+      forms: ទម្រង់បែបបទ
+      programs_list: តារាងកម្មវិធីបន្ទាប់បន្សំ
+      report: របាយការណ៏
+      tracking: ការតាមដាន
+      view: មើល
+    show:
+      are_you_sure: តើអ្នកប្រាកដហើយ?
+      back: ត្រលប់ក្រោយ
+      enrollment_date: កាលបរិច្ឆេទចុះឈ្មោះ
+    update:
+      successfully_updated: ការចុះឈ្មោះត្រូវបានកែសម្រួលដោយជោគជ័យ
+  client_enrolled_programs:
+    create:
+      successfully_created: ការចុះឈ្មោះត្រូវបានរក្សាទុកដោយជោគជ័យ
+    destroy:
+      successfully_deleted: ការចុះឈ្មោះត្រូវបានលុបដោយជោគជ័យ
+    edit:
+      enrollment: ទម្រង់បែបបទនៃចុះឈ្មោះ
+    form:
+      cancel: ទុកជាមោឃៈ
+      enrollment_date: ថ្ងៃចុះឈ្មោះ
+      save: រក្សាទុក
+    index:
+      actions: សកម្មភាព
+      back: ត្រលប់ក្រោយ
+      domain: កត្តា
+      name: ឈ្មោះកម្មវិធី
+      program_lists: តារាងកម្មវិធីបន្ទាប់បន្សំ
+      quantity: ចំនួនកន្លែងដែលនៅទំនេរ
+      report: របាយការណ៍
+      status: ស្ថានភាព
+      view: មើល
+    manage:
+      enroll: ចុះឈ្មោះ
+      exit: ចាកចេញ
+      full_program: កម្មវិធីនេះពេញ
+      tracking: តាមដាន
+    new:
       new_enrollment: ការចុះឈ្មោះថ្មី
     report:
       actions: សកម្មភាព
@@ -1077,6 +1222,7 @@ km:
     create:
       successfully_created: ទម្រង់បែបបទត្រូវបានរក្សាទុកដោយជោគជ័យ
     destroy:
+      delete_attachment_successfully: ឯកសារភ្ជាប់ត្រូវបានកែសម្រួលដោយជោគជ័យ
       successfully_deleted: ទម្រង់បែបបទត្រូវបានលុបដោយជោគជ័យ
     form:
       cancel: ទុកជាមោឃៈ
@@ -1821,6 +1967,7 @@ km:
         password_confirmation: បញ្ជាក់លេខកូដសំងាត់ថ្មី
         province: ខេត្ត
         save: រក្សាទុក
+        staff_performance_notification: ផ្ញើឲ្យខ្ញុំនូវរបាយការណ៍ការងាររបស់បុគ្គលិក
         start_date: កាលបរិច្ឆេទចាប់ផ្តើម
         we_need_your_current_password_to_confirm_your_changes: យើងត្រូវការពិនិត្យបញ្ជាក់លេខកូដសំងាត់បច្ចុប្បន្នដើម្បីធ្វើការផ្លាស់ប្តូរ
       signed_up: ស្វាគមន៏ ! អ្នកបានចូលដោយជោគជ័យ
@@ -2520,10 +2667,14 @@ km:
       successfully_created: អតិថិជនត្រូវបានចាកចេញពីកម្មវិធីដោយជោគជ័យ
     edit:
       leave_program: កែសម្រួលការចាកចេញពីកម្មវិធី
+    destroy:
+      delete_attachment_successfully: ឯកសារភ្ជាប់ត្រូវបានកែសម្រួលដោយជោគជ័យ
     form:
+      allow_file_size: ប្រភេទឯកសារដែលបានអនុញ្ញាត
       cancel: ទុកជាមោឃៈ
       exit_date: ថ្ងៃចាកចេញ
       save: រក្សាទុក
+      max_file_size: "*ទំហំឯកសារអតិបរិមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកឡើង."
     new:
       new_exit_program: ការចាកចេញពីកម្មវិធីថ្មី
     show:
@@ -3007,6 +3158,13 @@ km:
   review_problem: សូមពិនិត្យបញ្ហាសារឡើងវិញនៅខាងក្រោម៖
   save: រក្សាទុក
   shared:
+    form_builder:
+      list_attachment:
+        are_you_sure: តើអ្នកប្រាកដហើយ?
+        preview_download: មើលនិងទាញយក
+      file_field:
+        allow_file_size: ប្រភេទឯកសារដែលបានអនុញ្ញាត
+        max_file_size: "*ទំហំឯកសារអតិបរិមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកឡើង."
     per_page_form:
       show: បង្ហាញ
     version_type:

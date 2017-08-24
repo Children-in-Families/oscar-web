@@ -174,4 +174,45 @@ module ClientsHelper
     current_address << I18n.t('datagrid.columns.clients.cambodia')
     current_address.compact.join(', ')
   end
+
+  def format_properties_value(value)
+    value.is_a?(Array) ? value.delete_if(&:empty?).join(', ') : value
+  end
+
+  def field_not_blank?(value)
+    value.is_a?(Array) ? value.delete_if(&:empty?).present? : value.present?
+  end
+
+  def form_builder_format_key(value)
+    value.downcase.parameterize('_')
+  end
+
+  def form_builder_format(value)
+    value.split('_').last
+  end
+
+  def form_builder_format_header(value)
+    entities  = { formbuilder: 'Custom form', exitprogram: 'Exit program', tracking: 'Tracking', enrollment: 'Enrollment' }
+    key_word  = value.first
+    entity    = entities[key_word.to_sym]
+    value     = value - [key_word]
+    result    = value << entity
+    result.join(' | ')
+  end
+
+  def group_entity_by(value)
+    value.group_by{ |field| field.split('_').first}
+  end
+
+  def format_class_header(value)
+    values = value.split('|')
+    name   = values.first.strip
+    label  = values.last.strip
+    keyword = "#{name} #{label}"
+    keyword.downcase.parameterize('_')
+  end
+
+  def field_not_render(field)
+    field.split('_').first
+  end
 end
