@@ -50,6 +50,7 @@ describe 'Task' do
       expect(page).not_to have_content(incomplete_task)
     end
   end
+
   # feature 'Create' do
   #   before do
   #     visit new_client_task_path(client)
