@@ -204,6 +204,17 @@ module ClientsHelper
     values = value.split('|')
     name   = values.first.strip
     label  = values.last.strip
-    "#{name} #{label}".downcase.parameterize('_')
+    keyword = "#{name} #{label}".gsub!(/[^0-9A-Za-z]/, '_')
+    keyword.downcase.parameterize('_')
+  end
+
+  def format_column_client_grid(grid)
+    column_action = []
+    manage_translate    = t('datagrid.columns.clients.manage')
+    changelog_translate = t('datagrid.columns.clients.changelogs')
+    grid.html_columns.map{ |column| column_action << column if column.header == manage_translate || column.header == changelog_translate }
+    grid.html_columns = grid.html_columns - column_action
+    grid.html_columns << column_action
+    grid
   end
 end

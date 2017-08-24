@@ -114,9 +114,9 @@ CIF.Client_advanced_searchesIndex = do ->
       for option in $('#program-stream-select option:selected')
         name          = $(option).text()
         programName   = name.trim()
-        headerClass   = _.replace("#{programName} Enrollment".toLowerCase(), new RegExp(' ', 'g'), '_')
+        headerClass   = _formateSpacialCharacter("#{programName} Enrollment")
 
-        _removeCheckboxColumnPicker(headerClass)
+        _removeCheckboxColumnPicker('#program-stream-column', headerClass)
         _handleRemoveFilterBuilder(name, ENROLLMENT_TRANSLATE)
 
   _handleUncheckedTracking = ->
@@ -124,9 +124,9 @@ CIF.Client_advanced_searchesIndex = do ->
       for option in $('#program-stream-select option:selected')
         name          = $(option).text()
         programName   = name.trim()
-        headerClass   = _.replace("#{programName} Tracking".toLowerCase(), new RegExp(' ', 'g'), '_')
+        headerClass   = _formateSpacialCharacter("#{programName} Tracking")
 
-        _removeCheckboxColumnPicker(headerClass)
+        _removeCheckboxColumnPicker('#program-stream-column', headerClass)
         _handleRemoveFilterBuilder(name, TRACKING_TRANSTATE)
 
   _handleUncheckedExitProgram = ->
@@ -134,9 +134,9 @@ CIF.Client_advanced_searchesIndex = do ->
       for option in $('#program-stream-select option:selected')
         name          = $(option).text()
         programName   = name.trim()
-        headerClass   = _.replace("#{programName} Exit Program".toLowerCase(), new RegExp(' ', 'g'), '_')
+        headerClass   = _formateSpacialCharacter("#{programName} Exit Program")
 
-        _removeCheckboxColumnPicker(headerClass)
+        _removeCheckboxColumnPicker('#program-stream-column', headerClass)
         _handleRemoveFilterBuilder(name, EXIT_PROGRAM_TRANSTATE)
 
   _handleSelect2RemoveProgram = ->
@@ -145,8 +145,8 @@ CIF.Client_advanced_searchesIndex = do ->
       programName = element.choice.text
       programStreamKeyword = ['Enrollment', 'Tracking', 'Exit Program']
       _.forEach programStreamKeyword, (value) ->
-        headerClass   = _.replace("#{programName.trim()} #{value}".toLowerCase(), new RegExp(' ', 'g'), '_')
-        _removeCheckboxColumnPicker(headerClass)
+        headerClass = _formateSpacialCharacter("#{programName.trim()} #{value}")
+        _removeCheckboxColumnPicker('#program-stream-column', headerClass)
 
       $.map self.programSelected, (val, i) ->
         if parseInt(val) == parseInt(element.val) then self.programSelected.splice(i, 1)
@@ -204,9 +204,9 @@ CIF.Client_advanced_searchesIndex = do ->
     $('#custom-form-wrapper select').on 'select2-removed', (element) ->
       removeValue = element.choice.text
       formTitle   = removeValue.trim()
-      formTitle   = _.replace("#{formTitle} Custom Form".toLowerCase(), new RegExp(' ', 'g'), '_')
+      formTitle   = _formateSpacialCharacter("#{formTitle} Custom Form")
 
-      _removeCheckboxColumnPicker(formTitle)
+      _removeCheckboxColumnPicker('#custom-form-column', formTitle)
       $.map self.customFormSelected, (val, i) ->
         if parseInt(val) == parseInt(element.val) then self.customFormSelected.splice(i, 1)
 
@@ -221,22 +221,29 @@ CIF.Client_advanced_searchesIndex = do ->
     _.forEach fieldsGroupByOptgroup, (values, key) ->
       headerClass = _formBuiderFormatHeader(key)
       $(customFormColumnPicker).append("<li class='dropdown-header #{headerClass}'>#{key}</li>")
-      _.forEach values, (value, _key) ->
-        fieldName = value.id.toLowerCase()
-        checkField = _.replace(fieldName, new RegExp(' ', 'g'), '_')
-        label     = value.label
-        $(customFormColumnPicker).append(_checkboxElement(checkField, headerClass, label))
-        $(".#{headerClass} input.i-checks").iCheck
-          checkboxClass: 'icheckbox_square-green'
+      _.forEach values, (value) ->
+        fieldName = value.id
+        keyword   = _.first(fieldName.split('_'))
+        if keyword != 'enrollmentdate' and keyword != 'programexitdate'
+          checkField  = _formateSpacialCharacter(fieldName)
+          label       = value.label
+          $(customFormColumnPicker).append(_checkboxElement(checkField, headerClass, label))
+          $(".#{headerClass} input.i-checks").iCheck
+            checkboxClass: 'icheckbox_square-green'
 
   _formBuiderFormatHeader = (value) ->
     keyWords = value.split('|')
     name = _.first(keyWords).trim()
     label = _.last(keyWords).trim()
-    _.replace("#{name} #{label}".toLowerCase(), new RegExp(' ', 'g'), '_')
+    combine = "#{name} #{label}"
+    _formateSpacialCharacter(combine)
 
-  _removeCheckboxColumnPicker = (name) ->
-    $("#custom-form-column ul.append-child li.#{name}").remove()
+  _formateSpacialCharacter = (value) ->
+    filedName = value.toLowerCase().replace(/[^a-zA-Z0-9]+/gi, ' ').trim()
+    filedName.replace(/ /g, '_')
+
+  _removeCheckboxColumnPicker = (element, name) ->
+    $("#{element} ul.append-child li.#{name}").remove()
 
   _checkboxElement = (field, name, label) ->
    "<li class='visibility checkbox-margin #{name}'>
