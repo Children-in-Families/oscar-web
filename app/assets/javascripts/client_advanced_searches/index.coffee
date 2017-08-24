@@ -83,7 +83,7 @@ CIF.Client_advanced_searchesIndex = do ->
   _handleHideProgramStreamSelect = ->
     self = @
     $('#program-stream-checkbox').on 'ifUnchecked', ->
-      $('#custom-form-column ul.append-child li').remove()
+      $('#program-stream-column ul.append-child li').remove()
       self.programSelected = []
       $('.program-stream, .program-association').hide()
       $('#program-stream-select option:selected').each ->

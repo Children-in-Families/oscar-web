@@ -176,7 +176,11 @@ module ClientsHelper
   end
 
   def format_properties_value(value)
-    value.is_a?(Array) ? value.join(', ') : value 
+    value.is_a?(Array) ? value.delete_if(&:empty?).join(', ') : value
+  end
+
+  def field_not_blank?(value)
+    value.is_a?(Array) ? value.delete_if(&:empty?).present? : value.present?
   end
 
   def form_builder_format_key(value)
