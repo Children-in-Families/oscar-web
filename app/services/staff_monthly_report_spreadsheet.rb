@@ -12,7 +12,7 @@ class StaffMonthlyReportSpreadsheet
 
   def import_user_monthly_report(date_time, org)
     column_names   = ['Staff Name', 'Permission Set', 'Average number times a client profile has been accessed', 'Average character count of case notes', 'Average number of case notes completed per client', 'Average number of due today tasks for each day', 'Average number of overdue tasks for each day', 'Average length of time between completing CSI assessments for each client']
-    previous_month     = 1.month.ago.strftime('%B %Y')
+    previous_month = 1.month.ago.strftime('%B %Y')
     Organization.switch_to(org.short_name)
     create_case_worker_worksheet(column_names, date_time, previous_month, org.short_name)
     create_admin_worksheet(column_names, date_time, previous_month, org.short_name)
@@ -21,8 +21,8 @@ class StaffMonthlyReportSpreadsheet
   private
 
   def create_case_worker_worksheet(column_names, date_time, previous_month, org_short_name)
-    User.managers.each do |user|
-      book           = Spreadsheet::Workbook.new
+    User.managers.staff_performances.each do |user|
+      book = Spreadsheet::Workbook.new
       worksheet = book.create_worksheet(name: previous_month)
 
       set_format_header(worksheet, column_names)
@@ -34,7 +34,7 @@ class StaffMonthlyReportSpreadsheet
         worksheet.insert_row(index += 1, value_of_worksheet(case_worker))
       end
 
-      user_name = user.name.gsub(/\s+/, "")
+      user_name = user.name.gsub(/\s+/, '')
       file_name = "#{user_name}-subordinates-performence-report-#{date_time}.xls"
       book.write("tmp/#{file_name}")
       generate(user.id, file_name, previous_month, org_short_name)
@@ -53,7 +53,7 @@ class StaffMonthlyReportSpreadsheet
       worksheet.insert_row(index += 1, value_of_worksheet(case_worker))
     end
 
-    user_ids = User.admins.ids
+    user_ids = User.admins.staff_performances.ids
     file_name = "subordinates-performence-report-#{date_time}.xls"
     book.write("tmp/#{file_name}")
     generate(user_ids, file_name, previous_month, org_short_name)

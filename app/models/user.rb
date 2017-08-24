@@ -50,6 +50,7 @@ class User < ActiveRecord::Base
   scope :fc_managers,     ->        { where(roles: 'fc manager') }
   scope :kc_managers,     ->        { where(roles: 'kc manager') }
   scope :non_strategic_overviewers, -> { where.not(roles: 'strategic overviewer') }
+  scope :staff_performances,         -> { where(staff_performance_notification: true) }
 
   before_save :assign_as_admin
   before_save :set_manager_ids, if: 'manager_id_changed?'

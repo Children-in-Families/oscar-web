@@ -116,8 +116,8 @@ describe User, 'scopes' do
   let!(:other_user){ create(:user, department: department, province: province) }
   let!(:no_department_user){ create(:user, province: province) }
   let!(:user_in_other_department){ create(:user,department: other_department, province: province) }
-  let!(:ec_manager){ create(:user, :ec_manager) }
-  let!(:able_manager){ create(:user, :able_manager) }
+  let!(:ec_manager){ create(:user, :ec_manager, staff_performance_notification: false) }
+  let!(:able_manager){ create(:user, :able_manager, staff_performance_notification: false) }
 
   context 'first name like' do
     subject{ User.first_name_like(user.first_name.downcase) }
@@ -250,6 +250,16 @@ describe User, 'scopes' do
 
     it 'should not include strategic overviewer role' do
       is_expected.not_to include(strategic_overviewer)
+    end
+  end
+
+  context 'staff_performance' do
+    subject{ User.staff_performances }
+    it 'should include staff performance' do
+      is_expected.to include(user, other_user, no_department_user, user_in_other_department)
+    end
+    it 'should not include staff performance' do
+      is_expected.not_to include(ec_manager, able_manager)
     end
   end
 end
