@@ -912,7 +912,7 @@ ActiveRecord::Schema.define(version: 20170824021544) do
 
   create_table "trackings", force: :cascade do |t|
     t.string   "name",              default: ""
-    t.jsonb    "fields",            default: {}
+    t.jsonb    "fields"
     t.string   "frequency",         default: ""
     t.integer  "time_of_frequency"
     t.integer  "program_stream_id"
