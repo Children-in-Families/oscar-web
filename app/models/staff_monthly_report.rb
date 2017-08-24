@@ -1,12 +1,13 @@
 class StaffMonthlyReport
   protected
 
-  # def self.average_number_of_daily_login(user)
-  #   total_login_per_month = user.visits.where(created_at: 1.month.ago.beginning_of_month..1.month.ago.end_of_month).count
-  #   return 0 if total_login_per_month == 0
-  #   total_day_of_month    = 1.month.ago.end_of_month.day
-  #   average = (total_login_per_month.to_f / total_day_of_month.to_f).round
-  # end
+  def self.average_length_of_time_visiting_clients_profile(user)
+    total_visit_per_month = user.visit_clients.where(created_at: 1.month.ago.beginning_of_month..1.month.ago.end_of_month).count
+    return 0 if total_visit_per_month == 0
+    total_clients    = user.clients.count
+    return 0 if total_clients == 0
+    average = (total_visit_per_month.to_f / total_clients.to_f).round
+  end
 
   def self.average_casenote_characters(user)
     user_client_ids = user.clients.ids

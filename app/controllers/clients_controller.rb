@@ -29,6 +29,7 @@ class ClientsController < AdminController
     custom_field_ids            = @client.custom_field_properties.pluck(:custom_field_id)
     @free_client_forms          = CustomField.client_forms.not_used_forms(custom_field_ids).order_by_form_title
     @group_client_custom_fields = @client.custom_field_properties.sort_by{ |c| c.custom_field.form_title }.group_by(&:custom_field_id)
+    initial_visit_client
   end
 
   def new
@@ -131,5 +132,14 @@ class ClientsController < AdminController
     @province        = Province.order(:name)
     @referral_source = ReferralSource.order(:name)
     @users           = User.non_strategic_overviewers.order(:first_name, :last_name)
+  end
+
+  def initial_visit_client
+    referrer = Rails.application.routes.recognize_path(request.referrer)
+    return unless referrer.present?
+    white_list_referrers = %w(clients client_advanced_searches)
+    controller_name = referrer[:controller]
+
+    VisitClient.initial_visit_client(current_user) if white_list_referrers.include?(controller_name)
   end
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170823044532) do
+ActiveRecord::Schema.define(version: 20170824021544) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -993,6 +993,14 @@ ActiveRecord::Schema.define(version: 20170823044532) do
   add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
   add_index "versions", ["transaction_id"], name: "index_versions_on_transaction_id", using: :btree
 
+  create_table "visit_clients", force: :cascade do |t|
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "visit_clients", ["user_id"], name: "index_visit_clients_on_user_id", using: :btree
+
   create_table "visits", force: :cascade do |t|
     t.integer  "user_id"
     t.datetime "created_at"
@@ -1040,5 +1048,6 @@ ActiveRecord::Schema.define(version: 20170823044532) do
   add_foreign_key "thredded_messageboard_users", "thredded_user_details"
   add_foreign_key "trackings", "program_streams"
   add_foreign_key "users", "organizations"
+  add_foreign_key "visit_clients", "users"
   add_foreign_key "visits", "users"
 end

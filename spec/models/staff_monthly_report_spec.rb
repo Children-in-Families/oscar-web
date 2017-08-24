@@ -38,8 +38,16 @@ describe 'Staff Monthly Report' do
   let!(:assessment_5) { create(:assessment, client: client_5, created_at: Date.today.last_month - 6.months) }
   let!(:assessment_6) { create(:assessment, client: client_5, created_at: Date.today.last_month) }
 
+  let!(:user_1_visit_clients) { create_list(:visit_client, 3, user: user_1, created_at: Date.today.last_month) }
+  let!(:user_4_visit_clients) { create_list(:visit_client, 2, user: user_4, created_at: Date.today.last_month) }
+
   feature 'report' do
-    xscenario 'average number of daily logins' do
+    scenario 'average number of visiting clients' do
+      expect(StaffMonthlyReport.average_length_of_time_visiting_clients_profile(user_1)).to eq(2)
+      expect(StaffMonthlyReport.average_length_of_time_visiting_clients_profile(user_4)).to eq(1)
+      expect(StaffMonthlyReport.average_length_of_time_visiting_clients_profile(user_2)).to eq(0)
+      expect(StaffMonthlyReport.average_length_of_time_visiting_clients_profile(user_3)).to eq(0)
+      expect(StaffMonthlyReport.average_length_of_time_visiting_clients_profile(user_5)).to eq(0)
     end
 
     scenario 'average characters count of casenote' do
@@ -54,7 +62,7 @@ describe 'Staff Monthly Report' do
       expect(StaffMonthlyReport.average_number_of_casenotes_completed_per_client(user_4)).to eq(0)
     end
 
-    feature 'average length of time, as month, between completing CSI for each client' do
+    feature 'average length of time, as days, between completing CSI for each client' do
       scenario 'user_1' do
         client_1_second_most_recent_assessment = client_1.assessments.order(:created_at).first.created_at.to_date
         client_1_most_recent_assessment = client_1.assessments.order(:created_at).second.created_at.to_date
