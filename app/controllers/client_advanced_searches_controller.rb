@@ -1,9 +1,11 @@
 class ClientAdvancedSearchesController < AdminController
-  include ClientGridOptions
-
-  before_action :choose_grid, :get_quantitative_fields
-  before_action :find_params_advanced_search, :get_custom_form, :get_program_streams, :client_builder_fields
+  before_action :get_quantitative_fields
+  before_action :find_params_advanced_search, :get_custom_form, :get_program_streams
+  before_action :get_custom_form_fields, :program_stream_fields, :client_builder_fields
   before_action :basic_params, if: :has_params?
+
+  include ClientGridOptions
+  before_action :choose_grid
 
   def index
     return unless has_params?
@@ -11,9 +13,10 @@ class ClientAdvancedSearchesController < AdminController
     clients              = AdvancedSearches::ClientAdvancedSearch.new(basic_rules, Client.accessible_by(current_ability))
     @clients_by_user     = clients.filter
 
+    columns_visibility
+
     custom_form_column
     program_stream_column
-    columns_visibility
     respond_to do |f|
       f.html do
         @client_grid.scope { |scope| scope.where(id: @clients_by_user.ids).accessible_by(current_ability).page(params[:page]).per(20) }
@@ -30,29 +33,23 @@ class ClientAdvancedSearchesController < AdminController
   private
 
   def custom_form_column
-    custom_form_columns    = @form_builder.select{ |c| c if c.include?('formbuilder_') }
-    @custom_form_columns   = custom_form_columns.group_by{ |c| c.split('_').second }
+    @custom_form_columns = get_custom_form_fields.group_by{ |field| field[:optgroup] }
   end
 
   def program_stream_column
-    program_stream_columns  = @form_builder.select{ |c| c if c.exclude?('formbuilder_') }
-
-    @program_stream_columns = program_stream_columns.group_by do |c|
-      fields = c.split('_')
-      program_name  = fields.second
-      key_word      = fields.first
-      tracking_name = fields.third
-      fields.size < 4 ? [key_word, program_name] : [key_word, program_name, tracking_name]
-    end
+    @program_stream_columns = program_stream_fields.group_by{ |field| field[:optgroup] }
   end
 
   def get_custom_form
     @custom_fields  = CustomField.joins(:custom_field_properties).client_forms.order_by_form_title.uniq
   end
 
+  def program_stream_fields
+    @program_stream_fields = get_enrollment_fields + get_tracking_fields + get_exit_program_fields
+  end
+
   def client_builder_fields
-    custom_program_fields = get_enrollment_fields + get_tracking_fields + get_exit_program_fields
-    @builder_fields = get_client_basic_fields + get_custom_form_fields + custom_program_fields
+    @builder_fields = get_client_basic_fields + get_custom_form_fields + program_stream_fields
     @builder_fields = @builder_fields + @quantitative_fields if quantitative_check?
   end
 
@@ -73,7 +70,7 @@ class ClientAdvancedSearchesController < AdminController
   end
 
   def get_custom_form_fields
-    @enrollment_fields = AdvancedSearches::CustomFields.new(custom_form_values).render
+    @custom_form_fields = AdvancedSearches::CustomFields.new(custom_form_values).render
   end
 
   def get_quantitative_fields

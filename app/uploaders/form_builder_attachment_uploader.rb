@@ -1,4 +1,4 @@
-class   FormBuilderAttachmentUploader < CarrierWave::Uploader::Base
+class FormBuilderAttachmentUploader < CarrierWave::Uploader::Base
   include CarrierWave::MiniMagick
 
   def store_dir

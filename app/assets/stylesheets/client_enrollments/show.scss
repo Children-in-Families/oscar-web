@@ -1,4 +1,12 @@
+body[id='client_enrolled_programs-show'],
 body[id='client_enrollments-show'] {
+  .image-title {
+    max-width: 500px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
   .answer {
     padding-left: 16px;
   }
