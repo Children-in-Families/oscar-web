@@ -179,7 +179,7 @@ class User < ActiveRecord::Base
   def set_manager_ids
     if manager_id.nil?
       self.manager_ids = []
-      manager_id = self.id
+      return if manager_id_was == self.id
       update_manager_ids(self)
     else
       manager_ids = User.find(self.manager_id).manager_ids
