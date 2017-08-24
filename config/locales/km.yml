@@ -1967,6 +1967,7 @@ km:
         password_confirmation: បញ្ជាក់លេខកូដសំងាត់ថ្មី
         province: ខេត្ត
         save: រក្សាទុក
+        staff_performance_notification: ផ្ញើឲ្យខ្ញុំនូវរបាយការណ៍ការងាររបស់បុគ្គលិក
         start_date: កាលបរិច្ឆេទចាប់ផ្តើម
         we_need_your_current_password_to_confirm_your_changes: យើងត្រូវការពិនិត្យបញ្ជាក់លេខកូដសំងាត់បច្ចុប្បន្នដើម្បីធ្វើការផ្លាស់ប្តូរ
       signed_up: ស្វាគមន៏ ! អ្នកបានចូលដោយជោគជ័យ
