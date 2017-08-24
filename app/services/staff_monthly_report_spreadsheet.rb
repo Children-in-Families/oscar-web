@@ -37,7 +37,7 @@ class StaffMonthlyReportSpreadsheet
       user_name = user.name.gsub(/\s+/, '')
       file_name = "#{user_name}-subordinates-performence-report-#{date_time}.xls"
       book.write("tmp/#{file_name}")
-      generate(user.id, file_name, previous_month, org_short_name)
+      generate(user.id, file_name, previous_month, org_short_name, user.name)
     end
   end
 
@@ -56,7 +56,7 @@ class StaffMonthlyReportSpreadsheet
     user_ids = User.admins.staff_performances.ids
     file_name = "subordinates-performence-report-#{date_time}.xls"
     book.write("tmp/#{file_name}")
-    generate(user_ids, file_name, previous_month, org_short_name)
+    generate(user_ids, file_name, previous_month, org_short_name, 'Admins')
   end
 
   def set_format_header(worksheet, column_names)
@@ -92,7 +92,7 @@ class StaffMonthlyReportSpreadsheet
     [case_worker.name, case_worker.roles, number_of_daily_login, casenote_characters, casenotes_completed_per_client, duetoday_tasks_each_day, overdue_tasks_each_day, length_of_time_completing_csi_for_each_client]
   end
 
-  def generate(user_ids, file_name, previous_month, org_short_name)
-    StaffMonthlyReportWorker.perform_async(user_ids, file_name, previous_month, org_short_name)
+  def generate(user_ids, file_name, previous_month, org_short_name, dear_to)
+    StaffMonthlyReportWorker.perform_async(user_ids, file_name, previous_month, org_short_name, dear_to)
   end
 end

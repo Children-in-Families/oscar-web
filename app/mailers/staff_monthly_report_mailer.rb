@@ -1,6 +1,7 @@
 class StaffMonthlyReportMailer < ApplicationMailer
-  def send_report(users, file_name, previous_month, org_short_name)
+  def send_report(users, file_name, previous_month, org_short_name, dear_to)
     @previous_month = previous_month
+    @dear_to = dear_to
     emails    = users.map(&:email)
     dev_email = ['sengpirun.rain@gmail.com']
     attachments["#{file_name}"] = File.read(Rails.root.join("tmp/#{file_name}"))
