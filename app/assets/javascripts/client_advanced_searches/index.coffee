@@ -114,7 +114,7 @@ CIF.Client_advanced_searchesIndex = do ->
       for option in $('#program-stream-select option:selected')
         name          = $(option).text()
         programName   = name.trim()
-        headerClass   = _formateSpacialCharacter("#{programName} Enrollment")
+        headerClass   = _formatSpecialCharacter("#{programName} Enrollment")
 
         _removeCheckboxColumnPicker('#program-stream-column', headerClass)
         _handleRemoveFilterBuilder(name, ENROLLMENT_TRANSLATE)
@@ -124,7 +124,7 @@ CIF.Client_advanced_searchesIndex = do ->
       for option in $('#program-stream-select option:selected')
         name          = $(option).text()
         programName   = name.trim()
-        headerClass   = _formateSpacialCharacter("#{programName} Tracking")
+        headerClass   = _formatSpecialCharacter("#{programName} Tracking")
 
         _removeCheckboxColumnPicker('#program-stream-column', headerClass)
         _handleRemoveFilterBuilder(name, TRACKING_TRANSTATE)
@@ -134,7 +134,7 @@ CIF.Client_advanced_searchesIndex = do ->
       for option in $('#program-stream-select option:selected')
         name          = $(option).text()
         programName   = name.trim()
-        headerClass   = _formateSpacialCharacter("#{programName} Exit Program")
+        headerClass   = _formatSpecialCharacter("#{programName} Exit Program")
 
         _removeCheckboxColumnPicker('#program-stream-column', headerClass)
         _handleRemoveFilterBuilder(name, EXIT_PROGRAM_TRANSTATE)
@@ -145,7 +145,7 @@ CIF.Client_advanced_searchesIndex = do ->
       programName = element.choice.text
       programStreamKeyword = ['Enrollment', 'Tracking', 'Exit Program']
       _.forEach programStreamKeyword, (value) ->
-        headerClass = _formateSpacialCharacter("#{programName.trim()} #{value}")
+        headerClass = _formatSpecialCharacter("#{programName.trim()} #{value}")
         _removeCheckboxColumnPicker('#program-stream-column', headerClass)
 
       $.map self.programSelected, (val, i) ->
@@ -204,7 +204,7 @@ CIF.Client_advanced_searchesIndex = do ->
     $('#custom-form-wrapper select').on 'select2-removed', (element) ->
       removeValue = element.choice.text
       formTitle   = removeValue.trim()
-      formTitle   = _formateSpacialCharacter("#{formTitle} Custom Form")
+      formTitle   = _formatSpecialCharacter("#{formTitle} Custom Form")
 
       _removeCheckboxColumnPicker('#custom-form-column', formTitle)
       $.map self.customFormSelected, (val, i) ->
@@ -225,7 +225,7 @@ CIF.Client_advanced_searchesIndex = do ->
         fieldName = value.id
         keyword   = _.first(fieldName.split('_'))
         if keyword != 'enrollmentdate' and keyword != 'programexitdate'
-          checkField  = _formateSpacialCharacter(fieldName)
+          checkField  = _formatSpecialCharacter(fieldName)
           label       = value.label
           $(customFormColumnPicker).append(_checkboxElement(checkField, headerClass, label))
           $(".#{headerClass} input.i-checks").iCheck
@@ -236,9 +236,9 @@ CIF.Client_advanced_searchesIndex = do ->
     name = _.first(keyWords).trim()
     label = _.last(keyWords).trim()
     combine = "#{name} #{label}"
-    _formateSpacialCharacter(combine)
+    _formatSpecialCharacter(combine)
 
-  _formateSpacialCharacter = (value) ->
+  _formatSpecialCharacter = (value) ->
     filedName = value.toLowerCase().replace(/[^a-zA-Z0-9]+/gi, ' ').trim()
     filedName.replace(/ /g, '_')
 
