@@ -74,7 +74,7 @@ class StaffMonthlyReportSpreadsheet
     worksheet.row(0).height = 20
     worksheet.column(0).width = 25
     worksheet.column(1).width = 35
-    worksheet.column(2).width = 35
+    worksheet.column(2).width = 60
     worksheet.column(3).width = 45
     worksheet.column(4).width = 50
     worksheet.column(5).width = 45
