@@ -18,12 +18,7 @@ class ProgramStreamsController < AdminController
       @program_stream = ProgramStream.new(@another_program_stream.attributes)
       @tracking = @another_program_stream.trackings
     else
-      if params[:custom_field_id].present?
-        copy_form_from_custom_field
-      else
-        @program_stream = ProgramStream.new
-        @tracking = @program_stream.trackings.build
-      end
+      copy_form_from_custom_field
     end
   end
 
@@ -177,15 +172,20 @@ class ProgramStreamsController < AdminController
   end
 
   def copy_form_from_custom_field
-    custom_field = CustomField.find(params[:custom_field_id])
-    if params[:field] == 'enrollment'
-      @program_stream = ProgramStream.new(enrollment: custom_field.fields)
-      @tracking = @program_stream.trackings.build
-    elsif params[:field] == 'tracking'
+    if params[:custom_field_id].present?
+      custom_field = CustomField.find(params[:custom_field_id])
+      if params[:field] == 'enrollment'
+        @program_stream = ProgramStream.new(enrollment: custom_field.fields)
+        @tracking = @program_stream.trackings.build
+      elsif params[:field] == 'tracking'
+        @program_stream = ProgramStream.new
+        @tracking = @program_stream.trackings.build(fields: custom_field.fields)
+      elsif params[:field] == 'exit_program'
+        @program_stream = ProgramStream.new(exit_program: custom_field.fields)
+        @tracking = @program_stream.trackings.build
+      end
+    else
       @program_stream = ProgramStream.new
-      @tracking = @program_stream.trackings.build(fields: custom_field.fields)
-    elsif params[:field] == 'exit_program'
-      @program_stream = ProgramStream.new(exit_program: custom_field.fields)
       @tracking = @program_stream.trackings.build
     end
   end
