@@ -171,6 +171,8 @@ class ProgramStreamsController < AdminController
     @complete_program_steam = ProgramStream.where.not(id: @program_stream).complete.ordered
   end
 
+  private
+
   def copy_form_from_custom_field
     if params[:custom_field_id].present?
       custom_field = CustomField.find(params[:custom_field_id])
