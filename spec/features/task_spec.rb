@@ -6,12 +6,12 @@ describe 'task' do
   feature 'list' do
     before do
       login_as(admin)
-      visit tasks_path 
+      visit tasks_path
     end
 
     scenario 'client link', js: true do
       page.find(".form-group select option[value='#{admin.id}']", visible: false).select_option
-      expect(page).to have_content(client.name)
+      expect(page).to have_link(client.name, href: client_path(client))
     end
   end
 end
