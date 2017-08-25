@@ -1,73 +1,145 @@
-feature 'progress_note' do
+feature 'Family' do
   let!(:admin){ create(:user, roles: 'admin') }
+  let!(:able_manager){ create(:user, roles: 'able manager') }
   let!(:ec_manager){ create(:user, roles: 'ec manager') }
   let!(:fc_manager){ create(:user, roles: 'fc manager') }
-  let!(:kc_manager){ create(:user, roles: 'fc manager') }
-  let!(:ec_client){ create(:client, able_state: Client::ABLE_STATES[0], users: [ec_manager]) }
-  let!(:fc_client){ create(:client, able_state: Client::ABLE_STATES[0], users: [fc_manager]) }
-  let!(:kc_client){ create(:client, able_state: Client::ABLE_STATES[0], users: [kc_manager]) }
-  let!(:fc_progress_note){ create(:progress_note, client: fc_client) }
-  let!(:kc_progress_note){ create(:progress_note, client: kc_client) }
+  let!(:kc_manager){ create(:user, roles: 'kc manager') }
+  let!(:manager){ create(:user, roles: 'manager') }
+  let!(:stragic_overviewer){ create(:user, roles: 'strategic overviewer') }
+  let!(:case_worker){ create(:user, roles: 'case worker') }
 
-  feature 'link on Client detail page' do
-    before do
-      login_as(ec_manager)
-      visit client_path(ec_client)
-    end
+  let!(:family) { create(:family) }
 
-    scenario 'is invisible logged in as EC Manager' do
-      expect(page).not_to have_link('Progress Note', client_progress_notes_path(ec_client))
-    end
+  scenario 'login as admin' do
+    login_as(admin)
+
+    visit families_path
+    expect(current_path).to eq('/families')
+
+    visit new_family_path
+    expect(current_path).to eq('/families/new')
+
+    visit edit_family_path(family)
+    expect(current_path).to eq("/families/#{family.id}/edit")
+
+    visit family_path(family.id)
+    expect(current_path).to eq("/families/#{family.id}")
   end
 
-  feature 'List' do
-    feature 'logged in as Admin' do
-      before do
-        login_as(admin)
-        visit client_progress_notes_path(fc_progress_note.client)
-      end
-      scenario 'enabled add button' do
-        expect(page).not_to have_css('.btn-add.disabled')
-      end
-      scenario 'enabled edit button' do
-        expect(page).not_to have_css('.btn-edit.disabled')
-      end
-      scenario 'enabled delete button' do
-        expect(page).not_to have_css('.btn-delete.disabled')
-      end
-    end
+  scenario 'login as manager' do
+    login_as(manager)
 
-    feature 'logged in as FC Manager' do
-      before do
-        login_as(fc_manager)
-        visit client_progress_notes_path(fc_progress_note.client)
-      end
-      scenario 'disabled add button' do
-        expect(page).not_to have_css('.btn-add')
-      end
-      scenario 'disabled edit button' do
-        expect(page).not_to have_css('.btn-edit')
-      end
-      scenario 'disabled delete button' do
-        expect(page).not_to have_css('.btn-delete')
-      end
-    end
+    visit families_path
+    expect(current_path).to eq('/families')
 
-    feature 'logged in as KC Manager' do
-      before do
-        login_as(kc_manager)
-        visit client_progress_notes_path(kc_progress_note.client)
-      end
-      scenario 'disabled add button' do
-        expect(page).not_to have_css('.btn-add')
-      end
-      scenario 'disabled edit button' do
-        expect(page).not_to have_css('.btn-edit')
-      end
-      scenario 'disabled delete button' do
-        expect(page).not_to have_css('.btn-delete')
-      end
-    end
+    visit new_family_path
+    expect(current_path).to eq('/families/new')
+
+    visit edit_family_path(family)
+    expect(current_path).to eq("/families/#{family.id}/edit")
+
+    visit family_path(family.id)
+    expect(current_path).to eq("/families/#{family.id}")
+  end
+
+  scenario 'login as ec manage' do
+    login_as(ec_manager)
+
+    visit families_path
+    expect(current_path).to eq('/families')
+
+    visit new_family_path
+    expect(current_path).to eq('/families/new')
+
+    visit edit_family_path(family)
+    expect(current_path).to eq("/families/#{family.id}/edit")
+
+    visit family_path(family.id)
+    expect(current_path).to eq("/families/#{family.id}")
+
+  end
+
+  scenario 'login as fc manage' do
+    login_as(fc_manager)
+
+    visit families_path
+    expect(current_path).to eq('/families')
+
+    visit new_family_path
+    expect(current_path).to eq('/families/new')
+
+    visit edit_family_path(family)
+    expect(current_path).to eq("/families/#{family.id}/edit")
+
+    visit family_path(family.id)
+    expect(current_path).to eq("/families/#{family.id}")
+  end
+
+  scenario 'login as kc manage' do
+    login_as(kc_manager)
+
+    visit families_path
+    expect(current_path).to eq('/families')
+
+    visit new_family_path
+    expect(current_path).to eq('/families/new')
+
+    visit edit_family_path(family)
+    expect(current_path).to eq("/families/#{family.id}/edit")
+
+    visit family_path(family.id)
+    expect(current_path).to eq("/families/#{family.id}")
+  end
+
+  scenario 'login as able manager' do
+    login_as(able_manager)
+
+    visit families_path
+    expect(current_path).to eq('/users/sign_in')
+
+    visit new_family_path
+    expect(current_path).to eq('/users/sign_in')
+
+    visit edit_family_path(family)
+    expect(current_path).to eq('/users/sign_in')
+
+    visit family_path(family.id)
+    expect(current_path).to eq('/users/sign_in')
+  end
+
+  scenario 'login as strategic overviewer' do
+    login_as(stragic_overviewer)
+
+    visit families_path
+    expect(current_path).to eq('/families')
+
+    visit new_family_path
+    expect(current_path).to eq('/users/sign_in')
+
+    visit edit_family_path(family)
+    expect(current_path).to eq('/users/sign_in')
+
+    visit family_version_path(family)
+    expect(current_path).to eq("/families/#{family.id}/version")
+
+    visit family_path(family.id)
+    expect(current_path).to eq("/families/#{family.id}")
+  end
+
+  scenario 'login as case worker' do
+    login_as(case_worker)
+
+    visit families_path
+    expect(current_path).to eq('/users/sign_in')
+
+    visit new_family_path
+    expect(current_path).to eq('/users/sign_in')
+
+    visit edit_family_path(family)
+    expect(current_path).to eq('/users/sign_in')
+
+    visit family_path(family.id)
+    expect(current_path).to eq('/users/sign_in')
   end
 end
 
@@ -178,3 +250,77 @@ feature 'Client' do
     end
   end
 end
+
+feature 'progress_note' do
+  let!(:admin){ create(:user, roles: 'admin') }
+  let!(:ec_manager){ create(:user, roles: 'ec manager') }
+  let!(:fc_manager){ create(:user, roles: 'fc manager') }
+  let!(:kc_manager){ create(:user, roles: 'kc manager') }
+  let!(:ec_client){ create(:client, able_state: Client::ABLE_STATES[0], users: [ec_manager]) }
+  let!(:fc_client){ create(:client, able_state: Client::ABLE_STATES[0], users: [fc_manager]) }
+  let!(:kc_client){ create(:client, able_state: Client::ABLE_STATES[0], users: [kc_manager]) }
+  let!(:fc_progress_note){ create(:progress_note, client: fc_client) }
+  let!(:kc_progress_note){ create(:progress_note, client: kc_client) }
+
+  feature 'link on Client detail page' do
+    before do
+      login_as(ec_manager)
+      visit client_path(ec_client)
+    end
+
+    scenario 'is invisible logged in as EC Manager' do
+      expect(page).not_to have_link('Progress Note', client_progress_notes_path(ec_client))
+    end
+  end
+
+  feature 'List' do
+    feature 'logged in as Admin' do
+      before do
+        login_as(admin)
+        visit client_progress_notes_path(fc_progress_note.client)
+      end
+      scenario 'enabled add button' do
+        expect(page).not_to have_css('.btn-add.disabled')
+      end
+      scenario 'enabled edit button' do
+        expect(page).not_to have_css('.btn-edit.disabled')
+      end
+      scenario 'enabled delete button' do
+        expect(page).not_to have_css('.btn-delete.disabled')
+      end
+    end
+
+    feature 'logged in as FC Manager' do
+      before do
+        login_as(fc_manager)
+        visit client_progress_notes_path(fc_progress_note.client)
+      end
+      scenario 'disabled add button' do
+        expect(page).not_to have_css('.btn-add')
+      end
+      scenario 'disabled edit button' do
+        expect(page).not_to have_css('.btn-edit')
+      end
+      scenario 'disabled delete button' do
+        expect(page).not_to have_css('.btn-delete')
+      end
+    end
+
+    feature 'logged in as KC Manager' do
+      before do
+        login_as(kc_manager)
+        visit client_progress_notes_path(kc_progress_note.client)
+      end
+      scenario 'disabled add button' do
+        expect(page).not_to have_css('.btn-add')
+      end
+      scenario 'disabled edit button' do
+        expect(page).not_to have_css('.btn-edit')
+      end
+      scenario 'disabled delete button' do
+        expect(page).not_to have_css('.btn-delete')
+      end
+    end
+  end
+end
+
