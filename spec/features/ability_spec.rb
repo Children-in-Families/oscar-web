@@ -1,3 +1,96 @@
+feature 'able screening question' do
+  let!(:admin) { create(:user, roles: 'admin') }
+  let!(:manager) { create(:user, roles: 'manager') }
+  let!(:ec_manager) { create(:user, roles: 'ec manager') }
+  let!(:fc_manager) { create(:user, roles: 'fc manager') }
+  let!(:kc_manager) { create(:user, roles: 'fc manager') }
+  let!(:able_manager) { create(:user, roles: 'able manager') }
+  let!(:strategic_overviewer) { create(:user, roles: 'strategic overviewer') }
+  let!(:case_worker) { create(:user, roles: 'case worker') }
+
+  let!(:able_screening_question) { create(:able_screening_question) }
+
+  scenario 'login as admin' do
+    login_as(admin)
+
+    visit new_able_screens_question_submissions_able_screening_question_path
+    expect(current_path).to eq('/able_screening_questions/new')
+
+    visit edit_able_screens_question_submissions_able_screening_question_path(able_screening_question)
+    expect(current_path).to eq("/able_screening_questions/#{able_screening_question.id}/edit")
+  end
+
+  scenario 'login as manager' do
+    login_as(manager)
+
+    visit new_able_screens_question_submissions_able_screening_question_path
+    expect(current_path).to eq('/able_screening_questions/new')
+
+    visit edit_able_screens_question_submissions_able_screening_question_path(able_screening_question)
+    expect(current_path).to eq("/able_screening_questions/#{able_screening_question.id}/edit")
+  end
+
+  scenario 'login as ec manager' do
+    login_as(ec_manager)
+
+    visit new_able_screens_question_submissions_able_screening_question_path
+    expect(current_path).to eq('/users/sign_in')
+
+    visit edit_able_screens_question_submissions_able_screening_question_path(able_screening_question)
+    expect(current_path).to eq('/users/sign_in')
+  end
+
+  scenario 'login as fc manager' do
+    login_as(fc_manager)
+
+    visit new_able_screens_question_submissions_able_screening_question_path
+    expect(current_path).to eq('/users/sign_in')
+
+    visit edit_able_screens_question_submissions_able_screening_question_path(able_screening_question)
+    expect(current_path).to eq('/users/sign_in')
+  end
+
+  scenario 'login as kc manager' do
+    login_as(kc_manager)
+
+    visit new_able_screens_question_submissions_able_screening_question_path
+    expect(current_path).to eq('/users/sign_in')
+
+    visit edit_able_screens_question_submissions_able_screening_question_path(able_screening_question)
+    expect(current_path).to eq('/users/sign_in')
+  end
+
+  scenario 'login as able manager' do
+    login_as(able_manager)
+
+    visit new_able_screens_question_submissions_able_screening_question_path
+    expect(current_path).to eq('/able_screening_questions/new')
+
+    visit edit_able_screens_question_submissions_able_screening_question_path(able_screening_question)
+    expect(current_path).to eq("/able_screening_questions/#{able_screening_question.id}/edit")
+  end
+
+  scenario 'login as case worker' do
+    login_as(case_worker)
+
+    visit new_able_screens_question_submissions_able_screening_question_path
+    expect(current_path).to eq('/able_screening_questions/new')
+
+    visit edit_able_screens_question_submissions_able_screening_question_path(able_screening_question)
+    expect(current_path).to eq("/able_screening_questions/#{able_screening_question.id}/edit")
+  end
+
+  scenario 'login as strategic overviewer' do
+    login_as(strategic_overviewer)
+
+    visit new_able_screens_question_submissions_able_screening_question_path
+    expect(current_path).to eq('/users/sign_in')
+
+    visit edit_able_screens_question_submissions_able_screening_question_path(able_screening_question)
+    expect(current_path).to eq('/users/sign_in')
+  end
+end
+
 feature 'Family' do
   let!(:admin){ create(:user, roles: 'admin') }
   let!(:able_manager){ create(:user, roles: 'able manager') }
