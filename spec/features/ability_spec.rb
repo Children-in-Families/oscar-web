@@ -13,133 +13,50 @@ feature 'Family' do
   scenario 'login as admin' do
     login_as(admin)
 
-    visit families_path
-    expect(current_path).to eq('/families')
-
-    visit new_family_path
-    expect(current_path).to eq('/families/new')
-
-    visit edit_family_path(family)
-    expect(current_path).to eq("/families/#{family.id}/edit")
-
-    visit family_path(family.id)
-    expect(current_path).to eq("/families/#{family.id}")
+    succeed_in_visiting('family', family)
   end
 
   scenario 'login as manager' do
     login_as(manager)
 
-    visit families_path
-    expect(current_path).to eq('/families')
-
-    visit new_family_path
-    expect(current_path).to eq('/families/new')
-
-    visit edit_family_path(family)
-    expect(current_path).to eq("/families/#{family.id}/edit")
-
-    visit family_path(family.id)
-    expect(current_path).to eq("/families/#{family.id}")
+    succeed_in_visiting('family', family)
   end
 
   scenario 'login as ec manage' do
     login_as(ec_manager)
 
-    visit families_path
-    expect(current_path).to eq('/families')
-
-    visit new_family_path
-    expect(current_path).to eq('/families/new')
-
-    visit edit_family_path(family)
-    expect(current_path).to eq("/families/#{family.id}/edit")
-
-    visit family_path(family.id)
-    expect(current_path).to eq("/families/#{family.id}")
+    succeed_in_visiting('family', family)
 
   end
 
   scenario 'login as fc manage' do
     login_as(fc_manager)
 
-    visit families_path
-    expect(current_path).to eq('/families')
-
-    visit new_family_path
-    expect(current_path).to eq('/families/new')
-
-    visit edit_family_path(family)
-    expect(current_path).to eq("/families/#{family.id}/edit")
-
-    visit family_path(family.id)
-    expect(current_path).to eq("/families/#{family.id}")
+    succeed_in_visiting('family', family)
   end
 
   scenario 'login as kc manage' do
     login_as(kc_manager)
 
-    visit families_path
-    expect(current_path).to eq('/families')
-
-    visit new_family_path
-    expect(current_path).to eq('/families/new')
-
-    visit edit_family_path(family)
-    expect(current_path).to eq("/families/#{family.id}/edit")
-
-    visit family_path(family.id)
-    expect(current_path).to eq("/families/#{family.id}")
+    succeed_in_visiting('family', family)
   end
 
   scenario 'login as able manager' do
     login_as(able_manager)
 
-    visit families_path
-    expect(current_path).to eq('/users/sign_in')
-
-    visit new_family_path
-    expect(current_path).to eq('/users/sign_in')
-
-    visit edit_family_path(family)
-    expect(current_path).to eq('/users/sign_in')
-
-    visit family_path(family.id)
-    expect(current_path).to eq('/users/sign_in')
+    failed_to_visit('family', family)
   end
 
   scenario 'login as strategic overviewer' do
     login_as(stragic_overviewer)
 
-    visit families_path
-    expect(current_path).to eq('/families')
-
-    visit new_family_path
-    expect(current_path).to eq('/users/sign_in')
-
-    visit edit_family_path(family)
-    expect(current_path).to eq('/users/sign_in')
-
-    visit family_version_path(family)
-    expect(current_path).to eq("/families/#{family.id}/version")
-
-    visit family_path(family.id)
-    expect(current_path).to eq("/families/#{family.id}")
+    visit_links_for_readonly_user('family', family)
   end
 
   scenario 'login as case worker' do
     login_as(case_worker)
 
-    visit families_path
-    expect(current_path).to eq('/users/sign_in')
-
-    visit new_family_path
-    expect(current_path).to eq('/users/sign_in')
-
-    visit edit_family_path(family)
-    expect(current_path).to eq('/users/sign_in')
-
-    visit family_path(family.id)
-    expect(current_path).to eq('/users/sign_in')
+    failed_to_visit('family', family)
   end
 end
 
