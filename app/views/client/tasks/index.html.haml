@@ -7,10 +7,6 @@
           = link_to client_path(@client) do
             .btn.btn-default.btn-width.btn-back-default
               = t('.back')
-          - if can? :manage, Task
-            = link_to new_client_task_path(@client) do
-              .btn.btn-primary.btn-width
-                = t('.new_task')
       .ibox-content
         .panel.panel-danger
           .panel-heading

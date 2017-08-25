@@ -87,10 +87,12 @@ RSpec.configure do |config|
 
   config.before(:suite) do
     DatabaseCleaner.strategy = :truncation
+    Apartment::Tenant.drop('demo') rescue nil
     Apartment::Tenant.drop('app') rescue nil
+    Organization.create_and_build_tanent(full_name: 'Demo', short_name: 'demo')
     Organization.create_and_build_tanent(full_name: 'Organization Testing', short_name: 'app')
   end
-  
+
   config.before(:each, js: true) do
     page.driver.browser.url_blacklist = %w(http://use.typekit.net https://fonts.gstatic.com https://fonts.googleapis.com http://cdn.rawgit.com)
     page.driver.browser.url_whitelist = %w(http://app.lvh.me http://lvh.me 127.0.0.1)

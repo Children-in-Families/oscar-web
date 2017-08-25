@@ -27,7 +27,7 @@ class StaffMonthlyReportSpreadsheet
 
       set_format_header(worksheet, column_names)
 
-      case_workers = User.where('manager_ids && ARRAY[?]', user.id).order(:first_name, :last_name)
+      case_workers = User.where('manager_ids && ARRAY[?] or manager_id = ?', user.id, user.id).order(:first_name, :last_name)
       next if case_workers.empty?
 
       case_workers.each_with_index do |case_worker, index|
@@ -47,7 +47,7 @@ class StaffMonthlyReportSpreadsheet
 
     set_format_header(worksheet, column_names)
 
-    case_worker_without_manager = User.case_workers.where(manager_id: nil).order(:first_name, :last_name)
+    case_worker_without_manager = User.where(manager_id: nil).order(:first_name, :last_name)
     return if case_worker_without_manager.empty?
     case_worker_without_manager.each_with_index do |case_worker, index|
       worksheet.insert_row(index += 1, value_of_worksheet(case_worker))
