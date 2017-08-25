@@ -6,6 +6,9 @@ feature 'program_stream' do
   let!(:domain_program_stream){ create(:domain_program_stream, domain: domain, program_stream: program_stream) }
 
   before do
+    Organization.switch_to 'demo'
+    ProgramStream.create(name: 'Other NGO Program Stream')
+    Organization.switch_to 'app'
     login_as(admin)
   end
 
