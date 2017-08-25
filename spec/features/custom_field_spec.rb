@@ -8,6 +8,9 @@ feature 'custom_field' do
 
   feature 'List' do
     before do
+      Organization.switch_to 'demo'
+      CustomField.create(form_title: 'Other NGO Custom Field', fields: [{'type'=>'text', 'label'=>'Hello World'}].to_json, entity_type: 'Client')
+      Organization.switch_to 'app'
       visit custom_fields_path
     end
 
@@ -52,7 +55,7 @@ feature 'custom_field' do
     scenario 'list all ngo custom fields', js: true do
       find('a[href="#all-custom-form"]').click
       expect(page).to have_content('Other NGO Custom Field')
-      expect(page).to have_content('Organization Demo')
+      expect(page).to have_content('Demo')
     end
   end
 
