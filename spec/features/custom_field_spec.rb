@@ -42,6 +42,18 @@ feature 'custom_field' do
     scenario 'show link' do
       expect(page).to have_link(nil, href: preview_custom_fields_path(custom_field_id: custom_field.id, ngo_name: custom_field.ngo_name))
     end
+
+    scenario 'list my ngo custom fields', js: true do
+      find('a[href="#custom-form"]').click
+      expect(page).to have_content(custom_field.form_title)
+      expect(page).to have_content('Organization Testing')
+    end
+
+    scenario 'list all ngo custom fields', js: true do
+      find('a[href="#all-custom-form"]').click
+      expect(page).to have_content('Other NGO Custom Field')
+      expect(page).to have_content('Organization Demo')
+    end
   end
 
   feature 'preview' do
@@ -95,7 +107,7 @@ feature 'custom_field' do
     scenario 'valid' do
       fill_in 'Form Title', with: 'Update Form'
       find("input[type=submit]").click
-      expect(page).to have_content('Update Form') 
+      expect(page).to have_content('Update Form')
     end
 
     scenario 'invalid' do
