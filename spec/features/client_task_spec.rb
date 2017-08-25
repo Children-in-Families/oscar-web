@@ -51,35 +51,6 @@ describe 'Task' do
     end
   end
 
-  # feature 'Create' do
-  #   before do
-  #     visit new_client_task_path(client)
-  #   end
-  #   scenario 'valid', js: true do
-  #     fill_in 'Enter task details', with: 'My Task'
-  #     fill_in 'Completion Date', with: '2017-08-01'
-  #     click_button 'Save'
-  #     sleep 1
-  #     expect(page).to have_content('My Task')
-  #     expect(page).to have_content('August 01, 2017')
-
-  #     task       = client.tasks.find_by(name: 'My Task')
-  #     task_name  = task.name
-  #     domain     = Domain.find(task.domain_id)
-  #     title      = "#{domain.name} - #{task_name}"
-  #     start_date = task.completion_date
-  #     end_date   = (start_date + 1.day).to_s
-  #     calendar   = Calendar.where(title: title, start_date: start_date, end_date: end_date)
-
-  #     expect(calendar.size).to eq(2)
-  #     expect(calendar.pluck(:user_id)).to include(task.users.first.id)
-  #   end
-  #   scenario 'invalid' do
-  #     click_button 'Save'
-  #     expect(page).to have_content("Please review the problems below")
-  #   end
-  # end
-
   feature 'Update' do
     before do
       visit edit_client_task_path(client, upcoming_task)
