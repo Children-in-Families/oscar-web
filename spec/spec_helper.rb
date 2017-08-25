@@ -87,15 +87,20 @@ RSpec.configure do |config|
 
   config.before(:suite) do
     DatabaseCleaner.strategy = :truncation
+    Apartment::Tenant.drop('demo') rescue nil
     Apartment::Tenant.drop('app') rescue nil
+    Organization.create_and_build_tanent(full_name: 'Organization Demo', short_name: 'demo')
     Organization.create_and_build_tanent(full_name: 'Organization Testing', short_name: 'app')
   end
-  
+
   config.before(:each, js: true) do
     page.driver.browser.url_blacklist = %w(http://use.typekit.net https://fonts.gstatic.com https://fonts.googleapis.com http://cdn.rawgit.com)
     page.driver.browser.url_whitelist = %w(http://app.lvh.me http://lvh.me 127.0.0.1)
     Capybara.default_max_wait_time = 10
     Capybara.always_include_port = true
+    Apartment::Tenant.switch! 'demo'
+    ProgramStream.create(name: 'Other NGO Program Stream')
+    CustomField.create(form_title: 'Other NGO Custom Field', fields: [{'type'=>'text', 'label'=>'Hello World'}].to_json, entity_type: 'Client')
     Apartment::Tenant.switch! 'app'
     sub_domain = Organization.current.short_name
     Capybara.app_host = "http://#{sub_domain}.lvh.me"
