@@ -14,8 +14,8 @@ FactoryGirl.define do
       completed true
     end
 
-    before(:create) do |client|
-      client.users << FactoryGirl.create(:user)
+    before(:create) do |task|
+      task.users << FactoryGirl.create(:user)
     end
   end
 end
