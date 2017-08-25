@@ -176,7 +176,11 @@ module ClientsHelper
   end
 
   def format_properties_value(value)
-    value.is_a?(Array) ? value.join(', ') : value 
+    value.is_a?(Array) ? value.delete_if(&:empty?).join(', ') : value
+  end
+
+  def field_not_blank?(value)
+    value.is_a?(Array) ? value.delete_if(&:empty?).present? : value.present?
   end
 
   def form_builder_format_key(value)
@@ -198,5 +202,17 @@ module ClientsHelper
 
   def group_entity_by(value)
     value.group_by{ |field| field.split('_').first}
+  end
+
+  def format_class_header(value)
+    values = value.split('|')
+    name   = values.first.strip
+    label  = values.last.strip
+    keyword = "#{name} #{label}"
+    keyword.downcase.parameterize('_')
+  end
+
+  def field_not_render(field)
+    field.split('_').first
   end
 end

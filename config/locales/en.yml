@@ -674,7 +674,7 @@ en:
       custom_form: Custom Form
       enrollment: Enrollment
       exit_program: Exit Program
-      filter_option: Please choose the filter option below
+      filter_option: Please choose your query options below
       program_stream: Program Stream
       tracking: Tracking
       quantitative: Quantitative Type
@@ -1915,6 +1915,7 @@ en:
         password_confirmation: Confirm Password
         province: Province
         save: Save
+        staff_performance_notification: Send me staff performance report
         start_date: Start Date
         we_need_your_current_password_to_confirm_your_changes: We need your current password to confirm your changes
       signed_up: Welcome! You have signed up successfully.
