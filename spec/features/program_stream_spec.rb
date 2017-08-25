@@ -45,16 +45,6 @@ feature 'program_stream' do
     scenario 'show link' do
       expect(page).to have_link(nil, href: program_stream_path(program_stream))
     end
-
-    scenario 'list my ngo program strams', js: true do
-      find('a[href="#current-program-streams"]').click
-      expect(page).to have_content(program_stream.name)
-    end
-
-    scenario 'list all ngo program streams', js: true do
-      find('a[href="#ngos-program-streams"]').click
-      expect(page).to have_content('Other NGO Program Stream')
-    end
   end
 
   feature 'show' do
