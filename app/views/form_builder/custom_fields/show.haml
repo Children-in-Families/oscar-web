@@ -16,7 +16,7 @@
                 .col-xs-12
                   = link_to t('.copy_to_tracking'), new_program_stream_path(custom_field_id: @custom_field.id, field: 'tracking'), class: 'btn btn-primary form-btn'
                 .col-xs-12
-                  = link_to t('.copy_to_exit_program'), new_program_stream_path(custom_field_id: @custom_field.id, field: 'exit program'), class: 'btn btn-primary form-btn'
+                  = link_to t('.copy_to_exit_program'), new_program_stream_path(custom_field_id: @custom_field.id, field: 'exit_program'), class: 'btn btn-primary form-btn'
       .ibox-footer
         - if current_organization.full_name != params[:ngo_name] && params[:ngo_name].present?
           = link_to t('.copy'), new_custom_field_path(custom_field_id: @custom_field.id, ngo_name: @custom_field.ngo_name), class: 'btn btn-primary form-btn'

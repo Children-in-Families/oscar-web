@@ -2257,10 +2257,10 @@ km:
       show:
         back: ត្រឡប់ក្រោយ
         copy: ចម្លងជូន
-        edit: កែសម្រួល
         copy_to_enrollment: ចម្លងទៅកាន់ការចុះឈ្មោះ
-        copy_to_tracking: ចម្លងទៅកាន់ការតាមដាន
         copy_to_exit_program: ចម្លងទៅកាន់ការចាកចេញពីកម្មវិធី
+        copy_to_tracking: ចម្លងទៅកាន់ការតាមដាន
+        edit: កែសម្រួល
       update:
         successfully_updated: ទម្រង់បែបបទត្រូវបានកែសម្រួលដោយជោគជ័យ
   government_reports:
