@@ -18,6 +18,7 @@ class ClientEnrollment < ActiveRecord::Base
   scope :inactive,                    ->                 { where(status: 'Exited') }
 
   after_create :set_client_status
+  after_save :create_client_enrollment_history
   after_destroy :reset_client_status
 
   validate do |obj|
@@ -55,5 +56,11 @@ class ClientEnrollment < ActiveRecord::Base
     return if client.active_case? || client.client_enrollments.active.any?
 
     client.update(status: 'Referred')
+  end
+
+  private
+
+  def create_client_enrollment_history
+    ClientEnrollmentHistory.initial(self)
   end
 end
