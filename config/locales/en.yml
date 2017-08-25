@@ -2205,6 +2205,9 @@ en:
       show:
         back: Back
         copy: Copy
+        copy_to_enrollment: Copy to Enrollment
+        copy_to_exit_program: Copy to Exit Program
+        copy_to_tracking: Copy to Tracking
         edit: Edit
       update:
         successfully_updated: Custom Form has been successfully updated.
