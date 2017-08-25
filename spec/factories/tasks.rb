@@ -6,9 +6,16 @@ FactoryGirl.define do
     association :domain, factory: :domain
     association :client, factory: :client
 
-    before(:create) do |client|
-      client.users << FactoryGirl.create(:user)
+    trait :incomplete do
+      completed false
+    end
+
+    trait :complete do
+      completed true
+    end
+
+    before(:create) do |task|
+      task.users << FactoryGirl.create(:user)
     end
   end
 end
-

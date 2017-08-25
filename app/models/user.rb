@@ -26,6 +26,7 @@ class User < ActiveRecord::Base
   has_many :tasks, through: :case_worker_tasks
   has_many :calendars
   has_many :visits,  dependent: :destroy
+  has_many :visit_clients,  dependent: :destroy
   has_many :custom_field_properties, as: :custom_formable, dependent: :destroy
   has_many :custom_fields, through: :custom_field_properties, as: :custom_formable
 
@@ -49,6 +50,7 @@ class User < ActiveRecord::Base
   scope :fc_managers,     ->        { where(roles: 'fc manager') }
   scope :kc_managers,     ->        { where(roles: 'kc manager') }
   scope :non_strategic_overviewers, -> { where.not(roles: 'strategic overviewer') }
+  scope :staff_performances,         -> { where(staff_performance_notification: true) }
 
   before_save :assign_as_admin
   before_save :set_manager_ids, if: 'manager_id_changed?'
@@ -177,7 +179,7 @@ class User < ActiveRecord::Base
   def set_manager_ids
     if manager_id.nil?
       self.manager_ids = []
-      manager_id = self.id
+      return if manager_id_was == self.id
       update_manager_ids(self)
     else
       manager_ids = User.find(self.manager_id).manager_ids

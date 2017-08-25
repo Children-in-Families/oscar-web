@@ -45,6 +45,16 @@ feature 'program_stream' do
     scenario 'show link' do
       expect(page).to have_link(nil, href: program_stream_path(program_stream))
     end
+
+    scenario 'list my ngo program strams', js: true do
+      find('a[href="#current-program-streams"]').click
+      expect(page).to have_content(program_stream.name)
+    end
+
+    scenario 'list all ngo program streams', js: true do
+      find('a[href="#ngos-program-streams"]').click
+      expect(page).to have_content('Other NGO Program Stream')
+    end
   end
 
   feature 'show' do
@@ -285,6 +295,40 @@ feature 'program_stream' do
 
     scenario 'edit link' do
       expect(page).to have_link(nil, href: edit_program_stream_path(program_stream))
+    end
+  end
+
+  feature 'Copy forms from customs into CPS', js: true do
+    let!(:custom_field) { create(:custom_field) }
+    before do
+      visit custom_field_path(custom_field)
+    end
+
+    scenario 'Copy to enrollment' do
+      click_link 'Copy to Enrollment'
+      fill_in 'program_stream_name', with: 'Copy to enrollment'
+      find('span', text: 'Save').click
+      sleep 1
+      find('div[href="#enrollment"]').click
+      expect(page).to have_content(custom_field.fields.first['label'])
+    end
+
+    scenario 'Copy to tracking' do
+      click_link 'Copy to Tracking'
+      fill_in 'program_stream_name', with: 'Copy to tracking'
+      find('span', text: 'Save').click
+      sleep 1
+      find('div[href="#tracking"]').click
+      expect(page).to have_content(custom_field.fields.first['label'])
+    end
+
+    scenario 'Copy to exit program' do
+      click_link 'Copy to Exit Program'
+      fill_in 'program_stream_name', with: 'Copy to exit program'
+      find('span', text: 'Save').click
+      sleep 1
+      find('div[href="#exit-program"]').click
+      expect(page).to have_content(custom_field.fields.first['label'])
     end
   end
 end

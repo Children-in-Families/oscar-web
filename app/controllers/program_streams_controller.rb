@@ -18,8 +18,7 @@ class ProgramStreamsController < AdminController
       @program_stream = ProgramStream.new(@another_program_stream.attributes)
       @tracking = @another_program_stream.trackings
     else
-      @program_stream = ProgramStream.new
-      @tracking = @program_stream.trackings.build
+      copy_form_from_custom_field
     end
   end
 
@@ -112,8 +111,7 @@ class ProgramStreamsController < AdminController
   def program_streams_all_organizations
     current_org_name = current_organization.short_name
     program_streams = []
-    orgs = current_org_name == 'demo' ? Organization.all : Organization.without_demo
-    orgs.each do |org|
+    Organization.all.each do |org|
       Organization.switch_to org.short_name
       program_streams << ProgramStream.all.reload
     end
@@ -170,5 +168,26 @@ class ProgramStreamsController < AdminController
 
   def complete_program_steam
     @complete_program_steam = ProgramStream.where.not(id: @program_stream).complete.ordered
+  end
+
+  private
+
+  def copy_form_from_custom_field
+    if params[:custom_field_id].present?
+      custom_field = CustomField.find(params[:custom_field_id])
+      if params[:field] == 'enrollment'
+        @program_stream = ProgramStream.new(enrollment: custom_field.fields)
+        @tracking = @program_stream.trackings.build
+      elsif params[:field] == 'tracking'
+        @program_stream = ProgramStream.new
+        @tracking = @program_stream.trackings.build(fields: custom_field.fields)
+      elsif params[:field] == 'exit_program'
+        @program_stream = ProgramStream.new(exit_program: custom_field.fields)
+        @tracking = @program_stream.trackings.build
+      end
+    else
+      @program_stream = ProgramStream.new
+      @tracking = @program_stream.trackings.build
+    end
   end
 end
