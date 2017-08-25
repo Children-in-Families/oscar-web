@@ -21,7 +21,8 @@
               - grouped_tasks.each do |client, tasks|
                 .ibox.border-left-right.border-bottom
                   .ibox-title
-                    %h5= client.name
+                    %h5
+                      = link_to "#{client.name}", client_path(client)
                   .ibox-content.no-padding
                     %table.table
                       - tasks.each do |task|
@@ -40,7 +41,8 @@
               - grouped_tasks.each do |client, tasks|
                 .ibox.border-left-right.border-bottom
                   .ibox-title
-                    %h5= client.name
+                    %h5
+                      = link_to "#{client.name}", client_path(client)
                   .ibox-content.no-padding
                     %table.table
                       - tasks.each do |task|
@@ -59,7 +61,8 @@
               - grouped_tasks.each do |client, tasks|
                 .ibox.border-left-right.border-bottom
                   .ibox-title
-                    %h5= client.name
+                    %h5
+                      = link_to "#{client.name}", client_path(client)
                   .ibox-content.no-padding
                     %table.table
                       - tasks.each do |task|
