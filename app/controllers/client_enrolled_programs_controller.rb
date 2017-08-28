@@ -4,6 +4,11 @@ class ClientEnrolledProgramsController < AdminController
   include ClientEnrollmentConcern
   include FormBuilderAttachments
 
+  before_action :find_client
+  before_action :find_program_stream, except: :index
+  before_action :find_client_enrollment, only: [:show, :edit, :update, :destroy]
+  before_action :get_attachments, only: [:new, :edit, :update, :create]
+
   def index
     program_streams = ProgramStreamDecorator.decorate_collection(ordered_program)
     @program_streams = Kaminari.paginate_array(program_streams).page(params[:page]).per(20)
