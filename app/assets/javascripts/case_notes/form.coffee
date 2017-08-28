@@ -1,7 +1,6 @@
 CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUpdate = do ->
   _init = ->
     _initUploader()
-    _handleDeleteAttachment()
     _handleNewTask()
     _hideCompletedTasks()
     _handlePreventBlankInput()
@@ -13,28 +12,6 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
       browseLabel: 'Browse'
       theme: "explorer"
       allowedFileExtensions: ['jpg', 'png', 'jpeg', 'doc', 'docx', 'xls', 'xlsx', 'pdf']
-
-  _handleDeleteAttachment = ->
-    rows = $('.row-file')
-    $(rows).each (_k, element) ->
-      deleteBtn = $(element).find('.delete')
-      attachments = element.parentElement.getElementsByTagName('tr')
-      confirmDelete = $(deleteBtn).data('comfirm')
-      $(deleteBtn).click ->
-        result = confirm(confirmDelete)
-        return unless result
-        url = $(deleteBtn)[0].dataset.url
-        $.ajax
-          dataType: "json"
-          url: url
-          method: 'DELETE'
-          success: (response) ->
-            $(element).remove()
-            index = 0
-            if attachments.length > 0
-              for td in attachments
-                td.getElementsByClassName('delete')[0].dataset.url = _replaceUrlParam(td.getElementsByClassName('delete')[0].dataset.url, 'file_index', index++)
-            _initNotification(response.message)
 
   _hideCompletedTasks = ->
     $('input.task').each ->

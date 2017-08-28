@@ -421,14 +421,16 @@ km:
       successfully_deleted: ឯកសារភ្ជាប់ត្រូវបានកែសម្រួលដោយជោគជ័យ
       fail_delete_attachment: បានបរាជ័យក្នុងការលុបឯកសារភ្ជាប់
     attachment:
-      attachments: ឯកសារភ្ជាប់
-      preview_download: មើលនិងទាញយក
-      download: ទាញយក
-    attachment_fields:
       are_you_sure: តើអ្នកប្រាកដហើយ?
       attachments: ឯកសារភ្ជាប់
       preview_download: មើលនិងទាញយក
       download: ទាញយក
+    attachment_fields:
+      allow_file_size: ប្រភេទឯកសារដែលបានអនុញ្ញាត
+      attachments: ឯកសារភ្ជាប់
+      preview_download: មើលនិងទាញយក
+      download: ទាញយក
+      max_file_size: "*ទំហំឯកសារអតិបរិមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកឡើង."
   api:
     form_builder_attachments:
       destroy:
@@ -477,9 +479,11 @@ km:
       save: រក្សាទុក
       title: បន្ថែមកាតព្វកិច្ចថ្មី
     attachment_fields:
-      are_you_sure: តើអ្នកប្រាកដហើយ?
+      allow_file_size: ប្រភេទឯកសារដែលបានអនុញ្ញាត
       attachments: ឯកសារភ្ជាប់
+      max_file_size: "*ទំហំឯកសារអតិបរិមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកឡើង."
     attachment:
+      are_you_sure: តើអ្នកប្រាកដហើយ?
       preview_download: មើលនិងទាញយក
       download: ទាញយក
     add_task_form:

@@ -45,10 +45,7 @@ class AssessmentsController < AdminController
   def destroy
     if params[:file_index].present?
       remove_attachment_at_index(params[:file_index].to_i)
-      message ||= t('.successfully_deleted')
-      respond_to do |f|
-        f.json { render json: { message: message }, status: '200' }
-      end
+      redirect_to request.referer, notice: t('.successfully_deleted')
     end
   end
 
@@ -79,10 +76,10 @@ class AssessmentsController < AdminController
   end
 
   def remove_attachment_at_index(index)
-    assessment_domain = AssessmentDomain.find(params[:assessment_domain])
+    assessment_domain = AssessmentDomain.find(params[:assessment_domain_id])
     remain_attachment = assessment_domain.attachments
     deleted_attachment = remain_attachment.delete_at(index)
-    deleted_attachment.try(:remove!)
+    deleted_attachment.try(:remove_images!)
     remain_attachment.empty? ? assessment_domain.remove_attachments! : (assessment_domain.attachments = remain_attachment )
     message = t('.fail_delete_attachment') unless assessment_domain.save
   end

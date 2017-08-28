@@ -5,3 +5,6 @@
         %td= original_filename(attachment)
         %td.text-center
           = link_to preview_or_download(attachment), attachment.url, class: 'btn btn-info btn-sm btn-download', target: target_blank(attachment)
+        %td.vert-align.text-center
+          = link_to client_case_note_path(@client, cdg.case_note, case_note_domain_group_id: cdg.id, file_index: index), method: :delete, data: { confirm: t('.are_you_sure') }, class: 'delete btn btn-outline btn-danger' do
+            = fa_icon('trash')
