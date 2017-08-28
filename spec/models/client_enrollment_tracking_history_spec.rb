@@ -15,7 +15,7 @@ describe ClientEnrollmentTrackingHistory, 'class methods' do
     let!(:tracking) { create(:tracking, fields: fields.to_json) }
     let!(:client_enrollment_tracking){ create(:client_enrollment_tracking, tracking: tracking, properties: {"Checkbox Group"=>["Option 1"], "Radio.Group"=>"Option 1", "Select"=>["Option 1"]}.to_json) }
     it 'join string and dot with underscore and as lowercase' do
-      expect(ClientEnrollmentTrackingHistory.where({'object.id' => tracking.id}).first.object['properties']).to eq({"checkbox_group"=>["Option 1"], "radio_group"=>"Option 1", "select"=>["Option 1"]})
+      expect(ClientEnrollmentTrackingHistory.where({'object.id' => client_enrollment_tracking.id}).first.object['properties']).to eq({"checkbox_group"=>["Option 1"], "radio_group"=>"Option 1", "select"=>["Option 1"]})
     end
   end
 end
