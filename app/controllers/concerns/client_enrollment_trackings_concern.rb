@@ -1,13 +1,4 @@
 module ClientEnrollmentTrackingsConcern
-  extend ActiveSupport::Concern
-
-  included do
-    before_action :find_client, :find_enrollment, :find_program_stream
-    before_action :find_tracking, except: [:index, :show, :destroy]
-    before_action :find_client_enrollment_tracking, only: [:update, :destroy, :edit, :show]
-    before_action :get_attachments, only: [:new, :create, :edit, :update]
-  end
-
   def client_enrollment_tracking_params
     properties_params.values.map{ |v| v.delete('') if (v.is_a?Array) && v.size > 1 } if properties_params.present?
 
