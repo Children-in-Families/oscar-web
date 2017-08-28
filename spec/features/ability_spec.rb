@@ -91,6 +91,99 @@ feature 'able screening question' do
   end
 end
 
+feature 'agency' do
+  let!(:admin) { create(:user, roles: 'admin') }
+  let!(:manager) { create(:user, roles: 'manager') }
+  let!(:ec_manager) { create(:user, roles: 'ec manager') }
+  let!(:fc_manager) { create(:user, roles: 'fc manager') }
+  let!(:kc_manager) { create(:user, roles: 'kc manager') }
+  let!(:able_manager) { create(:user, roles: 'able manager') }
+  let!(:strategic_overviewer) { create(:user, roles: 'strategic overviewer') }
+  let!(:case_worker) { create(:user, roles: 'case worker') }
+
+  let!(:agency) { create(:agency) }
+
+  scenario 'login as admin' do
+    login_as(admin)
+
+    visit agencies_path
+    expect(current_path).to eq('/agencies')
+
+    visit agency_version_path(agency)
+    expect(current_path).to eq("/agencies/#{agency.id}/version")
+  end
+
+  scenario 'login as manager' do
+    login_as(manager)
+
+    visit agencies_path
+    expect(current_path).to eq('/agencies')
+
+    visit agency_version_path(agency)
+    expect(current_path).to eq("/agencies/#{agency.id}/version")
+  end
+
+  scenario 'login as kc manager' do
+    login_as(kc_manager)
+
+    visit agencies_path
+    expect(current_path).to eq('/agencies')
+
+    visit agency_version_path(agency)
+    expect(current_path).to eq("/agencies/#{agency.id}/version")
+  end
+
+  scenario 'login as fc manager' do
+    login_as(fc_manager)
+
+    visit agencies_path
+    expect(current_path).to eq('/agencies')
+
+    visit agency_version_path(agency)
+    expect(current_path).to eq("/agencies/#{agency.id}/version")
+  end
+
+  scenario 'login as ec manager' do
+    login_as(ec_manager)
+
+    visit agencies_path
+    expect(current_path).to eq('/agencies')
+
+    visit agency_version_path(agency)
+    expect(current_path).to eq("/agencies/#{agency.id}/version")
+  end
+
+  scenario 'login as strategic overviewer' do
+    login_as(strategic_overviewer)
+
+    visit agencies_path
+    expect(current_path).to eq('/agencies')
+
+    visit agency_version_path(agency)
+    expect(current_path).to eq("/agencies/#{agency.id}/version")
+  end
+
+  scenario 'login as able manager' do
+    login_as(able_manager)
+
+    visit agencies_path
+    expect(current_path).to eq('/agencies')
+
+    visit agency_version_path(agency)
+    expect(current_path).to eq("/agencies/#{agency.id}/version")
+  end
+
+  scenario 'login as case  worker' do
+    login_as(case_worker)
+
+    visit agencies_path
+    expect(current_path).to eq('/agencies')
+
+    visit agency_version_path(agency)
+    expect(current_path).to eq("/agencies/#{agency.id}/version")
+  end
+end
+
 feature 'Family' do
   let!(:admin){ create(:user, roles: 'admin') }
   let!(:able_manager){ create(:user, roles: 'able manager') }
