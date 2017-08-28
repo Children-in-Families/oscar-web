@@ -2,6 +2,7 @@ ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails_helper'
 require 'shoulda/matchers'
+require 'cancan/matchers'
 require 'factory_girl'
 require 'ffaker'
 require 'capybara/rails'
