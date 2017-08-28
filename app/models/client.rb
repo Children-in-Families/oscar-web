@@ -142,7 +142,7 @@ class Client < ActiveRecord::Base
   def name
     name       = "#{given_name} #{family_name}"
     local_name = "#{local_given_name} #{local_family_name}"
-    name.present? ? name : local_name
+    name.present? ? name : local_name.present? ? local_name : 'Unknown'
   end
 
   def en_and_local_name
