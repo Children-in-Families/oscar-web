@@ -77,7 +77,7 @@ class CaseNotesController < AdminController
     case_note_domain_group = CaseNoteDomainGroup.find(params[:case_note_domain_group_id])
     remain_attachment = case_note_domain_group.attachments
     deleted_attachment = remain_attachment.delete_at(index)
-    deleted_attachment.try(:remove!)
+    deleted_attachment.try(:remove_images!)
     remain_attachment.empty? ? case_note_domain_group.remove_attachments! : (case_note_domain_group.attachments = remain_attachment )
     message = t('.fail_delete_attachment') unless case_note_domain_group.save
   end
