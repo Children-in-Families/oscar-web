@@ -44,7 +44,7 @@ describe 'Abilities' do
     end
 
     it 'can manage Case' do
-      should be_able_to(:manage, Case)
+      should be_able_to(:manage, Case)g
     end
 
     it 'can manage Task' do
@@ -168,6 +168,10 @@ describe 'Abilities' do
 
     it 'can manage LeaveProgram' do
       should be_able_to(:manage, LeaveProgram)
+    end
+
+    it 'can read ProgressNote' do
+      should be_able_to(:read, ProgressNote)
     end
   end
 end
