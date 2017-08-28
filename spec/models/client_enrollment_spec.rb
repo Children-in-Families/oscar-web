@@ -90,11 +90,31 @@ describe ClientEnrollment, 'scopes' do
 end
 
 describe ClientEnrollment, 'callbacks' do
+  before do
+      ClientEnrollmentHistory.destroy_all
+  end
+
   let!(:program_stream) { create(:program_stream) }
   let!(:other_program_stream) { create(:program_stream) }
   let!(:client) { create(:client) }
   let!(:client_enrollment) { create(:client_enrollment, program_stream: program_stream, client: client) }
   let!(:other_client_enrollment) { create(:client_enrollment, program_stream: other_program_stream, client: client) }
+
+  context 'after_save' do
+    context 'create_client_enrollment_history' do
+      it 'has 1 client enrollment history with the same attributes' do
+        expect(ClientEnrollmentHistory.where({'object.id' => client_enrollment.id}).count).to eq(1)
+        expect(ClientEnrollmentHistory.where({'object.id' => client_enrollment.id}).first.object['enrollment_date']).to eq(client_enrollment.enrollment_date)
+        expect(ClientEnrollmentHistory.where({'object.id' => client_enrollment.id}).first.object['status']).to eq(client_enrollment.status)
+        expect(ClientEnrollmentHistory.where({'object.id' => client_enrollment.id}).first.object['program_stream_id']).to eq(client_enrollment.program_stream_id)
+        expect(ClientEnrollmentHistory.where({'object.id' => client_enrollment.id}).first.object['properties']).to eq(client_enrollment.properties)
+      end
+      it 'update client enrollment should create another client enrollment history' do
+        client_enrollment.update(created_at: Date.today)
+        expect(ClientEnrollmentHistory.where('$and' =>[{'object.id' => client_enrollment.id}, {'object.created_at' => Date.today}]).count).to eq(1)
+      end
+    end
+  end
 
   context 'after_create' do
     context 'set_client_status' do
