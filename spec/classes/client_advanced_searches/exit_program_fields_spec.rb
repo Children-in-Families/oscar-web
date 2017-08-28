@@ -2,7 +2,7 @@ describe AdvancedSearches::ExitProgramFields, 'Method' do
   let!(:client)             { create(:client) }
   let!(:program_stream)     { create(:program_stream) }
   let!(:client_enrollment)  { create(:client_enrollment, client: client, program_stream: program_stream) }
-  let!(:leave_program)      { create(:leave_program, client_enrollment: client_enrollment, program_stream: program_stream)}
+  let!(:leave_program)      { create(:leave_program, client_enrollment: client_enrollment, program_stream: program_stream) }
 
   before do
     @exit_programs = AdvancedSearches::ExitProgramFields.new([program_stream.id]).render
