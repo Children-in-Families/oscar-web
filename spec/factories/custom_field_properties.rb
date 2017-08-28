@@ -3,7 +3,7 @@ FactoryGirl.define do
     association :custom_formable, factory: :client
     association :custom_field, factory: :custom_field
     custom_formable_type 'Client'
-    properties { { "Text Field"=> FFaker::Name.name }.to_json }
+    properties { { "Hello World"=> FFaker::Name.name }.to_json }
     attachments Rack::Test::UploadedFile.new(File.open(File.join(Rails.root, '/spec/supports/file.docx')))
   end
 end
