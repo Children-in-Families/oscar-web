@@ -1,189 +1,75 @@
-describe 'Agency' do
+describe 'Abilities' do
   subject(:ability){ Ability.new(user) }
 
   context 'login as admin' do
     let!(:user){ create(:user, :admin) }
-    it 'should be able to manage' do
+
+    it 'should be able to manage Agency' do
       should be_able_to(:manage, Agency.new)
     end
-  end
 
-  context 'login as manager' do
-    let!(:user){ create(:user, :manager) }
-    it 'should be able to manage' do
-      should be_able_to(:manage, Agency.new)
+    it 'should be able to manage ReferralSource' do
+      should be_able_to(:manage, ReferralSource.new)
     end
-  end
 
-  context 'login as ec manage' do
-    let!(:user){ create(:user, :ec_manager) }
-    it 'should be able to manage' do
-      should be_able_to(:manage, Agency.new)
+    it 'should be able to manage QuarterlyReport' do
+      should be_able_to(:manage, QuarterlyReport.new)
     end
-  end
 
-  context 'login as fc manage' do
-    let!(:user){ create(:user, :fc_manager) }
-    it 'should be able to manage' do
-      should be_able_to(:manage, Agency.new)
+    it 'should be able to manage ProgramStream' do
+      should be_able_to(:manage, ProgramStream.new)
     end
-  end
 
-  context 'login as kc manage' do
-    let!(:user){ create(:user, :kc_manager) }
-    it 'should be able to manage' do
-      should be_able_to(:manage, Agency.new)
-    end
-  end
-
-  context 'login as able manager' do
-    let!(:user){ create(:user, :able_manager) }
-    it 'should be able to manage' do
-      should be_able_to(:manage, Agency.new)
-    end
-  end
-
-  context 'login as strategic overviewer' do
-    let!(:user){ create(:user, :strategic_overviewer) }
-    it 'should be able to manage' do
-     should be_able_to(:read, Agency.new)
-    end
-    it 'should be able to manage' do
-      should_not be_able_to(:manage, Agency.new)
-    end
-  end
-
-  context 'login as case worker' do
-    let!(:user){ create(:user, :case_worker) }
-    it 'should be able to manage' do
-      should be_able_to(:manage, Agency.new)
-    end
-  end
-end
-
-describe 'able screening question' do
-  subject(:ability){ Ability.new(user) }
-
-  context "login as admin" do
-    let!(:user) { create(:user, :admin) }
-    it 'should be able to manage' do
+    it 'should be able to manage AbleScreeningQuestion' do
       should be_able_to(:manage, AbleScreeningQuestion.new)
     end
-  end
 
-  context "login as manager" do
-    let!(:user) { create(:user, :manager) }
-    it 'should be able to manage' do
-      should be_able_to(:manage, AbleScreeningQuestion.new)
+    it 'should be able to manage Assessment' do
+      should be_able_to(:manage, Assessment.new)
     end
-  end
 
-  context "login as kc manager" do
-    let!(:user) { create(:user, :kc_manager) }
-    it 'should be able to manage' do
-      should_not be_able_to(:manage, AbleScreeningQuestion.new)
+    it 'should be able to manage Attachment' do
+      should be_able_to(:manage, Attachment.new)
     end
-  end
 
-  context "login as fc manager" do
-    let!(:user) { create(:user, :fc_manager) }
-    it 'should be able to manage' do
-      should_not be_able_to(:manage, AbleScreeningQuestion.new)
+    it 'should be able to manage Case' do
+      should be_able_to(:manage, Case.new)
     end
-  end
 
-  context "login as ec manager" do
-    let!(:user) { create(:user, :ec_manager) }
-    it 'should be able to manage' do
-     should_not be_able_to(:manage, AbleScreeningQuestion.new)
+    it 'should be able to manage CaseNote' do
+      should be_able_to(:manage, CaseNote.new)
     end
-  end
 
-  context "login as able manager" do
-    let!(:user) { create(:user, :able_manager) }
-    it 'should be able to manage' do
-      should be_able_to(:manage, AbleScreeningQuestion.new)
+    it 'should be able to manage Client' do
+      should be_able_to(:manage, Client.new)
     end
-  end
 
-  context "login as strategic overviewer" do
-    let!(:user) { create(:user, :strategic_overviewer) }
-    it 'should be able to manage' do
-      should_not be_able_to(:manage, AbleScreeningQuestion.new)
+    it 'should be able to manage ProgressNote' do
+      should be_able_to(:manage, ProgressNote.new)
     end
-    it 'should be able to manage' do
-      should be_able_to(:read, AbleScreeningQuestion.new)
+
+    it 'should be able to manage Task' do
+      should be_able_to(:manage, Task.new)
     end
-  end
 
-
-  context "login as case worker" do
-    let!(:user) { create(:user, :case_worker) }
-    it 'should be able to manage' do
-      should be_able_to(:manage, AbleScreeningQuestion.new)
+    it 'should be able to manage CustomFieldProperty' do
+      should be_able_to(:manage, CustomFieldProperty.new)
     end
-  end
-end
 
-describe 'Family' do
-  subject(:ability){ Ability.new(user) }
-
-  context 'login as admin' do
-    let!(:user){ create(:user, :admin) }
-    it 'should be able to manage' do
-      should be_able_to(:manage, Family.new)
+    it 'should be able to manage CustomField' do
+      should be_able_to(:manage, CustomField.new)
     end
-  end
 
-  context 'login as manager' do
-    let!(:user){ create(:user, :manager) }
-    it 'should be able to manage' do
-      should be_able_to(:manage, Family.new)
+    it 'should be able to manage ClientEnrollment' do
+      should be_able_to(:manage, ClientEnrollment.new)
     end
-  end
 
-  context 'login as ec manage' do
-    let!(:user){ create(:user, :ec_manager) }
-    it 'should be able to manage' do
-      should be_able_to(:manage, Family.new)
+    it 'should be able to manage ClientEnrollmentTracking' do
+      should be_able_to(:manage, ClientEnrollmentTracking.new)
     end
-  end
 
-  context 'login as fc manage' do
-    let!(:user){ create(:user, :fc_manager) }
-    it 'should be able to manage' do
-      should be_able_to(:manage, Family.new)
-    end
-  end
-
-  context 'login as kc manage' do
-    let!(:user){ create(:user, :kc_manager) }
-    it 'should be able to manage' do
-      should be_able_to(:manage, Family.new)
-    end
-  end
-
-  context 'login as able manager' do
-    let!(:user){ create(:user, :able_manager) }
-    it 'should be able to manage' do
-      should_not be_able_to(:manage, Family.new)
-    end
-  end
-
-  context 'login as strategic overviewer' do
-    let!(:user){ create(:user, :strategic_overviewer) }
-    it 'should be able to manage' do
-     should be_able_to(:read, Family.new)
-    end
-    it 'should be able to manage' do
-      should_not be_able_to(:manage, Family.new)
-    end
-  end
-
-  context 'login as case worker' do
-    let!(:user){ create(:user, :case_worker) }
-    it 'should be able to manage' do
-      should_not be_able_to(:manage, Family.new)
+    it 'should be able to manage LeaveProgram' do
+      should be_able_to(:manage, LeaveProgram.new)
     end
   end
 end
