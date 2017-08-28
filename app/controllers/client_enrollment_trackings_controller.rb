@@ -4,6 +4,11 @@ class ClientEnrollmentTrackingsController < AdminController
   include ClientEnrollmentTrackingsConcern
   include FormBuilderAttachments
 
+  before_action :find_client, :find_enrollment, :find_program_stream
+  before_action :find_tracking, except: [:index, :show, :destroy]
+  before_action :find_client_enrollment_tracking, only: [:update, :destroy, :edit, :show]
+  before_action :get_attachments, only: [:new, :create, :edit, :update]
+
   def index
     @tracking_grid = TrackingGrid.new(params[:tracking_grid])
     @tracking_grid.scope { |scope| scope.where(program_stream_id: @program_stream).page(params[:page]).per(20) }
