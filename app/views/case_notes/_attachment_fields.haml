@@ -17,3 +17,7 @@
 .row
   .col-xs-12
     = cd.input :attachments, label: t('.attachments'), as: :file, input_html: { multiple: true }
+%p
+  %i.small="#{t('.allow_file_size')} (.jpg, .jpeg, .png, .doc, .docx, .xls, .xlsx, .pdf)"
+%p
+  %i.small= t('.max_file_size')
