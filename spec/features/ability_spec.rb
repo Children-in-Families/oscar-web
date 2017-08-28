@@ -44,7 +44,7 @@ describe 'Abilities' do
     end
 
     it 'can manage Case' do
-      should be_able_to(:manage, Case)g
+      should be_able_to(:manage, Case)
     end
 
     it 'can manage Task' do
