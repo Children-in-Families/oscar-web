@@ -14,7 +14,7 @@ describe AdvancedSearches::ClientAssociationFilter, 'Method' do
   let!(:exit_fc_client) { create(:client) }
   let!(:exit_kc_client) { create(:client) }
 
-  let!(:ec_case)   { create(:case, :emergency, start_date: 1.days.ago, client: ec_client, family: family) }
+  let!(:ec_case)   { create(:case, :emergency, start_date: 1.day.ago, client: ec_client, family: family) }
   let!(:fc_case)   { create(:case, :foster, start_date: 2.days.ago, client: fc_client, family: family) }
   let!(:kc_case)   { create(:case, :kinship, start_date: 3.days.ago, client: kc_client, family: family) }
 

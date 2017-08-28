@@ -1,7 +1,7 @@
 describe AdvancedSearches::EnrollmentDateSqlBuilder, 'Method' do
   let!(:client)             { create(:client) }
   let!(:program_stream)     { create(:program_stream) }
-  let!(:client_enrollment)  { create(:client_enrollment, client: client, program_stream: program_stream) }
+  let!(:client_enrollment)  { create(:client_enrollment, enrollment_date: Date.today, client: client, program_stream: program_stream) }
 
   context '#get_sql' do
     it 'return clients with operator (equal)' do

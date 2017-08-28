@@ -16,7 +16,7 @@ describe AdvancedSearches::CustomFields, 'Method' do
     end
 
     it 'return field with id' do
-      expect(@fields[:id]).to include "formbuilder_#{custom_field.form_title}_Hello World"
+      expect(@fields[:id]).to include "formbuilder_#{custom_field.form_title}_Name"
     end
 
     it 'return field with optGroup' do
@@ -24,7 +24,7 @@ describe AdvancedSearches::CustomFields, 'Method' do
     end
 
     it 'return field with label' do
-      expect(@fields[:label]).to include 'Hello World'
+      expect(@fields[:label]).to include 'Name'
     end
   end
 end
