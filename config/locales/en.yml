@@ -425,8 +425,8 @@ en:
       are_you_sure: Are you sure you want to delete??
       attachments: Attachments
       download: Download
-      preview_download: Preview & Download
       max_file_size: "*Maximum file size: 5MB/file and 30MB/upload."
+      preview_download: Preview & Download
   api:
     form_builder_attachments:
       destroy:
@@ -475,15 +475,15 @@ en:
       save: Save
       title: New Task
     attachment:
-      preview_download: Preview & Download
       download: Download
+      preview_download: Preview & Download
     attachment_fields:
       allow_file_size: Allowed file types
       are_you_sure: Are you sure you want to delete?
       attachments: Attachments
-      preview_download: Preview & Download
       download: Download
       max_file_size: "*Maximum file size: 5MB/file and 30MB/upload."
+      preview_download: Preview & Download
     create:
       successfully_created: Case Note has successfully been created.
     form:
