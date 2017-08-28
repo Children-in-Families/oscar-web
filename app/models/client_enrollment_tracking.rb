@@ -11,6 +11,8 @@ class ClientEnrollmentTracking < ActiveRecord::Base
   scope :ordered, -> { order(:created_at) }
   scope :enrollment_trackings_by, -> (tracking) { where(tracking_id: tracking) }
 
+  after_save :create_client_enrollment_tracking_history
+
   validate do |obj|
     CustomFormPresentValidator.new(obj, 'tracking', 'fields').validate
     CustomFormNumericalityValidator.new(obj, 'tracking', 'fields').validate
@@ -25,5 +27,11 @@ class ClientEnrollmentTracking < ActiveRecord::Base
 
   def get_form_builder_attachment(value)
     form_builder_attachments.find_by(name: value)
+  end
+
+  private
+
+  def create_client_enrollment_tracking_history
+    ClientEnrollmentTrackingHistory.initial(self)
   end
 end
