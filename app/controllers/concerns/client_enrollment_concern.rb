@@ -1,13 +1,4 @@
 module ClientEnrollmentConcern
-  extend ActiveSupport::Concern
-
-  included do
-    before_action :find_client
-    before_action :find_program_stream, except: :index
-    before_action :find_client_enrollment, only: [:show, :edit, :update, :destroy]
-    before_action :get_attachments, only: [:new, :edit, :update, :create]
-  end
-
   def client_enrollment_params
     properties_params.values.map{ |v| v.delete('') if (v.is_a?Array) && v.size > 1 } if properties_params.present?
 
@@ -52,8 +43,6 @@ module ClientEnrollmentConcern
       (@program_stream.program_exclusive & program_active_status_ids).empty?
     end
   end
-
-  private
 
   def find_client_enrollment
     @client_enrollment = @client.client_enrollments.find(params[:id])
