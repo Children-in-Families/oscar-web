@@ -7,6 +7,7 @@ class LeaveProgram < ActiveRecord::Base
 
   accepts_nested_attributes_for :form_builder_attachments, reject_if: proc { |attributes| attributes['name'].blank? &&  attributes['file'].blank? }
 
+  after_save :create_leave_program_history
   after_create :set_client_status
 
   has_paper_trail
@@ -36,5 +37,11 @@ class LeaveProgram < ActiveRecord::Base
 
   def get_form_builder_attachment(value)
     form_builder_attachments.find_by(name: value)
+  end
+
+  private
+
+  def create_leave_program_history
+      LeaveProgramHistory.initial(self)
   end
 end
