@@ -10,7 +10,6 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
     _addElement()
     _translatePagination()
     _initUploader()
-    _handleDeleteAttachment()
     _removeTask()
     _removeHiddenTaskArising()
     _saveAssessment(form)
@@ -228,28 +227,6 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       browseLabel: 'Browse'
       theme: "explorer"
       allowedFileExtensions: ['jpg', 'png', 'jpeg', 'doc', 'docx', 'xls', 'xlsx', 'pdf']
-
-  _handleDeleteAttachment = ->
-    rows = $('.row-file')
-    $(rows).each (_k, element) ->
-      deleteBtn = $(element).find('.delete')
-      confirmDelete = $(deleteBtn).data('comfirm')
-      $(deleteBtn).click ->
-        result = confirm(confirmDelete)
-        return unless result
-        BtnURL = $(deleteBtn)[0].dataset.url
-        $.ajax
-          dataType: "json"
-          url: BtnURL
-          method: 'DELETE'
-          success: (response) ->
-            $(element).remove()
-            index = 0
-            attachments = $('.row-file:visible')
-            if attachments.length > 0
-              for td in attachments
-                td.getElementsByClassName('delete')[0].dataset.url = _replaceUrlParam(td.getElementsByClassName('delete')[0].dataset.url, 'file_index', index++)
-            _initNotification(response.message)
 
   _initNotification = (message)->
     messageOption = {

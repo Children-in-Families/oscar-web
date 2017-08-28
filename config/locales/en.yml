@@ -417,14 +417,16 @@ en:
       successfully_deleted: Attachment has been successfully deleted.
       fail_delete_attachment: Failed deleting attachment
     attachment:
-      attachments: Attachments
-      preview_download: Preview & Download
-      download: Download
-    attachment_fields:
       are_you_sure: Are you sure you want to delete??
       attachments: Attachments
       preview_download: Preview & Download
       download: Download
+    attachment_fields:
+      allow_file_size: Allowed file types
+      attachments: Attachments
+      preview_download: Preview & Download
+      download: Download
+      max_file_size: "*Maximum file size: 5MB/file and 30MB/upload."
   api:
     form_builder_attachments:
       destroy:
@@ -467,11 +469,13 @@ en:
         with_id: With ID
   case_notes:
     attachment_fields:
-      are_you_sure: Are you sure you want to delete?
+      allow_file_size: Allowed file types
       attachments: Attachments
       preview_download: Preview & Download
       download: Download
+      max_file_size: "*Maximum file size: 5MB/file and 30MB/upload."
     attachment:
+      are_you_sure: Are you sure you want to delete?
       preview_download: Preview & Download
       download: Download
     add_task_form:

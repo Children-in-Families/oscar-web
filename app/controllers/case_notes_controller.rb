@@ -46,10 +46,7 @@ class CaseNotesController < AdminController
   def destroy
     if params[:file_index].present?
       remove_attachment_at_index(params[:file_index].to_i)
-      message ||= t('.successfully_deleted')
-      respond_to do |f|
-        f.json { render json: { message: message }, status: '200' }
-      end
+      redirect_to request.referer, notice: t('.successfully_deleted')
     end
   end
 
@@ -77,7 +74,7 @@ class CaseNotesController < AdminController
     case_note_domain_group = CaseNoteDomainGroup.find(params[:case_note_domain_group_id])
     remain_attachment = case_note_domain_group.attachments
     deleted_attachment = remain_attachment.delete_at(index)
-    deleted_attachment.try(:remove!)
+    deleted_attachment.try(:remove_images!)
     remain_attachment.empty? ? case_note_domain_group.remove_attachments! : (case_note_domain_group.attachments = remain_attachment )
     message = t('.fail_delete_attachment') unless case_note_domain_group.save
   end
