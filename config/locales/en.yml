@@ -418,14 +418,14 @@ en:
       fail_delete_attachment: Failed deleting attachment
     attachment:
       attachments: Attachments
-      preview_download: Preview & Download
       download: Download
+      preview_download: Preview & Download
     attachment_fields:
       allow_file_size: Allowed file types
       are_you_sure: Are you sure you want to delete??
       attachments: Attachments
-      preview_download: Preview & Download
       download: Download
+      preview_download: Preview & Download
       max_file_size: "*Maximum file size: 5MB/file and 30MB/upload."
   api:
     form_builder_attachments:
@@ -468,6 +468,15 @@ en:
         what_is_my_plan_for_the_next_visit_to_the_client: What is my plan for the next visit to the client?
         with_id: With ID
   case_notes:
+    add_task_form:
+      completion_date: Completion Date
+      domain: Domain
+      enter_task_detail: Enter task details
+      save: Save
+      title: New Task
+    attachment:
+      preview_download: Preview & Download
+      download: Download
     attachment_fields:
       allow_file_size: Allowed file types
       are_you_sure: Are you sure you want to delete?
@@ -475,15 +484,6 @@ en:
       preview_download: Preview & Download
       download: Download
       max_file_size: "*Maximum file size: 5MB/file and 30MB/upload."
-    attachment:
-      preview_download: Preview & Download
-      download: Download
-    add_task_form:
-      completion_date: Completion Date
-      domain: Domain
-      enter_task_detail: Enter task details
-      save: Save
-      title: New Task
     create:
       successfully_created: Case Note has successfully been created.
     form:
