@@ -219,17 +219,17 @@ ActiveRecord::Schema.define(version: 20170824021544) do
   add_index "changelogs", ["user_id"], name: "index_changelogs_on_user_id", using: :btree
 
   create_table "client_enrollment_trackings", force: :cascade do |t|
-    t.jsonb    "properties",           default: {}
+    t.jsonb    "properties"
     t.integer  "client_enrollment_id"
-    t.datetime "created_at",                        null: false
-    t.datetime "updated_at",                        null: false
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
     t.integer  "tracking_id"
   end
 
   add_index "client_enrollment_trackings", ["client_enrollment_id"], name: "index_client_enrollment_trackings_on_client_enrollment_id", using: :btree
 
   create_table "client_enrollments", force: :cascade do |t|
-    t.jsonb    "properties",        default: {}
+    t.jsonb    "properties"
     t.string   "status",            default: "Active"
     t.integer  "client_id"
     t.integer  "program_stream_id"
@@ -504,10 +504,10 @@ ActiveRecord::Schema.define(version: 20170824021544) do
   add_index "interventions_progress_notes", ["progress_note_id"], name: "index_interventions_progress_notes_on_progress_note_id", using: :btree
 
   create_table "leave_programs", force: :cascade do |t|
-    t.jsonb    "properties",           default: {}
+    t.jsonb    "properties"
     t.integer  "client_enrollment_id"
-    t.datetime "created_at",                        null: false
-    t.datetime "updated_at",                        null: false
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
     t.integer  "program_stream_id"
     t.date     "exit_date"
   end
@@ -912,7 +912,7 @@ ActiveRecord::Schema.define(version: 20170824021544) do
 
   create_table "trackings", force: :cascade do |t|
     t.string   "name",              default: ""
-    t.jsonb    "fields",            default: {}
+    t.jsonb    "fields"
     t.string   "frequency",         default: ""
     t.integer  "time_of_frequency"
     t.integer  "program_stream_id"
