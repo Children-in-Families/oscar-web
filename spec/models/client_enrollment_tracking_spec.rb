@@ -50,13 +50,37 @@ describe ClientEnrollmentTracking, 'validations' do
       client_enrollment_tracking = ClientEnrollmentTracking.new(properties: properties, tracking: tracking, client_enrollment: client_enrollment)
       client_enrollment_tracking.save
       expect(client_enrollment_tracking.errors.full_messages).to include("Age can't be greater than 5")
-    end 
+    end
 
     it 'return cant be lower' do
       properties = {"e-mail"=>"test@example.com", "age"=>"0", "description"=>"this is testing"}
       client_enrollment_tracking = ClientEnrollmentTracking.new(properties: properties, tracking: tracking, client_enrollment: client_enrollment)
       client_enrollment_tracking.save
       expect(client_enrollment_tracking.errors.full_messages).to include("Age can't be lower than 1")
-    end 
+    end
+  end
+end
+
+describe ClientEnrollmentTracking, 'callbacks' do
+  before do
+    ClientEnrollmentTrackingHistory.destroy_all
+  end
+
+  context 'after_save' do
+    let!(:client_enrollment_tracking_1) { create(:client_enrollment_tracking) }
+
+    context 'after_save' do
+      context 'create_client_enrollment_tracking_history' do
+        it 'has 1 client enrollment tracking history with the same attributes' do
+          expect(ClientEnrollmentTrackingHistory.where({'object.id' => client_enrollment_tracking_1.id}).count).to eq(1)
+          expect(ClientEnrollmentTrackingHistory.where({'object.id' => client_enrollment_tracking_1.id}).first.object['client_enrollment_id']).to eq(client_enrollment_tracking_1.client_enrollment_id)
+          expect(ClientEnrollmentTrackingHistory.where({'object.id' => client_enrollment_tracking_1.id}).first.object['properties']).to eq(client_enrollment_tracking_1.properties)
+        end
+        it 'update client enrollment tracking should create another client enrollment tracking history' do
+          client_enrollment_tracking_1.update(updated_at: Date.today)
+          expect(ClientEnrollmentTrackingHistory.where('$and' =>[{'object.id' => client_enrollment_tracking_1.id}, {'object.updated_at' => Date.today}]).count).to eq(1)
+        end
+      end
+    end
   end
 end
