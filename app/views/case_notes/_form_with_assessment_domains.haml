@@ -6,6 +6,7 @@
     .ibox-tools
       - cd.object.domain_group.domains.each do |domain|
         - ad = domain.assessment_domains.find_by(assessment_id: @case_note.assessment_id)
+        - next if ad.nil?
         %label.margin-score{class: "label label-#{ad.score_color_class} label-lg"}= ad.score
   .ibox-content
     .row
@@ -26,6 +27,7 @@
           - tasks = @case_note.client.tasks.where(domain_id: domain.id)
           - if cd.object.persisted?
             - tasks = tasks.by_case_note_domain_group(cd.object)
+          - next if assessment_domain.nil?
           .panel{ class: "panel-#{assessment_domain.score_color_class} task-domain-#{domain.id} #{hidden_class(tasks.incomplete.blank?)}" }
             .panel-heading
               %strong= "#{t('.domain')} #{assessment_domain.domain.name}"
