@@ -9,6 +9,18 @@ class Dashboard
     @agencies = Agency.all
     @staff    = User.all
     @referral_sources = ReferralSource.all
+    @program_streams = ProgramStream.joins(:client_enrollments).where(client_enrollments: { status: 'Active' }).uniq
+  end
+
+  def client_program_stream
+    @program_streams.map do |p|
+      url = { 'condition': 'AND', 'rules': [{ 'id': 'program_stream', 'field': 'program_stream', 'type': 'string', 'input': 'select', 'operator': 'equal', 'value': p.id } ]}
+      {
+        name: p.name,
+        y: p.client_enrollments.active.uniq.count,
+        url: client_advanced_searches_path('client_advanced_search[basic_rules]': url.to_json)
+      }
+    end
   end
 
   def client_gender_statistic
@@ -20,17 +32,17 @@ class Dashboard
           {
             name: I18n.t('classes.dashboard.male_emergency_cares'),
             y: @clients.active_ec.male.count,
-            url: clients_path("client_grid[gender]":"Male","client_grid[status]":"Active EC")
+            url: clients_path('client_grid[gender]': 'Male', 'client_grid[status]': 'Active EC')
           },
           {
             name: I18n.t('classes.dashboard.male_kinship_cares'),
             y: @clients.active_kc.male.count,
-            url: clients_path("client_grid[gender]":"Male","client_grid[status]":"Active KC")
+            url: clients_path('client_grid[gender]': 'Male', 'client_grid[status]': 'Active KC')
           },
           {
             name: I18n.t('classes.dashboard.male_foster_cares'),
             y: @clients.active_fc.male.count,
-            url: clients_path("client_grid[gender]":"Male","client_grid[status]":"Active FC")
+            url: clients_path('client_grid[gender]': 'Male', 'client_grid[status]': 'Active FC')
           }
         ]
       },
@@ -41,17 +53,17 @@ class Dashboard
          {
            name: I18n.t('classes.dashboard.female_emergency_cares'),
            y: @clients.active_ec.female.count,
-           url: clients_path("client_grid[gender]":"Female","client_grid[status]":"Active EC")
+           url: clients_path('client_grid[gender]': 'Female', 'client_grid[status]': 'Active EC')
          },
          {
            name: I18n.t('classes.dashboard.female_kinship_cares'),
            y: @clients.active_kc.female.count,
-           url: clients_path("client_grid[gender]":"Female","client_grid[status]":"Active KC")
+           url: clients_path('client_grid[gender]': 'Female', 'client_grid[status]': 'Active KC')
          },
          {
            name: I18n.t('classes.dashboard.female_foster_cares'),
            y: @clients.active_fc.female.count,
-           url: clients_path("client_grid[gender]":"Female","client_grid[status]":"Active FC")
+           url: clients_path('client_grid[gender]': 'Female', 'client_grid[status]': 'Active FC')
          }
         ]
       }
@@ -60,41 +72,45 @@ class Dashboard
 
   def client_status_statistic
     [
-      { name: I18n.t('classes.dashboard.emergency_cares_html'), y: @clients.active_ec.count, url: clients_path("client_grid[status]": 'Active EC') },
-      { name: I18n.t('classes.dashboard.foster_cares_html'), y: @clients.active_fc.count, url: clients_path("client_grid[status]": 'Active FC') },
-      { name: I18n.t('classes.dashboard.kinship_cares_html'), y: @clients.active_kc.count, url: clients_path("client_grid[status]": 'Active KC') }
+      { name: I18n.t('classes.dashboard.emergency_cares_html'), y: @clients.active_ec.count, url: clients_path('client_grid[status]': 'Active EC') },
+      { name: I18n.t('classes.dashboard.foster_cares_html'), y: @clients.active_fc.count, url: clients_path('client_grid[status]': 'Active FC') },
+      { name: I18n.t('classes.dashboard.kinship_cares_html'), y: @clients.active_kc.count, url: clients_path('client_grid[status]': 'Active KC') }
     ]
   end
 
   def family_type_statistic
     [
-      { name: 'Foster', y: foster_count, url: families_path("family_grid[family_type]": 'foster') },
-      { name: 'Kinship', y: kinship_count, url: families_path("family_grid[family_type]": 'kinship') },
-      { name: 'Emergency', y: emergency_count, url: families_path("family_grid[family_type]": 'emergency') }
+      { name: 'Foster', y: foster_count, url: families_path('family_grid[family_type]': 'foster') },
+      { name: 'Kinship', y: kinship_count, url: families_path('family_grid[family_type]': 'kinship') },
+      { name: 'Emergency', y: emergency_count, url: families_path('family_grid[family_type]': 'emergency') }
     ]
   end
 
   def able_count
-    @clients.able.count
+    @clients.able.size
   end
 
   def family_count
-    @families.count
+    @families.size
   end
 
   def foster_count
-    @families.foster.count
+    @families.foster.size
   end
 
   def kinship_count
-    @families.kinship.count
+    @families.kinship.size
   end
 
   def emergency_count
-    @families.emergency.count
+    @families.emergency.size
   end
 
-  def referral_source_count
-    @referral_sources.count
+    def referral_source_count
+    @referral_sources.size
+  end
+
+  def program_stream_count
+    @program_streams.size
   end
 end
