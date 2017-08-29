@@ -10,7 +10,7 @@ describe 'Abilities' do
   end
 
   context 'manager permissions' do
-    let!(:user){ create(:user, :manager) }
+    let!(:user){ create(:user, :manager, manager_ids: [1,2]) }
 
     it 'can manage Agency' do
       should be_able_to(:manage, Agency)
@@ -39,8 +39,9 @@ describe 'Abilities' do
     end
 
     it 'can manage User' do
-      should be_able_to(:manage, User, id: User.where('manager_ids && ARRAY[?]', user.id).map(&:id))
-      should be_able_to(:manage, User, id: user.id)
+      field = '"users"."id"'
+      value = User.where('manager_ids && ARRAY[?]', user.id).map(&:id).first
+      ability.model_adapter(User, :manage).conditions.should ==  %Q[(#{field} = #{user.id}) OR (#{field} = #{value})]
     end
 
     it 'can manage Case' do
@@ -68,9 +69,8 @@ describe 'Abilities' do
     end
 
     it 'can manage CustomFieldProperty' do
-      should be_able_to(:manage, CustomFieldProperty, custom_formable_type: 'Client')
-      should be_able_to(:manage, CustomFieldProperty, custom_formable_type: 'Family')
-      should be_able_to(:manage, CustomFieldProperty, custom_formable_type: 'Partner')
+      field = '"custom_field_properties"."custom_formable_type"'
+      ability.model_adapter(CustomFieldProperty, :manage).conditions.should ==  %Q[(#{field} = 'Partner') OR ((#{field} = 'Family') OR (#{field} = 'Client'))]
     end
 
     it 'can manage CustomField' do
@@ -116,8 +116,7 @@ describe 'Abilities' do
 
     it 'can manage Client' do
       should be_able_to(:create, Client)
-      should be_able_to(:manage, Client, status: 'Active EC')
-      should be_able_to(:manage, Client, case_worker_clients: { user_id: user.id })
+      ability.model_adapter(Client, :manage).conditions.should == %Q[("case_worker_clients"."user_id" = #{user.id}) OR ("clients"."status" = 'Active EC')]
     end
 
     it 'can manage CaseNote' do
@@ -137,7 +136,7 @@ describe 'Abilities' do
     end
 
     it 'can manage Case' do
-      should be_able_to(:manage, Case, { case_type: 'EC', exited: false })
+      ability.model_adapter(Case, :manage).conditions.should == { case_type: 'EC', exited: false }
     end
 
     it 'can manage Assessment' do
@@ -149,9 +148,8 @@ describe 'Abilities' do
     end
 
     it 'can manage CustomFieldProperty' do
-      should be_able_to(:manage, CustomFieldProperty, custom_formable_type: 'Client')
-      should be_able_to(:manage, CustomFieldProperty, custom_formable_type: 'Family')
-      should be_able_to(:manage, CustomFieldProperty, custom_formable_type: 'Partner')
+      field = '"custom_field_properties"."custom_formable_type"'
+      ability.model_adapter(CustomFieldProperty, :manage).conditions.should ==  %Q[(#{field} = 'Partner') OR ((#{field} = 'Family') OR (#{field} = 'Client'))]
     end
 
     it 'can manage CustomField' do
