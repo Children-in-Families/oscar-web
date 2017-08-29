@@ -69,7 +69,7 @@ feature 'custom_field' do
     end
 
     scenario 'fields', js: true do
-      expect(page).to have_content('Hello World')
+      expect(page).to have_content('Name')
     end
 
     scenario 'edit link' do

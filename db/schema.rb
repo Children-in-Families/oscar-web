@@ -221,8 +221,8 @@ ActiveRecord::Schema.define(version: 20170824021544) do
   create_table "client_enrollment_trackings", force: :cascade do |t|
     t.jsonb    "properties",           default: {}
     t.integer  "client_enrollment_id"
-    t.datetime "created_at",                        null: false
-    t.datetime "updated_at",                        null: false
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
     t.integer  "tracking_id"
   end
 
@@ -506,8 +506,8 @@ ActiveRecord::Schema.define(version: 20170824021544) do
   create_table "leave_programs", force: :cascade do |t|
     t.jsonb    "properties",           default: {}
     t.integer  "client_enrollment_id"
-    t.datetime "created_at",                        null: false
-    t.datetime "updated_at",                        null: false
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
     t.integer  "program_stream_id"
     t.date     "exit_date"
   end
