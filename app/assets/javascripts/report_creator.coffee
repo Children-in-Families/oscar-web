@@ -5,11 +5,6 @@ class CIF.ReportCreator
     @yAxisTitle = yAxisTitle
     @element = element
 
-  perform: ->
-    @lineChart()
-    @pieChart()
-    @donutChart()
-
   lineChart: ->
     if @data != undefined
       $(@element).highcharts
@@ -87,7 +82,8 @@ class CIF.ReportCreator
       ]
     $('.highcharts-credits').css('display', 'none')
 
-  pieChart: ->
+  pieChart: (options = {})->
+    self = @
     [green, blue, africa, brown, yellow] = ["#59b260", "#5096c9", "#1c8781", "#B2912F", "#DECF3F"]
     $(@element).highcharts
       colors: [ green, blue, africa, brown, yellow]
@@ -100,15 +96,18 @@ class CIF.ReportCreator
       legend:
         verticalAlign: 'top'
         y: 10
+        itemDistance: 20
+        itemMarginTop: 5
+        itemMarginBottom: 5
         itemStyle:
-           fontSize: '15px'
+           fontSize: '12px',
       title:
         text: ''
       tooltip:
         formatter: ->
           @point.name + ": " + "<b>" + @point.y + "</b>"
         style:
-          fontSize: '15px'
+          fontSize: '1em'
       plotOptions:
         pie:
           size:'100%'
@@ -120,10 +119,21 @@ class CIF.ReportCreator
             location.href = @options.url
       series: [ {
         dataLabels:
-          distance: -30
+          distance: if _.isEmpty(options) then -30 else 30
           style:
-            fontSize: '1.3em'
+            fontSize: '1em'
           formatter: ->
             @point.name + ": " + @point.y
       }]
+      responsive: unless _.isEmpty(options) then self.resposivePieChart()
     $('.highcharts-credits').css('display', 'none')
+
+  resposivePieChart: ->
+    rules: [
+      condition: maxWidth: 425
+      chartOptions:
+        series: [
+          id: 'brands'
+          dataLabels: enabled: false
+       ]
+    ]

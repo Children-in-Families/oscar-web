@@ -1,0 +1,15 @@
+.col-xs-12.col-md-6
+  .panel.panel-default.family-panel
+    .panel-body
+      =link_to program_streams_path do
+        .widget.style1.widget-family-panel
+          .row.vertical-align
+            .col-xs-5
+              %i.fa.fa-cogs.fa-3x
+            .col-xs-7.text-right
+              %span.text-font
+                = t('.program_stream')
+              %h2.font-bold #{@dashboard.program_stream_count}
+      .row
+        .col-xs-12
+          #client-by-program-stream{ 'data-content-count' => @dashboard.client_program_stream.to_json}
