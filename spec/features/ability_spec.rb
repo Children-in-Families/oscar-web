@@ -35,7 +35,8 @@ describe 'Abilities' do
 
     it 'can manage Client' do
       should be_able_to(:create, Client)
-      should be_able_to(:manage, Client, case_worker_clients: { user_id: User.where('manager_ids && ARRAY[:user_id] OR id = :user_id', { user_id: user.id }).map(&:id) })
+      value = User.where('manager_ids && ARRAY[:user_id] OR id = :user_id', { user_id: user.id }).map(&:id)
+      ability.model_adapter(Client, :manage).conditions.should ==  { case_worker_clients: { user_id: value } }
     end
 
     it 'can manage User' do
