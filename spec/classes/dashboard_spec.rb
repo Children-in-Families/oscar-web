@@ -1,8 +1,8 @@
 describe Dashboard, 'Method' do
-  let!(:client)            { create(:client, gender: 'male')  }
-  let!(:client_ec)         { create(:client, gender: 'male', status: 'Active EC')  }
-  let!(:client_fc)         { create(:client, gender: 'female', status: 'Active FC')  }
-  let!(:client_kc)         { create(:client, gender: 'female', status: 'Active KC')  }
+  let!(:client)            { create(:client)  }
+  let!(:client_ec)         { create(:client, status: 'Active EC')  }
+  let!(:client_fc)         { create(:client, :female, status: 'Active FC')  }
+  let!(:client_kc)         { create(:client, :female, status: 'Active KC')  }
   let!(:able_client)       { create(:client, able_state: 'Accepted')  }
   let!(:program_stream)    { create(:program_stream) }
   let!(:client_enrollment) { create(:client_enrollment, program_stream: program_stream, client: client, status: 'Active') }
@@ -25,22 +25,22 @@ describe Dashboard, 'Method' do
       expect(@program_stream_report.to_json).to have_json_size(3)
     end
 
-    it 'should return attribute name' do
+    it 'includes name attribute' do
       program_stream_report = @program_stream_report.to_json
       expect(program_stream_report).to have_json_path('name')
     end
 
-    it 'should return attribute y' do
+    it 'includes y attribute' do
       program_stream_report = @program_stream_report.to_json
       expect(program_stream_report).to have_json_path('y')
     end
 
-    it 'should return attribute url' do
+    it 'includes url attribute' do
       program_stream_report = @program_stream_report.to_json
       expect(program_stream_report).to have_json_path('url')
     end
 
-    it 'should return program name' do
+    it 'should return object not empty' do
       program_stream_report = @program_stream_report
       expect(program_stream_report[:name]).to eq(program_stream.name)
       expect(program_stream_report[:y]).to eq(4)

@@ -23,5 +23,9 @@ FactoryGirl.define do
     trait :accepted do
       state 'accepted'
     end
+
+    trait :female do
+      gender 'female'
+    end
   end
 end
