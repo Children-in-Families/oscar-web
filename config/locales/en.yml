@@ -1201,10 +1201,13 @@ en:
     client_program_stream_by_gender:
       active_program_streams: Active Program Streams
       active_progarm_streams_by_gender: Active Program Streams By Gender
+      client_active_in_programs: Client Active In Programs
     family:
       families: Families
       foster: Foster
       kinship: Kinship
+    program_stream:
+      program_stream: Program Streams
     third_party:
       ables: Ables
       agencies: Agencies

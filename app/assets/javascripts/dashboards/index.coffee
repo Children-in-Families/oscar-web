@@ -5,6 +5,7 @@ CIF.DashboardsIndex = do ->
     _familyType()
     _resizeChart()
     _clientProgramStreamByGender()
+    _clientProgramStream()
 
   _resizeChart = ->
     $('.minimalize-styl-2').click ->
@@ -17,7 +18,7 @@ CIF.DashboardsIndex = do ->
   #   data    = $(element).data('content-count')
   #   report = new CIF.ReportCreator(data, '', '', element)
   #   report.donutChart()
-  #
+
   # _clientStatusChart = ->
   #   element = $('#client-by-status')
   #   data    = $(element).data('content-count')
@@ -36,5 +37,12 @@ CIF.DashboardsIndex = do ->
     title    = $(element).data('title')
     report = new CIF.ReportCreator(data, title, '', element)
     report.donutChart()
+
+  _clientProgramStream = ->
+    element = $('#client-by-program-stream')
+    data    = $(element).data('content-count')
+    title    = $(element).data('title')
+    report = new CIF.ReportCreator(data, title, '', element)
+    report.pieChart(option: true)
 
   { init: _init }

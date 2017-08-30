@@ -1249,10 +1249,13 @@ km:
     client_program_stream_by_gender:
       active_program_streams: កម្មវិធីបន្ទាប់បន្សំ
       active_progarm_streams_by_gender: ផ្ទាំងគ្រប់គ្រងកម្មវិធីបន្ទាប់បន្សំតាមភេទ
+      client_active_in_programs: អតិថិជនចូលរួមកម្មវិធីបន្ទាប់បន្សំ
     family:
       families: គ្រូសារ
       foster: Foster
       kinship: Kinship
+    program_stream:
+      program_stream: កម្មវិធីបន្ទាប់បន្សំ
     third_party:
       ables: Ables
       agencies: អង្គភាព
