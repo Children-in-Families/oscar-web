@@ -1198,6 +1198,9 @@ en:
       foster_cares_html: Foster <br/>Cares
       kinship_cares_html: Kinship <br/>Cares
       males: Males
+    client_program_stream_by_gender:
+      active_program_streams: Active Program Streams
+      active_progarm_streams_by_gender: Active Program Streams By Gender
     family:
       families: Families
       foster: Foster

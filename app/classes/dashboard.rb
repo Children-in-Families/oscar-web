@@ -74,6 +74,24 @@ class Dashboard
     ]
   end
 
+  def program_stream_report_gender
+    active_enrollments = Client.joins(:client_enrollments).where(client_enrollments: { status: 'Active' })
+    males = active_enrollments.where(clients: { gender: 'male' } ).uniq
+    females = active_enrollments.where(clients: { gender: 'femail' } ).uniq
+    [
+      {
+        name: I18n.t('classes.dashboard.males'),
+        y: males.size,
+        active_data: program_stream_report_by(males.ids, 'Male')
+      },
+      {
+        name: I18n.t('classes.dashboard.females'),
+        y: females.size,
+        active_data: program_stream_report_by(females.ids, 'Female')
+      }
+    ]
+  end
+
   def able_count
     @clients.able.count
   end
@@ -96,5 +114,20 @@ class Dashboard
 
   def referral_source_count
     @referral_sources.count
+  end
+
+  private
+
+  def program_stream_report_by(client_ids, gender)
+    program_streams = ProgramStream.joins(:client_enrollments).where(client_enrollments: { status: 'Active', client_id: client_ids }).limit(10).uniq
+    program_streams.map do |p|
+      url = { 'condition': 'AND', 'rules': [{ 'id': 'program_stream', 'field': 'program_stream', 'type': 'string', 'input': 'select', 'operator': 'equal', 'value': p.id },
+        { 'id': 'gender', 'field': 'gender', 'type': 'string', 'input': 'select', 'operator': 'equal', 'value': gender.downcase } ]}
+      {
+        name: "#{p.name} (#{gender})",
+        y: p.client_enrollments.active.uniq.count,
+        url: client_advanced_searches_path('client_advanced_search[basic_rules]': url.to_json)
+      }
+    end
   end
 end

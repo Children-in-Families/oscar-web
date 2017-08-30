@@ -2,6 +2,8 @@
   .row
     = render 'client'
   .row
+    = render 'client_program_stream_by_gender'
+  .row
     - if can? :read, Family
       = render 'family'
     = render 'third_party'

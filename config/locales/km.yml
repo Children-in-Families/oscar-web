@@ -1246,6 +1246,9 @@ km:
       foster_cares_html: ករណី <br/>Foster
       kinship_cares_html: ករណី <br/>Kinship
       males: ប្រុស
+    client_program_stream_by_gender:
+      active_program_streams: កម្មវិធីបន្ទាប់បន្សំ
+      active_progarm_streams_by_gender: ផ្ទាំងគ្រប់គ្រងកម្មវិធីបន្ទាប់បន្សំតាមភេទ
     family:
       families: គ្រូសារ
       foster: Foster

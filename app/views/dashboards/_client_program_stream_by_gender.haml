@@ -1,0 +1,15 @@
+.col-xs-12
+  .panel.panel-default.program-stream-panel
+    .panel-body
+      =link_to program_streams_path do
+        .widget.style1.widget-program-panel
+          .row.vertical-align
+            .col-xs-5
+              %i.fa.fa-cogs.fa-3x
+            .col-xs-7.text-right
+              %span.text-font
+                =t('.active_program_streams')
+              -# %h2.font-bold #{@dashboard.family_count}
+      .row
+        .col-xs-12
+          #client-program-stream{ 'data-content-count' => @dashboard.program_stream_report_gender.to_json, 'data-title' => t('.active_progarm_streams_by_gender') }

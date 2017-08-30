@@ -4,7 +4,8 @@ class CIF.ReportCreator
     @title = title
     @yAxisTitle = yAxisTitle
     @element = element
-
+    @colors = ['#4caf50', '#00695c', '#01579b', '#4dd0e1', '#2e7d32', '#4db6ac', '#00897b', '#a5d6a7', '#43a047', '#c5e1a5', '#7cb342', '#fdd835', '#fb8c00', '#6d4c41', '#757575',
+              '#ef9a9a', '#e53935', '#f48fb1', '#d81b60', '#ce93d8', '#8e24aa', '#b39ddb', '#7e57c2', '#9fa8da', '#3949ab', '#64b5f6', '#827717']
   perform: ->
     @lineChart()
     @pieChart()
@@ -41,19 +42,25 @@ class CIF.ReportCreator
   donutChart: ->
     [green, blue, africa, brown, yellow] = ["#59b260", "#5096c9", "#1c8781", "#B2912F", "#DECF3F"]
     $(@element).highcharts
-      colors: [ green, blue, africa, brown, yellow]
+      colors: @colors
       chart:
         type: 'pie'
-        height: 380
+        height: 500
         backgroundColor: '#ecf0f1'
         borderWidth: 1
         borderColor: "#ddd"
+        marginBottom: 50
+      title:
+        text: @title
+        style:
+          fontSize: '1.6em'
       legend:
         verticalAlign: 'top'
-        y: 10
+        itemMarginTop: 5
+        itemMarginBottom: 5
+        y: 30
         itemStyle:
-           fontSize: '11px'
-      title: text: ''
+           fontSize: '12px'
       plotOptions: pie:
         shadow: false
       series: [
@@ -70,7 +77,7 @@ class CIF.ReportCreator
         {
           data: @data[0].active_data.concat(@data[1].active_data)
           name: 'Case'
-          size: '100%'
+          size: '90%'
           innerSize: '60%'
           allowPointSelect: true
           cursor: 'pointer'
@@ -79,18 +86,33 @@ class CIF.ReportCreator
             location.href = @options.url
           dataLabels:
             style: fontSize: '13px'
-            distance: -30
-            color: '#ffffff'
+            distance: 30
+            color: '#000000'
             formatter: ->
               @point.name + ': ' + @point.y
+          id: 'versions'
         }
       ]
+      responsive:
+        rules: [
+          condition: maxWidth: 1024
+          chartOptions:
+            series: [
+              id: 'versions'
+              dataLabels:
+                style: fontSize: '13px'
+                distance: 20
+                color: '#000000'
+                formatter: ->
+                  if _.includes(@point.name.split(' '), '(Female)') then 'Female: ' + @point.y else 'Male: ' + @point.y
+            ]
+        ]
     $('.highcharts-credits').css('display', 'none')
 
   pieChart: ->
     [green, blue, africa, brown, yellow] = ["#59b260", "#5096c9", "#1c8781", "#B2912F", "#DECF3F"]
     $(@element).highcharts
-      colors: [ green, blue, africa, brown, yellow]
+      colors: @colors
       chart:
         height: 380
         backgroundColor: '#ecf0f1'
