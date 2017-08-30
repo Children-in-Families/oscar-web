@@ -10,7 +10,7 @@ describe 'Abilities' do
   end
 
   context 'manager permissions' do
-    let!(:user){ create(:user, :manager, manager_ids: [1,2]) }
+    let!(:user){ create(:user, :manager, id: 1, manager_ids: [1,2]) }
 
     it 'can manage Agency' do
       should be_able_to(:manage, Agency)
