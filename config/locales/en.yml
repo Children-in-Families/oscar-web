@@ -1200,8 +1200,8 @@ en:
       males: Males
     client_program_stream_by_gender:
       active_program_streams: Active Program Streams
-      active_progarm_streams_by_gender: Active Program Streams By Gender
-      client_active_in_programs: Client Active In Programs
+      active_progarm_streams_by_gender: Active Program Streams by client gender
+      client_active_in_programs: Active Program Streams
     family:
       families: Families
       foster: Foster
