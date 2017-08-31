@@ -48,7 +48,7 @@
     }
   }
 
-  .client-panel, .family-panel {
+  .client-panel, .family-panel, .program-stream-panel {
     .top-bar {
       margin-bottom: 15px;
     }
@@ -61,7 +61,8 @@
       font-size: 2.5em;
     }
     .widget-family-panel,
-    .widget-client-panel {
+    .widget-client-panel,
+    .widget-program-panel {
       border-bottom-left-radius: 0;
       border-bottom-right-radius: 0;
       margin-bottom: 0;
