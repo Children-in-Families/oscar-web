@@ -133,7 +133,7 @@ CIF.Custom_fieldsNew = CIF.Custom_fieldsCreate = CIF.Custom_fieldsEdit = CIF.Cus
             $('#livesearch').css('visibility', 'visible')
             ngo_name = field.ngo_name.replace(/\s/g,"+")
             url_origin = document.location.origin
-            preview_link = "#{url_origin}/fields/preview?custom_field_id=#{field.id}&ngo_name=#{ngo_name}"
+            preview_link = "#{url_origin}/custom_fields/preview?custom_field_id=#{field.id}&ngo_name=#{ngo_name}"
             $('#livesearch').append("<li><span class='col-xs-8'>#{field.form_title} (#{field.ngo_name})</span>
             <span class='col-xs-4 text-right'><a href=#{preview_link}>#{previewTranslation}</a></span></li>")
 
