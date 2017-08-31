@@ -13,6 +13,6 @@
                 = @dashboard.program_stream_count
       .row
         .col-xs-12
-          #client-by-program-stream{ 'data-content-count' => @dashboard.client_program_stream.to_json, 'data-title' => t('.active_progarm_streams_by_gender')}
+          #client-by-program-stream{ 'data-content-count' => @dashboard.client_program_stream.to_json, 'data-title' => t('.client_active_in_programs')}
           %hr/
-          #client-program-stream{ 'data-content-count' => @dashboard.program_stream_report_gender.to_json, 'data-title' => t('.client_active_in_programs') }
+          #client-program-stream{ 'data-content-count' => @dashboard.program_stream_report_gender.to_json, 'data-title' => t('.active_progarm_streams_by_gender') }
