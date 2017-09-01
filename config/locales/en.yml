@@ -266,6 +266,7 @@ en:
       case_type: Case Type
       case_worker: Case Worker
       case_worker_or_staff: Case Worker / Staff
+      csi_domain_scores: CSI Domain Scores
       code: Code
       commune: Commune/Sangkat
       completed: Completed

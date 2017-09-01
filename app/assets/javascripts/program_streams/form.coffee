@@ -222,6 +222,8 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
           return _handleCheckingDuplicateFields()
           return false if _handleCheckingDuplicateFields()
         else if $('#rule-tab').is(':visible')
+          errorDomainScore = $('.rule-value-container input[type=number].error').size()
+          return false if errorDomainScore > 0
           return false if _handleMaximumProgramEnrollment()
         $('section ul.frmb.ui-sortable').css('min-height', '266px')
 

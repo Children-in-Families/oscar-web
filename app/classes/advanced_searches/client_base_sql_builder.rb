@@ -65,6 +65,11 @@ module AdvancedSearches
           @sql_string << quantitative_filter[:id]
           @values << quantitative_filter[:values]
 
+        elsif form_builder.first == 'domainscore'
+          domain_scores = AdvancedSearches::DomainScoreSqlBuilder.new(form_builder.second, rule).get_sql
+          @sql_string << domain_scores[:id]
+          @values << domain_scores[:values]
+
         elsif field != nil
           value = field == 'grade' ? validate_integer(value) : value
           base_sql(field, operator, value)
