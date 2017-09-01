@@ -10,7 +10,14 @@ class ClientAdvancedSearchesController < AdminController
   def index
     return unless has_params?
     basic_rules          = JSON.parse @basic_filter_params
-    clients              = AdvancedSearches::ClientAdvancedSearch.new(basic_rules, Client.accessible_by(current_ability))
+    history_date              = { 'start_date': @advanced_search_params[:history_start_date], 'end_date': @advanced_search_params[:history_end_date] }
+
+    if history_date.present?
+      clients = AdvancedSearches::ClientHistoryAdvancedSearch.new(basic_rules, Client.accessible_by(current_ability), history_date)
+    else
+      clients = AdvancedSearches::ClientAdvancedSearch.new(basic_rules, Client.accessible_by(current_ability))
+    end
+
     @clients_by_user     = clients.filter
 
     columns_visibility

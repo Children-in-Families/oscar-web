@@ -53,6 +53,7 @@ CIF.Client_advanced_searchesIndex = do ->
     _getClientPath()
     _setDefaultCheckColumnVisibilityAll()
 
+
   _initSelect2 = ->
     $('#custom-form-select, #program-stream-select, #quantitative-case-select').select2()
     $('.rule-filter-container select').select2(width: '250px')
@@ -283,6 +284,12 @@ CIF.Client_advanced_searchesIndex = do ->
       $('#client_advanced_search_program_selected').val(programValues)
       if $('#quantitative-type-checkbox').prop('checked')
         $('#client_advanced_search_quantitative_check').val(1)
+
+      if $('#historical-checkbox').prop('checked')
+        startDate = $('#historical-search-start-date').val()
+        endDate = $('#historical-search-end-date').val()
+        $('#client_advanced_search_history_start_date').val(startDate)
+        $('#client_advanced_search_history_end_date').val(endDate)
 
       if !($.isEmptyObject(basicRules))
         $('#client_advanced_search_basic_rules').val(_handleStringfyRules(basicRules))
