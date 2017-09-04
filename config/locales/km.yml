@@ -680,6 +680,7 @@ km:
   client_advanced_searches:
     form_option:
       basic_fields: ពត៌មានទូទៅរបស់អតិថិជន
+      csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
       custom_form: ទម្រង់បែបបទបន្ថែម
       enrollment: ទម្រង់បែបបទនៃចុះឈ្មោះ
       exit_program: ចាកចេញពីកម្មវិធី

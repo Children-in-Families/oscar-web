@@ -15,15 +15,15 @@ describe AdvancedSearches::DomainScoreFields, 'Method' do
     end
 
     it 'return field with id' do
-      expect(@domain_scores[:id]).to include("domainscore_#{domain.id}_#{domain.identity} (#{domain.name})")
+      expect(@domain_scores[:id]).to eq("domainscore_#{domain.id}_#{domain.identity}")
     end
 
     it 'return field with optGroup' do
-      expect(@domain_scores[:optgroup]).to include('CSI Domain Scores')
+      expect(@domain_scores[:optgroup]).to eq('CSI Domain Scores')
     end
 
     it 'return field with label' do
-      expect(@domain_scores[:label]).to include("#{domain.identity} (#{domain.name})")
+      expect(@domain_scores[:label]).to eq("#{domain.identity}")
     end
   end
 end
