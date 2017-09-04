@@ -288,6 +288,7 @@ CIF.Client_advanced_searchesIndex = do ->
       if $('#historical-checkbox').prop('checked')
         startDate = $('#historical-search-start-date').val()
         endDate = $('#historical-search-end-date').val()
+        $('#client_advanced_search_history_search_check').val(1)
         $('#client_advanced_search_history_start_date').val(startDate)
         $('#client_advanced_search_history_end_date').val(endDate)
 

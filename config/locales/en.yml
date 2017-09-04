@@ -676,10 +676,13 @@ en:
     form_option:
       basic_fields: Client Basic Fields
       custom_form: Custom Form
+      end_date: End Date
       enrollment: Enrollment
       exit_program: Exit Program
       filter_option: Please choose your query options below
+      historical_search: Historical Search
       program_stream: Program Stream
+      start_date: Start Date
       tracking: Tracking
       quantitative: Quantitative Type
     index:

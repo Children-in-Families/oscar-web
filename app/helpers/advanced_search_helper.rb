@@ -25,6 +25,10 @@ module AdvancedSearchHelper
     has_advanced_search? && advanced_search_params[:exit_form_check].present? ? true : false
   end
 
+  def historical_search
+    has_advanced_search? && advanced_search_params[:history_search_check].present? ? true : false
+  end
+
   def has_advanced_search?
     params[:client_advanced_search].present?
   end

@@ -3,17 +3,15 @@
     #historical-search-wrapper
       .row
         .col-xs-12.form-group
-          = check_box_tag :nil, '1', custom_form_values.present?, { class: 'i-checks', id: 'historical-checkbox' }
-          %label= 'Historical Search'
+          = check_box_tag :nil, '1', historical_search.present?, { class: 'i-checks', id: 'historical-checkbox', name: 'historical-checkbox' }
+          %label= t('.historical_search')
       .row
         .col-xs-12.col-sm-6.form-group
-          %label Start Date
-          / %input.input-group.date.form-control{ name: 'historical-search-start-date', id: 'historical-search-start-date', value: params[:client_advanced_search][:history_start_date] ||= '' }
-          %input.input-group.date.form-control{ name: 'historical-search-start-date', id: 'historical-search-start-date', value: if params[:client_advanced_search].present? ? params[:client_advanced_search][:history_start_date] : '' }
+          %label= t('.start_date')
+          %input.input-group.date.form-control{ name: 'historical-search-start-date', id: 'historical-search-start-date', value: params[:client_advanced_search].present? ? params[:client_advanced_search][:history_start_date] : '' }
         .col-xs-12.col-sm-6.form-group
-          %label End Date
-          / %input.input-group.date.form-control{ name: 'historical-search-start-date', id: 'historical-search-start-date', value: params[:client_advanced_search][:history_end_date] ||= '' }
-          %input.input-group.date.form-control{ name: 'historical-search-end-date', id: 'historical-search-end-date', value: if params[:client_advanced_search].present? ? params[:client_advanced_search][:history_end_date] : '' }
+          %label= t('.end_date')
+          %input.input-group.date.form-control{ name: 'historical-search-end-date', id: 'historical-search-end-date', value: params[:client_advanced_search].present? ? params[:client_advanced_search][:history_end_date] : '' }
 
 %h4
   %label **

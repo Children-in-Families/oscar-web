@@ -680,10 +680,13 @@ km:
     form_option:
       basic_fields: ពត៌មានទូទៅរបស់អតិថិជន
       custom_form: ទម្រង់បែបបទបន្ថែម
+      end_date: ថ្ងៃបញ្ចប់
       enrollment: ទម្រង់បែបបទនៃចុះឈ្មោះ
       exit_program: ចាកចេញពីកម្មវិធី
       filter_option: សូមជ្រើសជម្រើសសំណួររបស់អ្នកខាងក្រោម
+      historical_search: ការស្វែងរកពីអតីតកាល
       program_stream: កម្មវិធីបន្ទាប់បន្សំ
+      start_date: ថ្ងៃចាប់ផ្តើម
       tracking: តាមដាន
       quantitative: ប្រភេទនៃបរិមាណ
     index:
