@@ -1,0 +1,27 @@
+#customField.modal.fade{ role: 'dialog' }
+  .modal-dialog
+    .modal-content
+      .modal-header 
+        %button{ class: "close", 'data-dismiss': 'modal' } &times
+        %h4 Custom Form
+      .modal-body
+        .table-responsive
+          %table.table.table-bordered.table-hover.table-striped.program-stream-table
+            %thead
+              %th.name
+                Form Title
+              %th.domain
+                Organization
+              %th.status
+                Preview
+            %tbody
+              - CustomField.client_forms.limit(10).each do |custom|
+                %tr
+                  %td= custom.form_title
+                  %td= custom.ngo_name
+                  %td
+                    = link_to '#', class: 'copy-form' do 
+                      = fa_icon('copy')
+                      %span{ data: { fields: custom.fields }}
+  
+            

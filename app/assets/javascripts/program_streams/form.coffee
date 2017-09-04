@@ -26,6 +26,27 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     _handleSelectFrequency()
     _initFrequencyNote()
     _editTrackingFormName()
+    _copyCustomForm()
+
+  _copyCustomForm = ->
+    self = @
+    $('.copy-form').click ->
+      fields = $('.copy-form span').data('fields')
+      for formBuilder in self.formBuilder
+        element = formBuilder.element
+        if $(element).is('#enrollment') and $('#enrollment').is(':visible')
+          debugger
+        #   $('#program_stream_enrollment').val(formBuilder.formData)
+        # else if $(element).is('.tracking-builder')
+        #   hiddenField = $(element).find('.tracking-field-hidden input[type="hidden"]')
+        #   $(hiddenField).val(formBuilder.formData)
+        # else if $(element).is('#exit-program')
+        #   $('#program_stream_exit_program').val(formBuilder.formData)
+
+      # $('#enrollment').children().remove()
+      # _initProgramBuilder($('#enrollment'), field)
+      # $('#customField').hide
+
 
   _initCheckbox = ->
     $('.i-checks').iCheck

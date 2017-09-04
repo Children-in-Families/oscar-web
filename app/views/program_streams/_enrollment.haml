@@ -5,3 +5,6 @@
     %i= t('.note')
   .text-danger= @program_stream.errors[:enrollment].join(' and ')
   = f.hidden_field :enrollment
+  .btn.btn-primary{ 'data-toggle': "modal", 'data-target': "#customField" }
+    Custom Field List
+= render 'custom_form'
