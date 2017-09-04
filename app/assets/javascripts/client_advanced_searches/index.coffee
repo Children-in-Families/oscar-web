@@ -1,11 +1,12 @@
 CIF.Client_advanced_searchesIndex = do ->
-  optionTranslation      = $('#opt-group-translation')
-  BASIC_FIELD_TRANSLATE  = $(optionTranslation).data('basicFields')
-  CUSTOM_FORM_TRANSLATE  = $(optionTranslation).data('customForm')
-  ENROLLMENT_TRANSLATE   = $(optionTranslation).data('enrollment')
-  EXIT_PROGRAM_TRANSTATE = $(optionTranslation).data('exitProgram')
-  QUANTITATIVE_TRANSLATE = $(optionTranslation).data('quantitative')
-  TRACKING_TRANSTATE     = $(optionTranslation).data('tracking')
+  optionTranslation        = $('#opt-group-translation')
+  BASIC_FIELD_TRANSLATE    = $(optionTranslation).data('basicFields')
+  DOMAIN_SCORES_TRANSLATE  = $(optionTranslation).data('csiDomainScores')
+  CUSTOM_FORM_TRANSLATE    = $(optionTranslation).data('customForm')
+  ENROLLMENT_TRANSLATE     = $(optionTranslation).data('enrollment')
+  EXIT_PROGRAM_TRANSTATE   = $(optionTranslation).data('exitProgram')
+  QUANTITATIVE_TRANSLATE   = $(optionTranslation).data('quantitative')
+  TRACKING_TRANSTATE       = $(optionTranslation).data('tracking')
 
   ENROLLMENT_URL       = '/api/client_advanced_searches/get_enrollment_field'
   TRACKING_URL         = '/api/client_advanced_searches/get_tracking_field'
@@ -29,7 +30,7 @@ CIF.Client_advanced_searchesIndex = do ->
     _customFormSelectChange()
     _customFormSelectRemove()
     _handleHideCustomFormSelect()
-    
+
     _handleShowProgramStreamFilter()
     _handleHideProgramStreamSelect()
     _handleProgramSelectChange()
@@ -43,7 +44,6 @@ CIF.Client_advanced_searchesIndex = do ->
 
     _handleAddQuantitativeFilter()
     _handleRemoveQuantitativFilter()
-
     _columnsVisibility()
     _handleInitDatatable()
     _handleSearch()
@@ -66,7 +66,7 @@ CIF.Client_advanced_searchesIndex = do ->
     fields = $('#quantitative-fields').data('fields')
     $('#quantitative-type-checkbox').on 'ifChecked', ->
       $('#builder').queryBuilder('addFilter', fields)
-      _initSelect2() 
+      _initSelect2()
 
   _handleRemoveQuantitativFilter = ->
     $('#quantitative-type-checkbox').on 'ifUnchecked', ->
@@ -86,11 +86,6 @@ CIF.Client_advanced_searchesIndex = do ->
       $('#program-stream-column ul.append-child li').remove()
       self.programSelected = []
       $('.program-stream, .program-association').hide()
-      $('#program-stream-select option:selected').each ->
-        name = $(@).text()
-        _handleRemoveFilterBuilder(name, BASIC_FIELD_TRANSLATE)
-        _handleRemoveFilterBuilder(name, TRACKING_TRANSTATE)
-        _handleRemoveFilterBuilder(name, EXIT_PROGRAM_TRANSTATE)
       $('.program-association input[type="checkbox"]').iCheck('uncheck')
       $('#program-stream-select').select2("val", "")
 
@@ -266,7 +261,8 @@ CIF.Client_advanced_searchesIndex = do ->
 
   _initBuilderFilter = ->
     builderFields = $('#client-builder-fields').data('fields')
-    $('#builder').queryBuilder(_queryBuilderOption(builderFields))
+    advanceSearchBuilder = new CIF.AdvancedFilterBuilder($('#builder'), builderFields, @filterTranslation)
+    advanceSearchBuilder.initRule()
     _basicFilterSetRule()
     _initSelect2()
     _initRuleOperatorSelect2($('#builder'))
@@ -297,29 +293,6 @@ CIF.Client_advanced_searchesIndex = do ->
     if @enrollmentCheckbox.prop('checked') then $(enrollmentCheck).val(1)
     if @trackingCheckbox.prop('checked') then $(trackingCheck).val(1)
     if @exitCheckbox.prop('checked') then $(exitFormCheck).val(1)
-
-  _queryBuilderOption = (fieldList) ->
-    inputs_separator: ' AND '
-    icons:
-      remove_rule: 'fa fa-minus'
-    lang:
-      delete_rule: ''
-      add_rule: @filterTranslation.addFilter
-      add_group: @filterTranslation.addGroup
-      delete_group: @filterTranslation.deleteGroup
-      operators:
-        is_empty: 'is blank'
-        is_not_empty: 'is not blank'
-        equal: 'is'
-        not_equal: 'is not'
-        less: '<'
-        less_or_equal: '<='
-        greater: '>'
-        greater_or_equal: '>='
-        contains: 'includes'
-        not_contains: 'excludes'
-    plugins: ['sortable','bt-tooltip-errors']
-    filters: fieldList
 
   _columnsVisibility = ->
     $('.columns-visibility').click (e) ->
@@ -374,7 +347,7 @@ CIF.Client_advanced_searchesIndex = do ->
     filterSelects = $('.rule-container .rule-filter-container select')
     for select in filterSelects
       optGroup  = $(':selected', select).parents('optgroup')
-      if $(select).val() != '-1' and optGroup[0] != undefined and optGroup[0].label != BASIC_FIELD_TRANSLATE
+      if $(select).val() != '-1' and optGroup[0] != undefined and optGroup[0].label != BASIC_FIELD_TRANSLATE and optGroup[0].label != DOMAIN_SCORES_TRANSLATE
         label = optGroup[0].label.split('|')
         if $(label).last()[0].trim() == resourcelabel and label[0].trim() == resourceName
           container = $(select).parents('.rule-container')
@@ -393,7 +366,7 @@ CIF.Client_advanced_searchesIndex = do ->
     optGroups = $(filterSelects[0]).find('optgroup')
     for optGroup in optGroups
       label = optGroup.label
-      if label != BASIC_FIELD_TRANSLATE
+      if label != BASIC_FIELD_TRANSLATE and label != DOMAIN_SCORES_TRANSLATE
         labelValue = label.split('|')
         if $(labelValue).last()[0].trim() == resourcelabel and labelValue[0].trim() == resourceName
           $(optGroup).find('option').each ->

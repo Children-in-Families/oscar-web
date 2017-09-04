@@ -676,6 +676,7 @@ en:
   client_advanced_searches:
     form_option:
       basic_fields: Client Basic Fields
+      csi_domain_scores: CSI Domain Scores
       custom_form: Custom Form
       enrollment: Enrollment
       exit_program: Exit Program

@@ -14,9 +14,9 @@ module AdvancedSearches
       drop_list_fields      = drop_down_type_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first, format_header(item.first), item.last, group) }
       domain_scores_options = AdvancedSearches::DomainScoreFields.render
 
-      search_fields       = text_fields + drop_list_fields + number_fields + date_picker_fields + domain_scores_options
+      search_fields       = text_fields + drop_list_fields + number_fields + date_picker_fields
 
-      search_fields.sort_by { |f| f[:label].downcase }
+      search_fields.sort_by { |f| f[:label].downcase } + domain_scores_options
     end
 
     private
