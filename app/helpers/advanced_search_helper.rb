@@ -87,6 +87,7 @@ module AdvancedSearchHelper
       exit_date: I18n.t('advanced_search.fields.ngo_exit_date'),
       accepted_date: I18n.t('advanced_search.fields.ngo_accepted_date'),
       program_stream: I18n.t('advanced_search.fields.program_stream'),
+      csi_domain_scores: I18n.t('advanced_search.fields.csi_domain_scores')
     }
     translations[key.to_sym] || ''
   end

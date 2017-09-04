@@ -269,6 +269,7 @@ en:
       code: Code
       commune: Commune/Sangkat
       completed: Completed
+      csi_domain_scores: CSI Domain Scores
       current_address: Current Address
       current_province: Current Province
       date_of_birth: Date of Birth
