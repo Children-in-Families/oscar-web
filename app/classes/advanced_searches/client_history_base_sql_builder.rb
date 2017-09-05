@@ -3,7 +3,13 @@ module AdvancedSearches
     ASSOCIATION_FIELDS = ['user_id', 'case_type', 'agency_name', 'form_title', 'placement_date', 'family', 'age', 'family_id', 'referred_to_ec', 'referred_to_fc', 'referred_to_kc', 'exit_ec_date', 'exit_fc_date', 'exit_kc_date', 'program_stream']
     BLANK_FIELDS = ['date_of_birth', 'initial_referral_date', 'follow_up_date', 'has_been_in_orphanage', 'has_been_in_government_care', 'grade', 'province_id', 'referral_source_id', 'birth_province_id', 'received_by_id', 'followed_up_by_id', 'donor_id', 'id_poor', 'exit_date', 'accepted_date']
 
-    INTEGER_VALUES = ['user_id', 'family_id', 'province_id', 'referral_source_id', 'birth_province_id', 'received_by_id', 'followed_up_by_id', 'donor_id', 'id_poor', 'grade']
+    INTEGER_FIELDS = ['user_id', 'family_id', 'province_id', 'referral_source_id', 'birth_province_id', 'received_by_id', 'followed_up_by_id', 'donor_id', 'id_poor', 'grade']
+
+    DATE_FIELDS = ['date_of_birth', 'initial_referral_date', 'follow_up_date', 'exit_date', 'accepted_date']
+
+    BOOLEAN_FIELDS = ['has_been_in_government_care', 'has_been_in_orphanage']
+
+
 
     def initialize(clients, rules, history_date)
       @clients     = clients
@@ -83,7 +89,10 @@ module AdvancedSearches
     private
 
     def historical_base_sql(field, operator, value, history_date)
-      value = value.to_i if INTEGER_VALUES.include?(field)
+      value = value.to_i if (INTEGER_FIELDS.include?(field) && operator != 'between')
+      value = value.try(:to_date).try(:beginning_of_day) if (DATE_FIELDS.include?(field) && operator != 'between')
+      value = (value == 'true' ? true : false) if BOOLEAN_FIELDS.include?(field)
+
       case operator
       when 'equal'
         @sql_string << { "object.#{field}": value }
@@ -124,9 +133,14 @@ module AdvancedSearches
         end
 
       when 'between'
-        start_date = value.first.to_date.beginning_of_day
-        end_date = value.last.to_date.end_of_day
-        @sql_string << { "object.#{field}": start_date..end_date }
+        if INTEGER_FIELDS.include?(field)
+          first_value = value.first.to_i
+          seccond_value = value.last.to_i
+        elsif DATE_FIELDS.include?(field)
+          first_value = value.first.to_date.beginning_of_day
+          seccond_value = value.last.to_date.end_of_day
+        end
+        @sql_string << { "object.#{field}": first_value..seccond_value }
       end
     end
 

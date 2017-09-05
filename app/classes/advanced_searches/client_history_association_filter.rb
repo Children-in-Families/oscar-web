@@ -19,15 +19,15 @@ module AdvancedSearches
       # when 'case_type'
       #   values = case_type_field_query
       # when 'user_id'
-      #   values = user_id_field_query
+      #   client_ids << user_id_field_query
       # when 'agency_name'
       #   values = agency_name_field_query
       # when 'family_id'
       #   values = family_id_field_query
       # when 'family'
       #   values = family_name_field_query
-      # when 'age'
-      #   values = age_field_query
+      when 'age'
+        client_ids << age_field_query
       when 'referred_to_ec'
         client_ids << program_placement_date_field_query('EC')
       when 'referred_to_fc'
@@ -202,44 +202,52 @@ module AdvancedSearches
     #   clients.uniq.ids
     # end
 
-    # def age_field_query
-    #   date_value_format = convert_age_to_date(@value)
-    #   case @operator
-    #   when 'equal'
-    #     clients = @clients.where(date_of_birth: date_value_format)
-    #   when 'not_equal'
-    #     clients = @clients.where.not(date_of_birth: date_value_format)
-    #   when 'less'
-    #     clients = @clients.where('date_of_birth > ?', date_value_format)
-    #   when 'less_or_equal'
-    #     clients = @clients.where('date_of_birth >= ?', date_value_format)
-    #   when 'greater'
-    #     clients = @clients.where('date_of_birth < ?', date_value_format)
-    #   when 'greater_or_equal'
-    #     clients = @clients.where('date_of_birth <= ?', date_value_format)
-    #   when 'between'
-    #     clients = @clients.where(date_of_birth: date_value_format[0]..date_value_format[1])
-    #   when 'is_empty'
-    #     clients = @clients.where('date_of_birth IS NULL')
-    #   when 'is_not_empty'
-    #     clients = @clients.where.not('date_of_birth IS NULL')
-    #   end
-    #   clients.ids
-    # end
+    def age_field_query
+      date_value_format = convert_age_to_date(@value)
 
-    # def convert_age_to_date(value)
-    #   overdue_year = 999.years.ago.to_date
-    #   if value.is_a?(Array)
-    #     min_age = (value[0].to_i * 12).months.ago.to_date
-    #     max_age = (value[1].to_i * 12).months.ago.to_date
-    #     min_age = min_age > overdue_year ? min_age : overdue_year
-    #     max_age = max_age > overdue_year ? max_age : overdue_year
-    #     [max_age, min_age]
-    #   else
-    #     age = (value.to_i * 12).months.ago.to_date
-    #     age > overdue_year ? age : overdue_year
-    #   end
-    # end
+      client_ids = []
+      start_date = @history_date[:start_date].to_date.beginning_of_day
+      end_date = @history_date[:end_date].to_date.end_of_day
+
+      clients = ClientHistory.where(created_at: start_date..end_date)
+
+      case @operator
+      when 'equal'
+        clients = clients.where('object.date_of_birth': date_value_format).map { |client| client.object['id'] }
+      when 'not_equal'
+        clients = clients.where('object.date_of_birth': { '$ne': date_value_format }).distinct('object.id')
+      when 'less'
+        clients = clients.where('object.date_of_birth': { '$gt': date_value_format }).distinct('object.id')
+      when 'less_or_equal'
+        clients = clients.where('object.date_of_birth': { '$gte': date_value_format }).distinct('object.id')
+      when 'greater'
+        clients = clients.where('object.date_of_birth': { '$lt': date_value_format }).distinct('object.id')
+      when 'greater_or_equal'
+        clients = clients.where('object.date_of_birth': { '$lte': date_value_format }).distinct('object.id')
+      when 'between'
+        clients = clients.where('object.date_of_birth': date_value_format[0]..date_value_format[1]).distinct('object.id')
+      when 'is_empty'
+        clients = clients.where('object.date_of_birth': nil).distinct('object.id')
+      when 'is_not_empty'
+        clients = clients.where('object.date_of_birth': { '$ne': nil }).distinct('object.id')
+      end
+
+      client_ids << clients
+    end
+
+    def convert_age_to_date(value)
+      overdue_year = 999.years.ago.to_date
+      if value.is_a?(Array)
+        min_age = (value[0].to_i * 12).months.ago.to_date
+        max_age = (value[1].to_i * 12).months.ago.to_date
+        min_age = min_age > overdue_year ? min_age : overdue_year
+        max_age = max_age > overdue_year ? max_age : overdue_year
+        [max_age, min_age]
+      else
+        age = (value.to_i * 12).months.ago.to_date
+        age > overdue_year ? age : overdue_year
+      end
+    end
 
     # def validate_family_id(ids)
     #   if ids.is_a?(Array)
@@ -252,7 +260,6 @@ module AdvancedSearches
     # end
 
     def program_placement_date_field_query(case_type)
-      # clients = @clients.joins(:cases)
       client_ids = []
       start_date = @history_date[:start_date].to_date.beginning_of_day
       end_date = @history_date[:end_date].to_date.end_of_day
@@ -313,21 +320,9 @@ module AdvancedSearches
           client_ids << case_client_histories.map {|a| a.object['client_id']}
         end
       when 'is_empty'
-        case_client_ids = []
-        clients.each do |ch| 
-          case_client_histories = ch.case_client_histories.where('object.case_type': case_type)
-          next if case_client_histories.empty?
+        clients = ClientHistory.where('$and': [{ created_at: start_date..end_date}, { 'object.case_ids': nil }]).distinct('object.id')
 
-          case_client_ids << case_client_histories.map {|a| a.object['client_id']}
-        end
-
-        non_case_clients = ClientHistory.where('$and': [{ created_at: start_date..end_date}, { 'object.case_ids': nil }])
-        non_case_clients_ids = non_case_clients.map {|a| a.object['id']}
-
-        client_ids << (non_case_clients_ids.uniq - case_client_ids.flatten.uniq)
-
-        # =============== add client 821, 822 to EC and create client 823, add to FC, 04.09.17
-    
+        client_ids << clients
       when 'is_not_empty'
         clients.each do |ch| 
           case_client_histories = ch.case_client_histories.where('object.case_type': case_type)
