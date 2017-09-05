@@ -9,7 +9,8 @@ class ProgramStreamsController < AdminController
 
   def index
     @program_streams = paginate_collection(decorate_programs(column_order)).page(params[:page_1]).per(20)
-    @ngos_program_streams = paginate_collection(decorate_programs(all_ngos_ordered)).page(params[:page_2]).per(20)
+    @ngos_program_streams = paginate_collection(decorate_programs(program_stream_ordered)).page(params[:page_2]).per(20)
+    @demo_program_streams = paginate_collection(decorate_programs(program_stream_ordered('demo'))).page(params[:page_3]).per(20) unless current_organization.short_name == 'demo'
   end
 
   def new
@@ -108,10 +109,11 @@ class ProgramStreamsController < AdminController
     @mutual_dependence = mutual_dependence
   end
 
-  def program_streams_all_organizations
+  def find_program_stream_organizations(org = '')
     current_org_name = current_organization.short_name
     program_streams = []
-    Organization.all.each do |org|
+    organizations = org == 'demo' ? Organization.where(short_name: 'demo') : Organization.without_demo
+    organizations.each do |org|
       Organization.switch_to org.short_name
       program_streams << ProgramStream.all.reload
     end
@@ -141,12 +143,13 @@ class ProgramStreamsController < AdminController
     ProgramStream.ordered_by(order_string)
   end
 
-  def all_ngos_ordered
-    programs = program_streams_all_organizations.sort_by(&:name)
+  def program_stream_ordered(org = '')
+    program_streams = org == 'demo' ? find_program_stream_organizations('demo') : find_program_stream_organizations
+    programs = program_streams.sort_by(&:name)
     column = params[:order]
-    return programs unless params[:tab] == 'all_ngo' && column
+    return programs unless (params[:tab] == 'all_ngo' || params[:tab] == 'demo_ngo') && column
 
-    ordered = program_streams_all_organizations.sort_by{ |p| p.send(column).to_s.downcase }
+    ordered = program_streams.sort_by{ |p| p.send(column).to_s.downcase }
     programs = (column.present? && params[:descending] == 'true' ? ordered.reverse : ordered)
     programs
   end
