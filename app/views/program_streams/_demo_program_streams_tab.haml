@@ -1,0 +1,40 @@
+#demo-program-streams.tab-pane{role: "tabpanel"}
+  .table-responsive
+    %table.table.table-bordered.table-hover.table-striped.program-stream-table
+      %thead
+        %th.name
+          = t('.name')
+          .pull-right
+            = render 'order', column: :name, ngo: 'demo_ngo'
+        %th.domain
+          = t('.domain')
+        %th.status
+          = t('.status')
+        %th.quantity
+          = t('.maximum')
+          .pull-right
+            = render 'order', column: :quantity, ngo: 'demo_ngo'
+        %th.organization
+          = t('.organization')
+          .pull-right
+            = render 'order', column: :ngo_name, ngo: 'demo_ngo'
+        %th.actions= t('.actions')
+      %tbody
+        - @demo_program_streams.each do |program_stream|
+          %tr
+            %td.name= program_stream.name
+            %td.domain= program_stream.domains.pluck(:identity).join(', ')
+            %td.status
+              %label{ class: "#{program_stream.completed_label_class}"}
+                = program_stream.completed_status
+            %td.quantity= program_stream.quantity
+            %td.organization= program_stream.ngo_name
+            %td.actions
+              = link_to preview_program_streams_path(program_stream_id: program_stream.id, ngo_name: program_stream.ngo_name), class: 'btn btn-outline btn-info btn-xs', title: t('.preview') do
+                = fa_icon('eye')
+              - if can? :update, ProgramStream
+                = link_to new_program_stream_path(program_stream_id: program_stream.id, ngo_name: program_stream.ngo_name), class: 'btn btn-outline btn-success btn-xs', title: t('.copy') do
+                  = fa_icon('files-o')
+
+  .text-center
+    = paginate @demo_program_streams, params: { tab: 'demo_ngo' }, param_name: 'page_3'
