@@ -10,7 +10,7 @@ module AdvancedSearches
     private
 
     def self.domain_options
-      Domain.order(:identity).map { |domain| "domainscore_#{domain.id}_#{domain.identity}" }
+      Domain.order_by_identity.map { |domain| "domainscore_#{domain.id}_#{domain.identity}" }
     end
 
     def self.domain_score_format(label)

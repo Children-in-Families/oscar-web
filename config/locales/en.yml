@@ -1500,6 +1500,7 @@ en:
         'no': 'No'
         'yes': 'Yes'
     form:
+      csi_domain_scores: CSI Domain Scores
       filter_domains: Filter Domains
       reset: Reset
       search: Search
