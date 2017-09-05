@@ -5,7 +5,10 @@
         %th= t('.form_title')
         %th= t('.type')
         %th= t('.frequency')
-        %th= t('.organization')
+        %th
+          = t('.organization')
+          .pull-right
+            = render 'order', column: :ngo_name, ngo: 'all_ngo'
         - if can? :manage, CustomField
           %th.manage.text-center= t('.manage')
       %tbody
