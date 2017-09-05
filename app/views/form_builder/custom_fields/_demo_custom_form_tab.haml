@@ -22,4 +22,4 @@
                 = link_to new_custom_field_path(custom_field_id: custom_field.id, ngo_name: custom_field.ngo_name), class: 'btn btn-outline btn-success btn-xs margin-btn', title: t('.copy') do
                   = fa_icon('files-o')
   .text-center
-    = paginate @demo_custom_fields, params: { tab: 'all_ngo' }, :param_name => 'page_2'
+    = paginate @demo_custom_fields, params: { tab: 'demo_ngo' }, :param_name => 'page_3'

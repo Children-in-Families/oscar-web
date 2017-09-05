@@ -82,7 +82,14 @@ class FormBuilder::CustomFieldsController < AdminController
       custom_fields << CustomField.order(:entity_type, :form_title).reload
     end
     Organization.switch_to(current_org_name)
-    custom_fields.flatten
+    custom_fields = custom_fields.flatten
+
+    column = params[:order]
+    return custom_fields unless (params[:tab] == 'all_ngo' || params[:tab] == 'demo_ngo') && column
+
+    ordered = custom_fields.sort_by{ |p| p.send(column).to_s.downcase }
+    custom_fields = (column.present? && params[:descending] == 'true' ? ordered.reverse : ordered)
+    custom_fields
   end
 
   def find_custom_field(search)
