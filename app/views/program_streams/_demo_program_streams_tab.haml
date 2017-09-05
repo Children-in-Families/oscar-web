@@ -16,8 +16,6 @@
             = render 'order', column: :quantity, ngo: 'demo_ngo'
         %th.organization
           = t('.organization')
-          .pull-right
-            = render 'order', column: :ngo_name, ngo: 'demo_ngo'
         %th.actions= t('.actions')
       %tbody
         - @demo_program_streams.each do |program_stream|
