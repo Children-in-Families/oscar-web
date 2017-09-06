@@ -625,7 +625,17 @@ class ClientGrid
     render partial: 'clients/assessments', locals: { object: object }
   end
 
-  dynamic do 
+  dynamic do
+    Domain.order_by_identity.each do |domain|
+      identity = domain.identity
+      column(domain.convert_identity.to_sym, class: 'domain-scores', header: identity, html: true) do |object|
+        sub_query = 'SELECT MAX(assessments.created_at) from assessments where assessments.client_id = clients.id'
+        Assessment.joins([:assessment_domains, :client]).where("assessments.created_at = (#{sub_query}) AND assessment_domains.domain_id = #{domain.id} AND assessments.client_id = #{object.id}").pluck(:score).first
+      end
+    end
+  end
+
+  dynamic do
     next unless dynamic_columns.present?
     dynamic_columns.each do |column_builder|
       fields = column_builder[:id].split('_')

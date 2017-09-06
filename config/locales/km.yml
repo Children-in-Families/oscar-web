@@ -1548,6 +1548,7 @@ km:
         'no': ទេ
         'yes': បាទ/ចាស
     form:
+      csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
       filter_domains: កត្តា
       reset: សំអាត
       search: ស្វែងរក

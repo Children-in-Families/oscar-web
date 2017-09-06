@@ -82,4 +82,15 @@ body[id='client_advanced_searches-index'] {
   table.clients.table tr th {
     cursor: default;
   }
+
+  .csi-header {
+    padding: 5px 16px;
+    strong {
+      font-size: 13px;
+    }
+  }
+
+  th.domain-scores, td.domain-scores {
+    min-width: 200px;
+  }
 }
