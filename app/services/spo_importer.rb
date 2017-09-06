@@ -36,6 +36,8 @@ module SpoImporter
         province_id            = Province.find_by(name: province_name).try(:id)
         current_address        = workbook.row(row)[headers['Current Address']]
         relevent_referral_info = workbook.row(row)[headers['Relevant Referral Information']]
+        initial_referral_date   = workbook.row(row)[headers['Initial Referral Date']]
+        referral_phone         = workbook.row(row)[headers['Referral Phone']]
 
         client = Client.new(
           user_ids: user_ids,
@@ -45,6 +47,8 @@ module SpoImporter
           province_id: province_id,
           current_address: current_address,
           relevant_referral_information: relevent_referral_info,
+          initial_referral_date: initial_referral_date,
+          referral_phone: referral_phone,
           state: 'accepted'
         )
         client.save
