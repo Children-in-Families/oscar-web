@@ -6,6 +6,7 @@ class ProgramStreamsController < AdminController
   before_action :authorize_program, only: [:edit, :update, :destroy]
   before_action :complete_program_steam, only: [:new, :create, :edit, :update]
   before_action :find_another_ngo_program_stream, if: -> { @ngo_name.present? }
+  before_action :find_custom_fields, only: [:edit, :update, :new, :create]
 
   def index
     @program_streams = paginate_collection(decorate_programs(column_order)).page(params[:page_1]).per(20)
@@ -189,5 +190,9 @@ class ProgramStreamsController < AdminController
       @program_stream = ProgramStream.new
       @tracking = @program_stream.trackings.build
     end
+  end
+
+  def find_custom_fields
+    @custom_fields = CustomField.order(:entity_type, :form_title)
   end
 end

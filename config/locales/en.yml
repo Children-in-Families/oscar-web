@@ -2807,11 +2807,12 @@ en:
       name: Name
       quantity: Quantity
       status: Status
-    program_detail:
-      description: Description
-      detail: Program Details
-      domain: Domain
-      name: Name
+    custom_forms:
+      copy: Copy
+      custom_fields: Custom Fields
+      entity_type: Type
+      form_title: Form Title
+      organization: Organization
     destroy:
       alert: Program Stream cannot be deleted.
       successfully_deleted: Program Stream has been successfully deleted.
@@ -2819,9 +2820,11 @@ en:
       back: Back
       edit_program_stream: Edit Program Stream
     enrollment:
+      custom_fields: Custom Fields
       enrollment_form: Enrollment
       note: 'Note: The Date of Enrollment field is added automatically to this enrollment form.'
     exit_field:
+      custom_fields: Custom Fields
       exit_form: Exit Form
       note: 'Note: The Date of Program Exit field is added automatically to the Exit Program form.'
     form:
@@ -2845,6 +2848,11 @@ en:
       organization: Organization
       preview: Preview
       quantity: Quantity
+    program_detail:
+      description: Description
+      detail: Program Details
+      domain: Domain
+      name: Name
     program_rule:
       add_new_filter: Add New Filter
       add_new_group: Add Group
@@ -2878,6 +2886,7 @@ en:
       tracking_form: Progress Tracking
       not_require_tracking: This Program Stream does not require any tracking form.
     tracking_fields:
+      custom_fields: Custom Fields
       frequency: Frequency
       name: Name
       remove_tracking: Remove Tracking

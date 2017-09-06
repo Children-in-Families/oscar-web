@@ -115,4 +115,32 @@ body[id='program_streams-update'], body[id='program_streams-create'] {
   .quantity {
     color: #a94442;
   }
+
+  #width-modal {
+    width: 80%;
+    th.form-title,  td.form-title {
+      width: 40% !important;
+    }
+    th.organization, td.organization {
+      width: 30% !important;
+    }
+    th.entity-type, th.copy, td.entity-type, td.copy {
+      width: 15% !important;
+    }
+
+    table.custom-field-table, .dataTables_scrollHeadInner, .dataTables_scrollHead, .dataTables_scrollBody {
+      width: 100% !important;
+    }
+
+    .dataTables_scrollHeadInner{
+      padding-right: 0 !important;
+    }
+
+    table.custom-field-table {
+      margin-bottom: 0;
+      th {
+        border-bottom-width: 0;
+      }
+    }
+  }
 }
