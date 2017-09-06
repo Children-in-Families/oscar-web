@@ -2,6 +2,7 @@ feature 'program_stream' do
   let!(:admin){ create(:user, roles: 'admin') }
   let!(:domain) { create(:domain) }
   let!(:program_stream) { create(:program_stream, ngo_name: Organization.current.full_name) }
+  let!(:custom_field) { create(:custom_field, ngo_name: Organization.current.full_name) }
   let!(:tracking) { create(:tracking, program_stream: program_stream) }
   let!(:domain_program_stream){ create(:domain_program_stream, domain: domain, program_stream: program_stream) }
 
@@ -56,7 +57,14 @@ feature 'program_stream' do
 
     scenario 'list all ngo program streams', js: true do
       find('a[href="#ngos-program-streams"]').click
+      expect(page).to have_content(program_stream.name)
+      expect(page).to have_content('Organization Testing')
+    end
+
+    scenario 'list demo ngo program streams', js: true do
+      find('a[href="#demo-program-streams"]').click
       expect(page).to have_content('Other NGO Program Stream')
+      expect(page).to have_content('Demo')
     end
   end
 
@@ -301,37 +309,122 @@ feature 'program_stream' do
     end
   end
 
-  feature 'Copy forms from customs into CPS', js: true do
-    let!(:custom_field) { create(:custom_field) }
+  feature 'import custom form to program stream on create', js: true do
     before do
-      visit custom_field_path(custom_field)
+      visit program_streams_path
+      page.click_link 'Add New Program'
     end
 
-    scenario 'Copy to enrollment' do
-      click_link 'Copy to Enrollment'
-      fill_in 'program_stream_name', with: 'Copy to enrollment'
-      find('span', text: 'Save').click
+    scenario 'import custom form to enrollment' do
+      fill_in 'program_stream_name', with: 'Program Name'
       sleep 1
-      find('div[href="#enrollment"]').click
-      expect(page).to have_content(custom_field.fields.first['label'])
+      click_link 'Next'
+      page.find(".rule-filter-container select option[value='gender']", visible: false).select_option
+      expect(page).to have_content 'Gender'
+      page.click_link 'Next'
+      sleep 1
+      page.find('.custom-field-list').click
+      sleep 1
+      find('a.copy-form').click
+      expect(page).to have_content('Name')
     end
 
-    scenario 'Copy to tracking' do
-      click_link 'Copy to Tracking'
-      fill_in 'program_stream_name', with: 'Copy to tracking'
-      find('span', text: 'Save').click
+    scenario 'import custom form to trackings' do
+      fill_in 'program_stream_name', with: 'Program Name'
       sleep 1
-      find('div[href="#tracking"]').click
-      expect(page).to have_content(custom_field.fields.first['label'])
+      click_link 'Next'
+      page.find(".rule-filter-container select option[value='gender']", visible: false).select_option
+      expect(page).to have_content 'Gender'
+      page.click_link 'Next'
+      page.find('.icon-calendar').click
+      page.click_link 'Next'
+      sleep 1
+      within('#trackings') do
+        fill_in 'Name', with: 'Tracking Name'
+      end
+      page.find('.custom-field-list').click
+      sleep 1
+      find('a.copy-form').click
+      expect(page).to have_content('Name')
     end
 
-    scenario 'Copy to exit program' do
-      click_link 'Copy to Exit Program'
-      fill_in 'program_stream_name', with: 'Copy to exit program'
-      find('span', text: 'Save').click
+    scenario 'import custom form to exit program' do
+      fill_in 'program_stream_name', with: 'Program Name'
       sleep 1
-      find('div[href="#exit-program"]').click
-      expect(page).to have_content(custom_field.fields.first['label'])
+      click_link 'Next'
+      page.find(".rule-filter-container select option[value='gender']", visible: false).select_option
+      expect(page).to have_content 'Gender'
+
+      page.click_link 'Next'
+      page.find('.icon-calendar').click
+      page.click_link 'Next'
+      sleep 1
+      within('#trackings') do
+        fill_in 'Name', with: 'Tracking Name'
+      end
+      page.find('.icon-text-input').click
+      page.click_link 'Next'
+      sleep 1
+      page.find('.custom-field-list').click
+      sleep 1
+      find('a.copy-form').click
+      expect(page).to have_content('Name')
+    end
+  end
+
+  feature 'import custom form to program stream on edit', js: true  do
+    before do
+      visit program_streams_path
+      expect(page).to have_link(nil, href: edit_program_stream_path(program_stream))
+      click_link(nil, href: edit_program_stream_path(program_stream))
+    end
+
+    scenario 'import custom form to enrollment' do
+      fill_in 'program_stream_name', with: 'Program Name'
+      sleep 1
+      click_link 'Next'
+      sleep 1
+      click_link 'Next'
+      sleep 1
+      page.find('.custom-field-list').click
+      sleep 1
+      find('a.copy-form').click
+      expect(page).to have_content('Name')
+      expect(page).to have_content('e-mail')
+    end
+
+    scenario 'import custom form to trackings' do
+      fill_in 'program_stream_name', with: 'Program Name'
+      sleep 1
+      click_link 'Next'
+      sleep 1
+      page.click_link 'Next'
+      sleep 1
+      page.click_link 'Next'
+      sleep 1
+      page.find('.custom-field-list').click
+      sleep 1
+      find('a.copy-form').click
+      expect(page).to have_content('Name')
+      expect(page).to have_content('e-mail')
+    end
+
+    scenario 'import custom form to exit program' do
+      fill_in 'program_stream_name', with: 'Program Name'
+      sleep 1
+      click_link 'Next'
+      sleep 1
+      page.click_link 'Next'
+      sleep 1
+      page.click_link 'Next'
+      sleep 1
+      page.click_link 'Next'
+      sleep 1
+      page.find('.custom-field-list').click
+      sleep 1
+      find('a.copy-form').click
+      expect(page).to have_content('Name')
+      expect(page).to have_content('e-mail')
     end
   end
 end
