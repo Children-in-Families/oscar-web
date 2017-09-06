@@ -519,9 +519,7 @@ class ClientGrid
 
   column(:relevant_referral_information, header: -> { I18n.t('datagrid.columns.clients.relevant_referral_information') })
 
-  column(:referral_phone, header: -> { I18n.t('datagrid.columns.clients.referral_phone') }) do |object|
-    object.referral_phone.phony_formatted(normalize: :KH, format: :international) if object.referral_phone
-  end
+  column(:referral_phone, header: -> { I18n.t('datagrid.columns.clients.referral_phone') })
 
   column(:referral_source, order: 'referral_sources.name', header: -> { I18n.t('datagrid.columns.clients.referral_source') }) do |object|
     object.referral_source.try(:name)
