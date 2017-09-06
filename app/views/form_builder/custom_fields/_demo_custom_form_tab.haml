@@ -1,18 +1,15 @@
-#all-custom-form.tab-pane{role: "tabpanel"}
+#demo-custom-form.tab-pane{role: "tabpanel"}
   .table-responsive
     %table.table.table-bordered.table-hover
       %thead
         %th= t('.form_title')
         %th= t('.type')
         %th= t('.frequency')
-        %th
-          = t('.organization')
-          .pull-right
-            = render 'order', column: :ngo_name, ngo: 'all_ngo'
+        %th= t('.organization')
         - if can? :manage, CustomField
           %th.manage.text-center= t('.manage')
       %tbody
-        - @all_custom_fields.each do |custom_field|
+        - @demo_custom_fields.each do |custom_field|
           %tr
             %td= custom_field.form_title
             %td= custom_field.entity_type
@@ -25,4 +22,4 @@
                 = link_to new_custom_field_path(custom_field_id: custom_field.id, ngo_name: custom_field.ngo_name), class: 'btn btn-outline btn-success btn-xs margin-btn', title: t('.copy') do
                   = fa_icon('files-o')
   .text-center
-    = paginate @all_custom_fields, params: { tab: 'all_ngo' }, :param_name => 'page_2'
+    = paginate @demo_custom_fields, params: { tab: 'demo_ngo' }, :param_name => 'page_3'

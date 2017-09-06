@@ -2179,6 +2179,18 @@ en:
       destroy:
         failed_to_delete: Custom Form cannot be deleted.
         successfully_deleted: Custom Form has been successfully deleted.
+      demo_custom_form_tab:
+        are_you_sure: Are you sure you want to delete?
+        close: Close
+        copy: Copy
+        form_title: Form Title
+        frequency: Frequency
+        manage: Manage
+        organization: Organization
+        preview: Preview
+        search_custom_form: Search Custom Form
+        time_of_frequency: Time of Frequency
+        type: Type
       edit:
         form_builder: Form Builder
       form:
@@ -2190,6 +2202,7 @@ en:
         type: Type
       index:
         all_ngo: All NGOs' Custom Forms
+        demo_ngo: Demo Custom Forms
         form_title: Form Title
         frequency: Frequency
         my_ngo: My NGO's Custom Forms
@@ -2813,6 +2826,15 @@ en:
       entity_type: Type
       form_title: Form Title
       organization: Organization
+    demo_program_streams_tab:
+      actions: Action
+      copy: Copy
+      domain: Domains
+      maximum: Maximum Program Enrollment
+      name: Name
+      organization: Organization
+      preview: Preview
+      status: Status
     destroy:
       alert: Program Stream cannot be deleted.
       successfully_deleted: Program Stream has been successfully deleted.
@@ -2834,6 +2856,7 @@ en:
       save: Save
     index:
       current_ngo: My NGO's Program Streams
+      demo_programs: Demo Program Streams
       new_program: Add New Program
       ngo_programs: All NGO's Program Streams
       program_list: Program Streams Listing

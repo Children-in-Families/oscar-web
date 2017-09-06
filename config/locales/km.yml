@@ -2227,6 +2227,18 @@ km:
       destroy:
         failed_to_delete: មិនអាចលុបទម្រង់បែបបទបន្ថែមនេះបានទេ
         successfully_deleted: ទម្រង់បែបបទត្រូវបានលុបដោយជោគជ័យ
+      demo_custom_form_tab:
+        are_you_sure: តើអ្នកប្រាកដហើយ?
+        close: បិទ
+        copy: ចម្លងជូន
+        form_title: ឈ្មោះនៃទម្រង់បែបបទបន្ថែម
+        frequency: ភាពញឹកញាប់
+        manage: គ្រប់គ្រង
+        organization: អង្គការ
+        preview: មើលជាមុន
+        search_custom_form: ស្វែងរកបន្ថែមទម្រង់បែបបទ
+        time_of_frequency: ពេលវេលានៃភាពញឹកញាប់
+        type: ប្រភេទនៃទម្រង់បែបបទបន្ថែម
       edit:
         form_builder: ការបង្កើតជាទម្រង់
       form:
@@ -2238,6 +2250,7 @@ km:
         type: ប្រភេទនៃទម្រង់បែបបទបន្ថែម
       index:
         all_ngo: ទម្រង់បែបបទរបស់អង្គការទាំងអស់
+        demo_ngo: ទម្រង់បែបបទរបស់អង្គការ Demo
         form_title: ឈ្មោះនៃទម្រង់បែបបទបន្ថែម
         frequency: ភាពញឹកញាប់
         my_ngo: ទម្រង់បែបបទរបស់អង្គការខ្ញុំ
@@ -2860,6 +2873,15 @@ km:
       entity_type: ប្រភេទនៃទម្រង់បែបបទបន្ថែម
       form_title: ឈ្មោះនៃទម្រង់បែបបទបន្ថែម
       organization: អង្គការ
+    demo_program_streams_tab:
+      actions: សកម្មភាព
+      copy: ចំលង
+      domain: កត្តា
+      maximum: ចំនួនដែលអាចចូលរូមកម្មវិធីច្រើនបំផុត
+      name: ឈ្មោះកម្មវិធីបន្ទាប់បន្សំ
+      organization: អង្គការ
+      preview: មើល
+      status: ស្ថានភាព
     destroy:
       alert: កម្មវិធីមិនអាចលុបបានទេ
       successfully_deleted: កម្មវិធីលុបដោយជោគជ័យ
@@ -2881,6 +2903,7 @@ km:
       save: រក្សាទុក
     index:
       current_ngo: កម្មវិធីបន្ទាប់បន្សំរបស់អង្គការខ្ញុំ
+      demo_programs: កម្មវិធីបន្ទាប់បន្សំរបស់អង្គការ Demo
       new_program: បន្ថែមកម្មវិធីថ្មី
       ngo_programs: កម្មវិធីបន្ទាប់បន្សំរបស់អង្គការទាំងអស់
       program_list: បញ្ជីកម្មវិធីបន្ទាប់បន្សំ
