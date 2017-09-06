@@ -2820,9 +2820,12 @@ en:
       name: Name
       quantity: Quantity
       status: Status
-    destroy:
-      alert: Program Stream cannot be deleted.
-      successfully_deleted: Program Stream has been successfully deleted.
+    custom_forms:
+      copy: Copy
+      custom_fields: Custom Forms
+      entity_type: Type
+      form_title: Form Title
+      organization: Organization
     demo_program_streams_tab:
       actions: Action
       copy: Copy
@@ -2832,13 +2835,18 @@ en:
       organization: Organization
       preview: Preview
       status: Status
+    destroy:
+      alert: Program Stream cannot be deleted.
+      successfully_deleted: Program Stream has been successfully deleted.
     edit:
       back: Back
       edit_program_stream: Edit Program Stream
     enrollment:
+      custom_fields: Custom Forms
       enrollment_form: Enrollment
       note: 'Note: The Date of Enrollment field is added automatically to this enrollment form.'
     exit_field:
+      custom_fields: Custom Forms
       exit_form: Exit Form
       note: 'Note: The Date of Program Exit field is added automatically to the Exit Program form.'
     form:
@@ -2901,6 +2909,7 @@ en:
       tracking_form: Progress Tracking
       not_require_tracking: This Program Stream does not require any tracking form.
     tracking_fields:
+      custom_fields: Custom Forms
       frequency: Frequency
       name: Name
       remove_tracking: Remove Tracking

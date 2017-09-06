@@ -2867,6 +2867,12 @@ km:
       maximum: ចំនួនដែលអាចចូលរូមកម្មវិធីច្រើនបំផុត
       name: ឈ្មោះកម្មវិធីបន្ទាប់បន្សំ
       status: ស្ថានភាព
+    custom_forms:
+      copy: ចម្លងជូន
+      custom_fields: ទម្រង់បែបបទ
+      entity_type: ប្រភេទនៃទម្រង់បែបបទបន្ថែម
+      form_title: ឈ្មោះនៃទម្រង់បែបបទបន្ថែម
+      organization: អង្គការ
     demo_program_streams_tab:
       actions: សកម្មភាព
       copy: ចំលង
@@ -2883,9 +2889,11 @@ km:
       back: ត្រលប់ក្រោយ
       edit_program_stream: កែសម្រួលកម្មវិធី
     enrollment:
+      custom_fields: ទម្រង់បែបបទ
       enrollment_form: ទម្រង់បែបបទចុះឈ្មោះ
       note: 'ចំណាំ: កាលបរិច្ឆេទនៃការចុះឈ្មោះត្រូវបានបន្ថែមក្នុងទម្រង់បែបបទនេះរួចស្រេចហើយ'
     exit_field:
+      custom_fields: ទម្រង់បែបបទ
       exit_form: ទម្រង់បែបបទចាកចេញ
       note: 'ចំណាំ: កាលបរិច្ឆេទនៃការចាកចេញត្រូវបានបន្ថែមក្នុងទម្រង់បែបបទនេះរូចស្រេចហើយ'
     form:
@@ -2950,6 +2958,7 @@ km:
       tracking_form: ទម្រង់បែបបទតាមដាន
       not_require_tracking: ទម្រង់បែបបទនេះមិនត្រូវការទម្រង់តាមដានទេ
     tracking_fields:
+      custom_fields: ទម្រង់បែបបទ
       frequency: ភាពញឹកញាប់
       name: ឈ្មោះ
       remove_tracking: លុបកាតាមដាន

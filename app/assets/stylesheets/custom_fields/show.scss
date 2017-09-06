@@ -1,18 +1,14 @@
 body[id='custom_fields-show'] {
-  .frmb li {
-    border: 1px solid #cacaca;
-    border-radius: 5px;
-    padding: 10px;
-  }
-  .field-actions {
-    visibility: hidden;
-  }
-  #frmb-0-cb-wrap {
-    visibility: hidden;
-  }
-
   .hide-custom-field {
     pointer-events: none;
     opacity: 0.8;
+  }
+
+  .radio-group, .check-box-group {
+    margin-top: 10px;
+    li {
+      list-style-type: none;
+      margin-top:  5px;
+    }
   }
 }

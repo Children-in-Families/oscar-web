@@ -3,6 +3,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
   ENROLLMENT_URL   = "/api/program_streams/#{@programStreamId}/enrollment_fields"
   EXIT_PROGRAM_URL = "/api/program_streams/#{@programStreamId}/exit_program_fields"
   TRACKING_URL     = "/api/program_streams/#{@programStreamId}/tracking_fields"
+  TRACKING = ''
   @formBuilder = []
   _init = ->
     @filterTranslation = ''
@@ -26,6 +27,37 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     _handleSelectFrequency()
     _initFrequencyNote()
     _editTrackingFormName()
+    _custom_field_list()
+    _copyCustomForm()
+    _customFieldsFixedHeader()
+
+  _custom_field_list = ->
+    $('.custom-field-list').click ->
+      TRACKING = $(@).parents('.nested-fields')
+
+  _copyCustomForm = ->
+    self = @
+    $('.copy-form').click ->
+      fields = $(@).children('span').data('fields')
+      for formBuilder in self.formBuilder
+        element = formBuilder.element
+        if $(element).is('#enrollment') and $('#enrollment').is(':visible')
+          _addFieldProgramBuilder(formBuilder, fields)
+        else if $(element).is('.tracking-builder') && $('#trackings').is(':visible')
+          builderId = $(TRACKING).attr('id')
+          formBuilderId = $(formBuilder.element).parents('.nested-fields').attr('id')
+          if formBuilderId == builderId
+            _addFieldProgramBuilder(formBuilder, fields)
+            setTimeout ( ->
+              document.getElementById(builderId).scrollIntoView()
+            )
+        else if $(element).is('#exit-program') and $('#exit-program').is(':visible')
+          _addFieldProgramBuilder(formBuilder, fields)
+
+  _addFieldProgramBuilder = (formBuilder, fields) ->
+    for field in fields
+      formBuilder.actions.addField(field)
+    $('#custom-field').modal('hide')
 
   _initCheckbox = ->
     $('.i-checks').iCheck
@@ -137,6 +169,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
   _handleAddCocoon = ->
     $('#trackings').on 'cocoon:after-insert', (e, element) ->
       trackingBuilder = $(element).find('.tracking-builder')
+      $(element).attr('id', Date.now())
       _initProgramBuilder(trackingBuilder, [])
       _stickyFill()
       _editTrackingFormName()
@@ -145,10 +178,11 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       _handleRemoveFrequency()
       _handleSelectFrequency()
       _initFrequencyNote()
+      _custom_field_list()
 
   _initProgramBuilder = (element, data) ->
     builderOption = new CIF.CustomFormBuilder()
-    data = if data.length != 0 then data.replace(/=>/g, ':') else ''
+    data = JSON.stringify(data)
     @formBuilder.push $(element).formBuilder({
       dataType: 'json'
       formData: data
@@ -337,12 +371,13 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       return if $(trackingName).length == 0
       name = $(trackingName).val()
       labelFields = $(tracking).find('label.field-label')
-      for labelField in labelFields
-        parent = $(labelField).parent()
-        for field in fields[name]
-          if labelField.textContent == field
-            $(parent).children('div.field-actions').remove()
-            $(tracking).find('.ibox-footer').remove()
+      if fields[name].length <= labelFields.length
+        $(tracking).find('.ibox-footer .remove_fields').remove()
+      $(labelFields).each (index, label) ->
+        text = $(label).text()
+        if fields[name].includes(text)
+          action = $(label).parent()
+          $(action).children('div.field-actions').remove()
 
   _initFrequencyNote = ->
     for nestedField in $('.nested-fields')
@@ -415,5 +450,15 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     else
       $('.help-block.quantity').addClass('hidden')
       return false
+
+  _customFieldsFixedHeader = ->
+    $('table.custom-field-table').dataTable(
+      'bFilter': false
+      'bSort': false
+      'sScrollY': '500'
+      'bInfo': false
+      'bLengthChange': false
+      'bPaginate': false
+    )
 
   { init: _init }

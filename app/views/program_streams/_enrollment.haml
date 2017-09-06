@@ -1,7 +1,9 @@
 %h4= t('.enrollment_form')
 %section
-  #enrollment{ data: { field: @program_stream.enrollment }}
+  #enrollment{ data: { field: @program_stream.enrollment.to_json }}
   %label
     %i= t('.note')
   .text-danger= @program_stream.errors[:enrollment].join(' and ')
   = f.hidden_field :enrollment
+  .btn.btn-primary.custom-field-list{ 'data-toggle': "modal", 'data-target': '#custom-field' }
+    = t('.custom_fields')
