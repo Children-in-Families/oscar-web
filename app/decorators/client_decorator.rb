@@ -41,10 +41,6 @@ class ClientDecorator < Draper::Decorator
     model.referral_source.name if model.referral_source
   end
 
-  def referral_phone
-    model.referral_phone.phony_formatted(normalize: :KH, format: :international) if model.referral_phone
-  end
-
   def received_by
     model.received_by if model.received_by
   end

@@ -57,7 +57,7 @@
                   = t('.mobile')
                 %td
                   %strong
-                    = "#{@user.mobile.phony_formatted(normalize: :KH, format: :international)}" if @user.mobile
+                    = @user.mobile
               %tr
                 %td.spacing-first-col
                   = t('.email')
