@@ -3,7 +3,7 @@ module AdvancedSearches
     ASSOCIATION_FIELDS = ['user_id', 'case_type', 'agency_name', 'form_title', 'placement_date', 'family', 'age', 'family_id', 'referred_to_ec', 'referred_to_fc', 'referred_to_kc', 'exit_ec_date', 'exit_fc_date', 'exit_kc_date', 'program_stream']
     BLANK_FIELDS = ['date_of_birth', 'initial_referral_date', 'follow_up_date', 'has_been_in_orphanage', 'has_been_in_government_care', 'grade', 'province_id', 'referral_source_id', 'birth_province_id', 'received_by_id', 'followed_up_by_id', 'donor_id', 'id_poor', 'exit_date', 'accepted_date']
 
-    INTEGER_FIELDS = ['user_id', 'family_id', 'province_id', 'referral_source_id', 'birth_province_id', 'received_by_id', 'followed_up_by_id', 'donor_id', 'id_poor', 'grade']
+    INTEGER_FIELDS = ['province_id', 'referral_source_id', 'birth_province_id', 'received_by_id', 'followed_up_by_id', 'donor_id', 'id_poor', 'grade']
 
     DATE_FIELDS = ['date_of_birth', 'initial_referral_date', 'follow_up_date', 'exit_date', 'accepted_date']
 
