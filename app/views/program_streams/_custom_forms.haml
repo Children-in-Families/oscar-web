@@ -9,18 +9,18 @@
           %ul.nav.nav-tabs{role: "tablist"}
             %li.active{role: "presentation"}
               %a{"data-toggle": "tab", href: "#current-custom-fields", role: "tab"}
-                = t('.current_custom_fields')
+                = t('.my_ngo_custom_fields')
             - unless current_organization.try(:short_name) == 'mho'
               %li{role: "presentation"}
                 %a{"data-toggle": "tab", href: "#all-custom-fields", role: "tab"}
-                  = t('.all_custom_fields')
+                  = t('.all_ngos_custom_fields')
             - unless current_organization.try(:short_name) == 'demo'
               %li{role: "presentation"}
                 %a{"data-toggle": "tab", href: "#demo-custom-fields", role: "tab"}
-                  = t('.demo_custom_fields')
+                  = t('.demo_ngo_custom_fields')
           .tab-content
-            = render 'current_custom_fields'
+            = render 'my_ngo_custom_fields'
             - unless current_organization.try(:short_name) == 'mho'
-              = render 'all_custom_fields'
+              = render 'all_ngos_custom_fields'
             - unless current_organization.try(:short_name) == 'demo'
-              = render 'demo_custom_fields'
+              = render 'demo_ngo_custom_fields'

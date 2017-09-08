@@ -28,8 +28,34 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     _initFrequencyNote()
     _editTrackingFormName()
     _custom_field_list()
-    _copyCustomForm()
-    _customFieldsFixedHeader()
+    _initDataTable()
+
+  _initDataTable = ->
+    $('.custom-field-table').each (index) ->
+      self = @
+      $(@).DataTable
+        'bFilter': false
+        'bSort': false
+        'sScrollY': '500'
+        'bInfo': false
+        processing: true
+        serverSide: true
+        ajax: $(this).data('url')
+        columns: [
+          null
+          null
+          null
+          className: 'text-center'
+        ]
+        'language': {
+          'paginate': {
+            'previous': $(self).data('previous')
+            'next': $(self).data('next')
+          }
+        }
+        'initComplete': ->
+          _copyCustomForm() if index == 2
+
 
   _custom_field_list = ->
     $('.custom-field-list').click ->
@@ -38,7 +64,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
   _copyCustomForm = ->
     self = @
     $('.copy-form').click ->
-      fields = $(@).children('span').data('fields')
+      fields = $(@).data('fields')
       for formBuilder in self.formBuilder
         element = formBuilder.element
         if $(element).is('#enrollment') and $('#enrollment').is(':visible')
@@ -53,11 +79,11 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
             )
         else if $(element).is('#exit-program') and $('#exit-program').is(':visible')
           _addFieldProgramBuilder(formBuilder, fields)
+      $('#custom-field').modal('hide')
 
   _addFieldProgramBuilder = (formBuilder, fields) ->
     for field in fields
       formBuilder.actions.addField(field)
-    $('#custom-field').modal('hide')
 
   _initCheckbox = ->
     $('.i-checks').iCheck

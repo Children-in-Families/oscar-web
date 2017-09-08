@@ -175,7 +175,10 @@ Rails.application.routes.draw do
       get :compare, on: :collection
     end
     resources :custom_fields do
-      get :fetch_custom_fields, on: :collection
+      collection do
+        get :fetch_custom_fields
+        get :ngo_custom_fields
+      end
       get :fields
     end
     resources :client_advanced_searches, only: [] do

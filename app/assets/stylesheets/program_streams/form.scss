@@ -121,10 +121,16 @@ body[id='program_streams-update'], body[id='program_streams-create'] {
     th.form-title,  td.form-title {
       width: 40% !important;
     }
+
     th.organization, td.organization {
-      width: 30% !important;
+      width: 25% !important;
     }
-    th.entity-type, th.copy, td.entity-type, td.copy {
+
+    th.entity-type,  td.entity-type {
+      width: 20% !important;
+    }
+
+    th.copy, td.copy  {
       width: 15% !important;
     }
 
@@ -138,9 +144,13 @@ body[id='program_streams-update'], body[id='program_streams-create'] {
 
     table.custom-field-table {
       margin-bottom: 0;
+      
       th {
         border-bottom-width: 0;
       }
     }
+  }
+  .margin-top-datatable {
+    margin-top: 10px;
   }
 }
