@@ -2,7 +2,7 @@
   = hidden_field_tag :locale, params[:locale]
 
   - if controller_name == 'clients' || controller_name == 'client_advanced_searches'
-    %ul.check-columns-visibility
+    %ul.check-columns-visibility{ 'aria-labelledby': 'dropdownMenuDivider' }
       %li.dropdown
         %a.dropdown-toggle.btn.btn-default{'data-toggle' => 'dropdown', href: '#'}
           = t('datagrid.columns.select_columns')

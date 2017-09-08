@@ -42,24 +42,24 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       for formBuilder in self.formBuilder
         element = formBuilder.element
         if $(element).is('#enrollment') and $('#enrollment').is(':visible')
-          _addFieldProgramBuilder(formBuilder, fields, ENROLLMENT_URL, element)
+          _addFieldProgramBuilder(formBuilder, fields)
         else if $(element).is('.tracking-builder') && $('#trackings').is(':visible')
           builderId = $(TRACKING).attr('id')
           formBuilderId = $(formBuilder.element).parents('.nested-fields').attr('id')
           if formBuilderId == builderId
-            _addFieldProgramBuilder(formBuilder, fields, TRACKING_URL, element)
+            _addFieldProgramBuilder(formBuilder, fields)
             setTimeout ( ->
               document.getElementById(builderId).scrollIntoView()
             )
         else if $(element).is('#exit-program') and $('#exit-program').is(':visible')
-          _addFieldProgramBuilder(formBuilder, fields, EXIT_PROGRAM_URL, element)
+          _addFieldProgramBuilder(formBuilder, fields)
       $('#custom-field').modal('hide')
 
-  _addFieldProgramBuilder = (formBuilder, fields, url, element) ->
-    fieldsBuilder = JSON.parse(formBuilder.formData).concat(fields)
-    $(formBuilder.element).find('label.field-label').remove()
-    formBuilder.actions.setData(JSON.stringify(fieldsBuilder))
-    _preventRemoveField(url, element)
+  _addFieldProgramBuilder = (formBuilder, fields) ->
+    combineFields = JSON.parse(formBuilder.formData).concat(fields)
+    for field in fields
+      formBuilder.actions.addField(field)
+    formBuilder.formData = JSON.stringify(combineFields)
 
   _initCheckbox = ->
     $('.i-checks').iCheck
