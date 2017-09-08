@@ -1,5 +1,7 @@
 %tr
+  - domains = Domain.pluck(:identity)
   - grid.html_columns(*options[:columns]).each do |column|
+    - next if controller_name == 'clients' && domains.include?(column.header)
     - next if column.header == t('.changelog') && !current_user.admin?
     %th{class: datagrid_column_classes(grid, column), title: column.header}
       = column.header.truncate(65)
