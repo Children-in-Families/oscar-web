@@ -23,6 +23,18 @@ module ClientGridOptions
     @client_grid.column_names << :assessments if @client_grid.column_names.any?
   end
 
+  def csi_domain_score_report
+    if params[:controller] != 'clients'
+      Domain.order_by_identity.each do |domain|
+        identity = domain.identity
+        @client_grid.column(domain.convert_identity.to_sym, class: 'domain-scores', header: identity) do |client|
+          sub_query = 'SELECT MAX(assessments.created_at) from assessments where assessments.client_id = clients.id'
+          Assessment.joins([:assessment_domains, :client]).where("assessments.created_at = (#{sub_query}) AND assessment_domains.domain_id = #{domain.id} AND assessments.client_id = #{client.id}").pluck(:score).first
+        end
+      end
+    end
+  end
+
   def form_builder_report
     column_form_builder.each do |field|
       fields = field[:id].split('_')
