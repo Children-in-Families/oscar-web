@@ -20,12 +20,12 @@
             - unless current_organization.try(:short_name) == 'mho'
               %li{role: "presentation"}
                 %a{"aria-controls" => "all-custom-form", "data-toggle" => "tab", href: "#all-custom-form", role: "tab"}= t('.all_ngo')
-            - unless current_organization.try(:short_name) == 'demo'
+            - %w(demo mho).include?(current_organization.try(:short_name))
               %li{role: "presentation"}
                 %a{"aria-controls" => "demo-custom-form", "data-toggle" => "tab", href: "#demo-custom-form", role: "tab"}= t('.demo_ngo')
           .tab-content
             = render 'current_custom_form_tab'
             - unless current_organization.try(:short_name) == 'mho'
               = render 'all_custom_form_tab'
-            - unless current_organization.try(:short_name) == 'demo'
+            - %w(demo mho).include?(current_organization.try(:short_name))
               = render 'demo_custom_form_tab'

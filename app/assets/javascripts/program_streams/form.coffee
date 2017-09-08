@@ -35,7 +35,6 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       self = @
       $(@).DataTable
         'bFilter': false
-        'bSort': false
         'sScrollY': '500'
         'bInfo': false
         processing: true
@@ -45,7 +44,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
           null
           null
           null
-          className: 'text-center'
+          "bSortable": false, className: 'text-center'
         ]
         'language': {
           'paginate': {
@@ -54,8 +53,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
           }
         }
         'initComplete': ->
-          _copyCustomForm() if index == 2
-
+          _copyCustomForm() if index == $('.dataTables_scrollHead .custom-field-table').length - 1
 
   _custom_field_list = ->
     $('.custom-field-list').click ->
@@ -82,8 +80,9 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       $('#custom-field').modal('hide')
 
   _addFieldProgramBuilder = (formBuilder, fields) ->
-    for field in fields
-      formBuilder.actions.addField(field)
+    fieldsBuilder = JSON.parse(formBuilder.formData).concat(fields)
+    $(formBuilder.element).find('label.field-label').remove()
+    formBuilder.actions.setData(JSON.stringify(fieldsBuilder))
 
   _initCheckbox = ->
     $('.i-checks').iCheck

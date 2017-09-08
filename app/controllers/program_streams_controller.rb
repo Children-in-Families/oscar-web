@@ -112,7 +112,7 @@ class ProgramStreamsController < AdminController
   def find_program_stream_organizations(org = '')
     current_org_name = current_organization.short_name
     program_streams = []
-    organizations = org == 'demo' ? Organization.where(short_name: 'demo') : Organization.without_demo
+    organizations = org == 'demo' ? Organization.where(short_name: 'demo') : Organization.without_demo.order(:full_name)
     organizations.each do |org|
       Organization.switch_to org.short_name
       program_streams << ProgramStream.all.reload
