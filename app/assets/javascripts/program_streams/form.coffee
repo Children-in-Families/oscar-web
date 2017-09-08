@@ -370,7 +370,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     trackings = $('#trackings .nested-fields')
     for tracking in trackings
       trackingName = $(tracking).find('input.string.optional.readonly.form-control')
-      return if $(trackingName).length == 0
+      continue if $(trackingName).length == 0
       name = $(trackingName).val()
       labelFields = $(tracking).find('label.field-label')
       if fields[name].length <= labelFields.length
