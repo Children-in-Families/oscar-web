@@ -53,11 +53,12 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
             )
         else if $(element).is('#exit-program') and $('#exit-program').is(':visible')
           _addFieldProgramBuilder(formBuilder, fields)
+      $('#custom-field').modal('hide')
 
   _addFieldProgramBuilder = (formBuilder, fields) ->
-    for field in fields
-      formBuilder.actions.addField(field)
-    $('#custom-field').modal('hide')
+    fieldsBuilder = JSON.parse(formBuilder.formData).concat(fields)
+    $(formBuilder.element).find('label.field-label').remove()
+    formBuilder.actions.setData(JSON.stringify(fieldsBuilder))
 
   _initCheckbox = ->
     $('.i-checks').iCheck
