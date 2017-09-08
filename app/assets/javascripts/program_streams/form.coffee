@@ -4,7 +4,9 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
   EXIT_PROGRAM_URL = "/api/program_streams/#{@programStreamId}/exit_program_fields"
   TRACKING_URL     = "/api/program_streams/#{@programStreamId}/tracking_fields"
   TRACKING = ''
+  DATA_TABLE_ID = ''
   @formBuilder = []
+  
   _init = ->
     @filterTranslation = ''
     _getTranslation()
@@ -29,8 +31,10 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     _editTrackingFormName()
     _custom_field_list()
     _initDataTable()
+    _s()
 
   _initDataTable = ->
+    tab = if $('#all-ngos-custom-fields').data('ngo') == 'demo' then 1 else 2
     $('.custom-field-table').each (index) ->
       self = @
       $(@).DataTable
@@ -52,8 +56,13 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
             'next': $(self).data('next')
           }
         }
-        'initComplete': ->
-          _copyCustomForm() if index == $('.dataTables_scrollHead .custom-field-table').length - 1
+        'drawCallback': ->
+          _getDataTableId()
+          _copyCustomForm() if index == tab or DATA_TABLE_ID == $(self).attr('id')
+
+  _getDataTableId = ->
+    $('.paginate_button a').click ->
+      DATA_TABLE_ID = $($(this).parents('.table-responsive').find('.custom-field-table')[1]).attr('id')
 
   _custom_field_list = ->
     $('.custom-field-list').click ->
