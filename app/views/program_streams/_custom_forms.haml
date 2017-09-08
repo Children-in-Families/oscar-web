@@ -5,21 +5,22 @@
         %button{ class: "close", 'data-dismiss': 'modal' } &times
         %h4= t('.custom_fields')
       .modal-body
-        .table-responsive
-          %table.table.table-bordered.table-hover.table-striped.custom-field-table
-            %thead
-              %tr
-                %th.form-title= t('.form_title')
-                %th.entity-type= t('.entity_type')
-                %th.organization= t('.organization')
-                %th.copy.text-center= t('.copy')
-            %tbody
-              - @custom_fields.each do |custom|
-                %tr
-                  %td.form-title= custom.form_title
-                  %td.entity-type= custom.entity_type
-                  %td.organization= custom.ngo_name
-                  %td.copy.text-center
-                    = link_to '#', class: 'copy-form' do
-                      = fa_icon('copy')
-                      %span{ data: { fields: custom.fields.to_json }}
+        %div
+          %ul.nav.nav-tabs{role: "tablist"}
+            %li.active{role: "presentation"}
+              %a{"data-toggle": "tab", href: "#current-custom-fields", role: "tab"}
+                = t('.current_custom_fields')
+            - unless current_organization.try(:short_name) == 'mho'
+              %li{role: "presentation"}
+                %a{"data-toggle": "tab", href: "#all-custom-fields", role: "tab"}
+                  = t('.all_custom_fields')
+            - unless current_organization.try(:short_name) == 'demo'
+              %li{role: "presentation"}
+                %a{"data-toggle": "tab", href: "#demo-custom-fields", role: "tab"}
+                  = t('.demo_custom_fields')
+          .tab-content
+            = render 'current_custom_fields'
+            - unless current_organization.try(:short_name) == 'mho'
+              = render 'all_custom_fields'
+            - unless current_organization.try(:short_name) == 'demo'
+              = render 'demo_custom_fields'

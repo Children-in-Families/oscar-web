@@ -75,7 +75,7 @@ class FormBuilder::CustomFieldsController < AdminController
 
   def find_custom_field_in_organization(org = '')
     current_org_name = current_organization.short_name
-    organizations = org == 'demo' ? Organization.where(short_name: 'demo') : Organization.without_demo
+    organizations = org == 'demo' ? Organization.where(short_name: 'demo') : Organization.without_demo.order(:full_name)
 
     custom_fields = organizations.map do |org|
       Organization.switch_to org.short_name
@@ -113,8 +113,7 @@ class FormBuilder::CustomFieldsController < AdminController
   def find_custom_field(search)
     results = []
     current_org_name = current_organization.short_name
-    orgs = current_org_name == 'demo' ? Organization.all : Organization.without_demo
-    orgs.each do |org|
+    Organization.all.each do |org|
       Organization.switch_to(org.short_name)
       if params[:search].present?
         form_title   = params[:search]
