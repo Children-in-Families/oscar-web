@@ -10,6 +10,17 @@ describe 'Domain Group' do
     before do
       visit domain_groups_path
     end
+
+    feature 'validate_organization' do
+      feature 'current instance is not Demo' do
+        scenario 'stays on the same page' do
+          expect(domain_groups_path.split('?').first).to eq(current_path)
+        end
+      end
+
+      xfeature 'current instance is Demo'
+    end
+
     scenario 'name' do
       expect(page).to have_content(domain_group.name)
     end

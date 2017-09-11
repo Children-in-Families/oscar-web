@@ -11,6 +11,17 @@ describe 'Domain' do
     before do
       visit domains_path
     end
+
+    feature 'validate_organization' do
+      feature 'current instance is not Demo' do
+        scenario 'stays on the same page' do
+          expect(domains_path.split('?').first).to eq(current_path)
+        end
+      end
+
+      xfeature 'current instance is Demo'
+    end
+
     scenario 'name' do
       expect(page).to have_content(domain.name)
       expect(page).to have_content(other_domain.name)
