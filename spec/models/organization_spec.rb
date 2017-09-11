@@ -47,4 +47,13 @@ RSpec.describe Organization, type: :model do
       end
     end
   end
+
+  describe Organization, 'instance methods' do
+    context 'demo?' do
+      demo_instance = Organization.find_by(short_name: 'demo')
+      app_instance  = Organization.find_by(short_name: 'app')
+      it { expect(demo_instance.demo?).to be_truthy }
+      it { expect(app_instance.demo?).to be_falsey }
+    end
+  end
 end
