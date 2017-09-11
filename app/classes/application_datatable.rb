@@ -42,8 +42,7 @@ class ApplicationDatatable
       custom_fields = find_custom_field_in_organization('demo')
     end
     if custom_fields.is_a?(Array)
-      ordered = custom_fields.sort_by{ |c| c[sort_column].downcase }
-      custom_fields = (sort_column.present? && sort_direction == 'desc' ? ordered.reverse : ordered)
+      custom_fields = sort_all(custom_fields)
     end
     custom_fields = Kaminari.paginate_array(custom_fields).page(page).per(per_page)
   end
@@ -61,5 +60,10 @@ class ApplicationDatatable
     end
     Organization.switch_to(current_org_name)
     custom_fields = custom_fields.flatten
+  end
+
+  def sort_all(custom_fields)
+    ordered = custom_fields.sort_by{ |c| c[sort_column].downcase }
+    sort_column.present? && sort_direction == 'desc' ? ordered.reverse : ordered
   end
 end

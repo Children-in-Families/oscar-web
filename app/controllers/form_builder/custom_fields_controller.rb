@@ -75,11 +75,10 @@ class FormBuilder::CustomFieldsController < AdminController
 
   def find_custom_field_in_organization(org = '')
     current_org_name = current_organization.short_name
-    custom_fields = []
     organizations = org == 'demo' ? Organization.where(short_name: 'demo') : Organization.without_demo.order(:full_name)
-    organizations.each do |org|
+    custom_fields = organizations.map do |org|
       Organization.switch_to org.short_name
-      custom_fields << CustomField.order(:entity_type, :form_title).reload
+      CustomField.order(:entity_type, :form_title).reload
     end
     Organization.switch_to(current_org_name)
     custom_fields = custom_fields.flatten

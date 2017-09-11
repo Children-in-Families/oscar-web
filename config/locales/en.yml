@@ -2802,11 +2802,7 @@ en:
     actions:
       are_you_sure: Are you sure you want to delete?
     all_ngos_custom_fields:
-      copy: Copy
-      entity_type: Type
-      form_title: Form Title
       next: Next
-      organization: Organization
       previous: Previous
     all_ngos_program_streams_tab:
       actions: Action
@@ -2833,12 +2829,13 @@ en:
       custom_fields: Custom Forms
       demo_ngo_custom_fields: Demo NGO's Custom Forms
       my_ngo_custom_fields: My NGO's Custom Forms
-    demo_ngo_custom_fields:
+    custom_form_table:
       copy: Copy
       entity_type: Type
       form_title: Form Title
-      next: Next
       organization: Organization
+    demo_ngo_custom_fields:
+      next: Next
       previous: Previous
     demo_program_streams_tab:
       actions: Action
@@ -2875,11 +2872,7 @@ en:
       ngo_programs: All NGO's Program Streams
       program_list: Program Streams Listing
     my_ngo_custom_fields:
-      copy: Copy
-      entity_type: Type
-      form_title: Form Title
       next: Next
-      organization: Organization
       previous: Previous
     new:
       back: Back

@@ -2850,11 +2850,7 @@ km:
     actions:
       are_you_sure: តើអ្នកប្រាកដហើយ?
     all_ngos_custom_fields:
-      copy: ចម្លងជូន
-      entity_type: ប្រភេទនៃទម្រង់បែបបទបន្ថែម
-      form_title: ឈ្មោះនៃទម្រង់បែបបទបន្ថែម
       next: ទំព័របន្ទាប់
-      organization: អង្គការ
       previous: ទំព័រមុន
     all_ngos_program_streams_tab:
       actions: សកម្មភាព
@@ -2880,12 +2876,13 @@ km:
       custom_fields: ទម្រង់បែបបទ
       demo_ngo_custom_fields: ទម្រង់បែបបទរបស់អង្គការ Demo
       my_ngo_custom_fields: ទម្រង់បែបបទរបស់អង្គការខ្ញុំ
-    demo_ngo_custom_fields:
+    custom_form_table:
       copy: ចម្លងជូន
       entity_type: ប្រភេទនៃទម្រង់បែបបទបន្ថែម
       form_title: ឈ្មោះនៃទម្រង់បែបបទបន្ថែម
-      next: ទំព័របន្ទាប់
       organization: អង្គការ
+    demo_ngo_custom_fields:
+      next: ទំព័របន្ទាប់
       previous: ទំព័រមុន
     demo_program_streams_tab:
       actions: សកម្មភាព
@@ -2922,11 +2919,7 @@ km:
       ngo_programs: កម្មវិធីបន្ទាប់បន្សំរបស់អង្គការទាំងអស់
       program_list: បញ្ជីកម្មវិធីបន្ទាប់បន្សំ
     my_ngo_custom_fields:
-      copy: ចម្លងជូន
-      entity_type: ប្រភេទនៃទម្រង់បែបបទបន្ថែម
-      form_title: ឈ្មោះនៃទម្រង់បែបបទបន្ថែម
       next: ទំព័របន្ទាប់
-      organization: អង្គការ
       previous: ទំព័រមុន
     new:
       back: ត្រលប់ក្រោយ
