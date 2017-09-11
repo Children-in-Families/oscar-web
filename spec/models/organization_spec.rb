@@ -51,7 +51,9 @@ RSpec.describe Organization, type: :model do
   describe Organization, 'instance methods' do
     context 'demo?' do
       demo_instance = Organization.find_by(short_name: 'demo')
+      demo_instance = demo_instance.present? ? demo_instance : Organization.create_and_build_tanent(short_name: 'demo', full_name: 'Demo')
       app_instance  = Organization.find_by(short_name: 'app')
+      app_instance = app_instance.present? ? app_instance : Organization.create_and_build_tanent(short_name: 'app', full_name: 'App')
       it { expect(demo_instance.demo?).to be_truthy }
       it { expect(app_instance.demo?).to be_falsey }
     end
