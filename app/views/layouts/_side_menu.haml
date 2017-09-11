@@ -66,10 +66,11 @@
             - if can? :read, :all
               %li{ class: active_menu('departments') }
                 = link_to t('.departments'), departments_path
-              %li{ class: active_menu('domains') }
-                = link_to t('.domains'), domains_path
-              %li{ class: active_menu('domain_groups') }
-                = link_to t('.domain_groups'), domain_groups_path
+              - unless (Rails.env.production? && current_organization.demo?)
+                %li{ class: active_menu('domains') }
+                  = link_to t('.domains'), domains_path
+                %li{ class: active_menu('domain_groups') }
+                  = link_to t('.domain_groups'), domain_groups_path
               %li{ class: active_menu('donors') }
                 = link_to t('.donors'), donors_path
               %li{ class: active_menu('provinces') }
