@@ -33,13 +33,12 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     _initDataTable()
 
   _initDataTable = ->
-    tab = $('.custom-field-table').length - 1
-    $('.custom-field-table').each (index) ->
+    $('.custom-field-table').each ->
       self = @
       $(@).DataTable
-        'bFilter': false
-        'sScrollY': '500'
-        'bInfo': false
+        bFilter: false
+        sScrollY: '500'
+        bInfo: false
         processing: true
         serverSide: true
         ajax: $(this).data('url')
@@ -47,15 +46,13 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
           null
           null
           null
-          "bSortable": false, className: 'text-center'
+          bSortable: false, className: 'text-center'
         ]
-        'language': {
-          'paginate': {
-            'previous': $(self).data('previous')
-            'next': $(self).data('next')
-          }
-        }
-        'drawCallback': ->
+        language:
+          paginate:
+            previous: $(self).data('previous')
+            next: $(self).data('next')
+        drawCallback: ->
           _getDataTableId()
           _copyCustomForm(self)
 
