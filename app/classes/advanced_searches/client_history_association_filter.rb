@@ -16,8 +16,8 @@ module AdvancedSearches
     def get_sql
       client_ids = []
       case @field
-      # when 'placement_date'
-      #   values = placement_date_field_query
+      when 'placement_date'
+        placement_date_field_query
       # when 'form_title'
       #   values = form_title_field_query
       when 'case_type'
@@ -66,48 +66,70 @@ module AdvancedSearches
     #   end
     # end
 
-    # def placement_date_field_query
-    #   # clients = @clients.joins(:cases)
+    def placement_date_field_query
+      clients          = @clients.where('object.case_ids': { '$ne': nil })
+      start_date_value = @value.try(:to_date).try(:beginning_of_day)
+      end_date_value   = @value.try(:to_date).try(:end_of_day)
 
-    #   client_ids = []
-    #   start_date = @history_date[:start_date].to_date.beginning_of_day
-    #   end_date = @history_date[:end_date].to_date.end_of_day
+      case @operator
+      when 'equal'
+        clients.each do |ch|
+          case_client_histories = ch.case_client_histories.where('object.start_date': start_date_value..end_date_value)
+          next if case_client_histories.empty?
 
-    #   clients = ClientHistory.where('$and': [{ created_at: start_date..end_date}, { 'object.case_ids': { '$ne': nil } }])
+          @client_ids << case_client_histories.map {|a| a.object['client_id']}
+        end
+      when 'not_equal'
+        clients.each do |ch|
+          case_client_histories = ch.case_client_histories.where('object.start_date': { '$ne': start_date_value })
+          next if case_client_histories.empty?
 
-    #   start_date_value = @value.try(:to_date).try(:beginning_of_day)
-    #   end_date_value = @value.try(:to_date).try(:end_of_day)
+          @client_ids << case_client_histories.map {|a| a.object['client_id']}
+        end
+      when 'less'
+        clients.each do |ch|
+          case_client_histories = ch.case_client_histories.where('object.start_date': { '$lt': start_date_value })
+          next if case_client_histories.empty?
 
-    #   case @operator
-    #   when 'equal'
-    #     # clients = clients.where(cases: { start_date: @value })
-    #     clients.each do |ch|
-    #       case_clients = ch.cases.where('object.start_date': start_date_value).distinct('object.id')
-    #     end
-    #   when 'not_equal'
-    #     clients = clients.where("cases.start_date != ? OR cases.start_date IS NULL", @value)
-    #   when 'less'
-    #     clients = clients.where('cases.start_date < ?', @value)
-    #   when 'less_or_equal'
-    #     clients = clients.where('cases.start_date <= ?', @value)
-    #   when 'greater'
-    #     clients = clients.where('cases.start_date > ?', @value)
-    #   when 'greater_or_equal'
-    #     clients = clients.where('cases.start_date >= ?', @value)
-    #   when 'between'
-    #     clients = clients.where(cases: { start_date: @value[0]..@value[1] })
-    #   when 'is_empty'
-    #     ids = @clients.where.not(id: clients.ids).ids
-    #   when 'is_not_empty'
-    #     ids = @clients.where(id: clients.ids).ids
-    #   end
+          @client_ids << case_client_histories.map {|a| a.object['client_id']}
+        end
+      when 'less_or_equal'
+        clients.each do |ch|
+          case_client_histories = ch.case_client_histories.where('object.start_date': { '$lte': start_date_value })
+          next if case_client_histories.empty?
 
-    #   if @operator != 'is_empty'
-    #     sub_query = 'SELECT MAX(cases.created_at) FROM cases WHERE cases.client_id = clients.id'
-    #     ids = clients.where("cases.created_at = (#{sub_query})").ids
-    #   end
-    #   client_ids
-    # end
+          @client_ids << case_client_histories.map {|a| a.object['client_id']}
+        end
+      when 'greater'
+        clients.each do |ch|
+          case_client_histories = ch.case_client_histories.where('object.start_date': { '$gt': start_date_value })
+          next if case_client_histories.empty?
+
+          @client_ids << case_client_histories.map {|a| a.object['client_id']}
+        end
+      when 'greater_or_equal'
+        clients.each do |ch|
+          case_client_histories = ch.case_client_histories.where('object.start_date': { '$gte': start_date_value })
+          next if case_client_histories.empty?
+
+          @client_ids << case_client_histories.map {|a| a.object['client_id']}
+        end
+      when 'between'
+        clients.each do |ch|
+          case_client_histories = ch.case_client_histories.where('object.start_date': @value.first..@value.last)
+          next if case_client_histories.empty?
+
+          @client_ids << case_client_histories.map {|a| a.object['client_id']}
+        end
+      when 'is_empty'
+        clients = @clients.where('object.case_ids': nil).map {|a| a.object['id']}
+
+        @client_ids << clients
+      when 'is_not_empty'
+        @client_ids << clients.map{ |c| c.object['id'] }
+      end
+      @client_ids.flatten.uniq
+    end
 
     # def form_title_field_query
     #   clients = @clients.joins(:custom_fields)
