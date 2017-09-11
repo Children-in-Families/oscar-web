@@ -38,12 +38,12 @@ module AdvancedSearches
         program_placement_date_field_query('FC')
       when 'referred_to_kc'
         program_placement_date_field_query('KC')
-      # when 'exit_ec_date'
-      #   values = program_exit_date_field_query('EC')
-      # when 'exit_fc_date'
-      #   values = program_exit_date_field_query('FC')
-      # when 'exit_kc_date'
-      #   values = program_exit_date_field_query('KC')
+      when 'exit_ec_date'
+        program_exit_date_field_query('EC')
+      when 'exit_fc_date'
+        program_exit_date_field_query('FC')
+      when 'exit_kc_date'
+        program_exit_date_field_query('KC')
       # when 'program_stream'
       #   values = program_stream_query
       end
@@ -307,42 +307,42 @@ module AdvancedSearches
           @client_ids << case_client_histories.map {|a| a.object['client_id']}
         end
       when 'not_equal'
-        clients.each do |ch| 
+        clients.each do |ch|
           case_client_histories = ch.case_client_histories.where('$and': [{ 'object.case_type': case_type }, { 'object.start_date': { '$ne': start_date_value } }])
           next if case_client_histories.empty?
 
           @client_ids << case_client_histories.map {|a| a.object['client_id']}
         end
       when 'less'
-        clients.each do |ch| 
+        clients.each do |ch|
           case_client_histories = ch.case_client_histories.where('$and': [{ 'object.case_type': case_type }, { 'object.start_date': { '$lt': start_date_value } }])
           next if case_client_histories.empty?
 
           @client_ids << case_client_histories.map {|a| a.object['client_id']}
         end
       when 'less_or_equal'
-        clients.each do |ch| 
+        clients.each do |ch|
           case_client_histories = ch.case_client_histories.where('$and': [{ 'object.case_type': case_type }, { 'object.start_date': { '$lte': start_date_value } }])
           next if case_client_histories.empty?
 
           @client_ids << case_client_histories.map {|a| a.object['client_id']}
         end
       when 'greater'
-        clients.each do |ch| 
+        clients.each do |ch|
           case_client_histories = ch.case_client_histories.where('$and': [{ 'object.case_type': case_type }, { 'object.start_date': { '$gt': start_date_value } }])
           next if case_client_histories.empty?
 
           @client_ids << case_client_histories.map {|a| a.object['client_id']}
         end
       when 'greater_or_equal'
-        clients.each do |ch| 
+        clients.each do |ch|
           case_client_histories = ch.case_client_histories.where('$and': [{ 'object.case_type': case_type }, { 'object.start_date': { '$gte': start_date_value } }])
           next if case_client_histories.empty?
 
           @client_ids << case_client_histories.map {|a| a.object['client_id']}
         end
       when 'between'
-        clients.each do |ch| 
+        clients.each do |ch|
           case_client_histories = ch.case_client_histories.where('$and': [{ 'object.case_type': case_type }, { 'object.start_date': @value.first..@value.last  }])
           next if case_client_histories.empty?
 
@@ -353,7 +353,7 @@ module AdvancedSearches
 
         @client_ids << clients
       when 'is_not_empty'
-        clients.each do |ch| 
+        clients.each do |ch|
           case_client_histories = ch.case_client_histories.where('object.case_type': case_type)
           next if case_client_histories.empty?
 
@@ -363,30 +363,83 @@ module AdvancedSearches
       @client_ids.flatten.uniq
     end
 
-  #   def program_exit_date_field_query(case_type)
-  #     clients = @clients.joins(:cases).where(cases: { exited: true })
+    def program_exit_date_field_query(case_type)
+      clients = @clients.where('object.case_ids': { '$ne': nil })
+      start_date_value = @value.try(:to_date).try(:beginning_of_day)
+      end_date_value = @value.try(:to_date).try(:end_of_day)
 
-  #     case @operator
-  #     when 'equal'
-  #       clients = clients.where(cases: { case_type: case_type, exit_date: @value })
-  #     when 'not_equal'
-  #       clients = clients.where("cases.case_type = ? AND cases.exit_date != ?", case_type, @value)
-  #     when 'less'
-  #       clients = clients.where('cases.case_type = ? AND cases.exit_date < ?', case_type, @value)
-  #     when 'less_or_equal'
-  #       clients = clients.where('cases.case_type = ? AND cases.exit_date <= ?', case_type, @value)
-  #     when 'greater'
-  #       clients = clients.where('cases.case_type = ? AND cases.exit_date > ?', case_type, @value)
-  #     when 'greater_or_equal'
-  #       clients = clients.where('cases.case_type = ? AND cases.exit_date >= ?', case_type, @value)
-  #     when 'between'
-  #       clients = clients.where(cases: { case_type: case_type, exit_date: @value[0]..@value[1] })
-  #     when 'is_empty'
-  #       clients = @clients.includes(:cases).where('cases.exited = ? OR cases.id IS NULL', false)
-  #     when 'is_not_empty'
-  #       clients = @clients.includes(:cases).where.not('cases.exited = ? OR cases.id IS NULL', false)
-  #     end
-  #     clients.ids.uniq
-  #   end
+      case @operator
+      when 'equal'
+        clients.each do |ch|
+          case_client_histories = ch.case_client_histories.where('$and': [{ 'object.case_type': case_type }, { 'object.exited': true }, { 'object.exit_date': start_date_value..end_date_value }])
+          next if case_client_histories.empty?
+
+          @client_ids << case_client_histories.map {|a| a.object['client_id']}
+        end
+      when 'not_equal'
+        clients.each do |ch|
+          case_client_histories = ch.case_client_histories.where('$and': [{ 'object.case_type': case_type }, { 'object.exited': true }, { 'object.exit_date': { '$ne': start_date_value }}])
+          next if case_client_histories.empty?
+
+          @client_ids << case_client_histories.map {|a| a.object['client_id']}
+        end
+
+      when 'less'
+        clients.each do |ch|
+          case_client_histories = ch.case_client_histories.where('$and': [{ 'object.case_type': case_type }, { 'object.exited': true }, { 'object.exit_date': { '$lt': start_date_value }}])
+          next if case_client_histories.empty?
+
+          @client_ids << case_client_histories.map {|a| a.object['client_id']}
+        end
+      when 'less_or_equal'
+        clients.each do |ch|
+          case_client_histories = ch.case_client_histories.where('$and': [{ 'object.case_type': case_type }, { 'object.exited': true }, { 'object.exit_date': { '$lte': start_date_value }}])
+          next if case_client_histories.empty?
+
+          @client_ids << case_client_histories.map {|a| a.object['client_id']}
+        end
+      when 'greater'
+        clients.each do |ch|
+          case_client_histories = ch.case_client_histories.where('$and': [{ 'object.case_type': case_type }, { 'object.exited': true }, { 'object.exit_date': { '$gt': start_date_value }}])
+          next if case_client_histories.empty?
+
+          @client_ids << case_client_histories.map {|a| a.object['client_id']}
+        end
+      when 'greater_or_equal'
+        clients.each do |ch|
+          case_client_histories = ch.case_client_histories.where('$and': [{ 'object.case_type': case_type }, { 'object.exited': true }, { 'object.exit_date': { '$gte': start_date_value }}])
+          next if case_client_histories.empty?
+
+          @client_ids << case_client_histories.map {|a| a.object['client_id']}
+        end
+      when 'between'
+        clients.each do |ch|
+          case_client_histories = ch.case_client_histories.where('$and': [{ 'object.case_type': case_type }, { 'object.exited': true }, { 'object.exit_date': @value.first..@value.last }])
+          next if case_client_histories.empty?
+
+          @client_ids << case_client_histories.map {|a| a.object['client_id']}
+        end
+      when 'is_empty'
+        non_case_client_ids = @clients.where('object.case_ids': nil).map{ |c| c.object['id'] }.uniq
+        case_client_ids = []
+        client_histories = @clients.where('object.case_ids': { '$ne': nil })
+        client_histories.each do |ch|
+          case_client_histories = ch.case_client_histories.where('$and': [{ 'object.exited': false }])
+          next if case_client_histories.empty?
+
+          case_client_ids << case_client_histories.map{ |cch| cch.object['client_id'] }.uniq
+        end
+        client_ids = (non_case_client_ids + case_client_ids.flatten.uniq).uniq
+        @client_ids << client_ids
+      when 'is_not_empty'
+        clients.each do |ch|
+          case_client_histories = ch.case_client_histories.where('$and': [{ 'object.case_type': case_type }, { 'object.exited': true }])
+          next if case_client_histories.empty?
+
+          @client_ids << case_client_histories.map {|a| a.object['client_id']}
+        end
+      end
+      @client_ids.flatten.uniq
+    end
   end
 end
