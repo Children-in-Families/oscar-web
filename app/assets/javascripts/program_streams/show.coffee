@@ -7,7 +7,7 @@ CIF.Program_streamsShow = CIF.Program_streamsPreview = do ->
 
   _initProgramRule = ->
     rules = $('#rules').data('program-rules')
-    return if $.isEmptyObject(rules)
+    return if _.isEmpty(rules.rules)
     $.ajax
       url: '/api/program_stream_add_rule/get_fields'
       method: 'GET'
@@ -37,7 +37,7 @@ CIF.Program_streamsShow = CIF.Program_streamsPreview = do ->
 
   _handleSetRules = ->
     rules = $('#rules').data('program-rules')
-    $('#program-rules').queryBuilder('setRules', rules) unless $.isEmptyObject(rules)
+    $('#program-rules').queryBuilder('setRules', rules) unless _.isEmpty(rules.rules)
 
   _queryBuilderOption = (fieldList) ->
     inputs_separator: ' AND '

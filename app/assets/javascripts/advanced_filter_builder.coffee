@@ -12,7 +12,7 @@ class CIF.AdvancedFilterBuilder
     icons:
       remove_rule: 'fa fa-minus'
     lang:
-      delete_rule: ''
+      delete_rule: ' '
       add_rule: @filterTranslation.addFilter
       add_group: @filterTranslation.addGroup
       delete_group: @filterTranslation.deleteGroup
