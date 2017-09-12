@@ -484,18 +484,19 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
 
   _preventOptionDomainScores = (element) ->
     if $(element).parent().siblings('.rule-filter-container').find('option:selected').val().split('_')[0] == 'domainscore'
+      ruleValueContainer = $(element).parent().siblings('.rule-value-container')
       if $(element).find('option:selected').val() == 'greater'
-        $(element).parent().siblings('.rule-value-container').find("option[value=4]").attr('disabled', 'disabled')
-        $(element).parent().siblings('.rule-value-container').find("option[value=1]").removeAttr('disabled')
-        if $(element).parent().siblings('.rule-value-container').find('option:selected').val() == '4'
-          $(element).parent().siblings('.rule-value-container').find('select').val('1').trigger('change')
+        $(ruleValueContainer).find("option[value=4]").attr('disabled', 'disabled')
+        $(ruleValueContainer).find("option[value=1]").removeAttr('disabled')
+        if $(ruleValueContainer).find('option:selected').val() == '4'
+          $(ruleValueContainer).find('select').val('1').trigger('change')
       else if $(element).find('option:selected').val() == 'less'
-        $(element).parent().siblings('.rule-value-container').find("option[value='1']").attr('disabled', 'disabled')
-        $(element).parent().siblings('.rule-value-container').find("option[value='4']").removeAttr('disabled')
-        if $(element).parent().siblings('.rule-value-container').find("option:selected").val() == '1'
-          $(element).parent().siblings('.rule-value-container').find('select').val('2').trigger('change')
+        $(ruleValueContainer).find("option[value='1']").attr('disabled', 'disabled')
+        $(ruleValueContainer).find("option[value='4']").removeAttr('disabled')
+        if $(ruleValueContainer).find("option:selected").val() == '1'
+          $(ruleValueContainer).find('select').val('2').trigger('change')
       else
-        $(element).parent().siblings('.rule-value-container').find("option[value='4']").removeAttr('disabled')
-        $(element).parent().siblings('.rule-value-container').find("option[value='1']").removeAttr('disabled')
+        $(ruleValueContainer).find("option[value='4']").removeAttr('disabled')
+        $(ruleValueContainer).find("option[value='1']").removeAttr('disabled')
 
   { init: _init }
