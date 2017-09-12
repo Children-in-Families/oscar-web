@@ -26,9 +26,13 @@ class Organization < ActiveRecord::Base
         org
       end
     end
+  end
 
-    def without_demo_and_mho
-      %w(demo mho).exclude?(find_by(short_name: Apartment::Tenant.current).short_name)
-    end
+  def demo?
+    short_name == 'demo'
+  end
+
+  def without_demo_and_mho
+    %w(demo mho).exclude?(short_name)
   end
 end
