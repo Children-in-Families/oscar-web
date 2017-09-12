@@ -2849,11 +2849,9 @@ km:
   program_streams:
     actions:
       are_you_sure: តើអ្នកប្រាកដហើយ?
-    all_custom_fields:
-      copy: ចម្លងជូន
-      entity_type: ប្រភេទនៃទម្រង់បែបបទបន្ថែម
-      form_title: ឈ្មោះនៃទម្រង់បែបបទបន្ថែម
-      organization: អង្គការ
+    all_ngos_custom_fields:
+      next: ទំព័របន្ទាប់
+      previous: ទំព័រមុន
     all_ngos_program_streams_tab:
       actions: សកម្មភាព
       copy: ចំលង
@@ -2866,11 +2864,6 @@ km:
     create:
       alert: ឈ្មោះនៃការតាមដានត្រូវបានប្រើរួចហើយ
       successfully_created: កម្មវិធីរក្សាទុកដោយជោគជ័យ
-    current_custom_fields:
-      copy: ចម្លងជូន
-      entity_type: ប្រភេទនៃទម្រង់បែបបទបន្ថែម
-      form_title: ឈ្មោះនៃទម្រង់បែបបទបន្ថែម
-      organization: អង្គការ
     current_program_streams_tab:
       actions: សកម្មភាព
       domain: កត្តា
@@ -2879,15 +2872,18 @@ km:
       name: ឈ្មោះកម្មវិធីបន្ទាប់បន្សំ
       status: ស្ថានភាព
     custom_forms:
-      all_custom_fields: ទម្រង់បែបបទរបស់អង្គការទាំងអស់
-      current_custom_fields: ទម្រង់បែបបទរបស់អង្គការខ្ញុំ
+      all_ngos_custom_fields: ទម្រង់បែបបទរបស់អង្គការទាំងអស់
       custom_fields: ទម្រង់បែបបទ
-      demo_custom_fields: ទម្រង់បែបបទរបស់អង្គការ Demo
-    demo_custom_fields:
+      demo_ngo_custom_fields: ទម្រង់បែបបទរបស់អង្គការ Demo
+      my_ngo_custom_fields: ទម្រង់បែបបទរបស់អង្គការខ្ញុំ
+    custom_form_table:
       copy: ចម្លងជូន
       entity_type: ប្រភេទនៃទម្រង់បែបបទបន្ថែម
       form_title: ឈ្មោះនៃទម្រង់បែបបទបន្ថែម
       organization: អង្គការ
+    demo_ngo_custom_fields:
+      next: ទំព័របន្ទាប់
+      previous: ទំព័រមុន
     demo_program_streams_tab:
       actions: សកម្មភាព
       copy: ចំលង
@@ -2922,6 +2918,9 @@ km:
       new_program: បន្ថែមកម្មវិធីថ្មី
       ngo_programs: កម្មវិធីបន្ទាប់បន្សំរបស់អង្គការទាំងអស់
       program_list: បញ្ជីកម្មវិធីបន្ទាប់បន្សំ
+    my_ngo_custom_fields:
+      next: ទំព័របន្ទាប់
+      previous: ទំព័រមុន
     new:
       back: ត្រលប់ក្រោយ
       new_program_stream: បន្ថែមកម្មវិធីថ្មី

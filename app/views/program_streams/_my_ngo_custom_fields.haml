@@ -1,0 +1,4 @@
+#current-custom-fields.tab-pane.active.margin-top-datatable{ role: 'tabpanel' }
+  .table-responsive
+    %table.table.table-bordered.table-hover.table-striped.custom-field-table#my-ngos-custom-fields{ data: { url: ngo_custom_fields_api_custom_fields_path(ngo_custom_field: 'current_custom_field'), next: t('.next'), previous: t('.previous')  } }
+      = render 'custom_form_table'

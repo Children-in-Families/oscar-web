@@ -84,13 +84,12 @@ CIF.Client_advanced_searchesIndex = do ->
         $(ruleValueContainer).find("option[value='4']").removeAttr('disabled')
         if $(ruleValueContainer).find("option:selected").val() == '1'
           $(ruleValueContainer).find('select').val('2').trigger('change')
-      else if $(element).find('option:selected').val() == 'between'
-        setTimeout( ->
-          _initSelect2()
-        )
       else
         $(ruleValueContainer).find("option[value='4']").removeAttr('disabled')
         $(ruleValueContainer).find("option[value='1']").removeAttr('disabled')
+      setTimeout( ->
+        _initSelect2()
+      )
 
   _initSelect2 = ->
     $('#custom-form-select, #program-stream-select, #quantitative-case-select').select2()

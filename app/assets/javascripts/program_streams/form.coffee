@@ -4,7 +4,9 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
   EXIT_PROGRAM_URL = "/api/program_streams/#{@programStreamId}/exit_program_fields"
   TRACKING_URL     = "/api/program_streams/#{@programStreamId}/tracking_fields"
   TRACKING = ''
+  DATA_TABLE_ID = ''
   @formBuilder = []
+
   _init = ->
     @filterTranslation = ''
     _getTranslation()
@@ -28,19 +30,47 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     _initFrequencyNote()
     _editTrackingFormName()
     _custom_field_list()
-    _copyCustomForm()
-    _customFieldsFixedHeader()
+    _initDataTable()
     _filterSelecting()
     _preventDomainScore()
+
+  _initDataTable = ->
+    $('.custom-field-table').each ->
+      self = @
+      $(@).DataTable
+        bFilter: false
+        sScrollY: '500'
+        bInfo: false
+        processing: true
+        serverSide: true
+        ajax: $(this).data('url')
+        columns: [
+          null
+          null
+          null
+          bSortable: false, className: 'text-center'
+        ]
+        language:
+          paginate:
+            previous: $(self).data('previous')
+            next: $(self).data('next')
+        drawCallback: ->
+          _getDataTableId()
+          _copyCustomForm(self)
+
+  _getDataTableId = ->
+    $('.paginate_button a').click ->
+      DATA_TABLE_ID = $($(this).parents('.table-responsive').find('.custom-field-table')[1]).attr('id')
 
   _custom_field_list = ->
     $('.custom-field-list').click ->
       TRACKING = $(@).parents('.nested-fields')
 
-  _copyCustomForm = ->
+  _copyCustomForm = (element)->
     self = @
-    $('.copy-form').click ->
-      fields = $(@).children('span').data('fields')
+    elementId = $(element).attr('id')
+    $("##{elementId} .copy-form").click ->
+      fields = $(@).data('fields')
       for formBuilder in self.formBuilder
         element = formBuilder.element
         if $(element).is('#enrollment') and $('#enrollment').is(':visible')
@@ -494,12 +524,11 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         $(ruleValueContainer).find("option[value='4']").removeAttr('disabled')
         if $(ruleValueContainer).find("option:selected").val() == '1'
           $(ruleValueContainer).find('select').val('2').trigger('change')
-      else if $(element).find('option:selected').val() == 'between'
-        setTimeout( ->
-          _initSelect2()
-        )
       else
         $(ruleValueContainer).find("option[value='4']").removeAttr('disabled')
         $(ruleValueContainer).find("option[value='1']").removeAttr('disabled')
+      setTimeout( ->
+        _initSelect2()
+      )
 
   { init: _init }

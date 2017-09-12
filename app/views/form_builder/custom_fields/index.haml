@@ -17,15 +17,15 @@
           %ul.nav.nav-tabs{role: "tablist"}
             %li.active{role: "presentation"}
               %a{"aria-controls" => "custom-form", "data-toggle" => "tab", href: "#custom-form", role: "tab"}= t('.my_ngo')
-            - unless current_organization.try(:short_name) == 'mho'
+            - unless current_organization.mho?
               %li{role: "presentation"}
                 %a{"aria-controls" => "all-custom-form", "data-toggle" => "tab", href: "#all-custom-form", role: "tab"}= t('.all_ngo')
-            - unless current_organization.try(:short_name) == 'mho' || current_organization.try(:short_name) == 'demo'
+            - unless current_organization.mho? || current_organization.demo?
               %li{role: "presentation"}
                 %a{"aria-controls" => "demo-custom-form", "data-toggle" => "tab", href: "#demo-custom-form", role: "tab"}= t('.demo_ngo')
           .tab-content
             = render 'current_custom_form_tab'
-            - unless current_organization.try(:short_name) == 'mho'
+            - unless current_organization.mho?
               = render 'all_custom_form_tab'
-            - unless current_organization.try(:short_name) == 'mho' || current_organization.try(:short_name) == 'demo'
+            - unless current_organization.mho? || current_organization.demo?
               = render 'demo_custom_form_tab'

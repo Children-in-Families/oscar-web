@@ -6,7 +6,6 @@ class ProgramStreamsController < AdminController
   before_action :authorize_program, only: [:edit, :update, :destroy]
   before_action :complete_program_steam, only: [:new, :create, :edit, :update]
   before_action :find_another_ngo_program_stream, if: -> { @ngo_name.present? }
-  before_action :find_current_custom_fields, only: [:edit, :update, :new, :create]
 
   def index
     @program_streams = paginate_collection(decorate_programs(column_order)).page(params[:page_1]).per(20)
@@ -112,11 +111,10 @@ class ProgramStreamsController < AdminController
 
   def find_program_stream_organizations(org = '')
     current_org_name = current_organization.short_name
-    program_streams = []
-    organizations = org == 'demo' ? Organization.where(short_name: 'demo') : Organization.without_demo
-    organizations.each do |org|
+    organizations = org == 'demo' ? Organization.where(short_name: 'demo') : Organization.without_demo.order(:full_name)
+    program_streams = organizations.map do |org|
       Organization.switch_to org.short_name
-      program_streams << ProgramStream.all.reload
+      ProgramStream.all.reload
     end
     Organization.switch_to(current_org_name)
     program_streams.flatten
@@ -193,23 +191,5 @@ class ProgramStreamsController < AdminController
       @program_stream = ProgramStream.new
       @tracking = @program_stream.trackings.build
     end
-  end
-
-  def find_current_custom_fields
-    @current_custom_fields = CustomField.order(:entity_type, :form_title)
-    @all_custom_fields = find_custom_field_in_organization()
-    @demo_custom_fields = find_custom_field_in_organization('demo')
-  end
-
-  def find_custom_field_in_organization(org = '')
-    current_org_name = current_organization.short_name
-    custom_fields = []
-    organizations = org == 'demo' ? Organization.where(short_name: 'demo') : Organization.without_demo.order(:full_name)
-    organizations.each do |org|
-      Organization.switch_to org.short_name
-      custom_fields << CustomField.order(:entity_type, :form_title).reload
-    end
-    Organization.switch_to(current_org_name)
-    custom_fields = custom_fields.flatten
   end
 end
