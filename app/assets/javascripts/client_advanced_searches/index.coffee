@@ -309,7 +309,7 @@ CIF.Client_advanced_searchesIndex = do ->
   _handleSearch = ->
     self = @
     $('#search').on 'click', ->
-      basicRules = $('#builder').queryBuilder('getRules')
+      basicRules = $('#builder').queryBuilder('getRules', { skip_empty: true, allow_invalid: true })
       customFormValues = if self.customFormSelected.length > 0 then "[#{self.customFormSelected}]"
       programValues = if self.programSelected.length > 0 then "[#{self.programSelected}]"
 
@@ -319,7 +319,8 @@ CIF.Client_advanced_searchesIndex = do ->
       if $('#quantitative-type-checkbox').prop('checked')
         $('#client_advanced_search_quantitative_check').val(1)
 
-      if !($.isEmptyObject(basicRules))
+      if (_.isEmpty(basicRules.rules) and !basicRules.valid) or (!(_.isEmpty(basicRules.rules)) and basicRules.valid)
+        $('#builder').find('.has-error').remove()
         $('#client_advanced_search_basic_rules').val(_handleStringfyRules(basicRules))
         _handleSelectFieldVisibilityCheckBox()
         $('#advanced-search').submit()
@@ -431,7 +432,7 @@ CIF.Client_advanced_searchesIndex = do ->
 
   _basicFilterSetRule = ->
     basicQueryRules = $('#builder').data('basic-search-rules')
-    if !$.isEmptyObject basicQueryRules
+    unless basicQueryRules == undefined or _.isEmpty(basicQueryRules.rules)
       $('#builder').queryBuilder('setRules', basicQueryRules)
 
   _handleInitDatatable = ->

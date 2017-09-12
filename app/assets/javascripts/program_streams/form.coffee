@@ -160,8 +160,8 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
 
   _handleSetRules = ->
     rules = $('#program_stream_rules').val()
-    rules = JSON.parse(rules.replace(/=>/g, ':'))
-    $('#program-rule').queryBuilder('setRules', rules) unless $.isEmptyObject(rules)
+    rules = JSON.parse(rules)
+    $('#program-rule').queryBuilder('setRules', rules) unless _.isEmpty(rules.rules)
 
   _addRuleCallback = ->
     $('#program-rule').on 'afterCreateRuleFilters.queryBuilder', ->
@@ -350,9 +350,8 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     $(elements).find('input, select, radio, checkbox, textarea').remove()
 
   _handleAddRuleBuilderToInput = ->
-    rules = $('#program-rule').queryBuilder('getRules')
-    $('ul.rules-list li').removeClass('has-error') if ($.isEmptyObject(rules))
-    $('#program_stream_rules').val(_handleStringfyRules(rules)) if !($.isEmptyObject(rules))
+    rules = $('#program-rule').queryBuilder('getRules', { skip_empty: true, allow_invalid: true })
+    $('#program_stream_rules').val(_handleStringfyRules(rules))
 
   _handleSetValueToField = ->
     for formBuilder in @formBuilder
