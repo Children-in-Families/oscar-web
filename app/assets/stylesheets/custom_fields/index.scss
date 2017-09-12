@@ -22,4 +22,13 @@ body[id='custom_fields-index'] {
       margin-top: 0px;
     }
   }
+  th.form_title,
+  th.frequency,
+  th.organization, {
+    min-width: 350px;
+  }
+
+  th.type, th.manage {
+    min-width: 150px;
+  }
 }

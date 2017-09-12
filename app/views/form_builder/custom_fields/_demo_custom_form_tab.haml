@@ -2,10 +2,16 @@
   .table-responsive
     %table.table.table-bordered.table-hover
       %thead
-        %th= t('.form_title')
-        %th= t('.type')
-        %th= t('.frequency')
-        %th= t('.organization')
+        %th.form_title
+          = t('.form_title')
+          .pull-right
+            = render 'order', column: :form_title, ngo: 'demo_ngo'
+        %th.type
+          = t('.type')
+          .pull-right
+            = render 'order', column: :entity_type, ngo: 'demo_ngo'
+        %th.frequency= t('.frequency')
+        %th.organization= t('.organization')
         - if can? :manage, CustomField
           %th.manage.text-center= t('.manage')
       %tbody
