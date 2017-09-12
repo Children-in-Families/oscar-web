@@ -2202,7 +2202,7 @@ en:
         time_of_frequency: Time of Frequency
         type: Type
       index:
-        all_ngo: All NGO's Custom Forms
+        all_ngo: All NGOs' Custom Forms
         demo_ngo: Demo NGO's Custom Forms
         form_title: Form Title
         frequency: Frequency
@@ -2832,7 +2832,7 @@ en:
       quantity: Quantity
       status: Status
     custom_forms:
-      all_custom_fields: All NGO's Custom Forms
+      all_custom_fields: All NGOs' Custom Forms
       current_custom_fields: My NGO's Custom Forms
       custom_fields: Custom Forms
       demo_custom_fields: Demo NGO's Custom Forms
@@ -2873,7 +2873,7 @@ en:
       current_ngo: My NGO's Program Streams
       demo_programs: Demo NGO's Program Streams
       new_program: Add New Program
-      ngo_programs: All NGO's Program Streams
+      ngo_programs: All NGOs' Program Streams
       program_list: Program Streams Listing
     new:
       back: Back

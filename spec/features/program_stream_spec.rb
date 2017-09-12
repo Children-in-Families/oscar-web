@@ -232,7 +232,7 @@ feature 'program_stream' do
     end
 
     scenario 'valid' do
-      click_link "All NGO's Program Streams"
+      click_link "All NGOs' Program Streams"
       all_ngos = find('#ngos-program-streams')
       all_ngos.click_link(nil, href: new_program_stream_path(program_stream_id: program_stream.id, ngo_name: program_stream.ngo_name))
       fill_in 'program_stream_name', with: 'Program Copy'
@@ -250,7 +250,7 @@ feature 'program_stream' do
     end
 
     scenario 'invalid' do
-      click_link "All NGO's Program Streams"
+      click_link "All NGOs' Program Streams"
       all_ngos = find('#ngos-program-streams')
       all_ngos.click_link(nil, href: new_program_stream_path(program_stream_id: program_stream.id, ngo_name: program_stream.ngo_name))
       fill_in 'program_stream_name', with: ''
@@ -263,7 +263,7 @@ feature 'program_stream' do
   feature 'Preview Other NGOs' do
     before do
       visit program_streams_path
-      click_link "All NGO's Program Streams"
+      click_link "All NGOs' Program Streams"
       all_ngos = find('#ngos-program-streams')
       all_ngos.click_link(nil, href: preview_program_streams_path(program_stream_id: program_stream.id, ngo_name: program_stream.ngo_name))
     end

@@ -3,6 +3,7 @@ class DomainsController < AdminController
 
   before_action :find_domain, only: [:edit, :update, :destroy]
   before_action :find_domain_group, except: [:index, :destroy]
+  before_action :validate_organization
 
   def index
     @domains = Domain.all.page(params[:page]).per(10)
@@ -59,5 +60,9 @@ class DomainsController < AdminController
 
   def find_domain_group
     @domain_group = DomainGroup.order(:name)
+  end
+
+  def validate_organization
+    redirect_to root_url, alert: t('unauthorized.default') if (Rails.env.production? && current_organization.demo?)
   end
 end

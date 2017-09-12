@@ -26,5 +26,10 @@ class Organization < ActiveRecord::Base
         org
       end
     end
+
+  end
+
+  def demo?
+    short_name == 'demo'
   end
 end

@@ -82,10 +82,12 @@ class ClientColumnsVisibility
 
   def domain_score_columns
     columns = columns_collection
-    Domain.order_by_identity.each do |domain|
-      identity = domain.identity
-      field = domain.convert_identity
-      columns = columns.merge!("#{field}_": field.to_sym)
+    if @params[:controller] != 'clients'
+      Domain.order_by_identity.each do |domain|
+        identity = domain.identity
+        field = domain.convert_identity
+        columns = columns.merge!("#{field}_": field.to_sym)
+      end
     end
     columns
   end
