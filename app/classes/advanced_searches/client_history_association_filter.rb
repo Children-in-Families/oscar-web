@@ -18,8 +18,8 @@ module AdvancedSearches
       case @field
       when 'placement_date'
         placement_date_field_query
-      # when 'form_title'
-      #   values = form_title_field_query
+      when 'form_title'
+        form_title_field_query
       when 'case_type'
         case_type_field_query
       when 'user_id'
@@ -131,20 +131,28 @@ module AdvancedSearches
       @client_ids.flatten.uniq
     end
 
-    # def form_title_field_query
-    #   clients = @clients.joins(:custom_fields)
-    #   case @operator
-    #   when 'equal'
-    #     clients = clients.where('custom_fields.id = ?', @value)
-    #   when 'not_equal'
-    #     clients = clients.where.not('custom_fields.id = ?', @value)
-    #   when 'is_empty'
-    #     clients = @clients.where.not(id: clients.ids)
-    #   when 'is_not_empty'
-    #     clients = @clients.where(id: clients.ids)
-    #   end
-    #   clients.uniq.ids
-    # end
+    def form_title_field_query
+      client_forms = @clients.where('object.custom_field_property_ids': { '$ne': nil })
+      case @operator
+      when 'equal'
+        client_forms.each do |c|
+          clients = c.client_custom_field_property_histories.where('object.custom_field_id': @value.to_i)
+
+          @client_ids << c.object['id'] if clients.any?
+        end
+      when 'not_equal'
+        client_forms.each do |c|
+          clients = c.client_custom_field_property_histories.where('object.custom_field_id': { '$ne': @value.to_i })
+
+          @client_ids << c.object['id'] if clients.any?
+        end
+      when 'is_empty'
+        client_forms = @clients.where('object.custom_field_property_ids': nil)
+        @client_ids << client_forms.map { |c| c.object['id'] }.uniq
+      when 'is_not_empty'
+        @client_ids << client_forms.map { |c| c.object['id'] }.uniq
+      end
+    end
 
     def case_type_field_query
       case_type_clients = @clients.where('object.case_ids': { '$ne': nil })
