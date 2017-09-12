@@ -678,10 +678,13 @@ en:
       basic_fields: Client Basic Fields
       csi_domain_scores: CSI Domain Scores
       custom_form: Custom Form
+      end_date: End Date
       enrollment: Enrollment
       exit_program: Exit Program
       filter_option: Please choose your query options below
+      historical_search: Historical Search
       program_stream: Program Stream
+      start_date: Start Date
       tracking: Tracking
       quantitative: Quantitative Type
     index:
