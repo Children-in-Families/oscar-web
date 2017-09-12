@@ -57,5 +57,9 @@ RSpec.describe Organization, type: :model do
       it { expect(demo_instance.demo?).to be_truthy }
       it { expect(app_instance.demo?).to be_falsey }
     end
+
+    context 'without_demo_and_mho' do
+      it { expect(Organization.current.without_demo_and_mho).to be_truthy }
+    end
   end
 end
