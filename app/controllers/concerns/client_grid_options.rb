@@ -29,7 +29,7 @@ module ClientGridOptions
         identity = domain.identity
         @client_grid.column(domain.convert_identity.to_sym, class: 'domain-scores', header: identity) do |client|
           assessment = client.assessments.latest_record
-          assessment.assessment_domains.find_by(domain_id: domain.id).try(:score)
+          assessment.assessment_domains.find_by(domain_id: domain.id).try(:score) if assessment.present?
         end
       end
     end
