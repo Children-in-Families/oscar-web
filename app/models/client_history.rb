@@ -86,4 +86,8 @@ class ClientHistory
     end
     custom_field_property['properties'].map {|k, v| [mappings[k].downcase, v] }.to_h
   end
+
+  def self.last
+    order_by(created_at: :desc).first
+  end
 end
