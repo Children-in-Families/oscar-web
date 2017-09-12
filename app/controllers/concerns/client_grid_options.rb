@@ -23,6 +23,18 @@ module ClientGridOptions
     @client_grid.column_names << :assessments if @client_grid.column_names.any?
   end
 
+  def csi_domain_score_report
+    if params[:controller] != 'clients'
+      Domain.order_by_identity.each do |domain|
+        identity = domain.identity
+        @client_grid.column(domain.convert_identity.to_sym, class: 'domain-scores', header: identity) do |client|
+          assessment = client.assessments.latest_record
+          assessment.assessment_domains.find_by(domain_id: domain.id).try(:score)
+        end
+      end
+    end
+  end
+
   def form_builder_report
     column_form_builder.each do |field|
       fields = field[:id].split('_')

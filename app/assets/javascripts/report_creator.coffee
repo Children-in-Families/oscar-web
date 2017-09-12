@@ -42,7 +42,7 @@ class CIF.ReportCreator
       colors: @colors
       chart:
         type: 'pie'
-        height: 500
+        height: 530
         backgroundColor: '#ecf0f1'
         borderWidth: 1
         borderColor: "#ddd"

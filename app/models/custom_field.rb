@@ -28,6 +28,7 @@ class CustomField < ActiveRecord::Base
   scope :partner_forms,  ->         { where(entity_type: 'Partner') }
   scope :user_forms,     ->         { where(entity_type: 'User') }
   scope :not_used_forms, ->(value)  { where.not(id: value) }
+  scope :ordered_by,     ->(column) { order(column) }
   scope :order_by_form_title, ->    { order(:form_title) }
 
   def self.client_used_form
