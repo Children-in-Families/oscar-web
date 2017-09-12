@@ -7,10 +7,11 @@ module AdvancedSearches
       @value   = values
       @history_date = history_date
 
-      @client_ids = []
-      start_date = @history_date[:start_date].to_date.beginning_of_day
-      end_date = @history_date[:end_date].to_date.end_of_day
-      @clients = ClientHistory.where(created_at: start_date..end_date)
+      @client_ids  = []
+      start_date   = @history_date[:start_date].to_date.beginning_of_day
+      end_date     = @history_date[:end_date].to_date.end_of_day
+      @clients     = ClientHistory.where(created_at: start_date..end_date)
+      @enrollments = ClientEnrollmentHistory.where(created_at: start_date..end_date).where('object.status': 'Active')
     end
 
     def get_sql
@@ -44,27 +45,29 @@ module AdvancedSearches
         program_exit_date_field_query('FC')
       when 'exit_kc_date'
         program_exit_date_field_query('KC')
-      # when 'program_stream'
-      #   values = program_stream_query
+      when 'program_stream'
+        program_stream_query
       end
       sql_string = { 'object.id': { '$in': @client_ids.flatten.uniq }}
     end
 
     private
 
-    # def program_stream_query
-    #   clients = @clients.joins(:client_enrollments).where(client_enrollments: { status: 'Active' })
-    #   case @operator
-    #   when 'equal'
-    #     clients.where('client_enrollments.program_stream_id = ?', @value ).ids
-    #   when 'not_equal'
-    #     clients.where.not('client_enrollments.program_stream_id = ?', @value ).ids
-    #   when 'is_empty'
-    #     @clients.where.not(id: clients.ids).ids
-    #   when 'is_not_empty'
-    #     @clients.where(id: clients.ids).ids
-    #   end
-    # end
+    def program_stream_query
+      case @operator
+      when 'equal'
+        @client_ids << @enrollments.where('object.program_stream_id': @value.to_i).map{ |e| e.object['client_id'] }.uniq
+      when 'not_equal'
+        @client_ids << @enrollments.where('object.program_stream_id': { '$ne': @value.to_i }).map{ |e| e.object['client_id'] }.uniq
+      when 'is_empty'
+        client_ids     = @clients.map{ |c| c.object['id'] }.uniq
+        enrollment_ids = @enrollments.map{ |e| e.object['client_id'] }.uniq
+        @client_ids << (client_ids - enrollment_ids)
+      when 'is_not_empty'
+        @client_ids << @enrollments.map{ |e| e.object['client_id'] }.uniq
+      end
+      @client_ids.flatten.uniq
+    end
 
     def placement_date_field_query
       clients          = @clients.where('object.case_ids': { '$ne': nil })
