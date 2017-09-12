@@ -52,6 +52,40 @@ CIF.Client_advanced_searchesIndex = do ->
     _handleScrollTable()
     _getClientPath()
     _setDefaultCheckColumnVisibilityAll()
+    _filterSelecting()
+    _preventDomainScore()
+    _disableOptionDomainScores()
+
+  _disableOptionDomainScores = ->
+    for domain in $('.rule-operator-container select')
+      _preventOptionDomainScores(domain)
+
+  _filterSelecting = ->
+    $('.rule-filter-container select').on 'select2-selecting', ->
+      self = @
+      setTimeout ( ->
+        _preventDomainScore()
+      )
+
+  _preventDomainScore = ->
+    $($('.rule-operator-container select')).on 'select2-selected', ->
+      _preventOptionDomainScores(@)
+
+  _preventOptionDomainScores = (element) ->
+    if $(element).parent().siblings('.rule-filter-container').find('option:selected').val().split('_')[0] == 'domainscore'
+      if $(element).find('option:selected').val() == 'greater'
+        $(element).parent().siblings('.rule-value-container').find("option[value=4]").attr('disabled', 'disabled')
+        $(element).parent().siblings('.rule-value-container').find("option[value=1]").removeAttr('disabled')
+        if $(element).parent().siblings('.rule-value-container').find('option:selected').val() == '4'
+          $(element).parent().siblings('.rule-value-container').find('select').val('1').trigger('change')
+      else if $(element).find('option:selected').val() == 'less'
+        $(element).parent().siblings('.rule-value-container').find("option[value='1']").attr('disabled', 'disabled')
+        $(element).parent().siblings('.rule-value-container').find("option[value='4']").removeAttr('disabled')
+        if $(element).parent().siblings('.rule-value-container').find("option:selected").val() == '1'
+          $(element).parent().siblings('.rule-value-container').find('select').val('2').trigger('change')
+      else
+        $(element).parent().siblings('.rule-value-container').find("option[value='4']").removeAttr('disabled')
+        $(element).parent().siblings('.rule-value-container').find("option[value='1']").removeAttr('disabled')
 
   _initSelect2 = ->
     $('#custom-form-select, #program-stream-select, #quantitative-case-select').select2()
@@ -319,6 +353,7 @@ CIF.Client_advanced_searchesIndex = do ->
       _initSelect2()
       _handleSelectOptionChange(obj)
       _referred_to_program()
+      _filterSelecting()
 
   _handleSelectOptionChange = (obj)->
     if obj != undefined
