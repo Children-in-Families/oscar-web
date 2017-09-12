@@ -64,7 +64,7 @@ RSpec.describe Organization, type: :model do
       app_instance  = Organization.find_by(short_name: 'app')
       app_instance = app_instance.present? ? app_instance : Organization.create_and_build_tanent(short_name: 'app', full_name: 'App')
       it { expect(mho_instance.mho?).to be_truthy }
-      it { expect(app_instance.demo?).to be_falsey }
+      it { expect(app_instance.mho?).to be_falsey }
     end
   end
 end
