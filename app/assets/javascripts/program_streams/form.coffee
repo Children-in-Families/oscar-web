@@ -515,7 +515,6 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     if $(element).parent().siblings('.rule-filter-container').find('option:selected').val().split('_')[0] == 'domainscore'
       ruleValueContainer = $(element).parent().siblings('.rule-value-container')
       if $(element).find('option:selected').val() == 'greater'
-        $(element).find('option:selected').val() == 'between'
         $(ruleValueContainer).find("option[value=4]").attr('disabled', 'disabled')
         $(ruleValueContainer).find("option[value=1]").removeAttr('disabled')
         if $(ruleValueContainer).find('option:selected').val() == '4'
