@@ -29,7 +29,7 @@ class ApplicationDatatable
   end
 
   def sort_direction
-    params[:order]['0'][:dir] == "desc" ? "desc" : "asc"
+    params[:order]['0'][:dir] == 'desc' ? 'desc' : 'asc'
   end
 
   def fetch_custom_fields
