@@ -12,17 +12,17 @@
             %li.active{role: "presentation"}
               %a{"data-toggle": "tab", href: "#current-program-streams", role: "tab"}
                 = t('.current_ngo')
-            - unless current_organization.try(:short_name) == 'mho'
+            - unless current_organization.mho?
               %li{role: "presentation"}
                 %a{"data-toggle": "tab", href: "#ngos-program-streams", role: "tab"}
                   = t('.ngo_programs')
-            - if current_organization.without_demo_and_mho
+            - unless current_organization.mho? || current_organization.demo?
               %li{role: "presentation"}
                 %a{"data-toggle": "tab", href: "#demo-program-streams", role: "tab"}
                   = t('.demo_programs')
           .tab-content
             = render 'current_program_streams_tab'
-            - unless current_organization.try(:short_name) == 'mho'
+            - unless current_organization.mho?
               = render 'all_ngos_program_streams_tab'
-            - if current_organization.without_demo_and_mho
+            - unless current_organization.mho? || current_organization.demo?
               = render 'demo_program_streams_tab'

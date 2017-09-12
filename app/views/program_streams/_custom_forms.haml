@@ -10,17 +10,17 @@
             %li.active{role: "presentation"}
               %a{"data-toggle": "tab", href: "#current-custom-fields", role: "tab"}
                 = t('.my_ngo_custom_fields')
-            - unless current_organization.short_name == 'mho'
+            - unless current_organization.mho?
               %li{role: "presentation"}
                 %a{"data-toggle": "tab", href: "#all-custom-fields", role: "tab"}
                   = t('.all_ngos_custom_fields')
-            - if current_organization.without_demo_and_mho
+            - unless current_organization.mho? || current_organization.demo?
               %li{role: "presentation"}
                 %a{"data-toggle": "tab", href: "#demo-custom-fields", role: "tab"}
                   = t('.demo_ngo_custom_fields')
           .tab-content
             = render 'my_ngo_custom_fields'
-            - unless current_organization.short_name == 'mho'
+            - unless current_organization.mho?
               = render 'all_ngos_custom_fields'
-            - if current_organization.without_demo_and_mho
+            - unless current_organization.mho? || current_organization.demo?
               = render 'demo_ngo_custom_fields'
