@@ -68,7 +68,7 @@ CIF.Client_advanced_searchesIndex = do ->
       )
 
   _preventDomainScore = ->
-    $($('.rule-operator-container select')).on 'select2-selected', ->
+    $('.rule-operator-container select').on 'select2-selected', ->
       _preventOptionDomainScores(@)
 
   _preventOptionDomainScores = (element) ->
