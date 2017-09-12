@@ -22,9 +22,10 @@ module AdvancedSearches
         id: field_name,
         optgroup: group,
         label: label,
-        type: 'integer',
-        validation: { max: 4, min: 1 },
-        operators: ['equal', 'not_equal', 'between']
+        type: 'string',
+        input: 'select',
+        values: ['1', '2', '3', '4'],
+        operators: ['equal', 'not_equal', 'less', 'less_or_equal', 'greater', 'greater_or_equal', 'between', 'is_empty', 'is_not_empty']
       }
     end
   end

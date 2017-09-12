@@ -31,6 +31,8 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     _editTrackingFormName()
     _custom_field_list()
     _initDataTable()
+    _filterSelecting()
+    _preventDomainScore()
 
   _initDataTable = ->
     $('.custom-field-table').each ->
@@ -165,6 +167,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     $('#program-rule').on 'afterCreateRuleFilters.queryBuilder', ->
       _initSelect2()
       _handleSelectOptionChange()
+      _filterSelecting()
 
   _getTranslation = ->
     @filterTranslation =
@@ -197,6 +200,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
           ), 100
         _handleSetRules()
         _handleSelectOptionChange()
+        _disableOptionDomainScores()
 
   _handleAddCocoon = ->
     $('#trackings').on 'cocoon:after-insert', (e, element) ->
@@ -492,5 +496,41 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       'bLengthChange': false
       'bPaginate': false
     )
+
+  _disableOptionDomainScores = ->
+    for domain in $('.rule-operator-container select')
+      _preventOptionDomainScores(domain)
+
+  _filterSelecting = ->
+    $('.rule-filter-container select').on 'select2-selecting', ->
+      self = @
+      setTimeout ( ->
+        _preventDomainScore()
+      )
+
+  _preventDomainScore = ->
+    $('.rule-operator-container select').on 'select2-selected', ->
+      _preventOptionDomainScores(@)
+
+  _preventOptionDomainScores = (element) ->
+    if $(element).parent().siblings('.rule-filter-container').find('option:selected').val().split('_')[0] == 'domainscore'
+      ruleValueContainer = $(element).parent().siblings('.rule-value-container')
+      if $(element).find('option:selected').val() == 'greater'
+        $(element).find('option:selected').val() == 'between'
+        $(ruleValueContainer).find("option[value=4]").attr('disabled', 'disabled')
+        $(ruleValueContainer).find("option[value=1]").removeAttr('disabled')
+        if $(ruleValueContainer).find('option:selected').val() == '4'
+          $(ruleValueContainer).find('select').val('1').trigger('change')
+      else if $(element).find('option:selected').val() == 'less'
+        $(ruleValueContainer).find("option[value='1']").attr('disabled', 'disabled')
+        $(ruleValueContainer).find("option[value='4']").removeAttr('disabled')
+        if $(ruleValueContainer).find("option:selected").val() == '1'
+          $(ruleValueContainer).find('select').val('2').trigger('change')
+      else
+        $(ruleValueContainer).find("option[value='4']").removeAttr('disabled')
+        $(ruleValueContainer).find("option[value='1']").removeAttr('disabled')
+      setTimeout( ->
+        _initSelect2()
+      )
 
   { init: _init }
