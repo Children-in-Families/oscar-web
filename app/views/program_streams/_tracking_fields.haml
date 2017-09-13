@@ -1,4 +1,4 @@
-.nested-fields
+.nested-fields{ id: DateTime.now.strftime('%Q') }
   .ibox.border-left-right.border-bottom
     .ibox-content
       .row
@@ -16,7 +16,7 @@
               = f.input :time_of_frequency, label: t('.time_of_frequency'), input_html: { min: 0, value: f.object.time_of_frequency || 0}
       .row
         .col-xs-12
-          .tracking-builder{ data: { tracking: f.object.fields }}
+          .tracking-builder{ data: { tracking: f.object.fields.to_json }}
             .tracking-field-hidden
               = f.input :fields, as: :hidden
       .row
@@ -26,4 +26,6 @@
       .row
         .col-xs-12
           = link_to_remove_association t('.remove_tracking'), f, class: 'btn btn-danger'
+          .btn.btn-primary.custom-field-list{ 'data-toggle': "modal", 'data-target': '#custom-field' }
+            = t('.custom_fields')
   %hr

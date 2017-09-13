@@ -22,5 +22,7 @@ CIF.Program_streamsIndex = do ->
     return if tab == undefined
     if tab.substr(1) == 'all_ngo'
       $('a[href="#ngos-program-streams"]').tab('show')
+    else if tab.substr(1) == 'demo_ngo'
+      $('a[href="#demo-program-streams"]').tab('show')
 
   { init: _init }

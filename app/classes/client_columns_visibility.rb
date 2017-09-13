@@ -78,8 +78,22 @@ class ClientColumnsVisibility
     end
   end
 
-  def add_custom_builder_columns
+  private
+
+  def domain_score_columns
     columns = columns_collection
+    if @params[:controller] != 'clients'
+      Domain.order_by_identity.each do |domain|
+        identity = domain.identity
+        field = domain.convert_identity
+        columns = columns.merge!("#{field}_": field.to_sym)
+      end
+    end
+    columns
+  end
+
+  def add_custom_builder_columns
+    columns = domain_score_columns
     if @params[:column_form_builder].present?
       @params[:column_form_builder].each do |column|
         field   = column['id'].downcase.parameterize('_')

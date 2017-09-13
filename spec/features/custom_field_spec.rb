@@ -1,6 +1,7 @@
 feature 'custom_field' do
   let!(:admin){ create(:user, roles: 'admin') }
   let!(:custom_field) { create(:custom_field, frequency: 'Daily', time_of_frequency: 1) }
+  let!(:search_custom_field) { create(:custom_field, form_title: 'Search Custom Field', frequency: 'Daily', time_of_frequency: 1) }
 
   before do
     login_as(admin)
@@ -54,6 +55,12 @@ feature 'custom_field' do
 
     scenario 'list all ngo custom fields', js: true do
       find('a[href="#all-custom-form"]').click
+      expect(page).to have_content(custom_field.form_title)
+      expect(page).to have_content('Organization Testing')
+    end
+
+    scenario 'list demo ngo custom fields', js: true do
+      find('a[href="#demo-custom-form"]').click
       expect(page).to have_content('Other NGO Custom Field')
       expect(page).to have_content('Demo')
     end
@@ -149,6 +156,34 @@ feature 'custom_field' do
       click_link(nil, href: new_custom_field_path(custom_field_id: custom_field.id, ngo_name: custom_field.ngo_name))
       find("input[type=submit]").click
       expect(page).to have_content('has already been taken')
+    end
+  end
+
+  feature 'search', js: true do
+    before do
+      Organization.switch_to 'demo'
+      CustomField.create(form_title: 'Other Custom Field', fields: [{'type'=>'text', 'label'=>'Hello World'}].to_json, entity_type: 'Client')
+      Organization.switch_to 'app'
+      visit custom_fields_path
+    end
+
+    scenario 'search custom field in current organization' do
+      fill_in 'Form Title', with: 'Search Custom Field'
+      find('input[type=submit]').click
+      expect(page).to have_content('Search Custom Field')
+    end
+
+    scenario 'search custom field in other organization' do
+      fill_in 'Form Title', with: 'Other Custom Field'
+      find('input[type=submit]').click
+      expect(page).to have_content('Other Custom Field')
+    end
+
+    scenario 'search custom field in all organization' do
+      fill_in 'Form Title', with: 'Custom Field'
+      find('input[type=submit]').click
+      expect(page).to have_content('Search Custom Field')
+      expect(page).to have_content('Other Custom Field')
     end
   end
 end

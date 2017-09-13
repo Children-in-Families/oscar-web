@@ -58,9 +58,7 @@ class UserGrid
 
   column(:date_of_birth, header: -> { I18n.t('datagrid.columns.users.date_of_birth') })
 
-  column(:mobile, header: -> { I18n.t('datagrid.columns.users.mobile') }) do |object|
-    object.mobile.phony_formatted(normalize: :KH, format: :international) if object.mobile
-  end
+  column(:mobile, header: -> { I18n.t('datagrid.columns.users.mobile') })
 
   column(:email, header: -> { I18n.t('datagrid.columns.users.email') }) do |object|
     format(object.email) do |object_email|

@@ -4,8 +4,9 @@ class FormBuilder::CustomFieldsController < AdminController
   before_action :set_custom_field, only: [:edit, :update, :destroy]
 
   def index
-    @custom_fields = CustomField.order(:entity_type, :form_title).page(params[:page_1]).per(20)
+    @custom_fields = CustomField.ordered_by(column_order).page(params[:page_1]).per(20)
     @all_custom_fields = Kaminari.paginate_array(find_custom_field_in_organization).page(params[:page_2]).per(20)
+    @demo_custom_fields = Kaminari.paginate_array(find_custom_field_in_organization('demo')).page(params[:page_3]).per(20) unless current_organization.short_name == 'demo'
   end
 
   def new
@@ -72,22 +73,46 @@ class FormBuilder::CustomFieldsController < AdminController
     original_custom_field
   end
 
-  def find_custom_field_in_organization
+  def find_custom_field_in_organization(org = '')
     current_org_name = current_organization.short_name
-    custom_fields = []
-    Organization.all.each do |org|
+    organizations = org == 'demo' ? Organization.where(short_name: 'demo') : Organization.without_demo.order(:full_name)
+    custom_fields = organizations.map do |org|
       Organization.switch_to org.short_name
-      custom_fields << CustomField.order(:entity_type, :form_title).reload
+      CustomField.order(:entity_type, :form_title).reload
     end
     Organization.switch_to(current_org_name)
-    custom_fields.flatten
+    sort_custom_fields(custom_fields.flatten, org)
+  end
+
+  def sort_custom_fields(custom_fields, org)
+    column = params[:order]
+    tab = params[:tab]
+    default_order = custom_fields.sort_by{ |c| [c.form_title.downcase, c.entity_type] }
+    return default_order  unless tab == 'current' || column.present?
+
+    ordered = custom_fields.sort_by{ |c| c.send(column).downcase } if column.present?
+    custom_fields_ordered = (column.present? && params[:descending] == 'true' ? ordered.reverse : ordered)
+
+    custom_fields_demo    = tab == 'demo_ngo' && column.present? ? custom_fields_ordered : default_order
+    custom_fields_all_ngo = tab == 'all_ngo' && column.present? ? custom_fields_ordered : default_order
+    org == 'demo' ? custom_fields_demo : custom_fields_all_ngo
+  end
+
+  def column_order
+    order_string = 'form_title, entity_type'
+    column = params[:order]
+    return order_string unless params[:tab] == 'current' || !column.present?
+
+    sort_by = params[:descending] == 'true' ? 'desc' : 'asc'
+    (order_string = "#{column} #{sort_by}") if column.present?
+
+    order_string
   end
 
   def find_custom_field(search)
     results = []
     current_org_name = current_organization.short_name
-    orgs = current_org_name == 'demo' ? Organization.all : Organization.without_demo
-    orgs.each do |org|
+    Organization.all.each do |org|
       Organization.switch_to(org.short_name)
       if params[:search].present?
         form_title   = params[:search]

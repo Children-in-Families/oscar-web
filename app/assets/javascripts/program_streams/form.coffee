@@ -3,7 +3,10 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
   ENROLLMENT_URL   = "/api/program_streams/#{@programStreamId}/enrollment_fields"
   EXIT_PROGRAM_URL = "/api/program_streams/#{@programStreamId}/exit_program_fields"
   TRACKING_URL     = "/api/program_streams/#{@programStreamId}/tracking_fields"
+  TRACKING = ''
+  DATA_TABLE_ID = ''
   @formBuilder = []
+
   _init = ->
     @filterTranslation = ''
     _getTranslation()
@@ -26,6 +29,69 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     _handleSelectFrequency()
     _initFrequencyNote()
     _editTrackingFormName()
+    _custom_field_list()
+    _initDataTable()
+    _filterSelecting()
+    _preventDomainScore()
+
+  _initDataTable = ->
+    $('.custom-field-table').each ->
+      self = @
+      $(@).DataTable
+        bFilter: false
+        sScrollY: '500'
+        bInfo: false
+        processing: true
+        serverSide: true
+        ajax: $(this).data('url')
+        columns: [
+          null
+          null
+          null
+          bSortable: false, className: 'text-center'
+        ]
+        language:
+          paginate:
+            previous: $(self).data('previous')
+            next: $(self).data('next')
+        drawCallback: ->
+          _getDataTableId()
+          _copyCustomForm(self)
+
+  _getDataTableId = ->
+    $('.paginate_button a').click ->
+      DATA_TABLE_ID = $($(this).parents('.table-responsive').find('.custom-field-table')[1]).attr('id')
+
+  _custom_field_list = ->
+    $('.custom-field-list').click ->
+      TRACKING = $(@).parents('.nested-fields')
+
+  _copyCustomForm = (element)->
+    self = @
+    elementId = $(element).attr('id')
+    $("##{elementId} .copy-form").click ->
+      fields = $(@).data('fields')
+      for formBuilder in self.formBuilder
+        element = formBuilder.element
+        if $(element).is('#enrollment') and $('#enrollment').is(':visible')
+          _addFieldProgramBuilder(formBuilder, fields)
+        else if $(element).is('.tracking-builder') && $('#trackings').is(':visible')
+          builderId = $(TRACKING).attr('id')
+          formBuilderId = $(formBuilder.element).parents('.nested-fields').attr('id')
+          if formBuilderId == builderId
+            _addFieldProgramBuilder(formBuilder, fields)
+            setTimeout ( ->
+              document.getElementById(builderId).scrollIntoView()
+            )
+        else if $(element).is('#exit-program') and $('#exit-program').is(':visible')
+          _addFieldProgramBuilder(formBuilder, fields)
+      $('#custom-field').modal('hide')
+
+  _addFieldProgramBuilder = (formBuilder, fields) ->
+    combineFields = JSON.parse(formBuilder.formData).concat(fields)
+    for field in fields
+      formBuilder.actions.addField(field)
+    formBuilder.formData = JSON.stringify(combineFields)
 
   _initCheckbox = ->
     $('.i-checks').iCheck
@@ -94,13 +160,14 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
 
   _handleSetRules = ->
     rules = $('#program_stream_rules').val()
-    rules = JSON.parse(rules.replace(/=>/g, ':'))
-    $('#program-rule').queryBuilder('setRules', rules) unless $.isEmptyObject(rules)
+    rules = JSON.parse(rules)
+    $('#program-rule').queryBuilder('setRules', rules) unless _.isEmpty(rules.rules)
 
   _addRuleCallback = ->
     $('#program-rule').on 'afterCreateRuleFilters.queryBuilder', ->
       _initSelect2()
       _handleSelectOptionChange()
+      _filterSelecting()
 
   _getTranslation = ->
     @filterTranslation =
@@ -133,10 +200,12 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
           ), 100
         _handleSetRules()
         _handleSelectOptionChange()
+        _disableOptionDomainScores()
 
   _handleAddCocoon = ->
     $('#trackings').on 'cocoon:after-insert', (e, element) ->
       trackingBuilder = $(element).find('.tracking-builder')
+      $(element).attr('id', Date.now())
       _initProgramBuilder(trackingBuilder, [])
       _stickyFill()
       _editTrackingFormName()
@@ -145,10 +214,11 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       _handleRemoveFrequency()
       _handleSelectFrequency()
       _initFrequencyNote()
+      _custom_field_list()
 
   _initProgramBuilder = (element, data) ->
     builderOption = new CIF.CustomFormBuilder()
-    data = if data.length != 0 then data.replace(/=>/g, ':') else ''
+    data = JSON.stringify(data)
     @formBuilder.push $(element).formBuilder({
       dataType: 'json'
       formData: data
@@ -222,6 +292,8 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
           return _handleCheckingDuplicateFields()
           return false if _handleCheckingDuplicateFields()
         else if $('#rule-tab').is(':visible')
+          errorDomainScore = $('.rule-value-container input[type=number].error').size()
+          return false if errorDomainScore > 0
           return false if _handleMaximumProgramEnrollment()
         $('section ul.frmb.ui-sortable').css('min-height', '266px')
 
@@ -278,9 +350,8 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     $(elements).find('input, select, radio, checkbox, textarea').remove()
 
   _handleAddRuleBuilderToInput = ->
-    rules = $('#program-rule').queryBuilder('getRules')
-    $('ul.rules-list li').removeClass('has-error') if ($.isEmptyObject(rules))
-    $('#program_stream_rules').val(_handleStringfyRules(rules)) if !($.isEmptyObject(rules))
+    rules = $('#program-rule').queryBuilder('getRules', { skip_empty: true, allow_invalid: true })
+    $('#program_stream_rules').val(_handleStringfyRules(rules))
 
   _handleSetValueToField = ->
     for formBuilder in @formBuilder
@@ -332,15 +403,16 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     trackings = $('#trackings .nested-fields')
     for tracking in trackings
       trackingName = $(tracking).find('input.string.optional.readonly.form-control')
-      return if $(trackingName).length == 0
+      continue if $(trackingName).length == 0
       name = $(trackingName).val()
       labelFields = $(tracking).find('label.field-label')
-      for labelField in labelFields
-        parent = $(labelField).parent()
-        for field in fields[name]
-          if labelField.textContent == field
-            $(parent).children('div.field-actions').remove()
-            $(tracking).find('.ibox-footer').remove()
+      if fields[name].length <= labelFields.length
+        $(tracking).find('.ibox-footer .remove_fields').remove()
+      $(labelFields).each (index, label) ->
+        text = $(label).text()
+        if fields[name].includes(text)
+          action = $(label).parent()
+          $(action).children('div.field-actions').remove()
 
   _initFrequencyNote = ->
     for nestedField in $('.nested-fields')
@@ -413,5 +485,50 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     else
       $('.help-block.quantity').addClass('hidden')
       return false
+
+  _customFieldsFixedHeader = ->
+    $('table.custom-field-table').dataTable(
+      'bFilter': false
+      'bSort': false
+      'sScrollY': '500'
+      'bInfo': false
+      'bLengthChange': false
+      'bPaginate': false
+    )
+
+  _disableOptionDomainScores = ->
+    for domain in $('.rule-operator-container select')
+      _preventOptionDomainScores(domain)
+
+  _filterSelecting = ->
+    $('.rule-filter-container select').on 'select2-selecting', ->
+      self = @
+      setTimeout ( ->
+        _preventDomainScore()
+      )
+
+  _preventDomainScore = ->
+    $('.rule-operator-container select').on 'select2-selected', ->
+      _preventOptionDomainScores(@)
+
+  _preventOptionDomainScores = (element) ->
+    if $(element).parent().siblings('.rule-filter-container').find('option:selected').val().split('_')[0] == 'domainscore'
+      ruleValueContainer = $(element).parent().siblings('.rule-value-container')
+      if $(element).find('option:selected').val() == 'greater'
+        $(ruleValueContainer).find("option[value=4]").attr('disabled', 'disabled')
+        $(ruleValueContainer).find("option[value=1]").removeAttr('disabled')
+        if $(ruleValueContainer).find('option:selected').val() == '4'
+          $(ruleValueContainer).find('select').val('1').trigger('change')
+      else if $(element).find('option:selected').val() == 'less'
+        $(ruleValueContainer).find("option[value='1']").attr('disabled', 'disabled')
+        $(ruleValueContainer).find("option[value='4']").removeAttr('disabled')
+        if $(ruleValueContainer).find("option:selected").val() == '1'
+          $(ruleValueContainer).find('select').val('2').trigger('change')
+      else
+        $(ruleValueContainer).find("option[value='4']").removeAttr('disabled')
+        $(ruleValueContainer).find("option[value='1']").removeAttr('disabled')
+      setTimeout( ->
+        _initSelect2()
+      )
 
   { init: _init }

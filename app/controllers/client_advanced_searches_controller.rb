@@ -32,6 +32,7 @@ class ClientAdvancedSearchesController < AdminController
         @client_grid.scope { |scope| scope.where(id: @clients_by_user.ids).accessible_by(current_ability) }
         domain_score_report
         form_builder_report
+        csi_domain_score_report
         send_data @client_grid.to_xls, filename: "client_report-#{Time.now}.xls"
       end
     end

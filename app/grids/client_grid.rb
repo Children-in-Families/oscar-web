@@ -397,7 +397,7 @@ class ClientGrid
   column(:kid_id, order:'clients.kid_id', header: -> { I18n.t('datagrid.columns.clients.kid_id') })
 
   column(:given_name, order: 'clients.given_name', header: -> { I18n.t('datagrid.columns.clients.given_name') }, html: true) do |object|
-    link_to object.given_name, client_path(object)
+    link_to object.given_name, client_path(object), target: '_blank'
   end
 
   column(:given_name, header: -> { I18n.t('datagrid.columns.clients.given_name') }, html: false)
@@ -519,9 +519,7 @@ class ClientGrid
 
   column(:relevant_referral_information, header: -> { I18n.t('datagrid.columns.clients.relevant_referral_information') })
 
-  column(:referral_phone, header: -> { I18n.t('datagrid.columns.clients.referral_phone') }) do |object|
-    object.referral_phone.phony_formatted(normalize: :KH, format: :international) if object.referral_phone
-  end
+  column(:referral_phone, header: -> { I18n.t('datagrid.columns.clients.referral_phone') })
 
   column(:referral_source, order: 'referral_sources.name', header: -> { I18n.t('datagrid.columns.clients.referral_source') }) do |object|
     object.referral_source.try(:name)
@@ -625,7 +623,17 @@ class ClientGrid
     render partial: 'clients/assessments', locals: { object: object }
   end
 
-  dynamic do 
+  dynamic do
+    Domain.order_by_identity.each do |domain|
+      identity = domain.identity
+      column(domain.convert_identity.to_sym, class: 'domain-scores', header: identity, html: true) do |client|
+        assessment = client.assessments.latest_record
+        assessment.assessment_domains.find_by(domain_id: domain.id).try(:score) if assessment.present?
+      end
+    end
+  end
+
+  dynamic do
     next unless dynamic_columns.present?
     dynamic_columns.each do |column_builder|
       fields = column_builder[:id].split('_')

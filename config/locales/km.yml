@@ -273,6 +273,7 @@ km:
       code: លេខកូដ
       commune: ឃុំ/សង្កាត់
       completed: ពេញលេញហើយឬនៅ?
+      csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
       current_address: ឣាសយដ្ឋានបច្ចុប្បន្ន
       current_province: ខេត្តបច្ចុប្បន្ន
       date_of_birth: ថ្ងៃ ខែ ឆ្នាំ កំណើត
@@ -679,6 +680,7 @@ km:
   client_advanced_searches:
     form_option:
       basic_fields: ពត៌មានទូទៅរបស់អតិថិជន
+      csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
       custom_form: ទម្រង់បែបបទបន្ថែម
       end_date: ថ្ងៃបញ្ចប់
       enrollment: ទម្រង់បែបបទនៃចុះឈ្មោះ
@@ -1549,6 +1551,7 @@ km:
         'no': ទេ
         'yes': បាទ/ចាស
     form:
+      csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
       filter_domains: កត្តា
       reset: សំអាត
       search: ស្វែងរក
@@ -2228,6 +2231,18 @@ km:
       destroy:
         failed_to_delete: មិនអាចលុបទម្រង់បែបបទបន្ថែមនេះបានទេ
         successfully_deleted: ទម្រង់បែបបទត្រូវបានលុបដោយជោគជ័យ
+      demo_custom_form_tab:
+        are_you_sure: តើអ្នកប្រាកដហើយ?
+        close: បិទ
+        copy: ចម្លងជូន
+        form_title: ឈ្មោះនៃទម្រង់បែបបទបន្ថែម
+        frequency: ភាពញឹកញាប់
+        manage: គ្រប់គ្រង
+        organization: អង្គការ
+        preview: មើលជាមុន
+        search_custom_form: ស្វែងរកបន្ថែមទម្រង់បែបបទ
+        time_of_frequency: ពេលវេលានៃភាពញឹកញាប់
+        type: ប្រភេទនៃទម្រង់បែបបទបន្ថែម
       edit:
         form_builder: ការបង្កើតជាទម្រង់
       form:
@@ -2239,6 +2254,7 @@ km:
         type: ប្រភេទនៃទម្រង់បែបបទបន្ថែម
       index:
         all_ngo: ទម្រង់បែបបទរបស់អង្គការទាំងអស់
+        demo_ngo: ទម្រង់បែបបទរបស់អង្គការ Demo
         form_title: ឈ្មោះនៃទម្រង់បែបបទបន្ថែម
         frequency: ភាពញឹកញាប់
         my_ngo: ទម្រង់បែបបទរបស់អង្គការខ្ញុំ
@@ -2836,6 +2852,9 @@ km:
   program_streams:
     actions:
       are_you_sure: តើអ្នកប្រាកដហើយ?
+    all_ngos_custom_fields:
+      next: ទំព័របន្ទាប់
+      previous: ទំព័រមុន
     all_ngos_program_streams_tab:
       actions: សកម្មភាព
       copy: ចំលង
@@ -2855,21 +2874,40 @@ km:
       maximum: ចំនួនដែលអាចចូលរូមកម្មវិធីច្រើនបំផុត
       name: ឈ្មោះកម្មវិធីបន្ទាប់បន្សំ
       status: ស្ថានភាព
+    custom_forms:
+      all_ngos_custom_fields: ទម្រង់បែបបទរបស់អង្គការទាំងអស់
+      custom_fields: ទម្រង់បែបបទ
+      demo_ngo_custom_fields: ទម្រង់បែបបទរបស់អង្គការ Demo
+      my_ngo_custom_fields: ទម្រង់បែបបទរបស់អង្គការខ្ញុំ
+    custom_form_table:
+      copy: ចម្លងជូន
+      entity_type: ប្រភេទនៃទម្រង់បែបបទបន្ថែម
+      form_title: ឈ្មោះនៃទម្រង់បែបបទបន្ថែម
+      organization: អង្គការ
+    demo_ngo_custom_fields:
+      next: ទំព័របន្ទាប់
+      previous: ទំព័រមុន
+    demo_program_streams_tab:
+      actions: សកម្មភាព
+      copy: ចំលង
+      domain: កត្តា
+      maximum: ចំនួនដែលអាចចូលរូមកម្មវិធីច្រើនបំផុត
+      name: ឈ្មោះកម្មវិធីបន្ទាប់បន្សំ
+      organization: អង្គការ
+      preview: មើល
+      status: ស្ថានភាព
     destroy:
       alert: កម្មវិធីមិនអាចលុបបានទេ
       successfully_deleted: កម្មវិធីលុបដោយជោគជ័យ
-    program_detail:
-      description: ការបរិយាយ
-      detail: ពត័មានកម្មវិធីលម្អិត
-      domain: កត្តា
-      name: ឈ្មោះកម្មវិធីបន្ទាប់បន្សំ
     edit:
       back: ត្រលប់ក្រោយ
       edit_program_stream: កែសម្រួលកម្មវិធី
     enrollment:
+      custom_fields: ទម្រង់បែបបទ
       enrollment_form: ទម្រង់បែបបទចុះឈ្មោះ
       note: 'ចំណាំ: កាលបរិច្ឆេទនៃការចុះឈ្មោះត្រូវបានបន្ថែមក្នុងទម្រង់បែបបទនេះរួចស្រេចហើយ'
     exit_field:
+      custom_fields: ទម្រង់បែបបទ
       exit_form: ទម្រង់បែបបទចាកចេញ
       note: 'ចំណាំ: កាលបរិច្ឆេទនៃការចាកចេញត្រូវបានបន្ថែមក្នុងទម្រង់បែបបទនេះរូចស្រេចហើយ'
     form:
@@ -2879,9 +2917,13 @@ km:
       save: រក្សាទុក
     index:
       current_ngo: កម្មវិធីបន្ទាប់បន្សំរបស់អង្គការខ្ញុំ
+      demo_programs: កម្មវិធីបន្ទាប់បន្សំរបស់អង្គការ Demo
       new_program: បន្ថែមកម្មវិធីថ្មី
       ngo_programs: កម្មវិធីបន្ទាប់បន្សំរបស់អង្គការទាំងអស់
       program_list: បញ្ជីកម្មវិធីបន្ទាប់បន្សំ
+    my_ngo_custom_fields:
+      next: ទំព័របន្ទាប់
+      previous: ទំព័រមុន
     new:
       back: ត្រលប់ក្រោយ
       new_program_stream: បន្ថែមកម្មវិធីថ្មី
@@ -2893,6 +2935,11 @@ km:
       organization: អង្គការ
       preview: មើលជាមុន
       quantity: បរិមាណ
+    program_detail:
+      description: ការបរិយាយ
+      detail: ពត័មានកម្មវិធីលម្អិត
+      domain: កត្តា
+      name: ឈ្មោះកម្មវិធីបន្ទាប់បន្សំ
     program_rule:
       add_new_filter: បន្ថែមការស្វែងរក
       add_new_group: បន្ថែមបណ្ដុំនៃការស្វែងរក
@@ -2928,6 +2975,7 @@ km:
       tracking_form: ទម្រង់បែបបទតាមដាន
       not_require_tracking: ទម្រង់បែបបទនេះមិនត្រូវការទម្រង់តាមដានទេ
     tracking_fields:
+      custom_fields: ទម្រង់បែបបទ
       frequency: ភាពញឹកញាប់
       name: ឈ្មោះ
       remove_tracking: លុបកាតាមដាន

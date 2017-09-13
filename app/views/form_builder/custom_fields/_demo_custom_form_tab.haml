@@ -1,0 +1,31 @@
+#demo-custom-form.tab-pane{role: "tabpanel"}
+  .table-responsive
+    %table.table.table-bordered.table-hover
+      %thead
+        %th.form_title
+          = t('.form_title')
+          .pull-right
+            = render 'order', column: :form_title, ngo: 'demo_ngo'
+        %th.type
+          = t('.type')
+          .pull-right
+            = render 'order', column: :entity_type, ngo: 'demo_ngo'
+        %th.frequency= t('.frequency')
+        %th.organization= t('.organization')
+        - if can? :manage, CustomField
+          %th.manage.text-center= t('.manage')
+      %tbody
+        - @demo_custom_fields.each do |custom_field|
+          %tr
+            %td= custom_field.form_title
+            %td= custom_field.entity_type
+            %td= frequency_note(custom_field)
+            %td= custom_field.ngo_name
+            - if can? :manage, CustomField
+              %td.manage.text-center
+                = link_to preview_custom_fields_path(custom_field_id: custom_field.id, ngo_name: custom_field.ngo_name), class: 'btn btn-outline btn-primary btn-xs', title: t('.preview') do
+                  = fa_icon('eye')
+                = link_to new_custom_field_path(custom_field_id: custom_field.id, ngo_name: custom_field.ngo_name), class: 'btn btn-outline btn-success btn-xs margin-btn', title: t('.copy') do
+                  = fa_icon('files-o')
+  .text-center
+    = paginate @demo_custom_fields, params: { tab: 'demo_ngo' }, :param_name => 'page_3'

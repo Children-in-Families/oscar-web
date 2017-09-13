@@ -36,12 +36,13 @@ class CIF.ReportCreator
       $('.highcharts-credits').css('display', 'none')
 
   donutChart: ->
+    self = @
     [green, blue, africa, brown, yellow] = ["#59b260", "#5096c9", "#1c8781", "#B2912F", "#DECF3F"]
     $(@element).highcharts
       colors: @colors
       chart:
         type: 'pie'
-        height: 550
+        height: 530
         backgroundColor: '#ecf0f1'
         borderWidth: 1
         borderColor: "#ddd"
@@ -53,9 +54,9 @@ class CIF.ReportCreator
           fontSize: '1.6em'
       legend:
         verticalAlign: 'top'
+        y: 30
         itemMarginTop: 5
         itemMarginBottom: 5
-        y: 30
         itemStyle:
            fontSize: '12px'
       plotOptions: pie:
@@ -92,17 +93,25 @@ class CIF.ReportCreator
       ]
       responsive:
         rules: [
-          condition: maxWidth: 1024
-          chartOptions:
-            series: [
-              id: 'versions'
-              dataLabels:
-                style: fontSize: '13px'
-                distance: 20
-                color: '#000000'
-                formatter: ->
-                  if _.includes(@point.name.split(' '), '(Female)') then 'Female: ' + @point.y else 'Male: ' + @point.y
-            ]
+          {
+            condition:
+              maxWidth: 1024
+            chartOptions:
+              series: [
+                id: 'versions'
+                dataLabels:
+                  style: fontSize: '13px'
+                  distance: 20
+                  color: '#000000'
+                  formatter: ->
+                    if _.includes(@point.name.split(' '), '(Female)') then 'Female: ' + @point.y else 'Male: ' + @point.y
+              ]
+          }
+          {
+            condition:
+              minWidth: 1025
+            chartOptions: self.responsiveLegend()
+          }
         ]
     $('.highcharts-credits').css('display', 'none')
 
@@ -154,11 +163,32 @@ class CIF.ReportCreator
     $('.highcharts-credits').css('display', 'none')
 
   resposivePieChart: ->
+    self = @
     rules: [
-      condition: maxWidth: 425
-      chartOptions:
-        series: [
-          id: 'brands'
-          dataLabels: enabled: false
-       ]
+      {
+        condition: maxWidth: 425
+        chartOptions:
+          series: [
+            id: 'brands'
+            dataLabels: enabled: false
+         ]
+     }
+     {
+       condition:
+         minWidth: 1025
+       chartOptions: self.responsiveLegend()
+     }
     ]
+
+  responsiveLegend: ->
+    chart:
+      marginLeft: 300
+      marginTop: 70
+    legend:
+      layout: 'vertical'
+      align: 'left'
+      verticalAlign: 'top'
+      x: 30
+      y: 40
+      floating: true
+      maxHeight: 400

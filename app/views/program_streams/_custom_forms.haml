@@ -1,0 +1,26 @@
+#custom-field.modal.fade{ role: 'dialog' }
+  .modal-dialog#width-modal
+    .modal-content
+      .modal-header
+        %button{ class: "close", 'data-dismiss': 'modal' } &times
+        %h4= t('.custom_fields')
+      .modal-body
+        %div
+          %ul.nav.nav-tabs{role: "tablist"}
+            %li.active{role: "presentation"}
+              %a{"data-toggle": "tab", href: "#current-custom-fields", role: "tab"}
+                = t('.my_ngo_custom_fields')
+            - unless current_organization.mho?
+              %li{role: "presentation"}
+                %a{"data-toggle": "tab", href: "#all-custom-fields", role: "tab"}
+                  = t('.all_ngos_custom_fields')
+            - unless current_organization.mho? || current_organization.demo?
+              %li{role: "presentation"}
+                %a{"data-toggle": "tab", href: "#demo-custom-fields", role: "tab"}
+                  = t('.demo_ngo_custom_fields')
+          .tab-content
+            = render 'my_ngo_custom_fields'
+            - unless current_organization.mho?
+              = render 'all_ngos_custom_fields'
+            - unless current_organization.mho? || current_organization.demo?
+              = render 'demo_ngo_custom_fields'

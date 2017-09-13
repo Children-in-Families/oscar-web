@@ -21,10 +21,10 @@
             %label= t('.custom_form_column')
             = render 'custom_form_column'
           .col-xs-12.col-md-4
-            %label= t('.program_stream_column') 
+            %label= t('.program_stream_column')
             = render 'program_stream_column'
         %hr/
-        
+
         .row
           .col-xs-12
             #builder.advanced-search-builder{ 'data-basic-search-rules' => @basic_filter_params, 'data-filter-translation' => { add_filter: t('.add_new_filter'), add_group: t('.add_new_group'), delete_group: t('.delete_group') }}

@@ -12,3 +12,12 @@ describe Domain, 'validations' do
   it { is_expected.to validate_uniqueness_of(:name).case_insensitive }
   it { is_expected.to validate_uniqueness_of(:identity).case_insensitive }
 end
+
+describe Domain, 'methods' do
+  context 'convert_identity' do
+    let!(:domain){ create(:domain) }
+    it 'should return identity with underscore' do
+      expect(domain.convert_identity).to eq(domain.identity.downcase.parameterize('_'))
+    end
+  end
+end
