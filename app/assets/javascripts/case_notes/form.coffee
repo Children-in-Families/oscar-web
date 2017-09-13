@@ -5,6 +5,10 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
     _handleNewTask()
     _hideCompletedTasks()
     _handlePreventBlankInput()
+    _initSelect2()
+
+  _initSelect2 = ->
+    $('#case_note_interaction_type').select2()
 
   _initUploader = ->
     $('.file .optional').fileinput
@@ -130,31 +134,28 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
         $('#task_domain_id').append("<option value='#{domain[0]}'>#{domain[1]}</option>")
 
   _handlePreventBlankInput = ->
-    $('#case-note-submit-btn').click ->
-      case_note_meeting_date = $('#case_note_meeting_date').val()
-      case_note_attendee = $('#case_note_attendee').val()
-      if case_note_meeting_date == ''
-        document.getElementById('new_case_note').onsubmit = ->
-          false
-        $('.case_note_meeting_date').addClass('has-error')
-        $('#meeting-date-message').text("can't be blank")
-      else
-        if case_note_attendee != ''
-          document.getElementById('new_case_note').onsubmit = ->
-            true
-        $('.case_note_meeting_date').removeClass('has-error')
-        $('#meeting-date-message').text('')
-      if case_note_attendee == ''
-        document.getElementById('new_case_note').onsubmit = ->
-          false
-        $('.case_note_attendee').addClass('has-error')
-        $('#attendee-message').text("can't be blank")
-      else
-        if case_note_meeting_date != ''
-          document.getElementById('new_case_note').onsubmit = ->
-            true
-        $('.case_note_attendee').removeClass('has-error')
-        $('#attendee-message').text('')
+    $('#case-note-submit-btn').on 'click', (e)  ->
+      caseNoteMeetingDate = $('#case_note_meeting_date').val()
+      caseNoteAttendee = $('#case_note_attendee').val()
+      caseNoteInteractionType = $('#case_note_interaction_type').val()
+      elements = ['#case_note_meeting_date', '#case_note_attendee', '#case_note_interaction_type']
+      for element in elements
+        _handlePreventFieldCannotBeBlank(element, e)
+      if caseNoteMeetingDate != '' and caseNoteAttendee != '' and caseNoteInteractionType != ''
+        document.getElementById('case-note-form').onsubmit = ->
+          true
+
+  _handlePreventFieldCannotBeBlank = (element, e) ->
+    cannotBeBlank = $('#case-note-form').data('translate')
+    parent = $(element).parents('.form-group')
+    labelMessage = $(parent).siblings().find('.text-danger')
+    if $(element).val() == ''
+      $(parent).addClass('has-error')
+      $(labelMessage).text(cannotBeBlank)
+      e.preventDefault()
+    else
+      $(parent).removeClass('has-error')
+      $(labelMessage).text('')
 
   _initNotification = (message)->
     messageOption = {

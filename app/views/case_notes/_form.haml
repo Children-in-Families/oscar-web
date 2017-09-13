@@ -1,6 +1,6 @@
 .row
   .col-xs-12
-    = simple_form_for [@case_note.client, @case_note], {input_html: {id: 'case-note-form'}} do |f|
+    = simple_form_for([@case_note.client, @case_note], html: { id: 'case-note-form', data: { translate: t('cannot_be_blank') } }) do |f|
       .ibox
         .ibox-title
           %h5= t('.meeting_detail')
@@ -12,22 +12,31 @@
           /   %strong= current_user.first_name
           .panel.panel-default
             .panel-body
-              .form-group.date.optional.case_note_meeting_date{ class: ('has-error' if f.error :meeting_date) }
-                %label.date.optional.control-label
-                  %abbr{ title: 'required' } *
-                  = t('.on_date')
-                .input-group.date
-                  = f.text_field :meeting_date, class: 'date optional form-control date-picker', type: 'text', name: 'case_note[meeting_date]', id: 'case_note_meeting_date'
-                  %span.input-group-addon
-                    %i.fa.fa-calendar-check-o
-                = f.error :meeting_date
               .row
                 .col-xs-12
-                  #meeting-date-message.text-danger
-              = f.input :attendee, label: t('.present')
+                  .form-group.date.optional.case_note_meeting_date{ class: ('has-error' if f.error :meeting_date) }
+                    %label.date.optional.control-label
+                      %abbr{ title: 'required' } *
+                      = t('.on_date')
+                    .input-group.date
+                      = f.text_field :meeting_date, class: 'date optional form-control date-picker', type: 'text', name: 'case_note[meeting_date]', id: 'case_note_meeting_date'
+                      %span.input-group-addon
+                        %i.fa.fa-calendar-check-o
+                    = f.error :meeting_date
+                  .row
+                    .col-xs-12
+                      #meeting-date-message.text-danger
               .row
-                .col-xs-12
-                  #attendee-message.text-danger
+                .col-xs-12.col-md-6
+                  = f.input :attendee, label: t('.present')
+                  .row
+                    .col-xs-12
+                      #attendee-message.text-danger
+                .col-xs-12.col-md-6
+                  = f.input :interaction_type, collection: CaseNote::INTERACTION_TYPE, label: t('.type')
+                  .row
+                    .col-xs-12
+                      #interaction-type.text-danger
           = f.simple_fields_for :case_note_domain_groups do |cd|
             - if cd.object.domain_group.domains.assessment_domains_by_assessment_id(@case_note.assessment_id).any?
               = render 'form_with_assessment_domains', { cd: cd }

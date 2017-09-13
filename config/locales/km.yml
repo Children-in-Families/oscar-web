@@ -505,6 +505,7 @@ km:
       on_going_tasks: កាតព្វកិច្ចដែលមិនទាន់បំពេញ
       completed_tasks: កាតព្វកិច្ចដែលបានធ្វើរួច
       tasks_arising: កាតព្វកិច្ចកើតឡើង
+      type: ប្រភេទ
       add_task: បន្ថែមកាតព្វកិច្ចថ្មី
     form_with_assessment_domains:
       add_task: បន្ថែមកាតព្វកិច្ចថ្មី
@@ -517,6 +518,7 @@ km:
       goal: គោលដៅ
       note: កំណត់ត្រា
     index:
+      attachments: ឯកសារភ្ជាប់
       back: ត្រលប់ក្រោយ
       case_note_lists: បញ្ជីកំណត់ត្រារបស់
       case_note_on: កំណត់ត្រានៅថ្ងៃ
@@ -526,8 +528,8 @@ km:
       new_case_note: កំណត់ត្រាថ្មី
       note: កំណត់ត្រា
       present: វត្តមានឣ្នកចូលរួម
+      type: ប្រភេទ
       you_need_to_create_assessment: ត្រូវបង្កើតការប៉ាន់ប្រមាណជាមុនសិន
-      attachments: ឯកសារភ្ជាប់
     show:
       case_note_on: កំណត់ត្រានៅថ្ងៃ
       present: វត្តមានឣ្នកចូលរួម
