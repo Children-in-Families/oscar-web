@@ -465,7 +465,7 @@ CIF.Client_advanced_searchesIndex = do ->
 
   _getClientPath = ->
     $('table.clients tbody tr').click (e) ->
-      return if $(e.target).hasClass('btn') || $(e.target).hasClass('fa')
-      window.location = $(this).data('href')
+      return if $(e.target).hasClass('btn') || $(e.target).hasClass('fa') || $(e.target).is('a')
+      window.open($(@).data('href'), '_blank')
 
   { init: _init }
