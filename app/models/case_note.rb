@@ -6,7 +6,8 @@ class CaseNote < ActiveRecord::Base
   has_many   :case_note_domain_groups, dependent: :destroy
   has_many   :domain_groups, through: :case_note_domain_groups
 
-  validates :meeting_date, :attendee, :interaction_type, presence: true
+  validates :meeting_date, :attendee, presence: true
+  validates :interaction_type, presence: true, inclusion: { in: INTERACTION_TYPE }
 
   has_paper_trail
 

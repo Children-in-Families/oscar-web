@@ -134,25 +134,25 @@ CIF.Case_notesNew = CIF.Case_notesCreate = CIF.Case_notesEdit = CIF.Case_notesUp
         $('#task_domain_id').append("<option value='#{domain[0]}'>#{domain[1]}</option>")
 
   _handlePreventBlankInput = ->
-    $('#case-note-submit-btn').click ->
+    $('#case-note-submit-btn').on 'click', (e)  ->
       caseNoteMeetingDate = $('#case_note_meeting_date').val()
       caseNoteAttendee = $('#case_note_attendee').val()
       caseNoteInteractionType = $('#case_note_interaction_type').val()
       elements = ['#case_note_meeting_date', '#case_note_attendee', '#case_note_interaction_type']
       for element in elements
-        _handlePreventFieldCannotBeBlank(element)
+        _handlePreventFieldCannotBeBlank(element, e)
       if caseNoteMeetingDate != '' and caseNoteAttendee != '' and caseNoteInteractionType != ''
         document.getElementById('case-note-form').onsubmit = ->
           true
 
-  _handlePreventFieldCannotBeBlank = (element) ->
+  _handlePreventFieldCannotBeBlank = (element, e) ->
+    cannotBeBlank = $('#case-note-form').data('translate')
     parent = $(element).parents('.form-group')
     labelMessage = $(parent).siblings().find('.text-danger')
     if $(element).val() == ''
-      document.getElementById('case-note-form').onsubmit = ->
-        false
       $(parent).addClass('has-error')
-      $(labelMessage).text("can't be blank")
+      $(labelMessage).text(cannotBeBlank)
+      e.preventDefault()
     else
       $(parent).removeClass('has-error')
       $(labelMessage).text('')

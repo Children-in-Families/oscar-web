@@ -1,6 +1,6 @@
 .row
   .col-xs-12
-    = simple_form_for([@case_note.client, @case_note], html: { id: 'case-note-form' }) do |f|
+    = simple_form_for([@case_note.client, @case_note], html: { id: 'case-note-form', data: { translate: t('cannot_be_blank') } }) do |f|
       .ibox
         .ibox-title
           %h5= t('.meeting_detail')
