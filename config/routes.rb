@@ -165,7 +165,11 @@ Rails.application.routes.draw do
     get 'version' => 'partners#version'
   end
 
-  resources :notifications, only: [:index]
+  resources :notifications, only: [:index] do
+    collection do
+      get :program_stream_notify
+    end
+  end
 
   namespace :api do
     mount_devise_token_auth_for 'User', at: '/v1/auth', skip: [:passwords]

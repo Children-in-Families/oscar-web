@@ -2561,6 +2561,9 @@ en:
       client_is_end_ec_today:
         one: There is a client is about to exit EC program today.
         other: There are %{count} clients are about to exit EC program today.
+      client_quantity:
+        one: (1 client)
+        other: (%{count} clients)
       due_today_assessments_count:
         one: You have 1 assessment due today.
         other: You have %{count} assessments due today.
@@ -2604,6 +2607,7 @@ en:
       overdue_client_enrollment_tracking:
         one: There is 1 client enrollment tracking form overdue.
         other: There are %{count} client enrollment trackings form overdue.
+      review_client: Review your clients enrollment in
     side_menu:
       able_screening_questions: Able Screening Questions
       account: Account
@@ -2744,6 +2748,8 @@ en:
     client_enrollment_tracking_overdue:
       clients: Client
       client_enrollment_tracking_notification: Client Enrollment Tracking Notification
+    program_stream_notify:
+      review_client: Clients need to be reviewed
   ok: OK
   partners:
     actions:
