@@ -26,7 +26,7 @@ RSpec.describe Api::V1::CaseNotesController, type: :request do
 
       context 'when try to create case note with incompleted tasks' do
         before do
-          case_note = { format: 'json', case_note: { meeting_date: Time.now, attendee: FFaker::Name.name, case_note_domain_groups_attributes: {'0' => {note: FFaker::Lorem.paragraph, domain_group_id: @domain_group.id}} } }
+          case_note = { format: 'json', case_note: { meeting_date: Time.now, attendee: FFaker::Name.name, interaction_type: 'Visit', case_note_domain_groups_attributes: {'0' => {note: FFaker::Lorem.paragraph, domain_group_id: @domain_group.id}} } }
 
           post "/api/v1/clients/#{client.id}/case_notes", case_note, @auth_headers
         end
@@ -38,7 +38,7 @@ RSpec.describe Api::V1::CaseNotesController, type: :request do
 
       context 'when try to create case note with completed task' do
         before do
-          case_note = { format: 'json', case_note: { meeting_date: Time.now, attendee: FFaker::Name.name, case_note_domain_groups_attributes: {'0' => {note: FFaker::Lorem.paragraph, domain_group_id: @domain_group.id, task_ids: tasks.map(&:id)}} } }
+          case_note = { format: 'json', case_note: { meeting_date: Time.now, attendee: FFaker::Name.name, interaction_type: 'Visit', case_note_domain_groups_attributes: {'0' => {note: FFaker::Lorem.paragraph, domain_group_id: @domain_group.id, task_ids: tasks.map(&:id)}} } }
           post "/api/v1/clients/#{client.id}/case_notes", case_note, @auth_headers
         end
 
@@ -53,7 +53,7 @@ RSpec.describe Api::V1::CaseNotesController, type: :request do
 
       context 'when try to create case note without domain group' do
         before do
-          case_note = { format: 'json', case_note: { meeting_date: Time.now, attendee: FFaker::Name.name, case_note_domain_groups_attributes: {'0' => {note: FFaker::Lorem.paragraph}} } }
+          case_note = { format: 'json', case_note: { meeting_date: Time.now, attendee: FFaker::Name.name, interaction_type: 'Visit', case_note_domain_groups_attributes: {'0' => {note: FFaker::Lorem.paragraph}} } }
           post "/api/v1/clients/#{client.id}/case_notes", case_note, @auth_headers
         end
 

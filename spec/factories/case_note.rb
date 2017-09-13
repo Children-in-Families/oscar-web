@@ -4,5 +4,6 @@ FactoryGirl.define do
     attendee { FFaker::Name.name }
     association :client, factory: :client
     association :assessment, factory: :assessment
+    interaction_type 'Visit'
   end
 end

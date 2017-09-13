@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170824021544) do
+ActiveRecord::Schema.define(version: 20170913025014) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -139,12 +139,13 @@ ActiveRecord::Schema.define(version: 20170824021544) do
   end
 
   create_table "case_notes", force: :cascade do |t|
-    t.string   "attendee",      default: ""
+    t.string   "attendee",         default: ""
     t.date     "meeting_date"
     t.integer  "assessment_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "client_id"
+    t.string   "interaction_type", default: ""
   end
 
   add_index "case_notes", ["client_id"], name: "index_case_notes_on_client_id", using: :btree
@@ -221,8 +222,8 @@ ActiveRecord::Schema.define(version: 20170824021544) do
   create_table "client_enrollment_trackings", force: :cascade do |t|
     t.jsonb    "properties",           default: {}
     t.integer  "client_enrollment_id"
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
     t.integer  "tracking_id"
   end
 
@@ -506,8 +507,8 @@ ActiveRecord::Schema.define(version: 20170824021544) do
   create_table "leave_programs", force: :cascade do |t|
     t.jsonb    "properties",           default: {}
     t.integer  "client_enrollment_id"
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
     t.integer  "program_stream_id"
     t.date     "exit_date"
   end

@@ -6,4 +6,8 @@ module CaseNoteHelper
       end
     end
   end
+
+  def display_case_note_attendee(case_note)
+    case_note.interaction_type.present? ? "#{t('.present')} #{case_note.attendee} ( #{case_note.interaction_type} )" : "#{t('.present')} #{case_note.attendee}"
+  end
 end

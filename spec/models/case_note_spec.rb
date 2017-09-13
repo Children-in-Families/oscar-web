@@ -10,11 +10,12 @@ end
 describe CaseNote, 'validations' do
   it { is_expected.to validate_presence_of(:meeting_date) }
   it { is_expected.to validate_presence_of(:attendee) }
+  it { is_expected.to validate_presence_of(:interaction_type) }
 end
 
 describe CaseNote, 'methods' do
   let!(:case_note){ create(:case_note) }
-  
+
   context 'populate notes' do
     let!(:domain_group){ create(:domain_group) }
     before do
@@ -71,7 +72,7 @@ describe CaseNote, 'callbacks' do
   let!(:case_note){ create(:case_note, client: client)}
   let!(:other_client){ create(:client) }
   let!(:other_assessment){create(:assessment, client: other_client)}
-  
+
   it 'should set assessment to latest assessment' do
     expect(case_note.assessment).to eq(latest_assessment)
   end

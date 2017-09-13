@@ -1,10 +1,12 @@
 class CaseNote < ActiveRecord::Base
+  INTERACTION_TYPE = ['Visit', 'Non face to face', '3rd Party', 'Other'].freeze
+
   belongs_to :client
   belongs_to :assessment
   has_many   :case_note_domain_groups, dependent: :destroy
   has_many   :domain_groups, through: :case_note_domain_groups
 
-  validates :meeting_date, :attendee, presence: true
+  validates :meeting_date, :attendee, :interaction_type, presence: true
 
   has_paper_trail
 

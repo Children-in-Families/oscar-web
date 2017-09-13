@@ -502,6 +502,7 @@ en:
       save: Save
       tasks: Tasks
       tasks_arising: Tasks Arising
+      type: Type
     form_with_assessment_domains:
       add_task: Add Task
       domain: Domain
@@ -513,6 +514,7 @@ en:
       goal: Goal
       note: Note
     index:
+      attachments: Attachments
       back: Back
       case_note_lists: Case note lists of
       case_note_on: Case note on
@@ -522,8 +524,8 @@ en:
       new_case_note: New case note
       note: Note
       present: Who was there during the visit or conversation?
+      type: Type
       you_need_to_create_assessment: You need to create assessment
-      attachments: Attachments
     show:
       case_note_on: Case note on
       present: Who was there during the visit or conversation?
