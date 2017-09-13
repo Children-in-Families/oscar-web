@@ -32,7 +32,8 @@ class RegistrationsController < Devise::RegistrationsController
   private
 
   def notify_user
-    @notification = UserNotification.new(current_user)
+    clients = Client.accessible_by(current_ability)
+    @notification = UserNotification.new(current_user, clients)
   end
 
   def set_sidebar_basic_info

@@ -19,6 +19,11 @@ class NotificationsController < AdminController
     end
   end
 
+  def program_stream_notify
+    @program_stream = ProgramStream.find(params[:program_stream_id])
+    @clients        = Client.where(id: params[:client_ids])
+  end
+
   private
 
   def entity_custom_field_notification(entity_custom_field)

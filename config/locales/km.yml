@@ -2609,6 +2609,9 @@ km:
       client_is_end_ec_today:
         one: មានអតិថិជនចំនួនម្នាក់ដែលនឹងត្រូវបញ្ជូនចេញពីECនៅថ្ងៃនេះ
         other: មានអតិថិជនចំនួន %{count} នាក់ដែលនឹងត្រូវបញ្ជូនចេញពីECនៅថ្ងៃនេះ
+      client_quantity:
+        one: (អតិថិជនចំនួន 1)
+        other: (អតិថិជនចំនួន %{count})
       due_today_assessments_count:
         one: អ្នកមានការប៉ាន់ប្រមាណចំនួន1ដែលត្រូវបំពេញនៅថ្ងៃនេះ
         other: អ្នកមានការប៉ាន់ប្រមាណចំនួន %{count} ដែលត្រូវបំពេញនៅថ្ងៃនេះ
@@ -2652,6 +2655,7 @@ km:
       overdue_client_enrollment_tracking:
         one: ការតាមដានរបស់អ្នកប្រើចំនួន1ដែលផុតកំណត
         other: ការតាមដានរបស់អ្នកប្រើចំនួន %{count} ដែលផុតកំណត
+      review_client: ពិនិត្យមើលទម្រង់បែបបទនៃចុះឈ្មោះរបស់អតិថិជននៅកន្ុង
     side_menu:
       able_screening_questions: សំនួរ Able Screening
       account: គណនី
@@ -2792,6 +2796,8 @@ km:
     client_enrollment_tracking_overdue:
       clients: អតិថិជន
       client_enrollment_tracking_notification: ការជូនដំណឹងនៃការតាមដានដែលត្រូវបំពេញ
+    program_stream_notify:
+      review_client: អតិថិជនត្រូវការត្រួតពិនិត្យ
   ok: យល់ព្រម
   partners:
     actions:
