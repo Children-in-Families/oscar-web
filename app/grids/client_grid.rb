@@ -397,7 +397,7 @@ class ClientGrid
   column(:kid_id, order:'clients.kid_id', header: -> { I18n.t('datagrid.columns.clients.kid_id') })
 
   column(:given_name, order: 'clients.given_name', header: -> { I18n.t('datagrid.columns.clients.given_name') }, html: true) do |object|
-    link_to object.given_name, client_path(object)
+    link_to object.given_name, client_path(object), target: '_blank'
   end
 
   column(:given_name, header: -> { I18n.t('datagrid.columns.clients.given_name') }, html: false)
