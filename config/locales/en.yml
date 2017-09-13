@@ -2749,7 +2749,7 @@ en:
       clients: Client
       client_enrollment_tracking_notification: Client Enrollment Tracking Notification
     program_stream_notify:
-      review_client: Clients need to review
+      review_client: Clients need to be reviewed
   ok: OK
   partners:
     actions:
