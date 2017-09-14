@@ -1,51 +1,40 @@
 class CsiStatistic
   def initialize(clients)
     @clients = clients
-    @assessments = Assessment.where(client: @clients)
   end
 
   def assessment_domain_score
     assessments_by_index = assessment_amount
-    data = []
     assessments = []
     series = []
 
-    assessment_amount.count.times { |i| assessments << "Assessment (#{i + 1})" }
-    data << assessments
+    assessment_amount.size.times { |i| assessments << "Assessment (#{i + 1})" }
 
-    Domain.all.each do |domain|
-      h1 = {}
-      h1[:name] = domain.name
+    Domain.includes(:assessment_domains).each do |domain|
       assessment_by_value = []
 
       assessments_by_index.each do |a_ids|
-        ad_by_assessment_index = domain.assessment_domains.where(assessment_id: a_ids)
-        a_domain_score = ad_by_assessment_index.pluck(:score)
-        average_domain_score = (a_domain_score.sum.to_f / a_domain_score.size).round(2)
-        assessment_by_value << average_domain_score
+        a_domain_score = domain.assessment_domains.where(assessment_id: a_ids).pluck(:score)
+        assessment_by_value << (a_domain_score.sum.to_f / a_domain_score.size).round(2)
       end
-      h1[:data] = assessment_by_value
-      series << h1
+      series << { name: domain.name, data: assessment_by_value}
     end
-    data << series
-    data
+
+    [assessments, series]
   end
 
   private
-    def assessment_amount
-      data = []
-      if @clients.any?
-        max_count = @clients.map(&:assessments).map(&:count).max
 
-        max_count.times do |i|
-          arr = []
-          @clients.each do |c|
-            arr << (c.assessments.order(:created_at).to_a.at(i).blank? ? nil : c.assessments.order(:created_at).to_a.at(i).id)
-          end
-          data << arr.select(&:present?)
-        end
-      end
-      data
+  def assessment_amount
+    data = []
+    return data unless @clients.any?
+
+    max_count = @clients.map(&:assessments).map(&:size).max
+    clients = @clients.includes(:assessments).where.not(assessments: { client_id: nil }).order('assessments.created_at')
+
+    max_count.times do |i|
+      data << clients.map{|c| c.assessments[i].id if c.assessments[i].present? }
     end
-
+    data
+  end
 end
