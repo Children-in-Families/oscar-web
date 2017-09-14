@@ -56,6 +56,7 @@ gem 'apartment',              '~> 1.2'
 gem 'dropzonejs-rails',       '~> 0.7.3'
 gem 'bourbon',                '~> 4.2'
 gem 'neat',                   '~> 1.8'
+gem 'jquery_query_builder-rails', '~> 0.2.2'
 gem 'sidekiq',                '~> 4.1.0'
 gem 'mongoid',                '~> 5.2', '>= 5.2.1'
 

@@ -382,6 +382,10 @@ GEM
     jquery-validation-rails (1.13.1)
       railties (>= 3.2, < 5.0)
       thor (~> 0.14)
+    jquery_query_builder-rails (0.2.2)
+      activesupport
+      json (>= 1.8.3)
+      railties (>= 3.1)
     json (1.8.3)
     json_spec (1.1.4)
       multi_json (~> 1.0)
@@ -732,6 +736,7 @@ DEPENDENCIES
   jquery-rails
   jquery-ui-rails
   jquery-validation-rails
+  jquery_query_builder-rails (~> 0.2.2)
   json_spec (~> 1.1, >= 1.1.4)
   kaminari
   launchy (~> 2.4, >= 2.4.3)
@@ -776,4 +781,4 @@ DEPENDENCIES
   wkhtmltopdf-binary-edge (~> 0.12.3.0)
 
 BUNDLED WITH
-   1.15.3
+   1.16.0.pre.2
