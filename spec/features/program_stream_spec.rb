@@ -58,13 +58,11 @@ feature 'program_stream' do
     scenario 'list all ngo program streams', js: true do
       find('a[href="#ngos-program-streams"]').click
       expect(page).to have_content(program_stream.name)
-      expect(page).to have_content('Organization Testing')
     end
 
     scenario 'list demo ngo program streams', js: true do
       find('a[href="#demo-program-streams"]').click
       expect(page).to have_content('Other NGO Program Stream')
-      expect(page).to have_content('Demo')
     end
   end
 
