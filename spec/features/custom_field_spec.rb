@@ -50,7 +50,6 @@ feature 'custom_field' do
     scenario 'list my ngo custom fields', js: true do
       find('a[href="#custom-form"]').click
       expect(page).to have_content(custom_field.form_title)
-      expect(page).to have_content('Organization Testing')
     end
 
     scenario 'list all ngo custom fields', js: true do
