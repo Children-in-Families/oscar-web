@@ -30,7 +30,7 @@ module AdvancedSearches
       when 'between'
         leave_program_date = leave_programs.where('exit_date BETWEEN ? AND ?', @value.first, @value.last)
       end
-      client_ids = leave_program_date.joins(:client_enrollment).pluck('client_enrollments.client_id') if leave_program_date.present?
+      client_ids = leave_program_date.present? ? leave_program_date.joins(:client_enrollment).pluck('client_enrollments.client_id') : []
       { id: sql_string, values: client_ids.uniq }
     end
   end

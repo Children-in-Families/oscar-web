@@ -50,19 +50,16 @@ feature 'custom_field' do
     scenario 'list my ngo custom fields', js: true do
       find('a[href="#custom-form"]').click
       expect(page).to have_content(custom_field.form_title)
-      expect(page).to have_content('Organization Testing')
     end
 
     scenario 'list all ngo custom fields', js: true do
       find('a[href="#all-custom-form"]').click
       expect(page).to have_content(custom_field.form_title)
-      expect(page).to have_content('Organization Testing')
     end
 
     scenario 'list demo ngo custom fields', js: true do
       find('a[href="#demo-custom-form"]').click
       expect(page).to have_content('Other NGO Custom Field')
-      expect(page).to have_content('Demo')
     end
   end
 

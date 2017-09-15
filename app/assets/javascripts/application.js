@@ -8,7 +8,6 @@
 //= require jquery.validate.additional-methods
 //= require jquery.nicescroll.min
 //= require dataTables/jquery.dataTables
-//= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
 //= require thredded
 //= require select2
 //= require cocoon
@@ -23,9 +22,11 @@
 //= require dropzone
 //= require form-builder.min.js
 //= require form-render.min.js
+//= require jquery.extendext
+//= require doT
+//= require query-builder
 //= require stickyfill.js
 //= require lodash/lodash.min.js
-//= require query_builder/query-builder.standalone.min.js
 
 //= require tinymce
 //= require moment
