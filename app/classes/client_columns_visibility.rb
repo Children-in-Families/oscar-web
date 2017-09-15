@@ -65,6 +65,7 @@ class ClientColumnsVisibility
       kid_id_: :kid_id,
       family_id_: :family_id,
       any_assessments_: :any_assessments,
+      case_note_date_: :case_note_date,
       donor_: :donor,
       manage_: :manage,
       changelog_: :changelog

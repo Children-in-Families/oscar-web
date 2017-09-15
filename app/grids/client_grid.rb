@@ -623,6 +623,14 @@ class ClientGrid
     render partial: 'clients/assessments', locals: { object: object }
   end
 
+  column(:case_note_date, header: -> { I18n.t('datagrid.columns.clients.case_note_date')}, html: true) do |object|
+    render partial: 'clients/case_note_date', locals: { object: object }
+  end
+
+  column(:case_note_date, header: -> { I18n.t('datagrid.columns.clients.case_note_date')}, html: false) do |object|
+    object.case_notes.most_recents.pluck(:meeting_date).join(' | ') if object.case_notes.any?
+  end
+
   dynamic do
     Domain.order_by_identity.each do |domain|
       identity = domain.identity

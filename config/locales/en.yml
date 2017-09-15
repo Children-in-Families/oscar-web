@@ -1264,6 +1264,7 @@ en:
       carer_address: Carer Address
       carer_names: Carer Names
       carer_phone_number: Carer Phone Number
+      case_note_date: Case Note Date
       case_start_date: Case Start Date
       cases:
         case_type: Case Type
@@ -1287,6 +1288,7 @@ en:
         assessments_due_to: Assessments Due To
         birth_province: Birth Province
         cambodia: Cambodia
+        case_note_date: Case Note Date
         case_type: Case Type
         case_worker: Case Worker
         case_worker_or_staff: Case Worker / Staff

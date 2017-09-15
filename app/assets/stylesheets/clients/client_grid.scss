@@ -26,7 +26,7 @@ body[id='client_advanced_searches-index'] {
       min-width: 135px;
     }
 
-    th.any_assessments, th.able_state, th.house_number, th.street_number, th.village {
+    th.any_assessments, th.able_state, th.house_number, th.street_number, th.village, th.case_note_date {
       min-width: 150px;
     }
 
@@ -65,6 +65,10 @@ body[id='client_advanced_searches-index'] {
     th.reason_for_family_separation, th.history_of_high_risk_behaviours,
     th.history_of_harm, th.history_of_disability_and_or_illness {
       min-width: 360px;
+    }
+
+    th.protection_from_abuse_and_exploitation {
+      min-width: 280px;
     }
 
     td.manage {

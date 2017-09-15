@@ -1312,6 +1312,7 @@ km:
       carer_address: អាសយដ្ឋានអ្នកថែទាំ
       carer_names: ឈ្មោះអ្នកថែទាំ
       carer_phone_number: លេខទូរសព្ទអ្នកថែទាំ
+      case_note_date: កាលបរិច្ឆេទកំណត់ត្រាករណី
       case_start_date: ថ្ងៃចាប់ផ្តើម
       cases:
         case_type: ប្រភេទករណី
@@ -1335,6 +1336,7 @@ km:
         assessments_due_to: ដល់ពេលការប៉ាន់ប្រមាណ
         birth_province: ស្រុកកំណើត
         cambodia: កម្ពុជា
+        case_note_date: កាលបរិច្ឆេទកំណត់ត្រាករណី
         case_type: ប្រភេទករណី
         case_worker: បុគ្គលិកគ្រប់គ្រងករណី
         case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
