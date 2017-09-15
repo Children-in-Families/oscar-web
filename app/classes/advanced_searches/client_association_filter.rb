@@ -40,11 +40,41 @@ module AdvancedSearches
         values = program_exit_date_field_query('KC')
       when 'program_stream'
         values = program_stream_query
+      when 'case_note_date'
+        values = case_note_date_field_query
       end
-      {id: sql_string, values: values}
+      { id: sql_string, values: values }
     end
 
     private
+
+    def case_note_date_field_query
+      clients = @clients.joins(:case_notes)
+      case @operator
+      when 'equal'
+        clients = clients.where(case_notes: { meeting_date: @value })
+      when 'not_equal'
+        clients = clients.where("case_notes.meeting_date != ? OR case_notes.meeting_date IS NULL", @value)
+        clients.each do |c|
+          binding.pry if c.id == 796
+        end
+      when 'less'
+        clients = clients.where('case_notes.meeting_date < ?', @value)
+      when 'less_or_equal'
+        clients = clients.where('case_notes.meeting_date <= ?', @value)
+      when 'greater'
+        clients = clients.where('case_notes.meeting_date > ?', @value)
+      when 'greater_or_equal'
+        clients = clients.where('case_notes.meeting_date >= ?', @value)
+      when 'between'
+        clients = clients.where(case_notes: { meeting_date: @value[0]..@value[1] })
+      when 'is_empty'
+        clients = @clients.where.not(id: clients.ids)
+      when 'is_not_empty'
+        clients = clients
+      end
+      clients.ids
+    end
 
     def program_stream_query
       clients = @clients.joins(:client_enrollments).where(client_enrollments: { status: 'Active' })
