@@ -55,9 +55,6 @@ module AdvancedSearches
         clients = clients.where(case_notes: { meeting_date: @value })
       when 'not_equal'
         clients = clients.where("case_notes.meeting_date != ? OR case_notes.meeting_date IS NULL", @value)
-        clients.each do |c|
-          binding.pry if c.id == 796
-        end
       when 'less'
         clients = clients.where('case_notes.meeting_date < ?', @value)
       when 'less_or_equal'
