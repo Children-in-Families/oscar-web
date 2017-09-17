@@ -268,6 +268,7 @@ km:
       birth_province_id: ស្រុកកំណើត
       cambodia: កម្ពុជា
       case_note_date: កាលបរិច្ឆេទកំណត់ត្រាករណី
+      case_note_type: ប្រភេទកំណត់ត្រាករណី
       case_type: ប្រភេទករណី
       case_worker: បុគ្គលិកគ្រប់គ្រងករណី
       case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
@@ -1313,6 +1314,7 @@ km:
       carer_names: ឈ្មោះអ្នកថែទាំ
       carer_phone_number: លេខទូរសព្ទអ្នកថែទាំ
       case_note_date: កាលបរិច្ឆេទកំណត់ត្រាករណី
+      case_note_type: ប្រភេទកំណត់ត្រាករណី
       case_start_date: ថ្ងៃចាប់ផ្តើម
       cases:
         case_type: ប្រភេទករណី
@@ -1337,6 +1339,7 @@ km:
         birth_province: ស្រុកកំណើត
         cambodia: កម្ពុជា
         case_note_date: កាលបរិច្ឆេទកំណត់ត្រាករណី
+        case_note_type: ប្រភេទកំណត់ត្រាករណី
         case_type: ប្រភេទករណី
         case_worker: បុគ្គលិកគ្រប់គ្រងករណី
         case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
@@ -1454,6 +1457,7 @@ km:
       family: គ្រួសារ
       family_id: លេខសម្គាល់គ្រួសារ
       family_preservation: ករណីអភិរក្សគ្រួសារ?
+      form_title: ទម្រង់បែបបទបន្ថែម
       history_of_disability_and_or_illness: ជំងឺរ៉ាំរ៉ែ និង/ឬពិការភាព
       history_of_harm: ការបង្កទុក្ខទោស និងការកេងប្រវ័ញ្ច
       history_of_high_risk_behaviours: ការបំពានគ្រឿងញៀនឬគ្រឿងស្រវឹង និងល្បែងស៊ីសង

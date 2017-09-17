@@ -88,7 +88,8 @@ module AdvancedSearchHelper
       accepted_date: I18n.t('advanced_search.fields.ngo_accepted_date'),
       program_stream: I18n.t('advanced_search.fields.program_stream'),
       csi_domain_scores: I18n.t('advanced_search.fields.csi_domain_scores'),
-      case_note_date: I18n.t('advanced_search.fields.case_note_date')
+      case_note_date: I18n.t('advanced_search.fields.case_note_date'),
+      case_note_type: I18n.t('advanced_search.fields.case_note_type')
     }
     translations[key.to_sym] || ''
   end

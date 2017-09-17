@@ -50,8 +50,13 @@ module AdvancedSearches
         ['user_id', user_select_options],
         ['form_title', client_custom_form_options],
         ['donor_id', donor_options],
-        ['program_stream', program_options]
+        ['program_stream', program_options],
+        ['case_note_type', case_note_type_options]
       ]
+    end
+
+    def case_note_type_options
+      CaseNote::INTERACTION_TYPE
     end
 
     def program_options

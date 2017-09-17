@@ -111,6 +111,7 @@ module ClientsHelper
       family_id:                     t('datagrid.columns.clients.family_id'),
       any_assessments:               t('datagrid.columns.clients.assessments'),
       case_note_date:               t('datagrid.columns.clients.case_note_date'),
+      case_note_type:               t('datagrid.columns.clients.case_note_type'),
       donor:                         t('datagrid.columns.clients.donor'),
       changelog:                     t('datagrid.columns.clients.changelog'),
       live_with:                     t('datagrid.columns.clients.live_with'),
