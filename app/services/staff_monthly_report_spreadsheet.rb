@@ -21,13 +21,13 @@ class StaffMonthlyReportSpreadsheet
   private
 
   def create_case_worker_worksheet(column_names, date_time, previous_month, org_short_name)
-    User.managers.staff_performances.each do |user|
+    User.non_devs.managers.staff_performances.each do |user|
       book = Spreadsheet::Workbook.new
       worksheet = book.create_worksheet(name: previous_month)
 
       set_format_header(worksheet, column_names)
 
-      case_workers = User.where('manager_ids && ARRAY[?] or manager_id = ?', user.id, user.id).order(:first_name, :last_name)
+      case_workers = User.non_devs.where('manager_ids && ARRAY[?] or manager_id = ?', user.id, user.id).order(:first_name, :last_name)
       next if case_workers.empty?
 
       case_workers.each_with_index do |case_worker, index|
@@ -47,13 +47,13 @@ class StaffMonthlyReportSpreadsheet
 
     set_format_header(worksheet, column_names)
 
-    case_worker_without_manager = User.where(manager_id: nil).order(:first_name, :last_name)
+    case_worker_without_manager = User.non_devs.where(manager_id: nil).order(:first_name, :last_name)
     return if case_worker_without_manager.empty?
     case_worker_without_manager.each_with_index do |case_worker, index|
       worksheet.insert_row(index += 1, value_of_worksheet(case_worker))
     end
 
-    user_ids = User.admins.staff_performances.ids
+    user_ids = User.non_devs.admins.staff_performances.ids
     file_name = "subordinates-performance-report-#{date_time}.xls"
     book.write("tmp/#{file_name}")
     generate(user_ids, file_name, previous_month, org_short_name, 'Admins')
