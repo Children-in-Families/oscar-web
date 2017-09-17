@@ -30,7 +30,7 @@ module AdvancedSearches
     end
 
     def date_type_list
-      ['placement_date', 'date_of_birth', 'initial_referral_date', 'follow_up_date', 'referred_to_ec', 'referred_to_fc', 'referred_to_kc', 'exit_ec_date', 'exit_fc_date', 'exit_kc_date', 'exit_date', 'accepted_date', 'case_note_date']
+      ['placement_date', 'date_of_birth', 'initial_referral_date', 'follow_up_date', 'referred_to_ec', 'referred_to_fc', 'referred_to_kc', 'exit_ec_date', 'exit_fc_date', 'exit_kc_date', 'exit_date', 'accepted_date', 'case_note_date', 'date_of_assessments']
     end
 
     def drop_down_type_list

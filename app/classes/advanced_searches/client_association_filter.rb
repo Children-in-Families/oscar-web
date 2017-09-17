@@ -44,11 +44,38 @@ module AdvancedSearches
         values = case_note_date_field_query
       when 'case_note_type'
         values = case_note_type_field_query
+      when 'date_of_assessments'
+        values = date_of_assessments_field_query
       end
       { id: sql_string, values: values }
     end
 
     private
+
+    def date_of_assessments_field_query
+      clients = @clients.joins(:assessments)
+      case @operator
+      when 'equal'
+        clients = clients.where('date(assessments.created_at) = ?', @value.to_date)
+      when 'not_equal'
+        clients = clients.where("date(assessments.created_at) != ? OR assessments.created_at IS NULL", @value.to_date)
+      when 'less'
+        clients = clients.where('date(assessments.created_at) < ?', @value.to_date)
+      when 'less_or_equal'
+        clients = clients.where('date(assessments.created_at) <= ?', @value.to_date)
+      when 'greater'
+        clients = clients.where('date(assessments.created_at) > ?', @value.to_date)
+      when 'greater_or_equal'
+        clients = clients.where('date(assessments.created_at) >= ?', @value.to_date)
+      when 'between'
+        clients = clients.where('date(assessments.created_at) BETWEEN ? AND ? ', @value[0].to_date, @value[1].to_date)
+      when 'is_empty'
+        clients = clients.where(assessments: { created_at: nil })
+      when 'is_not_empty'
+        clients = clients.where.not(assessments: { created_at: nil })
+      end
+      clients.ids
+    end
 
     def case_note_type_field_query
       clients = @clients.joins(:case_notes)

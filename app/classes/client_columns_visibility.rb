@@ -67,6 +67,7 @@ class ClientColumnsVisibility
       any_assessments_: :any_assessments,
       case_note_date_: :case_note_date,
       case_note_type_: :case_note_type,
+      date_of_assessments_: :date_of_assessments,
       donor_: :donor,
       manage_: :manage,
       changelog_: :changelog
