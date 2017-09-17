@@ -1,0 +1,3 @@
+%ul
+  - object.case_notes.most_recents.each do |case_note|
+    %li= date_format(case_note.meeting_date)
