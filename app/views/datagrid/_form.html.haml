@@ -95,6 +95,10 @@
               .visibility.col-sm-12
                 = check_box_tag 'case_note_date_', 'case_note_date', checked = params[:case_note_date_].present?, class: 'i-checks'
                 = label_tag 'case_note_date_', t('datagrid.columns.case_note_date')
+            %li
+              .visibility.col-sm-12
+                = check_box_tag 'case_note_type_', 'case_note_type', checked = params[:case_note_type_].present?, class: 'i-checks'
+                = label_tag 'case_note_type_', t('datagrid.columns.case_note_type')
             %li.csi-header
               %strong= t('.csi_domain_scores')
             = render 'datagrid/domain_score_columns_picker'

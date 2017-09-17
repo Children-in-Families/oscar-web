@@ -42,11 +42,28 @@ module AdvancedSearches
         values = program_stream_query
       when 'case_note_date'
         values = case_note_date_field_query
+      when 'case_note_type'
+        values = case_note_type_field_query
       end
       { id: sql_string, values: values }
     end
 
     private
+
+    def case_note_type_field_query
+      clients = @clients.joins(:case_notes)
+      case @operator
+      when 'equal'
+        clients = clients.where(case_notes: { interaction_type: @value })
+      when 'not_equal'
+        clients = clients.where.not(case_notes: { interaction_type: @value })
+      when 'is_empty'
+        clients = clients.where(case_notes: { interaction_type: '' })
+      when 'is_not_empty'
+        clients = clients.where.not(case_notes: { interaction_type: '' })
+      end
+      clients.ids
+    end
 
     def case_note_date_field_query
       clients = @clients.joins(:case_notes)
@@ -66,9 +83,9 @@ module AdvancedSearches
       when 'between'
         clients = clients.where(case_notes: { meeting_date: @value[0]..@value[1] })
       when 'is_empty'
-        clients = @clients.where.not(id: clients.ids)
+        clients = clients.where(case_notes: { meeting_date: nil })
       when 'is_not_empty'
-        clients = clients
+        clients = clients.where.not(case_notes: { meeting_date: nil })
       end
       clients.ids
     end
