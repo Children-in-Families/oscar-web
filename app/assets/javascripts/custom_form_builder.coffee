@@ -4,7 +4,7 @@ class CIF.CustomFormBuilder
   eventCheckboxOption: ->
     self = @
     onadd: (fld) ->
-      $('.other-wrap, .className-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
+      $('.other-wrap, .className-wrap, .access-wrap, .description-wrap, .name-wrap, .toggle-wrap, .inline-wrap').hide()
       self.handleCheckingForm()
       self.hideOptionValue()
       self.addOptionCallback(fld)
@@ -20,7 +20,7 @@ class CIF.CustomFormBuilder
   eventDateOption: ->
     self = @
     onadd: (fld) ->
-      $('.className-wrap, .value-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
+      $('.className-wrap, .placeholder-wrap, .value-wrap, .access-wrap, .description-wrap, .name-wrap, .toggle-wrap, .inline-wrap').hide()
       self.handleCheckingForm()
     onclone: (fld) ->
       setTimeout ( ->
@@ -30,7 +30,7 @@ class CIF.CustomFormBuilder
   eventFileOption: ->
     self = @
     onadd: (fld) ->
-      $('.className-wrap, .value-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
+      $('.className-wrap, .placeholder-wrap, .subtype-wrap, .value-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
       self.handleCheckingForm()
     onclone: (fld) ->
       setTimeout ( ->
@@ -40,7 +40,7 @@ class CIF.CustomFormBuilder
   eventNumberOption: ->
     self = @
     onadd: (fld) ->
-      $('.className-wrap, .value-wrap, .step-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
+      $('.className-wrap, .placeholder-wrap, .value-wrap, .step-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
       self.handleCheckingForm()
     onclone: (fld) ->
       setTimeout ( ->
@@ -50,7 +50,7 @@ class CIF.CustomFormBuilder
   eventRadioOption: ->
     self = @
     onadd: (fld) ->
-      $('.other-wrap, .className-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
+      $('.other-wrap, .inline-wrap, .className-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
       self.handleCheckingForm()
       self.hideOptionValue()
       self.addOptionCallback(fld)
@@ -95,7 +95,7 @@ class CIF.CustomFormBuilder
   eventTextAreaOption: ->
     self = @
     onadd: (fld) ->
-      $('.rows-wrap, .className-wrap, .value-wrap, .access-wrap, .maxlength-wrap, .description-wrap, .name-wrap').hide()
+      $('.rows-wrap, .subtype-wrap, .className-wrap, .value-wrap, .access-wrap, .maxlength-wrap, .description-wrap, .name-wrap').hide()
       self.handleCheckingForm()
     onclone: (fld) ->
       setTimeout ( ->
@@ -158,7 +158,8 @@ class CIF.CustomFormBuilder
     self = @
     labels = $('.field-label:visible')
     $('.field-actions a.icon-pencil').click ->
-      $(".form-elements input[name='label']").on 'change', ->
+      $(".form-elements .label-wrap .input-wrap div[name='label']").on 'blur', ->
+        debugger
         setTimeout ( ->
           self.removeFieldDuplicate()
           self.handleDisplayDuplicateWarning(labels)
@@ -167,8 +168,11 @@ class CIF.CustomFormBuilder
   getNoneDuplicateLabel: (elements) ->
     labels    = $(elements).map(-> $(@).text().trim()).get()
     values = labels.elementWitoutDuplicates()
+    console.log elements
     for element in elements
       text = $(element).text().trim()
+      console.log values
+      console.log text
       if values.includes(text)
         @removeDuplicateWarning(element)
 

@@ -5,10 +5,9 @@
         %h4= @custom_field.form_title
       .ibox-content
         .row
-          .hide-custom-field
-            .col-xs-12.col-md-8
-              - @custom_field.fields.each do |field|
-                = render "program_streams/fields/#{field['type'].underscore}", field_props: field, full_width: false
+          .col-xs-12.col-md-8.hide-custom-field
+            - @custom_field.fields.each do |field|
+              = render "program_streams/fields/#{field['type'].underscore}", field_props: field, full_width: false
       .ibox-footer
         - if current_organization.full_name != params[:ngo_name] && params[:ngo_name].present?
           = link_to t('.copy'), new_custom_field_path(custom_field_id: @custom_field.id, ngo_name: @custom_field.ngo_name), class: 'btn btn-primary form-btn'
