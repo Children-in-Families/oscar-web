@@ -278,6 +278,7 @@ km:
       csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
       current_address: ឣាសយដ្ឋានបច្ចុប្បន្ន
       current_province: ខេត្តបច្ចុប្បន្ន
+      date_of_assessments: កាលបរិច្ឆេទការប៉ាន់ប្រមាណ
       date_of_birth: ថ្ងៃ ខែ ឆ្នាំ កំណើត
       district: ស្រុក/ខណ្ឌ
       donor: ម្ចាស់ជំនួយ
@@ -1349,6 +1350,7 @@ km:
         completed: ពេញលេញហើយឬនៅ?
         current_address: ឣាសយដ្ឋានបច្ចុប្បន្ន
         current_province: ខេត្តបច្ចុប្បន្ន
+        date_of_assessments: កាលបរិច្ឆេទការប៉ាន់ប្រមាណ
         date_of_birth: ថ្ងៃ ខែ ឆ្នាំ កំណើត
         district: ស្រុក/ខណ្ឌ
         domain: កត្តា
@@ -1424,6 +1426,7 @@ km:
         type: ប្រភេទនៃទម្រង់បែបបទបន្ថែម
         view: មើល
         village: ភូមិ
+      date_of_assessments: កាលបរិច្ឆេទការប៉ាន់ប្រមាណ
       families:
         address: ឣាសយដ្ឋាន
         caregiver_information: ពត៌មាននៃឣ្នកថែទាំ

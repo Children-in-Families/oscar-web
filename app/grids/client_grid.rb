@@ -208,14 +208,14 @@ class ClientGrid
     scope.where(id: ids)
   end
 
-  filter(:any_assessments, :enum, select: %w(Yes No), header: -> { I18n.t('datagrid.columns.clients.any_assessments') }) do |value, scope|
-    if value == 'Yes'
-      client_ids = Client.joins(:assessments).uniq.pluck(:id)
-      scope.where(id: client_ids)
-    else
-      scope.without_assessments
-    end
-  end
+  # filter(:any_assessments, :enum, select: %w(Yes No), header: -> { I18n.t('datagrid.columns.clients.any_assessments') }) do |value, scope|
+  #   if value == 'Yes'
+  #     client_ids = Client.joins(:assessments).uniq.pluck(:id)
+  #     scope.where(id: client_ids)
+  #   else
+  #     scope.without_assessments
+  #   end
+  # end
 
   filter(:assessments_due_to, :enum, select: Assessment::DUE_STATES, header: -> { I18n.t('datagrid.columns.clients.assessments_due_to') }) do |value, scope|
     ids = []
@@ -619,9 +619,9 @@ class ClientGrid
     end
   end
 
-  column(:any_assessments, class: 'text-center', header: -> { I18n.t('datagrid.columns.clients.assessments') }, html: true) do |object|
-    render partial: 'clients/assessments', locals: { object: object }
-  end
+  # column(:any_assessments, class: 'text-center', header: -> { I18n.t('datagrid.columns.clients.assessments') }, html: true) do |object|
+  #   render partial: 'clients/assessments', locals: { object: object }
+  # end
 
   column(:case_note_date, header: -> { I18n.t('datagrid.columns.clients.case_note_date')}, html: true) do |object|
     render partial: 'clients/case_note_date', locals: { object: object }
@@ -637,6 +637,14 @@ class ClientGrid
 
   column(:case_note_type, header: -> { I18n.t('datagrid.columns.clients.case_note_type')}, html: false) do |object|
     object.case_notes.most_recents.pluck(:interaction_type).join(' | ') if object.case_notes.any?
+  end
+
+  column(:date_of_assessments, header: -> { I18n.t('datagrid.columns.clients.date_of_assessments') }, html: true) do |object|
+    render partial: 'clients/assessments', locals: { object: object }
+  end
+
+  column(:date_of_assessments, header: -> { I18n.t('datagrid.columns.clients.date_of_assessments')}, html: false) do |object|
+    object.assessments.most_recents.map{ |a| a.created_at.to_date }.join(' | ') if object.assessments.any?
   end
 
   dynamic do
