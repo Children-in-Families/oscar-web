@@ -32,7 +32,6 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     _custom_field_list()
     _initDataTable()
     _filterSelecting()
-    _preventDomainScore()
 
   _initDataTable = ->
     $('.custom-field-table').each ->
@@ -197,6 +196,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         setTimeout (->
           _handleSelectTab()
           _initSelect2()
+          _preventDomainScore()
           ), 100
         _handleSetRules()
         _handleSelectOptionChange()
