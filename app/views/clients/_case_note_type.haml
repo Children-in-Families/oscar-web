@@ -1,3 +1,4 @@
 %ul
   - object.case_notes.most_recents.each do |case_note|
-    %li= case_note.interaction_type
+    - if case_note.interaction_type.present?
+      %li= case_note.interaction_type
