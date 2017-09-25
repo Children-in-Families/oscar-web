@@ -155,16 +155,16 @@ class User < ActiveRecord::Base
     elsif user.manager?
       User.where('id = :user_id OR manager_ids && ARRAY[:user_id]', { user_id: user.id })
     elsif user.able_manager?
-      user_ids = Client.able.map(&:user_ids).flatten << user.id
+      user_ids = Client.able.joins(:users).pluck('users.id') << user.id
       User.where(id: user_ids.uniq)
     elsif user.any_case_manager?
       user_ids = [user.id]
       if user.ec_manager?
-        user_ids << Client.active_ec.map(&:user_ids).flatten
+        user_ids << Client.active_ec.joins(:users).pluck('users.id')
       elsif user.fc_manager?
-        user_ids << Client.active_fc.map(&:user_ids).flatten
+        user_ids << Client.active_fc.joins(:users).pluck('users.id')
       elsif user.kc_manager?
-        user_ids << Client.active_kc.map(&:user_ids).flatten
+        user_ids << Client.active_kc.joins(:users).pluck('users.id')
       end
       User.where(id: user_ids.flatten.uniq)
     end
@@ -172,7 +172,7 @@ class User < ActiveRecord::Base
 
   def reset_manager
     if roles_change.last == 'case worker' || roles_change.last == 'strategic overviewer'
-      User.where(manager_id: self).map{|u| u.update(manager_id: nil)}
+      User.where(manager_id: self).update_all(manager_id: nil)
     end
   end
 
