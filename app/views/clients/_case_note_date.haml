@@ -1,3 +1,4 @@
 %ul
   - object.case_notes.most_recents.each do |case_note|
-    %li= date_format(case_note.meeting_date)
+    - if case_note.meeting_date.present?
+      %li= date_format(case_note.meeting_date)
