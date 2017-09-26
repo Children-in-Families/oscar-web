@@ -29,6 +29,12 @@ CIF.StagesNew = CIF.StagesCreate = CIF.StagesEdit = CIF.StagesUpdate = do ->
         theme: 'bootstrap'
       _initUploader(insertedItem)
       _afterSelectMode()
+      _customCheckBox()
+
+  _customCheckBox = ->
+    $('.i-checks').iCheck
+      checkboxClass: 'icheckbox_square-green'
+      radioClass: 'iradio_square-green'
 
   _afterSelectMode = ->
     self = @
@@ -63,7 +69,7 @@ CIF.StagesNew = CIF.StagesCreate = CIF.StagesEdit = CIF.StagesUpdate = do ->
     disabled      = if value == 'free_text' then true else false
     check = $("##{checkBoxId}").val() == '1'
     check = false if value == 'free_text'
-    
+
     $("input[name='#{checkBoxName}']").prop('disabled', disabled)
 
   { init: _init }
