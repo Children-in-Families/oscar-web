@@ -1,6 +1,17 @@
 class CIF.CustomFormBuilder
   constructor: () ->
 
+  thematicBreak: ->
+    [{
+      label: 'Separate Line'
+      attrs: type: 'separateLine'
+      icon: '<i class="fa fa-minus" aria-hidden="true"></i>'
+    }]
+
+  separateLineTemplate: ->
+    separateLine: (fieldData) ->
+          { field: '<hr/>' }
+
   eventCheckboxOption: ->
     self = @
     onadd: (fld) ->
@@ -102,6 +113,12 @@ class CIF.CustomFormBuilder
         self.handleCheckingForm()
       ),50
 
+  eventSeparateLineOption: ->
+    onadd: (fld) ->
+      $(fld).find('.field-actions .icon-pencil').remove()
+    onclone: (fld) ->
+      $(fld).find('.field-actions .icon-pencil').remove()
+
   hideOptionValue: ->
     $('.option-selected, .option-value').hide()
 
@@ -127,7 +144,7 @@ class CIF.CustomFormBuilder
       $(elements).each (cIndex, cLabel) ->
         return if cIndex == index
         cText = $(cLabel).text()
-        if cText == displayText
+        if cText == displayText && cText != 'Separate Line'
           self.addDuplicateWarning(label)
 
   handleDisplayDuplicateWarning: ->
@@ -159,7 +176,6 @@ class CIF.CustomFormBuilder
     labels = $('.field-label:visible')
     $('.field-actions a.icon-pencil').click ->
       $(".form-elements .label-wrap .input-wrap div[name='label']").on 'blur', ->
-        debugger
         setTimeout ( ->
           self.removeFieldDuplicate()
           self.handleDisplayDuplicateWarning(labels)

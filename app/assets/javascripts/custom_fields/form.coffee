@@ -69,24 +69,19 @@ CIF.Custom_fieldsNew = CIF.Custom_fieldsCreate = CIF.Custom_fieldsEdit = CIF.Cus
 
   _initFormBuilder = ->
     builderOption = new CIF.CustomFormBuilder()
-    fields = "#{$('.build-wrap').data('fields')}" || ''
+    fields = $('.build-wrap').data('fields') || []
     breakLine = [ {
       label: 'Separate Line'
-      attrs: type: 'separeateLine'
+      attrs: type: 'separateLine'
       icon: '<i class="fa fa-minus" aria-hidden="true"></i>'
     } ]
  
     formBuilder = $('.build-wrap').formBuilder
-      templates: 
-        separeateLine: (fieldData) ->
-          {
-            field: '<span id="' + fieldData.name + '">'
-            onRender: ->
-              "<hr/>"
-          }
-      fields: breakLine
+      templates: separateLine: (fieldData) ->
+        { field: '<hr/>' }
+      fields: builderOption.thematicBreak()
       dataType: 'json'
-      formData:  fields.replace(/=>/g, ':')
+      formData:  JSON.stringify(fields)
       disableFields: ['autocomplete', 'header', 'hidden', 'paragraph', 'button', 'checkbox']
       showActionButtons: false
       messages: {
@@ -109,10 +104,12 @@ CIF.Custom_fieldsNew = CIF.Custom_fieldsCreate = CIF.Custom_fieldsEdit = CIF.Cus
         select: builderOption.eventSelectOption()
         text: builderOption.eventTextFieldOption()
         textarea: builderOption.eventTextAreaOption()
+        separateLine: builderOption.eventSeparateLineOption()
       }
       
-    $("#custom-field-submit").click (event)->
-      $('#custom_field_fields').val(formBuilder.formData)
+    $("#custom-field-submit").click (event) ->
+      specialCharacters = {"&quot;": '"', "&amp;": "&", "&lt;": "<", "&gt;": ">"}
+      $('#custom_field_fields').val(formBuilder.formData.allReplace(specialCharacters))
 
   _select2 = ->
     $('#custom_field_entity_type').select2
