@@ -151,7 +151,7 @@ en:
             time_of_frequency:
               blank: can't be blank
               greater_than_or_equal_to: must be greater than or equal to 1
-              not_an_integer: must be an integer
+              not_an_integer: not an integer
         department:
           attributes:
             name:
@@ -519,7 +519,7 @@ en:
     index:
       attachments: Attachments
       back: Back
-      case_note_lists: Case note lists of
+      case_note_lists: Case note lists
       case_note_on: Case note on
       completed_tasks: Completed Tasks
       domain: Domain
@@ -747,7 +747,7 @@ en:
       new_exit_program: New Exit Program
     show:
       back: Back
-      exit_date: Exited on
+      exit_date: Exit Date
     update:
       successfully_updated: Exit Program has been successfully updated.
   client_enrolled_program_trackings:
@@ -819,7 +819,7 @@ en:
     show:
       are_you_sure: Are you sure you want to delete?
       back: Back
-      enrollment_date: Enrolled on
+      enrollment_date: Enroll Date
     update:
       successfully_updated: Enrollment has been successfully updated.
   client_enrollments:
@@ -868,7 +868,7 @@ en:
     show:
       are_you_sure: Are you sure you want to delete?
       back: Back
-      enrollment_date: Enrolled on
+      enrollment_date: Enroll Date
     update:
       successfully_updated: Enrollment has been successfully updated.
   clients:
@@ -903,7 +903,7 @@ en:
       emergency_care: Emergency Care
       emergency_case:
         emergency_care: Emergency Care
-      exit_btn: Remove Client from Program
+      exit_btn: Exit
       exit_date: Exit Date
       exit_note: Exit Note
       exit_status: Exit Status
@@ -993,7 +993,7 @@ en:
       carer_names: Carer Names
       carer_phone_number: Carer Phone Number
       edit_btn: Edit
-      exit_btn: Remove Client from Program
+      exit_btn: Exit
       exit_date: Exit Date
       exit_note: Exit Note
       exit_status: Exit Status
@@ -1030,7 +1030,7 @@ en:
       carer_names: Carer Names
       carer_phone_number: Carer Phone Number
       edit_btn: Edit
-      exit_btn: Remove Client from Program
+      exit_btn: Exit
       exit_date: Exit Date
       exit_note: Exit Note
       exit_status: Exit Status
@@ -1090,7 +1090,7 @@ en:
       exit_from_ec: Exit From EC
       exit_from_fc: Exit From FC
       exit_from_kc: Exit From KC
-      exit_ngo_btn: Exit From NGO
+      exit_ngo_btn: Exit NGO
       exit_note: Exit Note
       families: Families
       family_name: Family Name
@@ -2643,7 +2643,7 @@ en:
       manage: Manage
       materials: Equipment/Materials
       partners: Partners
-      program_streams: Program Streams
+      program_streams: Programs Stream
       progress_note: Progress Note
       progress_note_types: Types of Note
       provinces: Provinces
@@ -2657,7 +2657,7 @@ en:
       log_out: Log out
   leave_programs:
     create:
-      successfully_created: Client has been successfully exited from the program.
+      successfully_created: Client has successfully exited from the program.
     edit:
       leave_program: Edit Leave Program
     destroy:
@@ -2672,9 +2672,9 @@ en:
       new_exit_program: New Exit Program
     show:
       back: Back
-      exit_date: Exited on
+      exit_date: Exit Date
     update:
-      successfully_updated: Exit Program has been successfully updated.
+      successfully_updated: Exit Program has successfully updated.
   locations:
     create:
       failed_create: Failed to create a location.
@@ -2887,8 +2887,8 @@ en:
       current_ngo: My NGO's Program Streams
       demo_programs: Demo NGO's Program Streams
       new_program: Add New Program
-      ngo_programs: All NGOs' Program Streams
-      program_list: Program Streams Listing
+      ngo_programs: All NGO's Program Streams
+      program_list: Programs Stream Listing
     my_ngo_custom_fields:
       next: Next
       previous: Previous
@@ -2911,7 +2911,7 @@ en:
     program_rule:
       add_new_filter: Add New Filter
       add_new_group: Add Group
-      add_rule: Rules
+      add_rule: Add Rule
       cannot_be_lower: Maximum program enrollment cannot be lower than active enrolled
       delete_group: Delete
       description: Description
