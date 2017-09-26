@@ -15,7 +15,7 @@ module AdvancedSearches
 
       case @operator
       when 'equal'
-        properties_result = leave_programs.where("leave_programs.properties -> '#{@field}' ? '#{@value}' ")
+        properties_result = leave_programs.where("leave_programs.properties ->> '#{@field}' ILIKE '%#{@value}%' ")
       when 'not_equal'
         properties_result = leave_programs.where.not("leave_programs.properties -> '#{@field}' ? '#{@value}' ")
       when 'less'

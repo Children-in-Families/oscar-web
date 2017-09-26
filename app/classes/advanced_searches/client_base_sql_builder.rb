@@ -2,6 +2,7 @@ module AdvancedSearches
   class ClientBaseSqlBuilder
     ASSOCIATION_FIELDS = ['user_id', 'case_type', 'agency_name', 'form_title', 'placement_date', 'family', 'age', 'family_id', 'referred_to_ec', 'referred_to_fc', 'referred_to_kc', 'exit_ec_date', 'exit_fc_date', 'exit_kc_date', 'program_stream', 'case_note_date', 'case_note_type', 'date_of_assessments']
     BLANK_FIELDS = ['date_of_birth', 'initial_referral_date', 'follow_up_date', 'has_been_in_orphanage', 'has_been_in_government_care', 'grade', 'province_id', 'referral_source_id', 'birth_province_id', 'received_by_id', 'followed_up_by_id', 'donor_id', 'id_poor', 'exit_date', 'accepted_date']
+    SENSITIVITY_FIELDS = %w(given_name family_name local_given_name local_family_name kid_id school_name street_number house_number village commune district live_with relevant_referral_information)
 
     def initialize(clients, rules)
       @clients     = clients
@@ -73,7 +74,6 @@ module AdvancedSearches
         elsif field != nil
           value = field == 'grade' ? validate_integer(value) : value
           base_sql(field, operator, value)
-
         else
           nested_query =  AdvancedSearches::ClientBaseSqlBuilder.new(@clients, rule).generate
           @sql_string << nested_query[:sql_string]
@@ -91,8 +91,13 @@ module AdvancedSearches
     def base_sql(field, operator, value)
       case operator
       when 'equal'
-        @sql_string << "clients.#{field} = ?"
-        @values << value
+        if SENSITIVITY_FIELDS.include?(field)
+          @sql_string << "clients.#{field} ILIKE ?"
+          @values << "%#{value}%"
+        else
+          @sql_string << "clients.#{field} = ?"
+          @values << value
+        end
 
       when 'not_equal'
         @sql_string << "clients.#{field} != ?"
