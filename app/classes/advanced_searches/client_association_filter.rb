@@ -198,7 +198,7 @@ module AdvancedSearches
       clients = @clients.joins(:agencies)
       case @operator
       when 'equal'
-        clients.where('agencies.id ILIKE ?', "%#{@value}%").ids
+        clients.where('agencies.id = ?', @value ).ids
       when 'not_equal'
         clients.where.not('agencies.id = ?', @value ).ids
       when 'is_empty'
