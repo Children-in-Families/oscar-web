@@ -26,6 +26,7 @@
 //= require stickyfill.js
 //= require lodash/lodash.min.js
 //= require query_builder/query-builder.standalone.min.js
+//= require interact.js
 
 //= require tinymce
 //= require moment
