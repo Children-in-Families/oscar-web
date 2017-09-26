@@ -5,9 +5,9 @@
     .col-xs-12.col-sm-6.col-md-4.col-lg-2
       = f.association :question_group, input_html: { class: 'select2'}, label: t('.group')
     .col-xs-12.col-sm-6.col-md-4.col-lg-2
-      = f.input :mode, collection: AbleScreeningQuestion::MODES, input_html: { class: 'select2 check-mode'}, label: t('.mode'), include_blank: false
+      = f.input :mode, collection: AbleScreeningQuestion::MODES, input_html: { class: 'select2 check-mode'}, label: t('.mode')
     .col-xs-12.col-sm-6.col-md-4.col-lg-2.no-label-form-group.alert-manager
-      = f.input :alert_manager, as: :boolean, label: t('.alert_manager')
+      = f.input :alert_manager, as: :boolean, label: t('.alert_manager'), input_html: { class: 'i-checks' }
     .col-xs-12.col-sm-6.col-md-4.col-lg-1.no-label-form-group
       - if f.object.answers.blank?
         = link_to_remove_association f, data: { confirm: t('.are_you_sure') } do

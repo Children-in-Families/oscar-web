@@ -45,6 +45,7 @@ CIF.Progress_notesNew = CIF.Progress_notesCreate = CIF.Progress_notesEdit = CIF.
     $('select').select2
       minimumInputLength: 0
       allowClear: true
+    $('#progress_note_user_id').select2()
 
   _toggleOtherLocation = ->
     selectedOption = $('.progress_note_location select option:selected')
@@ -75,7 +76,6 @@ CIF.Progress_notesNew = CIF.Progress_notesCreate = CIF.Progress_notesEdit = CIF.
         $('#only-submit').attr('disabled', 'disabled')
       else
         $('#only-submit').removeAttr('disabled')
-
 
   _initDropzone = ->
     successCallBackCount = 1
