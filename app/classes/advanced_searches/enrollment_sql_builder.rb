@@ -16,7 +16,7 @@ module AdvancedSearches
 
       case @operator
       when 'equal'
-        properties_result = client_enrollments.where("properties -> '#{@field}' ? '#{@value}' ")
+        properties_result = client_enrollments.where("properties ->> '#{@field}' ILIKE '%#{@value}%' ")
       when 'not_equal'
         properties_result = client_enrollments.where.not("properties -> '#{@field}' ? '#{@value}' ")
       when 'less'
