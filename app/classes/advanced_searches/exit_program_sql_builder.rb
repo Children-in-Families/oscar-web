@@ -3,10 +3,11 @@ module AdvancedSearches
 
     def initialize(program_stream_id, rule)
       @program_stream_id = program_stream_id
-      field     = rule['field']
-      @field    = field.split('_').last
-      @operator = rule['operator']
-      @value    = rule['value']
+      field          = rule['field']
+      @field         = field.split('_').last
+      @operator      = rule['operator']
+      @value         = rule['value']
+      @input_type    = rule['input']
     end
 
     def get_sql
@@ -15,9 +16,17 @@ module AdvancedSearches
 
       case @operator
       when 'equal'
-        properties_result = leave_programs.where("leave_programs.properties ->> '#{@field}' ILIKE '%#{@value}%' ")
+        if @input_type == 'text'
+          properties_result = leave_programs.where("lower(leave_programs.properties ->> '#{@field}') = '#{@value}' ")
+        else
+          properties_result = leave_programs.where("leave_programs.properties -> '#{@field}' ? '#{@value}' ")
+        end
       when 'not_equal'
-        properties_result = leave_programs.where.not("leave_programs.properties -> '#{@field}' ? '#{@value}' ")
+        if @input_type == 'text'
+          properties_result = leave_programs.where.not("lower(leave_programs.properties ->> '#{@field}') = '#{@value}' ")
+        else
+          properties_result = leave_programs.where.not("leave_programs.properties -> '#{@field}' ? '#{@value}'")
+        end
       when 'less'
         properties_result = leave_programs.where("(leave_programs.properties ->> '#{@field}')#{'::int' if integer? } < '#{@value}' AND leave_programs.properties ->> '#{@field}' != '' ")
       when 'less_or_equal'

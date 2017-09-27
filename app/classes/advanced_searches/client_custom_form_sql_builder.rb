@@ -3,11 +3,12 @@ module AdvancedSearches
 
     def initialize(selected_custom_form, rule)
       @selected_custom_form = selected_custom_form
-      field     = rule['field']
-      @field    = field.split('_').last.gsub("'", "''")
-      @operator = rule['operator']
-      @value    = rule['value'].is_a?(Array) ? rule['value'] : rule['value'].gsub("'", "''")
-      @type     = rule['type']
+      field          = rule['field']
+      @field         = field.split('_').last.gsub("'", "''")
+      @operator      = rule['operator']
+      @value         = rule['value'].is_a?(Array) ? rule['value'] : rule['value'].gsub("'", "''")
+      @type          = rule['type']
+      @input_type    = rule['input']
     end
 
     def get_sql
@@ -16,9 +17,17 @@ module AdvancedSearches
 
       case @operator
       when 'equal'
-        properties_result = custom_field_properties.where("properties ->> '#{@field}' ILIKE '%#{@value}%' ")
+        if @input_type == 'text'
+          properties_result = custom_field_properties.where("lower(properties ->> '#{@field}') = '#{@value.downcase}' ")
+        else
+          properties_result = custom_field_properties.where("properties -> '#{@field}' ? '#{@value}' ")
+        end
       when 'not_equal'
-        properties_result = custom_field_properties.where.not("properties -> '#{@field}' ? '#{@value}' ")
+        if @input_type == 'text'
+          properties_result = custom_field_properties.where.not("lower(properties ->> '#{@field}') = '#{@value.downcase}' ")
+        else
+          properties_result = custom_field_properties.where.not("properties -> '#{@field}' ? '#{@value}' ")
+        end
       when 'less'
         properties_result = custom_field_properties.where("(properties ->> '#{@field}')#{'::int' if integer? } < '#{@value}' AND properties ->> '#{@field}' != '' ")
       when 'less_or_equal'

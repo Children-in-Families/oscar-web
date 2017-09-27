@@ -92,8 +92,8 @@ module AdvancedSearches
       case operator
       when 'equal'
         if SENSITIVITY_FIELDS.include?(field)
-          @sql_string << "clients.#{field} ILIKE ?"
-          @values << "%#{value}%"
+          @sql_string << "lower(clients.#{field}) = ?"
+          @values << value.downcase
         else
           @sql_string << "clients.#{field} = ?"
           @values << value
