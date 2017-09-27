@@ -11,7 +11,7 @@ describe AdvancedSearches::RuleFields, 'Method' do
     end
 
     it 'return all fields' do
-      expect(@client_fields.size).to equal 45
+      expect(@client_fields.size).to equal 46
     end
   end
 end
