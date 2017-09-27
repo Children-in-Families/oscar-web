@@ -4,15 +4,15 @@ describe AdvancedSearches::ClientBaseSqlBuilder, 'Method' do
     it 'return client = query string' do
       rules = {"condition"=>"AND", "rules"=>[{"id"=>"given_name", "field"=>"given_name", "type"=>"string", "input"=>"text", "operator"=>"equal", "value"=>"Pirun"}]}
       filter_string = AdvancedSearches::ClientBaseSqlBuilder.new(Client.all, rules).generate
-      expect(filter_string[:sql_string]).to include 'clients.given_name = ?'
-      expect(filter_string[:values]).to include 'Pirun'
+      expect(filter_string[:sql_string]).to include 'lower(clients.given_name) = ?'
+      expect(filter_string[:values]).to include 'pirun'
     end
 
     it 'return client != query string' do
       rules = {"condition"=>"AND", "rules"=>[{"id"=>"given_name", "field"=>"given_name", "type"=>"string", "input"=>"text", "operator"=>"not_equal", "value"=>"Pirun"}]}
       filter_string = AdvancedSearches::ClientBaseSqlBuilder.new(Client.all, rules).generate
-      expect(filter_string[:sql_string]).to include 'clients.given_name != ?'
-      expect(filter_string[:values]).to include 'Pirun'
+      expect(filter_string[:sql_string]).to include 'lower(clients.given_name) != ?'
+      expect(filter_string[:values]).to include 'pirun'
     end
 
     it 'return client < query string' do
