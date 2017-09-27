@@ -256,7 +256,7 @@ module AdvancedSearches
 
       case @operator
       when 'equal'
-        clients  = clients.where('families.name ILIKE ?', "#{@value}%")
+        clients  = clients.where('lower(families.name) = ?', @value.downcase)
       when 'not_equal'
         clients  = clients.where.not('families.name = ?', @value)
       when 'contains'
