@@ -149,7 +149,6 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     $('#btn-save-draft').on 'click', ->
       return false unless _handleCheckingDuplicateFields()
       return false if _handleMaximumProgramEnrollment()
-      _handleRemoveUnuseInput()
       _handleAddRuleBuilderToInput()
       _handleSetValueToField()
       $('.tracking-builder').find('input, textarea').removeAttr('required')
@@ -215,7 +214,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
   _initProgramBuilder = (element, data) ->
     builderOption = new CIF.CustomFormBuilder()
     data = JSON.stringify(data)
-    @formBuilder.push $(element).formBuilder
+    formBuilder = $(element).formBuilder(
       templates: separateLine: (fieldData) ->
         { field: '<hr/>' }
       fields: builderOption.thematicBreak()
@@ -242,7 +241,9 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         select: builderOption.eventSelectOption()
         text: builderOption.eventTextFieldOption()
         textarea: builderOption.eventTextAreaOption()
-      }
+      })
+    formBuilder.element = element
+    @formBuilder.push formBuilder
 
    _editTrackingFormName = ->
     inputNames = $(".program_stream_trackings_name input[type='text']")
@@ -310,7 +311,6 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       onFinished: (event, currentIndex) ->
         $('.actions a:contains("Finish")').removeAttr('href')
         return false unless _handleCheckingDuplicateFields()
-        _handleRemoveUnuseInput()
         _handleAddRuleBuilderToInput()
         _handleSetValueToField()
         form.submit()
@@ -325,7 +325,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     if $(nameFields).length > 0 then false else true
 
   _handleClickAddTracking = ->
-    if $('#trackings .frmb').length == 0
+    if $('#trackings .nested-fields').length == 0
       $('.links a').trigger('click')
 
   _handleInitProgramFields = ->
@@ -347,10 +347,6 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     form = $('form#program-stream')
     btnSaveTranslation = filterTranslation.save
     form.find("[aria-label=Pagination]").append("<li><span id='btn-save-draft' class='btn btn-primary btn-sm'>#{btnSaveTranslation}</span></li>")
-
-  _handleRemoveUnuseInput = ->
-    elements = $('#program-rule ,#enrollment .form-wrap.form-builder, #tracking .form-wrap.form-builder, #exit-program .form-wrap.form-builder')
-    $(elements).find('input, select, radio, checkbox, textarea').remove()
 
   _handleAddRuleBuilderToInput = ->
     rules = $('#program-rule').queryBuilder('getRules', { skip_empty: true, allow_invalid: true })

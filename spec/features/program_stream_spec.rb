@@ -133,16 +133,16 @@ feature 'program_stream' do
         expect(page).to have_content 'Gender'
 
         page.click_link 'Next'
-        page.find('.icon-calendar').click
+        page.find('li[data-type="date"]').click
         page.click_link 'Next'
         sleep 1
         within('#trackings') do
           fill_in 'Name', with: 'Tracking Name'
         end
-        page.find('.icon-text-input').click
+        page.find('li[data-type="text"]').click
         page.click_link 'Next'
         sleep 1
-        page.find('.icon-text-area').click
+        page.find('li[data-type="textarea"]').click
         page.click_link 'Save'
         expect(page).to have_content('Program Name')
       end
@@ -336,7 +336,7 @@ feature 'program_stream' do
       page.find(".rule-filter-container select option[value='gender']", visible: false).select_option
       expect(page).to have_content 'Gender'
       page.click_link 'Next'
-      page.find('.icon-calendar').click
+      page.find('li[data-type="date"]').click
       page.click_link 'Next'
       sleep 1
       within('#trackings') do
@@ -356,13 +356,13 @@ feature 'program_stream' do
       expect(page).to have_content 'Gender'
 
       page.click_link 'Next'
-      page.find('.icon-calendar').click
+      page.find('li[data-type="date"]').click
       page.click_link 'Next'
       sleep 1
       within('#trackings') do
         fill_in 'Name', with: 'Tracking Name'
       end
-      page.find('.icon-text-input').click
+      page.find('li[data-type="text"]').click
       page.click_link 'Next'
       sleep 1
       page.find('.custom-field-list').click
