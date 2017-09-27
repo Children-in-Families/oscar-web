@@ -94,6 +94,7 @@ feature 'custom_field' do
     end
 
     scenario 'valid' do
+      find("select option[value='Client']", visible: false).select_option
       fill_in 'Form Title', with: 'Testing'
       find("select option[value='Daily']", visible: false).select_option
       find('.icon-text-input').click
