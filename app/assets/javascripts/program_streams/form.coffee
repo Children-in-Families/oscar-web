@@ -97,9 +97,6 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       checkboxClass: 'icheckbox_square-green'
     $($('.icheckbox_square-green.checked')[0]).removeClass('checked')
 
-  _stickyFill = ->
-    if $('.form-wrap').is(':visible') then $('.cb-wrap').Stickyfill()
-
   _initSelect2 = ->
     $('#description select, #rule-tab select').select2()
 
@@ -207,7 +204,6 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       trackingBuilder = $(element).find('.tracking-builder')
       $(element).attr('id', Date.now())
       _initProgramBuilder(trackingBuilder, [])
-      _stickyFill()
       _editTrackingFormName()
       _handleRemoveCocoon()
       _initSelect2TimeOfFrequency()
@@ -219,7 +215,10 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
   _initProgramBuilder = (element, data) ->
     builderOption = new CIF.CustomFormBuilder()
     data = JSON.stringify(data)
-    @formBuilder.push $(element).formBuilder({
+    @formBuilder.push $(element).formBuilder
+      templates: separateLine: (fieldData) ->
+        { field: '<hr/>' }
+      fields: builderOption.thematicBreak()
       dataType: 'json'
       formData: data
       disableFields: ['autocomplete', 'header', 'hidden', 'paragraph', 'button','checkbox']
@@ -227,7 +226,13 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       messages: {
         cannotBeEmpty: 'name_separated_with_underscore'
       }
-
+      stickyControls: {
+        enable: true
+        offset:
+          width: 340
+          right: 78
+          left: 'auto'
+      }
       typeUserEvents: {
         'checkbox-group': builderOption.eventCheckboxOption()
         date: builderOption.eventDateOption()
@@ -238,7 +243,6 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         text: builderOption.eventTextFieldOption()
         textarea: builderOption.eventTextAreaOption()
       }
-    }).data('formBuilder');
 
    _editTrackingFormName = ->
     inputNames = $(".program_stream_trackings_name input[type='text']")
@@ -298,7 +302,6 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         $('section ul.frmb.ui-sortable').css('min-height', '266px')
 
       onStepChanged: (event, currentIndex, newIndex) ->
-        _stickyFill()
         buttonSave = $('#btn-save-draft')
         if $('#rule-tab').is(':visible')
           _handleRemoveProgramList()

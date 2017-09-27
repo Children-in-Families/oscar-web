@@ -35,7 +35,7 @@
                   .table-responsive
                     %table.table.table-bordered
                       - custom_field_property.custom_field.fields.map{|a| [a['type'], a['label']]}.each do |type, key|
-
+                        - next if type == 'separateLine'
                         %tr
                           %td.align-justify
                             = key
