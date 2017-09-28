@@ -34,24 +34,21 @@ class FamiliesController < AdminController
     custom_field_ids            = @family.custom_field_properties.pluck(:custom_field_id)
     @free_family_forms          = CustomField.family_forms.not_used_forms(custom_field_ids).order_by_form_title
     @group_family_custom_fields = @family.custom_field_properties.group_by(&:custom_field_id)
-    @client_grid = ClientGrid.new(params.fetch(:client_grid, {}).merge!(family_id: @family.id))
-    @results = @client_grid.assets.uniq.size
-    @client_grid.scope { |scope| scope.page(params[:page]).per(5).uniq }
+
+    @client_grid = ClientGrid.new(params[:client_grid])
+    @results = @client_grid.scope.where(id: @family.children).uniq.size
+    @client_grid.scope { |scope| scope.where(id: @family.children).page(params[:page]).per(10).uniq }
   end
 
   def edit
   end
 
   def update
-    # if client_associations.any? && @family.is_case?
-    #   redirect_to request.referrer, alert: t('.not_allowed_to_detach_clients')
-    # else
     if @family.update_attributes(family_params)
       redirect_to @family, notice: t('.successfully_updated')
     else
       render :edit
     end
-    # end
   end
 
   def destroy
@@ -81,22 +78,16 @@ class FamiliesController < AdminController
                             :male_adult_count, :family_type, :contract_date,
                             :address, :province_id,
                             custom_field_ids: [],
-                            # client_ids: [],
                             children: []
                             )
   end
 
   def find_association
-    # @clients  = Client.accessible_by(current_ability).joins('LEFT OUTER JOIN cases ON cases.client_id = clients.id').where('cases.family_id = ? OR (clients.status = ? AND clients.state = ?)', @family.id, 'Referred', 'accepted').order(:given_name, :family_name).uniq
     @clients  = Client.accessible_by(current_ability).order(:given_name, :family_name)
     @province = Province.order(:name)
   end
 
   def find_family
     @family = Family.find(params[:id])
-  end
-
-  def client_associations
-    @family.client_ids.uniq - params[:family][:client_ids].map{|a| a.to_i }
   end
 end
