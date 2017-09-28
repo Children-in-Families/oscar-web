@@ -3,6 +3,7 @@ class ClientAdvancedSearchesController < AdminController
   before_action :find_params_advanced_search, :get_custom_form, :get_program_streams
   before_action :get_custom_form_fields, :program_stream_fields, :client_builder_fields
   before_action :basic_params, if: :has_params?
+  before_action :build_advanced_search
 
   include ClientGridOptions
   before_action :choose_grid
@@ -32,6 +33,10 @@ class ClientAdvancedSearchesController < AdminController
   end
 
   private
+
+  def build_advanced_search
+    @advanced_search = AdvancedSearch.new
+  end
 
   def custom_form_column
     @custom_form_columns = get_custom_form_fields.group_by{ |field| field[:optgroup] }

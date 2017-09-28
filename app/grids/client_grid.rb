@@ -661,6 +661,7 @@ class ClientGrid
     next unless dynamic_columns.present?
     dynamic_columns.each do |column_builder|
       fields = column_builder[:id].split('_')
+      next if fields.first == 'enrollmentdate' || fields.first == 'programexitdate'
       column(column_builder[:id].downcase.parameterize('_').to_sym, class: 'form-builder', header: -> { form_builder_format_header(fields) }, html: true) do |object|
         if fields.first == 'formbuilder'
           properties = object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).properties_by(fields.last)

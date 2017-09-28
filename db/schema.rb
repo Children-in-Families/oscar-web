@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170926021212) do
+ActiveRecord::Schema.define(version: 20170927092118) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,6 +30,21 @@ ActiveRecord::Schema.define(version: 20170926021212) do
 
   add_index "able_screening_questions", ["question_group_id"], name: "index_able_screening_questions_on_question_group_id", using: :btree
   add_index "able_screening_questions", ["stage_id"], name: "index_able_screening_questions_on_stage_id", using: :btree
+
+  create_table "advanced_searches", force: :cascade do |t|
+    t.string   "name"
+    t.text     "description"
+    t.jsonb    "queries"
+    t.jsonb    "field_visible"
+    t.string   "custom_forms"
+    t.string   "program_streams"
+    t.string   "enrollment_check",   default: ""
+    t.string   "tracking_check",     default: ""
+    t.string   "exit_form_check",    default: ""
+    t.string   "quantitative_check", default: ""
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+  end
 
   create_table "agencies", force: :cascade do |t|
     t.string   "name",                   default: ""
@@ -913,7 +928,7 @@ ActiveRecord::Schema.define(version: 20170926021212) do
 
   create_table "trackings", force: :cascade do |t|
     t.string   "name",              default: ""
-    t.jsonb    "fields"
+    t.jsonb    "fields",            default: {}
     t.string   "frequency",         default: ""
     t.integer  "time_of_frequency"
     t.integer  "program_stream_id"
@@ -958,9 +973,9 @@ ActiveRecord::Schema.define(version: 20170926021212) do
     t.integer  "organization_id"
     t.boolean  "disable",                        default: false
     t.datetime "expires_at"
+    t.boolean  "calendar_integration",           default: false
     t.boolean  "task_notify",                    default: true
     t.integer  "manager_id"
-    t.boolean  "calendar_integration",           default: false
     t.integer  "pin_number"
     t.integer  "manager_ids",                    default: [],                         array: true
     t.boolean  "program_warning",                default: false

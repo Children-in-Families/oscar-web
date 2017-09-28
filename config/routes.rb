@@ -249,6 +249,7 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :advanced_search_save_queries
   resources :client_advanced_searches, only: :index
   resources :papertrail_queries, only: [:index]
 end
