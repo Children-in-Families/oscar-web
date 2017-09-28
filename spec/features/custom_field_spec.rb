@@ -97,7 +97,7 @@ feature 'custom_field' do
       find("select option[value='Client']", visible: false).select_option
       fill_in 'Form Title', with: 'Testing'
       find("select option[value='Daily']", visible: false).select_option
-      find('.icon-text-input').click
+      find('li[data-type="date"]').click
       find("input[type=submit]").click
       expect(page).to have_content('Testing')
     end

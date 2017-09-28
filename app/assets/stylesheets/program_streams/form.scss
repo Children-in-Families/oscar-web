@@ -3,6 +3,7 @@ body[id='program_streams-update'], body[id='program_streams-create'] {
 
   .wizard > .content > .body {
     #enrollment, #trackings, #exit-program {
+      position: relative;
       input[type='radio'] {
         display: inline-block;
       }
@@ -152,5 +153,12 @@ body[id='program_streams-update'], body[id='program_streams-create'] {
   }
   .margin-top-datatable {
     margin-top: 10px;
+  }
+
+  .field-actions a.btn.toggle-form {
+    margin-left: 0;
+  }
+  .cb-wrap {
+    // width: 340px !important;
   }
 }

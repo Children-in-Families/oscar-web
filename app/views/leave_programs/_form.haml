@@ -12,18 +12,17 @@
         - if f.error :exit_date
           %span.help-block= t('cannot_be_blank')
     = f.simple_fields_for :properties, OpenStruct.new(@leave_program.properties) do |prop_f|
-      - @program_stream.exit_program.each_slice(2) do |n_field|
+      - @program_stream.exit_program.each do |exit_program|
         .row
-          - n_field.each do |exit_program|
-            .col-xs-12.col-md-6
-              - unless exit_program['type'] == 'file'
-                = render "/shared/fields/#{exit_program['type'].underscore}", f: prop_f, field_props: exit_program, errors: @leave_program.errors.messages, entity: f
-              - else
-                = f.simple_fields_for :form_builder_attachments, @attachments.file_by_name(exit_program['label']) || @attachments.build do |attachment|
-                  = render 'shared/form_builder/attachment', f: attachment, property: exit_program, entity: f, resource: @leave_program
-        .row
-          .col-xs-12
-            #message.text-danger
+          .col-xs-12.col-md-6
+            - unless exit_program['type'] == 'file'
+              = render "/shared/fields/#{exit_program['type'].underscore}", f: prop_f, field_props: exit_program, errors: @leave_program.errors.messages, entity: f
+            - else
+              = f.simple_fields_for :form_builder_attachments, @attachments.file_by_name(exit_program['label']) || @attachments.build do |attachment|
+                = render 'shared/form_builder/attachment', f: attachment, property: exit_program, entity: f, resource: @leave_program
+            .row
+              .col-xs-12
+                #message.text-danger
     = hidden_field_tag :program_stream_id, @program_stream.id
   .ibox-footer
     = f.submit t('.save'), class: 'btn btn-primary form-btn'

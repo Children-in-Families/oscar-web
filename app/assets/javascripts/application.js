@@ -21,9 +21,9 @@
 //= require metisMenu/jquery.metisMenu.js
 //= require highcharts.js
 //= require dropzone
-//= require form-builder.min.js
-//= require form-render.min.js
-//= require stickyfill.js
+//= require replace_string.js
+//= require form_builder/form-builder.min.js
+//= require form_builder/form-render.min.js
 //= require lodash/lodash.min.js
 //= require query_builder/query-builder.standalone.min.js
 //= require interact.js
