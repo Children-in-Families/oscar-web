@@ -3,7 +3,7 @@ class AddClientsFieldToFamily < ActiveRecord::Migration
     add_column :families, :children, :integer, array: true, default: []
 
     Family.all.each do |family|
-      family.update(children: family.client_ids) if family.client_ids.any?
+      family.update(children: family.client_ids.uniq) if family.client_ids.any?
     end
   end
 
