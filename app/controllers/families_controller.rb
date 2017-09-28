@@ -43,15 +43,15 @@ class FamiliesController < AdminController
   end
 
   def update
-    if client_associations.any? && @family.is_case?
-      redirect_to request.referrer, alert: t('.not_allowed_to_detach_clients')
+    # if client_associations.any? && @family.is_case?
+    #   redirect_to request.referrer, alert: t('.not_allowed_to_detach_clients')
+    # else
+    if @family.update_attributes(family_params)
+      redirect_to @family, notice: t('.successfully_updated')
     else
-      if @family.update_attributes(family_params)
-        redirect_to @family, notice: t('.successfully_updated')
-      else
-        render :edit
-      end
+      render :edit
     end
+    # end
   end
 
   def destroy
@@ -72,7 +72,7 @@ class FamiliesController < AdminController
   private
 
   def family_params
-
+    params['family']['children'].delete_if(&:empty?)
     params.require(:family).permit(
                             :name, :code, :case_history, :caregiver_information,
                             :significant_family_member_count, :household_income,
@@ -81,12 +81,14 @@ class FamiliesController < AdminController
                             :male_adult_count, :family_type, :contract_date,
                             :address, :province_id,
                             custom_field_ids: [],
-                            client_ids: []
+                            # client_ids: [],
+                            children: []
                             )
   end
 
   def find_association
-    @clients  = Client.accessible_by(current_ability).joins('LEFT OUTER JOIN cases ON cases.client_id = clients.id').where('cases.family_id = ? OR (clients.status = ? AND clients.state = ?)', @family.id, 'Referred', 'accepted').order(:given_name, :family_name).uniq
+    # @clients  = Client.accessible_by(current_ability).joins('LEFT OUTER JOIN cases ON cases.client_id = clients.id').where('cases.family_id = ? OR (clients.status = ? AND clients.state = ?)', @family.id, 'Referred', 'accepted').order(:given_name, :family_name).uniq
+    @clients  = Client.accessible_by(current_ability).order(:given_name, :family_name)
     @province = Province.order(:name)
   end
 
