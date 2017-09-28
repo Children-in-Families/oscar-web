@@ -184,11 +184,10 @@ class CIF.CustomFormBuilder
   getNoneDuplicateLabel: (elements) ->
     labels    = $(elements).map(-> $(@).text().trim()).get()
     values = labels.elementWitoutDuplicates()
-    console.log elements
+
     for element in elements
       text = $(element).text().trim()
-      console.log values
-      console.log text
+
       if values.includes(text)
         @removeDuplicateWarning(element)
 

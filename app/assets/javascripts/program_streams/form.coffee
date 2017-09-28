@@ -241,6 +241,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         select: builderOption.eventSelectOption()
         text: builderOption.eventTextFieldOption()
         textarea: builderOption.eventTextAreaOption()
+        separateLine: builderOption.eventSeparateLineOption()
       })
     formBuilder.element = element
     @formBuilder.push formBuilder
@@ -353,15 +354,16 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     $('#program_stream_rules').val(_handleStringfyRules(rules))
 
   _handleSetValueToField = ->
+    specialCharacters = { "&quot;": '"', "&amp;": "&", "&lt;": "<", "&gt;": ">" }
     for formBuilder in @formBuilder
       element = formBuilder.element
       if $(element).is('#enrollment')
-        $('#program_stream_enrollment').val(formBuilder.formData)
+        $('#program_stream_enrollment').val(formBuilder.formData.allReplace(specialCharacters))
       else if $(element).is('.tracking-builder')
         hiddenField = $(element).find('.tracking-field-hidden input[type="hidden"]')
-        $(hiddenField).val(formBuilder.formData)
+        $(hiddenField).val(formBuilder.formData.allReplace(specialCharacters))
       else if $(element).is('#exit-program')
-        $('#program_stream_exit_program').val(formBuilder.formData)
+        $('#program_stream_exit_program').val(formBuilder.formData.allReplace(specialCharacters))
 
   _handleStringfyRules = (rules) ->
     rules = JSON.stringify(rules)
