@@ -185,7 +185,7 @@ class ClientGrid
     # ids = []
     # Case.most_recents.joins(:client).group_by(&:client_id).each do |key, c|
     #   ids << c.first.id
-    # end2
+    # end
     # # comment above, so user can search family_id of all family types they associate with
     object.joins(:cases).where("cases.family_id = ? ", value) if value.present?
   end
