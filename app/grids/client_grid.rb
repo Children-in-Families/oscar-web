@@ -187,7 +187,9 @@ class ClientGrid
     #   ids << c.first.id
     # end
     # # comment above, so user can search family_id of all family types they associate with
-    object.joins(:cases).where("cases.family_id = ? ", value) if value.present?
+    # object.joins(:cases).where("cases.family_id = ? ", value) if value.present?
+    children_ids = Family.find(value).children if value.present?
+    object.where(id: children_ids)
   end
 
   def quantitative_type_options
