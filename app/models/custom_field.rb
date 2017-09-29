@@ -49,7 +49,7 @@ class CustomField < ActiveRecord::Base
   end
 
   def presence_of_fields
-    errors.add(:fields, "can't be blank")
+    errors.add(:fields, I18n.t('cannot_be_blank'))
   end
 
   def uniq_fields

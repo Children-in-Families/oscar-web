@@ -5,11 +5,11 @@ RSpec.describe Api::V1::LeaveProgramsController, type: :request do
   let(:user)                   { create(:user) }
   let(:client)                 { create(:client, users: [user]) }
   let(:program_stream)         { create(:program_stream) }
-  let(:client_enrollment)      { create(:client_enrollment, client: client, program_stream: program_stream) }
+  let(:client_enrollment)      { create(:client_enrollment, client: client, program_stream: program_stream, enrollment_date: '2017-06-08') }
   let(:leave_program)          { create(:leave_program, client_enrollment: client_enrollment, program_stream: program_stream) }
-  let(:valid_params)           { params(FFaker::Internet.email, "2", FFaker::Lorem.paragraph, FFaker::Time.date) }
+  let(:valid_params)           { params(FFaker::Internet.email, "2", FFaker::Lorem.paragraph, '2017-06-09') }
   let(:invalid_params)         { params(FFaker::Name.name, "7", nil, nil) }
-  let(:valid_updated_params)   { params(FFaker::Internet.email, "2", FFaker::Lorem.paragraph, FFaker::Time.date) }
+  let(:valid_updated_params)   { params(FFaker::Internet.email, "2", FFaker::Lorem.paragraph, '2017-06-09') }
   let(:invalid_updated_params) { params(FFaker::Name.name, "7", nil, nil) }
   let(:leave_programs_path)    { "/api/v1/clients/#{client.id}/client_enrollments/#{client_enrollment.id}/leave_programs" }
 

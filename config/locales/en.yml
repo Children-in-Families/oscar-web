@@ -2076,6 +2076,7 @@ en:
     version:
       back: Back
       modification_of: Changelog of
+  enrollment_date_cannot_after_exit_date: The enrollment date you have selected is invalid please select a date prior to your program exit date
   errors:
     messages:
       already_confirmed: was already confirmed, please try signing in
@@ -2089,6 +2090,7 @@ en:
         one: '1 error prohibited this %{resource} from being saved:'
         other: "%{count} errors prohibited this %{resource} from being saved:"
   existed_event: Event already exsits in calendar.
+  exit_date_cannot_before_enrollment_date: The exit date you have selected is invalid please select a date after your program enrollment date
   families:
     actions:
       are_you_sure: Are you sure you want to delete?
