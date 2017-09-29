@@ -56,6 +56,7 @@ CIF.Client_advanced_searchesIndex = do ->
     _preventDomainScore()
     _disableOptionDomainScores()
     _handleSaveQuery()
+    _validateSaveQuery()
 
   _handleSaveQuery = ->
     self = @
@@ -82,12 +83,19 @@ CIF.Client_advanced_searchesIndex = do ->
 
   _handleAddColumnPickerToInput = ->
     columnsVisibility = new Object
-    $('.visibility').each ->
+    $('.visibility, .all-visibility').each ->
       checkbox = $(@).find('input[type="checkbox"]')
       if $(checkbox).prop('checked')
         attrName = $(checkbox).attr('name')
         columnsVisibility[attrName] = $(checkbox).val()
     $('#advanced_search_field_visible').val(JSON.stringify(columnsVisibility))
+
+  _validateSaveQuery = ->
+    $('#advanced_search_name').keyup ->
+      if $(@).val() != ''
+        $('#submit-query').removeClass('disabled')
+      else
+        $('#submit-query').addClass('disabled')
 
   _disableOptionDomainScores = ->
     for domain in $('.rule-operator-container select')

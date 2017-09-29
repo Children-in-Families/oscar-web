@@ -4,10 +4,10 @@
       .modal-content
         .modal-header
           %button.close{ 'data-dismiss': 'modal', type: 'button'} ×
-          %h4.modal-title Save Your Query Filter
+          %h4.modal-title= t('.new_save_query')
         .modal-body
-          = f.input :name
-          = f.input :description
+          = f.input :name, label: t('.name')
+          = f.input :description, label: t('.description')
           = f.input :queries, as: :hidden
           = f.input :field_visible, as: :hidden
           = f.input :custom_forms, as: :hidden
@@ -17,4 +17,5 @@
           = f.input :exit_form_check, as: :hidden
           = f.input :quantitative_check, as: :hidden
         .modal-footer
-          = f.submit 'Save', class: 'btn btn-primary', id: 'submit-query'
+          = f.submit t('.save'), class: 'btn btn-primary disabled', id: 'submit-query'
+          %button{ type: 'button', class: 'btn btn-default', 'data-dismiss': 'modal' }= t('.cancel')

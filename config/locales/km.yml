@@ -341,6 +341,9 @@ km:
       basic_fields: ពត៌មានទូទៅរបស់អតិថិជន
       custom_form: ទម្រង់បែបបទបន្ថែម
       quantitative: ប្រភេទនៃបរិមាណ
+  advanced_search_save_queries:
+    create:
+      successfully_created: ការស្វែងរកឆ្លាតវៃរូវបានបង្កើតដោយជោគជ័យ
   agencies:
     create:
       failed_create: ឣង្គភាពថ្មីមិនត្រូវបានបង្កើតដោយជោគជ័យ
@@ -708,6 +711,13 @@ km:
       reset: សំអាត
       results: លទ្ធផល
       search: ស្វែងរក
+      search_setting: រក្សាទុកទម្រង់នៃការស្វែងរក
+    save_search_setting:
+      cancel: ចាកចេញ
+      description: ការបរិយាយ
+      name: ឈ្មោះ
+      new_save_query: ការស្វែងរកឆ្លាតវៃថ្មី
+      save: រក្សាទុក
   client_enrollment_trackings:
     action:
       new_tracking: បន្ថែមការតាមដានថ្មី
