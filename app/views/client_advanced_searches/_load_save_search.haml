@@ -1,0 +1,22 @@
+#load-save-search.modal.fade{ role: 'dialog' }
+  .modal-dialog.modal-width
+    .modal-content
+      .modal-header
+        %button.close{ 'data-dismiss': 'modal', type: 'button'} ×
+        %h4.modal-title= t('.advanced_search_list')
+      .modal-body.advanced-search-query
+        %table.table.table-bordered.table-striped.table-hover
+          %thead
+            %tr
+              %th.name= t('.name')
+              %th.description= t('.description')
+              %th.load-query= t('.load_query')
+          %tbody
+            - @advanced_searches_list.each do |advanced_search|
+              %tr
+                %td.name= advanced_search.name
+                %td.description= advanced_search.description
+                %td.load-query.text-center
+                  = link_to client_advanced_searches_path(advanced_search.search_params), class: 'btn btn-xs btn-success btn-outline' do
+                    = fa_icon('files-o')
+      .modal-footer

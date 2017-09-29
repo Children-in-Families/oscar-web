@@ -699,6 +699,7 @@ km:
     index:
       client_column: ជួរឈរពត៌មានទូទៅរបស់អតិថិជន
       custom_form_column: ជួរឈរទម្រង់បែបបទបន្ថែម
+      load_save_search: ផ្ទុកការស្វែងរក
       program_stream_column: ជួរឈរកម្មវិធីបន្ទាប់បន្សំ
       add_new_filter: បន្ថែមលក្ខខ័ណ្ឌថ្មី
       add_new_group: បន្ថែមក្រុមលក្ខខ័ណ្ឌថ្មី
@@ -712,6 +713,11 @@ km:
       results: លទ្ធផល
       search: ស្វែងរក
       search_setting: រក្សាទុកទម្រង់នៃការស្វែងរក
+    load_save_search:
+      advanced_search_list: តារាងការស្វែងរកដែលឆ្លាតវៃ
+      description: ការបរិយាយ
+      load_query: ផ្ទុកការស្វែងរក
+      name: ឈ្មោះ
     save_search_setting:
       cancel: ចាកចេញ
       description: ការបរិយាយ

@@ -476,8 +476,8 @@ CIF.Client_advanced_searchesIndex = do ->
       $('#builder').queryBuilder('setRules', basicQueryRules)
 
   _handleInitDatatable = ->
-    $('.clients-table table').DataTable(
-        'sScrollY': 'auto'
+    $('.clients-table table, .advanced-search-query table').DataTable(
+        'sScrollY': '500'
         'bFilter': false
         'bAutoWidth': true
         'bSort': false
@@ -494,13 +494,12 @@ CIF.Client_advanced_searchesIndex = do ->
   _handleSelectFieldVisibilityCheckBox = ->
     checkedFields = $('.visibility .checked input, .all-visibility .checked input')
     $('form#advanced-search').append(checkedFields)
-    # $('form#new_advanced_search').append(checkedFields)
 
   _handleScrollTable = ->
     $(window).load ->
       ua = navigator.userAgent
       unless /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile|CriOS/i.test(ua)
-        $('.clients-table .dataTables_scrollBody').niceScroll
+        $('.clients-table .dataTables_scrollBody, .advanced-search-query .dataTables_scrollBody').niceScroll
           scrollspeed: 30
           cursorwidth: 10
           cursoropacitymax: 0.4

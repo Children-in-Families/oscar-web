@@ -93,4 +93,21 @@ body[id='client_advanced_searches-index'] {
   th.domain-scores, td.domain-scores {
     min-width: 200px;
   }
+
+  .modal-width {
+    width: 60%;
+  }
+
+  .advanced-search-query table {
+    width: 100% !important;
+    th.name, td.name {
+      width: 30% !important;
+    }
+    th.description, td.description {
+      width: 55% !important;
+    }
+    th.load-query, td.load-query {
+      width: 15% !important;
+    }
+  }
 }

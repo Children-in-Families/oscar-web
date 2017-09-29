@@ -695,6 +695,7 @@ en:
     index:
       client_column: Client basic columns
       custom_form_column: Custom form columns
+      load_save_search: Load Save Search
       program_stream_column: Program stream columns
       add_new_filter: Add New Filter
       add_new_group: Add Group
@@ -708,6 +709,11 @@ en:
       results: Results
       search: Search
       search_setting: Save Search Setting
+    load_save_search:
+      advanced_search_list: Advanced Searches List
+      description: Description
+      load_query: Load Query
+      name: Name
     save_search_setting:
       cancel: Cancel
       description: Description
