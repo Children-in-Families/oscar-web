@@ -1009,6 +1009,18 @@ km:
       gender: ភេទ
       general_question: សំនួរទូរទៅ
       given_name: នាមខ្លួនជាអក្សរឡាតាំង
+      gov_city: រាជធានី/ខេត្ត
+      gov_client_code: លេខកូដកុមារ
+      gov_commune: ឃុំ/សង្កាត់
+      gov_date: ថ្ងៃ/ខែ/ឆ្នាំ
+      gov_district: ក្រុង/ស្រុក/ខណ្ឌ
+      # gov_interview_client_city:
+      # gov_interview_client_commune:
+      # gov_interview_client_district:
+      # gov_interview_client_villege:
+      gov_place_of_interview_client: ទីកន្លែងទទួលសំភាសន៍កុមារ
+      gov_village: ភូមិ
+      gov_village_code: លេខកូដភូមិ
       has_been_in_government_care: តើធ្លាប់ស្ថិតក្នុងការថែទំារបស់រាជរដ្ឋាភិបាល
       has_been_in_orphanage: ធ្លាប់បាននៅក្នុងមណ្ឌលកុមារកំព្រា
       house_number: ផ្ទះលេខ

@@ -83,11 +83,91 @@
         .col-xs-12.col-md-8
           = f.input :relevant_referral_information, input_html: { rows: '5' }, label: t('.relevant_referral_information')
 
-      - QuantitativeType.all.each do |qt|
-        .row
-          .col-xs-12.col-md-8
-            %label{ title: qt.name }= qt.name
-            = f.association :quantitative_cases, collection: qt.quantitative_cases, multiple: true, label_method: :value, value_method: :id, label: false, input_html: { class: able_related_info(qt.name) }
+      .row
+        .col-xs-12
+          %hr
+      .row
+        .col-xs-12
+          %h1 Government Form
+        .col-xs-12.col-sm-6.col-md-4
+          = f.input :given_name, label: t('.gov_city')
+        .col-xs-12.col-sm-6.col-md-4
+          = f.input :given_name, label: t('.gov_district')
+        .col-xs-12.col-sm-6.col-md-4
+          = f.input :given_name, label: t('.gov_commune')
+        .col-xs-12.col-sm-6.col-md-4.form-group.date.optional.client_gov_date
+          %label.date.optional.control-label{ for: 'client_gov_date' }= t('.gov_date')
+          #client-birthdate.input-group.date
+            = f.text_field :date_of_birth, class: 'date optional form-control date-picker', type: 'text', name: 'client[gov_date]', id: 'client_gov_date'
+            %span.input-group-addon
+              %i.fa.fa-calendar-check-o
+        .col-xs-12.col-sm-6.col-md-4
+          = f.input :given_name, label: t('.gov_village_code')
+        .col-xs-12.col-sm-6.col-md-4
+          = f.input :given_name, label: t('.gov_client_code')
+          %br
+        -# .col-xs-12
+        -#   %br
+        -#   %ul.nav.nav-tabs{ role: 'tablist' }
+        -#     %li.active{ role: 'presentation' }
+        -#       %a{ href: '#' }= t('.place_of_accepted_client')
+        -#   %br
+        -#   .tab-content
+        -#     .row
+        -#       .col-xs-12.col-sm-6.col-md-4
+        -#         = f.input :given_name, label: t('.gov_city')
+        -#       .col-xs-12.col-sm-6.col-md-4
+        -#         = f.input :given_name, label: t('.gov_district')
+        -#       .col-xs-12.col-sm-6.col-md-4
+        -#         = f.input :given_name, label: t('.gov_district')
+        .col-xs-12
+          #accordion.panel-group{"aria-multiselectable" => "true", :role => "tablist"}
+            .panel.panel-default
+              #headingOne.panel-heading{:role => "tab"}
+                %h4.panel-title
+                  %a{"aria-controls" => "collapseOne", "aria-expanded" => "true", "data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapseOne", :role => "button"}
+                    = t('.gov_place_of_interview_client')
+              #collapseOne.panel-collapse.collapse.in{"aria-labelledby" => "headingOne", :role => "tabpanel"}
+                .panel-body
+                  .col-xs-12.col-sm-6.col-md-4
+                    = f.input :given_name, label: t('.gov_village')
+                  .col-xs-12.col-sm-6.col-md-4
+                    = f.input :given_name, label: t('.gov_commune')
+                  .col-xs-12.col-sm-6.col-md-4
+                    = f.input :given_name, label: t('.gov_district')
+                  .col-xs-12.col-sm-6.col-md-4
+                    = f.input :given_name, label: t('.gov_city')
+                  -# .col-xs-12.col-sm-6.col-md-4
+                  -#   %div{ class: 'form-group i-checks' }
+                  -#     %label.control-label
+                  -#       = t('.gov_interviewee')
+                  -#     = f.input field_props['label'], collection: field_props['values'].map { |f| [f['label'], f['label']] }, as: :check_boxes, required: (field_props['required'] || false), label: false, input_html: { name: "#{f.object_name}[#{field_props['label']}][]", title: field_props['description']}
+                  -#     %span.help-block
+                  -#       = field_message(field_props['label'], errors)
+
+      .row
+        .col-xs-12
+          %hr
+      .row
+        .col-xs-12
+          #accordion.panel-group{"aria-multiselectable" => "true", :role => "tablist"}
+            .panel.panel-default
+              #headingOne.panel-heading{:role => "tab"}
+                %h4.panel-title
+                  %a{"aria-controls" => "collapseOne", "aria-expanded" => "true", "data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapseOne", :role => "button"}
+                    Quantitative Type (Client Custom Field)
+              #collapseOne.panel-collapse.collapse.in{"aria-labelledby" => "headingOne", :role => "tabpanel"}
+                .panel-body
+                  - QuantitativeType.all.each do |qt|
+                    .row
+                      .col-xs-12
+                        %label{ title: qt.name }= qt.name
+                        = f.association :quantitative_cases, collection: qt.quantitative_cases, multiple: true, label_method: :value, value_method: :id, label: false, input_html: { class: able_related_info(qt.name) }
+
+
+
+
+
 
   .ibox-footer
     %button.btn.btn-primary.form-btn#submit-button{ type: 'button' }

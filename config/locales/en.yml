@@ -969,8 +969,8 @@ en:
       initial_referral_date: Initial Referral Date
       kid_id: Kid ID
       live_with: Who to live with
-      local_family_name: Family Name (Local)
-      local_given_name: Given Name (Local)
+      local_family_name: Family Name (kh)
+      local_given_name: Given Name (kh)
       name: Name
       province: Birth Province
       received_by: Received By
