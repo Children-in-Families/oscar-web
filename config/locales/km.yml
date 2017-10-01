@@ -1009,16 +1009,30 @@ km:
       gender: ភេទ
       general_question: សំនួរទូរទៅ
       given_name: នាមខ្លួនជាអក្សរឡាតាំង
+      gov_base_info: ប្រភពពត៌មាន
+      gov_caseworker_ideas: មតិយោបល់អ្នកកាន់ករណី
+      gov_caseworker_ideas_section: យោបល់របស់អ្នកកាន់ករណី ចំពោះតម្រូវការ និងបញ្ហាប្រឈមរបស់កុមារ
+      gov_caseworker_name: ឈ្មោះអ្នកកាន់ករណី
       gov_city: រាជធានី/ខេត្ត
+      gov_client_basic_info: ពត៌មានបឋមពីកុមារ
+      gov_client_carer: អ្នកថែទាំកុមារ
+      gov_client_carer_name: ឈ្មោះ
+      gov_client_carer_relationship: ទំនាក់ទំនងជាមួយកុមារ
       gov_client_code: លេខកូដកុមារ
+      gov_client_ideas_of_referral: យោបល់របស់កុមារនិង/អាណាព្យាបាល អំពីបញ្ហា និងតម្រូវការ
+      gov_client_need: សូមបញ្ចាក់ពីប្រភេទតម្រូវការចាំបាច់(បង់លេខតាមអាទិភាព)
+      gov_client_problem: សូមបញ្ចាក់ពីបញ្ហាប្រឈមសំខាន់ៗ(បង់លេខតាមអាទិភាព)
+      gov_client_types: ប្រភេទកុមារ
       gov_commune: ឃុំ/សង្កាត់
       gov_date: ថ្ងៃ/ខែ/ឆ្នាំ
       gov_district: ក្រុង/ស្រុក/ខណ្ឌ
-      # gov_interview_client_city:
-      # gov_interview_client_commune:
-      # gov_interview_client_district:
-      # gov_interview_client_villege:
+      gov_home: ផ្ទះលេខ
+      gov_interviewees: អ្នកផ្ដល់បទសម្ភាសន៍
+      gov_phone: លេខទូរស័ព្ទ
       gov_place_of_interview_client: ទីកន្លែងទទួលសំភាសន៍កុមារ
+      gov_reason_of_referral_and_need: មូលហេតុនៃការបញ្ជូន និង តម្រូវការ
+      gov_street: ផ្លូវលេខ
+      gov_summary_reason_of_referral: ពត៌មានសង្ខេបពីមូលហេតុនៃការបញ្ជូនកុមារមករកសេវា
       gov_village: ភូមិ
       gov_village_code: លេខកូដភូមិ
       has_been_in_government_care: តើធ្លាប់ស្ថិតក្នុងការថែទំារបស់រាជរដ្ឋាភិបាល

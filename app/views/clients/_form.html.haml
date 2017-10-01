@@ -121,42 +121,112 @@
         -#       .col-xs-12.col-sm-6.col-md-4
         -#         = f.input :given_name, label: t('.gov_district')
         .col-xs-12
-          #accordion.panel-group{"aria-multiselectable" => "true", :role => "tablist"}
+          #interview-place.panel-group{"aria-multiselectable" => "true", :role => "tablist"}
             .panel.panel-default
-              #headingOne.panel-heading{:role => "tab"}
+              #headingInterviewPlace.panel-heading{:role => "tab"}
                 %h4.panel-title
-                  %a{"aria-controls" => "collapseOne", "aria-expanded" => "true", "data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapseOne", :role => "button"}
+                  %a{"aria-controls" => "collapseInterviewPlace", "aria-expanded" => "true", "data-parent" => "#interview-place", "data-toggle" => "collapse", :href => "#collapseInterviewPlace", :role => "button"}
                     = t('.gov_place_of_interview_client')
-              #collapseOne.panel-collapse.collapse.in{"aria-labelledby" => "headingOne", :role => "tabpanel"}
+              #collapseInterviewPlace.panel-collapse.collapse.in{"aria-labelledby" => "headingInterviewPlace", :role => "tabpanel"}
                 .panel-body
-                  .col-xs-12.col-sm-6.col-md-4
-                    = f.input :given_name, label: t('.gov_village')
-                  .col-xs-12.col-sm-6.col-md-4
-                    = f.input :given_name, label: t('.gov_commune')
-                  .col-xs-12.col-sm-6.col-md-4
-                    = f.input :given_name, label: t('.gov_district')
-                  .col-xs-12.col-sm-6.col-md-4
-                    = f.input :given_name, label: t('.gov_city')
-                  -# .col-xs-12.col-sm-6.col-md-4
-                  -#   %div{ class: 'form-group i-checks' }
-                  -#     %label.control-label
-                  -#       = t('.gov_interviewee')
-                  -#     = f.input field_props['label'], collection: field_props['values'].map { |f| [f['label'], f['label']] }, as: :check_boxes, required: (field_props['required'] || false), label: false, input_html: { name: "#{f.object_name}[#{field_props['label']}][]", title: field_props['description']}
-                  -#     %span.help-block
-                  -#       = field_message(field_props['label'], errors)
+                  .row
+                    .col-xs-12.col-sm-6.col-md-4
+                      = f.input :given_name, label: t('.gov_village')
+                    .col-xs-12.col-sm-6.col-md-4
+                      = f.input :given_name, label: t('.gov_commune')
+                    .col-xs-12.col-sm-6.col-md-4
+                      = f.input :given_name, label: t('.gov_district')
+                  .row
+                    .col-xs-12.col-sm-6.col-md-4
+                      = f.input :given_name, label: t('.gov_city')
+                    .col-xs-12.col-sm-6.col-md-4
+                      = f.association :interviewees, collection: @interviewees, as: :check_boxes, multiple: true, label_method: :name, value_method: :id, label: t('.gov_interviewees')
+                  .row
+                    .col-xs-12.col-sm-6.col-md-4
+                      = f.input :given_name, label: t('.gov_caseworker_name')
+                    .col-xs-12.col-sm-6.col-md-4
+                      = f.input :given_name, label: t('.gov_phone')
+        .col-xs-12
+          #client-basic-info.panel-group{"aria-multiselectable" => "true", :role => "tablist"}
+            .panel.panel-default
+              #headingClientBasicInfo.panel-heading{:role => "tab"}
+                %h4.panel-title
+                  %a{"aria-controls" => "collapseClientBasicInfo", "aria-expanded" => "true", "data-parent" => "#client-basic-info", "data-toggle" => "collapse", :href => "#collapseClientBasicInfo", :role => "button"}
+                    = t('.gov_client_basic_info')
+              #collapseClientBasicInfo.panel-collapse.collapse.in{"aria-labelledby" => "headingClientBasicInfo", :role => "tabpanel"}
+                .panel-body
+                  %h3= t('.gov_client_carer')
+                  .row
+                    .col-xs-12.col-sm-6.col-md-4
+                      = f.input :given_name, label: t('.gov_client_carer_name')
+                    .col-xs-12.col-sm-6.col-md-4
+                      = f.input :given_name, label: t('.gov_client_carer_relationship')
+                    .col-xs-12.col-sm-6.col-md-4
+                      = f.input :given_name, label: t('.gov_home')
+                    .col-xs-12.col-sm-6.col-md-4
+                      = f.input :given_name, label: t('.gov_street')
+                    .col-xs-12.col-sm-6.col-md-4
+                      = f.input :given_name, label: t('.gov_village')
+                    .col-xs-12.col-sm-6.col-md-4
+                      = f.input :given_name, label: t('.gov_commune')
+                    .col-xs-12.col-sm-6.col-md-4
+                      = f.input :given_name, label: t('.gov_district')
+                    .col-xs-12.col-sm-6.col-md-4
+                      = f.input :given_name, label: t('.gov_city')
+                    .col-xs-12.col-sm-6.col-md-4
+                      = f.input :given_name, label: t('.gov_phone')
+                    .col-xs-12.col-sm-6.col-md-4
+                      = f.input :given_name, collection: [['អនាមិក', 'អនាមិក'], ['ច្បាស់លាស់', 'ច្បាស់លាស់']], label: t('.gov_base_info')
+                    .col-xs-12.col-sm-6.col-md-4
+                      = f.association :client_types, collection: @client_types, as: :check_boxes, multiple: true, label_method: :name, value_method: :id, label: t('.gov_client_types')
+        .col-xs-12
+          #refferal-need-reason.panel-group{"aria-multiselectable" => "true", :role => "tablist"}
+            .panel.panel-default
+              #headingReferralNeedReason.panel-heading{:role => "tab"}
+                %h4.panel-title
+                  %a{"aria-controls" => "collapseReferralNeedReson", "aria-expanded" => "true", "data-parent" => "#refferal-need-reason", "data-toggle" => "collapse", :href => "#collapseReferralNeedReson", :role => "button"}
+                    = t('.gov_reason_of_referral_and_need')
+              #collapseReferralNeedReson.panel-collapse.collapse.in{"aria-labelledby" => "headingReferralNeedReason", :role => "tabpanel"}
+                .panel-body
+                  .row
+                    .col-xs-12.col-sm-8
+                      = f.input :given_name, label: t('.gov_summary_reason_of_referral')
+                  .row
+                    .col-xs-12.col-sm-8
+                      = f.input :given_name, label: t('.gov_client_ideas_of_referral')
+        .col-xs-12
+          #caseworker-ideas-section.panel-group{"aria-multiselectable" => "true", :role => "tablist"}
+            .panel.panel-default
+              #headingCaseworkerIdeasSection.panel-heading{:role => "tab"}
+                %h4.panel-title
+                  %a{"aria-controls" => "collapseCaseworkerIdeasSection", "aria-expanded" => "true", "data-parent" => "#caseworker-ideas-section", "data-toggle" => "collapse", :href => "#collapseCaseworkerIdeasSection", :role => "button"}
+                    = t('.gov_caseworker_ideas_section')
+              #collapseCaseworkerIdeasSection.panel-collapse.collapse.in{"aria-labelledby" => "headingCaseworkerIdeasSection", :role => "tabpanel"}
+                .panel-body
+                  .row
+                    .col-xs-12.col-sm-8
+                      = f.association :needs, collection: @needs, as: :check_boxes, multiple: true, label_method: :name, value_method: :id, label: t('.gov_client_need')
+                  .row
+                    .col-xs-12.col-sm-8
+                      = f.association :problems, collection: @problems, as: :check_boxes, multiple: true, label_method: :name, value_method: :id, label: t('.gov_client_problem')
+                  .row
+                    .col-xs-12.col-sm-8
+                      = f.input :given_name, label: t('.gov_caseworker_ideas')
+
+
 
       .row
         .col-xs-12
           %hr
       .row
         .col-xs-12
-          #accordion.panel-group{"aria-multiselectable" => "true", :role => "tablist"}
+          #accordion-quantitative-type.panel-group{"aria-multiselectable" => "true", :role => "tablist"}
             .panel.panel-default
-              #headingOne.panel-heading{:role => "tab"}
+              #headingQuantitativeType.panel-heading{:role => "tab"}
                 %h4.panel-title
-                  %a{"aria-controls" => "collapseOne", "aria-expanded" => "true", "data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapseOne", :role => "button"}
+                  %a{"aria-controls" => "collapseQuantitativeType", "aria-expanded" => "true", "data-parent" => "#accordion-quantitative-type", "data-toggle" => "collapse", :href => "#collapseQuantitativeType", :role => "button"}
                     Quantitative Type (Client Custom Field)
-              #collapseOne.panel-collapse.collapse.in{"aria-labelledby" => "headingOne", :role => "tabpanel"}
+              #collapseQuantitativeType.panel-collapse.collapse.in{"aria-labelledby" => "headingQuantitativeType", :role => "tabpanel"}
                 .panel-body
                   - QuantitativeType.all.each do |qt|
                     .row

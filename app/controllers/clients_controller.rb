@@ -132,6 +132,10 @@ class ClientsController < AdminController
     @province        = Province.order(:name)
     @referral_source = ReferralSource.order(:name)
     @users           = User.non_strategic_overviewers.order(:first_name, :last_name)
+    @interviewees    = Interviewee.order(:created_at)
+    @client_types    = ClientType.order(:created_at)
+    @needs           = Need.order(:created_at)
+    @problems        = Problem.order(:created_at)
   end
 
   def initial_visit_client
