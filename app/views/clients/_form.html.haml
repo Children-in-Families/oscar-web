@@ -19,7 +19,7 @@
         .col-xs-12.col-sm-6.col-md-4= f.input :school_name, label: t('.school_name')
         .col-xs-12.col-sm-6.col-md-4= f.input :grade, label: t('.school_grade')
         .col-xs-12.col-sm-6.col-md-4= f.input :birth_province_id, collection: @province.map{|p| [p.name, p.id]},  label: t('.province')
-        .col-xs-12.col-sm-6.col-md-4= f.association :province, collection: @province, label: t('.current_province')
+        -# .col-xs-12.col-sm-6.col-md-4= f.association :province, collection: @province, label: t('.current_province')
         .col-xs-12.col-sm-6.col-md-4
           = f.association :donor, collection: @donors, label: t('.donor')
         - if f.object.current_address.present?
@@ -29,6 +29,7 @@
         .col-xs-12.col-sm-6.col-md-4= f.input :village, label: t('.village')
         .col-xs-12.col-sm-6.col-md-4= f.input :commune, label: t('.commune')
         .col-xs-12.col-sm-6.col-md-4= f.input :district, label: t('.district')
+        .col-xs-12.col-sm-6.col-md-4= f.association :province, collection: @province, label: t('.current_province')
         .col-xs-12.col-sm-6.col-md-4= f.association :users, collection: @users, label: t('.case_worker_or_staff'), include_blank: false, multiple: true
 
         .col-xs-12.col-sm-6.col-md-4= f.input :received_by_id, collection: @users, label: t('.received_by')
@@ -90,36 +91,22 @@
         .col-xs-12
           %h1 Government Form
         .col-xs-12.col-sm-6.col-md-4
-          = f.input :given_name, label: t('.gov_city')
+          = f.input :gov_city, label: t('.gov_city')
         .col-xs-12.col-sm-6.col-md-4
-          = f.input :given_name, label: t('.gov_district')
+          = f.input :gov_district, label: t('.gov_district')
         .col-xs-12.col-sm-6.col-md-4
-          = f.input :given_name, label: t('.gov_commune')
+          = f.input :gov_commune, label: t('.gov_commune')
         .col-xs-12.col-sm-6.col-md-4.form-group.date.optional.client_gov_date
           %label.date.optional.control-label{ for: 'client_gov_date' }= t('.gov_date')
-          #client-birthdate.input-group.date
-            = f.text_field :date_of_birth, class: 'date optional form-control date-picker', type: 'text', name: 'client[gov_date]', id: 'client_gov_date'
+          #client-gov-date.input-group.date
+            = f.text_field :gov_date, class: 'date optional form-control date-picker', type: 'text', name: 'client[gov_date]', id: 'client_gov_date'
             %span.input-group-addon
               %i.fa.fa-calendar-check-o
         .col-xs-12.col-sm-6.col-md-4
-          = f.input :given_name, label: t('.gov_village_code')
+          = f.input :gov_village_code, label: t('.gov_village_code')
         .col-xs-12.col-sm-6.col-md-4
-          = f.input :given_name, label: t('.gov_client_code')
+          = f.input :gov_client_code, label: t('.gov_client_code')
           %br
-        -# .col-xs-12
-        -#   %br
-        -#   %ul.nav.nav-tabs{ role: 'tablist' }
-        -#     %li.active{ role: 'presentation' }
-        -#       %a{ href: '#' }= t('.place_of_accepted_client')
-        -#   %br
-        -#   .tab-content
-        -#     .row
-        -#       .col-xs-12.col-sm-6.col-md-4
-        -#         = f.input :given_name, label: t('.gov_city')
-        -#       .col-xs-12.col-sm-6.col-md-4
-        -#         = f.input :given_name, label: t('.gov_district')
-        -#       .col-xs-12.col-sm-6.col-md-4
-        -#         = f.input :given_name, label: t('.gov_district')
         .col-xs-12
           #interview-place.panel-group{"aria-multiselectable" => "true", :role => "tablist"}
             .panel.panel-default
@@ -131,21 +118,21 @@
                 .panel-body
                   .row
                     .col-xs-12.col-sm-6.col-md-4
-                      = f.input :given_name, label: t('.gov_village')
+                      = f.input :gov_interview_village, label: t('.gov_village')
                     .col-xs-12.col-sm-6.col-md-4
-                      = f.input :given_name, label: t('.gov_commune')
+                      = f.input :gov_interview_commune, label: t('.gov_commune')
                     .col-xs-12.col-sm-6.col-md-4
-                      = f.input :given_name, label: t('.gov_district')
+                      = f.input :gov_interview_district, label: t('.gov_district')
                   .row
                     .col-xs-12.col-sm-6.col-md-4
-                      = f.input :given_name, label: t('.gov_city')
+                      = f.input :gov_interview_city, label: t('.gov_city')
                     .col-xs-12.col-sm-6.col-md-4
                       = f.association :interviewees, collection: @interviewees, as: :check_boxes, multiple: true, label_method: :name, value_method: :id, label: t('.gov_interviewees')
                   .row
                     .col-xs-12.col-sm-6.col-md-4
-                      = f.input :given_name, label: t('.gov_caseworker_name')
+                      = f.input :gov_caseworker_name, label: t('.gov_caseworker_name')
                     .col-xs-12.col-sm-6.col-md-4
-                      = f.input :given_name, label: t('.gov_phone')
+                      = f.input :gov_caseworker_phone, label: t('.gov_phone')
         .col-xs-12
           #client-basic-info.panel-group{"aria-multiselectable" => "true", :role => "tablist"}
             .panel.panel-default
@@ -158,25 +145,25 @@
                   %h3= t('.gov_client_carer')
                   .row
                     .col-xs-12.col-sm-6.col-md-4
-                      = f.input :given_name, label: t('.gov_client_carer_name')
+                      = f.input :gov_carer_name, label: t('.gov_client_carer_name')
                     .col-xs-12.col-sm-6.col-md-4
-                      = f.input :given_name, label: t('.gov_client_carer_relationship')
+                      = f.input :gov_carer_relationship, label: t('.gov_client_carer_relationship')
                     .col-xs-12.col-sm-6.col-md-4
-                      = f.input :given_name, label: t('.gov_home')
+                      = f.input :gov_carer_home, label: t('.gov_home')
                     .col-xs-12.col-sm-6.col-md-4
-                      = f.input :given_name, label: t('.gov_street')
+                      = f.input :gov_carer_street, label: t('.gov_street')
                     .col-xs-12.col-sm-6.col-md-4
-                      = f.input :given_name, label: t('.gov_village')
+                      = f.input :gov_carer_village, label: t('.gov_village')
                     .col-xs-12.col-sm-6.col-md-4
-                      = f.input :given_name, label: t('.gov_commune')
+                      = f.input :gov_carer_commune, label: t('.gov_commune')
                     .col-xs-12.col-sm-6.col-md-4
-                      = f.input :given_name, label: t('.gov_district')
+                      = f.input :gov_carer_district, label: t('.gov_district')
                     .col-xs-12.col-sm-6.col-md-4
-                      = f.input :given_name, label: t('.gov_city')
+                      = f.input :gov_carer_city, label: t('.gov_city')
                     .col-xs-12.col-sm-6.col-md-4
-                      = f.input :given_name, label: t('.gov_phone')
+                      = f.input :gov_carer_phone, label: t('.gov_phone')
                     .col-xs-12.col-sm-6.col-md-4
-                      = f.input :given_name, collection: [['អនាមិក', 'អនាមិក'], ['ច្បាស់លាស់', 'ច្បាស់លាស់']], label: t('.gov_base_info')
+                      = f.input :gov_information_source, collection: [['អនាមិក', 'អនាមិក'], ['ច្បាស់លាស់', 'ច្បាស់លាស់']], label: t('.gov_information_source')
                     .col-xs-12.col-sm-6.col-md-4
                       = f.association :client_types, collection: @client_types, as: :check_boxes, multiple: true, label_method: :name, value_method: :id, label: t('.gov_client_types')
         .col-xs-12
@@ -190,31 +177,36 @@
                 .panel-body
                   .row
                     .col-xs-12.col-sm-8
-                      = f.input :given_name, label: t('.gov_summary_reason_of_referral')
+                      = f.input :gov_referral_reason, label: t('.gov_summary_reason_of_referral')
                   .row
                     .col-xs-12.col-sm-8
-                      = f.input :given_name, label: t('.gov_client_ideas_of_referral')
+                      = f.input :gov_guardian_comment, label: t('.gov_guardian_comment')
         .col-xs-12
-          #caseworker-ideas-section.panel-group{"aria-multiselectable" => "true", :role => "tablist"}
+          #caseworker-comment-section.panel-group{"aria-multiselectable" => "true", :role => "tablist"}
             .panel.panel-default
-              #headingCaseworkerIdeasSection.panel-heading{:role => "tab"}
+              #headingCaseworkerCommentSection.panel-heading{:role => "tab"}
                 %h4.panel-title
-                  %a{"aria-controls" => "collapseCaseworkerIdeasSection", "aria-expanded" => "true", "data-parent" => "#caseworker-ideas-section", "data-toggle" => "collapse", :href => "#collapseCaseworkerIdeasSection", :role => "button"}
-                    = t('.gov_caseworker_ideas_section')
-              #collapseCaseworkerIdeasSection.panel-collapse.collapse.in{"aria-labelledby" => "headingCaseworkerIdeasSection", :role => "tabpanel"}
+                  %a{"aria-controls" => "collapseCaseworkerCommentSection", "aria-expanded" => "true", "data-parent" => "#caseworker-comment-section", "data-toggle" => "collapse", :href => "#collapseCaseworkerCommentSection", :role => "button"}
+                    = t('.gov_caseworker_comment_section')
+              #collapseCaseworkerCommentSection.panel-collapse.collapse.in{"aria-labelledby" => "headingCaseworkerCommentSection", :role => "tabpanel"}
                 .panel-body
                   .row
                     .col-xs-12.col-sm-8
-                      = f.association :needs, collection: @needs, as: :check_boxes, multiple: true, label_method: :name, value_method: :id, label: t('.gov_client_need')
+                      -# = f.association :needs, collection: @needs, as: :check_boxes, multiple: true, label_method: :name, value_method: :id, label: t('.gov_client_need')
+                      -# - binding.pry
+                      -# - binding.pry
+                      %h3= t('.gov_client_need')
+                      #client_needs
+                        = f.simple_fields_for :client_needs do |client_need|
+                          - @needs.each do |need|
+                            = render 'client_need_fields', f: client_need, need: need
+
                   .row
                     .col-xs-12.col-sm-8
                       = f.association :problems, collection: @problems, as: :check_boxes, multiple: true, label_method: :name, value_method: :id, label: t('.gov_client_problem')
                   .row
                     .col-xs-12.col-sm-8
-                      = f.input :given_name, label: t('.gov_caseworker_ideas')
-
-
-
+                      = f.input :gov_caseworker_comment, label: t('.gov_caseworker_comment')
       .row
         .col-xs-12
           %hr

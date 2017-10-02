@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171001034756) do
+ActiveRecord::Schema.define(version: 20171002022338) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -347,6 +347,31 @@ ActiveRecord::Schema.define(version: 20171001034756) do
     t.text     "exit_note",                        default: ""
     t.date     "exit_date"
     t.date     "accepted_date"
+    t.string   "gov_city",                         default: ""
+    t.string   "gov_commune",                      default: ""
+    t.string   "gov_district",                     default: ""
+    t.date     "gov_date"
+    t.string   "gov_village_code",                 default: ""
+    t.string   "gov_client_code",                  default: ""
+    t.string   "gov_interview_village",            default: ""
+    t.string   "gov_interview_commune",            default: ""
+    t.string   "gov_interview_district",           default: ""
+    t.string   "gov_interview_city",               default: ""
+    t.string   "gov_caseworker_name",              default: ""
+    t.string   "gov_caseworker_phone",             default: ""
+    t.string   "gov_carer_name",                   default: ""
+    t.string   "gov_carer_relationship",           default: ""
+    t.string   "gov_carer_home",                   default: ""
+    t.string   "gov_carer_street",                 default: ""
+    t.string   "gov_carer_village",                default: ""
+    t.string   "gov_carer_commune",                default: ""
+    t.string   "gov_carer_district",               default: ""
+    t.string   "gov_carer_city",                   default: ""
+    t.string   "gov_carer_phone",                  default: ""
+    t.string   "gov_information_source",           default: ""
+    t.text     "gov_referral_reason",              default: ""
+    t.text     "gov_guardian_comment",             default: ""
+    t.text     "gov_caseworker_comment",           default: ""
   end
 
   add_index "clients", ["donor_id"], name: "index_clients_on_donor_id", using: :btree

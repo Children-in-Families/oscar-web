@@ -11,7 +11,7 @@
 //= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
 //= require thredded
 //= require select2
-//= require cocoon
+
 //= require image_upload_previewer/image_upload_previewer
 //= require image_upload
 //= require bootstrap-datepicker/core

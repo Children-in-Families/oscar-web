@@ -62,6 +62,8 @@ class Client < ActiveRecord::Base
   has_many :client_problems, dependent: :destroy
   has_many :problems, through: :client_problems
 
+  accepts_nested_attributes_for :client_needs
+
   has_paper_trail
 
   validates :rejected_note, presence: true, on: :update, if: :reject?
