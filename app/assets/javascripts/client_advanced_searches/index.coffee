@@ -55,6 +55,47 @@ CIF.Client_advanced_searchesIndex = do ->
     _filterSelecting()
     _preventDomainScore()
     _disableOptionDomainScores()
+    _handleSaveQuery()
+    _validateSaveQuery()
+
+  _handleSaveQuery = ->
+    self = @
+    $('#submit-query').on 'click', ->
+      basicRules = $('#builder').queryBuilder('getRules', { skip_empty: true, allow_invalid: true })
+      if (_.isEmpty(basicRules.rules) and !basicRules.valid) or (!(_.isEmpty(basicRules.rules)) and basicRules.valid)
+        $('#builder').find('.has-error').remove()
+      customFormValues = if self.customFormSelected.length > 0 then "[#{self.customFormSelected}]"
+      programValues = if self.programSelected.length > 0 then "[#{self.programSelected}]"
+
+      enrollmentCheck = $('#advanced_search_enrollment_check')
+      trackingCheck   = $('#advanced_search_tracking_check')
+      exitFormCheck   = $('#advanced_search_exit_form_check')
+
+      if self.enrollmentCheckbox.prop('checked') then $(enrollmentCheck).val(1)
+      if self.trackingCheckbox.prop('checked') then $(trackingCheck).val(1)
+      if self.exitCheckbox.prop('checked') then $(exitFormCheck).val(1)
+      if $('#quantitative-type-checkbox').prop('checked') then $('#advanced_search_quantitative_check').val(1)
+
+      $('#advanced_search_custom_forms').val(customFormValues)
+      $('#advanced_search_program_streams').val(programValues)
+      $('#advanced_search_queries').val(_handleStringfyRules(basicRules))
+      _handleAddColumnPickerToInput()
+
+  _handleAddColumnPickerToInput = ->
+    columnsVisibility = new Object
+    $('.visibility, .all-visibility').each ->
+      checkbox = $(@).find('input[type="checkbox"]')
+      if $(checkbox).prop('checked')
+        attrName = $(checkbox).attr('name')
+        columnsVisibility[attrName] = $(checkbox).val()
+    $('#advanced_search_field_visible').val(JSON.stringify(columnsVisibility))
+
+  _validateSaveQuery = ->
+    $('#advanced_search_name').keyup ->
+      if $(@).val() != ''
+        $('#submit-query').removeClass('disabled')
+      else
+        $('#submit-query').addClass('disabled')
 
   _disableOptionDomainScores = ->
     for domain in $('.rule-operator-container select')
@@ -453,6 +494,7 @@ CIF.Client_advanced_searchesIndex = do ->
   _handleSelectFieldVisibilityCheckBox = ->
     checkedFields = $('.visibility .checked input, .all-visibility .checked input')
     $('form#advanced-search').append(checkedFields)
+    # $('form#new_advanced_search').append(checkedFields)
 
   _handleScrollTable = ->
     $(window).load ->
