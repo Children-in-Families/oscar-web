@@ -28,7 +28,8 @@ class GovernmentReportsController < AdminController
                 layout:   'pdf_design.html.haml',
                 show_as_html: params.key?('debug'),
                 header: { html: { template: 'government_reports/pdf/header.pdf.haml' } },
-                footer: { html: { template: 'government_reports/pdf/footer.pdf.haml' }, right: '[page] of [topage]' }
+                footer: { html: { template: 'government_reports/pdf/footer.pdf.haml' }, right: '[page] of [topage]' },
+                margin: { left: 0, right: 0 }
       end
     end
   end
@@ -56,7 +57,7 @@ class GovernmentReportsController < AdminController
   end
 
   def find_government_report
-    @government_report = @client.government_report.decorate
+    # @government_report = @client.government_report.decorate
   end
 
   def government_report_params

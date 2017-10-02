@@ -129,7 +129,7 @@ Rails.application.routes.draw do
     end
 
     resources :custom_field_properties
-    # resources :government_reports
+    resources :government_reports
     resources :assessments
     resources :case_notes
     resources :cases do
