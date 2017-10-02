@@ -75,7 +75,7 @@ CIF.Custom_fieldsNew = CIF.Custom_fieldsCreate = CIF.Custom_fieldsEdit = CIF.Cus
       attrs: type: 'separateLine'
       icon: '<i class="fa fa-minus" aria-hidden="true"></i>'
     } ]
- 
+
     formBuilder = $('.build-wrap').formBuilder
       templates: separateLine: (fieldData) ->
         { field: '<hr/>' }
@@ -106,10 +106,10 @@ CIF.Custom_fieldsNew = CIF.Custom_fieldsCreate = CIF.Custom_fieldsEdit = CIF.Cus
         textarea: builderOption.eventTextAreaOption()
         separateLine: builderOption.eventSeparateLineOption()
       }
-      
+
     $("#custom-field-submit").click (event) ->
       specialCharacters = {"&quot;": '"', "&amp;": "&", "&lt;": "<", "&gt;": ">"}
-      $('#custom_field_fields').val(formBuilder.formData.allReplace(specialCharacters))
+      $('#custom_field_fields').val(formBuilder.actions.save().allReplace(specialCharacters))
 
   _select2 = ->
     $('#custom_field_entity_type').select2
