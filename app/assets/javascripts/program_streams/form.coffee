@@ -87,10 +87,9 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       $('#custom-field').modal('hide')
 
   _addFieldProgramBuilder = (formBuilder, fields) ->
-    combineFields = JSON.parse(formBuilder.formData).concat(fields)
+    combineFields = JSON.parse(formBuilder.actions.save()).concat(fields)
     for field in fields
       formBuilder.actions.addField(field)
-    formBuilder.formData = JSON.stringify(combineFields)
 
   _initCheckbox = ->
     $('.i-checks').iCheck
@@ -358,12 +357,12 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     for formBuilder in @formBuilder
       element = formBuilder.element
       if $(element).is('#enrollment')
-        $('#program_stream_enrollment').val(formBuilder.formData.allReplace(specialCharacters))
+        $('#program_stream_enrollment').val(formBuilder.actions.save().allReplace(specialCharacters))
       else if $(element).is('.tracking-builder')
         hiddenField = $(element).find('.tracking-field-hidden input[type="hidden"]')
-        $(hiddenField).val(formBuilder.formData.allReplace(specialCharacters))
+        $(hiddenField).val(formBuilder.actions.save().allReplace(specialCharacters))
       else if $(element).is('#exit-program')
-        $('#program_stream_exit_program').val(formBuilder.formData.allReplace(specialCharacters))
+        $('#program_stream_exit_program').val(formBuilder.actions.save().allReplace(specialCharacters))
 
   _handleStringfyRules = (rules) ->
     rules = JSON.stringify(rules)
