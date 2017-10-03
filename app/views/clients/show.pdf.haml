@@ -21,19 +21,22 @@
   %label.text-center{style: 'padding:8px; background-color: black; color: white; width:100%; margin-bottom: 1px;'} ទម្រង់ទី១: ព័ត៍មានបឋម
   .panel-body.panel-border{style: 'border-top: 1px solid black;'}
     ថ្ងៃ/ខែ/ឆ្នាំ:
-    - @client.gov_date.strftime('%d%m%y').split('').each_with_index do |code, index|
+    - gov_date = @client.gov_date.present? ? @client.gov_date.strftime('%d%m%y') : '000000'
+    - gov_date.split('').each_with_index do |code, index|
       - if index == 0
         %span.first= code
       - else
         %span= code
     លេខកូដភូមិ:
-    - @client.gov_village_code.split('').each_with_index do |code, index|
+    - gov_village_code = @client.gov_village_code.present? ? @client.gov_village_code : '00000000'
+    - gov_village_code.split('').each_with_index do |code, index|
       - if index == 0
         %span.first= code
       - else
         %span= code
     លេខកូដកុមារ:
-    - @client.gov_client_code.split('').each_with_index do |code, index|
+    - gov_client_code = @client.gov_client_code.present? ? @client.gov_client_code : '0000'
+    - gov_client_code.split('').each_with_index do |code, index|
       - if index == 0
         %span.first= code
       - else
@@ -92,7 +95,8 @@
     %label{style: 'margin-right:15px; margin-left: 10px;'} ឈ្មោះកុមារ:
     %input{style: 'width: 20%;', value: "#{@client.local_family_name} #{@client.local_given_name} "}
     ថ្ងៃខែឆ្នាំកំណើត:
-    - @client.date_of_birth.strftime('%d%m%y').split('').each_with_index do |code, index|
+    - dob = @client.date_of_birth.present? ? @client.date_of_birth.strftime('%d%m%y') : '000000'
+    - dob.split('').each_with_index do |code, index|
       - if index == 0
         %span.first= code
       - else
@@ -130,7 +134,8 @@
               .col-xs-4
                 %label រាជធានី/ខេត្ត:
               .col-xs-8
-                %input{ style: 'width: 100%', value: @client.province.name.split(' / ').first }
+                - province = @client.province.present? ? @client.province.name.split(' / ').first : ''
+                %input{ style: 'width: 100%', value: province }
       %label.panel-label អ្នកថែទាំកុមារ:
       .panel-body.panel-label-dotted
         %label{ style: 'margin-right:15px;'} ឈ្មោះ
@@ -179,12 +184,13 @@
                 %input{style: 'width:97%; float: right;', value: @client.gov_carer_phone }
   %div#panel-top-bottom-dotted
     %label ថ្ងៃទី/ខែ/ឆ្នាំទទួលព័ត៌មានអំពីករណី:
-    - @client.initial_referral_date.strftime('%d%m%y').split('').each_with_index do |code, index|
+    - ird = @client.initial_referral_date.present? ? @client.initial_referral_date.strftime('%d%m%y') : '000000'
+    - ird.split('').each_with_index do |code, index|
       - if index == 0
         %span.first= code
       - else
         %span= code
-%p{style: 'page-break-after:always;'}  
+%p{style: 'page-break-after:always;'}
 %div#panel-top-bottom-dotted
   %label ប្រភពព័ត៌មាន:
   %input{ type: 'checkbox', checked: @client.gov_information_source == 'អនាមិក' ? true : false }
@@ -481,4 +487,3 @@
           %br
           %br
           %p ___________________
-
