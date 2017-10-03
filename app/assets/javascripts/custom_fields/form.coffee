@@ -70,16 +70,16 @@ CIF.Custom_fieldsNew = CIF.Custom_fieldsCreate = CIF.Custom_fieldsEdit = CIF.Cus
   _initFormBuilder = ->
     builderOption = new CIF.CustomFormBuilder()
     fields = $('.build-wrap').data('fields') || []
-    breakLine = [ {
-      label: 'Separate Line'
-      attrs: type: 'separateLine'
-      icon: '<i class="fa fa-minus" aria-hidden="true"></i>'
-    } ]
+    # breakLine = [ {
+    #   label: 'Separate Line'
+    #   attrs: type: 'separateLine'
+    #   icon: '<i class="fa fa-minus" aria-hidden="true"></i>'
+    # } ]
 
     formBuilder = $('.build-wrap').formBuilder
-      templates: separateLine: (fieldData) ->
-        { field: '<hr/>' }
-      fields: builderOption.thematicBreak()
+      # templates: separateLine: (fieldData) ->
+      #   { field: '<hr/>' }
+      # fields: builderOption.thematicBreak()
       dataType: 'json'
       formData:  JSON.stringify(fields)
       disableFields: ['autocomplete', 'header', 'hidden', 'paragraph', 'button', 'checkbox']
@@ -104,7 +104,7 @@ CIF.Custom_fieldsNew = CIF.Custom_fieldsCreate = CIF.Custom_fieldsEdit = CIF.Cus
         select: builderOption.eventSelectOption()
         text: builderOption.eventTextFieldOption()
         textarea: builderOption.eventTextAreaOption()
-        separateLine: builderOption.eventSeparateLineOption()
+        # separateLine: builderOption.eventSeparateLineOption()
       }
 
     $("#custom-field-submit").click (event) ->

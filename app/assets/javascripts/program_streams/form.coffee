@@ -214,9 +214,9 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     builderOption = new CIF.CustomFormBuilder()
     data = JSON.stringify(data)
     formBuilder = $(element).formBuilder(
-      templates: separateLine: (fieldData) ->
-        { field: '<hr/>' }
-      fields: builderOption.thematicBreak()
+      # templates: separateLine: (fieldData) ->
+      #   { field: '<hr/>' }
+      # fields: builderOption.thematicBreak()
       dataType: 'json'
       formData: data
       disableFields: ['autocomplete', 'header', 'hidden', 'paragraph', 'button','checkbox']
@@ -240,7 +240,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         select: builderOption.eventSelectOption()
         text: builderOption.eventTextFieldOption()
         textarea: builderOption.eventTextAreaOption()
-        separateLine: builderOption.eventSeparateLineOption()
+        # separateLine: builderOption.eventSeparateLineOption()
       })
     formBuilder.element = element
     @formBuilder.push formBuilder
