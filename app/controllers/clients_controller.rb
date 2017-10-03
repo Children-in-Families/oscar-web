@@ -37,7 +37,7 @@ class ClientsController < AdminController
         render  pdf:      'show',
                 template: 'clients/show.pdf.haml',
                 layout:   'pdf_design.html.haml',
-                # show_as_html: params.key?('debug'),
+                show_as_html: params.key?('debug'),
                 header: { html: { template: 'government_reports/pdf/header.pdf.haml' } },
                 footer: { html: { template: 'government_reports/pdf/footer.pdf.haml' }, right: '[page] of [topage]' },
                 margin: { left: 0, right: 0 }
