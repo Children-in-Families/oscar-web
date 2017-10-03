@@ -12,6 +12,7 @@ CIF.Custom_fieldsNew = CIF.Custom_fieldsCreate = CIF.Custom_fieldsEdit = CIF.Cus
     _valTimeOfFrequency()
     _changeTimeOfFrequency()
     _convertFrequency()
+    _removeSearchCustomFields()
 
   _valTimeOfFrequency = ->
     $('#custom_field_time_of_frequency').val()
@@ -145,6 +146,10 @@ CIF.Custom_fieldsNew = CIF.Custom_fieldsCreate = CIF.Custom_fieldsEdit = CIF.Cus
             preview_link = "#{url_origin}/custom_fields/preview?custom_field_id=#{field.id}&ngo_name=#{ngo_name}"
             $('#livesearch').append("<li><span class='col-xs-8'>#{field.form_title} (#{field.ngo_name})</span>
             <span class='col-xs-4 text-right'><a href=#{preview_link}>#{previewTranslation}</a></span></li>")
+
+  _removeSearchCustomFields = ->
+    $('#custom_field_form_title').blur ->
+      $('#livesearch').css('visibility', 'hidden')
 
   _preventRemoveFields = (fields) ->
     labelFields = $('label.field-label')
