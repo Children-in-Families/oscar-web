@@ -33,7 +33,11 @@ class ClientsController < AdminController
   end
 
   def new
-    @client                              = Client.new
+    @client = Client.new
+
+    @client.populate_needs
+    @client.populate_problems
+
     @ordered_stage                       = Stage.order('from_age, to_age')
     @able_screening_questions            = AbleScreeningQuestion.with_stage.group_by(&:question_group_id)
     @able_screening_questions_non_stage  = AbleScreeningQuestion.non_stage.order('created_at')
@@ -117,12 +121,21 @@ class ClientsController < AdminController
             :has_been_in_orphanage, :has_been_in_government_care,
             :relevant_referral_information, :province_id, :donor_id,
             :state, :rejected_note, :able, :able_state, :live_with, :id_poor, :accepted_date,
+            :gov_city, :gov_commune, :gov_district, :gov_date, :gov_village_code, :gov_client_code,
+            :gov_interview_village, :gov_interview_commune, :gov_interview_district, :gov_interview_city,
+            :gov_caseworker_name, :gov_caseworker_phone, :gov_carer_name, :gov_carer_relationship, :gov_carer_home,
+            :gov_carer_street, :gov_carer_village, :gov_carer_commune, :gov_carer_district, :gov_carer_city, :gov_carer_phone,
+            :gov_information_source, :gov_referral_reason, :gov_guardian_comment, :gov_caseworker_comment,
+            interviewee_ids: [],
+            client_type_ids: [],
             user_ids: [],
             agency_ids: [],
             quantitative_case_ids: [],
             custom_field_ids: [],
             tasks_attributes: [:name, :domain_id, :completion_date],
-            answers_attributes: [:id, :description, :able_screening_question_id, :client_id, :question_type]
+            answers_attributes: [:id, :description, :able_screening_question_id, :client_id, :question_type],
+            client_needs_attributes: [:id, :rank, :need_id],
+            client_problems_attributes: [:id, :rank, :problem_id]
           )
   end
 
@@ -132,6 +145,10 @@ class ClientsController < AdminController
     @province        = Province.order(:name)
     @referral_source = ReferralSource.order(:name)
     @users           = User.non_strategic_overviewers.order(:first_name, :last_name)
+    @interviewees    = Interviewee.order(:created_at)
+    @client_types    = ClientType.order(:created_at)
+    @needs           = Need.order(:created_at)
+    @problems        = Problem.order(:created_at)
   end
 
   def initial_visit_client
