@@ -21,12 +21,12 @@
   %label.text-center{style: 'padding:8px; background-color: black; color: white; width:100%; margin-bottom: 1px;'} ទម្រង់ទី១: ព័ត៍មានបឋម
   .panel-body.panel-border{style: 'border-top: 1px solid black;'}
     ថ្ងៃ/ខែ/ឆ្នាំ:
-    %span.first 1
-    %span 1
-    %span 1
-    %span 1
-    %span 1
-    %span 1
+    - str = 'abcdef'
+    - str.split('').each_with_index do |s, i|
+      - if i == 0
+        %span.first= s
+      - else
+        %span= s
     លេខកូដភូមិ:
     %span.first 1
     %span 1
@@ -80,6 +80,8 @@
     %input{type: 'checkbox'}
     %label អាណាព្យាបាល
     %input{type: 'checkbox'}
+    %label អ្នកថែទាំ
+    %input{type: 'checkbox'}
     %label ផ្សេងៗ...................
   %div.panel-label{style: 'border-top: 0px;'}
     %label{style: 'margin-right:15px;'} ឈ្មោះអ្នកកាន់ករណី:
@@ -91,8 +93,8 @@
     %u ព័ត៍មានបឋមអំពីកុមារ:
   .panel-body.border-label{style: 'border-bottom: 0px;'}
     %label{style: 'margin-right:15px; margin-left: 10px;'} ឈ្មោះកុមារ:
-    %input{style: 'width: 30%;'}
-    លេខកូដភូមិ:
+    %input{style: 'width: 20%;'}
+    ថ្ងៃខែឆ្នាំកំណើត:
     %span.first 1
     %span 1
     %span 1
@@ -101,12 +103,13 @@
     %span 1
     %span 1
     %span 1
+    %label ភេទ:
     %label ប្រុស
     %input{type: 'checkbox'}
     %label ស្រី
     %input{type: 'checkbox'}
     .panel.panel-default.panel-no-margin.panel-margin-top
-      %label.panel-label អាសយដ្ធានកុមាររស់នៅ:
+      %label.panel-label អាសយដ្ឋានកុមាររស់នៅ:
       .panel-body.panel-label-dotted
         .row
           .col-xs-6
@@ -142,18 +145,44 @@
         %input{style: 'width: 30%'}
 
         .panel.panel-default.panel-no-margin.panel-margin-top
-          %label.panel-label អាសយដ្ធាន:
+          %label.panel-label អាសយដ្ឋាន:
           .panel-body.panel-label-dotted
             .row
-              .col-xs-12
-                %label ផ្ទះលេខ:
-                %input{style: 'width:10%'}
-                %label ផ្លូវលេខ:
-                %input{style: 'width:10%'}
-                %label ភូមិ:
-                %input
-                %label ឃុំ/សង្កាត់
-                %input
+              .col-xs-7
+                .row
+                  .col-xs-2
+                    %label ផ្ទះលេខ:
+                  .col-xs-2
+                    %input{style: 'width: 100%;'}
+                  .col-xs-2
+                    %label ផ្លូវលេខ:
+                  .col-xs-2
+                    %input{style: 'width: 100%;'}
+                  .col-xs-1
+                    %label ភូមិ:
+                  .col-xs-3
+                    %input{style: 'width: 100%;'}
+                .row
+                  .col-xs-4
+                    %label ក្រុង/ស្រុក/ខណ្ឌ:
+                  .col-xs-8
+                    %input{style: 'width: 100%;'}
+              .col-xs-5
+                .row
+                  .col-xs-4
+                    %label ឃុំ/សង្កាត់:
+                  .col-xs-8
+                    %input{style: 'width:100%;'}
+                .row
+                  .col-xs-4
+                    %label ខេត្ត/រាជធានី:
+                  .col-xs-8
+                    %input{style: 'width:100%'}
+            .row
+              .col-xs-2
+                %label លេខទូរស័ព្ទ:
+              .col-xs-10
+                %input{style: 'width:97%; float: right;'}
   %div#panel-top-bottom-dotted
     %label ថ្ងៃទី/ខែ/ឆ្នាំទទួលព័ត៍មានអំពីករណី:
     %span.first 1
@@ -162,13 +191,13 @@
     %span 1
     %span 1
     %span 1
-  %div#panel-top-bottom-dotted
-    %label ប្រភពព័ត៍មាន:
-    %input{type: 'checkbox'}
-    %label អនាមិក
-    %input{type: 'checkbox'}
-    %label ច្បាស់លាស់
-%p{style: 'page-break-after:always;'}
+%p{style: 'page-break-after:always;'}  
+%div#panel-top-bottom-dotted
+  %label ប្រភពព័ត៍មាន:
+  %input{type: 'checkbox'}
+  %label អនាមិក
+  %input{type: 'checkbox'}
+  %label ច្បាស់លាស់
 
 .panel.panel-default.panel-no-margin
   %label.panel-label
@@ -221,7 +250,7 @@
             = 'ផ្សេងៗ'
             %input{style: 'display: inline-block:width: 50%;'}
 
-.panel.panel-default{style: 'margin:0;'}
+.panel.panel-default.panel-no-margin
   %label.panel-label
     បញ្ចូនមកពី
   .panel-body.border-label.border-label{style: 'padding: 0;'}
