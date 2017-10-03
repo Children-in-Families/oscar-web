@@ -1,7 +1,7 @@
 class GovernmentReportsController < AdminController
   load_and_authorize_resource
   before_action :find_client
-  before_action :find_government_report, only: [:show, :edit, :update, :destroy]
+  before_action :find_government_report, only: [:edit, :update, :destroy]
 
   def index
     @government_report = @client.government_report
@@ -57,7 +57,7 @@ class GovernmentReportsController < AdminController
   end
 
   def find_government_report
-    # @government_report = @client.government_report.decorate
+    @government_report = @client.government_report.decorate
   end
 
   def government_report_params

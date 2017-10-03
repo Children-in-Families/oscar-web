@@ -25,11 +25,24 @@ class ClientsController < AdminController
   end
 
   def show
-    @ordered_client_answers     = @client.answers.order(:created_at)
-    custom_field_ids            = @client.custom_field_properties.pluck(:custom_field_id)
-    @free_client_forms          = CustomField.client_forms.not_used_forms(custom_field_ids).order_by_form_title
-    @group_client_custom_fields = @client.custom_field_properties.sort_by{ |c| c.custom_field.form_title }.group_by(&:custom_field_id)
-    initial_visit_client
+    respond_to do |format|
+      format.html do
+        @ordered_client_answers     = @client.answers.order(:created_at)
+        custom_field_ids            = @client.custom_field_properties.pluck(:custom_field_id)
+        @free_client_forms          = CustomField.client_forms.not_used_forms(custom_field_ids).order_by_form_title
+        @group_client_custom_fields = @client.custom_field_properties.sort_by{ |c| c.custom_field.form_title }.group_by(&:custom_field_id)
+        initial_visit_client
+      end
+      format.pdf do
+        render  pdf:      'show',
+                template: 'clients/show.pdf.haml',
+                layout:   'pdf_design.html.haml',
+                # show_as_html: params.key?('debug'),
+                header: { html: { template: 'government_reports/pdf/header.pdf.haml' } },
+                footer: { html: { template: 'government_reports/pdf/footer.pdf.haml' }, right: '[page] of [topage]' },
+                margin: { left: 0, right: 0 }
+      end
+    end
   end
 
   def new
