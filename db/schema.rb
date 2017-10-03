@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170926021212) do
+ActiveRecord::Schema.define(version: 20171002022338) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -219,6 +219,16 @@ ActiveRecord::Schema.define(version: 20170926021212) do
 
   add_index "changelogs", ["user_id"], name: "index_changelogs_on_user_id", using: :btree
 
+  create_table "client_client_types", force: :cascade do |t|
+    t.integer  "client_id"
+    t.integer  "client_type_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "client_client_types", ["client_id"], name: "index_client_client_types_on_client_id", using: :btree
+  add_index "client_client_types", ["client_type_id"], name: "index_client_client_types_on_client_type_id", using: :btree
+
   create_table "client_enrollment_trackings", force: :cascade do |t|
     t.jsonb    "properties",           default: {}
     t.integer  "client_enrollment_id"
@@ -242,9 +252,47 @@ ActiveRecord::Schema.define(version: 20170926021212) do
   add_index "client_enrollments", ["client_id"], name: "index_client_enrollments_on_client_id", using: :btree
   add_index "client_enrollments", ["program_stream_id"], name: "index_client_enrollments_on_program_stream_id", using: :btree
 
+  create_table "client_interviewees", force: :cascade do |t|
+    t.integer  "client_id"
+    t.integer  "interviewee_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "client_interviewees", ["client_id"], name: "index_client_interviewees_on_client_id", using: :btree
+  add_index "client_interviewees", ["interviewee_id"], name: "index_client_interviewees_on_interviewee_id", using: :btree
+
+  create_table "client_needs", force: :cascade do |t|
+    t.integer  "rank"
+    t.integer  "client_id"
+    t.integer  "need_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "client_needs", ["client_id"], name: "index_client_needs_on_client_id", using: :btree
+  add_index "client_needs", ["need_id"], name: "index_client_needs_on_need_id", using: :btree
+
+  create_table "client_problems", force: :cascade do |t|
+    t.integer  "rank"
+    t.integer  "client_id"
+    t.integer  "problem_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "client_problems", ["client_id"], name: "index_client_problems_on_client_id", using: :btree
+  add_index "client_problems", ["problem_id"], name: "index_client_problems_on_problem_id", using: :btree
+
   create_table "client_quantitative_cases", force: :cascade do |t|
     t.integer  "quantitative_case_id"
     t.integer  "client_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "client_types", force: :cascade do |t|
+    t.string   "name",       default: ""
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -299,6 +347,31 @@ ActiveRecord::Schema.define(version: 20170926021212) do
     t.text     "exit_note",                        default: ""
     t.date     "exit_date"
     t.date     "accepted_date"
+    t.string   "gov_city",                         default: ""
+    t.string   "gov_commune",                      default: ""
+    t.string   "gov_district",                     default: ""
+    t.date     "gov_date"
+    t.string   "gov_village_code",                 default: ""
+    t.string   "gov_client_code",                  default: ""
+    t.string   "gov_interview_village",            default: ""
+    t.string   "gov_interview_commune",            default: ""
+    t.string   "gov_interview_district",           default: ""
+    t.string   "gov_interview_city",               default: ""
+    t.string   "gov_caseworker_name",              default: ""
+    t.string   "gov_caseworker_phone",             default: ""
+    t.string   "gov_carer_name",                   default: ""
+    t.string   "gov_carer_relationship",           default: ""
+    t.string   "gov_carer_home",                   default: ""
+    t.string   "gov_carer_street",                 default: ""
+    t.string   "gov_carer_village",                default: ""
+    t.string   "gov_carer_commune",                default: ""
+    t.string   "gov_carer_district",               default: ""
+    t.string   "gov_carer_city",                   default: ""
+    t.string   "gov_carer_phone",                  default: ""
+    t.string   "gov_information_source",           default: ""
+    t.text     "gov_referral_reason",              default: ""
+    t.text     "gov_guardian_comment",             default: ""
+    t.text     "gov_caseworker_comment",           default: ""
   end
 
   add_index "clients", ["donor_id"], name: "index_clients_on_donor_id", using: :btree
@@ -504,6 +577,12 @@ ActiveRecord::Schema.define(version: 20170926021212) do
   add_index "interventions_progress_notes", ["intervention_id"], name: "index_interventions_progress_notes_on_intervention_id", using: :btree
   add_index "interventions_progress_notes", ["progress_note_id"], name: "index_interventions_progress_notes_on_progress_note_id", using: :btree
 
+  create_table "interviewees", force: :cascade do |t|
+    t.string   "name",       default: ""
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "leave_programs", force: :cascade do |t|
     t.jsonb    "properties",           default: {}
     t.integer  "client_enrollment_id"
@@ -524,6 +603,12 @@ ActiveRecord::Schema.define(version: 20170926021212) do
 
   create_table "materials", force: :cascade do |t|
     t.string   "status",     default: ""
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "needs", force: :cascade do |t|
+    t.string   "name",       default: ""
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -552,6 +637,12 @@ ActiveRecord::Schema.define(version: 20170926021212) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "cases_count",           default: 0
+  end
+
+  create_table "problems", force: :cascade do |t|
+    t.string   "name",       default: ""
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "program_streams", force: :cascade do |t|
@@ -913,7 +1004,7 @@ ActiveRecord::Schema.define(version: 20170926021212) do
 
   create_table "trackings", force: :cascade do |t|
     t.string   "name",              default: ""
-    t.jsonb    "fields"
+    t.jsonb    "fields",            default: {}
     t.string   "frequency",         default: ""
     t.integer  "time_of_frequency"
     t.integer  "program_stream_id"
@@ -1028,9 +1119,17 @@ ActiveRecord::Schema.define(version: 20170926021212) do
   add_foreign_key "case_worker_tasks", "users"
   add_foreign_key "changelog_types", "changelogs"
   add_foreign_key "changelogs", "users"
+  add_foreign_key "client_client_types", "client_types"
+  add_foreign_key "client_client_types", "clients"
   add_foreign_key "client_enrollment_trackings", "client_enrollments"
   add_foreign_key "client_enrollments", "clients"
   add_foreign_key "client_enrollments", "program_streams"
+  add_foreign_key "client_interviewees", "clients"
+  add_foreign_key "client_interviewees", "interviewees"
+  add_foreign_key "client_needs", "clients"
+  add_foreign_key "client_needs", "needs"
+  add_foreign_key "client_problems", "clients"
+  add_foreign_key "client_problems", "problems"
   add_foreign_key "clients", "donors"
   add_foreign_key "custom_field_properties", "custom_fields"
   add_foreign_key "domains", "domain_groups"
