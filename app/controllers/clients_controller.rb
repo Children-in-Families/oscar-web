@@ -39,9 +39,10 @@ class ClientsController < AdminController
                 page_size: 'A4',
                 layout:   'pdf_design.html.haml',
                 show_as_html: params.key?('debug'),
+                page_size: 'A4',
                 header: { html: { template: 'government_reports/pdf/header.pdf.haml' } },
                 footer: { html: { template: 'government_reports/pdf/footer.pdf.haml' }, right: '[page] of [topage]' },
-                margin: { left: 0, right: 0 }
+                margin: { left: 0, right: 0, top: 10, botton: 0 }
       end
     end
   end
