@@ -26,6 +26,15 @@ describe Client, 'associations' do
   it { is_expected.to have_many(:custom_fields).through(:custom_field_properties) }
   it { is_expected.to have_many(:users).through(:case_worker_clients) }
   it { is_expected.to have_many(:case_worker_clients).dependent(:destroy) }
+
+  it { is_expected.to have_many(:client_client_types).dependent(:destroy) }
+  it { is_expected.to have_many(:client_types).through(:client_client_types) }
+  it { is_expected.to have_many(:client_needs).dependent(:destroy) }
+  it { is_expected.to have_many(:needs).through(:client_needs) }
+  it { is_expected.to have_many(:client_interviewees).dependent(:destroy) }
+  it { is_expected.to have_many(:interviewees).through(:client_interviewees) }
+  it { is_expected.to have_many(:client_problems).dependent(:destroy) }
+  it { is_expected.to have_many(:problems).through(:client_problems) }
 end
 
 describe Client, 'callbacks' do
