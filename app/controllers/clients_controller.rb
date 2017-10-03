@@ -36,6 +36,7 @@ class ClientsController < AdminController
       format.pdf do
         render  pdf:      'show',
                 template: 'clients/show.pdf.haml',
+                page_size: 'A4',
                 layout:   'pdf_design.html.haml',
                 show_as_html: params.key?('debug'),
                 header: { html: { template: 'government_reports/pdf/header.pdf.haml' } },
