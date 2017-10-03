@@ -63,6 +63,7 @@ class Client < ActiveRecord::Base
   has_many :problems, through: :client_problems
 
   accepts_nested_attributes_for :client_needs
+  accepts_nested_attributes_for :client_problems
 
   has_paper_trail
 
@@ -335,6 +336,18 @@ class Client < ActiveRecord::Base
         ManagerMailer.remind_of_client(clients, day: day, manager: managers).deliver_now if managers.present?
         AdminMailer.remind_of_client(clients, day: day, admin: admins).deliver_now if admins.present?
       end
+    end
+  end
+
+  def populate_needs
+    Need.all.each do |need|
+      client_needs.build(need: need)
+    end
+  end
+
+  def populate_problems
+    Problem.all.each do |problem|
+      client_problems.build(problem: problem)
     end
   end
 

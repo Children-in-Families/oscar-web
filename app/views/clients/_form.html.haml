@@ -19,7 +19,6 @@
         .col-xs-12.col-sm-6.col-md-4= f.input :school_name, label: t('.school_name')
         .col-xs-12.col-sm-6.col-md-4= f.input :grade, label: t('.school_grade')
         .col-xs-12.col-sm-6.col-md-4= f.input :birth_province_id, collection: @province.map{|p| [p.name, p.id]},  label: t('.province')
-        -# .col-xs-12.col-sm-6.col-md-4= f.association :province, collection: @province, label: t('.current_province')
         .col-xs-12.col-sm-6.col-md-4
           = f.association :donor, collection: @donors, label: t('.donor')
         - if f.object.current_address.present?
@@ -127,7 +126,7 @@
                     .col-xs-12.col-sm-6.col-md-4
                       = f.input :gov_interview_city, label: t('.gov_city')
                     .col-xs-12.col-sm-6.col-md-4
-                      = f.association :interviewees, collection: @interviewees, as: :check_boxes, multiple: true, label_method: :name, value_method: :id, label: t('.gov_interviewees')
+                      = f.association :interviewees, collection: @interviewees, as: :check_boxes, multiple: true, label_method: :name, value_method: :id, label: t('.gov_interviewees'), input_html: { class: 'i-checks' }
                   .row
                     .col-xs-12.col-sm-6.col-md-4
                       = f.input :gov_caseworker_name, label: t('.gov_caseworker_name')
@@ -164,8 +163,8 @@
                       = f.input :gov_carer_phone, label: t('.gov_phone')
                     .col-xs-12.col-sm-6.col-md-4
                       = f.input :gov_information_source, collection: [['អនាមិក', 'អនាមិក'], ['ច្បាស់លាស់', 'ច្បាស់លាស់']], label: t('.gov_information_source')
-                    .col-xs-12.col-sm-6.col-md-4
-                      = f.association :client_types, collection: @client_types, as: :check_boxes, multiple: true, label_method: :name, value_method: :id, label: t('.gov_client_types')
+                    .col-xs-12.col-sm-6
+                      = f.association :client_types, collection: @client_types, as: :check_boxes, multiple: true, label_method: :name, value_method: :id, label: t('.gov_client_types'), input_html: { class: 'i-checks' }
         .col-xs-12
           #refferal-need-reason.panel-group{"aria-multiselectable" => "true", :role => "tablist"}
             .panel.panel-default
@@ -177,10 +176,10 @@
                 .panel-body
                   .row
                     .col-xs-12.col-sm-8
-                      = f.input :gov_referral_reason, label: t('.gov_summary_reason_of_referral')
+                      = f.input :gov_referral_reason, label: t('.gov_summary_reason_of_referral'), input_html: { rows: '5' }
                   .row
                     .col-xs-12.col-sm-8
-                      = f.input :gov_guardian_comment, label: t('.gov_guardian_comment')
+                      = f.input :gov_guardian_comment, label: t('.gov_guardian_comment'), input_html: { rows: '5' }
         .col-xs-12
           #caseworker-comment-section.panel-group{"aria-multiselectable" => "true", :role => "tablist"}
             .panel.panel-default
@@ -191,22 +190,27 @@
               #collapseCaseworkerCommentSection.panel-collapse.collapse.in{"aria-labelledby" => "headingCaseworkerCommentSection", :role => "tabpanel"}
                 .panel-body
                   .row
-                    .col-xs-12.col-sm-8
-                      -# = f.association :needs, collection: @needs, as: :check_boxes, multiple: true, label_method: :name, value_method: :id, label: t('.gov_client_need')
-                      -# - binding.pry
-                      -# - binding.pry
+                    .col-xs-12
                       %h3= t('.gov_client_need')
                       #client_needs
-                        = f.simple_fields_for :client_needs do |client_need|
-                          - @needs.each do |need|
-                            = render 'client_need_fields', f: client_need, need: need
-
+                        .row
+                          = f.simple_fields_for :client_needs do |client_need|
+                            .col-xs-12.col-sm-6.col-md-4
+                              = render 'client_need_fields', f: client_need
                   .row
-                    .col-xs-12.col-sm-8
-                      = f.association :problems, collection: @problems, as: :check_boxes, multiple: true, label_method: :name, value_method: :id, label: t('.gov_client_problem')
+                    .col-xs-12
+                      %hr
+                      %h3= t('.gov_client_problem')
+                      #client_problems
+                        .row
+                          = f.simple_fields_for :client_problems do |client_problem|
+                            .col-xs-12.col-sm-6.col-md-4
+                              = render 'client_problem_fields', f: client_problem
                   .row
+                    .col-xs-12
+                      %hr
                     .col-xs-12.col-sm-8
-                      = f.input :gov_caseworker_comment, label: t('.gov_caseworker_comment')
+                      = f.input :gov_caseworker_comment, label: t('.gov_caseworker_comment'), input_html: { rows: '5' }
       .row
         .col-xs-12
           %hr
@@ -225,11 +229,6 @@
                       .col-xs-12
                         %label{ title: qt.name }= qt.name
                         = f.association :quantitative_cases, collection: qt.quantitative_cases, multiple: true, label_method: :value, value_method: :id, label: false, input_html: { class: able_related_info(qt.name) }
-
-
-
-
-
 
   .ibox-footer
     %button.btn.btn-primary.form-btn#submit-button{ type: 'button' }

@@ -1,4 +1,4 @@
 .nested-fields
   .field
-    = f.input :rank, label: need.name
-    = f.input :need_id, as: :hidden, input_html: { value: need.id }, label: false
+    = f.input :rank, label: f.object.need.try(:name)
+    = f.input :need_id, as: :hidden, label: false

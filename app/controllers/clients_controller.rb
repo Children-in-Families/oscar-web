@@ -33,8 +33,11 @@ class ClientsController < AdminController
   end
 
   def new
-    @client                              = Client.new
-    @client_needs                        = @client.client_needs.build
+    @client = Client.new
+
+    @client.populate_needs
+    @client.populate_problems
+
     @ordered_stage                       = Stage.order('from_age, to_age')
     @able_screening_questions            = AbleScreeningQuestion.with_stage.group_by(&:question_group_id)
     @able_screening_questions_non_stage  = AbleScreeningQuestion.non_stage.order('created_at')
@@ -131,8 +134,8 @@ class ClientsController < AdminController
             custom_field_ids: [],
             tasks_attributes: [:name, :domain_id, :completion_date],
             answers_attributes: [:id, :description, :able_screening_question_id, :client_id, :question_type],
-            client_needs_attributes: [:id, :rank, :client_id, :need_id],
-            client_problems_attributes: [:id, :rank, :client_id, :problem_id]
+            client_needs_attributes: [:id, :rank, :need_id],
+            client_problems_attributes: [:id, :rank, :problem_id]
           )
   end
 

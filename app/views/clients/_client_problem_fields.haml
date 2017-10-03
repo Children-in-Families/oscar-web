@@ -1,0 +1,6 @@
+.nested-fields
+  .field
+    -# = f.input :rank, label: problem.name
+    -# = f.input :problem_id, as: :hidden, input_html: { value: problem.id }, label: false
+    = f.input :rank, label: f.object.problem.try(:name)
+    = f.input :problem_id, as: :hidden, label: false
