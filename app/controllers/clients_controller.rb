@@ -69,6 +69,9 @@ class ClientsController < AdminController
   def edit
     @ordered_stage                       = Stage.order('from_age, to_age')
     @able_screening_questions            = AbleScreeningQuestion.with_stage.group_by(&:question_group_id)
+
+    @client.populate_needs unless @client.needs.any?
+    @client.populate_problems unless @client.problems.any?
   end
 
   def create
