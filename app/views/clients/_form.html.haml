@@ -163,6 +163,7 @@
                       = f.input :gov_carer_phone, label: t('.gov_phone')
                     .col-xs-12.col-sm-6.col-md-4
                       = f.input :gov_information_source, collection: [['អនាមិក', 'អនាមិក'], ['ច្បាស់លាស់', 'ច្បាស់លាស់']], label: t('.gov_information_source')
+                  .row
                     .col-xs-12.col-sm-6
                       = f.association :client_types, collection: @client_types, as: :check_boxes, multiple: true, label_method: :name, value_method: :id, label: t('.gov_client_types'), input_html: { class: 'i-checks' }
         .col-xs-12

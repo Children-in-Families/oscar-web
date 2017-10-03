@@ -961,6 +961,33 @@ en:
       gender: Gender
       general_question: General Question
       given_name: Given Name
+      gov_caseworker_comment: Caseworker comment
+      gov_caseworker_comment_section: Caseworker comment on needs and challenges of the client
+      gov_caseworker_name: Caseworker name
+      gov_city: City/Province
+      gov_client_basic_info: Primary information from the client
+      gov_client_carer: Client carer
+      gov_client_carer_name: Name
+      gov_client_carer_relationship: Relationship
+      gov_client_code: Client code
+      gov_client_need: Please indicate the type of need (priority numbering)
+      gov_client_problem: Please highlight key challenges (priority numbering)
+      gov_client_types: Client type
+      gov_commune: Commune/Sangkat
+      gov_date: Date
+      gov_district: District/Khan
+      gov_government_form: Government Form
+      gov_guardian_comment: Comments from the client/guardians about issues and needs
+      gov_home: Home
+      gov_information_source: Information source
+      gov_interviewees: Interviewees
+      gov_phone: Phone number
+      gov_place_of_interview_client: Place of interview
+      gov_reason_of_referral_and_need: Reasons of transmission and needs
+      gov_street: Street
+      gov_summary_reason_of_referral: Brief information on the reasons for client transmission
+      gov_village: Village
+      gov_village_code: Village code
       has_been_in_government_care: Has Been In Government Care
       has_been_in_orphanage: Has Been In Orphanage
       house_number: House
