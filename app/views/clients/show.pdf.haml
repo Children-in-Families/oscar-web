@@ -73,13 +73,13 @@
             %input{style: 'width: 100%', value: @client.gov_interview_city }
   %label.panel-label{style: 'border-top: 0px;'}
     %u អ្នកផ្ដល់បទសម្ភាសន៍:
-    %input{ type: 'checkbox', checked: @client.interviewees.pluck(:name).include?('កុមារ') }
+    %input{ type: 'checkbox', checked: @interviewee_names.include?('កុមារ') }
     %label កុមារ
-    %input{ type: 'checkbox', checked: @client.interviewees.pluck(:name).include?('ឪពុកម្ដាយ') }
+    %input{ type: 'checkbox', checked: @interviewee_names.include?('ឪពុកម្ដាយ') }
     %label ឪពុកម្ដាយ
-    %input{ type: 'checkbox', checked: @client.interviewees.pluck(:name).include?('អាណាព្យាបាល')}
+    %input{ type: 'checkbox', checked: @interviewee_names.include?('អាណាព្យាបាល')}
     %label អាណាព្យាបាល
-    %input{ type: 'checkbox', checked: @client.interviewees.pluck(:name).include?('អ្នកថែទាំ')}
+    %input{ type: 'checkbox', checked: @interviewee_names.include?('អ្នកថែទាំ')}
     %label អ្នកថែទាំ
     %input{ type: 'checkbox' }
     %label ផ្សេងៗ...................
@@ -206,44 +206,44 @@
       .col-xs-4
         .form-check
           .form-check-label
-            %input.form-input{ type: 'checkbox', checked: @client.client_types.pluck(:name).include?('កុមារកំព្រា') }
+            %input.form-input{ type: 'checkbox', checked: @client_type_names.include?('កុមារកំព្រា') }
             = 'កុមារកំព្រា'
         .form-check
           .form-check-label
-            %input.form-input{ type: 'checkbox', checked: @client.client_types.pluck(:name).include?('កុមារពិការ') }
+            %input.form-input{ type: 'checkbox', checked: @client_type_names.include?('កុមារពិការ') }
             = 'កុមារពិការ'
         .form-check
           .form-check-label
-            %input.form-input{ type: 'checkbox', checked: @client.client_types.pluck(:name).include?('កុមារត្រូវបានបោះបង់ចោល') }
+            %input.form-input{ type: 'checkbox', checked: @client_type_names.include?('កុមារត្រូវបានបោះបង់ចោល') }
             = 'កុមារត្រូវបានបោះបង់ចោល'
         .form-check
           .form-check-label
-            %input.form-input{ type: 'checkbox', checked: @client.client_types.pluck(:name).include?('កុមារអានាថាតាមចិញ្ចើមថ្នល់') }
+            %input.form-input{ type: 'checkbox', checked: @client_type_names.include?('កុមារអានាថាតាមចិញ្ចើមថ្នល់') }
             = 'កុមារអានាថាតាមចិញ្ចើមថ្នល់'
         .form-check
           .form-check-label
-            %input.form-input{ type: 'checkbox', checked: @client.client_types.pluck(:name).include?('កុមារញៀនសារធាតុញៀន') }
+            %input.form-input{ type: 'checkbox', checked: @client_type_names.include?('កុមារញៀនសារធាតុញៀន') }
             = 'កុមារញៀនសារធាតុញៀន'
       .col-xs-8
         .form-check
           .form-check-label
-            %input.form-input{ type: 'checkbox', checked: @client.client_types.pluck(:name).include?('កុមារដែលមិនបានទទួលនូវតម្រូវការជាមូលដ្ឋាន') }
+            %input.form-input{ type: 'checkbox', checked: @client_type_names.include?('កុមារដែលមិនបានទទួលនូវតម្រូវការជាមូលដ្ឋាន') }
             = 'កុមារដែលមិនបានទទួលនូវតម្រូវការជាមូលដ្ឋាន'
         .form-check
           .form-check-label
-            %input.form-input{ type: 'checkbox', checked: @client.client_types.pluck(:name).include?('កុមារដែលទទួលផលប៉ះពាល់​ ឬផ្ទុកមេរោគអេដស៏/ជំងឺអេដស៏') }
+            %input.form-input{ type: 'checkbox', checked: @client_type_names.include?('កុមារដែលទទួលផលប៉ះពាល់​ ឬផ្ទុកមេរោគអេដស៏/ជំងឺអេដស៏') }
             = 'កុមារដែលទទួលផលប៉ះពាល់​ ឬផ្ទុកមេរោគអេដស៏/ជំងឺអេដស៏'
         .form-check
           .form-check-label
-            %input.form-input{ type: 'checkbox', checked: @client.client_types.pluck(:name).include?('កុមារដែលទទួលរងការរំលោភបំពានផ្លូវភេទ រូបរាងកាយផ្លូវចិត្ត') }
+            %input.form-input{ type: 'checkbox', checked: @client_type_names.include?('កុមារដែលទទួលរងការរំលោភបំពានផ្លូវភេទ រូបរាងកាយផ្លូវចិត្ត') }
             = 'កុមារដែលទទួលរងការរំលោភបំពានផ្លូវភេទ រូបរាងកាយផ្លូវចិត្ត'
         .form-check
           .form-check-label
-            %input.form-input{ type: 'checkbox', checked: @client.client_types.pluck(:name).include?('កុមារដែលរងគ្រោះដោយការកេងប្រវ័ញ្ចផ្លូវភេទ ឬទម្រង់ពលកម្មប្រកបដោយគ្រោះថ្នាក់') }
+            %input.form-input{ type: 'checkbox', checked: @client_type_names.include?('កុមារដែលរងគ្រោះដោយការកេងប្រវ័ញ្ចផ្លូវភេទ ឬទម្រង់ពលកម្មប្រកបដោយគ្រោះថ្នាក់') }
             = 'កុមារដែលរងគ្រោះដោយការកេងប្រវ័ញ្ចផ្លូវភេទ ឬទម្រង់ពលកម្មប្រកបដោយគ្រោះថ្នាក់'
         .form-check
           .form-check-label{style: 'inline-block;'}
-            %input.form-input{ type: 'checkbox', checked: @client.client_types.pluck(:name).include?('កុមារមានទំនាស់ជាមួយច្បាប់') }
+            %input.form-input{ type: 'checkbox', checked: @client_type_names.include?('កុមារមានទំនាស់ជាមួយច្បាប់') }
             = 'កុមារមានទំនាស់ជាមួយច្បាប់'
             %input.form-input{ type: 'checkbox' }
             = 'ផ្សេងៗ'
@@ -342,26 +342,26 @@
         .row
           .col-xs-6
             .form-check{style: 'margin: 3px 0 0 10px;'}
-              %input{ style: 'width: 7%;', value: Need.find_by(name: 'ម្ហូបអាហារ').client_needs.find_by(client_id: @client.id).try(:rank) }
+              %input{ style: 'width: 7%;', value: need_rank('ម្ហូបអាហារ') }
               %label ម្ហូបអាហារ
             .form-check{style: 'margin: 3px 0 0 10px;'}
-              %input{ style: 'width: 7%;', value: Need.find_by(name: 'ជំរក').client_needs.find_by(client_id: @client.id).try(:rank) }
+              %input{ style: 'width: 7%;', value: need_rank('ជំរក') }
               %label ជំរក
             .form-check{style: 'margin: 3px 0 0 10px;'}
-              %input{ style: 'width: 7%;', value: Need.find_by(name: 'ការសិក្សាអប់រំ').client_needs.find_by(client_id: @client.id).try(:rank) }
+              %input{ style: 'width: 7%;', value: need_rank('ការសិក្សាអប់រំ') }
               %label ការសិក្សាអប់រំ
             .form-check{style: 'margin: 3px 0 0 10px;'}
-              %input{ style: 'width: 7%;', value: Need.find_by(name: 'ការថែទាំផ្នែកវេជ្ជសាស្ត្រ').client_needs.find_by(client_id: @client.id).try(:rank) }
+              %input{ style: 'width: 7%;', value: need_rank('ការថែទាំផ្នែកវេជ្ជសាស្ត្រ') }
               %label ការថែទាំផ្នែកវេជ្ជសាស្ត្រ
           .col-xs-6{style: 'border-left: 1px solid black;min-height: 100px;'}
             .form-check{style: 'margin: 3px 0 0 0;'}
-              %input{ style: 'width: 7%;', value: Need.find_by(name: 'ការមើលថែពីមនុស្សពេញវ័យ').client_needs.find_by(client_id: @client.id).try(:rank) }
+              %input{ style: 'width: 7%;', value: need_rank('ការមើលថែពីមនុស្សពេញវ័យ') }
               %label ការមើលថែពីមនុស្សពេញវ័យ
             .form-check{style: 'margin: 3px 0 0 0'}
-              %input{ style: 'width: 7%;', value: Need.find_by(name: 'សំលៀកបំពាក់').client_needs.find_by(client_id: @client.id).try(:rank) }
+              %input{ style: 'width: 7%;', value: need_rank('សំលៀកបំពាក់') }
               %label សំលៀកបំពាក់
             .form-check{style: 'margin: 3px 0 0 0'}
-              %input{ style: 'width: 7%;', value: Need.find_by(name: 'ការគាំទ្រផ្នែកផ្លូវចិត្ត').client_needs.find_by(client_id: @client.id).try(:rank) }
+              %input{ style: 'width: 7%;', value: need_rank('ការគាំទ្រផ្នែកផ្លូវចិត្ត') }
               %label ការគាំទ្រផ្នែកផ្លូវចិត្ត
             .form-check{style: 'margin: 3px 0 0 0'}
               %input{style: 'width: 7%;'}
@@ -375,50 +375,50 @@
         .row
           .col-xs-6
             .form-check{style: 'margin: 3px 0 0 10px;'}
-              %input{ style: 'width: 7%;', value: Problem.find_by(name: 'ប្រើប្រាស់គ្រឿងស្រវឹង').client_problems.find_by(client_id: @client.id).try(:rank) }
+              %input{ style: 'width: 7%;', value: problem_rank('ប្រើប្រាស់គ្រឿងស្រវឹង') }
               %label ប្រើប្រាស់គ្រឿងស្រវឹង
             .form-check{style: 'margin: 3px 0 0 10px;'}
-              %input{ style: 'width: 7%;', value: Problem.find_by(name: 'ប្រើប្រាស់គ្រឿងញៀន').client_problems.find_by(client_id: @client.id).try(:rank) }
+              %input{ style: 'width: 7%;', value: problem_rank('ប្រើប្រាស់គ្រឿងញៀន') }
               %label ប្រើប្រាស់គ្រឿងញៀន
             .form-check{style: 'margin: 3px 0 0 10px;'}
-              %input{ style: 'width: 7%;', value: Problem.find_by(name: 'លេងល្បែង').client_problems.find_by(client_id: @client.id).try(:rank) }
+              %input{ style: 'width: 7%;', value: problem_rank('លេងល្បែង') }
               %label លេងល្បែង
             .form-check{style: 'margin: 3px 0 0 10px;'}
-              %input{ style: 'width: 7%;', value: Problem.find_by(name: 'រស់នៅតាមទីសាធារណៈ').client_problems.find_by(client_id: @client.id).try(:rank) }
+              %input{ style: 'width: 7%;', value: problem_rank('រស់នៅតាមទីសាធារណៈ') }
               %label រស់នៅតាមទីសាធារណៈ
             .form-check{style: 'margin: 3px 0 0 10px;'}
-              %input{ style: 'width: 7%;', value: Problem.find_by(name: 'មិនបានចូលរៀន').client_problems.find_by(client_id: @client.id).try(:rank) }
+              %input{ style: 'width: 7%;', value: problem_rank('មិនបានចូលរៀន') }
               %label មិនបានចូលរៀន
             .form-check{style: 'margin: 3px 0 0 10px;'}
-              %input{ style: 'width: 7%;', value: Problem.find_by(name: 'ការរំលោភបំពានផ្លូវកាយ').client_problems.find_by(client_id: @client.id).try(:rank) }
+              %input{ style: 'width: 7%;', value: problem_rank('ការរំលោភបំពានផ្លូវកាយ') }
               %label ការរំលោភបំពានផ្លូវកាយ
             .form-check{style: 'margin: 3px 0 0 10px;'}
-              %input{ style: 'width: 7%;', value: Problem.find_by(name: 'ការរំលោភបំពានផ្លូវភេទ').client_problems.find_by(client_id: @client.id).try(:rank) }
+              %input{ style: 'width: 7%;', value: problem_rank('ការរំលោភបំពានផ្លូវភេទ') }
               %label ការរំលោភបំពានផ្លូវភេទ
             .form-check{style: 'margin: 3px 0 0 10px;'}
-              %input{ style: 'width: 7%;', value: Problem.find_by(name: 'ការជួញដូរមនុស្ស').client_problems.find_by(client_id: @client.id).try(:rank) }
+              %input{ style: 'width: 7%;', value: problem_rank('ការជួញដូរមនុស្ស') }
               %label ការជួញដូរមនុស្ស
             .form-check{style: 'margin: 3px 0 0 10px;'}
-              %input{ style: 'width: 7%;', value: Problem.find_by(name: 'អាពាហ៍ពិពាហ៍ដោយបង្ខំ').client_problems.find_by(client_id: @client.id).try(:rank) }
+              %input{ style: 'width: 7%;', value: problem_rank('អាពាហ៍ពិពាហ៍ដោយបង្ខំ') }
               %label អាពាហ៍ពិពាហ៍ដោយបង្ខំ
           .col-xs-6{style: 'border-left: 1px solid black;min-height: 100px;'}
             .form-check{style: 'margin: 3px 0 0 0;'}
-              %input{ style: 'width: 7%;', value: Problem.find_by(name: 'ចំណាកស្រុក').client_problems.find_by(client_id: @client.id).try(:rank) }
+              %input{ style: 'width: 7%;', value: problem_rank('ចំណាកស្រុក') }
               %label ចំណាកស្រុក
             .form-check{style: 'margin: 3px 0 0 0;'}
-              %input{ style: 'width: 7%;', value: Problem.find_by(name: 'គ្រួសារធ្វើចំណាកស្រុក').client_problems.find_by(client_id: @client.id).try(:rank) }
+              %input{ style: 'width: 7%;', value: problem_rank('គ្រួសារធ្វើចំណាកស្រុក') }
               %label គ្រួសារធ្វើចំណាកស្រុក
             .form-check{style: 'margin: 3px 0 0 0;'}
-              %input{ style: 'width: 7%;', value: Problem.find_by(name: 'ការរំលោភបំពានផ្នែកអារម្មណ៍').client_problems.find_by(client_id: @client.id).try(:rank) }
+              %input{ style: 'width: 7%;', value: problem_rank('ការរំលោភបំពានផ្នែកអារម្មណ៍') }
               %label ការរំលោភបំពានផ្នែកអារម្មណ៍
             .form-check{style: 'margin: 3px 0 0 0;'}
-              %input{ style: 'width: 7%;', value: Problem.find_by(name: 'អំពើហិង្សាក្នុងគ្រួសារ').client_problems.find_by(client_id: @client.id).try(:rank) }
+              %input{ style: 'width: 7%;', value: problem_rank('អំពើហិង្សាក្នុងគ្រួសារ') }
               %label អំពើហិង្សាក្នុងគ្រួសារ
             .form-check{style: 'margin: 3px 0 0 0;'}
-              %input{ style: 'width: 7%;', value: Problem.find_by(name: 'ការកេងប្រវ័ញ្ចផ្នែកកំលាំងពលកម្ម').client_problems.find_by(client_id: @client.id).try(:rank) }
+              %input{ style: 'width: 7%;', value: problem_rank('ការកេងប្រវ័ញ្ចផ្នែកកំលាំងពលកម្ម') }
               %label ការកេងប្រវ័ញ្ចផ្នែកកំលាំងពលកម្ម
             .form-check{style: 'margin: 3px 0 0 0;'}
-              %input{ style: 'width: 7%;', value: Problem.find_by(name: 'ពលកម្មកំរិតធ្ងន់ធ្ងរ').client_problems.find_by(client_id: @client.id).try(:rank) }
+              %input{ style: 'width: 7%;', value: problem_rank('ពលកម្មកំរិតធ្ងន់ធ្ងរ') }
               %label ពលកម្មកំរិតធ្ងន់ធ្ងរ
             .form-check{style: 'margin: 3px 0 0 0;'}
               %input{ style: 'width: 7%;' }
