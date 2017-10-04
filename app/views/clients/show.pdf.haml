@@ -41,6 +41,7 @@
         %span.first= code
       - else
         %span= code
+
 .panel.panel-default.panel-no-margin
   %label.panel-label
     %u ទីកន្លែងសម្ភាសន៍ទទួលកុមារ:
@@ -88,10 +89,11 @@
     %input{style: 'width: 30%; margin-right: 25px;', value: @client.gov_caseworker_name }
     %label{style: 'margin-right:40px;'} លេខទូរស័ព្ទ:
     %input{style: 'width: 30%', value: @client.gov_caseworker_phone }
+
 .panel.panel-default.panel-no-margin
   %label.panel-label
     %u ព័ត៌មានបឋមអំពីកុមារ:
-  .panel-body.border-label{style: 'border-bottom: 0px; padding-bottom: 7px;'}
+  .panel-body.border-label{style: 'border-bottom: 0px;'}
     %label{style: 'margin-right:15px; margin-left: 10px;'} ឈ្មោះកុមារ:
     %input{style: 'width: 20%;', value: "#{@client.local_family_name} #{@client.local_given_name} "}
     ថ្ងៃខែឆ្នាំកំណើត:
@@ -102,10 +104,10 @@
       - else
         %span= code
     %label ភេទ:
-    %label ប្រុស
     %input{ type: 'checkbox', checked: @client.gender == 'male' ? true : false }
-    %label ស្រី
+    %label ប្រុស
     %input{ type: 'checkbox', checked: @client.gender == 'female' ? true : false}
+    %label ស្រី
     .panel.panel-default.panel-no-margin.panel-margin-top
       %label.panel-label អាសយដ្ឋានកុមាររស់នៅ:
       .panel-body.panel-label-dotted
@@ -308,11 +310,10 @@
             %input.form-input{ type: 'checkbox', checked: @client.referral_source == 'អាជ្ញាធរដែនដី' ? true : false  }
             = 'អាជ្ញាធរដែនដី'
         .form-check
-          %label.form-check-label{style: 'position: relative;top:-30px;'}
+          %label.form-check-label{style: 'position: relative;top:-25px;'}
             %input.form-input{ type: 'checkbox' }
             = 'ផ្សេងៗ'
           %textarea{style: 'display: inline-block;width: 60%;'}
-
 .panel.panel-default{style: 'margin:0;'}
   %label.panel-label
     មូលហេតុនៃការបញ្ចូន​​ និង តម្រូវការ:
@@ -339,31 +340,31 @@
         .row
           .col-xs-6
             .form-check{style: 'margin: 3px 0 0 10px;'}
-              %input{ style: 'width: 7%;', value: Need.find_by(name: 'ម្ហូបអាហារ').client_needs.find_by(client_id: @client.id).try(:rank) }
+              %input.text-center{ style: 'width: 7%;', value: Need.find_by(name: 'ម្ហូបអាហារ').client_needs.find_by(client_id: @client.id).try(:rank) }
               %label ម្ហូបអាហារ
             .form-check{style: 'margin: 3px 0 0 10px;'}
-              %input{ style: 'width: 7%;', value: Need.find_by(name: 'ជំរក').client_needs.find_by(client_id: @client.id).try(:rank) }
+              %input.text-center{ style: 'width: 7%;', value: Need.find_by(name: 'ជំរក').client_needs.find_by(client_id: @client.id).try(:rank) }
               %label ជំរក
             .form-check{style: 'margin: 3px 0 0 10px;'}
-              %input{ style: 'width: 7%;', value: Need.find_by(name: 'ការសិក្សាអប់រំ').client_needs.find_by(client_id: @client.id).try(:rank) }
+              %input.text-center{ style: 'width: 7%;', value: Need.find_by(name: 'ការសិក្សាអប់រំ').client_needs.find_by(client_id: @client.id).try(:rank) }
               %label ការសិក្សាអប់រំ
             .form-check{style: 'margin: 3px 0 0 10px;'}
-              %input{ style: 'width: 7%;', value: Need.find_by(name: 'ការថែទាំផ្នែកវេជ្ជសាស្ត្រ').client_needs.find_by(client_id: @client.id).try(:rank) }
+              %input.text-center{ style: 'width: 7%;', value: Need.find_by(name: 'ការថែទាំផ្នែកវេជ្ជសាស្ត្រ').client_needs.find_by(client_id: @client.id).try(:rank) }
               %label ការថែទាំផ្នែកវេជ្ជសាស្ត្រ
           .col-xs-6{style: 'border-left: 1px solid black;min-height: 100px;'}
             .form-check{style: 'margin: 3px 0 0 0;'}
-              %input{ style: 'width: 7%;', value: Need.find_by(name: 'ការមើលថែពីមនុស្សពេញវ័យ').client_needs.find_by(client_id: @client.id).try(:rank) }
+              %input.text-center{ style: 'width: 7%;', value: Need.find_by(name: 'ការមើលថែពីមនុស្សពេញវ័យ').client_needs.find_by(client_id: @client.id).try(:rank) }
               %label ការមើលថែពីមនុស្សពេញវ័យ
             .form-check{style: 'margin: 3px 0 0 0'}
-              %input{ style: 'width: 7%;', value: Need.find_by(name: 'សំលៀកបំពាក់').client_needs.find_by(client_id: @client.id).try(:rank) }
+              %input.text-center{ style: 'width: 7%;', value: Need.find_by(name: 'សំលៀកបំពាក់').client_needs.find_by(client_id: @client.id).try(:rank) }
               %label សំលៀកបំពាក់
             .form-check{style: 'margin: 3px 0 0 0'}
-              %input{ style: 'width: 7%;', value: Need.find_by(name: 'ការគាំទ្រផ្នែកផ្លូវចិត្ត').client_needs.find_by(client_id: @client.id).try(:rank) }
+              %input.text-center{ style: 'width: 7%;', value: Need.find_by(name: 'ការគាំទ្រផ្នែកផ្លូវចិត្ត').client_needs.find_by(client_id: @client.id).try(:rank) }
               %label ការគាំទ្រផ្នែកផ្លូវចិត្ត
             .form-check{style: 'margin: 3px 0 0 0'}
               %input{style: 'width: 7%;'}
               %label ផ្សេងៗ
-              %input{style: 'display: inline-block;width: 70%;'}
+              %input.text-center{style: 'display: inline-block;width: 70%;'}
     .panel.panel-default{style: 'margin:0;'}
       %label.panel-label
         សូមបញ្ជាក់ពីបញ្ហាប្រឈមសំខាន់ៗ(បង់លេខតាមអទិភាព):
@@ -371,83 +372,69 @@
         .row
           .col-xs-6
             .form-check{style: 'margin: 3px 0 0 10px;'}
-              %input{ style: 'width: 7%;', value: Problem.find_by(name: 'ប្រើប្រាស់គ្រឿងស្រវឹង').client_problems.find_by(client_id: @client.id).try(:rank) }
+              %input.text-center{ style: 'width: 7%;', value: Problem.find_by(name: 'ប្រើប្រាស់គ្រឿងស្រវឹង').client_problems.find_by(client_id: @client.id).try(:rank) }
               %label ប្រើប្រាស់គ្រឿងស្រវឹង
             .form-check{style: 'margin: 3px 0 0 10px;'}
-              %input{ style: 'width: 7%;', value: Problem.find_by(name: 'ប្រើប្រាស់គ្រឿងញៀន').client_problems.find_by(client_id: @client.id).try(:rank) }
+              %input.text-center{ style: 'width: 7%;', value: Problem.find_by(name: 'ប្រើប្រាស់គ្រឿងញៀន').client_problems.find_by(client_id: @client.id).try(:rank) }
               %label ប្រើប្រាស់គ្រឿងញៀន
             .form-check{style: 'margin: 3px 0 0 10px;'}
-              %input{ style: 'width: 7%;', value: Problem.find_by(name: 'លេងល្បែង').client_problems.find_by(client_id: @client.id).try(:rank) }
+              %input.text-center{ style: 'width: 7%;', value: Problem.find_by(name: 'លេងល្បែង').client_problems.find_by(client_id: @client.id).try(:rank) }
               %label លេងល្បែង
             .form-check{style: 'margin: 3px 0 0 10px;'}
-              %input{ style: 'width: 7%;', value: Problem.find_by(name: 'រស់នៅតាមទីសាធារណៈ').client_problems.find_by(client_id: @client.id).try(:rank) }
+              %input.text-center{ style: 'width: 7%;', value: Problem.find_by(name: 'រស់នៅតាមទីសាធារណៈ').client_problems.find_by(client_id: @client.id).try(:rank) }
               %label រស់នៅតាមទីសាធារណៈ
             .form-check{style: 'margin: 3px 0 0 10px;'}
-              %input{ style: 'width: 7%;', value: Problem.find_by(name: 'មិនបានចូលរៀន').client_problems.find_by(client_id: @client.id).try(:rank) }
+              %input.text-center{ style: 'width: 7%;', value: Problem.find_by(name: 'មិនបានចូលរៀន').client_problems.find_by(client_id: @client.id).try(:rank) }
               %label មិនបានចូលរៀន
             .form-check{style: 'margin: 3px 0 0 10px;'}
-              %input{ style: 'width: 7%;', value: Problem.find_by(name: 'ការរំលោភបំពានផ្លូវកាយ').client_problems.find_by(client_id: @client.id).try(:rank) }
+              %input.text-center{ style: 'width: 7%;', value: Problem.find_by(name: 'ការរំលោភបំពានផ្លូវកាយ').client_problems.find_by(client_id: @client.id).try(:rank) }
               %label ការរំលោភបំពានផ្លូវកាយ
             .form-check{style: 'margin: 3px 0 0 10px;'}
-              %input{ style: 'width: 7%;', value: Problem.find_by(name: 'ការរំលោភបំពានផ្លូវភេទ').client_problems.find_by(client_id: @client.id).try(:rank) }
+              %input.text-center{ style: 'width: 7%;', value: Problem.find_by(name: 'ការរំលោភបំពានផ្លូវភេទ').client_problems.find_by(client_id: @client.id).try(:rank) }
               %label ការរំលោភបំពានផ្លូវភេទ
             .form-check{style: 'margin: 3px 0 0 10px;'}
-              %input{ style: 'width: 7%;', value: Problem.find_by(name: 'ការជួញដូរមនុស្ស').client_problems.find_by(client_id: @client.id).try(:rank) }
+              %input.text-center{ style: 'width: 7%;', value: Problem.find_by(name: 'ការជួញដូរមនុស្ស').client_problems.find_by(client_id: @client.id).try(:rank) }
               %label ការជួញដូរមនុស្ស
             .form-check{style: 'margin: 3px 0 0 10px;'}
-              %input{ style: 'width: 7%;', value: Problem.find_by(name: 'អាពាហ៍ពិពាហ៍ដោយបង្ខំ').client_problems.find_by(client_id: @client.id).try(:rank) }
+              %input.text-center{ style: 'width: 7%;', value: Problem.find_by(name: 'អាពាហ៍ពិពាហ៍ដោយបង្ខំ').client_problems.find_by(client_id: @client.id).try(:rank) }
               %label អាពាហ៍ពិពាហ៍ដោយបង្ខំ
           .col-xs-6{style: 'border-left: 1px solid black;min-height: 100px;'}
             .form-check{style: 'margin: 3px 0 0 0;'}
-              %input{ style: 'width: 7%;', value: Problem.find_by(name: 'ចំណាកស្រុក').client_problems.find_by(client_id: @client.id).try(:rank) }
+              %input.text-center{ style: 'width: 7%;', value: Problem.find_by(name: 'ចំណាកស្រុក').client_problems.find_by(client_id: @client.id).try(:rank) }
               %label ចំណាកស្រុក
             .form-check{style: 'margin: 3px 0 0 0;'}
-              %input{ style: 'width: 7%;', value: Problem.find_by(name: 'គ្រួសារធ្វើចំណាកស្រុក').client_problems.find_by(client_id: @client.id).try(:rank) }
+              %input.text-center{ style: 'width: 7%;', value: Problem.find_by(name: 'គ្រួសារធ្វើចំណាកស្រុក').client_problems.find_by(client_id: @client.id).try(:rank) }
               %label គ្រួសារធ្វើចំណាកស្រុក
             .form-check{style: 'margin: 3px 0 0 0;'}
-              %input{ style: 'width: 7%;', value: Problem.find_by(name: 'ការរំលោភបំពានផ្នែកអារម្មណ៍').client_problems.find_by(client_id: @client.id).try(:rank) }
+              %input.text-center{ style: 'width: 7%;', value: Problem.find_by(name: 'ការរំលោភបំពានផ្នែកអារម្មណ៍').client_problems.find_by(client_id: @client.id).try(:rank) }
               %label ការរំលោភបំពានផ្នែកអារម្មណ៍
             .form-check{style: 'margin: 3px 0 0 0;'}
-              %input{ style: 'width: 7%;', value: Problem.find_by(name: 'អំពើហិង្សាក្នុងគ្រួសារ').client_problems.find_by(client_id: @client.id).try(:rank) }
+              %input.text-center{ style: 'width: 7%;', value: Problem.find_by(name: 'អំពើហិង្សាក្នុងគ្រួសារ').client_problems.find_by(client_id: @client.id).try(:rank) }
               %label អំពើហិង្សាក្នុងគ្រួសារ
             .form-check{style: 'margin: 3px 0 0 0;'}
-              %input{ style: 'width: 7%;', value: Problem.find_by(name: 'ការកេងប្រវ័ញ្ចផ្នែកកំលាំងពលកម្ម').client_problems.find_by(client_id: @client.id).try(:rank) }
+              %input.text-center{ style: 'width: 7%;', value: Problem.find_by(name: 'ការកេងប្រវ័ញ្ចផ្នែកកំលាំងពលកម្ម').client_problems.find_by(client_id: @client.id).try(:rank) }
               %label ការកេងប្រវ័ញ្ចផ្នែកកំលាំងពលកម្ម
             .form-check{style: 'margin: 3px 0 0 0;'}
-              %input{ style: 'width: 7%;', value: Problem.find_by(name: 'ពលកម្មកំរិតធ្ងន់ធ្ងរ').client_problems.find_by(client_id: @client.id).try(:rank) }
+              %input.text-center{ style: 'width: 7%;', value: Problem.find_by(name: 'ពលកម្មកំរិតធ្ងន់ធ្ងរ').client_problems.find_by(client_id: @client.id).try(:rank) }
               %label ពលកម្មកំរិតធ្ងន់ធ្ងរ
             .form-check{style: 'margin: 3px 0 0 0;'}
               %input{ style: 'width: 7%;' }
               %label ផ្សេងៗ
               %textarea{style: 'margin-left:20px;width: 80%;'}
-
+%p{style: 'page-break-after:always;'}
 .panel.panel-default{style: 'margin:0;'}
-  %label.panel-label{style: 'padding:8px; background-color: black; color: white; width:100%; margin-bottom: 1px;'}
+  %label.panel-label{style: 'padding:8px; background-color: black; color: white; width:100%;'}
     មតិយោបល់អ្នកកាន់ករណី:
-  .panel-body.border-label
-    .row
+  .panel-body.border-label{style: 'padding: 0;'}
+    .row{style: 'margin: 0;'}
       .col-xs-12{style: 'border-bottom: 1px solid black;'}
         .comment{style: 'height: 50px;'}
-    .row
+    .row{style: 'margin: 0;'}
       .col-xs-12
         %i *គ្រប់ករណីទាំងអស់ត្រូវបន្តទៅជំហាននៃការប៉ាន់ប្រមាណករណី និងគ្រួសារ
-      %br
-      %br
-      .col-xs-6
-        .signature_date
-          ថ្ងៃទី/ខែ/ឆ្នាំ:
-          %span.first
-          %span.padding-date
-          %span.padding-date
-          %span.padding-date
-          %span.padding-date
-          %span.padding-date
         %br
-        %p ហត្ថលេខាតំណាងអាជ្ញាធរមូលដ្ឋាន
         %br
-        %p _________________________
-      .col-xs-6
-        .text-right
+        .col-xs-6
           .signature_date
             ថ្ងៃទី/ខែ/ឆ្នាំ:
             %span.first
@@ -457,6 +444,20 @@
             %span.padding-date
             %span.padding-date
           %br
-          %p ហត្ថលេខាអ្នកកាន់ករណី
+          %p ហត្ថលេខាតំណាងអាជ្ញាធរមូលដ្ឋាន
           %br
-          %p ___________________
+          %p _________________________
+        .col-xs-6
+          .text-right
+            .signature_date
+              ថ្ងៃទី/ខែ/ឆ្នាំ:
+              %span.first
+              %span.padding-date
+              %span.padding-date
+              %span.padding-date
+              %span.padding-date
+              %span.padding-date
+            %br
+            %p ហត្ថលេខាអ្នកកាន់ករណី
+            %br
+            %p ___________________
