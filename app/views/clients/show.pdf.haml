@@ -254,7 +254,7 @@
     បញ្ចូនមកពី:
   .panel-body.border-label.border-label{style: 'padding: 0;'}
     .row
-      .col-xs-4{style: 'border-right: 1px solid black;min-height:122px;'}
+      .col-xs-4{style: 'border-right: 1px solid black;min-height:136px;'}
         .form-check{style: 'margin-left: 10px;'}
           .form-check-label
             %input.form-input{ type: 'checkbox', checked: @client.referral_source == 'ក្រសួង សអយ/មន្ទីរ សអយ' ? true : false }
@@ -275,7 +275,7 @@
           .form-check-label
             %input.form-input{ type: 'checkbox', checked: @client.referral_source == 'តុលាការ/ប្រព័ន្ធយុត្តិធម៌' ? true : false  }
             = 'តុលាការ/ប្រព័ន្ធយុត្តិធម៌'
-      .col-xs-4{style: 'min-height:122px;'}
+      .col-xs-4{style: 'min-height:136px;'}
         .form-check
           .form-check-label
             %input.form-input{ type: 'checkbox', checked: @client.referral_source == 'រកឃើញនៅតាមទីសាធារណៈ' ? true : false  }
@@ -296,7 +296,7 @@
           .form-check-label
             %input.form-input{ type: 'checkbox', checked: @client.referral_source == 'មកដោយខ្លួនឯង' ? true : false  }
             = 'មកដោយខ្លួនឯង'
-      .col-xs-4{style: 'border-left: 1px solid black;min-height:122px;'}
+      .col-xs-4{style: 'border-left: 1px solid black;min-height:136px;'}
         .form-check
           .form-check-label
             %input.form-input{ type: 'checkbox', checked: @client.referral_source == 'គ្រួសារ' ? true : false  }
@@ -306,14 +306,14 @@
             %input.form-input{ type: 'checkbox', checked: @client.referral_source == 'មិត្តភក្ដិ' ? true : false  }
             = 'មិត្តភក្ដិ'
         .form-check
-          %label.form-check-label
+          .form-check-label
             %input.form-input{ type: 'checkbox', checked: @client.referral_source == 'អាជ្ញាធរដែនដី' ? true : false  }
             = 'អាជ្ញាធរដែនដី'
         .form-check
-          %label.form-check-label{style: 'position: relative;top:-25px;'}
-            %input.form-input{ type: 'checkbox' }
+          .form-check-label
+            %input.form-input{ type: 'checkbox', checked: false }
             = 'ផ្សេងៗ'
-          %textarea{style: 'display: inline-block;width: 60%;'}
+          %textarea{ style: 'margin-left: 20px;'}
 .panel.panel-default{style: 'margin:0;'}
   %label.panel-label
     មូលហេតុនៃការបញ្ចូន​​ និង តម្រូវការ:
@@ -398,7 +398,7 @@
             .form-check{style: 'margin: 3px 0 0 10px;'}
               %input.text-center{ style: 'width: 7%;', value: problem_rank('អាពាហ៍ពិពាហ៍ដោយបង្ខំ') }
               %label អាពាហ៍ពិពាហ៍ដោយបង្ខំ
-          .col-xs-6{style: 'border-left: 1px solid black;min-height: 100px;'}
+          .col-xs-6{style: 'border-left: 1px solid black;min-height: 225px;'}
             .form-check{style: 'margin: 3px 0 0 0;'}
               %input.text-center{ style: 'width: 7%;', value: problem_rank('ចំណាកស្រុក') }
               %label ចំណាកស្រុក
@@ -429,6 +429,7 @@
     .row{style: 'margin: 0;'}
       .col-xs-12{style: 'border-bottom: 1px solid black;'}
         .comment{style: 'min-height: 50px;'}
+          %p= @client.gov_caseworker_comment
     .row{style: 'margin: 0;'}
       .col-xs-12
         %i *គ្រប់ករណីទាំងអស់ត្រូវបន្តទៅជំហាននៃការប៉ាន់ប្រមាណករណី និងគ្រួសារ
