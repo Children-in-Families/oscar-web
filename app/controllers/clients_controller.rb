@@ -6,6 +6,7 @@ class ClientsController < AdminController
   before_action :find_client, only: [:show, :edit, :update, :destroy]
   before_action :set_association, except: [:index, :destroy]
   before_action :choose_grid, only: :index
+  before_action :find_resources, only: :show
 
   def index
     columns_visibility
@@ -39,10 +40,10 @@ class ClientsController < AdminController
                 page_size: 'A4',
                 layout:   'pdf_design.html.haml',
                 show_as_html: params.key?('debug'),
-                page_size: 'A4',
                 header: { html: { template: 'government_reports/pdf/header.pdf.haml' } },
                 footer: { html: { template: 'government_reports/pdf/footer.pdf.haml' }, right: '[page] of [topage]' },
-                margin: { left: 0, right: 0, top: 10, botton: 0 }
+                margin: { left: 0, right: 0, top: 10, bottom: 0 },
+                dpi: '72'
       end
     end
   end
@@ -176,5 +177,10 @@ class ClientsController < AdminController
     controller_name = referrer[:controller]
 
     VisitClient.initial_visit_client(current_user) if white_list_referrers.include?(controller_name)
+  end
+
+  def find_resources
+    @interviewee_names = @client.interviewees.pluck(:name)
+    @client_type_names = @client.client_types.pluck(:name)
   end
 end
