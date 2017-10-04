@@ -43,7 +43,8 @@ class ClientsController < AdminController
                 header: { html: { template: 'government_reports/pdf/header.pdf.haml' } },
                 footer: { html: { template: 'government_reports/pdf/footer.pdf.haml' }, right: '[page] of [topage]' },
                 margin: { left: 0, right: 0, top: 10 },
-                dpi: '72'
+                dpi: '72',
+                disposition: 'inline'
       end
     end
   end
