@@ -227,7 +227,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       stickyControls: {
         enable: true
         offset:
-          width: 340
+          width: '16%'
           right: 78
           left: 'auto'
       }
