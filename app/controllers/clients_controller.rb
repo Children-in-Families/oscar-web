@@ -42,7 +42,7 @@ class ClientsController < AdminController
                 show_as_html: params.key?('debug'),
                 header: { html: { template: 'government_reports/pdf/header.pdf.haml' } },
                 footer: { html: { template: 'government_reports/pdf/footer.pdf.haml' }, right: '[page] of [topage]' },
-                margin: { left: 0, right: 0 },
+                margin: { left: 0, right: 0, top: 10, bottom: 0 },
                 dpi: '72'
       end
     end

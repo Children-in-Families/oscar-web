@@ -91,7 +91,7 @@
 .panel.panel-default.panel-no-margin
   %label.panel-label
     %u ព័ត៌មានបឋមអំពីកុមារ:
-  .panel-body.border-label{style: 'border-bottom: 0px;'}
+  .panel-body.border-label{style: 'border-bottom: 0px; padding-bottom: 7px;'}
     %label{style: 'margin-right:15px; margin-left: 10px;'} ឈ្មោះកុមារ:
     %input{style: 'width: 20%;', value: "#{@client.local_family_name} #{@client.local_given_name} "}
     ថ្ងៃខែឆ្នាំកំណើត:
@@ -137,7 +137,7 @@
                 - province = @client.province.present? ? @client.province.name.split(' / ').first : ''
                 %input{ style: 'width: 100%', value: province }
       %label.panel-label អ្នកថែទាំកុមារ:
-      .panel-body.panel-label-dotted
+      .panel-body.panel-label-dotted{style: 'padding-bottom: 2px;'}
         %label{ style: 'margin-right:15px;'} ឈ្មោះ
         %input{ style: 'width: 30%; margin-right: 25px;', value: @client.gov_carer_name }
         %label{ style: 'margin-right:40px;'} ទំនាក់ទំនងជាមួយកុមារ:
@@ -190,14 +190,12 @@
         %span.first= code
       - else
         %span= code
-%p{style: 'page-break-after:always;'}
-%div#panel-top-bottom-dotted
-  %label ប្រភពព័ត៌មាន:
-  %input{ type: 'checkbox', checked: @client.gov_information_source == 'អនាមិក' ? true : false }
-  %label អនាមិក
-  %input{ type: 'checkbox', checked: @client.gov_information_source == 'ច្បាស់លាស់' ? true : false }
-  %label ច្បាស់លាស់
-
+  %div#panel-top-bottom-dotted
+    %label ប្រភពព័ត៌មាន:
+    %input{ type: 'checkbox', checked: @client.gov_information_source == 'អនាមិក' ? true : false }
+    %label អនាមិក
+    %input{ type: 'checkbox', checked: @client.gov_information_source == 'ច្បាស់លាស់' ? true : false }
+    %label ច្បាស់លាស់
 .panel.panel-default.panel-no-margin
   %label.panel-label
     ប្រភេទកុមារ:
@@ -248,7 +246,7 @@
             %input.form-input{ type: 'checkbox' }
             = 'ផ្សេងៗ'
             %input{style: 'display: inline-block:width: 50%;'}
-
+%p{style: 'page-break-after:always;'}
 .panel.panel-default.panel-no-margin
   %label.panel-label
     បញ្ចូនមកពី:
@@ -312,7 +310,7 @@
         .form-check
           %label.form-check-label{style: 'position: relative;top:-30px;'}
             %input.form-input{ type: 'checkbox' }
-              = 'ផ្សេងៗ'
+            = 'ផ្សេងៗ'
           %textarea{style: 'display: inline-block;width: 60%;'}
 
 .panel.panel-default{style: 'margin:0;'}
@@ -331,7 +329,6 @@
       .panel-body.border-label
         .comment{style: 'min-height: 30px;'}
           %p= @client.gov_guardian_comment
-.panel.panel-default{style: 'margin:0;'}
   %label.panel-label
     យោបល់របស់អ្នកកាន់ករណី ចំពោះតម្រូវការ និង បញ្ហាប្រឈមរបស់កុមារ:
   .panel-body.border-label{style: 'padding-top: 0;padding-bottom: 0;'}
@@ -367,7 +364,6 @@
               %input{style: 'width: 7%;'}
               %label ផ្សេងៗ
               %input{style: 'display: inline-block;width: 70%;'}
-    %p{style: 'page-break-after:always;'}
     .panel.panel-default{style: 'margin:0;'}
       %label.panel-label
         សូមបញ្ជាក់ពីបញ្ហាប្រឈមសំខាន់ៗ(បង់លេខតាមអទិភាព):
@@ -441,15 +437,13 @@
         .signature_date
           ថ្ងៃទី/ខែ/ឆ្នាំ:
           %span.first
-          %span
-          %span
-          %span
-          %span
-          %span
-        %br
+          %span.padding-date
+          %span.padding-date
+          %span.padding-date
+          %span.padding-date
+          %span.padding-date
         %br
         %p ហត្ថលេខាតំណាងអាជ្ញាធរមូលដ្ឋាន
-        %br
         %br
         %p _________________________
       .col-xs-6
@@ -457,14 +451,12 @@
           .signature_date
             ថ្ងៃទី/ខែ/ឆ្នាំ:
             %span.first
-            %span
-            %span
-            %span
-            %span
-            %span
-          %br
+            %span.padding-date
+            %span.padding-date
+            %span.padding-date
+            %span.padding-date
+            %span.padding-date
           %br
           %p ហត្ថលេខាអ្នកកាន់ករណី
-          %br
           %br
           %p ___________________
