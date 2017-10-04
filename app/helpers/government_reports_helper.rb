@@ -12,6 +12,6 @@ module GovernmentReportsHelper
   def problem_rank(problem)
     # Problem.find_by(name: problem).client_problems.find_by(client_id: @client.id).try(:rank)
     problem = Problem.find_by(name: problem)
-    @client.client_problems.find_by(problem_id: problem.id)
+    @client.client_problems.find_by(problem_id: problem.id).try(:rank)
   end
 end
