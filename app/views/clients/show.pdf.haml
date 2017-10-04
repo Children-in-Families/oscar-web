@@ -183,7 +183,7 @@
               .col-xs-2
                 %label លេខទូរស័ព្ទ:
               .col-xs-10
-                %input{style: 'width:97%; float: right;', value: @client.gov_carer_phone }
+                %input{style: 'width:96.6%; float: right;', value: @client.gov_carer_phone }
   %div#panel-top-bottom-dotted
     %label ថ្ងៃទី/ខែ/ឆ្នាំទទួលព័ត៌មានអំពីករណី:
     - ird = @client.initial_referral_date.present? ? @client.initial_referral_date.strftime('%d%m%y') : '000000'
@@ -398,7 +398,7 @@
             .form-check{style: 'margin: 3px 0 0 10px;'}
               %input.text-center{ style: 'width: 7%;', value: problem_rank('អាពាហ៍ពិពាហ៍ដោយបង្ខំ') }
               %label អាពាហ៍ពិពាហ៍ដោយបង្ខំ
-          .col-xs-6{style: 'border-left: 1px solid black;min-height: 225px;'}
+          .col-xs-6{style: 'border-left: 1px solid black;min-height: 245px;'}
             .form-check{style: 'margin: 3px 0 0 0;'}
               %input.text-center{ style: 'width: 7%;', value: problem_rank('ចំណាកស្រុក') }
               %label ចំណាកស្រុក
@@ -428,39 +428,47 @@
   .panel-body.border-label{style: 'padding: 0;'}
     .row{style: 'margin: 0;'}
       .col-xs-12{style: 'border-bottom: 1px solid black;'}
+        %br
         .comment{style: 'min-height: 50px;'}
           %p= @client.gov_caseworker_comment
     .row{style: 'margin: 0;'}
       .col-xs-12
+        %br
         %i *គ្រប់ករណីទាំងអស់ត្រូវបន្តទៅជំហាននៃការប៉ាន់ប្រមាណករណី និងគ្រួសារ
         %br
         %br
-        .col-xs-6
-          .signature_date
-            ថ្ងៃទី/ខែ/ឆ្នាំ:
-            %span.first
-            %span.padding-date
-            %span.padding-date
-            %span.padding-date
-            %span.padding-date
-            %span.padding-date
-          %br
-          %p ហត្ថលេខាតំណាងអាជ្ញាធរមូលដ្ឋាន
-          %br
-          %br
-          %p _________________________
-        .col-xs-6
-          .text-right
+        .row
+          .col-xs-7.text-left
             .signature_date
-              ថ្ងៃទី/ខែ/ឆ្នាំ:
-              %span.first
-              %span.padding-date
-              %span.padding-date
-              %span.padding-date
-              %span.padding-date
-              %span.padding-date
+              .row
+                .col-xs-3
+                  ថ្ងៃទី/ខែ/ឆ្នាំ:
+                .col-xs-9.text-left
+                  %span.first
+                  %span.padding-date
+                  %span.padding-date
+                  %span.padding-date
+                  %span.padding-date
+                  %span.padding-date
             %br
-            %p ហត្ថលេខាអ្នកកាន់ករណី
+            %p{style: 'margin-left: 30px;'} ហត្ថលេខាតំណាងអាជ្ញាធរមូលដ្ឋាន
             %br
             %br
-            %p ___________________
+            %p{style: 'margin-left: 30px;'} _________________________
+          .col-xs-5.text-right
+            .signature_date
+              .row
+                .col-xs-4
+                  ថ្ងៃទី/ខែ/ឆ្នាំ:
+                .col-xs-8.text-left
+                  %span.first
+                  %span.padding-date
+                  %span.padding-date
+                  %span.padding-date
+                  %span.padding-date
+                  %span.padding-date
+            %br
+            %p{style: 'margin-right: 30px;'} ហត្ថលេខាអ្នកកាន់ករណី
+            %br
+            %br
+            %p{style: 'margin-right: 30px;'} ___________________
