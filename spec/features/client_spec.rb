@@ -128,9 +128,6 @@ describe 'Client' do
       find(".client_province select option[value='#{province.id}']", visible: false).select_option
       find(".client_birth_province_id select option[value='#{province.id}']", visible: false).select_option
 
-      fill_in 'Village', with: 'Sabay'
-      fill_in 'Commune', with: 'Vealvong'
-
       click_button 'Save'
       wait_for_ajax
       expect(page).to have_content("The client you are registering has many attributes that match a client who is already registered at")
