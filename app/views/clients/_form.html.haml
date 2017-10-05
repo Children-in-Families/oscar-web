@@ -83,137 +83,138 @@
         .col-xs-12.col-md-8
           = f.input :relevant_referral_information, input_html: { rows: '5' }, label: t('.relevant_referral_information')
 
-      .row
-        .col-xs-12
-          %hr
-      .row
-        .col-xs-12
-          %h1= t('.gov_government_form')
-        .col-xs-12.col-sm-6.col-md-4
-          = f.input :gov_city, label: t('.gov_city')
-        .col-xs-12.col-sm-6.col-md-4
-          = f.input :gov_district, label: t('.gov_district')
-        .col-xs-12.col-sm-6.col-md-4
-          = f.input :gov_commune, label: t('.gov_commune')
-        .col-xs-12.col-sm-6.col-md-4.form-group.date.optional.client_gov_date
-          %label.date.optional.control-label{ for: 'client_gov_date' }= t('.gov_date')
-          #client-gov-date.input-group.date
-            = f.text_field :gov_date, class: 'date optional form-control date-picker', type: 'text', name: 'client[gov_date]', id: 'client_gov_date'
-            %span.input-group-addon
-              %i.fa.fa-calendar-check-o
-        .col-xs-12.col-sm-6.col-md-4
-          = f.input :gov_village_code, label: t('.gov_village_code')
-        .col-xs-12.col-sm-6.col-md-4
-          = f.input :gov_client_code, label: t('.gov_client_code')
-          %br
-        .col-xs-12
-          #interview-place.panel-group{"aria-multiselectable" => "true", :role => "tablist"}
-            .panel.panel-default
-              #headingInterviewPlace.panel-heading{:role => "tab"}
-                %h4.panel-title
-                  %a{"aria-controls" => "collapseInterviewPlace", "aria-expanded" => "true", "data-parent" => "#interview-place", "data-toggle" => "collapse", :href => "#collapseInterviewPlace", :role => "button"}
-                    = t('.gov_place_of_interview_client')
-              #collapseInterviewPlace.panel-collapse.collapse.in{"aria-labelledby" => "headingInterviewPlace", :role => "tabpanel"}
-                .panel-body
-                  .row
-                    .col-xs-12.col-sm-6.col-md-4
-                      = f.input :gov_interview_village, label: t('.gov_village')
-                    .col-xs-12.col-sm-6.col-md-4
-                      = f.input :gov_interview_commune, label: t('.gov_commune')
-                    .col-xs-12.col-sm-6.col-md-4
-                      = f.input :gov_interview_district, label: t('.gov_district')
-                  .row
-                    .col-xs-12.col-sm-6.col-md-4
-                      = f.input :gov_interview_city, label: t('.gov_city')
-                    .col-xs-12.col-sm-6.col-md-4
-                      = f.association :interviewees, collection: @interviewees, as: :check_boxes, multiple: true, label_method: :name, value_method: :id, label: t('.gov_interviewees'), input_html: { class: 'i-checks' }
-                  .row
-                    .col-xs-12.col-sm-6.col-md-4
-                      = f.input :gov_caseworker_name, label: t('.gov_caseworker_name')
-                    .col-xs-12.col-sm-6.col-md-4
-                      = f.input :gov_caseworker_phone, label: t('.gov_phone')
-        .col-xs-12
-          #client-basic-info.panel-group{"aria-multiselectable" => "true", :role => "tablist"}
-            .panel.panel-default
-              #headingClientBasicInfo.panel-heading{:role => "tab"}
-                %h4.panel-title
-                  %a{"aria-controls" => "collapseClientBasicInfo", "aria-expanded" => "true", "data-parent" => "#client-basic-info", "data-toggle" => "collapse", :href => "#collapseClientBasicInfo", :role => "button"}
-                    = t('.gov_client_basic_info')
-              #collapseClientBasicInfo.panel-collapse.collapse.in{"aria-labelledby" => "headingClientBasicInfo", :role => "tabpanel"}
-                .panel-body
-                  %h3= t('.gov_client_carer')
-                  .row
-                    .col-xs-12.col-sm-6.col-md-4
-                      = f.input :gov_carer_name, label: t('.gov_client_carer_name')
-                    .col-xs-12.col-sm-6.col-md-4
-                      = f.input :gov_carer_relationship, label: t('.gov_client_carer_relationship')
-                    .col-xs-12.col-sm-6.col-md-4
-                      = f.input :gov_carer_home, label: t('.gov_home')
-                    .col-xs-12.col-sm-6.col-md-4
-                      = f.input :gov_carer_street, label: t('.gov_street')
-                    .col-xs-12.col-sm-6.col-md-4
-                      = f.input :gov_carer_village, label: t('.gov_village')
-                    .col-xs-12.col-sm-6.col-md-4
-                      = f.input :gov_carer_commune, label: t('.gov_commune')
-                    .col-xs-12.col-sm-6.col-md-4
-                      = f.input :gov_carer_district, label: t('.gov_district')
-                    .col-xs-12.col-sm-6.col-md-4
-                      = f.input :gov_carer_city, label: t('.gov_city')
-                    .col-xs-12.col-sm-6.col-md-4
-                      = f.input :gov_carer_phone, label: t('.gov_phone')
-                    .col-xs-12.col-sm-6.col-md-4
-                      = f.input :gov_information_source, collection: [['អនាមិក', 'អនាមិក'], ['ច្បាស់លាស់', 'ច្បាស់លាស់']], label: t('.gov_information_source')
-                  .row
-                    .col-xs-12.col-sm-6
-                      = f.association :client_types, collection: @client_types, as: :check_boxes, multiple: true, label_method: :name, value_method: :id, label: t('.gov_client_types'), input_html: { class: 'i-checks' }
-        .col-xs-12
-          #refferal-need-reason.panel-group{"aria-multiselectable" => "true", :role => "tablist"}
-            .panel.panel-default
-              #headingReferralNeedReason.panel-heading{:role => "tab"}
-                %h4.panel-title
-                  %a{"aria-controls" => "collapseReferralNeedReson", "aria-expanded" => "true", "data-parent" => "#refferal-need-reason", "data-toggle" => "collapse", :href => "#collapseReferralNeedReson", :role => "button"}
-                    = t('.gov_reason_of_referral_and_need')
-              #collapseReferralNeedReson.panel-collapse.collapse.in{"aria-labelledby" => "headingReferralNeedReason", :role => "tabpanel"}
-                .panel-body
-                  .row
-                    .col-xs-12.col-sm-8
-                      = f.input :gov_referral_reason, label: t('.gov_summary_reason_of_referral'), input_html: { rows: '5' }
-                  .row
-                    .col-xs-12.col-sm-8
-                      = f.input :gov_guardian_comment, label: t('.gov_guardian_comment'), input_html: { rows: '5' }
-        .col-xs-12
-          #caseworker-comment-section.panel-group{"aria-multiselectable" => "true", :role => "tablist"}
-            .panel.panel-default
-              #headingCaseworkerCommentSection.panel-heading{:role => "tab"}
-                %h4.panel-title
-                  %a{"aria-controls" => "collapseCaseworkerCommentSection", "aria-expanded" => "true", "data-parent" => "#caseworker-comment-section", "data-toggle" => "collapse", :href => "#collapseCaseworkerCommentSection", :role => "button"}
-                    = t('.gov_caseworker_comment_section')
-              #collapseCaseworkerCommentSection.panel-collapse.collapse.in{"aria-labelledby" => "headingCaseworkerCommentSection", :role => "tabpanel"}
-                .panel-body
-                  .row
-                    .col-xs-12
-                      %h3= t('.gov_client_need')
-                      #client_needs
-                        .row
-                          = f.simple_fields_for :client_needs do |client_need|
-                            .col-xs-12.col-sm-6.col-md-4
-                              = render 'client_need_fields', f: client_need
-                  .row
-                    .col-xs-12
-                      %hr
-                      %h3= t('.gov_client_problem')
-                      #client_problems
-                        .row
-                          = f.simple_fields_for :client_problems do |client_problem|
-                            .col-xs-12.col-sm-6.col-md-4
-                              = render 'client_problem_fields', f: client_problem
-                  .row
-                    .col-xs-12
-                      %hr
-                    .col-xs-12.col-sm-8
-                      = f.input :gov_caseworker_comment, label: t('.gov_caseworker_comment'), input_html: { rows: '5' }
-      .row
-        .col-xs-12
+      - if government_instance?
+        .row
+          .col-xs-12
+            %hr
+        .row
+          .col-xs-12
+            %h1= t('.gov_government_form')
+          .col-xs-12.col-sm-6.col-md-4
+            = f.input :gov_city, label: t('.gov_city')
+          .col-xs-12.col-sm-6.col-md-4
+            = f.input :gov_district, label: t('.gov_district')
+          .col-xs-12.col-sm-6.col-md-4
+            = f.input :gov_commune, label: t('.gov_commune')
+          .col-xs-12.col-sm-6.col-md-4.form-group.date.optional.client_gov_date
+            %label.date.optional.control-label{ for: 'client_gov_date' }= t('.gov_date')
+            #client-gov-date.input-group.date
+              = f.text_field :gov_date, class: 'date optional form-control date-picker', type: 'text', name: 'client[gov_date]', id: 'client_gov_date'
+              %span.input-group-addon
+                %i.fa.fa-calendar-check-o
+          .col-xs-12.col-sm-6.col-md-4
+            = f.input :gov_village_code, label: t('.gov_village_code')
+          .col-xs-12.col-sm-6.col-md-4
+            = f.input :gov_client_code, label: t('.gov_client_code')
+            %br
+          .col-xs-12
+            #interview-place.panel-group{"aria-multiselectable" => "true", :role => "tablist"}
+              .panel.panel-default
+                #headingInterviewPlace.panel-heading{:role => "tab"}
+                  %h4.panel-title
+                    %a{"aria-controls" => "collapseInterviewPlace", "aria-expanded" => "true", "data-parent" => "#interview-place", "data-toggle" => "collapse", :href => "#collapseInterviewPlace", :role => "button"}
+                      = t('.gov_place_of_interview_client')
+                #collapseInterviewPlace.panel-collapse.collapse.in{"aria-labelledby" => "headingInterviewPlace", :role => "tabpanel"}
+                  .panel-body
+                    .row
+                      .col-xs-12.col-sm-6.col-md-4
+                        = f.input :gov_interview_village, label: t('.gov_village')
+                      .col-xs-12.col-sm-6.col-md-4
+                        = f.input :gov_interview_commune, label: t('.gov_commune')
+                      .col-xs-12.col-sm-6.col-md-4
+                        = f.input :gov_interview_district, label: t('.gov_district')
+                    .row
+                      .col-xs-12.col-sm-6.col-md-4
+                        = f.input :gov_interview_city, label: t('.gov_city')
+                      .col-xs-12.col-sm-6.col-md-4
+                        = f.association :interviewees, collection: @interviewees, as: :check_boxes, multiple: true, label_method: :name, value_method: :id, label: t('.gov_interviewees'), input_html: { class: 'i-checks' }
+                    .row
+                      .col-xs-12.col-sm-6.col-md-4
+                        = f.input :gov_caseworker_name, label: t('.gov_caseworker_name')
+                      .col-xs-12.col-sm-6.col-md-4
+                        = f.input :gov_caseworker_phone, label: t('.gov_phone')
+          .col-xs-12
+            #client-basic-info.panel-group{"aria-multiselectable" => "true", :role => "tablist"}
+              .panel.panel-default
+                #headingClientBasicInfo.panel-heading{:role => "tab"}
+                  %h4.panel-title
+                    %a{"aria-controls" => "collapseClientBasicInfo", "aria-expanded" => "true", "data-parent" => "#client-basic-info", "data-toggle" => "collapse", :href => "#collapseClientBasicInfo", :role => "button"}
+                      = t('.gov_client_basic_info')
+                #collapseClientBasicInfo.panel-collapse.collapse.in{"aria-labelledby" => "headingClientBasicInfo", :role => "tabpanel"}
+                  .panel-body
+                    %h3= t('.gov_client_carer')
+                    .row
+                      .col-xs-12.col-sm-6.col-md-4
+                        = f.input :gov_carer_name, label: t('.gov_client_carer_name')
+                      .col-xs-12.col-sm-6.col-md-4
+                        = f.input :gov_carer_relationship, label: t('.gov_client_carer_relationship')
+                      .col-xs-12.col-sm-6.col-md-4
+                        = f.input :gov_carer_home, label: t('.gov_home')
+                      .col-xs-12.col-sm-6.col-md-4
+                        = f.input :gov_carer_street, label: t('.gov_street')
+                      .col-xs-12.col-sm-6.col-md-4
+                        = f.input :gov_carer_village, label: t('.gov_village')
+                      .col-xs-12.col-sm-6.col-md-4
+                        = f.input :gov_carer_commune, label: t('.gov_commune')
+                      .col-xs-12.col-sm-6.col-md-4
+                        = f.input :gov_carer_district, label: t('.gov_district')
+                      .col-xs-12.col-sm-6.col-md-4
+                        = f.input :gov_carer_city, label: t('.gov_city')
+                      .col-xs-12.col-sm-6.col-md-4
+                        = f.input :gov_carer_phone, label: t('.gov_phone')
+                      .col-xs-12.col-sm-6.col-md-4
+                        = f.input :gov_information_source, collection: [['អនាមិក', 'អនាមិក'], ['ច្បាស់លាស់', 'ច្បាស់លាស់']], label: t('.gov_information_source')
+                    .row
+                      .col-xs-12.col-sm-6
+                        = f.association :client_types, collection: @client_types, as: :check_boxes, multiple: true, label_method: :name, value_method: :id, label: t('.gov_client_types'), input_html: { class: 'i-checks' }
+          .col-xs-12
+            #refferal-need-reason.panel-group{"aria-multiselectable" => "true", :role => "tablist"}
+              .panel.panel-default
+                #headingReferralNeedReason.panel-heading{:role => "tab"}
+                  %h4.panel-title
+                    %a{"aria-controls" => "collapseReferralNeedReson", "aria-expanded" => "true", "data-parent" => "#refferal-need-reason", "data-toggle" => "collapse", :href => "#collapseReferralNeedReson", :role => "button"}
+                      = t('.gov_reason_of_referral_and_need')
+                #collapseReferralNeedReson.panel-collapse.collapse.in{"aria-labelledby" => "headingReferralNeedReason", :role => "tabpanel"}
+                  .panel-body
+                    .row
+                      .col-xs-12.col-sm-8
+                        = f.input :gov_referral_reason, label: t('.gov_summary_reason_of_referral'), input_html: { rows: '5' }
+                    .row
+                      .col-xs-12.col-sm-8
+                        = f.input :gov_guardian_comment, label: t('.gov_guardian_comment'), input_html: { rows: '5' }
+          .col-xs-12
+            #caseworker-comment-section.panel-group{"aria-multiselectable" => "true", :role => "tablist"}
+              .panel.panel-default
+                #headingCaseworkerCommentSection.panel-heading{:role => "tab"}
+                  %h4.panel-title
+                    %a{"aria-controls" => "collapseCaseworkerCommentSection", "aria-expanded" => "true", "data-parent" => "#caseworker-comment-section", "data-toggle" => "collapse", :href => "#collapseCaseworkerCommentSection", :role => "button"}
+                      = t('.gov_caseworker_comment_section')
+                #collapseCaseworkerCommentSection.panel-collapse.collapse.in{"aria-labelledby" => "headingCaseworkerCommentSection", :role => "tabpanel"}
+                  .panel-body
+                    .row
+                      .col-xs-12
+                        %h3= t('.gov_client_need')
+                        #client_needs
+                          .row
+                            = f.simple_fields_for :client_needs do |client_need|
+                              .col-xs-12.col-sm-6.col-md-4
+                                = render 'client_need_fields', f: client_need
+                    .row
+                      .col-xs-12
+                        %hr
+                        %h3= t('.gov_client_problem')
+                        #client_problems
+                          .row
+                            = f.simple_fields_for :client_problems do |client_problem|
+                              .col-xs-12.col-sm-6.col-md-4
+                                = render 'client_problem_fields', f: client_problem
+                    .row
+                      .col-xs-12
+                        %hr
+                      .col-xs-12.col-sm-8
+                        = f.input :gov_caseworker_comment, label: t('.gov_caseworker_comment'), input_html: { rows: '5' }
+        .row
+          .col-xs-12
           %hr
       .row
         .col-xs-12
