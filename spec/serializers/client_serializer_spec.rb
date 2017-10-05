@@ -137,7 +137,7 @@ describe ClientSerializer, type: :serializer do
 
   it 'should be have attribute id_poor' do
     expect(serializer).to have_json_path('client/id_poor')
-    expect(serializer).to have_json_type(Integer).at_path('client/id_poor')
+    expect(serializer).to have_json_type(NilClass).at_path('client/id_poor')
   end
 
   it 'should be have attribute received_by' do
@@ -217,7 +217,7 @@ describe ClientSerializer, type: :serializer do
 
   it 'should be have attribute grade' do
     expect(serializer).to have_json_path('client/grade')
-    expect(serializer).to have_json_type(Integer).at_path('client/grade')
+    expect(serializer).to have_json_type(NilClass).at_path('client/grade')
   end
 
   it 'should be have attribute kinship_care' do

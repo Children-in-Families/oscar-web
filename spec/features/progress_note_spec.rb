@@ -3,7 +3,7 @@ feature 'progress_note' do
   let!(:client){ create(:client, able_state: Client::ABLE_STATES[0]) }
   let!(:other_location){ create(:location, name: 'ផ្សេងៗ Other') }
   let!(:progress_note){ create(:progress_note, client: client, location: other_location) }
-  let!(:other_progress_note){ create(:progress_note, client: client, location: other_location) }
+  let!(:other_progress_note){ create(:progress_note, client: client, location: other_location, user: client.users.last) }
   let!(:progress_note_type){ create(:progress_note_type) }
   let!(:location){ create(:location) }
   let!(:intervention){ create(:intervention) }

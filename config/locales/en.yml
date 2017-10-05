@@ -151,7 +151,7 @@ en:
             time_of_frequency:
               blank: can't be blank
               greater_than_or_equal_to: must be greater than or equal to 1
-              not_an_integer: not an integer
+              not_an_integer: must be an integer
         department:
           attributes:
             name:
@@ -519,7 +519,7 @@ en:
     index:
       attachments: Attachments
       back: Back
-      case_note_lists: Case note lists
+      case_note_lists: Case note lists of
       case_note_on: Case note on
       completed_tasks: Completed Tasks
       domain: Domain
@@ -747,7 +747,7 @@ en:
       new_exit_program: New Exit Program
     show:
       back: Back
-      exit_date: Exit Date
+      exit_date: Exited on
     update:
       successfully_updated: Exit Program has been successfully updated.
   client_enrolled_program_trackings:
@@ -819,7 +819,7 @@ en:
     show:
       are_you_sure: Are you sure you want to delete?
       back: Back
-      enrollment_date: Enroll Date
+      enrollment_date: Enrolled on
     update:
       successfully_updated: Enrollment has been successfully updated.
   client_enrollments:
@@ -868,7 +868,7 @@ en:
     show:
       are_you_sure: Are you sure you want to delete?
       back: Back
-      enrollment_date: Enroll Date
+      enrollment_date: Enrolled on
     update:
       successfully_updated: Enrollment has been successfully updated.
   clients:
@@ -903,7 +903,7 @@ en:
       emergency_care: Emergency Care
       emergency_case:
         emergency_care: Emergency Care
-      exit_btn: Exit
+      exit_btn: Remove Client from Program
       exit_date: Exit Date
       exit_note: Exit Note
       exit_status: Exit Status
@@ -961,6 +961,33 @@ en:
       gender: Gender
       general_question: General Question
       given_name: Given Name
+      gov_caseworker_comment: Caseworker comment
+      gov_caseworker_comment_section: Caseworker comment on needs and challenges of the client
+      gov_caseworker_name: Caseworker name
+      gov_city: City/Province
+      gov_client_basic_info: Primary information from the client
+      gov_client_carer: Client carer
+      gov_client_carer_name: Name
+      gov_client_carer_relationship: Relationship
+      gov_client_code: Client code
+      gov_client_need: Please indicate the type of need (priority numbering)
+      gov_client_problem: Please highlight key challenges (priority numbering)
+      gov_client_types: Client type
+      gov_commune: Commune/Sangkat
+      gov_date: Date
+      gov_district: District/Khan
+      gov_government_form: Government Form
+      gov_guardian_comment: Comments from the client/guardians about issues and needs
+      gov_home: Home
+      gov_information_source: Information source
+      gov_interviewees: Interviewees
+      gov_phone: Phone number
+      gov_place_of_interview_client: Place of interview
+      gov_reason_of_referral_and_need: Reasons of transmission and needs
+      gov_street: Street
+      gov_summary_reason_of_referral: Brief information on the reasons for client transmission
+      gov_village: Village
+      gov_village_code: Village code
       has_been_in_government_care: Has Been In Government Care
       has_been_in_orphanage: Has Been In Orphanage
       house_number: House
@@ -969,8 +996,8 @@ en:
       initial_referral_date: Initial Referral Date
       kid_id: Kid ID
       live_with: Who to live with
-      local_family_name: Family Name (Local)
-      local_given_name: Given Name (Local)
+      local_family_name: Family Name (kh)
+      local_given_name: Given Name (kh)
       name: Name
       province: Birth Province
       received_by: Received By
@@ -993,7 +1020,7 @@ en:
       carer_names: Carer Names
       carer_phone_number: Carer Phone Number
       edit_btn: Edit
-      exit_btn: Exit
+      exit_btn: Remove Client from Program
       exit_date: Exit Date
       exit_note: Exit Note
       exit_status: Exit Status
@@ -1030,7 +1057,7 @@ en:
       carer_names: Carer Names
       carer_phone_number: Carer Phone Number
       edit_btn: Edit
-      exit_btn: Exit
+      exit_btn: Remove Client from Program
       exit_date: Exit Date
       exit_note: Exit Note
       exit_status: Exit Status
@@ -1090,7 +1117,7 @@ en:
       exit_from_ec: Exit From EC
       exit_from_fc: Exit From FC
       exit_from_kc: Exit From KC
-      exit_ngo_btn: Exit NGO
+      exit_ngo_btn: Exit From NGO
       exit_note: Exit Note
       families: Families
       family_name: Family Name
@@ -1100,7 +1127,7 @@ en:
       gender: Gender
       general_info: About Client
       given_name: Given Name
-      government_report: Government Reports
+      government_report: Government Report
       has_been_in_government_care: Has Been In Government Care
       has_been_in_orphanage: Has Been In Orphanage
       house_number: House
@@ -2643,7 +2670,7 @@ en:
       manage: Manage
       materials: Equipment/Materials
       partners: Partners
-      program_streams: Programs Stream
+      program_streams: Program Streams
       progress_note: Progress Note
       progress_note_types: Types of Note
       provinces: Provinces
@@ -2657,7 +2684,7 @@ en:
       log_out: Log out
   leave_programs:
     create:
-      successfully_created: Client has successfully exited from the program.
+      successfully_created: Client has been successfully exited from the program.
     edit:
       leave_program: Edit Leave Program
     destroy:
@@ -2672,9 +2699,9 @@ en:
       new_exit_program: New Exit Program
     show:
       back: Back
-      exit_date: Exit Date
+      exit_date: Exited on
     update:
-      successfully_updated: Exit Program has successfully updated.
+      successfully_updated: Exit Program has been successfully updated.
   locations:
     create:
       failed_create: Failed to create a location.
@@ -2887,8 +2914,8 @@ en:
       current_ngo: My NGO's Program Streams
       demo_programs: Demo NGO's Program Streams
       new_program: Add New Program
-      ngo_programs: All NGO's Program Streams
-      program_list: Programs Stream Listing
+      ngo_programs: All NGOs' Program Streams
+      program_list: Program Streams Listing
     my_ngo_custom_fields:
       next: Next
       previous: Previous
@@ -2911,7 +2938,7 @@ en:
     program_rule:
       add_new_filter: Add New Filter
       add_new_group: Add Group
-      add_rule: Add Rule
+      add_rule: Rules
       cannot_be_lower: Maximum program enrollment cannot be lower than active enrolled
       delete_group: Delete
       description: Description

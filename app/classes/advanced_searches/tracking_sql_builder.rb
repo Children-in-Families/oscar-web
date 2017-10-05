@@ -2,12 +2,13 @@ module AdvancedSearches
   class TrackingSqlBuilder
 
     def initialize(tracking_id, rule)
-      @tracking_id = tracking_id
-      field     = rule['field']
-      @field    = field.split('_').last.gsub("'", "''")
-      @operator = rule['operator']
-      @value    = format_value(rule['value'])
-      @type     = rule['type']
+      @tracking_id   = tracking_id
+      field          = rule['field']
+      @field         = field.split('_').last.gsub("'", "''")
+      @operator      = rule['operator']
+      @value         = format_value(rule['value'])
+      @type          = rule['type']
+      @input_type    = rule['input']
     end
 
     def get_sql
@@ -17,9 +18,17 @@ module AdvancedSearches
 
       case @operator
       when 'equal'
-        properties_result = client_enrollment_trackings.where("#{properties_field} ->> '#{@field}' ILIKE '%#{@value}%' ")
+        if @input_type == 'text'
+          properties_result = client_enrollment_trackings.where("lower(#{properties_field} ->> '#{@field}') = '#{@value}' ")
+        else
+          properties_result = client_enrollment_trackings.where("#{properties_field} -> '#{@field}' ? '#{@value}' ")
+        end
       when 'not_equal'
-        properties_result = client_enrollment_trackings.where.not("#{properties_field} -> '#{@field}' ? '#{@value}' ")
+        if @input_type == 'text'
+          properties_result = client_enrollment_trackings.where.not("lower(#{properties_field} ->> '#{@field}') = '#{@value}' ")
+        else
+          properties_result = client_enrollment_trackings.where.not("#{properties_field} -> '#{@field}' ? '#{@value}' ")
+        end
       when 'less'
         properties_result = client_enrollment_trackings.where("(#{properties_field} ->> '#{@field}')#{'::int' if integer? } < '#{@value}' AND #{properties_field} ->> '#{@field}' != '' ")
       when 'less_or_equal'

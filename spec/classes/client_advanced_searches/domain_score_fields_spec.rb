@@ -2,7 +2,7 @@ describe AdvancedSearches::DomainScoreFields, 'Method' do
   let!(:domain) { create(:domain) }
 
   before do
-    @domain_scores = AdvancedSearches::DomainScoreFields.render.first
+    @domain_scores = AdvancedSearches::DomainScoreFields.render.last
   end
 
   context 'render' do
