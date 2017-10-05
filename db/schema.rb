@@ -474,6 +474,7 @@ ActiveRecord::Schema.define(version: 20171002022338) do
     t.datetime "updated_at"
     t.integer  "cases_count",                     default: 0
     t.string   "case_history",                    default: ""
+    t.integer  "children",                        default: [],        array: true
   end
 
   create_table "form_builder_attachments", force: :cascade do |t|
@@ -1004,7 +1005,7 @@ ActiveRecord::Schema.define(version: 20171002022338) do
 
   create_table "trackings", force: :cascade do |t|
     t.string   "name",              default: ""
-    t.jsonb    "fields",            default: {}
+    t.jsonb    "fields"
     t.string   "frequency",         default: ""
     t.integer  "time_of_frequency"
     t.integer  "program_stream_id"

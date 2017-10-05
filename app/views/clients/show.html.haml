@@ -216,17 +216,17 @@
                 %td
                   %strong
                     = @client.kid_id
-              %tr
-                %td.spacing-first-col
-                  = t('.families')
-                %td
-                  %strong
-                    - @client.families.as_non_cases.uniq.each do |family|
-                      %strong.label.label-default.family
-                        - if can? :read, Family
-                          = link_to family(family), family_path(family)
-                        - else
-                          = family(family)
+              -# %tr
+              -#   %td.spacing-first-col
+              -#     = t('.families')
+              -#   %td
+              -#     %strong
+              -#       - @client.families.as_non_cases.uniq.each do |family|
+              -#         %strong.label.label-default.family
+              -#           - if can? :read, Family
+              -#             = link_to family(family), family_path(family)
+              -#           - else
+              -#             = family(family)
               %tr
                 %td.spacing-first-col
                   = t('.donor')
