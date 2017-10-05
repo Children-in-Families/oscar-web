@@ -225,55 +225,55 @@ module AdvancedSearches
 
     def family_id_field_query
       @values = validate_family_id(@value)
-      family = Family.where.not("children = '{}' OR children is null").uniq
+      families = Family.where.not("children = '{}' OR children is null")
 
       case @operator
       when 'equal'
-        client_ids = family.find(@values).children
+        client_ids = families.find_by(id: @values).try(:children)
       when 'not_equal'
-        client_ids = family.where.not(id: @values).pluck(:children)
+        client_ids = families.where.not(id: @values).pluck(:children)
       when 'less'
-        client_ids = family.where('id < ?', @values).pluck(:children)
+        client_ids = families.where('id < ?', @values).pluck(:children)
       when 'less_or_equal'
-        client_ids = family.where('id <= ?', @values).pluck(:children)
+        client_ids = families.where('id <= ?', @values).pluck(:children)
       when 'greater'
-        client_ids = family.where('id > ?', @values).pluck(:children)
+        client_ids = families.where('id > ?', @values).pluck(:children)
       when 'greater_or_equal'
-        client_ids = family.where('id >= ?', @values).pluck(:children)
+        client_ids = families.where('id >= ?', @values).pluck(:children)
       when 'between'
-        client_ids = family.where(id: @values[0]..@values[1]).pluck(:children)
+        client_ids = families.where(id: @values[0]..@values[1]).pluck(:children)
       when 'is_empty'
-        client_ids = family.pluck(:children).flatten.uniq
+        client_ids = families.pluck(:children).flatten.uniq
         client_ids = @clients.where.not(id: client_ids).pluck(:id).uniq
       when 'is_not_empty'
-        client_ids = family.pluck(:children).flatten.uniq
+        client_ids = families.pluck(:children).flatten.uniq
         client_ids = @clients.where(id: client_ids).pluck(:id).uniq
       end
-      clients = @clients.where(id: client_ids.flatten).ids.uniq
+      clients = client_ids.present? ? @clients.where(id: client_ids.flatten.uniq).ids : []
     end
 
     def family_name_field_query
       @values = validate_family_id(@value)
-      family = Family.where.not("children = '{}' OR children is null").uniq
+      families = Family.where.not("children = '{}' OR children is null").uniq
 
       case @operator
       when 'equal'
-        client_ids = family.find_by('lower(name) = ?', @values.downcase).children
+        client_ids = families.find_by('lower(name) = ?', @values.downcase).try(:children)
       when 'not_equal'
-        client_ids = family.where.not('lower(name) = ?', @values.downcase).pluck(:children)
+        client_ids = families.where.not('lower(name) = ?', @values.downcase).pluck(:children)
       when 'contains'
-        client_ids = family.where('name ILIKE ?', "%#{@values}%").pluck(:children)
+        client_ids = families.where('name ILIKE ?', "%#{@values}%").pluck(:children)
       when 'not_contains'
-        client_ids = family.where.not('name ILIKE ?', "%#{@values}%").pluck(:children)
+        client_ids = families.where.not('name ILIKE ?', "%#{@values}%").pluck(:children)
       when 'is_empty'
-        client_ids = family.pluck(:children).flatten.uniq
+        client_ids = families.pluck(:children).flatten.uniq
         client_ids = @clients.where.not(id: client_ids).pluck(:id).uniq
       when 'is_not_empty'
-        client_ids = family.pluck(:children).flatten.uniq
+        client_ids = families.pluck(:children).flatten.uniq
         client_ids = @clients.where(id: client_ids).pluck(:id).uniq
       end
 
-      clients = @clients.where(id: client_ids.flatten).ids.uniq
+      clients = client_ids.present? ? @clients.where(id: client_ids.flatten.uniq).ids : []
     end
 
     # def family_id_field_query
