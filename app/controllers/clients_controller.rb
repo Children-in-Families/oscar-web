@@ -6,6 +6,7 @@ class ClientsController < AdminController
   before_action :find_client, only: [:show, :edit, :update, :destroy]
   before_action :set_association, except: [:index, :destroy]
   before_action :choose_grid, only: :index
+  before_action :find_resources, only: :show
 
   def index
     columns_visibility
@@ -25,15 +26,35 @@ class ClientsController < AdminController
   end
 
   def show
-    @ordered_client_answers     = @client.answers.order(:created_at)
-    custom_field_ids            = @client.custom_field_properties.pluck(:custom_field_id)
-    @free_client_forms          = CustomField.client_forms.not_used_forms(custom_field_ids).order_by_form_title
-    @group_client_custom_fields = @client.custom_field_properties.sort_by{ |c| c.custom_field.form_title }.group_by(&:custom_field_id)
-    initial_visit_client
+    respond_to do |format|
+      format.html do
+        @ordered_client_answers     = @client.answers.order(:created_at)
+        custom_field_ids            = @client.custom_field_properties.pluck(:custom_field_id)
+        @free_client_forms          = CustomField.client_forms.not_used_forms(custom_field_ids).order_by_form_title
+        @group_client_custom_fields = @client.custom_field_properties.sort_by{ |c| c.custom_field.form_title }.group_by(&:custom_field_id)
+        initial_visit_client
+      end
+      format.pdf do
+        render  pdf:      'show',
+                template: 'clients/show.pdf.haml',
+                page_size: 'A4',
+                layout:   'pdf_design.html.haml',
+                show_as_html: params.key?('debug'),
+                header: { html: { template: 'government_reports/pdf/header.pdf.haml' } },
+                footer: { html: { template: 'government_reports/pdf/footer.pdf.haml' }, right: '[page] of [topage]' },
+                margin: { left: 0, right: 0, top: 10 },
+                dpi: '72',
+                disposition: 'inline'
+      end
+    end
   end
 
   def new
-    @client                              = Client.new
+    @client = Client.new
+
+    @client.populate_needs
+    @client.populate_problems
+
     @ordered_stage                       = Stage.order('from_age, to_age')
     @able_screening_questions            = AbleScreeningQuestion.with_stage.group_by(&:question_group_id)
     @able_screening_questions_non_stage  = AbleScreeningQuestion.non_stage.order('created_at')
@@ -52,6 +73,9 @@ class ClientsController < AdminController
   def edit
     @ordered_stage                       = Stage.order('from_age, to_age')
     @able_screening_questions            = AbleScreeningQuestion.with_stage.group_by(&:question_group_id)
+
+    @client.populate_needs unless @client.needs.any?
+    @client.populate_problems unless @client.problems.any?
   end
 
   def create
@@ -117,12 +141,21 @@ class ClientsController < AdminController
             :has_been_in_orphanage, :has_been_in_government_care,
             :relevant_referral_information, :province_id, :donor_id,
             :state, :rejected_note, :able, :able_state, :live_with, :id_poor, :accepted_date,
+            :gov_city, :gov_commune, :gov_district, :gov_date, :gov_village_code, :gov_client_code,
+            :gov_interview_village, :gov_interview_commune, :gov_interview_district, :gov_interview_city,
+            :gov_caseworker_name, :gov_caseworker_phone, :gov_carer_name, :gov_carer_relationship, :gov_carer_home,
+            :gov_carer_street, :gov_carer_village, :gov_carer_commune, :gov_carer_district, :gov_carer_city, :gov_carer_phone,
+            :gov_information_source, :gov_referral_reason, :gov_guardian_comment, :gov_caseworker_comment,
+            interviewee_ids: [],
+            client_type_ids: [],
             user_ids: [],
             agency_ids: [],
             quantitative_case_ids: [],
             custom_field_ids: [],
             tasks_attributes: [:name, :domain_id, :completion_date],
-            answers_attributes: [:id, :description, :able_screening_question_id, :client_id, :question_type]
+            answers_attributes: [:id, :description, :able_screening_question_id, :client_id, :question_type],
+            client_needs_attributes: [:id, :rank, :need_id],
+            client_problems_attributes: [:id, :rank, :problem_id]
           )
   end
 
@@ -132,6 +165,10 @@ class ClientsController < AdminController
     @province        = Province.order(:name)
     @referral_source = ReferralSource.order(:name)
     @users           = User.non_strategic_overviewers.order(:first_name, :last_name)
+    @interviewees    = Interviewee.order(:created_at)
+    @client_types    = ClientType.order(:created_at)
+    @needs           = Need.order(:created_at)
+    @problems        = Problem.order(:created_at)
   end
 
   def initial_visit_client
@@ -141,5 +178,10 @@ class ClientsController < AdminController
     controller_name = referrer[:controller]
 
     VisitClient.initial_visit_client(current_user) if white_list_referrers.include?(controller_name)
+  end
+
+  def find_resources
+    @interviewee_names = @client.interviewees.pluck(:name)
+    @client_type_names = @client.client_types.pluck(:name)
   end
 end
