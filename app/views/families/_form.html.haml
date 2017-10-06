@@ -13,7 +13,7 @@
         .col-xs-12.col-sm-6.col-md-4= f.input :male_children_count, label: t('.male_children_count')
         .col-xs-12.col-sm-6.col-md-4= f.input :female_adult_count, label: t('.female_adult_count')
         .col-xs-12.col-sm-6.col-md-4= f.input :male_adult_count, label: t('.male_adult_count')
-        .col-xs-12.col-sm-6.col-md-4= f.association :clients, collection: @clients.map{|client| [client.en_and_local_name.present? ? client.en_and_local_name : 'Unknown', client.id] }, multitple: true, label: t('.clients')
+        .col-xs-12.col-sm-6.col-md-4= f.input :children, collection: @clients.map { |client| [client.en_and_local_name.present? ? client.en_and_local_name : 'Unknown', client.id] }, input_html: { multiple: true }, label: t('.clients')
         .col-xs-12.col-sm-6.col-md-4= f.association :province, collection: @province, label: t('.province'), input_html: { class: 'select2' }
         .col-xs-12.col-sm-6.col-md-4.form-group.date.optional.family_contract_date
           %label.date.optional.control-label{ for: 'family_contract_date' }= t('.contract_date')

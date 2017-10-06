@@ -20,8 +20,12 @@
                   %td.manage.text-center
                     = link_to preview_custom_fields_path(custom_field_id: custom_field.id, ngo_name: custom_field.ngo_name), class: 'btn btn-outline btn-primary btn-xs', title: t('.preview') do
                       = fa_icon('eye')
-                    = link_to new_custom_field_path(custom_field_id: custom_field.id, ngo_name: custom_field.ngo_name), class: 'btn btn-outline btn-primary btn-xs margin-btn', title: t('.copy') do
-                      = fa_icon('files-o')
+                    - if current_organization.full_name == custom_field.ngo_name
+                      = link_to edit_custom_field_path(custom_field), class: 'btn btn-outline btn-success btn-xs' do
+                        = fa_icon('pencil')
+                    - else
+                      = link_to new_custom_field_path(custom_field_id: custom_field.id, ngo_name: custom_field.ngo_name), class: 'btn btn-outline btn-primary btn-xs margin-btn', title: t('.copy') do
+                        = fa_icon('files-o')
       .text-center
         = paginate @custom_fields
       .ibox-footer

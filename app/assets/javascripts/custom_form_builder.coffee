@@ -1,16 +1,16 @@
 class CIF.CustomFormBuilder
   constructor: () ->
 
-  thematicBreak: ->
-    [{
-      label: 'Separate Line'
-      attrs: type: 'separateLine'
-      icon: '<i class="fa fa-minus" aria-hidden="true"></i>'
-    }]
-
-  separateLineTemplate: ->
-    separateLine: (fieldData) ->
-          { field: '<hr/>' }
+  # thematicBreak: ->
+  #   [{
+  #     label: 'Separate Line'
+  #     attrs: type: 'separateLine'
+  #     icon: '<i class="fa fa-minus" aria-hidden="true"></i>'
+  #   }]
+  #
+  # separateLineTemplate: ->
+  #   separateLine: (fieldData) ->
+  #         { field: '<hr/>' }
 
   eventCheckboxOption: ->
     self = @
@@ -113,11 +113,11 @@ class CIF.CustomFormBuilder
         self.handleCheckingForm()
       ),50
 
-  eventSeparateLineOption: ->
-    onadd: (fld) ->
-      $(fld).find('.field-actions .icon-pencil').remove()
-    onclone: (fld) ->
-      $(fld).find('.field-actions .icon-pencil').remove()
+  # eventSeparateLineOption: ->
+  #   onadd: (fld) ->
+  #     $(fld).find('.field-actions .icon-pencil').remove()
+  #   onclone: (fld) ->
+  #     $(fld).find('.field-actions .icon-pencil').remove()
 
   hideOptionValue: ->
     $('.option-selected, .option-value').hide()

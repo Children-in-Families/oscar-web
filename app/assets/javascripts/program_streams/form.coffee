@@ -72,9 +72,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       fields = $(@).data('fields')
       for formBuilder in self.formBuilder
         element = formBuilder.element
-        if $(element).is('#enrollment') and $('#enrollment').is(':visible')
-          _addFieldProgramBuilder(formBuilder, fields)
-        else if $(element).is('.tracking-builder') && $('#trackings').is(':visible')
+        if $(element).is('.tracking-builder') && $('#trackings').is(':visible')
           builderId = $(TRACKING).attr('id')
           formBuilderId = $(formBuilder.element).parents('.nested-fields').attr('id')
           if formBuilderId == builderId
@@ -82,15 +80,12 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
             setTimeout ( ->
               document.getElementById(builderId).scrollIntoView()
             )
-        else if $(element).is('#exit-program') and $('#exit-program').is(':visible')
-          _addFieldProgramBuilder(formBuilder, fields)
       $('#custom-field').modal('hide')
 
   _addFieldProgramBuilder = (formBuilder, fields) ->
-    combineFields = JSON.parse(formBuilder.formData).concat(fields)
+    combineFields = JSON.parse(formBuilder.actions.save()).concat(fields)
     for field in fields
       formBuilder.actions.addField(field)
-    formBuilder.formData = JSON.stringify(combineFields)
 
   _initCheckbox = ->
     $('.i-checks').iCheck
@@ -215,9 +210,9 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     builderOption = new CIF.CustomFormBuilder()
     data = JSON.stringify(data)
     formBuilder = $(element).formBuilder(
-      templates: separateLine: (fieldData) ->
-        { field: '<hr/>' }
-      fields: builderOption.thematicBreak()
+      # templates: separateLine: (fieldData) ->
+      #   { field: '<hr/>' }
+      # fields: builderOption.thematicBreak()
       dataType: 'json'
       formData: data
       disableFields: ['autocomplete', 'header', 'hidden', 'paragraph', 'button','checkbox']
@@ -228,7 +223,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       stickyControls: {
         enable: true
         offset:
-          width: 340
+          width: '17%'
           right: 78
           left: 'auto'
       }
@@ -241,7 +236,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         select: builderOption.eventSelectOption()
         text: builderOption.eventTextFieldOption()
         textarea: builderOption.eventTextAreaOption()
-        separateLine: builderOption.eventSeparateLineOption()
+        # separateLine: builderOption.eventSeparateLineOption()
       })
     formBuilder.element = element
     @formBuilder.push formBuilder
@@ -358,12 +353,12 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     for formBuilder in @formBuilder
       element = formBuilder.element
       if $(element).is('#enrollment')
-        $('#program_stream_enrollment').val(formBuilder.formData.allReplace(specialCharacters))
+        $('#program_stream_enrollment').val(formBuilder.actions.save().allReplace(specialCharacters))
       else if $(element).is('.tracking-builder')
         hiddenField = $(element).find('.tracking-field-hidden input[type="hidden"]')
-        $(hiddenField).val(formBuilder.formData.allReplace(specialCharacters))
+        $(hiddenField).val(formBuilder.actions.save().allReplace(specialCharacters))
       else if $(element).is('#exit-program')
-        $('#program_stream_exit_program').val(formBuilder.formData.allReplace(specialCharacters))
+        $('#program_stream_exit_program').val(formBuilder.actions.save().allReplace(specialCharacters))
 
   _handleStringfyRules = (rules) ->
     rules = JSON.stringify(rules)

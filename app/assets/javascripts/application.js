@@ -11,7 +11,7 @@
 //= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
 //= require thredded
 //= require select2
-//= require cocoon
+
 //= require image_upload_previewer/image_upload_previewer
 //= require image_upload
 //= require bootstrap-datepicker/core
@@ -22,8 +22,8 @@
 //= require highcharts.js
 //= require dropzone
 //= require replace_string.js
-//= require form_builder/form-builder.min.js
-//= require form_builder/form-render.min.js
+//= require form_builder/form-builder.min
+//= require form_builder/form-render.min
 //= require lodash/lodash.min.js
 //= require query_builder/query-builder.standalone.min.js
 //= require interact.js

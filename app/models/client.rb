@@ -53,6 +53,18 @@ class Client < ActiveRecord::Base
   # has_many :surveys,        dependent: :destroy
   has_many :progress_notes, dependent: :destroy
 
+  has_many :client_client_types, dependent: :destroy
+  has_many :client_types, through: :client_client_types
+  has_many :client_interviewees, dependent: :destroy
+  has_many :interviewees, through: :client_interviewees
+  has_many :client_needs, dependent: :destroy
+  has_many :needs, through: :client_needs
+  has_many :client_problems, dependent: :destroy
+  has_many :problems, through: :client_problems
+
+  accepts_nested_attributes_for :client_needs
+  accepts_nested_attributes_for :client_problems
+
   has_paper_trail
 
   validates :rejected_note, presence: true, on: :update, if: :reject?
@@ -324,6 +336,18 @@ class Client < ActiveRecord::Base
         ManagerMailer.remind_of_client(clients, day: day, manager: managers).deliver_now if managers.present?
         AdminMailer.remind_of_client(clients, day: day, admin: admins).deliver_now if admins.present?
       end
+    end
+  end
+
+  def populate_needs
+    Need.all.each do |need|
+      client_needs.build(need: need)
+    end
+  end
+
+  def populate_problems
+    Problem.all.each do |problem|
+      client_problems.build(problem: problem)
     end
   end
 

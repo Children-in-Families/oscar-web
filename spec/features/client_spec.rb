@@ -87,6 +87,10 @@ describe 'Client' do
     scenario 'delete link' do
       expect(page).to have_css("a[href='#{client_path(client)}'][data-method='delete']")
     end
+
+    scenario 'government report invisible' do
+      expect(page).not_to have_link(nil, href: client_path(client, format: 'pdf'))
+    end
   end
 
   feature 'New' do
@@ -116,20 +120,21 @@ describe 'Client' do
     scenario 'warning', js: true do
       fill_in 'Given Name', with: 'Branderjo'
       fill_in 'Family Name', with: 'Anderjo'
-      fill_in 'Given Name (Local)', with: 'Viny'
-      fill_in 'Family Name (Local)', with: 'Kelly'
+      fill_in 'Given Name (kh)', with: 'Viny'
+      fill_in 'Family Name (kh)', with: 'Kelly'
       fill_in 'Date of Birth', with: '2017-05-01'
       find(".client_users select option[value='#{user.id}']", visible: false).select_option
 
       find(".client_province select option[value='#{province.id}']", visible: false).select_option
       find(".client_birth_province_id select option[value='#{province.id}']", visible: false).select_option
 
-      fill_in 'Village', with: 'Sabay'
-      fill_in 'Commune', with: 'Vealvong'
-
       click_button 'Save'
       wait_for_ajax
       expect(page).to have_content("The client you are registering has many attributes that match a client who is already registered at")
+    end
+
+    scenario 'government repor section invisible' do
+      expect(page).not_to have_content('Government Form')
     end
   end
 
@@ -150,6 +155,10 @@ describe 'Client' do
       fill_in 'Given Name', with: ''
       click_button 'Save'
       expect(page).to have_content("can't be blank")
+    end
+
+    scenario 'government repor section invisible' do
+      expect(page).not_to have_content('Government Form')
     end
   end
 

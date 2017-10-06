@@ -162,4 +162,8 @@ module ApplicationHelper
       content_tag(:span, field_message, class: 'help-block')
     end
   end
+
+  def government_instance?
+    current_organization.short_name == 'cwd'
+  end
 end
