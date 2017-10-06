@@ -145,6 +145,10 @@ km:
           attributes:
             user_ids:
               blank: មិនអាចរំលង
+        client_enrollment:
+          attributes:
+            enrollment_date:
+              blank: មិនអាចរំលង
         custom_field:
           attributes:
             entity_type:
@@ -184,6 +188,10 @@ km:
             action:
               blank: មិនអាចរំលង
               taken: ត្រូវបានប្រើរួចហើយ
+        leave_program:
+          attributes:
+            exit_date:
+              blank: មិនអាចរំលង
         location:
           attributes:
             name:
@@ -2638,6 +2646,8 @@ km:
     version:
       back: ត្រលប់ក្រោយ
       modification_of: ប្រវត្តិកំណែរបស់
+  invalid_program_enrollment_date: កាលបរិច្ឆេទចុះឈ្មោះដែលអ្នកបានជ្រើសរើសគឺមិនត្រឹមត្រូវទេ សូមជ្រើសរើសកាលបរិច្ឆេទមុនកាលបរិច្ឆេទចេញពីកម្មវិធីរបស់អ្នក
+  invalid_program_exit_date: កាលបរិច្ឆេទចាកចេញដែលអ្នកបានជ្រើសរើសគឺមិនត្រឹមត្រូវទេ សូមជ្រើសរើសកាលបរិច្ឆេទក្រោយកាលបរិច្ឆេទចុះឈ្មោះចូលកម្មវិធី
   is_not_email: មិនមែនជាអ៊ីម៉ែល
   layouts:
     notification:

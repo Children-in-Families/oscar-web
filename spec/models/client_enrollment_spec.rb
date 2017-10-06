@@ -45,6 +45,17 @@ describe ClientEnrollment, 'validations' do
       expect(client_enrollment.errors.full_messages).to include("Age can't be lower than 1")
     end
   end
+
+  context 'enrollment_date_value' do
+    it 'should be any date before the program exit date' do
+      properties = {"e-mail"=>"test@example.com", "age"=>"6", "description"=>"this is testing"}
+      client_enrollment = ClientEnrollment.create(program_stream: program_stream, client: client, properties: properties, enrollment_date: '2017-06-08')
+      leave_program = LeaveProgram.create(client_enrollment: client_enrollment, program_stream: program_stream, properties: properties, exit_date: '2017-06-09')
+      client_enrollment.enrollment_date = '2017-06-10'
+      client_enrollment.save
+      expect(client_enrollment.errors[:enrollment_date]).to include('The enrollment date you have selected is invalid. Please select a date prior to your program exit date.')
+    end
+  end
 end
 
 describe ClientEnrollment, 'scopes' do
