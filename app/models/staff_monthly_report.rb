@@ -1,5 +1,4 @@
 class StaffMonthlyReport
-  include ActionView::Helpers::NumberHelper
   protected
 
   def self.times_visiting_clients_profile(user)
