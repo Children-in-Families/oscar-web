@@ -693,22 +693,22 @@ en:
       tracking: Tracking
       quantitative: Quantitative Type
     index:
-      client_column: Client basic columns
-      custom_form_column: Custom form columns
-      load_save_search: Load Save Search
-      program_stream_column: Program stream columns
       add_new_filter: Add New Filter
       add_new_group: Add Group
       advanced_search: Advanced Search
       assessments: Assessments
+      client_column: Client basic columns
       csi_domain_scores: CSI Domain Scores
+      custom_form_column: Custom form columns
       delete_group: Delete
       export_to_xls: Export to XLS
+      load_save_search: Load Saved Search
       no_results: No Result Found
+      program_stream_column: Program stream columns
       reset: Reset
       results: Results
       search: Search
-      search_setting: Save Search Setting
+      search_setting: Save Search Settings
     load_save_search:
       advanced_search_list: Advanced Searches List
       description: Description

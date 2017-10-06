@@ -351,7 +351,7 @@ km:
       quantitative: ប្រភេទនៃបរិមាណ
   advanced_search_save_queries:
     create:
-      successfully_created: ការស្វែងរកឆ្លាតវៃរូវបានបង្កើតដោយជោគជ័យ
+      successfully_created: ការស្វែងរកឆ្លាតវៃត្រូវបានបង្កើតដោយជោគជ័យ
   agencies:
     create:
       failed_create: ឣង្គភាពថ្មីមិនត្រូវបានបង្កើតដោយជោគជ័យ

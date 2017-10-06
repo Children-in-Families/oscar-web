@@ -1,5 +1,5 @@
 class AdvancedSearch < ActiveRecord::Base
-  validates :name, presence: true
+  validates :name, presence: true, uniqueness: { case_sensitive: false }
 
   def search_params
     { client_advanced_search: { custom_form_selected: custom_forms,
