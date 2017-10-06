@@ -33,7 +33,6 @@ class StaffMonthlyReport
     client_with_two_assessments = 0
     duration_as_days = 0
     last_month_assessments.group_by(&:client_id).each do |client_id, assessments|
-      binding.pry
       last_two_assessments = Client.find(client_id).assessments.order(:created_at).last(2)
       return 0 if last_two_assessments.size < 2
       client_with_two_assessments += 1
