@@ -1,12 +1,9 @@
 class StaffMonthlyReport
+  include ActionView::Helpers::NumberHelper
   protected
 
-  def self.average_length_of_time_visiting_clients_profile(user)
+  def self.times_visiting_clients_profile(user)
     total_visit_per_month = user.visit_clients.where(created_at: 1.month.ago.beginning_of_month..1.month.ago.end_of_month).count
-    return 0 if total_visit_per_month == 0
-    total_clients    = user.clients.count
-    return 0 if total_clients == 0
-    average = (total_visit_per_month.to_f / total_clients.to_f).round
   end
 
   def self.average_casenote_characters(user)
@@ -16,7 +13,7 @@ class StaffMonthlyReport
     total_casenotes = last_month_casenotes.joins(:client).where(clients: { id: user_client_ids }).count
     return 0 if total_casenotes == 0
     total_casenote_chars = last_month_casenotes.joins(:client).where(clients: { id: user_client_ids }).joins(:case_note_domain_groups).where.not(case_note_domain_groups: { note: '' }).pluck(:note).join('').length
-    average = (total_casenote_chars.to_f / total_casenotes.to_f).round
+    average = (total_casenote_chars.to_f / total_casenotes.to_f).round(2)
   end
 
   def self.average_number_of_casenotes_completed_per_client(user)
@@ -25,7 +22,7 @@ class StaffMonthlyReport
     total_clients = user.clients.count
     last_month_casenotes = CaseNote.where(created_at: 1.month.ago.beginning_of_month..1.month.ago.end_of_month)
     total_casenotes = last_month_casenotes.joins(:client).where(clients: { id: user_client_ids }).count
-    average = (total_casenotes.to_f / total_clients.to_f).round
+    average = (total_casenotes.to_f / total_clients.to_f).round(2)
   end
 
   def self.average_length_of_time_completing_csi_for_each_client(user)
@@ -36,12 +33,13 @@ class StaffMonthlyReport
     client_with_two_assessments = 0
     duration_as_days = 0
     last_month_assessments.group_by(&:client_id).each do |client_id, assessments|
+      binding.pry
       last_two_assessments = Client.find(client_id).assessments.order(:created_at).last(2)
       return 0 if last_two_assessments.size < 2
       client_with_two_assessments += 1
       duration_as_days += Client.find(client_id).assessments.order(:created_at).last(2).inject{ |a, b| (b.created_at.to_date - a.created_at.to_date).to_i }
     end
-    average = (duration_as_days.to_f  / client_with_two_assessments.to_f).round
+    average = (duration_as_days.to_f  / client_with_two_assessments.to_f).round(2)
   end
 
   def self.average_number_of_duetoday_tasks_each_day(user)
@@ -54,7 +52,7 @@ class StaffMonthlyReport
       due_today_tasks_count += incomplete_today_task_histories_count
     end
     return 0 if due_today_tasks_count == 0
-    average = (due_today_tasks_count.to_f / total_day_of_month.to_f).round
+    average = (due_today_tasks_count.to_f / total_day_of_month.to_f).round(2)
   end
 
   def self.average_number_of_overdue_tasks_each_day(user)
@@ -67,6 +65,6 @@ class StaffMonthlyReport
       overdue_tasks_count = incomplete_overdue_task_histories_count
     end
     return 0 if overdue_tasks_count == 0
-    average = (overdue_tasks_count.to_f / total_day_of_month.to_f).round
+    average = (overdue_tasks_count.to_f / total_day_of_month.to_f).round(2)
   end
 end

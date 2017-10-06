@@ -11,7 +11,7 @@ class StaffMonthlyReportSpreadsheet
   private
 
   def import_user_monthly_report(date_time, org)
-    column_names   = ['Staff Name', 'Permission Set', 'Average number of times a client profile has been accessed', 'Average character count of case notes', 'Average number of case notes completed per client', 'Average number of due today tasks for each day', 'Average number of overdue tasks for each day', 'Average length of time of completing CSI assessments for each client']
+    column_names   = ['Staff Name', 'Permission Set', 'Total number of times client profiles have been accessed', 'Average character count of case notes', 'Average number of case notes completed per client', 'Average number of due today tasks for each day', 'Average number of overdue tasks for each day', 'Average length of time of completing CSI assessments for each client']
     previous_month = 1.month.ago.strftime('%B %Y')
     Organization.switch_to(org.short_name)
     create_case_worker_worksheet(column_names, date_time, previous_month, org.short_name)
@@ -83,12 +83,13 @@ class StaffMonthlyReportSpreadsheet
   end
 
   def value_of_worksheet(case_worker)
-    number_of_daily_login                         = StaffMonthlyReport.average_length_of_time_visiting_clients_profile(case_worker)
-    casenote_characters                           = StaffMonthlyReport.average_casenote_characters(case_worker)
-    casenotes_completed_per_client                = StaffMonthlyReport.average_number_of_casenotes_completed_per_client(case_worker)
-    length_of_time_completing_csi_for_each_client = StaffMonthlyReport.average_length_of_time_completing_csi_for_each_client(case_worker)
-    duetoday_tasks_each_day                       = StaffMonthlyReport.average_number_of_duetoday_tasks_each_day(case_worker)
-    overdue_tasks_each_day                        = StaffMonthlyReport.average_number_of_overdue_tasks_each_day(case_worker)
+    number_of_daily_login                         = StaffMonthlyReport.times_visiting_clients_profile(case_worker)
+    casenote_characters                           = sprintf("%.2f", StaffMonthlyReport.average_casenote_characters(case_worker))
+    casenotes_completed_per_client                = sprintf("%.2f", StaffMonthlyReport.average_number_of_casenotes_completed_per_client(case_worker))
+    length_of_time_completing_csi_for_each_client = sprintf("%.2f", StaffMonthlyReport.average_length_of_time_completing_csi_for_each_client(case_worker))
+    duetoday_tasks_each_day                       = sprintf("%.2f", StaffMonthlyReport.average_number_of_duetoday_tasks_each_day(case_worker))
+    overdue_tasks_each_day                        = sprintf("%.2f", StaffMonthlyReport.average_number_of_overdue_tasks_each_day(case_worker))
+    
     [case_worker.name, case_worker.roles, number_of_daily_login, casenote_characters, casenotes_completed_per_client, duetoday_tasks_each_day, overdue_tasks_each_day, length_of_time_completing_csi_for_each_client]
   end
 

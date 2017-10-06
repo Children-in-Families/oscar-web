@@ -43,11 +43,11 @@ describe 'Staff Monthly Report' do
 
   feature 'report' do
     scenario 'average number of visiting clients' do
-      expect(StaffMonthlyReport.average_length_of_time_visiting_clients_profile(user_1)).to eq(2)
-      expect(StaffMonthlyReport.average_length_of_time_visiting_clients_profile(user_4)).to eq(1)
-      expect(StaffMonthlyReport.average_length_of_time_visiting_clients_profile(user_2)).to eq(0)
-      expect(StaffMonthlyReport.average_length_of_time_visiting_clients_profile(user_3)).to eq(0)
-      expect(StaffMonthlyReport.average_length_of_time_visiting_clients_profile(user_5)).to eq(0)
+      expect(StaffMonthlyReport.times_visiting_clients_profile(user_1)).to eq(2)
+      expect(StaffMonthlyReport.times_visiting_clients_profile(user_4)).to eq(1)
+      expect(StaffMonthlyReport.times_visiting_clients_profile(user_2)).to eq(0)
+      expect(StaffMonthlyReport.times_visiting_clients_profile(user_3)).to eq(0)
+      expect(StaffMonthlyReport.times_visiting_clients_profile(user_5)).to eq(0)
     end
 
     scenario 'average characters count of casenote' do
