@@ -1,7 +1,7 @@
 class GovernmentReportsController < AdminController
   load_and_authorize_resource
   before_action :find_client
-  before_action :find_government_report, only: [:show, :edit, :update, :destroy]
+  before_action :find_government_report, only: [:edit, :update, :destroy]
 
   def index
     @government_report = @client.government_report
@@ -28,7 +28,8 @@ class GovernmentReportsController < AdminController
                 layout:   'pdf_design.html.haml',
                 show_as_html: params.key?('debug'),
                 header: { html: { template: 'government_reports/pdf/header.pdf.haml' } },
-                footer: { html: { template: 'government_reports/pdf/footer.pdf.haml' }, right: '[page] of [topage]' }
+                footer: { html: { template: 'government_reports/pdf/footer.pdf.haml' }, right: '[page] of [topage]' },
+                margin: { left: 0, right: 0 }
       end
     end
   end

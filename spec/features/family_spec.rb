@@ -63,7 +63,7 @@ describe 'Family' do
       fill_in 'Name', with: 'Family Name'
       fill_in 'Address', with: 'Family Address'
       fill_in 'Caregiver Information', with: 'Caregiver info'
-      find(".family_clients select option[value='#{client.id}']", visible: false).select_option
+      find(".family_children select option[value='#{client.id}']", visible: false).select_option
       click_button 'Save'
       sleep 1
       expect(page).to have_content('Family Name')
@@ -77,61 +77,6 @@ describe 'Family' do
     xscenario 'invalid' do
       click_button 'Save'
       expect(page).to have_content("can't be blank")
-    end
-
-    scenario 'Inactive Family' do
-      fill_in 'Name', with: 'Inactive Family'
-      find(".family_family_type select option[value='inactive']", visible: false).select_option
-      find(".family_clients select option[value='#{client.id}']", visible: false).select_option
-      click_button 'Save'
-      sleep 1
-      expect(page).to have_content('About Family Inactive Family')
-      client.reload
-      expect(client.status).to eq('Referred')
-    end
-
-    scenario 'Birth Family' do
-      fill_in 'Name', with: 'Birth Family'
-      find(".family_family_type select option[value='birth_family']", visible: false).select_option
-      find(".family_clients select option[value='#{client.id}']", visible: false).select_option
-      click_button 'Save'
-      sleep 1
-      expect(page).to have_content('About Family Birth Family')
-      client.reload
-      expect(client.status).to eq('Referred')
-    end
-
-    scenario 'Emergency Family' do
-      fill_in 'Name', with: 'Emergency Family'
-      find(".family_family_type select option[value='emergency']", visible: false).select_option
-      find(".family_clients select option[value='#{client.id}']", visible: false).select_option
-      click_button 'Save'
-      sleep 1
-      expect(page).to have_content('About Family Emergency Family')
-      client.reload
-      expect(client.status).to eq('Active EC')
-    end
-
-    scenario 'Foster Family' do
-      fill_in 'Name', with: 'Foster Family'
-      find(".family_family_type select option[value='foster']", visible: false).select_option
-      find(".family_clients select option[value='#{client.id}']", visible: false).select_option
-      click_button 'Save'
-      sleep 1
-      expect(page).to have_content('About Family Foster Family')
-      client.reload
-      expect(client.status).to eq('Active FC')
-    end
-
-    scenario 'Kinship Family' do
-      fill_in 'Name', with: 'Kinship Family'
-      find(".family_family_type select option[value='kinship']", visible: false).select_option
-      find(".family_clients select option[value='#{client.id}']", visible: false).select_option
-      click_button 'Save'
-      sleep 1
-      expect(page).to have_content('About Family Kinship Family')
-      client.reload
-      expect(client.status).to eq('Active KC')
     end
   end
 
@@ -155,14 +100,6 @@ describe 'Family' do
     end
 
     feature 'remove clients from' do
-      scenario 'case family is invalid' do
-        visit edit_family_path(ec_family)
-        unselect('Pirun Seng', from: 'Clients', visible: false)
-        click_button 'Save'
-        sleep 1
-        expect(page).to have_content("You're not allowed to detach clients from the family through this form!")
-      end
-
       scenario 'birth or inactive family is valid' do
         visit edit_family_path(non_case_family)
         unselect('Pirun Seng', from: 'Clients', visible: false)
