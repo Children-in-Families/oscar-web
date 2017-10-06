@@ -119,6 +119,13 @@ describe User, 'scopes' do
   let!(:ec_manager){ create(:user, :ec_manager, staff_performance_notification: false) }
   let!(:able_manager){ create(:user, :able_manager, staff_performance_notification: false) }
 
+  context 'non_devs' do
+    let!(:dev_1) { create(:user, email: ENV['DEV_EMAIL']) }
+    it 'exclude developers' do
+      expect(User.non_devs).not_to include(dev_1)
+    end
+  end
+
   context 'first name like' do
     subject{ User.first_name_like(user.first_name.downcase) }
     it 'should include first name like' do

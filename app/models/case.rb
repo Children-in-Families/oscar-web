@@ -26,11 +26,11 @@ class Case < ActiveRecord::Base
   validates :case_type, :start_date,  presence: true
   validates :exit_date, :exit_note, presence: true, if: proc { |client_case| client_case.exited? }
 
-  before_save :update_client_status, :set_current_status
-  after_save :update_cases_to_exited_from_cif, :create_client_history
-  after_create :update_client_code
-
   before_validation :set_attributes, if: -> { new_record? && start_date.nil? }
+  before_save :update_client_status, :set_current_status
+  before_create :add_family_children
+  after_create :update_client_code
+  after_save :update_cases_to_exited_from_cif, :create_client_history
 
   def set_attributes
     if family.inactive? || family.birth_family?
@@ -152,5 +152,11 @@ class Case < ActiveRecord::Base
 
   def create_client_history
     ClientHistory.initial(client)
+  end
+
+  def add_family_children
+    return if family.children.include?(client.id)
+    family.children << client.id
+    family.save
   end
 end

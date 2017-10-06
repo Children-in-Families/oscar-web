@@ -213,9 +213,10 @@ describe Case, 'callbacks' do
   let!(:ec_client){ create(:client) }
   let!(:kc_client){ create(:client) }
   let!(:fc_client){ create(:client) }
+  let!(:ec_family){ create(:family, :emergency, children: [ec_client.id]) }
   let!(:other_emergency){ create(:case, case_type: 'EC', client: kc_client) }
   let!(:emergency){ create(:case, case_type: 'EC', client: ec_client) }
-  let!(:kinship){ create(:case, case_type: 'KC', client: kc_client) }
+  let!(:kinship){ create(:case, case_type: 'KC', client: kc_client, family: ec_family) }
   let!(:foster){ create(:case, case_type: 'FC', client: fc_client) }
 
   context 'update client status' do
@@ -298,6 +299,12 @@ describe Case, 'callbacks' do
         expect(ClientHistory.where('object.case_ids' => ec_case.id).count).to eq(1)
         expect(ClientHistory.where('object.case_ids' => ec_case.id).first.case_client_histories.count).to eq(1)
       end
+    end
+  end
+
+  context 'before create' do
+    it 'add_family_children' do
+      expect(ec_family.children).to include(ec_client.id, kc_client.id)
     end
   end
 end

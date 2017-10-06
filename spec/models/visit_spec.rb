@@ -4,8 +4,16 @@ end
 
 describe Visit, 'scopes' do
   let!(:user){ create(:user) }
+  let!(:dev){ create(:user, email: ENV['DEV_EMAIL']) }
   let!(:visit) { create(:visit, user: user, created_at: 1.month.ago) }
-  let!(:other_visit) { create(:visit, user: user, created_at: 2.months.ago) }
+  let!(:other_visit) { create(:visit, user: dev, created_at: 2.months.ago, ) }
+
+  context 'defaut_scope non_devs' do
+    it 'should not include records of non_devs' do
+      expect(Visit.all).to include(visit)
+      expect(Visit.all).not_to include(other_visit)
+    end
+  end
 
   context 'find user login per month' do
     subject{ Visit.previous_month_logins }

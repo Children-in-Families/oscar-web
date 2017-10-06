@@ -145,6 +145,10 @@ km:
           attributes:
             user_ids:
               blank: មិនអាចរំលង
+        client_enrollment:
+          attributes:
+            enrollment_date:
+              blank: មិនអាចរំលង
         custom_field:
           attributes:
             entity_type:
@@ -184,6 +188,10 @@ km:
             action:
               blank: មិនអាចរំលង
               taken: ត្រូវបានប្រើរួចហើយ
+        leave_program:
+          attributes:
+            exit_date:
+              blank: មិនអាចរំលង
         location:
           attributes:
             name:
@@ -1009,7 +1017,7 @@ km:
       commune: ឃុំ/សង្កាត់
       completed: ពេញលេញហើយឬនៅ?
       current_address: ឣាសយដ្ឋានបច្ចុប្បន្ន
-      current_province: ខេត្តបច្ចុប្បន្ន
+      current_province: រាជធានី/ខេត្ត
       custom_forms: ទម្រង់បែបបទបន្ថែម
       date_of_birth: ថ្ងៃ ខែ ឆ្នាំ កំណើត
       district: ស្រុក/ខណ្ឌ
@@ -1025,6 +1033,33 @@ km:
       gender: ភេទ
       general_question: សំនួរទូរទៅ
       given_name: នាមខ្លួនជាអក្សរឡាតាំង
+      gov_caseworker_comment: មតិយោបល់អ្នកកាន់ករណី
+      gov_caseworker_comment_section: យោបល់របស់អ្នកកាន់ករណី ចំពោះតម្រូវការ និងបញ្ហាប្រឈមរបស់កុមារ
+      gov_caseworker_name: ឈ្មោះអ្នកកាន់ករណី
+      gov_city: រាជធានី/ខេត្ត
+      gov_client_basic_info: ពត៌មានបឋមពីកុមារ
+      gov_client_carer: អ្នកថែទាំកុមារ
+      gov_client_carer_name: ឈ្មោះ
+      gov_client_carer_relationship: ទំនាក់ទំនងជាមួយកុមារ
+      gov_client_code: លេខកូដកុមារ
+      gov_client_need: សូមបញ្ចាក់ពីប្រភេទតម្រូវការចាំបាច់(បង់លេខតាមអាទិភាព)
+      gov_client_problem: សូមបញ្ចាក់ពីបញ្ហាប្រឈមសំខាន់ៗ(បង់លេខតាមអាទិភាព)
+      gov_client_types: ប្រភេទកុមារ
+      gov_commune: ឃុំ/សង្កាត់
+      gov_date: ថ្ងៃ/ខែ/ឆ្នាំ
+      gov_district: ក្រុង/ស្រុក/ខណ្ឌ
+      gov_government_form: ទម្រង់រដ្ឋាភិបាល
+      gov_guardian_comment: យោបល់របស់កុមារនិង/អាណាព្យាបាល អំពីបញ្ហា និងតម្រូវការ
+      gov_home: ផ្ទះលេខ
+      gov_information_source: ប្រភពពត៌មាន
+      gov_interviewees: អ្នកផ្ដល់បទសម្ភាសន៍
+      gov_phone: លេខទូរស័ព្ទ
+      gov_place_of_interview_client: ទីកន្លែងទទួលសំភាសន៍កុមារ
+      gov_reason_of_referral_and_need: មូលហេតុនៃការបញ្ជូន និង តម្រូវការ
+      gov_street: ផ្លូវលេខ
+      gov_summary_reason_of_referral: ពត៌មានសង្ខេបពីមូលហេតុនៃការបញ្ជូនកុមារមករកសេវា
+      gov_village: ភូមិ
+      gov_village_code: លេខកូដភូមិ
       has_been_in_government_care: តើធ្លាប់ស្ថិតក្នុងការថែទំារបស់រាជរដ្ឋាភិបាល
       has_been_in_orphanage: ធ្លាប់បាននៅក្នុងមណ្ឌលកុមារកំព្រា
       house_number: ផ្ទះលេខ
@@ -2627,6 +2662,8 @@ km:
     version:
       back: ត្រលប់ក្រោយ
       modification_of: ប្រវត្តិកំណែរបស់
+  invalid_program_enrollment_date: កាលបរិច្ឆេទចុះឈ្មោះដែលអ្នកបានជ្រើសរើសគឺមិនត្រឹមត្រូវទេ សូមជ្រើសរើសកាលបរិច្ឆេទមុនកាលបរិច្ឆេទចេញពីកម្មវិធីរបស់អ្នក
+  invalid_program_exit_date: កាលបរិច្ឆេទចាកចេញដែលអ្នកបានជ្រើសរើសគឺមិនត្រឹមត្រូវទេ សូមជ្រើសរើសកាលបរិច្ឆេទក្រោយកាលបរិច្ឆេទចុះឈ្មោះចូលកម្មវិធី
   is_not_email: មិនមែនជាអ៊ីម៉ែល
   layouts:
     notification:
