@@ -42,24 +42,24 @@ describe 'Staff Monthly Report' do
   let!(:user_4_visit_clients) { create_list(:visit_client, 2, user: user_4, created_at: Date.today.last_month) }
 
   feature 'report' do
-    scenario 'average number of visiting clients' do
-      expect(StaffMonthlyReport.average_length_of_time_visiting_clients_profile(user_1)).to eq(2)
-      expect(StaffMonthlyReport.average_length_of_time_visiting_clients_profile(user_4)).to eq(1)
-      expect(StaffMonthlyReport.average_length_of_time_visiting_clients_profile(user_2)).to eq(0)
-      expect(StaffMonthlyReport.average_length_of_time_visiting_clients_profile(user_3)).to eq(0)
-      expect(StaffMonthlyReport.average_length_of_time_visiting_clients_profile(user_5)).to eq(0)
+    scenario 'number of times visiting clients' do
+      expect(StaffMonthlyReport.times_visiting_clients_profile(user_1)).to eq(3)
+      expect(StaffMonthlyReport.times_visiting_clients_profile(user_4)).to eq(2)
+      expect(StaffMonthlyReport.times_visiting_clients_profile(user_2)).to eq(0)
+      expect(StaffMonthlyReport.times_visiting_clients_profile(user_3)).to eq(0)
+      expect(StaffMonthlyReport.times_visiting_clients_profile(user_5)).to eq(0)
     end
 
     scenario 'average characters count of casenote' do
-      expect(StaffMonthlyReport.average_casenote_characters(user_1)).to eq(21)
+      expect(StaffMonthlyReport.average_casenote_characters(user_1)).to eq(21.0)
       expect(StaffMonthlyReport.average_casenote_characters(user_2)).to eq(0)
     end
 
     scenario 'average number of casenotes completed per client' do
-      expect(StaffMonthlyReport.average_number_of_casenotes_completed_per_client(user_1)).to eq(1)
-      expect(StaffMonthlyReport.average_number_of_casenotes_completed_per_client(user_2)).to eq(0)
-      expect(StaffMonthlyReport.average_number_of_casenotes_completed_per_client(user_3)).to eq(3)
-      expect(StaffMonthlyReport.average_number_of_casenotes_completed_per_client(user_4)).to eq(0)
+      expect(StaffMonthlyReport.average_number_of_casenotes_completed_per_client(user_1)).to eq(1.0)
+      expect(StaffMonthlyReport.average_number_of_casenotes_completed_per_client(user_2)).to eq(0.0)
+      expect(StaffMonthlyReport.average_number_of_casenotes_completed_per_client(user_3)).to eq(2.5)
+      expect(StaffMonthlyReport.average_number_of_casenotes_completed_per_client(user_4)).to eq(0.33)
     end
 
     feature 'average length of time, as days, between completing CSI for each client' do
@@ -74,7 +74,7 @@ describe 'Staff Monthly Report' do
 
         total_duration = client_1_duration + client_3_duration
         client_count = user_1.clients.count
-        expect(StaffMonthlyReport.average_length_of_time_completing_csi_for_each_client(user_1)).to eq((total_duration / client_count).round)
+        expect(StaffMonthlyReport.average_length_of_time_completing_csi_for_each_client(user_1)).to eq((total_duration / client_count).round(2))
       end
       scenario 'user_5' do
         client_5_second_most_recent_assessment = client_5.assessments.order(:created_at).first.created_at.to_date
@@ -82,22 +82,22 @@ describe 'Staff Monthly Report' do
         client_5_duration = (client_5_most_recent_assessment - client_5_second_most_recent_assessment).to_i
         total_duration = client_5_duration
         client_count = user_5.clients.count
-        expect(StaffMonthlyReport.average_length_of_time_completing_csi_for_each_client(user_5)).to eq((total_duration / client_count).round)
+        expect(StaffMonthlyReport.average_length_of_time_completing_csi_for_each_client(user_5)).to eq((total_duration / client_count).round(2))
       end
     end
 
     scenario 'average number of due today tasks each day' do
       TaskHistory.update_all(created_at: Date.today.last_month, updated_at: Date.today.last_month)
-      expect(StaffMonthlyReport.average_number_of_duetoday_tasks_each_day(user_1)).to eq(0)
-      expect(StaffMonthlyReport.average_number_of_duetoday_tasks_each_day(user_2)).to eq(1)
-      expect(StaffMonthlyReport.average_number_of_duetoday_tasks_each_day(user_3)).to eq(0)
+      expect(StaffMonthlyReport.average_number_of_duetoday_tasks_each_day(user_1)).to eq(0.07)
+      expect(StaffMonthlyReport.average_number_of_duetoday_tasks_each_day(user_2)).to eq(0.53)
+      expect(StaffMonthlyReport.average_number_of_duetoday_tasks_each_day(user_3)).to eq(0.03)
     end
 
     scenario 'average number of overdue tasks each day' do
       TaskHistory.update_all(created_at: Date.today.last_month, updated_at: Date.today.last_month)
-      expect(StaffMonthlyReport.average_number_of_overdue_tasks_each_day(user_1)).to eq(0)
-      expect(StaffMonthlyReport.average_number_of_overdue_tasks_each_day(user_2)).to eq(1)
-      expect(StaffMonthlyReport.average_number_of_overdue_tasks_each_day(user_3)).to eq(0)
+      expect(StaffMonthlyReport.average_number_of_overdue_tasks_each_day(user_1)).to eq(0.07)
+      expect(StaffMonthlyReport.average_number_of_overdue_tasks_each_day(user_2)).to eq(0.53)
+      expect(StaffMonthlyReport.average_number_of_overdue_tasks_each_day(user_3)).to eq(0.03)
     end
   end
 end

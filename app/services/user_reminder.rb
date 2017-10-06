@@ -14,7 +14,7 @@ class UserReminder
   private
 
   def remind_case_workers(org)
-    case_workers = User.without_json_fields.joins(:tasks).merge(Task.overdue_incomplete).uniq
+    case_workers = User.non_devs.without_json_fields.joins(:tasks).merge(Task.overdue_incomplete).uniq
     case_workers.each do |case_worker|
       CaseWorkerWorker.perform_async(case_worker.id, org.short_name)
     end
@@ -22,17 +22,17 @@ class UserReminder
 
   def remind_manager_and_admin(org)
     main_manager_id = 0
-    case_workers_by_manager = User.without_json_fields.joins(:tasks).merge(Task.overdue_incomplete).uniq.group_by(&:manager_id)
+    case_workers_by_manager = User.non_devs.without_json_fields.joins(:tasks).merge(Task.overdue_incomplete).uniq.group_by(&:manager_id)
     case_workers_by_manager.each do |manager_id, case_workers|
       if manager_id.present?
-        manager = User.find manager_id
+        manager = User.non_devs.find manager_id
         manager_ids = manager.manager_ids.present? ? manager.manager_ids : Array(manager.id)
         return if main_manager_id == manager_ids.last
         if manager_ids.any?
-          user_ids = User.where('manager_ids && ARRAY[?]', manager_ids).map(&:id)
+          user_ids = User.non_devs.where('manager_ids && ARRAY[?]', manager_ids).map(&:id)
           user_ids.push(manager_ids.last)
           user_ids.each do |case_workers_id|
-            case_workers_ids = User.joins(:tasks).merge(Task.overdue_incomplete).where('manager_ids && ARRAY[?]', case_workers_id).map(&:id).uniq
+            case_workers_ids = User.non_devs.joins(:tasks).merge(Task.overdue_incomplete).where('manager_ids && ARRAY[?]', case_workers_id).map(&:id).uniq
             next unless manager.task_notify
             ManagerWorker.perform_async(case_workers_id, case_workers_ids, org.short_name)
           end
