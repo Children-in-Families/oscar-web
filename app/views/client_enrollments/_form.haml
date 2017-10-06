@@ -9,8 +9,8 @@
           = f.input_field :enrollment_date, as: :string, class: 'date optional form-control date-picker', id: 'enrollment_date'
           %span.input-group-addon
             %i.fa.fa-calendar-check-o
-        - if f.error :enrollment_date
-          %span.help-block= t('cannot_be_blank')
+        = f.error :enrollment_date
+
     = f.simple_fields_for :properties, OpenStruct.new(@client_enrollment.properties) do |prop_f|
       - @program_stream.enrollment.each do |enrollment|
         .row

@@ -7,8 +7,8 @@ class ClientEnrollment < ActiveRecord::Base
   has_many :trackings, through: :client_enrollment_trackings
   has_one :leave_program, dependent: :destroy
 
-  validates :enrollment_date, presence: { message: I18n.t('cannot_be_blank') }
-  validate :enrollment_date_cannot_after_exit_date, if: 'enrollment_date.present?'
+  validates :enrollment_date, presence: true
+  validate :enrollment_date_value, if: 'enrollment_date.present?'
   accepts_nested_attributes_for :form_builder_attachments, reject_if: proc { |attributes| attributes['name'].blank? &&  attributes['file'].blank? }
 
   has_paper_trail
@@ -65,9 +65,9 @@ class ClientEnrollment < ActiveRecord::Base
     ClientEnrollmentHistory.initial(self)
   end
 
-  def enrollment_date_cannot_after_exit_date
+  def enrollment_date_value
     if leave_program.present? && leave_program.exit_date < enrollment_date
-      errors.add(:enrollment_date, I18n.t('enrollment_date_cannot_after_exit_date'))
+      errors.add(:enrollment_date, I18n.t('invalid_program_enrollment_date'))
     end
   end
 end
