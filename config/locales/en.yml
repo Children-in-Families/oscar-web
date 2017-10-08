@@ -339,7 +339,16 @@ en:
       quantitative: Quantitative Type
   advanced_search_save_queries:
     create:
-      successfully_created: Advanced Search has been successfully created.
+      failed_create: Search setting has already been taken.
+      successfully_created: Search setting has been successfully created.
+    destroy:
+      successfully_deleted: Search setting has been successfully deleted.
+    edit:
+      edit_search_setting: Edit Search Setting
+      name: Name
+      description: Description
+    update:
+      successfully_updated: Search setting has been successfully updated.
   agencies:
     create:
       failed_create: Failed to create an agency
@@ -681,7 +690,6 @@ en:
         enter_task_detail: Enter task details
       update:
         successfully_updated: Task has successfully been updated.
-  client_advanced_searches:
     form_option:
       basic_fields: Client Basic Fields
       csi_domain_scores: CSI Domain Scores
@@ -707,9 +715,11 @@ en:
       program_stream_column: Program stream columns
       reset: Reset
       results: Results
+      save_search_settings: Save Search Settings
       search: Search
-      search_setting: Save Search Settings
     load_save_search:
+      action: Action
+      are_you_sure: Are you sure you want to delete?
       advanced_search_list: Advanced Searches List
       description: Description
       load_query: Load Query
@@ -720,6 +730,22 @@ en:
       name: Name
       new_save_query: New Advanced Search
       save: Save
+  client_advanced_searches:
+    index:
+      load_save_search: Load Saved Search
+      save_search_settings: Save Search Settings
+    load_save_search:
+      action: Action
+      are_you_sure: Are you sure you want to delete?
+      description: Description
+      load: Load
+      name: Name
+      search_settings_list: Search Settings List
+    save_search_setting:
+      description: Description
+      name: Name
+      new_search_setting: New Search Setting
+
   client_enrollment_trackings:
     action:
       new_tracking: New Tracking

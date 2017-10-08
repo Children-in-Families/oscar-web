@@ -93,9 +93,9 @@ CIF.Client_advanced_searchesIndex = do ->
   _validateSaveQuery = ->
     $('#advanced_search_name').keyup ->
       if $(@).val() != ''
-        $('#submit-query').removeClass('disabled')
+        $('#submit-query').removeClass('disabled').removeAttr('disabled')
       else
-        $('#submit-query').addClass('disabled')
+        $('#submit-query').addClass('disabled').attr('disabled', 'disabled')
 
   _disableOptionDomainScores = ->
     for domain in $('.rule-operator-container select')
@@ -476,7 +476,7 @@ CIF.Client_advanced_searchesIndex = do ->
       $('#builder').queryBuilder('setRules', basicQueryRules)
 
   _handleInitDatatable = ->
-    $('.clients-table table, .advanced-search-query table').DataTable(
+    $('.clients-table table').DataTable(
         'sScrollY': '500'
         'bFilter': false
         'bAutoWidth': true
@@ -499,7 +499,7 @@ CIF.Client_advanced_searchesIndex = do ->
     $(window).load ->
       ua = navigator.userAgent
       unless /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile|CriOS/i.test(ua)
-        $('.clients-table .dataTables_scrollBody, .advanced-search-query .dataTables_scrollBody').niceScroll
+        $('.clients-table .dataTables_scrollBody').niceScroll
           scrollspeed: 30
           cursorwidth: 10
           cursoropacitymax: 0.4

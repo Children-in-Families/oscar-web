@@ -3,14 +3,15 @@
     .modal-content
       .modal-header
         %button.close{ 'data-dismiss': 'modal', type: 'button'} ×
-        %h4.modal-title= t('.advanced_search_list')
+        %h4.modal-title= t('.search_settings_list')
       .modal-body.advanced-search-query
         %table.table.table-bordered.table-striped.table-hover
           %thead
             %tr
               %th.name= t('.name')
               %th.description= t('.description')
-              %th.load-query= t('.load_query')
+              %th.load-query= t('.load')
+              %th.action= t('.action')
           %tbody
             - @advanced_searches_list.each do |advanced_search|
               %tr
@@ -18,5 +19,10 @@
                 %td.description= advanced_search.description
                 %td.load-query.text-center
                   = link_to client_advanced_searches_path(advanced_search.search_params), class: 'btn btn-xs btn-success btn-outline' do
-                    = fa_icon('files-o')
-      .modal-footer
+                    = fa_icon('clipboard')
+                %td.query-action.text-center
+                  = link_to edit_advanced_search_save_query_path(advanced_search) do
+                    .btn.btn-outline.btn-success.btn-xs
+                      = fa_icon('pencil')
+                  = link_to advanced_search_save_query_path(advanced_search), method: :delete, data: { confirm: t('.are_you_sure') }, class: 'btn btn-outline btn-danger btn-xs' do
+                    = fa_icon('trash')

@@ -98,16 +98,21 @@ body[id='client_advanced_searches-index'] {
     width: 60%;
   }
 
-  .advanced-search-query table {
-    width: 100% !important;
-    th.name, td.name {
-      width: 30% !important;
+  // .advanced-search-query table {
+  //   // width: 100% !important;
+  //   th.name, td.name {
+  //     min-width: 30% !important;
+  //   }
+  //   th.description, td.description {
+  //     min-width: 53% !important;
+  //   }
+  // }
+  .modal#save-query {
+    .modal-footer {
+      text-align: left;
     }
-    th.description, td.description {
-      width: 55% !important;
-    }
-    th.load-query, td.load-query {
-      width: 15% !important;
+    .btn-cancel {
+      margin: 10px 10px 10px 0;
     }
   }
 }

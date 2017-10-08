@@ -40,7 +40,7 @@ class ClientAdvancedSearchesController < AdminController
   end
 
   def fetch_advanced_search_queries
-    @advanced_searches_list = AdvancedSearch.all
+    @advanced_searches_list = AdvancedSearch.order(:name)
   end
 
   def custom_form_column
