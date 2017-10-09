@@ -33,6 +33,6 @@ private
   end
 
   def find_advanced_search
-    @advanced_search = AdvancedSearch.find(params[:id])
+    @advanced_search = current_user.advanced_searches.find(params[:id])
   end
 end
