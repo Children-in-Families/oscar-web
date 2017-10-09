@@ -700,6 +700,28 @@ en:
       program_stream: Program Stream
       tracking: Tracking
       quantitative: Quantitative Type
+    load_save_search:
+      action: Action
+      are_you_sure: Are you sure you want to delete?
+      advanced_search_list: Advanced Searches List
+      description: Description
+      load_query: Load Query
+      name: Name
+    save_search_setting:
+      cancel: Cancel
+      description: Description
+      name: Name
+      new_save_query: New Advanced Search
+      save: Save
+  client_advanced_searches:
+    form_option:
+      custom_form: Custom Form
+      enrollment: Enrollment
+      exit_program: Exit Program
+      filter_option: Please choose your query options below
+      program_stream: Program Stream
+      quantitative: Quantitative Type
+      tracking: Tracking
     index:
       add_new_filter: Add New Filter
       add_new_group: Add Group
@@ -719,24 +741,6 @@ en:
       search: Search
     load_save_search:
       action: Action
-      are_you_sure: Are you sure you want to delete?
-      advanced_search_list: Advanced Searches List
-      description: Description
-      load_query: Load Query
-      name: Name
-    save_search_setting:
-      cancel: Cancel
-      description: Description
-      name: Name
-      new_save_query: New Advanced Search
-      save: Save
-  client_advanced_searches:
-    index:
-      load_save_search: Load Saved Search
-      save_search_settings: Save Search Settings
-    load_save_search:
-      action: Action
-      are_you_sure: Are you sure you want to delete?
       description: Description
       load: Load
       name: Name
@@ -745,7 +749,6 @@ en:
       description: Description
       name: Name
       new_search_setting: New Search Setting
-
   client_enrollment_trackings:
     action:
       new_tracking: New Tracking
