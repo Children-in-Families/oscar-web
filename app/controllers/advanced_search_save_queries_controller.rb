@@ -3,6 +3,7 @@ class AdvancedSearchSaveQueriesController < AdminController
 
   def create
     @advanced_search = AdvancedSearch.new(advanced_search_params)
+    @advanced_search.user_id = current_user.id
     if @advanced_search.save
       redirect_to client_advanced_searches_path(@advanced_search.search_params), notice: t('.successfully_created')
     else

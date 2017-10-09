@@ -1,5 +1,7 @@
 class AdvancedSearch < ActiveRecord::Base
-  validates :name, presence: true, uniqueness: { case_sensitive: false }
+  belongs_to :user
+
+  validates :name, presence: true, uniqueness: { case_sensitive: false, scope: :user_id }
 
   def search_params
     { client_advanced_search: { custom_form_selected: custom_forms,
@@ -10,5 +12,9 @@ class AdvancedSearch < ActiveRecord::Base
                                 basic_rules: queries.to_json,
                                 quantitative_check: quantitative_check },
                                 }.merge(field_visible)
+  end
+
+  def owner
+    user.name
   end
 end

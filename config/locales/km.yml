@@ -736,11 +736,22 @@ km:
       save_search_settings: រក្សាទុកទម្រង់នៃការស្វែងរក
       search: ស្វែងរក
     load_save_search:
+      my_saved_search: ការស្វែងរករបស់ខ្ញុំ
+      other_saved_search: ការស្វែងរកដទៃទៀត
+      search_settings_list: តារាងការស្វែងរកឆ្លាតវៃ
+    my_saved_searches:
       action: សកម្មភាព
+      date: កាលបរិច្ឆេទ
       description: ការបរិយាយ
       load: ផ្ទុកការស្វែងរក
       name: ឈ្មោះ
-      search_settings_list: តារាងការស្វែងរកឆ្លាតវៃ
+    other_saved_searches:
+      action: សកម្មភាព
+      date: កាលបរិច្ឆេទ
+      description: ការបរិយាយ
+      load: ផ្ទុកការស្វែងរក
+      name: ឈ្មោះ
+      owner: អ្នកបង្កើត
     save_search_setting:
       description: ការបរិយាយ
       name: ឈ្មោះ

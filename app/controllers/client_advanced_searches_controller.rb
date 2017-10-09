@@ -4,7 +4,7 @@ class ClientAdvancedSearchesController < AdminController
   before_action :get_custom_form_fields, :program_stream_fields, :client_builder_fields
   before_action :basic_params, if: :has_params?
   before_action :build_advanced_search
-  before_action :fetch_advanced_search_queries
+  before_action :fetch_advanced_search_queries, only: [:index]
 
   include ClientGridOptions
   before_action :choose_grid
@@ -40,7 +40,8 @@ class ClientAdvancedSearchesController < AdminController
   end
 
   def fetch_advanced_search_queries
-    @advanced_searches_list = AdvancedSearch.order(:name)
+    @my_advanced_searches    = current_user.advanced_searches.order(:name)
+    @other_advanced_searches = AdvancedSearch.where.not(user_id: current_user.id).order(:name)
   end
 
   def custom_form_column

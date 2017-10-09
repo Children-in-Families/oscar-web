@@ -700,19 +700,6 @@ en:
       program_stream: Program Stream
       tracking: Tracking
       quantitative: Quantitative Type
-    load_save_search:
-      action: Action
-      are_you_sure: Are you sure you want to delete?
-      advanced_search_list: Advanced Searches List
-      description: Description
-      load_query: Load Query
-      name: Name
-    save_search_setting:
-      cancel: Cancel
-      description: Description
-      name: Name
-      new_save_query: New Advanced Search
-      save: Save
   client_advanced_searches:
     form_option:
       custom_form: Custom Form
@@ -740,11 +727,22 @@ en:
       save_search_settings: Save Search Settings
       search: Search
     load_save_search:
+      my_saved_search: My Saved Search
+      other_saved_search: Other Saved Search
+      search_settings_list: Search Settings List
+    my_saved_searches:
       action: Action
+      date: Date
       description: Description
       load: Load
       name: Name
-      search_settings_list: Search Settings List
+    other_saved_searches:
+      action: Action
+      date: Date
+      description: Description
+      load: Load
+      name: Name
+      owner: Owner
     save_search_setting:
       description: Description
       name: Name

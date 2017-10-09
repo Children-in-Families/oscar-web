@@ -1,8 +1,10 @@
 describe 'AdvancedSearch' do
   let(:user_1) { create(:user) }
+  let(:user_2) { create(:user) }
 
   feature 'List', js: true do
-    let!(:advanced_search_1){ create(:advanced_search) }
+    let!(:advanced_search_1){ create(:advanced_search, user: user_1, created_at: Date.yesterday) }
+    let!(:advanced_search_6){ create(:advanced_search, user: user_2, created_at: Date.today) }
 
     before do
       login_as(user_1)
@@ -17,12 +19,31 @@ describe 'AdvancedSearch' do
       expect(page).to have_button('Load Saved Search')
     end
 
-    scenario 'Search Settings List' do
-      page.find('#load-saved-search').click
-      expect(page).to have_content(advanced_search_1.name)
-      expect(page).to have_content(advanced_search_1.description)
-      expect(page).to have_link(nil, edit_advanced_search_save_query_path(advanced_search_1))
-      expect(page).to have_css("a[href='#{advanced_search_save_query_path(advanced_search_1)}'][data-method='delete']")
+    feature 'Search Settings List' do
+      scenario 'my saved search' do
+        page.find('#load-saved-search').click
+        expect(page).to have_content(advanced_search_1.name)
+        expect(page).to have_content(advanced_search_1.description)
+        expect(page).to have_content(advanced_search_1.created_at.strftime('%d %B, %Y'))
+        expect(page).to have_link(nil, edit_advanced_search_save_query_path(advanced_search_1))
+        expect(page).to have_css("a[href='#{advanced_search_save_query_path(advanced_search_1)}'][data-method='delete']")
+
+        expect(page).not_to have_content(advanced_search_6.name)
+        expect(page).not_to have_content(advanced_search_6.description)
+        expect(page).not_to have_content(advanced_search_6.owner)
+        expect(page).not_to have_content(advanced_search_6.created_at.strftime('%d %B, %Y'))
+      end
+
+      scenario 'saved search of other people within org' do
+        page.find('#load-saved-search').click
+        page.find('#other-saved-searches-tab').click
+        expect(page).to have_content(advanced_search_6.name)
+        expect(page).to have_content(advanced_search_6.description)
+        expect(page).to have_content(advanced_search_6.owner)
+        expect(page).to have_content(advanced_search_6.created_at.strftime('%d %B, %Y'))
+        expect(page).not_to have_css("a[href='#{edit_advanced_search_save_query_path(advanced_search_6)}']")
+        expect(page).not_to have_css("a[href='#{advanced_search_save_query_path(advanced_search_6)}'][data-method='delete']")
+      end
     end
   end
 
@@ -51,8 +72,8 @@ describe 'AdvancedSearch' do
   end
 
   feature 'edit', js: true do
-    let!(:advanced_search_3){ create(:advanced_search) }
-    let!(:advanced_search_4){ create(:advanced_search, name: 'Able client') }
+    let!(:advanced_search_3){ create(:advanced_search, user: user_1) }
+    let!(:advanced_search_4){ create(:advanced_search, name: 'Able client', user: user_1) }
     before do
       login_as(user_1)
       visit edit_advanced_search_save_query_path(advanced_search_3)
@@ -80,7 +101,7 @@ describe 'AdvancedSearch' do
   end
 
   feature 'delete', js: true do
-    let!(:advanced_search_5){ create(:advanced_search) }
+    let!(:advanced_search_5){ create(:advanced_search, user: user_1) }
     before do
       login_as(user_1)
       visit client_advanced_searches_path

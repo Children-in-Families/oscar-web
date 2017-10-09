@@ -4,5 +4,7 @@ FactoryGirl.define do
     description { FFaker::Lorem.paragraph }
     queries '{}'
     field_visible '{}'
+
+    association :user, factory: :user
   end
 end
