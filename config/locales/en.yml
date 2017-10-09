@@ -344,9 +344,9 @@ en:
     destroy:
       successfully_deleted: Search setting has been successfully deleted.
     edit:
+      description: Description
       edit_search_setting: Edit Search Setting
       name: Name
-      description: Description
     update:
       successfully_updated: Search setting has been successfully updated.
   agencies:
