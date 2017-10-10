@@ -111,6 +111,11 @@ km:
               blank: មិនអាចរំលង
             question_group:
               blank: មិនអាចរំលង
+        advanced_search:
+          attributes:
+            name:
+              blank: មិនអាចរំលង
+              taken: ត្រូវបានប្រើរួចហើយ
         agency:
           attributes:
             name:
@@ -349,6 +354,18 @@ km:
       basic_fields: ពត៌មានទូទៅរបស់អតិថិជន
       custom_form: ទម្រង់បែបបទបន្ថែម
       quantitative: ប្រភេទនៃបរិមាណ
+  advanced_search_save_queries:
+    create:
+      failed_create: ការស្វែងរកឆ្លាតវៃនេះត្រូវបានបង្កើតរួចហើយ
+      successfully_created: ការស្វែងរកឆ្លាតវៃត្រូវបានបង្កើតដោយជោគជ័យ
+    destroy:
+      successfully_deleted: ការស្វែងរកឆ្លាតវៃត្រូវបានលុបដោយជោគជ័យ
+    edit:
+      description: ការបរិយាយ
+      edit_search_setting: កែសម្រួលការស្វែងរកឆ្លាតវៃ
+      name: ឈ្មោះ
+    update:
+      successfully_updated: ការស្វែងរកឆ្លាតវៃត្រូវបានកែសម្រួលដោយជោគជ័យ
   agencies:
     create:
       failed_create: ឣង្គភាពថ្មីមិនត្រូវបានបង្កើតដោយជោគជ័យ
@@ -704,6 +721,7 @@ km:
     index:
       client_column: ជួរឈរពត៌មានទូទៅរបស់អតិថិជន
       custom_form_column: ជួរឈរទម្រង់បែបបទបន្ថែម
+      load_save_search: ផ្ទុកការស្វែងរក
       program_stream_column: ជួរឈរកម្មវិធីបន្ទាប់បន្សំ
       add_new_filter: បន្ថែមលក្ខខ័ណ្ឌថ្មី
       add_new_group: បន្ថែមក្រុមលក្ខខ័ណ្ឌថ្មី
@@ -715,7 +733,29 @@ km:
       no_results: មិនមានលទ្ធផល
       reset: សំអាត
       results: លទ្ធផល
+      save_search_settings: រក្សាទុកទម្រង់នៃការស្វែងរក
       search: ស្វែងរក
+    load_save_search:
+      my_saved_search: ការស្វែងរករបស់ខ្ញុំ
+      other_saved_search: ការស្វែងរកដទៃទៀត
+      search_settings_list: តារាងការស្វែងរកឆ្លាតវៃ
+    my_saved_searches:
+      action: សកម្មភាព
+      date: កាលបរិច្ឆេទ
+      description: ការបរិយាយ
+      load: ផ្ទុកការស្វែងរក
+      name: ឈ្មោះ
+    other_saved_searches:
+      action: សកម្មភាព
+      date: កាលបរិច្ឆេទ
+      description: ការបរិយាយ
+      load: ផ្ទុកការស្វែងរក
+      name: ឈ្មោះ
+      owner: អ្នកបង្កើត
+    save_search_setting:
+      description: ការបរិយាយ
+      name: ឈ្មោះ
+      new_search_setting: ការស្វែងរកឆ្លាតវៃថ្មី
   client_enrollment_trackings:
     action:
       new_tracking: បន្ថែមការតាមដានថ្មី

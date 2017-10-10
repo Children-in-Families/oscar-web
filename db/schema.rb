@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171002022338) do
+ActiveRecord::Schema.define(version: 20171009034120) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,6 +30,24 @@ ActiveRecord::Schema.define(version: 20171002022338) do
 
   add_index "able_screening_questions", ["question_group_id"], name: "index_able_screening_questions_on_question_group_id", using: :btree
   add_index "able_screening_questions", ["stage_id"], name: "index_able_screening_questions_on_stage_id", using: :btree
+
+  create_table "advanced_searches", force: :cascade do |t|
+    t.string   "name"
+    t.text     "description"
+    t.jsonb    "queries"
+    t.jsonb    "field_visible"
+    t.string   "custom_forms"
+    t.string   "program_streams"
+    t.string   "enrollment_check",   default: ""
+    t.string   "tracking_check",     default: ""
+    t.string   "exit_form_check",    default: ""
+    t.string   "quantitative_check", default: ""
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.integer  "user_id"
+  end
+
+  add_index "advanced_searches", ["user_id"], name: "index_advanced_searches_on_user_id", using: :btree
 
   create_table "agencies", force: :cascade do |t|
     t.string   "name",                   default: ""
@@ -1104,6 +1122,7 @@ ActiveRecord::Schema.define(version: 20171002022338) do
 
   add_foreign_key "able_screening_questions", "question_groups"
   add_foreign_key "able_screening_questions", "stages"
+  add_foreign_key "advanced_searches", "users"
   add_foreign_key "answers", "able_screening_questions"
   add_foreign_key "answers", "clients"
   add_foreign_key "assessment_domains_progress_notes", "assessment_domains"

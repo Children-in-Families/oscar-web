@@ -18,6 +18,7 @@ class User < ActiveRecord::Base
   belongs_to :department, counter_cache: true
   belongs_to :manager, class_name: 'User', foreign_key: :manager_id, required: false
 
+  has_many :advanced_searches, dependent: :destroy
   has_many :changelogs, dependent: :restrict_with_error
   has_many :progress_notes, dependent: :restrict_with_error
   has_many :case_worker_clients, dependent: :restrict_with_error

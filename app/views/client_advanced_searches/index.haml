@@ -3,11 +3,19 @@
     .ibox
       .ibox-title
         .row
-          .col-xs-12.col-sm-6
+          .col-xs-12.col-sm-6.col-md-4
             %h5= t('.advanced_search')
-          .col-xs-12.col-sm-6.text-right
+          .col-xs-12.col-sm-6.col-md-8.text-right
+            %button.btn.btn-primary#load-saved-search{ 'data-toggle': 'modal', 'data-target': '#load-save-search' }
+              = t('.load_save_search')
+            %button.btn.btn-primary#save-search-setting{ 'data-toggle': 'modal', 'data-target': '#save-query' }
+              = t('.save_search_settings')
             = link_to t('.csi_domain_scores'), current_url({format: 'xls', type: 'basic_info'}), class: "btn btn-info btn-export #{@clients_by_user.present? ? '' : 'disabled'}"
             = link_to t('.export_to_xls'), current_url(format: 'xls'), class: "btn btn-info btn-export #{@clients_by_user.present? ? '' : 'disabled'}"
+        .row
+          = render 'save_search_setting'
+        .row
+          = render 'load_save_search'
       .ibox-content
         .row
           .col-xs-12
@@ -61,7 +69,6 @@
   = f.hidden_field :exit_form_check
   = f.hidden_field :basic_rules
   = f.hidden_field :quantitative_check
-  = f.hidden_field :field_visibility
   = hidden_field_tag :locale, "#{params[:locale]}"
   #client-builder-fields{ data: { fields: @builder_fields.to_json }}
   #quantitative-fields{ data: { fields: @quantitative_fields.to_json }}

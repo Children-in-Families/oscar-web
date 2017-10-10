@@ -93,4 +93,13 @@ body[id='client_advanced_searches-index'] {
   th.domain-scores, td.domain-scores {
     min-width: 200px;
   }
+
+  .modal#save-query {
+    .modal-footer {
+      text-align: left;
+    }
+    .btn-cancel {
+      margin: 10px 10px 10px 0;
+    }
+  }
 }
