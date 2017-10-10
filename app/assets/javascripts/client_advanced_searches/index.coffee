@@ -91,6 +91,7 @@ CIF.Client_advanced_searchesIndex = do ->
         _initSelect2()
       )
 
+
   _initSelect2 = ->
     $('#custom-form-select, #program-stream-select, #quantitative-case-select').select2()
     $('.rule-filter-container select').select2(width: '250px')
@@ -317,6 +318,13 @@ CIF.Client_advanced_searchesIndex = do ->
       $('#client_advanced_search_program_selected').val(programValues)
       if $('#quantitative-type-checkbox').prop('checked')
         $('#client_advanced_search_quantitative_check').val(1)
+
+      if $('#historical-checkbox').prop('checked')
+        startDate = $('#historical-search-start-date').val()
+        endDate = $('#historical-search-end-date').val()
+        $('#client_advanced_search_history_search_check').val(1)
+        $('#client_advanced_search_history_start_date').val(startDate)
+        $('#client_advanced_search_history_end_date').val(endDate)
 
       if (_.isEmpty(basicRules.rules) and !basicRules.valid) or (!(_.isEmpty(basicRules.rules)) and basicRules.valid)
         $('#builder').find('.has-error').remove()

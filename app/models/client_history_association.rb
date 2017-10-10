@@ -8,4 +8,8 @@ class ClientHistoryAssociation
   field :object, type: Hash
 
   embedded_in :client_history
+
+  def last
+    order_by(created_at: :desc).first
+  end
 end
