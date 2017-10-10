@@ -15,11 +15,12 @@
         .table-responsive
           %table.table.table-bordered
             - @program_stream.exit_program.map{|properties| [properties['type'], properties['label']]}.each do |type, key|
-              %tr
-                %td.align-justify
-                  = key
-                %td.align-justify
-                  - if type == 'file'
-                    = render 'shared/form_builder/list_attachment', resource: @leave_program, label: key
-                  - else
-                    = display_custom_properties(@leave_program.properties[key])
+              - unless type == 'separateLine'
+                %tr
+                  %td.align-justify
+                    = key
+                  %td.align-justify
+                    - if type == 'file'
+                      = render 'shared/form_builder/list_attachment', resource: @leave_program, label: key
+                    - else
+                      = display_custom_properties(@leave_program.properties[key])
