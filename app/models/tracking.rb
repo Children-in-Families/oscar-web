@@ -9,7 +9,7 @@ class Tracking < ActiveRecord::Base
   validates :name, uniqueness: { scope: :program_stream_id }
 
   validate :form_builder_field_uniqueness
-  validate :validate_remove_field, if: -> { id.present? }
+  # validate :validate_remove_field, if: -> { id.present? }
 
   default_scope { order(:created_at) }
 
