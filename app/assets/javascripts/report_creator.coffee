@@ -58,7 +58,7 @@ class CIF.ReportCreator
         itemMarginTop: 5
         itemMarginBottom: 5
         itemStyle:
-           fontSize: '12px'
+          fontSize: '11px'
       plotOptions: pie:
         shadow: false
       series: [
