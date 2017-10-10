@@ -17,6 +17,8 @@ class User < ActiveRecord::Base
   belongs_to :province,   counter_cache: true
   belongs_to :department, counter_cache: true
   belongs_to :manager, class_name: 'User', foreign_key: :manager_id, required: false
+  
+  has_one :permission
 
   has_many :changelogs, dependent: :restrict_with_error
   has_many :progress_notes, dependent: :restrict_with_error
@@ -29,6 +31,8 @@ class User < ActiveRecord::Base
   has_many :visit_clients,  dependent: :destroy
   has_many :custom_field_properties, as: :custom_formable, dependent: :destroy
   has_many :custom_fields, through: :custom_field_properties, as: :custom_formable
+  has_many :custom_field_permissions
+  has_many :user_custom_field_permissions, through: :custom_field_permissions
 
   validates :roles, presence: true, inclusion: { in: ROLES }
   validates :email, presence: true, uniqueness: { case_sensitive: false }

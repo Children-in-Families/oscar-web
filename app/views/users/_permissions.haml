@@ -1,0 +1,30 @@
+.modal.fade.modal-fullscree#permissions{"aria-labelledby" => "gridSystemModalLabel", role: "dialog", tabindex: "-1"}
+  .modal-dialog.modal-lg{role: "document"}
+    .modal-content
+      .modal-body
+        .modal-border
+          %h3= t('.permissions_selector')
+          = simple_form_for([@user, @permission]) do |f|
+            .row
+              .col-xs-4.col-xs-offset-4
+                %h4 Can View
+              .col-xs-4
+                %h4 Can Edit
+            .row
+              .col-xs-4
+                %label.permission_label Case Note
+              .col-xs-4
+                = f.input :case_notes_readable, as: :boolean, label: false, input_html: { class: 'i-checks' }
+              .col-xs-4
+                = f.input :case_notes_editable, label: false, input_html: { class: 'i-checks' }
+            .row
+              .col-xs-4
+                %label.permission_label CSI Assessments
+              .col-xs-4
+                = f.input :assessments_readable, label: false, input_html: { class: 'i-checks' }
+              .col-xs-4
+                = f.input :assessments_editable, label: false, input_html: { class: 'i-checks' }
+            .row
+              .col-xs-6.col-xs-offset-6.text-right
+                = f.submit class: 'btn btn-primary'
+                %button.btn.btn-default{"data-dismiss" => "modal"} Cancel

@@ -31,6 +31,7 @@ class UsersController < AdminController
   end
 
   def show
+    @permission               = Permission.find_or_initialize_by(user: @user) 
     custom_field_ids          = @user.custom_field_properties.pluck(:custom_field_id)
     @free_user_forms          = CustomField.user_forms.not_used_forms(custom_field_ids).order_by_form_title
     @group_user_custom_fields = @user.custom_field_properties.group_by(&:custom_field_id)

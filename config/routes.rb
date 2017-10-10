@@ -28,6 +28,7 @@ Rails.application.routes.draw do
   scope 'admin' do
     resources :users do
       resources :custom_field_properties
+      resources :permissions
       get 'version' => 'users#version'
       get 'disable' => 'users#disable'
     end
