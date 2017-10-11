@@ -12,21 +12,21 @@ describe 'ClientAdvancedSearch' do
       expect(page).to have_content 'Advanced Search'
     end
 
-    scenario 'Advanced Search Text Field' do
+    xscenario 'Advanced Search Text Field' do
       click_link 'Advanced Search'
       find(".rule-filter-container select option[value='given_name']", visible: false).select_option
       expect(page).to have_content 'Given Name'
       expect(page).to have_content 'is'
     end
 
-    scenario 'Advanced Search Number Field' do
+    xscenario 'Advanced Search Number Field' do
       click_link 'Advanced Search'
       find(".rule-filter-container select option[value='code']", visible: false).select_option
       expect(page).to have_content 'Code'
       expect(page).to have_content 'is'
     end
 
-    scenario 'Advanced Search Drop list Field' do
+    xscenario 'Advanced Search Drop list Field' do
       click_link 'Advanced Search'
       find(".rule-filter-container select option[value='able_state']", visible: false).select_option
       expect(page).to have_content 'Able State'
@@ -35,7 +35,7 @@ describe 'ClientAdvancedSearch' do
       expect(value).to have_text 'Accepted'
     end
 
-    scenario 'Advanced Search Datepicker Field' do
+    xscenario 'Advanced Search Datepicker Field' do
       click_link 'Advanced Search'
       find(".rule-filter-container select option[value='placement_date']", visible: false).select_option
       expect(page).to have_content 'Placement Start Date'

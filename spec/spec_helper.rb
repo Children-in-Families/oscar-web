@@ -32,6 +32,13 @@ Dir[Rails.root.join('spec/supports/**/*.rb')].each { |f| require f }
 Capybara.javascript_driver = :poltergeist
 # Capybara.app_host= 'http://lvh.me'
 
+Capybara.register_server :thin do |app, port, host|
+    require 'rack/handler/thin'
+   Rack::Handler::Thin.run(app, :Port => port, :Host => host)
+end
+
+Capybara.server = :thin
+
 Capybara.register_driver :poltergeist do |app|
   options = {
     js_errors: false,

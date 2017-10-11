@@ -9,14 +9,14 @@ class Tracking < ActiveRecord::Base
   validates :name, uniqueness: { scope: :program_stream_id }
 
   validate :form_builder_field_uniqueness
-  validate :validate_remove_field, if: -> { id.present? }
+  # validate :validate_remove_field, if: -> { id.present? }
 
   default_scope { order(:created_at) }
 
   def form_builder_field_uniqueness
     return unless fields.present?
     labels = fields.map{ |obj| obj['label'] }
-    labels.delete('Separate Line')
+    labels.delete('Separation Line')
     (errors.add :fields, "Fields duplicated!") unless (labels.uniq.length == labels.length)
   end
 

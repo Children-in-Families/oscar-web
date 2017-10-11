@@ -33,11 +33,12 @@
                     .table-responsive
                       %table.table.table-bordered
                         - tracking_report(enrollment_tracking).map{|field| [field['type'], field['label']]}.each do |type, key|
-                          %tr
-                            %td.align-justify
-                              = key
-                            %td.align-justify
-                              - if type == 'file'
-                                = render 'shared/form_builder/list_attachment', label: key, resource: enrollment_tracking
-                              - else
-                                = display_custom_properties(enrollment_tracking.properties[key])
+                          - unless type == 'separateLine'
+                            %tr
+                              %td.align-justify
+                                = key
+                              %td.align-justify
+                                - if type == 'file'
+                                  = render 'shared/form_builder/list_attachment', label: key, resource: enrollment_tracking
+                                - else
+                                  = display_custom_properties(enrollment_tracking.properties[key])
