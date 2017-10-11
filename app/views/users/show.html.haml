@@ -19,7 +19,7 @@
     
     - if current_user.admin?
       .btn-group.small-btn-margin
-        %a.btn-sm.btn.btn-success{"data-target" => "#permissions", "data-toggle" => "modal", :type => "button"}
+        %button.btn-sm.btn.btn-success{"data-target" => "#permissions", "data-toggle" => "modal", :type => "button"}
           = t('.permissions')
         = render 'permissions'
 

@@ -1,0 +1,14 @@
+%br
+.row
+  .col-xs-4.col-xs-offset-4
+    %h4=t('.can_view')
+  .col-xs-4
+    %h4=t('.can_edit')
+= f.fields_for :permission do |ff|
+  .row
+    .col-xs-4
+      %label=t('.assessments')
+    .col-xs-4
+      = ff.check_box :assessments_readable, class: 'i-checks'
+    .col-xs-4
+      = ff.check_box :assessments_editable, class: 'i-checks'

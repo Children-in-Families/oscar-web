@@ -7,6 +7,10 @@ class CustomField < ActiveRecord::Base
   has_many :users, through: :custom_field_properties, source: :custom_formable, source_type: 'User'
   has_many :partners, through: :custom_field_properties, source: :custom_formable, source_type: 'Partner'
   has_many :families, through: :custom_field_properties, source: :custom_formable, source_type: 'Family'
+  has_many :custom_field_permissions
+  has_many :user_permissions, through: :custom_field_permissions
+
+  accepts_nested_attributes_for :custom_field_permissions
 
   has_paper_trail
 

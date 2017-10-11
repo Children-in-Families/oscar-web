@@ -3611,10 +3611,24 @@ en:
   users:
     actions:
       are_you_sure: Are you sure you want to delete?
+    assessment_permission:
+      can_edit: Can Edit
+      can_view: Can View
+      assessments: CSI Assessments
     clients:
       clients: Clients
     create:
       successfully_created: User has been successfully created.
+    case_note_permission:
+      can_edit: Can Edit
+      can_view: Can View
+      case_notes: Case Notes
+    custom_form_permission:
+      can_edit: Can Edit
+      can_view: Can View
+    custom_program_permission:
+      can_edit: Can Edit
+      can_view: Can View
     destroy:
       alert: User cannot be deleted.
       successfully_deleted: User has been successfully deleted.
@@ -3714,9 +3728,18 @@ en:
       password_confirmation: Password Confirmation
       password_hint: Leave it blank if you don't want to change password
       pin_number: Pin Number
+      permissions: Permissions
       province: Province
       roles: Permission Set
       start_date: Start Date
+    permissions:
+      assessmets: CSI Assessments
+      cancel: Cancel
+      case_notes: Case Notes
+      custom_forms: Custom Forms
+      custom_programs: Custom Programs
+      permissions_selector: Permissions Selector
+      save: Save
     update:
       successfully_updated: User has been successfully updated.
     version:

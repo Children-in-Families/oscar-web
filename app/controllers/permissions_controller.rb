@@ -5,7 +5,7 @@ class PermissionsController < AdminController
     redirect_to user_path(params[:user_id]), notice: "User's permission has been created successfully."
   end
 
-  def update
+  def update   
     permission = Permission.find(params[:id])
     permission.update(permission_params)
     redirect_to user_path(params[:user_id]), notice: "User's permission has been updated successfully."

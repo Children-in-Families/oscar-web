@@ -30,9 +30,15 @@ class User < ActiveRecord::Base
   has_many :visits,  dependent: :destroy
   has_many :visit_clients,  dependent: :destroy
   has_many :custom_field_properties, as: :custom_formable, dependent: :destroy
-  has_many :custom_fields, through: :custom_field_properties, as: :custom_formable
+  has_many :custom_fields, through: :custom_field_properties, as: :custom_formable  
   has_many :custom_field_permissions
   has_many :user_custom_field_permissions, through: :custom_field_permissions
+  has_many :program_stream_permissions
+  has_many :program_streams, through: :program_stream_permissions
+
+  accepts_nested_attributes_for :custom_field_permissions
+  accepts_nested_attributes_for :program_stream_permissions
+  accepts_nested_attributes_for :permission
 
   validates :roles, presence: true, inclusion: { in: ROLES }
   validates :email, presence: true, uniqueness: { case_sensitive: false }
@@ -201,6 +207,18 @@ class User < ActiveRecord::Base
       case_workers.each do |case_worker|
         update_manager_ids(case_worker, manager_ids.unshift(user.id))
       end
+    end
+  end
+
+  def populate_custom_fields
+    CustomField.order('lower(form_title) ASC').each do |cf|
+      custom_field_permissions.build(custom_field_id: cf.id)
+    end
+  end
+
+  def populate_program_streams
+    ProgramStream.order('lower(name) ASC').each do |ps|
+      program_stream_permissions.build(program_stream: ps)
     end
   end
 end
