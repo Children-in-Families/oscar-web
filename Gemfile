@@ -64,11 +64,12 @@ group :development, :test do
   gem 'rspec-rails',          '~> 3.4'
   gem 'factory_girl_rails',   '~> 4.5'
   gem 'launchy',              '~> 2.4', '>= 2.4.3'
-  gem 'capybara',             '~> 2.5'
+  gem 'capybara',             '~> 2.15.4'
   gem 'poltergeist',          '~> 1.9.0'
   gem 'shoulda-whenever',     '~> 0.0.2'
-  gem 'bullet', '~> 5.4', '>= 5.4.3'
+  gem 'bullet',               '~> 5.4', '>= 5.4.3'
   gem 'mongoid-rspec',        '~> 3.0'
+  gem 'thin',                 '~> 1.7'
 end
 
 group :staging, :demo, :production do
@@ -88,7 +89,6 @@ group :development do
   gem 'capistrano-rvm',       '~> 0.1.2'
   gem 'capistrano-sidekiq',   github: 'seuros/capistrano-sidekiq'
   gem 'capistrano-foreman'
-  gem 'thin'
 end
 
 group :test do
