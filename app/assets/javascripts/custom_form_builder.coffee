@@ -3,7 +3,7 @@ class CIF.CustomFormBuilder
 
   thematicBreak: ->
     [{
-      label: 'Separate Line'
+      label: 'Separation Line'
       attrs: type: 'separateLine'
       icon: '<i class="fa fa-minus" aria-hidden="true"></i>'
     }]
