@@ -102,4 +102,11 @@ body[id='client_advanced_searches-index'] {
       margin: 10px 10px 10px 0;
     }
   }
+
+  .nav-tabs {
+    margin-bottom: 10px;
+    li.active a {
+      border-bottom-color: #fff;
+    }
+  }
 }
