@@ -144,7 +144,7 @@ class CIF.CustomFormBuilder
       $(elements).each (cIndex, cLabel) ->
         return if cIndex == index
         cText = $(cLabel).text()
-        if cText == displayText && cText != 'Separate Line'
+        if cText == displayText && cText != 'Separation Line'
           self.addDuplicateWarning(label)
 
   handleDisplayDuplicateWarning: ->
