@@ -16,7 +16,7 @@ class Tracking < ActiveRecord::Base
   def form_builder_field_uniqueness
     return unless fields.present?
     labels = fields.map{ |obj| obj['label'] }
-    labels.delete('Separate Line')
+    labels.delete('Separation Line')
     (errors.add :fields, "Fields duplicated!") unless (labels.uniq.length == labels.length)
   end
 

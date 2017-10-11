@@ -54,7 +54,7 @@ class CustomField < ActiveRecord::Base
 
   def uniq_fields
     labels = fields.map{ |f| f['label'] }
-    labels.delete('Separate Line')
+    labels.delete('Separation Line')
     duplicate = labels.detect { |e| labels.count(e) > 1 }
     errors.add(:fields, I18n.t('must_be_uniq')) if duplicate.present?
   end
