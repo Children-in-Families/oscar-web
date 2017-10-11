@@ -47,8 +47,8 @@ describe 'AdvancedSearch' do
     end
   end
 
-  xfeature 'create', js: true do
-    let!(:advanced_search_2){ create(:advanced_search) }
+  feature 'create', js: true do
+    let!(:advanced_search_2){ create(:advanced_search, user: user_1, name: 'User1 Client') }
     before do
       login_as(user_1)
       visit client_advanced_searches_path
@@ -65,7 +65,7 @@ describe 'AdvancedSearch' do
 
     scenario 'invalid as taken' do
       page.find('#save-search-setting').click
-      fill_in 'Name', with: 'OSCaR client'
+      fill_in 'Name', with: 'User1 client'
       click_button 'Save'
       expect(page).to have_content("Search setting has already been taken.")
     end
