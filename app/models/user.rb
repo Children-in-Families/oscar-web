@@ -212,9 +212,17 @@ class User < ActiveRecord::Base
   end
 
   def populate_custom_fields
-    CustomField.order('lower(form_title)').each do |cf|
+    custom_fields = get_custom_fields_by_role
+
+    custom_fields.each do |cf|
       custom_field_permissions.build(custom_field_id: cf.id)
     end
+  end
+
+  def get_custom_fields_by_role 
+    roles = ['admin', 'kc manager', 'fc manager', 'ec manager', 'manager']
+    user_role = self.roles
+    roles.include?(user_role)? CustomField.order('lower(form_title)') : CustomField.client_forms.order('lower(form_title)')
   end
 
   def populate_program_streams
