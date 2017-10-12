@@ -1,26 +1,32 @@
 describe User, 'associations' do
-  it { is_expected.to belong_to(:province)}
-  it { is_expected.to belong_to(:department)}
+  it { is_expected.to belong_to(:province) }
+  it { is_expected.to belong_to(:department) }
+  
+  it { is_expected.to have_one(:permission).dependent(:destroy) }
 
-  it { is_expected.to have_many(:advanced_searches).dependent(:destroy)}
-  it { is_expected.to have_many(:calendars)}
+  it { is_expected.to have_many(:advanced_searches).dependent(:destroy) }
+  it { is_expected.to have_many(:calendars) }
   it { is_expected.to have_many(:visits).dependent(:destroy) }
   it { is_expected.to have_many(:visit_clients).dependent(:destroy) }
   it { is_expected.to have_many(:case_worker_tasks).dependent(:destroy) }
   it { is_expected.to have_many(:tasks).through(:case_worker_tasks) }
-  it { is_expected.to have_many(:clients).through(:case_worker_clients)}
-  it { is_expected.to have_many(:case_worker_clients).dependent(:restrict_with_error)}
-  it { is_expected.to have_many(:changelogs).dependent(:restrict_with_error)}
-  it { is_expected.to have_many(:progress_notes).dependent(:restrict_with_error)}
+  it { is_expected.to have_many(:clients).through(:case_worker_clients) }
+  it { is_expected.to have_many(:case_worker_clients).dependent(:restrict_with_error) }
+  it { is_expected.to have_many(:changelogs).dependent(:restrict_with_error) }
+  it { is_expected.to have_many(:progress_notes).dependent(:restrict_with_error) }
   it { is_expected.to have_many(:custom_field_properties).dependent(:destroy) }
   it { is_expected.to have_many(:custom_fields).through(:custom_field_properties) }
+  it { is_expected.to have_many(:custom_field_permissions).dependent(:destroy) }
+  it { is_expected.to have_many(:user_custom_field_permissions).through(:custom_field_permissions) }
+  it { is_expected.to have_many(:program_stream_permissions).dependent(:destroy) }
+  it { is_expected.to have_many(:program_streams).through(:program_stream_permissions) }
 end
 
 describe User, 'validations' do
   it { is_expected.to validate_presence_of(:roles) }
   it { is_expected.to validate_presence_of(:email) }
   it { is_expected.to validate_uniqueness_of(:email).case_insensitive }
-  it { is_expected.to validate_inclusion_of(:roles).in_array(User::ROLES)}
+  it { is_expected.to validate_inclusion_of(:roles).in_array(User::ROLES) }
 end
 
 describe User, 'callbacks' do

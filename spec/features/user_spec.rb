@@ -6,6 +6,9 @@ describe 'User' do
   let!(:location){ create(:location, name: 'ផ្សេងៗ Other') }
   let!(:progress_note){ create(:progress_note, user: used_user, location: location) }
 
+  let!(:custom_field){ create(:custom_field) }
+  let!(:program_stream){ create(:program_stream) }
+  
   before do
     login_as(admin)
   end
@@ -40,6 +43,17 @@ describe 'User' do
 
     scenario 'does not succeed' do
       expect(page).to have_css("a[href='#{user_path(used_user)}'][data-method='delete'][class='btn btn-outline btn-danger btn-xs disabled']")
+    end
+  end
+
+  xfeature 'Permission' do
+    before do
+      visit user_path(admin)
+    end
+
+    scenario 'success', js: true do
+      find("button[data-target='#permissions']").click
+      find('input.i-checks').iCheck('check')
     end
   end
 

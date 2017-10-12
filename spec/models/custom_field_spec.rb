@@ -4,6 +4,8 @@ describe CustomField, 'associations' do
   it { is_expected.to have_many(:families).through(:custom_field_properties).source(:custom_formable) }
   it { is_expected.to have_many(:partners).through(:custom_field_properties).source(:custom_formable) }
   it { is_expected.to have_many(:users).through(:custom_field_properties).source(:custom_formable) }
+  it { is_expected.to have_many(:custom_field_permissions).dependent(:destroy) }
+  it { is_expected.to have_many(:user_permissions).through(:custom_field_permissions) }
 end
 
 describe CustomField, 'validations' do

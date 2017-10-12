@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :custom_field_permission do
-    user nil
-    custom_field nil
+    association :custom_field, factory: :custom_field
+    association :user, factory: :user
     readable false
     editable false
   end

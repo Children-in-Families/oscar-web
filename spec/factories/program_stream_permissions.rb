@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :program_stream_permission do
-    user nil
-    program_stream nil
+    association :program_stream, factory: :program_stream
+    association :user, factory: :user
     readable false
     editable false
   end
