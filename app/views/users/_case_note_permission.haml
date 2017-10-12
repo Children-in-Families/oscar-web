@@ -5,7 +5,7 @@
   .col-xs-4
     %h4=t('.can_edit')
 = f.simple_fields_for :permission do |ff|
-  .row
+  .row.case-note-permission
     .col-xs-4
       %label.permission-label=t('.case_notes')
     .col-xs-4

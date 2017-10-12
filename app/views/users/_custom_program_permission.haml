@@ -5,7 +5,7 @@
   .col-xs-4
     %h4=t('.can_edit')
 = f.simple_fields_for :program_stream_permissions do |ff|
-  .row
+  .row.program-stream-permission
     .col-xs-4
       %label.permission-label= ff.object.program_stream.name
       = ff.input :program_stream_id, as: :hidden, input_html: { value: ff.object.program_stream_id }
