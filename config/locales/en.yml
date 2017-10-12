@@ -3770,8 +3770,8 @@ en:
       password: Password
       password_confirmation: Password Confirmation
       password_hint: Leave it blank if you don't want to change password
-      pin_number: Pin Number
       permissions: Permissions
+      pin_number: Pin Number
       province: Province
       roles: Permission Set
       start_date: Start Date

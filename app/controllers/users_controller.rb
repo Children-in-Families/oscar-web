@@ -85,7 +85,7 @@ class UsersController < AdminController
                                 :job_title, :department_id, :mobile, :date_of_birth,
                                 :province_id, :email, :password,:password_confirmation,
                                 :manager_id, :calendar_integration, :pin_number, custom_field_ids: [], 
-                                custom_field_permissions_attributes: [:id,:custom_field_id, :readable, :editable],
+                                custom_field_permissions_attributes: [:id, :custom_field_id, :readable, :editable],
                                 program_stream_permissions_attributes: [:id, :program_stream_id, :readable, :editable],
                                 permission_attributes: [:id, :case_notes_readable, :case_notes_editable, :assessments_readable, :assessments_editable])
   end
