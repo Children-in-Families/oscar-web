@@ -5,8 +5,10 @@ class Ability
     can :manage, Agency
     can :manage, ReferralSource
     can :manage, QuarterlyReport
-    can :read, ProgramStream
+    can :read, ProgramStream, id: ProgramStreamPermission.where(readable: true, user_id: user.id).pluck(:program_stream_id)
     can :preview, ProgramStream
+    can :edit, ProgramStream, id: ProgramStreamPermission.where(editable: true, user_id: user.id).pluck(:program_stream_id)
+    can :update, ProgramStream, id: ProgramStreamPermission.where(editable: true, user_id: user.id).pluck(:program_stream_id)
 
     if user.admin?
       can :manage, :all
@@ -16,6 +18,7 @@ class Ability
       cannot :manage, ReferralSource
       cannot :manage, QuarterlyReport
       cannot :manage, CustomFieldProperty
+      cannot :update, ProgramStream
 
       can :read, :all
       can :version, :all

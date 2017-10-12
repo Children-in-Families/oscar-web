@@ -24,4 +24,18 @@ module ProgramStreamHelper
       "hide-tracking-form"
     end
   end
+
+  def disable_preview_or_show(program_stream)
+    if program_stream.ngo_name == current_organization.full_name && !(ProgramStreamPermission.find_by(program_stream_id: program_stream.id, user_id: current_user.id).try(:readable?)) && !(current_user.admin?)
+      'disabled'
+    end
+  end
+
+  def disable_edit(program_stream)
+    unless current_user.admin?
+      unless ProgramStreamPermission.find_by(program_stream_id: program_stream.id, user_id: current_user.id).try(:editable?)
+        'disabled'
+      end
+    end
+  end
 end
