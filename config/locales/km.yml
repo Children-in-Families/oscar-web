@@ -3708,17 +3708,17 @@ km:
     actions:
       are_you_sure: តើអ្នកប្រាកដហើយថាចង់លុប?
     assessment_permission:
+      assessments: ការប៉ាន់ប្រមាណ
       can_edit: អាចកែបាន
       can_view: អាចមើលបាន
-      assessments: ការប៉ាន់ប្រមាណ
-    clients:
-      clients: អតិថិជន
-    create:
-      successfully_created: អ្នកប្រើប្រាស់ត្រូវបានបង្កើតដោយជោគជ័យ
     case_note_permission:
       can_edit: អាចកែបាន
       can_view: អាចមើលបាន
       case_notes: កំណត់ត្រាករណី
+    clients:
+      clients: អតិថិជន
+    create:
+      successfully_created: អ្នកប្រើប្រាស់ត្រូវបានបង្កើតដោយជោគជ័យ
     custom_form_permission:
       can_edit: អាចកែបាន
       can_view: អាចមើលបាន
@@ -3830,12 +3830,10 @@ km:
       start_date: កាលបរិច្ឆេទចាប់ផ្តើម
     permissions:
       assessments: ការប៉ាន់ប្រមាណ
-      cancel: ទុកជាមោឃៈ
       case_notes: កំណត់ត្រាករណី
       custom_forms: ទម្រង់បែបបទបន្ថែម
       custom_programs: កម្មវិធីបន្ទាប់បន្សំ
       permissions_selector: សិទ្ធិអនុញ្ញាត
-      save: រក្សាទុក
     update:
       successfully_updated: អ្នកប្រើប្រាស់ត្រូវបានកែសម្រួលដោយជោគជ័យ
     version:

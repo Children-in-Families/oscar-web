@@ -7,8 +7,8 @@
 = f.simple_fields_for :program_stream_permissions do |ff|
   .row
     .col-xs-4
-      %label.permission_label= ff.object.program_stream.name
-      = ff.input :program_stream_id, value: ff.object.program_stream_id, as: :hidden
+      %label.permission-label= ff.object.program_stream.name
+      = ff.input :program_stream_id, as: :hidden, input_html: { value: ff.object.program_stream_id }
     .col-xs-4
       = ff.input :readable, label: false, input_html: { class: 'i-checks' }
     .col-xs-4

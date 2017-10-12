@@ -33,6 +33,7 @@ class UsersController < AdminController
   def show
     @user.populate_custom_fields unless @user.custom_field_permissions.any?
     @user.populate_program_streams unless @user.program_stream_permissions.any?
+    @user.build_permission unless @user.permission.present?
 
     custom_field_ids          = @user.custom_field_properties.pluck(:custom_field_id)
     @free_user_forms          = CustomField.user_forms.not_used_forms(custom_field_ids).order_by_form_title
@@ -84,9 +85,9 @@ class UsersController < AdminController
                                 :job_title, :department_id, :mobile, :date_of_birth,
                                 :province_id, :email, :password,:password_confirmation,
                                 :manager_id, :calendar_integration, :pin_number, custom_field_ids: [], 
-                                custom_field_permissions_attributes: [:id, :user_id, :custom_field_id, :readable, :editable, :_destroy],
-                                program_stream_permissions_attributes: [:id, :user_id, :program_stream_id, :readable, :editable, :_destroy],
-                                permission_attributes: [:id, :user_id, :case_notes_readable, :case_notes_editable, :assessments_readable, :assessments_editable, :_destroy])
+                                custom_field_permissions_attributes: [:id,:custom_field_id, :readable, :editable],
+                                program_stream_permissions_attributes: [:id, :program_stream_id, :readable, :editable],
+                                permission_attributes: [:id, :case_notes_readable, :case_notes_editable, :assessments_readable, :assessments_editable])
   end
 
   def find_user

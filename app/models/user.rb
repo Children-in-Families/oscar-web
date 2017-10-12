@@ -18,7 +18,7 @@ class User < ActiveRecord::Base
   belongs_to :department, counter_cache: true
   belongs_to :manager, class_name: 'User', foreign_key: :manager_id, required: false
   
-  has_one :permission
+  has_one :permission, dependent: :destroy
 
   has_many :advanced_searches, dependent: :destroy
   has_many :changelogs, dependent: :restrict_with_error
@@ -32,9 +32,9 @@ class User < ActiveRecord::Base
   has_many :visit_clients,  dependent: :destroy
   has_many :custom_field_properties, as: :custom_formable, dependent: :destroy
   has_many :custom_fields, through: :custom_field_properties, as: :custom_formable  
-  has_many :custom_field_permissions
+  has_many :custom_field_permissions, dependent: :destroy
   has_many :user_custom_field_permissions, through: :custom_field_permissions
-  has_many :program_stream_permissions
+  has_many :program_stream_permissions, dependent: :destroy
   has_many :program_streams, through: :program_stream_permissions
 
   accepts_nested_attributes_for :custom_field_permissions
@@ -219,7 +219,7 @@ class User < ActiveRecord::Base
 
   def populate_program_streams
     ProgramStream.order('lower(name) ASC').each do |ps|
-      program_stream_permissions.build(program_stream: ps)
+      program_stream_permissions.build(program_stream_id: ps.id)
     end
   end
 end
