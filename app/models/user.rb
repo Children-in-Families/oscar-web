@@ -32,9 +32,9 @@ class User < ActiveRecord::Base
   has_many :visit_clients,  dependent: :destroy
   has_many :custom_field_properties, as: :custom_formable, dependent: :destroy
   has_many :custom_fields, through: :custom_field_properties, as: :custom_formable  
-  has_many :custom_field_permissions, dependent: :destroy
+  has_many :custom_field_permissions, -> { order_by_form_title }, dependent: :destroy
   has_many :user_custom_field_permissions, through: :custom_field_permissions
-  has_many :program_stream_permissions, dependent: :destroy
+  has_many :program_stream_permissions, -> { order_by_program_name }, dependent: :destroy
   has_many :program_streams, through: :program_stream_permissions
 
   accepts_nested_attributes_for :custom_field_permissions
@@ -212,13 +212,13 @@ class User < ActiveRecord::Base
   end
 
   def populate_custom_fields
-    CustomField.order('lower(form_title) ASC').each do |cf|
+    CustomField.order('lower(form_title)').each do |cf|
       custom_field_permissions.build(custom_field_id: cf.id)
     end
   end
 
   def populate_program_streams
-    ProgramStream.order('lower(name) ASC').each do |ps|
+    ProgramStream.order('lower(name)').each do |ps|
       program_stream_permissions.build(program_stream_id: ps.id)
     end
   end
