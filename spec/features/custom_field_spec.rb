@@ -1,5 +1,6 @@
 feature 'custom_field' do
   let!(:admin){ create(:user, roles: 'admin') }
+  let!(:ec_manager){ create(:user, roles: 'ec manager') }
   let!(:custom_field) { create(:custom_field, frequency: 'Daily', time_of_frequency: 1) }
   let!(:search_custom_field) { create(:custom_field, form_title: 'Search Custom Field', frequency: 'Daily', time_of_frequency: 1) }
 
@@ -183,6 +184,31 @@ feature 'custom_field' do
       find('input[type=submit]').click
       expect(page).to have_content('Search Custom Field')
       expect(page).to have_content('Other Custom Field')
+    end
+  end
+
+  feature 'ec manager can view and edit custom field', js: true  do
+    before do
+      login_as(ec_manager)
+      visit custom_fields_path
+    end
+
+    scenario 'ec manager can view and edit program stream' do
+      ec_manager.custom_field_permissions.create(custom_field_id: custom_field.id, readable: true, editable: true)
+      expect(page).to have_link('', href: "/custom_fields/#{custom_field.id}?locale=en")
+      expect(page).to have_link('', href: "/custom_fields/#{custom_field.id}/edit?locale=en")
+    end
+
+    scenario 'ec manager can view but can not edit program stream' do
+      ec_manager.custom_field_permissions.create(custom_field_id: custom_field.id, readable: true)
+      expect(page).to have_link('', href: "/custom_fields/#{custom_field.id}?locale=en")
+      expect(page).to have_link('', href: "/custom_fields/#{custom_field.id}/edit?locale=en", class: 'disabled')
+    end
+
+    scenario 'ec manager can not view and edit program stream' do
+      ec_manager.custom_field_permissions.create(custom_field_id: custom_field.id)
+      expect(page).to have_link('', href: "/custom_fields/#{custom_field.id}?locale=en", class: 'disabled')
+      expect(page).to have_link('', href: "/custom_fields/#{custom_field.id}/edit?locale=en", class: 'disabled')
     end
   end
 end
