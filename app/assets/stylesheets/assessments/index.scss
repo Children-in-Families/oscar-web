@@ -14,4 +14,11 @@ body[id=assessments-index] {
   .disabled{
     color: #7f817f !important;
   }
+
+  .btn.button {
+    a {
+      display: block;
+      color: white;
+    }
+  }
 }

@@ -46,9 +46,9 @@ describe 'User' do
     end
   end
 
-  xfeature 'Permission' do
+  feature 'Permission' do
     before do
-      visit user_path(admin)
+      visit user_path(user)
     end
 
     scenario 'success', js: true do

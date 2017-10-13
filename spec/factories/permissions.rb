@@ -1,8 +1,9 @@
 FactoryGirl.define do
   factory :permission do
-    name "MyString"
-    user nil
-    readable false
-    editable false
+    association :user, factory: :user
+    case_notes_readable false
+    case_notes_editable false
+    assessments_readable false
+    assessments_editable false
   end
 end

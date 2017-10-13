@@ -523,4 +523,59 @@ describe 'Client' do
       end
     end
   end
+
+  feature 'Case notes and Assessments permission' do
+    let!(:client){ create(:client, users: [admin, user], state: 'accepted') }
+    let!(:have_permission) { create(:permission, user: admin, case_notes_readable: true, case_notes_editable: true, assessments_readable: true, assessments_editable: true) }
+    let!(:have_no_permission) { create(:permission, user: user) }
+
+    let!(:assessment) { create(:assessment, client: client) }
+    let!(:case_note) { create(:case_note, assessment: assessment, client: client)}
+
+    context 'can view and edit' do 
+      before do
+        login_as(admin)
+        visit client_path(client)
+      end
+
+      scenario 'case notes' do
+        find("a[href='#{client_case_notes_path(client)}']").click
+        expect("#{client_case_notes_path(client)}").to have_content(current_path)
+
+        find("a[href='#{edit_client_case_note_path(client, case_note)}']").click
+        expect("#{edit_client_case_note_path(client, case_note)}").to have_content(current_path)
+      end
+
+      scenario 'assessments' do
+        find("a[href='#{client_assessments_path(client)}']").click
+        find("a[href='#{client_assessment_path(client, assessment)}']").click
+        expect("#{client_assessment_path(client, assessment)}").to have_content(current_path)
+
+        find("a[href='#{edit_client_assessment_path(client, assessment)}']").click
+        expect("#{edit_client_assessment_path(client, assessment)}").to have_content(current_path)
+      end
+    end
+
+    context 'cannot view and edit' do
+      before do
+        login_as(user)
+        visit client_path(client)
+      end
+
+      scenario 'case notes' do
+        expect(page).not_to have_link("a[href='#{client_case_notes_path(client)}']")
+
+        visit edit_client_case_note_path(client, case_note)
+        expect("#{client_path(client)}").to have_content(current_path)
+      end
+
+      scenario 'assessments' do
+        find("a[href='#{client_assessments_path(client)}']").click
+        expect(page).not_to have_link("a[href='#{client_assessment_path(client, assessment)}']")
+
+        visit edit_client_assessment_path(client, assessment)
+        expect("#{client_assessments_path(client)}").to have_content(current_path)
+      end
+    end
+  end
 end

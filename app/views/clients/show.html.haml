@@ -113,10 +113,8 @@
               %strong.count-margin= @client.assessments.count
               = t('.view_assessments')
           - if can? :manage, CaseNote
-            = link_to client_case_notes_path(@client) do
-              %span.btn-sm.btn.btn-info.small-btn-margin
-                %strong.count-margin= @client.case_notes.count
-                = t('.view_case_notes')
+            %span.btn-sm.btn.btn-info.small-btn-margin{ class: ('disabled' unless case_notes_readable?) }
+              = link_to_if case_notes_readable?, "#{@client.case_notes.count} #{t('.view_case_notes')}", client_case_notes_path(@client)
           -# Client ask to hide #147254199
           -# - if can? :manage, Survey
           -#   = link_to new_client_survey_path(@client) do

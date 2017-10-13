@@ -17,9 +17,8 @@
                 %b
                   = assessment.created_at.strftime("%B %d, %Y")
             .col-xs-12.col-sm-3
-              = link_to client_assessment_path(@client, assessment) do
-                .btn.btn-info.button
-                  = t('.view_report')
+              .btn.btn-info.button{ class: ('disabled' unless case_notes_readable?) }
+                = link_to_if assessment_readable?, t('.view_report'), client_assessment_path(@client, assessment)
         .row.margin-row
           .col-xs-12.col-sm-9
             %h5

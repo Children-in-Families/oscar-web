@@ -150,6 +150,13 @@ body[id='clients-show'] {
     z-index: 2001;
   }
 
+  span.btn {
+    a { 
+      display: block;
+      color: white; 
+    }
+  }
+
   @media screen and (max-width: 991px) {
     .case .panel-body {
       height: auto;
