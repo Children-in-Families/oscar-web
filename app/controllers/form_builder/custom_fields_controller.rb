@@ -21,12 +21,17 @@ class FormBuilder::CustomFieldsController < AdminController
 
   def show
     ngo_name = params[:ngo_name]
-    @custom_field = get_custom_field(params[:custom_field_id].to_i, ngo_name) if ngo_name.present?
+    if ngo_name.present?
+      @custom_field = get_custom_field(params[:custom_field_id].to_i, ngo_name)
+    else
+      @custom_field = CustomField.find(params[:id])
+    end
   end
 
   def create
     @custom_field = CustomField.new(custom_field_params)
     if @custom_field.save
+      create_custom_field_permission
       redirect_to custom_field_path(@custom_field), notice: t('.successfully_created')
     else
       render :new
@@ -134,5 +139,12 @@ class FormBuilder::CustomFieldsController < AdminController
 
   def find_ngo_name
     @ngo_name = params[:ngo_name]
+  end
+
+  def create_custom_field_permission
+    current_user.custom_field_permissions.create(custom_field_id: @custom_field.id, readable: true, editable: true)
+    User.where.not(id: current_user.id).each do |user|
+      user.custom_field_permissions.create(custom_field_id: @custom_field.id)
+    end
   end
 end

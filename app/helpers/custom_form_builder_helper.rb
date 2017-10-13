@@ -56,4 +56,18 @@ module CustomFormBuilderHelper
       'This can be done many times and anytime.'
     end
   end
+
+  def disable_button_prevent_or_show(custom_field)
+    if custom_field.ngo_name == current_organization.full_name && !(CustomFieldPermission.find_by(custom_field_id: custom_field.id, user_id: current_user.id).try(:readable?)) && !(current_user.admin? || current_user.strategic_overviewer?)
+      'disabled'
+    end
+  end
+
+  def disable_button_edit(custom_field)
+    unless current_user.admin?
+      unless CustomFieldPermission.find_by(custom_field_id: custom_field.id, user_id: current_user.id).try(:editable?)
+        'disabled'
+      end
+    end
+  end
 end
