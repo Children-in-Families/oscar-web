@@ -17,7 +17,7 @@ class User < ActiveRecord::Base
   belongs_to :province,   counter_cache: true
   belongs_to :department, counter_cache: true
   belongs_to :manager, class_name: 'User', foreign_key: :manager_id, required: false
-  
+
   has_one :permission, dependent: :destroy
 
   has_many :advanced_searches, dependent: :destroy
@@ -31,7 +31,7 @@ class User < ActiveRecord::Base
   has_many :visits,  dependent: :destroy
   has_many :visit_clients,  dependent: :destroy
   has_many :custom_field_properties, as: :custom_formable, dependent: :destroy
-  has_many :custom_fields, through: :custom_field_properties, as: :custom_formable  
+  has_many :custom_fields, through: :custom_field_properties, as: :custom_formable
   has_many :custom_field_permissions, -> { order_by_form_title }, dependent: :destroy
   has_many :user_custom_field_permissions, through: :custom_field_permissions
   has_many :program_stream_permissions, -> { order_by_program_name }, dependent: :destroy
@@ -219,7 +219,7 @@ class User < ActiveRecord::Base
     end
   end
 
-  def get_custom_fields_by_role 
+  def get_custom_fields_by_role
     roles = ['admin', 'kc manager', 'fc manager', 'ec manager', 'manager']
     user_role = self.roles
     roles.include?(user_role)? CustomField.order('lower(form_title)') : CustomField.client_forms.order('lower(form_title)')

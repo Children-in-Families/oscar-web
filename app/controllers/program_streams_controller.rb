@@ -37,6 +37,7 @@ class ProgramStreamsController < AdminController
     @program_stream = ProgramStream.new(program_stream_params)
     begin
       if @program_stream.save
+        create_program_stream_permission
         redirect_to program_stream_path(@program_stream), notice: t('.successfully_created')
       else
         render :new
@@ -189,6 +190,13 @@ class ProgramStreamsController < AdminController
     else
       @program_stream = ProgramStream.new
       @tracking = @program_stream.trackings.build
+    end
+  end
+
+  def create_program_stream_permission
+    current_user.program_stream_permissions.create(program_stream_id: @program_stream.id, readable: true, editable: true)
+    User.where.not(id: current_user.id).each do |user|
+      user.program_stream_permissions.create(program_stream_id: @program_stream.id)
     end
   end
 end
