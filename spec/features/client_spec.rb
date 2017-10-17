@@ -526,9 +526,6 @@ describe 'Client' do
 
   feature 'Case notes and Assessments permission' do
     let!(:client){ create(:client, users: [admin, user], state: 'accepted') }
-    let!(:have_permission) { create(:permission, user: admin, case_notes_readable: true, case_notes_editable: true, assessments_readable: true, assessments_editable: true) }
-    let!(:have_no_permission) { create(:permission, user: user) }
-
     let!(:assessment) { create(:assessment, client: client) }
     let!(:case_note) { create(:case_note, assessment: assessment, client: client)}
 
@@ -563,6 +560,7 @@ describe 'Client' do
       end
 
       scenario 'case notes' do
+        user.permission.update(case_notes_readable: false, case_notes_editable: false)
         expect(page).not_to have_link("a[href='#{client_case_notes_path(client)}']")
 
         visit edit_client_case_note_path(client, case_note)
@@ -570,6 +568,7 @@ describe 'Client' do
       end
 
       scenario 'assessments' do
+        user.permission.update(assessments_readable: false, assessments_editable: false)
         find("a[href='#{client_assessments_path(client)}']").click
         expect(page).not_to have_link("a[href='#{client_assessment_path(client, assessment)}']")
 

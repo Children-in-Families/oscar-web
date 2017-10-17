@@ -20,12 +20,15 @@ module CaseNoteHelper
   end
 
   def case_notes_readable?
+    return true if @current_user.admin? || @current_user.strategic_overviewer?
     permission = @current_user.permission
-    permission.nil? ? true : permission.case_notes_readable ? true : false
+    permission.case_notes_readable ? true : false
   end
 
   def case_notes_editable?
+    return true if @current_user.admin?
+    return false if @current_user.strategic_overviewer?
     permission = @current_user.permission
-    permission.nil? ? true : permission.case_notes_editable ? true : false
+    permission.case_notes_editable ? true : false
   end
 end

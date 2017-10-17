@@ -4,7 +4,9 @@ class CaseNotesController < AdminController
   before_action :set_case_note, only: [:edit, :update]
 
   def index
-    redirect_to client_path(@client) unless @current_user.try(:permission).try(:case_notes_readable)
+    unless @current_user.admin? || @current_user.strategic_overviewer?
+      redirect_to client_path(@client) unless @current_user.permission.case_notes_readable
+    end
     @case_notes = @client.case_notes.most_recents.page(params[:page]).per(1)
   end
 
