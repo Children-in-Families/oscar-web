@@ -67,6 +67,25 @@ class User < ActiveRecord::Base
   before_save :assign_as_admin
   before_save :set_manager_ids, if: 'manager_id_changed?'
   after_save :reset_manager, if: 'roles_changed?'
+  after_create :build_permission
+
+  def build_permission
+    unless self.admin? || self.strategic_overviewer?
+      Permission.create(user: self, case_notes_readable: true, case_notes_editable: true, assessments_readable: true, assessments_editable: true)
+
+      CustomField.all.each do |cf|
+        if self.case_worker?
+          CustomFieldPermission.create(user_id: self.id, custom_field_id: cf.id, readable: false, editable: false)
+        else
+          CustomFieldPermission.create(user_id: self.id, custom_field_id: cf.id, readable: true, editable: true)
+        end
+      end
+
+      ProgramStream.all.each do |ps|
+        ProgramStreamPermission.create(user_id: user.id, program_stream_id: ps.id, readable: false, editable: false)
+      end
+    end
+  end
 
   ROLES.each do |role|
     define_method("#{role.parameterize.underscore}?") do

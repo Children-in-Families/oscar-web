@@ -29,7 +29,9 @@ class CaseNotesController < AdminController
   end
 
   def edit
-    redirect_to action: 'index' unless @current_user.try(:permission).try(:case_notes_editable)
+    unless @current_user.admin? || @current_user.strategic_overviewer?
+      redirect_to action: 'index' unless @current_user.permission.case_notes_editable
+    end
   end
 
   def update
