@@ -22,12 +22,12 @@ module AssessmentHelper
   end
 
   def assessment_readable?
-    permission = @current_user.permission
+    permission = current_user.permission
     permission.nil? ? true : permission.assessments_readable ? true : false
   end
 
   def assessment_editable?
-    permission = @current_user.permission
+    permission = current_user.permission
     permission.nil? ? true : permission.assessments_editable ? true : false
   end
 end

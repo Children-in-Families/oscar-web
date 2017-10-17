@@ -24,14 +24,14 @@ class AssessmentsController < AdminController
   end
 
   def show
-    unless @current_user.admin? || @current_user.strategic_overviewer?
-      redirect_to action: 'index' unless @current_user.permission.assessments_readable
+    unless current_user.admin? || current_user.strategic_overviewer?
+      redirect_to action: 'index' unless current_user.permission.assessments_readable
     end
   end
 
   def edit
-    unless @current_user.admin? || @current_user.strategic_overviewer?
-      redirect_to action: 'show' unless @current_user.permission.assessments_editable
+    unless current_user.admin? || current_user.strategic_overviewer?
+      redirect_to action: 'show' unless current_user.permission.assessments_editable
     end
   end
 

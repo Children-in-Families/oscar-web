@@ -75,14 +75,14 @@ class User < ActiveRecord::Base
 
       CustomField.all.each do |cf|
         if self.case_worker?
-          CustomFieldPermission.create(user_id: self.id, custom_field_id: cf.id, readable: false, editable: false)
+          self.custom_field_permissions.create(custom_field_id: cf.id)
         else
-          CustomFieldPermission.create(user_id: self.id, custom_field_id: cf.id, readable: true, editable: true)
+          self.custom_field_permissions.create(custom_field_id: cf.id, readable: true, editable: true)
         end
       end
 
       ProgramStream.all.each do |ps|
-        ProgramStreamPermission.create(user_id: user.id, program_stream_id: ps.id, readable: false, editable: false)
+        self.program_stream_permissions.create(program_stream_id: ps.id)
       end
     end
   end

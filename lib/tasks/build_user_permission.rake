@@ -13,16 +13,16 @@ namespace :user_permission do
         unless user.custom_field_permissions.any?
           CustomField.all.each do |cf|
             if user.case_worker?
-              CustomFieldPermission.create(user_id: user.id, custom_field_id: cf.id, readable: false, editable: false)
+              user.custom_field_permissions.create(custom_field_id: cf.id)
             else
-              CustomFieldPermission.create(user_id: user.id, custom_field_id: cf.id, readable: true, editable: true)
+              user.custom_field_permissions.create(custom_field_id: cf.id, readable: true, editable: true)
             end
           end
         end
 
         unless user.program_stream_permissions.any?
           ProgramStream.all.each do |ps|
-            ProgramStreamPermission.create(user_id: user.id, program_stream_id: ps.id, readable: false, editable: false)
+            user.program_stream_permissions.create(program_stream_id: ps.id)
           end
         end
       end
