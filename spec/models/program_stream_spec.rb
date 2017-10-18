@@ -5,6 +5,8 @@ describe ProgramStream, 'associations' do
   it { is_expected.to have_many(:clients).through(:client_enrollments) }
   it { is_expected.to have_many(:trackings).dependent(:destroy) }
   it { is_expected.to have_many(:leave_programs) }
+  it { is_expected.to have_many(:program_stream_permissions).dependent(:destroy) }
+  it { is_expected.to have_many(:users).through(:program_stream_permissions) }
 end
 
 describe ProgramStream, 'scope' do

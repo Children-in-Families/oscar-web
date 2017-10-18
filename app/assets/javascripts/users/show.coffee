@@ -3,6 +3,8 @@ CIF.UsersShow = do ->
     _fixedHeaderTableColumns()
     _handleScrollTable()
     _getClientPath()
+    _autoCheckReadable()
+    _autoUncheckEditable()
 
   _fixedHeaderTableColumns = ->
     $('.clients-table').removeClass('table-responsive')
@@ -32,5 +34,25 @@ CIF.UsersShow = do ->
     $('table.clients tbody tr').click (e) ->
       return if $(e.target).hasClass('btn') || $(e.target).hasClass('fa') || $(e.target).is('a')
       window.open($(@).data('href'), '_blank')
+
+  _autoCheckReadable = ->
+    $('.user_program_stream_permissions_editable input.i-checks').on 'ifChecked', (event) ->
+      $(@).parents('.program-stream-permission').find('.user_program_stream_permissions_readable input.i-checks').iCheck('check')
+    $('.user_custom_field_permissions_editable input.i-checks').on 'ifChecked', (event) ->
+      $(@).parents('.custom-field-permission').find('.user_custom_field_permissions_readable input.i-checks').iCheck('check')
+    $('.user_permission_case_notes_editable input.i-checks').on 'ifChecked', (event) ->
+      $(@).parents('.case-note-permission').find('.user_permission_case_notes_readable input.i-checks').iCheck('check')
+    $('.user_permission_assessments_editable input.i-checks').on 'ifChecked', (event) ->
+      $(@).parents('.assessment-permission').find('.user_permission_assessments_readable input.i-checks').iCheck('check')
+
+  _autoUncheckEditable = ->
+    $('.user_program_stream_permissions_readable input.i-checks').on 'ifUnchecked', (event) ->
+      $(@).parents('.program-stream-permission').find('.user_program_stream_permissions_editable input.i-checks').iCheck('uncheck')
+    $('.user_custom_field_permissions_readable input.i-checks').on 'ifUnchecked', (event) ->
+      $(@).parents('.custom-field-permission').find('.user_custom_field_permissions_editable input.i-checks').iCheck('uncheck')
+    $('.user_permission_case_notes_readable input.i-checks').on 'ifUnchecked', (event) ->
+      $(@).parents('.case-note-permission').find('.user_permission_case_notes_editable input.i-checks').iCheck('uncheck')
+    $('.user_permission_assessments_readable input.i-checks').on 'ifUnchecked', (event) ->
+      $(@).parents('.assessment-permission').find('.user_permission_assessments_editable input.i-checks').iCheck('uncheck')
 
   { init: _init }

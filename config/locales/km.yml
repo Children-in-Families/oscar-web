@@ -3707,10 +3707,24 @@ km:
   users:
     actions:
       are_you_sure: តើអ្នកប្រាកដហើយថាចង់លុប?
+    assessment_permission:
+      assessments: ការប៉ាន់ប្រមាណ
+      can_edit: អាចកែបាន
+      can_view: អាចមើលបាន
+    case_note_permission:
+      can_edit: អាចកែបាន
+      can_view: អាចមើលបាន
+      case_notes: កំណត់ត្រាករណី
     clients:
       clients: អតិថិជន
     create:
       successfully_created: អ្នកប្រើប្រាស់ត្រូវបានបង្កើតដោយជោគជ័យ
+    custom_form_permission:
+      can_edit: អាចកែបាន
+      can_view: អាចមើលបាន
+    custom_program_permission:
+      can_edit: អាចកែបាន
+      can_view: អាចមើលបាន
     destroy:
       alert: អ្នកប្រើប្រាស់មិនអាចលុបបានទេ
       successfully_deleted: អ្នកប្រើប្រាស់ត្រូវបានលុបដោយជោគជ័យ
@@ -3809,10 +3823,17 @@ km:
       password: ពាក្យសម្ងាត់
       password_confirmation: បញ្ជាក់ពាក្យសម្ងាត់
       password_hint: រំលងប្រសិនបើឣ្នកមិនចង់ធ្វើការផ្លាស់ប្តូរ
+      permissions: ការអនុញ្ញាត
       pin_number: លេខ Pin
       province: ខេត្ត
       roles: តួនាទី
       start_date: កាលបរិច្ឆេទចាប់ផ្តើម
+    permissions:
+      assessments: ការប៉ាន់ប្រមាណ
+      case_notes: កំណត់ត្រាករណី
+      custom_forms: ទម្រង់បែបបទបន្ថែម
+      custom_programs: កម្មវិធីបន្ទាប់បន្សំ
+      permissions_selector: សិទ្ធិអនុញ្ញាត
     update:
       successfully_updated: អ្នកប្រើប្រាស់ត្រូវបានកែសម្រួលដោយជោគជ័យ
     version:

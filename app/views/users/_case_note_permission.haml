@@ -1,0 +1,14 @@
+%br
+.row
+  .col-xs-4.col-xs-offset-4
+    %h4=t('.can_view')
+  .col-xs-4
+    %h4=t('.can_edit')
+= f.simple_fields_for :permission do |ff|
+  .row.case-note-permission
+    .col-xs-4
+      %label.permission-label=t('.case_notes')
+    .col-xs-4
+      = ff.input :case_notes_readable, input_html: { class: 'i-checks' }, label: false
+    .col-xs-4
+      = ff.input :case_notes_editable, input_html: { class: 'i-checks' }, label: false

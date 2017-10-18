@@ -21,7 +21,11 @@ class FormBuilder::CustomFieldsController < AdminController
 
   def show
     ngo_name = params[:ngo_name]
-    @custom_field = get_custom_field(params[:custom_field_id].to_i, ngo_name) if ngo_name.present?
+    if ngo_name.present?
+      @custom_field = get_custom_field(params[:custom_field_id].to_i, ngo_name)
+    else
+      @custom_field = CustomField.find(params[:id])
+    end
   end
 
   def create

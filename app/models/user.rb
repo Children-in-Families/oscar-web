@@ -18,6 +18,8 @@ class User < ActiveRecord::Base
   belongs_to :department, counter_cache: true
   belongs_to :manager, class_name: 'User', foreign_key: :manager_id, required: false
 
+  has_one :permission, dependent: :destroy
+
   has_many :advanced_searches, dependent: :destroy
   has_many :changelogs, dependent: :restrict_with_error
   has_many :progress_notes, dependent: :restrict_with_error
@@ -30,6 +32,14 @@ class User < ActiveRecord::Base
   has_many :visit_clients,  dependent: :destroy
   has_many :custom_field_properties, as: :custom_formable, dependent: :destroy
   has_many :custom_fields, through: :custom_field_properties, as: :custom_formable
+  has_many :custom_field_permissions, -> { order_by_form_title }, dependent: :destroy
+  has_many :user_custom_field_permissions, through: :custom_field_permissions
+  has_many :program_stream_permissions, -> { order_by_program_name }, dependent: :destroy
+  has_many :program_streams, through: :program_stream_permissions
+
+  accepts_nested_attributes_for :custom_field_permissions
+  accepts_nested_attributes_for :program_stream_permissions
+  accepts_nested_attributes_for :permission
 
   validates :roles, presence: true, inclusion: { in: ROLES }
   validates :email, presence: true, uniqueness: { case_sensitive: false }
@@ -57,6 +67,25 @@ class User < ActiveRecord::Base
   before_save :assign_as_admin
   before_save :set_manager_ids, if: 'manager_id_changed?'
   after_save :reset_manager, if: 'roles_changed?'
+  after_create :build_permission
+
+  def build_permission
+    unless self.admin? || self.strategic_overviewer?
+      Permission.create(user: self, case_notes_readable: true, case_notes_editable: true, assessments_readable: true, assessments_editable: true)
+
+      CustomField.all.each do |cf|
+        if self.case_worker?
+          self.custom_field_permissions.create(custom_field_id: cf.id)
+        else
+          self.custom_field_permissions.create(custom_field_id: cf.id, readable: true, editable: true)
+        end
+      end
+
+      ProgramStream.all.each do |ps|
+        self.program_stream_permissions.create(program_stream_id: ps.id, readable: true)
+      end
+    end
+  end
 
   ROLES.each do |role|
     define_method("#{role.parameterize.underscore}?") do
@@ -198,6 +227,26 @@ class User < ActiveRecord::Base
       case_workers.each do |case_worker|
         update_manager_ids(case_worker, manager_ids.unshift(user.id))
       end
+    end
+  end
+
+  def populate_custom_fields
+    custom_fields = get_custom_fields_by_role
+
+    custom_fields.each do |cf|
+      custom_field_permissions.build(custom_field_id: cf.id)
+    end
+  end
+
+  def get_custom_fields_by_role
+    roles = ['admin', 'kc manager', 'fc manager', 'ec manager', 'manager']
+    user_role = self.roles
+    roles.include?(user_role)? CustomField.order('lower(form_title)') : CustomField.client_forms.order('lower(form_title)')
+  end
+
+  def populate_program_streams
+    ProgramStream.order('lower(name)').each do |ps|
+      program_stream_permissions.build(program_stream_id: ps.id)
     end
   end
 end

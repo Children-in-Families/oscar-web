@@ -7,6 +7,8 @@ class CustomField < ActiveRecord::Base
   has_many :users, through: :custom_field_properties, source: :custom_formable, source_type: 'User'
   has_many :partners, through: :custom_field_properties, source: :custom_formable, source_type: 'Partner'
   has_many :families, through: :custom_field_properties, source: :custom_formable, source_type: 'Family'
+  has_many :custom_field_permissions, dependent: :destroy
+  has_many :user_permissions, through: :custom_field_permissions
 
   has_paper_trail
 
@@ -20,6 +22,7 @@ class CustomField < ActiveRecord::Base
   validate  :uniq_fields, :field_label, if: -> { fields.present? }
 
   # before_save :set_time_of_frequency
+  after_create :build_permission
   before_save :set_ngo_name, if: -> { ngo_name.blank? }
 
   scope :by_form_title,  ->(value)  { where('form_title iLIKE ?', "%#{value}%") }
@@ -64,6 +67,17 @@ class CustomField < ActiveRecord::Base
       if object['label'].blank?
         errors.add(:fields, I18n.t('field_label_cannot_be_blank'))
         break
+      end
+    end
+  end
+
+  def build_permission
+    User.all.each do |user|
+      next if user.admin? || user.strategic_overviewer?
+      if user.case_worker?
+        self.custom_field_permissions.find_or_create_by(user_id: user.id)
+      else
+        self.custom_field_permissions.find_or_create_by(user_id: user.id, readable: true, editable: true)
       end
     end
   end

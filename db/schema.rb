@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171009034120) do
+ActiveRecord::Schema.define(version: 20171011040334) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -402,6 +402,18 @@ ActiveRecord::Schema.define(version: 20171009034120) do
     t.datetime "updated_at"
   end
 
+  create_table "custom_field_permissions", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "custom_field_id"
+    t.boolean  "readable",        default: false
+    t.boolean  "editable",        default: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+  end
+
+  add_index "custom_field_permissions", ["custom_field_id"], name: "index_custom_field_permissions_on_custom_field_id", using: :btree
+  add_index "custom_field_permissions", ["user_id"], name: "index_custom_field_permissions_on_user_id", using: :btree
+
   create_table "custom_field_properties", force: :cascade do |t|
     t.jsonb    "properties",           default: {}
     t.string   "custom_formable_type"
@@ -658,11 +670,35 @@ ActiveRecord::Schema.define(version: 20171009034120) do
     t.integer  "cases_count",           default: 0
   end
 
+  create_table "permissions", force: :cascade do |t|
+    t.integer  "user_id"
+    t.boolean  "case_notes_readable"
+    t.boolean  "case_notes_editable"
+    t.boolean  "assessments_editable"
+    t.boolean  "assessments_readable"
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+  end
+
+  add_index "permissions", ["user_id"], name: "index_permissions_on_user_id", using: :btree
+
   create_table "problems", force: :cascade do |t|
     t.string   "name",       default: ""
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "program_stream_permissions", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "program_stream_id"
+    t.boolean  "readable",          default: false
+    t.boolean  "editable",          default: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
+  end
+
+  add_index "program_stream_permissions", ["program_stream_id"], name: "index_program_stream_permissions_on_program_stream_id", using: :btree
+  add_index "program_stream_permissions", ["user_id"], name: "index_program_stream_permissions_on_user_id", using: :btree
 
   create_table "program_streams", force: :cascade do |t|
     t.string   "name"
@@ -1151,11 +1187,15 @@ ActiveRecord::Schema.define(version: 20171009034120) do
   add_foreign_key "client_problems", "clients"
   add_foreign_key "client_problems", "problems"
   add_foreign_key "clients", "donors"
+  add_foreign_key "custom_field_permissions", "custom_fields"
+  add_foreign_key "custom_field_permissions", "users"
   add_foreign_key "custom_field_properties", "custom_fields"
   add_foreign_key "domains", "domain_groups"
   add_foreign_key "interventions_progress_notes", "interventions"
   add_foreign_key "interventions_progress_notes", "progress_notes"
   add_foreign_key "leave_programs", "client_enrollments"
+  add_foreign_key "program_stream_permissions", "program_streams"
+  add_foreign_key "program_stream_permissions", "users"
   add_foreign_key "progress_notes", "clients"
   add_foreign_key "progress_notes", "locations"
   add_foreign_key "progress_notes", "materials"

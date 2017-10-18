@@ -8,6 +8,9 @@ class ProgramStream < ActiveRecord::Base
   has_many   :trackings, dependent: :destroy
   has_many   :leave_programs
 
+  has_many   :program_stream_permissions, dependent: :destroy
+  has_many   :users, through: :program_stream_permissions
+
   has_paper_trail
 
   accepts_nested_attributes_for :trackings, allow_destroy: true
@@ -19,12 +22,20 @@ class ProgramStream < ActiveRecord::Base
   # validate  :validate_remove_enrollment_field, :validate_remove_exit_program_field, if: -> { id.present? }
 
   after_save :set_program_completed
+  after_create :build_permission
 
   scope  :ordered,     ->         { order('lower(name) ASC') }
   scope  :complete,    ->         { where(completed: true) }
   scope  :ordered_by,  ->(column) { order(column) }
   scope  :filter,      ->(value)  { where(id: value) }
   scope  :name_like,   ->(value)  { where(name: value) }
+
+  def build_permission
+    User.all.each do |user|
+      next if user.admin? || user.strategic_overviewer?
+      self.program_stream_permissions.find_or_create_by(user: user, readable: true)
+    end
+  end
 
   def self.inactive_enrollments(client)
     joins(:client_enrollments).where("client_id = ? AND client_enrollments.created_at = (SELECT MAX(client_enrollments.created_at) FROM client_enrollments WHERE client_enrollments.program_stream_id = program_streams.id AND client_enrollments.client_id = #{client.id}) AND client_enrollments.status = 'Exited' ", client.id).ordered

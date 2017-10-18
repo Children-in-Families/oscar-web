@@ -7,7 +7,7 @@
         .col-xs-3.col-sm-6.col-md-4
           = submit_tag t('.search'), name: nil, class: 'btn btn-primary'
   .col-xs-12.col-sm-4.col-md-4.text-right
-    - if can? :manage, CustomField
+    - if can? :create, CustomField
       = link_to t('.new_custom_form'), new_custom_field_path, class: 'btn btn-primary form-btn no-margin-top'
 .row
   .col-xs-12

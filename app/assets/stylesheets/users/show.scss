@@ -76,4 +76,18 @@
     max-height: 200px;
     overflow-x: hidden;
   }
+
+  #permissions {
+    label.permission-label {
+      margin-top: 10px;
+    }
+    
+    .nav-tabs {
+      margin-bottom: 10px;
+      
+      li.active a {
+        border-bottom-color: #fff;
+      }
+    }
+  }
 }
