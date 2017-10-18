@@ -82,7 +82,7 @@ class User < ActiveRecord::Base
       end
 
       ProgramStream.all.each do |ps|
-        self.program_stream_permissions.create(program_stream_id: ps.id)
+        self.program_stream_permissions.create(program_stream_id: ps.id, readable: true)
       end
     end
   end

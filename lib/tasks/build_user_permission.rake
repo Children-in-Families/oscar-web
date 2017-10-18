@@ -22,7 +22,7 @@ namespace :user_permission do
 
         unless user.program_stream_permissions.any?
           ProgramStream.all.each do |ps|
-            user.program_stream_permissions.create(program_stream_id: ps.id)
+            user.program_stream_permissions.create(program_stream_id: ps.id, readable: true)
           end
         end
       end
