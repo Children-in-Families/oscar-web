@@ -124,4 +124,16 @@ describe CustomField, 'callbacks' do
       expect(no_frequency_custom_field.time_of_frequency).to eq(0)
     end
   end
+
+  context 'build permission' do
+    let!(:custom_field) { create(:custom_field, form_title: 'Form A') }
+    let!(:user) { create(:user) }
+
+    it 'create records in custom field permission' do
+      expect(user.custom_field_permissions.first.user_id).to eq(user.id)
+      expect(user.custom_field_permissions.first.custom_field_id).to eq(custom_field.id)
+      expect(user.custom_field_permissions.first.readable).to eq(false)
+      expect(user.custom_field_permissions.first.editable).to eq(false)
+    end
+  end
 end

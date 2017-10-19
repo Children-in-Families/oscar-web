@@ -103,6 +103,38 @@ describe User, 'callbacks' do
       expect(case_worker.manager_ids).to include(other_manager.id, manager_level_2.id, manager_level_3.id)
     end
   end
+
+  context 'build permission' do
+    let!(:client) { create(:client) }
+    let!(:assessment) { create(:assessment, client: client) }
+    let!(:case_note) { create(:case_note, client: client, assessment: assessment) }
+    let!(:custom_field) { create(:custom_field) }
+    let!(:program_stream) { create(:program_stream) }
+
+    let!(:user) { create(:user) }
+
+    it 'create a record in permission' do
+      expect(user.permission).to be_truthy
+      expect(user.permission.case_notes_readable).to eq(true)
+      expect(user.permission.case_notes_editable).to eq(true)
+      expect(user.permission.assessments_readable).to eq(true)
+      expect(user.permission.assessments_editable).to eq(true)
+    end
+
+    it 'create records in custom field permission' do
+      expect(user.custom_field_permissions.first.user_id).to eq(user.id)
+      expect(user.custom_field_permissions.first.custom_field_id).to eq(custom_field.id)
+      expect(user.custom_field_permissions.first.readable).to eq(false)
+      expect(user.custom_field_permissions.first.editable).to eq(false)
+    end
+
+    it 'create records in program stream permission' do
+      expect(user.program_stream_permissions.first.user_id).to eq(user.id)
+      expect(user.program_stream_permissions.first.program_stream_id).to eq(program_stream.id)
+      expect(user.program_stream_permissions.first.readable).to eq(true)
+      expect(user.program_stream_permissions.first.editable).to eq(false)
+    end
+  end
 end
 
 
