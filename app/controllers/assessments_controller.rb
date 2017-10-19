@@ -25,13 +25,13 @@ class AssessmentsController < AdminController
 
   def show
     unless current_user.admin? || current_user.strategic_overviewer?
-      redirect_to action: 'index' unless current_user.permission.assessments_readable
+      redirect_to root_path, alert: t('unauthorized.default') unless current_user.permission.assessments_readable
     end
   end
 
   def edit
     unless current_user.admin? || current_user.strategic_overviewer?
-      redirect_to action: 'show' unless current_user.permission.assessments_editable
+      redirect_to root_path, alert: t('unauthorized.default') unless current_user.permission.assessments_editable
     end
   end
 

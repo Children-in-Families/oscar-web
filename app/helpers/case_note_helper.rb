@@ -21,14 +21,12 @@ module CaseNoteHelper
 
   def case_notes_readable?
     return true if current_user.admin? || current_user.strategic_overviewer?
-    permission = current_user.permission
-    permission.case_notes_readable ? true : false
+    current_user.permission.case_notes_readable
   end
 
   def case_notes_editable?
     return true if current_user.admin?
     return false if current_user.strategic_overviewer?
-    permission = current_user.permission
-    permission.case_notes_editable ? true : false
+    current_user.permission.case_notes_editable
   end
 end
