@@ -5,9 +5,8 @@ class Ability
     can :manage, Agency
     can :manage, ReferralSource
     can :manage, QuarterlyReport
-    can :read, ProgramStream, id: ProgramStreamPermission.where(readable: true, user_id: user.id).pluck(:program_stream_id)
+    can :read, ProgramStream
     can :preview, ProgramStream
-    can :update, ProgramStream, id: ProgramStreamPermission.where(editable: true, user_id: user.id).pluck(:program_stream_id)
 
     if user.admin?
       can :manage, :all
@@ -18,12 +17,10 @@ class Ability
       cannot :manage, QuarterlyReport
       cannot :manage, CustomFieldProperty
       cannot :manage, CaseNote
-      cannot :update, ProgramStream
 
       can :read, :all
       can :version, :all
       can :report, :all
-
     elsif user.case_worker?
       can :manage, AbleScreeningQuestion
       can :manage, Assessment
@@ -55,11 +52,7 @@ class Ability
       can :manage, ProgressNote
       can :manage, Task
       can :manage, CustomFieldProperty, custom_formable_type: "Client"
-      can :create, CustomField
-      can :read, CustomField, id: CustomFieldPermission.where(readable: true, user_id: user.id).pluck(:custom_field_id)
-      can :preview, CustomField
-      can :update, CustomField, id: CustomFieldPermission.where(editable: true, user_id: user.id).pluck(:custom_field_id)
-      can :destroy, CustomField, id: CustomFieldPermission.where(editable: true, user_id: user.id).pluck(:custom_field_id)
+      can :manage, CustomField
       can :manage, ClientEnrollment
       can :manage, ClientEnrollmentTracking
       can :manage, LeaveProgram
@@ -83,11 +76,7 @@ class Ability
       can :manage, CustomFieldProperty, custom_formable_type: 'Client'
       can :manage, CustomFieldProperty, custom_formable_type: 'Family'
       can :manage, CustomFieldProperty, custom_formable_type: 'Partner'
-      can :create, CustomField
-      can :read, CustomField, id: CustomFieldPermission.where(readable: true, user_id: user.id).pluck(:custom_field_id)
-      can :preview, CustomField
-      can :update, CustomField, id: CustomFieldPermission.where(editable: true, user_id: user.id).pluck(:custom_field_id)
-      can :destroy, CustomField, id: CustomFieldPermission.where(editable: true, user_id: user.id).pluck(:custom_field_id)
+      can :manage, CustomField
       can :manage, ClientEnrollment
       can :manage, ClientEnrollmentTracking
       can :manage, LeaveProgram
@@ -111,11 +100,7 @@ class Ability
       can :manage, CustomFieldProperty, custom_formable_type: 'Client'
       can :manage, CustomFieldProperty, custom_formable_type: 'Family'
       can :manage, CustomFieldProperty, custom_formable_type: 'Partner'
-      can :create, CustomField
-      can :read, CustomField, id: CustomFieldPermission.where(readable: true, user_id: user.id).pluck(:custom_field_id)
-      can :preview, CustomField
-      can :update, CustomField, id: CustomFieldPermission.where(editable: true, user_id: user.id).pluck(:custom_field_id)
-      can :destroy, CustomField, id: CustomFieldPermission.where(editable: true, user_id: user.id).pluck(:custom_field_id)
+      can :manage, CustomField
       can :manage, ClientEnrollment
       can :manage, ClientEnrollmentTracking
       can :manage, LeaveProgram
@@ -140,11 +125,7 @@ class Ability
       can :manage, CustomFieldProperty, custom_formable_type: 'Client'
       can :manage, CustomFieldProperty, custom_formable_type: 'Family'
       can :manage, CustomFieldProperty, custom_formable_type: 'Partner'
-      can :create, CustomField
-      can :read, CustomField, id: CustomFieldPermission.where(readable: true, user_id: user.id).pluck(:custom_field_id)
-      can :preview, CustomField
-      can :update, CustomField, id: CustomFieldPermission.where(editable: true, user_id: user.id).pluck(:custom_field_id)
-      can :destroy, CustomField, id: CustomFieldPermission.where(editable: true, user_id: user.id).pluck(:custom_field_id)
+      can :manage, CustomField
       can :manage, ClientEnrollment
       can :manage, ClientEnrollmentTracking
       can :manage, LeaveProgram
@@ -170,11 +151,7 @@ class Ability
       can :manage, CustomFieldProperty, custom_formable_type: 'Client'
       can :manage, CustomFieldProperty, custom_formable_type: 'Family'
       can :manage, CustomFieldProperty, custom_formable_type: 'Partner'
-      can :create, CustomField
-      can :read, CustomField, id: CustomFieldPermission.where(readable: true, user_id: user.id).pluck(:custom_field_id)
-      can :preview, CustomField
-      can :update, CustomField, id: CustomFieldPermission.where(editable: true, user_id: user.id).pluck(:custom_field_id)
-      can :destroy, CustomField, id: CustomFieldPermission.where(editable: true, user_id: user.id).pluck(:custom_field_id)
+      can :manage, CustomField
       can :manage, ClientEnrollment
       can :manage, ClientEnrollmentTracking
       can :manage, LeaveProgram

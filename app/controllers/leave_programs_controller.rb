@@ -10,6 +10,7 @@ class LeaveProgramsController < AdminController
   before_action :initial_attachments, only: [:new, :create]
 
   def edit
+    check_user_permission('editable')
   end
 
   def update
@@ -22,6 +23,7 @@ class LeaveProgramsController < AdminController
   end
 
   def show
+    check_user_permission('readable')
   end
 
   def destroy

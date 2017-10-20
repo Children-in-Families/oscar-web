@@ -94,8 +94,8 @@ class CustomFieldPropertiesController < AdminController
 
   def check_user_permission(permission)
     unless current_user.admin? || current_user.strategic_overviewer?
-      permission = current_user.custom_field_permissions.find_by(custom_field_id: @custom_field)["#{permission}"]
-      redirect_to root_path, alert: t('unauthorized.default') unless permission
+      permission_set = current_user.custom_field_permissions.find_by(custom_field_id: @custom_field)[permission]
+      redirect_to root_path, alert: t('unauthorized.default') unless permission_set
     end
   end
 end

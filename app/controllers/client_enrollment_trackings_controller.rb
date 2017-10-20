@@ -16,6 +16,7 @@ class ClientEnrollmentTrackingsController < AdminController
 
   def edit
     authorize @client_enrollment_tracking
+    check_user_permission('editable')
   end
 
   def update
@@ -29,6 +30,7 @@ class ClientEnrollmentTrackingsController < AdminController
   end
 
   def show
+    check_user_permission('readable')
   end
 
   def destroy

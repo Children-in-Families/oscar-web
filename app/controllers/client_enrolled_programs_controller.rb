@@ -28,6 +28,7 @@ class ClientEnrolledProgramsController < AdminController
   # end
 
   def edit
+    check_user_permission('editable')
   end
 
   def update
@@ -40,6 +41,7 @@ class ClientEnrolledProgramsController < AdminController
   end
 
   def show
+    check_user_permission('readable')
   end
 
   # def create
