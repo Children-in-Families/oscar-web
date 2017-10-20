@@ -14,10 +14,4 @@ module LeaveEnrolledProgramHelper
       end
     end
   end
-
-  def program_permission_editable?(program_stream)
-    return true if current_user.admin?
-    return true if current_user.strategic_overviewer?
-    current_user.program_stream_permissions.find_by(program_stream_id: program_stream.id).editable
-  end
 end

@@ -1,6 +1,6 @@
 module CustomFieldPropertiesHelper
   def custom_field_properties_edit_link(custom_formable, custom_field_property, custom_field)
-    if custom_field_editable?
+    if custom_field_editable?(custom_field)
       link_to edit_polymorphic_path([custom_formable, custom_field_property], custom_field_id: custom_field) do
         content_tag :div, class: 'btn btn-outline btn-success' do
           fa_icon('pencil')
@@ -29,15 +29,5 @@ module CustomFieldPropertiesHelper
     #     end
     #   end
     # end
-  end
-
-  def custom_field_editable?
-    return true if current_user.admin? || current_user.strategic_overviewer?
-    current_user.custom_field_permissions.find_by(user_id: current_user.id, custom_field_id: params[:custom_field_id]).editable
-  end
-
-  def custom_field_readable?(value)
-    return true if current_user.admin? || current_user.strategic_overviewer?
-    current_user.custom_field_permissions.find_by(custom_field_id: value).readable
   end
 end
