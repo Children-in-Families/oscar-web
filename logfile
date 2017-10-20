@@ -2,3 +2,15 @@ LOG:  database system was shut down at 2017-10-12 21:07:39 +07
 LOG:  MultiXact member wraparound protections are now enabled
 LOG:  autovacuum launcher started
 LOG:  database system is ready to accept connections
+LOG:  database system was interrupted; last known up at 2017-10-19 13:59:24 +07
+LOG:  database system was not properly shut down; automatic recovery in progress
+LOG:  redo starts at 0/3DEF7058
+LOG:  invalid record length at 0/3DEF83D0: wanted 24, got 0
+LOG:  redo done at 0/3DEF83A8
+LOG:  last completed transaction was at log time 2017-10-19 13:59:31.882223+07
+LOG:  MultiXact member wraparound protections are now enabled
+LOG:  autovacuum launcher started
+LOG:  database system is ready to accept connections
+ERROR:  insert or update on table "program_stream_permissions" violates foreign key constraint "fk_rails_54e2d97a10"
+DETAIL:  Key (program_stream_id)=(657) is not present in table "program_streams".
+STATEMENT:  INSERT INTO "program_stream_permissions" ("user_id", "program_stream_id", "readable", "editable", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"

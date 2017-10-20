@@ -28,4 +28,9 @@ module ClientEnrollmentHelper
       client_client_enrolled_program_path(@client, @client_enrollment)
     end
   end
+
+  def program_stream_readable?(value)
+    return true if current_user.admin? || current_user.strategic_overviewer?
+    current_user.program_stream_permissions.find_by(program_stream_id: value).readable
+  end
 end

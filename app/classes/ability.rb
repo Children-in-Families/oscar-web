@@ -17,13 +17,13 @@ class Ability
       cannot :manage, ReferralSource
       cannot :manage, QuarterlyReport
       cannot :manage, CustomFieldProperty
+      cannot :manage, CaseNote
       cannot :update, ProgramStream
 
       can :read, :all
       can :version, :all
       can :report, :all
 
-      cannot :manage, CaseNote
     elsif user.case_worker?
       can :manage, AbleScreeningQuestion
       can :manage, Assessment
