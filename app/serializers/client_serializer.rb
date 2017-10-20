@@ -34,12 +34,10 @@ class ClientSerializer < ActiveModel::Serializer
   def additional_form
     custom_fields = object.custom_fields.uniq.sort_by(&:form_title)
     custom_fields.map do |custom_field|
-      label_names = custom_field.fields.map{ |field| field['label'] if field['type'] == 'file' }
       custom_field_property_file_upload = custom_field.custom_field_properties.where(custom_formable_id: object.id)
       custom_field_property_file_upload.each do |custom_field_property|
-        custom_field_property_attachments = FormBuilderAttachment.where(name: label_names, form_buildable_type: 'CustomFieldProperty', form_buildable_id: custom_field_property.id)
-        custom_field_property_attachments.each do |att|
-          custom_field_property.properties = custom_field_property.properties.merge({ att.name => att.file })
+        custom_field_property.form_builder_attachments.map do |c|
+          custom_field_property.properties = custom_field_property.properties.merge({c.name => c.file})
         end
       end
       custom_field.as_json.merge(custom_field_properties: custom_field_property_file_upload.as_json)
