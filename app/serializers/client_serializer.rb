@@ -34,7 +34,6 @@ class ClientSerializer < ActiveModel::Serializer
   def additional_form
     custom_fields = object.custom_fields.uniq.sort_by(&:form_title)
     custom_fields.map do |custom_field|
-      label_names = custom_field.fields.map{ |field| field['label'] if field['type'] == 'file' }
       custom_field_property_file_upload = custom_field.custom_field_properties.where(custom_formable_id: object.id)
       custom_field_property_file_upload.each do |custom_field_property|
         custom_field_property.form_builder_attachments.map do |c|
