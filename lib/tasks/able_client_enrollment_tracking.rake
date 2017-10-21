@@ -16,14 +16,18 @@ namespace :able_client_enrollment_tracking do
       pn_tracking.properties['ចំនុចដែលត្រូវធ្វើ  Interventions'] = progress_note.interventions.pluck(:action)
       pn_tracking.properties['សកម្មភាព/ការឆ្លើយតប  Activities/Response'] = progress_note.response
       pn_tracking.properties['ព័​ត៍​មាន​បន្ថែម  Additional Information'] = progress_note.additional_note
-      # Missing file uploads
+
       if pn_tracking.valid?
         pn_tracking.save
-        # progress_note.attachments.each do |attachment|
-        #   pn_tracking.form_builder_attachments.new
-        #   pn_tracking.file << attachment.file
-        #   pn_tracking.save
-        # end
+        progress_note.attachments.each do |attachment|
+          data = File.open(Rails.root.join('public' + attachment.file.url))
+          # Todo
+            # - not sure if production need to remove public
+            # - Might need to copy ProgressNote attachment from s3 production to staging
+          att = pn_tracking.form_builder_attachments.new(name: 'ផ្ទុករូបថតឬព័ត៌មានផ្សេងទៀតឡើង  Upload photos or other info')
+          att.file = [data]
+          att.save
+        end
       else
         open('tracking.log', 'a') do |e|
           e.puts DateTime.now
@@ -46,8 +50,3 @@ namespace :able_client_enrollment_tracking do
     end
   end
 end
-
-# Todo
-# - Removed required from Program Tracking fields before writing ClientEnrollmentTracking
-# - Remove html tag from Activities/Response
-# - Missing attachments
