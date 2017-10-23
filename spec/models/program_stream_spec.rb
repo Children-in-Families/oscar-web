@@ -76,7 +76,7 @@ describe ProgramStream, 'callback' do
       expect(user.program_stream_permissions.first.user_id).to eq(user.id)
       expect(user.program_stream_permissions.first.program_stream_id).to eq(program_stream.id)
       expect(user.program_stream_permissions.first.readable).to eq(true)
-      expect(user.program_stream_permissions.first.editable).to eq(false)
+      expect(user.program_stream_permissions.first.editable).to eq(true)
     end
   end
 end
