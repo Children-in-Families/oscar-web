@@ -8,7 +8,7 @@
             = @program_stream.completed_status
         .ibox-tools
           - if (can? :update, ProgramStream) && (current_organization.full_name == @program_stream.ngo_name)
-            = link_to edit_program_stream_path(@program_stream), class: "btn btn-outline btn-success #{disable_edit(@program_stream)}" do
+            = link_to edit_program_stream_path(@program_stream), class: 'btn btn-outline btn-success' do
               = fa_icon('pencil')
             - if can? :create, ProgramStream
               = link_to new_program_stream_path(program_stream_id: @program_stream.id, ngo_name: @program_stream.ngo_name), class: 'btn btn-outline btn-success', title: t('.copy') do
@@ -26,7 +26,7 @@
                     %a= t('.detail')
                 .col-xs-2.col-md-1.text-right
                   - if (can? :update, ProgramStream) && (current_organization.full_name == @program_stream.ngo_name)
-                    = link_to edit_program_stream_path(@program_stream, tab: '1'), class: "btn btn-outline btn-success btn-sm btn-edit-margin #{disable_edit(@program_stream)}" do
+                    = link_to edit_program_stream_path(@program_stream, tab: '1'), class: 'btn btn-outline btn-success btn-sm btn-edit-margin' do
                       = fa_icon('pencil')
             #description.panel-collapse.collapse
               .panel-body
@@ -52,7 +52,7 @@
                     %a= t('.rules')
                 .col-xs-2.col-md-1.text-right
                   - if (can? :update, ProgramStream) && (current_organization.full_name == @program_stream.ngo_name)
-                    = link_to edit_program_stream_path(@program_stream, tab: '2'), class: "btn btn-outline btn-success btn-sm btn-edit-margin #{disable_edit(@program_stream)}" do
+                    = link_to edit_program_stream_path(@program_stream, tab: '2'), class: 'btn btn-outline btn-success btn-sm btn-edit-margin' do
                       = fa_icon('pencil')
             #rules.panel-collapse.collapse{ data: { program_rules: @program_stream.rules.to_json}}
               .panel-body
@@ -81,7 +81,7 @@
                     %a= t('.enrollment')
                 .col-xs-2.col-md-1.text-right
                   - if (can? :update, ProgramStream) && (current_organization.full_name == @program_stream.ngo_name)
-                    = link_to edit_program_stream_path(@program_stream, tab: '3'), class: "btn btn-outline btn-success btn-sm btn-edit-margin #{disable_edit(@program_stream)}" do
+                    = link_to edit_program_stream_path(@program_stream, tab: '3'), class: 'btn btn-outline btn-success btn-sm btn-edit-margin' do
                       = fa_icon('pencil')
             #enrollment.panel-collapse.collapse
               .panel-body
@@ -98,7 +98,7 @@
                     %a= t('.tracking')
                 .col-xs-2.col-md-1.text-right
                   - if (can? :update, ProgramStream) && (current_organization.full_name == @program_stream.ngo_name)
-                    = link_to edit_program_stream_path(@program_stream, tab: '4'), class: "btn btn-outline btn-success btn-sm btn-edit-margin #{disable_edit(@program_stream)}" do
+                    = link_to edit_program_stream_path(@program_stream, tab: '4'), class: 'btn btn-outline btn-success btn-sm btn-edit-margin' do
                       = fa_icon('pencil')
             #tracking.panel-collapse.collapse
               .panel-body
@@ -130,7 +130,7 @@
                     %a= t('.exit_program')
                 .col-xs-2.col-md-1.text-right
                   - if (can? :update, ProgramStream) && (current_organization.full_name == @program_stream.ngo_name)
-                    = link_to edit_program_stream_path(@program_stream, tab: '5'), class: "btn btn-outline btn-success btn-sm btn-edit-margin #{disable_edit(@program_stream)}" do
+                    = link_to edit_program_stream_path(@program_stream, tab: '5'), class: 'btn btn-outline btn-success btn-sm btn-edit-margin' do
                       = fa_icon('pencil')
             #exit-program.panel-collapse.collapse
               .panel-body

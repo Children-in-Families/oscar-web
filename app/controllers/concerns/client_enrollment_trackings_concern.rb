@@ -35,4 +35,11 @@ module ClientEnrollmentTrackingsConcern
     @client_enrollment_tracking ||= @enrollment.client_enrollment_trackings.new
     @attachments = @client_enrollment_tracking.form_builder_attachments
   end
+
+  def check_user_permission(permission)
+    unless current_user.admin? || current_user.strategic_overviewer?
+      permission_set = current_user.program_stream_permissions.find_by(program_stream_id: @program_stream.id)[permission]
+      redirect_to root_path, alert: t('unauthorized.default') unless permission_set
+    end
+  end
 end

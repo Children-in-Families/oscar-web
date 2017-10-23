@@ -8,6 +8,7 @@ class CustomFieldPropertiesController < AdminController
   before_action :get_form_builder_attachments, only: [:edit, :update]
 
   def index
+    check_user_permission('readable')
     @custom_field_properties = @custom_formable.custom_field_properties.accessible_by(current_ability).by_custom_field(@custom_field).most_recents.page(params[:page]).per(4)
   end
 
@@ -18,6 +19,7 @@ class CustomFieldPropertiesController < AdminController
   end
 
   def edit
+    check_user_permission('editable')
     authorize! :edit, @custom_field_property
   end
 
@@ -90,4 +92,10 @@ class CustomFieldPropertiesController < AdminController
     end
   end
 
+  def check_user_permission(permission)
+    unless current_user.admin? || current_user.strategic_overviewer?
+      permission_set = current_user.custom_field_permissions.find_by(custom_field_id: @custom_field)[permission]
+      redirect_to root_path, alert: t('unauthorized.default') unless permission_set
+    end
+  end
 end

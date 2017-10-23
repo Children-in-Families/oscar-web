@@ -25,6 +25,7 @@
             %th.manage= t('.actions')
         %tbody
           - @program_streams.each do |ps|
+            - next unless program_stream_readable?(ps.id)
             %tr
               %td.status
                 = render 'status', program_stream: ps
