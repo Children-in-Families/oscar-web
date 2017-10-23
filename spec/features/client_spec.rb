@@ -1,6 +1,6 @@
 describe 'Client' do
   let(:admin) { create(:user, roles: 'admin') }
-  let(:user) { create(:user) }
+  let!(:user) { create(:user) }
 
   feature 'List' do
     let!(:client){create(:client, users: [user])}
@@ -524,10 +524,16 @@ describe 'Client' do
     end
   end
 
-  feature 'Case notes and Assessments permission' do
+  feature 'Case notes, Assessments, Custom Field and Program Stream permission' do
     let!(:client){ create(:client, users: [admin, user], state: 'accepted') }
     let!(:assessment) { create(:assessment, client: client) }
     let!(:case_note) { create(:case_note, assessment: assessment, client: client)}
+    
+    let!(:custom_field) { create(:custom_field) }
+    let!(:custom_field_property) { create(:custom_field_property, custom_formable: client, custom_field: custom_field) }
+
+    let!(:program_stream) { create(:program_stream) }
+    let!(:client_enrollment) { create(:client_enrollment, client: client, program_stream: program_stream) }
 
     context 'can view and edit' do 
       before do
@@ -551,6 +557,22 @@ describe 'Client' do
         find("a[href='#{edit_client_assessment_path(client, assessment)}']").click
         expect("#{edit_client_assessment_path(client, assessment)}").to have_content(current_path)
       end
+
+      scenario 'custom fields' do
+        find("a[href='#{client_custom_field_properties_path(client, custom_field_id: custom_field.id)}']").click
+        expect(page).to have_content(custom_field.form_title)
+
+        find("a[href='#{edit_client_custom_field_property_path(client, custom_field_property, custom_field_id: custom_field.id)}']").click
+        expect("#{edit_client_custom_field_property_path(client, custom_field_property, custom_field_id: custom_field.id)}").to have_content(current_path)
+      end
+
+      scenario 'program streams' do
+        find("a[href='#{client_client_enrolled_programs_path(client)}']").click
+        expect("#{client_client_enrolled_programs_path(client)}").to have_content(current_path)
+
+        visit "#{edit_client_client_enrolled_program_path(client, client_enrollment, program_stream_id: program_stream.id)}"
+        expect("#{edit_client_client_enrolled_program_path(client, client_enrollment, program_stream_id: program_stream.id)}").to have_content(current_path)
+      end
     end
 
     context 'cannot view and edit' do
@@ -564,7 +586,7 @@ describe 'Client' do
         expect(page).not_to have_link("a[href='#{client_case_notes_path(client)}']")
 
         visit edit_client_case_note_path(client, case_note)
-        expect("#{client_path(client)}").to have_content(current_path)
+        expect(dashboards_path).to have_content(current_path)
       end
 
       scenario 'assessments' do
@@ -573,8 +595,24 @@ describe 'Client' do
         expect(page).not_to have_link("a[href='#{client_assessment_path(client, assessment)}']")
 
         visit edit_client_assessment_path(client, assessment)
-        expect("#{client_assessments_path(client)}").to have_content(current_path)
+        expect(dashboards_path).to have_content(current_path)
       end
+
+      scenario 'custom fields' do
+        expect(page).not_to have_link("a[href='#{client_custom_field_properties_path(client, custom_field_id: custom_field.id)}']")
+
+        visit edit_client_custom_field_property_path(client, custom_field_property, custom_field_id: custom_field.id)
+        expect(dashboards_path).to have_content(current_path)
+      end
+
+      scenario 'program streams' do
+        user.program_stream_permissions.find_by(program_stream_id: program_stream.id).update(readable: false)
+        find("a[href='#{client_client_enrolled_programs_path(client)}']").click
+        expect(page).not_to have_content(program_stream.name)
+
+        visit edit_client_client_enrolled_program_path(client, client_enrollment, program_stream_id: program_stream.id)
+        expect(dashboards_path).to have_content(current_path)
+      end 
     end
   end
 end
