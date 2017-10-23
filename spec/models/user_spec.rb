@@ -124,15 +124,15 @@ describe User, 'callbacks' do
     it 'create records in custom field permission' do
       expect(user.custom_field_permissions.first.user_id).to eq(user.id)
       expect(user.custom_field_permissions.first.custom_field_id).to eq(custom_field.id)
-      expect(user.custom_field_permissions.first.readable).to eq(false)
-      expect(user.custom_field_permissions.first.editable).to eq(false)
+      expect(user.custom_field_permissions.first.readable).to eq(true)
+      expect(user.custom_field_permissions.first.editable).to eq(true)
     end
 
     it 'create records in program stream permission' do
       expect(user.program_stream_permissions.first.user_id).to eq(user.id)
       expect(user.program_stream_permissions.first.program_stream_id).to eq(program_stream.id)
       expect(user.program_stream_permissions.first.readable).to eq(true)
-      expect(user.program_stream_permissions.first.editable).to eq(false)
+      expect(user.program_stream_permissions.first.editable).to eq(true)
     end
   end
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171011040334) do
+ActiveRecord::Schema.define(version: 20171023093833) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -672,12 +672,12 @@ ActiveRecord::Schema.define(version: 20171011040334) do
 
   create_table "permissions", force: :cascade do |t|
     t.integer  "user_id"
-    t.boolean  "case_notes_readable"
-    t.boolean  "case_notes_editable"
-    t.boolean  "assessments_editable"
-    t.boolean  "assessments_readable"
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
+    t.boolean  "case_notes_readable",  default: true
+    t.boolean  "case_notes_editable",  default: true
+    t.boolean  "assessments_editable", default: true
+    t.boolean  "assessments_readable", default: true
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
   end
 
   add_index "permissions", ["user_id"], name: "index_permissions_on_user_id", using: :btree

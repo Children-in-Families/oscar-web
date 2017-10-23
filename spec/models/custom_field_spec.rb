@@ -132,8 +132,8 @@ describe CustomField, 'callbacks' do
     it 'create records in custom field permission' do
       expect(user.custom_field_permissions.first.user_id).to eq(user.id)
       expect(user.custom_field_permissions.first.custom_field_id).to eq(custom_field.id)
-      expect(user.custom_field_permissions.first.readable).to eq(false)
-      expect(user.custom_field_permissions.first.editable).to eq(false)
+      expect(user.custom_field_permissions.first.readable).to eq(true)
+      expect(user.custom_field_permissions.first.editable).to eq(true)
     end
   end
 end

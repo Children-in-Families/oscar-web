@@ -71,7 +71,7 @@ class User < ActiveRecord::Base
 
   def build_permission
     unless self.admin? || self.strategic_overviewer?
-      Permission.create(user: self)
+      self.create_permission
 
       CustomField.all.each do |cf|
         self.custom_field_permissions.create(custom_field_id: cf.id)
