@@ -74,11 +74,7 @@ class CustomField < ActiveRecord::Base
   def build_permission
     User.all.each do |user|
       next if user.admin? || user.strategic_overviewer?
-      if user.case_worker?
-        self.custom_field_permissions.find_or_create_by(user_id: user.id)
-      else
-        self.custom_field_permissions.find_or_create_by(user_id: user.id, readable: true, editable: true)
-      end
+      self.custom_field_permissions.find_or_create_by(user_id: user.id)
     end
   end
 

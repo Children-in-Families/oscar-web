@@ -405,10 +405,10 @@ ActiveRecord::Schema.define(version: 20171011040334) do
   create_table "custom_field_permissions", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "custom_field_id"
-    t.boolean  "readable",        default: false
-    t.boolean  "editable",        default: false
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
+    t.boolean  "readable",        default: true
+    t.boolean  "editable",        default: true
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
   end
 
   add_index "custom_field_permissions", ["custom_field_id"], name: "index_custom_field_permissions_on_custom_field_id", using: :btree
@@ -691,10 +691,10 @@ ActiveRecord::Schema.define(version: 20171011040334) do
   create_table "program_stream_permissions", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "program_stream_id"
-    t.boolean  "readable",          default: false
-    t.boolean  "editable",          default: false
-    t.datetime "created_at",                        null: false
-    t.datetime "updated_at",                        null: false
+    t.boolean  "readable",          default: true
+    t.boolean  "editable",          default: true
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
   end
 
   add_index "program_stream_permissions", ["program_stream_id"], name: "index_program_stream_permissions_on_program_stream_id", using: :btree

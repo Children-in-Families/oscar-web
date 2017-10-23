@@ -71,18 +71,14 @@ class User < ActiveRecord::Base
 
   def build_permission
     unless self.admin? || self.strategic_overviewer?
-      Permission.create(user: self, case_notes_readable: true, case_notes_editable: true, assessments_readable: true, assessments_editable: true)
+      Permission.create(user: self)
 
       CustomField.all.each do |cf|
-        if self.case_worker?
-          self.custom_field_permissions.create(custom_field_id: cf.id)
-        else
-          self.custom_field_permissions.create(custom_field_id: cf.id, readable: true, editable: true)
-        end
+        self.custom_field_permissions.create(custom_field_id: cf.id)
       end
 
       ProgramStream.all.each do |ps|
-        self.program_stream_permissions.create(program_stream_id: ps.id, readable: true)
+        self.program_stream_permissions.create(program_stream_id: ps.id)
       end
     end
   end
