@@ -20,12 +20,9 @@ namespace :able_client_enrollment_tracking do
       if pn_tracking.valid?
         pn_tracking.save
         progress_note.attachments.each do |attachment|
-          data = File.open(Rails.root.join('public' + attachment.file.url))
-          # Todo
-            # - not sure if production need to remove public
-            # - Might need to copy ProgressNote attachment from s3 production to staging
+          file = attachment.file.url
           att = pn_tracking.form_builder_attachments.new(name: 'ផ្ទុករូបថតឬព័ត៌មានផ្សេងទៀតឡើង  Upload photos or other info')
-          att.file = [data]
+          att.remote_file_urls = [file]
           att.save
         end
       else
