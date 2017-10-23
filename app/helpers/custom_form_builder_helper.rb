@@ -16,7 +16,7 @@ module CustomFormBuilderHelper
   end
 
   def display_custom_properties(value)
-    span = content_tag :span do
+    div = content_tag :div do
       if value =~ /(\d{4}[-\/]\d{1,2}[-\/]\d{1,2})/
         concat value.to_date.strftime('%B %d, %Y')
       elsif value.is_a?(Array)
@@ -27,7 +27,11 @@ module CustomFormBuilderHelper
         concat value
       end
     end
-    raw(span.gsub("\n",'<br />'))
+    content = div.gsub('&amp;nbsp;', '')
+    content = content.gsub("\n",'<br />')
+    content = content.gsub('&lt;', '<')
+    content = content.gsub('&gt;', '>')
+    content.html_safe
   end
 
   def custom_field_frequency(frequency, time_of_frequency)
