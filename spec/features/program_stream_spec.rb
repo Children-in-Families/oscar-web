@@ -426,29 +426,4 @@ feature 'program_stream' do
       expect(page).to have_content('e-mail')
     end
   end
-
-  feature 'ec manager can view and edit program stream', js: true  do
-    before do
-      login_as(ec_manager)
-      visit program_streams_path
-    end
-
-    scenario 'ec manager can view and edit program stream' do
-      ec_manager.program_stream_permissions.create(program_stream_id: program_stream.id, readable: true, editable: true)
-      expect(page).to have_link('', href: "/program_streams/#{program_stream.id}?locale=en")
-      expect(page).to have_link('', href: "/program_streams/#{program_stream.id}/edit?locale=en")
-    end
-
-    scenario 'ec manager can view but can not edit program stream' do
-      ec_manager.program_stream_permissions.create(program_stream_id: program_stream.id, readable: true)
-      expect(page).to have_link('', href: "/program_streams/#{program_stream.id}?locale=en")
-      expect(page).to have_link('', href: "/program_streams/#{program_stream.id}/edit?locale=en", class: 'disabled')
-    end
-
-    scenario 'ec manager can not view and edit program stream' do
-      ec_manager.program_stream_permissions.create(program_stream_id: program_stream.id)
-      expect(page).to have_link('', href: "/program_streams/#{program_stream.id}?locale=en", class: 'disabled')
-      expect(page).to have_link('', href: "/program_streams/#{program_stream.id}/edit?locale=en", class: 'disabled')
-    end
-  end
 end
