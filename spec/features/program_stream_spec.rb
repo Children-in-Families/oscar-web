@@ -323,7 +323,7 @@ feature 'program_stream' do
       page.click_link 'Next'
       page.find('li[data-type="date"]').click
       page.click_link 'Next'
-      sleep 1
+      sleep 2      
       within('#trackings') do
         fill_in 'Name', with: 'Tracking Name'
       end
