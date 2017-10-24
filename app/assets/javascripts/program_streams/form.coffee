@@ -215,7 +215,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       fields: builderOption.thematicBreak()
       dataType: 'json'
       formData: data
-      disableFields: ['autocomplete', 'header', 'hidden', 'paragraph', 'button','checkbox']
+      disableFields: ['autocomplete', 'header', 'hidden', 'button', 'checkbox']
       showActionButtons: false
       messages: {
         cannotBeEmpty: 'name_separated_with_underscore'
@@ -237,6 +237,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         text: builderOption.eventTextFieldOption()
         textarea: builderOption.eventTextAreaOption()
         separateLine: builderOption.eventSeparateLineOption()
+        paragraph: builderOption.eventParagraphOption()
       })
     formBuilder.element = element
     @formBuilder.push formBuilder
