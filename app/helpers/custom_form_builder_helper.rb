@@ -60,8 +60,4 @@ module CustomFormBuilderHelper
       'This can be done many times and anytime.'
     end
   end
-
-  def disable_button_prevent_or_show(custom_field)
-    'disabled' if custom_field.ngo_name == current_organization.full_name
-  end
 end
