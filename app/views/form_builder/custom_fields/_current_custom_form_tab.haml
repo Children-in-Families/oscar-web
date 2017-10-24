@@ -21,7 +21,7 @@
             %td= frequency_note(custom_field)
             %td= custom_field.ngo_name
             %td.manage.text-center
-              = link_to custom_field_path(custom_field.id), class: "btn btn-outline btn-primary btn-xs #{disable_button_prevent_or_show(custom_field)}", title: t('.preview') do
+              = link_to custom_field_path(custom_field.id), class: 'btn btn-outline btn-primary btn-xs', title: t('.preview') do
                 = fa_icon('eye')
               - if can? :update, CustomField
                 = link_to edit_custom_field_path(custom_field), class: 'btn btn-outline btn-success btn-xs' do
