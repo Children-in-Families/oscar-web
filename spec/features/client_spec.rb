@@ -528,14 +528,14 @@ describe 'Client' do
     let!(:client){ create(:client, users: [admin, user], state: 'accepted') }
     let!(:assessment) { create(:assessment, client: client) }
     let!(:case_note) { create(:case_note, assessment: assessment, client: client)}
-    
+
     let!(:custom_field) { create(:custom_field) }
     let!(:custom_field_property) { create(:custom_field_property, custom_formable: client, custom_field: custom_field) }
 
     let!(:program_stream) { create(:program_stream) }
     let!(:client_enrollment) { create(:client_enrollment, client: client, program_stream: program_stream) }
 
-    context 'can view and edit' do 
+    context 'can view and edit' do
       before do
         login_as(admin)
         visit client_path(client)
@@ -599,6 +599,7 @@ describe 'Client' do
       end
 
       scenario 'custom fields' do
+        user.custom_field_permissions.find_by(custom_field_id: custom_field.id).update(readable: false, editable: false)
         expect(page).not_to have_link("a[href='#{client_custom_field_properties_path(client, custom_field_id: custom_field.id)}']")
 
         visit edit_client_custom_field_property_path(client, custom_field_property, custom_field_id: custom_field.id)
@@ -606,13 +607,13 @@ describe 'Client' do
       end
 
       scenario 'program streams' do
-        user.program_stream_permissions.find_by(program_stream_id: program_stream.id).update(readable: false)
+        user.program_stream_permissions.find_by(program_stream_id: program_stream.id).update(readable: false, editable: false)
         find("a[href='#{client_client_enrolled_programs_path(client)}']").click
         expect(page).not_to have_content(program_stream.name)
 
         visit edit_client_client_enrolled_program_path(client, client_enrollment, program_stream_id: program_stream.id)
         expect(dashboards_path).to have_content(current_path)
-      end 
+      end
     end
   end
 end

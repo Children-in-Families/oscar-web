@@ -8,7 +8,7 @@ describe 'User' do
 
   let!(:custom_field){ create(:custom_field) }
   let!(:program_stream){ create(:program_stream) }
-  
+
   before do
     login_as(admin)
   end
@@ -46,7 +46,7 @@ describe 'User' do
     end
   end
 
-  feature 'Permission' do
+  xfeature 'Permission' do
     before do
       visit user_path(user)
     end
@@ -56,5 +56,4 @@ describe 'User' do
       find('input.i-checks').iCheck('check')
     end
   end
-
 end
