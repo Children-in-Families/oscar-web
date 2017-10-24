@@ -64,8 +64,9 @@ describe 'Family' do
       fill_in 'Address', with: 'Family Address'
       fill_in 'Caregiver Information', with: 'Caregiver info'
       find(".family_children select option[value='#{client.id}']", visible: false).select_option
+      find('.family_family_type select option[value="emergency"]', visible: false).select_option
       click_button 'Save'
-      sleep 1
+      sleep 1      
       expect(page).to have_content('Family Name')
       expect(page).to have_content('Family Address')
       expect(page).to have_content('Caregiver info')

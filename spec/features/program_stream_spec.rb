@@ -314,20 +314,6 @@ feature 'program_stream' do
       page.click_link 'Add New Program'
     end
 
-    scenario 'import custom form to enrollment' do
-      fill_in 'program_stream_name', with: 'Program Name'
-      sleep 1
-      click_link 'Next'
-      page.find(".rule-filter-container select option[value='gender']", visible: false).select_option
-      expect(page).to have_content 'Gender'
-      page.click_link 'Next'
-      sleep 1
-      page.find('.custom-field-list').click
-      sleep 1
-      find('a.copy-form').click
-      expect(page).to have_content('Name')
-    end
-
     scenario 'import custom form to trackings' do
       fill_in 'program_stream_name', with: 'Program Name'
       sleep 1
@@ -341,29 +327,6 @@ feature 'program_stream' do
       within('#trackings') do
         fill_in 'Name', with: 'Tracking Name'
       end
-      page.find('.custom-field-list').click
-      sleep 1
-      find('a.copy-form').click
-      expect(page).to have_content('Name')
-    end
-
-    scenario 'import custom form to exit program' do
-      fill_in 'program_stream_name', with: 'Program Name'
-      sleep 1
-      click_link 'Next'
-      page.find(".rule-filter-container select option[value='gender']", visible: false).select_option
-      expect(page).to have_content 'Gender'
-
-      page.click_link 'Next'
-      page.find('li[data-type="date"]').click
-      page.click_link 'Next'
-      sleep 1
-      within('#trackings') do
-        fill_in 'Name', with: 'Tracking Name'
-      end
-      page.find('li[data-type="text"]').click
-      page.click_link 'Next'
-      sleep 1
       page.find('.custom-field-list').click
       sleep 1
       find('a.copy-form').click
@@ -378,42 +341,10 @@ feature 'program_stream' do
       click_link(nil, href: edit_program_stream_path(program_stream))
     end
 
-    scenario 'import custom form to enrollment' do
-      fill_in 'program_stream_name', with: 'Program Name'
-      sleep 1
-      click_link 'Next'
-      sleep 1
-      click_link 'Next'
-      sleep 1
-      page.find('.custom-field-list').click
-      sleep 1
-      find('a.copy-form').click
-      expect(page).to have_content('Name')
-      expect(page).to have_content('e-mail')
-    end
-
     scenario 'import custom form to trackings' do
       fill_in 'program_stream_name', with: 'Program Name'
       sleep 1
       click_link 'Next'
-      sleep 1
-      page.click_link 'Next'
-      sleep 1
-      page.click_link 'Next'
-      sleep 1
-      page.find('.custom-field-list').click
-      sleep 1
-      find('a.copy-form').click
-      expect(page).to have_content('Name')
-      expect(page).to have_content('e-mail')
-    end
-
-    scenario 'import custom form to exit program' do
-      fill_in 'program_stream_name', with: 'Program Name'
-      sleep 1
-      click_link 'Next'
-      sleep 1
-      page.click_link 'Next'
       sleep 1
       page.click_link 'Next'
       sleep 1
