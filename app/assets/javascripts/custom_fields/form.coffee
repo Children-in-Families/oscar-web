@@ -78,7 +78,7 @@ CIF.Custom_fieldsNew = CIF.Custom_fieldsCreate = CIF.Custom_fieldsEdit = CIF.Cus
       fields: builderOption.thematicBreak()
       dataType: 'json'
       formData:  JSON.stringify(fields)
-      disableFields: ['autocomplete', 'header', 'hidden', 'paragraph', 'button', 'checkbox']
+      disableFields: ['autocomplete', 'header', 'hidden', 'button', 'checkbox']
       showActionButtons: false
       messages: {
         cannotBeEmpty: 'name_separated_with_underscore'
@@ -101,6 +101,7 @@ CIF.Custom_fieldsNew = CIF.Custom_fieldsCreate = CIF.Custom_fieldsEdit = CIF.Cus
         text: builderOption.eventTextFieldOption()
         textarea: builderOption.eventTextAreaOption()
         separateLine: builderOption.eventSeparateLineOption()
+        paragraph: builderOption.eventParagraphOption()
       }
 
     $("#custom-field-submit").click (event) ->

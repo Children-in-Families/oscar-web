@@ -12,6 +12,13 @@ class CIF.CustomFormBuilder
     separateLine: (fieldData) ->
           { field: '<hr/>' }
 
+  eventParagraphOption: ->
+    self = @
+    onadd: (fld) ->
+      $('.subtype-wrap, .className-wrap, .access-wrap').hide()
+    onclone: (fld) ->
+      $('.subtype-wrap, .className-wrap, .access-wrap').hide()
+  
   eventCheckboxOption: ->
     self = @
     onadd: (fld) ->
