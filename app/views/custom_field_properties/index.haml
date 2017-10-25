@@ -5,9 +5,7 @@
         %h5= @custom_field.form_title
         .ibox-tools
           - if can? :manage, CustomFieldProperty
-            = link_to new_polymorphic_path([@custom_formable, CustomFieldProperty], custom_field_id: @custom_field.id) do
-              .btn.btn-outline.btn-primary.form-btn
-                = "#{t('.add_new')} #{@custom_field.form_title}"
+            = custom_field_properties_new_link
             = link_to polymorphic_path(@custom_formable) do
               .btn.btn-outline.btn-success.form-btn
                 = t('.back')
@@ -24,9 +22,9 @@
                   .ibox-tools
                     - if can? :manage, CustomFieldProperty
                       %small
-                        = custom_field_properties_edit_link(@custom_formable, custom_field_property, @custom_field)
+                        = custom_field_properties_edit_link(custom_field_property)
                       %small
-                        = custom_field_properties_destroy_link(@custom_formable, custom_field_property, @custom_field)
+                        = custom_field_properties_destroy_link(custom_field_property)
                 .ibox-content
                   .table-responsive
                     %table.table.table-bordered
