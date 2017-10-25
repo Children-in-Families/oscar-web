@@ -9,7 +9,7 @@
                 .panel-body
                   = render 'users_filter'
           - if params[:user_id] || current_user.case_worker? || current_user.any_case_manager? || current_user.able_manager?
-            .panel.panel-danger#overdue_tasks
+            .panel.panel-danger#overdue-tasks
               .panel-heading
                 .row
                   .col-xs-6
@@ -29,7 +29,7 @@
                             %td.col-xs-3= "#{t('.domain')} #{task.domain.name}"
                             %td.col-xs-6.task-name.border-left-right= task.name
                             %td.col-xs-3= task.completion_date.strftime("%B %d, %Y")
-            .panel.panel-info#duetoday_tasks
+            .panel.panel-info#duetoday-tasks
               .panel-heading
                 .row
                   .col-xs-6
@@ -49,7 +49,7 @@
                             %td.col-xs-3= "#{t('.domain')} #{task.domain.name}"
                             %td.col-xs-6.task-name.border-left-right= task.name
                             %td.col-xs-3= task.completion_date.strftime("%B %d, %Y")
-            .panel.panel-primary
+            .panel.panel-primary#due-tomorrow-tasks
               .panel-heading
                 .row
                   .col-xs-6
