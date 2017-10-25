@@ -6,7 +6,7 @@ describe 'task' do
   feature 'list' do
     before do
       login_as(admin)
-      visit tasks_path
+      visit dashboards_path
     end
 
     scenario 'client link', js: true do

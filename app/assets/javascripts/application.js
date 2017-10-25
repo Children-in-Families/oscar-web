@@ -63,7 +63,6 @@
 //= require case_notes/form
 //= require cases/form
 //= require calendars/index
-//= require admin/tasks
 //= require clients/index
 //= require report_creator
 //= require clients/show

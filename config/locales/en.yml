@@ -1267,6 +1267,11 @@ en:
     update:
       successfully_updated: Custom Field Property has been successfully updated.
   dashboards:
+    active_tasks:
+      domain: Domain
+      overdue_tasks: Overdue tasks
+      today_tasks: Today tasks
+      upcoming_tasks: Upcoming tasks
     client:
       ables: Ables
       clients: Active Clients
@@ -1291,6 +1296,9 @@ en:
       partners: Partners
       referral_sources: Referral Sources
       staffs: Staff Members
+    users_filter:
+      filter_by_user: Filter by user
+      select_user: Select user
   data_trackers:
     index:
       able_screening_questions: Able Screening Questions

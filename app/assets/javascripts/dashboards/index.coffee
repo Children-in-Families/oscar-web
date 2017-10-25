@@ -6,6 +6,17 @@ CIF.DashboardsIndex = do ->
     _resizeChart()
     _clientProgramStreamByGender()
     _clientProgramStream()
+    _initSelect2()
+    _filterUserTask()
+
+  _filterUserTask = ->
+    $('form#filtered_by_user select#user_id').change ->
+      $('form#filtered_by_user').submit()
+
+  _initSelect2 = ->
+    $('select').select2
+      minimumInputLength: 0
+      allowClear: true
 
   _resizeChart = ->
     $('.minimalize-styl-2').click ->

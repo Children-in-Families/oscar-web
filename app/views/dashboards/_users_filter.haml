@@ -1,4 +1,4 @@
-%form{ id: 'filtered_by_user', action: tasks_url, method: 'GET', class: 'form-inline'}
+%form{ id: 'filtered_by_user', action: (dashboards_path + '#users-task-panel'), method: 'GET', class: 'form-inline' }
   .col-sm-6
     %input{type: 'hidden', value: params[:locale], name: 'locale'}
     .form-group
@@ -9,4 +9,3 @@
         - @users.each do |user|
           %option{ value: user.id, selected: user.id == params[:user_id].to_i }
             = user.name
-      

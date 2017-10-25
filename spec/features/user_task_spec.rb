@@ -31,29 +31,26 @@ describe Task do
     feature 'Log in as Admin' do
       before do
         login_as(admin)
-        visit clients_path
+        visit dashboards_path
       end
 
       scenario 'list all users' do
-        click_link 'View All Active Tasks'
         expect(page).to have_select 'user_id', with_options: ['mr admin', 'able manager', 'able caseworker', 'ec caseworker']
       end
 
       scenario 'list manager task', js: true do
-        click_link 'View All Active Tasks'
         expect(page).to have_select 'user_id', with_options: ['mr admin', 'able manager', 'able caseworker', 'ec caseworker'], visible: false
-        select2_select('able manager', '.select2-container')
+        find("select#user_id option[value='#{able_manager.id}']", visible: false).select_option
         sleep 1
-        panel = page.all(:css, '.panel').select { |p| p.all(:css, '.panel-heading').select { |pp| pp.text.include?('Upcoming Tasks') }.first }.first
+        panel = page.all(:css, '.panel').select { |p| p.all(:css, '.panel-heading').select { |pp| pp.text.include?('Upcoming tasks') }.first }.first
         expect(panel).to have_content(upcoming_task.name)
       end
 
       scenario 'list caseworker task', js: true do
-        click_link 'View All Active Tasks'
         expect(page).to have_select 'user_id', with_options: ['mr admin', 'able manager', 'able caseworker', 'ec caseworker'], visible: false
-        select2_select('able caseworker', '.select2-container')
+        find("select#user_id option[value='#{able_caseworker.id}']", visible: false).select_option
         sleep 1
-        panel = page.all(:css, '.panel').select { |p| p.all(:css, '.panel-heading').select { |pp| pp.text.include?('Overdue Tasks') }.first }.first
+        panel = page.all(:css, '.panel').select { |p| p.all(:css, '.panel-heading').select { |pp| pp.text.include?('Overdue tasks') }.first }.first
         expect(panel).to have_content(overdue_task.name)
       end
     end
@@ -61,33 +58,29 @@ describe Task do
     feature 'Log in as Able Manager' do
       before do
         login_as(able_manager)
-        visit clients_path
+        visit dashboards_path
       end
 
       scenario 'list all able managers and case worker of able clients' do
-        click_link 'View All Active Tasks'
         expect(page).to have_select 'user_id', with_options: ['able manager', 'able caseworker']
       end
 
       scenario 'list manager task', js: true do
-        click_link 'View All Active Tasks'
         expect(page).to have_select 'user_id', with_options: ['able manager', 'able caseworker'], visible: false
-        panel = page.all(:css, '.panel').select { |p| p.all(:css, '.panel-heading').select { |pp| pp.text.include?('Upcoming Tasks') }.first }.first
+        panel = page.all(:css, '.panel').select { |p| p.all(:css, '.panel-heading').select { |pp| pp.text.include?('Upcoming tasks') }.first }.first
         expect(panel).to have_content(upcoming_task.name)
       end
 
       scenario 'list caseworker task', js: true do
-        click_link 'View All Active Tasks'
         expect(page).to have_select 'user_id', with_options: ['able manager', 'able caseworker'], visible: false
-        select2_select('able caseworker', '.select2-container')
+        find("select#user_id option[value='#{able_caseworker.id}']", visible: false).select_option
         sleep 1
-        panel = page.all(:css, '.panel').select { |p| p.all(:css, '.panel-heading').select { |pp| pp.text.include?('Overdue Tasks') }.first }.first
+        panel = page.all(:css, '.panel').select { |p| p.all(:css, '.panel-heading').select { |pp| pp.text.include?('Overdue tasks') }.first }.first
         expect(panel).to have_content(overdue_task.name)
       end
 
       scenario 'list able case worker task', js: true do
-        click_link 'View All Active Tasks'
-        select2_select('able caseworker', '.select2-container')
+        find("select#user_id option[value='#{able_caseworker.id}']", visible: false).select_option
         sleep 1
         expect(page).to have_content(able_task.name)
       end
@@ -96,17 +89,15 @@ describe Task do
     feature 'Log in as Caseworker' do
       before do
         login_as(able_caseworker)
-        visit clients_path
+        visit dashboards_path
       end
 
       scenario 'display only caseworker task' do
-        click_link 'View All Active Tasks'
-        panel = page.all(:css, '.panel').select { |p| p.all(:css, '.panel-heading').select { |pp| pp.text.include?('Overdue Tasks') }.first }.first
+        panel = page.all(:css, '.panel').select { |p| p.all(:css, '.panel-heading').select { |pp| pp.text.include?('Overdue tasks') }.first }.first
         expect(panel).to have_content(overdue_task.name)
       end
 
       scenario 'unable to use filter by user' do
-        click_link 'View All Active Tasks'
         expect(page).not_to have_select 'user_id'
       end
     end
@@ -114,17 +105,15 @@ describe Task do
     feature 'Log in as EC Manager' do
       before do
         login_as(ec_manager)
-        visit clients_path
+        visit dashboards_path
       end
 
       scenario 'list ec managers and case worker of Active EC clients' do
-        click_link 'View All Active Tasks'
         expect(page).to have_select 'user_id', with_options: ['ec manager', 'ec caseworker']
       end
 
       scenario 'list ec case worker task', js: true do
-        click_link 'View All Active Tasks'
-        select2_select('ec caseworker', '.select2-container')
+        find("select#user_id option[value='#{ec_caseworker.id}']", visible: false).select_option
         sleep 1
         expect(page).to have_content(ec_task.name)
       end
@@ -133,17 +122,15 @@ describe Task do
     feature 'Log in as FC Manager' do
       before do
         login_as(fc_manager)
-        visit clients_path
+        visit dashboards_path
       end
 
       scenario 'list fc managers and case worker of Active FC clients' do
-        click_link 'View All Active Tasks'
         expect(page).to have_select 'user_id', with_options: ['fc manager', 'fc caseworker']
       end
 
       scenario 'list fc case worker task', js: true do
-        click_link 'View All Active Tasks'
-        select2_select('fc caseworker', '.select2-container')
+        find("select#user_id option[value='#{fc_caseworker.id}']", visible: false).select_option
         sleep 1
         expect(page).to have_content(fc_task.name)
       end
@@ -152,17 +139,15 @@ describe Task do
     feature 'Log in as KC Manager' do
       before do
         login_as(kc_manager)
-        visit clients_path
+        visit dashboards_path
       end
 
       scenario 'list kc managers and case worker of Active KC clients' do
-        click_link 'View All Active Tasks'
         expect(page).to have_select 'user_id', with_options: ['kc manager', 'kc caseworker']
       end
 
       scenario 'list kc case worker task', js: true do
-        click_link 'View All Active Tasks'
-        select2_select('kc caseworker', '.select2-container')
+        find("select#user_id option[value='#{kc_caseworker.id}']", visible: false).select_option
         sleep 1
         expect(page).to have_content(kc_task.name)
       end
@@ -171,17 +156,15 @@ describe Task do
     feature 'Log in as Manager' do
       before do
         login_as(manager)
-        visit clients_path
+        visit dashboards_path
       end
 
       scenario 'list managers and their subordinates' do
-        click_link 'View All Active Tasks'
         expect(page).to have_select 'user_id', with_options: ['manager', 'subordinate']
       end
 
       scenario 'list subordinate task', js: true do
-        click_link 'View All Active Tasks'
-        select2_select('subordinate', '.select2-container')
+        find("select#user_id option[value='#{subordinate.id}']", visible: false).select_option
         sleep 1
         expect(page).to have_content(sub_task.name)
       end
