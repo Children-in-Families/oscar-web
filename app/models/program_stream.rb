@@ -55,7 +55,7 @@ class ProgramStream < ActiveRecord::Base
     FORM_BUILDER_FIELDS.each do |field|
       labels = []
       next unless send(field.to_sym).present?
-      send(field.to_sym).map{ |obj| labels << obj['label'] if obj['label'] != 'Separation Line' }
+      send(field.to_sym).map{ |obj| labels << obj['label'] if obj['label'] != 'Separation Line' && obj['type'] != 'paragraph' }
       errors_massage << (errors.add field.to_sym, "Fields duplicated!") unless (labels.uniq.length == labels.length)
     end
     errors_massage
