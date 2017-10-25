@@ -1,0 +1,71 @@
+.col-xs-12
+  .panel.panel-default#users-task-panel
+    .panel-body
+      .row
+        .col-xs-12
+          - if can? :read, Task
+            - unless current_user.case_worker?
+              .panel.panel-default
+                .panel-body
+                  = render 'users_filter'
+          - if params[:user_id] || current_user.case_worker? || current_user.any_case_manager? || current_user.able_manager?
+            .panel.panel-danger#overdue_tasks
+              .panel-heading
+                .row
+                  .col-xs-6
+                    %h5= t('.overdue_tasks')
+              .panel-body
+                - grouped_tasks = @tasks.overdue.group_by do |task|
+                  - task.client
+                - grouped_tasks.each do |client, tasks|
+                  .ibox.border-left-right.border-bottom
+                    .ibox-title
+                      %h5
+                        = link_to client.name, client_path(client), target: :_blank
+                    .ibox-content.no-padding
+                      %table.table.table-striped.active_tasks
+                        - tasks.each do |task|
+                          %tr
+                            %td.col-xs-3= "#{t('.domain')} #{task.domain.name}"
+                            %td.col-xs-6.task-name.border-left-right= task.name
+                            %td.col-xs-3= task.completion_date.strftime("%B %d, %Y")
+            .panel.panel-info#duetoday_tasks
+              .panel-heading
+                .row
+                  .col-xs-6
+                    %h5= t('.today_tasks')
+              .panel-body
+                - grouped_tasks = @tasks.today.group_by do |task|
+                  - task.client
+                - grouped_tasks.each do |client, tasks|
+                  .ibox.border-left-right.border-bottom
+                    .ibox-title
+                      %h5
+                        = link_to client.name, client_path(client), target: :_blank
+                    .ibox-content.no-padding
+                      %table.table.table-striped.active_tasks
+                        - tasks.each do |task|
+                          %tr
+                            %td.col-xs-3= "#{t('.domain')} #{task.domain.name}"
+                            %td.col-xs-6.task-name.border-left-right= task.name
+                            %td.col-xs-3= task.completion_date.strftime("%B %d, %Y")
+            .panel.panel-primary
+              .panel-heading
+                .row
+                  .col-xs-6
+                    %h5= t('.upcoming_tasks')
+              .panel-body
+                - grouped_tasks = @tasks.upcoming.group_by do |task|
+                  - task.client
+                - grouped_tasks.each do |client, tasks|
+                  .ibox.border-left-right.border-bottom
+                    .ibox-title
+                      %h5
+                        = link_to client.name, client_path(client), target: :_blank
+                    .ibox-content.no-padding
+                      %table.table.table-striped.active_tasks
+                        - tasks.each do |task|
+                          %tr
+                            %td.col-xs-3= "#{t('.domain')} #{task.domain.name}"
+                            %td.col-xs-6.task-name.border-left-right= task.name
+                            %td.col-xs-3= task.completion_date.strftime("%B %d, %Y")

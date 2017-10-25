@@ -1320,6 +1320,11 @@ km:
     update:
       successfully_updated: ទម្រង់បែបបទត្រូវបានរក្សាទុកដោយជោគជ័យ
   dashboards:
+    active_tasks:
+      domain: កត្តា
+      overdue_tasks: កាតព្វកិច្ចផុតកំណត់
+      today_tasks: កាតព្វកិច្ចថ្ងៃនេះ
+      upcoming_tasks: កាតព្វកិច្ចបន្ទាប់
     client:
       ables: Ables
       clients: អតិថិជនបច្ចុប្បន្ន
@@ -1344,6 +1349,9 @@ km:
       partners: ដៃគូ
       referral_sources: ប្រភពនៃការបញ្ជូន
       staffs: បុគ្គលិក
+    users_filter:
+      filter_by_user: ស្វែងរកតាមរយៈអ្នកប្រើប្រាស់
+      select_user: ជ្រើសរើស
   data_trackers:
     index:
       able_screening_questions: សំនួរ Able Screening
