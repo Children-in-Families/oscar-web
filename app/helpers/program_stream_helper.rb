@@ -24,8 +24,4 @@ module ProgramStreamHelper
       "hide-tracking-form"
     end
   end
-
-  def disable_preview_or_show(program_stream)
-    'disabled' if program_stream.ngo_name == current_organization.full_name
-  end
 end
