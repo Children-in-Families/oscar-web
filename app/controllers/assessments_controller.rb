@@ -5,6 +5,8 @@ class AssessmentsController < AdminController
   before_action :find_assessment, only: [:edit, :update, :show]
   before_action :restrict_invalid_assessment, only: [:new, :create]
   before_action :restrict_update_assessment, only: [:edit, :update]
+  before_action -> { assessments_permission('readable') }, only: :show
+  before_action -> { assessments_permission('editable') }, except: [:index, :show]
 
   def index
   end
@@ -100,6 +102,16 @@ class AssessmentsController < AdminController
       files += new_file
       assessment_domain.attachments = files
       assessment_domain.save
+    end
+  end
+
+  def assessments_permission(permission)
+    unless current_user.admin? || current_user.strategic_overviewer?
+      if permission == 'readable'
+        redirect_to root_path, alert: t('unauthorized.default') unless current_user.permission.assessments_readable
+      else
+        redirect_to root_path, alert: t('unauthorized.default') unless current_user.permission.assessments_editable
+      end
     end
   end
 end

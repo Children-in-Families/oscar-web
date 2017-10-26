@@ -6,7 +6,7 @@
         .ibox-tools
           = link_to t('.back'), client_path(@client), { class: 'btn btn-default btn-back-default button' }
           - if can? :create, CaseNote
-            = link_to t('.new_case_note'), new_client_case_note_path(@client), { class: 'btn btn-primary button' }
+            = new_link
       .ibox-content
         - @case_notes.each do |case_note|
           .panel.panel-info
