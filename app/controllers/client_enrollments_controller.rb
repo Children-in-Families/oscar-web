@@ -77,8 +77,15 @@ class ClientEnrollmentsController < AdminController
 
   def program_stream_order_by_enrollment
     program_streams = []
-    client_enrollments_exited     = ProgramStream.inactive_enrollments(@client).complete
-    client_enrollments_inactive   = ProgramStream.without_status_by(@client).complete
+    if current_user.admin? || current_user.strategic_overviwer?
+      all_programs = ProgramStream.all
+    else
+      all_programs = ProgramStream.where(id: current_user.program_stream_permissions.where(readable: true, user: current_user).pluck(:program_stream_id))
+    end
+
+    client_enrollments_exited     = all_programs.inactive_enrollments(@client).complete
+    client_enrollments_inactive   = all_programs.without_status_by(@client).complete
+
     program_streams               = client_enrollments_exited + client_enrollments_inactive
   end
 end
