@@ -1268,6 +1268,7 @@ en:
       successfully_updated: Custom Field Property has been successfully updated.
   dashboards:
     active_tasks:
+      all_active_tasks: All Active Tasks
       domain: Domain
       overdue_tasks: Overdue tasks
       today_tasks: Today tasks
