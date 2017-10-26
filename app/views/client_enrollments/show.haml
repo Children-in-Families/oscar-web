@@ -5,10 +5,8 @@
         %h5= "#{@client.en_and_local_name} - #{t('.enrollment_date')} #{date_format(@client_enrollment.enrollment_date)}"
         .ibox-tools
           - if can? :manage, ClientEnrollment
-            = client_enrollment_edit_link(@client, @client_enrollment, @program_stream)
-            = link_to client_client_enrollment_path(@client, @client_enrollment, program_stream_id: @program_stream), method: 'delete', data: { confirm: t('.are_you_sure') } do
-              .btn.btn-outline.btn-danger
-                %i.fa.fa-trash
+            = client_enrollment_edit_link
+            = client_enrollment_destroy_link
             = link_to t('.back'), report_client_client_enrollments_path(@client, program_stream_id: @program_stream), class: 'btn btn-back-default btn-default form-btn margin-btn'
       .ibox-content
         .table-responsive
