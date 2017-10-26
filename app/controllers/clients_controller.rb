@@ -30,7 +30,7 @@ class ClientsController < AdminController
       format.html do
         @ordered_client_answers     = @client.answers.order(:created_at)
         custom_field_ids            = @client.custom_field_properties.pluck(:custom_field_id)
-        if current_user.admin? || current_user.strategic_overviwer?
+        if current_user.admin? || current_user.strategic_overviewer?
           available_editable_forms  = CustomField.all
           readable_forms            = @client.custom_field_properties
         else
