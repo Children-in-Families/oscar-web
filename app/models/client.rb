@@ -324,7 +324,6 @@ class Client < ActiveRecord::Base
     (end_date - start_date).to_f
   end
 
-
   def self.ec_reminder_in(day)
     Organization.all.each do |org|
       Organization.switch_to org.short_name
@@ -349,6 +348,14 @@ class Client < ActiveRecord::Base
     Problem.all.each do |problem|
       client_problems.build(problem: problem)
     end
+  end
+
+  # def self.ever_enrolled_programs
+  #   joins(:client_enrollments)
+  # end
+
+  def self.actively_enrolled_programs
+    joins(:client_enrollments).where(client_enrollments: { status: 'Active' })
   end
 
   private

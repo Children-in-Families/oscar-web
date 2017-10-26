@@ -60,7 +60,7 @@ CIF.ClientsIndex = do ->
 
   _handleHideShowReport = ->
     $('#client-statistic').click ->
-      $('#client-statistic-body').slideToggle("slow")
+      # $('#client-statistic-body').slideToggle("slow")
       _handleResizeWindow()
 
   _clickMenuResizeChart = ->
