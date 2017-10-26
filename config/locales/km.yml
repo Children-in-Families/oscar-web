@@ -1321,6 +1321,7 @@ km:
       successfully_updated: ទម្រង់បែបបទត្រូវបានរក្សាទុកដោយជោគជ័យ
   dashboards:
     active_tasks:
+      all_active_tasks: កាតព្វកិច្ចដែលមិនទាន់ធ្វើ
       domain: កត្តា
       overdue_tasks: កាតព្វកិច្ចផុតកំណត់
       today_tasks: កាតព្វកិច្ចថ្ងៃនេះ
