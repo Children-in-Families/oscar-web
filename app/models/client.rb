@@ -350,14 +350,6 @@ class Client < ActiveRecord::Base
     end
   end
 
-  # def self.ever_enrolled_programs
-  #   joins(:client_enrollments)
-  # end
-
-  def self.actively_enrolled_programs
-    joins(:client_enrollments).where(client_enrollments: { status: 'Active' })
-  end
-
   private
 
   def create_client_history

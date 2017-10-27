@@ -1,7 +1,6 @@
 class ActiveEnrollmentStatistic
   def initialize(clients)
-    clients      = clients.actively_enrolled_programs
-    @enrollments = ClientEnrollment.joins(:client).active
+    @enrollments = ClientEnrollment.joins(:client).where(clients: { id: clients.ids }, client_enrollments: { enrollment_date: 1.year.ago..Date.today }).active
   end
 
   def statistic_data
@@ -13,7 +12,7 @@ class ActiveEnrollmentStatistic
       enrollments_by_date = enrollment.group_by(&:short_enrollment_date)
 
       series = []
-      client_enrollments_count_list = [enrollments_count_by(program_id)]
+      client_enrollments_count_list = []
 
       enrollment_dates.each do |date|
         if enrollments_by_date[date].present?
@@ -28,11 +27,5 @@ class ActiveEnrollmentStatistic
       data_series << { name: "#{program_name} #{program_id}", data: series }
     end
     [enrollment_dates, data_series]
-  end
-
-  private
-
-  def enrollments_count_by(program_id)
-    @enrollments.where('program_stream_id = ?', program_id).to_a.size
   end
 end
