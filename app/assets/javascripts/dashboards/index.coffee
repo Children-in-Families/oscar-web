@@ -8,6 +8,11 @@ CIF.DashboardsIndex = do ->
     _clientProgramStream()
     _initSelect2()
     _filterUserTask()
+    _openTaskListModal()
+
+  _openTaskListModal = ->
+    if window.location.href.indexOf('user_id') >= 0
+      $('#active_tasks_list').modal('show')
 
   _filterUserTask = ->
     $('form#filtered_by_user select#user_id').change ->
