@@ -1079,10 +1079,10 @@ en:
       support_amount: Support Amount
       support_note: Support Note
     index:
+      active_programs: Active Programs
       add_new_client: Add New Client
       advanced_search: Advanced Search
       assessments: Assessments
-      active_programs: Active Programs
       client_amount: Client Amounts
       csi_domain_scores: CSI Domain Scores
       domain_score: Domain Scores
