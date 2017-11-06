@@ -1326,6 +1326,8 @@ km:
       overdue_tasks: កាតព្វកិច្ចផុតកំណត់
       today_tasks: កាតព្វកិច្ចថ្ងៃនេះ
       upcoming_tasks: កាតព្វកិច្ចបន្ទាប់
+    active_tasks_side:
+      active_tasks: កាតព្វកិច្ចដែលមិនទាន់ធ្វើ
     client:
       ables: Ables
       clients: អតិថិជនបច្ចុប្បន្ន

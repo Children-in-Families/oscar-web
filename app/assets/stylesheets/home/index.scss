@@ -1,4 +1,9 @@
 #home-index {
+  .widget-tasks-panel {
+    min-height: 98px;
+    cursor: pointer;
+  }
+
   .panel-default {
     color: black;
   }
@@ -48,7 +53,7 @@
     }
   }
 
-  .client-panel, .family-panel, .program-stream-panel {
+  .client-panel, .family-panel, .program-stream-panel, .tasks-panel {
     .top-bar {
       margin-bottom: 15px;
     }
@@ -62,6 +67,7 @@
     }
     .widget-family-panel,
     .widget-client-panel,
+    .widget-tasks-panel,
     .widget-program-panel {
       border-bottom-left-radius: 0;
       border-bottom-right-radius: 0;
