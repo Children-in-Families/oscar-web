@@ -88,16 +88,16 @@ describe 'Staff Monthly Report' do
 
     scenario 'average number of due today tasks each day' do
       TaskHistory.update_all(created_at: Date.today.last_month, updated_at: Date.today.last_month)
-      expect(StaffMonthlyReport.average_number_of_duetoday_tasks_each_day(user_1)).to eq(0.07)
-      expect(StaffMonthlyReport.average_number_of_duetoday_tasks_each_day(user_2)).to eq(0.53)
-      expect(StaffMonthlyReport.average_number_of_duetoday_tasks_each_day(user_3)).to eq(0.03)
+      expect(StaffMonthlyReport.average_number_of_duetoday_tasks_each_day(user_1)).to be_between(0.06, 0.07).inclusive
+      expect(StaffMonthlyReport.average_number_of_duetoday_tasks_each_day(user_2)).to be_between(0.52, 0.53).inclusive
+      expect(StaffMonthlyReport.average_number_of_duetoday_tasks_each_day(user_3)).to be_between(0.02, 0.03).inclusive
     end
 
     scenario 'average number of overdue tasks each day' do
       TaskHistory.update_all(created_at: Date.today.last_month, updated_at: Date.today.last_month)
-      expect(StaffMonthlyReport.average_number_of_overdue_tasks_each_day(user_1)).to eq(0.07)
-      expect(StaffMonthlyReport.average_number_of_overdue_tasks_each_day(user_2)).to eq(0.53)
-      expect(StaffMonthlyReport.average_number_of_overdue_tasks_each_day(user_3)).to eq(0.03)
+      expect(StaffMonthlyReport.average_number_of_overdue_tasks_each_day(user_1)).to be_between(0.06, 0.07).inclusive
+      expect(StaffMonthlyReport.average_number_of_overdue_tasks_each_day(user_2)).to be_between(0.52, 0.53).inclusive
+      expect(StaffMonthlyReport.average_number_of_overdue_tasks_each_day(user_3)).to be_between(0.02, 0.03).inclusive
     end
   end
 end
