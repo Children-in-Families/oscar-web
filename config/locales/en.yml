@@ -1089,7 +1089,7 @@ en:
       end: Loading end!
       export_to_xls: Export to XLS
       load: Loading more...
-      reports: Reports
+      reports: Quick Graph
       results: Results
       sInfoShow: show results from
       sInfoTo: to
@@ -1273,8 +1273,6 @@ en:
       overdue_tasks: Overdue tasks
       today_tasks: Today tasks
       upcoming_tasks: Upcoming tasks
-    active_tasks_side:
-      active_tasks: Active Tasks
     client:
       ables: Ables
       clients: Active Clients
