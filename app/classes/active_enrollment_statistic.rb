@@ -24,7 +24,7 @@ class ActiveEnrollmentStatistic
       end
       program_name = ProgramStream.find_by(id: program_id).try(:name)
       program_id = ProgramStream.find_by(id: program_id).id
-      data_series << { name: "#{program_name} #{program_id}", data: series }
+      data_series << { name: "#{program_name}", data: series }
     end
     [enrollment_dates, data_series]
   end
