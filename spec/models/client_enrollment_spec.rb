@@ -169,10 +169,10 @@ describe ClientEnrollment, 'callbacks' do
 end
 
 describe ClientEnrollment, 'methods' do
+  let!(:client) { create(:client) }
+  let!(:program_stream) { create(:program_stream) }
+  let!(:client_enrollment) { create(:client_enrollment, program_stream: program_stream, client: client, enrollment_date: '2017-11-01')}
   context 'has_client_enrollment_tracking?' do
-    let!(:client) { create(:client) }
-    let!(:program_stream) { create(:program_stream) }
-    let!(:client_enrollment) { create(:client_enrollment, program_stream: program_stream, client: client)}
 
     it 'return true' do
       ClientEnrollmentTracking.create(client_enrollment: client_enrollment)
@@ -181,6 +181,12 @@ describe ClientEnrollment, 'methods' do
 
     it 'return false' do
       expect(client_enrollment.has_client_enrollment_tracking?).to be false
+    end
+  end
+
+  context 'short_enrollment_date' do
+    it 'returns the end of month of the enrollment date formatted only month and year' do
+      expect(client_enrollment.short_enrollment_date).to eq('Nov-17')
     end
   end
 end

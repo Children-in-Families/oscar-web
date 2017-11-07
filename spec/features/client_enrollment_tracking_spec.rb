@@ -122,11 +122,6 @@ describe ClientEnrollmentTracking, 'Client Enrollment Tracking' do
     scenario 'Back Link' do
       expect(page).to have_link('Back')
     end
-
-    scenario 'Client Tracking Link' do
-
-      expect(page).to have_link('Client Trackings List')
-    end
   end
 
   feature 'Update', js: true do

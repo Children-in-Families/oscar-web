@@ -59,6 +59,10 @@ class ClientEnrollment < ActiveRecord::Base
     client.update(status: 'Referred')
   end
 
+  def short_enrollment_date
+    enrollment_date.end_of_month.strftime '%b-%y'
+  end
+
   private
 
   def create_client_enrollment_history
