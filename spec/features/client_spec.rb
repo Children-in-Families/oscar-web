@@ -51,7 +51,7 @@ describe 'Client' do
       expect(page).to have_css("#cis-domain-score[data-title='CSI Domain Scores']")
       expect(page).to have_css("#cis-domain-score[data-yaxis-title='Domain Scores']")
       expect(page).to have_css("#program-statistic[data-title='Active Programs']")
-      expect(page).to have_css("#program-statistic[data-yaxis-title='Client Amounts']")
+      expect(page).to have_css("#program-statistic[data-yaxis-title='Clients']")
     end
   end
 
