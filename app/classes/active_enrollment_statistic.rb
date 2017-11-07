@@ -1,6 +1,6 @@
 class ActiveEnrollmentStatistic
   def initialize(clients)
-    @enrollments = ClientEnrollment.joins(:client).where(clients: { id: clients.ids }, client_enrollments: { enrollment_date: 1.year.ago..Date.today }).active
+    @enrollments = ClientEnrollment.joins(:client).where(clients: { id: clients.ids }).active
   end
 
   def statistic_data
