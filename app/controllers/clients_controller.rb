@@ -1,5 +1,6 @@
 class ClientsController < AdminController
   include ClientGridOptions
+  include ClientAdvancedSearchesConcern 
 
   load_and_authorize_resource find_by: :slug, except: :quantitative_case
 
@@ -7,6 +8,16 @@ class ClientsController < AdminController
   before_action :set_association, except: [:index, :destroy]
   before_action :choose_grid, only: :index
   before_action :find_resources, only: :show
+
+  before_action :advanced_search
+  before_action :get_quantitative_fields
+  before_action :find_params_advanced_search, :get_custom_form, :get_program_streams
+  before_action :get_custom_form_fields, :program_stream_fields, :client_builder_fields
+  before_action :basic_params, if: :has_params?
+  before_action :build_advanced_search
+  before_action :fetch_advanced_search_queries, only: [:index]
+
+  before_action :choose_grid
 
   def index
     columns_visibility
