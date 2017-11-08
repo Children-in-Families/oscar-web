@@ -41,7 +41,7 @@
 
       .ibox-footer
         %button#search.btn.btn-primary= t('.search')
-        = link_to t('.reset'), client_advanced_searches_path, class: 'btn btn-default'
+        = link_to t('.reset'), clients_path, class: 'btn btn-default'
 .row
   .col-xs-12
     .ibox
@@ -61,7 +61,7 @@
       - else
         .ibox-content
           = t('.no_results')
-= simple_form_for :client, url: :clients, method: 'GET', html: { id: 'advanced-search' } do |f|
+= simple_form_for :client_advanced_search, url: :clients, method: 'GET', html: { id: 'advanced-search' } do |f|
   = f.hidden_field :custom_form_selected
   = f.hidden_field :program_selected
   = f.hidden_field :enrollment_check

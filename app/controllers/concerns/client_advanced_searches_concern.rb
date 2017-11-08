@@ -1,17 +1,5 @@
 module ClientAdvancedSearchesConcern
-# class ClientAdvancedSearchesController < AdminController
-  # before_action :get_quantitative_fields
-  # before_action :find_params_advanced_search, :get_custom_form, :get_program_streams
-  # before_action :get_custom_form_fields, :program_stream_fields, :client_builder_fields
-  # before_action :basic_params, if: :has_params?
-  # before_action :build_advanced_search
-  # before_action :fetch_advanced_search_queries, only: [:index]
-
-  # include ClientGridOptions
-  # before_action :choose_grid
-
   def advanced_search
-    return unless has_params?
     basic_rules          = JSON.parse @basic_filter_params
     clients              = AdvancedSearches::ClientAdvancedSearch.new(basic_rules, Client.accessible_by(current_ability))
     @clients_by_user     = clients.filter
@@ -22,6 +10,7 @@ module ClientAdvancedSearchesConcern
     program_stream_column
     respond_to do |f|
       f.html do
+        @results          = @client_grid.scope { |scope| scope.where(id: @clients_by_user.ids).accessible_by(current_ability) }.assets.size
         @client_grid.scope { |scope| scope.where(id: @clients_by_user.ids).accessible_by(current_ability).page(params[:page]).per(20) }
       end
       f.xls do
@@ -33,8 +22,6 @@ module ClientAdvancedSearchesConcern
       end
     end
   end
-
-  # private
 
   def build_advanced_search
     @advanced_search = AdvancedSearch.new

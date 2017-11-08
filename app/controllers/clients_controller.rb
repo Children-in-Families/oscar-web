@@ -9,29 +9,30 @@ class ClientsController < AdminController
   before_action :choose_grid, only: :index
   before_action :find_resources, only: :show
 
-  before_action :advanced_search
-  before_action :get_quantitative_fields
-  before_action :find_params_advanced_search, :get_custom_form, :get_program_streams
-  before_action :get_custom_form_fields, :program_stream_fields, :client_builder_fields
-  before_action :basic_params, if: :has_params?
-  before_action :build_advanced_search
+  before_action :get_quantitative_fields, only: [:index]
+  before_action :find_params_advanced_search, :get_custom_form, :get_program_streams, only: [:index]
+  before_action :get_custom_form_fields, :program_stream_fields, :client_builder_fields, only: [:index]
+  before_action :basic_params, if: :has_params?, only: [:index]
+  before_action :build_advanced_search, only: [:index]
   before_action :fetch_advanced_search_queries, only: [:index]
 
-  before_action :choose_grid
-
   def index
-    columns_visibility
-    respond_to do |f|
-      f.html do
-        @csi_statistics   = CsiStatistic.new(@client_grid.assets).assessment_domain_score.to_json
-        @cases_statistics = CaseStatistic.new(@client_grid.assets).statistic_data.to_json
-        @results          = @client_grid.scope { |scope| scope.accessible_by(current_ability) }.assets.size
-        @client_grid.scope { |scope| scope.accessible_by(current_ability).page(params[:page]).per(20) }
-      end
-      f.xls do
-        @client_grid.scope { |scope| scope.accessible_by(current_ability) }
-        domain_score_report
-        send_data @client_grid.to_xls, filename: "client_report-#{Time.now}.xls"
+    if has_params?
+      advanced_search
+    else
+      columns_visibility
+      respond_to do |f|
+        f.html do
+          @csi_statistics   = CsiStatistic.new(@client_grid.assets).assessment_domain_score.to_json
+          @cases_statistics = CaseStatistic.new(@client_grid.assets).statistic_data.to_json
+          @results          = @client_grid.scope { |scope| scope.accessible_by(current_ability) }.assets.size
+          @client_grid.scope { |scope| scope.accessible_by(current_ability).page(params[:page]).per(20) }
+        end
+        f.xls do
+          @client_grid.scope { |scope| scope.accessible_by(current_ability) }
+          domain_score_report
+          send_data @client_grid.to_xls, filename: "client_report-#{Time.now}.xls"
+        end
       end
     end
   end
