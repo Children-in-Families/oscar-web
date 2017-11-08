@@ -3,18 +3,26 @@ class CIF.ClientAdvanceSearch
     @filterTranslation   = ''
     @customFormSelected  = []
     @programSelected     = []
-    @CUSTOM_FORM_URL     = '/api/client_advanced_searches/get_custom_field'
-    optionTranslation        = $('#opt-group-translation')
-    @DOMAIN_SCORES_TRANSLATE  = $(optionTranslation).data('csiDomainScores')
-    @BASIC_FIELD_TRANSLATE    = $(optionTranslation).data('basicFields')
+    optionTranslation    = $('#opt-group-translation')
 
     @enrollmentCheckbox  = $('#enrollment-checkbox')
     @trackingCheckbox    = $('#tracking-checkbox')
     @exitCheckbox        = $('#exit-form-checkbox')
 
+    @CUSTOM_FORM_URL      = '/api/client_advanced_searches/get_custom_field'
     @ENROLLMENT_URL       = '/api/client_advanced_searches/get_enrollment_field'
     @TRACKING_URL         = '/api/client_advanced_searches/get_tracking_field'
     @EXIT_PROGRAM_URL     = '/api/client_advanced_searches/get_exit_program_field'
+
+    @DOMAIN_SCORES_TRANSLATE  = $(optionTranslation).data('csiDomainScores')
+    @BASIC_FIELD_TRANSLATE    = $(optionTranslation).data('basicFields')
+    @CUSTOM_FORM_TRANSLATE    = $(optionTranslation).data('customForm')
+
+    @ENROLLMENT_TRANSLATE     = $(optionTranslation).data('enrollment')
+    @TRACKING_TRANSTATE       = $(optionTranslation).data('tracking')
+    @EXIT_PROGRAM_TRANSTATE   = $(optionTranslation).data('exitProgram')
+
+    @QUANTITATIVE_TRANSLATE   = $(optionTranslation).data('quantitative')
 
   setValueToBuilderSelected: ->
     @customFormSelected = $('.custom-form').data('value')
@@ -25,19 +33,6 @@ class CIF.ClientAdvanceSearch
       addFilter: $('#builder').data('filter-translation-add-filter')
       addGroup: $('#builder').data('filter-translation-add-group')
       deleteGroup: $('#builder').data('filter-translation-delete-group')
-  
-  handleShowCustomFormSelect: ->
-    if $('#custom-form-checkbox').prop('checked')
-      $('.custom-form').show()
-    $('#custom-form-checkbox').on 'ifChecked', ->
-      $('.custom-form').show()
-
-  formBuiderFormatHeader: (value) ->
-    keyWords = value.split('|')
-    name = _.first(keyWords).trim()
-    label = _.last(keyWords).trim()
-    combine = "#{name} #{label}"
-    @formatSpecialCharacter(combine)
 
   formatSpecialCharacter: (value) ->
     filedName = value.toLowerCase().replace(/[^a-zA-Z0-9]+/gi, ' ').trim()
@@ -46,24 +41,10 @@ class CIF.ClientAdvanceSearch
   removeCheckboxColumnPicker: (element, name) ->
     $("#{element} ul.append-child li.#{name}").remove()
 
-  handleHideCustomFormSelect: ->
-    self = @
-    $('#custom-form-checkbox').on 'ifUnchecked', ->
-      $('#custom-form-column ul.append-child li').remove()
-
-      $('#custom-form-select option:selected').each ->
-        formTitle = $(@).text()
-        handleRemoveFilterBuilder(formTitle, self.CUSTOM_FORM_TRANSLATE)
-
-      self.customFormSelected = []
-      $('.custom-form select').select2('val', '')
-      $('.custom-form').hide()
-
-  #####################################################################################################
+  ################################################################################################################################
 
   initBuilderFilter: ->
     builderFields = $('#client-builder-fields').data('fields')
-    console.log @filterTranslation
     advanceSearchBuilder = new CIF.AdvancedFilterBuilder($('#builder'), builderFields, @filterTranslation)
     advanceSearchBuilder.initRule()
     @.basicFilterSetRule()
@@ -87,7 +68,7 @@ class CIF.ClientAdvanceSearch
         $(rowBuilderRule).find('.rule-value-container select').select2(width: '180px')
       )
 
-  ######################################################################################################
+  ################################################################################################################################
 
   customFormSelectChange: ->
     self = @
@@ -126,13 +107,39 @@ class CIF.ClientAdvanceSearch
           $(".#{headerClass} input.i-checks").iCheck
             checkboxClass: 'icheckbox_square-green'
 
+  formBuiderFormatHeader: (value) ->
+    keyWords = value.split('|')
+    name = _.first(keyWords).trim()
+    label = _.last(keyWords).trim()
+    combine = "#{name} #{label}"
+    @formatSpecialCharacter(combine)
+
   checkboxElement: (field, name, label) ->
-   "<li class='visibility checkbox-margin #{name}'>
+    "<li class='visibility checkbox-margin #{name}'>
       <input type='checkbox' name='#{field}_' id='#{field}_' value='#{field}' class='i-checks' style='position: absolute; opacity: 0;'>
       <label for='#{field}_'>#{label}</label>
     </li>"
 
-  #############################################################################################################
+  handleHideCustomFormSelect: ->
+    self = @
+    $('#custom-form-checkbox').on 'ifUnchecked', ->
+      $('#custom-form-column ul.append-child li').remove()
+
+      $('#custom-form-select option:selected').each ->
+        formTitle = $(@).text()
+        handleRemoveFilterBuilder(formTitle, self.CUSTOM_FORM_TRANSLATE)
+
+      self.customFormSelected = []
+      $('.custom-form select').select2('val', '')
+      $('.custom-form').hide()
+
+  handleShowCustomFormSelect: ->
+    if $('#custom-form-checkbox').prop('checked')
+      $('.custom-form').show()
+    $('#custom-form-checkbox').on 'ifChecked', ->
+      $('.custom-form').show()
+
+  ################################################################################################################################
 
   customFormSelectRemove: ->
     self = @
@@ -156,12 +163,32 @@ class CIF.ClientAdvanceSearch
       optGroup  = $(':selected', select).parents('optgroup')
       if $(select).val() != '-1' and optGroup[0] != undefined and optGroup[0].label != self.BASIC_FIELD_TRANSLATE and optGroup[0].label != self.DOMAIN_SCORES_TRANSLATE
         label = optGroup[0].label.split('|')
-        if $(label).last()[0].trim() == resourcelabel and label[0].trim() == resourceName
+        if $(label).last()[0].trim() == resourcelabel.trim() and label[0].trim() == resourceName.trim()
           container = $(select).parents('.rule-container')
           $(container).find('select').select2('destroy')
           $(container).find('.rule-header button').trigger('click')
 
-  ##############################################################################################################
+    setTimeout ( ->
+      if $('.rule-container .rule-filter-container select').length == 0
+        $('button[data-add="rule"]').trigger('click')
+        filterSelects = $('.rule-container .rule-filter-container select')
+      self.handleRemoveBuilderOption(filterSelects, resourceName, resourcelabel)
+      )
+
+  handleRemoveBuilderOption: (filterSelects, resourceName, resourcelabel) ->
+    values = []
+    optGroups = $(filterSelects[0]).find('optgroup')
+    for optGroup in optGroups
+      label = optGroup.label
+      if label != self.BASIC_FIELD_TRANSLATE and label != self.DOMAIN_SCORES_TRANSLATE
+        labelValue = label.split('|')
+        if $(labelValue).last()[0].trim() == resourcelabel.trim() and labelValue[0].trim() == resourceName.trim()
+          $(optGroup).find('option').each ->
+            values.push $(@).val()
+    $('#builder').queryBuilder('removeFilter', values)
+    @initSelect2()
+
+  ################################################################################################################################
 
   handleShowProgramStreamFilter: ->
     self = @
