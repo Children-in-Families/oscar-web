@@ -395,6 +395,8 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
             if fields.includes(text)
               parent = $(labelField).parent()
               $(parent).children('div.field-actions').remove()
+              $(parent).on 'dblclick', (e) ->
+                e.stopPropagation()
 
   _hideActionInTracking = (fields) ->
     trackings = $('#trackings .nested-fields')
@@ -408,8 +410,10 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       $(labelFields).each (index, label) ->
         text = $(label).text()
         if fields[name].includes(text)
-          action = $(label).parent()
-          $(action).children('div.field-actions').remove()
+          parent = $(label).parent()
+          $(parent).children('div.field-actions').remove()
+          $(parent).on 'dblclick', (e) ->
+            e.stopPropagation()
 
   _initFrequencyNote = ->
     for nestedField in $('.nested-fields')
