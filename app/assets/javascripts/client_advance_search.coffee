@@ -215,23 +215,132 @@ class CIF.ClientAdvanceSearch
       self.programSelected.push programId
       $('.program-association').show()
       if $('#enrollment-checkbox').prop('checked')
-        addCustomBuildersFields(programId, self.ENROLLMENT_URL)
+        self.addCustomBuildersFields(programId, self.ENROLLMENT_URL)
       if $('#tracking-checkbox').prop('checked')
-        addCustomBuildersFields(programId, self.TRACKING_URL)
+        self.addCustomBuildersFields(programId, self.TRACKING_URL)
       if $('#exit-form-checkbox').prop('checked')
-        addCustomBuildersFields(programId, self.EXIT_PROGRAM_URL)
+        self.addCustomBuildersFields(programId, self.EXIT_PROGRAM_URL)
 
-  addCustomBuildersFields: (ids, url) ->
+  triggerEnrollmentFields: ->
     self = @
-    action  = _.last(url.split('/'))
-    element = if action == 'get_custom_field' then '#custom-form-column' else '#program-stream-column'
-    $.ajax
-      url: url
-      data: { ids: ids }
-      method: 'GET'
-      success: (response) ->
-        fieldList = response.client_advanced_searches
-        $('#builder').queryBuilder('addFilter', fieldList)
-        self.initSelect2()
-        self.addFieldToColumnPicker(element, fieldList)
+    $('#enrollment-checkbox').on 'ifChecked', ->
+      self.addCustomBuildersFields(self.programSelected, self.ENROLLMENT_URL)
 
+  triggerTrackingFields: ->
+    self = @
+    $('#tracking-checkbox').on 'ifChecked', ->
+      self.addCustomBuildersFields(self.programSelected, self.TRACKING_URL)
+
+  triggerExitProgramFields: ->
+    self = @
+    $('#exit-form-checkbox').on 'ifChecked', ->
+      self.addCustomBuildersFields(self.programSelected, self.EXIT_PROGRAM_URL)
+
+  ################################################################################################################################
+
+  handleSelect2RemoveProgram: ->
+    self = @
+    $('#program-stream-select').on 'select2-removed', (element) ->
+      programName = element.choice.text
+      programStreamKeyword = ['Enrollment', 'Tracking', 'Exit Program']
+      _.forEach programStreamKeyword, (value) ->
+        headerClass = self.formatSpecialCharacter("#{programName.trim()} #{value}")
+        self.removeCheckboxColumnPicker('#program-stream-column', headerClass)
+
+      $.map self.programSelected, (val, i) ->
+        if parseInt(val) == parseInt(element.val) then self.programSelected.splice(i, 1)
+
+      self.handleRemoveFilterBuilder(programName, self.ENROLLMENT_TRANSLATE)
+      setTimeout ( ->
+        self.handleRemoveFilterBuilder(programName, self.TRACKING_TRANSTATE)
+        self.handleRemoveFilterBuilder(programName, self.EXIT_PROGRAM_TRANSTATE)
+        )
+      if $.isEmptyObject($(@).val())
+        programStreamAssociation = $('.program-association')
+        $(programStreamAssociation).find('.i-checks').iCheck('uncheck')
+        $(programStreamAssociation).hide()
+
+  handleUncheckedEnrollment: ->
+    self = @
+    $('#enrollment-checkbox').on 'ifUnchecked', ->
+      for option in $('#program-stream-select option:selected')
+        name          = $(option).text()
+        programName   = name.trim()
+        headerClass   = self.formatSpecialCharacter("#{programName} Enrollment")
+
+        self.removeCheckboxColumnPicker('#program-stream-column', headerClass)
+        self.handleRemoveFilterBuilder(name, self.ENROLLMENT_TRANSLATE)
+
+  handleUncheckedTracking: ->
+    self = @
+    $('#tracking-checkbox').on 'ifUnchecked', ->
+      for option in $('#program-stream-select option:selected')
+        name          = $(option).text()
+        programName   = name.trim()
+        headerClass   = self.formatSpecialCharacter("#{programName} Tracking")
+
+        self.removeCheckboxColumnPicker('#program-stream-column', headerClass)
+        self.handleRemoveFilterBuilder(name, self.TRACKING_TRANSTATE)
+
+  handleUncheckedExitProgram: ->
+    self = @
+    $('#exit-form-checkbox').on 'ifUnchecked', ->
+      for option in $('#program-stream-select option:selected')
+        name          = $(option).text()
+        programName   = name.trim()
+        headerClass   = self.formatSpecialCharacter("#{programName} Exit Program")
+
+        self.removeCheckboxColumnPicker('#program-stream-column', headerClass)
+        self.handleRemoveFilterBuilder(name, self.EXIT_PROGRAM_TRANSTATE)
+
+  ################################################################################################################################
+
+  handleAddQuantitativeFilter: ->
+    self = @
+    fields = $('#quantitative-fields').data('fields')
+    $('#quantitative-type-checkbox').on 'ifChecked', ->
+      $('#builder').queryBuilder('addFilter', fields)
+      self.initSelect2()
+
+  handleRemoveQuantitativFilter: ->
+    self = @
+    $('#quantitative-type-checkbox').on 'ifUnchecked', ->
+      self.handleRemoveFilterBuilder(self.QUANTITATIVE_TRANSLATE, self.QUANTITATIVE_TRANSLATE)
+
+  ################################################################################################################################
+
+  handleSearch: ->
+    self = @
+    $('#search').on 'click', ->
+      basicRules = $('#builder').queryBuilder('getRules', { skip_empty: true, allow_invalid: true })
+      customFormValues = if self.customFormSelected.length > 0 then "[#{self.customFormSelected}]"
+      programValues = if self.programSelected.length > 0 then "[#{self.programSelected}]"
+
+      self.setValueToProgramAssociation()
+      $('#client_advanced_search_custom_form_selected').val(customFormValues)
+      $('#client_advanced_search_program_selected').val(programValues)
+      if $('#quantitative-type-checkbox').prop('checked')
+        $('#client_advanced_search_quantitative_check').val(1)
+
+      if (_.isEmpty(basicRules.rules) and !basicRules.valid) or (!(_.isEmpty(basicRules.rules)) and basicRules.valid)
+        $('#builder').find('.has-error').remove()
+        $('#client_advanced_search_basic_rules').val(self.handleStringfyRules(basicRules))
+        self.handleSelectFieldVisibilityCheckBox()
+        $('#advanced-search').submit()
+
+  setValueToProgramAssociation: ->
+    enrollmentCheck = $('#client_advanced_search_enrollment_check')
+    trackingCheck   = $('#client_advanced_search_tracking_check')
+    exitFormCheck   = $('#client_advanced_search_exit_form_check')
+
+    if @enrollmentCheckbox.prop('checked') then $(enrollmentCheck).val(1)
+    if @trackingCheckbox.prop('checked') then $(trackingCheck).val(1)
+    if @exitCheckbox.prop('checked') then $(exitFormCheck).val(1)
+
+  handleStringfyRules: (rules) ->
+    rules = JSON.stringify(rules)
+    return rules.replace(/null/g, '""')
+
+  handleSelectFieldVisibilityCheckBox: ->
+    checkedFields = $('.visibility .checked input, .all-visibility .checked input')
+    $('form#advanced-search').append(checkedFields)
