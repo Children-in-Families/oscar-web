@@ -41,7 +41,28 @@ class CIF.ClientAdvanceSearch
   removeCheckboxColumnPicker: (element, name) ->
     $("#{element} ul.append-child li.#{name}").remove()
 
-  ################################################################################################################################
+  filterSelectChange: ->
+    self = @
+    $('.rule-filter-container select').on 'select2-close', ->
+      setTimeout ( ->
+        self.initSelect2()
+      )
+
+  handleResizeWindow: ->
+    window.dispatchEvent new Event('resize')
+
+  handleScrollTable: ->
+    self = @
+    $(window).load ->
+      ua = navigator.userAgent
+      unless /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile|CriOS/i.test(ua)
+        $('.clients-table .dataTables_scrollBody').niceScroll
+          scrollspeed: 30
+          cursorwidth: 10
+          cursoropacitymax: 0.4
+        self.handleResizeWindow()
+
+  ######################################################################################################################
 
   initBuilderFilter: ->
     builderFields = $('#client-builder-fields').data('fields')
@@ -68,7 +89,7 @@ class CIF.ClientAdvanceSearch
         $(rowBuilderRule).find('.rule-value-container select').select2(width: '180px')
       )
 
-  ################################################################################################################################
+  ######################################################################################################################
 
   customFormSelectChange: ->
     self = @
@@ -139,7 +160,7 @@ class CIF.ClientAdvanceSearch
     $('#custom-form-checkbox').on 'ifChecked', ->
       $('.custom-form').show()
 
-  ################################################################################################################################
+  ######################################################################################################################
 
   customFormSelectRemove: ->
     self = @
@@ -188,7 +209,7 @@ class CIF.ClientAdvanceSearch
     $('#builder').queryBuilder('removeFilter', values)
     @initSelect2()
 
-  ################################################################################################################################
+  ######################################################################################################################
 
   handleShowProgramStreamFilter: ->
     self = @
@@ -236,7 +257,7 @@ class CIF.ClientAdvanceSearch
     $('#exit-form-checkbox').on 'ifChecked', ->
       self.addCustomBuildersFields(self.programSelected, self.EXIT_PROGRAM_URL)
 
-  ################################################################################################################################
+  ######################################################################################################################
 
   handleSelect2RemoveProgram: ->
     self = @
@@ -293,7 +314,7 @@ class CIF.ClientAdvanceSearch
         self.removeCheckboxColumnPicker('#program-stream-column', headerClass)
         self.handleRemoveFilterBuilder(name, self.EXIT_PROGRAM_TRANSTATE)
 
-  ################################################################################################################################
+  ######################################################################################################################
 
   handleAddQuantitativeFilter: ->
     self = @
@@ -307,7 +328,7 @@ class CIF.ClientAdvanceSearch
     $('#quantitative-type-checkbox').on 'ifUnchecked', ->
       self.handleRemoveFilterBuilder(self.QUANTITATIVE_TRANSLATE, self.QUANTITATIVE_TRANSLATE)
 
-  ################################################################################################################################
+  ######################################################################################################################
 
   handleSearch: ->
     self = @
@@ -344,3 +365,115 @@ class CIF.ClientAdvanceSearch
   handleSelectFieldVisibilityCheckBox: ->
     checkedFields = $('.visibility .checked input, .all-visibility .checked input')
     $('form#advanced-search').append(checkedFields)
+
+  ######################################################################################################################
+
+  addRuleCallback: ->
+    self = @
+    $('#builder').on 'afterCreateRuleFilters.queryBuilder', (_e, obj) ->
+      self.initSelect2()
+      self.handleSelectOptionChange(obj)
+      self.referred_to_program()
+      self.filterSelecting()
+
+  handleSelectOptionChange: (obj)->
+    self = @
+    if obj != undefined
+      debugger
+      rowBuilderRule = obj.$el[0]
+      ruleFiltersSelect = $(rowBuilderRule).find('.rule-filter-container select')
+      $(ruleFiltersSelect).on 'select2-close', ->
+        setTimeout ( ->
+          self.initSelect2()
+          self.initRuleOperatorSelect2(rowBuilderRule)
+        )
+
+  referred_to_program: ->
+    $('.rule-filter-container select').change ->
+      selectedOption      = $(this).find('option:selected')
+      selectedOptionValue = $(selectedOption).val()
+      if selectedOptionValue == 'referred_to_ec' || selectedOptionValue == 'referred_to_fc' || selectedOptionValue == 'referred_to_kc'
+        setTimeout ( ->
+          $(selectedOption).parents('.rule-filter-container').siblings('.rule-operator-container').find('select option[value="is_empty"]').remove()
+        ),10
+
+  ######################################################################################################################
+
+  filterSelecting: ->
+    self = @
+    $('.rule-filter-container select').on 'select2-selecting', ->
+      setTimeout ( ->
+        self.preventDomainScore()
+      )
+
+  preventDomainScore: ->
+    self = @
+    $('.rule-operator-container select').on 'select2-selected', ->
+      self.preventOptionDomainScores(@)
+
+  preventOptionDomainScores: (element) ->
+    self = @
+    if $(element).parent().siblings('.rule-filter-container').find('option:selected').val().split('_')[0] == 'domainscore'
+      ruleValueContainer = $(element).parent().siblings('.rule-value-container')
+      if $(element).find('option:selected').val() == 'greater'
+        $(ruleValueContainer).find("option[value=4]").attr('disabled', 'disabled')
+        $(ruleValueContainer).find("option[value=1]").removeAttr('disabled')
+        if $(ruleValueContainer).find('option:selected').val() == '4'
+          $(ruleValueContainer).find('select').val('1').trigger('change')
+      else if $(element).find('option:selected').val() == 'less'
+        $(ruleValueContainer).find("option[value='1']").attr('disabled', 'disabled')
+        $(ruleValueContainer).find("option[value='4']").removeAttr('disabled')
+        if $(ruleValueContainer).find("option:selected").val() == '1'
+          $(ruleValueContainer).find('select').val('2').trigger('change')
+      else
+        $(ruleValueContainer).find("option[value='4']").removeAttr('disabled')
+        $(ruleValueContainer).find("option[value='1']").removeAttr('disabled')
+      setTimeout( ->
+        self.initSelect2()
+      )
+
+  disableOptionDomainScores: ->
+    self = @
+    for domain in $('.rule-operator-container select')
+      self.preventOptionDomainScores(domain)
+
+  ######################################################################################################################
+
+  handleSaveQuery: ->
+    self = @
+    $('#submit-query').on 'click', ->
+      basicRules = $('#builder').queryBuilder('getRules', { skip_empty: true, allow_invalid: true })
+      if (_.isEmpty(basicRules.rules) and !basicRules.valid) or (!(_.isEmpty(basicRules.rules)) and basicRules.valid)
+        $('#builder').find('.has-error').remove()
+      customFormValues = if self.customFormSelected.length > 0 then "[#{self.customFormSelected}]"
+      programValues = if self.programSelected.length > 0 then "[#{self.programSelected}]"
+
+      enrollmentCheck = $('#advanced_search_enrollment_check')
+      trackingCheck   = $('#advanced_search_tracking_check')
+      exitFormCheck   = $('#advanced_search_exit_form_check')
+
+      if self.enrollmentCheckbox.prop('checked') then $(enrollmentCheck).val(1)
+      if self.trackingCheckbox.prop('checked') then $(trackingCheck).val(1)
+      if self.exitCheckbox.prop('checked') then $(exitFormCheck).val(1)
+      if $('#quantitative-type-checkbox').prop('checked') then $('#advanced_search_quantitative_check').val(1)
+
+      $('#advanced_search_custom_forms').val(customFormValues)
+      $('#advanced_search_program_streams').val(programValues)
+      $('#advanced_search_queries').val(_handleStringfyRules(basicRules))
+      self.handleAddColumnPickerToInput()
+
+  handleAddColumnPickerToInput: ->
+    columnsVisibility = new Object
+    $('.visibility, .all-visibility').each ->
+      checkbox = $(@).find('input[type="checkbox"]')
+      if $(checkbox).prop('checked')
+        attrName = $(checkbox).attr('name')
+        columnsVisibility[attrName] = $(checkbox).val()
+    $('#advanced_search_field_visible').val(JSON.stringify(columnsVisibility))
+
+  validateSaveQuery: ->
+    $('#advanced_search_name').keyup ->
+      if $(@).val() != ''
+        $('#submit-query').removeClass('disabled').removeAttr('disabled')
+      else
+        $('#submit-query').addClass('disabled').attr('disabled', 'disabled')
