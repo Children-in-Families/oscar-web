@@ -32,7 +32,7 @@
                                       'data-toggle': 'modal', type: 'button'} do
                         = fa_icon('pencil')
                     %td.text-center
-                      = remove_link(department, { department_usercount: department.users_count })
+                      = remove_link(department, { department_usercount: department.users.count })
                   - if can? :version, Department
                     %td.text-center
                       = link_to t('.view'), department_version_path(department)

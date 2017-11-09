@@ -115,7 +115,7 @@ class User < ActiveRecord::Base
   end
 
   def no_any_associated_objects?
-    clients_count.zero? && tasks_count.zero? && changelogs_count.zero? && progress_notes.count.zero?
+    clients.count.zero? && tasks.count.zero? && changelogs.count.zero? && progress_notes.count.zero?
   end
 
   def client_status
