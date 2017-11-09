@@ -39,16 +39,24 @@ describe Task do
       end
 
       scenario 'list manager task', js: true do
+        page.find('.widget-tasks-panel').click
+        sleep 1
         expect(page).to have_select 'user_id', with_options: ['mr admin', 'able manager', 'able caseworker', 'ec caseworker'], visible: false
         find("select#user_id option[value='#{able_manager.id}']", visible: false).select_option
         sleep 1
+        page.find('.widget-tasks-panel').click
+        sleep 1
         panel = page.all(:css, '.panel').select { |p| p.all(:css, '.panel-heading').select { |pp| pp.text.include?('Upcoming tasks') }.first }.first
         expect(panel).to have_content(upcoming_task.name)
+        expect(page).to have_link(client2.name, href: client_path(client2))
       end
 
       scenario 'list caseworker task', js: true do
+        page.find('.widget-tasks-panel').click
         expect(page).to have_select 'user_id', with_options: ['mr admin', 'able manager', 'able caseworker', 'ec caseworker'], visible: false
         find("select#user_id option[value='#{able_caseworker.id}']", visible: false).select_option
+        sleep 1
+        page.find('.widget-tasks-panel').click
         sleep 1
         panel = page.all(:css, '.panel').select { |p| p.all(:css, '.panel-heading').select { |pp| pp.text.include?('Overdue tasks') }.first }.first
         expect(panel).to have_content(overdue_task.name)
@@ -66,14 +74,22 @@ describe Task do
       end
 
       scenario 'list manager task', js: true do
+        page.find('.widget-tasks-panel').click
         expect(page).to have_select 'user_id', with_options: ['able manager', 'able caseworker'], visible: false
+        find("select#user_id option[value='#{able_manager.id}']", visible: false).select_option
+        sleep 1
+        page.find('.widget-tasks-panel').click
+        sleep 1
         panel = page.all(:css, '.panel').select { |p| p.all(:css, '.panel-heading').select { |pp| pp.text.include?('Upcoming tasks') }.first }.first
         expect(panel).to have_content(upcoming_task.name)
       end
 
       scenario 'list caseworker task', js: true do
+        page.find('.widget-tasks-panel').click
         expect(page).to have_select 'user_id', with_options: ['able manager', 'able caseworker'], visible: false
         find("select#user_id option[value='#{able_caseworker.id}']", visible: false).select_option
+        sleep 1
+        page.find('.widget-tasks-panel').click
         sleep 1
         panel = page.all(:css, '.panel').select { |p| p.all(:css, '.panel-heading').select { |pp| pp.text.include?('Overdue tasks') }.first }.first
         expect(panel).to have_content(overdue_task.name)
@@ -82,6 +98,7 @@ describe Task do
       scenario 'list able case worker task', js: true do
         find("select#user_id option[value='#{able_caseworker.id}']", visible: false).select_option
         sleep 1
+        page.find('.widget-tasks-panel').click
         expect(page).to have_content(able_task.name)
       end
     end
@@ -94,6 +111,7 @@ describe Task do
 
       scenario 'display only caseworker task' do
         panel = page.all(:css, '.panel').select { |p| p.all(:css, '.panel-heading').select { |pp| pp.text.include?('Overdue tasks') }.first }.first
+        page.find('.widget-tasks-panel').click
         expect(panel).to have_content(overdue_task.name)
       end
 
@@ -115,6 +133,7 @@ describe Task do
       scenario 'list ec case worker task', js: true do
         find("select#user_id option[value='#{ec_caseworker.id}']", visible: false).select_option
         sleep 1
+        page.find('.widget-tasks-panel').click
         expect(page).to have_content(ec_task.name)
       end
     end
@@ -132,6 +151,7 @@ describe Task do
       scenario 'list fc case worker task', js: true do
         find("select#user_id option[value='#{fc_caseworker.id}']", visible: false).select_option
         sleep 1
+        page.find('.widget-tasks-panel').click
         expect(page).to have_content(fc_task.name)
       end
     end
@@ -149,6 +169,7 @@ describe Task do
       scenario 'list kc case worker task', js: true do
         find("select#user_id option[value='#{kc_caseworker.id}']", visible: false).select_option
         sleep 1
+        page.find('.widget-tasks-panel').click
         expect(page).to have_content(kc_task.name)
       end
     end
@@ -166,6 +187,7 @@ describe Task do
       scenario 'list subordinate task', js: true do
         find("select#user_id option[value='#{subordinate.id}']", visible: false).select_option
         sleep 1
+        page.find('.widget-tasks-panel').click
         expect(page).to have_content(sub_task.name)
       end
     end

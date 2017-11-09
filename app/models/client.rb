@@ -324,7 +324,6 @@ class Client < ActiveRecord::Base
     (end_date - start_date).to_f
   end
 
-
   def self.ec_reminder_in(day)
     Organization.all.each do |org|
       Organization.switch_to org.short_name

@@ -141,7 +141,7 @@ Rails.application.routes.draw do
     end
     # resources :surveys
 
-    resources :progress_notes do
+    resources :progress_notes, except: [:new, :create] do
       get 'version' => 'progress_notes#version'
     end
 

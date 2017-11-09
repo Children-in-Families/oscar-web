@@ -3,7 +3,7 @@ class ProgressNotesController < AdminController
 
   before_action :find_client
   before_action :find_progress_note, only: [:show, :edit, :update, :destroy]
-  before_action :find_association, only: [:new, :create, :edit, :update]
+  before_action :find_association, only: [:edit, :update]
 
   def index
     @progress_note_grid = ProgressNoteGrid.new(params.fetch(:progress_note_grid, {}).merge!(current_client: @client))
@@ -15,24 +15,6 @@ class ProgressNotesController < AdminController
         @progress_note_grid.scope { |scope| scope.where(client_id: @client.id) }
         send_data @progress_note_grid.to_xls, filename: "progress_note_report-#{Time.now}.xls"
       end
-    end
-  end
-
-  def new
-    @progress_note = @client.progress_notes.new
-  end
-
-  def create
-    @progress_note = @client.progress_notes.new(progress_note_params)
-    if @progress_note.save
-      if params[:attachments].present?
-        @progress_note.save_attachment(params)
-        render json: { progress_note: @progress_note, text: t('.successfully_created'), slug_id: @progress_note.client.slug }, status: 200
-      else
-        redirect_to client_progress_note_path(@client, @progress_note, formats: :html), notice: t('.successfully_created')
-      end
-    else
-      render :new
     end
   end
 

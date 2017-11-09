@@ -1081,16 +1081,16 @@ en:
       support_amount: Support Amount
       support_note: Support Note
     index:
+      active_programs: Active Programs
       add_new_client: Add New Client
       assessments: Assessments
-      case_statistics: Case Statistics
-      client_amount: Client Amounts
+      client_amount: Clients
       csi_domain_scores: CSI Domain Scores
       domain_score: Domain Scores
       end: Loading end!
       export_to_xls: Export to XLS
       load: Loading more...
-      reports: Reports
+      reports: Quick Graph
       report_builder: Report Builder
       results: Results
       sInfoShow: show results from
@@ -3263,7 +3263,7 @@ en:
       start_date: Start Date
     index:
       case_statistics: Case Statistics
-      client_amount: Client Amounts
+      client_amount: Clients
       csi_domain_scores: CSI Domain Scores
       domain_score: Domain Scores
   review_problem: 'Please review the problems below:'

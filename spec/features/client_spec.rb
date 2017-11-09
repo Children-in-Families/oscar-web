@@ -45,13 +45,13 @@ describe 'Client' do
       login_as(admin)
       visit clients_path
     end
-    scenario 'Domain Score Statistic and Case Type Statistic', js: true do
+    scenario 'Domain Score Statistic and Active Programs Statistic', js: true do
       page.find("#client-statistic").click
       wait_for_ajax
       expect(page).to have_css("#cis-domain-score[data-title='CSI Domain Scores']")
       expect(page).to have_css("#cis-domain-score[data-yaxis-title='Domain Scores']")
-      expect(page).to have_css("#case-statistic[data-title='Case Statistics']")
-      expect(page).to have_css("#case-statistic[data-yaxis-title='Client Amounts']")
+      expect(page).to have_css("#program-statistic[data-title='Active Programs']")
+      expect(page).to have_css("#program-statistic[data-yaxis-title='Clients']")
     end
   end
 

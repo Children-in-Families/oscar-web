@@ -87,8 +87,8 @@ CIF.ClientsIndex = do ->
     report.lineChart()
 
   _handleCreateCaseReport = ->
-    element = $('#case-statistic')
-    caseData = element.data('case-statistic')
+    element = $('#program-statistic')
+    caseData = element.data('program-statistic')
     caseTitle =  element.data('title')
     caseyAxisTitle =  element.data('yaxis-title')
 
