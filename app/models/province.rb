@@ -1,9 +1,9 @@
 class Province < ActiveRecord::Base
-  has_many :users
-  has_many :families
-  has_many :partners
-  has_many :clients
-  has_many :cases
+  has_many :users, dependent: :restrict_with_error
+  has_many :families, dependent: :restrict_with_error
+  has_many :partners, dependent: :restrict_with_error
+  has_many :clients, dependent: :restrict_with_error
+  has_many :cases, dependent: :restrict_with_error
 
   has_paper_trail
 
