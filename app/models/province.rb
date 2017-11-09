@@ -1,7 +1,7 @@
 class Province < ActiveRecord::Base
   has_many :users
   has_many :families
-  has_many :partner
+  has_many :partners
   has_many :clients
   has_many :cases
 
@@ -14,6 +14,6 @@ class Province < ActiveRecord::Base
   validates :name, presence: true, uniqueness: { case_sensitive: false }
 
   def removeable?
-    families_count.zero? && partners_count.zero? && users_count.zero? && clients_count.zero? && cases_count.zero?
+    families.count.zero? && partners.count.zero? && users.count.zero? && clients.count.zero? && cases.count.zero?
   end
 end

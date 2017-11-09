@@ -26,7 +26,7 @@ class ProvincesController < AdminController
   end
 
   def destroy
-    if @province.families_count.zero? && @province.partners_count.zero? && @province.users_count.zero? && @province.clients_count.zero? && @province.cases_count.zero?
+    if @province.families.count.zero? && @province.partners.count.zero? && @province.users.count.zero? && @province.clients.count.zero? && @province.cases.count.zero?
       @province.destroy
       redirect_to provinces_url, notice: t('.successfully_deleted')
     else

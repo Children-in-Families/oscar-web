@@ -1,7 +1,7 @@
 describe Province, 'associations'do
   it { is_expected.to have_many(:users) }
   it { is_expected.to have_many(:families) }
-  it { is_expected.to have_many(:partner)}
+  it { is_expected.to have_many(:partners)}
   it { is_expected.to have_many(:clients)}
   it { is_expected.to have_many(:cases)}
 end

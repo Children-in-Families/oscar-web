@@ -21,7 +21,7 @@
                   .col-xs-4.col-sm-3.text-right.actions
                     = link_to '#', {class: 'btn btn-outline btn-success', "data-target" => "#quantitative_typeModal-#{qt.id}", "data-toggle" => "modal", :type => "button"} do
                       = fa_icon('pencil')
-                    = remove_link(qt, {quantitative_case: qt.quantitative_cases_count}, 'btn-md')
+                    = remove_link(qt, {quantitative_case: qt.quantitative_cases.count}, 'btn-md')
                   = render 'form', quantitative_type: qt
             .panel-body
               %table.table.table-bordered

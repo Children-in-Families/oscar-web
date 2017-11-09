@@ -132,6 +132,7 @@ feature 'program_stream' do
         expect(page).to have_content 'Gender'
 
         page.click_link 'Next'
+        sleep 1
         page.find('li[data-type="date"]').click
         page.click_link 'Next'
         sleep 1
@@ -321,6 +322,7 @@ feature 'program_stream' do
       page.find(".rule-filter-container select option[value='gender']", visible: false).select_option
       expect(page).to have_content 'Gender'
       page.click_link 'Next'
+      sleep 1
       page.find('li[data-type="date"]').click
       page.click_link 'Next'
       sleep 2
