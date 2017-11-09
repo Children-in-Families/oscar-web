@@ -16,6 +16,15 @@ CIF.ClientsIndex = do ->
     _getClientPath()
     _checkClientSearchForm()
     _initAdavanceSearchFilter()
+    _toggleCollapseFilter()
+
+  _toggleDisableCollapseFilter = ->
+    $('#client-search-form').on 'show.bs.collapse', ->
+      $('#client-advance-search-form').collapse('hide')
+
+    $('#client-advance-search-form').on 'show.bs.collapse', ->
+      $('#client-search-form').collapse('hide')
+      $('#client-search-form').find('input, select').attr('readonly')
 
   _checkClientSearchForm = ->
     $("button.btn-filter").on 'click', ->
