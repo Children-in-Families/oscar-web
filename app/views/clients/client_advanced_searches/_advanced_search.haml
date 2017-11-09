@@ -42,25 +42,7 @@
       .ibox-footer
         %button#search.btn.btn-primary= t('.search')
         = link_to t('.reset'), clients_path, class: 'btn btn-default'
-.row
-  .col-xs-12
-    .ibox
-      - if @clients_by_user.present?
-        .ibox-title
-          %h5= @clients_by_user.length
-          %span.label.label-info= t('.results')
-        .ibox-content
-          .clients-table
-            %table.table.table-bordered.table-striped.table-hover.clients
-              %thead
-                = datagrid_header(@client_grid)
-              %tbody.page
-                = datagrid_rows(@client_grid, @client_grid.assets)
-        .ibox-footer.text-center
-          = paginate @client_grid.assets
-      - else
-        .ibox-content
-          = t('.no_results')
+
 = simple_form_for :client_advanced_search, url: :clients, method: 'GET', html: { id: 'advanced-search' } do |f|
   = f.hidden_field :custom_form_selected
   = f.hidden_field :program_selected
