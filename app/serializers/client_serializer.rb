@@ -9,7 +9,7 @@ class ClientSerializer < ActiveModel::Serializer
               :able_state, :has_been_in_government_care, :relevant_referral_information,
               :case_workers, :agencies, :state, :rejected_note, :emergency_care, :foster_care, :kinship_care,
               :organization, :additional_form, :tasks, :assessments, :case_notes, :quantitative_cases,
-              :program_streams, :add_forms
+              :program_streams, :add_forms, :inactive_program_streams
 
   def case_workers
     object.users
@@ -98,11 +98,29 @@ class ClientSerializer < ActiveModel::Serializer
   end
 
   def program_streams
-    object.program_streams.map do |program_stream|
-      formatted_enrollments = program_stream.client_enrollments.map do |enrollment|
-        trackings = enrollment.client_enrollment_trackings
-        leave_program = enrollment.leave_program
-        enrollment.as_json.merge( trackings: trackings, leave_program: leave_program )
+    ProgramStream.active_enrollments(object).map do |program_stream|
+      formatted_enrollments = program_stream.client_enrollments.enrollments_by(object).active.map do |enrollment|
+        enrollment_field = program_stream.enrollment
+        trackings = enrollment.client_enrollment_trackings.map do |tracking|
+          tracking.as_json.merge(tracking_field: tracking.tracking.fields)
+        end
+        leave_program = enrollment.leave_program.as_json.merge(leave_program_field: program_stream.exit_program) if enrollment.leave_program.present?
+        enrollment.as_json.merge(trackings: trackings, leave_program: leave_program, enrollment_field: enrollment_field)
+      end
+      domains = program_stream.domains.map(&:identity)
+      program_stream.as_json(only: [:id, :name, :description, :quantity]).merge(domain: domains, enrollments: formatted_enrollments)
+    end
+  end
+
+  def inactive_program_streams
+    ProgramStream.inactive_enrollments(object).map do |program_stream|
+      formatted_enrollments = program_stream.client_enrollments.enrollments_by(object).inactive.map do |enrollment|
+        enrollment_field = program_stream.enrollment
+        trackings = enrollment.client_enrollment_trackings.map do |tracking|
+          tracking.as_json.merge(tracking_field: tracking.tracking.fields)
+        end
+        leave_program = enrollment.leave_program.as_json.merge(leave_program_field: program_stream.exit_program) if enrollment.leave_program.present?
+        enrollment.as_json.merge(trackings: trackings, leave_program: leave_program, enrollment_field: enrollment_field)
       end
       domains = program_stream.domains.map(&:identity)
       program_stream.as_json(only: [:id, :name, :description, :quantity]).merge(domain: domains, enrollments: formatted_enrollments)
