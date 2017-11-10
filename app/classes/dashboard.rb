@@ -18,7 +18,7 @@ class Dashboard
       {
         name: p.name,
         y: p.client_enrollments.active.uniq.count,
-        url: client_advanced_searches_path('client_advanced_search[basic_rules]': url.to_json)
+        url: clients_path('client_advanced_search[basic_rules]': url.to_json)
       }
     end
   end
@@ -143,7 +143,7 @@ class Dashboard
       {
         name: "#{p.name} (#{gender})",
         y: active_client_ids.size,
-        url: client_advanced_searches_path('client_advanced_search[basic_rules]': url.to_json)
+        url: clients_path('client_advanced_search[basic_rules]': url.to_json)
       }
     end
   end
