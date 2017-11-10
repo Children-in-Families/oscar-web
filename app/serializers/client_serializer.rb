@@ -123,7 +123,7 @@ class ClientSerializer < ActiveModel::Serializer
         enrollment.as_json.merge(trackings: trackings, leave_program: leave_program, enrollment_field: enrollment_field)
       end
       domains = program_stream.domains.map(&:identity)
-      program_stream.as_json(only: [:id, :name, :description, :quantity]).merge(domain: domains, enrollments: formatted_enrollments)
+      program_stream.as_json(only: [:id, :name, :description, :quantity, :tracking_required]).merge(domain: domains, enrollments: formatted_enrollments)
     end
   end
 
@@ -131,5 +131,4 @@ class ClientSerializer < ActiveModel::Serializer
     custom_field_ids = object.custom_field_properties.pluck(:custom_field_id)
     CustomField.client_forms.not_used_forms(custom_field_ids).order_by_form_title
   end
-
 end
