@@ -29,7 +29,7 @@
               = link_to edit_family_path(@family) do
                 .btn.btn-outline.btn-success
                   %i.fa.fa-pencil
-              = remove_link(@family, {family_case: @family.cases_count}, 'btn-md')
+              = remove_link(@family, {family_case: @family.cases.count}, 'btn-md')
 
       .ibox-content
         .row.family-summary
