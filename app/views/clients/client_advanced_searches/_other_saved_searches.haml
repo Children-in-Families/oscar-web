@@ -18,5 +18,5 @@
             %td.date
               = date_format(advanced_search.created_at)
             %td.load-query.text-center
-              = link_to client_advanced_searches_path(advanced_search.search_params), class: 'btn btn-xs btn-success btn-outline' do
+              = link_to clients_path(advanced_search.search_params), class: 'btn btn-xs btn-success btn-outline' do
                 = fa_icon('clipboard')

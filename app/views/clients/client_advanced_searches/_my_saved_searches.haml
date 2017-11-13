@@ -15,7 +15,7 @@
             %td.description= advanced_search.description
             %td.date= date_format(advanced_search.created_at)
             %td.load-query.text-center
-              = link_to client_advanced_searches_path(advanced_search.search_params), class: 'btn btn-xs btn-success btn-outline' do
+              = link_to clients_path(advanced_search.search_params), class: 'btn btn-xs btn-success btn-outline' do
                 = fa_icon('clipboard')
             %td.query-action.text-center
               = link_to edit_advanced_search_save_query_path(advanced_search) do

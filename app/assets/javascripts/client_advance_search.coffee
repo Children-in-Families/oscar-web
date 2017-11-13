@@ -459,7 +459,7 @@ class CIF.ClientAdvanceSearch
 
       $('#advanced_search_custom_forms').val(customFormValues)
       $('#advanced_search_program_streams').val(programValues)
-      $('#advanced_search_queries').val(_handleStringfyRules(basicRules))
+      $('#advanced_search_queries').val(self.handleStringfyRules(basicRules))
       self.handleAddColumnPickerToInput()
 
   handleAddColumnPickerToInput: ->
