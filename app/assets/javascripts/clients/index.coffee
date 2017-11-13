@@ -14,7 +14,10 @@ CIF.ClientsIndex = do ->
     _handleScrollTable()
     _setDefaultCheckColumnVisibilityAll()
     _getClientPath()
+    _hideClientFields()
 
+  _hideClientFields = ->
+    $('#new_client_grid input.local_given_name.string_filter, #new_client_grid input.local_family_name.string_filter').parent().hide()
 
   _setDefaultCheckColumnVisibilityAll = ->
     if $('.visibility .checked').length == 0
