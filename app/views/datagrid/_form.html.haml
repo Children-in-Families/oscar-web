@@ -117,7 +117,6 @@
               = label_tag 'changelog_', t('datagrid.columns.changelog')
 
   #filter_form
-    / - if controller_name != 'client_advanced_searches'
     %hr/
     .row
       - grid.filters.each do |filter|
@@ -125,49 +124,8 @@
           .datagrid-filter.filter
             = f.datagrid_label filter, title: filter.header
             = f.datagrid_filter filter, partials: options[:partials]
-    - if clients_controller?
-      .row
-        .col-xs-12.domain-filter-search
-          %button.btn.btn-primary.btn-filter{"aria-expanded" => 'false', "data-target" => '#client-search-domain', "data-toggle" => 'collapse', type: 'button'}
-            %i.fa.fa-filter
-            %span= t('.filter_domains')
-
-      .row#client-search-domain.collapse
-        - grid.filters.each do |filter|
-          - if filter.type == :dynamic
-            .col-sm-4.domain-filter.filter
-              %label{ title: filter.header }
-                = truncate(filter.header, length: 40)
-              = f.datagrid_filter filter, partials: options[:partials]
     .row
       .datagrid-actions
         = f.submit I18n.t('datagrid.form.search').html_safe, class: 'btn btn-primary datagrid-submit'
         - empty_parameter = Rails.version >= '4.1.0' && Rails.version <= '4.1.2' ? nil : {}
         = link_to I18n.t('datagrid.form.reset').html_safe, url_for(grid.to_param => empty_parameter), :class => 'btn btn-outline datagrid-reset'
-  
-  / - if controller_name != 'client_advanced_searches'
-  /   %hr/
-  /   .row
-  /     - grid.filters.each do |filter|
-  /       - if filter.type != :dynamic
-  /         .datagrid-filter.filter
-  /           = f.datagrid_label filter, title: filter.header
-  /           = f.datagrid_filter filter, partials: options[:partials]
-  /   - if clients_controller?
-  /     .row
-  /       .col-xs-12.domain-filter-search
-  /         %button.btn.btn-primary.btn-filter{"aria-expanded" => 'false', "data-target" => '#client-search-domain', "data-toggle" => 'collapse', type: 'button'}
-  /           %i.fa.fa-filter
-  /           %span= t('.filter_domains')
-  /     .row#client-search-domain.collapse
-  /       - grid.filters.each do |filter|
-  /         - if filter.type == :dynamic
-  /           .col-sm-4.domain-filter.filter
-  /             %label{ title: filter.header }
-  /               = truncate(filter.header, length: 40)
-  /             = f.datagrid_filter filter, partials: options[:partials]
-  /   .row
-  /     .datagrid-actions
-  /       = f.submit I18n.t('datagrid.form.search').html_safe, class: 'btn btn-primary datagrid-submit'
-  /       - empty_parameter = Rails.version >= '4.1.0' && Rails.version <= '4.1.2' ? nil : {}
-  /       = link_to I18n.t('datagrid.form.reset').html_safe, url_for(grid.to_param => empty_parameter), :class => 'btn btn-outline datagrid-reset'

@@ -18,13 +18,18 @@ CIF.ClientsIndex = do ->
     _initAdavanceSearchFilter()
     _toggleCollapseFilter()
 
-  _toggleDisableCollapseFilter = ->
+  _hideClientFilters = ->
+    dataFilters = $('#client-search-form .datagrid-filter')
+    displayColumns = '#client_grid_given_name, #client_grid_family_name, #client_grid_gender, #client_grid_slug, #client_grid_status, #client_grid_user_ids'
+    $(dataFilters).hide()
+    $(dataFilters).children("#{displayColumns}").parents('.datagrid-filter').show()
+
+  _toggleCollapseFilter = ->
     $('#client-search-form').on 'show.bs.collapse', ->
       $('#client-advance-search-form').collapse('hide')
 
     $('#client-advance-search-form').on 'show.bs.collapse', ->
       $('#client-search-form').collapse('hide')
-      $('#client-search-form').find('input, select').attr('readonly')
 
   _checkClientSearchForm = ->
     $("button.btn-filter").on 'click', ->
@@ -33,6 +38,8 @@ CIF.ClientsIndex = do ->
         $('#filter_form').hide()
       else
         $('#filter_form').show()
+        _hideClientFilters()
+        _enableSelect2()
 
   _initAdavanceSearchFilter = ->
     advanceFilter = new CIF.ClientAdvanceSearch()
