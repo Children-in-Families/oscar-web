@@ -52,7 +52,7 @@ class FamiliesController < AdminController
   end
 
   def destroy
-    if @family.cases_count.zero?
+    if @family.cases.count.zero?
       @family.destroy
       redirect_to families_url, notice: t('.successfully_deleted')
     else

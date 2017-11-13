@@ -30,7 +30,7 @@
                       = link_to '#', {class: 'btn btn-outline btn-success btn-xs', "data-target" => "#domain_groupModal-#{domain_group.id}", "data-toggle" => "modal", :type => "button"} do
                         = fa_icon('pencil')
                     %td.text-center
-                      = remove_link(domain_group, {domain_group: domain_group.domains_count})
+                      = remove_link(domain_group, {domain_group: domain_group.domains.count})
                   - if can? :version, DomainGroup
                     %td.text-center
                       = link_to t('.view'), domain_group_version_path(domain_group)
