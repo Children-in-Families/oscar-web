@@ -1,7 +1,7 @@
 = form_for grid, options do |f|
   = hidden_field_tag :locale, params[:locale]
 
-  - if controller_name == 'clients' || controller_name == 'client_advanced_searches'
+  - if controller_name == 'clients'
     %ul.check-columns-visibility{ 'aria-labelledby': 'dropdownMenuDivider' }
       %li.dropdown
         %a.dropdown-toggle.btn.btn-default{'data-toggle' => 'dropdown', href: '#'}
@@ -116,8 +116,7 @@
               = check_box_tag 'changelog_', 'changelog', checked = params[:changelog_].present?, class: 'i-checks'
               = label_tag 'changelog_', t('datagrid.columns.changelog')
 
-
-  - if controller_name != 'client_advanced_searches'
+  #filter_form
     %hr/
     .row
       - grid.filters.each do |filter|
@@ -125,19 +124,6 @@
           .datagrid-filter.filter
             = f.datagrid_label filter, title: filter.header
             = f.datagrid_filter filter, partials: options[:partials]
-    - if clients_controller?
-      .row
-        .col-xs-12.domain-filter-search
-          %button.btn.btn-primary.btn-filter{"aria-expanded" => 'false', "data-target" => '#client-search-domain', "data-toggle" => 'collapse', type: 'button'}
-            %i.fa.fa-filter
-            %span= t('.filter_domains')
-      .row#client-search-domain.collapse
-        - grid.filters.each do |filter|
-          - if filter.type == :dynamic
-            .col-sm-4.domain-filter.filter
-              %label{ title: filter.header }
-                = truncate(filter.header, length: 40)
-              = f.datagrid_filter filter, partials: options[:partials]
     .row
       .datagrid-actions
         = f.submit I18n.t('datagrid.form.search').html_safe, class: 'btn btn-primary datagrid-submit'

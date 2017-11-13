@@ -51,6 +51,8 @@
 //= require footable.all.min
 
 //APPLICATION JS
+//= require client_advance_search
+
 //= require check_duplicate_array.js
 //= require advanced_filter_builder
 //= require custom_form_builder

@@ -700,53 +700,6 @@ en:
       program_stream: Program Stream
       tracking: Tracking
       quantitative: Quantitative Type
-  client_advanced_searches:
-    form_option:
-      custom_form: Custom Form
-      enrollment: Enrollment
-      exit_program: Exit Program
-      filter_option: Please choose your query options below
-      program_stream: Program Stream
-      quantitative: Quantitative Type
-      tracking: Tracking
-    index:
-      add_new_filter: Add New Filter
-      add_new_group: Add Group
-      advanced_search: Advanced Search
-      assessments: Assessments
-      client_column: Client basic columns
-      csi_domain_scores: CSI Domain Scores
-      custom_form_column: Custom form columns
-      delete_group: Delete
-      export_to_xls: Export to XLS
-      load_save_search: Load Saved Search
-      no_results: No Result Found
-      program_stream_column: Program stream columns
-      reset: Reset
-      results: Results
-      save_search_settings: Save Search Settings
-      search: Search
-    load_save_search:
-      my_saved_search: My Saved Search
-      other_saved_search: Other Saved Search
-      search_settings_list: Search Settings List
-    my_saved_searches:
-      action: Action
-      date: Date
-      description: Description
-      load: Load
-      name: Name
-    other_saved_searches:
-      action: Action
-      date: Date
-      description: Description
-      load: Load
-      name: Name
-      owner: Owner
-    save_search_setting:
-      description: Description
-      name: Name
-      new_search_setting: New Search Setting
   client_enrollment_trackings:
     action:
       new_tracking: New Tracking
@@ -920,6 +873,55 @@ en:
     answer_fields:
       answer: Answer
       yes_no: Yes/No
+    client_advanced_searches:
+      advanced_search:
+        add_new_filter: Add New Filter
+        add_new_group: Add Group
+        advanced_search: Advanced Search
+        assessments: Assessments
+        client_column: Client basic columns
+        csi_domain_scores: CSI Domain Scores
+        custom_form_column: Custom form columns
+        delete_group: Delete
+        export_to_xls: Export to XLS
+        load_save_search: Load Saved Search
+        no_results: No Result Found
+        program_stream_column: Program stream columns
+        reset: Reset
+        results: Results
+        save_search_settings: Save Search Settings
+        search: Search
+      form_option:
+        basic_fields: Basic Fields
+        csi_domain_scores: Csi Domain Scores
+        custom_form: Custom Form
+        enrollment: Enrollment
+        exit_program: Exit Program
+        filter_option: Please choose your query options below
+        program_stream: Program Stream
+        quantitative: Quantitative Type
+        tracking: Tracking
+      load_save_search:
+        my_saved_search: My Saved Search
+        other_saved_search: Other Saved Search
+        search_settings_list: Search Settings List
+      my_saved_searches:
+        action: Action
+        date: Date
+        description: Description
+        load: Load
+        name: Name
+      other_saved_searches:
+        action: Action
+        date: Date
+        description: Description
+        load: Load
+        name: Name
+        owner: Owner
+      save_search_setting:
+        description: Description
+        name: Name
+        new_search_setting: New Search Setting
     client_answers:
       answer: A
       client_able_answers: Client Able Answers
@@ -1081,7 +1083,6 @@ en:
     index:
       active_programs: Active Programs
       add_new_client: Add New Client
-      advanced_search: Advanced Search
       assessments: Assessments
       client_amount: Clients
       csi_domain_scores: CSI Domain Scores
@@ -1090,6 +1091,7 @@ en:
       export_to_xls: Export to XLS
       load: Loading more...
       reports: Quick Graph
+      report_builder: Report Builder
       results: Results
       sInfoShow: show results from
       sInfoTo: to

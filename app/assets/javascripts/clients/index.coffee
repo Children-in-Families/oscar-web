@@ -14,11 +14,72 @@ CIF.ClientsIndex = do ->
     _handleScrollTable()
     _setDefaultCheckColumnVisibilityAll()
     _getClientPath()
+    _checkClientSearchForm()
+    _initAdavanceSearchFilter()
+    _toggleCollapseFilter()
 
+  _hideClientFilters = ->
+    dataFilters = $('#client-search-form .datagrid-filter')
+    displayColumns = '#client_grid_given_name, #client_grid_family_name, #client_grid_gender, #client_grid_slug, #client_grid_status, #client_grid_user_ids'
+    $(dataFilters).hide()
+    $(dataFilters).children("#{displayColumns}").parents('.datagrid-filter').show()
+
+  _toggleCollapseFilter = ->
+    $('#client-search-form').on 'show.bs.collapse', ->
+      $('#client-advance-search-form').collapse('hide')
+
+    $('#client-advance-search-form').on 'show.bs.collapse', ->
+      $('#client-search-form').collapse('hide')
+
+  _checkClientSearchForm = ->
+    $("button.btn-filter").on 'click', ->
+      form = $(@).attr('class')
+      if form.includes('client-advance-search')
+        $('#filter_form').hide()
+      else
+        $('#filter_form').show()
+        _hideClientFilters()
+        _enableSelect2()
+
+  _initAdavanceSearchFilter = ->
+    advanceFilter = new CIF.ClientAdvanceSearch()
+    advanceFilter.initBuilderFilter()
+    advanceFilter.setValueToBuilderSelected()
+    advanceFilter.getTranslation()
+
+    advanceFilter.handleShowCustomFormSelect()
+    advanceFilter.customFormSelectChange()
+    advanceFilter.customFormSelectRemove()
+    advanceFilter.handleHideCustomFormSelect()
+    
+    advanceFilter.handleShowProgramStreamFilter()
+    advanceFilter.handleHideProgramStreamSelect()
+    advanceFilter.handleProgramSelectChange()
+    advanceFilter.triggerEnrollmentFields()
+    advanceFilter.triggerTrackingFields()
+    advanceFilter.triggerExitProgramFields()
+
+    advanceFilter.handleSelect2RemoveProgram()
+    advanceFilter.handleUncheckedEnrollment()
+    advanceFilter.handleUncheckedTracking()
+    advanceFilter.handleUncheckedExitProgram()
+
+    advanceFilter.handleAddQuantitativeFilter()
+    advanceFilter.handleRemoveQuantitativFilter()
+
+    advanceFilter.handleSearch()
+    advanceFilter.addRuleCallback()
+    advanceFilter.filterSelectChange()
+    advanceFilter.filterSelecting()
+    advanceFilter.preventDomainScore()
+    advanceFilter.disableOptionDomainScores()
+
+    advanceFilter.handleSaveQuery()
+    advanceFilter.validateSaveQuery()
 
   _setDefaultCheckColumnVisibilityAll = ->
     if $('.visibility .checked').length == 0
-      $('.all-visibility #all_').iCheck('check')
+      $('#client-column .all-visibility #all_').iCheck('check')
 
   _infiniteScroll = ->
     $("table.clients .page").infinitescroll

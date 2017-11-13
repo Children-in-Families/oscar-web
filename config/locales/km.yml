@@ -707,55 +707,55 @@ km:
         enter_task_detail: កាតព្វកិច្ចលំអិត
       update:
         successfully_updated: កាតព្វកិច្ចត្រូវបានកែសម្រួលដោយជោគជ័យ
-  client_advanced_searches:
-    form_option:
-      basic_fields: ពត៌មានទូទៅរបស់អតិថិជន
-      csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
-      custom_form: ទម្រង់បែបបទបន្ថែម
-      enrollment: ទម្រង់បែបបទនៃចុះឈ្មោះ
-      exit_program: ចាកចេញពីកម្មវិធី
-      filter_option: សូមជ្រើសជម្រើសសំណួររបស់អ្នកខាងក្រោម
-      program_stream: កម្មវិធីបន្ទាប់បន្សំ
-      tracking: តាមដាន
-      quantitative: ប្រភេទនៃបរិមាណ
-    index:
-      client_column: ជួរឈរពត៌មានទូទៅរបស់អតិថិជន
-      custom_form_column: ជួរឈរទម្រង់បែបបទបន្ថែម
-      load_save_search: ផ្ទុកការស្វែងរក
-      program_stream_column: ជួរឈរកម្មវិធីបន្ទាប់បន្សំ
-      add_new_filter: បន្ថែមលក្ខខ័ណ្ឌថ្មី
-      add_new_group: បន្ថែមក្រុមលក្ខខ័ណ្ឌថ្មី
-      advanced_search: ការស្វែងរកឆ្លាតវៃ
-      assessments: ការប៉ាន់ប្រមាណ
-      csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
-      delete_group: លុបក្រុមលក្ខខ័ណ្ឌនៃការស្វែងរក
-      export_to_xls: ទាញចេញជាឯកសារប្រភេទ XLS
-      no_results: មិនមានលទ្ធផល
-      reset: សំអាត
-      results: លទ្ធផល
-      save_search_settings: រក្សាទុកទម្រង់នៃការស្វែងរក
-      search: ស្វែងរក
-    load_save_search:
-      my_saved_search: ការស្វែងរករបស់ខ្ញុំ
-      other_saved_search: ការស្វែងរកដទៃទៀត
-      search_settings_list: តារាងការស្វែងរកឆ្លាតវៃ
-    my_saved_searches:
-      action: សកម្មភាព
-      date: កាលបរិច្ឆេទ
-      description: ការបរិយាយ
-      load: ផ្ទុកការស្វែងរក
-      name: ឈ្មោះ
-    other_saved_searches:
-      action: សកម្មភាព
-      date: កាលបរិច្ឆេទ
-      description: ការបរិយាយ
-      load: ផ្ទុកការស្វែងរក
-      name: ឈ្មោះ
-      owner: អ្នកបង្កើត
-    save_search_setting:
-      description: ការបរិយាយ
-      name: ឈ្មោះ
-      new_search_setting: ការស្វែងរកឆ្លាតវៃថ្មី
+  # client_advanced_searches:
+  #   form_option:
+  #     basic_fields: ពត៌មានទូទៅរបស់អតិថិជន
+  #     csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
+  #     custom_form: ទម្រង់បែបបទបន្ថែម
+  #     enrollment: ទម្រង់បែបបទនៃចុះឈ្មោះ
+  #     exit_program: ចាកចេញពីកម្មវិធី
+  #     filter_option: សូមជ្រើសជម្រើសសំណួររបស់អ្នកខាងក្រោម
+  #     program_stream: កម្មវិធីបន្ទាប់បន្សំ
+  #     tracking: តាមដាន
+  #     quantitative: ប្រភេទនៃបរិមាណ
+  #   index:
+  #     client_column: ជួរឈរពត៌មានទូទៅរបស់អតិថិជន
+  #     custom_form_column: ជួរឈរទម្រង់បែបបទបន្ថែម
+  #     load_save_search: ផ្ទុកការស្វែងរក
+  #     program_stream_column: ជួរឈរកម្មវិធីបន្ទាប់បន្សំ
+  #     add_new_filter: បន្ថែមលក្ខខ័ណ្ឌថ្មី
+  #     add_new_group: បន្ថែមក្រុមលក្ខខ័ណ្ឌថ្មី
+  #     advanced_search: ការស្វែងរកឆ្លាតវៃ
+  #     assessments: ការប៉ាន់ប្រមាណ
+  #     csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
+  #     delete_group: លុបក្រុមលក្ខខ័ណ្ឌនៃការស្វែងរក
+  #     export_to_xls: ទាញចេញជាឯកសារប្រភេទ XLS
+  #     no_results: មិនមានលទ្ធផល
+  #     reset: សំអាត
+  #     results: លទ្ធផល
+  #     save_search_settings: រក្សាទុកទម្រង់នៃការស្វែងរក
+  #     search: ស្វែងរក
+  #   load_save_search:
+  #     my_saved_search: ការស្វែងរករបស់ខ្ញុំ
+  #     other_saved_search: ការស្វែងរកដទៃទៀត
+  #     search_settings_list: តារាងការស្វែងរកឆ្លាតវៃ
+  #   my_saved_searches:
+  #     action: សកម្មភាព
+  #     date: កាលបរិច្ឆេទ
+  #     description: ការបរិយាយ
+  #     load: ផ្ទុកការស្វែងរក
+  #     name: ឈ្មោះ
+  #   other_saved_searches:
+  #     action: សកម្មភាព
+  #     date: កាលបរិច្ឆេទ
+  #     description: ការបរិយាយ
+  #     load: ផ្ទុកការស្វែងរក
+  #     name: ឈ្មោះ
+  #     owner: អ្នកបង្កើត
+  #   save_search_setting:
+  #     description: ការបរិយាយ
+  #     name: ឈ្មោះ
+  #     new_search_setting: ការស្វែងរកឆ្លាតវៃថ្មី
   client_enrollment_trackings:
     action:
       new_tracking: បន្ថែមការតាមដានថ្មី
@@ -973,6 +973,55 @@ km:
     answer_fields:
       answer: ចម្លើយ
       yes_no: បាទ/អត់ទេ
+    client_advanced_searches:
+      advanced_search:
+        client_column: ជួរឈរពត៌មានទូទៅរបស់អតិថិជន
+        custom_form_column: ជួរឈរទម្រង់បែបបទបន្ថែម
+        load_save_search: ផ្ទុកការស្វែងរក
+        program_stream_column: ជួរឈរកម្មវិធីបន្ទាប់បន្សំ
+        add_new_filter: បន្ថែមលក្ខខ័ណ្ឌថ្មី
+        add_new_group: បន្ថែមក្រុមលក្ខខ័ណ្ឌថ្មី
+        advanced_search: ការស្វែងរកឆ្លាតវៃ
+        assessments: ការប៉ាន់ប្រមាណ
+        csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
+        delete_group: លុបក្រុមលក្ខខ័ណ្ឌនៃការស្វែងរក
+        export_to_xls: ទាញចេញជាឯកសារប្រភេទ XLS
+        no_results: មិនមានលទ្ធផល
+        reset: សំអាត
+        results: លទ្ធផល
+        save_search_settings: រក្សាទុកទម្រង់នៃការស្វែងរក
+        search: ស្វែងរក
+      form_option:
+        basic_fields: ពត៌មានទូទៅរបស់អតិថិជន
+        csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
+        custom_form: ទម្រង់បែបបទបន្ថែម
+        enrollment: ទម្រង់បែបបទនៃចុះឈ្មោះ
+        exit_program: ចាកចេញពីកម្មវិធី
+        filter_option: សូមជ្រើសជម្រើសសំណួររបស់អ្នកខាងក្រោម
+        program_stream: កម្មវិធីបន្ទាប់បន្សំ
+        tracking: តាមដាន
+        quantitative: ប្រភេទនៃបរិមាណ
+      load_save_search:
+        my_saved_search: ការស្វែងរករបស់ខ្ញុំ
+        other_saved_search: ការស្វែងរកដទៃទៀត
+        search_settings_list: តារាងការស្វែងរកឆ្លាតវៃ
+      my_saved_searches:
+        action: សកម្មភាព
+        date: កាលបរិច្ឆេទ
+        description: ការបរិយាយ
+        load: ផ្ទុកការស្វែងរក
+        name: ឈ្មោះ
+      other_saved_searches:
+        action: សកម្មភាព
+        date: កាលបរិច្ឆេទ
+        description: ការបរិយាយ
+        load: ផ្ទុកការស្វែងរក
+        name: ឈ្មោះ
+        owner: អ្នកបង្កើត
+      save_search_setting:
+        description: ការបរិយាយ
+        name: ឈ្មោះ
+        new_search_setting: ការស្វែងរកឆ្លាតវៃថ្មី
     client_answers:
       answer: ចម្លើយ
       client_able_answers: ចម្លើយរបស់អតិថិជនកម្មវិធី អែបល
@@ -1134,7 +1183,6 @@ km:
     index:
       active_programs: ក្រាបកម្មវិធីបន្ទាប់បន្សំ
       add_new_client: បន្ថែមអតិថិជនថ្មី
-      advanced_search: ការស្វែងរកដែលឆ្លាតវៃ
       assessments: ការប៉ាន់ប្រមាណ
       client_amount: ចំនួនអតិថិជន
       csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
@@ -1143,6 +1191,7 @@ km:
       export_to_xls: ទាញចេញជាឯកសារប្រភេទ XLS
       load: កំពុងផ្ទុក...
       reports: របាយការណ៍
+      report_builder: ការស្វែងរកឆ្លាតវៃ
       results: លទ្ធផល
       sInfoShow: បង្ហាញទិន្នន័យចំនួន
       sInfoTo: ដល់
