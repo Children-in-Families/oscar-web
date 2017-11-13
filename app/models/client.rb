@@ -80,8 +80,8 @@ class Client < ActiveRecord::Base
   after_save :create_client_history
 
   scope :live_with_like,              ->(value) { where('clients.live_with iLIKE ?', "%#{value}%") }
-  scope :given_name_like,             ->(value) { where('clients.given_name iLIKE ?', "%#{value}%") }
-  scope :family_name_like,            ->(value) { where('clients.family_name iLIKE ?', "%#{value}%") }
+  scope :given_name_like,             ->(value) { where('clients.given_name iLIKE :value OR clients.local_given_name iLIKE :value', { value: "%#{value}%"}) }
+  scope :family_name_like,            ->(value) { where('clients.family_name iLIKE :value OR clients.local_family_name iLIKE :value', { value: "%#{value}%"}) }
   scope :local_given_name_like,       ->(value) { where('clients.local_given_name iLIKE ?', "%#{value}%") }
   scope :local_family_name_like,      ->(value) { where('clients.local_family_name iLIKE ?', "%#{value}%") }
   scope :current_address_like,        ->(value) { where('clients.current_address iLIKE ?', "%#{value}%") }
@@ -116,7 +116,6 @@ class Client < ActiveRecord::Base
 
   def self.filter(options)
     query = all
-
     query = query.where("given_name iLIKE ?", "%#{fetch_75_chars_of(options[:given_name])}%")                 if options[:given_name].present?
     query = query.where("family_name iLIKE ?", "%#{fetch_75_chars_of(options[:family_name])}%")               if options[:family_name].present?
     query = query.where("local_given_name iLIKE ?", "%#{fetch_75_chars_of(options[:local_given_name])}%")     if options[:local_given_name].present?
