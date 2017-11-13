@@ -70,7 +70,7 @@ class ApplicationController < ActionController::Base
   def detect_browser
     lang = params[:locale] || locale.to_s
     if browser.firefox? && browser.platform.mac? && lang == 'km'
-      "Application is not translated properly for Firefox on Mac, we're sorry to suggest to use Google Chrome browser instead."
+      "Khmer fonts for Firefox do not render correctly. Please use Google Chrome browser instead if you intend to use OSCaR in Khmer language."
     end
   end
 end
