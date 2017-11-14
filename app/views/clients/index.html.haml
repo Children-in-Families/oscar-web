@@ -11,10 +11,18 @@
           %span= t('.reports')
   .col-xs-12.col-md-8.col-lg-9
     .pull-right.client-option
+      %button.btn.btn-primary#load-saved-search{ 'data-toggle': 'modal', 'data-target': '#load-save-search' }
+        = t('.load_save_search')
+      %button.btn.btn-primary#save-search-setting{ 'data-toggle': 'modal', 'data-target': '#save-query' }
+        = t('.save_search_settings')
       - if can? :manage, Client
         = link_to t('.add_new_client'), new_client_path, class: 'btn btn-primary'
-      = link_to t('.csi_domain_scores'), current_url({format: 'xls', type: 'basic_info'}), class: 'btn btn-info btn-export'
-      = link_to t('.export_to_xls'), current_url(format: 'xls'), class: 'btn btn-info btn-export'
+      = link_to t('.export_to_xls'), current_url({format: 'xls', type: 'basic_info'}), class: 'btn btn-info btn-export'
+.row
+  = render 'clients/client_advanced_searches/save_search_setting'
+.row
+  = render 'clients/client_advanced_searches/load_save_search'
+
 .row
   .col-xs-12
     .ibox-content#client-advance-search-form.collapse

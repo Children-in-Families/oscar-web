@@ -218,4 +218,12 @@ module ClientsHelper
   def field_not_render(field)
     field.split('_').first
   end
+
+  def all_csi_domain_score_lists(object)
+    content_tag(:ul) do
+      object.assessments.each do |assessment|
+        concat(content_tag(:li, assessment.basic_info))
+      end
+    end
+  end
 end

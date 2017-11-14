@@ -1469,6 +1469,7 @@ km:
         age: អាយុ
         agencies_involved: អង្គភាពដែលពាក់ព័ន្ធ
         agency_names: ឈ្មោះអង្គភាព
+        all_csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
         any_assessments: មានការប៉ាន់ប្រមាណ
         assessments: ការប៉ាន់ប្រមាណ
         assessments_due_to: ដល់ពេលការប៉ាន់ប្រមាណ

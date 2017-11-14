@@ -649,6 +649,10 @@ class ClientGrid
     object.assessments.most_recents.map{ |a| a.created_at.to_date }.join(' | ') if object.assessments.any?
   end
 
+  column(:all_csi_domain_scores, header: -> { I18n.t('datagrid.columns.clients.all_csi_domain_scores') }, html: true) do |object|
+    render partial: 'clients/all_csi_domain_scores', locals: { object: object }
+  end
+
   dynamic do
     Domain.order_by_identity.each do |domain|
       identity = domain.identity
