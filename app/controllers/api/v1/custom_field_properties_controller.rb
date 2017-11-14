@@ -25,7 +25,6 @@ module Api
             @custom_field_property.properties = @custom_field_property.properties.merge({ c.name => c.file })
           end
           render json: @custom_field_property
-          render json: @custom_field_property
         else
           render json: @custom_field_property.errors, status: :unprocessable_entity
         end
