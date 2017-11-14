@@ -975,21 +975,21 @@ km:
       yes_no: បាទ/អត់ទេ
     client_advanced_searches:
       advanced_search:
-        client_column: ជួរឈរពត៌មានទូទៅរបស់អតិថិជន
-        custom_form_column: ជួរឈរទម្រង់បែបបទបន្ថែម
-        load_save_search: ផ្ទុកការស្វែងរក
-        program_stream_column: ជួរឈរកម្មវិធីបន្ទាប់បន្សំ
         add_new_filter: បន្ថែមលក្ខខ័ណ្ឌថ្មី
         add_new_group: បន្ថែមក្រុមលក្ខខ័ណ្ឌថ្មី
         advanced_search: ការស្វែងរកឆ្លាតវៃ
         assessments: ការប៉ាន់ប្រមាណ
+        client_column: ជួរឈរពត៌មានទូទៅរបស់អតិថិជន
         csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
+        custom_form_column: ជួរឈរទម្រង់បែបបទបន្ថែម
         delete_group: លុបក្រុមលក្ខខ័ណ្ឌនៃការស្វែងរក
         export_to_xls: ទាញចេញជាឯកសារប្រភេទ XLS
+        # load_save_search: ផ្ទុកការស្វែងរក
         no_results: មិនមានលទ្ធផល
+        program_stream_column: ជួរឈរកម្មវិធីបន្ទាប់បន្សំ
         reset: សំអាត
         results: លទ្ធផល
-        save_search_settings: រក្សាទុកទម្រង់នៃការស្វែងរក
+        # save_search_settings: រក្សាទុកទម្រង់នៃការស្វែងរក
         search: ស្វែងរក
       form_option:
         basic_fields: ពត៌មានទូទៅរបស់អតិថិជន
@@ -1183,6 +1183,7 @@ km:
     index:
       active_programs: ក្រាបកម្មវិធីបន្ទាប់បន្សំ
       add_new_client: បន្ថែមអតិថិជនថ្មី
+      all_csi_assessments: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
       assessments: ការប៉ាន់ប្រមាណ
       client_amount: ចំនួនអតិថិជន
       csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
@@ -1190,9 +1191,11 @@ km:
       end: អស់លទ្ធផល!
       export_to_xls: ទាញចេញជាឯកសារប្រភេទ XLS
       load: កំពុងផ្ទុក...
+      load_save_search: ផ្ទុកការស្វែងរក
       reports: របាយការណ៍
       report_builder: ការស្វែងរកឆ្លាតវៃ
       results: លទ្ធផល
+      save_search_settings: រក្សាទុកទម្រង់នៃការស្វែងរក
       sInfoShow: បង្ហាញទិន្នន័យចំនួន
       sInfoTo: ដល់
       sInfoTotal: នៃចំនួនសរុប
@@ -1446,6 +1449,7 @@ km:
       show: បង្ហាញ
   datagrid:
     columns:
+      all_csi_assessments: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
       carer_address: អាសយដ្ឋានអ្នកថែទាំ
       carer_names: ឈ្មោះអ្នកថែទាំ
       carer_phone_number: លេខទូរស័ព្ទអ្នកថែទាំ
@@ -1469,7 +1473,7 @@ km:
         age: អាយុ
         agencies_involved: អង្គភាពដែលពាក់ព័ន្ធ
         agency_names: ឈ្មោះអង្គភាព
-        all_csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
+        all_csi_assessments: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
         any_assessments: មានការប៉ាន់ប្រមាណ
         assessments: ការប៉ាន់ប្រមាណ
         assessments_due_to: ដល់ពេលការប៉ាន់ប្រមាណ

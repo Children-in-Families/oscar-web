@@ -17,10 +17,10 @@ module ClientGridOptions
 
   def domain_score_report
     return unless params['type'] == 'basic_info'
-    @client_grid.column(:assessments, header: t('.assessments')) do |client|
+    @client_grid.column(:all_csi_assessments, header: t('.all_csi_assessments')) do |client|
       client.assessments.map(&:basic_info).join("\x0D\x0A")
     end
-    @client_grid.column_names << :assessments if @client_grid.column_names.any?
+    @client_grid.column_names << :all_csi_assessments if @client_grid.column_names.any?
   end
 
   def csi_domain_score_report

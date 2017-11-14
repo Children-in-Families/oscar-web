@@ -219,7 +219,7 @@ module ClientsHelper
     field.split('_').first
   end
 
-  def all_csi_domain_score_lists(object)
+  def all_csi_assessment_lists(object)
     content_tag(:ul) do
       object.assessments.each do |assessment|
         concat(content_tag(:li, assessment.basic_info))

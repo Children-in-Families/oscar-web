@@ -884,12 +884,12 @@ en:
         custom_form_column: Custom form columns
         delete_group: Delete
         export_to_xls: Export to XLS
-        load_save_search: Load Saved Search
+        # load_save_search: Load Saved Search
         no_results: No Result Found
         program_stream_column: Program stream columns
         reset: Reset
         results: Results
-        save_search_settings: Save Search Settings
+        # save_search_settings: Save Search Settings
         search: Search
       form_option:
         basic_fields: Basic Fields
@@ -1083,6 +1083,7 @@ en:
     index:
       active_programs: Active Programs
       add_new_client: Add New Client
+      all_csi_assessments: All CSI Assessments
       assessments: Assessments
       client_amount: Clients
       csi_domain_scores: CSI Domain Scores
@@ -1090,9 +1091,11 @@ en:
       end: Loading end!
       export_to_xls: Export to XLS
       load: Loading more...
+      load_save_search: Load Saved Search
       reports: Quick Graph
       report_builder: Report Builder
       results: Results
+      save_search_settings: Save Search Settings
       sInfoShow: show results from
       sInfoTo: to
       sInfoTotal: of
@@ -1346,6 +1349,7 @@ en:
       show: Show
   datagrid:
     columns:
+      all_csi_assessments: All CSI Assessments
       carer_address: Carer Address
       carer_names: Carer Names
       carer_phone_number: Carer Phone Number
@@ -1369,7 +1373,7 @@ en:
         age: Age
         agencies_involved: Agencies Involved
         agency_names: Agency Name
-        all_csi_domain_scores: All CSI Domain Scores
+        all_csi_assessments: All CSI Assessments
         any_assessments: Has Assessments
         assessments: Assessments
         assessments_due_to: Assessments Due To

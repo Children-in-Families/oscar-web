@@ -68,7 +68,7 @@ class ClientColumnsVisibility
       case_note_date_: :case_note_date,
       case_note_type_: :case_note_type,
       date_of_assessments_: :date_of_assessments,
-      all_csi_domain_scores_: :all_csi_domain_scores,
+      all_csi_assessments_: :all_csi_assessments,
       donor_: :donor,
       manage_: :manage,
       changelog_: :changelog
