@@ -10,7 +10,8 @@ module Api
         custom_field_property = @client.custom_field_properties.new(custom_field_property_params)
         if custom_field_property.save
           custom_field_property.form_builder_attachments.map do |c|
-            custom_field_property.properties = custom_field_property.properties.merge({c.name => c.file})
+            file = c.file.any? ? c.file : ['']
+            custom_field_property.properties = custom_field_property.properties.merge({c.name => file})
           end
           render json: custom_field_property
         else
@@ -20,6 +21,10 @@ module Api
 
       def update
         if @custom_field_property.update_attributes(custom_field_property_params) && @custom_field_property.save
+          @custom_field_property.form_builder_attachments.map do |c|
+            file = c.file.any? ? c.file : ['']
+            @custom_field_property.properties = @custom_field_property.properties.merge({c.name => file})
+          end
           render json: @custom_field_property
         else
           render json: @custom_field_property.errors, status: :unprocessable_entity

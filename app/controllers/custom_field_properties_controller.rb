@@ -24,9 +24,11 @@ class CustomFieldPropertiesController < AdminController
   end
 
   def create
+
     @custom_field_property = @custom_formable.custom_field_properties.new(custom_field_property_params)
     authorize! :create, @custom_field_property
     if @custom_field_property.save
+      binding.pry
       redirect_to polymorphic_path([@custom_formable, CustomFieldProperty], custom_field_id: @custom_field), notice: t('.successfully_created')
     else
       render :new
