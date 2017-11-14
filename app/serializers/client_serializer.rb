@@ -108,7 +108,7 @@ class ClientSerializer < ActiveModel::Serializer
         enrollment.as_json.merge(trackings: trackings, leave_program: leave_program, enrollment_field: enrollment_field)
       end
       domains = program_stream.domains.map(&:identity)
-      program_stream.as_json(only: [:id, :name, :description, :quantity]).merge(domain: domains, enrollments: formatted_enrollments)
+      program_stream.as_json(only: [:id, :name, :description, :quantity, :tracking_required]).merge(domain: domains, enrollments: formatted_enrollments)
     end
   end
 
