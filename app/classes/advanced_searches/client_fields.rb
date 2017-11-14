@@ -26,7 +26,7 @@ module AdvancedSearches
     end
 
     def text_type_list
-      ['given_name', 'family_name', 'family', 'slug', 'referral_phone', 'house_number', 'street_number', 'village', 'commune', 'district', 'school_name']
+      ['given_name', 'family_name', 'local_given_name', 'local_family_name', 'family', 'slug', 'referral_phone', 'house_number', 'street_number', 'village', 'commune', 'district', 'school_name']
     end
 
     def date_type_list

@@ -92,18 +92,8 @@ module AdvancedSearches
       case operator
       when 'equal'
         if SENSITIVITY_FIELDS.include?(field)
-          given_names = ['given_name', 'local_given_name']
-          family_names = ['family_name', 'local_family_name']
-          if given_names.include?(field)
-            @sql_string << "lower(clients.given_name) = :given_name OR lower(clients.local_given_name) = :given_name"
-            @values << { given_name: value.downcase }
-          elsif family_names.include?(field)
-            @sql_string << "lower(clients.family_name) = :family_name OR lower(clients.local_family_name) = :family_name"
-            @values << { family_name: value.downcase }
-          else
-            @sql_string << "lower(clients.#{field}) = ?"
-            @values << value.downcase
-          end
+          @sql_string << "lower(clients.#{field}) = ?"
+          @values << value.downcase
         else
           @sql_string << "clients.#{field} = ?"
           @values << value
