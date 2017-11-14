@@ -90,22 +90,27 @@
             .visibility.col-sm-12
               = check_box_tag 'partner_', 'partner', checked = params[:partner_].present?, class: 'i-checks'
               = label_tag 'partner_', t('datagrid.columns.partner')
-          - if controller_name == 'client_advanced_searches'
-            %li
-              .visibility.col-sm-12
-                = check_box_tag 'case_note_date_', 'case_note_date', checked = params[:case_note_date_].present?, class: 'i-checks'
-                = label_tag 'case_note_date_', t('datagrid.columns.case_note_date')
-            %li
-              .visibility.col-sm-12
-                = check_box_tag 'case_note_type_', 'case_note_type', checked = params[:case_note_type_].present?, class: 'i-checks'
-                = label_tag 'case_note_type_', t('datagrid.columns.case_note_type')
-            %li.csi-header
-              %strong= t('.csi_domain_scores')
-            %li
-              .visibility.col-sm-12
-                = check_box_tag 'date_of_assessments_', 'date_of_assessments', checked = params[:date_of_assessments_].present?, class: 'i-checks'
-                = label_tag 'date_of_assessments_', t('datagrid.columns.date_of_assessments')
-            = render 'datagrid/domain_score_columns_picker'
+          / - if controller_name == 'client_advanced_searches'
+          %li
+            .visibility.col-sm-12
+              = check_box_tag 'case_note_date_', 'case_note_date', checked = params[:case_note_date_].present?, class: 'i-checks'
+              = label_tag 'case_note_date_', t('datagrid.columns.case_note_date')
+          %li
+            .visibility.col-sm-12
+              = check_box_tag 'case_note_type_', 'case_note_type', checked = params[:case_note_type_].present?, class: 'i-checks'
+              = label_tag 'case_note_type_', t('datagrid.columns.case_note_type')
+          %li.csi-header
+            %strong= t('.csi_domain_scores')
+          %li
+            .visibility.col-sm-12
+              = check_box_tag 'date_of_assessments_', 'date_of_assessments', checked = params[:date_of_assessments_].present?, class: 'i-checks'
+              = label_tag 'date_of_assessments_', t('datagrid.columns.date_of_assessments')
+          %li
+            .visibility.col-sm-12
+              = check_box_tag 'domain_scores_', 'domain_scores', checked = params[:domain_scores_].present?, class: 'i-checks'
+              = label_tag 'domain_scores_', t('datagrid.columns.domain_scores')
+          = render 'datagrid/domain_score_columns_picker'
+
           %li.divider.col-xs-12
           %li
             .visibility.col-sm-12

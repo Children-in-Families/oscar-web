@@ -29,11 +29,12 @@ class ClientsController < AdminController
           #@cases_statistics = CaseStatistic.new(@client_grid.assets).statistic_data.to_json
           @enrollments_statistics = ActiveEnrollmentStatistic.new(@client_grid.assets).statistic_data.to_json
           @results          = @client_grid.scope { |scope| scope.accessible_by(current_ability) }.assets.size
-          @client_grid.scope { |scope| scope.accessible_by(current_ability).page(params[:page]).per(20) }
+          @client_grid.scope { |scope| scope.accessible_by(current_ability).page(params[:page]).per(80) }
         end
         f.xls do
           @client_grid.scope { |scope| scope.accessible_by(current_ability) }
           domain_score_report
+          csi_domain_score_report
           send_data @client_grid.to_xls, filename: "client_report-#{Time.now}.xls"
         end
       end
