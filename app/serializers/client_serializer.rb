@@ -99,7 +99,7 @@ class ClientSerializer < ActiveModel::Serializer
 
   def program_streams
     ProgramStream.active_enrollments(object).map do |program_stream|
-      formatted_enrollments = program_stream.client_enrollments.enrollments_by(object).active.map do |enrollment|
+      formatted_enrollments = program_stream.client_enrollments.enrollments_by(object).map do |enrollment|
         enrollment_field = program_stream.enrollment
         trackings = enrollment.client_enrollment_trackings.map do |tracking|
           tracking.as_json.merge(tracking_field: tracking.tracking.fields)
@@ -117,7 +117,7 @@ class ClientSerializer < ActiveModel::Serializer
 
   def inactive_program_streams
     ProgramStream.inactive_enrollments(object).map do |program_stream|
-      formatted_enrollments = program_stream.client_enrollments.enrollments_by(object).inactive.map do |enrollment|
+      formatted_enrollments = program_stream.client_enrollments.enrollments_by(object).map do |enrollment|
         enrollment_field = program_stream.enrollment
         trackings = enrollment.client_enrollment_trackings.map do |tracking|
           tracking.as_json.merge(tracking_field: tracking.tracking.fields)
