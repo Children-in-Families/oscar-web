@@ -59,7 +59,7 @@ module ClientGridOptions
   end
 
   def admin_client_grid
-    if params[:client_grid] && params[:client_grid][:quantitative_types]
+    if params[:client_grid] && params[:client_grid][:quantitative_types].present?
       quantitative_types = params[:client_grid][:quantitative_types]
       @client_grid = ClientGrid.new(params.fetch(:client_grid, {}).merge!(qType: quantitative_types, dynamic_columns: column_form_builder))
     else
@@ -68,11 +68,10 @@ module ClientGridOptions
   end
 
   def non_admin_client_grid
-    if params[:client_grid] && params[:client_grid][:quantitative_types]
+    if params[:client_grid] && params[:client_grid][:quantitative_types].present?
       quantitative_types = params[:client_grid][:quantitative_types]
       @client_grid = ClientGrid.new(params.fetch(:client_grid, {}).merge!(current_user: current_user, qType: quantitative_types, dynamic_columns: column_form_builder))
     else
-
       @client_grid = ClientGrid.new(params.fetch(:client_grid, {}).merge!(current_user: current_user, dynamic_columns: column_form_builder))
     end
   end

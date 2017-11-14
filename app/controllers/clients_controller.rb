@@ -17,7 +17,6 @@ class ClientsController < AdminController
   before_action :choose_grid, only: :index
   before_action :find_resources, only: :show
 
-
   def index
     if has_params?
       advanced_search
@@ -26,7 +25,6 @@ class ClientsController < AdminController
       respond_to do |f|
         f.html do
           @csi_statistics   = CsiStatistic.new(@client_grid.assets).assessment_domain_score.to_json
-          #@cases_statistics = CaseStatistic.new(@client_grid.assets).statistic_data.to_json
           @enrollments_statistics = ActiveEnrollmentStatistic.new(@client_grid.assets).statistic_data.to_json
           @results          = @client_grid.scope { |scope| scope.accessible_by(current_ability) }.assets.size
           @client_grid.scope { |scope| scope.accessible_by(current_ability).page(params[:page]).per(20) }
