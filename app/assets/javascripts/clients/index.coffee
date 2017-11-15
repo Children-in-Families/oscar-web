@@ -17,6 +17,15 @@ CIF.ClientsIndex = do ->
     _checkClientSearchForm()
     _initAdavanceSearchFilter()
     _toggleCollapseFilter()
+    _handleAutoCollapse()
+
+  _handleAutoCollapse = ->
+    params = window.location.search.substr(1)
+
+    if params.includes('client_advanced_search')
+      $("button[data-target='#client-advance-search-form']").trigger('click')
+    else
+      $("button[data-target='#client-search-form']").trigger('click')
 
   _hideClientFilters = ->
     dataFilters = $('#client-search-form .datagrid-filter')
