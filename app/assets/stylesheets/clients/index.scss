@@ -2,6 +2,10 @@ body[id='clients-index'] {
   @import 'iCheck/custom';
   @import 'clients/client_grid';
 
+  #client-search-form {
+    margin-top: 15px;
+  }
+
   .highcharts-legend-item path{
     cursor: pointer;
   }
@@ -49,7 +53,7 @@ body[id='clients-index'] {
     }
   }
   /////////////////////// client advance search ////////////////////////////////
-  
+
   #client-advance-search-form {
     margin-top: 16px;
   }
