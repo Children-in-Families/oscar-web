@@ -41,7 +41,7 @@ CIF.ClientsIndex = do ->
       $('#client-search-form').collapse('hide')
 
   _checkClientSearchForm = ->
-    $("button.btn-filter").on 'click', ->
+    $("button.query").on 'click', ->
       form = $(@).attr('class')
       if form.includes('client-advance-search')
         $('#filter_form').hide()
