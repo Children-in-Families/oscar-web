@@ -99,42 +99,47 @@ class ClientSerializer < ActiveModel::Serializer
 
   def program_streams
     ProgramStream.active_enrollments(object).map do |program_stream|
-      formatted_enrollments = program_stream.client_enrollments.enrollments_by(object).map do |enrollment|
-        enrollment_field = program_stream.enrollment
-        trackings = enrollment.client_enrollment_trackings.map do |tracking|
-          tracking.as_json.merge(tracking_field: tracking.tracking.fields)
-        end
-        leave_program = enrollment.leave_program.as_json.merge(leave_program_field: program_stream.exit_program) if enrollment.leave_program.present?
-        enrollment.as_json.merge(trackings: trackings, leave_program: leave_program, enrollment_field: enrollment_field)
-      end
-      domains = program_stream.domains.map(&:identity)
-      if program_stream.quantity.present?
-        program_stream.quantity = program_stream.number_available_for_client
-      end
-      program_stream.as_json(only: [:id, :name, :description, :quantity, :tracking_required]).merge(domain: domains, enrollments: formatted_enrollments)
+      list_program_stream(program_stream)
     end
   end
 
   def inactive_program_streams
     ProgramStream.inactive_enrollments(object).map do |program_stream|
-      formatted_enrollments = program_stream.client_enrollments.enrollments_by(object).map do |enrollment|
-        enrollment_field = program_stream.enrollment
-        trackings = enrollment.client_enrollment_trackings.map do |tracking|
-          tracking.as_json.merge(tracking_field: tracking.tracking.fields)
-        end
-        leave_program = enrollment.leave_program.as_json.merge(leave_program_field: program_stream.exit_program) if enrollment.leave_program.present?
-        enrollment.as_json.merge(trackings: trackings, leave_program: leave_program, enrollment_field: enrollment_field)
-      end
-      domains = program_stream.domains.map(&:identity)
-      if program_stream.quantity.present?
-        program_stream.quantity = program_stream.number_available_for_client
-      end
-      program_stream.as_json(only: [:id, :name, :description, :quantity, :tracking_required]).merge(domain: domains, enrollments: formatted_enrollments)
+      list_program_stream(program_stream)
     end
   end
 
   def add_forms
     custom_field_ids = object.custom_field_properties.pluck(:custom_field_id)
     CustomField.client_forms.not_used_forms(custom_field_ids).order_by_form_title
+  end
+
+  def list_program_stream(program_stream)
+    formatted_enrollments = program_stream.client_enrollments.enrollments_by(object).map do |enrollment|
+      enrollment.form_builder_attachments.map do |c|
+        enrollment.properties = enrollment.properties.merge({c.name => c.file})
+      end
+      enrollment_field = program_stream.enrollment
+      trackings = enrollment.client_enrollment_trackings.map do |tracking|
+        tracking.form_builder_attachments.map do |c|
+          tracking.properties = tracking.properties.merge({c.name => c.file})
+        end
+        tracking.as_json.merge(tracking_field: tracking.tracking.fields)
+      end
+      leave_program = []
+      if enrollment.leave_program.present?
+        leave_program = enrollment.leave_program
+        leave_program.form_builder_attachments.map do |c|
+          leave_program.properties = leave_program.properties.merge({c.name => c.file})
+        end
+        leave_program = leave_program.as_json.merge(leave_program_field: program_stream.exit_program)
+      end
+      enrollment.as_json.merge(trackings: trackings, leave_program: leave_program, enrollment_field: enrollment_field)
+    end
+    domains = program_stream.domains.map(&:identity)
+    if program_stream.quantity.present?
+      program_stream.quantity = program_stream.number_available_for_client
+    end
+    program_stream.as_json(only: [:id, :name, :description, :quantity, :tracking_required]).merge(domain: domains, enrollments: formatted_enrollments)
   end
 end
