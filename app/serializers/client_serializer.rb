@@ -126,7 +126,6 @@ class ClientSerializer < ActiveModel::Serializer
         end
         tracking.as_json.merge(tracking_field: tracking.tracking.fields)
       end
-      leave_program = []
       if enrollment.leave_program.present?
         leave_program = enrollment.leave_program
         leave_program.form_builder_attachments.map do |c|
