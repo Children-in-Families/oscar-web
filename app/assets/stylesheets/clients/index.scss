@@ -1,19 +1,11 @@
 body[id='clients-index'] {
   @import 'iCheck/custom';
   @import 'clients/client_grid';
-  #client-search-form {
-    margin-top: 16px;
-  }
-  .client-advance-search {
-    margin-left: 10px;
-  }
 
   .highcharts-legend-item path{
     cursor: pointer;
   }
-  #client-statistic{
-    margin-left: 10px;
-  }
+
   #client-statistic-body{
     display: none;
     margin-bottom: 0;
@@ -167,5 +159,13 @@ body[id='clients-index'] {
     li.active a {
       border-bottom-color: #fff;
     }
+  }
+
+  .column-picker {
+    margin-bottom: 15px;
+  }
+
+  .ibox-content.no-border {
+    border-style: none;
   }
 }
