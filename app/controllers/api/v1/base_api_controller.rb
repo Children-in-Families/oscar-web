@@ -11,7 +11,7 @@ module Api
       end
 
       def authenticate_user_request
-        unless request.headers['access-token'] == ENV['ACCESS-TOKEN'] && request.headers['request-from'] == ENV['REQUEST-FROM'] && request.headers['client'] == ENV['CLIENT'] && request.headers['uid'] == ENV['UID']
+        unless request.headers['access-token'] == ENV['ACCESS_TOKEN'] && request.headers['request-from'] == ENV['REQUEST_FROM'] && request.headers['client'] == ENV['CLIENT'] && request.headers['uid'] == ENV['UID']
           authenticate_user!
         end
       end
