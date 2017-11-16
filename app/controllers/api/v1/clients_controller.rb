@@ -16,9 +16,7 @@ module Api
           format.pdf do
             @interviewee_names = @client.interviewees.pluck(:name)
             @client_type_names = @client.client_types.pluck(:name)
-            pdf = WickedPdf.new.pdf_from_string (
-                  render_to_string(
-                    pdf:      'show',
+            render  pdf:      'show',
                     template: 'clients/show.pdf.haml',
                     page_size: 'A4',
                     layout:   'pdf_design.html.haml',
@@ -28,9 +26,6 @@ module Api
                     margin: { left: 0, right: 0, top: 10 },
                     dpi: '72',
                     disposition: 'inline'
-                  )
-            )
-            render json: pdf
           end
         end
       end
