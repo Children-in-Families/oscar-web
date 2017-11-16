@@ -196,7 +196,7 @@ class ClientsController < AdminController
   def initial_visit_client
     referrer = Rails.application.routes.recognize_path(request.referrer)
     return unless referrer.present?
-    white_list_referrers = %w(clients client_advanced_searches)
+    white_list_referrers = %w(clients)
     controller_name = referrer[:controller]
 
     VisitClient.initial_visit_client(current_user) if white_list_referrers.include?(controller_name)
