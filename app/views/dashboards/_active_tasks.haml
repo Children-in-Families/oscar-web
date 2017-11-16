@@ -1,0 +1,76 @@
+.modal.fade.modal-fullscree#active_tasks_list{ 'aria-labelledby': 'gridSystemModalLabel', role: 'dialog', tabindex: '-1' }
+  .modal-dialog.modal-lg{ role: 'document' }
+    .modal-content
+      .modal-body
+        .panel.panel-default#users-task-panel
+          .panel-heading.active-task-heading
+            %h3.text-center= t('.all_active_tasks')
+          .panel-body
+            .row
+              .col-xs-12
+                - if can? :read, Task
+                  - unless current_user.case_worker?
+                    .panel.panel-default
+                      .panel-body
+                        = render 'users_filter'
+                - if params[:user_id] || current_user.case_worker? || current_user.any_case_manager? || current_user.able_manager?
+                  .panel.panel-danger#overdue-tasks
+                    .panel-heading
+                      .row
+                        .col-xs-6
+                          %h5= t('.overdue_tasks')
+                    .panel-body
+                      - grouped_tasks = @tasks.overdue.group_by do |task|
+                        - task.client
+                      - grouped_tasks.each do |client, tasks|
+                        .ibox.border-left-right.border-bottom
+                          .ibox-title
+                            %h5
+                              = link_to client.name, client_path(client), target: :_blank
+                          .ibox-content.no-padding
+                            %table.table.table-striped.active_tasks
+                              - tasks.each do |task|
+                                %tr
+                                  %td.col-xs-3= "#{t('.domain')} #{task.domain.name}"
+                                  %td.col-xs-6.task-name.border-left-right= task.name
+                                  %td.col-xs-3= task.completion_date.strftime("%B %d, %Y")
+                  .panel.panel-info#duetoday-tasks
+                    .panel-heading
+                      .row
+                        .col-xs-6
+                          %h5= t('.today_tasks')
+                    .panel-body
+                      - grouped_tasks = @tasks.today.group_by do |task|
+                        - task.client
+                      - grouped_tasks.each do |client, tasks|
+                        .ibox.border-left-right.border-bottom
+                          .ibox-title
+                            %h5
+                              = link_to client.name, client_path(client), target: :_blank
+                          .ibox-content.no-padding
+                            %table.table.table-striped.active_tasks
+                              - tasks.each do |task|
+                                %tr
+                                  %td.col-xs-3= "#{t('.domain')} #{task.domain.name}"
+                                  %td.col-xs-6.task-name.border-left-right= task.name
+                                  %td.col-xs-3= task.completion_date.strftime("%B %d, %Y")
+                  .panel.panel-primary#due-tomorrow-tasks
+                    .panel-heading
+                      .row
+                        .col-xs-6
+                          %h5= t('.upcoming_tasks')
+                    .panel-body
+                      - grouped_tasks = @tasks.upcoming.group_by do |task|
+                        - task.client
+                      - grouped_tasks.each do |client, tasks|
+                        .ibox.border-left-right.border-bottom
+                          .ibox-title
+                            %h5
+                              = link_to client.name, client_path(client), target: :_blank
+                          .ibox-content.no-padding
+                            %table.table.table-striped.active_tasks
+                              - tasks.each do |task|
+                                %tr
+                                  %td.col-xs-3= "#{t('.domain')} #{task.domain.name}"
+                                  %td.col-xs-6.task-name.border-left-right= task.name
+                                  %td.col-xs-3= task.completion_date.strftime("%B %d, %Y")

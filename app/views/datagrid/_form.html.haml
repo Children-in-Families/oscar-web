@@ -1,7 +1,7 @@
 = form_for grid, options do |f|
   = hidden_field_tag :locale, params[:locale]
 
-  - if controller_name == 'clients' || controller_name == 'client_advanced_searches'
+  - if controller_name == 'clients'
     %ul.check-columns-visibility{ 'aria-labelledby': 'dropdownMenuDivider' }
       %li.dropdown
         %a.dropdown-toggle.btn.btn-default{'data-toggle' => 'dropdown', href: '#'}
@@ -90,22 +90,27 @@
             .visibility.col-sm-12
               = check_box_tag 'partner_', 'partner', checked = params[:partner_].present?, class: 'i-checks'
               = label_tag 'partner_', t('datagrid.columns.partner')
-          - if controller_name == 'client_advanced_searches'
-            %li
-              .visibility.col-sm-12
-                = check_box_tag 'case_note_date_', 'case_note_date', checked = params[:case_note_date_].present?, class: 'i-checks'
-                = label_tag 'case_note_date_', t('datagrid.columns.case_note_date')
-            %li
-              .visibility.col-sm-12
-                = check_box_tag 'case_note_type_', 'case_note_type', checked = params[:case_note_type_].present?, class: 'i-checks'
-                = label_tag 'case_note_type_', t('datagrid.columns.case_note_type')
-            %li.csi-header
-              %strong= t('.csi_domain_scores')
-            %li
-              .visibility.col-sm-12
-                = check_box_tag 'date_of_assessments_', 'date_of_assessments', checked = params[:date_of_assessments_].present?, class: 'i-checks'
-                = label_tag 'date_of_assessments_', t('datagrid.columns.date_of_assessments')
-            = render 'datagrid/domain_score_columns_picker'
+          / - if controller_name == 'client_advanced_searches'
+          %li
+            .visibility.col-sm-12
+              = check_box_tag 'case_note_date_', 'case_note_date', checked = params[:case_note_date_].present?, class: 'i-checks'
+              = label_tag 'case_note_date_', t('datagrid.columns.case_note_date')
+          %li
+            .visibility.col-sm-12
+              = check_box_tag 'case_note_type_', 'case_note_type', checked = params[:case_note_type_].present?, class: 'i-checks'
+              = label_tag 'case_note_type_', t('datagrid.columns.case_note_type')
+          %li.csi-header
+            %strong= t('.csi_domain_scores')
+          %li
+            .visibility.col-sm-12
+              = check_box_tag 'date_of_assessments_', 'date_of_assessments', checked = params[:date_of_assessments_].present?, class: 'i-checks'
+              = label_tag 'date_of_assessments_', t('datagrid.columns.date_of_assessments')
+          %li
+            .visibility.col-sm-12
+              = check_box_tag 'all_csi_assessments_', 'all_csi_assessments', checked = params[:all_csi_assessments_].present?, class: 'i-checks'
+              = label_tag 'all_csi_assessments_', t('datagrid.columns.all_csi_assessments')
+          = render 'datagrid/domain_score_columns_picker'
+
           %li.divider.col-xs-12
           %li
             .visibility.col-sm-12
@@ -116,8 +121,7 @@
               = check_box_tag 'changelog_', 'changelog', checked = params[:changelog_].present?, class: 'i-checks'
               = label_tag 'changelog_', t('datagrid.columns.changelog')
 
-
-  - if controller_name != 'client_advanced_searches'
+  #filter_form
     %hr/
     .row
       - grid.filters.each do |filter|
@@ -125,19 +129,6 @@
           .datagrid-filter.filter
             = f.datagrid_label filter, title: filter.header
             = f.datagrid_filter filter, partials: options[:partials]
-    - if clients_controller?
-      .row
-        .col-xs-12.domain-filter-search
-          %button.btn.btn-primary.btn-filter{"aria-expanded" => 'false', "data-target" => '#client-search-domain', "data-toggle" => 'collapse', type: 'button'}
-            %i.fa.fa-filter
-            %span= t('.filter_domains')
-      .row#client-search-domain.collapse
-        - grid.filters.each do |filter|
-          - if filter.type == :dynamic
-            .col-sm-4.domain-filter.filter
-              %label{ title: filter.header }
-                = truncate(filter.header, length: 40)
-              = f.datagrid_filter filter, partials: options[:partials]
     .row
       .datagrid-actions
         = f.submit I18n.t('datagrid.form.search').html_safe, class: 'btn btn-primary datagrid-submit'

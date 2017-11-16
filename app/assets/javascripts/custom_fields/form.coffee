@@ -71,14 +71,14 @@ CIF.Custom_fieldsNew = CIF.Custom_fieldsCreate = CIF.Custom_fieldsEdit = CIF.Cus
   _initFormBuilder = ->
     builderOption = new CIF.CustomFormBuilder()
     fields = $('.build-wrap').data('fields') || []
-    
+
     formBuilder = $('.build-wrap').formBuilder
       templates: separateLine: (fieldData) ->
         { field: '<hr/>' }
       fields: builderOption.thematicBreak()
       dataType: 'json'
       formData:  JSON.stringify(fields)
-      disableFields: ['autocomplete', 'header', 'hidden', 'paragraph', 'button', 'checkbox']
+      disableFields: ['autocomplete', 'header', 'hidden', 'button', 'checkbox']
       showActionButtons: false
       messages: {
         cannotBeEmpty: 'name_separated_with_underscore'
@@ -101,6 +101,7 @@ CIF.Custom_fieldsNew = CIF.Custom_fieldsCreate = CIF.Custom_fieldsEdit = CIF.Cus
         text: builderOption.eventTextFieldOption()
         textarea: builderOption.eventTextAreaOption()
         separateLine: builderOption.eventSeparateLineOption()
+        paragraph: builderOption.eventParagraphOption()
       }
 
     $("#custom-field-submit").click (event) ->
@@ -151,6 +152,9 @@ CIF.Custom_fieldsNew = CIF.Custom_fieldsCreate = CIF.Custom_fieldsEdit = CIF.Cus
     for labelField in labelFields
       parent = $(labelField).parent()
       text = labelField.textContent
-      $(parent).children('div.field-actions').remove() if fields.includes(text)
+      if fields.includes(text)
+        $(parent).children('div.field-actions').remove()
+        $(parent).on 'dblclick', (e) ->
+          e.stopPropagation()
 
   { init: _init }

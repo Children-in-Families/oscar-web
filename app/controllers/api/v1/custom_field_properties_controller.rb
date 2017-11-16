@@ -10,7 +10,7 @@ module Api
         custom_field_property = @client.custom_field_properties.new(custom_field_property_params)
         if custom_field_property.save
           custom_field_property.form_builder_attachments.map do |c|
-            custom_field_property.properties = custom_field_property.properties.merge({c.name => c.file})
+            custom_field_property.properties = custom_field_property.properties.merge({ c.name => c.file })
           end
           render json: custom_field_property
         else
@@ -20,6 +20,10 @@ module Api
 
       def update
         if @custom_field_property.update_attributes(custom_field_property_params) && @custom_field_property.save
+          add_more_attachments(@custom_field_property)
+          @custom_field_property.form_builder_attachments.map do |c|
+            @custom_field_property.properties = @custom_field_property.properties.merge({ c.name => c.file })
+          end
           render json: @custom_field_property
         else
           render json: @custom_field_property.errors, status: :unprocessable_entity
@@ -51,19 +55,6 @@ module Api
         default_params = default_params.merge(properties: properties_params) if properties_params.present?
         default_params = default_params.merge(form_builder_attachments_attributes: attachment_params) if action_name == 'create' && attachment_params.present?
         default_params
-      end
-
-      def add_more_attachments(new_files)
-        files = @custom_field_property.attachments
-        files += new_files
-        @custom_field_property.attachments = files
-      end
-
-      def remove_attachment_at_index(index)
-        remain_attachment = @custom_field_property.attachments
-        deleted_attachment = remain_attachment.delete_at(index)
-        deleted_attachment.try(:remove!)
-        remain_attachment.empty? ? @custom_field_property.remove_attachments! : (@custom_field_property.attachments = remain_attachment )
       end
     end
   end

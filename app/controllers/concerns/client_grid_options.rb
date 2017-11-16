@@ -17,22 +17,22 @@ module ClientGridOptions
 
   def domain_score_report
     return unless params['type'] == 'basic_info'
-    @client_grid.column(:assessments, header: t('.assessments')) do |client|
+    @client_grid.column(:all_csi_assessments, header: t('.all_csi_assessments')) do |client|
       client.assessments.map(&:basic_info).join("\x0D\x0A")
     end
-    @client_grid.column_names << :assessments if @client_grid.column_names.any?
+    @client_grid.column_names << :all_csi_assessments if @client_grid.column_names.any?
   end
 
   def csi_domain_score_report
-    if params[:controller] != 'clients'
-      Domain.order_by_identity.each do |domain|
-        identity = domain.identity
-        @client_grid.column(domain.convert_identity.to_sym, class: 'domain-scores', header: identity) do |client|
-          assessment = client.assessments.latest_record
-          assessment.assessment_domains.find_by(domain_id: domain.id).try(:score) if assessment.present?
-        end
+    # if params[:controller] != 'clients'
+    Domain.order_by_identity.each do |domain|
+      identity = domain.identity
+      @client_grid.column(domain.convert_identity.to_sym, class: 'domain-scores', header: identity) do |client|
+        assessment = client.assessments.latest_record
+        assessment.assessment_domains.find_by(domain_id: domain.id).try(:score) if assessment.present?
       end
     end
+    # end
   end
 
   def form_builder_report
@@ -59,7 +59,7 @@ module ClientGridOptions
   end
 
   def admin_client_grid
-    if params[:client_grid] && params[:client_grid][:quantitative_types]
+    if params[:client_grid] && params[:client_grid][:quantitative_types].present?
       quantitative_types = params[:client_grid][:quantitative_types]
       @client_grid = ClientGrid.new(params.fetch(:client_grid, {}).merge!(qType: quantitative_types, dynamic_columns: column_form_builder))
     else
@@ -68,11 +68,10 @@ module ClientGridOptions
   end
 
   def non_admin_client_grid
-    if params[:client_grid] && params[:client_grid][:quantitative_types]
+    if params[:client_grid] && params[:client_grid][:quantitative_types].present?
       quantitative_types = params[:client_grid][:quantitative_types]
       @client_grid = ClientGrid.new(params.fetch(:client_grid, {}).merge!(current_user: current_user, qType: quantitative_types, dynamic_columns: column_form_builder))
     else
-
       @client_grid = ClientGrid.new(params.fetch(:client_grid, {}).merge!(current_user: current_user, dynamic_columns: column_form_builder))
     end
   end

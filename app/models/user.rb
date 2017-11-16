@@ -71,18 +71,14 @@ class User < ActiveRecord::Base
 
   def build_permission
     unless self.admin? || self.strategic_overviewer?
-      Permission.create(user: self, case_notes_readable: true, case_notes_editable: true, assessments_readable: true, assessments_editable: true)
+      self.create_permission
 
       CustomField.all.each do |cf|
-        if self.case_worker?
-          self.custom_field_permissions.create(custom_field_id: cf.id)
-        else
-          self.custom_field_permissions.create(custom_field_id: cf.id, readable: true, editable: true)
-        end
+        self.custom_field_permissions.create(custom_field_id: cf.id)
       end
 
       ProgramStream.all.each do |ps|
-        self.program_stream_permissions.create(program_stream_id: ps.id, readable: true)
+        self.program_stream_permissions.create(program_stream_id: ps.id)
       end
     end
   end
@@ -119,7 +115,7 @@ class User < ActiveRecord::Base
   end
 
   def no_any_associated_objects?
-    clients_count.zero? && tasks_count.zero? && changelogs_count.zero? && progress_notes.count.zero?
+    clients.count.zero? && tasks.count.zero? && changelogs.count.zero? && progress_notes.count.zero?
   end
 
   def client_status

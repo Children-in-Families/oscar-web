@@ -68,6 +68,7 @@ class ClientColumnsVisibility
       case_note_date_: :case_note_date,
       case_note_type_: :case_note_type,
       date_of_assessments_: :date_of_assessments,
+      all_csi_assessments_: :all_csi_assessments,
       donor_: :donor,
       manage_: :manage,
       changelog_: :changelog
@@ -85,13 +86,13 @@ class ClientColumnsVisibility
 
   def domain_score_columns
     columns = columns_collection
-    if @params[:controller] != 'clients'
-      Domain.order_by_identity.each do |domain|
-        identity = domain.identity
-        field = domain.convert_identity
-        columns = columns.merge!("#{field}_": field.to_sym)
-      end
+    # if @params[:controller] != 'clients'
+    Domain.order_by_identity.each do |domain|
+      identity = domain.identity
+      field = domain.convert_identity
+      columns = columns.merge!("#{field}_": field.to_sym)
     end
+    # end
     columns
   end
 

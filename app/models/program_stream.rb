@@ -33,7 +33,7 @@ class ProgramStream < ActiveRecord::Base
   def build_permission
     User.all.each do |user|
       next if user.admin? || user.strategic_overviewer?
-      self.program_stream_permissions.find_or_create_by(user: user, readable: true)
+      self.program_stream_permissions.find_or_create_by(user: user)
     end
   end
 
@@ -55,7 +55,7 @@ class ProgramStream < ActiveRecord::Base
     FORM_BUILDER_FIELDS.each do |field|
       labels = []
       next unless send(field.to_sym).present?
-      send(field.to_sym).map{ |obj| labels << obj['label'] if obj['label'] != 'Separation Line' }
+      send(field.to_sym).map{ |obj| labels << obj['label'] if obj['label'] != 'Separation Line' && obj['type'] != 'paragraph' }
       errors_massage << (errors.add field.to_sym, "Fields duplicated!") unless (labels.uniq.length == labels.length)
     end
     errors_massage
