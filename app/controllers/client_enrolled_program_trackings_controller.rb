@@ -8,6 +8,8 @@ class ClientEnrolledProgramTrackingsController < AdminController
   before_action :find_tracking, except: [:index, :show, :destroy]
   before_action :find_client_enrollment_tracking, only: [:update, :destroy, :edit, :show]
   before_action :get_attachments, only: [:new, :create, :edit, :update]
+  before_action -> { check_user_permission('editable') }, except: [:index, :show, :report]
+  before_action -> { check_user_permission('readable') }, only: :show
 
   def index
     @tracking_grid = ClientEnrolledProgramTrackingGrid.new(params[:tracking_grid])
@@ -46,12 +48,13 @@ class ClientEnrolledProgramTrackingsController < AdminController
   end
 
   def show
+    check_user_permission('readable')
   end
 
   def destroy
     name = params[:file_name]
     index = params[:file_index].to_i
-    params_program_streams = params[:program_streams]
+
     notice = ""
     if name.present? && index.present?
       delete_form_builder_attachment(@client_enrollment_tracking, name, index)

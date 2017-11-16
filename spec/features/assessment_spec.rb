@@ -59,6 +59,19 @@ describe "Assessment" do
       click_link 'Done'
       expect(page).to have_content('This field is required')
     end
+
+    context 'assessments editable permission' do
+      scenario 'user has editable permission' do
+        expect(new_client_assessment_path(client)).to have_content(current_path)
+      end
+
+      scenario 'user does not have editable permission' do
+        user.permission.update(assessments_editable: false)
+
+        visit new_client_assessment_path(client)
+        expect(dashboards_path).to have_content(current_path)
+      end
+    end
   end
 
   feature 'List' do
@@ -85,5 +98,34 @@ describe "Assessment" do
       expect(page).to have_link('Begin now', href: new_client_assessment_path(other_client))
     end
 
+    context 'assessments readable permission' do
+      scenario 'user has readable permission' do
+        expect(client_assessments_path(client)).to have_content(current_path)
+      end
+
+      scenario 'user does not have readable permission' do
+        user.permission.update(assessments_readable: false)
+        visit client_assessment_path(client, assessment)
+        expect(dashboards_path).to have_content(current_path)
+      end
+    end
+  end
+
+  feature 'Update' do
+    let!(:assessment){ create(:assessment, client: client) }
+
+    context 'assessments editable permission' do
+      scenario 'user has editable permission' do
+        visit edit_client_assessment_path(client, assessment)
+        expect(edit_client_assessment_path(client, assessment)).to have_content(current_path)
+      end
+
+      scenario 'user does not have editable permission' do
+        user.permission.update(assessments_editable: false)
+
+        visit edit_client_assessment_path(client, assessment)
+        expect(dashboards_path).to have_content(current_path)
+      end
+    end
   end
 end

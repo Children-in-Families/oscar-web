@@ -132,6 +132,7 @@ feature 'program_stream' do
         expect(page).to have_content 'Gender'
 
         page.click_link 'Next'
+        sleep 1
         page.find('li[data-type="date"]').click
         page.click_link 'Next'
         sleep 1
@@ -314,20 +315,6 @@ feature 'program_stream' do
       page.click_link 'Add New Program'
     end
 
-    scenario 'import custom form to enrollment' do
-      fill_in 'program_stream_name', with: 'Program Name'
-      sleep 1
-      click_link 'Next'
-      page.find(".rule-filter-container select option[value='gender']", visible: false).select_option
-      expect(page).to have_content 'Gender'
-      page.click_link 'Next'
-      sleep 1
-      page.find('.custom-field-list').click
-      sleep 1
-      find('a.copy-form').click
-      expect(page).to have_content('Name')
-    end
-
     scenario 'import custom form to trackings' do
       fill_in 'program_stream_name', with: 'Program Name'
       sleep 1
@@ -335,35 +322,13 @@ feature 'program_stream' do
       page.find(".rule-filter-container select option[value='gender']", visible: false).select_option
       expect(page).to have_content 'Gender'
       page.click_link 'Next'
+      sleep 1
       page.find('li[data-type="date"]').click
       page.click_link 'Next'
-      sleep 1
+      sleep 2
       within('#trackings') do
         fill_in 'Name', with: 'Tracking Name'
       end
-      page.find('.custom-field-list').click
-      sleep 1
-      find('a.copy-form').click
-      expect(page).to have_content('Name')
-    end
-
-    scenario 'import custom form to exit program' do
-      fill_in 'program_stream_name', with: 'Program Name'
-      sleep 1
-      click_link 'Next'
-      page.find(".rule-filter-container select option[value='gender']", visible: false).select_option
-      expect(page).to have_content 'Gender'
-
-      page.click_link 'Next'
-      page.find('li[data-type="date"]').click
-      page.click_link 'Next'
-      sleep 1
-      within('#trackings') do
-        fill_in 'Name', with: 'Tracking Name'
-      end
-      page.find('li[data-type="text"]').click
-      page.click_link 'Next'
-      sleep 1
       page.find('.custom-field-list').click
       sleep 1
       find('a.copy-form').click
@@ -378,20 +343,6 @@ feature 'program_stream' do
       click_link(nil, href: edit_program_stream_path(program_stream))
     end
 
-    scenario 'import custom form to enrollment' do
-      fill_in 'program_stream_name', with: 'Program Name'
-      sleep 1
-      click_link 'Next'
-      sleep 1
-      click_link 'Next'
-      sleep 1
-      page.find('.custom-field-list').click
-      sleep 1
-      find('a.copy-form').click
-      expect(page).to have_content('Name')
-      expect(page).to have_content('e-mail')
-    end
-
     scenario 'import custom form to trackings' do
       fill_in 'program_stream_name', with: 'Program Name'
       sleep 1
@@ -406,49 +357,6 @@ feature 'program_stream' do
       find('a.copy-form').click
       expect(page).to have_content('Name')
       expect(page).to have_content('e-mail')
-    end
-
-    scenario 'import custom form to exit program' do
-      fill_in 'program_stream_name', with: 'Program Name'
-      sleep 1
-      click_link 'Next'
-      sleep 1
-      page.click_link 'Next'
-      sleep 1
-      page.click_link 'Next'
-      sleep 1
-      page.click_link 'Next'
-      sleep 1
-      page.find('.custom-field-list').click
-      sleep 1
-      find('a.copy-form').click
-      expect(page).to have_content('Name')
-      expect(page).to have_content('e-mail')
-    end
-  end
-
-  feature 'ec manager can view and edit program stream', js: true  do
-    before do
-      login_as(ec_manager)
-      visit program_streams_path
-    end
-
-    scenario 'ec manager can view and edit program stream' do
-      ec_manager.program_stream_permissions.create(program_stream_id: program_stream.id, readable: true, editable: true)
-      expect(page).to have_link('', href: "/program_streams/#{program_stream.id}?locale=en")
-      expect(page).to have_link('', href: "/program_streams/#{program_stream.id}/edit?locale=en")
-    end
-
-    scenario 'ec manager can view but can not edit program stream' do
-      ec_manager.program_stream_permissions.create(program_stream_id: program_stream.id, readable: true)
-      expect(page).to have_link('', href: "/program_streams/#{program_stream.id}?locale=en")
-      expect(page).to have_link('', href: "/program_streams/#{program_stream.id}/edit?locale=en", class: 'disabled')
-    end
-
-    scenario 'ec manager can not view and edit program stream' do
-      ec_manager.program_stream_permissions.create(program_stream_id: program_stream.id)
-      expect(page).to have_link('', href: "/program_streams/#{program_stream.id}?locale=en", class: 'disabled')
-      expect(page).to have_link('', href: "/program_streams/#{program_stream.id}/edit?locale=en", class: 'disabled')
     end
   end
 end

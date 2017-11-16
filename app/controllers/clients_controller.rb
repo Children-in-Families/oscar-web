@@ -1,7 +1,16 @@
 class ClientsController < AdminController
-  include ClientGridOptions
 
   load_and_authorize_resource find_by: :slug, except: :quantitative_case
+
+  include ClientAdvancedSearchesConcern
+  before_action :get_quantitative_fields, only: [:index]
+  before_action :find_params_advanced_search, :get_custom_form, :get_program_streams, only: [:index]
+  before_action :get_custom_form_fields, :program_stream_fields, :client_builder_fields, only: [:index]
+  before_action :basic_params, if: :has_params?, only: [:index]
+  before_action :build_advanced_search, only: [:index]
+  before_action :fetch_advanced_search_queries, only: [:index]
+
+  include ClientGridOptions
 
   before_action :find_client, only: [:show, :edit, :update, :destroy]
   before_action :set_association, except: [:index, :destroy]
@@ -9,18 +18,23 @@ class ClientsController < AdminController
   before_action :find_resources, only: :show
 
   def index
-    columns_visibility
-    respond_to do |f|
-      f.html do
-        @csi_statistics   = CsiStatistic.new(@client_grid.assets).assessment_domain_score.to_json
-        @cases_statistics = CaseStatistic.new(@client_grid.assets).statistic_data.to_json
-        @results          = @client_grid.scope { |scope| scope.accessible_by(current_ability) }.assets.size
-        @client_grid.scope { |scope| scope.accessible_by(current_ability).page(params[:page]).per(20) }
-      end
-      f.xls do
-        @client_grid.scope { |scope| scope.accessible_by(current_ability) }
-        domain_score_report
-        send_data @client_grid.to_xls, filename: "client_report-#{Time.now}.xls"
+    if has_params?
+      advanced_search
+    else
+      columns_visibility
+      respond_to do |f|
+        f.html do
+          @csi_statistics   = CsiStatistic.new(@client_grid.assets).assessment_domain_score.to_json
+          @enrollments_statistics = ActiveEnrollmentStatistic.new(@client_grid.assets).statistic_data.to_json
+          @results          = @client_grid.scope { |scope| scope.accessible_by(current_ability) }.assets.size
+          @client_grid.scope { |scope| scope.accessible_by(current_ability).page(params[:page]).per(20) }
+        end
+        f.xls do
+          @client_grid.scope { |scope| scope.accessible_by(current_ability) }
+          domain_score_report
+          csi_domain_score_report
+          send_data @client_grid.to_xls, filename: "client_report-#{Time.now}.xls"
+        end
       end
     end
   end
@@ -30,8 +44,16 @@ class ClientsController < AdminController
       format.html do
         @ordered_client_answers     = @client.answers.order(:created_at)
         custom_field_ids            = @client.custom_field_properties.pluck(:custom_field_id)
-        @free_client_forms          = CustomField.client_forms.not_used_forms(custom_field_ids).order_by_form_title
-        @group_client_custom_fields = @client.custom_field_properties.sort_by{ |c| c.custom_field.form_title }.group_by(&:custom_field_id)
+        if current_user.admin? || current_user.strategic_overviewer?
+          available_editable_forms  = CustomField.all
+          readable_forms            = @client.custom_field_properties
+        else
+          available_editable_forms  = CustomField.where(id: current_user.custom_field_permissions.where(editable: true).pluck(:custom_field_id))
+          readable_forms            = @client.custom_field_properties.where(custom_field_id: current_user.custom_field_permissions.where(readable: true).pluck(:custom_field_id))
+        end
+
+        @free_client_forms          = available_editable_forms.client_forms.not_used_forms(custom_field_ids).order_by_form_title
+        @group_client_custom_fields = readable_forms.sort_by{ |c| c.custom_field.form_title }.group_by(&:custom_field_id)
         initial_visit_client
       end
       format.pdf do

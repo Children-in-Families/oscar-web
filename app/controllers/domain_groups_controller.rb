@@ -27,7 +27,7 @@ class DomainGroupsController < AdminController
   end
 
   def destroy
-    if @domain_group.domains_count.zero?
+    if @domain_group.domains.count.zero?
       @domain_group.destroy
       redirect_to domain_groups_url, notice: t('.successfully_deleted')
     else

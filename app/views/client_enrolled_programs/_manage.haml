@@ -1,5 +1,4 @@
-= link_to new_client_client_enrolled_program_leave_enrolled_program_path(@client, program_stream.client_enrollments.enrollments_by(@client).order(:created_at).last) do
-  .btn.btn-danger.btn-xs.btn-width= t('.exit')
+= program_stream_exit_action(program_stream)
+
 - unless program_stream.tracking_required?
-  = link_to client_client_enrolled_program_client_enrolled_program_trackings_path(@client, program_stream.client_enrollments.enrollments_by(@client).order(:created_at).last) do
-    .btn.btn-primary.btn-xs.btn-width= t('.tracking')
+  = program_stream_tracking_action(program_stream)

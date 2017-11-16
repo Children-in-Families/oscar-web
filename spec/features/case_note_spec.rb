@@ -48,6 +48,18 @@ describe 'CaseNote' do
       click_button 'Save'
       expect(page).to have_content("can't be blank")
     end
+
+    context 'case notes permissions' do
+      scenario 'user has editable permission' do
+        expect(new_client_case_note_path(client)).to have_content(current_path)
+      end
+
+      scenario 'user does not have editable permission' do
+        user.permission.update(case_notes_editable: false)
+        visit new_client_case_note_path(client)
+        expect(dashboards_path).to have_content(current_path)
+      end
+    end
   end
 
   feature 'List' do
@@ -82,6 +94,35 @@ describe 'CaseNote' do
 
     scenario 'no assessment' do
       expect(page).not_to have_link(nil, href: new_client_case_note_path(other_client))
+    end
+
+    context 'case notes permission' do
+      scenario 'user has readable permission' do
+        expect(client_case_notes_path(client)).to have_content(current_path)
+      end
+
+      scenario 'user does not have readable permission' do
+        user.permission.update(case_notes_readable: false)
+        visit client_case_notes_path(client)
+        expect(dashboards_path).to have_content(current_path)
+      end
+    end
+  end
+
+  feature 'Update' do
+    let!(:case_note) { create(:case_note, client: client, assessment: assessment) }
+
+    context 'case notes editable permission' do
+      scenario 'user has editable permission' do
+        visit edit_client_case_note_path(client, case_note)
+        expect(edit_client_case_note_path(client, case_note)).to have_content(current_path)
+      end
+
+      scenario 'user does not have editable permission' do
+        user.permission.update(case_notes_editable: false)
+        visit edit_client_case_note_path(client, case_note)
+        expect(dashboards_path).to have_content(current_path)
+      end
     end
   end
 end

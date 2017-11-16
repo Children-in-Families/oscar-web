@@ -26,7 +26,7 @@ class QuantitativeTypesController < AdminController
   end
 
   def destroy
-    if @quantitative_type.quantitative_cases_count.zero?
+    if @quantitative_type.quantitative_cases.count.zero?
       @quantitative_type.destroy
       redirect_to quantitative_types_path, notice: t('.successfully_deleted')
     else

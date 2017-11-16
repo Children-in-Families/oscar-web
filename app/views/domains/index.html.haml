@@ -29,7 +29,7 @@
                   - if can? :manage, Domain
                     = link_to edit_domain_path(domain), class: 'btn btn-outline btn-success margin-left' do
                       = fa_icon('pencil')
-                    = remove_link(domain, {domain_task: domain.tasks_count, assessment_domains_size: domain.assessment_domains.size}, 'margin-left')
+                    = remove_link(domain, {domain_task: domain.tasks.count, assessment_domains_size: domain.assessment_domains.size}, 'margin-left')
             .panel-body
               %p= domain.description.html_safe
       .ibox-footer.text-center

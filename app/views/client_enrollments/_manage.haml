@@ -3,11 +3,4 @@
     - if program_stream.maximum_client?
       .label.label-info= t('.full_program')
     - else
-      = link_to new_client_client_enrollment_path(@client, program_stream_id: program_stream.id) do
-        .btn.btn-primary.btn-xs.btn-width= t('.enroll')
-  - else
-    = link_to new_client_client_enrollment_leave_program_path(@client, program_stream.client_enrollments.enrollments_by(@client).order(:created_at).last) do
-      .btn.btn-danger.btn-xs.btn-width= t('.exit')
-    - unless program_stream.tracking_required?
-      = link_to client_client_enrollment_client_enrollment_trackings_path(@client, program_stream.client_enrollments.enrollments_by(@client).order(:created_at).last) do
-        .btn.btn-primary.btn-xs.btn-width= t('.tracking')
+      = client_enrollment_new_link(program_stream)

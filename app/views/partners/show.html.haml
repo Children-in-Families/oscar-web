@@ -30,7 +30,7 @@
               = link_to edit_partner_path(@partner) do
                 .btn.btn-outline.btn-success
                   %i.fa.fa-pencil
-              = remove_link(@partner, {partner_case: @partner.cases_count}, 'btn-md')
+              = remove_link(@partner, {partner_case: @partner.cases.count}, 'btn-md')
 
       .ibox-content
         .row.partner-summary
