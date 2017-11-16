@@ -12,21 +12,21 @@
   
   .panel-body.panel-border
     កាលបរិចេ្ឆទ(ថ្ងៃ/ខែ/ឆ្នាំ):
-    - gov_date = @client.gov_date.present? ? @client.gov_date.strftime('%d%m%y') : '091117'
+    - gov_date = @client.gov_date.present? ? @client.gov_date.strftime('%d%m%y') : '000000'
     - gov_date.split('').each_with_index do |code, index|
       - if index == 0
         %span.first= code
       - else
         %span= code
     លេខកូដភូមិ:
-    - gov_village_code = @client.gov_village_code.present? ? @client.gov_village_code : '09112017'
+    - gov_village_code = @client.gov_village_code.present? ? @client.gov_village_code : '00000000'
     - gov_village_code.split('').each_with_index do |code, index|
       - if index == 0
         %span.first= code
       - else
         %span= code
     លេខកូដកុមារ:
-    - gov_client_code = @client.gov_date.present? ? @client.gov_client_code : '2017'
+    - gov_client_code = @client.gov_date.present? ? @client.gov_client_code : '0000'
     - gov_client_code.split('').each_with_index do |code, index|
       - if index == 0
         %span.first= code
@@ -40,22 +40,22 @@
         %tr
           %td ឃុំ/សង្កាត់:
           %td
-            %input{style: 'width: 100%', value: 'ទឹកលិច' }
+            %input{style: 'width: 100%', value: '' }
           %td ក្រុង/ស្រុក/ខណ្ឌ:
           %td
-            %input{style: 'width: 100%', value: 'ដាំដំឡូង' }
+            %input{style: 'width: 100%', value: '' }
           %td រាជធានី/ខេត្ត:
           %td
-            %input{style: 'width: 100%', value: 'ប៉ោយប៉ែត' }
+            %input{style: 'width: 100%', value: '' }
         %tr
           %td 
             %label ឈ្មោះអ្នកកាន់ករណី
           %td 
-            %input{style: 'width: 100%', value: 'សំណាង' }
+            %input{style: 'width: 100%', value: '' }
           %td 
             %label លេខទូរស័ព្ទ:
           %td{:colspan => "3"}
-            %input{style: 'width: 100%', value: '012 660 660' }
+            %input{style: 'width: 100%', value: '' }
 
 .panel.panel-no-margin.panel-borderless
   .panel-heading.panel-border.no-border-bottom{style: 'background: #558bd4; padding: 5px; color: #fff'} 
@@ -78,52 +78,52 @@
       %tbody
         %tr
           %td សុខភាពផ្លូវកាយ
-          %td.text-center 1
+          %td.text-center
           %td
             .comment{style: 'min-height: 36px;'}
-              %p Lorem dolores ea quae enim, eligendi aperiam quasi eaque minima, in repellendus perspiciatis natus laudantium dolor. 
+              %p
         %tr
           %td សុខភាពផ្លូវចិត្ត
-          %td.text-center 4
+          %td.text-center
           %td
             .comment{style: 'min-height: 36px;'}
-              %p Lorem ipsum, dolor sit amet. Dolore dolor eam corporis voluptatibus dolorum doloribus!
+              %p
         %tr
           %td សុវត្ថិភាព និងសន្តិសុខ
-          %td.text-center 4
+          %td.text-center
           %td
             .comment{style: 'min-height: 36px;'}
-              %p សិលាចាំប្តី
+              %p
         %tr
           %td ចំណីអាហារ
-          %td.text-center 4
+          %td.text-center
           %td
             .comment{style: 'min-height: 36px;'}
-              %p សិលាចាំប្តី
+              %p
         %tr
           %td ទីជម្រក
-          %td.text-center 3
+          %td.text-center
           %td
             .comment{style: 'min-height: 36px;'}
-              %p សិលាចាំប្តី
+              %p
         %tr
           %td សម្លៀកបំពាក់
-          %td 3
+          %td
           %td
             .comment{style: 'min-height: 36px;'}
-              %p សិលាចាំប្តី
+              %p
         %tr
           %td ការសិក្សាអប់រំ
-          %td.text-center 2
+          %td.text-center
           %td
             .comment{style: 'min-height: 36px;'}
-              %p សិលាចាំប្តី
+              %p
         %tr
           %td ទំនាក់ទំនងក្នុងគ្រួសារ
-          %td.text-center 1
+          %td.text-center
           %td
             .comment{style: 'min-height: 36px;'}
-              %p hello world
+              %p
 
 .panel.panel-no-margin.panel-borderless{style: 'margin-top: 10px'}
   .panel-body.panel-border{style: 'border-top: 1px solid black;'}
@@ -136,22 +136,22 @@
       %tbody
         %tr
           %td ទំនាក់ទំនងសង្គម
-          %td.text-center 3
+          %td.text-center 
           %td
             .comment{style: 'min-height: 38px;'}
-              %p សិលាចាំប្តី
+              %p
         %tr
           %td ឯកសារច្បាប់
-          %td.text-center 2
+          %td.text-center
           %td
             .comment{style: 'min-height: 38px;'}
-              %p សិលាចាំប្តី
+              %p
         %tr
           %td តម្រូវការជំនួយផ្នែកច្បាប់
-          %td.text-center 3
+          %td.text-center
           %td
             .comment{style: 'min-height: 38px;'}
-              %p សិលាចាំប្តី
+              %p
 
 .panel.panel-no-margin.panel-borderless
   .panel-heading.panel-border.no-border-bottom{style: 'background: #558bd4; padding: 5px; color: #fff'} 
@@ -164,38 +164,38 @@
         %tr
           %td ផ្ទះលេខ:
           %td
-            %input{style: 'width: 100%', value: '127.0.0.1' }
+            %input{style: 'width: 100%', value: '' }
           %td ផ្លូវលេខ:
           %td
-            %input{style: 'width: 100%', value: ':8080' }
+            %input{style: 'width: 100%', value: '' }
           %td ភូមិ:
           %td
-            %input{style: 'width: 100%', value: 'ដេកដាំ' }
+            %input{style: 'width: 100%', value: '' }
           %td ឃុំ/សង្កាត់:
           %td
-            %input{style: 'width: 100%', value: 'ពញាឭ' }
+            %input{style: 'width: 100%', value: '' }
         %tr
           %td 
             %label ក្រុង/ស្រុក/ខណ្ឌ:
           %td{:colspan => "3"} 
-            %input{style: 'width: 100%', value: 'ច្បារម៉ន' }
+            %input{style: 'width: 100%', value: '' }
           %td 
             %label ខេត្ត/រាជធានី:
           %td{:colspan => "3"}
-            %input{style: 'width: 100%', value: 'កោះពេជ្រ' }
+            %input{style: 'width: 100%', value: '' }
         %tr
           %td 
             %label ចំនួនកុមារសរុបក្នុងបន្ទុក:
           %td 
-            %input{style: 'width: 100%', value: '៥០' }
+            %input{style: 'width: 100%', value: '' }
           %td 
             %label កុមារា:
           %td
-            %input{style: 'width: 100%', value: '១' }
+            %input{style: 'width: 100%', value: '' }
           %td 
             %label កុមារី:
           %td
-            %input{style: 'width: 100%', value: '៤៩' }
+            %input{style: 'width: 100%', value: '' }
   .panel-body.panel-border
     %table.table.table-border.panel-no-margin
       %thead{ style: 'background: #d8d8d8' }
@@ -208,94 +208,94 @@
         %tr
           %td
             .comment{style: 'min-height: 35px;'}
-              %p សិលាចាំប្តី
+              %p
           %td
             .comment{style: 'min-height: 35px;'}
-              %p 09-11-2017
+              %p
           %td
             .comment{style: 'min-height: 35px;'}
-              %p លក់ម្ជូរ
+              %p
           %td
             .comment{style: 'min-height: 35px;'}
-              %p ពូជីដូនមួយ
+              %p
         %tr
           %td
             .comment{style: 'min-height: 35px;'}
-              %p សិលាចាំប្តី
+              %p
           %td
             .comment{style: 'min-height: 35px;'}
-              %p 09-11-2017
+              %p
           %td
             .comment{style: 'min-height: 35px;'}
-              %p លក់ម្ជូរ
+              %p
           %td
             .comment{style: 'min-height: 35px;'}
-              %p ពូជីដូនមួយ
+              %p
         %tr
           %td
             .comment{style: 'min-height: 35px;'}
-              %p សិលាចាំប្តី
+              %p
           %td
             .comment{style: 'min-height: 35px;'}
-              %p 09-11-2017
+              %p 
           %td
             .comment{style: 'min-height: 35px;'}
-              %p លក់ម្ជូរ
+              %p
           %td
             .comment{style: 'min-height: 35px;'}
-              %p ពូជីដូនមួយ
+              %p
         %tr
           %td
             .comment{style: 'min-height: 35px;'}
-              %p សិលាចាំប្តី
+              %p
           %td
             .comment{style: 'min-height: 35px;'}
-              %p 09-11-2017
+              %p 
           %td
             .comment{style: 'min-height: 35px;'}
-              %p លក់ម្ជូរ
+              %p
           %td
             .comment{style: 'min-height: 35px;'}
-              %p ពូជីដូនមួយ
+              %p
         %tr
           %td
             .comment{style: 'min-height: 35px;'}
-              %p សិលាចាំប្តី
+              %p
           %td
             .comment{style: 'min-height: 35px;'}
-              %p 09-11-2017
+              %p 
           %td
             .comment{style: 'min-height: 35px;'}
-              %p លក់ម្ជូរ
+              %p
           %td
             .comment{style: 'min-height: 35px;'}
-              %p សិលាចាំប្តី
+              %p
         %tr
           %td
             .comment{style: 'min-height: 35px;'}
-              %p សិលាចាំប្តី
+              %p
           %td
             .comment{style: 'min-height: 35px;'}
-              %p 09-11-2017
+              %p
           %td
             .comment{style: 'min-height: 35px;'}
-              %p លក់ម្ជូរ
+              %p
           %td
             .comment{style: 'min-height: 35px;'}
-              %p ពូជីដូនមួយ
+              %p
         %tr
           %td
             .comment{style: 'min-height: 35px;'}
-              %p សិលាចាំប្តី
+              %p
           %td
             .comment{style: 'min-height: 35px;'}
-              %p 09-11-2017
+              %p
           %td
             .comment{style: 'min-height: 35px;'}
-              %p លក់ម្ជូរ
+              %p
           %td
             .comment{style: 'min-height: 35px;'}
-              %p ពូជីដូនមួយ
+              %p
 
 .panel.panel-no-margin.panel-borderless{style: 'margin-bottom: 20px'}
   .panel-heading.panel-border{style: 'background: #d8d8d8; padding: 5px; color: #000'} 
@@ -307,30 +307,30 @@
         %tr
           %td ផ្ទះលេខ:
           %td
-            %input{style: 'width: 100%', value: '192.168.0.1' }
+            %input{style: 'width: 100%', value: '' }
           %td ផ្លូវលេខ:
           %td
-            %input{style: 'width: 100%', value: 'fastlane' }
+            %input{style: 'width: 100%', value: '' }
           %td ភូមិ:
           %td
-            %input{style: 'width: 100%', value: 'រការដែក' }
+            %input{style: 'width: 100%', value: '' }
           %td ឃុំ/សង្កាត់:
           %td
-            %input{style: 'width: 100%', value: '៧មករា' }
+            %input{style: 'width: 100%', value: '' }
         %tr
           %td 
             %label ក្រុង/ស្រុក/ខណ្ឌ:
           %td{:colspan => "3"} 
-            %input{style: 'width: 100%', value: 'ដង្កោ' }
+            %input{style: 'width: 100%', value: '' }
           %td 
             %label ខេត្ត/រាជធានី:
           %td{:colspan => "3"}
-            %input{style: 'width: 100%', value: 'កំពង់ចាម' }
+            %input{style: 'width: 100%', value: '' }
         %tr
           %td 
             %label លេខទូរស័ព្ទ:
           %td{:colspan => "7"} 
-            %input{style: 'width: 100%', value: '011 222 333' }
+            %input{style: 'width: 100%', value: '' }
 
 .panel.panel-no-margin.panel-borderless
   .panel-body.panel-border.no-border-bottom{style: 'border-top: 1px solid black'}
@@ -350,52 +350,52 @@
       %tbody
         %tr
           %td ការការពារ និងការថែទាំ
-          %td.text-center 1
-          %td គ្មាន
+          %td.text-center
+          %td
         %tr
           %td ភាពសិ្នទ្ធស្នាលរវាងកុមារ និងអ្នកថែទាំ
-          %td.text-center 1
-          %td គ្មាន
+          %td.text-center
+          %td
         %tr
           %td សុខភាពផ្លូវកាយ ផ្លូវចិត្ត
-          %td.text-center 1
-          %td គ្មាន
+          %td.text-center
+          %td
         %tr
           %td សុខភាពផ្លូវចិត្ត
-          %td.text-center 1
-          %td គ្មាន
+          %td.text-center
+          %td
         %tr
-          %td ឆន្ទៈក្នុងការធ្វើឲស្ថានភាពបានប្រសើរឡើង
-          %td.text-center 1
-          %td គ្មាន
+          %td ឆន្ទៈក្នុងការធ្វើឲ្យស្ថានភាពបានប្រសើរឡើង
+          %td.text-center
+          %td
         %tr
           %td មុខរបរនិងជំនាញនានាដែលអាចរកចំណូលបាន
-          %td.text-center 1
-          %td គ្មាន
+          %td.text-center
+          %td
         %tr
           %td កម្រិតសិក្សាអប់រំ
-          %td.text-center 1
-          %td គ្មាន
+          %td.text-center
+          %td
         %tr
           %td ធនធាននាន (ដីធ្លី ផ្ទះ…)
-          %td.text-center 1
-          %td គ្មាន
+          %td.text-center
+          %td
         %tr
           %td ជំនួយពីសាច់ញាត
-          %td.text-center 1
-          %td គ្មាន
+          %td.text-center
+          %td
         %tr
           %td ការគាំទ្រពីសហគមន៍
-          %td.text-center 1
-          %td គ្មាន
+          %td.text-center
+          %td
         %tr
           %td កូនៗផ្សេងទៀតដែលអាចជួយបាន
-          %td.text-center 1
-          %td គ្មាន
+          %td.text-center
+          %td
         %tr
           %td ផ្សេងៗ
-          %td.text-center 1
-          %td គ្មាន
+          %td.text-center
+          %td
 
 .panel.panel-no-margin.panel-borderless
   .panel-heading.panel-border{style: 'background: #d8d8d8; padding: 5px; color: #000'} 
@@ -406,7 +406,7 @@
       .col-xs-4
         .form-check{style: 'margin-left: 10px;'}
           .form-check-label
-            %input.form-input{ type: 'checkbox', checked: @client.referral_source == 'ក្រសួង សអយ/មន្ទីរ សអយ' ? true : false }
+            %input.form-input{ type: 'checkbox', checked: @client.referral_source != 'ក្រសួង សអយ/មន្ទីរ សអយ' ? true : false }
             = 'អាចធ្វើសមាហរណកម្មបាន'
       .col-xs-4
         .form-check{style: 'margin-left: 10px;'}
@@ -450,7 +450,7 @@
           .col-xs-2
             %label ឈ្មោះអ្នកកាន់ករណី:
           .col-xs-4
-            %input{style: 'width:96.6%; float: right;', value: 'ហេងពិទូ' }
+            %input{style: 'width:96.6%; float: right;', value: '' }
 
 .panel.panel-no-margin.panel-borderles
   .panel-heading.panel-border{style: 'background: #efb407; padding: 5px; color: #000; border-top: 1px solid black'} 
@@ -483,11 +483,11 @@
     .row
       .col-xs-4
         .form-check{style: 'margin: 3px 0 0 10px;'}
-          %input{ type: 'checkbox', checked: true }
+          %input{ type: 'checkbox', checked: false }
           %label ពន្យល់ពីសេវា និងកម្មវិធី
       .col-xs-4
         .form-check{style: 'margin: 3px 0 0 10px;'}
-          %input{ type: 'checkbox', checked: true }
+          %input{ type: 'checkbox', checked: false }
           %label ភាពសម្ងាត់របស់អតិថិជន
       .col-xs-4
         .form-check{style: 'margin: 3px 0 0 10px;'}
@@ -495,7 +495,7 @@
           %label សិទ្ធិរបស់អតិថិជន
       .col-xs-12
         .form-check{style: 'margin: 3px 0 0 10px;'}
-          %input{ type: 'checkbox', checked: true }
+          %input{ type: 'checkbox', checked: false }
           %label សិទ្ធិអតិថិជន ក្នុងការទទួលឬបដិសេធមិនទទួលយកសេវា
 
   .panel-heading.panel-border{style: 'background: #f8f900; padding: 5px; color: #000'} 
@@ -509,7 +509,7 @@
           %label សរសេរ
       .col-xs-4
         .form-check{style: 'margin: 3px 0 0 10px;'}
-          %input{ type: 'checkbox', checked: true }
+          %input{ type: 'checkbox', checked: false }
           %label ផ្ទាល់មាត់
       .col-xs-4
         .form-check{style: 'margin: 3px 0 0 10px;'}
