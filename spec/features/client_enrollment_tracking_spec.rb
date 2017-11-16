@@ -1,17 +1,15 @@
 describe ClientEnrollmentTracking, 'Client Enrollment Tracking' do
   let!(:admin){ create(:user, roles: 'admin') }
-  let!(:client) { create(:client, given_name: 'Adam', family_name: 'Eve', local_given_name: 'Romeo', local_family_name: 'Juliet', date_of_birth: 10.years.ago) }
+  let!(:user) { create(:user) }
+  let!(:client) { create(:client, given_name: 'Adam', family_name: 'Eve', local_given_name: 'Romeo', local_family_name: 'Juliet', date_of_birth: 10.years.ago, users: [admin, user]) }
   let!(:program_stream) { create(:program_stream, name: 'Fitness') }
   let!(:client_enrollment) { create(:client_enrollment, program_stream: program_stream, client: client) }
   let!(:tracking) { create(:tracking, name: 'Soccer', program_stream: program_stream) }
   let!(:client_enrollment_tracking) { create(:client_enrollment_tracking, client_enrollment: client_enrollment, tracking: tracking) }
 
-  before do
-    login_as admin
-  end
-
   feature 'Create', js: true do
     before do
+      login_as admin
       program_stream.reload
       program_stream.update_columns(completed: true)
       visit client_client_enrolled_programs_path(client)
@@ -48,6 +46,7 @@ describe ClientEnrollmentTracking, 'Client Enrollment Tracking' do
 
   feature 'Lists' do
     before do
+      login_as admin
       visit client_client_enrolled_program_client_enrolled_program_trackings_path(client, client_enrollment)
     end
 
@@ -70,6 +69,7 @@ describe ClientEnrollmentTracking, 'Client Enrollment Tracking' do
 
   feature 'Report' do
     before do
+      login_as admin
       visit report_client_client_enrolled_program_client_enrolled_program_trackings_path(client, client_enrollment, tracking_id: tracking.id)
     end
 
@@ -104,6 +104,7 @@ describe ClientEnrollmentTracking, 'Client Enrollment Tracking' do
 
   feature 'Show' do
     before do
+      login_as admin
       visit client_client_enrollment_client_enrollment_tracking_path(client, client_enrollment, client_enrollment_tracking, tracking_id: tracking.id)
     end
 
@@ -122,15 +123,11 @@ describe ClientEnrollmentTracking, 'Client Enrollment Tracking' do
     scenario 'Back Link' do
       expect(page).to have_link('Back')
     end
-
-    scenario 'Client Tracking Link' do
-
-      expect(page).to have_link('Client Trackings List')
-    end
   end
 
   feature 'Update', js: true do
     before do
+      login_as admin
       visit edit_client_client_enrolled_program_client_enrolled_program_tracking_path(client, client_enrollment, client_enrollment_tracking, tracking_id: tracking.id)
     end
 
@@ -161,4 +158,60 @@ describe ClientEnrollmentTracking, 'Client Enrollment Tracking' do
   #     expect(page).to have_content('Tracking has been successfully deleted')
   #   end
   # end
+
+  feature 'Program stream permissions' do
+    let!(:first_program_stream) { create(:program_stream, name: 'first') }
+    let!(:first_tracking) { create(:tracking, name: 'first tracking', program_stream: first_program_stream) }
+    let!(:first_client_enrollment) { create(:client_enrollment, program_stream: first_program_stream, client: client) }
+    let!(:first_client_enrollment_tracking) { create(:client_enrollment_tracking, client_enrollment: first_client_enrollment, tracking: first_tracking) }
+
+    before do
+      login_as user
+    end
+
+    context 'user has readable/ does not have permission' do
+      scenario 'can read client enrollment tracking' do
+        show_path = client_client_enrolled_program_client_enrolled_program_tracking_path(client, first_client_enrollment, first_client_enrollment_tracking)
+        visit show_path
+        expect(show_path).to have_content(current_path)
+      end
+
+      scenario 'cannot read client enrollment tracking' do
+        show_path = client_client_enrolled_program_client_enrolled_program_tracking_path(client, first_client_enrollment, first_client_enrollment_tracking)
+        user.program_stream_permissions.find_by(program_stream_id: first_program_stream.id).update(readable: false)
+        visit show_path
+        expect(dashboards_path).to have_content(current_path)
+      end
+    end
+
+    context 'user has editable permission' do
+      scenario 'new client enrollment traking' do
+        new_path = new_client_client_enrolled_program_client_enrolled_program_tracking_path(client, first_client_enrollment, tracking_id: first_tracking.id)
+        visit new_path
+        expect(new_path).to have_content(current_path)
+      end
+
+      scenario 'edit client enrollment tracking' do
+        edit_path = edit_client_client_enrollment_client_enrollment_tracking_path(client, first_client_enrollment, first_client_enrollment_tracking, tracking_id: tracking.id)
+        visit edit_path
+        expect(edit_path).to have_content(current_path)
+      end
+    end
+
+    context 'user dose not have editable permission' do
+      scenario 'new client enrollment tracking' do
+        new_path = new_client_client_enrolled_program_client_enrolled_program_tracking_path(client, first_client_enrollment, tracking_id: first_tracking.id)
+        user.program_stream_permissions.find_by(program_stream_id: first_program_stream.id).update(editable: false)
+        visit new_path
+        expect(dashboards_path).to have_content(current_path)
+      end
+
+      scenario 'edit client enrollment tracking' do
+        edit_path = edit_client_client_enrollment_client_enrollment_tracking_path(client, first_client_enrollment, first_client_enrollment_tracking, tracking_id: tracking.id)
+        user.program_stream_permissions.find_by(program_stream_id: first_program_stream.id).update(editable: false)
+        visit edit_path
+        expect(edit_path).to have_content(current_path)
+      end
+    end
+  end
 end

@@ -9,7 +9,7 @@
   - @case_workers.each do |case_worker|
     - case_worker_tasks = case_worker.tasks.overdue_incomplete_ordered
     %tr
-      %td{ style: "border: 1px solid black; text-align: center;" }= link_to case_worker.name, tasks_url(subdomain: @org_name, user_id: case_worker.id), target: :_blank
+      %td{ style: "border: 1px solid black; text-align: center;" }= link_to case_worker.name, dashboards_url(subdomain: @org_name, user_id: case_worker.id), target: :_blank
       %td{ style: "border: 1px solid black; text-align: center;" }= case_worker_tasks.size
       %td{ style: "border: 1px solid black; text-align: left;" }
         %ul{ style: 'list-style: none; text-align: left; padding-left: 0px;' }

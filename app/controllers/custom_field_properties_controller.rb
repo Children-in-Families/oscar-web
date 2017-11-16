@@ -6,9 +6,10 @@ class CustomFieldPropertiesController < AdminController
   before_action :find_entity, :find_custom_field
   before_action :find_custom_field_property, only: [:edit, :update, :destroy]
   before_action :get_form_builder_attachments, only: [:edit, :update]
+  before_action -> { check_user_permission('editable') }, except: [:index, :show]
+  before_action -> { check_user_permission('readable') }, only: [:show, :index]
 
   def index
-    check_user_permission('readable')
     @custom_field_properties = @custom_formable.custom_field_properties.accessible_by(current_ability).by_custom_field(@custom_field).most_recents.page(params[:page]).per(4)
   end
 
@@ -19,11 +20,11 @@ class CustomFieldPropertiesController < AdminController
   end
 
   def edit
-    check_user_permission('editable')
     authorize! :edit, @custom_field_property
   end
 
   def create
+
     @custom_field_property = @custom_formable.custom_field_properties.new(custom_field_property_params)
     authorize! :create, @custom_field_property
     if @custom_field_property.save

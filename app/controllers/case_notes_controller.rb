@@ -2,6 +2,8 @@ class CaseNotesController < AdminController
   load_and_authorize_resource
   before_action :set_client
   before_action :set_case_note, only: [:edit, :update]
+  before_action -> { case_notes_permission('readable') }, only: [:index]
+  before_action -> { case_notes_permission('editable') }, except: [:index]
 
   def index
     unless current_user.admin? || current_user.strategic_overviewer?
@@ -94,5 +96,15 @@ class CaseNotesController < AdminController
 
   def set_case_note
     @case_note = @client.case_notes.find(params[:id])
+  end
+
+  def case_notes_permission(permission)
+    unless current_user.admin? || current_user.strategic_overviewer?
+      if permission == 'readable'
+        redirect_to root_path, alert: t('unauthorized.default') unless current_user.permission.case_notes_readable
+      else
+        redirect_to root_path, alert: t('unauthorized.default') unless current_user.permission.case_notes_editable
+      end
+    end
   end
 end

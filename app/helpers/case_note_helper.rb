@@ -15,6 +15,22 @@ module CaseNoteHelper
     end
   end
 
+  def new_link
+    if case_notes_editable?
+      link_to new_client_case_note_path(@client) do
+        content_tag :div, class: 'btn btn-primary button' do
+          t('.new_case_note')
+        end
+      end
+    else
+      link_to_if false, new_client_case_note_path(@client) do
+        content_tag :div, class: 'btn btn-primary button disabled' do
+          t('.new_case_note')
+        end
+      end
+    end
+  end
+
   def display_case_note_attendee(case_note)
     case_note.interaction_type.present? ? "#{t('.present')} #{case_note.attendee} ( #{case_note.interaction_type} )" : "#{t('.present')} #{case_note.attendee}"
   end

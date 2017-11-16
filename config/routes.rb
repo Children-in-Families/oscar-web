@@ -106,8 +106,6 @@ Rails.application.routes.draw do
     get 'version' => 'interventions#version'
   end
 
-  resources :tasks, only: :index
-
   resources :clients do
     collection do
       get :advanced_search
@@ -130,7 +128,7 @@ Rails.application.routes.draw do
     end
 
     resources :custom_field_properties
-    # resources :government_reports 
+    # resources :government_reports
     resources :assessments
     resources :case_notes
     resources :cases do
@@ -143,7 +141,7 @@ Rails.application.routes.draw do
     end
     # resources :surveys
 
-    resources :progress_notes do
+    resources :progress_notes, except: [:new, :create] do
       get 'version' => 'progress_notes#version'
     end
 
@@ -251,6 +249,6 @@ Rails.application.routes.draw do
   end
 
   resources :advanced_search_save_queries
-  resources :client_advanced_searches, only: :index
+  # resources :client_advanced_searches, only: :index
   resources :papertrail_queries, only: [:index]
 end

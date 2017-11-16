@@ -10,7 +10,14 @@ class CIF.CustomFormBuilder
 
   separateLineTemplate: ->
     separateLine: (fieldData) ->
-          { field: '<hr/>' }
+      { field: '<hr/>' }
+
+  eventParagraphOption: ->
+    self = @
+    onadd: (fld) ->
+      $('.subtype-wrap, .className-wrap, .access-wrap').hide()
+    onclone: (fld) ->
+      $('.subtype-wrap, .className-wrap, .access-wrap').hide()
 
   eventCheckboxOption: ->
     self = @
@@ -116,8 +123,12 @@ class CIF.CustomFormBuilder
   eventSeparateLineOption: ->
     onadd: (fld) ->
       $(fld).find('.field-actions .icon-pencil').remove()
+      $(fld).on 'dblclick', (e) ->
+        e.stopPropagation()
     onclone: (fld) ->
       $(fld).find('.field-actions .icon-pencil').remove()
+      $(fld).on 'dblclick', (e) ->
+        e.stopPropagation()
 
   hideOptionValue: ->
     $('.option-selected, .option-value').hide()

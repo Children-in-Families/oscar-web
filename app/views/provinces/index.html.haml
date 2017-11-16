@@ -30,11 +30,11 @@
                       = link_to '#', {class: 'btn btn-outline btn-success btn-xs', "data-target" => "#provinceModal-#{province.id}", "data-toggle" => "modal", :type => "button"} do
                         = fa_icon('pencil')
                     %td.text-center
-                      = remove_link(province, { province_family: province.families_count,
-                                                province_partner: province.partners_count,
-                                                province_user: province.users_count,
-                                                province_client: province.clients_count,
-                                                province_case: province.cases_count})
+                      = remove_link(province, { province_family: province.families.count,
+                                                province_partner: province.partners.count,
+                                                province_user: province.users.count,
+                                                province_client: province.clients.count,
+                                                province_case: province.cases.count})
                   - if can? :version, Province
                     %td.text-center
                       = link_to t('.view'), province_version_path(province)

@@ -1,10 +1,5 @@
 .row
   .col-xs-12
-    = link_to client_client_enrollment_client_enrollment_trackings_path(@client, @enrollment) do
-      .btn.btn-primary.btn-outline.pull-right
-        = t('.trackings_list')
-.row
-  .col-xs-12
     .ibox
       .ibox-title
         %h5= "#{@client.en_and_local_name} - #{@client_enrollment_tracking.tracking.try(:name)} - #{@program_stream.name}"

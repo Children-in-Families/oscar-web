@@ -22,11 +22,11 @@ class ClientEnrollment < ActiveRecord::Base
   after_save :create_client_enrollment_history
   after_destroy :reset_client_status
 
-  # validate do |obj|
-  #   CustomFormPresentValidator.new(obj, 'program_stream', 'enrollment').validate
-  #   CustomFormNumericalityValidator.new(obj, 'program_stream', 'enrollment').validate
-  #   CustomFormEmailValidator.new(obj, 'program_stream', 'enrollment').validate
-  # end
+  validate do |obj|
+    CustomFormPresentValidator.new(obj, 'program_stream', 'enrollment').validate
+    CustomFormNumericalityValidator.new(obj, 'program_stream', 'enrollment').validate
+    CustomFormEmailValidator.new(obj, 'program_stream', 'enrollment').validate
+  end
 
   def active?
     status == 'Active'
@@ -57,6 +57,10 @@ class ClientEnrollment < ActiveRecord::Base
     return if client.active_case? || client.client_enrollments.active.any?
 
     client.update(status: 'Referred')
+  end
+
+  def short_enrollment_date
+    enrollment_date.end_of_month.strftime '%b-%y'
   end
 
   private

@@ -8,6 +8,8 @@ class ClientEnrollmentsController < AdminController
   before_action :find_program_stream, except: :index
   before_action :find_client_enrollment, only: [:show, :edit, :update, :destroy]
   before_action :get_attachments, only: [:new, :edit, :update, :create]
+  before_action -> { check_user_permission('editable') }, except: [:index, :show, :report]
+  before_action -> { check_user_permission('readable') }, only: :show
 
   def index
     program_streams = ProgramStreamDecorator.decorate_collection(ordered_program)
@@ -30,7 +32,6 @@ class ClientEnrollmentsController < AdminController
   end
 
   def edit
-    check_user_permission('editable')
   end
 
   def update
@@ -43,7 +44,6 @@ class ClientEnrollmentsController < AdminController
   end
 
   def show
-    check_user_permission('readable')
   end
 
   def create
@@ -59,7 +59,7 @@ class ClientEnrollmentsController < AdminController
   def destroy
     name = params[:file_name]
     index = params[:file_index].to_i
-    params_program_streams = params[:program_streams]
+
     if name.present? && index.present?
       delete_form_builder_attachment(@client_enrollment, name, index)
       redirect_to request.referer, notice: t('.delete_attachment_successfully')
@@ -77,8 +77,15 @@ class ClientEnrollmentsController < AdminController
 
   def program_stream_order_by_enrollment
     program_streams = []
-    client_enrollments_exited     = ProgramStream.inactive_enrollments(@client).complete
-    client_enrollments_inactive   = ProgramStream.without_status_by(@client).complete
+    if current_user.admin? || current_user.strategic_overviewer?
+      all_programs = ProgramStream.all
+    else
+      all_programs = ProgramStream.where(id: current_user.program_stream_permissions.where(readable: true, user: current_user).pluck(:program_stream_id))
+    end
+
+    client_enrollments_exited     = all_programs.inactive_enrollments(@client).complete
+    client_enrollments_inactive   = all_programs.without_status_by(@client).complete
+
     program_streams               = client_enrollments_exited + client_enrollments_inactive
   end
 end

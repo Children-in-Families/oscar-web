@@ -26,7 +26,7 @@ class ReferralSourcesController < AdminController
   end
 
   def destroy
-    if @referral_source.clients_count.zero?
+    if @referral_source.clients.count.zero?
       @referral_source.destroy
       redirect_to referral_sources_url, notice: t('.successfully_deleted')
     else

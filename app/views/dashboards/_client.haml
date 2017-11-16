@@ -1,4 +1,4 @@
-.col-xs-12
+.col-xs-12.col-sm-6
   .panel.panel-default.client-panel
     .panel-body
       .widget.style1.widget-client-panel
@@ -9,8 +9,3 @@
             %span.text-font
               = t('.clients')
             %h2.font-bold= @dashboard.clients.all_active_types.count
-      -# .row
-      -#   .col-xs-12.col-md-6
-      -#     #client-by-gender{ 'data-content-count' => @dashboard.client_gender_statistic.to_json}
-      -#   .col-xs-12.col-md-6
-      -#     #client-by-status{ 'data-content-count' => @dashboard.client_status_statistic.to_json}
