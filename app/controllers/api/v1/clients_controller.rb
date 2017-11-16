@@ -16,7 +16,7 @@ module Api
           format.pdf do
             @interviewee_names = @client.interviewees.pluck(:name)
             @client_type_names = @client.client_types.pluck(:name)
-            render  pdf:      'show',
+            pdf = render_to_string pdf:      'show',
                     template: 'clients/show.pdf.haml',
                     page_size: 'A4',
                     layout:   'pdf_design.html.haml',
@@ -26,6 +26,7 @@ module Api
                     margin: { left: 0, right: 0, top: 10 },
                     dpi: '72',
                     disposition: 'inline'
+            send_data pdf
           end
         end
       end
