@@ -143,6 +143,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     $('#btn-save-draft').on 'click', ->
       return false unless _handleCheckingDuplicateFields()
       return false if _handleMaximumProgramEnrollment()
+      return false if _handleCheckingInvalidRuleValue() > 0
       _handleAddRuleBuilderToInput()
       _handleSetValueToField()
       $('.tracking-builder').find('input, textarea').removeAttr('required')
@@ -294,8 +295,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
           return _handleCheckingDuplicateFields()
           return false if _handleCheckingDuplicateFields()
         else if $('#rule-tab').is(':visible')
-          errorDomainScore = $('.rule-value-container input[type=number].error').size()
-          return false if errorDomainScore > 0
+          return false if _handleCheckingInvalidRuleValue() > 0
           return false if _handleMaximumProgramEnrollment()
         $('section ul.frmb.ui-sortable').css('min-height', '266px')
 
@@ -313,9 +313,23 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         form.submit()
 
       labels:
-        finish: self.filterTranslation.save
+        finish: self.filter
         next: self.filterTranslation.next
         previous: self.filterTranslation.previous
+
+  _handleCheckingInvalidRuleValue = ->
+    invalidIntValues = $('.rule-value-container input[type=number].error').size()
+    invalidStrValues = 0
+
+    strValues = $('.rule-value-container input[type=text]')
+    for strValue in strValues
+      if $(strValue).val() == ''
+        $(strValue).addClass('error')
+        elementParent = $(strValue).parent()
+        $(elementParent).append("<label class='error'>Field cannot be blank.</label>") unless $(elementParent).find('label.error').is(':visible')
+        invalidStrValues++ 
+
+    invalidValues = invalidIntValues + invalidStrValues
 
   _handleCheckTrackingName = ->
     nameFields = $('.program_stream_trackings_name:visible input[type="text"].error')
