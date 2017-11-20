@@ -18,7 +18,7 @@
   .col-xs-9
     %input{ style: 'width: 70%', value: @client.gov_district}
 .panel.panel-default.panel-no-margin#first-form
-  %label.text-center{style: 'padding:8px; background-color: black; color: white; width:100%; margin-bottom: 1px;'} ទម្រង់ទី១: ព័ត៌មានបឋម
+  %label.text-center{style: 'padding:8px; background-color: #04215C; color: white; width:100%; margin-bottom: 1px;'} ទម្រង់ទី១: ព័ត៌មានបឋម
   .panel-body.panel-border{style: 'border-top: 1px solid black;'}
     ថ្ងៃ/ខែ/ឆ្នាំ:
     - gov_date = @client.gov_date.present? ? @client.gov_date.strftime('%d%m%y') : '000000'
@@ -43,7 +43,7 @@
         %span= code
 
 .panel.panel-default.panel-no-margin
-  %label.panel-label
+  %label.panel-label{ style: 'background-color: #DEEDF2;' }
     %u ទីកន្លែងសម្ភាសន៍ទទួលកុមារ:
   .panel-body.panel-border
     .row
@@ -73,15 +73,16 @@
           .col-xs-8
             %input{style: 'width: 100%', value: @client.gov_interview_city }
   %label.panel-label{style: 'border-top: 0px;'}
-    %u អ្នកផ្ដល់បទសម្ភាសន៍:
+    %span{ style: 'background-color: #DEEDF2; margin-right: 10px;' }
+      %u អ្នកផ្ដល់បទសម្ភាសន៍:
     %input{ type: 'checkbox', checked: @interviewee_names.include?('កុមារ') }
-    %label កុមារ
+    %label{ style: 'margin-right: 5px;' } កុមារ
     %input{ type: 'checkbox', checked: @interviewee_names.include?('ឪពុកម្ដាយ') }
-    %label ឪពុកម្ដាយ
+    %label{ style: 'margin-right: 5px;' } ឪពុកម្ដាយ
     %input{ type: 'checkbox', checked: @interviewee_names.include?('អាណាព្យាបាល')}
-    %label អាណាព្យាបាល
+    %label{ style: 'margin-right: 5px;' } អាណាព្យាបាល
     %input{ type: 'checkbox', checked: @interviewee_names.include?('អ្នកថែទាំ')}
-    %label អ្នកថែទាំ
+    %label{ style: 'margin-right: 5px;' } អ្នកថែទាំ
     %input{ type: 'checkbox' }
     %label ផ្សេងៗ...................
   %div.panel-label{style: 'border-top: 0px;'}
@@ -91,7 +92,7 @@
     %input{style: 'width: 30%', value: @client.gov_caseworker_phone }
 
 .panel.panel-default.panel-no-margin
-  %label.panel-label
+  %label.panel-label{ style: 'background-color: #BEDCE7;' }
     %u ព័ត៌មានបឋមអំពីកុមារ:
   .panel-body.border-label{style: 'border-bottom: 0px; padding-bottom: 7px;'}
     %label{style: 'margin-right:15px; margin-left: 10px;'} ឈ្មោះកុមារ:
@@ -109,7 +110,7 @@
     %input{ type: 'checkbox', checked: @client.gender == 'female' ? true : false}
     %label ស្រី
     .panel.panel-default.panel-no-margin.panel-margin-top
-      %label.panel-label អាសយដ្ឋានកុមាររស់នៅ:
+      %label.panel-label{ style: 'background-color: #F9EBDF;' } អាសយដ្ឋានកុមាររស់នៅ:
       .panel-body.panel-label-dotted
         .row
           .col-xs-6
@@ -138,7 +139,7 @@
               .col-xs-8
                 - province = @client.province.present? ? @client.province.name.split(' / ').first : ''
                 %input{ style: 'width: 100%', value: province }
-      %label.panel-label អ្នកថែទាំកុមារ:
+      %label.panel-label{ style: 'background-color: #D9E2C2;' } អ្នកថែទាំកុមារ:
       .panel-body.panel-label-dotted{style: 'padding-bottom: 2px;'}
         %label{ style: 'margin-right:15px;'} ឈ្មោះ
         %input{ style: 'width: 30%; margin-right: 25px;', value: @client.gov_carer_name }
@@ -146,7 +147,7 @@
         %input{ style: 'width: 30%', value: @client.gov_carer_relationship }
 
         .panel.panel-default.panel-no-margin.panel-margin-top
-          %label.panel-label អាសយដ្ឋាន:
+          %label.panel-label{ style: 'background-color: #F9EBDF;' } អាសយដ្ឋាន:
           .panel-body.panel-label-dotted
             .row
               .col-xs-7
@@ -199,7 +200,7 @@
     %input{ type: 'checkbox', checked: @client.gov_information_source == 'ច្បាស់លាស់' ? true : false }
     %label ច្បាស់លាស់
 .panel.panel-default.panel-no-margin
-  %label.panel-label
+  %label.panel-label{ style: 'background-color: #F2F2F2;' }
     ប្រភេទកុមារ:
   .panel-body.border-label{style: 'border-bottom: 0px;'}
     .row
@@ -250,7 +251,7 @@
             %input{style: 'display: inline-block:width: 50%;'}
 %p{style: 'page-break-after:always;'}
 .panel.panel-default.panel-no-margin
-  %label.panel-label
+  %label.panel-label{ style: 'background-color: #F2F2F2;' }
     បញ្ចូនមកពី:
   .panel-body.border-label.border-label{style: 'padding: 0;'}
     .row
@@ -315,26 +316,26 @@
             = 'ផ្សេងៗ'
           %textarea{ style: 'margin-left: 20px;'}
 .panel.panel-default{style: 'margin:0;'}
-  %label.panel-label
+  %label.panel-label{ style: 'background-color: #FFFD54;' }
     មូលហេតុនៃការបញ្ចូន​​ និង តម្រូវការ:
   .panel-body.border-label{style: 'padding-top: 0;padding-bottom: 0;'}
     .panel.panel-default{style: 'margin:0;'}
-      %label.panel-label
+      %label.panel-label{ style: 'background-color: #D8D8D8;' }
         ព័ត៌មានសង្ខេបពីមូលហេតុនៃការបញ្ចូនកុមារមករកសេវា:
       .panel-body.border-label
         .comment{style: 'min-height: 30px;'}
           %p= @client.gov_referral_reason
     .panel.panel-default{style: 'margin:0;'}
-      %label.panel-label
+      %label.panel-label{ style: 'background-color: #D8D8D8;' }
         យោបល់របស់កុមារនិង/អាណាព្យាបាល អំពីបញ្ហា និង តម្រូវការ:
       .panel-body.border-label
         .comment{style: 'min-height: 30px;'}
           %p= @client.gov_guardian_comment
-  %label.panel-label
+  %label.panel-label{ style: 'background-color: #F2C59F;' }
     យោបល់របស់អ្នកកាន់ករណី ចំពោះតម្រូវការ និង បញ្ហាប្រឈមរបស់កុមារ:
   .panel-body.border-label{style: 'padding-top: 0;padding-bottom: 0;'}
     .panel.panel-default{style: 'margin:0;'}
-      %label.panel-label
+      %label.panel-label{ style: 'background-color: #D8D8D8;' }
         សូមបញ្ជាក់ពីប្រភេទតម្រូវការចំបាច់(បង់លេខតាមអទិភាព):
       .panel-body.border-label{style: 'padding: 0;'}
         .row
@@ -366,7 +367,7 @@
               %label ផ្សេងៗ
               %input{style: 'display: inline-block;width: 70%;'}
     .panel.panel-default{style: 'margin:0;'}
-      %label.panel-label
+      %label.panel-label{ style: 'background-color: #D8D8D8;' }
         សូមបញ្ជាក់ពីបញ្ហាប្រឈមសំខាន់ៗ(បង់លេខតាមអទិភាព):
       .panel-body.border-label{style: 'padding: 0;'}
         .row
@@ -423,7 +424,7 @@
               %textarea{style: 'margin-left:20px;width: 80%;'}
 %p{style: 'page-break-after:always;'}
 .panel.panel-default{style: 'margin:0;'}
-  %label.panel-label{style: 'padding:8px; background-color: black; color: white; width:100%;'}
+  %label.panel-label{style: 'padding:8px; background-color: #2970BA; color: white; width:100%;'}
     មតិយោបល់អ្នកកាន់ករណី:
   .panel-body.border-label{style: 'padding: 0;'}
     .row{style: 'margin: 0;'}

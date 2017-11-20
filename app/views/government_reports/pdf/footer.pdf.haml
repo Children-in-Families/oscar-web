@@ -1,6 +1,2 @@
--# = render 'government_reports/pdf/footers/footer_form_one'
--# = render 'government_reports/pdf/footers/footer_form_two'
--# = render 'government_reports/pdf/footers/footer_form_three'
--# = render 'government_reports/pdf/footers/footer_form_four'
--# = render 'government_reports/pdf/footers/footer_form_five'
-= render 'government_reports/pdf/footers/footer_form_six'
+- form = params[:form]
+= render "government_reports/pdf/footers/footer_form_#{form}"
