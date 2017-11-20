@@ -321,7 +321,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     invalidIntValues = $('.rule-value-container input[type=number].error').size()
     invalidStrValues = 0
 
-    strValues = $('.rule-value-container input[type=text]')
+    strValues = $('.rule-value-container input')
     for strValue in strValues
       if $(strValue).val() == '' and !($(strValue).attr('class').includes('select2'))
         $(strValue).addClass('error')
