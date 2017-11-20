@@ -16,7 +16,7 @@
       %i.fa.fa-download
       = t('.export_to_xls')
 
-    - if can? :manage, :all
+    - if current_user.admin? || current_user.any_manager?
       %button.btn.btn-primary#client-statistic
         %i.fa.fa-line-chart
         %span= t('.reports')
