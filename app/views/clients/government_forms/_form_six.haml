@@ -8,7 +8,7 @@
     .text-center{style: 'padding:8px; background-color: #2f5496; color: white; width:100%; margin-bottom: 0px;'} ទម្រង់ទី៦: ប៉ាន់ប្រមាណចុងក្រោយ
 
 .panel.panel-no-margin.panel-borderless{style: 'margin-top: 5px;'}
-  .panel-body.panel-border{style: 'border-top: 1px solid black; border-radius: 3px'}
+  .panel-body.panel-border{style: 'border-top: 1px solid black; border-radius: 3px;'}
     %table.table.no-margin-bottom.table-borderless
       %tbody
         %tr
@@ -41,9 +41,9 @@
     %table.table.no-margin-bottom.table-borderless{style: 'margin-top: 10px;'}
       %tbody
         %tr
-          %td{style: 'width: 70px'}
+          %td{style: 'width: 70px;'}
             ឈ្មោះកុមារ:
-          %td{style: 'width: 200px'}
+          %td{style: 'width: 200px;'}
             %input{style: 'width: 100%;', value: "#{@client.local_family_name} #{@client.local_given_name} "}
           %td
             ថ្ងៃខែឆ្នាំកំណើត:
@@ -69,7 +69,7 @@
         %tr
           %td
             ឈ្មោះឪពុក ឬអ្នកអាណាព្យាបាល:
-          %td{style: 'width: 200px'}
+          %td{style: 'width: 200px;'}
             %input{style: 'width: 100%;', value: "#{@client.local_family_name} #{@client.local_given_name} "}
           %td
             ថ្ងៃខែឆ្នាំកំណើត:
@@ -86,8 +86,8 @@
       %tbody
         %tr
           %td
-            ឈ្មោះម្តាយ ឬអ្នកអាណាព្យាបាល:
-          %td{style: 'width: 200px'}
+            ឈ្មោះម្ដាយ ឬអ្នកអាណាព្យាបាល:
+          %td{style: 'width: 200px;'}
             %input{style: 'width: 100%;', value: "#{@client.local_family_name} #{@client.local_given_name} "}
           %td
             ថ្ងៃខែឆ្នាំកំណើត:
@@ -99,17 +99,17 @@
               - else
                 %span= code
 
-    %hr{style: 'border-bottom: 1px dashed black; margin: 5px 0 0;'}
+    %hr{style: 'border-bottom: 1px solid black; margin: 5px 0 0;'}
     %table.table.no-margin-bottom.table-borderless{style: 'margin-top: 10px;'}
       %tbody
         %tr
           %td
             ឈ្មោះអ្នកបំពេញរបាយការណ៍:
-          %td{style: 'width: 200px'}
+          %td{style: 'width: 200px;'}
             %input{style: 'width: 100%;', value: "#{@client.local_family_name} #{@client.local_given_name} "}
           %td
             អង្គភាព:
-          %td{style: 'width: 200px'}
+          %td{style: 'width: 200px;'}
             %input{style: 'width: 100%;', value: ""}
         %tr
           %td{style: 'width: 20px;'}
@@ -133,19 +133,19 @@
 .panel.panel-borderless
   .panel-heading.panel-border{style: 'background: #feff00; padding: 5px; color: #000; border-top: 1px solid black;'}
     I. ការប៉ាន់ប្រមាណចុងក្រោយសម្រាប់កុមារ
-  
-  .panel-body.panel-border.no-border-bottom{style: 'padding-top: 0px'}
+
+  .panel-body.panel-border.no-border-bottom{style: 'padding-top: 0px;'}
     %div{style: 'background: #ffc003; border: 1px solid black; padding: 2px 7px;'} ចំណាត់ពិន្ទុ
-  
+
   .panel-body.panel-border
     %table.table.table-border.panel-no-margin
-      %thead{ style: 'background: #f2f2f2' }
+      %thead{ style: 'background: #f2f2f2;' }
         %tr
           %th.text-center ពិន្ទុៈ
-          %th.text-center{style: 'width: 150px'} ‌1 ខ្សោយ
-          %th.text-center{style: 'width: 100px'} 2 មធ្យម
-          %th.text-center{style: 'width: 100px'} 3 ល្អ
-          %th.text-center{style: 'width: 100px'} 4 ល្អណាស់
+          %th.text-center{style: 'width: 150px;'} ‌1 ខ្សោយ
+          %th.text-center{style: 'width: 100px;'} 2 មធ្យម
+          %th.text-center{style: 'width: 100px;'} 3 ល្អ
+          %th.text-center{style: 'width: 100px;'} 4 ល្អណាស់
         %tr
           %th.text-center បញ្ហាដែលបង្ហាញឲ្យដឹងពេលទទួលកុមារដំបូង
           %th.text-center សង្ខេបពីសេវាដែលបានផ្តល់ដល់កុមារ
@@ -178,7 +178,7 @@
             .comment{style: 'min-height: 15px;'}
               %p
         %tr
-          %td សន្តិសុខ និងសុវត្ថិភាព 
+          %td សន្តិសុខ និងសុវត្ថិភាព
           %td
           %td
             .comment{style: 'min-height: 15px;'}
@@ -264,28 +264,28 @@
               %p
 
         %tr
-          %td.text-right{:colspan => '4'} 
+          %td.text-right{:colspan => '4'}
             %p.no-margin-bottom ពិន្ទុដែលអាចបិទករណីបានត្រូវចាប់ពី២១ឡើង
             %p.no-margin-bottom (ប៉ុន្តែបើមានចំនុចណាមួយបានពិន្ទុតិចជាង២ ទោះបានពិន្ទុសរុប២១ ក៏មិនអាចបិទករណីបានដែរ)
-          %td{style: 'background: #feff00; border: 1px solid black'}
+          %td{style: 'background: #feff00; border: 1px solid black;'}
 
 
 .panel.panel-borderless
   .panel-heading.panel-border{style: 'background: #feff00; padding: 5px; color: #000; border-top: 1px solid black;'}
     II. ស្ថានភាពគ្រួសារ
 
-  .panel-body.panel-border.no-border-bottom{style: 'padding-top: 0px'}
+  .panel-body.panel-border.no-border-bottom{style: 'padding-top: 0px;'}
     %div{style: 'background: #ffc003; border: 1px solid black; padding: 2px 7px;'} ការប៉ាន់ប្រមាណចុងក្រោយ
-    
+
   .panel-body.panel-border
     %table.table.table-border.panel-no-margin
-      %thead{ style: 'background: #f2f2f2' }
+      %thead{ style: 'background: #f2f2f2;' }
         %tr
           %th.text-center ចំណាត់ពិន្ទុៈ
-          %th.text-center{style: 'width: 150px'} ‌1 ខ្សោយ
-          %th.text-center{style: 'width: 100px'} 2 មធ្យម
-          %th.text-center{style: 'width: 100px'} 3 ល្អ
-          %th.text-center{style: 'width: 100px'} 4 ល្អណាស់
+          %th.text-center{style: 'width: 150px;'} ‌1 ខ្សោយ
+          %th.text-center{style: 'width: 100px;'} 2 មធ្យម
+          %th.text-center{style: 'width: 100px;'} 3 ល្អ
+          %th.text-center{style: 'width: 100px;'} 4 ល្អណាស់
         %tr
           %th.text-center បញ្ហាដែលបង្ហាញឲ្យដឹងពេលទទួលកុមារដំបូង
           %th.text-center សង្ខេបពីសេវាដែលបានផ្តល់ដល់គ្រួសារ
@@ -430,17 +430,17 @@
               %p
 
         %tr
-          %td.text-right{:colspan => '4'} 
+          %td.text-right{:colspan => '4'}
             %p.no-margin-bottom ពិន្ទុដែលអាចបិទករណីបានត្រូវចាប់ពី៣០ឡើង
             %p.no-margin-bottom (ប៉ុន្តែបើមានចំនុចណាមួយបានពិន្ទុតិចជាង២ ទោះបានពិន្ទុសរុប៣០ ក៏មិនអាចបិទករណីបានដែរ)
-          %td{style: 'background: #feff00; border: 1px solid black'}
+          %td{style: 'background: #feff00; border: 1px solid black;'}
 
-        %tr{style: 'background: #fcebdd'}
+        %tr{style: 'background: #fcebdd;'}
           %td.text-right{:colspan => '3'}
             ពិន្ទុសរុប (យកពិន្ទុកុមារ+គ្រួសារ)=
           %td{:colspan => '2'}
-                
-  .panel-body.panel-border.no-border-bottom{style: 'padding-top: 0px'}
+
+  .panel-body.panel-border.no-border-bottom{style: 'padding-top: 0px;'}
     %div{style: 'background: #ffc003; border: 1px solid black; padding: 2px 7px;'} សេចក្តីសន្និដ្ឋានចុងក្រោយ៖
 
   .panel-body.panel-border
@@ -471,11 +471,11 @@
             %input.form-input{ type: 'checkbox', checked: @client.referral_source == 'នគរបាល' ? true : false  }
             = 'អវត្តមានកុមារ និងគ្រួសារ'
 
-.panel.panel-no-margin.panel-borderless{style: 'margin-top: 150px'}
+.panel.panel-no-margin.panel-borderless{style: 'margin-top: 150px;'}
   .panel-body.panel-border{style: 'border-top: 1px solid black; border-radius: 3px;'}
     %table.table.table-border.panel-no-margin
       %thead
-        %tr{ style: 'background: #fcebdd' }
+        %tr{ style: 'background: #fcebdd;' }
           %th សង្ខេបសាច់រឿងរបស់អតិថិជន ចាប់តាំងពីធ្វើសមាហរណកម្មរហូតដល់បិទករណីៈ
       %tbody
         %tr
@@ -522,7 +522,7 @@
             %p= @client.gov_referral_reason
 
         .col-xs-5{style: 'border-left: 1px solid black;'}
-          %label ហត្ថលេខាស្នាមមេដៃ
+          %label ហត្ថលេខាឬស្នាមមេដៃ
           .comment{style: 'min-height: 75px;'}
             %p= @client.gov_referral_reason
 
@@ -544,7 +544,7 @@
         .col-xs-5{style: 'border-left: 1px solid black;'}
           .row
             .col-xs-12
-              %label ហត្ថលេខាស្នាមមេដៃ
+              %label ហត្ថលេខាឬស្នាមមេដៃ
             .col-xs-12
               .comment{style: 'min-height: 75px;'}
                 %p= @client.gov_referral_reason

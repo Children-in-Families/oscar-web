@@ -6,10 +6,10 @@
 .panel.panel-no-margin.panel-borderless{style: 'margin-top: 5px;'}
   .panel-heading.panel-no-padding.panel-borderless
     .text-center{style: 'padding:8px; background-color: #001f5f; color: white; width:100%; margin-bottom: 0px;'} ទម្រង់ទី២: ការប៉ាន់ប្រមាណករណី និងគ្រួសារ
-  
+
   .panel-body.panel-border
     ទម្រង់នេះត្រូវបំពេញដោយអ្នកកាន់ករណី។ ពួកគេត្រូវត្រួតពិនិត្យគ្រប់ព័ត៌មានទាំងអស់នៅក្នុងទម្រង់ព័ត៌មានបឋមមុនពេលបំពេញចូលក្នុងទម្រង់នេះ។ ពួកគេត្រូវតែទទួលបានការយល់ព្រមជាមុនពីកុមារ ពន្យល់អំពីការរក្សាការសម្ងាត់ និងកន្លែងដែលមានសុវត្ថិភាព។
-  
+
   .panel-body.panel-border
     កាលបរិចេ្ឆទ(ថ្ងៃ/ខែ/ឆ្នាំ):
     - gov_date = @client.gov_date.present? ? @client.gov_date.strftime('%d%m%y') : '000000'
@@ -32,7 +32,7 @@
         %span.first= code
       - else
         %span= code
-  
+
   .panel-body.panel-border
     %u ទីកន្លែងប៉ាន់ប្រមាណ៖
     %table.table.table-borderless
@@ -48,26 +48,26 @@
           %td
             %input{style: 'width: 100%', value: '' }
         %tr
-          %td 
+          %td
             %label ឈ្មោះអ្នកកាន់ករណី
-          %td 
+          %td
             %input{style: 'width: 100%', value: '' }
-          %td 
+          %td
             %label លេខទូរស័ព្ទ:
           %td{:colspan => "3"}
             %input{style: 'width: 100%', value: '' }
 
 .panel.panel-no-margin.panel-borderless
-  .panel-heading.panel-border.no-border-bottom{style: 'background: #558bd4; padding: 5px; color: #fff'} 
+  .panel-heading.panel-border.no-border-bottom{style: 'background: #558bd4; padding: 5px; color: #fff'}
     %strong I- ស្ថានភាពកុមារ និងតម្រូវការ:
-  
+
   .panel-body.panel-border.no-border-bottom
     %div{style: 'position: relative; width: 100%;'}
       %div{style: 'margin-bottom: 30px'}
         %label{stle: 'margin-right:15px; margin-left: 10px;'} សូមដាក់ពិន្ទុក្នុងតារាងខាងក្រោមតាមតម្លៃលេខដែលសមស្រប៖
       %div{style: 'position: absolute; top: -75px; right: 0'}
         = wicked_pdf_image_tag 'gov_form_rate_symbol.svg', width: 400, height: 200
-  
+
   .panel-body.panel-border
     %table.table.table-border.panel-no-margin
       %thead{ style: 'background: #d8d8d8' }
@@ -136,7 +136,7 @@
       %tbody
         %tr
           %td ទំនាក់ទំនងសង្គម
-          %td.text-center 
+          %td.text-center
           %td
             .comment{style: 'min-height: 38px;'}
               %p
@@ -154,9 +154,9 @@
               %p
 
 .panel.panel-no-margin.panel-borderless
-  .panel-heading.panel-border.no-border-bottom{style: 'background: #558bd4; padding: 5px; color: #fff'} 
+  .panel-heading.panel-border.no-border-bottom{style: 'background: #558bd4; padding: 5px; color: #fff'}
     II. ស្ថានភាពគ្រួសារ
-  
+
   .panel-body.panel-border.no-border-bottom
     %u អាសយដ្ឋាន៖
     %table.table.table-borderless.panel-no-margin
@@ -175,24 +175,24 @@
           %td
             %input{style: 'width: 100%', value: '' }
         %tr
-          %td 
+          %td
             %label ក្រុង/ស្រុក/ខណ្ឌ:
-          %td{:colspan => "3"} 
+          %td{:colspan => "3"}
             %input{style: 'width: 100%', value: '' }
-          %td 
+          %td
             %label ខេត្ត/រាជធានី:
           %td{:colspan => "3"}
             %input{style: 'width: 100%', value: '' }
         %tr
-          %td 
+          %td
             %label ចំនួនកុមារសរុបក្នុងបន្ទុក:
-          %td 
+          %td
             %input{style: 'width: 100%', value: '' }
-          %td 
+          %td
             %label កុមារា:
           %td
             %input{style: 'width: 100%', value: '' }
-          %td 
+          %td
             %label កុមារី:
           %td
             %input{style: 'width: 100%', value: '' }
@@ -237,20 +237,7 @@
               %p
           %td
             .comment{style: 'min-height: 35px;'}
-              %p 
-          %td
-            .comment{style: 'min-height: 35px;'}
               %p
-          %td
-            .comment{style: 'min-height: 35px;'}
-              %p
-        %tr
-          %td
-            .comment{style: 'min-height: 35px;'}
-              %p
-          %td
-            .comment{style: 'min-height: 35px;'}
-              %p 
           %td
             .comment{style: 'min-height: 35px;'}
               %p
@@ -263,7 +250,20 @@
               %p
           %td
             .comment{style: 'min-height: 35px;'}
-              %p 
+              %p
+          %td
+            .comment{style: 'min-height: 35px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 35px;'}
+              %p
+        %tr
+          %td
+            .comment{style: 'min-height: 35px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 35px;'}
+              %p
           %td
             .comment{style: 'min-height: 35px;'}
               %p
@@ -298,7 +298,7 @@
               %p
 
 .panel.panel-no-margin.panel-borderless{style: 'margin-bottom: 20px'}
-  .panel-heading.panel-border{style: 'background: #d8d8d8; padding: 5px; color: #000'} 
+  .panel-heading.panel-border{style: 'background: #d8d8d8; padding: 5px; color: #000'}
     អាសយដ្ឋានអ្នកថែទាំ:
 
   .panel-body.panel-border
@@ -318,18 +318,18 @@
           %td
             %input{style: 'width: 100%', value: '' }
         %tr
-          %td 
+          %td
             %label ក្រុង/ស្រុក/ខណ្ឌ:
-          %td{:colspan => "3"} 
+          %td{:colspan => "3"}
             %input{style: 'width: 100%', value: '' }
-          %td 
+          %td
             %label ខេត្ត/រាជធានី:
           %td{:colspan => "3"}
             %input{style: 'width: 100%', value: '' }
         %tr
-          %td 
+          %td
             %label លេខទូរស័ព្ទ:
-          %td{:colspan => "7"} 
+          %td{:colspan => "7"}
             %input{style: 'width: 100%', value: '' }
 
 .panel.panel-no-margin.panel-borderless
@@ -339,7 +339,7 @@
         %label{stle: 'margin-right:15px; margin-left: 10px;'} សូមដាក់ពិន្ទុក្នុងតារាងខាងក្រោមតាមតម្លៃលេខដែលសមស្រប៖
       %div{style: 'position: absolute; bottom: -105px; right: 0;'}
         = wicked_pdf_image_tag 'gov_form_rate_symbol.svg', width: 400, height: 200
-  
+
   .panel-body.panel-border
     %table.table.table-border.panel-no-margin
       %thead{ style: 'background: #d8d8d8' }
@@ -381,7 +381,7 @@
           %td.text-center
           %td
         %tr
-          %td ជំនួយពីសាច់ញាត
+          %td ជំនួយពីសាច់ញាតិ
           %td.text-center
           %td
         %tr
@@ -398,7 +398,7 @@
           %td
 
 .panel.panel-no-margin.panel-borderless
-  .panel-heading.panel-border{style: 'background: #d8d8d8; padding: 5px; color: #000'} 
+  .panel-heading.panel-border{style: 'background: #d8d8d8; padding: 5px; color: #000'}
     សេចក្តីសន្និដ្ឋាន របស់អ្នកកាន់ករណី:
 
   .panel-body.panel-border
@@ -453,9 +453,9 @@
             %input{style: 'width:96.6%; float: right;', value: '' }
 
 .panel.panel-no-margin.panel-borderles
-  .panel-heading.panel-border{style: 'background: #efb407; padding: 5px; color: #000; border-top: 1px solid black'} 
+  .panel-heading.panel-border{style: 'background: #efb407; padding: 5px; color: #000; border-top: 1px solid black'}
     III. កិច្ចពិភាក្សាអំពីសេវា:
-  .panel-heading.panel-border{style: 'background: #f8f900; padding: 5px; color: #000'} 
+  .panel-heading.panel-border{style: 'background: #f8f900; padding: 5px; color: #000'}
     ១. ទំនាក់ទំនងអតិថិជនលើកដំបូង
 
   .panel-body.border-label.panel-no-padding
@@ -475,7 +475,7 @@
         .comment{style: 'min-height: 120px;'}
           %p= @client.gov_referral_reason
 
-  .panel-heading.panel-border{style: 'background: #f8f900; padding: 5px; color: #000'} 
+  .panel-heading.panel-border{style: 'background: #f8f900; padding: 5px; color: #000'}
     ២. គោលការណ៍ ឬការពន្យល់របស់អ្នកផ្តល់សេវា
 
   .panel-body.border-label.panel-no-padding
@@ -498,7 +498,7 @@
           %input{ type: 'checkbox', checked: false }
           %label សិទ្ធិអតិថិជន ក្នុងការទទួលឬបដិសេធមិនទទួលយកសេវា
 
-  .panel-heading.panel-border{style: 'background: #f8f900; padding: 5px; color: #000'} 
+  .panel-heading.panel-border{style: 'background: #f8f900; padding: 5px; color: #000'}
     ៣. ប្រភេទនៃការព្រមព្រៀង
 
   .panel-body.border-label.panel-no-padding
@@ -541,7 +541,7 @@
       .col-xs-4{style: 'padding-left: 30px;'}
         .row
           .col-xs-12
-            %label.small កាលបរិចេ្ឆទ ទំនាក់ទំនងអតិថិជនលើកដំបូង:
+            %label.small ឈ្មោះអាណាព្យាបាលកុមារ
           .col-xs-12
             .comment{style: 'min-height: 150px;'}
               %p= @client.gov_referral_reason
