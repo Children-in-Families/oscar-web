@@ -89,8 +89,10 @@ CIF.ClientsIndex = do ->
     advanceFilter.validateSaveQuery()
 
   _setDefaultCheckColumnVisibilityAll = ->
-    if $('.visibility .checked').length == 0
-      $('#client-column .all-visibility #all_').iCheck('check')
+    $('.check-columns-visibility').find('a.dropdown-toggle').on 'click', ->
+      parents = $(@).parent().find('.columns-visibility')
+      if $(parents).find('.visibility .checked').length == 0
+        $(parents).find('.all-visibility #all_').iCheck('check')
 
   _handleColumnVisibilityParams = ->
     $('button#search').on 'click', ->
@@ -169,10 +171,11 @@ CIF.ClientsIndex = do ->
 
     allCheckboxes = $('.all-visibility #all_')
 
-    allCheckboxes.on 'ifChecked', ->
-      $('.visibility input[type=checkbox]').iCheck('check')
-    allCheckboxes.on 'ifUnchecked', ->
-      $('.visibility input[type=checkbox]').iCheck('uncheck')
+    for checkBox in allCheckboxes
+      $(checkBox).on 'ifChecked', ->
+        $(@).parents('.columns-visibility').find('.visibility input[type=checkbox]').iCheck('check')
+      $(checkBox).on 'ifUnchecked', ->
+        $(@).parents('.columns-visibility').find('.visibility input[type=checkbox]').iCheck('uncheck')
 
   _fixedHeaderTableColumns = ->
     sInfoShow = $('#sinfo').data('infoshow')
