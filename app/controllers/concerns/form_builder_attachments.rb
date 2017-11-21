@@ -40,7 +40,6 @@ module FormBuilderAttachments
     end
   end
 
-
   def properties_params
     if controller_name == 'client_enrollments' || controller_name == 'client_enrolled_programs'
       params[:client_enrollment][:properties]
