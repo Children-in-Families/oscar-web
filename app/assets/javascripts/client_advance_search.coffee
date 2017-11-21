@@ -379,7 +379,6 @@ class CIF.ClientAdvanceSearch
   handleSelectOptionChange: (obj)->
     self = @
     if obj != undefined
-      debugger
       rowBuilderRule = obj.$el[0]
       ruleFiltersSelect = $(rowBuilderRule).find('.rule-filter-container select')
       $(ruleFiltersSelect).on 'select2-close', ->

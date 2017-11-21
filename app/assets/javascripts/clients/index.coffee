@@ -89,8 +89,29 @@ CIF.ClientsIndex = do ->
     advanceFilter.validateSaveQuery()
 
   _setDefaultCheckColumnVisibilityAll = ->
-    if $('.visibility .checked').length == 0
-      $('#client-column .all-visibility #all_').iCheck('check')
+    $('.check-columns-visibility').find('a.dropdown-toggle').on 'click', ->
+      parents = $(@).parent().find('.columns-visibility')
+      if $(parents).find('.visibility .checked').length == 0
+        $(parents).find('.all-visibility #all_').iCheck('check')
+
+  _handleColumnVisibilityParams = ->
+    $('button#search').on 'click', ->
+      allCheckboxes = $('#client-search-form').find('#new_client_grid ul input[type=checkbox]')
+      $(allCheckboxes).attr('disabled', true)
+
+    $('input.datagrid-submit').on 'click', ->
+      allCheckboxes = $('#client-advance-search-form').find('#new_client_grid ul input[type=checkbox]')
+      $(allCheckboxes).attr('disabled', true)
+
+  _handleUncheckColumnVisibility = ->
+    params = window.location.search.substr(1)
+
+    if params.includes('client_advanced_search')
+      allCheckboxes = $('#client-search-form').find('#new_client_grid ul input.i-checks')
+      $(allCheckboxes).iCheck('uncheck')
+    else
+      allCheckboxes = $('#client-advance-search-form').find('#new_client_grid ul input.i-checks')
+      $(allCheckboxes).iCheck('uncheck')
 
   _handleColumnVisibilityParams = ->
     $('button#search').on 'click', ->
@@ -169,10 +190,11 @@ CIF.ClientsIndex = do ->
 
     allCheckboxes = $('.all-visibility #all_')
 
-    allCheckboxes.on 'ifChecked', ->
-      $('.visibility input[type=checkbox]').iCheck('check')
-    allCheckboxes.on 'ifUnchecked', ->
-      $('.visibility input[type=checkbox]').iCheck('uncheck')
+    for checkBox in allCheckboxes
+      $(checkBox).on 'ifChecked', ->
+        $(@).parents('.columns-visibility').find('.visibility input[type=checkbox]').iCheck('check')
+      $(checkBox).on 'ifUnchecked', ->
+        $(@).parents('.columns-visibility').find('.visibility input[type=checkbox]').iCheck('uncheck')
 
   _fixedHeaderTableColumns = ->
     sInfoShow = $('#sinfo').data('infoshow')
