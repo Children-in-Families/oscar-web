@@ -9,7 +9,7 @@ describe 'ClientAdvancedSearch' do
     end
 
     scenario 'Advanced search link' do
-      expect(page).to have_content 'Advanced Search'
+      expect(page).to have_content 'Report Builder'
     end
 
     xscenario 'Advanced Search Text Field' do
