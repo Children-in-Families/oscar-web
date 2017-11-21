@@ -3,11 +3,11 @@
 .text-center
   = wicked_pdf_image_tag 'logo.png', width: 120
 
-.panel.panel-no-margin.panel-borderless{style: 'margin-top: 5px;'}
+.panel.panel-no-margin.panel-borderless{style: 'margin-top: 2px;'}
   .panel-heading.panel-no-padding.panel-borderless
     .text-center{style: 'padding:8px; background-color: #2f5496; color: white; width:100%; margin-bottom: 0px;'} ទម្រង់ទី៦: ប៉ាន់ប្រមាណចុងក្រោយ
 
-.panel.panel-no-margin.panel-borderless{style: 'margin-top: 5px;'}
+.panel.panel-no-margin.panel-borderless
   .panel-body.panel-border{style: 'border-top: 1px solid black; border-radius: 3px;'}
     %table.table.no-margin-bottom.table-borderless
       %tbody
@@ -37,8 +37,8 @@
               - else
                 %span= code
 
-    %hr{style: 'border-bottom: 1px dashed black; margin: 5px 0 0;'}
-    %table.table.no-margin-bottom.table-borderless{style: 'margin-top: 10px;'}
+    %hr{style: 'border-bottom: 1px dashed black; margin: 2px 0 0;'}
+    %table.table.no-margin-bottom.table-borderless{style: 'margin-top: 3px;'}
       %tbody
         %tr
           %td{style: 'width: 70px;'}
@@ -63,8 +63,8 @@
             %input{ type: 'checkbox', checked: @client.gender == 'female' ? true : false}
             ស្រី
 
-    %hr{style: 'border-bottom: 1px dashed black; margin: 5px 0 0;'}
-    %table.table.no-margin-bottom.table-borderless{style: 'margin-top: 10px;'}
+    %hr{style: 'border-bottom: 1px dashed black; margin: 2px 0 0;'}
+    %table.table.no-margin-bottom.table-borderless{style: 'margin-top: 3px;'}
       %tbody
         %tr
           %td
@@ -81,8 +81,8 @@
               - else
                 %span= code
 
-    %hr{style: 'border-bottom: 1px dashed black; margin: 5px 0 0;'}
-    %table.table.no-margin-bottom.table-borderless{style: 'margin-top: 10px;'}
+    %hr{style: 'border-bottom: 1px dashed black; margin: 2px 0 0;'}
+    %table.table.no-margin-bottom.table-borderless{style: 'margin-top: 3px;'}
       %tbody
         %tr
           %td
@@ -99,8 +99,8 @@
               - else
                 %span= code
 
-    %hr{style: 'border-bottom: 1px solid black; margin: 5px 0 0;'}
-    %table.table.no-margin-bottom.table-borderless{style: 'margin-top: 10px;'}
+    %hr{style: 'border-bottom: 1px solid black; margin: 0;'}
+    %table.table.no-margin-bottom.table-borderless{style: 'margin-top: 3px;'}
       %tbody
         %tr
           %td
@@ -129,12 +129,44 @@
             %label ខេត្ត/រាជធានី:
           %td
             %input{style: 'width: 100%', value: '' }
+    %hr{style: 'border-bottom: 1px solid black; margin: 0;'}
+    %table.table.no-margin-bottom.table-borderless{style: 'margin-top: 3px;'}
+      %tbody
+        %tr
+          %td
+            ឈ្មោះកន្លែងថែទាំកុមារ:
+          %td{style: 'width: 200px;'}
+            %input{style: 'width: 100%;', value: "#{@client.local_family_name} #{@client.local_given_name} "}
+          %td
+            កាលបរិចេ្ឆទ (ថ្ងៃ/ខែ/ឆ្នាំ):
+          %td{style: 'width: 200px;'}
+            - gov_date = @client.gov_date.present? ? @client.gov_date.strftime('%d%m%y') : '000000'
+            - gov_date.split('').each_with_index do |code, index|
+              - if index == 0
+                %span.first= code
+              - else
+                %span= code
+    %hr{style: 'border-bottom: 1px solid black; margin: 0;'}
+    %table.table.no-margin-bottom.table-borderless{style: 'margin-top: 3px;'}
+      %tbody
+        %tr
+          %td
+            រយៈពេលសរុបនៃការទុកដាក់កុមារ:
+          %td{style: 'width: 200px;'}
+            សប្ដាហ៍
+            %input{ style: 'width: auto', value: '' }
+          %td{style: 'width: 200px;'}
+            ខែ
+            %input{ style: 'width: auto;', value: '' }
+          %td{style: 'width: 200px;'}
+            ឆ្នាំ
+            %input{ style: 'width: auto;', value: '' }
 
 .panel.panel-borderless
   .panel-heading.panel-border{style: 'background: #feff00; padding: 5px; color: #000; border-top: 1px solid black;'}
     I. ការប៉ាន់ប្រមាណចុងក្រោយសម្រាប់កុមារ
 
-  .panel-body.panel-border.no-border-bottom{style: 'padding-top: 0px;'}
+  .panel-body.panel-border.no-border-bottom{style: 'padding-top: 0px; padding-bottom: 0;'}
     %div{style: 'background: #ffc003; border: 1px solid black; padding: 2px 7px;'} ចំណាត់ពិន្ទុ
 
   .panel-body.panel-border
