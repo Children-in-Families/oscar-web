@@ -13,6 +13,8 @@ CIF.ClientsIndex = do ->
     _handleCreateCsiDomainReport()
     _handleScrollTable()
     _setDefaultCheckColumnVisibilityAll()
+    _handleColumnVisibilityParams()
+    _handleUncheckColumnVisibility()
     _getClientPath()
     _checkClientSearchForm()
     _initAdavanceSearchFilter()
@@ -89,6 +91,25 @@ CIF.ClientsIndex = do ->
   _setDefaultCheckColumnVisibilityAll = ->
     if $('.visibility .checked').length == 0
       $('#client-column .all-visibility #all_').iCheck('check')
+
+  _handleColumnVisibilityParams = ->
+    $('button#search').on 'click', ->
+      allCheckboxes = $('#client-search-form').find('#new_client_grid ul input[type=checkbox]')
+      $(allCheckboxes).attr('disabled', true)
+
+    $('input.datagrid-submit').on 'click', ->
+      allCheckboxes = $('#client-advance-search-form').find('#new_client_grid ul input[type=checkbox]')
+      $(allCheckboxes).attr('disabled', true)
+
+  _handleUncheckColumnVisibility = ->
+    params = window.location.search.substr(1)
+
+    if params.includes('client_advanced_search')
+      allCheckboxes = $('#client-search-form').find('#new_client_grid ul input.i-checks')
+      $(allCheckboxes).iCheck('uncheck')
+    else
+      allCheckboxes = $('#client-advance-search-form').find('#new_client_grid ul input.i-checks')
+      $(allCheckboxes).iCheck('uncheck')
 
   _infiniteScroll = ->
     $("table.clients .page").infinitescroll
