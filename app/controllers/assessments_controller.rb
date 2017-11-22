@@ -1,7 +1,7 @@
 class AssessmentsController < AdminController
   load_and_authorize_resource
 
-  before_action :find_client
+  before_action :find_client, :check_current_organization
   before_action :find_assessment, only: [:edit, :update, :show]
   before_action :restrict_invalid_assessment, only: [:new, :create]
   before_action :restrict_update_assessment, only: [:edit, :update]
@@ -113,5 +113,9 @@ class AssessmentsController < AdminController
         redirect_to root_path, alert: t('unauthorized.default') unless current_user.permission.assessments_editable
       end
     end
+  end
+
+  def check_current_organization
+    redirect_to dashboards_path, alert: t('unauthorized.default') if current_organization.mho?
   end
 end

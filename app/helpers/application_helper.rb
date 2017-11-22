@@ -183,4 +183,8 @@ module ApplicationHelper
     return false if current_user.strategic_overviewer?
     current_user.custom_field_permissions.find_by(custom_field_id: value).editable
   end
+
+  def non_mho_tenant?
+    !current_organization.mho?
+  end
 end
