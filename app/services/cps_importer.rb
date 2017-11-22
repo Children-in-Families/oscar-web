@@ -23,16 +23,12 @@ module CpsImporter
         
         given_name                = workbook.row(row)[headers['Given Name']]
         gender                    = workbook.row(row)[headers['Gender']]
-        gender                    =  case gender
-                                     when 'M' then 'male'
-                                     when 'F' then 'female'
-                                     end
+        gender                    = gender.downcase if gender.present?
         current_address           = workbook.row(row)[headers['Current Address']]
         school_name               = workbook.row(row)[headers['School Name']]
         grade                     = workbook.row(row)[headers['School Grade']]
         kid_id                    = workbook.row(row)[headers['Kid ID']]
         family_code               = workbook.row(row)[headers['Family ID']]
-        family_ids                = Family.where(code: family_code).pluck(:id)
         user_email                = workbook.row(row)[headers['Case Worker ID']]
         user_ids                  = User.where(email: user_email).pluck(:id)
         has_been_in_orphanage     = workbook.row(row)[headers['Has Been In Orphanage?']]
@@ -82,16 +78,17 @@ module CpsImporter
           initial_referral_date: initial_referral_date,
           date_of_birth: dob,
         )
-        client.family_ids = family_ids if family_ids.present?
         client.user_ids   = user_ids if user_ids.present?
         client.save
+
+        Family.find_by(code: family_code).update(children: [client.id]) if family_code.present?
       end
     end
 
     def provinces
       ((workbook.first_row + 1)..workbook.last_row).each do |row|
         name = workbook.row(row)[headers['Name']]
-        Province.create(name: name)
+        Province.find_or_create_by(name: name)
       end
     end
 
@@ -101,7 +98,7 @@ module CpsImporter
         code            = workbook.row(row)[headers['Donor ID']]
         description     = workbook.row(row)[headers['Description']]
 
-        Donor.create(name: name, code: code, description: description)
+        Donor.find_or_create_by(name: name, code: code, description: description)
       end
     end
 
@@ -127,9 +124,9 @@ module CpsImporter
         name          = workbook.row(row)[headers['Name']]       
         code          = workbook.row(row)[headers['Family ID']]
         case_history  = workbook.row(row)[headers['Family History']]
-        family_type   = workbook.row(row)[headers['*Family Type']]
+        family_type   = workbook.row(row)[headers['Family Type']].downcase.parameterize.underscore
 
-        Family.create(name: name, code: code, case_history: case_history, family_type: family_type)
+        Family.find_or_create_by(name: name, code: code, case_history: case_history, family_type: family_type)
       end
     end
   end
