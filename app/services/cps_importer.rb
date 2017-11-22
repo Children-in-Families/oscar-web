@@ -81,7 +81,11 @@ module CpsImporter
         client.user_ids   = user_ids if user_ids.present?
         client.save
 
-        Family.find_by(code: family_code).update(children: [client.id]) if family_code.present?
+        if family_code.present?
+          family = Family.find_by(code: family_code)
+          family.children << client.id
+          family.save
+        end
       end
     end
 
