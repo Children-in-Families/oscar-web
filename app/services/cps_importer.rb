@@ -30,7 +30,7 @@ module CpsImporter
         kid_id                    = workbook.row(row)[headers['Kid ID']]
         family_code               = workbook.row(row)[headers['Family ID']]
         user_email                = workbook.row(row)[headers['Case Worker ID']]
-        user_ids                  = User.where(email: user_email).pluck(:id)
+        user_ids                  = User.find_by(email: user_email).try(:id)
         has_been_in_orphanage     = workbook.row(row)[headers['Has Been In Orphanage?']]
         has_been_in_government_care     = workbook.row(row)[headers['Has Been In Government Care?']]
         relevant_referral_information     = workbook.row(row)[headers['Relevant Referral Information']]
@@ -78,7 +78,7 @@ module CpsImporter
           initial_referral_date: initial_referral_date,
           date_of_birth: dob,
         )
-        client.user_ids   = user_ids if user_ids.present?
+        client.user_ids   = [user_ids] if user_ids.present?
         client.save
 
         if family_code.present?
