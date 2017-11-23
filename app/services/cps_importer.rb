@@ -26,13 +26,21 @@ module CpsImporter
         gender                    = gender.downcase if gender.present?
         current_address           = workbook.row(row)[headers['Current Address']]
         school_name               = workbook.row(row)[headers['School Name']]
-        grade                     = workbook.row(row)[headers['School Grade']]
+        school_grade              = workbook.row(row)[headers['School Grade']].to_s
         kid_id                    = workbook.row(row)[headers['Kid ID']]
         family_code               = workbook.row(row)[headers['Family ID']]
         user_email                = workbook.row(row)[headers['Case Worker ID']]
         user_ids                  = User.find_by(email: user_email).try(:id)
         has_been_in_orphanage     = workbook.row(row)[headers['Has Been In Orphanage?']]
+        has_been_in_orphanage     = case has_been_in_orphanage
+                                    when 'Yes' then true
+                                    when 'No' then false
+                                    end
         has_been_in_government_care     = workbook.row(row)[headers['Has Been In Government Care?']]
+        has_been_in_government_care     = case has_been_in_government_care
+                                          when 'Yes' then true
+                                          when 'No' then false
+                                          end
         relevant_referral_information     = workbook.row(row)[headers['Relevant Referral Information']]
         
         
@@ -67,7 +75,7 @@ module CpsImporter
           gender: gender,
           current_address: current_address,
           school_name: school_name,
-          grade: grade,
+          school_grade: school_grade,
           kid_id: kid_id,
           has_been_in_orphanage: has_been_in_orphanage,
           has_been_in_government_care: has_been_in_government_care,
