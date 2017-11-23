@@ -17,7 +17,7 @@
             %span.input-group-addon
               %i.fa.fa-calendar-check-o
         .col-xs-12.col-sm-6.col-md-4= f.input :school_name, label: t('.school_name')
-        .col-xs-12.col-sm-6.col-md-4= f.input :grade, label: t('.school_grade')
+        .col-xs-12.col-sm-6.col-md-4= f.input :school_grade, label: t('.school_grade')
         .col-xs-12.col-sm-6.col-md-4= f.input :birth_province_id, collection: @province.map{|p| [p.name, p.id]},  label: t('.province')
         .col-xs-12.col-sm-6.col-md-4
           = f.association :donor, collection: @donors, label: t('.donor')

@@ -8,7 +8,7 @@ body[id='client_advanced_searches-index'] {
 
   .table {
     th,
-    td.gender, td.status, td.follow_up_date, td.date_of_birth, td.grade, td.has_been_in_orphanage, td.has_been_in_government_care,
+    td.gender, td.status, td.follow_up_date, td.date_of_birth, td.school_grade, td.has_been_in_orphanage, td.has_been_in_government_care,
     td.initial_referral_date, td.referral_phone, td.able, td.birth_province, td.province, td.state, td.case_start_date,
     td.carer_phone_number td.support_amount, td.family_preservation, td.cases, td.accepted_date, td.exit_date {
       text-align: center;
@@ -18,7 +18,7 @@ body[id='client_advanced_searches-index'] {
       min-width: 100px;
     }
 
-    th.code, th.slug, th.grade, th.gender, th.cases, th.case_start_date {
+    th.code, th.slug, th.school_grade, th.gender, th.cases, th.case_start_date {
       min-width: 130px;
     }
 

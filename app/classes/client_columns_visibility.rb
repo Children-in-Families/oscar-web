@@ -35,7 +35,7 @@ class ClientColumnsVisibility
       commune_: :commune,
       district_: :district,
       school_name_: :school_name,
-      grade_: :grade,
+      school_grade_: :school_grade,
       able_state_: :able_state,
       has_been_in_orphanage_: :has_been_in_orphanage,
       has_been_in_government_care_: :has_been_in_government_care,
