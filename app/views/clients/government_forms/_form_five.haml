@@ -1,0 +1,413 @@
+%h4.text-center ព្រះរាជាណាចក្រកម្ពុជា
+%h4.text-center ជាតិ សាសនា ព្រះមហាក្សត្រ
+.text-center
+  = wicked_pdf_image_tag 'logo.png', width: 120
+
+.panel.panel-no-margin.panel-borderless{style: 'margin-top: 5px;'}
+  .panel-heading.panel-no-padding.panel-borderless
+    .text-center{style: 'padding:8px; background-color: #04215C; color: white; width:100%; margin-bottom: 0px;'} ទម្រង់ទី៥: តាមដាន និងត្រួតពិនិត្យ
+
+  .panel-body.panel-border{style: 'border-top: 1px solid black; border-radius: 3px'}
+    %table.table.no-margin-bottom.table-borderless
+      %tbody
+        %tr
+          %td
+            កាលបរិចេ្ឆទ(ថ្ងៃ/ខែ/ឆ្នាំ):
+            - gov_date = @client.gov_date.present? ? @client.gov_date.strftime('%d%m%y') : '000000'
+            - gov_date.split('').each_with_index do |code, index|
+              - if index == 0
+                %span.first= code
+              - else
+                %span= code
+          %td
+            លេខកូដភូមិ:
+            - gov_village_code = @client.gov_village_code.present? ? @client.gov_village_code : '00000000'
+            - gov_village_code.split('').each_with_index do |code, index|
+              - if index == 0
+                %span.first= code
+              - else
+                %span= code
+          %td
+            លេខកូដកុមារ:
+            - gov_client_code = @client.gov_date.present? ? @client.gov_client_code : '0000'
+            - gov_client_code.split('').each_with_index do |code, index|
+              - if index == 0
+                %span.first= code
+              - else
+                %span= code
+
+    %table.table.no-margin-bottom.table-borderless{style: 'margin-top: 10px;'}
+      %tbody
+        %tr
+          %td{style: 'width: 70px;'}
+            ឈ្មោះកុមារ:
+          %td{style: 'width: 200px'}
+            %input{style: 'width: 100%;', value: "#{@client.local_family_name} #{@client.local_given_name} "}
+          %td
+            ថ្ងៃខែឆ្នាំកំណើត:
+          %td
+            - dob = @client.date_of_birth.present? ? @client.date_of_birth.strftime('%d%m%y') : '000000'
+            - dob.split('').each_with_index do |code, index|
+              - if index == 0
+                %span.first= code
+              - else
+                %span= code
+          %td
+            ភេទ:
+          %td
+            %input{ type: 'checkbox', checked: @client.gender == 'male' ? true : false }
+            ប្រុស
+          %td
+            %input{ type: 'checkbox', checked: @client.gender == 'female' ? true : false}
+            ស្រី
+
+.panel.panel-no-margin.panel-borderless
+  .panel-body.panel-border{style: 'border-top: 1px solid black; border-radius: 3px;'}
+    %table.table.table-border.panel-no-margin
+      %thead
+        %tr{ style: 'background: #fcebdd' }
+          %th{:colspan => "2"}
+            %p ទម្រង់នេះមានគោលបំណងចុះត្រួតពិនិត្យផែនការសកម្មភាពដើម្បីឲ្យដឹងថា តើកុមារនិងគ្រួសារបានទទួលសេវា និងតម្រូវការសមស្របដែរឬទេ? តើមានភាពខុសប្លែកអ្វីខ្លះ? តើសុខុមាលភាពកុមារ និងគ្រួសារមានភាពរីកចំរើនដែរឬទេ?
+        %tr
+          %th.text-center{style: 'width: 340px;'} ការអនុវត្តន៍សកម្មភាព
+          %th.text-center លទ្ធផល
+      %tbody
+        %tr
+          %td
+            .comment{style: 'min-height: 125px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 125px;'}
+              %p
+        %tr
+          %td
+            .comment{style: 'min-height: 125px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 125px;'}
+              %p
+        %tr
+          %td
+            .comment{style: 'min-height: 125px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 125px;'}
+              %p
+        %tr
+          %td{:colspan => "2", style: 'background: #f2f2f2;'} បញ្ហាថ្មីៗដែលបានរកឃើញ ក្នុងអំឡុងពេលនៃការចុះត្រួតពិនិត្យនិងតាមដាន និងដំណោះស្រាយដែលបានធ្វើ ដើម្បីដោះស្រាយបញ្ហាទាំងនេះ។
+        %tr
+          %td{:colspan => "2"}
+            .comment{style: 'min-height: 125px;'}
+              %p
+
+.panel.panel-no-margin.panel-borderless{style: 'margin-top: 20px'}
+  .panel-body.panel-border{style: 'border-top: 1px solid black; border-radius: 3px;'}
+    %table.table.table-border.panel-no-margin
+      %thead
+        %tr{ style: 'background: #f8c599' }
+          %th.text-center{:colspan => "3"}
+            កំណត់ត្រាអំពី
+            %div{style: 'margin-left: -3px; color: red; display: inline-block;'}លទ្ធផល
+            %p{style: 'margin: 0'} ត្រូវបំពេញដោយអ្នកកាន់ករណី នៅពេលចុះត្រួតពិនិត្យករណី។ អ្នកកាន់ករណីត្រូវកត់ត្រានូវសេវា
+            %p{style: 'margin: 0'} និងសកម្មភាពគ្រប់ពេលចុះត្រួតពិនិត្យ ព្រមទាំងវឌ្ឍនភាពរបស់កុមារ និងក្រុមគ្រួសារផងដែរ។
+        %tr{ style: 'background: #fcebdd'}
+          %th.text-center{style: 'width: 130px;'} កាលបរិចេ្ឆទ (ថ្ងៃ/ខែ/ឆ្នាំ)
+          %th.text-center សេវាកម្មផ្តល់ជូនកុមារ និងគ្រួសារ
+          %th.text-center វឌ្ឍនភាពកុមារ ឬគ្រួសារកុមារ
+      %tbody
+        %tr
+          %td
+            %p
+          %td
+            %p
+          %td
+            %p
+        %tr
+          %td
+            %p
+          %td
+            %p
+          %td
+            %p
+        %tr
+          %td
+            %p
+          %td
+            %p
+          %td
+            %p
+        %tr
+          %td
+            %p
+          %td
+            %p
+          %td
+            %p
+        %tr
+          %td
+            %p
+          %td
+            %p
+          %td
+            %p
+        %tr
+          %td
+            %p
+          %td
+            %p
+          %td
+            %p
+        %tr
+          %td
+            %p
+          %td
+            %p
+          %td
+            %p
+        %tr
+          %td
+            %p
+          %td
+            %p
+          %td
+            %p
+        %tr
+          %td
+            %p
+          %td
+            %p
+          %td
+            %p
+        %tr
+          %td
+            %p
+          %td
+            %p
+          %td
+            %p
+        %tr
+          %td
+            %p
+          %td
+            %p
+          %td
+            %p
+        %tr
+          %td
+            %p
+          %td
+            %p
+          %td
+            %p
+        %tr
+          %td
+            %p
+          %td
+            %p
+          %td
+            %p
+        %tr
+          %td
+            %p
+          %td
+            %p
+          %td
+            %p
+        %tr
+          %td
+            %p
+          %td
+            %p
+          %td
+            %p
+        %tr
+          %td
+            %p
+          %td
+            %p
+          %td
+            %p
+        %tr
+          %td
+            %p
+          %td
+            %p
+          %td
+            %p
+        %tr
+          %td
+            %p
+          %td
+            %p
+          %td
+            %p
+        %tr
+          %td
+            %p
+          %td
+            %p
+          %td
+            %p
+        %tr
+          %td
+            %p
+          %td
+            %p
+          %td
+            %p
+        %tr
+          %td
+            %p
+          %td
+            %p
+          %td
+            %p
+        %tr
+          %td
+            %p
+          %td
+            %p
+          %td
+            %p
+        %tr
+          %td
+            %p
+          %td
+            %p
+          %td
+            %p
+        %tr
+          %td
+            %p
+          %td
+            %p
+          %td
+            %p
+        %tr
+          %td
+            %p
+          %td
+            %p
+          %td
+            %p
+        %tr
+          %td
+            %p
+          %td
+            %p
+          %td
+            %p
+        %tr
+          %td
+            %p
+          %td
+            %p
+          %td
+            %p
+        %tr
+          %td
+            %p
+          %td
+            %p
+          %td
+            %p
+        %tr
+          %td
+            %p
+          %td
+            %p
+          %td
+            %p
+        %tr
+          %td
+            %p
+          %td
+            %p
+          %td
+            %p
+        %tr
+          %td
+            %p
+          %td
+            %p
+          %td
+            %p
+        %tr
+          %td
+            %p
+          %td
+            %p
+          %td
+            %p
+        %tr
+          %td
+            %p
+          %td
+            %p
+          %td
+            %p
+.panel.panel-no-margin.panel-borderless{style: 'margin-top: 20px'}
+  .panel-body.panel-border{style: 'border-top: 1px solid black; border-radius: 3px;'}
+    %table.table.table-border.panel-no-margin
+      %thead
+        %tr{ style: 'background: #ff0000' }
+          %th{style: 'color: white'}
+            ការពិនិត្យតាមដាន ឬជំហានបន្ទាប់
+            %i ( កាលបរិចេ្ឆទជួបកុមារ និងគ្រួសារ, សកម្មភាពបន្ទាប់ទៀត។ល។ )
+      %tbody
+        %tr
+          %td{style: 'padding: 15px 0; border-bottom: 1px dotted black; border-top: 1px dotted black;'}
+        %tr
+          %td{style: 'padding: 15px 0; border-bottom: 1px dotted black; border-top: 1px dotted black;'}
+        %tr
+          %td{style: 'padding: 15px 0; border-bottom: 1px dotted black; border-top: 1px dotted black;'}
+        %tr
+          %td{style: 'padding: 15px 0; border-bottom: 1px dotted black; border-top: 1px dotted black;'}
+        %tr
+          %td{style: 'padding: 15px 0; border-bottom: 1px dotted black; border-top: 1px dotted black;'}
+        %tr
+          %td{style: 'padding: 15px 0; border-bottom: 1px dotted black; border-top: 1px dotted black;'}
+        %tr
+          %td{style: 'padding: 15px 0; border-bottom: 1px dotted black; border-top: 1px dotted black;'}
+        %tr
+          %td{style: 'padding: 15px 0; border-bottom: 1px dotted black; border-top: 1px dotted black;'}
+        %tr
+          %td{style: 'padding: 15px 0; border-bottom: 1px dotted black; border-top: 1px dotted black;'}
+        %tr
+          %td{style: 'padding: 15px 0; border-bottom: 1px dotted black; border-top: 1px dotted black;'}
+        %tr
+          %td{style: 'padding: 15px 0; border-bottom: 1px dotted black; border-top: 1px dotted black;'}
+        %tr
+          %td{style: 'padding: 15px 0; border-bottom: 1px dotted black; border-top: 1px dotted black;'}
+        %tr
+          %td{style: 'padding: 15px 0; border-bottom: 1px dotted black; border-top: 1px dotted black;'}
+        %tr
+          %td{style: 'padding: 15px 0; border-bottom: 1px dotted black; border-top: 1px dotted black;'}
+        %tr
+          %td{style: 'padding: 15px 0; border-bottom: 1px dotted black; border-top: 1px dotted black;'}
+        %tr
+          %td{style: 'padding: 15px 0; border-bottom: 1px dotted black; border-top: 1px dotted black;'}
+        %tr
+          %td{style: 'padding: 15px 0; border-bottom: 1px dotted black; border-top: 1px dotted black;'}
+        %tr
+          %td{style: 'padding: 15px 0; border-bottom: 1px dotted black; border-top: 1px dotted black;'}
+        %tr
+          %td{style: 'padding: 15px 0; border-bottom: 1px dotted black; border-top: 1px dotted black;'}
+        %tr
+          %td{style: 'padding: 15px 0; border-bottom: 1px dotted black; border-top: 1px dotted black;'}
+        %tr
+          %td{style: 'padding: 15px 0; border-bottom: 1px dotted black; border-top: 1px dotted black;'}
+        %tr
+          %td{style: 'padding: 15px 0; border-top: 1px dotted black;'}
+
+.text-right
+  %div{style: 'margin: 30px 0;'}
+    កាលបរិចេ្ឆទ(ថ្ងៃ/ខែ/ឆ្នាំ):
+    - gov_date = @client.gov_date.present? ? @client.gov_date.strftime('%d%m%y') : '000000'
+    - gov_date.split('').each_with_index do |code, index|
+      - if index == 0
+        %span.first= code
+      - else
+        %span= code
+  %div
+    អ្នកកាន់ករណី:____________________________________

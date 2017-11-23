@@ -1,0 +1,642 @@
+%h4.text-center ព្រះរាជាណាចក្រកម្ពុជា
+%h4.text-center ជាតិ សាសនា ព្រះមហាក្សត្រ
+.text-center
+  = wicked_pdf_image_tag 'logo.png', width: 120
+
+.panel.panel-no-margin.panel-borderless{style: 'margin-top: 2px;'}
+  .panel-heading.panel-no-padding.panel-borderless
+    .text-center{style: 'padding:8px; background-color: #04215C; color: white; width:100%; margin-bottom: 0px;'} ទម្រង់ទី៦: ប៉ាន់ប្រមាណចុងក្រោយ
+
+.panel.panel-no-margin.panel-borderless
+  .panel-body.panel-border{style: 'border-top: 1px solid black; border-radius: 3px;'}
+    %table.table.no-margin-bottom.table-borderless
+      %tbody
+        %tr
+          %td
+            កាលបរិចេ្ឆទ(ថ្ងៃ/ខែ/ឆ្នាំ):
+            - gov_date = @client.gov_date.present? ? @client.gov_date.strftime('%d%m%y') : '000000'
+            - gov_date.split('').each_with_index do |code, index|
+              - if index == 0
+                %span.first= code
+              - else
+                %span= code
+          %td
+            លេខកូដភូមិ:
+            - gov_village_code = @client.gov_village_code.present? ? @client.gov_village_code : '00000000'
+            - gov_village_code.split('').each_with_index do |code, index|
+              - if index == 0
+                %span.first= code
+              - else
+                %span= code
+          %td
+            លេខកូដកុមារ:
+            - gov_client_code = @client.gov_date.present? ? @client.gov_client_code : '0000'
+            - gov_client_code.split('').each_with_index do |code, index|
+              - if index == 0
+                %span.first= code
+              - else
+                %span= code
+
+    %hr{style: 'border-bottom: 1px dashed black; margin: 2px 0 0;'}
+    %table.table.no-margin-bottom.table-borderless{style: 'margin-top: 3px;'}
+      %tbody
+        %tr
+          %td{style: 'width: 70px;'}
+            ឈ្មោះកុមារ:
+          %td{style: 'width: 200px;'}
+            %input{style: 'width: 100%;', value: "#{@client.local_family_name} #{@client.local_given_name} "}
+          %td
+            ថ្ងៃខែឆ្នាំកំណើត:
+          %td
+            - dob = @client.date_of_birth.present? ? @client.date_of_birth.strftime('%d%m%y') : '000000'
+            - dob.split('').each_with_index do |code, index|
+              - if index == 0
+                %span.first= code
+              - else
+                %span= code
+          %td
+            ភេទ:
+          %td
+            %input{ type: 'checkbox', checked: @client.gender == 'male' ? true : false }
+            ប្រុស
+          %td
+            %input{ type: 'checkbox', checked: @client.gender == 'female' ? true : false}
+            ស្រី
+
+    %hr{style: 'border-bottom: 1px dashed black; margin: 2px 0 0;'}
+    %table.table.no-margin-bottom.table-borderless{style: 'margin-top: 3px;'}
+      %tbody
+        %tr
+          %td
+            ឈ្មោះឪពុក ឬអ្នកអាណាព្យាបាល:
+          %td{style: 'width: 200px;'}
+            %input{style: 'width: 100%;', value: "#{@client.local_family_name} #{@client.local_given_name} "}
+          %td
+            ថ្ងៃខែឆ្នាំកំណើត:
+          %td
+            - dob = @client.date_of_birth.present? ? @client.date_of_birth.strftime('%d%m%y') : '000000'
+            - dob.split('').each_with_index do |code, index|
+              - if index == 0
+                %span.first= code
+              - else
+                %span= code
+
+    %hr{style: 'border-bottom: 1px dashed black; margin: 2px 0 0;'}
+    %table.table.no-margin-bottom.table-borderless{style: 'margin-top: 3px;'}
+      %tbody
+        %tr
+          %td
+            ឈ្មោះម្ដាយ ឬអ្នកអាណាព្យាបាល:
+          %td{style: 'width: 200px;'}
+            %input{style: 'width: 100%;', value: "#{@client.local_family_name} #{@client.local_given_name} "}
+          %td
+            ថ្ងៃខែឆ្នាំកំណើត:
+          %td
+            - dob = @client.date_of_birth.present? ? @client.date_of_birth.strftime('%d%m%y') : '000000'
+            - dob.split('').each_with_index do |code, index|
+              - if index == 0
+                %span.first= code
+              - else
+                %span= code
+
+    %hr{style: 'border-bottom: 1px solid black; margin: 0;'}
+    %table.table.no-margin-bottom.table-borderless{style: 'margin-top: 3px;'}
+      %tbody
+        %tr
+          %td
+            ឈ្មោះអ្នកបំពេញរបាយការណ៍:
+          %td{style: 'width: 200px;'}
+            %input{style: 'width: 100%;', value: "#{@client.local_family_name} #{@client.local_given_name} "}
+          %td
+            អង្គភាព:
+          %td{style: 'width: 200px;'}
+            %input{style: 'width: 100%;', value: ""}
+        %tr
+          %td{style: 'width: 20px;'}
+            អាស័យដ្ឋាន: ភូមិ:
+          %td
+            %input{style: 'width: 100%;', value: ''}
+          %td{style: 'width: 50px;'}
+            ឃុំ/សង្កាត់:
+          %td
+            %input{style: 'width: 100%', value: '' }
+        %tr
+          %td
+            %label ក្រុង/ស្រុក/ខណ្ឌ:
+          %td
+            %input{style: 'width: 100%', value: '' }
+          %td
+            %label ខេត្ត/រាជធានី:
+          %td
+            %input{style: 'width: 100%', value: '' }
+    %hr{style: 'border-bottom: 1px solid black; margin: 0;'}
+    %table.table.no-margin-bottom.table-borderless{style: 'margin-top: 3px;'}
+      %tbody
+        %tr
+          %td
+            ឈ្មោះកន្លែងថែទាំកុមារ:
+          %td{style: 'width: 200px;'}
+            %input{style: 'width: 100%;', value: "#{@client.local_family_name} #{@client.local_given_name} "}
+          %td
+            កាលបរិចេ្ឆទ (ថ្ងៃ/ខែ/ឆ្នាំ):
+          %td{style: 'width: 200px;'}
+            - gov_date = @client.gov_date.present? ? @client.gov_date.strftime('%d%m%y') : '000000'
+            - gov_date.split('').each_with_index do |code, index|
+              - if index == 0
+                %span.first= code
+              - else
+                %span= code
+    %hr{style: 'border-bottom: 1px solid black; margin: 0;'}
+    %table.table.no-margin-bottom.table-borderless{style: 'margin-top: 3px;'}
+      %tbody
+        %tr
+          %td
+            រយៈពេលសរុបនៃការទុកដាក់កុមារ:
+          %td{style: 'width: 200px;'}
+            សប្ដាហ៍
+            %input{ style: 'width: auto', value: '' }
+          %td{style: 'width: 200px;'}
+            ខែ
+            %input{ style: 'width: auto;', value: '' }
+          %td{style: 'width: 200px;'}
+            ឆ្នាំ
+            %input{ style: 'width: auto;', value: '' }
+
+.panel.panel-borderless
+  .panel-heading.panel-border{style: 'background: #feff00; padding: 5px; color: #000; border-top: 1px solid black;'}
+    I. ការប៉ាន់ប្រមាណចុងក្រោយសម្រាប់កុមារ
+
+  .panel-body.panel-border.no-border-bottom{style: 'padding-top: 0px; padding-bottom: 0;'}
+    %div{style: 'background: #ffc003; border: 1px solid black; padding: 2px 7px;'} ចំណាត់ពិន្ទុ
+
+  .panel-body.panel-border
+    %table.table.table-border.panel-no-margin
+      %thead{ style: 'background: #f2f2f2;' }
+        %tr
+          %th.text-center ពិន្ទុៈ
+          %th.text-center{style: 'width: 150px;'} ‌1 ខ្សោយ
+          %th.text-center{style: 'width: 100px;'} 2 មធ្យម
+          %th.text-center{style: 'width: 100px;'} 3 ល្អ
+          %th.text-center{style: 'width: 100px;'} 4 ល្អណាស់
+        %tr
+          %th.text-center បញ្ហាដែលបង្ហាញឲ្យដឹងពេលទទួលកុមារដំបូង
+          %th.text-center សង្ខេបពីសេវាដែលបានផ្តល់ដល់កុមារ
+          %th.text-center លទ្ធផល
+          %th.text-center សេចក្តីសន្និដ្ឋាន
+          %th.text-center ពិន្ទុ
+      %tbody
+        %tr
+          %td សុខភាពផ្លូវកាយ
+          %td
+          %td
+            .comment{style: 'min-height: 15px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 15px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 15px;'}
+              %p
+        %tr
+          %td សុខភាពផ្លូវចិត្ត
+          %td
+          %td
+            .comment{style: 'min-height: 15px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 15px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 15px;'}
+              %p
+        %tr
+          %td សន្តិសុខ និងសុវត្ថិភាព
+          %td
+          %td
+            .comment{style: 'min-height: 15px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 15px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 15px;'}
+              %p
+        %tr
+          %td ចំណីអាហារ ទីជម្រក និងសម្លៀកបំពាក់
+          %td
+          %td
+            .comment{style: 'min-height: 15px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 15px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 15px;'}
+              %p
+        %tr
+          %td ការសិក្សាអប់រំ
+          %td
+          %td
+            .comment{style: 'min-height: 15px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 15px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 15px;'}
+              %p
+        %tr
+          %td ទំនាក់ទំនងក្នុងគ្រួសារ
+          %td
+          %td
+            .comment{style: 'min-height: 15px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 15px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 15px;'}
+              %p
+        %tr
+          %td ទំនាក់ទំនងសង្គម
+          %td
+          %td
+            .comment{style: 'min-height: 15px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 15px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 15px;'}
+              %p
+        %tr
+          %td ឯកសារច្បាប់
+          %td
+          %td
+            .comment{style: 'min-height: 15px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 15px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 15px;'}
+              %p
+
+        %tr
+          %td តម្រូវការជំនួយផ្នែកច្បាប់
+          %td
+          %td
+            .comment{style: 'min-height: 15px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 15px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 15px;'}
+              %p
+
+        %tr
+          %td.text-right{:colspan => '4'}
+            %p.no-margin-bottom ពិន្ទុដែលអាចបិទករណីបានត្រូវចាប់ពី២១ឡើង
+            %p.no-margin-bottom (ប៉ុន្តែបើមានចំនុចណាមួយបានពិន្ទុតិចជាង២ ទោះបានពិន្ទុសរុប២១ ក៏មិនអាចបិទករណីបានដែរ)
+          %td{style: 'background: #feff00; border: 1px solid black;'}
+
+
+.panel.panel-borderless
+  .panel-heading.panel-border{style: 'background: #feff00; padding: 5px; color: #000; border-top: 1px solid black;'}
+    II. ស្ថានភាពគ្រួសារ
+
+  .panel-body.panel-border.no-border-bottom{style: 'padding-top: 0px;'}
+    %div{style: 'background: #ffc003; border: 1px solid black; padding: 2px 7px;'} ការប៉ាន់ប្រមាណចុងក្រោយ
+
+  .panel-body.panel-border
+    %table.table.table-border.panel-no-margin
+      %thead{ style: 'background: #f2f2f2;' }
+        %tr
+          %th.text-center ចំណាត់ពិន្ទុៈ
+          %th.text-center{style: 'width: 150px;'} ‌1 ខ្សោយ
+          %th.text-center{style: 'width: 100px;'} 2 មធ្យម
+          %th.text-center{style: 'width: 100px;'} 3 ល្អ
+          %th.text-center{style: 'width: 100px;'} 4 ល្អណាស់
+        %tr
+          %th.text-center បញ្ហាដែលបង្ហាញឲ្យដឹងពេលទទួលកុមារដំបូង
+          %th.text-center សង្ខេបពីសេវាដែលបានផ្តល់ដល់គ្រួសារ
+          %th.text-center លទ្ធផល
+          %th.text-center សេចក្តីសន្និដ្ឋាន
+          %th.text-center ពិន្ទុ
+      %tbody
+        %tr
+          %td ការការពារ និងការថែទាំ
+          %td
+          %td
+            .comment{style: 'min-height: 15px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 15px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 15px;'}
+              %p
+        %tr
+          %td ភាពសិ្នទ្ធស្នាលរវាងកុមារ និងអ្នកថែទាំ
+          %td
+          %td
+            .comment{style: 'min-height: 15px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 15px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 15px;'}
+              %p
+        %tr
+          %td សុខភាពផ្លូវកាយ
+          %td
+          %td
+            .comment{style: 'min-height: 15px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 15px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 15px;'}
+              %p
+        %tr
+          %td ឆន្ទៈក្នុងការធ្វើឲ្យស្ថានភាពបានប្រសើរឡើង
+          %td
+          %td
+            .comment{style: 'min-height: 15px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 15px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 15px;'}
+              %p
+        %tr
+          %td មុខរបរ និងជំនាញនានាដែលអាចរកចំណូលបាន
+          %td
+          %td
+            .comment{style: 'min-height: 15px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 15px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 15px;'}
+              %p
+        %tr
+          %td ចំណេះដឹងទូទៅក្នុងសង្គម
+          %td
+          %td
+            .comment{style: 'min-height: 15px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 15px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 15px;'}
+              %p
+        %tr
+          %td ធនធាននានា (ដីធ្លី ផ្ទះ)
+          %td
+          %td
+            .comment{style: 'min-height: 15px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 15px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 15px;'}
+              %p
+        %tr
+          %td ជំនួយពីសាច់ញាតិ
+          %td
+          %td
+            .comment{style: 'min-height: 15px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 15px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 15px;'}
+              %p
+
+        %tr
+          %td ការគាំទ្រពីសហគមន៍
+          %td
+          %td
+            .comment{style: 'min-height: 15px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 15px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 15px;'}
+              %p
+
+        %tr
+          %td កូនៗផ្សេងទៀត ដែលអាចជួយបាន
+          %td
+          %td
+            .comment{style: 'min-height: 15px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 15px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 15px;'}
+              %p
+
+        %tr
+          %td ផ្សេងៗ
+          %td
+          %td
+            .comment{style: 'min-height: 15px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 15px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 15px;'}
+              %p
+
+        %tr
+          %td.text-right{:colspan => '4'}
+            %p.no-margin-bottom ពិន្ទុដែលអាចបិទករណីបានត្រូវចាប់ពី៣០ឡើង
+            %p.no-margin-bottom (ប៉ុន្តែបើមានចំនុចណាមួយបានពិន្ទុតិចជាង២ ទោះបានពិន្ទុសរុប៣០ ក៏មិនអាចបិទករណីបានដែរ)
+          %td{style: 'background: #feff00; border: 1px solid black;'}
+
+        %tr{style: 'background: #fcebdd;'}
+          %td.text-right{:colspan => '3'}
+            ពិន្ទុសរុប (យកពិន្ទុកុមារ+គ្រួសារ)=
+          %td{:colspan => '2'}
+
+  .panel-body.panel-border.no-border-bottom{style: 'padding-top: 0px;'}
+    %div{style: 'background: #ffc003; border: 1px solid black; padding: 2px 7px;'} សេចក្តីសន្និដ្ឋានចុងក្រោយ៖
+
+  .panel-body.panel-border
+    .row
+      .col-xs-12
+        .form-check{style: 'margin-left: 10px; margin-bottom: 5px;'}
+          .form-check-label
+            %input.form-input{ type: 'checkbox', checked: @client.referral_source != 'ក្រសួង សអយ/មន្ទីរ សអយ' ? true : false }
+            = 'បិទ (ប្រសិនបើពិន្ទុសរុប ចាប់ពី៤៨ឡើង)'
+      .col-xs-12
+        .form-check{style: 'margin-left: 10px; margin-bottom: 5px;'}
+          .form-check-label
+            %input.form-input{ type: 'checkbox', checked: @client.referral_source == 'អង្គការមិនមែនរដ្ឋាភិបាល' ? true : false  }
+            = 'បិទដោយសារកុមារស្លាប់'
+      .col-xs-12
+        .form-check{style: 'margin-left: 10px; margin-bottom: 5px;'}
+          .form-check-label
+            %input.form-input{ type: 'checkbox', checked: @client.referral_source == 'មន្ទីរពេទ្យ' ? true : false  }
+            = 'ករណីបិទដោយកុមារផ្លាស់ទៅកន្លែងផ្សេង ឬរកកុមារមិនឃើញ'
+      .col-xs-12
+        .form-check{style: 'margin-left: 10px; margin-bottom: 5px;'}
+          .form-check-label
+            %input.form-input{ type: 'checkbox', checked: @client.referral_source == 'នគរបាល' ? true : false  }
+            = 'បន្តករណី'
+      .col-xs-12
+        .form-check{style: 'margin-left: 10px; margin-bottom: 5px;'}
+          .form-check-label
+            %input.form-input{ type: 'checkbox', checked: @client.referral_source == 'នគរបាល' ? true : false  }
+            = 'អវត្តមានកុមារ និងគ្រួសារ'
+
+.panel.panel-no-margin.panel-borderless{style: 'margin-top: 150px;'}
+  .panel-body.panel-border{style: 'border-top: 1px solid black; border-radius: 3px;'}
+    %table.table.table-border.panel-no-margin
+      %thead
+        %tr{ style: 'background: #fcebdd;' }
+          %th សង្ខេបសាច់រឿងរបស់អតិថិជន ចាប់តាំងពីធ្វើសមាហរណកម្មរហូតដល់បិទករណីៈ
+      %tbody
+        %tr
+          %td{style: 'padding: 15px 0; border-bottom: 1px dotted black; border-top: 1px dotted black;'}
+        %tr
+          %td{style: 'padding: 15px 0; border-bottom: 1px dotted black; border-top: 1px dotted black;'}
+        %tr
+          %td{style: 'padding: 15px 0; border-bottom: 1px dotted black; border-top: 1px dotted black;'}
+        %tr
+          %td{style: 'padding: 15px 0; border-bottom: 1px dotted black; border-top: 1px dotted black;'}
+        %tr
+          %td{style: 'padding: 15px 0; border-bottom: 1px dotted black; border-top: 1px dotted black;'}
+        %tr
+          %td{style: 'padding: 15px 0; border-bottom: 1px dotted black; border-top: 1px dotted black;'}
+        %tr
+          %td{style: 'padding: 15px 0; border-bottom: 1px dotted black; border-top: 1px dotted black;'}
+        %tr
+          %td{style: 'padding: 15px 0; border-bottom: 1px dotted black; border-top: 1px dotted black;'}
+        %tr
+          %td{style: 'padding: 15px 0; border-bottom: 1px dotted black; border-top: 1px dotted black;'}
+        %tr
+          %td{style: 'padding: 15px 0; border-bottom: 1px dotted black; border-top: 1px dotted black;'}
+        %tr
+          %td{style: 'padding: 15px 0; border-bottom: 1px dotted black; border-top: 1px dotted black;'}
+        %tr
+          %td{style: 'padding: 15px 0; border-bottom: 1px dotted black; border-top: 1px dotted black;'}
+        %tr
+          %td{style: 'padding: 15px 0; border-bottom: 1px dotted black; border-top: 1px dotted black;'}
+        %tr
+          %td{style: 'padding: 15px 0; border-bottom: 1px dotted black; border-top: 1px dotted black;'}
+        %tr
+          %td{style: 'padding: 15px 0; border-bottom: 1px solid black; border-top: 1px dotted black;'}
+
+.panel.panel-no-margin.panel-borderless
+  .panel-heading.panel-border{style: 'border: 1px solid black; background: #ffc003; padding: 5px;'}
+    ហត្ថលេខា
+
+  .panel-border{style: 'padding: 0 7px 7px;'}
+    .panel-body.border-label.panel-no-padding
+      .row
+        .col-xs-4{style: 'padding-left: 30px;'}
+          %label ឈ្មោះកុមារ
+          .comment{style: 'min-height: 75px;'}
+            %p= @client.gov_referral_reason
+
+        .col-xs-5{style: 'border-left: 1px solid black;'}
+          %label ហត្ថលេខាឬស្នាមមេដៃ
+          .comment{style: 'min-height: 75px;'}
+            %p= @client.gov_referral_reason
+
+        .col-xs-3{style: 'border-left: 1px solid black;'}
+          %label ថ្ងៃ/ខែ/ឆ្នាំ
+          .comment{style: 'min-height: 75px;'}
+            %p= @client.gov_referral_reason
+
+    .panel-body.border-label.panel-no-padding
+      .row
+        .col-xs-4{style: 'padding-left: 30px;'}
+          .row
+            .col-xs-12
+              %label ឈ្មោះអាណាព្យាបាលកុមារ
+            .col-xs-12
+              .comment{style: 'min-height: 75px;'}
+                %p= @client.gov_referral_reason
+
+        .col-xs-5{style: 'border-left: 1px solid black;'}
+          .row
+            .col-xs-12
+              %label ហត្ថលេខាឬស្នាមមេដៃ
+            .col-xs-12
+              .comment{style: 'min-height: 75px;'}
+                %p= @client.gov_referral_reason
+
+        .col-xs-3{style: 'border-left: 1px solid black;'}
+          .row
+            .col-xs-12
+              %label ថ្ងៃ/ខែ/ឆ្នាំ
+            .col-xs-12
+              .comment{style: 'min-height: 75px;'}
+                %p= @client.gov_referral_reason
+
+    .panel-body.border-label.panel-no-padding
+      .row
+        .col-xs-4{style: 'padding-left: 30px;'}
+          .row
+            .col-xs-12
+              %label ឈ្មោះអ្នកកាន់ករណី
+            .col-xs-12
+              .comment{style: 'min-height: 75px;'}
+                %p= @client.gov_referral_reason
+
+        .col-xs-5{style: 'border-left: 1px solid black;'}
+          .row
+            .col-xs-12
+              %label ហត្ថលេខា
+            .col-xs-12
+              .comment{style: 'min-height: 75px;'}
+                %p= @client.gov_referral_reason
+
+        .col-xs-3{style: 'border-left: 1px solid black;'}
+          .row
+            .col-xs-12
+              %label ថ្ងៃ/ខែ/ឆ្នាំ
+            .col-xs-12
+              .comment{style: 'min-height: 75px;'}
+                %p= @client.gov_referral_reason
+
+    .panel-body.border-label.panel-no-padding
+      .row
+        .col-xs-4{style: 'padding-left: 30px;'}
+          .row
+            .col-xs-12
+              %label ឈ្មោះអាជ្ញាធរ
+            .col-xs-12
+              .comment{style: 'min-height: 75px;'}
+                %p= @client.gov_referral_reason
+
+        .col-xs-5{style: 'border-left: 1px solid black;'}
+          .row
+            .col-xs-12
+              %label ហត្ថលេខានិងត្រា
+            .col-xs-12
+              .comment{style: 'min-height: 75px;'}
+                %p= @client.gov_referral_reason
+
+        .col-xs-3{style: 'border-left: 1px solid black;'}
+          .row
+            .col-xs-12
+              %label ថ្ងៃ/ខែ/ឆ្នាំ
+            .col-xs-12
+              .comment{style: 'min-height: 75px;'}
+                %p= @client.gov_referral_reason

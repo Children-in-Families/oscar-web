@@ -1,5 +1,4 @@
 class CustomFormPresentValidator < ActiveModel::Validator
-  
   def initialize(record,table_name,field)
     @record     = record
     @table_name = table_name

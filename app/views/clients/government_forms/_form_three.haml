@@ -1,0 +1,472 @@
+%h4.text-center ព្រះរាជាណាចក្រកម្ពុជា
+%h4.text-center ជាតិ សាសនា ព្រះមហាក្សត្រ
+.text-center
+  = wicked_pdf_image_tag 'logo.png', width: 120
+
+.panel.panel-no-margin.panel-borderless{style: 'margin-top: 5px;'}
+  .panel-heading.panel-no-padding.panel-borderless
+    .text-center{style: 'padding:8px; background-color: #04215C; color: white; width:100%; margin-bottom: 0px;'} ទម្រង់ទី៣: ផែនការសេវាសំរាប់ករណី និង គ្រួសារ
+
+.panel.panel-no-margin.panel-borderless{style: 'margin-top: 5px;'}
+  .panel-body.panel-border{style: 'border-top: 1px solid black; border-radius: 3px;'}
+    %table.table.no-margin-bottom.table-borderless
+      %tbody
+        %tr
+          %td
+            កាលបរិចេ្ឆទ(ថ្ងៃ/ខែ/ឆ្នាំ):
+            - gov_date = @client.gov_date.present? ? @client.gov_date.strftime('%d%m%y') : '000000'
+            - gov_date.split('').each_with_index do |code, index|
+              - if index == 0
+                %span.first= code
+              - else
+                %span= code
+          %td
+            លេខកូដភូមិ:
+            - gov_village_code = @client.gov_village_code.present? ? @client.gov_village_code : '00000000'
+            - gov_village_code.split('').each_with_index do |code, index|
+              - if index == 0
+                %span.first= code
+              - else
+                %span= code
+          %td
+            លេខកូដកុមារ:
+            - gov_client_code = @client.gov_date.present? ? @client.gov_client_code : '0000'
+            - gov_client_code.split('').each_with_index do |code, index|
+              - if index == 0
+                %span.first= code
+              - else
+                %span= code
+
+    %table.table.no-margin-bottom.table-borderless{style: 'margin-top: 10px;'}
+      %tbody
+        %tr
+          %td{style: 'width: 70px;'}
+            ឈ្មោះកុមារ:
+          %td{style: 'width: 200px;'}
+            %input{style: 'width: 100%;', value: "#{@client.local_family_name} #{@client.local_given_name} "}
+          %td
+            ថ្ងៃខែឆ្នាំកំណើត:
+          %td
+            - dob = @client.date_of_birth.present? ? @client.date_of_birth.strftime('%d%m%y') : '000000'
+            - dob.split('').each_with_index do |code, index|
+              - if index == 0
+                %span.first= code
+              - else
+                %span= code
+          %td
+            ភេទ:
+          %td
+            %input{ type: 'checkbox', checked: @client.gender == 'male' ? true : false }
+            ប្រុស
+          %td
+            %input{ type: 'checkbox', checked: @client.gender == 'female' ? true : false}
+            ស្រី
+
+    %table.table.no-margin-bottom.table-borderless{style: 'margin-top: 10px;'}
+      %tbody
+        %tr
+          %td
+            ឈ្មោះឪពុកម្តាយឬអ្នកអាណាព្យាបាល:
+          %td{style: 'width: 200px;'}
+            %input{style: 'width: 100%;', value: "#{@client.local_family_name} #{@client.local_given_name} "}
+          %td
+            ថ្ងៃខែឆ្នាំកំណើត:
+          %td
+            - dob = @client.date_of_birth.present? ? @client.date_of_birth.strftime('%d%m%y') : '000000'
+            - dob.split('').each_with_index do |code, index|
+              - if index == 0
+                %span.first= code
+              - else
+                %span= code
+
+    %table.table.no-margin-bottom.table-borderless{style: 'margin-top: 10px;'}
+      %tbody
+        %tr
+          %td{style: 'width: 20px;'}
+            អាស័យដ្ឋាន:
+          %td.text-right
+            ភូមិ:
+          %td
+            %input{style: 'width: 100%;', value: ''}
+          %td{style: 'width: 50px;'}
+            ឃុំ/សង្កាត់:
+          %td
+            %input{style: 'width: 100%', value: '' }
+        %tr
+          %td.text-right{:colspan => "2"}
+            %label ក្រុង/ស្រុក/ខណ្ឌ:
+          %td
+            %input{style: 'width: 100%', value: '' }
+          %td
+            %label ខេត្ត/រាជធានី:
+          %td
+            %input{style: 'width: 100%', value: '' }
+        %tr
+          %td.text-right{:colspan => "2"}
+            %label ឈ្មោះអ្នកកាន់ករណី:
+          %td
+            %input{style: 'width: 100%', value: '' }
+          %td
+            %label អង្គភាព:
+          %td
+            %input{style: 'width: 100%', value: '' }
+
+.panel.panel-borderless
+  .panel-heading.panel-border{style: 'background: #ffd966; padding: 5px; color: #000; border-top: 1px solid black; border-bottom: 0;'}
+    %u I- ផែនការសំរាប់ករណី (កុមារ)
+
+  .panel-body.panel-border.no-border-bottom
+    %u យកពិន្ទុទាប ( ១និង២ ) ពីទម្រង់ប៉ាន់ប្រមាណករណី និងគ្រួសារ មកធ្វើផែនការជួយគាំទ្រ
+
+  .panel-body.panel-border
+    %table.table.table-border.panel-no-margin
+      %thead{ style: 'background: #d8d8d8;' }
+        %tr
+          %th.text-center{ style: 'width: 200px;' } ស្ថានភាពរបស់កុមារនិងតម្រូវការបច្ចុប្បន្ន
+          %th.text-center{ style: 'width: 100px;' } គោលដៅ
+          %th.text-center សកម្មភាពលំអិត
+          %th.text-center អ្នកអនុវត្ត
+          %th.text-center{ style: 'width: 40px;' } អនុវត្តពេលណា
+      %tbody
+        %tr
+          %td សុខភាពផ្លូវកាយ
+          %td.text-center
+          %td
+            .comment{style: 'min-height: 36px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 36px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 36px;'}
+              %p
+        %tr
+          %td សុខភាពផ្លូវចិត្ត
+          %td.text-center
+          %td
+            .comment{style: 'min-height: 36px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 36px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 36px;'}
+              %p
+        %tr
+          %td សុវត្ថិភាព និងសន្តិសុខ
+          %td.text-center
+          %td
+            .comment{style: 'min-height: 36px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 36px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 36px;'}
+              %p
+        %tr
+          %td ចំណីអាហារ
+          %td.text-center
+          %td
+            .comment{style: 'min-height: 36px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 36px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 36px;'}
+              %p
+        %tr
+          %td ទីជម្រក
+          %td.text-center
+          %td
+            .comment{style: 'min-height: 36px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 36px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 36px;'}
+              %p
+        %tr
+          %td សម្លៀកបំពាក់
+          %td
+          %td
+            .comment{style: 'min-height: 36px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 36px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 36px;'}
+              %p
+        %tr
+          %td ការសិក្សាអប់រំ
+          %td.text-center
+          %td
+            .comment{style: 'min-height: 36px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 36px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 36px;'}
+              %p
+        %tr
+          %td ទំនាក់ទំនងក្នុងគ្រួសារ
+          %td.text-center
+          %td
+            .comment{style: 'min-height: 36px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 36px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 36px;'}
+              %p
+
+
+.panel.panel-no-margin.panel-borderless{style: 'margin-top: 25px;'}
+  .panel-heading.panel-border{style: 'background: #ffd966; padding: 5px; color: #000; border-top: 1px solid black; border-bottom: 0;'}
+    %u I- ផែនការសំរាប់ករណី (កុមារ)(ត)
+
+  .panel-body.panel-border.no-border-bottom
+    %u យកពិន្ទុទាប ( ១និង២ ) ពីទម្រង់ប៉ាន់ប្រមាណករណី និងគ្រួសារ មកធ្វើផែនការជួយគាំទ្រ
+
+  .panel-body.panel-border
+    %table.table.table-border.panel-no-margin
+      %thead{ style: 'background: #d8d8d8;' }
+        %tr
+          %th.text-center{ style: 'width: 200px;' } ស្ថានភាពរបស់កុមារនិងតម្រូវការបច្ចុប្បន្ន
+          %th.text-center{ style: 'width: 100px;' } គោលដៅ
+          %th.text-center សកម្មភាពលំអិត
+          %th.text-center អ្នកអនុវត្ត
+          %th.text-center{ style: 'width: 40px;' } អនុវត្តពេលណា
+      %tbody
+        %tr
+          %td ទំនាក់ទំនងក្នុងសង្គម
+          %td.text-center
+          %td
+            .comment{style: 'min-height: 36px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 36px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 38px;'}
+              %p
+        %tr
+          %td ឯកសារផ្លូវច្បាប់
+          %td.text-center
+          %td
+            .comment{style: 'min-height: 36px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 36px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 38px;'}
+              %p
+
+.panel.panel-no-margin.panel-borderless
+.panel-heading.panel-border{style: 'background: #ffd966; padding: 5px; color: #000; border-top: 1px solid black; border-bottom: 0;'}
+  %u II- ផែនការសំរាប់គ្រួសារ
+
+.panel-body.panel-border
+  %table.table.table-border.panel-no-margin
+    %thead{ style: 'background: #d8d8d8;' }
+      %tr
+        %th.text-center{ style: 'width: 200px;' } សូចនាករសំខាន់ៗរបស់អ្នកថែទាំ
+        %th.text-center{ style: 'width: 100px;' } គោលដៅ
+        %th.text-center
+          ផែនការសកម្មភាព (សកម្មភាព-អ្នកអនុវត្ត-អនុវត្តពេលណា)
+        %th.text-center{ style: 'width: 100px;' } លទ្ធផល
+    %tbody
+      %tr
+        %td ការការពារ និងការថែទាំ
+        %td.text-center
+        %td
+          .comment{style: 'min-height: 36px;'}
+            %p
+        %td
+          .comment{style: 'min-height: 36px;'}
+            %p
+      %tr
+        %td ភាពសិ្នទ្ធស្នាលរវាងកុមារ និងអ្នកថែទាំ
+        %td.text-center
+        %td
+          .comment{style: 'min-height: 36px;'}
+            %p
+        %td
+          .comment{style: 'min-height: 36px;'}
+            %p
+      %tr
+        %td សុខភាពផ្លូវកាយ
+        %td.text-center
+        %td
+          .comment{style: 'min-height: 36px;'}
+            %p
+        %td
+          .comment{style: 'min-height: 36px;'}
+            %p
+      %tr
+        %td សុខភាពផ្លូវចិត្ត
+        %td.text-center
+        %td
+          .comment{style: 'min-height: 36px;'}
+            %p
+        %td
+          .comment{style: 'min-height: 36px;'}
+            %p
+      %tr
+        %td ឆន្ទៈក្នុងការធ្វើឲ្យស្ថានភាពបានប្រសើរឡើង
+        %td.text-center
+        %td
+          .comment{style: 'min-height: 36px;'}
+            %p
+        %td
+          .comment{style: 'min-height: 36px;'}
+            %p
+      %tr
+        %td មុខរបរ និងជំនាញនានាដែលអាចរកចំណូលបាន
+        %td.text-center
+        %td
+          .comment{style: 'min-height: 36px;'}
+            %p
+        %td
+          .comment{style: 'min-height: 36px;'}
+            %p
+      %tr
+        %td ចំណេះដឹងទូទៅក្នុងសង្គម
+        %td.text-center
+        %td
+          .comment{style: 'min-height: 36px;'}
+            %p
+        %td
+          .comment{style: 'min-height: 36px;'}
+            %p
+      %tr
+        %td ធនធាននានា (ដីធ្លី ផ្ទះ...)
+        %td.text-center
+        %td
+          .comment{style: 'min-height: 36px;'}
+            %p
+        %td
+          .comment{style: 'min-height: 36px;'}
+            %p
+      %tr
+        %td ជំនួយពីសាច់ញាតិ
+        %td.text-center
+        %td
+          .comment{style: 'min-height: 36px;'}
+            %p
+        %td
+          .comment{style: 'min-height: 36px;'}
+            %p
+
+.panel.panel-no-margin.panel-borderless{style: 'margin-top: 130px;'}
+  .panel-heading.panel-border.top-radius{style: 'background: #ffd966; padding: 5px; color: #000; border-top: 1px solid black;'}
+    %u II- ផែនការសំរាប់គ្រួសារ(ត)
+
+  .panel-body.panel-border.bottom-radius
+    %table.table.table-border.panel-no-margin
+      %thead{ style: 'background: #d8d8d8;' }
+        %tr
+          %th.text-center{ style: 'width: 200px;' } សូចនាករសំខាន់ៗរបស់អ្នកថែទាំ
+          %th.text-center{ style: 'width: 100px;' } គោលដៅ
+          %th.text-center
+            ផែនការសកម្មភាព (សកម្មភាព-អ្នកអនុវត្ត-អនុវត្តពេលណា)
+          %th.text-center{ style: 'width: 100px;' } លទ្ធផល
+      %tbody
+        %tr
+          %td ការគាំទ្រពីសហគមន៍
+          %td.text-center
+          %td
+            .comment{style: 'min-height: 36px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 36px;'}
+              %p
+        %tr
+          %td កូនៗផ្សេងទៀតដែលអាចជួយគ្រួសារបាន
+          %td.text-center
+          %td
+            .comment{style: 'min-height: 36px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 36px;'}
+              %p
+        %tr
+          %td ផ្សេងៗ
+          %td.text-center
+          %td
+            .comment{style: 'min-height: 36px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 36px;'}
+              %p
+
+.panel.panel-no-margin.panel-borderless
+  .panel-body.panel-border{style: 'border-radius: 3px;'}
+    .row{style: 'margin-top: 5px;'}
+      .col-xs-6.text-left
+        .signature_date
+          កាលបរិចេ្ឆទ:
+          %span.first
+          %span.padding-date
+          %span.padding-date
+          %span.padding-date
+          %span.padding-date
+          %span.padding-date
+        %br
+        %p{style: 'margin-left: 50px;'} ហត្ថលេខាអ្នកកាន់ករណី
+        %br
+        %br
+        %br
+        %br
+        %br
+        %br
+        %br
+        %p.no-margin-bottom ______________________________________
+      .col-xs-6.text-right
+        .signature_date
+          កាលបរិចេ្ឆទ (ថ្ងៃទី/ខែ/ឆ្នាំ):
+          %span.first
+          %span.padding-date
+          %span.padding-date
+          %span.padding-date
+          %span.padding-date
+          %span.padding-date
+        %br
+        %p{style: 'margin-right: 30px;'} ស្នាមមេដៃឪពុកម្តាយ ឬអ្នកអាណាព្យាបាល
+        %br
+        %br
+        %br
+        %br
+        %br
+        %br
+        %br
+        %p.no-margin-bottom ______________________________________
+
+.panel.panel-no-margin.panel-borderless
+  .panel-body.panel-border.text-center{style: 'border-radius: 3px '}
+    .row{style: 'margin-top: 5px;'}
+      .col-xs-12
+        .signature_date
+          កាលបរិចេ្ឆទ:
+          %span.first
+          %span.padding-date
+          %span.padding-date
+          %span.padding-date
+          %span.padding-date
+          %span.padding-date
+        %br
+        %p{style: 'margin-right: 30px;'} ហត្ថលេខា គ.ក.ន.ក
+        %br
+        %br
+        %br
+        %br
+        %br
+        %br
+        %br
+        %p.no-margin-bottom ______________________________________

@@ -1275,6 +1275,12 @@ km:
       gender: ភេទ
       general_info: អំពីអតិចិជន
       given_name: នាមខ្លួនជាអក្សរឡាតាំង
+      government_form_five: 'ទម្រង់ទី៥: តាមដាន និងត្រួតពិនិត្យ'
+      government_form_four: 'ទម្រង់ទី៤: ការទុកដាក់កុមារ'
+      government_form_one: 'ទម្រង់ទី១: ព័ត៌មានបឋម'
+      government_form_six: 'ទម្រង់ទី៦: ប៉ាន់ប្រមាណចុងក្រោយ'
+      government_form_three: 'ទម្រង់ទី៣: ផែនការសេវាសំរាប់ករណី និង គ្រួសារ'
+      government_form_two: 'ទម្រង់ទី២: ការប៉ាន់ប្រមាណករណី និងគ្រួសារ'
       government_report: របាយការណ៍សម្រាប់រដ្ឋាភិបាល
       has_been_in_government_care: តើធ្លាប់ស្ថិតក្នុងការថែទំារបស់រាជរដ្ឋាភិបាល
       has_been_in_orphanage: ធ្លាប់បាននៅក្នុងមណ្ឌលកុមារកំព្រា
