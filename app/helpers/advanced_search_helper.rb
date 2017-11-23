@@ -41,7 +41,7 @@ module AdvancedSearchHelper
       local_family_name: I18n.t('advanced_search.fields.local_family_name'),
       form_title: I18n.t('advanced_search.fields.form_title'),
       code: I18n.t('advanced_search.fields.code'),
-      grade: I18n.t('advanced_search.fields.grade'),
+      school_grade: I18n.t('advanced_search.fields.school_grade'),
       family_id: I18n.t('advanced_search.fields.family_id'),
       age: I18n.t('advanced_search.fields.age'),
       family: I18n.t('advanced_search.fields.family'),

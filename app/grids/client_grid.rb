@@ -143,7 +143,7 @@ class ClientGrid
 
   filter(:has_been_in_government_care, :xboolean, header: -> { I18n.t('datagrid.columns.clients.has_been_in_government_care') })
 
-  filter(:grade, :integer, range: true, header: -> { I18n.t('datagrid.columns.clients.school_grade') })
+  filter(:school_grade, :string, header: -> { I18n.t('datagrid.columns.clients.school_grade') })
 
   filter(:able_state, :enum, select: :able_states, header: -> { I18n.t('datagrid.columns.clients.able_state') })
 
@@ -507,7 +507,7 @@ class ClientGrid
 
   column(:school_name, header: -> { I18n.t('datagrid.columns.clients.school_name') })
 
-  column(:grade, header: -> { I18n.t('datagrid.columns.clients.school_grade') })
+  column(:school_grade, header: -> { I18n.t('datagrid.columns.clients.school_grade') })
 
   column(:has_been_in_orphanage, header: -> { I18n.t('datagrid.columns.clients.has_been_in_orphanage') }) do |object|
     object.has_been_in_orphanage ? 'Yes' : 'No'

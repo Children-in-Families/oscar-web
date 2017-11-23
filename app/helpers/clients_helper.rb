@@ -101,7 +101,7 @@ module ClientsHelper
       commune:                       t('datagrid.columns.clients.commune'),
       district:                      t('datagrid.columns.clients.district'),
       school_name:                   t('datagrid.columns.clients.school_name'),
-      grade:                         t('datagrid.columns.clients.school_grade'),
+      school_grade:                  t('datagrid.columns.clients.school_grade'),
       able_state:                    t('datagrid.columns.clients.able_state'),
       has_been_in_orphanage:         t('datagrid.columns.clients.has_been_in_orphanage'),
       has_been_in_government_care:   t('datagrid.columns.clients.has_been_in_government_care'),
