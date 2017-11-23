@@ -2,7 +2,7 @@ module CpsImporter
   class Import
     attr_accessor :path, :headers, :workbook
 
-    def initialize(sheet_name, path = 'vendor/data/Client Data Import - Final Compasio.xlsx')
+    def initialize(sheet_name, path = 'vendor/data/cps.xlsx')
       @path     = path
       @workbook = Roo::Excelx.new(path)
 
