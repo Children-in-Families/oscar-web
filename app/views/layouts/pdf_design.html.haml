@@ -92,6 +92,51 @@
         padding:6px;
         width:100%;
       }
+      .table-borderless tbody tr td{
+        border: 0;
+        padding: 3px;
+      }
+      .table-border thead tr th,
+      .table-border thead:first-child tr:first-child th,
+      .table-border tbody tr td {
+        border: 1px solid black;
+      }
+      .panel-border {
+        border-color: black;
+        border-radius: 0px;
+      }
+      .panel-borderless {
+        border: 0;
+        border-radius: 0;
+      }
+      .panel-padding {
+        padding: 10px 5px;
+      }
+      .panel-no-padding {
+        padding: 0;
+      }
+      .panel-no-margin {
+        margin: 0;
+      }
+      .no-border-bottom {
+        border-bottom: 0;
+      }
+      .no-margin-bottom {
+        margin-bottom: 0;
+      }
+      .bottom-radius {
+        border-top: 0;
+        border-radius: 0;
+        border-bottom-left-radius: 3px; 
+        border-bottom-right-radius: 3px;
+      }
+      .top-radius {
+        border-bottom: 0;
+        border-radius: 0;
+        border-top-left-radius: 3px; 
+        border-top-right-radius: 3px;
+      }
+      
 
   %body{ style: 'background-color:#fff;padding-bottom:20px;padding-left:40px;padding-right:40px;', onload: 'pageNumber()' }
     = yield

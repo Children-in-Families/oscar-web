@@ -116,16 +116,31 @@
           - if can? :manage, CaseNote
             %span.btn-sm.btn.btn-info.small-btn-margin{ class: ('disabled' unless case_notes_readable?) }
               = link_to_if case_notes_readable?, "#{@client.case_notes.count} #{t('.view_case_notes')}", client_case_notes_path(@client)
-          -# Client ask to hide #147254199
-          -# - if can? :manage, Survey
-          -#   = link_to new_client_survey_path(@client) do
-          -#     %span.btn-sm.btn.btn-success.small-btn-margin= t('.take_survey')
-          -# - if @client.surveys.any?
-          -#   = link_to client_surveys_path(@client) do
-          -#     %span.btn-sm.btn.btn-success.small-btn-margin= t('.survey_history')
           - if government_instance?
-            = link_to client_path(@client, format: 'pdf'), target: :_blank do
-              %span.btn-sm.btn.btn-success.small-btn-margin= t('.government_report')
+            .btn-group.small-btn-margin
+              %button.btn.btn-sm.btn-success.dropdown-toggle{"data-toggle" => "dropdown"}
+                = t('.government_report')
+                %span.caret
+              %ul.dropdown-menu
+                %li
+                  = link_to client_path(@client, format: 'pdf', form: 'one'), target: :_blank do
+                    %span.text-success= t('.government_form_one')
+                %li
+                  = link_to client_path(@client, format: 'pdf', form: 'two'), target: :_blank do
+                    %span.text-success= t('.government_form_two')
+                %li
+                  = link_to client_path(@client, format: 'pdf', form: 'three'), target: :_blank do
+                    %span.text-success= t('.government_form_three')
+                %li
+                  = link_to client_path(@client, format: 'pdf', form: 'four'), target: :_blank do
+                    %span.text-success= t('.government_form_four')
+                %li
+                  = link_to client_path(@client, format: 'pdf', form: 'five'), target: :_blank do
+                    %span.text-success= t('.government_form_five')
+                %li
+                  = link_to client_path(@client, format: 'pdf', form: 'six'), target: :_blank do
+                    %span.text-success= t('.government_form_six')
+
           - if @client.has_any_quarterly_reports?
             - if can? :manage, QuarterlyReport
               = link_to client_case_quarterly_reports_path(@client,@client.latest_case) do
