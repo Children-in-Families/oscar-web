@@ -11,7 +11,7 @@ module Api
       end
 
       def authenticate_user_request
-        unless request.headers['access-token'] == ENV['GOV_ACCESS_TOKEN'] && request.remote_ip == ENV['REMOTE_IP'] && request.headers['client'] == ENV['GOV_CLIENT'] && request.headers['uid'] == ENV['GOV_UID']
+        unless request.headers['access-token'] == ENV['GOV_ACCESS_TOKEN'] && request.domain == ENV['GOV_DOMAIN'] && request.headers['client'] == ENV['GOV_CLIENT'] && request.headers['uid'] == ENV['GOV_UID']
           authenticate_user!
         end
       end
