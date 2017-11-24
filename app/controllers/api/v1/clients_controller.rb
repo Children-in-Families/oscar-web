@@ -14,9 +14,10 @@ module Api
             render json: @client
           end
           format.pdf do
+            pdf_name = params[:form] == 'one' ? 'Primary Information Form' : 'show'
             @interviewee_names = @client.interviewees.pluck(:name)
             @client_type_names = @client.client_types.pluck(:name)
-            pdf = render_to_string pdf:      'show',
+            pdf = render_to_string pdf:      pdf_name,
                     template: 'clients/show.pdf.haml',
                     page_size: 'A4',
                     layout:   'pdf_design.html.haml',

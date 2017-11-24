@@ -58,7 +58,8 @@ class ClientsController < AdminController
         initial_visit_client
       end
       format.pdf do
-        render  pdf:      'show',
+        pdf_name = params[:form] == 'one' ? 'Primary Information Form' : 'show'
+        render  pdf:      pdf_name,
                 template: 'clients/show.pdf.haml',
                 page_size: 'A4',
                 layout:   'pdf_design.html.haml',
