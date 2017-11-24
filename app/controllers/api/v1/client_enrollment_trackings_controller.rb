@@ -4,7 +4,7 @@ module Api
       include FormBuilderAttachments
 
       before_action :find_client, :find_enrollment
-      before_action :find_client_enrollment_tracking, only: :update
+      before_action :find_client_enrollment_tracking, only: [:update, :destroy]
 
       def create
         @client_enrollment_tracking = @enrollment.client_enrollment_trackings.new(client_enrollment_tracking_params)
@@ -31,6 +31,18 @@ module Api
       end
 
       def show
+      end
+
+      def destroy
+        name = params[:file_name]
+        index = params[:file_index].to_i
+        notice = ""
+        if name.present? && index.present?
+          delete_form_builder_attachment(@client_enrollment_tracking, name, index)
+        else
+          @client_enrollment_tracking.destroy
+          head 204
+        end
       end
 
       private

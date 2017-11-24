@@ -4,7 +4,7 @@ module Api
       include FormBuilderAttachments
 
       before_action :find_client
-      before_action :find_client_enrollment, only: :update
+      before_action :find_client_enrollment, only: [:update, :destroy]
 
       def create
         @client_enrollment = @client.client_enrollments.new(client_enrollment_params)
@@ -27,6 +27,18 @@ module Api
           render json: @client_enrollment
         else
           render json: @client_enrollment.errors, status: :unprocessable_entity
+        end
+      end
+
+      def destroy
+        name = params[:file_name]
+        index = params[:file_index].to_i
+
+        if name.present? && index.present?
+          delete_form_builder_attachment(@client_enrollment, name, index)
+        else
+          @client_enrollment.destroy
+          head 204
         end
       end
 
