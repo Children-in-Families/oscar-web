@@ -302,8 +302,8 @@ en:
       initial_referral_date: Initial Referral Date
       kid_id: Kid ID
       live_with: Who to live with
-      local_family_name: Family Name (Local)
-      local_given_name: Given Name (Local)
+      local_family_name: Family Name (kh)
+      local_given_name: Given Name (kh)
       name: Name
       ngo_accepted_date: NGO Accept Date
       ngo_exit_date: NGO Exit Date
@@ -1190,8 +1190,8 @@ en:
       initial_referral_date: Initial Referral Date
       kid_id: Kid ID
       live_with: Who to live with
-      local_family_name: Family Name (Local)
-      local_given_name: Given Name (Local)
+      local_family_name: Family Name (kh)
+      local_given_name: Given Name (kh)
       name: Name
       note: Note
       placements:
@@ -1424,8 +1424,8 @@ en:
         initial_referral_date: Initial Referral Date
         kid_id: Kid ID
         live_with: Who to live with
-        local_family_name: Family Name (Local)
-        local_given_name: Given Name (Local)
+        local_family_name: Family Name (kh)
+        local_given_name: Given Name (kh)
         manage: Manage
         name: Name
         ngo_accepted_date: NGO Accept Date
@@ -1665,8 +1665,8 @@ en:
     initial_referral_date: Initial Referral Date
     kid_id: Kid ID
     live_with: Who to live with
-    local_family_name: Family Name (Local)
-    local_given_name: Given Name (Local)
+    local_family_name: Family Name (kh)
+    local_given_name: Given Name (kh)
     name: Name
     province: Birth Province
     received_by: Received By

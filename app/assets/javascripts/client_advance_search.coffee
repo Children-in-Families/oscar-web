@@ -74,8 +74,10 @@ class CIF.ClientAdvanceSearch
 
   initSelect2: ->
     $('#custom-form-select, #program-stream-select, #quantitative-case-select').select2()
-    $('.rule-filter-container select').select2(width: '250px')
-    $('.rule-operator-container select, .rule-value-container select').select2(width: 'resolve')
+    setTimeout ( ->
+      $('.rule-filter-container select').select2(width: '250px')
+      $('.rule-operator-container select, .rule-value-container select').select2(width: 'resolve')
+    )
 
   basicFilterSetRule: ->
     basicQueryRules = $('#builder').data('basic-search-rules')
