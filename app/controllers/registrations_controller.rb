@@ -13,7 +13,7 @@ class RegistrationsController < Devise::RegistrationsController
   protected
 
   def update_resource(resource, params)
-    if params[:program_warning].present?
+    if params[:program_warning].present? || params[:domain_warning].present?
       resource.update_without_password(params)
     else
       super
@@ -24,6 +24,9 @@ class RegistrationsController < Devise::RegistrationsController
     if params[:user][:program_warning].present?
       flash[:notice] = nil
       program_streams_path
+    elsif params[:user][:domain_warning].present?
+      flash[:notice] = nil
+      domains_path
     else
       super
     end

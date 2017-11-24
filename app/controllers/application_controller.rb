@@ -42,6 +42,7 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.for(:account_update) << :calendar_integration
     devise_parameter_sanitizer.for(:account_update) << :pin_code
     devise_parameter_sanitizer.for(:account_update) << :program_warning
+    devise_parameter_sanitizer.for(:account_update) << :domain_warning
     devise_parameter_sanitizer.for(:account_update) << :staff_performance_notification
   end
 
