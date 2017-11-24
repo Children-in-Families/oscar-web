@@ -68,7 +68,7 @@
                 = link_to t('.departments'), departments_path
               - unless (Rails.env.production? && current_organization.demo?)
                 %li{ class: active_menu('domains') }
-                  - if current_user.strategic_overviewer? || current_user.domain_warning?g
+                  - if current_user.strategic_overviewer? || current_user.domain_warning?
                     = link_to t('.domains'), domains_path
                   - else
                     %a{"data-target" => "#domain-warning", "data-toggle" => "modal", :type => "button"}=t('.domains')
