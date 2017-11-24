@@ -24,6 +24,8 @@
           = render 'layouts/footer'
           - unless current_user.program_warning?
             = render 'program_streams/program_stream_warning'
+          - if current_user.admin? && !current_user.domain_warning?
+            = render 'domains/domain_warning'
       - else
         #page-wrapper.gray-bg.no-margin
           = render 'layouts/top_navbar'
