@@ -2,6 +2,7 @@ describe 'User' do
   let!(:admin){ create(:user, roles: 'admin') }
   let!(:used_user){ create(:user) }
   let!(:user){ create(:user) }
+  let!(:strategic_overviewer){ create(:user, :strategic_overviewer) }
 
   let!(:location){ create(:location, name: 'ផ្សេងៗ Other') }
   let!(:progress_note){ create(:progress_note, user: used_user, location: location) }
@@ -70,6 +71,27 @@ describe 'User' do
         visit domains_path
         expect(page).to have_css('#domain-warning')
       end
+
+      scenario 'access through button in side menu' do
+        visit root_path
+        find("a[id=manage]").click
+        within '.navbar-default' do
+          expect(page).to have_link('Program Streams', program_streams_path)
+          expect(page).not_to have_css("a[data-target='#warning-program']")
+          expect(page).to have_link('Domains', domains_path)
+          expect(page).not_to have_css("a[data-target='#domain-warning']")
+        end
+
+        admin.update(program_warning: false, domain_warning: false)
+        visit root_path
+        find("a[id=manage]").click
+        within '.navbar-default' do
+          expect(page).not_to have_link('Program Streams', program_streams_path)
+          expect(page).to have_css("a[data-target='#warning-program']")
+          expect(page).not_to have_link('Domains', domains_path)
+          expect(page).to have_css("a[data-target='#domain-warning']")
+        end
+      end
     end
 
     context 'User' do
@@ -86,13 +108,79 @@ describe 'User' do
       end
 
       scenario 'has not seen the prompt' do
-        user.update(program_warning: false)
+        user.update(program_warning: false, domain_warning: false)
 
         visit program_streams_path
         expect(page).to have_css('#warning-program')
 
         visit domains_path
         expect(page).not_to have_css('#domain-warning')
+      end
+
+      scenario 'access through button in side menu' do
+        visit root_path
+        find("a[id=manage]").click
+        within '.navbar-default' do
+          expect(page).to have_link('Program Streams', program_streams_path)
+          expect(page).not_to have_css("a[data-target='#warning-program']")
+          expect(page).not_to have_link('Domains', domains_path)
+          expect(page).not_to have_css("a[data-target='#domain-warning']")
+        end
+
+        user.update(program_warning: false, domain_warning: false)
+        visit root_path
+        find("a[id=manage]").click
+        within '.navbar-default' do
+          expect(page).not_to have_link('Program Streams', program_streams_path)
+          expect(page).to have_css("a[data-target='#warning-program']")
+          expect(page).not_to have_link('Domains', domains_path)
+          expect(page).not_to have_css("a[data-target='#domain-warning']")
+        end
+      end
+    end
+
+    context 'Strategic Overviewer' do
+      before do
+        login_as(strategic_overviewer)
+      end
+
+      scenario 'has seen the prompt' do
+        visit program_streams_path
+        expect(page).not_to have_css('#warning-program')
+
+        visit domains_path
+        expect(page).not_to have_css('#domain-warning')
+      end
+
+      scenario 'has not seen the prompt' do
+        strategic_overviewer.update(program_warning: false, domain_warning: false)
+
+        visit program_streams_path
+        expect(page).to have_css('#warning-program')
+
+        visit domains_path
+        expect(page).not_to have_css('#domain-warning')
+      end
+
+      scenario 'access through button in side menu' do
+        visit root_path
+        find("a[id=manage]").click
+        within '.navbar-default' do
+          expect(page).to have_link('Program Streams', program_streams_path)
+          expect(page).not_to have_css("a[data-target='#warning-program']")
+          expect(page).to have_link('Domains', domains_path)
+          expect(page).not_to have_css("a[data-target='#domain-warning']")
+        end
+
+        strategic_overviewer.update(program_warning: false, domain_warning: false)
+        visit root_path
+        find("a[id=manage]").click
+        within '.navbar-default' do
+          expect(page).not_to have_link('Program Streams', program_streams_path)
+          expect(page).to have_css("a[data-target='#warning-program']")
+          expect(page).to have_link('Domains', domains_path)
+          expect(page).not_to have_css("a[data-target='#domain-warning']")
+        end
       end
     end
   end
