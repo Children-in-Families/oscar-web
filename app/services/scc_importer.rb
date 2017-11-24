@@ -1,4 +1,4 @@
-module AhcImporter
+module SccImporter
   class Import
     attr_accessor :path, :headers, :workbook
 
