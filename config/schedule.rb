@@ -10,5 +10,5 @@ end
 
 every :month, at: '00:00 am' do
   rake 'ngo_usage_report:generate', output: 'log/whenever.log'
-  rake 'staff_monthly_report:generate', output: 'log/whenever.log'
+  # rake 'staff_monthly_report:generate', output: 'log/whenever.log'
 end
