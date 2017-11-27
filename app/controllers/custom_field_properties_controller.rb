@@ -49,7 +49,11 @@ class CustomFieldPropertiesController < AdminController
     name = params[:file_name]
     index = params[:file_index].to_i
     if name.present? && index.present?
-      delete_form_builder_attachment(@custom_field_property, name, index)
+      if name == 'attachments'
+        delete_custom_field_property_attachments(index)
+      else
+        delete_form_builder_attachment(@custom_field_property, name, index)
+      end
       redirect_to request.referer, notice: t('.delete_attachment_successfully')
     else
       @custom_field_property.destroy
@@ -66,6 +70,14 @@ class CustomFieldPropertiesController < AdminController
     default_params = default_params.merge(properties: properties_params) if properties_params.present?
     default_params = default_params.merge(form_builder_attachments_attributes: attachment_params) if action_name == 'create' && attachment_params.present?
     default_params
+  end
+
+  def delete_custom_field_property_attachments(index)
+    attachments = @custom_field_property.attachments
+    deleted_file = attachments.delete_at(index)
+    deleted_file.try(:remove_attachments!)
+    attachments.empty? ? @custom_field_property.remove_attachments! : @custom_field_property.attachments = attachments
+    @custom_field_property.save
   end
 
   def get_form_builder_attachments

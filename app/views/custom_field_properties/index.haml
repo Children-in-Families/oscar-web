@@ -10,7 +10,7 @@
               .btn.btn-outline.btn-success.form-btn
                 = t('.back')
       .ibox-content
-        - @custom_field_properties.each do |custom_field_property|
+        - @custom_field_properties.each_with_index do |custom_field_property, index|
           .row
             .col-xs-12
               .ibox.border-left-right.border-bottom
@@ -38,5 +38,20 @@
                                 = render 'shared/form_builder/list_attachment', label: key, resource: custom_field_property
                               - else
                                 = display_custom_properties(custom_field_property.properties[key])
+
+          .table-responsive
+            %table.table.table-bordered.table-hover.attachment-table
+              %tbody.uplod-file
+                - file = custom_field_property.attachments
+                - next if file.empty?
+                %tr.row-file
+                  %td.image-title.vert-align
+                    = original_filename(file.first)
+                  %td.vert-align.preview.text-center
+                    = link_to preview_or_download(file.first), file.first.url, target: target_blank(file.first), class: 'btn btn-info btn-sm btn-download'
+                  - if action_name == 'show' || action_name == 'report' || action_name == 'index'
+                    %td.vert-align.text-center.action
+                      = form_buildable_path(custom_field_property, index, 'attachments', '')
+
       .ibox-footer.text-center
         = paginate @custom_field_properties
