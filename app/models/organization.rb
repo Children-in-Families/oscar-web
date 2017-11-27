@@ -35,4 +35,12 @@ class Organization < ActiveRecord::Base
   def mho?
     short_name == 'mho'
   end
+
+  def cif?
+    short_name == 'cif'
+  end
+
+  def cwd?
+    short_name == 'cwd'
+  end
 end

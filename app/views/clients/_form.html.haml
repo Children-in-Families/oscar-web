@@ -83,7 +83,7 @@
         .col-xs-12.col-md-8
           = f.input :relevant_referral_information, input_html: { rows: '5' }, label: t('.relevant_referral_information')
 
-      - if government_instance?
+      - if government_reports_visible?
         .row
           .col-xs-12
             %hr

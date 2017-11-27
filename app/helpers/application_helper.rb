@@ -163,8 +163,8 @@ module ApplicationHelper
     end
   end
 
-  def government_instance?
-    current_organization.short_name == 'cwd'
+  def government_reports_visible?
+    current_organization.cwd? || current_organization.cif?
   end
 
   def program_stream_readable?(value)
