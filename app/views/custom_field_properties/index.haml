@@ -10,7 +10,7 @@
               .btn.btn-outline.btn-success.form-btn
                 = t('.back')
       .ibox-content
-        - @custom_field_properties.each_with_index do |custom_field_property, index|
+        - @custom_field_properties.each do |custom_field_property|
           .row
             .col-xs-12
               .ibox.border-left-right.border-bottom
@@ -42,16 +42,17 @@
           .table-responsive
             %table.table.table-bordered.table-hover.attachment-table
               %tbody.uplod-file
-                - file = custom_field_property.attachments
-                - next if file.empty?
-                %tr.row-file
-                  %td.image-title.vert-align
-                    = original_filename(file.first)
-                  %td.vert-align.preview.text-center
-                    = link_to preview_or_download(file.first), file.first.url, target: target_blank(file.first), class: 'btn btn-info btn-sm btn-download'
-                  - if action_name == 'show' || action_name == 'report' || action_name == 'index'
-                    %td.vert-align.text-center.action
-                      = form_buildable_path(custom_field_property, index, 'attachments', '')
+                - files = custom_field_property.attachments
+                - next if files.empty?
+                - files.each_with_index do |file, index|
+                  %tr.row-file
+                    %td.image-title.vert-align
+                      = original_filename(file)
+                    %td.vert-align.preview.text-center
+                      = link_to preview_or_download(file), file.url, target: target_blank(file), class: 'btn btn-info btn-sm btn-download'
+                    - if action_name == 'show' || action_name == 'report' || action_name == 'index'
+                      %td.vert-align.text-center.action
+                        = form_buildable_path(custom_field_property, index, 'attachments', '')
 
       .ibox-footer.text-center
         = paginate @custom_field_properties
