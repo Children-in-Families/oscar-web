@@ -44,6 +44,10 @@ body[id='clients-index'] {
     padding: 6px;
   }
 
+  .float-right {
+    float: right;
+  }
+
   @media screen and (max-width: 700px){
     .client-option {
       a {

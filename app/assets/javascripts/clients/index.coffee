@@ -21,6 +21,10 @@ CIF.ClientsIndex = do ->
     _toggleCollapseFilter()
     _handleAutoCollapse()
     _overdueAssessmentSearch()
+    _hideOverdueAssessment()
+
+  _hideOverdueAssessment = ->
+    $('#client-advance-search-form #overdue-assessment').hide()
 
   _overdueAssessmentSearch = ->
     $('button#overdue-assessment').on 'click', ->
