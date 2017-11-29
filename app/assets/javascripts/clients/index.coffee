@@ -20,6 +20,23 @@ CIF.ClientsIndex = do ->
     _initAdavanceSearchFilter()
     _toggleCollapseFilter()
     _handleAutoCollapse()
+    _overdueAssessmentSearch()
+    _hideOverdueAssessment()
+
+  _hideOverdueAssessment = ->
+    $('#client-advance-search-form #overdue-assessment').hide()
+
+  _overdueAssessmentSearch = ->
+    $('button#overdue-assessment').on 'click', ->
+      $('select#client_grid_assessments_due_to').select2('val', 'Overdue')
+      $('input.datagrid-submit').click()
+
+      # if $('#client-search-form').is(':visible')
+      #   $('#s2id_client_grid_assessments_due_to').select2('val', 'Overdue')
+      #   $('#new_client_grid').submit()
+      # else
+      #   $('#client_advanced_search_overdue_assessment').val(true)
+      #   $('button#search').click()
 
   _handleAutoCollapse = ->
     params = window.location.search.substr(1)

@@ -1,6 +1,8 @@
 module ClientAdvancedSearchesConcern
   def advanced_search
     basic_rules          = JSON.parse @basic_filter_params
+    # overdue_assessment   = @advanced_search_params[:overdue_assessment]
+    # clients              = AdvancedSearches::ClientAdvancedSearch.new(basic_rules, Client.accessible_by(current_ability), overdue_assessment)
     clients              = AdvancedSearches::ClientAdvancedSearch.new(basic_rules, Client.accessible_by(current_ability))
     @clients_by_user     = clients.filter
 
