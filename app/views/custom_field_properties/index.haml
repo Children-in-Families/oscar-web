@@ -38,5 +38,20 @@
                                 = render 'shared/form_builder/list_attachment', label: key, resource: custom_field_property
                               - else
                                 = display_custom_properties(custom_field_property.properties[key])
+
+                    %table.table.table-bordered
+                      - files = custom_field_property.attachments
+                      - next if files.nil?
+                      - files.each_with_index do |file, index|
+                        %tr.row-file
+                          %td.image-title.vert-align
+                            = original_filename(file)
+                          %td.vert-align.preview.text-center
+                            = link_to preview_or_download(file), file.url, target: target_blank(file), class: 'btn btn-info btn-sm btn-download'
+                          - if action_name == 'show' || action_name == 'report' || action_name == 'index'
+                            %td.vert-align.text-center.action
+                              = form_buildable_path(custom_field_property, index, 'attachments', '')
+
+
       .ibox-footer.text-center
         = paginate @custom_field_properties

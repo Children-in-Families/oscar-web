@@ -1,4 +1,4 @@
-class   CustomFieldPropertyUploader < CarrierWave::Uploader::Base
+class CustomFieldPropertyUploader < CarrierWave::Uploader::Base
   include CarrierWave::MiniMagick
 
   def store_dir
