@@ -124,7 +124,7 @@
               %ul.dropdown-menu
                 %li
                   = link_to client_path(@client, format: 'pdf', form: 'one'), target: :_blank do
-                    %span.text-success= t('.government_form_one')
+                    %span.text-success= "#{@client.en_and_local_name} - #{t('.government_form_one')}"
                 -# %li
                 -#   = link_to client_path(@client, format: 'pdf', form: 'two'), target: :_blank do
                 -#     %span.text-success= t('.government_form_two')
