@@ -164,7 +164,7 @@ class ClientsController < AdminController
             :house_number, :street_number, :village, :commune, :district,
             :has_been_in_orphanage, :has_been_in_government_care,
             :relevant_referral_information, :province_id, :donor_id,
-            :state, :rejected_note, :able, :able_state, :live_with, :id_poor, :accepted_date,
+            :state, :rejected_note, :able, :live_with, :id_poor, :accepted_date,
             :gov_city, :gov_commune, :gov_district, :gov_date, :gov_village_code, :gov_client_code,
             :gov_interview_village, :gov_interview_commune, :gov_interview_district, :gov_interview_city,
             :gov_caseworker_name, :gov_caseworker_phone, :gov_carer_name, :gov_carer_relationship, :gov_carer_home,

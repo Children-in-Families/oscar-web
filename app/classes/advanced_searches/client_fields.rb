@@ -45,7 +45,6 @@ module AdvancedSearches
         ['referral_source_id', referral_source_options],
         ['followed_up_by_id', followed_up_by_options],
         ['has_been_in_government_care', { true: 'Yes', false: 'No' }],
-        ['able_state', client_able_state],
         ['has_been_in_orphanage', { true: 'Yes', false: 'No' }],
         ['user_id', user_select_options],
         ['form_title', client_custom_form_options],
@@ -69,10 +68,6 @@ module AdvancedSearches
 
     def client_status
       Client::CLIENT_STATUSES.sort.map { |s| { s => s.capitalize } }
-    end
-
-    def client_able_state
-      Client::ABLE_STATES.sort.map { |s| { s => s } }
     end
 
     def provinces
