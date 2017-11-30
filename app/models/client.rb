@@ -28,9 +28,6 @@ class Client < ActiveRecord::Base
   belongs_to :followed_up_by,   class_name: 'User',     foreign_key: 'followed_up_by_id', counter_cache: true
   belongs_to :birth_province,   class_name: 'Province', foreign_key: 'birth_province_id', counter_cache: true
 
-  # has_one  :government_report, dependent: :destroy
-  has_many :answers, dependent: :destroy
-  has_many :able_screening_questions, through: :answers
   has_many :tasks,          dependent: :destroy
   has_many :agency_clients, dependent: :destroy
   has_many :agencies, through: :agency_clients
@@ -44,7 +41,6 @@ class Client < ActiveRecord::Base
   has_many :users, through: :case_worker_clients
 
   accepts_nested_attributes_for :tasks
-  accepts_nested_attributes_for :answers
 
   has_many :families,       through: :cases
   has_many :cases,          dependent: :destroy
@@ -76,7 +72,6 @@ class Client < ActiveRecord::Base
   after_update :reset_tasks_of_users
 
   after_create :set_slug_as_alias
-  after_update :set_able_status, if: proc { |client| client.able_state.blank? && answers.any? }
   after_save :create_client_history
 
   scope :live_with_like,              ->(value) { where('clients.live_with iLIKE ?', "%#{value}%") }
@@ -280,10 +275,6 @@ class Client < ActiveRecord::Base
 
   def set_slug_as_alias
     paper_trail.without_versioning { |obj| obj.update_attributes(slug: "#{Organization.current.try(:short_name)}-#{id}") }
-  end
-
-  def set_able_status
-    update(able_state: ABLE_STATES[0]) if AbleScreeningQuestion.has_alert_manager?(self) && answers.include_yes?
   end
 
   def time_in_care

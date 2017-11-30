@@ -56,9 +56,6 @@ module VersionHelper
     elsif version_values[:materials].include?(k) && val.present?
       obj = Material.find_by(id: val)
       val = obj.present? ? obj.status : "##{val}"
-    elsif version_values[:stages].include?(k) && val.present?
-      obj = Stage.find_by(id: val)
-      val = obj.present? ? obj.from_age - obj.to_age : "##{val}"
     elsif version_values[:organizations].include?(k) && val.present?
       obj = Organization.find_by(id: val)
       val = obj.present? ? obj.full_name : "##{val}"
@@ -175,7 +172,6 @@ module VersionHelper
       score_colors:         ['score_1_color', 'score_2_color', 'score_3_color', 'score_4_color'],
       progress_note_types:  ['progress_note_type_id'],
       materials:            ['material_id'],
-      stages:               ['stage_id'],
       currencies:           ['household_income'],
       client_qc:            ['quantitative_case_id'],
       organizations:        ['organization_id'],
