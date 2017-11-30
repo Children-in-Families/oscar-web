@@ -170,11 +170,6 @@ describe ClientSerializer, type: :serializer do
     expect(serializer).to have_json_type(:boolean).at_path('client/has_been_in_orphanage')
   end
 
-  it 'should be have attribute able_state' do
-    expect(serializer).to have_json_path('client/able_state')
-    expect(serializer).to have_json_type(String).at_path('client/able_state')
-  end
-
   it 'should be have attribute has_been_in_government_care' do
     expect(serializer).to have_json_path('client/has_been_in_government_care')
     expect(serializer).to have_json_type(:boolean).at_path('client/has_been_in_government_care')
