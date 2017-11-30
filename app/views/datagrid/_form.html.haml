@@ -29,7 +29,6 @@
             - next if f.name == :domain_5a || f.name == :domain_5b
             - next if f.name == :domain_6a || f.name == :domain_6b
             - next if f.name == :assessments_due_to
-            - next if f.name == :able_state
             %li
               .visibility.col-sm-12
                 = check_box_tag "#{f.name}_", f.name, checked = params["#{f.name}_"].present?, class: 'i-checks'
