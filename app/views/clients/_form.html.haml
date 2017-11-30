@@ -59,8 +59,8 @@
           .i-checks.has-been-in-government-care
             %label= "#{t('.has_been_in_government_care')}?"
             = f.input :has_been_in_government_care, as: :radio_buttons, collection: [['Yes', true],['No', false]], label: false
-        .col-xs-12.col-sm-6.col-md-4
-          = f.input :able_state, collection: Client::ABLE_STATES, label: t('.able_state')
+        / .col-xs-12.col-sm-6.col-md-4
+        /   = f.input :able_state, collection: Client::ABLE_STATES, label: t('.able_state')
         .col-xs-12.col-sm-6.col-md-4
           = f.input :live_with, label: t('.live_with')
         .col-xs-12.col-sm-6.col-md-4
