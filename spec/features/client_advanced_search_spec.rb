@@ -28,8 +28,8 @@ describe 'ClientAdvancedSearch' do
 
     xscenario 'Advanced Search Drop list Field' do
       click_link 'Advanced Search'
-      find(".rule-filter-container select option[value='able_state']", visible: false).select_option
-      expect(page).to have_content 'Able State'
+      find(".rule-filter-container select option[value='gender']", visible: false).select_option
+      expect(page).to have_content 'Female'
       expect(page).to have_content 'is'
       value = find(".rule-value-container select option[value='Accepted']", visible: false)
       expect(value).to have_text 'Accepted'

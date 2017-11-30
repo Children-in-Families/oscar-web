@@ -145,8 +145,6 @@ class ClientGrid
 
   filter(:school_grade, :string, header: -> { I18n.t('datagrid.columns.clients.school_grade') })
 
-  filter(:able_state, :enum, select: :able_states, header: -> { I18n.t('datagrid.columns.clients.able_state') })
-
   def able_states
     Client::ABLE_STATES
   end
@@ -526,8 +524,6 @@ class ClientGrid
   column(:referral_source, order: 'referral_sources.name', header: -> { I18n.t('datagrid.columns.clients.referral_source') }) do |object|
     object.referral_source.try(:name)
   end
-
-  column(:able_state, header: -> { I18n.t('datagrid.columns.clients.able_state') })
 
   column(:birth_province, header: -> { I18n.t('datagrid.columns.clients.birth_province') }) do |object|
     object.birth_province.try(:name)
