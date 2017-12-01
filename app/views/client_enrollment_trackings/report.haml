@@ -35,7 +35,7 @@
                           - unless type == 'separateLine'
                             %tr
                               %td.align-justify
-                                = type == 'paragraph' ? key.html_safe : strip_tags(key)
+                                = render_lable_text(type, key)
                               %td.align-justify
                                 - if type == 'file'
                                   = render 'shared/form_builder/list_attachment', label: key, resource: enrollment_tracking
