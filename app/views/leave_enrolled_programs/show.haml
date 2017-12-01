@@ -16,7 +16,7 @@
               - unless type == 'separateLine'
                 %tr
                   %td.align-justify
-                    = render_lable_text(type, key)
+                    = render_text_label(type, key)
                   %td.align-justify
                     - if type == 'file'
                       = render 'shared/form_builder/list_attachment', resource: @leave_program, label: key
