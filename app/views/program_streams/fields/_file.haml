@@ -1,4 +1,4 @@
 .row
   .col-xs-12.form-group{ class: html_column(full_width) }
-    %label= field_props['label']
+    %label= strip_tags(field_props['label'])
     = file_field_tag 'nil', class: 'file', disabled: true, multiple: field_props['multiple'].present?

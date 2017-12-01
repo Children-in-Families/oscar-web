@@ -16,7 +16,7 @@
               - unless type == 'separateLine'
                 %tr
                   %td.align-justify
-                    = key
+                    = type == 'paragraph' ? key.html_safe : strip_tags(key)
                   %td.align-justify
                     - if type == 'file'
                       = render 'shared/form_builder/list_attachment', resource: @leave_program, label: key
