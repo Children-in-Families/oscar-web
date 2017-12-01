@@ -1,7 +1,7 @@
 .select
   .row
     .col-xs-12.form-group{ class: html_column(full_width) }
-      %label= field_props['label']
+      %label= strip_tags(field_props['label'])
   .row
     .col-xs-12.form-group{ class: html_column(full_width) }
       = select_tag '', options_for_select( field_props['values'].collect { |f| [ f['label'], ''] } ), class: 'select  form-control'
