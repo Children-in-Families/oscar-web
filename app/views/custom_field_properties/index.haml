@@ -30,14 +30,19 @@
                     %table.table.table-bordered
                       - custom_field_property.custom_field.fields.map{|a| [a['type'], a['label']]}.each do |type, key|
                         - unless type == 'separateLine'
-                          %tr
-                            %td.align-justify
-                              = key
-                            %td.align-justify
-                              - if type == 'file'
-                                = render 'shared/form_builder/list_attachment', label: key, resource: custom_field_property
-                              - else
-                                = display_custom_properties(custom_field_property.properties[key])
+                          - if type == 'paragraph'
+                            %tr
+                              %td.align-justify{colspan: '2'}
+                                = render_text_label(type, key)
+                          - else
+                            %tr
+                              %td.align-justify
+                                = render_text_label(type, key)
+                              %td.align-justify
+                                - if type == 'file'
+                                  = render 'shared/form_builder/list_attachment', label: key, resource: custom_field_property
+                                - else
+                                  = display_custom_properties(custom_field_property.properties[key])
 
                     %table.table.table-bordered
                       - files = custom_field_property.attachments

@@ -14,11 +14,16 @@
           %table.table.table-bordered
             - @program_stream.enrollment.map{|properties| [properties['type'], properties['label']]}.each do |type, key|
               - unless type == 'separateLine'
-                %tr
-                  %td.align-justify
-                    = key
-                  %td.align-justify
-                    - if type == 'file'
-                      = render 'shared/form_builder/list_attachment', label: key, resource: @client_enrollment
-                    - else
-                      = display_custom_properties(@client_enrollment.properties[key])
+                - if type == 'paragraph'
+                  %tr
+                    %td.align-justify{colspan: '2'}
+                      = render_text_label(type, key)
+                - else
+                  %tr
+                    %td.align-justify
+                      = render_text_label(type, key)
+                    %td.align-justify
+                      - if type == 'file'
+                        = render 'shared/form_builder/list_attachment', label: key, resource: @client_enrollment
+                      - else
+                        = display_custom_properties(@client_enrollment.properties[key])

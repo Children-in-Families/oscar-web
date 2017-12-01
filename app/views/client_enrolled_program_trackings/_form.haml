@@ -4,7 +4,7 @@
     = f.simple_fields_for :properties, OpenStruct.new(@client_enrollment_tracking.properties) do |prop_f|
       - @tracking.fields.each do |field|
         .row
-          .col-xs-12.col-md-6
+          .col-xs-12{ class: field['type'] == 'paragraph' ? '' : 'col-md-6' }
             / = render "/shared/fields/#{field['type'].underscore}", f: prop_f, field_props: field, errors: @client_enrollment_tracking.errors.messages
             - unless field['type'] == 'file'
               = render "/shared/fields/#{field['type'].underscore}", f: prop_f, field_props: field, errors: @client_enrollment_tracking.errors.messages, entity: f
