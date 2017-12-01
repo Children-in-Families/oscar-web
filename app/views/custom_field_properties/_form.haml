@@ -8,7 +8,7 @@
         = f.simple_fields_for :properties, OpenStruct.new(@custom_field_property.properties) do |prop_f|
           - @custom_field.fields.each do |field|
             .row
-              .col-xs-12.col-md-6
+              .col-xs-12{ class: field['type'] == 'paragraph' ? '' : 'col-md-6' }
                 - unless field['type'] == 'file'
                   = render "/shared/fields/#{field['type'].underscore}", f: prop_f, field_props: field, errors: @custom_field_property.errors.messages
 
