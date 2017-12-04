@@ -140,6 +140,6 @@ class ClientSerializer < ActiveModel::Serializer
       program_stream.quantity = program_stream.number_available_for_client
     end
     tracking_fields = program_stream.trackings
-    program_stream.as_json(only: [:id, :name, :description, :quantity, :tracking_required]).merge(domain: domains, enrollments: formatted_enrollments, tracking_fields: tracking_fields)
+    program_stream.as_json(only: [:id, :name, :description, :quantity, :tracking_required, :exit_program, :enrollment]).merge(domain: domains, enrollments: formatted_enrollments, tracking_fields: tracking_fields)
   end
 end
