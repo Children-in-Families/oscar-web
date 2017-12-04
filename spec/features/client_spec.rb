@@ -56,12 +56,24 @@ describe 'Client' do
   end
 
   feature 'Show' do
-    let!(:client){ create(:client, users: [user], state: 'accepted') }
+    let!(:client){ create(:client, users: [user], state: 'accepted', current_address: '') }
     let!(:other_client){create(:client)}
     before do
       login_as(user)
       visit client_path(client)
     end
+
+    feature 'country' do
+      scenario 'Cambodia' do
+        expect(page).to have_css('.address', text: 'Cambodia')
+      end
+
+      scenario 'Thailand' do
+        visit client_path(client, country: 'thailand')
+        expect(page).to have_css('.address', text: 'Thailand')
+      end
+    end
+
     scenario 'information' do
       expect(page).to have_content(client.name)
       expect(page).to have_content(client.gender.capitalize)
