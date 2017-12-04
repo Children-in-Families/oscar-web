@@ -246,18 +246,12 @@
               %tr
                 %td.spacing-first-col
                   = t('.address')
-                %td
+                %td.address
                   %strong
                     - if @client.current_address.present?
                       = @client.current_address
                     - else
                       = merged_address(@client)
-              / %tr
-              /   %td.spacing-first-col
-              /     = t('.completed')
-              /   %td
-              /     %strong
-              /       = human_boolean(@client.completed)
               %tr
                 %td.spacing-first-col
                   = t('.birth_province')

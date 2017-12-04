@@ -1523,10 +1523,12 @@ km:
         id_poor: កំរិតប័ណ្ណក្រីក្រ
         initial_referral_date: កាលបរិចេ្ឆទនៃការបញ្ជូនដំបូង
         kid_id: លេខកូដឣតិថិជន
+        lesotho: ឡឹសូថូ
         live_with: រស់នៅជាមួយ
         local_family_name: នាមត្រកូលជាអក្សរខ្មែរ
         local_given_name: នាមខ្លួនជាអក្សរខ្មែរ
         manage: សកម្មភាព
+        myanmar: មីយ៉ាន់ម៉ា
         name: ឈ្មោះ
         ngo_accepted_date: កាលបរិច្ឆេទទទួលយកចូលអង្គការ
         ngo_exit_date: កាលបរិច្ឆេទនៃការចាកចេញពីអង្គការ
@@ -1567,6 +1569,7 @@ km:
         state: ទទួល/បដិសេធ
         status: ស្ថានភាព
         street_number: ផ្លូវ
+        thailand: ថៃ
         time_of_frequency: ពេលវេលានៃភាពញឹកញាប់
         total: សរុប
         type: ប្រភេទនៃទម្រង់បែបបទបន្ថែម
@@ -2822,8 +2825,10 @@ km:
       able_screening_questions: សំនួរ Able Screening
       account: គណនី
       agencies: អង្គភាព
+      cambodia: កម្ពុជា
       changelogs: ប្រវត្តិនៃកំណែទិន្នន័យ
       clients: ឣតិថិជន
+      country: ប្រទេស
       custom_fields: ទម្រង់បែបបទ
       dashboards: តារាងទិន្នន័យ
       departments: កម្មវិធី
@@ -2835,11 +2840,13 @@ km:
       families: គ្រួសារ
       interventions: ចំនុចដែលត្រូវធ្វើ
       km: ខ្មែរ
+      lesotho: ឡឹសូថូ
       locations: កន្លែង
       log_in: ចូល
       log_out: ចាកចេញ
       manage: គ្រប់គ្រង
       materials: របស់របរ/សំភារៈ
+      myanmar: មីយ៉ាន់ម៉ា
       partners: ដៃគូ
       program_streams: កម្មវិធីបន្ទាប់បន្សំ
       progress_note: កត់សំគាល់ការរីកចំរើន
@@ -2848,6 +2855,7 @@ km:
       quantitative_types: ប្រភេទនៃបរិមាណ
       referral_sources: ប្រភពនៃការបញ្ជូន
       release_logs: ការចេញផ្សាយ
+      thailand: ថៃ
       users: ឣ្នកប្រើ
       view_calendar: មើលប្រតិទិន
     top_navbar:

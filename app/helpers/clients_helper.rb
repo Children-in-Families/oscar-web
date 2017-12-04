@@ -161,7 +161,8 @@ module ClientsHelper
     else
       current_address << client.province.name.split(' / ').last if client.province.present?
     end
-    current_address << I18n.t('datagrid.columns.clients.cambodia')
+    country = params[:country].present? ? I18n.t("datagrid.columns.clients.#{params[:country]}") : I18n.t('datagrid.columns.clients.cambodia')
+    current_address << country
     current_address.compact.join(', ')
   end
 
