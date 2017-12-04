@@ -43,7 +43,6 @@ class ClientsController < AdminController
   def show
     respond_to do |format|
       format.html do
-        @ordered_client_answers     = @client.answers.order(:created_at)
         custom_field_ids            = @client.custom_field_properties.pluck(:custom_field_id)
         if current_user.admin? || current_user.strategic_overviewer?
           available_editable_forms  = CustomField.all
@@ -79,39 +78,18 @@ class ClientsController < AdminController
 
   def new
     @client = Client.new
-
     @client.populate_needs
     @client.populate_problems
-
-    @ordered_stage                       = Stage.order('from_age, to_age')
-    @able_screening_questions            = AbleScreeningQuestion.with_stage.group_by(&:question_group_id)
-    @able_screening_questions_non_stage  = AbleScreeningQuestion.non_stage.order('created_at')
-    @able_screening_questions_with_stage = AbleScreeningQuestion.with_stage
-    @answers_with_stage = []
-    @answers_non_stage = []
-    @able_screening_questions_with_stage.each do |question|
-      @answers_with_stage << @client.answers.build(able_screening_question: question)
-    end
-
-    @able_screening_questions_non_stage.each do |question|
-      @answers_non_stage << @client.answers.build(able_screening_question: question)
-    end
   end
 
   def edit
-    @ordered_stage                       = Stage.order('from_age, to_age')
-    @able_screening_questions            = AbleScreeningQuestion.with_stage.group_by(&:question_group_id)
-
     @client.populate_needs unless @client.needs.any?
     @client.populate_problems unless @client.problems.any?
   end
 
   def create
     @client = Client.new(client_params)
-    # @client.user_id = current_user.id if current_user.case_worker? || current_user.any_manager?
-
     if @client.save
-      AbleScreeningMailer.notify_able_manager(@client).deliver_now if @client.able?
       redirect_to @client, notice: t('.successfully_created')
     else
       render :new
@@ -181,7 +159,6 @@ class ClientsController < AdminController
             quantitative_case_ids: [],
             custom_field_ids: [],
             tasks_attributes: [:name, :domain_id, :completion_date],
-            answers_attributes: [:id, :description, :able_screening_question_id, :client_id, :question_type],
             client_needs_attributes: [:id, :rank, :need_id],
             client_problems_attributes: [:id, :rank, :problem_id]
           )
