@@ -61,7 +61,8 @@ class ApplicationController < ActionController::Base
   end
 
   def default_url_options(options = {})
-    { locale: I18n.locale, country: 'cambodia' }.merge(options)
+    country = params[:country] || 'cambodia'
+    { locale: I18n.locale, country: country }.merge(options)
   end
 
   def after_sign_out_path_for(_resource_or_scope)
