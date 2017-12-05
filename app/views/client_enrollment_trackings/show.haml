@@ -19,11 +19,11 @@
                 - if type == 'paragraph'
                   %tr
                     %td.align-justify{colspan: '2'}
-                      = render_text_label(type, key)
+                      = key.html_safe
                 - else
                   %tr
                     %td.align-justify
-                      = render_text_label(type, key)
+                      = key.html_safe
                     %td.align-justify
                       - if type == 'file'
                         = render 'shared/form_builder/list_attachment', label: key, resource: @client_enrollment_tracking
