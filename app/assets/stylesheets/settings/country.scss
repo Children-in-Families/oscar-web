@@ -1,0 +1,12 @@
+body[id='settings-country']{
+  .thumbnail {
+    transition: 0.3s;
+    &:hover {
+      box-shadow: 1px 1px 10px #888888;
+    }
+  }
+
+  .thumbnail.selected {
+    box-shadow: 1px 1px 10px #888888;
+  }
+}
