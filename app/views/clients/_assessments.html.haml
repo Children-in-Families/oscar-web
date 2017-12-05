@@ -4,5 +4,8 @@
 -#       = a.created_at.strftime('%d %b, %Y')
 
 %ul
-  - object.assessments.most_recents.each do |assessment|
-    %li= date_format(assessment.created_at)
+  - if params[:data] == 'recent'
+    %li= date_format(object.assessments.most_recents.first.try(:created_at))
+  - else
+    - object.assessments.most_recents.each do |assessment|
+      %li= date_format(assessment.created_at)

@@ -1,0 +1,4 @@
+- if params[:data] == 'recent'
+  %li= enrolled_programs.last.try(:program_stream).try(:name)
+- else
+  %li= enrolled_programs.map{ |c| c.program_stream.name }.uniq.join(', ')

@@ -156,8 +156,12 @@ module ClientsHelper
 
   def client_custom_fields_list(object)
     content_tag(:ul, class: 'client-custom-fields-list') do
-      object.custom_fields.uniq.each do |obj|
-        concat(content_tag(:li, obj.form_title))
+      if params[:data] == 'recent'
+        object.custom_field_properties.last.try(:custom_field).try(:form_title)
+      else
+        object.custom_fields.uniq.each do |obj|
+          concat(content_tag(:li, obj.form_title))
+        end
       end
     end
   end
@@ -221,8 +225,12 @@ module ClientsHelper
 
   def all_csi_assessment_lists(object)
     content_tag(:ul) do
-      object.assessments.each do |assessment|
-        concat(content_tag(:li, assessment.basic_info))
+      if params[:data] == 'recent'
+        object.assessments.last.try(:basic_info)
+      else
+        object.assessments.each do |assessment|
+          concat(content_tag(:li, assessment.basic_info))
+        end
       end
     end
   end
