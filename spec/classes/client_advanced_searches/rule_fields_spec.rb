@@ -9,9 +9,5 @@ describe AdvancedSearches::RuleFields, 'Method' do
     it 'return field not nil' do
       expect(@client_fields).not_to be_nil
     end
-
-    it 'return all fields' do
-      expect(@client_fields.size).to equal 46
-    end
   end
 end

@@ -12,7 +12,6 @@ class Ability
     elsif user.admin?
       can :manage, :all
     elsif user.strategic_overviewer?
-      cannot :manage, AbleScreeningQuestion
       cannot :manage, Agency
       cannot :manage, ReferralSource
       cannot :manage, QuarterlyReport
@@ -23,7 +22,6 @@ class Ability
       can :version, :all
       can :report, :all
     elsif user.case_worker?
-      can :manage, AbleScreeningQuestion
       can :manage, Assessment
       can :manage, Attachment
       can :manage, Case, exited: false
@@ -43,7 +41,6 @@ class Ability
         Date.current > assessment.created_at + 2.weeks
       end
     elsif user.able_manager?
-      can :manage, AbleScreeningQuestion
       can :manage, Assessment
       can :manage, Attachment
       can :manage, CaseNote
@@ -138,7 +135,6 @@ class Ability
       end
       can :read, Attachment
     elsif user.manager?
-      can :manage, AbleScreeningQuestion
       can :create, Client
       can :manage, Client, case_worker_clients: { user_id: User.where('manager_ids && ARRAY[:user_id] OR id = :user_id', { user_id: user.id }).map(&:id) }
       can :manage, User, id: User.where('manager_ids && ARRAY[?]', user.id).map(&:id)

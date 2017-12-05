@@ -1423,10 +1423,12 @@ en:
         id_poor: ID Poor
         initial_referral_date: Initial Referral Date
         kid_id: Kid ID
+        lesotho: Lesotho
         live_with: Who to live with
         local_family_name: Family Name (kh)
         local_given_name: Given Name (kh)
         manage: Manage
+        myanmar: Myanmar
         name: Name
         ngo_accepted_date: NGO Accept Date
         ngo_exit_date: NGO Exit Date
@@ -1467,6 +1469,7 @@ en:
         state: Accept/Reject
         status: Status
         street_number: Street
+        thailand: Thailand
         time_of_frequency: Time of Frequency
         total: Total
         type: Type
@@ -2721,8 +2724,10 @@ en:
       able_screening_questions: Able Screening Questions
       account: Account
       agencies: Agencies
+      cambodia: Cambodia
       changelogs: Changelogs
       clients: Clients
+      country: Country
       custom_fields: Form Builder
       dashboards: Dashboards
       departments: Departments
@@ -2734,11 +2739,13 @@ en:
       families: Families
       interventions: Interventions
       km: ខ្មែរ
+      lesotho: Lesotho
       locations: Locations
       log_in: Log in
       log_out: Log out
       manage: Manage
       materials: Equipment/Materials
+      myanmar: Myanmar
       partners: Partners
       program_streams: Program Streams
       progress_note: Progress Note
@@ -2747,6 +2754,7 @@ en:
       quantitative_types: Quantitative Types
       referral_sources: Referral Sources
       release_logs: Release logs
+      thailand: Thailand
       users: Users
       view_calendar: View Calendar
     top_navbar:

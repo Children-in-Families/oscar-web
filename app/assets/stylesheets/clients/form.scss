@@ -1,10 +1,5 @@
 body[id='clients-new'], body[id='clients-create'],
 body[id='clients-edit'], body[id='clients-update']{
-
-  .question_and_answer {
-    margin-bottom: 16px;
-  }
-
   .icheckbox_square-green{
     margin-right: 10px;
   }
@@ -14,17 +9,8 @@ body[id='clients-edit'], body[id='clients-update']{
     cursor: not-allowed;
   }
 
-  .able-screening-header {
-    min-width: 200px;
-  }
-
   .vertical-align-group {
     margin-top: 40%;
-  }
-
-  .question-group-title{
-    font-size: 14px;
-    font-weight: 600;
   }
 
   .has-been-in-government-care,
@@ -44,32 +30,6 @@ body[id='clients-edit'], body[id='clients-update']{
   .client_user.disabled {
     label, input {
       color: #333333 !important;
-    }
-  }
-
-  .client_answers_description {
-    label {
-      display: block;
-    }
-    span.radio {
-      display: inline-block;
-      label {
-        &:first-child {
-          padding-right: 15px;
-        }
-      }
-    }
-  }
-
-  #stage-question table.client-new {
-    margin-bottom: 0;
-  }
-
-  #able-screening-collapse {
-    margin-top: 15px;
-
-    .iradio_square-green {
-      margin-right: 5px;
     }
   }
 

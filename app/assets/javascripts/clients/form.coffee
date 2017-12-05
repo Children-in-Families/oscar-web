@@ -2,9 +2,6 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
   _init = ->
     _ajaxCheckExistClient()
     _clientSelectOption()
-    _checkClientBirthdateAvailablity()
-    _fixedHeaderStageQuestion()
-    _toggleAnswer()
 
   _ajaxCheckExistClient = ->
     $('#submit-button').on 'click', ->
@@ -57,8 +54,6 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
       else
         $('form.client-form').submit()
 
-
-
   _clientSelectOption = ->
     $('select').select2
       minimumInputLength: 0
@@ -78,73 +73,5 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
   _clearSelectedOption = ->
     formAction = $('body').attr('id')
     $('#client_gender').val('') unless formAction.includes('edit')
-
-  _fixedHeaderStageQuestion = ->
-    $('#stage-question table.client-new').dataTable(
-      'sScrollY': '500px'
-      'sScrollX': '100%'
-      'bPaginate': false
-      'bFilter': false
-      'bInfo': false
-      'bSort': false
-      'bAutoWidth': true)
-
-  _arrangeQuestionAndAnswerBlock = ->
-    questionsAndAnswers = $('.question_and_answer')
-    for questionAndAnswer in questionsAndAnswers
-      qa = $(questionAndAnswer)
-      if qa.data('is-stage')
-        html = qa.html()
-        $('#stage-question').append(html)
-        qa.remove()
-      else
-        html = qa.html()
-        $('#non-stage-question').append(html)
-        qa.remove()
-
-  _checkClientBirthdateAvailablity = ->
-    button = $('#able-screening-test')
-    if $('#client_date_of_birth').val() == ''
-      button.attr('disabled', 'disabled')
-    $('#client_date_of_birth').change ->
-      if $('#client_date_of_birth').val() == ''
-        button.attr('disabled', 'disabled')
-      else
-        button.removeAttr('disabled')
-        _toggleAnswer()
-
-  _getAge = (dateString) ->
-    today = new Date
-    birthDate = new Date(dateString)
-    age = today.getFullYear() - birthDate.getFullYear()
-    m = today.getMonth() - birthDate.getMonth()
-    if m < 0 or m == 0 and today.getDate() < birthDate.getDate()
-      age--
-    age
-
-  _toggleAnswer = ->
-    answers = $('.answer')
-    for answer in answers
-      answerObj = $(answer)
-      if answerObj.data('is-stage') == false
-        answerObj.find('input').removeAttr('disabled')
-        answerObj.show()
-      else
-        if answerObj.data('to-age') != '' && answerObj.data('from-age') >= $('#client_date_of_birth').val() >= answerObj.data('to-age')
-          answerObj.find('input').removeAttr('disabled')
-          answerObj.show()
-          answerObj.removeClass('disable-qa')
-        else
-          answerObj.addClass('disable-qa')
-          answerObj.find('input').attr('disabled', true)
-          answerObj.hide()
-
-  window.onload = ->
-    ua = navigator.userAgent
-    unless /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile|CriOS/i.test(ua)
-      $('#stage-question.table-responsive, #stage-question .dataTables_scrollBody').niceScroll
-        scrollspeed: 30
-        cursorwidth: 10
-        cursoropacitymax: 0.4
 
   { init: _init }

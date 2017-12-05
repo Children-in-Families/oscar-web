@@ -166,10 +166,6 @@
           - if can_read_client_progress_note?
             = link_to client_progress_notes_path(@client) do
               %span.btn-sm.btn.btn-warning.small-btn-margin= t('.progress_note')
-          - if can? :manage, AbleScreeningQuestion
-            = able_screen_link(@client)
-          = render('client_answers')
-
           .btn-group.small-btn-margin
             %button.btn-sm.btn.btn-success.dropdown-toggle{ 'data-toggle' => 'dropdown', class: ('disabled' if @group_client_custom_fields.empty?) }
               = t('.additional_forms')
@@ -250,18 +246,12 @@
               %tr
                 %td.spacing-first-col
                   = t('.address')
-                %td
+                %td.address
                   %strong
                     - if @client.current_address.present?
                       = @client.current_address
                     - else
                       = merged_address(@client)
-              / %tr
-              /   %td.spacing-first-col
-              /     = t('.completed')
-              /   %td
-              /     %strong
-              /       = human_boolean(@client.completed)
               %tr
                 %td.spacing-first-col
                   = t('.birth_province')
