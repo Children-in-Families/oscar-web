@@ -1092,10 +1092,12 @@ en:
       export_to_xls: Export to XLS
       load: Loading more...
       load_save_search: Load Saved Search
+      most_recent: Most Recent
       reports: Quick Graph
       report_builder: Report Builder
       results: Results
       save_search_settings: Save Search Settings
+      show_all: Show All
       sInfoShow: show results from
       sInfoTo: to
       sInfoTotal: of

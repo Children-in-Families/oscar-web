@@ -57,9 +57,9 @@
         %span.label.label-info= t('.results')
         .ibox-tools
           - if params[:data] == 'recent'
-            = link_to 'Show all', url_for(params.merge({data: 'all'})), class: 'btn btn-primary', id: 'show-all'
+            = link_to t('.show_all'), url_for(params.merge({data: 'all'})), class: 'btn btn-primary', id: 'show-all'
           - else
-            = link_to 'Most recent', url_for(params.merge({data: 'recent'})), class: 'btn btn-primary', id: 'most-recent'
+            = link_to t('.most_recent'), url_for(params.merge({data: 'recent'})), class: 'btn btn-primary', id: 'most-recent'
 
       .ibox-content
         .clients-table{ data: { 'info-load' => t('.load'), 'info-end' => t('.end') } }

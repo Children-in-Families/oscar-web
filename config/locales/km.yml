@@ -1190,12 +1190,14 @@ km:
       domain_score: ពិន្ទុកត្តាការប៉ាន់ប្រមាណ
       end: អស់លទ្ធផល!
       export_to_xls: ទាញចេញជាឯកសារប្រភេទ XLS
+      most_recent: ថ្មីបំផុត
       load: កំពុងផ្ទុក...
       load_save_search: ផ្ទុកការស្វែងរក
       reports: របាយការណ៍
       report_builder: ការស្វែងរកឆ្លាតវៃ
       results: លទ្ធផល
       save_search_settings: រក្សាទុកទម្រង់នៃការស្វែងរក
+      show_all: បង្ហាញទាំងអស់
       sInfoShow: បង្ហាញទិន្នន័យចំនួន
       sInfoTo: ដល់
       sInfoTotal: នៃចំនួនសរុប

@@ -15,6 +15,19 @@ module ClientGridOptions
     @client_columns.visible_columns
   end
 
+  def program_stream_report
+    return unless params[:program_streams_].present?
+    if params[:data].presence == 'recent'
+      @client_grid.column(:program_streams, header: I18n.t('datagrid.columns.clients.program_streams')) do |client|
+        client.client_enrollments.last.try(:program_stream).try(:name)
+      end
+    else
+      @client_grid.column(:program_streams, header: I18n.t('datagrid.columns.clients.program_streams')) do |client|
+        client.client_enrollments.map{ |c| c.program_stream.name }.uniq.join(', ')
+      end
+    end
+  end
+
   def domain_score_report
     return unless params['type'] == 'basic_info'
     if params[:all_csi_assessments_].present?
@@ -61,8 +74,8 @@ module ClientGridOptions
   end
 
   def admin_client_grid
-    data = params[:data].present? ? params[:data] : ''
-    if params[:client_grid].present? && params[:client_grid][:quantitative_types].present?
+    data = params[:data].presence
+    if params.dig(:client_grid, :quantitative_types)
       quantitative_types = params[:client_grid][:quantitative_types]
       @client_grid = ClientGrid.new(params.fetch(:client_grid, {}).merge!(qType: quantitative_types, dynamic_columns: column_form_builder, param_data: data))
     else
@@ -71,7 +84,7 @@ module ClientGridOptions
   end
 
   def non_admin_client_grid
-    if params[:client_grid].present? && params[:client_grid][:quantitative_types].present?
+    if params.dig(:client_grid, :quantitative_types)
       quantitative_types = params[:client_grid][:quantitative_types]
       @client_grid = ClientGrid.new(params.fetch(:client_grid, {}).merge!(current_user: current_user, qType: quantitative_types, dynamic_columns: column_form_builder))
     else

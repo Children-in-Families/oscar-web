@@ -4,6 +4,7 @@ class ClientGrid
   include ClientsHelper
 
   attr_accessor :current_user, :qType, :dynamic_columns, :param_data
+
   scope do
     # Client.includes({ cases: [:family, :partner] }, :referral_source, :user, :received_by, :followed_up_by, :province, :assessments, :birth_province).order('clients.status, clients.given_name')
     Client.includes({ cases: [:family, :partner] }, :referral_source, :received_by, :followed_up_by, :province, :assessments, :birth_province).order('clients.status, clients.given_name')
@@ -661,7 +662,7 @@ class ClientGrid
 
   dynamic do
     next unless dynamic_columns.present?
-    data = param_data if param_data.present?
+    data = param_data.presence
     dynamic_columns.each do |column_builder|
       fields = column_builder[:id].split('_')
       next if fields.first == 'enrollmentdate' || fields.first == 'programexitdate'

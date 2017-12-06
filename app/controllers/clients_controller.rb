@@ -34,6 +34,7 @@ class ClientsController < AdminController
           @client_grid.scope { |scope| scope.accessible_by(current_ability) }
           domain_score_report
           csi_domain_score_report
+          program_stream_report
           send_data @client_grid.to_xls, filename: "client_report-#{Time.now}.xls"
         end
       end
