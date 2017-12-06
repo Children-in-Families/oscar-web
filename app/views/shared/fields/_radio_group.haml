@@ -1,7 +1,7 @@
 %div{ class: "i-checks form-group #{field_with(field_props['label'],errors)} #{required?(field_props['required'] || false)}" }
   %label.control-label{ class: required?(field_props['required'] || false) }
     %abbr{ title: 'required' }= '*' if field_props['required'] || false
-    = strip_tags(field_props['label'])
+    = field_props['label'].html_safe
   = f.input field_props['label'], as: :radio_buttons, collection: field_props['values'].map { |f| [f['label'], f['label']] }, checked: f.object[field_props['label']] || field_props['values'].first['label'], required: field_props['required'] || false, label: false, input_html: { title: field_props['description'], name: "#{f.object_name}[#{field_props['label']}]" }
   %span.help-block
     = field_message(field_props['label'], errors)

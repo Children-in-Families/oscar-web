@@ -187,8 +187,4 @@ module ApplicationHelper
   def non_mho_tenant?
     !current_organization.mho?
   end
-
-  def render_text_label(type, key)
-    type == 'paragraph' ? key.html_safe : strip_tags(key)
-  end
 end
