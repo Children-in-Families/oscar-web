@@ -2754,8 +2754,12 @@ en:
       users: Users
       view_calendar: View Calendar
     top_navbar:
+      burmese: Burmese
       edit_profile: Edit Profile
+      english: English
+      khmer: ខ្មែរ
       log_out: Log out
+      thai: Thai
   leave_programs:
     create:
       successfully_created: Client has been successfully exited from the program.

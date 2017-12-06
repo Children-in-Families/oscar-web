@@ -211,5 +211,15 @@ ul.dropdown-menu.dropdown-alerts {
 }
 
 .line-height {
-    border: 1px solid #e2e2e2;
+  border: 1px solid #e2e2e2;
+}
+
+#language-selection {
+  .dropdown-menu li a {
+    padding: 0 5px;
+    min-height: 0;
+    img {
+      margin-right: 3px;
+    }
   }
+}

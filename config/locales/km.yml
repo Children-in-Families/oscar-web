@@ -2855,8 +2855,12 @@ km:
       users: ឣ្នកប្រើ
       view_calendar: មើលប្រតិទិន
     top_navbar:
+      burmese: Burmese
       edit_profile: កែសម្រួលពត៌មានផ្ទាល់ខ្លួន
+      english: English
+      khmer: ខ្មែរ
       log_out: ចាកចេញ
+      thai: Thai
   leave_programs:
     create:
       successfully_created: អតិថិជនត្រូវបានចាកចេញពីកម្មវិធីដោយជោគជ័យ
