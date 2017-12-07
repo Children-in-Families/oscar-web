@@ -18,5 +18,10 @@ body[id='program_streams-search'] {
     th.quantity {
       min-width: 150px;
     }
+    td.actions {
+      a {
+        margin-right: 5px;
+      }
+    }
   }
 }
