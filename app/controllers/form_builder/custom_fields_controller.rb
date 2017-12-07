@@ -59,11 +59,9 @@ class FormBuilder::CustomFieldsController < AdminController
   end
 
   def search
-    if params[:search].present?
-      custom_field = find_custom_field(params[:search])
-      @custom_fields = Kaminari.paginate_array(custom_field).page(params[:page]).per(20)
-      redirect_to custom_fields_path, alert: t('.no_result') if @custom_fields.blank?
-    end
+    custom_field = find_custom_field
+    @custom_fields = Kaminari.paginate_array(custom_field).page(params[:page]).per(20)
+    redirect_to custom_fields_path, alert: t('.no_result') if @custom_fields.blank?
   end
 
   private
@@ -113,18 +111,18 @@ class FormBuilder::CustomFieldsController < AdminController
     order_string
   end
 
-  def find_custom_field(search)
+  def find_custom_field
     results = []
-    current_org_name = current_organization.short_name
-    Organization.all.each do |org|
-      Organization.switch_to(org.short_name)
-      if params[:search].present?
-        form_title   = params[:search]
-        custom_fields = CustomField.by_form_title(form_title)
-        results << custom_fields if custom_fields.present?
+    if params[:search].present?
+      form_title   = params[:search]
+      current_org_name = current_organization.short_name
+      Organization.all.each do |org|
+        Organization.switch_to(org.short_name)
+          custom_fields = CustomField.by_form_title(form_title)
+          results << custom_fields if custom_fields.present?
       end
+      Organization.switch_to(current_org_name)
     end
-    Organization.switch_to(current_org_name)
     results.flatten.sort! {|x, y| x.form_title.downcase <=> y.form_title.downcase}
   end
 

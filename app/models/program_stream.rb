@@ -24,11 +24,12 @@ class ProgramStream < ActiveRecord::Base
   after_save :set_program_completed
   after_create :build_permission
 
-  scope  :ordered,     ->         { order('lower(name) ASC') }
-  scope  :complete,    ->         { where(completed: true) }
-  scope  :ordered_by,  ->(column) { order(column) }
-  scope  :filter,      ->(value)  { where(id: value) }
-  scope  :name_like,   ->(value)  { where(name: value) }
+  scope  :ordered,        ->         { order('lower(name) ASC') }
+  scope  :complete,       ->         { where(completed: true) }
+  scope  :ordered_by,     ->(column) { order(column) }
+  scope  :filter,         ->(value)  { where(id: value) }
+  scope  :name_like,      ->(value)  { where(name: value) }
+  scope  :by_name,        ->(value)  { where('name iLIKE ?', "%#{value}%") }
 
   def build_permission
     User.all.each do |user|

@@ -3,6 +3,7 @@ feature 'program_stream' do
   let!(:ec_manager){ create(:user, roles: 'ec manager')}
   let!(:domain) { create(:domain) }
   let!(:program_stream) { create(:program_stream, ngo_name: Organization.current.full_name) }
+  let!(:program_stream_search) { create(:program_stream, ngo_name: Organization.current.full_name, name: 'Program Stream Search') }
   let!(:custom_field) { create(:custom_field, ngo_name: Organization.current.full_name) }
   let!(:tracking) { create(:tracking, program_stream: program_stream) }
   let!(:domain_program_stream){ create(:domain_program_stream, domain: domain, program_stream: program_stream) }
@@ -357,6 +358,25 @@ feature 'program_stream' do
       find('a.copy-form').click
       expect(page).to have_content('Name')
       expect(page).to have_content('e-mail')
+    end
+  end
+
+  feature 'search', js: true do
+    before do
+      visit program_streams_path
+    end
+    scenario 'has results' do
+      fill_in 'program_stream_name', with: 'Program Stream Search'
+      find('input.search').click
+      sleep 1
+      expect(page).to have_content(program_stream_search.name)
+    end
+
+    scenario 'no result found' do
+      fill_in 'program_stream_name', with: 'No Result Found'
+      find('input.search').click
+      sleep 1
+      expect(page).to have_content('No Result Found')
     end
   end
 end

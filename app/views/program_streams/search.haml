@@ -1,0 +1,38 @@
+.row
+  .col-xs-12
+    .ibox.min-margin-layout
+      .ibox-content
+        .table-responsive
+          %table.table.table-bordered.table-hover#program-streams
+            %thead
+              %th.name
+                = t('.name')
+              %th.domain
+                = t('.domain')
+              %th.status
+                = t('.status')
+              %th.quantity
+                = t('.maximum')
+              %th.organization
+                = t('.organization')
+              %th.actions= t('.actions')
+            %tbody
+              - @program_streams.each do |program_stream|
+                %tr
+                  %td.name= program_stream.name
+                  %td.domain= program_stream.domains.pluck(:identity).join(', ')
+                  %td.status
+                    %label{ class: "#{program_stream.completed_label_class}"}
+                      = program_stream.completed_status
+                  %td.quantity= program_stream.quantity
+                  %td.organization= program_stream.ngo_name
+                  %td.actions
+                    = link_to preview_program_streams_path(program_stream_id: program_stream.id, ngo_name: program_stream.ngo_name), class: 'btn btn-outline btn-info btn-xs', title: t('.preview')  do
+                      = fa_icon('eye')
+                    - if can? :create, ProgramStream
+                      = link_to new_program_stream_path(program_stream_id: program_stream.id, ngo_name: program_stream.ngo_name), class: 'btn btn-outline btn-success btn-xs', title: t('.copy') do
+                        = fa_icon('files-o')
+      .text-center
+        = paginate @program_streams
+      .ibox-footer
+        = link_to t('.back'), program_streams_path, class: 'btn btn-default form-btn'
