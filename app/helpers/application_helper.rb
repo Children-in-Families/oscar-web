@@ -187,4 +187,8 @@ module ApplicationHelper
   def non_mho_tenant?
     !current_organization.mho?
   end
+
+  def action_search?
+    Rails.application.routes.recognize_path(request.referrer)[:action] == 'search'
+  end
 end

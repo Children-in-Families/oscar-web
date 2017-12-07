@@ -13,9 +13,14 @@
             - if can? :create, ProgramStream
               = link_to new_program_stream_path(program_stream_id: @program_stream.id, ngo_name: @program_stream.ngo_name), class: 'btn btn-outline btn-success', title: t('.copy') do
                 = fa_icon('files-o')
-          = link_to program_stream_redirect_path do
-            .btn.btn-default.btn-back-default.button
-              = t('.back')
+          - if action_search?
+            = link_to request.referrer do
+              .btn.btn-default.btn-back-default.button
+                = t('.back')
+          - else
+            = link_to program_stream_redirect_path do
+              .btn.btn-default.btn-back-default.button
+                = t('.back')
       .ibox-content
         .panel-group
           .panel.panel-default
