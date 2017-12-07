@@ -237,4 +237,10 @@ Rails.application.routes.draw do
   resources :advanced_search_save_queries
   # resources :client_advanced_searches, only: :index
   resources :papertrail_queries, only: [:index]
+
+  resources :settings do
+    collection do
+      get 'country' => 'settings#country'
+    end
+  end
 end

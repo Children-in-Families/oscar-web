@@ -61,15 +61,8 @@
             %span.nav-label= t('.manage')
             %span.fa.arrow
           %ul.nav.nav-second-level
-            %li
-              %a#country-nav{ href: '#' }
-                = t('.country')
-                %span.fa.arrow
-              %ul.nav.nav-third-level
-                %li= link_to t('.cambodia'), url_for(params.merge({ country: 'cambodia' }))
-                %li= link_to t('.lesotho'), url_for(params.merge({ country: 'lesotho' }))
-                %li= link_to t('.myanmar'), url_for(params.merge({ country: 'myanmar' }))
-                %li= link_to t('.thailand'), url_for(params.merge({ country: 'thailand' }))
+            %li{ class: active_menu('settings') }
+              = link_to t('.settings'), country_settings_path
             %li{ class: active_menu('agencies') }
               = link_to t('.agencies'), agencies_path
             - if can? :read, :all

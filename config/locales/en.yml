@@ -2726,10 +2726,8 @@ en:
       able_screening_questions: Able Screening Questions
       account: Account
       agencies: Agencies
-      cambodia: Cambodia
       changelogs: Changelogs
       clients: Clients
-      country: Country
       custom_fields: Form Builder
       dashboards: Dashboards
       departments: Departments
@@ -2741,13 +2739,11 @@ en:
       families: Families
       interventions: Interventions
       km: ខ្មែរ
-      lesotho: Lesotho
       locations: Locations
       log_in: Log in
       log_out: Log out
       manage: Manage
       materials: Equipment/Materials
-      myanmar: Myanmar
       partners: Partners
       program_streams: Program Streams
       progress_note: Progress Note
@@ -2756,7 +2752,7 @@ en:
       quantitative_types: Quantitative Types
       referral_sources: Referral Sources
       release_logs: Release logs
-      thailand: Thailand
+      settings: Settings
       users: Users
       view_calendar: View Calendar
     top_navbar:
@@ -3290,6 +3286,15 @@ en:
       domain_score: Domain Scores
   review_problem: 'Please review the problems below:'
   save: Save
+  settings:
+    country:
+      settings: Settings
+      switched_country_cambodia: You’ve switched your country setting to Cambodia.
+      switched_country_lesotho: You’ve switched your country setting to Lesotho.
+      switched_country_myanmar: You’ve switched your country setting to Myanmar.
+      switched_country_thailand: You’ve switched your country setting to Thailand.
+    navigation:
+      country: Country
   shared:
     form_builder:
       list_attachment:

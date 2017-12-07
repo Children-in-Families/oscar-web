@@ -2827,10 +2827,8 @@ km:
       able_screening_questions: សំនួរ Able Screening
       account: គណនី
       agencies: អង្គភាព
-      cambodia: កម្ពុជា
       changelogs: ប្រវត្តិនៃកំណែទិន្នន័យ
       clients: ឣតិថិជន
-      country: ប្រទេស
       custom_fields: ទម្រង់បែបបទ
       dashboards: តារាងទិន្នន័យ
       departments: កម្មវិធី
@@ -2842,13 +2840,11 @@ km:
       families: គ្រួសារ
       interventions: ចំនុចដែលត្រូវធ្វើ
       km: ខ្មែរ
-      lesotho: ឡឹសូថូ
       locations: កន្លែង
       log_in: ចូល
       log_out: ចាកចេញ
       manage: គ្រប់គ្រង
       materials: របស់របរ/សំភារៈ
-      myanmar: មីយ៉ាន់ម៉ា
       partners: ដៃគូ
       program_streams: កម្មវិធីបន្ទាប់បន្សំ
       progress_note: កត់សំគាល់ការរីកចំរើន
@@ -2857,7 +2853,7 @@ km:
       quantitative_types: ប្រភេទនៃបរិមាណ
       referral_sources: ប្រភពនៃការបញ្ជូន
       release_logs: ការចេញផ្សាយ
-      thailand: ថៃ
+      settings: ការកំណត់
       users: ឣ្នកប្រើ
       view_calendar: មើលប្រតិទិន
     top_navbar:
@@ -3392,6 +3388,15 @@ km:
       domain_score: ពិន្ទុកត្តាការប៉ាន់ប្រមាណ
   review_problem: សូមពិនិត្យបញ្ហាសារឡើងវិញនៅខាងក្រោម៖
   save: រក្សាទុក
+  settings:
+    country:
+      settings: ការកំណត់
+      switched_country_cambodia: អ្នកបានប្ដូរការកំណត់ទៅជាប្រទេសកម្ពុជា
+      switched_country_lesotho: អ្នកបានប្ដូរការកំណត់ទៅជាប្រទេសឡឹសូថូ
+      switched_country_myanmar: អ្នកបានប្ដូរការកំណត់ទៅជាប្រទេសមីយ៉ាន់ម៉ា
+      switched_country_thailand: អ្នកបានប្ដូរការកំណត់ទៅជាប្រទេសថៃ
+    navigation:
+      country: ប្រទេស
   shared:
     form_builder:
       list_attachment:

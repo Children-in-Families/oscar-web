@@ -67,11 +67,6 @@ describe 'Client' do
       scenario 'Cambodia' do
         expect(page).to have_css('.address', text: 'Cambodia')
       end
-
-      scenario 'Thailand' do
-        visit client_path(client, country: 'thailand')
-        expect(page).to have_css('.address', text: 'Thailand')
-      end
     end
 
     scenario 'information' do
