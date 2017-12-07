@@ -531,7 +531,7 @@ describe 'Client' do
     end
   end
 
-  feature 'Case notes, Assessments, Custom Field and Program Stream permission' do
+  feature 'Case notes, Assessments, Custom Field and Program Stream permission', js: true do
     let!(:client){ create(:client, users: [admin, user], state: 'accepted') }
     let!(:assessment) { create(:assessment, client: client) }
     let!(:case_note) { create(:case_note, assessment: assessment, client: client)}
@@ -566,7 +566,7 @@ describe 'Client' do
       end
 
       scenario 'custom fields' do
-        find("a[href='#{client_custom_field_properties_path(client, custom_field_id: custom_field.id)}']").click
+        find("a[href='#{client_custom_field_properties_path(client, custom_field_id: custom_field.id)}']", visible: false).trigger('click')
         expect(page).to have_content(custom_field.form_title)
 
         find("a[href='#{edit_client_custom_field_property_path(client, custom_field_property, custom_field_id: custom_field.id)}']").click

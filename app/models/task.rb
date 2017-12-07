@@ -22,8 +22,8 @@ class Task < ActiveRecord::Base
   scope :overdue_incomplete, -> { incomplete.overdue }
   scope :today_incomplete,   -> { incomplete.today }
   scope :by_domain_id,       ->(value) { where('domain_id = ?', value) }
-
   scope :overdue_incomplete_ordered, -> { overdue_incomplete.order('completion_date ASC') }
+  scope :exclude_exited_ngo_clients, -> { where.not(client_id: Client.exited_ngo.ids) }
 
   after_save :set_users, :create_task_history
 
@@ -53,8 +53,7 @@ class Task < ActiveRecord::Base
   def self.upcoming_incomplete_tasks
     Organization.all.each do |org|
       Organization.switch_to org.short_name
-      exited_ngo_client_ids = Client.exited_ngo.ids
-      tasks    = incomplete.where(completion_date: Date.tomorrow).where.not(client_id: exited_ngo_client_ids)
+      tasks    = incomplete.where(completion_date: Date.tomorrow).exclude_exited_ngo_clients
       user_ids = tasks.map(&:user_ids).flatten.uniq
       users    = User.non_devs.where(id: user_ids)
       users.each do |user|

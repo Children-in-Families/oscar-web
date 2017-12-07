@@ -21,7 +21,7 @@ class NotificationsController < AdminController
 
   def program_stream_notify
     @program_stream = ProgramStream.find(params[:program_stream_id])
-    @clients        = Client.where(id: params[:client_ids])
+    @clients        = Client.non_exited_ngo.where(id: params[:client_ids])
   end
 
   private

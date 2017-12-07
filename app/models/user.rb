@@ -148,7 +148,7 @@ class User < ActiveRecord::Base
   end
 
   def client_custom_field_frequency_overdue_or_due_today
-    entity_type_custom_field_notification(clients)
+    entity_type_custom_field_notification(clients.non_exited_ngo)
   end
 
   def user_custom_field_frequency_overdue_or_due_today
@@ -169,11 +169,10 @@ class User < ActiveRecord::Base
     if self.admin? || self.any_case_manager? || self.manager?
       entity_type_custom_field_notification(Family.all)
     end
-
   end
 
   def client_enrollment_tracking_overdue_or_due_today
-    client_enrollment_tracking_notification(clients)
+    client_enrollment_tracking_notification(clients.non_exited_ngo)
   end
 
   def self.self_and_subordinates(user)

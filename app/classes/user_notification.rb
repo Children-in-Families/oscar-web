@@ -15,7 +15,7 @@ class UserNotification
   end
 
   def overdue_tasks_count
-    @user.tasks.overdue_incomplete.size
+    @user.tasks.overdue_incomplete.exclude_exited_ngo_clients.size
   end
 
   def review_program_streams
@@ -24,7 +24,7 @@ class UserNotification
     program_streams_by_user.each do |program_stream|
       rules = program_stream.rules
       client_ids = program_stream.client_enrollments.collect(&:client_id)
-      clients = Client.where(id: client_ids)
+      clients = Client.non_exited_ngo.where(id: client_ids)
       clients_after_filter = AdvancedSearches::ClientAdvancedSearch.new(rules, clients).filter
       if clients_after_filter.present?
         clients_change = clients.where.not(id: clients_after_filter.ids).ids
@@ -41,7 +41,7 @@ class UserNotification
   end
 
   def due_today_tasks_count
-    @user.tasks.today_incomplete.size
+    @user.tasks.today_incomplete.exclude_exited_ngo_clients.size
   end
 
   def any_due_today_tasks?
@@ -190,7 +190,7 @@ class UserNotification
     @client_enrollment_tracking_user_notification[:clients_overdue]
   end
 
-  
+
 
   def count
     count_notification = 0
