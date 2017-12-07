@@ -190,8 +190,6 @@ class UserNotification
     @client_enrollment_tracking_user_notification[:clients_overdue]
   end
 
-
-
   def count
     count_notification = 0
     if @user.admin? || @user.ec_manager?

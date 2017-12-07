@@ -319,9 +319,18 @@ describe Client, 'scopes' do
   let!(:exited_client){ create(:client, status: Client::EXIT_STATUSES.first) }
 
   context 'exited_ngo' do
-    it 'include exited_client' do
-      expect(Client.exited_ngo).to include(exited_client)
-      expect(Client.exited_ngo).not_to include(kc_client, fc_client, ec_client)
+    subject { Client.exited_ngo }
+    it 'include clients who exited from NGO' do
+      is_expected.to include(exited_client)
+      is_expected.not_to include(kc_client, fc_client, ec_client)
+    end
+  end
+
+  context 'non_exited_ngo' do
+    subject { Client.non_exited_ngo }
+    it 'include clients who have NOT exited from NGO' do
+      is_expected.to include(kc_client, fc_client, ec_client)
+      is_expected.not_to include(exited_client)
     end
   end
 
