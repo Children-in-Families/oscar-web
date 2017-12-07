@@ -71,8 +71,7 @@ class ProgramStreamsController < AdminController
   end
 
   def search
-    program_streams = search_program_streams
-    @program_streams = paginate_collection(decorate_programs(program_streams)).page(params[:page]).per(20)
+    @program_streams = paginate_collection(decorate_programs(search_program_streams)).page(params[:page]).per(20)
     redirect_to program_streams_path, alert: t('.no_results') if @program_streams.empty?
   end
 

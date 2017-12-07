@@ -59,8 +59,7 @@ class FormBuilder::CustomFieldsController < AdminController
   end
 
   def search
-    custom_field = find_custom_field
-    @custom_fields = Kaminari.paginate_array(custom_field).page(params[:page]).per(20)
+    @custom_fields = Kaminari.paginate_array(find_custom_fields).page(params[:page]).per(20)
     redirect_to custom_fields_path, alert: t('.no_result') if @custom_fields.blank?
   end
 
@@ -111,7 +110,7 @@ class FormBuilder::CustomFieldsController < AdminController
     order_string
   end
 
-  def find_custom_field
+  def find_custom_fields
     results = []
     if params[:search].present?
       form_title   = params[:search]
