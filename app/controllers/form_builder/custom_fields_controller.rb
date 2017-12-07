@@ -2,6 +2,7 @@ class FormBuilder::CustomFieldsController < AdminController
   load_and_authorize_resource
 
   before_action :set_custom_field, only: [:edit, :update, :destroy]
+  before_action :remove_html_tags, only: [:create, :update]
 
   def index
     @custom_fields = CustomField.ordered_by(column_order).page(params[:page_1]).per(20)
@@ -130,6 +131,11 @@ class FormBuilder::CustomFieldsController < AdminController
 
   def custom_field_params
     params.require(:custom_field).permit(:entity_type, :fields, :form_title, :frequency, :time_of_frequency)
+  end
+
+  def remove_html_tags
+    fields = params[:custom_field][:fields]
+    params[:custom_field][:fields] = ActionController::Base.helpers.strip_tags(fields)
   end
 
   def set_custom_field

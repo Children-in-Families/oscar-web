@@ -6,6 +6,7 @@ class ProgramStreamsController < AdminController
   before_action :authorize_program, only: [:edit, :update, :destroy]
   before_action :complete_program_steam, only: [:new, :create, :edit, :update]
   before_action :find_another_ngo_program_stream, if: -> { @ngo_name.present? }
+  before_action :remove_html_tags, only: [:create, :update]
 
   def index
     @program_streams = paginate_collection(decorate_programs(column_order)).page(params[:page_1]).per(20)
@@ -74,6 +75,23 @@ class ProgramStreamsController < AdminController
 
   def find_program_stream
     @program_stream = ProgramStream.find(params[:id])
+  end
+
+  def remove_html_tags
+    enrollment = params[:program_stream][:enrollment]
+    params[:program_stream][:enrollment] = strip_tags(enrollment)
+
+    exit_program = params[:program_stream][:exit_program]
+    params[:program_stream][:exit_program] = strip_tags(exit_program)
+
+    trackings = params[:program_stream][:trackings_attributes]
+    trackings.values.each do |value|
+      value['fields'] = strip_tags(value['fields'])
+    end
+  end
+
+  def strip_tags(value)
+    ActionController::Base.helpers.strip_tags(value)
   end
 
   def program_stream_params
