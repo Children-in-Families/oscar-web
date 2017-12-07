@@ -106,6 +106,12 @@ describe Client, 'methods' do
   let!(:ec_case){ create(:case, client: client_a, case_type: 'EC') }
   let!(:fc_case){ create(:case, client: client_b, case_type: 'FC') }
   let!(:kc_case){ create(:case, client: client_c, case_type: 'KC') }
+  let!(:exited_client){ create(:client, status: Client::EXIT_STATUSES.first) }
+
+  context 'exit_ngo?' do
+    it { expect(exited_client.exit_ngo?).to be_truthy }
+    it { expect(client.exit_ngo?).to be_falsey }
+  end
 
   context 'active_ec?' do
     it { expect(client_a.active_ec?).to be_truthy }
@@ -310,6 +316,23 @@ describe Client, 'scopes' do
   let(:ec_client) { create(:client, status: 'Referred', state: 'accepted') }
   let!(:kc) { create(:case, client: kc_client, case_type: 'KC') }
   let!(:fc) { create(:case, client: fc_client, case_type: 'FC') }
+  let!(:exited_client){ create(:client, status: Client::EXIT_STATUSES.first) }
+
+  context 'exited_ngo' do
+    subject { Client.exited_ngo }
+    it 'include clients who exited from NGO' do
+      is_expected.to include(exited_client)
+      is_expected.not_to include(kc_client, fc_client, ec_client)
+    end
+  end
+
+  context 'non_exited_ngo' do
+    subject { Client.non_exited_ngo }
+    it 'include clients who have NOT exited from NGO' do
+      is_expected.to include(kc_client, fc_client, ec_client)
+      is_expected.not_to include(exited_client)
+    end
+  end
 
   context 'given name like' do
     let!(:clients){ Client.given_name_like(client.given_name) }
@@ -626,7 +649,7 @@ describe 'validations' do
     it { expect(invalid_client).to be_invalid }
   end
 
-  context 'exit_ngo' do
+  context 'exited from ngo should not contain blank data for exit info' do
     let!(:valid_client){ create(:client, exit_date: '2017-07-21', exit_note: 'testing', status: 'Exited - Dead') }
     before do
       valid_client.exit_date = ''

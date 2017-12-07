@@ -4,7 +4,7 @@ class AdminWorker
 
   def perform(empty, case_workers_ids, short_name)
     Organization.switch_to short_name
-    case_workers = User.where(id: case_workers_ids).sort_by{ |user| user.tasks.overdue_incomplete.size }.reverse
+    case_workers = User.where(id: case_workers_ids).sort_by{ |user| user.tasks.overdue_incomplete.exclude_exited_ngo_clients.size }.reverse
 
     User.admins.each do |admin|
       next unless admin.task_notify
