@@ -116,7 +116,8 @@ class FormBuilder::CustomFieldsController < AdminController
   def find_custom_field(search)
     results = []
     current_org_name = current_organization.short_name
-    Organization.without_cwd.each do |org|
+    orgs = current_org_name == 'cwd' ? Organization.all : Organization.without_cwd
+    orgs.each do |org|
       Organization.switch_to(org.short_name)
       if params[:search].present?
         form_title   = params[:search]
