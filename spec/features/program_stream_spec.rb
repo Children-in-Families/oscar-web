@@ -240,7 +240,7 @@ feature 'program_stream' do
     end
 
     scenario 'cannot delete program stream has been enrolled' do
-      expect(page).not_to have_link('A link', href: program_stream_path(program_stream_2))
+      expect(page).not_to have_css("a[href='#{program_stream_path(program_stream_2)}'][data-method='delete']")
     end
   end
 

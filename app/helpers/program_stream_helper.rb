@@ -4,8 +4,12 @@ module ProgramStreamHelper
   end
 
   def delete_button(program)
-    if program.client_enrollments.active.empty? || program.client_enrollments.empty?
+    if program.client_enrollments.empty?
       link_to program_stream_path(program), method: 'delete',  data: { confirm: t('.are_you_sure') }, class: 'btn btn-outline btn-danger btn-xs' do
+        fa_icon('trash')
+      end
+    elsif program.client_enrollments.active.empty?
+      link_to program_stream_path(program), method: 'delete',  data: { confirm: t('.warning_message') }, class: 'btn btn-outline btn-danger btn-xs' do
         fa_icon('trash')
       end
     elsif program.client_enrollments.present?
