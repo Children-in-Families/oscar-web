@@ -104,10 +104,12 @@ class Client < ActiveRecord::Base
   scope :active_ec,                   ->        { where(status: 'Active EC') }
   scope :active_kc,                   ->        { where(status: 'Active KC') }
   scope :active_fc,                   ->        { where(status: 'Active FC') }
-  scope :without_assessments,         ->        { includes(:assessments).where(assessments:         { client_id: nil }) }
+  scope :without_assessments,         ->        { includes(:assessments).where(assessments: { client_id: nil }) }
   scope :able,                        ->        { where(able_state: ABLE_STATES[0]) }
   scope :all_active_types,            ->        { where(status: CLIENT_ACTIVE_STATUS) }
   scope :of_case_worker,              -> (user_id) { joins(:case_worker_clients).where(case_worker_clients: { user_id: user_id }) }
+  scope :exited_ngo,                  ->        { where(status: EXIT_STATUSES) }
+  scope :non_exited_ngo,              ->        { where.not(status: EXIT_STATUSES) }
 
   def self.filter(options)
     query = all

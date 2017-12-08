@@ -2,6 +2,7 @@ class FormBuilder::CustomFieldsController < AdminController
   load_and_authorize_resource
 
   before_action :set_custom_field, only: [:edit, :update, :destroy]
+  before_action :remove_html_tags, only: [:create, :update]
 
   def index
     @custom_fields = CustomField.ordered_by(column_order).page(params[:page_1]).per(20)
@@ -59,11 +60,8 @@ class FormBuilder::CustomFieldsController < AdminController
   end
 
   def search
-    if params[:search].present?
-      custom_field = find_custom_field(params[:search])
-      @custom_fields = Kaminari.paginate_array(custom_field).page(params[:page]).per(20)
-      redirect_to custom_fields_path, alert: t('.no_result') if @custom_fields.blank?
-    end
+    @custom_fields = Kaminari.paginate_array(find_custom_fields).page(params[:page]).per(20)
+    redirect_to custom_fields_path, alert: t('.no_result') if @custom_fields.blank?
   end
 
   private
@@ -113,23 +111,28 @@ class FormBuilder::CustomFieldsController < AdminController
     order_string
   end
 
-  def find_custom_field(search)
+  def find_custom_fields
     results = []
-    current_org_name = current_organization.short_name
-    Organization.all.each do |org|
-      Organization.switch_to(org.short_name)
-      if params[:search].present?
-        form_title   = params[:search]
-        custom_fields = CustomField.by_form_title(form_title)
-        results << custom_fields if custom_fields.present?
+    if params[:search].present?
+      form_title   = params[:search]
+      current_org_name = current_organization.short_name
+      Organization.all.each do |org|
+        Organization.switch_to(org.short_name)
+          custom_fields = CustomField.by_form_title(form_title)
+          results << custom_fields if custom_fields.present?
       end
+      Organization.switch_to(current_org_name)
     end
-    Organization.switch_to(current_org_name)
     results.flatten.sort! {|x, y| x.form_title.downcase <=> y.form_title.downcase}
   end
 
   def custom_field_params
     params.require(:custom_field).permit(:entity_type, :fields, :form_title, :frequency, :time_of_frequency)
+  end
+
+  def remove_html_tags
+    fields = params[:custom_field][:fields]
+    params[:custom_field][:fields] = ActionController::Base.helpers.strip_tags(fields)
   end
 
   def set_custom_field

@@ -67,7 +67,10 @@ Rails.application.routes.draw do
   end
 
   resources :program_streams do
-    get :preview, on: :collection
+    collection do
+      get :search
+      get :preview
+    end
   end
 
   resources :changelogs do

@@ -165,6 +165,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       addFilter: $('#program-rule').data('filter-translation-add-filter')
       addGroup: $('#program-rule').data('filter-translation-add-group')
       deleteGroup: $('#program-rule').data('filter-translation-delete-group')
+      finish: $('.program-steps').data('finish')
       next: $('.program-steps').data('next')
       previous: $('.program-steps').data('previous')
       save: $('.program-steps').data('save')
@@ -306,14 +307,15 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         else if $('#exit-program').is(':visible') then $(buttonSave).hide() else $(buttonSave).show()
 
       onFinished: (event, currentIndex) ->
-        $('.actions a:contains("Finish")').removeAttr('href')
+        finish = self.filterTranslation.finish
+        $(".actions a:contains(#{finish})").removeAttr('href')
         return false unless _handleCheckingDuplicateFields()
         _handleAddRuleBuilderToInput()
         _handleSetValueToField()
         form.submit()
 
       labels:
-        finish: self.filter
+        finish: self.filterTranslation.finish
         next: self.filterTranslation.next
         previous: self.filterTranslation.previous
 
@@ -327,7 +329,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         $(strValue).addClass('error')
         elementParent = $(strValue).parent()
         $(elementParent).append("<label class='error'>Field cannot be blank.</label>") unless $(elementParent).find('label.error').is(':visible')
-        invalidStrValues++ 
+        invalidStrValues++
 
     invalidValues = invalidIntValues + invalidStrValues
 

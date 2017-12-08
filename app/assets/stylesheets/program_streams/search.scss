@@ -1,0 +1,27 @@
+body[id='program_streams-search'] {
+  table#program-streams {
+    th.actions, td.actions, th.status, td.status {
+      text-align: center;
+    }
+    th.name {
+      min-width: 150px;
+    }
+    th.organisation {
+      min-width: 200px;
+    }
+    th.domain {
+      min-width: 250px;
+    }
+    th.status, th.actions {
+      min-width: 100px;
+    }
+    th.quantity {
+      min-width: 150px;
+    }
+    td.actions {
+      a {
+        margin-right: 5px;
+      }
+    }
+  }
+}

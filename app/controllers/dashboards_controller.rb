@@ -6,7 +6,7 @@ class DashboardsController < AdminController
 
 private
   def find_tasks
-    @tasks = Task.incomplete.of_user(task_of_user).uniq
+    @tasks = Task.incomplete.exclude_exited_ngo_clients.of_user(task_of_user).uniq
     @users = find_users.order(:first_name, :last_name) unless current_user.case_worker?
   end
 
