@@ -60,7 +60,7 @@ class FormBuilder::CustomFieldsController < AdminController
   end
 
   def search
-    @custom_fields = Kaminari.paginate_array(find_custom_fields).page(params[:page]).per(20)
+    @custom_fields = Kaminari.paginate_array(search_custom_fields).page(params[:page]).per(20)
     redirect_to custom_fields_path, alert: t('.no_result') if @custom_fields.blank?
   end
 
@@ -77,7 +77,7 @@ class FormBuilder::CustomFieldsController < AdminController
 
   def find_custom_field_in_organization(org = '')
     current_org_name = current_organization.short_name
-    organizations = org == 'demo' ? Organization.where(short_name: 'demo') : Organization.without_demo.order(:full_name)
+    organizations = org == 'demo' ? Organization.where(short_name: 'demo') : Organization.without_demo_and_cwd.order(:full_name)
     custom_fields = organizations.map do |org|
       Organization.switch_to org.short_name
       CustomField.order(:entity_type, :form_title).reload
@@ -111,12 +111,13 @@ class FormBuilder::CustomFieldsController < AdminController
     order_string
   end
 
-  def find_custom_fields
+  def search_custom_fields
     results = []
     if params[:search].present?
       form_title   = params[:search]
       current_org_name = current_organization.short_name
-      Organization.all.each do |org|
+      orgs = current_org_name == 'cwd' ? Organization.all : Organization.without_cwd
+      orgs.each do |org|
         Organization.switch_to(org.short_name)
           custom_fields = CustomField.by_form_title(form_title)
           results << custom_fields if custom_fields.present?
