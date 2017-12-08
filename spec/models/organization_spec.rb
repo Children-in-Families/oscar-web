@@ -11,6 +11,12 @@ RSpec.describe Organization, type: :model do
       expect(orgs).to include(cif_org, new_smile_org, cwd_org)
     end
 
+    it 'without cwd' do
+      orgs = Organization.without_cwd
+      expect(orgs).to include(cif_org, new_smile_org)
+      expect(orgs).not_to include(cwd_org)
+    end
+
     it 'without demo and cwd' do
       orgs = Organization.without_demo_and_cwd
       expect(orgs).to include(cif_org, new_smile_org)
