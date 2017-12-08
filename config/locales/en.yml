@@ -2922,6 +2922,7 @@ en:
   program_streams:
     actions:
       are_you_sure: Are you sure you want to delete?
+      warning_message: You are about to delete a Program Stream that has saved client data. Do you wish to proceed?
     all_ngos_custom_fields:
       next: Next
       previous: Previous
