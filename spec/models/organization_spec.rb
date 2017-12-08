@@ -3,6 +3,20 @@ require 'rails_helper'
 RSpec.describe Organization, type: :model do
   let!(:cif_org) { Organization.create_and_build_tanent(short_name: 'cif', full_name: 'Children in Family') }
   let!(:new_smile_org) { Organization.create_and_build_tanent(short_name: 'new-smile', full_name: 'New Smile') }
+  let!(:cwd_org) { Organization.create_and_build_tanent(short_name: 'cwd', full_name: 'cwd') }
+
+  describe Organization, 'Scopes' do
+    it 'without demo' do
+      orgs = Organization.without_demo
+      expect(orgs).to include(cif_org, new_smile_org, cwd_org)
+    end
+
+    it 'without demo and cwd' do
+      orgs = Organization.without_demo_and_cwd
+      expect(orgs).to include(cif_org, new_smile_org)
+      expect(orgs).not_to include(cwd_org)
+    end
+  end
 
   describe 'Validation' do
     it { is_expected.to validate_presence_of(:short_name) }
