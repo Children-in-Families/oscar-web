@@ -1,11 +1,17 @@
 .row
+  .col-xs-12.col-sm-8.col-md-8
+    = form_tag search_program_streams_path, method: 'get' do
+      .row
+        .col-xs-9.col-sm-6.col-md-8.col-lg-4
+          = text_field_tag :search, nil, class: 'form-control', placeholder: t('.name'), required: true, id: 'program_stream_name'
+        .col-xs-3.col-sm-6.col-md-4
+          = submit_tag t('.search'), name: nil, class: 'btn btn-primary search'
+  .col-xs-12.col-sm-4.col-md-4.text-right
+    - if can? :manage, ProgramStream
+      = link_to t('.new_program'), new_program_stream_path, class: 'btn btn-primary btn-add'
+.row
   .col-xs-12
-    .ibox
-      .ibox-title
-        %h5= t('.program_list')
-        .ibox-tools
-          - if can? :manage, ProgramStream
-            = link_to t('.new_program'), new_program_stream_path, class: 'btn btn-primary btn-add'
+    .ibox.min-margin-layout
       .ibox-content
         %div
           %ul.nav.nav-tabs{role: "tablist"}

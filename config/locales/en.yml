@@ -2987,9 +2987,11 @@ en:
     index:
       current_ngo: My NGO's Program Streams
       demo_programs: Demo NGO's Program Streams
+      name: Name
       new_program: Add New Program
       ngo_programs: All NGOs' Program Streams
       program_list: Program Streams Listing
+      search: Search
     my_ngo_custom_fields:
       next: Next
       previous: Previous
@@ -3021,6 +3023,17 @@ en:
       name: Name
       program_exclusive: Program Exclusive
       rule: Rules
+    search:
+      actions: Action
+      back: Back
+      copy: Copy
+      domain: Domains
+      maximum: Maximum Program Enrollment
+      name: Name
+      no_results: No Result Found
+      organization: Organization
+      preview: Preview
+      status: Status
     show:
       back: Back
       copy: Copy

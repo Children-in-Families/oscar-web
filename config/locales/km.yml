@@ -3087,9 +3087,11 @@ km:
     index:
       current_ngo: កម្មវិធីបន្ទាប់បន្សំរបស់អង្គការខ្ញុំ
       demo_programs: កម្មវិធីបន្ទាប់បន្សំរបស់អង្គការ Demo
+      name: ឈ្មោះកម្មវិធីបន្ទាប់បន្សំ
       new_program: បន្ថែមកម្មវិធីថ្មី
       ngo_programs: កម្មវិធីបន្ទាប់បន្សំរបស់អង្គការទាំងអស់
       program_list: បញ្ជីកម្មវិធីបន្ទាប់បន្សំ
+      search: ស្វែងរក
     my_ngo_custom_fields:
       next: ទំព័របន្ទាប់
       previous: ទំព័រមុន
@@ -3123,6 +3125,17 @@ km:
       program_exclusive: កម្មវិធីផ្តាច់មុខ
       quantity: បរិមាណ
       rule: លក្ខខ័ណ្ឌ
+    search:
+      actions: សកម្មភាព
+      back: ត្រលប់ក្រោយ
+      copy: ចំលង
+      domain: កត្តា
+      maximum: ចំនួនដែលអាចចូលរូមកម្មវិធីច្រើនបំផុត
+      name: ឈ្មោះកម្មវិធីបន្ទាប់បន្សំ
+      no_results: មិនមានលទ្ធផល
+      organization: អង្គភាព
+      preview: មើលជាមុន
+      status: ស្ថានភាព
     show:
       back: ត្រលប់ក្រោយ
       copy: ចម្លងជូន

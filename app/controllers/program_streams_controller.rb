@@ -1,7 +1,7 @@
 class ProgramStreamsController < AdminController
   load_and_authorize_resource
 
-  before_action :find_program_stream, except: [:index, :new, :create, :preview]
+  before_action :find_program_stream, except: [:index, :new, :create, :preview, :search]
   before_action :find_ngo
   before_action :authorize_program, only: [:edit, :update, :destroy]
   before_action :complete_program_steam, only: [:new, :create, :edit, :update]
@@ -68,6 +68,11 @@ class ProgramStreamsController < AdminController
   def preview
     @program_stream = @another_program_stream.decorate
     render :show
+  end
+
+  def search
+    @program_streams = paginate_collection(decorate_programs(search_program_streams)).page(params[:page]).per(20)
+    redirect_to program_streams_path, alert: t('.no_results') if @program_streams.empty?
   end
 
   private
@@ -172,6 +177,21 @@ class ProgramStreamsController < AdminController
   end
 
   private
+
+  def search_program_streams
+    results = []
+    if params[:search].present?
+      current_org_name = current_organization.short_name
+      name   = params[:search]
+      Organization.all.each do |org|
+        Organization.switch_to(org.short_name)
+          program_streams = ProgramStream.by_name(name)
+          results << program_streams if program_streams.present?
+      end
+      Organization.switch_to(current_org_name)
+    end
+    results.flatten.sort! {|x, y| x.name.downcase <=> y.name.downcase}
+  end
 
   def copy_form_from_custom_field
     if params[:custom_field_id].present?
