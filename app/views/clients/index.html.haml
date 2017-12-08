@@ -5,13 +5,7 @@
 
     %button.btn.btn-primary.query.client-advance-search{"aria-expanded" => 'false', "data-target" => '#client-advance-search-form', "data-toggle" => 'collapse', type: 'button'}
       = t('.report_builder')
-
-    %button.btn.btn-primary#load-saved-search{ 'data-toggle': 'modal', 'data-target': '#load-save-search' }
-      = t('.load_save_search')
-
-    %button.btn.btn-primary#save-search-setting{ 'data-toggle': 'modal', 'data-target': '#save-query' }
-      = t('.save_search_settings')
-
+  
     = link_to current_url({format: 'xls', type: 'basic_info'}), class: 'btn btn-primary btn-export' do
       %i.fa.fa-download
       = t('.export_to_xls')
