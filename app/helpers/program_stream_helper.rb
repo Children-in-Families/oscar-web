@@ -12,7 +12,7 @@ module ProgramStreamHelper
       link_to program_stream_path(program), method: 'delete',  data: { confirm: t('.warning_message') }, class: 'btn btn-outline btn-danger btn-xs' do
         fa_icon('trash')
       end
-    elsif program.client_enrollments.present?
+    else
       content_tag(:div, '', class: 'btn btn-outline btn-danger btn-xs disabled') do
         fa_icon('trash')
       end
