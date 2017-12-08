@@ -3,6 +3,13 @@
     .ibox
       .ibox-content.no-border
         .row
+          .col-xs-12.text-right
+            %button.btn.btn-primary#load-saved-search{ 'data-toggle': 'modal', 'data-target': '#load-save-search' }
+              = t('.load_save_search')
+
+            %button.btn.btn-primary#save-search-setting{ 'data-toggle': 'modal', 'data-target': '#save-query' }
+              = t('.save_search_settings')
+        .row
           .col-xs-12
             = render 'clients/client_advanced_searches/form_option'
         .row.column-picker
