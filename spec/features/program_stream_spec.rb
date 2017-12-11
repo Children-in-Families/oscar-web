@@ -217,6 +217,14 @@ feature 'program_stream' do
   end
 
   feature 'Delete', js: true do
+    let!(:client_progrm_stream) { create(:client, users: [admin]) }
+    let!(:program_stream_1) { create(:program_stream, ngo_name: Organization.current.full_name) }
+    let!(:program_stream_2) { create(:program_stream, ngo_name: Organization.current.full_name) }
+    let!(:client_enrollment) { create(:client_enrollment, program_stream: program_stream_1, client: client_progrm_stream) }
+    let!(:client_enrollment_2) { create(:client_enrollment, program_stream: program_stream_2, client: client_progrm_stream) }
+    let!(:client_enrollment_tracking) { create(:client_enrollment_tracking, client_enrollment: client_enrollment) }
+    let!(:leave_program) { create(:leave_program, program_stream: program_stream_1, client_enrollment: client_enrollment) }
+
     before do
       visit program_streams_path
     end
@@ -224,6 +232,15 @@ feature 'program_stream' do
     scenario 'delete successfully' do
       find("a[href='#{program_stream_path(program_stream)}'][data-method='delete']").click
       expect(page).not_to have_content(program_stream.name)
+    end
+
+    scenario 'can delete program stream has been exited' do
+      find("a[href='#{program_stream_path(program_stream_1)}'][data-method='delete']").click
+      expect(page).not_to have_content(program_stream_1.name)
+    end
+
+    scenario 'cannot delete program stream has been enrolled' do
+      expect(page).not_to have_css("a[href='#{program_stream_path(program_stream_2)}'][data-method='delete']")
     end
   end
 

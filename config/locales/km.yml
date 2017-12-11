@@ -3023,6 +3023,7 @@ km:
   program_streams:
     actions:
       are_you_sure: តើអ្នកប្រាកដហើយ?
+      warning_message: អ្នករៀបនឹងលុបកម្មវិធីបន្ទាប់បន្សំដែលបានរក្សាទុកទិន្នន័យរបស់អតិថិជន។ តើអ្នកចង់បន្តទេ?
     all_ngos_custom_fields:
       next: ទំព័របន្ទាប់
       preview: មើលជាមុន
