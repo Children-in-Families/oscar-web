@@ -1,16 +1,15 @@
 class ClientsController < AdminController
-
   load_and_authorize_resource find_by: :slug, except: :quantitative_case
 
   include ClientAdvancedSearchesConcern
+  include ClientGridOptions
+
   before_action :get_quantitative_fields, only: [:index]
   before_action :find_params_advanced_search, :get_custom_form, :get_program_streams, only: [:index]
   before_action :get_custom_form_fields, :program_stream_fields, :client_builder_fields, only: [:index]
   before_action :basic_params, if: :has_params?, only: [:index]
   before_action :build_advanced_search, only: [:index]
   before_action :fetch_advanced_search_queries, only: [:index]
-
-  include ClientGridOptions
 
   before_action :find_client, only: [:show, :edit, :update, :destroy]
   before_action :set_association, except: [:index, :destroy]
@@ -32,9 +31,7 @@ class ClientsController < AdminController
         end
         f.xls do
           @client_grid.scope { |scope| scope.accessible_by(current_ability) }
-          domain_score_report
-          csi_domain_score_report
-          program_stream_report
+          export_client_reports
           send_data @client_grid.to_xls, filename: "client_report-#{Time.now}.xls"
         end
       end
@@ -189,5 +186,14 @@ class ClientsController < AdminController
   def find_resources
     @interviewee_names = @client.interviewees.pluck(:name)
     @client_type_names = @client.client_types.pluck(:name)
+  end
+
+  def export_client_report
+    domain_score_report
+    csi_domain_score_report
+    program_stream_report
+    program_enrollment_date_report
+    program_exit_date_report
+    date_of_assessments
   end
 end

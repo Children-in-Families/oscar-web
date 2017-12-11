@@ -144,7 +144,7 @@ module ClientsHelper
   def client_custom_fields_list(object)
     content_tag(:ul, class: 'client-custom-fields-list') do
       if params[:data] == 'recent'
-        object.custom_field_properties.last.try(:custom_field).try(:form_title)
+        object.custom_field_properties.order(created_at: :desc).first.try(:custom_field).try(:form_title)
       else
         object.custom_fields.uniq.each do |obj|
           concat(content_tag(:li, obj.form_title))
@@ -168,6 +168,10 @@ module ClientsHelper
     country = params[:country].present? ? I18n.t("datagrid.columns.clients.#{params[:country]}") : I18n.t('datagrid.columns.clients.cambodia')
     current_address << country
     current_address.compact.join(', ')
+  end
+
+  def format_array_value(value)
+    value.is_a?(Array) ? value.reject(&:empty?).to_sentence : value
   end
 
   def format_properties_value(value)
@@ -214,7 +218,7 @@ module ClientsHelper
   def all_csi_assessment_lists(object)
     content_tag(:ul) do
       if params[:data] == 'recent'
-        object.assessments.last.try(:basic_info)
+        object.assessments.latest_record.try(:basic_info)
       else
         object.assessments.each do |assessment|
           concat(content_tag(:li, assessment.basic_info))

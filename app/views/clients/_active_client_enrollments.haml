@@ -1,6 +1,6 @@
 %ul
   - if params[:data] == 'recent'
-    - recent_record = active_client_enrollments.last
+    - recent_record = active_client_enrollments.order(enrollment_date: :desc).first
     %li= "#{recent_record.program_stream.name} : #{recent_record.enrollment_date}"
   - else
     - active_client_enrollments.each do |client_enrollment|
