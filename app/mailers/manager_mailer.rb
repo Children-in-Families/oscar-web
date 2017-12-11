@@ -3,7 +3,7 @@ class ManagerMailer < ApplicationMailer
     @clients = clients
     @manager = options[:manager]
     @day     = options[:day]
-    mail(to: @manager, subject: 'Reminder [Clients Are About To Exit Emergency Care Program')
+    mail(to: @manager, subject: 'Reminder [Clients Are About To Exit Emergency Care Program]')
   end
 
   def case_worker_overdue_tasks_notify(manager, case_workers, org_name)
