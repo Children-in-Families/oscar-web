@@ -187,13 +187,4 @@ class ClientsController < AdminController
     @interviewee_names = @client.interviewees.pluck(:name)
     @client_type_names = @client.client_types.pluck(:name)
   end
-
-  def export_client_report
-    domain_score_report
-    csi_domain_score_report
-    program_stream_report
-    program_enrollment_date_report
-    program_exit_date_report
-    date_of_assessments
-  end
 end
