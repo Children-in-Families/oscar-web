@@ -145,7 +145,9 @@ CIF.Custom_fieldsNew = CIF.Custom_fieldsCreate = CIF.Custom_fieldsEdit = CIF.Cus
 
   _removeSearchCustomFields = ->
     $('#custom_field_form_title').blur ->
-      $('#livesearch').css('visibility', 'hidden')
+      setTimeout ( ->
+        $('#livesearch').css('visibility', 'hidden')
+      ), 200
 
   _preventRemoveFields = (fields) ->
     labelFields = $('label.field-label')
