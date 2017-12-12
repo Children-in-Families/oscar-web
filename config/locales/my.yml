@@ -1,0 +1,3923 @@
+my:
+  able_screening_questions:
+    able_screening_question_field:
+      alert_manager: သတိေပး မန္ေနဂ်ာ
+      group: အစုအဖြဲ႕/ အုပ္စု
+      mode: မုဒ္ / ပံုစံ
+      question: ေမးခြန္း
+    attachment_fields:
+      browse: ရွာၾကည့္သည္
+    create:
+      successfully_created: Able Screening ကို ေအာင္ျမင္စြာ ျပဳလုပ္ၿပီးပါၿပီ။
+    destroy:
+      alert: Able Screening ကို ဖ်က္၍ မရပါ
+      successfully_deleted: Able Screening ကို ေအာင္ျမင္စြာ ဖ်က္ၿပီးပါၿပီ။
+    edit:
+      general_question: အေထြေထြ ေမးခြန္း
+    form:
+      alert_manager: သတိေပး မန္ေနဂ်ာ
+      cancel: ပယ္ဖ်က္သည္။
+      general_question: အေထြေထြေမးခြန္း
+      group: အစုအဖြဲ႕/ အုပ္စု
+      mode: မုဒ္ / ပံုစံ
+      question: ေမးခြန္း
+      questions: ေမးခြန္းမ်ား
+      save: သိမ္းသည္။
+    new:
+      general_question: အေထြေထြေမးခြန္း
+    update:
+      successfully_updated: 'Able Screening ကို ေအာင္ျမင္စြာ အသစ္ထည့္သြင္းၿပီပါၿပီ။ '
+  able_screens:
+    answer_submissions:
+      able_screening_answers:
+        create:
+          successfully_created: Able Screening ကို ေအာင္ျမင္စြာ ျပဳလုပ္ၿပီးပါၿပီ။
+        form:
+          answer: အေျဖ
+          from: မွ
+          general_question: အေထြေထြေမးခြန္း
+          stage: အဆင့္
+          to: သို႔
+          year: ႏွစ္
+    question_submissions:
+      able_screening_questions:
+        attachment_fields:
+          browse: ရွာၾကည့္သည္။
+        create:
+          successfully_created: ေအာင္ျမင္စြာ ျပဳလုပ္ၿပီးပါၿပီ။
+        destroy:
+          successfully_deleted: ေအာင္ျမင္စြာဖ်က္ၿပီးပါၿပီ။
+        edit:
+          general_question: အေထြေထြေမးခြန္းကို ျပင္ဆင္ရန္။
+        form:
+          alert_manager: သတိေပး မန္ေနဂ်ာ
+          mode: မုဒ္ / ပံုစံ
+          question: ေမးခြန္း
+        new:
+          general_question: အေထြေထြေမးခြန္းအသစ္
+        update:
+          successfully_updated: ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ၿပီးပါၿပီ။
+      stages:
+        able_screening_question_fields:
+          alert_manager: သတိေပး မန္ေနဂ်ာ
+          are_you_sure: ေသခ်ာပါသလား။
+          group: အစုအဖြဲ႕ / အုပ္စု
+          mode: မုဒ္ / ပံုစံ
+          question: ေမးခြန္း
+          questions: ေမးခြန္းမ်ား
+        attachment_fields:
+          browse: ရွာၾကည့္သည္။
+        create:
+          successfully_created: ေအာင္ျမင္စြာ ျပဳလုုပ္ၿပီးပါၿပီ။
+        destroy:
+          successfully_deleted: ေအာင္ျမင္စြာ ဖ်က္ၿပီးပါၿပီ။
+        edit:
+          edit_stage: အဆင့္ကို ျပင္ဆင္ရန္
+        form:
+          add_question: ေမးခြန္း ထပ္ထည့္ရန္
+          alert_manager: သတိေပး မန္ေနဂ်ာ
+          from_age: အသက္အရြယ္မွ (ႏွစ္ျဖင့္)
+          mode: မုဒ္ / ပံုစံ
+          question: ေမးခြန္း
+          questions: ေမးခြန္းမ်ား
+          to_age: အသက္အရြယ္သို႔ (ႏွစ္ျဖင့္)
+        index:
+          able_screening_questions: Able Screening ေမးခြန္း
+          from: မွ
+          general_question: အေထြေထြေမးခြန္း
+          new_general_question: အေထြေထြေမးခြန္းအသစ္
+          new_stage_question: အဆင့္ေမးခြန္းအသစ္
+          question:
+          stage: အဆင့္
+          stage_question: အဆင့္ေမးခြန္း
+          to: သို႔
+          year: ႏွစ္
+        new:
+          new_stage: အဆင့္အသစ္
+        questions: ေမးခြန္း
+        stage: အဆင့္
+        update:
+          successfully_updated: ေအာင္ျမင္စြာ အသစ္ျဖည့္သြင္းၿပီ။
+  activerecord:
+    errors:
+      models:
+        able_screening_question:
+          attributes:
+            mode:
+              blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
+            question:
+              blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
+            question_group:
+              blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
+        advanced_search:
+          attributes:
+            name:
+              blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
+              taken: ကိုယူပြီးနေပြီပါပြီ
+        agency:
+          attributes:
+            name:
+              blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
+              taken: ယူထားၿပီးျဖစ္ပါသည္။
+        case:
+          attributes:
+            exit_date:
+              blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
+            exit_note:
+              blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
+            start_date:
+              blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
+        case_note:
+          attributes:
+            attendee:
+              blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
+            meeting_date:
+              blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
+        changelog:
+          attributes:
+            change_version:
+              blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
+              taken: ယူထားၿပီးျဖစ္ပါသည္။
+            description:
+              blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
+        changelog_type:
+          attributes:
+            description:
+              blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
+        client:
+          attributes:
+            user_ids:
+              blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
+        client_enrollment:
+          attributes:
+            enrollment_date:
+              blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
+        custom_field:
+          attributes:
+            entity_type:
+              blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
+              inclusion: အဆိုပါစာရင်းထဲတွင်မပါဝင်တာဖြစ်ပါတယ်
+            fields:
+              blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
+            form_title:
+              blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
+              taken: ယူထားၿပီးျဖစ္ပါသည္။
+            time_of_frequency:
+              blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
+              greater_than_or_equal_to: 'တစ္ သို႔မဟုတ္ တစ္ထက္ ႀကီးရပါမည္။ '
+              not_an_integer: ကိန္းျပည့္မဟုတ္ပါ။
+        department:
+          attributes:
+            name:
+              blank: ကြက္လပ္ခ်န္ခဲ့၍မရပါ။
+              taken: ယူထားၿပီးျဖစ္ပါသည္။
+        domain:
+          attributes:
+            identity:
+              blank: ကြက္လပ္ခ်န္ထား၍ မရပါ။
+              taken: ယူထားၿပီးျဖစ္ပါသည္။
+            name:
+              blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
+              taken: ယူထားၿပီးျဖစ္ပါသည္။
+        domain_group:
+          attributes:
+            name:
+              blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
+              taken: ယူထားၿပီးျဖစ္ပါသည္။
+        family:
+          attributes:
+            family_type:
+              blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
+        government_report:
+          attributes:
+            code:
+              blank: ဤကြက္လပ္ကို ျဖည့္ရန္ လိုအပ္ပါသည္။
+              taken: ယူထားၿပီးျဖစ္ပါသည္။
+        intervention:
+          attributes:
+            action:
+              blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
+              taken: ယူထားၿပီးျဖစ္ပါသည္။
+        leave_program:
+          attributes:
+            exit_date:
+              blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
+        location:
+          attributes:
+            name:
+              blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
+              taken: ယူထားၿပီးျဖစ္ပါသည္။
+        material:
+          attributes:
+            status:
+              blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
+              taken: ယူထားၿပီးျဖစ္ပါသည္။
+        progress_note:
+          attributes:
+            date:
+              blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
+            other_location:
+              blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
+        progress_note_type:
+          attributes:
+            note_type:
+              blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
+              taken: ယူထားၿပီးျဖစ္ပါသည္။
+        province:
+          attributes:
+            name:
+              blank: ကြက္လပ္ခ်ိန္ထား၍မရပါ။
+              taken: ယူထားၿပီးျဖစ္ပါသည္။
+        quantitative_case:
+          attributes:
+            value:
+              blank: ကြက္လပ္ခ်ိန္ထား၍မရပါ။
+              taken: ယူထားၿပီးျဖစ္ပါသည္။
+        quantitative_type:
+          attributes:
+            name:
+              blank: ကြက္လပ္ခ်ိန္ထား၍မရပါ။
+              taken: ယူထားၿပီးျဖစ္ပါသည္။
+        referral_source:
+          attributes:
+            name:
+              blank: ကြက္လပ္ခ်ိန္ထား၍မရပါ။
+              taken: ယူထားၿပီးျဖစ္ပါသည္။
+        stage:
+          attributes:
+            from_age:
+              blank: ကြက္လပ္ခ်ိန္ထား၍မရပါ။
+            to_age:
+              blank: ယူထားၿပီးျဖစ္ပါသည္။
+              greater_than:
+              taken: ယူထားၿပီးျဖစ္ပါသည္။
+        task:
+          attributes:
+            completion_date:
+              blank: ဤကြက္လပ္ကိုျဖည့္ရန္လိုအပ္ပါသည္။
+            name:
+              blank: ဤကြက္လပ္ကိုျဖည့္ရန္လိုအပ္ပါသည္။
+        user:
+          attributes:
+            current_password:
+              blank: ဤကြက္လပ္ကိုျဖည့္ရန္လိုအပ္ပါသည္။
+              invalid: တရားမ၀င္ပါ။
+            email:
+              blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
+              taken: ယူထားၿပီးျဖစ္ပါသည္။
+            password:
+              blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
+              too_short: တိုလြန္းေနသည္။
+            password_confirmation:
+              confirmation: မတူညီပါ။
+            roles:
+              blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
+  add_event_success: ပြဲကို ျပကၡဒိန္ထဲသုိ႔ ေအာင္ျမင္စြာ ထည့္သြင္းၿပီးပါၿပီ။
+  advanced_search:
+    fields:
+      able: Able
+      able_state: Able အေနအထား
+      address: လိပ္စာ
+      age: အသက္
+      agencies_involved: ပါ၀င္သည့္ ေအဂ်င္စီမ်ား
+      agency_name: ေအဂ်င္စီနာမည္
+      agency_names: ေအဂ်င္စီနာမည္
+      basic_fields: အမႈသည္အေျခခံအေနအထား
+      birth_province: ေမြးရပ္ျပည္နယ္
+      birth_province_id: ေမြးရပ္ျပည္နယ္
+      cambodia: ကေမာၻဒီးယား
+      case_note_date: အမႈျခင္းရာမွတ္ခ်က္ေန႔စြဲ
+      case_note_type: အမႈျခင္းရာမွတ္ခ်က္အမ်ိဳးအစား
+      case_type: အမႈျခင္းရာအမ်ိဳးအစား
+      case_worker: အမႈျခင္းရာအတြက္ေဆာင္ရြက္ေပးသူ
+      case_worker_or_staff: အမႈျခင္းရာအတြက္ေဆာင္ရြက္ေပးသူ / ၀န္ထမ္း
+      code: ကုတ္နံပါတ္
+      commune: ရပ္ကြက္/ ေက်းရြာအုပ္စု
+      completed: ၿပီး
+      csi_domain_scores: CSI ဒိုမိန္း ရမွတ္မ်ား
+      current_address: လက္ရွိေနရပ္လိပ္စာ
+      current_province: လက္ရွိေနထိုင္ရာျပည္နယ္
+      custom_form: အေကာက္ခြန္ပံုစံ
+      date_of_assessments: စိစစ္သည့္ရက္စြဲ
+      date_of_birth: ေမြးရက္၊ ေမြးလ၊ ေမြးႏွစ္
+      district: ခ႐ိုင္
+      donor: အလွဴရွင္
+      donor_id: အလွဴရွင္
+      enrollment: စာရင္းသြင္းျခင္း
+      exit_ec_date: ထြက္သည့္ EC ရက္စြဲ
+      exit_fc_date: ထြက္သည့္ FC ရက္စြဲ
+      exit_kc_date: ထြက္သည့္ KC ရက္စြဲ
+      exit_program: ထြက္သည့္အစီအစဥ္
+      family: မိသားစု
+      family_id: မိသားစုမွတ္ပံုတင္
+      family_name: မ်ိဳး႐ိုးနာမည္
+      follow_up_by: 'က ဆက္လက္ေဆာင္ရြက္သည္။ '
+      follow_up_date: ဆက္လက္ေဆာင္ရြက္သည့္ ရက္စြဲ
+      followed_up_by: က ဆက္လက္ေဆာင္ရြက္သည္။
+      followed_up_by_id: က ဆက္လက္ေဆာင္ရြက္သည္။
+      form_title: ေခါင္းစဥ္မွ
+      frequency: အႀကိမ္ေရ
+      gender: က်ားမ
+      given_name: ေမြးနာမည္
+      grade: အတန္း
+      has_been_in_government_care: အစိုးရေစာင့္ေရွာက္မႈေအာက္ေရာက္ဖူးသည္။
+      has_been_in_orphanage: မိဘမဲ့ျဖစ္ဖူးသည္။
+      house_number: အိမ္နံပါတ္
+      id: မွတ္ပံုတင္
+      id_poor: လူဆင္းရဲ မွတ္ပံုတင္
+      initial_referral_date: ကနဦးလႊဲေျပာင္းရက္စြဲ
+      kid_id: ကေလးမွတ္ပံုတင္
+      live_with: အတူေနသူ
+      local_family_name: မ်ိဳး႐ိုးနံမည္ (ေဒသသံုး)
+      local_given_name: ေမြးနာမည္ (ေဒသသံုး)
+      name: အမည္
+      ngo_accepted_date: NGOက လက္ခံသည့္ ရက္စြဲ
+      ngo_exit_date: NGOမွ ထြက္သည့္ ရက္စြဲ
+      placement_start_date: ေနရာခ်ထားမႈစတင္သည့္ရက္စြဲ
+      program_stream: အစီအမံစီဆင္းမႈ
+      province: ေမြးရာျပည္နယ္
+      province_id: လက္ရွိေနထုိင္ရာျပည္နယ္
+      quantitative: ပမာဏအမ်ိဳးအစား
+      received_by: မွ လက္ခံသည္။
+      received_by_id: မွ လက္ခံသည္။
+      referral_phone: လႊဲေျပာင္းရမည့္ ဖုန္းနံပါတ္
+      referral_source: လႊဲေျပာင္းရမည့္သူ
+      referral_source_id: လႊဲေျပာင္းရမည့္သူ
+      referred_to_ec: EC သို႔ ရည္ညႊန္းသည္။
+      referred_to_fc: EC သို႔ ရည္ညႊန္းသည္။
+      referred_to_kc: KC သုိ႔ ရည္ညႊန္းသည္။
+      reject_note: ျငင္းပယ္ျခင္း မွတ္ခ်က္
+      relevant_referral_information: သက္ဆိုင္ေသာလႊဲေျပာင္းျခင္းအခ်က္အလက္
+      school_grade: ေက်ာင္းအဆင့္
+      school_name: ေက်ာင္းနာမည္
+      slug: မွတ္ပံုတင္
+      state: လက္ခံ/ျငင္းပယ္
+      status: အေနအထား
+      street_number: လမ္း
+      time_of_frequency: အႀကိမ္အေရအတြက္
+      tracking: ေနာက္ေၾကာင္းလုိက္ျခင္း
+      type: အမ်ိဳးအစား
+      user_id: အမႈျခင္းရာကိုလိုက္လံေဆာင္ရြက္ေပးသူ
+      village: ေက်းရြာ
+  advanced_search_save_queries:
+    create:
+      failed_create: ရွာေဖြျခင္း အျပင္အဆင္ကို အျခားလူ ယူထားပါသည္။
+      successfully_created: ရွာေဖြျခင္း အျပင္အဆင္ကို ေအာင္ျမင္စြာ ျပဳလုပ္ၿပီးပါၿပီ။
+    destroy:
+      successfully_deleted: ရွာေဖြျခင္းအျပင္အဆင္ကို ေအာင္ျမင္စြာ ဖ်က္ၿပီးပါၿပီ။
+    edit:
+      description: ေဖာ္ျပခ်က္
+      edit_search_setting: ရွာေဖြျခင္း အျပင္အဆင္ကို ျပင္ဆင္ရန္
+      name: နာမည္
+    update:
+      successfully_updated: ရွာေဖြျခင္း အျပင္အဆင္ကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ၿပီးပါၿပီ။
+  agencies:
+    create:
+      failed_create: ေအဂ်င္စီျပဳလုပ္၍မရပါ။
+      successfully_created: ေအဂ်င္စီကို ေအာင္ျမင္စြာျပဳလုပု္ၿပီးျဖစ္ပါသည္။.
+    destroy:
+      alert: ေအဂ်င္စီကို ဖ်က္၍ မရႏုိင္ပါ။
+      failed_delete: ေအဂ်င္စီကို ဖ်က္မရ။
+      successfully_deleted: ေအဂ်င္စီကိုေအာင္ျမင္စြာဖ်က္ၿပီး။
+    edit:
+      title: ေအဂ်င္စီကို ျပင္ဆင္ရန္။
+    form:
+      agency: ေအဂ်င္စီ
+      cancel: ပယ္ဖ်က္ရန္
+      description: ေဖာ္ျပခ်က္
+      name: နာမည္
+      save: သိမ္းသည္။
+    index:
+      add_new_agency: ေအဂ်စ္စီ အသစ္ထည့္ရန္
+      agency: ေအဂ်င္စီမ်ား
+      agency_names: ေအဂ်င္စီ နာမည္
+      are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား
+      changelogs: ေျပာင္းလဲခ်က္မွတ္တမ္း
+      description: ေဖာ္ျပခ်က္
+      manage: စီမံသည္။
+      view: ၾကည့္ရန္ျမင္ကြင္း
+    new:
+      title: ေအဂ်င္စီအသစ္
+    update:
+      failed_update: ေအဂ်င္စီကို အသစ္ျပင္ဆင္မရ
+      successfully_updated: ေအဂ်င္စီကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ၿပီးပါၿပီ။
+    version:
+      back: ေနာက္သို႔
+      modification_of: "၏ ေျပာင္းလဲမႈမွတ္တမ္း"
+  api:
+    form_builder_attachments:
+      destroy:
+        successfully_deleted: တြဲထားသည္ကို ေအာင္ျမင္စြာဖ်က္ၿပီးပါၿပီ။
+        successfully_updated:
+  are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား။
+  assessments:
+    add_task_form:
+      completion_date: ၿပီးစီးသည့္ ရက္စြဲ
+      domain: ဒိုမိန္း
+      enter_task_detail: လုပ္ငန္းအေသးစိတ္ျဖည့္သြင္းရန္
+      save: သိမ္းသည္။
+      title: လုပ္ငန္းအသစ္
+    attachment:
+      attachments: တြဲထားသည္မ်ား
+      download: ေဒါင္းလုတ္
+      preview_download: အစမ္းၾကည့္ျခင္းႏွင့္ ေဒါင္းလုတ္
+    attachment_fields:
+      allow_file_size: ခြင့္ျပဳထားသည့္ ဖိုင္အမ်ိဳးအစားမ်ား
+      are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား။
+      attachments: တြဲထားသည္မ်ား
+      download: ေဒါင္းလုတ္
+      max_file_size: "*အႀကီးဆံုးဖိုင္ဆိုဒ္ - တစ္ဖိုင္ ၅ မီဂါဘိုက္ႏွင့္ တစ္ခါတင္ ၃၀ မီဂါဘိုက္"
+      preview_download: အစမ္းၾကည့္ျခင္းႏွင့္ ေဒါင္းလုတ္
+    create:
+      successfully_created: စိစစ္ခ်က္ကိုေအာင္ျမင္စြာျပဳလုပ္ၿပီးပါၿပီ။
+    destroy:
+      fail_delete_attachment: တြဲထားသည္ကို ဖ်က္မရ။
+      successfully_deleted: တြဲထားသည္ကို ေအာင္ျမင္စြာ ဖ်က္ၿပီးပါၿပီ။
+    form:
+      add_task: လုပ္ငန္းအသစ္ ထပ္ထည့္ရန္။
+      at_least_one_task_required: အနည္းဆံုး လုပ္ငန္းတစ္ခု ထည့္ရန္ လိုအပ္သည္။
+      back: ေနာက္သို႔
+      domain: ဒိုမိန္း
+      finish: ၿပီးပါၿပီ။
+      goal: ရည္မွန္းခ်က္
+      next: ေနာက္တစ္ခု
+      previous: ေရွ႕တစ္ခု
+      reason: အေၾကာင္းျပခ်က္
+      save: သိမ္းသည္။
+      tasks_arising: ေပၚေပါက္လာေနသည့္ လုပ္ငန္းမ်ား
+    index:
+      assessment_history: စိစစ္မႈသမိုင္းေၾကာင္း
+      back: ေနာက္သို႔
+      begin_now: ယခုစမည္
+      initial_assessment: ကနဦး အကဲျဖတ္ခ်က္
+      next_six_monthly_review: ေနာက္ ၆ လခ်ဳပ္ သံုးသပ္ခ်က္
+      six_month_assessment: ၆ လတစ္ႀကိမ္ စိစစ္ခ်က္
+      view_report: အစီခံစာကို ၾကည့္ရန္
+    show:
+      assessment_completed_by: က စိစစ္မႈကို ျဖည္ထားပါသည္။
+      back_to_assessment_history: စိစစ္မႈသမုိင္းေၾကာင္းသို႔ ျပန္ထြက္၇န္
+      domain: ဒိုမိန္း
+      edit: ျပင္ဆင္ရန္
+      goal: ရည္မွန္းခ်က္
+      initial_assessment_of: "၏ ကနဦးစိစစ္မႈ"
+      on_date: ရက္စြဲတြင္
+      reason: အေၾကာင္းျပခ်က္
+      score: ရမွတ္
+      show_attachment: တြဲထားသည္ကို ျပပါ
+      six_month_assessment_report: ၆ လပတ္ စစ္ေဆးမႈအစီရင္ခံစာ
+      task: လုပ္ငန္း
+    update:
+      successfully_updated: အကဲျဖတ္ခ်က္ကို ေအာင္ျမင္စာ အသစ္တင္ၿပီးပါၿပီ။
+  back: ေနာက္သို႔
+  calendars:
+    index:
+      sync_with_google: ဂူဂဲလ္ ျပကၡဒိန္ကို အသစ္တင္မည္
+  cancel: ပယ္ဖ်က္ရန္
+  cannot_be_blank: ကြက္လပ္ ခ်န္ထား၍ မရပါ။
+  cannot_be_greater:
+    few: အခ်ိဴႈ
+    one: ၁
+    other: "%{count} ထက္ ႀကီး၍ မရပါ"
+  cannot_be_lower:
+    few: အခ်ိဳ႕
+    one: ၁
+    other: "%{count} ထက္ ငယ္၍ မရပါ"
+  cannot_remove: ဖ်က္ပစ္၍မရပါ။
+  cannot_remove_or_update: အသံုးျပဳေနသည္ျဖစ္၍ ဖ်က္ပစ္ျခင္းသာ္လည္းေကာင္း၊ အသစ္ျပင္ဆင္ျခင္းေသာ္လည္းေကာင္း လုပ္၍မရပါ။
+  case:
+    quarterly_reports:
+      index:
+        back: ေနာက္သို႔
+        legacy_quarterly_reports_for: သံုးလပတ္လႊဲေျပာင္း အစီရင္ခံစာမ်ား
+      show:
+        back: ေနာက္သို႔
+        child_school_attendance_or_progress: သင့္ကေလး၏ ေက်ာင္းတက္ခ်ိန္/တိုးတက္မႈ အေျခအေန
+        date_of_visit: လာေရာက္ေတြ႕ဆံုသည့္ ရက္စြဲ
+        describe_the_family_current_situation: လက္ရွိ မိသားစုအေျခအေနကို ေဖာ္ျပပါ
+        general_appearance_of_home: အိမ္၏ ေယဘုယ် သြင္ျပင္ကို ေဖာ္ျပပါ
+        general_health_or_appearance: က်န္းမာေရး/လကၡဏာကို ေဖာ္ျပပါ
+        has_the_situation_changed_from_the_previous_visit: ယခင္အႀကိမ္ေတြ႕ဆံုခဲ့စဥ္ကႏွင့္ အေျပာင္းအလဲရွိပါသလား
+        how_are_they_being_misused: မရွိလွ်င္ မည္သို႔ လြဲမွားစြာ အသံုးျပဳခဲ့ေနသနည္း။
+        how_did_i_encourage_the_client: ကၽြန္ေတာ္သည္ အမႈသည္ကို မည္သုိ႔ တိုက္တြန္းခဲ့သနည္း။
+        id: မွတ္ပံုတင္
+        if_yes: မွန္သည္ဆိုလွ်င္ ေဖာ္ျပပါ။
+        kc_name: KC အမည္
+        money_and_supplies_being_used_appropriately: ေငြႏွင့္ အေထာက္အပံ့မ်ားကို ေကာင္းမြန္စြာအသံုးျပဳေနပါသလား။
+        observations_of_drug_alchohol_abuse: မူးယစ္ေဆးသံုးစြဲမႈ၊ အရက္ေသစာေသာက္စားမႈ စသည္တို႔ကို ေတြ႕ရွိက ေဖာ္ျပပါ။
+        quarterly_report_information_for: အတြက္ သံုးလပတ္အစီရင္ခံစာအခ်က္အလက္
+        spiritual_developments_with_the_child_or_family: ကေလး သို႔မဟုတ္ မိသားစုတြင္ စိတ္ပိုင္းဆုိင္ရာ တိုးတက္မႈရွိပါသလား။
+        staff_information: ၀န္ထမ္းအခ်က္အလက္
+        what_future_teachings_or_trainings_could_help_the_client: မည္သည့္ သင္ၾကားမႈ/ ေလ့က်င့္ေပးမႈက အမႈသည္အတြက္ အေထာက္အကူျဖစ္သနည္း။
+        what_is_my_plan_for_the_next_visit_to_the_client: အမႈသည္ထံ ေနာက္ထပ္ သြားေရာက္ေတြ႕ဆံုမႈအတြက္ ကၽြန္ေတာ့္အစီအစဥ္က ဘာလဲ။
+        with_id: မွတ္ပံုတင္ႏွင့္အတူ
+  case_notes:
+    add_task_form:
+      completion_date: အၿပီးသတ္သည့္ ရက္စြဲ
+      domain: ဒိုမိန္း
+      enter_task_detail: လုပ္ငန္းအေသးစိတ္ထည့္သြင္းရန္
+      save: သိမ္းသည္။
+      title: လုပ္ငန္းအသစ္
+    attachment:
+      download: ေဒါင္းလုတ္
+      preview_download: နမူနာၾကည့္ရန္ႏွင့္ ေဒါင္းလုတ္
+    attachment_fields:
+      allow_file_size: ခြင့္ျပဳေသာ ဖိုင္အမ်ိဳးအစား
+      are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား။
+      attachments: တြဲထားသည္မ်ား
+      download: ေဒါင္းလုတ္
+      max_file_size: "*အႀကီးဆံုး ဖိုင္ဆုိဒ္ - တစ္ဖိုင္လွ်င္ ၅ မီဂါဘိုက္ႏႈန္း ႏွင့္ တစ္ခါတင္လွ်င္ ၃၀ မီဂါဘိုက္ႏႈန္း"
+      preview_download: နမူနာၾကည့္ရန္ႏွင့္ ေဒါင္းလုတ္
+    create:
+      successfully_created: အမႈျခင္းရာ မွတ္ခ်က္ကို ျပဳလုပ္ၿပီးပါၿပီ။
+    destroy:
+      fail_delete_attachment: တြဲထားသည္ကို ဖ်က္မရပါ။
+      successfully_deleted: တြဲထားသည္ကို ေအာင္ျမင္စြာ ဖ်က္ၿပီးပါၿပီ။
+    form:
+      add_task: လုပ္ငန္းအသစ္ထည့္သြင္းရန္
+      back: ေနာက္သို႔
+      completed_tasks: ၿပီးၿပီးသား လုပ္ငန္းမ်ား
+      domain: ဒိုမိန္း
+      label_note: မွတ္ခ်က္
+      meeting_detail: အစည္းအေ၀း အေသးစိတ္
+      meeting_with: ႏွင့္ အစည္းအေ၀း
+      note: မွတ္ခ်က္
+      on_date: ရက္စြဲ
+      on_going_tasks: လုပ္ေဆာင္ဆဲ လုပ္ငန္းမ်ား
+      present: လာေရာက္စဥ္ေသာ္လည္းေကာင္း၊ စကားေျပာေနစဥ္ေသာ္လည္း ေဘးတြင္ မည္သူရွိေနပါသနည္း
+      save: သိမ္းသည္။
+      tasks: လုပ္ငန္းမ်ား
+      tasks_arising: ေပၚေပါက္လာေသားလုပ္ငန္းမ်ား
+      type: အမ်ိဳးအစား
+    form_with_assessment_domains:
+      add_task: လုပ္ငန္းေပါင္းထည့္ရန္
+      domain: ဒိုမိန္း
+      goal: ရည္မွန္းခ်က္
+      note: မွတ္စု
+    form_without_assessment_domains:
+      add_task: လုပ္ငနး္ေပါင္းထည့္ရန္
+      domain: ဒိုမိန္း
+      goal: ရည္မွန္းခ်က္
+      note: မွတ္စု
+    index:
+      attachments: တြဲထားသည္မ်ား
+      back: ေနာက္သို႔
+      case_note_lists: အမႈျခင္းရာ မွတ္စု စာရင္း
+      case_note_on: ဆုိင္ရာ အမႈျခင္းရာမွတ္စု
+      completed_tasks: ၿပီးစီးၿပီးသြားေသာ လုပ္ငန္းမ်ား
+      domain: ဒိုမိန္း
+      goal: ရည္မွန္းခ်က္
+      new_case_note: အမႈျခင္းရာမွတ္စုအသစ္
+      note: မွတ္စု
+      present: လာေရာက္ေတြ႕ဆံုစဥ္ သို႔မဟုတ္ စကားေျပာစဥ္ အနီးတြင္ မည္သူ ရွိေနခဲ့သနည္း။
+      type: အမ်ိဳးအစား
+      you_need_to_create_assessment: စိစစ္အကဲျဖတ္ခ်က္ကို ျပဳလုပ္ရန္လိုပါသည္။
+    show:
+      case_note_on: အမႈျခင္းရာမွတ္ခ်က္
+      present: လာေရာက္ေတြ႕ဆံုစဥ္ သို႔မဟုတ္ စကားေျပာေနစဥ္ အနီးတြင္ မည္သူရွိခဲ့သနည္း။
+    update:
+      successfully_updated: အမႈျခင္းရာ မွတ္စုကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ၿပီးပါၿပီ။
+  cases:
+    create:
+      already_have_a_case: အမႈသည္တြင္ အမႈျခင္းရာရွိၿပီးျဖစ္ပါသည္။
+      successfully_created: အမႈျခင္းရာကို ဖန္တီးၿပီးျဖစ္ပါသည္။
+    form:
+      carer_address: ေစာင့္ေရွာက္သူ၏ လိပ္စာ
+      carer_names: ေစာင့္ေရွာက္သူနာမည္မ်ား
+      carer_phone_number: ေစာင့္ေရွာက္သူ၏ ဖုန္းနံပါတ္
+      case_type: အမႈအမ်ိဳးအစား
+      edit_case_title: အမႈျခင္းရာကို ျပင္ဆင္ရန္
+      exit_btn: ထြက္ရန္
+      exit_date: ထြက္သည့္ရက္စြဲ
+      exit_note: ထြက္သည့္မွတ္ခ်က္
+      exit_status: ထြက္သည့္အေနအထား
+      family: မိသားစု
+      family_preservation: မိသားစုမွ ထိန္းသိမ္းေစာင့္ေရွာက္ပါသလား။
+      new_case_title: အမႈျခင္းရာအသစ္
+      note: မွတ္စု
+      ongoing_partner: လက္ရွိလက္တြဲေဖာ္
+      province: ခ႐ိုင္
+      start_date: စသည့္ရက္စြဲ
+      support_amount: ေထာက္ပံ့သည့္ ပမာဏ
+      support_note: ေထာက္ပံ့သည့္ မွတ္စု
+    index:
+      back: ေနာက္သုိ႔
+      carer_address: ေစာင့္ေရွာက္သူ၏ လိပ္စာ
+      carer_names: ေစာင့္ေရွာက္သူမ်ား
+      carer_phone_number: ေစာင့္ေရွာက္သူ၏ ဖုန္းနံပါတ္
+      exit_btn: ထြက္၇န္
+      exit_date: ထြက္သည့္ ရက္စြဲ
+      exit_note: ထြက္သည့္မွတ္စု
+      exit_status: ထြက္သည့္အေနအထား
+      family: မိသားစု
+      family_preservation: မိသားစုက ထိန္းသိမ္းေစာင့္ေရ်ာက္ထားပါသလား။
+      history: "၏ သမိုင္းေၾကာင္း"
+      note: မွတ္စု
+      ongoing_partner: လက္ရွိလက္တြဲေဖာ္
+      province: ခ႐ိုင္
+      start_date: စသည့္ ရက္စြဲ
+      support_amount: ေထာက္ပံ့သည့္ပမာဏ
+      support_note: ေထာက္ပံ့သည့္မွတ္စု
+    new:
+      already_have_a_case: အမႈသည္တြင္ အမႈရွိၿပီးျဖစ္ပါသည္။
+    update:
+      successfully_updated: အမႈကို ေအာင္ျမင္စာ ျပဳလုပ္ၿပီးျဖစ္ပါသည္။
+  changelogs:
+    changelog_type_fields:
+      are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား။
+      description: ေဖာ္ျပခ်က္
+    create:
+      failed_create: လႊတ္သည့္မွတ္တမ္းကို ဖန္တီး၍မရပါ။
+      successfully_created: လႊတ္သည့္မွတ္တမ္းကို ေအာင္ျမင္စြာဖန္တီးၿပီးပါၿပိ။
+    destroy:
+      failed_delete: လႊတ္သည့္မွတ္တမ္းကို ဖ်က္၍မရပါ။
+      successfully_deleted: လႊတ္သည့္မွတ္တမ္းကို ေအာင္ျမင္စြာ ဖ်က္ၿပီးပါၿပီ။
+    edit:
+      edit_releaselog: လႊတ္ျခင္းကို ျပင္ဆင္ရန္
+    form:
+      add_change: ေျပာင္းလဲမႈကို ထည့္သြင္းရန္
+      cancel: ပယ္ဖ်က္ရန္
+      change_version: ဗားရွင္း
+      description: ေဖာ္ျပခ်က္
+      releaselog: လႊတ္သည့္မွတ္တမ္း
+      save: သိမ္းဆည္းသည္။
+    index:
+      add_new_release: လႊတ္ျခင္းအသစ္ကိုထည့္သြင္းရန္
+      are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား
+      cancel: ဖ်က္ရန္
+      change_version: ဗားရွင္း
+      changes: ေျပာင္းလဲမႈမ်ား
+      description: ေဖာ္ျပခ်က္
+      version_list: ဗားရွင္းစာရင္း
+      view_changelog: ေျပာင္းလဲမႈမွတ္တမ္းကို ၾကည့္ရန္
+    new:
+      new_releaselog: လႊတ္ျခင္းအသစ္
+    show:
+      back: ေနာက္သို႔
+    update:
+      failed_update: လႊတ္သည့္မွတ္တမ္းကို အသစ္ျပဳျပင္၍မရပါ။
+      successfully_updated: လႊတ္သည့္မွတ္တမ္းကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ၿပီးပါၿပီ။
+    version:
+      back: ေနာက္သုိ႔
+      modification_of: "၏ ေျပာင္းလဲမႈ မွတ္တမ္း"
+  classes:
+    client_case_statistic:
+      case_statistic: အမႈျခင္းရာ ကိန္းဂဏန္း
+      client_amount: အမႈသည္ပမာဏ
+    dashboard:
+      due_today_assessments_count:
+      emergency_cares_html: အေရးေပၚ <br/> ေစာင့္ေရွာက္မႈမ်ား
+      female_emergency_cares: အမ်ိဳးသမီးမ်ား <br/> EC
+      female_foster_cares: အမ်ိဳးသမီးမ်ား <br/> FC
+      female_kinship_cares: အမ်ိဳးသမီးမ်ား <br/> KC
+      females: အမ်ိဳးသမီးမ်ား
+      foster_cares_html: ေမြးစား <br/> ေစာင့္ေရွာက္မႈမ်ား
+      kinship_cares_html: ေဆြမ်ိဳး <br/> ေစာင့္ေရွာက္မႈမ်ား
+      male_emergency_cares: အမ်ိဳးသားမ်ား <br/> EC
+      male_foster_cares: အမ်ိဳးသားမ်ား <br/> FC
+      male_kinship_cares: အမ်ိဳးသားမ်ား <br/> KC
+      males: အမ်ိဳးသားမ်ား
+      overdue_assessments_count:
+        few: သင့္တါင္ လုပ္ရန္ သတ္မွတ္ခ်ိန္ လြန္သြားေသာ စိစစ္အကဲျဖတ္မႈ အခ်ိဳ႕ ရွိပါသည္။
+        one: သင့္တြင္ လုပ္ရန္ သတ္မွတ္ခ်ိန္ လြန္သြားေသာ စိစစ္အကဲျဖတ္မႈ ၁ ခု ရွိပါသည္။
+        other: သင့္တြင္ လုပ္ရန္ သတ္မွတ္ခ်ိန္ လြန္သြားေသာ စိစစ္အကဲျဖတ္မႈ %{count} ရွိပါသည္။
+  client:
+    form_option:
+      basic_fields: အမႈသည္အေျခခံအကြက္မ်ား
+      csi_domain_scores: CSI ဒိုမိန္း ရမွတ္မ်ား
+      custom_form: အေကာက္ခြန္ ပံုစံ
+      enrollment: စာရင္းသြင္းျခင္း
+      exit_program: ထြက္သည့္ အစီအစဥ္
+      filter_option: ေမးျမန္းမည့္ ေရြးခ်ယ္စရာမ်ားကို ေအာက္တြင္ ေက်းဇူးျပဳ၍ ေရြးခ်ယ္ေပးပါ။
+      program_stream: အစီအစဥ္ စီးဆင္းမႈ
+      quantitative: ပမာဏအမ်ိဳးအစား
+      tracking: ေနာက္ေၾကာင္းလိုက္ျခင္း
+    tasks:
+      create:
+        successfully_created: လုပ္ငန္းကို ေအာင္ျမင္စြာ ဖန္တီးၿပီးပါၿပီ
+      destroy:
+        successfully_deleted: လုပ္ငန္းကို ေအာင္ျမင္စြာ ဖ်က္ၿပီးပါၿပီ
+      edit:
+        edit_task_regarding: လုပ္ငန္းမွတ္ယူျခင္းကို ျပင္ဆင္ရန္
+        title: လုပ္ငန္းကို ျပင္ဆင္ရန္
+      form:
+        back: ေနာက္သို႔
+        completion_date: အၿပီးသတ္သည့္ ရက္စြဲ
+        domain: ဒိုမိန္း
+        enter_task_detail: လုပ္ငန္းအေသးစိတ္ကို ထည့္သြင္းရန္
+        save: သိမ္းဆည္းရန္
+      form_by_assessment:
+        add_task: လုပ္ငန္း ထည့္သြင္းရန္
+        save: သိမ္းဆည္းရန္
+      index:
+        add_all_to_calendar: ျပကၡဒိန္ထဲသုိ႔ အကုန္ထည့္ရန္
+        add_to_calendar: ျပကၡဒိန္ထဲသုိ႔ ထည့္ရန္
+        are_you_sure_you_want_to_delete: ဖ်က္လုိသည္မွာ ေသခ်ာပါသလား
+        back: ေနာက္သို႔
+        domain: ဒိုမိန္း
+        new_task: လုပ္ငန္းအသစ္
+        overdue_tasks: သတ္မွတ္ရက္ ေက်ာ္လြန္သြားေသာ လုပ္ငန္းမ်ား
+        today_tasks: ယေန လုပ္ငန္းမ်ား
+        upcoming_tasks: ေနာက္လာမည့္ လုပ္ငန္းမ်ား
+      new:
+        new_task_regarding: လုပ္ငန္းမွတ္ယူျခင္းအသစ္
+        title: လုပ္ငန္းအသစ္
+      task_fields:
+        completion_date: အၿပီးသတ္ရက္စြဲ
+        enter_task_detail: လုပ္ငန္းအေသးစိတ္ထည့္သြင္းရန္
+      update:
+        successfully_updated: လုပ္ငန္းကို ေအာင္ျမင္စြာ အသစ္ ျပင္ဆင္ၿပီးပါၿပီ
+  client_advanced_searches:
+    form_option:
+      basic_fields: အမႈသည္၏ အေျခခံ အေနအထားမ်ား
+      csi_domain_scores: CSI ဒိုမိန္း ရမွတ္မ်ား
+      custom_form: အေကာက္ခြန္ပံုစံ
+      enrollment: စာရင္းေပးသြင္းမႈ
+      exit_program: ထြက္သည့္အစီအစဥ္
+      filter_option: ေအာက္တြင္ေဖာ္ျပထားသည့္ ေမးျမန္းမႈပံုစံမ်ားကို ေက်းဇူးျပဳ၍ ေရြးခ်ယ္ပါ။
+      program_stream: အစီအစံစီးဆင္းမႈ
+      quantitative: ပမာဏအမ်ိဳးအစား
+      tracking: ေနာက္ေၾကာင္းလိုက္ျခင္း
+    index:
+      add_new_filter: စိစစ္မႈအသစ္ျဖည့္ရန္
+      add_new_group: အဖြဲ႕ထည့္ရန္
+      advanced_search: အဆင့္ျမင့္ရွာေဖြမႈ
+      assessments: စိစစ္အကဲျဖတ္မႈမ်ား
+      client_column: အမႈသည္အေျခခံေကာ္လံမ်ား
+      csi_domain_scores: CSI ဒိုမိန္း ရမွတ္မ်ား
+      custom_form_column: အခြန္ပံုစံ ေကာ္လံမ်ား
+      delete_group: ဖ်က္ရန္
+      export_to_xls: XLS အျဖစ္ ထုတ္သည္။
+      no_results: ဘာမွရွာမေတြ႕ပါ။
+      program_stream_column: အစီအစဥ္စီးဆင္းမႈေကာ္လံ
+      reset: အကုန္ျပန္ျပင္သည္။
+      results: ရလာဒ္မ်ား
+      search: ရွာေဖြသည္။
+  client_enrolled_program_trackings:
+    action:
+      new_tracking: ေနာက္ေၾကာင္းအသစ္
+    create:
+      successfully_created: ေနာက္ေၾကာင္းလုိက္သည့္အစီအစဥ္ကို ေအာင္ျမင္စြာျပဳလုပ္ၿပီးပါၿပီ
+    destroy:
+      successfully_deleted: ေနာက္ေၾကာင္းလုိက္သည့္ အစီအစဥ္ကို ေအာင္ျမင္စြာ ဖ်က္ၿပီးပါၿပီ။
+    edit:
+      edit_tracking: ေနာက္ေၾကာင္းလိုက္ျခင္းကို ျပင္ရန္
+    form:
+      cancel: ပယ္ဖ်က္သည္
+      save: သိမ္းဆည္းသည္
+    index:
+      programs_list: အစီအစဥ္စာရင္း
+      tracking_lists: ေနာက္ေၾကာင္းစာရင္း
+    new:
+      new_tracking: ေနာက္ေၾကာင္းအသစ္
+    report:
+      are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား
+      back: ေနာက္သို႔
+      created_at: ျပဳလုပ္သည့္ရက္စြဲ
+      new_tracking: ေနာက္ေၾကာင္းအသစ္
+    show:
+      back: ေနာက္သုိ႔
+      trackings_list: အမႈသည္ေနာေၾကာင္းစာရင္း
+    update:
+      successfully_updated: ေနာက္ေၾကာင္းလုိက္သည့္အစီအစသ္ကို ေအာင္ျမင္စြာ အသစ္ျပဳျပင္ၿပီးပါၿပီ။
+  client_enrolled_programs:
+    create:
+      successfully_created: စာရင္းေပးသြင္းမႈကို ေအာင္ျမင္စြာျပဳလုပ္ၿပီးပါၿပီ။
+    destroy:
+      successfully_deleted: စာရင္းေပးသြင္းမႈကို ေအာင္ျမင္စြာ ဖ်က္ၿပီးပါၿပိ။
+    edit:
+      enrollment: 'စာရင္းေပးသြင္းမႈကို ျပင္ဆင္ရန္ '
+    form:
+      cancel: ပယ္ဖ်က္ရန္
+      enrollment_date: စာရင္းေပးသြင္းသည့္ ရက္စြဲ
+      save: သိမ္းဆည္းသည္
+    index:
+      actions: လုပ္ေဆာင္မႈမ်ား
+      back: ေနာက္သို႔
+      domain: ဒိုမိန္း
+      name: အစီအစဥ္နာမည္
+      program_lists: အစီအစဥ္စာရင္း
+      quantity: ေနရာလြတ္အေရအတြက္
+      report: အစီရင္ခံစာ
+      status: အေနအထား
+      view: ျမင္ကြင္း
+    manage:
+      enroll: စာရင္းေပးသြင္းသည္။
+      exit: ထြက္သည္။
+      full_program: အစီအစဥ္ျပည္ေနပါၿပီ။
+      tracking: ေနာက္ေၾကာင္းမ်ား
+    new:
+      client_not_valid: အမႈသည္သည္ ဤအစီအစဥ္ စည္းမ်ဥ္းမ်ားႏွင့္ မကိုက္ညီပါ။
+      new_enrollment: စာရင္းေပးသြင္းမႈအသစ္
+    report:
+      actions: လုပ္ေဆာင္မႈမ်ား
+      date: ရက္စြဲ
+      enrollment: စာရင္းေပးသြင္းမႈ
+      exit: ထြက္သည္
+      forms: ပံုစံမ်ား
+      programs_list: အစီအစဥ္စာရင္း
+      report: အစီရင္ခံစာမ်ား
+      tracking: ေနာက္ေၾကာင္း
+      view: ျမင္ကြင္း
+    show:
+      are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား။
+      back: ေနာက္သုိ႔
+      enrollment_date: စာရင္းေပးသြင္းသည့္ ရက္စြဲ
+    update:
+      successfully_updated: စာရင္းေပးသြင္းမႈကို ေအာင္ျမင္စြာ အသစ္ျပန္ျပင္ၿပီးပါၿပီ
+  client_enrollment_trackings:
+    action:
+      new_tracking: ေနာက္ေၾကာင္းအသစ္
+    create:
+      successfully_created: ေနာက္ေၾကာင္းလိုက္ျခင္းအစီအစဥ္ကို ေအာင္ျမင္စြာ ျပဳလုပ္ၿပီးပါၿပီ
+    destroy:
+      delete_attachment_successfully: တြဲထားသည္ကို ေအာင္ျမင္စြာ ဖ်က္ၿပီးပါၿပီ
+      successfully_deleted: ေနာက္ေၾကာင္းလုိက္အစီအစသ္ကို ေအာင္ျမင္စြာ ဖ်က္ၿပီးပါၿပီ။
+    edit:
+      edit_tracking: ေနာက္ေၾကာင္းကို ျပင္ဆင္ရန္
+    form:
+      allow_file_size: ခြင့္ျပဳထားေသာ ဖိုင္အမ်ိဳးအစားမ်ား
+      cancel: ပယ္ဖ်က္ရန္
+      max_file_size: "*အႀကီးဆံုးခြင့္ျပဳသည့္ ဖိုင္ဆုိဒ္ - တစ္ဖိုင္လွ်င္ ၅ မီဂါဘိုက္ႏႈန္းႏွင့္ တစ္ခါတင္လွ်င္ ၃၀ မီဂါဘိုက္"
+      save: သိမ္းသည္
+    index:
+      programs_list: အစီအစဥ္မ်ား စာရင္း
+      tracking_lists: ေနာက္ေၾကာင္းမ်ားစာရင္း
+    new:
+      new_tracking: ေနာက္ေၾကာင္းအသစ္
+    report:
+      are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား
+      back: ေနာက္သို႔
+      created_at: ျပဳလုပ္သည့္ရက္စြဲ
+      new_tracking: ေနာက္ေၾကာင္းအသစ္
+    show:
+      back: ေနာက္သုိ႔
+      trackings_list: အမႈသည္ ေနာက္ေၾကာင္းမ်ား စာရင္း
+    update:
+      successfully_updated: ေနာက္ေၾကာင္းလုိက္သည့္ အစီအစဥ္ကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ၿပီးပါၿပီ
+  client_enrollments:
+    create:
+      successfully_created: စာရင္းေပးသြင္းမႈကို ေအာင္ျမင္စြာ ျပဳလုပ္ၿပီးပါၿပီ
+    destroy:
+      delete_attachment_successfully: တြဲထားသည္မ်ားကို ေအာင္ျမင္စြာ ဖ်က္ၿပီးပါၿပီ
+      successfully_deleted: စာရင္းေပးသြင္းမႈကို ေအာင္ျမင္စြာ ဖ်က္ၿပီးပါၿပီ
+    edit:
+      enrollment: စာရင္းေပးသြင္းမႈကို ျပင္ဆင္ရန္
+    form:
+      allow_file_size: ခြင့္ျပဳေသာ ဖိုင္အမ်ိဳးအစားမ်ား
+      cancel: ပယ္ဖ်က္ရန္
+      enrollment_date: စာရင္းေပးသြင္းသည့္ ရက္စြဲ
+      max_file_size: "*အႀကီးဆံုးလက္ခံႏုိင္သည့္ ဖိုင္ဆုိဒ္ - တစ္ဖိုင္လွ်င္ ၅ မီဂါဘိုက္ႏႈန္းႏွင့္ တစ္ခါတင္လွ်င္ ၃၀ မီဂါဘိုက္"
+      not_an_email: အီးေမးလ္မဟုတ္ပါ
+      save: သိမ္းဆည္းရန္
+    index:
+      actions: လုပ္ေဆာင္မႈမ်ား
+      back: ေနာက္သို႔
+      domain: ဒိုမိန္း
+      name: အစီအစဥ္နာမည္
+      program_lists: အစီအစဥ္မ်ားစာရင္း
+      quantity: ရရွိႏုိင္ေသာေနရာ အေရအတြက္
+      report: အစီရင္ခံစာ
+      status: အေနအထား
+      view: ၾကည့္ရန္
+    manage:
+      enroll: စာရင္းေပးသြင္းရန္
+      exit: ထြက္၇န္
+      full_program: ဤအစီအစဥ္ ျပည့္ေနပါၿပီ။
+      tracking: ေနာက္ေၾကာင္းမ်ား
+    new:
+      client_not_valid: အမႈသည္သည္ ဤအစီီအစဥ္ စည္းမ်ဥ္းမ်ားႏွင့္ မကိုက္ညီပါ
+      new_enrollment: စာရင္ေပးသြင္းမႈအသစ္
+    report:
+      actions: လုပ္ေဆာင္မႈမ်ား
+      date: ရက္စြဲ
+      enrollment: စာရင္းေပးသြင္းမႈ
+      exit: ထြက္ရန္
+      forms: ပံုစံမ်ား
+      programs_list: အစီအစဥ္မ်ားစာရင္း
+      report: အစီရင္ခံစာမ်ား
+      tracking: ေနာက္ေၾကာင္း
+      view: ျမင္ကြင္း
+    show:
+      are_you_sure: ဖ်က္လုိသည္မွာ ေသခ်ာပါသလား
+      back: ေနာက္သို႔
+      enrollment_date: စာရင္းေပးသြင္းသည့္ရက္စြဲ
+    update:
+      successfully_updated: စာရင္းေပးသြင္းျခင္းကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ၿပီးပါၿပီ
+  clients:
+    actions:
+      are_you_sure: ဖ်က္လုိသည္မွာ ေသခ်ာပါသလား
+    answer_fields:
+      answer: အေျဖ
+      yes_no: ဟုတ္တယ္/ မဟုတ္ဘူး
+    client_advanced_searches:
+      advanced_search:
+        add_new_filter: စိစစ္ျခင္းအသစ္ထပ္ထည့္ရန္
+        add_new_group: အဖြဲ႕ထပ္ထည့္ရန္
+        advanced_search: အဆင့္ျမင့္ရွာေဖြမႈ
+        assessments: စိစစ္အကဲျဖတ္မႈမ်ား
+        client_column: အမႈသည္၏ အေျခခံအခ်က္အလက္ ေကာ္လံမ်ား
+        csi_domain_scores: CSI ဒိုမိန္း ရမွတ္မ်ား
+        custom_form_column: အေကာက္ခြန္ပံုစံ ေကာ္လံမ်ား
+        delete_group: ဖ်က္ရန္
+        export_to_xls: XLS အျဖစ္ ထုတ္ရန္
+        no_results: မည္သည့္ရလဒ္မွ မေတြ႕ပါ။
+        program_stream_column: အစီအစဥ္ စီးဆင္းမႈ ေကာ္လံ
+        reset: အားလံုးကို မူလအတိုင္း ျပန္ျပင္ရန္။
+        results: ရလဒ္မ်ား
+        search: ရွာေဖြရန္
+      form_option:
+        basic_fields: အေျခခံအခ်က္အလက္ ကြက္လပ္မ်ား
+        csi_domain_scores: CSI ဒိုမိန္း ရမွတ္မ်ား
+        custom_form: အေကာက္ခြန္ ပံုစံ
+        enrollment: စာရင္းသြင္းျခင္း
+        exit_program: ထြက္သည့္ အစီအစဥ္
+        filter_option: သင္၏ ေမးျမန္းမႈအမ်ိဳးအစားကို ေအာက္တြင္ ေက်းဇူးျပဳ၍ ေရြးခ်ယ္ပါ။
+        program_stream: အစီအစဥ္ စီးဆင္းမႈ
+        quantitative: ပမာဏအမ်ိဳးအစား
+        tracking: ေနာက္ေၾကာင္းလိုက္ျခင္း
+      load_save_search:
+        my_saved_search: မွတ္ထားေသာ ကၽြႏ္ုပ္၏ ရွာေဖြမႈ
+        other_saved_search: သိမ္းဆည္းထားသည့္ အျခားေသာ ရွာေဖြမႈမ်ား
+        search_settings_list: ရွာေဖြမႈ အျပင္အဆင္ စာရင္း
+      my_saved_searches:
+        action: လုပ္ေဆာင္မႈ
+        date: ရက္စြဲ
+        description: ေဖာ္ျပခ်က္
+        load: လုပ္ေဆာင္သည္။
+        name: နာမည္
+      other_saved_searches:
+        action: လုပ္ေဆာင္မႈ
+        date: ရက္စြဲ
+        description: ေဖာ္ျပခ်က္
+        load: လုပ္ေဆာင္သည္။
+        name: နာမည္
+        owner: ပိုင္ရွင္
+      save_search_setting:
+        description: ေဖာ္ျပခ်က္
+        name: နာမည္
+        new_search_setting: ရွာေဖြမႈ အျပင္အဆင္အသစ္
+    client_answers:
+      answer: A
+      client_able_answers: အမႈသည္ Able အေျဖမ်ား
+      close: ပိတ္ရန္
+      question: Q
+    confirm_client:
+      body_first: သင္ မွတ္ပံုတင္သည့္ အမႈသည္သည္ မွတ္ပံုတင္ၿပီးသား အမႈသည္တစ္ဦးႏွင့္ မ်ားစြာတူေနပါသည္
+      body_second: ဆက္သြယ္လုိလွ်င္
+      body_third: ဤသည္ကို ေဆြးေႏြးလိုလွ်င္
+      close: ပယ္ဖ်က္ရန္
+      confirm: မည္သို႔ျဖစ္ေစ သိမ္းဆည္းသည္
+      title: သတိေပးခ်က္
+    create:
+      successfully_created: အမႈသည္ကို ေအာင္ျမင္စြာ ျပဳလုပ္ၿပီးပါၿပီ
+    destroy:
+      successfully_deleted: အမႈသည္ကို ေအာင္ျမင္စြာ ဖ်က္ၿပီးပါၿပီ
+    edit:
+      edit_client_title: အမႈသည္ကို ျပင္ဆင္ရန္
+    emergency_case:
+      carer_address: ေစာင့္ေရွာက္သူ လိပ္စာ
+      carer_names: ေစာင့္ေရွာက္သူအမည္
+      carer_phone_number: ေစာင့္ေရွာက္သူ ဖုန္းနံပါတ္
+      edit_btn: ျပင္ဆင္ရန္
+      emergency_care: အေရးေပၚေစာင့္ေရွာက္မႈ
+      emergency_case:
+        emergency_care: အေရးေပၚေစာင့္ေရွာက္မႈ
+      exit_btn: ထြက္၇န္
+      exit_date: ထြက္သည့္ ရက္စြဲ
+      exit_note: ထြက္သည့္မွတ္စု
+      exit_status: ထြက္သည့္အေနအထား
+      family: မိသားစု
+      family_preservation: မိသားစု၏ ေစာင့္ေရွာက္မႈ ရွိပါသလား
+      note: မွတ္စု
+      ongoing_partner: လက္ရွိ လက္တြဲေဖာ္
+      province: ခ႐ိုင္
+      start_date: စသည့္ရက္စြဲ
+      support_amount: ေထာက္ပံ့သည့္ ပမာဏ
+      support_note: ေထာက္ပံ့သည့္မွတ္စု
+    exit_case_form:
+      exit_btn: ထြက္ရန္
+      exit_date: ထြက္သည့္ရက္စြဲ
+      exit_ec: အေရးေပၚေစာင့္ေရွာက္မႈမွ ထြက္ရန္
+      exit_fc: ေမြးစားေစာင့္ေရွာက္မႈမွ ထြက္ရန္
+      exit_kc: ေဆြမ်ိဳးေစာင့္ေရွာက္မႈမွ ထြက္ရန္
+      exit_ngo: NGO မွ ထြက္ရန္
+      exit_note: ထြက္သည့္ မွတ္တမ္း
+      exit_status: အေနအထား
+    exit_ngo_form:
+      exit_btn: ထြက္ရန္
+      exit_date: ထြက္သည့္ရက္စြဲ
+      exit_ngo: NGOမွ ထြက္ရန္
+      exit_note: ထြက္သည့္မွတ္စု
+      exit_status: အေနအထား
+    form:
+      able: Able
+      able_state: Able State
+      address: လိပ္စာ
+      agencies_involved: ပါ၀င္သည့္ ေအဂ်င္စီမ်ား
+      agency_names: ေအဂ်င္စီနာမည္
+      answer: အေျဖ
+      birth_province: ေမြးဖြားသည့္ ခ႐ိုင္
+      cambodia: ကေမာၻဒီးယား
+      case_worker: အမႈျခင္းရာအတြက္ ေဆာင္ရြက္ေပးသူ
+      case_worker_or_staff: အမႈျခင္းရာအတြက္ ေဆာင္ရြက္ေပးသူ/ ၀န္ထမ္း
+      code: ကုတ္
+      commune: ရပ္ကြက္/ ေက်းရြာအုပ္စု
+      completed: ျပည့္ၿပီ
+      current_address: လက္ရွိလိပ္စာ
+      current_province: လက္ရွိေနထိုင္ရာ ခ႐ိုင္
+      custom_forms: အခြန္ပံုစံမ်ား
+      date_of_birth: ေမြးဖြာသည့္ ရက္၊ လ၊ ႏွစ္
+      district: ခ႐ိုင္
+      donor: အလွဴရွင္
+      exit_date: NGOမွ ထြက္သည့္ ရက္စြဲ
+      exit_note: ထြက္သည့္မွတ္စု
+      exit_status: ထြက္သည့္အေနအထား
+      family_name: မိသားစုနာမည္
+      follow_up_by: မွ ဆက္သည္
+      follow_up_date: ေနာက္ဆက္တြဲ ရက္စြဲ
+      followed_up_by: မွ ဆက္လက္လုပ္ေဆာင္သည္
+      from: မွ
+      gender: က်ား မ
+      general_question: အေထြေထြ ေမးခြန္း
+      given_name: ေမြးနာမည္
+      gov_caseworker_comment: အမႈကိုကူညီေပးသူ၏ မွတ္ခ်က္
+      gov_caseworker_comment_section: အမႈသည္၏ လိုအပ္ခ်က္ႏွင့္ စိန္ေခၚမႈမ်ားအေပၚ အမႈကိုကူညီေပးသူ၏ မွတ္ခ်က္
+      gov_caseworker_name: အမႈကို ကူညီေပးသူ၏ အမည္
+      gov_city: ၿမိဳ႕/ျပည္နယ္
+      gov_client_basic_info: အမႈသည္ထံမွ အဓိက အခ်က္အလက္
+      gov_client_carer: အမႈသည္ကို ေစာင့္ေရွာက္ေပးသူ
+      gov_client_carer_name: နာမည္
+      gov_client_carer_relationship: ေဆြမ်ိဳးေတာ္စပ္မႈ
+      gov_client_code: အမႈသည္၏ ကုတ္နံပါတ္
+      gov_client_need: လုိအပ္မႈအမ်ိဳးအစား (ဦးစားေပးကို ထိပ္ဆံုးမွထားရန္) ကို ေက်းဇူးျပဳ၍ ေဖာ္ျပပါ။
+      gov_client_problem: အဓိက စိန္ေခၚမႈမ်ား (ဦးစားေပးကို ထိပ္ဆံုးမွထားရန္)ကို ေက်းဇူးျပဳ၍ ေဖာ္ျပပါ။
+      gov_client_types: အမႈသည္အမ်ိဳးအစား
+      gov_commune: ေက်းရြာ/ရပ္ကြက္
+      gov_date: ရက္စြဲ
+      gov_district: ခ႐ိုင္
+      gov_government_form: အစိုးရ၏ ပံုစံ(ေဖာင္)
+      gov_guardian_comment: ကိစၥရပ္ႏွင့္ လိုအပ္ခ်က္အေပၚ အမႈသည္/အုပ္ထိန္းသူ၏ မွတ္ခ်က္မ်ား
+      gov_home: မူလ
+      gov_information_source: သတင္းအခ်က္အလက္ ရင္းျမစ္
+      gov_interviewees: အင္တာဗ်ဴးခံရသူမ်ား
+      gov_phone: ဖုနး္နံပါတ္
+      gov_place_of_interview_client: အင္တာဗ်ဴးသည့္ေနရာ
+      gov_reason_of_referral_and_need: ကူးစက္သည့္အေၾကာင္းရင္းႏွင့္ လိုအပ္ခ်က္မ်ား
+      gov_street: လမ္း
+      gov_summary_reason_of_referral: အမႈသည္ ကူးစက္ခံရျခင္း၏ အေၾကာင္းရင္းမ်ားအေပၚ အက်ဥ္းခ်ဳပ္ အခ်က္အလက္
+      gov_village: ေက်းရြာ
+      gov_village_code: ေက်းရြာ၏ ကုတ္နံပါတ္
+      has_been_in_government_care: အစိုးရေစာင့္ေရွာက္မႈေအာက္ ေရာက္ဖူးသည္
+      has_been_in_orphanage: မိဘမဲ့ျဖစ္ဖူးသည္
+      house_number: အိမ္နံပါတ္
+      id: မွတ္ပံုတင္
+      id_poor: လူဆင္းရဲမွတ္ပံုတင္
+      initial_referral_date: ကနဦးလႊဲေျပာင္းရက္စြဲ
+      kid_id: ကေလးမွတ္ပံုတင္
+      live_with: အတူေနသူ
+      local_family_name: မိသားစုနာမည္ (ေဒသအလိုက္)
+      local_given_name: ေမြးနာမည္ (ေဒသအလုိက္)
+      name: နာမည္
+      province: ေမြးဖြားရာ ခ႐ိုင္
+      received_by: မွ လက္ခံသည္။
+      referral_phone: လႊဲေျပာင္းရန္ ဖုန္းနံပါတ္
+      referral_source: လြဲေျပာင္းရန္ ရင္းျမစ္
+      reject_note: ျငင္းပယ္သည့္မွတ္စု
+      relevant_referral_information: သက္ဆိုင္ေသာ လြဲေျပာင္း အခ်က္အလက္
+      school_grade: ေက်ာင္းအဆင့္
+      school_name: ေက်ာင္းနာမည္
+      stage: အဆင့္ေမးခြန္း
+      state: လက္ခံ/ ျငင္းပယ္
+      status: အေနအထား
+      street_number: လမ္း
+      to: သို႔
+      village: ေက်းရြာ
+      year: ႏွစ္
+      yes_no: ဟုတ္တယ္/ မဟုတ္ဘူး
+    foster_case:
+      carer_address: ေစာင့္ေရွာက္သူ လိပ္စာ
+      carer_names: ေစာင့္ေရွာက္သူ နာမည္မ်ား
+      carer_phone_number: ေစာင့္ေရွာက္သူ ဖုန္းနံပါတ္
+      edit_btn: ျပင္ဆင္ရန္
+      exit_btn: ထြက္ရန္
+      exit_date: ထြက္သည့္ ရက္စြဲ
+      exit_note: ထြက္သည့္မွတ္စု
+      exit_status: ထြက္သည့္ အေနအထား
+      family: မိသားစု
+      family_preservation: မိသားစု၏ ေစာင့္ေရွာက္မႈွရွိပါသလား
+      foster_care: ေမြးေစားေစာင့္ေရွာက္မႈ
+      foster_case:
+        foster_care: ေမြးစားေစာင့္ေရွာက္မႈ
+      note: မွတ္စု
+      ongoing_partner: လက္ရွိ လက္တြဲေဖာ္
+      province: ခ႐ိုင္
+      start_date: စသည့္ ရက္စြဲ
+      support_amount: ေထာက္ပံ့သည့္ ပမာဏ
+      support_note: ေထာက္ပံ့သည့္ မွတ္စု
+    index:
+      active_programs: အသက္၀င္ေသးေသာ အစီအစဥ္မ်ား
+      add_new_client: အမႈသည္သစ္ ထည့္သြင္းသည္
+      advanced_search: အဆင့္ျမင့္ ရွာေဖြမႈ
+      all_csi_assessments: CSI စိစစ္အကဲျဖတ္မႈမ်ားအားလံုး
+      assessments: စိစစ္အကဲျဖတ္မႈမ်ား
+      case_statistics: အမႈျခင္းရာ ကိန္းဂဏန္း
+      client_amount: အမႈသည္ ပမာဏမ်ား
+      csi_domain_scores: SCI ဒိုမိန္း ရမွတ္မ်ား
+      domain_score: ဒိုမိန္း ရမွတ္မ်ား
+      end: လုပ္ေဆာင္ၿပီး ၿပီးဆံုးၿပီ
+      export_to_xls: XLS အျဖစ္ ထုတ္သည္
+      load: ဆက္လက္ လုပ္ေဆာင္ေနသည္
+      load_save_search: သိမ္းဆည္းထားသည့္ ရွာေဖြမႈမ်ားကို ျပပါ။
+      report_builder: တုိင္းၾကားစာ တည္ေဆာက္သည့္ေနရာ
+      reports: အစီရင္ခံစာမ်ား
+      results: ရလဒ္မ်ား
+      sInfoShow: မွ ရလဒ္မ်ားကို ျပသပါ
+      sInfoTo: သို႔
+      sInfoTotal: "၏"
+      save_search_settings: ရွာေဖြမႈ အျပင္အဆင္မ်ားကို သိမ္းဆည္းပါ။
+      view_all_active_tasks: အသက္၀င္ေသာ လုပ္ငန္းမ်ားအားလံုးကို ၾကည့္ရန္
+    kinship_case:
+      carer_address: ေစာင့္ေရွာက္သူ လိပ္စာ
+      carer_names: ေစာင့္ေရွာက္သူ နာမည္မ်ား
+      carer_phone_number: ေစာင့္ေရွာက္သူ ဖုန္းနံပါတ္
+      edit_btn: ျပင္ဆင္ရန္
+      exit_btn: ထြက္၇န္
+      exit_date: ထြက္သည့္ ရက္စြဲ
+      exit_note: ထြက္သည့္မွတ္စု
+      exit_status: ထြက္သည့္ အေနအထား
+      family: မိသားစု
+      family_preservation: မိသားစု၏ ေစာင့္ေရွာက္မႈ ရွိပါသလား
+      kinship_care: ေဆြးမ်ိဳးေစာင့္ေရွာက္မႈ
+      kinship_case:
+        kinship_care: ေဆြမ်ိဳးေစာင့္ေရွာက္မႈ
+      note: မွတ္စု
+      ongoing_partner: လက္ရွိ လက္တြဲေဖာ္
+      province: ခ႐ိုင္
+      start_date: စသည့္ ရက္စြဲ
+      support_amount: ေထာက္ပံ့သည့္ ပမာဏ
+      support_note: ေထာက္ပံ့သည့္ မွတ္စု
+    new:
+      new_client_title: အမႈသည္အသစ္
+    placement:
+      view_legacy_quarterly_reports: သံုးလပတ္ဥပေဒေရးရာ အစီရင္ခံစာမ်ားကို ၾကည့္ရန္
+    remaining_programs:
+      close: ပိတ္ရန္
+      warning: သတိေပးခ်က္
+    show:
+      able: Able
+      able_screening_questions: Able Screening ေမးခြန္းမ်ား
+      able_state: Able State
+      accept: လက္ခံသည္
+      accepted_date: NGO က လက္ခံသည္ ရက္စြဲ
+      add_client_to_case: အမႈသည္ကို အမႈျခင္းရာထဲသုိ႔ ထည့္သြင္းရန္
+      add_ec_btn: EC ထဲသုိ႔ ထည့္ရန္
+      add_fc_btn: FC ထဲသုိ႔ ထည့္ရန္
+      add_form: ပံုစံထည့္ရန္
+      add_kc_btn: KC ထဲ ထည့္ရန္
+      additional_details: အျခားအေသးစိတ္အခ်က္အလက္မ်ား
+      additional_forms: အျခား ပံုစံမ်ား
+      additional_info: အျခား အခ်က္အလက္မ်ား
+      address: လိပ္စာ
+      age: အသက္
+      agencies_involved: ပါ၀င္သည့္ ေအဂ်င္စီမ်ား
+      agency_names: ေအဂ်င္စီနာမည္
+      are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား
+      birth_province: ေမြးရာ ခ႐ိုင္
+      cambodia: ကေမာၻဒီးယား
+      case_history: အမႈျခင္းရာသမုိင္းေၾကာင္း
+      case_worker: အမႈျခင္းရာ လိုက္ပါေဆာင္ရြက္ေပးသူ
+      case_worker_or_staff: အမႈျခင္းရာ လိုက္ပါေဆာင္ရြက္ေပးသူ/ ၀န္ထမ္း
+      client_able_answers: အမႈသည္ Able အေျဖမ်ား
+      code: ကုတ္
+      commune: ရပ္ကြက္/ ေက်းရြာအုပ္စု
+      completed: ျပည့္ပါၿပီ
+      current_address: လက္ရွိ လိပ္စာ
+      current_province: လက္ရွိ ေနထုိင္ရာ ခ႐ိုင္
+      date_of_birth: ေမြးရက္၊ လ၊ ႏွစ္
+      district: ခ႐ိုင္
+      donor: အလွဴရွင္
+      enrolled_program_streams: စာရင္းေပးသြင္းမႈအစီအစဥ္စီဆင္းမႈမ်ား
+      exit_date: NGO မွ ထြက္သည့္ ရက္စြဲ
+      exit_from_ec: EC မွ ထြက္ရန္
+      exit_from_fc: FC မွ ထြက္၇န္
+      exit_from_kc: KC မွ ထြက္ရန္
+      exit_ngo_btn: NGO မွ ထြက္သည္
+      exit_note: ထြက္သည့္ မွတ္စု
+      families: မိသားစုမ်ား
+      family_name: မိသားစုနာမည္
+      follow_up_by: မွ ဆက္လက္ေဆာင္ရြက္သည္
+      follow_up_date: ဆက္လက္ေဆာင္ရြက္သည့္ ရက္စြဲ
+      followed_up_by: မွ ဆက္လက္ေဆာင္ရြက္သည္
+      gender: က်ားမ
+      general_info: အမႈသည္၏ အေၾကာင္း
+      given_name: ေမြးနာမည္
+      government_form_five: အျခားေစာင္ေရွာက္မႈ ပံုစံတြင္ ကေလးအေၾကာင္းကို လိုက္လံ စံုစမ္းပါ။
+      government_form_four: ေနရာခ်ထားမႈ-ျပန္လည္ေပါင္းစည္းမႈ ပံုစံ
+      government_form_one: ကနဦးအခ်က္အလက္ပံုစံ
+      government_form_six: အမႈပိတ္သိမ္းသည့္ပံုစံ
+      government_form_three: မိသားစု ၀န္ေဆာင္မႈ အစီအစဥ္ပံုစံ
+      government_form_two: မိသားစု ထိန္းသိမ္းေရး ပံုစံအတြက္ အကဲျဖတ္မႈမ်ား
+      government_report: အစိုးရ အစီရင္ခံစာမ်ား
+      has_been_in_government_care: အစိုးရ၏ ေစာင့္ေရွာက္မႈ ခံယူဖူး
+      has_been_in_orphanage: မိဘမဲ့ျဖစ္ဖူး
+      house_number: အိမ္နံပါတ္
+      id: မွတ္ပံုတင္
+      id_poor: လူဆင္းရဲ မွတ္ပံုတင္
+      initial_referral_date: ကနဦး လႊဲေျပာင္းသည့္ ရက္စြဲ
+      kid_id: ကေလး မွတ္ပံုတင္
+      live_with: အတူေနသူ
+      local_family_name: မိသားစုနာမည္ (ေဒသအသံုးျဖင့္)
+      local_given_name: ေမြးနာမည္ (ေဒသအသံုးျဖင့္)
+      name: နာမည္
+      note: မွတ္စု
+      placements:
+        carer_address: ေစာင့္ေရွာက္သူ လိပ္စာ
+        carer_names: ေစာင့္ေရွာက္သူနာမည္မ်ား
+        carer_phone_number: ေစာင့္ေရွာက္သူဖုန္းနံပါတ္
+        exit_btn: ထြက္ရန္
+        exit_date: ထြက္သည့္ ရက္စြဲ
+        exit_note: ထြက္သည့္ မွတ္စု
+        exit_status: ထြက္သည့္ အေနအထား
+        family: မိသားစု
+        family_preservation: မိသားစု၏ ေစာင့္ေရွာက္မႈရွိပါသလား
+        note: မွတ္စု
+        ongoing_partner: လက္ရွိ လက္တြဲေဖာ္
+        province: ခ႐ိုင္
+        start_date: စတင္သည့္ ရက္စြဲ
+        support_amount: ေထာက္ပံ့သည့္ပမာဏ
+        support_note: ေထာက္ပံ့သည့္ မွတ္စု
+      program_streams: အစီအစဥ္ စီးဆင္းမႈမ်ား
+      progress_note: ေဆာင္ရြက္ဆဲမွတ္စု
+      province: ေမြးဖြားရာခ႐ိုင္
+      received_by: မွ လက္ခံသည္
+      referral_phone: လႊဲရမည့္ ဖုန္းနံပါတ္
+      referral_source: လႊဲရမည့္ ရင္းျမစ္
+      reject: ျငင္းပယ္သည္
+      reject_client: ျငင္းပယ္သည္
+      reject_note: ျငင္းပယ္သည့္ မွတ္စု
+      relevant_referral_information: သက္ဆုိင္ေသာ လႊဲေျပာင္းျခင္း အခ်က္အလက္
+      school_grade: ေက်ာင္းအဆင့္
+      school_name: ေက်ာင္းနာမည္
+      state: လက္ခံသည္/ ျငင္းပယ္သည္
+      status: အေနအထား
+      street_number: လမ္း
+      survey_history: စစ္တမ္း သမုိင္း
+      take_survey: စစ္တမ္းေကာက္သည္
+      time_in_care: ေစာင့္ေရွာက္သည့္ကာလ
+      time_in_care_around:
+        few: ႏွစ္အနည္းငယ္
+        one: "%{count} ႏွစ္၀န္းက်င္"
+        other: "%{count} ႏွစ္မ်ား"
+      view_assessments: စိစစ္အကဲျဖတ္ခ်က္မ်ား
+      view_case_notes: အမႈမွတ္စုမ်ား
+      view_ec_history_btn_link: ECသမုိင္းေၾကာင္း
+      view_fc_history_btn_link: FC သမုိင္း
+      view_kc_history_btn_link: KC သမုိင္း
+      view_legacy_quarterly_reports: သံုးလပတ္ ဥပေဒအစီရင္ခံစာ
+      view_tasks: လုပ္ေဆာင္ခ်က္မ်ား
+      village: ေက်းရြာ
+    state:
+      rejected_note: ျငင္းပယ္သည့္ မွတ္စု
+      state: လက္ခံသည္/ ျငင္းပယ္သည္
+    update:
+      assessment_successfully_created: စိစစ္အကဲျဖတ္ခ်က္ကို ေအာင္ျမင္စြာ ဖန္တီးၿပီးပါၿပီ
+      successfully_updated: အမႈသည္ကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ထည့္သြင္းၿပီပါၿပီ
+    version:
+      back: ေနာက္သို႔
+      modification_of: "၏ ေျပာင္းလဲမႈမွတ္တမ္း"
+  custom_field_properties:
+    attachment:
+      are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား
+      attachments: တြဲထားသည္မ်ား
+      download: ေဒါင္းလုတ္
+      preview_download: ေဒါင္းလုတ္ကို အစမ္းၾကည့္ရန္
+    attachment_fields:
+      are_you_sure: ဖ်က္လုိသည္မွာ ေသခ်ာပါသလား
+      attachments: တြဲထားသည္မ်ား
+      download: ေဒါင္းလုတ္
+      preview_download: ေဒါင္းလုတ္ကို အစမ္းၾကည့္ရန္
+    create:
+      successfully_created: ေနရာပိုင္ဆုိင္မႈသတ္မွတ္ပံုစံကို ေအာင္ျမင္စြာ ျပဳလုပ္ၿပီးပါၿပီ
+    destroy:
+      delete_attachment_successfully: တြဲထားသည္ကို ေအာင္ျမင္စြာ ဖ်က္ၿပီးပါၿပီ
+      successfully_deleted: ေနရာပိုင္ဆုိင္မႈ သတ္မွတ္ပံုစံကို ေအာင္ျမင္စြာ ဖ်က္ၿပီးပါၿပီ
+    form:
+      cancel: ပယ္ဖ်က္ရန္
+      save: သိမ္းဆည္းရန္
+    index:
+      add_new: အသစ္ထည့္ရန္
+      are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား
+      available_on: ဤအရာကို အသက္သြင္းမည္ျဖစ္ပါသည္။
+      back: ေနာက္သို႔
+      created_date: ရက္စြဲကို ဖန္တီးပါ
+    show:
+      back: ေနာက္သို႔
+    update:
+      successfully_updated: ေနရာပိုင္ဆုိင္မႈ သတ္မွတ္ပံုစံကို ေအာင္ျမင္စြာ အသစ္ထည့္သြင္းၿပီးပါၿပီ
+  dashboards:
+    active_tasks:
+      all_active_tasks: အသက္၀င္ေသးေသာ လုပ္ငန္းမ်ားအားလံုး
+      domain: ဒိုမိန္း
+      overdue_tasks: အခ်ိန္လြန္ေနေသာ လုပ္ငန္းမ်ား
+      today_tasks: ယေန႔ လုပ္ရမည့္ လုပ္ငန္းမ်ား
+      upcoming_tasks: လုပ္ေဆာင္ရမည့္ လုပ္ငန္းမ်ား
+    active_tasks_side:
+      active_tasks: အသက္၀င္ေသးေသာ လုပ္ငန္းမ်ား
+    client:
+      ables: Ables
+      clients: လုပ္ေဆာင္မႈရွိေသးေသာ အမႈသည္မ်ား
+      emergency_cares_html: အေရးေပၚ <br/> ေစာင့္ေရွာက္မႈမ်ား
+      females: အမ်ိဳးသမီးမ်ား
+      foster_cares_html: ေမြးစား <br/> ေစာင့္ေရွာက္မႈမ်ား
+      kinship_cares_html: ေဆြမ်ိဳး <br/> ေစာင့္ေရွာက္မႈမ်ား
+      males: အမ်ိဳးသားမ်ား
+    client_program_stream_by_gender:
+      active_progarm_streams_by_gender: အမႈသည္၏ က်ား/မ အလိုက္ လုပ္ေဆာင္မႈရွိေသးေသာ အစီအစဥ္ စီးဆင္းမႈမ်ား
+      active_program_streams: လုပ္ေဆာင္မႈရွိေသးေသာ အစီအစဥ္ စီးဆင္းမႈမ်ား
+      client_active_in_programs: လုပ္ေဆာင္မႈရွိေသးေသာ အစီအစဥ္ စီးဆင္းမႈမ်ား
+    family:
+      families: မိသားစုမ်ား
+      foster: ေမြးစားျခင္း
+      kinship: ေဆြမ်ိဳး
+    program_stream:
+      program_stream: အစီအစဥ္ စီဆင္းမႈမ်ား
+    third_party:
+      ables: Ables
+      agencies: ေအဂ်င္စီမ်ား
+      partners: မိတ္ဖက္မ်ား
+      referral_sources: လႊဲေျပာင္းရန္ ရင္းျမစ္မ်ား
+      staffs: ၀န္ထမ္းအဖြဲ႕၀င္မ်ား
+    users_filter:
+      filter_by_user: အသံုးျပဳသူ သတ္မွတ္ထားေသာ စိစစ္မႈ
+      select_user: အသံုးျပဳသူကို ေရြးခ်ယ္ပါ။
+  data_trackers:
+    index:
+      able_screening_questions: Able Screening ေမးခြန္းမ်ား
+      agencies: ေအဂ်င္စီမ်ား
+      all: အားလံုး
+      all_modification: ေျပာင္းလဲမႈမွတ္တမ္းမ်ားအားလံုး
+      assessments: စိစစ္အကဲျဖတ္မႈမ်ား
+      case_notes: အမႈ မွတ္စု
+      cases: အမႈမ်ား
+      client_custom_fields: အမႈသည္၏ သတ္မွတ္ ပံုစံမ်ား
+      client_enrollments: အမႈသည္စာရင္းေပးသြင္းမႈ
+      clients: အမႈသည္မ်ား
+      custom_fields: အမႈသည္ ပံုစံမ်ား
+      departments: ဌာနမ်ား
+      domain_groups: ဒိုမိန္း အုပ္စုမ်ား
+      domains: ဒိုမိန္းမ်ား
+      donors: အလွဴရွင္မ်ား
+      families: မိသားစုမ်ား
+      family_custom_fields: မိသားစု၏ သတ္မွတ္ပံုစံမ်ား
+      filter_by_item: အမ်ိဳးအစားအလိုက္ စိစစ္ျခင္း
+      interventions: ၾကား၀င္ေဆာင္ရြက္ျခင္းမ်ား
+      locations: တည္ေနရာမ်ား
+      materials: ကိရိယာ/ ပစၥည္းမ်ား
+      partner_custom_fields: မိတ္ဖက္၏ သတ္မွတ္ပံုစံမ်ား
+      partners: မိတ္ဖက္မ်ား
+      program_streams: အစီအစဥ္စီးဆင္းမႈမ်ား
+      progress_note_types: မွတ္စုအမ်ိဳးအစားမ်ား
+      progress_notes: တိုးတက္မႈမွတ္စုမ်ား
+      provinces: ခ႐ိုင္မ်ား
+      quantitative_cases: ပမာဏေဒတာ
+      quantitative_types: ပမာဏအမ်ိဳးအစား
+      referral_sources: လြဲေျပာင္းသည့္ ရင္းျမစ္မ်ား
+      releaselogs: လႊဲေပးသည့္ မွတ္တမ္းမ်ား
+      stages: အဆင့္မ်ား
+      surveys: စစ္တမ္းမ်ား
+      tasks: လုပ္ငန္းမ်ား
+      user_custom_fields: အသံုးျပဳသူ၏ အေကာက္ခြန္ပံုစံမ်ား
+      users: အသံုးျပဳသူမ်ား
+    per_page_form:
+      show: ျပရန္
+  datagrid:
+    columns:
+      all_csi_assessments: CSI စိစစ္အကဲျဖတ္မႈမ်ား အားလံုး
+      carer_address: ေစာင့္ေရွာက္သူ လိပ္စာ
+      carer_names: ေစာင့္ေရွာက္သူ နာမည္မ်ား
+      carer_phone_number: ေစာင့္ေရွာက္သူ ဖုန္းနံပါတ္
+      case_note_date: အမႈျခင္းရာ မွတ္စု ရက္စြဲ
+      case_note_type: အမႈျခင္းရာ မွတ္စု ပံုစံ
+      case_start_date: အမႈျခင္းရာစတင္သည့္ ရက္စြဲ
+      cases:
+        case_type: အမႈျခင္းရာ အမ်ိဳးအစား
+      changelog: ေျပာင္းလဲမႈ မွတ္တမ္း
+      client_enrollments:
+        action: လုပ္ေဆာင္မႈ
+        domain: ဒိုမိန္း
+        name: အစီအစဥ္နာမည္
+        quantity: ရရွိႏုိင္ေသးေသာေနရာ အေရအတြက္
+        report: အစီရင္ခံစာ
+        status: အေနအထား
+      clients:
+        able: Able
+        able_state: Able State
+        address: လိပ္စာ
+        age: အသက္
+        agencies_involved: ပါ၀င္ေသာ ေအဂ်င္စီမ်ား
+        agency_names: ေအဂ်င္စီနာမည္
+        all_csi_assessments: CSI စိစစ္အကဲျဖတ္မႈမ်ား အားလံုး
+        any_assessments: စိစစ္အကဲျဖတ္မႈရွိသည္
+        assessments: စိစစ္အကဲျဖတ္မႈမ်ား
+        assessments_due_to: လုပ္ရေတာ့မည္ စိစစ္အကဲျဖတ္မႈမ်ား
+        birth_province: ေမြးရာ ခ႐ိုင္
+        cambodia: ကေမာၻဒီးယား
+        case_note_date: အမႈ မွတ္စု ရက္စြဲ
+        case_note_type: အမႈ မွတ္စု အမ်ိဳးအစား
+        case_type: အမႈ အမ်ိဳးအစား
+        case_worker: အမႈအတြက္ ေဆာင္ရြက္ေပးသူ
+        case_worker_or_staff: အမႈအတြက္ ေဆာင္ရြက္ေပးသူ/ ၀န္ထမ္း
+        changelogs: ေျပာင္းလဲမႈ မွတ္တမ္း
+        code: ကုတ္
+        commune: ရပ္ကြက္/ ေက်းရြာအုပ္စု
+        completed: ၿပီးစီးၿပီျဖစ္ေသာ
+        current_address: လက္ရွိလိပ္စာ
+        current_province: လက္ရွိေနထိုင္ရာခ႐ိုင္
+        date_of_assessments: စိစစ္အကဲျဖတ္မႈလုပ္သည့္ ရက္စြဲ
+        date_of_birth: ေမြးရက္၊ လ၊ ႏွစ္
+        district: ခ႐ိုင္
+        domain: ဒိုမိန္း
+        domains: CSI အားလံုး
+        donor: အလွဴရွင္
+        family_id: မိသားစုမွတ္ပံုတင္
+        family_name: မိသားစုနာမည္
+        follow_up_by: မွ ဆက္လက္ေဆာင္ရြက္သည္
+        follow_up_date: ဆက္လက္ေဆာင္ရြက္မည့္ရက္စြဲ
+        followed_up_by: မွဆက္လက္ေဆာင္ရြက္သည္
+        form_title: ေခါင္းစဥ္မွ
+        frequency: အႀကိမ္ေရ
+        gender: က်ား၊ မ
+        given_name: ေမြးနာမည္
+        has_been_in_government_care: အစိုးရေစာင့္ေရွာက္မႈ ခံဖူးသည္
+        has_been_in_orphanage: မိဘမဲ့ ျဖစ္ဖူးသည္
+        has_date_of_birth: ေမြးရက္၊ လ၊ ႏွစ္ ရွိသည္
+        has_dob: ဟုတ္ပါတယ္
+        history_of_disability_and_or_illness: မသန္စြမ္းျဖစ္ဖူး သို႔မဟုတ္ ဖ်ားနာဖူး
+        history_of_harm: ဒဏ္ရာရဖူးသည္ သမုိင္းေၾကာင္း
+        history_of_high_risk_behaviours: အႏၱရာယ္မ်ားေသာ အျပဳအမဴ လုပ္ဖူးသည္ သမိုင္း
+        house_number: အိမ္နံပါတ္
+        id: မွတ္ပံုတင္
+        id_poor: လူဆင္းရဲ မွတ္ပံုတင္
+        initial_referral_date: ကနဦးလြဲေျပာင္းမႈ ရက္စြဲ
+        kid_id: ကေလး မွတ္ပံုတင္
+        lesotho: လက္ဆူးသူႏိုင္ငံ
+        live_with: အတူေန
+        local_family_name: မိသားစုနာမည္ (ေဒသသံုးျဖင့့္)
+        local_given_name: ေမြးနာမည္ (ေဒသသံုးျဖင့္)
+        manage: စီမံသည္
+        myanmar: ျမန္မာႏိုင္ငံ
+        name: နာမည္
+        ngo_accepted_date: NGO က လက္ခံသည့္ ရက္စြဲ
+        ngo_exit_date: NGO မွ ထြက္သည့္ ရက္စြဲ
+        no_dob: မဟုတ္ပါ
+        placement_case_type: ေနရာခ်ထားသည့္အမႈအမ်ိဳးအစား
+        placement_start_date: ေနရာခ်ထားမႈ စတင္သည့္ ရက္စြဲ
+        placements:
+          carer_address: ေစာင့္ေရွာက္သူ လိပ္စာ
+          carer_names: ေစာင့္ေရွာက္သူနာမည္မ်ား
+          carer_phone_number: ေစာင့္ေရွာက္သူ ဖုန္းနံပါတ္
+          exit_btn: ထြက္၇န္
+          exit_date: ထြက္သည့္ ရက္စြဲ
+          exit_note: ထြက္သည့္မွတ္စု
+          exit_status: ထြက္သည့္အေနအထား
+          family: မိသားစု
+          family_preservation: မိသားစု၏ ေစာင့္ေရွာက္မႈ ရွိပါသလား
+          note: မွတ္စု
+          ongoing_partner: လက္ရွိ လက္တြဲေဖာ္
+          province: ခ႐ိုင္
+          start_date: စသည့္ ရက္စြဲ
+          support_amount: ေထာက္ပံ့သည့္ ပမာဏ
+          support_note: ေထာက္ပံ့သည့္ မွတ္စု
+        program_enrollment_date: အစီအစဥ္တြင္ ၀င္ေရာက္သည့္ ရက္စြဲ
+        program_exit_date: အစီအစဥ္မွထြက္သည့္ ရက္စြဲ
+        program_streams: အစီအစဥ္ စီးဆင္းမႈမ်ား
+        province: ေမြးရာ ခ႐ိုင္
+        quantitative_case_values: ပမာဏအမႈ
+        quantitative_types: ပမဏအမ်ိဳးအစား
+        reason_for_family_separation: မိသားစုကြဲသည့္ အေၾကာင္းရင္း
+        received_by: မွ လက္ခံသည္
+        referral_phone: လႊဲရမည့္ ဖုန္းနံပါတ္
+        referral_source: လႊဲရမည့္ ရင္းျမစ္
+        reject_note: ျငင္းပယ္သည့္ မွတ္စု
+        rejected_note: ျငင္းပယ္သည့္ မွတ္စု
+        relevant_referral_information: သက္ဆုိင္သည့္ လႊဲေျပာင္းမႈ အခ်က္အလက္
+        school_grade: ေက်ာင္းအဆင့္
+        school_name: ေက်ာင္းနာမည္
+        state: လက္ခံသည္/ ျငင္းပယ္သည္
+        status: အေနအထား
+        street_number: လမ္း
+        thailand: ထိုင္းႏုိင္ငံ
+        time_of_frequency: အႀကိမ္ အေရအတြက္
+        total: စုစုေပါင္း
+        type: အမ်ိဳးအစား
+        view: ျမင္ကြင္း
+        village: ေက်းရြာ
+      date_of_assessments: စိစစ္အကဲျဖတ္မႈမ်ား ျပဳလုပ္သည့္ ရက္စြဲ
+      families:
+        address: လိပ္စာ
+        caregiver_information: ေစာင့္ေရွာက္သူ၏ အခ်က္အလက္
+        case_history: အမႈသမိုင္း
+        case_workers: အမႈအတြက္ေဆာင္ရြက္ေပးသူ
+        changelogs: ေျပာင္းလဲမႈ မွတ္တမ္း
+        clients: အမႈသည္မ်ား
+        code: မိသားစု မွတ္ပံုတင္
+        contract_date: စာခ်ဳပ္ရက္စြဲ
+        dependable_income: မွီခိုႏုိင္ေလာက္ေသာ ၀င္ေငြ
+        family: မိသားစု
+        family_preservation: မိသားစု၏ ေစာင့္ေရွာက္မႈ ရွိပါသလား
+        family_type: မိသားစုအမ်ိဳးအစား
+        female: အမ်ိဳးသမီး
+        female_adult_count: အရြယ္ေရာက္အမ်ိဳးသမီးအေရအတြက္
+        female_children_count: အရြယ္မေရာက္ေသးေသာ ကေလးငယ္ အေရအတြက္
+        household_income: အိမ္ေထာင္စု ၀င္ေငြ
+        id: မွတ္ပံုတင္
+        male: အမ်ိဳးသား
+        male_adult_count: အရြယ္ေရာက္အမ်ိဳးသားအေရအတြက္
+        male_children_count: အရြယ္မေရာက္ေသးေသာ ေယာက်္ားေလး အေရအတြက္
+        manage: စီမံသည္
+        member_count: မိသားစု၀င္
+        name: နာမည္
+        'no': မဟုတ္ပါ
+        province: ခ႐ိုင္
+        significant_family_member_count: မိသားစု၀င္မ်ားသည့္ အေရအတြက္
+        total: စုစုေပါင္း
+        view: ျမင္ကြင္း
+        'yes': ဟုတ္ပါသည္
+      family: မိသားစု
+      family_id: မိသားစု မွတ္ပံုတင္
+      family_preservation: မိသားစု၏ ေစာင့္ေရွာက္မႈ
+      form_title: ေခါင္းစဥ္မွ
+      history_of_disability_and_or_illness: မသန္စြမ္းျဖစ္ဖူးျခင္း၊ ဖ်ားနာဖူးျခင္း သမိုင္းေၾကာင္း
+      history_of_harm: ထိခိုက္ဒဏ္ရာရရွိမႈ သမုိင္းေၾကာင္း
+      history_of_high_risk_behaviours: အႏၱရာယ္မ်ားေသာ အျပဳအမႈ၏ သမိုင္း
+      manage: စီမံသည္
+      partner: မိတ္ဖက္
+      partners:
+        address: လိပ္စာ
+        affiliation: ေမြးစားျခင္း
+        background: ေနာက္ခံသမုိင္းေၾကာင္း
+        changelogs: ေျပာင္းလဲမႈ မွတ္တမ္း
+        contact_email: အီးေမးလ္
+        contact_mobile: ဆက္သြယ္ရန္ မိုဘိုင္းဖုန္း
+        contact_name: ဆက္သြယ္ရန္ နာမည္
+        engagement: ေစ့စပ္ျခင္း
+        id: မွတ္ပံုတင္
+        manage: စီမံသည္
+        name: နာမည္
+        organisation_type: အဖြဲ႕အစည္းအမ်ိဳးအစား
+        partner: မိတ္ဖက္
+        province: ခ႐ိုင္
+        start_date: စတင္သည့္ ရက္စြဲ
+        type: အမ်ိဳးအစား
+        view: ျမင္ကြင္း
+      program_streams:
+        action: လုပ္ေဆာင္မႈ
+        description: 'ေဖာ္ျပခ်က္ '
+        domain: ဒိုမိန္းမ်ား
+        name: နာမည္
+        quantity: ပမာဏ
+      progress_notes:
+        additional_notes: ထပ္ေဆာင္းမွတ္စုမ်ား
+        changelogs: ေျပာင္းလဲမႈ မွတ္တမ္း
+        child: ကေလး
+        date: ရက္စြဲ
+        goals_addressed: ေဖာ္ျပထားေသာ ရည္မွန္းခ်က္
+        interventions: ၾကား၀င္မႈမ်ား
+        location: တည္ေနရာ
+        manage: စီမံသည္
+        material: ကိရိယာ/ ပစၥည္း
+        other_location: အျခား
+        progress_note_type: မွတ္စု အမ်ိဳးအစား
+        response: လုပ္ေဆာင္မႈမ်ားႏွင့္ ျပန္လည္ တုန္႔ျပန္မႈ
+        staff: ABLE/ ABLE ၀န္ထမ္း နာမည္
+        view: ျမင္ကြင္း
+      quarterly_reports:
+        code: ကုတ္
+        fc_name: FC နာမည္
+        general_health_or_appearance: က်န္းမာေရး/ ႐ုပ္ရည္သ႑ာန္ကို ေဖာ္ျပပါ
+        kc_name: KC နာမည္
+        staff_information: ၀န္ထမ္း အခ်က္အလက္
+        visit_date: လာေရာက္ေတြ႕ဆံုသည့္ ရက္စြဲ
+      reason_for_family_separation: မိသားစုကြဲရျခင္း၏ အေၾကာင္းရင္း
+      rejected_note: ျငင္းပယ္သည့္ မွတ္စု
+      select_columns: ေကာ္လံကို ေရြးခ်ယ္ပါ
+      show_all: အားလံုးကို ျပပါ
+      support_amount: ေထာက္ပံ့သည့္ပမာဏ
+      support_note: ေထာက္ပံ့မႈ မွတ္စု
+      trackings:
+        action: လုပ္ေဆာင္မႈ
+        frequency: အႀကိမ္ေရ
+        name: နာမည္
+        report: အစီရင္ခံစာ
+        times_of_frequency: အႀကိမ္အေရအတြက္
+      users:
+        changelogs: ေျပာင္းလဲမႈ မွတ္တမ္း
+        clients: အမႈသည္မ်ား
+        current_password: လက္ရွိ စကား၀ွက္
+        current_password_hint: လက္ရွိ စကား၀ွက္ကို ျပင္ဆင္ရန္ လိုအပ္ပါသည္
+        date_of_birth: ေမြးရက္၊ လ၊ ႏွစ္
+        delete_account_button: အေကာင့္ကို ဖ်က္သိမ္းသည္
+        department: ဌာန
+        email: အီးေမးလ္
+        first_name: ေရွ႕ဆံုးနာမည္
+        id: မွတ္ပံုတင္
+        job_title: အလုပ္အကိုင္
+        last_name: ေနာက္ဆံုးနာမည္
+        manage: စီမံသည္
+        manager: မန္ေနဂ်ာ
+        mobile: မိုဘိုင္း
+        name: နာမည္
+        password: စကား၀ွက္
+        password_confirmation: စကား၀ွက္အတည္ျပဳခ်က္
+        password_hint: စကား၀ွက္ကို မေျပာင္းလိုလွ်င္ ဒီအတိုင္းထားပါ
+        pin_number: ပင္နံပါတ္
+        province: ခ႐ိုင္
+        roles: ခြင့္ျပဳခ်က္ျပဳလုပ္သည္
+        start_date: စတင္သည့္ ရက္စြဲ
+        view: ျမင္ကြင္း
+    filters:
+      dynamic:
+        operations:
+          "<=": "<="
+          "=": "="
+          ">=": ">="
+      first_name: နာမည္ ေရွ႕ဆံုးအလံုး
+      xboolean:
+        'no': မဟုတ္ပါ
+        'yes': ဟုတ္ပါသည္
+    form:
+      csi_domain_scores: CSI ဒိုမိန္း အမွတ္မ်ား
+      filter_domains: စိစစ္မႈ ဒိုမိန္း
+      has_overdue_assessment: ရက္လြန္ေနေသာ စိစစ္အကဲျဖတ္မႈ တစ္ခုရွိပါသည္။
+      reset: အကုန္ျပင္ဆင္သည္
+      search: ရွာေဖြသည္
+    from: မွ
+    head:
+      changelog: ေျပာင္းလဲမႈ မွတ္တမ္း
+    no_results: ဘာရလဒ္မွ မေတြ႕ပါ
+    row:
+      changelog: ေျပာင္းလဲမႈ မွတ္တမ္း
+      view: ျမင္ကြင္း
+    table:
+      order:
+        asc: "↑"
+        desc: "↓"
+    to: သို႔
+  date:
+    formats:
+      long: '""'
+      short: '""'
+  datetime:
+    distance_in_words:
+      about_x_hours: '""'
+  default_able_screening_question_fields:
+    alert_manager: သတိေပး မန္ေနဂ်ာ
+    mode: မုဒ္/ပံုစံ
+    question: ေမးခြန္း
+  default_client_fields:
+    able: Able
+    able_state: Able State
+    address: လိပ္စာ
+    agencies_involved: ပါ၀င္ေသာ ေအဂ်င္စီမ်ား
+    agency_names: ေအဂ်င္စီနာမည္
+    birth_province: ေမြးရာ ခ႐ိုင္
+    cambodia: ကေမာၻဒီးယား
+    case_worker: အမႈအတြက္ ေဆာင္ရြက္ေပးသူ
+    case_worker_or_staff: အမႈအတြက္ ေဆာင္ရြက္ေပးသူ/၀န္ထမ္း
+    code: ကုတ္
+    commune: ရပ္ကြ႕၊ ေက်းရြာအုပ္စု
+    completed: ၿပီးဆံုးၿပီ
+    current_address: လက္ရွိလိပ္စာ
+    current_province: လက္ရွိ ေနထိုင္ရာခ႐ိုင္
+    date_of_birth: ေမြးရက္၊ လ၊ ႏွစ္
+    district: ခ႐ိုင္
+    donor: အလွဴရွင္
+    family_name: မိသားစုနာမည္
+    follow_up_by: မွ ဆက္လက္ေဆာင္ရြက္သည္
+    follow_up_date: ဆက္လက္ေဆာင္ရြက္သည့္ ရက္စြဲ
+    followed_up_by: မွ ဆက္လက္ေဆာင္ရြက္သည္။
+    gender: က်ား/မ
+    given_name: ေမြးနာမည္
+    has_been_in_government_care: အစိုးရေစာင့္ေရွာက္မႈ ခံယူဖူး
+    has_been_in_orphanage: မိဘမဲ့ ျဖစ္ဖူး
+    house_number: အိမ္နံပါတ္
+    id: မွတ္ပံုတင္
+    id_poor: လူဆင္းရဲ မွတ္ပံုတင္
+    initial_referral_date: ကနဦးလႊဲေျပာင္းရက္စြဲ
+    kid_id: ကေလးမွတ္ပံုတင္
+    live_with: အတူေနသူ
+    local_family_name: မိသားစုနာမည္ (ေဒသသံုးျဖင့္)
+    local_given_name: ေမြးနာမည္ (ေဒသသံုးျဖင့္)
+    name: နာမည္
+    province: ေမြးရာ ခ႐ိုင္
+    received_by: မွ လက္ခံသည္။
+    referral_phone: လႊဲေျပာင္းရမည့္ ဖုန္းနံပါတ္
+    referral_source: လႊဲေျပာင္းရမည့္ ရင္းျမစ္
+    reject_note: ျငင္းပယ္သည့္ မွတ္စု
+    relevant_referral_information: သက္ဆုိင္ေသာ လႊဲေျပာင္းမႈ သတင္းအခ်က္အလက္
+    school_grade: ေက်ာင္းအဆင့္
+    school_name: ေက်ာင္းနာမည္
+    state: လက္ခံ/ ျငင္းပယ္
+    status: အေနအထား
+    street_number: လမ္း
+    village: ေက်းရြာ
+  default_custom_fields:
+    form_title: ေခါင္းစဥ္မွ
+    frequency: အႀကိမ္ေရ
+    time_of_frequency: အႀကိမ္အေရအတြက္
+    type: အမ်ိဳးအစား
+  default_entity_type_custom_fields:
+    create:
+      successfully_created: အခ်က္အလက္ကို ေအာင္ျမင္စြာ ျပဳလုပ္ၿပီးပါၿပီ
+    destroy:
+      successfully_deleted: အခ်က္အလက္ကို ေအာင္ျမင္စြာ ဖ်က္ၿပီးပါၿပီ
+    form:
+      cancel: ပယ္ဖ်က္ရန္
+      save: သိမ္းဆည္းရန္
+    index:
+      add_new: အသစ္ထည့္ရန္
+      are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား
+      available_on: ဤအရာကို အသက္သြင္းၿပီးပါၿပီ
+      back: ေနာက္သို႔
+      created_date: ျပဳလုပ္သည့္ ရက္စြဲ
+    show:
+      back: ေနာက္သို႔
+    update:
+      successfully_updated: အခ်က္အလက္ကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ၿပီးပါၿပီ
+  default_family_fields:
+    address: လိပ္စာ
+    caregiver_information: ေစာင့္ေရွာက္ေပးသူ၏ အခ်က္အလက္
+    case_history: အမႈသမုိင္း
+    code: မိသားစုု မွတ္ပံုတင္
+    contract_date: စာခ်ဳပ္ ရက္စြဲ
+    dependable_income: မွီခိုႏိုင္ေလာက္ေသာ ၀င္ေငြ
+    family_type: မိသားစုအမ်ိဳးအစား
+    female_adult_count: အရြယ္ေရာက္ အမ်ိဳးသမီး အေရအတြက္
+    female_children_count: အရြယ္မေရာက္ေသးေသာ မိန္းကေလး အေရအတြက္
+    household_income: အိမ္ေထာင္စု၀င္ေငြ
+    id: မွတ္ပံုတင္
+    male_adult_count: အရြယ္ေရာက္ အမ်ိဳးသား အေရအတြက္
+    male_children_count: အရြယ္မေရာက္ေသးေသာ ေယာက်္ားေလး အေရအတြက္
+    member_count: အဖြဲ႕၀င္ အေရအတြက္
+    name: နာမည္
+    'no': မဟုတ္ပါ
+    province: ခ႐ိုင္
+    significant_family_member_count: ႀကီးမားေသာ မိသားစု အေရအတြက္
+    'yes': ဟုတ္ပါသည္
+  default_government_report_fields:
+    abandoned: စြန္႔လႊတ္ထားေသာ
+    abuse_and_exploitation: ေစာ္ကားမႈ၊ ေခါင္းပံု ျဖတ္မႈ
+    and: ႏွင့္
+    anonymous: အမည္မသိ (အကယ္၍ လႊဲေျပာင္းခံရသူက မိမိ၏ အခ်က္အလက္ကို ဖိုင္တြဲတြင္ မပါေစလိုလွ်င္)
+    anonymous_form: 'အမည္မသိ (အကယ္၍ လႊဲေျပာင္းခံရသူက မိမိ၏ အခ်က္အလက္ကို ဖိုင္တြဲတြင္ မပါေစလိုလွ်င္) '
+    anonymous_information: အမည္မသိ အခ်က္အလက္
+    at: "၌"
+    capital: ၿမိဳ႕ေတာ္
+    carer_address: ေစာင့္ေရွာက္သူ၏ လိပ္စာ
+    carer_name: ေစာင့္ေရွာက္သူနာမည္
+    case_education: ပညာေရး
+    case_information_date: ႊလႊဲေျပာင္းသည့္ ရက္စြဲ
+    check: ေက်းဇူးျပဳ၍ အမွန္ျခစ္ ျခစ္ပါ
+    child_changed_home: ကေလးငယ္ အိမ္ေျပာင္းျခင္း
+    child_disabled: မသန္စြမ္းကေလးငယ္
+    child_exploitation: ကေလးသူငယ္ ေခါင္းပံုျဖတ္ျခင္း
+    child_has_a_criminal_history: ကေလးတြင္ ျပစ္မႈက်ဴးလြန္ဖူးသည့္ သမုိင္းရွိသည္
+    child_has_a_history_of_alcohol_abuse: ကေလးသည္ အရက္စြဲဖူးသည့္ သမိုင္းရွိသည္
+    child_has_a_history_of_drug_use: ကေလးသည္ ေဆးစြဲဖူးသည္ သမုိင္းရွိသည္
+    child_has_a_history_of_gambling: ကေလးသည္ ေလာင္းကစားလုပ္ဖူးသည့္ သမိုင္းရွိသည္
+    child_hiv_aids: HIV/AIDS ခံစားေနရေသာ ကေလးငယ္
+    child_ill: ဖ်ားနာေနေသာ ကေလး
+    child_living_independently: မွီခိုရမည့္သူမရွိဘဲ ေနေနရေသာ ကေလး
+    child_living_on_street: လမ္းေပၚတြင္ ေနေနရသည့္ ကေလး
+    child_situation_and_need: ကေလးငယ္၏ လိုအပ္ခ်က္ႏွင့္ အေျခအေန
+    city: ခ႐ိုင္
+    client_code: ကုတ္
+    client_contact: ကေလးငယ္ႏွင့္ ဆက္ဆံေရး
+    client_living_with_guardians: ကေလးသည္ မိဘတစ္ဦးဦးႏွင့္ေသာ္လည္းေကာင္း၊ ေစာင့္ေရွာက္သူ တစ္ဦးဦးႏွင့္ေသာ္လည္း အတူေနပါသလား
+    client_name: ကေလးနာမည္
+    clothes: အ၀တ္အစားမ်ား
+    code: ပံုစ့
+    commune: ရပ္ကြက္/ ေက်းရြာအုပ္စု
+    communication_in_family: မိသားစု ဆက္ဆံေရး
+    communication_in_society: ပတ္၀န္းက်င္ႏွင့္ ဆက္ဆံေရး
+    copy: မူပိုင္ခြင့္
+    danger_of_trafficking: လူကုန္ကူးခံရမည့္ အႏၱရာယ္
+    danger_situation: ကေလးငယ္ကို အႏၱရာယ္ျဖစ္ေစမည္ သို႔မဟုတ္ ျဖစ္ေစႏုိင္ဖြယ္ရွိသည့္ အေျခအေန
+    date: ရက္စြဲ
+    date_of_birth: ေမြးရက္၊ လ၊ ႏွစ္
+    day: ေန႔
+    disability_and_or_illness: မသန္စြမ္းျခင္း ႏွင့္/ သို႔မဟုတ္ ဖ်ားနာျခင္း
+    drug_abuse_alcohol_and_gambling: ေဆးစြဲျခင္း၊ အရက္စြဲျခင္း ႏွင့္ ေလာင္းကစားလုပ္ျခင္း
+    education: ေက်ာင္းအဆင့္
+    emotional_abuse: စိတ္ပိုင္းဆုိင္ရာ အႏုိင္က်င့္ျခင္း၊ ေစာ္ကားျခင္း
+    emotional_health: စိတ္ခံစားမႈဆုိင္ရာ က်န္းမာေရး
+    emotional_heath: စိတ္ခံစားမႈဆုိင္ရာ က်န္းမာေရး
+    essential_needs: မရွိမျဖစ္ေသာ လိုအပ္ခ်က္မ်ား
+    every_point: သက္ဆုိင္သမွ်အားလံုး
+    excessive_child_labour: မ်ားျပားလြန္းေသာ ကေလးလုပ္အား
+    exist: မွန္ပါသည္
+    experience_with_trafficking: လူကုန္ကူးခံရသည့္ အေတြ႕အႀကံဳ
+    family_changed_home: မိသားစုက ေျပာင္းလုိက္ေသာ အိမ္
+    family_separation: မိသားစုကြဲျခင္း
+    family_violence: မိသားစုတြင္ အၾကမ္းဖက္မႈ
+    female: F
+    first_mission: "(ကေလးငယ္သည္ အႏၱရာယ္ႀကံဳေန၊ ႀကံဳရဖြယ္၊ ႀကံဳလတၱံ႔ေသာ အေနအထားတြင္) ကေလးငယ္အား ေစာင့္ေရွာက္ရမည့္ လုပ္ထုံးလုပ္နည္းမ်ားအတုိင္း လုပ္ေဆာင္ပါ၊ ပံုစံ ၁၃၀၄ ကို ျဖည့္ပါ"
+    first_response_form: ကနဦး တုန္႔ျပန္သည့္ ပံုစံ
+    food: စားနပ္ရိကၡာ
+    food_shelter: စားနပ္ရိကၡာ၊ ခိုလႈံစရာႏွင့္ အ၀တ္အစား
+    for_children_who_are_in_danger: အႏၱရာယ္ရွိေသာ အေျခအေနႀကံဳေနရသည့္ ကေလးအတြက္
+    found_client_at: ကေလးႏွင့္ေတြ႕သည့္ ေနရာ
+    fourth_mission: "(ကေလးအစြန္႔ပစ္ခံရသည့္ ကိစၥေပၚေပါက္လွ်င္) စြန္႔ပစ္ခံကေလးအတြက္ လုပ္ေဆာင္ရမည့္ လုပ္ထံုးလုပ္နည္းမ်ားအတုိင္းေဆာင္ရြက္ပါ။ ပံုစံ ၁၃၀၇ ကို ျဖည့္ပါ"
+    gender: လိင္
+    health_care_and_medical_treatment: က်န္းမာေရးေစာင့္ေရွာက္မႈႏွင့္ ေဆး၀ါးကုသမႈ
+    house_number: အိမ္နံပါတ္
+    if_exist: အကယ္၍ မွန္သည္ဆိုလွ်င္
+    initial_capital: ၿမိဳ႕ေတာ္
+    initial_city: ခ႐ိုင္
+    initial_commune: ရပ္ကြက္/ ေက်းရြာအုပ္စု
+    initial_date: ရက္စြဲ
+    intervention_plan: ၾကားျဖတ္သည့္ အစီအမံ
+    kingdom_of_cambodia: ကေမာၻဒီးယား ဘုရင့္ႏိုင္ငံေတာ္
+    male: M
+    mission_obtainable: လုိအပ္ေသာ အဆင့္မ်ား
+    missions_which_need_to_be_done: လုပ္ေဆာင္မည့္ အဆင့္မ်ားတြင္
+    month: လ
+    name: နာမည္
+    nation_religion_king: ႏိုင္ငံေတာ္ဘာသာေရးဘုရင္
+    need: လိုအပ္ခ်က္မ်ား
+    negative: မဟုတ္ပါ
+    neglect: လ်စ္လ်ဴ႐ႈသည္
+    none: ဘာမွ မရွိပါ (အမႈပိတ္သိမ္းသြားျခင္းျဖစ္ႏုိင္)
+    office: ခ႐ိုင္႐ုံးစိုက္သည့္ ၿမိဳ႕
+    or: သို႔မဟုတ္
+    organisation: CCWC
+    organisation_name: CCWC နာမည္
+    orphan_lost_both_parents: မိဘမဲ့ (မိဘႏွစ္ပါးစလံုးကို ဆံုး႐ႈံးလုိက္ရ)
+    orphan_lost_father: မိဘမဲ့ (ဖခင္ကို ဆံုး႐ႈံး)
+    orphan_lost_mother: မိဘမဲ့ (မိခင္ကို ဆံုး႐ႈံး)
+    parent_carer_disabled: မသန္စြမ္း မိဘ/ ေစာင့္ေရွာက္သူ
+    parent_carer_has_a_criminal_history: မိဘ/ေစာင့္ေရွာက္သူသည္ ျပစ္မႈ က်ဴးလြန္ဖူးသည့္ သမိုင္းရွိ
+    parent_carer_has_a_history_of_alcohol_abuse: မိဘ/ေစာင့္ေရွာက္သူသည္ အရက္စြဲဖူးသည့္ သမိုင္းရွိ
+    parent_carer_has_a_history_of_drug_use: မိဘ/ေစာင့္ေရွာက္သူသည္ မူးယစ္ေဆးစြဲဖူးသည့္ သမိုင္းရွိ
+    parent_carer_has_a_history_of_gambling: မိဘ/ေစာင့္ေရွာက္သူသည္ ေလာင္းကစားလုပ္သည့္ သမိုင္းရွိ
+    parent_carer_hiv_aids: မိဘ/ေစာင့္ေရွာက္သူသည္ HIV/AIDS ေရာဂါရွိ
+    parent_carer_hiv_aids_origin: မိဘ/ ေစာင့္ေရွာက္သူသည္ HIV/ AIDS ေရာဂါရွိ
+    parent_carer_ill: မိဘ/ေစာင့္ေရွာက္သူ ဖ်ားနာ
+    parent_carer_ill_origin: မိဘ/ေစာင့္ေရွာက္သူ ဖ်ားနာ
+    parent_carer_poor_certificate: မိဘ/ေစာင့္ေရွာက္သူ၏ လူဆင္းရဲ မွတ္ပံုတင္
+    parent_carer_poor_certificate_origin: မိဘ/ေစာင့္ေရွာက္သူ၏ လူဆင္းရဲ မွတ္ပံုတင္
+    phone_number: ဖုန္းနံပါတ္
+    physical_abuse: ႐ုပ္ပိုင္းဆုိင္ရာ အႏိုင္က်င့္ေစာ္ကားမႈ
+    physical_health: ႐ုပ္ပိုင္းဆုိင္ရာက်န္းမာေရး
+    position: ရာထူး
+    positive: မွန္ပါသည္
+    present_situation: လက္ရွိ အေျခအေန
+    referral_name: လႊဲေျပာင္းရမည့္ နာမည္
+    second_mission: ကေလးကို မိသားစုအတြင္း ဆက္လက္ထားရွိရန္ လုပ္ေဆာင္ရမည့္ လုပ္ထံုးလုပ္နည္းမ်ားကို ေဆာင္ရြက္ပါ။ ပံုစံ ၁၃၀၂ ႏွင့္ ၁၃၀၃ ကို ျဖည့္ပါ
+    seen_and_agreed: ျမင္ေတြ႕ၿပီး သေဘာတူပါသည္
+    sexual_abuse: လိင္ပိုင္းဆုိင္ရာ အႏိုင္က်င့္ ေစာ္ကားမႈ
+    shelter: နားခိုစရာ
+    signature: ရပ္ကြက္/ ေက်းရြာ ေခါင္းေဆာင္၏ အမွတ္တံဆိပ္ႏွင့္ လက္မွတ္
+    street_number: လမ္း
+    supplies: စားနပ္ရိကၡာ၊ နားခိုစရာႏွင့္ အ၀တ္အစား
+    third_mission: "(မိသားစုကြဲသည့္အေနအထား၊ ကေလးႏွင့္ကြဲသည့္ အေနအထားတြင္ဆုိလွ်င္) မိသားစု ျပန္လည္ေပါင္းစည္းသည့္ လုပ္ထံုးလုပ္နည္းကို ေဆာင္ရြက္ပါ။ ပံုစံ ၁၃၀၉ ႏွင့္ ၁၃၀၃ ကို ျဖည့္ပါ"
+    transfer_info: လႊဲေျပာင္းသည့္ ရင္းျမစ္
+    village: ေက်းရြာ
+    year: ႏွစ္
+  default_intervention_fields:
+    action: လုပ္ေဆာင္မႈ
+  default_location_fields:
+    name: နာမည္
+  default_material_fields:
+    status: အေနအထား
+  default_notification_custom_fields:
+    clients: အမႈသည္
+    custom_field_notification: အေကာက္ခြန္ပံုစံ အသိေပးခ်က္
+    families: မိသားစု
+    form: ပံုစံ
+    partners: လက္တြဲေဖာ္
+    users: အသံုးျပဳသူ
+  default_partner_fields:
+    address: လိပ္စာ
+    affiliation: တြက္ဖက္လုပ္ကိုင္ျခင္း
+    background: ေနာက္ေၾကာင္း
+    contact_email: အီးေမးလ္
+    contact_mobile: ဆက္သြယ္ရန္ မိုဘိုင္းဖုန္း
+    contact_name: ဆက္သြယ္ရန္ နာမည္
+    engagement: ေစ့စပ္ျခင္း
+    id: မွတ္ပံုတင္
+    name: နာမည္
+    organisation_type: အဖြဲ႕အစည္းအမ်ိဳးအစား
+    province: ခ႐ိုင္
+    start_date: စတင္သည့္ ရက္စြဲ
+  default_placement_fields:
+    carer_address: ေစာင့္ေရွာက္သူလိပ္စာ
+    carer_names: ေစာင့္ေရွာက္သူနာမည္မ်ား
+    carer_phone_number: ေစာင့္ေရွာက္သူဖုန္းနံပါတ္
+    exit_btn: ထြက္ရန္
+    exit_date: ထြက္သည့္ရက္စြဲ
+    exit_note: ထြက္သည့္မွတ္စု
+    exit_status: ထြက္သည့္အေနအထား
+    family: မိသားစု
+    family_preservation: မိသားစု၏ေစာင့္ေရွာက္မႈရွိသလား
+    note: မွတ္စု
+    ongoing_partner: လက္ရွိလက္တြဲဖက္
+    province: ခ႐ိုင္
+    start_date: စတင္သည့္ရက္စြဲ
+    support_amount: ေထာက္ပံ့သည့္ပမာဏ
+    support_note: ေထာက္ပံ့သည့္မွတ္စု
+  default_program_stream_fields:
+    program_streams: အစီအစဥ္စီးဆင္းမႈမ်ား
+  default_progress_note_fields:
+    additional_notes: ထပ္ေဆာင္းမွတ္စုမ်ား
+    child: ကေလး
+    date: ရက္စြဲ
+    goals_addressed: ေဖာ္ျပထားေသာ ရည္မွန္းခ်က္မ်ား
+    interventions: ၾကား၀င္ေဆာင္ရြက္မႈမ်ား
+    location: တည္ေနရာ
+    material: ကိရိယာ/ပစၥည္းမ်ား
+    other_location: အျခား
+    progress_note_type: မွတ္စုအမ်ိဳးအစား
+    response: လုပ္ေဆာင္မႈမ်ားႏွင့္ တုန္႔ျပန္ေဆာင္ရြက္မႈမ်ား
+    staff: ABLE/ABLE ၀န္ထမ္းနာမည္
+  default_progress_note_type_fields:
+    note_type: အမ်ိဳးအစား
+  default_releaselog_fields:
+    change_version: ဗားရွင္း
+    description: ေဖာ္ျပခ်က္
+  default_stage_fields:
+    from_age: အရြယ္မွ
+    to_age: အရြယ္အထိ
+  default_survey_fields:
+    care_score: ကၽြႏု္ပ္ေစာင့္ေရွာက္ရေသာ ကေလးတြင္ ဘာျဖစ္သလဲဆုိသည္ကို ကၽြႏု္ပ္၏ CCW က အေလးထားပါသည္
+    difficulty_help_score: CIF က ကၽြႏု္ပ္၏ ဘ၀တြင္ အခက္အခဲႀကံဳေနရသည့္ကာလတစ္ေလွ်ာက္ အကူအညီေပးပါသည္
+    family_need_score: ကၽြႏု္ပ္၏ လစာသည္ မိသားစုလိုအပ္ခ်က္ကို ျဖည့္ဆည္းေပးႏုိင္ပါသည္
+    getting_in_touch_score: ကၽြႏု္ပ္ကို ကူညီေပးႏုိင္မည့္ အဖြဲ႕မ်ားႏွင့္ ၀န္ေဆာင္မႈမ်ားအေၾကာင္း ကၽြႏု္ပ္၏ CCW က သိပါသည္။ သူတို႔ႏွင့္ ဆက္သြယ္ႏုိင္ေအာင္လည္း ကူညီေပးပါသည္။
+    listening_score: ကၽြႏု္ပ္စကားေျပာလွ်င္ ကၽြႏု္ပ္၏ CCW က အေလးအနက္ နားေထာင္သည္ဟု ခံစားရပါသည္
+    problem_solving_score: ကၽြႏု္ပ္၏ CCW သည္ ကၽြႏု္ပ္၏ ျပႆနာမ်ားကို ကူညီေျဖရွင္းေပးပါသည္
+    support_score: CIF၏ကို သေဘာက်ပါသည္။ ကၽြႏု္ပ္၏ CCW ကလည္း ကၽြႏု္ပ္ကို ကူညီေပးပါသည္။
+    trust_score: 'ကၽြႏု္ပ္၏ CCW ကို ကၽြႏု္ပ္ ယံုၾကည္ႏုိင္ပါသည္။ '
+    user_id: 'ကၽြႏ္ုပ္၏ လူ႔အသိုင္းအ၀ိုင္းကူညီေရးလုပ္သား နာမည္မွာ '
+  default_user_fields:
+    clients: အမႈသည္မ်ား
+    current_password: လက္ရွိ စကား၀ွက္
+    current_password_hint: လက္ရွိစကား၀ွက္ကို ေျပာင္းလဲရန္ လိုအပ္ပါသည္
+    date_of_birth: ေမြးဖြာသည့္ ရက္စြဲ
+    delete_account_button: အေကာင့္ကို ဖ်က္ရန္
+    department: ဌာန
+    email: အီးေမးလ္
+    first_name: နာမည္ေရွ႕ဆံုးအလုံုး
+    id: မွတ္ပံုတင္
+    job_title: အလုပ္အမ်ိဳးအစား
+    last_name: ေနာက္ဆံုးနာမည္
+    manager: မန္ေနဂ်ာ
+    mobile: မိုဘိုင္းဖုန္း
+    password: စကား၀ွက္
+    password_confirmation: စကား၀ွက္အတည္ျပဳခ်က္
+    password_hint: 'စကား၀ွက္ '
+    pin_number: ပင္နံပါတ္
+    province: ခ႐ိုင္
+    roles: က႑
+    start_date: စတင္သည့္ရက္စြဲ
+  departments:
+    create:
+      failed_create: ျပဳလုပ္၍ မရပါ
+      successfully_created: ဌာနကို ေအာင္ျမင္စြာ ျပဳလုပ္ၿပီးပါၿပီ
+    destroy:
+      alert: ဌာနကို ဖ်က္လုိ႔မရႏိုင္ပါ
+      failed_delete: ဌာနကို ဖ်က္၍ မရပါ
+      successfully_deleted: ဌာနကို ေအာင္ျမင္စြာ ဖ်က္ၿပီးပါၿပီ
+    edit:
+      title: ဌာနကို ျပင္ဆင္ရန္
+    form:
+      cancel: ပယ္ဖ်က္ရန္
+      department: ဌာန
+      description: ေဖာ္ျပခ်က္
+      name: နာမည္
+      save: သိမ္းဆည္းရန္
+    index:
+      add_new_department: ဌာနအသစ္ထည့္ရန္
+      are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား
+      changelogs: ေျပာင္းလဲမႈမွတ္တမ္း
+      department_names: ဌာနအမည္
+      departments: ဌာနမ်ား
+      description: ေဖာ္ျပခ်က္
+      manage: စီမံသည္
+      view: ျမင္ကြင္း
+    new:
+      title: ဌာနအသစ္
+    update:
+      failed_update: ဌာနကို အသစ္ျပဳျပင္မႈ မေအာင္ျမင္ပါ
+      successfully_updated: ဌာနကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ၿပီးပါၿပီ
+    version:
+      back: ေနာက္သို႔
+      modification_of: "၏ ေျပာင္းလဲမႈ မွတ္တမ္း"
+  devise:
+    confirmations:
+      confirmed: သင္၏ အီးေမးလ္လိပ္စာကို ေအာင္ျမင္စြာ အတည္ျပဳၿပီးပါၿပီ
+      send_instructions: သင္၏ အီးေမးလ္လိပ္စာကို မည္သို႔အတည္ျပဳရမည္ဟူေသာ ညႊန္ၾကားခ်က္ အီးေမးလ္တစ္ေစာင္ကို မိနစ္အနည္းငယ္အတြင္း ရပါလိမ့္မည္
+      send_paranoid_instructions: အကယ္၍ ကၽြႏု္ပ္တို႔၏ အခ်က္အလက္သုိေလွာင္ထားမႈထဲတြင္ သင္၏ အီးေမးလ္ရွိပါက အီးေမးလ္လိပ္စာကို မည္သို႔အတည္ျပဳရမည္ဟူေသာ ညႊန္ၾကားခ်က္ အီးေမးလ္တစ္ေစာင္ကို မိနစ္အနည္းငယ္အတြင္း ရပါလိမ့္မည္
+    failure:
+      already_authenticated: အစကတည္းက ၀င္ေရာက္ၿပီးပါၿပီ။
+      inactive: သင္၏ အေကာင့္ကို အသက္မသြင္းရေသးပါ။
+      invalid: "%{authentication_keys} သို႔မဟုတ္ စကား၀ွက္ မွားယြင္းေနပါသည္"
+      last_attempt: အေကာင့္ေလာ့ခ္မက်ခင္ ေနာက္တစ္ႀကိမ္ ႀကိဳးစားႏုိင္ပါေသးသည္
+      locked: သင္၏အေကာင့္ ေလာ့ခ္က်သြားပါၿပီ
+      not_found_in_database: "%{authentication_keys} သို႔မဟုတ္ စကား၀ွက္ မွားယြင္းေနပါသည္"
+      timeout: သင္၏ သံုးစြဲမႈ သက္တမ္းကုန္ပါၿပီ။ ဆက္လက္သံုးစြဲရန္ ျပန္လည္ ၀င္ေရာက္ပါ
+      unauthenticated: ေရွ႕ဆက္မေဆာင္ရြက္မီ ၀င္ေရာက္ရန္ သို႔မဟုတ္ စာရင္းသြင္းရန္ လိုအပ္ပါသည္
+      unconfirmed: ဆက္လက္မေဆာင္ရြက္မီ အီးေမးလ္လိပ္စာကို အတည္ျပဳရန္ လိုအပ္ပါသည္
+    mailer:
+      confirmation_instructions:
+        subject: အတည္ျပဳခ်က္ ညႊန္ၾကားလႊာမ်ား
+      password_change:
+        subject: စကား၀ွက္ေျပာင္းၿပီး
+      reset_password_instructions:
+        subject: စကား၀ွက္ညႊန္ၾကားခ်က္ကို အစမွ ျပန္ျပင္ရန္
+      unlock_instructions:
+        subject: ညႊန္ၾကားခ်က္မ်ားကို ေလာ့ခ္ဖြင့္သည္
+    omniauth_callbacks:
+      failure: '"%{reason}".ေၾကာင့္ %{kind} မွ အခြင့္ မေပးႏိုင္ပါ'
+      success: "%{kind} အေကာင့္မွ ေအာင္ျမင္စြာ အခြင့္ေပးၿပီးပါၿပီ"
+    passwords:
+      edit:
+        change_my_password: ကၽြႏု္ပ္၏ စကား၀ွက္ကို ေျပာင္းလဲ၇န္
+        change_your_password: သင္၏ စကား၀ွက္ကို ေျပာင္းပါ
+        confirm_your_new_password: သင္၏စကား၀ွက္ကို အတည္ျပဳပါ
+        new_password: စကား၀ွက္အသစ္
+      new:
+        email: အီးေမးလ္
+        forget_password: စကား၀ွက္ေမ့သြားပါသလား
+        send_reset_password: စကား၀ွက္အသစ္ျပင္ဆင္ျခင္း ညႊန္ၾကားခ်က္မ်ား ပို႔ေပးပါ
+      no_token: စကား၀ွက္ေျပာင္းသည့္ အီးေမးလ္မွ မ၀င္ေရာက္လွ်င္ ဤစာမ်က္ႏွာကို ၀င္ေရာက္လို႔ မရပါ။ အကယ္၍ အဆုိပါ အီးေမးလ္မွ ၀င္ေရာက္သည္ဆုိလွ်င္ URL ကို အျပည့္အစံုထည့္သြင္းျခင္းရွိမရွိ စစ္ေဆးပါ
+      send_instructions: စကား၀ွက္ျပင္ဆင္နည္းညႊန္ၾကားခ်က္ အီးေမးလ္ကို မိနစ္အနည္းငယ္အတြင္း ရပါလိမ့္မည္
+      send_paranoid_instructions: အကယ္၍ သင္၏ အီးေမးလ္သည္ ကၽြႏု္ပ္တို႔၏ အခ်က္အလက္သိုေလွာင္ထားမႈထဲတြင္ ရွိသည္ဆုိလွ်င္ စကား၀ွက္ျပန္ဆည္သည့္လင့္ပါသည့္ အီးေလး္ကို မိနစ္အနည္းငယ္အတြင္း ရပါလိမ့္မည္။
+      updated: သင္၏ စကား၀ွက္ကို ေအာင္ျမင္စြာ ျပင္ဆင္ၿပီးပါၿပီ။ ယခု ၀င္ေရာက္ၿပီးျဖစ္ပါသည္
+      updated_not_active: သင္၏ စကား၀ွက္ကို ေအာင္ျမင္စြာ ျပင္ဆင္ၿပီးပါၿပီ။
+    registrations:
+      destroyed: ႏႈတ္ဆက္ပါသည္။ သင္၏အေကာင့္ကို ေအာင္ျမင္ဖြယ္ ပယ္ဖ်က္ၿပီးျဖစ္ပါသည္။ သင့္ကို မၾကာမီ ထပ္မံေတြ႕ရရန္ ေမွ်ာ္လင့္ပါသည္။
+      edit:
+        are_you_sure: ေသခ်ာပါသလား။
+        calendar_integration: ျပကၡဒိန္ေပါင္းစပ္ျခင္း
+        current_password: လက္ရွိစကား၀ွက္
+        date_of_birth: ေမြးရက္၊ လ၊ ႏွစ္
+        delete_my_account: ကၽြႏု္ပ္၏ အေကာင့္ကို ဖ်က္ရန္
+        department: ဌာန
+        email: အီးေမးလ္
+        first_name: နာမည္ပထမဆံုးအလံုး
+        header: ပုဂၢလိကအခ်က္အလက္မ်ားကို ျပင္ဆင္ရန္
+        job_title: အလုပ္အမည္
+        last_name: နာမည္ေနာက္ဆံုးအလံုး
+        leave_blank_if_you_dont_want_to_change: မေျပာင္းလဲလိုပါက ကြက္လပ္ခ်န္ခဲ့ပါ
+        mobile: မိုဘိုင္းဖုန္း
+        overdue_task_summary_notify: သတ္မွတ္ခ်ိန္ေက်ာ္လြန္သြားေသာ လုပ္ဆုိင္ရာမ်ား၏ အက်ဥ္းခ်ဳပ္ကို ပို႔ေပးပါ
+        password: စကား၀ွက္
+        password_confirmation: စကား၀ွက္အတည္ျပဳရန္
+        province: ခ႐ိုင္
+        save: သိမ္းဆည္းရန္
+        staff_performance_notification: ၀န္ထမ္းမ်ား၏စြမ္းေဆာင္ရည္အစီရင္ခံစာကို ပို႔ေပးပါ
+        start_date: စတင္သည့္ရက္စြဲ
+        we_need_your_current_password_to_confirm_your_changes: သင္၏ ေျပာင္းလဲမႈမ်ားကို အတည္ျပဳရန္အတြက္ လက္ရွိ စကား၀ွက္ကို သိရန္လိုအပ္ပါသည္
+      signed_up: ႀကိဳဆုိပါသည္။ ေအာင္ျမင္စြာစာရင္းသြင္းၿပီးပါၿပီ
+      signed_up_but_inactive: သင့္အေနျဖင့္ ေအာင္ျမင္စြာ စာရင္းသြင္းၿပီးပါၿပီ။ သို႔ေသာ္ သင့္အေကာင္မွာ အသက္မသြင္းရေသးသျဖင့္ ၀င္ေရာက္အသံုးျပဳခြင့္ေပး၍ မရေသးပါ
+      signed_up_but_locked: သင့္အေနျဖင့္ ေအာင္ျမင္စြာ စာရင္းသြင္းၿပီးပါၿပီ။ သုိ႔ေသာ္ သင့္အေကာင့္မွာ ေလာ့ခ္က်ေနသျဖင့္ ၀င္ေရာက္အသံုးျပဳခြင့္ေပး၍ မရေသးပါ။
+      signed_up_but_unconfirmed: အတည္ျပဳ link ပါ၀င္သည့္ အီးေမးလ္ကို သင့္ထံပို႔ၿပီးပါၿပီ။ ေက်းဇူးျပဳ၍ linkထဲမွ ၀င္ၿပီး အေကာင့္ကို အသက္သြင္းပါ။
+      update_needs_confirmation: 'အေကာင့္ကို ေအာင္ျမင္စြာ ျပင့္ဆင္ ျဖည့္သြင္းၿပီးပါၿပီ။ သို႔ေသာ္ ကၽြႏ္ုပ္တုိ႔အေနျဖင့္ သင့္ အီးေမးလ္လိပ္စာကို စိစစ္အတည္ျပဳရန္ လိုအပ္ပါသည္။ ေက်းဇူးျပဳ၍ အီးေမးလ္းကို စစ္ကာ အတည္ျပဳ linkမွ တစ္ဆင့္၀င္ေရာက္၍ သင္၏ အီးေမးလ္လိပ္စာအသစ္ကို အတည္ျပဳပါ။ '
+      updated: သင့္အေကာင့္ကို အသစ္ထပ္ျဖည့္ၿပီးပါၿပီ။
+    sessions:
+      already_signed_out: ေအာင္ျမင္စြာ ျပန္ထြက္ၿပီးပါၿပီ။
+      new:
+        email: အီးေမးလ္
+        login: ၀င္ေရာက္ရန္
+        password: စကား၀ွက္
+        remember_me: ကၽြႏု္ပ္အား မွတ္ထားပါ
+      signed_in: ေအာင္ျမင္စြာ ၀င္ေရာက္ၿပီးပါၿပီ။
+      signed_out: ေအာင္ျမင္စြာ ျပန္ထြက္ၿပီးပါၿပီ။
+    shared:
+      links:
+        back: ေနာက္သို႔
+        forget_password: စကား၀ွက္ေမ့ေနပါသလား
+        receive_confirm_instruction: အတည္ျပဳညႊန္ၾကားခ်က္ မရဘူးလား။
+        receive_unlock_instruction: ေလာ့ခ္ ျပန္ေျဖမႈ ညႊန္ၾကားခ်က္ မရဘူးလား
+    unlocks:
+      send_instructions: အေကာင့္ကို မည္သို႔ ျပန္၍ ေလာ့ခ္ေျဖနည္း ညႊန္ၾကားခ်က္ အီးေမးလ္ကို မိနစ္အနည္းငယ္အတြင္းတြင္ ရပါလိမ့္မည္။
+      send_paranoid_instructions: အကယ္၍ သင့္အေကာင့္က တကယ္ရွိသည္ဆိုလွ်င္ အေကာင့္ကို မည္သို႔ ျပန္၍ ေလာ့ခ္ေျဖနည္း ညႊန္ၾကားခ်က္ အီးေမးလ္ကို မိနစ္အနည္းငယ္အတြင္းတြင္ ရပါလိမ့္မည္။
+      unlocked: သင့္အေကာင့္ကို ေအာင္ျမင့္စြာ ေသာ့ျဖည္ၿပီးပါၿပီ။ ဆက္လက္ အသံုးျပဳ၇န္ ေက်းဇူးျပဳ၍ ၀င္ေရာက္ပါ။
+  domain_groups:
+    create:
+      failed_create: ဒိုမိန္းအုပ္စုျပဳလုုပ္ရန္ မေအာင္ျမင္ပါ။
+      successfully_created: ဒိုမိန္းအုပ္စုကို ေအာင္ျမင္စြာ ျပဳလုပ္ၿပီးပါၿပီ။
+    destroy:
+      alert: ဒိုမိန္းအုပ္စုကို ဖ်က္၍ မရပါ။
+      failed_delete: ဒိုမိန္းအုပ္စု ဖ်က္ျခင္း မေအာင္ျမင္ပါ။
+      successfully_deleted: ဒိုမိန္းအုပ္စုကို ေအာင္ျမင္စြာ ဖ်က္ၿပီးပါၿပီ
+    edit:
+      title: ဒိုမိန္းအုပ္စုကို ျပင္ဆင္ရန္
+    form:
+      cancel: ပယ္ဖ်က္ရန္
+      description: ေဖာ္ျပခ်က္
+      domain_group: ဒိုမိန္းအုပ္စု
+      identity: အမွတ္အသား
+      name: နာမည္
+      save: သိမ္းဆည္းသည္
+    index:
+      add_new_domain_group: ဒိုမိန္းအသစ္ကို ထပ္ထည့္၇န္
+      are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား
+      changelogs: ေျပာင္းလဲမႈ မွတ္တမ္း
+      description: ေဖာ္ျပခ်က္
+      domain_group_names: ဒိုမိန္းအုပ္စုနာမည္
+      domain_groups: ဒိုမိန္းအုပ္စုမ်ား
+      manage: စီမံသည္
+      view: ျမင္ကြင္း
+    new:
+      title: ဒုိမိန္းအုပ္စုအသစ္
+    update:
+      failed_update: ဒိုမိန္းအုပ္စုကို အသစ္ျဖည့္သြင္းျပင္ဆင္ျခင္း မေအာင္ျမင္ပါ
+      successfully_updated: ဒိုမိန္းအုပ္စုကို ေအာင္ျမင္စြာ အသစ္ျဖည့္သြင္းျပင္ဆင္ၿပီးပါၿပီ။
+    version:
+      back: ေနာက္သို႔
+      domain_group: ဒိုမိန္းအုပ္စု
+      modification_of: "၏ ေျပာင္းလဲမႈ မွတ္တမ္း"
+  domains:
+    create:
+      successfully_created: ဒိုမိန္းကို ေအာင္ျမင္စြာ ျပဳလုပ္ၿပီးပါၿပီ
+    destroy:
+      alert: ဒိုမိန္းအုုပ္စုကို ဖ်က္၍ မရပါ။
+      successfully_deleted: ဒိုမိန္းအုပ္စုကို ေအာင္ျမင္စြာဖ်က္ၿပီးပါၿပီ
+    edit:
+      title: ဒိုမိန္းကို ျပင္ဆင္ရန္
+    form:
+      cancel: ပယ္ဖ်က္ရန္
+      description: ေဖာ္ျပခ်က္
+      domain_group: ဒိုမိန္းအုပ္စု
+      identity: အမွတ္အသား
+      name: နာမည္
+      save: သိမ္းဆည္းသည္
+      score_1: ရမွတ္ ၁
+      score_2: ရမွတ္ ၂
+      score_3: ရမွတ္ ၃
+      score_4: ရမွတ္ ၄
+    index:
+      add_new_domain: ဒိုမိန္းအသစ္
+      are_you_sure: ဖ်က္လုိသည္မွာ ေသခ်ာပါသလား
+      changelog: ေျပာင္းလဲမႈ မွတ္တမ္း
+      domains: ဒိုမိန္းမ်ား
+      score_1: ရမွတ္ ၁
+      score_2: ရမွတ္ ၂
+      score_3: ရမွတ္ ၃
+      score_4: ရမွတ္ ၄
+      view: ျမင္ကြင္း
+    new:
+      title: ဒိုမိန္းအသစ္
+    update:
+      successfully_updated: ဒိုမိန္းကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ျဖည့္သြင္းၿပီးပါၿပီ
+    version:
+      back: ေနာက္သို႔
+      domain: ဒိုမိ္န္း
+      modification_of: "၏ ေျပာင္းလဲမႈ မွတ္တမ္း"
+  donors:
+    create:
+      failed_create: အလွဴရွင္ကို ျပဳလုပ္မႈ မေအာင္ျမင္ပါ
+      successfully_created: အလွဴရွင္ကို ေအာင္ျမင္စြာ ဖန္တီးၿပီးပါၿပီ
+    destroy:
+      alert: အလွဴရွင္ကို ေအာင္ျမင္စြာ ဖ်က္ၿပီးပါၿပီ
+      failed_delete: အလွဴရွင္ကို ဖ်က္ျခင္း မေအာင္ျမင္ပါ
+      successfully_deleted: အလွဴရွင္ကို ေအာင္ျမင္စြာ ဖ်က္ၿပီးပါၿပီ
+    edit:
+      title: အလွဴရွင္ကို ျပင္ဆင္ရန္
+    form:
+      cancel: ပယ္ဖ်က္ရန္
+      code: အလွဴရွင္ မွတ္ပံုတင္
+      description: ေဖာ္ျပခ်က္
+      donor: အလွဴရွင္
+      name: နာမည္
+      save: သိမ္းဆည္းရန္
+    index:
+      add_new_donor: အလွဴရွင္အသစ္ထည့္သြင္းရန္
+      are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား
+      changelogs: ေျပာင္းလဲမႈ မွတ္တမ္း
+      clients: အမႈသည္မ်ား
+      code: အလွဴရွင္ မွတ္ပံုတင္
+      description: ေဖာ္ျပခ်က္
+      donor_names: နာမည္
+      donors: အလွဴရွင္မ်ား
+      manage: စီမံသည္
+      view: ျမင္ကြင္း
+    new:
+      title: အလွဴရွင္အသစ္
+    update:
+      failed_update: အလွဴရွင္ကို အသစ္ျပင္ဆင္ထည့္သြင္းျခင္း မေအာင္ျမင္ပါ
+      successfully_updated: အလွဴရွင္ကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ထည့္သြင္းၿပီးပါၿပီ
+    version:
+      back: ေနာက္သုိ႔
+      modification_of: "၏ ေျပာင္းလဲမႈ မွတ္တမ္း"
+  errors:
+    messages:
+      already_confirmed: အတည္ျပဳၿပီးပါၿပီ။ ေက်းဇူးျပဳ၍ ၀င္ၾကည့္ပါ။
+      already_in_use: အသံုးျပဳၿပီးပါၿပီ
+      confirmation_period_expired: "%{period} အတြင္း အတည္ျပဳရန္ လုိအပ္ပါသည္။ ေက်းဇူးျပဳ၍ အသစ္ထပ္ေတာင္းပါ"
+      expired: သက္တမ္းကုန္သြားပါၿပီ။ ေက်းဇူးျပဳ၍ အသစ္ထပ္ေတာင္းပါ
+      not_email: ဒါသည္ အီးေမးလ္မဟုတ္ပါ
+      not_found: မေတြ႕ပါ
+      not_locked: ေသာ့က်မေနပါ
+      not_saved:
+        few: အမွား အခ်ိဳ႕က ဤ%{resource} ကို သိမ္းဆည္း၍ မရေအာင္ လုပ္ေနပါသည္
+        one: အမွား ၁ ခုက ဤ%{resource} ကို သိမ္းဆည္း၍ မရေအာင္ လုပ္ေနပါသည္
+        other: အမွား %{count} က ဤ %{resource}ကို သိမ္းဆည္း၍ မရေအာင္ လုပ္ေနပါသည္
+  existed_event: ျပကၡဒိန္ထဲတြင္ ဤပြဲက ရွိေနၿပီးသားျဖစ္ပါသည္
+  families:
+    actions:
+      are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသမား
+    create:
+      successfully_created: မိသားစုကို ေအာင္ျမင္စြာ ျပဳလုပ္ၿပီးပါၿပီ
+    destroy:
+      alert: မိသားစုကို ဖ်က္၍မရပါ
+      successfully_deleted: မိသားစုကို ေအာင္ျမင္စြာ ဖ်က္ၿပီးပါၿပီ
+    edit:
+      edit_family_title: မိသားစုကို ျပင္ဆင္ရန္
+    form:
+      address: လိပ္စာ
+      caregiver_information: ေစာင့္ေရွာက္သူ သတင္းအခ်က္အလက္
+      case_history: အမႈသမိုင္း
+      clients: အမႈသည္မ်ား
+      code: မိသားစု မွတ္ပံုတင္
+      contract_date: ဆက္သြယ္ရန္ ရက္စြဲ
+      custom_forms: အေကာက္ခြန္ပံုစံမ်ား
+      dependable_income: မွီခိုႏုိင္ေလာက္ေသာ ၀င္ေငြ
+      family_type: မိသားစု အမ်ိဳးအစား
+      female_adult_count: အရြယ္ေရာက္ အမ်ိဳးသမီး အေရအတြက္
+      female_children_count: အရြယ္မေရာက္ေသးေသာ မိန္းကေလး အေရအတြက္
+      household_income: အိမ္ေထာင္စု ၀င္ေငြ
+      id: မွတ္ပံုတင္
+      male_adult_count: အရြယ္ေရာက္ အမ်ိဳးသား အေရအတြက္
+      male_children_count: အရြယ္မေရာက္ေသးေသာ ေယာက်္ားေလးအေရအတြက္
+      member_count: အဖြဲ႕၀င္အေရအတြက္
+      name: နာမည္
+      new_family_title: မိသားစုနာမည္အသစ္ထည့္ရန္
+      'no': မဟုတ္ပါ
+      province: ခ႐ိုင္
+      significant_family_member_count: ႀကီးမားေသာမိသားစုအေရအတြက္
+      'yes': မွန္ပါသည္
+    index:
+      add_new_family: မိသားစုအသစ္ ထည့္သြင္းရန္
+      clients: အမႈသည္မ်ား
+      export_xls: XLS အျဖစ္ ထုတ္သည္
+      results: ရလဒ္မ်ား
+    new:
+      new_family_title: မိသားစုအသစ္
+    show:
+      add_form: ပံုစံအသစ္
+      additional_forms: ထပ္ေဆာင္းပံုစံမ်ား
+      additional_info: ထပ္ေဆာင္းသတင္းအခ်က္အလက္မ်ား
+      address: လိပ္စာ
+      are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား
+      caregiver_information: ေစာင့္ေရွာက္သူအခ်က္အလက္
+      case_history: အမႈသမုိင္း
+      code: မိသားစုမွတ္ပံုတင္
+      contract_date: စာခ်ဳပ္ရက္စြဲ
+      dependable_income: မွီခိုႏုိင္ေလာက္ေသာ ၀င္ေငြ
+      family_type: မိသားစုအမ်ိဳးအစား
+      female_adult_count: အရြယ္ေရာက္မိသားစု၀င္အေရအတြက္
+      female_children_count: အရြယ္မေရာက္ေသးေသာ မိန္းကေလး အေရအတြက္
+      general_info: မိသားစုအေၾကာင္း
+      household_income: အိမ္ေထာင္စု၀င္ေငြ
+      id: မွတ္ပံုတင္
+      male_adult_count: အရြယ္ေရာက္ အမ်ိဳးသား အေရအတြက္
+      male_children_count: အရြယ္မေရာက္ေသးေသာ ေယာက်္ားေလးအေရအတြက္
+      member_count: အဖြဲ႕၀င္အေရအတြက္
+      name: နာမည္
+      'no': မဟုတ္ပါ
+      province: ခ႐ိုင္
+      significant_family_member_count: ႀကီးမားေသာ မိသားစု၀င္အေရအတြက္
+      'yes': မွန္ပါသည္
+    update:
+      not_allowed_to_detach_clients: ဤပံုစံျဖင့္ မိသားစုထံမွ အမႈသည္မ်ားကို ဖယ္ထုတ္၍ မရပါ
+      successfully_updated: မိသားစုကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ ျဖည့္စြက္ၿပီးပါၿပီ
+    version:
+      back: ေနာက္သို႔
+      modification_of: "၏ ေျပာင္းလဲမႈ မွတ္တမ္း"
+  faq: မၾကာခဏေမးေလ့ရွိေသာ ေမးခြန္းမ်ား
+  field_label_cannot_be_blank: ကြင္းအညႊန္းကို ကြက္လပ္ခ်န္၍ မရပါ
+  form_builder:
+    custom_fields:
+      all_custom_form_tab:
+        are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား
+        close: ပိတ္ရန္
+        copy: ေကာ္ပီကူးသည္
+        form_title: ေခါင္းစဥ္မွ
+        frequency: အႀကိမ္ေရ
+        manage: စီမံသည္
+        organization: အဖြဲ႕အစည္း
+        preview: အစမ္းၾကည့္ရန္
+        search_custom_form: အေကာက္ခြန္ပံုစံ ရွာေဖြရန္
+        time_of_frequency: အႀကိမ္အေရအတြက္
+        type: အမ်ိဳးအစား
+      create:
+        successfully_created: အေကာက္ခြန္ပံုစံကို ေအာင္ျမင္စြာ ျပဳလုပ္ၿပီးပါၿပီ
+      current_custom_form_tab:
+        are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား
+        close: ပိတ္ရန္
+        form_title: ေခါင္းစဥ္မွ
+        frequency: အႀကိမ္ေရ
+        manage: စီမံသည္
+        organization: အဖြဲ႕အစည္း
+        preview: အစမ္းၾကည့္ရန္
+        search_custom_form: အေကာက္ခြန္ပံုစံ ရွာေဖြရန္
+        time_of_frequency: အႀကိမ္အေရအတြက္
+        type: အမ်ိဳးအစား
+      demo_custom_form_tab:
+        are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား
+        close: ပိန္ရန္
+        copy: ေကာ္ပီကူးသည္
+        form_title: ေခါင္းစဥ္မွ
+        frequency: အႀကိမ္ေရ
+        manage: စီမံသည္
+        organization: အဖြဲ႕အစည္း
+        preview: အစမ္းၾကည့္ရန္
+        search_custom_form: အေကာက္ခြန္ပံုစံ ရွာေဖြရန္
+        time_of_frequency: အႀကိမ္အေရအတြက္
+        type: အမ်ိဳးအစား
+      destroy:
+        failed_to_delete: အေကာက္ခြန္ပံုစံကုိ ဖ်က္၍မရပါ
+        successfully_deleted: အေကာက္ခြန္ပံုစံကို ေအာင္ျမင္စြာ ဖ်က္ၿပီးပါၿပီ
+      edit:
+        form_builder: ပံုစံတည္ေဆာက္ျခင္း
+      form:
+        copy: ေကာ္ပီကူးသည္
+        form_title: ေခါင္းစဥ္မွ
+        frequency: အႀကိမ္ေရ
+        preview: အစမ္းၾကည့္ရန္
+        time_of_frequency: အႀကိမ္အေရအတြက္
+        type: အမ်ိဳးအစား
+      index:
+        all_ngo: NGO အားလံုး၏ အေကာက္ခြန္ပံုစံမ်ား
+        demo_ngo: Demo NGO ၏ အေကာက္ခြန္ပံုစံမ်ား
+        form_title: ေခါင္းစဥ္မွ
+        frequency: အႀကိမ္ေရ
+        my_ngo: ကၽြႏု္ပ္၏ NGO၏ အေကာက္ခြန္ပံုစံမ်ား
+        new_custom_form: အေကာက္ခြန္ပံုစံအသစ္
+        search: ရွာေဖြရန္
+        time_of_frequency: အႀကိမ္အေရအတြက္
+        type: အမ်ိဳးအစား
+      new:
+        cancel: ပယ္ဖ်က္ရန္
+        form_builder: ပံုုစံျပဳလုပ္ရန္
+        save: သိမ္းဆည္းရန္
+      search:
+        back: ေနာက္သို႔
+        copy: ေကာ္ပီကူးသည္
+        delete: ဖ်က္သည္
+        entity_type: အမ်ိဳးအစား
+        form_title: ေခါင္းစဥ္မွ
+        frequency: အႀကိမ္ေရ
+        manage: စီမံသည္
+        no_result: ဘာရလဒ္မွ မေတြ႕ပါ
+        organization: အဖြဲ႕အစည္း
+        preview: အစမ္းၾကည့္ရန္
+        time_of_frequency: အႀကိမ္အေရအတြက္
+        type: အမ်ိဳးအစား
+      show:
+        back: ေနာက္သုိ႔
+        copy: ေကာ္ပီကူးရန္
+        copy_to_enrollment: စာရင္းသြင္းျခင္းသို႔ ေကာ္ပီကူးရန္
+        copy_to_exit_program: ထြက္သည့္ အစီအစဥ္သို႔ ေကာ္ပီကူးရန္
+        copy_to_tracking: ေနာက္ေၾကာင္းသို႔ ေကာ္ပီကူးရန္
+        edit: ျပင္ဆင္ရန္
+      update:
+        successfully_updated: အေကာက္ခြန္ပံုစံကုိ ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ျဖည့္စြက္ၿပီးပါၿပီ
+  government_reports:
+    create:
+      successfully_created: အစိုးရအစီရင္ခံစာကို ေအာင္ျမင္စြာ ျပဳလုပ္ၿပီးပါၿပီ
+    destroy:
+      successfully_deleted: အစိုးရအစီရင္ခံစာကို ေအာင္ျမင္စြာ ဖ်က္ၿပီးပါၿပီ
+    edit:
+      edit_report: အစိုးရအစီရင္ခံစာကို ျပင္ဆင္ရန္
+    form:
+      abandoned: စြန္ပစ္ထားေသာ
+      abuse_and_exploitation: အလြဲသံုးစားမႈမ်ားႏွင့္ အႏုိင္က်င့္ေခါင္းပံုျဖတ္မႈမ်ား
+      agreed_date: ေတြ႕ျမင္ၿပီး သေဘာတူသည့္ ရက္စြဲ
+      and: ႏွင့္
+      anonymous: အမည္မသိ (အကယ္၍ လႊဲေျပာင္းသူက နာမည္ကို ဖိုင္တြဲအတြင္း မပါေစလိုလွ်င္)
+      anonymous_form: အမည္မသိ (အကယ္၍ လႊဲေျပာင္းသူက နာမည္ကို ဖိုင္တြဲအတြင္း မပါေစလိုလွ်င္)
+      anonymous_information: အမည္မသိ အခ်က္အလက္
+      at: "၌"
+      capital: ၿမိဳ႕ေတာ္
+      carer_address: ေစာင့္ေရွာက္သူလိပ္စာ
+      carer_name: ေစာင့္ေရွာက္သူနာမည္
+      case_education: ပညာေရး
+      case_information_date: လႊဲေျပာင္းသည့္ရက္စြဲ
+      check: ေက်းဇူးျပဳ၍ အမွန္ျခစ္ ျခစ္ခဲ့ပါ
+      child_changed_home: ကေလးေျပာင္းသြားေသာအိမ္
+      child_disabled: မသန္စြမ္းေသာ ကေလး
+      child_exploitation: ကေလးသူငယ္ေခါင္းပံုျဖတ္ျခင္း
+      child_has_a_criminal_history: ကေလးတြင္ ျပစ္မႈ က်ဴးလြန္ဖူးသည့္ သမုိင္းရွိသည္
+      child_has_a_history_of_alcohol_abuse: ကေလးတြင္ အရက္စြဲဖူးသည့္ သမိုင္းရွိသည္
+      child_has_a_history_of_drug_use: ကေလးတြင္ မူးယစ္ေဆးစြဲဖူးသည့္
+      child_has_a_history_of_gambling: ကေလးသည္ ေလာင္းကစားလုပ္ဖူးသည့္ သမုိင္းရွိသည္
+      child_hiv_aids: ကေလးတြင္ HIV/AIDS ရွိသည္
+      child_ill: ကေလးဖ်ားနာေနသည္
+      child_living_independently: အမီအခိုကင္းစြာ ေနေသာ ကေလး
+      child_living_on_street: လမ္းေပၚတြင္ေနေနေသာ ကေလး
+      child_situation_and_need: ကေလးငယ္၏ လိုအပ္ခ်က္ႏွင့္ အေျခအေန
+      city: ခ႐ိုင္
+      client_code: ကုတ္
+      client_contact: ကေလးႏွင့္ ေဆြမ်ိဳးေတာ္စပ္မႈ
+      client_living_with_guardians: ကေလးသည္ မိဘတစ္ဦးဦးႏွင့္ေသာ္လည္းေကာင္း၊ ေစာင့္ေရွာက္သူႏွင့္ေသာ္လည္းေကာင္း အတူေနပါသလား
+      client_name: ကေလး၏နာမည္
+      clothes: အ၀တ္အစားမ်ား
+      code: ပံုစံ
+      commune: ေက်းရြာအုပ္စု
+      communication_in_family: မိသားစုေဆြမ်ိဳးေတာ္စပ္ပံုမ်ား
+      communication_in_society: အသိုင္းအ၀ိုင္းအတြင္း ဆက္ဆံေရးမ်ား
+      copy: မူပိုင္ခြင့္
+      danger_of_trafficking: လူကုန္ကူးခံရမည့္ အႏၱရာယ္ရွိ
+      danger_situation: ကေလးိကု အႏၱရာယ္က်ေရာက္ေစေသာ၊ က်ေရာက္ေစႏုိင္ေသာ အေျခအေနမ်ား
+      date: ရက္စြဲ
+      date_of_birth: ေမြးရက္၊ လ၊ ႏွစ္
+      day: ေန႔
+      disability_and_or_illness: မသန္စြမ္းမႈ ႏွင့္/သို႔မဟုတ္ ဖ်ားနာမႈ
+      done_date: ၿပီးစီးသည့္ ရက္စြဲ
+      drug_abuse_alcohol_and_gambling: မူးယစ္ေဆး၀ါးသံုးစြဲျခင္း၊ အရက္စြဲျခင္း ႏွင့္ ေလာင္းကစားျခင္း
+      education: ေက်ာင္းအဆင့္
+      education_need: ပညာေရး (လိုအပ္ခ်က္မ်ား)
+      education_plan: ပညာေရး (ၾကားျဖတ္အစီအမံ)
+      emotional_abuse: စိတ္ပိုင္းဆုိင္ရာအႏုိင္က်င့္ေစာ္ကားမႈ
+      emotional_health: စိတ္ပိုင္းဆုိင္ရာ က်န္းမာေရး
+      emotional_health_need: စိတ္ပိုင္းဆုိင္ရာ က်န္းမာေရး (လိုအပ္ခ်က္မ်ား)
+      emotional_health_plan: စိတ္ပိုင္းဆုိင္ရာ က်န္းမာေရး (ၾကား၀င္မႈအစီအမံ)
+      emotional_heath: စိတ္ပိုင္းဆုိင္ရာ က်န္းမာေရး
+      essential_needs: မရွိမျဖစ္လိုအပ္ခ်က္မ်ား
+      every_point: သက္ဆုိင္သူအားလံုး
+      excessive_child_labour: မ်ားျပားလြန္းေသာကေလးလုပ္အား
+      exist: မွန္ပါသည္
+      experience_with_trafficking: လူကုန္ကူးခံရဖူးျခင္း
+      family_changed_home: ိမိသားစုေျပာင္းသြားသည့္ အိမ္
+      family_communication_need: မိသားစုဆက္ဆံေရး (လိုအပ္ခ်က္မ်ား)
+      family_communication_plan: မိသားစုဆက္ဆံေရး (ၾကားျဖတ္အစီအမံ)
+      family_separation: မိသားစုကြဲကြာျခင္း
+      family_violence: မိသားစုတြင္း အၾကမ္းဖက္မႈ
+      female: F
+      first_mission: "(ကေလးငယ္ အႏၱရာယ္က်ေရာက္ဆဲ၊ က်ေရာက္ဖြယ္၊ က်ေရာက္လတၱံေသာ အေျခအေနဆိုလွ်င္) ကေလးသူငယ္ေစာင့္ေရွာက္ေရး လုပ္ထုံးလုပ္နည္းမ်ားအတုိင္း ေဆာင္ရြက္ပါ။ ပံုစံ ၁၃၀၄ ကို ျဖည့္ပါ"
+      first_response_form: ကနည္းဦး တုန္႔ျပန္ေဆာင္ရြက္သည့္ ပံုစံ
+      food: စားနပ္ရိကၡာ
+      food_shelter: စားနပ္ရိကၡာ၊ ခိုလႈံစရာႏွင့္ အ၀တ္အစား
+      for_children_who_are_in_danger: အႏၱရာယ္က်ႏုိင္သည့္အေျခအေနေရာက္ေနသာ ကေလးအတြက္
+      found_client_at: ကေလးကို ေတြ႕သည့္ေနရာ
+      fourth_mission: "(ကေလးစြန္႔ပစ္ခံရသည္ဆုိလွ်င္) စြန္႔ပစ္ခံကေလးအတြက္ ေဆာင္ရြက္ရမည့္ လုပ္ထံုးလုပ္နည္းမ်ားကို ေဆာင္ရြက္ပါ။ ပံုစံ၁၃၀၇ ကို ျဖည့္ပါ။"
+      gender: လိင္
+      health_care_and_medical_treatment: က်န္းမာေရးေစာင့္ေရွာက္မႈႏွင့္ ကုသမႈ
+      house_number: အိမ္နံပါတ္
+      if_exist: အကယ္၍ မွန္သည္ဆုိလွ်င္ -
+      initial_capital: ၿမိဳ႕ေတာ္
+      initial_city: ခ႐ိုင္
+      initial_commune: ရပ္ကြက္/ ေက်းရြာအုပ္စု
+      initial_date: ရက္စြဲ
+      intervention_plan: ၾကားျဖတ္အစီအမံ
+      kingdom_of_cambodia: ကေမာၻဒီးယား ဘုရင့္ႏုိင္ငံေတာ္
+      male: M
+      mission_obtainable: လိုအပ္ေသာ အဆင့္မ်ား
+      missions_which_need_to_be_done: လုပ္ေဆာင္ရမည့္ အဆင့္မ်ားတြင္
+      month: လ
+      name: နာမည္
+      nation_religion_king: ႏုိင္ငံေတာ္ဘာသာေရးဘုရင္
+      need: လုိအပ္ခ်က္မ်ား
+      negative: မဟုတ္ပါ
+      neglect: လ်စ္လ်ဴ႐ႈသည္
+      none: ဘာမွမရွိပါ (အမႈပိတ္သြားျခင္းျဖစ္ႏုိင္သည္)
+      office: ခ႐ိုင္႐ုံးစိုက္ရာၿမိဳ႕
+      or: သို႔မဟုတ္
+      organisation: CCWC
+      organisation_name: CCWC နာမည္
+      orphan_lost_both_parents: မိဘမဲ႔ (မိဘႏွစ္ပါးလံုးမရွိေတာ့)
+      orphan_lost_father: မိဘမဲ႕ (ဖခင္မရွိေတာ့)
+      orphan_lost_mother: မိဘမဲ့ (မိခင္မရွိေတာ့)
+      parent_carer_disabled: မသန္စြမ္းေသာ မိဘ/ေစာင့္ေရွာက္သူ
+      parent_carer_has_a_criminal_history: မိဘ/ေစာင့္ေရွာက္သူတြင္ ျပစ္မႈက်ဴးလြန္ဖူးသည့္ သမုိင္းရွိသည္
+      parent_carer_has_a_history_of_alcohol_abuse: မိဘ/ေစာင့္ေရွာက္သူတြင္ အရက္စြဲဖူးသည့္ သမိုင္းရွိသည္
+      parent_carer_has_a_history_of_drug_use: မိဘ/ေစာင့္ေရွာက္သူတြင္ မူးယစ္ေဆးစြဲဖူးသည့္ သမုိင္းရွိသည္
+      parent_carer_has_a_history_of_gambling: မိဘ/ေစာင့္ေရွာက္သူတြင္ ေလာင္းကစားလုပ္ဖူးသည့္ သမုိင္းရွိသည္
+      parent_carer_hiv_aids: မိဘ/ေစာင့္ေရွာက္သူတြင္ HIV/AIDS ရွိသည္
+      parent_carer_hiv_aids_origin: မိဘ/ေစာင့္ေရွာက္သူတြင္ HIV/AIDS ရွိသည္
+      parent_carer_ill: မိဘ/ေစာင့္ေရွာက္သူ ဖ်ားနာေနသည္
+      parent_carer_ill_origin: မိဘ/ေစာင့္ေရွာက္သူတြင္ ဖ်ားနာေနသည္
+      parent_carer_poor_certificate: မိဘ/ေစာင့္ေရွာက္သူ၏ လူဆင္းရဲ လက္မွတ္
+      parent_carer_poor_certificate_origin: မိဘ/ေစာင့္ေရွာက္သူတြင္ လူဆင္းရဲလက္မွတ္
+      phone_number: ဖုန္းနံပါတ္
+      physical_abuse: ႐ုပ္ပိုင္းဆုိင္ရာ အႏုိင္က်င့္ေစာ္ကားမႈ
+      physical_health: ႐ုပ္ပိုင္းဆုိင္ရာ က်န္းမာေရး
+      physical_health_need: ႐ုပ္ပိုင္းဆုိင္ရာက်န္းမာေရ (လိုအပ္ခ်က္မ်ား)
+      physical_health_plan: ႐ုပ္ပိုင္းဆုိင္ရာက်န္းမာေရး (ၾကားျဖတ္အစီအမံ)
+      position: ရာထူး
+      positive: ဟုတ္ပါသည္
+      present_education: ပညာေရး (လက္ရွိအေျခအေန)
+      present_emotional_health: စိတ္ပိုင္းဆုိင္ရာ က်န္းမာေရး (လက္ရွိအေျခအေန)
+      present_family_communication: မိသားစု ဆက္ဆံေရး (လက္ရွိအေျခအေန)
+      present_physical_health: ႐ုပ္ပိုင္းဆုိင္ရာ က်န္းမာေရး (လက္ရွိအေျခအေန)
+      present_situation: လက္ရွိအေျခအေန
+      present_society_communication: ပတ္၀န္းက်င္ႏွင့္ ဆက္ဆံေရး (လက္ရွိအေျခအေန)
+      present_supplies: စားနပ္ရိကၡာ၊ နားခိုစရာႏွင့္ အ၀တ္အစားမ်ား (လက္ရွိအေျခအေန)
+      referral_name: လႊဲရမည့္နာမည္
+      second_mission: ကေလးကို မိသားစုအတြင္းဆက္ထားရန္ လုပ္ေဆာင္ရမည့္ လုပ္ထုံးလုပ္နည္းမ်ားကို ေဆာင္ရြက္ပါ။ ပံုစံ ၁၃၀၂ႏွင့္ ပံုစံ ၁၃၀၃ ကို ျဖည့္ပါ။
+      seen_and_agreed: ေတြ႕ျမင္ၿပီး သေဘာတူပါသည္
+      sexual_abuse: လိင္ပိုင္ဆုိင္ရာ အႏုိင္က်င့္ေစာ္ကားမႈ
+      shelter: နားခိုစရာ
+      signature: ရပ္ကြက္/ေက်းရြာအႀကီးအကဲ၏ တံဆိပ္ႏွင့္ လက္မွတ္
+      society_communication_need: ပတ္၀န္းက်င္ႏွင့္ ဆက္ဆံေရး (လိုအပ္ခ်က္မ်ား)
+      society_communication_plan: ပတ္၀န္းက်င္ႏွင့္ဆက္ဆံေရး (ၾကားျဖတ္အစီအမံ)
+      street_number: လမ္း
+      supplies: စားနပ္ရိကၡာ၊ နားခိုစရာႏွင့္ အ၀တ္အစားမ်ား
+      supplies_need: စားနပ္ရိကၡာ၊ နားခိုစရာႏွင့္ အ၀တ္အစားမ်ား (လိုအပ္ခ်က္မ်ား)
+      supplies_plan: စားနပ္ရိကၡာ၊ နားခိုစရာႏွင့္ အ၀တ္အစားမ်ား (ၾကားျဖတ္အစီအမံ)
+      third_mission: "(မိသားစုကြဲသည့္ အေနအထားတြင္ဆုိလွ်င္) မိသားစုျပန္လည္ေပါင္းစည္းေရး လုပ္ထံုးလုပ္နည္းကို ေဆာင္ရြက္ပါ။ ပံုစံ ၁၃၀၉ ႏွင့္ ၁၃၀၃ ကို ျဖည့္ပါ"
+      transfer_info: လႊဲေျပာင္းရမည့္ ရင္းျမစ္
+      village: ေက်းရြာ
+      year: ႏွစ္
+    index:
+      action: လုပ္ေဆာင္မႈ
+      add_report: အစိုးရအစီရင္ခံစာကို ထည့္သြင္းရန္
+      are_you_sure_you_want_to_delete: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား
+      back: ေနာက္သို႔
+      code: ပံုစံ
+      initial_date: ရက္စြဲ
+    new:
+      new_report: အစိုးရအစီရင္ခံစာအသစ္
+    show:
+      pdf:
+        haml:
+          abandoned: စြန္႔ပစ္ထားေသာ
+          abuse_and_exploitation: အႏိုင္က်င့္ေစာ္ကားမႈမ်ားႏွင့္ ေခါင္းပံုျဖတ္မႈ
+          and: ႏွင့္
+          anonymous: အမည္မသိ (အကယ္၍ လႊဲေျပာင္းသူသည္ ဖိုင္တြင္တြင္ မိမိနာမည္ မပါေစလိုလွ်င္)
+          anonymous_form: အမည္မသိ (အကယ္၍ လႊဲေျပာင္းသူသည္ ဖိုင္တြင္တြင္ မိမိနာမည္ မပါေစလိုလွ်င္)
+          anonymous_information: အမည္မသိ အခ်က္အလက္
+          at: "၌"
+          capital: ၿမိဳ႕ေတာ္
+          carer_address: ေစာင့္ေရွာက္သူလိပ္စာ
+          carer_name: ေစာင့္ေရွာက္သူနာမည္
+          case_education: ပညာေရး
+          case_information_date: လႊဲေျပာင္းသည့္ ရက္စြဲ
+          check: ေက်းဇူးျပဳ၍ အမွန္ျခစ္ ျခစ္ခဲ့ပါ
+          child_changed_home: ကေလးေျပာင္းသြားေသာအိမ္
+          child_disabled: မသန္စြမ္းေသာကေလး
+          child_exploitation: ကေလးသူငယ္ေခါင္းပံုျဖတ္ျခင္း
+          child_has_a_criminal_history: ကေလးတြင္ ျပစ္မႈက်ဴးလြန္ဖူးသည့္ သမိုင္းရွိသည္
+          child_has_a_history_of_alcohol_abuse: ကေလးတြင္ အရက္စြဲဖူးသည့္ သမုိင္းရွိသည္
+          child_has_a_history_of_drug_use: ကေလးတြင္ မူးယစ္ေဆးစြဲဖူးသည့္ သမုိင္းရွိသည္
+          child_has_a_history_of_gambling: ကေလးတြင္ ေလာင္းကစားလုပ္ဖူးသည့္ သမိုင္းရွိသည္
+          child_hiv_aids: ကေလးတြင္ HIV/AIDS ရွိသည္
+          child_ill: ကေလးဖ်ားေနသည္
+          child_living_independently: အမွီခိုမဲ့ေနေနသာ ကေလး
+          child_living_on_street: လမ္းေပၚတြင္ေနေနေသာ ကေလး
+          child_situation_and_need: ကေလးငယ္၏ အေျခအေနႏွင့္ လိုအပ္ခ်က္မ်ား
+          city: ခ႐ိုင္
+          client_code: ကုတ္
+          client_contact: ကေလးႏွင့္ ဆက္ဆံေရး
+          client_living_with_guardians: ကေလးငယ္သည္ မိဘႏွင့္ေသာ္လည္းေကာင္း ေစာင့္ေရွာက္သူႏွင့္ေသာ္လည္းေကာင္း အတူေနပါသလား
+          client_name: ကေလးနာမည္
+          clothes: အ၀တ္အစားမ်ား
+          code: ပံုစံ
+          commune: ရပ္ကြက္/ေက်းရြာအုပ္စု
+          communication_in_family: မိသားစုဆက္ဆံေရး
+          communication_in_society: ပတ္၀န္းက်င္ဆက္ဆံေရး
+          copy: မူပိုင္ခြင့္
+          danger_of_trafficking: လူကုန္ကူးခံရမည့္အႏၱရာယ္
+          danger_situation: ကေလးကိုအႏၱရာယ္ရွိေစႏုိင္သည့္ သို႔မဟုတ္ ရွိေစဖြယ္ေသာ အေျခအေနမ်ား
+          date: ရက္စြဲ
+          date_of_birth: ေမြးရက္၊ လ၊ ႏွစ္
+          day: ေန႔
+          disability_and_or_illness: မသန္စြမ္းမႈ ႏွင့္/သို႔မဟုတ္ ဖ်ားနာမႈ
+          drug_abuse_alcohol_and_gambling: မူးယစ္ေဆး၀ါးသံုးစြဲျခင္း၊ အရက္ေသစာေသာက္သံုးျခင္းႏွင့္ ေလာင္းကစားျခင္း
+          education: ေက်ာင္းအဆင့္
+          emotional_abuse: စိတ္ပိုင္းဆုိင္ရာအႏုိင္က်င့္ေစာ္ကားမႈမ်ား
+          emotional_health: စိတ္ပိုင္းဆုိင္ရာ က်န္းမာေရး
+          emotional_heath: စိတ္ပိုင္းဆုိင္ရာ က်န္းမာေရး
+          essential_needs: မရွိမျဖစ္လိုအပ္ခ်က္မ်ား
+          every_point: သက္ဆိုင္မႈအားလံုး
+          excessive_child_labour: မ်ားျပားလြန္းေသာ ကေလးလုပ္အား
+          exist: မွန္ပါသည္
+          experience_with_trafficking: လူကုန္ကူးခံရဖူးသည့္အေတြ႕အႀကံဳ
+          family_changed_home: မိသားစုေျပာင္းသြားေသာအိမ္
+          family_separation: မိသားစုကြဲျခင္း
+          family_violence: မိသားစုတြင္းအၾကမ္းဖက္မႈ
+          female: F
+          first_mission: "(အႏၱရာယ္ႀကံဳေနရေသာ၊ ႀကံဳရမည့္အႏၱရာယ္ရွိေသာ အေျခအေနတြင္) ကေလးသူငယ္ေစာင့္ေရွာက္မႈ လုပ္ထံုးလုပ္နည္းမ်ားအတုိင္း ဆက္လက္ေဆာင္ရြက္ပါ။ ပံုစံ ၁၃၀၄ ကို ျဖည့္ပါ"
+          first_response_form: ကနဦးတုန္႔ျပန္ေဆာင္ရြက္မႈပံုစံ
+          food: စားနပ္ရိကၡာ
+          food_shelter: စားနပ္ရိကၡာ၊ နားခိုစရာႏွင့္ အ၀တ္အစားမ်ား
+          for_children_who_are_in_danger: အႏၱရာယ္ရွိအေျခအေနက်ေရာက္ေနေသာ ကေလးအတြက္
+          found_client_at: ကေလးကိုေတြ႕သည့္ေနရာ
+          fourth_mission: "(ကေလးစြန္႔ပစ္ခံရသည္ဆိုသည္လွ်င္) စြန္႔ပစ္ခံရသည့္ကေလးအတြက္ လုပ္ထံုးလုပ္နည္းကို ေဆာင္ရြက္ပါ။"
+          gender: လိင္
+          health_care_and_medical_treatment: က်န္းမာေရးေစာင့္ေရွာက္မႈႏွင့္ ေဆး၀ါးကုသမႈ
+          house_number: အိမ္နံပါတ္
+          if_exist: အကယ္၍ မွန္သည္ဆုိလွ်င္ -
+          information: အခ်က္အလက္
+          initial_capital: ၿမိဳ႕ေတာ္
+          initial_city: ခ႐ိုင္
+          initial_commune: ေက်းရြာအုပ္စု
+          initial_date: ရက္စြဲ
+          intervention_plan: ၾကားျဖတ္အစီအမံ
+          kingdom_of_cambodia: ကေမာၻဒီးယား ဘုရင့္ႏုိင္ငံေတာ္
+          male: M
+          mission_obtainable: လုိအပ္ေသာ အဆင့္မ်ား
+          missions_which_need_to_be_done: လုပ္ေဆာင္မည့္ အဆင့္မ်ားတြင္
+          month: လ
+          name: နာမည္
+          nation_religion_king: ႏိုင္ငံေတာ္ ဘာသာေရး ဘုရင္
+          need: လုိအပ္ခ်က္မ်ား
+          negative: မဟတု္ပါ
+          neglect: လ်စ္လ်ဴ႐ႈရန္
+          none: မရွိပါ (အမႈပိတ္လိုက္သည္ျဖစ္ႏုိင္သည္)
+          office: ခ႐ိုင္႐ုံးစိုက္ရာၿမိဳ႕
+          or: သို႔မဟတု္
+          organisation: CCWC
+          organisation_name: CCWC နာမည္
+          orphan_lost_both_parents: မိဘမဲ့ (မိဘႏွစ္ပါးလံုးမရွိ)
+          orphan_lost_father: မိဘမဲ့ (ဖခင္မရွိ)
+          orphan_lost_mother: မိဘမဲ့ (မိခင္မရွိ)
+          parent_carer_disabled: မသန္စြမ္းေသာ မိဘ/ေစာင့္ေရွာက္သူ
+          parent_carer_has_a_criminal_history: မိဘ/ေစာင့္ေရွာက္သူတြင္ ျပစ္မႈက်ဴးလြန္ဖူးသည့္ သမုိင္းရွိသည္
+          parent_carer_has_a_history_of_alcohol_abuse: မိဘ/ေစာင့္ေရွာက္သူတြင္ အရက္စြဲဖူးသည့္ သမိုင္းရွိသည္
+          parent_carer_has_a_history_of_drug_use: မိဘ/ေစာင့္ေရွာက္သူတြင္ မူးယစ္ေဆး၀ါးသံုးစြဲဖူးသည့္ သမုိင္းရွိသည္
+          parent_carer_has_a_history_of_gambling: မိဘ/ေစာင့္ေရွာက္သူတြင္ ေလာင္းကစားလုပ္ဖူးသည့္ သမိုင္းရွိသည္
+          parent_carer_hiv_aids: မိဘ/ေစာင့္ေရွာက္သူတြင္ HIV/AIDS ရွိသည္
+          parent_carer_hiv_aids_origin: မိဘ/ ေစာင့္ေရွာက္သူတြင္ HIV/AIDS ရွိသည္
+          parent_carer_ill: မိဘ/ေစာက္ေရွာက္သူဖ်ားနာေနသည္
+          parent_carer_ill_origin: မိဘ/ေစာက္ေရွာက္သူဖ်ားနာေနသည္
+          parent_carer_poor_certificate: မိဘ/ ေစာင့္ေရွာက္သူ ၏လူဆင္းရဲလက္မွတ္
+          parent_carer_poor_certificate_origin: မိဘ/ ေစာင့္ေရွာက္သူ ၏လူဆင္းရဲလက္မွတ္
+          phone_number: ဖုန္းနံပါတ္
+          physical_abuse: ရုပ္ပိုင္းဆိုင္ရာ အႏိုင္က်င့္ေစာ္ကားမႈ
+          physical_health: ရုပ္ပိုင္းဆိုင္ရာ က်န္းမာေရး
+          position: ရာထူး
+          positive: မွန္ပါသည္
+          present_situation: လက္ရွိ အေျခအေန
+          referral_name: လြဲေျပာင္းသူနာမည္
+          second_mission: ကေလးကို မိသားစုအတြင္းဆက္ထားရန္အတြက္ လိုအပ္ေသာ လုပ္ထံုးလုပ္နည္းမ်ားအတိုင္း ေဆာင္ရြက္ပါ ပံုစံ ၁၃၀၂ႏွင့္၁၃၀၃ကို ျဖည့္ပါ
+          seen_and_agreed: ျမင္ေတြ႕သည္ သေဘာတူပါသည္
+          sexual_abuse: လိင္ပိုင္းဆိုင္ရာ အနိုင္က်င့္ေစာ္ကားမႈ
+          shelter: ခိုလႈံစရာ
+          signature: ရပ္ကြက္/ေက်းရြာအုပ္စု/အႀကီးအကဲ၏ တံဆိပ္နွင့္လက္မွတ္
+          street_number: လမ္း
+          supplies: စားနပ္ရိက
+          third_mission: "(ကေလး/မိသားစု ကြဲသြားသည္ဆုိလွ်င္) မိသားစု ျပန္လည္ေပါင္းစည္းေရး လုပ္ထံုးလုပ္နည္းအတုိင္း ေဆာင္ရြက္ပါ။ ပံုစံ ၁၃၀၉ႏွင့္ ၁၃၀၃ ကို ျဖည့္ပါ"
+          transfer_info: လႊဲေျပာင္းသည့္ ရင္းျမစ္
+          village: ေက်းရြာ
+          year: ႏွစ္
+    update:
+      successfully_updated: အစိုးရအစီရင္ခံစာကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ၿပီးပါၿပီ
+  has_been_added_to_calendar: ဤပြဲကို ျပကၡဒိန္တြင္ ထည့္ၿပီးပါၿပီ
+  interventions:
+    create:
+      failed_create: ၾကားျဖတ္အစိအမံကို ျပဳလုပ္ျခင္း မေအာင္ျမင္ပါ။
+      successfully_created: ၾကားျဖတ္အစီအမံကို ေအာင္ျမင္စြာ ျပဳလုပ္ၿပီးၿပီ။
+    destroy:
+      failed_delete: ၾကားျဖတ္အစီအမံကို ဖ်က္၍ မရပါ
+      successfully_deleted: ၾကားျဖတ္အစီအမံကို ေအာင္ျမင္စြာ ဖ်က္ၿပီးပါၿပီ
+      unsuccessfully_deleted: ၾကားျဖတ္အစီအမံကုိ ဖ်က္၍ မရပါ
+    edit:
+      edit_intervention: ၾကားျဖတ္အစီအမံကို ျပင္ဆင္ရန္
+    form:
+      action: လုပ္ေဆာင္မႈ
+      cancel: ပယ္ဖ်က္ရန္
+      intervention: ၾကားျဖတ္အစီအမံ
+      save: သိမ္းဆည္းသည္
+    index:
+      action: လုပ္ေဆာင္မႈ
+      add_new_intervention: ၾကားျဖတ္အစီအမံအသစ္ကို ေပါင္းထည့္သည္
+      are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား
+      changelogs: ေျပာင္းလဲမႈ မွတ္တမ္း
+      intervention: ၾကားျဖတ္အစီအမံမ်ား
+      manage: စီမံသည္
+      view: ျမင္ကြင္း
+    new:
+      new_intervention: ၾကးျဖတ္အစီအမံအသစ္
+    update:
+      failed_update: 'ၾကားျဖတ္အစီအမံကုိ အသစ္ျပင္ဆင္ျဖည့္သြင္းျခင္း မေအာင္ျမင္ပါ။ '
+      successfully_updated: ၾကားျဖတ္အစီအမံကုိ ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ျဖည့္သြင္းၿပီးပါၿပီ
+    version:
+      back: ေနာက္သို႔
+      modification_of: "၏ ေျပာင္းလဲမႈ မွတ္တမ္း"
+  invalid_program_enrollment_date: သင္ေရြးခ်ယ္လိုက္ေသာ စာရင္းသြင္းသည့္ေနက မွားေနပါသည္။ ေက်းဇူးျပဳ၍ သင္၏ ထြက္သည့္အစီအစဥ္ ေန႔ရက္မတုိင္မီ ရက္စြဲကို ေရြးခ်ယ္ပါ။
+  invalid_program_exit_date: သင္ေရြးခ်ယ္လိုက္ေသာ ထြက္သည့္ ရက္စြဲသည္ မမွန္ပါ။ ေက်းဇူးျပဳ၍ သင္၏ စာရင္းသြင္းသည့္ေန႔ထက္ ေနာက္က်ေသာ ရက္စြဲကို ေရြးခ်ယ္ပါ။
+  is_not_email: အီးေမးလ္မဟုတ္ပါ
+  layouts:
+    notification:
+      check_tasks: လုပ္ငန္းမ်ားကို ေက်းဇူးျပဳ၍ စိစစ္ပါ
+      click_here: ဤေနရာကို ကလစ္ႏွိပ္ပါ
+      client_is_about_to_end_ec:
+        few: အမႈသည္တစ္ဦးသည္ ရက္အနည္းငယ္အတြင္း EC အစီအမံမွ ထြက္ရန္ ရွိေနပါသည္
+        one: အမႈသည္တစ္ဦးသည္ %{day_count} ရက္အတြင္း EC အစီအမံမွ ထြက္ရန္ ရွိေနပါသည္
+        other: အမႈသည္ %{count}ဦးသည္ %{day_count} ရက္အတြင္း EC အစီအမံမွ ထြက္ရန္ ရွိေနပါသည္
+      client_is_end_ec_today:
+        few: အမႈသည္အခ်ိဳ႕သည္ EC အစီအမံမွ ယေန႔ထြက္ရန္ ရွိေနပါသည္
+        one: အမႈသည္တစ္ဦးသည္ EC အစီအမံမွ ယေန႔ထြက္ရန္ ရွိေနပါသည္
+        other: အမႈသည္ %{count} ဦးသည္ EC အစီအမံမွ ယေန႔ထြက္ရန္ ရွိေနပါသည္
+      client_quantity:
+        few: "(အမႈသည္ အခ်ိဳ႕)"
+        one: "(အမႈသည္ တစ္ဦး) "
+        other: "(အမႈသည္ %{count} ဦး)"
+      due_today_assessments_count:
+        few: သင့္တြင္ ယေန႔ စိစစ္အကဲျဖတ္မႈ အခ်ိဳ႕လုပ္ရန္ ရွိပါသည္။
+        one: 'သင့္တြင္ ယေန႔ စိစစ္အကဲျဖတ္မႈလုပ္ရန္ တစ္ခု ရွိပါသည္။ '
+        other: သင့္တြင္ ယေန႔ စိစစ္အကဲျဖတ္မႈ %{count} လုပ္ရန္ ရွိပါသည္။
+      due_today_client_custom_field_count:
+        few: 'ယေန႔ အမႈသည္ အေကာက္ခြန္ပံုစံ အခ်ိဳ႕ လုပ္ရန္ရွိပါသည္။ '
+        one: ယေန႔ အမႈသည္အေကာက္ခြန္ပံုစံတစ္ခုလုပ္ရန္ရွိပါသည္။
+        other: 'ယေန႔ အမႈသည္ အေကာက္ခြန္ပံုစံ %{count} လုပ္ရန္ရွိပါသည္။ '
+      due_today_client_enrollment_tracking:
+        few: ယေန႔တြင္ အမႈသည္ စာရင္းေပးသြင္းမႈေနာက္ေၾကာင္း ပံုစံအခ်ိဳ႕ လုပ္ရန္ရွိပါသည္။
+        one: ယေန႔တြင္ အမႈသည္ စာရင္းေပးသြင္းမႈေနာက္ေၾကာင္းပံုစံတစ္ခု လုပ္ရန္ရွိပါသည္။
+        other: ယေန႔တြင္ အမႈသည္ စာရင္းေပးသြင္းမႈေနာက္ေၾကာင္း ပံုစံ%{count} လုပ္ရန္ရွိပါသည္။
+      due_today_family_custom_field_count:
+        few: ယေန႔တြင္ မိသားစု အေကာက္ခြန္ပံုစံအခ်ိဳ႕ ျပဳလုပ္ရန္ ရွိပါသည္။
+        one: ယေန႔တြင္ မိသားစုအေကာက္ခြန္ပံုစံတစ္ခု ျပဳလုပ္ရန္ ရွိပါသည္။
+        other: ယေန႔တြင္ မိသားစု အေကာက္ခံပံုစံ%{count} ျပဳလုပ္ရန္ ရွိပါသည္။
+      due_today_partner_custom_field_count:
+        few: ယေန႔တြင္ လက္တြဲေဖာ္အေကာက္ခြန္ပံုစံ အခ်ိဳ႕ ျပဳလုပ္ရန္ ရွိပါသည္။
+        one: ယေန႔တြင္ လက္တြဲေဖာ္အေကာက္ခြန္ပံုစံတစ္ခုု ျပဳလုပ္ရန္ ရွိပါသည္။
+        other: ယေန႔တြင္ လက္တြဲေဖာ္အေကာက္ခံပံုစံ%{count} ျပဳလုပ္ရန္ ရွိပါသည္။
+      due_today_tasks_count:
+        few: ယေန႔တြင္ လုပ္ေဆာင္စရာ လုပ္ငန္း အခ်ိဳ႕ရွိပါသည္။
+        one: ယေန႔တြင္ လုပ္ေဆာင္စရာ လုပ္ငန္း ၁ ခု ရွိပါသည္။
+        other: ယေန႔တြင္ လုပ္ေဆာင္စရာ လုပ္ငန္း %{count} ရွိပါသည္။
+      due_today_user_custom_field_count:
+        few: ယေန႔တြင္ အသံုးျပဳသူ အေကာက္ခြန္ပံုစံ အခ်ိဳ႕ ျပဳလုပ္ရန္ ရွိပါသည္။
+        one: ယေန႔တြင္ အသံုးျပဳသူ အေကာက္ခြန္ပံုစံ ၁ခု ျပဳလုပ္ရန္ ရွိပါသည္။
+        other: ယေန႔တြင္ အသံုးျပဳသူ အေကာက္ခြန္ပံုစံ%{count} ျပဳလုပ္ရန္ ရွိပါသည္။
+      no_task: အသိေပးစရာမရွိပါ
+      overdue_assessments_count:
+        few: လုပ္ေဆာင္ရန္ သတ္မွတ္ရက္လြန္ေနေသာ စိစစ္အကဲျဖတ္မႈ အခ်ိဳ႕ ရွိေနပါသည္။
+        one: လုပ္ေဆာင္ရန္ သတ္မွတ္ရက္လြန္ေနေသာ စိစစ္အကဲျဖတ္မႈ ၁ ခု ရွိေနပါသည္။
+        other: လုပ္ေဆာင္ရန္ သတ္မွတ္ရက္လြန္ေနေသာ စိစစ္အကဲျဖတ္မႈ %{count} ရွိေနပါသည္။
+      overdue_client_custom_field_count:
+        few: သတ္မွတ္ရက္ လြန္ေနေသာ အမႈသည္ အေကာက္ခြန္ပံုစံ အခ်ိဳ႕ ရွိေနပါသည္။
+        one: သတ္မွတ္ရက္ လြန္ေနေသာ အမႈသည္ အေကာက္ခြန္ပံုစံ ၁ခု ရွိေနပါသည္။
+        other: သတ္မွတ္ရက္ လြန္ေနေသာ အမႈသည္ အေကာက္ခြန္ပံုစံ %{count} ရွိေနပါသည္။
+      overdue_client_enrollment_tracking:
+        few: သတ္မွတ္ရက္ လြန္ေနေသာ အမႈသည္ စာရင္းေပးသြင္းမႈ ပံုစံ အခ်ိဳ႕ ရွိေနပါသည္။
+        one: သတ္မွတ္ရက္ လြန္ေနေသာ အမႈသည္ စာရင္းေပးသြင္းမႈ ပံုစံ ၁ခု ရွိေနပါသည္။
+        other: သတ္မွတ္ရက္ လြန္ေနေသာ အမႈသည္ စာရင္းေပးသြင္းမႈ ပံုစံ %{count} ရွိေနပါသည္။
+      overdue_family_custom_field_count:
+        few: သင့္တြင္ သတ္မွတ္ရက္လြန္ေနေသာ မိသားစု အေကာက္ခြန္ပံုစံ အခ်ိဳ႕ ရွိေနပါသည္။
+        one: သင့္တြင္ သတ္မွတ္ရက္လြန္ေနေသာ မိသားစု အေကာက္ခြန္ပံုစံ ၁ ခု ရွိေနပါသည္။
+        other: သင့္တြင္ သတ္မွတ္ရက္လြန္ေနေသာ မိသားစု အေကာက္ခြန္ပံုစံ %{count} ရွိေနပါသည္။
+      overdue_partner_custom_field_count:
+        few: သင့္တြင္ သတ္မွတ္ရက္လြန္ေသာ လက္တြဲေဖာ္ အေကာက္ခြန္ပံုစံ အခ်ိဳ႕ ရွိေနပါသည္။
+        one: သင့္တြင္ သတ္မွတ္ရက္လြန္ေသာ လက္တြဲေဖာ္ အေကာက္ခြန္ပံုစံ ၁ ခု ရွိေနပါသည္။
+        other: သင့္တြင္ သတ္မွတ္ရက္လြန္ေသာ လက္တြဲေဖာ္ အေကာက္ခြန္ပံုစံ %{count} ရွိေနပါသည္။
+      overdue_tasks_count:
+        few: သင္တြင္ သတ္မွတ္ရက္ ေက်ာ္လြန္ေနေသာ လုပ္ေဆာင္စရာ အခ်ို႕ ရွိေနပါသည္။
+        one: သင္တြင္ သတ္မွတ္ရက္ ေက်ာ္လြန္ေနေသာ လုပ္ေဆာင္စရာ ၁ ခု ရွိေနပါသည္။
+        other: သင္တြင္ သတ္မွတ္ရက္ ေက်ာ္လြန္ေနေသာ လုပ္ေဆာင္စရာ %{count} ရွိေနပါသည္။
+      overdue_user_custom_field_count:
+        few: သင့္တြင္ သတ္မွတ္ရက္ လြန္ေနေသာ အသံုးျပဳသူ အေကာက္ခြန္ပံုစံ အခ်ိဳ႕ ရွိေနပါသည္။
+        one: သင့္တြင္ သတ္မွတ္ရက္ လြန္ေနေသာ အသံုးျပဳသူ အေကာက္ခြန္ပံုစံ ၁ခု ရွိေနပါသည္။
+        other: သင့္တြင္ သတ္မွတ္ရက္ လြန္ေနေသာ အသံုးျပဳသူ အေကာက္ခြန္ပံုစံ %{count} ရွိေနပါသည္။
+      review_client: သင္၏ အမႈသည္စာရင္းေပးသြင္းမႈကို ျပန္လည္ ၾကည့္႐ႈရန္
+    side_menu:
+      able_screening_questions: Able Screening ေမးခြန္းမ်ား
+      account: အေကာင့္
+      agencies: ေအဂ်င္စီမ်ား
+      changelogs: ေျပာင္းလဲမႈ မွတ္တမ္းမ်ား
+      clients: အမႈဥည္မ်ား
+      custom_fields: ပံုစံထုတ္စက္
+      dashboards: ဒက္ရွ္ဘုတ္မ်ား
+      departments: ဌာနမ်ား
+      domain_groups: ဒိုမိန္း အုပ္စုမ်ား
+      domains: ဒိုမိန္းမ်ား
+      donors: အလွဴရွင္မ်ား
+      edit_profile: ပ႐ိုဖုိင္ ျပင္ဆင္ရန္
+      en: အဂၤလိပ္
+      families: မိသားစုမ်ား
+      interventions: ၾကား၀င္ေဆာင္ရြက္မႈမ်ား
+      km: ကေမာၻဒီးယားဘာသာစကား
+      locations: ေနရာမ်ား
+      log_in: ၀င္ေရာက္
+      log_out: ထြက္
+      manage: စီမံသည္
+      materials: ကိရိယာ/ပစၥည္းမ်ား
+      partners: လက္တြဲေဖာ္မ်ား
+      program_streams: အစီအစဥ္မ်ား စီးဆင္းမႈ
+      progress_note: တိုးတက္မႈ မွတ္စု
+      progress_note_types: မွတ္တမ္းအမ်ိဳးအစား
+      provinces: ခ႐ိုင္မ်ား
+      quantitative_types: ပမာဏအမ်ိဳးအစား
+      referral_sources: လႊဲေျပာင္းရမည့္ ရင္းျမစ္မ်ား
+      release_logs: လႊတ္ေပးသည့္ မွတ္တမ္းမ်ား
+      settings: အျပင္အဆင္မ်ား
+      users: အသံုးျပဳသူမ်ား
+      view_calendar: ျပကၡဒိန္ကို ၾကည့္ရန္
+    top_navbar:
+      burmese: ဗမာစာ
+      edit_profile: ပ႐ိုဖိုင္ျပင္ဆင္ရန္
+      english: အဂၤလိပ္စာ
+      khmer: ခမာစာ
+      language: ဘာသာစကား
+      log_out: ထြက္ရန္
+      thai: ထိုင္းစာ
+  leave_enrolled_programs:
+    create:
+      successfully_created: အမႈသည္သည္ အစိအစဥ္မွ ေအာင္ျမင္စြာ ထြက္ၿပီးပါၿပီ။
+    edit:
+      leave_program: အစီအစဥ္မွ ထြက္ျခင္းကို ျပင္ဆင္ရန္
+    form:
+      cancel: ပယ္ဖ်က္ရန္
+      exit_date: ထြက္သည့္ ရက္စြဲ
+      save: သိမ္းဆည္းရန္
+    new:
+      new_exit_program: ထြက္ျခင္းအစီအစဥ္အသစ္
+    show:
+      back: ေနာက္သို႔
+      exit_date: ထြက္သည့္ရက္စြဲ
+    update:
+      successfully_updated: ထြက္ျခင္းအစီအစဥ္ကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ျဖည့္သြင္းၿပီးပါၿပီ
+  leave_programs:
+    create:
+      successfully_created: အမႈသည္သည္ အစီအစဥ္မွ ေအာင္ျမင္စြာ ထြက္ၿပီးပါၿပီ
+    destroy:
+      delete_attachment_successfully: တြဲထားသည္ကို ေအာင္ျမင္စြာ ဖ်က္ၿပီးပါၿပီ
+    edit:
+      leave_program: ထြက္ျခင္းအစီအစဥ္ကို ျပင္ဆင္ရန္
+    form:
+      allow_file_size: ခြင့္ျပဳေသာ ဖိုင္အမ်ိဳးအစား
+      cancel: ပယ္ဖ်က္ရန္
+      exit_date: ထြက္သည့္ရက္စြဲ
+      max_file_size: "*အမ်ားဆံုးခြင့္ျပဳသည့္ ဖိုင္အရြယ္အစား - တစ္ဖုိင္လွ်င္ ၅ မီဂါဘိုက္ႏႈန္းႏွင့္ တစ္ခါတင္လွ်င္ မီဂါဘိုက္ ၃၀ ႏႈန္း"
+      save: သိမ္းဆည္းရန္
+    new:
+      new_exit_program: ထြက္သည့္ အစီအစဥ္အသစ္
+    show:
+      back: ထြက္ရန္
+      exit_date: ထြက္သည့္ရက္စြဲ
+    update:
+      successfully_updated: ထြက္သည့္အစီအစဥ္ကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ျဖည့္စြက္ၿပီးပါၿပီ
+  locations:
+    create:
+      failed_create: တည္ေနရာဖန္တည္းျခင္း မေအာင္ျမင္ပါ
+      successfully_created: တည္ေနရာကို ေအာင္ျမင္စြာ ျပဳလုပ္ၿပီးပါၿပီ
+    destroy:
+      failed_delete: တည္ေနရာကို ဖ်က္ျခင္း မေအာင္ျမင္ပါ
+      failed_update: တည္ေနရာကို ဖ်က္ျခင္း မေအာင္ျမင္ပါ
+      successfully_deleted: တည္ေနရာကို ေအာင္ျမင္စြာ ဖ်က္ၿပီးပါၿပီ
+      unsuccessfully_deleted: တည္ေနရာကို ဖ်က္၍ မရပါ
+    edit:
+      edit_location: တည္ေနရာကို ျပင္ဆင္ရန္
+    form:
+      cancel: ပယ္ဖ်က္ရန္
+      location: တည္ေနရာ
+      name: နာမည္
+      save: သိမ္းဆည္းသည္
+    index:
+      add_new_location: တည္ေနရာအသစ္ ထည့္သြင္းရန္
+      are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား
+      changelogs: ေျပာင္းလဲမႈ မွတ္တမ္း
+      location: တည္ေနရာမ်ား
+      manage: စီမံသည္
+      name: နာမည္
+      view: ျမင္ကြင္း
+    new:
+      new_location: တည္ေနရာအသစ္
+    update:
+      failed_update: တည္ေနရာကို ဖန္တီးျခင္း မေအာင္ျမင္ပါ
+      successfully_updated: တည္ေနရာကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ ျဖည့္စြက္ၿပီးပါၿပီ
+    version:
+      back: ေနာက္သို႔
+      modification_of: "၏ ေျပာင္းလဲမႈ မွတ္တမ္း"
+  materials:
+    create:
+      failed_create: ကိရိယာ/ပစၥည္းကို ျပဳလုပ္ျခင္း မေအာင္ျမင္ပါ
+      successfully_created: ကိရိယာ/ ပစၥည္းကို ေအာင္ျမင္စြာ ျပဳလုပ္ၿပီးပါၿပီ
+    destroy:
+      failed_delete: ကိရိယာ/ပစၥည္းကို ျပဳလုပ္ျခင္း မေအာင္ျမင္ပါ
+      successfully_deleted: ကိရိယာ/ပစၥည္းကို ေအာင္ျမင္စြာ ဖ်က္ၿပီးပါၿပီ
+      unsuccessfully_deleted: ကိရိယာ/ပစၥည္းကို ဖ်က္၍ မရပါ။
+    edit:
+      edit_material: ကိရိယာ/ပစၥည္းကို ျပင္ဆင္ရန္
+    form:
+      cancel: ပယ္ဖ်က္ရန္
+      material: ကိရိယာ/ ပစၥည္း
+      save: သိမ္းဆည္းသည္
+      status: အေျခအေန
+    index:
+      add_new_material: ကိရိယာ/ပစၥည္းအသစ္ ထည့္ရန္
+      are_you_sure: ဖ်က္လုိသည္မွာ ေသခ်ာပါသလား
+      changelogs: ေျပာင္းလဲမႈ မွတ္တမ္း
+      manage: စီမံသည္
+      material: ကိရိယာ/ ပစၥည္းမ်ား
+      status: အေနအထား
+      view: ျမင္ကြင္း
+    new:
+      new_material: ကိရိယာ/ပစၥည္းအသစ္
+    update:
+      failed_update: ကိရိယာ/ပစၥည္းကို ျပဳလုပ္ျခင္း မေအာင္ျမင္ပါ
+      successfully_updated: ကိရိယာ/ပစၥည္းကို ေအာင္ျမင္စြာ အသစ္ထပ္မံျဖည့္သြင္းၿပီး
+    version:
+      back: ေနာက္သို႔
+      modification_of: "၏ ေျပာင္းလဲမႈ"
+  must_be_uniq: ကြင္းအညႊန္းသည္ ယူနစ္ျဖစ္ရမည္
+  notifications:
+    client_enrollment_tracking_due_today:
+      client_enrollment_tracking_notification: အမႈသည္ စာရင္းသြင္းမႈေနာက္ေၾကာင္း အသိေပးခ်က္
+      clients: အမႈသည္
+    client_enrollment_tracking_overdue:
+      client_enrollment_tracking_notification: အမႈသည္ စာရင္းသြင္းျခင္းေနာက္ေၾကာင္း သတိေပးခ်က္
+      clients: အမႈသည္
+    custom_field_due_today:
+      clients: အမႈသည္
+      custom_field_notification: အေကာက္ခြန္ပံုစံ အသိေပးခ်က္
+      families: မိသားစု
+      form: ပံုစံ
+      partners: လက္တြဲေဖာ္
+      users: အသံုးျပဳသူ
+    custom_field_overdue:
+      clients: အမႈသည္
+      custom_field_notification: အေကာက္ခြန္ပံုစံ အသိပးခ်က္
+      families: မိသားစု
+      form: ပံုစံ
+      partners: လက္တြဲေဖာ္
+      users: အသံုးျပဳသူ
+    program_stream_notify:
+      review_client: အမႈသည္မ်ားကို ျပန္လည္သံုးသပ္ရန္ လိုအပ္သည္
+  ok: အဆင္ေျပပါသည္
+  partners:
+    actions:
+      are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား
+    create:
+      successfully_created: လက္တြဲေဖာ္ကို ေအာင္ျမင္စြာ ဖန္တီးၿပီးပါၿပီ
+    destroy:
+      alert: လက္တြဲေဖာ္ကို ဖ်က္၍ မရပါ
+      successfully_deleted: လက္တြဲေဖာက္ကို ေအာင္ျမင္စြာ ဖ်က္ၿပီးပါၿပီ
+    edit:
+      edit_partner_title: လက္တြဲေဖာ္ကို ျပင္ဆင္ရန္
+    form:
+      address: လိပ္စာ
+      affiliation: ပူးေပါင္းျခင္း
+      background: ေနာက္ေၾကာင္း
+      contact_email: အီးေမးလ္
+      contact_mobile: ပံုစံ
+      contact_name: ဆက္သြယ္သည့္နာမည္
+      custom_forms: အေကာက္ခြန္ပံုစံမ်ား
+      engagement: ေစ့စပ္ျခင္း
+      id: မွတ္ပံုတင္
+      name: နာမည္
+      organisation_type: အဖြဲ႕အစည္းအမ်ိဳးအစား
+      province: ခ႐ိုင္
+      start_date: စတင္သည့္ ရက္စြဲ
+    index:
+      add_new_partner: လက္တြဲေဖာ္အသစ္ထည့္ရန္
+      export_xls: XLS အျဖစ္ ထုတ္သည္
+      results: ရလဒ္မ်ား
+    new:
+      new_partner_title: လက္တြဲေဖာ္အသစ္
+    show:
+      add_form: ပံုစံ ထည့္ရန္
+      additional_forms: ေနာက္ဆက္တြဲ ပံုစံမ်ား
+      additional_info: ေနာက္ဆက္တြဲ အခ်က္အလက္မ်ား
+      address: လိပ္စာ
+      affiliation: ပူးေပါင္းျခင္း
+      are_you_sure: ဖ်က္လုိသည္မွာ ေသခ်ာပါသလား
+      background: ေနာက္ေၾကာင္း
+      contact_email: အီးေမးလ္
+      contact_mobile: ဆက္သြယ္ရန္ မိုဘုိင္းဖုန္း
+      contact_name: ဆက္သြယ္ရန္ နာမည္
+      engagement: ေစ့စပ္ျခင္း
+      general_info: လက္တြဲေဖာ္အေၾကာင္း
+      id: မွတ္ပံုတင္
+      name: နာမည္
+      organisation_type: အဖြဲ႕အစည္းအမ်ိဳးအစား
+      province: ခ႐ိုင္
+      start_date: စတင္သည့္ ရက္စြဲ
+    update:
+      successfully_updated: လက္တြဲေဖာ္ကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ျဖည့္စြက္ၿပီးပါၿပီ။
+    version:
+      back: ေနာက္သို႔
+      modification_of: "၏ ေျပာင္းလဲမႈမွတ္တမ္း"
+  program_streams:
+    actions:
+      are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား
+      warning_message: သငျသညျ client ကိုဒေတာသည်ကယ်တင်ခြင်းသို့ရောက်သောအစီအစဉ် Stream ကိုဖျက်ဖို့အကြောင်းရှိပါသည်။ သငျသညျဆက်လက်ဆောင်ရွက်ရန်ဆန္ဒရှိပါသလား
+    all_ngos_custom_fields:
+      next: ေနာက္သို႔
+      preview:
+      previous: ခ႐ိုင္
+    all_ngos_program_streams_tab:
+      actions: လုပ္ေဆာင္မႈ
+      copy: ေကာ္ပီကူးသည္
+      domain: ဒိုမိန္းမ်ား
+      maximum: အမ်ားဆံုး အစိအစဥ္စာရင္းေပးသြင္းမႈ
+      name: နာမည္
+      organization: အဖြဲ႕အစည္း
+      preview: အစမ္းၾကည့္ရန္
+      quantity: ပမာဏ
+      status: အေနအထား
+    create:
+      alert: ေနာက္ေၾကာင္းနာမည္ကို ယူထားၿပီးျဖစ္ပါသည္။
+      successfully_created: အစိအစဥ္ စီစဥ္းမႈကို ေအာင္ျမင္စြာ ျပဳလုပ္ၿပီးပါၿပီ
+    current_program_streams_tab:
+      actions: လုပ္ေဆာင္မႈ
+      domain: ဒိုမိန္းမ်ား
+      enrolled: စာရင္းသြင္းထားေသာ
+      maximum: အမ်ားဆံုး အစီအစဥ္စာရင္းသြင္းမႈ
+      name: နာမည္
+      quantity: ပမာဏ
+      status: အေနအထား
+    custom_form_table:
+      copy: ေကာ္ပီကူးသည္
+      entity_type: အမ်ိဳးအစား
+      form_title: ေခါင္းစဥ္မွ
+      organization: အဖြဲ႕အစည္း
+    custom_forms:
+      all_ngos_custom_fields: NGO အားလံုး၏ အခြန္ပံုစံမ်ား
+      custom_fields: အခြန္ပံုစံမ်ား
+      demo_ngo_custom_fields: Demo NGO၏ အခြန္ပံုစံမ်ား
+      my_ngo_custom_fields: မိမိ NGO၏ အခြန္ပံုစံမ်ား
+    demo_ngo_custom_fields:
+      next: ေနာက္သို႔
+      previous: ေရွ႕တစ္ခု
+    demo_program_streams_tab:
+      actions: လုပ္ေဆာင္မႈ
+      copy: ေကာ္ပီကူးသည္
+      domain: ဒိုမိန္းမ်ား
+      maximum: အမ်ားဆံုး အစီအစဥ္စာရင္းေပးသြင္းမႈ
+      name: နာမည္
+      organization: အဖြဲ႕အစည္း
+      preview: အစမ္းၾကည့္ရန္
+      status: အေနအထား
+    destroy:
+      alert: အစီအစဥ္စီးဆင္းမႈကို ဖ်က္လုိ႔မရပါ
+      successfully_deleted: အစီအစဥ္ စီးဆင္းမႈကို ေအာင္ျမင္စြာ ဖ်က္ၿပီးပါၿပီ
+    edit:
+      back: ေနာက္သို႔
+      edit_program_stream: အစီအစဥ္ စီးဆင္းမႈကို ျပင္ဆင္ရန္
+    enrollment:
+      custom_fields: အေကာက္ခြန္ပံုစံမ်ား
+      enrollment_form: စာရင္းေပးသြင္းမႈ
+      note: မွတ္ခ်က္ - စာရင္းေပးသြင္းသည့္ရက္စြဲ ကြက္လပ္သည့္ စာရင္းေပးသြင္းမႈပံုစံတြင္ အလိုေလ်ာက္ ထည့္သြင္းထားပါသည္
+    exit_field:
+      custom_fields: အေကာက္ခြန္ပံုစံမ်ား
+      exit_form: ထြက္သည့္ ပံုစံ
+      note: မွတ္ခ်က္ - အစီအစဥ္မွထြက္သည့္ ရက္စြဲ ကြက္လပ္သည္ အစီအစဥ္မွထြက္ျခင္းပံုစံတါင္ အလိုအေလ်ာက္ ထည့္သြင္းထားပါသည္။
+    form:
+      finish: သိမ္းဆည္းရန္
+      next: ေနာက္တစ္ခု
+      previous: ေရွ႕တစ္ခု
+      save: သိမ္းဆည္းရန္
+    index:
+      current_ngo: မိမိ NGO၏ အစီအစဥ္ စီးဆင္းမႈ
+      demo_programs: Demo NGO၏ အစီအစဥ္ စီးဆင္းမႈ
+      name: နာမတျောကို
+      new_program: အစီအစဥ္ အသစ္
+      ngo_programs: NGO အားလံုး၏ အစီအစဥ္စီးဆင္းမႈမ်ား
+      program_list: အစီအစဥ္မ်ားစီးဆင္းမႈ စာရင္းသြင္းျခင္း
+      search: ရှာဖှေ
+    my_ngo_custom_fields:
+      next: ေနာက္တစ္ခု
+      previous: ေရွ႕တစ္ခု
+    new:
+      back: ေနာက္သို႔
+      new_program_stream: အစီအစဥ္ စီးဆင္းမႈ အသစ္
+    others_ngo_program_streams_tab:
+      actions: လုပ္ေဆာင္မႈ
+      copy: ေကာ္ပီကူးသည္
+      domain: ဒိုမိန္းမ်ား
+      name: နာမည္
+      organization: အဖြဲ႕အစည္း
+      preview: အစမ္းၾကည့္႐ႈရန္
+      quantity: ပမာဏ
+    program_detail:
+      description: ေဖာ္ျပခ်က္
+      detail: အစီအစဥ္ အေသးစိတ္
+      domain: ဒိုမိန္း
+      name: နာမည္
+    program_rule:
+      add_new_filter: စိစစ္မႈအသစ္ထည့္ရန္
+      add_new_group: အုပ္စုထပ္ထည့္ရန္
+      add_rule: စည္းမ်ဥ္းထည့္ရန္
+      cannot_be_lower: အစီအစဥ္အမ်ားဆံုးစာရင္းေပးသြင္းမႈသည္ လႈပ္ရွားလုပ္ေဆာင္ေနေသာ စာရင္းေပးထားသည္မ်ားထက္ ေလ်ာ့နည္း၍ မရပါ။
+      delete_group: ဖ်က္ရန္
+      description: ေဖာ္ျပခ်က္
+      domain: ဒိုမိန္း
+      maximum: အစီအစဥ္အမ်ားဆံုး စာရင္းေပးသြင္းမႈ
+      mutual_dependence: ႏွစ္ဦးႏွစ္ဖက္မွီခိုမႈ
+      name: နာမည္
+      program_exclusive: သီးသန္႔ အစီအစဥ္
+      quantity: ပမာဏ
+      rule: စည္းမ်ဥ္းမ်ား
+    show:
+      back: ေနာက္သို႔
+      copy: ေကာ္ပီကူးသည္
+      description: ေဖာ္ျပခ်က္
+      detail: အစီအစဥ္အေသးစိတ္
+      domain: ဒိုမန္း
+      enrolled: စာရင္းသြင္းထားေသာ
+      enrollment: စာရင္းသြင္းမႈ
+      exit_program: အစီအစဥ္မွ ထြက္ရန္
+      maximum: အစီအစဥ္အမ်ားဆံုးစာရင္းေပးသြင္းမႈ
+      mutual_dependence: အျပင္အလွန္မီွခိုမႈ
+      not_require_tracking: ဤအစီအစဥ္စီးဆင္းမႈသည္ ေနာက္ေၾကာင္းလုိက္ပံုစံမလိုအပ္ပါ
+      program_exclusive: သီးသန္႔အစီအစဥ္
+      quantity: ပမာဏ
+      rules: စည္းမ်ဥ္းမ်ား
+      tracking: ေနာက္ေၾကာင္းလိုက္ျခင္း
+    tracking:
+      add_tracking: ေနာက္ေၾကာင္းလုိက္ျခင္းကို ထပ္ထည့္ရန္
+      not_require_tracking: ဤအစီအစဥ္စီးဆင္းမႈသည္ ေနာက္ေၾကာင္းလုိက္ျခင္းပံုစံ မလိုအပ္ပါ
+      tracking_form: တိုးတက္မႈ ေနာက္ေၾကာင္းလုိက္ျခင္း
+    tracking_fields:
+      custom_fields: အစီအစဥ္ပံုစံမ်ား
+      frequency: အႀကိမ္ေရ
+      name: နာမည္
+      remove_tracking: ေနာက္ေၾကာင္းလုိက္ျခင္းကို ဖယ္ရွားရန္
+      time_of_frequency: အႀကိမ္အေရအတြက္
+    update:
+      alert: ေနာက္ေၾကာင္းလုိက္ျခင္းကို ဖ်က္လုိ႔မရပါ
+      successfully_updated: အစီအစဥ္စီးဆင္းမႈကို ေအာင္ျမင္စြာ အသစ္ျဖည့္စြက္ ျပင္ဆင္ၿပီးပါၿပီ
+  progress_note_types:
+    create:
+      failed_create: မွတ္စုအမ်ိဳးအစားကို ဖန္တီးမႈ မေအာင္ျမင္ပါ
+      successfully_created: မွတ္စုအမ်ိဳးအစားကို ေအာင္ျမင္စြာ ျပဳလုပ္ၿပီးပါၿပီ
+    destroy:
+      failed_delete: မွတ္စုအမ်ိဳးအစား ဖ်က္ျခင္း မေအာင္ျမင္ပါ
+      successfully_deleted: မွတ္စုအမ်ိဳးအစားကို ေအာင္ျမင္စြာ ဖ်က္ၿပီးပါၿပီ
+      unsuccessfully_deleted: မွတ္စုအမ်ိဳးအစားကို ဖ်က္လုိ႔မရပါ
+    edit:
+      edit_progress_note_type: မွတ္စုအမ်ိဳးအစားကို ျပင္ဆင္ရန္
+    form:
+      cancel: ပယ္ဖ်က္ရန္
+      note_type: အမ်ိဳးအစား
+      progress_note_type: မွတ္စုအမ်ိဳးအစား
+      save: သိမ္းဆည္းရန္
+    index:
+      add_new_progress_note_type: မွတ္စုအမ်ိဳးအစားအသစ္ထည့္သြင္းရန္
+      are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား
+      changelogs: ေျပာင္းလဲမႈ မွတ္တမ္း
+      manage: စီမံသည္
+      note_type: အမ်ိဳးအစား
+      progress_note_type: မွတ္စုအမ်ိဳးအစားမ်ား
+      view: ျမင္ကြင္း
+    new:
+      new_progress_note_type: မွတ္စုအမ်ိဳးအစားသစ္
+    update:
+      failed_update: မွတ္စုအမ်ိဳးအစားကို အသစ္ျပင္ဆင္ျဖည့္စြက္ျခင္း မေအာင္ျမင္ပါ
+      successfully_updated: မွတ္စုအမ်ိဳးအစားကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ျဖည့္စြက္ၿပီးပါၿပီ
+    version:
+      back: ေနာက္သို႔
+      modification_of: "၏ ေျပာင္းလဲမႈမွတ္တမ္း"
+  progress_notes:
+    actions:
+      are_you_sure: ဖ်က္လုိသည္မွာ ေသခ်ာပါသလား
+    attachment_fields:
+      are_you_sure: ဖ်က္လုိသည္မွာ ေသခ်ာပါသလား
+      delete_attachment: တြဲထားသည္ကို ဖ်က္ရန္
+    create:
+      successfully_created: တိုးတက္မႈမွတ္စုကို ေအာင္ျမင္စြာ ျပဳလုပ္ၿပီးပါၿပီ
+    destroy:
+      successfully_deleted: တိုးတက္မႈမွတ္စုကို ေအာင္ျမင္စြာဖ်က္ၿပီးပါၿပီ
+    edit:
+      edit_progress_note: တိုးတက္မႈမွတ္စုကို ျပင္ရန္
+    form:
+      additional_notes: ထပ္ေဆာင္းမွတ္စုမ်ား
+      allowed_file: "*ခြင့္ျပဳေသာ ဖိုင္အမ်ိဳးအစားမ်ား - .png .jpeg .jpg .xls .xlsx .doc .docx and .pdf."
+      cancel: ပယ္ဖ်က္ရန္
+      cannot_be_blank: ကြက္လပ္ခ်န္ထား၍ မရပါ
+      child: ကေလး
+      date: ရက္စြဲ
+      goals_addressed: ေဖာ္ျပထားေသာ ရည္မွန္းခ်က္မ်ား
+      interventions: ၾကားျဖတ္ျခင္းမ်ား
+      location: တည္ေနရာ
+      material: ကိရိယာ/ပစၥည္းမ်ား
+      max_file_size: "*အႀကီးဆံုးဖိုင္ပမာဏ - တစ္ဖုိင္လွ်င္ ၅ မီဂါဘိုက္ႏွင့္ တစ္ခါတင္လွ်င္ မီဂါဘုိက္ ၃၀ "
+      other_location: အျခား
+      progress_note_type: မွတ္စုအမ်ိဳးအစား
+      response: လႈပ္ရွားမႈမ်ားႏွင့္ တုန္႔ျပန္ေဆာင္ရြက္မႈ
+      save: သိမ္းဆည္းရန္
+      staff: ABLE / ABLE ၀န္ထမ္းနာမည္
+    index:
+      add_new_progress_note: တိုးတက္မႈမွတ္စုအသစ္ထည့္ရန္
+      additional_notes: ထပ္ေဆာင္းမႈစုမ်ား
+      are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား
+      back: ေနာက္သို႔
+      child: ကေလး
+      date: ရက္စြဲ
+      export_to_xls: XLS အျဖစ္ ထုတ္ရန္
+      goals_addressed: ေဖာ္ျပထားေသာ ရည္မွန္းခ်က္မ်ား
+      interventions: ၾကားျဖတ္ျခင္းမ်ား
+      location: တည္ေနရာ
+      manage: စီမံသည္
+      material: ကိရိယာ/ပစၥည္းမ်ား
+      other_location: အျခား
+      progress_note: တိုးတက္မႈမွတ္စု
+      progress_note_type: မွတ္စုအမ်ိဳးအစား
+      response: လႈပ္ရွားမႈမ်ားႏွင့္ တုန္႔ျပန္ေဆာင္ရြက္မႈမ်ား
+      results: ရလဒ္မ်ား
+      staff: ABLE / ABLE ၀န္ထမ္းနာမည္
+    new:
+      new_progress_note: တိုးတက္မႈ မွတ္စုအသစ္
+    show:
+      additional_notes: တိုးတက္မႈ မွတ္စုမ်ား
+      are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား
+      attachments: တြဲထားသည္မ်ား
+      back: ေနာက္သို႔
+      child: ကေလး
+      date: ရက္စြဲ
+      download: ေဒါင္းလုတ္
+      goals_addressed: ေဖာ္ျပထားေသာ ရည္မွန္းခ်က္မ်ား
+      interventions: ၾကားျဖတ္ျခင္းမ်ား
+      location: တည္ေနရာ
+      material: ကိရိယာ/ပစၥည္းမ်ား
+      other_location: အျခား
+      preview_download: အစမ္းၾကည့္ရန္ႏွင့္ ေဒါင္းလုတ္
+      progress_note_type: မႈတ္စုအမ်ိဳးအစား
+      response: လႈပ္ရွားမႈမ်ားႏွင့္ တုန္႔ျပန္ေဆာင္ရြက္မႈမ်ား
+      staff: ABLE/ ABLE ၀န္ထမ္းနာမည္
+      title: ေခါင္းစဥ္
+    update:
+      successfully_updated: တိုးတက္မႈ မွတ္စုကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ျဖည့္စြက္ၿပီးပါၿပီ
+    version:
+      back: ေနာက္သို႔
+      modification_of: "၏ ေျပာင္းလဲမႈ မွတ္တမ္း"
+      progress_note: တိုးတက္မႈ မွတ္စု
+  provinces:
+    create:
+      failed_create: ခ႐ိုင္ကို ဖန္တီးျခင္း မေအာင္ျမင္ပါ
+      successfully_created: ခ႐ိုင္ကို ေအာင္ျမင္စြာ ဖန္တီးၿပီးပါၿပီ
+    destroy:
+      alert: ခ႐ိုင္ကို ဖ်က္လုိ႔မရပါ
+      failed_delete: ခ႐ိုင္ကိုဖ်က္ျခင္း မေအာင္ျမင္ပါ
+      successfully_deleted: ခ႐ိုင္ကို ေအာင္ျမင္စြာ ဖ်က္ၿပီးပါၿပီ
+    edit:
+      title: ခ႐ိုင္ကို ျပင္ဆင္ရန္
+    form:
+      cancel: ပယ္ဖ်က္ရန္
+      name: နာမည္
+      province: ျပည္နယ္
+      save: သိမ္းဆည္းရန္
+    index:
+      add_new_province: ျပည္နယ္အသစ္
+      are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား
+      changelogs: ေျပာင္းလဲမႈမွတ္တမ္း
+      manage: စီမံသည္
+      province_names: ျပည္နယ္နာမည္
+      provinces: ျပည္နယ္မ်ား
+      view: ျမင္ကြင္း
+    new:
+      title: ျပည္နယ္အသစ္
+    update:
+      failed_update: ျပည္နယ္ကို အသစ္ျပင္ဆင္ျဖည့္စြက္ျခင္း မေအာင္ျမင္ပါ
+      successfully_updated: ျပည္နယ္ကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ျဖည့္စြက္ၿပီးပါၿပီ
+    version:
+      back: ေနာက္သို႔
+      modification_of: "၏ ေျပာင္းလဲမႈ"
+  quantitative_cases:
+    create:
+      successfully_created: ပမာဏအခ်က္အလက္ကို ေအာင္ျမင္စြာ ျပဳလုပ္ၿပီးပါၿပီ
+    destroy:
+      successfully_deleted: ပမာဏအခ်က္အလက္ကို ေအာင္ျမင္စြာ ဖ်က္ၿပီးပါၿပီ
+    edit:
+      title: ပမာဏအခ်က္အလက္ကို ျပင္ဆင္ရန္
+    form:
+      cancel: ပယ္ဖ်က္ရန္
+      quantitative_type: ပမာဏအမ်ိဳးအစား
+      save: သိမ္းဆည္းရန္
+      value: တန္ဖိုး
+    new:
+      title: ပမာဏအခ်က္အလက္
+    update:
+      successfully_updated: ပမာဏအခ်က္အလက္ကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ျဖည့္စြက္ၿပီးပါၿပီ
+    version:
+      back: ေနာက္သို႔
+      modification_of: "၏ ေျပာင္းလဲမႈ"
+  quantitative_types:
+    create:
+      failed_create: ပမာဏအမ်ိဳးအစားကို ျပဳလုပ္ျခင္း မေအာင္ျမင္ပါ
+      successfully_created: ပမာဏအမ်ိဳးအစားကို ေအာင္ျမင္စြာ ျပဳလုပ္ၿပီးပါၿပီ
+    destroy:
+      alert: ပမာဏအမ်ိဳးအစားကို ဖ်က္လုိ႔မရပါ
+      failed_delete: ပမာဏအမ်ိဳးအစားကို ဖ်က္ျခင္း မေအာင္ျမင္ပါ
+      successfully_deleted: ပမာဏအမ်ိဳးအစားကို ေအာင္ျမင္စြာ ဖ်က္ၿပီးပါၿပီ
+    edit:
+      title: ပမာဏအမ်ိဳးအစားကို ျပင္ဆင္ရန္
+    form:
+      add_quantitative_data: ပမာဏအခ်က္အလက္ထည့္သြင္းရန္
+      cancel: ပယ္ဖ်က္ရန္
+      name: နာမည္
+      quantitative_type: ပမာဏအမ်ိဳးအစား
+      save: သိမ္းဆည္းရန္
+    index:
+      add_new_quantitative_type: ပမာဏအမ်ိဳးအစားအသစ္ထည့္သြင္းရန္
+      add_quantitative_data: ပမာဏအခ်က္အလက္
+      are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား
+      quantitative_types: ပမာဏအမ်ိဳးအစားမ်ား
+      view_changelog: ေျပာင္းလဲမႈမွတ္တမ္းကို ၾကည့္ရန္
+    quantitative_case_fields:
+      are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား
+      quantitative_data: ပမာဏအခ်က္အလက္
+      value: တန္ဖိုး
+    update:
+      failed_update: ပမာဏအမ်ိဳးအစားကို အသစ္ျပင္ဆင္ျဖည့္စြက္ျခင္း မေအာင္ျမင္ပါ
+      successfully_updated: ပမာဏအမ်ိဳးအစားကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ျဖည့္စြက္ၿပီးပါၿပီ
+    version:
+      back: ေနာက္သို႔
+      modification_of: "၏ ေျပာင္းလဲမႈ မွတ္တမ္း"
+  referral_sources:
+    create:
+      failed_create: လႊဲေျပာင္းသည့္ရင္းျမစ္ကို ဖန္တီးျခင္းမေအာင္ျမင္ပါ
+      successfully_created: လႊဲေျပာင္းသည့္ရင္းျမစ္ကို ေအာင္ျမင္စြာ ဖန္တီးၿပီးပါၿပီ
+    destroy:
+      alert: လႊဲေျပာင္းသည့္ရင္းျမစ္ကို ဖ်က္လုိ႔ မရပါ
+      failed_delete: လႊဲေျပာင္းသည့္ ရင္းျမစ္ကို ဖ်က္ျခင္း မေအာင္ျမင္ပါ
+      successfully_deleted: လႊဲေျပာင္းသည့္ရင္းျမစ္ကို ေအာင္ျမင္စြာ ဖ်က္ၿပီးပါၿပီ
+    edit:
+      title: လႊဲေျပာင္းသည့္ရင္းျမစ္ကို ျပင္ဆင္ရန္
+    form:
+      cancel: ပယ္ဖ်က္ရန္
+      description: ေဖာ္ျပခ်က္
+      name: နာမည္
+      referral_source: လႊဲေျပာင္းသည့္ ရင္းျမစ္
+      save: သိမ္းဆည္းရန္
+    index:
+      add_new_referral_source: လႊဲေျပာင္းသည့္ ရင္းျမစ္အသစ္ ထည့္သြင္းရန္
+      are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား
+      changelogs: ေျပာင္းလဲမႈ မွတ္တမ္း
+      description: ေဖာ္ျပခ်က္
+      manage: စီမံသည္
+      referral_source_name: လႊဲေျပာင္းသည့္ရင္းျမစ္နာမည္
+      referral_sources: လႊဲေျပာင္းသည့္ရင္းျမစ္မ်ား
+      view: ျမင္ကြင္း
+    new:
+      title: လႊဲေျပာင္းသည့္ ရင္းျမစ္အသစ္
+    update:
+      failed_update: လႊဲေျပာင္းသည့္ ရင္းျမစ္ကို အသစ္ျပင္ဆင္ျဖည့္စြက္ျခင္း မေအာင္ျမင္ပါ
+      successfully_updated: လႊဲေျပာင္းသည့္ရင္းျမစ္ကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ျဖည့္စြက္ၿပီးပါၿပီ
+    version:
+      back: ေနာက္သို႔
+      modification_of: "၏ ေျပာင္းလဲမႈ"
+  reports:
+    form:
+      case_statistic: အမႈကိန္းဂဏန္း
+      csi_domain_scores: CSI ဒိုမိန္း ရင္းျမစ္မ်ား
+      end_date: ၿပီးဆံုးသည့္ ရက္စြဲ
+      search: ရွာေဖြသည္
+      start_date: စတင္သည့္ရက္စြဲ
+    index:
+      case_statistics: အမႈကိန္းဂဏန္းမ်ား
+      client_amount: အမႈသည္ပမာဏ
+      csi_domain_scores: CSI ဒိုမိန္းရမွတ္မ်ား
+      domain_score: ဒိုမိန္း ရမွတ္မ်ား
+  review_problem: ေက်းဇူးျပဳ၍ ေအာက္တြင္ေဖာ္ျပထားသည့္ ျပႆနာကို ျပန္လည္သံုးသပ္ေပးပါ
+  save: သိမ္းဆည္းရန္
+  settings:
+    country:
+      settings: အျပင္အဆင္မ်ား
+      switched_country_cambodia: သင္၏ ႏုိင္ငံအျပင္အဆင္ကို ကေမာၻဒီးယားႏုိင္ငံအျဖစ္ ေျပာင္းၿပီးပါၿပီ။
+      switched_country_lesotho: သင္၏ ႏုိင္ငံအျပင္အဆင္ကို လက္ဆူးသူႏုိုင္ငံအျဖစ္ ေျပာင္းၿပီးပါၿပီ။
+      switched_country_myanmar: သင္၏ ႏုိင္ငံအျပင္အဆင္ကို ျမန္မာႏုိင္ငံအျဖစ္ ေျပာင္းၿပီးပါၿပီ။
+      switched_country_thailand: သင္၏ ႏုိင္ငံအျပင္အဆင္ကို ထုိင္းႏုိင္ငံအျဖစ္ ေျပာင္းၿပီးပါၿပီ။
+    navigation:
+      country: ႏုိင္ငံ
+  shared:
+    form_builder:
+      file_field:
+        allow_file_size: ခြင့္ျပဳေသာ ဖိုင္အမ်ိဳးအစားမ်ား
+        max_file_size: "*အႀကီးဆံုးဖိုင္ဆုိဒ္ - တစ္ဖုိင္လွ်င္ ၅ မီဂါဘိုက္ႏွင့္ တစ္ခါတင္ ၃၀ မီဂါဘိုက္"
+      list_attachment:
+        are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား
+        preview_download: အစမ္းၾကည့္႐ႈရန္ႏွင့္ ေဒါင္းလုတ္
+    per_page_form:
+      show: ျပသပါ
+    version_type:
+      assessment:
+        after: ၿပီးေနာက္
+        assessment: စိစစ္အကဲျဖတ္မႈ
+        before: မတိုင္မီ
+        change: ေအာက္ပါေျပာင္းလဲမႈကို ျပဳလုပ္ခဲ့
+        date_deleted: ဖ်က္သည့္ရက္စြဲ
+        no_modification: ေျပာင္းလဲမႈ မွတ္တမ္းမရွိပါ
+        'on': တြင္
+        value_of: "၏ တန္ဖိုး"
+      case_note:
+        case_note: အမႈမွတ္စု
+        change: ေအာက္ပါေျပာင္းလဲမႈကို ျပဳလုပ္ခဲ့
+        'on': တြင္
+      client:
+        after: ၿပီးေနာက္
+        before: မတုိင္မီ
+        change: ေအာက္တြင္ေဖာ္ျပထားသည့္ ေျပာင္းလဲမႈကို ျပဳလုပ္ခဲ့
+        client: အမႈသည္
+        date_deleted: ရက္စြဲကို ဖ်က္သည္
+        no_modification: ေျပာင္းလဲမႈ မွတ္တမ္းမရွိပါ
+        'on': ေပၚတြင္
+        value_of: "၏ တန္ဖိုး"
+      client_enrollment:
+        after: ၿပီးေနာက္
+        before: မတိုင္မီ
+        change: ေအာက္တြင္ေဖာ္ျပထားေသာ အေျပာင္းအလဲကို ျပဳလုပ္ခဲ့
+        client_enrollment: အမႈသည္စာရင္းေပးသြင္းမႈ
+        date_deleted: ရက္စြဲ
+        no_modification: ေျပာင္းလဲမႈ မွတ္တမ္းမရွိပါ
+        'on': ေပၚတြင္
+        value_of: "၏ တန္ဖိုး"
+      common:
+        able_screening_question: Able Screening ေမးခြန္း
+        after: ၿပီးေနာက္
+        agency: ေအဂ်င္စီ
+        assessment: စိစစ္အကဲျဖတ္မႈ
+        before: ၿပီးေနာက္
+        case: အမႈ
+        case_cote: အမႈမွတ္စု
+        case_note: အမႈမွတ္စု
+        change: ေအာက္ပါေျပာင္းလဲမႈကို ျပဳလုပ္ခဲ့ပါသည္
+        changelog: လႊတ္ေပးသည့္ မွတ္တမ္း
+        client: အမႈဥည္
+        client_custom_field: အမႈသည္အေကာက္ခြန္ပံုစံမ်ား
+        create: ျပဳလုပ္သည္။
+        custom_field: အေကာက္ခြန္ပံုစံ
+        date_deleted: ဖ်က္သည့္ရက္စြဲ
+        delete: ဖ်က္ရန္
+        department: ဌာန
+        domain: ဒိုမိန္း
+        domain_group: ဒိုမိန္းအုပ္စု
+        donor: အလွဴရွင္
+        family: မိသားစု
+        family_custom_field: မိသားစုအေကာက္ခြန္ပံုစံ
+        id: မွတ္ပံုတင္
+        intervention: ၾကားျဖတ္အစီအမံ
+        location: တည္ေနရာ
+        material: ကိရိယာ/ပစၥည္း
+        no_modification: ေျပာင္းလဲမႈ မွတ္တမ္းမရွိပါ
+        'on': ေပၚတြင္
+        partner: လက္တြဲေဖာ္
+        partner_custom_field: လက္တြဲေဖာ္အေကာက္ခြန္ပံုစံမ်ား
+        progress_note: တိုးတက္မႈမွတ္တမ္း
+        progress_note_type: မွတ္စုအမ်ိဳးအစား
+        province: ျပည္နယ္
+        quantitative_case: ပမာဏအခ်က္အလက္
+        quantitative_type: ပမာဏအမ်ိဳးအစား
+        referral_source: လႊဲေျပာင္းသည့္ရင္းျမစ္
+        stage: အဆင့္
+        survey: စစ္တမ္း
+        task: လုပ္ငန္း
+        update: အသစ္
+        user: အသံုးျပဳသူ
+        user_custom_field: အသံုးျပဳသူအေကာက္ခြန္ပံုစံမ်ား
+        value_of: "၏ တန္ဖိုး"
+      program_rule_after:
+        after: ၿပီးေနာက္
+      program_rule_before:
+        before: မတိုင္မီ
+      program_stream:
+        after: ၿပီးေနာက္
+        before: မတိုင္မီ
+        change: ေအာက္ပါေျပာင္းလဲမႈကို ျပဳလုပ္ခဲ့သည္
+        date_deleted: ရက္စြဲ
+        more_detail: ေနာက္ထပ္အေသးစိတ္မ်ား
+        no_modification: ေျပာင္းလဲမႈမွတ္တမ္းမရွိပါ
+        'on': ေပၚတြင္
+        program_stream: အစီအစဥ္ စီဆင္းမႈမ်ား
+        value_of: "၏ တန္ဖိုး"
+  signed_in_with_google: ဂူဂဲျပကၡဒိန္ျဖင့္၀င္ေရာက္မႈ ေအာင္ျမင္သည္
+  simple_form:
+    cancel: ပယ္ဖ်က္ရန္
+    error_notification:
+      default_message: ေအာက္တြင္ေဖာ္ျပထားေသာ ျပႆနာမ်ားကို ေက်းဇူးျပဳ၍ ျပန္လည္ သံုးသပ္ေပးပါ
+    'no': မဟုတ္ပါ
+    required:
+      mark: "*"
+      text: လိုအပ္ေသာ
+    save: သိမ္းဆည္းရန္
+    'yes': မွန္ပါသည္
+  stages:
+    able_screening_question_fields:
+      alert_manager: သတိေပးမန္ေနဂ်ာ
+      are_you_sure: "အမႈသည္၏ အေျဖမ်ားအေပၚႀကီးမားေသာ သက္ေရာက္မႈရွိသည့္ ေမးခြန္းကို ပယ္ဖ်က္ရန္။ \nဖ်က္လိုသည္မွာ ေသခ်ာပါသလား"
+      group: အုပ္စု
+      mode: မုဒ္/ ပံုစံ
+      question: ေမးခြန္း
+      questions: ေမးခြန္းမ်ား
+    attachment_fields:
+      browse: ရွာၾကည့္သည္
+    create:
+      successfully_created: အဆင့္ကို ေအာင္ျမင္စြာ ျပဳလုပ္ၿပီးပါၿပီ
+    destroy:
+      alert: အဆင့္ကို ဖ်က္၍မရပါ
+      successfully_deleted: အဆင့္ကို ေအာင္ျမင္စြာ ဖ်က္ၿပီးပါၿပီ
+    edit:
+      edit_stage: အဆင့္ကို ျပင္ဆင္ရန္
+    form:
+      add_question: ေမးခြန္းထပ္ထည့္ရန္
+      alert_manager: အသိေပးမန္ေနဂ်ာ
+      from_age: အရြယ္မွ (ႏွစ္ျဖင့္)
+      group: အုပ္စု
+      mode: မုဒ္/ ပံုစံ
+      questions: ေမးခြန္းမ်ား
+      to_age: အရြယ္အထိ (ႏွစ္ျဖင့္)
+    index:
+      able_screening_questions: Able Screening ေမးခြန္း
+      edit_and_add_question: ေမးခြန္းကို ေပါင္းထည့္ရန္/ ျပင္ဆင္ရန္
+      from: မွ
+      general_question: အေထြေထြေမးခြန္း
+      new_general_question: အေထြေထြေမးခြန္းအသစ္
+      new_stage_question: အဆင့္ေမးခြန္းအသစ္
+      question:
+        few: ေမးခြန္း အနည္းငယ္
+        one: ေမးခြန္း ၁ ခု
+        other: ေမးခြန္း %{count} ခု
+      stage: အဆင့္
+      stage_question: အဆင့္ေမးခြန္း
+      to: သုိ႔
+      year: ႏွစ္
+    new:
+      new_stage: အဆင့္အသစ္
+    non_stage: နတၳိအဆင့္
+    questions: ေမးခြန္းမ်ား
+    stage: အဆင့္
+    update:
+      successfully_updated: အဆင့္ကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ျဖည့္စြက္ၿပီးပါၿပီ
+  surveys:
+    create:
+      successfully_created: စစ္တမ္းကို ေအာင္ျမင္စြာ ျပဳလုပ္ၿပီးပါၿပီ
+    destroy:
+      successfully_deleted: စစ္တမ္းကို ေအာင္ျမင္စြာ ဖ်က္ၿပီးပါၿပီ
+    edit:
+      edit_survey_title: စစ္တမ္းကို ျပင္ဆင္ရန္
+    form:
+      care_score: ကၽြႏု္ပ္၏ CCW သည္ ကၽြႏု္ပ္ေစာင့္ေရွာက္ရေသာ ကေလးဘာျဖစ္ေနသည္ကို အေလးထားပါသည္
+      difficulty_help_score: ကၽြန္ေတာ့္ဘ၀တါင္ အခက္အခဲႀကံဳေနရခ်ိန္မ်ား၌ CIF ကၽြႏု္ပ္ကို ကူညီေပးခဲ့ပါသည္။
+      family_need_score: ကၽြန္ေတာ့္၀င္ေငြသည္ ကၽြန္ေတာ့္မိသားစုလိုအပ္ခ်က္မ်ားကို ျဖည့္ဆည္းေပးႏုိင္ပါသည္
+      getting_in_touch_score: ကၽြန္ေတာ့္ CCW သည္ အျခား ၀န္ေဆာင္မႈမ်ားကိုလည္း သိရွိၿပီး မည္သူက ကၽြန္ေတာ့္ကို ကူညီေပးႏုိင္သည္ဆုိသည္ကိုလည္း သိရွိပါသည္။ ၿပီးေတာ့ သူတုိ႔ႏွင့္ ကၽြန္ေတာ့္ကို ဆက္သြယ္ေပးပါသည္။
+      listening_score: CCW သည္ ကၽြန္ေတာ္ ေျပာသမွ်ကို အေလးထား နားေထာင္သည္ဟု ခံစားရပါသည္
+      note: မွတ္စု
+      problem_solving_score: ကၽြန္ေတာ့္ CCWသည္ ကၽြန္ေတာ့္ျပႆနာမ်ားကို ေျဖရွင္းရာတြင္ ကူညီေပးပါသည္
+      strongly_agree: အေလးအနက္ သေဘာတူပါသည္
+      strongly_disagree: အျပင္းအထန္ သေဘာမတူပါ
+      support_score: ကၽြန္ေတာ့္ကို CIF ႏွင့္ CCW တို႔ ေထာက္ပံ့ကူညီခဲ့ပံုမ်ားကို ေက်းနပ္ပါသည္
+      trust_score: ကၽြန္ေတာ့္ CCW ကို ယံုၾကည္ႏုိင္ပါသည္
+      user_id: ကၽြန္ေတာ္၏ လူမႈေရးအမႈကူညီေဆာင္ရြက္ေပးသူ (CCW) ၏ နာမည္မွာ
+    index:
+      action: လုပ္ေဆာင္မႈ
+      are_you_sure_you_want_to_delete: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား
+      back: ေနာက္သို႔
+      created_at: ရက္စြဲကို ဖန္တီးရန္
+      survey_title: စစ္တမ္းသမုိင္း
+      user_id: ကၽြန္ေတာ္၏ လူမႈေရးအမႈကူညီေဆာင္ရြက္ေပးသူ၏ နာမည္မွာ
+    new:
+      new_survey_title: စစ္တမ္းအသစ္
+    show:
+      back: ေနာက္သို႔
+      care_score: ကၽြႏု္ပ္၏ CCWသည္ ကၽြန္ေတာ္ေစာင့္ေရွာက္ေပးရသည္ ကေလးဘာျဖစ္ေနသည္ကို အေလးအနက္ထားပါသည္။
+      difficulty_help_score: CIF သည္ ကၽြန္ေတာ္ အခက္အခဲႀကံဳေနရခ်ိန္မ်ားတြင္ ကူညီေပးပါသည္
+      family_need_score: ကၽြန္ေတာ့္၀င္ေငြသည္ ကၽြန္ေတာ့္မိသားစု လိုအပ္ခ်က္ကို ျဖည့္ဆည္းေပးႏုိင္ပါသည္။
+      getting_in_touch_score: ကၽြန္ေတာ္၏ CCW သည္ ကၽြန္ေတာ့္ကို ကူညီႏုိင္မည့္ အဖြဲ႕အစည္းမ်ား၊ ၀န္ေဆာင္မႈမ်ားကို သိပါသည္။ သူတို႔ႏွင့္ ဆက္သြယ္ရန္လည္း ကၽြန္ေတာ့္ကို ကူညီေပးပါသည္
+      listening_score: CCWသည္ ကၽြန္ေတာ္ ေျပာသမွ်ကို အေလးထားနားေထာင္သည္ဟု ခံစားရပါသည္။
+      problem_solving_score: ကၽြန္ေတာ့္ CCW သည္ ကၽြန္ေတာ့္ျပႆနာမ်ားကို ကူညီေျဖရွင္းေပးပါသည္
+      support_score: CIF ႏွင့္ CCW တုိ႔ ကၽြန္ေတာ့္အား ကူညီေထာက္ပံ့ေပးပံုကို ေက်းနပ္ပါသည္
+      survey_answer: အေျဖမ်ား
+      survey_detail: စစ္တမ္းအေသးစိတ္
+      survey_question: ေမးခြန္းမ်ား
+      trust_score: CCWကို ကၽြန္ေတာ္ ယံုၾကည္ႏုိင္ပါသည္
+      user_id: ကၽြန္ေတာ္၏ လူမႈေရးအမႈကူညီေဆာင္ရြက္ေပးသူ၏ နာမည္မွာ
+    update:
+      successfully_updated: စစ္တမ္းကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ျဖည့္စြက္ၿပီးပါၿပီ
+  tasks:
+    filter:
+      filter_by_user: အသံုးျပဳသူက ျပဳလုပ္ထားသည္ စိစစ္ခ်က္မ်ား
+      select_user: အသံုးျပဳသူကို ေရြးခ်ယ္ရန္
+    index:
+      add_all_to_calendar: အားလံုးကို ျပကၡဒိန္သို႔ ေပါင္းထည့္ရန္
+      add_to_calendar: ျပကၡဒိန္သို႔ ေပါင္းထည့္ရန္
+      domain: ဒိုမိန္း
+      filter_by_user: အသံုးျပဳသူက ျပဳလုပ္ထားေသာ စိစစ္ထားမႈမ်ား
+      overdue_tasks: သက္တမ္းလြန္ေနေသာ လုပ္ေဆာင္မႈမ်ား
+      select_user: အသံုးျပဳသူကို ေရြးခ်ယ္ရန္
+      tasks_of: လုပ္ငန္းမ်ား
+      today_tasks: ယေန႔ လုပ္ငန္းမ်ား
+      upcoming_tasks: မၾကာမီလုပ္ရမည့္ လုပ္ငန္းမ်ား
+  thredded:
+    content_moderation_states:
+      content_blocked_notice: ပိတ္ပစ္သည္၊ ဘေလာ့သည္
+      content_blocked_notice_with_record_html: "%{time_ago} အၾကာက %{moderator}က ဘေလာ့ခဲ့ပါသည္"
+    errors:
+      login_required: ၀င္ရန္ လိုအပ္ပါသည္
+      not_authorized: တရား၀င္ခြင့္ျပဳခ်က္မရပါ
+      private_topic_create_denied: တရား၀င္ခြင့္ျပဳခ်က္မရပါ
+      private_topic_not_found: ပုဂၢလိကအေၾကာင္းအရာ ရွာမေတြ႕ပါ
+    form:
+      update: အသစ္
+    messageboard:
+      create: မက္ေဆ့ဘုတ္အသစ္ ဖန္တီးရန္
+      form:
+        description: ေဖာ္ျပခ်က္
+        messageboard_group: မက္ေဆ့ဘုတ္ အဖြဲ႕ (မွတ္တမ္းမ်ားကို ျပမည္မဟုတ္ပါ)
+        name: နာမည္
+        no_group: အုပ္စုမရွိ
+      index:
+        page_title: စာမ်က္ႏွာေခါင္းစဥ္
+      last_updated_by_html: "%{time_ago} <cite> အၾကာက by %{user}</cite> အသစ္တင္ခဲ့ပါသည္"
+      topics_and_posts_counts: အေၾကာင္းအရာ %{topics_count}ခု / ျပန္ေျပာထားသည့္ %{posts_count} ခု
+      update: အသစ္တင္ရန္
+      updated_notice: မက္ေဆ့ဘုတ္ကို အသစ္ျပင္ဆင္ျဖည့္စြက္ၿပီးပါၿပီ
+    messageboard_group:
+      create: မက္ေဆ့ဘုတ္အဖြဲ႕အသစ္ဖန္တီးရန္
+      created_notice: သတိေပးခ်က္ကို ဖန္တီးရန္
+      new:
+        name: နာမည္
+    moderation:
+      approve_btn: အတည္ျပဳရန္
+      block_btn: ဘေလာ့ခ္ရန္
+      pending:
+        empty:
+          content: ညွိႏိႈင္းေပးမႈ
+          title: ေခါင္းစဥ္
+      post_approved_html: "%{time_ago} အၾကာက %{moderator}က အတည္ျပဳေပးထားေသာ ပို႔စ္"
+      post_blocked_html: "%{time_ago}အၾကာက %{moderator}က ဘေလာ့ခ္ထားေသာ ပို႔စ္"
+      post_deleted_notice: ပို႔စ္ကို ဖ်က္ၿပီးပါၿပီး
+      posts_content_changed_since_moderation_html: 'ညွိႏိႈင္းေပးၿပီးေတာ့ ေရးသားထားည့္ <a href="%{post_url}">ပို႔စ္ </a> အေၾကာင္းအရာကို ျပင္ဆင္ခဲ့သည္။ ေအာက္တြင္ ေဖာ္ျပထားသည္မွာ မညွိႏိႈင္းရေသးခင္က အေၾကာင္းအရာေရးသားခ်က္မ်ားျဖစ္ပါသည္။ '
+      search_users:
+        form_label: အသံုးျပဳသူမ်ားကို ရွာေဖြရန္
+        form_placeholder: အသံုးျပဳသူမ်ားကို ရွာေဖြရန္
+        no_results_message: ရလဒ္မရွိပါ
+        results_message: ေတြ႕ရွိရသည့္ ရလဒ္မ်ား
+    nav:
+      all_messageboards: မက္ေဆ့ဘုတ္မ်ားအားလံုး
+      edit_messageboard: မက္ေဆ့ဘုတ္ကို ျပင္ဆင္ရန္
+      edit_post: ပို႔စ္ကို ျပင္ဆင္ရန္
+      edit_private_topic: ပုဂၢလိက အေၾကာင္းအရာကို ျပင္ဆင္ရန္
+      edit_topic: အေၾကာင္းအရာကို ျပင္ဆင္ရန္
+      home: မူလ
+      mark_all_read: အားလံုးကို ဖတ္ၿပီးျဖစ္သည္ဟု သတ္မွတ္ရန္
+      moderation: ညွိႏိႈင္းျခင္း
+      moderation_activity: ညွိႏိႈင္းျခင္းလုပ္ေဆာင္မႈ
+      moderation_history: ညွိႏိႈင္းမႈ သမုိင္း
+      moderation_pending: လက္စမသတ္ရေသးေသာ ညွိႏိႈင္းမႈမ်ား
+      moderation_users: ညွိႏိႈင္းေရးအသံုးျပဳသူမ်ား
+      private_topics: ပုဂၢလိက မက္ေဆ့မ်ား
+      settings: အသိေပးခ်က္ အျပင္အဆင္
+    null_user_name: အသံုးျပဳသူကို ဖ်က္ရန္
+    posts:
+      delete: ဖ်က္ရန္
+      delete_confirm: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား
+      deleted_notice: သင္၏ ပို႔စ္ကို ဖ်က္ၿပီးပါၿပီ
+      edit: ပို႔စ္ကို ျပင္ဆင္ရန္
+      form:
+        content_label: အေၾကာင္းအရာ
+        create_btn: ျပန္ေျပာသည္ကို တင္ရန္
+        update_btn: ပို႔စ္ကို အသစ္ျပင္ရန္
+      pending_moderation_notice: မၿပီးေသးေသာ ညွိႏိႈင္းမႈမ်ား
+    preferences:
+      edit:
+        page_title: အသိေပးခ်က္
+      form:
+        global_preferences_label: ကမာၻလံုးဆုိင္ရာ အျပင္အဆင္
+        messageboard_notify_on_mention:
+          hint: တစ္စံုတစ္ေယာက္က သင့္အေကာင့္နာမည္ (ဥပမာ @sam) ဟု ညႊန္းဆိုလိုက္လွ်င္ သင္သည္ ထိုအေၾကာင္းအရာကို သိရပါလိမ့္မည္။ ထိုပို႔စ္ႏွင့္ပတ္သက္သည့္ အေၾကာင္းအရာ၊ ျပန္လည္ေျပာဆိုမႈမ်ား သင့္ထံအီးေမးလ္ေရာက္ပါလိမ့္မည္
+          label: သင့္ကို ညႊန္းဆိုထားေသာ အေၾကာင္းအရာကို လိုက္ပါေဆြးေႏြးရန္
+        messageboard_preferences_label_html: "<em>%{messageboard}</em> အတြက္ အသိေပးခ်က္ အျပင္အဆင္"
+        notify_on_mention:
+          hint: တစ္စံုတစ္ေယာက္က သင့္အေကာင့္နာမည္ (ဥပမာ @sam) ဟု ညႊန္းဆိုလိုက္လွ်င္ သင္သည္ ထိုအေၾကာင္းအရာကို သိရပါလိမ့္မည္။ ထိုပို႔စ္ႏွင့္ပတ္သက္သည့္ အေၾကာင္းအရာ၊ ျပန္လည္ေျပာဆိုမႈမ်ား သင့္ထံအီးေမးလ္ေရာက္ပါလိမ့္မည္
+          label: သင့္ကို ညႊန္းဆိုထားေသာ အေၾကာင္းအရာကို လိုက္ပါေဆြးေႏြးရန္
+        notify_on_message:
+          hint: အကယ္၍ သင့္ကို သီးသန္႔ စကားေျပာခန္းထဲ ထည့္လုိက္လွ်င္ သင့္ထံ အီးေမးလ္ေရာက္ပါလိမ့္မည္
+          label: ပုဂၢလိက မက္ေဆ့အသိေပးခ်က္မ်ား
+        submit_btn: အျပင္အဆင္ကိုအသစ္ျပင္ဆင္ရန္
+        title: အျပင္အဆင္မ်ား
+      updated_notice: သင္ရဲ႕ အျပင္အဆင္ ကို အသစ္ျပင္ဆင္ ျဖည့္စြက္ၿပီးပါၿပီ
+    private_posts:
+      form:
+        content_label: ပို႕စ္
+        create_btn: မက္ေဆ့ပို႕ရန္
+    private_topics:
+      edit: ျပင္ဆင္ရန္
+      errors:
+        user_ids_length: လိုအပ္ေသာ အသံုးျပဳသူ
+      form:
+        content_label: မက္ေဆ့
+        create_btn: မက္ေဆ့ပို႕ရန္
+        title_label: ေခါင္းစဥ္
+        title_placeholder_new: သီးသန္႕အေၾကာင္းအရာအသစ္
+        title_placeholder_start: စကားေျပာခန္းအသစ္ကိုစတင္ရန္
+        update_btn: အသစ္ျပင္ဆင္ျဖည့္စြက္ရန္
+        users_label: ပါ၀င္သူမ်ား
+        users_placeholder: ဤစကားေျပာခန္းတြင္ပါ၀င္မည့္ အသံုးျပဳသူမ်ားကို ေရြးခ်ယ္ရန္
+      no_private_topics:
+        create_btn: ပထမဆံုးအေၾကာင္းအရာကိုဖန္တီးရန္
+        title: သင့္တြင္သီးသန္႕အေၾကာင္းအရာမရွိပါ
+      updated_notice: အေၾကာင္းအရာ ကို အသစ္ျဖည့္စြက္ျပင္ဆင္ ၿပီးပါၿပီ
+    recent_activity: မၾကာေသးခင္က လုပ္ေဆာင္မႈမ်ား
+    search:
+      form:
+        btn_submit: ရွာေဖြရန္
+        label: ရွာေဖြရန္
+        placeholder: အေၾကာင္းအရာမ်ားႏွင့္ ပို႕မ်ားကိုရွာေဖြရန္
+    shared:
+      nav:
+        sign_in: ၀င္ရန္
+        sign_out: ထြက္ရန္
+    topics:
+      delete_confirm: ျဖတ္လိုသည္မွာ ေသခ်ာပါသလား
+      delete_topic: အေၾကာင္းအရာကိုဖ်က္ရန္
+      deleted_notice: အေၾကာင္းအရာ ကိုဖ်က္ၿပီးပါၿပီ
+      edit: အေၾကာင္းအရာကိုုျပင္ဆင္ရန္
+      followed_notice: Follow လုပ္ၿပီးပါၿပီ
+      following:
+        manual: ဤအေၾကာင္းအရာကိုFollow လုပ္ၿပီးပါၿပီ
+        mentioned: ဤအေၾကာင္းအရာတြင္ တစ္ေယာက္ေယာက္က သင္အား ရည္ညႊန္းလိုက္သျဖင့္  Follow လုပ္ၿပီးပါၿပီ
+        posted: သင္က ပို႔စ္တင္လုိက္သျဖင့္ ဤအေၾကာင္းအရာကို follow လုပ္ၿပီးပါၿပီ
+      following_will_receive_emails: အသစ္အသစ္မ်ားကို အီးေမးလ္မွ တစ္ဆင့္ ရရွိပါလိမ့္မည္
+      form:
+        categories_placeholder: အမ်ိဳးအစားမ်ား
+        content_label: အေၾကာင္းအရာ
+        create_btn: အေၾကာင္းအရာအသစ္ဖန္တီး၇န္
+        title_label: ေခါင္းစဥ္
+        title_placeholder: အေၾကာင္းအရာ
+        title_placeholder_start: အေၾကာင္းအရာအသစ္ကို စတင္ရန္
+        update_btn: အသစ္တင္သည္
+      search:
+        no_results_message: သင္၏ရွာေဖြမႈ %{query} ကို ရွာမေတြ႕ပါ
+        page_title: ေတြ႕ရွိသည့္ ရလဒ္မ်ား
+        results_message: "%{query} အတြက္ ရလဒ္မ်ား"
+      show:
+        add_post: ပို႔စ္တင္ရန္
+      started_by_html: "%{time_ago} အၾကာက %{user}က စတင္ခဲ့ပါသည္"
+      unfollowed_notice: သင္သည္ ဤအေၾကာင္းရာကို follow မလုပ္ေတာ့ပါ
+      updated_notice: အေၾကာင္းအရာကို တင္ၿပီးပါၿပီ
+    users:
+      last_active_html: "%{time_ago} က ေနာက္ဆံုး သံုးခဲ့ပါသည္"
+      posted_in_topic_html: "%{topic_link}တြင္ ပို႔စ္တင္ပါသည္"
+      posts_count:
+        few: အႀကိမ္အနည္းငယ္ ပို႔စ္တင္ခဲ့ပါသည္
+        one: တစ္ႀကိမ္ ပို႔စ္တင္ခဲ့ပါသည္
+        other: "%{count}ႀကိမ္ ပို႔စ္တင္ခဲ့ပါသည္"
+      recent_activity: မၾကာေသးခင္က လုပ္ေဆာင္မႈ
+      started_topic_html: "%{topic_link} စတင္ခဲ့သည္"
+      started_topics_count:
+        few: အႀကိမ္အခ်ိဳ႕စတင္ခဲ့သည္
+        one: တစ္ႀကိမ္စတင္ခဲ့သည္
+        other: "%{count} ႀကိမ္စတင္ခဲ့သည္"
+      user_posted_in_topic_html: "%{topic_link} တြင္ %{user_link}က ပို႔စ္တင္ခဲ့ပါသည္"
+      user_since_html: "%{time_ago}ကတည္းက အသံုးျပဳခဲ့သည္"
+      user_started_topic_html: "%{user_link}က  %{topic_link}ကို စတင္ခဲ့သည္"
+  time:
+    formats:
+      long: '""'
+      short: '""'
+  trackings:
+    create:
+      successfully_created: ေနာက္ေၾကာင္းလုိက္ျခင္းကို ေအာင္ျမင္စြာ ဖန္တီးၿပီးပါၿပီ
+    form:
+      cancel: ပယ္ဖ်က္ရန္
+      save: သိမ္းဆည္းရန္
+    new:
+      new_tracking: ေနာက္ေၾကာင္းအသစ္
+    show:
+      back: ေနာက္သို႔
+  unauthorized:
+    default: ဤစာမ်က္ႏွာကို ၀င္ေရာက္ရန္ အခြင့္မရွိပါ
+  users:
+    actions:
+      are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား
+    assessment_permission:
+      assessments: CSI စိစစ္အကဲျဖတ္မႈမ်ား
+      can_edit: ျပင္ဆင္ႏုိင္ပါသည္။
+      can_view: ၾကည့္႐ႈႏုိင္ပါသည္။
+    case_note_permission:
+      can_edit: ျပင္ဆင္ႏုိင္ပါသည္။
+      can_view: ၾကည့္႐ႈႏုိင္ပါသည္။
+      case_notes: အမႈ မွတ္စုမ်ား
+    clients:
+      clients: အမႈသည္မ်ား
+    create:
+      successfully_created: အသံုးျပဳသူကို ေအာင္ျမင္စြာ ဖန္တီးၿပီးျဖစ္ပါသည္
+    custom_form_permission:
+      can_edit: ျပင္ဆင္ႏုိင္ပါသည္။
+      can_view: ၾကည့္႐ႈႏုိင္ပါသည္။
+    custom_program_permission:
+      can_edit: ျပင္ဆင္ႏုိင္ပါသည္။
+      can_view: ၾကည့္႐ႈႏုိင္ပါသည္။
+    destroy:
+      alert: အသံုးျပဳသူကုိ ဖ်က္လို႔ မရပါ
+      successfully_deleted: အသံုးျပဳသူကို ေအာင္ျမင္စြာ ဖ်က္ၿပီးပါၿပီ
+    disable:
+      successfully_disable: ခြင့္ျပဳခ်က္တြင္ အသံုးျပဳသူမွတ္တမ္းကို ေအာင္ျမင္စြာ ေျပာင္းလဲၿပီးပါၿပီ
+    edit:
+      clients: အမႈသည္မ်ား
+      current_password: လက္ရွိ စကား၀ွက္
+      current_password_hint: လက္ရွိ စကား၀ွက္ကို ေျပာင္းလဲရန္ လိုအပ္ပါသည္
+      date_of_birth: ေမြးရက္၊ လ၊ ႏွစ္
+      delete_account_button: အေကာင့္ကို ဖ်က္ရန္
+      department: ဌာန
+      edit_user_title: အသံုးျပဳသူကို ျပင္ဆင္ရန္
+      email: အီးေမးလ္
+      first_name: နာမည္ ပထမဆံုးအလံုး
+      id: မွတ္ပံုတင္
+      job_title: အလုပ္အကိုင္
+      last_name: နာမည္ ေနာက္ဆံုးအလံုး
+      manager: မန္ေနဂ်ာ
+      mobile: မိုဘိုင္းဖုန္း
+      password: စကား၀ွက္
+      password_confirmation: စကား၀ွက္အတည္ျပဳခ်က္
+      password_hint: စကား၀ွက္ကို မေျပာင္းလိုလွ်င္ ကြက္လပ္ခ်န္ခဲ့ပါ
+      pin_number: ပင္နံပါတ္
+      province: ျပည္နယ္
+      roles: ခြင့္ျပဳခ်က္ျပဳလုပ္
+      start_date: စတင္သည့္ ရက္စြဲ
+    form:
+      calendar_integration: ျပကၡဒိန္ေပါင္းစပ္ျခင္း
+      clients: အမႈသည္မ်ား
+      current_password: လက္ရွိစကား၀ွက္
+      current_password_hint: စကား၀ွက္ကို ေျပာင္းရန္
+      custom_forms: အေကာက္ခြန္ပံုစံမ်ား
+      date_of_birth: ေမြးရက္၊ လ၊ ႏွစ္
+      delete_account_button: အေကာင့္ကို ဖ်က္ရန္
+      department: ဌာန
+      email: အီးေမးလ္
+      first_name: နာမည္ ပထမဆံုးအလံုး
+      id: မွတ္ပံုတင္
+      job_title: 'အလုပ္အကိုင္ '
+      last_name: နာမည္ ေနာက္ဆံုးအလံုး
+      manager: မန္ေနဂ်ာ
+      mobile: မိုုဘိုင္းဖုန္း
+      password: စကား၀ွက္
+      password_confirmation: စကား၀ွက္အတည္ျပဳခ်က္
+      password_hint: စကား၀ွက္ကို မေျပာင္းလိုလွ်င္ ကြက္လပ္ခ်န္ခဲ့ပါ
+      pin_number: ပင္နံပါတ္
+      province: ျပည္နယ္
+      roles: ခြင့္ျပဳခ်က္လုပ္
+      start_date: စတင္သည့္ ရက္စြဲ
+    index:
+      add_new_user: အသံုးျပဳသူအသစ္ ထည့္ရန္
+      export_xls: XLS အျဖစ္ ထုတ္ရန္
+      results: ရလဒ္မ်ား
+    new:
+      clients: အမႈသည္မ်ား
+      current_password: လက္ရွိ စကား၀ွက္
+      current_password_hint: လက္ရွိစကား၀ွက္ကို ေျပာင္းလဲရန္ လိုပါသည္
+      date_of_birth: ေမြးရက္၊ လ၊ ႏွစ္
+      delete_account_button: အေကာင့္ဖ်က္ရန္
+      department: ဌာန
+      email: အီးေမးလ္
+      first_name: နာမည္ ပထမဆံုးအလံုး
+      id: မွတ္ပံုတင္
+      job_title: အလုပ္အကိုင္
+      last_name: နာမည္ေနာက္ဆံုးအလုံး
+      manager: မန္ေနဂ်ာ
+      mobile: မိုဘိုင္းဖုန္း
+      new_user_title: အသံုးျပဳသူအသစ္
+      password: စကား၀ွက္
+      password_confirmation: စကား၀ွက္အတည္ျပဳခ်က္
+      password_hint: စကား၀ွက္ကို မေျပာင္းလိုလွ်င္ ကြက္လပ္ခ်န္ခဲ့ပါ
+      pin_number: ပင္နံပါတ္
+      province: ျပည္နယ္
+      roles: ခြင့္ျပဳခ်က္ ျပဳလုပ္သည္
+      start_date: စတင္သည့္ ရက္စြဲ
+    permissions:
+      assessments:
+      assessmets: CSI စိစစ္အကဲျဖတ္မႈမ်ား
+      case_notes: အမႈမွတ္စုမ်ား
+      custom_forms: အေကာက္ခြန္ပံုစံမ်ား
+      custom_programs: အေကာက္ခြန္ အစီအစဥ္မ်ား
+      permissions_selector: ခြင့္ျပဳမႈ ေရြးခ်ယ္သည့္အရာ
+    show:
+      add_form: ပံုစံ ထည့္သည္
+      additional_forms: ထပ္ေဆာင္းပံုစံမ်ား
+      additional_info: ထပ္ေဆာင္းသတင္းအခ်က္အလက္မ်ား
+      are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား
+      clients: အမႈသည္မ်ား
+      current_password: လက္ရွိ စကား၀ွက္
+      current_password_hint: လက္ရွိ စကား၀ွက္ကို ေျပာင္းလဲရန္ လိုအပ္ပါသည္
+      date_of_birth: ေမြးရက္၊ လ၊ ႏွစ္
+      delete_account_button: အေကာင့္ကို ဖ်က္ရန္
+      department: ဌာန
+      email: အီးေမးလ္
+      first_name: နာမည္ ပထမဆံုးအလံုး
+      general_info: အသံုးျပဳသူအေၾကာင္း
+      id: မွတ္ပံုတင္
+      job_title: အလုပ္အကိုင္
+      last_name: နာမည္ ေနာက္ဆံုးအလံုး
+      manager: 'မန္ေနဂ်ာ '
+      mobile: မိုဘိုင္းဖုန္း
+      password: စကား၀ွက္
+      password_confirmation: စကား၀ွက္အတည္ျပဳခ်က္
+      password_hint: စကား၀ွက္ကို မေျပာင္းလဲလိုလွ်င္ ကြက္လပ္ခ်န္ခဲ့ပါ
+      permissions: ခြင့္ျပဳမႈမ်ား
+      pin_number: ပင္နံပါတ္
+      province: ျပည္နယ္
+      roles: ခြင့္ျပဳခ်က္ ျပဳလုပ္သည္
+      start_date: စတင္သည့္ ရက္စြဲ
+    update:
+      successfully_updated: အသံုးျပဳသူကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ျဖည့္စြက္ၿပီးပါၿပီ
+    version:
+      back: ေနာက္သို႔
+      modification_of: "၏ ေျပာင္းလဲမႈ မွတ္တမ္း"
+  views:
+    pagination:
+      first: ပထမ
+      last: ေနာက္ဆံုး
+      next: ေနာက္တစ္ခု
+      previous: ေရွ႕တစ္ခု
+      truncate: "&hellip;"
+  warning: သတိေပးခ်က္
+  will_paginate:
+    next_label: ေနာက္စာမ်က္ႏွာ
+    page_gap: "..."
+    previous_label: ေရွ႕စာမ်က္ႏွာ

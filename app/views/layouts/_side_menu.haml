@@ -29,27 +29,27 @@
             %i.fa.fa-th-large
             %span.nav-label= t('.dashboards')
 
-        %li{class: clients_menu_active}
+        %li.main{ class: clients_menu_active }
           = link_to clients_path do
             = fa_icon('child')
             %span.nav-label= t('.clients')
             %span.label.label-primary.pull-right= @client_count
         - if can? :read, Family
-          %li{class: families_menu_active}
+          %li.main{ class: families_menu_active }
             = link_to families_path do
               = fa_icon('users')
               %span.nav-label= t('.families')
               %span.label.label-primary.pull-right= @family_count
 
         - if can? :read, Partner
-          %li{class: partners_menu_active}
+          %li.main{ class: partners_menu_active }
             = link_to partners_path do
               = fa_icon('handshake-o')
               %span.nav-label= t('.partners')
               %span.label.label-primary.pull-right= @partner_count
 
         - if can? :read, User
-          %li{class: users_menu_active}
+          %li.main{ class: users_menu_active }
             = link_to users_path do
               = fa_icon('address-book-o')
               %span.nav-label= t('.users')
