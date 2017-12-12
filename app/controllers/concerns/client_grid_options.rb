@@ -24,6 +24,7 @@ module ClientGridOptions
     program_exit_date_report
     date_of_assessments
     form_title_report
+    case_note_date_report
   end
 
   def form_title_report
@@ -76,6 +77,19 @@ module ClientGridOptions
     else
       @client_grid.column(:program_exit_date, header: I18n.t('datagrid.columns.clients.program_exit_date')) do |client|
         client.client_enrollments.inactive.joins(:leave_program).map{|a| a.leave_program.exit_date }.join(' | ')
+      end
+    end
+  end
+
+  def case_note_date_report
+    return unless params[:case_note_date_].present?
+    if params[:data].presence == 'recent'
+      @client_grid.column(:case_note_date, header: I18n.t('datagrid.columns.clients.case_note_date')) do |client|
+        client.case_notes.most_recents.order(meeting_date: :desc).first.try(:meeting_date)
+      end
+    else
+      @client_grid.column(:case_note_date, header: I18n.t('datagrid.columns.clients.case_note_date')) do |client|
+        client.case_notes.most_recents.pluck(:meeting_date).select(&:present?).join(' | ') if object.case_notes.any?
       end
     end
   end
