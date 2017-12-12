@@ -11,13 +11,26 @@
             = image_tag(ENV['NGO_LOGO'], class: 'navbar-minimalize minimalize-styl-2')
     %ul.nav.navbar-top-links.navbar-right.pull-right
       = render 'layouts/notification' if user_signed_in?
-      %li.local-flag
-        - if I18n.locale == :en
-          = link_to(url_for(params.merge({locale: 'km'})), id: 'lang-kh') do
-            = image_tag('Cambodia.png')
-        - else
-          = link_to(url_for(params.merge({locale: 'en'})), id: 'lang-en') do
-            = image_tag('United-Kingdom.png')
+      %li#language-selection-dropdown
+        .btn-group#language-selection
+          %button.btn.btn-default.dropdown-toggle.btn-sm{ "aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button" }
+            = t('.language')
+            %span.caret
+          %ul.dropdown-menu
+            %li
+              = link_to(url_for(params.merge({locale: 'km'})), id: 'lang-kh') do
+                = image_tag('Cambodia.png')
+                = t('.khmer')
+              = link_to(url_for(params.merge({locale: 'en'})), id: 'lang-en') do
+                = image_tag('United-Kingdom.png')
+                = t('.english')
+              = link_to(url_for(params.merge({locale: 'my'})), id: 'lang-my') do
+                = image_tag('Myanamar-icon.png')
+                = t('.burmese')
+              -# = link_to(url_for(params.merge({locale: 'my'})), id: 'lang-my') do
+              -#   = image_tag('Thailand-icon.png')
+              -#   = t('.thai')
+
       - if user_signed_in?
         %li
           = link_to destroy_user_session_path, method: :delete do

@@ -48,6 +48,10 @@ body[id='clients-index'] {
     float: right;
   }
 
+  .btn-primary {
+    margin-bottom: 4px;
+  }
+
   @media screen and (max-width: 700px){
     .client-option {
       a {

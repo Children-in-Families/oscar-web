@@ -24,6 +24,10 @@ body[id='organizations-index']{
     }
   }
 
+  li#language-selection-dropdown {
+    padding: 10px;
+  }
+
   @media (min-width: 768px) {
     .organizations {
       padding: 0;
