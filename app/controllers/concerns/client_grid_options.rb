@@ -89,7 +89,7 @@ module ClientGridOptions
       end
     else
       @client_grid.column(:case_note_date, header: I18n.t('datagrid.columns.clients.case_note_date')) do |client|
-        client.case_notes.most_recents.pluck(:meeting_date).select(&:present?).join(' | ') if object.case_notes.any?
+        client.case_notes.most_recents.pluck(:meeting_date).select(&:present?).join(' | ') if client.case_notes.any?
       end
     end
   end
