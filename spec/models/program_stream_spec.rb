@@ -1,10 +1,10 @@
 describe ProgramStream, 'associations' do
   it { is_expected.to have_many(:domain_program_streams).dependent(:destroy) }
   it { is_expected.to have_many(:domains).through(:domain_program_streams) }
-  it { is_expected.to have_many(:client_enrollments).dependent(:restrict_with_error) }
+  it { is_expected.to have_many(:client_enrollments).dependent(:destroy) }
   it { is_expected.to have_many(:clients).through(:client_enrollments) }
   it { is_expected.to have_many(:trackings).dependent(:destroy) }
-  it { is_expected.to have_many(:leave_programs) }
+  it { is_expected.to have_many(:leave_programs).dependent(:destroy) }
   it { is_expected.to have_many(:program_stream_permissions).dependent(:destroy) }
   it { is_expected.to have_many(:users).through(:program_stream_permissions) }
 end
@@ -42,8 +42,15 @@ describe ProgramStream, 'scope' do
   end
 
   context 'name_like' do
-    it 'return program streams by name' do
+    it 'return program streams name like' do
       expect(ProgramStream.name_like(['def', 'abc'])).to include(first_program_stream, second_program_stream)
+    end
+  end
+
+  context 'by_name' do
+    it 'return program streams by name' do
+      expect(ProgramStream.by_name('a')).to include(second_program_stream, third_program_stream)
+      expect(ProgramStream.by_name('a')).not_to include(first_program_stream)
     end
   end
 end

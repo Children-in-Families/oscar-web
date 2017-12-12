@@ -3,10 +3,10 @@ class ProgramStream < ActiveRecord::Base
 
   has_many   :domain_program_streams, dependent: :destroy
   has_many   :domains, through: :domain_program_streams
-  has_many   :client_enrollments, dependent: :restrict_with_error
+  has_many   :client_enrollments, dependent: :destroy
   has_many   :clients, through: :client_enrollments
   has_many   :trackings, dependent: :destroy
-  has_many   :leave_programs
+  has_many   :leave_programs, dependent: :destroy
 
   has_many   :program_stream_permissions, dependent: :destroy
   has_many   :users, through: :program_stream_permissions
@@ -24,11 +24,12 @@ class ProgramStream < ActiveRecord::Base
   after_save :set_program_completed
   after_create :build_permission
 
-  scope  :ordered,     ->         { order('lower(name) ASC') }
-  scope  :complete,    ->         { where(completed: true) }
-  scope  :ordered_by,  ->(column) { order(column) }
-  scope  :filter,      ->(value)  { where(id: value) }
-  scope  :name_like,   ->(value)  { where(name: value) }
+  scope  :ordered,        ->         { order('lower(name) ASC') }
+  scope  :complete,       ->         { where(completed: true) }
+  scope  :ordered_by,     ->(column) { order(column) }
+  scope  :filter,         ->(value)  { where(id: value) }
+  scope  :name_like,      ->(value)  { where(name: value) }
+  scope  :by_name,        ->(value)  { where('name iLIKE ?', "%#{value}%") }
 
   def build_permission
     User.all.each do |user|

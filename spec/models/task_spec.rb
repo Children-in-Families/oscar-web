@@ -14,14 +14,27 @@ describe Task, 'validations' do
 end
 
 describe Task, 'scopes' do
+  let!(:active_client){ create(:client) }
+  let!(:exited_ngo_client){ create(:client, status: Client::EXIT_STATUSES.first) }
   let!(:domain){ create(:domain)}
-  let!(:task){ create(:task, domain: domain)}
-  let!(:task_other){ create(:task)}
+  let!(:task){ create(:task, domain: domain, client: active_client)}
+  let!(:task_other){ create(:task, client: exited_ngo_client)}
   let!(:completed_task){ create(:task, completed: true) }
   let!(:incomplete_task){ create(:task, completed: false) }
   let!(:overdue_task){ create(:task, completion_date: Date.today - 1.month) }
   let!(:today_task){ create(:task, completion_date: Date.today) }
   let!(:upcoming_task){ create(:task, completion_date: Date.today + 1.month) }
+
+  context 'exclude_exited_ngo_clients' do
+    subject{ Task.exclude_exited_ngo_clients }
+    it 'should return records of clients who are not exited the ngo' do
+      is_expected.to include(task)
+    end
+
+    it 'should not return records of clients who are exited the ngo' do
+      is_expected.not_to include(task_other)
+    end
+  end
 
   context 'by_domain_id' do
     subject{ Task.by_domain_id(domain.id) }
