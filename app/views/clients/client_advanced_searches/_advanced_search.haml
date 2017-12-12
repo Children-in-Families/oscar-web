@@ -35,6 +35,7 @@
   = f.hidden_field :exit_form_check
   = f.hidden_field :basic_rules
   = f.hidden_field :quantitative_check
+  = hidden_field_tag :data, params[:data]
   / = f.hidden_field :overdue_assessment
   = hidden_field_tag :locale, "#{params[:locale]}"
   #client-builder-fields{ data: { fields: @builder_fields.to_json }}
