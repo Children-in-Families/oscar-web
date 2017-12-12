@@ -6,7 +6,7 @@ class CaseWorkerMailer < ApplicationMailer
 
   def overdue_tasks_notify(user, short_name)
     @user = user
-    @overdue_tasks = user.tasks.overdue_incomplete_ordered
+    @overdue_tasks = user.tasks.exclude_exited_ngo_clients.overdue_incomplete_ordered
     @short_name = short_name
     return unless @overdue_tasks.present?
     mail(to: @user.email, subject: 'Overdue Tasks')
