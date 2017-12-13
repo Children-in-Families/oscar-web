@@ -1714,6 +1714,7 @@ km:
       csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
       filter_domains: កត្តា
       has_overdue_assessment: ដល់ពេលការប៉ាន់ប្រមាណ
+      no_case_note: មិនមានកំណត់ត្រាករណីក្នុងរយៈពេល 30 ថ្ងៃ
       reset: សំអាត
       search: ស្វែងរក
     from: ចាប់ពី

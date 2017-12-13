@@ -1649,6 +1649,7 @@ my:
       csi_domain_scores: CSI ဒိုမိန္း အမွတ္မ်ား
       filter_domains: စိစစ္မႈ ဒိုမိန္း
       has_overdue_assessment: ရက္လြန္ေနေသာ စိစစ္အကဲျဖတ္မႈ တစ္ခုရွိပါသည္။
+      no_case_note: အသက် 30 နေ့ရက်များအတွက်အဘယ်သူမျှမ အမႈမွတ္စု
       reset: အကုန္ျပင္ဆင္သည္
       search: ရွာေဖြသည္
     from: မွ
