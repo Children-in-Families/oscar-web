@@ -1,4 +1,8 @@
-%ul
+- if params[:data] == 'recent'
+  - recent_record = object.case_notes.most_recents.order(created_at: :desc).first.try(:interaction_type)
+  - if recent_record.present?
+    %li= recent_record
+- else
   - object.case_notes.most_recents.each do |case_note|
     - if case_note.interaction_type.present?
       %li= case_note.interaction_type

@@ -641,9 +641,9 @@ class ClientGrid
     render partial: 'clients/case_note_type', locals: { object: object }
   end
 
-  column(:case_note_type, header: -> { I18n.t('datagrid.columns.clients.case_note_type')}, html: false) do |object|
-    object.case_notes.most_recents.pluck(:interaction_type).select(&:present?).join(' | ') if object.case_notes.any?
-  end
+  # column(:case_note_type, header: -> { I18n.t('datagrid.columns.clients.case_note_type')}, html: false) do |object|
+  #   object.case_notes.most_recents.pluck(:interaction_type).select(&:present?).join(' | ') if object.case_notes.any?
+  # end
 
   column(:date_of_assessments, header: -> { I18n.t('datagrid.columns.clients.date_of_assessments') }, html: true) do |object|
     render partial: 'clients/assessments', locals: { object: object }
