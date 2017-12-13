@@ -1,5 +1,6 @@
 = form_for grid, options do |f|
   = hidden_field_tag :locale, params[:locale]
+  = hidden_field_tag :data, params[:data]
 
   - if controller_name == 'clients'
     %ul.check-columns-visibility{ 'aria-labelledby': 'dropdownMenuDivider' }

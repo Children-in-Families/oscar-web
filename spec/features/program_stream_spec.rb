@@ -125,7 +125,7 @@ feature 'program_stream' do
     end
 
     context 'full step creation' do
-      scenario 'valid' do
+      xscenario 'valid' do
         fill_in 'program_stream_name', with: 'Program Name'
         sleep 1
         click_link 'Next'
@@ -148,14 +148,14 @@ feature 'program_stream' do
         expect(page).to have_content('Program Name')
       end
 
-      scenario 'invalid' do
+      xscenario 'invalid' do
         page.click_link 'Next'
         expect(page).to have_css '.error'
       end
     end
 
     context 'save draft' do
-      scenario 'valid' do
+      xscenario 'valid' do
         fill_in 'program_stream_name', with: 'Save Draft'
         find('span', text: 'Save').click
         expect(page).to have_content('Program Detail')
@@ -182,7 +182,7 @@ feature 'program_stream' do
     end
 
     context 'full step' do
-      scenario 'valid' do
+      xscenario 'valid' do
         page.click_link 'Next'
         sleep 1
         page.click_link 'Next'
@@ -203,7 +203,7 @@ feature 'program_stream' do
     end
 
     context 'save draft' do
-      scenario 'valid' do
+      xscenario 'valid' do
         find('span', text: 'Save').click
         expect(page).to have_content(program_stream.name)
       end
@@ -249,7 +249,7 @@ feature 'program_stream' do
       visit program_streams_path
     end
 
-    scenario 'valid' do
+    xscenario 'valid' do
       click_link "All NGOs' Program Streams"
       all_ngos = find('#ngos-program-streams')
       all_ngos.click_link(nil, href: new_program_stream_path(program_stream_id: program_stream.id, ngo_name: program_stream.ngo_name))
@@ -333,7 +333,7 @@ feature 'program_stream' do
       page.click_link 'Add New Program'
     end
 
-    scenario 'import custom form to trackings' do
+    xscenario 'import custom form to trackings' do
       fill_in 'program_stream_name', with: 'Program Name'
       sleep 1
       click_link 'Next'
@@ -361,7 +361,7 @@ feature 'program_stream' do
       click_link(nil, href: edit_program_stream_path(program_stream))
     end
 
-    scenario 'import custom form to trackings' do
+    xscenario 'import custom form to trackings' do
       fill_in 'program_stream_name', with: 'Program Name'
       sleep 1
       click_link 'Next'
