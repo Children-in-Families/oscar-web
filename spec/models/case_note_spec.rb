@@ -53,15 +53,15 @@ describe CaseNote, 'methods' do
 end
 
 describe CaseNote, 'scopes' do
-  let!(:case_note){ create(:case_note, created_at: Date.yesterday) }
-  let!(:latest_case_note){ create(:case_note, created_at: 1.month.ago) }
+  let!(:case_note){ create(:case_note, meeting_date: Date.yesterday) }
+  let!(:latest_case_note){ create(:case_note, meeting_date: 1.month.ago) }
 
   context 'most recents' do
     it 'should have first object as the latest case note' do
-      expect(CaseNote.most_recents.first).to eq(case_note)
+      expect(CaseNote.most_recents.first).to eq(latest_case_note)
     end
     it 'should not have first object not the latest case note' do
-      expect(CaseNote.most_recents.first).not_to eq(latest_case_note)
+      expect(CaseNote.most_recents.first).not_to eq(case_note)
     end
   end
 
