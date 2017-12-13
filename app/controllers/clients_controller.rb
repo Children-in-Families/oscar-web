@@ -1,16 +1,15 @@
 class ClientsController < AdminController
-
   load_and_authorize_resource find_by: :slug, except: :quantitative_case
 
   include ClientAdvancedSearchesConcern
+  include ClientGridOptions
+
   before_action :get_quantitative_fields, only: [:index]
   before_action :find_params_advanced_search, :get_custom_form, :get_program_streams, only: [:index]
   before_action :get_custom_form_fields, :program_stream_fields, :client_builder_fields, only: [:index]
   before_action :basic_params, if: :has_params?, only: [:index]
   before_action :build_advanced_search, only: [:index]
   before_action :fetch_advanced_search_queries, only: [:index]
-
-  include ClientGridOptions
 
   before_action :find_client, only: [:show, :edit, :update, :destroy]
   before_action :set_association, except: [:index, :destroy]
@@ -32,8 +31,7 @@ class ClientsController < AdminController
         end
         f.xls do
           @client_grid.scope { |scope| scope.accessible_by(current_ability) }
-          domain_score_report
-          csi_domain_score_report
+          export_client_reports
           send_data @client_grid.to_xls, filename: "client_report-#{Time.now}.xls"
         end
       end
