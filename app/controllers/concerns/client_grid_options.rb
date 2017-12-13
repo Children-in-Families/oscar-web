@@ -98,14 +98,14 @@ module ClientGridOptions
     return unless params[:case_note_type_].present?
     if params[:data].presence == 'recent'
       @client_grid.column(:case_note_type, header: I18n.t('datagrid.columns.clients.case_note_type')) do |client|
-        client.case_notes.most_recents.order(created_at: :desc).first.try(:interaction_type)
+        client.case_notes.most_recents.order(meeting_date: :desc).first.try(:interaction_type)
       end
     else
       @client_grid.column(:case_note_type, header: I18n.t('datagrid.columns.clients.case_note_type')) do |client|
         client.case_notes.most_recents.pluck(:interaction_type).select(&:present?).join(' | ') if client.case_notes.any?
       end
     end
-  endg
+  end
 
   def date_of_assessments
     return unless params[:date_of_assessments_].present?
