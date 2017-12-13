@@ -388,6 +388,13 @@ class ClientGrid
     end
   end
 
+  filter(:no_case_note, :enum, select: %w(Yes No), header: -> { I18n.t('datagrid.columns.clients.gender') }) do |value, scope|
+    if value == 'Yes'
+      case_note_ids = CaseNote.no_case_note_in(1.month.ago).ids
+      scope.joins(:case_notes).where(case_notes: {id: case_note_ids})
+    end
+  end
+
   column(:slug, order:'clients.id', header: -> { I18n.t('datagrid.columns.clients.id') })
 
   column(:code, header: -> { I18n.t('datagrid.columns.clients.code') }) do |object|

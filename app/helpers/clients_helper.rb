@@ -214,4 +214,16 @@ module ClientsHelper
       end
     end
   end
+
+  def check_params_no_case_note
+    if params[:client_grid].present?
+      'true' if params[:client_grid][:no_case_note] == 'Yes'
+    end
+  end
+
+  def check_params_has_over_assessment
+    if params[:client_grid].present?
+      'true' if params[:client_grid][:assessments_due_to] == 'Overdue'
+    end
+  end
 end

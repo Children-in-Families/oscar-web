@@ -1612,6 +1612,7 @@ en:
       csi_domain_scores: CSI Domain Scores
       filter_domains: Filter Domains
       has_overdue_assessment: Has Overdue Assessment
+      no_case_note: No Casenote in 30 Days
       reset: Reset
       search: Search
     from: From

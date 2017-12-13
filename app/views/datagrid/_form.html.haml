@@ -7,9 +7,13 @@
         %a.dropdown-toggle.btn.btn-default{'data-toggle' => 'dropdown', href: '#'}
           = t('datagrid.columns.select_columns')
           %span.caret
-
-        %button.btn.btn-primary.float-right#overdue-assessment{ type: 'button' }
-          = t('.has_overdue_assessment')
+        .float-right
+          %span.bg-muted.p-xs.b-r-sm
+            = check_box_tag 'no_case_note_check_box', 'no_case_note_check_box', checked = check_params_no_case_note, class: 'i-checks'
+            %label=t('.no_case_note')
+          %span.bg-muted.p-xs.b-r-sm.m-l
+            = check_box_tag 'overdue-assessment', 'overdue-assessment', checked = check_params_has_over_assessment, class: 'i-checks'
+            %label=t('.has_overdue_assessment')
 
         %ul.dropdown-menu.columns-visibility
           %li

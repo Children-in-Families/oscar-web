@@ -21,22 +21,33 @@ CIF.ClientsIndex = do ->
     _toggleCollapseFilter()
     _handleAutoCollapse()
     _overdueAssessmentSearch()
+    _removeOverdueAssessmentSearch()
     _hideOverdueAssessment()
+    _searchNoCaseNote()
+    _removeSearchNoCaseNote()
 
   _hideOverdueAssessment = ->
-    $('#client-advance-search-form #overdue-assessment').hide()
+    $('#client-advance-search-form .float-right').hide()
 
   _overdueAssessmentSearch = ->
-    $('button#overdue-assessment').on 'click', ->
+    $('#overdue-assessment.i-checks').on 'ifChecked', ->
       $('select#client_grid_assessments_due_to').select2('val', 'Overdue')
       $('input.datagrid-submit').click()
 
-      # if $('#client-search-form').is(':visible')
-      #   $('#s2id_client_grid_assessments_due_to').select2('val', 'Overdue')
-      #   $('#new_client_grid').submit()
-      # else
-      #   $('#client_advanced_search_overdue_assessment').val(true)
-      #   $('button#search').click()
+  _removeOverdueAssessmentSearch = ->
+    $('#overdue-assessment.i-checks').on 'ifUnchecked', ->
+      $('select#client_grid_assessments_due_to').select2('val', '')
+      $('input.datagrid-submit').click()
+
+  _searchNoCaseNote = ->
+    $('#no_case_note_check_box.i-checks').on 'ifChecked', ->
+      $('select#client_grid_no_case_note').select2('val', 'Yes')
+      $('input.datagrid-submit').click()
+
+  _removeSearchNoCaseNote = ->
+    $('#no_case_note_check_box.i-checks').on 'ifUnchecked', ->
+      $('select#client_grid_no_case_note').select2('val', 'No')
+      $('input.datagrid-submit').click()
 
   _handleAutoCollapse = ->
     params = window.location.search.substr(1)
@@ -79,7 +90,7 @@ CIF.ClientsIndex = do ->
     advanceFilter.customFormSelectChange()
     advanceFilter.customFormSelectRemove()
     advanceFilter.handleHideCustomFormSelect()
-    
+
     advanceFilter.handleShowProgramStreamFilter()
     advanceFilter.handleHideProgramStreamSelect()
     advanceFilter.handleProgramSelectChange()
