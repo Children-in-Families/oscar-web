@@ -2,7 +2,7 @@ describe 'AdvancedSearch' do
   let(:user_1) { create(:user) }
   let(:user_2) { create(:user) }
 
-  feature 'List', js: true do
+  feature 'List' do
     let!(:advanced_search_1){ create(:advanced_search, user: user_1, created_at: Date.yesterday) }
     let!(:advanced_search_6){ create(:advanced_search, user: user_2, created_at: Date.today) }
 
@@ -19,7 +19,7 @@ describe 'AdvancedSearch' do
       expect(page).to have_button('Load Saved Search')
     end
 
-    feature 'Search Settings List' do
+    feature 'Search Settings List', js: true do
       scenario 'my saved search' do
         page.find('#load-saved-search').click
         expect(page).to have_content(advanced_search_1.name)
