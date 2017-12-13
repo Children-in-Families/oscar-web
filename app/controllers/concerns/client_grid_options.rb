@@ -25,6 +25,7 @@ module ClientGridOptions
     date_of_assessments
     form_title_report
     case_note_date_report
+    case_note_type_report
   end
 
   def form_title_report
