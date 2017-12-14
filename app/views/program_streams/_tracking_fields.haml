@@ -16,7 +16,8 @@
               = f.input :time_of_frequency, label: t('.time_of_frequency'), input_html: { min: 0, value: f.object.time_of_frequency || 0}
       .row
         .col-xs-12
-          .tracking-builder{ data: { tracking: f.object.fields.to_json }}
+          .tracking-builder
+            %span.hidden= f.object.fields.to_json
             .tracking-field-hidden
               = f.input :fields, as: :hidden
       .row

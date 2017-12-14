@@ -343,7 +343,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
 
   _handleInitProgramFields = ->
     for element in $('#enrollment, #exit-program')
-      dataElement = $(element).data('field')
+      dataElement = JSON.parse($(element).children('span').text())
       _initProgramBuilder($(element), (dataElement || []))
       if element.id == 'enrollment' and $('#program_stream_id').val() != ''
         _preventRemoveField(ENROLLMENT_URL, '#enrollment')
@@ -352,7 +352,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
 
     trackings = $('.tracking-builder')
     for tracking in trackings
-      trackingValue = $(tracking).data('tracking')
+      trackingValue = JSON.parse($(tracking).children('span').text())
       _initProgramBuilder(tracking, (trackingValue || []))
     _preventRemoveField(TRACKING_URL, '') if $('#program_stream_id').val() != ''
 
