@@ -1,10 +1,10 @@
 describe ProgramStream, 'associations' do
   it { is_expected.to have_many(:domain_program_streams).dependent(:destroy) }
   it { is_expected.to have_many(:domains).through(:domain_program_streams) }
-  it { is_expected.to have_many(:client_enrollments).dependent(:restrict_with_error) }
+  it { is_expected.to have_many(:client_enrollments).dependent(:destroy) }
   it { is_expected.to have_many(:clients).through(:client_enrollments) }
   it { is_expected.to have_many(:trackings).dependent(:destroy) }
-  it { is_expected.to have_many(:leave_programs) }
+  it { is_expected.to have_many(:leave_programs).dependent(:destroy) }
   it { is_expected.to have_many(:program_stream_permissions).dependent(:destroy) }
   it { is_expected.to have_many(:users).through(:program_stream_permissions) }
 end

@@ -1,0 +1,10 @@
+- if params[:data] == 'recent'
+  - recent_record = enrolled_programs.order(created_at: :desc).first.try(:program_stream).try(:name)
+  - if recent_record.present?
+    %ul
+      %li= recent_record
+- else
+  - all_programs = enrolled_programs.map{ |c| c.program_stream.name }.uniq.join(', ')
+  - if all_programs.present?
+    %ul
+      %li= all_programs

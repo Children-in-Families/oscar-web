@@ -5,8 +5,8 @@
         %i.fa.fa-filter
     .pull-right
       - if can? :manage, Partner
-        = link_to "#{I18n.t('partners.index.add_new_partner')}", new_partner_path, class: 'btn btn-primary btn-partner'
-      = link_to "#{I18n.t('partners.index.export_xls')}", current_url(format: 'xls'), class: 'btn btn-info btn-export'
+        = link_to t('.add_new_partner'), new_partner_path, class: 'btn btn-primary'
+      = link_to t('.export_xls'), current_url(format: 'xls'), class: 'btn btn-info btn-export'
 .row.ibox-space
   .col-xs-12
     .ibox.float-e-margins#partner-search-form.collapse

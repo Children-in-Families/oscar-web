@@ -1190,12 +1190,14 @@ km:
       domain_score: ពិន្ទុកត្តាការប៉ាន់ប្រមាណ
       end: អស់លទ្ធផល!
       export_to_xls: ទាញចេញជាឯកសារប្រភេទ XLS
+      most_recent: ថ្មីបំផុត
       load: កំពុងផ្ទុក...
       load_save_search: ផ្ទុកការស្វែងរក
       reports: របាយការណ៍
       report_builder: ការស្វែងរកឆ្លាតវៃ
       results: លទ្ធផល
       save_search_settings: រក្សាទុកទម្រង់នៃការស្វែងរក
+      show_all: បង្ហាញទាំងអស់
       sInfoShow: បង្ហាញទិន្នន័យចំនួន
       sInfoTo: ដល់
       sInfoTotal: នៃចំនួនសរុប
@@ -1712,6 +1714,7 @@ km:
       csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
       filter_domains: កត្តា
       has_overdue_assessment: ដល់ពេលការប៉ាន់ប្រមាណ
+      no_case_note: មិនមានកំណត់ត្រាករណីក្នុងរយៈពេល 30 ថ្ងៃ
       reset: សំអាត
       search: ស្វែងរក
     from: ចាប់ពី
@@ -2855,8 +2858,13 @@ km:
       users: ឣ្នកប្រើ
       view_calendar: មើលប្រតិទិន
     top_navbar:
+      burmese: Burmese
       edit_profile: កែសម្រួលពត៌មានផ្ទាល់ខ្លួន
+      english: English
+      khmer: ខ្មែរ
+      language: ជ្រើសភាសា
       log_out: ចាកចេញ
+      thai: Thai
   leave_programs:
     create:
       successfully_created: អតិថិជនត្រូវបានចាកចេញពីកម្មវិធីដោយជោគជ័យ
@@ -3021,6 +3029,7 @@ km:
   program_streams:
     actions:
       are_you_sure: តើអ្នកប្រាកដហើយ?
+      warning_message: អ្នករៀបនឹងលុបកម្មវិធីបន្ទាប់បន្សំដែលបានរក្សាទុកទិន្នន័យរបស់អតិថិជន។ តើអ្នកចង់បន្តទេ?
     all_ngos_custom_fields:
       next: ទំព័របន្ទាប់
       preview: មើលជាមុន

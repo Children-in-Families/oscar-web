@@ -1092,10 +1092,12 @@ en:
       export_to_xls: Export to XLS
       load: Loading more...
       load_save_search: Load Saved Search
+      most_recent: Most Recent
       reports: Quick Graph
       report_builder: Report Builder
       results: Results
       save_search_settings: Save Search Settings
+      show_all: Show All
       sInfoShow: show results from
       sInfoTo: to
       sInfoTotal: of
@@ -1612,6 +1614,7 @@ en:
       csi_domain_scores: CSI Domain Scores
       filter_domains: Filter Domains
       has_overdue_assessment: Has Overdue Assessment
+      no_case_note: No Casenote in 30 Days
       reset: Reset
       search: Search
     from: From
@@ -2754,8 +2757,13 @@ en:
       users: Users
       view_calendar: View Calendar
     top_navbar:
+      burmese: Burmese
       edit_profile: Edit Profile
+      english: English
+      khmer: ខ្មែរ
+      language: Language
       log_out: Log out
+      thai: Thai
   leave_programs:
     create:
       successfully_created: Client has been successfully exited from the program.
@@ -2920,6 +2928,7 @@ en:
   program_streams:
     actions:
       are_you_sure: Are you sure you want to delete?
+      warning_message: You are about to delete a Program Stream that has saved client data. Do you wish to proceed?
     all_ngos_custom_fields:
       next: Next
       previous: Previous

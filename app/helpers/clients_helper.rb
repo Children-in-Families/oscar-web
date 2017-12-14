@@ -143,8 +143,12 @@ module ClientsHelper
 
   def client_custom_fields_list(object)
     content_tag(:ul, class: 'client-custom-fields-list') do
-      object.custom_fields.uniq.each do |obj|
-        concat(content_tag(:li, obj.form_title))
+      if params[:data] == 'recent'
+        object.custom_field_properties.order(created_at: :desc).first.try(:custom_field).try(:form_title)
+      else
+        object.custom_fields.uniq.each do |obj|
+          concat(content_tag(:li, obj.form_title))
+        end
       end
     end
   end
@@ -164,6 +168,10 @@ module ClientsHelper
     country = params[:country].present? ? I18n.t("datagrid.columns.clients.#{params[:country]}") : I18n.t('datagrid.columns.clients.cambodia')
     current_address << country
     current_address.compact.join(', ')
+  end
+
+  def format_array_value(value)
+    value.is_a?(Array) ? value.reject(&:empty?).to_sentence : value
   end
 
   def format_properties_value(value)
@@ -209,9 +217,25 @@ module ClientsHelper
 
   def all_csi_assessment_lists(object)
     content_tag(:ul) do
-      object.assessments.each do |assessment|
-        concat(content_tag(:li, assessment.basic_info))
+      if params[:data] == 'recent'
+        object.assessments.latest_record.try(:basic_info)
+      else
+        object.assessments.each do |assessment|
+          concat(content_tag(:li, assessment.basic_info))
+        end
       end
+    end
+  end
+
+  def check_params_no_case_note
+    if params[:client_grid].present?
+      'true' if params[:client_grid][:no_case_note] == 'Yes'
+    end
+  end
+
+  def check_params_has_over_assessment
+    if params[:client_grid].present?
+      'true' if params[:client_grid][:assessments_due_to] == 'Overdue'
     end
   end
 end

@@ -4,5 +4,5 @@
       %label= field_props['label'].html_safe
       - field_props['values'].each do |field|
         %li
-          = check_box_tag :nil, strip_tags(field['label']), field['selected'], { class: 'i-checks' }
-          = label_tag '', strip_tags(field['label'])
+          = check_box_tag :nil, field['label'].html_safe, field['selected'], { class: 'i-checks' }
+          = label_tag '', field['label'].html_safe

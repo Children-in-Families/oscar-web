@@ -2,8 +2,8 @@
 	= simple_form_for('', url: data_trackers_path(), method: 'GET') do |f|
 		= f.input :item_type, as: :hidden, input_html: { value: params[:item_type] }
 		.row
-			.col-xs-4
+			.col-xs-6
 				%label.page-select-label
 					= t('.show')
-			.col-xs-8.page-select
+			.col-xs-6.page-select
 				= f.input :per_page, as: :select, collection: [5, 10 ,15, 20], selected: params[:per_page] || 20, label: false

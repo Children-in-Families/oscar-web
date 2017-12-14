@@ -92,7 +92,7 @@ feature 'custom_field' do
       visit new_custom_field_path
     end
 
-    scenario 'valid' do
+    xscenario 'valid' do
       find("select option[value='Client']", visible: false).select_option
       fill_in 'Form Title', with: 'Testing'
       find("select option[value='Daily']", visible: false).select_option
@@ -114,7 +114,7 @@ feature 'custom_field' do
       visit edit_custom_field_path(custom_field)
     end
 
-    scenario 'valid' do
+    xscenario 'valid' do
       fill_in 'Form Title', with: 'Update Form'
       find("input[type=submit]").click
       expect(page).to have_content('Update Form')
@@ -143,7 +143,7 @@ feature 'custom_field' do
       visit custom_fields_path
     end
 
-    scenario 'valid' do
+    xscenario 'valid' do
       click_link "All NGOs' Custom Forms"
       click_link(nil, href: new_custom_field_path(custom_field_id: custom_field.id, ngo_name: custom_field.ngo_name))
       fill_in 'Form Title', with: 'Copy'
