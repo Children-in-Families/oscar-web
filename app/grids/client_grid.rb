@@ -674,35 +674,36 @@ class ClientGrid
       fields = column_builder[:id].split('_')
       next if fields.first == 'enrollmentdate' || fields.first == 'programexitdate'
       column(column_builder[:id].downcase.parameterize('_').to_sym, class: 'form-builder', header: -> { form_builder_format_header(fields) }, html: true) do |object|
+        format_field_value = fields.last.gsub(/\[/, '&#91;').gsub(/\]/, '&#93;')
         if fields.first == 'formbuilder'
           if data == 'recent'
             properties = object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).order(created_at: :desc).first.try(:properties)
-            properties = properties[fields.last] if properties.present?
+            properties = properties[format_field_value] if properties.present?
           else
-            properties = object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).properties_by(fields.last)
+            properties = object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).properties_by(format_field_value)
           end
         elsif fields.first == 'enrollment'
           if data == 'recent'
             properties = object.client_enrollments.joins(:program_stream).where(program_streams: { name: fields.second }).order(enrollment_date: :desc).first.try(:properties)
-            properties = properties[fields.last] if properties.present?
+            properties = properties[format_field_value] if properties.present?
           else
-            properties = object.client_enrollments.joins(:program_stream).where(program_streams: { name: fields.second }).properties_by(fields.last)
+            properties = object.client_enrollments.joins(:program_stream).where(program_streams: { name: fields.second }).properties_by(format_field_value)
           end
         elsif fields.first == 'tracking'
           ids = object.client_enrollments.ids
           if data == 'recent'
             properties = ClientEnrollmentTracking.joins(:tracking).where(trackings: { name: fields.third }, client_enrollment_trackings: { client_enrollment_id: ids }).order(created_at: :desc).first.try(:properties)
-            properties = properties[fields.last] if properties.present?
+            properties = properties[format_field_value] if properties.present?
           else
-            properties = ClientEnrollmentTracking.joins(:tracking).where(trackings: { name: fields.third }, client_enrollment_trackings: { client_enrollment_id: ids }).properties_by(fields.last)
+            properties = ClientEnrollmentTracking.joins(:tracking).where(trackings: { name: fields.third }, client_enrollment_trackings: { client_enrollment_id: ids }).properties_by(format_field_value)
           end
         elsif fields.first == 'exitprogram'
           ids = object.client_enrollments.inactive.ids
           if data == 'recent'
             properties = LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { client_enrollment_id: ids }).order(exit_date: :desc).first.try(:properties)
-            properties = properties[fields.last] if properties.present?
+            properties = properties[format_field_value] if properties.present?
           else
-            properties = LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { client_enrollment_id: ids }).properties_by(fields.last)
+            properties = LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { client_enrollment_id: ids }).properties_by(format_field_value)
           end
         end
         render partial: 'clients/form_builder_dynamic/properties_value', locals: { properties:  properties }

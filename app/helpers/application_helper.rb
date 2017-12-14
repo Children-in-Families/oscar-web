@@ -191,4 +191,8 @@ module ApplicationHelper
   def action_search?
     Rails.application.routes.recognize_path(request.referrer)[:action] == 'search'
   end
+
+  def convert_bracket(value)
+    value.gsub(/\[/, '&#91;').gsub(/\]/, '&#93;')
+  end
 end

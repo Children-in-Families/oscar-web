@@ -15,6 +15,7 @@
       - @program_stream.exit_program.each do |exit_program|
         .row
           .col-xs-12{ class: exit_program['type'] == 'paragraph' ? '' : 'col-md-6' }
+            - exit_program['label'] = convert_bracket(exit_program['label'])
             - unless exit_program['type'] == 'file'
               = render "/shared/fields/#{exit_program['type'].underscore}", f: prop_f, field_props: exit_program, errors: @leave_program.errors.messages, entity: f
             - else
