@@ -14,8 +14,7 @@ module AdvancedSearches
     def get_sql
       sql_string = 'clients.id IN (?)'
       properties_field = 'client_enrollment_trackings.properties'
-
-      client_enrollment_trackings = ClientEnrollmentTracking.joins(:client_enrollment).where(client_enrollments: { status: 'Active' }, tracking_id: @tracking_id)
+      client_enrollment_trackings = ClientEnrollmentTracking.joins(:client_enrollment).where(tracking_id: @tracking_id)
 
       case @operator
       when 'equal'
