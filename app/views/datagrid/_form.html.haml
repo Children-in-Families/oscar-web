@@ -15,6 +15,9 @@
           %span.p-xs.b-r-sm.m-l.btn.btn-sm.btn-default
             = check_box_tag 'overdue-assessment', 'overdue-assessment', checked = check_params_has_over_assessment, class: 'i-checks'
             %label=t('.has_overdue_assessment')
+          %span.p-xs.b-r-sm.m-l.btn.btn-sm.btn-default
+            = check_box_tag 'overdue-task', 'overdue-task', checked = check_params_has_overdue_task, class: 'i-checks'
+            %label=t('.has_overdue_task')
 
         %ul.dropdown-menu.columns-visibility
           %li

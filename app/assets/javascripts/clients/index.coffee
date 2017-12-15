@@ -25,6 +25,8 @@ CIF.ClientsIndex = do ->
     _hideOverdueAssessment()
     _searchNoCaseNote()
     _removeSearchNoCaseNote()
+    _searchOverdueTask()
+    _removeSearchOverdueTask()
 
   _hideOverdueAssessment = ->
     $('#client-advance-search-form .float-right').hide()
@@ -47,6 +49,16 @@ CIF.ClientsIndex = do ->
   _removeSearchNoCaseNote = ->
     $('#no_case_note_check_box.i-checks').on 'ifUnchecked', ->
       $('select#client_grid_no_case_note').select2('val', 'No')
+      $('input.datagrid-submit').click()
+
+  _searchOverdueTask = ->
+    $('#overdue-task.i-checks').on 'ifChecked', ->
+      $('select#client_grid_overdue_task').select2('val', 'Overdue')
+      $('input.datagrid-submit').click()
+
+  _removeSearchOverdueTask = ->
+    $('#overdue-task.i-checks').on 'ifUnchecked', ->
+      $('select#client_grid_overdue_task').select2('val', '')
       $('input.datagrid-submit').click()
 
   _handleAutoCollapse = ->

@@ -228,14 +228,14 @@ module ClientsHelper
   end
 
   def check_params_no_case_note
-    if params[:client_grid].present?
-      'true' if params[:client_grid][:no_case_note] == 'Yes'
-    end
+    true if params.dig(:client_grid, :no_case_note) == 'Yes'
   end
 
   def check_params_has_over_assessment
-    if params[:client_grid].present?
-      'true' if params[:client_grid][:assessments_due_to] == 'Overdue'
-    end
+    true if params.dig(:client_grid, :assessments_due_to) == 'Overdue'
+  end
+
+  def check_params_has_overdue_task
+    true if params.dig(:client_grid, :overdue_task) == 'Overdue'
   end
 end
