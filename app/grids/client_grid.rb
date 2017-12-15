@@ -396,6 +396,13 @@ class ClientGrid
     end
   end
 
+  filter(:overdue_task, :enum, select: %w(Overdue), header: -> { I18n.t('datagrid.columns.clients.overdue_task') }) do |value, scope|
+    if value == 'Overdue'
+      client_ids = Task.overdue_incomplete.pluck(:client_id)
+      scope.where(id: client_ids)
+    end
+  end
+
   column(:slug, order:'clients.id', header: -> { I18n.t('datagrid.columns.clients.id') })
 
   column(:code, header: -> { I18n.t('datagrid.columns.clients.code') }) do |object|
