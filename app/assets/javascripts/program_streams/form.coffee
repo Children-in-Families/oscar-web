@@ -283,6 +283,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       headerTag: 'h4'
       bodyTag: 'section'
       transitionEffect: 'slideLeft'
+      enableKeyNavigation: false
 
       onStepChanging: (event, currentIndex, newIndex) ->
         if currentIndex == 0 and newIndex == 1 and $('#description').is(':visible')
