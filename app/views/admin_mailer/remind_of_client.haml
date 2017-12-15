@@ -1,9 +1,11 @@
 %p Dear Admins,
 %p= "There #{'is'.pluralize(@clients.count)} #{pluralize(@clients.count, 'client')} #{'has'.pluralize(@clients.count)} been in Emergency Care program for #{@day} days."
 %p
-  = "Click"
-  = link_to 'here', clients_url('client_grid[status]':'Active EC', 'client_grid[case_type]':'EC', 'client_grid[placement_date]': [(Date.today-@day.to_i).strftime('%Y-%m-%d'), (Date.today-@day.to_i).strftime('%Y-%m-%d')], subdomain: Organization.current.short_name), target: :_blank
-  = "to see the list of Client."
+  = 'Click'
+  - placement_date = (Date.today - @day.to_i).strftime('%Y-%m-%d')
+  - url = { 'condition'=>'AND', 'rules'=>[{ 'id'=>'status', 'field'=>'status', 'type'=>'string', 'input'=>'select', 'operator'=>'equal', 'value'=>'Active EC' }, { 'id'=>'case_type', 'field'=>'case_type', 'type'=>'string', 'input'=>'select', 'operator'=>'equal', 'value'=>'EC' }, { 'id'=>'placement_date', 'field'=>'placement_date', 'type'=>'date', 'input'=>'text', 'operator'=>'equal', 'value'=> placement_date }], 'valid'=>true }
+  = link_to 'here', clients_url('client_advanced_search[basic_rules]': url.to_json, subdomain: Organization.current.short_name), target: :_blank
+  = 'to see the list of Client.'
 %p To check client detail, please click the link below.
 - @clients.each do |client|
   - name = client.name.blank? ? 'Unknown' : client.name

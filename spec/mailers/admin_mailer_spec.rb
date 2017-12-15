@@ -7,7 +7,7 @@ RSpec.describe AdminMailer, type: :mailer do
     let(:mail) { AdminMailer.remind_of_client(Client.active_ec, day: '90', admin: admin).deliver_now }
 
     it 'renders the subject' do
-      expect(mail.subject).to eq('Reminder [Clients Are About To Exit Emergency Care Program')
+      expect(mail.subject).to eq('Reminder [Clients Are About To Exit Emergency Care Program]')
     end
 
     it 'renders the receiver email' do
