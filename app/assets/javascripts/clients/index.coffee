@@ -90,7 +90,6 @@ CIF.ClientsIndex = do ->
       else
         $('#filter_form').show()
         _hideClientFilters()
-        _enableSelect2()
 
   _initAdavanceSearchFilter = ->
     advanceFilter = new CIF.ClientAdvanceSearch()
