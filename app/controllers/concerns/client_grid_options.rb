@@ -151,38 +151,39 @@ module ClientGridOptions
     column_form_builder.each do |field|
       fields = field[:id].split('_')
       @client_grid.column(field[:id].downcase.parameterize('_').to_sym, header: form_builder_format_header(fields)) do |client|
+        format_field_value = fields.last.gsub(/\[/, '&#91;').gsub(/\]/, '&#93;')
         if fields.first == 'formbuilder'
           if data == 'recent'
             properties = client.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).order(created_at: :desc).first.try(:properties)
-            properties = format_array_value(properties[fields.last]) if properties.present?
+            properties = format_array_value(properties[format_field_value]) if properties.present?
           else
-            custom_field_properties = client.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).properties_by(fields.last)
+            custom_field_properties = client.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).properties_by(format_field_value)
             custom_field_properties.map{ |properties| format_properties_value(properties) }.join("\n")
           end
         elsif fields.first == 'enrollment'
           if data == 'recent'
             enrollment_properties = client.client_enrollments.joins(:program_stream).where(program_streams: { name: fields.second }).order(enrollment_date: :desc).first.try(:properties)
-            enrollment_properties = format_array_value(enrollment_properties[fields.last]) if enrollment_properties.present?
+            enrollment_properties = format_array_value(enrollment_properties[format_field_value]) if enrollment_properties.present?
           else
-            enrollment_properties = client.client_enrollments.joins(:program_stream).where(program_streams: { name: fields.second }).properties_by(fields.last)
+            enrollment_properties = client.client_enrollments.joins(:program_stream).where(program_streams: { name: fields.second }).properties_by(format_field_value)
             enrollment_properties.map{ |properties| format_properties_value(properties) }.join("\n")
           end
         elsif fields.first == 'tracking'
           ids = client.client_enrollments.ids
           if data == 'recent'
             enrollment_tracking_properties = ClientEnrollmentTracking.joins(:tracking).where(trackings: { name: fields.third }, client_enrollment_trackings: { client_enrollment_id: ids }).order(created_at: :desc).first.try(:properties)
-            enrollment_tracking_properties = format_array_value(enrollment_tracking_properties[fields.last]) if enrollment_tracking_properties.present?
+            enrollment_tracking_properties = format_array_value(enrollment_tracking_properties[format_field_value]) if enrollment_tracking_properties.present?
           else
-            enrollment_tracking_properties = ClientEnrollmentTracking.joins(:tracking).where(trackings: { name: fields.third }, client_enrollment_trackings: { client_enrollment_id: ids }).properties_by(fields.last)
+            enrollment_tracking_properties = ClientEnrollmentTracking.joins(:tracking).where(trackings: { name: fields.third }, client_enrollment_trackings: { client_enrollment_id: ids }).properties_by(format_field_value)
             enrollment_tracking_properties.map{ |properties| format_properties_value(properties) }.join("\n")
           end
         elsif fields.first == 'exitprogram'
           ids = client.client_enrollments.inactive.ids
           if data == 'recent'
             leave_program_properties = LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { client_enrollment_id: ids }).order(exit_date: :desc).first.try(:properties)
-            leave_program_properties = format_array_value(leave_program_properties[fields.last]) if leave_program_properties.present?
+            leave_program_properties = format_array_value(leave_program_properties[format_field_value]) if leave_program_properties.present?
           else
-            leave_program_properties = LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { client_enrollment_id: ids }).properties_by(fields.last)
+            leave_program_properties = LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { client_enrollment_id: ids }).properties_by(format_field_value)
             leave_program_properties.map{ |properties| format_properties_value(properties) }.join("\n")
           end
         end

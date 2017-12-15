@@ -14,6 +14,7 @@
       - @program_stream.enrollment.each do |enrollment|
         .row
           .col-xs-12{ class: enrollment['type'] == 'paragraph' ? '' : 'col-md-6' }
+            - enrollment['label'] = convert_bracket(enrollment['label'])
             - unless enrollment['type'] == 'file'
               = render "/shared/fields/#{enrollment['type'].underscore}", f: prop_f, field_props: enrollment, errors: @client_enrollment.errors.messages, entity: f
             - else
