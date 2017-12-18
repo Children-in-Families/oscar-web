@@ -1317,7 +1317,7 @@ en:
       overdue_assessments: Overdue Assessments
       overdue_forms: Overdue Forms
       overdue_tasks: Overdue Tasks
-      search: Search
+      apply: Apply
       select_user: Select user
   data_trackers:
     index:

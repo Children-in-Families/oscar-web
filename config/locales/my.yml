@@ -1352,7 +1352,7 @@ my:
       overdue_assessments: ရက်လွန်အကဲဖြတ်
       overdue_forms: ရက်လွန်ပုံစံ
       overdue_tasks: ရက်လွန်အလုပ်တခုကို
-      search: ရှာဖှေ
+      apply: လျှောက်ထား
       select_user: အသံုးျပဳသူကို ေရြးခ်ယ္ပါ။
   data_trackers:
     index:

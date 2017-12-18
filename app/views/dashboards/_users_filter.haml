@@ -3,12 +3,7 @@
     %input{type: 'hidden', value: params[:locale], name: 'locale'}
     .form-group
       %label{ for: 'user_id' }= t('.filter_by_user')
-      %select{ id: 'user_id', class: 'form-control', name: 'user_id' }
-        - unless params[:user_id]
-          %option{ selected: 'selected' }= t('.select_user')
-        - @users.each do |user|
-          %option{ value: user.id, selected: user.id == params[:user_id].to_i }
-            = user.name
+      = select_tag 'user_id', options_for_select(@users.map{|u| [u.name, u.id] }, selected: params[:user_id])
 
   .col-sm-2
     .form-group.overdue-checkboxes
@@ -25,4 +20,4 @@
 
   .col-sm-1
     %button#user-filter-submit.btn.btn-primary{type: 'submit'}
-      = t('.search')
+      = t('.apply')
