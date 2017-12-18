@@ -19,4 +19,14 @@ body[id='dashboards-index'] {
       color: #fff;
     }
   }
+
+  #active_tasks_list {
+    .modal-active-list-width {
+      width: 100%;
+      max-width: 75%;
+    }
+    .overdue-checkboxes {
+      margin-top: 5px;
+    }
+  }
 }

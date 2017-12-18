@@ -1,5 +1,5 @@
 %form{ id: 'filtered_by_user', action: dashboards_path, method: 'GET', class: 'form-inline' }
-  .col-sm-6
+  .col-sm-4
     %input{type: 'hidden', value: params[:locale], name: 'locale'}
     .form-group
       %label{ for: 'user_id' }= t('.filter_by_user')
@@ -9,3 +9,20 @@
         - @users.each do |user|
           %option{ value: user.id, selected: user.id == params[:user_id].to_i }
             = user.name
+
+  .col-sm-2
+    .form-group.overdue-checkboxes
+      = check_box_tag 'overdue_tasks', 'true', params[:overdue_tasks], class: 'i-checks'
+      %label= t('.overdue_tasks')
+  .col-sm-2
+    .form-group.overdue-checkboxes
+      = check_box_tag 'overdue_forms', 'true', params[:overdue_forms], class: 'i-checks'
+      %label= t('.overdue_forms')
+  .col-sm-3
+    .form-group.overdue-checkboxes
+      = check_box_tag 'overdue_assessments', 'true', params[:overdue_assessments], class: 'i-checks'
+      %label= t('.overdue_assessments')
+
+  .col-sm-1
+    %button#user-filter-submit.btn.btn-primary{type: 'submit'}
+      = t('.search')

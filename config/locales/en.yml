@@ -1314,6 +1314,10 @@ en:
       staffs: Staff Members
     users_filter:
       filter_by_user: Filter by user
+      overdue_assessments: Overdue Assessments
+      overdue_forms: Overdue Forms
+      overdue_tasks: Overdue Tasks
+      search: Search
       select_user: Select user
   data_trackers:
     index:
