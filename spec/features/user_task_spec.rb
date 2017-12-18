@@ -24,7 +24,7 @@ describe Task do
   let!(:sub_task)  { create(:task, client: sub_client) }
   let!(:able_task) { create(:task, client: able_client) }
 
-  let!(:overdue_task)    { create(:task, client: able_client, completion_date: Date.today - 6.month) }
+  let!(:overdue_task)    { create(:task, user: able_caseworker, client: able_client, completion_date: Date.today - 6.month) }
   let!(:upcoming_task)   { create(:task, client: client2, completion_date: Date.today + 6.month) }
 
   feature 'User tasks' do

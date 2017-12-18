@@ -1,15 +1,14 @@
 describe User, 'associations' do
   it { is_expected.to belong_to(:province) }
   it { is_expected.to belong_to(:department) }
-  
+
   it { is_expected.to have_one(:permission).dependent(:destroy) }
 
   it { is_expected.to have_many(:advanced_searches).dependent(:destroy) }
   it { is_expected.to have_many(:calendars) }
   it { is_expected.to have_many(:visits).dependent(:destroy) }
   it { is_expected.to have_many(:visit_clients).dependent(:destroy) }
-  it { is_expected.to have_many(:case_worker_tasks).dependent(:destroy) }
-  it { is_expected.to have_many(:tasks).through(:case_worker_tasks) }
+  it { is_expected.to have_many(:tasks).dependent(:destroy) }
   it { is_expected.to have_many(:clients).through(:case_worker_clients) }
   it { is_expected.to have_many(:case_worker_clients).dependent(:restrict_with_error) }
   it { is_expected.to have_many(:changelogs).dependent(:restrict_with_error) }
@@ -331,7 +330,7 @@ describe User, 'methods' do
 
   let!(:used_user) { create(:user) }
   let!(:other_clent) { create(:client, users: [used_user]) }
-  let!(:task) { create(:task, users: [used_user]) }
+  let!(:task) { create(:task, user: used_user) }
   let!(:changelog) { create(:changelog, user: used_user) }
   let!(:location){ create(:location, name: 'ផ្សេងៗ Other') }
   let!(:progress_note) { create(:progress_note, user: used_user, location: location) }

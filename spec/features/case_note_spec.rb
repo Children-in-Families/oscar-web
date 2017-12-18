@@ -17,8 +17,8 @@ describe 'CaseNote' do
 
     def add_tasks(n)
       (1..n).each do |time|
-        find('.case-note-task-btn').click
-        fill_in 'task_name', with: FFaker::Lorem.paragraph
+        find('.case-note-task-btn').trigger('click')
+        fill_in 'task_name', with: 'ABC'
         fill_in 'task_completion_date', with: Date.strptime(FFaker::Time.date).strftime('%B %d, %Y')
         find('.add-task-btn').trigger('click')
         sleep 1
@@ -26,7 +26,7 @@ describe 'CaseNote' do
     end
 
     def remove_task(index)
-      page.all('.task-arising a.remove-task')[index].click
+      page.all('.task-arising a.remove-task')[index].trigger('click')
     end
 
     scenario 'valid', js: true do
@@ -35,13 +35,14 @@ describe 'CaseNote' do
       find("#case_note_interaction_type option[value='Visit']", visible: false).select_option
       fill_in 'Note', with: 'This is valid'
 
-      add_tasks(5)
-      find('#case-note-submit-btn').click
+      add_tasks(1)
+      find('#case-note-submit-btn').trigger('click')
 
       sleep 1
       expect(page).to have_content('April 01, 2017')
       expect(page).to have_content('Jonh')
       expect(page).to have_content('This is valid')
+      expect(Task.find_by(name: 'ABC').user_id).to eq(user.id)
     end
 
     xscenario 'invalid' do
