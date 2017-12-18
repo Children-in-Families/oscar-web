@@ -10,9 +10,7 @@ class Calendar < ActiveRecord::Base
     start_date = task.completion_date
     end_date   = (start_date + 1.day).to_s
 
-    task.users.each do |user|
-      create(title: title, start_date: start_date, end_date: end_date, user_id: user.id)
-    end
+    create(title: title, start_date: start_date, end_date: end_date, user_id: task.user_id)
   end
 
   def self.update_tasks(calendars, task_params)
