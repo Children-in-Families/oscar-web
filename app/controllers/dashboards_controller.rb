@@ -1,5 +1,5 @@
 class DashboardsController < AdminController
-  before_action :find_tasks, only: [:index]
+  before_action :task_of_user, :find_tasks, only: [:index]
 
   def index
     @dashboard = Dashboard.new(Client.accessible_by(current_ability))
@@ -7,19 +7,17 @@ class DashboardsController < AdminController
 
   private
 
+  def task_of_user
+    @user = params[:user_id].present? ? User.find(params[:user_id]) : current_user
+  end
+
   def find_tasks
-    if params[:overdue_forms].presence == 'true' && params[:overdue_assessments].presence == 'true'
-      client_ids = overdue_forms & overdue_assessments
-    elsif params[:overdue_forms].presence == 'true'
-      client_ids = overdue_forms
-    elsif params[:overdue_assessments].presence == 'true'
-      client_ids = overdue_assessments
-    end
+    client_ids = find_clients
 
     if params[:overdue_forms].presence == 'true' || params[:overdue_assessments].presence == 'true'
-      @tasks = Task.incomplete.exclude_exited_ngo_clients.of_user(task_of_user).where(client: client_ids).uniq
+      @tasks = Task.incomplete.exclude_exited_ngo_clients.of_user(@user).where(client: client_ids).uniq
     else
-      @tasks = Task.incomplete.exclude_exited_ngo_clients.of_user(task_of_user).uniq
+      @tasks = Task.incomplete.exclude_exited_ngo_clients.of_user(@user).uniq
     end
 
     @tasks = @tasks.overdue if params[:overdue_tasks].presence == 'true'
@@ -30,28 +28,32 @@ class DashboardsController < AdminController
     User.self_and_subordinates(current_user)
   end
 
-  def task_of_user
-    params[:user_id].present? ? User.find(params[:user_id]) : current_user
+  def find_clients
+    if params[:overdue_forms].presence == 'true' && params[:overdue_assessments].presence == 'true'
+      overdue_forms & overdue_assessments
+    elsif params[:overdue_forms].presence == 'true'
+      overdue_forms
+    elsif params[:overdue_assessments].presence == 'true'
+      overdue_assessments
+    end
   end
 
   def overdue_forms
-    client_enrollment_tracking_overdue = task_of_user.client_enrollment_tracking_overdue_or_due_today[:clients_overdue].map(&:id)
+    client_enrollment_tracking_overdue = @user.client_enrollment_tracking_overdue_or_due_today[:clients_overdue].map(&:id)
     (custom_field_overdue + client_enrollment_tracking_overdue).uniq
   end
 
   def overdue_assessments
     ids = []
-    task_of_user.clients.joins(:assessments).all_active_types.each do |client|
+    @user.clients.joins(:assessments).all_active_types.each do |client|
       ids << client.id if client.next_assessment_date < Date.today
     end
     ids
   end
 
   def custom_field_overdue
-    user = task_of_user
-    clients = user.clients
     overdue_client_ids = []
-    clients.each do |client|
+    @user.clients.each do |client|
       client.custom_fields.uniq.each do |custom_field|
         if next_custom_field_date(client, custom_field) < Date.today
           overdue_client_ids << client.id
