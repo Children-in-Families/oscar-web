@@ -53,29 +53,12 @@ class DashboardsController < AdminController
 
   def custom_field_overdue
     overdue_client_ids = []
-    @user.clients.each do |client|
-      client.custom_fields.uniq.each do |custom_field|
-        if next_custom_field_date(client, custom_field) < Date.today
-          overdue_client_ids << client.id
-        end
+    clients = @user.clients.joins(:custom_fields).where.not(custom_fields: { frequency: '' })
+    clients.each do |client|
+      client.custom_fields.each do |custom_field|
+        overdue_client_ids << client.id if client.next_custom_field_date(client, custom_field) < Date.today
       end
     end
     overdue_client_ids.uniq
-  end
-
-  def next_custom_field_date(entity, custom_field)
-    (entity.custom_field_properties.by_custom_field(custom_field).last.created_at.to_date) + custom_field_frequency(custom_field)
-  end
-
-  def custom_field_frequency(custom_field)
-    frequency         = custom_field.frequency
-    time_of_frequency = custom_field.time_of_frequency
-    case frequency
-    when 'Daily'   then time_of_frequency.day
-    when 'Weekly'  then time_of_frequency.week
-    when 'Monthly' then time_of_frequency.month
-    when 'Yearly'  then time_of_frequency.year
-    else 0.day
-    end
   end
 end
