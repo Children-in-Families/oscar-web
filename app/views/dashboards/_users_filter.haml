@@ -1,26 +1,26 @@
 %form{ id: 'filtered_by_user', action: dashboards_path, method: 'GET', class: 'form-inline' }
   %input{type: 'hidden', value: params[:locale], name: 'locale'}
   - unless current_user.case_worker?
-    .col-sm-4
+    .col-xs-12.col-md-4
       .form-group
         %label{ for: 'user_id' }= t('.filter_by_user')
         = select_tag 'user_id', options_for_select(@users.map{|u| [u.name, u.id] }, selected: params[:user_id])
   - else
     %input{type: 'hidden', value: current_user.id, id: 'user_id', name: 'user_id'}
 
-  .col-sm-2
+  .col-xs-12.col-md-2
     .form-group.btn.btn-default.btn-sm
       = check_box_tag 'overdue_tasks', 'true', params[:overdue_tasks], class: 'i-checks'
       %label= t('.overdue_tasks')
-  .col-sm-2
+  .col-xs-12.col-md-2
     .form-group.btn.btn-default.btn-sm
       = check_box_tag 'overdue_forms', 'true', params[:overdue_forms], class: 'i-checks'
       %label= t('.overdue_forms')
-  .col-sm-3
+  .col-xs-12.col-md-3
     .form-group.btn.btn-default.btn-sm
       = check_box_tag 'overdue_assessments', 'true', params[:overdue_assessments], class: 'i-checks'
       %label= t('.overdue_assessments')
 
-  .col-sm-1
+  .col-xs-12.col-md-1
     %button#user-filter-submit.btn.btn-primary{type: 'submit'}
       = t('.apply')
