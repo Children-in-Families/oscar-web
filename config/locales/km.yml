@@ -1413,11 +1413,11 @@ km:
       referral_sources: ប្រភពនៃការបញ្ជូន
       staffs: បុគ្គលិក
     users_filter:
+      apply: អនុវត្ត
       filter_by_user: ស្វែងរកតាមរយៈអ្នកប្រើប្រាស់
       overdue_assessments: ការប៉ាន់ប្រមាណហួសកាលកំណត់
       overdue_forms: ទម្រង់បែបបទហួសកាលកំណត់
       overdue_tasks: ភារកិច្ចហួសកាលកំណត់
-      apply: អនុវត្ត
       select_user: ជ្រើសរើស
   data_trackers:
     index:
