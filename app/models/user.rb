@@ -25,8 +25,7 @@ class User < ActiveRecord::Base
   has_many :progress_notes, dependent: :restrict_with_error
   has_many :case_worker_clients, dependent: :restrict_with_error
   has_many :clients, through: :case_worker_clients
-  has_many :case_worker_tasks, dependent: :destroy
-  has_many :tasks, through: :case_worker_tasks
+  has_many :tasks, dependent: :destroy
   has_many :calendars
   has_many :visits,  dependent: :destroy
   has_many :visit_clients,  dependent: :destroy
@@ -115,7 +114,7 @@ class User < ActiveRecord::Base
   end
 
   def no_any_associated_objects?
-    clients.count.zero? && tasks.count.zero? && changelogs.count.zero? && progress_notes.count.zero?
+    clients.count.zero? && changelogs.count.zero? && progress_notes.count.zero?
   end
 
   def client_status

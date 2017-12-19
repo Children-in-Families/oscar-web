@@ -5,7 +5,7 @@ RSpec.describe Api::V1::CaseNotesController, type: :request do
   let!(:client) { create(:client, users: [user]) }
   let(:assessment) { create(:assessment) }
   let!(:assessment_domain) { create_list(:assessment_domain, 12, assessment: assessment) }
-  let!(:tasks) { create_list(:task, 2, case_note_domain_group: nil, domain: Domain.first) }
+  let!(:tasks) { create_list(:task, 2, case_note_domain_group: nil, domain: Domain.first, user: user) }
 
   describe 'POST #create' do
     context 'when user not loged in' do
@@ -48,6 +48,7 @@ RSpec.describe Api::V1::CaseNotesController, type: :request do
 
         it 'should be update tasks' do
           expect(Task.first.completed).to be true
+          expect(Task.first.user_id).to eq(user.id)
         end
       end
 

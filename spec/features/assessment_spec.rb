@@ -15,8 +15,8 @@ describe "Assessment" do
 
     def add_tasks(n)
       (1..n).each do |time|
-        find('.assessment-task-btn').click
-        fill_in 'task_name', with: FFaker::Lorem.paragraph
+        find('.assessment-task-btn').trigger('click')
+        fill_in 'task_name', with: 'ABC'
         fill_in 'task_completion_date', with: Date.strptime(FFaker::Time.date).strftime('%B %d, %Y')
         find('.add-task-btn').trigger('click')
         sleep 1
@@ -40,7 +40,7 @@ describe "Assessment" do
     end
 
     scenario 'valid', js: true do
-      with_tasks(2)
+      with_tasks(1)
       without_task
 
       fill_in 'Reason', with: FFaker::Lorem.paragraph
@@ -50,6 +50,7 @@ describe "Assessment" do
       sleep 1
       expect(page).to have_content(domain.name)
       expect(page.find('.domain-score')).to have_content('4')
+      expect(Task.find_by(name: 'ABC').user_id).to eq(user.id)
     end
 
     scenario  'invalid', js: true do

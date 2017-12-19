@@ -7,7 +7,7 @@ module Api
 
         def create
           task = @client.tasks.new(task_params)
-          task.user_ids = @client.user_ids
+          task.user_id = current_user.id
 
           if task.save
             render json: task
@@ -32,7 +32,7 @@ module Api
         private
 
         def task_params
-          params.require(:task).permit(:domain_id, :name, :completion_date, :remind_at, user_ids: [])
+          params.require(:task).permit(:domain_id, :name, :completion_date, :remind_at)
         end
 
         def find_task

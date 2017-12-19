@@ -69,8 +69,6 @@ class Client < ActiveRecord::Base
   validates :kid_id, uniqueness: { case_sensitive: false }, if: 'kid_id.present?'
   validates :user_ids, presence: true
 
-  after_update :reset_tasks_of_users
-
   after_create :set_slug_as_alias
   after_save :create_client_history
 
@@ -193,14 +191,6 @@ class Client < ActiveRecord::Base
 
   def self.managed_by(user, status)
     where('status = ? or user_id = ?', status, user.id)
-  end
-
-  def reset_tasks_of_users
-    return unless tasks.any? && user_ids != tasks.pluck(:user_id)
-    tasks.each do |task|
-      users.map { |user| CaseWorkerTask.find_or_create_by(task_id: task.id, user_id: user.id) }
-    end
-    CaseWorkerTask.where(task_id: tasks.ids).where.not(user_id: user_ids).destroy_all
   end
 
   def has_no_ec_or_any_cases?

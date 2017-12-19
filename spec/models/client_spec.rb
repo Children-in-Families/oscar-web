@@ -62,31 +62,6 @@ describe Client, 'callbacks' do
       expect(ClientHistory.where('object.id' => agency_client.id).last.agency_client_histories.count).to eq(2)
     end
   end
-
-  context 'before_update' do
-    let!(:case_worker_a){ create(:user) }
-    let!(:case_worker_b){ create(:user) }
-    let!(:case_worker_c){ create(:user) }
-    let!(:client_a){ create(:client, given_name: 'Client A', user_ids: [case_worker_a.id, case_worker_b.id]) }
-    let!(:my_task){ create(:task, client: client_a, name: 'My Task')}
-
-
-    context 'reset_tasks_of_users' do
-      before do
-        client_a.user_ids = [case_worker_a.id, case_worker_c.id]
-        client_a.save
-      end
-
-      it 'case workers of the client should have tasks related to the client' do
-        expect(case_worker_a.case_worker_tasks.size).to eq(1)
-        expect(case_worker_c.case_worker_tasks.size).to eq(1)
-      end
-
-      it 'case workers who are not associated with the client should not have this task' do
-        expect(case_worker_b.case_worker_tasks.size).to eq(0)
-      end
-    end
-  end
 end
 
 describe Client, 'methods' do
