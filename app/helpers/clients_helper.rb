@@ -231,6 +231,10 @@ module ClientsHelper
     true if params.dig(:client_grid, :no_case_note) == 'Yes'
   end
 
+  def check_params_has_over_forms
+    true if params.dig(:client_grid, :overdue_forms) == 'Yes'
+  end
+
   def check_params_has_over_assessment
     true if params.dig(:client_grid, :assessments_due_to) == 'Overdue'
   end

@@ -1714,6 +1714,7 @@ km:
       csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
       filter_domains: កត្តា
       has_overdue_assessment: ដល់ពេលការប៉ាន់ប្រមាណ
+      has_overdue_forms: មានទម្រង់ហួសកាលកំណត់
       has_overdue_task: ភារកិច្ចហួសកាលកំណត់
       no_case_note: មិនមានកំណត់ត្រាករណីក្នុងរយៈពេល 30 ថ្ងៃ
       reset: សំអាត
