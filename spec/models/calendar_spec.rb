@@ -7,14 +7,15 @@ describe Calendar do
     let!(:user_1){ create(:user) }
     let!(:user_2){ create(:user) }
     let!(:client_1){ create(:client, users: [user_1, user_2]) }
-    let!(:task_1){ create(:task, client: client_1, name: 'My Task', completion_date: Date.today) }
+    let!(:task_1){ create(:task, user: user_1, client: client_1, name: 'My Task', completion_date: Date.today) }
     context 'populate_tasks' do
       before do
         task_1.reload
         Calendar.populate_tasks(task_1)
       end
       it 'should include tasks of case workers of the client' do
-        expect(Calendar.pluck(:user_id)).to include(user_1.id, user_2.id)
+        expect(Calendar.pluck(:user_id)).to include(user_1.id)
+        expect(Calendar.pluck(:user_id)).not_to include(user_2.id)
       end
     end
 

@@ -69,10 +69,9 @@ class Client < ActiveRecord::Base
   validates :kid_id, uniqueness: { case_sensitive: false }, if: 'kid_id.present?'
   validates :user_ids, presence: true
 
-  after_update :reset_tasks_of_users
-
   after_create :set_slug_as_alias
   after_save :create_client_history
+  after_update :notify_managers, if: :exiting_ngo?
 
   scope :live_with_like,              ->(value) { where('clients.live_with iLIKE ?', "%#{value}%") }
   scope :given_name_like,             ->(value) { where('clients.given_name iLIKE :value OR clients.local_given_name iLIKE :value', { value: "%#{value}%"}) }
@@ -193,14 +192,6 @@ class Client < ActiveRecord::Base
 
   def self.managed_by(user, status)
     where('status = ? or user_id = ?', status, user.id)
-  end
-
-  def reset_tasks_of_users
-    return unless tasks.any? && user_ids != tasks.pluck(:user_id)
-    tasks.each do |task|
-      users.map { |user| CaseWorkerTask.find_or_create_by(task_id: task.id, user_id: user.id) }
-    end
-    CaseWorkerTask.where(task_id: tasks.ids).where.not(user_id: user_ids).destroy_all
   end
 
   def has_no_ec_or_any_cases?
@@ -342,9 +333,18 @@ class Client < ActiveRecord::Base
     end
   end
 
+  def exiting_ngo?
+    return false unless status_changed?
+    EXIT_STATUSES.include?(status)
+  end
+
   private
 
   def create_client_history
     ClientHistory.initial(self)
+  end
+
+  def notify_managers
+    ClientMailer.exited_notification(self, User.managers.pluck(:email)).deliver_now
   end
 end

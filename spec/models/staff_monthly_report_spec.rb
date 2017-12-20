@@ -8,9 +8,9 @@ describe 'Staff Monthly Report' do
   let!(:user_4) { create(:user) }
   let!(:user_5) { create(:user) }
 
-  let!(:user_1_tasks) { create_list(:task, 2, :incomplete, completion_date: Date.today.last_month.beginning_of_month, users: [user_1]) }
-  let!(:user_2_tasks) { create_list(:task, 16, :incomplete, completion_date: Date.today.last_month.beginning_of_month, users: [user_2]) }
-  let!(:user_3_tasks) { create(:task, :incomplete, completion_date: Date.today.last_month.end_of_month, users: [user_3]) }
+  let!(:user_1_tasks) { create_list(:task, 2, :incomplete, completion_date: Date.today.last_month.beginning_of_month, user: user_1) }
+  let!(:user_2_tasks) { create_list(:task, 16, :incomplete, completion_date: Date.today.last_month.beginning_of_month, user: user_2) }
+  let!(:user_3_tasks) { create(:task, :incomplete, completion_date: Date.today.last_month.end_of_month, user: user_3) }
 
   let!(:client_1) { create(:client, :accepted, users: [user_1]) }
   let!(:client_3) { create(:client, :accepted, users: [user_1, user_2]) }
