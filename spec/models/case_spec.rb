@@ -267,26 +267,6 @@ describe Case, 'callbacks' do
     before do
       ClientHistory.destroy_all
     end
-    context 'update cases to exited from cif' do
-      let!(:fc_manager){ create(:user, :fc_manager) }
-      let!(:fc_client){ create(:client) }
-      let!(:kinship){ create(:case, case_type: 'KC', client: fc_client) }
-      let!(:foster){ create(:case, case_type: 'FC', client: fc_client) }
-      before do
-        foster.update(
-          exited_from_cif: true,
-          exit_date: Time.now,
-          exit_note: FFaker::Lorem.paragraph
-        )
-        kinship.reload
-      end
-      it 'should update all cases' do
-        expect(kinship.exited_from_cif).to be_truthy
-        expect(kinship.exited).to be_truthy
-        expect(kinship.exit_date).to eq(foster.exit_date)
-        expect(kinship.exit_note).to eq(foster.exit_note)
-      end
-    end
 
     context 'create_client_history' do
       it 'should have maybe some client histories, one case client history, and one client family history' do
