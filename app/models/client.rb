@@ -71,6 +71,7 @@ class Client < ActiveRecord::Base
 
   after_create :set_slug_as_alias
   after_save :create_client_history
+  after_update :notify_managers, if: :exiting_ngo?
 
   scope :live_with_like,              ->(value) { where('clients.live_with iLIKE ?', "%#{value}%") }
   scope :given_name_like,             ->(value) { where('clients.given_name iLIKE :value OR clients.local_given_name iLIKE :value', { value: "%#{value}%"}) }
@@ -332,9 +333,18 @@ class Client < ActiveRecord::Base
     end
   end
 
+  def exiting_ngo?
+    return false unless status_changed?
+    EXIT_STATUSES.include?(status)
+  end
+
   private
 
   def create_client_history
     ClientHistory.initial(self)
+  end
+
+  def notify_managers
+    ClientMailer.exited_notification(self, User.managers.pluck(:email)).deliver_now
   end
 end

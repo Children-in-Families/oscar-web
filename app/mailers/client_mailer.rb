@@ -1,7 +1,7 @@
 class ClientMailer < ApplicationMailer
   def exited_notification(client, emails)
     @client         = client
-    @manager_emails = emails
+    @manager_emails = emails.any? ? emails : User.admins.pluck(:email)
     mail(to: @manager_emails, subject: 'Client has exited from NGO')
   end
 end

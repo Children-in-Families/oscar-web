@@ -30,7 +30,7 @@ class Case < ActiveRecord::Base
   before_save :update_client_status, :set_current_status
   before_create :add_family_children
   after_create :update_client_code
-  after_save :update_cases_to_exited_from_cif, :create_client_history
+  after_save :create_client_history
 
   def set_attributes
     if family.inactive? || family.birth_family?
@@ -140,14 +140,6 @@ class Case < ActiveRecord::Base
   def generate_client_code
     return [2000, Client.start_with_code(2).maximum(:code).to_i + 1].max if kc?
     return [1000, Client.start_with_code(1).maximum(:code).to_i + 1].max if fc?
-  end
-
-  def update_cases_to_exited_from_cif
-    if exited_from_cif && status_was.empty? && User.managers.any?
-      if client.cases.active.update_all(exited_from_cif: true, exited: true, exit_date: exit_date, exit_note: exit_note)
-        ClientMailer.exited_notification(client, User.managers.pluck(:email)).deliver_now
-      end
-    end
   end
 
   def create_client_history
