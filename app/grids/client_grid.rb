@@ -406,11 +406,8 @@ class ClientGrid
   filter(:overdue_forms, :enum, select: %w(Yes No), header: -> { I18n.t('datagrid.form.has_overdue_forms') }) do |value, scope|
     if value == 'Yes'
       client_ids = []
-      clients = []
-      s = []
-      clients << Client.joins(:custom_fields).where.not(custom_fields: { frequency: '' })
-      clients << Client.joins(:client_enrollments).where(client_enrollments: { status: 'Active' })
-      clients.flatten.uniq.each do |client|
+      clients = Client.joins(:custom_fields).where.not(custom_fields: { frequency: '' }) + Client.joins(:client_enrollments).where(client_enrollments: { status: 'Active' })
+      clients.uniq.each do |client|
         custom_fields = client.custom_fields.where.not(frequency: '')
         custom_fields.each do |custom_field|
           client_ids << client.id if client.next_custom_field_date(client, custom_field) < Date.today
