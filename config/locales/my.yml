@@ -1348,11 +1348,11 @@ my:
       referral_sources: လႊဲေျပာင္းရန္ ရင္းျမစ္မ်ား
       staffs: ၀န္ထမ္းအဖြဲ႕၀င္မ်ား
     users_filter:
+      apply: လျှောက်ထား
       filter_by_user: အသံုးျပဳသူ သတ္မွတ္ထားေသာ စိစစ္မႈ
       overdue_assessments: ရက်လွန်အကဲဖြတ်
       overdue_forms: ရက်လွန်ပုံစံ
       overdue_tasks: ရက်လွန်အလုပ်တခုကို
-      search: ရှာဖှေ
       select_user: အသံုးျပဳသူကို ေရြးခ်ယ္ပါ။
   data_trackers:
     index:
