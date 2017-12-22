@@ -1,0 +1,45 @@
+.panel.panel-danger#overdue-tasks
+  .panel-heading
+    .row
+      .col-xs-6
+        %h5= t('.overdue_tasks')
+  .panel-body
+    - @clients.each do |client, overdue_forms|
+      - overdue_tasks = client.tasks.incomplete.exclude_exited_ngo_clients.of_user(@user).overdue
+      - next if overdue_tasks.empty? && overdue_forms[:overdue_forms].empty? && overdue_forms[:overdue_trackings].empty? && !(client.next_assessment_date < Date.today) || (params[:overdue_tasks].nil? && params[:overdue_assessments].nil? && params[:overdue_forms].nil?)
+      .ibox.border-left-right.border-bottom
+        .ibox-title
+          %h5
+            = link_to client.name, client_path(client), target: :_blank
+        .ibox-content.no-padding
+          %table.table.table-striped.active_tasks
+            - if params[:overdue_tasks].presence == 'true'
+              - overdue_tasks.each_with_index do |task, index|
+                %tr
+                  - if index == 0
+                    %td.col-xs-3{ rowspan: overdue_tasks.count } Tasks
+                  %td.col-xs-6.task-name.border-left-right= task.name
+                  %td.col-xs-3= task.completion_date.strftime("%B %d, %Y")
+            - if client.next_assessment_date < Date.today && params[:overdue_assessments].presence == 'true'
+              - assessment = client.assessments.latest_record
+              - if assessment.present?
+                %tr
+                  %td.col-xs-3 Assessment
+                  %td.col-xs-6.task-name.border-left-right
+                  %td.col-xs-3= assessment.created_at.strftime("%B %d, %Y")
+            - if params[:overdue_forms].presence == 'true'
+              - custom_field_index = 0
+              - row_count = overdue_forms[:overdue_forms].size + overdue_forms[:overdue_trackings].size
+              - overdue_forms[:overdue_forms].each_with_index do |custom_field, index|
+                %tr
+                  - if index == 0
+                    %td.col-xs-3{rowspan: row_count} Forms
+                  %td.col-xs-6.task-name.border-left-right= custom_field.form_title
+                  %td.col-xs-3= client.custom_field_properties.by_custom_field(custom_field).last.created_at.strftime("%B %d, %Y")
+                - custom_field_index = index + 1
+              - overdue_forms[:overdue_trackings].each do |tracking|
+                %tr
+                  - if custom_field_index == 0
+                    %td.col-xs-3{rowspan: row_count} Forms
+                  %td.col-xs-6.task-name.border-left-right= tracking.name
+                  %td.col-xs-3= tracking.client_enrollment_trackings.last.created_at.strftime("%B %d, %Y")

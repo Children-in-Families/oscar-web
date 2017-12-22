@@ -1283,9 +1283,9 @@ en:
     active_tasks:
       all_active_tasks: All Active Tasks
       domain: Domain
-      overdue_tasks: Overdue tasks
-      today_tasks: Today tasks
-      upcoming_tasks: Upcoming tasks
+      overdue_tasks: Overdue
+      today_tasks: Today
+      upcoming_tasks: Upcoming
     active_tasks_side:
       active_tasks: Active Tasks
     client:
@@ -1315,9 +1315,9 @@ en:
     users_filter:
       apply: Apply
       filter_by_user: Filter by user
-      overdue_assessments: Overdue Assessments
-      overdue_forms: Overdue Forms
-      overdue_tasks: Overdue Tasks
+      overdue_assessments: Assessment
+      overdue_forms: Forms
+      overdue_tasks: Tasks
       select_user: Select user
   data_trackers:
     index:
