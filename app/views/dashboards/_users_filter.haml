@@ -1,11 +1,26 @@
 %form{ id: 'filtered_by_user', action: dashboards_path, method: 'GET', class: 'form-inline' }
-  .col-sm-6
-    %input{type: 'hidden', value: params[:locale], name: 'locale'}
-    .form-group
-      %label{ for: 'user_id' }= t('.filter_by_user')
-      %select{ id: 'user_id', class: 'form-control', name: 'user_id' }
-        - unless params[:user_id]
-          %option{ selected: 'selected' }= t('.select_user')
-        - @users.each do |user|
-          %option{ value: user.id, selected: user.id == params[:user_id].to_i }
-            = user.name
+  %input{type: 'hidden', value: params[:locale], name: 'locale'}
+  - unless current_user.case_worker?
+    .col-xs-12.col-md-4
+      .form-group
+        %label{ for: 'user_id' }= t('.filter_by_user')
+        = select_tag 'user_id', options_for_select(@users.map{|u| [u.name, u.id] }, selected: params[:user_id])
+  - else
+    %input{type: 'hidden', value: current_user.id, id: 'user_id', name: 'user_id'}
+
+  .col-xs-12.col-md-2
+    .form-group.btn.btn-default.btn-sm
+      = check_box_tag 'overdue_tasks', 'true', params[:overdue_tasks], class: 'i-checks'
+      %label= t('.overdue_tasks')
+  .col-xs-12.col-md-2
+    .form-group.btn.btn-default.btn-sm
+      = check_box_tag 'overdue_forms', 'true', params[:overdue_forms], class: 'i-checks'
+      %label= t('.overdue_forms')
+  .col-xs-12.col-md-3
+    .form-group.btn.btn-default.btn-sm
+      = check_box_tag 'overdue_assessments', 'true', params[:overdue_assessments], class: 'i-checks'
+      %label= t('.overdue_assessments')
+
+  .col-xs-12.col-md-1
+    %button#user-filter-submit.btn.btn-primary{type: 'submit'}
+      = t('.apply')
