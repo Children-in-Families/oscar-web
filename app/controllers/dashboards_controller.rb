@@ -12,15 +12,7 @@ class DashboardsController < AdminController
   end
 
   def find_tasks
-    # client_ids = find_clients
-    #
-    # if params[:overdue_forms].presence == 'true' || params[:overdue_assessments].presence == 'true'
-    #   @tasks = Task.incomplete.exclude_exited_ngo_clients.of_user(@user).where(client: client_ids).uniq
-    # else
-    #   @tasks = Task.incomplete.exclude_exited_ngo_clients.of_user(@user).uniq
-    # end
     @clients = find_clients
-    # @tasks = @tasks.overdue if params[:overdue_tasks].presence == 'true'
     @users = find_users.order(:first_name, :last_name) unless current_user.case_worker?
   end
 
@@ -40,49 +32,38 @@ class DashboardsController < AdminController
       overdue_forms= []
       today_forms= []
       upcoming_forms= []
-      # overdue_tasks= []
-      # today_tasks= []
-      # upcoming_tasks= []
-      # overdue_assessments = today_assessments = upcoming_assessments = []
-      # tasks = client.tasks.incomplete.exclude_exited_ngo_clients.of_user(@user)
-      #
-      # overdue_tasks = tasks.overdue
-      # today_tasks = tasks.today
-      # upcoming_tasks = tasks.upcoming
 
-      custom_fields = client.custom_fields.where.not(frequency: '')
-      custom_fields.each do |custom_field|
-        if client.next_custom_field_date(client, custom_field) < Date.today
-          overdue_forms << custom_field
-        elsif client.next_custom_field_date(client, custom_field) == Date.today
-          today_forms << custom_field
-        elsif client.next_custom_field_date(client, custom_field) > Date.today
-          upcoming_forms << custom_field
+      if params[:forms].presence == 'true'
+        custom_fields = client.custom_fields.where.not(frequency: '')
+        custom_fields.each do |custom_field|
+          if client.next_custom_field_date(client, custom_field) < Date.today
+            overdue_forms << custom_field
+          elsif client.next_custom_field_date(client, custom_field) == Date.today
+            today_forms << custom_field
+          elsif client.next_custom_field_date(client, custom_field) > Date.today
+            upcoming_forms << custom_field
+          end
         end
-      end
 
-      client_active_enrollments = client.client_enrollments.active
-      client_active_enrollments.each do |client_active_enrollment|
-        trackings = client_active_enrollment.trackings.where.not(frequency: '')
-        trackings.each do |tracking|
-          last_client_enrollment_tracking = client_active_enrollment.client_enrollment_trackings.last
-          if client.next_client_enrollment_tracking_date(tracking, last_client_enrollment_tracking) < Date.today
-            overdue_trackings << tracking
-          elsif client.next_client_enrollment_tracking_date(tracking, last_client_enrollment_tracking) == Date.today
-            today_trackings << tracking
-          elsif client.next_client_enrollment_tracking_date(tracking, last_client_enrollment_tracking) > Date.today
-            upcoming_trackings << tracking
+        client_active_enrollments = client.client_enrollments.active
+        client_active_enrollments.each do |client_active_enrollment|
+          trackings = client_active_enrollment.trackings.where.not(frequency: '')
+          trackings.each do |tracking|
+            last_client_enrollment_tracking = client_active_enrollment.client_enrollment_trackings.last
+            if client.next_client_enrollment_tracking_date(tracking, last_client_enrollment_tracking) < Date.today
+              overdue_trackings << tracking
+            elsif client.next_client_enrollment_tracking_date(tracking, last_client_enrollment_tracking) == Date.today
+              today_trackings << tracking
+            elsif client.next_client_enrollment_tracking_date(tracking, last_client_enrollment_tracking) > Date.today
+              upcoming_trackings << tracking
+            end
           end
         end
       end
-      # clients_overdue << [client, { overdue_forms: overdue_forms.uniq, overdue_trackings: overdue_trackings.uniq }]
-      # clients_duetoday << [client, { today_forms: today_forms.uniq, today_trackings: today_trackings.uniq }]
-      # clients_upcoming << [client, { upcoming_forms: upcoming_forms.uniq, upcoming_trackings: upcoming_trackings.uniq }]
 
       clients << [client, { overdue_forms: overdue_forms.uniq, today_forms: today_forms.uniq, upcoming_forms: upcoming_forms.uniq, overdue_trackings: overdue_trackings.uniq, today_trackings: today_trackings.uniq, upcoming_trackings: upcoming_trackings.uniq }]
     end
     clients
-    # { clients_overdue: clients_overdue, clients_duetoday: clients_duetoday, clients_upcoming: clients_upcoming }
   end
 
   def overdue_forms

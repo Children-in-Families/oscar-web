@@ -10,16 +10,16 @@
 
   .col-xs-12.col-md-2
     .form-group.btn.btn-default.btn-sm
-      = check_box_tag 'overdue_tasks', 'true', params[:overdue_tasks], class: 'i-checks'
-      %label= t('.overdue_tasks')
+      = check_box_tag 'tasks', 'true', checkbox_tasks, class: 'i-checks'
+      %label= t('.tasks')
   .col-xs-12.col-md-2
     .form-group.btn.btn-default.btn-sm
-      = check_box_tag 'overdue_forms', 'true', params[:overdue_forms], class: 'i-checks'
-      %label= t('.overdue_forms')
+      = check_box_tag 'forms', 'true', checkbox_forms, class: 'i-checks'
+      %label= t('.forms')
   .col-xs-12.col-md-3
     .form-group.btn.btn-default.btn-sm
-      = check_box_tag 'overdue_assessments', 'true', params[:overdue_assessments], class: 'i-checks'
-      %label= t('.overdue_assessments')
+      = check_box_tag 'assessments', 'true', checkbox_assessments, class: 'i-checks'
+      %label= t('.assessments')
 
   .col-xs-12.col-md-1
     %button#user-filter-submit.btn.btn-primary{type: 'submit'}
