@@ -13,6 +13,9 @@
             = check_box_tag 'no_case_note_check_box', 'no_case_note_check_box', checked = check_params_no_case_note, class: 'i-checks'
             %label=t('.no_case_note')
           %span.p-xs.b-r-sm.m-l.btn.btn-sm.btn-default
+            = check_box_tag 'overdue-forms', 'overdue-forms', checked = check_params_has_over_forms, class: 'i-checks'
+            %label=t('.has_overdue_forms')
+          %span.p-xs.b-r-sm.m-l.btn.btn-sm.btn-default
             = check_box_tag 'overdue-assessment', 'overdue-assessment', checked = check_params_has_over_assessment, class: 'i-checks'
             %label=t('.has_overdue_assessment')
           %span.p-xs.b-r-sm.m-l.btn.btn-sm.btn-default

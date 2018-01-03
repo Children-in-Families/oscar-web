@@ -389,17 +389,40 @@ class ClientGrid
     end
   end
 
-  filter(:no_case_note, :enum, select: %w(Yes No), header: -> { I18n.t('datagrid.columns.clients.gender') }) do |value, scope|
+  filter(:no_case_note, :enum, select: %w(Yes No), header: -> { I18n.t('datagrid.form.no_case_note') }) do |value, scope|
     if value == 'Yes'
       case_note_ids = CaseNote.no_case_note_in(1.month.ago).ids
       scope.joins(:case_notes).where(case_notes: {id: case_note_ids})
     end
   end
 
-  filter(:overdue_task, :enum, select: %w(Overdue), header: -> { I18n.t('datagrid.columns.clients.overdue_task') }) do |value, scope|
+  filter(:overdue_task, :enum, select: %w(Overdue), header: -> { I18n.t('datagrid.form.has_overdue_task') }) do |value, scope|
     if value == 'Overdue'
       client_ids = Task.overdue_incomplete.pluck(:client_id)
       scope.where(id: client_ids)
+    end
+  end
+
+  filter(:overdue_forms, :enum, select: %w(Yes No), header: -> { I18n.t('datagrid.form.has_overdue_forms') }) do |value, scope|
+    if value == 'Yes'
+      client_ids = []
+      clients = Client.joins(:custom_fields).where.not(custom_fields: { frequency: '' }) + Client.joins(:client_enrollments).where(client_enrollments: { status: 'Active' })
+      clients.uniq.each do |client|
+        custom_fields = client.custom_fields.where.not(frequency: '')
+        custom_fields.each do |custom_field|
+          client_ids << client.id if client.next_custom_field_date(client, custom_field) < Date.today
+        end
+        client_active_enrollments = client.client_enrollments.active
+        client_active_enrollments.each do |client_active_enrollment|
+          next unless client_active_enrollment.program_stream.tracking_required?
+          trackings = client_active_enrollment.trackings.where.not(frequency: '')
+          trackings.each do |tracking|
+            last_client_enrollment_tracking = client_active_enrollment.client_enrollment_trackings.last
+            client_ids << client.id if client.next_client_enrollment_tracking_date(tracking, last_client_enrollment_tracking) < Date.today
+          end
+        end
+      end
+      scope.where(id: client_ids.uniq)
     end
   end
 
