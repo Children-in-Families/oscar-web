@@ -59,7 +59,6 @@ describe 'AdvancedSearch' do
       page.find('#save-search-setting').click
       fill_in 'Name', with: 'OSCaR client'
       click_button('#submit-query')
-      expect(page).to have_content('Search setting has been successfully created.')
       page.find('#load-saved-search').click
       expect(page).to have_content('OSCaR client')
     end
@@ -84,7 +83,6 @@ describe 'AdvancedSearch' do
     scenario 'valid' do
       fill_in 'Name', with: 'Accepted client'
       click_button 'Save'
-      expect(page).to have_content('Search setting has been successfully updated.')
       page.find('#load-saved-search').click
       expect(page).to have_content('Accepted client')
     end
@@ -113,7 +111,8 @@ describe 'AdvancedSearch' do
       page.find('#load-saved-search').click
       find("a[href='#{advanced_search_save_query_path(advanced_search_5)}'][data-method='delete']").click
       sleep 1
-      expect(page).to have_content('Search setting has been successfully deleted.')
+      page.find('#load-saved-search').click
+      expect(page).not_to have_content(advanced_search_5.name)
     end
   end
 end
