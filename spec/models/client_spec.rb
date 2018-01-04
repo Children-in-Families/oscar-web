@@ -259,7 +259,7 @@ describe Client, 'methods' do
 end
 
 describe Client, 'scopes' do
-  let!(:user){ create(:user) }
+  let!(:user){ create(:user, :admin) }
   let!(:follower){ create(:user)}
   let!(:referral_source) { create(:referral_source)}
   let!(:province){ create(:province) }
@@ -625,12 +625,15 @@ describe 'validations' do
   end
 
   context 'exited from ngo should not contain blank data for exit info' do
+    let!(:admin){ create(:user, :admin) }
     let!(:valid_client){ create(:client, exit_date: '2017-07-21', exit_note: 'testing', status: 'Exited - Dead') }
+
     before do
       valid_client.exit_date = ''
       valid_client.exit_note = ''
       valid_client.valid?
     end
+
     it { expect(valid_client.valid?).to be_falsey }
     it { expect(valid_client.errors.full_messages.first).to include("can't be blank") }
   end
