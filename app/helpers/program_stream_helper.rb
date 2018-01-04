@@ -28,4 +28,10 @@ module ProgramStreamHelper
       "hide-tracking-form"
     end
   end
+
+  def disable_rules_if_no_enrollment(object)
+    if object.client_enrollments.active.present?
+      "hide-tracking-form"
+    end
+  end
 end
