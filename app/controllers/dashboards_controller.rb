@@ -65,28 +65,4 @@ class DashboardsController < AdminController
     end
     clients
   end
-
-  def overdue_forms
-    client_enrollment_tracking_overdue = @user.client_enrollment_tracking_overdue_or_due_today[:clients_overdue].map(&:id)
-    (custom_field_overdue + client_enrollment_tracking_overdue).uniq
-  end
-
-  def overdue_assessments
-    ids = []
-    @user.clients.joins(:assessments).all_active_types.each do |client|
-      ids << client.id if client.next_assessment_date < Date.today
-    end
-    ids
-  end
-
-  def custom_field_overdue
-    overdue_client_ids = []
-    clients = @user.clients.joins(:custom_fields).where.not(custom_fields: { frequency: '' })
-    clients.each do |client|
-      client.custom_fields.each do |custom_field|
-        overdue_client_ids << client.id if client.next_custom_field_date(client, custom_field) < Date.today
-      end
-    end
-    overdue_client_ids.uniq
-  end
 end
