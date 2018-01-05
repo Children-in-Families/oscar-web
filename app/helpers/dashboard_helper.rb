@@ -39,15 +39,15 @@ module DashboardHelper
     forms[:upcoming_forms].empty? && forms[:upcoming_trackings].empty?
   end
 
-  def overdue_assessments_empty?(client)
+  def overdue_assessments_any?(client)
     client.next_assessment_date < Date.today
   end
 
-  def duetoday_assessments_empty?(client)
+  def duetoday_assessments_any?(client)
     client.next_assessment_date == Date.today
   end
 
-  def upcoming_assessments_empty?(client)
+  def upcoming_assessments_any?(client)
     client.next_assessment_date.between?(Date.tomorrow, 3.month.from_now)
   end
 
@@ -62,7 +62,7 @@ module DashboardHelper
   end
 
   def skipped_overdue_assessments?(client)
-    skipped_assessments = !overdue_assessments_empty?(client)
+    skipped_assessments = !overdue_assessments_any?(client)
     skipped_assessments ? true : false
   end
 
@@ -77,7 +77,7 @@ module DashboardHelper
   end
 
   def skipped_duetoday_assessments?(client)
-    skipped_assessments = !duetoday_assessments_empty?(client)
+    skipped_assessments = !duetoday_assessments_any?(client)
     skipped_assessments ? true : false
   end
 
@@ -92,7 +92,7 @@ module DashboardHelper
   end
 
   def skipped_upcoming_assessments?(client)
-    skipped_assessments = !upcoming_assessments_empty?(client)
+    skipped_assessments = !upcoming_assessments_any?(client)
     skipped_assessments ? true : false
   end
 end

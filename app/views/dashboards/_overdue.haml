@@ -13,7 +13,7 @@
             = link_to client.name, client_path(client), target: :_blank
         .ibox-content.no-padding
           %table.table.table-striped.active_tasks
-            - if params[:tasks].presence == 'true'
+            - if @task_params
               - overdue_tasks.each_with_index do |task, index|
                 %tr
                   - if index == 0
@@ -21,14 +21,14 @@
                   %td.col-xs-6.task-name.border-left-right= task.name
                   %td.col-xs-3= task.completion_date.strftime("%B %d, %Y")
 
-            - if client.next_assessment_date < Date.today && params[:assessments].presence == 'true'
+            - if @assessment_params && overdue_assessments_any?(client)
               - assessment = client.assessments.latest_record
               - if assessment.present?
                 %tr
                   %td.col-xs-3= t('.assessment')
                   %td.col-xs-6.task-name.border-left-right
                   %td.col-xs-3= client.next_assessment_date.strftime("%B %d, %Y")
-            - if params[:forms].presence == 'true'
+            - if @form_params
               - custom_field_index = 0
               - row_count = overdue_forms[:overdue_forms].size + overdue_forms[:overdue_trackings].size
               - overdue_forms[:overdue_forms].each_with_index do |custom_field, index|
