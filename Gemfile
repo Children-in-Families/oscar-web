@@ -58,6 +58,7 @@ gem 'bourbon',                '~> 4.2'
 gem 'neat',                   '~> 1.8'
 gem 'sidekiq',                '~> 4.1.0'
 gem 'mongoid',                '~> 5.2', '>= 5.2.1'
+gem 'request_store',          '~> 1.3.0'
 
 group :development, :test do
   gem 'pry'

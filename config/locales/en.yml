@@ -3307,6 +3307,7 @@ en:
       csi_domain_scores: CSI Domain Scores
       domain_score: Domain Scores
   review_problem: 'Please review the problems below:'
+  rules_has_been_modified: Rules cannot be changed or added because it breaks the previous rules.
   save: Save
   settings:
     country:

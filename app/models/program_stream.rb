@@ -17,10 +17,9 @@ class ProgramStream < ActiveRecord::Base
 
   validates :name, presence: true
   validates :name, uniqueness: true
-  validate  :form_builder_field_uniqueness
+  validate  :form_builder_field_uniqueness, :rules_edition
 
   # validate  :validate_remove_enrollment_field, :validate_remove_exit_program_field, if: -> { id.present? }
-
   after_save :set_program_completed
   after_create :build_permission
 
@@ -126,6 +125,22 @@ class ProgramStream < ActiveRecord::Base
   end
 
   private
+
+  def rules_edition
+    current_rule_clients = AdvancedSearches::ClientAdvancedSearch.new(rules, Client.accessible_by(User.ability))
+    current_client_ids = current_rule_clients.filter.ids.to_set
+    previous_rule_clients = AdvancedSearches::ClientAdvancedSearch.new(rules_was, Client.accessible_by(User.ability))
+    previous_client_ids = previous_rule_clients.filter.ids.to_set
+
+    unless unchanged_rules?(current_client_ids, previous_client_ids)
+      error_message = "#{I18n.t('rules_has_been_modified')}"
+      errors.add(:rules, error_message)
+    end
+  end
+
+  def unchanged_rules?(current_ids, previous_ids)
+    current_ids.subset?(previous_ids)
+  end
 
   def set_program_completed
     return update_columns(completed: false) if (enrollment.empty? || exit_program.empty? || trackings.empty? || trackings.pluck(:name).include?('') || trackings.pluck(:fields).include?([])) && !tracking_required
