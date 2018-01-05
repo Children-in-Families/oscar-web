@@ -1302,12 +1302,18 @@ en:
       active_progarm_streams_by_gender: Active Program Streams by client gender
       client_active_in_programs: Active Program Streams
     duetoday:
-      duetoday_tasks: Duetoday Tasks
+      assessment: Assessment
+      duetoday_tasks: Due today Tasks
+      forms: Forms
+      tasks: Tasks
     family:
       families: Families
       foster: Foster
       kinship: Kinship
     overdue:
+      assessment: Assessment
+      forms: Forms
+      tasks: Tasks
       overdue_tasks: Overdue Tasks
     program_stream:
       program_stream: Program Streams
@@ -1318,11 +1324,14 @@ en:
       referral_sources: Referral Sources
       staffs: Staff Members
     upcoming:
+      assessment: Assessment
+      forms: Forms
+      tasks: Tasks
       upcoming_tasks: Upcoming Tasks
     users_filter:
       apply: Apply
-      filter_by_user: Filter by user
       assessments: Assessment
+      filter_by_user: Filter by user
       forms: Forms
       tasks: Tasks
       select_user: Select user

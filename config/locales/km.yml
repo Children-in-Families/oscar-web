@@ -1382,7 +1382,7 @@ km:
   dashboards:
     active_tasks:
       all_active_tasks: កាតព្វកិច្ចដែលមិនទាន់ធ្វើ
-      checkbox_alert: សូមជ្រើសរើសយប្រអប់ធីកមួយ
+      checkbox_alert: សូមជ្រើសជំរើសមួយឬច្រើន
       domain: កត្តា
       overdue_tasks: កាតព្វកិច្ចផុតកំណត់
       today_tasks: កាតព្វកិច្ចថ្ងៃនេះ
@@ -1402,13 +1402,19 @@ km:
       active_progarm_streams_by_gender: បំណែងចែកចំនួនអតិថិជនតាមភេទដែលបាននិងកំពុងចូលរួមកម្មវិធី
       client_active_in_programs: ចំនួនអតិថិជនដែលបាននិងកំពុងចូលរួមកម្មវិធី
     duetoday:
-      duetoday_tasks: ភារកិច្ចបំពេញនៅថ្ងៃនេះ
+      assessment: ការប៉ាន់ប្រមាណ
+      duetoday_tasks: កាតព្វកិច្ចបំពេញនៅថ្ងៃនេះ
+      forms: ទម្រង់បែបបទ
+      tasks: កាតព្វកិច្ច
     family:
       families: គ្រួសារបច្ចុប្បន្ន
       foster: Foster
       kinship: Kinship
     overdue:
+      assessment: ការប៉ាន់ប្រមាណ
+      forms: ទម្រង់បែបបទ
       overdue_tasks: ភារកិច្ចហួសកាលកំណត់
+      tasks: កាតព្វកិច្ច
     program_stream:
       program_stream: កម្មវិធីបន្ទាប់បន្សំ
     third_party:
@@ -1418,11 +1424,14 @@ km:
       referral_sources: ប្រភពនៃការបញ្ជូន
       staffs: បុគ្គលិក
     upcoming:
+      assessment: ការប៉ាន់ប្រមាណ
+      forms: ទម្រង់បែបបទ
+      tasks: កាតព្វកិច្ច
       upcoming_tasks: កាតព្វកិច្ចបន្ទាប់
     users_filter:
       apply: អនុវត្ត
-      filter_by_user: ស្វែងរកតាមរយៈអ្នកប្រើប្រាស់
       assessments: ការប៉ាន់ប្រមាណហួសកាលកំណត់
+      filter_by_user: ស្វែងរកតាមរយៈអ្នកប្រើប្រាស់
       forms: ទម្រង់បែបបទហួសកាលកំណត់
       tasks: ភារកិច្ចហួសកាលកំណត់
       select_user: ជ្រើសរើស
