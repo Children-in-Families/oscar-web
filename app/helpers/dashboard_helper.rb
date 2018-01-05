@@ -1,64 +1,98 @@
 module DashboardHelper
   def checkbox_forms
-    if params[:assessments].nil? && params[:forms].nil? && params[:tasks].nil?
+    if @default_params
       'true'
-    else
-      if params[:forms].presence == 'true'
-        'true'
-      end
+    elsif @form_params
+      'true'
     end
   end
 
   def checkbox_tasks
-    if params[:assessments].nil? && params[:forms].nil? && params[:tasks].nil?
+    if @default_params
       'true'
-    else
-      if params[:tasks].presence == 'true'
-        'true'
-      end
+    elsif @task_params
+      'true'
     end
   end
 
   def checkbox_assessments
-    if params[:assessments].nil? && params[:forms].nil? && params[:tasks].nil?
+    if @default_params
       'true'
-    else
-      if params[:assessments].presence == 'true'
-        'true'
-      end
+    elsif @assessment_params
+      'true'
     end
   end
 
-  def skipped_record?(type, client, tasks, forms)
-    if type == 'overdue'
-      skipped_tasks = tasks.empty?
-      skipped_forms = forms[:overdue_forms].empty? && forms[:overdue_trackings].empty?
-      skipped_assessments = !(client.next_assessment_date < Date.today)
-    elsif type == 'duetoday'
-      skipped_tasks = tasks.empty?
-      skipped_forms = forms[:today_forms].empty? && forms[:today_trackings].empty?
-      skipped_assessments = !(client.next_assessment_date == Date.today)
-    elsif type == 'upcoming'
-      skipped_tasks = tasks.empty?
-      skipped_forms = forms[:upcoming_forms].empty? && forms[:upcoming_trackings].empty?
-      skipped_assessments = !(client.next_assessment_date.between?(Date.tomorrow, 3.month.from_now))
-    end
+  def tasks_empty?(tasks)
+    tasks.empty?
+  end
 
-    case
-    when params[:assessments].presence == 'true' && params[:tasks].presence == 'true' &&  params[:forms].presence == 'true'
-      return true if skipped_tasks && skipped_forms && skipped_assessments
-    when params[:assessments].presence == 'true' && params[:tasks].presence == 'true'
-      return true if skipped_assessments && skipped_tasks
-    when params[:assessments].presence == 'true' && params[:forms].presence == 'true'
-      return true if skipped_assessments && skipped_forms
-    when params[:tasks].presence == 'true' && params[:forms].presence == 'true'
-      return true if skipped_tasks && skipped_forms
-    when params[:assessments].presence == 'true'
-      return true if skipped_assessments
-    when params[:tasks].presence == 'true'
-      return true if skipped_tasks
-    when params[:forms].presence == 'true'
-      return true if skipped_forms
-    end
+  def overdue_forms_empty?(forms)
+    forms[:overdue_forms].empty? && forms[:overdue_trackings].empty?
+  end
+
+  def duetoday_forms_empty?(forms)
+    forms[:today_forms].empty? && forms[:today_trackings].empty?
+  end
+
+  def upcoming_forms_empty?(forms)
+    forms[:upcoming_forms].empty? && forms[:upcoming_trackings].empty?
+  end
+
+  def overdue_assessments_empty?(client)
+    client.next_assessment_date < Date.today
+  end
+
+  def duetoday_assessments_empty?(client)
+    client.next_assessment_date == Date.today
+  end
+
+  def upcoming_assessments_empty?(client)
+    client.next_assessment_date.between?(Date.tomorrow, 3.month.from_now)
+  end
+
+  def skipped_overdue_tasks?(tasks)
+    skipped_tasks = tasks_empty?(tasks)
+    skipped_tasks ? true : false
+  end
+
+  def skipped_overdue_forms?(forms)
+    skipped_forms = overdue_forms_empty?(forms)
+    skipped_forms ? true : false
+  end
+
+  def skipped_overdue_assessments?(client)
+    skipped_assessments = !overdue_assessments_empty?(client)
+    skipped_assessments ? true : false
+  end
+
+  def skipped_duetoday_tasks?(tasks)
+    skipped_tasks = tasks_empty?(tasks)
+    skipped_tasks ? true : false
+  end
+
+  def skipped_duetoday_forms?(forms)
+    skipped_forms = duetoday_forms_empty?(forms)
+    skipped_forms ? true : false
+  end
+
+  def skipped_duetoday_assessments?(client)
+    skipped_assessments = !duetoday_assessments_empty?(client)
+    skipped_assessments ? true : false
+  end
+
+  def skipped_upcoming_tasks?(tasks)
+    skipped_tasks = tasks_empty?(tasks)
+    skipped_tasks ? true : false
+  end
+
+  def skipped_upcoming_forms?(forms)
+    skipped_forms = upcoming_forms_empty?(forms)
+    skipped_forms ? true : false
+  end
+
+  def skipped_upcoming_assessments?(client)
+    skipped_assessments = !upcoming_assessments_empty?(client)
+    skipped_assessments ? true : false
   end
 end

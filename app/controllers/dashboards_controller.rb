@@ -1,11 +1,18 @@
 class DashboardsController < AdminController
-  before_action :task_of_user, :find_tasks, only: [:index]
+  before_action :task_of_user, :find_tasks, :find_overhaul_task_params, only: [:index]
 
   def index
     @dashboard = Dashboard.new(Client.accessible_by(current_ability))
   end
 
   private
+
+  def find_overhaul_task_params
+    @default_params    = params[:assessments].nil? && params[:forms].nil? && params[:tasks].nil?
+    @assessment_params = params[:assessments].presence == 'true'
+    @form_params       = params[:forms].presence == 'true'
+    @task_params       = params[:tasks].presence == 'true'
+  end
 
   def task_of_user
     @user = params[:user_id].present? ? User.find(params[:user_id]) : current_user

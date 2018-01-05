@@ -6,7 +6,7 @@
   .panel-body
     - @clients.each do |client, overdue_forms|
       - overdue_tasks = client.tasks.incomplete.exclude_exited_ngo_clients.of_user(@user).overdue
-      - next if skipped_record?('overdue', client, overdue_tasks, overdue_forms)
+      - next if skipped_overdue_tasks?(overdue_tasks) && skipped_overdue_forms?(overdue_forms) && skipped_overdue_assessments?(client)
       .ibox.border-left-right.border-bottom
         .ibox-title
           %h5
@@ -46,4 +46,3 @@
                     - custom_field_index = custom_field_index + 1
                   %td.col-xs-6.task-name.border-left-right= tracking.name
                   %td.col-xs-3= client.next_client_enrollment_tracking_date(tracking, last_client_enrollment_tracking).strftime("%B %d, %Y")
-

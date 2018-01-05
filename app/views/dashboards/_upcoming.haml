@@ -6,7 +6,7 @@
   .panel-body
     - @clients.each do |client, upcoming_forms|
       - upcoming_tasks = client.tasks.incomplete.exclude_exited_ngo_clients.of_user(@user).upcoming
-      - next if skipped_record?('upcoming', client, upcoming_tasks, upcoming_forms)
+      - next if skipped_upcoming_tasks?(upcoming_tasks) && skipped_upcoming_forms?(upcoming_forms) && skipped_upcoming_assessments?(client)
       .ibox.border-left-right.border-bottom
         .ibox-title
           %h5
