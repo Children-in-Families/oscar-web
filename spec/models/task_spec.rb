@@ -22,6 +22,7 @@ describe Task, 'scopes' do
   let!(:overdue_task){ create(:task, completion_date: Date.today - 1.month) }
   let!(:today_task){ create(:task, completion_date: Date.today) }
   let!(:upcoming_task){ create(:task, completion_date: Date.today + 1.month) }
+  let!(:upcoming_task_2){ create(:task, completion_date: 4.months.from_now) }
 
   context 'exclude_exited_ngo_clients' do
     subject{ Task.exclude_exited_ngo_clients }
@@ -93,6 +94,16 @@ describe Task, 'scopes' do
     it 'should not include not today task' do
       is_expected.not_to include(overdue_task)
       is_expected.not_to include(today_task)
+    end
+  end
+
+  context 'upcoming in three months' do
+    subject{ Task.upcoming_in_three_months }
+    it 'should include upcoming task in three months' do
+      is_expected.to include(upcoming_task)
+    end
+    it 'should not include not upcoming task 2 in three months' do
+      is_expected.not_to include(upcoming_task_2)
     end
   end
 end

@@ -47,7 +47,7 @@ class DashboardsController < AdminController
             overdue_forms << custom_field
           elsif client.next_custom_field_date(client, custom_field) == Date.today
             today_forms << custom_field
-          elsif client.next_custom_field_date(client, custom_field) > Date.today
+          elsif client.next_custom_field_date(client, custom_field).between?(Date.tomorrow, 3.month.from_now)
             upcoming_forms << custom_field
           end
         end
@@ -61,7 +61,7 @@ class DashboardsController < AdminController
               overdue_trackings << tracking
             elsif client.next_client_enrollment_tracking_date(tracking, last_client_enrollment_tracking) == Date.today
               today_trackings << tracking
-            elsif client.next_client_enrollment_tracking_date(tracking, last_client_enrollment_tracking) > Date.today
+            elsif client.next_client_enrollment_tracking_date(tracking, last_client_enrollment_tracking).between?.between?(Date.tomorrow, 3.month.from_now)
               upcoming_trackings << tracking
             end
           end
