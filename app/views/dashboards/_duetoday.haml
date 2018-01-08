@@ -1,0 +1,46 @@
+.panel.panel-info#duetoday-tasks
+  .panel-heading
+    .row
+      .col-xs-6
+        %h5= t('.duetoday_tasks')
+  .panel-body
+    - @clients.each do |client, today_forms|
+      - today_tasks = client.tasks.incomplete.exclude_exited_ngo_clients.of_user(@user).today
+      - next if skipped_duetoday_tasks?(today_tasks) && skipped_duetoday_forms?(today_forms) && skipped_duetoday_assessments?(client)
+      .ibox.border-left-right.border-bottom
+        .ibox-title
+          %h5
+            = link_to client.name, client_path(client), target: :_blank
+        .ibox-content.no-padding
+          %table.table.table-striped.active_tasks
+            - if @task_params
+              - today_tasks.each_with_index do |task, index|
+                %tr
+                  - if index == 0
+                    %td.col-xs-3{ rowspan: today_tasks.count }= t('.tasks')
+                  %td.col-xs-6.task-name.border-left-right= task.name
+                  %td.col-xs-3= task.completion_date.strftime("%B %d, %Y")
+            - if @assessment_params && duetoday_assessments_any?(client)
+              - assessment = client.assessments.latest_record
+              %tr
+                %td.col-xs-3= t('.assessment')
+                %td.col-xs-6.task-name.border-left-right
+                %td.col-xs-3= client.next_assessment_date.strftime("%B %d, %Y")
+            - if @form_params
+              - custom_field_index = 0
+              - row_count = today_forms[:today_forms].size + today_forms[:today_trackings].size
+              - today_forms[:today_forms].each_with_index do |custom_field, index|
+                %tr
+                  - if index == 0
+                    %td.col-xs-3{ rowspan: row_count }= t('.forms')
+                  %td.col-xs-6.task-name.border-left-right= custom_field.form_title
+                  %td.col-xs-3= client.next_custom_field_date(client, custom_field).strftime("%B %d, %Y")
+                  - custom_field_index = index + 1
+              - today_forms[:today_trackings].each do |tracking|
+                - last_client_enrollment_tracking = tracking.client_enrollment_trackings.last
+                %tr
+                  - if custom_field_index == 0
+                    %td.col-xs-3{rowspan: row_count}= t('.forms')
+                    - custom_field_index = custom_field_index + 1
+                  %td.col-xs-6.task-name.border-left-right= tracking.name
+                  %td.col-xs-3= client.next_client_enrollment_tracking_date(tracking, last_client_enrollment_tracking).strftime("%B %d, %Y")

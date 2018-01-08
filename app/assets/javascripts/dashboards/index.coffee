@@ -7,16 +7,21 @@ CIF.DashboardsIndex = do ->
     _clientProgramStreamByGender()
     _clientProgramStream()
     _initSelect2()
-    _filterUserTask()
     _openTaskListModal()
+    _handleApplyFilter()
+
+  _handleApplyFilter = ->
+    $('button#user-filter-submit').on 'click', (e) ->
+      if $('#tasks').prop('checked') || $('#assessments').prop('checked') || $('#forms').prop('checked')
+        e.submit
+      else if !($('#tasks').prop('checked') && $('#assessments').prop('checked') && $('#forms').prop('checked'))
+        e.preventDefault()
+        alertTranslation = $('#active_tasks_list').attr('alert-translation')
+        alert(alertTranslation)
 
   _openTaskListModal = ->
     if window.location.href.indexOf('user_id') >= 0
       $('#active_tasks_list').modal('show')
-
-  _filterUserTask = ->
-    $('form#filtered_by_user select#user_id').change ->
-      $('form#filtered_by_user').submit()
 
   _initSelect2 = ->
     $('select').select2
