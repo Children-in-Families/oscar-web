@@ -1317,6 +1317,7 @@ my:
   dashboards:
     active_tasks:
       all_active_tasks: အသက္၀င္ေသးေသာ လုပ္ငန္းမ်ားအားလံုး
+      checkbox_alert: ခြစ်ကွက်များကိုတဦးတည်းစစ်ဆေးပါ
       domain: ဒိုမိန္း
       overdue_tasks: အခ်ိန္လြန္ေနေသာ လုပ္ငန္းမ်ား
       today_tasks: ယေန႔ လုပ္ရမည့္ လုပ္ငန္းမ်ား
@@ -1335,10 +1336,20 @@ my:
       active_progarm_streams_by_gender: အမႈသည္၏ က်ား/မ အလိုက္ လုပ္ေဆာင္မႈရွိေသးေသာ အစီအစဥ္ စီးဆင္းမႈမ်ား
       active_program_streams: လုပ္ေဆာင္မႈရွိေသးေသာ အစီအစဥ္ စီးဆင္းမႈမ်ား
       client_active_in_programs: လုပ္ေဆာင္မႈရွိေသးေသာ အစီအစဥ္ စီးဆင္းမႈမ်ား
+    duetoday:
+      assessments: ရက်လွန်အကဲဖြတ်
+      duetoday_tasks: ကြောင့်ယနေ့တာဝန်များကို
+      forms: ရက်လွန်ပုံစံ
+      tasks: ရက်လွန်အလုပ်တခုကို
     family:
       families: မိသားစုမ်ား
       foster: ေမြးစားျခင္း
       kinship: ေဆြမ်ိဳး
+    overdue:
+      assessments: ရက်လွန်အကဲဖြတ်
+      forms: ရက်လွန်ပုံစံ
+      overdue_tasks: ရက်လွန်အလုပ်တခုကို
+      tasks: ရက်လွန်အလုပ်တခုကို
     program_stream:
       program_stream: အစီအစဥ္ စီဆင္းမႈမ်ား
     third_party:
@@ -1347,8 +1358,17 @@ my:
       partners: မိတ္ဖက္မ်ား
       referral_sources: လႊဲေျပာင္းရန္ ရင္းျမစ္မ်ား
       staffs: ၀န္ထမ္းအဖြဲ႕၀င္မ်ား
+    upcoming:
+      assessments: ရက်လွန်အကဲဖြတ်
+      forms: ရက်လွန်ပုံစံ
+      tasks: ရက်လွန်အလုပ်တခုကို
+      upcoming_tasks: မၾကာမီလုပ္ရမည့္ လုပ္ငန္းမ်ား
     users_filter:
+      apply: လျှောက်ထား
+      assessments: ရက်လွန်အကဲဖြတ်
       filter_by_user: အသံုးျပဳသူ သတ္မွတ္ထားေသာ စိစစ္မႈ
+      forms: ရက်လွန်ပုံစံ
+      tasks: ရက်လွန်အလုပ်တခုကို
       select_user: အသံုးျပဳသူကို ေရြးခ်ယ္ပါ။
   data_trackers:
     index:
