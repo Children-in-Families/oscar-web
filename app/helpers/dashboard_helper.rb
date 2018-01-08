@@ -48,7 +48,7 @@ module DashboardHelper
   end
 
   def upcoming_assessments_any?(client)
-    client.next_assessment_date.between?(Date.tomorrow, 3.month.from_now)
+    client.next_assessment_date.between?(Date.tomorrow, 3.months.from_now)
   end
 
   def skipped_overdue_tasks?(tasks)

@@ -10,12 +10,12 @@ class Task < ActiveRecord::Base
   validates :domain, presence: true
   validates :completion_date, presence: true
 
-  scope :completed,                  -> { where(completed: true) }
-  scope :incomplete,                 -> { where(completed: false) }
-  scope :overdue,                    -> { where('completion_date < ?', Date.today) }
-  scope :today,                      -> { where('completion_date = ?', Date.today) }
-  scope :upcoming,                   -> { where('completion_date > ?', Date.today) }
-  scope :upcoming_in_three_months,   -> { where(completion_date: Date.tomorrow..3.month.from_now) }
+  scope :completed,                       -> { where(completed: true) }
+  scope :incomplete,                      -> { where(completed: false) }
+  scope :overdue,                         -> { where('completion_date < ?', Date.today) }
+  scope :today,                           -> { where('completion_date = ?', Date.today) }
+  scope :upcoming,                        -> { where('completion_date > ?', Date.today) }
+  scope :upcoming_within_three_months,    -> { where(completion_date: Date.tomorrow..3.months.from_now) }
 
   scope :overdue_incomplete, -> { incomplete.overdue }
   scope :today_incomplete,   -> { incomplete.today }

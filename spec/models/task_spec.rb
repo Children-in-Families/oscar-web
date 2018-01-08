@@ -97,12 +97,12 @@ describe Task, 'scopes' do
     end
   end
 
-  context 'upcoming in three months' do
-    subject{ Task.upcoming_in_three_months }
-    it 'should include upcoming task in three months' do
+  context 'upcoming within three months' do
+    subject{ Task.upcoming_within_three_months }
+    it 'should include upcoming task within three months' do
       is_expected.to include(upcoming_task)
     end
-    it 'should not include not upcoming task 2 in three months' do
+    it 'should not include not upcoming task 2 within three months' do
       is_expected.not_to include(upcoming_task_2)
     end
   end
