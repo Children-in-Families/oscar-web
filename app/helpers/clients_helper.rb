@@ -159,7 +159,7 @@ module ClientsHelper
     current_address << "#{I18n.t('datagrid.columns.clients.street_number')} #{client.street_number}" if client.street_number.present?
     current_address << "#{I18n.t('datagrid.columns.clients.village')} #{client.village}" if client.village.present?
     current_address << "#{I18n.t('datagrid.columns.clients.commune')} #{client.commune}" if client.commune.present?
-    current_address << "#{I18n.t('datagrid.columns.clients.district')} #{client.district}" if client.district.present?
+    current_address << "#{I18n.t('datagrid.columns.clients.district')} #{client.district.name}" if client.district.present?
     if locale == :km
       current_address << client.province.name.split(' / ').first if client.province.present?
     else
