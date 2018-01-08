@@ -53,7 +53,7 @@ module DashboardHelper
 
   def skipped_overdue_tasks?(tasks)
     skipped_tasks = tasks_empty?(tasks)
-    skipped_tasks ? true : false
+    skipped_tasks ? true : @task_params ? false : true
   end
 
   def skipped_overdue_forms?(forms)
@@ -63,12 +63,12 @@ module DashboardHelper
 
   def skipped_overdue_assessments?(client)
     skipped_assessments = !overdue_assessments_any?(client)
-    skipped_assessments ? true : false
+    skipped_assessments ? true : @assessment_params ? false : true
   end
 
   def skipped_duetoday_tasks?(tasks)
     skipped_tasks = tasks_empty?(tasks)
-    skipped_tasks ? true : false
+    skipped_tasks ? true : @task_params ? false : true
   end
 
   def skipped_duetoday_forms?(forms)
@@ -78,12 +78,12 @@ module DashboardHelper
 
   def skipped_duetoday_assessments?(client)
     skipped_assessments = !duetoday_assessments_any?(client)
-    skipped_assessments ? true : false
+    skipped_assessments ? true : @assessment_params ? false : true
   end
 
   def skipped_upcoming_tasks?(tasks)
     skipped_tasks = tasks_empty?(tasks)
-    skipped_tasks ? true : false
+    skipped_tasks ? true : @task_params ? false : true
   end
 
   def skipped_upcoming_forms?(forms)
@@ -93,6 +93,6 @@ module DashboardHelper
 
   def skipped_upcoming_assessments?(client)
     skipped_assessments = !upcoming_assessments_any?(client)
-    skipped_assessments ? true : false
+    skipped_assessments ? true : @assessment_params ? false : true
   end
 end

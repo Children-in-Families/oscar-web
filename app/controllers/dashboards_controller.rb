@@ -1,5 +1,5 @@
 class DashboardsController < AdminController
-  before_action :task_of_user, :find_tasks, :find_overhaul_task_params, only: [:index]
+  before_action :task_of_user, :find_overhaul_task_params, :find_tasks, only: [:index]
 
   def index
     @dashboard = Dashboard.new(Client.accessible_by(current_ability))
@@ -40,7 +40,7 @@ class DashboardsController < AdminController
       today_forms= []
       upcoming_forms= []
 
-      if params[:forms].presence == 'true'
+      if @form_params
         custom_fields = client.custom_fields.where.not(frequency: '')
         custom_fields.each do |custom_field|
           if client.next_custom_field_date(client, custom_field) < Date.today
