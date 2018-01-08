@@ -56,8 +56,8 @@ class ClientsController < AdminController
       end
       format.pdf do
         form        = params[:form]
-        # form_title  = t(".government_form_#{form}")
-        form_title  = t(".government_form_one")
+        form_title  = t(".government_form_#{form}")
+        # form_title  = t(".government_form_one")
         client_name = @client.en_and_local_name
         pdf_name    = "#{client_name} - #{form_title}"
         render  pdf:      pdf_name,
