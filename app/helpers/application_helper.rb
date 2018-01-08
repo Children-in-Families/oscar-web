@@ -164,8 +164,8 @@ module ApplicationHelper
   end
 
   def government_reports_visible?
-    # current_organization.cwd? || current_organization.cif?
-    false
+    current_organization.cwd? || current_organization.cif?
+    # false
   end
 
   def program_stream_readable?(value)
