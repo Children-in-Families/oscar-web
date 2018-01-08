@@ -106,6 +106,30 @@ describe ProgramStream, 'uniqueness enrollment tracking and exit_program' do
   end
 end
 
+describe ProgramStream, 'validate rules edition' do
+  let!(:client) { create(:client, gender: 'male') }
+  let!(:client2) { create(:client, gender: 'male') }
+  let!(:client3) { create(:client, gender: 'female') }
+
+  rules = { 'rules'=>[ {'id'=>'status', 'type'=>'string', 'field'=>'status', 'input'=>'select', 'value'=>'Referred', 'operator'=>'equal' }], 'condition'=>'AND' }
+
+  let!(:program_stream) { create(:program_stream, rules: rules ) }
+  let!(:client_enrollment) { create(:client_enrollment, client: client, program_stream: program_stream) }
+  let!(:client_enrollment) { create(:client_enrollment, client: client2, program_stream: program_stream) }
+
+  it 'able to save program stream' do
+    rules = { 'rules'=>[ {'id'=>'gender', 'type'=>'string', 'field'=>'gender', 'input'=>'select', 'value'=>'male', 'operator'=>'equal' }, {'id'=>'status', 'type'=>'string', 'field'=>'status', 'input'=>'select', 'value'=>'referred', 'operator'=>'equal' }], 'condition'=>'AND' }
+    program_stream.update(rules: rules)
+    expect(program_stream.rules).to eq(rules)
+  end
+
+  it 'unable to save program stream' do
+    rules = { 'rules'=>[ {'id'=>'gender', 'type'=>'string', 'field'=>'gender', 'input'=>'select', 'value'=>'female', 'operator'=>'equal' }, {'id'=>'status', 'type'=>'string', 'field'=>'status', 'input'=>'select', 'value'=>'Referred', 'operator'=>'equal' }], 'condition'=>'AND' }
+    program_stream.update(rules: rules)
+    expect(program_stream.rules).not_to eq(rules)
+  end
+end
+
 # describe ProgramStream, 'validate remove fields' do
 #   let!(:client) { create(:client) }
 #   let!(:program_stream) { create(:program_stream) }

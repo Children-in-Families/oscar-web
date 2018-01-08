@@ -4,7 +4,6 @@ class ProgramStreamsController < AdminController
   before_action :find_program_stream, except: [:index, :new, :create, :preview, :search]
   before_action :find_ngo
   before_action :authorize_program, only: [:edit, :update, :destroy]
-  # before_action :complete_program_steam, only: [:new, :create, :edit, :update]
   before_action :find_another_ngo_program_stream, if: -> { @ngo_name.present? }
   before_action :remove_html_tags, only: [:create, :update]
   before_action :complete_program_steam, only: [:new, :create]
