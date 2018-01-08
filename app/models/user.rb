@@ -68,14 +68,6 @@ class User < ActiveRecord::Base
   after_save :reset_manager, if: 'roles_changed?'
   after_create :build_permission
 
-  def self.ability
-    RequestStore.store[:ability]
-  end
-
-  def self.ability=(ability)
-    RequestStore.store[:ability] = ability
-  end
-
   def build_permission
     unless self.admin? || self.strategic_overviewer?
       self.create_permission

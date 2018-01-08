@@ -752,7 +752,6 @@ DEPENDENCIES
   rack-cors
   rails (= 4.2.2)
   rails-erd
-  request_store (~> 1.3.0)
   roo (~> 2.2)
   rspec-activemodel-mocks
   rspec-rails (~> 3.4)

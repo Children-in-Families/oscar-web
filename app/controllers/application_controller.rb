@@ -8,7 +8,6 @@ class ApplicationController < ActionController::Base
   before_action :find_association, if: :devise_controller?
   before_action :set_locale
   before_action :set_paper_trail_whodunnit
-  before_action :set_current_user_ability
 
   rescue_from ActiveRecord::RecordNotFound do |exception|
     render file: "#{Rails.root}/app/views/errors/404", layout: false, status: :not_found
@@ -26,10 +25,6 @@ class ApplicationController < ActionController::Base
 
   def current_organization
     Organization.current
-  end
-
-  def set_current_user_ability
-    User.ability = current_ability
   end
 
   private

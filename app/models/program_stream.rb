@@ -138,7 +138,7 @@ class ProgramStream < ActiveRecord::Base
   private
 
   def get_clients(rules)
-    clients = AdvancedSearches::ClientAdvancedSearch.new(rules, Client.accessible_by(User.ability))
+    clients = AdvancedSearches::ClientAdvancedSearch.new(rules, Client.all)
     clients.filter.ids
   end
 
