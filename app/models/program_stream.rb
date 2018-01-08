@@ -61,6 +61,17 @@ class ProgramStream < ActiveRecord::Base
     errors_massage
   end
 
+  def rules_edition
+    current_client_ids = get_clients(rules).to_set
+    previous_client_ids = get_clients(rules_was).to_set
+
+    unless unchanged_rules?(current_client_ids, previous_client_ids)
+      error_message = "#{I18n.t('rules_has_been_modified')}"
+      self.rules = rules_was
+      errors.add(:rules, error_message)
+    end
+  end
+
   # def validate_remove_enrollment_field
   #   return unless enrollment_changed?
   #   error_fields = []
@@ -126,16 +137,9 @@ class ProgramStream < ActiveRecord::Base
 
   private
 
-  def rules_edition
-    current_rule_clients = AdvancedSearches::ClientAdvancedSearch.new(rules, Client.accessible_by(User.ability))
-    current_client_ids = current_rule_clients.filter.ids.to_set
-    previous_rule_clients = AdvancedSearches::ClientAdvancedSearch.new(rules_was, Client.accessible_by(User.ability))
-    previous_client_ids = previous_rule_clients.filter.ids.to_set
-
-    unless unchanged_rules?(current_client_ids, previous_client_ids)
-      error_message = "#{I18n.t('rules_has_been_modified')}"
-      errors.add(:rules, error_message)
-    end
+  def get_clients(rules)
+    clients = AdvancedSearches::ClientAdvancedSearch.new(rules, Client.accessible_by(User.ability))
+    clients.filter.ids
   end
 
   def unchanged_rules?(current_ids, previous_ids)
