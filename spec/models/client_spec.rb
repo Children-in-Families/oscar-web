@@ -416,7 +416,7 @@ describe Client, 'scopes' do
   end
 
   context 'district like' do
-    let!(:clients){ Client.district_like(client.district.downcase[0, 5]) }
+    let!(:clients){ Client.district_like(client.archive_district.downcase[0, 5]) }
     it 'should include record have district like' do
       expect(clients).to include(client)
     end

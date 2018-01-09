@@ -97,7 +97,7 @@ describe ClientSerializer, type: :serializer do
 
   it 'should be have attribute district' do
     expect(serializer).to have_json_path('client/district')
-    expect(serializer).to have_json_type(String).at_path('client/district')
+    expect(serializer).to have_json_type(Object).at_path('client/district')
   end
 
   it 'should be have attribute completed' do
