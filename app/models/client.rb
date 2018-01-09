@@ -84,7 +84,7 @@ class Client < ActiveRecord::Base
   scope :street_number_like,          ->(value) { where('clients.street_number iLike ?', "%#{value}%") }
   scope :village_like,                ->(value) { where('clients.village iLike ?', "%#{value}%") }
   scope :commune_like,                ->(value) { where('clients.commune iLike ?', "%#{value}%") }
-  scope :district_like,               ->(value) { where('clients.district iLike ?', "%#{value}%") }
+  scope :district_like,               ->(value) { where('clients.archive_district iLike ?', "%#{value}%") }
   scope :school_name_like,            ->(value) { where('clients.school_name iLIKE ?', "%#{value}%") }
   scope :referral_phone_like,         ->(value) { where('clients.referral_phone iLIKE ?', "%#{value}%") }
   scope :info_like,                   ->(value) { where('clients.relevant_referral_information iLIKE ?', "%#{value}%") }

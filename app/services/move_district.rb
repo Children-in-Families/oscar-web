@@ -61,7 +61,7 @@ class MoveDistrict
           elsif ["\tពញាឮ", '	ពញាឮ'].include?(client.archive_district)
             name = 'ពញាឮ'
           elsif ['ក្រុងសៀមរាប', 'Siem Reap'].include?(client.archive_district)
-            name = 'Thmorkol"'
+            name = 'សៀមរាប'
           elsif ['Mean Chey','Meanchey'].include?(client.archive_district)
             name = 'មានជ័យ'
           elsif ['ស្រុកស្វាយជ្រុំ', 'ស្វាយជ្រំ'].include?(client.archive_district)

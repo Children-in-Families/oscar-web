@@ -6,7 +6,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
 
   _ajaxChangeDistrict = ->
     $('#client_province_id').on 'change', ->
-      province_id = $('#client_province_id').val()
+      province_id = $(@).val()
       $.ajax({
         type: 'GET'
         url: "/api/provinces/#{province_id}/districts"
