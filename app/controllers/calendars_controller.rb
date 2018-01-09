@@ -1,6 +1,8 @@
 class CalendarsController < AdminController
   def redirect
-    url =  callback_url.gsub(/country.*\&/i, '')
+    # url =  callback_url.gsub(/country.*\&/i, '')
+    # url =  callback_url.gsub(/[?]country.*\&locale.*/i, '')
+    url = callback_url.gsub(/\?.*/, '')
     client = Signet::OAuth2::Client.new(client_id: Rails.application.secrets.google_client_id,
                                         client_secret: Rails.application.secrets.google_client_secret,
                                         authorization_uri: 'https://accounts.google.com/o/oauth2/auth',
@@ -14,7 +16,9 @@ class CalendarsController < AdminController
       session[:sync] = nil
       redirect_to calendars_path
     else
-      url =  callback_url.gsub(/country.*\&/i, '')
+      # url =  callback_url.gsub(/country.*\&/i, '')
+      # url =  callback_url.gsub(/[?]country.*\&locale.*/i, '')
+      url = callback_url.gsub(/\?.*/, '')
       client = Signet::OAuth2::Client.new(client_id: Rails.application.secrets.google_client_id,
                                           client_secret: Rails.application.secrets.google_client_secret,
                                           token_credential_uri: 'https://accounts.google.com/o/oauth2/token',
