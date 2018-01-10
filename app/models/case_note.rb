@@ -30,6 +30,7 @@ class CaseNote < ActiveRecord::Base
       task_ids = param[:task_ids] || []
       case_note_domain_group.tasks = Task.where(id: task_ids)
       case_note_domain_group.tasks.set_complete
+      Calendar.where(user_id: case_note_domain_group.tasks.pluck(:user_id)).update_all(sync_status: true)
       case_note_domain_group.save
     end
   end
