@@ -20,7 +20,7 @@ RSpec.describe Api::V1::ProgramStreamsController, type: :request do
     context 'when user loged in' do
       before do
         sign_in(user)
-        program_stream.update(completed: true)
+        program_stream.update(name: FFaker::Name.name)
         get '/api/v1/program_streams', @auth_headers
       end
 
