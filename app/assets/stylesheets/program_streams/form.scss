@@ -107,6 +107,11 @@ body[id='program_streams-update'], body[id='program_streams-create'] {
     width: 80%;
   }
 
+  .hide-tracking-form {
+    pointer-events: none;
+    opacity: 0.5;
+  }
+
   .quantity {
     color: #a94442;
   }

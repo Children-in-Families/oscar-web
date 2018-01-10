@@ -17,7 +17,8 @@ class ProgramStream < ActiveRecord::Base
 
   validates :name, presence: true
   validates :name, uniqueness: true
-  validate  :form_builder_field_uniqueness, :rules_edition
+  validate  :form_builder_field_uniqueness
+  validate  :rules_edition, on: :update
 
   # validate  :validate_remove_enrollment_field, :validate_remove_exit_program_field, if: -> { id.present? }
   after_save :set_program_completed
@@ -62,13 +63,15 @@ class ProgramStream < ActiveRecord::Base
   end
 
   def rules_edition
-    current_client_ids = get_clients(rules).to_set
-    previous_client_ids = get_clients(rules_was).to_set
+    if rules_changed?
+      current_client_ids = get_clients(rules).to_set
+      previous_client_ids = get_clients(rules_was).to_set
 
-    unless unchanged_rules?(current_client_ids, previous_client_ids)
-      error_message = "#{I18n.t('rules_has_been_modified')}"
-      self.rules = rules_was
-      errors.add(:rules, error_message)
+      unless unchanged_rules?(current_client_ids, previous_client_ids)
+        error_message = "#{I18n.t('rules_has_been_modified')}"
+        self.rules = rules_was
+        errors.add(:rules, error_message)
+      end
     end
   end
 
@@ -143,7 +146,11 @@ class ProgramStream < ActiveRecord::Base
   end
 
   def unchanged_rules?(current_ids, previous_ids)
-    current_ids.subset?(previous_ids)
+    if current_ids.any? && previous_ids.any?
+      previous_ids.subset?(current_ids)
+    else
+      return false
+    end
   end
 
   def set_program_completed

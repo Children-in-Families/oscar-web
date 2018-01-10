@@ -107,26 +107,41 @@ describe ProgramStream, 'uniqueness enrollment tracking and exit_program' do
 end
 
 describe ProgramStream, 'validate rules edition' do
-  let!(:client) { create(:client, gender: 'male') }
-  let!(:client2) { create(:client, gender: 'male') }
-  let!(:client3) { create(:client, gender: 'female') }
+  context 'ProgramStream has rules' do
+    let!(:client) { create(:client, gender: 'male') }
+    rules = { 'rules'=>[ {'id'=>'gender', 'type'=>'string', 'field'=>'gender', 'input'=>'select', 'value'=>'male', 'operator'=>'equal' }], 'condition'=>'AND' }
+    let!(:program_stream) { create(:program_stream, rules: rules ) }
+    let!(:client_enrollment) { create(:client_enrollment, client: client, program_stream: program_stream) }
 
-  rules = { 'rules'=>[ {'id'=>'status', 'type'=>'string', 'field'=>'status', 'input'=>'select', 'value'=>'Referred', 'operator'=>'equal' }], 'condition'=>'AND' }
+    it 'unable to save program stream' do
+      wrong_rules = { 'rules'=>[ {'id'=>'gender', 'type'=>'string', 'field'=>'gender', 'input'=>'select', 'value'=>'female', 'operator'=>'equal' }, {'id'=>'status', 'type'=>'string', 'field'=>'status', 'input'=>'select', 'value'=>'Active', 'operator'=>'equal' }], 'condition'=>'AND' }
+      program_stream.update(rules: wrong_rules)
+      expect(program_stream.errors[:rules]).to include('Rules cannot be changed or added because it breaks the previous rules.')
+    end
 
-  let!(:program_stream) { create(:program_stream, rules: rules ) }
-  let!(:client_enrollment) { create(:client_enrollment, client: client, program_stream: program_stream) }
-  let!(:client_enrollment) { create(:client_enrollment, client: client2, program_stream: program_stream) }
-
-  it 'able to save program stream' do
-    rules = { 'rules'=>[ {'id'=>'gender', 'type'=>'string', 'field'=>'gender', 'input'=>'select', 'value'=>'male', 'operator'=>'equal' }, {'id'=>'status', 'type'=>'string', 'field'=>'status', 'input'=>'select', 'value'=>'referred', 'operator'=>'equal' }], 'condition'=>'AND' }
-    program_stream.update(rules: rules)
-    expect(program_stream.rules).to eq(rules)
+    it 'able to save program stream' do
+      correct_rules = { 'rules'=>[ {'id'=>'gender', 'type'=>'string', 'field'=>'gender', 'input'=>'select', 'value'=>'male', 'operator'=>'equal' }, {'id'=>'status', 'type'=>'string', 'field'=>'status', 'input'=>'select', 'value'=>'Active', 'operator'=>'equal' }], 'condition'=>'AND' }
+      program_stream.update(rules: correct_rules)
+      expect(program_stream.errors[:rules]).not_to include('Rules cannot be changed or added because it breaks the previous rules.')
+    end
   end
 
-  it 'unable to save program stream' do
-    rules = { 'rules'=>[ {'id'=>'gender', 'type'=>'string', 'field'=>'gender', 'input'=>'select', 'value'=>'female', 'operator'=>'equal' }, {'id'=>'status', 'type'=>'string', 'field'=>'status', 'input'=>'select', 'value'=>'Referred', 'operator'=>'equal' }], 'condition'=>'AND' }
-    program_stream.update(rules: rules)
-    expect(program_stream.rules).not_to eq(rules)
+  context 'ProgramStream has no rules' do
+    let!(:client) { create(:client, gender: 'male') }
+    let!(:program_stream) { create(:program_stream, rules: {} ) }
+    let!(:client_enrollment) { create(:client_enrollment, client: client, program_stream: program_stream) }
+
+    it 'unable to save program stream' do
+      wrong_rules = { 'rules'=>[ {'id'=>'gender', 'type'=>'string', 'field'=>'gender', 'input'=>'select', 'value'=>'female', 'operator'=>'equal' }], 'condition'=>'AND' }
+      program_stream.update(rules: wrong_rules)
+      expect(program_stream.errors[:rules]).to include('Rules cannot be changed or added because it breaks the previous rules.')
+    end
+
+    it 'able to save program stream' do
+      correct_rules = { 'rules'=>[ {'id'=>'gender', 'type'=>'string', 'field'=>'gender', 'input'=>'select', 'value'=>'male', 'operator'=>'equal' }], 'condition'=>'AND' }
+      program_stream.update(rules: correct_rules)
+      expect(program_stream.errors[:rules]).not_to include('Rules cannot be changed or added because it breaks the previous rules.')
+    end
   end
 end
 
