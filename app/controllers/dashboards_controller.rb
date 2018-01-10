@@ -61,7 +61,7 @@ class DashboardsController < AdminController
               overdue_trackings << tracking
             elsif client.next_client_enrollment_tracking_date(tracking, last_client_enrollment_tracking) == Date.today
               today_trackings << tracking
-            elsif client.next_client_enrollment_tracking_date(tracking, last_client_enrollment_tracking).between?.between?(Date.tomorrow, 3.months.from_now)
+            elsif client.next_client_enrollment_tracking_date(tracking, last_client_enrollment_tracking).between?(Date.tomorrow, 3.months.from_now)
               upcoming_trackings << tracking
             end
           end
