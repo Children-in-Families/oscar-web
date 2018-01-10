@@ -2,9 +2,8 @@ require 'spec_helper'
 
 RSpec.describe Api::V1::ProgramStreamsController, type: :request do
   let(:user) { create(:user) }
-  let!(:program_stream) { create(:program_stream) }
-  let!(:tracking)       { create(:tracking, program_stream: program_stream, name: FFaker::Name.name) }
-  let!(:other_tracking) { create(:tracking, program_stream: program_stream, name: FFaker::Name.name) }
+  let!(:complete_programs) { create_list(:program_stream, 2, tracking_required: true) }
+  let!(:incomplete_program){ create(:program_stream) }
 
   describe 'GET #index' do
     context 'when user not loged in' do
@@ -28,7 +27,10 @@ RSpec.describe Api::V1::ProgramStreamsController, type: :request do
       end
 
       it 'should be returns the program_stream with the correct data' do
-        expect(json['program_streams'].map { |program_stream| program_stream['trackings'].size }).to include 2
+        expect(json['program_streams']).not_to be_empty
+        expect(json['program_streams'].size).to eq(2)
+        expect(json['program_streams'].map{|a| a['id'] }).to include(complete_programs.first.id, complete_programs.last.id)
+        expect(json['program_streams'].map{|a| a['id'] }).not_to include(incomplete_program.id)
       end
     end
   end
