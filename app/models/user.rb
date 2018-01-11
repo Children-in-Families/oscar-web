@@ -147,7 +147,7 @@ class User < ActiveRecord::Base
   end
 
   def client_custom_field_frequency_overdue_or_due_today
-    entity_type_custom_field_notification(clients.non_exited_ngo)
+    entity_type_custom_field_notification(clients.all_active_types)
   end
 
   def user_custom_field_frequency_overdue_or_due_today
@@ -171,7 +171,7 @@ class User < ActiveRecord::Base
   end
 
   def client_enrollment_tracking_overdue_or_due_today
-    client_enrollment_tracking_notification(clients.non_exited_ngo)
+    client_enrollment_tracking_notification(clients.all_active_types)
   end
 
   def self.self_and_subordinates(user)
