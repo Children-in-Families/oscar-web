@@ -181,6 +181,10 @@ feature 'program_stream' do
       click_link(nil, href: edit_program_stream_path(program_stream))
     end
 
+    scenario 'title of current program stream' do
+      expect(page).to have_content("Edit #{program_stream.name}")
+    end
+
     context 'full step' do
       xscenario 'valid' do
         page.click_link 'Next'
