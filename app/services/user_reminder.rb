@@ -3,7 +3,7 @@ class UserReminder
   end
 
   def remind
-    Organization.where(short_name: 'demo').each do |org|
+    Organization.all.each do |org|
       Organization.switch_to org.short_name
       remind_case_workers(org)
       remind_manager_and_admin(org)
