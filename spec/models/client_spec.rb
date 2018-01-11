@@ -71,7 +71,7 @@ describe Client, 'methods' do
   let!(:other_client) { create(:client, user_ids: [case_worker.id]) }
   let!(:able_client) { create(:client, able_state: Client::ABLE_STATES[0]) }
   let!(:able_manager_client) { create(:client, user_ids: [able_manager.id]) }
-  let!(:assessment){ create(:assessment, created_at: Date.today - 6.month, client: client) }
+  let!(:assessment){ create(:assessment, created_at: Date.today - 3.months, client: client) }
   let!(:able_rejected_client) { create(:client, able_state: Client::ABLE_STATES[1]) }
   let!(:able_discharged_client) { create(:client, able_state: Client::ABLE_STATES[2]) }
   let!(:client_a){ create(:client, date_of_birth: '2017-05-05') }
@@ -180,18 +180,26 @@ describe Client, 'methods' do
   end
 
   context 'next assessment date' do
-    let!(:latest_assessment){ create(:assessment, client: client) }
-    it 'should be latest assessment + 6 months' do
-      expect(client.next_assessment_date).to eq((latest_assessment.created_at + 6.month).to_date)
+    let!(:client_1){ create(:client, :accepted) }
+    let!(:latest_assessment){ create(:assessment, client: client_1) }
+    it 'should be first assessment + 3 months' do
+      expect(client_1.next_assessment_date).to eq((latest_assessment.created_at + 3.months).to_date)
     end
     it 'should be today' do
       expect(other_client.next_assessment_date.start).to eq(Date.today.start)
     end
   end
 
-  context 'can create assessment' do
-    let!(:other_assessment) { create(:assessment, client: other_client) }
+  context '#can_create_assessment?' do
+    let!(:other_assessment){ create(:assessment, created_at: Date.today - 2.months, client: other_client) }
+    let!(:no_csi_client){ create(:client, :accepted) }
+    let!(:client_with_two_csi){ create(:client, :accepted) }
+    let!(:assessment_1){ create(:assessment, created_at: Date.today - 3.months, client: client_with_two_csi) }
+    let!(:assessment_2){ create(:assessment, created_at: Date.today, client: client_with_two_csi) }
+
     it { expect(client.can_create_assessment?).to be_truthy }
+    it { expect(no_csi_client.can_create_assessment?).to be_truthy }
+    it { expect(client_with_two_csi.can_create_assessment?).to be_truthy }
     it { expect(other_client.can_create_assessment?).to be_falsey }
   end
 

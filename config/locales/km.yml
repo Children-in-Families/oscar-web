@@ -424,10 +424,10 @@ km:
     index:
       assessment_history: ការប៉ាន់ប្រមាណចាស់ៗ
       back: ត្រលប់ក្រោយ
-      begin_now: ចាប់ផ្តើមឥឡូវនេះ
+      begin_now: បង្កើតការប៉ាន់ប្រមាណថ្មី
       initial_assessment: ការប៉ាន់ប្រមាណដំបូង
-      next_six_monthly_review: កាលបរិច្ឆេទការប៉ាន់ប្រមាណទៀងទាត់ពេលក្រោយ
-      six_month_assessment: ការប៉ាន់ប្រមាណទៀងទាត់
+      next_review: ការប៉ាន់ប្រមាណទៀងទាត់ពេលក្រោយ
+      three_month_assessment: ការប៉ាន់ប្រមាណទៀងទាត់
       view_report: ពិនិត្យរបាយការណ៍
     show:
       assessment_completed_by: ការប៉ាន់ប្រមាណបំពេញដោយ៖
@@ -439,8 +439,8 @@ km:
       on_date: នៅថ្ងៃ
       reason: មូលហេតុ
       score: ពិន្ទុ
-      six_month_assessment_report: របាយការណ៍ការប៉ាន់ប្រមាណទៀងទាត់
       task: កាតព្វកិច្ច
+      three_month_assessment_report: របាយការណ៍ការប៉ាន់ប្រមាណទៀងទាត់
       show_attachment: បង្ហាញឯកសារភ្ជាប់
     create:
       successfully_created: ការប៉ាន់ប្រមាណត្រូវបានបង្កើតដោយជោគជ័យ

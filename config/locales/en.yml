@@ -407,10 +407,10 @@ en:
     index:
       assessment_history: Assessment History
       back: Back
-      begin_now: Begin now
-      initial_assessment: Initial Assessment
-      next_six_monthly_review: Next 6 Monthly Review
-      six_month_assessment: 6 Monthly Assessment
+      begin_now: Add New Assessment
+      initial_assessment: Initial Assessment on
+      next_review: Next Review on
+      three_month_assessment: 3 Monthly Assessment
       view_report: View Report
     show:
       assessment_completed_by: Assessment completed by
@@ -422,8 +422,8 @@ en:
       on_date: On Date
       reason: Reason
       score: Score
-      six_month_assessment_report: 6 Monthly Assessment Report
       task: Task
+      three_month_assessment_report: 3 Monthly Assessment Report
       show_attachment: Show Attachments
     create:
       successfully_created: Assessment has been successfully created.

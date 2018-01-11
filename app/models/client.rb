@@ -159,13 +159,18 @@ class Client < ActiveRecord::Base
     local_name.present? ? "#{en_name} (#{local_name})" : en_name.present? ? en_name : 'Unknown'
   end
 
-  def self.next_assessment_candidates
-    Assessment.where('client IN (?) AND ', self)
-  end
-
   def next_assessment_date
-    return Date.today if assessments.count.zero?
-    (assessments.latest_record.created_at + 6.months).to_date
+    if assessments.count == 1
+      last_assessment_date = assessments.latest_record.created_at
+      next_three_months_assessment = last_assessment_date + 3.months
+      if Date.today.between?(last_assessment_date.to_date, next_three_months_assessment.to_date)
+        next_three_months_assessment.to_date
+      elsif Date.today >= next_three_months_assessment.to_date
+        Date.today
+      end
+    else
+      Date.today
+    end
   end
 
   def next_appointment_date

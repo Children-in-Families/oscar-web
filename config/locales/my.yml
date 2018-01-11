@@ -450,8 +450,8 @@ my:
       back: ေနာက္သို႔
       begin_now: ယခုစမည္
       initial_assessment: ကနဦး အကဲျဖတ္ခ်က္
-      next_six_monthly_review: ေနာက္ ၆ လခ်ဳပ္ သံုးသပ္ခ်က္
-      six_month_assessment: ၆ လတစ္ႀကိမ္ စိစစ္ခ်က္
+      next_review: သုံးလစဉ်ပြန်လည်သုံးသပ်ချက်
+      three_month_assessment: သုံးလစဉ်အကဲဖြတ်
       view_report: အစီခံစာကို ၾကည့္ရန္
     show:
       assessment_completed_by: က စိစစ္မႈကို ျဖည္ထားပါသည္။
@@ -464,8 +464,8 @@ my:
       reason: အေၾကာင္းျပခ်က္
       score: ရမွတ္
       show_attachment: တြဲထားသည္ကို ျပပါ
-      six_month_assessment_report: ၆ လပတ္ စစ္ေဆးမႈအစီရင္ခံစာ
       task: လုပ္ငန္း
+      three_month_assessment_report: သုံးလစဉ်အကဲဖြတ်အစီရင်ခံစာ
     update:
       successfully_updated: အကဲျဖတ္ခ်က္ကို ေအာင္ျမင္စာ အသစ္တင္ၿပီးပါၿပီ။
   back: ေနာက္သို႔
