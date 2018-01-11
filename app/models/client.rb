@@ -14,7 +14,7 @@ class Client < ActiveRecord::Base
                       'Exited - Age Out', 'Exited Independent', 'Exited Adopted',
                       'Exited Other'].freeze
 
-  CLIENT_ACTIVE_STATUS = ['Active EC', 'Active FC', 'Active KC'].freeze
+  CLIENT_ACTIVE_STATUS = ['Active EC', 'Active FC', 'Active KC', 'Active'].freeze
   ABLE_STATES = %w(Accepted Rejected Discharged).freeze
 
   EXIT_STATUSES = CLIENT_STATUSES.select { |status| status if status.include?('Exited') || status.include?('Independent - Monitored')  }

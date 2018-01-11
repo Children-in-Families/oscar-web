@@ -1282,10 +1282,11 @@ en:
   dashboards:
     active_tasks:
       all_active_tasks: All Active Tasks
+      checkbox_alert: Please check one of the checkboxes
       domain: Domain
-      overdue_tasks: Overdue tasks
-      today_tasks: Today tasks
-      upcoming_tasks: Upcoming tasks
+      overdue_tasks: Overdue
+      today_tasks: Today
+      upcoming_tasks: Upcoming
     active_tasks_side:
       active_tasks: Active Tasks
     client:
@@ -1300,10 +1301,20 @@ en:
       active_program_streams: Active Program Streams
       active_progarm_streams_by_gender: Active Program Streams by client gender
       client_active_in_programs: Active Program Streams
+    duetoday:
+      assessment: Assessment
+      duetoday_tasks: Due today Tasks
+      forms: Forms
+      tasks: Tasks
     family:
       families: Families
       foster: Foster
       kinship: Kinship
+    overdue:
+      assessment: Assessment
+      forms: Forms
+      tasks: Tasks
+      overdue_tasks: Overdue Tasks
     program_stream:
       program_stream: Program Streams
     third_party:
@@ -1312,8 +1323,17 @@ en:
       partners: Partners
       referral_sources: Referral Sources
       staffs: Staff Members
+    upcoming:
+      assessment: Assessment
+      forms: Forms
+      tasks: Tasks
+      upcoming_tasks: Upcoming Tasks
     users_filter:
+      apply: Apply
+      assessments: Assessment
       filter_by_user: Filter by user
+      forms: Forms
+      tasks: Tasks
       select_user: Select user
   data_trackers:
     index:
@@ -2981,7 +3001,7 @@ en:
       successfully_deleted: Program Stream has been successfully deleted.
     edit:
       back: Back
-      edit_program_stream: Edit Program Stream
+      edit: Edit
     enrollment:
       custom_fields: Custom Forms
       enrollment_form: Enrollment
