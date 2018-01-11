@@ -18,7 +18,7 @@ class ProgramStream < ActiveRecord::Base
   validates :name, presence: true
   validates :name, uniqueness: true
   validate  :form_builder_field_uniqueness
-  validate  :rules_edition, on: :update
+  validate  :rules_edition, :program_edition, on: :update
 
   # validate  :validate_remove_enrollment_field, :validate_remove_exit_program_field, if: -> { id.present? }
   after_save :set_program_completed
@@ -72,6 +72,26 @@ class ProgramStream < ActiveRecord::Base
         self.rules = rules_was
         errors.add(:rules, error_message)
       end
+    end
+  end
+
+  def program_edition
+    clients.each do |client|
+      program_stream_ids = client.client_enrollments.active.pluck(:program_stream_id).to_set
+      can_edit_program = false
+      if program_exclusive_changed? && program_exclusive.any? && program_exclusive.to_set.subset?(program_stream_ids)
+        self.program_exclusive = program_exclusive_was
+        error_message = "#{I18n.t('program_exclusive_has_been_modified')}"
+        errors.add(:program_exclusive, error_message)
+        can_edit_program = true
+      end
+      if mutual_dependence_changed? && mutual_dependence.any? && !(mutual_dependence.to_set.subset?(program_stream_ids))
+        self.mutual_dependence = mutual_dependence_was
+        error_message = "#{I18n.t('mutual_dependence_has_been_modified')}"
+        errors.add(:mutual_dependence, error_message)
+        can_edit_program = true
+      end
+      break if can_edit_program
     end
   end
 

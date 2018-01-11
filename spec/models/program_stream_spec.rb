@@ -145,6 +145,206 @@ describe ProgramStream, 'validate rules edition' do
   end
 end
 
+describe ProgramStream, 'validate program edition' do
+  context 'ProgramStream has no mutual dependence and program exclusive' do
+    let!(:client) { create(:client, gender: 'male') }
+    let!(:program_stream) { create(:program_stream) }
+    let!(:program_stream_1) { create(:program_stream) }
+    let!(:program_stream_2) { create(:program_stream) }
+    let!(:program_stream_3) { create(:program_stream) }
+    let!(:program_stream_4) { create(:program_stream) }
+    let!(:client_enrollment) { create(:client_enrollment, client: client, program_stream: program_stream) }
+    let!(:client_enrollment_1) { create(:client_enrollment, client: client, program_stream: program_stream_1) }
+    let!(:client_enrollment_2) { create(:client_enrollment, client: client, program_stream: program_stream_3) }
+
+    it 'unable to save program stream program exclusive' do
+      program_stream.update(program_exclusive: [program_stream.id])
+      expect(program_stream.errors[:program_exclusive]).to include('Program Exclusive cannot be changed or added because it breaks the previous rules.')
+    end
+
+    it 'able to save program stream program exclusive' do
+      program_stream.update(program_exclusive: [program_stream_2.id])
+      expect(program_stream.errors[:program_exclusive]).not_to include('Program Exclusive cannot be changed or added because it breaks the previous rules.')
+    end
+
+    it 'unable to save program stream with mutual dependence' do
+      program_stream.update(mutual_dependence: [program_stream_4.id])
+      expect(program_stream.errors[:mutual_dependence]).to include('Mutual Dependence cannot be changed or added because it breaks the previous rules.')
+    end
+
+    it 'able to save program stream mutual dependence' do
+      program_stream.update(mutual_dependence: [program_stream.id])
+      expect(program_stream.errors[:mutual_dependence]).not_to include('Mutual Dependence cannot be changed or added because it breaks the previous rules.')
+    end
+  end
+
+  context 'ProgramStream has no mutual dependence and program exclusive with multiple select' do
+    let!(:client) { create(:client, gender: 'male') }
+    let!(:program_stream) { create(:program_stream) }
+    let!(:program_stream_1) { create(:program_stream) }
+    let!(:program_stream_2) { create(:program_stream) }
+    let!(:program_stream_3) { create(:program_stream) }
+    let!(:program_stream_4) { create(:program_stream) }
+    let!(:program_stream_5) { create(:program_stream) }
+    let!(:client_enrollment) { create(:client_enrollment, client: client, program_stream: program_stream) }
+    let!(:client_enrollment_1) { create(:client_enrollment, client: client, program_stream: program_stream_1) }
+    let!(:client_enrollment_2) { create(:client_enrollment, client: client, program_stream: program_stream_3) }
+
+    it 'unable to save program stream program exclusive' do
+      program_stream.update(program_exclusive: [program_stream.id, program_stream_1.id, program_stream_3.id])
+      expect(program_stream.errors[:program_exclusive]).to include('Program Exclusive cannot be changed or added because it breaks the previous rules.')
+    end
+
+    it 'able to save program stream program exclusive' do
+      program_stream.update(program_exclusive: [program_stream_2.id, program_stream_5.id])
+      expect(program_stream.errors[:program_exclusive]).not_to include('Program Exclusive cannot be changed or added because it breaks the previous rules.')
+    end
+
+    it 'unable to save program stream with mutual dependence' do
+      program_stream.update(mutual_dependence: [program_stream_4.id, program_stream_5.id])
+      expect(program_stream.errors[:mutual_dependence]).to include('Mutual Dependence cannot be changed or added because it breaks the previous rules.')
+    end
+
+    it 'able to save program stream mutual dependence' do
+      program_stream.update(mutual_dependence: [program_stream.id, program_stream_1.id, program_stream_3.id])
+      expect(program_stream.errors[:mutual_dependence]).not_to include('Mutual Dependence cannot be changed or added because it breaks the previous rules.')
+    end
+  end
+end
+
+describe ProgramStream, 'validate program edition and rules edition' do
+  context 'ProgramStream has no mutual dependence and program exclusive' do
+    rules = { 'rules'=>[ {'id'=>'gender', 'type'=>'string', 'field'=>'gender', 'input'=>'select', 'value'=>'male', 'operator'=>'equal' }], 'condition'=>'AND' }
+    wrong_rules = { 'rules'=>[ {'id'=>'gender', 'type'=>'string', 'field'=>'gender', 'input'=>'select', 'value'=>'female', 'operator'=>'equal' }, {'id'=>'status', 'type'=>'string', 'field'=>'status', 'input'=>'select', 'value'=>'Active', 'operator'=>'equal' }], 'condition'=>'AND' }
+    correct_rules = { 'rules'=>[ {'id'=>'gender', 'type'=>'string', 'field'=>'gender', 'input'=>'select', 'value'=>'male', 'operator'=>'equal' }], 'condition'=>'AND' }
+    let!(:client) { create(:client, gender: 'male') }
+    let!(:program_stream) { create(:program_stream, rules: rules) }
+    let!(:program_stream_1) { create(:program_stream) }
+    let!(:program_stream_2) { create(:program_stream) }
+    let!(:program_stream_3) { create(:program_stream) }
+    let!(:program_stream_4) { create(:program_stream) }
+    let!(:client_enrollment) { create(:client_enrollment, client: client, program_stream: program_stream) }
+    let!(:client_enrollment_1) { create(:client_enrollment, client: client, program_stream: program_stream_1) }
+    let!(:client_enrollment_2) { create(:client_enrollment, client: client, program_stream: program_stream_3) }
+
+    it 'unable to save program stream program exclusive and rules' do
+      program_stream.update(program_exclusive: [program_stream.id], rules: wrong_rules)
+      expect(program_stream.errors[:rules]).to include('Rules cannot be changed or added because it breaks the previous rules.')
+      expect(program_stream.errors[:program_exclusive]).to include('Program Exclusive cannot be changed or added because it breaks the previous rules.')
+    end
+
+    it 'able to save program stream program exclusive and rules' do
+      program_stream.update(program_exclusive: [program_stream_2.id], rules: correct_rules)
+      expect(program_stream.errors[:rules]).not_to include('Rules cannot be changed or added because it breaks the previous rules.')
+      expect(program_stream.errors[:program_exclusive]).not_to include('Program Exclusive cannot be changed or added because it breaks the previous rules.')
+    end
+
+    it 'unable to save program mutual dependence and rules' do
+      program_stream.update(rules: wrong_rules, mutual_dependence: [program_stream_4.id])
+      expect(program_stream.errors[:rules]).to include('Rules cannot be changed or added because it breaks the previous rules.')
+      expect(program_stream.errors[:mutual_dependence]).to include('Mutual Dependence cannot be changed or added because it breaks the previous rules.')
+    end
+
+    it 'able to save program stream mutual dependence and rules' do
+      program_stream.update(rules: correct_rules, mutual_dependence: [program_stream.id])
+      expect(program_stream.errors[:rules]).not_to include('Rules cannot be changed or added because it breaks the previous rules.')
+      expect(program_stream.errors[:mutual_dependence]).not_to include('Mutual Dependence cannot be changed or added because it breaks the previous rules.')
+    end
+
+    it 'unable to save program stream program exclusive and mutual dependence' do
+      program_stream.update(program_exclusive: [program_stream.id], mutual_dependence: [program_stream_4.id])
+      expect(program_stream.errors[:program_exclusive]).to include('Program Exclusive cannot be changed or added because it breaks the previous rules.')
+      expect(program_stream.errors[:mutual_dependence]).to include('Mutual Dependence cannot be changed or added because it breaks the previous rules.')
+    end
+
+    it 'able to save program stream program exclusive and mutual dependence' do
+      program_stream.update(program_exclusive: [program_stream_2.id], mutual_dependence: [program_stream.id])
+      expect(program_stream.errors[:program_exclusive]).not_to include('Program Exclusive cannot be changed or added because it breaks the previous rules.')
+      expect(program_stream.errors[:mutual_dependence]).not_to include('Mutual Dependence cannot be changed or added because it breaks the previous rules.')
+    end
+
+    it 'unable to save program stream program exclusive, mutual dependence and rules' do
+      program_stream.update(program_exclusive: [program_stream.id], rules: wrong_rules, mutual_dependence: [program_stream_4.id])
+      expect(program_stream.errors[:rules]).to include('Rules cannot be changed or added because it breaks the previous rules.')
+      expect(program_stream.errors[:program_exclusive]).to include('Program Exclusive cannot be changed or added because it breaks the previous rules.')
+      expect(program_stream.errors[:mutual_dependence]).to include('Mutual Dependence cannot be changed or added because it breaks the previous rules.')
+    end
+
+    it 'able to save program stream program exclusive, mutual dependence and rules' do
+      program_stream.update(program_exclusive: [program_stream_2.id], rules: correct_rules, mutual_dependence: [program_stream.id])
+      expect(program_stream.errors[:rules]).not_to include('Rules cannot be changed or added because it breaks the previous rules.')
+      expect(program_stream.errors[:program_exclusive]).not_to include('Program Exclusive cannot be changed or added because it breaks the previous rules.')
+      expect(program_stream.errors[:mutual_dependence]).not_to include('Mutual Dependence cannot be changed or added because it breaks the previous rules.')
+    end
+  end
+
+  context 'ProgramStream has no mutual dependence and program exclusive with multiple select' do
+    rules = { 'rules'=>[ {'id'=>'gender', 'type'=>'string', 'field'=>'gender', 'input'=>'select', 'value'=>'male', 'operator'=>'equal' }], 'condition'=>'AND' }
+    wrong_rules = { 'rules'=>[ {'id'=>'gender', 'type'=>'string', 'field'=>'gender', 'input'=>'select', 'value'=>'female', 'operator'=>'equal' }, {'id'=>'status', 'type'=>'string', 'field'=>'status', 'input'=>'select', 'value'=>'Active', 'operator'=>'equal' }], 'condition'=>'AND' }
+    correct_rules = { 'rules'=>[ {'id'=>'gender', 'type'=>'string', 'field'=>'gender', 'input'=>'select', 'value'=>'male', 'operator'=>'equal' }], 'condition'=>'AND' }
+    let!(:client) { create(:client, gender: 'male') }
+    let!(:program_stream) { create(:program_stream, rules: rules) }
+    let!(:program_stream_1) { create(:program_stream) }
+    let!(:program_stream_2) { create(:program_stream) }
+    let!(:program_stream_3) { create(:program_stream) }
+    let!(:program_stream_4) { create(:program_stream) }
+    let!(:program_stream_5) { create(:program_stream) }
+    let!(:client_enrollment) { create(:client_enrollment, client: client, program_stream: program_stream) }
+    let!(:client_enrollment_1) { create(:client_enrollment, client: client, program_stream: program_stream_1) }
+    let!(:client_enrollment_2) { create(:client_enrollment, client: client, program_stream: program_stream_3) }
+
+    it 'unable to save program stream program exclusive and rules' do
+      program_stream.update(program_exclusive: [program_stream.id, program_stream_1.id, program_stream_3.id], rules: wrong_rules)
+      expect(program_stream.errors[:rules]).to include('Rules cannot be changed or added because it breaks the previous rules.')
+      expect(program_stream.errors[:program_exclusive]).to include('Program Exclusive cannot be changed or added because it breaks the previous rules.')
+    end
+
+    it 'able to save program stream program exclusive and rules' do
+      program_stream.update(program_exclusive: [program_stream_2.id, program_stream_5.id], rules: correct_rules)
+      expect(program_stream.errors[:rules]).not_to include('Rules cannot be changed or added because it breaks the previous rules.')
+      expect(program_stream.errors[:program_exclusive]).not_to include('Program Exclusive cannot be changed or added because it breaks the previous rules.')
+    end
+
+    it 'unable to save program mutual dependence and rules' do
+      program_stream.update(rules: wrong_rules, mutual_dependence: [program_stream_4.id, program_stream_5.id])
+      expect(program_stream.errors[:rules]).to include('Rules cannot be changed or added because it breaks the previous rules.')
+      expect(program_stream.errors[:mutual_dependence]).to include('Mutual Dependence cannot be changed or added because it breaks the previous rules.')
+    end
+
+    it 'able to save program stream mutual dependence and rules' do
+      program_stream.update(rules: correct_rules, mutual_dependence: [program_stream.id, program_stream_1.id, program_stream_3.id])
+      expect(program_stream.errors[:rules]).not_to include('Rules cannot be changed or added because it breaks the previous rules.')
+      expect(program_stream.errors[:mutual_dependence]).not_to include('Mutual Dependence cannot be changed or added because it breaks the previous rules.')
+    end
+
+    it 'unable to save program stream program exclusive and mutual dependence' do
+      program_stream.update(program_exclusive: [program_stream.id, program_stream_1.id, program_stream_3.id], mutual_dependence: [program_stream_4.id, program_stream_5.id])
+      expect(program_stream.errors[:program_exclusive]).to include('Program Exclusive cannot be changed or added because it breaks the previous rules.')
+      expect(program_stream.errors[:mutual_dependence]).to include('Mutual Dependence cannot be changed or added because it breaks the previous rules.')
+    end
+
+    it 'able to save program stream program exclusive and mutual dependence' do
+      program_stream.update(program_exclusive: [program_stream_2.id, program_stream_5.id], mutual_dependence: [program_stream.id, program_stream_1.id, program_stream_3.id])
+      expect(program_stream.errors[:program_exclusive]).not_to include('Program Exclusive cannot be changed or added because it breaks the previous rules.')
+      expect(program_stream.errors[:mutual_dependence]).not_to include('Mutual Dependence cannot be changed or added because it breaks the previous rules.')
+    end
+
+    it 'unable to save program stream program exclusive, mutual dependence and rules' do
+      program_stream.update(program_exclusive: [program_stream.id, program_stream_1.id, program_stream_3.id], rules: wrong_rules, mutual_dependence: [program_stream_4.id, program_stream_5.id])
+      expect(program_stream.errors[:rules]).to include('Rules cannot be changed or added because it breaks the previous rules.')
+      expect(program_stream.errors[:program_exclusive]).to include('Program Exclusive cannot be changed or added because it breaks the previous rules.')
+      expect(program_stream.errors[:mutual_dependence]).to include('Mutual Dependence cannot be changed or added because it breaks the previous rules.')
+    end
+
+    it 'able to save program stream program exclusive, mutual dependence and rules' do
+      program_stream.update(program_exclusive: [program_stream_2.id, program_stream_5.id], rules: correct_rules, mutual_dependence: [program_stream.id, program_stream_1.id, program_stream_3.id])
+      expect(program_stream.errors[:rules]).not_to include('Rules cannot be changed or added because it breaks the previous rules.')
+      expect(program_stream.errors[:program_exclusive]).not_to include('Program Exclusive cannot be changed or added because it breaks the previous rules.')
+      expect(program_stream.errors[:mutual_dependence]).not_to include('Mutual Dependence cannot be changed or added because it breaks the previous rules.')
+    end
+  end
+end
+
 # describe ProgramStream, 'validate remove fields' do
 #   let!(:client) { create(:client) }
 #   let!(:program_stream) { create(:program_stream) }

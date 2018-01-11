@@ -241,7 +241,7 @@ class ProgramStreamsController < AdminController
   def available_mutual_dependence_programs
     client_ids = @program_stream.client_enrollments.active.pluck(:client_id).uniq
     active_program_ids = ClientEnrollment.active.where(client_id: client_ids).pluck(:program_stream_id)
-    mutuals_available = ProgramStream.where(id: active_program_ids).complete.ordered
+    mutuals_available = ProgramStream.filter(active_program_ids).where.not(id: @program_stream.id).complete.ordered
     @mutual_dependences = mutuals_available
   end
 end
