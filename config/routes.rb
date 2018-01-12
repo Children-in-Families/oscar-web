@@ -201,7 +201,9 @@ Rails.application.routes.draw do
       resources :organizations, only: [:index]
       resources :domain_groups, only: [:index]
       resources :departments, only: [:index]
-      resources :families, only: [:index, :create, :update]
+      resources :families, only: [:index, :create, :update] do
+        resources :custom_field_properties, only: [:create, :update, :destroy]
+      end
       resources :users, only: [:index, :show]
       resources :clients, except: [:edit, :new] do
         get :compare, on: :collection

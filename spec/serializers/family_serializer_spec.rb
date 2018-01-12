@@ -93,5 +93,14 @@ describe FamilySerializer, type: :serializer do
     expect(serializer).to have_json_path('family/clients')
     expect(serializer).to have_json_type(Array).at_path('family/clients')
   end
-end
 
+  it 'should be have attribute add_forms' do
+    expect(serializer).to have_json_path('family/add_forms')
+    expect(serializer).to have_json_type(Array).at_path('family/add_forms')
+  end
+
+  it 'should be have attribute additional_form' do
+    expect(serializer).to have_json_path('family/additional_form')
+    expect(serializer).to have_json_type(Array).at_path('family/additional_form')
+  end
+end
