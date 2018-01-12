@@ -12,7 +12,7 @@ describe Task, 'validations' do
 end
 
 describe Task, 'scopes' do
-  let!(:active_client){ create(:client) }
+  let!(:active_client){ create(:client, status: Client::CLIENT_ACTIVE_STATUS.first) }
   let!(:exited_ngo_client){ create(:client, status: Client::EXIT_STATUSES.first) }
   let!(:domain){ create(:domain)}
   let!(:task){ create(:task, domain: domain, client: active_client)}
