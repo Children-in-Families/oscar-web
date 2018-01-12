@@ -1,5 +1,5 @@
 class FamilySerializer < ActiveModel::Serializer
-  attributes :id, :name, :code, :case_history, :caregiver_information, :significant_family_member_count, :household_income, :dependable_income, :female_children_count, :male_children_count, :female_adult_count, :male_adult_count, :family_type, :contract_date, :address, :province, :clients, :additional_forms, :add_forms
+  attributes :id, :name, :code, :case_history, :caregiver_information, :significant_family_member_count, :household_income, :dependable_income, :female_children_count, :male_children_count, :female_adult_count, :male_adult_count, :family_type, :contract_date, :address, :province, :clients, :additional_form, :add_forms
 
   def clients
     Client.where(id: object.children).map do |client|
@@ -22,7 +22,7 @@ class FamilySerializer < ActiveModel::Serializer
     CustomField.family_forms.not_used_forms(custom_field_ids).order_by_form_title
   end
 
-  def additional_forms
+  def additional_form
     custom_fields = object.custom_fields.uniq.sort_by(&:form_title)
     custom_fields.map do |custom_field|
       custom_field_property_file_upload = custom_field.custom_field_properties.where(custom_formable_id: object.id)
