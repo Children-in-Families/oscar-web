@@ -24,9 +24,9 @@
             %tbody
               - @districts.each do |district|
                 %tr
-                  %td{style: 'width: 33%;'}
+                  %td
                     = district.province.name
-                  %td{style: 'width: 33%;'}
+                  %td
                     = district.name
                   - if can? :manage, District
                     %td.text-center

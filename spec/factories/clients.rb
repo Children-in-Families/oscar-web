@@ -11,7 +11,6 @@ FactoryGirl.define do
     street_number    { FFaker::Address.street_address }
     village          { FFaker::Address.street_address }
     commune          { FFaker::Address.street_address }
-    archive_district { FFaker::Address.street_address }
     status 'Referred'
     school_grade '4'
     relevant_referral_information { FFaker::Lorem.paragraph }

@@ -54,10 +54,10 @@ class MoveDistrict
             name = 'ស្វាយរៀង'
           elsif client.archive_district == 'Chbar Ompov'
             name = 'ច្បារអំពៅ'
-          elsif client.archive_district == 'កំពង់លែង'
-            name = 'កំពុងលែង'
-          elsif client.archive_district == 'Prek Phnov'
-            name = 'ព្រៃព្នៅ'
+          elsif client.archive_district == 'កំពុងលែង'
+            name = 'កំពង់លែង'
+          elsif ['Prek Phnov', 'ព្រៃព្នៅ'].include?(client.archive_district)
+            name = 'ព្រែកព្នៅ'
           elsif ["\tពញាឮ", '	ពញាឮ'].include?(client.archive_district)
             name = 'ពញាឮ'
           elsif ['ក្រុងសៀមរាប', 'Siem Reap'].include?(client.archive_district)

@@ -2209,9 +2209,9 @@ km:
       save: រក្សាទុក
     index:
       add_new_district: បន្ថែមស្រុកថ្មី
-      are_you_sure: តើអ្នកប្រាកដហើយថាចង់លុប?
+      are_you_sure: តើអ្នកប្រាកដហើយ?
       changelogs: ប្រវត្តិនៃកំណែ
-      district_name: ឈ្មោស្រុក
+      district_name: ឈ្មោះស្រុក
       districts: ស្រុក
       manage: សកម្មភាព
       province_name: ឈ្មោះខេត្ត/ក្រុង
@@ -2219,8 +2219,8 @@ km:
     new:
       title: ខេត្តថ្មី
     update:
-      failed_update: ខេត្តមិនត្រូវបានរក្សាទុក
-      successfully_updated: ស្រុករក្សាបានដោយជោគជ័យ
+      failed_update: ស្រុកមិនត្រូវបានរក្សាទុក
+      successfully_updated: ស្រុកត្រូវបានកែសម្រួលដោយជោគជ័យ
     version:
       back: ត្រលប់ក្រោយ
       modification_of: ប្រវត្តិកំណែរបស់

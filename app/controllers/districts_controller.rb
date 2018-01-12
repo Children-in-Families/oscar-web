@@ -5,7 +5,7 @@ class DistrictsController < AdminController
 
   def index
     @provinces = Province.order(:name)
-    @districts = District.order(:name).page(params[:page]).per(20)
+    @districts = District.joins(:province).order('provinces.name').order(:name).page(params[:page]).per(20)
     @results   = District.count
   end
 

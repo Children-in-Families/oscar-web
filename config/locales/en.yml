@@ -2097,7 +2097,7 @@ en:
       successfully_created: District has been successfully created.
     destroy:
       alert: District cannot be deleted.
-      failed_delete: Failed to destroy a district.
+      failed_delete: Failed to delete a district.
       successfully_deleted: District has been successfully deleted.
     edit:
       title: Edit District
@@ -2787,10 +2787,10 @@ en:
       custom_fields: Form Builder
       dashboards: Dashboards
       departments: Departments
+      districts: Districts
       domain_groups: Domain Groups
       domains: Domains
       donors: Donors
-      districts: Districts
       edit_profile: Edit Profile
       en: English
       families: Families

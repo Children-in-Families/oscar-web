@@ -9,7 +9,7 @@
         .modal-body
           = error_notification(f)
           .form-inputs
-            = f.association :province, collection: @provinces, label: t('.province'), include_blank: false
+            = f.association :province, collection: @provinces, label: t('.province')
             = f.input :name, label: t('.name')
         .modal-footer
           .pull-left
