@@ -158,7 +158,7 @@ describe ProgramStream, 'validate program edition' do
     let!(:client_enrollment_2) { create(:client_enrollment, client: client, program_stream: program_stream_3) }
 
     it 'unable to save program stream program exclusive' do
-      program_stream.update(program_exclusive: [program_stream.id])
+      program_stream.update(program_exclusive: [program_stream_1.id])
       expect(program_stream.errors[:program_exclusive]).to include('Program Exclusive cannot be changed or added because it breaks the previous rules.')
     end
 
@@ -191,7 +191,7 @@ describe ProgramStream, 'validate program edition' do
     let!(:client_enrollment_2) { create(:client_enrollment, client: client, program_stream: program_stream_3) }
 
     it 'unable to save program stream program exclusive' do
-      program_stream.update(program_exclusive: [program_stream.id, program_stream_1.id, program_stream_3.id])
+      program_stream.update(program_exclusive: [program_stream_1.id, program_stream_3.id])
       expect(program_stream.errors[:program_exclusive]).to include('Program Exclusive cannot be changed or added because it breaks the previous rules.')
     end
 
@@ -227,7 +227,7 @@ describe ProgramStream, 'validate program edition and rules edition' do
     let!(:client_enrollment_2) { create(:client_enrollment, client: client, program_stream: program_stream_3) }
 
     it 'unable to save program stream program exclusive and rules' do
-      program_stream.update(program_exclusive: [program_stream.id], rules: wrong_rules)
+      program_stream.update(program_exclusive: [program_stream_1.id], rules: wrong_rules)
       expect(program_stream.errors[:rules]).to include('Rules cannot be changed or added because it breaks the previous rules.')
       expect(program_stream.errors[:program_exclusive]).to include('Program Exclusive cannot be changed or added because it breaks the previous rules.')
     end
