@@ -3072,7 +3072,7 @@ my:
       successfully_deleted: အစီအစဥ္ စီးဆင္းမႈကို ေအာင္ျမင္စြာ ဖ်က္ၿပီးပါၿပီ
     edit:
       back: ေနာက္သို႔
-      edit_program_stream: အစီအစဥ္ စီးဆင္းမႈကို ျပင္ဆင္ရန္
+      edit: အစီအစဥ္
     enrollment:
       custom_fields: အေကာက္ခြန္ပံုစံမ်ား
       enrollment_form: စာရင္းေပးသြင္းမႈ

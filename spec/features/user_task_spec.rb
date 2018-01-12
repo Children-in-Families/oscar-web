@@ -109,7 +109,7 @@ describe Task do
         visit dashboards_path
       end
 
-      scenario 'display only caseworker task' do
+      xscenario 'display only caseworker task', js: true do
         panel = page.all(:css, '.panel').select { |p| p.all(:css, '.panel-heading').select { |pp| pp.text.include?('Overdue tasks') }.first }.first
         page.find('.widget-tasks-panel').click
         expect(panel).to have_content(overdue_task.name)
