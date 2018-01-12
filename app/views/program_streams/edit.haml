@@ -2,7 +2,7 @@
   .col-xs-12
     .ibox
       .ibox-title
-        %h5= t('.edit_program_stream')
+        %h5= "#{t('.edit')} #{@program_stream.name}"
         .ibox-tools
           = link_to program_streams_path do
             .btn.btn-default.btn-back-default.button

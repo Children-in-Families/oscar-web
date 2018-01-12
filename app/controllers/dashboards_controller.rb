@@ -9,9 +9,9 @@ class DashboardsController < AdminController
 
   def find_overhaul_task_params
     @default_params    = params[:assessments].nil? && params[:forms].nil? && params[:tasks].nil?
-    @assessment_params = params[:assessments].presence == 'true'
-    @form_params       = params[:forms].presence == 'true'
-    @task_params       = params[:tasks].presence == 'true'
+    @assessment_params = params[:assessments].presence == 'true' || current_user.case_worker?
+    @form_params       = params[:forms].presence == 'true' || current_user.case_worker?
+    @task_params       = params[:tasks].presence == 'true' || current_user.case_worker?
   end
 
   def task_of_user
