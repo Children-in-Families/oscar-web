@@ -3134,7 +3134,7 @@ km:
       successfully_deleted: កម្មវិធីបន្ទាប់បន្សំត្រូវបានលុបចោលដោយជោគជ័យ
     edit:
       back: ត្រលប់ក្រោយ
-      edit_program_stream: កែសម្រួលកម្មវិធី
+      edit: កែសម្រួល
     enrollment:
       custom_fields: ទម្រង់បែបបទ
       enrollment_form: ទម្រង់បែបបទចុះឈ្មោះ

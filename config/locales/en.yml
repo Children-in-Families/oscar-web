@@ -3035,7 +3035,7 @@ en:
       successfully_deleted: Program Stream has been successfully deleted.
     edit:
       back: Back
-      edit_program_stream: Edit Program Stream
+      edit: Edit
     enrollment:
       custom_fields: Custom Forms
       enrollment_form: Enrollment
