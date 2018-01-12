@@ -2870,6 +2870,7 @@ en:
       back: Back
       modification_of: Changelog of
   must_be_uniq: field label must be uniq
+  mutual_dependence_has_been_modified: Mutual Dependence cannot be changed or added because it breaks the previous rules.
   notifications:
     custom_field_due_today:
       clients: Client
@@ -2947,6 +2948,7 @@ en:
     version:
       back: Back
       modification_of: Changelog of
+  program_exclusive_has_been_modified: Program Exclusive cannot be changed or added because it breaks the previous rules.
   program_streams:
     actions:
       are_you_sure: Are you sure you want to delete?
@@ -3328,8 +3330,6 @@ en:
       domain_score: Domain Scores
   review_problem: 'Please review the problems below:'
   rules_has_been_modified: Rules cannot be changed or added because it breaks the previous rules.
-  program_exclusive_has_been_modified: Program Exclusive cannot be changed or added because it breaks the previous rules.
-  mutual_dependence_has_been_modified: Mutual Dependence cannot be changed or added because it breaks the previous rules.
   save: Save
   settings:
     country:

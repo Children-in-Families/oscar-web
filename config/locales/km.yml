@@ -2971,6 +2971,7 @@ km:
       back: ត្រលប់ក្រោយ
       modification_of: ប្រវត្តិកំណែរបស់
   must_be_uniq: ផ្នែកនៃទម្រង់មិនអាចមានឈ្មោះដូចគ្នា
+  mutual_dependence_has_been_modified: កម្មវិធីអាស្រ័យគ្នាមិនអាចផ្លាស់ប្តូរឬបន្ថែមទេព្រោះលក្ខខ័ណ្ឌមុនត្រូវបានផ្លាស់ប្តូរ។
   notifications:
     custom_field_due_today:
       clients: អតិថិជន
@@ -3048,6 +3049,7 @@ km:
     version:
       back: ត្រលប់ក្រោយ
       modification_of: ប្រវត្តិកំណែរបស់
+  program_exclusive_has_been_modified: កម្មវិធីផ្តាច់មុខមិនអាចផ្លាស់ប្តូរឬបន្ថែមទេព្រោះលក្ខខ័ណ្ឌមុនត្រូវបានផ្លាស់ប្តូរ។
   program_streams:
     actions:
       are_you_sure: តើអ្នកប្រាកដហើយ?
@@ -3430,8 +3432,6 @@ km:
       domain_score: ពិន្ទុកត្តាការប៉ាន់ប្រមាណ
   review_problem: សូមពិនិត្យបញ្ហាសារឡើងវិញនៅខាងក្រោម៖
   rules_has_been_modified: លក្ខខ័ណ្ឌមិនអាចផ្លាស់ប្តូរឬបន្ថែមទេព្រោះលក្ខខ័ណ្ឌមុនត្រូវបានផ្លាស់ប្តូរ។
-  program_exclusive_has_been_modified: កម្មវិធីផ្តាច់មុខមិនអាចផ្លាស់ប្តូរឬបន្ថែមទេព្រោះលក្ខខ័ណ្ឌមុនត្រូវបានផ្លាស់ប្តូរ។
-  mutual_dependence_has_been_modified: កម្មវិធីអាស្រ័យគ្នាមិនអាចផ្លាស់ប្តូរឬបន្ថែមទេព្រោះលក្ខខ័ណ្ឌមុនត្រូវបានផ្លាស់ប្តូរ។
   save: រក្សាទុក
   settings:
     country:
