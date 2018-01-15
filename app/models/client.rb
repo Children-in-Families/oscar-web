@@ -343,6 +343,37 @@ class Client < ActiveRecord::Base
     EXIT_STATUSES.include?(status)
   end
 
+  def self.notify_upcoming_csi_assessment
+    Organization.all.each do |org|
+      Organization.switch_to org.short_name
+      # managers = User.ec_managers.pluck(:email).join(', ')
+      # admins   = User.admins.pluck(:email).join(', ')
+      # no_csi_clients = without_assessments.ids
+      clients = joins(:assessments).all_active_types
+      # clients = all_active_types.select { |client| client.active_day_care == day }
+      clients.each do |client|
+        most_recent_csi = client.assessments.most_recents.first.created_at.to_date
+        notification_date = most_recent_csi + 5.months + 15.days # Mon, 15 Jan 2018
+
+        # if Date.today == (notification_date) # 5 months and 15 days
+        #   send,
+        #   notification_date += 7.days
+        #   # notification_date = most_recent_csi + 5.months + 22.days
+        # end
+
+        for(a = Date.today; a == notification_date; a+= 7){
+          # send;
+        }
+
+      end
+
+      if clients.present?
+        ManagerMailer.remind_of_client(clients, day: day, manager: managers).deliver_now if managers.present?
+        AdminMailer.remind_of_client(clients, day: day, admin: admins).deliver_now if admins.present?
+      end
+    end
+  end
+
   private
 
   def create_client_history
