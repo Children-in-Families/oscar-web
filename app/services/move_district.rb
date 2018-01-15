@@ -21,11 +21,7 @@ class MoveDistrict
         Organization.switch_to org.short_name
         ((workbook.first_row + 1)..workbook.last_row).each do |row|
           discrit_name  = workbook.row(row)[headers['District']]
-          if org.short_name == 'demo'
-            province_name = workbook.row(row)[headers['Province']].split(' / ').last
-          else
-            province_name = workbook.row(row)[headers['Province']]
-          end
+          province_name = workbook.row(row)[headers['Province']].split(' / ').last
           if discrit_name.present?
             province = Province.find_by('provinces.name iLIKE ?', "%#{province_name}%")
             District.create(province: province, name: discrit_name)
@@ -48,14 +44,14 @@ class MoveDistrict
             name = 'មេសាង'
           elsif client.archive_district == 'ស្រុកសង្កែ​ '
             name = 'សង្កែ'
-          elsif client.archive_district == 'ស្វាយជ្រំ'
-            name = 'ស្វាយជ្រុំ'
           elsif client.archive_district == 'ស្រុកស្វាយរៀង'
             name = 'ស្វាយរៀង'
           elsif client.archive_district == 'Chbar Ompov'
             name = 'ច្បារអំពៅ'
           elsif client.archive_district == 'កំពុងលែង'
             name = 'កំពង់លែង'
+          elsif ['ស្វាយជ្រំ', 'ស្វាយជ្រុំ'].include?(client.archive_district)
+            name = 'ស្វាយជ្រុំ'
           elsif ['Prek Phnov', 'ព្រៃព្នៅ'].include?(client.archive_district)
             name = 'ព្រែកព្នៅ'
           elsif ["\tពញាឮ", '	ពញាឮ'].include?(client.archive_district)

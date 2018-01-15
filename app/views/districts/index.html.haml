@@ -14,8 +14,8 @@
           %table.table.table-bordered.table-striped.table-hover
             %thead
               %tr
-                %th= t('.province_name')
                 %th= t('.district_name')
+                %th= t('.province_name')
                 - if can? :manage, District
                   %th.text-center.custom_column_manage{:colspan => "2"}
                     = t('.manage')
@@ -25,9 +25,9 @@
               - @districts.each do |district|
                 %tr
                   %td
-                    = district.province.name
-                  %td
                     = district.name
+                  %td
+                    = district.province.name
                   - if can? :manage, District
                     %td.text-center
                       = link_to '#', {class: 'btn btn-outline btn-success btn-xs', "data-target" => "#districtModal-#{district.id}", "data-toggle" => "modal", :type => "button"} do
