@@ -23,12 +23,13 @@
           = f.association :donor, collection: @donors, label: t('.donor')
         - if f.object.current_address.present?
           .col-xs-12.col-sm-6.col-md-4= f.input :current_address, input_html: { rows: '6' }, label: t('.current_address')
-        .col-xs-12.col-sm-6.col-md-4= f.input :house_number, label: t('.house_number')
-        .col-xs-12.col-sm-6.col-md-4= f.input :street_number, label: t('.street_number')
-        .col-xs-12.col-sm-6.col-md-4= f.input :village, label: t('.village')
-        .col-xs-12.col-sm-6.col-md-4= f.input :commune, label: t('.commune')
-        .col-xs-12.col-sm-6.col-md-4= f.input :district, label: t('.district')
         .col-xs-12.col-sm-6.col-md-4= f.association :province, collection: @province, label: t('.current_province')
+        .col-xs-12.col-sm-6.col-md-4= f.association :district, collection: @districts, label: t('.district')
+        .col-xs-12.col-sm-6.col-md-4= f.input :archive_district, label: 'Archive District/Khan', readonly: true
+        .col-xs-12.col-sm-6.col-md-4= f.input :commune, label: t('.commune')
+        .col-xs-12.col-sm-6.col-md-4= f.input :village, label: t('.village')
+        .col-xs-12.col-sm-6.col-md-4= f.input :street_number, label: t('.street_number')
+        .col-xs-12.col-sm-6.col-md-4= f.input :house_number, label: t('.house_number')
         .col-xs-12.col-sm-6.col-md-4= f.association :users, collection: @users, label: t('.case_worker_or_staff'), include_blank: false, multiple: true
 
         .col-xs-12.col-sm-6.col-md-4= f.input :received_by_id, collection: @users, label: t('.received_by')

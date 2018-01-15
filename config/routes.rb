@@ -58,6 +58,10 @@ Rails.application.routes.draw do
     get 'version' => 'provinces#version'
   end
 
+  resources :districts, except: [:show] do
+    get 'version' => 'districts#version'
+  end
+
   resources :departments, except: [:show] do
     get 'version' => 'departments#version'
   end
@@ -162,6 +166,10 @@ Rails.application.routes.draw do
   namespace :api do
     mount_devise_token_auth_for 'User', at: '/v1/auth', skip: [:passwords]
     resources :form_builder_attachments, only: :destroy
+
+    resources :provinces, only: :index do
+      resources :districts, only: :index
+    end
 
     resources :clients do
       get :compare, on: :collection

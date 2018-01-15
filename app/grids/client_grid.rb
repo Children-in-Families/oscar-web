@@ -539,7 +539,9 @@ class ClientGrid
 
   column(:commune, header: -> { I18n.t('datagrid.columns.clients.commune') })
 
-  column(:district, header: -> { I18n.t('datagrid.columns.clients.district') })
+  column(:district, header: -> { I18n.t('datagrid.columns.clients.district') }) do |object|
+    object.district.try(:name)
+  end
 
   column(:school_name, header: -> { I18n.t('datagrid.columns.clients.school_name') })
 

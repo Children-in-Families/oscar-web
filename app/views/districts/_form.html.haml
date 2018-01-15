@@ -1,0 +1,17 @@
+= simple_form_for(district ||= District.new) do |f|
+  .modal.fade{id: "districtModal-#{district.id}", "aria-labelledby" => "districtModal-#{district.id}Label", :role => "dialog", :tabindex => "-1"}
+    .modal-dialog{:role => "document"}
+      .modal-content
+        .modal-header
+          %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+            %span{"aria-hidden" => "true"} ×
+          %h4.modal-title{ id: "districtModal-#{district.id}Label" }= t('.district')
+        .modal-body
+          = error_notification(f)
+          .form-inputs
+            = f.association :province, collection: @provinces, label: t('.province')
+            = f.input :name, label: t('.name')
+        .modal-footer
+          .pull-left
+            = f.submit t('.save') , class: 'btn btn-primary form-btn'
+            %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"}= t('.cancel')

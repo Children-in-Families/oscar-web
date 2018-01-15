@@ -141,7 +141,7 @@ class ClientsController < AdminController
             :birth_province_id, :initial_referral_date, :referral_source_id,
             :referral_phone, :received_by_id, :followed_up_by_id,
             :follow_up_date, :school_grade, :school_name, :current_address,
-            :house_number, :street_number, :village, :commune, :district,
+            :house_number, :street_number, :village, :commune, :district_id,
             :has_been_in_orphanage, :has_been_in_government_care,
             :relevant_referral_information, :province_id, :donor_id,
             :state, :rejected_note, :able, :live_with, :id_poor, :accepted_date,
@@ -172,6 +172,11 @@ class ClientsController < AdminController
     @client_types    = ClientType.order(:created_at)
     @needs           = Need.order(:created_at)
     @problems        = Problem.order(:created_at)
+    if @client.province.present?
+      @districts       = @client.province.districts.order(:name)
+    else
+      @districts = []
+    end
   end
 
   def initial_visit_client
