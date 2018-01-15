@@ -2091,6 +2091,39 @@ en:
       send_instructions: You will receive an email with instructions for how to unlock your account in a few minutes.
       send_paranoid_instructions: If your account exists, you will receive an email with instructions for how to unlock it in a few minutes.
       unlocked: Your account has been unlocked successfully. Please sign in to continue.
+  districts:
+    create:
+      failed_create: Failed to create a district.
+      successfully_created: District has been successfully created.
+    destroy:
+      alert: District cannot be deleted.
+      failed_delete: Failed to delete a district.
+      successfully_deleted: District has been successfully deleted.
+    edit:
+      title: Edit District
+    form:
+      cancel: Cancel
+      district: District
+      name: District Name
+      province: Province
+      save: Save
+    index:
+      add_new_district: Add New District
+      are_you_sure: Are you sure you want to delete?
+      changelogs: Changelog
+      district_name: District Name
+      districts: Districts
+      manage: Manage
+      province_name: Province Name
+      view: View
+    new:
+      title: New District
+    update:
+      failed_update: Failed to update a district.
+      successfully_updated: District has been successfully updated.
+    version:
+      back: Back
+      modification_of: Changelog of
   domain_groups:
     create:
       failed_create: Failed to create a domain group.
@@ -2754,6 +2787,7 @@ en:
       custom_fields: Form Builder
       dashboards: Dashboards
       departments: Departments
+      districts: Districts
       domain_groups: Domain Groups
       domains: Domains
       donors: Donors

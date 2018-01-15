@@ -263,6 +263,7 @@ describe Client, 'scopes' do
   let!(:follower){ create(:user)}
   let!(:referral_source) { create(:referral_source)}
   let!(:province){ create(:province) }
+  let!(:district){ create(:district) }
   let!(:client){ create(:client,
     slug: 'Example id',
     given_name: 'Example First Name',
@@ -280,7 +281,8 @@ describe Client, 'scopes' do
     followed_up_by: follower,
     birth_province: province,
     province: province,
-    user_ids: [user.id]
+    user_ids: [user.id],
+    district: district
   )}
   let!(:assessment) { create(:assessment, client: client) }
   let!(:other_client){ create(:client, state: 'rejected') }
@@ -416,7 +418,7 @@ describe Client, 'scopes' do
   end
 
   context 'district like' do
-    let!(:clients){ Client.district_like(client.district.downcase[0, 5]) }
+    let!(:clients){ Client.district_like(district.name) }
     it 'should include record have district like' do
       expect(clients).to include(client)
     end

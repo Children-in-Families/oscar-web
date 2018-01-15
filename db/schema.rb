@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171124030426) do
+ActiveRecord::Schema.define(version: 20180108021555) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -358,7 +358,7 @@ ActiveRecord::Schema.define(version: 20171124030426) do
     t.string   "street_number",                    default: ""
     t.string   "village",                          default: ""
     t.string   "commune",                          default: ""
-    t.string   "district",                         default: ""
+    t.string   "archive_district",                 default: ""
     t.string   "live_with",                        default: ""
     t.integer  "id_poor"
     t.integer  "rice_support",                     default: 0
@@ -390,8 +390,10 @@ ActiveRecord::Schema.define(version: 20171124030426) do
     t.text     "gov_referral_reason",              default: ""
     t.text     "gov_guardian_comment",             default: ""
     t.text     "gov_caseworker_comment",           default: ""
+    t.integer  "district_id"
   end
 
+  add_index "clients", ["district_id"], name: "index_clients_on_district_id", using: :btree
   add_index "clients", ["donor_id"], name: "index_clients_on_donor_id", using: :btree
   add_index "clients", ["slug"], name: "index_clients_on_slug", unique: true, using: :btree
 
@@ -445,6 +447,13 @@ ActiveRecord::Schema.define(version: 20171124030426) do
     t.datetime "updated_at"
     t.integer  "users_count", default: 0
   end
+
+  create_table "districts", force: :cascade do |t|
+    t.string  "name"
+    t.integer "province_id"
+  end
+
+  add_index "districts", ["province_id"], name: "index_districts_on_province_id", using: :btree
 
   create_table "domain_groups", force: :cascade do |t|
     t.string   "name",          default: ""
@@ -1188,10 +1197,12 @@ ActiveRecord::Schema.define(version: 20171124030426) do
   add_foreign_key "client_needs", "needs"
   add_foreign_key "client_problems", "clients"
   add_foreign_key "client_problems", "problems"
+  add_foreign_key "clients", "districts"
   add_foreign_key "clients", "donors"
   add_foreign_key "custom_field_permissions", "custom_fields"
   add_foreign_key "custom_field_permissions", "users"
   add_foreign_key "custom_field_properties", "custom_fields"
+  add_foreign_key "districts", "provinces"
   add_foreign_key "domains", "domain_groups"
   add_foreign_key "interventions_progress_notes", "interventions"
   add_foreign_key "interventions_progress_notes", "progress_notes"

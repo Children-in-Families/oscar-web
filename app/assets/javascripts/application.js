@@ -62,6 +62,7 @@
 //= require tasks/form
 //= require tasks/index
 //= require dashboards/index
+//= require districts/index
 //= require case_notes/form
 //= require cases/form
 //= require calendars/index

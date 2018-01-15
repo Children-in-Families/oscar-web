@@ -3,11 +3,11 @@ module Api
     class CustomFieldPropertiesController < Api::V1::BaseApiController
       include FormBuilderAttachments
 
-      before_action :find_client
+      before_action :find_entity
       before_action :find_custom_field_property, only: [:update, :destroy]
 
       def create
-        custom_field_property = @client.custom_field_properties.new(custom_field_property_params)
+        custom_field_property = @custom_formable.custom_field_properties.new(custom_field_property_params)
         if custom_field_property.save
           custom_field_property.form_builder_attachments.map do |c|
             custom_field_property.properties = custom_field_property.properties.merge({ c.name => c.file })
@@ -45,7 +45,7 @@ module Api
       private
 
       def find_custom_field_property
-        @custom_field_property = @client.custom_field_properties.find(params[:id])
+        @custom_field_property = @custom_formable.custom_field_properties.find(params[:id])
       end
 
       def custom_field_property_params

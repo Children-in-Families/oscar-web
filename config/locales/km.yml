@@ -2191,6 +2191,39 @@ km:
       send_instructions: អ្នកនឹងទទួលបាន អ៊ីម៉ែលមួយ ជាមួយនឹងការណែនាំ សម្រាប់របៀបក្នុងការ ដោះសោគណនី របស់អ្នកនៅក្នុងពេលប៉ុន្មាននាទីខាងមុខ
       send_paranoid_instructions: បើគណនីរបស់អ្នក មានរួចហើយ, អ្នកនឹងទទួលបាន អ៊ីម៉ែលមួយ ជាមួយនឹងការណែនាំ អំពីរបៀប ដើម្បីដោះសោ វានៅក្នុងពេល ពីរឬបីនាទីខាងមុខ
       unlocked: គណនីរបស់អ្នកត្រូវ បានដោះសោ ដោយជោគជ័យ។ សូមចូលទៅ បន្ត
+  districts:
+    create:
+      failed_create: ស្រុកមិនត្រូវបានបង្កើតដោយជោគជ័យ
+      successfully_created: ស្រុកត្រូវបានបង្កើតដោយជោគជ័យ
+    destroy:
+      alert: ស្រុកមិនអាចលុបបានទេ
+      failed_delete: ស្រុកមិនត្រូវបានលុបចោលដោយជោគជ័យ
+      successfully_deleted: ស្រុកត្រូវបានលុបចោលដោយជោគជ័យ
+    edit:
+      title: កែសម្រួលស្រុក
+    form:
+      cancel: ទុកជាមោឃៈ
+      name: ឈ្មោះស្រុក
+      district: ស្រុក
+      province: ខេត្ត/ក្រុង
+      save: រក្សាទុក
+    index:
+      add_new_district: បន្ថែមស្រុកថ្មី
+      are_you_sure: តើអ្នកប្រាកដហើយ?
+      changelogs: ប្រវត្តិនៃកំណែ
+      district_name: ឈ្មោះស្រុក
+      districts: ស្រុក
+      manage: សកម្មភាព
+      province_name: ឈ្មោះខេត្ត/ក្រុង
+      view: មើល
+    new:
+      title: ខេត្តថ្មី
+    update:
+      failed_update: ស្រុកមិនត្រូវបានរក្សាទុក
+      successfully_updated: ស្រុកត្រូវបានកែសម្រួលដោយជោគជ័យ
+    version:
+      back: ត្រលប់ក្រោយ
+      modification_of: ប្រវត្តិកំណែរបស់
   domain_groups:
     create:
       failed_create: ការប្រមូលផ្តុំកត្តាមិនត្រូវបានបង្កើតដោយជោគជ័យ
