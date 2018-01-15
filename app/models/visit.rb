@@ -1,7 +1,7 @@
 class Visit < ActiveRecord::Base
   belongs_to :user
 
-  default_scope { where(user_id: User.non_devs.ids) }
+  scope :excludes_non_devs, -> { where(user_id: User.non_devs.ids) }
 
   def self.previous_month_logins
     beginning_of_month = 1.month.ago.beginning_of_month
