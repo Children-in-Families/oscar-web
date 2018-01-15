@@ -7,7 +7,6 @@ class ProgramStreamsController < AdminController
   before_action :find_another_ngo_program_stream, if: -> { @ngo_name.present? }
   before_action :remove_html_tags, only: [:create, :update]
   before_action :complete_program_steam, only: [:new, :create]
-  before_action :available_exclusive_programs, :available_mutual_dependence_programs, only: [:edit, :update]
 
   def index
     @program_streams = paginate_collection(decorate_programs(column_order)).page(params[:page_1]).per(20)
@@ -27,6 +26,8 @@ class ProgramStreamsController < AdminController
 
   def edit
     redirect_to program_streams_path, alert: t('unauthorized.default') if @ngo_name.present? && @ngo_name != current_organization.full_name
+    @exclusive_programs = available_exclusive_programs
+    @mutual_dependences = available_mutual_dependence_programs.any? ? available_mutual_dependence_programs : @exclusive_programs
   end
 
   def show
@@ -235,13 +236,11 @@ class ProgramStreamsController < AdminController
     client_ids = @program_stream.client_enrollments.active.pluck(:client_id).uniq
     active_program_ids = ClientEnrollment.active.where(client_id: client_ids).pluck(:program_stream_id)
     available_programs_for_exclusive = ProgramStream.where.not(id: active_program_ids).complete.ordered
-    @exclusive_programs = available_programs_for_exclusive
   end
 
   def available_mutual_dependence_programs
     client_ids = @program_stream.client_enrollments.active.pluck(:client_id).uniq
     active_program_ids = ClientEnrollment.active.where(client_id: client_ids).pluck(:program_stream_id)
     mutuals_available = ProgramStream.filter(active_program_ids).where.not(id: @program_stream.id).complete.ordered
-    @mutual_dependences = mutuals_available
   end
 end
