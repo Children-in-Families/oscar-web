@@ -110,6 +110,7 @@ class Client < ActiveRecord::Base
   scope :of_case_worker,              -> (user_id) { joins(:case_worker_clients).where(case_worker_clients: { user_id: user_id }) }
   scope :exited_ngo,                  ->        { where(status: EXIT_STATUSES) }
   scope :non_exited_ngo,              ->        { where.not(status: EXIT_STATUSES) }
+  scope :telephone_number_like,       ->(value) { where('clients.telephone_number iLIKE ?', "#{value}%") }
 
   def self.filter(options)
     query = all

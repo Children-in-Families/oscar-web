@@ -327,6 +327,7 @@ en:
       state: Accept/Reject
       status: Status
       street_number: Street
+      telephone_number: Telephone Number
       time_of_frequency: Time of Frequency
       type: Type
       user_id: Case Worker
@@ -1056,6 +1057,7 @@ en:
       state: Accept/Reject
       status: Status
       street_number: Street
+      telephone_number: Telephone Number
       to: To
       village: Village
       year: Year
@@ -1229,6 +1231,7 @@ en:
       street_number: Street
       survey_history: Survey History
       take_survey: Take Survey
+      telephone_number: Telephone Number
       time_in_care: Time In Care
       time_in_care_around:
         one: Around %{count} year
@@ -1491,6 +1494,7 @@ en:
         state: Accept/Reject
         status: Status
         street_number: Street
+        telephone_number: Telephone Number
         thailand: Thailand
         time_of_frequency: Time of Frequency
         total: Total

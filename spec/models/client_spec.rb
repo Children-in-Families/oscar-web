@@ -282,7 +282,8 @@ describe Client, 'scopes' do
     birth_province: province,
     province: province,
     user_ids: [user.id],
-    district: district
+    district: district,
+    telephone_number: '010123456'
   )}
   let!(:assessment) { create(:assessment, client: client) }
   let!(:other_client){ create(:client, state: 'rejected') }
@@ -299,6 +300,14 @@ describe Client, 'scopes' do
     subject { Client.exited_ngo }
     it 'include clients who exited from NGO' do
       is_expected.to include(exited_client)
+      is_expected.not_to include(kc_client, fc_client, ec_client)
+    end
+  end
+
+  context 'telephone_number_like' do
+    subject { Client.telephone_number_like('010123456') }
+    it 'include clients who have phone number like' do
+      is_expected.to include(client)
       is_expected.not_to include(kc_client, fc_client, ec_client)
     end
   end

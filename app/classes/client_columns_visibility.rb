@@ -70,7 +70,8 @@ class ClientColumnsVisibility
       all_csi_assessments_: :all_csi_assessments,
       donor_: :donor,
       manage_: :manage,
-      changelog_: :changelog
+      changelog_: :changelog,
+      telephone_number_: :telephone_number
     }
   end
 

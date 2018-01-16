@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180108021555) do
+ActiveRecord::Schema.define(version: 20180116031324) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -391,6 +391,7 @@ ActiveRecord::Schema.define(version: 20180108021555) do
     t.text     "gov_guardian_comment",             default: ""
     t.text     "gov_caseworker_comment",           default: ""
     t.integer  "district_id"
+    t.string   "telephone_number",                 default: ""
   end
 
   add_index "clients", ["district_id"], name: "index_clients_on_district_id", using: :btree
