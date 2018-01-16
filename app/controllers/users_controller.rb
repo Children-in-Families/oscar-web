@@ -2,7 +2,7 @@ class UsersController < AdminController
   load_and_authorize_resource
 
   before_action :find_user, only: [:show, :edit, :update, :destroy]
-  before_action :find_association, except: [:index, :destroy]
+  before_action :find_association, except: [:index, :destroy, :version]
 
   def index
     @user_grid = UserGrid.new(params[:user_grid])
