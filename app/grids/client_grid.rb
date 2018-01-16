@@ -462,7 +462,7 @@ class ClientGrid
     object.cases.current.case_type if object.cases.current.present?
   end
 
-  column(:telephone_number, header: -> { 'Telephone Number' }, order: false ) do |object|
+  column(:telephone_number, header: -> { I18n.t('datagrid.columns.cases.telephone_number') }, order: false ) do |object|
     object.telephone_number
   end
 
