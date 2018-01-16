@@ -346,16 +346,16 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     for element in $('#enrollment, #exit-program')
       dataElement = JSON.parse($(element).children('span').text())
       _initProgramBuilder($(element), (dataElement || []))
-      # if element.id == 'enrollment' and $('#program_stream_id').val() != ''
-      #   _preventRemoveField(ENROLLMENT_URL, '#enrollment')
-      # else if element.id == 'exit-program' and $('#program_stream_id').val() != ''
-        # _preventRemoveField(EXIT_PROGRAM_URL, '#exit-program')
+      if element.id == 'enrollment' and $('#program_stream_id').val() != ''
+        _preventRemoveField(ENROLLMENT_URL, '#enrollment')
+      else if element.id == 'exit-program' and $('#program_stream_id').val() != ''
+        _preventRemoveField(EXIT_PROGRAM_URL, '#exit-program')
 
     trackings = $('.tracking-builder')
     for tracking in trackings
       trackingValue = JSON.parse($(tracking).children('span').text())
       _initProgramBuilder(tracking, (trackingValue || []))
-    # _preventRemoveField(TRACKING_URL, '') if $('#program_stream_id').val() != ''
+    _preventRemoveField(TRACKING_URL, '') if $('#program_stream_id').val() != ''
 
   _initButtonSave = ->
     form = $('form#program-stream')
@@ -411,9 +411,11 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
             text = labelField.textContent
             if fields.includes(text)
               parent = $(labelField).parent()
-              $(parent).children('div.field-actions').remove()
-              $(parent).on 'dblclick', (e) ->
-                e.stopPropagation()
+              $(parent).find('.del-button, .copy-button').remove()
+              if $(parent).attr('class').includes('checkbox-group-field') || $(parent).attr('class').includes('radio-group-field')
+                $(parent).find('.option-label').attr('readonly', 'true')
+                $(parent).children('.frm-holder').find('a.remove.btn').remove()
+
 
   _hideActionInTracking = (fields) ->
     trackings = $('#trackings .nested-fields')
@@ -428,9 +430,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         text = $(label).text()
         if fields[name].includes(text)
           parent = $(label).parent()
-          $(parent).children('div.field-actions').remove()
-          $(parent).on 'dblclick', (e) ->
-            e.stopPropagation()
+          $(parent).find('.del-button, .copy-button').remove()
 
   _initFrequencyNote = ->
     for nestedField in $('.nested-fields')
