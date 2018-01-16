@@ -346,16 +346,16 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     for element in $('#enrollment, #exit-program')
       dataElement = JSON.parse($(element).children('span').text())
       _initProgramBuilder($(element), (dataElement || []))
-      if element.id == 'enrollment' and $('#program_stream_id').val() != ''
-        _preventRemoveField(ENROLLMENT_URL, '#enrollment')
-      else if element.id == 'exit-program' and $('#program_stream_id').val() != ''
-        _preventRemoveField(EXIT_PROGRAM_URL, '#exit-program')
+      # if element.id == 'enrollment' and $('#program_stream_id').val() != ''
+      #   _preventRemoveField(ENROLLMENT_URL, '#enrollment')
+      # else if element.id == 'exit-program' and $('#program_stream_id').val() != ''
+        # _preventRemoveField(EXIT_PROGRAM_URL, '#exit-program')
 
     trackings = $('.tracking-builder')
     for tracking in trackings
       trackingValue = JSON.parse($(tracking).children('span').text())
       _initProgramBuilder(tracking, (trackingValue || []))
-    _preventRemoveField(TRACKING_URL, '') if $('#program_stream_id').val() != ''
+    # _preventRemoveField(TRACKING_URL, '') if $('#program_stream_id').val() != ''
 
   _initButtonSave = ->
     form = $('form#program-stream')
