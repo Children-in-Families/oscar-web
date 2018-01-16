@@ -87,6 +87,8 @@ class ClientGrid
 
   filter(:province_id, :enum, select: :province_with_clients, header: -> { I18n.t('datagrid.columns.clients.current_province') })
 
+  filter(:telephone_number, :string, header: -> { I18n.t('datagrid.columns.clients.telephone_number') }) { |value, scope| scope.telephone_number_like(value) }
+
   def province_with_clients
     Province.has_clients.map { |p| [p.name, p.id] }
   end
@@ -458,6 +460,10 @@ class ClientGrid
 
   column(:cases, header: -> { I18n.t('datagrid.columns.cases.case_type') }, order: false ) do |object|
     object.cases.current.case_type if object.cases.current.present?
+  end
+
+  column(:telephone_number, header: -> { 'Telephone Number' }, order: false ) do |object|
+    object.telephone_number
   end
 
   column(:history_of_disability_and_or_illness, header: -> { I18n.t('datagrid.columns.clients.history_of_disability_and_or_illness') }) do |object|
