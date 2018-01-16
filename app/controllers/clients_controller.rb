@@ -12,7 +12,7 @@ class ClientsController < AdminController
   before_action :fetch_advanced_search_queries, only: [:index]
 
   before_action :find_client, only: [:show, :edit, :update, :destroy]
-  before_action :set_association, except: [:index, :destroy]
+  before_action :set_association, except: [:index, :destroy, :version]
   before_action :choose_grid, only: :index
   before_action :find_resources, only: :show
 
