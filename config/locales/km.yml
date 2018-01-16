@@ -344,6 +344,7 @@ km:
       state: ទទួល/បដិសេធ
       status: ស្ថានភាព
       street_number: ផ្លូវ
+      telephone_number: លេខទូរស័ព្ទ
       time_of_frequency: ពេលវេលានៃភាពញឹកញាប់
       type: ប្រភេទនៃទម្រង់បែបបទបន្ថែម
       user_id: បុគ្គលិកគ្រប់គ្រងករណី
@@ -1156,6 +1157,7 @@ km:
       state: ទទួល/បដិសេធ
       status: ស្ថានភាព
       street_number: ផ្លូវ
+      telephone_number: លេខទូរស័ព្ទ
       to: ទៅដល់
       village: ភូមិ
       year: ឆ្នាំ
@@ -1329,6 +1331,7 @@ km:
       street_number: ផ្លូវ
       survey_history: ប្រវត្តិនៃការស្ទង់មតិ
       take_survey: ការស្ទង់មតិ
+      telephone_number: លេខទូរស័ព្ទ
       time_in_care: រយៈពេលមើលថែទាំ
       time_in_care_around:
         one: ប្រហែល%{count}ឆ្នាំ
@@ -1591,6 +1594,7 @@ km:
         state: ទទួល/បដិសេធ
         status: ស្ថានភាព
         street_number: ផ្លូវ
+        telephone_number: លេខទូរស័ព្ទ
         thailand: ថៃ
         time_of_frequency: ពេលវេលានៃភាពញឹកញាប់
         total: សរុប

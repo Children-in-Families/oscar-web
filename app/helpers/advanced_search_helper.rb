@@ -90,7 +90,8 @@ module AdvancedSearchHelper
       csi_domain_scores: I18n.t('advanced_search.fields.csi_domain_scores'),
       case_note_date: I18n.t('advanced_search.fields.case_note_date'),
       case_note_type: I18n.t('advanced_search.fields.case_note_type'),
-      date_of_assessments: I18n.t('advanced_search.fields.date_of_assessments')
+      date_of_assessments: I18n.t('advanced_search.fields.date_of_assessments'),
+      telephone_number: I18n.t('advanced_search.fields.telephone_number')
     }
     translations[key.to_sym] || ''
   end

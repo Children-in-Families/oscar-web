@@ -354,6 +354,7 @@ my:
       state: လက္ခံ/ျငင္းပယ္
       status: အေနအထား
       street_number: လမ္း
+      telephone_number: တယ်လီဖုန်းနံပါတ်
       time_of_frequency: အႀကိမ္အေရအတြက္
       tracking: ေနာက္ေၾကာင္းလုိက္ျခင္း
       type: အမ်ိဳးအစား
@@ -1090,6 +1091,7 @@ my:
       state: လက္ခံ/ ျငင္းပယ္
       status: အေနအထား
       street_number: လမ္း
+      telephone_number: တယ်လီဖုန်းနံပါတ်
       to: သို႔
       village: ေက်းရြာ
       year: ႏွစ္
@@ -1263,6 +1265,7 @@ my:
       street_number: လမ္း
       survey_history: စစ္တမ္း သမုိင္း
       take_survey: စစ္တမ္းေကာက္သည္
+      telephone_number: တယ်လီဖုန်းနံပါတ်
       time_in_care: ေစာင့္ေရွာက္သည့္ကာလ
       time_in_care_around:
         few: ႏွစ္အနည္းငယ္
@@ -1526,6 +1529,7 @@ my:
         state: လက္ခံသည္/ ျငင္းပယ္သည္
         status: အေနအထား
         street_number: လမ္း
+        telephone_number: တယ်လီဖုန်းနံပါတ်
         thailand: ထိုင္းႏုိင္ငံ
         time_of_frequency: အႀကိမ္ အေရအတြက္
         total: စုစုေပါင္း
