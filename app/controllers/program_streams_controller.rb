@@ -27,7 +27,8 @@ class ProgramStreamsController < AdminController
 
   def edit
     redirect_to program_streams_path, alert: t('unauthorized.default') if @ngo_name.present? && @ngo_name != current_organization.full_name
-    @mutual_dependences = @mutual_dependences.presence || @exclusive_programs
+    all_programs = ProgramStream.where.not(id: @program_stream).complete.ordered
+    @mutual_dependences = @mutual_dependences.presence || all_programs
   end
 
   def show
