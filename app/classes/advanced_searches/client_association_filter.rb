@@ -354,7 +354,7 @@ module AdvancedSearches
       overdue_year = 999.years.ago.to_date
       if value.is_a?(Array)
         min_age = (value[0].to_i * 12).months.ago.to_date
-        max_age = (value[1].to_i * 12).months.ago.to_date
+        max_age = ((value[1].to_i + 1) * 12).months.ago.to_date.tomorrow
         min_age = min_age > overdue_year ? min_age : overdue_year
         max_age = max_age > overdue_year ? max_age : overdue_year
         [max_age, min_age]
