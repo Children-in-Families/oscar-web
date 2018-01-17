@@ -27,8 +27,6 @@ class ProgramStreamsController < AdminController
 
   def edit
     redirect_to program_streams_path, alert: t('unauthorized.default') if @ngo_name.present? && @ngo_name != current_organization.full_name
-    all_programs = ProgramStream.where.not(id: @program_stream).complete.ordered
-    @mutual_dependences = @mutual_dependences.presence || all_programs
   end
 
   def show
@@ -241,9 +239,11 @@ class ProgramStreamsController < AdminController
   end
 
   def available_mutual_dependence_programs
+    all_programs = ProgramStream.where.not(id: @program_stream).complete.ordered
+
     client_ids = @program_stream.client_enrollments.active.pluck(:client_id).uniq
     active_program_ids = ClientEnrollment.active.where(client_id: client_ids).pluck(:program_stream_id)
     mutuals_available = ProgramStream.filter(active_program_ids).where.not(id: @program_stream.id).complete.ordered
-    @mutual_dependences = mutuals_available
+    @mutual_dependences = mutuals_available.presence || all_programs
   end
 end
