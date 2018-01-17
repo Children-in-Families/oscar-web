@@ -14,6 +14,7 @@ class Case < ActiveRecord::Base
   scope :kinships,       -> { where(case_type: 'KC') }
   scope :fosters,        -> { where(case_type: 'FC') }
   scope :most_recents,   -> { order('created_at desc') }
+  scope :last_exited,    -> { order('exit_date desc').first }
   scope :active,         -> { where(exited: false) }
   scope :inactive,       -> { where(exited: true) }
   scope :with_reports,   -> { joins(:quarterly_reports).uniq }
