@@ -83,7 +83,7 @@ class MoveDistrict
           else
             name = client.archive_district
           end
-          district = District.find_by(name: name)
+          district = District.find_by(name: name, province: client.province) if client.province.present?
           client.update_columns(district_id: district.id) if district.present?
         end
       end
