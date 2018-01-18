@@ -4,5 +4,6 @@ class District < ActiveRecord::Base
 
   has_paper_trail
 
+  validates :province, presence: true
   validates :name, presence: true, uniqueness: { case_sensitive: false, scope: [:province_id] }
 end

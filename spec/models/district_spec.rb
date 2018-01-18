@@ -5,5 +5,6 @@ end
 
 describe District, 'validations' do
   it { is_expected.to validate_presence_of(:name) }
+  it { is_expected.to validate_presence_of(:province) }
   it { is_expected.to validate_uniqueness_of(:name).case_insensitive.scoped_to(:province_id) }
 end
