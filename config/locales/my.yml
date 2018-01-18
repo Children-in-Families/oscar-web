@@ -1424,6 +1424,7 @@ my:
       case_start_date: အမႈျခင္းရာစတင္သည့္ ရက္စြဲ
       cases:
         case_type: အမႈျခင္းရာ အမ်ိဳးအစား
+        telephone_number: တယ်လီဖုန်းနံပါတ်
       changelog: ေျပာင္းလဲမႈ မွတ္တမ္း
       client_enrollments:
         action: လုပ္ေဆာင္မႈ

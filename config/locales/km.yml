@@ -1489,6 +1489,7 @@ km:
       case_start_date: ថ្ងៃចាប់ផ្តើម
       cases:
         case_type: ប្រភេទករណី
+        telephone_number: លេខទូរស័ព្ទ
       changelog: ប្រវត្តិកំណែ
       client_enrollments:
         action: សកម្មភាព

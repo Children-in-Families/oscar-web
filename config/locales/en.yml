@@ -1389,6 +1389,7 @@ en:
       case_start_date: Case Start Date
       cases:
         case_type: Case Type
+        telephone_number: Telephone Number
       changelog: Changelog
       client_enrollments:
         action: Action
