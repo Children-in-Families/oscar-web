@@ -20,11 +20,11 @@ class MoveDistrict
       Organization.where.not(short_name: ['spo', 'cps', 'kmo']).each do |org|
         Organization.switch_to org.short_name
         ((workbook.first_row + 1)..workbook.last_row).each do |row|
-          discrit_name  = workbook.row(row)[headers['District']]
+          district_name  = workbook.row(row)[headers['District']]
           province_name = workbook.row(row)[headers['Province']].split(' / ').last
-          if discrit_name.present?
+          if district_name.present?
             province = Province.find_by('provinces.name iLIKE ?', "%#{province_name}%")
-            District.create(province: province, name: discrit_name) if province.present?
+            District.create(province: province, name: district_name) if province.present?
           end
         end
       end
