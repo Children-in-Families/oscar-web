@@ -129,6 +129,7 @@ describe ProgramStream, 'validate rules edition' do
   context 'ProgramStream has no rules' do
     let!(:client) { create(:client, gender: 'male') }
     let!(:program_stream) { create(:program_stream, rules: {} ) }
+    let!(:unused_program){ create(:program_stream, rules: {}) }
     let!(:client_enrollment) { create(:client_enrollment, client: client, program_stream: program_stream) }
 
     it 'unable to save program stream' do
@@ -141,6 +142,12 @@ describe ProgramStream, 'validate rules edition' do
       correct_rules = { 'rules'=>[ {'id'=>'gender', 'type'=>'string', 'field'=>'gender', 'input'=>'select', 'value'=>'male', 'operator'=>'equal' }], 'condition'=>'AND' }
       program_stream.update(rules: correct_rules)
       expect(program_stream.errors[:rules]).not_to include('Rules cannot be changed or added because it breaks the previous rules.')
+    end
+
+    it 'able to save unused program' do
+      correct_rules = { 'rules'=>[ {'id'=>'gender', 'type'=>'string', 'field'=>'gender', 'input'=>'select', 'value'=>'female', 'operator'=>'equal' }], 'condition'=>'AND' }
+      unused_program.rules = correct_rules
+      expect(unused_program).to be_valid
     end
   end
 end

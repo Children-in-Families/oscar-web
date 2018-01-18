@@ -18,7 +18,7 @@ class ProgramStream < ActiveRecord::Base
   validates :name, presence: true
   validates :name, uniqueness: true
   validate  :form_builder_field_uniqueness
-  validate  :rules_edition, :program_edition, on: :update
+  validate  :rules_edition, :program_edition, on: :update, if: Proc.new { |p| p.client_enrollments.active.any? }
 
   # validate  :validate_remove_enrollment_field, :validate_remove_exit_program_field, if: -> { id.present? }
   after_save :set_program_completed
@@ -64,8 +64,8 @@ class ProgramStream < ActiveRecord::Base
 
   def rules_edition
     if rules_changed?
-      current_client_ids = get_clients(rules).to_set
-      previous_client_ids = get_clients(rules_was).to_set
+      current_client_ids  = get_client_ids(rules).to_set
+      previous_client_ids = get_client_ids(rules_was).to_set
 
       unless unchanged_rules?(current_client_ids, previous_client_ids)
         error_message = "#{I18n.t('rules_has_been_modified')}"
@@ -160,8 +160,10 @@ class ProgramStream < ActiveRecord::Base
 
   private
 
-  def get_clients(rules)
-    clients = AdvancedSearches::ClientAdvancedSearch.new(rules, Client.all)
+  def get_client_ids(rules)
+    active_client_ids = client_enrollments.active.pluck(:client_id).uniq
+    active_clients    = Client.where(id: active_client_ids)
+    clients           = AdvancedSearches::ClientAdvancedSearch.new(rules, active_clients)
     clients.filter.ids
   end
 
