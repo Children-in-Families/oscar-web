@@ -1452,6 +1452,7 @@ km:
       clients: អតិថិជន
       custom_fields: ទម្រង់បែបបទ
       departments: កម្មវិធី
+      districts: ស្រុក/ខណ្ឌ
       domain_groups: ការប្រមូលបណ្ដុំកត្តា
       domains: កត្តា
       donors: ម្ចាស់ជំនួយ
@@ -3540,6 +3541,7 @@ km:
         date_deleted: កាលបរិច្ឆេទនៃការលុប
         delete: លុបចេញ
         department: កម្មវិធី
+        district: ស្រុក/ខណ្ឌ
         domain: កត្តា
         domain_group: ការប្រមូលបណ្ដុំកត្តា
         donor: ម្ចាស់ជំនួយ

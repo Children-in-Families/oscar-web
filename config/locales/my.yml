@@ -1387,6 +1387,7 @@ my:
       clients: အမႈသည္မ်ား
       custom_fields: အမႈသည္ ပံုစံမ်ား
       departments: ဌာနမ်ား
+      districts: ခ႐ိုင္
       domain_groups: ဒိုမိန္း အုပ္စုမ်ား
       domains: ဒိုမိန္းမ်ား
       donors: အလွဴရွင္မ်ား
@@ -3500,6 +3501,7 @@ my:
         date_deleted: ဖ်က္သည့္ရက္စြဲ
         delete: ဖ်က္ရန္
         department: ဌာန
+        district: ခ႐ိုင္
         domain: ဒိုမိန္း
         domain_group: ဒိုမိန္းအုပ္စု
         donor: အလွဴရွင္
