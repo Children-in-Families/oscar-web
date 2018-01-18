@@ -54,6 +54,8 @@ class MoveDistrict
             name = 'កំពង់ត្របែក'
           elsif client.archive_district == 'ពញក្រែក'
             name = 'ពញាក្រែក'
+          elsif client.archive_district == 'Daun Penh'
+            name = 'ដូនពេញ'
           elsif ['Sen Sok'].include?(client.archive_district)
             name = 'សែនសុខ'
           elsif ['Chbar Ompov', 'ច្បាអំពៅ'].include?(client.archive_district)
@@ -81,7 +83,7 @@ class MoveDistrict
           else
             name = client.archive_district
           end
-          district = District.find_by(name: name)
+          district = District.find_by(name: name, province: client.province) if client.province.present?
           client.update_columns(district_id: district.id) if district.present?
         end
       end
