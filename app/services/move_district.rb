@@ -24,7 +24,7 @@ class MoveDistrict
           province_name = workbook.row(row)[headers['Province']].split(' / ').last
           if district_name.present?
             province = Province.find_by('provinces.name iLIKE ?', "%#{province_name}%")
-            District.create(province: province, name: district_name) if province.present?
+            District.find_or_create_by(province: province, name: district_name) if province.present?
           end
         end
       end
