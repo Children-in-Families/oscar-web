@@ -337,9 +337,9 @@ module AdvancedSearches
       when 'less_or_equal'
         clients = @clients.where('date_of_birth >= ?', date_value_format.last_year)
       when 'greater'
-        clients = @clients.where('date_of_birth < ?', date_value_format)
+        clients = @clients.where('date_of_birth < ?', date_value_format.last_year)
       when 'greater_or_equal'
-        clients = @clients.where('date_of_birth <= ?', date_value_format.next_year)
+        clients = @clients.where('date_of_birth <= ?', date_value_format)
       when 'between'
         clients = @clients.where(date_of_birth: date_value_format[0]..date_value_format[1])
       when 'is_empty'
