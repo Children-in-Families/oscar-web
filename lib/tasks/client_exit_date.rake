@@ -17,7 +17,7 @@ namespace :client_exit_date do
         end
 
         if versions.empty?
-          exit_date = client.updated_at || client.created_at
+          exit_date = client.updated_at
         else
           exit_date = versions.flatten.sort_by{ |v| v.created_at }.last.created_at
         end
