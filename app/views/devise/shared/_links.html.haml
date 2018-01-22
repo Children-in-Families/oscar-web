@@ -4,7 +4,7 @@
 - if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations'
   = link_to t('.forget_password'), new_password_path(resource_name)
   %br
-  = link_to t('.back'), root_url(subdomain: false)
+  = link_to t('.back'), root_url(host: request.domain, subdomain: 'start')
   %br/
 - if devise_mapping.confirmable? && controller_name != 'confirmations'
   = link_to t('.receive_confirm_instruction'), new_confirmation_path(resource_name)
