@@ -354,6 +354,7 @@ my:
       state: လက္ခံ/ျငင္းပယ္
       status: အေနအထား
       street_number: လမ္း
+      telephone_number: တယ်လီဖုန်းနံပါတ်
       time_of_frequency: အႀကိမ္အေရအတြက္
       tracking: ေနာက္ေၾကာင္းလုိက္ျခင္း
       type: အမ်ိဳးအစား
@@ -1090,6 +1091,7 @@ my:
       state: လက္ခံ/ ျငင္းပယ္
       status: အေနအထား
       street_number: လမ္း
+      telephone_number: တယ်လီဖုန်းနံပါတ်
       to: သို႔
       village: ေက်းရြာ
       year: ႏွစ္
@@ -1263,6 +1265,7 @@ my:
       street_number: လမ္း
       survey_history: စစ္တမ္း သမုိင္း
       take_survey: စစ္တမ္းေကာက္သည္
+      telephone_number: တယ်လီဖုန်းနံပါတ်
       time_in_care: ေစာင့္ေရွာက္သည့္ကာလ
       time_in_care_around:
         few: ႏွစ္အနည္းငယ္
@@ -1384,6 +1387,7 @@ my:
       clients: အမႈသည္မ်ား
       custom_fields: အမႈသည္ ပံုစံမ်ား
       departments: ဌာနမ်ား
+      districts: ခ႐ိုင္
       domain_groups: ဒိုမိန္း အုပ္စုမ်ား
       domains: ဒိုမိန္းမ်ား
       donors: အလွဴရွင္မ်ား
@@ -1421,6 +1425,7 @@ my:
       case_start_date: အမႈျခင္းရာစတင္သည့္ ရက္စြဲ
       cases:
         case_type: အမႈျခင္းရာ အမ်ိဳးအစား
+        telephone_number: တယ်လီဖုန်းနံပါတ်
       changelog: ေျပာင္းလဲမႈ မွတ္တမ္း
       client_enrollments:
         action: လုပ္ေဆာင္မႈ
@@ -1526,6 +1531,7 @@ my:
         state: လက္ခံသည္/ ျငင္းပယ္သည္
         status: အေနအထား
         street_number: လမ္း
+        telephone_number: တယ်လီဖုန်းနံပါတ်
         thailand: ထိုင္းႏုိင္ငံ
         time_of_frequency: အႀကိမ္ အေရအတြက္
         total: စုစုေပါင္း
@@ -2972,6 +2978,7 @@ my:
       back: ေနာက္သို႔
       modification_of: "၏ ေျပာင္းလဲမႈ"
   must_be_uniq: ကြင္းအညႊန္းသည္ ယူနစ္ျဖစ္ရမည္
+  mutual_dependence_has_been_modified: ဒါကြောင့်ယခင်စည်းမျဉ်းစည်းကမ်းတွေကိုဖောက်ဖျက်သောကွောငျ့နှစ်ဦးနှစ်ဖက်အပြန်အလှန်မှီခိုပြောင်းလဲသွားတယ်သို့မဟုတ်ဆက်ပြောသည်မရနိုင်ပါ။
   notifications:
     client_enrollment_tracking_due_today:
       client_enrollment_tracking_notification: အမႈသည္ စာရင္းသြင္းမႈေနာက္ေၾကာင္း အသိေပးခ်က္
@@ -3049,6 +3056,7 @@ my:
     version:
       back: ေနာက္သို႔
       modification_of: "၏ ေျပာင္းလဲမႈမွတ္တမ္း"
+  program_exclusive_has_been_modified: ဒါကြောင့်ယခင်စည်းမျဉ်းစည်းကမ်းတွေကိုဖောက်ဖျက်သောကွောငျ့အစီအစဉ်ကိုသီးသန့်ပြောင်းလဲသွားတယ်သို့မဟုတ်ဆက်ပြောသည်မရနိုင်ပါ။
   program_streams:
     actions:
       are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား
@@ -3422,6 +3430,7 @@ my:
       csi_domain_scores: CSI ဒိုမိန္းရမွတ္မ်ား
       domain_score: ဒိုမိန္း ရမွတ္မ်ား
   review_problem: ေက်းဇူးျပဳ၍ ေအာက္တြင္ေဖာ္ျပထားသည့္ ျပႆနာကို ျပန္လည္သံုးသပ္ေပးပါ
+  rules_has_been_modified: ဒါကြောင့်ယခင်စည်းမျဉ်းစည်းကမ်းတွေကိုဖောက်ဖျက်သောကွောငျ့စည်းကမ်းများပြောင်းလဲသွားတယ်သို့မဟုတ်မထည့်သွင်းနိုင်
   save: သိမ္းဆည္းရန္
   settings:
     country:
@@ -3492,6 +3501,7 @@ my:
         date_deleted: ဖ်က္သည့္ရက္စြဲ
         delete: ဖ်က္ရန္
         department: ဌာန
+        district: ခ႐ိုင္
         domain: ဒိုမိန္း
         domain_group: ဒိုမိန္းအုပ္စု
         donor: အလွဴရွင္

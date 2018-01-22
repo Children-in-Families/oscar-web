@@ -4,9 +4,10 @@ class ProgramStreamsController < AdminController
   before_action :find_program_stream, except: [:index, :new, :create, :preview, :search]
   before_action :find_ngo
   before_action :authorize_program, only: [:edit, :update, :destroy]
-  before_action :complete_program_steam, only: [:new, :create, :edit, :update]
   before_action :find_another_ngo_program_stream, if: -> { @ngo_name.present? }
   before_action :remove_html_tags, only: [:create, :update]
+  before_action :complete_program_steam, only: [:new, :create]
+  before_action :available_exclusive_programs, :available_mutual_dependence_programs, only: [:edit, :update]
 
   def index
     @program_streams = paginate_collection(decorate_programs(column_order)).page(params[:page_1]).per(20)
@@ -191,7 +192,7 @@ class ProgramStreamsController < AdminController
   end
 
   def complete_program_steam
-    @complete_program_steam = ProgramStream.where.not(id: @program_stream).complete.ordered
+    @exclusive_programs = @mutual_dependences = ProgramStream.where.not(id: @program_stream).complete.ordered
   end
 
   private
@@ -228,5 +229,21 @@ class ProgramStreamsController < AdminController
       @program_stream = ProgramStream.new
       @tracking = @program_stream.trackings.build
     end
+  end
+
+  def available_exclusive_programs
+    client_ids = @program_stream.client_enrollments.active.pluck(:client_id).uniq
+    active_program_ids = ClientEnrollment.active.where(client_id: client_ids).pluck(:program_stream_id)
+    available_programs_for_exclusive = ProgramStream.where.not(id: active_program_ids).complete.ordered
+    @exclusive_programs = available_programs_for_exclusive
+  end
+
+  def available_mutual_dependence_programs
+    all_programs = ProgramStream.where.not(id: @program_stream).complete.ordered
+
+    active_client_ids   = @program_stream.client_enrollments.active.pluck(:client_id).uniq
+    active_program_ids  = ClientEnrollment.active.where(client_id: active_client_ids).pluck(:program_stream_id)
+    mutuals_available   = ProgramStream.filter(active_program_ids).where.not(id: @program_stream.id).complete.ordered
+    @mutual_dependences = active_client_ids.any? ? mutuals_available : all_programs
   end
 end
