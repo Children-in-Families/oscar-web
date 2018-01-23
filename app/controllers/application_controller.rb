@@ -66,7 +66,7 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_out_path_for(_resource_or_scope)
-    root_url(host: request.domain)
+    root_url(host: request.domain, subdomain: 'start')
   end
 
   def detect_browser
