@@ -15,7 +15,7 @@ class FcImport
           client_enrollment.save
           client_enrollment_tracking = client_enrollment.client_enrollment_trackings.new(tracking: @tracking)
           client_enrollment_tracking.properties['Date of Support Start'] = foster_case.start_date.to_s
-          client_enrollment_tracking.properties['Total Support Amount'] = foster_case.support_amount.nil? ? '0.0' : foster_case.support_amount.to_s
+          client_enrollment_tracking.properties['Total Support Amount'] = foster_case.support_amount.to_f.to_s
           client_enrollment_tracking.properties['Support Note'] = foster_case.support_note
           client_enrollment_tracking.save if client_enrollment_tracking.valid?
         end

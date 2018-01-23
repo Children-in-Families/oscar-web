@@ -1,8 +1,7 @@
 namespace :fc do
-  desc 'Import FC Management'
+  desc 'Import Foster Care case to Foster Care program stream'
   task import: :environment do
-    import     = FcImport.new
-
+    import = FcImport.new
     import.fc_import
   end
 end
