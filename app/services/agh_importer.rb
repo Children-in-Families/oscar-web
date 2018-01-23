@@ -22,7 +22,7 @@ module AghImporter
       ((workbook.first_row + 1)..workbook.last_row).each do |row|
         name               = workbook.row(row)[headers['Name']]
         code               = workbook.row(row)[headers['Family ID']]
-        family_type        = workbook.row(row)[headers['Family Type']]
+        family_type        = workbook.row(row)[headers['Family Type']].parameterize.underscore
         case_history       = workbook.row(row)[headers['Family History']]
         Family.create(name: name, code: code, case_history: case_history, family_type: family_type)
       end
