@@ -4,15 +4,14 @@ namespace :client_exit_date do
     Organization.all.each do |org|
       Organization.switch_to org.short_name
 
-      client_ids = Client.where(exit_date: nil, status: Client::EXIT_STATUSES).pluck(:id)
+      clients = Client.where(exit_date: nil, status: Client::EXIT_STATUSES)
 
-      client_ids.each do |id|
-        client = Client.find(id)
+      clients.each do |client|
         exit_note = client.status
 
         versions = []
         Client::EXIT_STATUSES.each do |status|
-          version = PaperTrail::Version.where(item_type: 'Client', item_id: id, event: 'update').where_object_changes(status: status)
+          version = PaperTrail::Version.where(item_type: 'Client', item_id: client.id, event: 'update').where_object_changes(status: status)
           versions << version if version.any?
         end
 
