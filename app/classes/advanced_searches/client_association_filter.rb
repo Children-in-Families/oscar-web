@@ -329,15 +329,15 @@ module AdvancedSearches
       date_value_format = convert_age_to_date(@value)
       case @operator
       when 'equal'
-        clients = @clients.where(date_of_birth: date_value_format)
+        clients = @clients.where(date_of_birth: date_value_format.last_year.tomorrow..date_value_format)
       when 'not_equal'
-        clients = @clients.where.not(date_of_birth: date_value_format)
+        clients = @clients.where.not(date_of_birth: date_value_format.last_year.tomorrow..date_value_format)
       when 'less'
         clients = @clients.where('date_of_birth > ?', date_value_format)
       when 'less_or_equal'
-        clients = @clients.where('date_of_birth >= ?', date_value_format)
+        clients = @clients.where('date_of_birth >= ?', date_value_format.last_year)
       when 'greater'
-        clients = @clients.where('date_of_birth < ?', date_value_format)
+        clients = @clients.where('date_of_birth < ?', date_value_format.last_year)
       when 'greater_or_equal'
         clients = @clients.where('date_of_birth <= ?', date_value_format)
       when 'between'
