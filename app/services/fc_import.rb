@@ -11,9 +11,6 @@ class FcImport
     @clients.each do |client|
       client.cases.fosters.each do |foster_case|
         client_enrollment = client.client_enrollments.new(program_stream: @program_stream, enrollment_date: foster_case.start_date)
-        # client_enrollment.properties['អង្គការដៃគូកំពុងជួយបច្ចុប្បន្ន / Ongoing Partner'] = foster_case.partner.try(:name)
-        # client_enrollment.properties['Ongoing Partner Key Contact'] = foster_case.partner.try(:carer_names)
-        # client_enrollment.properties['Ongoing Partner Phone Number'] = foster_case.partner.try(:contact_person_mobile)
         if client_enrollment.valid?
           client_enrollment.save
           client_enrollment_tracking = client_enrollment.client_enrollment_trackings.new(tracking: @tracking)
