@@ -67,7 +67,7 @@ end
 describe Client, 'methods' do
   let!(:able_manager) { create(:user, roles: 'able manager') }
   let!(:case_worker) { create(:user, roles: 'case worker') }
-  let!(:client){ create(:client, user_ids: [case_worker.id], local_given_name: 'Barry', local_family_name: 'Allen', date_of_birth: '2007-05-15') }
+  let!(:client){ create(:client, user_ids: [case_worker.id], local_given_name: 'Barry', local_family_name: 'Allen', date_of_birth: '2007-05-15', status: 'Active') }
   let!(:other_client) { create(:client, user_ids: [case_worker.id]) }
   let!(:able_client) { create(:client, able_state: Client::ABLE_STATES[0]) }
   let!(:able_manager_client) { create(:client, user_ids: [able_manager.id]) }
@@ -82,6 +82,127 @@ describe Client, 'methods' do
   let!(:fc_case){ create(:case, client: client_b, case_type: 'FC') }
   let!(:kc_case){ create(:case, client: client_c, case_type: 'KC') }
   let!(:exited_client){ create(:client, status: Client::EXIT_STATUSES.first) }
+
+  context '#most_recent_csi_assessment' do
+    it { expect(client.most_recent_csi_assessment).to eq(assessment.created_at.to_date) }
+  end
+
+  context '.notify_upcoming_csi_assessment' do
+    after do
+      ActionMailer::Base.deliveries.clear
+    end
+
+    context 'most recent csi is 3 months ago' do
+      before do
+        Client.notify_upcoming_csi_assessment
+      end
+      it 'does not send an email' do
+        expect(ActionMailer::Base.deliveries.count).to eq(0)
+      end
+    end
+
+    context 'most recent csi is 5.5 months ago' do
+      before do
+        assessment.update(created_at: (Date.today - 5.months - 15.days))
+        Client.notify_upcoming_csi_assessment
+      end
+
+      it 'send an email to case worker(s) of the client with subject: Upcoming CSI Assessment' do
+        expect(ActionMailer::Base.deliveries.count).to eq(1)
+        expect(ActionMailer::Base.deliveries.first.to).to include(case_worker.email)
+        expect(ActionMailer::Base.deliveries.first.from).to eq([ENV['SENDER_EMAIL']])
+        expect(ActionMailer::Base.deliveries.first.subject).to eq('Upcoming CSI Assessment')
+      end
+    end
+
+    context 'most recent csi is 5.5 months and 1 week ago' do
+      before do
+        assessment.update(created_at: (Date.today - 5.months - 15.days - 1.week))
+        Client.notify_upcoming_csi_assessment
+      end
+
+      it 'send an email' do
+        expect(ActionMailer::Base.deliveries.count).to eq(1)
+      end
+    end
+
+    context 'most recent csi is 5.5 months and 2 weeks ago' do
+      before do
+        assessment.update(created_at: (Date.today - 5.months - 15.days - 2.weeks))
+        Client.notify_upcoming_csi_assessment
+      end
+
+      it 'send an email' do
+        expect(ActionMailer::Base.deliveries.count).to eq(1)
+      end
+    end
+
+    context 'most recent csi is 5.5 months and 3 weeks ago' do
+      before do
+        assessment.update(created_at: (Date.today - 5.months - 15.days - 3.weeks))
+        Client.notify_upcoming_csi_assessment
+      end
+
+      it 'send an email' do
+        expect(ActionMailer::Base.deliveries.count).to eq(1)
+      end
+    end
+
+    context 'most recent csi is 5.5 months and 4 weeks ago' do
+      before do
+        assessment.update(created_at: (Date.today - 5.months - 15.days - 4.weeks))
+        Client.notify_upcoming_csi_assessment
+      end
+
+      it 'send an email' do
+        expect(ActionMailer::Base.deliveries.count).to eq(1)
+      end
+    end
+
+    context 'most recent csi is 5.5 months and 5 weeks ago' do
+      before do
+        assessment.update(created_at: (Date.today - 5.months - 15.days - 5.weeks))
+        Client.notify_upcoming_csi_assessment
+      end
+
+      it 'send an email' do
+        expect(ActionMailer::Base.deliveries.count).to eq(1)
+      end
+    end
+
+    context 'most recent csi is 5.5 months and 6 weeks ago' do
+      before do
+        assessment.update(created_at: (Date.today - 5.months - 15.days - 6.weeks))
+        Client.notify_upcoming_csi_assessment
+      end
+
+      it 'send an email' do
+        expect(ActionMailer::Base.deliveries.count).to eq(1)
+      end
+    end
+
+    context 'most recent csi is 5.5 months and 7 weeks ago' do
+      before do
+        assessment.update(created_at: (Date.today - 5.months - 15.days - 7.weeks))
+        Client.notify_upcoming_csi_assessment
+      end
+
+      it 'send an email' do
+        expect(ActionMailer::Base.deliveries.count).to eq(1)
+      end
+    end
+
+    context 'most recent csi is 5.5 months and 8 weeks ago' do
+      before do
+        assessment.update(created_at: (Date.today - 5.months - 15.days - 8.weeks))
+        Client.notify_upcoming_csi_assessment
+      end
+
+      it 'send an email' do
+        expect(ActionMailer::Base.deliveries.count).to eq(1)
+      end
+    end
+  end
 
   context 'exit_ngo?' do
     it { expect(exited_client.exit_ngo?).to be_truthy }
