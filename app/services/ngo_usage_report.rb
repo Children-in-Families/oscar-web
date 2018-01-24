@@ -59,7 +59,7 @@ class NgoUsageReport
       fcf                    = org.fcf_ngo? ? 'Yes' : 'No'
       client_count           = Client.count
       user_count             = User.non_devs.count
-      login_per_month        = Visit.previous_month_logins.count
+      login_per_month        = Visit.excludes_non_devs.previous_month_logins.count
       previous_month_clients = PaperTrail::Version.where(item_type: 'Client', created_at: beginning_of_month..end_of_month)
       client_added_count     = previous_month_clients.where(event: 'create').count
       client_deleted_count   = previous_month_clients.where(event: 'delete').count

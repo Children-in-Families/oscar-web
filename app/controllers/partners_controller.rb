@@ -2,7 +2,7 @@ class PartnersController < AdminController
   load_and_authorize_resource
 
   before_action :find_partner,     only:   [:show, :edit, :update, :destroy]
-  before_action :find_association, except: [:index, :destroy]
+  before_action :find_association, except: [:index, :destroy, :version]
 
   def index
     @partner_grid = PartnerGrid.new(params[:partner_grid])

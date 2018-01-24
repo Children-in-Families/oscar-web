@@ -327,6 +327,7 @@ en:
       state: Accept/Reject
       status: Status
       street_number: Street
+      telephone_number: Telephone Number
       time_of_frequency: Time of Frequency
       type: Type
       user_id: Case Worker
@@ -1056,6 +1057,7 @@ en:
       state: Accept/Reject
       status: Status
       street_number: Street
+      telephone_number: Telephone Number
       to: To
       village: Village
       year: Year
@@ -1229,6 +1231,7 @@ en:
       street_number: Street
       survey_history: Survey History
       take_survey: Take Survey
+      telephone_number: Telephone Number
       time_in_care: Time In Care
       time_in_care_around:
         one: Around %{count} year
@@ -1349,6 +1352,7 @@ en:
       clients: Clients
       custom_fields: Custom Forms
       departments: Departments
+      districts: Districts/Khan
       domain_groups: Domain Groups
       domains: Domains
       donors: Donors
@@ -1386,6 +1390,7 @@ en:
       case_start_date: Case Start Date
       cases:
         case_type: Case Type
+        telephone_number: Telephone Number
       changelog: Changelog
       client_enrollments:
         action: Action
@@ -1491,6 +1496,7 @@ en:
         state: Accept/Reject
         status: Status
         street_number: Street
+        telephone_number: Telephone Number
         thailand: Thailand
         time_of_frequency: Time of Frequency
         total: Total
@@ -2091,6 +2097,39 @@ en:
       send_instructions: You will receive an email with instructions for how to unlock your account in a few minutes.
       send_paranoid_instructions: If your account exists, you will receive an email with instructions for how to unlock it in a few minutes.
       unlocked: Your account has been unlocked successfully. Please sign in to continue.
+  districts:
+    create:
+      failed_create: Failed to create a district.
+      successfully_created: District has been successfully created.
+    destroy:
+      alert: District cannot be deleted.
+      failed_delete: Failed to delete a district.
+      successfully_deleted: District has been successfully deleted.
+    edit:
+      title: Edit District
+    form:
+      cancel: Cancel
+      district: District
+      name: District Name
+      province: Province
+      save: Save
+    index:
+      add_new_district: Add New District
+      are_you_sure: Are you sure you want to delete?
+      changelogs: Changelog
+      district_name: District Name
+      districts: Districts
+      manage: Manage
+      province_name: Province Name
+      view: View
+    new:
+      title: New District
+    update:
+      failed_update: Failed to update a district.
+      successfully_updated: District has been successfully updated.
+    version:
+      back: Back
+      modification_of: Changelog of
   domain_groups:
     create:
       failed_create: Failed to create a domain group.
@@ -2754,6 +2793,7 @@ en:
       custom_fields: Form Builder
       dashboards: Dashboards
       departments: Departments
+      districts: Districts
       domain_groups: Domain Groups
       domains: Domains
       donors: Donors
@@ -2870,6 +2910,7 @@ en:
       back: Back
       modification_of: Changelog of
   must_be_uniq: field label must be uniq
+  mutual_dependence_has_been_modified: Mutual Dependence cannot be changed or added because it breaks the previous rules.
   notifications:
     custom_field_due_today:
       clients: Client
@@ -2947,6 +2988,7 @@ en:
     version:
       back: Back
       modification_of: Changelog of
+  program_exclusive_has_been_modified: Program Exclusive cannot be changed or added because it breaks the previous rules.
   program_streams:
     actions:
       are_you_sure: Are you sure you want to delete?
@@ -3327,6 +3369,7 @@ en:
       csi_domain_scores: CSI Domain Scores
       domain_score: Domain Scores
   review_problem: 'Please review the problems below:'
+  rules_has_been_modified: Rules cannot be changed or added because it breaks the previous rules.
   save: Save
   settings:
     country:
@@ -3397,6 +3440,7 @@ en:
         date_deleted: Date deleted
         delete: Delete
         department: Department
+        district: District/Khan
         domain: Domain
         domain_group: Domain Group
         donor: Donor

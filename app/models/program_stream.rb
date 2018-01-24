@@ -18,9 +18,9 @@ class ProgramStream < ActiveRecord::Base
   validates :name, presence: true
   validates :name, uniqueness: true
   validate  :form_builder_field_uniqueness
+  validate  :rules_edition, :program_edition, on: :update, if: Proc.new { |p| p.client_enrollments.active.any? }
 
   # validate  :validate_remove_enrollment_field, :validate_remove_exit_program_field, if: -> { id.present? }
-
   after_save :set_program_completed
   after_create :build_permission
 
@@ -60,6 +60,39 @@ class ProgramStream < ActiveRecord::Base
       errors_massage << (errors.add field.to_sym, "Fields duplicated!") unless (labels.uniq.length == labels.length)
     end
     errors_massage
+  end
+
+  def rules_edition
+    if rules_changed?
+      current_client_ids  = get_client_ids(rules).to_set
+      previous_client_ids = get_client_ids(rules_was).to_set
+
+      unless unchanged_rules?(current_client_ids, previous_client_ids)
+        error_message = "#{I18n.t('rules_has_been_modified')}"
+        self.rules = rules_was
+        errors.add(:rules, error_message)
+      end
+    end
+  end
+
+  def program_edition
+    clients.each do |client|
+      program_stream_ids = client.client_enrollments.active.pluck(:program_stream_id).to_set
+      can_edit_program = false
+      if program_exclusive_changed? && program_exclusive.any? && program_exclusive.to_set.subset?(program_stream_ids)
+        self.program_exclusive = program_exclusive_was
+        error_message = "#{I18n.t('program_exclusive_has_been_modified')}"
+        errors.add(:program_exclusive, error_message)
+        can_edit_program = true
+      end
+      if mutual_dependence_changed? && mutual_dependence.any? && !(mutual_dependence.to_set.subset?(program_stream_ids))
+        self.mutual_dependence = mutual_dependence_was
+        error_message = "#{I18n.t('mutual_dependence_has_been_modified')}"
+        errors.add(:mutual_dependence, error_message)
+        can_edit_program = true
+      end
+      break if can_edit_program
+    end
   end
 
   # def validate_remove_enrollment_field
@@ -126,6 +159,21 @@ class ProgramStream < ActiveRecord::Base
   end
 
   private
+
+  def get_client_ids(rules)
+    active_client_ids = client_enrollments.active.pluck(:client_id).uniq
+    active_clients    = Client.where(id: active_client_ids)
+    clients           = AdvancedSearches::ClientAdvancedSearch.new(rules, active_clients)
+    clients.filter.ids
+  end
+
+  def unchanged_rules?(current_ids, previous_ids)
+    if current_ids.any? && previous_ids.any?
+      previous_ids.subset?(current_ids)
+    else
+      return false
+    end
+  end
 
   def set_program_completed
     return update_columns(completed: false) if (enrollment.empty? || exit_program.empty? || trackings.empty? || trackings.pluck(:name).include?('') || trackings.pluck(:fields).include?([])) && !tracking_required

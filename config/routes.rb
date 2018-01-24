@@ -58,6 +58,10 @@ Rails.application.routes.draw do
     get 'version' => 'provinces#version'
   end
 
+  resources :districts, except: [:show] do
+    get 'version' => 'districts#version'
+  end
+
   resources :departments, except: [:show] do
     get 'version' => 'departments#version'
   end
@@ -163,6 +167,10 @@ Rails.application.routes.draw do
     mount_devise_token_auth_for 'User', at: '/v1/auth', skip: [:passwords]
     resources :form_builder_attachments, only: :destroy
 
+    resources :provinces, only: :index do
+      resources :districts, only: :index
+    end
+
     resources :clients do
       get :compare, on: :collection
     end
@@ -201,7 +209,9 @@ Rails.application.routes.draw do
       resources :organizations, only: [:index]
       resources :domain_groups, only: [:index]
       resources :departments, only: [:index]
-      resources :families, only: [:index, :create, :update]
+      resources :families, only: [:index, :create, :update] do
+        resources :custom_field_properties, only: [:create, :update, :destroy]
+      end
       resources :users, only: [:index, :show]
       resources :clients, except: [:edit, :new] do
         get :compare, on: :collection

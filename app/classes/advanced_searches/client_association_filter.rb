@@ -329,15 +329,15 @@ module AdvancedSearches
       date_value_format = convert_age_to_date(@value)
       case @operator
       when 'equal'
-        clients = @clients.where(date_of_birth: date_value_format)
+        clients = @clients.where(date_of_birth: date_value_format.last_year.tomorrow..date_value_format)
       when 'not_equal'
-        clients = @clients.where.not(date_of_birth: date_value_format)
+        clients = @clients.where.not(date_of_birth: date_value_format.last_year.tomorrow..date_value_format)
       when 'less'
         clients = @clients.where('date_of_birth > ?', date_value_format)
       when 'less_or_equal'
-        clients = @clients.where('date_of_birth >= ?', date_value_format)
+        clients = @clients.where('date_of_birth >= ?', date_value_format.last_year)
       when 'greater'
-        clients = @clients.where('date_of_birth < ?', date_value_format)
+        clients = @clients.where('date_of_birth < ?', date_value_format.last_year)
       when 'greater_or_equal'
         clients = @clients.where('date_of_birth <= ?', date_value_format)
       when 'between'
@@ -354,7 +354,7 @@ module AdvancedSearches
       overdue_year = 999.years.ago.to_date
       if value.is_a?(Array)
         min_age = (value[0].to_i * 12).months.ago.to_date
-        max_age = (value[1].to_i * 12).months.ago.to_date
+        max_age = ((value[1].to_i + 1) * 12).months.ago.to_date.tomorrow
         min_age = min_age > overdue_year ? min_age : overdue_year
         max_age = max_age > overdue_year ? max_age : overdue_year
         [max_age, min_age]

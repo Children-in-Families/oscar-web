@@ -26,7 +26,7 @@ module AdvancedSearches
     end
 
     def text_type_list
-      ['given_name', 'family_name', 'local_given_name', 'local_family_name', 'family', 'slug', 'referral_phone', 'house_number', 'street_number', 'village', 'commune', 'district', 'school_name', 'school_grade']
+      ['given_name', 'family_name', 'local_given_name', 'local_family_name', 'family', 'slug', 'referral_phone', 'house_number', 'street_number', 'village', 'commune', 'school_name', 'school_grade', 'telephone_number']
     end
 
     def date_type_list
@@ -42,6 +42,7 @@ module AdvancedSearches
         ['received_by_id', user_select_options],
         ['birth_province_id', provinces],
         ['province_id', provinces],
+        ['district_id', districts],
         ['referral_source_id', referral_source_options],
         ['followed_up_by_id', user_select_options],
         ['has_been_in_government_care', { true: 'Yes', false: 'No' }],
@@ -62,6 +63,10 @@ module AdvancedSearches
 
     def provinces
       Province.order(:name).map { |s| { s.id.to_s => s.name } }
+    end
+
+    def districts
+      District.order(:name).map { |s| { s.id.to_s => s.name } }
     end
 
     def referral_source_options
