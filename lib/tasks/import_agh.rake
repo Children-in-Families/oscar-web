@@ -1,7 +1,7 @@
 namespace :agh do
   desc 'Import A Greater Hope data'
   task import: :environment do
-    org = Organization.create_and_build_tanent(short_name: 'agh', full_name: "A Greater Hope", logo: File.open(Rails.root.join('app/assets/images/agh.png')))
+    org = Organization.create_and_build_tanent(short_name: 'agh', full_name: "A Greater Hope", logo: File.open(Rails.root.join('app/assets/images/agh.jpg')))
     Organization.switch_to org.short_name
     # Organization.switch_to 'agh'
 

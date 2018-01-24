@@ -36,6 +36,8 @@ module AghImporter
         user_ids        = User.all.pluck(:id)
         kid_id          = workbook.row(row)[headers['Kid ID']]
         school_grade    = workbook.row(row)[headers['School Grade']]
+        family_code     = workbook.row(row)[headers['Family ID']]
+        family_ids      = Family.where(code: family_code).pluck(:id)
         gender          = workbook.row(row)[headers['Gender']]
         gender          =  case gender
                             when 'M' then 'male'
@@ -48,9 +50,10 @@ module AghImporter
           given_name: given_name,
           gender: gender,
           kid_id: kid_id,
-          school_grade: school_grade
+          school_grade: school_grade,
+          family_ids: family_ids
         )
-        client = Client.new(family_name: family_name, given_name: given_name, gender: gender, kid_id: kid_id, user_ids: user_ids, school_grade: school_grade)
+
         client.save
       end
     end
