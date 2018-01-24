@@ -37,7 +37,8 @@ module AghImporter
         kid_id          = workbook.row(row)[headers['Kid ID']]
         school_grade    = workbook.row(row)[headers['School Grade']]
         family_code     = workbook.row(row)[headers['Family ID']]
-        family_ids      = Family.where(code: family_code).pluck(:id)
+        donor_code      = workbook.row(row)[headers['Donor ID']]
+        donor_id        = Donor.find_by(code: donor_code.split(',')[0]).id if donor_code.present?
         gender          = workbook.row(row)[headers['Gender']]
         gender          =  case gender
                             when 'M' then 'male'
@@ -51,10 +52,15 @@ module AghImporter
           gender: gender,
           kid_id: kid_id,
           school_grade: school_grade,
-          family_ids: family_ids
+          donor_id: donor_id
         )
-
         client.save
+
+        if family_code.present?
+          family = Family.find_by(code: family_code)
+          family.children << client.id
+          family.save
+        end
       end
     end
 
