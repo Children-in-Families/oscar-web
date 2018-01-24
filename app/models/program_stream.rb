@@ -1,4 +1,5 @@
 class ProgramStream < ActiveRecord::Base
+  include UpdateFieldLabelsProgramStream
   FORM_BUILDER_FIELDS = ['enrollment', 'exit_program'].freeze
 
   has_many   :domain_program_streams, dependent: :destroy
@@ -61,40 +62,6 @@ class ProgramStream < ActiveRecord::Base
       errors_massage << (errors.add field.to_sym, "Fields duplicated!") unless (labels.uniq.length == labels.length)
     end
     errors_massage
-  end
-
-  def auto_update_exit_program
-    return unless exit_program_changed?
-    labels_changed = []
-    exit_programs_changed =  exit_program_change.last - exit_program_was
-    exit_programs_changed.each do |exit_program_changed|
-      exit_program_was.each do |program|
-        labels_changed << [program['label'], exit_program_changed['label']] if program['name'] == exit_program_changed['name']
-      end
-    end
-    leave_programs.each do |leave_program|
-      labels_changed.each do |label_old, label_new|
-        leave_program.properties[label_new] = leave_program.properties.delete label_old
-      end
-      leave_program.save
-    end
-  end
-
-  def auto_update_enrollment
-    return unless enrollment_changed?
-    labels_changed = []
-    enrollments_changed =  enrollment_change.last - enrollment_was
-    enrollments_changed.each do |enrollment_changed|
-      enrollment_was.each do |program|
-        labels_changed << [program['label'], enrollment_changed['label']] if program['name'] == enrollment_changed['name']
-      end
-    end
-    client_enrollments.each do |client_enrollment|
-      labels_changed.each do |label_old, label_new|
-        client_enrollment.properties[label_new] = client_enrollment.properties.delete label_old
-      end
-      client_enrollment.save
-    end
   end
 
   def rules_edition
@@ -239,5 +206,17 @@ class ProgramStream < ActiveRecord::Base
       field_remove.map{ |f| error_fields << f['label'] if property[f['label']].present? }
     end
     error_fields.uniq
+  end
+
+  private
+
+  def auto_update_exit_program
+    return unless exit_program_changed?
+    labels_update(exit_program_change.last, exit_program_was, leave_programs)
+  end
+
+  def auto_update_enrollment
+    return unless enrollment_changed?
+    labels_update(enrollment_change.last, enrollment_was, client_enrollments)
   end
 end

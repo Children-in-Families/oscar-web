@@ -1,4 +1,5 @@
 class Tracking < ActiveRecord::Base
+  include UpdateFieldLabelsProgramStream
   FREQUENCIES = ['Daily', 'Weekly', 'Monthly', 'Yearly'].freeze
   belongs_to :program_stream
   has_many :client_enrollment_trackings, dependent: :restrict_with_error
@@ -14,25 +15,6 @@ class Tracking < ActiveRecord::Base
   after_update :auto_update_trackings
 
   default_scope { order(:created_at) }
-
-  def auto_update_trackings
-    return unless self.fields_changed?
-    labels_changed = []
-    fields_was = self.fields_was
-    fields_changed = self.fields_change.last
-    tracking_fields_changed =  fields_changed - fields_was
-    tracking_fields_changed.each do |tracking_field|
-      fields_was.each do |field|
-        labels_changed << [field['label'], tracking_field['label']] if field['name'] == tracking_field['name']
-      end
-    end
-    self.client_enrollment_trackings.each do |client_enrollment_tracking|
-      labels_changed.each do |label_old, label_new|
-        client_enrollment_tracking.properties[label_new] = client_enrollment_tracking.properties.delete label_old
-      end
-      client_enrollment_tracking.save
-    end
-  end
 
   def form_builder_field_uniqueness
     return unless fields.present?
@@ -59,5 +41,12 @@ class Tracking < ActiveRecord::Base
 
   def is_used?
     client_enrollment_trackings.present?
+  end
+
+  private
+
+  def auto_update_trackings
+    return unless self.fields_changed?
+    labels_update(self.fields_change.last, self.fields_was, self.client_enrollment_trackings)
   end
 end

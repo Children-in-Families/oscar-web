@@ -429,9 +429,9 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
   _removeActionFormBuilder =(label) ->
     parent = $(label).parent()
     $(parent).find('.del-button, .copy-button').remove()
-    if $(parent).attr('class').includes('checkbox-group-field') || $(parent).attr('class').includes('radio-group-field')
+    if $(parent).attr('class').includes('checkbox-group-field') || $(parent).attr('class').includes('radio-group-field') || $(parent).attr('class').includes('select-field')
       $(parent).find('.option-label').attr('readonly', 'true')
-      $(parent).children('.frm-holder').find('a.remove.btn').remove()
+      $(parent).children('.frm-holder').find('.remove.btn').remove()
     else if $(parent).attr('class').includes('number-field')
       $(parent).find('.fld-min, .fld-max').attr('readonly', 'true')
 
