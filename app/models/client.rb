@@ -350,19 +350,7 @@ class Client < ActiveRecord::Base
       Organization.switch_to org.short_name
       clients = joins(:assessments).all_active_types
       clients.each do |client|
-        most_recent_csi   = client.most_recent_csi_assessment
-
-        notification_date = most_recent_csi + 5.months + 15.days
-        next_one_week     = notification_date + 1.week
-        next_two_weeks    = notification_date + 2.weeks
-        next_three_weeks  = notification_date + 3.weeks
-        next_four_weeks   = notification_date + 4.weeks
-        next_five_weeks   = notification_date + 5.weeks
-        next_six_weeks    = notification_date + 6.weeks
-        next_seven_weeks  = notification_date + 7.weeks
-        next_eight_weeks  = notification_date + 8.weeks
-
-        repeat_notifications = [notification_date, next_one_week, next_two_weeks, next_three_weeks, next_four_weeks, next_five_weeks, next_six_weeks, next_seven_weeks, next_eight_weeks]
+        repeat_notifications = client.repeat_notifications_schedule
 
         if(repeat_notifications.include?(Date.today))
           CaseWorkerMailer.notify_upcoming_csi_weekly(client).deliver_now
@@ -373,6 +361,22 @@ class Client < ActiveRecord::Base
 
   def most_recent_csi_assessment
     assessments.most_recents.first.created_at.to_date
+  end
+
+  def repeat_notifications_schedule
+    most_recent_csi   = most_recent_csi_assessment
+
+    notification_date = most_recent_csi + 5.months + 15.days
+    next_one_week     = notification_date + 1.week
+    next_two_weeks    = notification_date + 2.weeks
+    next_three_weeks  = notification_date + 3.weeks
+    next_four_weeks   = notification_date + 4.weeks
+    next_five_weeks   = notification_date + 5.weeks
+    next_six_weeks    = notification_date + 6.weeks
+    next_seven_weeks  = notification_date + 7.weeks
+    next_eight_weeks  = notification_date + 8.weeks
+
+    [notification_date, next_one_week, next_two_weeks, next_three_weeks, next_four_weeks, next_five_weeks, next_six_weeks, next_seven_weeks, next_eight_weeks]
   end
 
   private

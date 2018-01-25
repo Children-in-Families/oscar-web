@@ -2784,6 +2784,9 @@ en:
         one: There is 1 client enrollment tracking form overdue.
         other: There are %{count} client enrollment trackings form overdue.
       review_client: Review your clients enrollment in
+      upcoming_assessments_count:
+        one: You are almost due to complete the next CSI assessment.
+        other: You are almost due to complete the next %{count} CSI assessments.
     side_menu:
       able_screening_questions: Able Screening Questions
       account: Account
@@ -2934,6 +2937,10 @@ en:
       client_enrollment_tracking_notification: Client Enrollment Tracking Notification
     program_stream_notify:
       review_client: Clients need to be reviewed
+    upcoming_assessment:
+      client: Client
+      most_recent_assessment: Most Recent Assessment
+      upcoming_assessment: Upcoming Assessment
   ok: OK
   partners:
     actions:

@@ -2885,6 +2885,9 @@ km:
         one: ការតាមដានរបស់អ្នកប្រើចំនួន1ដែលផុតកំណត
         other: ការតាមដានរបស់អ្នកប្រើចំនួន %{count} ដែលផុតកំណត
       review_client: ពិនិត្យមើលទម្រង់បែបបទនៃការចុះឈ្មោះរបស់អតិថិជននៅក្នុង
+      upcoming_assessments_count:
+        one: អ្នកស្ទើរតែដល់ពេលបំពេញការប៉ាន់ប្រមាណបន្ទាប់ចំនួន1
+        other: អ្នកស្ទើរតែដល់ពេលបំពេញការប៉ាន់ប្រមាណបន្ទាប់ចំនួន%{count}
     side_menu:
       able_screening_questions: សំនួរ Able Screening
       account: គណនី
@@ -3034,6 +3037,10 @@ km:
       client_enrollment_tracking_notification: ការជូនដំណឹងនៃការតាមដានដែលត្រូវបំពេញ
     program_stream_notify:
       review_client: អតិថិជនដែលត្រូវការត្រួតពិនិត្យ
+    upcoming_assessment:
+      client: អតិថិជន
+      most_recent_assessment: ការប៉ាន់ប្រមាណចុងក្រោយ
+      upcoming_assessment: ការប៉ាន់ប្រមាណបន្ទាប់
   ok: យល់ព្រម
   partners:
     actions:
