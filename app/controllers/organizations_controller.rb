@@ -1,7 +1,11 @@
 class OrganizationsController < ApplicationController
   def index
     @organizations = Organization.where.not(short_name: 'cwd').order(:created_at)
-    redirect_to dashboards_path(subdomain: Organization.current.short_name) if user_signed_in?
+    if user_signed_in?
+      redirect_to dashboards_path(subdomain: Organization.current.short_name)
+    else
+      redirect_to root_url(subdomain: 'start') unless request.subdomain == 'start'
+    end
   end
 
   def robots
