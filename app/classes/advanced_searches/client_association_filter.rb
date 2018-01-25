@@ -423,9 +423,9 @@ module AdvancedSearches
       when 'between'
         clients = clients.where(cases: { case_type: case_type, exit_date: @value[0]..@value[1] })
       when 'is_empty'
-        clients = @clients.includes(:cases).where('cases.exited = ? OR cases.id IS NULL', false)
+        clients = clients.includes(:cases).where(cases: { case_type: case_type }).where('cases.exited = ? OR cases.id IS NULL', true)
       when 'is_not_empty'
-        clients = @clients.includes(:cases).where.not('cases.exited = ? OR cases.id IS NULL', false)
+        clients = clients.includes(:cases).where(cases: { case_type: case_type }).where.not('cases.exited = ? OR cases.id IS NULL', false)
       end
       clients.ids.uniq
     end
