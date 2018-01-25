@@ -406,6 +406,7 @@ en:
       save: Save
       tasks_arising: 'Tasks arising:'
     index:
+      assessment_completed_on: Assessment completed on
       assessment_history: Assessment History
       back: Back
       begin_now: Add New Assessment
@@ -415,6 +416,7 @@ en:
       view_report: View Report
     show:
       assessment_completed_by: Assessment completed by
+      assessment_completed_for: Assessment completed for
       back_to_assessment_history: Back to assessment history
       domain: Domain
       edit: Edit

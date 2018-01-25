@@ -13,7 +13,7 @@
                 - if assessment.initial?
                   = t('.initial_assessment')
                 - else
-                  = t('.three_month_assessment')
+                  = t('.assessment_completed_on')
                 %b
                   = assessment.created_at.strftime("%B %d, %Y")
             .col-xs-12.col-sm-3

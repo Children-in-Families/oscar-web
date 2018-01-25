@@ -447,6 +447,7 @@ my:
       save: သိမ္းသည္။
       tasks_arising: ေပၚေပါက္လာေနသည့္ လုပ္ငန္းမ်ား
     index:
+      assessment_completed_on: အကဲဖြတ်အပေါ်ပြီးစီး
       assessment_history: စိစစ္မႈသမိုင္းေၾကာင္း
       back: ေနာက္သို႔
       begin_now: ယခုစမည္
@@ -456,6 +457,7 @@ my:
       view_report: အစီခံစာကို ၾကည့္ရန္
     show:
       assessment_completed_by: က စိစစ္မႈကို ျဖည္ထားပါသည္။
+      assessment_completed_for: အဘို့အပြီးစီးခဲ့အကဲဖြတ်
       back_to_assessment_history: စိစစ္မႈသမုိင္းေၾကာင္းသို႔ ျပန္ထြက္၇န္
       domain: ဒိုမိန္း
       edit: ျပင္ဆင္ရန္
