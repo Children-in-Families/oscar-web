@@ -447,15 +447,17 @@ my:
       save: သိမ္းသည္။
       tasks_arising: ေပၚေပါက္လာေနသည့္ လုပ္ငန္းမ်ား
     index:
+      assessment_completed_on: အကဲဖြတ်အပေါ်ပြီးစီး
       assessment_history: စိစစ္မႈသမိုင္းေၾကာင္း
       back: ေနာက္သို႔
       begin_now: ယခုစမည္
       initial_assessment: ကနဦး အကဲျဖတ္ခ်က္
-      next_six_monthly_review: ေနာက္ ၆ လခ်ဳပ္ သံုးသပ္ခ်က္
-      six_month_assessment: ၆ လတစ္ႀကိမ္ စိစစ္ခ်က္
+      next_review: သုံးလစဉ်ပြန်လည်သုံးသပ်ချက်
+      three_month_assessment: သုံးလစဉ်အကဲဖြတ်
       view_report: အစီခံစာကို ၾကည့္ရန္
     show:
       assessment_completed_by: က စိစစ္မႈကို ျဖည္ထားပါသည္။
+      assessment_completed_for: အဘို့အပြီးစီးခဲ့အကဲဖြတ်
       back_to_assessment_history: စိစစ္မႈသမုိင္းေၾကာင္းသို႔ ျပန္ထြက္၇န္
       domain: ဒိုမိန္း
       edit: ျပင္ဆင္ရန္
@@ -465,8 +467,8 @@ my:
       reason: အေၾကာင္းျပခ်က္
       score: ရမွတ္
       show_attachment: တြဲထားသည္ကို ျပပါ
-      six_month_assessment_report: ၆ လပတ္ စစ္ေဆးမႈအစီရင္ခံစာ
       task: လုပ္ငန္း
+      three_month_assessment_report: သုံးလစဉ်အကဲဖြတ်အစီရင်ခံစာ
     update:
       successfully_updated: အကဲျဖတ္ခ်က္ကို ေအာင္ျမင္စာ အသစ္တင္ၿပီးပါၿပီ။
   back: ေနာက္သို႔
@@ -2837,6 +2839,9 @@ my:
         one: သင့္တြင္ သတ္မွတ္ရက္ လြန္ေနေသာ အသံုးျပဳသူ အေကာက္ခြန္ပံုစံ ၁ခု ရွိေနပါသည္။
         other: သင့္တြင္ သတ္မွတ္ရက္ လြန္ေနေသာ အသံုးျပဳသူ အေကာက္ခြန္ပံုစံ %{count} ရွိေနပါသည္။
       review_client: သင္၏ အမႈသည္စာရင္းေပးသြင္းမႈကို ျပန္လည္ ၾကည့္႐ႈရန္
+      upcoming_assessments_count:
+        one: သင့်အနေဖြင့်လာမည့် CSI အကဲဖြတ်ဖြည့်စွက်ရန်နီးပါးမှုကြောင့်ဖြစ်ကြောင်း
+        other: သင့်အနေဖြင့်လာမည့် %{count} CSI အကဲဖြတ်ဖြည့်စွက်ရန်နီးပါးမှုကြောင့်ဖြစ်ကြောင်း
     side_menu:
       able_screening_questions: Able Screening ေမးခြန္းမ်ား
       account: အေကာင့္
@@ -3002,6 +3007,10 @@ my:
       users: အသံုးျပဳသူ
     program_stream_notify:
       review_client: အမႈသည္မ်ားကို ျပန္လည္သံုးသပ္ရန္ လိုအပ္သည္
+    upcoming_assessment:
+      client: အမႈသည္
+      most_recent_assessment: အများစုမှာလတ်တလောအကဲဖြတ်
+      upcoming_assessment: လာမည့်အကဲဖြတ်
   ok: အဆင္ေျပပါသည္
   partners:
     actions:

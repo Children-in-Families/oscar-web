@@ -1,0 +1,18 @@
+.wrapper.wrapper-content.animated.fadeInRight
+  .row
+    .col-xs-12
+      .ibox.float-e-margins
+        .ibox-title
+          %h5= t('.upcoming_assessment')
+        .ibox-content
+          %table.table.table-striped.table-hover.footable#upcoming_assessment{"data-page-size" => @upcoming_csi_clients_notification.count}
+            %thead
+              %tr
+                %th{"data-toggle" => "true"}= t('.client')
+                %th= t('.most_recent_assessment')
+
+            %tbody
+              - @upcoming_csi_clients_notification.each do |client|
+                %tr{ data: { href: client_assessments_path(client) } }
+                  %td= client.name
+                  %td= date_format(client.most_recent_csi_assessment)
