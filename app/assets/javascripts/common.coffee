@@ -5,6 +5,15 @@ CIF.Common =
     @customCheckBox()
     @initNotification()
     @autoCollapseManagMenu()
+    @textShortener()
+
+  textShortener: ->
+    if $('.clients-table').is(':visible')
+      elements = 'td.status, td.form_title, td.all_csi_assessments, td.manage'
+      $('.clients-table td').not(elements).shorten
+        showChars: 100,
+        moreText: 'read more'
+        lessText: 'read less'
 
   customCheckBox: ->
     $('.i-check-red').iCheck
