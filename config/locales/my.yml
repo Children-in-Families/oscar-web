@@ -667,7 +667,7 @@ my:
       case_statistic: အမႈျခင္းရာ ကိန္းဂဏန္း
       client_amount: အမႈသည္ပမာဏ
     dashboard:
-      due_today_assessments_count:
+      due_today_assessments_count: 
       emergency_cares_html: အေရးေပၚ <br/> ေစာင့္ေရွာက္မႈမ်ား
       female_emergency_cares: အမ်ိဳးသမီးမ်ား <br/> EC
       female_foster_cares: အမ်ိဳးသမီးမ်ား <br/> FC
@@ -1132,6 +1132,7 @@ my:
       export_to_xls: XLS အျဖစ္ ထုတ္သည္
       load: ဆက္လက္ လုပ္ေဆာင္ေနသည္
       load_save_search: သိမ္းဆည္းထားသည့္ ရွာေဖြမႈမ်ားကို ျပပါ။
+      most_recent:
       report_builder: တုိင္းၾကားစာ တည္ေဆာက္သည့္ေနရာ
       reports: အစီရင္ခံစာမ်ား
       results: ရလဒ္မ်ား
@@ -1139,6 +1140,7 @@ my:
       sInfoTo: သို႔
       sInfoTotal: "၏"
       save_search_settings: ရွာေဖြမႈ အျပင္အဆင္မ်ားကို သိမ္းဆည္းပါ။
+      show_all:
       view_all_active_tasks: အသက္၀င္ေသာ လုပ္ငန္းမ်ားအားလံုးကို ၾကည့္ရန္
     kinship_case:
       carer_address: ေစာင့္ေရွာက္သူ လိပ္စာ
@@ -1342,6 +1344,7 @@ my:
       active_program_streams: လုပ္ေဆာင္မႈရွိေသးေသာ အစီအစဥ္ စီးဆင္းမႈမ်ား
       client_active_in_programs: လုပ္ေဆာင္မႈရွိေသးေသာ အစီအစဥ္ စီးဆင္းမႈမ်ား
     duetoday:
+      assessment:
       assessments: ရက်လွန်အကဲဖြတ်
       duetoday_tasks: ကြောင့်ယနေ့တာဝန်များကို
       forms: ရက်လွန်ပုံစံ
@@ -1351,6 +1354,7 @@ my:
       foster: ေမြးစားျခင္း
       kinship: ေဆြမ်ိဳး
     overdue:
+      assessment:
       assessments: ရက်လွန်အကဲဖြတ်
       forms: ရက်လွန်ပုံစံ
       overdue_tasks: ရက်လွန်အလုပ်တခုကို
@@ -1364,6 +1368,7 @@ my:
       referral_sources: လႊဲေျပာင္းရန္ ရင္းျမစ္မ်ား
       staffs: ၀န္ထမ္းအဖြဲ႕၀င္မ်ား
     upcoming:
+      assessment:
       assessments: ရက်လွန်အကဲဖြတ်
       forms: ရက်လွန်ပုံစံ
       tasks: ရက်လွန်အလုပ်တခုကို
@@ -1373,8 +1378,8 @@ my:
       assessments: ရက်လွန်အကဲဖြတ်
       filter_by_user: အသံုးျပဳသူ သတ္မွတ္ထားေသာ စိစစ္မႈ
       forms: ရက်လွန်ပုံစံ
-      tasks: ရက်လွန်အလုပ်တခုကို
       select_user: အသံုးျပဳသူကို ေရြးခ်ယ္ပါ။
+      tasks: ရက်လွန်အလုပ်တခုကို
   data_trackers:
     index:
       able_screening_questions: Able Screening ေမးခြန္းမ်ား
@@ -2851,6 +2856,7 @@ my:
       custom_fields: ပံုစံထုတ္စက္
       dashboards: ဒက္ရွ္ဘုတ္မ်ား
       departments: ဌာနမ်ား
+      districts:
       domain_groups: ဒိုမိန္း အုပ္စုမ်ား
       domains: ဒိုမိန္းမ်ား
       donors: အလွဴရွင္မ်ား
@@ -3123,6 +3129,7 @@ my:
     edit:
       back: ေနာက္သို႔
       edit: အစီအစဥ္
+      edit_program_stream: အစီအစဥ္ စီးဆင္းမႈကို ျပင္ဆင္ရန္
     enrollment:
       custom_fields: အေကာက္ခြန္ပံုစံမ်ား
       enrollment_form: စာရင္းေပးသြင္းမႈ

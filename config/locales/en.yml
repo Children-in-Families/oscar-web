@@ -111,6 +111,11 @@ en:
               blank: can't be blank
             question_group:
               blank: can't be blank
+        advanced_search:
+          attributes:
+            name:
+              blank:
+              taken:
         agency:
           attributes:
             name:
@@ -141,6 +146,14 @@ en:
           attributes:
             description:
               blank: can't be blank
+        client:
+          attributes:
+            user_ids:
+              blank:
+        client_enrollment:
+          attributes:
+            enrollment_date:
+              blank:
         custom_field:
           attributes:
             entity_type:
@@ -180,6 +193,10 @@ en:
             action:
               blank: can't be blank
               taken: has already been taken
+        leave_program:
+          attributes:
+            exit_date:
+              blank:
         location:
           attributes:
             name:
@@ -260,6 +277,7 @@ en:
       agencies_involved: Agencies Involved
       agency_name: Agency Name
       agency_names: Agency Name
+      basic_fields: Client Basic Fields
       birth_province: Birth Province
       birth_province_id: Birth Province
       cambodia: Cambodia
@@ -274,14 +292,17 @@ en:
       csi_domain_scores: CSI Domain Scores
       current_address: Current Address
       current_province: Current Province
+      custom_form: Custom Form
       date_of_assessments: Date of Assessments
       date_of_birth: Date of Birth
       district: District/Khan
       donor: Donor
       donor_id: Donor
+      enrollment: Enrollment
       exit_ec_date: Exit EC Date
       exit_fc_date: Exit FC Date
       exit_kc_date: Exit KC Date
+      exit_program: Exit Program
       family: Family
       family_id: Family ID
       family_name: Family Name
@@ -311,6 +332,7 @@ en:
       program_stream: Program Stream
       province: Birth Province
       province_id: Current Province
+      quantitative: Quantitative Type
       received_by: Received By
       received_by_id: Received By
       referral_phone: Referral Phone
@@ -329,15 +351,10 @@ en:
       street_number: Street
       telephone_number: Telephone Number
       time_of_frequency: Time of Frequency
+      tracking: Tracking
       type: Type
       user_id: Case Worker
       village: Village
-      enrollment: Enrollment
-      tracking: Tracking
-      exit_program: Exit Program
-      basic_fields: Client Basic Fields
-      custom_form: Custom Form
-      quantitative: Quantitative Type
   advanced_search_save_queries:
     create:
       failed_create: Search setting has already been taken.
@@ -383,6 +400,11 @@ en:
     version:
       back: Back
       modification_of: Changelog of
+  api:
+    form_builder_attachments:
+      destroy:
+        successfully_deleted: Attachment has been successfully deleted.
+        successfully_updated:
   are_you_sure: Are you sure you want to delete?
   assessments:
     add_task_form:
@@ -391,8 +413,22 @@ en:
       enter_task_detail: Enter task details
       save: Save
       title: New Task
+    attachment:
+      attachments: Attachments
+      download: Download
+      preview_download: Preview & Download
+    attachment_fields:
+      allow_file_size: Allowed file types
+      are_you_sure: Are you sure you want to delete??
+      attachments: Attachments
+      download: Download
+      max_file_size: "*Maximum file size: 5MB/file and 30MB/upload."
+      preview_download: Preview & Download
     create:
       successfully_created: Assessment has been successfully created.
+    destroy:
+      fail_delete_attachment: Failed deleting attachment
+      successfully_deleted: Attachment has been successfully deleted.
     form:
       add_task: Add Task
       at_least_one_task_required: At least one task is required
@@ -425,31 +461,11 @@ en:
       on_date: On Date
       reason: Reason
       score: Score
+      show_attachment: Show Attachments
       task: Task
       three_month_assessment_report: 3 Monthly Assessment Report
-      show_attachment: Show Attachments
-    create:
-      successfully_created: Assessment has been successfully created.
     update:
       successfully_updated: Assessment has been successfully updated.
-    destroy:
-      successfully_deleted: Attachment has been successfully deleted.
-      fail_delete_attachment: Failed deleting attachment
-    attachment:
-      attachments: Attachments
-      download: Download
-      preview_download: Preview & Download
-    attachment_fields:
-      allow_file_size: Allowed file types
-      are_you_sure: Are you sure you want to delete??
-      attachments: Attachments
-      download: Download
-      max_file_size: "*Maximum file size: 5MB/file and 30MB/upload."
-      preview_download: Preview & Download
-  api:
-    form_builder_attachments:
-      destroy:
-        successfully_deleted: Attachment has been successfully deleted.
   back: Back
   calendars:
     index:
@@ -505,6 +521,9 @@ en:
       preview_download: Preview & Download
     create:
       successfully_created: Case Note has successfully been created.
+    destroy:
+      fail_delete_attachment: Failed deleting attachment
+      successfully_deleted: Attachment has been successfully deleted.
     form:
       add_task: Add Task
       back: Back
@@ -549,9 +568,6 @@ en:
       present: Who was there during the visit or conversation?
     update:
       successfully_updated: Case Note has successfully been updated.
-    destroy:
-      successfully_deleted: Attachment has been successfully deleted.
-      fail_delete_attachment: Failed deleting attachment
   cases:
     create:
       already_have_a_case: Client is already have a case.
@@ -658,6 +674,16 @@ en:
         one: You have 1 assessment overdue.
         other: You have %{count} assessments overdue.
   client:
+    # form_option:
+    #   basic_fields: Client Basic Fields
+    #   csi_domain_scores: CSI Domain Scores
+    #   custom_form: Custom Form
+    #   enrollment: Enrollment
+    #   exit_program: Exit Program
+    #   filter_option: Please choose your query options below
+    #   program_stream: Program Stream
+    #   quantitative: Quantitative Type
+    #   tracking: Tracking
     tasks:
       create:
         successfully_created: Task has successfully been created.
@@ -693,62 +719,32 @@ en:
         enter_task_detail: Enter task details
       update:
         successfully_updated: Task has successfully been updated.
-    form_option:
-      basic_fields: Client Basic Fields
-      csi_domain_scores: CSI Domain Scores
-      custom_form: Custom Form
-      enrollment: Enrollment
-      exit_program: Exit Program
-      filter_option: Please choose your query options below
-      program_stream: Program Stream
-      tracking: Tracking
-      quantitative: Quantitative Type
-  client_enrollment_trackings:
-    action:
-      new_tracking: New Tracking
-    create:
-      successfully_created: Tracking Program has been successfully created.
-    destroy:
-      successfully_deleted: Tracking Program has been successfully deleted.
-      delete_attachment_successfully: Attachment has been successfully deleted.
-    edit:
-      edit_tracking: Edit Tracking
-    form:
-      allow_file_size: Allowed file types
-      cancel: Cancel
-      save: Save
-      max_file_size: "*Maximum file size: 5MB/file and 30MB/upload."
-    index:
-      programs_list: Programs List
-      tracking_lists: Trackings List
-    new:
-      new_tracking: New Tracking
-    report:
-      are_you_sure: Are you sure you want to delete?
-      back: Back
-      created_at: Created Date
-      new_tracking: New Tracking
-    show:
-      back: Back
-      trackings_list: Client Trackings List
-    update:
-      successfully_updated: Tracking Program has been successfully updated.
-  leave_enrolled_programs:
-    create:
-      successfully_created: Client has been successfully exited from the program.
-    edit:
-      leave_program: Edit Leave Program
-    form:
-      cancel: Cancel
-      exit_date: Exit Date
-      save: Save
-    new:
-      new_exit_program: New Exit Program
-    show:
-      back: Back
-      exit_date: Exited on
-    update:
-      successfully_updated: Exit Program has been successfully updated.
+  # client_advanced_searches:
+  #   form_option:
+  #     basic_fields: Client Basic Fields
+  #     csi_domain_scores: CSI Domain Scores
+  #     custom_form: Custom Form
+  #     enrollment: Enrollment
+  #     exit_program: Exit Program
+  #     filter_option: Please choose your query options below
+  #     program_stream: Program Stream
+  #     quantitative: Specific Referral Data
+  #     tracking: Tracking
+  #   index:
+  #     add_new_filter: Add New Filter
+  #     add_new_group: Add Group
+  #     advanced_search: Advanced Search
+  #     assessments: Assessments
+  #     client_column: Client General Information
+  #     csi_domain_scores: CSI Domain Scores
+  #     custom_form_column: Information form Custom Forms
+  #     delete_group: Delete
+  #     export_to_xls: Export to XLS
+  #     no_results: No Result Found
+  #     program_stream_column: Program stream columns
+  #     reset: Reset
+  #     results: Results
+  #     search: Search
   client_enrolled_program_trackings:
     action:
       new_tracking: New Tracking
@@ -821,21 +817,51 @@ en:
       enrollment_date: Enrolled on
     update:
       successfully_updated: Enrollment has been successfully updated.
+  client_enrollment_trackings:
+    action:
+      new_tracking: New Tracking
+    create:
+      successfully_created: Tracking Program has been successfully created.
+    destroy:
+      delete_attachment_successfully: Attachment has been successfully deleted.
+      successfully_deleted: Tracking Program has been successfully deleted.
+    edit:
+      edit_tracking: Edit Tracking
+    form:
+      allow_file_size: Allowed file types
+      cancel: Cancel
+      max_file_size: "*Maximum file size: 5MB/file and 30MB/upload."
+      save: Save
+    index:
+      programs_list: Programs List
+      tracking_lists: Trackings List
+    new:
+      new_tracking: New Tracking
+    report:
+      are_you_sure: Are you sure you want to delete?
+      back: Back
+      created_at: Created Date
+      new_tracking: New Tracking
+    show:
+      back: Back
+      trackings_list: Client Trackings List
+    update:
+      successfully_updated: Tracking Program has been successfully updated.
   client_enrollments:
     create:
       successfully_created: Enrollment has been successfully created.
     destroy:
-      successfully_deleted: Enrollment has been successfully deleted.
       delete_attachment_successfully: Attachment has been successfully deleted.
+      successfully_deleted: Enrollment has been successfully deleted.
     edit:
       enrollment: Edit Enrollment
     form:
       allow_file_size: Allowed file types
       cancel: Cancel
       enrollment_date: Enrollment Date
+      max_file_size: "*Maximum file size: 5MB/file and 30MB/upload."
       not_an_email: not an email
       save: Save
-      max_file_size: "*Maximum file size: 5MB/file and 30MB/upload."
     index:
       actions: Actions
       back: Back
@@ -887,12 +913,10 @@ en:
         custom_form_column: Custom form columns
         delete_group: Delete
         export_to_xls: Export to XLS
-        # load_save_search: Load Saved Search
         no_results: No Result Found
         program_stream_column: Program stream columns
         reset: Reset
         results: Results
-        # save_search_settings: Save Search Settings
         search: Search
       form_option:
         basic_fields: Basic Fields
@@ -963,18 +987,18 @@ en:
       start_date: Start Date
       support_amount: Support Amount
       support_note: Support Note
-    exit_ngo_form:
-      exit_btn: Exit
-      exit_date: Exit Date
-      exit_ngo: Exit NGO
-      exit_note: Exit Note
-      exit_status: Status
     exit_case_form:
       exit_btn: Exit
       exit_date: Exit Date
       exit_ec: Exit Emergency Care
       exit_fc: Exit Foster Care
       exit_kc: Exit Kinship Care
+      exit_ngo: Exit NGO
+      exit_note: Exit Note
+      exit_status: Status
+    exit_ngo_form:
+      exit_btn: Exit
+      exit_date: Exit Date
       exit_ngo: Exit NGO
       exit_note: Exit Note
       exit_status: Status
@@ -1087,8 +1111,10 @@ en:
     index:
       active_programs: Active Programs
       add_new_client: Add New Client
+      # advanced_search: Advanced Search
       all_csi_assessments: All CSI Assessments
       assessments: Assessments
+      # case_statistics: Case Statistics
       client_amount: Clients
       csi_domain_scores: CSI Domain Scores
       domain_score: Domain Scores
@@ -1097,14 +1123,14 @@ en:
       load: Loading more...
       load_save_search: Load Saved Search
       most_recent: Most Recent
-      reports: Quick Graph
       report_builder: Report Builder
+      reports: Quick Graph
       results: Results
-      save_search_settings: Save Search Settings
-      show_all: Show All
       sInfoShow: show results from
       sInfoTo: to
       sInfoTotal: of
+      save_search_settings: Save Search Settings
+      show_all: Show All
       view_all_active_tasks: View All Active  Tasks
     kinship_case:
       carer_address: Carer Address
@@ -1303,8 +1329,8 @@ en:
       kinship_cares_html: Kinship <br/>Cares
       males: Males
     client_program_stream_by_gender:
-      active_program_streams: Active Program Streams
       active_progarm_streams_by_gender: Active Program Streams by client gender
+      active_program_streams: Active Program Streams
       client_active_in_programs: Active Program Streams
     duetoday:
       assessment: Assessment
@@ -1318,8 +1344,8 @@ en:
     overdue:
       assessment: Assessment
       forms: Forms
-      tasks: Tasks
       overdue_tasks: Overdue Tasks
+      tasks: Tasks
     program_stream:
       program_stream: Program Streams
     third_party:
@@ -1338,8 +1364,8 @@ en:
       assessments: Assessment
       filter_by_user: Filter by user
       forms: Forms
-      tasks: Tasks
       select_user: Select user
+      tasks: Tasks
   data_trackers:
     index:
       able_screening_questions: Able Screening Questions
@@ -2353,9 +2379,6 @@ en:
         search_custom_form: Search Custom Form
         time_of_frequency: Time of Frequency
         type: Type
-      destroy:
-        failed_to_delete: Custom Form cannot be deleted.
-        successfully_deleted: Custom Form has been successfully deleted.
       demo_custom_form_tab:
         are_you_sure: Are you sure you want to delete?
         close: Close
@@ -2368,6 +2391,9 @@ en:
         search_custom_form: Search Custom Form
         time_of_frequency: Time of Frequency
         type: Type
+      destroy:
+        failed_to_delete: Custom Form cannot be deleted.
+        successfully_deleted: Custom Form has been successfully deleted.
       edit:
         form_builder: Form Builder
       form:
@@ -2740,14 +2766,17 @@ en:
         one: There is a client is about to exit EC program today.
         other: There are %{count} clients are about to exit EC program today.
       client_quantity:
-        one: (1 client)
-        other: (%{count} clients)
+        one: "(1 client)"
+        other: "(%{count} clients)"
       due_today_assessments_count:
         one: You have 1 assessment due today.
         other: You have %{count} assessments due today.
       due_today_client_custom_field_count:
         one: There is 1 client custom form due today.
         other: There are %{count} client custom forms due today.
+      due_today_client_enrollment_tracking:
+        one: There is 1 client enrollment tracking form due today.
+        other: There are %{count} client enrollment trackings form due today.
       due_today_family_custom_field_count:
         one: There is 1 family custom form due today.
         other: There are %{count} family custom forms due today.
@@ -2760,9 +2789,6 @@ en:
       due_today_user_custom_field_count:
         one: There is 1 user custom form due today.
         other: There are %{count} user custom forms due today.
-      due_today_client_enrollment_tracking:
-        one: There is 1 client enrollment tracking form due today.
-        other: There are %{count} client enrollment trackings form due today.
       no_task: Nothing to notify.
       overdue_assessments_count:
         one: You have 1 assessment overdue.
@@ -2770,6 +2796,9 @@ en:
       overdue_client_custom_field_count:
         one: There is 1 client custom form overdue.
         other: There are %{count} client custom forms overdue.
+      overdue_client_enrollment_tracking:
+        one: There is 1 client enrollment tracking form overdue.
+        other: There are %{count} client enrollment trackings form overdue.
       overdue_family_custom_field_count:
         one: There is 1 family custom form overdue.
         other: There are %{count} family custom forms overdue.
@@ -2782,9 +2811,6 @@ en:
       overdue_user_custom_field_count:
         one: There is 1 user custom form overdue.
         other: There are %{count} user custom forms overdue.
-      overdue_client_enrollment_tracking:
-        one: There is 1 client enrollment tracking form overdue.
-        other: There are %{count} client enrollment trackings form overdue.
       review_client: Review your clients enrollment in
       upcoming_assessments_count:
         one: You are almost due to complete the next CSI assessment.
@@ -2831,19 +2857,35 @@ en:
       language: Language
       log_out: Log out
       thai: Thai
-  leave_programs:
+  leave_enrolled_programs:
     create:
       successfully_created: Client has been successfully exited from the program.
     edit:
       leave_program: Edit Leave Program
+    form:
+      cancel: Cancel
+      exit_date: Exit Date
+      save: Save
+    new:
+      new_exit_program: New Exit Program
+    show:
+      back: Back
+      exit_date: Exited on
+    update:
+      successfully_updated: Exit Program has been successfully updated.
+  leave_programs:
+    create:
+      successfully_created: Client has been successfully exited from the program.
     destroy:
       delete_attachment_successfully: Attachment has been successfully deleted.
+    edit:
+      leave_program: Edit Leave Program
     form:
       allow_file_size: Allowed file types
       cancel: Cancel
       exit_date: Exit Date
-      save: Save
       max_file_size: "*Maximum file size: 5MB/file and 30MB/upload."
+      save: Save
     new:
       new_exit_program: New Exit Program
     show:
@@ -2917,6 +2959,12 @@ en:
   must_be_uniq: field label must be uniq
   mutual_dependence_has_been_modified: Mutual Dependence cannot be changed or added because it breaks the previous rules.
   notifications:
+    client_enrollment_tracking_due_today:
+      client_enrollment_tracking_notification: Client Enrollment Tracking Notification
+      clients: Client
+    client_enrollment_tracking_overdue:
+      client_enrollment_tracking_notification: Client Enrollment Tracking Notification
+      clients: Client
     custom_field_due_today:
       clients: Client
       custom_field_notification: Custom Form Notification
@@ -2931,12 +2979,6 @@ en:
       form: Form
       partners: Partner
       users: User
-    client_enrollment_tracking_due_today:
-      clients: Client
-      client_enrollment_tracking_notification: Client Enrollment Tracking Notification
-    client_enrollment_tracking_overdue:
-      clients: Client
-      client_enrollment_tracking_notification: Client Enrollment Tracking Notification
     program_stream_notify:
       review_client: Clients need to be reviewed
     upcoming_assessment:
@@ -3004,6 +3046,7 @@ en:
       warning_message: You are about to delete a Program Stream that has saved client data. Do you wish to proceed?
     all_ngos_custom_fields:
       next: Next
+      # preview: Preview
       previous: Previous
     all_ngos_program_streams_tab:
       actions: Action
@@ -3013,6 +3056,7 @@ en:
       name: Name
       organization: Organization
       preview: Preview
+      # quantity: Quantity
       status: Status
     create:
       alert: Name of Tracking has already been taken.
@@ -3025,16 +3069,16 @@ en:
       name: Name
       quantity: Quantity
       status: Status
-    custom_forms:
-      all_ngos_custom_fields: All NGOs' Custom Forms
-      custom_fields: Custom Forms
-      demo_ngo_custom_fields: Demo NGO's Custom Forms
-      my_ngo_custom_fields: My NGO's Custom Forms
     custom_form_table:
       copy: Copy
       entity_type: Type
       form_title: Form Title
       organization: Organization
+    custom_forms:
+      all_ngos_custom_fields: All NGOs' Custom Forms
+      custom_fields: Custom Forms
+      demo_ngo_custom_fields: Demo NGO's Custom Forms
+      my_ngo_custom_fields: My NGO's Custom Forms
     demo_ngo_custom_fields:
       next: Next
       previous: Previous
@@ -3053,6 +3097,7 @@ en:
     edit:
       back: Back
       edit: Edit
+      # edit_program_stream: Edit Program Stream
     enrollment:
       custom_fields: Custom Forms
       enrollment_form: Enrollment
@@ -3100,10 +3145,12 @@ en:
       cannot_be_lower: Maximum program enrollment cannot be lower than active enrolled
       delete_group: Delete
       description: Description
+      # domain: Domain
       maximum: Maximum Program Enrollment
       mutual_dependence: Mutual Dependence
       name: Name
       program_exclusive: Program Exclusive
+      # quantity: Quantity
       rule: Rules
     search:
       actions: Action
@@ -3127,15 +3174,15 @@ en:
       exit_program: Exit Program
       maximum: Maximum Program Enrollment
       mutual_dependence: Mutual Dependence
+      not_require_tracking: This Program Stream does not require any tracking form.
       program_exclusive: Program Exclusive
       quantity: Quantity
       rules: Rules
       tracking: Tracking
-      not_require_tracking: This Program Stream does not require any tracking form.
     tracking:
       add_tracking: Add Tracking
-      tracking_form: Progress Tracking
       not_require_tracking: This Program Stream does not require any tracking form.
+      tracking_form: Progress Tracking
     tracking_fields:
       custom_fields: Custom Forms
       frequency: Frequency
@@ -3391,12 +3438,12 @@ en:
       country: Country
   shared:
     form_builder:
-      list_attachment:
-        are_you_sure: Are you sure you want to delete?
-        preview_download: Preview & Download
       file_field:
         allow_file_size: Allowed file types
         max_file_size: "*Maximum file size: 5MB/file and 30MB/upload."
+      list_attachment:
+        are_you_sure: Are you sure you want to delete?
+        preview_download: Preview & Download
     per_page_form:
       show: Show
     version_type:
@@ -3883,6 +3930,13 @@ en:
       province: Province
       roles: Permission Set
       start_date: Start Date
+    permissions:
+      assessments: 
+      assessmets: CSI Assessments
+      case_notes: Case Notes
+      custom_forms: Custom Forms
+      custom_programs: Custom Programs
+      permissions_selector: Permissions Selector
     show:
       add_form: Add Form
       additional_forms: Additional Forms
@@ -3910,12 +3964,6 @@ en:
       province: Province
       roles: Permission Set
       start_date: Start Date
-    permissions:
-      assessmets: CSI Assessments
-      case_notes: Case Notes
-      custom_forms: Custom Forms
-      custom_programs: Custom Programs
-      permissions_selector: Permissions Selector
     update:
       successfully_updated: User has been successfully updated.
     version:
