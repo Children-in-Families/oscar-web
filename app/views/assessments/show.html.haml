@@ -11,7 +11,7 @@
             - if @assessment.initial?
               = t('.initial_assessment_of')
             - else
-              = t('.six_month_assessment_report')
+              = t('.assessment_completed_for')
             %strong
               %u= @assessment.client.name
           .col-xs-12

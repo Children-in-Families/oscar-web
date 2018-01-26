@@ -606,7 +606,7 @@ class ClientGrid
   end
 
   column(:case_start_date, order: false, header: -> { I18n.t('datagrid.columns.clients.placements.start_date') }) do |object|
-    object.cases.current.try(:start_date)
+    (object.cases.current || object.cases.last_exited).try(:start_date)
   end
 
   column(:carer_names, order: false, header: -> { I18n.t('datagrid.columns.clients.placements.carer_names') }) do |object|

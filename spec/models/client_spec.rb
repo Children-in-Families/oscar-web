@@ -67,11 +67,11 @@ end
 describe Client, 'methods' do
   let!(:able_manager) { create(:user, roles: 'able manager') }
   let!(:case_worker) { create(:user, roles: 'case worker') }
-  let!(:client){ create(:client, user_ids: [case_worker.id], local_given_name: 'Barry', local_family_name: 'Allen', date_of_birth: '2007-05-15') }
+  let!(:client){ create(:client, user_ids: [case_worker.id], local_given_name: 'Barry', local_family_name: 'Allen', date_of_birth: '2007-05-15', status: 'Active') }
   let!(:other_client) { create(:client, user_ids: [case_worker.id]) }
   let!(:able_client) { create(:client, able_state: Client::ABLE_STATES[0]) }
   let!(:able_manager_client) { create(:client, user_ids: [able_manager.id]) }
-  let!(:assessment){ create(:assessment, created_at: Date.today - 6.month, client: client) }
+  let!(:assessment){ create(:assessment, created_at: Date.today - 3.months, client: client) }
   let!(:able_rejected_client) { create(:client, able_state: Client::ABLE_STATES[1]) }
   let!(:able_discharged_client) { create(:client, able_state: Client::ABLE_STATES[2]) }
   let!(:client_a){ create(:client, date_of_birth: '2017-05-05') }
@@ -82,6 +82,127 @@ describe Client, 'methods' do
   let!(:fc_case){ create(:case, client: client_b, case_type: 'FC') }
   let!(:kc_case){ create(:case, client: client_c, case_type: 'KC') }
   let!(:exited_client){ create(:client, status: Client::EXIT_STATUSES.first) }
+
+  context '#most_recent_csi_assessment' do
+    it { expect(client.most_recent_csi_assessment).to eq(assessment.created_at.to_date) }
+  end
+
+  context '.notify_upcoming_csi_assessment' do
+    after do
+      ActionMailer::Base.deliveries.clear
+    end
+
+    context 'most recent csi is 3 months ago' do
+      before do
+        Client.notify_upcoming_csi_assessment
+      end
+      it 'does not send an email' do
+        expect(ActionMailer::Base.deliveries.count).to eq(0)
+      end
+    end
+
+    context 'most recent csi is 5.5 months ago' do
+      before do
+        assessment.update(created_at: (Date.today - 5.months - 15.days))
+        Client.notify_upcoming_csi_assessment
+      end
+
+      it 'send an email to case worker(s) of the client with subject: Upcoming CSI Assessment' do
+        expect(ActionMailer::Base.deliveries.count).to eq(1)
+        expect(ActionMailer::Base.deliveries.first.to).to include(case_worker.email)
+        expect(ActionMailer::Base.deliveries.first.from).to eq([ENV['SENDER_EMAIL']])
+        expect(ActionMailer::Base.deliveries.first.subject).to eq('Upcoming CSI Assessment')
+      end
+    end
+
+    context 'most recent csi is 5.5 months and 1 week ago' do
+      before do
+        assessment.update(created_at: (Date.today - 5.months - 15.days - 1.week))
+        Client.notify_upcoming_csi_assessment
+      end
+
+      it 'send an email' do
+        expect(ActionMailer::Base.deliveries.count).to eq(1)
+      end
+    end
+
+    context 'most recent csi is 5.5 months and 2 weeks ago' do
+      before do
+        assessment.update(created_at: (Date.today - 5.months - 15.days - 2.weeks))
+        Client.notify_upcoming_csi_assessment
+      end
+
+      it 'send an email' do
+        expect(ActionMailer::Base.deliveries.count).to eq(1)
+      end
+    end
+
+    context 'most recent csi is 5.5 months and 3 weeks ago' do
+      before do
+        assessment.update(created_at: (Date.today - 5.months - 15.days - 3.weeks))
+        Client.notify_upcoming_csi_assessment
+      end
+
+      it 'send an email' do
+        expect(ActionMailer::Base.deliveries.count).to eq(1)
+      end
+    end
+
+    context 'most recent csi is 5.5 months and 4 weeks ago' do
+      before do
+        assessment.update(created_at: (Date.today - 5.months - 15.days - 4.weeks))
+        Client.notify_upcoming_csi_assessment
+      end
+
+      it 'send an email' do
+        expect(ActionMailer::Base.deliveries.count).to eq(1)
+      end
+    end
+
+    context 'most recent csi is 5.5 months and 5 weeks ago' do
+      before do
+        assessment.update(created_at: (Date.today - 5.months - 15.days - 5.weeks))
+        Client.notify_upcoming_csi_assessment
+      end
+
+      it 'send an email' do
+        expect(ActionMailer::Base.deliveries.count).to eq(1)
+      end
+    end
+
+    context 'most recent csi is 5.5 months and 6 weeks ago' do
+      before do
+        assessment.update(created_at: (Date.today - 5.months - 15.days - 6.weeks))
+        Client.notify_upcoming_csi_assessment
+      end
+
+      it 'send an email' do
+        expect(ActionMailer::Base.deliveries.count).to eq(1)
+      end
+    end
+
+    context 'most recent csi is 5.5 months and 7 weeks ago' do
+      before do
+        assessment.update(created_at: (Date.today - 5.months - 15.days - 7.weeks))
+        Client.notify_upcoming_csi_assessment
+      end
+
+      it 'send an email' do
+        expect(ActionMailer::Base.deliveries.count).to eq(1)
+      end
+    end
+
+    context 'most recent csi is 5.5 months and 8 weeks ago' do
+      before do
+        assessment.update(created_at: (Date.today - 5.months - 15.days - 8.weeks))
+        Client.notify_upcoming_csi_assessment
+      end
+
+      it 'send an email' do
+        expect(ActionMailer::Base.deliveries.count).to eq(1)
+      end
+    end
+  end
 
   context 'exit_ngo?' do
     it { expect(exited_client.exit_ngo?).to be_truthy }
@@ -179,19 +300,27 @@ describe Client, 'methods' do
     it { expect(client.inactive_day_care).to eq(731.0) }
   end
 
-  context 'next assessment date' do
-    let!(:latest_assessment){ create(:assessment, client: client) }
-    it 'should be latest assessment + 6 months' do
-      expect(client.next_assessment_date).to eq((latest_assessment.created_at + 6.month).to_date)
+  context '#next_assessment_date' do
+    let!(:client_1){ create(:client, :accepted) }
+    let!(:latest_assessment){ create(:assessment, client: client_1) }
+    it 'should be last assessment + 3 months' do
+      expect(client_1.next_assessment_date).to eq((latest_assessment.created_at + 3.months).to_date)
     end
     it 'should be today' do
       expect(other_client.next_assessment_date.start).to eq(Date.today.start)
     end
   end
 
-  context 'can create assessment' do
-    let!(:other_assessment) { create(:assessment, client: other_client) }
+  context '#can_create_assessment?' do
+    let!(:other_assessment){ create(:assessment, created_at: Date.today - 2.months, client: other_client) }
+    let!(:no_csi_client){ create(:client, :accepted) }
+    let!(:client_with_two_csi){ create(:client, :accepted) }
+    let!(:assessment_1){ create(:assessment, created_at: Date.today - 3.months, client: client_with_two_csi) }
+    let!(:assessment_2){ create(:assessment, created_at: Date.today, client: client_with_two_csi) }
+
     it { expect(client.can_create_assessment?).to be_truthy }
+    it { expect(no_csi_client.can_create_assessment?).to be_truthy }
+    it { expect(client_with_two_csi.can_create_assessment?).to be_truthy }
     it { expect(other_client.can_create_assessment?).to be_falsey }
   end
 

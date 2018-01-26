@@ -406,15 +406,17 @@ en:
       save: Save
       tasks_arising: 'Tasks arising:'
     index:
+      assessment_completed_on: Assessment completed on
       assessment_history: Assessment History
       back: Back
-      begin_now: Begin now
-      initial_assessment: Initial Assessment
-      next_six_monthly_review: Next 6 Monthly Review
-      six_month_assessment: 6 Monthly Assessment
+      begin_now: Add New Assessment
+      initial_assessment: Initial Assessment on
+      next_review: Next Review on
+      three_month_assessment: 3 Monthly Assessment
       view_report: View Report
     show:
       assessment_completed_by: Assessment completed by
+      assessment_completed_for: Assessment completed for
       back_to_assessment_history: Back to assessment history
       domain: Domain
       edit: Edit
@@ -423,8 +425,8 @@ en:
       on_date: On Date
       reason: Reason
       score: Score
-      six_month_assessment_report: 6 Monthly Assessment Report
       task: Task
+      three_month_assessment_report: 3 Monthly Assessment Report
       show_attachment: Show Attachments
     create:
       successfully_created: Assessment has been successfully created.
@@ -2784,6 +2786,9 @@ en:
         one: There is 1 client enrollment tracking form overdue.
         other: There are %{count} client enrollment trackings form overdue.
       review_client: Review your clients enrollment in
+      upcoming_assessments_count:
+        one: You are almost due to complete the next CSI assessment.
+        other: You are almost due to complete the next %{count} CSI assessments.
     side_menu:
       able_screening_questions: Able Screening Questions
       account: Account
@@ -2934,6 +2939,10 @@ en:
       client_enrollment_tracking_notification: Client Enrollment Tracking Notification
     program_stream_notify:
       review_client: Clients need to be reviewed
+    upcoming_assessment:
+      client: Client
+      most_recent_assessment: Most Recent Assessment
+      upcoming_assessment: Upcoming Assessment
   ok: OK
   partners:
     actions:

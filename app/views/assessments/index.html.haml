@@ -6,14 +6,14 @@
           %strong= "#{@client.name}"
         %h5.margin-title= t('.assessment_history')
       .ibox-content
-        - @client.assessments.each_with_index do |assessment, index|
+        - @client.assessments.order(:created_at).each_with_index do |assessment, index|
           .row.margin-row
             .col-xs-12.col-sm-9.middle-text
               %h5
                 - if assessment.initial?
                   = t('.initial_assessment')
                 - else
-                  = t('.six_month_assessment')
+                  = t('.assessment_completed_on')
                 %b
                   = assessment.created_at.strftime("%B %d, %Y")
             .col-xs-12.col-sm-3
@@ -23,7 +23,7 @@
           .col-xs-12.col-sm-9
             %h5
               - if @client.assessments.any?
-                = t('.next_six_monthly_review')
+                = t('.next_review')
                 %b
                   = @client.next_assessment_date.strftime('%B %d, %Y')
               - else
