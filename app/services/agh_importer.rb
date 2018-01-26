@@ -30,7 +30,7 @@ module AghImporter
 
     def clients
       ((workbook.first_row + 1)..workbook.last_row).each do |row|
-        
+
         family_name     = workbook.row(row)[headers['Last Name']]
         given_name      = workbook.row(row)[headers['First Name']]
         user_ids        = User.all.pluck(:id)
@@ -38,7 +38,7 @@ module AghImporter
         school_grade    = workbook.row(row)[headers['School Grade']]
         family_code     = workbook.row(row)[headers['Family ID']]
         donor_code      = workbook.row(row)[headers['Donor ID']]
-        donor_id        = Donor.find_by(code: donor_code.split(',')[0]).id if donor_code.present?
+        donor_id        = Donor.find_by(code: donor_code.split(',')[0]).try(:id) if donor_code.present?
         gender          = workbook.row(row)[headers['Gender']]
         gender          =  case gender
                             when 'M' then 'male'

@@ -3,7 +3,6 @@ namespace :agh do
   task import: :environment do
     org = Organization.create_and_build_tanent(short_name: 'agh', full_name: "A Greater Hope", logo: File.open(Rails.root.join('app/assets/images/agh.jpg')))
     Organization.switch_to org.short_name
-    # Organization.switch_to 'agh'
 
     Rake::Task['agencies:import'].invoke
     Rake::Task['departments:import'].invoke
