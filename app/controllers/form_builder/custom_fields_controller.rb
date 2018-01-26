@@ -103,10 +103,10 @@ class FormBuilder::CustomFieldsController < AdminController
   def column_order
     order_string = 'form_title, entity_type'
     column = params[:order]
-    return order_string unless params[:tab] == 'current' || !column.present?
+    return order_string unless params[:tab] == 'current' || column.present?
 
     sort_by = params[:descending] == 'true' ? 'desc' : 'asc'
-    (order_string = "#{column} #{sort_by}") if column.present?
+    (order_string = "lower(#{column}) #{sort_by}") if column.present?
 
     order_string
   end
