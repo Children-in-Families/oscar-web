@@ -8,7 +8,7 @@
           %span.show-status= status_style(@client.status)
         .client-info
           = @client.slug
-          = @client.gender.titleize
+          = @client.gender.try(:titleize)
       .col-md-6
         %table.table.small.m-b-xs
           %tbody
