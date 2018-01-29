@@ -31,8 +31,8 @@ module AghImporter
     def clients
       ((workbook.first_row + 1)..workbook.last_row).each do |row|
 
-        family_name     = workbook.row(row)[headers['Last Name']]
-        given_name      = workbook.row(row)[headers['First Name']]
+        family_name     = workbook.row(row)[headers['Last Name']] || ''
+        given_name      = workbook.row(row)[headers['First Name']] || ''
         user_ids        = User.all.pluck(:id)
         kid_id          = workbook.row(row)[headers['Kid ID']]
         school_grade    = workbook.row(row)[headers['School Grade']]
