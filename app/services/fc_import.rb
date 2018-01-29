@@ -13,7 +13,7 @@ class FcImport
         client_enrollment = client.client_enrollments.new(program_stream: @program_stream, enrollment_date: foster_case.start_date)
         if client_enrollment.valid?
           client_enrollment.save
-          if (foster_case.support_amount.present? && foster_case.support_amount > 0) || foster_case.support_note.present?
+          if (foster_case.support_amount.presence > 0) || foster_case.support_note.present?
             client_enrollment_tracking = client_enrollment.client_enrollment_trackings.new(tracking: @tracking)
             client_enrollment_tracking.properties['Date of Support Start'] = foster_case.start_date.to_s
             client_enrollment_tracking.properties['Total Support Amount'] = foster_case.support_amount.to_f.to_s
