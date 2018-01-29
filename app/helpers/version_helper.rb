@@ -27,12 +27,7 @@ module VersionHelper
     end
 
     if version_values[:titleizeTexts].include?(k)
-      val = if val == both_val[0]
-              both_val[0].casecmp(both_val[1]) ? '' : val.titleize
-            else
-              val.titleize
-            end
-
+      val = val.try(:titleize)
     elsif val.class == Date
       val = date_format(val)
     elsif any_time_class(val)
