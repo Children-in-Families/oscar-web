@@ -1,4 +1,5 @@
 class ProgramStream < ActiveRecord::Base
+  include UpdateFieldLabelsProgramStream
   FORM_BUILDER_FIELDS = ['enrollment', 'exit_program'].freeze
 
   has_many   :domain_program_streams, dependent: :destroy
@@ -22,6 +23,7 @@ class ProgramStream < ActiveRecord::Base
 
   # validate  :validate_remove_enrollment_field, :validate_remove_exit_program_field, if: -> { id.present? }
   after_save :set_program_completed
+  after_update :auto_update_exit_program, :auto_update_enrollment
   after_create :build_permission
 
   scope  :ordered,        ->         { order('lower(name) ASC') }
@@ -85,12 +87,14 @@ class ProgramStream < ActiveRecord::Base
         errors.add(:program_exclusive, error_message)
         can_edit_program = true
       end
+
       if mutual_dependence_changed? && mutual_dependence.any? && !(mutual_dependence.to_set.subset?(program_stream_ids))
         self.mutual_dependence = mutual_dependence_was
         error_message = "#{I18n.t('mutual_dependence_has_been_modified')}"
         errors.add(:mutual_dependence, error_message)
         can_edit_program = true
       end
+
       break if can_edit_program
     end
   end
@@ -202,5 +206,17 @@ class ProgramStream < ActiveRecord::Base
       field_remove.map{ |f| error_fields << f['label'] if property[f['label']].present? }
     end
     error_fields.uniq
+  end
+
+  private
+
+  def auto_update_exit_program
+    return unless exit_program_changed?
+    labels_update(exit_program_change.last, exit_program_was, leave_programs)
+  end
+
+  def auto_update_enrollment
+    return unless enrollment_changed?
+    labels_update(enrollment_change.last, enrollment_was, client_enrollments)
   end
 end
