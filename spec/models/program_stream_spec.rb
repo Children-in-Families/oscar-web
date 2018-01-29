@@ -377,6 +377,7 @@ describe ProgramStream, 'methods' do
   let!(:leave_program) { create(:leave_program, program_stream: program_stream, client_enrollment: client_enrollment) }
   let!(:tracking) { create(:tracking, program_stream: program_stream) }
   let!(:client_enrollment_tracking) { create(:client_enrollment_tracking, tracking: tracking, client_enrollment: client_enrollment) }
+  field = [{"name"=>"email", "type"=>"text", "label"=>"email", "subtype"=>"email", "required"=>true, "className"=>"form-control"}, {"max"=>"5", "min"=>"1", "name"=>"age", "type"=>"number", "label"=>"age", "required"=>true, "className"=>"form-control"}, {"name"=>"description", "type"=>"text", "label"=>"description", "subtype"=>"text", "required"=>true, "className"=>"form-control"}]
 
   context 'last_enrollment' do
     it 'should return last record of program stream' do
@@ -411,21 +412,18 @@ describe ProgramStream, 'methods' do
     end
   end
 
-  context 'update field labels program stream' do
-    it 'update client enrollment labels' do
-      field = [{"name"=>"email", "type"=>"text", "label"=>"email", "subtype"=>"email", "required"=>true, "className"=>"form-control"}, {"max"=>"5", "min"=>"1", "name"=>"age", "type"=>"number", "label"=>"age", "required"=>true, "className"=>"form-control"}, {"name"=>"description", "type"=>"text", "label"=>"description", "subtype"=>"text", "required"=>true, "className"=>"form-control"}]
+  context 'modify field label from e-mail to email' do
+    it 'auto update enrollment' do
       program_stream.update(enrollment: field)
       expect(client_enrollment.reload.properties).to eq({"email"=>"test@example.com", "age"=>"3", "description"=>"this is testing"})
     end
 
-    it 'update leave program labels' do
-      field = [{"name"=>"email", "type"=>"text", "label"=>"email", "subtype"=>"email", "required"=>true, "className"=>"form-control"}, {"max"=>"5", "min"=>"1", "name"=>"age", "type"=>"number", "label"=>"age", "required"=>true, "className"=>"form-control"}, {"name"=>"description", "type"=>"text", "label"=>"description", "subtype"=>"text", "required"=>true, "className"=>"form-control"}]
+    it 'auto update exit program' do
       program_stream.update(exit_program: field)
       expect(client_enrollment.leave_program.reload.properties).to eq({"email"=>"test@example.com", "age"=>"3", "description"=>"this is testing"})
     end
 
-    it 'update client enrollment tracking labels' do
-      field = [{"name"=>"email", "type"=>"text", "label"=>"email", "subtype"=>"email", "required"=>true, "className"=>"form-control"}, {"max"=>"5", "min"=>"1", "name"=>"age", "type"=>"number", "label"=>"age", "required"=>true, "className"=>"form-control"}, {"name"=>"description", "type"=>"text", "label"=>"description", "subtype"=>"text", "required"=>true, "className"=>"form-control"}]
+    it 'auto update trackings' do
       program_stream.trackings.first.update(fields: field)
       expect(client_enrollment.client_enrollment_trackings.reload.first.properties).to eq({"email"=>"test@example.com", "age"=>"3", "description"=>"this is testing"})
     end
