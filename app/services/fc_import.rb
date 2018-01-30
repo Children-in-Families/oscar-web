@@ -9,7 +9,7 @@ class FcImport
 
   def fc_import
     @clients.each do |client|
-      client.cases.fosters.each do |foster_case|
+      client.cases.fosters.order(:created_at).each do |foster_case|
         client_enrollment = client.client_enrollments.new(program_stream: @program_stream, enrollment_date: foster_case.start_date)
         if client_enrollment.valid?
           client_enrollment.save
