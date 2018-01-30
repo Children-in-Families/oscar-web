@@ -39,6 +39,7 @@ module AghImporter
         family_code     = workbook.row(row)[headers['Family ID']]
         donor_code      = workbook.row(row)[headers['Donor ID']]
         donor_id        = Donor.find_by(code: donor_code.split(',')[0]).try(:id) if donor_code.present?
+        orphanage       = workbook.row(row)[headers['Has Been In Orphanage? (Yes/No)']].presence == 'Yes'
         gender          = workbook.row(row)[headers['Gender']]
         gender          =  case gender
                             when 'M' then 'male'
@@ -52,7 +53,8 @@ module AghImporter
           gender: gender,
           kid_id: kid_id,
           school_grade: school_grade,
-          donor_id: donor_id
+          donor_id: donor_id,
+          has_been_in_orphanage: orphanage
         )
         client.save
 
