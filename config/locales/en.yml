@@ -1095,6 +1095,8 @@ en:
       load: Loading more...
       load_save_search: Load Saved Search
       most_recent: Most Recent
+      read_more: read more
+      read_less: read less
       reports: Quick Graph
       report_builder: Report Builder
       results: Results
@@ -2314,6 +2316,8 @@ en:
       name: Name
       'no': 'No'
       province: Province
+      read_more: read more
+      read_less: read less
       significant_family_member_count: Significant Family Member Count
       'yes': 'Yes'
     update:
@@ -3790,6 +3794,8 @@ en:
       case_notes: Case Notes
     clients:
       clients: Clients
+      read_more: read more
+      read_less: read less
     create:
       successfully_created: User has been successfully created.
     custom_form_permission:

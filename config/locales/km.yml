@@ -1195,6 +1195,8 @@ km:
       most_recent: ថ្មីបំផុត
       load: កំពុងផ្ទុក...
       load_save_search: ផ្ទុកការស្វែងរក
+      read_more: អានបន្ថែម
+      read_less: អានតិច
       reports: របាយការណ៍
       report_builder: ការស្វែងរកឆ្លាតវៃ
       results: លទ្ធផល
@@ -2415,6 +2417,8 @@ km:
       name: ឈ្មោះអ្នកថែទាំកុមារ
       'no': ទេ
       province: ខេត្ត
+      read_more: អានបន្ថែម
+      read_less: អានតិច
       significant_family_member_count: ចំនួនសមាជិកគ្រួសារដែលចូលរួមរកប្រាក់ចំណូល
       'yes': បាទ/ចាស
     update:
@@ -3889,6 +3893,8 @@ km:
       case_notes: កំណត់ត្រាករណី
     clients:
       clients: អតិថិជន
+      read_more: អានបន្ថែម
+      read_less: អានតិច
     create:
       successfully_created: អ្នកប្រើប្រាស់ត្រូវបានបង្កើតដោយជោគជ័យ
     custom_form_permission:

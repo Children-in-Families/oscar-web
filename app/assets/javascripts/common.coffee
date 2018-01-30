@@ -9,11 +9,31 @@ CIF.Common =
 
   textShortener: ->
     if $('.clients-table').is(':visible')
-      elements = 'td.status, td.form_title, td.all_csi_assessments, td.manage'
-      $('.clients-table td').not(elements).shorten
-        showChars: 100,
-        moreText: 'read more'
-        lessText: 'read less'
+      moreText = $('.clients-table').attr('data-read-more')
+      lessText = $('.clients-table').attr('data-read-less')
+      elements = ['status', 'form_title', 'all_csi_assessments', 'manage text-center']
+      for element in $('.clients-table td')
+        elementClass = $(element).attr('class')
+        continue if elements.includes(elementClass)
+        if $(element).children().length > 0
+          if $(element).find('a, p').length > 0
+            @shortenElement(element, 'a, p', moreText, lessText)
+          else if $(element).find('ul li').length > 4
+            @shortenElement(element, 'ul', moreText, lessText)
+        else
+          @shortenElement(element, '', moreText, lessText)
+
+  shortenElement: (element, child, moreText, lessText) ->
+    if child == ''
+      $(element).shorten
+        showChars: 100
+        moreText: moreText
+        lessText: lessText
+    else
+      $(element).find(child).shorten
+        showChars: 100
+        moreText: moreText
+        lessText: lessText
 
   customCheckBox: ->
     $('.i-check-red').iCheck
