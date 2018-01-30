@@ -9,15 +9,17 @@ class FcImport
 
   def fc_import
     @clients.each do |client|
-      client.cases.fosters.each do |foster_case|
+      client.cases.fosters.order(:created_at).each do |foster_case|
         client_enrollment = client.client_enrollments.new(program_stream: @program_stream, enrollment_date: foster_case.start_date)
         if client_enrollment.valid?
           client_enrollment.save
-          client_enrollment_tracking = client_enrollment.client_enrollment_trackings.new(tracking: @tracking)
-          client_enrollment_tracking.properties['Date of Support Start'] = foster_case.start_date.to_s
-          client_enrollment_tracking.properties['Total Support Amount'] = foster_case.support_amount.to_f.to_s
-          client_enrollment_tracking.properties['Support Note'] = foster_case.support_note
-          client_enrollment_tracking.save if client_enrollment_tracking.valid?
+          if (foster_case.support_amount.present? && foster_case.support_amount > 0) || foster_case.support_note.present?
+            client_enrollment_tracking = client_enrollment.client_enrollment_trackings.new(tracking: @tracking)
+            client_enrollment_tracking.properties['Date of Support Start'] = foster_case.start_date.to_s
+            client_enrollment_tracking.properties['Total Support Amount'] = foster_case.support_amount.to_f.to_s
+            client_enrollment_tracking.properties['Support Note'] = foster_case.support_note
+            client_enrollment_tracking.save if client_enrollment_tracking.valid?
+          end
         end
 
         if foster_case.exited?

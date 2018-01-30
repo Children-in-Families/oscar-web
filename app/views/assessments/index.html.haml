@@ -6,7 +6,7 @@
           %strong= "#{@client.name}"
         %h5.margin-title= t('.assessment_history')
       .ibox-content
-        - @client.assessments.each_with_index do |assessment, index|
+        - @client.assessments.order(:created_at).each_with_index do |assessment, index|
           .row.margin-row
             .col-xs-12.col-sm-9.middle-text
               %h5

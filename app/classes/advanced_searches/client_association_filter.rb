@@ -405,27 +405,27 @@ module AdvancedSearches
     end
 
     def program_exit_date_field_query(case_type)
-      clients = @clients.joins(:cases).where(cases: { exited: true })
+      clients = @clients.joins(:cases)
 
       case @operator
       when 'equal'
-        clients = clients.where(cases: { case_type: case_type, exit_date: @value })
+        clients = clients.where(cases: { case_type: case_type, exit_date: @value, exited: true })
       when 'not_equal'
-        clients = clients.where("cases.case_type = ? AND cases.exit_date != ?", case_type, @value)
+        clients = clients.where("cases.case_type = ? AND cases.exit_date != ? AND cases.exited = ?", case_type, @value, true)
       when 'less'
-        clients = clients.where('cases.case_type = ? AND cases.exit_date < ?', case_type, @value)
+        clients = clients.where('cases.case_type = ? AND cases.exit_date < ? AND cases.exited = ?', case_type, @value, true)
       when 'less_or_equal'
-        clients = clients.where('cases.case_type = ? AND cases.exit_date <= ?', case_type, @value)
+        clients = clients.where('cases.case_type = ? AND cases.exit_date <= ? AND cases.exited = ?', case_type, @value, true)
       when 'greater'
-        clients = clients.where('cases.case_type = ? AND cases.exit_date > ?', case_type, @value)
+        clients = clients.where('cases.case_type = ? AND cases.exit_date > ? AND cases.exited = ?', case_type, @value, true)
       when 'greater_or_equal'
-        clients = clients.where('cases.case_type = ? AND cases.exit_date >= ?', case_type, @value)
+        clients = clients.where('cases.case_type = ? AND cases.exit_date >= ? AND cases.exited = ?', case_type, @value, true)
       when 'between'
-        clients = clients.where(cases: { case_type: case_type, exit_date: @value[0]..@value[1] })
+        clients = clients.where(cases: { case_type: case_type, exit_date: @value[0]..@value[1], exited: true })
       when 'is_empty'
-        clients = @clients.includes(:cases).where('cases.exited = ? OR cases.id IS NULL', false)
+        clients = clients.includes(:cases).where(cases: { case_type: case_type }).where('cases.exited = ? OR cases.id IS NULL', false)
       when 'is_not_empty'
-        clients = @clients.includes(:cases).where.not('cases.exited = ? OR cases.id IS NULL', false)
+        clients = clients.includes(:cases).where(cases: { case_type: case_type }).where.not('cases.exited = ? OR cases.id IS NULL', false)
       end
       clients.ids.uniq
     end
