@@ -709,7 +709,7 @@ class ClientGrid
     dynamic_columns.each do |column_builder|
       fields = column_builder[:id].split('_')
       next if fields.first == 'enrollmentdate' || fields.first == 'programexitdate'
-      column(column_builder[:id].downcase.parameterize('_').to_sym, class: 'form-builder', header: -> { form_builder_format_header(fields) }, html: true) do |object|
+      column(column_builder[:id].to_sym, class: 'form-builder', header: -> { form_builder_format_header(fields) }, html: true) do |object|
         format_field_value = fields.last.gsub(/\[/, '&#91;').gsub(/\]/, '&#93;')
         if fields.first == 'formbuilder'
           if data == 'recent'
