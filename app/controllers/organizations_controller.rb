@@ -4,7 +4,7 @@ class OrganizationsController < ApplicationController
     if user_signed_in?
       redirect_to dashboards_path(subdomain: Organization.current.short_name)
     else
-      redirect_to root_url(subdomain: 'start') unless request.subdomain == 'start'
+      redirect_to root_url(subdomain: 'start') unless request.subdomain == 'start' || request.subdomain == 'mho'
     end
   end
 
