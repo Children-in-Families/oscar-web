@@ -110,6 +110,7 @@ module ClientsHelper
       accepted_date:                 t('datagrid.columns.clients.ngo_accepted_date'),
       exit_date:                     t('datagrid.columns.clients.ngo_exit_date'),
       telephone_number:              t('datagrid.columns.clients.telephone_number'),
+      exit_date:                     t('datagrid.columns.clients.exit_date'),
     }
     label_tag "#{column}_", label_column[column.to_sym]
   end
