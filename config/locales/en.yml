@@ -1511,7 +1511,7 @@ en:
         program_streams: Program Streams
         province: Birth Province
         quantitative_case_values: Specific Referral Data Option
-        quantitative_types: Specific Referral Data 
+        quantitative_types: Specific Referral Data
         reason_for_family_separation: Reason for Family Separation
         received_by: Received By
         referral_phone: Referral Phone
@@ -2843,7 +2843,7 @@ en:
       progress_note: Progress Note
       progress_note_types: Types of Note
       provinces: Provinces
-      quantitative_types: Specific Referral Data 
+      quantitative_types: Specific Referral Data
       referral_sources: Referral Sources
       release_logs: Release logs
       settings: Settings
@@ -3330,52 +3330,52 @@ en:
       modification_of: Changelog of
   quantitative_cases:
     create:
-      successfully_created: Quantitative Data has been successfully created.
+      successfully_created: Specific Referral Data Option has been successfully created.
     destroy:
-      successfully_deleted: Quantitative Data has been successfully deleted.
+      successfully_deleted: Specific Referral Data Option has been successfully deleted.
     edit:
-      title: Edit Quantitative Data
+      title: Edit Specific Referral Data Option
     form:
       cancel: Cancel
       quantitative_type: Specific Referral Data
       save: Save
       value: Value
     new:
-      title: Add Quantitative Data
+      title: Add Specific Referral Data Option
     update:
-      successfully_updated: Quantitative Data has been successfully updated.
+      successfully_updated: Specific Referral Data Option has been successfully updated.
     version:
       back: Back
       modification_of: Changelog of
   quantitative_types:
     create:
-      failed_create: Failed to create a quantitative type.
-      successfully_created: Quantitative Type has been successfully created.
+      failed_create: Failed to create a Specific Referral Data.
+      successfully_created: Specific Referral Data has been successfully created.
     destroy:
-      alert: Quantitative Type cannot be deleted.
-      failed_delete: Failed to delete a quantitative type.
-      successfully_deleted: Quantitative Type has been successfully deleted.
+      alert: Specific Referral Data cannot be deleted.
+      failed_delete: Failed to delete a Specific Referral Data.
+      successfully_deleted: Specific Referral Data has been successfully deleted.
     edit:
-      title: Edit Quantitative Type
+      title: Edit Specific Referral Data
     form:
-      add_quantitative_data: Add Quantitative Data
+      add_quantitative_data: Add Specific Referral Data Option
       cancel: Cancel
       name: Name
       quantitative_type: Specific Referral Data
       save: Save
     index:
       add_new_quantitative_type: Add New Specific Referral Data
-      add_quantitative_data: Quantitative Data
+      add_quantitative_data: Specific Referral Data Option
       are_you_sure: Are you sure you want to delete?
       quantitative_types: Specific Referral Data
       view_changelog: View changelog
     quantitative_case_fields:
       are_you_sure: Are you sure you want to delete?
-      quantitative_data: Quantitative Data
+      quantitative_data: Specific Referral Data Option
       value: Value
     update:
-      failed_update: Failed to update a quantitative type.
-      successfully_updated: Quantitative Type has been successfully updated.
+      failed_update: Failed to update a Specific Referral Data.
+      successfully_updated: Specific Referral Data has been successfully updated.
     version:
       back: Back
       modification_of: Changelog of
@@ -3931,7 +3931,7 @@ en:
       roles: Permission Set
       start_date: Start Date
     permissions:
-      assessments: 
+      assessments:
       assessmets: CSI Assessments
       case_notes: Case Notes
       custom_forms: Custom Forms
