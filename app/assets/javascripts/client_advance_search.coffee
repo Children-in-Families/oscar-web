@@ -124,7 +124,7 @@ class CIF.ClientAdvanceSearch
         fieldName = value.id
         keyword   = _.first(fieldName.split('_'))
         if keyword != 'enrollmentdate' and keyword != 'programexitdate'
-          checkField  = self.formatSpecialCharacter(fieldName)
+          checkField  = fieldName
           label       = value.label
           $(customFormColumnPicker).append(self.checkboxElement(checkField, headerClass, label))
           $(".#{headerClass} input.i-checks").iCheck

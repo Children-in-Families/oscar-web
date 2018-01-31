@@ -150,7 +150,7 @@ module ClientGridOptions
     data = params[:data].presence
     column_form_builder.each do |field|
       fields = field[:id].split('_')
-      @client_grid.column(field[:id].downcase.parameterize('_').to_sym, header: form_builder_format_header(fields)) do |client|
+      @client_grid.column(field[:id].to_sym, header: form_builder_format_header(fields)) do |client|
         format_field_value = fields.last.gsub(/\[/, '&#91;').gsub(/\]/, '&#93;')
         if fields.first == 'formbuilder'
           if data == 'recent'
