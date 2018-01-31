@@ -1130,8 +1130,8 @@ my:
       export_to_xls: XLS အျဖစ္ ထုတ္သည္
       load: ဆက္လက္ လုပ္ေဆာင္ေနသည္
       load_save_search: သိမ္းဆည္းထားသည့္ ရွာေဖြမႈမ်ားကို ျပပါ။
-      read_more: ဆက်ဖတ်ရန်
       read_less: ဒီထက်ကိုဖတ်ရှု
+      read_more: ဆက်ဖတ်ရန်
       report_builder: တုိင္းၾကားစာ တည္ေဆာက္သည့္ေနရာ
       reports: အစီရင္ခံစာမ်ား
       results: ရလဒ္မ်ား
@@ -2352,8 +2352,8 @@ my:
       name: နာမည္
       'no': မဟုတ္ပါ
       province: ခ႐ိုင္
-      read_more: ဆက်ဖတ်ရန်
       read_less: ဒီထက်ကိုဖတ်ရှု
+      read_more: ဆက်ဖတ်ရန်
       significant_family_member_count: ႀကီးမားေသာ မိသားစု၀င္အေရအတြက္
       'yes': မွန္ပါသည္
     update:
@@ -3856,8 +3856,8 @@ my:
       case_notes: အမႈ မွတ္စုမ်ား
     clients:
       clients: အမႈသည္မ်ား
-      read_more: ဆက်ဖတ်ရန်
       read_less: ဒီထက်ကိုဖတ်ရှု
+      read_more: ဆက်ဖတ်ရန်
     create:
       successfully_created: အသံုးျပဳသူကို ေအာင္ျမင္စြာ ဖန္တီးၿပီးျဖစ္ပါသည္
     custom_form_permission:
