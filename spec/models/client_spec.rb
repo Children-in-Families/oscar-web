@@ -303,9 +303,10 @@ describe Client, 'methods' do
   context '#next_assessment_date' do
     let!(:client_1){ create(:client, :accepted) }
     let!(:latest_assessment){ create(:assessment, client: client_1) }
-    it 'should be last assessment + 3 months' do
-      expect(client_1.next_assessment_date).to eq((latest_assessment.created_at + 3.months).to_date)
+    it 'should be last assessment + 6 months' do
+      expect(client_1.next_assessment_date).to eq((latest_assessment.created_at + 6.months).to_date)
     end
+
     it 'should be today' do
       expect(other_client.next_assessment_date.start).to eq(Date.today.start)
     end
