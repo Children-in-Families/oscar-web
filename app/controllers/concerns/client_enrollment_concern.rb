@@ -1,6 +1,11 @@
 module ClientEnrollmentConcern
   def client_enrollment_params
-    properties_params.values.map{ |v| v.delete('') if (v.is_a?Array) && v.size > 1 } if properties_params.present?
+    if properties_params.present?
+      properties_params.clone.each do |k,v|
+        properties_params[k.gsub('&', '&amp;')] = properties_params.delete(k)
+      end
+      properties_params.values.map{ |v| v.delete('') if (v.is_a?Array) && v.size > 1 }
+    end
 
     default_params = params.require(:client_enrollment).permit(:enrollment_date).merge!(program_stream_id: params[:program_stream_id])
     default_params = default_params.merge!(properties: properties_params) if properties_params.present?
