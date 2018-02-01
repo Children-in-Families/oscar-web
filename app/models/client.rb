@@ -68,7 +68,7 @@ class Client < ActiveRecord::Base
   validates :exit_date, presence: true, on: :update, if: :exit_ngo?
   validates :exit_note, presence: true, on: :update, if: :exit_ngo?
   validates :kid_id, uniqueness: { case_sensitive: false }, if: 'kid_id.present?'
-  validates :user_ids, presence: true
+  validates :user_ids, :initial_referral_date, presence: true
 
   after_create :set_slug_as_alias
   after_save :create_client_history
