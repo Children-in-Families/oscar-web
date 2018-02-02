@@ -54,3 +54,32 @@
                   = f.input :calendar_integration, as: :radio_buttons, collection: [['Yes', true],['No', false]], label: false
         .ibox-footer
           = f.submit t('.save'), class: 'btn btn-primary form-btn'
+          = link_to "#{resource.otp_module_enabled? ? 'Disable' : 'Enable'} Two Factor", '#two_factor', data: { toggle: :modal }, class: 'btn btn-lg btn-block btn-info'
+
+#two_factor.modal.fade
+  - url = resource.otp_module_enabled? ? disable_multi_factor_authentication_user_path(resource) : enable_multi_factor_authentication_user_path(resource)
+  = simple_form_for :multi_factor_authentication, url: url, html: { class: 'form-inline' }  do |f|
+    .modal-dialog
+      .modal-content
+        .modal-header
+          %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button"} ×
+          %h4.modal-title
+            = resource.otp_module_enabled? ? 'Disable' : 'Enable'
+            Two Factor Authentication
+        .modal-body
+          - unless resource.otp_module_enabled?
+            - qr = RQRCode::QRCode.new(resource.provisioning_uri, level: :h)
+            %table.qr{:align => "center"}
+              - qr.modules.each_index do |x|
+                %tr
+                  - qr.modules.each_index do |y|
+                    - if qr.dark?(x,y)
+                      %td.black
+                    - else
+                      %td.white
+            %hr/
+          .form-group
+            .text-center
+              = f.input_field :otp_code_token, placeholder: 'Verify Token', class: 'form-control input-lg'
+        .modal-footer
+          = f.submit "Update", class: 'btn btn-lg btn-block btn-primary'
