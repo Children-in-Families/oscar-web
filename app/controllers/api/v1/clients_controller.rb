@@ -67,7 +67,7 @@ module Api
                 :birth_province_id, :initial_referral_date, :referral_source_id,
                 :referral_phone, :received_by_id, :followed_up_by_id,
                 :follow_up_date, :school_grade, :school_name, :current_address,
-                :house_number, :street_number, :village, :commune, :district,
+                :house_number, :street_number, :village, :commune, :district_id,
                 :has_been_in_orphanage, :has_been_in_government_care,
                 :relevant_referral_information, :province_id, :donor_id,
                 :state, :rejected_note, :able, :id_poor, :live_with, :accepted_date, :exit_note, :exit_date,
