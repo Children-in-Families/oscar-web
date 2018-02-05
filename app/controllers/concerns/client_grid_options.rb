@@ -36,7 +36,7 @@ module ClientGridOptions
       end
     else
       @client_grid.column(:form_title, header: I18n.t('datagrid.columns.clients.form_title')) do |client|
-        client.custom_fields.pluck(:form_title).uniq.join(', ')
+        client.custom_fields.pluck(:form_title).uniq.join(' | ')
       end
     end
   end
@@ -49,7 +49,7 @@ module ClientGridOptions
       end
     else
       @client_grid.column(:program_streams, header: I18n.t('datagrid.columns.clients.program_streams')) do |client|
-        client.client_enrollments.map{ |c| c.program_stream.name }.uniq.join(', ')
+        client.client_enrollments.map{ |c| c.program_stream.name }.uniq.join(' | ')
       end
     end
   end
