@@ -62,7 +62,7 @@
             = link_to t('.most_recent'), url_for(params.merge({data: 'recent'})), class: 'btn btn-primary', id: 'most-recent'
 
       .ibox-content
-        .clients-table{ data: { 'info-load' => t('.load'), 'info-end' => t('.end') } }
+        .clients-table{ data: { 'info-load': t('.load'), 'info-end': t('.end'), 'read-more': t('.read_more'), 'read-less': t('.read_less') } }
           %table.table.table-bordered.table-striped.table-hover.clients
             %thead
               = datagrid_header(@client_grid)
