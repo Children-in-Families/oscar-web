@@ -30,6 +30,8 @@
         .col-xs-12.col-sm-6.col-md-4= f.input :street_number, label: t('.street_number')
         .col-xs-12.col-sm-6.col-md-4= f.input :house_number, label: t('.house_number')
         .col-xs-12.col-sm-6.col-md-4= f.input :telephone_number, label: t('.telephone_number')
+        .col-xs-12.col-sm-6.col-md-4= f.input :live_with, label: t('.live_with')
+        .col-xs-12.col-sm-6.col-md-4= f.input :id_poor, label: t('.id_poor')
         .col-xs-12.col-sm-6.col-md-4= f.association :users, collection: @users, label: t('.case_worker_or_staff'), include_blank: false, multiple: true
 
         .col-xs-12.col-sm-6.col-md-4= f.input :received_by_id, collection: @users, label: t('.received_by')
@@ -60,10 +62,6 @@
           .i-checks.has-been-in-government-care
             %label= "#{t('.has_been_in_government_care')}?"
             = f.input :has_been_in_government_care, as: :radio_buttons, collection: [['Yes', true],['No', false]], label: false
-        .col-xs-12.col-sm-6.col-md-4
-          = f.input :live_with, label: t('.live_with')
-        .col-xs-12.col-sm-6.col-md-4
-          = f.input :id_poor, label: t('.id_poor')
         - if @client.exit_date_was.present?
           .col-xs-12.col-sm-6.col-md-4.form-group.date.optional{ class: ('has-error' if f.error :exit_date) }
             %label.date.optional.control-label
@@ -222,7 +220,7 @@
               #headingQuantitativeType.panel-heading{:role => "tab"}
                 %h4.panel-title
                   %a{"aria-controls" => "collapseQuantitativeType", "aria-expanded" => "true", "data-parent" => "#accordion-quantitative-type", "data-toggle" => "collapse", :href => "#collapseQuantitativeType", :role => "button"}
-                    Quantitative Type (Client Custom Field)
+                    Specific Referral Data (Client Custom Field)
               #collapseQuantitativeType.panel-collapse.collapse.in{"aria-labelledby" => "headingQuantitativeType", :role => "tabpanel"}
                 .panel-body
                   - QuantitativeType.all.each do |qt|

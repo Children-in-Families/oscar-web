@@ -11,4 +11,11 @@ class CaseWorkerMailer < ApplicationMailer
     return unless @overdue_tasks.present?
     mail(to: @user.email, subject: 'Overdue Tasks')
   end
+
+  def notify_upcoming_csi_weekly(client)
+    @client   = client
+    recievers = client.users.pluck(:email)
+    dev_email = ENV['DEV_EMAIL']
+    mail(to: recievers, subject: 'Upcoming CSI Assessment', bcc: dev_email)
+  end
 end

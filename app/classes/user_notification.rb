@@ -14,6 +14,26 @@ class UserNotification
     @all_count                                       = count
   end
 
+  def upcoming_csi_assessments
+    client_ids = []
+    csi_count = 0
+    @user.clients.all_active_types.each do |client|
+      next if client.assessments.empty?
+      repeat_notifications = client.repeat_notifications_schedule
+
+      if(repeat_notifications.include?(Date.today))
+        client_ids << client.id
+        csi_count += 1
+      end
+    end
+    clients = @user.clients.all_active_types.where(id: client_ids)
+    { csi_count: csi_count, clients: clients }
+  end
+
+  def any_upcoming_csi_assessments?
+    upcoming_csi_assessments[:csi_count] >= 1
+  end
+
   def overdue_tasks_count
     @user.tasks.overdue_incomplete.exclude_exited_ngo_clients.where(client_id: @user.clients.ids).size
   end
@@ -216,6 +236,7 @@ class UserNotification
       count_notification += 1 if any_due_today_assessments?
       count_notification += 1 if any_client_enrollment_tracking_frequency_due_today?
       count_notification += 1 if any_client_enrollment_tracking_frequency_overdue?
+      count_notification += 1 if any_upcoming_csi_assessments?
     end
     count_notification += review_program_streams.size
   end

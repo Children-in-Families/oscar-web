@@ -87,11 +87,15 @@ class ClientGrid
 
   filter(:province_id, :enum, select: :province_with_clients, header: -> { I18n.t('datagrid.columns.clients.current_province') })
 
-  filter(:telephone_number, :string, header: -> { I18n.t('datagrid.columns.clients.telephone_number') }) { |value, scope| scope.telephone_number_like(value) }
-
   def province_with_clients
     Province.has_clients.map { |p| [p.name, p.id] }
   end
+
+  filter(:telephone_number, :string, header: -> { I18n.t('datagrid.columns.clients.telephone_number') }) { |value, scope| scope.telephone_number_like(value) }
+
+  filter(:live_with, :string, header: -> { I18n.t('datagrid.columns.clients.live_with') }) { |value, scope| scope.live_with_like(value) }
+
+  filter(:id_poor, :integer, header: -> { I18n.t('datagrid.columns.clients.id_poor') })
 
   filter(:initial_referral_date, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.initial_referral_date') })
 
@@ -325,10 +329,6 @@ class ClientGrid
     client_by_domain(operation, value, domain_id, scope)
   end
 
-  filter(:live_with, :string, header: -> { I18n.t('datagrid.columns.clients.live_with') }) { |value, scope| scope.live_with_like(value) }
-
-  filter(:id_poor, :integer, header: -> { I18n.t('datagrid.columns.clients.id_poor') })
-
   filter(:program_streams, :enum, multiple: true, select: :program_stream_options, header: -> { I18n.t('datagrid.columns.clients.program_streams') }) do |name, scope|
     program_stream_ids = ProgramStream.name_like(name).ids
     ids = Client.joins(:client_enrollments).where(client_enrollments: { program_stream_id: program_stream_ids } ).pluck(:id).uniq
@@ -462,9 +462,11 @@ class ClientGrid
     object.cases.current.case_type if object.cases.current.present?
   end
 
-  column(:telephone_number, header: -> { I18n.t('datagrid.columns.cases.telephone_number') }, order: false ) do |object|
-    object.telephone_number
-  end
+  column(:telephone_number, header: -> { I18n.t('datagrid.columns.cases.telephone_number') })
+
+  column(:live_with, header: -> { I18n.t('datagrid.columns.clients.live_with') })
+
+  column(:id_poor, header: -> { I18n.t('datagrid.columns.clients.id_poor') })
 
   column(:history_of_disability_and_or_illness, header: -> { I18n.t('datagrid.columns.clients.history_of_disability_and_or_illness') }) do |object|
     object.quantitative_cases.where(quantitative_type_id: QuantitativeType.name_like('History of disability and/or illness').ids).pluck(:value).join(', ')
@@ -483,8 +485,6 @@ class ClientGrid
   end
 
   column(:follow_up_date, header: -> { I18n.t('datagrid.columns.clients.follow_up_date') })
-
-  column(:id_poor, header: -> { I18n.t('datagrid.columns.clients.id_poor') })
 
   column(:program_streams, html: true, order: false, header: -> { I18n.t('datagrid.columns.clients.program_streams') }) do |object|
     render partial: 'clients/client_enrolled_programs', locals: { enrolled_programs: object.client_enrollments }
@@ -506,8 +506,6 @@ class ClientGrid
   # column(:program_exit_date, html: false, header: -> { I18n.t('datagrid.columns.clients.program_exit_date') }) do |object|
   #   object.client_enrollments.inactive.joins(:leave_program).map{|a| a.leave_program.exit_date }.join(' | ')
   # end
-
-  column(:live_with, header: -> { I18n.t('datagrid.columns.clients.live_with') })
 
   column(:received_by, html: true, header: -> { I18n.t('datagrid.columns.clients.received_by') }) do |object|
     render partial: 'clients/users', locals: { object: object.received_by } if object.received_by
@@ -606,7 +604,7 @@ class ClientGrid
   end
 
   column(:case_start_date, order: false, header: -> { I18n.t('datagrid.columns.clients.placements.start_date') }) do |object|
-    object.cases.current.try(:start_date)
+    (object.cases.current || object.cases.last_exited).try(:start_date)
   end
 
   column(:carer_names, order: false, header: -> { I18n.t('datagrid.columns.clients.placements.carer_names') }) do |object|
@@ -711,7 +709,7 @@ class ClientGrid
     dynamic_columns.each do |column_builder|
       fields = column_builder[:id].split('_')
       next if fields.first == 'enrollmentdate' || fields.first == 'programexitdate'
-      column(column_builder[:id].downcase.parameterize('_').to_sym, class: 'form-builder', header: -> { form_builder_format_header(fields) }, html: true) do |object|
+      column(column_builder[:id].to_sym, class: 'form-builder', header: -> { form_builder_format_header(fields) }, html: true) do |object|
         format_field_value = fields.last.gsub(/\[/, '&#91;').gsub(/\]/, '&#93;')
         if fields.first == 'formbuilder'
           if data == 'recent'

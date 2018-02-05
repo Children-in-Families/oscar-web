@@ -410,10 +410,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
           for labelField in labelFields
             text = labelField.textContent
             if fields.includes(text)
-              parent = $(labelField).parent()
-              $(parent).children('div.field-actions').remove()
-              $(parent).on 'dblclick', (e) ->
-                e.stopPropagation()
+              _removeActionFormBuilder(labelField)
 
   _hideActionInTracking = (fields) ->
     trackings = $('#trackings .nested-fields')
@@ -427,10 +424,17 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       $(labelFields).each (index, label) ->
         text = $(label).text()
         if fields[name].includes(text)
-          parent = $(label).parent()
-          $(parent).children('div.field-actions').remove()
-          $(parent).on 'dblclick', (e) ->
-            e.stopPropagation()
+          _removeActionFormBuilder(label)
+
+  _removeActionFormBuilder =(label) ->
+    $('li.paragraph-field.form-field').find('.del-button, .copy-button').remove()
+    parent = $(label).parent()
+    $(parent).find('.del-button, .copy-button').remove()
+    if $(parent).attr('class').includes('checkbox-group-field') || $(parent).attr('class').includes('radio-group-field') || $(parent).attr('class').includes('select-field')
+      $(parent).find('.option-label').attr('disabled', 'true')
+      $(parent).children('.frm-holder').find('.remove.btn').remove()
+    else if $(parent).attr('class').includes('number-field')
+      $(parent).find('.fld-min, .fld-max').attr('readonly', 'true')
 
   _initFrequencyNote = ->
     for nestedField in $('.nested-fields')

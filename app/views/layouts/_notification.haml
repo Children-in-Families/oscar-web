@@ -59,6 +59,16 @@
               .col-xs-11
                 = t('.due_today_assessments_count', count: @notification.due_today_assessments_count)
       %li.divider
+    - if @notification.any_upcoming_csi_assessments?
+      %li
+        %div.align-link
+          = link_to notifications_path(assessment: 'upcoming') do
+            .row
+              .col-xs-1
+                %i.fa.fa-tasks.fa-fw.task-sign
+              .col-xs-11
+                = t('.upcoming_assessments_count', count: @notification.upcoming_csi_assessments[:csi_count])
+      %li.divider
     - if current_user.admin? || current_user.ec_manager?
       - (83..90).each do |day|
         - if @notification.ec_notification(day).count >= 1

@@ -8,7 +8,7 @@
           %span.show-status= status_style(@client.status)
         .client-info
           = @client.slug
-          = @client.gender.titleize
+          = @client.gender.try(:titleize)
       .col-md-6
         %table.table.small.m-b-xs
           %tbody
@@ -83,7 +83,7 @@
               %ul.dropdown-menu
                 - if @client.cases.exclude_referred.current.blank?
                   %li= @client.ec_button
-                  %li= @client.fc_button
+                  -# %li= @client.fc_button
                   %li= @client.kc_button
                   %li.divider
                   %li
@@ -266,6 +266,18 @@
                     = @client.telephone_number
               %tr
                 %td.spacing-first-col
+                  = t('.live_with')
+                %td
+                  %strong
+                    = @client.live_with
+              %tr
+                %td.spacing-first-col
+                  = t('.id_poor')
+                %td
+                  %strong
+                    = @client.id_poor
+              %tr
+                %td.spacing-first-col
                   = t('.time_in_care')
                 %td
                   %strong
@@ -288,18 +300,6 @@
                 %td
                   %strong
                     = @client.referral_phone
-              %tr
-                %td.spacing-first-col
-                  = t('.live_with')
-                %td
-                  %strong
-                    = @client.live_with
-              %tr
-                %td.spacing-first-col
-                  = t('.id_poor')
-                %td
-                  %strong
-                    = @client.id_poor
           .col-sm-12.col-md-6.second-table
             %table.table.table-bordered
               %tr

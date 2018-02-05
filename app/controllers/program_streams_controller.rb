@@ -160,6 +160,7 @@ class ProgramStreamsController < AdminController
 
     column = params[:order]
     sort_by = params[:descending] == 'true' ? 'desc' : 'asc'
+    column == "quantity" ? "#{column}" : "lower(#{column})"
     (order_string = "#{column} #{sort_by}") if column.present?
 
     ProgramStream.ordered_by(order_string)

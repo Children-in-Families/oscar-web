@@ -29,24 +29,35 @@ describe Assessment, 'validations' do
   context 'create?' do
     let!(:other_client){ create(:client) }
     let!(:other_assessment){ create(:assessment, client: other_client) }
-    let!(:valid_assessment){ Assessment.new(client: client) }
+    let!(:valid_assessment){ Assessment.new(client: client, created_at: Time.now - 3.months) }
+    let!(:valid_assessment_1){ Assessment.new(client: client) }
+    let!(:valid_third_assessment){ Assessment.new(client: client) }
     let!(:invalid_assessment){ Assessment.new(client: other_client) }
+
 
     it { expect(valid_assessment).to be_valid }
     it { expect(invalid_assessment).not_to be_valid }
+    it { expect(valid_assessment_1).to be_valid }
 
-    it 'should have message Assessment cannot be created before 6 months' do
+    it 'should NOT have message Assessment cannot be created before 3 months' do
+      valid_assessment_1.save
+      valid_third_assessment.save
+
+      expect(valid_assessment_1.errors.full_messages).to be_empty
+      expect(valid_third_assessment.errors.full_messages).to be_empty
+    end
+
+    it 'should have message Assessment cannot be created before 3 months' do
       invalid_assessment.save
-      expect(invalid_assessment.errors.full_messages).to include('Assessment cannot be created before 6 months')
+      expect(invalid_assessment.errors.full_messages).to include('Assessment cannot be created before 3 months')
     end
 
     it { is_expected.to validate_presence_of(:client) }
-
   end
 end
 
 describe Assessment, 'methods' do
-  let(:last_assessment_date) { Time.now - 6.month - 1.day }
+  let(:last_assessment_date) { Time.now - 3.months - 1.day }
   let!(:client) { create(:client) }
   let!(:assessment) { create(:assessment, created_at: last_assessment_date, client: client) }
   let!(:domain) { create(:domain) }
@@ -125,7 +136,7 @@ describe Assessment, 'callbacks' do
   context 'set previous score' do
     let!(:client) { create(:client) }
     let!(:domain) { create(:domain) }
-    let!(:assessment) { create(:assessment, created_at: Time.now - 6.month - 1.day, client: client) }
+    let!(:assessment) { create(:assessment, created_at: Time.now - 3.months - 1.day, client: client) }
     let!(:assessment_domain) { create(:assessment_domain, assessment: assessment, domain: domain) }
     let!(:last_assessment) { client.assessments.new }
 

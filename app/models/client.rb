@@ -161,10 +161,6 @@ class Client < ActiveRecord::Base
     local_name.present? ? "#{en_name} (#{local_name})" : en_name.present? ? en_name : 'Unknown'
   end
 
-  def self.next_assessment_candidates
-    Assessment.where('client IN (?) AND ', self)
-  end
-
   def next_assessment_date
     return Date.today if assessments.count.zero?
     (assessments.latest_record.created_at + 6.months).to_date
@@ -181,7 +177,8 @@ class Client < ActiveRecord::Base
   end
 
   def can_create_assessment?
-    Date.today >= next_assessment_date
+    return Date.today >= (assessments.latest_record.created_at + 3.months).to_date if assessments.count == 1
+    true
   end
 
   def self.able_managed_by(user)
@@ -338,6 +335,40 @@ class Client < ActiveRecord::Base
   def exiting_ngo?
     return false unless status_changed?
     EXIT_STATUSES.include?(status)
+  end
+
+  def self.notify_upcoming_csi_assessment
+    Organization.all.each do |org|
+      Organization.switch_to org.short_name
+      clients = joins(:assessments).all_active_types
+      clients.each do |client|
+        repeat_notifications = client.repeat_notifications_schedule
+
+        if(repeat_notifications.include?(Date.today))
+          CaseWorkerMailer.notify_upcoming_csi_weekly(client).deliver_now
+        end
+      end
+    end
+  end
+
+  def most_recent_csi_assessment
+    assessments.most_recents.first.created_at.to_date
+  end
+
+  def repeat_notifications_schedule
+    most_recent_csi   = most_recent_csi_assessment
+
+    notification_date = most_recent_csi + 5.months + 15.days
+    next_one_week     = notification_date + 1.week
+    next_two_weeks    = notification_date + 2.weeks
+    next_three_weeks  = notification_date + 3.weeks
+    next_four_weeks   = notification_date + 4.weeks
+    next_five_weeks   = notification_date + 5.weeks
+    next_six_weeks    = notification_date + 6.weeks
+    next_seven_weeks  = notification_date + 7.weeks
+    next_eight_weeks  = notification_date + 8.weeks
+
+    [notification_date, next_one_week, next_two_weeks, next_three_weeks, next_four_weeks, next_five_weeks, next_six_weeks, next_seven_weeks, next_eight_weeks]
   end
 
   private
