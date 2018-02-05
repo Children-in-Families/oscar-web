@@ -5,7 +5,7 @@ describe User, 'associations' do
   it { is_expected.to have_one(:permission).dependent(:destroy) }
 
   it { is_expected.to have_many(:advanced_searches).dependent(:destroy) }
-  it { is_expected.to have_many(:calendars) }
+  it { is_expected.to have_many(:calendars).dependent(:destroy) }
   it { is_expected.to have_many(:visits).dependent(:destroy) }
   it { is_expected.to have_many(:visit_clients).dependent(:destroy) }
   it { is_expected.to have_many(:tasks).dependent(:destroy) }
