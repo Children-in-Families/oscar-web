@@ -158,7 +158,7 @@ module ClientGridOptions
             properties = format_array_value(properties[format_field_value]) if properties.present?
           else
             custom_field_properties = client.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).properties_by(format_field_value)
-            custom_field_properties.map{ |properties| format_properties_value(properties) }.join(' , ')
+            custom_field_properties.map{ |properties| format_properties_value(properties) }.join(' | ')
           end
         elsif fields.first == 'enrollment'
           if data == 'recent'
@@ -166,7 +166,7 @@ module ClientGridOptions
             enrollment_properties = format_array_value(enrollment_properties[format_field_value]) if enrollment_properties.present?
           else
             enrollment_properties = client.client_enrollments.joins(:program_stream).where(program_streams: { name: fields.second }).properties_by(format_field_value)
-            enrollment_properties.map{ |properties| format_properties_value(properties) }.join(' , ')
+            enrollment_properties.map{ |properties| format_properties_value(properties) }.join(' | ')
           end
         elsif fields.first == 'tracking'
           ids = client.client_enrollments.ids
@@ -175,7 +175,7 @@ module ClientGridOptions
             enrollment_tracking_properties = format_array_value(enrollment_tracking_properties[format_field_value]) if enrollment_tracking_properties.present?
           else
             enrollment_tracking_properties = ClientEnrollmentTracking.joins(:tracking).where(trackings: { name: fields.third }, client_enrollment_trackings: { client_enrollment_id: ids }).properties_by(format_field_value)
-            enrollment_tracking_properties.map{ |properties| format_properties_value(properties) }.join(' , ')
+            enrollment_tracking_properties.map{ |properties| format_properties_value(properties) }.join(' | ')
           end
         elsif fields.first == 'exitprogram'
           ids = client.client_enrollments.inactive.ids
@@ -184,7 +184,7 @@ module ClientGridOptions
             leave_program_properties = format_array_value(leave_program_properties[format_field_value]) if leave_program_properties.present?
           else
             leave_program_properties = LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { client_enrollment_id: ids }).properties_by(format_field_value)
-            leave_program_properties.map{ |properties| format_properties_value(properties) }.join(' , ')
+            leave_program_properties.map{ |properties| format_properties_value(properties) }.join(' | ')
           end
         end
       end
