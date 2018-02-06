@@ -7,6 +7,13 @@ body[id='client_advanced_searches-index'] {
   }
 
   .table {
+    td {
+      hyphens: auto;
+      -ms-hyphens: auto;
+      -webkit-hyphens: auto;
+      -moz-hyphens: auto;
+    }
+
     th,
     td.gender, td.status, td.follow_up_date, td.date_of_birth, td.school_grade, td.has_been_in_orphanage, td.has_been_in_government_care,
     td.initial_referral_date, td.referral_phone, td.able, td.birth_province, td.province, td.state, td.case_start_date,
