@@ -2,7 +2,7 @@ module Api
   module V1
     class BaseApiController < ApplicationController
       include DeviseTokenAuth::Concerns::SetUserByToken
-      before_action :authenticate_user_request
+      before_action :authenticate_user!
 
       private
 
@@ -19,12 +19,6 @@ module Api
           @custom_formable = Partner.find(params[:partner_id])
         elsif params[:user_id].present?
           @custom_formable = User.find(params[:user_id])
-        end
-      end
-
-      def authenticate_user_request
-        unless request.headers['access-token'] == ENV['GOV_ACCESS_TOKEN'] && request.headers['gov-domain'] == ENV['GOV_DOMAIN'] && request.headers['client'] == ENV['GOV_CLIENT'] && request.headers['uid'] == ENV['GOV_UID']
-          authenticate_user!
         end
       end
     end
