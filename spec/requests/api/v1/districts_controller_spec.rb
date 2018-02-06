@@ -2,7 +2,7 @@ require 'spec_helper'
 
 RSpec.describe Api::V1::DistrictsController, type: :request do
   let(:user) { create(:user) }
-  let!(:districts) { create_list(:district, 25) }
+  let!(:districts) { create_list(:district, 2) }
 
   describe 'GET #index' do
     context 'when user not loged in' do
@@ -26,7 +26,7 @@ RSpec.describe Api::V1::DistrictsController, type: :request do
       end
 
       it 'should be returns the districts with the correct data' do
-        expect(json['districts'].size).to eq 25
+        expect(json['districts'].size).to eq 2
       end
     end
   end
