@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe Api::V1::DomainGroupsController, type: :request do
+RSpec.describe Api::V1::QuantitativeTypesController, type: :request do
   let(:user) { create(:user) }
   let!(:quantitative_types) { create_list(:quantitative_type, 12) }
 

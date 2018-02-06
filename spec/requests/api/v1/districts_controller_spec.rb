@@ -1,13 +1,13 @@
 require 'spec_helper'
 
-RSpec.describe Api::V1::DomainsController, type: :request do
+RSpec.describe Api::V1::DistrictsController, type: :request do
   let(:user) { create(:user) }
-  let!(:domains) { create_list(:domain, 12) }
+  let!(:districts) { create_list(:district, 25) }
 
   describe 'GET #index' do
     context 'when user not loged in' do
       before do
-        get '/api/v1/domains'
+        get '/api/v1/districts'
       end
 
       it 'should be return status 401' do
@@ -18,15 +18,15 @@ RSpec.describe Api::V1::DomainsController, type: :request do
     context 'when user loged in' do
       before do
         sign_in(user)
-        get '/api/v1/domains', @auth_headers
+        get '/api/v1/districts', @auth_headers
       end
 
       it 'should be return status 200' do
         expect(response).to have_http_status(:success)
       end
 
-      it 'should be returns the domains with the correct data' do
-        expect(json['domains'].size).to eq 12
+      it 'should be returns the districts with the correct data' do
+        expect(json['districts'].size).to eq 25
       end
     end
   end
