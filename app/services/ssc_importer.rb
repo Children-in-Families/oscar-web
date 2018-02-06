@@ -20,12 +20,12 @@ module SscImporter
 
     def clients
       ((workbook.first_row + 1)..workbook.last_row).each do |row|
-        first_name             = workbook.row(row)[headers['First Name']]
-        family_name            = first_name.split(' ')[0]
-        given_name             = first_name.split(' ')[1]
-        local_first_name       = workbook.row(row)[headers['First Name (Local)']]
-        local_family_name      = local_first_name.split(' ')[0]
-        local_given_name       = local_first_name.split(' ')[1]
+        first_name             = workbook.row(row)[headers['First Name']].split(' ')
+        family_name            = first_name.first
+        given_name             = first_name.drop(1).join(' ')
+        local_first_name       = workbook.row(row)[headers['First Name (Local)']].split(' ')
+        local_family_name      = local_first_name.first
+        local_given_name       = local_first_name.last
         gender                 = workbook.row(row)[headers['Gender']]
         gender                 =  case gender
                                   when 'ប' then 'male'
@@ -39,23 +39,8 @@ module SscImporter
         birth_province_id      = Province.where("name ilike ?", "%#{birth_province}%").first.try(:id)
         users_email            = workbook.row(row)[headers['Case Worker ID']].split(',').collect(&:squish)
         user_ids               = User.where(email: users_email).pluck(:id)
-
-        dob             = workbook.row(row)[headers['Date of Birth']].to_s
-        first_regex  = /\A\d{2}\/\d{2}\/\d{2}\z/
-        second_regex = /\A\d{4}\z/
-        ages = ['5', '6', '7', '8', '10', '37', '39']
-
-        if dob =~ first_regex
-          dob  = dob.split('/')
-          year = "20#{dob.last}"
-          dob  = dob.shift(2)
-          dob  = dob.push(year)
-          dob  = dob.join('-')
-        elsif dob =~ second_regex
-          dob = "01-01-#{dob}"
-        elsif ages.include?(dob)
-          dob = dob.to_i.years.ago.to_date
-        end
+        initial_referral_date  = convert_date_format(workbook.row(row)[headers['Initial Referral Date']].to_s)
+        dob                    = convert_date_format(workbook.row(row)[headers['Date of Birth']].to_s)
 
         client = Client.new(
           family_name: family_name,
@@ -69,10 +54,30 @@ module SscImporter
           telephone_number: telephone_number,
           birth_province_id: birth_province_id,
           user_ids: user_ids,
-          date_of_birth: dob
+          date_of_birth: dob,
+          initial_referral_date: initial_referral_date
         )
         client.save
       end
+    end
+
+    def convert_date_format(value)
+      first_regex  = /\A\d{2}\/\d{2}\/\d{2}\z/
+      second_regex = /\A\d{4}\z/
+      ages = ['5', '6', '7', '8', '10', '37', '39']
+
+      if value =~ first_regex
+        value  = value.split('/')
+        year = "20#{value.last}"
+        value  = value.shift(2)
+        value  = value.push(year)
+        value  = value.join('-')
+      elsif value =~ second_regex
+        value = "01-01-#{value}"
+      elsif ages.include?(value)
+        value = value.to_i.years.ago.to_date
+      end
+      value
     end
 
     def users
@@ -81,7 +86,9 @@ module SscImporter
         last_name  = workbook.row(row)[headers['Last Name']]
         email      = workbook.row(row)[headers['Email']]
         role       = workbook.row(row)[headers['Permission Level']].downcase
-        User.create(first_name: first_name, last_name: last_name, email: email, password: '12345678', roles: role)
+        password   = (('a'..'z').to_a + ('A'..'Z').to_a + (0..9).to_a).sample(8).join
+
+        User.create(first_name: first_name, last_name: last_name, email: email, password: password, roles: role)
       end
     end
 
@@ -89,7 +96,7 @@ module SscImporter
       ((workbook.first_row + 1)..workbook.last_row).each do |row|
         name      = workbook.row(row)[headers['Name']]
         code      = workbook.row(row)[headers['Donor ID']]
-        Donor.create(name: name, code: code)
+        Donor.find_or_create_by(name: name, code: code)
       end
     end
   end
