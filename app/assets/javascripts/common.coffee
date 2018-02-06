@@ -16,10 +16,8 @@ CIF.Common =
         elementClass = $(element).attr('class')
         continue if elements.includes(elementClass)
         if $(element).children().length > 0
-          if $(element).find('a, p').length > 0
-            @shortenElement(element, 'a, p', moreText, lessText)
-          else if $(element).find('ul li').length > 4
-            @shortenElement(element, 'ul', moreText, lessText)
+          if $(element).find('a, p, ul li').length > 0
+            @shortenElement(element, 'a, p, ul', moreText, lessText)
         else
           @shortenElement(element, '', moreText, lessText)
 

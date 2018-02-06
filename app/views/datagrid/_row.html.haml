@@ -4,7 +4,8 @@
     - col = datagrid_column_classes(grid, column)
     - if col == 'history_of_disability_and_or_illness' || col == 'history_of_harm' || col ==  'history_of_high_risk_behaviours' || col == 'reason_for_family_separation'
       %td{ class: col }
-        - datagrid_value(grid, column, asset).split(',').each do |qc|
-          %p= qc
+        %ul
+          - datagrid_value(grid, column, asset).split(',').each do |qc|
+            %li= qc
     - else
       %td{ style: ('vertical-align: middle;' if column.header == 'Manage'), class: datagrid_column_classes(grid, column)}= datagrid_value(grid, column, asset)
