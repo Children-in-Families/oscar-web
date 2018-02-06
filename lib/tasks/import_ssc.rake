@@ -1,6 +1,7 @@
 namespace :ssc do
   desc 'Import all SSC clients and related data'
   task import: :environment do
+    # Organization.switch_to 'ssc'
     org = Organization.create_and_build_tanent(short_name: 'ssc', full_name: "Sunshine Cambodia", logo: File.open(Rails.root.join('app/assets/images/ssc.jpg')))
     Organization.switch_to org.short_name
 

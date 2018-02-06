@@ -36,8 +36,8 @@ module SscImporter
         commune                = workbook.row(row)[headers['Current Address']]
         telephone_number       = workbook.row(row)[headers['Telephone']]
         birth_province         = workbook.row(row)[headers['Birth Province']]
-        birth_province_id      = Province.where("name ilike ?", "'%#{birth_province}%'").first.try(:id)
-        users_email            = workbook.row(row)[headers['Case Worker ID']].split('&')
+        birth_province_id      = Province.where("name ilike ?", "%#{birth_province}%").first.try(:id)
+        users_email            = workbook.row(row)[headers['Case Worker ID']].split(',').collect(&:squish)
         user_ids               = User.where(email: users_email).pluck(:id)
 
         dob             = workbook.row(row)[headers['Date of Birth']].to_s
@@ -65,7 +65,7 @@ module SscImporter
           gender: gender,
           school_name: school_name,
           school_grade: school_grade,
-          commune: current_address,
+          commune: commune,
           telephone_number: telephone_number,
           birth_province_id: birth_province_id,
           user_ids: user_ids,
