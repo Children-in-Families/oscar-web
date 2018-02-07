@@ -40,7 +40,7 @@ module SscImporter
         users_email            = workbook.row(row)[headers['Case Worker ID']].split(',').collect(&:squish)
         user_ids               = User.where(email: users_email).pluck(:id)
         initial_referral_date  = workbook.row(row)[headers['Initial Referral Date']].to_s
-        dob                    = convert_age_to_date(workbook.row(row)[headers['Date of Birth']].to_s)
+        dob                    = format_date_of_birth(workbook.row(row)[headers['Date of Birth']].to_s)
 
         client = Client.new(
           family_name: family_name,
@@ -61,7 +61,7 @@ module SscImporter
       end
     end
 
-    def convert_age_to_date(value)
+    def format_date_of_birth(value)
       first_regex  = /\A\d{2}\/\d{2}\/\d{2}\z/
       second_regex = /\A\d{4}\z/
       ages = ['5', '6', '7', '8', '10', '37', '39']
