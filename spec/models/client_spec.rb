@@ -39,6 +39,7 @@ describe Client, 'callbacks' do
   before do
     ClientHistory.destroy_all
   end
+
   context 'set slug as alias' do
     let!(:client){ create(:client) }
     it { expect(client.slug).to eq("#{Organization.current.short_name}-#{client.id}") }
@@ -60,6 +61,19 @@ describe Client, 'callbacks' do
       expect(ClientHistory.where('object.id' => agency_client.id).last.object['agency_ids']).to eq(agencies.map(&:id))
       expect(ClientHistory.where('object.id' => agency_client.id).first.agency_client_histories.count).to eq(2)
       expect(ClientHistory.where('object.id' => agency_client.id).last.agency_client_histories.count).to eq(2)
+    end
+  end
+
+  context 'disconnect client user relation' do
+    let!(:admin) { create(:user, :admin) }
+    let!(:user) { create(:user, :case_worker) }
+    let!(:client) { create(:client, user_ids: [user.id], initial_referral_date: Date.today) }
+
+    context 'client exit ngo' do
+      it 'should not have relation with case worker' do
+        client.update(status: 'Exited Other', exit_date: Date.today, exit_note: 'testing')g
+        expect(client.user_ids).to eq([])
+      end
     end
   end
 end
