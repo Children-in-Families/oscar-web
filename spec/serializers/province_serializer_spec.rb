@@ -23,4 +23,9 @@ describe ProvinceSerializer, type: :serializer do
     expect(serializer).to have_json_path('province/description')
     expect(serializer).to have_json_type(String).at_path('province/description')
   end
+
+  it 'should be have attribute districts' do
+    expect(serializer).to have_json_path('province/districts')
+    expect(serializer).to have_json_type(Array).at_path('province/districts')
+  end
 end
