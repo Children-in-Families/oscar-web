@@ -39,8 +39,8 @@ module SscImporter
         birth_province_id      = Province.where("name ilike ?", "%#{birth_province}%").first.try(:id)
         users_email            = workbook.row(row)[headers['Case Worker ID']].split(',').collect(&:squish)
         user_ids               = User.where(email: users_email).pluck(:id)
-        initial_referral_date  = convert_date_format(workbook.row(row)[headers['Initial Referral Date']].to_s)
-        dob                    = convert_date_format(workbook.row(row)[headers['Date of Birth']].to_s)
+        initial_referral_date  = workbook.row(row)[headers['Initial Referral Date']].to_s
+        dob                    = convert_age_to_date(workbook.row(row)[headers['Date of Birth']].to_s)
 
         client = Client.new(
           family_name: family_name,
@@ -61,7 +61,7 @@ module SscImporter
       end
     end
 
-    def convert_date_format(value)
+    def convert_age_to_date(value)
       first_regex  = /\A\d{2}\/\d{2}\/\d{2}\z/
       second_regex = /\A\d{4}\z/
       ages = ['5', '6', '7', '8', '10', '37', '39']
