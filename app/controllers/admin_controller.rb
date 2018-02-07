@@ -7,7 +7,7 @@ class AdminController < ApplicationController
   protected
 
   def remove_remember_me
-    if user_signed_in? && current_user.current_sign_in_at <= 1.week.ago
+    if user_signed_in? && current_user.last_sign_in_at < 1.week.ago
       current_user.forget_me!
       sign_out current_user
     end
