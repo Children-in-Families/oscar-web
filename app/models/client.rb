@@ -68,11 +68,12 @@ class Client < ActiveRecord::Base
   validates :exit_date, presence: true, on: :update, if: :exit_ngo?
   validates :exit_note, presence: true, on: :update, if: :exit_ngo?
   validates :kid_id, uniqueness: { case_sensitive: false }, if: 'kid_id.present?'
-  validates :user_ids, :initial_referral_date, presence: true
+  validates :initial_referral_date, presence: true
 
   after_create :set_slug_as_alias
   after_save :create_client_history
   after_update :notify_managers, if: :exiting_ngo?
+  after_update :disconnect_client_user_relation, if: :exiting_ngo?
 
   scope :live_with_like,              ->(value) { where('clients.live_with iLIKE ?', "%#{value}%") }
   scope :given_name_like,             ->(value) { where('clients.given_name iLIKE :value OR clients.local_given_name iLIKE :value', { value: "%#{value}%"}) }
@@ -379,5 +380,9 @@ class Client < ActiveRecord::Base
 
   def notify_managers
     ClientMailer.exited_notification(self, User.managers.pluck(:email)).deliver_now
+  end
+
+  def disconnect_client_user_relation
+    self.update(user_ids: [])
   end
 end
