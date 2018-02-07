@@ -26,7 +26,7 @@ class User < ActiveRecord::Base
   has_many :case_worker_clients, dependent: :restrict_with_error
   has_many :clients, through: :case_worker_clients
   has_many :tasks, dependent: :destroy
-  has_many :calendars
+  has_many :calendars, dependent: :destroy
   has_many :visits,  dependent: :destroy
   has_many :visit_clients,  dependent: :destroy
   has_many :custom_field_properties, as: :custom_formable, dependent: :destroy

@@ -21,7 +21,7 @@ describe AdvancedSearches::QuantitativeCaseFields, 'Method' do
     end
 
     it 'return field with optGroup' do
-      expect(@fields[:optgroup]).to include 'Quantitative Type'
+      expect(@fields[:optgroup]).to include 'Specific Referral Data'
     end
 
     it 'return field with label' do

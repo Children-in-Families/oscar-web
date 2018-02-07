@@ -173,11 +173,11 @@ module ClientsHelper
   end
 
   def format_array_value(value)
-    value.is_a?(Array) ? value.reject(&:empty?).to_sentence : value
+    value.is_a?(Array) ? value.reject(&:empty?).join(' , ') : value
   end
 
   def format_properties_value(value)
-    value.is_a?(Array) ? value.delete_if(&:empty?).join(', ') : value
+    value.is_a?(Array) ? value.delete_if(&:empty?).join(' , ') : value
   end
 
   def field_not_blank?(value)

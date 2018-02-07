@@ -36,12 +36,15 @@
 
         .col-xs-12.col-sm-6.col-md-4= f.input :received_by_id, collection: @users, label: t('.received_by')
         .col-xs-12.col-sm-6.col-md-4= f.input :followed_up_by_id, collection: @users, label: t('.followed_up_by')
-        .col-xs-12.col-sm-6.col-md-4.form-group.date.optional.client_initial_referral_date
-          %label.date.optional.control-label{ for: 'client_initial_referral_date' }= t('.initial_referral_date')
+        .col-xs-12.col-sm-6.col-md-4.form-group.date.optional.client_initial_referral_date{ class: ('has-error' if f.error :initial_referral_date) }
+          %label.date.optional.control-label{ for: 'client_initial_referral_date' }
+            %abbr{ title: 'required' } *
+            = t('.initial_referral_date')
           .input-group.date
             = f.text_field :initial_referral_date, class: 'date optional form-control date-picker', type: 'text', name: 'client[initial_referral_date]', id: 'client_initial_referral_date'
             %span.input-group-addon
               %i.fa.fa-calendar-check-o
+          = f.error :initial_referral_date
 
         .col-xs-12.col-sm-6.col-md-4= f.association :agencies, collection: @agencies, multiple: true, label_method: :name, value_method: :id, label: t('.agencies_involved')
         .col-xs-12.col-sm-6.col-md-4= f.association :referral_source, collection: @referral_source, label: t('.referral_source')
@@ -220,7 +223,7 @@
               #headingQuantitativeType.panel-heading{:role => "tab"}
                 %h4.panel-title
                   %a{"aria-controls" => "collapseQuantitativeType", "aria-expanded" => "true", "data-parent" => "#accordion-quantitative-type", "data-toggle" => "collapse", :href => "#collapseQuantitativeType", :role => "button"}
-                    Quantitative Type (Client Custom Field)
+                    Specific Referral Data (Client Custom Field)
               #collapseQuantitativeType.panel-collapse.collapse.in{"aria-labelledby" => "headingQuantitativeType", :role => "tabpanel"}
                 .panel-body
                   - QuantitativeType.all.each do |qt|

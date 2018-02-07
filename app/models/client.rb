@@ -68,7 +68,7 @@ class Client < ActiveRecord::Base
   validates :exit_date, presence: true, on: :update, if: :exit_ngo?
   validates :exit_note, presence: true, on: :update, if: :exit_ngo?
   validates :kid_id, uniqueness: { case_sensitive: false }, if: 'kid_id.present?'
-  validates :user_ids, presence: true
+  validates :user_ids, :initial_referral_date, presence: true
 
   after_create :set_slug_as_alias
   after_save :create_client_history
@@ -162,17 +162,8 @@ class Client < ActiveRecord::Base
   end
 
   def next_assessment_date
-    if assessments.count == 1
-      last_assessment_date = assessments.latest_record.created_at
-      next_three_months_assessment = last_assessment_date + 3.months
-      if Date.today.between?(last_assessment_date.to_date, next_three_months_assessment.to_date)
-        next_three_months_assessment.to_date
-      elsif Date.today >= next_three_months_assessment.to_date
-        Date.today
-      end
-    else
-      Date.today
-    end
+    return Date.today if assessments.count.zero?
+    (assessments.latest_record.created_at + 6.months).to_date
   end
 
   def next_appointment_date
@@ -186,7 +177,8 @@ class Client < ActiveRecord::Base
   end
 
   def can_create_assessment?
-    Date.today >= next_assessment_date
+    return Date.today >= (assessments.latest_record.created_at + 3.months).to_date if assessments.count == 1
+    true
   end
 
   def self.able_managed_by(user)
