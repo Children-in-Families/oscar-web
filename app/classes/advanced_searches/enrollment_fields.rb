@@ -26,7 +26,7 @@ module AdvancedSearches
       results.sort_by { |f| f[:label].downcase }
 
       @enrollment_data_list.map{ |item|results.unshift AdvancedSearches::FilterTypes.date_picker_options(item, format_label(item), format_optgroup(item)) }
-      
+
       results
     end
 
@@ -36,6 +36,7 @@ module AdvancedSearches
       program_streams.each do |program_stream|
         @enrollment_data_list << "enrollmentdate_#{program_stream.name}_Enrollment Date"
         program_stream.enrollment.each do |json_field|
+          json_field['label'] = json_field['label'].gsub('&amp;', '&')
           if json_field['type'] == 'text' || json_field['type'] == 'textarea'
             @text_type_list << "enrollment_#{program_stream.name}_#{json_field['label']}"
           elsif json_field['type'] == 'number'
