@@ -72,7 +72,8 @@ class Client < ActiveRecord::Base
 
   after_create :set_slug_as_alias
   after_save :create_client_history
-  after_update :notify_managers, :disconnect_client_user_relation, if: :exiting_ngo?
+  after_update :notify_managers, if: :exiting_ngo?
+  before_update :disconnect_client_user_relation, if: :exiting_ngo?
 
   scope :live_with_like,              ->(value) { where('clients.live_with iLIKE ?', "%#{value}%") }
   scope :given_name_like,             ->(value) { where('clients.given_name iLIKE :value OR clients.local_given_name iLIKE :value', { value: "%#{value}%"}) }
