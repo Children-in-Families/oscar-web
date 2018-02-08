@@ -54,7 +54,9 @@
                   = f.input :calendar_integration, as: :radio_buttons, collection: [['Yes', true],['No', false]], label: false
         .ibox-footer
           = f.submit t('.save'), class: 'btn btn-primary form-btn'
-          = link_to "#{resource.otp_module_enabled? ? 'Disable' : 'Enable'} Two Factor", '#two_factor', data: { toggle: :modal }, class: 'btn btn-lg btn-block btn-info'
+          - link_text = resource.otp_module_enabled? ? t('.disable_two_factor_authentication') : t('.enable_two_factor_authentication')
+          - btn_color_class = resource.otp_module_enabled? ? 'btn-danger' : 'btn-info'
+          = link_to link_text, '#two_factor', data: { toggle: :modal }, class: "btn form-btn #{btn_color_class}"
 
 #two_factor.modal.fade
   - url = resource.otp_module_enabled? ? disable_multi_factor_authentication_user_path(resource) : enable_multi_factor_authentication_user_path(resource)
@@ -64,8 +66,7 @@
         .modal-header
           %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button"} ×
           %h4.modal-title
-            = resource.otp_module_enabled? ? 'Disable' : 'Enable'
-            Two Factor Authentication
+            = resource.otp_module_enabled? ? t('.disable_two_factor_authentication') : t('.enable_two_factor_authentication')
         .modal-body
           - unless resource.otp_module_enabled?
             - qr = RQRCode::QRCode.new(resource.provisioning_uri, level: :h)
@@ -80,6 +81,8 @@
             %hr/
           .form-group
             .text-center
-              = f.input_field :otp_code_token, placeholder: 'Verify Token', class: 'form-control input-lg'
+              = f.input_field :otp_code_token, placeholder: t('.verification_code'), class: 'form-control input-lg'
         .modal-footer
-          = f.submit "Update", class: 'btn btn-lg btn-block btn-primary'
+          - btn_text = resource.otp_module_enabled? ? t('.disable') : t('.enable')
+          - btn_color_class = resource.otp_module_enabled? ? 'btn-danger' : 'btn-info'
+          %button{ class: "btn btn-block #{btn_color_class}", type: 'submit', data: { disable_with: btn_text } }= btn_text

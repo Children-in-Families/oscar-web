@@ -39,11 +39,11 @@ class SessionsController < Devise::SessionsController
           super
         else
           sign_out
-          redirect_to url_for, alert: 'Bad Credentials Supplied.'
+          redirect_to url_for, alert: t('.bad_credentials_supplied')
         end
       else
         sign_out
-        redirect_to url_for, alert: 'Your account needs to supply a token.'
+        redirect_to url_for, alert: t('.your_account_needs_to_supply_a_verification_code')
       end
     end
   end
