@@ -41,7 +41,7 @@
 //= require wrapbootstrap/inspinia.js
 //= require slimscroll/jquery.slimscroll.min.js
 //= require toastr/toastr.min.js
-//= require jquery.shorten.min.js
+//= require jquery.showmore.min.js
 
 //LOAD MODULE
 //= require namespace
@@ -102,3 +102,4 @@
 //= require client_enrollment_trackings/form
 //= require organizations/index
 //= require prevent_required_file_uploader
+

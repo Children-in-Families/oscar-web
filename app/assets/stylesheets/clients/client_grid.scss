@@ -7,11 +7,29 @@ body[id='client_advanced_searches-index'] {
   }
 
   .table {
-    td {
-      hyphens: auto;
-      -ms-hyphens: auto;
-      -webkit-hyphens: auto;
-      -moz-hyphens: auto;
+    tbody.page {
+      tr {
+        td {
+          line-height:18px;
+          -ms-hyphens: auto;
+          -webkit-hyphens: auto;
+          -moz-hyphens: auto;
+          hyphens: auto;
+          .showmore_content {
+            position:relative;
+            overflow:hidden;
+          }
+          .showmore_trigger {
+            width:100%;
+            height:45px;
+            line-height:45px;
+            cursor:pointer;
+          }
+          .showmore_trigger span {
+            display:block;
+          }
+        }
+      }
     }
 
     th,

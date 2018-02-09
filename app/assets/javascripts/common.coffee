@@ -11,27 +11,12 @@ CIF.Common =
     if $('.clients-table').is(':visible')
       moreText = $('.clients-table').attr('data-read-more')
       lessText = $('.clients-table').attr('data-read-less')
-      elements = ['status', 'form_title', 'all_csi_assessments', 'manage text-center']
-      for element in $('.clients-table td')
-        elementClass = $(element).attr('class')
-        continue if elements.includes(elementClass)
-        if $(element).children().length > 0
-          if $(element).find('a, p, ul li').length > 0
-            @shortenElement(element, 'a, p, ul', moreText, lessText)
-        else
-          @shortenElement(element, '', moreText, lessText)
-
-  shortenElement: (element, child, moreText, lessText) ->
-    if child == ''
-      $(element).shorten
-        showChars: 100
-        moreText: moreText
-        lessText: lessText
-    else
-      $(element).find(child).shorten
-        showChars: 100
-        moreText: moreText
-        lessText: lessText
+      $('.td-content').showMore
+        speedDown: 300
+        speedUp: 300
+        height: '50px'
+        showText: "<a>#{moreText}</a>"
+        hideText: "<a>#{lessText}</a>"
 
   customCheckBox: ->
     $('.i-check-red').iCheck
