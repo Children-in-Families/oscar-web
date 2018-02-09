@@ -667,7 +667,7 @@ my:
       case_statistic: အမႈျခင္းရာ ကိန္းဂဏန္း
       client_amount: အမႈသည္ပမာဏ
     dashboard:
-      due_today_assessments_count: 
+      due_today_assessments_count:
       emergency_cares_html: အေရးေပၚ <br/> ေစာင့္ေရွာက္မႈမ်ား
       female_emergency_cares: အမ်ိဳးသမီးမ်ား <br/> EC
       female_foster_cares: အမ်ိဳးသမီးမ်ား <br/> FC
@@ -2856,7 +2856,7 @@ my:
       custom_fields: ပံုစံထုတ္စက္
       dashboards: ဒက္ရွ္ဘုတ္မ်ား
       departments: ဌာနမ်ား
-      districts:
+      districts: နယ်
       domain_groups: ဒိုမိန္း အုပ္စုမ်ား
       domains: ဒိုမိန္းမ်ား
       donors: အလွဴရွင္မ်ား
