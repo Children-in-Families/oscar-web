@@ -7,6 +7,13 @@ body[id='client_advanced_searches-index'] {
   }
 
   .table {
+    td {
+      hyphens: auto;
+      -ms-hyphens: auto;
+      -webkit-hyphens: auto;
+      -moz-hyphens: auto;
+    }
+
     th,
     td.gender, td.status, td.follow_up_date, td.date_of_birth, td.school_grade, td.has_been_in_orphanage, td.has_been_in_government_care,
     td.initial_referral_date, td.referral_phone, td.able, td.birth_province, td.province, td.state, td.case_start_date,
@@ -44,7 +51,7 @@ body[id='client_advanced_searches-index'] {
 
     th.name, th.status, th.family, th.partner, th.manage, th.cases, th.form_title, th.family_id,
     th.initial_referral_date, th.carer_phone_number, th.family_preservation, th.current_address, th.accepted_date, th.exit_date,
-    th.program_streams, th.program_enrollment_date, th.program_exit_date {
+    th.program_streams, th.program_enrollment_date, th.program_exit_date, th.telephone_number {
       min-width: 200px;
     }
 

@@ -4,7 +4,8 @@
     %ul
       %li= recent_record
 - else
-  - all_programs = enrolled_programs.map{ |c| c.program_stream.name }.uniq.join(', ')
-  - if all_programs.present?
+  - all_programs = enrolled_programs.map{ |c| c.program_stream.name }.uniq
+  - if all_programs.any?
     %ul
-      %li= all_programs
+      - all_programs.each do |program_name|
+        %li= program_name

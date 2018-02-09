@@ -5,7 +5,7 @@
         %h5= @results
         %span.label.label-info= t('.results')
       .ibox-content
-        .clients-table
+        .clients-table{ data: { 'read-more': t('.read_more'), 'read-less': t('.read_less') } }
           = datagrid_table @client_grid, html: { class: 'table table-bordered table-striped table-hover clients'}
       .ibox-footer.text-center
         = paginate @client_grid.assets
