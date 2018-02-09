@@ -84,7 +84,7 @@
                 - if @client.cases.exclude_referred.current.blank?
                   %li= @client.ec_button
                   -# %li= @client.fc_button
-                  %li= @client.kc_button
+                  -# %li= @client.kc_button
                   %li.divider
                   %li
                     - if @client.client_enrollments.active.count > 0
