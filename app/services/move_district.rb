@@ -19,12 +19,12 @@ class MoveDistrict
       Organization.where.not(short_name: ['spo', 'cps', 'kmo']).each do |org|
         Organization.switch_to org.short_name
         ((workbook.first_row + 1)..workbook.last_row).each do |row|
-          name          = workbook.row(row)[headers['NAME2']].squish
-          name_en       = workbook.row(row)[headers['NAME_ENG2']].squish
-          province_name = workbook.row(row)[headers['NAME1']].squish
-          province   = Province.find_by('name ilike ?', "%#{province_name}%")
+          name          = workbook.row(row)[headers['District Name']].squish
+          name_en       = workbook.row(row)[headers['District Name EN']].squish
+          province_name = workbook.row(row)[headers['Province Name']].squish
+          province   = Province.find_by('name iLIKE ?', "%#{province_name}%")
           full_name = "#{name} / #{name_en}"
-          District.create(
+          District.find_or_create_by(
             name: full_name,
             province: province
           )
@@ -97,10 +97,10 @@ class MoveDistrict
           else
             name = client.archive_district
           end
-          district = District.find_by('districts.name iLIKE ? AND districts.province_id = ?', "%#{name}%", client.province.id) if client.province.present?
+          district = District.find_by('districts.name iLIKE ? AND districts.province_id = ?', "%#{name}%", client.province_id) if client.province.present?
           if district.nil?
-            unprocessable_clints = "#{org.short_name} #{client.id}"
-            system "echo #{unprocessable_clints} >> error.txt"
+            unprocessable_clients = "#{org.short_name} #{client.id}"
+            system "echo #{unprocessable_clients} >> error_district_clients.txt"
           end
           client.update_columns(district_id: district.id) if district.present?
         end
