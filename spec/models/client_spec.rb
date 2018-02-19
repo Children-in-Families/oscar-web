@@ -623,7 +623,7 @@ describe Client, 'scopes' do
   context 'birth province is' do
     let!(:birth_province){ [province.name, province.id] }
     let!(:birth_province_is){ Client.birth_province_is }
-    xit 'should return birth province name and id' do
+    it 'should return birth province name and id' do
       expect(birth_province_is).to include(birth_province)
     end
   end
