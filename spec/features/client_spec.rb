@@ -111,10 +111,12 @@ describe 'Client' do
     end
     scenario 'valid', js: true do
       fill_in 'Given Name', with: 'Kema'
+      fill_in 'Initial Referral Date', with: '2018-02-19'
       find(".client_users select option[value='#{user.id}']", visible: false).select_option
       click_button 'Save'
       wait_for_ajax
       expect(page).to have_content('Kema')
+      expect(page).to have_content('February 19, 2018')
     end
 
     scenario 'invalid as missing case workers', js: true do
