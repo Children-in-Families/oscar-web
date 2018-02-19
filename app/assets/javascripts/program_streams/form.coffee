@@ -408,7 +408,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
           fields = response.program_streams
           labelFields = $(elementId).find('label.field-label')
           for labelField in labelFields
-            text = labelField.textContent
+            text = labelField.textContent.replace('&', '&amp;')
             if fields.includes(text)
               _removeActionFormBuilder(labelField)
 
@@ -422,7 +422,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       if fields[name].length <= labelFields.length
         $(tracking).find('.ibox-footer .remove_fields').remove()
       $(labelFields).each (index, label) ->
-        text = $(label).text()
+        text = label.textContent.replace('&', '&amp;')
         if fields[name].includes(text)
           _removeActionFormBuilder(label)
 

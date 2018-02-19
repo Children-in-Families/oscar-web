@@ -153,7 +153,7 @@ CIF.Custom_fieldsNew = CIF.Custom_fieldsCreate = CIF.Custom_fieldsEdit = CIF.Cus
     labelFields = $('label.field-label')
     for labelField in labelFields
       parent = $(labelField).parent()
-      text = labelField.textContent
+      text = labelField.textContent.replace('&', '&amp;')
       if fields.includes(text)
         $(parent).children('div.field-actions').remove()
         $(parent).on 'dblclick', (e) ->
