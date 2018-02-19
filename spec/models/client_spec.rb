@@ -71,7 +71,7 @@ describe Client, 'callbacks' do
 
     context 'client exit ngo' do
       it 'should not have relation with case worker' do
-        client.update(status: 'Exited Other', exit_date: Date.today, exit_note: 'testing')g
+        client.update(status: 'Exited Other', exit_date: Date.today, exit_note: 'testing')
         expect(client.user_ids).to eq([])
       end
     end

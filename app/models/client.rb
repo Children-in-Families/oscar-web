@@ -65,10 +65,11 @@ class Client < ActiveRecord::Base
   has_paper_trail
 
   validates :rejected_note, presence: true, on: :update, if: :reject?
-  validates :exit_date, presence: true, on: :update, if: :exit_ngo?
-  validates :exit_note, presence: true, on: :update, if: :exit_ngo?
+  validates :exit_date, presence: true, on: :update, if: :exiting_ngo?
+  validates :exit_note, presence: true, on: :update, if: :exiting_ngo?
   validates :kid_id, uniqueness: { case_sensitive: false }, if: 'kid_id.present?'
-  validates :user_ids, :initial_referral_date, presence: true
+  validates :initial_referral_date, presence: true
+  validates :user_ids, presence: true, if: :exiting_ngo?
 
   after_create :set_slug_as_alias
   after_save :create_client_history
@@ -137,10 +138,6 @@ class Client < ActiveRecord::Base
 
   def reject?
     state_changed? && state == 'rejected'
-  end
-
-  def exit_ngo?
-    EXIT_STATUSES.include?(status)
   end
 
   def self.age_between(min_age, max_age)
