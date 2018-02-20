@@ -16,13 +16,13 @@ module AdvancedSearches
 
       case @operator
       when 'equal'
-        if @input_type == 'text'
+        if @input_type == 'text' && @field.exclude?('&')
           properties_result = leave_programs.where("lower(leave_programs.properties ->> '#{@field}') = '#{@value}' ")
         else
           properties_result = leave_programs.where("leave_programs.properties -> '#{@field}' ? '#{@value}' ")
         end
       when 'not_equal'
-        if @input_type == 'text'
+        if @input_type == 'text' && @field.exclude?('&')
           properties_result = leave_programs.where.not("lower(leave_programs.properties ->> '#{@field}') = '#{@value}' ")
         else
           properties_result = leave_programs.where.not("leave_programs.properties -> '#{@field}' ? '#{@value}'")
