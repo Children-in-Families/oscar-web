@@ -95,7 +95,7 @@ describe Client, 'methods' do
   let!(:ec_case){ create(:case, client: client_a, case_type: 'EC') }
   let!(:fc_case){ create(:case, client: client_b, case_type: 'FC') }
   let!(:kc_case){ create(:case, client: client_c, case_type: 'KC') }
-  let!(:exited_client){ create(:client, status: Client::EXIT_STATUSES.first) }
+  let!(:exiting_client){ create(:client, status: Client::CLIENT_STATUSES.second) }
 
   context '#most_recent_csi_assessment' do
     it { expect(client.most_recent_csi_assessment).to eq(assessment.created_at.to_date) }
@@ -218,9 +218,17 @@ describe Client, 'methods' do
     end
   end
 
-  context 'exit_ngo?' do
-    it { expect(exited_client.exit_ngo?).to be_truthy }
-    it { expect(client.exit_ngo?).to be_falsey }
+  context 'exiting_ngo?' do
+    context 'client has/has not exited the ngo' do
+      it { expect(exiting_client.exiting_ngo?).to be_falsey }
+    end
+
+    context 'client is exiting the ngo' do
+      it 'should return true' do
+        exiting_client.update(status: Client::EXIT_STATUSES.first)
+        expect(exiting_client.exiting_ngo?).to be_truthy
+      end
+    end
   end
 
   context 'active_ec?' do
