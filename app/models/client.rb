@@ -68,8 +68,11 @@ class Client < ActiveRecord::Base
   validates :exit_date, presence: true, on: :update, if: :exit_ngo?
   validates :exit_note, presence: true, on: :update, if: :exit_ngo?
   validates :kid_id, uniqueness: { case_sensitive: false }, if: 'kid_id.present?'
-  validates :user_ids, :initial_referral_date, presence: true
+  validates :initial_referral_date, presence: true
+  validates :user_ids, presence: true, on: :create
+  validates :user_ids, presence: true, on: :update, unless: :exit_ngo?
 
+  before_update :disconnect_client_user_relation, if: :exiting_ngo?
   after_create :set_slug_as_alias
   after_save :create_client_history
   after_update :notify_managers, if: :exiting_ngo?
@@ -380,5 +383,9 @@ class Client < ActiveRecord::Base
 
   def notify_managers
     ClientMailer.exited_notification(self, User.managers.pluck(:email)).deliver_now
+  end
+
+  def disconnect_client_user_relation
+    self.user_ids = []
   end
 end
