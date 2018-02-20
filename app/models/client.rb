@@ -69,7 +69,9 @@ class Client < ActiveRecord::Base
   validates :exit_note, presence: true, on: :update, if: :exiting_ngo?
   validates :kid_id, uniqueness: { case_sensitive: false }, if: 'kid_id.present?'
   validates :initial_referral_date, presence: true
-  validates :user_ids, presence: true, if: :exiting_ngo?
+  validates :user_ids, presence: true, on: :create
+
+  validate :validate_user_ids, on: :update
 
   after_create :set_slug_as_alias
   after_save :create_client_history
@@ -370,6 +372,12 @@ class Client < ActiveRecord::Base
   end
 
   private
+
+  def validate_user_ids
+    unless EXIT_STATUSES.include?(status)
+      self.errors.add(:user_ids, "Can't be Blank") if self.user_ids.empty?
+    end
+  end
 
   def create_client_history
     ClientHistory.initial(self)
