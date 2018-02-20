@@ -11,15 +11,13 @@ class KcImport
     @clients.each do |client|
       client.cases.kinships.order(:created_at).each do |kinship|
         client_enrollment = client.client_enrollments.new(program_stream: @program_stream, enrollment_date: kinship.start_date)
-        if client_enrollment.valid?
-          client_enrollment.save(validate: false)
-          if (kinship.support_amount.present? && kinship.support_amount > 0) || kinship.support_note.present?
-            client_enrollment_tracking = client_enrollment.client_enrollment_trackings.new(tracking: @tracking)
-            client_enrollment_tracking.properties['Date of Support Start'] = kinship.start_date.to_s
-            client_enrollment_tracking.properties['Total Support Amount'] = kinship.support_amount.to_f.to_s
-            client_enrollment_tracking.properties['Support Note'] = kinship.support_note
-            client_enrollment_tracking.save if client_enrollment_tracking.valid?
-          end
+        client_enrollment.save(validate: false)
+        if (kinship.support_amount.present? && kinship.support_amount > 0) || kinship.support_note.present?
+          client_enrollment_tracking = client_enrollment.client_enrollment_trackings.new(tracking: @tracking)
+          client_enrollment_tracking.properties['Date of Support Start'] = kinship.start_date.to_s
+          client_enrollment_tracking.properties['Total Support Amount'] = kinship.support_amount.to_f.to_s
+          client_enrollment_tracking.properties['Support Note'] = kinship.support_note
+          client_enrollment_tracking.save(validate: false)
         end
 
         if kinship.exited?

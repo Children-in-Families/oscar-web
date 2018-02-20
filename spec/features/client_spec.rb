@@ -194,7 +194,7 @@ describe 'Client' do
     scenario 'has new case note link' do
       expect(page).to have_link('Add to EC', href: new_client_case_path(client, case_type: 'EC'))
       # expect(page).to have_link('Add to FC', href: new_client_case_path(client, case_type: 'FC'))
-      expect(page).to have_link('Add to KC', href: new_client_case_path(client, case_type: 'KC'))
+      # expect(page).to have_link('Add to KC', href: new_client_case_path(client, case_type: 'KC'))
     end
   end
 
@@ -343,9 +343,9 @@ describe 'Client' do
       #   expect(page).to have_link('Add to FC', href: new_client_case_path(blank_client, case_type: 'FC'))
       # end
 
-      scenario 'Kinship Case Button' do
-        expect(page).to have_link('Add to KC', href: new_client_case_path(blank_client, case_type: 'KC'))
-      end
+      # scenario 'Kinship Case Button' do
+      #   expect(page).to have_link('Add to KC', href: new_client_case_path(blank_client, case_type: 'KC'))
+      # end
 
       scenario 'Exit NGO Button' do
         expect(page).to have_content('Exit From NGO')
@@ -445,9 +445,9 @@ describe 'Client' do
       #   expect(page).to have_link('Add to FC', href: new_client_case_path(inactive_client, case_type: 'FC'))
       # end
 
-      scenario 'Kinship Case Button' do
-        expect(page).to have_link('Add to KC', href: new_client_case_path(inactive_client, case_type: 'KC'))
-      end
+      # scenario 'Kinship Case Button' do
+      #   expect(page).to have_link('Add to KC', href: new_client_case_path(inactive_client, case_type: 'KC'))
+      # end
     end
   end
 
