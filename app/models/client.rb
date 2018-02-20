@@ -65,13 +65,13 @@ class Client < ActiveRecord::Base
   has_paper_trail
 
   validates :rejected_note, presence: true, on: :update, if: :reject?
-  validates :exit_date, presence: true, on: :update, if: :exiting_ngo?
-  validates :exit_note, presence: true, on: :update, if: :exiting_ngo?
   validates :kid_id, uniqueness: { case_sensitive: false }, if: 'kid_id.present?'
   validates :initial_referral_date, presence: true
   validates :user_ids, presence: true, on: :create
 
   validate :validate_user_ids, on: :update
+  validate :validate_exit_date, on: :update
+  validate :validate_exit_note, on: :update
 
   after_create :set_slug_as_alias
   after_save :create_client_history
@@ -375,8 +375,18 @@ class Client < ActiveRecord::Base
 
   def validate_user_ids
     unless EXIT_STATUSES.include?(status)
-      self.errors.add(:user_ids, "Can't be Blank") if self.user_ids.empty?
+      self.errors.add(:user_ids, "can't be blank") if self.user_ids.empty?
     end
+  end
+
+  def validate_exit_date
+    return false unless exiting_ngo?
+    self.errors.add(:exit_date, "can't be blank") unless self.exit_date.present?
+  end
+
+  def validate_exit_note
+    return false unless exiting_ngo?
+    self.errors.add(:exit_note, "can't be blank") unless self.exit_note.present?
   end
 
   def create_client_history

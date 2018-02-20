@@ -787,11 +787,12 @@ describe 'validations' do
     it { expect(invalid_client).to be_invalid }
   end
 
-  context 'exited from ngo should not contain blank data for exit info' do
+  context 'validate exit note & exit date' do
     let!(:admin){ create(:user, :admin) }
-    let!(:valid_client){ create(:client, exit_date: '2017-07-21', exit_note: 'testing', status: 'Exited - Dead') }
+    let!(:valid_client){ create(:client, exit_date: '2017-07-21', exit_note: 'testing', status: 'Active') }
 
     before do
+      valid_client.status = 'Exited - Dead'
       valid_client.exit_date = ''
       valid_client.exit_note = ''
       valid_client.valid?
@@ -799,5 +800,42 @@ describe 'validations' do
 
     it { expect(valid_client.valid?).to be_falsey }
     it { expect(valid_client.errors.full_messages.first).to include("can't be blank") }
+  end
+
+  context 'validate user ids' do
+    context 'validate user ids on create' do
+      let!(:admin){ create(:user, :admin) }
+
+      it 'case workers are required' do
+        valid_client = Client.new(initial_referral_date: Date.today)
+        valid_client.valid?
+        expect(valid_client.errors.full_messages).to include("User ids can't be blank")
+        valid_client.user_ids = [admin.id]
+        expect(valid_client.valid?).to be_truthy
+      end
+    end
+
+    context 'validate user ids on update' do
+      let!(:exited_ngo_client){ create(:client, status: Client::EXIT_STATUSES.first) }
+      let!(:client){ create(:client, status: Client::CLIENT_STATUSES.second) }
+
+      it 'should not be able to remove case workers from client' do
+        client.update(user_ids: [])
+        expect(client.errors.full_messages).to include("User ids can't be blank")
+      end
+
+      it 'should be able to remove case workers from exited ngo client' do
+        expect(exited_ngo_client.update(user_ids: [])).to be_truthy
+      end
+    end
+  end
+
+  context 'initial referral date' do
+    let!(:admin){ create(:user, :admin) }
+
+    it 'initial referral date is required' do
+      client = Client.create(user_ids: [admin.id])
+      expect(client.errors.full_messages).to include("Initial referral date can't be blank")
+    end
   end
 end
