@@ -65,14 +65,18 @@ class Client < ActiveRecord::Base
   has_paper_trail
 
   validates :rejected_note, presence: true, on: :update, if: :reject?
-  validates :exit_date, presence: true, on: :update, if: :exit_ngo?
-  validates :exit_note, presence: true, on: :update, if: :exit_ngo?
   validates :kid_id, uniqueness: { case_sensitive: false }, if: 'kid_id.present?'
-  validates :user_ids, :initial_referral_date, presence: true
+  validates :initial_referral_date, presence: true
+  validates :user_ids, presence: true, on: :create
+
+  validate :validate_user_ids, on: :update
+  validate :validate_exit_date, on: :update
+  validate :validate_exit_note, on: :update
 
   after_create :set_slug_as_alias
   after_save :create_client_history
   after_update :notify_managers, if: :exiting_ngo?
+  before_update :disconnect_client_user_relation, if: :exiting_ngo?
 
   scope :live_with_like,              ->(value) { where('clients.live_with iLIKE ?', "%#{value}%") }
   scope :given_name_like,             ->(value) { where('clients.given_name iLIKE :value OR clients.local_given_name iLIKE :value', { value: "%#{value}%"}) }
@@ -137,10 +141,6 @@ class Client < ActiveRecord::Base
 
   def reject?
     state_changed? && state == 'rejected'
-  end
-
-  def exit_ngo?
-    EXIT_STATUSES.include?(status)
   end
 
   def self.age_between(min_age, max_age)
@@ -374,11 +374,31 @@ class Client < ActiveRecord::Base
 
   private
 
+  def validate_user_ids
+    unless EXIT_STATUSES.include?(status)
+      self.errors.add(:user_ids, "can't be blank") if self.user_ids.empty?
+    end
+  end
+
+  def validate_exit_date
+    return false unless exiting_ngo?
+    self.errors.add(:exit_date, "can't be blank") unless self.exit_date.present?
+  end
+
+  def validate_exit_note
+    return false unless exiting_ngo?
+    self.errors.add(:exit_note, "can't be blank") unless self.exit_note.present?
+  end
+
   def create_client_history
     ClientHistory.initial(self)
   end
 
   def notify_managers
     ClientMailer.exited_notification(self, User.managers.pluck(:email)).deliver_now
+  end
+
+  def disconnect_client_user_relation
+    self.user_ids = []
   end
 end

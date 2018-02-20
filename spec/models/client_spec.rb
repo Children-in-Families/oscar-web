@@ -39,6 +39,7 @@ describe Client, 'callbacks' do
   before do
     ClientHistory.destroy_all
   end
+
   context 'set slug as alias' do
     let!(:client){ create(:client) }
     it { expect(client.slug).to eq("#{Organization.current.short_name}-#{client.id}") }
@@ -62,6 +63,19 @@ describe Client, 'callbacks' do
       expect(ClientHistory.where('object.id' => agency_client.id).last.agency_client_histories.count).to eq(2)
     end
   end
+
+  context 'disconnect client user relation' do
+    let!(:admin) { create(:user, :admin) }
+    let!(:user) { create(:user, :case_worker) }
+    let!(:client) { create(:client, user_ids: [user.id], initial_referral_date: Date.today) }
+
+    context 'client exit ngo' do
+      it 'should not have relation with case worker' do
+        client.update(status: 'Exited Other', exit_date: Date.today, exit_note: 'testing')
+        expect(client.user_ids).to eq([])
+      end
+    end
+  end
 end
 
 describe Client, 'methods' do
@@ -81,7 +95,7 @@ describe Client, 'methods' do
   let!(:ec_case){ create(:case, client: client_a, case_type: 'EC') }
   let!(:fc_case){ create(:case, client: client_b, case_type: 'FC') }
   let!(:kc_case){ create(:case, client: client_c, case_type: 'KC') }
-  let!(:exited_client){ create(:client, status: Client::EXIT_STATUSES.first) }
+  let!(:exiting_client){ create(:client, status: Client::CLIENT_STATUSES.second) }
 
   context '#most_recent_csi_assessment' do
     it { expect(client.most_recent_csi_assessment).to eq(assessment.created_at.to_date) }
@@ -204,9 +218,17 @@ describe Client, 'methods' do
     end
   end
 
-  context 'exit_ngo?' do
-    it { expect(exited_client.exit_ngo?).to be_truthy }
-    it { expect(client.exit_ngo?).to be_falsey }
+  context 'exiting_ngo?' do
+    context 'client has/has not exited the ngo' do
+      it { expect(exiting_client.exiting_ngo?).to be_falsey }
+    end
+
+    context 'client is exiting the ngo' do
+      it 'should return true' do
+        exiting_client.update(status: Client::EXIT_STATUSES.first)
+        expect(exiting_client.exiting_ngo?).to be_truthy
+      end
+    end
   end
 
   context 'active_ec?' do
@@ -765,11 +787,12 @@ describe 'validations' do
     it { expect(invalid_client).to be_invalid }
   end
 
-  context 'exited from ngo should not contain blank data for exit info' do
+  context 'validate exit note & exit date' do
     let!(:admin){ create(:user, :admin) }
-    let!(:valid_client){ create(:client, exit_date: '2017-07-21', exit_note: 'testing', status: 'Exited - Dead') }
+    let!(:valid_client){ create(:client, exit_date: '2017-07-21', exit_note: 'testing', status: 'Active') }
 
     before do
+      valid_client.status = 'Exited - Dead'
       valid_client.exit_date = ''
       valid_client.exit_note = ''
       valid_client.valid?
@@ -777,5 +800,42 @@ describe 'validations' do
 
     it { expect(valid_client.valid?).to be_falsey }
     it { expect(valid_client.errors.full_messages.first).to include("can't be blank") }
+  end
+
+  context 'validate user ids' do
+    context 'validate user ids on create' do
+      let!(:admin){ create(:user, :admin) }
+
+      it 'case workers are required' do
+        valid_client = Client.new(initial_referral_date: Date.today)
+        valid_client.valid?
+        expect(valid_client.errors.full_messages).to include("User ids can't be blank")
+        valid_client.user_ids = [admin.id]
+        expect(valid_client.valid?).to be_truthy
+      end
+    end
+
+    context 'validate user ids on update' do
+      let!(:exited_ngo_client){ create(:client, status: Client::EXIT_STATUSES.first) }
+      let!(:client){ create(:client, status: Client::CLIENT_STATUSES.second) }
+
+      it 'should not be able to remove case workers from client' do
+        client.update(user_ids: [])
+        expect(client.errors.full_messages).to include("User ids can't be blank")
+      end
+
+      it 'should be able to remove case workers from exited ngo client' do
+        expect(exited_ngo_client.update(user_ids: [])).to be_truthy
+      end
+    end
+  end
+
+  context 'initial referral date' do
+    let!(:admin){ create(:user, :admin) }
+
+    it 'initial referral date is required' do
+      client = Client.create(user_ids: [admin.id])
+      expect(client.errors.full_messages).to include("Initial referral date can't be blank")
+    end
   end
 end

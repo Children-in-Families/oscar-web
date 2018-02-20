@@ -32,7 +32,14 @@
         .col-xs-12.col-sm-6.col-md-4= f.input :telephone_number, label: t('.telephone_number')
         .col-xs-12.col-sm-6.col-md-4= f.input :live_with, label: t('.live_with')
         .col-xs-12.col-sm-6.col-md-4= f.input :id_poor, label: t('.id_poor')
-        .col-xs-12.col-sm-6.col-md-4= f.association :users, collection: @users, label: t('.case_worker_or_staff'), include_blank: false, multiple: true
+        .col-xs-12.col-sm-6.col-md-4
+          - if Client::EXIT_STATUSES.include?(f.object.status)
+            = f.association :users, collection: @users, label: t('.case_worker_or_staff'), include_blank: false, multiple: true
+          - else
+            %label.control-label
+              %abbr{ title: 'required' } *
+              = t('.case_worker_or_staff')
+            = f.association :users, collection: @users, label: false, include_blank: false, multiple: true
 
         .col-xs-12.col-sm-6.col-md-4= f.input :received_by_id, collection: @users, label: t('.received_by')
         .col-xs-12.col-sm-6.col-md-4= f.input :followed_up_by_id, collection: @users, label: t('.followed_up_by')
