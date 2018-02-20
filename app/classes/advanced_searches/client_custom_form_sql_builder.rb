@@ -17,13 +17,13 @@ module AdvancedSearches
 
       case @operator
       when 'equal'
-        if @input_type == 'text'
+        if @input_type == 'text' && @field.exclude?('&')
           properties_result = custom_field_properties.where("lower(properties ->> '#{@field}') = '#{@value.downcase}' ")
         else
           properties_result = custom_field_properties.where("properties -> '#{@field}' ? '#{@value}' ")
         end
       when 'not_equal'
-        if @input_type == 'text'
+        if @input_type == 'text' && @field.exclude?('&')
           properties_result = custom_field_properties.where.not("lower(properties ->> '#{@field}') = '#{@value.downcase}' ")
         else
           properties_result = custom_field_properties.where.not("properties -> '#{@field}' ? '#{@value}' ")
