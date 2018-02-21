@@ -10,19 +10,19 @@ body[id='client_advanced_searches-index'] {
     tbody.page {
       tr {
         td {
-          line-height:18px;
-          -ms-hyphens: auto;
-          -webkit-hyphens: auto;
-          -moz-hyphens: auto;
-          hyphens: auto;
+          @include hyphens(auto);
+          font-size: 14px;
+          .td_content {
+            line-height: 18px;
+          }
           .showmore_content {
             position:relative;
             overflow:hidden;
           }
           .showmore_trigger {
             width:100%;
-            height:45px;
-            line-height:45px;
+            text-align: center;
+            height:25px;
             cursor:pointer;
           }
           .showmore_trigger span {

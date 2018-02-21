@@ -11,12 +11,8 @@ CIF.Common =
     if $('.clients-table').is(':visible')
       moreText = $('.clients-table').attr('data-read-more')
       lessText = $('.clients-table').attr('data-read-less')
-      $('.td-content').showMore
-        speedDown: 300
-        speedUp: 300
-        height: '50px'
-        showText: "<a>#{moreText}</a>"
-        hideText: "<a>#{lessText}</a>"
+      new CIF.ShowMore('.td-content', 57, moreText, lessText)
+
 
   customCheckBox: ->
     $('.i-check-red').iCheck

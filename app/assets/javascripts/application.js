@@ -41,7 +41,6 @@
 //= require wrapbootstrap/inspinia.js
 //= require slimscroll/jquery.slimscroll.min.js
 //= require toastr/toastr.min.js
-//= require jquery.showmore.min.js
 
 //LOAD MODULE
 //= require namespace
@@ -53,6 +52,7 @@
 
 //APPLICATION JS
 //= require client_advance_search
+//= require showmore
 
 //= require check_duplicate_array.js
 //= require advanced_filter_builder
