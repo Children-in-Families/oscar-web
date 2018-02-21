@@ -6,12 +6,28 @@ body[id='client_advanced_searches-index'] {
     margin-top: -16px;
   }
 
-  .table {
-    td {
-      hyphens: auto;
-      -ms-hyphens: auto;
-      -webkit-hyphens: auto;
-      -moz-hyphens: auto;
+  table.clients {
+    tbody {
+      tr {
+        td {
+          @include hyphens(auto);
+          font-size: 14px;
+          height: 57px;
+          .showmore_content {
+            position:relative;
+            overflow:hidden;
+          }
+          .showmore_trigger {
+            width:100%;
+            text-align: center;
+            height:25px;
+            cursor:pointer;
+          }
+          .showmore_trigger span {
+            display:block;
+          }
+        }
+      }
     }
 
     th,
