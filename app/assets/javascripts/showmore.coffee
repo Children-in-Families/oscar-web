@@ -23,7 +23,8 @@ class CIF.ShowMore
         triggerElement = parentElement.find('.showmore_trigger')
         triggerElement.children(':first').hide()
         triggerElement.children(':last').show()
-        parentElement.find('.showmore_content').css({'max-height': '500px', transition: 'max-height 0.5s ease-in'})
+        childHeight = parentElement.find('.showmore_content').children(':first').height()
+        parentElement.find('.showmore_content').css({'max-height': "#{childHeight}px", transition: 'max-height 0.5s ease-in'})
 
       $('.showmore_trigger span.less a').click ->
         parentElement = $(@).parents('.td-content')

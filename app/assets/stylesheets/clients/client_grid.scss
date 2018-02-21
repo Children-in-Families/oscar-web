@@ -6,15 +6,13 @@ body[id='client_advanced_searches-index'] {
     margin-top: -16px;
   }
 
-  .table {
-    tbody.page {
+  table.clients {
+    tbody {
       tr {
         td {
           @include hyphens(auto);
           font-size: 14px;
-          .td_content {
-            line-height: 18px;
-          }
+          height: 57px;
           .showmore_content {
             position:relative;
             overflow:hidden;
