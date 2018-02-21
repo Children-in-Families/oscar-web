@@ -30,7 +30,7 @@ CIF.ClientsIndex = do ->
     _removeSearchOverdueTask()
     _overdueFormsSearch()
     _removeOverdueFormsSearch()
-    _removeProgramStreamExitDate()
+    # _removeProgramStreamExitDate()
 
   _overdueFormsSearch = ->
     $('#overdue-forms.i-checks').on 'ifChecked', ->
@@ -147,8 +147,8 @@ CIF.ClientsIndex = do ->
     advanceFilter.handleSaveQuery()
     advanceFilter.validateSaveQuery()
 
-  _removeProgramStreamExitDate = ->
-    $('#client-advance-search-form').find('#program_enrollment_date,#program_exit_date').remove()
+  # _removeProgramStreamExitDate = ->
+  #   $('#client-advance-search-form').find('#program_enrollment_date,#program_exit_date').remove()
 
   _setDefaultCheckColumnVisibilityAll = ->
     $('.check-columns-visibility').find('a.dropdown-toggle').on 'click', ->
