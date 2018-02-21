@@ -34,8 +34,8 @@ class KcImport
           else
             'Other'
           end
-          leave_program.properties['Reason for Ending FC Placement'] = exit_status
-          leave_program.properties['Note on program exit'] = kinship.exit_note
+          leave_program.properties['Reason for Ending KC Placement'] = exit_status
+          leave_program.properties['Notes on Program Exit'] = kinship.exit_note
           leave_program.save(validate: false)
         end
       end
