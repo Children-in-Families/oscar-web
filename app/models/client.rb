@@ -68,8 +68,11 @@ class Client < ActiveRecord::Base
   validates :exit_date, presence: true, on: :update, if: :exit_ngo?
   validates :exit_note, presence: true, on: :update, if: :exit_ngo?
   validates :kid_id, uniqueness: { case_sensitive: false }, if: 'kid_id.present?'
-  validates :user_ids, presence: true
+  validates :initial_referral_date, presence: true
+  validates :user_ids, presence: true, on: :create
+  validates :user_ids, presence: true, on: :update, unless: :exit_ngo?
 
+  before_update :disconnect_client_user_relation, if: :exiting_ngo?
   after_create :set_slug_as_alias
   after_save :create_client_history
   after_update :notify_managers, if: :exiting_ngo?
@@ -97,6 +100,7 @@ class Client < ActiveRecord::Base
   scope :referral_source_is,          ->        { joins(:referral_source).pluck('referral_sources.name', 'referral_sources.id').uniq }
   scope :is_followed_up_by,           ->        { joins(:followed_up_by).pluck("CONCAT(users.first_name, ' ' , users.last_name)", 'users.id').uniq }
   scope :province_is,                 ->        { joins(:province).pluck('provinces.name', 'provinces.id').uniq }
+  scope :birth_province_is,           ->        { joins(:birth_province).pluck('provinces.name', 'provinces.id').uniq }
   scope :accepted,                    ->        { where(state: 'accepted') }
   scope :rejected,                    ->        { where(state: 'rejected') }
   scope :male,                        ->        { where(gender: 'male') }
@@ -379,5 +383,9 @@ class Client < ActiveRecord::Base
 
   def notify_managers
     ClientMailer.exited_notification(self, User.managers.pluck(:email)).deliver_now
+  end
+
+  def disconnect_client_user_relation
+    self.user_ids = []
   end
 end

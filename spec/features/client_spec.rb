@@ -111,10 +111,12 @@ describe 'Client' do
     end
     scenario 'valid', js: true do
       fill_in 'Given Name', with: 'Kema'
+      fill_in 'Initial Referral Date', with: '2018-02-19'
       find(".client_users select option[value='#{user.id}']", visible: false).select_option
       click_button 'Save'
       wait_for_ajax
       expect(page).to have_content('Kema')
+      expect(page).to have_content('February 19, 2018')
     end
 
     scenario 'invalid as missing case workers', js: true do
@@ -192,7 +194,7 @@ describe 'Client' do
     scenario 'has new case note link' do
       expect(page).to have_link('Add to EC', href: new_client_case_path(client, case_type: 'EC'))
       # expect(page).to have_link('Add to FC', href: new_client_case_path(client, case_type: 'FC'))
-      expect(page).to have_link('Add to KC', href: new_client_case_path(client, case_type: 'KC'))
+      # expect(page).to have_link('Add to KC', href: new_client_case_path(client, case_type: 'KC'))
     end
   end
 
@@ -341,9 +343,9 @@ describe 'Client' do
       #   expect(page).to have_link('Add to FC', href: new_client_case_path(blank_client, case_type: 'FC'))
       # end
 
-      scenario 'Kinship Case Button' do
-        expect(page).to have_link('Add to KC', href: new_client_case_path(blank_client, case_type: 'KC'))
-      end
+      # scenario 'Kinship Case Button' do
+      #   expect(page).to have_link('Add to KC', href: new_client_case_path(blank_client, case_type: 'KC'))
+      # end
 
       scenario 'Exit NGO Button' do
         expect(page).to have_content('Exit From NGO')
@@ -443,9 +445,9 @@ describe 'Client' do
       #   expect(page).to have_link('Add to FC', href: new_client_case_path(inactive_client, case_type: 'FC'))
       # end
 
-      scenario 'Kinship Case Button' do
-        expect(page).to have_link('Add to KC', href: new_client_case_path(inactive_client, case_type: 'KC'))
-      end
+      # scenario 'Kinship Case Button' do
+      #   expect(page).to have_link('Add to KC', href: new_client_case_path(inactive_client, case_type: 'KC'))
+      # end
     end
   end
 

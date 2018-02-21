@@ -1123,6 +1123,8 @@ en:
       load: Loading more...
       load_save_search: Load Saved Search
       most_recent: Most Recent
+      read_less: read less
+      read_more: read more
       report_builder: Report Builder
       reports: Quick Graph
       results: Results
@@ -2342,6 +2344,8 @@ en:
       name: Name
       'no': 'No'
       province: Province
+      read_less: read less
+      read_more: read more
       significant_family_member_count: Significant Family Member Count
       'yes': 'Yes'
     update:
@@ -3846,6 +3850,8 @@ en:
       case_notes: Case Notes
     clients:
       clients: Clients
+      read_less: read less
+      read_more: read more
     create:
       successfully_created: User has been successfully created.
     custom_form_permission:
@@ -3931,8 +3937,7 @@ en:
       roles: Permission Set
       start_date: Start Date
     permissions:
-      assessments:
-      assessmets: CSI Assessments
+      assessments: CSI Assessments
       case_notes: Case Notes
       custom_forms: Custom Forms
       custom_programs: Custom Programs

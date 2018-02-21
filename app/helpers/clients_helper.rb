@@ -108,8 +108,8 @@ module ClientsHelper
       program_enrollment_date:       t('datagrid.columns.clients.program_enrollment_date'),
       program_exit_date:             t('datagrid.columns.clients.program_exit_date'),
       accepted_date:                 t('datagrid.columns.clients.ngo_accepted_date'),
-      exit_date:                     t('datagrid.columns.clients.ngo_exit_date'),
       telephone_number:              t('datagrid.columns.clients.telephone_number'),
+      exit_date:                     t('datagrid.columns.clients.ngo_exit_date')
     }
     label_tag "#{column}_", label_column[column.to_sym]
   end
@@ -172,11 +172,11 @@ module ClientsHelper
   end
 
   def format_array_value(value)
-    value.is_a?(Array) ? value.reject(&:empty?).to_sentence : value
+    value.is_a?(Array) ? value.reject(&:empty?).join(' , ') : value
   end
 
   def format_properties_value(value)
-    value.is_a?(Array) ? value.delete_if(&:empty?).join(', ') : value
+    value.is_a?(Array) ? value.delete_if(&:empty?).join(' , ') : value
   end
 
   def field_not_blank?(value)

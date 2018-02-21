@@ -1132,7 +1132,9 @@ my:
       export_to_xls: XLS အျဖစ္ ထုတ္သည္
       load: ဆက္လက္ လုပ္ေဆာင္ေနသည္
       load_save_search: သိမ္းဆည္းထားသည့္ ရွာေဖြမႈမ်ားကို ျပပါ။
-      most_recent:
+      most_recent: လတ်တလော
+      read_less: ဒီထက်ကိုဖတ်ရှု
+      read_more: ဆက်ဖတ်ရန်
       report_builder: တုိင္းၾကားစာ တည္ေဆာက္သည့္ေနရာ
       reports: အစီရင္ခံစာမ်ား
       results: ရလဒ္မ်ား
@@ -2357,6 +2359,8 @@ my:
       name: နာမည္
       'no': မဟုတ္ပါ
       province: ခ႐ိုင္
+      read_less: ဒီထက်ကိုဖတ်ရှု
+      read_more: ဆက်ဖတ်ရန်
       significant_family_member_count: ႀကီးမားေသာ မိသားစု၀င္အေရအတြက္
       'yes': မွန္ပါသည္
     update:
@@ -3868,6 +3872,8 @@ my:
       case_notes: အမႈ မွတ္စုမ်ား
     clients:
       clients: အမႈသည္မ်ား
+      read_less: ဒီထက်ကိုဖတ်ရှု
+      read_more: ဆက်ဖတ်ရန်
     create:
       successfully_created: အသံုးျပဳသူကို ေအာင္ျမင္စြာ ဖန္တီးၿပီးျဖစ္ပါသည္
     custom_form_permission:
@@ -3953,8 +3959,7 @@ my:
       roles: ခြင့္ျပဳခ်က္ ျပဳလုပ္သည္
       start_date: စတင္သည့္ ရက္စြဲ
     permissions:
-      assessments:
-      assessmets: CSI စိစစ္အကဲျဖတ္မႈမ်ား
+      assessments: CSI စိစစ္အကဲျဖတ္မႈမ်ား
       case_notes: အမႈမွတ္စုမ်ား
       custom_forms: အေကာက္ခြန္ပံုစံမ်ား
       custom_programs: အေကာက္ခြန္ အစီအစဥ္မ်ား

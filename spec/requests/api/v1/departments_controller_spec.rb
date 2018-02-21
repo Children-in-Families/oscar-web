@@ -1,4 +1,4 @@
-describe Api::V1::DomainGroupsController do
+describe Api::V1::DepartmentsController do
   let(:user) { create(:user) }
   let!(:departments) { create_list(:department, 2) }
 
