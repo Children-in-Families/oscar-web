@@ -326,9 +326,9 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
 
     strValues = $('.rule-value-container input')
     for strValue in strValues
-      if $(strValue).val() == '' and !($(strValue).attr('class').includes('select2'))
+      elementParent = $(strValue).parent()
+      if $(strValue).val() == '' and !($(strValue).attr('class').includes('select2')) and $(elementParent).siblings('.rule-operator-container').find('select').val() != 'is_empty' and $(elementParent).siblings('.rule-operator-container').find('select').val() != 'is_not_empty'
         $(strValue).addClass('error')
-        elementParent = $(strValue).parent()
         $(elementParent).append("<label class='error'>Field cannot be blank.</label>") unless $(elementParent).find('label.error').is(':visible')
         invalidStrValues++
 
