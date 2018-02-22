@@ -504,6 +504,12 @@ describe Client, 'scopes' do
     end
   end
 
+  context 'all active types and referred accepted' do
+    it 'have all active clients and referred accepted' do
+      expect(Client.all_active_types_and_referred_accepted).to include(client, kc_client, fc_client, ec_client)
+    end
+  end
+
   context 'active' do
     it 'have all active clients' do
       expect(Client.all_active_types.count).to eq(2)

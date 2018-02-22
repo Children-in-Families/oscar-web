@@ -77,44 +77,45 @@ class Client < ActiveRecord::Base
   after_save :create_client_history
   after_update :notify_managers, if: :exiting_ngo?
 
-  scope :live_with_like,              ->(value) { where('clients.live_with iLIKE ?', "%#{value}%") }
-  scope :given_name_like,             ->(value) { where('clients.given_name iLIKE :value OR clients.local_given_name iLIKE :value', { value: "%#{value}%"}) }
-  scope :family_name_like,            ->(value) { where('clients.family_name iLIKE :value OR clients.local_family_name iLIKE :value', { value: "%#{value}%"}) }
-  scope :local_given_name_like,       ->(value) { where('clients.local_given_name iLIKE ?', "%#{value}%") }
-  scope :local_family_name_like,      ->(value) { where('clients.local_family_name iLIKE ?', "%#{value}%") }
-  scope :current_address_like,        ->(value) { where('clients.current_address iLIKE ?', "%#{value}%") }
-  scope :house_number_like,           ->(value) { where('clients.house_number iLike ?', "%#{value}%") }
-  scope :street_number_like,          ->(value) { where('clients.street_number iLike ?', "%#{value}%") }
-  scope :village_like,                ->(value) { where('clients.village iLike ?', "%#{value}%") }
-  scope :commune_like,                ->(value) { where('clients.commune iLike ?', "%#{value}%") }
-  scope :school_name_like,            ->(value) { where('clients.school_name iLIKE ?', "%#{value}%") }
-  scope :referral_phone_like,         ->(value) { where('clients.referral_phone iLIKE ?', "%#{value}%") }
-  scope :info_like,                   ->(value) { where('clients.relevant_referral_information iLIKE ?', "%#{value}%") }
-  scope :slug_like,                   ->(value) { where('clients.slug iLIKE ?', "%#{value}%") }
-  scope :kid_id_like,                 ->(value) { where('clients.kid_id iLIKE ?', "%#{value}%") }
-  scope :start_with_code,             ->(value) { where('clients.code iLIKE ?', "#{value}%") }
-  scope :district_like,               ->(value) { joins(:district).where('districts.name iLike ?', "%#{value}%").uniq }
-  scope :find_by_family_id,           ->(value) { joins(cases: :family).where('families.id = ?', value).uniq }
-  scope :status_like,                 ->        { CLIENT_STATUSES }
-  scope :is_received_by,              ->        { joins(:received_by).pluck("CONCAT(users.first_name, ' ' , users.last_name)", 'users.id').uniq }
-  scope :referral_source_is,          ->        { joins(:referral_source).pluck('referral_sources.name', 'referral_sources.id').uniq }
-  scope :is_followed_up_by,           ->        { joins(:followed_up_by).pluck("CONCAT(users.first_name, ' ' , users.last_name)", 'users.id').uniq }
-  scope :province_is,                 ->        { joins(:province).pluck('provinces.name', 'provinces.id').uniq }
-  scope :birth_province_is,           ->        { joins(:birth_province).pluck('provinces.name', 'provinces.id').uniq }
-  scope :accepted,                    ->        { where(state: 'accepted') }
-  scope :rejected,                    ->        { where(state: 'rejected') }
-  scope :male,                        ->        { where(gender: 'male') }
-  scope :female,                      ->        { where(gender: 'female') }
-  scope :active_ec,                   ->        { where(status: 'Active EC') }
-  scope :active_kc,                   ->        { where(status: 'Active KC') }
-  scope :active_fc,                   ->        { where(status: 'Active FC') }
-  scope :without_assessments,         ->        { includes(:assessments).where(assessments: { client_id: nil }) }
-  scope :able,                        ->        { where(able_state: ABLE_STATES[0]) }
-  scope :all_active_types,            ->        { where(status: CLIENT_ACTIVE_STATUS) }
-  scope :of_case_worker,              -> (user_id) { joins(:case_worker_clients).where(case_worker_clients: { user_id: user_id }) }
-  scope :exited_ngo,                  ->        { where(status: EXIT_STATUSES) }
-  scope :non_exited_ngo,              ->        { where.not(status: EXIT_STATUSES) }
-  scope :telephone_number_like,       ->(value) { where('clients.telephone_number iLIKE ?', "#{value}%") }
+  scope :live_with_like,                           ->(value) { where('clients.live_with iLIKE ?', "%#{value}%") }
+  scope :given_name_like,                          ->(value) { where('clients.given_name iLIKE :value OR clients.local_given_name iLIKE :value', { value: "%#{value}%"}) }
+  scope :family_name_like,                         ->(value) { where('clients.family_name iLIKE :value OR clients.local_family_name iLIKE :value', { value: "%#{value}%"}) }
+  scope :local_given_name_like,                    ->(value) { where('clients.local_given_name iLIKE ?', "%#{value}%") }
+  scope :local_family_name_like,                   ->(value) { where('clients.local_family_name iLIKE ?', "%#{value}%") }
+  scope :current_address_like,                     ->(value) { where('clients.current_address iLIKE ?', "%#{value}%") }
+  scope :house_number_like,                        ->(value) { where('clients.house_number iLike ?', "%#{value}%") }
+  scope :street_number_like,                       ->(value) { where('clients.street_number iLike ?', "%#{value}%") }
+  scope :village_like,                             ->(value) { where('clients.village iLike ?', "%#{value}%") }
+  scope :commune_like,                             ->(value) { where('clients.commune iLike ?', "%#{value}%") }
+  scope :school_name_like,                         ->(value) { where('clients.school_name iLIKE ?', "%#{value}%") }
+  scope :referral_phone_like,                      ->(value) { where('clients.referral_phone iLIKE ?', "%#{value}%") }
+  scope :info_like,                                ->(value) { where('clients.relevant_referral_information iLIKE ?', "%#{value}%") }
+  scope :slug_like,                                ->(value) { where('clients.slug iLIKE ?', "%#{value}%") }
+  scope :kid_id_like,                              ->(value) { where('clients.kid_id iLIKE ?', "%#{value}%") }
+  scope :start_with_code,                          ->(value) { where('clients.code iLIKE ?', "#{value}%") }
+  scope :district_like,                            ->(value) { joins(:district).where('districts.name iLike ?', "%#{value}%").uniq }
+  scope :find_by_family_id,                        ->(value) { joins(cases: :family).where('families.id = ?', value).uniq }
+  scope :status_like,                              ->        { CLIENT_STATUSES }
+  scope :is_received_by,                           ->        { joins(:received_by).pluck("CONCAT(users.first_name, ' ' , users.last_name)", 'users.id').uniq }
+  scope :referral_source_is,                       ->        { joins(:referral_source).pluck('referral_sources.name', 'referral_sources.id').uniq }
+  scope :is_followed_up_by,                        ->        { joins(:followed_up_by).pluck("CONCAT(users.first_name, ' ' , users.last_name)", 'users.id').uniq }
+  scope :province_is,                              ->        { joins(:province).pluck('provinces.name', 'provinces.id').uniq }
+  scope :birth_province_is,                        ->        { joins(:birth_province).pluck('provinces.name', 'provinces.id').uniq }
+  scope :accepted,                                 ->        { where(state: 'accepted') }
+  scope :rejected,                                 ->        { where(state: 'rejected') }
+  scope :male,                                     ->        { where(gender: 'male') }
+  scope :female,                                   ->        { where(gender: 'female') }
+  scope :active_ec,                                ->        { where(status: 'Active EC') }
+  scope :active_kc,                                ->        { where(status: 'Active KC') }
+  scope :active_fc,                                ->        { where(status: 'Active FC') }
+  scope :without_assessments,                      ->        { includes(:assessments).where(assessments: { client_id: nil }) }
+  scope :able,                                     ->        { where(able_state: ABLE_STATES[0]) }
+  scope :all_active_types,                         ->        { where(status: CLIENT_ACTIVE_STATUS) }
+  scope :of_case_worker,                           -> (user_id) { joins(:case_worker_clients).where(case_worker_clients: { user_id: user_id }) }
+  scope :exited_ngo,                               ->        { where(status: EXIT_STATUSES) }
+  scope :non_exited_ngo,                           ->        { where.not(status: EXIT_STATUSES) }
+  scope :telephone_number_like,                    ->(value) { where('clients.telephone_number iLIKE ?', "#{value}%") }
+  scope :all_active_types_and_referred_accepted,   ->        { where("clients.status = 'Referred' AND clients.state = 'accepted' OR clients.status in (?)", Client::CLIENT_ACTIVE_STATUS) }
 
   def self.filter(options)
     query = all
