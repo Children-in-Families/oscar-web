@@ -10,6 +10,7 @@ class Tracking < ActiveRecord::Base
   validates :name, uniqueness: { scope: :program_stream_id }
 
   validate :form_builder_field_uniqueness
+  validate :presence_of_label
   # validate :validate_remove_field, if: -> { id.present? }
 
   after_update :auto_update_trackings
@@ -44,6 +45,17 @@ class Tracking < ActiveRecord::Base
   end
 
   private
+
+  def presence_of_label
+    message = "Label " + I18n.t('cannot_be_blank')
+    fields.each do |f|
+      unless f['label'].present?
+        errors.add(:fields, message)
+        errors.add(:tab, 4)
+        return
+      end
+    end
+  end
 
   def auto_update_trackings
     return unless self.fields_changed?
