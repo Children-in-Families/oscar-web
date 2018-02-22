@@ -9,6 +9,7 @@ module AdvancedSearches
     def get_sql
       sql_string = 'clients.id IN (?)'
       leave_programs = LeaveProgram.where(program_stream_id: @program_stream_id)
+      client_ids = []
 
       case @operator
       when 'equal'
@@ -31,6 +32,7 @@ module AdvancedSearches
         leave_program_date = leave_programs.where('exit_date BETWEEN ? AND ?', @value.first, @value.last)
       end
       client_ids = leave_program_date.joins(:client_enrollment).pluck('client_enrollments.client_id') if leave_program_date.present?
+
       { id: sql_string, values: client_ids.uniq }
     end
   end
