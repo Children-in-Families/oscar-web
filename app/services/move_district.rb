@@ -15,6 +15,14 @@ class MoveDistrict
       workbook.row(1).each_with_index { |header, i| headers[header] = i }
     end
 
+    def remove_district_from_client
+      Organization.where.not(short_name: ['spo', 'cps', 'kmo']).each do |org|
+        Organization.switch_to org.short_name
+        Client.where.not(archive_district: '').update_all(district_id: nil)
+        District.destroy_all
+      end
+    end
+
     def districts
       Organization.where.not(short_name: ['spo', 'cps', 'kmo']).each do |org|
         Organization.switch_to org.short_name
