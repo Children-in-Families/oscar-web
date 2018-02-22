@@ -61,7 +61,7 @@ RSpec.describe Api::V1::ClientsController, type: :request do
 
       context 'when try to create client' do
         before do
-          client = { format: 'json', client: { given_name: "example", family_name: FFaker::Name.name, gender: "Male", user_ids: [user.id.to_s]} }
+          client = { format: 'json', client: { given_name: "example", family_name: FFaker::Name.name, gender: "Male", user_ids: [user.id.to_s], initial_referral_date: '2018-02-19'} }
           post "/api/v1/clients", client, @auth_headers
         end
 

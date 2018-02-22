@@ -5,6 +5,7 @@ FactoryGirl.define do
     local_given_name { FFaker::Name.first_name }
     local_family_name { FFaker::Name.last_name }
     date_of_birth { FFaker::Time.date }
+    initial_referral_date { FFaker::Time.date }
     gender 'male'
     current_address  { FFaker::Address.street_address }
     house_number     { FFaker::Address.street_address }

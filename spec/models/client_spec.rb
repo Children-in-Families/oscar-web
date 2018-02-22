@@ -62,6 +62,20 @@ describe Client, 'callbacks' do
       expect(ClientHistory.where('object.id' => agency_client.id).last.agency_client_histories.count).to eq(2)
     end
   end
+
+  context 'before_update' do
+    context 'if exiting_ngo?' do
+      context 'disconnect_client_user_relation' do
+        let!(:admin){ create(:user, :admin) }
+        let!(:client){ create(:client, :accepted, user_ids: [admin.id]) }
+        it { expect(client.user_ids.any?).to be_truthy }
+        it 'remove user associaton' do
+          client.update(exit_date: Date.today, exit_note: 'testing', status: 'Exited - Dead')
+          expect(client.user_ids.empty?).to be_truthy
+        end
+      end
+    end
+  end
 end
 
 describe Client, 'methods' do
@@ -97,7 +111,7 @@ describe Client, 'methods' do
         Client.notify_upcoming_csi_assessment
       end
       it 'does not send an email' do
-        expect(ActionMailer::Base.deliveries.count).to eq(0)
+        expect(ActionMailer::Base.deliveries.map(&:subject).include?('Upcoming CSI Assessment')).to be_falsey
       end
     end
 
@@ -623,7 +637,7 @@ describe Client, 'scopes' do
   context 'birth province is' do
     let!(:birth_province){ [province.name, province.id] }
     let!(:birth_province_is){ Client.birth_province_is }
-    xit 'should return birth province name and id' do
+    it 'should return birth province name and id' do
       expect(birth_province_is).to include(birth_province)
     end
   end
@@ -741,6 +755,34 @@ describe Client, 'scopes' do
 end
 
 describe 'validations' do
+  subject { FactoryGirl.build(:client) }
+  context 'initial_referral_date ' do
+    it { is_expected.to validate_presence_of(:initial_referral_date) }
+  end
+  context 'user_ids' do
+    context 'on create' do
+      it { is_expected.to validate_presence_of(:user_ids) }
+    end
+    context 'on update unless exit_ngo' do
+      let!(:admin){ create(:user, :admin) } # required this object for the email to be sent
+      let!(:client){ create(:client, :accepted) }
+      let!(:exit_client){ create(:client, exit_date: '2017-07-21', exit_note: 'testing', status: 'Exited - Dead') }
+      context 'no validate if exit ngo' do
+        before do
+          exit_client.user_ids = []
+        end
+        it { expect(exit_client.valid?).to be_truthy }
+      end
+
+      context 'validate if not exit ngo' do
+        before do
+          client.user_ids = []
+        end
+        it { expect(client.valid?).to be_falsey }
+      end
+    end
+  end
+
   context 'rejected_note' do
     let!(:client){ create(:client, state: '', rejected_note: '') }
     before do
@@ -765,17 +807,24 @@ describe 'validations' do
     it { expect(invalid_client).to be_invalid }
   end
 
-  context 'exited from ngo should not contain blank data for exit info' do
+  context 'exited from ngo' do
     let!(:admin){ create(:user, :admin) }
     let!(:valid_client){ create(:client, exit_date: '2017-07-21', exit_note: 'testing', status: 'Exited - Dead') }
-
-    before do
-      valid_client.exit_date = ''
-      valid_client.exit_note = ''
-      valid_client.valid?
+    context 'should not contain blank data for exit info' do
+      before do
+        valid_client.exit_date = ''
+        valid_client.exit_note = ''
+        valid_client.valid?
+      end
+      it { expect(valid_client.valid?).to be_falsey }
+      it { expect(valid_client.errors.full_messages.first).to include("can't be blank") }
     end
 
-    it { expect(valid_client.valid?).to be_falsey }
-    it { expect(valid_client.errors.full_messages.first).to include("can't be blank") }
+    context 'does not validate user_ids' do
+      before do
+        valid_client.user_ids = []
+      end
+      it { expect(valid_client.valid?).to be_truthy }
+    end
   end
 end

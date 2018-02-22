@@ -31,6 +31,7 @@ module AdvancedSearches
       @custom_fields.each do |custom_field|
 
         custom_field.fields.each do |json_field|
+          json_field['label'] = json_field['label'].gsub('&amp;', '&')
           if json_field['type'] == 'text' || json_field['type'] == 'textarea'
             @text_type_list << "formbuilder_#{custom_field.form_title}_#{json_field['label']}"
           elsif json_field['type'] == 'number'

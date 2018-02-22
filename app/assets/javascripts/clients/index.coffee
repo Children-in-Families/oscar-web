@@ -13,6 +13,7 @@ CIF.ClientsIndex = do ->
     _handleCreateCsiDomainReport()
     _handleScrollTable()
     _setDefaultCheckColumnVisibilityAll()
+    _setDefaultCheckColumnVisibilityAllInClientFilter()
     _handleColumnVisibilityParams()
     _handleUncheckColumnVisibility()
     _getClientPath()
@@ -29,6 +30,7 @@ CIF.ClientsIndex = do ->
     _removeSearchOverdueTask()
     _overdueFormsSearch()
     _removeOverdueFormsSearch()
+    # _removeProgramStreamExitDate()
 
   _overdueFormsSearch = ->
     $('#overdue-forms.i-checks').on 'ifChecked', ->
@@ -72,6 +74,12 @@ CIF.ClientsIndex = do ->
     $('#overdue-task.i-checks').on 'ifUnchecked', ->
       $('select#client_grid_overdue_task').select2('val', '')
       $('input.datagrid-submit').click()
+
+  _setDefaultCheckColumnVisibilityAllInClientFilter = ->
+    $('.check-columns-visibility').find('a.dropdown-toggle').on 'click', ->
+      sibling = $(@).siblings('.columns-visibility')
+      if $(sibling).find('.visibility .checked').length == 0
+        $(sibling).find('.all-visibility #all_').iCheck('check')
 
   _handleAutoCollapse = ->
     params = window.location.search.substr(1)
@@ -139,30 +147,15 @@ CIF.ClientsIndex = do ->
     advanceFilter.handleSaveQuery()
     advanceFilter.validateSaveQuery()
 
+  # _removeProgramStreamExitDate = ->
+  #   $('#client-advance-search-form').find('#program_enrollment_date,#program_exit_date').remove()
+
   _setDefaultCheckColumnVisibilityAll = ->
     $('.check-columns-visibility').find('a.dropdown-toggle').on 'click', ->
-      parents = $(@).parent().find('.columns-visibility')
-      if $(parents).find('.visibility .checked').length == 0
-        $(parents).find('.all-visibility #all_').iCheck('check')
-
-  _handleColumnVisibilityParams = ->
-    $('button#search').on 'click', ->
-      allCheckboxes = $('#client-search-form').find('#new_client_grid ul input[type=checkbox]')
-      $(allCheckboxes).attr('disabled', true)
-
-    $('input.datagrid-submit').on 'click', ->
-      allCheckboxes = $('#client-advance-search-form').find('#new_client_grid ul input[type=checkbox]')
-      $(allCheckboxes).attr('disabled', true)
-
-  _handleUncheckColumnVisibility = ->
-    params = window.location.search.substr(1)
-
-    if params.includes('client_advanced_search')
-      allCheckboxes = $('#client-search-form').find('#new_client_grid ul input.i-checks')
-      $(allCheckboxes).iCheck('uncheck')
-    else
-      allCheckboxes = $('#client-advance-search-form').find('#new_client_grid ul input.i-checks')
-      $(allCheckboxes).iCheck('uncheck')
+      sibling = $(@).siblings('.columns-visibility')
+      if $(sibling).find('.visibility .checked').length == 0
+        $('#program-stream-column .visibility').find('#program_enrollment_date_, #program_exit_date_').iCheck('check')
+        $(sibling).find('.all-visibility #all_').iCheck('check')
 
   _handleColumnVisibilityParams = ->
     $('button#search').on 'click', ->

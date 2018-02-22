@@ -4,7 +4,7 @@ module AdvancedSearches
     def initialize(program_stream_id, rule)
       @program_stream_id = program_stream_id
       field          = rule['field']
-      @field         = field.split('_').last.gsub(/\[/, '&#91;').gsub(/\]/, '&#93;')
+      @field         = field.split('_').last.gsub(/\[/, '&#91;').gsub(/\]/, '&#93;').gsub('&', '&amp;')
       @operator      = rule['operator']
       @value         = rule['value']
       @input_type    = rule['input']
@@ -16,13 +16,13 @@ module AdvancedSearches
 
       case @operator
       when 'equal'
-        if @input_type == 'text'
+        if @input_type == 'text' && @field.exclude?('&')
           properties_result = leave_programs.where("lower(leave_programs.properties ->> '#{@field}') = '#{@value}' ")
         else
           properties_result = leave_programs.where("leave_programs.properties -> '#{@field}' ? '#{@value}' ")
         end
       when 'not_equal'
-        if @input_type == 'text'
+        if @input_type == 'text' && @field.exclude?('&')
           properties_result = leave_programs.where.not("lower(leave_programs.properties ->> '#{@field}') = '#{@value}' ")
         else
           properties_result = leave_programs.where.not("leave_programs.properties -> '#{@field}' ? '#{@value}'")

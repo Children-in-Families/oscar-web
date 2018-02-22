@@ -4,7 +4,7 @@ module AdvancedSearches
     def initialize(selected_custom_form, rule)
       @selected_custom_form = selected_custom_form
       field          = rule['field']
-      @field         = field.split('_').last.gsub("'", "''").gsub(/\[/, '&#91;').gsub(/\]/, '&#93;')
+      @field         = field.split('_').last.gsub("'", "''").gsub(/\[/, '&#91;').gsub(/\]/, '&#93;').gsub('&', '&amp;')
       @operator      = rule['operator']
       @value         = rule['value'].is_a?(Array) ? rule['value'] : rule['value'].gsub("'", "''")
       @type          = rule['type']
@@ -17,13 +17,13 @@ module AdvancedSearches
 
       case @operator
       when 'equal'
-        if @input_type == 'text'
+        if @input_type == 'text' && @field.exclude?('&')
           properties_result = custom_field_properties.where("lower(properties ->> '#{@field}') = '#{@value.downcase}' ")
         else
           properties_result = custom_field_properties.where("properties -> '#{@field}' ? '#{@value}' ")
         end
       when 'not_equal'
-        if @input_type == 'text'
+        if @input_type == 'text' && @field.exclude?('&')
           properties_result = custom_field_properties.where.not("lower(properties ->> '#{@field}') = '#{@value.downcase}' ")
         else
           properties_result = custom_field_properties.where.not("properties -> '#{@field}' ? '#{@value}' ")

@@ -40,7 +40,7 @@ module AdvancedSearches
         ['case_type', { EC: 'EC', FC: 'FC',  KC: 'KC' }],
         ['agency_name', agencies_options],
         ['received_by_id', received_by_options],
-        ['birth_province_id', provinces],
+        ['birth_province_id', birth_provinces],
         ['province_id', provinces],
         ['district_id', districts],
         ['referral_source_id', referral_source_options],
@@ -73,6 +73,10 @@ module AdvancedSearches
 
     def provinces
       Client.province_is.sort.map{|s| {s[1].to_s => s[0]}}
+    end
+
+    def birth_provinces
+      Client.birth_province_is.sort.map{|s| {s[1].to_s => s[0]}}
     end
 
     def districts

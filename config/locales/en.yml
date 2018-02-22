@@ -3937,8 +3937,7 @@ en:
       roles: Permission Set
       start_date: Start Date
     permissions:
-      assessments:
-      assessmets: CSI Assessments
+      assessments: CSI Assessments
       case_notes: Case Notes
       custom_forms: Custom Forms
       custom_programs: Custom Programs

@@ -3959,8 +3959,7 @@ my:
       roles: ခြင့္ျပဳခ်က္ ျပဳလုပ္သည္
       start_date: စတင္သည့္ ရက္စြဲ
     permissions:
-      assessments:
-      assessmets: CSI စိစစ္အကဲျဖတ္မႈမ်ား
+      assessments: CSI စိစစ္အကဲျဖတ္မႈမ်ား
       case_notes: အမႈမွတ္စုမ်ား
       custom_forms: အေကာက္ခြန္ပံုစံမ်ား
       custom_programs: အေကာက္ခြန္ အစီအစဥ္မ်ား
