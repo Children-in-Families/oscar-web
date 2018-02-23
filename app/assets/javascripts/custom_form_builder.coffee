@@ -191,7 +191,7 @@ class CIF.CustomFormBuilder
           self.removeFieldDuplicate()
           self.handleDisplayDuplicateWarning(labels)
         ), 300
-        # self.handlePreventingBlankLabel(@)
+        self.handlePreventingBlankLabel(@)
 
   handlePreventingBlankLabel: (element) ->
     text = $(element).text()
