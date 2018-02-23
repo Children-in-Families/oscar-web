@@ -17,9 +17,8 @@ class UserNotification
   def upcoming_csi_assessments
     client_ids = []
     csi_count = 0
-    clients = @user.clients.where("clients.status = 'Referred' AND clients.able_state = 'Accepted' OR clients.status in (?)", Client::EXIT_STATUSES)
-    all_active_types_and_referred_accepted_clients = @user.clients.all_active_types_and_referred_accepted
-    all_active_types_and_referred_accepted_clients.each do |client|
+    clients = @user.clients.all_active_types_and_referred_accepted
+    clients.each do |client|
       next if client.assessments.empty?
       repeat_notifications = client.repeat_notifications_schedule
 
@@ -28,7 +27,7 @@ class UserNotification
         csi_count += 1
       end
     end
-    clients = all_active_types_and_referred_accepted_clients.where(id: client_ids)
+    clients = clients.where(id: client_ids)
     { csi_count: csi_count, clients: clients }
   end
 
