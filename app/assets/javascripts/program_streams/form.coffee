@@ -323,11 +323,13 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
   _handleCheckingInvalidRuleValue = ->
     invalidIntValues = $('.rule-value-container input[type=number].error').size()
     invalidStrValues = 0
+    ruleOperator = ['is_empty', 'is_not_empty']
 
     strValues = $('.rule-value-container input')
     for strValue in strValues
       elementParent = $(strValue).parent()
-      if $(strValue).val() == '' and !($(strValue).attr('class').includes('select2')) and $(elementParent).siblings('.rule-operator-container').find('select').val() != 'is_empty' and $(elementParent).siblings('.rule-operator-container').find('select').val() != 'is_not_empty'
+      operator = $(elementParent).siblings('.rule-operator-container').find('select').val()
+      if $(strValue).val() == '' and !($(strValue).attr('class').includes('select2')) and !(ruleOperator.includes(operator))
         $(strValue).addClass('error')
         $(elementParent).append("<label class='error'>Field cannot be blank.</label>") unless $(elementParent).find('label.error').is(':visible')
         invalidStrValues++
