@@ -2193,7 +2193,7 @@ km:
         login: ចូល
         password: ពាក្យសម្ងាត់
         remember_me: ចងចាំខ្ញុំ
-        verification_code: លេខកូដផ្ទៀងផ្ទាត់
+        verification_code: លេខកូដផ្ទៀងផ្ទាត់ Two Factor Authentication
       signed_in: ចូលបានជោគជ័យ
       signed_out: ចាកចេញដោយជោគជ័យ
     shared:

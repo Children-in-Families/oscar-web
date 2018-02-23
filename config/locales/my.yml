@@ -2129,11 +2129,11 @@ my:
       already_signed_out: ေအာင္ျမင္စြာ ျပန္ထြက္ၿပီးပါၿပီ။
       new:
         email: အီးေမးလ္
-        leave_this_blank_if_it_is_not_enabled: Leave this blank if it is not enabled
+        leave_this_blank_if_it_is_not_enabled: ထွက်သွား ဒီကွက်လပ်တစ်ခုကိုဖွင့်မပြုလုပ်လျှင်
         login: ၀င္ေရာက္ရန္
         password: စကား၀ွက္
         remember_me: ကၽြႏု္ပ္အား မွတ္ထားပါ
-        verification_code: Verification code
+        verification_code: Two Factor Authentication အတည်ပြုရန်ကုဒ်
       signed_in: ေအာင္ျမင္စြာ ၀င္ေရာက္ၿပီးပါၿပီ။
       signed_out: ေအာင္ျမင္စြာ ျပန္ထြက္ၿပီးပါၿပီ။
     shared:

@@ -2119,7 +2119,7 @@ en:
         login: Log in
         password: Password
         remember_me: Remember Me
-        verification_code: Verification code
+        verification_code: Two Factor Authentication verification code
       signed_in: Signed in successfully.
       signed_out: Signed out successfully.
     shared:
