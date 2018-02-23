@@ -2160,8 +2160,12 @@ km:
         current_password: លេខកូដសំងាត់បច្ចុប្បន្ន
         date_of_birth: ថ្ងៃ ខែ ឆ្នាំ កំណើត
         delete_my_account: លុបចោលគណនីរបស់ខ្ញុំ
+        disable: បិទដំណើរការ
+        disable_two_factor_authentication: បិទការផ្ទៀងផ្ទាត់ជំហានទីពីរ
         department: កម្មវិធី
         email: ឣុីម៉ែល
+        enable: បើកដំណើរការ
+        enable_two_factor_authentication: បើកការផ្ទៀងផ្ទាត់ជំហានទីពីរ
         first_name: នាមខ្លួនជាអក្សរឡាតាំង
         header: កែសម្រួលពត៌មានផ្ទាល់ខ្លួន
         job_title: មុខតំណែង
@@ -2175,6 +2179,7 @@ km:
         save: រក្សាទុក
         staff_performance_notification: ផ្ញើឲ្យខ្ញុំនូវរបាយការណ៍ការងាររបស់បុគ្គលិក
         start_date: កាលបរិច្ឆេទចាប់ផ្តើម
+        verification_code: លេខកូដផ្ទៀងផ្ទាត់
         we_need_your_current_password_to_confirm_your_changes: យើងត្រូវការពិនិត្យពាក្យសម្ងាត់បច្ចុប្បន្នដើម្បីធ្វើការផ្លាស់ប្តូរ
       signed_up: ស្វាគមន៏ ! អ្នកបានចូលដោយជោគជ័យ
       signed_up_but_inactive: អ្នកបានចុះឈ្មោះ ដោយជោគជ័យ។ ទោះយ៉ាងណា យើងមិនអាច ឱ្យអ្នកចូល ទេព្រោះ គណនីរបស់អ្នក មិនទាន់ដំណើរការទេ
@@ -2186,9 +2191,11 @@ km:
       already_signed_out: បានចេញដោយជោគជ័យ
       new:
         email: អ៊ីម៉ែល
+        leave_this_blank_if_it_is_not_enabled: ទុកវាឲ្យនៅទទេប្រសិនបើវាមិនត្រូវបានបើក
         login: ចូល
         password: ពាក្យសម្ងាត់
         remember_me: ចងចាំខ្ញុំ
+        verification_code: លេខកូដផ្ទៀងផ្ទាត់ Two Factor Authentication
       signed_in: ចូលបានជោគជ័យ
       signed_out: ចាកចេញដោយជោគជ័យ
     shared:
@@ -3485,6 +3492,10 @@ km:
   review_problem: សូមពិនិត្យបញ្ហាសារឡើងវិញនៅខាងក្រោម៖
   rules_has_been_modified: លក្ខខ័ណ្ឌមិនអាចផ្លាស់ប្តូរឬបន្ថែមទេព្រោះលក្ខខ័ណ្ឌមុនត្រូវបានផ្លាស់ប្តូរ។
   save: រក្សាទុក
+  sessions:
+    create:
+      your_account_needs_to_supply_a_verification_code: គណនីរបស់អ្នកត្រូវការបញ្ចូលកូដផ្ទៀងផ្ទាត់
+      bad_credentials_supplied: កូដផ្ទៀងផ្ទាត់មិនត្រឹមត្រូវ
   settings:
     country:
       settings: ការកំណត់
@@ -3966,6 +3977,13 @@ km:
       add_new_user: បន្ថែមឣ្នកប្រើថ្មី
       export_xls: ទាញចេញជាឯកសារប្រភេទ XLS
       results: លទ្ធផល
+    multi_factor_authentication:
+      verify_enable:
+        two_factor_authentication_could_not_be_enabled: ការផ្ទៀងផ្ទាត់ជំហានទីពីរមិនអាចបើកបានទេ
+        two_factor_authentication_enabled: ការផ្ទៀងផ្ទាត់ជំហានទីពីរត្រូវបានបើកដោយជោគជ័យ
+      verify_disabled:
+        two_factor_authentication_could_not_be_disabled: ការផ្ទៀងផ្ទាត់ជំហានទីពីរមិនអាចបិទបានទេ
+        two_factor_authentication_disabled: ការផ្ទៀងផ្ទាត់ជំហានទីពីរត្រូវបានបិទដោយជោគជ័យ
     new:
       clients: អតិថិជន
       current_password: លេខកូដសំងាត់បច្ចុប្បន្ន

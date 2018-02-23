@@ -10,6 +10,10 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
+  has_one_time_password
+  enum otp_module: { otp_module_disabled: 0, otp_module_enabled: 1 }
+  attr_accessor :otp_code_token
+
   has_paper_trail
 
   include DeviseTokenAuth::Concerns::User
@@ -242,5 +246,11 @@ class User < ActiveRecord::Base
     ProgramStream.order('lower(name)').each do |ps|
       program_stream_permissions.build(program_stream_id: ps.id)
     end
+  end
+
+  def otp_module_changeable?
+    # set it to false until the client request this feature
+    # as the user is unable to access their device/token
+    false
   end
 end
