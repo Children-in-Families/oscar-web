@@ -115,7 +115,7 @@ class Client < ActiveRecord::Base
   scope :exited_ngo,                               ->        { where(status: EXIT_STATUSES) }
   scope :non_exited_ngo,                           ->        { where.not(status: EXIT_STATUSES) }
   scope :telephone_number_like,                    ->(value) { where('clients.telephone_number iLIKE ?', "#{value}%") }
-  scope :all_active_types_and_referred_accepted,   ->        { where("clients.status = 'Referred' AND clients.state = 'accepted' OR clients.status in (?)", Client::CLIENT_ACTIVE_STATUS) }
+  scope :all_active_types_and_referred_accepted,   ->        { where("clients.status = ? AND clients.state = ? OR clients.status in (?)", 'Referred', 'accepted', Client::CLIENT_ACTIVE_STATUS) }
 
   def self.filter(options)
     query = all
@@ -345,7 +345,7 @@ class Client < ActiveRecord::Base
   def self.notify_upcoming_csi_assessment
     Organization.all.each do |org|
       Organization.switch_to org.short_name
-      clients = joins(:assessments).all_active_types
+      clients = joins(:assessments).all_active_types_and_referred_accepted
       clients.each do |client|
         repeat_notifications = client.repeat_notifications_schedule
 
