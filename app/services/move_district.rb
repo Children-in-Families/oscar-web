@@ -109,8 +109,9 @@ class MoveDistrict
           if district.nil?
             unprocessable_clients = "#{org.short_name} #{client.id}"
             system "echo #{unprocessable_clients} >> error_district_clients.txt"
+          else
+            client.update_columns(district_id: district.id)
           end
-          client.update_columns(district_id: district.id) if district.present?
         end
       end
     end
