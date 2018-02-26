@@ -34,7 +34,12 @@ module AdvancedSearchHelper
   end
 
   def format_header(key)
-    translations = {
+    translations = { **client_header, **family_header }
+    translations[key.to_sym] || ''
+  end
+
+  def client_header
+    {
       given_name: I18n.t('advanced_search.fields.given_name'),
       family_name: I18n.t('advanced_search.fields.family_name'),
       local_given_name: I18n.t('advanced_search.fields.local_given_name'),
@@ -93,6 +98,11 @@ module AdvancedSearchHelper
       date_of_assessments: I18n.t('advanced_search.fields.date_of_assessments'),
       telephone_number: I18n.t('advanced_search.fields.telephone_number')
     }
-    translations[key.to_sym] || ''
+  end
+
+  def family_header
+    {
+      code: 'Code'
+    }
   end
 end

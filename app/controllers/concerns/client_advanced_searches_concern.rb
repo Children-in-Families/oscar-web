@@ -72,7 +72,7 @@ module ClientAdvancedSearchesConcern
   end
 
   def get_custom_form_fields
-    @custom_form_fields = AdvancedSearches::CustomFields.new(custom_form_values).render
+    @custom_form_fields = AdvancedSearches::CustomFields.new(custom_form_values, 'client').render
   end
 
   def get_quantitative_fields

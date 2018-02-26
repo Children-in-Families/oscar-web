@@ -64,8 +64,9 @@ class CIF.ClientAdvanceSearch
 
   ######################################################################################################################
 
-  initBuilderFilter: ->
-    builderFields = $('#client-builder-fields').data('fields')
+  initBuilderFilter: (id)->
+    builderFields = $(id).data('fields')
+    # builderFields = $('#client-builder-fields').data('fields')
     advanceSearchBuilder = new CIF.AdvancedFilterBuilder($('#builder'), builderFields, @filterTranslation)
     advanceSearchBuilder.initRule()
     @.basicFilterSetRule()

@@ -1,12 +1,18 @@
 .row
-  .col-xs-12
-    .pull-left
-      %button.btn.btn-primary.btn-filter{"aria-expanded" => 'false', "data-target" => '#family-search-form', "data-toggle" => 'collapse', type: 'button'}
-        = fa_icon('filter')
+  .col-xs-12.col-md-9
+    %button.btn.btn-primary.query.family-search{"aria-expanded" => 'false', "data-target" => '#family-search-form', "data-toggle" => 'collapse', type: 'button'}
+      = fa_icon('filter')
+    %button.btn.btn-primary.query.family-advance-search{"aria-expanded" => 'false', "data-target" => '#family-advance-search-form', "data-toggle" => 'collapse', type: 'button'}
+      = t('.report_builder')
+  .col-xs-12.col-md-3
     .pull-right
       - if can? :manage, Family
         = link_to "#{I18n.t('families.index.add_new_family')}", new_family_path, class: 'btn btn-primary'
       = link_to "#{I18n.t('families.index.export_xls')}", current_url(format: 'xls'), class: 'btn btn-info btn-export'
+.row
+  .col-xs-12
+    .ibox-content#family-advance-search-form.collapse
+      = render 'families/family_advanced_searches/advanced_search'
 
 .row.ibox-space
   .col-xs-12
