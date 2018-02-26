@@ -2087,7 +2087,11 @@ en:
         date_of_birth: Date of Birth
         delete_my_account: Delete My Account
         department: Department
+        disable: Disable
+        disable_two_factor_authentication: Disable Two Factor Authentication
         email: Email
+        enable: Enable
+        enable_two_factor_authentication: Enable Two Factor Authentication
         first_name: First Name
         header: Edit Personal Information
         job_title: Job Title
@@ -2101,6 +2105,7 @@ en:
         save: Save
         staff_performance_notification: Send me staff performance report
         start_date: Start Date
+        verification_code: Verification code
         we_need_your_current_password_to_confirm_your_changes: We need your current password to confirm your changes
       signed_up: Welcome! You have signed up successfully.
       signed_up_but_inactive: You have signed up successfully. However, we could not sign you in because your account is not yet activated.
@@ -2112,9 +2117,11 @@ en:
       already_signed_out: Signed out successfully.
       new:
         email: Email
+        leave_this_blank_if_it_is_not_enabled: Leave this blank if it is not enabled
         login: Log in
         password: Password
         remember_me: Remember Me
+        verification_code: Two Factor Authentication verification code
       signed_in: Signed in successfully.
       signed_out: Signed out successfully.
     shared:
@@ -3431,6 +3438,10 @@ en:
   review_problem: 'Please review the problems below:'
   rules_has_been_modified: Conditions cannot be changed or added because it breaks the previous conditions.
   save: Save
+  sessions:
+    create:
+      your_account_needs_to_supply_a_verification_code: Your account needs to supply a verification code.
+      bad_credentials_supplied: Bad Credentials Supplied.
   settings:
     country:
       settings: Settings
@@ -3914,6 +3925,13 @@ en:
       add_new_user: Add New User
       export_xls: Export to XLS
       results: Results
+    multi_factor_authentication:
+      verify_enable:
+        two_factor_authentication_could_not_be_enabled: Two Factor Authentication could not be enabled
+        two_factor_authentication_enabled: Two Factor Authentication Enabled
+      verify_disabled:
+        two_factor_authentication_could_not_be_disabled: Two Factor Authentication could not be disabled
+        two_factor_authentication_disabled: Two Factor Authentication Disabled
     new:
       clients: Clients
       current_password: Current Password
@@ -3937,8 +3955,7 @@ en:
       roles: Permission Set
       start_date: Start Date
     permissions:
-      assessments:
-      assessmets: CSI Assessments
+      assessments: CSI Assessments
       case_notes: Case Notes
       custom_forms: Custom Forms
       custom_programs: Custom Programs

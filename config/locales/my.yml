@@ -2101,7 +2101,11 @@ my:
         date_of_birth: ေမြးရက္၊ လ၊ ႏွစ္
         delete_my_account: ကၽြႏု္ပ္၏ အေကာင့္ကို ဖ်က္ရန္
         department: ဌာန
+        disable: Disable
+        disable_two_factor_authentication: Disable Two Factor Authentication
         email: အီးေမးလ္
+        enable: Enable
+        enable_two_factor_authentication: Enable Two Factor Authentication
         first_name: နာမည္ပထမဆံုးအလံုး
         header: ပုဂၢလိကအခ်က္အလက္မ်ားကို ျပင္ဆင္ရန္
         job_title: အလုပ္အမည္
@@ -2115,6 +2119,7 @@ my:
         save: သိမ္းဆည္းရန္
         staff_performance_notification: ၀န္ထမ္းမ်ား၏စြမ္းေဆာင္ရည္အစီရင္ခံစာကို ပို႔ေပးပါ
         start_date: စတင္သည့္ရက္စြဲ
+        verification_code: Verification code
         we_need_your_current_password_to_confirm_your_changes: သင္၏ ေျပာင္းလဲမႈမ်ားကို အတည္ျပဳရန္အတြက္ လက္ရွိ စကား၀ွက္ကို သိရန္လိုအပ္ပါသည္
       signed_up: ႀကိဳဆုိပါသည္။ ေအာင္ျမင္စြာစာရင္းသြင္းၿပီးပါၿပီ
       signed_up_but_inactive: သင့္အေနျဖင့္ ေအာင္ျမင္စြာ စာရင္းသြင္းၿပီးပါၿပီ။ သို႔ေသာ္ သင့္အေကာင္မွာ အသက္မသြင္းရေသးသျဖင့္ ၀င္ေရာက္အသံုးျပဳခြင့္ေပး၍ မရေသးပါ
@@ -2126,9 +2131,11 @@ my:
       already_signed_out: ေအာင္ျမင္စြာ ျပန္ထြက္ၿပီးပါၿပီ။
       new:
         email: အီးေမးလ္
+        leave_this_blank_if_it_is_not_enabled: ထွက်သွား ဒီကွက်လပ်တစ်ခုကိုဖွင့်မပြုလုပ်လျှင်
         login: ၀င္ေရာက္ရန္
         password: စကား၀ွက္
         remember_me: ကၽြႏု္ပ္အား မွတ္ထားပါ
+        verification_code: Two Factor Authentication အတည်ပြုရန်ကုဒ်
       signed_in: ေအာင္ျမင္စြာ ၀င္ေရာက္ၿပီးပါၿပီ။
       signed_out: ေအာင္ျမင္စြာ ျပန္ထြက္ၿပီးပါၿပီ။
     shared:
@@ -3452,6 +3459,10 @@ my:
   review_problem: ေက်းဇူးျပဳ၍ ေအာက္တြင္ေဖာ္ျပထားသည့္ ျပႆနာကို ျပန္လည္သံုးသပ္ေပးပါ
   rules_has_been_modified: ဒါကြောင့်ယခင်စည်းမျဉ်းစည်းကမ်းတွေကိုဖောက်ဖျက်သောကွောငျ့စည်းကမ်းများပြောင်းလဲသွားတယ်သို့မဟုတ်မထည့်သွင်းနိုင်
   save: သိမ္းဆည္းရန္
+  sessions:
+    create:
+      your_account_needs_to_supply_a_verification_code: သင့်အကောင့်အတည်ပြုရန်ကုဒ်ထောက်ပံ့ဖို့လိုအပ်ပါတယ်
+      bad_credentials_supplied: မကောင်းတဲ့သံတမန်ဆောင်ဧည်ထောက်ပံ့
   settings:
     country:
       settings: အျပင္အဆင္မ်ား
@@ -3936,6 +3947,13 @@ my:
       add_new_user: အသံုးျပဳသူအသစ္ ထည့္ရန္
       export_xls: XLS အျဖစ္ ထုတ္ရန္
       results: ရလဒ္မ်ား
+    multi_factor_authentication:
+      verify_enable:
+        two_factor_authentication_could_not_be_enabled: Two Factor Authentication could not be enabled
+        two_factor_authentication_enabled: Two Factor Authentication Enabled
+      verify_disabled:
+        two_factor_authentication_could_not_be_disabled: Two Factor Authentication could not be disabled
+        two_factor_authentication_disabled: Two Factor Authentication Disabled
     new:
       clients: အမႈသည္မ်ား
       current_password: လက္ရွိ စကား၀ွက္
@@ -3959,8 +3977,7 @@ my:
       roles: ခြင့္ျပဳခ်က္ ျပဳလုပ္သည္
       start_date: စတင္သည့္ ရက္စြဲ
     permissions:
-      assessments:
-      assessmets: CSI စိစစ္အကဲျဖတ္မႈမ်ား
+      assessments: CSI စိစစ္အကဲျဖတ္မႈမ်ား
       case_notes: အမႈမွတ္စုမ်ား
       custom_forms: အေကာက္ခြန္ပံုစံမ်ား
       custom_programs: အေကာက္ခြန္ အစီအစဥ္မ်ား

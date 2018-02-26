@@ -31,6 +31,10 @@ Rails.application.routes.draw do
       resources :permissions
       get 'version' => 'users#version'
       get 'disable' => 'users#disable'
+      member do
+        post :enable_multi_factor_authentication, to: 'users/multi_factor_authentication#verify_enable'
+        post :disable_multi_factor_authentication, to: 'users/multi_factor_authentication#verify_disabled'
+      end
     end
   end
 
