@@ -196,7 +196,7 @@ class CIF.CustomFormBuilder
   handlePreventingBlankLabel: (element) ->
     text = $(element).text()
     parentElement = $(element).parents('li.form-field')
-    errorText = "Label can't be blank or undefined"
+    errorText = "Label can't be blank"
 
     if text == 'undefined' || text == ''
       $(parentElement).addClass('has-error')
