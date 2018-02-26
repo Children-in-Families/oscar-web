@@ -17,7 +17,8 @@ class UserNotification
   def upcoming_csi_assessments
     client_ids = []
     csi_count = 0
-    @user.clients.all_active_types.each do |client|
+    clients = @user.clients.all_active_types_and_referred_accepted
+    clients.each do |client|
       next if client.assessments.empty?
       repeat_notifications = client.repeat_notifications_schedule
 
@@ -26,7 +27,7 @@ class UserNotification
         csi_count += 1
       end
     end
-    clients = @user.clients.all_active_types.where(id: client_ids)
+    clients = clients.where(id: client_ids)
     { csi_count: csi_count, clients: clients }
   end
 
@@ -44,7 +45,7 @@ class UserNotification
     program_streams_by_user.each do |program_stream|
       rules = program_stream.rules
       client_ids = program_stream.client_enrollments.collect(&:client_id)
-      clients = Client.all_active_types.where(id: client_ids)
+      clients = Client.all_active_types_and_referred_accepted.where(id: client_ids)
       clients_after_filter = AdvancedSearches::ClientAdvancedSearch.new(rules, clients).filter
       if clients_after_filter.present?
         clients_change = clients.where.not(id: clients_after_filter.ids).ids
