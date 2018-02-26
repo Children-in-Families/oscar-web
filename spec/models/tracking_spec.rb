@@ -23,13 +23,13 @@ describe 'validate presence of label field' do
 
   context 'valid' do
     fields = [{"name"=>"date-1497520151012", "type"=>"date", "label"=>"Date", "className"=>"calendar"}]
-    valid_tracking = Tracking.new(name: 'Testing', fields: fields)
+    valid_tracking = FactoryGirl.build(:tracking, fields: fields)
     it{ expect(valid_tracking.valid?).to be_truthy }
   end
 
   context 'invalid' do
     fields = [{"name"=>"date-1497520151012", "type"=>"date", "label"=>"", "className"=>"calendar"}]
-    invalid_tracking = Tracking.new(name: 'Testing', fields: fields)
+    invalid_tracking = FactoryGirl.build(:tracking, fields: fields)
     invalid_tracking.valid?
     it{ expect(invalid_tracking.errors[:fields]).to include("Label can't be blank") }
   end
