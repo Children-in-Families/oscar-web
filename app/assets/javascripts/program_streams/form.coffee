@@ -428,7 +428,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         if fields[name].includes(text)
           _removeActionFormBuilder(label)
 
-  _removeActionFormBuilder =(label) ->
+  _removeActionFormBuilder = (label) ->
     $('li.paragraph-field.form-field').find('.del-button, .copy-button').remove()
     parent = $(label).parent()
     $(parent).find('.del-button, .copy-button').remove()
