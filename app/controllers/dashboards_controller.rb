@@ -32,7 +32,7 @@ class DashboardsController < AdminController
     clients_duetoday = []
     clients_upcoming = []
     clients = []
-    @user.clients.all_active_types.each do |client|
+    @user.clients.all_active_types_and_referred_accepted.each do |client|
       overdue_trackings = []
       today_trackings = []
       upcoming_trackings = []
