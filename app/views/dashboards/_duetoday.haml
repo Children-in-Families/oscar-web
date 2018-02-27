@@ -5,8 +5,8 @@
         %h5= t('.duetoday_tasks')
   .panel-body
     - @clients.each do |client, today_forms|
-      - today_tasks = client.tasks.incomplete.exclude_exited_ngo_clients.of_user(@user).today
-      - next if skipped_duetoday_tasks?(today_tasks) && skipped_duetoday_forms?(today_forms) && skipped_duetoday_assessments?(client)
+      - today_tasks = today_forms[:today_tasks]
+      - next if skipped_duetoday_tasks?(today_tasks) && skipped_duetoday_forms?(today_forms, client) && skipped_duetoday_assessments?(client)
       .ibox.border-left-right.border-bottom
         .ibox-title
           %h5
@@ -20,7 +20,7 @@
                     %td.col-xs-3{ rowspan: today_tasks.count }= t('.tasks')
                   %td.col-xs-6.task-name.border-left-right= task.name
                   %td.col-xs-3= task.completion_date.strftime("%B %d, %Y")
-            - if @assessment_params && duetoday_assessments_any?(client)
+            - if @assessment_params && duetoday_assessments_any?(client) && client.user_ids.include?(@user.id)
               - assessment = client.assessments.latest_record
               %tr
                 %td.col-xs-3= t('.assessment')
