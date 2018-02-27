@@ -32,7 +32,7 @@ class DashboardsController < AdminController
     clients_duetoday = []
     clients_upcoming = []
     clients = []
-    Client.all_active_types.each do |client|
+    Client.all_active_types_and_referred_accepted.each do |client|
       overdue_tasks = []
       today_tasks = []
       upcoming_tasks = []
