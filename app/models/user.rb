@@ -10,9 +10,9 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  has_one_time_password
-  enum otp_module: { otp_module_disabled: 0, otp_module_enabled: 1 }
-  attr_accessor :otp_code_token
+  # has_one_time_password
+  # enum otp_module: { otp_module_disabled: 0, otp_module_enabled: 1 }
+  # attr_accessor :otp_code_token
 
   has_paper_trail
 
@@ -248,9 +248,9 @@ class User < ActiveRecord::Base
     end
   end
 
-  def otp_module_changeable?
-    # set it to false until the client request this feature
-    # as the user is unable to access their device/token
-    false
-  end
+  # def otp_module_changeable?
+  #   # set it to false until the client request this feature
+  #   # as the user is unable to access their device/token
+  #   false
+  # end
 end
