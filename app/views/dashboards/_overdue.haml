@@ -5,7 +5,7 @@
         %h5= t('.overdue_tasks')
   .panel-body
     - @clients.each do |client, overdue_forms|
-      - overdue_tasks = client.tasks.exclude_exited_ngo_clients.of_user(@user).overdue_incomplete
+      - overdue_tasks = client.tasks.of_user(@user).overdue_incomplete
       - next if skipped_overdue_tasks?(overdue_tasks) && skipped_overdue_forms?(overdue_forms) && skipped_overdue_assessments?(client)
       .ibox.border-left-right.border-bottom
         .ibox-title

@@ -5,7 +5,7 @@
         %h5= t('.upcoming_tasks')
   .panel-body
     - @clients.each do |client, upcoming_forms|
-      - upcoming_tasks = client.tasks.incomplete.exclude_exited_ngo_clients.of_user(@user).upcoming_within_three_months
+      - upcoming_tasks = client.tasks.incomplete.of_user(@user).upcoming_within_three_months
       - next if skipped_upcoming_tasks?(upcoming_tasks) && skipped_upcoming_forms?(upcoming_forms) && skipped_upcoming_assessments?(client)
       .ibox.border-left-right.border-bottom
         .ibox-title
