@@ -7,7 +7,10 @@ class User < ActiveRecord::Base
   ROLES = ['admin', 'case worker', 'able manager', 'ec manager', 'fc manager', 'kc manager', 'manager', 'strategic overviewer'].freeze
   MANAGERS = ROLES.select { |role| role if role.include?('manager') }
 
-  devise :database_authenticatable, :registerable,
+  devise :two_factor_authenticatable,
+         otp_secret_encryption_key: ENV['TWO_FACTOR_AUTH_ENCRYPTION_KEY']
+
+  devise :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
   # has_one_time_password

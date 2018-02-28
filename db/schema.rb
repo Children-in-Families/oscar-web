@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180116031324) do
+ActiveRecord::Schema.define(version: 20180228034825) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1123,6 +1123,11 @@ ActiveRecord::Schema.define(version: 20180116031324) do
     t.boolean  "staff_performance_notification", default: true
     t.string   "pin_code",                       default: ""
     t.boolean  "domain_warning",                 default: false
+    t.string   "encrypted_otp_secret"
+    t.string   "encrypted_otp_secret_iv"
+    t.string   "encrypted_otp_secret_salt"
+    t.integer  "consumed_timestep"
+    t.boolean  "otp_required_for_login"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
