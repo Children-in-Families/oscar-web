@@ -58,13 +58,13 @@ Rails.application.routes.draw do
     get 'version' => 'domains#version'
   end
 
-  resources :provinces, except: [:show] do
-    get 'version' => 'provinces#version'
-  end
+  # resources :provinces, except: [:show] do
+  #   get 'version' => 'provinces#version'
+  # end
 
-  resources :districts, except: [:show] do
-    get 'version' => 'districts#version'
-  end
+  # resources :districts, except: [:show] do
+  #   get 'version' => 'districts#version'
+  # end
 
   resources :departments, except: [:show] do
     get 'version' => 'departments#version'
