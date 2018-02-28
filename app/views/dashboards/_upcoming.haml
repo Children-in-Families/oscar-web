@@ -5,8 +5,8 @@
         %h5= t('.upcoming_tasks')
   .panel-body
     - @clients.each do |client, upcoming_forms|
-      - upcoming_tasks = client.tasks.incomplete.exclude_exited_ngo_clients.of_user(@user).upcoming_within_three_months
-      - next if skipped_upcoming_tasks?(upcoming_tasks) && skipped_upcoming_forms?(upcoming_forms) && skipped_upcoming_assessments?(client)
+      - upcoming_tasks = upcoming_forms[:upcoming_tasks]
+      - next if skipped_upcoming_tasks?(upcoming_tasks) && skipped_upcoming_forms?(upcoming_forms, client) && skipped_upcoming_assessments?(client)
       .ibox.border-left-right.border-bottom
         .ibox-title
           %h5
@@ -20,7 +20,7 @@
                     %td.col-xs-3{ rowspan: upcoming_tasks.count }= t('.tasks')
                   %td.col-xs-6.task-name.border-left-right= task.name
                   %td.col-xs-3= task.completion_date.strftime("%B %d, %Y")
-            - if @assessment_params && upcoming_assessments_any?(client)
+            - if @assessment_params && upcoming_assessments_any?(client) && client.user_ids.include?(@user.id)
               - assessment = client.assessments.latest_record
               %tr
                 %td.col-xs-3= t('.assessment')
