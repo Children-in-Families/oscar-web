@@ -21,7 +21,7 @@ class Task < ActiveRecord::Base
   scope :today_incomplete,   -> { incomplete.today }
   scope :by_domain_id,       ->(value) { where('domain_id = ?', value) }
   scope :overdue_incomplete_ordered, -> { overdue_incomplete.order('completion_date ASC') }
-  scope :exclude_exited_ngo_clients, -> { where(client_id: Client.all_active_types.ids) }
+  scope :exclude_exited_ngo_clients, -> { where(client_id: Client.all_active_types_and_referred_accepted.ids) }
 
   after_save :create_task_history
 

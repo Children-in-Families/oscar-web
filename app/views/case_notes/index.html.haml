@@ -41,7 +41,7 @@
                             .panel-heading
                               %h4= t('.note')
                             .panel-body
-                              = cdg.note
+                              = simple_format cdg.note
                         - if cdg.completed_tasks.any?
                           .col-xs-12.col-sm-6
                             .panel.panel-default
