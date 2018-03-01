@@ -18,7 +18,7 @@ class MoveDistrict
     def remove_district_from_client
       Organization.where.not(short_name: ['spo', 'cps', 'kmo']).each do |org|
         Organization.switch_to org.short_name
-        Client.where.not(archive_district: '').update_all(district_id: nil)
+        Client.all.update_all(district_id: nil)
         District.destroy_all
       end
     end

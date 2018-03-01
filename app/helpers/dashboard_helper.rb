@@ -62,13 +62,13 @@ module DashboardHelper
     end
   end
 
-  def skipped_overdue_forms?(forms)
-    skipped_forms = overdue_forms_empty?(forms)
+  def skipped_overdue_forms?(forms, client)
+    skipped_forms = overdue_forms_empty?(forms) || client.user_ids.exclude?(@user.id)
     skipped_forms ? true : false
   end
 
   def skipped_overdue_assessments?(client)
-    skipped_assessments = !overdue_assessments_any?(client)
+    skipped_assessments = !overdue_assessments_any?(client) || client.user_ids.exclude?(@user.id)
     if skipped_assessments
       true
     elsif @assessment_params
@@ -89,13 +89,13 @@ module DashboardHelper
     end
   end
 
-  def skipped_duetoday_forms?(forms)
-    skipped_forms = duetoday_forms_empty?(forms)
+  def skipped_duetoday_forms?(forms, client)
+    skipped_forms = duetoday_forms_empty?(forms) || client.user_ids.exclude?(@user.id)
     skipped_forms ? true : false
   end
 
   def skipped_duetoday_assessments?(client)
-    skipped_assessments = !duetoday_assessments_any?(client)
+    skipped_assessments = !duetoday_assessments_any?(client) || client.user_ids.exclude?(@user.id)
     if skipped_assessments
       true
     elsif @assessment_params
@@ -116,13 +116,13 @@ module DashboardHelper
     end
   end
 
-  def skipped_upcoming_forms?(forms)
-    skipped_forms = upcoming_forms_empty?(forms)
+  def skipped_upcoming_forms?(forms, client)
+    skipped_forms = upcoming_forms_empty?(forms) || client.user_ids.exclude?(@user.id)
     skipped_forms ? true : false
   end
 
   def skipped_upcoming_assessments?(client)
-    skipped_assessments = !upcoming_assessments_any?(client)
+    skipped_assessments = !upcoming_assessments_any?(client) || client.user_ids.exclude?(@user.id)
     if skipped_assessments
       true
     elsif @assessment_params
