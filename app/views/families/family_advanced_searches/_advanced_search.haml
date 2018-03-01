@@ -22,7 +22,7 @@
 
       .ibox-footer
         %button#search.btn.btn-primary= t('.search')
-        = link_to t('.reset'), clients_path, class: 'btn btn-default'
+        = link_to t('.reset'), families_path, class: 'btn btn-default'
 
 = simple_form_for :family_advanced_search, url: :families, method: 'GET', html: { id: 'advanced-search' } do |f|
   = f.hidden_field :custom_form_selected

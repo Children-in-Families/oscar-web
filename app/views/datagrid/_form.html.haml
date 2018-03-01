@@ -155,7 +155,27 @@
               .visibility.col-sm-12
                 = check_box_tag "#{f.name}_", f.name, checked = params["#{f.name}_"].present?, class: 'i-checks'
                 = columns_visibility f.name
-
+          %li
+            .visibility.col-sm-12
+              = check_box_tag 'member_count_', 'member_count', checked = params[:member_count_].present?, class: 'i-checks'
+              = label_tag 'member_count_', t('datagrid.columns.families.member_count')
+          %li
+            .visibility.col-sm-12
+              = check_box_tag 'clients_', 'clients', checked = params[:clients_].present?, class: 'i-checks'
+              = label_tag 'clients_', t('datagrid.columns.families.clients')
+          %li
+            .visibility.col-sm-12
+              = check_box_tag 'case_workers_', 'case_workers', checked = params[:case_workers_].present?, class: 'i-checks'
+              = label_tag 'case_workers_', t('datagrid.columns.families.case_workers')
+          %li.divider.col-xs-12
+          %li
+            .visibility.col-sm-12
+              = check_box_tag 'manage_', 'manage', checked = params[:manage_].present?, class: 'i-checks'
+              = label_tag 'manage_', t('datagrid.columns.families.manage')
+          %li
+            .visibility.col-sm-12
+              = check_box_tag 'changelog_', 'changelog', checked = params[:changelog_].present?, class: 'i-checks'
+              = label_tag 'changelog_', t('datagrid.columns.families.changelog')
   #filter_form
     %hr/
     .row

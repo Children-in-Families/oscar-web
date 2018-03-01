@@ -13,6 +13,7 @@ CIF.FamiliesIndex = do ->
     _handleColumnVisibilityParams()
     _handleUncheckColumnVisibility()
     _initAdavanceSearchFilter()
+    _hideFamilyFilters()
 
   _initAdavanceSearchFilter = ->
     advanceFilter = new CIF.ClientAdvanceSearch()
@@ -25,31 +26,13 @@ CIF.FamiliesIndex = do ->
     advanceFilter.customFormSelectRemove()
     advanceFilter.handleHideCustomFormSelect()
 
-    # advanceFilter.handleShowProgramStreamFilter()
-    # advanceFilter.handleHideProgramStreamSelect()
-    # advanceFilter.handleProgramSelectChange()
-    # advanceFilter.triggerEnrollmentFields()
-    # advanceFilter.triggerTrackingFields()
-    # advanceFilter.triggerExitProgramFields()
-
-    advanceFilter.handleSelect2RemoveProgram()
-    # advanceFilter.handleUncheckedEnrollment()
-    # advanceFilter.handleUncheckedTracking()
-    # advanceFilter.handleUncheckedExitProgram()
-
-    # advanceFilter.handleAddQuantitativeFilter()
-    # advanceFilter.handleRemoveQuantitativFilter()
-
-    advanceFilter.handleSearch()
+    advanceFilter.handleFamilySearch()
     advanceFilter.addRuleCallback()
     advanceFilter.filterSelectChange()
     advanceFilter.filterSelecting()
-    # advanceFilter.preventDomainScore()
-    # advanceFilter.disableOptionDomainScores()
 
     advanceFilter.handleSaveQuery()
     advanceFilter.validateSaveQuery()
-
 
   _handleUncheckColumnVisibility = ->
     params = window.location.search.substr(1)
@@ -90,11 +73,13 @@ CIF.FamiliesIndex = do ->
 
   _handleAutoCollapse = ->
     params = window.location.search.substr(1)
-
     if params.includes('family_advanced_search')
       $("button[data-target='#family-advance-search-form']").trigger('click')
     else
       $("button[data-target='#family-search-form']").trigger('click')
+
+  _hideFamilyFilters = ->
+    $('#family-advance-search-form #filter_form').hide()
 
   _toggleCollapseFilter = ->
     $('#family-search-form').on 'show.bs.collapse', ->

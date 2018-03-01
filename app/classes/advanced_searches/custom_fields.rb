@@ -3,14 +3,12 @@ module AdvancedSearches
 
     include AdvancedSearchHelper
 
-    def initialize(custom_form_ids, type)
+    def initialize(custom_form_ids)
       @custom_form_ids = custom_form_ids
-
       @number_type_list     = []
       @text_type_list       = []
       @date_type_list       = []
       @drop_down_type_list  = []
-      @type                 = type
 
       generate_field_by_type
     end
@@ -27,8 +25,7 @@ module AdvancedSearches
     end
 
     def generate_field_by_type
-      @custom_fields = CustomField.family_forms.where(id: @custom_form_ids) if @type = 'family'
-      @custom_fields = CustomField.client_forms.where(id: @custom_form_ids) if @type = 'client'
+      @custom_fields = CustomField.where(id: @custom_form_ids)
 
       @custom_fields.each do |custom_field|
 

@@ -1,13 +1,13 @@
-%h4    
-  %label **   
-  %span= t('.filter_option')    
+%h4
+  %label **
+  %span= t('.filter_option')
   %label **
 .well
   .row
     .col-xs-12.col-md-4
       #custom-form-wrapper
         .row
-          .col-xs-4
+          .col-xs-6
             .form-group
               = check_box_tag :nil, '1', custom_form_values.present?, { class: 'i-checks', id: 'custom-form-checkbox' }
               %label= t('.custom_form')

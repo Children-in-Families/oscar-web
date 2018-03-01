@@ -48,4 +48,16 @@ body[id='families-index'] {
   .ibox-content.no-border {
     border-style: none;
   }
+
+  .custom-form, .selected-custom-form {
+    display: none;
+  }
+  .checkbox-margin {
+    padding-left: 18px;
+  }
+
+  .basic-filter-error, .custom-form-error {
+    color: red;
+    display: none;
+  }
 }

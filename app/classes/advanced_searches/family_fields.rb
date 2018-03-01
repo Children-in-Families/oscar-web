@@ -3,11 +3,11 @@ module AdvancedSearches
     include AdvancedSearchHelper
 
     def render
-      group                 = format_header('basic_fields')
-      number_fields         = number_type_list.map { |item| AdvancedSearches::FilterTypes.number_options(item, format_header(item), group) }
-      text_fields           = text_type_list.map { |item| AdvancedSearches::FilterTypes.text_options(item, format_header(item), group) }
-      date_picker_fields    = date_type_list.map { |item| AdvancedSearches::FilterTypes.date_picker_options(item, format_header(item), group) }
-      drop_list_fields      = drop_down_type_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first, format_header(item.first), item.last, group) }
+      group                 = family_header('basic_fields')
+      number_fields         = number_type_list.map { |item| AdvancedSearches::FilterTypes.number_options(item, family_header(item), group) }
+      text_fields           = text_type_list.map { |item| AdvancedSearches::FilterTypes.text_options(item, family_header(item), group) }
+      date_picker_fields    = date_type_list.map { |item| AdvancedSearches::FilterTypes.date_picker_options(item, family_header(item), group) }
+      drop_list_fields      = drop_down_type_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first, family_header(item.first), item.last, group) }
 
       search_fields         = text_fields + drop_list_fields + number_fields + date_picker_fields
 
@@ -17,7 +17,7 @@ module AdvancedSearches
     private
 
     def number_type_list
-      ['significant_family_member_count', 'household_income', 'female_children_count', 'male_children_count', 'female_adult_count', 'male_adult_count', 'cases_count']
+      ['significant_family_member_count', 'household_income', 'female_children_count', 'male_children_count', 'female_adult_count', 'male_adult_count']
     end
 
     def text_type_list
@@ -32,7 +32,8 @@ module AdvancedSearches
       [
         ['family_type', family_type_options],
         ['province_id', provinces],
-        ['dependable_income', { yes: 'Yes', no: 'No' }]
+        ['dependable_income', { yes: 'Yes', no: 'No' }],
+        ['client_id', clients]
       ]
     end
 
@@ -42,6 +43,10 @@ module AdvancedSearches
 
     def provinces
       Family.joins(:province).pluck('provinces.name', 'provinces.id').uniq.sort.map{|s| {s[1].to_s => s[0]}}
+    end
+
+    def clients
+      Client.joins(:families).order('lower(clients.given_name)').pluck('clients.given_name, clients.family_name, clients.id').uniq.map{|s| { s[2].to_s => "#{s[0]} #{s[1]}" } }
     end
   end
 end
