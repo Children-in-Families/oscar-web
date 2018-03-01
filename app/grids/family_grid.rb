@@ -40,7 +40,7 @@ class FamilyGrid
     Family.province_are
   end
 
-  filter(:dependable_income, :boolean, header: -> { I18n.t('datagrid.columns.families.dependable_income') }) do |value, scope|
+  filter(:dependable_income, :xboolean, header: -> { I18n.t('datagrid.columns.families.dependable_income') }) do |value, scope|
     value ? scope.where(dependable_income: true) : scope.where(dependable_income: false)
   end
 
