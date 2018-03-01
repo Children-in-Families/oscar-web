@@ -168,4 +168,11 @@ body[id='program_streams-update'], body[id='program_streams-create'] {
   .cb-wrap {
     // width: 340px !important;
   }
+
+  li.has-error {
+    label.error {
+      margin-top: 10px;
+      margin-left: 0 !important;
+    }
+  }
 }
