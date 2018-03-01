@@ -1,4 +1,6 @@
 class CustomField < ActiveRecord::Base
+  include UpdateFieldLabelsCustomForm
+
   FREQUENCIES  = ['Daily', 'Weekly', 'Monthly', 'Yearly'].freeze
   ENTITY_TYPES = ['Client', 'Family', 'Partner', 'User'].freeze
 
@@ -24,6 +26,7 @@ class CustomField < ActiveRecord::Base
   # before_save :set_time_of_frequency
   after_create :build_permission
   before_save :set_ngo_name, if: -> { ngo_name.blank? }
+  after_update :update_custom_field_label, on: :update, if: -> { fields_changed? }
 
   scope :by_form_title,  ->(value)  { where('form_title iLIKE ?', "%#{value}%") }
   scope :client_forms,   ->         { where(entity_type: 'Client') }
@@ -76,6 +79,12 @@ class CustomField < ActiveRecord::Base
       next if user.admin? || user.strategic_overviewer?
       self.custom_field_permissions.find_or_create_by(user_id: user.id)
     end
+  end
+
+  private
+
+  def update_custom_field_label
+    labels_update(fields_change.last, fields_was, custom_field_properties)
   end
 
   # def validate_remove_field
