@@ -7,7 +7,7 @@ class Tracking < ActiveRecord::Base
 
   has_paper_trail
 
-  validates :name, uniqueness: { scope: :program_stream_id }
+  validates :name, uniqueness: { scope: :program_stream_id, conditions: -> { where.not(name: nil) } }
 
   validate :form_builder_field_uniqueness
   # validate :validate_remove_field, if: -> { id.present? }
