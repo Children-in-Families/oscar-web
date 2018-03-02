@@ -28,6 +28,8 @@ module ApplicationHelper
     case status
     when 'Referred'
       color = 'label-danger'
+    when 'Exited'
+      color = 'label-danger'
     when 'Investigating'
       color = 'label-warning'
     end

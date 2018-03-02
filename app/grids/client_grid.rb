@@ -227,11 +227,11 @@ class ClientGrid
   filter(:assessments_due_to, :enum, select: Assessment::DUE_STATES, header: -> { I18n.t('datagrid.columns.clients.assessments_due_to') }) do |value, scope|
     ids = []
     if value == Assessment::DUE_STATES[0]
-      Client.all_active_types_and_referred_accepted.each do |c|
+      Client.active_accepted_status.each do |c|
         ids << c.id if c.next_assessment_date == Date.today
       end
     else
-      Client.joins(:assessments).all_active_types_and_referred_accepted.each do |c|
+      Client.joins(:assessments).active_accepted_status.each do |c|
         ids << c.id if c.next_assessment_date < Date.today
       end
     end

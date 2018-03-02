@@ -28,47 +28,27 @@
                 %strong= @client.current_province
 
       .col-md-3
-        - if @client.state == ''
+        - if @client.status == 'Referred'
           .row
             .col-xs-12
               .row
                 .col-xs-12
                   = simple_form_for @client, method: :put, url: client_path(@client) do |f|
                     .form-inputs
-                      = f.hidden_field :state, value: 'accepted'
                       = f.hidden_field :accepted_date, value: Date.today
+                      = f.hidden_field :status, value: 'Accepted'
                     .form-actions
                       = f.submit t('.accept'), class: 'btn btn-success agree-btn'
                 .col-xs-12
-                  %button.btn.btn-danger.mini-margin{"data-target" => '#rejectionForm', "data-toggle" => 'modal', class: 'agree-btn'} #{t('.reject')}
+                  %button.btn.btn-danger.mini-margin{"data-target" => '#exitFromNgo', "data-toggle" => 'modal', class: 'agree-btn'} #{t('.reject')}
             .col-xs-12
-              #rejectionForm.modal.fade{ role: 'dialog', tabindex: '-1'}
-                .modal-dialog{ role: 'document'}
-                  .modal-content
-                    .modal-header
-                      %button.close{"aria-label" => "#{t('close')}", "data-dismiss" => 'modal'}
-                        %span{"aria-hidden" => 'true'} &times;
-                      %h4.modal-title
-                        = t('.reject_client')
-                    .modal-body
-                      = simple_form_for(@client) do |f|
-                        = f.error_notification
-                        .form-inputs
-                          = f.input :rejected_note, required: true, label: "#{t('.note')}"
-                        .form-inputs
-                          = f.hidden_field :state, value: 'rejected'
-                        .text-right
-                          %button.btn.btn-default{"data-dismiss" => 'modal'} #{t('cancel')}
-                          = f.button :submit, "#{t('.reject')}", class: 'btn btn-danger confirm-reject'
+              = render 'exit_ngo_form', client: @client
 
-        - elsif @client.state == 'rejected'
+        - elsif @client.status == 'Exited'
           .row
             .col-xs-12
-              = simple_form_for @client, method: :put, url: client_path(@client) do |f|
-                .form-inputs
-                  = f.hidden_field :state, value: 'accepted'
-                .form-actions
-                  = f.submit "#{t('.accept')}", class: 'btn btn-success agree-btn'
+              %button.btn.btn-success.mini-margin{"data-target" => '#enter-ngo-form', "data-toggle" => 'modal', class: 'agree-btn'} #{t('.accept')}
+              = render 'enter_ngo_form'
             .col-xs-12
               %button.btn.btn-danger.mini-margin{ disabled: 'disabled', class:'agree-btn' } #{t('.reject')}
 

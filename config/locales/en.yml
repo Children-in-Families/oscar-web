@@ -987,6 +987,11 @@ en:
       start_date: Start Date
       support_amount: Support Amount
       support_note: Support Note
+    enter_ngo_form:
+      accept: Accept
+      accept_ngo_form: Enter Ngo Form
+      accepted_date: Accepted Date
+      case_worker_or_staff: Case Worker / Staff
     exit_case_form:
       exit_btn: Exit
       exit_date: Exit Date
