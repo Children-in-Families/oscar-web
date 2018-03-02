@@ -1,5 +1,5 @@
 class ProgramStream < ActiveRecord::Base
-  include UpdateFieldLabelsProgramStream
+  include UpdateFieldLabelsFormBuilder
   FORM_BUILDER_FIELDS = ['enrollment', 'exit_program'].freeze
 
   has_many   :domain_program_streams, dependent: :destroy

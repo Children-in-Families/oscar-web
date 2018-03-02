@@ -1,5 +1,5 @@
 class CustomField < ActiveRecord::Base
-  include UpdateFieldLabelsCustomForm
+  include UpdateFieldLabelsFormBuilder
 
   FREQUENCIES  = ['Daily', 'Weekly', 'Monthly', 'Yearly'].freeze
   ENTITY_TYPES = ['Client', 'Family', 'Partner', 'User'].freeze
