@@ -2,7 +2,7 @@ module AdvancedSearches
   class FamilyBaseSqlBuilder
     ASSOCIATION_FIELDS = ['client_id']
     BLANK_FIELDS = ['contract_date']
-    SENSITIVITY_FIELDS = %w(name code address female_children_count male_children_count female_adult_count case_history caregiver_information household_income family_type)
+    SENSITIVITY_FIELDS = %w(name code address female_children_count male_children_count female_adult_count case_history caregiver_information household_income family_type male_adult_count)
 
     def initialize(families, rules)
       @families     = families
@@ -32,7 +32,6 @@ module AdvancedSearches
           @values << custom_field[:values]
 
         elsif field != nil
-          # value = field == 'grade' ? validate_integer(value) : value
           base_sql(field, operator, value)
         else
           nested_query =  AdvancedSearches::FamilyBaseSqlBuilder.new(@families, rule).generate

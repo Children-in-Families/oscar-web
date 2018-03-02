@@ -16,7 +16,6 @@ class FamilyColumnsVisibility
       caregiver_information_: :caregiver_information,
       household_income_: :household_income,
       dependable_income_: :dependable_income,
-      cases_: :cases,
       case_worker_: :case_worker,
       significant_family_member_count_: :significant_family_member_count,
       contract_date_: :contract_date,
