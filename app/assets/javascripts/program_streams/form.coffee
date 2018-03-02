@@ -290,7 +290,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
           form.valid()
           name = $('#program_stream_name').val() == ''
           return false if name
-        else if currentIndex == 3 and newIndex == 4 and $('#trackings').is(':visible')
+        else if $('#trackings').is(':visible')
           return true if $('#trackings').hasClass('hide-tracking-form')
           return _handleCheckingDuplicateFields() and _handleCheckTrackingName()
         else if $('#enrollment, #exit-program').is(':visible')
@@ -308,8 +308,6 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         else if $('#exit-program').is(':visible') then $(buttonSave).hide() else $(buttonSave).show()
 
       onFinished: (event, currentIndex) ->
-        finish = self.filterTranslation.finish
-        $(".actions a:contains(#{finish})").removeAttr('href')
         return false unless _handleCheckingDuplicateFields()
         _handleAddRuleBuilderToInput()
         _handleSetValueToField()
