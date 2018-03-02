@@ -5,7 +5,7 @@ module FamilyAdvancedSearchesConcern
   def advanced_search
     basic_rules          = JSON.parse @basic_filter_params
     @families              = AdvancedSearches::FamilyAdvancedSearch.new(basic_rules, Family.all).filter
-
+    custom_form_column
     respond_to do |f|
       f.html do
         @results                = @family_grid.scope { |scope| scope.where(id: @families.ids) }.assets.size

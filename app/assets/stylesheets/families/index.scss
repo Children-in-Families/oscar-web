@@ -45,6 +45,14 @@ body[id='families-index'] {
     cursor: pointer;
   }
 
+  table.families, .dataTables_scrollHeadInner, .dataTables_scrollHead, .dataTables_scrollBody {
+    width: 100% !important;
+  }
+
+  table.families th {
+    text-align: center;
+  }
+
   .ibox-content.no-border {
     border-style: none;
   }
@@ -59,5 +67,16 @@ body[id='families-index'] {
   .basic-filter-error, .custom-form-error {
     color: red;
     display: none;
+  }
+
+  .btn-group.group-actions {
+    button[data-add='rule'] {
+      background-color: #1ab394;
+      border-color: #1ab394;
+      color: #FFFFFF;
+    }
+    button {
+      margin-right: 5px;
+    }
   }
 }
