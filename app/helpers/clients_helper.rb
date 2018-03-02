@@ -160,10 +160,11 @@ module ClientsHelper
     current_address << "#{I18n.t('datagrid.columns.clients.street_number')} #{client.street_number}" if client.street_number.present?
     current_address << "#{I18n.t('datagrid.columns.clients.village')} #{client.village}" if client.village.present?
     current_address << "#{I18n.t('datagrid.columns.clients.commune')} #{client.commune}" if client.commune.present?
-    current_address << "#{I18n.t('datagrid.columns.clients.district')} #{client.district.name}" if client.district.present?
     if locale == :km
+      current_address << client.district.name.split(' / ').first if client.district.present?
       current_address << client.province.name.split(' / ').first if client.province.present?
     else
+      current_address << client.district.name.split(' / ').last if client.district.present?
       current_address << client.province.name.split(' / ').last if client.province.present?
     end
     country = params[:country].present? ? I18n.t("datagrid.columns.clients.#{params[:country]}") : I18n.t('datagrid.columns.clients.cambodia')

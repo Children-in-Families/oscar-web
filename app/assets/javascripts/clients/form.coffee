@@ -7,17 +7,17 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
   _ajaxChangeDistrict = ->
     $('#client_province_id').on 'change', ->
       province_id = $(@).val()
-      $.ajax({
-        type: 'GET'
-        url: "/api/provinces/#{province_id}/districts"
-        dataType: "JSON"
-      }).success((json)->
-        $('select#client_district_id').val(null).trigger('change')
-        $('select#client_district_id option[value!=""]').remove()
-        districts = json.districts
-        for district in districts
-          $('select#client_district_id').append("<option value='#{district.id}'>#{district.name}</option>")
-      )
+      $('select#client_district_id').val(null).trigger('change')
+      $('select#client_district_id option[value!=""]').remove()
+      if province_id != ''
+        $.ajax
+          method: 'GET'
+          url: "/api/provinces/#{province_id}/districts"
+          dataType: 'JSON'
+          success: (response) ->
+            districts = response.districts
+            for district in districts
+              $('select#client_district_id').append("<option value='#{district.id}'>#{district.name}</option>")
 
   _ajaxCheckExistClient = ->
     $('#submit-button').on 'click', ->
