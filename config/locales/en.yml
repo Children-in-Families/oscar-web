@@ -896,6 +896,11 @@ en:
       enrollment_date: Enrolled on
     update:
       successfully_updated: Enrollment has been successfully updated.
+  client_steps:
+    form:
+      is_the_client_rated_for_id_poor: Is the client rated for ID poor
+      has_been_in_orphanage: Has Been In Orphanage
+      has_been_in_government_care: Has Been In Government Care
   clients:
     actions:
       are_you_sure: Are you sure you want to delete?
@@ -1155,7 +1160,7 @@ en:
       support_amount: Support Amount
       support_note: Support Note
     new:
-      new_client_title: New Client
+      new_client_title: New Client-Page 1 Getting Started
     placement:
       view_legacy_quarterly_reports: View Legacy Quarterly Reports
     remaining_programs:
@@ -1222,6 +1227,7 @@ en:
       id: ID
       id_poor: ID Poor
       initial_referral_date: Initial Referral Date
+      is_the_client_rated_for_id_poor: Is the client rated for ID poor
       kid_id: Kid ID
       live_with: Primary Carer
       local_family_name: Family Name (kh)
@@ -1516,13 +1522,16 @@ en:
         quantitative_types: Specific Referral Data
         reason_for_family_separation: Reason for Family Separation
         received_by: Received By
+        referral_information: Referral Information
         referral_phone: Referral Phone
+        referral_received_by: Referral Received By
         referral_source: Referral Source
         reject_note: Note on referral rejection
         rejected_note: Note on referral rejection
         relevant_referral_information: Relevant Referral Information
         school_grade: School Grade
         school_name: School Name
+        staff_responsibilities: Staff Responsibilities
         state: Accept/Reject
         status: Status
         street_number: Street

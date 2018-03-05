@@ -330,6 +330,7 @@ km:
       province_id: ខេត្តបច្ចុប្បន្ន
       received_by: បុគ្គលិកទទួលករណី
       received_by_id: បុគ្គលិកទទួលករណី
+      referral_information: ព័ត៌មានអ្នកបញ្ជូនករណី
       referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
       referral_source: ប្រភពនៃការបញ្ជូន
       referral_source_id: ប្រភពនៃការបញ្ជូន
@@ -970,6 +971,13 @@ km:
       enrollment_date: កាលបរិច្ឆេទចុះឈ្មោះ
     update:
       successfully_updated: ការចុះឈ្មោះត្រូវបានកែសម្រួលដោយជោគជ័យ
+
+  client_steps:
+    form:
+      is_the_client_rated_for_id_poor: តើត្រូវបានវាយតម្លៃថាអត្តសញ្ញាណក្រីក្រ
+      has_been_in_orphanage: ធ្លាប់បាននៅក្នុងមណ្ឌលកុមារកំព្រា
+      has_been_in_government_care: តើធ្លាប់ស្ថិតក្នុងការថែទំារបស់រាជរដ្ឋាភិបាល
+
   clients:
     actions:
       are_you_sure: តើអ្នកប្រាកដហើយថាចង់លុប?
@@ -1155,6 +1163,7 @@ km:
       relevant_referral_information: ព័ត៌មានសំខាន់ៗដែលពាក់ព័ន្ធនឹងការបញ្ជូនករណី
       school_grade: កំរិតថ្នាក់
       school_name: ឈ្មោះសាលារៀន
+      staff_responsibilities: ទំនួលខុសត្រូវបុគ្គលិក
       stage: សំនួរ តំណាក់កាល
       state: ទទួល/បដិសេធ
       status: ស្ថានភាព
@@ -1229,7 +1238,7 @@ km:
       support_amount: ប្រាក់ឧបត្ថម្ភ
       support_note: ពត៌មានពីប្រាក់ឧប្ថម្ភ
     new:
-      new_client_title: បង្កើតអតិថិជនថ្មី
+      new_client_title: បង្កើតអតិថិជនថ្មី ទំព័រទី១​ ចាប់ផ្តើម
     placement:
       view_legacy_quarterly_reports: មើល Quarterly Reports ចាស់ៗ
     remaining_programs:

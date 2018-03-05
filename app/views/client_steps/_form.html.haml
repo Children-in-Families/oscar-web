@@ -1,0 +1,16 @@
+= simple_form_for(@client, url: wizard_path) do |f|
+  .ibox-content
+    - if @client.errors.any?
+      .error_messages
+        %h2
+          = pluralize(@client.errors.count, "error")
+          prohibited this client from being saved:
+        %ul
+          - @client.errors.full_messages.each do |msg|
+            %li= msg
+    .form-inputs
+      = yield f
+      .actions
+        = link_to 'Previous', previous_wizard_path, class: 'btn btn-primary form-btn'
+        = link_to 'Next', next_wizard_path, class: 'btn btn-primary form-btn pull-right'
+        = f.submit "Save", class: 'btn btn-primary form-btn pull-right'

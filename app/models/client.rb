@@ -71,6 +71,12 @@ class Client < ActiveRecord::Base
   validates :initial_referral_date, presence: true
   validates :user_ids, presence: true, on: :create
   validates :user_ids, presence: true, on: :update, unless: :exit_ngo?
+  validates :received_by_id, presence: true, on: :create
+  validates :received_by_id, presence: true, on: :update
+  validates :referral_source, presence: true, on: :create
+  validates :referral_source, presence: true, on: :update
+  validates :name_of_referee, presence: true, on: :create
+  validates :name_of_referee, presence: true, on: :update
 
   before_update :disconnect_client_user_relation, if: :exiting_ngo?
   after_create :set_slug_as_alias

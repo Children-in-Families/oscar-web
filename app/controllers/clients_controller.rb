@@ -88,11 +88,20 @@ class ClientsController < AdminController
   def create
     @client = Client.new(client_params)
     if @client.save
-      redirect_to @client, notice: t('.successfully_created')
+      session[:client_id] = @client.id
+      redirect_to client_steps_path
+      # redirect_to @client, notice: t('.successfully_created')
     else
       render :new
     end
   end
+
+  # def update
+  #   # binding.pry
+  #   @client = Client.find(params[:client_id])
+  #   @client.update_attributes(params[:client])
+  #   redirect_to client_steps_path
+  # end
 
   def update
     if @client.update_attributes(client_params)
@@ -136,6 +145,10 @@ class ClientsController < AdminController
   def client_params
     params.require(:client)
           .permit(
+            :primary_carer_name, :primary_carer_phone_number,
+            :name_of_referee, :referee_phone_number,
+            :main_school_contact, :rated_for_id_poor,
+            :custom_id_number1, :custom_id_number2,
             :exit_note, :exit_date, :status,
             :kid_id, :assessment_id, :given_name, :family_name, :local_given_name, :local_family_name, :gender, :date_of_birth,
             :birth_province_id, :initial_referral_date, :referral_source_id, :telephone_number,
