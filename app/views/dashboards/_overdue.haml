@@ -5,8 +5,8 @@
         %h5= t('.overdue_tasks')
   .panel-body
     - @clients.each do |client, overdue_forms|
-      - overdue_tasks = client.tasks.exclude_exited_ngo_clients.of_user(@user).overdue_incomplete
-      - next if skipped_overdue_tasks?(overdue_tasks) && skipped_overdue_forms?(overdue_forms) && skipped_overdue_assessments?(client)
+      - overdue_tasks = overdue_forms[:overdue_tasks]
+      - next if skipped_overdue_tasks?(overdue_tasks) && skipped_overdue_forms?(overdue_forms, client) && skipped_overdue_assessments?(client)
       .ibox.border-left-right.border-bottom
         .ibox-title
           %h5
@@ -21,7 +21,7 @@
                   %td.col-xs-6.task-name.border-left-right= task.name
                   %td.col-xs-3= task.completion_date.strftime("%B %d, %Y")
 
-            - if @assessment_params && overdue_assessments_any?(client)
+            - if @assessment_params && overdue_assessments_any?(client) && client.user_ids.include?(@user.id)
               - assessment = client.assessments.latest_record
               - if assessment.present?
                 %tr

@@ -141,9 +141,12 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
 
   _handleSaveProgramStream = ->
     $('#btn-save-draft').on 'click', ->
+      if $('#trackings').is(':visible')
+        _checkDuplicateTrackingName()
       return false unless _handleCheckingDuplicateFields()
       return false if _handleMaximumProgramEnrollment()
       return false if _handleCheckingInvalidRuleValue() > 0
+      return false if $('.program_stream_trackings_name input.error').size() > 1
       _handleAddRuleBuilderToInput()
       _handleSetValueToField()
       $('.tracking-builder').find('input, textarea').removeAttr('required')
@@ -291,6 +294,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
           name = $('#program_stream_name').val() == ''
           return false if name
         else if $('#trackings').is(':visible')
+          _checkDuplicateTrackingName()
           return true if $('#trackings').hasClass('hide-tracking-form')
           return _handleCheckingDuplicateFields() and _handleCheckTrackingName()
         else if $('#enrollment, #exit-program').is(':visible')
@@ -321,12 +325,14 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
   _handleCheckingInvalidRuleValue = ->
     invalidIntValues = $('.rule-value-container input[type=number].error').size()
     invalidStrValues = 0
+    ruleOperator = ['is_empty', 'is_not_empty']
 
     strValues = $('.rule-value-container input')
     for strValue in strValues
-      if $(strValue).val() == '' and !($(strValue).attr('class').includes('select2'))
+      elementParent = $(strValue).parent()
+      operator = $(elementParent).siblings('.rule-operator-container').find('select').val()
+      if $(strValue).val() == '' and !($(strValue).attr('class').includes('select2')) and !(ruleOperator.includes(operator))
         $(strValue).addClass('error')
-        elementParent = $(strValue).parent()
         $(elementParent).append("<label class='error'>Field cannot be blank.</label>") unless $(elementParent).find('label.error').is(':visible')
         invalidStrValues++
 

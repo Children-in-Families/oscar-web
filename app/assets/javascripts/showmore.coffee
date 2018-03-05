@@ -9,7 +9,7 @@ class CIF.ShowMore
         if elementHeight > height
           if $(element).children().length > 0
             childElement = $(element).children()
-            $(childElement).wrap("<div class='showmore_content' style='max-height: #{height}px;'></div>")
+            $(childElement).wrap("<div class='showmore_content' style='height: #{height}px;'></div>")
             $(element).append("<div class='showmore_trigger'><span class='more'><a>#{showText}</a></span><span class='less'><a>#{hideText}</a></span></div>")
 
           else
@@ -24,11 +24,11 @@ class CIF.ShowMore
         triggerElement.children(':first').hide()
         triggerElement.children(':last').show()
         childHeight = parentElement.find('.showmore_content').children(':first').height()
-        parentElement.find('.showmore_content').css({'max-height': "#{childHeight}px", transition: 'max-height 0.5s ease-in'})
+        parentElement.find('.showmore_content').css({'height': 'auto'})
 
       $('.showmore_trigger span.less a').click ->
         parentElement = $(@).parents('.td-content')
-        parentElement.find('.showmore_content').css({'max-height': "#{height}px", transition: 'max-height 0.5s ease-out'})
+        parentElement.find('.showmore_content').css({'height': "#{height}px"})
         triggerElement = parentElement.find('.showmore_trigger')
         triggerElement.children(':first').show()
         triggerElement.children(':last').hide()

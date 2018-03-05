@@ -25,4 +25,26 @@ class SessionsController < Devise::SessionsController
   def increase_visit_count
     Visit.create(user: current_user)
   end
+
+  # def create
+  #   self.resource = warden.authenticate!(auth_options)
+  #
+  #   if resource && resource.otp_module_disabled?
+  #     super
+  #
+  #   elsif resource && resource.otp_module_enabled?
+  #
+  #     if params[:user][:otp_code_token].size > 0
+  #       if resource.authenticate_otp(params[:user][:otp_code_token], drift: 60)
+  #         super
+  #       else
+  #         sign_out
+  #         redirect_to url_for, alert: t('.bad_credentials_supplied')
+  #       end
+  #     else
+  #       sign_out
+  #       redirect_to url_for, alert: t('.your_account_needs_to_supply_a_verification_code')
+  #     end
+  #   end
+  # end
 end
