@@ -626,4 +626,69 @@ describe 'Client' do
       end
     end
   end
+
+  feature 'Client status' do
+    before do
+      login_as(admin)
+    end
+
+    context 'create new client' do
+      let!(:client) { create(:client) }
+
+      it 'should have referred status' do
+        expect(client.status).to eq('Referred')
+      end
+    end
+
+    context 'Accept client' do
+      let!(:client) { create(:client) }
+
+      it 'should have accepted status' do
+        visit client_path(client)
+        find(".form-actions input[type='submit']").click
+        expect(client.reload.status).to eq('Accepted')
+      end
+    end
+
+    context 'Reject client' do
+      let!(:client) { create(:client) }
+
+      it 'should have accepted status' do
+        visit client_path(client)
+        find("button[data-target='#exitFromNgo']").click
+
+        within '#exitFromNgo form.simple_form.edit_client' do
+          fill_in 'Exit Date', with: Date.today
+          fill_in 'Exit Note', with: 'Testing'
+          find("input.confirm-exit").click
+        end
+        expect(client.reload.status).to eq('Exited')
+      end
+    end
+
+    context 'Accept client after exit ngo' do
+      let!(:client) { create(:client) }
+
+      it 'client should have exited status' do
+        visit client_path(client)
+        find("button[data-target='#exitFromNgo']").click
+        within '#exitFromNgo form.simple_form.edit_client' do
+          fill_in 'Exit Date', with: Date.today
+          fill_in 'Exit Note', with: 'Testing'
+          find("input.confirm-exit").click
+        end
+        expect(client.reload.status).to eq('Exited')
+      end
+
+      it 'client should have accepted status' do
+        client.update_attributes(status: 'Exited', exit_date: Date.today, exit_note: 'Testing')
+        visit client_path(client)
+        find("button[data-target='#enter-ngo-form']").click
+        within '#enter-ngo-form form.simple_form.edit_client' do
+          find(".client_users select option[value='#{admin.id}']", visible: false).select_option
+          find(".text-right input[type='submit']").click
+        end
+      end
+    end
+  end
 end

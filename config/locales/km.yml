@@ -1063,6 +1063,11 @@ km:
       start_date: ថ្ងៃចាប់ផ្តើម
       support_amount: ប្រាក់ឧបត្ថម្ភ
       support_note: ពត៌មានពីប្រាក់ឧប្ថម្ភ
+    enter_ngo_form:
+      accept: ទទួលយក
+      accept_ngo_form: ទទួលចូល NGO
+      accepted_date: កាលបរិច្ឆេទទទួលយកចូលអង្គការ
+      case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
     exit_ngo_form:
       exit_btn: ចាកចេញ
       exit_date: ថ្ងៃចាកចេញ

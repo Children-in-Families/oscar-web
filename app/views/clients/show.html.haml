@@ -52,7 +52,7 @@
             .col-xs-12
               %button.btn.btn-danger.mini-margin{ disabled: 'disabled', class:'agree-btn' } #{t('.reject')}
 
-    - if @client.state == 'accepted'
+    - if @client.status == 'Accepted'
       .row
         .col-xs-12
           - if can? :manage, Case
@@ -350,7 +350,7 @@
                     %strong.label.label-default.agency
                       = agency.name
 
-              = render 'state'
+              / = render 'state'
               - if @client.exit_date
                 %tr
                   %td.spacing-first-col
