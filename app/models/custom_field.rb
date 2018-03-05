@@ -23,7 +23,7 @@ class CustomField < ActiveRecord::Base
   validates :fields, presence: true
   validate  :uniq_fields, :field_label, if: -> { fields.present? }
 
-  # before_save :set_time_of_frequency
+  before_save :set_time_of_frequency
   after_create :build_permission
   before_save :set_ngo_name, if: -> { ngo_name.blank? }
   after_update :update_custom_field_label, if: -> { fields_changed? }
