@@ -54,10 +54,11 @@ CIF.FamiliesIndex = do ->
       $(allCheckboxes).attr('disabled', true)
 
   _setDefaultCheckColumnVisibilityAll = ->
-    $('.check-columns-visibility').find('a.dropdown-toggle').on 'click', ->
-      parents = $(@).parent().find('.columns-visibility')
-      if $(parents).find('.visibility .checked').length == 0
-        $(parents).find('.all-visibility #all_').iCheck('check')
+    if $('#family-search-form .visibility .checked').length == 0
+      $('#family-search-form .all-visibility #all_').iCheck('check')
+
+    if $('#family-advance-search-form .visibility .checked').length == 0
+      $('#family-advance-search-form .all-visibility #all_').iCheck('check')
 
   _columnsVisibility = ->
     $('.columns-visibility').click (e) ->
