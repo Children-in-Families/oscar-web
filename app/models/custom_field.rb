@@ -26,7 +26,7 @@ class CustomField < ActiveRecord::Base
   # before_save :set_time_of_frequency
   after_create :build_permission
   before_save :set_ngo_name, if: -> { ngo_name.blank? }
-  after_update :update_custom_field_label, on: :update, if: -> { fields_changed? }
+  after_update :update_custom_field_label, if: -> { fields_changed? }
 
   scope :by_form_title,  ->(value)  { where('form_title iLIKE ?', "%#{value}%") }
   scope :client_forms,   ->         { where(entity_type: 'Client') }
