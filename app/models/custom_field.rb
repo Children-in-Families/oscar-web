@@ -14,7 +14,6 @@ class CustomField < ActiveRecord::Base
 
   has_paper_trail
 
-  # validate  :validate_remove_field, if: -> { id.present? }
   validates :entity_type, inclusion: { in: ENTITY_TYPES }
   validates :entity_type, :form_title, presence: true
   validates :form_title, uniqueness: { case_sensitive: false, scope: :entity_type }
@@ -86,20 +85,4 @@ class CustomField < ActiveRecord::Base
   def update_custom_field_label
     labels_update(fields_change.last, fields_was, custom_field_properties)
   end
-
-  # def validate_remove_field
-  #   return unless fields_changed?
-  #   error_fields = []
-  #   properties = custom_field_properties.pluck(:properties).select(&:present?)
-  #   properties.each do |property|
-  #     field_remove = fields_change.first - fields_change.last
-  #     field_remove.each do |field|
-  #       label_name = property[field['label']]
-  #       error_fields << field['label'] if label_name.present?
-  #     end
-  #   end
-  #   return unless error_fields.present?
-  #   error_message = "#{error_fields.uniq.join(', ')} #{I18n.t('cannot_remove_or_update')}"
-  #   errors.add(:fields, "#{error_message} ")
-  # end
 end
