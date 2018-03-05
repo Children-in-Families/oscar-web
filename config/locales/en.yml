@@ -901,6 +901,8 @@ en:
       is_the_client_rated_for_id_poor: Is the client rated for ID poor
       has_been_in_orphanage: Has Been In Orphanage
       has_been_in_government_care: Has Been In Government Care
+      custom_id_number1: Custom ID Number1
+      custom_id_number2: Custom ID Number2
   clients:
     actions:
       are_you_sure: Are you sure you want to delete?

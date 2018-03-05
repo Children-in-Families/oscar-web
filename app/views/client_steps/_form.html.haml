@@ -11,6 +11,11 @@
     .form-inputs
       = yield f
       .actions
-        = link_to 'Previous', previous_wizard_path, class: 'btn btn-primary form-btn'
-        = link_to 'Next', next_wizard_path, class: 'btn btn-primary form-btn pull-right'
+        - if wizard_path == "/client_steps/living_detail?country=cambodia&locale=en"
+          = link_to 'Previous', edit_client_path(@client), class: 'btn btn-primary form-btn'
+        - else
+          = link_to 'Previous', previous_wizard_path, class: 'btn btn-primary form-btn'
+
+        - if wizard_path != '/client_steps/specific_point?country=cambodia&locale=en'
+          = link_to 'Next', next_wizard_path, class: 'btn btn-primary form-btn pull-right'
         = f.submit "Save", class: 'btn btn-primary form-btn pull-right'

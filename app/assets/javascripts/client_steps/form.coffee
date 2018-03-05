@@ -1,4 +1,4 @@
-CIF.ClientStepsNew = CIF.ClientStepsCreate = CIF.ClientStepsUpdate = CIF.ClientStepsEdit = CIF.ClientStepsShow do ->
+CIF.Client_stepsUpdate = CIF.Client_stepsEdit = CIF.Client_stepsShow = do ->
   _init = ->
     _ajaxCheckExistClient()
     _clientSelectOption()

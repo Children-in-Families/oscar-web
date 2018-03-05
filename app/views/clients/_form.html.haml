@@ -54,8 +54,11 @@
       .col-xs-12.col-sm-6.col-md-4
         = f.input :referee_phone_number, label: t('. referee_phone_number')
       .ibox-footer
-        %button.btn.btn-primary.form-btn#submit-button.pull-right{ type: 'button' }
-          = t('next')
+        %button.btn.btn-primary.form-btn#submit-button.pull-right{ type: 'submit' }
+          = t('save')
+
+        = link_to 'Next', client_steps_path(@client), class: 'btn btn-primary form-btn pull-right'
+
         / - if @client.persisted?
         /   = link_to t('cancel'), client_path(@client), class: 'btn btn-default form-btn'
         / - else
