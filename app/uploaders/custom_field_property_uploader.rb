@@ -20,6 +20,8 @@ class CustomFieldPropertyUploader < CarrierWave::Uploader::Base
   protected
 
   def image?(new_file)
-    new_file.content_type.start_with? 'image'
+    if new_file.content_type.present?
+      new_file.content_type.start_with? 'image'
+    end
   end
 end
