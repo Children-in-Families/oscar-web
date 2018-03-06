@@ -98,6 +98,6 @@ class UsersController < AdminController
     @department = Department.order(:name)
     @province   = Province.order(:name)
     @managers   = User.managers.order(:first_name, :last_name)
-    @managers   = @managers.where.not(id: params[:id]) if params[:action] == 'edit' || params[:action] == 'update'
+    @managers   = @managers.where.not('id = :user_id OR manager_ids && ARRAY[:user_id]', { user_id: @user.id }) if params[:action] == 'edit' || params[:action] == 'update'
   end
 end

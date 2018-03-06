@@ -212,7 +212,7 @@ class User < ActiveRecord::Base
       update_manager_ids(self)
     else
       manager_ids = User.find(self.manager_id).manager_ids
-      update_manager_ids(self, manager_ids.unshift(self.manager_id))
+      update_manager_ids(self, manager_ids.unshift(self.manager_id).compact.uniq)
     end
   end
 
@@ -223,7 +223,8 @@ class User < ActiveRecord::Base
     case_workers = User.where(manager_id: user.id)
     if case_workers.present?
       case_workers.each do |case_worker|
-        update_manager_ids(case_worker, manager_ids.unshift(user.id))
+        next if case_worker.id == self.id
+        update_manager_ids(case_worker, manager_ids.unshift(user.id).compact.uniq)
       end
     end
   end
