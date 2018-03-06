@@ -312,8 +312,6 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         else if $('#exit-program').is(':visible') then $(buttonSave).hide() else $(buttonSave).show()
 
       onFinished: (event, currentIndex) ->
-        finish = self.filterTranslation.finish
-        $(".actions a:contains(#{finish})").removeAttr('href')
         return false unless _handleCheckingDuplicateFields()
         _handleAddRuleBuilderToInput()
         _handleSetValueToField()
