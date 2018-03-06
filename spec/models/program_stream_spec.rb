@@ -382,20 +382,6 @@ describe ProgramStream, 'validate presence of label field' do
   end
 end
 
-# describe ProgramStream, 'validate remove fields' do
-#   let!(:client) { create(:client) }
-#   let!(:program_stream) { create(:program_stream) }
-#   let!(:client_enrollment) { create(:client_enrollment, client: client, program_stream: program_stream) }
-#
-#   default_fields = [{"max"=>"5", "min"=>"1", "name"=>"age", "type"=>"number", "label"=>"age", "required"=>true, "className"=>"form-control"}, {"name"=>"description", "type"=>"text", "label"=>"description", "subtype"=>"text", "required"=>true, "className"=>"form-control"}]
-#
-#   it 'return Enrollment cannot remove field since it already in use' do
-#     program_stream.update_attributes(enrollment: default_fields)
-#     expect(program_stream.errors.full_messages).to include("Enrollment e-mail cannot be removed/updated since it is already in use.")
-#   end
-#
-# end
-
 describe ProgramStream, 'methods' do
   let!(:client) { create(:client) }
   let!(:second_client) { create(:client) }

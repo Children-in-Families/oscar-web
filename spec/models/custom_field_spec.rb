@@ -116,6 +116,21 @@ end
 describe CustomField, 'callbacks' do
   let!(:frequency_custom_field) { create(:custom_field, entity_type: 'Client', frequency: 'Day', time_of_frequency: 12) }
   let!(:no_frequency_custom_field) { create(:custom_field, entity_type: 'Client', frequency: '', form_title: 'Health Care') }
+
+  describe 'after_update' do
+    let!(:client){ create(:client, :accepted) }
+    let!(:custom_field){ create(:custom_field, fields: [{'type'=>'text', 'label'=>'Name'}].to_json) }
+    let!(:custom_field_property){ create(:custom_field_property, custom_formable_id: client.id, custom_field: custom_field, properties: {"Name"=>'OSCaR'}) }
+
+    context 'update_custom_field_label' do
+      it 'automatically update custom field property' do
+        new_fields = [{'type'=>'text', 'label'=>'Full Name'}].to_json
+        custom_field.update(fields: new_fields)
+        expect(custom_field_property.reload.properties).to eq({'Full Name' => 'OSCaR'})
+      end
+    end
+  end
+
   context 'set_time_of_frequency' do
     it 'any frequency is chosen then it should have time of frequency' do
       expect(frequency_custom_field.time_of_frequency).to eq(12)
