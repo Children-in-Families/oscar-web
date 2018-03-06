@@ -12,7 +12,7 @@ module FamilyAdvancedSearchesConcern
         @family_grid.scope { |scope| scope.where(id: @families.ids).page(params[:page]).per(20) }
       end
       f.xls do
-        @family_grid.scope { |scope| scope.where(id: @families.ids).page(params[:page]).per(20) }
+        @family_grid.scope { |scope| scope.where(id: @families.ids) }
         form_builder_report
         send_data @family_grid.to_xls, filename: "family_report-#{Time.now}.xls"
       end
@@ -26,6 +26,7 @@ module FamilyAdvancedSearchesConcern
   def custom_form_column
     @custom_form_columns = get_custom_form_fields.group_by{ |field| field[:optgroup] }
   end
+
   def get_custom_form
     @custom_fields  = CustomField.joins(:custom_field_properties).family_forms.order_by_form_title.uniq
   end
