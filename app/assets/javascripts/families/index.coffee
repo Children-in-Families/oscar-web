@@ -4,16 +4,15 @@ CIF.FamiliesIndex = do ->
     _handleScrollTable()
     _getFamilyPath()
     _initSelect2()
-    # ----------------------------------------------------------------------------
     _handleAutoCollapse()
     _toggleCollapseFilter()
     _checkFamilySearchForm()
     _columnsVisibility()
-    _setDefaultCheckColumnVisibilityAll()
     _handleColumnVisibilityParams()
     _handleUncheckColumnVisibility()
     _initAdavanceSearchFilter()
     _hideFamilyFilters()
+    _setDefaultCheckColumnVisibilityAll()
 
   _initAdavanceSearchFilter = ->
     advanceFilter = new CIF.ClientAdvanceSearch()
@@ -54,10 +53,11 @@ CIF.FamiliesIndex = do ->
       $(allCheckboxes).attr('disabled', true)
 
   _setDefaultCheckColumnVisibilityAll = ->
-    $('.check-columns-visibility').find('a.dropdown-toggle').on 'click', ->
-      parents = $(@).parent().find('.columns-visibility')
-      if $(parents).find('.visibility .checked').length == 0
-        $(parents).find('.all-visibility #all_').iCheck('check')
+    if $('#family-search-form .visibility .checked').length == 0
+      $('#family-search-form .all-visibility #all_').iCheck('check')
+
+    if $('#family-advance-search-form .visibility .checked').length == 0
+      $('#family-advance-search-form .all-visibility #all_').iCheck('check')
 
   _columnsVisibility = ->
     $('.columns-visibility').click (e) ->

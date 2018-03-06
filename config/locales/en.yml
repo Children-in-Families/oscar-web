@@ -2304,9 +2304,9 @@ en:
         add_new_filter: Add New Filter
         add_new_group: Add Group
         advanced_search: Advanced Search
-        family_column: Family basic columns
         custom_form_column: Custom form columns
         delete_group: Delete
+        family_column: Family basic columns
         no_results: No Result Found
         reset: Reset
         results: Results

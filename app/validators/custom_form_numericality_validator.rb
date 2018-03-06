@@ -10,6 +10,7 @@ class CustomFormNumericalityValidator < ActiveModel::Validator
     return unless @record.properties.present?
     @record.send(@table_name).send(@field).each do |field|
       next unless field['type'] == 'number'
+      next if @record.properties[field['label']].empty?
 
       if field['min'].present? && field['max'].present?
         if @record.properties[field['label']].to_f < field['min'].to_f

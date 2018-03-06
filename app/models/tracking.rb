@@ -1,5 +1,5 @@
 class Tracking < ActiveRecord::Base
-  include UpdateFieldLabelsProgramStream
+  include UpdateFieldLabelsFormBuilder
   FREQUENCIES = ['Daily', 'Weekly', 'Monthly', 'Yearly'].freeze
   belongs_to :program_stream
   has_many :client_enrollment_trackings, dependent: :restrict_with_error
@@ -10,7 +10,7 @@ class Tracking < ActiveRecord::Base
   validates :name, uniqueness: { scope: :program_stream_id }
 
   validate :form_builder_field_uniqueness
-  # validate :validate_remove_field, if: -> { id.present? }
+  validate :presence_of_label
 
   after_update :auto_update_trackings
 
@@ -23,27 +23,22 @@ class Tracking < ActiveRecord::Base
     (errors.add :fields, "Fields duplicated!") unless (labels.uniq.length == labels.length)
   end
 
-  def validate_remove_field
-    return unless fields_changed?
-    error_translation = I18n.t('cannot_remove_or_update')
-    error_fields = []
-    properties = client_enrollment_trackings.pluck(:properties).select(&:present?)
-
-    properties.each do |property|
-      field_remove = fields_change.first - fields_change.last
-      field_remove.map{ |f| error_fields << f['label'] if property[f['label']].present? }
-    end
-
-    return unless error_fields.present?
-    errors.add(:fields, "#{error_fields.uniq.join(', ')} #{error_translation}")
-    errors.add(:tab, 4)
-  end
-
   def is_used?
     client_enrollment_trackings.present?
   end
 
   private
+
+  def presence_of_label
+    message = "Label " + I18n.t('cannot_be_blank')
+    fields.each do |f|
+      unless f['label'].present?
+        errors.add(:fields, message)
+        errors.add(:tab, 4)
+        return
+      end
+    end
+  end
 
   def auto_update_trackings
     return unless self.fields_changed?

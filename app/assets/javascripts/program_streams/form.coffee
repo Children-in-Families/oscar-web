@@ -141,9 +141,12 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
 
   _handleSaveProgramStream = ->
     $('#btn-save-draft').on 'click', ->
+      if $('#trackings').is(':visible')
+        _checkDuplicateTrackingName()
       return false unless _handleCheckingDuplicateFields()
       return false if _handleMaximumProgramEnrollment()
       return false if _handleCheckingInvalidRuleValue() > 0
+      return false if $('.program_stream_trackings_name input.error').size() > 1
       _handleAddRuleBuilderToInput()
       _handleSetValueToField()
       $('.tracking-builder').find('input, textarea').removeAttr('required')
@@ -290,7 +293,8 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
           form.valid()
           name = $('#program_stream_name').val() == ''
           return false if name
-        else if currentIndex == 3 and newIndex == 4 and $('#trackings').is(':visible')
+        else if $('#trackings').is(':visible')
+          _checkDuplicateTrackingName()
           return true if $('#trackings').hasClass('hide-tracking-form')
           return _handleCheckingDuplicateFields() and _handleCheckTrackingName()
         else if $('#enrollment, #exit-program').is(':visible')
@@ -308,8 +312,6 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         else if $('#exit-program').is(':visible') then $(buttonSave).hide() else $(buttonSave).show()
 
       onFinished: (event, currentIndex) ->
-        finish = self.filterTranslation.finish
-        $(".actions a:contains(#{finish})").removeAttr('href')
         return false unless _handleCheckingDuplicateFields()
         _handleAddRuleBuilderToInput()
         _handleSetValueToField()
@@ -428,7 +430,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         if fields[name].includes(text)
           _removeActionFormBuilder(label)
 
-  _removeActionFormBuilder =(label) ->
+  _removeActionFormBuilder = (label) ->
     $('li.paragraph-field.form-field').find('.del-button, .copy-button').remove()
     parent = $(label).parent()
     $(parent).find('.del-button, .copy-button').remove()
