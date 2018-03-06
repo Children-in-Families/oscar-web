@@ -75,8 +75,8 @@ describe LeaveProgram, 'callbacks' do
   before do
     LeaveProgramHistory.destroy_all
   end
-  let!(:ec_client) { create(:client) }
-  let!(:client) { create(:client) }
+  let!(:ec_client) { create(:client, status: 'Accepted') }
+  let!(:client) { create(:client, status: 'Accepted') }
   let!(:ec_case) { create(:case, :emergency, client: ec_client) }
   let!(:first_program_stream) { create(:program_stream) }
   let!(:second_program_stream) { create(:program_stream) }
@@ -91,16 +91,16 @@ describe LeaveProgram, 'callbacks' do
     context 'set_client_status' do
       context 'The client is Active EC' do
         let!(:leave_program) { create(:leave_program, client_enrollment: client_enrollment, program_stream: first_program_stream) }
-        it 'status should remain Active EC' do
-          expect(ec_client.status).to eq('Active EC')
+        it 'status should remain Active' do
+          expect(ec_client.status).to eq('Active')
         end
       end
 
       context 'The client is not active in any cases EC/FC/KC' do
         context 'The client is active in only one program' do
           let!(:leave_program) { create(:leave_program, client_enrollment: first_client_enrollment, program_stream: first_program_stream) }
-          it 'status should remain Referred' do
-            expect(client.status).to eq('Referred')
+          it 'status should remain Accepted' do
+            expect(client.status).to eq('Accepted')
           end
         end
 

@@ -117,7 +117,7 @@ scope :status_like,                              ->        { CLIENT_STATUSES }
   scope :of_case_worker,                           -> (user_id) { joins(:case_worker_clients).where(case_worker_clients: { user_id: user_id }) }
   # scope :exited_ngo,                               ->        { where(status: EXIT_STATUSES) }
   scope :exited_ngo,                               ->        { where(status: 'Exited') }
-  scope :non_exited_ngo,                           ->        { where.not(status: 'Exited') }
+  scope :non_exited_ngo,                           ->        { where.not(status: ['Exited', 'Referred']) }
   # scope :non_exited_ngo,                           ->        { where.not(status: EXIT_STATUSES) }
   scope :telephone_number_like,                    ->(value) { where('clients.telephone_number iLIKE ?', "#{value}%") }
   scope :active_accepted_status,                    ->        { where(status: ['Active', 'Accepted']) }

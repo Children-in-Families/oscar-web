@@ -52,7 +52,7 @@
             .col-xs-12
               %button.btn.btn-danger.mini-margin{ disabled: 'disabled', class:'agree-btn' } #{t('.reject')}
 
-    - if @client.status == 'Accepted'
+    - if @client.status == 'Accepted' || @client.status == 'Active'
       .row
         .col-xs-12
           - if can? :manage, Case
