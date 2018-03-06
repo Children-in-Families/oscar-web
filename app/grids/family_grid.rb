@@ -122,14 +122,6 @@ class FamilyGrid
     User.where(id: user_ids).map{|u| u.name }.join(', ')
   end
 
-  column(:manage, html: true, class: 'text-center', header: -> { I18n.t('datagrid.columns.families.manage') }) do |object|
-    render partial: 'families/actions', locals: { object: object }
-  end
-
-  column(:changelog, html: true, class: 'text-center', header: -> { I18n.t('datagrid.columns.families.changelogs') }) do |object|
-    link_to t('datagrid.columns.families.view'), family_version_path(object)
-  end
-
   dynamic do
     next unless dynamic_columns.present?
     dynamic_columns.each do |column_builder|
@@ -139,6 +131,15 @@ class FamilyGrid
         properties = object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Family'}).properties_by(format_field_value)
         render partial: 'shared/form_builder_dynamic/properties_value', locals: { properties:  properties }
       end
+    end
+  end
+
+  dynamic do
+    column(:manage, html: true, class: 'text-center', header: -> { I18n.t('datagrid.columns.families.manage') }) do |object|
+      render partial: 'families/actions', locals: { object: object }
+    end
+    column(:changelog, html: true, class: 'text-center', header: -> { I18n.t('datagrid.columns.families.changelogs') }) do |object|
+      link_to t('datagrid.columns.families.view'), family_version_path(object)
     end
   end
 end

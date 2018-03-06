@@ -8,11 +8,11 @@ CIF.FamiliesIndex = do ->
     _toggleCollapseFilter()
     _checkFamilySearchForm()
     _columnsVisibility()
-    _setDefaultCheckColumnVisibilityAll()
     _handleColumnVisibilityParams()
     _handleUncheckColumnVisibility()
     _initAdavanceSearchFilter()
     _hideFamilyFilters()
+    _setDefaultCheckColumnVisibilityAll()
 
   _initAdavanceSearchFilter = ->
     advanceFilter = new CIF.ClientAdvanceSearch()
