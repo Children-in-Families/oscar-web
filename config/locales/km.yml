@@ -2379,9 +2379,9 @@ km:
         add_new_filter: បន្ថែមលក្ខខ័ណ្ឌថ្មី
         add_new_group: បន្ថែមក្រុមលក្ខខ័ណ្ឌថ្មី
         advanced_search: ការស្វែងរកឆ្លាតវៃ
-        family_column: ជួរឈរពត៌មានទូទៅរបសគ្រួសារ
         custom_form_column: ជួរឈរទម្រង់បែបបទបន្ថែម
         delete_group: លុបក្រុមលក្ខខ័ណ្ឌនៃការស្វែងរក
+        family_column: ជួរឈរពត៌មានទូទៅរបសគ្រួសារ
         no_results: មិនមានលទ្ធផល
         reset: សំអាត
         results: លទ្ធផល

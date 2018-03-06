@@ -3,8 +3,8 @@ module FamilyAdvancedSearchesConcern
   include ClientsHelper
 
   def advanced_search
-    basic_rules          = JSON.parse @basic_filter_params
-    @families              = AdvancedSearches::Families::FamilyAdvancedSearch.new(basic_rules, Family.all).filter
+    basic_rules = JSON.parse @basic_filter_params
+    @families = AdvancedSearches::Families::FamilyAdvancedSearch.new(basic_rules, Family.all).filter
     custom_form_column
     respond_to do |f|
       f.html do

@@ -2,8 +2,8 @@ module AdvancedSearches
   module Families
     class FamilyAdvancedSearch
       def initialize(basic_rules, families)
-        @families            = families
-        @basic_rules        = basic_rules
+        @families = families
+        @basic_rules = basic_rules
       end
 
       def filter

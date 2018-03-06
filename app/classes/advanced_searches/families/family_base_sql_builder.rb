@@ -6,11 +6,11 @@ module AdvancedSearches
       SENSITIVITY_FIELDS = %w(name code address female_children_count male_children_count female_adult_count case_history caregiver_information household_income family_type male_adult_count)
 
       def initialize(families, rules)
-        @families     = families
-        @values      = []
-        @sql_string  = []
-        @condition    = rules['condition']
-        @basic_rules  = rules['rules'] || []
+        @families = families
+        @values = []
+        @sql_string = []
+        @condition = rules['condition']
+        @basic_rules = rules['rules'] || []
 
         @columns_visibility = []
       end

@@ -4,7 +4,6 @@ CIF.FamiliesIndex = do ->
     _handleScrollTable()
     _getFamilyPath()
     _initSelect2()
-    # ----------------------------------------------------------------------------
     _handleAutoCollapse()
     _toggleCollapseFilter()
     _checkFamilySearchForm()
