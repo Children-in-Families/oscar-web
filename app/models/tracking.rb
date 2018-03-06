@@ -1,5 +1,5 @@
 class Tracking < ActiveRecord::Base
-  include UpdateFieldLabelsProgramStream
+  include UpdateFieldLabelsFormBuilder
   FREQUENCIES = ['Daily', 'Weekly', 'Monthly', 'Yearly'].freeze
   belongs_to :program_stream
   has_many :client_enrollment_trackings, dependent: :restrict_with_error
