@@ -64,8 +64,9 @@ class CIF.ClientAdvanceSearch
 
   ######################################################################################################################
 
-  initBuilderFilter: ->
-    builderFields = $('#client-builder-fields').data('fields')
+  initBuilderFilter: (id)->
+    builderFields = $(id).data('fields')
+    # builderFields = $('#client-builder-fields').data('fields')
     advanceSearchBuilder = new CIF.AdvancedFilterBuilder($('#builder'), builderFields, @filterTranslation)
     advanceSearchBuilder.initRule()
     @.basicFilterSetRule()
@@ -348,6 +349,20 @@ class CIF.ClientAdvanceSearch
       if (_.isEmpty(basicRules.rules) and !basicRules.valid) or (!(_.isEmpty(basicRules.rules)) and basicRules.valid)
         $('#builder').find('.has-error').remove()
         $('#client_advanced_search_basic_rules').val(self.handleStringfyRules(basicRules))
+        self.handleSelectFieldVisibilityCheckBox()
+        $('#advanced-search').submit()
+
+  handleFamilySearch: ->
+    self = @
+    $('#search').on 'click', ->
+      basicRules = $('#builder').queryBuilder('getRules', { skip_empty: true, allow_invalid: true })
+      customFormValues = if self.customFormSelected.length > 0 then "[#{self.customFormSelected}]"
+
+      $('#family_advanced_search_custom_form_selected').val(customFormValues)
+
+      if (_.isEmpty(basicRules.rules) and !basicRules.valid) or (!(_.isEmpty(basicRules.rules)) and basicRules.valid)
+        $('#builder').find('.has-error').remove()
+        $('#family_advanced_search_basic_rules').val(self.handleStringfyRules(basicRules))
         self.handleSelectFieldVisibilityCheckBox()
         $('#advanced-search').submit()
 

@@ -113,7 +113,7 @@ CIF.ClientsIndex = do ->
 
   _initAdavanceSearchFilter = ->
     advanceFilter = new CIF.ClientAdvanceSearch()
-    advanceFilter.initBuilderFilter()
+    advanceFilter.initBuilderFilter('#client-builder-fields')
     advanceFilter.setValueToBuilderSelected()
     advanceFilter.getTranslation()
 

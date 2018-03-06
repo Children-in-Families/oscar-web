@@ -1554,6 +1554,7 @@ my:
         case_history: အမႈသမိုင္း
         case_workers: အမႈအတြက္ေဆာင္ရြက္ေပးသူ
         changelogs: ေျပာင္းလဲမႈ မွတ္တမ္း
+        client: အမႈသည္မ်ား
         clients: အမႈသည္မ်ား
         code: မိသားစု မွတ္ပံုတင္
         contract_date: စာခ်ဳပ္ရက္စြဲ
@@ -2313,6 +2314,22 @@ my:
       successfully_deleted: မိသားစုကို ေအာင္ျမင္စြာ ဖ်က္ၿပီးပါၿပီ
     edit:
       edit_family_title: မိသားစုကို ျပင္ဆင္ရန္
+    family_advanced_searches:
+      advanced_search:
+        add_new_filter: စိစစ္ျခင္းအသစ္ထပ္ထည့္ရန္
+        add_new_group: အဖြဲ႕ထပ္ထည့္ရန္
+        advanced_search: အဆင့္ျမင့္ရွာေဖြမႈ
+        custom_form_column: အေကာက္ခြန္ပံုစံ ေကာ္လံမ်ား
+        delete_group: ဖ်က္ရန္
+        family_column: မိသားစုအသစ္ အေျခခံအခ်က္အလက္ ေကာ္လံမ်ား
+        no_results: မည္သည့္ရလဒ္မွ မေတြ႕ပါ။
+        reset: အားလံုးကို မူလအတိုင္း ျပန္ျပင္ရန္။
+        results: ရလဒ္မ်ား
+        search: ရွာေဖြရန္
+      form_option:
+        basic_fields: အေျခခံအခ်က္အလက္ ကြက္လပ္မ်ား
+        custom_form: အေကာက္ခြန္ ပံုစံ
+        filter_option: သင္၏ ေမးျမန္းမႈအမ်ိဳးအစားကို ေအာက္တြင္ ေက်းဇူးျပဳ၍ ေရြးခ်ယ္ပါ။
     form:
       address: လိပ္စာ
       caregiver_information: ေစာင့္ေရွာက္သူ သတင္းအခ်က္အလက္
@@ -2340,6 +2357,7 @@ my:
       add_new_family: မိသားစုအသစ္ ထည့္သြင္းရန္
       clients: အမႈသည္မ်ား
       export_xls: XLS အျဖစ္ ထုတ္သည္
+      report_builder: တုိင္းၾကားစာ တည္ေဆာက္သည့္ေနရာ
       results: ရလဒ္မ်ား
     new:
       new_family_title: မိသားစုအသစ္
