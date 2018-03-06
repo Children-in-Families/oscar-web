@@ -26,11 +26,11 @@ module AdvancedSearchHelper
   end
 
   def has_advanced_search?
-    params[:client_advanced_search].present? || params[:family_advanced_search].present?
+    params[:client_advanced_search].present? || params[:family_advanced_search].present? || params[:partner_advanced_search].present?
   end
 
   def advanced_search_params
-    params[:client_advanced_search] || params[:family_advanced_search]
+    params[:client_advanced_search] || params[:family_advanced_search] || params[:partner_advanced_search]
   end
 
   def format_header(key)
@@ -118,6 +118,24 @@ module AdvancedSearchHelper
       female_children_count:                    I18n.t('datagrid.columns.families.female_children_count'),
       female_adult_count:                       I18n.t('datagrid.columns.families.female_adult_count'),
       member_count:                              I18n.t('datagrid.columns.families.member_count')
+    }
+    translations[key.to_sym] || ''
+  end
+
+  def partner_header(key)
+    translations = {
+      name:                                     I18n.t('datagrid.columns.partners.name'),
+      id:                                       I18n.t('datagrid.columns.partners.id'),
+      contact_person_name:                      I18n.t('datagrid.columns.partners.contact_name'),
+      contact_person_email:                     I18n.t('datagrid.columns.partners.contact_email'),
+      contact_person_mobile:                    I18n.t('datagrid.columns.partners.contact_mobile'),
+      address:                                  I18n.t('datagrid.columns.partners.address'),
+      organisation_type:                        I18n.t('datagrid.columns.partners.organisation_type'),
+      affiliation:                              I18n.t('datagrid.columns.partners.affiliation'),
+      province_id:                              I18n.t('datagrid.columns.partners.province'),
+      engagement:                               I18n.t('datagrid.columns.partners.engagement'),
+      background:                               I18n.t('datagrid.columns.partners.background'),
+      start_date:                               I18n.t('datagrid.columns.partners.start_date')
     }
     translations[key.to_sym] || ''
   end

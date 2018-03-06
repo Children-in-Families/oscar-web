@@ -3042,9 +3042,26 @@ en:
     index:
       add_new_partner: Add New Partner
       export_xls: Export to XLS
+      report_builder: Report Builder
       results: Results
     new:
       new_partner_title: New Partner
+    partner_advanced_searches:
+      advanced_search:
+        add_new_filter: Add New Filter
+        add_new_group: Add Group
+        advanced_search: Advanced Search
+        partner_column: Partner basic columns
+        custom_form_column: Custom form columns
+        delete_group: Delete
+        no_results: No Result Found
+        reset: Reset
+        results: Results
+        search: Search
+      form_option:
+        basic_fields: Basic Fields
+        custom_form: Custom Form
+        filter_option: Please choose your query options below
     show:
       add_form: Add Form
       additional_forms: Additional Forms

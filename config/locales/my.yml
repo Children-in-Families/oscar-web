@@ -3074,9 +3074,26 @@ my:
     index:
       add_new_partner: လက္တြဲေဖာ္အသစ္ထည့္ရန္
       export_xls: XLS အျဖစ္ ထုတ္သည္
+      report_builder: တုိင္းၾကားစာ တည္ေဆာက္သည့္ေနရာ
       results: ရလဒ္မ်ား
     new:
       new_partner_title: လက္တြဲေဖာ္အသစ္
+    partner_advanced_searches:
+      advanced_search:
+        add_new_filter: စိစစ္ျခင္းအသစ္ထပ္ထည့္ရန္
+        add_new_group: အဖြဲ႕ထပ္ထည့္ရန္
+        advanced_search: အဆင့္ျမင့္ရွာေဖြမႈ
+        partner_column: တည္ေဆာက္သည့္ေနရာ အေျခခံအခ်က္အလက္ ေကာ္လံမ်ား
+        custom_form_column: အေကာက္ခြန္ပံုစံ ေကာ္လံမ်ား
+        delete_group: ဖ်က္ရန္
+        no_results: မည္သည့္ရလဒ္မွ မေတြ႕ပါ။
+        reset: အားလံုးကို မူလအတိုင္း ျပန္ျပင္ရန္။
+        results: ရလဒ္မ်ား
+        search: ရွာေဖြရန္
+      form_option:
+        basic_fields: အေျခခံအခ်က္အလက္ ကြက္လပ္မ်ား
+        custom_form: အေကာက္ခြန္ ပံုစံ
+        filter_option: သင္၏ ေမးျမန္းမႈအမ်ိဳးအစားကို ေအာက္တြင္ ေက်းဇူးျပဳ၍ ေရြးခ်ယ္ပါ။
     show:
       add_form: ပံုစံ ထည့္ရန္
       additional_forms: ေနာက္ဆက္တြဲ ပံုစံမ်ား

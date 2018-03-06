@@ -1,8 +1,4 @@
 %ul
-  - if params[:data] == 'recent'
-    - return unless field_not_blank?(properties)
-    %li= format_properties_value(properties) if properties.present?
-  - else
-    - properties.each do |property|
-      - next unless field_not_blank?(property)
-      %li= format_properties_value(property)
+  - properties.each do |property|
+    - next unless field_not_blank?(property)
+    %li= format_properties_value(property)

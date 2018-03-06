@@ -366,6 +366,20 @@ class CIF.ClientAdvanceSearch
         self.handleSelectFieldVisibilityCheckBox()
         $('#advanced-search').submit()
 
+  handlePartnerSearch: ->
+    self = @
+    $('#search').on 'click', ->
+      basicRules = $('#builder').queryBuilder('getRules', { skip_empty: true, allow_invalid: true })
+      customFormValues = if self.customFormSelected.length > 0 then "[#{self.customFormSelected}]"
+
+      $('#partner_advanced_search_custom_form_selected').val(customFormValues)
+
+      if (_.isEmpty(basicRules.rules) and !basicRules.valid) or (!(_.isEmpty(basicRules.rules)) and basicRules.valid)
+        $('#builder').find('.has-error').remove()
+        $('#partner_advanced_search_basic_rules').val(self.handleStringfyRules(basicRules))
+        self.handleSelectFieldVisibilityCheckBox()
+        $('#advanced-search').submit()
+
   setValueToProgramAssociation: ->
     enrollmentCheck = $('#client_advanced_search_enrollment_check')
     trackingCheck   = $('#client_advanced_search_tracking_check')

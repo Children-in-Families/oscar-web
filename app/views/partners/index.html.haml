@@ -1,12 +1,18 @@
 .row
-  .col-xs-12
-    .pull-left
-      %button.btn.btn-primary.btn-filter{"aria-expanded" => 'false', "data-target" => '#partner-search-form', "data-toggle" => 'collapse', type: 'button'}
-        %i.fa.fa-filter
+  .col-xs-12.col-md-9
+    %button.btn.btn-primary.query.partner-search{"aria-expanded" => 'false', "data-target" => '#partner-search-form', "data-toggle" => 'collapse', type: 'button'}
+      = fa_icon('filter')
+    %button.btn.btn-primary.query.partner-advance-search{"aria-expanded" => 'false', "data-target" => '#partner-advance-search-form', "data-toggle" => 'collapse', type: 'button'}
+      = t('.report_builder')
+  .col-xs-12.col-md-3
     .pull-right
       - if can? :manage, Partner
         = link_to t('.add_new_partner'), new_partner_path, class: 'btn btn-primary'
       = link_to t('.export_xls'), current_url(format: 'xls'), class: 'btn btn-info btn-export'
+.row
+  .col-xs-12
+    .ibox-content#partner-advance-search-form.collapse
+      = render 'partners/partner_advanced_searches/advanced_search'
 .row.ibox-space
   .col-xs-12
     .ibox.float-e-margins#partner-search-form.collapse
