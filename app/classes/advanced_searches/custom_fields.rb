@@ -5,7 +5,6 @@ module AdvancedSearches
 
     def initialize(custom_form_ids)
       @custom_form_ids = custom_form_ids
-
       @number_type_list     = []
       @text_type_list       = []
       @date_type_list       = []
@@ -26,7 +25,7 @@ module AdvancedSearches
     end
 
     def generate_field_by_type
-      @custom_fields = CustomField.client_forms.where(id: @custom_form_ids)
+      @custom_fields = CustomField.where(id: @custom_form_ids)
 
       @custom_fields.each do |custom_field|
 

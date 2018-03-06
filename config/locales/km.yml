@@ -1614,6 +1614,7 @@ km:
         case_history: ប្រវត្តិគ្រួសារ
         case_workers: បុគ្គលិកគ្រប់គ្រងករណី
         changelogs: ប្រវត្តិកំណែ
+        client: ឣតិថិជន
         clients: ឣតិថិជន
         code: លេខសំគាល់គ្រួសារ
         contract_date: កាលបរិច្ឆេទនៃកិច្ចសន្យា
@@ -2373,6 +2374,22 @@ km:
       successfully_deleted: គ្រួសារត្រូវបានលុបដោយជោគជ័យ
     edit:
       edit_family_title: កែសម្រួលព័ត៌មានគ្រួសារ
+    family_advanced_searches:
+      advanced_search:
+        add_new_filter: បន្ថែមលក្ខខ័ណ្ឌថ្មី
+        add_new_group: បន្ថែមក្រុមលក្ខខ័ណ្ឌថ្មី
+        advanced_search: ការស្វែងរកឆ្លាតវៃ
+        custom_form_column: ជួរឈរទម្រង់បែបបទបន្ថែម
+        delete_group: លុបក្រុមលក្ខខ័ណ្ឌនៃការស្វែងរក
+        family_column: ជួរឈរពត៌មានទូទៅរបស់គ្រួសារ
+        no_results: មិនមានលទ្ធផល
+        reset: សំអាត
+        results: លទ្ធផល
+        search: ស្វែងរក
+      form_option:
+        basic_fields: ពត៌មានទូទៅរបសគ្រួសារ
+        custom_form: ទម្រង់បែបបទបន្ថែម
+        filter_option: សូមជ្រើសជម្រើសសំណួររបស់អ្នកខាងក្រោម
     form:
       address: ឣាសយដ្ឋាន
       caregiver_information: ព័ត៌មាននៃអ្នកថែទាំ
@@ -2400,6 +2417,7 @@ km:
       add_new_family: បន្ថែមគ្រួសារថ្មី
       clients: អតិថិជន
       export_xls: ទាញចេញជាឯកសារប្រភេទ XLS
+      report_builder: ការស្វែងរកឆ្លាតវៃ
       results: លទ្ធផល
     new:
       new_family_title: គ្រួសារថ្មី

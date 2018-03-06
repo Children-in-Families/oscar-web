@@ -1,18 +1,31 @@
 class FamiliesController < AdminController
   load_and_authorize_resource
+  include FamilyAdvancedSearchesConcern
+
+  before_action :find_params_advanced_search, :get_custom_form, only: [:index]
+  before_action :get_custom_form_fields, :family_builder_fields, only: [:index]
+  before_action :basic_params, if: :has_params?, only: [:index]
+  before_action :build_advanced_search, only: [:index]
 
   before_action :find_association, except: [:index, :destroy, :version]
   before_action :find_family, only: [:show, :edit, :update, :destroy]
 
   def index
-    @family_grid = FamilyGrid.new(params[:family_grid])
-    respond_to do |f|
-      f.html do
-        @results = @family_grid.assets.size
-        @family_grid.scope { |scope| scope.page(params[:page]).per(20) }
-      end
-      f.xls do
-        send_data @family_grid.to_xls, filename: "family_report-#{Time.now}.xls"
+    @family_grid = FamilyGrid.new(params.fetch(:family_grid, {}).merge!(dynamic_columns: @custom_form_fields))
+    @family_columns ||= FamilyColumnsVisibility.new(@family_grid, params.merge(column_form_builder: @custom_form_fields))
+    @family_columns.visible_columns
+    if has_params?
+      advanced_search
+    else
+      respond_to do |f|
+        f.html do
+          @results = @family_grid.assets.size
+          @family_grid.scope { |scope| scope.page(params[:page]).per(20) }
+        end
+        f.xls do
+          form_builder_report
+          send_data @family_grid.to_xls, filename: "family_report-#{Time.now}.xls"
+        end
       end
     end
   end
