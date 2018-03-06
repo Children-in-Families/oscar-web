@@ -68,15 +68,9 @@ class Client < ActiveRecord::Base
   validates :exit_date, presence: true, on: :update, if: :exit_ngo?
   validates :exit_note, presence: true, on: :update, if: :exit_ngo?
   validates :kid_id, uniqueness: { case_sensitive: false }, if: 'kid_id.present?'
-  validates :initial_referral_date, presence: true
   validates :user_ids, presence: true, on: :create
   validates :user_ids, presence: true, on: :update, unless: :exit_ngo?
-  validates :received_by_id, presence: true, on: :create
-  validates :received_by_id, presence: true, on: :update
-  validates :referral_source, presence: true, on: :create
-  validates :referral_source, presence: true, on: :update
-  validates :name_of_referee, presence: true, on: :create
-  validates :name_of_referee, presence: true, on: :update
+  validates :initial_referral_date, :received_by_id, :referral_source, :name_of_referee, presence: true
 
   before_update :disconnect_client_user_relation, if: :exiting_ngo?
   after_create :set_slug_as_alias
