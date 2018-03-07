@@ -68,7 +68,7 @@ class User < ActiveRecord::Base
   scope :non_devs,                  -> { where.not(email: [ENV['DEV_EMAIL'], ENV['DEV2_EMAIL'], ENV['DEV3_EMAIL']]) }
 
   before_save :assign_as_admin
-  before_save :set_manager_ids, if: 'manager_id_changed?'
+  before_save  :set_manager_ids, if: 'manager_id_changed?'
   after_save :reset_manager, if: 'roles_changed?'
   after_create :build_permission
 
