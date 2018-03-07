@@ -143,10 +143,10 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     $('#btn-save-draft').on 'click', ->
       if $('#trackings').is(':visible')
         _checkDuplicateTrackingName()
-        return false if $('.program_stream_trackings_name input.error').size() > 1
       return false unless _handleCheckingDuplicateFields()
       return false if _handleMaximumProgramEnrollment()
       return false if _handleCheckingInvalidRuleValue() > 0
+      return false if $('.program_stream_trackings_name input.error').size() > 1
       _handleAddRuleBuilderToInput()
       _handleSetValueToField()
       $('.tracking-builder').find('input, textarea').removeAttr('required')
