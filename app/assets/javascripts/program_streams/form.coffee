@@ -141,6 +141,9 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
 
   _handleSaveProgramStream = ->
     $('#btn-save-draft').on 'click', ->
+      if $('#trackings').is(':visible')
+        _checkDuplicateTrackingName()
+        return false if $('.program_stream_trackings_name input.error').size() > 1
       return false unless _handleCheckingDuplicateFields()
       return false if _handleMaximumProgramEnrollment()
       return false if _handleCheckingInvalidRuleValue() > 0
@@ -290,7 +293,8 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
           form.valid()
           name = $('#program_stream_name').val() == ''
           return false if name
-        else if currentIndex == 3 and newIndex == 4 and $('#trackings').is(':visible')
+        else if $('#trackings').is(':visible')
+          _checkDuplicateTrackingName()
           return true if $('#trackings').hasClass('hide-tracking-form')
           return _handleCheckingDuplicateFields() and _handleCheckTrackingName()
         else if $('#enrollment, #exit-program').is(':visible')
