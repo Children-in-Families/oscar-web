@@ -34,7 +34,7 @@ module AdvancedSearches
         tracking_name = tracking.name
 
         tracking.fields.each do |json_field|
-          json_field['label'] = json_field['label'].gsub('&amp;', '&')
+          json_field['label'] = json_field['label'].gsub('&amp;', '&').gsub('&lt;', '<').gsub('&gt;', '>')
           if json_field['type'] == 'text' || json_field['type'] == 'textarea'
             @text_type_list << "tracking_#{program_name}_#{tracking_name}_#{json_field['label']}"
           elsif json_field['type'] == 'number'
