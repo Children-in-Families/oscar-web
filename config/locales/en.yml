@@ -1072,6 +1072,7 @@ en:
       house_number: House
       id: ID
       id_poor: ID Poor
+      is_the_client_rated_for_id_poor: Is The Client Rated For ID Poor
       initial_referral_date: Initial Referral Date
       kid_id: Kid ID
       live_with: Primary Carer
@@ -1163,6 +1164,10 @@ en:
       support_note: Support Note
     new:
       new_client_title: New Client-Page 1 Getting Started
+    other_detail:
+      has_been_in_government_care: Has Been In Government Care
+      has_been_in_orphanage: Has Been In Orphanage
+      is_the_client_rated_for_id_poor: Is The Client Rated For ID Poor
     placement:
       view_legacy_quarterly_reports: View Legacy Quarterly Reports
     remaining_programs:

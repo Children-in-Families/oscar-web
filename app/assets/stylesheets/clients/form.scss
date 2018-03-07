@@ -1,5 +1,31 @@
 body[id='clients-new'], body[id='clients-create'],
 body[id='clients-edit'], body[id='clients-update']{
+  //
+  .wizard > .content > .body {
+    #enrollment, #trackings, #exit-program {
+      position: relative;
+      input[type='radio'] {
+        display: inline-block;
+      }
+    }
+  }
+  .wizard > .actions a[href="#finish"], .wizard > .actions a[href="#finish"]:hover, .wizard > .actions a[href="#finish"]:active {
+      background: #1ab394;
+  }
+
+  .wizard > .steps > ul > li {
+    width: 19.9%;
+  }
+
+  .wizard > .steps > ul > li:nth-child(2) {
+    width: 20.4%;
+  }
+
+  .content.clearfix section {
+    width: 100%;
+  }
+
+  //
   .icheckbox_square-green{
     margin-right: 10px;
   }

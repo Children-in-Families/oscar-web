@@ -1,0 +1,18 @@
+%h3 Specific Point
+%section
+  #specific-point
+    .row
+      .col-xs-12
+        #accordion-quantitative-type.panel-group{"aria-multiselectable" => "true", :role => "tablist"}
+          .panel.panel-default
+            #headingQuantitativeType.panel-heading{:role => "tab"}
+              %h4.panel-title
+                %a{"aria-controls" => "collapseQuantitativeType", "aria-expanded" => "true", "data-parent" => "#accordion-quantitative-type", "data-toggle" => "collapse", :href => "#collapseQuantitativeType", :role => "button"}
+                  Specific Referral Data (Client Custom Field)
+            #collapseQuantitativeType.panel-collapse.collapse.in{"aria-labelledby" => "headingQuantitativeType", :role => "tabpanel"}
+              .panel-body
+                - QuantitativeType.all.each do |qt|
+                  .row
+                    .col-xs-12
+                      %label{ title: qt.name }= qt.name
+                      = f.association :quantitative_cases, collection: qt.quantitative_cases, multiple: true, label_method: :value, value_method: :id, label: false, input_html: { class: able_related_info(qt.name) }

@@ -1149,6 +1149,7 @@ km:
       house_number: ផ្ទះលេខ
       id: លេខសំគាល់
       id_poor: កំរិតប័ណ្ណក្រីក្រ
+      is_the_client_rated_for_id_poor: Is The Client Rated For ID Poor
       initial_referral_date: កាលបរិចេ្ឆទនៃការបញ្ជូនដំបូង
       kid_id: លេខកូដឣតិថិជន
       live_with: រស់នៅជាមួយ
@@ -1239,6 +1240,10 @@ km:
       support_note: ពត៌មានពីប្រាក់ឧប្ថម្ភ
     new:
       new_client_title: បង្កើតអតិថិជនថ្មី ទំព័រទី១​ ចាប់ផ្តើម
+    other_detail:
+      has_been_in_government_care: Has Been In Government Care
+      has_been_in_orphanage: Has Been In Orphanage
+      is_the_client_rated_for_id_poor: Is The Client Rated For ID Poor
     placement:
       view_legacy_quarterly_reports: មើល Quarterly Reports ចាស់ៗ
     remaining_programs:

@@ -102,5 +102,3 @@
 //= require client_enrollment_trackings/form
 //= require organizations/index
 //= require prevent_required_file_uploader
-//= require client_steps/form
-

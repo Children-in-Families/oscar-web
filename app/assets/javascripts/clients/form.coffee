@@ -1,8 +1,34 @@
 CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
   _init = ->
     _ajaxCheckExistClient()
-    _clientSelectOption()
+    _wizardForm()
     _ajaxChangeDistrict()
+    _clientSelectOption()
+
+  _wizardForm = ->
+    form = $('#client-wizard-form')
+
+    form.steps
+      headerTag: 'h3'
+      bodyTag: 'section'
+      transitionEffect: 'slideLeft'
+
+      onStepChanging: (event, currentIndex, newIndex) ->
+        form.valid()
+        client_received_by_id         = $('#client_received_by_id').val() == ''
+        client_user_ids               = $('#client_user_ids').val() == ''
+        client_initial_referral_date  = $('#client_initial_referral_date').val() == ''
+        client_referral_source_id     = $('#client_referral_source_id').val() == ''
+        client_name_of_referee        = $('#client_name_of_referee').val() == ''
+
+        return if client_received_by_id || client_user_ids || client_initial_referral_date || client_referral_source_id || client_name_of_referee then false else true
+
+      onFinishing: (event, currentIndex) ->
+        form.valid()
+
+      onFinished: (event, currentIndex) ->
+        return false unless _ajaxCheckExistClient()
+        form.submit()
 
   _ajaxChangeDistrict = ->
     $('#client_province_id').on 'change', ->

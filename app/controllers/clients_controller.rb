@@ -88,10 +88,7 @@ class ClientsController < AdminController
   def create
     @client = Client.new(client_params)
     if @client.save
-      # binding.pry
-      session[:client_id] = @client.id
-      redirect_to client_steps_path
-      # redirect_to @client, notice: t('.successfully_created')
+      redirect_to @client, notice: t('.successfully_created')
     else
       render :new
     end
