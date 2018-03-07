@@ -198,4 +198,8 @@ module ApplicationHelper
   def convert_bracket(value)
     value.gsub(/\[/, '&#91;').gsub(/\]/, '&#93;')
   end
+
+  def status_exited?
+    @client.status == 'Exited'
+  end
 end

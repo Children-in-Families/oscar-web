@@ -81,6 +81,7 @@ class ClientsController < AdminController
   end
 
   def edit
+    authorize @client
     @client.populate_needs unless @client.needs.any?
     @client.populate_problems unless @client.problems.any?
   end
@@ -95,6 +96,7 @@ class ClientsController < AdminController
   end
 
   def update
+    authorize @client if params[:commit].blank?
     if @client.update_attributes(client_params)
       if params[:client][:assessment_id]
         @assessment = Assessment.find(params[:client][:assessment_id])

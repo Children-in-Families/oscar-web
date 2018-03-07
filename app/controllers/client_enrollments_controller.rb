@@ -7,6 +7,7 @@ class ClientEnrollmentsController < AdminController
   before_action :find_client
   before_action :find_program_stream, except: :index
   before_action :find_client_enrollment, only: [:show, :edit, :update, :destroy]
+  before_action :authorize_client_enrollment, except: [:index, :show, :new, :report]
   before_action :get_attachments, only: [:new, :edit, :update, :create]
   before_action -> { check_user_permission('editable') }, except: [:index, :show, :report]
   before_action -> { check_user_permission('readable') }, only: :show
@@ -28,6 +29,7 @@ class ClientEnrollmentsController < AdminController
     end
 
     @client_enrollment = @client.client_enrollments.new(program_stream_id: @program_stream)
+    authorize @client_enrollment
     @attachment        = @client_enrollment.form_builder_attachments.build
   end
 
@@ -87,5 +89,9 @@ class ClientEnrollmentsController < AdminController
     client_enrollments_inactive   = all_programs.without_status_by(@client).complete
 
     program_streams               = client_enrollments_exited + client_enrollments_inactive
+  end
+
+  def authorize_client_enrollment
+    authorize @client_enrollment
   end
 end
