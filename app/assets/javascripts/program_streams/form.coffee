@@ -412,7 +412,6 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
           fields = response.program_streams
           labelFields = $(elementId).find('label.field-label')
           for labelField in labelFields
-            debugger
             text = labelField.textContent.allReplace(specialCharacters)
             if fields.includes(text)
               _removeActionFormBuilder(labelField)

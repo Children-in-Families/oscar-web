@@ -16,16 +16,16 @@ module AdvancedSearches
     end
 
     def render
-      number_fields       = @number_type_list.map { |item| AdvancedSearches::FilterTypes.number_options(item, format_label(item), format_optgroup(item)) }
-      text_fields         = @text_type_list.map { |item| AdvancedSearches::FilterTypes.text_options(item, format_label(item), format_optgroup(item)) }
-      date_picker_fields  = @date_type_list.map { |item| AdvancedSearches::FilterTypes.date_picker_options(item, format_label(item), format_optgroup(item)) }
-      drop_list_fields    = @drop_down_type_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first, format_label(item.first) , item.last, format_optgroup(item.first)) }
+      number_fields       = @number_type_list.map { |item| AdvancedSearches::FilterTypes.number_options(item.gsub('"', '&qoute;'), format_label(item), format_optgroup(item)) }
+      text_fields         = @text_type_list.map { |item| AdvancedSearches::FilterTypes.text_options(item.gsub('"', '&qoute;'), format_label(item), format_optgroup(item)) }
+      date_picker_fields  = @date_type_list.map { |item| AdvancedSearches::FilterTypes.date_picker_options(item.gsub('"', '&qoute;'), format_label(item), format_optgroup(item)) }
+      drop_list_fields    = @drop_down_type_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first.gsub('"', '&qoute;'), format_label(item.first) , item.last, format_optgroup(item.first)) }
 
 
       results = text_fields + drop_list_fields + number_fields + date_picker_fields
       results.sort_by { |f| f[:label].downcase }
 
-      @enrollment_data_list.map{ |item|results.unshift AdvancedSearches::FilterTypes.date_picker_options(item, format_label(item), format_optgroup(item)) }
+      @enrollment_data_list.map{ |item|results.unshift AdvancedSearches::FilterTypes.date_picker_options(item.gsub('"', '&qoute;'), format_label(item), format_optgroup(item)) }
 
       results
     end
@@ -54,6 +54,7 @@ module AdvancedSearches
     end
 
     private
+
     def format_label(value)
       value.split('_').last
     end
