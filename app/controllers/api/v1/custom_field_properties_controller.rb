@@ -49,8 +49,20 @@ module Api
       end
 
       def custom_field_property_params
+        custom_form_fields = CustomField.find(params[:custom_field_id]).fields.map{|c| [c['name'], c['label'], c['type']]}
+        custom_form_fields.each do |name, label, type|
+          if type == 'file' && attachment_params.present?
+            attachment_params.values.each do |attachment|
+              attachment['name'] = label if attachment['name'] == name
+            end
+          end
+          if type != 'file' && properties_params.present?
+            properties_params.keys.each do |key|
+              properties_params[label] = properties_params.delete key if key == name
+            end
+          end
+        end
         properties_params.values.map{ |v| v.delete('') if (v.is_a?Array) && v.size > 1 } if properties_params.present?
-
         default_params = params.require(:custom_field_property).permit({}).merge(custom_field_id: params[:custom_field_id])
         default_params = default_params.merge(properties: properties_params) if properties_params.present?
         default_params = default_params.merge(form_builder_attachments_attributes: attachment_params) if action_name == 'create' && attachment_params.present?
