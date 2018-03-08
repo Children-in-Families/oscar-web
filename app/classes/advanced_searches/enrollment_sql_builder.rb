@@ -4,7 +4,7 @@ module AdvancedSearches
     def initialize(program_stream_id, rule)
       @program_stream_id = program_stream_id
       field     = rule['field']
-      @field    = field.split('_').last.gsub("'", "''").gsub(/\[/, '&#91;').gsub(/\]/, '&#93;').gsub('&', '&amp;')
+      @field    = field.split('_').last.gsub("'", "''").gsub('&', '&amp;').gsub('<', '&lt;').gsub('&gt;', '>')
       @operator = rule['operator']
       @value    = format_value(rule['value'])
       @type     = rule['type']
