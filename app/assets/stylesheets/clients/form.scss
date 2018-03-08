@@ -2,7 +2,7 @@ body[id='clients-new'], body[id='clients-create'],
 body[id='clients-edit'], body[id='clients-update']{
   //
   .wizard > .content > .body {
-    #enrollment, #trackings, #exit-program {
+    #getting_started, #living_detail, #other_detail, #specific_point {
       position: relative;
       input[type='radio'] {
         display: inline-block;
@@ -25,7 +25,19 @@ body[id='clients-edit'], body[id='clients-update']{
     width: 100%;
   }
 
-  //
+  // //
+  // .wizard > .content > .body label.error{
+
+  // }
+
+  // .wizard > .content > .body input.error{
+  //   height: 35px;
+  // }
+
+  // .wizard > .content > .body span.input-group-addon.initial-referral{
+  //   height: 35px !important;
+  // }
+
   .icheckbox_square-green{
     margin-right: 10px;
   }

@@ -1,34 +1,87 @@
 CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
   _init = ->
+    _initWizardForm()
     _ajaxCheckExistClient()
-    _wizardForm()
     _ajaxChangeDistrict()
     _clientSelectOption()
+    _validateForm()
+    _initDatePicker()
 
-  _wizardForm = ->
+  _initDatePicker = ->
+    $('.date-picker').datepicker
+      autoclose: true,
+      format: 'yyyy-mm-dd',
+      todayHighlight: true,
+      disableTouchKeyboard: true
+
+  _initWizardForm = ->
     form = $('#client-wizard-form')
 
-    form.steps
+    form.children('.client-steps').steps
       headerTag: 'h3'
       bodyTag: 'section'
       transitionEffect: 'slideLeft'
+      enableKeyNavigation: false
 
       onStepChanging: (event, currentIndex, newIndex) ->
-        form.valid()
-        client_received_by_id         = $('#client_received_by_id').val() == ''
-        client_user_ids               = $('#client_user_ids').val() == ''
-        client_initial_referral_date  = $('#client_initial_referral_date').val() == ''
-        client_referral_source_id     = $('#client_referral_source_id').val() == ''
-        client_name_of_referee        = $('#client_name_of_referee').val() == ''
 
-        return if client_received_by_id || client_user_ids || client_initial_referral_date || client_referral_source_id || client_name_of_referee then false else true
+        if currentIndex == 0
+          form.valid()
+          _validateForm()
+          client_received_by_id         = $('#client_received_by_id').val() == ''
+          client_user_ids               = $('#client_user_ids').val() == ''
+          client_initial_referral_date  = $('#client_initial_referral_date').val() == ''
+          client_referral_source_id     = $('#client_referral_source_id').val() == ''
+          client_name_of_referee        = $('#client_name_of_referee').val() == ''
+
+          if !$('#client_user_ids').val()
+            return false
+          else if client_user_ids or client_received_by_id or client_initial_referral_date or client_referral_source_id or client_name_of_referee
+            return false
+          else
+            return true
+
+        else if currentIndex == 1 or currentIndex == 2 or currentIndex == 3
+          return true
 
       onFinishing: (event, currentIndex) ->
         form.valid()
 
       onFinished: (event, currentIndex) ->
-        return false unless _ajaxCheckExistClient()
         form.submit()
+
+  _validateForm = ->
+    $('#client-wizard-form').validate
+      ignore: []
+      rules: {
+        "client[received_by_id]":
+          required: true
+        "client[user_ids]":
+          required: true
+        "client[initial_referral_date]":
+          required: true
+        "client[referral_source_id]":
+          required: true
+        "client[name_of_referee]":
+          required: true
+
+      }
+      messages: {
+        "client[received_by_id]":
+          required: "This field is required."
+        "client[user_ids]":
+          required: "This field is required."
+        "client[initial_referral_date]":
+          required: "This field is required."
+        "client[referral_source_id]":
+          required: "This field is required."
+        "client[name_of_referee]":
+          required: "This field is required."
+      }
+
+    $('select').change ->
+      $(this).removeClass 'error'
+      $(this).closest('.form-group').find('label.error').remove()
 
   _ajaxChangeDistrict = ->
     $('#client_province_id').on 'change', ->
@@ -46,7 +99,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
               $('select#client_district_id').append("<option value='#{district.id}'>#{district.name}</option>")
 
   _ajaxCheckExistClient = ->
-    $('#submit-button').on 'click', ->
+    $('#finish').on 'click', ->
       data = {
         given_name: $('#client_given_name').val()
         family_name: $('#client_family_name').val()
@@ -89,12 +142,12 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
 
             $('#confirm-client-modal').modal('show')
             $('#confirm-client-modal #confirm').on 'click', ->
-              $('form.client-form').submit()
+              $('form.client-wizard-form').submit()
           else
-            $('form.client-form').submit()
+            $('form.client-wizard-form').submit()
         )
       else
-        $('form.client-form').submit()
+        $('form.client-wizard-form').submit()
 
   _clientSelectOption = ->
     $('select').select2

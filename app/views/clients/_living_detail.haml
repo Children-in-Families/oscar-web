@@ -11,7 +11,7 @@
         - if f.object.current_address.present?
           = f.input :current_address, input_html: { rows: '6' }, label: t('.current_address')
       .col-xs-12.col-sm-6.col-md-4
-        = f.association :province, collection: @provinces, label: t('.current_province')
+        = f.association :province, collection: @province, label: t('.current_province')
       .col-xs-12.col-sm-6.col-md-4
         = f.association :district, collection: @districts, label: t('.district')
       .col-xs-12.col-sm-6.col-md-4

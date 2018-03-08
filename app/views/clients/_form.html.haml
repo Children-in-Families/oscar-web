@@ -1,9 +1,14 @@
-= simple_form_for(@client, html: { class: 'client-form', id: 'client-wizard-form' }) do |f|
-  = hidden_field(:client, :id, value: @client.id)
-  = render 'getting_started', f: f
-  = render 'living_detail', f: f
-  = render 'other_detail', f: f
-  = render 'specific_point', f: f
+= simple_form_for @client, html: { id: 'client-wizard-form'} do |f|
+  - tab           = f.error(:tab).slice(/\d/) if f.error(:tab).present?
+  - tracking_tab  = f.error(:"trackings.tab").slice(/\d/) if f.error(:"trackings.tab").present?
+  = hidden_field_tag :client_id, @client.id
+
+  .client-steps{ data: { next: t('.next'), previous: t('.previous'), finish: t('.finish'), tab: params[:tab] || tab || tracking_tab || 0 } }
+    = render 'getting_started', f: f
+    = render 'living_detail', f: f
+    = render 'other_detail', f: f
+    = render 'specific_point', f: f
+
 
 / = simple_form_for(@client, html: { class: 'client-form' }) do |f|
 /   = hidden_field(:client, :id, value: @client.id)

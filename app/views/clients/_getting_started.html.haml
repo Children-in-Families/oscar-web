@@ -16,7 +16,7 @@
           = t('.initial_referral_date:')
         .input-group.date
           = f.text_field :initial_referral_date, class: 'date optional form-control date-picker', type: 'text', name: 'client[initial_referral_date]', id: 'client_initial_referral_date'
-          %span.input-group-addon
+          %span.input-group-addon.initial-referral
             %i.fa.fa-calendar-check-o
         = f.error :initial_referral_date
 
