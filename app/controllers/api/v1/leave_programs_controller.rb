@@ -34,8 +34,8 @@ module Api
       private
 
       def leave_program_params
-        exit_program_fields = ProgramStream.find(params[:program_stream_id]).exit_program.map{|c| [c['name'], c['label']]}
-        exit_program_fields.each do |name, label|
+        exit_program_fields = ProgramStream.find(params[:program_stream_id]).exit_program.map{|c| [c['name'], c['label'], c['type']]}
+        exit_program_fields.each do |name, label, type|
           if type == 'file' && attachment_params.present?
             attachment_params.values.each do |attachment|
               attachment['name'] = label if attachment['name'] == name

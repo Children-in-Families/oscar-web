@@ -45,8 +45,8 @@ module Api
       private
 
       def client_enrollment_params
-        enrollment_fields = ProgramStream.find(params[:program_stream_id]).enrollment.map{|c| [c['name'], c['label']]}
-        enrollment_fields.each do |name, label|
+        enrollment_fields = ProgramStream.find(params[:program_stream_id]).enrollment.map{|c| [c['name'], c['label'], c['type']]}
+        enrollment_fields.each do |name, label, type|
           if type == 'file' && attachment_params.present?
             attachment_params.values.each do |attachment|
               attachment['name'] = label if attachment['name'] == name

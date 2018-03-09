@@ -48,8 +48,8 @@ module Api
       private
 
       def client_enrollment_tracking_params
-        trackings_fields = Tracking.find(params[:tracking_id]).fields.map{|c| [c['name'], c['label']]}
-        trackings_fields.each do |name, label|
+        trackings_fields = Tracking.find(params[:tracking_id]).fields.map{|c| [c['name'], c['label'], c['type']]}
+        trackings_fields.each do |name, label, type|
           if type == 'file' && attachment_params.present?
             attachment_params.values.each do |attachment|
               attachment['name'] = label if attachment['name'] == name
