@@ -34,7 +34,8 @@ module AdvancedSearches
           ['family_type', family_type_options],
           ['province_id', provinces],
           ['dependable_income', { yes: 'Yes', no: 'No' }],
-          ['client_id', clients]
+          ['client_id', clients],
+          ['form_title', family_custom_form_options]
         ]
       end
 
@@ -48,6 +49,10 @@ module AdvancedSearches
 
       def clients
         Client.joins(:families).order('lower(clients.given_name)').pluck('clients.given_name, clients.family_name, clients.id').uniq.map{|s| { s[2].to_s => "#{s[0]} #{s[1]}" } }
+      end
+
+      def family_custom_form_options
+        CustomField.joins(:custom_field_properties).family_forms.uniq.map{ |c| { c.id.to_s => c.form_title }}
       end
     end
   end

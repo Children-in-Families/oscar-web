@@ -77,7 +77,7 @@ class CIF.ClientAdvanceSearch
     $('#custom-form-select, #program-stream-select, #quantitative-case-select').select2()
     setTimeout ( ->
       $('.rule-filter-container select').select2(width: '250px')
-      $('.rule-operator-container select, .rule-value-container select').select2(width: 'resolve')
+      $('.rule-operator-container select, .rule-value-container select').select2(width: '200px')
     )
 
   basicFilterSetRule: ->

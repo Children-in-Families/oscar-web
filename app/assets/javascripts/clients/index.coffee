@@ -146,6 +146,8 @@ CIF.ClientsIndex = do ->
 
     advanceFilter.handleSaveQuery()
     advanceFilter.validateSaveQuery()
+    $('.rule-operator-container').change ->
+      advanceFilter.initSelect2()
 
   # _removeProgramStreamExitDate = ->
   #   $('#client-advance-search-form').find('#program_enrollment_date,#program_exit_date').remove()
