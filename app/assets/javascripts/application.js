@@ -3,6 +3,7 @@
 //= require jquery_ujs
 //= require jquery-ui
 //= require bootstrap-sprockets
+//= require iCheck/icheck.min.js
 //= require jquery.steps.min
 //= require jquery.validate
 //= require jquery.validate.additional-methods
@@ -37,7 +38,7 @@
 //= require bootstrap_file_input/explorer/theme.min.js
 
 // WRAPBOOTSTRAP
-//= require iCheck/icheck.min.js
+
 //= require wrapbootstrap/inspinia.js
 //= require slimscroll/jquery.slimscroll.min.js
 //= require toastr/toastr.min.js

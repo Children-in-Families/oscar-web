@@ -3,5 +3,7 @@
     .ibox
       .ibox-title
         %h5= t('.edit_client_title')
-
-      = render 'form'
+        .pull-right
+          %h5= "Client ID - #{current_organization.short_name} ###"
+      .ibox-content
+        = render 'form'

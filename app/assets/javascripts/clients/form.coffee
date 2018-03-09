@@ -3,9 +3,25 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
     _initWizardForm()
     _ajaxCheckExistClient()
     _ajaxChangeDistrict()
-    _clientSelectOption()
     _validateForm()
     _initDatePicker()
+    _replaceSpanBeforeLabel()
+    _clientSelectOption()
+
+
+  _customCheckBox = ->
+    $('.i-check-red').iCheck
+      radioClass: 'iradio_square-red'
+
+    $('.i-check-brown').iCheck
+      radioClass: 'iradio_square-brown'
+
+    $('.i-check-orange').iCheck
+      radioClass: 'iradio_square-orange'
+
+    $('.i-checks').iCheck
+      checkboxClass: 'icheckbox_square-green'
+      radioClass: 'iradio_square-green'
 
   _initDatePicker = ->
     $('.date-picker').datepicker
@@ -25,7 +41,8 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
 
       onStepChanging: (event, currentIndex, newIndex) ->
 
-        if currentIndex == 0
+        if currentIndex == 0 and newIndex == 1 and $('#getting-started').is(':visible')
+          # $('h5.client-form-title').text 'New Client - Page 1: Getting Started'
           form.valid()
           _validateForm()
           client_received_by_id         = $('#client_received_by_id').val() == ''
@@ -41,14 +58,21 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
           else
             return true
 
-        else if currentIndex == 1 or currentIndex == 2 or currentIndex == 3
+        else if $('#living-detail').is(':visible')
+          # $('h5.client-form-title').text 'New Client - Page 2: Living Detail'
+          return true
+        else if $('#other-detail').is(':visible')
+          # $('h5.client-form-title').text 'New Client - Page 3: Other Detail'
+          return true
+        else if $('#specific-point').is(':visible')
+          # $('h5.client-form-title').text 'New Client - Page 4: Specific Point'
           return true
 
       onFinishing: (event, currentIndex) ->
         form.valid()
 
       onFinished: (event, currentIndex) ->
-        form.submit()
+        _ajaxCheckExistClient()
 
   _validateForm = ->
     $('#client-wizard-form').validate
@@ -79,6 +103,10 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
           required: "This field is required."
       }
 
+    $('#client_initial_referral_date').change ->
+      $(this).removeClass 'error'
+      $(this).closest('.form-group').find('label.error').remove()
+
     $('select').change ->
       $(this).removeClass 'error'
       $(this).closest('.form-group').find('label.error').remove()
@@ -99,7 +127,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
               $('select#client_district_id').append("<option value='#{district.id}'>#{district.name}</option>")
 
   _ajaxCheckExistClient = ->
-    $('#finish').on 'click', ->
+    $("a[href='#finish']").click ->
       data = {
         given_name: $('#client_given_name').val()
         family_name: $('#client_family_name').val()
@@ -118,9 +146,9 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
           data: data
           dataType: "JSON"
         }).success((json)->
-          clientId = $('#client_id').val()
+          clientId  = $('#client_id').val()
           clientIds = []
-          clients = json.clients
+          clients   = json.clients
           for client in clients
             clientIds.push(String(client.id))
 
@@ -128,7 +156,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
             modalTitle      = $('#hidden_title').val()
             modalTextFirst  = $('#hidden_body_first').val()
             modalTextSecond = $('#hidden_body_second').val()
-            modalTextThird = $('#hidden_body_third').val()
+            modalTextThird  = $('#hidden_body_third').val()
             clientName      = $('#client_given_name').val()
             organizations   = []
             organizations.push(client.organization for client in clients)
@@ -142,12 +170,12 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
 
             $('#confirm-client-modal').modal('show')
             $('#confirm-client-modal #confirm').on 'click', ->
-              $('form.client-wizard-form').submit()
+              $('#client-wizard-form').submit()
           else
-            $('form.client-wizard-form').submit()
+            $('#client-wizard-form').submit()
         )
       else
-        $('form.client-wizard-form').submit()
+        $('#client-wizard-form').submit()
 
   _clientSelectOption = ->
     $('select').select2
@@ -168,5 +196,12 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
   _clearSelectedOption = ->
     formAction = $('body').attr('id')
     $('#client_gender').val('') unless formAction.includes('edit')
+
+  _replaceSpanBeforeLabel = ->
+     $("a[href='#next']").click ->
+      inputGroupElement = $('.client_initial_referral_date > .input-group')
+      labelElement = $('#client_initial_referral_date-error')
+
+      labelElement.insertAfter inputGroupElement
 
   { init: _init }

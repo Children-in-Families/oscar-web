@@ -2,6 +2,8 @@
 %section
   #living-detail
     %legend Contact Details
+    - if defined?(edit) && edit
+      %h2 hello
     .row
       .col-xs-12.col-sm-6.col-md-4
         = f.input :primary_carer_name, label: t('.primary_carer_name')
