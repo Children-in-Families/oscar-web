@@ -3,25 +3,15 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
     _initWizardForm()
     _ajaxCheckExistClient()
     _ajaxChangeDistrict()
-    _validateForm()
     _initDatePicker()
     _replaceSpanBeforeLabel()
     _clientSelectOption()
 
-
-  _customCheckBox = ->
-    $('.i-check-red').iCheck
-      radioClass: 'iradio_square-red'
-
-    $('.i-check-brown').iCheck
-      radioClass: 'iradio_square-brown'
-
-    $('.i-check-orange').iCheck
-      radioClass: 'iradio_square-orange'
-
-    $('.i-checks').iCheck
+  _renderRadio = ->
+    $('.radio_buttons').iCheck
       checkboxClass: 'icheckbox_square-green'
       radioClass: 'iradio_square-green'
+      increaseArea: '20%'
 
   _initDatePicker = ->
     $('.date-picker').datepicker
@@ -42,34 +32,33 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
       onStepChanging: (event, currentIndex, newIndex) ->
 
         if currentIndex == 0 and newIndex == 1 and $('#getting-started').is(':visible')
-          # $('h5.client-form-title').text 'New Client - Page 1: Getting Started'
-          form.valid()
-          _validateForm()
+          # _validateForm()
+          # form.valid()
           client_received_by_id         = $('#client_received_by_id').val() == ''
           client_user_ids               = $('#client_user_ids').val() == ''
           client_initial_referral_date  = $('#client_initial_referral_date').val() == ''
           client_referral_source_id     = $('#client_referral_source_id').val() == ''
           client_name_of_referee        = $('#client_name_of_referee').val() == ''
 
-          if !$('#client_user_ids').val()
-            return false
-          else if client_user_ids or client_received_by_id or client_initial_referral_date or client_referral_source_id or client_name_of_referee
-            return false
-          else
-            return true
+          # if !$('#client_user_ids').val()
+          #   return false
+          # else if client_user_ids or client_received_by_id or client_initial_referral_date or client_referral_source_id or client_name_of_referee
+          #   return false
+          # else
+          return true
+        else
+          return true
 
-        else if $('#living-detail').is(':visible')
-          # $('h5.client-form-title').text 'New Client - Page 2: Living Detail'
-          return true
-        else if $('#other-detail').is(':visible')
-          # $('h5.client-form-title').text 'New Client - Page 3: Other Detail'
-          return true
-        else if $('#specific-point').is(':visible')
-          # $('h5.client-form-title').text 'New Client - Page 4: Specific Point'
-          return true
+        # else if $('#living-detail').is(':visible')
+        #   return true
+        # else if $('#other-detail').is(':visible')
+        #   return true
+        # else if $('#specific-point').is(':visible')
+        #   return true
 
       onFinishing: (event, currentIndex) ->
-        form.valid()
+        # _validateForm()
+        # form.valid()
 
       onFinished: (event, currentIndex) ->
         _ajaxCheckExistClient()

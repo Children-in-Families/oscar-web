@@ -972,12 +972,6 @@ km:
     update:
       successfully_updated: ការចុះឈ្មោះត្រូវបានកែសម្រួលដោយជោគជ័យ
 
-  client_steps:
-    form:
-      is_the_client_rated_for_id_poor: តើត្រូវបានវាយតម្លៃថាអត្តសញ្ញាណក្រីក្រ
-      has_been_in_orphanage: ធ្លាប់បាននៅក្នុងមណ្ឌលកុមារកំព្រា
-      has_been_in_government_care: តើធ្លាប់ស្ថិតក្នុងការថែទំារបស់រាជរដ្ឋាភិបាល
-
   clients:
     actions:
       are_you_sure: តើអ្នកប្រាកដហើយថាចង់លុប?
@@ -1174,6 +1168,66 @@ km:
       village: ភូមិ
       year: ឆ្នាំ
       yes_no: បាទ/អត់ទេ
+      is_the_client_rated_for_id_poor: តើត្រូវបានវាយតម្លៃថាអត្តសញ្ញាណក្រីក្រ
+      has_been_in_orphanage: ធ្លាប់បាននៅក្នុងមណ្ឌលកុមារកំព្រា
+      has_been_in_government_care: តើធ្លាប់ស្ថិតក្នុងការថែទំារបស់រាជរដ្ឋាភិបាល
+      getting_started: ចាប់ផ្តើម
+
+    living_detail:
+      contact_details: ព័ត៌មានទំនាក់ទំនងលំអិត
+      schooling: សាលារៀន
+      living_detail: ព័ត៌មានរស់នៅលំអិត
+      current_address: អាស័យដ្ឋានបច្ចុប្បន្ន
+      current_province: ខេត្តកំពុងរស់នៅ
+      district: ស្រុក
+      commune: ឃុំ
+      house_number: លេខផ្ទះ
+      street_number: លេខផ្លូវ
+      village: ភូមិ
+      school_name: ឈ្មោះសាលារៀន
+      school_grade: កំរិត
+      primary_carer_name: អ្នកមើលថែចំបង
+      primary_carer_phone_number: លេខទូរស័ព្ទអ្នកមើលថែចំបង
+      main_school_contact: អាស័យដ្ឋានទំនាក់ទំនងសាលារៀន
+
+    other_detail:
+      other_detail: ព័ត៌មានលំអិតផ្សេងៗ
+      province: ខេត្ត
+      agencies_involved: ភ្នាក់ងារពាក់ព័ន្ធ
+      donor: សប្បុរសជន
+      is_the_client_rated_for_id_poor: តើត្រូវបានវាយតម្លៃថាអត្តសញ្ញាណក្រីក្រ
+      has_been_in_orphanage: ធ្លាប់បាននៅក្នុងមណ្ឌលកុមារកំព្រា
+      has_been_in_government_care: តើធ្លាប់ស្ថិតក្នុងការថែទំារបស់រាជរដ្ឋាភិបាល
+      custom_id_number1:
+      custom_id_number2:
+      relevant_referral_information:
+
+    specific_point:
+      specific_point: ចំណុចជាក់លាក់
+
+
+    getting_started:
+        name_of_referee:  ឈ្មោះReferee
+        referee_phone_number: លេខទូរស័ព្ទReferee
+        referral_received_by: ទទួលដោយReferee
+        first_followed_up_by: តាមដានដំបូងដោយ
+        case_worker_or_staff:
+        initial_referral_date:
+        first_followed-up_date: កាលបរិច្ឆេទតាមដានដំបូង
+        given_name: នាមខ្លួន
+        family_name: នាមត្រកូល
+        gender: ភេទ
+        local_given_name: នាមខ្លួនភាសាខ្មែរ
+        local_family_name: នាមត្រកូលភាសាខ្មែរ
+        date_of_birth: ថ្ងៃខែឆ្នាំកំណើត
+        referral_source:
+        staff_responsibilities: ទំនួលខុសត្រូវបុគ្គលិក
+        referral_information: ព័ត៌មាន Referral
+        getting_started: ចាប់ផ្តើម
+        living_detail: ព័ត៎មានរស់នៅលំអិត
+        other_detail: ព័ត៌មានលំអិតផ្សេងៗ
+        specific_point: ចំណុចជាក់លាក់
+
     foster_case:
       carer_address: អាសយដ្ឋានអ្នកថែទាំ
       carer_names: ឈ្មោះអ្នកថែទាំ
@@ -1239,7 +1293,7 @@ km:
       support_amount: ប្រាក់ឧបត្ថម្ភ
       support_note: ពត៌មានពីប្រាក់ឧប្ថម្ភ
     new:
-      new_client_title: បង្កើតអតិថិជនថ្មី ទំព័រទី១​ ចាប់ផ្តើម
+      new_client_title: បង្កើតអតិថិជនថ្មី
     other_detail:
       has_been_in_government_care: Has Been In Government Care
       has_been_in_orphanage: Has Been In Orphanage
@@ -1316,6 +1370,17 @@ km:
       local_given_name: នាមខ្លួនជាអក្សរខ្មែរ
       name: ឈ្មោះ
       note: កំណត់ហេតុ
+      is_the_client_rated_for_id_poor: តើត្រូវបានវាយតម្លៃថាអត្តសញ្ញាណក្រីក្រ
+      has_been_in_orphanage: ធ្លាប់បាននៅក្នុងមណ្ឌលកុមារកំព្រា
+      has_been_in_government_care: តើធ្លាប់ស្ថិតក្នុងការថែទំារបស់រាជរដ្ឋាភិបាល
+      custom_id_number1: Custom ID Number1
+      custom_id_number2: Custom ID Number2
+      name_of_referee: Name Of Referee
+      referee_phone_number: Referee Phone Number
+      primary_carer_name: អ្នកមើលថែចំបង
+      primary_carer_phone_number: លេខទូរស័ព្ទអ្នកមើលថែចំបង
+      main_school_contact: អាស័យដ្ឋានទំនាក់ទំនងសាលារៀន
+
       placements:
         carer_address: អាសយដ្ឋានអ្នកថែទាំ
         carer_names: ឈ្មោះអ្នកថែទាំ

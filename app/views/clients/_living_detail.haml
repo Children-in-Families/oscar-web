@@ -1,9 +1,15 @@
-%h3 Living Detail
+%h3= t('.living_detail')
 %section
   #living-detail
-    %legend Contact Details
-    - if defined?(edit) && edit
-      %h2 hello
+    - unless @client.new_record?
+      .row
+        .col-xs-12.col-sm-6.col-md-8
+          %h3= "#{@client.family_name} #{@client.given_name} #{@client.local_family_name} #{@client.local_given_name}"
+          %h3= "#{@client.gender}  #{@client.date_of_birth}"
+        .col-xs-12.col-sm-6.col-md-4
+          %h3= "Client ID - #{current_organization.short_name} ###"
+          = f.association :users, collection: @users, label: t('.case_worker_or_staff'), include_blank: false, multiple: true
+    %legend= t('.contact_details')
     .row
       .col-xs-12.col-sm-6.col-md-4
         = f.input :primary_carer_name, label: t('.primary_carer_name')
@@ -26,7 +32,7 @@
         = f.input :village, label: t('.village')
       .col-xs-12.col-sm-6.col-md-4
         = f.input :archive_district, label: 'Archive District', readonly: true
-    %legend Schooling
+    %legend= t('.schooling')
     .row
       .col-xs-12.col-sm-6.col-md-4
         = f.input :school_name, label: t('.school_name')

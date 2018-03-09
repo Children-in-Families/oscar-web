@@ -64,13 +64,13 @@ class Client < ActiveRecord::Base
 
   has_paper_trail
 
-  validates :rejected_note, presence: true, on: :update, if: :reject?
-  validates :exit_date, presence: true, on: :update, if: :exit_ngo?
-  validates :exit_note, presence: true, on: :update, if: :exit_ngo?
-  validates :kid_id, uniqueness: { case_sensitive: false }, if: 'kid_id.present?'
-  validates :user_ids, presence: true, on: :create
-  validates :user_ids, presence: true, on: :update, unless: :exit_ngo?
-  validates :initial_referral_date, :received_by_id, :referral_source, :name_of_referee, presence: true
+  # validates :rejected_note, presence: true, on: :update, if: :reject?
+  # validates :exit_date, presence: true, on: :update, if: :exit_ngo?
+  # validates :exit_note, presence: true, on: :update, if: :exit_ngo?
+  # validates :kid_id, uniqueness: { case_sensitive: false }, if: 'kid_id.present?'
+  # validates :user_ids, presence: true, on: :create
+  # validates :user_ids, presence: true, on: :update, unless: :exit_ngo?
+  # validates :initial_referral_date, :received_by_id, :referral_source, :name_of_referee, presence: true
 
   before_update :disconnect_client_user_relation, if: :exiting_ngo?
   after_create :set_slug_as_alias
