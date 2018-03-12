@@ -20,9 +20,11 @@ module FormBuilderAttachmentsHelper
   end
 
   def disabled?
-    return if current_user.admin?
+    status = @client.blank? ? @custom_formable.status : @client.status
+    return if current_user.admin? && !status_exited?(status)
     return 'disabled' if current_user.strategic_overviewer?
-    'disabled' unless current_user.custom_field_permissions.find_by(custom_field_id: params[:custom_field_id]).try(:editable)
+    permission = current_user.custom_field_permissions.find_by(custom_field_id: params[:custom_field_id]).try(:editable)
+    'disabled' unless permission
   end
 
   def custom_field_property_attachment(field)

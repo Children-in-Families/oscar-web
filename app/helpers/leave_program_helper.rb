@@ -8,7 +8,7 @@
     end
 
     def leave_program_edit_link
-      if program_permission_editable?(@program_stream)
+      if program_permission_editable?(@program_stream) && !status_exited?(@client.status)
         link_to edit_client_client_enrollment_leave_program_path(@client, @enrollment, @leave_program, program_stream_id: @program_stream) do
           content_tag :div, class: 'btn btn-success btn-outline' do
             fa_icon('pencil')

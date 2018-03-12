@@ -26,8 +26,6 @@ module ApplicationHelper
   def status_style(status)
     color = 'label-primary'
     case status
-    when 'Referred'
-      color = 'label-danger'
     when 'Exited'
       color = 'label-danger'
     when 'Investigating'
@@ -197,9 +195,5 @@ module ApplicationHelper
 
   def convert_bracket(value)
     value.gsub(/\[/, '&#91;').gsub(/\]/, '&#93;')
-  end
-
-  def status_exited?
-    @client.status == 'Exited'
   end
 end
