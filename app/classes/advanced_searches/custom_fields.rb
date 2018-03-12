@@ -14,10 +14,10 @@ module AdvancedSearches
     end
 
     def render
-      number_fields       = @number_type_list.map { |item| AdvancedSearches::FilterTypes.number_options(item, format_label(item), format_optgroup(item)) }
-      text_fields         = @text_type_list.map { |item| AdvancedSearches::FilterTypes.text_options(item, format_label(item), format_optgroup(item)) }
-      date_picker_fields  = @date_type_list.map { |item| AdvancedSearches::FilterTypes.date_picker_options(item, format_label(item), format_optgroup(item)) }
-      drop_list_fields    = @drop_down_type_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first, format_label(item.first) , item.last, format_optgroup(item.first)) }
+      number_fields       = @number_type_list.map { |item| AdvancedSearches::FilterTypes.number_options(item.gsub('"', '&qoute;'), format_label(item), format_optgroup(item)) }
+      text_fields         = @text_type_list.map { |item| AdvancedSearches::FilterTypes.text_options(item.gsub('"', '&qoute;'), format_label(item), format_optgroup(item)) }
+      date_picker_fields  = @date_type_list.map { |item| AdvancedSearches::FilterTypes.date_picker_options(item.gsub('"', '&qoute;'), format_label(item), format_optgroup(item)) }
+      drop_list_fields    = @drop_down_type_list.map { |item| AdvancedSearches::FilterTypes.drop_list_options(item.first.gsub('"', '&qoute;'), format_label(item.first) , item.last, format_optgroup(item.first)) }
 
       results = text_fields + drop_list_fields + number_fields + date_picker_fields
 
@@ -30,7 +30,7 @@ module AdvancedSearches
       @custom_fields.each do |custom_field|
 
         custom_field.fields.each do |json_field|
-          json_field['label'] = json_field['label'].gsub('&amp;', '&')
+          json_field['label'] = json_field['label'].gsub('&amp;', '&').gsub('&lt;', '<').gsub('&gt;', '>')
           if json_field['type'] == 'text' || json_field['type'] == 'textarea'
             @text_type_list << "formbuilder_#{custom_field.form_title}_#{json_field['label']}"
           elsif json_field['type'] == 'number'
