@@ -105,8 +105,7 @@ CIF.Custom_fieldsNew = CIF.Custom_fieldsCreate = CIF.Custom_fieldsEdit = CIF.Cus
       }
 
     $("#custom-field-submit").click (event) ->
-      specialCharacters = {"&quot;": '"', "&amp;": "&", "&lt;": "<", "&gt;": ">"}
-      $('#custom_field_fields').val(formBuilder.actions.save().allReplace(specialCharacters))
+      $('#custom_field_fields').val(formBuilder.actions.save())
 
   _select2 = ->
     $('#custom_field_entity_type').select2

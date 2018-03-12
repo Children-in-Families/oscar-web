@@ -2,6 +2,6 @@
   %label.control-label{ class: required?(field_props['required'] || false) }
     %abbr{ title: 'required' }= '*' if field_props['required'] || false
     = field_props['label'].html_safe
-  = f.input field_props['label'], as: :integer, required: (field_props['required'] || false), input_html: { class: field_props['className'], name: "#{f.object_name}[#{field_props['label'].gsub('&amp;', '&')}]" }, label: false
+  = f.input field_props['label'], as: :integer, required: (field_props['required'] || false), input_html: { class: field_props['className'], name: "#{f.object_name}[#{field_props['label'].gsub('&amp;', '&').gsub('&lt;', '<').gsub('&gt;', '>')}]" }, label: false
   %span.help-block
     = field_message(field_props['label'], errors)
