@@ -98,7 +98,7 @@ class FamilyGrid
     render partial: 'families/clients', locals: { object: object }
   end
 
-  column(:case_worker, html: true, header: -> { I18n.t('datagrid.columns.families.case_workers') }) do |object|
+  column(:case_workers, html: true, header: -> { I18n.t('datagrid.columns.families.case_workers') }) do |object|
     render partial: 'families/case_workers', locals: { object: object.cases.non_emergency.active }
   end
 
@@ -117,7 +117,7 @@ class FamilyGrid
     object.cases.non_emergency.active.map { |c| c.client.name if c.client }.join(', ')
   end
 
-  column(:case_worker, header: -> { I18n.t('datagrid.columns.families.case_workers') }, html: false) do |object|
+  column(:case_workers, header: -> { I18n.t('datagrid.columns.families.case_workers') }, html: false) do |object|
     user_ids = Client.joins(:cases).where(cases: { id: object.cases.non_emergency.active.ids }).joins(:case_worker_clients).map(&:user_ids).flatten.uniq
     User.where(id: user_ids).map{|u| u.name }.join(', ')
   end
