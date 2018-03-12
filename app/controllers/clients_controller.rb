@@ -96,7 +96,7 @@ class ClientsController < AdminController
   end
 
   def update
-    authorize @client if params[:commit].blank?
+    authorize @client if params['accept-client'].blank?
     if @client.update_attributes(client_params)
       if params[:client][:assessment_id]
         @assessment = Assessment.find(params[:client][:assessment_id])

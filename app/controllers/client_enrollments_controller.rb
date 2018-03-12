@@ -7,7 +7,7 @@ class ClientEnrollmentsController < AdminController
   before_action :find_client
   before_action :find_program_stream, except: :index
   before_action :find_client_enrollment, only: [:show, :edit, :update, :destroy]
-  before_action :authorize_client_enrollment, except: [:index, :show, :new, :report]
+  before_action :authorize_client_enrollment, except: [:index, :show, :new, :report, :create]
   before_action :get_attachments, only: [:new, :edit, :update, :create]
   before_action -> { check_user_permission('editable') }, except: [:index, :show, :report]
   before_action -> { check_user_permission('readable') }, only: :show
@@ -28,7 +28,7 @@ class ClientEnrollmentsController < AdminController
       client_enrollment_index_path unless valid_program?
     end
 
-    @client_enrollment = @client.client_enrollments.new(program_stream_id: @program_stream)
+    @client_enrollment = @client.client_enrollments.new(program_stream_id: @program_stream.id)
     authorize @client_enrollment
     @attachment        = @client_enrollment.form_builder_attachments.build
   end

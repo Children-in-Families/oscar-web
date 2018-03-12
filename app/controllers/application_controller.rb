@@ -20,8 +20,7 @@ class ApplicationController < ActionController::Base
   end
 
   rescue_from Pundit::NotAuthorizedError do |exception|
-    flash[:alert] = t('unauthorized.default')
-    redirect_to request.referrer || root_path
+    redirect_to root_path, alert: t('unauthorized.default')
   end
 
   def current_organization

@@ -2,7 +2,7 @@ class CaseNotesController < AdminController
   load_and_authorize_resource
   before_action :set_client
   before_action :set_case_note, only: [:edit, :update]
-  before_action :authorize_case_note, only: [:edit, :update, :create]
+  before_action :authorize_case_note, only: [:edit, :update]
   before_action -> { case_notes_permission('readable') }, only: [:index]
   before_action -> { case_notes_permission('editable') }, except: [:index]
 
@@ -22,6 +22,7 @@ class CaseNotesController < AdminController
 
   def create
     @case_note = @client.case_notes.new(case_note_params)
+    authorize @case_note
     if @case_note.save
       @case_note.complete_tasks(params[:case_note][:case_note_domain_groups_attributes])
       redirect_to client_case_notes_path(@client), notice: t('.successfully_created')
