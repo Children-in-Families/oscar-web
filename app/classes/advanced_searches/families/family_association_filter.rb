@@ -59,7 +59,7 @@ module AdvancedSearches
         when 'equal'
           family_ids = Case.joins(:family).non_emergency.active.where(user_id: @value).pluck(:family_id).uniq
         when 'not_equal'
-          family_ids = Case.joins(:family).where.not(cases: { case_type: 'EC', exited: true }).where.not(user_id: @value).pluck(:family_id).uniq
+          family_ids = Case.joins(:family).where.not(cases: { case_type: 'EC', exited: true, user_id: @value }).pluck(:family_id).uniq
         when 'is_empty'
           family_ids = @families.where.not(id: Case.joins(:family).where.not(cases: { case_type: 'EC', exited: true }).pluck(:family_id).uniq).ids
         when 'is_not_empty'
