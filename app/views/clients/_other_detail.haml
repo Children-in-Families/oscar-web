@@ -9,7 +9,7 @@
         .col-xs-12.col-sm-6.col-md-4
           %h3= "Client ID - #{current_organization.short_name} ###"
           = f.association :users, collection: @users, label: t('.case_worker_or_staff'), include_blank: false, multiple: true
-    %legend Other Information
+    %legend= t('.other_information')
     .row
       .col-xs-12.col-sm-6.col-md-4
         = f.input :birth_province_id, collection: @province.map{|p| [p.name, p.id]},  label: t('.province')
@@ -18,22 +18,18 @@
       .col-xs-12.col-sm-6.col-md-4
         = f.association :donor, collection: @donors, label: t('.donor')
 
-      / .col-xs-12.col-sm-6.col-md-4
-      /   .i-checks.has-been-in-orphanage
-      /     %label= "#{t('.is_the_client_rated_for_id_poor')}?"
-      /     = f.input :rated_for_id_poor, as: :radio_buttons, collection: [['Yes', true],['No', false]], label: false
-
-      .col-xs-12.col-sm-6.col-md-4.i-check
-        %label= "#{t('.is_the_client_rated_for_id_poor')}?"
-        = f.input :rated_for_id_poor, as: :radio_buttons, collection: [['Yes', true],['No', false]], label: false
+      .col-xs-12.col-sm-6.col-md-4
+        .i-check.has-been-in-orphanage
+          %label= "#{t('.is_the_client_rated_for_id_poor')}?"
+          = f.input :rated_for_id_poor, as: :radio_buttons, collection: [['Yes', true],['No', false]], label: false
 
       .col-xs-12.col-sm-6.col-md-4
-        .i-checks.has-been-in-orphanage
+        .i-check.has-been-in-orphanage
           %label= "#{t('.has_been_in_orphanage')}?"
           = f.input :has_been_in_orphanage, as: :radio_buttons, collection: [['Yes', true],['No', false]], label: false
 
       .col-xs-12.col-sm-6.col-md-4
-        .i-checks.has-been-in-government-care
+        .i-check.has-been-in-government-care
           %label= "#{t('.has_been_in_government_care')}?"
           = f.input :has_been_in_government_care, as: :radio_buttons, collection: [['Yes', true],['No', false]], label: false
       .col-xs-12.col-sm-6.col-md-4

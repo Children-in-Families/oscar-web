@@ -303,7 +303,7 @@
                   = t('.is_the_client_rated_for_id_poor')
                 %td
                   %strong
-                    = @client.rated_for_id_poor
+                    = human_boolean(@client.rated_for_id_poor)
 
               %tr
                 %td.spacing-first-col

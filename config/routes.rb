@@ -102,7 +102,6 @@ Rails.application.routes.draw do
   resources :interventions, except: [:show] do
     get 'version' => 'interventions#version'
   end
-  resources :client_steps
   resources :clients do
 
     collection do

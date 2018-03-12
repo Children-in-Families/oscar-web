@@ -1094,6 +1094,10 @@ en:
       has_been_in_government_care: Has Been In Government Care
       custom_id_number1: Custom ID Number1
       custom_id_number2: Custom ID Number2
+      finish: Save
+      next: Next
+      previous: Previous
+
     foster_case:
       carer_address: Carer Address
       carer_names: Carer Names
@@ -1114,6 +1118,29 @@ en:
       start_date: Start Date
       support_amount: Support Amount
       support_note: Support Note
+
+    getting_started:
+      name_of_referee:  Name of Referee
+      referee_phone_number: Referee Phone Number
+      referral_received_by: Referral Received By
+      first_followed_up_by: First Follow Up By
+      case_worker_or_staff: Case Worker or Staff
+      initial_referral_date: Initial Referral Date
+      first_followed-up_date: First Follow Up Date
+      given_name: Given Name
+      family_name: Family Name
+      gender: Gender
+      local_given_name: Local Given Name
+      local_family_name: Local Family Name
+      date_of_birth: Date of Birth
+      referral_source: Referral Source
+      staff_responsibilities: Staff Responsibilities
+      referral_information: Referral Information
+      getting_started: Getting Started
+      living_detail: Living Detail
+      other_detail: Other Detail
+      specific_point: Specific Point
+
     index:
       active_programs: Active Programs
       add_new_client: Add New Client
@@ -1160,12 +1187,40 @@ en:
       start_date: Start Date
       support_amount: Support Amount
       support_note: Support Note
+
+    living_detail:
+      contact_details: Contact Details
+      schooling: Schooling
+      living_detail: Living Detail
+      current_address: Current Address
+      current_province: Current Province
+      district: District
+      commune: Commune
+      house_number: House Number
+      street_number: Street Number
+      village: Village
+      school_name: School Name
+      school_grade: School Grade
+      primary_carer_name: Primary Carer Name
+      primary_carer_phone_number: Primary Carer Phone Number
+      main_school_contact: Main School Contact
+
     new:
       new_client_title: New Client
+
     other_detail:
-      has_been_in_government_care: Has Been In Government Care
-      has_been_in_orphanage: Has Been In Orphanage
+      other_information: Other Information
+      other_detail: Other Detail
+      province: Province
+      agencies_involved: Agencies Involved
+      donor: Donor
       is_the_client_rated_for_id_poor: Is The Client Rated For ID Poor
+      has_been_in_orphanage: Has Been In Orphanage
+      has_been_in_government_care: Has Been In Government Care
+      custom_id_number1: Custom ID Number1
+      custom_id_number2: Custom ID Number2
+      relevant_referral_information: Relevant Referral Information
+
     placement:
       view_legacy_quarterly_reports: View Legacy Quarterly Reports
     remaining_programs:
@@ -1295,6 +1350,10 @@ en:
       view_legacy_quarterly_reports: Legacy Quarterly Reports
       view_tasks: Tasks
       village: Village
+
+    specific_point:
+      specific_point: Specific Point
+
     state:
       rejected_note: Note on referral rejection
       state: Accept/Reject

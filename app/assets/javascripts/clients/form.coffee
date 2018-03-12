@@ -1,104 +1,14 @@
 CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
   _init = ->
+    @filterTranslation = ''
+    _getTranslation()
     _initWizardForm()
+    _initICheck()
     _ajaxCheckExistClient()
     _ajaxChangeDistrict()
     _initDatePicker()
     _replaceSpanBeforeLabel()
     _clientSelectOption()
-
-  _renderRadio = ->
-    $('.radio_buttons').iCheck
-      checkboxClass: 'icheckbox_square-green'
-      radioClass: 'iradio_square-green'
-      increaseArea: '20%'
-
-  _initDatePicker = ->
-    $('.date-picker').datepicker
-      autoclose: true,
-      format: 'yyyy-mm-dd',
-      todayHighlight: true,
-      disableTouchKeyboard: true
-
-  _initWizardForm = ->
-    form = $('#client-wizard-form')
-
-    form.children('.client-steps').steps
-      headerTag: 'h3'
-      bodyTag: 'section'
-      transitionEffect: 'slideLeft'
-      enableKeyNavigation: false
-
-      onStepChanging: (event, currentIndex, newIndex) ->
-
-        if currentIndex == 0 and newIndex == 1 and $('#getting-started').is(':visible')
-          # _validateForm()
-          # form.valid()
-          client_received_by_id         = $('#client_received_by_id').val() == ''
-          client_user_ids               = $('#client_user_ids').val() == ''
-          client_initial_referral_date  = $('#client_initial_referral_date').val() == ''
-          client_referral_source_id     = $('#client_referral_source_id').val() == ''
-          client_name_of_referee        = $('#client_name_of_referee').val() == ''
-
-          # if !$('#client_user_ids').val()
-          #   return false
-          # else if client_user_ids or client_received_by_id or client_initial_referral_date or client_referral_source_id or client_name_of_referee
-          #   return false
-          # else
-          return true
-        else
-          return true
-
-        # else if $('#living-detail').is(':visible')
-        #   return true
-        # else if $('#other-detail').is(':visible')
-        #   return true
-        # else if $('#specific-point').is(':visible')
-        #   return true
-
-      onFinishing: (event, currentIndex) ->
-        # _validateForm()
-        # form.valid()
-
-      onFinished: (event, currentIndex) ->
-        _ajaxCheckExistClient()
-
-  _validateForm = ->
-    $('#client-wizard-form').validate
-      ignore: []
-      rules: {
-        "client[received_by_id]":
-          required: true
-        "client[user_ids]":
-          required: true
-        "client[initial_referral_date]":
-          required: true
-        "client[referral_source_id]":
-          required: true
-        "client[name_of_referee]":
-          required: true
-
-      }
-      messages: {
-        "client[received_by_id]":
-          required: "This field is required."
-        "client[user_ids]":
-          required: "This field is required."
-        "client[initial_referral_date]":
-          required: "This field is required."
-        "client[referral_source_id]":
-          required: "This field is required."
-        "client[name_of_referee]":
-          required: "This field is required."
-      }
-
-    $('#client_initial_referral_date').change ->
-      $(this).removeClass 'error'
-      $(this).closest('.form-group').find('label.error').remove()
-
-    $('select').change ->
-      $(this).removeClass 'error'
-      $(this).closest('.form-group').find('label.error').remove()
 
   _ajaxChangeDistrict = ->
     $('#client_province_id').on 'change', ->
@@ -186,11 +96,108 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
     formAction = $('body').attr('id')
     $('#client_gender').val('') unless formAction.includes('edit')
 
+  _getTranslation = ->
+    @filterTranslation =
+      finish: $('.client-steps').data('finish')
+      next: $('.client-steps').data('next')
+      previous: $('.client-steps').data('previous')
+
+  _initICheck = ->
+    $('.radio_buttons').iCheck
+      checkboxClass: 'icheckbox_square-green'
+      radioClass: 'iradio_square-green'
+
+  _initDatePicker = ->
+    $('.date-picker').datepicker
+      autoclose: true,
+      format: 'yyyy-mm-dd',
+      todayHighlight: true,
+      disableTouchKeyboard: true
+
+  _initWizardForm = ->
+    self = @
+    form = $('#client-wizard-form')
+
+    form.children('.client-steps').steps
+      headerTag: 'h3'
+      bodyTag: 'section'
+      transitionEffect: 'slideLeft'
+      enableKeyNavigation: false
+
+      onStepChanging: (event, currentIndex, newIndex) ->
+
+        if currentIndex == 0 and newIndex == 1 and $('#getting-started').is(':visible')
+          _validateForm()
+          form.valid()
+          client_received_by_id         = $('#client_received_by_id').val() == ''
+          client_user_ids               = $('#client_user_ids').val() == ''
+          client_initial_referral_date  = $('#client_initial_referral_date').val() == ''
+          client_referral_source_id     = $('#client_referral_source_id').val() == ''
+          client_name_of_referee        = $('#client_name_of_referee').val() == ''
+
+          if !$('#client_user_ids').val()
+            return false
+          else if client_user_ids or client_received_by_id or client_initial_referral_date or client_referral_source_id or client_name_of_referee
+            return false
+          else
+            return true
+        else
+          return true
+
+      onFinishing: (event, currentIndex) ->
+        _validateForm()
+        form.valid()
+
+      onFinished: (event, currentIndex) ->
+        _ajaxCheckExistClient()
+
+      labels:
+        next: self.filterTranslation.next
+        previous: self.filterTranslation.previous
+        finish: self.filterTranslation.finish
+
   _replaceSpanBeforeLabel = ->
-     $("a[href='#next']").click ->
+    $("a[href='#next']").click ->
       inputGroupElement = $('.client_initial_referral_date > .input-group')
       labelElement = $('#client_initial_referral_date-error')
 
       labelElement.insertAfter inputGroupElement
+
+  _validateForm = ->
+    $('#client-wizard-form').validate
+      ignore: []
+      rules: {
+        "client[received_by_id]":
+          required: true
+        "client[user_ids]":
+          required: true
+        "client[initial_referral_date]":
+          required: true
+        "client[referral_source_id]":
+          required: true
+        "client[name_of_referee]":
+          required: true
+
+      }
+      messages: {
+        "client[received_by_id]":
+          required: "This field is required."
+        "client[user_ids]":
+          required: "This field is required."
+        "client[initial_referral_date]":
+          required: "This field is required."
+        "client[referral_source_id]":
+          required: "This field is required."
+        "client[name_of_referee]":
+          required: "This field is required."
+      }
+
+    $('#client_initial_referral_date').change ->
+      $(this).removeClass 'error'
+      $(this).closest('.form-group').find('label.error').remove()
+
+    $('select').change ->
+      $(this).removeClass 'error'
+      $(this).closest('.form-group').find('label.error').remove()
 
   { init: _init }

@@ -1098,6 +1098,10 @@ my:
       village: ေက်းရြာ
       year: ႏွစ္
       yes_no: ဟုတ္တယ္/ မဟုတ္ဘူး
+      next: နောက်တစ်ခု
+      previous: လွန်ခဲ့သော
+      finish: ကယ်ဆယ်
+
     foster_case:
       carer_address: ေစာင့္ေရွာက္သူ လိပ္စာ
       carer_names: ေစာင့္ေရွာက္သူ နာမည္မ်ား
@@ -1118,6 +1122,29 @@ my:
       start_date: စသည့္ ရက္စြဲ
       support_amount: ေထာက္ပံ့သည့္ ပမာဏ
       support_note: ေထာက္ပံ့သည့္ မွတ္စု
+
+    getting_started:
+      name_of_referee: ဒိုင်လူကြီး၏နာမကိုအမှီ
+      referee_phone_number: ဒိုင်လူကြီးဖုန်းနံပါတ်ကို
+      referral_received_by: လက်ခံရရှိသောလွှဲပြောင်း
+      first_followed_up_by: ပထမဦးဆုံးအနေဖြင့်ဖွင့်နောက်တော်သို့လိုက်
+      case_worker_or_staff: အမႈျခင္းရာ လိုက္ပါေဆာင္ရြက္ေပးသူ/ ၀န္ထမ္း
+      initial_referral_date: ကနဦး လႊဲေျပာင္းသည့္ ရက္စြဲ
+      first_followed-up_date: ပထမဦးဆုံးအရက်စွဲတက်နောက်တော်သို့လိုက်
+      given_name: ေမြးနာမည္
+      family_name: မိသားစုနာမည္
+      gender: က်ားမ
+      local_given_name: ေမြးနာမည္ (ေဒသအသံုးျဖင့္)
+      local_family_name: မိသားစုနာမည္ (ေဒသအသံုးျဖင့္)
+      date_of_birth: ေမြးရက္၊ လ၊ ႏွစ္
+      referral_source: လႊဲရမည့္ ရင္းျမစ္
+      staff_responsibilities: ဝန်ထမ်းတာဝန်ဝတ္တရား
+      referral_information: လွှဲပြောင်းသတင်းအချက်အလက်များ
+      getting_started: စတင်ခဲ့သည်
+      living_detail: အသကျရှငျအသေးစိတ်
+      other_detail: အခြားအသေးစိတျ
+      specific_point: တိကျတဲ့အချက်
+
     index:
       active_programs: အသက္၀င္ေသးေသာ အစီအစဥ္မ်ား
       add_new_client: အမႈသည္သစ္ ထည့္သြင္းသည္
@@ -1164,8 +1191,40 @@ my:
       start_date: စသည့္ ရက္စြဲ
       support_amount: ေထာက္ပံ့သည့္ ပမာဏ
       support_note: ေထာက္ပံ့သည့္ မွတ္စု
+
+    living_detail:
+      contact_details: အဆက်အသွယ်အသေးစိတ်
+      schooling: သင်ကြားခြင်း
+      living_detail: အသကျရှငျအသေးစိတ်
+      current_address: လက္ရွိ လိပ္စာ
+      current_province: လက္ရွိေနထိုင္ရာခ႐ိုင္
+      district: ခ႐ိုင္
+      commune: ရပ္ကြ႕၊ ေက်းရြာအုပ္စု
+      house_number: အိမ္နံပါတ္
+      street_number: လမ္း
+      village: ေက်းရြာ
+      school_name: ေက်ာင္းနာမည္
+      school_grade: ေက်ာင္းအဆင့္
+      primary_carer_name: မူလတန်းစောင့်ရှောက်သူအမည်အား
+      primary_carer_phone_number: မူလတန်းအုပ်ထိန်းဖုန်းနံပါတ်ကို
+      main_school_contact: အဓိကကျောင်းကိုအဆက်အသွယ်
+
     new:
       new_client_title: အမႈသည္အသစ္
+
+    other_detail:
+      other_detail: အခြားအသေးစိတျ
+      other_information: အခြားအချက်အလက်
+      province: ခ႐ိုင္
+      agencies_involved: ပါ၀င္သည့္ ေအဂ်င္စီမ်ား
+      donor: အလွဴရွင္
+      is_the_client_rated_for_id_poor: Client ကိုဆင်းရဲသောသူသည် ID အတှကျ rated ဖြစ်ပါတယ်
+      has_been_in_orphanage: မိဘမဲ့ျဖစ္ဖူး
+      has_been_in_government_care: အစိုးရ၏ ေစာင့္ေရွာက္မႈ ခံယူဖူး
+      custom_id_number1: Custom ID Number1
+      custom_id_number2: Custom ID Number2
+      relevant_referral_information: သက္ဆုိင္ေသာ လႊဲေျပာင္းျခင္း အခ်က္အလက္
+
     placement:
       view_legacy_quarterly_reports: သံုးလပတ္ဥပေဒေရးရာ အစီရင္ခံစာမ်ားကို ၾကည့္ရန္
     remaining_programs:
@@ -1285,6 +1344,18 @@ my:
       view_legacy_quarterly_reports: သံုးလပတ္ ဥပေဒအစီရင္ခံစာ
       view_tasks: လုပ္ေဆာင္ခ်က္မ်ား
       village: ေက်းရြာ
+      name_of_referee: ဒိုင်လူကြီး၏နာမကိုအမှီ
+      referee_phone_number: ဒိုင်လူကြီးဖုန်းနံပါတ်ကို
+      primary_carer_name: မူလတန်းစောင့်ရှောက်သူအမည်အား
+      primary_carer_phone_number: မူလတန်းအုပ်ထိန်းဖုန်းနံပါတ်ကို
+      main_school_contact: အဓိကကျောင်းကိုအဆက်အသွယ်
+      is_the_client_rated_for_id_poor: အဆိုပါလိုင်း ID ကိုညံ့ဖျင်းသည်အဆင့်သတ်မှတ်ထားသည်ထားသည်
+      custom_id_number1: Custom ID Number1
+      custom_id_number2: Custom ID Number2
+
+    specific_point:
+      specific_point: တိကျတဲ့အချက်
+
     state:
       rejected_note: ျငင္းပယ္သည့္ မွတ္စု
       state: လက္ခံသည္/ ျငင္းပယ္သည္
