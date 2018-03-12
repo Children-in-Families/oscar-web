@@ -15,6 +15,8 @@ module AdvancedSearches
           values = clients
         when 'form_title'
           values = form_title_field_query
+        when 'case_workers'
+          values = case_worker_field_query
         end
         { id: sql_string, values: values }
       end
@@ -49,6 +51,21 @@ module AdvancedSearches
           families = @families.where(id: families.ids)
         end
         families.uniq.ids
+      end
+
+      def case_worker_field_query
+        family_ids = []
+        case @operator
+        when 'equal'
+          family_ids = Case.joins(:family).non_emergency.active.where(user_id: @value).pluck(:family_id).uniq
+        when 'not_equal'
+          family_ids = Case.joins(:family).where.not(cases: { case_type: 'EC', exited: true }).where.not(user_id: @value).pluck(:family_id).uniq
+        when 'is_empty'
+          family_ids = @families.where.not(id: Case.joins(:family).where.not(cases: { case_type: 'EC', exited: true }).pluck(:family_id).uniq).ids
+        when 'is_not_empty'
+          family_ids = @families.where(id: Case.joins(:family).where.not(cases: { case_type: 'EC', exited: true }).pluck(:family_id).uniq).ids
+        end
+        family_ids
       end
     end
   end

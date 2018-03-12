@@ -35,7 +35,8 @@ module AdvancedSearches
           ['province_id', provinces],
           ['dependable_income', { yes: 'Yes', no: 'No' }],
           ['client_id', clients],
-          ['form_title', family_custom_form_options]
+          ['form_title', family_custom_form_options],
+          ['case_workers', case_workers_options]
         ]
       end
 
@@ -53,6 +54,11 @@ module AdvancedSearches
 
       def family_custom_form_options
         CustomField.joins(:custom_field_properties).family_forms.uniq.map{ |c| { c.id.to_s => c.form_title }}
+      end
+
+      def case_workers_options
+        user_ids = Case.joins(:family).where.not(cases: { case_type: 'EC', exited: true }).pluck(:user_id).uniq
+        User.where(id: user_ids).order(:first_name, :last_name).map { |user| { user.id.to_s => user.name } }
       end
     end
   end
