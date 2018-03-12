@@ -3,7 +3,6 @@
     .ibox
       .ibox-title
         %h5= "#{@client.en_and_local_name} - #{t('.enrollment_date')} #{date_format(@client_enrollment.enrollment_date)}"
-
         .ibox-tools
           - if can? :manage, ClientEnrollment
             = client_enrolled_program_edit_link

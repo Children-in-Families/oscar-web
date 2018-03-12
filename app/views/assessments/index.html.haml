@@ -33,7 +33,7 @@
 
           .col-xs-12.col-sm-3
             - if can? :manage, Assessment
-              - if @client.can_create_assessment? && assessment_editable?
+              - if @client.can_create_assessment? && assessment_editable? && !status_exited?(@client.status)
                 = link_to new_client_assessment_path(@client) do
                   .btn.btn-primary.button
                     = t('.begin_now')

@@ -38,9 +38,9 @@
                       = f.hidden_field :accepted_date, value: Date.today
                       = f.hidden_field :status, value: 'Accepted'
                     .form-actions
-                      = f.submit t('.accept'), class: 'btn btn-success agree-btn'
+                      = f.submit t('.accept'), class: 'btn btn-success agree-btn', id: 'accept-client'
                 .col-xs-12
-                  %button.btn.btn-danger.mini-margin{"data-target" => '#exitFromNgo', "data-toggle" => 'modal', class: 'agree-btn'} #{t('.reject')}
+                  %button.btn.btn-danger.mini-margin{"data-target" => '#exitFromNgo', "data-toggle" => 'modal', class: 'agree-btn', id: 'reject-client-btn' }= t('.reject')
             .col-xs-12
               = render 'exit_ngo_form', client: @client
 
@@ -50,14 +50,14 @@
               %button.btn.btn-success.mini-margin{"data-target" => '#enter-ngo-form', "data-toggle" => 'modal', class: 'agree-btn' } #{t('.accept')}
               = render 'enter_ngo_form'
             .col-xs-12
-              %button.btn.btn-danger.mini-margin{ disabled: 'disabled', class:'agree-btn' } #{t('.reject')}
+              %button.btn.btn-danger.mini-margin{ disabled: 'disabled', class:'agree-btn' }= t('.reject')
 
     - if @client.status != 'Referred'
       .row
         .col-xs-12
           - if can? :manage, Case
             .btn-group.small-btn-margin
-              %button.btn-sm.btn.btn-primary.dropdown-toggle{ "data-toggle" => "dropdown", class: ('disabled' if status_exited?) }
+              %button.btn-sm.btn.btn-primary.dropdown-toggle{ "data-toggle" => "dropdown", id: 'add-client-to-case', class: ('disabled' if status_exited?(@client.status)) }
                 = t('.add_client_to_case')
                 %span.caret
               %ul.dropdown-menu
@@ -67,16 +67,17 @@
                   -# %li= @client.kc_button
                   %li.divider
                   %li
-                    - if (@client.client_enrollments.active.count > 0)
+                    - if @client.client_enrollments.active.count > 0
                       %a{"data-target" => '#remaining-programs-modal', "data-toggle" => 'modal'}
                         .text-warning= t('.exit_ngo_btn')
                     - else
-                      %a{"data-target" => '#exitFromNgo', "data-toggle" => 'modal'}
+                      %a{"data-target" => '#exitFromNgo', "data-toggle" => 'modal', id: 'exit-from-ngo-btn' }
                         .text-warning= t('.exit_ngo_btn')
                 - if @client.cases.exclude_referred.current.present?
                   %li
                     %a{"data-target" => '#exit-from-case', "data-toggle" => 'modal'}
                       .text-warning.exit-case-warning= t(".exit_from_#{@client.cases.exclude_referred.current.case_type.downcase}")
+
             - if @client.client_enrollments.active.count > 0
               = render 'remaining_programs', client: @client
             - else
@@ -155,7 +156,7 @@
                 %li= link_to client_custom_fields.first.custom_field.form_title, client_custom_field_properties_path(@client, custom_field_id: client_custom_fields.first.custom_field_id)
           - if can? :manage, CustomFieldProperty
             .btn-group.small-btn-margin
-              %button.btn-sm.btn.btn-success.dropdown-toggle{ 'data-toggle' => 'dropdown', class: ('disabled' if @free_client_forms.empty? || status_exited?) }
+              %button.btn-sm.btn.btn-success.dropdown-toggle{ 'data-toggle' => 'dropdown', class: ('disabled' if @free_client_forms.empty? || status_exited?(@client.status)) }
                 = t('.add_form')
                 %span.caret
               %ul.dropdown-menu.scrollable-dropdown-menu
@@ -349,7 +350,6 @@
                     %strong.label.label-default.agency
                       = agency.name
 
-              / = render 'state'
               - if @client.exit_date
                 %tr
                   %td.spacing-first-col

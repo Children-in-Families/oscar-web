@@ -20,7 +20,7 @@
                     - if can? :manage, Case
                       - if current_user.admin? || current_user.manager?
                         %small
-                          = link_to edit_client_case_path(case_history.client, case_history) do
+                          = link_to edit_client_case_path(case_history.client, case_history), class: "btn #{ status_exited?(@client.status) ? 'disabled':''}" do
                             .btn.btn-outline.btn-success
                               = fa_icon('pencil')
                 .ibox-content
