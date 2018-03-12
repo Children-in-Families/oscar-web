@@ -371,16 +371,15 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     $('#program_stream_rules').val(_handleStringfyRules(rules))
 
   _handleSetValueToField = ->
-    specialCharacters = { "&quot;": '"', "&amp;": "&", "&lt;": "<", "&gt;": ">" }
     for formBuilder in @formBuilder
       element = formBuilder.element
       if $(element).is('#enrollment')
-        $('#program_stream_enrollment').val(formBuilder.actions.save().allReplace(specialCharacters))
+        $('#program_stream_enrollment').val(formBuilder.actions.save())
       else if $(element).is('.tracking-builder')
         hiddenField = $(element).find('.tracking-field-hidden input[type="hidden"]')
-        $(hiddenField).val(formBuilder.actions.save().allReplace(specialCharacters))
+        $(hiddenField).val(formBuilder.actions.save())
       else if $(element).is('#exit-program')
-        $('#program_stream_exit_program').val(formBuilder.actions.save().allReplace(specialCharacters))
+        $('#program_stream_exit_program').val(formBuilder.actions.save())
 
   _handleStringfyRules = (rules) ->
     rules = JSON.stringify(rules)
@@ -401,6 +400,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
 
   _preventRemoveField = (url, elementId) ->
     return false if @programStreamId == ''
+    specialCharacters = { "&": "&amp;", "<": "&lt;", ">": "&gt;" }
     $.ajax
       method: 'GET'
       url: url
@@ -412,12 +412,13 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
           fields = response.program_streams
           labelFields = $(elementId).find('label.field-label')
           for labelField in labelFields
-            text = labelField.textContent.replace('&', '&amp;')
+            text = labelField.textContent.allReplace(specialCharacters)
             if fields.includes(text)
               _removeActionFormBuilder(labelField)
 
   _hideActionInTracking = (fields) ->
     trackings = $('#trackings .nested-fields')
+    specialCharacters = { "&": "&amp;", "<": "&lt;", ">": "&gt;" }
     for tracking in trackings
       trackingName = $(tracking).find('input.string.optional.readonly.form-control')
       continue if $(trackingName).length == 0
@@ -426,7 +427,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       if fields[name].length <= labelFields.length
         $(tracking).find('.ibox-footer .remove_fields').remove()
       $(labelFields).each (index, label) ->
-        text = label.textContent.replace('&', '&amp;')
+        text = label.textContent.allReplace(specialCharacters)
         if fields[name].includes(text)
           _removeActionFormBuilder(label)
 
