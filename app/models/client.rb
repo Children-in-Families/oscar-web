@@ -9,15 +9,17 @@ class Client < ActiveRecord::Base
 
   friendly_id :slug, use: :slugged
 
-  CLIENT_STATUSES = ['Referred', 'Active EC', 'Active KC', 'Active FC',
-                      'Independent - Monitored', 'Exited - Dead',
-                      'Exited - Age Out', 'Exited Independent', 'Exited Adopted',
-                      'Exited Other'].freeze
+  CLIENT_STATUSES = ['Accepted', 'Referred', 'Active', 'Exited'].freeze
 
-  CLIENT_ACTIVE_STATUS = ['Active EC', 'Active FC', 'Active KC', 'Active'].freeze
+  # CLIENT_STATUSES = ['Accepted', 'Referred', 'Active EC', 'Active KC', 'Active FC',
+  #                     'Independent - Monitored', 'Exited - Dead',
+  #                     'Exited - Age Out', 'Exited Independent', 'Exited Adopted',
+  #                     'Exited Other'].freeze
+
+  # CLIENT_ACTIVE_STATUS = ['Active EC', 'Active FC', 'Active KC', 'Active'].freeze
   ABLE_STATES = %w(Accepted Rejected Discharged).freeze
 
-  EXIT_STATUSES = CLIENT_STATUSES.select { |status| status if status.include?('Exited') || status.include?('Independent - Monitored')  }
+  # EXIT_STATUSES = CLIENT_STATUSES.select { |status| status if status.include?('Exited') || status.include?('Independent - Monitored')  }
 
   delegate :name, to: :donor, prefix: true, allow_nil: true
 
@@ -95,7 +97,7 @@ class Client < ActiveRecord::Base
   scope :start_with_code,                          ->(value) { where('clients.code iLIKE ?', "#{value}%") }
   scope :district_like,                            ->(value) { joins(:district).where('districts.name iLike ?', "%#{value}%").uniq }
   scope :find_by_family_id,                        ->(value) { joins(cases: :family).where('families.id = ?', value).uniq }
-  scope :status_like,                              ->        { CLIENT_STATUSES }
+scope :status_like,                              ->        { CLIENT_STATUSES }
   scope :is_received_by,                           ->        { joins(:received_by).pluck("CONCAT(users.first_name, ' ' , users.last_name)", 'users.id').uniq }
   scope :referral_source_is,                       ->        { joins(:referral_source).pluck('referral_sources.name', 'referral_sources.id').uniq }
   scope :is_followed_up_by,                        ->        { joins(:followed_up_by).pluck("CONCAT(users.first_name, ' ' , users.last_name)", 'users.id').uniq }
@@ -110,12 +112,16 @@ class Client < ActiveRecord::Base
   scope :active_fc,                                ->        { where(status: 'Active FC') }
   scope :without_assessments,                      ->        { includes(:assessments).where(assessments: { client_id: nil }) }
   scope :able,                                     ->        { where(able_state: ABLE_STATES[0]) }
-  scope :all_active_types,                         ->        { where(status: CLIENT_ACTIVE_STATUS) }
+  # scope :all_active_types,                         ->        { where(status: CLIENT_ACTIVE_STATUS) }
+  scope :active_status,                            ->        { where(status: 'Active') }
   scope :of_case_worker,                           -> (user_id) { joins(:case_worker_clients).where(case_worker_clients: { user_id: user_id }) }
-  scope :exited_ngo,                               ->        { where(status: EXIT_STATUSES) }
-  scope :non_exited_ngo,                           ->        { where.not(status: EXIT_STATUSES) }
+  # scope :exited_ngo,                               ->        { where(status: EXIT_STATUSES) }
+  scope :exited_ngo,                               ->        { where(status: 'Exited') }
+  scope :non_exited_ngo,                           ->        { where.not(status: ['Exited', 'Referred']) }
+  # scope :non_exited_ngo,                           ->        { where.not(status: EXIT_STATUSES) }
   scope :telephone_number_like,                    ->(value) { where('clients.telephone_number iLIKE ?', "#{value}%") }
-  scope :all_active_types_and_referred_accepted,   ->        { where("clients.status = ? AND clients.state = ? OR clients.status in (?)", 'Referred', 'accepted', Client::CLIENT_ACTIVE_STATUS) }
+  scope :active_accepted_status,                    ->        { where(status: ['Active', 'Accepted']) }
+  # scope :all_active_types_and_referred_accepted,   ->        { where("clients.status = ? AND clients.state = ? OR clients.status in (?)", 'Referred', 'accepted', Client::CLIENT_ACTIVE_STATUS) }
 
   def self.filter(options)
     query = all
@@ -144,7 +150,7 @@ class Client < ActiveRecord::Base
   end
 
   def exit_ngo?
-    EXIT_STATUSES.include?(status)
+    status == 'Exited'
   end
 
   def self.age_between(min_age, max_age)
@@ -339,13 +345,13 @@ class Client < ActiveRecord::Base
 
   def exiting_ngo?
     return false unless status_changed?
-    EXIT_STATUSES.include?(status)
+    status == 'Exited'
   end
 
   def self.notify_upcoming_csi_assessment
     Organization.all.each do |org|
       Organization.switch_to org.short_name
-      clients = joins(:assessments).all_active_types_and_referred_accepted
+      clients = joins(:assessments).active_accepted_status
       clients.each do |client|
         repeat_notifications = client.repeat_notifications_schedule
 

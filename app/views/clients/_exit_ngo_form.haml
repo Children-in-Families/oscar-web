@@ -20,8 +20,10 @@
                 %span.input-group-addon
                   %i.fa.fa-calendar-check-o
 
+          / .form-inputs
+          /   = f.input :status, collection: Client::EXIT_STATUSES, include_blank: false, label: t('.exit_status')
           .form-inputs
-            = f.input :status, collection: Client::EXIT_STATUSES, include_blank: false, label: t('.exit_status')
+            = f.input :status, label: t('.exit_status'), readonly: true, input_html: { value: 'Exited' }
 
           .form-inputs
             = f.input :exit_note, required: true, label: t('.exit_note'), input_html: { class: 'exit_note' }

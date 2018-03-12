@@ -135,7 +135,7 @@ class User < ActiveRecord::Base
   def assessment_either_overdue_or_due_today
     overdue   = []
     due_today = []
-    clients.all_active_types_and_referred_accepted.each do |client|
+    clients.active_accepted_status.each do |client|
       client_next_asseement_date = client.next_assessment_date.to_date
       if client_next_asseement_date < Date.today
         overdue << client
@@ -147,11 +147,11 @@ class User < ActiveRecord::Base
   end
 
   def assessments_overdue
-    clients.all_active_types_and_referred_accepted
+    clients.active_accepted_status
   end
 
   def client_custom_field_frequency_overdue_or_due_today
-    entity_type_custom_field_notification(clients.all_active_types_and_referred_accepted)
+    entity_type_custom_field_notification(clients.active_accepted_status)
   end
 
   def user_custom_field_frequency_overdue_or_due_today
@@ -175,7 +175,7 @@ class User < ActiveRecord::Base
   end
 
   def client_enrollment_tracking_overdue_or_due_today
-    client_enrollment_tracking_notification(clients.all_active_types_and_referred_accepted)
+    client_enrollment_tracking_notification(clients.active_accepted_status)
   end
 
   def self.self_and_subordinates(user)
