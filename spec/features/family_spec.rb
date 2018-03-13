@@ -144,13 +144,13 @@ describe 'Family' do
     end
   end
 
-  feature 'Filter' do
+  feature 'Filter', js: true do
     before do
       visit families_path
-      find(".btn-filter").click
+      find('button.family-search').click
     end
     scenario 'filter by family type' do
-      select('Emergency', from: 'family_grid_family_type')
+      page.find("#family-search-form select#family_grid_family_type option[value='emergency']", visible: false).select_option
       click_button 'Search'
       expect(page).to have_content(family.name)
       expect(page).not_to have_content(other_family)
@@ -178,14 +178,15 @@ describe 'Family' do
     end
 
     scenario 'filter by family province' do
-      select('Phnom Penh', from: 'family_grid_province_id')
+      province_id = Province.find_by(name: 'Phnom Penh').id
+      page.find("#family-search-form select#family_grid_province_id option[value='#{province_id}']", visible: false).select_option
       click_button 'Search'
       expect(page).to have_content(family.name)
       expect(page).not_to have_content(other_family)
     end
 
     scenario 'filter by family dependable income' do
-      select('No', from: 'family_grid_dependable_income')
+      page.find("#family-search-form select#family_grid_dependable_income option[value='NO']", visible: false).select_option
       click_button 'Search'
       expect(page).to have_content(family.name)
       expect(page).not_to have_content(other_family)

@@ -264,12 +264,6 @@
                     = @client.birth_province
               %tr
                 %td.spacing-first-col
-                  = t('.telephone_number')
-                %td
-                  %strong
-                    = @client.telephone_number
-              %tr
-                %td.spacing-first-col
                   = t('.name_of_referee')
                 %td
                   %strong
@@ -279,19 +273,19 @@
                   = t('.referee_phone_number')
                 %td
                   %strong
-                    = @client.referee_phone_number
+                    = @client.telephone_number
               %tr
                 %td.spacing-first-col
                   = t('.primary_carer_name')
                 %td
                   %strong
-                    = @client.primary_carer_name
+                    = @client.live_with
               %tr
                 %td.spacing-first-col
                   = t('.primary_carer_phone_number')
                 %td
                   %strong
-                    = @client.primary_carer_phone_number
+                    = @client.telephone_number
               %tr
                 %td.spacing-first-col
                   = t('.main_school_contact')
@@ -310,20 +304,13 @@
                   = t('.custom_id_number1')
                 %td
                   %strong
-                    = @client.custom_id_number1
+                    = @client.code
               %tr
                 %td.spacing-first-col
                   = t('.custom_id_number2')
                 %td
                   %strong
-                    = @client.custom_id_number2
-
-              %tr
-                %td.spacing-first-col
-                  = t('.live_with')
-                %td
-                  %strong
-                    = @client.live_with
+                    = @client.kid_id
               %tr
                 %td.spacing-first-col
                   = t('.id_poor')

@@ -3,12 +3,11 @@ module ClientEnrollmentTrackingsConcern
     if properties_params.present?
       mappings = {}
       properties_params.each do |k, v|
-        mappings[k] = k.gsub('&', '&amp;')
+        mappings[k] = k.gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;').gsub('%22', '"')
       end
       formatted_params = properties_params.map {|k, v| [mappings[k], v] }.to_h
       formatted_params.values.map{ |v| v.delete('') if (v.is_a?Array) && v.size > 1 }
     end
-
     default_params = params.require(:client_enrollment_tracking).permit({}).merge!(tracking_id: params[:tracking_id])
     default_params = default_params.merge!(properties: formatted_params) if formatted_params.present?
     default_params = default_params.merge!(form_builder_attachments_attributes: params[:client_enrollment_tracking][:form_builder_attachments_attributes]) if action_name == 'create' && attachment_params.present?

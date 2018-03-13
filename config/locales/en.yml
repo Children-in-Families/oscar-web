@@ -149,7 +149,7 @@ en:
         client:
           attributes:
             user_ids:
-              blank:
+              blank: can't be blank
         client_enrollment:
           attributes:
             enrollment_date:
@@ -315,8 +315,8 @@ en:
       gender: Gender
       given_name: Given Name
       grade: Grade
-      has_been_in_government_care: Has Been In Government Care
-      has_been_in_orphanage: Has Been In Orphanage
+      has_been_in_government_care: Has the client lived in government care
+      has_been_in_orphanage: Has the client lived in an orphanage
       house_number: House
       id: ID
       id_poor: ID Poor
@@ -1010,6 +1010,7 @@ en:
       agency_names: Agency Name
       answer: Answer
       birth_province: Birth Province
+      blank: This field can't be blank.
       cambodia: Cambodia
       case_worker: Case Worker
       case_worker_or_staff: Case Worker / Staff
@@ -1021,6 +1022,7 @@ en:
       custom_forms: Custom Forms
       date_of_birth: Date of Birth
       district: District/Khan
+      done: Done
       donor: Donor
       exit_date: NGO Exit Date
       exit_note: Exit Note
@@ -1060,8 +1062,8 @@ en:
       gov_summary_reason_of_referral: Brief information on the reasons for client transmission
       gov_village: Village
       gov_village_code: Village code
-      has_been_in_government_care: Has Been In Government Care
-      has_been_in_orphanage: Has Been In Orphanage
+      has_been_in_government_care: Has the client lived in government care
+      has_been_in_orphanage: Has the client lived in an orphanage
       house_number: House
       id: ID
       id_poor: ID Poor
@@ -1072,6 +1074,8 @@ en:
       local_family_name: Family Name (kh)
       local_given_name: Given Name (kh)
       name: Name
+      next: Next
+      previous: Previous
       province: Birth Province
       received_by: Received By
       referral_phone: Referral Phone
@@ -1089,14 +1093,6 @@ en:
       village: Village
       year: Year
       yes_no: Yes/No
-      is_the_client_rated_for_id_poor: Is the client rated for ID poor
-      has_been_in_orphanage: Has Been In Orphanage
-      has_been_in_government_care: Has Been In Government Care
-      custom_id_number1: Custom ID Number1
-      custom_id_number2: Custom ID Number2
-      finish: Save
-      next: Next
-      previous: Previous
 
     foster_case:
       carer_address: Carer Address
@@ -1120,26 +1116,26 @@ en:
       support_note: Support Note
 
     getting_started:
-      name_of_referee:  Name of Referee
-      referee_phone_number: Referee Phone Number
-      referral_received_by: Referral Received By
-      first_followed_up_by: First Follow Up By
-      case_worker_or_staff: Case Worker or Staff
-      initial_referral_date: Initial Referral Date
-      first_followed-up_date: First Follow Up Date
-      given_name: Given Name
-      family_name: Family Name
-      gender: Gender
-      local_given_name: Local Given Name
-      local_family_name: Local Family Name
+      case_worker_or_staff: Case Worker / Staff
       date_of_birth: Date of Birth
-      referral_source: Referral Source
-      staff_responsibilities: Staff Responsibilities
-      referral_information: Referral Information
+      family_name: Family Name (English)
+      first_followed_up_by: First Follow-Up By
+      first_followed_up_date: First Follow-Up Date
+      gender: Gender
       getting_started: Getting Started
+      given_name: Given Name (English)
+      initial_referral_date: Initial Referral Date
       living_detail: Living Detail
-      other_detail: Other Detail
-      specific_point: Specific Point
+      local_given_name: Given Name (Khmer)
+      local_family_name: Family Name (Khmer)
+      name_of_referee:  Name of Referee
+      other_detail: Other Details
+      referee_phone_number: Referee Phone Number
+      referral_information: Referral Information
+      referral_received_by: Referral Received By
+      referral_source: Referral Source
+      specific_point: Specific Point-of-Referral Data
+      staff_responsibilities: Staff Responsibilities
 
     index:
       active_programs: Active Programs
@@ -1189,37 +1185,37 @@ en:
       support_note: Support Note
 
     living_detail:
+      commune: Address - Commune/Sangkat
       contact_details: Contact Details
-      schooling: Schooling
-      living_detail: Living Detail
       current_address: Current Address
       current_province: Current Province
-      district: District
-      commune: Commune
-      house_number: House Number
-      street_number: Street Number
-      village: Village
-      school_name: School Name
-      school_grade: School Grade
+      district: Address - District/Khan
+      house_number: Address - House#
+      living_detail: Living Detail
+      main_school_contact: Main School Contact
       primary_carer_name: Primary Carer Name
       primary_carer_phone_number: Primary Carer Phone Number
-      main_school_contact: Main School Contact
+      school_name: School Name
+      schooling: Schooling
+      school_grade: School Grade
+      street_number: Address - Street
+      village: Address - Village
 
     new:
       new_client_title: New Client
 
     other_detail:
-      other_information: Other Information
-      other_detail: Other Detail
-      province: Province
-      agencies_involved: Agencies Involved
+      agencies_involved: Other Agencies Involved
+      custom_id_number1: Custom ID Number 1
+      custom_id_number2: Custom ID Number 2
       donor: Donor
-      is_the_client_rated_for_id_poor: Is The Client Rated For ID Poor
-      has_been_in_orphanage: Has Been In Orphanage
-      has_been_in_government_care: Has Been In Government Care
-      custom_id_number1: Custom ID Number1
-      custom_id_number2: Custom ID Number2
-      relevant_referral_information: Relevant Referral Information
+      has_been_in_government_care: Has the client lived in government care
+      has_been_in_orphanage: Has the client lived in an orphanage
+      is_the_client_rated_for_id_poor: Is the Client Rated for ID Poor
+      other_detail: Other Details
+      other_information: Other Information
+      province: Client Birth Province
+      relevant_referral_information: Relevant Referral Information / Notes
 
     placement:
       view_legacy_quarterly_reports: View Legacy Quarterly Reports
@@ -1256,6 +1252,8 @@ en:
       completed: Completed
       current_address: Current Address
       current_province: Current Province
+      custom_id_number1: Custom ID Number 1
+      custom_id_number2: Custom ID Number 2
       date_of_birth: Date of Birth
       district: District/Khan
       donor: Donor
@@ -1281,28 +1279,24 @@ en:
       government_form_three: Family Service Plan Form
       government_form_two: Assessment for Family Preservation Form
       government_report: Government Report
-      has_been_in_government_care: Has Been In Government Care
-      has_been_in_orphanage: Has Been In Orphanage
+      has_been_in_government_care: Has the client lived in government care
+      has_been_in_orphanage: Has the client lived in an orphanage
       house_number: House
       id: ID
       id_poor: ID Poor
       initial_referral_date: Initial Referral Date
+      is_the_client_rated_for_id_poor: Is the client rated for ID poor
       kid_id: Kid ID
       live_with: Primary Carer
       local_family_name: Family Name (kh)
       local_given_name: Given Name (kh)
+      main_school_contact: Main School Contact
       name: Name
       note: Note
-      is_the_client_rated_for_id_poor: Is the client rated for ID poor
-      has_been_in_orphanage: Has Been In Orphanage
-      has_been_in_government_care: Has Been In Government Care
-      custom_id_number1: Custom ID Number1
-      custom_id_number2: Custom ID Number2
       name_of_referee: Name Of Referee
-      referee_phone_number: Referee Phone Number
       primary_carer_name: Prymary Carer Name
       primary_carer_phone_number: Primary Carer Phone Number
-      main_school_contact: Main School Contact
+      referee_phone_number: Referee Phone Number
 
       placements:
         carer_address: Carer Address
@@ -1352,7 +1346,7 @@ en:
       village: Village
 
     specific_point:
-      specific_point: Specific Point
+      specific_point: Specific Point-of-Referral Data
 
     state:
       rejected_note: Note on referral rejection
@@ -1548,8 +1542,8 @@ en:
         frequency: Frequency
         gender: Gender
         given_name: Given Name
-        has_been_in_government_care: Has Been In Government Care
-        has_been_in_orphanage: Has Been In Orphanage
+        has_been_in_government_care: Has the client lived in government care
+        has_been_in_orphanage: Has the client lived in an orphanage
         has_date_of_birth: Has Date of Birth
         has_dob: 'Yes'
         history_of_disability_and_or_illness: History of disability and/or illness
@@ -1623,6 +1617,7 @@ en:
         case_history: Case History
         case_workers: Case Workers
         changelogs: Changelog
+        client: Client
         clients: Clients
         code: Family ID
         contract_date: Contract Date
@@ -1805,8 +1800,8 @@ en:
     followed_up_by: Followed Up By
     gender: Gender
     given_name: Given Name
-    has_been_in_government_care: Has Been In Government Care
-    has_been_in_orphanage: Has Been In Orphanage
+    has_been_in_government_care: Has the client lived in government care
+    has_been_in_orphanage: Has the client lived in an orphanage
     house_number: House
     id: ID
     id_poor: ID Poor
@@ -2381,6 +2376,22 @@ en:
       successfully_deleted: Family has been successfully deleted.
     edit:
       edit_family_title: Edit Family
+    family_advanced_searches:
+      advanced_search:
+        add_new_filter: Add New Filter
+        add_new_group: Add Group
+        advanced_search: Advanced Search
+        custom_form_column: Custom form columns
+        delete_group: Delete
+        family_column: Family basic columns
+        no_results: No Result Found
+        reset: Reset
+        results: Results
+        search: Search
+      form_option:
+        basic_fields: Basic Fields
+        custom_form: Custom Form
+        filter_option: Please choose your query options below
     form:
       address: Address
       caregiver_information: Caregiver Information
@@ -2408,6 +2419,7 @@ en:
       add_new_family: Add New Family
       clients: Clients
       export_xls: Export to XLS
+      report_builder: Report Builder
       results: Results
     new:
       new_family_title: New Family

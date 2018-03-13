@@ -33,9 +33,9 @@
           %label= "#{t('.has_been_in_government_care')}?"
           = f.input :has_been_in_government_care, as: :radio_buttons, collection: [['Yes', true],['No', false]], label: false
       .col-xs-12.col-sm-6.col-md-4
-        = f.input :custom_id_number1, label: t('.custom_id_number1')
+        = f.input :code, label: t('.custom_id_number1')
       .col-xs-12.col-sm-6.col-md-4
-        = f.input :custom_id_number2, label: t('.custom_id_number2')
+        = f.input :kid_id, label: t('.custom_id_number2')
 
       .col-xs-12.col-md-12
         = f.input :relevant_referral_information, input_html: { rows: '5' }, label: t('.relevant_referral_information')

@@ -8,6 +8,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
     _ajaxChangeDistrict()
     _initDatePicker()
     _replaceSpanBeforeLabel()
+    _replaceSpanAfterRemoveField()
     _clientSelectOption()
 
   _ajaxChangeDistrict = ->
@@ -98,9 +99,10 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
 
   _getTranslation = ->
     @filterTranslation =
-      finish: $('.client-steps').data('finish')
+      done: $('.client-steps').data('done')
       next: $('.client-steps').data('next')
       previous: $('.client-steps').data('previous')
+      blank: $('.client-steps').data('blank')
 
   _initICheck = ->
     $('.radio_buttons').iCheck
@@ -130,14 +132,12 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
           _validateForm()
           form.valid()
           client_received_by_id         = $('#client_received_by_id').val() == ''
-          client_user_ids               = $('#client_user_ids').val() == ''
+          client_user_ids               = $('#client_user_ids').val() == null
           client_initial_referral_date  = $('#client_initial_referral_date').val() == ''
           client_referral_source_id     = $('#client_referral_source_id').val() == ''
           client_name_of_referee        = $('#client_name_of_referee').val() == ''
 
-          if !$('#client_user_ids').val()
-            return false
-          else if client_user_ids or client_received_by_id or client_initial_referral_date or client_referral_source_id or client_name_of_referee
+          if client_user_ids or client_received_by_id or client_initial_referral_date or client_referral_source_id or client_name_of_referee
             return false
           else
             return true
@@ -154,42 +154,45 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
       labels:
         next: self.filterTranslation.next
         previous: self.filterTranslation.previous
-        finish: self.filterTranslation.finish
+        finish: self.filterTranslation.done
+
+  _replaceSpanAfterRemoveField = ->
+    $('#client_initial_referral_date').on 'input', ->
+      if $(this).val() == ''
+         $("a[href='#next']").click()
 
   _replaceSpanBeforeLabel = ->
     $("a[href='#next']").click ->
       inputGroupElement = $('.client_initial_referral_date > .input-group')
-      labelElement = $('#client_initial_referral_date-error')
+      labelElement      = $('#client_initial_referral_date-error')
 
       labelElement.insertAfter inputGroupElement
 
   _validateForm = ->
+    self = @
+
+    ruleRequired =
+      required: true
+
+    requiredMessage =
+      required: self.filterTranslation.blank
+
     $('#client-wizard-form').validate
       ignore: []
       rules: {
-        "client[received_by_id]":
-          required: true
-        "client[user_ids]":
-          required: true
-        "client[initial_referral_date]":
-          required: true
-        "client[referral_source_id]":
-          required: true
-        "client[name_of_referee]":
-          required: true
+        "client[received_by_id]": ruleRequired
+        "client[user_ids]": ruleRequired
+        "client[initial_referral_date]": ruleRequired
+        "client[referral_source_id]":ruleRequired
+        "client[name_of_referee]": ruleRequired
 
       }
       messages: {
-        "client[received_by_id]":
-          required: "This field is required."
-        "client[user_ids]":
-          required: "This field is required."
-        "client[initial_referral_date]":
-          required: "This field is required."
-        "client[referral_source_id]":
-          required: "This field is required."
-        "client[name_of_referee]":
-          required: "This field is required."
+        "client[received_by_id]": requiredMessage
+        "client[user_ids][]": requiredMessage
+        "client[initial_referral_date]": requiredMessage
+        "client[referral_source_id]": requiredMessage
+        "client[name_of_referee]": requiredMessage
       }
 
     $('#client_initial_referral_date').change ->

@@ -136,10 +136,7 @@ class ClientsController < AdminController
   def client_params
     params.require(:client)
           .permit(
-            :primary_carer_name, :primary_carer_phone_number,
-            :name_of_referee, :referee_phone_number,
-            :main_school_contact, :rated_for_id_poor,
-            :custom_id_number1, :custom_id_number2,
+            :name_of_referee, :main_school_contact, :rated_for_id_poor,
             :exit_note, :exit_date, :status,
             :kid_id, :assessment_id, :given_name, :family_name, :local_given_name, :local_family_name, :gender, :date_of_birth,
             :birth_province_id, :initial_referral_date, :referral_source_id, :telephone_number,

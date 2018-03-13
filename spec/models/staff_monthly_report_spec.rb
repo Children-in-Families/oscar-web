@@ -41,7 +41,7 @@ describe 'Staff Monthly Report' do
   let!(:user_1_visit_clients) { create_list(:visit_client, 3, user: user_1, created_at: Date.today.last_month) }
   let!(:user_4_visit_clients) { create_list(:visit_client, 2, user: user_4, created_at: Date.today.last_month) }
 
-  feature 'report' do
+  xfeature 'report' do
     scenario 'number of times visiting clients' do
       expect(StaffMonthlyReport.times_visiting_clients_profile(user_1)).to eq(3)
       expect(StaffMonthlyReport.times_visiting_clients_profile(user_4)).to eq(2)

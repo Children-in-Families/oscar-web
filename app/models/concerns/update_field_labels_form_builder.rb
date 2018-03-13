@@ -1,15 +1,15 @@
-module UpdateFieldLabelsProgramStream
+module UpdateFieldLabelsFormBuilder
   def labels_update(new_fields, old_fields, objects)
     labels_changed = []
     field_labels_changed = []
     fields_changed =  new_fields - old_fields
     fields_changed.each do |field_changed|
-      old_fields.each do |program|
-        if program['name'] == field_changed['name']
-          if program['type'] == 'file'
-            field_labels_changed << [program['label'], field_changed['label']]
+      old_fields.each do |entity|
+        if entity['name'] == field_changed['name']
+          if entity['type'] == 'file'
+            field_labels_changed << [entity['label'], field_changed['label']]
           else
-            labels_changed << [program['label'], field_changed['label']]
+            labels_changed << [entity['label'], field_changed['label']]
           end
         end
       end

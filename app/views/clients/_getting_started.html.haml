@@ -21,7 +21,7 @@
         = f.error :initial_referral_date
 
       .col-xs-12.col-sm-6.col-md-4.form-group.date.optional.client_follow_up_date
-        %label.date.optional.control-label{ for: 'client_follow_up_date' }= t('.first_followed-up_date')
+        %label.date.optional.control-label{ for: 'client_follow_up_date' }= t('.first_followed_up_date')
         .input-group.date
           = f.text_field :follow_up_date, class: 'date optional form-control date-picker', type: 'text', name: 'client[follow_up_date]', id: 'client_follow_up_date'
           %span.input-group-addon
@@ -49,4 +49,4 @@
       .col-xs-12.col-sm-6.col-md-4
         = f.input :name_of_referee, label: t('.name_of_referee')
       .col-xs-12.col-sm-6.col-md-4
-        = f.input :referee_phone_number, label: t('.referee_phone_number')
+        = f.input :referral_phone, label: t('.referee_phone_number')
