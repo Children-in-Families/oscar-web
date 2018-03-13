@@ -1,6 +1,9 @@
 %h3= t('.getting_started')
 %section
   #getting-started
+    - if @client.persisted?
+      = render 'form_header', f: f
+
     %legend= t('.staff_responsibilities')
     .row
       .col-xs-12.col-sm-6.col-md-4
