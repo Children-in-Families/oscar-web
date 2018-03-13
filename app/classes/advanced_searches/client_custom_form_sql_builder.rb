@@ -15,6 +15,11 @@ module AdvancedSearches
       sql_string = 'clients.id IN (?)'
       custom_field_properties = CustomFieldProperty.where(custom_formable_type: 'Client', custom_field_id: @selected_custom_form)
 
+      type_format = ['select', 'radio-group', 'checkbox-group']
+      if type_format.include?(@input_type)
+        @value = @value.gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
+      end
+      
       case @operator
       when 'equal'
         if @input_type == 'text' && @field.exclude?('&')

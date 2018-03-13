@@ -70,8 +70,14 @@ CIF.Custom_fieldsNew = CIF.Custom_fieldsCreate = CIF.Custom_fieldsEdit = CIF.Cus
 
   _initFormBuilder = ->
     builderOption = new CIF.CustomFormBuilder()
+    specialCharacters = { '&amp;': '&', '&lt;': '<', '&gt;': '>' }
     fields = $('.build-wrap').data('fields') || []
-
+    for field in fields
+      if field.type == 'radio-group' || field.type == 'checkbox-group' || field.type == 'select'
+        for value in field.values
+          debugger
+          value.label = value.label.allReplace(specialCharacters)
+          value.value = value.value.allReplace(specialCharacters)
     formBuilder = $('.build-wrap').formBuilder
       templates: separateLine: (fieldData) ->
         { field: '<hr/>' }
@@ -105,7 +111,14 @@ CIF.Custom_fieldsNew = CIF.Custom_fieldsCreate = CIF.Custom_fieldsEdit = CIF.Cus
       }
 
     $("#custom-field-submit").click (event) ->
-      $('#custom_field_fields').val(formBuilder.actions.save())
+      specialCharacters = { "&": "&amp;", "<": "&lt;", ">": "&gt;" }
+      fields = JSON.parse(formBuilder.actions.save())
+      for field in fields
+        if field.type == 'radio-group' || field.type == 'checkbox-group' || field.type == 'select'
+          for value in field.values
+            value.label = value.label.allReplace(specialCharacters)
+            value.value = value.value.allReplace(specialCharacters)
+      $('#custom_field_fields').val(JSON.stringify(fields))
 
   _select2 = ->
     $('#custom_field_entity_type').select2
