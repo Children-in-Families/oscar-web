@@ -117,7 +117,9 @@ module AdvancedSearchHelper
       manage:                                   I18n.t('datagrid.columns.families.manage'),
       female_children_count:                    I18n.t('datagrid.columns.families.female_children_count'),
       female_adult_count:                       I18n.t('datagrid.columns.families.female_adult_count'),
-      member_count:                              I18n.t('datagrid.columns.families.member_count')
+      form_title:                               I18n.t('datagrid.columns.families.form_title'),
+      case_workers:                             I18n.t('datagrid.columns.families.case_workers'),
+      member_count:                             I18n.t('datagrid.columns.families.member_count')
     }
     translations[key.to_sym] || ''
   end
