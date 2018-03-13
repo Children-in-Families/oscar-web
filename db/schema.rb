@@ -394,7 +394,8 @@ ActiveRecord::Schema.define(version: 20180306034903) do
     t.string   "telephone_number",                 default: ""
     t.string   "name_of_referee",                  default: ""
     t.string   "main_school_contact",              default: ""
-    t.boolean  "rated_for_id_poor",                default: false
+    t.string   "rated_for_id_poor",                default: ""
+    t.string   "what3words",                       default: ""
   end
 
   add_index "clients", ["district_id"], name: "index_clients_on_district_id", using: :btree

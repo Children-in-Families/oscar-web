@@ -137,7 +137,7 @@ class ClientsController < AdminController
     params.require(:client)
           .permit(
             :name_of_referee, :main_school_contact, :rated_for_id_poor,
-            :exit_note, :exit_date, :status,
+            :exit_note, :exit_date, :status, :what3words,
             :kid_id, :assessment_id, :given_name, :family_name, :local_given_name, :local_family_name, :gender, :date_of_birth,
             :birth_province_id, :initial_referral_date, :referral_source_id, :telephone_number,
             :referral_phone, :received_by_id, :followed_up_by_id,

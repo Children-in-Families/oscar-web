@@ -148,17 +148,17 @@ km:
               blank: មិនអាចរំលង
         client:
           attributes:
-            user_ids:
-              blank: មិនអាចរំលង
             client_users:
-              blank: មិនអាចរំលង
-            received_by_id:
               blank: មិនអាចរំលង
             initial_referral_date:
               blank: មិនអាចរំលង
+            name_of_referee:
+              blank: មិនអាចរំលង
+            received_by_id:
+              blank: មិនអាចរំលង
             referral_source:
               blank: មិនអាចរំលង
-            name_of_referee:
+            user_ids:
               blank: មិនអាចរំលង
         client_enrollment:
           attributes:
@@ -1121,8 +1121,8 @@ km:
       followed_up_by: ឈ្មោះបុុគ្គលិកដែលតាមដាន
       from: ចាប់ពី
       gender: ភេទ
-      getting_started: ចាប់ផ្តើម
       general_question: សំនួរទូរទៅ
+      getting_started: ចាប់ផ្តើម
       given_name: នាមខ្លួនជាអក្សរឡាតាំង
       gov_caseworker_comment: មតិយោបល់អ្នកកាន់ករណី
       gov_caseworker_comment_section: យោបល់របស់អ្នកកាន់ករណី ចំពោះតម្រូវការ និងបញ្ហាប្រឈមរបស់កុមារ
@@ -1156,8 +1156,8 @@ km:
       house_number: ផ្ទះលេខ
       id: លេខសំគាល់
       id_poor: កំរិតប័ណ្ណក្រីក្រ
-      is_the_client_rated_for_id_poor: តើត្រូវបានវាយតម្លៃថាអត្តសញ្ញាណក្រីក្រ
       initial_referral_date: កាលបរិចេ្ឆទនៃការបញ្ជូនដំបូង
+      is_the_client_rated_for_id_poor: តើត្រូវបានវាយតម្លៃថាអត្តសញ្ញាណក្រីក្រ
       kid_id: លេខកូដឣតិថិជន
       live_with: រស់នៅជាមួយ
       local_family_name: នាមត្រកូលជាអក្សរខ្មែរ
@@ -1216,8 +1216,8 @@ km:
       given_name: នាមខ្លួន (ភាសាអង់គ្លេស)
       initial_referral_date: កាលបរិច្ឆេទបង្អែកដំបូង
       living_detail: ព័ត៎មានរស់នៅលំអិត
-      local_given_name: នាមខ្លួន (ភាសាខ្មែរ)
       local_family_name: នាមត្រកូល (ភាសាខ្មែរ)
+      local_given_name: នាមខ្លួន (ភាសាខ្មែរ)
       name_of_referee:  ឈ្មោះអ្នកបញ្ជូន
       other_detail: ព័ត៌មានលំអិតផ្សេងៗ
       referee_phone_number: លេខទូរស័ព្ទអ្នកបញ្ជូន
@@ -1283,11 +1283,12 @@ km:
       main_school_contact: អាស័យដ្ឋានទំនាក់ទំនងសាលារៀន
       primary_carer_name: អ្នកមើលថែចំបង
       primary_carer_phone_number: លេខទូរស័ព្ទអ្នកមើលថែចំបង
-      schooling: សាលារៀន
       school_grade: កំរិត
       school_name: ឈ្មោះសាលារៀន
+      schooling: សាលារៀន
       street_number: អាស័យដ្ឋាន - លេខផ្លូវ
       village: អាស័យដ្ឋាន - ភូមិ
+      what3words: What3words
 
     new:
       new_client_title: បន្ថែមអតិថិជនថ្មី
@@ -1695,6 +1696,7 @@ km:
         type: ប្រភេទនៃទម្រង់បែបបទបន្ថែម
         view: មើល
         village: ភូមិ
+        what3words: What3words
       date_of_assessments: កាលបរិច្ឆេទការប៉ាន់ប្រមាណ
       families:
         address: ឣាសយដ្ឋាន

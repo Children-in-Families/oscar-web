@@ -1205,11 +1205,12 @@ my:
       main_school_contact: အဓိကကျောင်းကိုအဆက်အသွယ်
       primary_carer_name: မူလတန်းစောင့်ရှောက်သူအမည်အား
       primary_carer_phone_number: မူလတန်းအုပ်ထိန်းဖုန်းနံပါတ်ကို
-      schooling: သင်ကြားခြင်း
-      school_name: ေက်ာင္းနာမည္
       school_grade: ေက်ာင္းအဆင့္
+      school_name: ေက်ာင္းနာမည္
+      schooling: သင်ကြားခြင်း
       street_number: လိပ်စာ - လမ်းအရေအတွက်က
       village: လိပ်စာ - ရွာ
+      what3words: What3words
 
     new:
       new_client_title: အမႈသည္အသစ္
@@ -1354,6 +1355,7 @@ my:
       view_legacy_quarterly_reports: သံုးလပတ္ ဥပေဒအစီရင္ခံစာ
       view_tasks: လုပ္ေဆာင္ခ်က္မ်ား
       village: ေက်းရြာ
+      what3words: What3words
 
     specific_point:
       specific_point: လွှဲပြောင်း၏တိကျသောအချက်

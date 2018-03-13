@@ -199,7 +199,15 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
       $(this).removeClass 'error'
       $(this).closest('.form-group').find('label.error').remove()
 
-    $('select').change ->
+    $('#client_user_ids').change ->
+      $(this).removeClass 'error'
+      $(this).closest('.form-group').find('label.error').remove()
+
+    $('#client_received_by_id').change ->
+      $(this).removeClass 'error'
+      $(this).closest('.form-group').find('label.error').remove()
+
+    $('#client_referral_source_id').change ->
       $(this).removeClass 'error'
       $(this).closest('.form-group').find('label.error').remove()
 

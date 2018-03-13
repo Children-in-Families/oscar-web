@@ -19,9 +19,7 @@
         = f.association :donor, collection: @donors, label: t('.donor')
 
       .col-xs-12.col-sm-6.col-md-4
-        .i-check.has-been-in-orphanage
-          %label= "#{t('.is_the_client_rated_for_id_poor')}?"
-          = f.input :rated_for_id_poor, as: :radio_buttons, collection: [['Yes', true],['No', false]], label: false
+        = f.input :rated_for_id_poor, collection: [['No', 'no'], ['Level 1', 'level1'], ['Level 2', 'level2']], label: "#{t('.is_the_client_rated_for_id_poor')}?"
 
       .col-xs-12.col-sm-6.col-md-4
         .i-check.has-been-in-orphanage

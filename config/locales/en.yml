@@ -1010,7 +1010,7 @@ en:
       agency_names: Agency Name
       answer: Answer
       birth_province: Birth Province
-      blank: This field can't be blank.
+      blank: can't be blank
       cambodia: Cambodia
       case_worker: Case Worker
       case_worker_or_staff: Case Worker / Staff
@@ -1126,8 +1126,8 @@ en:
       given_name: Given Name (English)
       initial_referral_date: Initial Referral Date
       living_detail: Living Detail
-      local_given_name: Given Name (Khmer)
       local_family_name: Family Name (Khmer)
+      local_given_name: Given Name (Khmer)
       name_of_referee:  Name of Referee
       other_detail: Other Details
       referee_phone_number: Referee Phone Number
@@ -1195,11 +1195,12 @@ en:
       main_school_contact: Main School Contact
       primary_carer_name: Primary Carer Name
       primary_carer_phone_number: Primary Carer Phone Number
+      school_grade: School Grade
       school_name: School Name
       schooling: Schooling
-      school_grade: School Grade
       street_number: Address - Street
       village: Address - Village
+      what3words: What3words
 
     new:
       new_client_title: New Client
@@ -1344,6 +1345,7 @@ en:
       view_legacy_quarterly_reports: Legacy Quarterly Reports
       view_tasks: Tasks
       village: Village
+      what3words: What3words
 
     specific_point:
       specific_point: Specific Point-of-Referral Data
