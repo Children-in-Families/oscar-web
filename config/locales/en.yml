@@ -1545,6 +1545,7 @@ en:
         case_history: Case History
         case_workers: Case Workers
         changelogs: Changelog
+        client: Client
         clients: Clients
         code: Family ID
         contract_date: Contract Date
@@ -1555,6 +1556,7 @@ en:
         female: Female
         female_adult_count: Female Adult Count
         female_children_count: Female Children Count
+        form_title: Form Title
         household_income: Household Income
         id: ID
         male: Male
@@ -2303,6 +2305,22 @@ en:
       successfully_deleted: Family has been successfully deleted.
     edit:
       edit_family_title: Edit Family
+    family_advanced_searches:
+      advanced_search:
+        add_new_filter: Add New Filter
+        add_new_group: Add Group
+        advanced_search: Advanced Search
+        custom_form_column: Custom form columns
+        delete_group: Delete
+        family_column: Family basic columns
+        no_results: No Result Found
+        reset: Reset
+        results: Results
+        search: Search
+      form_option:
+        basic_fields: Basic Fields
+        custom_form: Custom Form
+        filter_option: Please choose your query options below
     form:
       address: Address
       caregiver_information: Caregiver Information
@@ -2330,6 +2348,7 @@ en:
       add_new_family: Add New Family
       clients: Clients
       export_xls: Export to XLS
+      report_builder: Report Builder
       results: Results
     new:
       new_family_title: New Family

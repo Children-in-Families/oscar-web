@@ -18,6 +18,8 @@ class ProgramStream < ActiveRecord::Base
 
   validates :name, presence: true
   validates :name, uniqueness: true
+
+  validate  :presence_of_label
   validate  :form_builder_field_uniqueness
   validate  :rules_edition, :program_edition, on: :update, if: Proc.new { |p| p.client_enrollments.active.any? }
 
@@ -174,6 +176,23 @@ class ProgramStream < ActiveRecord::Base
   end
 
   private
+
+  def presence_of_label
+    validate_label(enrollment, 'enrollment') if enrollment.any?
+    validate_label(exit_program, 'exit_program') if exit_program.any?
+  end
+
+  def validate_label(value, field)
+    tab = field == 'exit_program' ? 5 : 3
+    message = "Label " + I18n.t('cannot_be_blank')
+    value.each do |v|
+      unless v['label'].present?
+        errors.add(field.to_sym, message)
+        errors.add(:tab, tab)
+        return
+      end
+    end
+  end
 
   def auto_update_exit_program
     return unless exit_program_changed?

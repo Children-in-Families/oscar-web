@@ -136,6 +136,46 @@
               = check_box_tag 'changelog_', 'changelog', checked = params[:changelog_].present?, class: 'i-checks'
               = label_tag 'changelog_', t('datagrid.columns.changelog')
 
+  - elsif controller_name == 'families'
+    %ul.check-columns-visibility{ 'aria-labelledby': 'dropdownMenuDivider' }
+      %li.dropdown
+        %a.dropdown-toggle.btn.btn-default{'data-toggle' => 'dropdown', href: '#'}
+          = t('datagrid.columns.select_columns')
+          %span.caret
+
+        %ul.dropdown-menu.columns-visibility
+          %li
+            .all-visibility.col-sm-12
+              = check_box_tag 'all_', 'all', checked = params['all_'].present?, class: 'i-checks'
+              = label_tag 'all_' do
+                %strong= t('datagrid.columns.show_all')
+
+          - grid.filters.each do |f|
+            %li
+              .visibility.col-sm-12
+                = check_box_tag "#{f.name}_", f.name, checked = params["#{f.name}_"].present?, class: 'i-checks'
+                = columns_family_visibility f.name
+          %li
+            .visibility.col-sm-12
+              = check_box_tag 'member_count_', 'member_count', checked = params[:member_count_].present?, class: 'i-checks'
+              = label_tag 'member_count_', t('datagrid.columns.families.member_count')
+          %li
+            .visibility.col-sm-12
+              = check_box_tag 'clients_', 'clients', checked = params[:clients_].present?, class: 'i-checks'
+              = label_tag 'clients_', t('datagrid.columns.families.clients')
+          %li
+            .visibility.col-sm-12
+              = check_box_tag 'case_workers_', 'case_workers', checked = params[:case_workers_].present?, class: 'i-checks'
+              = label_tag 'case_workers_', t('datagrid.columns.families.case_workers')
+          %li.divider.col-xs-12
+          %li
+            .visibility.col-sm-12
+              = check_box_tag 'manage_', 'manage', checked = params[:manage_].present?, class: 'i-checks'
+              = label_tag 'manage_', t('datagrid.columns.families.manage')
+          %li
+            .visibility.col-sm-12
+              = check_box_tag 'changelog_', 'changelog', checked = params[:changelog_].present?, class: 'i-checks'
+              = label_tag 'changelog_', t('datagrid.columns.families.changelog')
   #filter_form
     %hr/
     .row

@@ -53,23 +53,37 @@ module ApplicationHelper
   end
 
   def clients_menu_active
-    names = %w(clients tasks assessments case_notes cases government_reports leave_programs client_enrollments client_enrollment_trackings client_advanced_searches)
-    'active' if names.include?(controller_name) && params[:family_id].nil?
+    names = %w(clients tasks assessments case_notes cases government_reports leave_programs client_enrollments client_enrollment_trackings client_advanced_searches client_enrolled_programs client_enrolled_program_trackings leave_enrolled_programs)
+    if names.include?(controller_name) && params[:family_id].nil?
+      'active'
+    elsif controller_name == 'custom_field_properties' && params[:client_id].present?
+      'active'
+    end
   end
 
   def families_menu_active
-    names = %w(families family_custom_fields cases)
-    'active' if names.include?(controller_name) && params[:client_id].nil?
+    names = %w(families cases)
+    if names.include?(controller_name) && params[:client_id].nil?
+      'active'
+    elsif controller_name == 'custom_field_properties' && params[:family_id].present?
+      'active'
+    end
   end
 
   def users_menu_active
-    names = %w(users user_custom_fields)
-    any_active_menu(names)
+    if controller_name == 'users'
+      'active'
+    elsif controller_name == 'custom_field_properties' && params[:user_id].present?
+      'active'
+    end
   end
 
   def partners_menu_active
-    names = %w(partners partner_custom_fields)
-    any_active_menu(names)
+    if controller_name == 'partners'
+      'active'
+    elsif controller_name == 'custom_field_properties' && params[:partner_id].present?
+      'active'
+    end
   end
 
   def account_menu_active

@@ -3,6 +3,10 @@ body[id='families-index'] {
     margin-top: 20px;
   }
 
+  #family-advance-search-form {
+    margin-top: 20px;
+  }
+
   ul.family-clients-list, ul.family-members-list {
     padding-left: 20px;
   }
@@ -39,5 +43,56 @@ body[id='families-index'] {
 
   table.families tbody tr:hover {
     cursor: pointer;
+  }
+
+  table.families, .dataTables_scrollHeadInner, .dataTables_scrollHead, .dataTables_scrollBody {
+    width: 100% !important;
+  }
+
+  table.families th {
+    text-align: center;
+  }
+
+  .ibox-content.no-border {
+    border-style: none;
+  }
+
+  .custom-form, .selected-custom-form {
+    display: none;
+  }
+  .checkbox-margin {
+    padding-left: 18px;
+  }
+
+  .basic-filter-error, .custom-form-error {
+    color: red;
+    display: none;
+  }
+
+  .btn-group.group-actions {
+    button[data-add='rule'] {
+      background-color: #1ab394;
+      border-color: #1ab394;
+      color: #FFFFFF;
+    }
+    button {
+      margin-right: 5px;
+    }
+  }
+
+  .rule-operator-container {
+    select {
+      width: 180px;
+    }
+  }
+
+  .rule-value-container {
+    border-left: none;
+    select, input {
+      width: 180px;
+    }
+    input.form-control {
+      padding: 6px 12px;
+    }
   }
 }

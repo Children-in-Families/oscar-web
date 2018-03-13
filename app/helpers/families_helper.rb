@@ -32,7 +32,7 @@ module FamiliesHelper
 
   def family_workers_list(object)
     content_tag(:ul, class: 'family-clients-list') do
-      user_ids = Client.joins(:cases).where(cases: { id: object.ids }).joins(:case_worker_clients).map(&:user_ids).flatten.uniq
+      user_ids = object.map(&:user_id).uniq
       User.where(id: user_ids).each do |user|
         concat(content_tag(:li, link_to(entity_name(user), user_path(user))))
       end
@@ -40,7 +40,7 @@ module FamiliesHelper
   end
 
   def family_workers_count(object)
-    Client.joins(:cases).where(cases: { id: object.ids }).joins(:case_worker_clients).map(&:user_ids).flatten.uniq.size
+    object.map(&:user_id).uniq.count
   end
 
   def family_case_history(object)
@@ -49,5 +49,28 @@ module FamiliesHelper
     else
       object.case_history
     end
+  end
+
+  def columns_family_visibility(column)
+    label_column = {
+      name:                                     t('datagrid.columns.families.name'),
+      id:                                       t('datagrid.columns.families.id'),
+      code:                                     t('datagrid.columns.families.code'),
+      family_type:                              t('datagrid.columns.families.family_type'),
+      case_history:                             t('datagrid.columns.families.case_history'),
+      address:                                  t('datagrid.columns.families.address'),
+      significant_family_member_count:          t('datagrid.columns.families.significant_family_member_count'),
+      male_children_count:                      t('datagrid.columns.families.male_children_count'),
+      province_id:                              t('datagrid.columns.families.province'),
+      dependable_income:                        t('datagrid.columns.families.dependable_income'),
+      male_adult_count:                         t('datagrid.columns.families.male_adult_count'),
+      household_income:                         t('datagrid.columns.families.household_income'),
+      contract_date:                            t('datagrid.columns.families.contract_date'),
+      caregiver_information:                    t('datagrid.columns.families.caregiver_information'),
+      changelog:                                t('datagrid.columns.families.changelog'),
+      case_workers:                             t('datagrid.columns.families.case_workers'),
+      manage:                                   t('datagrid.columns.families.manage')
+    }
+    label_tag "#{column}_", label_column[column.to_sym]
   end
 end
