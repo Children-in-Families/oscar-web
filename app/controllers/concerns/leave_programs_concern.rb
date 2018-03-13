@@ -3,7 +3,7 @@ module LeaveProgramsConcern
     if properties_params.present?
       mappings = {}
       properties_params.each do |k, v|
-        mappings[k] = k.gsub('&', '&amp;')
+        mappings[k] = k.gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;').gsub('%22', '"')
       end
       formatted_params = properties_params.map {|k, v| [mappings[k], v] }.to_h
       formatted_params.values.map{ |v| v.delete('') if (v.is_a?Array) && v.size > 1 }
