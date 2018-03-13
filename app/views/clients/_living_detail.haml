@@ -1,14 +1,14 @@
 %h3= t('.living_detail')
 %section
   #living-detail
-    - unless @client.new_record?
+    - if @client.persisted?
       .row
         .col-xs-12.col-sm-6.col-md-8
-          %h3= "#{@client.family_name} #{@client.given_name} #{@client.local_family_name} #{@client.local_given_name}"
-          %h3= "#{@client.gender}  #{@client.date_of_birth}"
+          %h3= "#{@client.given_name} #{@client.family_name} #{@client.local_family_name} #{@client.local_given_name}"
+          %h3= "#{@client.gender.try(:titleize)} #{date_format(@client.date_of_birth)}"
         .col-xs-12.col-sm-6.col-md-4
-          %h3= "Client ID - #{current_organization.short_name} ###"
-          = f.association :users, collection: @users, label: t('.case_worker_or_staff'), include_blank: false, multiple: true
+          %h3= "Client ID - #{@client.slug}"
+          = f.association :users, collection: @users, label: t('.case_worker_or_staff'), include_blank: false, multiple: true, disabled: true
     %legend= t('.contact_details')
     .row
       .col-xs-12.col-sm-6.col-md-4

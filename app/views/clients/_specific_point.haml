@@ -4,23 +4,15 @@
     - unless @client.new_record?
       .row
         .col-xs-12.col-sm-6.col-md-8
-          %h3= "#{@client.family_name} #{@client.given_name} #{@client.local_family_name} #{@client.local_given_name}"
-          %h3= "#{@client.gender}  #{@client.date_of_birth}"
+          %h3= "#{@client.given_name} #{@client.family_name} #{@client.local_family_name} #{@client.local_given_name}"
+          %h3= "#{@client.gender.try(:titleize)} #{date_format(@client.date_of_birth)}"
         .col-xs-12.col-sm-6.col-md-4
-          %h3= "Client ID - #{current_organization.short_name} ###"
-          = f.association :users, collection: @users, label: t('.case_worker_or_staff'), include_blank: false, multiple: true
+          %h3= "Client ID - #{@client.slug}"
+          = f.association :users, collection: @users, label: t('.case_worker_or_staff'), include_blank: false, multiple: true, disabled: true
     .row
       .col-xs-12
-        #accordion-quantitative-type.panel-group{"aria-multiselectable" => "true", :role => "tablist"}
-          .panel.panel-default
-            #headingQuantitativeType.panel-heading{:role => "tab"}
-              %h4.panel-title
-                %a{"aria-controls" => "collapseQuantitativeType", "aria-expanded" => "true", "data-parent" => "#accordion-quantitative-type", "data-toggle" => "collapse", :href => "#collapseQuantitativeType", :role => "button"}
-                  Specific Referral Data (Client Custom Field)
-            #collapseQuantitativeType.panel-collapse.collapse.in{"aria-labelledby" => "headingQuantitativeType", :role => "tabpanel"}
-              .panel-body
-                - QuantitativeType.all.each do |qt|
-                  .row
-                    .col-xs-12
-                      %label{ title: qt.name }= qt.name
-                      = f.association :quantitative_cases, collection: qt.quantitative_cases, multiple: true, label_method: :value, value_method: :id, label: false, input_html: { class: able_related_info(qt.name) }
+        - QuantitativeType.all.each do |qt|
+          .row
+            .col-xs-12
+              %label{ title: qt.name }= qt.name
+              = f.association :quantitative_cases, collection: qt.quantitative_cases, multiple: true, label_method: :value, value_method: :id, label: false, input_html: { class: able_related_info(qt.name) }

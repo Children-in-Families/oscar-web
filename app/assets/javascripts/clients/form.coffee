@@ -195,19 +195,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
         "client[name_of_referee]": requiredMessage
       }
 
-    $('#client_initial_referral_date').change ->
-      $(this).removeClass 'error'
-      $(this).closest('.form-group').find('label.error').remove()
-
-    $('#client_user_ids').change ->
-      $(this).removeClass 'error'
-      $(this).closest('.form-group').find('label.error').remove()
-
-    $('#client_received_by_id').change ->
-      $(this).removeClass 'error'
-      $(this).closest('.form-group').find('label.error').remove()
-
-    $('#client_referral_source_id').change ->
+    $('#client_initial_referral_date, #client_user_ids, #client_received_by_id, #client_referral_source_id').change ->
       $(this).removeClass 'error'
       $(this).closest('.form-group').find('label.error').remove()
 

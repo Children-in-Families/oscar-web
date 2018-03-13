@@ -1122,7 +1122,7 @@ km:
       from: ចាប់ពី
       gender: ភេទ
       general_question: សំនួរទូរទៅ
-      getting_started: ចាប់ផ្តើម
+      getting_started: ព័ត៌មានបឋម
       given_name: នាមខ្លួនជាអក្សរឡាតាំង
       gov_caseworker_comment: មតិយោបល់អ្នកកាន់ករណី
       gov_caseworker_comment_section: យោបល់របស់អ្នកកាន់ករណី ចំពោះតម្រូវការ និងបញ្ហាប្រឈមរបស់កុមារ
@@ -1212,7 +1212,7 @@ km:
       first_followed_up_by: បុគ្គលិកតាមដានករណី
       first_followed_up_date: កាលបរិច្ឆេទតាមដានដំបូង
       gender: ភេទ
-      getting_started: ចាប់ផ្តើម
+      getting_started: ព័ត៌មានបឋម
       given_name: នាមខ្លួន (ភាសាអង់គ្លេស)
       initial_referral_date: កាលបរិច្ឆេទបង្អែកដំបូង
       living_detail: ព័ត៎មានរស់នៅលំអិត
@@ -1273,6 +1273,7 @@ km:
       support_note: ពត៌មានពីប្រាក់ឧប្ថម្ភ
 
     living_detail:
+      case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
       commune: អាស័យដ្ឋាន - ឃុំ/សង្កាត់
       contact_details: ព័ត៌មានទំនាក់ទំនងលំអិត
       current_address: អាស័យដ្ឋានបច្ចុប្បន្ន
@@ -1295,6 +1296,7 @@ km:
 
     other_detail:
       agencies_involved: អង្គភាពពាក់ព័ន្ធ
+      case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
       custom_id_number1: លេខកូដផ្ទាល់ខ្លួនទី១
       custom_id_number2: លេខកូដផ្ទាល់ខ្លួនទី២
       donor: ម្ចាស់ជំនួយ
@@ -1359,7 +1361,7 @@ km:
       follow_up_date: កាលបរិច្ឆេទតាមដាន
       followed_up_by: ឈ្មោះបុុគ្គលិកដែលតាមដាន
       gender: ភេទ
-      general_info: អំពីអតិចិជន
+      general_info: អំពីអតិថិជន
       given_name: នាមខ្លួនជាអក្សរឡាតាំង
       government_form_five: 'ទម្រង់ទី៥: តាមដាន និងត្រួតពិនិត្យ'
       government_form_four: 'ទម្រង់ទី៤: ការទុកដាក់កុមារ'
@@ -1435,6 +1437,7 @@ km:
       village: ភូមិ
 
     specific_point:
+      case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
       specific_point: ចំណុចជាក់លាក់នៃការបញ្ជូន
 
     state:

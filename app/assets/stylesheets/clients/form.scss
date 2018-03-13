@@ -12,29 +12,20 @@ body[id='clients-edit'], body[id='clients-update']{
       background: #1ab394;
   }
 
-  .wizard > .steps > ul > li {
-    width: 19.9%;
+  .steps.clearfix ul li {
+    width: 25%;
   }
 
-  .wizard > .steps > ul > li:nth-child(2) {
-    width: 20.4%;
-  }
-
-  .steps.clearfix section {
-    width: 100%;
+  .content.clearfix {
+    background-color: inherit;
+    section {
+      padding: 0;
+      width: 100%;
+    }
   }
 
   .icheckbox_square-green{
     margin-right: 10px;
-  }
-
-  .disable-qa{
-    color: gray;
-    cursor: not-allowed;
-  }
-
-  .vertical-align-group {
-    margin-top: 40%;
   }
 
   .has-been-in-government-care,
@@ -51,13 +42,7 @@ body[id='clients-edit'], body[id='clients-update']{
     }
   }
 
-  .client_user.disabled {
-    label, input {
-      color: #333333 !important;
-    }
-  }
-
-  .dataTables_scrollHeadInner, .table.client-new.dataTable {
-    width: 100% !important;
+  .client_users label.disabled {
+    color: #333 !important;
   }
 }

@@ -1195,6 +1195,7 @@ my:
       support_note: ေထာက္ပံ့သည့္ မွတ္စု
 
     living_detail:
+      case_worker_or_staff: အမႈျခင္းရာအတြက္ေဆာင္ရြက္ေပးသူ / ၀န္ထမ္း
       commune: လိပ်စာ - ကွန်မြူ
       contact_details: အဆက်အသွယ်အသေးစိတ်
       current_address: လက္ရွိ လိပ္စာ
@@ -1217,6 +1218,7 @@ my:
 
     other_detail:
       agencies_involved: ပါ၀င္သည့္ ေအဂ်င္စီမ်ား
+      case_worker_or_staff: အမႈျခင္းရာအတြက္ေဆာင္ရြက္ေပးသူ / ၀န္ထမ္း
       custom_id_number1: Custom ID Number1
       custom_id_number2: Custom ID Number2
       donor: အလွဴရွင္
@@ -1358,6 +1360,7 @@ my:
       what3words: What3words
 
     specific_point:
+      case_worker_or_staff: အမႈျခင္းရာအတြက္ေဆာင္ရြက္ေပးသူ / ၀န္ထမ္း
       specific_point: လွှဲပြောင်း၏တိကျသောအချက်
 
     state:

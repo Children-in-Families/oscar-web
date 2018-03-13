@@ -303,7 +303,7 @@
                   = t('.is_the_client_rated_for_id_poor')
                 %td
                   %strong
-                    = human_boolean(@client.rated_for_id_poor)
+                    = @client.rated_for_id_poor
 
               %tr
                 %td.spacing-first-col
@@ -317,12 +317,12 @@
                 %td
                   %strong
                     = @client.kid_id
-              %tr
-                %td.spacing-first-col
-                  = t('.id_poor')
-                %td
-                  %strong
-                    = @client.id_poor
+              -# %tr
+              -#   %td.spacing-first-col
+              -#     = t('.id_poor')
+              -#   %td
+              -#     %strong
+              -#       = @client.id_poor
               %tr
                 %td.spacing-first-col
                   = t('.time_in_care')

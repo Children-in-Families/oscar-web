@@ -1125,7 +1125,7 @@ en:
       getting_started: Getting Started
       given_name: Given Name (English)
       initial_referral_date: Initial Referral Date
-      living_detail: Living Detail
+      living_detail: Living Details
       local_family_name: Family Name (Khmer)
       local_given_name: Given Name (Khmer)
       name_of_referee:  Name of Referee
@@ -1185,13 +1185,14 @@ en:
       support_note: Support Note
 
     living_detail:
+      case_worker_or_staff: Case Worker / Staff
       commune: Address - Commune/Sangkat
       contact_details: Contact Details
       current_address: Current Address
       current_province: Current Province
       district: Address - District/Khan
       house_number: Address - House#
-      living_detail: Living Detail
+      living_detail: Living Details
       main_school_contact: Main School Contact
       primary_carer_name: Primary Carer Name
       primary_carer_phone_number: Primary Carer Phone Number
@@ -1207,6 +1208,7 @@ en:
 
     other_detail:
       agencies_involved: Other Agencies Involved
+      case_worker_or_staff: Case Worker / Staff
       custom_id_number1: Custom ID Number 1
       custom_id_number2: Custom ID Number 2
       donor: Donor
@@ -1348,6 +1350,7 @@ en:
       what3words: What3words
 
     specific_point:
+      case_worker_or_staff: Case Worker / Staff
       specific_point: Specific Point-of-Referral Data
 
     state:
