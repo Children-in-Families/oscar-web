@@ -229,7 +229,7 @@ describe Case, 'callbacks' do
 
     context 'when client is not active in any programs' do
       context 'when save case which is just exited' do
-        it 'should update status to Active' do
+        it 'should update status to Accepted' do
           emergency.update(exited: true, exit_date: Time.now, exit_note: FFaker::Lorem.paragraph)
           foster.update(exited: true, exit_date: Time.now, exit_note: FFaker::Lorem.paragraph)
           kinship.update(exited: true, exit_date: Time.now, exit_note: FFaker::Lorem.paragraph)
@@ -253,7 +253,7 @@ describe Case, 'callbacks' do
         end
       end
 
-      it 'should update status to Active' do
+      it 'should update status to Accepted' do
         kinship.update(exited: true, exit_date: Time.now, exit_note: FFaker::Lorem.paragraph)
 
         kc_client.reload

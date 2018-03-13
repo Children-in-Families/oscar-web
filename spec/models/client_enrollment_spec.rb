@@ -107,7 +107,7 @@ describe ClientEnrollment, 'callbacks' do
 
   let!(:program_stream) { create(:program_stream) }
   let!(:other_program_stream) { create(:program_stream) }
-  let!(:client) { create(:client, status: 'Accepted') }
+  let!(:client) { create(:client, :accepted) }
   let!(:client_enrollment) { create(:client_enrollment, program_stream: program_stream, client: client) }
   let!(:other_client_enrollment) { create(:client_enrollment, program_stream: other_program_stream, client: client) }
 
