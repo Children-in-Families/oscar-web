@@ -1,6 +1,6 @@
 .row
   .col-xs-12.col-sm-6.col-md-8
-    %h3= "#{@client.given_name} #{@client.family_name} #{@client.local_family_name} #{@client.local_given_name}"
+    %h3= @client.en_and_local_name
     %h3= "#{@client.gender.try(:titleize)} #{date_format(@client.date_of_birth)}"
   .col-xs-12.col-sm-6.col-md-4
     %h3= "Client ID - #{@client.slug}"
