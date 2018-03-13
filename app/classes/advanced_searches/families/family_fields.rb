@@ -35,8 +35,7 @@ module AdvancedSearches
           ['province_id', provinces],
           ['dependable_income', { yes: 'Yes', no: 'No' }],
           ['client_id', clients],
-          ['form_title', family_custom_form_options],
-          ['case_workers', case_workers_options]
+          ['form_title', family_custom_form_options]
         ]
       end
 
