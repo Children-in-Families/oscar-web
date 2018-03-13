@@ -98,7 +98,7 @@ class FamilyGrid
     render partial: 'families/clients', locals: { object: object }
   end
 
-  column(:case_worker, html: true, header: -> { I18n.t('datagrid.columns.families.case_workers') }) do |object|
+  column(:case_workers, html: true, header: -> { I18n.t('datagrid.columns.families.case_workers') }) do |object|
     render partial: 'families/case_workers', locals: { object: object.cases.non_emergency.active }
   end
 
@@ -117,7 +117,7 @@ class FamilyGrid
     object.cases.non_emergency.active.map { |c| c.client.name if c.client }.join(', ')
   end
 
-  column(:case_worker, header: -> { I18n.t('datagrid.columns.families.case_workers') }, html: false) do |object|
+  column(:case_workers, header: -> { I18n.t('datagrid.columns.families.case_workers') }, html: false) do |object|
     user_ids = Client.joins(:cases).where(cases: { id: object.cases.non_emergency.active.ids }).joins(:case_worker_clients).map(&:user_ids).flatten.uniq
     User.where(id: user_ids).map{|u| u.name }.join(', ')
   end
@@ -127,7 +127,7 @@ class FamilyGrid
     dynamic_columns.each do |column_builder|
       fields = column_builder[:id].split('_')
       column(column_builder[:id].to_sym, class: 'form-builder', header: -> { form_builder_format_header(fields) }, html: true) do |object|
-        format_field_value = fields.last.gsub(/\[/, '&#91;').gsub(/\]/, '&#93;').gsub('&', '&amp;')
+        format_field_value = fields.last.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
         properties = object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Family'}).properties_by(format_field_value)
         render partial: 'shared/form_builder_dynamic/properties_value', locals: { properties:  properties }
       end
@@ -140,18 +140,6 @@ class FamilyGrid
     end
     column(:changelog, html: true, class: 'text-center', header: -> { I18n.t('datagrid.columns.families.changelogs') }) do |object|
       link_to t('datagrid.columns.families.view'), family_version_path(object)
-    end
-  end
-
-  dynamic do
-    next unless dynamic_columns.present?
-    dynamic_columns.each do |column_builder|
-      fields = column_builder[:id].split('_')
-      column(column_builder[:id].to_sym, class: 'form-builder', header: -> { form_builder_format_header(fields) }, html: true) do |object|
-        format_field_value = fields.last.gsub(/\[/, '&#91;').gsub(/\]/, '&#93;').gsub('&', '&amp;')
-        properties = object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Family'}).properties_by(format_field_value)
-        render partial: 'shared/form_builder_dynamic/properties_value', locals: { properties:  properties }
-      end
     end
   end
 end

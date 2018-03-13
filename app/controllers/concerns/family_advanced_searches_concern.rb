@@ -67,7 +67,7 @@ module FamilyAdvancedSearchesConcern
     @custom_form_fields.each do |field|
       fields = field[:id].split('_')
       @family_grid.column(field[:id].to_sym, header: form_builder_format_header(fields)) do |client|
-        format_field_value = fields.last.gsub(/\[/, '&#91;').gsub(/\]/, '&#93;').gsub('&', '&amp;')
+        format_field_value = fields.last.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
         custom_field_properties = client.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Family'}).properties_by(format_field_value)
         custom_field_properties.map{ |properties| format_properties_value(properties) }.join(' | ')
       end

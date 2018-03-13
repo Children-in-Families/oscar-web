@@ -64,4 +64,19 @@ body[id='partners-index'] {
       margin-right: 5px;
     }
   }
+  .rule-operator-container {
+    select {
+      width: 180px;
+    }
+  }
+
+  .rule-value-container {
+    border-left: none;
+    select, input {
+      width: 180px;
+    }
+    input.form-control {
+      padding: 6px 12px;
+    }
+  }
 }

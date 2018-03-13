@@ -32,6 +32,8 @@ CIF.FamiliesIndex = do ->
 
     advanceFilter.handleSaveQuery()
     advanceFilter.validateSaveQuery()
+    $('.rule-operator-container').change ->
+      advanceFilter.initSelect2()
 
   _handleUncheckColumnVisibility = ->
     params = window.location.search.substr(1)

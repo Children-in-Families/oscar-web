@@ -10,6 +10,29 @@ describe 'User' do
   let!(:custom_field){ create(:custom_field) }
   let!(:program_stream){ create(:program_stream) }
 
+  feature 'List Managers' do
+    before do
+      login_as(admin)
+    end
+
+    let!(:manager_level_3){ create(:user, :manager) }
+    let!(:manager_level_2){ create(:user, :manager) }
+    let!(:manager_level_1){ create(:user, :manager) }
+    let!(:other_manager){ create(:user, :manager) }
+    let!(:case_worker){ create(:user, :case_worker, manager_id: manager_level_1.id) }
+
+    scenario 'New', js: true do
+      visit new_user_path
+      expect(page).to have_css('select#user_manager_id option', count: 5)
+    end
+
+    scenario 'Edit', js: true do
+      manager_level_1.update(manager_id: manager_level_2.id)
+      visit edit_user_path(manager_level_2.reload)
+      expect(page).to have_css('select#user_manager_id option', count: 3)
+    end
+  end
+
   feature 'Disable' do
     before do
       login_as(admin)

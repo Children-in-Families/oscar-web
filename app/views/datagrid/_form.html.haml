@@ -154,7 +154,7 @@
             %li
               .visibility.col-sm-12
                 = check_box_tag "#{f.name}_", f.name, checked = params["#{f.name}_"].present?, class: 'i-checks'
-                = columns_visibility f.name
+                = columns_family_visibility f.name
           - if controller_name == 'families'
             %li
               .visibility.col-sm-12

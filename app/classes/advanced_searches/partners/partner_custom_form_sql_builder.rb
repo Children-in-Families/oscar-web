@@ -5,7 +5,7 @@ module AdvancedSearches
       def initialize(selected_custom_form, rule)
         @selected_custom_form = selected_custom_form
         field          = rule['field']
-        @field         = field.split('_').last.gsub("'", "''").gsub(/\[/, '&#91;').gsub(/\]/, '&#93;').gsub('&', '&amp;')
+        @field         = field.split('_').last.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
         @operator      = rule['operator']
         @value         = rule['value'].is_a?(Array) ? rule['value'] : rule['value'].gsub("'", "''")
         @type          = rule['type']
