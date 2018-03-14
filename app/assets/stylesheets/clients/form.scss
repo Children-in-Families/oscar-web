@@ -1,16 +1,31 @@
 body[id='clients-new'], body[id='clients-create'],
 body[id='clients-edit'], body[id='clients-update']{
+  .wizard > .content > .body {
+    #getting_started, #living_detail, #other_detail, #specific_point {
+      position: relative;
+      input[type='radio'] {
+        display: inline-block;
+      }
+    }
+  }
+  .wizard > .actions a[href="#finish"], .wizard > .actions a[href="#finish"]:hover, .wizard > .actions a[href="#finish"]:active {
+      background: #1ab394;
+  }
+
+  .steps.clearfix ul li {
+    width: 25%;
+  }
+
+  .content.clearfix {
+    background-color: inherit;
+    section {
+      padding: 0;
+      width: 100%;
+    }
+  }
+
   .icheckbox_square-green{
     margin-right: 10px;
-  }
-
-  .disable-qa{
-    color: gray;
-    cursor: not-allowed;
-  }
-
-  .vertical-align-group {
-    margin-top: 40%;
   }
 
   .has-been-in-government-care,
@@ -27,13 +42,14 @@ body[id='clients-edit'], body[id='clients-update']{
     }
   }
 
-  .client_user.disabled {
-    label, input {
-      color: #333333 !important;
-    }
+  .client_users label.disabled {
+    color: #333 !important;
+  }
+  .input-group-addon.what3words{
+    padding: 2px;
+  }
+  .what3words-image{
+    height: 17%;
   }
 
-  .dataTables_scrollHeadInner, .table.client-new.dataTable {
-    width: 100% !important;
-  }
 }

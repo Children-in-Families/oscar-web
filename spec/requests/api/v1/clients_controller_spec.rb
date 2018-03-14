@@ -44,6 +44,7 @@ RSpec.describe Api::V1::ClientsController, type: :request do
   end
 
   describe 'POST #create' do
+    let!(:referral_source){ create(:referral_source) }
     context 'when user not loged in' do
       before do
         post "/api/v1/clients"
@@ -61,11 +62,12 @@ RSpec.describe Api::V1::ClientsController, type: :request do
 
       context 'when try to create client' do
         before do
-          client = { format: 'json', client: { given_name: "example", family_name: FFaker::Name.name, gender: "Male", user_ids: [user.id.to_s], initial_referral_date: '2018-02-19'} }
+          client = { format: 'json', client: { given_name: "example", user_ids: [user.id], initial_referral_date: '2018-02-19', received_by_id: user.id, name_of_referee: FFaker::Name.name, referral_source_id: referral_source.id } }
           post "/api/v1/clients", client, @auth_headers
         end
 
         it 'should return status 200' do
+
           expect(response).to have_http_status(:success)
         end
 

@@ -1,7 +1,7 @@
 describe 'Client Enrollment' do
   let!(:admin){ create(:user, roles: 'admin') }
   let!(:user) { create(:user) }
-  let!(:client) { create(:client, given_name: 'Adam', family_name: 'Eve', local_given_name: 'Romeo', local_family_name: 'Juliet', date_of_birth: 10.years.ago, users: [admin, user]) }
+  let!(:client) { create(:client, given_name: 'Adam', family_name: 'Eve', local_given_name: 'Juliet', local_family_name: 'Romeo', date_of_birth: 10.years.ago, users: [admin, user]) }
   let!(:domain) { create(:domain) }
   let!(:program_stream) { create(:program_stream, name: 'Fitness') }
   let!(:program_stream_active) { create(:program_stream, name: 'Second Fitness') }
@@ -238,7 +238,7 @@ describe 'Client Enrollment' do
       scenario 'index client enrolled programs' do
         another_program_stream.reload
         another_program_stream.update_columns(completed: true)
-        
+
         visit client_client_enrolled_programs_path(client)
         expect(page).to have_content(another_program_stream.name)
       end
@@ -257,7 +257,7 @@ describe 'Client Enrollment' do
         another_program_stream.reload
         another_program_stream.update_columns(completed: true)
         user.program_stream_permissions.find_by(program_stream_id: another_program_stream.id).update(readable: false)
-        
+
         visit client_client_enrolled_programs_path(client)
         expect(page).not_to have_content(another_program_stream.name)
       end

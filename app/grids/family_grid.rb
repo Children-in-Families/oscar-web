@@ -114,7 +114,7 @@ class FamilyGrid
   end
 
   column(:cases, header: -> { I18n.t('datagrid.columns.families.clients') }, html: false) do |object|
-    object.cases.non_emergency.active.map { |c| c.client.name if c.client }.join(', ')
+    Client.where(id: object.children).map(&:name).join(', ')
   end
 
   column(:case_workers, header: -> { I18n.t('datagrid.columns.families.case_workers') }, html: false) do |object|

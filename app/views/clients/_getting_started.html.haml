@@ -1,0 +1,54 @@
+%h3= t('.getting_started')
+%section
+  #getting-started
+    - if @client.persisted?
+      = render 'form_header', f: f
+
+    %legend= t('.staff_responsibilities')
+    .row
+      .col-xs-12.col-sm-6.col-md-4
+        = f.input :received_by_id, collection: @users, label: t('.referral_received_by')
+      .col-xs-12.col-sm-6.col-md-4
+        = f.input :followed_up_by_id, collection: @users, label: t('.first_followed_up_by')
+      .col-xs-12.col-sm-6.col-md-4
+        = f.association :users, collection: @users, label: t('.case_worker_or_staff'), include_blank: false, multiple: true
+    .row
+      .col-xs-12.col-sm-6.col-md-4.form-group.date.optional.client_initial_referral_date{ class: ('has-error' if f.error :initial_referral_date) }
+        %label.date.optional.control-label{ for: 'client_initial_referral_date' }
+          %abbr{ title: 'required' } *
+          = t('.initial_referral_date')
+        .input-group.date
+          = f.text_field :initial_referral_date, class: 'date optional form-control date-picker', type: 'text', name: 'client[initial_referral_date]', id: 'client_initial_referral_date'
+          %span.input-group-addon.initial-referral
+            %i.fa.fa-calendar-check-o
+        = f.error :initial_referral_date
+      .col-xs-12.col-sm-6.col-md-4.form-group.date.optional.client_follow_up_date
+        %label.date.optional.control-label{ for: 'client_follow_up_date' }= t('.first_followed_up_date')
+        .input-group.date
+          = f.text_field :follow_up_date, class: 'date optional form-control date-picker', type: 'text', name: 'client[follow_up_date]', id: 'client_follow_up_date'
+          %span.input-group-addon
+            %i.fa.fa-calendar-check-o
+    %legend= t('.referral_information')
+    .row
+      .col-xs-12.col-sm-6.col-md-4
+        = f.input :given_name, label: t('.given_name')
+      .col-xs-12.col-sm-6.col-md-4
+        = f.input :family_name, label: t('.family_name')
+      .col-xs-12.col-sm-6.col-md-4
+        = f.input :gender, collection: [['Male', 'male'], ['Female', 'female']], label: t('.gender')
+      .col-xs-12.col-sm-6.col-md-4
+        = f.input :local_given_name, label: t('.local_given_name')
+      .col-xs-12.col-sm-6.col-md-4
+        = f.input :local_family_name, label: t('.local_family_name')
+      .col-xs-12.col-sm-6.col-md-4.form-group.date.optional.client_date_of_birth
+        %label.date.optional.control-label{ for: 'client_date_of_birth' }= t('.date_of_birth')
+        #client-birthdate.input-group.date
+          = f.text_field :date_of_birth, class: 'date optional form-control date-picker', type: 'text', name: 'client[date_of_birth]', id: 'client_date_of_birth'
+          %span.input-group-addon
+            %i.fa.fa-calendar-check-o
+      .col-xs-12.col-sm-6.col-md-4
+        = f.association :referral_source, collection: @referral_source, label: t('.referral_source')
+      .col-xs-12.col-sm-6.col-md-4
+        = f.input :name_of_referee, label: t('.name_of_referee')
+      .col-xs-12.col-sm-6.col-md-4
+        = f.input :referral_phone, label: t('.referee_phone_number')

@@ -258,34 +258,82 @@
                       = merged_address(@client)
               %tr
                 %td.spacing-first-col
+                  = t('.what3words')
+                %td
+                  %strong
+                    = link_to "https://map.what3words.com/#{@client.what3words}", target: :_blank do
+                      = image_tag 'what3words.png', class: 'what3words'
+                    = link_to @client.what3words, "https://map.what3words.com/#{@client.what3words}", target: :_blank, class: "hidden"
+              %tr
+                %td.spacing-first-col
                   = t('.birth_province')
                 %td
                   %strong
                     = @client.birth_province
               %tr
                 %td.spacing-first-col
-                  = t('.telephone_number')
+                  = t('.name_of_referee')
+                %td
+                  %strong
+                    = @client.name_of_referee
+              %tr
+                %td.spacing-first-col
+                  = t('.referee_phone_number')
                 %td
                   %strong
                     = @client.telephone_number
               %tr
                 %td.spacing-first-col
-                  = t('.live_with')
+                  = t('.primary_carer_name')
                 %td
                   %strong
                     = @client.live_with
               %tr
                 %td.spacing-first-col
-                  = t('.id_poor')
+                  = t('.primary_carer_phone_number')
                 %td
                   %strong
-                    = @client.id_poor
+                    = @client.telephone_number
+              %tr
+                %td.spacing-first-col
+                  = t('.main_school_contact')
+                %td
+                  %strong
+                    = @client.main_school_contact
+              %tr
+                %td.spacing-first-col
+                  = t('.is_the_client_rated_for_id_poor')
+                %td
+                  %strong
+                    = @client.rated_for_id_poor
+
+              %tr
+                %td.spacing-first-col
+                  = t('.custom_id_number1')
+                %td
+                  %strong
+                    = @client.code
+              %tr
+                %td.spacing-first-col
+                  = t('.custom_id_number2')
+                %td
+                  %strong
+                    = @client.kid_id
+              -# %tr
+              -#   %td.spacing-first-col
+              -#     = t('.id_poor')
+              -#   %td
+              -#     %strong
+              -#       = @client.id_poor
               %tr
                 %td.spacing-first-col
                   = t('.time_in_care')
                 %td
                   %strong
                     = @client.time_in_care
+
+          .col-sm-12.col-md-6.second-table
+            %table.table.table-bordered
               %tr
                 %td.spacing-first-col
                   = t('.follow_up_date')
@@ -304,8 +352,7 @@
                 %td
                   %strong
                     = @client.referral_phone
-          .col-sm-12.col-md-6.second-table
-            %table.table.table-bordered
+
               %tr
                 %td.spacing-first-col
                   = t('.received_by')
