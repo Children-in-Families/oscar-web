@@ -261,7 +261,10 @@
                   = t('.what3words')
                 %td
                   %strong
-                    = @client.what3words
+                    = link_to "https://map.what3words.com/#{@client.what3words}", target: :_blank do
+                      = image_tag "what3words.png", class: 'what3words'
+
+                    = link_to "#{@client.what3words}", "https://map.what3words.com/#{@client.what3words}", target: :_blank, class: "hidden"
               %tr
                 %td.spacing-first-col
                   = t('.birth_province')
@@ -329,6 +332,9 @@
                 %td
                   %strong
                     = @client.time_in_care
+
+          .col-sm-12.col-md-6.second-table
+            %table.table.table-bordered
               %tr
                 %td.spacing-first-col
                   = t('.follow_up_date')
@@ -347,8 +353,7 @@
                 %td
                   %strong
                     = @client.referral_phone
-          .col-sm-12.col-md-6.second-table
-            %table.table.table-bordered
+
               %tr
                 %td.spacing-first-col
                   = t('.received_by')
