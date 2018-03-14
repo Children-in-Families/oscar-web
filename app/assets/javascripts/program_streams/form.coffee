@@ -213,13 +213,16 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
 
   _initProgramBuilder = (element, data) ->
     builderOption = new CIF.CustomFormBuilder()
-    specialCharacters = { '&amp;': '&', '&lt;': '<', '&gt;': '>' }
+    specialCharacters = { '&amp;': '&', '&lt;': '<', '&gt;': '>', "&quote;": '"' }
     fields = data
     for field in fields
       if field.type == 'radio-group' || field.type == 'checkbox-group' || field.type == 'select'
         for value in field.values
           value.label = value.label.allReplace(specialCharacters)
           value.value = value.value.allReplace(specialCharacters)
+      else if field.placeholder != undefined && (field.type == 'textarea' || field.type == 'text')
+        field.placeholder = field.placeholder.allReplace(specialCharacters)
+
     formBuilder = $(element).formBuilder(
       templates: separateLine: (fieldData) ->
         { field: '<hr/>' }
@@ -379,13 +382,15 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
   _handleSetValueToField = ->
     for formBuilder in @formBuilder
       element = formBuilder.element
-      specialCharacters = { "&": "&amp;", "<": "&lt;", ">": "&gt;" }
+      specialCharacters = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quote;" }
       fields = JSON.parse(formBuilder.actions.save())
       for field in fields
         if field.type == 'radio-group' || field.type == 'checkbox-group' || field.type == 'select'
           for value in field.values
             value.label = value.label.allReplace(specialCharacters)
             value.value = value.value.allReplace(specialCharacters)
+        else if field.placeholder != undefined && (field.type == 'textarea' || field.type == 'text')
+          field.placeholder = field.placeholder.allReplace(specialCharacters)
       fields = JSON.stringify(fields)
       if $(element).is('#enrollment')
         $('#program_stream_enrollment').val(fields)
@@ -432,7 +437,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
 
   _hideActionInTracking = (fields) ->
     trackings = $('#trackings .nested-fields')
-    specialCharacters = { "&": "&amp;", "<": "&lt;", ">": "&gt;" }
+    specialCharacters = { '&amp;': '&', '&lt;': '<', '&gt;': '>' }
     for tracking in trackings
       trackingName = $(tracking).find('input.string.optional.readonly.form-control')
       continue if $(trackingName).length == 0

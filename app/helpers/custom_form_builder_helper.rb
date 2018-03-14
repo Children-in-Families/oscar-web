@@ -24,7 +24,7 @@ module CustomFormBuilderHelper
           concat content_tag(:strong, c.html_safe, class: 'label label-margin')
         end
       else
-        concat value.html_safe
+        concat value.html_safe if value.present?
       end
     end
     content = div.gsub('&amp;nbsp;', '')
