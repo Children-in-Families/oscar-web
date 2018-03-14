@@ -98,6 +98,11 @@ describe 'Client' do
     scenario 'government report invisible' do
       expect(page).not_to have_link(nil, href: client_path(client, format: 'pdf'))
     end
+
+    scenario 'what3words link' do
+      expect(page).to have_link(client.what3words, href: "https://map.what3words.com/#{client.what3words}")
+    end
+
   end
 
   xfeature 'New', skip: '=== Capybara cannot find jQuery steps link ===' do

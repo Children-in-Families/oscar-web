@@ -45,4 +45,11 @@ body[id='clients-edit'], body[id='clients-update']{
   .client_users label.disabled {
     color: #333 !important;
   }
+  .input-group-addon.what3words{
+    padding: 2px;
+  }
+  .what3words-image{
+    height: 17%;
+  }
+
 }

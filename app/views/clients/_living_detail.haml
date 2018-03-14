@@ -25,8 +25,12 @@
         = f.input :street_number, label: t('.street_number')
       .col-xs-12.col-sm-6.col-md-4
         = f.input :village, label: t('.village')
-      .col-xs-12.col-sm-6.col-md-4
-        = f.input :what3words, label: t('.what3words')
+      .col-xs-12.col-sm-6.col-md-4.form-group
+        %label.control-label= t('.what3words')
+        .input-group
+          = f.text_field :what3words, class: 'form-control', placeholder: 'sandals.quilt.exonerate'
+          %span.input-group-addon.what3words
+            = image_tag 'what3words.png', class: 'what3words-image'
 
     %legend= t('.schooling')
     .row
