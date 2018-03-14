@@ -103,7 +103,7 @@ module ClientsHelper
       donor:                         t('datagrid.columns.clients.donor'),
       changelog:                     t('datagrid.columns.clients.changelog'),
       live_with:                     t('datagrid.columns.clients.live_with'),
-      id_poor:                       t('datagrid.columns.clients.id_poor'),
+      # id_poor:                       t('datagrid.columns.clients.id_poor'),
       program_streams:               t('datagrid.columns.clients.program_streams'),
       program_enrollment_date:       t('datagrid.columns.clients.program_enrollment_date'),
       program_exit_date:             t('datagrid.columns.clients.program_exit_date'),
