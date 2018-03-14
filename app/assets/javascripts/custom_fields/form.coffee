@@ -77,7 +77,7 @@ CIF.Custom_fieldsNew = CIF.Custom_fieldsCreate = CIF.Custom_fieldsEdit = CIF.Cus
         for value in field.values
           value.label = value.label.allReplace(specialCharacters)
           value.value = value.value.allReplace(specialCharacters)
-      else if field.placeholder != undefined && (field.type == 'textarea' || field.type == 'text')
+      else if field.placeholder != undefined
         field.placeholder = field.placeholder.allReplace(specialCharacters)
 
     formBuilder = $('.build-wrap').formBuilder
@@ -120,7 +120,7 @@ CIF.Custom_fieldsNew = CIF.Custom_fieldsCreate = CIF.Custom_fieldsEdit = CIF.Cus
           for value in field.values
             value.label = value.label.allReplace(specialCharacters)
             value.value = value.value.allReplace(specialCharacters)
-        else if field.placeholder != undefined && (field.type == 'textarea' || field.type == 'text')
+        else if field.placeholder != undefined
           field.placeholder = field.placeholder.allReplace(specialCharacters)
       $('#custom_field_fields').val(JSON.stringify(fields))
 

@@ -220,7 +220,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         for value in field.values
           value.label = value.label.allReplace(specialCharacters)
           value.value = value.value.allReplace(specialCharacters)
-      else if field.placeholder != undefined && (field.type == 'textarea' || field.type == 'text')
+      if field.placeholder != undefined
         field.placeholder = field.placeholder.allReplace(specialCharacters)
 
     formBuilder = $(element).formBuilder(
@@ -389,7 +389,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
           for value in field.values
             value.label = value.label.allReplace(specialCharacters)
             value.value = value.value.allReplace(specialCharacters)
-        else if field.placeholder != undefined && (field.type == 'textarea' || field.type == 'text')
+        if field.placeholder != undefined
           field.placeholder = field.placeholder.allReplace(specialCharacters)
       fields = JSON.stringify(fields)
       if $(element).is('#enrollment')
