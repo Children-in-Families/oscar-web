@@ -1499,7 +1499,7 @@ en:
       case_start_date: Case Start Date
       cases:
         case_type: Case Type
-        telephone_number: Carer Phone Number
+        telephone_number: Primary Carer Phone Number
       changelog: Changelog
       client_enrollments:
         action: Action
