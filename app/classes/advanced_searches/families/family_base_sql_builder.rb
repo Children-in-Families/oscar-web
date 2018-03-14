@@ -35,7 +35,7 @@ module AdvancedSearches
           elsif field != nil
             base_sql(field, operator, value)
           else
-            nested_query =  AdvancedSearches::FamilyBaseSqlBuilder.new(@families, rule).generate
+            nested_query =  AdvancedSearches::Families::FamilyBaseSqlBuilder.new(@families, rule).generate
             @sql_string << nested_query[:sql_string]
             nested_query[:values].select{ |v| @values << v }
           end
