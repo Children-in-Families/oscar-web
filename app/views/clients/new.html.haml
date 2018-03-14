@@ -2,6 +2,8 @@
   .col-xs-12
     .ibox
       .ibox-title
-        %h5= t('.new_client_title')
-
-      = render 'form'
+        %h5.client-form-title= t('.new_client_title')
+        .pull-right
+          %h5= "Client ID - #{current_organization.short_name} ###"
+      .ibox-content
+        = render 'form'

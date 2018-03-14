@@ -102,8 +102,8 @@ Rails.application.routes.draw do
   resources :interventions, except: [:show] do
     get 'version' => 'interventions#version'
   end
-
   resources :clients do
+
     collection do
       get :advanced_search
     end
@@ -261,4 +261,5 @@ Rails.application.routes.draw do
       get 'country' => 'settings#country'
     end
   end
+
 end

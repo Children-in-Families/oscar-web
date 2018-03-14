@@ -1,0 +1,34 @@
+%h3= t('.other_detail')
+%section
+  #other-detail
+    - if @client.persisted?
+      = render 'form_header', f: f
+
+    %legend= t('.other_information')
+    .row
+      .col-xs-12.col-sm-6.col-md-4
+        = f.input :birth_province_id, collection: @province.map{|p| [p.name, p.id]},  label: t('.province')
+      .col-xs-12.col-sm-6.col-md-4
+        = f.association :agencies, collection: @agencies, multiple: true, label_method: :name, value_method: :id, label: t('.agencies_involved')
+      .col-xs-12.col-sm-6.col-md-4
+        = f.association :donor, collection: @donors, label: t('.donor')
+
+      .col-xs-12.col-sm-6.col-md-4
+        = f.input :rated_for_id_poor, collection: ['No', 'Level 1', 'Level 2', 'Level 3'], label: "#{t('.is_the_client_rated_for_id_poor')}?"
+
+      .col-xs-12.col-sm-6.col-md-4
+        .i-check.has-been-in-orphanage
+          %label= "#{t('.has_been_in_orphanage')}?"
+          = f.input :has_been_in_orphanage, as: :radio_buttons, collection: [['Yes', true],['No', false]], label: false
+
+      .col-xs-12.col-sm-6.col-md-4
+        .i-check.has-been-in-government-care
+          %label= "#{t('.has_been_in_government_care')}?"
+          = f.input :has_been_in_government_care, as: :radio_buttons, collection: [['Yes', true],['No', false]], label: false
+      .col-xs-12.col-sm-6.col-md-4
+        = f.input :code, label: t('.custom_id_number1')
+      .col-xs-12.col-sm-6.col-md-4
+        = f.input :kid_id, label: t('.custom_id_number2')
+
+      .col-xs-12.col-md-12
+        = f.input :relevant_referral_information, input_html: { rows: '5' }, label: t('.relevant_referral_information')
