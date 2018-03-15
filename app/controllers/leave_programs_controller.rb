@@ -6,7 +6,7 @@ class LeaveProgramsController < AdminController
 
   before_action :find_client, :find_enrollment, :find_program_stream
   before_action :find_leave_program, only: [:show, :edit, :update, :destroy]
-  before_action :authorize_leave_program, except: :show
+  before_action :authorize_client, except: :show
   before_action :get_attachments, only: [:edit, :update]
   before_action :initial_attachments, only: [:new, :create]
   before_action -> { check_user_permission('editable') }, except: :show
@@ -41,7 +41,7 @@ class LeaveProgramsController < AdminController
 
   private
 
-  def authorize_leave_program
-    authorize @leave_program
+  def authorize_client
+    authorize @client
   end
 end

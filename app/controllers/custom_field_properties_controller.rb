@@ -5,7 +5,7 @@ class CustomFieldPropertiesController < AdminController
 
   before_action :find_entity, :find_custom_field
   before_action :find_custom_field_property, only: [:edit, :update, :destroy]
-  before_action :authorize_custom_field_property, except: [:index, :show, :new]
+  before_action :authorize_client, except: [:index, :show]
   before_action :get_form_builder_attachments, only: [:edit, :update]
   before_action -> { check_user_permission('editable') }, except: [:index, :show]
   before_action -> { check_user_permission('readable') }, only: [:show, :index]
@@ -16,7 +16,6 @@ class CustomFieldPropertiesController < AdminController
 
   def new
     @custom_field_property = @custom_formable.custom_field_properties.new(custom_field_id: @custom_field)
-    authorize @custom_field_property
     @attachments = @custom_field_property.form_builder_attachments
   end
 
@@ -90,8 +89,8 @@ class CustomFieldPropertiesController < AdminController
     @custom_field_property = @custom_formable.custom_field_properties.find(params[:id])
   end
 
-  def authorize_custom_field_property
-    authorize @custom_field_property
+  def authorize_client
+    authorize @custom_formable if @custom_formable.class.name == 'Client'
   end
 
   def find_custom_field

@@ -15,14 +15,12 @@ class CaseNotesController < AdminController
 
   def new
     @case_note = @client.case_notes.new
-    authorize @case_note
     @case_note.assessment = @client.assessments.latest_record
     @case_note.populate_notes
   end
 
   def create
     @case_note = @client.case_notes.new(case_note_params)
-    authorize @case_note
     if @case_note.save
       @case_note.complete_tasks(params[:case_note][:case_note_domain_groups_attributes])
       redirect_to client_case_notes_path(@client), notice: t('.successfully_created')
@@ -101,7 +99,7 @@ class CaseNotesController < AdminController
   end
 
   def authorize_case_note
-    authorize @case_note
+    authorize(@client) && authorize(@case_note)
   end
 
   def case_notes_permission(permission)

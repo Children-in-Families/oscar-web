@@ -7,7 +7,7 @@ class ClientEnrollmentsController < AdminController
   before_action :find_client
   before_action :find_program_stream, except: :index
   before_action :find_client_enrollment, only: [:show, :edit, :update, :destroy]
-  before_action :authorize_client_enrollment, except: [:index, :show, :new, :report, :create]
+  before_action :authorize_client, except: [:index, :show, :report]
   before_action :get_attachments, only: [:new, :edit, :update, :create]
   before_action -> { check_user_permission('editable') }, except: [:index, :show, :report]
   before_action -> { check_user_permission('readable') }, only: :show
@@ -27,9 +27,8 @@ class ClientEnrollmentsController < AdminController
     elsif @program_stream.has_program_exclusive? || @program_stream.has_mutual_dependence?
       client_enrollment_index_path unless valid_program?
     end
-
+    authorize_client && authorize(@client_enrollment)
     @client_enrollment = @client.client_enrollments.new(program_stream_id: @program_stream.id)
-    authorize @client_enrollment
     @attachment        = @client_enrollment.form_builder_attachments.build
   end
 
@@ -50,7 +49,7 @@ class ClientEnrollmentsController < AdminController
 
   def create
     @client_enrollment = @client.client_enrollments.new(client_enrollment_params)
-    authorize @client_enrollment
+    authorize_client && authorize(@client_enrollment)
     if @client_enrollment.save
       redirect_to client_client_enrolled_program_path(@client, @client_enrollment, program_stream_id: @program_stream), notice: t('.successfully_created')
     else
@@ -91,7 +90,7 @@ class ClientEnrollmentsController < AdminController
     program_streams               = client_enrollments_exited + client_enrollments_inactive
   end
 
-  def authorize_client_enrollment
-    authorize @client_enrollment
+  def authorize_client
+    authorize @client
   end
 end
