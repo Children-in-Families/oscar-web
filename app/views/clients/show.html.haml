@@ -252,10 +252,7 @@
                   = t('.address')
                 %td.address
                   %strong
-                    - if @client.current_address.present?
-                      = @client.current_address
-                    - else
-                      = merged_address(@client)
+                    = merged_address(@client)
               %tr
                 %td.spacing-first-col
                   = t('.what3words')
