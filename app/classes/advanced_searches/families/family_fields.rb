@@ -18,7 +18,7 @@ module AdvancedSearches
       private
 
       def number_type_list
-        ['significant_family_member_count', 'household_income', 'female_children_count', 'male_children_count', 'female_adult_count', 'male_adult_count']
+        ['significant_family_member_count', 'household_income', 'female_children_count', 'male_children_count', 'female_adult_count', 'male_adult_count', 'id']
       end
 
       def text_type_list
@@ -35,8 +35,7 @@ module AdvancedSearches
           ['province_id', provinces],
           ['dependable_income', { yes: 'Yes', no: 'No' }],
           ['client_id', clients],
-          ['form_title', family_custom_form_options],
-          ['case_workers', case_workers_options]
+          ['form_title', family_custom_form_options]
         ]
       end
 

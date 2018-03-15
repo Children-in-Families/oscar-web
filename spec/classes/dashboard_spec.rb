@@ -14,7 +14,6 @@ describe Dashboard, 'Method' do
   let!(:fc_family)         { create(:family, :foster) }
   let!(:othter_fc_family)  { create(:family, :foster) }
   let!(:ec_family)         { create(:family, :emergency) }
-  let!(:referral_source)   { create(:referral_source) }
 
   context '#client_program_stream' do
     before do
@@ -142,7 +141,7 @@ describe Dashboard, 'Method' do
 
   context '#referral_source_count' do
     it 'shoud return referral source count' do
-      expect(Dashboard.new(Client.all).referral_source_count).to eq(1)
+      expect(Dashboard.new(Client.all).referral_source_count).to eq(5)
     end
   end
 

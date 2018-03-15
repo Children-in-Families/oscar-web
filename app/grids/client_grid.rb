@@ -95,7 +95,7 @@ class ClientGrid
 
   filter(:live_with, :string, header: -> { I18n.t('datagrid.columns.clients.live_with') }) { |value, scope| scope.live_with_like(value) }
 
-  filter(:id_poor, :integer, header: -> { I18n.t('datagrid.columns.clients.id_poor') })
+  # filter(:id_poor, :integer, header: -> { I18n.t('datagrid.columns.clients.id_poor') })
 
   filter(:initial_referral_date, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.initial_referral_date') })
 
@@ -448,7 +448,7 @@ class ClientGrid
 
   column(:live_with, header: -> { I18n.t('datagrid.columns.clients.live_with') })
 
-  column(:id_poor, header: -> { I18n.t('datagrid.columns.clients.id_poor') })
+  # column(:id_poor, header: -> { I18n.t('datagrid.columns.clients.id_poor') })
 
   column(:history_of_disability_and_or_illness, header: -> { I18n.t('datagrid.columns.clients.history_of_disability_and_or_illness') }) do |object|
     object.quantitative_cases.where(quantitative_type_id: QuantitativeType.name_like('History of disability and/or illness').ids).pluck(:value).join(', ')

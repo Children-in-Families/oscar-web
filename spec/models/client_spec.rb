@@ -397,7 +397,7 @@ describe Client, 'methods' do
   end
 
   context 'en and local name' do
-    let!(:client) { create(:client, given_name: 'Adam', family_name: 'Eve', local_given_name: 'Romeo', local_family_name: 'Juliet') }
+    let!(:client) { create(:client, given_name: 'Adam', family_name: 'Eve', local_given_name: 'Juliet', local_family_name: 'Romeo') }
     it 'return english and local name' do
       expect(client.en_and_local_name).to eq("Adam Eve (Romeo Juliet)")
     end
@@ -762,10 +762,13 @@ describe Client, 'scopes' do
 end
 
 describe 'validations' do
+  it { is_expected.to validate_presence_of(:initial_referral_date) }
+  it { is_expected.to validate_presence_of(:received_by_id) }
+  it { is_expected.to validate_presence_of(:referral_source) }
+  it { is_expected.to validate_presence_of(:name_of_referee) }
+
   subject { FactoryGirl.build(:client) }
-  context 'initial_referral_date ' do
-    it { is_expected.to validate_presence_of(:initial_referral_date) }
-  end
+
   context 'user_ids' do
     context 'on create' do
       it { is_expected.to validate_presence_of(:user_ids) }
