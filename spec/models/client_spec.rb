@@ -793,18 +793,6 @@ describe 'validations' do
     end
   end
 
-  context 'rejected_note' do
-    let!(:client){ create(:client, state: '', rejected_note: '') }
-    before do
-      client.state = 'rejected'
-      client.rejected_note = ''
-      client.valid?
-    end
-
-    it { expect(client.valid?).to be_falsey }
-    it { expect(client.errors[:rejected_note]).to include("can't be blank") }
-  end
-
   context 'kid_id' do
     subject{ FactoryGirl.build(:client) }
     let!(:user){ create(:user) }

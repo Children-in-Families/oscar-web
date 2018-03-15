@@ -58,7 +58,6 @@ class Client < ActiveRecord::Base
 
   has_paper_trail
 
-  validates :rejected_note, presence: true, on: :update, if: :reject?
   validates :exit_date, presence: true, on: :update, if: :exit_ngo?
   validates :exit_note, presence: true, on: :update, if: :exit_ngo?
   validates :kid_id, uniqueness: { case_sensitive: false }, if: 'kid_id.present?'
@@ -131,10 +130,6 @@ class Client < ActiveRecord::Base
   def self.fetch_75_chars_of(value)
     number_of_char = (value.length * 75) / 100
     value[0..(number_of_char-1)]
-  end
-
-  def reject?
-    state_changed? && state == 'rejected'
   end
 
   def exit_ngo?
@@ -282,7 +277,7 @@ class Client < ActiveRecord::Base
 
   def self.exit_in_week(number_of_day)
     date = number_of_day.day.ago.to_date
-    active_ec.joins(:cases).where(cases: { case_type: 'EC', start_date: date })
+    active_status.joins(:cases).where(cases: { case_type: 'EC', start_date: date, exited: false })
   end
 
   def active_day_care
@@ -310,7 +305,8 @@ class Client < ActiveRecord::Base
       Organization.switch_to org.short_name
       managers = User.ec_managers.pluck(:email).join(', ')
       admins   = User.admins.pluck(:email).join(', ')
-      clients = active_ec.select { |client| client.active_day_care == day }
+      clients = Client.active_status.joins(:cases).where(cases: { case_type: 'EC', exited: false}).uniq
+      clients = clients.select { |client| client.active_day_care == day }
 
       if clients.present?
         ManagerMailer.remind_of_client(clients, day: day, manager: managers).deliver_now if managers.present?
