@@ -213,7 +213,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
 
   _initProgramBuilder = (element, data) ->
     builderOption = new CIF.CustomFormBuilder()
-    specialCharacters = { '&amp;': '&', '&lt;': '<', '&gt;': '>', "&quote;": '"' }
+    specialCharacters = { '&amp;': '&', '&lt;': '<', '&gt;': '>', "&qoute;": '"' }
     format = new CIF.FormatSpecialCharacters()
     fields = format.formatSpecialCharacters(data, specialCharacters)
 
@@ -376,7 +376,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
   _handleSetValueToField = ->
     for formBuilder in @formBuilder
       element = formBuilder.element
-      specialCharacters = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quote;" }
+      specialCharacters = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&qoute;" }
       format = new CIF.FormatSpecialCharacters()
       fields = format.formatSpecialCharacters(JSON.parse(formBuilder.actions.save()), specialCharacters)
       fields = JSON.stringify(fields)
