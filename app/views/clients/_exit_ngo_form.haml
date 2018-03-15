@@ -5,26 +5,55 @@
         %button.close{"aria-label" => "#{t('.close')}", "data-dismiss" => 'modal'}
           %span{"aria-hidden" => 'true'} &times;
         %h4.modal-title
-          = t('.exit_ngo')
+          .pull-left
+            = t('.exit_ngo')
+          .pull-right
+            = "Client ID - #{@client.slug}"
 
       .modal-body
         = simple_form_for(@client) do |f|
           = f.error_notification
-          .form-inputs
-            .form-group.date.client_exit_date
-              %label.date.required.control-label{ for: 'client_exit_date' }
-                %abbr{ title: 'required' } *
-                = t('.exit_date')
-              .input-group.date
-                = f.text_field :exit_date, required: true, class: 'date form-control date-picker .datepicker-dropdown exit_date', type: 'text', name: 'client[exit_date]', id: 'client_exit_date'
-                %span.input-group-addon
-                  %i.fa.fa-calendar-check-o
+          .row
+            .col-xs-12.col-sm-12.col-md-12
 
-          .form-inputs
-            = f.input :status, collection: Client::EXIT_STATUSES, include_blank: false, label: t('.exit_status')
+          .row
+            .col-xs-12.col-sm-6.col-md-6
+              %h3= @client.en_and_local_name
 
-          .form-inputs
-            = f.input :exit_note, required: true, label: t('.exit_note'), input_html: { class: 'exit_note' }
+              %h3= "#{@client.gender.try(:titleize)} #{date_format(@client.date_of_birth)}"
+
+              .form-inputs
+                .form-group.date.client_exit_date
+                  %label.date.required.control-label{ for: 'client_exit_date' }
+                    %abbr{ title: 'required' } *
+                    = t('.exit_date')
+                  .input-group.date
+                    = f.text_field :exit_date, required: true, class: 'date form-control date-picker .datepicker-dropdown exit_date', type: 'text', name: 'client[exit_date]', id: 'client_exit_date'
+                    %span.input-group-addon
+                      %i.fa.fa-calendar-check-o
+
+              .form-inputs.i-checks
+                %label= t('.exit_reason')
+                %br
+                - Client::REASONS.each do |exit_reason|
+                  = f.check_box :exit_reason, { multiple: true }, exit_reason, false
+                  %label{class: 'exit_reasons'}= exit_reason
+                  %br
+
+              .form-inputs
+                = f.input :other_info, label: t('.other_info')
+
+              / .form-inputs
+              /   = f.input :status, collection: Client::EXIT_STATUSES, include_blank: false, label: t('.exit_status')
+
+            .col-xs-12.col-sm-6.col-md-6
+              .form-group
+                %label= t('.case_worker_or_staff')
+                = f.association :users, collection: @users, label: t('.case_worker_or_staff'), include_blank: false, multiple: true, disabled: true, label: false
+              .form-inputs
+                = f.input :exit_curcumstance, label: t('.exit_curcumstance')
+              .form-inputs
+                = f.input :exit_note, label: t('.exit_note'), input_html: { class: 'exit_note', rows: '12s' }
 
           .text-right
             %button.btn.btn-default{"data-dismiss" => 'modal'}= t('cancel')

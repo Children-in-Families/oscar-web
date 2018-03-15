@@ -9,6 +9,8 @@ class Client < ActiveRecord::Base
 
   friendly_id :slug, use: :slugged
 
+  REASONS = ['Client Moved Away (Within Cambodia)', 'Client Moved Away (International)', 'Client Refused Service', 'Client No Longer Meets Agency Criteria', 'Client Died', 'Client No Longer Requires Support (Independent)', 'Agency Lacks Sufficient Resources', 'Other']
+
   CLIENT_STATUSES = ['Referred', 'Active EC', 'Active KC', 'Active FC',
                       'Independent - Monitored', 'Exited - Dead',
                       'Exited - Age Out', 'Exited Independent', 'Exited Adopted',
@@ -66,7 +68,7 @@ class Client < ActiveRecord::Base
 
   validates :rejected_note, presence: true, on: :update, if: :reject?
   validates :exit_date, presence: true, on: :update, if: :exit_ngo?
-  validates :exit_note, presence: true, on: :update, if: :exit_ngo?
+  # validates :exit_note, presence: true, on: :update, if: :exit_ngo?
   validates :kid_id, uniqueness: { case_sensitive: false }, if: 'kid_id.present?'
   validates :user_ids, presence: true, on: :create
   validates :user_ids, presence: true, on: :update, unless: :exit_ngo?

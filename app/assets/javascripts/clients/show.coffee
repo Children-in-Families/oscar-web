@@ -1,9 +1,9 @@
 CIF.ClientsShow = do ->
   _init = ->
-    _rejectModal()
+    _initSelect2()
+    # _rejectModal()
     _exitModalValidate()
     _exitNgoValidator()
-    _initSelect2()
 
   _initSelect2 = ->
     $('select').select2()
@@ -27,26 +27,26 @@ CIF.ClientsShow = do ->
     exitNote = $('#exitFromNgo #client_exit_note')
     formId = $('#exitFromNgo')
 
-    _validateExitButton(formId, exitDate, exitNote)
+    _validateExitButton(formId, exitDate)
 
-    $(exitDate).add(exitNote).bind 'keyup change', ->
-      _validateExitButton(formId, exitDate, exitNote)
+    $(exitDate).bind 'keyup change', ->
+      _validateExitButton(formId, exitDate)
 
   _exitModalValidate = ->
     exitDate = $('#case_exit_date')
     exitNote = $('#case_exit_note')
     formId = $('#exit-from-case')
 
-    _validateExitButton(formId, exitDate, exitNote)
+    _validateExitButton(formId, exitDate)
 
-    $(exitDate).add(exitNote).bind 'keyup change', ->
-      _validateExitButton(formId, exitDate, exitNote)
+    $(exitDate).bind 'keyup change', ->
+      _validateExitButton(formId, exitDate)
 
-  _validateExitButton = (formId, exitDate, exitNote) ->
+  _validateExitButton = (formId, exitDate) ->
     exitDate = $(exitDate).val()
     exitNote = $(exitNote).val()
 
-    if exitNote == '' or exitDate == ''
+    if exitDate == ''
       $(formId).find('.confirm-exit').attr 'disabled', 'disabled'
     else
       $(formId).find('.confirm-exit').removeAttr 'disabled'

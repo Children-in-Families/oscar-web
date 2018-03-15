@@ -433,10 +433,31 @@
                       = date_format(@client.exit_date)
                 %tr
                   %td.spacing-first-col
+                    = t('.exit_curcumstance')
+                  %td
+                    %strong
+                      = @client.exit_curcumstance
+                %tr
+                  %td.spacing-first-col
+                    = t('.exit_reason')
+                  %td
+                    %strong
+                      - exit_reasons = @client.exit_reason
+                      - exit_reasons.each do |exit_reason|
+                        = exit_reason
+                        %br
+                %tr
+                  %td.spacing-first-col
                     = t('.exit_note')
                   %td
                     %strong
                       = @client.exit_note
+                %tr
+                  %td.spacing-first-col
+                    = t('.other_info')
+                  %td
+                    %strong
+                      = @client.other_info
 
         .row
           .col-xs-12
