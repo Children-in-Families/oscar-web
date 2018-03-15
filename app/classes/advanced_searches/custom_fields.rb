@@ -40,7 +40,7 @@ module AdvancedSearches
           elsif json_field['type'] == 'select' || json_field['type'] == 'checkbox-group' || json_field['type'] == 'radio-group'
             drop_list_values = []
             drop_list_values << "formbuilder_#{custom_field.form_title}_#{json_field['label']}"
-            drop_list_values << json_field['values'].map{|value| { value['label'] => value['label'] }}
+            drop_list_values << json_field['values'].map{|value| { value['label'] => value['label'].gsub('&amp;quote;', '&quot;') }}
             @drop_down_type_list << drop_list_values
           end
         end
