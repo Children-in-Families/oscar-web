@@ -12,7 +12,7 @@ module ClientEnrollmentTrackingHelper
   end
 
   def client_enrollment_tracking_edit_link(enrollment_tracking)
-    if program_permission_editable?(@enrollment.program_stream_id) && !status_exited?(@client.status)
+    if program_permission_editable?(@enrollment.program_stream_id) && authorize_client_enrollment_tracking?(enrollment_tracking)
       link_to edit_client_client_enrollment_client_enrollment_tracking_path(@client, @enrollment, enrollment_tracking, tracking_id: enrollment_tracking.tracking) do
         content_tag :div, class: 'btn btn-success btn-outline' do
           fa_icon('pencil')
@@ -25,6 +25,10 @@ module ClientEnrollmentTrackingHelper
         end
       end
     end
+  end
+
+  def authorize_client_enrollment_tracking?(enrollment_tracking)
+    policy(@client).edit? && policy(enrollment_tracking).edit?
   end
 
   def client_enrolled_tracking_edit_link(enrollment_tracking)

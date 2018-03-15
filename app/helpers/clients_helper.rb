@@ -246,6 +246,6 @@ module ClientsHelper
   end
 
   def status_exited?(value)
-     value == 'Exited'
+    value == 'Exited'
   end
 end

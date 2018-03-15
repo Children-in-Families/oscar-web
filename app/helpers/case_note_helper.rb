@@ -1,6 +1,6 @@
 module CaseNoteHelper
   def edit_link(client, case_note)
-    if case_notes_editable? && !status_exited?(client.status)
+    if case_notes_editable? && policy(@client).edit? && policy(case_note).edit?
       link_to(edit_client_case_note_path(client, case_note), class: 'btn btn-primary') do
         fa_icon('pencil')
       end
@@ -14,7 +14,7 @@ module CaseNoteHelper
   end
 
   def new_link
-    if case_notes_editable? && !status_exited?(@client.status)
+    if case_notes_editable? && policy(@client).new?
       link_to new_client_case_note_path(@client) do
         content_tag :div, class: 'btn btn-primary button' do
           t('.new_case_note')

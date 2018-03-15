@@ -20,13 +20,10 @@
                 %span.input-group-addon
                   %i.fa.fa-calendar-check-o
           .form-inputs
-            = f.input :status, label: t('.status'), readonly: true, input_html: { value: 'Exited' }
-
-          .form-inputs
             = f.input :exit_note, required: true, label: t('.exit_note'), input_html: { class: 'exit_note' }
 
-          .form-inputs
-            = f.hidden_field :exited, value: true
+          = f.hidden_field :status, value: 'Exited'
+          = f.hidden_field :exited, value: true
           .text-right
             %button.btn.btn-default{"data-dismiss" => 'modal'}= t('cancel')
             = f.submit t('.exit_btn'), class: 'btn btn-danger confirm-exit', disabled: :disabled

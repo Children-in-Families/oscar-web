@@ -182,7 +182,7 @@
               %i.fa.fa-chevron-up
           - if (can? :manage, Client) || (can? :rud, Client)
             %small
-              = link_to edit_client_path(@client) do
+              = link_to edit_client_path(@client), class: "btn btn-xs #{policy(@client).edit? ? '': 'disabled'}" do
                 .btn.btn-outline.btn-success
                   %i.fa.fa-pencil
               = link_to @client, method: 'delete', data: { confirm: t('.are_you_sure') } do
