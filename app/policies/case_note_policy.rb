@@ -1,19 +1,9 @@
 class CaseNotePolicy < ApplicationPolicy
-  def new?
-    record.client.status != 'Exited'
-  end
-
-  def create?
-    new?
-  end
-
   def edit?
-    record.created_at.today? && record.client.status != 'Exited'
+    record.created_at.today?
   end
 
-  def update?
-    edit?
-  end
+  alias update? edit?
 
   class Scope < Scope
     def resolve
