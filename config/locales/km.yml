@@ -1071,7 +1071,7 @@ km:
     exit_ngo_form:
       exit_btn: ចាកចេញ
       exit_date: ថ្ងៃចាកចេញ
-      exit_ngo: ចាកចេញពី អង្គការ
+      exit_ngo: ចាកចេញពីអង្គការ
       exit_note: កំណត់ហេតុនៃការចាកចេញ
       exit_status: ស្ថានភាព
     exit_case_form:

@@ -1,4 +1,4 @@
-xdescribe 'AdvancedSearch' do
+describe 'AdvancedSearch' do
   let(:user_1) { create(:user) }
   let(:user_2) { create(:user) }
 

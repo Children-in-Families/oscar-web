@@ -13,9 +13,9 @@ describe Task do
 
   let!(:able_client)     { create(:client, users: [able_caseworker], able_state: 'Accepted') }
   let!(:client2)         { create(:client, users: [able_manager]) }
-  let!(:ec_client)       { create(:client, status: 'Active EC', users: [ec_caseworker]) }
-  let!(:fc_client)       { create(:client, status: 'Active FC', users: [fc_caseworker]) }
-  let!(:kc_client)       { create(:client, status: 'Active KC', users: [kc_caseworker]) }
+  let!(:ec_client)       { create(:client, status: 'Active', users: [ec_caseworker]) }
+  let!(:fc_client)       { create(:client, status: 'Active', users: [fc_caseworker]) }
+  let!(:kc_client)       { create(:client, status: 'Active', users: [kc_caseworker]) }
   let!(:sub_client)      { create(:client, users: [subordinate]) }
 
   let!(:ec_task)   { create(:task, client: ec_client) }
@@ -127,7 +127,7 @@ describe Task do
       end
 
       scenario 'list ec managers and case worker of Active EC clients' do
-        expect(page).to have_select 'user_id', with_options: ['ec manager', 'ec caseworker']
+        expect(page).to have_select 'user_id', with_options: ['ec manager']
       end
 
       xscenario 'list ec case worker task', js: true do
@@ -145,7 +145,7 @@ describe Task do
       end
 
       scenario 'list fc managers and case worker of Active FC clients' do
-        expect(page).to have_select 'user_id', with_options: ['fc manager', 'fc caseworker']
+        expect(page).to have_select 'user_id', with_options: ['fc manager']
       end
 
       xscenario 'list fc case worker task', js: true do
@@ -163,7 +163,7 @@ describe Task do
       end
 
       scenario 'list kc managers and case worker of Active KC clients' do
-        expect(page).to have_select 'user_id', with_options: ['kc manager', 'kc caseworker']
+        expect(page).to have_select 'user_id', with_options: ['kc manager']
       end
 
       xscenario 'list kc case worker task', js: true do
