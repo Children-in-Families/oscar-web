@@ -23,9 +23,9 @@ CIF.ClientsShow = do ->
         $('.confirm-reject').removeAttr 'disabled'
 
   _exitNgoValidator = ->
-    exitDate = $('#exitFromNgo #client_exit_date')
-    exitNote = $('#exitFromNgo #client_exit_note')
-    formId = $('#exitFromNgo')
+    exitDate = $('#exitForm #client_exit_date')
+    exitNote = $('#exitForm #client_exit_note')
+    formId = $('#exitForm')
 
     _validateExitButton(formId, exitDate)
 

@@ -1006,6 +1006,8 @@ en:
       exit_reason: Reason for Exit
       exit_status: Status
       other_info: Other - More Information
+      reject_client: Reject Client
+      rejected_note: Rejected Note
     form:
       able: Able
       able_state: Able State
@@ -1307,6 +1309,7 @@ en:
       primary_carer_name: Primary Carer Name
       primary_carer_phone_number: Primary Carer Phone Number
       referee_phone_number: Referee Phone Number
+      rejected_note: Rejected Note
 
       placements:
         carer_address: Carer Address

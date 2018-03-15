@@ -1016,6 +1016,7 @@ my:
       exit_reason: ထွက်ပေါက်ဘို့အကြောင်းပြချက်
       exit_status: အေနအထား
       other_info: အခြားအ - နောက်ထပ်သတင်းအချက်အလက်များ
+      reject_client: client ကိုငြင်းပယ်
     form:
       able: Able
       able_state: Able State

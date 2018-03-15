@@ -1,4 +1,4 @@
-.modal.fade{ role: 'dialog', tabindex: '-1', id: 'exitFromNgo' }
+.modal.fade{ role: 'dialog', tabindex: '-1', id: 'exitForm' }
   .modal-dialog{ role: 'document'}
     .modal-content
       .modal-header
@@ -6,7 +6,10 @@
           %span{"aria-hidden" => 'true'} &times;
         %h4.modal-title
           .pull-left
-            = t('.exit_ngo')
+            - if @client.state == "accepted"
+              = t('.exit_ngo')
+            - else
+              = t('.reject_client')
           .pull-right
             = "Client ID - #{@client.slug}"
 
@@ -50,10 +53,19 @@
               .form-group
                 %label= t('.case_worker_or_staff')
                 = f.association :users, collection: @users, label: t('.case_worker_or_staff'), include_blank: false, multiple: true, disabled: true, label: false
-              .form-inputs
-                = f.input :exit_curcumstance, label: t('.exit_curcumstance')
-              .form-inputs
-                = f.input :exit_note, label: t('.exit_note'), input_html: { class: 'exit_note', rows: '12s' }
+              - if @client.status == "Referred" && @client.state == "accepted"
+                .form-inputs
+                  = f.input :exit_curcumstance, label: t('.exit_curcumstance'), input_html: {value: 'Exited Client'}, readonly: true
+                .form-inputs
+                  = f.input :exit_note, label: t('.exit_note'), input_html: { class: 'exit_note', rows: '12' }
+              - else
+                .form-inputs
+                  = f.input :exit_curcumstance, label: t('.exit_curcumstance'), input_html: {value: 'Rejected Referral'}, readonly: true
+                .form-inputs
+                  = f.hidden_field :state, value: 'rejected'
+                .form-inputs
+                  = f.input :rejected_note, label: t('.rejected_note'), input_html: { class: 'rejected_note', rows: '12' }
+
 
           .text-right
             %button.btn.btn-default{"data-dismiss" => 'modal'}= t('cancel')

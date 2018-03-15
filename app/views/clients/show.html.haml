@@ -40,26 +40,9 @@
                     .form-actions
                       = f.submit t('.accept'), class: 'btn btn-success agree-btn'
                 .col-xs-12
-                  %button.btn.btn-danger.mini-margin{"data-target" => '#rejectionForm', "data-toggle" => 'modal', class: 'agree-btn'} #{t('.reject')}
+                  %button.btn.btn-danger.mini-margin{"data-target" => '#exitForm', "data-toggle" => 'modal', class: 'agree-btn'} #{t('.reject')}
             .col-xs-12
-              #rejectionForm.modal.fade{ role: 'dialog', tabindex: '-1'}
-                .modal-dialog{ role: 'document'}
-                  .modal-content
-                    .modal-header
-                      %button.close{"aria-label" => "#{t('close')}", "data-dismiss" => 'modal'}
-                        %span{"aria-hidden" => 'true'} &times;
-                      %h4.modal-title
-                        = t('.reject_client')
-                    .modal-body
-                      = simple_form_for(@client) do |f|
-                        = f.error_notification
-                        .form-inputs
-                          = f.input :rejected_note, required: true, label: "#{t('.note')}"
-                        .form-inputs
-                          = f.hidden_field :state, value: 'rejected'
-                        .text-right
-                          %button.btn.btn-default{"data-dismiss" => 'modal'} #{t('cancel')}
-                          = f.button :submit, "#{t('.reject')}", class: 'btn btn-danger confirm-reject'
+              = render 'exit_ngo_form', client: @client
 
         - elsif @client.state == 'rejected'
           .row
@@ -91,7 +74,7 @@
                       %a{"data-target" => '#remaining-programs-modal', "data-toggle" => 'modal'}
                         .text-warning= t('.exit_ngo_btn')
                     - else
-                      %a{"data-target" => '#exitFromNgo', "data-toggle" => 'modal'}
+                      %a{"data-target" => '#exitForm', "data-toggle" => 'modal'}
                         .text-warning= t('.exit_ngo_btn')
                 - if @client.cases.exclude_referred.current.present?
                   %li
@@ -446,12 +429,20 @@
                       - exit_reasons.each do |exit_reason|
                         = exit_reason
                         %br
-                %tr
-                  %td.spacing-first-col
-                    = t('.exit_note')
-                  %td
-                    %strong
-                      = @client.exit_note
+                - if @client.state == "rejected"
+                  %tr
+                    %td.spacing-first-col
+                      = t('.rejected_note')
+                    %td
+                      %strong
+                        = @client.rejected_note
+                - else
+                  %tr
+                    %td.spacing-first-col
+                      = t('.exit_note')
+                    %td
+                      %strong
+                        = @client.exit_note
                 %tr
                   %td.spacing-first-col
                     = t('.other_info')

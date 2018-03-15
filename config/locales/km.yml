@@ -1085,6 +1085,8 @@ km:
       exit_reason: ហេតុផលនៃកាចាកចេញ
       exit_status: ស្ថានភាព
       other_info: ព័ត៌មានបន្ថែមផ្សេងៗ
+      reject_client: មិនទទួលយកអតិថិជន
+      rejected_note: កំណត់ហេតុនៃការមិនទទួលយក
 
     exit_case_form:
       exit_btn: ចាកចេញ
@@ -1396,6 +1398,7 @@ km:
       primary_carer_name: អ្នកមើលថែចំបង
       primary_carer_phone_number: លេខទូរស័ព្ទអ្នកមើលថែចំបង
       referee_phone_number: លេខទូរស័ព្ទអ្នកបញ្ជូន
+      rejected_note: កំណត់ហេតុនៃការមិនទទួលយក
 
       placements:
         carer_address: អាសយដ្ឋានអ្នកថែទាំ
