@@ -173,11 +173,11 @@ module ClientsHelper
   end
 
   def format_array_value(value)
-    value.is_a?(Array) ? value.reject(&:empty?).join(' , ') : value
+    value.is_a?(Array) ? value.reject(&:empty?).gsub('&amp;', '&').gsub('&lt;', '<').gsub('&gt;', '>').gsub('&qoute;', '"').join(' , ') : value.gsub('&amp;', '&').gsub('&lt;', '<').gsub('&gt;', '>').gsub('&qoute;', '"')
   end
 
   def format_properties_value(value)
-    value.is_a?(Array) ? value.delete_if(&:empty?).join(' , ') : value
+    value.is_a?(Array) ? value.delete_if(&:empty?).map{|c| c.gsub('&amp;', '&').gsub('&lt;', '<').gsub('&gt;', '>').gsub('&qoute;', '"')}.join(' , ') : value.gsub('&amp;', '&').gsub('&lt;', '<').gsub('&gt;', '>').gsub('&qoute;', '"')
   end
 
   def field_not_blank?(value)

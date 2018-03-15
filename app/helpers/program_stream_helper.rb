@@ -24,6 +24,6 @@ module ProgramStreamHelper
   end
 
   def format_placeholder(value)
-    value.gsub('&amp;quote;', '&quot;').html_safe if value.present?
+    value.gsub('&amp;qoute;', '&quot;').html_safe if value.present?
   end
 end

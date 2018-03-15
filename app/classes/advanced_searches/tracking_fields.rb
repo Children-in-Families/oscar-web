@@ -44,7 +44,7 @@ module AdvancedSearches
           elsif json_field['type'] == 'select' || json_field['type'] == 'checkbox-group' || json_field['type'] == 'radio-group'
             drop_list_values = []
             drop_list_values << "tracking_#{program_name}_#{tracking_name}_#{json_field['label']}"
-            drop_list_values << json_field['values'].map{|value| { value['label'] => value['label'] }}
+            drop_list_values << json_field['values'].map{|value| { value['label'] => value['label'].gsub('&amp;qoute;', '&quot;') }}
             @drop_down_type_list << drop_list_values
           end
         end

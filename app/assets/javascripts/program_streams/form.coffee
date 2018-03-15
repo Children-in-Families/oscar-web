@@ -213,15 +213,9 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
 
   _initProgramBuilder = (element, data) ->
     builderOption = new CIF.CustomFormBuilder()
-    specialCharacters = { '&amp;': '&', '&lt;': '<', '&gt;': '>', "&quote;": '"' }
-    fields = data
-    for field in fields
-      if field.type == 'radio-group' || field.type == 'checkbox-group' || field.type == 'select'
-        for value in field.values
-          value.label = value.label.allReplace(specialCharacters)
-          value.value = value.value.allReplace(specialCharacters)
-      if field.placeholder != undefined
-        field.placeholder = field.placeholder.allReplace(specialCharacters)
+    specialCharacters = { '&amp;': '&', '&lt;': '<', '&gt;': '>', "&qoute;": '"' }
+    format = new CIF.FormatSpecialCharacters()
+    fields = format.formatSpecialCharacters(data, specialCharacters)
 
     formBuilder = $(element).formBuilder(
       templates: separateLine: (fieldData) ->
@@ -382,15 +376,9 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
   _handleSetValueToField = ->
     for formBuilder in @formBuilder
       element = formBuilder.element
-      specialCharacters = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quote;" }
-      fields = JSON.parse(formBuilder.actions.save())
-      for field in fields
-        if field.type == 'radio-group' || field.type == 'checkbox-group' || field.type == 'select'
-          for value in field.values
-            value.label = value.label.allReplace(specialCharacters)
-            value.value = value.value.allReplace(specialCharacters)
-        if field.placeholder != undefined
-          field.placeholder = field.placeholder.allReplace(specialCharacters)
+      specialCharacters = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&qoute;" }
+      format = new CIF.FormatSpecialCharacters()
+      fields = format.formatSpecialCharacters(JSON.parse(formBuilder.actions.save()), specialCharacters)
       fields = JSON.stringify(fields)
       if $(element).is('#enrollment')
         $('#program_stream_enrollment').val(fields)
