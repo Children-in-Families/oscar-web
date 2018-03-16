@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails',                  '4.2.2'
+gem 'rails', '~> 4.2', '>= 4.2.5.2'
 gem 'pg'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
@@ -15,14 +15,13 @@ gem 'devise',                 '~> 3.5', '>= 3.5.2'
 # gem 'rqrcode',                '~> 0.10.1'
 gem 'haml-rails',             '~> 0.9'
 gem 'dotenv-rails',           '~> 2.0.2'
-gem 'roo',                    '~> 2.2'
+gem 'roo', '~> 2.7', '>= 2.7.1'
 gem 'fog'
 gem 's3'
 gem 'ffaker',                 '~> 2.1.0'
 gem 'draper',                 '~> 2.1'
 gem 'datagrid',               '~> 1.4.2'
 gem 'active_model_serializers'
-gem 'sinatra',                require: false
 gem 'rack-cors',              require: 'rack/cors'
 gem 'rails-erd'
 gem 'phony_rails',            '~> 0.12.11'
@@ -34,7 +33,7 @@ gem 'tinymce-rails',          '~> 4.5.6'
 gem 'bootstrap-datepicker-rails', '~> 1.5'
 gem 'select2-rails',          '~> 3.5.9.3'
 gem 'devise_token_auth',      '~> 0.1.37'
-gem 'omniauth',               '~> 1.3', '>= 1.3.1'
+gem 'omniauth', '~> 1.3', '>= 1.3.2'
 gem 'jquery-validation-rails'
 gem 'google-api-client',      '~> 0.10', require: 'google/apis/calendar_v3'
 gem 'fullcalendar-rails',     '~> 3.2.0.0'
@@ -85,7 +84,7 @@ end
 
 group :development do
   gem 'letter_opener',        '~> 1.4.1'
-  gem 'rubocop',              '~> 0.47.1', require: false
+  gem 'rubocop', '~> 0.49.0', require: false
   gem 'capistrano-rails',     '~> 1.1.1'
   gem 'capistrano-passenger', '~> 0.1.1'
   gem 'capistrano-rvm',       '~> 0.1.2'
