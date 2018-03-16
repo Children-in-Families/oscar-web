@@ -71,7 +71,7 @@ class User < ActiveRecord::Base
   scope :non_devs,                  -> { where.not(email: [ENV['DEV_EMAIL'], ENV['DEV2_EMAIL'], ENV['DEV3_EMAIL']]) }
 
   before_save :assign_as_admin
-  before_save :set_manager_ids, if: 'manager_id_changed?'
+  before_save  :set_manager_ids, if: 'manager_id_changed?'
   after_save :reset_manager, if: 'roles_changed?'
   after_create :build_permission
 
@@ -215,7 +215,7 @@ class User < ActiveRecord::Base
       update_manager_ids(self)
     else
       manager_ids = User.find(self.manager_id).manager_ids
-      update_manager_ids(self, manager_ids.unshift(self.manager_id))
+      update_manager_ids(self, manager_ids.unshift(self.manager_id).compact.uniq)
     end
   end
 
@@ -226,7 +226,8 @@ class User < ActiveRecord::Base
     case_workers = User.where(manager_id: user.id)
     if case_workers.present?
       case_workers.each do |case_worker|
-        update_manager_ids(case_worker, manager_ids.unshift(user.id))
+        next if case_worker.id == self.id
+        update_manager_ids(case_worker, manager_ids.unshift(user.id).compact.uniq)
       end
     end
   end

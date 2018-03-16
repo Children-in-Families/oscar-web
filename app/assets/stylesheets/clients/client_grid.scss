@@ -1,4 +1,5 @@
 body[id='clients-index'],
+body[id='families-index'],
 body[id='families-show'],
 body[id='users-show'],
 body[id='client_advanced_searches-index'] {
@@ -41,7 +42,7 @@ body[id='client_advanced_searches-index'] {
       min-width: 100px;
     }
 
-    th.code, th.slug, th.school_grade, th.gender, th.cases, th.case_start_date {
+    th.slug, th.school_grade, th.gender, th.cases, th.case_start_date {
       min-width: 130px;
     }
 
@@ -53,11 +54,11 @@ body[id='client_advanced_searches-index'] {
       min-width: 150px;
     }
 
-    th.given_name, th.family_name, th.live_with {
-      min-width: 160px;
+    th.code, th.given_name, th.family_name, th.live_with {
+      min-width: 185px;
     }
 
-    th.kid_id, th.id_poor {
+    th.kid_id {
       min-width: 175px;
     }
 
@@ -66,18 +67,18 @@ body[id='client_advanced_searches-index'] {
     }
 
     th.name, th.status, th.family, th.partner, th.manage, th.cases, th.form_title, th.family_id,
-    th.initial_referral_date, th.carer_phone_number, th.family_preservation, th.current_address, th.accepted_date, th.exit_date,
-    th.program_streams, th.program_enrollment_date, th.program_exit_date, th.telephone_number {
+    th.initial_referral_date, th.family_preservation, th.current_address, th.accepted_date, th.exit_date,
+    th.program_streams, th.program_enrollment_date, th.program_exit_date {
       min-width: 200px;
     }
 
-    th.age, th.follow_up_date, th.received_by, th.followed_up_by, th.agency, th.date_of_birth,
+    th.telephone_number, th.age, th.follow_up_date, th.received_by, th.followed_up_by, th.agency, th.date_of_birth,
     th.school_name, th.referral_phone, th.referral_source, th.birth_province, th.province,
-    th.rejected_note, th.user, th.donor, th.carer_names, th.carer_address, th.support_amount, th.support_note {
+    th.carer_phone_number, th.rejected_note, th.user, th.donor, th.carer_names, th.carer_address, th.support_amount, th.support_note {
       min-width: 250px;
     }
 
-    th.has_been_in_orphanage, th.all_csi_assessments {
+    th.all_csi_assessments {
       min-width: 260px;
     }
 
@@ -90,7 +91,7 @@ body[id='client_advanced_searches-index'] {
       min-width: 360px;
     }
 
-    th.protection_from_abuse_and_exploitation {
+    th.has_been_in_orphanage, th.protection_from_abuse_and_exploitation {
       min-width: 280px;
     }
 
@@ -128,7 +129,7 @@ body[id='client_advanced_searches-index'] {
   table.clients {
     margin-bottom: 0;
     th {
-      border-bottom-width: 0;
+      border-bottom-width: 2px;
     }
     tbody tr:hover {
       cursor: pointer;

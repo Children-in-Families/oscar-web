@@ -4,7 +4,7 @@ module AdvancedSearches
     def initialize(selected_custom_form, rule)
       @selected_custom_form = selected_custom_form
       field          = rule['field']
-      @field         = field.split('_').last.gsub("'", "''").gsub(/\[/, '&#91;').gsub(/\]/, '&#93;').gsub('&', '&amp;')
+      @field         = field.split('_').last.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
       @operator      = rule['operator']
       @value         = rule['value'].is_a?(Array) ? rule['value'] : rule['value'].gsub("'", "''")
       @type          = rule['type']
@@ -15,6 +15,11 @@ module AdvancedSearches
       sql_string = 'clients.id IN (?)'
       custom_field_properties = CustomFieldProperty.where(custom_formable_type: 'Client', custom_field_id: @selected_custom_form)
 
+      type_format = ['select', 'radio-group', 'checkbox-group']
+      if type_format.include?(@input_type)
+        @value = @value.gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
+      end
+      
       case @operator
       when 'equal'
         if @input_type == 'text' && @field.exclude?('&')

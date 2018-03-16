@@ -103,7 +103,7 @@ module ClientsHelper
       donor:                         t('datagrid.columns.clients.donor'),
       changelog:                     t('datagrid.columns.clients.changelog'),
       live_with:                     t('datagrid.columns.clients.live_with'),
-      id_poor:                       t('datagrid.columns.clients.id_poor'),
+      # id_poor:                       t('datagrid.columns.clients.id_poor'),
       program_streams:               t('datagrid.columns.clients.program_streams'),
       program_enrollment_date:       t('datagrid.columns.clients.program_enrollment_date'),
       program_exit_date:             t('datagrid.columns.clients.program_exit_date'),
@@ -173,11 +173,11 @@ module ClientsHelper
   end
 
   def format_array_value(value)
-    value.is_a?(Array) ? value.reject(&:empty?).join(' , ') : value
+    value.is_a?(Array) ? value.reject(&:empty?).gsub('&amp;', '&').gsub('&lt;', '<').gsub('&gt;', '>').gsub('&qoute;', '"').join(' , ') : value.gsub('&amp;', '&').gsub('&lt;', '<').gsub('&gt;', '>').gsub('&qoute;', '"')
   end
 
   def format_properties_value(value)
-    value.is_a?(Array) ? value.delete_if(&:empty?).join(' , ') : value
+    value.is_a?(Array) ? value.delete_if(&:empty?).map{|c| c.gsub('&amp;', '&').gsub('&lt;', '<').gsub('&gt;', '>').gsub('&qoute;', '"')}.join(' , ') : value.gsub('&amp;', '&').gsub('&lt;', '<').gsub('&gt;', '>').gsub('&qoute;', '"')
   end
 
   def field_not_blank?(value)

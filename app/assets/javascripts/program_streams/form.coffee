@@ -141,9 +141,12 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
 
   _handleSaveProgramStream = ->
     $('#btn-save-draft').on 'click', ->
+      if $('#trackings').is(':visible')
+        _checkDuplicateTrackingName()
       return false unless _handleCheckingDuplicateFields()
       return false if _handleMaximumProgramEnrollment()
       return false if _handleCheckingInvalidRuleValue() > 0
+      return false if $('.program_stream_trackings_name input.error').size() > 1
       _handleAddRuleBuilderToInput()
       _handleSetValueToField()
       $('.tracking-builder').find('input, textarea').removeAttr('required')
@@ -210,13 +213,16 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
 
   _initProgramBuilder = (element, data) ->
     builderOption = new CIF.CustomFormBuilder()
-    data = JSON.stringify(data)
+    specialCharacters = { '&amp;': '&', '&lt;': '<', '&gt;': '>', "&qoute;": '"' }
+    format = new CIF.FormatSpecialCharacters()
+    fields = format.formatSpecialCharacters(data, specialCharacters)
+
     formBuilder = $(element).formBuilder(
       templates: separateLine: (fieldData) ->
         { field: '<hr/>' }
       fields: builderOption.thematicBreak()
       dataType: 'json'
-      formData: data
+      formData: JSON.stringify(fields)
       disableFields: ['autocomplete', 'header', 'hidden', 'button', 'checkbox']
       showActionButtons: false
       messages: {
@@ -290,7 +296,8 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
           form.valid()
           name = $('#program_stream_name').val() == ''
           return false if name
-        else if currentIndex == 3 and newIndex == 4 and $('#trackings').is(':visible')
+        else if $('#trackings').is(':visible')
+          _checkDuplicateTrackingName()
           return true if $('#trackings').hasClass('hide-tracking-form')
           return _handleCheckingDuplicateFields() and _handleCheckTrackingName()
         else if $('#enrollment, #exit-program').is(':visible')
@@ -308,8 +315,6 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         else if $('#exit-program').is(':visible') then $(buttonSave).hide() else $(buttonSave).show()
 
       onFinished: (event, currentIndex) ->
-        finish = self.filterTranslation.finish
-        $(".actions a:contains(#{finish})").removeAttr('href')
         return false unless _handleCheckingDuplicateFields()
         _handleAddRuleBuilderToInput()
         _handleSetValueToField()
@@ -369,16 +374,19 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     $('#program_stream_rules').val(_handleStringfyRules(rules))
 
   _handleSetValueToField = ->
-    specialCharacters = { "&quot;": '"', "&amp;": "&", "&lt;": "<", "&gt;": ">" }
     for formBuilder in @formBuilder
       element = formBuilder.element
+      specialCharacters = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&qoute;" }
+      format = new CIF.FormatSpecialCharacters()
+      fields = format.formatSpecialCharacters(JSON.parse(formBuilder.actions.save()), specialCharacters)
+      fields = JSON.stringify(fields)
       if $(element).is('#enrollment')
-        $('#program_stream_enrollment').val(formBuilder.actions.save().allReplace(specialCharacters))
+        $('#program_stream_enrollment').val(fields)
       else if $(element).is('.tracking-builder')
         hiddenField = $(element).find('.tracking-field-hidden input[type="hidden"]')
-        $(hiddenField).val(formBuilder.actions.save().allReplace(specialCharacters))
+        $(hiddenField).val(fields)
       else if $(element).is('#exit-program')
-        $('#program_stream_exit_program').val(formBuilder.actions.save().allReplace(specialCharacters))
+        $('#program_stream_exit_program').val(fields)
 
   _handleStringfyRules = (rules) ->
     rules = JSON.stringify(rules)
@@ -399,6 +407,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
 
   _preventRemoveField = (url, elementId) ->
     return false if @programStreamId == ''
+    specialCharacters = { "&": "&amp;", "<": "&lt;", ">": "&gt;" }
     $.ajax
       method: 'GET'
       url: url
@@ -410,12 +419,13 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
           fields = response.program_streams
           labelFields = $(elementId).find('label.field-label')
           for labelField in labelFields
-            text = labelField.textContent.replace('&', '&amp;')
+            text = labelField.textContent.allReplace(specialCharacters)
             if fields.includes(text)
               _removeActionFormBuilder(labelField)
 
   _hideActionInTracking = (fields) ->
     trackings = $('#trackings .nested-fields')
+    specialCharacters = { '&amp;': '&', '&lt;': '<', '&gt;': '>' }
     for tracking in trackings
       trackingName = $(tracking).find('input.string.optional.readonly.form-control')
       continue if $(trackingName).length == 0
@@ -424,11 +434,11 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       if fields[name].length <= labelFields.length
         $(tracking).find('.ibox-footer .remove_fields').remove()
       $(labelFields).each (index, label) ->
-        text = label.textContent.replace('&', '&amp;')
+        text = label.textContent.allReplace(specialCharacters)
         if fields[name].includes(text)
           _removeActionFormBuilder(label)
 
-  _removeActionFormBuilder =(label) ->
+  _removeActionFormBuilder = (label) ->
     $('li.paragraph-field.form-field').find('.del-button, .copy-button').remove()
     parent = $(label).parent()
     $(parent).find('.del-button, .copy-button').remove()

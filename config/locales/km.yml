@@ -148,6 +148,16 @@ km:
               blank: មិនអាចរំលង
         client:
           attributes:
+            client_users:
+              blank: មិនអាចរំលង
+            initial_referral_date:
+              blank: មិនអាចរំលង
+            name_of_referee:
+              blank: មិនអាចរំលង
+            received_by_id:
+              blank: មិនអាចរំលង
+            referral_source:
+              blank: មិនអាចរំលង
             user_ids:
               blank: មិនអាចរំលង
         client_enrollment:
@@ -330,6 +340,7 @@ km:
       province_id: ខេត្តបច្ចុប្បន្ន
       received_by: បុគ្គលិកទទួលករណី
       received_by_id: បុគ្គលិកទទួលករណី
+      referral_information: ព័ត៌មានអ្នកបញ្ជូនករណី
       referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
       referral_source: ប្រភពនៃការបញ្ជូន
       referral_source_id: ប្រភពនៃការបញ្ជូន
@@ -970,6 +981,7 @@ km:
       enrollment_date: កាលបរិច្ឆេទចុះឈ្មោះ
     update:
       successfully_updated: ការចុះឈ្មោះត្រូវបានកែសម្រួលដោយជោគជ័យ
+
   clients:
     actions:
       are_you_sure: តើអ្នកប្រាកដហើយថាចង់លុប?
@@ -1086,6 +1098,7 @@ km:
       agency_names: ឈ្មោះអង្គភាព
       answer: ចំលើយ
       birth_province: ស្រុកកំណើត
+      blank: មិនអាចរំលង
       cambodia: កម្ពុជា
       case_worker: បុគ្គលិកគ្រប់គ្រងករណី
       case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
@@ -1097,6 +1110,7 @@ km:
       custom_forms: ទម្រង់បែបបទបន្ថែម
       date_of_birth: ថ្ងៃ ខែ ឆ្នាំ កំណើត
       district: ស្រុក/ខណ្ឌ
+      done: បញ្ចប់
       donor: ម្ចាស់ជំនួយ
       exit_date: កាលបរិច្ឆេទនៃការចាកចេញ
       exit_note: មូលហេតុនៃការចាកចេញ
@@ -1108,6 +1122,7 @@ km:
       from: ចាប់ពី
       gender: ភេទ
       general_question: សំនួរទូរទៅ
+      getting_started: ព័ត៌មានបឋម
       given_name: នាមខ្លួនជាអក្សរឡាតាំង
       gov_caseworker_comment: មតិយោបល់អ្នកកាន់ករណី
       gov_caseworker_comment_section: យោបល់របស់អ្នកកាន់ករណី ចំពោះតម្រូវការ និងបញ្ហាប្រឈមរបស់កុមារ
@@ -1142,11 +1157,14 @@ km:
       id: លេខសំគាល់
       id_poor: កំរិតប័ណ្ណក្រីក្រ
       initial_referral_date: កាលបរិចេ្ឆទនៃការបញ្ជូនដំបូង
+      is_the_client_rated_for_id_poor: តើត្រូវបានវាយតម្លៃថាអត្តសញ្ញាណក្រីក្រ
       kid_id: លេខកូដឣតិថិជន
       live_with: រស់នៅជាមួយ
       local_family_name: នាមត្រកូលជាអក្សរខ្មែរ
       local_given_name: នាមខ្លួនជាអក្សរខ្មែរ
       name: ឈ្មោះ
+      next: បន្ទាប់
+      previous: ត្រឡប់
       province: ខេត្តកំណើត
       received_by: បុគ្គលិកទទួលករណី
       referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
@@ -1155,6 +1173,7 @@ km:
       relevant_referral_information: ព័ត៌មានសំខាន់ៗដែលពាក់ព័ន្ធនឹងការបញ្ជូនករណី
       school_grade: កំរិតថ្នាក់
       school_name: ឈ្មោះសាលារៀន
+      staff_responsibilities: ទំនួលខុសត្រូវបុគ្គលិក
       stage: សំនួរ តំណាក់កាល
       state: ទទួល/បដិសេធ
       status: ស្ថានភាព
@@ -1164,6 +1183,8 @@ km:
       village: ភូមិ
       year: ឆ្នាំ
       yes_no: បាទ/អត់ទេ
+    form_header:
+      case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
     foster_case:
       carer_address: អាសយដ្ឋានអ្នកថែទាំ
       carer_names: ឈ្មោះអ្នកថែទាំ
@@ -1184,6 +1205,29 @@ km:
       start_date: ថ្ងៃចាប់ផ្តើម
       support_amount: ប្រាក់ឧបត្ថម្ភ
       support_note: ពត៌មានពីប្រាក់ឧប្ថម្ភ
+
+    getting_started:
+      case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
+      date_of_birth: ថ្ងៃខែឆ្នាំកំណើត
+      family_name: នាមត្រកូល (ភាសាអង់គ្លេស)
+      first_followed_up_by: បុគ្គលិកតាមដានករណី
+      first_followed_up_date: កាលបរិច្ឆេទតាមដានដំបូង
+      gender: ភេទ
+      getting_started: ព័ត៌មានបឋម
+      given_name: នាមខ្លួន (ភាសាអង់គ្លេស)
+      initial_referral_date: កាលបរិច្ឆេទបង្អែកដំបូង
+      living_detail: ព័ត៎មានរស់នៅលំអិត
+      local_family_name: នាមត្រកូល (ភាសាខ្មែរ)
+      local_given_name: នាមខ្លួន (ភាសាខ្មែរ)
+      name_of_referee:  ឈ្មោះអ្នកបញ្ជូន
+      other_detail: ព័ត៌មានលំអិតផ្សេងៗ
+      referee_phone_number: លេខទូរស័ព្ទអ្នកបញ្ជូន
+      referral_information: ព័ត៌មានការបញ្ជូន
+      referral_received_by: បុគ្គលិកទទួលករណី
+      referral_source: ប្រភពយោង
+      specific_point: ចំណុចជាក់លាក់នៃការបញ្ជូន
+      staff_responsibilities: ទំនួលខុសត្រូវបុគ្គលិក
+
     index:
       active_programs: ក្រាបកម្មវិធីបន្ទាប់បន្សំ
       add_new_client: បន្ថែមអតិថិជនថ្មី
@@ -1228,8 +1272,43 @@ km:
       start_date: ថ្ងៃចាប់ផ្តើម
       support_amount: ប្រាក់ឧបត្ថម្ភ
       support_note: ពត៌មានពីប្រាក់ឧប្ថម្ភ
+
+    living_detail:
+      case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
+      commune: អាស័យដ្ឋាន - ឃុំ/សង្កាត់
+      contact_details: ព័ត៌មានទំនាក់ទំនងលំអិត
+      current_address: អាស័យដ្ឋានបច្ចុប្បន្ន
+      current_province: ខេត្តកំពុងរស់នៅ
+      district: អាស័យដ្ឋាន - ស្រុក/ខណ្ឌ
+      house_number: អាស័យដ្ឋាន - លេខផ្ទះ
+      living_detail: ព័ត៌មានរស់នៅលំអិត
+      main_school_contact: អាស័យដ្ឋានទំនាក់ទំនងសាលារៀន
+      primary_carer_name: អ្នកមើលថែចំបង
+      primary_carer_phone_number: លេខទូរស័ព្ទអ្នកមើលថែចំបង
+      school_grade: កំរិត
+      school_name: ឈ្មោះសាលារៀន
+      schooling: សាលារៀន
+      street_number: អាស័យដ្ឋាន - លេខផ្លូវ
+      village: អាស័យដ្ឋាន - ភូមិ
+      what3words: What3words
+
     new:
-      new_client_title: បង្កើតអតិថិជនថ្មី
+      new_client_title: បន្ថែមអតិថិជនថ្មី
+
+    other_detail:
+      agencies_involved: អង្គភាពពាក់ព័ន្ធ
+      case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
+      custom_id_number1: លេខកូដផ្ទាល់ខ្លួនទី១
+      custom_id_number2: លេខកូដផ្ទាល់ខ្លួនទី២
+      donor: ម្ចាស់ជំនួយ
+      has_been_in_government_care: តើអតិថិជនធ្លាប់ស្ថិតក្នុងការថែទាំរបស់រាជរដ្ឋាភិបាលឬទេ
+      has_been_in_orphanage: តើអតិថិជនធ្លាប់បានរស់នៅក្នុងមណ្ឌលកុមារកំព្រាឬទេ
+      is_the_client_rated_for_id_poor: តើអតិថិជនត្រូវបានវាយតម្លៃថាអត្តសញ្ញាណក្រីក្រឬទេ
+      other_detail: ព័ត៌មានលំអិតផ្សេងៗ
+      other_information: ព័ត៌មានផ្សេងៗ
+      province: ខេត្ត
+      relevant_referral_information: ព័ត៌មានយោងដែលពាក់ព័ន្ធ / កំណត់សំគាល់
+
     placement:
       view_legacy_quarterly_reports: មើល Quarterly Reports ចាស់ៗ
     remaining_programs:
@@ -1265,6 +1344,8 @@ km:
       completed: ពេញលេញហើយឬនៅ?
       current_address: ឣាសយដ្ឋានបច្ចុប្បន្ន
       current_province: ខេត្តបច្ចុប្បន្ន
+      custom_id_number1: លេខកូដផ្ទាល់ខ្លួនទី១
+      custom_id_number2: លេខកូដផ្ទាល់ខ្លួនទី២
       date_of_birth: ថ្ងៃ ខែ ឆ្នាំ កំណើត
       district: ស្រុក/ខណ្ឌ
       donor: ម្ចាស់ជំនួយ
@@ -1281,7 +1362,7 @@ km:
       follow_up_date: កាលបរិច្ឆេទតាមដាន
       followed_up_by: ឈ្មោះបុុគ្គលិកដែលតាមដាន
       gender: ភេទ
-      general_info: អំពីអតិចិជន
+      general_info: អំពីអតិថិជន
       given_name: នាមខ្លួនជាអក្សរឡាតាំង
       government_form_five: 'ទម្រង់ទី៥: តាមដាន និងត្រួតពិនិត្យ'
       government_form_four: 'ទម្រង់ទី៤: ការទុកដាក់កុមារ'
@@ -1290,18 +1371,25 @@ km:
       government_form_three: 'ទម្រង់ទី៣: ផែនការសេវាសំរាប់ករណី និង គ្រួសារ'
       government_form_two: 'ទម្រង់ទី២: ការប៉ាន់ប្រមាណករណី និងគ្រួសារ'
       government_report: របាយការណ៍សម្រាប់រដ្ឋាភិបាល
-      has_been_in_government_care: តើធ្លាប់ស្ថិតក្នុងការថែទំារបស់រាជរដ្ឋាភិបាល
-      has_been_in_orphanage: ធ្លាប់បាននៅក្នុងមណ្ឌលកុមារកំព្រា
+      has_been_in_government_care: តើអតិថិជនធ្លាប់ស្ថិតក្នុងការថែទាំរបស់រាជរដ្ឋាភិបាលឬទេ
+      has_been_in_orphanage: តើអតិថិជនធ្លាប់បានរស់នៅក្នុងមណ្ឌលកុមារកំព្រាឬទេ
       house_number: ផ្ទះលេខ
       id: លេខសំគាល់
       id_poor: កំរិតប័ណ្ណក្រីក្រ
       initial_referral_date: កាលបរិចេ្ឆទនៃការបញ្ជូនដំបូង
+      is_the_client_rated_for_id_poor: តើអតិថិជនត្រូវបានវាយតម្លៃថាអត្តសញ្ញាណក្រីក្រឬទេ
       kid_id: លេខកូដឣតិថិជន
       live_with: រស់នៅជាមួយ
       local_family_name: នាមត្រកូលជាអក្សរខ្មែរ
       local_given_name: នាមខ្លួនជាអក្សរខ្មែរ
+      main_school_contact: អាស័យដ្ឋានទំនាក់ទំនងសាលារៀន
       name: ឈ្មោះ
+      name_of_referee: ឈ្មោះអ្នកបញ្ជូន
       note: កំណត់ហេតុ
+      primary_carer_name: អ្នកមើលថែចំបង
+      primary_carer_phone_number: លេខទូរស័ព្ទអ្នកមើលថែចំបង
+      referee_phone_number: លេខទូរស័ព្ទអ្នកបញ្ជូន
+
       placements:
         carer_address: អាសយដ្ឋានអ្នកថែទាំ
         carer_names: ឈ្មោះអ្នកថែទាំ
@@ -1348,6 +1436,11 @@ km:
       view_legacy_quarterly_reports: មើល Quarterly Reports ចាស់ៗ
       view_tasks: កាតព្វកិច្ច
       village: ភូមិ
+
+    specific_point:
+      case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
+      specific_point: ចំណុចជាក់លាក់នៃការបញ្ជូន
+
     state:
       rejected_note: កំណត់ហេតុនៃការមិនទទួលយក
       state: ទទួល/បដិសេធ
@@ -1607,6 +1700,7 @@ km:
         type: ប្រភេទនៃទម្រង់បែបបទបន្ថែម
         view: មើល
         village: ភូមិ
+        what3words: What3words
       date_of_assessments: កាលបរិច្ឆេទការប៉ាន់ប្រមាណ
       families:
         address: ឣាសយដ្ឋាន
@@ -1614,6 +1708,7 @@ km:
         case_history: ប្រវត្តិគ្រួសារ
         case_workers: បុគ្គលិកគ្រប់គ្រងករណី
         changelogs: ប្រវត្តិកំណែ
+        client: ឣតិថិជន
         clients: ឣតិថិជន
         code: លេខសំគាល់គ្រួសារ
         contract_date: កាលបរិច្ឆេទនៃកិច្ចសន្យា
@@ -1624,6 +1719,7 @@ km:
         female: ស្រី
         female_adult_count: ចំនួនមនុស្សស្រីពេញវ័យ
         female_children_count: ចំនួនក្មេងស្រី
+        form_title: ឈ្មោះនៃទម្រង់បែបបទបន្ថែម
         household_income: ប្រាក់ចំណូលគ្រួសារ
         id: លេខសំគាល់
         male: ប្រុស
@@ -2373,6 +2469,22 @@ km:
       successfully_deleted: គ្រួសារត្រូវបានលុបដោយជោគជ័យ
     edit:
       edit_family_title: កែសម្រួលព័ត៌មានគ្រួសារ
+    family_advanced_searches:
+      advanced_search:
+        add_new_filter: បន្ថែមលក្ខខ័ណ្ឌថ្មី
+        add_new_group: បន្ថែមក្រុមលក្ខខ័ណ្ឌថ្មី
+        advanced_search: ការស្វែងរកឆ្លាតវៃ
+        custom_form_column: ជួរឈរទម្រង់បែបបទបន្ថែម
+        delete_group: លុបក្រុមលក្ខខ័ណ្ឌនៃការស្វែងរក
+        family_column: ជួរឈរពត៌មានទូទៅរបស់គ្រួសារ
+        no_results: មិនមានលទ្ធផល
+        reset: សំអាត
+        results: លទ្ធផល
+        search: ស្វែងរក
+      form_option:
+        basic_fields: ពត៌មានទូទៅរបសគ្រួសារ
+        custom_form: ទម្រង់បែបបទបន្ថែម
+        filter_option: សូមជ្រើសជម្រើសសំណួររបស់អ្នកខាងក្រោម
     form:
       address: ឣាសយដ្ឋាន
       caregiver_information: ព័ត៌មាននៃអ្នកថែទាំ
@@ -2400,6 +2512,7 @@ km:
       add_new_family: បន្ថែមគ្រួសារថ្មី
       clients: អតិថិជន
       export_xls: ទាញចេញជាឯកសារប្រភេទ XLS
+      report_builder: ការស្វែងរកឆ្លាតវៃ
       results: លទ្ធផល
     new:
       new_family_title: គ្រួសារថ្មី

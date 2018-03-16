@@ -48,6 +48,19 @@ module Api
       private
 
       def client_enrollment_tracking_params
+        trackings_fields = Tracking.find(params[:tracking_id]).fields.map{|c| [c['name'], c['label'], c['type']]}
+        trackings_fields.each do |name, label, type|
+          if type == 'file' && attachment_params.present?
+            attachment_params.values.each do |attachment|
+              attachment['name'] = label if attachment['name'] == name
+            end
+          end
+          if type != 'file' && properties_params.present?
+            properties_params.keys.each do |key|
+              properties_params[label] = properties_params.delete key if key == name
+            end
+          end
+        end
         properties_params.values.map{ |v| v.delete('') if (v.is_a?Array) && v.size > 1 } if properties_params.present?
 
         default_params = params.require(:client_enrollment_tracking).permit({}).merge!(tracking_id: params[:tracking_id])

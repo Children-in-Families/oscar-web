@@ -4,7 +4,7 @@ module AdvancedSearches
     def initialize(program_stream_id, rule)
       @program_stream_id = program_stream_id
       field          = rule['field']
-      @field         = field.split('_').last.gsub(/\[/, '&#91;').gsub(/\]/, '&#93;').gsub('&', '&amp;')
+      @field         = field.split('_').last.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
       @operator      = rule['operator']
       @value         = rule['value']
       @input_type    = rule['input']
@@ -13,6 +13,11 @@ module AdvancedSearches
     def get_sql
       sql_string = 'clients.id IN (?)'
       leave_programs = LeaveProgram.joins(:client_enrollment).where(program_stream_id: @program_stream_id)
+
+      type_format = ['select', 'radio-group', 'checkbox-group']
+      if type_format.include?(@input_type)
+        @value = @value.gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
+      end
 
       case @operator
       when 'equal'

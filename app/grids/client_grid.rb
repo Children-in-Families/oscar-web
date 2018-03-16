@@ -95,7 +95,7 @@ class ClientGrid
 
   filter(:live_with, :string, header: -> { I18n.t('datagrid.columns.clients.live_with') }) { |value, scope| scope.live_with_like(value) }
 
-  filter(:id_poor, :integer, header: -> { I18n.t('datagrid.columns.clients.id_poor') })
+  # filter(:id_poor, :integer, header: -> { I18n.t('datagrid.columns.clients.id_poor') })
 
   filter(:initial_referral_date, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.initial_referral_date') })
 
@@ -448,7 +448,7 @@ class ClientGrid
 
   column(:live_with, header: -> { I18n.t('datagrid.columns.clients.live_with') })
 
-  column(:id_poor, header: -> { I18n.t('datagrid.columns.clients.id_poor') })
+  # column(:id_poor, header: -> { I18n.t('datagrid.columns.clients.id_poor') })
 
   column(:history_of_disability_and_or_illness, header: -> { I18n.t('datagrid.columns.clients.history_of_disability_and_or_illness') }) do |object|
     object.quantitative_cases.where(quantitative_type_id: QuantitativeType.name_like('History of disability and/or illness').ids).pluck(:value).join(', ')
@@ -689,10 +689,10 @@ class ClientGrid
     next unless dynamic_columns.present?
     data = param_data.presence
     dynamic_columns.each do |column_builder|
-      fields = column_builder[:id].split('_')
+      fields = column_builder[:id].gsub('&qoute;', '"').split('_')
       next if fields.first == 'enrollmentdate' || fields.first == 'programexitdate'
       column(column_builder[:id].to_sym, class: 'form-builder', header: -> { form_builder_format_header(fields) }, html: true) do |object|
-        format_field_value = fields.last.gsub(/\[/, '&#91;').gsub(/\]/, '&#93;').gsub('&', '&amp;')
+        format_field_value = fields.last.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
         if fields.first == 'formbuilder'
           if data == 'recent'
             properties = object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).order(created_at: :desc).first.try(:properties)

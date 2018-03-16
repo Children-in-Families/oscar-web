@@ -70,7 +70,10 @@ CIF.Custom_fieldsNew = CIF.Custom_fieldsCreate = CIF.Custom_fieldsEdit = CIF.Cus
 
   _initFormBuilder = ->
     builderOption = new CIF.CustomFormBuilder()
+    specialCharacters = { '&amp;': '&', '&lt;': '<', '&gt;': '>', "&qoute;": '"' }
     fields = $('.build-wrap').data('fields') || []
+    format = new CIF.FormatSpecialCharacters()
+    fields = format.formatSpecialCharacters(fields, specialCharacters)
 
     formBuilder = $('.build-wrap').formBuilder
       templates: separateLine: (fieldData) ->
@@ -105,8 +108,9 @@ CIF.Custom_fieldsNew = CIF.Custom_fieldsCreate = CIF.Custom_fieldsEdit = CIF.Cus
       }
 
     $("#custom-field-submit").click (event) ->
-      specialCharacters = {"&quot;": '"', "&amp;": "&", "&lt;": "<", "&gt;": ">"}
-      $('#custom_field_fields').val(formBuilder.actions.save().allReplace(specialCharacters))
+      specialCharacters = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&qoute;" }
+      fields = format.formatSpecialCharacters(JSON.parse(formBuilder.actions.save()), specialCharacters)
+      $('#custom_field_fields').val(JSON.stringify(fields))
 
   _select2 = ->
     $('#custom_field_entity_type').select2
@@ -155,8 +159,18 @@ CIF.Custom_fieldsNew = CIF.Custom_fieldsCreate = CIF.Custom_fieldsEdit = CIF.Cus
       parent = $(labelField).parent()
       text = labelField.textContent.replace('&', '&amp;')
       if fields.includes(text)
-        $(parent).children('div.field-actions').remove()
+        _removeActionFormBuilder(labelField)
         $(parent).on 'dblclick', (e) ->
           e.stopPropagation()
+
+  _removeActionFormBuilder = (label) ->
+    $('li.paragraph-field.form-field').find('.del-button, .copy-button').remove()
+    parent = $(label).parent()
+    $(parent).find('.del-button, .copy-button').remove()
+    if $(parent).attr('class').includes('checkbox-group-field') || $(parent).attr('class').includes('radio-group-field') || $(parent).attr('class').includes('select-field')
+      $(parent).find('.option-label').attr('disabled', 'true')
+      $(parent).children('.frm-holder').find('.remove.btn').remove()
+    else if $(parent).attr('class').includes('number-field')
+      $(parent).find('.fld-min, .fld-max').attr('readonly', 'true')
 
   { init: _init }

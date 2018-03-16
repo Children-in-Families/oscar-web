@@ -135,10 +135,10 @@ describe ClientSerializer, type: :serializer do
     expect(serializer).to have_json_type(String).at_path('client/live_with')
   end
 
-  it 'should be have attribute id_poor' do
-    expect(serializer).to have_json_path('client/id_poor')
-    expect(serializer).to have_json_type(NilClass).at_path('client/id_poor')
-  end
+  # it 'should be have attribute id_poor' do
+  #   expect(serializer).to have_json_path('client/id_poor')
+  #   expect(serializer).to have_json_type(NilClass).at_path('client/id_poor')
+  # end
 
   it 'should be have attribute received_by' do
     expect(serializer).to have_json_path('client/received_by')

@@ -33,13 +33,6 @@ describe CustomField, 'validations' do
     custom_field_unit.save
     expect(custom_field_unit.errors[:fields]).to include('field label must be uniq')
   end
-  # it "validates remove fields if fields haven't used" do
-  #   client = FactoryGirl.create(:client, given_name: 'Jonh')
-  #   custom_field_textarea = FactoryGirl.create(:custom_field, entity_type: 'Client', form_title: 'Spec', fields: "[\r\n\t{\r\n\t\t\"type\": \"textarea\",\r\n\t\t\"label\": \"Text Area\",\r\n\t\t\"className\": \"form-control\",\r\n\t\t\"name\": \"textarea-1493086701693\"\r\n\t}\r\n]")
-  #   client_custom_field = client.custom_field_properties.create(properties: '{"Text Area":"Spec"}', custom_field_id: custom_field_textarea.id)
-  #   custom_field_textarea.update(fields: '[]')
-  #   expect(custom_field_textarea.errors[:fields]).to include('Text Area cannot be removed/updated since it is already in use. ')
-  # end
 end
 
 describe CustomField, 'scopes' do
@@ -116,6 +109,21 @@ end
 describe CustomField, 'callbacks' do
   let!(:frequency_custom_field) { create(:custom_field, entity_type: 'Client', frequency: 'Day', time_of_frequency: 12) }
   let!(:no_frequency_custom_field) { create(:custom_field, entity_type: 'Client', frequency: '', form_title: 'Health Care') }
+
+  describe 'after_update' do
+    let!(:client){ create(:client, :accepted) }
+    let!(:custom_field){ create(:custom_field, fields: [{'type'=>'text', 'label'=>'Name'}].to_json) }
+    let!(:custom_field_property){ create(:custom_field_property, custom_formable_id: client.id, custom_field: custom_field, properties: {"Name"=>'OSCaR'}) }
+
+    context 'update_custom_field_label' do
+      it 'automatically update custom field property' do
+        new_fields = [{'type'=>'text', 'label'=>'Full Name'}].to_json
+        custom_field.update(fields: new_fields)
+        expect(custom_field_property.reload.properties).to eq({'Full Name' => 'OSCaR'})
+      end
+    end
+  end
+
   context 'set_time_of_frequency' do
     it 'any frequency is chosen then it should have time of frequency' do
       expect(frequency_custom_field.time_of_frequency).to eq(12)

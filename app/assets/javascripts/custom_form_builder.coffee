@@ -38,7 +38,7 @@ class CIF.CustomFormBuilder
   eventDateOption: ->
     self = @
     onadd: (fld) ->
-      $('.className-wrap, .placeholder-wrap, .value-wrap, .access-wrap, .description-wrap, .name-wrap, .toggle-wrap, .inline-wrap').hide()
+      $('.date-field').find('.className-wrap, .placeholder-wrap, .value-wrap, .access-wrap, .description-wrap, .name-wrap, .toggle-wrap, .inline-wrap').hide()
       self.handleCheckingForm()
     onclone: (fld) ->
       setTimeout ( ->
@@ -48,7 +48,7 @@ class CIF.CustomFormBuilder
   eventFileOption: ->
     self = @
     onadd: (fld) ->
-      $('.className-wrap, .placeholder-wrap, .subtype-wrap, .value-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
+      $('.file-field').find('.className-wrap, .placeholder-wrap, .subtype-wrap, .value-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
       self.handleCheckingForm()
     onclone: (fld) ->
       setTimeout ( ->
@@ -58,7 +58,7 @@ class CIF.CustomFormBuilder
   eventNumberOption: ->
     self = @
     onadd: (fld) ->
-      $('.className-wrap, .placeholder-wrap, .value-wrap, .step-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
+      $('.number-field').find('.className-wrap, .placeholder-wrap, .value-wrap, .step-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
       self.handleCheckingForm()
     onclone: (fld) ->
       setTimeout ( ->
@@ -191,6 +191,20 @@ class CIF.CustomFormBuilder
           self.removeFieldDuplicate()
           self.handleDisplayDuplicateWarning(labels)
         ), 300
+        self.handlePreventingBlankLabel(@)
+
+  handlePreventingBlankLabel: (element) ->
+    text = $(element).text()
+    parentElement = $(element).parents('li.form-field')
+    errorText = "Label can't be blank"
+
+    if text == 'undefined' || text == ''
+      $(parentElement).addClass('has-error')
+      $(parentElement).find('input, textarea, select').addClass('error')
+      unless $(parentElement).find('label.error').is(':visible')
+        $(parentElement).append("<label class='error'>#{errorText}</label>")
+    else
+      @removeWarning(element)
 
   getNoneDuplicateLabel: (elements) ->
     labels    = $(elements).map(-> $(@).text().trim()).get()
@@ -198,9 +212,9 @@ class CIF.CustomFormBuilder
 
     for element in elements
       text = $(element).text().trim()
-
+      continue if text == 'undefined' || text == ''
       if values.includes(text)
-        @removeDuplicateWarning(element)
+        @removeWarning(element)
 
   removeFieldDuplicate: ->
     if $('#trackings').is(':visible') and $('.nested-fields').is(':visible')
@@ -212,7 +226,7 @@ class CIF.CustomFormBuilder
       elements = $('ul.frmb:visible .field-label:visible')
       @getNoneDuplicateLabel(elements)
 
-  removeDuplicateWarning: (element) ->
+  removeWarning: (element) ->
     field = $(element).parents('li.form-field')
     $(field).removeClass('has-error')
     $(field).find('input, textarea, select').removeClass('error')

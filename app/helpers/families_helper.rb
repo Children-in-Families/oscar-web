@@ -50,4 +50,27 @@ module FamiliesHelper
       object.case_history
     end
   end
+
+  def columns_family_visibility(column)
+    label_column = {
+      name:                                     t('datagrid.columns.families.name'),
+      id:                                       t('datagrid.columns.families.id'),
+      code:                                     t('datagrid.columns.families.code'),
+      family_type:                              t('datagrid.columns.families.family_type'),
+      case_history:                             t('datagrid.columns.families.case_history'),
+      address:                                  t('datagrid.columns.families.address'),
+      significant_family_member_count:          t('datagrid.columns.families.significant_family_member_count'),
+      male_children_count:                      t('datagrid.columns.families.male_children_count'),
+      province_id:                              t('datagrid.columns.families.province'),
+      dependable_income:                        t('datagrid.columns.families.dependable_income'),
+      male_adult_count:                         t('datagrid.columns.families.male_adult_count'),
+      household_income:                         t('datagrid.columns.families.household_income'),
+      contract_date:                            t('datagrid.columns.families.contract_date'),
+      caregiver_information:                    t('datagrid.columns.families.caregiver_information'),
+      changelog:                                t('datagrid.columns.families.changelog'),
+      case_workers:                             t('datagrid.columns.families.case_workers'),
+      manage:                                   t('datagrid.columns.families.manage')
+    }
+    label_tag "#{column}_", label_column[column.to_sym]
+  end
 end

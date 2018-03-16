@@ -136,6 +136,7 @@ class ClientsController < AdminController
   def client_params
     params.require(:client)
           .permit(
+            :code, :name_of_referee, :main_school_contact, :rated_for_id_poor, :what3words,
             :exit_note, :exit_date, :status,
             :kid_id, :assessment_id, :given_name, :family_name, :local_given_name, :local_family_name, :gender, :date_of_birth,
             :birth_province_id, :initial_referral_date, :referral_source_id, :telephone_number,
@@ -144,7 +145,8 @@ class ClientsController < AdminController
             :house_number, :street_number, :village, :commune, :district_id,
             :has_been_in_orphanage, :has_been_in_government_care,
             :relevant_referral_information, :province_id, :donor_id,
-            :state, :rejected_note, :able, :live_with, :id_poor, :accepted_date,
+            # :state, :rejected_note, :able, :live_with, :id_poor, :accepted_date,
+            :state, :rejected_note, :able, :live_with, :accepted_date,
             :gov_city, :gov_commune, :gov_district, :gov_date, :gov_village_code, :gov_client_code,
             :gov_interview_village, :gov_interview_commune, :gov_interview_district, :gov_interview_city,
             :gov_caseworker_name, :gov_caseworker_phone, :gov_carer_name, :gov_carer_relationship, :gov_carer_home,

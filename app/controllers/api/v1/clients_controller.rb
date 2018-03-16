@@ -63,6 +63,7 @@ module Api
       def client_params
         params.require(:client)
               .permit(
+                :code, :name_of_referee, :main_school_contact, :rated_for_id_poor, :what3words,
                 :kid_id, :assessment_id, :given_name, :family_name, :local_given_name, :local_family_name, :gender, :date_of_birth,
                 :birth_province_id, :initial_referral_date, :referral_source_id,
                 :referral_phone, :received_by_id, :followed_up_by_id,
@@ -70,7 +71,8 @@ module Api
                 :house_number, :street_number, :village, :commune, :district_id,
                 :has_been_in_orphanage, :has_been_in_government_care,
                 :relevant_referral_information, :province_id, :donor_id,
-                :state, :rejected_note, :able, :id_poor, :live_with, :accepted_date, :exit_note, :exit_date,
+                # :state, :rejected_note, :able, :id_poor, :live_with, :accepted_date, :exit_note, :exit_date,
+                :state, :rejected_note, :able, :live_with, :accepted_date, :exit_note, :exit_date,
                 user_ids: [],
                 agency_ids: [],
                 quantitative_case_ids: [],

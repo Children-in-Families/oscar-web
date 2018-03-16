@@ -4,7 +4,7 @@ module AdvancedSearches
     def initialize(tracking_id, rule)
       @tracking_id   = tracking_id
       field          = rule['field']
-      @field         = field.split('_').last.gsub("'", "''").gsub(/\[/, '&#91;').gsub(/\]/, '&#93;').gsub('&', '&amp;')
+      @field         = field.split('_').last.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
       @operator      = rule['operator']
       @value         = format_value(rule['value'])
       @type          = rule['type']
@@ -16,6 +16,11 @@ module AdvancedSearches
       properties_field = 'client_enrollment_trackings.properties'
       client_enrollment_trackings = ClientEnrollmentTracking.joins(:client_enrollment).where(tracking_id: @tracking_id)
 
+      type_format = ['select', 'radio-group', 'checkbox-group']
+      if type_format.include?(@input_type)
+        @value = @value.gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
+      end
+      
       case @operator
       when 'equal'
         if @input_type == 'text' && @field.exclude?('&')

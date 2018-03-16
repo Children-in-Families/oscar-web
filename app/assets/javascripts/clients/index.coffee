@@ -12,8 +12,6 @@ CIF.ClientsIndex = do ->
     _handleCreateCaseReport()
     _handleCreateCsiDomainReport()
     _handleScrollTable()
-    _setDefaultCheckColumnVisibilityAll()
-    _setDefaultCheckColumnVisibilityAllInClientFilter()
     _handleColumnVisibilityParams()
     _handleUncheckColumnVisibility()
     _getClientPath()
@@ -30,6 +28,7 @@ CIF.ClientsIndex = do ->
     _removeSearchOverdueTask()
     _overdueFormsSearch()
     _removeOverdueFormsSearch()
+    _setDefaultCheckColumnVisibilityAll()
     # _removeProgramStreamExitDate()
 
   _overdueFormsSearch = ->
@@ -75,11 +74,13 @@ CIF.ClientsIndex = do ->
       $('select#client_grid_overdue_task').select2('val', '')
       $('input.datagrid-submit').click()
 
-  _setDefaultCheckColumnVisibilityAllInClientFilter = ->
-    $('.check-columns-visibility').find('a.dropdown-toggle').on 'click', ->
-      sibling = $(@).siblings('.columns-visibility')
-      if $(sibling).find('.visibility .checked').length == 0
-        $(sibling).find('.all-visibility #all_').iCheck('check')
+  _setDefaultCheckColumnVisibilityAll = ->
+    if $('#client-search-form .visibility .checked').length == 0
+      $('#client-search-form .all-visibility #all_').iCheck('check')
+
+    if $('#client-advance-search-form .visibility .checked').length == 0
+      $('#client-advance-search-form .all-visibility #all_').iCheck('check')
+      $('#program-stream-column .visibility').find('#program_enrollment_date_, #program_exit_date_').iCheck('check')
 
   _handleAutoCollapse = ->
     params = window.location.search.substr(1)
@@ -113,7 +114,7 @@ CIF.ClientsIndex = do ->
 
   _initAdavanceSearchFilter = ->
     advanceFilter = new CIF.ClientAdvanceSearch()
-    advanceFilter.initBuilderFilter()
+    advanceFilter.initBuilderFilter('#client-builder-fields')
     advanceFilter.setValueToBuilderSelected()
     advanceFilter.getTranslation()
 
@@ -146,16 +147,11 @@ CIF.ClientsIndex = do ->
 
     advanceFilter.handleSaveQuery()
     advanceFilter.validateSaveQuery()
+    $('.rule-operator-container').change ->
+      advanceFilter.initSelect2()
 
   # _removeProgramStreamExitDate = ->
   #   $('#client-advance-search-form').find('#program_enrollment_date,#program_exit_date').remove()
-
-  _setDefaultCheckColumnVisibilityAll = ->
-    $('.check-columns-visibility').find('a.dropdown-toggle').on 'click', ->
-      sibling = $(@).siblings('.columns-visibility')
-      if $(sibling).find('.visibility .checked').length == 0
-        $('#program-stream-column .visibility').find('#program_enrollment_date_, #program_exit_date_').iCheck('check')
-        $(sibling).find('.all-visibility #all_').iCheck('check')
 
   _handleColumnVisibilityParams = ->
     $('button#search').on 'click', ->
