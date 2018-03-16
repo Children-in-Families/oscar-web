@@ -32,18 +32,9 @@
                       %i.fa.fa-calendar-check-o
 
               .form-inputs.i-checks
-                %label= t('.exit_reason')
-                %br
-                - Client::REASONS.each do |exit_reason|
-                  = f.check_box :exit_reason, { multiple: true }, exit_reason, false
-                  %label{class: 'exit_reasons'}= exit_reason
-                  %br
-
+                = f.input :exit_reasons, as: :check_boxes, collection: Client::EXIT_REASONS,label: t('.exit_reasons')
               .form-inputs
-                = f.input :other_info, label: t('.other_info')
-
-              / .form-inputs
-              /   = f.input :status, collection: Client::EXIT_STATUSES, include_blank: false, label: t('.exit_status')
+                = f.input :other_info_of_exit, label: t('.other_info_of_exit')
 
             .col-xs-12.col-sm-6.col-md-6
               .form-group
@@ -51,16 +42,16 @@
                 = f.association :users, collection: @users, label: t('.case_worker_or_staff'), include_blank: false, multiple: true, disabled: true, label: false
               - if @client.status == "Referred" && @client.state == "accepted"
                 .form-inputs
-                  = f.input :exit_curcumstance, label: t('.exit_curcumstance'), input_html: {value: 'Exited Client'}, readonly: true
+                  = f.input :exit_circumstance, label: t('.exit_circumstance'), input_html: {value: 'Exited Client'}, readonly: true, required: true
                 .form-inputs
-                  = f.input :exit_note, label: t('.exit_note'), input_html: { class: 'exit_note', rows: '12' }
+                  = f.input :exit_note, label: t('.exit_note'), input_html: { rows: '14' }
               - else
                 .form-inputs
-                  = f.input :exit_curcumstance, label: t('.exit_curcumstance'), input_html: {value: 'Rejected Referral'}, readonly: true
+                  = f.input :exit_circumstance, label: t('.exit_circumstance'), input_html: {value: 'Rejected Referral'}, readonly: true
                 .form-inputs
                   = f.hidden_field :state, value: 'rejected'
                 .form-inputs
-                  = f.input :rejected_note, label: t('.rejected_note'), input_html: { class: 'rejected_note', rows: '12' }
+                  = f.input :rejected_note, label: t('.rejected_note'), input_html: {rows: '14' }
 
           .text-right
             %button.btn.btn-default{"data-dismiss" => 'modal'}= t('cancel')

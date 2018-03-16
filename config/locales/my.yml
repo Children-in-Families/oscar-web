@@ -1009,13 +1009,13 @@ my:
     exit_ngo_form:
       case_worker_or_staff: အမႈျခင္းရာအတြက္ ေဆာင္ရြက္ေပးသူ/ ၀န္ထမ္း
       exit_btn: ထြက္ရန္
-      exit_curcumstance: ထွက်ပေါက်အခြေအနေ
+      exit_circumstance: ထွက်ပေါက်အခြေအနေ
       exit_date: ထြက္သည့္ရက္စြဲ
       exit_ngo: NGOမွ ထြက္ရန္
       exit_note: ထြက္သည့္မွတ္စု
-      exit_reason: ထွက်ပေါက်ဘို့အကြောင်းပြချက်
+      exit_reasons: ထွက်ပေါက်ဘို့အကြောင်းပြချက်
       exit_status: အေနအထား
-      other_info: အခြားအ - နောက်ထပ်သတင်းအချက်အလက်များ
+      other_info_of_exit: အခြားအ - နောက်ထပ်သတင်းအချက်အလက်များ
       reject_client: client ကိုငြင်းပယ်
     form:
       able: Able
@@ -1276,14 +1276,14 @@ my:
       district: ခ႐ိုင္
       donor: အလွဴရွင္
       enrolled_program_streams: စာရင္းေပးသြင္းမႈအစီအစဥ္စီဆင္းမႈမ်ား
-      exit_curcumstance: ထွက်ပေါက်အခြေအနေ
+      exit_circumstance: ထွက်ပေါက်အခြေအနေ
       exit_date: NGO မွ ထြက္သည့္ ရက္စြဲ
       exit_from_ec: EC မွ ထြက္ရန္
       exit_from_fc: FC မွ ထြက္၇န္
       exit_from_kc: KC မွ ထြက္ရန္
       exit_ngo_btn: NGO မွ ထြက္သည္
       exit_note: ထြက္သည့္ မွတ္စု
-      exit_reason: ထွက်ပေါက်ဘို့အကြောင်းပြချက်
+      exit_reasons: ထွက်ပေါက်ဘို့အကြောင်းပြချက်
       families: မိသားစုမ်ား
       family_name: မိသားစုနာမည္
       follow_up_by: မွ ဆက္လက္ေဆာင္ရြက္သည္
@@ -1314,7 +1314,7 @@ my:
       name: နာမည္
       name_of_referee: ဒိုင်လူကြီး၏နာမကိုအမှီ
       note: မွတ္စု
-      other_info: အခြားအ - နောက်ထပ်သတင်းအချက်အလက်များ
+      other_info_of_exit: အခြားအ - နောက်ထပ်သတင်းအချက်အလက်များ
       placements:
         carer_address: ေစာင့္ေရွာက္သူ လိပ္စာ
         carer_names: ေစာင့္ေရွာက္သူနာမည္မ်ား

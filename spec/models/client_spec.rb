@@ -795,15 +795,15 @@ describe 'validations' do
   end
 
   context 'rejected_note' do
-    let!(:client){ create(:client, state: '', rejected_note: '') }
+    let!(:client){ create(:client, state: '', exit_date: '') }
     before do
       client.state = 'rejected'
-      client.rejected_note = ''
+      client.exit_date = ''
       client.valid?
     end
 
     it { expect(client.valid?).to be_falsey }
-    it { expect(client.errors[:rejected_note]).to include("can't be blank") }
+    it { expect(client.errors[:exit_date]).to include("can't be blank") }
   end
 
   context 'kid_id' do

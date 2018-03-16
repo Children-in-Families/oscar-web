@@ -180,13 +180,14 @@ body[id='clients-show'] {
   .what3words{
     height: 17%;
   }
-  .exit_reasons{
+  .client_exit_reasons > span{
+    margin-left: -15px;
     font-size: 9px;
   }
-  .client_exit_curcumstance{
+  .client_exit_circumstance{
     margin-top: -15px;
   }
-  .client_other_info{
+  .client_other_info_of_exit{
     margin-top: 10px;
   }
   .client_exit_date{

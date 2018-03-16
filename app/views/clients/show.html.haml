@@ -40,7 +40,7 @@
                     .form-actions
                       = f.submit t('.accept'), class: 'btn btn-success agree-btn'
                 .col-xs-12
-                  %button.btn.btn-danger.mini-margin{"data-target" => '#exitForm', "data-toggle" => 'modal', class: 'agree-btn', value: 'Reject'} #{t('.reject')}
+                  %button.btn.btn-danger.mini-margin{"data-target" => '#exitForm', "data-toggle" => 'modal', class: 'agree-btn'} #{t('.reject')}
             .col-xs-12
               = render 'exit_ngo_form', client: @client
 
@@ -416,18 +416,19 @@
                       = date_format(@client.exit_date)
                 %tr
                   %td.spacing-first-col
-                    = t('.exit_curcumstance')
+                    = t('.exit_circumstance')
                   %td
                     %strong
-                      = @client.exit_curcumstance
+                      = @client.exit_circumstance
                 %tr
                   %td.spacing-first-col
-                    = t('.exit_reason')
+                    = t('.exit_reasons')
                   %td
                     %strong
-                      - exit_reasons = @client.exit_reason
+                      - exit_reasons = @client.exit_reasons.reject(&:empty?)
                       - exit_reasons.each do |exit_reason|
-                        = exit_reason
+                        %ul
+                          %li= exit_reason
                         %br
                 - if @client.state == "rejected"
                   %tr
@@ -445,10 +446,10 @@
                         = @client.exit_note
                 %tr
                   %td.spacing-first-col
-                    = t('.other_info')
+                    = t('.other_info_of_exit')
                   %td
                     %strong
-                      = @client.other_info
+                      = @client.other_info_of_exit
 
         .row
           .col-xs-12

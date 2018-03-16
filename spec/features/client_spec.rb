@@ -207,38 +207,56 @@ describe 'Client' do
     end
   end
 
-  feature 'Reject' do
-    let!(:client){create(:client, users: [user])}
-    before do
-      login_as(user)
+  feature 'Reject', js: true do
+    let!(:client){ create(:client, state: '', exit_circumstance: '') }
+    let!(:accepted_client){ create(:client, state: 'accepted') }
+
+    let!(:active_client){ create(:client, state: 'accepted') }
+    let!(:program_stream){ create(:program_stream) }
+    let!(:client_enrollment) { create(:client_enrollment, program_stream: program_stream, client: active_client) }
+
+    before { login_as(admin) }
+
+    scenario 'Reject client after created' do
       visit client_path(client)
       click_button 'Reject'
-
-      fill_in 'Note', with: 'Rejected'
+      fill_in 'Exit Date', with: '2018-03-15'
+      fill_in 'Exit Circumstance', with: 'Rejected Referral'
       find("input[type='submit'][value='Exit']").click
-    end
-    scenario 'successfully', js: true do
-      wait_for_ajax
       expect(page).to have_content('Rejected')
     end
-  end
 
-  feature 'Accept and Reject' do
-    let!(:non_status_client){ create(:client, state: '', users: [user]) }
-    let!(:rejected_client){ create(:client, state: 'rejected', rejected_note: 'Something', users: [user]) }
-    before do
-      login_as(user)
-    end
-    scenario 'both button' do
-      visit client_path(non_status_client)
-      expect(page).to have_css("input[type='submit'][value='Accept']")
-      expect(page).to have_selector(:link_or_button, 'Reject')
-      # expect(page).to have_css("input[type='submit'][value='Reject']")
+    scenario 'Exit client after accepted' do
+      visit client_path(accepted_client)
+      click_button 'Add Client to Case'
+      find("a[data-target='#exitForm']").click
+      fill_in 'Exit Date', with: '2018-03-15'
+      fill_in 'Exit Circumstance', with: 'Exited Client'
+      find("input[type='submit'][value='Exit']").click
+      expect(page).to have_content('Exited Client')
     end
 
-    scenario 'no rejected button' do
-      visit client_path(rejected_client)
-      expect(page).not_to have_css("input[type='submit'][value='Reject']")
+    context 'Client still actively enrolled in a program' do
+      scenario 'Pop up warning' do
+        visit client_path(active_client)
+        click_button 'Add Client to Case'
+        find("a[data-target='#remaining-programs-modal']").click
+        expect(page).to have_content("This client is still actively enrolled in 1 programs.")
+        click_link 'Click here to exit program'
+      end
+
+      context 'exit client from program' do
+        let!(:leave_program){ create(:leave_program, client_enrollment: client_enrollment, program_stream: program_stream) }
+        scenario 'successfully exited client' do
+          visit client_path(active_client.reload)
+          click_button 'Add Client to Case'
+          find("a[data-target='#exitForm']").click
+          fill_in 'Exit Date', with: '2018-03-15'
+          fill_in 'Exit Circumstance', with: 'Exited Client'
+          find("input[type='submit'][value='Exit']").click
+          expect(page).to have_content('Exited Client')
+        end
+      end
     end
   end
 

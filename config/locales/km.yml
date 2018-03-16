@@ -1078,13 +1078,13 @@ km:
     exit_ngo_form:
       case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
       exit_btn: ចាកចេញ
-      exit_curcumstance: ស្ថានភាពនៃការចាកចេញ
+      exit_circumstance: ស្ថានភាពនៃការចាកចេញ
       exit_date: ថ្ងៃចាកចេញ
       exit_ngo: ចាកចេញពី NGO
       exit_note: កំណត់ហេតុនៃការចាកចេញ
-      exit_reason: ហេតុផលនៃកាចាកចេញ
+      exit_reasons: ហេតុផលនៃកាចាកចេញ
       exit_status: ស្ថានភាព
-      other_info: ព័ត៌មានបន្ថែមផ្សេងៗ
+      other_info_of_exit: ព័ត៌មានបន្ថែមផ្សេងៗ
       reject_client: មិនទទួលយកអតិថិជន
       rejected_note: កំណត់ហេតុនៃការមិនទទួលយក
 
@@ -1356,14 +1356,14 @@ km:
       district: ស្រុក/ខណ្ឌ
       donor: ម្ចាស់ជំនួយ
       enrolled_program_streams: កម្មវិធីបន្ទាប់បន្សំដែលបានចូលរួម
-      exit_curcumstance: ស្ថានភាពនៃការចាកចេញ
+      exit_circumstance: ស្ថានភាពនៃការចាកចេញ
       exit_date: ថ្ងៃចាកចេញ
       exit_from_ec: ចាកចេញពី EC
       exit_from_fc: ចាកចេញពី FC
       exit_from_kc: ចាកចេញពី KC
       exit_ngo_btn: ចាកចេញពី NGO
       exit_note: កំណត់ហេតុនៃការចាកចេញ
-      exit_reason: ហេតុផលនៃកាចាកចេញ
+      exit_reasons: ហេតុផលនៃកាចាកចេញ
       families: គ្រួសារ
       family_name: នាមត្រកូលជាអក្សរឡាតាំង
       follow_up_by: បុគ្គលិកតាមដានករណី
@@ -1394,7 +1394,7 @@ km:
       name: ឈ្មោះ
       name_of_referee: ឈ្មោះអ្នកបញ្ជូន
       note: កំណត់ហេតុ
-      other_info: ព័ត៌មានបន្ថែមផ្សេងៗ
+      other_info_of_exit: ព័ត៌មានបន្ថែមផ្សេងៗ
       primary_carer_name: អ្នកមើលថែចំបង
       primary_carer_phone_number: លេខទូរស័ព្ទអ្នកមើលថែចំបង
       referee_phone_number: លេខទូរស័ព្ទអ្នកបញ្ជូន

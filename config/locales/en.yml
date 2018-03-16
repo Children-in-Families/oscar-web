@@ -999,13 +999,13 @@ en:
     exit_ngo_form:
       case_worker_or_staff: Case Worker / Staff
       exit_btn: Exit
-      exit_curcumstance: Exit Curcumstance
+      exit_circumstance: Exit Circumstance
       exit_date: Exit Date
       exit_ngo: Exit NGO
       exit_note: Exit Note
-      exit_reason: Reason for Exit
+      exit_reasons: Reason for Exit
       exit_status: Status
-      other_info: Other - More Information
+      other_info_of_exit: Other - More Information
       reject_client: Reject Client
       rejected_note: Rejected Note
     form:
@@ -1267,14 +1267,14 @@ en:
       district: District/Khan
       donor: Donor
       enrolled_program_streams: Enrolled Program Streams
-      exit_curcumstance: Exit Curcumstance
+      exit_circumstance: Exit Circumstance
       exit_date: NGO Exit Date
       exit_from_ec: Exit From EC
       exit_from_fc: Exit From FC
       exit_from_kc: Exit From KC
       exit_ngo_btn: Exit From NGO
       exit_note: Exit Note
-      exit_reason: Reason for Exit
+      exit_reasons: Reason for Exit
       families: Families
       family_name: Family Name (English)
       follow_up_by: First Follow-Up By
@@ -1305,7 +1305,7 @@ en:
       name: Name
       note: Note
       name_of_referee: Name Of Referee
-      other_info: Other - More Information
+      other_info_of_exit: Other - More Information
       primary_carer_name: Primary Carer Name
       primary_carer_phone_number: Primary Carer Phone Number
       referee_phone_number: Referee Phone Number

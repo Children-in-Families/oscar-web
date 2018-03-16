@@ -396,9 +396,9 @@ ActiveRecord::Schema.define(version: 20180314085911) do
     t.string   "main_school_contact",              default: ""
     t.string   "rated_for_id_poor",                default: ""
     t.string   "what3words",                       default: ""
-    t.string   "exit_reason",                      default: [],         array: true
-    t.string   "exit_curcumstance",                default: ""
-    t.string   "other_info",                       default: ""
+    t.string   "exit_reasons",                     default: [],         array: true
+    t.string   "exit_circumstance",                default: ""
+    t.string   "other_info_of_exit",               default: ""
   end
 
   add_index "clients", ["district_id"], name: "index_clients_on_district_id", using: :btree
