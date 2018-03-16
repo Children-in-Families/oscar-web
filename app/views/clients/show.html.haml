@@ -40,7 +40,7 @@
                     .form-actions
                       = f.submit t('.accept'), class: 'btn btn-success agree-btn'
                 .col-xs-12
-                  %button.btn.btn-danger.mini-margin{"data-target" => '#exitForm', "data-toggle" => 'modal', class: 'agree-btn'} #{t('.reject')}
+                  %button.btn.btn-danger.mini-margin{"data-target" => '#exitForm', "data-toggle" => 'modal', class: 'agree-btn', value: 'Reject'} #{t('.reject')}
             .col-xs-12
               = render 'exit_ngo_form', client: @client
 

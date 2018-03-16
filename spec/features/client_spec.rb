@@ -215,7 +215,7 @@ describe 'Client' do
       click_button 'Reject'
 
       fill_in 'Note', with: 'Rejected'
-      find("input[type='submit'][value='Reject']").click
+      find("input[type='submit'][value='Exit']").click
     end
     scenario 'successfully', js: true do
       wait_for_ajax
@@ -232,7 +232,8 @@ describe 'Client' do
     scenario 'both button' do
       visit client_path(non_status_client)
       expect(page).to have_css("input[type='submit'][value='Accept']")
-      expect(page).to have_css("input[type='submit'][value='Reject']")
+      expect(page).to have_selector(:link_or_button, 'Reject')
+      # expect(page).to have_css("input[type='submit'][value='Reject']")
     end
 
     scenario 'no rejected button' do
