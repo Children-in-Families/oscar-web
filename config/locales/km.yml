@@ -306,9 +306,11 @@ km:
       district: ស្រុក/ខណ្ឌ
       donor: ម្ចាស់ជំនួយ
       donor_id: ម្ចាស់ជំនួយ
+      exit_circumstance: ស្ថានភាពនៃការចាកចេញ
       exit_ec_date: ថ្ងៃចាកចេញពី EC
       exit_fc_date: ថ្ងៃចាកចេញពី FC
       exit_kc_date: ថ្ងៃចាកចេញពី KC
+      exit_reasons: ហេតុផលនៃកាចាកចេញ
       family: គ្រួសារ
       family_id: លេខសម្គាល់គ្រួសារ
       family_name: នាមត្រកូលជាអក្សរឡាតាំង
@@ -334,6 +336,7 @@ km:
       name: ឈ្មោះ
       ngo_accepted_date: កាលបរិច្ឆេទទទួលយកចូលអង្គការ
       ngo_exit_date: កាលបរិច្ឆេទនៃការចាកចេញពីអង្គការ
+      other_info_of_exit: ព័ត៌មានបន្ថែមផ្សេងៗ
       placement_start_date: ថ្ងៃបញ្ជូនទៅក្នុងករណី
       program_stream: កម្មវិធីបន្ទាប់បន្សំ
       province: ខេត្តកំណើត
@@ -1636,6 +1639,8 @@ km:
         domain: កត្តា
         domains: កត្តា CSI ទាំងអស់
         donor: ម្ចាស់ជំនួយ
+        exit_circumstance: ស្ថានភាពនៃការចាកចេញ
+        exit_reasons: ហេតុផលនៃកាចាកចេញ
         family_id: លេខសម្គាល់គ្រួសារ
         family_name: នាមត្រកូលជាអក្សរឡាតាំង
         follow_up_by: បុគ្គលិកតាមដានករណី
@@ -1667,6 +1672,7 @@ km:
         ngo_accepted_date: កាលបរិច្ឆេទទទួលយកចូលអង្គការ
         ngo_exit_date: កាលបរិច្ឆេទនៃការចាកចេញពីអង្គការ
         no_dob: ទេ
+        other_info_of_exit: ព័ត៌មានបន្ថែមផ្សេងៗ
         placement_case_type: ប្រភេទករណីដែលត្រូវបានបញ្ជូនទៅ
         placement_start_date: ថ្ងៃបញ្ជូនទៅក្នុងករណី
         placements:
@@ -1712,6 +1718,8 @@ km:
         village: ភូមិ
         what3words: What3words
       date_of_assessments: កាលបរិច្ឆេទការប៉ាន់ប្រមាណ
+      exit_circumstance: ស្ថានភាពនៃការចាកចេញ
+      exit_reasons: ហេតុផលនៃកាចាកចេញ
       families:
         address: ឣាសយដ្ឋាន
         caregiver_information: ព័ត៌មាននៃអ្នកថែទាំ
@@ -1752,6 +1760,7 @@ km:
       history_of_harm: ការបង្កទុក្ខទោស និងការកេងប្រវ័ញ្ច
       history_of_high_risk_behaviours: ការបំពានគ្រឿងញៀនឬគ្រឿងស្រវឹង និងល្បែងស៊ីសង
       manage: សកម្មភាព
+      other_info_of_exit: ព័ត៌មានបន្ថែមផ្សេងៗ
       partner: ដៃគូ
       partners:
         address: ឣាសយដ្ឋាន

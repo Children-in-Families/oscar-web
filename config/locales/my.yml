@@ -304,10 +304,12 @@ my:
       donor: အလွဴရွင္
       donor_id: အလွဴရွင္
       enrollment: စာရင္းသြင္းျခင္း
+      exit_circumstance: ထွက်ပေါက်အခြေအနေ
       exit_ec_date: ထြက္သည့္ EC ရက္စြဲ
       exit_fc_date: ထြက္သည့္ FC ရက္စြဲ
       exit_kc_date: ထြက္သည့္ KC ရက္စြဲ
       exit_program: ထြက္သည့္အစီအစဥ္
+      exit_reasons: ထွက်ပေါက်ဘို့အကြောင်းပြချက်
       family: မိသားစု
       family_id: မိသားစုမွတ္ပံုတင္
       family_name: မ်ိဳး႐ိုးနာမည္
@@ -333,6 +335,7 @@ my:
       name: အမည္
       ngo_accepted_date: NGOက လက္ခံသည့္ ရက္စြဲ
       ngo_exit_date: NGOမွ ထြက္သည့္ ရက္စြဲ
+      other_info_of_exit: အခြားအ - နောက်ထပ်သတင်းအချက်အလက်များ
       placement_start_date: ေနရာခ်ထားမႈစတင္သည့္ရက္စြဲ
       program_stream: အစီအမံစီဆင္းမႈ
       province: ေမြးရာျပည္နယ္
@@ -1559,6 +1562,8 @@ my:
         domain: ဒိုမိန္း
         domains: CSI အားလံုး
         donor: အလွဴရွင္
+        exit_circumstance: ထွက်ပေါက်အခြေအနေ
+        exit_reasons: ထွက်ပေါက်ဘို့အကြောင်းပြချက်
         family_id: မိသားစုမွတ္ပံုတင္
         family_name: မိသားစုနာမည္
         follow_up_by: မွ ဆက္လက္ေဆာင္ရြက္သည္
@@ -1590,6 +1595,7 @@ my:
         ngo_accepted_date: NGO က လက္ခံသည့္ ရက္စြဲ
         ngo_exit_date: NGO မွ ထြက္သည့္ ရက္စြဲ
         no_dob: မဟုတ္ပါ
+        other_info_of_exit: အခြားအ - နောက်ထပ်သတင်းအချက်အလက်များ
         placement_case_type: ေနရာခ်ထားသည့္အမႈအမ်ိဳးအစား
         placement_start_date: ေနရာခ်ထားမႈ စတင္သည့္ ရက္စြဲ
         placements:
@@ -1634,6 +1640,8 @@ my:
         view: ျမင္ကြင္း
         village: ေက်းရြာ
       date_of_assessments: စိစစ္အကဲျဖတ္မႈမ်ား ျပဳလုပ္သည့္ ရက္စြဲ
+      exit_circumstance: ထွက်ပေါက်အခြေအနေ
+      exit_reasons: ထွက်ပေါက်ဘို့အကြောင်းပြချက်
       families:
         address: လိပ္စာ
         caregiver_information: ေစာင့္ေရွာက္သူ၏ အခ်က္အလက္
@@ -1674,6 +1682,7 @@ my:
       history_of_harm: ထိခိုက္ဒဏ္ရာရရွိမႈ သမုိင္းေၾကာင္း
       history_of_high_risk_behaviours: အႏၱရာယ္မ်ားေသာ အျပဳအမႈ၏ သမိုင္း
       manage: စီမံသည္
+      other_info_of_exit: အခြားအ - နောက်ထပ်သတင်းအချက်အလက်များ
       partner: မိတ္ဖက္
       partners:
         address: လိပ္စာ

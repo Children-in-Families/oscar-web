@@ -80,6 +80,7 @@ module AdvancedSearches
           @sql_string << nested_query[:sql_string]
           nested_query[:values].select{ |v| @values << v }
         end
+
       end
 
       @sql_string = @sql_string.join(" #{@condition} ")

@@ -67,6 +67,19 @@
               = label_tag 'rejected_note_', t('datagrid.columns.rejected_note')
           %li
             .visibility.col-sm-12
+              = check_box_tag 'exit_reasons_', 'exit_reasons', checked = params[:exit_reasons_].present?, class: 'i-checks'
+              = label_tag 'exit_reasons_', t('datagrid.columns.exit_reasons')
+          %li
+            .visibility.col-sm-12
+              = check_box_tag 'exit_circumstance_', 'exit_circumstance', checked = params[:exit_circumstance_].present?, class: 'i-checks'
+              = label_tag 'exit_circumstance_', t('datagrid.columns.exit_circumstance')
+          %li
+            .visibility.col-sm-12
+              = check_box_tag 'other_info_of_exit_', 'other_info_of_exit', checked = params[:other_info_of_exit_].present?, class: 'i-checks'
+              = label_tag 'other_info_of_exit_', t('datagrid.columns.other_info_of_exit')
+
+          %li
+            .visibility.col-sm-12
               = check_box_tag 'case_start_date_', 'case_start_date', checked = params[:case_start_date_].present?, class: 'i-checks'
               = label_tag 'case_start_date_', t('datagrid.columns.case_start_date')
           %li

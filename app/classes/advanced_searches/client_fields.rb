@@ -27,7 +27,7 @@ module AdvancedSearches
     end
 
     def text_type_list
-      ['given_name', 'family_name', 'local_given_name', 'local_family_name', 'family', 'slug', 'referral_phone', 'house_number', 'street_number', 'village', 'commune', 'school_name', 'school_grade', 'telephone_number']
+      ['given_name', 'family_name', 'local_given_name', 'local_family_name', 'family', 'slug', 'referral_phone', 'house_number', 'street_number', 'village', 'commune', 'school_name', 'school_grade', 'telephone_number', 'exit_circumstance', 'other_info_of_exit']
     end
 
     def date_type_list
@@ -52,8 +52,22 @@ module AdvancedSearches
         ['form_title', client_custom_form_options],
         ['donor_id', donor_options],
         ['program_stream', program_options],
-        ['case_note_type', case_note_type_options]
+        ['case_note_type', case_note_type_options],
+        ['exit_reasons', exit_reasons_options]
       ]
+    end
+
+    def exit_reasons_options
+      {
+        'Client Moved Away (Within Cambodia)': 'Client Moved Away (Within Cambodia)',
+        'Client Moved Away (International)': 'Client Moved Away (International)',
+        'Client Refused Service': 'Client Refused Service',
+        'Client No Longer Meets Agency Criteria': 'Client No Longer Meets Agency Criteria',
+        'Client Died': 'Client Died',
+        'Client No Longer Requires Support (Independent)': 'Client No Longer Requires Support (Independent)',
+        'Agency Lacks Sufficient Resources': 'Agency Lacks Sufficient Resources',
+        'Other': 'Other'
+      }
     end
 
     def case_note_type_options

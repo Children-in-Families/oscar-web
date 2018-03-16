@@ -299,10 +299,12 @@ en:
       donor: Donor
       donor_id: Donor
       enrollment: Enrollment
+      exit_circumstance: Exit Circumstance
       exit_ec_date: Exit EC Date
       exit_fc_date: Exit FC Date
       exit_kc_date: Exit KC Date
       exit_program: Exit Program
+      exit_reasons: Reason For Exit
       family: Family
       family_id: Family ID
       family_name: Family Name (English)
@@ -328,6 +330,7 @@ en:
       name: Name
       ngo_accepted_date: NGO Accept Date
       ngo_exit_date: NGO Exit Date
+      other_info_of_exit: Other - More Information
       placement_start_date: Placement Start Date
       program_stream: Program Stream
       province: Birth Province
@@ -1548,6 +1551,8 @@ en:
         domain: Domain
         domains: All CSI
         donor: Donor
+        exit_circumstance: Exit Circumstance
+        exit_reasons: Reason For Exit
         family_id: Family ID
         family_name: Family Name (English)
         follow_up_by: First Follow-Up By
@@ -1579,6 +1584,7 @@ en:
         ngo_accepted_date: NGO Accept Date
         ngo_exit_date: NGO Exit Date
         no_dob: 'No'
+        other_info_of_exit: Other - More Information
         placement_case_type: Placement Case Type
         placement_start_date: Placement Start Date
         placements:
@@ -1626,6 +1632,8 @@ en:
         view: View
         village: Village
       date_of_assessments: Date of Assessments
+      exit_circumstance: Exit Circumstance
+      exit_reasons: Reason For Exit
       families:
         address: Address
         caregiver_information: Caregiver Information
@@ -1666,6 +1674,7 @@ en:
       history_of_harm: History of Harm
       history_of_high_risk_behaviours: History of high-risk behaviours
       manage: Manage
+      other_info_of_exit: Other - More Information
       partner: Partner
       partners:
         address: Address

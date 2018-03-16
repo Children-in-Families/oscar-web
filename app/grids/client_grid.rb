@@ -577,6 +577,18 @@ class ClientGrid
   #   object.user.try(:name)
   # end
 
+  column(:exit_circumstance, header: -> { I18n.t('datagrid.columns.clients.exit_circumstance') }) do |object|
+    object.exit_circumstance
+  end
+
+  column(:exit_reasons, html: true, header: -> { I18n.t('datagrid.columns.clients.exit_reasons') }) do |object|
+    render partial: 'clients/exit_reasons', locals: { reasons: object.exit_reasons }
+  end
+
+  column(:other_info_of_exit, header: -> { I18n.t('datagrid.columns.clients.other_info_of_exit') }) do |object|
+    object.other_info_of_exit
+  end
+
   column(:user, order: false, header: -> { I18n.t('datagrid.columns.clients.case_worker_or_staff') }) do |object|
     object.users.map{|u| u.name }.join(', ')
   end

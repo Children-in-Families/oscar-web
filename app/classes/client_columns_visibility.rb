@@ -7,6 +7,9 @@ class ClientColumnsVisibility
   def columns_collection
     {
       live_with_: :live_with,
+      exit_reasons_: :exit_reasons,
+      exit_circumstance_: :exit_circumstance,
+      other_info_of_exit_: :other_info_of_exit,
       # id_poor_: :id_poor,
       program_streams_: :program_streams,
       program_enrollment_date_: :program_enrollment_date,
