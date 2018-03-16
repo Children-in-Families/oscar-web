@@ -1103,7 +1103,8 @@ my:
       village: ေက်းရြာ
       year: ႏွစ္
       yes_no: ဟုတ္တယ္/ မဟုတ္ဘူး
-
+    form_header:
+      case_worker_or_staff: အမႈျခင္းရာအတြက္ ေဆာင္ရြက္ေပးသူ/ ၀န္ထမ္း
     foster_case:
       carer_address: ေစာင့္ေရွာက္သူ လိပ္စာ
       carer_names: ေစာင့္ေရွာက္သူ နာမည္မ်ား
