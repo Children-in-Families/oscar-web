@@ -14,5 +14,9 @@ FactoryGirl.define do
     trait :complete do
       completed true
     end
+
+    trait :overdue do
+      completion_date Date.yesterday
+    end
   end
 end

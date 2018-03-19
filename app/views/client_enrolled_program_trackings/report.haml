@@ -6,7 +6,7 @@
         .ibox-tools
           - unless @enrollment.program_stream.tracking_required?
             - if can? :manage, ClientEnrollmentTracking
-              = client_enrollment_tracking_new_link
+              = client_enrolled_tracking_new_link
           = link_to client_client_enrolled_program_client_enrolled_program_trackings_path(@client, @enrollment, tracking_id: @tracking.id) do
             .btn.btn-success.btn-outline= t('.back')
       .ibox-content
@@ -21,8 +21,7 @@
                       = date_format(enrollment_tracking.created_at)
                     .ibox-tools
                       - if can? :manage, ClientEnrollmentTracking
-                        - if policy(enrollment_tracking).update?
-                          = client_enrolled_tracking_edit_link(enrollment_tracking)
+                        = client_enrolled_tracking_edit_link(enrollment_tracking)
                         = client_enrollment_tracking_destroy_link(enrollment_tracking)
                   .ibox-content
                     .table-responsive

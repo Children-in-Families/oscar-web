@@ -244,4 +244,8 @@ module ClientsHelper
   def check_params_has_overdue_task
     true if params.dig(:client_grid, :overdue_task) == 'Overdue'
   end
+
+  def status_exited?(value)
+    value == 'Exited'
+  end
 end
