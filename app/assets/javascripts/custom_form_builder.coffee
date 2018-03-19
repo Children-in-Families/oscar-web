@@ -38,7 +38,7 @@ class CIF.CustomFormBuilder
   eventDateOption: ->
     self = @
     onadd: (fld) ->
-      $('.className-wrap, .placeholder-wrap, .value-wrap, .access-wrap, .description-wrap, .name-wrap, .toggle-wrap, .inline-wrap').hide()
+      $('.date-field').find('.className-wrap, .placeholder-wrap, .value-wrap, .access-wrap, .description-wrap, .name-wrap, .toggle-wrap, .inline-wrap').hide()
       self.handleCheckingForm()
     onclone: (fld) ->
       setTimeout ( ->
@@ -48,7 +48,7 @@ class CIF.CustomFormBuilder
   eventFileOption: ->
     self = @
     onadd: (fld) ->
-      $('.className-wrap, .placeholder-wrap, .subtype-wrap, .value-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
+      $('.file-field').find('.className-wrap, .placeholder-wrap, .subtype-wrap, .value-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
       self.handleCheckingForm()
     onclone: (fld) ->
       setTimeout ( ->
@@ -58,7 +58,7 @@ class CIF.CustomFormBuilder
   eventNumberOption: ->
     self = @
     onadd: (fld) ->
-      $('.className-wrap, .placeholder-wrap, .value-wrap, .step-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
+      $('.number-field').find('.className-wrap, .placeholder-wrap, .value-wrap, .step-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
       self.handleCheckingForm()
     onclone: (fld) ->
       setTimeout ( ->

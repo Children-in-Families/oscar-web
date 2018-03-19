@@ -107,7 +107,7 @@ describe ClientEnrollment, 'callbacks' do
 
   let!(:program_stream) { create(:program_stream) }
   let!(:other_program_stream) { create(:program_stream) }
-  let!(:client) { create(:client) }
+  let!(:client) { create(:client, :accepted) }
   let!(:client_enrollment) { create(:client_enrollment, program_stream: program_stream, client: client) }
   let!(:other_client_enrollment) { create(:client_enrollment, program_stream: other_program_stream, client: client) }
 
@@ -130,18 +130,18 @@ describe ClientEnrollment, 'callbacks' do
   context 'after_create' do
     context 'set_client_status' do
       it 'return client status active when not in any case' do
-        expect(client_enrollment.client.status).to eq("Referred")
+        expect(client_enrollment.client.status).to eq("Accepted")
         client_enrollment.reload
         client_enrollment.update(enrollment_date: FFaker::Time.date)
         expect(client_enrollment.client.status).to eq("Active")
       end
 
-      it 'return client status Active EC when in case EC' do
+      it 'return client status Active when in case EC' do
         case_client = FactoryGirl.create(:case, client: client)
         case_client_enrollment = FactoryGirl.create(:client_enrollment, program_stream: program_stream, client: client)
         case_client_enrollment.reload
         case_client_enrollment.update(enrollment_date: FFaker::Time.date)
-        expect(case_client_enrollment.client.status).to eq("Active EC")
+        expect(case_client_enrollment.client.status).to eq("Active")
       end
     end
   end
@@ -154,15 +154,15 @@ describe ClientEnrollment, 'callbacks' do
         expect(client.status).to eq('Active')
       end
 
-      it 'return client status Active EC when in case EC' do
+      it 'return client status Active when in case EC' do
         case_client = FactoryGirl.create(:case, client: client, case_type: 'EC')
         other_client_enrollment.destroy
-        expect(client.status).to eq('Active EC')
+        expect(client.status).to eq('Active')
       end
 
-      it 'return client status Referred when not active in any cases or programs' do
+      it 'return client status Accepted when not active in any cases or programs' do
         other_client_enrollment.destroy
-        expect(client.status).to eq('Referred')
+        expect(client.status).to eq('Accepted')
       end
     end
   end

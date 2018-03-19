@@ -2,6 +2,7 @@ class Client::TasksController < AdminController
 
   load_and_authorize_resource
   before_action :find_client
+  before_action :authorize_client, only: [:edit, :update, :destroy]
   before_action :find_task, only: [:edit, :update, :destroy]
 
   def index
@@ -85,6 +86,10 @@ class Client::TasksController < AdminController
 
   def find_task
     @task = @client.tasks.find(params[:id])
+  end
+
+  def authorize_client
+    authorize @client
   end
 
   def find_calendars(task)

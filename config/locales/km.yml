@@ -1075,12 +1075,17 @@ km:
       start_date: ថ្ងៃចាប់ផ្តើម
       support_amount: ប្រាក់ឧបត្ថម្ភ
       support_note: ពត៌មានពីប្រាក់ឧប្ថម្ភ
+    enter_ngo_form:
+      accept: ទទួលយក
+      accept_ngo_form: ទទួលចូលអង្គការ
+      accepted_date: កាលបរិច្ឆេទទទួលយកចូលអង្គការ
+      case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
     exit_ngo_form:
       case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
       exit_btn: ចាកចេញ
       exit_circumstance: ស្ថានភាពនៃការចាកចេញ
       exit_date: ថ្ងៃចាកចេញ
-      exit_ngo: ចាកចេញពី NGO
+      exit_ngo: ចាកចេញពីអង្គការ
       exit_note: កំណត់ហេតុនៃការចាកចេញ
       exit_reasons: មូលហេតុនៃការចាកចេញ
       exit_status: ស្ថានភាព
@@ -1094,7 +1099,7 @@ km:
       exit_ec: ចាកចេញពី EC
       exit_fc: ចាកចេញពី FC
       exit_kc: ចាកចេញពី KC
-      exit_ngo: ចាកចេញពី NGO
+      exit_ngo: ចាកចេញពីអង្គការ
       exit_note: កំណត់ហេតុនៃការចាកចេញ
       exit_status: ស្ថានភាព
     form:
@@ -1190,7 +1195,8 @@ km:
       village: ភូមិ
       year: ឆ្នាំ
       yes_no: បាទ/អត់ទេ
-
+    form_header:
+      case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
     foster_case:
       carer_address: អាសយដ្ឋានអ្នកថែទាំ
       carer_names: ឈ្មោះអ្នកថែទាំ
@@ -1361,7 +1367,7 @@ km:
       exit_from_ec: ចាកចេញពី EC
       exit_from_fc: ចាកចេញពី FC
       exit_from_kc: ចាកចេញពី KC
-      exit_ngo_btn: ចាកចេញពី NGO
+      exit_ngo_btn: ចាកចេញពីអង្គការ
       exit_note: កំណត់ហេតុនៃការចាកចេញ
       exit_reasons: មូលហេតុនៃការចាកចេញ
       families: គ្រួសារ

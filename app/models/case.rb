@@ -110,18 +110,12 @@ class Case < ActiveRecord::Base
 
   def update_client_status
     if new_record?
-      client.status =
-        case case_type
-        when 'EC' then 'Active EC'
-        when 'KC' then 'Active KC'
-        when 'FC' then 'Active FC'
-        when 'Referred' then 'Referred'
-        end
+      client.status = ['EC', 'FC', 'KC'].include?(case_type) ? 'Active' : 'Referred'
     elsif exited_from_cif
       client.status = status
     elsif exited && !exited_from_cif
       if client.client_enrollments.active.empty?
-        client.status = exited_was ? client.status : 'Referred'
+        client.status = exited_was ? client.status : 'Accepted'
       else
         client.status = exited_was ? client.status : 'Active'
       end

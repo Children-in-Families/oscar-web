@@ -21,10 +21,10 @@ module CustomFormBuilderHelper
         concat value.to_date.strftime('%B %d, %Y')
       elsif value.is_a?(Array)
         value.reject{ |i| i.empty? }.each do |c|
-          concat content_tag(:strong, c, class: 'label label-margin')
+          concat content_tag(:strong, c.gsub('&amp;qoute;', '&quot;').html_safe, class: 'label label-margin')
         end
       else
-        concat value
+        concat value.gsub('&amp;qoute;', '&quot;').html_safe if value.present?
       end
     end
     content = div.gsub('&amp;nbsp;', '')

@@ -28,39 +28,37 @@
                 %strong= @client.current_province
 
       .col-md-3
-        - if @client.state == ''
+        - if @client.status == 'Referred'
           .row
             .col-xs-12
               .row
                 .col-xs-12
                   = simple_form_for @client, method: :put, url: client_path(@client) do |f|
                     .form-inputs
-                      = f.hidden_field :state, value: 'accepted'
                       = f.hidden_field :accepted_date, value: Date.today
+                      = f.hidden_field :status, value: 'Accepted'
                     .form-actions
-                      = f.submit t('.accept'), class: 'btn btn-success agree-btn'
+                      = f.submit t('.accept'), class: 'btn btn-success agree-btn', id: 'accept-client'
                 .col-xs-12
-                  %button.btn.btn-danger.mini-margin{"data-target" => '#exitForm', "data-toggle" => 'modal', class: 'agree-btn'} #{t('.reject')}
+                  %button.btn.btn-danger.mini-margin{"data-target" => '#exitFromNgo', "data-toggle" => 'modal', class: 'agree-btn'} #{t('.reject')}
+
             .col-xs-12
               = render 'exit_ngo_form', client: @client
 
-        - elsif @client.state == 'rejected'
+        - elsif @client.status == 'Exited'
           .row
             .col-xs-12
-              = simple_form_for @client, method: :put, url: client_path(@client) do |f|
-                .form-inputs
-                  = f.hidden_field :state, value: 'accepted'
-                .form-actions
-                  = f.submit "#{t('.accept')}", class: 'btn btn-success agree-btn'
+              %button.btn.btn-success.mini-margin{"data-target" => '#enter-ngo-form', "data-toggle" => 'modal', class: 'agree-btn' } #{t('.accept')}
+              = render 'enter_ngo_form'
             .col-xs-12
-              %button.btn.btn-danger.mini-margin{ disabled: 'disabled', class:'agree-btn' } #{t('.reject')}
+              %button.btn.btn-danger.mini-margin{ disabled: 'disabled', class:'agree-btn' }= t('.reject')
 
-    - if @client.state == 'accepted'
+    - if @client.status != 'Referred'
       .row
         .col-xs-12
           - if can? :manage, Case
             .btn-group.small-btn-margin
-              %button.btn-sm.btn.btn-primary.dropdown-toggle{"data-toggle" => "dropdown"}
+              %button.btn-sm.btn.btn-primary.dropdown-toggle{ "data-toggle" => "dropdown", id: 'add-client-to-case', class: ('disabled' if status_exited?(@client.status)) }
                 = t('.add_client_to_case')
                 %span.caret
               %ul.dropdown-menu
@@ -74,12 +72,13 @@
                       %a{"data-target" => '#remaining-programs-modal', "data-toggle" => 'modal'}
                         .text-warning= t('.exit_ngo_btn')
                     - else
-                      %a{"data-target" => '#exitForm', "data-toggle" => 'modal'}
+                      %a{"data-target" => '#exitFromNgo', "data-toggle" => 'modal'}
                         .text-warning= t('.exit_ngo_btn')
                 - if @client.cases.exclude_referred.current.present?
                   %li
                     %a{"data-target" => '#exit-from-case', "data-toggle" => 'modal'}
                       .text-warning.exit-case-warning= t(".exit_from_#{@client.cases.exclude_referred.current.case_type.downcase}")
+
             - if @client.client_enrollments.active.count > 0
               = render 'remaining_programs', client: @client
             - else
@@ -158,7 +157,7 @@
                 %li= link_to client_custom_fields.first.custom_field.form_title, client_custom_field_properties_path(@client, custom_field_id: client_custom_fields.first.custom_field_id)
           - if can? :manage, CustomFieldProperty
             .btn-group.small-btn-margin
-              %button.btn-sm.btn.btn-success.dropdown-toggle{ 'data-toggle' => 'dropdown', class: ('disabled' if @free_client_forms.empty?) }
+              %button.btn-sm.btn.btn-success.dropdown-toggle{ 'data-toggle' => 'dropdown', class: ('disabled' if @free_client_forms.empty? || status_exited?(@client.status)) }
                 = t('.add_form')
                 %span.caret
               %ul.dropdown-menu.scrollable-dropdown-menu
@@ -166,14 +165,13 @@
                   %li= link_to custom_field.form_title, new_client_custom_field_property_path(@client, custom_field_id: custom_field)
           - if @client.client_enrollments.active.count > 0
             = link_to client_client_enrolled_programs_path(@client) do
-              .btn.btn-primary.small-btn-margin.btn-sm
-                = t('.enrolled_program_streams')
+              .btn.btn-primary.small-btn-margin.btn-sm= t('.enrolled_program_streams')
           - else
-            .btn.btn-primary.small-btn-margin.btn-sm.disabled
-              = t('.enrolled_program_streams')
+            .btn.btn-primary.small-btn-margin.btn-sm.disabled= t('.enrolled_program_streams')
+
           = link_to client_client_enrollments_path(@client) do
-            .btn.btn-primary.small-btn-margin.btn-sm
-              = t('.program_streams')
+            .btn.btn-primary.small-btn-margin.btn-sm= t('.program_streams')
+
 .row.mini-margin
   .col-xs-12
     .ibox
@@ -185,7 +183,7 @@
               %i.fa.fa-chevron-up
           - if (can? :manage, Client) || (can? :rud, Client)
             %small
-              = link_to edit_client_path(@client) do
+              = link_to edit_client_path(@client), class: "btn btn-xs #{policy(@client).edit? ? '': 'disabled'}" do
                 .btn.btn-outline.btn-success
                   %i.fa.fa-pencil
               = link_to @client, method: 'delete', data: { confirm: t('.are_you_sure') } do
@@ -235,18 +233,15 @@
                   = t('.address')
                 %td.address
                   %strong
-                    - if @client.current_address.present?
-                      = @client.current_address
-                    - else
-                      = merged_address(@client)
+                    = merged_address(@client)
               %tr
                 %td.spacing-first-col
                   = t('.what3words')
                 %td
                   %strong
                     = link_to "https://map.what3words.com/#{@client.what3words}", target: :_blank do
+                      = @client.what3words
                       = image_tag 'what3words.png', class: 'what3words'
-                    = link_to @client.what3words, "https://map.what3words.com/#{@client.what3words}", target: :_blank, class: "hidden"
               %tr
                 %td.spacing-first-col
                   = t('.birth_province')
@@ -400,7 +395,6 @@
                     %strong.label.label-default.agency
                       = agency.name
 
-              = render 'state'
               - if @client.exit_date
                 %tr
                   %td.spacing-first-col

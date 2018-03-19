@@ -22,4 +22,8 @@ module ProgramStreamHelper
   def program_stream_redirect_path
     params[:client] == 'true' ? request.referer : program_streams_path
   end
+
+  def format_placeholder(value)
+    value.gsub('&amp;qoute;', '&quot;').html_safe if value.present?
+  end
 end

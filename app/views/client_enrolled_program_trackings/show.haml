@@ -10,8 +10,8 @@
       .ibox-title
         %h5= "#{@client.en_and_local_name} - #{@client_enrollment_tracking.tracking.try(:name)} - #{@program_stream.name}"
         .ibox-tools
-          - if (can? :manage, ClientEnrollmentTracking) && (policy(@client_enrollment_tracking).update?)
-            = client_enrollment_tracking_edit_link
+          - if can? :manage, ClientEnrollmentTracking
+            = client_enrolled_tracking_edit_link(@client_enrollment_tracking)
           = link_to report_client_client_enrolled_programs_path(@client, program_stream_id: @program_stream) do
             .btn.btn-default.btn-back-default
               = t('.back')

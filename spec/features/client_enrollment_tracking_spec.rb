@@ -1,7 +1,7 @@
 describe ClientEnrollmentTracking, 'Client Enrollment Tracking' do
   let!(:admin){ create(:user, roles: 'admin') }
   let!(:user) { create(:user) }
-  let!(:client) { create(:client, given_name: 'Adam', family_name: 'Eve', local_given_name: 'Juliet', local_family_name: 'Romeo', date_of_birth: 10.years.ago, users: [admin, user]) }
+  let!(:client) { create(:client, :accepted, given_name: 'Adam', family_name: 'Eve', local_given_name: 'Juliet', local_family_name: 'Romeo', date_of_birth: 10.years.ago, users: [admin, user]) }
   let!(:program_stream) { create(:program_stream, name: 'Fitness') }
   let!(:client_enrollment) { create(:client_enrollment, program_stream: program_stream, client: client) }
   let!(:tracking) { create(:tracking, name: 'Soccer', program_stream: program_stream) }
@@ -128,6 +128,7 @@ describe ClientEnrollmentTracking, 'Client Enrollment Tracking' do
   feature 'Update', js: true do
     before do
       login_as admin
+      client.reload
       visit edit_client_client_enrolled_program_client_enrolled_program_tracking_path(client, client_enrollment, client_enrollment_tracking, tracking_id: tracking.id)
     end
 

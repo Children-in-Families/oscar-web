@@ -1,6 +1,6 @@
 describe 'CaseNote' do
   let!(:user) { create(:user) }
-  let!(:client) { create(:client,status: 'accepted', users: [user]) }
+  let!(:client) { create(:client, :accepted, users: [user]) }
   let!(:fc_case){ create(:case, case_type: 'FC', client: client) }
   let!(:domain){ create(:domain, name: '1A') }
   let!(:assessment){ create(:assessment, client: client) }

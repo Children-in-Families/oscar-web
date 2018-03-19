@@ -24,10 +24,10 @@
                       %td= task.completion_date.strftime("%B %d, %Y")
                       - if can? :manage, Task
                         %td.text-center.margin-icon
-                          = link_to edit_client_task_path(@client, task) do
+                          = link_to edit_client_task_path(@client, task), class: "btn btn-xs #{policy(@client).edit? ? '' : 'disabled'}" do
                             .btn.btn-outline.btn-success.btn-xs
                               %i.fa.fa-pencil
-                          = link_to client_task_path(@client, task), method: :delete, data: { confirm: t('.are_you_sure_you_want_to_delete') } do
+                          = link_to client_task_path(@client, task), class: "btn btn-xs #{policy(@client).destroy? ? '' : 'disabled'}", method: :delete, data: { confirm: t('.are_you_sure_you_want_to_delete') } do
                             .btn.btn-outline.btn-danger.btn-xs
                               %i.fa.fa-trash
 

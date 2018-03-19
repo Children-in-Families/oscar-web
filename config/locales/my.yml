@@ -997,6 +997,11 @@ my:
       start_date: စသည့္ရက္စြဲ
       support_amount: ေထာက္ပံ့သည့္ ပမာဏ
       support_note: ေထာက္ပံ့သည့္မွတ္စု
+    enter_ngo_form:
+      accept: လက္ခံသည္
+      accept_ngo_form: NGO ရိုက်ထည့်ပါ
+      accepted_date: လက်ခံခဲ့သည်နေ့စွဲ
+      case_worker_or_staff: ဝန်ထမ်းများ
     exit_case_form:
       exit_btn: ထြက္ရန္
       exit_date: ထြက္သည့္ရက္စြဲ
@@ -1108,7 +1113,8 @@ my:
       village: ေက်းရြာ
       year: ႏွစ္
       yes_no: ဟုတ္တယ္/ မဟုတ္ဘူး
-
+    form_header:
+      case_worker_or_staff: အမႈျခင္းရာအတြက္ ေဆာင္ရြက္ေပးသူ/ ၀န္ထမ္း
     foster_case:
       carer_address: ေစာင့္ေရွာက္သူ လိပ္စာ
       carer_names: ေစာင့္ေရွာက္သူ နာမည္မ်ား

@@ -11,9 +11,9 @@ describe Task, 'validations' do
   it { is_expected.to validate_presence_of(:completion_date) }
 end
 
-describe Task, 'scopes' do
-  let!(:active_client){ create(:client, status: Client::CLIENT_ACTIVE_STATUS.first) }
-  let!(:exited_ngo_client){ create(:client, status: Client::EXIT_STATUSES.first) }
+xdescribe Task, 'scopes' do
+  let!(:active_client){ create(:client, status: 'Active') }
+  let!(:exited_ngo_client){ create(:client, :exited) }
   let!(:domain){ create(:domain)}
   let!(:task){ create(:task, domain: domain, client: active_client)}
   let!(:task_other){ create(:task, client: exited_ngo_client)}
