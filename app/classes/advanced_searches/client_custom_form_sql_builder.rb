@@ -6,7 +6,7 @@ module AdvancedSearches
       field          = rule['field']
       @field         = field.split('_').last.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
       @operator      = rule['operator']
-      @value         = rule['value'].is_a?(Array) ? rule['value'] : rule['value'].gsub("'", "''")
+      @value         = rule['value'].is_a?(Array) ? rule['value'] : rule['value'].gsub("'", "''").gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
       @type          = rule['type']
       @input_type    = rule['input']
     end
@@ -19,7 +19,7 @@ module AdvancedSearches
       if type_format.include?(@input_type)
         @value = @value.gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
       end
-      
+
       case @operator
       when 'equal'
         if @input_type == 'text' && @field.exclude?('&')
