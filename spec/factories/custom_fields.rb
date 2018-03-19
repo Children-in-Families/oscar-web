@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :custom_field do
     entity_type 'Client'
     fields [{'type'=>'text', 'label'=>'Name'}].to_json

@@ -354,13 +354,13 @@ describe ProgramStream, 'validate presence of label field' do
   context 'Enrollment' do
     context 'valid' do
       enrollment = [{"name"=>"date-1497520151012", "type"=>"date", "label"=>"Enrolment Date", "className"=>"calendar"}]
-      valid_program_stream = FactoryGirl.build(:program_stream, name: 'Test', enrollment: enrollment)
+      valid_program_stream = FactoryBot.build(:program_stream, name: 'Test', enrollment: enrollment)
       it { expect(valid_program_stream.valid?).to be_truthy }
     end
 
     context 'invalid' do
       enrollment = [{"name"=>"date-1497520151012", "type"=>"date", "label"=>"", "className"=>"calendar"}]
-      invalid_program_stream = FactoryGirl.build(:program_stream, name: 'Test', enrollment: enrollment)
+      invalid_program_stream = FactoryBot.build(:program_stream, name: 'Test', enrollment: enrollment)
       invalid_program_stream.valid?
       it { expect(invalid_program_stream.errors[:enrollment]).to include("Label can't be blank") }
     end
@@ -369,13 +369,13 @@ describe ProgramStream, 'validate presence of label field' do
   context 'Leave Program' do
     context 'valid' do
       exit_program = [{"name"=>"date-1497520151012", "type"=>"date", "label"=>"Exit Date", "className"=>"calendar"}]
-      valid_program_stream = FactoryGirl.build(:program_stream, exit_program: exit_program)
+      valid_program_stream = FactoryBot.build(:program_stream, exit_program: exit_program)
       it { expect(valid_program_stream.valid?).to be_truthy }
     end
 
     context 'invalid' do
       exit_program = [{"name"=>"date-1497520151012", "type"=>"date", "label"=>"", "className"=>"calendar"}]
-      invalid_program_stream = FactoryGirl.build(:program_stream, exit_program: exit_program)
+      invalid_program_stream = FactoryBot.build(:program_stream, exit_program: exit_program)
       invalid_program_stream.valid?
       it { expect(invalid_program_stream.errors[:exit_program]).to include("Label can't be blank") }
     end

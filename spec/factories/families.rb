@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :family do
     name { FFaker::Name.name }
     address { FFaker::Address.street_address }

@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :quarterly_report do
     visit_date FFaker::Time.date
     code { rand(10 ** 8) }

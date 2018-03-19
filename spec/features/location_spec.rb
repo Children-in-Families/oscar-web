@@ -11,7 +11,7 @@ describe 'Location' do
 
   feature 'List' do
     before do
-      FactoryGirl.create_list(:location, 20)
+      FactoryBot.create_list(:location, 20)
       visit locations_path
     end
 

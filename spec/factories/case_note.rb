@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :case_note do
     meeting_date { FFaker::Time.date }
     attendee { FFaker::Name.name }

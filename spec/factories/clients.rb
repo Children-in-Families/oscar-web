@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :client do
     given_name { FFaker::Name.first_name }
     family_name { FFaker::Name.last_name }
@@ -23,7 +23,7 @@ FactoryGirl.define do
     association :received_by, factory: :user
 
     before(:create) do |client|
-      client.users << FactoryGirl.create(:user)
+      client.users << FactoryBot.create(:user)
     end
 
     trait :accepted do

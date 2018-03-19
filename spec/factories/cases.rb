@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :case do
     start_date FFaker::Time.date
     carer_names FFaker::Name.name

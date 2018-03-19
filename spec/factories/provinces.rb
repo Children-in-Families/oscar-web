@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :province do
     sequence(:name){ |n| "#{FFaker::Name.name}-#{n}"}
     description { FFaker::Lorem.paragraph }

@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :referral_source do
     name { FFaker::Name.name }
     description { FFaker::Lorem.paragraph }  

@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :form_builder_attachment do
     name "MyString"
     file ""

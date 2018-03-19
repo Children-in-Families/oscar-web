@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :survey do
     # association :client, factory: :client
   end

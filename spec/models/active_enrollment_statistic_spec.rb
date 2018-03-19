@@ -25,8 +25,8 @@ describe ActiveEnrollmentStatistic, 'statistic data' do
   end
 
   it 'returns current active cases of clients with multiple cases' do
-    FactoryGirl.create(:leave_program, client_enrollment: client_enrollment_1, program_stream: program_1)
-    FactoryGirl.create(:leave_program, client_enrollment: client_enrollment_4, program_stream: program_1)
+    FactoryBot.create(:leave_program, client_enrollment: client_enrollment_1, program_stream: program_1)
+    FactoryBot.create(:leave_program, client_enrollment: client_enrollment_4, program_stream: program_1)
     data = [[2.months.ago.strftime("%b-%y"), 1.months.ago.strftime("%b-%y")], [{:name=>"PB", :data=>[2, nil]}, {:name=>"PC", :data=>[nil, 2]}]]
     statistic = ActiveEnrollmentStatistic.new(Client.all)
     expect(statistic.statistic_data).to eq(data)
