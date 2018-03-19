@@ -70,7 +70,10 @@ CIF.Custom_fieldsNew = CIF.Custom_fieldsCreate = CIF.Custom_fieldsEdit = CIF.Cus
 
   _initFormBuilder = ->
     builderOption = new CIF.CustomFormBuilder()
+    specialCharacters = { '&amp;': '&', '&lt;': '<', '&gt;': '>', "&qoute;": '"' }
     fields = $('.build-wrap').data('fields') || []
+    format = new CIF.FormatSpecialCharacters()
+    fields = format.formatSpecialCharacters(fields, specialCharacters)
 
     formBuilder = $('.build-wrap').formBuilder
       templates: separateLine: (fieldData) ->
@@ -105,7 +108,9 @@ CIF.Custom_fieldsNew = CIF.Custom_fieldsCreate = CIF.Custom_fieldsEdit = CIF.Cus
       }
 
     $("#custom-field-submit").click (event) ->
-      $('#custom_field_fields').val(formBuilder.actions.save())
+      specialCharacters = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&qoute;" }
+      fields = format.formatSpecialCharacters(JSON.parse(formBuilder.actions.save()), specialCharacters)
+      $('#custom_field_fields').val(JSON.stringify(fields))
 
   _select2 = ->
     $('#custom_field_entity_type').select2

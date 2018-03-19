@@ -213,13 +213,16 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
 
   _initProgramBuilder = (element, data) ->
     builderOption = new CIF.CustomFormBuilder()
-    data = JSON.stringify(data)
+    specialCharacters = { '&amp;': '&', '&lt;': '<', '&gt;': '>', "&qoute;": '"' }
+    format = new CIF.FormatSpecialCharacters()
+    fields = format.formatSpecialCharacters(data, specialCharacters)
+
     formBuilder = $(element).formBuilder(
       templates: separateLine: (fieldData) ->
         { field: '<hr/>' }
       fields: builderOption.thematicBreak()
       dataType: 'json'
-      formData: data
+      formData: JSON.stringify(fields)
       disableFields: ['autocomplete', 'header', 'hidden', 'button', 'checkbox']
       showActionButtons: false
       messages: {
@@ -373,13 +376,17 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
   _handleSetValueToField = ->
     for formBuilder in @formBuilder
       element = formBuilder.element
+      specialCharacters = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&qoute;" }
+      format = new CIF.FormatSpecialCharacters()
+      fields = format.formatSpecialCharacters(JSON.parse(formBuilder.actions.save()), specialCharacters)
+      fields = JSON.stringify(fields)
       if $(element).is('#enrollment')
-        $('#program_stream_enrollment').val(formBuilder.actions.save())
+        $('#program_stream_enrollment').val(fields)
       else if $(element).is('.tracking-builder')
         hiddenField = $(element).find('.tracking-field-hidden input[type="hidden"]')
-        $(hiddenField).val(formBuilder.actions.save())
+        $(hiddenField).val(fields)
       else if $(element).is('#exit-program')
-        $('#program_stream_exit_program').val(formBuilder.actions.save())
+        $('#program_stream_exit_program').val(fields)
 
   _handleStringfyRules = (rules) ->
     rules = JSON.stringify(rules)
@@ -418,7 +425,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
 
   _hideActionInTracking = (fields) ->
     trackings = $('#trackings .nested-fields')
-    specialCharacters = { "&": "&amp;", "<": "&lt;", ">": "&gt;" }
+    specialCharacters = { '&amp;': '&', '&lt;': '<', '&gt;': '>' }
     for tracking in trackings
       trackingName = $(tracking).find('input.string.optional.readonly.form-control')
       continue if $(trackingName).length == 0

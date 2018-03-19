@@ -1019,6 +1019,7 @@ my:
       agencies_involved: ပါ၀င္သည့္ ေအဂ်င္စီမ်ား
       agency_names: ေအဂ်င္စီနာမည္
       answer: အေျဖ
+      blank: အလွတ်မဖွစျနိုငျ
       birth_province: ေမြးဖြားသည့္ ခ႐ိုင္
       cambodia: ကေမာၻဒီးယား
       case_worker: အမႈျခင္းရာအတြက္ ေဆာင္ရြက္ေပးသူ
@@ -1031,11 +1032,13 @@ my:
       custom_forms: အခြန္ပံုစံမ်ား
       date_of_birth: ေမြးဖြာသည့္ ရက္၊ လ၊ ႏွစ္
       district: ခ႐ိုင္
+      done: ပြီးပြီ
       donor: အလွဴရွင္
       exit_date: NGOမွ ထြက္သည့္ ရက္စြဲ
       exit_note: ထြက္သည့္မွတ္စု
       exit_status: ထြက္သည့္အေနအထား
       family_name: မိသားစုနာမည္
+      finish: ကယ်ဆယ်
       follow_up_by: မွ ဆက္သည္
       follow_up_date: ေနာက္ဆက္တြဲ ရက္စြဲ
       followed_up_by: မွ ဆက္လက္လုပ္ေဆာင္သည္
@@ -1081,6 +1084,8 @@ my:
       local_family_name: မိသားစုနာမည္ (ေဒသအလိုက္)
       local_given_name: ေမြးနာမည္ (ေဒသအလုိက္)
       name: နာမည္
+      next: နောက်တစ်ခု
+      previous: လွန်ခဲ့သော
       province: ေမြးဖြားရာ ခ႐ိုင္
       received_by: မွ လက္ခံသည္။
       referral_phone: လႊဲေျပာင္းရန္ ဖုန္းနံပါတ္
@@ -1098,6 +1103,8 @@ my:
       village: ေက်းရြာ
       year: ႏွစ္
       yes_no: ဟုတ္တယ္/ မဟုတ္ဘူး
+    form_header:
+      case_worker_or_staff: အမႈျခင္းရာအတြက္ ေဆာင္ရြက္ေပးသူ/ ၀န္ထမ္း
     foster_case:
       carer_address: ေစာင့္ေရွာက္သူ လိပ္စာ
       carer_names: ေစာင့္ေရွာက္သူ နာမည္မ်ား
@@ -1118,6 +1125,29 @@ my:
       start_date: စသည့္ ရက္စြဲ
       support_amount: ေထာက္ပံ့သည့္ ပမာဏ
       support_note: ေထာက္ပံ့သည့္ မွတ္စု
+
+    getting_started:
+      case_worker_or_staff: အမႈျခင္းရာ လိုက္ပါေဆာင္ရြက္ေပးသူ/ ၀န္ထမ္း
+      date_of_birth: ေမြးရက္၊ လ၊ ႏွစ္
+      family_name: မိသားစုအမည် (အင်္ဂလိပ်)
+      first_followed_up_by: ပထမဦးဆုံးအနေဖြင့်ဖွင့်နောက်တော်သို့လိုက်
+      first_followed_up_date: ပထမဦးဆုံးအရက်စွဲတက်နောက်တော်သို့လိုက်
+      gender: က်ားမ
+      getting_started: စတင်ခဲ့သည်
+      given_name: ပေးထားသောအမည် (အင်္ဂလိပ်)
+      initial_referral_date: ကနဦး လႊဲေျပာင္းသည့္ ရက္စြဲ
+      living_detail: အသကျရှငျအသေးစိတ်
+      local_family_name: မိသားစုအမည် (ခမာ)
+      local_given_name: ပေးထားသောအမည် (ခမာ)
+      name_of_referee: ဒိုင်လူကြီး၏နာမကိုအမှီ
+      other_detail: အခြားအသေးစိတျ
+      referee_phone_number: ဒိုင်လူကြီးဖုန်းနံပါတ်ကို
+      referral_information: လွှဲပြောင်းသတင်းအချက်အလက်များ
+      referral_received_by: လက်ခံရရှိသောလွှဲပြောင်း
+      referral_source: လႊဲရမည့္ ရင္းျမစ္
+      specific_point: လွှဲပြောင်း၏တိကျသောအချက်
+      staff_responsibilities: ဝန်ထမ်းတာဝန်ဝတ္တရား
+
     index:
       active_programs: အသက္၀င္ေသးေသာ အစီအစဥ္မ်ား
       add_new_client: အမႈသည္သစ္ ထည့္သြင္းသည္
@@ -1164,8 +1194,43 @@ my:
       start_date: စသည့္ ရက္စြဲ
       support_amount: ေထာက္ပံ့သည့္ ပမာဏ
       support_note: ေထာက္ပံ့သည့္ မွတ္စု
+
+    living_detail:
+      case_worker_or_staff: အမႈျခင္းရာအတြက္ေဆာင္ရြက္ေပးသူ / ၀န္ထမ္း
+      commune: လိပ်စာ - ကွန်မြူ
+      contact_details: အဆက်အသွယ်အသေးစိတ်
+      current_address: လက္ရွိ လိပ္စာ
+      current_province: လက္ရွိေနထိုင္ရာခ႐ိုင္
+      district: လိပ်စာ - ခရိုင်
+      house_number: လိပ်စာ - အိမ်သူအိမ်သားအရေအတွက်က
+      living_detail: အသကျရှငျအသေးစိတ်
+      main_school_contact: အဓိကကျောင်းကိုအဆက်အသွယ်
+      primary_carer_name: မူလတန်းစောင့်ရှောက်သူအမည်အား
+      primary_carer_phone_number: မူလတန်းအုပ်ထိန်းဖုန်းနံပါတ်ကို
+      school_grade: ေက်ာင္းအဆင့္
+      school_name: ေက်ာင္းနာမည္
+      schooling: သင်ကြားခြင်း
+      street_number: လိပ်စာ - လမ်းအရေအတွက်က
+      village: လိပ်စာ - ရွာ
+      what3words: What3words
+
     new:
       new_client_title: အမႈသည္အသစ္
+
+    other_detail:
+      agencies_involved: ပါ၀င္သည့္ ေအဂ်င္စီမ်ား
+      case_worker_or_staff: အမႈျခင္းရာအတြက္ေဆာင္ရြက္ေပးသူ / ၀န္ထမ္း
+      custom_id_number1: Custom ID Number1
+      custom_id_number2: Custom ID Number2
+      donor: အလွဴရွင္
+      has_been_in_government_care: အစိုးရ၏ ေစာင့္ေရွာက္မႈ ခံယူဖူး
+      has_been_in_orphanage: မိဘမဲ့ျဖစ္ဖူး
+      is_the_client_rated_for_id_poor: Client ကိုဆင်းရဲသောသူသည် ID အတှကျ rated ဖြစ်ပါတယ်
+      other_detail: အခြားအသေးစိတျ
+      other_information: အခြားအချက်အလက်
+      province: ခ႐ိုင္
+      relevant_referral_information: သက်ဆိုင်ရာလွှဲပြောင်းသတင်းအချက်အလက် / မှတ်စု
+
     placement:
       view_legacy_quarterly_reports: သံုးလပတ္ဥပေဒေရးရာ အစီရင္ခံစာမ်ားကို ၾကည့္ရန္
     remaining_programs:
@@ -1201,6 +1266,8 @@ my:
       completed: ျပည့္ပါၿပီ
       current_address: လက္ရွိ လိပ္စာ
       current_province: လက္ရွိ ေနထုိင္ရာ ခ႐ိုင္
+      custom_id_number1: Custom ID Number1
+      custom_id_number2: Custom ID Number2
       date_of_birth: ေမြးရက္၊ လ၊ ႏွစ္
       district: ခ႐ိုင္
       donor: အလွဴရွင္
@@ -1232,11 +1299,14 @@ my:
       id: မွတ္ပံုတင္
       id_poor: လူဆင္းရဲ မွတ္ပံုတင္
       initial_referral_date: ကနဦး လႊဲေျပာင္းသည့္ ရက္စြဲ
+      is_the_client_rated_for_id_poor: အဆိုပါလိုင်း ID ကိုညံ့ဖျင်းသည်အဆင့်သတ်မှတ်ထားသည်ထားသည်
       kid_id: ကေလး မွတ္ပံုတင္
       live_with: အတူေနသူ
       local_family_name: မိသားစုနာမည္ (ေဒသအသံုးျဖင့္)
       local_given_name: ေမြးနာမည္ (ေဒသအသံုးျဖင့္)
+      main_school_contact: အဓိကကျောင်းကိုအဆက်အသွယ်
       name: နာမည္
+      name_of_referee: ဒိုင်လူကြီး၏နာမကိုအမှီ
       note: မွတ္စု
       placements:
         carer_address: ေစာင့္ေရွာက္သူ လိပ္စာ
@@ -1254,10 +1324,13 @@ my:
         start_date: စတင္သည့္ ရက္စြဲ
         support_amount: ေထာက္ပံ့သည့္ပမာဏ
         support_note: ေထာက္ပံ့သည့္ မွတ္စု
+      primary_carer_name: မူလတန်းစောင့်ရှောက်သူအမည်အား
+      primary_carer_phone_number: မူလတန်းအုပ်ထိန်းဖုန်းနံပါတ်ကို
       program_streams: အစီအစဥ္ စီးဆင္းမႈမ်ား
       progress_note: ေဆာင္ရြက္ဆဲမွတ္စု
       province: ေမြးဖြားရာခ႐ိုင္
       received_by: မွ လက္ခံသည္
+      referee_phone_number: ဒိုင်လူကြီးဖုန်းနံပါတ်ကို
       referral_phone: လႊဲရမည့္ ဖုန္းနံပါတ္
       referral_source: လႊဲရမည့္ ရင္းျမစ္
       reject: ျငင္းပယ္သည္
@@ -1285,6 +1358,12 @@ my:
       view_legacy_quarterly_reports: သံုးလပတ္ ဥပေဒအစီရင္ခံစာ
       view_tasks: လုပ္ေဆာင္ခ်က္မ်ား
       village: ေက်းရြာ
+      what3words: What3words
+
+    specific_point:
+      case_worker_or_staff: အမႈျခင္းရာအတြက္ေဆာင္ရြက္ေပးသူ / ၀န္ထမ္း
+      specific_point: လွှဲပြောင်း၏တိကျသောအချက်
+
     state:
       rejected_note: ျငင္းပယ္သည့္ မွတ္စု
       state: လက္ခံသည္/ ျငင္းပယ္သည္

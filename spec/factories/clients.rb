@@ -6,6 +6,8 @@ FactoryGirl.define do
     local_family_name { FFaker::Name.last_name }
     date_of_birth { FFaker::Time.date }
     initial_referral_date { FFaker::Time.date }
+    name_of_referee { FFaker::Name.name }
+
     gender 'male'
     current_address  { FFaker::Address.street_address }
     house_number     { FFaker::Address.street_address }
@@ -15,7 +17,10 @@ FactoryGirl.define do
     status 'Referred'
     school_grade '4'
     relevant_referral_information { FFaker::Lorem.paragraph }
+
     association :district, factory: :district
+    association :referral_source, factory: :referral_source
+    association :received_by, factory: :user
 
     before(:create) do |client|
       client.users << FactoryGirl.create(:user)

@@ -14,6 +14,11 @@ module AdvancedSearches
       sql_string = 'clients.id IN (?)'
       leave_programs = LeaveProgram.joins(:client_enrollment).where(program_stream_id: @program_stream_id)
 
+      type_format = ['select', 'radio-group', 'checkbox-group']
+      if type_format.include?(@input_type)
+        @value = @value.gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
+      end
+
       case @operator
       when 'equal'
         if @input_type == 'text' && @field.exclude?('&')

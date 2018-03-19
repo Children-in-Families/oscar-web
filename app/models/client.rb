@@ -68,9 +68,9 @@ class Client < ActiveRecord::Base
   validates :exit_date, presence: true, on: :update, if: :exit_ngo?
   validates :exit_note, presence: true, on: :update, if: :exit_ngo?
   validates :kid_id, uniqueness: { case_sensitive: false }, if: 'kid_id.present?'
-  validates :initial_referral_date, presence: true
   validates :user_ids, presence: true, on: :create
   validates :user_ids, presence: true, on: :update, unless: :exit_ngo?
+  validates :initial_referral_date, :received_by_id, :referral_source, :name_of_referee, presence: true
 
   before_update :disconnect_client_user_relation, if: :exiting_ngo?
   after_create :set_slug_as_alias
@@ -161,7 +161,7 @@ class Client < ActiveRecord::Base
 
   def en_and_local_name
     en_name = "#{given_name} #{family_name}"
-    local_name = "#{local_given_name} #{local_family_name}"
+    local_name = "#{local_family_name} #{local_given_name}"
 
     local_name.present? ? "#{en_name} (#{local_name})" : en_name.present? ? en_name : 'Unknown'
   end

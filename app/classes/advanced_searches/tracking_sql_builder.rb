@@ -16,6 +16,11 @@ module AdvancedSearches
       properties_field = 'client_enrollment_trackings.properties'
       client_enrollment_trackings = ClientEnrollmentTracking.joins(:client_enrollment).where(tracking_id: @tracking_id)
 
+      type_format = ['select', 'radio-group', 'checkbox-group']
+      if type_format.include?(@input_type)
+        @value = @value.gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
+      end
+      
       case @operator
       when 'equal'
         if @input_type == 'text' && @field.exclude?('&')

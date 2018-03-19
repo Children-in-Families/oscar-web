@@ -114,7 +114,7 @@ class FamilyGrid
   end
 
   column(:cases, header: -> { I18n.t('datagrid.columns.families.clients') }, html: false) do |object|
-    object.cases.non_emergency.active.map { |c| c.client.name if c.client }.join(', ')
+    Client.where(id: object.children).map(&:name).join(', ')
   end
 
   column(:case_workers, header: -> { I18n.t('datagrid.columns.families.case_workers') }, html: false) do |object|
@@ -125,7 +125,7 @@ class FamilyGrid
   dynamic do
     next unless dynamic_columns.present?
     dynamic_columns.each do |column_builder|
-      fields = column_builder[:id].split('_')
+      fields = column_builder[:id].gsub('&qoute;', '"').split('_')
       column(column_builder[:id].to_sym, class: 'form-builder', header: -> { form_builder_format_header(fields) }, html: true) do |object|
         format_field_value = fields.last.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
         properties = object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Family'}).properties_by(format_field_value)

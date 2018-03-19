@@ -1,0 +1,39 @@
+%h3= t('.living_detail')
+%section
+  #living-detail
+    - if @client.persisted?
+      = render 'form_header', f: f
+
+    %legend= t('.contact_details')
+    .row
+      .col-xs-12.col-sm-6.col-md-4
+        = f.input :live_with, label: t('.primary_carer_name')
+      .col-xs-12.col-sm-6.col-md-4
+        = f.input :telephone_number, label: t('.primary_carer_phone_number')
+      .col-xs-12.col-sm-6.col-md-4
+        = f.association :province, collection: @province, label: t('.current_province')
+      .col-xs-12.col-sm-6.col-md-4
+        = f.association :district, collection: @districts, label: t('.district')
+      .col-xs-12.col-sm-6.col-md-4
+        = f.input :commune, label: t('.commune')
+      .col-xs-12.col-sm-6.col-md-4
+        = f.input :house_number, label: t('.house_number'), input_html:{ required: 'true'}
+      .col-xs-12.col-sm-6.col-md-4
+        = f.input :street_number, label: t('.street_number')
+      .col-xs-12.col-sm-6.col-md-4
+        = f.input :village, label: t('.village')
+      .col-xs-12.col-sm-6.col-md-4.form-group
+        %label.control-label= t('.what3words')
+        .input-group
+          = f.text_field :what3words, class: 'form-control', placeholder: 'sandals.quilt.exonerate'
+          %span.input-group-addon.what3words
+            = image_tag 'what3words.png', class: 'what3words-image'
+
+    %legend= t('.schooling')
+    .row
+      .col-xs-12.col-sm-6.col-md-4
+        = f.input :school_name, label: t('.school_name')
+      .col-xs-12.col-sm-6.col-md-4
+        = f.input :school_grade, label: t('.school_grade')
+      .col-xs-12.col-sm-6.col-md-4
+        = f.input :main_school_contact, label: t('.main_school_contact')
