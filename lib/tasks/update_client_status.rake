@@ -3,7 +3,7 @@ namespace :client_status do
   task update: :environment do
     Organization.all.each do |org|
       Organization.switch_to org.short_name
-      exited_statuses = ['Independent - Monitored', 'Exited - Dead', 'Exited - Age Out' 'Exited Independent', 'Exited Adopted', 'Exited Other']
+      exited_statuses = ['Independent - Monitored', 'Exited - Dead', 'Exited - Age Out', 'Exited Independent', 'Exited Adopted', 'Exited - Deseased', 'Exited Other']
       active_statuses = ['Active EC', 'Active FC', 'Active KC']
 
       Client.all.each do |client|
