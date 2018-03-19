@@ -70,7 +70,7 @@ describe Client, 'callbacks' do
         let!(:client){ create(:client, :accepted, user_ids: [admin.id]) }
         it { expect(client.user_ids.any?).to be_truthy }
         it 'remove user associaton' do
-          client.update(exit_date: Date.today, exit_note: 'testing', status: 'Exited - Dead')
+          client.update(exit_date: Date.today, exit_circumstance: 'Exited Client', status: 'Exited - Dead')
           expect(client.user_ids.empty?).to be_truthy
         end
       end
@@ -777,7 +777,7 @@ describe 'validations' do
     context 'on update unless exit_ngo' do
       let!(:admin){ create(:user, :admin) } # required this object for the email to be sent
       let!(:client){ create(:client, :accepted) }
-      let!(:exit_client){ create(:client, exit_date: '2017-07-21', exit_note: 'testing', status: 'Exited - Dead') }
+      let!(:exit_client){ create(:client, exit_date: '2017-07-21', exit_circumstance: 'Exited Client', status: 'Exited - Dead') }
       context 'no validate if exit ngo' do
         before do
           exit_client.user_ids = []
@@ -820,11 +820,11 @@ describe 'validations' do
 
   context 'exited from ngo' do
     let!(:admin){ create(:user, :admin) }
-    let!(:valid_client){ create(:client, exit_date: '2017-07-21', exit_note: 'testing', status: 'Exited - Dead') }
+    let!(:valid_client){ create(:client, exit_date: '2017-07-21', exit_circumstance: 'Exited Client', status: 'Exited - Dead') }
     context 'should not contain blank data for exit info' do
       before do
         valid_client.exit_date = ''
-        valid_client.exit_note = ''
+        valid_client.exit_circumstance = ''
         valid_client.valid?
       end
       it { expect(valid_client.valid?).to be_falsey }

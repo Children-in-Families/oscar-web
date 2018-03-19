@@ -425,25 +425,16 @@
                     = t('.exit_reasons')
                   %td
                     %strong
+                      %ul
                       - exit_reasons = @client.exit_reasons.reject(&:empty?)
                       - exit_reasons.each do |exit_reason|
-                        %ul
-                          %li= exit_reason
-                        %br
-                - if @client.state == "rejected"
-                  %tr
-                    %td.spacing-first-col
-                      = t('.rejected_note')
-                    %td
-                      %strong
-                        = @client.rejected_note
-                - else
-                  %tr
-                    %td.spacing-first-col
-                      = t('.exit_note')
-                    %td
-                      %strong
-                        = @client.exit_note
+                        %li= exit_reason
+                %tr
+                  %td.spacing-first-col
+                    = t('.exit_note')
+                  %td
+                    %strong
+                      = @client.exit_note
                 %tr
                   %td.spacing-first-col
                     = t('.other_info_of_exit')

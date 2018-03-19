@@ -67,10 +67,8 @@ class Client < ActiveRecord::Base
   has_paper_trail
 
   # validates :rejected_note, presence: true, on: :update, if: :reject?
-  validates :exit_circumstance, presence: true, on: :update, if: :reject?
-  validates :exit_circumstance, presence: true, on: :update, if: :exit_ngo?
-  validates :exit_date, presence: true, on: :update, if: :exit_ngo?
-  validates :exit_date, presence: true, on: :update, if: :reject?
+  validates :exit_circumstance, :exit_date, presence: true, on: :update, if: :reject?
+  validates :exit_circumstance, :exit_date, presence: true, on: :update, if: :exit_ngo?
   # validates :exit_note, presence: true, on: :update, if: :exit_ngo?
   validates :kid_id, uniqueness: { case_sensitive: false }, if: 'kid_id.present?'
   validates :user_ids, presence: true, on: :create

@@ -78,6 +78,14 @@ module ApplicationHelper
     end
   end
 
+  def exit_circumstance_value
+    if @client.status == "Referred" && @client.state == "accepted"
+      'Exited Client'
+    else
+      'Rejected Referral'
+    end
+  end
+
   def partners_menu_active
     if controller_name == 'partners'
       'active'

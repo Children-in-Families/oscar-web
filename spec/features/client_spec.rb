@@ -220,8 +220,8 @@ describe 'Client' do
     scenario 'Reject client after created' do
       visit client_path(client)
       click_button 'Reject'
-      fill_in 'Exit Date', with: '2018-03-15'
-      fill_in 'Exit Circumstance', with: 'Rejected Referral'
+      fill_in 'client_exit_date', with: Date.today
+      page.has_field?('client[exit_circumstance]', with: 'Rejected Referral')
       find("input[type='submit'][value='Exit']").click
       expect(page).to have_content('Rejected')
     end
@@ -230,8 +230,8 @@ describe 'Client' do
       visit client_path(accepted_client)
       click_button 'Add Client to Case'
       find("a[data-target='#exitForm']").click
-      fill_in 'Exit Date', with: '2018-03-15'
-      fill_in 'Exit Circumstance', with: 'Exited Client'
+      fill_in 'client_exit_date', with: Date.today
+      page.has_field?('client[exit_circumstance]', with: 'Exited Client')
       find("input[type='submit'][value='Exit']").click
       expect(page).to have_content('Exited Client')
     end
@@ -241,8 +241,8 @@ describe 'Client' do
         visit client_path(active_client)
         click_button 'Add Client to Case'
         find("a[data-target='#remaining-programs-modal']").click
-        expect(page).to have_content("This client is still actively enrolled in 1 programs.")
-        click_link 'Click here to exit program'
+        expect(page).to have_content('This client is still actively enrolled in 1 programs.')
+        expect(page).to have_link('Click here to exit program')
       end
 
       context 'exit client from program' do
@@ -251,8 +251,8 @@ describe 'Client' do
           visit client_path(active_client.reload)
           click_button 'Add Client to Case'
           find("a[data-target='#exitForm']").click
-          fill_in 'Exit Date', with: '2018-03-15'
-          fill_in 'Exit Circumstance', with: 'Exited Client'
+          fill_in 'client_exit_date', with: Date.today
+          page.has_field?('client[exit_circumstance]', with: 'Exited Client')
           find("input[type='submit'][value='Exit']").click
           expect(page).to have_content('Exited Client')
         end
