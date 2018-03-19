@@ -56,7 +56,7 @@ class ClientEnrollment < ActiveRecord::Base
     client = Client.find(client_id)
     return if client.active_case? || client.client_enrollments.active.any?
 
-    client.update(status: 'Referred')
+    client.update(status: 'Accepted')
   end
 
   def short_enrollment_date

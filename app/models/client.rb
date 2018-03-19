@@ -9,15 +9,9 @@ class Client < ActiveRecord::Base
 
   friendly_id :slug, use: :slugged
 
-  CLIENT_STATUSES = ['Referred', 'Active EC', 'Active KC', 'Active FC',
-                      'Independent - Monitored', 'Exited - Dead',
-                      'Exited - Age Out', 'Exited Independent', 'Exited Adopted',
-                      'Exited Other'].freeze
+  CLIENT_STATUSES = ['Accepted', 'Referred', 'Active', 'Exited'].freeze
 
-  CLIENT_ACTIVE_STATUS = ['Active EC', 'Active FC', 'Active KC', 'Active'].freeze
   ABLE_STATES = %w(Accepted Rejected Discharged).freeze
-
-  EXIT_STATUSES = CLIENT_STATUSES.select { |status| status if status.include?('Exited') || status.include?('Independent - Monitored')  }
 
   delegate :name, to: :donor, prefix: true, allow_nil: true
 
@@ -64,7 +58,6 @@ class Client < ActiveRecord::Base
 
   has_paper_trail
 
-  validates :rejected_note, presence: true, on: :update, if: :reject?
   validates :exit_date, presence: true, on: :update, if: :exit_ngo?
   validates :exit_note, presence: true, on: :update, if: :exit_ngo?
   validates :kid_id, uniqueness: { case_sensitive: false }, if: 'kid_id.present?'
@@ -110,12 +103,12 @@ class Client < ActiveRecord::Base
   scope :active_fc,                                ->        { where(status: 'Active FC') }
   scope :without_assessments,                      ->        { includes(:assessments).where(assessments: { client_id: nil }) }
   scope :able,                                     ->        { where(able_state: ABLE_STATES[0]) }
-  scope :all_active_types,                         ->        { where(status: CLIENT_ACTIVE_STATUS) }
+  scope :active_status,                            ->        { where(status: 'Active') }
   scope :of_case_worker,                           -> (user_id) { joins(:case_worker_clients).where(case_worker_clients: { user_id: user_id }) }
-  scope :exited_ngo,                               ->        { where(status: EXIT_STATUSES) }
-  scope :non_exited_ngo,                           ->        { where.not(status: EXIT_STATUSES) }
+  scope :exited_ngo,                               ->        { where(status: 'Exited') }
+  scope :non_exited_ngo,                           ->        { where.not(status: ['Exited', 'Referred']) }
   scope :telephone_number_like,                    ->(value) { where('clients.telephone_number iLIKE ?', "#{value}%") }
-  scope :all_active_types_and_referred_accepted,   ->        { where("clients.status = ? AND clients.state = ? OR clients.status in (?)", 'Referred', 'accepted', Client::CLIENT_ACTIVE_STATUS) }
+  scope :active_accepted_status,                    ->        { where(status: ['Active', 'Accepted']) }
 
   def self.filter(options)
     query = all
@@ -139,12 +132,8 @@ class Client < ActiveRecord::Base
     value[0..(number_of_char-1)]
   end
 
-  def reject?
-    state_changed? && state == 'rejected'
-  end
-
   def exit_ngo?
-    EXIT_STATUSES.include?(status)
+    status == 'Exited'
   end
 
   def self.age_between(min_age, max_age)
@@ -267,7 +256,7 @@ class Client < ActiveRecord::Base
   end
 
   def active_case?
-    active_ec? || active_fc? || active_kc?
+    status == 'Active'
   end
 
   def set_slug_as_alias
@@ -288,7 +277,7 @@ class Client < ActiveRecord::Base
 
   def self.exit_in_week(number_of_day)
     date = number_of_day.day.ago.to_date
-    active_ec.joins(:cases).where(cases: { case_type: 'EC', start_date: date })
+    active_status.joins(:cases).where(cases: { case_type: 'EC', start_date: date, exited: false })
   end
 
   def active_day_care
@@ -316,7 +305,8 @@ class Client < ActiveRecord::Base
       Organization.switch_to org.short_name
       managers = User.ec_managers.pluck(:email).join(', ')
       admins   = User.admins.pluck(:email).join(', ')
-      clients = active_ec.select { |client| client.active_day_care == day }
+      clients = Client.active_status.joins(:cases).where(cases: { case_type: 'EC', exited: false}).uniq
+      clients = clients.select { |client| client.active_day_care == day }
 
       if clients.present?
         ManagerMailer.remind_of_client(clients, day: day, manager: managers).deliver_now if managers.present?
@@ -339,13 +329,13 @@ class Client < ActiveRecord::Base
 
   def exiting_ngo?
     return false unless status_changed?
-    EXIT_STATUSES.include?(status)
+    status == 'Exited'
   end
 
   def self.notify_upcoming_csi_assessment
     Organization.all.each do |org|
       Organization.switch_to org.short_name
-      clients = joins(:assessments).all_active_types_and_referred_accepted
+      clients = joins(:assessments).active_accepted_status
       clients.each do |client|
         repeat_notifications = client.repeat_notifications_schedule
 

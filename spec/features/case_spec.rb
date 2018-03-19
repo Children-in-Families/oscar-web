@@ -1,10 +1,10 @@
 feature 'Case' do
   let!(:admin){ create(:user, roles: 'admin')}
   let!(:user){ create(:user)}
-  let!(:client){ create(:client,  state: 'accepted', users: [user])}
+  let!(:client){ create(:client, :accepted, users: [user])}
   let!(:family){ create(:family)}
-  let!(:accepted_client) { create(:client, state: 'accepted', users: [user]) }
-  let!(:kc_case){ create(:case, case_type: 'KC', client: accepted_client) }
+  let!(:accepted_client) { create(:client, :accepted, users: [user]) }
+  let!(:ec_case){ create(:case, case_type: 'EC', client: accepted_client) }
 
   before do
     login_as(user)
@@ -74,7 +74,7 @@ feature 'Case' do
   end
 
   feature 'Create' do
-    scenario 'valid', js: true do
+    scenario 'valid' do
       visit new_client_case_path(client, case_type: 'FC')
       fill_in 'Carer Name', with: 'Carer Name'
       fill_in 'Start Date', with: FFaker::Time.date
@@ -89,7 +89,7 @@ feature 'Case' do
       expect(value).to have_content('FC')
     end
 
-    scenario 'EC without family', js: true do
+    scenario 'EC without family' do
       visit new_client_case_path(client, case_type: 'EC')
       fill_in 'Carer Names', with: 'Jonh'
       fill_in 'Start Date', with: '2017-04-01'
@@ -106,7 +106,7 @@ feature 'Case' do
       visit edit_client_case_path(client, active_case)
     end
 
-    scenario 'valid', js: true do
+    scenario 'valid' do
       fill_in 'Carer Names', with: 'Carer Name'
       click_button 'Save'
 
@@ -114,7 +114,7 @@ feature 'Case' do
       expect(page).to have_content('Carer Name')
     end
 
-    scenario 'invalid', js: true do
+    scenario 'invalid' do
       fill_in 'Start Date', with: ''
       click_button 'Save'
 
@@ -123,12 +123,12 @@ feature 'Case' do
     end
   end
 
-  feature 'Exit' do
+  feature 'Exit', js: true do
     before do
       visit client_path(accepted_client)
     end
 
-    scenario 'success', js: true do
+    scenario 'success' do
       page.find("button[data-target='#exit-from-case']").click
       within('#exit-from-case') do
         fill_in 'Exit Date', with: '2017-07-01'
@@ -136,7 +136,7 @@ feature 'Case' do
       end
       page.find('input[type="submit"][value="Exit"]').click
 
-      expect(page).to have_content('Referred')
+      expect(page).to have_content('Accepted')
     end
   end
 end

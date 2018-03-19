@@ -32,7 +32,7 @@ class LeaveProgram < ActiveRecord::Base
 
     client = Client.find(self.client_enrollment.client_id)
     if client.cases.current.nil? && client.client_enrollments.active.empty?
-      client.update_attributes(status: 'Referred')
+      client.update_attributes(status: 'Accepted')
     end
   end
 

@@ -70,7 +70,7 @@ describe Client, 'callbacks' do
         let!(:client){ create(:client, :accepted, user_ids: [admin.id]) }
         it { expect(client.user_ids.any?).to be_truthy }
         it 'remove user associaton' do
-          client.update(exit_date: Date.today, exit_note: 'testing', status: 'Exited - Dead')
+          client.update(exit_date: Date.today, exit_note: 'testing', status: 'Exited')
           expect(client.user_ids.empty?).to be_truthy
         end
       end
@@ -95,7 +95,7 @@ describe Client, 'methods' do
   let!(:ec_case){ create(:case, client: client_a, case_type: 'EC') }
   let!(:fc_case){ create(:case, client: client_b, case_type: 'FC') }
   let!(:kc_case){ create(:case, client: client_c, case_type: 'KC') }
-  let!(:exited_client){ create(:client, status: Client::EXIT_STATUSES.first) }
+  let!(:exited_client){ create(:client, :exited) }
 
   context '#most_recent_csi_assessment' do
     it { expect(client.most_recent_csi_assessment).to eq(assessment.created_at.to_date) }
@@ -225,17 +225,17 @@ describe Client, 'methods' do
     it { expect(client.exit_ngo?).to be_falsey }
   end
 
-  context 'active_ec?' do
-    it { expect(client_a.active_ec?).to be_truthy }
-  end
+  # context 'active_ec?' do
+  #   it { expect(client_a.active_ec?).to be_truthy }
+  # end
 
-  context 'active_fc?' do
-    it { expect(client_b.active_fc?).to be_truthy }
-  end
+  # context 'active_fc?' do
+  #   it { expect(client_b.active_fc?).to be_truthy }
+  # end
 
-  context 'active_kc?' do
-    it { expect(client_c.active_kc?).to be_truthy }
-  end
+  # context 'active_kc?' do
+  #   it { expect(client_c.active_kc?).to be_truthy }
+  # end
 
   context 'active_case?' do
     it { expect(client_a.active_case?).to be_truthy }
@@ -410,7 +410,7 @@ describe Client, 'scopes' do
   let!(:referral_source) { create(:referral_source)}
   let!(:province){ create(:province) }
   let!(:district){ create(:district) }
-  let!(:client){ create(:client,
+  let!(:client){ create(:client, :accepted,
     slug: 'Example id',
     given_name: 'Example First Name',
     family_name: 'Example Last Name',
@@ -422,7 +422,6 @@ describe Client, 'scopes' do
     relevant_referral_information: 'Example Info',
     referral_source: referral_source,
     received_by: user,
-    state: 'accepted',
     gender: 'female',
     followed_up_by: follower,
     birth_province: province,
@@ -432,15 +431,15 @@ describe Client, 'scopes' do
     telephone_number: '010123456'
   )}
   let!(:assessment) { create(:assessment, client: client) }
-  let!(:other_client){ create(:client, state: 'rejected') }
+  let!(:other_client){ create(:client, :exited) }
   let!(:able_client) { create(:client, able_state: Client::ABLE_STATES[0]) }
 
-  let(:kc_client) { create(:client, status: 'Active KC', state: 'accepted') }
-  let(:fc_client) { create(:client, status: 'Active FC', state: 'accepted') }
-  let(:ec_client) { create(:client, status: 'Referred', state: 'accepted') }
+  let(:kc_client) { create(:client, :accepted) }
+  let(:fc_client) { create(:client, :accepted) }
+  let(:ec_client) { create(:client, :accepted) }
   let!(:kc) { create(:case, client: kc_client, case_type: 'KC') }
   let!(:fc) { create(:case, client: fc_client, case_type: 'FC') }
-  let!(:exited_client){ create(:client, status: Client::EXIT_STATUSES.first) }
+  let!(:exited_client){ create(:client, :exited) }
 
   context 'exited_ngo' do
     subject { Client.exited_ngo }
@@ -461,7 +460,7 @@ describe Client, 'scopes' do
   context 'non_exited_ngo' do
     subject { Client.non_exited_ngo }
     it 'include clients who have NOT exited from NGO' do
-      is_expected.to include(kc_client, fc_client, ec_client)
+      is_expected.to include(kc_client, fc_client)
       is_expected.not_to include(exited_client)
     end
   end
@@ -506,15 +505,15 @@ describe Client, 'scopes' do
     end
   end
 
-  context 'all active types and referred accepted' do
-    it 'have all active clients and referred accepted' do
-      expect(Client.all_active_types_and_referred_accepted).to include(client, kc_client, fc_client, ec_client)
+  context 'active_accepted_status' do
+    it 'have all active and accepted clients' do
+      expect(Client.active_accepted_status).to include(client, kc_client, fc_client, ec_client)
     end
   end
 
   context 'active' do
     it 'have all active clients' do
-      expect(Client.all_active_types.count).to eq(2)
+      expect(Client.active_status.count).to eq(2)
     end
   end
 
@@ -666,14 +665,14 @@ describe Client, 'scopes' do
     end
   end
 
-  context 'state' do
-    it 'accepted' do
-      expect(Client.accepted).to include(client)
-    end
-    it 'rejected' do
-      expect(Client.rejected).to include(other_client)
-    end
-  end
+  # context 'state' do
+  #   it 'accepted' do
+  #     expect(Client.accepted).to include(client)
+  #   end
+  #   it 'rejected' do
+  #     expect(Client.rejected).to include(other_client)
+  #   end
+  # end
 
   context 'gender' do
     it 'male' do
@@ -777,7 +776,7 @@ describe 'validations' do
     context 'on update unless exit_ngo' do
       let!(:admin){ create(:user, :admin) } # required this object for the email to be sent
       let!(:client){ create(:client, :accepted) }
-      let!(:exit_client){ create(:client, exit_date: '2017-07-21', exit_note: 'testing', status: 'Exited - Dead') }
+      let!(:exit_client){ create(:client, :exited) }
       context 'no validate if exit ngo' do
         before do
           exit_client.user_ids = []
@@ -794,18 +793,6 @@ describe 'validations' do
     end
   end
 
-  context 'rejected_note' do
-    let!(:client){ create(:client, state: '', rejected_note: '') }
-    before do
-      client.state = 'rejected'
-      client.rejected_note = ''
-      client.valid?
-    end
-
-    it { expect(client.valid?).to be_falsey }
-    it { expect(client.errors[:rejected_note]).to include("can't be blank") }
-  end
-
   context 'kid_id' do
     subject{ FactoryBot.build(:client) }
     let!(:user){ create(:user) }
@@ -820,7 +807,7 @@ describe 'validations' do
 
   context 'exited from ngo' do
     let!(:admin){ create(:user, :admin) }
-    let!(:valid_client){ create(:client, exit_date: '2017-07-21', exit_note: 'testing', status: 'Exited - Dead') }
+    let!(:valid_client){ create(:client, :exited) }
     context 'should not contain blank data for exit info' do
       before do
         valid_client.exit_date = ''
