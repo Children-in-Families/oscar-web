@@ -5,4 +5,4 @@
       - field_props['values'].each do |field|
         %li
           = radio_button_tag :nil, field['label'], field['selected'], class: 'i-checks'
-          = label_tag '', field['label'].html_safe
+          = label_tag '', format_placeholder(field['label'])

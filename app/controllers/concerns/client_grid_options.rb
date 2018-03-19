@@ -157,7 +157,7 @@ module ClientGridOptions
   def form_builder_report
     data = params[:data].presence
     column_form_builder.each do |field|
-      fields = field[:id].split('_')
+      fields = field[:id].gsub('&qoute;', '"').split('_')
       @client_grid.column(field[:id].to_sym, header: form_builder_format_header(fields)) do |client|
         format_field_value = fields.last.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
         if fields.first == 'formbuilder'

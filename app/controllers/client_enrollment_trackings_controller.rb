@@ -17,11 +17,11 @@ class ClientEnrollmentTrackingsController < AdminController
   end
 
   def edit
-    authorize @client_enrollment_tracking
+    authroize(@client) && authroize(@client_enrollment_tracking)
   end
 
   def update
-    authorize @client_enrollment_tracking
+    authroize(@client) && authroize(@client_enrollment_tracking)
     if @client_enrollment_tracking.update_attributes(client_enrollment_tracking_params)
       add_more_attachments(@client_enrollment_tracking)
       redirect_to report_client_client_enrollment_client_enrollment_trackings_path(@client, @enrollment, tracking_id: @tracking.id), notice: t('.successfully_updated')

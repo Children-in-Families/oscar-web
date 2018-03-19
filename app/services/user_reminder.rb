@@ -39,16 +39,22 @@ class UserReminder
         end
         main_manager_id = manager_ids.last
       else
-        tasks      = case_workers.map(&:tasks).flatten
-        client_ids = tasks.map(&:client_id).uniq
-        client_of  = clients_by_manager(client_ids)
+        user_ids = case_workers.map do |user|
+          user.id if user.tasks.count > 0
+        end
 
-        CaseManagerWorker.perform_async('ABLE', client_of[:able], org.short_name) if client_of[:able].present?
-        CaseManagerWorker.perform_async('FC', client_of[:fc], org.short_name)     if client_of[:fc].present?
-        CaseManagerWorker.perform_async('KC', client_of[:kc], org.short_name)     if client_of[:kc].present?
-        CaseManagerWorker.perform_async('EC', client_of[:ec], org.short_name)     if client_of[:ec].present?
+        AdminWorker.perform_async('', user_ids, org.short_name) if user_ids.present?
 
-        AdminWorker.perform_async('', admin_case_workers(client_ids), org.short_name) if admin_case_workers(client_ids).present?
+        # tasks      = case_workers.map(&:tasks).flatten
+        # client_ids = tasks.map(&:client_id).uniq
+        # client_of  = clients_by_manager(client_ids)
+
+        # CaseManagerWorker.perform_async('ABLE', client_of[:able], org.short_name) if client_of[:able].present?
+        # CaseManagerWorker.perform_async('FC', client_of[:fc], org.short_name)     if client_of[:fc].present?
+        # CaseManagerWorker.perform_async('KC', client_of[:kc], org.short_name)     if client_of[:kc].present?
+        # CaseManagerWorker.perform_async('EC', client_of[:ec], org.short_name)     if client_of[:ec].present?
+
+        # AdminWorker.perform_async('', admin_case_workers(client_ids), org.short_name) if admin_case_workers(client_ids).present?
       end
     end
   end

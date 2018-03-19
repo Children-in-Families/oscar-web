@@ -1,4 +1,4 @@
-.modal.fade{ role: 'dialog', tabindex: '-1', id: 'exitForm' }
+.modal.fade{ role: 'dialog', tabindex: '-1', id: 'exitFromNgo' }
   .modal-dialog{ role: 'document'}
     .modal-content
       .modal-header
@@ -6,7 +6,7 @@
           %span{"aria-hidden" => 'true'} &times;
         %h4.modal-title
           .pull-left
-            - if @client.state == "accepted"
+            - if @client.status == "Accepted"
               = t('.exit_ngo')
             - else
               = t('.reject_client')
@@ -20,7 +20,6 @@
             .col-xs-12.col-sm-6.col-md-6
               %h3= @client.en_and_local_name
               %h3= "#{@client.gender.try(:titleize)} #{date_format(@client.date_of_birth)}"
-
               .form-inputs
                 .form-group.date.client_exit_date
                   %label.date.required.control-label{ for: 'client_exit_date' }
@@ -32,7 +31,7 @@
                       %i.fa.fa-calendar-check-o
 
               .form-inputs.i-checks
-                = f.input :exit_reasons, as: :check_boxes, collection: Client::EXIT_REASONS,label: t('.exit_reasons')
+                = f.input :exit_reasons, as: :check_boxes, collection: Client::EXIT_REASONS, label: t('.exit_reasons')
               .form-inputs
                 = f.input :other_info_of_exit, label: t('.other_info_of_exit')
 
@@ -40,18 +39,12 @@
               .form-group
                 %label= t('.case_worker_or_staff')
                 = f.association :users, collection: @users, label: t('.case_worker_or_staff'), include_blank: false, multiple: true, disabled: true, label: false
-              - if @client.status == "Referred" && @client.state == "accepted"
-                .form-inputs
-                  = f.input :exit_circumstance, label: t('.exit_circumstance'), input_html: {value: 'Exited Client'}, readonly: true, required: true
-                .form-inputs
-                  = f.input :exit_note, label: t('.exit_note'), input_html: { rows: '14' }
-              - else
-                .form-inputs
-                  = f.input :exit_circumstance, label: t('.exit_circumstance'), input_html: {value: 'Rejected Referral'}, readonly: true
-                .form-inputs
-                  = f.hidden_field :state, value: 'rejected'
-                .form-inputs
-                  = f.input :rejected_note, label: t('.rejected_note'), input_html: {rows: '14' }
+              .form_inputs
+                = f.input :exit_circumstance, label: t('.exit_circumstance'), input_html: {value: exit_circumstance_value}, readonly: true, required: true
+              .form-inputs
+                = f.input :exit_note, label: t('.exit_note'), input_html: { rows: '14' }
+              .form_inputs
+                = f.hidden_field :status, value: 'Exited'
 
           .text-right
             %button.btn.btn-default{"data-dismiss" => 'modal'}= t('cancel')

@@ -5,6 +5,7 @@ class CustomFieldPropertiesController < AdminController
 
   before_action :find_entity, :find_custom_field
   before_action :find_custom_field_property, only: [:edit, :update, :destroy]
+  before_action :authorize_client, except: [:index, :show]
   before_action :get_form_builder_attachments, only: [:edit, :update]
   before_action -> { check_user_permission('editable') }, except: [:index, :show]
   before_action -> { check_user_permission('readable') }, only: [:show, :index]
@@ -16,16 +17,13 @@ class CustomFieldPropertiesController < AdminController
   def new
     @custom_field_property = @custom_formable.custom_field_properties.new(custom_field_id: @custom_field)
     @attachments = @custom_field_property.form_builder_attachments
-    authorize! :new, @custom_field_property
   end
 
   def edit
-    authorize! :edit, @custom_field_property
   end
 
   def create
     @custom_field_property = @custom_formable.custom_field_properties.new(custom_field_property_params)
-    authorize! :create, @custom_field_property
     if @custom_field_property.save
       redirect_to polymorphic_path([@custom_formable, CustomFieldProperty], custom_field_id: @custom_field), notice: t('.successfully_created')
     else
@@ -34,7 +32,6 @@ class CustomFieldPropertiesController < AdminController
   end
 
   def update
-    authorize! :update, @custom_field_property
     if @custom_field_property.update_attributes(custom_field_property_params)
       add_more_attachments(@custom_field_property)
       redirect_to polymorphic_path([@custom_formable, CustomFieldProperty], custom_field_id: @custom_field), notice: t('.successfully_updated')
@@ -44,7 +41,6 @@ class CustomFieldPropertiesController < AdminController
   end
 
   def destroy
-    authorize! :destroy, @custom_field_property
     name = params[:file_name]
     index = params[:file_index].to_i
     if name.present? && index.present?
@@ -91,6 +87,10 @@ class CustomFieldPropertiesController < AdminController
 
   def find_custom_field_property
     @custom_field_property = @custom_formable.custom_field_properties.find(params[:id])
+  end
+
+  def authorize_client
+    authorize @custom_formable if @custom_formable.class.name == 'Client'
   end
 
   def find_custom_field
