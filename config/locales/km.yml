@@ -336,7 +336,7 @@ km:
       name: ឈ្មោះ
       ngo_accepted_date: កាលបរិច្ឆេទទទួលយកចូលអង្គការ
       ngo_exit_date: កាលបរិច្ឆេទនៃការចាកចេញពីអង្គការ
-      other_info_of_exit: ព័ត៌មានបន្ថែមផ្សេងៗ
+      other_info_of_exit: ព័ត៌មានបន្ថែមនៃការចាកចេញ
       placement_start_date: ថ្ងៃបញ្ជូនទៅក្នុងករណី
       program_stream: កម្មវិធីបន្ទាប់បន្សំ
       province: ខេត្តកំណើត
@@ -1085,9 +1085,9 @@ km:
       exit_date: ថ្ងៃចាកចេញ
       exit_ngo: ចាកចេញពី NGO
       exit_note: កំណត់ហេតុនៃការចាកចេញ
-      exit_reasons: មូលហេតុនៃកាចាកចេញ
+      exit_reasons: មូលហេតុនៃការចាកចេញ
       exit_status: ស្ថានភាព
-      other_info_of_exit: ព័ត៌មានបន្ថែមផ្សេងៗ
+      other_info_of_exit: ព័ត៌មានបន្ថែមនៃការចាកចេញ
       reject_client: មិនទទួលយកអតិថិជន
       rejected_note: កំណត់ហេតុនៃការមិនទទួលយក
 
@@ -1366,7 +1366,7 @@ km:
       exit_from_kc: ចាកចេញពី KC
       exit_ngo_btn: ចាកចេញពី NGO
       exit_note: កំណត់ហេតុនៃការចាកចេញ
-      exit_reasons: មូលហេតុនៃកាចាកចេញ
+      exit_reasons: មូលហេតុនៃការចាកចេញ
       families: គ្រួសារ
       family_name: នាមត្រកូលជាអក្សរឡាតាំង
       follow_up_by: បុគ្គលិកតាមដានករណី
@@ -1397,7 +1397,7 @@ km:
       name: ឈ្មោះ
       name_of_referee: ឈ្មោះអ្នកបញ្ជូន
       note: កំណត់ហេតុ
-      other_info_of_exit: ព័ត៌មានបន្ថែមផ្សេងៗ
+      other_info_of_exit: ព័ត៌មានបន្ថែមនៃការចាកចេញ
       primary_carer_name: អ្នកមើលថែចំបង
       primary_carer_phone_number: លេខទូរស័ព្ទអ្នកមើលថែចំបង
       referee_phone_number: លេខទូរស័ព្ទអ្នកបញ្ជូន
@@ -1640,7 +1640,7 @@ km:
         domains: កត្តា CSI ទាំងអស់
         donor: ម្ចាស់ជំនួយ
         exit_circumstance: ស្ថានភាពនៃការចាកចេញ
-        exit_reasons: មូលហេតុនៃកាចាកចេញ
+        exit_reasons: មូលហេតុនៃការចាកចេញ
         family_id: លេខសម្គាល់គ្រួសារ
         family_name: នាមត្រកូលជាអក្សរឡាតាំង
         follow_up_by: បុគ្គលិកតាមដានករណី
@@ -1672,7 +1672,7 @@ km:
         ngo_accepted_date: កាលបរិច្ឆេទទទួលយកចូលអង្គការ
         ngo_exit_date: កាលបរិច្ឆេទនៃការចាកចេញពីអង្គការ
         no_dob: ទេ
-        other_info_of_exit: ព័ត៌មានបន្ថែមផ្សេងៗ
+        other_info_of_exit: ព័ត៌មានបន្ថែមនៃការចាកចេញ
         placement_case_type: ប្រភេទករណីដែលត្រូវបានបញ្ជូនទៅ
         placement_start_date: ថ្ងៃបញ្ជូនទៅក្នុងករណី
         placements:
@@ -1719,7 +1719,7 @@ km:
         what3words: What3words
       date_of_assessments: កាលបរិច្ឆេទការប៉ាន់ប្រមាណ
       exit_circumstance: ស្ថានភាពនៃការចាកចេញ
-      exit_reasons: មូលហេតុនៃកាចាកចេញ
+      exit_reasons: មូលហេតុនៃការចាកចេញ
       families:
         address: ឣាសយដ្ឋាន
         caregiver_information: ព័ត៌មាននៃអ្នកថែទាំ
@@ -1760,7 +1760,7 @@ km:
       history_of_harm: ការបង្កទុក្ខទោស និងការកេងប្រវ័ញ្ច
       history_of_high_risk_behaviours: ការបំពានគ្រឿងញៀនឬគ្រឿងស្រវឹង និងល្បែងស៊ីសង
       manage: សកម្មភាព
-      other_info_of_exit: ព័ត៌មានបន្ថែមផ្សេងៗ
+      other_info_of_exit: ព័ត៌មានបន្ថែមនៃការចាកចេញ
       partner: ដៃគូ
       partners:
         address: ឣាសយដ្ឋាន
