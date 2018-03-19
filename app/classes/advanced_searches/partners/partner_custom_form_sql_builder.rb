@@ -7,7 +7,7 @@ module AdvancedSearches
         field          = rule['field']
         @field         = field.split('_').last.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
         @operator      = rule['operator']
-        @value         = rule['value'].is_a?(Array) ? rule['value'] : rule['value'].gsub("'", "''")
+        @value         = rule['value'].is_a?(Array) ? rule['value'] : rule['value'].gsub("'", "''").gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
         @type          = rule['type']
         @input_type    = rule['input']
       end
@@ -15,7 +15,6 @@ module AdvancedSearches
       def get_sql
         sql_string = 'partners.id IN (?)'
         custom_field_properties = CustomFieldProperty.where(custom_formable_type: 'Partner', custom_field_id: @selected_custom_form)
-
         case @operator
         when 'equal'
           if @input_type == 'text' && @field.exclude?('&')

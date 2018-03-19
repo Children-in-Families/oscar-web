@@ -137,7 +137,8 @@ module AdvancedSearchHelper
       province_id:                              I18n.t('datagrid.columns.partners.province'),
       engagement:                               I18n.t('datagrid.columns.partners.engagement'),
       background:                               I18n.t('datagrid.columns.partners.background'),
-      start_date:                               I18n.t('datagrid.columns.partners.start_date')
+      start_date:                               I18n.t('datagrid.columns.partners.start_date'),
+      form_title:                               I18n.t('datagrid.columns.partners.form_title')
     }
     translations[key.to_sym] || ''
   end

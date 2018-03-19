@@ -1,6 +1,7 @@
 module AdvancedSearches
   module Partners
     class PartnerBaseSqlBuilder
+      ASSOCIATION_FIELDS = ['form_title']
       BLANK_FIELDS = ['start_date']
       SENSITIVITY_FIELDS = %w(name contact_person_name address email contact_person_mobile organisation_type engagement affiliation background)
 
@@ -20,7 +21,12 @@ module AdvancedSearches
           operator = rule['operator']
           value    = rule['value']
           form_builder = field != nil ? field.split('_') : []
-          if form_builder.first == 'formbuilder'
+          if ASSOCIATION_FIELDS.include?(field)
+            association_filter = AdvancedSearches::Partners::PartnerAssociationFilter.new(@partners, field, operator, value).get_sql
+            @sql_string << association_filter[:id]
+            @values     << association_filter[:values]
+
+          elsif form_builder.first == 'formbuilder'
             custom_form = CustomField.find_by(form_title: form_builder.second)
             custom_field = AdvancedSearches::Partners::PartnerCustomFormSqlBuilder.new(custom_form, rule).get_sql
             @sql_string << custom_field[:id]
