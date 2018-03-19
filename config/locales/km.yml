@@ -310,7 +310,7 @@ km:
       exit_ec_date: ថ្ងៃចាកចេញពី EC
       exit_fc_date: ថ្ងៃចាកចេញពី FC
       exit_kc_date: ថ្ងៃចាកចេញពី KC
-      exit_reasons: ហេតុផលនៃកាចាកចេញ
+      exit_reasons: មូលហេតុនៃការចាកចេញ
       family: គ្រួសារ
       family_id: លេខសម្គាល់គ្រួសារ
       family_name: នាមត្រកូលជាអក្សរឡាតាំង
@@ -1085,7 +1085,7 @@ km:
       exit_date: ថ្ងៃចាកចេញ
       exit_ngo: ចាកចេញពី NGO
       exit_note: កំណត់ហេតុនៃការចាកចេញ
-      exit_reasons: ហេតុផលនៃកាចាកចេញ
+      exit_reasons: មូលហេតុនៃកាចាកចេញ
       exit_status: ស្ថានភាព
       other_info_of_exit: ព័ត៌មានបន្ថែមផ្សេងៗ
       reject_client: មិនទទួលយកអតិថិជន
@@ -1366,7 +1366,7 @@ km:
       exit_from_kc: ចាកចេញពី KC
       exit_ngo_btn: ចាកចេញពី NGO
       exit_note: កំណត់ហេតុនៃការចាកចេញ
-      exit_reasons: ហេតុផលនៃកាចាកចេញ
+      exit_reasons: មូលហេតុនៃកាចាកចេញ
       families: គ្រួសារ
       family_name: នាមត្រកូលជាអក្សរឡាតាំង
       follow_up_by: បុគ្គលិកតាមដានករណី
@@ -1640,7 +1640,7 @@ km:
         domains: កត្តា CSI ទាំងអស់
         donor: ម្ចាស់ជំនួយ
         exit_circumstance: ស្ថានភាពនៃការចាកចេញ
-        exit_reasons: ហេតុផលនៃកាចាកចេញ
+        exit_reasons: មូលហេតុនៃកាចាកចេញ
         family_id: លេខសម្គាល់គ្រួសារ
         family_name: នាមត្រកូលជាអក្សរឡាតាំង
         follow_up_by: បុគ្គលិកតាមដានករណី
@@ -1719,7 +1719,7 @@ km:
         what3words: What3words
       date_of_assessments: កាលបរិច្ឆេទការប៉ាន់ប្រមាណ
       exit_circumstance: ស្ថានភាពនៃការចាកចេញ
-      exit_reasons: ហេតុផលនៃកាចាកចេញ
+      exit_reasons: មូលហេតុនៃកាចាកចេញ
       families:
         address: ឣាសយដ្ឋាន
         caregiver_information: ព័ត៌មាននៃអ្នកថែទាំ
