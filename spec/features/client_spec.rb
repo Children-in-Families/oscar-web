@@ -17,7 +17,7 @@ describe 'Client' do
     end
 
     scenario 'name' do
-      expect(page).to have_content(client.name)
+      expect(page).to have_content(client.given_name)
     end
 
     scenario 'edit link' do
@@ -29,14 +29,14 @@ describe 'Client' do
     end
 
     scenario 'no other name' do
-      expect(page).not_to have_content(other_client.name)
+      expect(page).not_to have_content(other_client.given_name)
     end
 
     scenario 'admin' do
       login_as(admin)
       visit clients_path
-      expect(page).to have_content(client.name)
-      expect(page).to have_content(other_client.name)
+      expect(page).to have_content(client.given_name)
+      expect(page).to have_content(other_client.given_name)
     end
   end
 
@@ -47,7 +47,7 @@ describe 'Client' do
     end
     scenario 'Domain Score Statistic and Active Programs Statistic', js: true do
       page.find("#client-statistic").click
-      wait_for_ajax
+      # wait_for_ajax
       expect(page).to have_css("#cis-domain-score[data-title='CSI Domain Scores']")
       expect(page).to have_css("#cis-domain-score[data-yaxis-title='Domain Scores']")
       expect(page).to have_css("#program-statistic[data-title='Active Programs']")
@@ -56,11 +56,19 @@ describe 'Client' do
   end
 
   feature 'Show' do
-    let!(:client){ create(:client, users: [user], state: 'accepted', current_address: '') }
-    let!(:other_client){create(:client)}
+    let!(:client){ create(:client, :accepted, current_address: '') }
     before do
-      login_as(user)
+      login_as(admin)
       visit client_path(client)
+    end
+
+    feature 'Time in care' do
+      let!(:case) { create(:case, :emergency, client: client, start_date: 1.year.ago) }
+
+      it 'of EC' do 
+        visit client_path(client)
+        expect(page).to have_content(client.reload.time_in_care) 
+      end
     end
 
     feature 'country' do
@@ -70,7 +78,7 @@ describe 'Client' do
     end
 
     scenario 'information' do
-      expect(page).to have_content(client.name)
+      expect(page).to have_content(client.given_name)
       expect(page).to have_content(client.gender.capitalize)
       expect(page).to have_content(client.date_of_birth.strftime('%B %d, %Y'))
     end
@@ -103,6 +111,80 @@ describe 'Client' do
       expect(page).to have_link(client.what3words, href: "https://map.what3words.com/#{client.what3words}")
     end
 
+    feature 'Read only', js: true do
+      let!(:client){ create(:client, :accepted) }
+      
+      let!(:task){ create(:task, :incomplete, :overdue, client: client) }
+      let!(:assessment){ create(:assessment, client: client) }
+      let!(:case_note){ create(:case_note, client: client, assessment: assessment) }
+      let!(:ec_case){ create(:case, :emergency, :inactive, client: client) }
+      
+      let!(:custom_field){ create(:custom_field) }
+      let!(:custom_field_property){ create(:custom_field_property, custom_formable: client, custom_field: custom_field) }
+      
+      let!(:program_stream){create(:program_stream)}
+      let!(:tracking){create(:tracking, program_stream: program_stream)}
+      let!(:client_enrollment){create(:client_enrollment, client: client, program_stream: program_stream)}
+      let!(:client_enrollment_tracking){create(:client_enrollment_tracking, client_enrollment: client_enrollment, tracking: tracking)}
+      let!(:leave_program){create(:leave_program, client_enrollment: client_enrollment, program_stream: program_stream)}
+
+      before do 
+        client.update(status: 'Exited', exit_date: Date.today, exit_note: 'Exit Client')
+        visit client_path(client)
+      end
+      
+      scenario 'Add Client to Case' do
+        expect(page).to have_css('#add-client-to-case.disabled')
+      end
+
+      scenario 'Tasks' do
+        visit client_tasks_path(client)
+        expect(page).to have_link(nil, href: edit_client_task_path(client, task), class: 'disabled')
+        # below actualy is delete button since it has link so cant expect not to have link
+        expect(page).to have_link(nil, href: client_task_path(client, task), class: 'disabled')
+      end
+
+      scenario 'Assessments' do
+        visit client_assessments_path(client)
+        expect(page).to have_link('View Report', href: client_assessment_path(client, assessment))
+        # missing expect edit link
+        expect(page).not_to have_link('Add New Assessment', href: new_client_assessment_path(client))
+      end
+
+      scenario 'Case Notes' do
+        visit client_case_notes_path(client)
+        expect(page).not_to have_link('New case note', href: new_client_case_note_path(client))
+        expect(page).not_to have_link(nil, href: edit_client_case_note_path(client, case_note))
+      end
+
+      scenario 'Case history' do
+        visit client_cases_path(client)
+        expect(page).not_to have_link(nil, href: new_client_case_path(client, ec_case))
+      end
+
+      scenario 'Additional Forms' do
+        visit client_custom_field_properties_path(client, custom_field_id: custom_field.id)
+        expect(page).not_to have_link("Add New #{custom_field.form_title}", href: new_client_custom_field_property_path(client, custom_field_id: custom_field))
+        expect(page).not_to have_link(nil, href: edit_client_custom_field_property_path(client, custom_field_property, custom_field_id: custom_field))
+        expect(page).not_to have_css("a[href='#{client_custom_field_property_path(client, custom_field_property, custom_field_id: custom_field)}'][data-method='delete']")
+      end
+
+      scenario 'Program Streams' do
+        visit client_client_enrollments_path(client)
+        # specify program stream id
+        expect(page).not_to have_link('Enroll', href: new_client_client_enrollment_path(client))
+
+        visit client_client_enrollment_path(client, client_enrollment, program_stream_id: program_stream)
+        expect(page).not_to have_link(nil, href: edit_client_client_enrollment_path(client, client_enrollment, program_stream_id: program_stream))
+        expect(page).not_to have_css("a[href='#{client_client_enrollment_path(client, client_enrollment, program_stream_id: program_stream)}'][data-method='delete']")
+
+        visit client_client_enrollment_client_enrollment_tracking_path(client, client_enrollment, client_enrollment_tracking)
+        expect(page).not_to have_link(nil, href: edit_client_client_enrollment_client_enrollment_tracking_path(client, client_enrollment, client_enrollment_tracking, tracking_id: tracking))
+
+        visit client_client_enrollment_leave_program_path(client, client_enrollment, leave_program)
+        expect(page).not_to have_link(nil, href: edit_client_client_enrollment_leave_program_path(client, client_enrollment, leave_program, program_stream_id: program_stream)) 
+      end
+    end
   end
 
   xfeature 'New', skip: '=== Capybara cannot find jQuery steps link ===' do
@@ -112,9 +194,10 @@ describe 'Client' do
                              province: province, village: 'Sabay', commune: 'Vealvong') }
     let!(:referral_source){ create(:referral_source) }
     before do
-      login_as(user)
+      login_as(admin)
       visit new_client_path
     end
+
     scenario 'valid', js: true do
       find(".client_received_by_id select option[value='#{user.id}']", visible: false).select_option
       find(".client_users select option[value='#{user.id}']", visible: false).select_option
@@ -159,9 +242,10 @@ describe 'Client' do
   feature 'Update', js: true, skip: '=== Capybara cannot find jQuery steps link ===' do
     let!(:client){ create(:client, users: [user]) }
     before do
-      login_as(user)
+      login_as(admin)
       visit edit_client_path(client)
     end
+
     scenario 'valid', js: true do
       fill_in 'client_given_name', with: 'Allen'
       click_button 'Save'
@@ -174,173 +258,49 @@ describe 'Client' do
       click_button 'Save'
       expect(page).to have_content("can't be blank")
     end
-
-    scenario 'government repor section invisible' do
-      expect(page).not_to have_content('Government Form')
-    end
   end
 
-  feature 'Delete', js: true do
+  feature 'Delete' do
     let!(:client){ create(:client, users: [user]) }
     before do
-      login_as(user)
+      login_as(admin)
       visit clients_path
     end
-    scenario 'successfully' do
+    scenario 'successful' do
       first("a[data-method='delete'][href='#{client_path(client.reload)}']").click
-      sleep 1
-      expect(page).to have_content('Client has been successfully deleted')
+      expect(Client.all.ids).not_to include(client.id)
     end
   end
 
-  feature 'Accept' do
-    let!(:client){create(:client, users: [user])}
+  feature 'Add To EC' do
+    let!(:client){ create(:client, :accepted) }
+    let!(:family){ create(:family, :emergency) }
+
     before do
-      login_as(user)
+      login_as(admin)
       visit client_path(client)
-      click_button 'Accept'
-    end
-    scenario 'has new case note link' do
-      expect(page).to have_link('Add to EC', href: new_client_case_path(client, case_type: 'EC'))
-      # expect(page).to have_link('Add to FC', href: new_client_case_path(client, case_type: 'FC'))
-      # expect(page).to have_link('Add to KC', href: new_client_case_path(client, case_type: 'KC'))
-    end
-  end
-
-  feature 'Reject' do
-    let!(:client){create(:client, users: [user])}
-    before do
-      login_as(user)
-      visit client_path(client)
-      click_button 'Reject'
-
-      fill_in 'Note', with: 'Rejected'
-      find("input[type='submit'][value='Reject']").click
-    end
-    scenario 'successfully', js: true do
-      wait_for_ajax
-      expect(page).to have_content('Rejected')
-    end
-  end
-
-  feature 'Accept and Reject' do
-    let!(:non_status_client){ create(:client, state: '', users: [user]) }
-    let!(:rejected_client){ create(:client, state: 'rejected', rejected_note: 'Something', users: [user]) }
-    before do
-      login_as(user)
-    end
-    scenario 'both button' do
-      visit client_path(non_status_client)
-      expect(page).to have_css("input[type='submit'][value='Accept']")
-      expect(page).to have_css("input[type='submit'][value='Reject']")
+      click_button 'add-client-to-case'
+      click_link 'Add to EC'
+      fill_in 'case_carer_names', with: 'John'
+      click_button 'Save'
     end
 
-    scenario 'no rejected button' do
-      visit client_path(rejected_client)
-      expect(page).not_to have_css("input[type='submit'][value='Reject']")
-    end
-  end
-
-  feature 'List Case' do
-    let!(:accepted_client){ create(:client, state: 'accepted', users: [user]) }
-
-    feature 'All Case' do
-      let!(:emergency_case){ create(:case, case_type: 'EC', client: accepted_client) }
-      let!(:foster_case){ create(:case, case_type: 'FC', client: accepted_client) }
-      let!(:kinship_case){ create(:case, case_type: 'KC', client: accepted_client) }
-
-      before do
-        login_as(user)
-        visit client_path(accepted_client)
-      end
-
-      scenario 'All Panel' do
-        click_button (I18n.t('clients.show.add_client_to_case'))
-        expect(page).to have_content('Emergency Care')
-        expect(page).to have_content('Foster Care')
-        expect(page).to have_content('Kinship Care')
-      end
-
-      scenario 'Emergency Info' do
-
-        expect(page).to have_content(emergency_case.start_date.strftime('%B %d, %Y'))
-        expect(page).to have_content(emergency_case.carer_names)
-        expect(page).to have_content(emergency_case.carer_phone_number)
-      end
-
-      scenario 'Foster Info' do
-        expect(page).to have_content(foster_case.carer_address)
-        expect(page).to have_content(foster_case.province.name)
-        expect(page).to have_content(ActionController::Base.helpers.number_to_currency(foster_case.support_amount))
-      end
-
-      scenario 'Kinship Info' do
-
-        expect(page).to have_content(foster_case.support_note)
-        expect(page).to have_content(foster_case.partner.name)
-      end
-
+    scenario 'Emergency Case panel' do
+      expect(page).to have_content('Emergency Care')
+      expect(page).to have_content('John')
     end
 
-    feature 'Emergency Case' do
-      let!(:emergency_case){ create(:case, case_type: 'EC', client: accepted_client) }
-
-      before do
-        login_as(user)
-        visit client_path(accepted_client)
-      end
-
-      scenario 'Emergency Case panel' do
-        expect(page).to have_content('Emergency Care')
-      end
-
-      scenario 'No Foster and Kinship case panel' do
-        expect(page).not_to have_content('Kinship Care')
-        expect(page).not_to have_content('Foster Care')
-      end
-    end
-    feature 'Foster Case' do
-      let!(:foster_case){ create(:case, case_type: 'FC', client: accepted_client) }
-
-      before do
-        login_as(user)
-        visit client_path(accepted_client)
-      end
-
-      scenario 'Foster Case panel' do
-        expect(page).to have_content('Foster Care')
-      end
-
-      scenario 'No Kinship and Emergency case panel' do
-        expect(page).not_to have_content('Emergency Care')
-        expect(page).not_to have_content('Kinship Care')
-      end
-    end
-    feature 'Kinship Case' do
-      let!(:kinship_case){ create(:case, case_type: 'KC', client: accepted_client) }
-
-      before do
-        login_as(user)
-        visit client_path(accepted_client)
-      end
-
-      scenario 'Kinship Case panel' do
-        expect(page).to have_content('Kinship Care')
-      end
-
-      scenario 'No Foster and Emergency case panel' do
-        expect(page).not_to have_content('Foster Care')
-        expect(page).not_to have_content('Emergency Care')
-      end
+    scenario "client's status is now Active" do
+      expect(client.reload.status).to eq('Active')
     end
   end
 
   feature 'Case Button' do
     feature 'Blank Client' do
-      let!(:blank_client){ create(:client, state: 'accepted', users: [user]) }
+      let!(:blank_client){ create(:client, :accepted) }
 
       before do
-        login_as(user)
+        login_as(admin)
         visit client_path(blank_client)
       end
 
@@ -348,38 +308,22 @@ describe 'Client' do
         expect(page).to have_link('Add to EC', href: new_client_case_path(blank_client, case_type: 'EC'))
       end
 
-      # scenario 'Foster Case Button' do
-      #   expect(page).to have_link('Add to FC', href: new_client_case_path(blank_client, case_type: 'FC'))
-      # end
-
-      # scenario 'Kinship Case Button' do
-      #   expect(page).to have_link('Add to KC', href: new_client_case_path(blank_client, case_type: 'KC'))
-      # end
-
       scenario 'Exit NGO Button' do
         expect(page).to have_content('Exit From NGO')
       end
     end
 
     feature 'Emergency Active Client' do
-      let!(:ec_client){ create(:client, state: 'accepted', users: [user]) }
+      let!(:ec_client){ create(:client, :accepted) }
       let!(:case){ create(:case, case_type: 'EC', client: ec_client, exited: false) }
 
       before do
-        login_as(user)
+        login_as(admin)
         visit client_path(ec_client)
       end
 
       scenario 'Emergency Case Button' do
         expect(page).not_to have_link('Add to EC', href: new_client_case_path(ec_client, case_type: 'EC'))
-      end
-
-      scenario 'Foster Case Button' do
-        expect(page).not_to have_link('Add to FC', href: new_client_case_path(ec_client, case_type: 'FC'))
-      end
-
-      scenario 'Kinship Case Button' do
-        expect(page).not_to have_link('Add to KC', href: new_client_case_path(ec_client, case_type: 'KC'))
       end
 
       scenario 'Exit From EC' do
@@ -388,80 +332,23 @@ describe 'Client' do
       end
     end
 
-    feature 'Active Foster Client' do
-      let!(:fc_client){ create(:client, state: 'accepted', users: [user]) }
-      let!(:case){ create(:case, case_type: 'FC', client: fc_client, exited: false) }
-
-      before do
-        login_as(user)
-        visit client_path(fc_client)
-      end
-      scenario 'FC' do
-        exit_case_button = find('.exit-case-warning')
-        expect(exit_case_button).to have_content('Exit From FC')
-      end
-    end
-
-    feature 'Active Kinship Client' do
-      let!(:kc_client){ create(:client, state: 'accepted', users: [user]) }
-      let!(:case){ create(:case, case_type: 'KC', client: kc_client, exited: false) }
-
-      before do
-        login_as(user)
-        visit client_path(kc_client)
-      end
-      scenario 'KC' do
-        exit_case_button = find('.exit-case-warning')
-        expect(exit_case_button).to have_content('Exit From KC')
-      end
-    end
-
-    feature 'Not Emergency Active Client' do
-      let!(:active_client){ create(:client, state: 'accepted', users: [user]) }
-      let!(:case){ create(:case, case_type: ['FC', 'KC'].sample, client: active_client, exited: false) }
-
-      before do
-        login_as(user)
-        visit client_path(active_client)
-      end
-
-      scenario 'Emergency Case Button' do
-        expect(page).not_to have_link('Add to EC', href: new_client_case_path(active_client, case_type: 'EC'))
-      end
-
-      scenario 'Foster Case Button' do
-        expect(page).not_to have_link('Add to FC', href: new_client_case_path(active_client, case_type: 'FC'))
-      end
-
-      scenario 'Kinship Case Button' do
-        expect(page).not_to have_link('Add to KC', href: new_client_case_path(active_client, case_type: 'KC'))
-      end
-    end
     feature 'Inactive Client' do
-      let!(:inactive_client){ create(:client, state: 'accepted', users: [user]) }
+      let!(:inactive_client){ create(:client, :accepted) }
       let!(:case){ create(:case, :inactive, case_type: ['EC', 'FC', 'KC'].sample, client: inactive_client) }
 
       before do
-        login_as(user)
+        login_as(admin)
         visit client_path(inactive_client)
       end
 
       scenario 'Emergency Case Button' do
         expect(page).to have_link('Add to EC', href: new_client_case_path(inactive_client, case_type: 'EC'))
       end
-
-      # scenario 'Foster Case Button' do
-      #   expect(page).to have_link('Add to FC', href: new_client_case_path(inactive_client, case_type: 'FC'))
-      # end
-
-      # scenario 'Kinship Case Button' do
-      #   expect(page).to have_link('Add to KC', href: new_client_case_path(inactive_client, case_type: 'KC'))
-      # end
     end
   end
 
-  feature 'Qualify Report' do
-    let!(:accepted_client){ create(:client, state: 'accepted', users: [user]) }
+  feature 'Quarterly Report' do
+    let!(:accepted_client){ create(:client, :accepted) }
     let!(:client_case){ create(:case, case_type: 'KC', client: accepted_client) }
     let!(:quarterly_report){ create(:quarterly_report, case: client_case) }
     before do
@@ -473,78 +360,49 @@ describe 'Client' do
     end
   end
 
-  feature 'Exit Case' do
-    let(:accepted_client) { create(:client, state: 'accepted', users: [user]) }
-    let!(:client_case) { create(:case, case_type: ['EC', 'FC', 'KC'].sample, client: accepted_client) }
+  feature 'Exit Case', js: true do
+    let!(:accepted_client) { create(:client, :accepted) }
+    let!(:client_case) { create(:case, :emergency, client: accepted_client) }
 
     before do
-      login_as(user)
+      login_as(admin)
       visit client_path(accepted_client)
     end
-    scenario 'Exit Button' do
-      button = find("button[data-target='#exit-from-case']")
-      expect(button).to have_content('Remove Client from Program')
-    end
-    scenario 'Note', js: true do
-      page.find("button[data-target='#exit-from-case']").click
-      page.find(:css, '#exit-from-case')
-      within '#exit-from-case' do
-        fill_in 'Exit Date', with: '2017-07-07'
-        fill_in 'Exit Note', with: FFaker::Lorem.paragraph
+
+    context 'before' do
+      it "client's status is Active" do
+        expect(accepted_client.reload.status).to eq('Active')
       end
-      page.find("input[type='submit'][value='Exit']").click
-      expect(page).to have_content('Referred')
-    end
-  end
-
-  feature 'Time in care' do
-    let!(:accepted_client) { create(:client, state: 'accepted', users: [user]) }
-    let!(:accepted_client2) { create(:client, state: 'accepted', users: [user]) }
-    let!(:case) {create(:case, case_type: 'EC', client: accepted_client2, exited: false, start_date: 1.year.ago)}
-    before do
-      login_as(user)
-    end
-    scenario 'without any cases' do
-      visit client_path(accepted_client)
-      time_in_care = accepted_client.time_in_care
-      expect(time_in_care).to be_nil
-      expect(page).to have_content(time_in_care)
     end
 
-    scenario 'with case' do
-      visit client_path(accepted_client2)
-      time_in_care = accepted_client2.time_in_care
-      expect(page).to have_content(time_in_care)
+    context 'after' do
+      it "client's status is now Accepted" do
+        page.find("button[data-target='#exit-from-case']").click
+        within '#exit-from-case' do
+          fill_in 'Exit Date', with: '2017-07-07'
+          fill_in 'Exit Note', with: FFaker::Lorem.paragraph
+        end
+        page.find("input[type='submit'][value='Exit']").click
+        
+        expect(accepted_client.reload.status).to eq('Accepted')
+      end
     end
   end
 
   feature 'Enable Edit Emergency Care' do
-    let!(:accepted_client) { create(:client, state: 'accepted', users: [user]) }
-    let!(:ec_case){ create(:case, case_type: 'EC', client: accepted_client) }
-    let!(:kc_manager){ create(:user, roles: 'kc manager') }
-    feature 'of active EC and FC/KC client' do
-      feature 'login as case worker' do
-        let!(:fc_case){ create(:case, case_type: 'FC', client: accepted_client) }
-        before do
-          login_as(kc_manager)
-          visit client_path(accepted_client)
-        end
-        it { expect(page).not_to have_link(nil, href: edit_client_case_path(ec_case.client, ec_case)) }
-      end
-
-      feature 'login as admin' do
-        let!(:kc_case){ create(:case, case_type: 'KC', client: accepted_client) }
-        before do
-          login_as(admin)
-          visit client_path(accepted_client)
-        end
-        it { expect(page).to have_link(nil, href: edit_client_case_path(ec_case.client, ec_case)) }
-      end
+    let!(:client) { create(:client, :accepted) }
+    let!(:ec_case){ create(:case, :emergency, client: client) }
+  
+    before do
+      login_as(admin)
+      visit client_path(client)
     end
+    
+    it { expect(page).to have_link(nil, href: edit_client_case_path(client, ec_case)) }
   end
 
   feature 'Case notes, Assessments, Custom Field and Program Stream permission', js: true do
-    let!(:client){ create(:client, users: [admin, user], state: 'accepted') }
+    let!(:client){ create(:client, :accepted, users: [user]) }
     let!(:assessment) { create(:assessment, client: client) }
     let!(:case_note) { create(:case_note, assessment: assessment, client: client)}
 
@@ -562,19 +420,19 @@ describe 'Client' do
 
       scenario 'case notes' do
         find("a[href='#{client_case_notes_path(client)}']").click
-        expect("#{client_case_notes_path(client)}").to have_content(current_path)
+        expect(client_case_notes_path(client)).to have_content(current_path)
 
         find("a[href='#{edit_client_case_note_path(client, case_note)}']").click
-        expect("#{edit_client_case_note_path(client, case_note)}").to have_content(current_path)
+        expect(edit_client_case_note_path(client, case_note)).to have_content(current_path)
       end
 
       scenario 'assessments' do
         find("a[href='#{client_assessments_path(client)}']").click
         find("a[href='#{client_assessment_path(client, assessment)}']").click
-        expect("#{client_assessment_path(client, assessment)}").to have_content(current_path)
+        expect(client_assessment_path(client, assessment)).to have_content(current_path)
 
         find("a[href='#{edit_client_assessment_path(client, assessment)}']").click
-        expect("#{edit_client_assessment_path(client, assessment)}").to have_content(current_path)
+        expect(edit_client_assessment_path(client, assessment)).to have_content(current_path)
       end
 
       scenario 'custom fields' do
@@ -582,15 +440,16 @@ describe 'Client' do
         expect(page).to have_content(custom_field.form_title)
 
         find("a[href='#{edit_client_custom_field_property_path(client, custom_field_property, custom_field_id: custom_field.id)}']").click
-        expect("#{edit_client_custom_field_property_path(client, custom_field_property, custom_field_id: custom_field.id)}").to have_content(current_path)
+        expect(edit_client_custom_field_property_path(client, custom_field_property, custom_field_id: custom_field.id)).to have_content(current_path)
       end
 
       scenario 'program streams' do
         find("a[href='#{client_client_enrolled_programs_path(client)}']").click
-        expect("#{client_client_enrolled_programs_path(client)}").to have_content(current_path)
+        expect(client_client_enrolled_programs_path(client)).to have_content(current_path)
 
-        visit "#{edit_client_client_enrolled_program_path(client, client_enrollment, program_stream_id: program_stream.id)}"
-        expect("#{edit_client_client_enrolled_program_path(client, client_enrollment, program_stream_id: program_stream.id)}").to have_content(current_path)
+        visit edit_client_client_enrolled_program_path(client, client_enrollment, program_stream_id: program_stream.id)
+
+        expect(edit_client_client_enrolled_program_path(client, client_enrollment, program_stream_id: program_stream.id)).to have_content(current_path)
       end
     end
 
@@ -606,6 +465,9 @@ describe 'Client' do
 
         visit edit_client_case_note_path(client, case_note)
         expect(dashboards_path).to have_content(current_path)
+
+        visit client_case_notes_path(client)
+        expect(dashboards_path).to have_content(current_path)
       end
 
       scenario 'assessments' do
@@ -615,6 +477,9 @@ describe 'Client' do
 
         visit edit_client_assessment_path(client, assessment)
         expect(dashboards_path).to have_content(current_path)
+
+        visit client_assessment_path(client, assessment)
+        expect(dashboards_path).to have_content(current_path)
       end
 
       scenario 'custom fields' do
@@ -623,6 +488,9 @@ describe 'Client' do
 
         visit edit_client_custom_field_property_path(client, custom_field_property, custom_field_id: custom_field.id)
         expect(dashboards_path).to have_content(current_path)
+
+        visit client_custom_field_properties_path(client, custom_field_property, custom_field_id: custom_field.id)
+        expect(dashboards_path).to have_content(current_path)        
       end
 
       scenario 'program streams' do
@@ -632,7 +500,85 @@ describe 'Client' do
 
         visit edit_client_client_enrolled_program_path(client, client_enrollment, program_stream_id: program_stream.id)
         expect(dashboards_path).to have_content(current_path)
+
+        visit client_client_enrolled_program_path(client, client_enrollment, program_stream_id: program_stream.id)
+        expect(dashboards_path).to have_content(current_path)
       end
     end
   end
+
+  feature 'Accept' do
+    before do
+      login_as(admin)
+    end
+
+    context 'click Accept initial client' do
+      let!(:client) { create(:client) }
+
+      it "status is now Accepted" do
+        visit client_path(client)
+
+        find(".form-actions #accept-client").click
+        expect(client.reload.status).to eq('Accepted')
+      end
+    end
+
+    context 'click Accept exited client' do
+      let!(:exited_client){ create(:client, :exited) }
+
+      it "status is now Accepted again" do
+        visit client_path(exited_client)
+
+        find("button[data-target='#enter-ngo-form']").click
+        within '#enter-ngo-form form.simple_form.edit_client' do
+          find(".client_users select option[value='#{admin.id}']", visible: false).select_option
+          find(".text-right input[type='submit']").click
+        end
+        expect(exited_client.reload.status).to eq('Accepted')
+      end
+    end
+  end
+
+  feature 'Reject' do
+    let!(:client) { create(:client) }
+    before do 
+      login_as(admin)
+      visit client_path(client)
+    end
+
+    context 'click Reject initial client' do
+
+      it "status is now Exited" do
+        find('#reject-client-btn').click
+
+        exit_client_from_ngo
+      end
+    end
+  end
+
+  feature 'Exit Ngo' do
+    let!(:client) { create(:client, :accepted) }
+    before do 
+      login_as(admin)
+      visit client_path(client)
+    end
+
+    context 'click exit ngo button' do
+      it 'status is now Exited' do
+        find('#add-client-to-case').click
+        find('#exit-from-ngo-btn').click
+
+        exit_client_from_ngo
+      end
+    end
+  end
+end
+
+def exit_client_from_ngo
+  within '#exitFromNgo form.simple_form.edit_client' do
+    fill_in 'client_exit_date', with: Date.today
+    fill_in 'client_exit_note', with: 'Testing'
+    find("input.confirm-exit").click
+  end
+  expect(client.reload.status).to eq('Exited')
 end

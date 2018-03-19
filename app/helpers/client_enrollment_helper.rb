@@ -30,7 +30,7 @@ module ClientEnrollmentHelper
   end
 
   def client_enrollment_edit_link
-    if program_permission_editable?(@program_stream)
+    if program_permission_editable?(@program_stream) && policy(@client).edit?
       link_to edit_client_client_enrollment_path(@client, @client_enrollment, program_stream_id: @program_stream) do
         content_tag :div, class: 'btn btn-success btn-outline' do
           fa_icon('pencil')
@@ -46,7 +46,7 @@ module ClientEnrollmentHelper
   end
 
   def client_enrollment_new_link(program_stream)
-    if program_permission_editable?(program_stream)
+    if program_permission_editable?(program_stream) && policy(@client).new?
       link_to new_client_client_enrollment_path(@client, program_stream_id: program_stream.id) do
         content_tag :div, class: 'btn btn-primary btn-xs btn-width' do 
           t('.enroll')
@@ -62,7 +62,7 @@ module ClientEnrollmentHelper
   end
 
   def client_enrollment_destroy_link
-    if program_permission_editable?(@program_stream)
+    if program_permission_editable?(@program_stream) && policy(@client).destroy?
       link_to client_client_enrollment_path(@client, @client_enrollment, program_stream_id: @program_stream), method: 'delete', data: { confirm: t('.are_you_sure') } do
         content_tag :div, class: 'btn btn-outline btn-danger' do
           fa_icon('trash')

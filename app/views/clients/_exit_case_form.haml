@@ -19,12 +19,11 @@
                 = f.text_field :exit_date, required: true, class: 'date form-control date-picker .datepicker-dropdown exit_date', type: 'text', name: 'case[exit_date]', id: 'case_exit_date'
                 %span.input-group-addon
                   %i.fa.fa-calendar-check-o
-
           .form-inputs
             = f.input :exit_note, required: true, label: t('.exit_note'), input_html: { class: 'exit_note' }
 
-          .form-inputs
-            = f.hidden_field :exited, value: true
+          = f.hidden_field :status, value: 'Exited'
+          = f.hidden_field :exited, value: true
           .text-right
             %button.btn.btn-default{"data-dismiss" => 'modal'}= t('cancel')
             = f.submit t('.exit_btn'), class: 'btn btn-danger confirm-exit', disabled: :disabled

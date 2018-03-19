@@ -3,7 +3,7 @@ class ClientEnrollmentTrackingPolicy < ApplicationPolicy
     record.client_enrollment.active?
   end
 
-  def update?
-    create?
-  end
+  alias new? create?
+  alias edit? create?
+  alias update? create?
 end

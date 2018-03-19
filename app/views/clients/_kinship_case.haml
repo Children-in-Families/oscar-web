@@ -11,7 +11,7 @@
                   .btn.btn-outline.btn-success
                     = t('.edit_btn')
                 - unless @client.cases.exclude_referred.latest_kinship.exited
-                  %button.btn.btn-outline.btn-warning{"data-target" => '#exit-from-case', "data-toggle" => 'modal'}
+                  %button.btn.btn-outline.btn-warning{"data-target" => "#exit-from-case", "data-toggle" => 'modal'}
                     = t('.exit_btn')
       .ibox-content
         %section.overflow-case

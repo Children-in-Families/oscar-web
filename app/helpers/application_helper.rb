@@ -24,12 +24,10 @@ module ApplicationHelper
   end
 
   def status_style(status)
-    color = 'label-primary'
     case status
-    when 'Referred'
-      color = 'label-danger'
-    when 'Investigating'
-      color = 'label-warning'
+    when 'Active' then color = 'label-primary'
+    when 'Referred', 'Exited' then color = 'label-danger'
+    when 'Accepted' then color = 'label-info'
     end
 
     content_tag(:span, class: ['label', color]) do

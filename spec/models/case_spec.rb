@@ -229,7 +229,7 @@ describe Case, 'callbacks' do
 
     context 'when client is not active in any programs' do
       context 'when save case which is just exited' do
-        it 'should update status to Referred' do
+        it 'should update status to Accepted' do
           emergency.update(exited: true, exit_date: Time.now, exit_note: FFaker::Lorem.paragraph)
           foster.update(exited: true, exit_date: Time.now, exit_note: FFaker::Lorem.paragraph)
           kinship.update(exited: true, exit_date: Time.now, exit_note: FFaker::Lorem.paragraph)
@@ -238,39 +238,39 @@ describe Case, 'callbacks' do
           fc_client.reload
           kc_client.reload
 
-          expect(ec_client.status).to eq('Referred')
-          expect(fc_client.status).to eq('Referred')
-          expect(kc_client.status).to eq('Referred')
+          expect(ec_client.status).to eq('Accepted')
+          expect(fc_client.status).to eq('Accepted')
+          expect(kc_client.status).to eq('Accepted')
         end
       end
 
       context 'when save existing exited case' do
         it 'client status is not changed' do
-          expect(ec_client.status).to eq('Active EC')
+          expect(ec_client.status).to eq('Active')
           exit_emergency.update(exit_note: FFaker::Lorem.paragraph)
           ec_client.reload
-          expect(ec_client.status).to eq('Active EC')
+          expect(ec_client.status).to eq('Active')
         end
       end
 
-      it 'should update status to Active EC' do
+      it 'should update status to Accepted' do
         kinship.update(exited: true, exit_date: Time.now, exit_note: FFaker::Lorem.paragraph)
 
         kc_client.reload
 
-        expect(kc_client.status).to eq('Referred')
+        expect(kc_client.status).to eq('Accepted')
       end
 
-      it 'should update status to Active KC' do
-        expect(kc_client.status).to eq('Active KC')
+      it 'should update status to Active' do
+        expect(kc_client.status).to eq('Active')
       end
 
       it 'should update kc client code from blank to 2000' do
         expect(kc_client.code).to eq '2000'
       end
 
-      it 'should update status to Active FC' do
-        expect(fc_client.status).to eq('Active FC')
+      it 'should update status to Active' do
+        expect(fc_client.status).to eq('Active')
       end
 
       it 'should update fc client code from blank to 1000' do
@@ -281,7 +281,7 @@ describe Case, 'callbacks' do
       let!(:client_enrollment){ create(:client_enrollment, client: ec_client) }
       context 'when save case which is just exited' do
         it 'should update status to Active' do
-          expect(ec_client.status).to eq('Active EC')
+          expect(ec_client.status).to eq('Active')
           emergency.update(exited: true, exit_date: Time.now, exit_note: FFaker::Lorem.paragraph)
           ec_client.reload
           expect(ec_client.status).to eq('Active')
@@ -289,10 +289,10 @@ describe Case, 'callbacks' do
       end
       context 'when save existing exited case' do
         it 'client status is not changed' do
-          expect(ec_client.status).to eq('Active EC')
+          expect(ec_client.status).to eq('Active')
           exit_emergency.update(exit_note: FFaker::Lorem.paragraph)
           ec_client.reload
-          expect(ec_client.status).to eq('Active EC')
+          expect(ec_client.status).to eq('Active')
         end
       end
     end
