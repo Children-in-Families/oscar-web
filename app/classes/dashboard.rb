@@ -17,7 +17,7 @@ class Dashboard
       url = { 'condition': 'AND', 'rules': [{ 'id': 'program_stream', 'field': 'program_stream', 'type': 'string', 'input': 'select', 'operator': 'equal', 'value': p.id } ]}
       {
         name: p.name,
-        y: p.client_enrollments.active.uniq.count,
+        y: p.client_enrollments.active.pluck(:client_id).uniq.count,
         url: clients_path('client_advanced_search[basic_rules]': url.to_json)
       }
     end
