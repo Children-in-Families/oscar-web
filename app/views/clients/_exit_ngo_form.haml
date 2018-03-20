@@ -1,17 +1,18 @@
 .modal.fade{ role: 'dialog', tabindex: '-1', id: 'exitFromNgo' }
-  .modal-dialog{ role: 'document'}
+  .modal-dialog.modal-lg{ role: 'document'}
     .modal-content
       .modal-header
         %button.close{"aria-label" => "#{t('.close')}", "data-dismiss" => 'modal'}
           %span{"aria-hidden" => 'true'} &times;
-        %h4.modal-title
-          .pull-left
-            - if @client.status == "Accepted"
-              = t('.exit_ngo')
-            - else
-              = t('.reject_client')
-          .pull-right
-            = "Client ID - #{@client.slug}"
+        .modal-title
+          .row
+            .col-xs-12.col-sm-6
+              - if @client.status == "Accepted"
+                %h4= t('.exit_ngo')
+              - else
+                %h4= t('.reject_client')
+            .col-xs-12.col-sm-6
+              %h4= "Client ID - #{@client.slug}"
 
       .modal-body
         = simple_form_for(@client) do |f|
@@ -48,4 +49,5 @@
 
           .text-right
             %button.btn.btn-default{"data-dismiss" => 'modal'}= t('cancel')
-            = f.submit t('.exit_btn'), class: 'btn btn-danger confirm-exit', disabled: :disabled
+            - exit_btn = @client.exit_ngo? ? t('save') : t('.exit_btn')
+            = f.submit exit_btn, class: 'btn btn-danger confirm-exit', disabled: :disabled
