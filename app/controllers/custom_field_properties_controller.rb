@@ -5,7 +5,7 @@ class CustomFieldPropertiesController < AdminController
 
   before_action :find_entity, :find_custom_field
   before_action :find_custom_field_property, only: [:edit, :update, :destroy]
-  before_action :authorize_client, except: [:index, :show]
+  before_action :authorize_client, only: [:new, :create]
   before_action :get_form_builder_attachments, only: [:edit, :update]
   before_action -> { check_user_permission('editable') }, except: [:index, :show]
   before_action -> { check_user_permission('readable') }, only: [:show, :index]

@@ -2,6 +2,7 @@ class CaseNotesController < AdminController
   load_and_authorize_resource
   before_action :set_client
   before_action :set_case_note, only: [:edit, :update]
+  before_action :authorize_client, only: [:new, :create]
   before_action :authorize_case_note, only: [:edit, :update]
   before_action -> { case_notes_permission('readable') }, only: [:index]
   before_action -> { case_notes_permission('editable') }, except: [:index]
@@ -99,7 +100,11 @@ class CaseNotesController < AdminController
   end
 
   def authorize_case_note
-    authorize(@client) && authorize(@case_note)
+    authorize @case_note
+  end
+
+  def authorize_client
+    authorize @client, :create?
   end
 
   def case_notes_permission(permission)
