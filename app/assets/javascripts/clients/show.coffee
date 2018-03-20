@@ -1,9 +1,11 @@
 CIF.ClientsShow = do ->
   _init = ->
     _initSelect2()
+
     _caseModalValidation()
     _exitNgoModalValidation()
     _enterNgoModalValidation()
+
 
   _initSelect2 = ->
     $('select').select2()
@@ -21,6 +23,7 @@ CIF.ClientsShow = do ->
   #       $('.confirm-reject').attr 'disabled', 'disabled'
   #     else
   #       $('.confirm-reject').removeAttr 'disabled'
+
 
   _enterNgoModalValidation = ->
     data = {
@@ -43,7 +46,7 @@ CIF.ClientsShow = do ->
   _exitNgoModalValidation = ->
     data = {
       date: '#exitFromNgo #client_exit_date',
-      field: '#exitFromNgo #client_exit_note',
+      field: '#exitFromNgo #client_exit_circumstance',
       form: '#exitFromNgo',
       btn: '.confirm-exit'
     }

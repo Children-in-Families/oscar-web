@@ -65,9 +65,9 @@ describe 'Client' do
     feature 'Time in care' do
       let!(:case) { create(:case, :emergency, client: client, start_date: 1.year.ago) }
 
-      it 'of EC' do 
+      it 'of EC' do
         visit client_path(client)
-        expect(page).to have_content(client.reload.time_in_care) 
+        expect(page).to have_content(client.reload.time_in_care)
       end
     end
 
@@ -113,26 +113,26 @@ describe 'Client' do
 
     feature 'Read only', js: true do
       let!(:client){ create(:client, :accepted) }
-      
+
       let!(:task){ create(:task, :incomplete, :overdue, client: client) }
       let!(:assessment){ create(:assessment, client: client) }
       let!(:case_note){ create(:case_note, client: client, assessment: assessment) }
       let!(:ec_case){ create(:case, :emergency, :inactive, client: client) }
-      
+
       let!(:custom_field){ create(:custom_field) }
       let!(:custom_field_property){ create(:custom_field_property, custom_formable: client, custom_field: custom_field) }
-      
+
       let!(:program_stream){create(:program_stream)}
       let!(:tracking){create(:tracking, program_stream: program_stream)}
       let!(:client_enrollment){create(:client_enrollment, client: client, program_stream: program_stream)}
       let!(:client_enrollment_tracking){create(:client_enrollment_tracking, client_enrollment: client_enrollment, tracking: tracking)}
       let!(:leave_program){create(:leave_program, client_enrollment: client_enrollment, program_stream: program_stream)}
 
-      before do 
-        client.update(status: 'Exited', exit_date: Date.today, exit_note: 'Exit Client')
+      before do
+        client.update(status: 'Exited', exit_date: Date.today, exit_circumstance: 'Exit Client')
         visit client_path(client)
       end
-      
+
       scenario 'Add Client to Case' do
         expect(page).to have_css('#add-client-to-case.disabled')
       end
@@ -182,7 +182,7 @@ describe 'Client' do
         expect(page).not_to have_link(nil, href: edit_client_client_enrollment_client_enrollment_tracking_path(client, client_enrollment, client_enrollment_tracking, tracking_id: tracking))
 
         visit client_client_enrollment_leave_program_path(client, client_enrollment, leave_program)
-        expect(page).not_to have_link(nil, href: edit_client_client_enrollment_leave_program_path(client, client_enrollment, leave_program, program_stream_id: program_stream)) 
+        expect(page).not_to have_link(nil, href: edit_client_client_enrollment_leave_program_path(client, client_enrollment, leave_program, program_stream_id: program_stream))
       end
     end
   end
@@ -383,7 +383,7 @@ describe 'Client' do
           fill_in 'Exit Note', with: FFaker::Lorem.paragraph
         end
         page.find("input[type='submit'][value='Exit']").click
-        
+
         expect(accepted_client.reload.status).to eq('Accepted')
       end
     end
@@ -392,12 +392,12 @@ describe 'Client' do
   feature 'Enable Edit Emergency Care' do
     let!(:client) { create(:client, :accepted) }
     let!(:ec_case){ create(:case, :emergency, client: client) }
-  
+
     before do
       login_as(admin)
       visit client_path(client)
     end
-    
+
     it { expect(page).to have_link(nil, href: edit_client_case_path(client, ec_case)) }
   end
 
@@ -490,7 +490,7 @@ describe 'Client' do
         expect(dashboards_path).to have_content(current_path)
 
         visit client_custom_field_properties_path(client, custom_field_property, custom_field_id: custom_field.id)
-        expect(dashboards_path).to have_content(current_path)        
+        expect(dashboards_path).to have_content(current_path)
       end
 
       scenario 'program streams' do
@@ -507,77 +507,131 @@ describe 'Client' do
     end
   end
 
-  feature 'Accept' do
-    before do
-      login_as(admin)
+  feature 'Reject', js: true do
+    let!(:client){ create(:client) }
+    let!(:accepted_client){ create(:client, :accepted) }
+
+    let!(:active_client){ create(:client, :accepted) }
+    let!(:program_stream){ create(:program_stream) }
+    let!(:client_enrollment) { create(:client_enrollment, program_stream: program_stream, client: active_client) }
+
+    before { login_as(admin) }
+
+    xscenario 'Reject client after created' do
+      visit client_path(client)
+      click_button 'Reject'
+      fill_in 'client_exit_date', with: Date.today
+      page.has_field?('client[exit_circumstance]', with: 'Rejected Referral')
+      find("input[type='submit'][value='Exit']").click
+      expect(page).to have_content('Exited')
+      expect(client.reload.status).to eq('Exited')
     end
 
-    context 'click Accept initial client' do
-      let!(:client) { create(:client) }
+    xscenario 'Exit client after accepted' do
+      visit client_path(accepted_client)
+      click_button 'Add Client to Case'
+      find("a[data-target='#exitFromNgo']").click
+      fill_in 'client_exit_date', with: Date.today
+      page.has_field?('client[exit_circumstance]', with: 'Exited Client')
+      find("input[type='submit'][value='Exit']").click
+      expect(page).to have_content('Exited Client')
+    end
 
-      it "status is now Accepted" do
-        visit client_path(client)
-
-        find(".form-actions #accept-client").click
-        expect(client.reload.status).to eq('Accepted')
+    context 'Client still actively enrolled in a program' do
+      scenario 'Pop up warning' do
+        visit client_path(active_client)
+        click_button 'Add Client to Case'
+        find("a[data-target='#remaining-programs-modal']").click
+        expect(page).to have_content('This client is still actively enrolled in 1 programs.')
+        expect(page).to have_link('Click here to exit program')
       end
-    end
 
-    context 'click Accept exited client' do
-      let!(:exited_client){ create(:client, :exited) }
-
-      it "status is now Accepted again" do
-        visit client_path(exited_client)
-
-        find("button[data-target='#enter-ngo-form']").click
-        within '#enter-ngo-form form.simple_form.edit_client' do
-          find(".client_users select option[value='#{admin.id}']", visible: false).select_option
-          find(".text-right input[type='submit']").click
+      xcontext 'exit client from program' do
+        let!(:leave_program){ create(:leave_program, client_enrollment: client_enrollment, program_stream: program_stream) }
+        scenario 'successfully exited client' do
+          visit client_path(active_client.reload)
+          click_button 'Add Client to Case'
+          find("a[data-target='#exitFromNgo']").click
+          fill_in 'client_exit_date', with: Date.today
+          page.has_field?('client[exit_circumstance]', with: 'Exited Client')
+          find("input[type='submit'][value='Exit']").click
+          expect(page).to have_content('Exited Client')
         end
-        expect(exited_client.reload.status).to eq('Accepted')
       end
     end
   end
 
-  feature 'Reject' do
-    let!(:client) { create(:client) }
-    before do 
-      login_as(admin)
-      visit client_path(client)
-    end
+  # feature 'Accept' do
+  #   before do
+  #     login_as(admin)
+  #   end
 
-    context 'click Reject initial client' do
+  #   context 'click Accept initial client' do
+  #     let!(:client) { create(:client) }
 
-      it "status is now Exited" do
-        find('#reject-client-btn').click
+  #     it "status is now Accepted" do
+  #       visit client_path(client)
 
-        exit_client_from_ngo
-      end
-    end
-  end
+  #       find(".form-actions #accept-client").click
+  #       expect(client.reload.status).to eq('Accepted')
+  #     end
+  #   end
 
-  feature 'Exit Ngo' do
-    let!(:client) { create(:client, :accepted) }
-    before do 
-      login_as(admin)
-      visit client_path(client)
-    end
+  #   context 'click Accept exited client' do
+  #     let!(:exited_client){ create(:client, :exited) }
 
-    context 'click exit ngo button' do
-      it 'status is now Exited' do
-        find('#add-client-to-case').click
-        find('#exit-from-ngo-btn').click
+  #     it "status is now Accepted again" do
+  #       visit client_path(exited_client)
 
-        exit_client_from_ngo
-      end
-    end
-  end
+  #       find("button[data-target='#enter-ngo-form']").click
+  #       within '#enter-ngo-form form.simple_form.edit_client' do
+  #         find(".client_users select option[value='#{admin.id}']", visible: false).select_option
+  #         find(".text-right input[type='submit']").click
+  #       end
+  #       expect(exited_client.reload.status).to eq('Accepted')
+  #     end
+  #   end
+  # end
+
+  # feature 'Reject' do
+  #   let!(:client) { create(:client) }
+  #   before do
+  #     login_as(admin)
+  #     visit client_path(client)
+  #   end
+
+  #   context 'click Reject initial client' do
+
+  #     it "status is now Exited" do
+  #       find('#reject-client-btn').click
+
+  #       exit_client_from_ngo
+  #     end
+  #   end
+  # end
+
+  # feature 'Exit Ngo' do
+  #   let!(:client) { create(:client, :accepted) }
+  #   before do
+  #     login_as(admin)
+  #     visit client_path(client)
+  #   end
+
+  #   context 'click exit ngo button' do
+  #     it 'status is now Exited' do
+  #       find('#add-client-to-case').click
+  #       find('#exit-from-ngo-btn').click
+
+  #       exit_client_from_ngo
+  #     end
+  #   end
+  # end
 end
 
 def exit_client_from_ngo
   within '#exitFromNgo form.simple_form.edit_client' do
     fill_in 'client_exit_date', with: Date.today
-    fill_in 'client_exit_note', with: 'Testing'
+    fill_in 'client_exit_circumstance', with: 'Testing'
     find("input.confirm-exit").click
   end
   expect(client.reload.status).to eq('Exited')

@@ -40,7 +40,8 @@
                     .form-actions
                       = f.submit t('.accept'), class: 'btn btn-success agree-btn', id: 'accept-client'
                 .col-xs-12
-                  %button.btn.btn-danger.mini-margin{"data-target" => '#exitFromNgo', "data-toggle" => 'modal', class: 'agree-btn', id: 'reject-client-btn' }= t('.reject')
+                  %button.btn.btn-danger.mini-margin{"data-target" => '#exitFromNgo', "data-toggle" => 'modal', class: 'agree-btn'} #{t('.reject')}
+
             .col-xs-12
               = render 'exit_ngo_form', client: @client
 
@@ -71,7 +72,7 @@
                       %a{"data-target" => '#remaining-programs-modal', "data-toggle" => 'modal'}
                         .text-warning= t('.exit_ngo_btn')
                     - else
-                      %a{"data-target" => '#exitFromNgo', "data-toggle" => 'modal', id: 'exit-from-ngo-btn' }
+                      %a{"data-target" => '#exitFromNgo', "data-toggle" => 'modal'}
                         .text-warning= t('.exit_ngo_btn')
                 - if @client.cases.exclude_referred.current.present?
                   %li
@@ -182,6 +183,7 @@
               %i.fa.fa-chevron-up
           - if (can? :manage, Client) || (can? :rud, Client)
             %small
+              %button.btn.btn-danger#edit-exit-info{"data-target" => '#exitFromNgo', "data-toggle" => 'modal'}= t('.edit_exit_information')
               = link_to edit_client_path(@client), class: "btn btn-xs #{policy(@client).edit? ? '': 'disabled'}" do
                 .btn.btn-outline.btn-success
                   %i.fa.fa-pencil
@@ -409,10 +411,31 @@
                       = date_format(@client.exit_date)
                 %tr
                   %td.spacing-first-col
+                    = t('.exit_circumstance')
+                  %td
+                    %strong
+                      = @client.exit_circumstance
+                %tr
+                  %td.spacing-first-col
+                    = t('.exit_reasons')
+                  %td
+                    %strong
+                      %ul
+                      - exit_reasons = @client.exit_reasons.reject(&:empty?)
+                      - exit_reasons.each do |exit_reason|
+                        %li= exit_reason
+                %tr
+                  %td.spacing-first-col
                     = t('.exit_note')
                   %td
                     %strong
                       = @client.exit_note
+                %tr
+                  %td.spacing-first-col
+                    = t('.other_info_of_exit')
+                  %td
+                    %strong
+                      = @client.other_info_of_exit
 
         .row
           .col-xs-12
