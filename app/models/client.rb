@@ -9,7 +9,7 @@ class Client < ActiveRecord::Base
 
   friendly_id :slug, use: :slugged
 
-  CLIENT_STATUSES = ['Accepted', 'Referred', 'Active', 'Exited'].freeze
+  CLIENT_STATUSES = ['Accepted', 'Active', 'Exited', 'Referred'].freeze
 
   ABLE_STATES = %w(Accepted Rejected Discharged).freeze
 
