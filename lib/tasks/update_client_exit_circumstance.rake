@@ -1,30 +1,20 @@
 namespace :update_client_exit_circumstance do
-  desc 'Update client exit_circumstance when state is rejected'
-  task update_on_state: :environment do
+  desc 'Update client exit circumstance when accepted or rejected'
+  task update: :environment do
     Organization.all.each do |org|
       Organization.switch_to org.short_name
 
-      clients = Client.where(state: 'rejected', status: 'Exited')
+      rejected_clients = Client.where(state: 'rejected')
+      accepted_clients = Client.where(state: 'accepted', status: 'Exited')
 
-      clients.each do |client|
-        exit_circumstance = 'Rejected Referral'
-        client.update(exit_circumstance: exit_circumstance)
+      rejected_clients.each do |client|
+        client.update(exit_circumstance: 'Rejected Referral')
       end
+
+      accepted_clients.each do |client|
+        client.update(exit_circumstance: 'Exited Client')
+      end
+
     end
   end
-
-  desc 'Update client exit_circumstance when status is exited'
-  task update_on_status: :environment do
-    Organization.all.each do |org|
-      Organization.switch_to org.short_name
-
-      clients = Client.where(state: 'accepted', status: 'Exited')
-
-      clients.each do |client|
-        exit_circumstance = 'Exited Client'
-        client.update(exit_circumstance: exit_circumstance)
-      end
-    end
-  end
-
 end
