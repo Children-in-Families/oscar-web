@@ -393,9 +393,9 @@ module AdvancedSearches
       when 'between'
         clients = clients.where(cases: { case_type: case_type, start_date: @value[0]..@value[1] })
       when 'is_empty'
-        ids = @clients.where.not(id: clients.ids).ids
+        ids = @clients.where.not(id: clients.where('cases.case_type = ?', case_type).ids).ids
       when 'is_not_empty'
-        ids = @clients.where(id: clients.ids).ids
+        ids = @clients.where(id: clients.where('cases.case_type = ?', case_type).ids).ids
       end
 
       if @operator != 'is_empty'
