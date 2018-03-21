@@ -15,9 +15,11 @@ namespace :update_client_exit_circumstance do
 
       accepted_clients.each do |client|
         client.exit_circumstance = 'Exited Client'
+        if client.exit_date.nil?
+          client.exit_date = client.initial_referral_date + 14
+        end
         client.save(validate: false)
       end
-
     end
   end
 end

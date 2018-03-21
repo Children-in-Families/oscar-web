@@ -10,7 +10,7 @@ class Client < ActiveRecord::Base
   friendly_id :slug, use: :slugged
 
   EXIT_REASONS = ['Client Moved Away (Within Cambodia)', 'Client Moved Away (International)', 'Client Refused Service', 'Client No Longer Meets Agency Criteria', 'Client Died', 'Client No Longer Requires Support (Independent)', 'Agency Lacks Sufficient Resources', 'Other']
-  CLIENT_STATUSES = ['Accepted', 'Referred', 'Active', 'Exited'].freeze
+  CLIENT_STATUSES = ['Accepted', 'Active', 'Exited', 'Referred'].freeze
 
   ABLE_STATES = %w(Accepted Rejected Discharged).freeze
 

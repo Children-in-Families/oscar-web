@@ -83,6 +83,9 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
       $('#custom-field').modal('hide')
 
   _addFieldProgramBuilder = (formBuilder, fields) ->
+    specialCharacters = { '&amp;': '&', '&lt;': '<', '&gt;': '>', "&qoute;": '"' }
+    format = new CIF.FormatSpecialCharacters()
+    fields = format.formatSpecialCharacters(fields, specialCharacters)
     combineFields = JSON.parse(formBuilder.actions.save()).concat(fields)
     for field in fields
       formBuilder.actions.addField(field)

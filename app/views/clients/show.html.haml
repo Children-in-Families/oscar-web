@@ -13,10 +13,7 @@
         %table.table.small.m-b-xs
           %tbody
             %tr
-              %td
-                = "#{t('.code')} :"
-                %strong= @client.care_code
-              %td
+              %td{ colspan: 2 }
                 = "#{t('.date_of_birth')} :"
                 %strong= @client.date_of_birth_format
             %tr
@@ -64,8 +61,6 @@
               %ul.dropdown-menu
                 - if @client.cases.exclude_referred.current.blank?
                   %li= @client.ec_button
-                  -# %li= @client.fc_button
-                  -# %li= @client.kc_button
                   %li.divider
                   %li
                     - if @client.client_enrollments.active.count > 0
@@ -183,8 +178,9 @@
               %i.fa.fa-chevron-up
           - if (can? :manage, Client) || (can? :rud, Client)
             %small
-              %button.btn.btn-danger#edit-exit-info{"data-target" => '#exitFromNgo', "data-toggle" => 'modal'}= t('.edit_exit_information')
-              = link_to edit_client_path(@client), class: "btn btn-xs #{policy(@client).edit? ? '': 'disabled'}" do
+              - if @client.exit_ngo?
+                %button.btn.btn-danger#edit-exit-info{"data-target" => '#exitFromNgo', "data-toggle" => 'modal'}= t('.edit_exit_information')
+              = link_to edit_client_path(@client) do
                 .btn.btn-outline.btn-success
                   %i.fa.fa-pencil
               = link_to @client, method: 'delete', data: { confirm: t('.are_you_sure') } do
@@ -206,23 +202,6 @@
                 %td
                   %strong
                     = @client.local_family_name
-              %tr
-                %td.spacing-first-col
-                  = t('.kid_id')
-                %td
-                  %strong
-                    = @client.kid_id
-              -# %tr
-              -#   %td.spacing-first-col
-              -#     = t('.families')
-              -#   %td
-              -#     %strong
-              -#       - @client.families.as_non_cases.uniq.each do |family|
-              -#         %strong.label.label-default.family
-              -#           - if can? :read, Family
-              -#             = link_to family(family), family_path(family)
-              -#           - else
-              -#             = family(family)
               %tr
                 %td.spacing-first-col
                   = t('.donor')
@@ -257,7 +236,7 @@
                     = @client.name_of_referee
               %tr
                 %td.spacing-first-col
-                  = t('.referee_phone_number')
+                  = t('.primary_carer_phone_number')
                 %td
                   %strong
                     = @client.telephone_number
@@ -267,12 +246,6 @@
                 %td
                   %strong
                     = @client.live_with
-              %tr
-                %td.spacing-first-col
-                  = t('.primary_carer_phone_number')
-                %td
-                  %strong
-                    = @client.telephone_number
               %tr
                 %td.spacing-first-col
                   = t('.main_school_contact')
@@ -298,12 +271,6 @@
                 %td
                   %strong
                     = @client.kid_id
-              -# %tr
-              -#   %td.spacing-first-col
-              -#     = t('.id_poor')
-              -#   %td
-              -#     %strong
-              -#       = @client.id_poor
               %tr
                 %td.spacing-first-col
                   = t('.time_in_care')
