@@ -2,7 +2,7 @@ class CasesController < AdminController
   load_and_authorize_resource
 
   before_action :find_client
-  before_action :find_case, :authorize_client, only: [:edit, :update]
+  before_action :find_case, only: [:edit, :update]
   before_action :find_association, except: [:index]
   before_action :can_create_case?, only: [:new, :create]
 
@@ -68,10 +68,6 @@ class CasesController < AdminController
 
   def find_case
     @case = @client.cases.exclude_referred.find(params[:id])
-  end
-
-  def authorize_client
-    authorize @client
   end
 
   def can_create_case?

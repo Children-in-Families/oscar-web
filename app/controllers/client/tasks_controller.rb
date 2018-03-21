@@ -2,7 +2,7 @@ class Client::TasksController < AdminController
 
   load_and_authorize_resource
   before_action :find_client
-  before_action :authorize_client, only: [:edit, :update, :destroy]
+  before_action :authorize_client, only: [:new, :create]
   before_action :find_task, only: [:edit, :update, :destroy]
 
   def index
@@ -89,7 +89,7 @@ class Client::TasksController < AdminController
   end
 
   def authorize_client
-    authorize @client
+    authorize @client, :create?
   end
 
   def find_calendars(task)

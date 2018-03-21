@@ -1,10 +1,5 @@
 class ClientPolicy < ApplicationPolicy
-  def edit?
+  def create?
     record.status != 'Exited'
   end
-
-  alias new? edit?
-  alias create? edit?
-  alias update? edit?
-  alias destroy? edit?
 end
