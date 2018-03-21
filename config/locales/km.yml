@@ -1778,6 +1778,7 @@ km:
         contact_mobile: លេខទូរស័ព្ទ
         contact_name: ឈ្មោះឣ្នកដែលត្រូវទំនាក់ទំនង
         engagement: ការចូលរួម
+        form_title: ឈ្មោះនៃទម្រង់បែបបទបន្ថែម
         id: លេខសំគាល់
         manage: សកម្មភាព
         name: ឈ្មោះដៃគូ
@@ -3222,9 +3223,26 @@ km:
     index:
       add_new_partner: បន្ថែមដៃគូថ្មី
       export_xls: ទាញចេញជាឯកសារប្រភេទ XLS
+      report_builder: ការស្វែងរកឆ្លាតវៃ
       results: លទ្ធផល
     new:
       new_partner_title: ដៃគូថ្មី
+    partner_advanced_searches:
+      advanced_search:
+        add_new_filter: បន្ថែមលក្ខខ័ណ្ឌថ្មី
+        add_new_group: បន្ថែមក្រុមលក្ខខ័ណ្ឌថ្មី
+        advanced_search: ការស្វែងរកឆ្លាតវៃ
+        partner_column: ជួរឈរពត៌មានទូទៅរបស់ដៃគូ
+        custom_form_column: ជួរឈរទម្រង់បែបបទបន្ថែម
+        delete_group: លុបក្រុមលក្ខខ័ណ្ឌនៃការស្វែងរក
+        no_results: មិនមានលទ្ធផល
+        reset: សំអាត
+        results: លទ្ធផល
+        search: ស្វែងរក
+      form_option:
+        basic_fields: ពត៌មានទូទៅរបសគ្រួសារ
+        custom_form: ទម្រង់បែបបទបន្ថែម
+        filter_option: សូមជ្រើសជម្រើសសំណួររបស់អ្នកខាងក្រោម
     show:
       add_form: បន្ថែមទម្រង់បែបបទ
       additional_forms: ទម្រង់បែបបទបន្ថែម
