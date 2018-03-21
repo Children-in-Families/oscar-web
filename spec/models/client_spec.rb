@@ -70,7 +70,7 @@ describe Client, 'callbacks' do
         let!(:client){ create(:client, :accepted, user_ids: [admin.id]) }
         it { expect(client.user_ids.any?).to be_truthy }
         it 'remove user associaton' do
-          client.update(exit_date: Date.today, exit_note: 'testing', status: 'Exited')
+          client.update(exit_date: Date.today, exit_circumstance: 'testing', status: 'Exited')
           expect(client.user_ids.empty?).to be_truthy
         end
       end
@@ -793,18 +793,6 @@ describe 'validations' do
     end
   end
 
-  context 'rejected_note' do
-    let!(:client){ create(:client, state: '', exit_date: '') }
-    before do
-      client.state = 'rejected'
-      client.exit_date = ''
-      client.valid?
-    end
-
-    it { expect(client.valid?).to be_falsey }
-    it { expect(client.errors[:exit_date]).to include("can't be blank") }
-  end
-
   context 'kid_id' do
     subject{ FactoryGirl.build(:client) }
     let!(:user){ create(:user) }
@@ -820,7 +808,7 @@ describe 'validations' do
   context 'exited from ngo' do
     let!(:admin){ create(:user, :admin) }
     let!(:valid_client){ create(:client, :exited) }
-    context 'should not contain blank data for exit info' do
+    context 'client already exited' do
       before do
         valid_client.exit_date = ''
         valid_client.exit_circumstance = ''
@@ -828,6 +816,22 @@ describe 'validations' do
       end
       it { expect(valid_client.valid?).to be_falsey }
       it { expect(valid_client.errors.full_messages.first).to include("can't be blank") }
+    end
+
+    context 'client is exiting' do
+      let!(:client){ create(:client, :accepted) }
+      context 'should validate exit_date' do
+        before do
+          client.status = 'Exited'
+          client.exit_date = ''
+          client.exit_circumstance = ''
+          client.valid?
+        end
+
+        it { expect(client.valid?).to be_falsey }
+        it { expect(client.errors[:exit_date]).to include("can't be blank") }
+        it { expect(client.errors[:exit_circumstance]).to include("can't be blank") }
+      end
     end
 
     context 'does not validate user_ids' do

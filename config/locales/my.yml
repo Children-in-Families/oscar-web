@@ -1284,6 +1284,7 @@ my:
       date_of_birth: ေမြးရက္၊ လ၊ ႏွစ္
       district: ခ႐ိုင္
       donor: အလွဴရွင္
+      edit_exit_information: Edit Exit Information
       enrolled_program_streams: စာရင္းေပးသြင္းမႈအစီအစဥ္စီဆင္းမႈမ်ား
       exit_circumstance: ထွက်ပေါက်အခြေအနေ
       exit_date: NGO မွ ထြက္သည့္ ရက္စြဲ

@@ -1275,6 +1275,7 @@ en:
       date_of_birth: Date of Birth
       district: District/Khan
       donor: Donor
+      edit_exit_information: Edit Exit Information
       enrolled_program_streams: Enrolled Program Streams
       exit_circumstance: Exit Circumstance
       exit_date: NGO Exit Date

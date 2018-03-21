@@ -182,7 +182,6 @@ body[id='clients-show'] {
   }
   .client_exit_reasons > span{
     margin-left: -15px;
-    font-size: 9px;
   }
   .client_exit_circumstance{
     margin-top: -15px;
@@ -192,5 +191,20 @@ body[id='clients-show'] {
   }
   .client_exit_date{
     margin-top: 25px;
+  }
+
+  button.close {
+    margin-right: 10px;
+    span {
+      position: absolute;
+    }
+  }
+
+  .client_exit_reasons .icheckbox_square-green {
+    margin-right: 5px;
+  }
+
+  .btn#edit-exit-info {
+    margin-left: 10px;
   }
 }

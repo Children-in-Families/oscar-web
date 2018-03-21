@@ -183,6 +183,7 @@
               %i.fa.fa-chevron-up
           - if (can? :manage, Client) || (can? :rud, Client)
             %small
+              %button.btn.btn-danger#edit-exit-info{"data-target" => '#exitFromNgo', "data-toggle" => 'modal'}= t('.edit_exit_information')
               = link_to edit_client_path(@client), class: "btn btn-xs #{policy(@client).edit? ? '': 'disabled'}" do
                 .btn.btn-outline.btn-success
                   %i.fa.fa-pencil
