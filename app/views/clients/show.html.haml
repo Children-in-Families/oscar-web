@@ -236,10 +236,10 @@
                     = @client.name_of_referee
               %tr
                 %td.spacing-first-col
-                  = t('.primary_carer_phone_number')
+                  = t('.referral_phone')
                 %td
                   %strong
-                    = @client.telephone_number
+                    = @client.referral_phone
               %tr
                 %td.spacing-first-col
                   = t('.primary_carer_name')
@@ -248,10 +248,10 @@
                     = @client.live_with
               %tr
                 %td.spacing-first-col
-                  = t('.main_school_contact')
+                  = t('.primary_carer_phone_number')
                 %td
                   %strong
-                    = @client.main_school_contact
+                    = @client.telephone_number
               %tr
                 %td.spacing-first-col
                   = t('.is_the_client_rated_for_id_poor')
@@ -282,22 +282,10 @@
             %table.table.table-bordered
               %tr
                 %td.spacing-first-col
-                  = t('.follow_up_date')
-                %td
-                  %strong
-                    = date_format(@client.follow_up_date)
-              %tr
-                %td.spacing-first-col
                   = t('.referral_source')
                 %td
                   %strong
                     = @client.referral_source
-              %tr
-                %td.spacing-first-col
-                  = t('.referral_phone')
-                %td
-                  %strong
-                    = @client.referral_phone
 
               %tr
                 %td.spacing-first-col
@@ -313,10 +301,24 @@
                     = user @client.followed_up_by
               %tr
                 %td.spacing-first-col
+                  = t('.case_worker_or_staff')
+                %td
+                  %strong
+                    - order_case_worker(@client).each do |case_worker|
+                      %strong.label.label-default
+                        = user case_worker
+              %tr
+                %td.spacing-first-col
                   = t('.initial_referral_date')
                 %td
                   %strong
                     = @client.referral_date
+              %tr
+                %td.spacing-first-col
+                  = t('.follow_up_date')
+                %td
+                  %strong
+                    = date_format(@client.follow_up_date)
               %tr
                 %td.spacing-first-col
                   = t('.school_name')
@@ -329,6 +331,12 @@
                 %td
                   %strong
                     = @client.school_grade
+              %tr
+                %td.spacing-first-col
+                  = t('.main_school_contact')
+                %td
+                  %strong
+                    = @client.main_school_contact
               %tr
                 %td.spacing-first-col
                   = "#{t('.has_been_in_orphanage')}?"
@@ -347,14 +355,6 @@
                 %td
                   %strong
                     = @client.relevant_referral_information
-              %tr
-                %td.spacing-first-col
-                  = t('.case_worker_or_staff')
-                %td
-                  %strong
-                    - order_case_worker(@client).each do |case_worker|
-                      %strong.label.label-default
-                        = user case_worker
               %tr
                 %td.spacing-first-col
                   = t('.agencies_involved')
