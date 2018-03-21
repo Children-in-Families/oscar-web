@@ -27,7 +27,7 @@ module AdvancedSearches
             @values     << association_filter[:values]
 
           elsif form_builder.first == 'formbuilder'
-            custom_form = CustomField.find_by(form_title: form_builder.second)
+            custom_form = CustomField.find_by(form_title: form_builder.second, entity_type: 'Family')
             custom_field = AdvancedSearches::EntityCustomFormSqlBuilder.new(custom_form, rule, 'family').get_sql
             @sql_string << custom_field[:id]
             @values << custom_field[:values]
