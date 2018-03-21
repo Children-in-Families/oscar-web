@@ -68,7 +68,7 @@ body[id='client_advanced_searches-index'] {
 
     th.name, th.status, th.family, th.partner, th.manage, th.cases, th.form_title, th.family_id,
     th.initial_referral_date, th.family_preservation, th.current_address, th.accepted_date, th.exit_date,
-    th.program_streams, th.program_enrollment_date, th.program_exit_date {
+    th.program_streams, th.program_enrollment_date, th.program_exit_date, th.exit_reasons, th.exit_circumstance, th.other_info_of_exit {
       min-width: 200px;
     }
 

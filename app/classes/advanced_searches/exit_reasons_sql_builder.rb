@@ -14,11 +14,11 @@ module AdvancedSearches
       when 'equal'
         sql_string = '? = ANY (exit_reasons)'
       when 'not_equal'
-        sql_string = '? != ANY (exit_reasons)'
+        sql_string = "NOT (? = ANY (exit_reasons)) AND NOT ((exit_reasons is null or exit_reasons = '{}'))"
       when 'is_empty'
-        properties_result = leave_programs.where("leave_programs.properties -> '#{@field}' ? '' ")
+        sql_string = "exit_reasons = '{}' OR exit_reasons is null"
       when 'is_not_empty'
-        properties_result = leave_programs.where.not("leave_programs.properties -> '#{@field}' ? '' ")
+        sql_string = "NOT (exit_reasons is null or exit_reasons = '{}')"
       end
 
       {id: sql_string, values: @value}
