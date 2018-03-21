@@ -28,7 +28,7 @@ module FormBuilderAttachmentsHelper
 
   def authorize_client?
     if @custom_formable.present?
-       @custom_formable.class.name == 'Client' ? policy(@custom_formable).destroy? : true
+       @custom_formable.class.name == 'Client' ? policy(@custom_formable).create? : true
     else
       policy(@client).destroy?
     end

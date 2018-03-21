@@ -111,7 +111,7 @@ describe 'Client' do
       expect(page).to have_link(client.what3words, href: "https://map.what3words.com/#{client.what3words}")
     end
 
-    feature 'Read only', js: true do
+    feature 'No create' do
       let!(:client){ create(:client, :accepted) }
 
       let!(:task){ create(:task, :incomplete, :overdue, client: client) }
@@ -130,59 +130,60 @@ describe 'Client' do
 
       before do
         client.update(status: 'Exited', exit_date: Date.today, exit_circumstance: 'Exit Client')
+        login_as admin
         visit client_path(client)
       end
 
       scenario 'Add Client to Case' do
-        expect(page).to have_css('#add-client-to-case.disabled')
+        expect(page).to have_css('#add-client-to-case')
       end
 
       scenario 'Tasks' do
         visit client_tasks_path(client)
-        expect(page).to have_link(nil, href: edit_client_task_path(client, task), class: 'disabled')
-        # below actualy is delete button since it has link so cant expect not to have link
-        expect(page).to have_link(nil, href: client_task_path(client, task), class: 'disabled')
+        expect(page).to have_link(nil, href: edit_client_task_path(client, task))
+        expect(page).to have_css("a[href='#{client_task_path(client, task)}'][data-method='delete']")
       end
 
       scenario 'Assessments' do
         visit client_assessments_path(client)
         expect(page).to have_link('View Report', href: client_assessment_path(client, assessment))
-        # missing expect edit link
         expect(page).not_to have_link('Add New Assessment', href: new_client_assessment_path(client))
+
+        visit client_assessment_path(client, assessment)
+        expect(page).to have_link(nil, href: edit_client_assessment_path(client, assessment))
       end
 
       scenario 'Case Notes' do
         visit client_case_notes_path(client)
         expect(page).not_to have_link('New case note', href: new_client_case_note_path(client))
-        expect(page).not_to have_link(nil, href: edit_client_case_note_path(client, case_note))
+        expect(page).to have_link(nil, href: edit_client_case_note_path(client, case_note))
       end
 
       scenario 'Case history' do
         visit client_cases_path(client)
-        expect(page).not_to have_link(nil, href: new_client_case_path(client, ec_case))
+        expect(page).to have_link(nil, href: edit_client_case_path(client, ec_case))
       end
 
       scenario 'Additional Forms' do
         visit client_custom_field_properties_path(client, custom_field_id: custom_field.id)
         expect(page).not_to have_link("Add New #{custom_field.form_title}", href: new_client_custom_field_property_path(client, custom_field_id: custom_field))
-        expect(page).not_to have_link(nil, href: edit_client_custom_field_property_path(client, custom_field_property, custom_field_id: custom_field))
-        expect(page).not_to have_css("a[href='#{client_custom_field_property_path(client, custom_field_property, custom_field_id: custom_field)}'][data-method='delete']")
+        expect(page).to have_link(nil, href: edit_client_custom_field_property_path(client, custom_field_property, custom_field_id: custom_field))
+        expect(page).to have_css("a[href='#{client_custom_field_property_path(client, custom_field_property, custom_field_id: custom_field)}'][data-method='delete']")
       end
 
       scenario 'Program Streams' do
         visit client_client_enrollments_path(client)
-        # specify program stream id
-        expect(page).not_to have_link('Enroll', href: new_client_client_enrollment_path(client))
+        expect(page).not_to have_link('Enroll', href: client_client_enrollment_path(client, client_enrollment, program_stream_id: program_stream))
 
         visit client_client_enrollment_path(client, client_enrollment, program_stream_id: program_stream)
-        expect(page).not_to have_link(nil, href: edit_client_client_enrollment_path(client, client_enrollment, program_stream_id: program_stream))
-        expect(page).not_to have_css("a[href='#{client_client_enrollment_path(client, client_enrollment, program_stream_id: program_stream)}'][data-method='delete']")
+        expect(page).to have_link(nil, href: edit_client_client_enrollment_path(client, client_enrollment, program_stream_id: program_stream))
+        expect(page).to have_css("a[href='#{client_client_enrollment_path(client, client_enrollment, program_stream_id: program_stream)}'][data-method='delete']")
 
         visit client_client_enrollment_client_enrollment_tracking_path(client, client_enrollment, client_enrollment_tracking)
         expect(page).not_to have_link(nil, href: edit_client_client_enrollment_client_enrollment_tracking_path(client, client_enrollment, client_enrollment_tracking, tracking_id: tracking))
 
         visit client_client_enrollment_leave_program_path(client, client_enrollment, leave_program)
-        expect(page).not_to have_link(nil, href: edit_client_client_enrollment_leave_program_path(client, client_enrollment, leave_program, program_stream_id: program_stream))
+        expect(page).to have_link(nil, href: edit_client_client_enrollment_leave_program_path(client, client_enrollment, leave_program, program_stream_id: program_stream))
       end
     end
   end

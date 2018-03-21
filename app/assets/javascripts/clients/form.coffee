@@ -127,7 +127,6 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
       enableKeyNavigation: false
 
       onStepChanging: (event, currentIndex, newIndex) ->
-
         if currentIndex == 0 and newIndex == 1 and $('#getting-started').is(':visible')
           _validateForm()
           form.valid()
@@ -136,11 +135,19 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
           client_initial_referral_date  = $('#client_initial_referral_date').val() == ''
           client_referral_source_id     = $('#client_referral_source_id').val() == ''
           client_name_of_referee        = $('#client_name_of_referee').val() == ''
+          clientIsExited                = $('#client_status').val() == 'Exited'
 
-          if client_user_ids or client_received_by_id or client_initial_referral_date or client_referral_source_id or client_name_of_referee
-            return false
+          if clientIsExited
+            if client_received_by_id or client_initial_referral_date or client_referral_source_id or client_name_of_referee
+              return false
+            else
+              return true
           else
-            return true
+            if client_user_ids or client_received_by_id or client_initial_referral_date or client_referral_source_id or client_name_of_referee
+              return false
+            else
+              return true
+
         else
           return true
 
