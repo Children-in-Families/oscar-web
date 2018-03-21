@@ -247,15 +247,6 @@ ActiveRecord::Schema.define(version: 20180314085911) do
   add_index "client_client_types", ["client_id"], name: "index_client_client_types_on_client_id", using: :btree
   add_index "client_client_types", ["client_type_id"], name: "index_client_client_types_on_client_type_id", using: :btree
 
-  create_table "client_custom_fields", id: false, force: :cascade do |t|
-    t.integer  "id",              default: "nextval('client_custom_fields_id_seq'::regclass)", null: false
-    t.text     "properties"
-    t.integer  "client_id"
-    t.integer  "custom_field_id"
-    t.datetime "created_at",                                                                   null: false
-    t.datetime "updated_at",                                                                   null: false
-  end
-
   create_table "client_enrollment_trackings", force: :cascade do |t|
     t.jsonb    "properties",           default: {}
     t.integer  "client_enrollment_id"
@@ -533,15 +524,6 @@ ActiveRecord::Schema.define(version: 20180314085911) do
     t.integer  "children",                        default: [],        array: true
   end
 
-  create_table "family_custom_fields", id: false, force: :cascade do |t|
-    t.integer  "id",              default: "nextval('family_custom_fields_id_seq'::regclass)", null: false
-    t.text     "properties"
-    t.integer  "family_id"
-    t.integer  "custom_field_id"
-    t.datetime "created_at",                                                                   null: false
-    t.datetime "updated_at",                                                                   null: false
-  end
-
   create_table "form_builder_attachments", force: :cascade do |t|
     t.string   "name",                default: ""
     t.jsonb    "file",                default: []
@@ -686,15 +668,6 @@ ActiveRecord::Schema.define(version: 20180314085911) do
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
     t.boolean  "fcf_ngo",    default: false
-  end
-
-  create_table "partner_custom_fields", id: false, force: :cascade do |t|
-    t.integer  "id",              default: "nextval('partner_custom_fields_id_seq'::regclass)", null: false
-    t.text     "properties"
-    t.integer  "partner_id"
-    t.integer  "custom_field_id"
-    t.datetime "created_at",                                                                    null: false
-    t.datetime "updated_at",                                                                    null: false
   end
 
   create_table "partners", force: :cascade do |t|
@@ -1103,7 +1076,7 @@ ActiveRecord::Schema.define(version: 20180314085911) do
 
   create_table "trackings", force: :cascade do |t|
     t.string   "name",              default: ""
-    t.jsonb    "fields"
+    t.jsonb    "fields",            default: {}
     t.string   "frequency",         default: ""
     t.integer  "time_of_frequency"
     t.integer  "program_stream_id"
@@ -1113,15 +1086,6 @@ ActiveRecord::Schema.define(version: 20180314085911) do
 
   add_index "trackings", ["name", "program_stream_id"], name: "index_trackings_on_name_and_program_stream_id", unique: true, using: :btree
   add_index "trackings", ["program_stream_id"], name: "index_trackings_on_program_stream_id", using: :btree
-
-  create_table "user_custom_fields", id: false, force: :cascade do |t|
-    t.integer  "id",              default: "nextval('user_custom_fields_id_seq'::regclass)", null: false
-    t.text     "properties"
-    t.integer  "user_id"
-    t.integer  "custom_field_id"
-    t.datetime "created_at",                                                                 null: false
-    t.datetime "updated_at",                                                                 null: false
-  end
 
   create_table "users", force: :cascade do |t|
     t.string   "first_name",                     default: ""
@@ -1160,6 +1124,7 @@ ActiveRecord::Schema.define(version: 20180314085911) do
     t.boolean  "task_notify",                    default: true
     t.integer  "manager_id"
     t.boolean  "calendar_integration",           default: false
+    t.integer  "pin_number"
     t.integer  "manager_ids",                    default: [],                         array: true
     t.boolean  "program_warning",                default: false
     t.boolean  "staff_performance_notification", default: true
@@ -1231,7 +1196,6 @@ ActiveRecord::Schema.define(version: 20180314085911) do
   add_foreign_key "changelogs", "users"
   add_foreign_key "client_client_types", "client_types"
   add_foreign_key "client_client_types", "clients"
-  add_foreign_key "client_enrollment_trackings", "client_enrollments"
   add_foreign_key "client_enrollment_trackings", "client_enrollments"
   add_foreign_key "client_enrollments", "clients"
   add_foreign_key "client_enrollments", "program_streams"
