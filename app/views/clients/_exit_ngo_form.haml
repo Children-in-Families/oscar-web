@@ -40,7 +40,7 @@
               .form_inputs
                 = f.input :exit_circumstance, label: t('.exit_circumstance'), input_html: {value: exit_circumstance_value}, readonly: true, required: true
               .form-inputs
-                = f.input :exit_note, label: t('.exit_note'), input_html: { rows: '14' }
+                = f.input :exit_note, label: t('.exit_note'), input_html: { rows: '14' }, required: true
               .form_inputs
                 = f.hidden_field :status, value: 'Exited'
 
