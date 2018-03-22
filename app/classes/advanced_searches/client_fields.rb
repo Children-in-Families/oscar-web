@@ -60,16 +60,7 @@ module AdvancedSearches
     end
 
     def exit_reasons_options
-      {
-        'Client Moved Away (Within Cambodia)': 'Client Moved Away (Within Cambodia)',
-        'Client Moved Away (International)': 'Client Moved Away (International)',
-        'Client Refused Service': 'Client Refused Service',
-        'Client No Longer Meets Agency Criteria': 'Client No Longer Meets Agency Criteria',
-        'Client Died': 'Client Died',
-        'Client No Longer Requires Support (Independent)': 'Client No Longer Requires Support (Independent)',
-        'Agency Lacks Sufficient Resources': 'Agency Lacks Sufficient Resources',
-        'Other': 'Other'
-      }
+      Client::EXIT_REASONS.map{|s| { s => s }  }
     end
 
     def case_note_type_options
