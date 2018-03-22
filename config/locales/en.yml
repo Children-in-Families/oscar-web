@@ -1014,9 +1014,9 @@ en:
       exit_btn: Exit
       exit_circumstance: Exit Circumstance
       exit_date: Exit Date
-      exit_ngo: Exit NGO
+      exit_ngo: Exit Client from NGO
       exit_note: Exit Note
-      exit_reasons: Reason for Exit
+      exit_reasons: Reason for Exit / Case Rejection
       exit_status: Status
       other_info_of_exit: Other - More Information
       reject_client: Reject Client
@@ -1289,7 +1289,7 @@ en:
       exit_from_kc: Exit From KC
       exit_ngo_btn: Exit From NGO
       exit_note: Exit Note
-      exit_reasons: Reason for Exit
+      exit_reasons: Reason for Exit / Case Rejection
       families: Families
       family_name: Family Name (English)
       follow_up_by: First Follow-Up By
