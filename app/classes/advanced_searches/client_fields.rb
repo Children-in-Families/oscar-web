@@ -23,11 +23,11 @@ module AdvancedSearches
 
     def number_type_list
       # ['code', 'family_id', 'age', 'id_poor']
-      ['code', 'family_id', 'age']
+      ['family_id', 'age']
     end
 
     def text_type_list
-      ['given_name', 'family_name', 'local_given_name', 'local_family_name', 'family', 'slug', 'referral_phone', 'house_number', 'street_number', 'village', 'commune', 'school_name', 'school_grade', 'telephone_number', 'other_info_of_exit', 'exit_note', 'name_of_referee', 'main_school_contact', 'what3words']
+      ['given_name', 'family_name', 'local_given_name', 'local_family_name', 'family', 'slug', 'referral_phone', 'house_number', 'street_number', 'village', 'commune', 'school_name', 'school_grade', 'telephone_number', 'other_info_of_exit', 'exit_note', 'name_of_referee', 'main_school_contact', 'what3words', 'kid_id', 'code']
     end
 
     def date_type_list
