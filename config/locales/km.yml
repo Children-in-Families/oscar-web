@@ -295,7 +295,7 @@ km:
       case_type: ប្រភេទករណី
       case_worker: បុគ្គលិកគ្រប់គ្រងករណី
       case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
-      code: លេខកូដ
+      code: លេខកូដផ្ទាល់ខ្លួនទី១
       commune: ឃុំ/សង្កាត់
       completed: ពេញលេញហើយឬនៅ?
       csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
@@ -330,7 +330,7 @@ km:
       id: លេខសំគាល់
       id_poor: កំរិតប័ណ្ណក្រីក្រ
       initial_referral_date: កាលបរិចេ្ឆទនៃការបញ្ជូនដំបូង
-      kid_id: លេខកូដឣតិថិជន
+      kid_id: លេខកូដផ្ទាល់ខ្លួនទី២
       live_with: រស់នៅជាមួយ
       local_family_name: នាមត្រកូលជាអក្សរខ្មែរ
       local_given_name: នាមខ្លួនជាអក្សរខ្មែរ
@@ -1640,7 +1640,7 @@ km:
         case_worker: បុគ្គលិកគ្រប់គ្រងករណី
         case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
         changelogs: ប្រវត្តិកំណែ
-        code: លេខកូដ
+        code: លេខកូដផ្ទាល់ខ្លួនទី១
         commune: ឃុំ/សង្កាត់
         completed: ពេញលេញហើយឬនៅ?
         current_address: ឣាសយដ្ឋានបច្ចុប្បន្ន
@@ -1674,7 +1674,7 @@ km:
         id: លេខសំគាល់
         id_poor: កំរិតប័ណ្ណក្រីក្រ
         initial_referral_date: កាលបរិចេ្ឆទនៃការបញ្ជូនដំបូង
-        kid_id: លេខកូដឣតិថិជន
+        kid_id: លេខកូដផ្ទាល់ខ្លួនទី២
         lesotho: ឡឹសូថូ
         live_with: រស់នៅជាមួយ
         local_family_name: នាមត្រកូលជាអក្សរខ្មែរ

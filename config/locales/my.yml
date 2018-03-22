@@ -291,7 +291,7 @@ my:
       case_type: အမႈျခင္းရာအမ်ိဳးအစား
       case_worker: အမႈျခင္းရာအတြက္ေဆာင္ရြက္ေပးသူ
       case_worker_or_staff: အမႈျခင္းရာအတြက္ေဆာင္ရြက္ေပးသူ / ၀န္ထမ္း
-      code: ကုတ္နံပါတ္
+      code: Custom ID Number1
       commune: ရပ္ကြက္/ ေက်းရြာအုပ္စု
       completed: ၿပီး
       csi_domain_scores: CSI ဒိုမိန္း ရမွတ္မ်ား
@@ -329,7 +329,7 @@ my:
       id: မွတ္ပံုတင္
       id_poor: လူဆင္းရဲ မွတ္ပံုတင္
       initial_referral_date: ကနဦးလႊဲေျပာင္းရက္စြဲ
-      kid_id: ကေလးမွတ္ပံုတင္
+      kid_id: Custom ID Number2
       live_with: အတူေနသူ
       local_family_name: မ်ိဳး႐ိုးနံမည္ (ေဒသသံုး)
       local_given_name: ေမြးနာမည္ (ေဒသသံုး)
@@ -1563,7 +1563,7 @@ my:
         case_worker: အမႈအတြက္ ေဆာင္ရြက္ေပးသူ
         case_worker_or_staff: အမႈအတြက္ ေဆာင္ရြက္ေပးသူ/ ၀န္ထမ္း
         changelogs: ေျပာင္းလဲမႈ မွတ္တမ္း
-        code: ကုတ္
+        code: Custom ID Number1
         commune: ရပ္ကြက္/ ေက်းရြာအုပ္စု
         completed: ၿပီးစီးၿပီျဖစ္ေသာ
         current_address: လက္ရွိလိပ္စာ
@@ -1597,7 +1597,7 @@ my:
         id: မွတ္ပံုတင္
         id_poor: လူဆင္းရဲ မွတ္ပံုတင္
         initial_referral_date: ကနဦးလြဲေျပာင္းမႈ ရက္စြဲ
-        kid_id: ကေလး မွတ္ပံုတင္
+        kid_id: Custom ID Number2
         lesotho: လက္ဆူးသူႏိုင္ငံ
         live_with: အတူေန
         local_family_name: မိသားစုနာမည္ (ေဒသသံုးျဖင့့္)
