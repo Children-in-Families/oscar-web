@@ -308,6 +308,7 @@ my:
       exit_ec_date: ထြက္သည့္ EC ရက္စြဲ
       exit_fc_date: ထြက္သည့္ FC ရက္စြဲ
       exit_kc_date: ထြက္သည့္ KC ရက္စြဲ
+      exit_note: ထြက္သည့္မွတ္ခ်က္
       exit_program: ထြက္သည့္အစီအစဥ္
       exit_reasons: ထွက်ပေါက်ဘို့အကြောင်းပြချက်
       family: မိသားစု
@@ -332,7 +333,9 @@ my:
       live_with: အတူေနသူ
       local_family_name: မ်ိဳး႐ိုးနံမည္ (ေဒသသံုး)
       local_given_name: ေမြးနာမည္ (ေဒသသံုး)
+      main_school_contact: အဓိကကျောင်းကိုအဆက်အသွယ်
       name: အမည္
+      name_of_referee: ဒိုင်လူကြီး၏နာမကိုအမှီ
       ngo_accepted_date: NGOက လက္ခံသည့္ ရက္စြဲ
       ngo_exit_date: NGOမွ ထြက္သည့္ ရက္စြဲ
       other_info_of_exit: အခြားအ - နောက်ထပ်သတင်းအချက်အလက်များ
@@ -341,6 +344,7 @@ my:
       province: ေမြးရာျပည္နယ္
       province_id: လက္ရွိေနထုိင္ရာျပည္နယ္
       quantitative: ပမာဏအမ်ိဳးအစား
+      rated_for_id_poor: Client ကိုဆင်းရဲသောသူသည် ID အတှကျ rated ဖြစ်ပါတယ်
       received_by: မွ လက္ခံသည္။
       received_by_id: မွ လက္ခံသည္။
       referral_phone: လႊဲေျပာင္းရမည့္ ဖုန္းနံပါတ္
@@ -363,6 +367,7 @@ my:
       type: အမ်ိဳးအစား
       user_id: အမႈျခင္းရာကိုလိုက္လံေဆာင္ရြက္ေပးသူ
       village: ေက်းရြာ
+      what3words: What3words
   advanced_search_save_queries:
     create:
       failed_create: ရွာေဖြျခင္း အျပင္အဆင္ကို အျခားလူ ယူထားပါသည္။
@@ -1570,6 +1575,7 @@ my:
         domains: CSI အားလံုး
         donor: အလွဴရွင္
         exit_circumstance: ထွက်ပေါက်အခြေအနေ
+        exit_note: ထြက္သည့္မွတ္စု
         exit_reasons: ထွက်ပေါက်ဘို့အကြောင်းပြချက်
         family_id: မိသားစုမွတ္ပံုတင္
         family_name: မိသားစုနာမည္
@@ -1596,9 +1602,11 @@ my:
         live_with: အတူေန
         local_family_name: မိသားစုနာမည္ (ေဒသသံုးျဖင့့္)
         local_given_name: ေမြးနာမည္ (ေဒသသံုးျဖင့္)
+        main_school_contact: အဓိကကျောင်းကိုအဆက်အသွယ်
         manage: စီမံသည္
         myanmar: ျမန္မာႏိုင္ငံ
         name: နာမည္
+        name_of_referee: ဒိုင်လူကြီး၏နာမကိုအမှီ
         ngo_accepted_date: NGO က လက္ခံသည့္ ရက္စြဲ
         ngo_exit_date: NGO မွ ထြက္သည့္ ရက္စြဲ
         no_dob: မဟုတ္ပါ
@@ -1627,6 +1635,7 @@ my:
         province: ေမြးရာ ခ႐ိုင္
         quantitative_case_values: ပမာဏအမႈ
         quantitative_types: ပမဏအမ်ိဳးအစား
+        rated_for_id_poor: Client ကိုဆင်းရဲသောသူသည် ID အတှကျ rated ဖြစ်ပါတယ်
         reason_for_family_separation: မိသားစုကြဲသည့္ အေၾကာင္းရင္း
         received_by: မွ လက္ခံသည္
         referral_phone: လႊဲရမည့္ ဖုန္းနံပါတ္
@@ -1646,8 +1655,10 @@ my:
         type: အမ်ိဳးအစား
         view: ျမင္ကြင္း
         village: ေက်းရြာ
+        what3words: What3words
       date_of_assessments: စိစစ္အကဲျဖတ္မႈမ်ား ျပဳလုပ္သည့္ ရက္စြဲ
       exit_circumstance: ထွက်ပေါက်အခြေအနေ
+      exit_note: ထြက္သည့္မွတ္စု
       exit_reasons: ထွက်ပေါက်ဘို့အကြောင်းပြချက်
       families:
         address: လိပ္စာ
@@ -1688,7 +1699,9 @@ my:
       history_of_disability_and_or_illness: မသန္စြမ္းျဖစ္ဖူးျခင္း၊ ဖ်ားနာဖူးျခင္း သမိုင္းေၾကာင္း
       history_of_harm: ထိခိုက္ဒဏ္ရာရရွိမႈ သမုိင္းေၾကာင္း
       history_of_high_risk_behaviours: အႏၱရာယ္မ်ားေသာ အျပဳအမႈ၏ သမိုင္း
+      main_school_contact: အဓိကကျောင်းကိုအဆက်အသွယ်
       manage: စီမံသည္
+      name_of_referee: ဒိုင်လူကြီး၏နာမကိုအမှီ
       other_info_of_exit: အခြားအ - နောက်ထပ်သတင်းအချက်အလက်များ
       partner: မိတ္ဖက္
       partners:
@@ -1738,6 +1751,7 @@ my:
         kc_name: KC နာမည္
         staff_information: ၀န္ထမ္း အခ်က္အလက္
         visit_date: လာေရာက္ေတြ႕ဆံုသည့္ ရက္စြဲ
+      rated_for_id_poor: Client ကိုဆင်းရဲသောသူသည် ID အတှကျ rated ဖြစ်ပါတယ်
       reason_for_family_separation: မိသားစုကြဲရျခင္း၏ အေၾကာင္းရင္း
       rejected_note: ျငင္းပယ္သည့္ မွတ္စု
       select_columns: ေကာ္လံကို ေရြးခ်ယ္ပါ
@@ -1775,6 +1789,7 @@ my:
         roles: ခြင့္ျပဳခ်က္ျပဳလုပ္သည္
         start_date: စတင္သည့္ ရက္စြဲ
         view: ျမင္ကြင္း
+      what3words: What3words
     filters:
       dynamic:
         operations:

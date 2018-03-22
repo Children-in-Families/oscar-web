@@ -77,7 +77,26 @@
             .visibility.col-sm-12
               = check_box_tag 'other_info_of_exit_', 'other_info_of_exit', checked = params[:other_info_of_exit_].present?, class: 'i-checks'
               = label_tag 'other_info_of_exit_', t('datagrid.columns.other_info_of_exit')
-
+          %li
+            .visibility.col-sm-12
+              = check_box_tag 'exit_note_', 'exit_note', checked = params[:exit_note_].present?, class: 'i-checks'
+              = label_tag 'exit_note_', t('datagrid.columns.exit_note')
+          %li
+            .visibility.col-sm-12
+              = check_box_tag 'what3words_', 'what3words', checked = params[:what3words_].present?, class: 'i-checks'
+              = label_tag 'what3words_', t('datagrid.columns.what3words')
+          %li
+            .visibility.col-sm-12
+              = check_box_tag 'main_school_contact_', 'main_school_contact', checked = params[:main_school_contact_].present?, class: 'i-checks'
+              = label_tag 'main_school_contact_', t('datagrid.columns.main_school_contact')
+          %li
+            .visibility.col-sm-12
+              = check_box_tag 'rated_for_id_poor_', 'rated_for_id_poor', checked = params[:rated_for_id_poor_].present?, class: 'i-checks'
+              = label_tag 'rated_for_id_poor_', t('datagrid.columns.rated_for_id_poor')
+          %li
+            .visibility.col-sm-12
+              = check_box_tag 'name_of_referee_', 'name_of_referee', checked = params[:name_of_referee_].present?, class: 'i-checks'
+              = label_tag 'name_of_referee_', t('datagrid.columns.name_of_referee')
           %li
             .visibility.col-sm-12
               = check_box_tag 'case_start_date_', 'case_start_date', checked = params[:case_start_date_].present?, class: 'i-checks'

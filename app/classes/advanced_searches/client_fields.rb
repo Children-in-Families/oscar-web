@@ -27,7 +27,7 @@ module AdvancedSearches
     end
 
     def text_type_list
-      ['given_name', 'family_name', 'local_given_name', 'local_family_name', 'family', 'slug', 'referral_phone', 'house_number', 'street_number', 'village', 'commune', 'school_name', 'school_grade', 'telephone_number', 'exit_circumstance', 'other_info_of_exit']
+      ['given_name', 'family_name', 'local_given_name', 'local_family_name', 'family', 'slug', 'referral_phone', 'house_number', 'street_number', 'village', 'commune', 'school_name', 'school_grade', 'telephone_number', 'other_info_of_exit', 'exit_note', 'name_of_referee', 'main_school_contact', 'what3words']
     end
 
     def date_type_list
@@ -53,7 +53,9 @@ module AdvancedSearches
         ['donor_id', donor_options],
         ['program_stream', program_options],
         ['case_note_type', case_note_type_options],
-        ['exit_reasons', exit_reasons_options]
+        ['exit_reasons', exit_reasons_options],
+        ['exit_circumstance', {'Exited Client': 'Exited Client', 'Rejected Referral': 'Rejected Referral'}],
+        ['rated_for_id_poor', {'No': 'No', 'Level 1': 'Level 1', 'Level 2': 'Level 2', 'Level 3': 'Level 3'}]
       ]
     end
 
