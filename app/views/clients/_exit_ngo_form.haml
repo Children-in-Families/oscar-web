@@ -7,10 +7,7 @@
         .modal-title
           .row
             .col-xs-12.col-sm-6
-              - if @client.status == "Accepted"
-                %h4= t('.exit_ngo')
-              - else
-                %h4= t('.reject_client')
+              %h4= t('.exit_ngo')
             .col-xs-12.col-sm-4
               %h4= "Client ID - #{@client.slug}"
 
