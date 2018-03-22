@@ -8,8 +8,11 @@ namespace :update_client_exit_circumstance do
       accepted_clients = Client.where(state: 'accepted', status: 'Exited')
 
       rejected_clients.each do |client|
-        client.exit_date         = client.initial_referral_date + 14
+        if client.exit_date.nil?
+          client.exit_date = client.initial_referral_date + 14
+        end
         client.exit_circumstance = 'Rejected Referral'
+        client.status            = 'Exited'
         client.save(validate: false)
       end
 
