@@ -303,6 +303,7 @@ en:
       exit_ec_date: Exit EC Date
       exit_fc_date: Exit FC Date
       exit_kc_date: Exit KC Date
+      exit_note: NGO Exit Note
       exit_program: Exit Program
       exit_reasons: Reason For Exit
       family: Family
@@ -327,7 +328,9 @@ en:
       live_with: Primary Carer Name
       local_family_name: Family Name (Khmer)
       local_given_name: Given Name (Khmer)
+      main_school_contact: Main School Contact
       name: Name
+      name_of_referee: Name of Referee
       ngo_accepted_date: NGO Accept Date
       ngo_exit_date: NGO Exit Date
       other_info_of_exit: Other - More Information
@@ -336,6 +339,7 @@ en:
       province: Birth Province
       province_id: Current Province
       quantitative: Specific Referral Data
+      rated_for_id_poor: Is The Client Rated For ID Poor
       received_by: Referral Received By
       received_by_id: Received By
       referral_phone: Referee Phone Number
@@ -358,6 +362,7 @@ en:
       type: Type
       user_id: Case Worker
       village: Village
+      what3words: What3words
   advanced_search_save_queries:
     create:
       failed_create: Search setting has already been taken.
@@ -1559,6 +1564,7 @@ en:
         domains: All CSI
         donor: Donor
         exit_circumstance: Exit Circumstance
+        exit_note: NGO Exit Note
         exit_reasons: Reason For Exit
         family_id: Family ID
         family_name: Family Name (English)
@@ -1585,9 +1591,11 @@ en:
         live_with: Primary Carer Name
         local_family_name: Family Name (Khmer)
         local_given_name: Given Name (khmer)
+        main_school_contact: Main School Contact
         manage: Manage
         myanmar: Myanmar
         name: Name
+        name_of_referee: Name of Referee
         ngo_accepted_date: NGO Accept Date
         ngo_exit_date: NGO Exit Date
         no_dob: 'No'
@@ -1616,6 +1624,7 @@ en:
         province: Birth Province
         quantitative_case_values: Specific Referral Data Option
         quantitative_types: Specific Referral Data
+        rated_for_id_poor: Is The Client Rated For ID Poor
         reason_for_family_separation: Reason for Family Separation
         received_by: Referral Received By
         referral_information: Referral Information
@@ -1638,8 +1647,10 @@ en:
         type: Type
         view: View
         village: Village
+        what3words: What3words
       date_of_assessments: Date of Assessments
       exit_circumstance: Exit Circumstance
+      exit_note: NGO Exit Note
       exit_reasons: Reason For Exit
       families:
         address: Address
@@ -1680,7 +1691,9 @@ en:
       history_of_disability_and_or_illness: History of disability and/or illness
       history_of_harm: History of Harm
       history_of_high_risk_behaviours: History of high-risk behaviours
+      main_school_contact: Main School Contact
       manage: Manage
+      name_of_referee: Name of Referee
       other_info_of_exit: Other - More Information
       partner: Partner
       partners:
@@ -1729,6 +1742,7 @@ en:
         kc_name: KC Name
         staff_information: Staff Information
         visit_date: Date Of Visit
+      rated_for_id_poor: Is The Client Rated For ID Poor
       reason_for_family_separation: Reason for Family Separation
       rejected_note: Note on referral rejection
       select_columns: Select Columns
@@ -1766,6 +1780,7 @@ en:
         roles: Permission Set
         start_date: Start Date
         view: View
+      what3words: What3words
     filters:
       dynamic:
         operations:

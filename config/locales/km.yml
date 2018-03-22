@@ -310,6 +310,7 @@ km:
       exit_ec_date: ថ្ងៃចាកចេញពី EC
       exit_fc_date: ថ្ងៃចាកចេញពី FC
       exit_kc_date: ថ្ងៃចាកចេញពី KC
+      exit_note: កំណត់ហេតុនៃការចាកចេញ
       exit_reasons: មូលហេតុនៃការចាកចេញ
       family: គ្រួសារ
       family_id: លេខសម្គាល់គ្រួសារ
@@ -333,7 +334,9 @@ km:
       live_with: រស់នៅជាមួយ
       local_family_name: នាមត្រកូលជាអក្សរខ្មែរ
       local_given_name: នាមខ្លួនជាអក្សរខ្មែរ
+      main_school_contact: អាស័យដ្ឋានទំនាក់ទំនងសាលារៀន
       name: ឈ្មោះ
+      name_of_referee: ឈ្មោះអ្នកបញ្ជូន
       ngo_accepted_date: កាលបរិច្ឆេទទទួលយកចូលអង្គការ
       ngo_exit_date: កាលបរិច្ឆេទនៃការចាកចេញពីអង្គការ
       other_info_of_exit: ព័ត៌មានបន្ថែមនៃការចាកចេញ
@@ -341,6 +344,7 @@ km:
       program_stream: កម្មវិធីបន្ទាប់បន្សំ
       province: ខេត្តកំណើត
       province_id: ខេត្តបច្ចុប្បន្ន
+      rated_for_id_poor: តើអតិថិជនត្រូវបានវាយតម្លៃថាអត្តសញ្ញាណក្រីក្រឬទេ
       received_by: បុគ្គលិកទទួលករណី
       received_by_id: បុគ្គលិកទទួលករណី
       referral_information: ព័ត៌មានអ្នកបញ្ជូនករណី
@@ -369,6 +373,7 @@ km:
       basic_fields: ពត៌មានទូទៅរបស់អតិថិជន
       custom_form: ទម្រង់បែបបទបន្ថែម
       quantitative: ប្រភេទនៃបរិមាណ
+      what3words: What3words
   advanced_search_save_queries:
     create:
       failed_create: ការស្វែងរកឆ្លាតវៃនេះត្រូវបានបង្កើតរួចហើយ
@@ -1172,7 +1177,7 @@ km:
       id: លេខសំគាល់
       id_poor: កំរិតប័ណ្ណក្រីក្រ
       initial_referral_date: កាលបរិចេ្ឆទនៃការបញ្ជូនដំបូង
-      is_the_client_rated_for_id_poor: តើត្រូវបានវាយតម្លៃថាអត្តសញ្ញាណក្រីក្រ
+      is_the_client_rated_for_id_poor: តើអតិថិជនត្រូវបានវាយតម្លៃថាអត្តសញ្ញាណក្រីក្រឬទេ
       kid_id: លេខកូដឣតិថិជន
       live_with: រស់នៅជាមួយ
       local_family_name: នាមត្រកូលជាអក្សរខ្មែរ
@@ -1647,6 +1652,7 @@ km:
         domains: កត្តា CSI ទាំងអស់
         donor: ម្ចាស់ជំនួយ
         exit_circumstance: ស្ថានភាពនៃការចាកចេញ
+        exit_note: កំណត់ហេតុនៃការចាកចេញ
         exit_reasons: មូលហេតុនៃការចាកចេញ
         family_id: លេខសម្គាល់គ្រួសារ
         family_name: នាមត្រកូលជាអក្សរឡាតាំង
@@ -1673,9 +1679,11 @@ km:
         live_with: រស់នៅជាមួយ
         local_family_name: នាមត្រកូលជាអក្សរខ្មែរ
         local_given_name: នាមខ្លួនជាអក្សរខ្មែរ
+        main_school_contact: អាស័យដ្ឋានទំនាក់ទំនងសាលារៀន
         manage: សកម្មភាព
         myanmar: មីយ៉ាន់ម៉ា
         name: ឈ្មោះ
+        name_of_referee: ឈ្មោះអ្នកបញ្ជូន
         ngo_accepted_date: កាលបរិច្ឆេទទទួលយកចូលអង្គការ
         ngo_exit_date: កាលបរិច្ឆេទនៃការចាកចេញពីអង្គការ
         no_dob: ទេ
@@ -1704,6 +1712,7 @@ km:
         province: ខេត្តកំណើត
         quantitative_case_values: ទិន្នន័យនៃបរិមាណ
         quantitative_types: ប្រភេទនៃបរិមាណ
+        rated_for_id_poor: តើអតិថិជនត្រូវបានវាយតម្លៃថាអត្តសញ្ញាណក្រីក្រឬទេ
         reason_for_family_separation: ការបែកចេញពីគ្រួសារ
         received_by: បុគ្គលិកទទួលករណី
         referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
@@ -1726,6 +1735,7 @@ km:
         what3words: What3words
       date_of_assessments: កាលបរិច្ឆេទការប៉ាន់ប្រមាណ
       exit_circumstance: ស្ថានភាពនៃការចាកចេញ
+      exit_note: កំណត់ហេតុនៃការចាកចេញ
       exit_reasons: មូលហេតុនៃការចាកចេញ
       families:
         address: ឣាសយដ្ឋាន
@@ -1766,7 +1776,9 @@ km:
       history_of_disability_and_or_illness: ប្រវត្តិនៃជំងឺ និង/ឬពិការភាព
       history_of_harm: ការបង្កទុក្ខទោស និងការកេងប្រវ័ញ្ច
       history_of_high_risk_behaviours: ការបំពានគ្រឿងញៀនឬគ្រឿងស្រវឹង និងល្បែងស៊ីសង
+      main_school_contact: អាស័យដ្ឋានទំនាក់ទំនងសាលារៀន
       manage: សកម្មភាព
+      name_of_referee: ឈ្មោះអ្នកបញ្ជូន
       other_info_of_exit: ព័ត៌មានបន្ថែមនៃការចាកចេញ
       partner: ដៃគូ
       partners:
@@ -1815,6 +1827,7 @@ km:
         kc_name: ឈ្មោះរបស់ KC
         staff_information: ពត៌មានរបស់បុគ្គលិក
         visit_date: ថ្ងៃមកជួប
+      rated_for_id_poor: តើអតិថិជនត្រូវបានវាយតម្លៃថាអត្តសញ្ញាណក្រីក្រឬទេ
       reason_for_family_separation: មូលហេតុនៃការបែកចេញពីគ្រួសារ
       rejected_note: កំណត់ហេតុនៃការមិនទទួលយក
       select_columns: ជ្រើសរើសជួរឈរ
@@ -1883,6 +1896,7 @@ km:
         asc: "↑"
         desc: "↓"
     to: ដល់
+    what3words: What3words
   date:
     formats:
       long: '""'
