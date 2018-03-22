@@ -99,7 +99,7 @@ class FamilyGrid
   end
 
   column(:case_workers, html: true, header: -> { I18n.t('datagrid.columns.families.case_workers') }) do |object|
-    render partial: 'families/case_workers', locals: { object: object.cases.non_emergency.active }
+    render partial: 'families/case_workers', locals: { object: object.children }
   end
 
   column(:significant_family_member_count, header: -> { I18n.t('datagrid.columns.families.significant_family_member_count') })
