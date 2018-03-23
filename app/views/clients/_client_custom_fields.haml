@@ -1,5 +1,5 @@
 .tooltip-demo.text-center
-  = link_to '#', {'data-container' => 'body', 'data-content' => "<div>#{client_custom_fields_list(object)}</div>", 'data-original-title' => t('datagrid.columns.clients.form_title'), 'data-placement' => 'top', 'data-toggle' => 'popover', title: '', type: 'button', 'data-html' => 'true' } do
+  = link_to '#!', {'data-container' => 'body', 'data-content' => "<div>#{client_custom_fields_list(object)}</div>", 'data-original-title' => t('datagrid.columns.clients.form_title'), 'data-placement' => 'top', 'data-toggle' => 'popover', title: '', type: 'button', 'data-html' => 'true' } do
     %span.btn.btn-info.btn-xs
       - if params[:data] == 'recent'
         = "#{t('datagrid.columns.clients.total')} : #{object.custom_field_properties.last.present? ? 1 : 0}"

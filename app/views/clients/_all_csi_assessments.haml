@@ -1,5 +1,5 @@
 .tooltip-demo.text-center
-  = link_to '#', {'data-container' => 'body', 'data-content' => "<div>#{all_csi_assessment_lists(object)}</div>", 'data-original-title' => t('datagrid.columns.clients.all_csi_assessments'), 'data-placement' => 'top', 'data-toggle' => 'popover', title: '', type: 'button', 'data-html' => 'true' } do
+  = link_to '#!', {'data-container' => 'body', 'data-content' => "<div>#{all_csi_assessment_lists(object)}</div>", 'data-original-title' => t('datagrid.columns.clients.all_csi_assessments'), 'data-placement' => 'top', 'data-toggle' => 'popover', title: '', type: 'button', 'data-html' => 'true' } do
     %span.btn.btn-info.btn-xs
       - if params[:data] == 'recent'
         = "#{t('datagrid.columns.clients.total')} : #{object.assessments.order(created_at: :desc).first.present? ? 1 : 0 }"
