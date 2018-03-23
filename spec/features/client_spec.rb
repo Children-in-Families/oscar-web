@@ -129,7 +129,7 @@ describe 'Client' do
       let!(:leave_program){create(:leave_program, client_enrollment: client_enrollment, program_stream: program_stream)}
 
       before do
-        client.update(status: 'Exited', exit_date: Date.today, exit_circumstance: 'Exit Client')
+        client.update(status: 'Exited', exit_date: Date.today, exit_note: 'Test', exit_circumstance: 'Exit Client')
         login_as admin
         visit client_path(client)
       end
