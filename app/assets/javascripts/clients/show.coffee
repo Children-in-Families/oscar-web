@@ -1,9 +1,11 @@
 CIF.ClientsShow = do ->
   _init = ->
     _initSelect2()
+
     _caseModalValidation()
     _exitNgoModalValidation()
     _enterNgoModalValidation()
+
 
   _initSelect2 = ->
     $('select').select2()
@@ -21,6 +23,7 @@ CIF.ClientsShow = do ->
   #       $('.confirm-reject').attr 'disabled', 'disabled'
   #     else
   #       $('.confirm-reject').removeAttr 'disabled'
+
 
   _enterNgoModalValidation = ->
     data = {
@@ -43,7 +46,8 @@ CIF.ClientsShow = do ->
   _exitNgoModalValidation = ->
     data = {
       date: '#exitFromNgo #client_exit_date',
-      field: '#exitFromNgo #client_exit_note',
+      field: '#exitFromNgo #client_exit_circumstance',
+      note: '#exitFromNgo #client_exit_note',
       form: '#exitFromNgo',
       btn: '.confirm-exit'
     }
@@ -52,18 +56,20 @@ CIF.ClientsShow = do ->
   _modalFormValidator = (data)->
     date = data['date']
     field = data['field']
+    note = data['note']
     form = data['form']
     btn = data['btn']
-    _modalButtonAction(form, date, field, btn)
+    _modalButtonAction(form, date, field, note, btn)
 
-    $(date).add(field).bind 'keyup change', ->
-      _modalButtonAction(form, date, field, btn)
+    $(date).add(field).add(note).bind 'keyup change', ->
+      _modalButtonAction(form, date, field, note, btn)
 
-  _modalButtonAction = (form, date, field, btn) ->
+  _modalButtonAction = (form, date, field, note, btn) ->
     date = $(date).val()
     field = $(field).val()
+    note = $(note).val()
 
-    if (field == '' or field == null) or date == ''
+    if (field == '' or field == null) or date == '' or note == ''
       $(form).find(btn).attr 'disabled', 'disabled'
     else
       $(form).find(btn).removeAttr 'disabled'

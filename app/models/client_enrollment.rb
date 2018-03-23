@@ -45,7 +45,11 @@ class ClientEnrollment < ActiveRecord::Base
   def set_client_status
     client = Client.find self.client_id
     client_status = 'Active' unless client.cases.exclude_referred.currents.present?
-    client.update_attributes(status: client_status) if client_status.present?
+
+    if client_status.present?
+      client.status = client_status
+      client.save(validate: false)
+    end
   end
 
   def get_form_builder_attachment(value)
@@ -54,9 +58,9 @@ class ClientEnrollment < ActiveRecord::Base
 
   def reset_client_status
     client = Client.find(client_id)
-    return if client.active_case? || client.client_enrollments.active.any?
-
-    client.update(status: 'Accepted')
+    return if client.client_enrollments.active.any?
+    client.status = 'Accepted'
+    client.save(validate: false)
   end
 
   def short_enrollment_date

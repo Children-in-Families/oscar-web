@@ -120,7 +120,7 @@ class Case < ActiveRecord::Base
         client.status = exited_was ? client.status : 'Active'
       end
     end
-    client.save
+    client.save(validate: false)
   end
 
   def update_client_code
