@@ -181,23 +181,11 @@ class User < ActiveRecord::Base
   def self.self_and_subordinates(user)
     if user.admin? || user.strategic_overviewer?
       User.all
-    elsif user.manager?
+    elsif user.manager? || user.any_case_manager?
       User.where('id = :user_id OR manager_ids && ARRAY[:user_id]', { user_id: user.id })
     elsif user.able_manager?
       user_ids = Client.able.joins(:users).pluck('users.id') << user.id
       User.where(id: user_ids.uniq)
-    elsif user.any_case_manager?
-      User.where("#{user.id} = ANY (manager_ids) OR ID = #{user.id}")
-    # elsif user.any_case_manager?
-    #   user_ids = [user.id]
-    #   if user.ec_manager?
-    #     user_ids << Client.active_ec.joins(:users).pluck('users.id')
-    #   elsif user.fc_manager?
-    #     user_ids << Client.active_fc.joins(:users).pluck('users.id')
-    #   elsif user.kc_manager?
-    #     user_ids << Client.active_kc.joins(:users).pluck('users.id')
-    #   end
-    #   User.where(id: user_ids.flatten.uniq)
     end
   end
 

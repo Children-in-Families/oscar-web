@@ -55,7 +55,7 @@ module AdvancedSearches
         properties_result = custom_field_properties.where("(properties ->> '#{@field}')#{ '::int' if integer? } BETWEEN '#{@value.first}' AND '#{@value.last}' AND properties ->> '#{@field}' != ''")
       end
       entity_ids = properties_result.pluck(:custom_formable_id).uniq
-      {id: sql_string, values: entity_ids}
+      { id: sql_string, values: entity_ids }
     end
 
     private
