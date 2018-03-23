@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180306034903) do
+ActiveRecord::Schema.define(version: 20180314085911) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -396,6 +396,9 @@ ActiveRecord::Schema.define(version: 20180306034903) do
     t.string   "main_school_contact",              default: ""
     t.string   "rated_for_id_poor",                default: ""
     t.string   "what3words",                       default: ""
+    t.string   "exit_reasons",                     default: [],         array: true
+    t.string   "exit_circumstance",                default: ""
+    t.string   "other_info_of_exit",               default: ""
   end
 
   add_index "clients", ["district_id"], name: "index_clients_on_district_id", using: :btree

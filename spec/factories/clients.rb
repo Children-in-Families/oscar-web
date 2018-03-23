@@ -34,6 +34,7 @@ FactoryGirl.define do
       status 'Exited'
       exit_note FFaker::Lorem.word
       exit_date FFaker::Time.date
+      exit_circumstance 'Exited Client'
     end
 
     trait :female do

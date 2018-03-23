@@ -1,5 +1,6 @@
 body[id='clients-index'],
 body[id='families-index'],
+body[id='partners-index'],
 body[id='families-show'],
 body[id='users-show'],
 body[id='client_advanced_searches-index'] {
@@ -68,13 +69,14 @@ body[id='client_advanced_searches-index'] {
 
     th.name, th.status, th.family, th.partner, th.manage, th.cases, th.form_title, th.family_id,
     th.initial_referral_date, th.family_preservation, th.current_address, th.accepted_date, th.exit_date,
-    th.program_streams, th.program_enrollment_date, th.program_exit_date {
+    th.program_streams, th.program_enrollment_date, th.program_exit_date, th.exit_reasons, th.exit_circumstance,
+    th.other_info_of_exit, th.exit_note, th.main_school_contact, th.name_of_referee, th.what3words {
       min-width: 200px;
     }
 
     th.telephone_number, th.age, th.follow_up_date, th.received_by, th.followed_up_by, th.agency, th.date_of_birth,
     th.school_name, th.referral_phone, th.referral_source, th.birth_province, th.province,
-    th.carer_phone_number, th.rejected_note, th.user, th.donor, th.carer_names, th.carer_address, th.support_amount, th.support_note {
+    th.carer_phone_number, th.rejected_note, th.user, th.donor, th.carer_names, th.carer_address, th.support_amount, th.support_note, th.rated_for_id_poor {
       min-width: 250px;
     }
 

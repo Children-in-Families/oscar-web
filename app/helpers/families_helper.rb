@@ -30,17 +30,17 @@ module FamiliesHelper
     end
   end
 
-  def family_workers_list(object)
+  def family_workers_list(client_ids)
     content_tag(:ul, class: 'family-clients-list') do
-      user_ids = Client.joins(:cases).where(cases: { id: object.ids }).joins(:case_worker_clients).map(&:user_ids).flatten.uniq
+      user_ids = Client.where(id: client_ids).joins(:case_worker_clients).map(&:user_ids).flatten.uniq
       User.where(id: user_ids).each do |user|
         concat(content_tag(:li, link_to(entity_name(user), user_path(user))))
       end
     end
   end
 
-  def family_workers_count(object)
-    Client.joins(:cases).where(cases: { id: object.ids }).joins(:case_worker_clients).map(&:user_ids).flatten.uniq.size
+  def family_workers_count(client_ids)
+    Client.where(id: client_ids).joins(:case_worker_clients).map(&:user_ids).flatten.uniq.size
   end
 
   def family_case_history(object)

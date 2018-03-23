@@ -577,6 +577,38 @@ class ClientGrid
   #   object.user.try(:name)
   # end
 
+  column(:exit_circumstance, header: -> { I18n.t('datagrid.columns.clients.exit_circumstance') }) do |object|
+    object.exit_circumstance
+  end
+
+  column(:exit_reasons, html: true, header: -> { I18n.t('datagrid.columns.clients.exit_reasons') }) do |object|
+    render partial: 'clients/exit_reasons', locals: { reasons: object.exit_reasons }
+  end
+
+  column(:other_info_of_exit, header: -> { I18n.t('datagrid.columns.clients.other_info_of_exit') }) do |object|
+    object.other_info_of_exit
+  end
+
+  column(:exit_note, header: -> { I18n.t('datagrid.columns.clients.exit_note') }) do |object|
+    object.exit_note
+  end
+
+  column(:what3words, header: -> { I18n.t('datagrid.columns.clients.what3words') }) do |object|
+    object.what3words
+  end
+
+  column(:name_of_referee, header: -> { I18n.t('datagrid.columns.clients.name_of_referee') }) do |object|
+    object.name_of_referee
+  end
+
+  column(:main_school_contact, header: -> { I18n.t('datagrid.columns.clients.main_school_contact') }) do |object|
+    object.main_school_contact
+  end
+
+  column(:rated_for_id_poor, header: -> { I18n.t('datagrid.columns.clients.rated_for_id_poor') }) do |object|
+    object.rated_for_id_poor
+  end
+
   column(:user, order: false, header: -> { I18n.t('datagrid.columns.clients.case_worker_or_staff') }) do |object|
     object.users.map{|u| u.name }.join(', ')
   end

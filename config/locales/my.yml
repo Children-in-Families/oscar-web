@@ -291,7 +291,7 @@ my:
       case_type: အမႈျခင္းရာအမ်ိဳးအစား
       case_worker: အမႈျခင္းရာအတြက္ေဆာင္ရြက္ေပးသူ
       case_worker_or_staff: အမႈျခင္းရာအတြက္ေဆာင္ရြက္ေပးသူ / ၀န္ထမ္း
-      code: ကုတ္နံပါတ္
+      code: Custom ID Number1
       commune: ရပ္ကြက္/ ေက်းရြာအုပ္စု
       completed: ၿပီး
       csi_domain_scores: CSI ဒိုမိန္း ရမွတ္မ်ား
@@ -304,10 +304,13 @@ my:
       donor: အလွဴရွင္
       donor_id: အလွဴရွင္
       enrollment: စာရင္းသြင္းျခင္း
+      exit_circumstance: ထွက်ပေါက်အခြေအနေ
       exit_ec_date: ထြက္သည့္ EC ရက္စြဲ
       exit_fc_date: ထြက္သည့္ FC ရက္စြဲ
       exit_kc_date: ထြက္သည့္ KC ရက္စြဲ
+      exit_note: ထြက္သည့္မွတ္ခ်က္
       exit_program: ထြက္သည့္အစီအစဥ္
+      exit_reasons: ထွက်ပေါက်ဘို့အကြောင်းပြချက်
       family: မိသားစု
       family_id: မိသားစုမွတ္ပံုတင္
       family_name: မ်ိဳး႐ိုးနာမည္
@@ -326,18 +329,22 @@ my:
       id: မွတ္ပံုတင္
       id_poor: လူဆင္းရဲ မွတ္ပံုတင္
       initial_referral_date: ကနဦးလႊဲေျပာင္းရက္စြဲ
-      kid_id: ကေလးမွတ္ပံုတင္
+      kid_id: Custom ID Number2
       live_with: အတူေနသူ
       local_family_name: မ်ိဳး႐ိုးနံမည္ (ေဒသသံုး)
       local_given_name: ေမြးနာမည္ (ေဒသသံုး)
+      main_school_contact: အဓိကကျောင်းကိုအဆက်အသွယ်
       name: အမည္
+      name_of_referee: ဒိုင်လူကြီး၏နာမကိုအမှီ
       ngo_accepted_date: NGOက လက္ခံသည့္ ရက္စြဲ
       ngo_exit_date: NGOမွ ထြက္သည့္ ရက္စြဲ
+      other_info_of_exit: အခြားအ - နောက်ထပ်သတင်းအချက်အလက်များ
       placement_start_date: ေနရာခ်ထားမႈစတင္သည့္ရက္စြဲ
       program_stream: အစီအမံစီဆင္းမႈ
       province: ေမြးရာျပည္နယ္
       province_id: လက္ရွိေနထုိင္ရာျပည္နယ္
       quantitative: ပမာဏအမ်ိဳးအစား
+      rated_for_id_poor: Client ကိုဆင်းရဲသောသူသည် ID အတှကျ rated ဖြစ်ပါတယ်
       received_by: မွ လက္ခံသည္။
       received_by_id: မွ လက္ခံသည္။
       referral_phone: လႊဲေျပာင္းရမည့္ ဖုန္းနံပါတ္
@@ -360,6 +367,7 @@ my:
       type: အမ်ိဳးအစား
       user_id: အမႈျခင္းရာကိုလိုက္လံေဆာင္ရြက္ေပးသူ
       village: ေက်းရြာ
+      what3words: What3words
   advanced_search_save_queries:
     create:
       failed_create: ရွာေဖြျခင္း အျပင္အဆင္ကို အျခားလူ ယူထားပါသည္။
@@ -1012,11 +1020,16 @@ my:
       exit_note: ထြက္သည့္ မွတ္တမ္း
       exit_status: အေနအထား
     exit_ngo_form:
+      case_worker_or_staff: အမႈျခင္းရာအတြက္ ေဆာင္ရြက္ေပးသူ/ ၀န္ထမ္း
       exit_btn: ထြက္ရန္
+      exit_circumstance: ထွက်ပေါက်အခြေအနေ
       exit_date: ထြက္သည့္ရက္စြဲ
       exit_ngo: NGOမွ ထြက္ရန္
       exit_note: ထြက္သည့္မွတ္စု
+      exit_reasons: ထွက်ပေါက်ဘို့အကြောင်းပြချက်
       exit_status: အေနအထား
+      other_info_of_exit: အခြားအ - နောက်ထပ်သတင်းအချက်အလက်များ
+      reject_client: client ကိုငြင်းပယ်
     form:
       able: Able
       able_state: Able State
@@ -1276,13 +1289,16 @@ my:
       date_of_birth: ေမြးရက္၊ လ၊ ႏွစ္
       district: ခ႐ိုင္
       donor: အလွဴရွင္
+      edit_exit_information: Edit Exit Information
       enrolled_program_streams: စာရင္းေပးသြင္းမႈအစီအစဥ္စီဆင္းမႈမ်ား
+      exit_circumstance: ထွက်ပေါက်အခြေအနေ
       exit_date: NGO မွ ထြက္သည့္ ရက္စြဲ
       exit_from_ec: EC မွ ထြက္ရန္
       exit_from_fc: FC မွ ထြက္၇န္
       exit_from_kc: KC မွ ထြက္ရန္
       exit_ngo_btn: NGO မွ ထြက္သည္
       exit_note: ထြက္သည့္ မွတ္စု
+      exit_reasons: ထွက်ပေါက်ဘို့အကြောင်းပြချက်
       families: မိသားစုမ်ား
       family_name: မိသားစုနာမည္
       follow_up_by: မွ ဆက္လက္ေဆာင္ရြက္သည္
@@ -1313,6 +1329,7 @@ my:
       name: နာမည္
       name_of_referee: ဒိုင်လူကြီး၏နာမကိုအမှီ
       note: မွတ္စု
+      other_info_of_exit: အခြားအ - နောက်ထပ်သတင်းအချက်အလက်များ
       placements:
         carer_address: ေစာင့္ေရွာက္သူ လိပ္စာ
         carer_names: ေစာင့္ေရွာက္သူနာမည္မ်ား
@@ -1546,7 +1563,7 @@ my:
         case_worker: အမႈအတြက္ ေဆာင္ရြက္ေပးသူ
         case_worker_or_staff: အမႈအတြက္ ေဆာင္ရြက္ေပးသူ/ ၀န္ထမ္း
         changelogs: ေျပာင္းလဲမႈ မွတ္တမ္း
-        code: ကုတ္
+        code: Custom ID Number1
         commune: ရပ္ကြက္/ ေက်းရြာအုပ္စု
         completed: ၿပီးစီးၿပီျဖစ္ေသာ
         current_address: လက္ရွိလိပ္စာ
@@ -1557,6 +1574,9 @@ my:
         domain: ဒိုမိန္း
         domains: CSI အားလံုး
         donor: အလွဴရွင္
+        exit_circumstance: ထွက်ပေါက်အခြေအနေ
+        exit_note: ထြက္သည့္မွတ္စု
+        exit_reasons: ထွက်ပေါက်ဘို့အကြောင်းပြချက်
         family_id: မိသားစုမွတ္ပံုတင္
         family_name: မိသားစုနာမည္
         follow_up_by: မွ ဆက္လက္ေဆာင္ရြက္သည္
@@ -1577,17 +1597,20 @@ my:
         id: မွတ္ပံုတင္
         id_poor: လူဆင္းရဲ မွတ္ပံုတင္
         initial_referral_date: ကနဦးလြဲေျပာင္းမႈ ရက္စြဲ
-        kid_id: ကေလး မွတ္ပံုတင္
+        kid_id: Custom ID Number2
         lesotho: လက္ဆူးသူႏိုင္ငံ
         live_with: အတူေန
         local_family_name: မိသားစုနာမည္ (ေဒသသံုးျဖင့့္)
         local_given_name: ေမြးနာမည္ (ေဒသသံုးျဖင့္)
+        main_school_contact: အဓိကကျောင်းကိုအဆက်အသွယ်
         manage: စီမံသည္
         myanmar: ျမန္မာႏိုင္ငံ
         name: နာမည္
+        name_of_referee: ဒိုင်လူကြီး၏နာမကိုအမှီ
         ngo_accepted_date: NGO က လက္ခံသည့္ ရက္စြဲ
         ngo_exit_date: NGO မွ ထြက္သည့္ ရက္စြဲ
         no_dob: မဟုတ္ပါ
+        other_info_of_exit: အခြားအ - နောက်ထပ်သတင်းအချက်အလက်များ
         placement_case_type: ေနရာခ်ထားသည့္အမႈအမ်ိဳးအစား
         placement_start_date: ေနရာခ်ထားမႈ စတင္သည့္ ရက္စြဲ
         placements:
@@ -1612,6 +1635,7 @@ my:
         province: ေမြးရာ ခ႐ိုင္
         quantitative_case_values: ပမာဏအမႈ
         quantitative_types: ပမဏအမ်ိဳးအစား
+        rated_for_id_poor: Client ကိုဆင်းရဲသောသူသည် ID အတှကျ rated ဖြစ်ပါတယ်
         reason_for_family_separation: မိသားစုကြဲသည့္ အေၾကာင္းရင္း
         received_by: မွ လက္ခံသည္
         referral_phone: လႊဲရမည့္ ဖုန္းနံပါတ္
@@ -1631,7 +1655,11 @@ my:
         type: အမ်ိဳးအစား
         view: ျမင္ကြင္း
         village: ေက်းရြာ
+        what3words: What3words
       date_of_assessments: စိစစ္အကဲျဖတ္မႈမ်ား ျပဳလုပ္သည့္ ရက္စြဲ
+      exit_circumstance: ထွက်ပေါက်အခြေအနေ
+      exit_note: ထြက္သည့္မွတ္စု
+      exit_reasons: ထွက်ပေါက်ဘို့အကြောင်းပြချက်
       families:
         address: လိပ္စာ
         caregiver_information: ေစာင့္ေရွာက္သူ၏ အခ်က္အလက္
@@ -1671,7 +1699,10 @@ my:
       history_of_disability_and_or_illness: မသန္စြမ္းျဖစ္ဖူးျခင္း၊ ဖ်ားနာဖူးျခင္း သမိုင္းေၾကာင္း
       history_of_harm: ထိခိုက္ဒဏ္ရာရရွိမႈ သမုိင္းေၾကာင္း
       history_of_high_risk_behaviours: အႏၱရာယ္မ်ားေသာ အျပဳအမႈ၏ သမိုင္း
+      main_school_contact: အဓိကကျောင်းကိုအဆက်အသွယ်
       manage: စီမံသည္
+      name_of_referee: ဒိုင်လူကြီး၏နာမကိုအမှီ
+      other_info_of_exit: အခြားအ - နောက်ထပ်သတင်းအချက်အလက်များ
       partner: မိတ္ဖက္
       partners:
         address: လိပ္စာ
@@ -1682,6 +1713,7 @@ my:
         contact_mobile: ဆက္သြယ္ရန္ မိုဘိုင္းဖုန္း
         contact_name: ဆက္သြယ္ရန္ နာမည္
         engagement: ေစ့စပ္ျခင္း
+        form_title: ေခါင္းစဥ္မွ
         id: မွတ္ပံုတင္
         manage: စီမံသည္
         name: နာမည္
@@ -1719,6 +1751,7 @@ my:
         kc_name: KC နာမည္
         staff_information: ၀န္ထမ္း အခ်က္အလက္
         visit_date: လာေရာက္ေတြ႕ဆံုသည့္ ရက္စြဲ
+      rated_for_id_poor: Client ကိုဆင်းရဲသောသူသည် ID အတှကျ rated ဖြစ်ပါတယ်
       reason_for_family_separation: မိသားစုကြဲရျခင္း၏ အေၾကာင္းရင္း
       rejected_note: ျငင္းပယ္သည့္ မွတ္စု
       select_columns: ေကာ္လံကို ေရြးခ်ယ္ပါ
@@ -1756,6 +1789,7 @@ my:
         roles: ခြင့္ျပဳခ်က္ျပဳလုပ္သည္
         start_date: စတင္သည့္ ရက္စြဲ
         view: ျမင္ကြင္း
+      what3words: What3words
     filters:
       dynamic:
         operations:
@@ -3159,9 +3193,26 @@ my:
     index:
       add_new_partner: လက္တြဲေဖာ္အသစ္ထည့္ရန္
       export_xls: XLS အျဖစ္ ထုတ္သည္
+      report_builder: တုိင္းၾကားစာ တည္ေဆာက္သည့္ေနရာ
       results: ရလဒ္မ်ား
     new:
       new_partner_title: လက္တြဲေဖာ္အသစ္
+    partner_advanced_searches:
+      advanced_search:
+        add_new_filter: စိစစ္ျခင္းအသစ္ထပ္ထည့္ရန္
+        add_new_group: အဖြဲ႕ထပ္ထည့္ရန္
+        advanced_search: အဆင့္ျမင့္ရွာေဖြမႈ
+        partner_column: တည္ေဆာက္သည့္ေနရာ အေျခခံအခ်က္အလက္ ေကာ္လံမ်ား
+        custom_form_column: အေကာက္ခြန္ပံုစံ ေကာ္လံမ်ား
+        delete_group: ဖ်က္ရန္
+        no_results: မည္သည့္ရလဒ္မွ မေတြ႕ပါ။
+        reset: အားလံုးကို မူလအတိုင္း ျပန္ျပင္ရန္။
+        results: ရလဒ္မ်ား
+        search: ရွာေဖြရန္
+      form_option:
+        basic_fields: အေျခခံအခ်က္အလက္ ကြက္လပ္မ်ား
+        custom_form: အေကာက္ခြန္ ပံုစံ
+        filter_option: သင္၏ ေမးျမန္းမႈအမ်ိဳးအစားကို ေအာက္တြင္ ေက်းဇူးျပဳ၍ ေရြးခ်ယ္ပါ။
     show:
       add_form: ပံုစံ ထည့္ရန္
       additional_forms: ေနာက္ဆက္တြဲ ပံုစံမ်ား

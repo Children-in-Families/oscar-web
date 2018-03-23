@@ -26,11 +26,11 @@ module AdvancedSearchHelper
   end
 
   def has_advanced_search?
-    params[:client_advanced_search].present? || params[:family_advanced_search].present?
+    params[:client_advanced_search].present? || params[:family_advanced_search].present? || params[:partner_advanced_search].present?
   end
 
   def advanced_search_params
-    params[:client_advanced_search] || params[:family_advanced_search]
+    params[:client_advanced_search] || params[:family_advanced_search] || params[:partner_advanced_search]
   end
 
   def format_header(key)
@@ -91,7 +91,17 @@ module AdvancedSearchHelper
       case_note_date: I18n.t('advanced_search.fields.case_note_date'),
       case_note_type: I18n.t('advanced_search.fields.case_note_type'),
       date_of_assessments: I18n.t('advanced_search.fields.date_of_assessments'),
-      telephone_number: I18n.t('advanced_search.fields.telephone_number')
+      telephone_number: I18n.t('advanced_search.fields.telephone_number'),
+      exit_circumstance: I18n.t('advanced_search.fields.exit_circumstance'),
+      exit_reasons: I18n.t('advanced_search.fields.exit_reasons'),
+      other_info_of_exit: I18n.t('advanced_search.fields.other_info_of_exit'),
+      exit_note: I18n.t('advanced_search.fields.exit_note'),
+      rated_for_id_poor: I18n.t('advanced_search.fields.rated_for_id_poor'),
+      name_of_referee: I18n.t('advanced_search.fields.name_of_referee'),
+      main_school_contact: I18n.t('advanced_search.fields.main_school_contact'),
+      what3words: I18n.t('advanced_search.fields.what3words'),
+      kid_id: I18n.t('advanced_search.fields.kid_id'),
+
     }
     translations[key.to_sym] || ''
   end
@@ -120,6 +130,25 @@ module AdvancedSearchHelper
       form_title:                               I18n.t('datagrid.columns.families.form_title'),
       case_workers:                             I18n.t('datagrid.columns.families.case_workers'),
       member_count:                             I18n.t('datagrid.columns.families.member_count')
+    }
+    translations[key.to_sym] || ''
+  end
+
+  def partner_header(key)
+    translations = {
+      name:                                     I18n.t('datagrid.columns.partners.name'),
+      id:                                       I18n.t('datagrid.columns.partners.id'),
+      contact_person_name:                      I18n.t('datagrid.columns.partners.contact_name'),
+      contact_person_email:                     I18n.t('datagrid.columns.partners.contact_email'),
+      contact_person_mobile:                    I18n.t('datagrid.columns.partners.contact_mobile'),
+      address:                                  I18n.t('datagrid.columns.partners.address'),
+      organisation_type:                        I18n.t('datagrid.columns.partners.organisation_type'),
+      affiliation:                              I18n.t('datagrid.columns.partners.affiliation'),
+      province_id:                              I18n.t('datagrid.columns.partners.province'),
+      engagement:                               I18n.t('datagrid.columns.partners.engagement'),
+      background:                               I18n.t('datagrid.columns.partners.background'),
+      start_date:                               I18n.t('datagrid.columns.partners.start_date'),
+      form_title:                               I18n.t('datagrid.columns.partners.form_title')
     }
     translations[key.to_sym] || ''
   end

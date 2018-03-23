@@ -3,6 +3,10 @@ body[id='partners-index'] {
     margin-top: 20px;
   }
 
+  #partner-advance-search-form {
+    margin-top: 20px;
+  }
+
   td.manage a {
     margin: 0 5px;
     text-decoration: none;
@@ -24,5 +28,55 @@ body[id='partners-index'] {
 
   table.partners tbody tr:hover {
     cursor: pointer;
+  }
+
+  table.partners, .dataTables_scrollHeadInner, .dataTables_scrollHead, .dataTables_scrollBody {
+    width: 100% !important;
+  }
+
+  table.partners th {
+    text-align: center;
+  }
+
+  .ibox-content.no-border {
+    border-style: none;
+  }
+
+  .custom-form, .selected-custom-form {
+    display: none;
+  }
+  .checkbox-margin {
+    padding-left: 18px;
+  }
+
+  .basic-filter-error, .custom-form-error {
+    color: red;
+    display: none;
+  }
+
+  .btn-group.group-actions {
+    button[data-add='rule'] {
+      background-color: #1ab394;
+      border-color: #1ab394;
+      color: #FFFFFF;
+    }
+    button {
+      margin-right: 5px;
+    }
+  }
+  .rule-operator-container {
+    select {
+      width: 180px;
+    }
+  }
+
+  .rule-value-container {
+    border-left: none;
+    select, input {
+      width: 180px;
+    }
+    input.form-control {
+      padding: 6px 12px;
+    }
   }
 }

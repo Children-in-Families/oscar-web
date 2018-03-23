@@ -154,10 +154,11 @@ CIF.Custom_fieldsNew = CIF.Custom_fieldsCreate = CIF.Custom_fieldsEdit = CIF.Cus
       ), 200
 
   _preventRemoveFields = (fields) ->
+    specialCharacters = { "&": "&amp;", "<": "&lt;", ">": "&gt;" }
     labelFields = $('label.field-label')
     for labelField in labelFields
       parent = $(labelField).parent()
-      text = labelField.textContent.replace('&', '&amp;')
+      text = labelField.textContent.allReplace(specialCharacters)
       if fields.includes(text)
         _removeActionFormBuilder(labelField)
         $(parent).on 'dblclick', (e) ->
