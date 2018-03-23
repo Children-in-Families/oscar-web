@@ -3,7 +3,7 @@ module AdvancedSearches
     ASSOCIATION_FIELDS = ['user_id', 'case_type', 'agency_name', 'form_title', 'placement_date', 'family', 'age', 'family_id', 'referred_to_ec', 'referred_to_fc', 'referred_to_kc', 'exit_ec_date', 'exit_fc_date', 'exit_kc_date', 'program_stream', 'case_note_date', 'case_note_type', 'date_of_assessments']
     # BLANK_FIELDS = ['date_of_birth', 'initial_referral_date', 'follow_up_date', 'has_been_in_orphanage', 'has_been_in_government_care', 'province_id', 'referral_source_id', 'birth_province_id', 'received_by_id', 'followed_up_by_id', 'donor_id', 'id_poor', 'district_id', 'exit_date', 'accepted_date']
     BLANK_FIELDS = ['date_of_birth', 'initial_referral_date', 'follow_up_date', 'has_been_in_orphanage', 'has_been_in_government_care', 'province_id', 'referral_source_id', 'birth_province_id', 'received_by_id', 'followed_up_by_id', 'donor_id', 'district_id', 'exit_date', 'accepted_date']
-    SENSITIVITY_FIELDS = %w(given_name family_name local_given_name local_family_name kid_id school_name school_grade street_number house_number village commune live_with relevant_referral_information telephone_number)
+    SENSITIVITY_FIELDS = %w(given_name family_name local_given_name local_family_name kid_id code school_name school_grade street_number house_number village commune live_with relevant_referral_information telephone_number name_of_referee main_school_contact what3words exit_note other_info_of_exit)
 
     def initialize(clients, rules)
       @clients     = clients
@@ -72,6 +72,10 @@ module AdvancedSearches
           @sql_string << domain_scores[:id]
           @values << domain_scores[:values]
 
+        elsif field == 'exit_reasons'
+          exit_reasons = AdvancedSearches::ExitReasonsSqlBuilder.new(@clients, rule).get_sql
+          @sql_string << exit_reasons[:id]
+          @values << exit_reasons[:values] if exit_reasons[:values].present?
         elsif field != nil
           # value = field == 'grade' ? validate_integer(value) : value
           base_sql(field, operator, value)
@@ -80,6 +84,7 @@ module AdvancedSearches
           @sql_string << nested_query[:sql_string]
           nested_query[:values].select{ |v| @values << v }
         end
+
       end
 
       @sql_string = @sql_string.join(" #{@condition} ")

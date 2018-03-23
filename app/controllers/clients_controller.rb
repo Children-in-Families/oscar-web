@@ -134,10 +134,11 @@ class ClientsController < AdminController
   end
 
   def client_params
+    remove_blank_exit_reasons
     params.require(:client)
           .permit(
             :code, :name_of_referee, :main_school_contact, :rated_for_id_poor, :what3words,
-            :exit_note, :exit_date, :status,
+            :exit_note, :exit_date, :status, :exit_circumstance, :other_info_of_exit,
             :kid_id, :assessment_id, :given_name, :family_name, :local_given_name, :local_family_name, :gender, :date_of_birth,
             :birth_province_id, :initial_referral_date, :referral_source_id, :telephone_number,
             :referral_phone, :received_by_id, :followed_up_by_id,
@@ -160,8 +161,14 @@ class ClientsController < AdminController
             custom_field_ids: [],
             tasks_attributes: [:name, :domain_id, :completion_date],
             client_needs_attributes: [:id, :rank, :need_id],
-            client_problems_attributes: [:id, :rank, :problem_id]
+            client_problems_attributes: [:id, :rank, :problem_id],
+            exit_reasons: []
           )
+  end
+
+  def remove_blank_exit_reasons
+    return if params[:client][:exit_reasons].blank?
+    params[:client][:exit_reasons].reject!(&:blank?)
   end
 
   def set_association

@@ -26,6 +26,7 @@ module ClientGridOptions
     form_title_report
     case_note_date_report
     case_note_type_report
+    exit_reasons_report
   end
 
   def form_title_report
@@ -105,6 +106,13 @@ module ClientGridOptions
       @client_grid.column(:case_note_type, header: I18n.t('datagrid.columns.clients.case_note_type')) do |client|
         client.case_notes.most_recents.pluck(:interaction_type).select(&:present?).join(' | ') if client.case_notes.any?
       end
+    end
+  end
+
+  def exit_reasons_report
+    return unless @client_columns.visible_columns[:exit_reasons_].present?
+    @client_grid.column(:exit_reasons, header: I18n.t('datagrid.columns.clients.exit_reasons')) do |client|
+      client.exit_reasons.join(' | ') if client.exit_reasons.any?
     end
   end
 

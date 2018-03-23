@@ -1,33 +1,50 @@
 .modal.fade{ role: 'dialog', tabindex: '-1', id: 'exitFromNgo' }
-  .modal-dialog{ role: 'document'}
+  .modal-dialog.modal-lg{ role: 'document'}
     .modal-content
       .modal-header
         %button.close{"aria-label" => "#{t('.close')}", "data-dismiss" => 'modal'}
           %span{"aria-hidden" => 'true'} &times;
-        %h4.modal-title
-          = t('.exit_ngo')
+        .modal-title
+          .row
+            .col-xs-12.col-sm-6
+              %h4= t('.exit_ngo')
+            .col-xs-12.col-sm-4
+              %h4= "Client ID - #{@client.slug}"
 
       .modal-body
         = simple_form_for(@client) do |f|
           = f.error_notification
-          .form-inputs
-            .form-group.date.client_exit_date
-              %label.date.required.control-label{ for: 'client_exit_date' }
-                %abbr{ title: 'required' } *
-                = t('.exit_date')
-              .input-group.date
-                = f.text_field :exit_date, required: true, class: 'date form-control date-picker .datepicker-dropdown exit_date', type: 'text', name: 'client[exit_date]', id: 'client_exit_date'
-                %span.input-group-addon
-                  %i.fa.fa-calendar-check-o
+          .row
+            .col-xs-12.col-sm-6.col-md-6
+              %h3= @client.en_and_local_name
+              %h3= "#{@client.gender.try(:titleize)} #{date_format(@client.date_of_birth)}"
+              .form-inputs
+                .form-group.date.client_exit_date
+                  %label.date.required.control-label{ for: 'client_exit_date' }
+                    %abbr{ title: 'required' } *
+                    = t('.exit_date')
+                  .input-group.date
+                    = f.text_field :exit_date, required: true, class: 'date form-control date-picker .datepicker-dropdown exit_date', type: 'text', name: 'client[exit_date]', id: 'client_exit_date'
+                    %span.input-group-addon
+                      %i.fa.fa-calendar-check-o
 
-          / .form-inputs
-          /   = f.input :status, collection: Client::EXIT_STATUSES, include_blank: false, label: t('.exit_status')
-          .form-inputs
-            = f.input :status, label: t('.exit_status'), readonly: true, input_html: { value: 'Exited' }
+              .form-inputs.i-checks
+                = f.input :exit_reasons, as: :check_boxes, collection: Client::EXIT_REASONS, label: t('.exit_reasons')
+              .form-inputs
+                = f.input :other_info_of_exit, label: t('.other_info_of_exit')
 
-          .form-inputs
-            = f.input :exit_note, required: true, label: t('.exit_note'), input_html: { class: 'exit_note' }
+            .col-xs-12.col-sm-6.col-md-6
+              .form-group
+                %label= t('.case_worker_or_staff')
+                = f.association :users, collection: @users, label: t('.case_worker_or_staff'), include_blank: false, multiple: true, disabled: true, label: false
+              .form_inputs
+                = f.input :exit_circumstance, label: t('.exit_circumstance'), input_html: {value: exit_circumstance_value}, readonly: true, required: true
+              .form-inputs
+                = f.input :exit_note, label: t('.exit_note'), input_html: { rows: '14' }, required: true
+              .form_inputs
+                = f.hidden_field :status, value: 'Exited'
 
           .text-right
             %button.btn.btn-default{"data-dismiss" => 'modal'}= t('cancel')
-            = f.submit t('.exit_btn'), class: 'btn btn-danger confirm-exit', disabled: :disabled
+            - exit_btn = @client.exit_ngo? ? t('save') : t('.exit_btn')
+            = f.submit exit_btn, class: 'btn btn-danger confirm-exit', disabled: :disabled

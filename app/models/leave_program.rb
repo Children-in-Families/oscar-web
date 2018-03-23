@@ -32,7 +32,8 @@ class LeaveProgram < ActiveRecord::Base
 
     client = Client.find(self.client_enrollment.client_id)
     if client.cases.current.nil? && client.client_enrollments.active.empty?
-      client.update_attributes(status: 'Accepted')
+      client.status = 'Accepted'
+      client.save(validate: false)
     end
   end
 
