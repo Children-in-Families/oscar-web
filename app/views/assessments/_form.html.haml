@@ -37,7 +37,7 @@
                           = task.name
                           %a.pull-right.remove-task.fa.fa-trash.btn.btn-outline.btn-danger.btn-xs{'data-url' => "/clients/#{@client.id}/tasks/#{task.id}", :style => "margin: 0;"}
                 .form-group
-                  %button.assessment-task-btn.hidden.btn.btn-primary.pull-right{type: 'button', 'data-target' => "#tasksFromModal", 'data-toggle' => 'modal', 'data-domain-id': "#{domain.id}"}
+                  %button.assessment-task-btn.hidden.btn.btn-primary.pull-right{class: "#{policy(@client).create? ? '' : 'disabled'}", type: 'button', 'data-target' => "#tasksFromModal", 'data-toggle' => 'modal', 'data-domain-id': "#{domain.id}"}
                     = t('.add_task')
-
-= render 'add_task_form'
+- if policy(@client).create?
+  = render 'add_task_form'

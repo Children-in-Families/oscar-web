@@ -21,5 +21,5 @@
         = render 'attachment_fields', { cd: cd }
     .row
       .col-xs-12
-        .case-note-task-btn.btn.btn-primary.btn-outline.pull-right{type: 'button', 'data-target' => "#tasksFromModal", 'data-toggle' => 'modal', 'data-domains': "#{cd.object.domain_group.domains.pluck(:id, :name)}"}
+        .case-note-task-btn.btn.btn-primary.btn-outline.pull-right{class: "#{policy(@client).create? ? '' : 'disabled'}", type: 'button', 'data-target' => "#tasksFromModal", 'data-toggle' => 'modal', 'data-domains': "#{cd.object.domain_group.domains.pluck(:id, :name)}"}
           = t('.add_task')
