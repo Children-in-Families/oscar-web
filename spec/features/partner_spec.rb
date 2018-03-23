@@ -92,15 +92,17 @@ describe 'Partner' do
     end
   end
 
-  feature 'Filter' do
+  feature 'Filter',js: true do
     before do
       visit partners_path
+      find(".partner-search").click
     end
-    scenario 'filter' do
-      find(".btn-filter").click
-      select('NGO', from: 'partner_grid_organisation_type')
+
+    scenario 'filter by organisation type' do
+      page.find("#partner-search-form select#partner_grid_organisation_type option[value='NGO']", visible: false).select_option
       click_button 'Search'
       expect(page).to have_content(partner.name)
     end
+
   end
 end
