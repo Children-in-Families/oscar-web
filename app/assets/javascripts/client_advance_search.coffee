@@ -151,7 +151,7 @@ class CIF.ClientAdvanceSearch
 
       $('#custom-form-select option:selected').each ->
         formTitle = $(@).text()
-        handleRemoveFilterBuilder(formTitle, self.CUSTOM_FORM_TRANSLATE)
+        self.handleRemoveFilterBuilder(formTitle, self.CUSTOM_FORM_TRANSLATE)
 
       self.customFormSelected = []
       $('.custom-form select').select2('val', '')
