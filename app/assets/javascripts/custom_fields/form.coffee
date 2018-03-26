@@ -157,12 +157,9 @@ CIF.Custom_fieldsNew = CIF.Custom_fieldsCreate = CIF.Custom_fieldsEdit = CIF.Cus
     specialCharacters = { "&": "&amp;", "<": "&lt;", ">": "&gt;" }
     labelFields = $('label.field-label')
     for labelField in labelFields
-      parent = $(labelField).parent()
       text = labelField.textContent.allReplace(specialCharacters)
       if fields.includes(text)
         _removeActionFormBuilder(labelField)
-        $(parent).on 'dblclick', (e) ->
-          e.stopPropagation()
 
   _removeActionFormBuilder = (label) ->
     $('li.paragraph-field.form-field').find('.del-button, .copy-button').remove()

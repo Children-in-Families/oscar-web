@@ -77,6 +77,7 @@ module ApplicationHelper
   end
 
   def exit_circumstance_value
+    return @client.exit_circumstance if @client.exit_circumstance.present?
     @client.status == 'Accepted' ? 'Exited Client' : 'Rejected Referral'
   end
 
