@@ -471,8 +471,11 @@ class CIF.ClientAdvanceSearch
 
   handleSaveQuery: ->
     self = @
-    $('#submit-query').on 'click', ->
+    $('#submit-query').on 'click', (e)->
       basicRules = $('#builder').queryBuilder('getRules', { skip_empty: true, allow_invalid: true })
+      if basicRules.valid == false && basicRules.rules.length > 0
+        e.preventDefault()
+        $('#save-query').modal('hide')
       if (_.isEmpty(basicRules.rules) and !basicRules.valid) or (!(_.isEmpty(basicRules.rules)) and basicRules.valid)
         $('#builder').find('.has-error').remove()
       customFormValues = if self.customFormSelected.length > 0 then "[#{self.customFormSelected}]"
