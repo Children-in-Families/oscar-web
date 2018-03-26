@@ -473,7 +473,7 @@ class CIF.ClientAdvanceSearch
     self = @
     $('#submit-query').on 'click', (e)->
       basicRules = $('#builder').queryBuilder('getRules', { skip_empty: true, allow_invalid: true })
-      if basicRules.valid == false
+      if basicRules.valid == false && basicRules.rules.length > 0
         e.preventDefault()
         $('#save-query').modal('hide')
       if (_.isEmpty(basicRules.rules) and !basicRules.valid) or (!(_.isEmpty(basicRules.rules)) and basicRules.valid)
