@@ -14,7 +14,7 @@ class UserReminder
   private
 
   def remind_case_workers(org)
-    case_workers = User.non_devs.without_json_fields.joins(:tasks).merge(Task.overdue_incomplete.exclude_exited_ngo_clients).uniq
+    case_workers = User.non_devs.non_locked.without_json_fields.joins(:tasks).merge(Task.overdue_incomplete.exclude_exited_ngo_clients).uniq
     case_workers.each do |case_worker|
       CaseWorkerWorker.perform_async(case_worker.id, org.short_name)
     end
@@ -22,7 +22,7 @@ class UserReminder
 
   def remind_manager_and_admin(org)
     main_manager_id = 0
-    case_workers_by_manager = User.non_devs.without_json_fields.joins(:tasks).merge(Task.overdue_incomplete.exclude_exited_ngo_clients).uniq.group_by(&:manager_id)
+    case_workers_by_manager = User.non_devs.non_locked.without_json_fields.joins(:tasks).merge(Task.overdue_incomplete.exclude_exited_ngo_clients).uniq.group_by(&:manager_id)
     case_workers_by_manager.each do |manager_id, case_workers|
       if manager_id.present?
         manager = User.non_devs.find manager_id
@@ -59,16 +59,16 @@ class UserReminder
     end
   end
 
-  def clients_by_manager(client_ids)
-    {
-      able: Client.able.where(id: client_ids).map(&:user_ids).flatten.uniq,
-      ec:   Client.active_ec.where(id: client_ids).map(&:user_ids).flatten.uniq,
-      fc:   Client.active_fc.where(id: client_ids).map(&:user_ids).flatten.uniq,
-      kc:   Client.active_kc.where(id: client_ids).map(&:user_ids).flatten.uniq
-    }
-  end
+  # def clients_by_manager(client_ids)
+  #   {
+  #     able: Client.able.where(id: client_ids).map(&:user_ids).flatten.uniq,
+  #     ec:   Client.active_ec.where(id: client_ids).map(&:user_ids).flatten.uniq,
+  #     fc:   Client.active_fc.where(id: client_ids).map(&:user_ids).flatten.uniq,
+  #     kc:   Client.active_kc.where(id: client_ids).map(&:user_ids).flatten.uniq
+  #   }
+  # end
 
-  def admin_case_workers(client_ids)
-    Client.where.not(status: ['Active EC', 'Active FC', 'Active KC'], able_state: 'Accepted').where(id: client_ids).map(&:user_ids).flatten.uniq
-  end
+  # def admin_case_workers(client_ids)
+  #   Client.where.not(status: ['Active EC', 'Active FC', 'Active KC'], able_state: 'Accepted').where(id: client_ids).map(&:user_ids).flatten.uniq
+  # end
 end

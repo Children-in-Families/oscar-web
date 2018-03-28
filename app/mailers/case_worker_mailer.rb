@@ -14,7 +14,7 @@ class CaseWorkerMailer < ApplicationMailer
 
   def notify_upcoming_csi_weekly(client)
     @client   = client
-    recievers = client.users.pluck(:email)
+    recievers = client.users.non_locked.pluck(:email)
     dev_email = ENV['DEV_EMAIL']
     mail(to: recievers, subject: 'Upcoming CSI Assessment', bcc: dev_email)
   end
