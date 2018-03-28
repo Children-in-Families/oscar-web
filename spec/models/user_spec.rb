@@ -164,6 +164,14 @@ describe User, 'scopes' do
     end
   end
 
+  context 'non locked' do
+    let!(:locked_user) { create(:user, disable: true) }
+
+    it 'exclude locked user' do
+      expect(User.non_locked).not_to include(locked_user)
+    end
+  end
+
   context 'first name like' do
     subject{ User.first_name_like(user.first_name.downcase) }
     it 'should include first name like' do
