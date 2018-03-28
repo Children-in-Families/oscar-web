@@ -179,14 +179,11 @@ module AdvancedSearches
 
     def case_type_field_query
       clients = @clients.joins(:cases).where(cases: { exited: false })
-
       case @operator
       when 'equal'
-        case_ids = clients.where(cases: { case_type: @value }).map { |c| c.cases.current.id if c.cases.current.case_type == @value }.uniq
-        @clients.joins(:cases).where(cases: { id: case_ids }).ids
+        clients.where(cases: { case_type: @value }).ids.uniq
       when 'not_equal'
-        case_ids = clients.where.not(cases: { case_type: @value }).map { |c| c.cases.current.id if c.cases.current.case_type != @value }.uniq
-        @clients.joins(:cases).where(cases: { id: case_ids }).ids
+        clients.where.not(cases: { case_type: @value }).ids.uniq
       when 'is_empty'
         @clients.where.not(id: clients.ids).ids
       when 'is_not_empty'
