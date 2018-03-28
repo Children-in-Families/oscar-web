@@ -124,12 +124,11 @@ class CIF.ClientAdvanceSearch
       _.forEach values, (value) ->
         fieldName = value.id
         keyword   = _.first(fieldName.split('_'))
-        if keyword != 'enrollmentdate' and keyword != 'programexitdate'
-          checkField  = fieldName
-          label       = value.label
-          $(customFormColumnPicker).append(self.checkboxElement(checkField, headerClass, label))
-          $(".#{headerClass} input.i-checks").iCheck
-            checkboxClass: 'icheckbox_square-green'
+        checkField  = fieldName
+        label       = value.label
+        $(customFormColumnPicker).append(self.checkboxElement(checkField, headerClass, label))
+        $(".#{headerClass} input.i-checks").iCheck
+          checkboxClass: 'icheckbox_square-green'
 
   formBuiderFormatHeader: (value) ->
     keyWords = value.split('|')

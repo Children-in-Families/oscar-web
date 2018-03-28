@@ -339,13 +339,13 @@ class ClientGrid
     ProgramStream.joins(:client_enrollments).complete.ordered.pluck(:name).uniq
   end
 
-  filter(:program_enrollment_date, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.program_enrollment_date') }) do |values, scope|
+  # filter(:program_enrollment_date, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.program_enrollment_date') }) do |values, scope|
     # This filter is using for client columns visibility
-  end
+  # end
 
-  filter(:program_exit_date, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.program_exit_date') }) do |values, scope|
+  # filter(:program_exit_date, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.program_exit_date') }) do |values, scope|
     # This filter is using for client columns visibility
-  end
+  # end
 
   filter(:accepted_date, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.ngo_accepted_date') }) do |values, scope|
     if values.first.present? && values.second.present?
@@ -472,18 +472,18 @@ class ClientGrid
     render partial: 'clients/client_enrolled_programs', locals: { enrolled_programs: object.client_enrollments }
   end
 
-  column(:program_enrollment_date, html: true, order: false, header: -> { I18n.t('datagrid.columns.clients.program_enrollment_date') }) do |object|
-    render partial: 'clients/active_client_enrollments', locals: { active_client_enrollments: object.client_enrollments.active } if object.client_enrollments.active.any?
-  end
+  # column(:program_enrollment_date, html: true, order: false, header: -> { I18n.t('datagrid.columns.clients.program_enrollment_date') }) do |object|
+  #   render partial: 'clients/active_client_enrollments', locals: { active_client_enrollments: object.client_enrollments.active } if object.client_enrollments.active.any?
+  # end
 
   # column(:program_enrollment_date, html: false, header: -> { I18n.t('datagrid.columns.clients.program_enrollment_date') }) do |object|
   #   object.client_enrollments.active.map{|a| a.enrollment_date }.join(' | ')
   # end
 
-  column(:program_exit_date, html: true, order: false, header: -> { I18n.t('datagrid.columns.clients.program_exit_date') }) do |object|
+  # column(:program_exit_date, html: true, order: false, header: -> { I18n.t('datagrid.columns.clients.program_exit_date') }) do |object|
     # object.client_enrollments.inactive.joins(:leave_program).map{|ce| ce.leave_program.exit_date }
-    render partial: 'clients/inactive_client_enrollments', locals: { inactive_client_enrollments: object.client_enrollments.inactive.joins(:leave_program) } if object.client_enrollments.inactive.joins(:leave_program).any?
-  end
+    # render partial: 'clients/inactive_client_enrollments', locals: { inactive_client_enrollments: object.client_enrollments.inactive.joins(:leave_program) } if object.client_enrollments.inactive.joins(:leave_program).any?
+  # end
 
   # column(:program_exit_date, html: false, header: -> { I18n.t('datagrid.columns.clients.program_exit_date') }) do |object|
   #   object.client_enrollments.inactive.joins(:leave_program).map{|a| a.leave_program.exit_date }.join(' | ')
@@ -722,7 +722,6 @@ class ClientGrid
     data = param_data.presence
     dynamic_columns.each do |column_builder|
       fields = column_builder[:id].gsub('&qoute;', '"').split('_')
-      next if fields.first == 'enrollmentdate' || fields.first == 'programexitdate'
       column(column_builder[:id].to_sym, class: 'form-builder', header: -> { form_builder_format_header(fields) }, html: true) do |object|
         format_field_value = fields.last.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
         if fields.first == 'formbuilder'
@@ -731,6 +730,12 @@ class ClientGrid
             properties = properties[format_field_value] if properties.present?
           else
             properties = object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).properties_by(format_field_value)
+          end
+        elsif fields.first == 'enrollmentdate'
+          if data == 'recent'
+            properties = object.client_enrollments.joins(:program_stream).where(program_streams: { name: fields.second }).order(enrollment_date: :desc).first.try(:enrollment_date)
+          else
+            properties = object.client_enrollments.joins(:program_stream).where(program_streams: { name: fields.second }).pluck(:enrollment_date)
           end
         elsif fields.first == 'enrollment'
           if data == 'recent'
@@ -747,6 +752,13 @@ class ClientGrid
           else
             properties = ClientEnrollmentTracking.joins(:tracking).where(trackings: { name: fields.third }, client_enrollment_trackings: { client_enrollment_id: ids }).properties_by(format_field_value)
           end
+        elsif fields.first == 'programexitdate'
+          ids = object.client_enrollments.inactive.ids
+          if data == 'recent'
+            properties = LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { client_enrollment_id: ids }).order(exit_date: :desc).first.try(:exit_date)
+          else
+            properties = LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { client_enrollment_id: ids }).pluck(:exit_date)
+          end
         elsif fields.first == 'exitprogram'
           ids = object.client_enrollments.inactive.ids
           if data == 'recent'
@@ -756,7 +768,11 @@ class ClientGrid
             properties = LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { client_enrollment_id: ids }).properties_by(format_field_value)
           end
         end
-        render partial: 'clients/form_builder_dynamic/properties_value', locals: { properties:  properties }
+        if fields.first == 'enrollmentdate' || fields.first == 'programexitdate'
+          render partial: 'clients/form_builder_dynamic/list_date_program_stream', locals: { properties:  properties }
+        else
+          render partial: 'clients/form_builder_dynamic/properties_value', locals: { properties:  properties }
+        end
       end
     end
   end
