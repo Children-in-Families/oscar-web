@@ -7,7 +7,7 @@ class ClientGrid
 
   scope do
     # Client.includes({ cases: [:family, :partner] }, :referral_source, :user, :received_by, :followed_up_by, :province, :assessments, :birth_province).order('clients.status, clients.given_name')
-    Client.includes({ cases: [:family, :partner] }, :referral_source, :received_by, :followed_up_by, :province, :assessments, :birth_province).order('clients.status, clients.given_name')
+    Client.includes({ cases: [:family, :partner] }, :donor, :district, :referral_source, :received_by, :followed_up_by, :province, :assessments, :birth_province).order('clients.status, clients.given_name')
   end
 
   filter(:given_name, :string, header: -> { I18n.t('datagrid.columns.clients.given_name') }) { |value, scope| scope.given_name_like(value) }
@@ -489,7 +489,7 @@ class ClientGrid
   #   object.client_enrollments.inactive.joins(:leave_program).map{|a| a.leave_program.exit_date }.join(' | ')
   # end
 
-  column(:received_by, html: true, header: -> { I18n.t('datagrid.columns.clients.received_by') }) do |object|
+  column(:received_by, order: 'users.first_name', html: true, header: -> { I18n.t('datagrid.columns.clients.received_by') }) do |object|
     render partial: 'clients/users', locals: { object: object.received_by } if object.received_by
   end
 
@@ -497,7 +497,7 @@ class ClientGrid
     object.received_by.try(:name)
   end
 
-  column(:followed_up_by, html: true, header: -> { I18n.t('datagrid.columns.clients.followed_up_by') }) do |object|
+  column(:followed_up_by, order: 'users.first_name', html: true, header: -> { I18n.t('datagrid.columns.clients.followed_up_by') }) do |object|
     render partial: 'clients/users', locals: { object: object.followed_up_by } if object.followed_up_by
   end
 
@@ -525,7 +525,7 @@ class ClientGrid
 
   column(:commune, header: -> { I18n.t('datagrid.columns.clients.commune') })
 
-  column(:district, header: -> { I18n.t('datagrid.columns.clients.district') }) do |object|
+  column(:district, order: 'districts.name', header: -> { I18n.t('datagrid.columns.clients.district') }) do |object|
     object.district.try(:name)
   end
 
@@ -551,7 +551,7 @@ class ClientGrid
     object.referral_source.try(:name)
   end
 
-  column(:birth_province, header: -> { I18n.t('datagrid.columns.clients.birth_province') }) do |object|
+  column(:birth_province, order: 'provinces.name', header: -> { I18n.t('datagrid.columns.clients.birth_province') }) do |object|
     object.birth_province.try(:name)
   end
 
@@ -613,7 +613,7 @@ class ClientGrid
     object.users.map{|u| u.name }.join(', ')
   end
 
-  column(:donor, header: -> { I18n.t('datagrid.columns.clients.donor')}) do |object|
+  column(:donor, order: 'donors.name', header: -> { I18n.t('datagrid.columns.clients.donor')}) do |object|
     object.donor_name
   end
 
