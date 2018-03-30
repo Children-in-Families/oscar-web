@@ -145,8 +145,8 @@ body[id='clients-show'] {
     height: auto;
     max-height: 200px;
     overflow-x: hidden;
-    right: 0;
-    left: auto;
+    right: auto;
+    left: 0;
     z-index: 2001;
   }
 
@@ -154,6 +154,13 @@ body[id='clients-show'] {
     a {
       display: block;
       color: white;
+    }
+  }
+
+  @media screen and (min-width: 768px){
+    .scrollable-dropdown-menu.additional-forms {
+      right: 0;
+      left: auto;
     }
   }
 
@@ -168,6 +175,13 @@ body[id='clients-show'] {
 
     .overflow-case {
       height: auto;
+    }
+  }
+
+  @media screen and (min-width: 991px){
+    .scrollable-dropdown-menu {
+      right: 0;
+      left: auto;
     }
   }
 
