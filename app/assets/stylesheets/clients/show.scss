@@ -157,11 +157,13 @@ body[id='clients-show'] {
     }
   }
 
-  @media screen and (min-width: 768px){
-    .scrollable-dropdown-menu.additional-forms {
-      right: 0;
-      left: auto;
-    }
+  .btn-fit {
+    min-width: 170px;
+  }
+
+  .scrollable-dropdown-menu.add-form {
+    right: 0;
+    left: auto;
   }
 
   @media screen and (max-width: 991px) {
@@ -179,7 +181,7 @@ body[id='clients-show'] {
   }
 
   @media screen and (min-width: 991px){
-    .scrollable-dropdown-menu {
+    .scrollable-dropdown-menu.additional-forms {
       right: 0;
       left: auto;
     }
