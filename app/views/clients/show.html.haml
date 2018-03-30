@@ -147,17 +147,17 @@
             %button.btn-sm.btn.btn-success.dropdown-toggle{ 'data-toggle' => 'dropdown', class: ('disabled' if @group_client_custom_fields.empty?) }
               = t('.additional_forms')
               %span.caret
-            %ul.dropdown-menu.scrollable-dropdown-menu
+            %ul.dropdown-menu.scrollable-dropdown-menu.additional-forms
               - @group_client_custom_fields.each do |_, client_custom_fields|
-                %li= link_to client_custom_fields.first.custom_field.form_title, client_custom_field_properties_path(@client, custom_field_id: client_custom_fields.first.custom_field_id)
+                %li= link_to truncate(client_custom_fields.first.custom_field.form_title, ommision: '...', length: 50), client_custom_field_properties_path(@client, custom_field_id: client_custom_fields.first.custom_field_id), title: client_custom_fields.first.custom_field.form_title
           - if can? :manage, CustomFieldProperty
             .btn-group.small-btn-margin
               %button.btn-sm.btn.btn-success.dropdown-toggle{ 'data-toggle' => 'dropdown', class: ('disabled' if @free_client_forms.empty? || status_exited?(@client.status)) }
                 = t('.add_form')
                 %span.caret
-              %ul.dropdown-menu.scrollable-dropdown-menu
+              %ul.dropdown-menu.scrollable-dropdown-menu.add-form
                 - @free_client_forms.each do |custom_field|
-                  %li= link_to custom_field.form_title, new_client_custom_field_property_path(@client, custom_field_id: custom_field)
+                  %li= link_to truncate(custom_field.form_title, ommision: '...', length: 50), new_client_custom_field_property_path(@client, custom_field_id: custom_field), title: custom_field.form_title
           - if @client.client_enrollments.active.count > 0
             = link_to client_client_enrolled_programs_path(@client) do
               .btn.btn-primary.small-btn-margin.btn-sm= t('.enrolled_program_streams')
