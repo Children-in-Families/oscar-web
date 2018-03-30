@@ -1,0 +1,7 @@
+%ul
+  - if params[:data] == 'recent'
+    - return if properties.blank?
+    %li= properties
+  - else
+    - properties.select(&:present?).each do |property|
+      %li= property
