@@ -1,0 +1,16 @@
+.panel.panel-default
+  .panel-heading
+    %h3 Assessment
+  .panel-body
+    .row
+      .col-xs-12.col-sm-4
+        .form-group
+          = f.input :assessment_frequency, label: 'Frequency', collection: [['Daily', 'day'], ['Weekly', 'week'], ['Monthly', 'month']]
+
+      .col-xs-12.col-sm-4
+        .form-group
+          = f.input :min_assessment, label: 'Minimum Assessment Duration'
+
+      .col-xs-12.col-sm-4
+        .form-group
+          = f.input :max_assessment, label: 'Maximum Assessment Duration'
