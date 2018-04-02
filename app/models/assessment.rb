@@ -50,13 +50,17 @@ class Assessment < ActiveRecord::Base
     assessment_domains.order('created_at')
   end
 
-  private
-
   def client_must_not_over_18
-    age = (Date.today - client.date_of_birth) / 360
-    age.to_i
-    errors.add(:base, 'Assessment cannot be created for client that is over 18 years old.') if age >= 18
+    if client.date_of_birth != nil
+      client_age = (Date.today - client.date_of_birth) / 360
+      client_age.to_i
+      errors.add(:base, 'Assessment cannot be created for client that is over 18 years old.') if client_age >= 18
+    else
+      true
+    end
   end
+
+  private
 
   def must_be_three_month_period
     errors.add(:base, 'Assessment cannot be created before 3 months') if new_record? && client.present? && !client.can_create_assessment?
