@@ -31,4 +31,10 @@ module AssessmentHelper
     return false if current_user.strategic_overviewer?
     current_user.permission.assessments_editable
   end
+
+  def is_client_over_18?
+    client_age = (Date.today - @client.date_of_birth) / 360
+    client_age.to_i
+    return false if client_age >= 18
+  end
 end

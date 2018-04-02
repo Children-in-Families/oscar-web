@@ -10,6 +10,7 @@ class Assessment < ActiveRecord::Base
   validates :client, presence: true
   validate :must_be_three_month_period, if: :new_record?
   validate :only_latest_record_can_be_updated
+  validate :client_must_not_over_18
 
   before_save :set_previous_score
 
@@ -50,6 +51,12 @@ class Assessment < ActiveRecord::Base
   end
 
   private
+
+  def client_must_not_over_18
+    age = (Date.today - client.date_of_birth) / 360
+    age.to_i
+    errors.add(:base, 'Assessment cannot be created for client that is over 18 years old.') if age >= 18
+  end
 
   def must_be_three_month_period
     errors.add(:base, 'Assessment cannot be created before 3 months') if new_record? && client.present? && !client.can_create_assessment?
