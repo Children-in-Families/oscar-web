@@ -59,6 +59,16 @@
               .col-xs-11
                 = t('.due_today_assessments_count', count: @notification.due_today_assessments_count)
       %li.divider
+    - if @notification.any_client_case_note_overdue?
+      %li
+        %div.align-link
+          = link_to notifications_path(client_case_note_overdue: 'client_case_note_overdue') do
+            .row
+              .col-xs-1
+                %i.fa.fa-tasks.fa-fw.task-sign
+              .col-xs-11
+                = t('.client_case_note_overdue', count: @notification.client_case_note_overdue_count)
+      %li.divider
     - if @notification.any_upcoming_csi_assessments?
       %li
         %div.align-link

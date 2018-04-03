@@ -375,8 +375,12 @@ class ClientGrid
 
   filter(:no_case_note, :enum, select: %w(Yes No), header: -> { I18n.t('datagrid.form.no_case_note') }) do |value, scope|
     if value == 'Yes'
-      case_note_ids = CaseNote.no_case_note_in(1.month.ago).ids
-      scope.joins(:case_notes).where(case_notes: {id: case_note_ids})
+      setting = Setting.first
+      max_case_note = setting.try(:max_case_note) || 30
+      case_note_frequency = setting.try(:case_note_frequency) || 'day'
+      case_note_period = max_case_note.send(case_note_frequency).ago
+      case_note_ids = CaseNote.no_case_note_in(case_note_period).ids
+      scope.joins(:case_notes).where(case_notes: { id: case_note_ids })
     end
   end
 

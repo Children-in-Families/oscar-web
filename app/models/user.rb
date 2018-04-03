@@ -178,6 +178,15 @@ class User < ActiveRecord::Base
     client_enrollment_tracking_notification(clients.active_accepted_status)
   end
 
+  def case_note_overdue
+    setting = Setting.first
+    max_case_note = setting.try(:max_case_note) || 30
+    case_note_frequency = setting.try(:case_note_frequency) || 'day'
+    case_note_period = max_case_note.send(case_note_frequency).ago
+    case_note_ids = CaseNote.no_case_note_in(case_note_period).ids
+    clients.joins(:case_notes).where(case_notes: { id: case_note_ids })
+  end
+
   def self.self_and_subordinates(user)
     if user.admin? || user.strategic_overviewer?
       User.all

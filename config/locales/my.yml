@@ -1806,7 +1806,7 @@ my:
       has_overdue_assessment: ရက္လြန္ေနေသာ စိစစ္အကဲျဖတ္မႈ တစ္ခုရွိပါသည္။
       has_overdue_forms: ရက်လွန်ပုံစံများရှိပါတယ်
       has_overdue_task: ရှိပြီးရက်လွန်အလုပ်တခုကို
-      no_case_note: အသက် 30 နေ့ရက်များအတွက်အဘယ်သူမျှမ အမႈမွတ္စု
+      no_case_note: ဖြစ်ရပ်မှန်မှတ်ချက်များအတွက်ရက်လွန်
       reset: အကုန္ျပင္ဆင္သည္
       search: ရွာေဖြသည္
     from: မွ
@@ -2922,6 +2922,9 @@ my:
     notification:
       check_tasks: လုပ္ငန္းမ်ားကို ေက်းဇူးျပဳ၍ စိစစ္ပါ
       click_here: ဤေနရာကို ကလစ္ႏွိပ္ပါ
+      client_case_note_overdue:
+        one: သငျသညျရက်ကျော်နေပြီ 1 ကိစ္စတွင်မှတ်ချက်ရှိသည်။
+        other: သငျသညျရက်ကျော်နေပြီ %{count} ကိစ္စတွင်မှတ်ချက်ရှိသည်။
       client_is_about_to_end_ec:
         few: အမႈသည္တစ္ဦးသည္ ရက္အနည္းငယ္အတြင္း EC အစီအမံမွ ထြက္ရန္ ရွိေနပါသည္
         one: အမႈသည္တစ္ဦးသည္ %{day_count} ရက္အတြင္း EC အစီအမံမွ ထြက္ရန္ ရွိေနပါသည္
@@ -3139,6 +3142,9 @@ my:
   must_be_uniq: ကြင္းအညႊန္းသည္ ယူနစ္ျဖစ္ရမည္
   mutual_dependence_has_been_modified: ဒါကြောင့်ယခင်စည်းမျဉ်းစည်းကမ်းတွေကိုဖောက်ဖျက်သောကွောငျ့နှစ်ဦးနှစ်ဖက်အပြန်အလှန်မှီခိုပြောင်းလဲသွားတယ်သို့မဟုတ်ဆက်ပြောသည်မရနိုင်ပါ။
   notifications:
+    case_note_overdue:
+      client_case_note_overdue: ရက်လွန် အမႈသည္ ဖြစ်ရပ်မှန်မှတ်ချက်
+      review_client: အမႈသည္မ်ားကို ျပန္လည္သံုးသပ္ရန္ လိုအပ္သည္
     client_enrollment_tracking_due_today:
       client_enrollment_tracking_notification: အမႈသည္ စာရင္းသြင္းမႈေနာက္ေၾကာင္း အသိေပးခ်က္
       clients: အမႈသည္
