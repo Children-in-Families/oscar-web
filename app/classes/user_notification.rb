@@ -2,8 +2,9 @@ class UserNotification
 
   attr_reader :all_count
 
-  def initialize(user)
+  def initialize(user, clients)
     @user                                            = user
+    @clients                                         = clients
     @assessments                                     = @user.assessment_either_overdue_or_due_today
     @client_custom_field                             = @user.client_custom_field_frequency_overdue_or_due_today
     @user_custom_field                               = @user.user_custom_field_frequency_overdue_or_due_today if @user.admin? || @user.manager?
@@ -13,8 +14,47 @@ class UserNotification
     @all_count                                       = count
   end
 
+  def upcoming_csi_assessments
+    client_ids = []
+    csi_count = 0
+    clients = @user.clients.active_accepted_status
+    clients.each do |client|
+      next if client.assessments.empty?
+      repeat_notifications = client.repeat_notifications_schedule
+
+      if(repeat_notifications.include?(Date.today))
+        client_ids << client.id
+        csi_count += 1
+      end
+    end
+    clients = clients.where(id: client_ids)
+    { csi_count: csi_count, clients: clients }
+  end
+
+  def any_upcoming_csi_assessments?
+    upcoming_csi_assessments[:csi_count] >= 1
+  end
+
   def overdue_tasks_count
-    @user.tasks.overdue_incomplete.size
+    @user.tasks.overdue_incomplete.exclude_exited_ngo_clients.where(client_id: @user.clients.ids).size
+  end
+
+  def review_program_streams
+    client_wrong_program_rules = []
+
+    program_streams_by_user.each do |program_stream|
+      rules = program_stream.rules
+      client_ids = program_stream.client_enrollments.collect(&:client_id)
+      clients = Client.active_accepted_status.where(id: client_ids)
+      clients_after_filter = AdvancedSearches::ClientAdvancedSearch.new(rules, clients).filter
+      if clients_after_filter.present?
+        clients_change = clients.where.not(id: clients_after_filter.ids).ids
+        client_wrong_program_rules << [program_stream, clients_change] if clients_change.present?
+      else
+        client_wrong_program_rules << [program_stream, clients.ids]
+      end
+    end
+    client_wrong_program_rules
   end
 
   def any_overdue_tasks?
@@ -22,7 +62,7 @@ class UserNotification
   end
 
   def due_today_tasks_count
-    @user.tasks.today_incomplete.size
+    @user.tasks.today_incomplete.exclude_exited_ngo_clients.where(client_id: @user.clients.ids).size
   end
 
   def any_due_today_tasks?
@@ -197,7 +237,15 @@ class UserNotification
       count_notification += 1 if any_due_today_assessments?
       count_notification += 1 if any_client_enrollment_tracking_frequency_due_today?
       count_notification += 1 if any_client_enrollment_tracking_frequency_overdue?
+      count_notification += 1 if any_upcoming_csi_assessments?
     end
-    count_notification
+    count_notification += review_program_streams.size
   end
+
+  private
+
+  def program_streams_by_user
+    ProgramStream.complete.includes(:client_enrollments).where.not(client_enrollments: { id: nil, status: 'Exited' }, program_streams: { rules: "{}"}).where(client_enrollments: { client_id: @clients.ids })
+  end
+
 end

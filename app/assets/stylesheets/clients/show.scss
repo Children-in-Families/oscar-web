@@ -150,6 +150,13 @@ body[id='clients-show'] {
     z-index: 2001;
   }
 
+  span.btn {
+    a {
+      display: block;
+      color: white;
+    }
+  }
+
   @media screen and (max-width: 991px) {
     .case .panel-body {
       height: auto;
@@ -169,5 +176,35 @@ body[id='clients-show'] {
   }
   .color-orange {
     background-color: #f0ad4e;
+  }
+  .what3words{
+    height: 17%;
+  }
+  .client_exit_reasons > span{
+    margin-left: -15px;
+  }
+  .client_exit_circumstance{
+    margin-top: -15px;
+  }
+  .client_other_info_of_exit{
+    margin-top: 10px;
+  }
+  .client_exit_date{
+    margin-top: 25px;
+  }
+
+  button.close {
+    margin-right: 10px;
+    span {
+      position: absolute;
+    }
+  }
+
+  .client_exit_reasons .icheckbox_square-green {
+    margin-right: 5px;
+  }
+
+  .btn#edit-exit-info {
+    margin-left: 10px;
   }
 }

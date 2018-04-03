@@ -7,21 +7,26 @@
           %span{ class: "#{@program_stream.completed_label_class}"}
             = @program_stream.completed_status
         .ibox-tools
-          - if can? :update, ProgramStream
-            - if current_organization.full_name == @program_stream.ngo_name
-              = link_to edit_program_stream_path(@program_stream), class: 'btn btn-outline btn-success' do
-                = fa_icon('pencil')
-            = link_to new_program_stream_path(program_stream_id: @program_stream.id, ngo_name: @program_stream.ngo_name), class: 'btn btn-outline btn-success', title: t('.copy') do
-              = fa_icon('files-o')
-          = link_to program_stream_redirect_path do
-            .btn.btn-default.btn-back-default.button
-              = t('.back')
+          - if (can? :update, ProgramStream) && (current_organization.full_name == @program_stream.ngo_name)
+            = link_to edit_program_stream_path(@program_stream), class: 'btn btn-outline btn-success' do
+              = fa_icon('pencil')
+            - if can? :create, ProgramStream
+              = link_to new_program_stream_path(program_stream_id: @program_stream.id, ngo_name: @program_stream.ngo_name), class: 'btn btn-outline btn-success', title: t('.copy') do
+                = fa_icon('files-o')
+          - if action_search?
+            = link_to request.referrer do
+              .btn.btn-default.btn-back-default.button
+                = t('.back')
+          - else
+            = link_to program_stream_redirect_path do
+              .btn.btn-default.btn-back-default.button
+                = t('.back')
       .ibox-content
         .panel-group
           .panel.panel-default
             .panel-heading
               .row.height-row
-                .col-xs-10.col-md-11{"data-toggle": "collapse", href: "#description"}
+                .col-xs-10.col-md-11{'data-toggle': 'collapse', href: '#description'}
                   %h4.panel-title.full-height
                     %a= t('.detail')
                 .col-xs-2.col-md-1.text-right
@@ -44,10 +49,10 @@
                       %td.enrolled= t('.enrolled')
                       %td= @program_stream.enrolled
 
-          .panel.panel-default
+          .panel.panel-default.program-show
             .panel-heading
               .row.height-row
-                .col-xs-10.col-md-11{"data-toggle": "collapse", href: "#rules"}
+                .col-xs-10.col-md-11{'data-toggle': 'collapse', href: '#rules'}
                   %h4.panel-title.full-height
                     %a= t('.rules')
                 .col-xs-2.col-md-1.text-right
@@ -76,7 +81,7 @@
           .panel.panel-default
             .panel-heading
               .row.height-row
-                .col-xs-10.col-md-11{"data-toggle": "collapse", href: "#enrollment"}
+                .col-xs-10.col-md-11{'data-toggle': 'collapse', href: '#enrollment'}
                   %h4.panel-title.full-height
                     %a= t('.enrollment')
                 .col-xs-2.col-md-1.text-right
@@ -93,7 +98,7 @@
           .panel.panel-default
             .panel-heading
               .row.height-row
-                .col-xs-10.col-md-11{"data-toggle": "collapse", href: "#tracking"}
+                .col-xs-10.col-md-11{'data-toggle': 'collapse', href: '#tracking'}
                   %h4.panel-title.full-height
                     %a= t('.tracking')
                 .col-xs-2.col-md-1.text-right
@@ -125,7 +130,7 @@
           .panel.panel-default
             .panel-heading
               .row.height-row
-                .col-xs-10.col-md-11{"data-toggle": "collapse", href: "#exit-program"}
+                .col-xs-10.col-md-11{'data-toggle': 'collapse', href: '#exit-program'}
                   %h4.panel-title.full-height
                     %a= t('.exit_program')
                 .col-xs-2.col-md-1.text-right

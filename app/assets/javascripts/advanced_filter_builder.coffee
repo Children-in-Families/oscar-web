@@ -28,3 +28,5 @@ class CIF.AdvancedFilterBuilder
         contains: 'includes'
         not_contains: 'excludes'
     filters: @fieldList
+    plugins:
+      'sortable': true

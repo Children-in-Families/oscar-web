@@ -1,0 +1,15 @@
+#custom-form-column
+  %ul.check-columns-visibility
+    %li.dropdown
+      %a.dropdown-toggle.btn.btn-default{'data-toggle' => 'dropdown', href: '#'}
+        = t('datagrid.columns.select_columns')
+        %span.caret
+      %ul.dropdown-menu.columns-visibility.append-child
+        - if @custom_form_columns.present?
+          - @custom_form_columns.each do |key, fields|
+            %li.dropdown-header{ class: format_class_header(key) }
+              = key
+            - fields.each do |field|
+              %li.visibility.checkbox-margin{ class: format_class_header(key) }
+                = check_box_tag "#{field[:id]}_", field[:id], params[:"#{field[:id]}_"].present?, class: 'i-checks'
+                = label_tag "#{field[:id]}_", form_builder_format(field[:id])

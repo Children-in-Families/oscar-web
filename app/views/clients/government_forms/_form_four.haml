@@ -1,0 +1,256 @@
+%h4.text-center ព្រះរាជាណាចក្រកម្ពុជា
+%h4.text-center ជាតិ សាសនា ព្រះមហាក្សត្រ
+.text-center
+  = wicked_pdf_image_tag 'logo.png', width: 120
+
+.panel.panel-no-margin.panel-borderless{style: 'margin-top: 5px;'}
+  .panel-heading.panel-no-padding.panel-borderless
+    .text-center{style: 'padding:8px; background-color: #04215C; color: white; width:100%; margin-bottom: 0px;'} ទម្រង់ទី៤: ការទុកដាក់កុមារ
+
+.panel.panel-no-margin.panel-borderless{style: 'margin-top: 15px;'}
+  .panel-body.panel-border{style: 'border-top: 1px solid black; border-radius: 3px'}
+    %table.table.no-margin-bottom.table-borderless
+      %tbody
+        %tr
+          %td
+            កាលបរិចេ្ឆទ(ថ្ងៃ/ខែ/ឆ្នាំ):
+            - gov_date = @client.gov_date.present? ? @client.gov_date.strftime('%d%m%y') : '000000'
+            - gov_date.split('').each_with_index do |code, index|
+              - if index == 0
+                %span.first= code
+              - else
+                %span= code
+          %td
+            លេខកូដភូមិ:
+            - gov_village_code = @client.gov_village_code.present? ? @client.gov_village_code : '00000000'
+            - gov_village_code.split('').each_with_index do |code, index|
+              - if index == 0
+                %span.first= code
+              - else
+                %span= code
+          %td
+            លេខកូដកុមារ:
+            - gov_client_code = @client.gov_date.present? ? @client.gov_client_code : '0000'
+            - gov_client_code.split('').each_with_index do |code, index|
+              - if index == 0
+                %span.first= code
+              - else
+                %span= code
+
+.panel.panel-no-margin.panel-borderless
+  .panel-body.panel-border{style: 'border-top: 1px solid black; border-radius: 3px'}
+    %table.table.no-margin-bottom.table-borderless
+      %tbody
+        %tr
+          %td{style: 'width: 70px; color: red'}
+            ខ្ញុំជាអ្នកកាន់ករណីឈ្មោះ:
+          %td{style: 'width: 200px'}
+            %input{style: 'width: 100%;', value: "#{@client.local_family_name} #{@client.local_given_name} "}
+          %td
+            ថ្ងៃខែឆ្នាំកំណើត:
+          %td
+            - dob = @client.date_of_birth.present? ? @client.date_of_birth.strftime('%d%m%y') : '000000'
+            - dob.split('').each_with_index do |code, index|
+              - if index == 0
+                %span.first= code
+              - else
+                %span= code
+          %td
+            ភេទ:
+          %td
+            %input{ type: 'checkbox', checked: @client.gender == 'male' ? true : false }
+            ប្រុស
+          %td
+            %input{ type: 'checkbox', checked: @client.gender == 'female' ? true : false}
+            ស្រី
+
+    %table.table.no-margin-bottom.table-borderless
+      %tbody
+        %tr
+          %td{style: 'width: 150px'}
+            បានឯកភាពទុកដាក់កុមារ
+            %p{style: 'color: red; display: inline-block; margin-left: -4px'}
+              ឈ្មោះ:
+          %td{style: 'width: 300px'}
+            %input{style: 'width: 100%;', value: "#{@client.local_family_name} #{@client.local_given_name} "}
+          %td{style: 'color: red'}
+            ថ្ងៃខែឆ្នាំកំណើត:
+          %td
+            - dob = @client.date_of_birth.present? ? @client.date_of_birth.strftime('%d%m%y') : '000000'
+            - dob.split('').each_with_index do |code, index|
+              - if index == 0
+                %span.first= code
+              - else
+                %span= code
+
+    %table.table.no-margin-bottom.table-borderless
+      %tbody
+        %tr
+          %td{style: 'width: 120px; color: red'}
+            ភេទ:
+            %input{ type: 'checkbox', checked: @client.gender == 'male' ? true : false }
+            ប្រុស
+            %input{ type: 'checkbox', checked: @client.gender == 'female' ? true : false}
+            ស្រី
+          %td.text-left
+            ឲ្យរស់នៅតាមជម្រើសនៃការថែទាំដូចខាងក្រោម៖
+
+.panel.panel-no-margin.panel-borderless
+  .panel-body.panel-border.no-border-bottom.top-radius
+    %table.table.no-margin-bottom.table-borderless
+      %tbody
+        %tr
+          %td
+            កាលបរិចេ្ឆទនៃការទុកដាក់:
+            - dob = @client.date_of_birth.present? ? @client.date_of_birth.strftime('%d%m%y') : '000000'
+            - dob.split('').each_with_index do |code, index|
+              - if index == 0
+                %span.first= code
+              - else
+                %span= code
+
+  .panel-body.panel-border
+    %table.table.table-border.panel-no-margin
+      %thead
+        %tr{ style: 'background: #f3dcda' }
+          %th.text-center{:colspan => "3"}
+            %b ជម្រើសនៃការថែទាំ
+            %p តាមលំដាប់ដូចបានចែងនៅក្នុងគោលនយោបាយស្តីពីការថែទាំជំនួសចំពោះកុមារ
+        %tr{ style: 'background: #efefef' }
+          %th.text-center{style: 'width: 150px'} ប្រភេទនៃការថែទាំ
+          %th.text-center{style: 'width: 250px'} ឈ្មោះអ្នកថែទាំ/ឈ្មោះកន្លែងថែទាំ
+          %th.text-center អាសយដ្ឋាន និងលេខទំនាក់ទំនង
+      %tbody
+        %tr
+          %td
+            %span.first{style: 'margin-right: 5px; padding: 2px 9px;'}
+            គ្រួសារបង្កើត
+          %td{style: 'line-height: 25px'}
+            %p ឈ្មោះឪពុក ៖...................................................
+            %p ឈ្មោះម្តាយ ៖...................................................
+          %td
+            .comment{style: 'min-height: 60px;'}
+              %p
+        %tr
+          %td
+            %span.first{style: 'margin-right: 5px; padding: 2px 9px;'}
+            សាច់ញាតិ
+          %td
+            %p ឈ្មោះ ៖..........................................................
+            %p ឈ្មោះ ៖..........................................................
+          %td
+            .comment{style: 'min-height: 60px;'}
+              %p
+        %tr
+          %td
+            %span.first{style: 'margin-right: 5px; padding: 2px 9px;'}
+            គ្រួសារមិនជាប់សាច់ញាតិ(គ្រួសារធម៌)
+          %td
+            %p ឈ្មោះ ៖..........................................................
+            %p ឈ្មោះ ៖..........................................................
+          %td
+            .comment{style: 'min-height: 60px;'}
+              %p
+        %tr
+          %td
+            %span.first{style: 'margin-right: 5px; padding: 2px 9px;'}
+            ការថែទាំជាក្រុមក្នុងសហគមន័
+          %td
+            %p ឈ្មោះអង្គការ ៖.................................................
+            %p ឈ្មោះក្រុម ៖....................................................
+          %td
+            .comment{style: 'min-height: 60px;'}
+              %p
+        %tr
+          %td
+            %span.first{style: 'margin-right: 5px; padding: 2px 9px;'}
+            តាមវត្តអារាមឬទីកន្លែងសាសនានានា
+          %td
+            %p ឈ្មោះវត្ត/វិហារ ៖..............................................
+            %p ឈ្មោះអ្នកគ្រប់គ្រង ៖..........................................
+          %td
+            .comment{style: 'min-height: 60px;'}
+              %p
+        %tr
+          %td
+            %span.first{style: 'margin-right: 5px; padding: 2px 9px;'}
+            កន្លែងថែទាំកុមារ
+          %td
+            %p ឈ្មោះអង្គការ ៖.................................................
+            %p ឈ្មោះមណ្ឌល ៖................................................
+          %td
+            .comment{style: 'min-height: 60px;'}
+              %p
+
+.panel.panel-no-margin.panel-borderless{style: 'margin-top: 25px'}
+  .panel-heading.panel-border.text-center{style: 'background: #001f60; padding: 5px; color: white; border-top: 1px solid black; border-bottom: 0;'}
+    កិច្ចព្រមព្រៀង
+
+  .panel-body.panel-border
+    %table.table.table-border.panel-no-margin
+      %thead{ style: 'background: #fcebdd' }
+        %tr
+          %th{:colspan => "2"}
+            %i កុមារ
+      %tbody
+        %tr
+          %td{:colspan => "2", style: 'line-height: 25px'}
+            ខ្ញុំបាទ/នាងខ្ញុំឈ្មោះ....................................................................ភេទ..................ថ្ងៃខែឆ្នាំកំណើត.........................................................
+            បានយល់ព្រមមករស់នៅជាមួយ............................................................................................និងខ្ញុំយល់ព្រមប្រឹងប្រែងឲ្យអស់ពីលទ្ធភាពគោរព
+            តាមកម្មវិធីដែលបានធ្វើឡើងដោយបុគ្គលិកកាន់ករណី និងយល់ព្រមរួមសុខទុក្ខជាមួយ.....................................................................................។
+        %tr
+          %td
+            .comment{style: 'min-height: 80px;'}
+              %p ឈ្មោះ និង ហត្ថលេខា/ស្នាមមេដៃ:
+          %td
+            .comment{style: 'min-height: 80px;'}
+              %p កាលបរិចេ្ឆទ (ថ្ងៃ/ខែ/ឆ្នាំ)៖
+
+  .panel-body.panel-border
+    %table.table.table-border.panel-no-margin
+      %thead{ style: 'background: #fcebdd' }
+        %tr
+          %th
+            %i អ្នកថែទាំ
+      %tbody
+        %tr
+          %td{ style: 'line-height: 25px'}
+            ខ្ញុំបាទ/នាងខ្ញុំឈ្មោះ................................................................ភេទ..................ថ្ងៃខែឆ្នាំកំណើត.............................................................
+            ត្រូវជា................................................................................របស់កុមារបានយល់ព្រមថែរក្សាបំពេញនូវតម្រូវការមូលដ្ឋានរបស់គាត់ និងប្រឹងប្រែង
+            ផ្តល់ជំនួយចាំបាច់នានាដែលអាចធ្វើទៅបានឈរលើគោលកាណ៍ការធ្វើសមាហរណ៍កម្មប្រកបដោយសុវត្ថិភាព។ ខ្ញុំបាទ/នាងខ្ញុំយល់ព្រមប្រគល់កុមារទៅ អាជ្ញាធរមានសមត្ថកិច្ចវិញ ក្នុងករណីដែលស្ថានភាពគ្រួសារអាចប៉ះពាល់ដល់សុខុមាលភាព
+            និងសុវត្ថិភាពកុមារ។
+        %tr
+          %td{ style: 'line-height: 25px'}
+            កាលបរិចេ្ឆទ: ....................................................................
+        %tr
+          %td
+            .comment{style: 'min-height: 80px;'}
+              %p ឈ្មោះ និង ហត្ថលេខា/ស្នាមមេដៃ របស់អ្នកថែទាំ (ឪពុក/ម្តាយ/អាណាព្យាបាល)៖
+
+  .panel-body.panel-border
+    %table.table.table-border.panel-no-margin
+      %thead{ style: 'background: #fcebdd' }
+        %tr
+          %th{:colspan => "2"}
+            %i អ្នកកាន់ករណី
+      %tbody
+        %tr
+          %td{:colspan => "2", style: 'line-height: 25px'}
+            ខ្ញុំបាទ/នាងខ្ញុំឈ្មោះ.............................................................................................................ភេទ..................អាយុ..................ជាអ្នកកាន់
+            ករណី បានឯកភាពទុកដាក់កុមារជាមួយ.................................................................................................................................................។
+            ខ្ញុំនឹងចុះសួរសុខទុក្ខ កុមាររូបនេះ និងគ្រួសារយ៉ាងទៀងទាត់ និងតាមការចាំបាច់។ ខ្ញុំនិងខិតខំឲ្យអស់ពីលទ្ធភាពដើម្បីជួយដោះស្រាយការលំបាកនានាដែល អាចកើតឡើង ចំពោះកុមារនិងផ្តល់ជំនួយគាំទ្រ នានាដែលចាំបាច់ដើម្បីឲ្យការទុកដាក់បានជោគជ័យនិងប្រកបដោយសុវត្ថិភាព។
+        %tr
+          %td{:colspan => "2", style: 'line-height: 25px'}
+            កាលបរិចេ្ឆទ (ថ្ងៃ/ខែ/ឆ្នាំកំណើត) ....................................................................
+        %tr
+          %td{style: 'width: 350px'}
+            .comment{style: 'min-height: 80px;'}
+              %p ឈ្មោះ និង ហត្ថលេខា/ស្នាមមេដៃ អ្នកកាន់ករណី៖
+            %p ឈ្មោះ ...................................
+            %p{ style: 'color: red'} តួនាទី ...................................
+            %p{ style: 'color: red'} ឈ្មោះអង្គការ/ស្ថាប័ន ...................................
+          %td
+            .comment{style: 'min-height: 80px;'}
+              %p ហត្ថលេខា និងត្រា មេឃុំ/ចៅសង្កាត់៖
+            %p &nbsp;
+            %p{ style: 'color: red'} ឈ្មោះ ...................................

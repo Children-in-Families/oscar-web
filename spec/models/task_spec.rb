@@ -2,9 +2,7 @@ describe Task, 'associations' do
   it { is_expected.to belong_to(:domain)}
   it { is_expected.to belong_to(:case_note_domain_group)}
   it { is_expected.to belong_to(:client)}
-
-  it { is_expected.to have_many(:case_worker_tasks).dependent(:destroy) }
-  it { is_expected.to have_many(:users).through(:case_worker_tasks) }
+  it { is_expected.to belong_to(:user)}
 end
 
 describe Task, 'validations' do
@@ -13,15 +11,29 @@ describe Task, 'validations' do
   it { is_expected.to validate_presence_of(:completion_date) }
 end
 
-describe Task, 'scopes' do
+xdescribe Task, 'scopes' do
+  let!(:active_client){ create(:client, status: 'Active') }
+  let!(:exited_ngo_client){ create(:client, :exited) }
   let!(:domain){ create(:domain)}
-  let!(:task){ create(:task, domain: domain)}
-  let!(:task_other){ create(:task)}
+  let!(:task){ create(:task, domain: domain, client: active_client)}
+  let!(:task_other){ create(:task, client: exited_ngo_client)}
   let!(:completed_task){ create(:task, completed: true) }
   let!(:incomplete_task){ create(:task, completed: false) }
   let!(:overdue_task){ create(:task, completion_date: Date.today - 1.month) }
   let!(:today_task){ create(:task, completion_date: Date.today) }
   let!(:upcoming_task){ create(:task, completion_date: Date.today + 1.month) }
+  let!(:upcoming_task_2){ create(:task, completion_date: 4.months.from_now) }
+
+  context 'exclude_exited_ngo_clients' do
+    subject{ Task.exclude_exited_ngo_clients }
+    it 'should return records of clients who are not exited the ngo' do
+      is_expected.to include(task)
+    end
+
+    it 'should not return records of clients who are exited the ngo' do
+      is_expected.not_to include(task_other)
+    end
+  end
 
   context 'by_domain_id' do
     subject{ Task.by_domain_id(domain.id) }
@@ -84,6 +96,16 @@ describe Task, 'scopes' do
       is_expected.not_to include(today_task)
     end
   end
+
+  context 'upcoming within three months' do
+    subject{ Task.upcoming_within_three_months }
+    it 'should include upcoming task within three months' do
+      is_expected.to include(upcoming_task)
+    end
+    it 'should not include not upcoming task 2 within three months' do
+      is_expected.not_to include(upcoming_task_2)
+    end
+  end
 end
 
 describe Task, 'methods' do
@@ -91,8 +113,8 @@ describe Task, 'methods' do
   let!(:other_user){ create(:user) }
   let!(:client) { create(:client, user_ids: [user.id]) }
   let!(:other_client) { create(:client) }
-  let!(:task){ create(:task, user_ids: client.user_ids, client: client) }
-  let!(:other_task){ create(:task, user_ids: other_client.user_ids, client: other_client) }
+  let!(:task){ create(:task, user: user, client: client) }
+  let!(:other_task){ create(:task, user: other_user, client: other_client) }
 
   context 'of user' do
     subject{ Task.of_user(user) }
@@ -150,50 +172,6 @@ describe Task, 'methods' do
     it 'should include incomplete tasks and tasks of case_note_domain_group' do
       is_expected.to include(task, incomplete_task)
       is_expected.not_to include(other_task)
-    end
-  end
-end
-
-describe User, 'callbacks' do
-  let!(:case_worker_a){ create(:user, :case_worker) }
-  let!(:case_worker_b){ create(:user, :case_worker) }
-  let!(:case_worker_c){ create(:user, :case_worker) }
-  let!(:client){ create(:client, :accepted, users: [case_worker_a, case_worker_b]) }
-  let!(:task){ create(:task, client: client) }
-  context 'after_save' do
-    context 'set_users' do
-      it 'should have cases workers of the client it belongs to' do
-        task.reload
-        expect(task.users).to include(case_worker_a, case_worker_b)
-        expect(task.users).not_to include(case_worker_c)
-      end
-
-      context 'when case workers of the client were changed, need to update its case workers too' do
-        before do
-          client.user_ids = [case_worker_a.id, case_worker_c.id]
-          client.save
-          task.reload
-        end
-
-        it 'should have new case workers of the client it belongs to' do
-          task.reload
-          expect(task.users).to include(case_worker_a, case_worker_c)
-        end
-
-        it 'should not have case workers who are not associated with its client anymore' do
-          task.reload
-          expect(task.users).not_to include(case_worker_b)
-        end
-
-        it 'case workers of its client should have it as their task' do
-          expect(case_worker_a.case_worker_tasks.size).to eq(1)
-          expect(case_worker_c.case_worker_tasks.size).to eq(1)
-        end
-
-        it 'case workers who are not associated with its client should not have it as their task' do
-          expect(case_worker_b.case_worker_tasks.size).to eq(0)
-        end
-      end
     end
   end
 end

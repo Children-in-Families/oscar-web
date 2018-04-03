@@ -1,4 +1,4 @@
-CIF.Program_streamsShow = CIF.Program_streamsPreview = do ->
+CIF.Program_streamsShow = CIF.Program_streamsPreview = CIF.NotificationsProgram_stream_notify = do ->
   _init = ->
     _initFileInput()
     _initProgramRule()
@@ -13,16 +13,26 @@ CIF.Program_streamsShow = CIF.Program_streamsPreview = do ->
       method: 'GET'
       success: (response) ->
         fieldList = response.program_stream_add_rule
-        $('#program-rules').queryBuilder(
-          _queryBuilderOption(fieldList)
-        )
+        builder = new CIF.AdvancedFilterBuilder($('#program-rules'), fieldList, {})
+        builder.initRule()
         setTimeout ( ->
           _initSelect2()
           _handleRemoveButtonOnProgramRules()
           _handleDisabledInputs()
+          _handleRemoveConditionButton()
           )
 
         _handleSetRules()
+
+  _handleRemoveConditionButton = ->
+    rules = $('#rules').data('program-rules')
+    return if $.isEmptyObject(rules)
+    $('.btn-group.group-conditions label.active').siblings().remove()
+
+  _builderTranslation = ->
+    addFilter: $('#program-rule').data('filter-translation-add-filter')
+    addGroup: $('#program-rule').data('filter-translation-add-group')
+    deleteGroup: $('#program-rule').data('filter-translation-delete-group')
 
   _initFileInput = ->
     $('.file').fileinput
@@ -39,24 +49,8 @@ CIF.Program_streamsShow = CIF.Program_streamsPreview = do ->
     rules = $('#rules').data('program-rules')
     $('#program-rules').queryBuilder('setRules', rules) unless _.isEmpty(rules.rules)
 
-  _queryBuilderOption = (fieldList) ->
-    inputs_separator: ' AND '
-    lang:
-      operators:
-        is_empty: 'is blank'
-        is_not_empty: 'is not blank'
-        equal: 'is'
-        not_equal: 'is not'
-        less: '<'
-        less_or_equal: '<='
-        greater: '>'
-        greater_or_equal: '>='
-        contains: 'includes'
-        not_contains: 'excludes'
-    filters: fieldList
-
   _handleRemoveButtonOnProgramRules = ->
-    $('.panel').find('#program-rules button').remove()
+    $('.program-show').find('#program-rules button').remove()
 
   _handleDisabledInputs = ->
     $('#program-stream-info :input').attr( 'disabled', 'disabled' )

@@ -28,4 +28,52 @@ module ClientEnrollmentHelper
       client_client_enrolled_program_path(@client, @client_enrollment)
     end
   end
+
+  def client_enrollment_edit_link
+    if program_permission_editable?(@program_stream)
+      link_to edit_client_client_enrollment_path(@client, @client_enrollment, program_stream_id: @program_stream) do
+        content_tag :div, class: 'btn btn-success btn-outline' do
+          fa_icon('pencil')
+        end
+      end
+    else
+      link_to_if false, edit_client_client_enrollment_path(@client, @client_enrollment, program_stream_id: @program_stream) do
+        content_tag :div, class: 'btn btn-success btn-outline disabled' do
+          fa_icon('pencil')
+        end
+      end
+    end
+  end
+
+  def client_enrollment_new_link(program_stream)
+    if program_permission_editable?(program_stream) && policy(@client).create?
+      link_to new_client_client_enrollment_path(@client, program_stream_id: program_stream.id) do
+        content_tag :div, class: 'btn btn-primary btn-xs btn-width' do 
+          t('.enroll')
+        end
+      end
+    else
+      link_to_if false, new_client_client_enrollment_path(@client, program_stream_id: program_stream.id) do
+        content_tag :div, class: 'btn btn-primary btn-xs btn-width disabled' do 
+          t('.enroll')
+        end
+      end
+    end
+  end
+
+  def client_enrollment_destroy_link
+    if program_permission_editable?(@program_stream)
+      link_to client_client_enrollment_path(@client, @client_enrollment, program_stream_id: @program_stream), method: 'delete', data: { confirm: t('.are_you_sure') } do
+        content_tag :div, class: 'btn btn-outline btn-danger' do
+          fa_icon('trash')
+        end
+      end
+    else
+      link_to_if false, client_client_enrollment_path(@client, @client_enrollment, program_stream_id: @program_stream), method: 'delete', data: { confirm: t('.are_you_sure') } do
+        content_tag :div, class: 'btn btn-outline btn-danger disabled' do
+          fa_icon('trash')
+        end
+      end
+    end
+  end
 end

@@ -2,6 +2,7 @@ class NotificationsController < AdminController
   def index
     entity_custom_field = params[:entity_custom_field]
     client_enrollment_tracking = params[:client_enrollment_tracking]
+    upcoming_assessment = params[:assessment]
     if entity_custom_field.present?
       entity_custom_field_notification(entity_custom_field)
       if entity_custom_field == 'client_due_today' || entity_custom_field == 'user_due_today' || entity_custom_field == 'partner_due_today' || entity_custom_field == 'family_due_today'
@@ -16,7 +17,15 @@ class NotificationsController < AdminController
       else
         render 'client_enrollment_tracking_overdue'
       end
+    elsif upcoming_assessment.presence == 'upcoming'
+      @upcoming_csi_clients_notification = @notification.upcoming_csi_assessments[:clients].order(:given_name, :family_name)
+      render 'upcoming_assessment'
     end
+  end
+
+  def program_stream_notify
+    @program_stream = ProgramStream.find(params[:program_stream_id])
+    @clients        = Client.non_exited_ngo.where(id: params[:client_ids])
   end
 
   private

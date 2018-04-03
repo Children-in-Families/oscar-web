@@ -29,27 +29,27 @@
             %i.fa.fa-th-large
             %span.nav-label= t('.dashboards')
 
-        %li{class: clients_menu_active}
+        %li.main{ class: clients_menu_active }
           = link_to clients_path do
             = fa_icon('child')
             %span.nav-label= t('.clients')
             %span.label.label-primary.pull-right= @client_count
         - if can? :read, Family
-          %li{class: families_menu_active}
+          %li.main{ class: families_menu_active }
             = link_to families_path do
               = fa_icon('users')
               %span.nav-label= t('.families')
               %span.label.label-primary.pull-right= @family_count
 
         - if can? :read, Partner
-          %li{class: partners_menu_active}
+          %li.main{ class: partners_menu_active }
             = link_to partners_path do
               = fa_icon('handshake-o')
               %span.nav-label= t('.partners')
               %span.label.label-primary.pull-right= @partner_count
 
         - if can? :read, User
-          %li{class: users_menu_active}
+          %li.main{ class: users_menu_active }
             = link_to users_path do
               = fa_icon('address-book-o')
               %span.nav-label= t('.users')
@@ -61,6 +61,8 @@
             %span.nav-label= t('.manage')
             %span.fa.arrow
           %ul.nav.nav-second-level
+            %li{ class: active_menu('settings') }
+              = link_to t('.settings'), country_settings_path
             %li{ class: active_menu('agencies') }
               = link_to t('.agencies'), agencies_path
             - if can? :read, :all
@@ -68,19 +70,22 @@
                 = link_to t('.departments'), departments_path
               - unless (Rails.env.production? && current_organization.demo?)
                 %li{ class: active_menu('domains') }
-                  = link_to t('.domains'), domains_path
+                  - if current_user.strategic_overviewer? || current_user.domain_warning?
+                    = link_to t('.domains'), domains_path
+                  - else
+                    %a{"data-target" => "#domain-warning", "data-toggle" => "modal", :type => "button"}=t('.domains')
                 %li{ class: active_menu('domain_groups') }
                   = link_to t('.domain_groups'), domain_groups_path
               %li{ class: active_menu('donors') }
                 = link_to t('.donors'), donors_path
-              %li{ class: active_menu('provinces') }
-                = link_to t('.provinces'), provinces_path
+              -# %li{ class: active_menu('provinces') }
+              -#   = link_to t('.provinces'), provinces_path
+              -# %li{ class: active_menu('districts') }
+              -#   = link_to t('.districts'), districts_path
               %li{ class: active_menu('referral_sources') }
                 = link_to t('.referral_sources'), referral_sources_path
               %li{ class: active_menu('quantitative_types') }
                 = link_to t('.quantitative_types'), quantitative_types_path
-              %li{ class: active_menu('stages', 'able_screening_questions') }
-                = link_to t('.able_screening_questions'), able_screens_question_submissions_stages_path
               %li
                 %a#pro-nav{href: "#"}
                   = t('.progress_note')

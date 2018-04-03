@@ -8,8 +8,11 @@ class LeaveProgramsController < AdminController
   before_action :find_leave_program, only: [:show, :edit, :update, :destroy]
   before_action :get_attachments, only: [:edit, :update]
   before_action :initial_attachments, only: [:new, :create]
+  before_action -> { check_user_permission('editable') }, except: :show
+  before_action -> { check_user_permission('readable') }, only: :show
 
   def edit
+    check_user_permission('editable')
   end
 
   def update
@@ -22,6 +25,7 @@ class LeaveProgramsController < AdminController
   end
 
   def show
+    check_user_permission('readable')
   end
 
   def destroy

@@ -27,5 +27,13 @@ body[id='custom_fields-update'] {
   ul li.has-error {
     background-color: #fbe3e4 !important;
     border: 1px solid #fbc2c4;
+    label.error {
+      margin-top: 10px;
+      margin-left: 0 !important;
+    }
+  }
+
+  .field-actions a.btn.toggle-form {
+    margin-left: 0;
   }
 }

@@ -1,10 +1,28 @@
 class CIF.CustomFormBuilder
   constructor: () ->
 
+  thematicBreak: ->
+    [{
+      label: 'Separation Line'
+      attrs: type: 'separateLine'
+      icon: '<i class="fa fa-minus" aria-hidden="true"></i>'
+    }]
+
+  separateLineTemplate: ->
+    separateLine: (fieldData) ->
+      { field: '<hr/>' }
+
+  eventParagraphOption: ->
+    self = @
+    onadd: (fld) ->
+      $('.subtype-wrap, .className-wrap, .access-wrap').hide()
+    onclone: (fld) ->
+      $('.subtype-wrap, .className-wrap, .access-wrap').hide()
+
   eventCheckboxOption: ->
     self = @
     onadd: (fld) ->
-      $('.other-wrap, .className-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
+      $('.other-wrap, .className-wrap, .access-wrap, .description-wrap, .name-wrap, .toggle-wrap, .inline-wrap').hide()
       self.handleCheckingForm()
       self.hideOptionValue()
       self.addOptionCallback(fld)
@@ -20,7 +38,7 @@ class CIF.CustomFormBuilder
   eventDateOption: ->
     self = @
     onadd: (fld) ->
-      $('.className-wrap, .value-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
+      $('.date-field').find('.className-wrap, .placeholder-wrap, .value-wrap, .access-wrap, .description-wrap, .name-wrap, .toggle-wrap, .inline-wrap').hide()
       self.handleCheckingForm()
     onclone: (fld) ->
       setTimeout ( ->
@@ -30,7 +48,7 @@ class CIF.CustomFormBuilder
   eventFileOption: ->
     self = @
     onadd: (fld) ->
-      $('.className-wrap, .value-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
+      $('.file-field').find('.className-wrap, .placeholder-wrap, .subtype-wrap, .value-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
       self.handleCheckingForm()
     onclone: (fld) ->
       setTimeout ( ->
@@ -40,7 +58,7 @@ class CIF.CustomFormBuilder
   eventNumberOption: ->
     self = @
     onadd: (fld) ->
-      $('.className-wrap, .value-wrap, .step-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
+      $('.number-field').find('.className-wrap, .placeholder-wrap, .value-wrap, .step-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
       self.handleCheckingForm()
     onclone: (fld) ->
       setTimeout ( ->
@@ -50,7 +68,7 @@ class CIF.CustomFormBuilder
   eventRadioOption: ->
     self = @
     onadd: (fld) ->
-      $('.other-wrap, .className-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
+      $('.other-wrap, .inline-wrap, .className-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
       self.handleCheckingForm()
       self.hideOptionValue()
       self.addOptionCallback(fld)
@@ -95,12 +113,22 @@ class CIF.CustomFormBuilder
   eventTextAreaOption: ->
     self = @
     onadd: (fld) ->
-      $('.rows-wrap, .className-wrap, .value-wrap, .access-wrap, .maxlength-wrap, .description-wrap, .name-wrap').hide()
+      $('.rows-wrap, .subtype-wrap, .className-wrap, .value-wrap, .access-wrap, .maxlength-wrap, .description-wrap, .name-wrap').hide()
       self.handleCheckingForm()
     onclone: (fld) ->
       setTimeout ( ->
         self.handleCheckingForm()
       ),50
+
+  eventSeparateLineOption: ->
+    onadd: (fld) ->
+      $(fld).find('.field-actions .icon-pencil').remove()
+      $(fld).on 'dblclick', (e) ->
+        e.stopPropagation()
+    onclone: (fld) ->
+      $(fld).find('.field-actions .icon-pencil').remove()
+      $(fld).on 'dblclick', (e) ->
+        e.stopPropagation()
 
   hideOptionValue: ->
     $('.option-selected, .option-value').hide()
@@ -127,7 +155,7 @@ class CIF.CustomFormBuilder
       $(elements).each (cIndex, cLabel) ->
         return if cIndex == index
         cText = $(cLabel).text()
-        if cText == displayText
+        if cText == displayText && cText != 'Separation Line'
           self.addDuplicateWarning(label)
 
   handleDisplayDuplicateWarning: ->
@@ -158,19 +186,35 @@ class CIF.CustomFormBuilder
     self = @
     labels = $('.field-label:visible')
     $('.field-actions a.icon-pencil').click ->
-      $(".form-elements input[name='label']").on 'change', ->
+      $(".form-elements .label-wrap .input-wrap div[name='label']").on 'blur', ->
         setTimeout ( ->
           self.removeFieldDuplicate()
           self.handleDisplayDuplicateWarning(labels)
         ), 300
+        self.handlePreventingBlankLabel(@)
+
+  handlePreventingBlankLabel: (element) ->
+    text = $(element).text()
+    parentElement = $(element).parents('li.form-field')
+    errorText = "Label can't be blank"
+
+    if text == 'undefined' || text == ''
+      $(parentElement).addClass('has-error')
+      $(parentElement).find('input, textarea, select').addClass('error')
+      unless $(parentElement).find('label.error').is(':visible')
+        $(parentElement).append("<label class='error'>#{errorText}</label>")
+    else
+      @removeWarning(element)
 
   getNoneDuplicateLabel: (elements) ->
     labels    = $(elements).map(-> $(@).text().trim()).get()
     values = labels.elementWitoutDuplicates()
+
     for element in elements
       text = $(element).text().trim()
+      continue if text == 'undefined' || text == ''
       if values.includes(text)
-        @removeDuplicateWarning(element)
+        @removeWarning(element)
 
   removeFieldDuplicate: ->
     if $('#trackings').is(':visible') and $('.nested-fields').is(':visible')
@@ -182,7 +226,7 @@ class CIF.CustomFormBuilder
       elements = $('ul.frmb:visible .field-label:visible')
       @getNoneDuplicateLabel(elements)
 
-  removeDuplicateWarning: (element) ->
+  removeWarning: (element) ->
     field = $(element).parents('li.form-field')
     $(field).removeClass('has-error')
     $(field).find('input, textarea, select').removeClass('error')

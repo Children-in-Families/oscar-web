@@ -7,7 +7,15 @@ class ClientColumnsVisibility
   def columns_collection
     {
       live_with_: :live_with,
-      id_poor_: :id_poor,
+      exit_reasons_: :exit_reasons,
+      exit_circumstance_: :exit_circumstance,
+      other_info_of_exit_: :other_info_of_exit,
+      exit_note_: :exit_note,
+      what3words_: :what3words,
+      name_of_referee_: :name_of_referee,
+      rated_for_id_poor_: :rated_for_id_poor,
+      main_school_contact_: :main_school_contact,
+      # id_poor_: :id_poor,
       program_streams_: :program_streams,
       program_enrollment_date_: :program_enrollment_date,
       program_exit_date_: :program_exit_date,
@@ -35,8 +43,7 @@ class ClientColumnsVisibility
       commune_: :commune,
       district_: :district,
       school_name_: :school_name,
-      grade_: :grade,
-      able_state_: :able_state,
+      school_grade_: :school_grade,
       has_been_in_orphanage_: :has_been_in_orphanage,
       has_been_in_government_care_: :has_been_in_government_care,
       relevant_referral_information_: :relevant_referral_information,
@@ -65,9 +72,14 @@ class ClientColumnsVisibility
       kid_id_: :kid_id,
       family_id_: :family_id,
       any_assessments_: :any_assessments,
+      case_note_date_: :case_note_date,
+      case_note_type_: :case_note_type,
+      date_of_assessments_: :date_of_assessments,
+      all_csi_assessments_: :all_csi_assessments,
       donor_: :donor,
       manage_: :manage,
-      changelog_: :changelog
+      changelog_: :changelog,
+      telephone_number_: :telephone_number
     }
   end
 
@@ -82,13 +94,13 @@ class ClientColumnsVisibility
 
   def domain_score_columns
     columns = columns_collection
-    if @params[:controller] != 'clients'
-      Domain.order_by_identity.each do |domain|
-        identity = domain.identity
-        field = domain.convert_identity
-        columns = columns.merge!("#{field}_": field.to_sym)
-      end
+    # if @params[:controller] != 'clients'
+    Domain.order_by_identity.each do |domain|
+      identity = domain.identity
+      field = domain.convert_identity
+      columns = columns.merge!("#{field}_": field.to_sym)
     end
+    # end
     columns
   end
 
@@ -96,7 +108,7 @@ class ClientColumnsVisibility
     columns = domain_score_columns
     if @params[:column_form_builder].present?
       @params[:column_form_builder].each do |column|
-        field   = column['id'].downcase.parameterize('_')
+        field   = column['id']
         columns = columns.merge!("#{field}_": field.to_sym)
       end
     end

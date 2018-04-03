@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170824021544) do
+ActiveRecord::Schema.define(version: 20180314085911) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,6 +30,24 @@ ActiveRecord::Schema.define(version: 20170824021544) do
 
   add_index "able_screening_questions", ["question_group_id"], name: "index_able_screening_questions_on_question_group_id", using: :btree
   add_index "able_screening_questions", ["stage_id"], name: "index_able_screening_questions_on_stage_id", using: :btree
+
+  create_table "advanced_searches", force: :cascade do |t|
+    t.string   "name"
+    t.text     "description"
+    t.jsonb    "queries"
+    t.jsonb    "field_visible"
+    t.string   "custom_forms"
+    t.string   "program_streams"
+    t.string   "enrollment_check",   default: ""
+    t.string   "tracking_check",     default: ""
+    t.string   "exit_form_check",    default: ""
+    t.string   "quantitative_check", default: ""
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.integer  "user_id"
+  end
+
+  add_index "advanced_searches", ["user_id"], name: "index_advanced_searches_on_user_id", using: :btree
 
   create_table "agencies", force: :cascade do |t|
     t.string   "name",                   default: ""
@@ -139,12 +157,13 @@ ActiveRecord::Schema.define(version: 20170824021544) do
   end
 
   create_table "case_notes", force: :cascade do |t|
-    t.string   "attendee",      default: ""
+    t.string   "attendee",         default: ""
     t.date     "meeting_date"
     t.integer  "assessment_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "client_id"
+    t.string   "interaction_type", default: ""
   end
 
   add_index "case_notes", ["client_id"], name: "index_case_notes_on_client_id", using: :btree
@@ -218,11 +237,21 @@ ActiveRecord::Schema.define(version: 20170824021544) do
 
   add_index "changelogs", ["user_id"], name: "index_changelogs_on_user_id", using: :btree
 
+  create_table "client_client_types", force: :cascade do |t|
+    t.integer  "client_id"
+    t.integer  "client_type_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "client_client_types", ["client_id"], name: "index_client_client_types_on_client_id", using: :btree
+  add_index "client_client_types", ["client_type_id"], name: "index_client_client_types_on_client_type_id", using: :btree
+
   create_table "client_enrollment_trackings", force: :cascade do |t|
     t.jsonb    "properties",           default: {}
     t.integer  "client_enrollment_id"
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
     t.integer  "tracking_id"
   end
 
@@ -241,9 +270,47 @@ ActiveRecord::Schema.define(version: 20170824021544) do
   add_index "client_enrollments", ["client_id"], name: "index_client_enrollments_on_client_id", using: :btree
   add_index "client_enrollments", ["program_stream_id"], name: "index_client_enrollments_on_program_stream_id", using: :btree
 
+  create_table "client_interviewees", force: :cascade do |t|
+    t.integer  "client_id"
+    t.integer  "interviewee_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "client_interviewees", ["client_id"], name: "index_client_interviewees_on_client_id", using: :btree
+  add_index "client_interviewees", ["interviewee_id"], name: "index_client_interviewees_on_interviewee_id", using: :btree
+
+  create_table "client_needs", force: :cascade do |t|
+    t.integer  "rank"
+    t.integer  "client_id"
+    t.integer  "need_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "client_needs", ["client_id"], name: "index_client_needs_on_client_id", using: :btree
+  add_index "client_needs", ["need_id"], name: "index_client_needs_on_need_id", using: :btree
+
+  create_table "client_problems", force: :cascade do |t|
+    t.integer  "rank"
+    t.integer  "client_id"
+    t.integer  "problem_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "client_problems", ["client_id"], name: "index_client_problems_on_client_id", using: :btree
+  add_index "client_problems", ["problem_id"], name: "index_client_problems_on_problem_id", using: :btree
+
   create_table "client_quantitative_cases", force: :cascade do |t|
     t.integer  "quantitative_case_id"
     t.integer  "client_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "client_types", force: :cascade do |t|
+    t.string   "name",       default: ""
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -279,7 +346,7 @@ ActiveRecord::Schema.define(version: 20170824021544) do
     t.text     "reason_for_referral",              default: ""
     t.boolean  "is_receiving_additional_benefits", default: false
     t.text     "background",                       default: ""
-    t.integer  "grade",                            default: 0
+    t.integer  "grade"
     t.string   "slug"
     t.string   "able_state",                       default: ""
     t.integer  "assessments_count"
@@ -291,15 +358,50 @@ ActiveRecord::Schema.define(version: 20170824021544) do
     t.string   "street_number",                    default: ""
     t.string   "village",                          default: ""
     t.string   "commune",                          default: ""
-    t.string   "district",                         default: ""
+    t.string   "archive_district",                 default: ""
     t.string   "live_with",                        default: ""
-    t.integer  "id_poor",                          default: 0
+    t.integer  "id_poor"
     t.integer  "rice_support",                     default: 0
     t.text     "exit_note",                        default: ""
     t.date     "exit_date"
     t.date     "accepted_date"
+    t.string   "gov_city",                         default: ""
+    t.string   "gov_commune",                      default: ""
+    t.string   "gov_district",                     default: ""
+    t.date     "gov_date"
+    t.string   "gov_village_code",                 default: ""
+    t.string   "gov_client_code",                  default: ""
+    t.string   "gov_interview_village",            default: ""
+    t.string   "gov_interview_commune",            default: ""
+    t.string   "gov_interview_district",           default: ""
+    t.string   "gov_interview_city",               default: ""
+    t.string   "gov_caseworker_name",              default: ""
+    t.string   "gov_caseworker_phone",             default: ""
+    t.string   "gov_carer_name",                   default: ""
+    t.string   "gov_carer_relationship",           default: ""
+    t.string   "gov_carer_home",                   default: ""
+    t.string   "gov_carer_street",                 default: ""
+    t.string   "gov_carer_village",                default: ""
+    t.string   "gov_carer_commune",                default: ""
+    t.string   "gov_carer_district",               default: ""
+    t.string   "gov_carer_city",                   default: ""
+    t.string   "gov_carer_phone",                  default: ""
+    t.string   "gov_information_source",           default: ""
+    t.text     "gov_referral_reason",              default: ""
+    t.text     "gov_guardian_comment",             default: ""
+    t.text     "gov_caseworker_comment",           default: ""
+    t.integer  "district_id"
+    t.string   "telephone_number",                 default: ""
+    t.string   "name_of_referee",                  default: ""
+    t.string   "main_school_contact",              default: ""
+    t.string   "rated_for_id_poor",                default: ""
+    t.string   "what3words",                       default: ""
+    t.string   "exit_reasons",                     default: [],         array: true
+    t.string   "exit_circumstance",                default: ""
+    t.string   "other_info_of_exit",               default: ""
   end
 
+  add_index "clients", ["district_id"], name: "index_clients_on_district_id", using: :btree
   add_index "clients", ["donor_id"], name: "index_clients_on_donor_id", using: :btree
   add_index "clients", ["slug"], name: "index_clients_on_slug", unique: true, using: :btree
 
@@ -309,6 +411,18 @@ ActiveRecord::Schema.define(version: 20170824021544) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "custom_field_permissions", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "custom_field_id"
+    t.boolean  "readable",        default: true
+    t.boolean  "editable",        default: true
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+  end
+
+  add_index "custom_field_permissions", ["custom_field_id"], name: "index_custom_field_permissions_on_custom_field_id", using: :btree
+  add_index "custom_field_permissions", ["user_id"], name: "index_custom_field_permissions_on_user_id", using: :btree
 
   create_table "custom_field_properties", force: :cascade do |t|
     t.jsonb    "properties",           default: {}
@@ -341,6 +455,13 @@ ActiveRecord::Schema.define(version: 20170824021544) do
     t.datetime "updated_at"
     t.integer  "users_count", default: 0
   end
+
+  create_table "districts", force: :cascade do |t|
+    t.string  "name"
+    t.integer "province_id"
+  end
+
+  add_index "districts", ["province_id"], name: "index_districts_on_province_id", using: :btree
 
   create_table "domain_groups", force: :cascade do |t|
     t.string   "name",          default: ""
@@ -400,6 +521,7 @@ ActiveRecord::Schema.define(version: 20170824021544) do
     t.datetime "updated_at"
     t.integer  "cases_count",                     default: 0
     t.string   "case_history",                    default: ""
+    t.integer  "children",                        default: [],        array: true
   end
 
   create_table "form_builder_attachments", force: :cascade do |t|
@@ -503,11 +625,17 @@ ActiveRecord::Schema.define(version: 20170824021544) do
   add_index "interventions_progress_notes", ["intervention_id"], name: "index_interventions_progress_notes_on_intervention_id", using: :btree
   add_index "interventions_progress_notes", ["progress_note_id"], name: "index_interventions_progress_notes_on_progress_note_id", using: :btree
 
+  create_table "interviewees", force: :cascade do |t|
+    t.string   "name",       default: ""
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "leave_programs", force: :cascade do |t|
     t.jsonb    "properties",           default: {}
     t.integer  "client_enrollment_id"
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
     t.integer  "program_stream_id"
     t.date     "exit_date"
   end
@@ -523,6 +651,12 @@ ActiveRecord::Schema.define(version: 20170824021544) do
 
   create_table "materials", force: :cascade do |t|
     t.string   "status",     default: ""
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "needs", force: :cascade do |t|
+    t.string   "name",       default: ""
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -552,6 +686,36 @@ ActiveRecord::Schema.define(version: 20170824021544) do
     t.datetime "updated_at"
     t.integer  "cases_count",           default: 0
   end
+
+  create_table "permissions", force: :cascade do |t|
+    t.integer  "user_id"
+    t.boolean  "case_notes_readable",  default: true
+    t.boolean  "case_notes_editable",  default: true
+    t.boolean  "assessments_editable", default: true
+    t.boolean  "assessments_readable", default: true
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+  end
+
+  add_index "permissions", ["user_id"], name: "index_permissions_on_user_id", using: :btree
+
+  create_table "problems", force: :cascade do |t|
+    t.string   "name",       default: ""
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "program_stream_permissions", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "program_stream_id"
+    t.boolean  "readable",          default: true
+    t.boolean  "editable",          default: true
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+  end
+
+  add_index "program_stream_permissions", ["program_stream_id"], name: "index_program_stream_permissions_on_program_stream_id", using: :btree
+  add_index "program_stream_permissions", ["user_id"], name: "index_program_stream_permissions_on_user_id", using: :btree
 
   create_table "program_streams", force: :cascade do |t|
     t.string   "name"
@@ -964,6 +1128,8 @@ ActiveRecord::Schema.define(version: 20170824021544) do
     t.integer  "manager_ids",                    default: [],                         array: true
     t.boolean  "program_warning",                default: false
     t.boolean  "staff_performance_notification", default: true
+    t.string   "pin_code",                       default: ""
+    t.boolean  "domain_warning",                 default: false
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
@@ -1011,6 +1177,7 @@ ActiveRecord::Schema.define(version: 20170824021544) do
 
   add_foreign_key "able_screening_questions", "question_groups"
   add_foreign_key "able_screening_questions", "stages"
+  add_foreign_key "advanced_searches", "users"
   add_foreign_key "answers", "able_screening_questions"
   add_foreign_key "answers", "clients"
   add_foreign_key "assessment_domains_progress_notes", "assessment_domains"
@@ -1027,15 +1194,29 @@ ActiveRecord::Schema.define(version: 20170824021544) do
   add_foreign_key "case_worker_tasks", "users"
   add_foreign_key "changelog_types", "changelogs"
   add_foreign_key "changelogs", "users"
+  add_foreign_key "client_client_types", "client_types"
+  add_foreign_key "client_client_types", "clients"
   add_foreign_key "client_enrollment_trackings", "client_enrollments"
   add_foreign_key "client_enrollments", "clients"
   add_foreign_key "client_enrollments", "program_streams"
+  add_foreign_key "client_interviewees", "clients"
+  add_foreign_key "client_interviewees", "interviewees"
+  add_foreign_key "client_needs", "clients"
+  add_foreign_key "client_needs", "needs"
+  add_foreign_key "client_problems", "clients"
+  add_foreign_key "client_problems", "problems"
+  add_foreign_key "clients", "districts"
   add_foreign_key "clients", "donors"
+  add_foreign_key "custom_field_permissions", "custom_fields"
+  add_foreign_key "custom_field_permissions", "users"
   add_foreign_key "custom_field_properties", "custom_fields"
+  add_foreign_key "districts", "provinces"
   add_foreign_key "domains", "domain_groups"
   add_foreign_key "interventions_progress_notes", "interventions"
   add_foreign_key "interventions_progress_notes", "progress_notes"
   add_foreign_key "leave_programs", "client_enrollments"
+  add_foreign_key "program_stream_permissions", "program_streams"
+  add_foreign_key "program_stream_permissions", "users"
   add_foreign_key "progress_notes", "clients"
   add_foreign_key "progress_notes", "locations"
   add_foreign_key "progress_notes", "materials"

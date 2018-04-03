@@ -10,12 +10,19 @@
 
     - if can? :manage, CustomFieldProperty
       .btn-group.small-btn-margin
-        %button.btn-sm.btn.btn-primary.dropdown-toggle{ 'data-toggle' => 'dropdown', class: ('disabled' if @free_user_forms.empty?) }
+        %button.btn-sm.btn.btn-success.dropdown-toggle{ 'data-toggle' => 'dropdown', class: ('disabled' if @free_user_forms.empty?) }
           = t('.add_form')
           %span.caret
         %ul.dropdown-menu.scrollable-dropdown-menu
           - @free_user_forms.each do |custom_field|
             %li= link_to custom_field.form_title, new_user_custom_field_property_path(@user, custom_field_id: custom_field.id)
+
+    - if current_user.admin? && !(@user.admin? || @user.strategic_overviewer?)
+      .btn-group.small-btn-margin
+        %button.btn-sm.btn.btn-success{"data-target" => "#permissions", "data-toggle" => "modal", :type => "button"}
+          = t('.permissions')
+        = render 'permissions'
+
     .ibox.mini-margin
       .ibox-title
         %h5= "#{t('.general_info')} #{@user.name}"
@@ -28,7 +35,7 @@
               = link_to edit_user_path(@user) do
                 .btn.btn-outline.btn-success
                   %i.fa.fa-pencil
-              = remove_link(@user, {user_case: @user.cases_count}, 'btn-md')
+              = remove_link(@user, {user_client: @user.clients.count}, 'btn-md')
 
       .ibox-content
         .row.user-summary
@@ -92,5 +99,5 @@
                   = t('.pin_number')
                 %td
                   %strong
-                    = @user.pin_number
+                    = @user.pin_code
 = render 'clients'

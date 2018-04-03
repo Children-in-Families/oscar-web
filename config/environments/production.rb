@@ -36,8 +36,8 @@ Rails.application.configure do
   # yet still be able to expire them through the digest params.
   # Asset digests allow you to set far-future HTTP expiration dates on all assets,
   # yet still be able to expire them through the digest params.
-  config.action_mailer.asset_host = "http://oscarhq.com/"
-  config.action_mailer.default_url_options = { host: 'http://oscarhq.com/' }
+  config.action_mailer.asset_host = "https://oscarhq.com"
+  config.action_mailer.default_url_options = { host: 'https://oscarhq.com' }
   config.assets.digest = true
   config.assets.enabled = true
   config.assets.initialize_on_precompile = true

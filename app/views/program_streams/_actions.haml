@@ -3,4 +3,5 @@
 - if can? :update, ProgramStream
   = link_to edit_program_stream_path(program_stream), class: 'btn btn-outline btn-success btn-xs' do
     = fa_icon('pencil')
+- if can? :delete, ProgramStream
   = delete_button(program_stream)

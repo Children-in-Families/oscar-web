@@ -2,6 +2,7 @@ class FormBuilder::CustomFieldsController < AdminController
   load_and_authorize_resource
 
   before_action :set_custom_field, only: [:edit, :update, :destroy]
+  before_action :remove_html_tags, only: [:create, :update]
 
   def index
     @custom_fields = CustomField.ordered_by(column_order).page(params[:page_1]).per(20)
@@ -21,7 +22,11 @@ class FormBuilder::CustomFieldsController < AdminController
 
   def show
     ngo_name = params[:ngo_name]
-    @custom_field = get_custom_field(params[:custom_field_id].to_i, ngo_name) if ngo_name.present?
+    if ngo_name.present?
+      @custom_field = get_custom_field(params[:custom_field_id].to_i, ngo_name)
+    else
+      @custom_field = CustomField.find(params[:id])
+    end
   end
 
   def create
@@ -55,11 +60,8 @@ class FormBuilder::CustomFieldsController < AdminController
   end
 
   def search
-    if params[:search].present?
-      custom_field = find_custom_field(params[:search])
-      @custom_fields = Kaminari.paginate_array(custom_field).page(params[:page]).per(20)
-      redirect_to custom_fields_path, alert: t('.no_result') if @custom_fields.blank?
-    end
+    @custom_fields = Kaminari.paginate_array(search_custom_fields).page(params[:page]).per(20)
+    redirect_to custom_fields_path, alert: t('.no_result') if @custom_fields.blank?
   end
 
   private
@@ -75,7 +77,7 @@ class FormBuilder::CustomFieldsController < AdminController
 
   def find_custom_field_in_organization(org = '')
     current_org_name = current_organization.short_name
-    organizations = org == 'demo' ? Organization.where(short_name: 'demo') : Organization.without_demo.order(:full_name)
+    organizations = org == 'demo' ? Organization.where(short_name: 'demo') : Organization.without_demo_and_cwd.order(:full_name)
     custom_fields = organizations.map do |org|
       Organization.switch_to org.short_name
       CustomField.order(:entity_type, :form_title).reload
@@ -101,31 +103,37 @@ class FormBuilder::CustomFieldsController < AdminController
   def column_order
     order_string = 'form_title, entity_type'
     column = params[:order]
-    return order_string unless params[:tab] == 'current' || !column.present?
+    return order_string unless params[:tab] == 'current' || column.present?
 
     sort_by = params[:descending] == 'true' ? 'desc' : 'asc'
-    (order_string = "#{column} #{sort_by}") if column.present?
+    (order_string = "lower(#{column}) #{sort_by}") if column.present?
 
     order_string
   end
 
-  def find_custom_field(search)
+  def search_custom_fields
     results = []
-    current_org_name = current_organization.short_name
-    Organization.all.each do |org|
-      Organization.switch_to(org.short_name)
-      if params[:search].present?
-        form_title   = params[:search]
-        custom_fields = CustomField.by_form_title(form_title)
-        results << custom_fields if custom_fields.present?
+    if params[:search].present?
+      form_title   = params[:search]
+      current_org_name = current_organization.short_name
+      orgs = current_org_name == 'cwd' ? Organization.all : Organization.without_cwd
+      orgs.each do |org|
+        Organization.switch_to(org.short_name)
+          custom_fields = CustomField.by_form_title(form_title)
+          results << custom_fields if custom_fields.present?
       end
+      Organization.switch_to(current_org_name)
     end
-    Organization.switch_to(current_org_name)
     results.flatten.sort! {|x, y| x.form_title.downcase <=> y.form_title.downcase}
   end
 
   def custom_field_params
     params.require(:custom_field).permit(:entity_type, :fields, :form_title, :frequency, :time_of_frequency)
+  end
+
+  def remove_html_tags
+    fields = params[:custom_field][:fields]
+    params[:custom_field][:fields] = ActionController::Base.helpers.strip_tags(fields)
   end
 
   def set_custom_field

@@ -24,12 +24,10 @@ module ApplicationHelper
   end
 
   def status_style(status)
-    color = 'label-primary'
     case status
-    when 'Referred'
-      color = 'label-danger'
-    when 'Investigating'
-      color = 'label-warning'
+    when 'Active' then color = 'label-primary'
+    when 'Referred', 'Exited' then color = 'label-danger'
+    when 'Accepted' then color = 'label-info'
     end
 
     content_tag(:span, class: ['label', color]) do
@@ -53,23 +51,42 @@ module ApplicationHelper
   end
 
   def clients_menu_active
-    names = %w(clients tasks assessments case_notes cases government_reports leave_programs client_enrollments client_enrollment_trackings client_advanced_searches)
-    'active' if names.include?(controller_name) && params[:family_id].nil?
+    names = %w(clients tasks assessments case_notes cases government_reports leave_programs client_enrollments client_enrollment_trackings client_advanced_searches client_enrolled_programs client_enrolled_program_trackings leave_enrolled_programs)
+    if names.include?(controller_name) && params[:family_id].nil?
+      'active'
+    elsif controller_name == 'custom_field_properties' && params[:client_id].present?
+      'active'
+    end
   end
 
   def families_menu_active
-    names = %w(families family_custom_fields cases)
-    'active' if names.include?(controller_name) && params[:client_id].nil?
+    names = %w(families cases)
+    if names.include?(controller_name) && params[:client_id].nil?
+      'active'
+    elsif controller_name == 'custom_field_properties' && params[:family_id].present?
+      'active'
+    end
   end
 
   def users_menu_active
-    names = %w(users user_custom_fields)
-    any_active_menu(names)
+    if controller_name == 'users'
+      'active'
+    elsif controller_name == 'custom_field_properties' && params[:user_id].present?
+      'active'
+    end
+  end
+
+  def exit_circumstance_value
+    return @client.exit_circumstance if @client.exit_circumstance.present?
+    @client.status == 'Accepted' ? 'Exited Client' : 'Rejected Referral'
   end
 
   def partners_menu_active
-    names = %w(partners partner_custom_fields)
-    any_active_menu(names)
+    if controller_name == 'partners'
+      'active'
+    elsif controller_name == 'custom_field_properties' && params[:partner_id].present?
+      'active'
+    end
   end
 
   def account_menu_active
@@ -161,5 +178,39 @@ module ApplicationHelper
     else
       content_tag(:span, field_message, class: 'help-block')
     end
+  end
+
+  def government_reports_visible?
+    # current_organization.cwd? || current_organization.cif?
+    false
+  end
+
+  def program_stream_readable?(value)
+    return true if current_user.admin? || current_user.strategic_overviewer?
+    current_user.program_stream_permissions.find_by(program_stream_id: value).readable
+  end
+
+  def program_permission_editable?(value)
+    return true if current_user.admin?
+    return false if current_user.strategic_overviewer?
+    current_user.program_stream_permissions.find_by(program_stream_id: value).editable
+  end
+
+  def custom_field_editable?(value)
+    return true if current_user.admin?
+    return false if current_user.strategic_overviewer?
+    current_user.custom_field_permissions.find_by(custom_field_id: value).editable
+  end
+
+  def non_mho_tenant?
+    !current_organization.mho?
+  end
+
+  def action_search?
+    Rails.application.routes.recognize_path(request.referrer)[:action] == 'search'
+  end
+
+  def convert_bracket(value)
+    value.gsub(/\[/, '&#91;').gsub(/\]/, '&#93;')
   end
 end

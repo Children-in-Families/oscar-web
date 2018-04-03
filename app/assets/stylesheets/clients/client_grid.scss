@@ -1,4 +1,6 @@
 body[id='clients-index'],
+body[id='families-index'],
+body[id='partners-index'],
 body[id='families-show'],
 body[id='users-show'],
 body[id='client_advanced_searches-index'] {
@@ -6,9 +8,32 @@ body[id='client_advanced_searches-index'] {
     margin-top: -16px;
   }
 
-  .table {
+  table.clients {
+    tbody {
+      tr {
+        td {
+          @include hyphens(auto);
+          font-size: 14px;
+          height: 57px;
+          .showmore_content {
+            position:relative;
+            overflow:hidden;
+          }
+          .showmore_trigger {
+            width:100%;
+            text-align: center;
+            height:25px;
+            cursor:pointer;
+          }
+          .showmore_trigger span {
+            display:block;
+          }
+        }
+      }
+    }
+
     th,
-    td.gender, td.status, td.follow_up_date, td.date_of_birth, td.grade, td.has_been_in_orphanage, td.has_been_in_government_care,
+    td.gender, td.status, td.follow_up_date, td.date_of_birth, td.school_grade, td.has_been_in_orphanage, td.has_been_in_government_care,
     td.initial_referral_date, td.referral_phone, td.able, td.birth_province, td.province, td.state, td.case_start_date,
     td.carer_phone_number td.support_amount, td.family_preservation, td.cases, td.accepted_date, td.exit_date {
       text-align: center;
@@ -18,7 +43,7 @@ body[id='client_advanced_searches-index'] {
       min-width: 100px;
     }
 
-    th.code, th.slug, th.grade, th.gender, th.cases, th.case_start_date {
+    th.slug, th.school_grade, th.gender, th.cases, th.case_start_date {
       min-width: 130px;
     }
 
@@ -26,15 +51,15 @@ body[id='client_advanced_searches-index'] {
       min-width: 135px;
     }
 
-    th.any_assessments, th.able_state, th.house_number, th.street_number, th.village {
+    th.any_assessments, th.able_state, th.house_number, th.street_number, th.village, th.case_note_date, th.case_note_type, th.date_of_assessments {
       min-width: 150px;
     }
 
-    th.given_name, th.family_name, th.live_with {
-      min-width: 160px;
+    th.code, th.given_name, th.family_name, th.live_with {
+      min-width: 185px;
     }
 
-    th.kid_id, th.id_poor {
+    th.kid_id {
       min-width: 175px;
     }
 
@@ -43,18 +68,19 @@ body[id='client_advanced_searches-index'] {
     }
 
     th.name, th.status, th.family, th.partner, th.manage, th.cases, th.form_title, th.family_id,
-    th.initial_referral_date, th.carer_phone_number, th.family_preservation, th.current_address, th.accepted_date, th.exit_date,
-    th.program_streams, th.program_enrollment_date, th.program_exit_date {
+    th.initial_referral_date, th.family_preservation, th.current_address, th.accepted_date, th.exit_date,
+    th.program_streams, th.program_enrollment_date, th.program_exit_date, th.exit_reasons, th.exit_circumstance,
+    th.other_info_of_exit, th.exit_note, th.main_school_contact, th.name_of_referee, th.what3words {
       min-width: 200px;
     }
 
-    th.age, th.follow_up_date, th.received_by, th.followed_up_by, th.agency, th.date_of_birth,
+    th.telephone_number, th.age, th.follow_up_date, th.received_by, th.followed_up_by, th.agency, th.date_of_birth,
     th.school_name, th.referral_phone, th.referral_source, th.birth_province, th.province,
-    th.rejected_note, th.user, th.donor, th.carer_names, th.carer_address, th.support_amount, th.support_note {
+    th.carer_phone_number, th.rejected_note, th.user, th.donor, th.carer_names, th.carer_address, th.support_amount, th.support_note, th.rated_for_id_poor {
       min-width: 250px;
     }
 
-    th.has_been_in_orphanage {
+    th.all_csi_assessments {
       min-width: 260px;
     }
 
@@ -65,6 +91,10 @@ body[id='client_advanced_searches-index'] {
     th.reason_for_family_separation, th.history_of_high_risk_behaviours,
     th.history_of_harm, th.history_of_disability_and_or_illness {
       min-width: 360px;
+    }
+
+    th.has_been_in_orphanage, th.protection_from_abuse_and_exploitation {
+      min-width: 280px;
     }
 
     td.manage {
@@ -101,7 +131,7 @@ body[id='client_advanced_searches-index'] {
   table.clients {
     margin-bottom: 0;
     th {
-      border-bottom-width: 0;
+      border-bottom-width: 2px;
     }
     tbody tr:hover {
       cursor: pointer;

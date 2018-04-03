@@ -2,37 +2,31 @@ class Task < ActiveRecord::Base
   belongs_to :domain, counter_cache: true
   belongs_to :case_note_domain_group
   belongs_to :client
-
-  has_many :case_worker_tasks, dependent: :destroy
-  has_many :users, through: :case_worker_tasks
+  belongs_to :user
 
   has_paper_trail
 
   validates :name, presence: true
   validates :domain, presence: true
   validates :completion_date, presence: true
-  # validates :user_ids, presence: true
 
-  scope :completed,  -> { where(completed: true) }
-  scope :incomplete, -> { where(completed: false) }
-  scope :overdue,    -> { where('completion_date < ?', Date.today) }
-  scope :today,      -> { where('completion_date = ?', Date.today) }
-  scope :upcoming,   -> { where('completion_date > ?', Date.today) }
+  scope :completed,                       -> { where(completed: true) }
+  scope :incomplete,                      -> { where(completed: false) }
+  scope :overdue,                         -> { where('completion_date < ?', Date.today) }
+  scope :today,                           -> { where('completion_date = ?', Date.today) }
+  scope :upcoming,                        -> { where('completion_date > ?', Date.today) }
+  scope :upcoming_within_three_months,    -> { where(completion_date: Date.tomorrow..3.months.from_now) }
 
   scope :overdue_incomplete, -> { incomplete.overdue }
   scope :today_incomplete,   -> { incomplete.today }
   scope :by_domain_id,       ->(value) { where('domain_id = ?', value) }
-
   scope :overdue_incomplete_ordered, -> { overdue_incomplete.order('completion_date ASC') }
+  scope :exclude_exited_ngo_clients, -> { where(client_id: Client.active_accepted_status.ids) }
 
-  after_save :set_users, :create_task_history
-
-  def set_users
-    client.users.map { |user| CaseWorkerTask.find_or_create_by(task_id: id, user_id: user.id) }
-  end
+  after_save :create_task_history
 
   def self.of_user(user)
-    joins(:case_worker_tasks).where(case_worker_tasks: { user_id: user.id })
+    where(user_id: user.id)
   end
 
   def self.set_complete
@@ -42,19 +36,20 @@ class Task < ActiveRecord::Base
   def self.filter(params)
     user     = User.find(params[:user_id]) if params[:user_id]
     relation = all
-    relation = relation.joins(:case_worker_tasks).where(case_worker_tasks: { user_id: user.id }) if user.present?
+    relation = relation.of_user(user) if user.present?
     relation
   end
 
   def self.under(user, client)
-    joins(:case_worker_tasks).where(case_worker_tasks: { user_id: user.id }).where(client_id: client.id)
+    of_user(user).where(client_id: client.id)
   end
 
   def self.upcoming_incomplete_tasks
     Organization.all.each do |org|
       Organization.switch_to org.short_name
-      user_ids = incomplete.where(completion_date: Date.tomorrow).map(&:user_ids).flatten.uniq
-      users    = User.where(id: user_ids)
+      tasks    = incomplete.where(completion_date: Date.tomorrow).exclude_exited_ngo_clients
+      user_ids = tasks.map(&:user_id).flatten.uniq
+      users    = User.non_devs.where(id: user_ids)
       users.each do |user|
         CaseWorkerMailer.tasks_due_tomorrow_of(user).deliver_now
       end

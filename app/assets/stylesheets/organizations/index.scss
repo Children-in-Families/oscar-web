@@ -20,7 +20,12 @@ body[id='organizations-index']{
     }
     img {
       max-height: 50%;
+      max-width: 80%;
     }
+  }
+
+  li#language-selection-dropdown {
+    padding: 10px;
   }
 
   @media (min-width: 768px) {

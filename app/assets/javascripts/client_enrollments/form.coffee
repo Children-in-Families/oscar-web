@@ -4,6 +4,11 @@ CIF.Client_enrolled_programsNew = CIF.Client_enrolled_programsCreate = CIF.Clien
     _initSelect2()
     _initFileInput()
     _preventRequireFileUploader()
+    _toggleCheckingRadioButton()
+
+  _toggleCheckingRadioButton = ->
+    $('input[type="radio"]').on 'ifChecked', (e) ->
+      $(@).parents('span.radio').siblings('.radio').find('.iradio_square-green').removeClass('checked')
 
   _initSelect2 = ->
     $('select').select2()

@@ -28,8 +28,13 @@ Rails.application.routes.draw do
   scope 'admin' do
     resources :users do
       resources :custom_field_properties
+      resources :permissions
       get 'version' => 'users#version'
       get 'disable' => 'users#disable'
+      # member do
+      #   post :enable_multi_factor_authentication, to: 'users/multi_factor_authentication#verify_enable'
+      #   post :disable_multi_factor_authentication, to: 'users/multi_factor_authentication#verify_disabled'
+      # end
     end
   end
 
@@ -53,9 +58,13 @@ Rails.application.routes.draw do
     get 'version' => 'domains#version'
   end
 
-  resources :provinces, except: [:show] do
-    get 'version' => 'provinces#version'
-  end
+  # resources :provinces, except: [:show] do
+  #   get 'version' => 'provinces#version'
+  # end
+
+  # resources :districts, except: [:show] do
+  #   get 'version' => 'districts#version'
+  # end
 
   resources :departments, except: [:show] do
     get 'version' => 'departments#version'
@@ -66,7 +75,10 @@ Rails.application.routes.draw do
   end
 
   resources :program_streams do
-    get :preview, on: :collection
+    collection do
+      get :search
+      get :preview
+    end
   end
 
   resources :changelogs do
@@ -74,20 +86,6 @@ Rails.application.routes.draw do
   end
 
   get '/data_trackers' => 'data_trackers#index'
-
-  namespace :able_screens, path: '/' do
-    namespace :question_submissions, path: '/' do
-      resources :stages
-      resources :able_screening_questions, except: [:index, :show]
-    end
-
-    namespace :answer_submissions do
-      resources :clients do
-        get 'able_screening_answers/new', to: 'able_screening_answers#new'
-        post 'able_screening_answers/create', to: 'able_screening_answers#create'
-      end
-    end
-  end
 
   resources :materials, except: [:show] do
     get 'version' => 'materials#version'
@@ -104,10 +102,8 @@ Rails.application.routes.draw do
   resources :interventions, except: [:show] do
     get 'version' => 'interventions#version'
   end
-
-  resources :tasks, only: :index
-
   resources :clients do
+
     collection do
       get :advanced_search
     end
@@ -142,7 +138,7 @@ Rails.application.routes.draw do
     end
     # resources :surveys
 
-    resources :progress_notes do
+    resources :progress_notes, except: [:new, :create] do
       get 'version' => 'progress_notes#version'
     end
 
@@ -165,11 +161,19 @@ Rails.application.routes.draw do
     get 'version' => 'partners#version'
   end
 
-  resources :notifications, only: [:index]
+  resources :notifications, only: [:index] do
+    collection do
+      get :program_stream_notify
+    end
+  end
 
   namespace :api do
     mount_devise_token_auth_for 'User', at: '/v1/auth', skip: [:passwords]
     resources :form_builder_attachments, only: :destroy
+
+    resources :provinces, only: :index do
+      resources :districts, only: :index
+    end
 
     resources :clients do
       get :compare, on: :collection
@@ -209,7 +213,9 @@ Rails.application.routes.draw do
       resources :organizations, only: [:index]
       resources :domain_groups, only: [:index]
       resources :departments, only: [:index]
-      resources :families, only: [:index, :create, :update]
+      resources :families, only: [:index, :create, :update] do
+        resources :custom_field_properties, only: [:create, :update, :destroy]
+      end
       resources :users, only: [:index, :show]
       resources :clients, except: [:edit, :new] do
         get :compare, on: :collection
@@ -220,13 +226,14 @@ Rails.application.routes.draw do
         scope module: 'client_tasks' do
           resources :tasks, only: [:create, :update, :destroy]
         end
-        resources :client_enrollments, only: [:create, :update] do
-          resources :client_enrollment_trackings, only: [:create, :update]
-          resources :leave_programs, only: [:create, :update]
+        resources :client_enrollments, only: [:create, :update, :destroy] do
+          resources :client_enrollment_trackings, only: [:create, :update, :destroy]
+          resources :leave_programs, only: [:create, :update, :destroy]
         end
       end
       resources :program_streams, only: [:index]
       resources :provinces, only: [:index]
+      resources :districts, only: [:index]
       resources :donors, only: [:index]
       resources :agencies, only: [:index]
       resources :referral_sources, only: [:index]
@@ -245,6 +252,14 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :client_advanced_searches, only: :index
+  resources :advanced_search_save_queries
+  # resources :client_advanced_searches, only: :index
   resources :papertrail_queries, only: [:index]
+
+  resources :settings do
+    collection do
+      get 'country' => 'settings#country'
+    end
+  end
+
 end

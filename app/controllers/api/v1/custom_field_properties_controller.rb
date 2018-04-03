@@ -1,12 +1,17 @@
 module Api
   module V1
     class CustomFieldPropertiesController < Api::V1::BaseApiController
-      before_action :find_client
+      include FormBuilderAttachments
+
+      before_action :find_entity
       before_action :find_custom_field_property, only: [:update, :destroy]
 
       def create
-        custom_field_property = @client.custom_field_properties.new(custom_field_property_params)
+        custom_field_property = @custom_formable.custom_field_properties.new(custom_field_property_params)
         if custom_field_property.save
+          custom_field_property.form_builder_attachments.map do |c|
+            custom_field_property.properties = custom_field_property.properties.merge({ c.name => c.file })
+          end
           render json: custom_field_property
         else
           render json: custom_field_property.errors, status: :unprocessable_entity
@@ -14,18 +19,22 @@ module Api
       end
 
       def update
-        attachments = params['custom_field_property']['attachments']
-        add_more_attachments(attachments) if attachments.present?
         if @custom_field_property.update_attributes(custom_field_property_params) && @custom_field_property.save
+          add_more_attachments(@custom_field_property)
+          @custom_field_property.form_builder_attachments.map do |c|
+            @custom_field_property.properties = @custom_field_property.properties.merge({ c.name => c.file })
+          end
           render json: @custom_field_property
         else
-          render json: custom_field_property.errors, status: :unprocessable_entity
+          render json: @custom_field_property.errors, status: :unprocessable_entity
         end
       end
 
       def destroy
-        if params[:file_index].present?
-          remove_attachment_at_index(params[:file_index].to_i)
+        name = params[:file_name]
+        index = params[:file_index].to_i
+        if name.present? && index.present?
+          delete_form_builder_attachment(@custom_field_property, name, index)
           render json: { error: "Failed deleting attachment" } unless @custom_field_property.save
         else
           @custom_field_property.destroy
@@ -36,29 +45,28 @@ module Api
       private
 
       def find_custom_field_property
-        @custom_field_property = @client.custom_field_properties.find(params[:id])
+        @custom_field_property = @custom_formable.custom_field_properties.find(params[:id])
       end
 
       def custom_field_property_params
-        params[:custom_field_property][:properties].keys.each do |k|
-          params[:custom_field_property][:properties][k].delete('') if params[:custom_field_property][:properties][k].class == Array && params[:custom_field_property][:properties][k].count > 1
+        custom_form_fields = CustomField.find(params[:custom_field_id]).fields.map{|c| [c['name'], c['label'], c['type']]}
+        custom_form_fields.each do |name, label, type|
+          if type == 'file' && attachment_params.present?
+            attachment_params.values.each do |attachment|
+              attachment['name'] = label if attachment['name'] == name
+            end
+          end
+          if type != 'file' && properties_params.present?
+            properties_params.keys.each do |key|
+              properties_params[label] = properties_params.delete key if key == name
+            end
+          end
         end
-        default_params = params.require(:custom_field_property).permit({}).merge(properties: params[:custom_field_property][:properties], custom_field_id: params[:custom_field_id])
-        default_params = default_params.merge(attachments: params[:custom_field_property][:attachments]) if action_name == 'create'
+        properties_params.values.map{ |v| v.delete('') if (v.is_a?Array) && v.size > 1 } if properties_params.present?
+        default_params = params.require(:custom_field_property).permit({}).merge(custom_field_id: params[:custom_field_id])
+        default_params = default_params.merge(properties: properties_params) if properties_params.present?
+        default_params = default_params.merge(form_builder_attachments_attributes: attachment_params) if action_name == 'create' && attachment_params.present?
         default_params
-      end
-
-      def add_more_attachments(new_files)
-        files = @custom_field_property.attachments
-        files += new_files
-        @custom_field_property.attachments = files
-      end
-
-      def remove_attachment_at_index(index)
-        remain_attachment = @custom_field_property.attachments
-        deleted_attachment = remain_attachment.delete_at(index)
-        deleted_attachment.try(:remove!)
-        remain_attachment.empty? ? @custom_field_property.remove_attachments! : (@custom_field_property.attachments = remain_attachment )
       end
     end
   end

@@ -1,0 +1,18 @@
+.modal.fade.modal-fullscree#active_tasks_list{ 'aria-labelledby': 'gridSystemModalLabel', role: 'dialog', tabindex: '-1', 'alert-translation': t('.checkbox_alert') }
+  .modal-dialog.modal-active-list-width{ role: 'document' }
+    .modal-content
+      .modal-body
+        .panel.panel-default#users-task-panel
+          .panel-heading.active-task-heading
+            %h3.text-center= t('.all_active_tasks')
+          .panel-body
+            .row
+              .col-xs-12
+                - if can? :read, Task
+                  .panel.panel-default
+                    .panel-body
+                      = render 'users_filter'
+                - if params[:user_id] || current_user.case_worker? || current_user.any_case_manager? || current_user.able_manager?
+                  = render 'overdue'
+                  = render 'duetoday'
+                  = render 'upcoming'

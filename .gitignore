@@ -14,6 +14,7 @@
 # Ignore all logfiles and tempfiles.
 /log/*
 !/log/.keep
+logfile
 tmp
 /public
 .env
@@ -24,3 +25,4 @@ dump.rdb
 .DS_Store
 dump.rdb
 vendor/data
+error_district_clients.txt

@@ -111,6 +111,11 @@ en:
               blank: can't be blank
             question_group:
               blank: can't be blank
+        advanced_search:
+          attributes:
+            name:
+              blank:
+              taken:
         agency:
           attributes:
             name:
@@ -141,6 +146,14 @@ en:
           attributes:
             description:
               blank: can't be blank
+        client:
+          attributes:
+            user_ids:
+              blank: can't be blank
+        client_enrollment:
+          attributes:
+            enrollment_date:
+              blank:
         custom_field:
           attributes:
             entity_type:
@@ -180,6 +193,10 @@ en:
             action:
               blank: can't be blank
               taken: has already been taken
+        leave_program:
+          attributes:
+            exit_date:
+              blank:
         location:
           attributes:
             name:
@@ -257,66 +274,81 @@ en:
       able_state: Able State
       address: Address
       age: Age
-      agencies_involved: Agencies Involved
+      agencies_involved: Other Agencies Involved
       agency_name: Agency Name
       agency_names: Agency Name
-      birth_province: Birth Province
+      basic_fields: Client Basic Fields
+      birth_province: Client Birth Province
       birth_province_id: Birth Province
       cambodia: Cambodia
+      case_note_date: Case Note Date
+      case_note_type: Case Note Type
       case_type: Case Type
       case_worker: Case Worker
       case_worker_or_staff: Case Worker / Staff
-      code: Code
+      code: Custom ID Number1
       commune: Commune/Sangkat
       completed: Completed
       csi_domain_scores: CSI Domain Scores
       current_address: Current Address
       current_province: Current Province
+      custom_form: Custom Form
+      date_of_assessments: Date of Assessments
       date_of_birth: Date of Birth
       district: District/Khan
       donor: Donor
       donor_id: Donor
+      enrollment: Enrollment
+      exit_circumstance: Exit Circumstance
       exit_ec_date: Exit EC Date
       exit_fc_date: Exit FC Date
       exit_kc_date: Exit KC Date
+      exit_note: NGO Exit Note
+      exit_program: Exit Program
+      exit_reasons: Reason For Exit
       family: Family
       family_id: Family ID
-      family_name: Family Name
-      follow_up_by: Followed Up By
-      follow_up_date: Follow Up Date
-      followed_up_by: Followed Up By
-      followed_up_by_id: Followed Up By
+      family_name: Family Name (English)
+      follow_up_by: First Follow-Up By
+      follow_up_date: First Follow-Up Date
+      followed_up_by: First Follow-Up By
+      followed_up_by_id: First Follow-Up By
       form_title: Form Title
       frequency: Frequency
       gender: Gender
-      given_name: Given Name
-      grade: Grade
-      has_been_in_government_care: Has Been In Government Care
-      has_been_in_orphanage: Has Been In Orphanage
+      given_name: Given Name (English)
+      grade: School Grade
+      has_been_in_government_care: Has the client lived in government care
+      has_been_in_orphanage: Has the client lived in an orphanage
       house_number: House
       id: ID
       id_poor: ID Poor
       initial_referral_date: Initial Referral Date
-      kid_id: Kid ID
-      live_with: Who to live with
-      local_family_name: Family Name (Local)
-      local_given_name: Given Name (Local)
+      kid_id: Custom ID Number2
+      live_with: Primary Carer Name
+      local_family_name: Family Name (Khmer)
+      local_given_name: Given Name (Khmer)
+      main_school_contact: Main School Contact
       name: Name
+      name_of_referee: Name of Referee
       ngo_accepted_date: NGO Accept Date
       ngo_exit_date: NGO Exit Date
+      other_info_of_exit: Other - More Information
       placement_start_date: Placement Start Date
       program_stream: Program Stream
       province: Birth Province
       province_id: Current Province
-      received_by: Received By
+      quantitative: Specific Referral Data
+      rated_for_id_poor: Is The Client Rated For ID Poor
+      received_by: Referral Received By
       received_by_id: Received By
-      referral_phone: Referral Phone
+      referral_phone: Referee Phone Number
       referral_source: Referral Source
       referral_source_id: Referral Source
       referred_to_ec: Referred To EC
       referred_to_fc: Referred To FC
       referred_to_kc: Referred To KC
-      reject_note: Rejected Note
+      reject_note: Note on referral rejection
       relevant_referral_information: Relevant Referral Information
       school_grade: School Grade
       school_name: School Name
@@ -324,16 +356,25 @@ en:
       state: Accept/Reject
       status: Status
       street_number: Street
+      telephone_number: Primary Carer Phone Number
       time_of_frequency: Time of Frequency
+      tracking: Tracking
       type: Type
       user_id: Case Worker
       village: Village
-      enrollment: Enrollment
-      tracking: Tracking
-      exit_program: Exit Program
-      basic_fields: Client Basic Fields
-      custom_form: Custom Form
-      quantitative: Quantitative Type
+      what3words: What3words
+  advanced_search_save_queries:
+    create:
+      failed_create: Search setting has already been taken.
+      successfully_created: Search setting has been successfully created.
+    destroy:
+      successfully_deleted: Search setting has been successfully deleted.
+    edit:
+      description: Description
+      edit_search_setting: Edit Search Setting
+      name: Name
+    update:
+      successfully_updated: Search setting has been successfully updated.
   agencies:
     create:
       failed_create: Failed to create an agency
@@ -367,6 +408,11 @@ en:
     version:
       back: Back
       modification_of: Changelog of
+  api:
+    form_builder_attachments:
+      destroy:
+        successfully_deleted: Attachment has been successfully deleted.
+        successfully_updated:
   are_you_sure: Are you sure you want to delete?
   assessments:
     add_task_form:
@@ -375,48 +421,6 @@ en:
       enter_task_detail: Enter task details
       save: Save
       title: New Task
-    create:
-      successfully_created: Assessment has been successfully created.
-    form:
-      add_task: Add Task
-      at_least_one_task_required: At least one task is required
-      back: Back
-      domain: Domain
-      finish: Done
-      goal: Goal
-      next: Next
-      previous: Previous
-      reason: Reason
-      save: Save
-      tasks_arising: 'Tasks arising:'
-    index:
-      assessment_history: Assessment History
-      back: Back
-      begin_now: Begin now
-      initial_assessment: Initial Assessment
-      next_six_monthly_review: Next 6 Monthly Review
-      six_month_assessment: 6 Monthly Assessment
-      view_report: View Report
-    show:
-      assessment_completed_by: Assessment completed by
-      back_to_assessment_history: Back to assessment history
-      domain: Domain
-      edit: Edit
-      goal: Goal
-      initial_assessment_of: Initial Assessment Of
-      on_date: On Date
-      reason: Reason
-      score: Score
-      six_month_assessment_report: 6 Monthly Assessment Report
-      task: Task
-      show_attachment: Show Attachments
-    create:
-      successfully_created: Assessment has been successfully created.
-    update:
-      successfully_updated: Assessment has been successfully updated.
-    destroy:
-      successfully_deleted: Attachment has been successfully deleted.
-      fail_delete_attachment: Failed deleting attachment
     attachment:
       attachments: Attachments
       download: Download
@@ -428,10 +432,48 @@ en:
       download: Download
       max_file_size: "*Maximum file size: 5MB/file and 30MB/upload."
       preview_download: Preview & Download
-  api:
-    form_builder_attachments:
-      destroy:
-        successfully_deleted: Attachment has been successfully deleted.
+    create:
+      successfully_created: Assessment has been successfully created.
+    destroy:
+      fail_delete_attachment: Failed deleting attachment
+      successfully_deleted: Attachment has been successfully deleted.
+    form:
+      add_task: Add Task
+      at_least_one_task_required: At least one task is required
+      back: Back
+      domain: Domain
+      finish: Done
+      goal: 'Goal: what specific goal will the client be working toward over the next few months?'
+      next: Next
+      previous: Previous
+      reason: 'Reason: explain why you have chosen this score.'
+      save: Save
+      tasks_arising: 'Tasks arising:'
+    index:
+      assessment_completed_on: Assessment completed on
+      assessment_history: Assessment History
+      back: Back
+      begin_now: Add New Assessment
+      initial_assessment: Initial Assessment on
+      next_review: Next Review on
+      three_month_assessment: 3 Monthly Assessment
+      view_report: View Report
+    show:
+      assessment_completed_by: Assessment completed by
+      assessment_completed_for: Assessment completed for
+      back_to_assessment_history: Back to assessment history
+      domain: Domain
+      edit: Edit
+      goal: 'Goal: what specific goal will the client be working toward over the next few months?'
+      initial_assessment_of: Initial Assessment Of
+      on_date: On Date
+      reason: 'Reason: explain why you have chosen this score.'
+      score: Score
+      show_attachment: Show Attachments
+      task: Task
+      three_month_assessment_report: 3 Monthly Assessment Report
+    update:
+      successfully_updated: Assessment has been successfully updated.
   back: Back
   calendars:
     index:
@@ -487,6 +529,9 @@ en:
       preview_download: Preview & Download
     create:
       successfully_created: Case Note has successfully been created.
+    destroy:
+      fail_delete_attachment: Failed deleting attachment
+      successfully_deleted: Attachment has been successfully deleted.
     form:
       add_task: Add Task
       back: Back
@@ -502,6 +547,7 @@ en:
       save: Save
       tasks: Tasks
       tasks_arising: Tasks Arising
+      type: "Type (Note: Choose 'visit' only if you met with the client.)"
     form_with_assessment_domains:
       add_task: Add Task
       domain: Domain
@@ -513,6 +559,7 @@ en:
       goal: Goal
       note: Note
     index:
+      attachments: Attachments
       back: Back
       case_note_lists: Case note lists of
       case_note_on: Case note on
@@ -522,16 +569,13 @@ en:
       new_case_note: New case note
       note: Note
       present: Who was there during the visit or conversation?
+      type: "Type (Note: Choose 'visit' only if you met with the client.)"
       you_need_to_create_assessment: You need to create assessment
-      attachments: Attachments
     show:
       case_note_on: Case note on
       present: Who was there during the visit or conversation?
     update:
       successfully_updated: Case Note has successfully been updated.
-    destroy:
-      successfully_deleted: Attachment has been successfully deleted.
-      fail_delete_attachment: Failed deleting attachment
   cases:
     create:
       already_have_a_case: Client is already have a case.
@@ -638,6 +682,16 @@ en:
         one: You have 1 assessment overdue.
         other: You have %{count} assessments overdue.
   client:
+    # form_option:
+    #   basic_fields: Client Basic Fields
+    #   csi_domain_scores: CSI Domain Scores
+    #   custom_form: Custom Form
+    #   enrollment: Enrollment
+    #   exit_program: Exit Program
+    #   filter_option: Please choose your query options below
+    #   program_stream: Program Stream
+    #   quantitative: Specific Referral Data
+    #   tracking: Tracking
     tasks:
       create:
         successfully_created: Task has successfully been created.
@@ -673,81 +727,32 @@ en:
         enter_task_detail: Enter task details
       update:
         successfully_updated: Task has successfully been updated.
-  client_advanced_searches:
-    form_option:
-      basic_fields: Client Basic Fields
-      csi_domain_scores: CSI Domain Scores
-      custom_form: Custom Form
-      end_date: End Date
-      enrollment: Enrollment
-      exit_program: Exit Program
-      filter_option: Please choose your query options below
-      historical_search: Historical Search
-      program_stream: Program Stream
-      start_date: Start Date
-      tracking: Tracking
-      quantitative: Quantitative Type
-    index:
-      client_column: Client basic columns
-      custom_form_column: Custom form columns
-      program_stream_column: Program stream columns
-      add_new_filter: Add New Filter
-      add_new_group: Add Group
-      advanced_search: Advanced Search
-      assessments: Assessments
-      csi_domain_scores: CSI Domain Scores
-      delete_group: Delete
-      export_to_xls: Export to XLS
-      no_results: No Result Found
-      reset: Reset
-      results: Results
-      search: Search
-  client_enrollment_trackings:
-    action:
-      new_tracking: New Tracking
-    create:
-      successfully_created: Tracking Program has been successfully created.
-    destroy:
-      successfully_deleted: Tracking Program has been successfully deleted.
-      delete_attachment_successfully: Attachment has been successfully deleted.
-    edit:
-      edit_tracking: Edit Tracking
-    form:
-      allow_file_size: Allowed file types
-      cancel: Cancel
-      save: Save
-      max_file_size: "*Maximum file size: 5MB/file and 30MB/upload."
-    index:
-      programs_list: Programs List
-      tracking_lists: Trackings List
-    new:
-      new_tracking: New Tracking
-    report:
-      are_you_sure: Are you sure you want to delete?
-      back: Back
-      created_at: Created Date
-      new_tracking: New Tracking
-    show:
-      back: Back
-      trackings_list: Client Trackings List
-    update:
-      successfully_updated: Tracking Program has been successfully updated.
-  leave_enrolled_programs:
-    create:
-      successfully_created: Client has been successfully exited from the program.
-    edit:
-      leave_program: Edit Leave Program
-    form:
-      cancel: Cancel
-      exit_date: Exit Date
-      save: Save
-    new:
-      new_exit_program: New Exit Program
-    show:
-      back: Back
-      exit_date: Exited on
-    update:
-      successfully_updated: Exit Program has been successfully updated.
+  # client_advanced_searches:
+  #   form_option:
+  #     basic_fields: Client Basic Fields
+  #     csi_domain_scores: CSI Domain Scores
+  #     custom_form: Custom Form
+  #     enrollment: Enrollment
+  #     exit_program: Exit Program
+  #     filter_option: Please choose your query options below
+  #     program_stream: Program Stream
+  #     quantitative: Specific Referral Data
+  #     tracking: Tracking
+  #   index:
+  #     add_new_filter: Add New Filter
+  #     add_new_group: Add Group
+  #     advanced_search: Advanced Search
+  #     assessments: Assessments
+  #     client_column: Client General Information
+  #     csi_domain_scores: CSI Domain Scores
+  #     custom_form_column: Information form Custom Forms
+  #     delete_group: Delete
+  #     export_to_xls: Export to XLS
+  #     no_results: No Result Found
+  #     program_stream_column: Program stream columns
+  #     reset: Reset
+  #     results: Results
+  #     search: Search
   client_enrolled_program_trackings:
     action:
       new_tracking: New Tracking
@@ -789,7 +794,7 @@ en:
     index:
       actions: Actions
       back: Back
-      domain: Domain
+      domain: Associated Domains
       name: Program Name
       program_lists: Programs List
       quantity: Number of Place Available
@@ -802,7 +807,7 @@ en:
       full_program: This Program is full.
       tracking: Trackings
     new:
-      client_not_valid: Client doesn't match with this program rules.
+      client_not_valid: Client doesn't match with this program conditions.
       new_enrollment: New Enrollment
     report:
       actions: Actions
@@ -820,25 +825,55 @@ en:
       enrollment_date: Enrolled on
     update:
       successfully_updated: Enrollment has been successfully updated.
+  client_enrollment_trackings:
+    action:
+      new_tracking: New Tracking
+    create:
+      successfully_created: Tracking Program has been successfully created.
+    destroy:
+      delete_attachment_successfully: Attachment has been successfully deleted.
+      successfully_deleted: Tracking Program has been successfully deleted.
+    edit:
+      edit_tracking: Edit Tracking
+    form:
+      allow_file_size: Allowed file types
+      cancel: Cancel
+      max_file_size: "*Maximum file size: 5MB/file and 30MB/upload."
+      save: Save
+    index:
+      programs_list: Programs List
+      tracking_lists: Trackings List
+    new:
+      new_tracking: New Tracking
+    report:
+      are_you_sure: Are you sure you want to delete?
+      back: Back
+      created_at: Created Date
+      new_tracking: New Tracking
+    show:
+      back: Back
+      trackings_list: Client Trackings List
+    update:
+      successfully_updated: Tracking Program has been successfully updated.
   client_enrollments:
     create:
       successfully_created: Enrollment has been successfully created.
     destroy:
-      successfully_deleted: Enrollment has been successfully deleted.
       delete_attachment_successfully: Attachment has been successfully deleted.
+      successfully_deleted: Enrollment has been successfully deleted.
     edit:
       enrollment: Edit Enrollment
     form:
       allow_file_size: Allowed file types
       cancel: Cancel
       enrollment_date: Enrollment Date
+      max_file_size: "*Maximum file size: 5MB/file and 30MB/upload."
       not_an_email: not an email
       save: Save
-      max_file_size: "*Maximum file size: 5MB/file and 30MB/upload."
     index:
       actions: Actions
       back: Back
-      domain: Domain
+      domain: Associated Domains
       name: Program Name
       program_lists: Programs List
       quantity: Number of Place Available
@@ -851,7 +886,7 @@ en:
       full_program: This Program is full
       tracking: Trackings
     new:
-      client_not_valid: Client doesn't match with this program rules.
+      client_not_valid: Client doesn't match with this program conditions.
       new_enrollment: New Enrollment
     report:
       actions: Actions
@@ -875,6 +910,53 @@ en:
     answer_fields:
       answer: Answer
       yes_no: Yes/No
+    client_advanced_searches:
+      advanced_search:
+        add_new_filter: Add New Filter
+        add_new_group: Add Group
+        advanced_search: Advanced Search
+        assessments: Assessments
+        client_column: Client basic columns
+        csi_domain_scores: CSI Domain Scores
+        custom_form_column: Custom form columns
+        delete_group: Delete
+        export_to_xls: Export to XLS
+        no_results: No Result Found
+        program_stream_column: Program stream columns
+        reset: Reset
+        results: Results
+        search: Search
+      form_option:
+        basic_fields: Basic Fields
+        csi_domain_scores: Csi Domain Scores
+        custom_form: Custom Form
+        enrollment: Enrollment
+        exit_program: Exit Program
+        filter_option: Please choose your query options below
+        program_stream: Program Stream
+        quantitative: Specific Referral Data
+        tracking: Tracking
+      load_save_search:
+        my_saved_search: My Saved Search
+        other_saved_search: Other Saved Search
+        search_settings_list: Search Settings List
+      my_saved_searches:
+        action: Action
+        date: Date
+        description: Description
+        load: Load
+        name: Name
+      other_saved_searches:
+        action: Action
+        date: Date
+        description: Description
+        load: Load
+        name: Name
+        owner: Owner
+      save_search_setting:
+        description: Description
+        name: Name
+        new_search_setting: New Search Setting
     client_answers:
       answer: A
       client_able_answers: Client Able Answers
@@ -913,12 +995,11 @@ en:
       start_date: Start Date
       support_amount: Support Amount
       support_note: Support Note
-    exit_ngo_form:
-      exit_btn: Exit
-      exit_date: Exit Date
-      exit_ngo: Exit NGO
-      exit_note: Exit Note
-      exit_status: Status
+    enter_ngo_form:
+      accept: Accept
+      accept_ngo_form: Enter Ngo Form
+      accepted_date: Accepted Date
+      case_worker_or_staff: Case Worker / Staff
     exit_case_form:
       exit_btn: Exit
       exit_date: Exit Date
@@ -928,18 +1009,31 @@ en:
       exit_ngo: Exit NGO
       exit_note: Exit Note
       exit_status: Status
+    exit_ngo_form:
+      case_worker_or_staff: Case Worker / Staff
+      exit_btn: Exit
+      exit_circumstance: Exit Circumstance
+      exit_date: Exit Date
+      exit_ngo: Exit Client from NGO
+      exit_note: Exit Note
+      exit_reasons: Reason for Exit / Case Rejection
+      exit_status: Status
+      other_info_of_exit: Other - More Information
+      reject_client: Reject Client
+      rejected_note: Rejected Note
     form:
       able: Able
       able_state: Able State
       address: Address
-      agencies_involved: Agencies Involved
+      agencies_involved: Other Agencies Involved
       agency_names: Agency Name
       answer: Answer
-      birth_province: Birth Province
+      birth_province: Client Birth Province
+      blank: can't be blank
       cambodia: Cambodia
       case_worker: Case Worker
       case_worker_or_staff: Case Worker / Staff
-      code: Code
+      code: Custom ID Number1
       commune: Commune/Sangkat
       completed: Completed
       current_address: Current Address
@@ -947,34 +1041,65 @@ en:
       custom_forms: Custom Forms
       date_of_birth: Date of Birth
       district: District/Khan
+      done: Done
       donor: Donor
       exit_date: NGO Exit Date
       exit_note: Exit Note
       exit_status: Exit Status
-      family_name: Family Name
-      follow_up_by: Followed Up By
-      follow_up_date: Follow Up Date
-      followed_up_by: Followed Up By
+      family_name: Family Name (English)
+      follow_up_by: First Follow-Up By
+      follow_up_date: First Follow-Up Date
+      followed_up_by: First Follow-Up By
       from: From
       gender: Gender
       general_question: General Question
-      given_name: Given Name
-      has_been_in_government_care: Has Been In Government Care
-      has_been_in_orphanage: Has Been In Orphanage
+      given_name: Given Name (English)
+      gov_caseworker_comment: Caseworker comment
+      gov_caseworker_comment_section: Caseworker comment on needs and challenges of the client
+      gov_caseworker_name: Caseworker name
+      gov_city: City/Province
+      gov_client_basic_info: Primary information from the client
+      gov_client_carer: Client carer
+      gov_client_carer_name: Name
+      gov_client_carer_relationship: Relationship
+      gov_client_code: Client code
+      gov_client_need: Please indicate the type of need (priority numbering)
+      gov_client_problem: Please highlight key challenges (priority numbering)
+      gov_client_types: Client type
+      gov_commune: Commune/Sangkat
+      gov_date: Date
+      gov_district: District/Khan
+      gov_government_form: Government Form
+      gov_guardian_comment: Comments from the client/guardians about issues and needs
+      gov_home: Home
+      gov_information_source: Information source
+      gov_interviewees: Interviewees
+      gov_phone: Phone number
+      gov_place_of_interview_client: Place of interview
+      gov_reason_of_referral_and_need: Reasons of transmission and needs
+      gov_street: Street
+      gov_summary_reason_of_referral: Brief information on the reasons for client transmission
+      gov_village: Village
+      gov_village_code: Village code
+      has_been_in_government_care: Has the client lived in government care
+      has_been_in_orphanage: Has the client lived in an orphanage
       house_number: House
       id: ID
       id_poor: ID Poor
+      is_the_client_rated_for_id_poor: Is The Client Rated For ID Poor
       initial_referral_date: Initial Referral Date
-      kid_id: Kid ID
-      live_with: Who to live with
-      local_family_name: Family Name (Local)
-      local_given_name: Given Name (Local)
+      kid_id: Custom ID Number2
+      live_with: Primary Carer Name
+      local_family_name: Family Name (Khmer)
+      local_given_name: Given Name (khmer)
       name: Name
+      next: Next
+      previous: Previous
       province: Birth Province
-      received_by: Received By
-      referral_phone: Referral Phone
+      received_by: Referral Received By
+      referral_phone: Referee Phone Number
       referral_source: Referral Source
-      reject_note: Rejected Note
+      reject_note: Note on referral rejection
       relevant_referral_information: Relevant Referral Information
       school_grade: School Grade
       school_name: School Name
@@ -982,10 +1107,13 @@ en:
       state: Accept/Reject
       status: Status
       street_number: Street
+      telephone_number: Primary Carer Phone Number
       to: To
       village: Village
       year: Year
       yes_no: Yes/No
+    form_header:
+      case_worker_or_staff: Case Worker / Staff
     foster_case:
       carer_address: Carer Address
       carer_names: Carer Names
@@ -1006,22 +1134,54 @@ en:
       start_date: Start Date
       support_amount: Support Amount
       support_note: Support Note
+
+    getting_started:
+      case_worker_or_staff: Case Worker / Staff
+      date_of_birth: Date of Birth
+      family_name: Family Name (English)
+      first_followed_up_by: First Follow-Up By
+      first_followed_up_date: First Follow-Up Date
+      gender: Gender
+      getting_started: Getting Started
+      given_name: Given Name (English)
+      initial_referral_date: Initial Referral Date
+      living_detail: Living Details
+      local_family_name: Family Name (Khmer)
+      local_given_name: Given Name (Khmer)
+      name_of_referee:  Name of Referee
+      other_detail: Other Details
+      referee_phone_number: Referee Phone Number
+      referral_information: Referral Information
+      referral_received_by: Referral Received By
+      referral_source: Referral Source
+      specific_point: Specific Point-of-Referral Data
+      staff_responsibilities: Staff Responsibilities
+
     index:
+      active_programs: Active Programs
       add_new_client: Add New Client
-      advanced_search: Advanced Search
+      # advanced_search: Advanced Search
+      all_csi_assessments: All CSI Assessments
       assessments: Assessments
-      case_statistics: Case Statistics
-      client_amount: Client Amounts
+      # case_statistics: Case Statistics
+      client_amount: Clients
       csi_domain_scores: CSI Domain Scores
       domain_score: Domain Scores
       end: Loading end!
       export_to_xls: Export to XLS
       load: Loading more...
-      reports: Reports
+      load_save_search: Load Saved Search
+      most_recent: Most Recent
+      read_less: read less
+      read_more: read more
+      report_builder: Report Builder
+      reports: Quick Graph
       results: Results
       sInfoShow: show results from
       sInfoTo: to
       sInfoTotal: of
+      save_search_settings: Save Search Settings
+      show_all: Show All
       view_all_active_tasks: View All Active  Tasks
     kinship_case:
       carer_address: Carer Address
@@ -1043,8 +1203,43 @@ en:
       start_date: Start Date
       support_amount: Support Amount
       support_note: Support Note
+
+    living_detail:
+      case_worker_or_staff: Case Worker / Staff
+      commune: Address - Commune/Sangkat
+      contact_details: Contact Details
+      current_address: Current Address
+      current_province: Current Province
+      district: Address - District/Khan
+      house_number: Address - House#
+      living_detail: Living Details
+      main_school_contact: Main School Contact
+      primary_carer_name: Primary Carer Name
+      primary_carer_phone_number: Primary Carer Phone Number
+      school_grade: School Grade
+      school_name: School Name
+      schooling: Schooling
+      street_number: Address - Street
+      village: Address - Village
+      what3words: What3words
+
     new:
       new_client_title: New Client
+
+    other_detail:
+      agencies_involved: Other Agencies Involved
+      case_worker_or_staff: Case Worker / Staff
+      custom_id_number1: Custom ID Number 1
+      custom_id_number2: Custom ID Number 2
+      donor: Donor
+      has_been_in_government_care: Has the client lived in government care
+      has_been_in_orphanage: Has the client lived in an orphanage
+      is_the_client_rated_for_id_poor: Is the Client Rated for ID Poor
+      other_detail: Other Details
+      other_information: Other Information
+      province: Client Birth Province
+      relevant_referral_information: Relevant Referral Information / Notes
+
     placement:
       view_legacy_quarterly_reports: View Legacy Quarterly Reports
     remaining_programs:
@@ -1066,51 +1261,71 @@ en:
       additional_info: Additional Information
       address: Address
       age: Age
-      agencies_involved: Agencies Involved
+      agencies_involved: Other Agencies Involved
       agency_names: Agency Name
       are_you_sure: Are you sure you want to delete?
-      birth_province: Birth Province
+      birth_province: Client Birth Province
       cambodia: Cambodia
       case_history: Case History
       case_worker: Case Worker
       case_worker_or_staff: Case Worker / Staff
       client_able_answers: Client Able Answers
-      code: Code
+      code: Custom ID Number1
       commune: Commune/Sangkat
       completed: Completed
       current_address: Current Address
       current_province: Current Province
+      custom_id_number1: Custom ID Number 1
+      custom_id_number2: Custom ID Number 2
       date_of_birth: Date of Birth
       district: District/Khan
       donor: Donor
+      edit_exit_information: Edit Exit Information
       enrolled_program_streams: Enrolled Program Streams
+      exit_circumstance: Exit Circumstance
       exit_date: NGO Exit Date
       exit_from_ec: Exit From EC
       exit_from_fc: Exit From FC
       exit_from_kc: Exit From KC
       exit_ngo_btn: Exit From NGO
       exit_note: Exit Note
+      exit_reasons: Reason for Exit / Case Rejection
       families: Families
-      family_name: Family Name
-      follow_up_by: Followed Up By
-      follow_up_date: Follow Up Date
-      followed_up_by: Followed Up By
+      family_name: Family Name (English)
+      follow_up_by: First Follow-Up By
+      follow_up_date: First Follow-Up Date
+      followed_up_by: First Follow-Up By
       gender: Gender
       general_info: About Client
-      given_name: Given Name
-      government_report: Government Reports
-      has_been_in_government_care: Has Been In Government Care
-      has_been_in_orphanage: Has Been In Orphanage
+      given_name: Given Name (English)
+      government_form_five: Follow up the Child in Alternative Care Form
+      government_form_four: Placement-Reintegration Form
+      government_form_one: Initial Information Form
+      government_form_six: Case closure Form
+      government_form_three: Family Service Plan Form
+      government_form_two: Assessment for Family Preservation Form
+      government_report: Government Report
+      has_been_in_government_care: Has the client lived in government care
+      has_been_in_orphanage: Has the client lived in an orphanage
       house_number: House
       id: ID
       id_poor: ID Poor
       initial_referral_date: Initial Referral Date
-      kid_id: Kid ID
-      live_with: Who to live with
-      local_family_name: Family Name (Local)
-      local_given_name: Given Name (Local)
+      is_the_client_rated_for_id_poor: Is the client rated for ID poor
+      kid_id: Custom ID Number2
+      live_with: Primary Carer Name
+      local_family_name: Family Name (Khmer)
+      local_given_name: Given Name (khmer)
+      main_school_contact: Main School Contact
       name: Name
       note: Note
+      name_of_referee: Name Of Referee
+      other_info_of_exit: Other - More Information
+      primary_carer_name: Primary Carer Name
+      primary_carer_phone_number: Primary Carer Phone Number
+      referee_phone_number: Referee Phone Number
+      rejected_note: Rejected Note
+
       placements:
         carer_address: Carer Address
         carer_names: Carer Names
@@ -1130,12 +1345,12 @@ en:
       program_streams: Program Streams
       progress_note: Progress Note
       province: Birth Province
-      received_by: Received By
-      referral_phone: Referral Phone
+      received_by: Referral Received By
+      referral_phone: Referee Phone Number
       referral_source: Referral Source
       reject: Reject
       reject_client: Reject
-      reject_note: Rejected Note
+      reject_note: Note on referral rejection
       relevant_referral_information: Relevant Referral Information
       school_grade: School Grade
       school_name: School Name
@@ -1144,6 +1359,7 @@ en:
       street_number: Street
       survey_history: Survey History
       take_survey: Take Survey
+      telephone_number: Primary Carer Phone Number
       time_in_care: Time In Care
       time_in_care_around:
         one: Around %{count} year
@@ -1156,8 +1372,14 @@ en:
       view_legacy_quarterly_reports: Legacy Quarterly Reports
       view_tasks: Tasks
       village: Village
+      what3words: What3words
+
+    specific_point:
+      case_worker_or_staff: Case Worker / Staff
+      specific_point: Specific Point-of-Referral Data
+
     state:
-      rejected_note: Rejected Note
+      rejected_note: Note on referral rejection
       state: Accept/Reject
     update:
       assessment_successfully_created: Assessment has been successfully created.
@@ -1195,6 +1417,15 @@ en:
     update:
       successfully_updated: Custom Field Property has been successfully updated.
   dashboards:
+    active_tasks:
+      all_active_tasks: All Active Tasks
+      checkbox_alert: Please check one of the checkboxes
+      domain: Domain
+      overdue_tasks: Overdue
+      today_tasks: Today
+      upcoming_tasks: Upcoming
+    active_tasks_side:
+      active_tasks: Active Tasks
     client:
       ables: Ables
       clients: Active Clients
@@ -1204,13 +1435,23 @@ en:
       kinship_cares_html: Kinship <br/>Cares
       males: Males
     client_program_stream_by_gender:
-      active_program_streams: Active Program Streams
       active_progarm_streams_by_gender: Active Program Streams by client gender
+      active_program_streams: Active Program Streams
       client_active_in_programs: Active Program Streams
+    duetoday:
+      assessment: Assessment
+      duetoday_tasks: Due today Tasks
+      forms: Forms
+      tasks: Tasks
     family:
       families: Families
       foster: Foster
       kinship: Kinship
+    overdue:
+      assessment: Assessment
+      forms: Forms
+      overdue_tasks: Overdue Tasks
+      tasks: Tasks
     program_stream:
       program_stream: Program Streams
     third_party:
@@ -1219,6 +1460,18 @@ en:
       partners: Partners
       referral_sources: Referral Sources
       staffs: Staff Members
+    upcoming:
+      assessment: Assessment
+      forms: Forms
+      tasks: Tasks
+      upcoming_tasks: Upcoming Tasks
+    users_filter:
+      apply: Apply
+      assessments: Assessment
+      filter_by_user: Filter by user
+      forms: Forms
+      select_user: Select user
+      tasks: Tasks
   data_trackers:
     index:
       able_screening_questions: Able Screening Questions
@@ -1233,6 +1486,7 @@ en:
       clients: Clients
       custom_fields: Custom Forms
       departments: Departments
+      districts: Districts/Khan
       domain_groups: Domain Groups
       domains: Domains
       donors: Donors
@@ -1248,8 +1502,8 @@ en:
       progress_note_types: Types of Note
       progress_notes: Progress Notes
       provinces: Provinces
-      quantitative_cases: Quantitative Data
-      quantitative_types: Quantitative Types
+      quantitative_cases: Specific Referral Data Option
+      quantitative_types: Specific Referral Data
       referral_sources: Referral Sources
       releaselogs: Releaselogs
       stages: Stages
@@ -1261,16 +1515,20 @@ en:
       show: Show
   datagrid:
     columns:
+      all_csi_assessments: All CSI Assessments
       carer_address: Carer Address
       carer_names: Carer Names
       carer_phone_number: Carer Phone Number
+      case_note_date: Case Note Date
+      case_note_type: Case Note Type
       case_start_date: Case Start Date
       cases:
         case_type: Case Type
+        telephone_number: Primary Carer Phone Number
       changelog: Changelog
       client_enrollments:
         action: Action
-        domain: Domain
+        domain: Associated Domains
         name: Program Name
         quantity: Number of Place Available
         report: Report
@@ -1280,38 +1538,45 @@ en:
         able_state: Able State
         address: Address
         age: Age
-        agencies_involved: Agencies Involved
+        agencies_involved: Other Agencies Involved
         agency_names: Agency Name
+        all_csi_assessments: All CSI Assessments
         any_assessments: Has Assessments
         assessments: Assessments
         assessments_due_to: Assessments Due To
-        birth_province: Birth Province
+        birth_province: Client Birth Province
         cambodia: Cambodia
+        case_note_date: Case Note Date
+        case_note_type: Case Note Type
         case_type: Case Type
         case_worker: Case Worker
         case_worker_or_staff: Case Worker / Staff
         changelogs: Changelog
-        code: Code
+        code: Custom ID Number1
         commune: Commune/Sangkat
         completed: Completed
         current_address: Current Address
         current_province: Current Province
+        date_of_assessments: Date of Assessments
         date_of_birth: Date of Birth
         district: District/Khan
         domain: Domain
         domains: All CSI
         donor: Donor
+        exit_circumstance: Exit Circumstance
+        exit_note: NGO Exit Note
+        exit_reasons: Reason For Exit
         family_id: Family ID
-        family_name: Family Name
-        follow_up_by: Followed Up By
-        follow_up_date: Follow Up Date
-        followed_up_by: Followed Up By
+        family_name: Family Name (English)
+        follow_up_by: First Follow-Up By
+        follow_up_date: First Follow-Up Date
+        followed_up_by: First Follow-Up By
         form_title: Form Title
         frequency: Frequency
         gender: Gender
-        given_name: Given Name
-        has_been_in_government_care: Has Been In Government Care
-        has_been_in_orphanage: Has Been In Orphanage
+        given_name: Given Name (English)
+        has_been_in_government_care: Has the client lived in government care
+        has_been_in_orphanage: Has the client lived in an orphanage
         has_date_of_birth: Has Date of Birth
         has_dob: 'Yes'
         history_of_disability_and_or_illness: History of disability and/or illness
@@ -1321,15 +1586,20 @@ en:
         id: ID
         id_poor: ID Poor
         initial_referral_date: Initial Referral Date
-        kid_id: Kid ID
-        live_with: Who to live with
-        local_family_name: Family Name (Local)
-        local_given_name: Given Name (Local)
+        kid_id: Custom ID Number2
+        lesotho: Lesotho
+        live_with: Primary Carer Name
+        local_family_name: Family Name (Khmer)
+        local_given_name: Given Name (khmer)
+        main_school_contact: Main School Contact
         manage: Manage
+        myanmar: Myanmar
         name: Name
+        name_of_referee: Name of Referee
         ngo_accepted_date: NGO Accept Date
         ngo_exit_date: NGO Exit Date
         no_dob: 'No'
+        other_info_of_exit: Other - More Information
         placement_case_type: Placement Case Type
         placement_start_date: Placement Start Date
         placements:
@@ -1352,31 +1622,43 @@ en:
         program_exit_date: Program Exit Date
         program_streams: Program Streams
         province: Birth Province
-        quantitative_case_values: Quantitative Case
-        quantitative_types: Quantitative Types
+        quantitative_case_values: Specific Referral Data Option
+        quantitative_types: Specific Referral Data
+        rated_for_id_poor: Is The Client Rated For ID Poor
         reason_for_family_separation: Reason for Family Separation
-        received_by: Received By
-        referral_phone: Referral Phone
+        received_by: Referral Received By
+        referral_information: Referral Information
+        referral_phone: Referee Phone Number
+        referral_received_by: Referral Received By
         referral_source: Referral Source
-        reject_note: Rejected Note
-        rejected_note: Rejected Note
+        reject_note: Note on referral rejection
+        rejected_note: Note on referral rejection
         relevant_referral_information: Relevant Referral Information
         school_grade: School Grade
         school_name: School Name
+        staff_responsibilities: Staff Responsibilities
         state: Accept/Reject
         status: Status
         street_number: Street
+        telephone_number: Primary Carer Phone Number
+        thailand: Thailand
         time_of_frequency: Time of Frequency
         total: Total
         type: Type
         view: View
         village: Village
+        what3words: What3words
+      date_of_assessments: Date of Assessments
+      exit_circumstance: Exit Circumstance
+      exit_note: NGO Exit Note
+      exit_reasons: Reason For Exit
       families:
         address: Address
         caregiver_information: Caregiver Information
         case_history: Case History
         case_workers: Case Workers
         changelogs: Changelog
+        client: Client
         clients: Clients
         code: Family ID
         contract_date: Contract Date
@@ -1387,6 +1669,7 @@ en:
         female: Female
         female_adult_count: Female Adult Count
         female_children_count: Female Children Count
+        form_title: Form Title
         household_income: Household Income
         id: ID
         male: Male
@@ -1404,10 +1687,14 @@ en:
       family: Family
       family_id: Family ID
       family_preservation: Family Preservation
+      form_title: Form Title
       history_of_disability_and_or_illness: History of disability and/or illness
       history_of_harm: History of Harm
       history_of_high_risk_behaviours: History of high-risk behaviours
+      main_school_contact: Main School Contact
       manage: Manage
+      name_of_referee: Name of Referee
+      other_info_of_exit: Other - More Information
       partner: Partner
       partners:
         address: Address
@@ -1418,6 +1705,7 @@ en:
         contact_mobile: Contact Mobile
         contact_name: Contact Name
         engagement: Engagement
+        form_title: Form Title
         id: ID
         manage: Manage
         name: Name
@@ -1430,7 +1718,7 @@ en:
       program_streams:
         action: Action
         description: Description
-        domain: Domains
+        domain: Associated Domains
         name: Name
         quantity: Quantity
       progress_notes:
@@ -1449,14 +1737,15 @@ en:
         staff: ABLE / ABLE Staff Name
         view: View
       quarterly_reports:
-        code: Code
+        code: Custom ID Number1
         fc_name: FC Name
         general_health_or_appearance: Describe General Health/Appearance
         kc_name: KC Name
         staff_information: Staff Information
         visit_date: Date Of Visit
+      rated_for_id_poor: Is The Client Rated For ID Poor
       reason_for_family_separation: Reason for Family Separation
-      rejected_note: Rejected Note
+      rejected_note: Note on referral rejection
       select_columns: Select Columns
       show_all: Show All
       support_amount: Support Amount
@@ -1492,6 +1781,7 @@ en:
         roles: Permission Set
         start_date: Start Date
         view: View
+      what3words: What3words
     filters:
       dynamic:
         operations:
@@ -1505,6 +1795,10 @@ en:
     form:
       csi_domain_scores: CSI Domain Scores
       filter_domains: Filter Domains
+      has_overdue_assessment: Has Overdue Assessment
+      has_overdue_forms: Has Overdue Form
+      has_overdue_task: Has Overdue Task
+      no_case_note: No Casenote in 30 Days
       reset: Reset
       search: Search
     from: From
@@ -1534,13 +1828,13 @@ en:
     able: Able
     able_state: Able State
     address: Address
-    agencies_involved: Agencies Involved
+    agencies_involved: Other Agencies Involved
     agency_names: Agency Name
-    birth_province: Birth Province
+    birth_province: Client Birth Province
     cambodia: Cambodia
     case_worker: Case Worker
     case_worker_or_staff: Case Worker / Staff
-    code: Code
+    code: Custom ID Number1
     commune: Commune/Sangkat
     completed: Completed
     current_address: Current Address
@@ -1548,28 +1842,28 @@ en:
     date_of_birth: Date of Birth
     district: District/Khan
     donor: Donor
-    family_name: Family Name
-    follow_up_by: Followed Up By
-    follow_up_date: Follow Up Date
-    followed_up_by: Followed Up By
+    family_name: Family Name (English)
+    follow_up_by: First Follow-Up By
+    follow_up_date: First Follow-Up Date
+    followed_up_by: First Follow-Up By
     gender: Gender
-    given_name: Given Name
-    has_been_in_government_care: Has Been In Government Care
-    has_been_in_orphanage: Has Been In Orphanage
+    given_name: Given Name (English)
+    has_been_in_government_care: Has the client lived in government care
+    has_been_in_orphanage: Has the client lived in an orphanage
     house_number: House
     id: ID
     id_poor: ID Poor
     initial_referral_date: Initial Referral Date
-    kid_id: Kid ID
-    live_with: Who to live with
-    local_family_name: Family Name (Local)
-    local_given_name: Given Name (Local)
+    kid_id: Custom ID Number2
+    live_with: Primary Carer Name
+    local_family_name: Family Name (Khmer)
+    local_given_name: Given Name (khmer)
     name: Name
     province: Birth Province
-    received_by: Received By
-    referral_phone: Referral Phone
+    received_by: Referral Received By
+    referral_phone: Referee Phone Number
     referral_source: Referral Source
-    reject_note: Rejected Note
+    reject_note: Note on referral rejection
     relevant_referral_information: Relevant Referral Information
     school_grade: School Grade
     school_name: School Name
@@ -1647,7 +1941,7 @@ en:
     child_living_on_street: child living on street
     child_situation_and_need: Situation and needs of the child
     city: District
-    client_code: Code
+    client_code: Custom ID Number1
     client_contact: Relationship with child
     client_living_with_guardians: Is the child living with a parent or carer
     client_name: Child's Name
@@ -1919,7 +2213,11 @@ en:
         date_of_birth: Date of Birth
         delete_my_account: Delete My Account
         department: Department
+        disable: Disable
+        disable_two_factor_authentication: Disable Two Factor Authentication
         email: Email
+        enable: Enable
+        enable_two_factor_authentication: Enable Two Factor Authentication
         first_name: First Name
         header: Edit Personal Information
         job_title: Job Title
@@ -1933,6 +2231,7 @@ en:
         save: Save
         staff_performance_notification: Send me staff performance report
         start_date: Start Date
+        verification_code: Verification code
         we_need_your_current_password_to_confirm_your_changes: We need your current password to confirm your changes
       signed_up: Welcome! You have signed up successfully.
       signed_up_but_inactive: You have signed up successfully. However, we could not sign you in because your account is not yet activated.
@@ -1944,9 +2243,11 @@ en:
       already_signed_out: Signed out successfully.
       new:
         email: Email
+        leave_this_blank_if_it_is_not_enabled: Leave this blank if it is not enabled
         login: Log in
         password: Password
         remember_me: Remember Me
+        verification_code: Two Factor Authentication verification code
       signed_in: Signed in successfully.
       signed_out: Signed out successfully.
     shared:
@@ -1959,6 +2260,39 @@ en:
       send_instructions: You will receive an email with instructions for how to unlock your account in a few minutes.
       send_paranoid_instructions: If your account exists, you will receive an email with instructions for how to unlock it in a few minutes.
       unlocked: Your account has been unlocked successfully. Please sign in to continue.
+  districts:
+    create:
+      failed_create: Failed to create a district.
+      successfully_created: District has been successfully created.
+    destroy:
+      alert: District cannot be deleted.
+      failed_delete: Failed to delete a district.
+      successfully_deleted: District has been successfully deleted.
+    edit:
+      title: Edit District
+    form:
+      cancel: Cancel
+      district: District
+      name: District Name
+      province: Province
+      save: Save
+    index:
+      add_new_district: Add New District
+      are_you_sure: Are you sure you want to delete?
+      changelogs: Changelog
+      district_name: District Name
+      districts: Districts
+      manage: Manage
+      province_name: Province Name
+      view: View
+    new:
+      title: New District
+    update:
+      failed_update: Failed to update a district.
+      successfully_updated: District has been successfully updated.
+    version:
+      back: Back
+      modification_of: Changelog of
   domain_groups:
     create:
       failed_create: Failed to create a domain group.
@@ -2090,6 +2424,22 @@ en:
       successfully_deleted: Family has been successfully deleted.
     edit:
       edit_family_title: Edit Family
+    family_advanced_searches:
+      advanced_search:
+        add_new_filter: Add New Filter
+        add_new_group: Add Group
+        advanced_search: Advanced Search
+        custom_form_column: Custom form columns
+        delete_group: Delete
+        family_column: Family basic columns
+        no_results: No Result Found
+        reset: Reset
+        results: Results
+        search: Search
+      form_option:
+        basic_fields: Basic Fields
+        custom_form: Custom Form
+        filter_option: Please choose your query options below
     form:
       address: Address
       caregiver_information: Caregiver Information
@@ -2117,6 +2467,7 @@ en:
       add_new_family: Add New Family
       clients: Clients
       export_xls: Export to XLS
+      report_builder: Report Builder
       results: Results
     new:
       new_family_title: New Family
@@ -2143,6 +2494,8 @@ en:
       name: Name
       'no': 'No'
       province: Province
+      read_less: read less
+      read_more: read more
       significant_family_member_count: Significant Family Member Count
       'yes': 'Yes'
     update:
@@ -2180,9 +2533,6 @@ en:
         search_custom_form: Search Custom Form
         time_of_frequency: Time of Frequency
         type: Type
-      destroy:
-        failed_to_delete: Custom Form cannot be deleted.
-        successfully_deleted: Custom Form has been successfully deleted.
       demo_custom_form_tab:
         are_you_sure: Are you sure you want to delete?
         close: Close
@@ -2195,6 +2545,9 @@ en:
         search_custom_form: Search Custom Form
         time_of_frequency: Time of Frequency
         type: Type
+      destroy:
+        failed_to_delete: Custom Form cannot be deleted.
+        successfully_deleted: Custom Form has been successfully deleted.
       edit:
         form_builder: Form Builder
       form:
@@ -2275,7 +2628,7 @@ en:
       child_living_on_street: child living on street
       child_situation_and_need: Situation and needs of the child
       city: District
-      client_code: Code
+      client_code: Custom ID Number1
       client_contact: Relationship with child
       client_living_with_guardians: Is the child living with a parent or carer
       client_name: Child's Name
@@ -2425,7 +2778,7 @@ en:
           child_living_on_street: child living on street
           child_situation_and_need: Situation and needs of the child
           city: District
-          client_code: Code
+          client_code: Custom ID Number1
           client_contact: Relationship with child
           client_living_with_guardians: Is the child living with a parent or carer
           client_name: Child's Name
@@ -2553,6 +2906,8 @@ en:
     version:
       back: Back
       modification_of: Changelog of
+  invalid_program_enrollment_date: The enrollment date you have selected is invalid. Please select a date prior to your program exit date.
+  invalid_program_exit_date: The exit date you have selected is invalid. Please select a date after your program enrollment date.
   is_not_email: is not an email
   layouts:
     notification:
@@ -2564,12 +2919,18 @@ en:
       client_is_end_ec_today:
         one: There is a client is about to exit EC program today.
         other: There are %{count} clients are about to exit EC program today.
+      client_quantity:
+        one: "(1 client)"
+        other: "(%{count} clients)"
       due_today_assessments_count:
         one: You have 1 assessment due today.
         other: You have %{count} assessments due today.
       due_today_client_custom_field_count:
         one: There is 1 client custom form due today.
         other: There are %{count} client custom forms due today.
+      due_today_client_enrollment_tracking:
+        one: There is 1 client enrollment tracking form due today.
+        other: There are %{count} client enrollment trackings form due today.
       due_today_family_custom_field_count:
         one: There is 1 family custom form due today.
         other: There are %{count} family custom forms due today.
@@ -2582,9 +2943,6 @@ en:
       due_today_user_custom_field_count:
         one: There is 1 user custom form due today.
         other: There are %{count} user custom forms due today.
-      due_today_client_enrollment_tracking:
-        one: There is 1 client enrollment tracking form due today.
-        other: There are %{count} client enrollment trackings form due today.
       no_task: Nothing to notify.
       overdue_assessments_count:
         one: You have 1 assessment overdue.
@@ -2592,6 +2950,9 @@ en:
       overdue_client_custom_field_count:
         one: There is 1 client custom form overdue.
         other: There are %{count} client custom forms overdue.
+      overdue_client_enrollment_tracking:
+        one: There is 1 client enrollment tracking form overdue.
+        other: There are %{count} client enrollment trackings form overdue.
       overdue_family_custom_field_count:
         one: There is 1 family custom form overdue.
         other: There are %{count} family custom forms overdue.
@@ -2604,9 +2965,10 @@ en:
       overdue_user_custom_field_count:
         one: There is 1 user custom form overdue.
         other: There are %{count} user custom forms overdue.
-      overdue_client_enrollment_tracking:
-        one: There is 1 client enrollment tracking form overdue.
-        other: There are %{count} client enrollment trackings form overdue.
+      review_client: Review your clients enrollment in
+      upcoming_assessments_count:
+        one: You are almost due to complete the next CSI assessment.
+        other: You are almost due to complete the next %{count} CSI assessments.
     side_menu:
       able_screening_questions: Able Screening Questions
       account: Account
@@ -2616,6 +2978,7 @@ en:
       custom_fields: Form Builder
       dashboards: Dashboards
       departments: Departments
+      districts: Districts
       domain_groups: Domain Groups
       domains: Domains
       donors: Donors
@@ -2634,27 +2997,49 @@ en:
       progress_note: Progress Note
       progress_note_types: Types of Note
       provinces: Provinces
-      quantitative_types: Quantitative Types
+      quantitative_types: Specific Referral Data
       referral_sources: Referral Sources
       release_logs: Release logs
+      settings: Settings
       users: Users
       view_calendar: View Calendar
     top_navbar:
+      burmese: Burmese
       edit_profile: Edit Profile
+      english: English
+      khmer: ខ្មែរ
+      language: Language
       log_out: Log out
-  leave_programs:
+      thai: Thai
+  leave_enrolled_programs:
     create:
       successfully_created: Client has been successfully exited from the program.
     edit:
       leave_program: Edit Leave Program
+    form:
+      cancel: Cancel
+      exit_date: Exit Date
+      save: Save
+    new:
+      new_exit_program: New Exit Program
+    show:
+      back: Back
+      exit_date: Exited on
+    update:
+      successfully_updated: Exit Program has been successfully updated.
+  leave_programs:
+    create:
+      successfully_created: Client has been successfully exited from the program.
     destroy:
       delete_attachment_successfully: Attachment has been successfully deleted.
+    edit:
+      leave_program: Edit Leave Program
     form:
       allow_file_size: Allowed file types
       cancel: Cancel
       exit_date: Exit Date
-      save: Save
       max_file_size: "*Maximum file size: 5MB/file and 30MB/upload."
+      save: Save
     new:
       new_exit_program: New Exit Program
     show:
@@ -2726,7 +3111,14 @@ en:
       back: Back
       modification_of: Changelog of
   must_be_uniq: field label must be uniq
+  mutual_dependence_has_been_modified: Prerequisite Programs cannot be changed or added because it breaks the previous conditions.
   notifications:
+    client_enrollment_tracking_due_today:
+      client_enrollment_tracking_notification: Client Enrollment Tracking Notification
+      clients: Client
+    client_enrollment_tracking_overdue:
+      client_enrollment_tracking_notification: Client Enrollment Tracking Notification
+      clients: Client
     custom_field_due_today:
       clients: Client
       custom_field_notification: Custom Form Notification
@@ -2741,12 +3133,12 @@ en:
       form: Form
       partners: Partner
       users: User
-    client_enrollment_tracking_due_today:
-      clients: Client
-      client_enrollment_tracking_notification: Client Enrollment Tracking Notification
-    client_enrollment_tracking_overdue:
-      clients: Client
-      client_enrollment_tracking_notification: Client Enrollment Tracking Notification
+    program_stream_notify:
+      review_client: Clients need to be reviewed
+    upcoming_assessment:
+      client: Client
+      most_recent_assessment: Most Recent Assessment
+      upcoming_assessment: Upcoming Assessment
   ok: OK
   partners:
     actions:
@@ -2775,9 +3167,26 @@ en:
     index:
       add_new_partner: Add New Partner
       export_xls: Export to XLS
+      report_builder: Report Builder
       results: Results
     new:
       new_partner_title: New Partner
+    partner_advanced_searches:
+      advanced_search:
+        add_new_filter: Add New Filter
+        add_new_group: Add Group
+        advanced_search: Advanced Search
+        partner_column: Partner basic columns
+        custom_form_column: Custom form columns
+        delete_group: Delete
+        no_results: No Result Found
+        reset: Reset
+        results: Results
+        search: Search
+      form_option:
+        basic_fields: Basic Fields
+        custom_form: Custom Form
+        filter_option: Please choose your query options below
     show:
       add_form: Add Form
       additional_forms: Additional Forms
@@ -2801,49 +3210,53 @@ en:
     version:
       back: Back
       modification_of: Changelog of
+  program_exclusive_has_been_modified: Program Exclusive cannot be changed or added because it breaks the previous conditions.
   program_streams:
     actions:
       are_you_sure: Are you sure you want to delete?
+      warning_message: You are about to delete a Program Stream that has saved client data. Do you wish to proceed?
     all_ngos_custom_fields:
       next: Next
+      # preview: Preview
       previous: Previous
     all_ngos_program_streams_tab:
       actions: Action
       copy: Copy
-      domain: Domains
+      domain: Associated Domains
       maximum: Maximum Program Enrollment
       name: Name
       organization: Organization
       preview: Preview
+      # quantity: Quantity
       status: Status
     create:
       alert: Name of Tracking has already been taken.
       successfully_created: Program Stream has been successfully created.
     current_program_streams_tab:
       actions: Action
-      domain: Domains
+      domain: Associated Domains
       enrolled: Enrolled
       maximum: Maximum Program Enrollment
       name: Name
       quantity: Quantity
       status: Status
-    custom_forms:
-      all_ngos_custom_fields: All NGOs' Custom Forms
-      custom_fields: Custom Forms
-      demo_ngo_custom_fields: Demo NGO's Custom Forms
-      my_ngo_custom_fields: My NGO's Custom Forms
     custom_form_table:
       copy: Copy
       entity_type: Type
       form_title: Form Title
       organization: Organization
+    custom_forms:
+      all_ngos_custom_fields: All NGOs' Custom Forms
+      custom_fields: Custom Forms
+      demo_ngo_custom_fields: Demo NGO's Custom Forms
+      my_ngo_custom_fields: My NGO's Custom Forms
     demo_ngo_custom_fields:
       next: Next
       previous: Previous
     demo_program_streams_tab:
       actions: Action
       copy: Copy
-      domain: Domains
+      domain: Associated Domains
       maximum: Maximum Program Enrollment
       name: Name
       organization: Organization
@@ -2854,15 +3267,16 @@ en:
       successfully_deleted: Program Stream has been successfully deleted.
     edit:
       back: Back
-      edit_program_stream: Edit Program Stream
+      edit: Edit
+      # edit_program_stream: Edit Program Stream
     enrollment:
       custom_fields: Custom Forms
       enrollment_form: Enrollment
-      note: 'Note: The Date of Enrollment field is added automatically to this enrollment form.'
+      note: "Note: The Date of Enrollment field is added automatically to this enrollment form, so you don't need to add it."
     exit_field:
       custom_fields: Custom Forms
       exit_form: Exit Form
-      note: 'Note: The Date of Program Exit field is added automatically to the Exit Program form.'
+      note: "Note: The Date of Exit field is added automatically to this enrollment form, so you don't need to add it."
     form:
       finish: Save
       next: Next
@@ -2871,9 +3285,11 @@ en:
     index:
       current_ngo: My NGO's Program Streams
       demo_programs: Demo NGO's Program Streams
+      name: Name
       new_program: Add New Program
       ngo_programs: All NGOs' Program Streams
       program_list: Program Streams Listing
+      search: Search
     my_ngo_custom_fields:
       next: Next
       previous: Previous
@@ -2883,7 +3299,7 @@ en:
     others_ngo_program_streams_tab:
       actions: Action
       copy: Copy
-      domain: Domains
+      domain: Associated Domains
       name: Name
       organization: Organization
       preview: Preview
@@ -2891,40 +3307,53 @@ en:
     program_detail:
       description: Description
       detail: Program Details
-      domain: Domain
+      domain: Associated Domains
       name: Name
     program_rule:
       add_new_filter: Add New Filter
       add_new_group: Add Group
-      add_rule: Rules
+      add_rule: Conditions for Enrollment
       cannot_be_lower: Maximum program enrollment cannot be lower than active enrolled
       delete_group: Delete
       description: Description
+      # domain: Domain
       maximum: Maximum Program Enrollment
-      mutual_dependence: Mutual Dependence
+      mutual_dependence: Prerequisite Programs
       name: Name
-      program_exclusive: Program Exclusive
-      rule: Rules
+      program_exclusive: Mutually Exclusive With
+      # quantity: Quantity
+      rule: Conditions for Enrollment
+    search:
+      actions: Action
+      back: Back
+      copy: Copy
+      domain: Associated Domains
+      maximum: Maximum Program Enrollment
+      name: Name
+      no_results: No Result Found
+      organization: Organization
+      preview: Preview
+      status: Status
     show:
       back: Back
       copy: Copy
       description: Description
       detail: Program Detail
-      domain: Domain
+      domain: Associated Domains
       enrolled: Enrolled
       enrollment: Enrollment
       exit_program: Exit Program
       maximum: Maximum Program Enrollment
-      mutual_dependence: Mutual Dependence
-      program_exclusive: Program Exclusive
+      mutual_dependence: Prerequisite Programs
+      not_require_tracking: This Program Stream does not require any tracking form.
+      program_exclusive: Mutually Exclusive With
       quantity: Quantity
-      rules: Rules
+      rules: Conditions for Enrollment
       tracking: Tracking
-      not_require_tracking: This Program Stream does not require any tracking form.
     tracking:
-      add_tracking: Add Tracking
-      tracking_form: Progress Tracking
+      add_tracking: Add Another Tracking Form
       not_require_tracking: This Program Stream does not require any tracking form.
+      tracking_form: Progress Tracking
     tracking_fields:
       custom_fields: Custom Forms
       frequency: Frequency
@@ -3072,52 +3501,52 @@ en:
       modification_of: Changelog of
   quantitative_cases:
     create:
-      successfully_created: Quantitative Data has been successfully created.
+      successfully_created: Specific Referral Data Option has been successfully created.
     destroy:
-      successfully_deleted: Quantitative Data has been successfully deleted.
+      successfully_deleted: Specific Referral Data Option has been successfully deleted.
     edit:
-      title: Edit Quantitative Data
+      title: Edit Specific Referral Data Option
     form:
       cancel: Cancel
-      quantitative_type: Qantitative Type
+      quantitative_type: Specific Referral Data
       save: Save
       value: Value
     new:
-      title: Add Quantitative Data
+      title: Add Specific Referral Data Option
     update:
-      successfully_updated: Quantitative Data has been successfully updated.
+      successfully_updated: Specific Referral Data Option has been successfully updated.
     version:
       back: Back
       modification_of: Changelog of
   quantitative_types:
     create:
-      failed_create: Failed to create a quantitative type.
-      successfully_created: Quantitative Type has been successfully created.
+      failed_create: Failed to create a Specific Referral Data.
+      successfully_created: Specific Referral Data has been successfully created.
     destroy:
-      alert: Quantitative Type cannot be deleted.
-      failed_delete: Failed to delete a quantitative type.
-      successfully_deleted: Quantitative Type has been successfully deleted.
+      alert: Specific Referral Data cannot be deleted.
+      failed_delete: Failed to delete a Specific Referral Data.
+      successfully_deleted: Specific Referral Data has been successfully deleted.
     edit:
-      title: Edit Quantitative Type
+      title: Edit Specific Referral Data
     form:
-      add_quantitative_data: Add Quantitative Data
+      add_quantitative_data: Add Specific Referral Data Option
       cancel: Cancel
       name: Name
-      quantitative_type: Quantitative Type
+      quantitative_type: Specific Referral Data
       save: Save
     index:
-      add_new_quantitative_type: Add New Quantitative Type
-      add_quantitative_data: Quantitative Data
+      add_new_quantitative_type: Add New Specific Referral Data
+      add_quantitative_data: Specific Referral Data Option
       are_you_sure: Are you sure you want to delete?
-      quantitative_types: Quantitative Types
+      quantitative_types: Specific Referral Data
       view_changelog: View changelog
     quantitative_case_fields:
       are_you_sure: Are you sure you want to delete?
-      quantitative_data: Quantitative Data
+      quantitative_data: Specific Referral Data Option
       value: Value
     update:
-      failed_update: Failed to update a quantitative type.
-      successfully_updated: Quantitative Type has been successfully updated.
+      failed_update: Failed to update a Specific Referral Data.
+      successfully_updated: Specific Referral Data has been successfully updated.
     version:
       back: Back
       modification_of: Changelog of
@@ -3163,19 +3592,33 @@ en:
       start_date: Start Date
     index:
       case_statistics: Case Statistics
-      client_amount: Client Amounts
+      client_amount: Clients
       csi_domain_scores: CSI Domain Scores
       domain_score: Domain Scores
   review_problem: 'Please review the problems below:'
+  rules_has_been_modified: Conditions cannot be changed or added because it breaks the previous conditions.
   save: Save
+  sessions:
+    create:
+      your_account_needs_to_supply_a_verification_code: Your account needs to supply a verification code.
+      bad_credentials_supplied: Bad Credentials Supplied.
+  settings:
+    country:
+      settings: Settings
+      switched_country_cambodia: You’ve switched your country setting to Cambodia.
+      switched_country_lesotho: You’ve switched your country setting to Lesotho.
+      switched_country_myanmar: You’ve switched your country setting to Myanmar.
+      switched_country_thailand: You’ve switched your country setting to Thailand.
+    navigation:
+      country: Country
   shared:
     form_builder:
-      list_attachment:
-        are_you_sure: Are you sure you want to delete?
-        preview_download: Preview & Download
       file_field:
         allow_file_size: Allowed file types
         max_file_size: "*Maximum file size: 5MB/file and 30MB/upload."
+      list_attachment:
+        are_you_sure: Are you sure you want to delete?
+        preview_download: Preview & Download
     per_page_form:
       show: Show
     version_type:
@@ -3228,6 +3671,7 @@ en:
         date_deleted: Date deleted
         delete: Delete
         department: Department
+        district: District/Khan
         domain: Domain
         domain_group: Domain Group
         donor: Donor
@@ -3244,8 +3688,8 @@ en:
         progress_note: Progress Note
         progress_note_type: Type of Note
         province: Province
-        quantitative_case: Quantitative Data
-        quantitative_type: Quantitative Type
+        quantitative_case: Specific Referral Data Option
+        quantitative_type: Specific Referral Data
         referral_source: Referral Source
         stage: Stage
         survey: Survey
@@ -3567,10 +4011,26 @@ en:
   users:
     actions:
       are_you_sure: Are you sure you want to delete?
+    assessment_permission:
+      assessments: CSI Assessments
+      can_edit: Can Edit
+      can_view: Can View
+    case_note_permission:
+      can_edit: Can Edit
+      can_view: Can View
+      case_notes: Case Notes
     clients:
       clients: Clients
+      read_less: read less
+      read_more: read more
     create:
       successfully_created: User has been successfully created.
+    custom_form_permission:
+      can_edit: Can Edit
+      can_view: Can View
+    custom_program_permission:
+      can_edit: Can Edit
+      can_view: Can View
     destroy:
       alert: User cannot be deleted.
       successfully_deleted: User has been successfully deleted.
@@ -3625,6 +4085,13 @@ en:
       add_new_user: Add New User
       export_xls: Export to XLS
       results: Results
+    multi_factor_authentication:
+      verify_enable:
+        two_factor_authentication_could_not_be_enabled: Two Factor Authentication could not be enabled
+        two_factor_authentication_enabled: Two Factor Authentication Enabled
+      verify_disabled:
+        two_factor_authentication_could_not_be_disabled: Two Factor Authentication could not be disabled
+        two_factor_authentication_disabled: Two Factor Authentication Disabled
     new:
       clients: Clients
       current_password: Current Password
@@ -3647,6 +4114,12 @@ en:
       province: Province
       roles: Permission Set
       start_date: Start Date
+    permissions:
+      assessments: CSI Assessments
+      case_notes: Case Notes
+      custom_forms: Custom Forms
+      custom_programs: Custom Programs
+      permissions_selector: Permissions Selector
     show:
       add_form: Add Form
       additional_forms: Additional Forms
@@ -3669,6 +4142,7 @@ en:
       password: Password
       password_confirmation: Password Confirmation
       password_hint: Leave it blank if you don't want to change password
+      permissions: Permissions
       pin_number: Pin Number
       province: Province
       roles: Permission Set

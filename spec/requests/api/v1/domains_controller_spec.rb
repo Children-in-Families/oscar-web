@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe Api::V1::DomainGroupsController, type: :request do
+RSpec.describe Api::V1::DomainsController, type: :request do
   let(:user) { create(:user) }
   let!(:domains) { create_list(:domain, 12) }
 

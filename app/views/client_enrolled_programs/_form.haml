@@ -9,21 +9,20 @@
           = f.input_field :enrollment_date, as: :string, class: 'date optional form-control date-picker', id: 'enrollment_date'
           %span.input-group-addon
             %i.fa.fa-calendar-check-o
-        - if f.error :enrollment_date
-          %span.help-block= t('cannot_be_blank')
+        = f.error :enrollment_date
     = f.simple_fields_for :properties, OpenStruct.new(@client_enrollment.properties) do |prop_f|
-      - @program_stream.enrollment.each_slice(2) do |n_field|
+      - @program_stream.enrollment.each do |enrollment|
         .row
-          - n_field.each do |enrollment|
-            .col-xs-12.col-md-6
-              - unless enrollment['type'] == 'file'
-                = render "/shared/fields/#{enrollment['type'].underscore}", f: prop_f, field_props: enrollment, errors: @client_enrollment.errors.messages, entity: f
-              - else
-                = f.simple_fields_for :form_builder_attachments, @attachments.file_by_name(enrollment['label']) ||  @attachments.build do |attachment|
-                  = render 'shared/form_builder/attachment', f: attachment, property: enrollment, entity: f, resource: @client_enrollment
-        .row
-          .col-xs-12
-            #message.text-danger
+          .col-xs-12{ class: enrollment['type'] == 'paragraph' ? '' : 'col-md-6' }
+            - enrollment['label'] = convert_bracket(enrollment['label'])
+            - unless enrollment['type'] == 'file'
+              = render "/shared/fields/#{enrollment['type'].underscore}", f: prop_f, field_props: enrollment, errors: @client_enrollment.errors.messages, entity: f
+            - else
+              = f.simple_fields_for :form_builder_attachments, @attachments.file_by_name(enrollment['label']) ||  @attachments.build do |attachment|
+                = render 'shared/form_builder/attachment', f: attachment, property: enrollment, entity: f, resource: @client_enrollment
+            .row
+              .col-xs-12
+                #message.text-danger
   .ibox-footer
     = hidden_field_tag :program_stream_id, @program_stream.id
     = f.submit t('.save'), class: 'btn btn-primary form-btn'

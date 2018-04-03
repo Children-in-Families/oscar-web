@@ -15,8 +15,7 @@
           = t('.organization')
           .pull-right
             = render 'order', column: :ngo_name, ngo: 'all_ngo'
-        - if can? :manage, CustomField
-          %th.manage.text-center= t('.manage')
+        %th.manage.text-center= t('.manage')
       %tbody
         - @all_custom_fields.each do |custom_field|
           %tr
@@ -24,10 +23,10 @@
             %td= custom_field.entity_type
             %td= frequency_note(custom_field)
             %td= custom_field.ngo_name
-            - if can? :manage, CustomField
-              %td.manage.text-center
-                = link_to preview_custom_fields_path(custom_field_id: custom_field.id, ngo_name: custom_field.ngo_name), class: 'btn btn-outline btn-primary btn-xs', title: t('.preview') do
-                  = fa_icon('eye')
+            %td.manage.text-center
+              = link_to preview_custom_fields_path(custom_field_id: custom_field.id, ngo_name: custom_field.ngo_name), class: 'btn btn-outline btn-primary btn-xs', title: t('.preview') do
+                = fa_icon('eye')
+              - if can? :create, CustomField
                 = link_to new_custom_field_path(custom_field_id: custom_field.id, ngo_name: custom_field.ngo_name), class: 'btn btn-outline btn-success btn-xs margin-btn', title: t('.copy') do
                   = fa_icon('files-o')
   .text-center

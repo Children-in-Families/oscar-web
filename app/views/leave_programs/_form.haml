@@ -1,29 +1,29 @@
 = simple_form_for ([@client, @enrollment, @leave_program]) do |f|
   .ibox-content
     .row
-      .col-xs-12.col-sm-6.form-group.date.optional.client_date_of_birth{ class: ('has-error' if f.error :exit_date) }
+      .col-xs-12.col-sm-6.form-group.date.optional{ class: ('has-error' if f.error :exit_date) }
         %label.date.optional.control-label
           %abbr{ title: 'required' } *
           = t('.exit_date')
-        #client-birthdate.input-group.date
+        .input-group.date
           = f.text_field :exit_date, class: 'date optional form-control date-picker', type: 'text', id: 'exit_date'
           %span.input-group-addon
             %i.fa.fa-calendar-check-o
-        - if f.error :exit_date
-          %span.help-block= t('cannot_be_blank')
+        = f.error :exit_date
+
     = f.simple_fields_for :properties, OpenStruct.new(@leave_program.properties) do |prop_f|
-      - @program_stream.exit_program.each_slice(2) do |n_field|
+      - @program_stream.exit_program.each do |exit_program|
         .row
-          - n_field.each do |exit_program|
-            .col-xs-12.col-md-6
-              - unless exit_program['type'] == 'file'
-                = render "/shared/fields/#{exit_program['type'].underscore}", f: prop_f, field_props: exit_program, errors: @leave_program.errors.messages, entity: f
-              - else
-                = f.simple_fields_for :form_builder_attachments, @attachments.file_by_name(exit_program['label']) || @attachments.build do |attachment|
-                  = render 'shared/form_builder/attachment', f: attachment, property: exit_program, entity: f, resource: @leave_program
-        .row
-          .col-xs-12
-            #message.text-danger
+          .col-xs-12{ class: exit_program['type'] == 'paragraph' ? '' : 'col-md-6' }
+            - exit_program['label'] = convert_bracket(exit_program['label'])
+            - unless exit_program['type'] == 'file'
+              = render "/shared/fields/#{exit_program['type'].underscore}", f: prop_f, field_props: exit_program, errors: @leave_program.errors.messages, entity: f
+            - else
+              = f.simple_fields_for :form_builder_attachments, @attachments.file_by_name(exit_program['label']) || @attachments.build do |attachment|
+                = render 'shared/form_builder/attachment', f: attachment, property: exit_program, entity: f, resource: @leave_program
+            .row
+              .col-xs-12
+                #message.text-danger
     = hidden_field_tag :program_stream_id, @program_stream.id
   .ibox-footer
     = f.submit t('.save'), class: 'btn btn-primary form-btn'

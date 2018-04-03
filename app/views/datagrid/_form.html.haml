@@ -1,12 +1,27 @@
 = form_for grid, options do |f|
   = hidden_field_tag :locale, params[:locale]
+  = hidden_field_tag :data, params[:data]
 
-  - if controller_name == 'clients' || controller_name == 'client_advanced_searches'
+  - if controller_name == 'clients'
     %ul.check-columns-visibility{ 'aria-labelledby': 'dropdownMenuDivider' }
       %li.dropdown
         %a.dropdown-toggle.btn.btn-default{'data-toggle' => 'dropdown', href: '#'}
           = t('datagrid.columns.select_columns')
           %span.caret
+        .float-right
+          %span.p-xs.b-r-sm.btn.btn-sm.btn-default
+            = check_box_tag 'no_case_note_check_box', 'no_case_note_check_box', checked = check_params_no_case_note, class: 'i-checks'
+            %label=t('.no_case_note')
+          %span.p-xs.b-r-sm.m-l.btn.btn-sm.btn-default
+            = check_box_tag 'overdue-forms', 'overdue-forms', checked = check_params_has_over_forms, class: 'i-checks'
+            %label=t('.has_overdue_forms')
+          %span.p-xs.b-r-sm.m-l.btn.btn-sm.btn-default
+            = check_box_tag 'overdue-assessment', 'overdue-assessment', checked = check_params_has_over_assessment, class: 'i-checks'
+            %label=t('.has_overdue_assessment')
+          %span.p-xs.b-r-sm.m-l.btn.btn-sm.btn-default
+            = check_box_tag 'overdue-task', 'overdue-task', checked = check_params_has_overdue_task, class: 'i-checks'
+            %label=t('.has_overdue_task')
+
         %ul.dropdown-menu.columns-visibility
           %li
             .all-visibility.col-sm-12
@@ -24,8 +39,8 @@
             - next if f.name == :domain_4a || f.name == :domain_4b
             - next if f.name == :domain_5a || f.name == :domain_5b
             - next if f.name == :domain_6a || f.name == :domain_6b
-            - next if f.name == :assessments_due_to
-            %li
+            - next if f.name == :assessments_due_to || f.name == :no_case_note || f.name == :overdue_task || f.name == :overdue_forms
+            %li{ id: f.name }
               .visibility.col-sm-12
                 = check_box_tag "#{f.name}_", f.name, checked = params["#{f.name}_"].present?, class: 'i-checks'
                 = columns_visibility f.name
@@ -50,6 +65,38 @@
             .visibility.col-sm-12
               = check_box_tag 'rejected_note_', 'rejected_note', checked = params[:rejected_note_].present?, class: 'i-checks'
               = label_tag 'rejected_note_', t('datagrid.columns.rejected_note')
+          %li
+            .visibility.col-sm-12
+              = check_box_tag 'exit_reasons_', 'exit_reasons', checked = params[:exit_reasons_].present?, class: 'i-checks'
+              = label_tag 'exit_reasons_', t('datagrid.columns.exit_reasons')
+          %li
+            .visibility.col-sm-12
+              = check_box_tag 'exit_circumstance_', 'exit_circumstance', checked = params[:exit_circumstance_].present?, class: 'i-checks'
+              = label_tag 'exit_circumstance_', t('datagrid.columns.exit_circumstance')
+          %li
+            .visibility.col-sm-12
+              = check_box_tag 'other_info_of_exit_', 'other_info_of_exit', checked = params[:other_info_of_exit_].present?, class: 'i-checks'
+              = label_tag 'other_info_of_exit_', t('datagrid.columns.other_info_of_exit')
+          %li
+            .visibility.col-sm-12
+              = check_box_tag 'exit_note_', 'exit_note', checked = params[:exit_note_].present?, class: 'i-checks'
+              = label_tag 'exit_note_', t('datagrid.columns.exit_note')
+          %li
+            .visibility.col-sm-12
+              = check_box_tag 'what3words_', 'what3words', checked = params[:what3words_].present?, class: 'i-checks'
+              = label_tag 'what3words_', t('datagrid.columns.what3words')
+          %li
+            .visibility.col-sm-12
+              = check_box_tag 'main_school_contact_', 'main_school_contact', checked = params[:main_school_contact_].present?, class: 'i-checks'
+              = label_tag 'main_school_contact_', t('datagrid.columns.main_school_contact')
+          %li
+            .visibility.col-sm-12
+              = check_box_tag 'rated_for_id_poor_', 'rated_for_id_poor', checked = params[:rated_for_id_poor_].present?, class: 'i-checks'
+              = label_tag 'rated_for_id_poor_', t('datagrid.columns.rated_for_id_poor')
+          %li
+            .visibility.col-sm-12
+              = check_box_tag 'name_of_referee_', 'name_of_referee', checked = params[:name_of_referee_].present?, class: 'i-checks'
+              = label_tag 'name_of_referee_', t('datagrid.columns.name_of_referee')
           %li
             .visibility.col-sm-12
               = check_box_tag 'case_start_date_', 'case_start_date', checked = params[:case_start_date_].present?, class: 'i-checks'
@@ -90,10 +137,27 @@
             .visibility.col-sm-12
               = check_box_tag 'partner_', 'partner', checked = params[:partner_].present?, class: 'i-checks'
               = label_tag 'partner_', t('datagrid.columns.partner')
-          - if controller_name == 'client_advanced_searches'
-            %li.csi-header
-              %strong= t('.csi_domain_scores')
-            = render 'datagrid/domain_score_columns_picker'
+          / - if controller_name == 'client_advanced_searches'
+          %li
+            .visibility.col-sm-12
+              = check_box_tag 'case_note_date_', 'case_note_date', checked = params[:case_note_date_].present?, class: 'i-checks'
+              = label_tag 'case_note_date_', t('datagrid.columns.case_note_date')
+          %li
+            .visibility.col-sm-12
+              = check_box_tag 'case_note_type_', 'case_note_type', checked = params[:case_note_type_].present?, class: 'i-checks'
+              = label_tag 'case_note_type_', t('datagrid.columns.case_note_type')
+          %li.csi-header
+            %strong= t('.csi_domain_scores')
+          %li
+            .visibility.col-sm-12
+              = check_box_tag 'date_of_assessments_', 'date_of_assessments', checked = params[:date_of_assessments_].present?, class: 'i-checks'
+              = label_tag 'date_of_assessments_', t('datagrid.columns.date_of_assessments')
+          %li
+            .visibility.col-sm-12
+              = check_box_tag 'all_csi_assessments_', 'all_csi_assessments', checked = params[:all_csi_assessments_].present?, class: 'i-checks'
+              = label_tag 'all_csi_assessments_', t('datagrid.columns.all_csi_assessments')
+          = render 'datagrid/domain_score_columns_picker'
+
           %li.divider.col-xs-12
           %li
             .visibility.col-sm-12
@@ -104,8 +168,48 @@
               = check_box_tag 'changelog_', 'changelog', checked = params[:changelog_].present?, class: 'i-checks'
               = label_tag 'changelog_', t('datagrid.columns.changelog')
 
+  - elsif controller_name == 'families' || controller_name == 'partners'
+    %ul.check-columns-visibility{ 'aria-labelledby': 'dropdownMenuDivider' }
+      %li.dropdown
+        %a.dropdown-toggle.btn.btn-default{'data-toggle' => 'dropdown', href: '#'}
+          = t('datagrid.columns.select_columns')
+          %span.caret
 
-  - if controller_name != 'client_advanced_searches'
+        %ul.dropdown-menu.columns-visibility
+          %li
+            .all-visibility.col-sm-12
+              = check_box_tag 'all_', 'all', checked = params['all_'].present?, class: 'i-checks'
+              = label_tag 'all_' do
+                %strong= t('datagrid.columns.show_all')
+
+          - grid.filters.each do |f|
+            %li
+              .visibility.col-sm-12
+                = check_box_tag "#{f.name}_", f.name, checked = params["#{f.name}_"].present?, class: 'i-checks'
+                = columns_family_visibility f.name
+          - if controller_name == 'families'
+            %li
+              .visibility.col-sm-12
+                = check_box_tag 'member_count_', 'member_count', checked = params[:member_count_].present?, class: 'i-checks'
+                = label_tag 'member_count_', t('datagrid.columns.families.member_count')
+            %li
+              .visibility.col-sm-12
+                = check_box_tag 'clients_', 'clients', checked = params[:clients_].present?, class: 'i-checks'
+                = label_tag 'clients_', t('datagrid.columns.families.clients')
+            %li
+              .visibility.col-sm-12
+                = check_box_tag 'case_workers_', 'case_workers', checked = params[:case_workers_].present?, class: 'i-checks'
+                = label_tag 'case_workers_', t('datagrid.columns.families.case_workers')
+          %li.divider.col-xs-12
+          %li
+            .visibility.col-sm-12
+              = check_box_tag 'manage_', 'manage', checked = params[:manage_].present?, class: 'i-checks'
+              = label_tag 'manage_', t('datagrid.columns.families.manage')
+          %li
+            .visibility.col-sm-12
+              = check_box_tag 'changelog_', 'changelog', checked = params[:changelog_].present?, class: 'i-checks'
+              = label_tag 'changelog_', t('datagrid.columns.families.changelog')
+  #filter_form
     %hr/
     .row
       - grid.filters.each do |filter|
@@ -113,19 +217,6 @@
           .datagrid-filter.filter
             = f.datagrid_label filter, title: filter.header
             = f.datagrid_filter filter, partials: options[:partials]
-    - if clients_controller?
-      .row
-        .col-xs-12.domain-filter-search
-          %button.btn.btn-primary.btn-filter{"aria-expanded" => 'false', "data-target" => '#client-search-domain', "data-toggle" => 'collapse', type: 'button'}
-            %i.fa.fa-filter
-            %span= t('.filter_domains')
-      .row#client-search-domain.collapse
-        - grid.filters.each do |filter|
-          - if filter.type == :dynamic
-            .col-sm-4.domain-filter.filter
-              %label{ title: filter.header }
-                = truncate(filter.header, length: 40)
-              = f.datagrid_filter filter, partials: options[:partials]
     .row
       .datagrid-actions
         = f.submit I18n.t('datagrid.form.search').html_safe, class: 'btn btn-primary datagrid-submit'

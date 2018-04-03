@@ -1,24 +1,39 @@
 .row
-  .col-xs-12.col-md-4.col-lg-3
-    .pull-left
-      %button.btn.btn-primary.btn-filter{"aria-expanded" => 'false', "data-target" => '#client-search-form', "data-toggle" => 'collapse', type: 'button'}
-        %i.fa.fa-filter
-      - if can? :manage, :all
-        %button.btn.btn-primary#client-statistic
-          %i.fa.fa-line-chart
-          %span= t('.reports')
-  .col-xs-12.col-md-8.col-lg-9
+  .col-xs-12.col-md-9
+    %button.btn.btn-primary.query.client-search{"aria-expanded" => 'false', "data-target" => '#client-search-form', "data-toggle" => 'collapse', type: 'button'}
+      %i.fa.fa-filter
+
+    %button.btn.btn-primary.query.client-advance-search{"aria-expanded" => 'false', "data-target" => '#client-advance-search-form', "data-toggle" => 'collapse', type: 'button'}
+      = t('.report_builder')
+
+    %button.btn.btn-primary#load-saved-search{ 'data-toggle': 'modal', 'data-target': '#load-save-search' }
+      = t('.load_save_search')
+
+    %button.btn.btn-primary#save-search-setting{ 'data-toggle': 'modal', 'data-target': '#save-query' }
+      = t('.save_search_settings')
+
+    = link_to current_url({format: 'xls', type: 'basic_info'}), class: 'btn btn-primary btn-export' do
+      %i.fa.fa-download
+      = t('.export_to_xls')
+
+    - if current_user.admin? || current_user.any_manager?
+      %button.btn.btn-primary#client-statistic
+        %i.fa.fa-line-chart
+        %span= t('.reports')
+
+  .col-xs-12.col-md-3
     .pull-right.client-option
       - if can? :manage, Client
         = link_to t('.add_new_client'), new_client_path, class: 'btn btn-primary'
-      = link_to t('.advanced_search'), client_advanced_searches_path, class: 'class btn btn-info'
-      = link_to t('.view_all_active_tasks'), tasks_path, class: 'btn btn-info'
-      = link_to t('.csi_domain_scores'), current_url({format: 'xls', type: 'basic_info'}), class: 'btn btn-info btn-export'
-      = link_to t('.export_to_xls'), current_url(format: 'xls'), class: 'btn btn-info btn-export'
+.row
+  = render 'clients/client_advanced_searches/save_search_setting'
+.row
+  = render 'clients/client_advanced_searches/load_save_search'
+
 .row
   .col-xs-12
     .ibox-content#client-advance-search-form.collapse
-
+      = render 'clients/client_advanced_searches/advanced_search'
 .row
   .col-xs-12
     .ibox-content#client-search-form.collapse
@@ -33,15 +48,21 @@
 
         .col-xs-12.col-md-6
           .ibox-content
-            #case-statistic{ "data-case-statistic" => @cases_statistics, "data-title" => t('.case_statistics'), "data-yaxis-title" => t('.client_amount') }
+            #program-statistic{ "data-program-statistic" => @enrollments_statistics, "data-title" => t('.active_programs'), "data-yaxis-title" => t('.client_amount') }
 .row.mini-margin
   .col-xs-12
     .ibox
       .ibox-title
         %h5= @results
         %span.label.label-info= t('.results')
+        .ibox-tools
+          - if params[:data] == 'recent'
+            = link_to t('.show_all'), url_for(params.merge({data: 'all'})), class: 'btn btn-primary', id: 'show-all'
+          - else
+            = link_to t('.most_recent'), url_for(params.merge({data: 'recent'})), class: 'btn btn-primary', id: 'most-recent'
+
       .ibox-content
-        .clients-table{ data: { 'info-load' => t('.load'), 'info-end' => t('.end') } }
+        .clients-table{ data: { 'info-load': t('.load'), 'info-end': t('.end'), 'read-more': t('.read_more'), 'read-less': t('.read_less') } }
           %table.table.table-bordered.table-striped.table-hover.clients
             %thead
               = datagrid_header(@client_grid)

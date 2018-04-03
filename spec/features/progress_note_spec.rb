@@ -3,7 +3,7 @@ feature 'progress_note' do
   let!(:client){ create(:client, able_state: Client::ABLE_STATES[0]) }
   let!(:other_location){ create(:location, name: 'ផ្សេងៗ Other') }
   let!(:progress_note){ create(:progress_note, client: client, location: other_location) }
-  let!(:other_progress_note){ create(:progress_note, client: client, location: other_location) }
+  let!(:other_progress_note){ create(:progress_note, client: client, location: other_location, user: client.users.last) }
   let!(:progress_note_type){ create(:progress_note_type) }
   let!(:location){ create(:location) }
   let!(:intervention){ create(:intervention) }
@@ -76,38 +76,8 @@ feature 'progress_note' do
       expect(page).to have_css("a[href='#{client_progress_note_path(progress_note.client, progress_note)}'][data-method='delete']")
     end
 
-    scenario 'new link' do
-      expect(page).to have_link('Add New Progress Note', new_client_progress_note_path(progress_note.client))
-    end
-
     scenario 'pagination' do
       expect(page).to have_css('.pagination')
-    end
-  end
-
-  feature 'Create' do
-    before do
-      visit new_client_progress_note_path(client)
-    end
-
-    xscenario 'valid', js: true do
-      fill_in 'Date', with: Date.today
-      # select progress_note_type.note_type, from: I18n.t('progress_notes.form.progress_note_type')
-      # select location.name, from: I18n.t('progress_notes.form.location').last
-      # select intervention.action, from: I18n.t('progress_notes.form.interventions')
-      # select material.status, from: I18n.t('progress_notes.form.material')
-      # fill_in I18n.t('progress_notes.form.other_location'), with: 'test'
-      page.find('#select2-chosen-2').click
-      page.find('#select2-result-label-6').click
-      click_button 'Save'
-      sleep 1
-      expect(page).to have_content(Date.today.strftime('%d %B, %Y'))
-    end
-
-    scenario 'invalid', js: true do
-      fill_in 'Date', with: ''
-      page.find("#only-submit").click
-      expect(page).to have_content("can't be blank")
     end
   end
 

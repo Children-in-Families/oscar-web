@@ -8,6 +8,7 @@ class ClientEnrollment < ActiveRecord::Base
   has_one :leave_program, dependent: :destroy
 
   validates :enrollment_date, presence: true
+  validate :enrollment_date_value, if: 'enrollment_date.present?'
   accepts_nested_attributes_for :form_builder_attachments, reject_if: proc { |attributes| attributes['name'].blank? &&  attributes['file'].blank? }
 
   has_paper_trail
@@ -44,7 +45,11 @@ class ClientEnrollment < ActiveRecord::Base
   def set_client_status
     client = Client.find self.client_id
     client_status = 'Active' unless client.cases.exclude_referred.currents.present?
-    client.update_attributes(status: client_status) if client_status.present?
+
+    if client_status.present?
+      client.status = client_status
+      client.save(validate: false)
+    end
   end
 
   def get_form_builder_attachment(value)
@@ -53,14 +58,24 @@ class ClientEnrollment < ActiveRecord::Base
 
   def reset_client_status
     client = Client.find(client_id)
-    return if client.active_case? || client.client_enrollments.active.any?
+    return if client.client_enrollments.active.any?
+    client.status = 'Accepted'
+    client.save(validate: false)
+  end
 
-    client.update(status: 'Referred')
+  def short_enrollment_date
+    enrollment_date.end_of_month.strftime '%b-%y'
   end
 
   private
 
   def create_client_enrollment_history
     ClientEnrollmentHistory.initial(self)
+  end
+
+  def enrollment_date_value
+    if leave_program.present? && leave_program.exit_date < enrollment_date
+      errors.add(:enrollment_date, I18n.t('invalid_program_enrollment_date'))
+    end
   end
 end

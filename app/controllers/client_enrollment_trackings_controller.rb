@@ -8,6 +8,8 @@ class ClientEnrollmentTrackingsController < AdminController
   before_action :find_tracking, except: [:index, :show, :destroy]
   before_action :find_client_enrollment_tracking, only: [:update, :destroy, :edit, :show]
   before_action :get_attachments, only: [:new, :create, :edit, :update]
+  before_action -> { check_user_permission('editable') }, except: [:index, :show, :report]
+  before_action -> { check_user_permission('readable') }, only: :show
 
   def index
     @tracking_grid = TrackingGrid.new(params[:tracking_grid])

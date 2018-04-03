@@ -6,11 +6,11 @@
         %h4.modal-title.text-center= t('.warning')
       .modal-body.text-center
         %p="This client is still actively enrolled in #{client.client_enrollments.active.count} programs. Please exit them from all programs before attempting to exit them from your organization."
-        = link_to 'Click here to exit program', client_client_enrollments_path(@client, program_streams:'enrolled-program-streams') 
+        = link_to 'Click here to exit program', client_client_enrolled_programs_path(@client)
         %br
         %br
         %p="អតិថិជននេះមាន #{client.client_enrollments.active.count} កម្មវិធីដែលពំុទាន់បានចាកចេញ។សូមចាកចេញពីកម្មវិធីទាំងនោះមុនពេលដែលអ្នកព្យាយាមចាកចេញពីអង្គការរបស់អ្នក។"
-        = link_to 'ចុចទីនេះដើម្បីចាកចេញពីកម្មវិធី', client_client_enrollments_path(@client, program_streams:'enrolled-program-streams') 
+        = link_to 'ចុចទីនេះដើម្បីចាកចេញពីកម្មវិធី', client_client_enrolled_programs_path(@client)
       .modal-footer
         %button.btn.btn-default{ 'data-dismiss' => 'modal', type: 'button' }
           = t('.close')

@@ -1,0 +1,589 @@
+%h4.text-center ព្រះរាជាណាចក្រកម្ពុជា
+%h4.text-center ជាតិ សាសនា ព្រះមហាក្សត្រ
+.text-center
+  = wicked_pdf_image_tag 'logo.png', width: 120
+
+.panel.panel-no-margin.panel-borderless{style: 'margin-top: 5px;'}
+  .panel-heading.panel-no-padding.panel-borderless
+    .text-center{style: 'padding:8px; background-color: #04215C; color: white; width:100%; margin-bottom: 0px;'} ទម្រង់ទី២: ការប៉ាន់ប្រមាណករណី និងគ្រួសារ
+
+  .panel-body.panel-border
+    ទម្រង់នេះត្រូវបំពេញដោយអ្នកកាន់ករណី។ ពួកគេត្រូវត្រួតពិនិត្យគ្រប់ព័ត៌មានទាំងអស់នៅក្នុងទម្រង់ព័ត៌មានបឋមមុនពេលបំពេញចូលក្នុងទម្រង់នេះ។ ពួកគេត្រូវតែទទួលបានការយល់ព្រមជាមុនពីកុមារ ពន្យល់អំពីការរក្សាការសម្ងាត់ និងកន្លែងដែលមានសុវត្ថិភាព។
+
+  .panel-body.panel-border
+    កាលបរិច្ឆេទ(ថ្ងៃ/ខែ/ឆ្នាំ):
+    - gov_date = @client.gov_date.present? ? @client.gov_date.strftime('%d%m%y') : '000000'
+    - gov_date.split('').each_with_index do |code, index|
+      - if index == 0
+        %span.first= code
+      - else
+        %span= code
+    លេខកូដភូមិ:
+    - gov_village_code = @client.gov_village_code.present? ? @client.gov_village_code : '00000000'
+    - gov_village_code.split('').each_with_index do |code, index|
+      - if index == 0
+        %span.first= code
+      - else
+        %span= code
+    លេខកូដកុមារ:
+    - gov_client_code = @client.gov_date.present? ? @client.gov_client_code : '0000'
+    - gov_client_code.split('').each_with_index do |code, index|
+      - if index == 0
+        %span.first= code
+      - else
+        %span= code
+
+  .panel-body.panel-border
+    %u ទីកន្លែងប៉ាន់ប្រមាណ៖
+    %table.table.table-borderless
+      %tbody
+        %tr
+          %td ឃុំ/សង្កាត់:
+          %td
+            %input{style: 'width: 100%', value: '' }
+          %td ក្រុង/ស្រុក/ខណ្ឌ:
+          %td
+            %input{style: 'width: 100%', value: '' }
+          %td រាជធានី/ខេត្ត:
+          %td
+            %input{style: 'width: 100%', value: '' }
+        %tr
+          %td
+            %label ឈ្មោះអ្នកកាន់ករណី
+          %td
+            %input{style: 'width: 100%', value: '' }
+          %td
+            %label លេខទូរស័ព្ទ:
+          %td{:colspan => "3"}
+            %input{style: 'width: 100%', value: '' }
+
+.panel.panel-no-margin.panel-borderless
+  .panel-heading.panel-border.no-border-bottom{style: 'background: #558bd4; padding: 5px; color: #fff'}
+    %strong I- ស្ថានភាពកុមារ និងតម្រូវការ:
+
+  .panel-body.panel-border.no-border-bottom
+    %div{style: 'position: relative; width: 100%;'}
+      %div{style: 'margin-bottom: 30px'}
+        %label{stle: 'margin-right:15px; margin-left: 10px;'} សូមដាក់ពិន្ទុក្នុងតារាងខាងក្រោមតាមតម្លៃលេខដែលសមស្រប៖
+      %div{style: 'position: absolute; top: -75px; right: 0'}
+        = wicked_pdf_image_tag 'gov_form_rate_symbol.svg', width: 400, height: 200
+
+  .panel-body.panel-border
+    %table.table.table-border.panel-no-margin
+      %thead{ style: 'background: #d8d8d8' }
+        %tr
+          %th.text-center{ style: 'width: 200px' } ស្ថានភាពរបស់កុមារនិងតម្រូវការបច្ចុប្បន្ន
+          %th.text-center{ style: 'width: 40px' } ពិន្ទុ
+          %th.text-center មតិយោបល់
+      %tbody
+        %tr
+          %td សុខភាពផ្លូវកាយ
+          %td.text-center
+          %td
+            .comment{style: 'min-height: 36px;'}
+              %p
+        %tr
+          %td សុខភាពផ្លូវចិត្ត
+          %td.text-center
+          %td
+            .comment{style: 'min-height: 36px;'}
+              %p
+        %tr
+          %td សុវត្ថិភាព និងសន្តិសុខ
+          %td.text-center
+          %td
+            .comment{style: 'min-height: 36px;'}
+              %p
+        %tr
+          %td ចំណីអាហារ
+          %td.text-center
+          %td
+            .comment{style: 'min-height: 36px;'}
+              %p
+        %tr
+          %td ទីជម្រក
+          %td.text-center
+          %td
+            .comment{style: 'min-height: 36px;'}
+              %p
+        %tr
+          %td សម្លៀកបំពាក់
+          %td
+          %td
+            .comment{style: 'min-height: 36px;'}
+              %p
+        %tr
+          %td ការសិក្សាអប់រំ
+          %td.text-center
+          %td
+            .comment{style: 'min-height: 36px;'}
+              %p
+        %tr
+          %td ទំនាក់ទំនងក្នុងគ្រួសារ
+          %td.text-center
+          %td
+            .comment{style: 'min-height: 36px;'}
+              %p
+
+.panel.panel-no-margin.panel-borderless{style: 'margin-top: 10px'}
+  .panel-body.panel-border{style: 'border-top: 1px solid black;'}
+    %table.table.table-border.panel-no-margin
+      %thead{ style: 'background: #d8d8d8' }
+        %tr
+          %th.text-center{ style: 'width: 200px' } ស្ថានភាពរបស់កុមារនិងតម្រូវការបច្ចុប្បន្ន
+          %th.text-center{ style: 'width: 40px' } ពិន្ទុ
+          %th.text-center មតិយោបល់
+      %tbody
+        %tr
+          %td ទំនាក់ទំនងសង្គម
+          %td.text-center
+          %td
+            .comment{style: 'min-height: 38px;'}
+              %p
+        %tr
+          %td ឯកសារច្បាប់
+          %td.text-center
+          %td
+            .comment{style: 'min-height: 38px;'}
+              %p
+        %tr
+          %td តម្រូវការជំនួយផ្នែកច្បាប់
+          %td.text-center
+          %td
+            .comment{style: 'min-height: 38px;'}
+              %p
+
+.panel.panel-no-margin.panel-borderless
+  .panel-heading.panel-border.no-border-bottom{style: 'background: #558bd4; padding: 5px; color: #fff'}
+    II. ស្ថានភាពគ្រួសារ
+
+  .panel-body.panel-border.no-border-bottom
+    %u អាសយដ្ឋាន៖
+    %table.table.table-borderless.panel-no-margin
+      %tbody
+        %tr
+          %td ផ្ទះលេខ:
+          %td
+            %input{style: 'width: 100%', value: '' }
+          %td ផ្លូវលេខ:
+          %td
+            %input{style: 'width: 100%', value: '' }
+          %td ភូមិ:
+          %td
+            %input{style: 'width: 100%', value: '' }
+          %td ឃុំ/សង្កាត់:
+          %td
+            %input{style: 'width: 100%', value: '' }
+        %tr
+          %td
+            %label ក្រុង/ស្រុក/ខណ្ឌ:
+          %td{:colspan => "3"}
+            %input{style: 'width: 100%', value: '' }
+          %td
+            %label ខេត្ត/រាជធានី:
+          %td{:colspan => "3"}
+            %input{style: 'width: 100%', value: '' }
+        %tr
+          %td
+            %label ចំនួនកុមារសរុបក្នុងបន្ទុក:
+          %td
+            %input{style: 'width: 100%', value: '' }
+          %td
+            %label កុមារា:
+          %td
+            %input{style: 'width: 100%', value: '' }
+          %td
+            %label កុមារី:
+          %td
+            %input{style: 'width: 100%', value: '' }
+  .panel-body.panel-border
+    %table.table.table-border.panel-no-margin
+      %thead{ style: 'background: #d8d8d8' }
+        %tr
+          %th.text-center{ style: 'width: 190px;' } ឈ្មោះមនុស្សពេញវ័យដែលរស់នៅក្នុងផ្ទះជាមួយគ្នា
+          %th.text-center ថ្ងៃខែឆ្នាំកំណើត
+          %th.text-center{ style: 'width: 190px;' } មុខរបរ
+          %th.text-center ទំនាក់ទំនងជាមួយកុមារ
+      %tbody
+        %tr
+          %td
+            .comment{style: 'min-height: 35px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 35px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 35px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 35px;'}
+              %p
+        %tr
+          %td
+            .comment{style: 'min-height: 35px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 35px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 35px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 35px;'}
+              %p
+        %tr
+          %td
+            .comment{style: 'min-height: 35px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 35px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 35px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 35px;'}
+              %p
+        %tr
+          %td
+            .comment{style: 'min-height: 35px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 35px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 35px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 35px;'}
+              %p
+        %tr
+          %td
+            .comment{style: 'min-height: 35px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 35px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 35px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 35px;'}
+              %p
+        %tr
+          %td
+            .comment{style: 'min-height: 35px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 35px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 35px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 35px;'}
+              %p
+        %tr
+          %td
+            .comment{style: 'min-height: 35px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 35px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 35px;'}
+              %p
+          %td
+            .comment{style: 'min-height: 35px;'}
+              %p
+
+.panel.panel-no-margin.panel-borderless{style: 'margin-bottom: 20px'}
+  .panel-heading.panel-border{style: 'background: #d8d8d8; padding: 5px; color: #000'}
+    អាសយដ្ឋានអ្នកថែទាំ:
+
+  .panel-body.panel-border
+    %table.table.table-borderless.panel-no-margin
+      %tbody
+        %tr
+          %td ផ្ទះលេខ:
+          %td
+            %input{style: 'width: 100%', value: '' }
+          %td ផ្លូវលេខ:
+          %td
+            %input{style: 'width: 100%', value: '' }
+          %td ភូមិ:
+          %td
+            %input{style: 'width: 100%', value: '' }
+          %td ឃុំ/សង្កាត់:
+          %td
+            %input{style: 'width: 100%', value: '' }
+        %tr
+          %td
+            %label ក្រុង/ស្រុក/ខណ្ឌ:
+          %td{:colspan => "3"}
+            %input{style: 'width: 100%', value: '' }
+          %td
+            %label ខេត្ត/រាជធានី:
+          %td{:colspan => "3"}
+            %input{style: 'width: 100%', value: '' }
+        %tr
+          %td
+            %label លេខទូរស័ព្ទ:
+          %td{:colspan => "7"}
+            %input{style: 'width: 100%', value: '' }
+
+.panel.panel-no-margin.panel-borderless
+  .panel-body.panel-border.no-border-bottom{style: 'border-top: 1px solid black'}
+    %div{style: 'position: relative; width: 100%;'}
+      %div{style: 'margin-bottom: 30px;'}
+        %label{stle: 'margin-right:15px; margin-left: 10px;'} សូមដាក់ពិន្ទុក្នុងតារាងខាងក្រោមតាមតម្លៃលេខដែលសមស្រប៖
+      %div{style: 'position: absolute; bottom: -105px; right: 0;'}
+        = wicked_pdf_image_tag 'gov_form_rate_symbol.svg', width: 400, height: 200
+
+  .panel-body.panel-border
+    %table.table.table-border.panel-no-margin
+      %thead{ style: 'background: #d8d8d8' }
+        %tr
+          %th.text-center{ style: 'width: 200px' } ស្ថានភាពរបស់កុមារនិងតម្រូវការបច្ចុប្បន្ន
+          %th.text-center{ style: 'width: 40px' } ពិន្ទុ
+          %th.text-center មតិយោបល់
+      %tbody
+        %tr
+          %td ការការពារ និងការថែទាំ
+          %td.text-center
+          %td
+        %tr
+          %td ភាពស្និទ្ធស្នាលរវាងកុមារ និងអ្នកថែទាំ
+          %td.text-center
+          %td
+        %tr
+          %td សុខភាពផ្លូវកាយ ផ្លូវចិត្ត
+          %td.text-center
+          %td
+        %tr
+          %td សុខភាពផ្លូវចិត្ត
+          %td.text-center
+          %td
+        %tr
+          %td ឆន្ទៈក្នុងការធ្វើឲ្យស្ថានភាពបានប្រសើរឡើង
+          %td.text-center
+          %td
+        %tr
+          %td មុខរបរនិងជំនាញនានាដែលអាចរកចំណូលបាន
+          %td.text-center
+          %td
+        %tr
+          %td កម្រិតសិក្សាអប់រំ
+          %td.text-center
+          %td
+        %tr
+          %td ធនធាននាន (ដីធ្លី ផ្ទះ…)
+          %td.text-center
+          %td
+        %tr
+          %td ជំនួយពីសាច់ញាតិ
+          %td.text-center
+          %td
+        %tr
+          %td ការគាំទ្រពីសហគមន៍
+          %td.text-center
+          %td
+        %tr
+          %td កូនៗផ្សេងទៀតដែលអាចជួយបាន
+          %td.text-center
+          %td
+        %tr
+          %td ផ្សេងៗ
+          %td.text-center
+          %td
+
+.panel.panel-no-margin.panel-borderless
+  .panel-heading.panel-border{style: 'background: #d8d8d8; padding: 5px; color: #000'}
+    សេចក្តីសន្និដ្ឋាន របស់អ្នកកាន់ករណី:
+
+  .panel-body.panel-border
+    .row
+      .col-xs-4
+        .form-check{style: 'margin-left: 10px;'}
+          .form-check-label
+            %input.form-input{ type: 'checkbox', checked: @client.referral_source != 'ក្រសួង សអយ/មន្ទីរ សអយ' ? true : false }
+            = 'អាចធ្វើសមាហរណកម្មបាន'
+      .col-xs-4
+        .form-check{style: 'margin-left: 10px;'}
+          .form-check-label
+            %input.form-input{ type: 'checkbox', checked: @client.referral_source == 'អង្គការមិនមែនរដ្ឋាភិបាល' ? true : false  }
+            = 'មិនអាចធ្វើសមាហរណកម្មបានទេ'
+      .col-xs-2
+        .form-check{style: 'margin-left: 10px;'}
+          .form-check-label
+            %input.form-input{ type: 'checkbox', checked: @client.referral_source == 'មន្ទីរពេទ្យ' ? true : false  }
+            = 'បន្តករណី'
+      .col-xs-2
+        .form-check{style: 'margin-left: 10px;'}
+          .form-check-label
+            %input.form-input{ type: 'checkbox', checked: @client.referral_source == 'នគរបាល' ? true : false  }
+            = 'បិទករណី'
+
+  .panel-body.panel-border
+    .comment{style: 'min-height: 330px;'}
+      %p= @client.gov_referral_reason
+
+
+.panel.panel-borderless
+  .panel-body.border-label
+    .row
+      .col-xs-12.text-left
+        .signature_date
+          .row
+            .col-xs-3
+              កាលបរិច្ឆេទ (ថ្ងៃទី/ខែ/ឆ្នាំ)៖
+            .col-xs-9.text-left
+              %span.first
+              %span.padding-date
+              %span.padding-date
+              %span.padding-date
+              %span.padding-date
+              %span.padding-date
+    .row{style: 'padding-top: 10px'}
+      .col-xs-12.text-left
+        .row
+          .col-xs-2
+            %label ឈ្មោះអ្នកកាន់ករណី:
+          .col-xs-4
+            %input{style: 'width:96.6%; float: right;', value: '' }
+
+.panel.panel-no-margin.panel-borderles
+  .panel-heading.panel-border{style: 'background: #efb407; padding: 5px; color: #000; border-top: 1px solid black'}
+    III. កិច្ចពិភាក្សាអំពីសេវា:
+  .panel-heading.panel-border{style: 'background: #f8f900; padding: 5px; color: #000'}
+    ១. ទំនាក់ទំនងអតិថិជនលើកដំបូង
+
+  .panel-body.border-label.panel-no-padding
+    .row
+      .col-xs-4{style: 'padding-left: 30px;'}
+        %label.small កាលបរិចេ្ឆទ ទំនាក់ទំនងអតិថិជនលើកដំបូង:
+        .comment{style: 'min-height: 120px;'}
+          %p= @client.gov_referral_reason
+
+      .col-xs-4{style: 'border-left: 1px solid black;'}
+        %label.small ប្រភេទទំនាក់ទំនង (តាមទូរស័ព្ទជួបផ្ទាល់):
+        .comment{style: 'min-height: 120px;'}
+          %p= @client.gov_referral_reason
+
+      .col-xs-4{style: 'border-left: 1px solid black;'}
+        %label.small ប្រភេទសេវាដែលអតិថិជនឯកភាព:
+        .comment{style: 'min-height: 120px;'}
+          %p= @client.gov_referral_reason
+
+  .panel-heading.panel-border{style: 'background: #f8f900; padding: 5px; color: #000'}
+    ២. គោលការណ៍ ឬការពន្យល់របស់អ្នកផ្តល់សេវា
+
+  .panel-body.border-label.panel-no-padding
+    %label{style: 'padding-left: 5px;'} ការកត់ត្រាពិភាក្សាជាមួយ និងអតិថិជនអំពីអ្វីដែលបានព្រមព្រៀង
+    .row
+      .col-xs-4
+        .form-check{style: 'margin: 3px 0 0 10px;'}
+          %input{ type: 'checkbox', checked: false }
+          %label ពន្យល់ពីសេវា និងកម្មវិធី
+      .col-xs-4
+        .form-check{style: 'margin: 3px 0 0 10px;'}
+          %input{ type: 'checkbox', checked: false }
+          %label ភាពសម្ងាត់របស់អតិថិជន
+      .col-xs-4
+        .form-check{style: 'margin: 3px 0 0 10px;'}
+          %input{ type: 'checkbox', checked: false }
+          %label សិទ្ធិរបស់អតិថិជន
+      .col-xs-12
+        .form-check{style: 'margin: 3px 0 0 10px;'}
+          %input{ type: 'checkbox', checked: false }
+          %label សិទ្ធិអតិថិជន ក្នុងការទទួលឬបដិសេធមិនទទួលយកសេវា
+
+  .panel-heading.panel-border{style: 'background: #f8f900; padding: 5px; color: #000'}
+    ៣. ប្រភេទនៃការព្រមព្រៀង
+
+  .panel-body.border-label.panel-no-padding
+    .row
+      .col-xs-4{style: 'padding-left: 30px;'}
+        .form-check{style: 'margin: 3px 0 0 10px;'}
+          %input{ type: 'checkbox', checked: false }
+          %label សរសេរ
+      .col-xs-4
+        .form-check{style: 'margin: 3px 0 0 10px;'}
+          %input{ type: 'checkbox', checked: false }
+          %label ផ្ទាល់មាត់
+      .col-xs-4
+        .form-check{style: 'margin: 3px 0 0 10px;'}
+          %input{ type: 'checkbox', checked: false }
+          %label មិនទទួលយកសេវា
+
+  .panel-heading.panel-border{style: 'background: #006cb9; padding: 5px; color: #fff'}
+    ហត្ថលេខា
+
+  .panel-body.border-label.panel-no-padding
+    .row
+      .col-xs-4{style: 'padding-left: 30px;'}
+        %label.small ឈ្មោះកុមារ:
+        .comment{style: 'min-height: 150px;'}
+          %p= @client.gov_referral_reason
+
+      .col-xs-4{style: 'border-left: 1px solid black;'}
+        %label.small ហត្ថលេខាស្នាមមេដៃ:
+        .comment{style: 'min-height: 150px;'}
+          %p= @client.gov_referral_reason
+
+      .col-xs-4{style: 'border-left: 1px solid black;'}
+        %label.small កាលបរិច្ឆេទ (ថ្ងៃទី/ខែ/ឆ្នាំ)៖
+        .comment{style: 'min-height: 150px;'}
+          %p= @client.gov_referral_reason
+
+  .panel-body.border-label.panel-no-padding
+    .row
+      .col-xs-4{style: 'padding-left: 30px;'}
+        .row
+          .col-xs-12
+            %label.small ឈ្មោះអាណាព្យាបាលកុមារ
+          .col-xs-12
+            .comment{style: 'min-height: 150px;'}
+              %p= @client.gov_referral_reason
+
+      .col-xs-4{style: 'border-left: 1px solid black;'}
+        .row
+          .col-xs-12
+            %label.small ហត្ថលេខាស្នាមមេដៃ:
+          .col-xs-12
+            .comment{style: 'min-height: 150px;'}
+              %p= @client.gov_referral_reason
+
+      .col-xs-4{style: 'border-left: 1px solid black;'}
+        .row
+          .col-xs-12
+            %label.small​ កាលបរិច្ឆេទ (ថ្ងៃទី/ខែ/ឆ្នាំ)៖
+          .col-xs-12
+            .comment{style: 'min-height: 150px;'}
+              %p= @client.gov_referral_reason
+
+  .panel-body.border-label.panel-no-padding
+    .row
+      .col-xs-4{style: 'padding-left: 30px;'}
+        .row
+          .col-xs-12
+            %label.small ឈ្មោះអ្នកកាន់ករណី
+          .col-xs-12
+            .comment{style: 'min-height: 150px;'}
+              %p= @client.gov_referral_reason
+
+      .col-xs-4{style: 'border-left: 1px solid black;'}
+        .row
+          .col-xs-12
+            %label.small ហត្ថលេខា:
+          .col-xs-12
+            .comment{style: 'min-height: 150px;'}
+              %p= @client.gov_referral_reason
+
+      .col-xs-4{style: 'border-left: 1px solid black;'}
+        .row
+          .col-xs-12
+            %label.small កាលបរិច្ឆេទ (ថ្ងៃទី/ខែ/ឆ្នាំ)៖
+          .col-xs-12
+            .comment{style: 'min-height: 150px;'}
+              %p= @client.gov_referral_reason

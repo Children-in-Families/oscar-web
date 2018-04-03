@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
   before_action :set_paper_trail_whodunnit
 
   rescue_from ActiveRecord::RecordNotFound do |exception|
-   render file: "#{Rails.root}/app/views/errors/404", layout: false, status: :not_found
+    render file: "#{Rails.root}/app/views/errors/404", layout: false, status: :not_found
   end
 
   helper_method :current_organization
@@ -20,7 +20,7 @@ class ApplicationController < ActionController::Base
   end
 
   rescue_from Pundit::NotAuthorizedError do |exception|
-    redirect_to root_url, alert: t('unauthorized.default')
+    redirect_to root_path, alert: t('unauthorized.default')
   end
 
   def current_organization
@@ -40,8 +40,9 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.for(:account_update) << :mobile
     devise_parameter_sanitizer.for(:account_update) << :task_notify
     devise_parameter_sanitizer.for(:account_update) << :calendar_integration
-    devise_parameter_sanitizer.for(:account_update) << :pin_number
+    devise_parameter_sanitizer.for(:account_update) << :pin_code
     devise_parameter_sanitizer.for(:account_update) << :program_warning
+    devise_parameter_sanitizer.for(:account_update) << :domain_warning
     devise_parameter_sanitizer.for(:account_update) << :staff_performance_notification
   end
 
@@ -60,17 +61,18 @@ class ApplicationController < ActionController::Base
   end
 
   def default_url_options(options = {})
-    { locale: I18n.locale }.merge(options)
+    country = params[:country] || 'cambodia'
+    { locale: I18n.locale, country: country }.merge(options)
   end
 
   def after_sign_out_path_for(_resource_or_scope)
-    root_url(host: request.domain)
+    root_url(host: request.domain, subdomain: 'start')
   end
 
   def detect_browser
     lang = params[:locale] || locale.to_s
     if browser.firefox? && browser.platform.mac? && lang == 'km'
-      "Application is not translated properly for Firefox on Mac, we're sorry to suggest to use Google Chrome browser instead."
+      "Khmer fonts for Firefox do not render correctly. Please use Google Chrome browser instead if you intend to use OSCaR in Khmer language."
     end
   end
 end

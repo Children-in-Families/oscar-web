@@ -1,0 +1,31 @@
+.row
+  .col-xs-12
+    .ibox
+      .ibox-content.no-border
+        .row
+          .col-xs-12
+            = render 'partners/partner_advanced_searches/form_option'
+        .row.column-picker
+          .col-xs-12.col-md-4
+            %label= t('.partner_column')
+            #partner-column
+              = datagrid_form_for @partner_grid, url: partners_url, html: { class: 'grid-form' }
+          .col-xs-12.col-md-4
+            %label= t('.custom_form_column')
+            = render 'partners/partner_advanced_searches/custom_form_column'
+
+        .row
+          .col-xs-12
+            #builder.advanced-search-builder{ 'data-basic-search-rules' => @basic_filter_params, 'data-filter-translation' => { add_filter: t('.add_new_filter'), add_group: t('.add_new_group'), delete_group: t('.delete_group') }}
+            %span.basic-filter-error
+              %i Please Select Field to Filter
+
+      .ibox-footer
+        %button#search.btn.btn-primary= t('.search')
+        = link_to t('.reset'), partners_path, class: 'btn btn-default'
+
+= simple_form_for :partner_advanced_search, url: :partners, method: 'GET', html: { id: 'advanced-search' } do |f|
+  = f.hidden_field :custom_form_selected
+  = f.hidden_field :basic_rules
+  = hidden_field_tag :locale, "#{params[:locale]}"
+  #partner-builder-fields{ data: { fields: @builder_fields.to_json }}

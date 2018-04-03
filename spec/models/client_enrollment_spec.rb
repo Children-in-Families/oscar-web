@@ -45,6 +45,17 @@ describe ClientEnrollment, 'validations' do
       expect(client_enrollment.errors.full_messages).to include("Age can't be lower than 1")
     end
   end
+
+  context 'enrollment_date_value' do
+    it 'should be any date before the program exit date' do
+      properties = {"e-mail"=>"test@example.com", "age"=>"6", "description"=>"this is testing"}
+      client_enrollment = ClientEnrollment.create(program_stream: program_stream, client: client, properties: properties, enrollment_date: '2017-06-08')
+      leave_program = LeaveProgram.create(client_enrollment: client_enrollment, program_stream: program_stream, properties: properties, exit_date: '2017-06-09')
+      client_enrollment.enrollment_date = '2017-06-10'
+      client_enrollment.save
+      expect(client_enrollment.errors[:enrollment_date]).to include('The enrollment date you have selected is invalid. Please select a date prior to your program exit date.')
+    end
+  end
 end
 
 describe ClientEnrollment, 'scopes' do
@@ -96,7 +107,7 @@ describe ClientEnrollment, 'callbacks' do
 
   let!(:program_stream) { create(:program_stream) }
   let!(:other_program_stream) { create(:program_stream) }
-  let!(:client) { create(:client) }
+  let!(:client) { create(:client, :accepted) }
   let!(:client_enrollment) { create(:client_enrollment, program_stream: program_stream, client: client) }
   let!(:other_client_enrollment) { create(:client_enrollment, program_stream: other_program_stream, client: client) }
 
@@ -119,18 +130,18 @@ describe ClientEnrollment, 'callbacks' do
   context 'after_create' do
     context 'set_client_status' do
       it 'return client status active when not in any case' do
-        expect(client_enrollment.client.status).to eq("Referred")
+        expect(client_enrollment.client.status).to eq("Accepted")
         client_enrollment.reload
         client_enrollment.update(enrollment_date: FFaker::Time.date)
         expect(client_enrollment.client.status).to eq("Active")
       end
 
-      it 'return client status active when in case EC' do
+      it 'return client status Active when in case EC' do
         case_client = FactoryGirl.create(:case, client: client)
         case_client_enrollment = FactoryGirl.create(:client_enrollment, program_stream: program_stream, client: client)
         case_client_enrollment.reload
         case_client_enrollment.update(enrollment_date: FFaker::Time.date)
-        expect(case_client_enrollment.client.status).to eq("Active EC")
+        expect(case_client_enrollment.client.status).to eq("Active")
       end
     end
   end
@@ -143,25 +154,25 @@ describe ClientEnrollment, 'callbacks' do
         expect(client.status).to eq('Active')
       end
 
-      it 'return client status Active EC when in case EC' do
+      it 'return client status Active when in case EC' do
         case_client = FactoryGirl.create(:case, client: client, case_type: 'EC')
         other_client_enrollment.destroy
-        expect(client.status).to eq('Active EC')
+        expect(client.status).to eq('Active')
       end
 
-      it 'return client status Referred when not active in any cases or programs' do
+      it 'return client status Accepted when not active in any cases or programs' do
         other_client_enrollment.destroy
-        expect(client.status).to eq('Referred')
+        expect(client.status).to eq('Accepted')
       end
     end
   end
 end
 
 describe ClientEnrollment, 'methods' do
+  let!(:client) { create(:client) }
+  let!(:program_stream) { create(:program_stream) }
+  let!(:client_enrollment) { create(:client_enrollment, program_stream: program_stream, client: client, enrollment_date: '2017-11-01')}
   context 'has_client_enrollment_tracking?' do
-    let!(:client) { create(:client) }
-    let!(:program_stream) { create(:program_stream) }
-    let!(:client_enrollment) { create(:client_enrollment, program_stream: program_stream, client: client)}
 
     it 'return true' do
       ClientEnrollmentTracking.create(client_enrollment: client_enrollment)
@@ -170,6 +181,12 @@ describe ClientEnrollment, 'methods' do
 
     it 'return false' do
       expect(client_enrollment.has_client_enrollment_tracking?).to be false
+    end
+  end
+
+  context 'short_enrollment_date' do
+    it 'returns the end of month of the enrollment date formatted only month and year' do
+      expect(client_enrollment.short_enrollment_date).to eq('Nov-17')
     end
   end
 end

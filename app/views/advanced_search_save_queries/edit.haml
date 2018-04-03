@@ -1,0 +1,12 @@
+.row
+  .col-xs-12.col-sm-8.col-sm-offset-2
+    .ibox
+      = simple_form_for(@advanced_search, url: advanced_search_save_query_path(@advanced_search)) do |f|
+        .ibox-title
+          %h4= t('.edit_search_setting')
+        .ibox-content
+          = f.input :name, label: t('.name')
+          = f.input :description, label: t('.description')
+        .ibox-footer
+          = f.submit t('save'), class: 'btn btn-primary form-btn'
+          = link_to t('cancel'), clients_path, class: 'btn btn-default form-btn'

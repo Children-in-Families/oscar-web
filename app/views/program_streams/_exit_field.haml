@@ -1,9 +1,8 @@
 %h4= t('.exit_form')
 %section
-  #exit-program{ data: { field: @program_stream.exit_program.to_json }}
+  #exit-program
+    %span.hidden= @program_stream.exit_program.to_json
   %label
     %i= t('.note')
   .text-danger= @program_stream.errors[:exit_program].join(' and ')
   = f.hidden_field :exit_program
-  .btn.btn-primary.custom-field-list{ 'data-toggle': "modal", 'data-target': '#custom-field' }
-    = t('.custom_fields')

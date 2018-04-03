@@ -1,0 +1,14 @@
+%h3= t('.specific_point')
+%section
+  #specific-point
+    - if @client.persisted?
+      = render 'form_header', f: f
+
+    %legend= t('.specific_point')
+    .row
+      .col-xs-12
+        - QuantitativeType.all.each do |qt|
+          .row
+            .col-xs-12
+              %label{ title: qt.name }= qt.name
+              = f.association :quantitative_cases, collection: qt.quantitative_cases, multiple: true, label_method: :value, value_method: :id, label: false, input_html: { class: able_related_info(qt.name) }

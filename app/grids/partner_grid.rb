@@ -1,6 +1,8 @@
 class PartnerGrid
   include Datagrid
+  include ClientsHelper
 
+  attr_accessor :dynamic_columns
   scope do
     Partner.includes(:province).order(:name)
   end
@@ -85,11 +87,24 @@ class PartnerGrid
     object.province.try(:name)
   end
 
-  column(:manage, html: true, class: 'text-center', header: -> { I18n.t('datagrid.columns.partners.manage') }) do |object|
-    render partial: 'partners/actions', locals: { object: object }
+  dynamic do
+    next unless dynamic_columns.present?
+    dynamic_columns.each do |column_builder|
+      fields = column_builder[:id].split('_')
+      column(column_builder[:id].to_sym, class: 'form-builder', header: -> { form_builder_format_header(fields) }, html: true) do |object|
+        format_field_value = fields.last.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
+        properties = object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Partner'}).properties_by(format_field_value)
+        render partial: 'shared/form_builder_dynamic/properties_value', locals: { properties:  properties }
+      end
+    end
   end
 
-  column(:changelog, html: true, class: 'text-center', header: -> { I18n.t('datagrid.columns.partners.changelogs') }) do |object|
-    link_to t('datagrid.columns.partners.view'), partner_version_path(object)
+  dynamic do
+    column(:manage, html: true, class: 'text-center', header: -> { I18n.t('datagrid.columns.clients.manage') }) do |object|
+      render partial: 'partners/actions', locals: { object: object }
+    end
+    column(:changelog, html: true, class: 'text-center', header: -> { I18n.t('datagrid.columns.clients.changelogs') }) do |object|
+      link_to t('datagrid.columns.partners.view'), partner_version_path(object)
+    end
   end
 end

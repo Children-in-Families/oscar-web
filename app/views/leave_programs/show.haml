@@ -5,9 +5,7 @@
         %h5= "#{@client.en_and_local_name} - #{t('.exit_date')} #{date_format(@leave_program.exit_date)}"
         .ibox-tools
           - if can? :manage, LeaveProgram
-            = link_to edit_client_client_enrollment_leave_program_path(@client, @enrollment, @leave_program, program_stream_id: @program_stream) do
-              .btn.btn-success.btn-outline
-                = fa_icon('pencil')
+            = leave_program_edit_link
           = link_to report_client_client_enrollments_path(@client, program_stream_id: @program_stream) do
             .btn.btn-default.btn-back-default
               = t('.back')
@@ -15,11 +13,18 @@
         .table-responsive
           %table.table.table-bordered
             - @program_stream.exit_program.map{|properties| [properties['type'], properties['label']]}.each do |type, key|
-              %tr
-                %td.align-justify
-                  = key
-                %td.align-justify
-                  - if type == 'file'
-                    = render 'shared/form_builder/list_attachment', resource: @leave_program, label: key
-                  - else
-                    = display_custom_properties(@leave_program.properties[key])
+              - unless type == 'separateLine'
+                - if type == 'paragraph'
+                  %tr
+                    %td.align-justify{colspan: '2'}
+                      = key.html_safe
+                - else
+                  %tr
+                    %td.align-justify
+                      = key.html_safe
+                    %td.align-justify
+                      - key = convert_bracket(key)
+                      - if type == 'file'
+                        = render 'shared/form_builder/list_attachment', resource: @leave_program, label: key
+                      - else
+                        = display_custom_properties(@leave_program.properties[key])

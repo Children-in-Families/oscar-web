@@ -1,9 +1,15 @@
 module ClientEnrollmentConcern
   def client_enrollment_params
-    properties_params.values.map{ |v| v.delete('') if (v.is_a?Array) && v.size > 1 } if properties_params.present?
-
+    if properties_params.present?
+      mappings = {}
+      properties_params.each do |k, v|
+        mappings[k] = k.gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;').gsub('%22', '"')
+      end
+      formatted_params = properties_params.map {|k, v| [mappings[k], v] }.to_h
+      formatted_params.values.map{ |v| v.delete('') if (v.is_a?Array) && v.size > 1 }
+    end
     default_params = params.require(:client_enrollment).permit(:enrollment_date).merge!(program_stream_id: params[:program_stream_id])
-    default_params = default_params.merge!(properties: properties_params) if properties_params.present?
+    default_params = default_params.merge!(properties: formatted_params) if formatted_params.present?
     default_params = default_params.merge!(form_builder_attachments_attributes: params[:client_enrollment][:form_builder_attachments_attributes]) if action_name == 'create' && attachment_params.present?
     default_params
   end
@@ -58,5 +64,12 @@ module ClientEnrollmentConcern
 
   def get_attachments
     @attachments = @client_enrollment.form_builder_attachments
+  end
+
+  def check_user_permission(permission)
+    unless current_user.admin? || current_user.strategic_overviewer?
+      permission_set = current_user.program_stream_permissions.find_by(program_stream_id: @program_stream.id)[permission]
+      redirect_to root_path, alert: t('unauthorized.default') unless permission_set
+    end
   end
 end

@@ -1,25 +1,31 @@
 describe User, 'associations' do
-  it { is_expected.to belong_to(:province)}
-  it { is_expected.to belong_to(:department)}
+  it { is_expected.to belong_to(:province) }
+  it { is_expected.to belong_to(:department) }
 
-  it { is_expected.to have_many(:calendars)}
+  it { is_expected.to have_one(:permission).dependent(:destroy) }
+
+  it { is_expected.to have_many(:advanced_searches).dependent(:destroy) }
+  it { is_expected.to have_many(:calendars).dependent(:destroy) }
   it { is_expected.to have_many(:visits).dependent(:destroy) }
   it { is_expected.to have_many(:visit_clients).dependent(:destroy) }
-  it { is_expected.to have_many(:case_worker_tasks).dependent(:destroy) }
-  it { is_expected.to have_many(:tasks).through(:case_worker_tasks) }
-  it { is_expected.to have_many(:clients).through(:case_worker_clients)}
-  it { is_expected.to have_many(:case_worker_clients).dependent(:restrict_with_error)}
-  it { is_expected.to have_many(:changelogs).dependent(:restrict_with_error)}
-  it { is_expected.to have_many(:progress_notes).dependent(:restrict_with_error)}
+  it { is_expected.to have_many(:tasks).dependent(:destroy) }
+  it { is_expected.to have_many(:clients).through(:case_worker_clients) }
+  it { is_expected.to have_many(:case_worker_clients).dependent(:restrict_with_error) }
+  it { is_expected.to have_many(:changelogs).dependent(:restrict_with_error) }
+  it { is_expected.to have_many(:progress_notes).dependent(:restrict_with_error) }
   it { is_expected.to have_many(:custom_field_properties).dependent(:destroy) }
   it { is_expected.to have_many(:custom_fields).through(:custom_field_properties) }
+  it { is_expected.to have_many(:custom_field_permissions).dependent(:destroy) }
+  it { is_expected.to have_many(:user_custom_field_permissions).through(:custom_field_permissions) }
+  it { is_expected.to have_many(:program_stream_permissions).dependent(:destroy) }
+  it { is_expected.to have_many(:program_streams).through(:program_stream_permissions) }
 end
 
 describe User, 'validations' do
   it { is_expected.to validate_presence_of(:roles) }
   it { is_expected.to validate_presence_of(:email) }
   it { is_expected.to validate_uniqueness_of(:email).case_insensitive }
-  it { is_expected.to validate_inclusion_of(:roles).in_array(User::ROLES)}
+  it { is_expected.to validate_inclusion_of(:roles).in_array(User::ROLES) }
 end
 
 describe User, 'callbacks' do
@@ -96,6 +102,38 @@ describe User, 'callbacks' do
       expect(case_worker.manager_ids).to include(other_manager.id, manager_level_2.id, manager_level_3.id)
     end
   end
+
+  context 'build permission' do
+    let!(:client) { create(:client) }
+    let!(:assessment) { create(:assessment, client: client) }
+    let!(:case_note) { create(:case_note, client: client, assessment: assessment) }
+    let!(:custom_field) { create(:custom_field) }
+    let!(:program_stream) { create(:program_stream) }
+
+    let!(:user) { create(:user) }
+
+    it 'create a record in permission' do
+      expect(user.permission).to be_truthy
+      expect(user.permission.case_notes_readable).to eq(true)
+      expect(user.permission.case_notes_editable).to eq(true)
+      expect(user.permission.assessments_readable).to eq(true)
+      expect(user.permission.assessments_editable).to eq(true)
+    end
+
+    it 'create records in custom field permission' do
+      expect(user.custom_field_permissions.first.user_id).to eq(user.id)
+      expect(user.custom_field_permissions.first.custom_field_id).to eq(custom_field.id)
+      expect(user.custom_field_permissions.first.readable).to eq(true)
+      expect(user.custom_field_permissions.first.editable).to eq(true)
+    end
+
+    it 'create records in program stream permission' do
+      expect(user.program_stream_permissions.first.user_id).to eq(user.id)
+      expect(user.program_stream_permissions.first.program_stream_id).to eq(program_stream.id)
+      expect(user.program_stream_permissions.first.readable).to eq(true)
+      expect(user.program_stream_permissions.first.editable).to eq(true)
+    end
+  end
 end
 
 
@@ -118,6 +156,13 @@ describe User, 'scopes' do
   let!(:user_in_other_department){ create(:user,department: other_department, province: province) }
   let!(:ec_manager){ create(:user, :ec_manager, staff_performance_notification: false) }
   let!(:able_manager){ create(:user, :able_manager, staff_performance_notification: false) }
+
+  context 'non_devs' do
+    let!(:dev_1) { create(:user, email: ENV['DEV_EMAIL']) }
+    it 'exclude developers' do
+      expect(User.non_devs).not_to include(dev_1)
+    end
+  end
 
   context 'first name like' do
     subject{ User.first_name_like(user.first_name.downcase) }
@@ -272,26 +317,26 @@ describe User, 'methods' do
   let!(:fc_manager){ create(:user, roles: 'fc manager') }
   let!(:kc_manager){ create(:user, roles: 'kc manager') }
   let!(:able_manager){ create(:user, roles: 'able manager') }
-  let!(:client) { create(:client, users: [case_worker]) }
+  let!(:client) { create(:client, :accepted, users: [case_worker]) }
   let!(:assessment) { create(:assessment, client: client, created_at: Date.today) }
 
   let!(:ec_case_worker){ create(:user, roles: 'case worker', first_name: FFaker::Name.name, last_name: FFaker::Name.name) }
-  let!(:second_client) { create(:client, users: [ec_case_worker], status: 'Active EC') }
+  let!(:second_client) { create(:client, users: [ec_case_worker], status: 'Active') }
   let!(:second_assessment) { create(:assessment, client: second_client, created_at: 7.months.ago) }
 
   let!(:fc_case_worker){ create(:user, roles: 'case worker', first_name: FFaker::Name.name, last_name: FFaker::Name.name) }
-  let!(:third_client) { create(:client, users: [fc_case_worker], status: 'Active FC') }
+  let!(:third_client) { create(:client, users: [fc_case_worker], status: 'Active') }
   let!(:third_assessment) { create(:assessment, client: third_client, created_at: Date.today << 6) }
 
   let!(:used_user) { create(:user) }
-  let!(:other_clent) { create(:client, users: [used_user]) }
-  let!(:task) { create(:task, users: [used_user]) }
+  let!(:other_clent) { create(:client, :accepted, users: [used_user]) }
+  let!(:task) { create(:task, user: used_user) }
   let!(:changelog) { create(:changelog, user: used_user) }
   let!(:location){ create(:location, name: 'ផ្សេងៗ Other') }
   let!(:progress_note) { create(:progress_note, user: used_user, location: location) }
 
   let!(:kc_case_worker){ create(:user, roles: 'case worker', first_name: FFaker::Name.name, last_name: FFaker::Name.name) }
-  let!(:fourth_client) { create(:client, users: [kc_case_worker], status: 'Active KC') }
+  let!(:fourth_client) { create(:client, users: [kc_case_worker], status: 'Active') }
   let!(:fourth_assessment) { create(:assessment, client: fourth_client, created_at: Date.today << 6) }
 
   let!(:fifth_case_worker){ create(:user, roles: 'case worker', first_name: FFaker::Name.name, last_name: FFaker::Name.name) }
@@ -375,15 +420,27 @@ describe User, 'methods' do
     it 'current user is Able Manager' do
       expect(User.self_and_subordinates(able_manager)).to include(able_manager, able_case_worker)
     end
-    it 'current user is Ec Manager' do
-      expect(User.self_and_subordinates(ec_manager)).to include(ec_manager, ec_case_worker)
+
+    context 'current user is in Any Case Manager' do
+      it 'current user is Ec Manager' do
+        expect(User.self_and_subordinates(ec_manager)).to include(ec_manager)
+      end
+      it 'current user is Fc Manager' do
+        expect(User.self_and_subordinates(fc_manager)).to include(fc_manager)
+      end
+      it 'current user is Kc Manager' do
+        expect(User.self_and_subordinates(kc_manager)).to include(kc_manager)
+      end
     end
-    it 'current user is Fc Manager' do
-      expect(User.self_and_subordinates(fc_manager)).to include(fc_manager, fc_case_worker)
-    end
-    it 'current user is Kc Manager' do
-      expect(User.self_and_subordinates(kc_manager)).to include(kc_manager, kc_case_worker)
-    end
+    # it 'current user is Ec Manager' do
+    #   expect(User.self_and_subordinates(ec_manager)).to include(ec_manager, ec_case_worker)
+    # end
+    # it 'current user is Fc Manager' do
+    #   expect(User.self_and_subordinates(fc_manager)).to include(fc_manager, fc_case_worker)
+    # end
+    # it 'current user is Kc Manager' do
+    #   expect(User.self_and_subordinates(kc_manager)).to include(kc_manager, kc_case_worker)
+    # end
     it 'current user is Manager' do
       expect(User.self_and_subordinates(manager)).to include(manager, subordinate)
     end

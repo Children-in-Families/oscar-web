@@ -12,13 +12,165 @@ CIF.ClientsIndex = do ->
     _handleCreateCaseReport()
     _handleCreateCsiDomainReport()
     _handleScrollTable()
-    _setDefaultCheckColumnVisibilityAll()
+    _handleColumnVisibilityParams()
+    _handleUncheckColumnVisibility()
     _getClientPath()
+    _checkClientSearchForm()
+    _initAdavanceSearchFilter()
+    _toggleCollapseFilter()
+    _handleAutoCollapse()
+    _overdueAssessmentSearch()
+    _removeOverdueAssessmentSearch()
+    _hideOverdueAssessment()
+    _searchNoCaseNote()
+    _removeSearchNoCaseNote()
+    _searchOverdueTask()
+    _removeSearchOverdueTask()
+    _overdueFormsSearch()
+    _removeOverdueFormsSearch()
+    _setDefaultCheckColumnVisibilityAll()
+    # _removeProgramStreamExitDate()
 
+  _overdueFormsSearch = ->
+    $('#overdue-forms.i-checks').on 'ifChecked', ->
+      $('select#client_grid_overdue_forms').select2('val', 'Yes')
+      $('input.datagrid-submit').click()
+
+  _removeOverdueFormsSearch = ->
+    $('#overdue-forms.i-checks').on 'ifUnchecked', ->
+      $('select#client_grid_overdue_forms').select2('val', '')
+      $('input.datagrid-submit').click()
+
+  _hideOverdueAssessment = ->
+    $('#client-advance-search-form .float-right').hide()
+
+  _overdueAssessmentSearch = ->
+    $('#overdue-assessment.i-checks').on 'ifChecked', ->
+      $('select#client_grid_assessments_due_to').select2('val', 'Overdue')
+      $('input.datagrid-submit').click()
+
+  _removeOverdueAssessmentSearch = ->
+    $('#overdue-assessment.i-checks').on 'ifUnchecked', ->
+      $('select#client_grid_assessments_due_to').select2('val', '')
+      $('input.datagrid-submit').click()
+
+  _searchNoCaseNote = ->
+    $('#no_case_note_check_box.i-checks').on 'ifChecked', ->
+      $('select#client_grid_no_case_note').select2('val', 'Yes')
+      $('input.datagrid-submit').click()
+
+  _removeSearchNoCaseNote = ->
+    $('#no_case_note_check_box.i-checks').on 'ifUnchecked', ->
+      $('select#client_grid_no_case_note').select2('val', 'No')
+      $('input.datagrid-submit').click()
+
+  _searchOverdueTask = ->
+    $('#overdue-task.i-checks').on 'ifChecked', ->
+      $('select#client_grid_overdue_task').select2('val', 'Overdue')
+      $('input.datagrid-submit').click()
+
+  _removeSearchOverdueTask = ->
+    $('#overdue-task.i-checks').on 'ifUnchecked', ->
+      $('select#client_grid_overdue_task').select2('val', '')
+      $('input.datagrid-submit').click()
 
   _setDefaultCheckColumnVisibilityAll = ->
-    if $('.visibility .checked').length == 0
-      $('.all-visibility #all_').iCheck('check')
+    if $('#client-search-form .visibility .checked').length == 0
+      $('#client-search-form .all-visibility #all_').iCheck('check')
+
+    if $('#client-advance-search-form .visibility .checked').length == 0
+      $('#client-advance-search-form .all-visibility #all_').iCheck('check')
+      $('#program-stream-column .visibility').find('#program_enrollment_date_, #program_exit_date_').iCheck('check')
+
+  _handleAutoCollapse = ->
+    params = window.location.search.substr(1)
+
+    if params.includes('client_advanced_search')
+      $("button[data-target='#client-advance-search-form']").trigger('click')
+    else
+      $("button[data-target='#client-search-form']").trigger('click')
+
+  _hideClientFilters = ->
+    dataFilters = $('#client-search-form .datagrid-filter')
+    displayColumns = '#client_grid_given_name, #client_grid_family_name, #client_grid_gender, #client_grid_slug, #client_grid_status, #client_grid_user_ids'
+    $(dataFilters).hide()
+    $(dataFilters).children("#{displayColumns}").parents('.datagrid-filter').show()
+
+  _toggleCollapseFilter = ->
+    $('#client-search-form').on 'show.bs.collapse', ->
+      $('#client-advance-search-form').collapse('hide')
+
+    $('#client-advance-search-form').on 'show.bs.collapse', ->
+      $('#client-search-form').collapse('hide')
+
+  _checkClientSearchForm = ->
+    $("button.query").on 'click', ->
+      form = $(@).attr('class')
+      if form.includes('client-advance-search')
+        $('#filter_form').hide()
+      else
+        $('#filter_form').show()
+        _hideClientFilters()
+
+  _initAdavanceSearchFilter = ->
+    advanceFilter = new CIF.ClientAdvanceSearch()
+    advanceFilter.initBuilderFilter('#client-builder-fields')
+    advanceFilter.setValueToBuilderSelected()
+    advanceFilter.getTranslation()
+
+    advanceFilter.handleShowCustomFormSelect()
+    advanceFilter.customFormSelectChange()
+    advanceFilter.customFormSelectRemove()
+    advanceFilter.handleHideCustomFormSelect()
+
+    advanceFilter.handleShowProgramStreamFilter()
+    advanceFilter.handleHideProgramStreamSelect()
+    advanceFilter.handleProgramSelectChange()
+    advanceFilter.triggerEnrollmentFields()
+    advanceFilter.triggerTrackingFields()
+    advanceFilter.triggerExitProgramFields()
+
+    advanceFilter.handleSelect2RemoveProgram()
+    advanceFilter.handleUncheckedEnrollment()
+    advanceFilter.handleUncheckedTracking()
+    advanceFilter.handleUncheckedExitProgram()
+
+    advanceFilter.handleAddQuantitativeFilter()
+    advanceFilter.handleRemoveQuantitativFilter()
+
+    advanceFilter.handleSearch()
+    advanceFilter.addRuleCallback()
+    advanceFilter.filterSelectChange()
+    advanceFilter.filterSelecting()
+    advanceFilter.preventDomainScore()
+    advanceFilter.disableOptionDomainScores()
+
+    advanceFilter.handleSaveQuery()
+    advanceFilter.validateSaveQuery()
+    $('.rule-operator-container').change ->
+      advanceFilter.initSelect2()
+
+  # _removeProgramStreamExitDate = ->
+  #   $('#client-advance-search-form').find('#program_enrollment_date,#program_exit_date').remove()
+
+  _handleColumnVisibilityParams = ->
+    $('button#search').on 'click', ->
+      allCheckboxes = $('#client-search-form').find('#new_client_grid ul input[type=checkbox]')
+      $(allCheckboxes).attr('disabled', true)
+
+    $('input.datagrid-submit').on 'click', ->
+      allCheckboxes = $('#client-advance-search-form').find('#new_client_grid ul input[type=checkbox]')
+      $(allCheckboxes).attr('disabled', true)
+
+  _handleUncheckColumnVisibility = ->
+    params = window.location.search.substr(1)
+
+    if params.includes('client_advanced_search')
+      allCheckboxes = $('#client-search-form').find('#new_client_grid ul input.i-checks')
+      $(allCheckboxes).iCheck('uncheck')
+    else
+      allCheckboxes = $('#client-advance-search-form').find('#new_client_grid ul input.i-checks')
+      $(allCheckboxes).iCheck('uncheck')
 
   _infiniteScroll = ->
     $("table.clients .page").infinitescroll
@@ -42,8 +194,8 @@ CIF.ClientsIndex = do ->
     report.lineChart()
 
   _handleCreateCaseReport = ->
-    element = $('#case-statistic')
-    caseData = element.data('case-statistic')
+    element = $('#program-statistic')
+    caseData = element.data('program-statistic')
     caseTitle =  element.data('title')
     caseyAxisTitle =  element.data('yaxis-title')
 
@@ -78,10 +230,11 @@ CIF.ClientsIndex = do ->
 
     allCheckboxes = $('.all-visibility #all_')
 
-    allCheckboxes.on 'ifChecked', ->
-      $('.visibility input[type=checkbox]').iCheck('check')
-    allCheckboxes.on 'ifUnchecked', ->
-      $('.visibility input[type=checkbox]').iCheck('uncheck')
+    for checkBox in allCheckboxes
+      $(checkBox).on 'ifChecked', ->
+        $(@).parents('.columns-visibility').find('.visibility input[type=checkbox]').iCheck('check')
+      $(checkBox).on 'ifUnchecked', ->
+        $(@).parents('.columns-visibility').find('.visibility input[type=checkbox]').iCheck('uncheck')
 
   _fixedHeaderTableColumns = ->
     sInfoShow = $('#sinfo').data('infoshow')

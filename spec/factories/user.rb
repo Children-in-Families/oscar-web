@@ -7,6 +7,7 @@ FactoryGirl.define do
     password_confirmation '12345678'
     roles 'case worker'
     program_warning true
+    domain_warning true
     staff_performance_notification true
 
     trait :case_worker do

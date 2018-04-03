@@ -1,18 +1,30 @@
 class PartnersController < AdminController
   load_and_authorize_resource
 
+  include PartnerAdvancedSearchesConcern
+
+  before_action :find_params_advanced_search, :get_custom_form, only: [:index]
+  before_action :get_custom_form_fields, :partner_builder_fields, only: [:index]
+  before_action :basic_params, if: :has_params?, only: [:index]
+  before_action :build_advanced_search, only: [:index]
   before_action :find_partner,     only:   [:show, :edit, :update, :destroy]
-  before_action :find_association, except: [:index, :destroy]
+  before_action :find_association, except: [:index, :destroy, :version]
 
   def index
-    @partner_grid = PartnerGrid.new(params[:partner_grid])
-    respond_to do |f|
-      f.html do
-        @results = @partner_grid.assets.size
-        @partner_grid.scope { |scope| scope.page(params[:page]).per(20) }
-      end
-      f.xls do
-        send_data @partner_grid.to_xls, filename: "partner_report-#{Time.now}.xls"
+    @partner_grid = PartnerGrid.new(params.fetch(:partner_grid, {}).merge!(dynamic_columns: @custom_form_fields))
+    @partner_columns ||= PartnerColumnsVisibility.new(@partner_grid, params.merge(column_form_builder: @custom_form_fields))
+    @partner_columns.visible_columns
+    if has_params?
+      advanced_search
+    else
+      respond_to do |f|
+        f.html do
+          @results = @partner_grid.assets.size
+          @partner_grid.scope { |scope| scope.page(params[:page]).per(20) }
+        end
+        f.xls do
+          send_data @partner_grid.to_xls, filename: "partner_report-#{Time.now}.xls"
+        end
       end
     end
   end

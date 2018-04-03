@@ -6,117 +6,185 @@
     - if @notification.all_count >= 1
       %span.label.label-primary= @notification.all_count
   %ul.dropdown-menu.dropdown-alerts.animated.fadeInRight
+    - @notification.review_program_streams.each do |ps|
+      %li
+        %div.align-link
+          = link_to program_stream_notify_notifications_path(program_stream_id: ps.first.id, client_ids: ps.last) do
+            .row
+              .col-xs-1
+                %i.fa.fa-tasks.fa-fw.task-sign
+              .col-xs-11
+                %span
+                  = t('.review_client')
+                  = ps.first.name
+                  = t('.client_quantity', count: ps.last.size)
+      %li.divider
     - if @notification.any_overdue_tasks?
       %li
-        %div
-          = link_to tasks_path(user_id: current_user.id) do
-            %i.fa.fa-tasks.fa-fw
-            = t('.overdue_tasks_count', count: @notification.overdue_tasks_count)
+        %div.align-link
+          = link_to dashboards_path(user_id: current_user.id, tasks: true, forms: true, assessments: true) do
+            .row
+              .col-xs-1
+                %i.fa.fa-tasks.fa-fw.task-sign
+              .col-xs-11
+                = t('.overdue_tasks_count', count: @notification.overdue_tasks_count)
       %li.divider
     - if @notification.any_due_today_tasks?
       %li
-        %div
-          = link_to tasks_path(user_id: current_user.id) do
-            %i.fa.fa-tasks.fa-fw
-            = t('.due_today_tasks_count', count: @notification.due_today_tasks_count)
+        %div.align-link
+          = link_to dashboards_path(user_id: current_user.id, tasks: true, forms: true, assessments: true) do
+            .row
+              .col-xs-1
+                %i.fa.fa-tasks.fa-fw.task-sign
+              .col-xs-11
+                = t('.due_today_tasks_count', count: @notification.due_today_tasks_count)
       %li.divider
     - if @notification.any_overdue_assessments?
       %li
-        %div
+        %div.align-link
           = link_to clients_path("client_grid[user_ids]": "#{current_user.id}", "client_grid[assessments_due_to]": Assessment::DUE_STATES[1]) do
-            %i.fa.fa-tasks.fa-fw
-            = t('.overdue_assessments_count', count: @notification.overdue_assessments_count)
+            .row
+              .col-xs-1
+                %i.fa.fa-tasks.fa-fw.task-sign
+              .col-xs-11
+                = t('.overdue_assessments_count', count: @notification.overdue_assessments_count)
       %li.divider
     - if @notification.any_due_today_assessments?
       %li
-        %div
+        %div.align-link
           = link_to clients_path("client_grid[user_ids]": "#{current_user.id}", "client_grid[assessments_due_to]": Assessment::DUE_STATES[0]) do
-            %i.fa.fa-tasks.fa-fw
-            = t('.due_today_assessments_count', count: @notification.due_today_assessments_count)
+            .row
+              .col-xs-1
+                %i.fa.fa-tasks.fa-fw.task-sign
+              .col-xs-11
+                = t('.due_today_assessments_count', count: @notification.due_today_assessments_count)
+      %li.divider
+    - if @notification.any_upcoming_csi_assessments?
+      %li
+        %div.align-link
+          = link_to notifications_path(assessment: 'upcoming') do
+            .row
+              .col-xs-1
+                %i.fa.fa-tasks.fa-fw.task-sign
+              .col-xs-11
+                = t('.upcoming_assessments_count', count: @notification.upcoming_csi_assessments[:csi_count])
       %li.divider
     - if current_user.admin? || current_user.ec_manager?
       - (83..90).each do |day|
         - if @notification.ec_notification(day).count >= 1
           %li
-            %div
+            %div.align-link
               = link_to clients_path("client_grid[status]": "Active EC", "client_grid[placement_date]": [(Date.today-"#{day}".to_i).strftime("%Y-%m-%d"),(Date.today-"#{day}".to_i).strftime("%Y-%m-%d")]) do
-                %i.fa.fa-tasks.fa-fw
-                = notification_client_exit(day)
+                .row
+                  .col-xs-1
+                    %i.fa.fa-tasks.fa-fw.task-sign
+                  .col-xs-11
+                    = notification_client_exit(day)
           %li.divider
     - if can? :manage, Client
       - if @notification.any_client_custom_field_frequency_due_today?
         %li
-          %div
+          %div.align-link
             = link_to notifications_path(entity_custom_field: 'client_due_today') do
-              %i.fa.fa-tasks.fa-fw
-              = t('.due_today_client_custom_field_count', count: @notification.client_custom_field_frequency_due_today_count)
+              .row
+                .col-xs-1
+                  %i.fa.fa-tasks.fa-fw.task-sign
+                .col-xs-11
+                  = t('.due_today_client_custom_field_count', count: @notification.client_custom_field_frequency_due_today_count)
         %li.divider
       - if @notification.any_client_custom_field_frequency_overdue?
         %li
-          %div
+          %div.align-link
             = link_to notifications_path(entity_custom_field: 'client_overdue') do
-              %i.fa.fa-tasks.fa-fw
-              = t('.overdue_client_custom_field_count', count: @notification.client_custom_field_frequency_overdue_count)
+              .row
+                .col-xs-1
+                  %i.fa.fa-tasks.fa-fw.task-sign
+                .col-xs-11
+                  = t('.overdue_client_custom_field_count', count: @notification.client_custom_field_frequency_overdue_count)
         %li.divider
     - if can? :manage, Family
       - if @notification.any_family_custom_field_frequency_due_today?
         %li
-          %div
+          %div.align-link
             = link_to notifications_path(entity_custom_field: 'family_due_today') do
-              %i.fa.fa-tasks.fa-fw
-              = t('.due_today_family_custom_field_count', count: @notification.family_custom_field_frequency_due_today_count)
+              .row
+                .col-xs-1
+                  %i.fa.fa-tasks.fa-fw.task-sign
+                .col-xs-11
+                  = t('.due_today_family_custom_field_count', count: @notification.family_custom_field_frequency_due_today_count)
         %li.divider
       - if @notification.any_family_custom_field_frequency_overdue?
         %li
-          %div
+          %div.align-link
             = link_to notifications_path(entity_custom_field: 'family_overdue') do
-              %i.fa.fa-tasks.fa-fw
-              = t('.overdue_family_custom_field_count', count: @notification.family_custom_field_frequency_overdue_count)
+              .row
+                .col-xs-1
+                  %i.fa.fa-tasks.fa-fw.task-sign
+                .col-xs-11
+                  = t('.overdue_family_custom_field_count', count: @notification.family_custom_field_frequency_overdue_count)
         %li.divider
     - if can? :manage, Partner
       - if @notification.any_partner_custom_field_frequency_due_today?
         %li
-          %div
+          %div.align-link
             = link_to notifications_path(entity_custom_field: 'partner_due_today') do
-              %i.fa.fa-tasks.fa-fw
-              = t('.due_today_partner_custom_field_count', count: @notification.partner_custom_field_frequency_due_today_count)
+              .row
+                .col-xs-1
+                  %i.fa.fa-tasks.fa-fw.task-sign
+                .col-xs-11
+                  = t('.due_today_partner_custom_field_count', count: @notification.partner_custom_field_frequency_due_today_count)
         %li.divider
       - if @notification.any_partner_custom_field_frequency_overdue?
         %li
-          %div
+          %div.align-link
             = link_to notifications_path(entity_custom_field: 'partner_overdue') do
-              %i.fa.fa-tasks.fa-fw
-              = t('.overdue_partner_custom_field_count', count: @notification.partner_custom_field_frequency_overdue_count)
+              .row
+                .col-xs-1
+                  %i.fa.fa-tasks.fa-fw.task-sign
+                .col-xs-11
+                  = t('.overdue_partner_custom_field_count', count: @notification.partner_custom_field_frequency_overdue_count)
         %li.divider
     - if can? :manage, User
       - if @notification.any_user_custom_field_frequency_due_today?
         %li
-          %div
+          %div.align-link
             = link_to notifications_path(entity_custom_field: 'user_due_today') do
-              %i.fa.fa-tasks.fa-fw
-              = t('.due_today_user_custom_field_count', count: @notification.user_custom_field_frequency_due_today_count)
+              .row
+                .col-xs-1
+                  %i.fa.fa-tasks.fa-fw.task-sign
+                .col-xs-11
+                  = t('.due_today_user_custom_field_count', count: @notification.user_custom_field_frequency_due_today_count)
         %li.divider
       - if @notification.any_user_custom_field_frequency_overdue?
         %li
-          %div
+          %div.align-link
             = link_to notifications_path(entity_custom_field: 'user_overdue') do
-              %i.fa.fa-tasks.fa-fw
-              = t('.overdue_user_custom_field_count', count: @notification.user_custom_field_frequency_overdue_count)
+              .row
+                .col-xs-1
+                  %i.fa.fa-tasks.fa-fw.task-sign
+                .col-xs-11
+                  = t('.overdue_user_custom_field_count', count: @notification.user_custom_field_frequency_overdue_count)
         %li.divider
     - if @notification.any_client_enrollment_tracking_frequency_due_today?
       %li
-        %div
+        %div.align-link
           = link_to notifications_path(client_enrollment_tracking: 'client_enrollment_tracking_due_today') do
-            %i.fa.fa-tasks.fa-fw
-            = t('.due_today_client_enrollment_tracking', count: @notification.client_enrollment_tracking_frequency_due_today_count)
+            .row
+              .col-xs-1
+                %i.fa.fa-tasks.fa-fw.task-sign
+              .col-xs-11
+                = t('.due_today_client_enrollment_tracking', count: @notification.client_enrollment_tracking_frequency_due_today_count)
       %li.divider
-      - if @notification.any_client_enrollment_tracking_frequency_overdue?
-        %li
-          %div
-            = link_to notifications_path(client_enrollment_tracking: 'client_enrollment_tracking_overdue') do
-              %i.fa.fa-tasks.fa-fw
-              = t('.overdue_client_enrollment_tracking', count: @notification.client_enrollment_tracking_frequency_overdue_count)
-        %li.divider
+    - if @notification.any_client_enrollment_tracking_frequency_overdue?
+      %li
+        %div.align-link
+          = link_to notifications_path(client_enrollment_tracking: 'client_enrollment_tracking_overdue') do
+            .row
+              .col-xs-1
+                %i.fa.fa-tasks.fa-fw.task-sign
+              .col-xs-11
+                = t('.overdue_client_enrollment_tracking', count: @notification.client_enrollment_tracking_frequency_overdue_count)
+      %li.divider
     - if @notification.all_count.zero?
       %li
         %div.notify-margin

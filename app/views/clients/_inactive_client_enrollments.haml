@@ -1,3 +1,7 @@
 %ul
-  - inactive_client_enrollments.each do |client_enrollment|
-    %li= "#{client_enrollment.program_stream.name} : #{client_enrollment.leave_program.exit_date}"
+  - if params[:data] == 'recent'
+    - recent_exit_program = inactive_client_enrollments.joins(:leave_program).order('leave_programs.exit_date DESC').first
+    %li= "#{recent_exit_program.program_stream.name} : #{recent_exit_program.leave_program.exit_date}"
+  - else
+    - inactive_client_enrollments.each do |client_enrollment|
+      %li= "#{client_enrollment.program_stream.name} : #{client_enrollment.leave_program.exit_date}"

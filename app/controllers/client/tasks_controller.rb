@@ -2,6 +2,7 @@ class Client::TasksController < AdminController
 
   load_and_authorize_resource
   before_action :find_client
+  before_action :authorize_client, only: [:new, :create]
   before_action :find_task, only: [:edit, :update, :destroy]
 
   def index
@@ -10,7 +11,7 @@ class Client::TasksController < AdminController
 
   def create
     @task = @client.tasks.new(task_params)
-    @task.user_ids = @client.user_ids
+    @task.user_id = current_user.id
     respond_to do |format|
       if @task.save
         Calendar.populate_tasks(@task)
@@ -85,6 +86,10 @@ class Client::TasksController < AdminController
 
   def find_task
     @task = @client.tasks.find(params[:id])
+  end
+
+  def authorize_client
+    authorize @client, :create?
   end
 
   def find_calendars(task)

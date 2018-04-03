@@ -2,24 +2,38 @@ module AdvancedSearches
   class TrackingSqlBuilder
 
     def initialize(tracking_id, rule)
-      @tracking_id = tracking_id
-      field     = rule['field']
-      @field    = field.split('_').last.gsub("'", "''")
-      @operator = rule['operator']
-      @value    = format_value(rule['value'])
-      @type     = rule['type']
+      @tracking_id   = tracking_id
+      field          = rule['field']
+      @field         = field.split('_').last.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
+      @operator      = rule['operator']
+      @value         = format_value(rule['value'])
+      @type          = rule['type']
+      @input_type    = rule['input']
     end
 
     def get_sql
       sql_string = 'clients.id IN (?)'
       properties_field = 'client_enrollment_trackings.properties'
-      client_enrollment_trackings = ClientEnrollmentTracking.joins(:client_enrollment).where(client_enrollments: { status: 'Active' }, tracking_id: @tracking_id)
+      client_enrollment_trackings = ClientEnrollmentTracking.joins(:client_enrollment).where(tracking_id: @tracking_id)
 
+      type_format = ['select', 'radio-group', 'checkbox-group']
+      if type_format.include?(@input_type)
+        @value = @value.gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
+      end
+      
       case @operator
       when 'equal'
-        properties_result = client_enrollment_trackings.where("#{properties_field} -> '#{@field}' ? '#{@value}' ")
+        if @input_type == 'text' && @field.exclude?('&')
+          properties_result = client_enrollment_trackings.where("lower(#{properties_field} ->> '#{@field}') = '#{@value}' ")
+        else
+          properties_result = client_enrollment_trackings.where("#{properties_field} -> '#{@field}' ? '#{@value}' ")
+        end
       when 'not_equal'
-        properties_result = client_enrollment_trackings.where.not("#{properties_field} -> '#{@field}' ? '#{@value}' ")
+        if @input_type == 'text' && @field.exclude?('&')
+          properties_result = client_enrollment_trackings.where.not("lower(#{properties_field} ->> '#{@field}') = '#{@value}' ")
+        else
+          properties_result = client_enrollment_trackings.where.not("#{properties_field} -> '#{@field}' ? '#{@value}' ")
+        end
       when 'less'
         properties_result = client_enrollment_trackings.where("(#{properties_field} ->> '#{@field}')#{'::int' if integer? } < '#{@value}' AND #{properties_field} ->> '#{@field}' != '' ")
       when 'less_or_equal'

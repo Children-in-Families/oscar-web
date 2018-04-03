@@ -1,4 +1,4 @@
 .tooltip-demo
-  = link_to '#', {"data-container" => "body", "data-content" => "#{family_workers_list(object)}", "data-original-title" => "Family Members", "data-placement" => "top", "data-toggle" => "popover", :title => "#{I18n.t('datagrid.columns.families.case_workers')}", :type => "button", 'data-html': true} do
+  = link_to '#!', {"data-container" => "body", "data-content" => "#{family_workers_list(object)}", "data-original-title" => "Family Members", "data-placement" => "top", "data-toggle" => "popover", :title => "#{I18n.t('datagrid.columns.families.case_workers')}", :type => "button", 'data-html': true} do
     %span.btn.btn-info.btn-xs
       = "#{I18n.t('datagrid.columns.families.total')} : #{family_workers_count(object)}"

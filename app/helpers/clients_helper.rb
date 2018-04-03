@@ -28,19 +28,6 @@ module ClientsHelper
     end
   end
 
-  def able_screen_link(client)
-    if client.answers.any?
-      link_to '', 'data-target': '#clientAnswer', 'data-toggle': :modal, type: :button do
-        content_tag(:span, t('.client_able_answers'), class: 'btn btn-sm btn-warning small-btn-margin')
-      end
-    else
-      return content_tag(:span, t('.able_screening_questions'), class: 'btn btn-sm btn-warning small-btn-margin disabled') if client.date_of_birth.blank?
-      link_to able_screens_answer_submissions_client_able_screening_answers_new_path(client) do
-        content_tag(:span, t('.able_screening_questions'), class: "btn btn-sm btn-warning small-btn-margin #{'disabled' if client.date_of_birth.blank?}")
-      end
-    end
-  end
-
   def report_options(title, yaxis_title)
     {
       library: {
@@ -101,7 +88,7 @@ module ClientsHelper
       commune:                       t('datagrid.columns.clients.commune'),
       district:                      t('datagrid.columns.clients.district'),
       school_name:                   t('datagrid.columns.clients.school_name'),
-      grade:                         t('datagrid.columns.clients.school_grade'),
+      school_grade:                  t('datagrid.columns.clients.school_grade'),
       able_state:                    t('datagrid.columns.clients.able_state'),
       has_been_in_orphanage:         t('datagrid.columns.clients.has_been_in_orphanage'),
       has_been_in_government_care:   t('datagrid.columns.clients.has_been_in_government_care'),
@@ -110,14 +97,18 @@ module ClientsHelper
       state:                         t('datagrid.columns.clients.state'),
       family_id:                     t('datagrid.columns.clients.family_id'),
       any_assessments:               t('datagrid.columns.clients.assessments'),
+      case_note_date:                t('datagrid.columns.clients.case_note_date'),
+      case_note_type:                t('datagrid.columns.clients.case_note_type'),
+      date_of_assessments:           t('datagrid.columns.clients.date_of_assessments'),
       donor:                         t('datagrid.columns.clients.donor'),
       changelog:                     t('datagrid.columns.clients.changelog'),
       live_with:                     t('datagrid.columns.clients.live_with'),
-      id_poor:                       t('datagrid.columns.clients.id_poor'),
+      # id_poor:                       t('datagrid.columns.clients.id_poor'),
       program_streams:               t('datagrid.columns.clients.program_streams'),
       program_enrollment_date:       t('datagrid.columns.clients.program_enrollment_date'),
       program_exit_date:             t('datagrid.columns.clients.program_exit_date'),
       accepted_date:                 t('datagrid.columns.clients.ngo_accepted_date'),
+      telephone_number:              t('datagrid.columns.clients.telephone_number'),
       exit_date:                     t('datagrid.columns.clients.ngo_exit_date')
     }
     label_tag "#{column}_", label_column[column.to_sym]
@@ -153,8 +144,12 @@ module ClientsHelper
 
   def client_custom_fields_list(object)
     content_tag(:ul, class: 'client-custom-fields-list') do
-      object.custom_fields.uniq.each do |obj|
-        concat(content_tag(:li, obj.form_title))
+      if params[:data] == 'recent'
+        object.custom_field_properties.order(created_at: :desc).first.try(:custom_field).try(:form_title)
+      else
+        object.custom_fields.uniq.each do |obj|
+          concat(content_tag(:li, obj.form_title))
+        end
       end
     end
   end
@@ -165,18 +160,24 @@ module ClientsHelper
     current_address << "#{I18n.t('datagrid.columns.clients.street_number')} #{client.street_number}" if client.street_number.present?
     current_address << "#{I18n.t('datagrid.columns.clients.village')} #{client.village}" if client.village.present?
     current_address << "#{I18n.t('datagrid.columns.clients.commune')} #{client.commune}" if client.commune.present?
-    current_address << "#{I18n.t('datagrid.columns.clients.district')} #{client.district}" if client.district.present?
     if locale == :km
+      current_address << client.district.name.split(' / ').first if client.district.present?
       current_address << client.province.name.split(' / ').first if client.province.present?
     else
+      current_address << client.district.name.split(' / ').last if client.district.present?
       current_address << client.province.name.split(' / ').last if client.province.present?
     end
-    current_address << I18n.t('datagrid.columns.clients.cambodia')
+    country = params[:country].present? ? I18n.t("datagrid.columns.clients.#{params[:country]}") : I18n.t('datagrid.columns.clients.cambodia')
+    current_address << country
     current_address.compact.join(', ')
   end
 
+  def format_array_value(value)
+    value.is_a?(Array) ? value.reject(&:empty?).gsub('&amp;', '&').gsub('&lt;', '<').gsub('&gt;', '>').gsub('&qoute;', '"').join(' , ') : value.gsub('&amp;', '&').gsub('&lt;', '<').gsub('&gt;', '>').gsub('&qoute;', '"')
+  end
+
   def format_properties_value(value)
-    value.is_a?(Array) ? value.delete_if(&:empty?).join(', ') : value
+    value.is_a?(Array) ? value.delete_if(&:empty?).map{|c| c.gsub('&amp;', '&').gsub('&lt;', '<').gsub('&gt;', '>').gsub('&qoute;', '"')}.join(' , ') : value.gsub('&amp;', '&').gsub('&lt;', '<').gsub('&gt;', '>').gsub('&qoute;', '"')
   end
 
   def field_not_blank?(value)
@@ -214,5 +215,37 @@ module ClientsHelper
 
   def field_not_render(field)
     field.split('_').first
+  end
+
+  def all_csi_assessment_lists(object)
+    content_tag(:ul) do
+      if params[:data] == 'recent'
+        object.assessments.latest_record.try(:basic_info)
+      else
+        object.assessments.each do |assessment|
+          concat(content_tag(:li, assessment.basic_info))
+        end
+      end
+    end
+  end
+
+  def check_params_no_case_note
+    true if params.dig(:client_grid, :no_case_note) == 'Yes'
+  end
+
+  def check_params_has_over_forms
+    true if params.dig(:client_grid, :overdue_forms) == 'Yes'
+  end
+
+  def check_params_has_over_assessment
+    true if params.dig(:client_grid, :assessments_due_to) == 'Overdue'
+  end
+
+  def check_params_has_overdue_task
+    true if params.dig(:client_grid, :overdue_task) == 'Overdue'
+  end
+
+  def status_exited?(value)
+    value == 'Exited'
   end
 end

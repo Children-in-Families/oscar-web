@@ -9,28 +9,21 @@ class Client < ActiveRecord::Base
 
   friendly_id :slug, use: :slugged
 
-  CLIENT_STATUSES = ['Referred', 'Active EC', 'Active KC', 'Active FC',
-                      'Independent - Monitored', 'Exited - Dead',
-                      'Exited - Age Out', 'Exited Independent', 'Exited Adopted',
-                      'Exited Other'].freeze
+  EXIT_REASONS = ['Client is/moved outside NGO target area (within Cambodia)', 'Client is/moved outside NGO target area (International)', 'Client refused service', 'Client does not meet / no longer meets service criteria', 'Client died', 'Client does not require / no longer requires support', 'Agency lacks sufficient resources', 'Other']
+  CLIENT_STATUSES = ['Accepted', 'Active', 'Exited', 'Referred'].freeze
 
-  CLIENT_ACTIVE_STATUS = ['Active EC', 'Active FC', 'Active KC'].freeze
   ABLE_STATES = %w(Accepted Rejected Discharged).freeze
-
-  EXIT_STATUSES = CLIENT_STATUSES.select { |status| status if status.include?('Exited') || status.include?('Independent - Monitored')  }
 
   delegate :name, to: :donor, prefix: true, allow_nil: true
 
   belongs_to :referral_source,  counter_cache: true
   belongs_to :province,         counter_cache: true
   belongs_to :donor
-  belongs_to :received_by,      class_name: 'User',     foreign_key: 'received_by_id',    counter_cache: true
-  belongs_to :followed_up_by,   class_name: 'User',     foreign_key: 'followed_up_by_id', counter_cache: true
-  belongs_to :birth_province,   class_name: 'Province', foreign_key: 'birth_province_id', counter_cache: true
+  belongs_to :district
+  belongs_to :received_by,      class_name: 'User',      foreign_key: 'received_by_id',    counter_cache: true
+  belongs_to :followed_up_by,   class_name: 'User',      foreign_key: 'followed_up_by_id', counter_cache: true
+  belongs_to :birth_province,   class_name: 'Province',  foreign_key: 'birth_province_id', counter_cache: true
 
-  # has_one  :government_report, dependent: :destroy
-  has_many :answers, dependent: :destroy
-  has_many :able_screening_questions, through: :answers
   has_many :tasks,          dependent: :destroy
   has_many :agency_clients, dependent: :destroy
   has_many :agencies, through: :agency_clients
@@ -44,7 +37,6 @@ class Client < ActiveRecord::Base
   has_many :users, through: :case_worker_clients
 
   accepts_nested_attributes_for :tasks
-  accepts_nested_attributes_for :answers
 
   has_many :families,       through: :cases
   has_many :cases,          dependent: :destroy
@@ -53,58 +45,73 @@ class Client < ActiveRecord::Base
   # has_many :surveys,        dependent: :destroy
   has_many :progress_notes, dependent: :destroy
 
+  has_many :client_client_types, dependent: :destroy
+  has_many :client_types, through: :client_client_types
+  has_many :client_interviewees, dependent: :destroy
+  has_many :interviewees, through: :client_interviewees
+  has_many :client_needs, dependent: :destroy
+  has_many :needs, through: :client_needs
+  has_many :client_problems, dependent: :destroy
+  has_many :problems, through: :client_problems
+
+  accepts_nested_attributes_for :client_needs
+  accepts_nested_attributes_for :client_problems
+
   has_paper_trail
 
-  validates :rejected_note, presence: true, on: :update, if: :reject?
-  validates :exit_date, presence: true, on: :update, if: :exit_ngo?
-  validates :exit_note, presence: true, on: :update, if: :exit_ngo?
+  validates :exit_circumstance, :exit_date, :exit_note, presence: true, on: :update, if: :exit_ngo?
   validates :kid_id, uniqueness: { case_sensitive: false }, if: 'kid_id.present?'
-  validates :user_ids, presence: true
+  validates :user_ids, presence: true, on: :create
+  validates :user_ids, presence: true, on: :update, unless: :exit_ngo?
+  validates :initial_referral_date, :received_by_id, :referral_source, :name_of_referee, presence: true
 
-  after_update :reset_tasks_of_users
-
+  before_update :disconnect_client_user_relation, if: :exiting_ngo?
   after_create :set_slug_as_alias
-  after_update :set_able_status, if: proc { |client| client.able_state.blank? && answers.any? }
   after_save :create_client_history
+  after_update :notify_managers, if: :exiting_ngo?
 
-  scope :live_with_like,              ->(value) { where('clients.live_with iLIKE ?', "%#{value}%") }
-  scope :given_name_like,             ->(value) { where('clients.given_name iLIKE ?', "%#{value}%") }
-  scope :family_name_like,            ->(value) { where('clients.family_name iLIKE ?', "%#{value}%") }
-  scope :local_given_name_like,       ->(value) { where('clients.local_given_name iLIKE ?', "%#{value}%") }
-  scope :local_family_name_like,      ->(value) { where('clients.local_family_name iLIKE ?', "%#{value}%") }
-  scope :current_address_like,        ->(value) { where('clients.current_address iLIKE ?', "%#{value}%") }
-  scope :house_number_like,           ->(value) { where('clients.house_number iLike ?', "%#{value}%") }
-  scope :street_number_like,          ->(value) { where('clients.street_number iLike ?', "%#{value}%") }
-  scope :village_like,                ->(value) { where('clients.village iLike ?', "%#{value}%") }
-  scope :commune_like,                ->(value) { where('clients.commune iLike ?', "%#{value}%") }
-  scope :district_like,               ->(value) { where('clients.district iLike ?', "%#{value}%") }
-  scope :school_name_like,            ->(value) { where('clients.school_name iLIKE ?', "%#{value}%") }
-  scope :referral_phone_like,         ->(value) { where('clients.referral_phone iLIKE ?', "%#{value}%") }
-  scope :info_like,                   ->(value) { where('clients.relevant_referral_information iLIKE ?', "%#{value}%") }
-  scope :slug_like,                   ->(value) { where('clients.slug iLIKE ?', "%#{value}%") }
-  scope :kid_id_like,                 ->(value) { where('clients.kid_id iLIKE ?', "%#{value}%") }
-  scope :start_with_code,             ->(value) { where('clients.code iLIKE ?', "#{value}%") }
-  scope :find_by_family_id,           ->(value) { joins(cases: :family).where('families.id = ?', value).uniq }
-  scope :status_like,                 ->        { CLIENT_STATUSES }
-  scope :is_received_by,              ->        { joins(:received_by).pluck("CONCAT(users.first_name, ' ' , users.last_name)", 'users.id').uniq }
-  scope :referral_source_is,          ->        { joins(:referral_source).pluck('referral_sources.name', 'referral_sources.id').uniq }
-  scope :is_followed_up_by,           ->        { joins(:followed_up_by).pluck("CONCAT(users.first_name, ' ' , users.last_name)", 'users.id').uniq }
-  scope :province_is,                 ->        { joins(:province).pluck('provinces.name', 'provinces.id').uniq }
-  scope :accepted,                    ->        { where(state: 'accepted') }
-  scope :rejected,                    ->        { where(state: 'rejected') }
-  scope :male,                        ->        { where(gender: 'male') }
-  scope :female,                      ->        { where(gender: 'female') }
-  scope :active_ec,                   ->        { where(status: 'Active EC') }
-  scope :active_kc,                   ->        { where(status: 'Active KC') }
-  scope :active_fc,                   ->        { where(status: 'Active FC') }
-  scope :without_assessments,         ->        { includes(:assessments).where(assessments:         { client_id: nil }) }
-  scope :able,                        ->        { where(able_state: ABLE_STATES[0]) }
-  scope :all_active_types,            ->        { where(status: CLIENT_ACTIVE_STATUS) }
-  scope :of_case_worker,              -> (user_id) { joins(:case_worker_clients).where(case_worker_clients: { user_id: user_id }) }
+  scope :live_with_like,                           ->(value) { where('clients.live_with iLIKE ?', "%#{value}%") }
+  scope :given_name_like,                          ->(value) { where('clients.given_name iLIKE :value OR clients.local_given_name iLIKE :value', { value: "%#{value}%"}) }
+  scope :family_name_like,                         ->(value) { where('clients.family_name iLIKE :value OR clients.local_family_name iLIKE :value', { value: "%#{value}%"}) }
+  scope :local_given_name_like,                    ->(value) { where('clients.local_given_name iLIKE ?', "%#{value}%") }
+  scope :local_family_name_like,                   ->(value) { where('clients.local_family_name iLIKE ?', "%#{value}%") }
+  scope :current_address_like,                     ->(value) { where('clients.current_address iLIKE ?', "%#{value}%") }
+  scope :house_number_like,                        ->(value) { where('clients.house_number iLike ?', "%#{value}%") }
+  scope :street_number_like,                       ->(value) { where('clients.street_number iLike ?', "%#{value}%") }
+  scope :village_like,                             ->(value) { where('clients.village iLike ?', "%#{value}%") }
+  scope :commune_like,                             ->(value) { where('clients.commune iLike ?', "%#{value}%") }
+  scope :school_name_like,                         ->(value) { where('clients.school_name iLIKE ?', "%#{value}%") }
+  scope :referral_phone_like,                      ->(value) { where('clients.referral_phone iLIKE ?', "%#{value}%") }
+  scope :info_like,                                ->(value) { where('clients.relevant_referral_information iLIKE ?', "%#{value}%") }
+  scope :slug_like,                                ->(value) { where('clients.slug iLIKE ?', "%#{value}%") }
+  scope :kid_id_like,                              ->(value) { where('clients.kid_id iLIKE ?', "%#{value}%") }
+  scope :start_with_code,                          ->(value) { where('clients.code iLIKE ?', "#{value}%") }
+  scope :district_like,                            ->(value) { joins(:district).where('districts.name iLike ?', "%#{value}%").uniq }
+  scope :find_by_family_id,                        ->(value) { joins(cases: :family).where('families.id = ?', value).uniq }
+  scope :status_like,                              ->        { CLIENT_STATUSES }
+  scope :is_received_by,                           ->        { joins(:received_by).pluck("CONCAT(users.first_name, ' ' , users.last_name)", 'users.id').uniq }
+  scope :referral_source_is,                       ->        { joins(:referral_source).pluck('referral_sources.name', 'referral_sources.id').uniq }
+  scope :is_followed_up_by,                        ->        { joins(:followed_up_by).pluck("CONCAT(users.first_name, ' ' , users.last_name)", 'users.id').uniq }
+  scope :province_is,                              ->        { joins(:province).pluck('provinces.name', 'provinces.id').uniq }
+  scope :birth_province_is,                        ->        { joins(:birth_province).pluck('provinces.name', 'provinces.id').uniq }
+  scope :accepted,                                 ->        { where(state: 'accepted') }
+  scope :rejected,                                 ->        { where(state: 'rejected') }
+  scope :male,                                     ->        { where(gender: 'male') }
+  scope :female,                                   ->        { where(gender: 'female') }
+  scope :active_ec,                                ->        { where(status: 'Active EC') }
+  scope :active_kc,                                ->        { where(status: 'Active KC') }
+  scope :active_fc,                                ->        { where(status: 'Active FC') }
+  scope :without_assessments,                      ->        { includes(:assessments).where(assessments: { client_id: nil }) }
+  scope :able,                                     ->        { where(able_state: ABLE_STATES[0]) }
+  scope :active_status,                            ->        { where(status: 'Active') }
+  scope :of_case_worker,                           -> (user_id) { joins(:case_worker_clients).where(case_worker_clients: { user_id: user_id }) }
+  scope :exited_ngo,                               ->        { where(status: 'Exited') }
+  scope :non_exited_ngo,                           ->        { where.not(status: ['Exited', 'Referred']) }
+  scope :telephone_number_like,                    ->(value) { where('clients.telephone_number iLIKE ?', "#{value}%") }
+  scope :active_accepted_status,                    ->        { where(status: ['Active', 'Accepted']) }
 
   def self.filter(options)
     query = all
-
     query = query.where("given_name iLIKE ?", "%#{fetch_75_chars_of(options[:given_name])}%")                 if options[:given_name].present?
     query = query.where("family_name iLIKE ?", "%#{fetch_75_chars_of(options[:family_name])}%")               if options[:family_name].present?
     query = query.where("local_given_name iLIKE ?", "%#{fetch_75_chars_of(options[:local_given_name])}%")     if options[:local_given_name].present?
@@ -125,12 +132,8 @@ class Client < ActiveRecord::Base
     value[0..(number_of_char-1)]
   end
 
-  def reject?
-    state_changed? && state == 'rejected'
-  end
-
   def exit_ngo?
-    EXIT_STATUSES.include?(status)
+    status == 'Exited'
   end
 
   def self.age_between(min_age, max_age)
@@ -147,13 +150,9 @@ class Client < ActiveRecord::Base
 
   def en_and_local_name
     en_name = "#{given_name} #{family_name}"
-    local_name = "#{local_given_name} #{local_family_name}"
+    local_name = "#{local_family_name} #{local_given_name}"
 
     local_name.present? ? "#{en_name} (#{local_name})" : en_name.present? ? en_name : 'Unknown'
-  end
-
-  def self.next_assessment_candidates
-    Assessment.where('client IN (?) AND ', self)
   end
 
   def next_assessment_date
@@ -172,7 +171,8 @@ class Client < ActiveRecord::Base
   end
 
   def can_create_assessment?
-    Date.today >= next_assessment_date
+    return Date.today >= (assessments.latest_record.created_at + 3.months).to_date if assessments.count == 1
+    true
   end
 
   def self.able_managed_by(user)
@@ -185,14 +185,6 @@ class Client < ActiveRecord::Base
 
   def self.managed_by(user, status)
     where('status = ? or user_id = ?', status, user.id)
-  end
-
-  def reset_tasks_of_users
-    return unless tasks.any? && user_ids != tasks.pluck(:user_id)
-    tasks.each do |task|
-      users.map { |user| CaseWorkerTask.find_or_create_by(task_id: task.id, user_id: user.id) }
-    end
-    CaseWorkerTask.where(task_id: tasks.ids).where.not(user_id: user_ids).destroy_all
   end
 
   def has_no_ec_or_any_cases?
@@ -264,15 +256,11 @@ class Client < ActiveRecord::Base
   end
 
   def active_case?
-    active_ec? || active_fc? || active_kc?
+    status == 'Active'
   end
 
   def set_slug_as_alias
     paper_trail.without_versioning { |obj| obj.update_attributes(slug: "#{Organization.current.try(:short_name)}-#{id}") }
-  end
-
-  def set_able_status
-    update(able_state: ABLE_STATES[0]) if AbleScreeningQuestion.has_alert_manager?(self) && answers.include_yes?
   end
 
   def time_in_care
@@ -289,7 +277,7 @@ class Client < ActiveRecord::Base
 
   def self.exit_in_week(number_of_day)
     date = number_of_day.day.ago.to_date
-    active_ec.joins(:cases).where(cases: { case_type: 'EC', start_date: date })
+    active_status.joins(:cases).where(cases: { case_type: 'EC', start_date: date, exited: false })
   end
 
   def active_day_care
@@ -312,13 +300,13 @@ class Client < ActiveRecord::Base
     (end_date - start_date).to_f
   end
 
-
   def self.ec_reminder_in(day)
     Organization.all.each do |org|
       Organization.switch_to org.short_name
       managers = User.ec_managers.pluck(:email).join(', ')
       admins   = User.admins.pluck(:email).join(', ')
-      clients = active_ec.select { |client| client.active_day_care == day }
+      clients = Client.active_status.joins(:cases).where(cases: { case_type: 'EC', exited: false}).uniq
+      clients = clients.select { |client| client.active_day_care == day }
 
       if clients.present?
         ManagerMailer.remind_of_client(clients, day: day, manager: managers).deliver_now if managers.present?
@@ -327,9 +315,68 @@ class Client < ActiveRecord::Base
     end
   end
 
+  def populate_needs
+    Need.all.each do |need|
+      client_needs.build(need: need)
+    end
+  end
+
+  def populate_problems
+    Problem.all.each do |problem|
+      client_problems.build(problem: problem)
+    end
+  end
+
+  def exiting_ngo?
+    return false unless status_changed?
+    status == 'Exited'
+  end
+
+  def self.notify_upcoming_csi_assessment
+    Organization.all.each do |org|
+      Organization.switch_to org.short_name
+      clients = joins(:assessments).active_accepted_status
+      clients.each do |client|
+        repeat_notifications = client.repeat_notifications_schedule
+
+        if(repeat_notifications.include?(Date.today))
+          CaseWorkerMailer.notify_upcoming_csi_weekly(client).deliver_now
+        end
+      end
+    end
+  end
+
+  def most_recent_csi_assessment
+    assessments.most_recents.first.created_at.to_date
+  end
+
+  def repeat_notifications_schedule
+    most_recent_csi   = most_recent_csi_assessment
+
+    notification_date = most_recent_csi + 5.months + 15.days
+    next_one_week     = notification_date + 1.week
+    next_two_weeks    = notification_date + 2.weeks
+    next_three_weeks  = notification_date + 3.weeks
+    next_four_weeks   = notification_date + 4.weeks
+    next_five_weeks   = notification_date + 5.weeks
+    next_six_weeks    = notification_date + 6.weeks
+    next_seven_weeks  = notification_date + 7.weeks
+    next_eight_weeks  = notification_date + 8.weeks
+
+    [notification_date, next_one_week, next_two_weeks, next_three_weeks, next_four_weeks, next_five_weeks, next_six_weeks, next_seven_weeks, next_eight_weeks]
+  end
+
   private
 
   def create_client_history
     ClientHistory.initial(self)
+  end
+
+  def notify_managers
+    ClientMailer.exited_notification(self, User.managers.pluck(:email)).deliver_now
+  end
+
+  def disconnect_client_user_relation
+    self.user_ids = []
   end
 end

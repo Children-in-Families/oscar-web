@@ -14,6 +14,7 @@ class Case < ActiveRecord::Base
   scope :kinships,       -> { where(case_type: 'KC') }
   scope :fosters,        -> { where(case_type: 'FC') }
   scope :most_recents,   -> { order('created_at desc') }
+  scope :last_exited,    -> { order('exit_date desc').first }
   scope :active,         -> { where(exited: false) }
   scope :inactive,       -> { where(exited: true) }
   scope :with_reports,   -> { joins(:quarterly_reports).uniq }
@@ -26,11 +27,11 @@ class Case < ActiveRecord::Base
   validates :case_type, :start_date,  presence: true
   validates :exit_date, :exit_note, presence: true, if: proc { |client_case| client_case.exited? }
 
-  before_save :update_client_status, :set_current_status
-  after_save :update_cases_to_exited_from_cif, :create_client_history
-  after_create :update_client_code
-
   before_validation :set_attributes, if: -> { new_record? && start_date.nil? }
+  before_save :update_client_status, :set_current_status
+  before_create :add_family_children
+  after_create :update_client_code
+  after_save :create_client_history
 
   def set_attributes
     if family.inactive? || family.birth_family?
@@ -109,28 +110,17 @@ class Case < ActiveRecord::Base
 
   def update_client_status
     if new_record?
-      client.status =
-        case case_type
-        when 'EC' then 'Active EC'
-        when 'KC' then 'Active KC'
-        when 'FC' then 'Active FC'
-        when 'Referred' then 'Referred'
-        end
+      client.status = ['EC', 'FC', 'KC'].include?(case_type) ? 'Active' : 'Referred'
     elsif exited_from_cif
       client.status = status
     elsif exited && !exited_from_cif
       if client.client_enrollments.active.empty?
-        client.status =
-          case case_type
-          when 'EC', 'Referred' then 'Referred'
-          when 'KC', 'FC'
-            client.cases.emergencies.active.any? ? 'Active EC' : 'Referred'
-          end
+        client.status = exited_was ? client.status : 'Accepted'
       else
-        client.status = 'Active'
+        client.status = exited_was ? client.status : 'Active'
       end
     end
-    client.save
+    client.save(validate: false)
   end
 
   def update_client_code
@@ -142,15 +132,13 @@ class Case < ActiveRecord::Base
     return [1000, Client.start_with_code(1).maximum(:code).to_i + 1].max if fc?
   end
 
-  def update_cases_to_exited_from_cif
-    if exited_from_cif && status_was.empty? && User.managers.any?
-      if client.cases.active.update_all(exited_from_cif: true, exited: true, exit_date: exit_date, exit_note: exit_note)
-        ClientMailer.exited_notification(client, User.managers.pluck(:email)).deliver_now
-      end
-    end
-  end
-
   def create_client_history
     ClientHistory.initial(client)
+  end
+
+  def add_family_children
+    return if family.children.include?(client.id)
+    family.children << client.id
+    family.save
   end
 end

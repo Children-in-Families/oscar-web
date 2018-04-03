@@ -1,6 +1,6 @@
 body[id=assessments-index] {
   .button {
-    min-width: 142px;
+    min-width: 165px;
   }
   .push-bottom {
     margin-bottom: 15px;
@@ -13,5 +13,12 @@ body[id=assessments-index] {
   }
   .disabled{
     color: #7f817f !important;
+  }
+
+  .btn.button {
+    a {
+      display: block;
+      color: white;
+    }
   }
 }

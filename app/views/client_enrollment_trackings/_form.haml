@@ -2,18 +2,18 @@
   .ibox-content
     %h3= "#{@client.en_and_local_name} - #{@tracking.name} - #{@program_stream.name}"
     = f.simple_fields_for :properties, OpenStruct.new(@client_enrollment_tracking.properties) do |prop_f|
-      - @tracking.fields.each_slice(2) do |n_field|
+      - @tracking.fields.each do |field|
         .row
-          - n_field.each do |field|
-            .col-xs-12.col-md-6
-              - unless field['type'] == 'file'
-                = render "/shared/fields/#{field['type'].underscore}", f: prop_f, field_props: field, errors: @client_enrollment_tracking.errors.messages, entity: f
-              - else
-                = f.simple_fields_for :form_builder_attachments, @attachments.file_by_name(field['label']) || @attachments.build do |attachment|
-                  = render 'shared/form_builder/attachment', f: attachment, property: field, entity: f, resource: @client_enrollment_tracking
-        .row
-          .col-xs-12
-            #message.text-danger
+          .col-xs-12{ class: field['type'] == 'paragraph' ? '' : 'col-md-6' }
+            - field['label'] = convert_bracket(field['label'])
+            - unless field['type'] == 'file'
+              = render "/shared/fields/#{field['type'].underscore}", f: prop_f, field_props: field, errors: @client_enrollment_tracking.errors.messages, entity: f
+            - else
+              = f.simple_fields_for :form_builder_attachments, @attachments.file_by_name(field['label']) || @attachments.build do |attachment|
+                = render 'shared/form_builder/attachment', f: attachment, property: field, entity: f, resource: @client_enrollment_tracking
+            .row
+              .col-xs-12
+                #message.text-danger
   .ibox-footer
     = hidden_field_tag :tracking_id, @tracking.id
     = f.submit t('.save'), class: 'btn btn-primary form-btn'

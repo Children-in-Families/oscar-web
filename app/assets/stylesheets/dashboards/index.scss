@@ -1,0 +1,29 @@
+body[id='dashboards-index'] {
+  #users-task-panel {
+    table.active_tasks {
+      margin-bottom: 0;
+    }
+
+    .ibox-content {
+      padding-bottom: 0;
+      border: none;
+    }
+
+    .select2-container {
+      min-width: 180px;
+      margin-left: 10px;
+    }
+
+    .active-task-heading {
+      background-color: #186e6d;
+      color: #fff;
+    }
+  }
+
+  #active_tasks_list {
+    .modal-active-list-width {
+      width: 100%;
+      max-width: 85%;
+    }
+  }
+}

@@ -29,10 +29,6 @@ describe 'Abilities' do
       should be_able_to(:preview, ProgramStream)
     end
 
-    it 'can manage AbleScreeningQuestion' do
-      should be_able_to(:manage, AbleScreeningQuestion)
-    end
-
     it 'can manage Client' do
       should be_able_to(:create, Client)
       value = User.where('manager_ids && ARRAY[:user_id] OR id = :user_id', { user_id: user.id }).map(&:id)

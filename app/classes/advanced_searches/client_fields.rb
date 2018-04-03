@@ -22,15 +22,16 @@ module AdvancedSearches
     private
 
     def number_type_list
-      ['code', 'grade', 'family_id', 'age', 'id_poor']
+      # ['code', 'family_id', 'age', 'id_poor']
+      ['family_id', 'age']
     end
 
     def text_type_list
-      ['given_name', 'family_name', 'local_given_name', 'local_family_name', 'family', 'slug', 'referral_phone', 'house_number', 'street_number', 'village', 'commune', 'district', 'school_name']
+      ['given_name', 'family_name', 'local_given_name', 'local_family_name', 'family', 'slug', 'referral_phone', 'house_number', 'street_number', 'village', 'commune', 'school_name', 'school_grade', 'telephone_number', 'other_info_of_exit', 'exit_note', 'name_of_referee', 'main_school_contact', 'what3words', 'kid_id', 'code']
     end
 
     def date_type_list
-      ['placement_date', 'date_of_birth', 'initial_referral_date', 'follow_up_date', 'referred_to_ec', 'referred_to_fc', 'referred_to_kc', 'exit_ec_date', 'exit_fc_date', 'exit_kc_date', 'exit_date', 'accepted_date']
+      ['placement_date', 'date_of_birth', 'initial_referral_date', 'follow_up_date', 'referred_to_ec', 'referred_to_fc', 'referred_to_kc', 'exit_ec_date', 'exit_fc_date', 'exit_kc_date', 'exit_date', 'accepted_date', 'case_note_date']
     end
 
     def drop_down_type_list
@@ -40,18 +41,30 @@ module AdvancedSearches
         ['case_type', { EC: 'EC', FC: 'FC',  KC: 'KC' }],
         ['agency_name', agencies_options],
         ['received_by_id', received_by_options],
-        ['birth_province_id', provinces],
+        ['birth_province_id', birth_provinces],
         ['province_id', provinces],
+        ['district_id', districts],
         ['referral_source_id', referral_source_options],
         ['followed_up_by_id', followed_up_by_options],
         ['has_been_in_government_care', { true: 'Yes', false: 'No' }],
-        ['able_state', client_able_state],
         ['has_been_in_orphanage', { true: 'Yes', false: 'No' }],
         ['user_id', user_select_options],
         ['form_title', client_custom_form_options],
         ['donor_id', donor_options],
-        ['program_stream', program_options]
+        ['program_stream', program_options],
+        ['case_note_type', case_note_type_options],
+        ['exit_reasons', exit_reasons_options],
+        ['exit_circumstance', {'Exited Client': 'Exited Client', 'Rejected Referral': 'Rejected Referral'}],
+        ['rated_for_id_poor', {'No': 'No', 'Level 1': 'Level 1', 'Level 2': 'Level 2', 'Level 3': 'Level 3'}]
       ]
+    end
+
+    def exit_reasons_options
+      Client::EXIT_REASONS.map{|s| { s => s }  }
+    end
+
+    def case_note_type_options
+      CaseNote::INTERACTION_TYPE
     end
 
     def program_options
@@ -66,12 +79,16 @@ module AdvancedSearches
       Client::CLIENT_STATUSES.sort.map { |s| { s => s.capitalize } }
     end
 
-    def client_able_state
-      Client::ABLE_STATES.sort.map { |s| { s => s } }
-    end
-
     def provinces
       Client.province_is.sort.map{|s| {s[1].to_s => s[0]}}
+    end
+
+    def birth_provinces
+      Client.birth_province_is.sort.map{|s| {s[1].to_s => s[0]}}
+    end
+
+    def districts
+      District.joins(:clients).pluck(:name, :id).uniq.sort.map{|s| {s[1].to_s => s[0]}}
     end
 
     def received_by_options

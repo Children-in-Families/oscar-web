@@ -4,7 +4,7 @@
     %meta{:charset => "utf-8"}
     %meta{:content => "IE=edge", "http-equiv" => "X-UA-Compatible"}
     %meta{:content => "width=device-width, initial-scale=1", :name => "viewport"}
-    %title CIF
+    %title OSCaR - Open Source Case-management and Record-keeping
 
     :javascript
       function pageNumber() {
@@ -21,227 +21,122 @@
     %link{:crossorigin => "anonymous", :href => "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css", :integrity => "sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7", :rel => "stylesheet"}
 
     :css
-      #government-report .header-address p {
-        display: table;
-        width: 50%;
+      body {
+        font-size: 12px;
+        margin: 0;
+        padding: 0;
+      }
+      .panel-body {
+        padding: 7px;
+      }
+      span {
+        padding: 4px 7px;
+        border-style: solid;
+        border-color: black;
+        border-width: 1px;
+        border-left: 1px;
+        margin-left: -4px !important;
+      }
+      span.first {
+        margin-left: 3px !important;
+        border-left: 1px solid black;
       }
 
-      #government-report .header-address span.item {
-        width: 45%;
+      .signature_date span {
+        padding: 4px 12px;
+        border-style: solid;
+        border-color: black;
+        border-width: 1px;
+        border-left: 1px;
+        margin-left: -4px !important;
       }
-
-      #government-report .first-response-form h4 {
-        margin-top:40px;
+      span.padding-date {
+        padding: 4px 14px;
       }
-
-      #government-report .first-response-form p {
-        margin-bottom:40px;
+      .signature_date span.first {
+        margin-left: 3px !important;
+        border-left: 1px solid black;
       }
-
-      #government-report .full-width-table {
-        display: table;
-        width: 100%;
+      .panel-border {
+        border-bottom: 1px solid black;
+        border-right: 1px solid black;
+        border-left: 1px solid black;
       }
-
-      #government-report .cell {
-        display: table-cell;
+      .panel-no-margin {
+        margin-bottom: 0px;
       }
-
-      #government-report .wide-padding {
-        padding: 5px 0;
+      .border-label {
+        border-bottom: 1px solid black;
+        border-right: 1px solid black;
+        border-left: 1px solid black;
       }
-
-      #government-report .bottom-border {
-        border-bottom: 1px solid #000;
+      .panel-label {
+        padding:3px;
+        border: 1px solid black;
+        width:100%;
+        margin-bottom: 1px;
       }
-
-      #government-report .found-client-at-item,
-      #government-report .found-client-village-item,
-      #government-report .case-info-date-day-item,
-      #government-report .case-info-date-month-item,
-      #government-report .case-info-date-year-item {
-        width: 5%;
+      .panel-label-dotted {
+        border-bottom: 1px dotted black;
+        border-right: 1px dotted black;
+        border-left: 1px dotted black;
       }
-
-      #government-report .referral-name-item,
-      #government-report .referral-position-item {
-        width: 7%;
+      .panel-margin-top {
+        margin-top: 12px;
       }
-
-      #government-report .carer-village-item {
-        width: 9%;
+      #panel-top-bottom-dotted {
+        border-bottom: 1px dotted black;
+        border-top: 1px dotted black;
+        border-right: 1px dotted black;
+        border-left: 1px dotted black;
+        padding:6px;
+        width:100%;
       }
-
-      #government-report .carer-house-item,
-      #government-report .carer-house-value,
-      #government-report .carer-street-item,
-      #government-report .carer-street-value {
-        width: 10%;
+      .table-borderless tbody tr td{
+        border: 0;
+        padding: 3px;
       }
-
-      #government-report .case-info-date-day-value,
-      #government-report .case-info-date-month-value {
-        width: 13%;
+      .table-border thead tr th,
+      .table-border thead:first-child tr:first-child th,
+      .table-border tbody tr td {
+        border: 1px solid black;
       }
-
-      #government-report .case-info-date-year-value {
-        width: 14%;
+      .panel-border {
+        border-color: black;
+        border-radius: 0px;
       }
-
-      #government-report .education-item {
-        width: 15%;
+      .panel-borderless {
+        border: 0;
+        border-radius: 0;
       }
-
-      #government-report .transfer-info {
-        width: 20%;
+      .panel-padding {
+        padding: 10px 5px;
       }
-
-      #government-report .carer-addr-item,
-      #government-report .carer-commune-item,
-      #government-report .blank-cell {
-        width: 25%;
+      .panel-no-padding {
+        padding: 0;
       }
-
-      #government-report .found-client-at {
-        width: 26%;
+      .panel-no-margin {
+        margin: 0;
       }
-
-      #government-report .carer-village-value {
-        width: 27%;
+      .no-border-bottom {
+        border-bottom: 0;
       }
-
-      #government-report .female-item,
-      #government-report .carer-capital-item {
-        width: 30%;
+      .no-margin-bottom {
+        margin-bottom: 0;
       }
-
-      #government-report .phone-item,
-      #government-report .carer-phone-item
-      #government-report .found-client-at-value,
-      #government-report .found-client-village-value,
-      #government-report .referral-name-value,
-      #government-report .referral-position-value {
-        width: 33%;
+      .bottom-radius {
+        border-top: 0;
+        border-radius: 0;
+        border-bottom-left-radius: 3px; 
+        border-bottom-right-radius: 3px;
       }
-
-      #government-report .gender-item,
-      #government-report .gender-value,
-      #government-report .carer-city-item,
-      #government-report .client-code-item {
-        width: 35%;
+      .top-radius {
+        border-bottom: 0;
+        border-radius: 0;
+        border-top-left-radius: 3px; 
+        border-top-right-radius: 3px;
       }
+      
 
-      #government-report .city-value,
-      #government-report .org-name-item,
-      #government-report .client-name-item,
-      #government-report .initial-date-item {
-        width: 40%;
-      }
-
-      #government-report .capital-value,
-      #government-report .dob-value,
-      #government-report .case-info-date-item {
-        width: 45%;
-      }
-
-      #government-report .half-width {
-        width: 50%;
-      }
-
-      #government-report .capital-item,
-      #government-report .dob-item {
-        width: 55%;
-      }
-
-      #government-report .city-item,
-      #government-report .org-name-value,
-      #government-report .client-name-value,
-      #government-report .client-contact-value,
-      #government-report .initial-date-value {
-        width: 60%;
-      }
-
-      #government-report .phone-value,
-      #government-report .carer-phone-value,
-      #government-report .carer-city-value,
-      #government-report .client-code-value {
-        width: 65%;
-      }
-
-      #government-report .carer-capital-value {
-        width: 70%;
-      }
-
-      #government-report .carer-commune-value {
-        width: 75%;
-      }
-
-      #government-report .education-value {
-        width: 85%;
-      }
-
-      #government-report .page-break {
-        page-break-after: always;
-      }
-
-      #government-report .page-break p {
-        display: inline-block;
-        padding: 5px 0;
-        width: 100%;
-      }
-
-      #government-report .page-break p.anonymous-description {
-        line-height: 35px;
-      }
-
-      #government-report table.child-situation-needs {
-        table-layout: fixed;
-        word-wrap: break-word;
-      }
-
-      #government-report table.child-situation-needs th.present-situation,
-      #government-report table.child-situation-needs th.intervention-plan {
-        padding-left: 20px;
-        padding-right: 20px;
-        width: 25%;
-      }
-
-      #government-report table.child-situation-needs th.need {
-        padding-left: 50px;
-        padding-right: 50px;
-        width: 25%;
-      }
-
-      #government-report .client-dob {
-        padding-right: 2px;
-      }
-
-      #government-report ul {
-        list-style: none;
-      }
-
-      #government-report .agreed-date {
-        margin-bottom: 100px;
-      }
-
-      #government-report .done-date-day,
-      #government-report .done-date-month,
-      #government-report .done-date-year,
-      #government-report .agreed-date-day,
-      #government-report .agreed-date-month,
-      #government-report .agreed-date-year {
-        width: 50px;
-        display: inline-block;
-      }
-
-      #government-report .office {
-        padding-left: 50px;
-      }
-
-      #government-report .wide-space {
-        margin-left: 20px;
-      }
-
-    %link{ href: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css', rel: 'stylesheet'}
   %body{ style: 'background-color:#fff;padding-bottom:20px;padding-left:40px;padding-right:40px;', onload: 'pageNumber()' }
     = yield

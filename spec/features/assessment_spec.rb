@@ -15,8 +15,8 @@ describe "Assessment" do
 
     def add_tasks(n)
       (1..n).each do |time|
-        find('.assessment-task-btn').click
-        fill_in 'task_name', with: FFaker::Lorem.paragraph
+        find('.assessment-task-btn').trigger('click')
+        fill_in 'task_name', with: 'ABC'
         fill_in 'task_completion_date', with: Date.strptime(FFaker::Time.date).strftime('%B %d, %Y')
         find('.add-task-btn').trigger('click')
         sleep 1
@@ -40,7 +40,7 @@ describe "Assessment" do
     end
 
     scenario 'valid', js: true do
-      with_tasks(2)
+      with_tasks(1)
       without_task
 
       fill_in 'Reason', with: FFaker::Lorem.paragraph
@@ -50,6 +50,7 @@ describe "Assessment" do
       sleep 1
       expect(page).to have_content(domain.name)
       expect(page.find('.domain-score')).to have_content('4')
+      expect(Task.find_by(name: 'ABC').user_id).to eq(user.id)
     end
 
     scenario  'invalid', js: true do
@@ -59,14 +60,29 @@ describe "Assessment" do
       click_link 'Done'
       expect(page).to have_content('This field is required')
     end
+
+    context 'assessments editable permission' do
+      scenario 'user has editable permission' do
+        expect(new_client_assessment_path(client)).to have_content(current_path)
+      end
+
+      scenario 'user does not have editable permission' do
+        user.permission.update(assessments_editable: false)
+
+        visit new_client_assessment_path(client)
+        expect(dashboards_path).to have_content(current_path)
+      end
+    end
   end
 
   feature 'List' do
     let!(:assessment){ create(:assessment, client: client) }
     let!(:assessment_domain){ create(:assessment_domain, assessment: assessment, domain: domain) }
-    let!(:other_client){ create(:client, :accepted, users: [user]) }
-    let!(:last_assessment){ create(:assessment, created_at: Time.now - 7.month, client: other_client) }
-    let!(:last_assessment_domain){ create(:assessment_domain, assessment: last_assessment, domain: domain) }
+    let!(:client_1){ create(:client, :accepted, users: [user]) }
+    let!(:client_2){ create(:client, :accepted, users: [user]) }
+    let!(:assessment_1){ create(:assessment, created_at: Time.now - 3.months, client: client_1) }
+    let!(:assessment_2){ create(:assessment, created_at: Time.now - 4.months, client: client_2) }
+    let!(:last_assessment_domain){ create(:assessment_domain, assessment: assessment_1, domain: domain) }
 
     before do
       visit client_assessments_path(client)
@@ -77,13 +93,48 @@ describe "Assessment" do
     end
 
     scenario 'no new assessment' do
-      expect(page).not_to have_link('Begin now', href: new_client_assessment_path(client))
+      expect(page).not_to have_link('Add New Assessment', href: new_client_assessment_path(client))
     end
 
-    scenario 'new assessment' do
-      visit client_assessments_path(other_client)
-      expect(page).to have_link('Begin now', href: new_client_assessment_path(other_client))
+    feature 'new assessment is enable for user to create as often as they like' do
+      scenario 'after 3 months' do
+        visit client_assessments_path(client_1)
+        expect(page).to have_link('Add New Assessment', href: new_client_assessment_path(client_1))
+      end
+      scenario 'after 4 months' do
+        visit client_assessments_path(client_2)
+        expect(page).to have_link('Add New Assessment', href: new_client_assessment_path(client_2))
+      end
     end
 
+    context 'assessments readable permission' do
+      scenario 'user has readable permission' do
+        expect(client_assessments_path(client)).to have_content(current_path)
+      end
+
+      scenario 'user does not have readable permission' do
+        user.permission.update(assessments_readable: false)
+        visit client_assessment_path(client, assessment)
+        expect(dashboards_path).to have_content(current_path)
+      end
+    end
+  end
+
+  feature 'Update' do
+    let!(:assessment){ create(:assessment, client: client) }
+
+    context 'assessments editable permission' do
+      scenario 'user has editable permission' do
+        visit edit_client_assessment_path(client, assessment)
+        expect(edit_client_assessment_path(client, assessment)).to have_content(current_path)
+      end
+
+      scenario 'user does not have editable permission' do
+        user.permission.update(assessments_editable: false)
+
+        visit edit_client_assessment_path(client, assessment)
+        expect(dashboards_path).to have_content(current_path)
+      end
+    end
   end
 end

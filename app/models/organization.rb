@@ -4,6 +4,8 @@ class Organization < ActiveRecord::Base
   has_many :employees, class_name: 'User'
 
   scope :without_demo, -> { where.not(full_name: 'Demo') }
+  scope :without_cwd, -> { where.not(short_name: 'cwd') }
+  scope :without_demo_and_cwd, -> { where.not(short_name: ['demo', 'cwd']) }
 
   validates :full_name, :short_name, presence: true
   validates :short_name, uniqueness: { case_sensitive: false }
@@ -34,5 +36,13 @@ class Organization < ActiveRecord::Base
 
   def mho?
     short_name == 'mho'
+  end
+
+  def cif?
+    short_name == 'cif'
+  end
+
+  def cwd?
+    short_name == 'cwd'
   end
 end

@@ -49,7 +49,6 @@ RSpec.describe UserSerializer, type: :serializer do
     expect(serializer).to have_json_type(:boolean).at_path('user/archived')
   end
 
-
   it 'should be have attribute admin' do
     expect(serializer).to have_json_path('user/admin')
     expect(serializer).to have_json_type(:boolean).at_path('user/admin')
@@ -60,9 +59,9 @@ RSpec.describe UserSerializer, type: :serializer do
     expect(serializer).to have_json_type(NilClass).at_path('user/manager_id')
   end
 
-  it 'should be have attribute pin_number' do
-    expect(serializer).to have_json_path('user/pin_number')
-    expect(serializer).to have_json_type(NilClass).at_path('user/pin_number')
+  it 'should be have attribute pin_code' do
+    expect(serializer).to have_json_path('user/pin_code')
+    expect(serializer).to have_json_type(String).at_path('user/pin_code')
   end
 
   it 'should be have attribute clients' do

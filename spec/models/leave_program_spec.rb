@@ -42,6 +42,16 @@ describe LeaveProgram, 'validations' do
       expect(client_enrollment.errors.full_messages).to include("Age can't be lower than 1")
     end
   end
+
+  context 'exit_date_value' do
+    it 'should be any date after program enrollment date' do
+      properties = {"e-mail"=>"test@example.com", "age"=>"6", "description"=>"this is testing"}
+      client_enrollment = ClientEnrollment.create(program_stream: program_stream, client: client, properties: properties, enrollment_date: '2017-06-08')
+      leave_program = LeaveProgram.new(client_enrollment: client_enrollment, program_stream: program_stream, properties: properties, exit_date: '2017-06-07')
+      leave_program.save
+      expect(leave_program.errors[:exit_date]).to include('The exit date you have selected is invalid. Please select a date after your program enrollment date.')
+    end
+  end
 end
 
 describe ClientEnrollment, 'scopes' do
@@ -65,8 +75,8 @@ describe LeaveProgram, 'callbacks' do
   before do
     LeaveProgramHistory.destroy_all
   end
-  let!(:ec_client) { create(:client) }
-  let!(:client) { create(:client) }
+  let!(:ec_client) { create(:client, status: 'Accepted') }
+  let!(:client) { create(:client, status: 'Accepted') }
   let!(:ec_case) { create(:case, :emergency, client: ec_client) }
   let!(:first_program_stream) { create(:program_stream) }
   let!(:second_program_stream) { create(:program_stream) }
@@ -81,16 +91,16 @@ describe LeaveProgram, 'callbacks' do
     context 'set_client_status' do
       context 'The client is Active EC' do
         let!(:leave_program) { create(:leave_program, client_enrollment: client_enrollment, program_stream: first_program_stream) }
-        it 'status should remain Active EC' do
-          expect(ec_client.status).to eq('Active EC')
+        it 'status should remain Active' do
+          expect(ec_client.status).to eq('Active')
         end
       end
 
       context 'The client is not active in any cases EC/FC/KC' do
         context 'The client is active in only one program' do
           let!(:leave_program) { create(:leave_program, client_enrollment: first_client_enrollment, program_stream: first_program_stream) }
-          it 'status should remain Referred' do
-            expect(client.status).to eq('Referred')
+          it 'status should remain Accepted' do
+            expect(client.status).to eq('Accepted')
           end
         end
 

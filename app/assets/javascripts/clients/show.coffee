@@ -1,54 +1,77 @@
 CIF.ClientsShow = do ->
   _init = ->
-    _rejectModal()
-    _exitModalValidate()
-    _exitNgoValidator()
     _initSelect2()
+
+    _caseModalValidation()
+    _exitNgoModalValidation()
+    _enterNgoModalValidation()
+
 
   _initSelect2 = ->
     $('select').select2()
 
-  _rejectModal = ->
-    note = $('#client_rejected_note').val()
-    if note == ''
-      $('.confirm-reject').attr 'disabled', 'disabled'
-    _rejectFormValidate()
+  # _rejectModal = ->
+  #   note = $('#client_rejected_note').val()
+  #   if note == ''
+  #     $('.confirm-reject').attr 'disabled', 'disabled'
+  #   _rejectFormValidate()
 
-  _rejectFormValidate = ->
-    $('#client_rejected_note').keyup ->
-      note  = $('#client_rejected_note').val()
-      if note == ''
-        $('.confirm-reject').attr 'disabled', 'disabled'
-      else
-        $('.confirm-reject').removeAttr 'disabled'
+  # _rejectFormValidate = ->
+  #   $('#client_rejected_note').keyup ->
+  #     note  = $('#client_rejected_note').val()
+  #     if note == ''
+  #       $('.confirm-reject').attr 'disabled', 'disabled'
+  #     else
+  #       $('.confirm-reject').removeAttr 'disabled'
 
-  _exitNgoValidator = ->
-    exitDate = $('#exitFromNgo #client_exit_date')
-    exitNote = $('#exitFromNgo #client_exit_note')
-    formId = $('#exitFromNgo')
 
-    _validateExitButton(formId, exitDate, exitNote)
+  _enterNgoModalValidation = ->
+    data = {
+      date: '#client_accepted_date',
+      field: '#client_user_ids',
+      form: '#enter-ngo-form',
+      btn: '.agree-btn'
+    }
+    _modalFormValidator(data)
 
-    $(exitDate).add(exitNote).bind 'keyup change', ->
-      _validateExitButton(formId, exitDate, exitNote)
+  _caseModalValidation = ->
+    data = {
+      date: '#case_exit_date',
+      field: '#case_exit_note',
+      form: '#exit-from-case',
+      btn: '.confirm-exit'
+    }
+    _modalFormValidator(data)
 
-  _exitModalValidate = ->
-    exitDate = $('#case_exit_date')
-    exitNote = $('#case_exit_note')
-    formId = $('#exit-from-case')
+  _exitNgoModalValidation = ->
+    data = {
+      date: '#exitFromNgo #client_exit_date',
+      field: '#exitFromNgo #client_exit_circumstance',
+      note: '#exitFromNgo #client_exit_note',
+      form: '#exitFromNgo',
+      btn: '.confirm-exit'
+    }
+    _modalFormValidator(data)
 
-    _validateExitButton(formId, exitDate, exitNote)
+  _modalFormValidator = (data)->
+    date = data['date']
+    field = data['field']
+    note = data['note']
+    form = data['form']
+    btn = data['btn']
+    _modalButtonAction(form, date, field, note, btn)
 
-    $(exitDate).add(exitNote).bind 'keyup change', ->
-      _validateExitButton(formId, exitDate, exitNote)
+    $(date).add(field).add(note).bind 'keyup change', ->
+      _modalButtonAction(form, date, field, note, btn)
 
-  _validateExitButton = (formId, exitDate, exitNote) ->
-    exitDate = $(exitDate).val()
-    exitNote = $(exitNote).val()
+  _modalButtonAction = (form, date, field, note, btn) ->
+    date = $(date).val()
+    field = $(field).val()
+    note = $(note).val()
 
-    if exitNote == '' or exitDate == ''
-      $(formId).find('.confirm-exit').attr 'disabled', 'disabled'
+    if (field == '' or field == null) or date == '' or note == ''
+      $(form).find(btn).attr 'disabled', 'disabled'
     else
-      $(formId).find('.confirm-exit').removeAttr 'disabled'
+      $(form).find(btn).removeAttr 'disabled'
 
   { init: _init }

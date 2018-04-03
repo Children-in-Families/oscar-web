@@ -14,7 +14,7 @@ class UserReminder
   private
 
   def remind_case_workers(org)
-    case_workers = User.without_json_fields.joins(:tasks).merge(Task.overdue_incomplete).uniq
+    case_workers = User.non_devs.without_json_fields.joins(:tasks).merge(Task.overdue_incomplete.exclude_exited_ngo_clients).uniq
     case_workers.each do |case_worker|
       CaseWorkerWorker.perform_async(case_worker.id, org.short_name)
     end
@@ -22,33 +22,39 @@ class UserReminder
 
   def remind_manager_and_admin(org)
     main_manager_id = 0
-    case_workers_by_manager = User.without_json_fields.joins(:tasks).merge(Task.overdue_incomplete).uniq.group_by(&:manager_id)
+    case_workers_by_manager = User.non_devs.without_json_fields.joins(:tasks).merge(Task.overdue_incomplete.exclude_exited_ngo_clients).uniq.group_by(&:manager_id)
     case_workers_by_manager.each do |manager_id, case_workers|
       if manager_id.present?
-        manager = User.find manager_id
+        manager = User.non_devs.find manager_id
         manager_ids = manager.manager_ids.present? ? manager.manager_ids : Array(manager.id)
         return if main_manager_id == manager_ids.last
         if manager_ids.any?
-          user_ids = User.where('manager_ids && ARRAY[?]', manager_ids).map(&:id)
+          user_ids = User.non_devs.where('manager_ids && ARRAY[?]', manager_ids).map(&:id)
           user_ids.push(manager_ids.last)
           user_ids.each do |case_workers_id|
-            case_workers_ids = User.joins(:tasks).merge(Task.overdue_incomplete).where('manager_ids && ARRAY[?]', case_workers_id).map(&:id).uniq
+            case_workers_ids = User.non_devs.joins(:tasks).merge(Task.overdue_incomplete.exclude_exited_ngo_clients).where('manager_ids && ARRAY[?]', case_workers_id).map(&:id).uniq
             next unless manager.task_notify
             ManagerWorker.perform_async(case_workers_id, case_workers_ids, org.short_name)
           end
         end
         main_manager_id = manager_ids.last
       else
-        tasks      = case_workers.map(&:tasks).flatten
-        client_ids = tasks.map(&:client_id).uniq
-        client_of  = clients_by_manager(client_ids)
+        user_ids = case_workers.map do |user|
+          user.id if user.tasks.count > 0
+        end
 
-        CaseManagerWorker.perform_async('ABLE', client_of[:able], org.short_name) if client_of[:able].present?
-        CaseManagerWorker.perform_async('FC', client_of[:fc], org.short_name)     if client_of[:fc].present?
-        CaseManagerWorker.perform_async('KC', client_of[:kc], org.short_name)     if client_of[:kc].present?
-        CaseManagerWorker.perform_async('EC', client_of[:ec], org.short_name)     if client_of[:ec].present?
+        AdminWorker.perform_async('', user_ids, org.short_name) if user_ids.present?
 
-        AdminWorker.perform_async('', admin_case_workers(client_ids), org.short_name) if admin_case_workers(client_ids).present?
+        # tasks      = case_workers.map(&:tasks).flatten
+        # client_ids = tasks.map(&:client_id).uniq
+        # client_of  = clients_by_manager(client_ids)
+
+        # CaseManagerWorker.perform_async('ABLE', client_of[:able], org.short_name) if client_of[:able].present?
+        # CaseManagerWorker.perform_async('FC', client_of[:fc], org.short_name)     if client_of[:fc].present?
+        # CaseManagerWorker.perform_async('KC', client_of[:kc], org.short_name)     if client_of[:kc].present?
+        # CaseManagerWorker.perform_async('EC', client_of[:ec], org.short_name)     if client_of[:ec].present?
+
+        # AdminWorker.perform_async('', admin_case_workers(client_ids), org.short_name) if admin_case_workers(client_ids).present?
       end
     end
   end

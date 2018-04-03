@@ -1,0 +1,26 @@
+%form{ id: 'filtered_by_user', action: dashboards_path, method: 'GET', class: 'form-inline' }
+  %input{type: 'hidden', value: params[:locale], name: 'locale'}
+  - unless current_user.case_worker?
+    .col-xs-12.col-md-4
+      .form-group
+        %label{ for: 'user_id' }= t('.filter_by_user')
+        = select_tag 'user_id', options_for_select(@users.map{|u| [u.name, u.id] }, selected: params[:user_id])
+  - else
+    %input{type: 'hidden', value: current_user.id, id: 'user_id', name: 'user_id'}
+
+  .col-xs-12.col-md-2
+    .form-group.btn.btn-default.btn-sm
+      = check_box_tag 'tasks', 'true', checkbox_tasks, class: 'i-checks'
+      %label= t('.tasks')
+  .col-xs-12.col-md-2
+    .form-group.btn.btn-default.btn-sm
+      = check_box_tag 'forms', 'true', checkbox_forms, class: 'i-checks'
+      %label= t('.forms')
+  .col-xs-12.col-md-3
+    .form-group.btn.btn-default.btn-sm
+      = check_box_tag 'assessments', 'true', checkbox_assessments, class: 'i-checks'
+      %label= t('.assessments')
+
+  .col-xs-12.col-md-1
+    %button#user-filter-submit.btn.btn-primary{type: 'submit'}
+      = t('.apply')

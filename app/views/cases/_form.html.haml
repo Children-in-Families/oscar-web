@@ -37,7 +37,7 @@
               %span.input-group-addon
                 %i.fa.fa-calendar-check-o
             = f.error :exit_date
-          .col-xs-12.col-sm-6.col-md-4= f.input :status, collection: Client::EXIT_STATUSES, include_blank: (f.object.exited_from_cif ? false : true), label: t('.exit_status')
+          .col-xs-12.col-sm-6.col-md-4= f.input :status, readonly: true
           .col-xs-12.col-sm-6.col-md-4= f.input :exit_note, required: true, input_html: { rows: 5, class: 'exit_note' }, label: t('.exit_note')
   .ibox-footer
     = f.submit t('save'), class: 'btn btn-primary form-btn'

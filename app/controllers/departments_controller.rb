@@ -26,7 +26,7 @@ class DepartmentsController < AdminController
   end
 
   def destroy
-    if @department.users_count.zero?
+    if @department.users.count.zero?
       @department.destroy
       redirect_to departments_url, notice: t('.successfully_deleted')
     else

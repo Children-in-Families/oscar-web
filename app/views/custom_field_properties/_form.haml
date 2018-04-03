@@ -4,19 +4,18 @@
     .ibox-title
       %h5= @custom_field.form_title
     .ibox-content
-
       - if @custom_field.present?
         = f.simple_fields_for :properties, OpenStruct.new(@custom_field_property.properties) do |prop_f|
-          - @custom_field.fields.each_slice(2) do |n_field|
+          - @custom_field.fields.each do |field|
             .row
-              - n_field.each do |field|
-                .col-xs-12.col-md-6
-                  - unless field['type'] == 'file'
-                    = render "/shared/fields/#{field['type'].underscore}", f: prop_f, field_props: field, errors: @custom_field_property.errors.messages
+              .col-xs-12{ class: field['type'] == 'paragraph' ? '' : 'col-md-6' }
+                - field['label'] = convert_bracket(field['label'])
+                - unless field['type'] == 'file'
+                  = render "/shared/fields/#{field['type'].underscore}", f: prop_f, field_props: field, errors: @custom_field_property.errors.messages
 
-                  - else
-                    = f.simple_fields_for :form_builder_attachments, custom_field_property_attachment(field['label']) do |attachment|
-                      = render 'shared/form_builder/attachment', f: attachment, property: field, entity: f, resource: @custom_field_property
+                - else
+                  = f.simple_fields_for :form_builder_attachments, custom_field_property_attachment(field['label']) do |attachment|
+                    = render 'shared/form_builder/attachment', f: attachment, property: field, entity: f, resource: @custom_field_property
         .row
           .col-xs-12
             #message.text-danger

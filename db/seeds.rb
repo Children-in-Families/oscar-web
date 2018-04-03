@@ -18,18 +18,38 @@ domains.each do |domain|
   Domain.find_or_create_by(name: domain[:name], identity: domain[:identity], description: domain[:description], domain_group_id: dg.id, score_1_color: domain[:score_1_color], score_2_color: domain[:score_2_color], score_3_color: domain[:score_3_color], score_4_color: domain[:score_4_color])
 end
 
-QUESTION_GROUPS = {
-                social_skill: 'ជំនាញសង្គម', cognitive_skill: 'ជំនាញនៃការយល់ដឹង',
-                language_skill: 'ជំនាញនៃភាសា', hearing: 'ការស្តាប់ឮ', vision: 'ការមើលឃើញ',
-                fine_motor: 'ចលនាតូច',  gross_motor: 'ចលនាធំ', self_care: 'ការថែរក្សាខ្លួន'
-              }
-
-QUESTION_GROUPS.each do |key, stage_group|
-  QuestionGroup.find_or_create_by(name: "#{key.to_s.titleize}/#{stage_group.titleize}")
-end
-
 Location.find_or_create_by(name: 'ផ្សេងៗ Other', order_option: 1)
 
 Thredded::MessageboardGroup.find_or_create_by(name: 'Archived')
 
 # Organization.create_and_build_tanent(short_name: 'ngo_subdomain', full_name: 'NGO Name', logo: File.open(Rails.root.join('path_to_ngo_logo')))
+
+# BEGINNING OF FORM 1
+# create table and data the following for government report - Form 1.
+interviewees = ['កុមារ', 'ឪពុកម្ដាយ', 'អាណាព្យាបាល', 'អ្នកថែទាំ']
+client_types = ['កុមារកំព្រា', 'កុមារពិការ', 'កុមារត្រូវបានបោះបង់ចោល', 'កុមារអានាថាតាមចិញ្ចើមថ្នល់', 'កុមារញៀនសារធាតុញៀន', 'កុមារដែលមិនបានទទួលនូវតម្រូវការជាមូលដ្ឋាន', 'កុមារដែលទទួលផលប៉ះពាល់​ ឬផ្ទុកមេរោគអេដស៏/ជំងឺអេដស៏', 'កុមារដែលទទួលរងការរំលោភបំពានផ្លូវភេទ រូបរាងកាយផ្លូវចិត្ត', 'កុមារដែលរងគ្រោះដោយការកេងប្រវ័ញ្ចផ្លូវភេទ ឬទម្រង់ពលកម្មប្រកបដោយគ្រោះថ្នាក់', 'កុមារមានទំនាស់ជាមួយច្បាប់']
+referral_sources = ['ក្រសួង សអយ/មន្ទីរ សអយ', 'អង្គការមិនមែនរដ្ឋាភិបាល', 'មន្ទីរពេទ្យ', 'នគរបាល', 'តុលាការ/ប្រព័ន្ធយុត្តិធម៌', 'រកឃើញនៅតាមទីសាធារណៈ', 'ស្ថាប័នរដ្ឋ', 'មណ្ឌលថែទាំបណ្ដោះអាសន្ន', 'ទូរស័ព្ទទាន់ហេតុការណ៍', 'មកដោយខ្លួនឯង', 'គ្រួសារ', 'មិត្តភក្ដិ', 'អាជ្ញាធរដែនដី']
+needs = ['ម្ហូបអាហារ', 'ជំរក', 'ការសិក្សាអប់រំ', 'ការថែទាំផ្នែកវេជ្ជសាស្ត្រ', 'ការមើលថែពីមនុស្សពេញវ័យ', 'សំលៀកបំពាក់', 'ការគាំទ្រផ្នែកផ្លូវចិត្ត']
+problems = ['ប្រើប្រាស់គ្រឿងស្រវឹង', 'ប្រើប្រាស់គ្រឿងញៀន', 'លេងល្បែង', 'រស់នៅតាមទីសាធារណៈ', 'មិនបានចូលរៀន', 'ការរំលោភបំពានផ្លូវកាយ', 'ការរំលោភបំពានផ្លូវភេទ', 'ការជួញដូរមនុស្ស', 'អាពាហ៍ពិពាហ៍ដោយបង្ខំ', 'ចំណាកស្រុក', 'គ្រួសារធ្វើចំណាកស្រុក', 'ការរំលោភបំពានផ្នែកអារម្មណ៍', 'អំពើហិង្សាក្នុងគ្រួសារ', 'ការកេងប្រវ័ញ្ចផ្នែកកំលាំងពលកម្ម', 'ពលកម្មកំរិតធ្ងន់ធ្ងរ']
+
+interviewees.each do |interviewee|
+  Interviewee.find_or_create_by(name: interviewee)
+end
+
+client_types.each do |client_type|
+  ClientType.find_or_create_by(name: client_type)
+end
+
+referral_sources.each do |referral_source|
+  ReferralSource.find_or_create_by(name: referral_source)
+end
+
+needs.each do |need|
+  Need.find_or_create_by(name: need)
+end
+
+problems.each do |problem|
+  Problem.find_or_create_by(name: problem)
+end
+
+# END OF FORM 1

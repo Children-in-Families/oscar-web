@@ -1,8 +1,8 @@
 .check-box-group
   .row
     .col-xs-12.form-group{ class: html_column(full_width) }
-      %label= field_props['label']
+      %label= field_props['label'].html_safe
       - field_props['values'].each do |field|
         %li
-          = check_box_tag :nil, field['label'], field['selected'], { class: 'i-checks' }
-          = label_tag '', field['label']
+          = check_box_tag :nil, field['label'].html_safe, field['selected'], { class: 'i-checks' }
+          = label_tag '', format_placeholder(field['label'])

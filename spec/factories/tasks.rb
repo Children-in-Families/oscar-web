@@ -5,6 +5,7 @@ FactoryGirl.define do
     association :case_note_domain_group, factory: :case_note_domain_group
     association :domain, factory: :domain
     association :client, factory: :client
+    association :user, factory: :user
 
     trait :incomplete do
       completed false
@@ -14,8 +15,8 @@ FactoryGirl.define do
       completed true
     end
 
-    before(:create) do |task|
-      task.users << FactoryGirl.create(:user)
+    trait :overdue do
+      completion_date Date.yesterday
     end
   end
 end

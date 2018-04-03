@@ -201,3 +201,33 @@ ul.dropdown-menu.dropdown-alerts {
   font-size: 20px;
   color: grey;
 }
+.align-link {
+  margin-top: -18px;
+  margin-bottom: -18px;
+}
+
+.align-link .task-sign {
+  padding-left: 10px;
+}
+
+.line-height {
+  border: 1px solid #e2e2e2;
+}
+
+#language-selection {
+  .dropdown-menu li a {
+    padding: 0 5px;
+    min-height: 0;
+    img {
+      margin-right: 3px;
+    }
+  }
+}
+
+ul#side-menu {
+  li.main {
+    a {
+      padding: 14px 10px 14px 20px;
+    }
+  }
+}

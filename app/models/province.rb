@@ -1,9 +1,10 @@
 class Province < ActiveRecord::Base
-  has_many :users
-  has_many :families
-  has_many :partner
-  has_many :clients
-  has_many :cases
+  has_many :users, dependent: :restrict_with_error
+  has_many :families, dependent: :restrict_with_error
+  has_many :partners, dependent: :restrict_with_error
+  has_many :clients, dependent: :restrict_with_error
+  has_many :cases, dependent: :restrict_with_error
+  has_many :districts, dependent: :restrict_with_error
 
   has_paper_trail
 
@@ -14,6 +15,6 @@ class Province < ActiveRecord::Base
   validates :name, presence: true, uniqueness: { case_sensitive: false }
 
   def removeable?
-    families_count.zero? && partners_count.zero? && users_count.zero? && clients_count.zero? && cases_count.zero?
+    families.count.zero? && partners.count.zero? && users.count.zero? && clients.count.zero? && cases.count.zero?
   end
 end

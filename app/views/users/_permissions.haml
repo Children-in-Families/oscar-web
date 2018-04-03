@@ -1,0 +1,33 @@
+.modal.fade.modal-fullscree#permissions{ 'aria-labelledby': 'gridSystemModalLabel', role: 'dialog', tabindex: '-1' }
+  .modal-dialog.modal-lg{ role: 'document' }
+    .modal-content
+      = simple_form_for @user do |f|
+        .modal-header
+          %h3= t('.permissions_selector')
+        .modal-body
+          .modal-border
+            %ul.nav.nav-tabs{ role: 'tablist' }
+              %li.active{ role: 'presentation' }
+                %a{ href: '#case-notes', 'aria-controls': 'case notes', role: 'tab', 'data-toggle': 'tab' }= t('.case_notes')
+              %li{ role: 'presentation' }
+                %a{ href: '#assessments', 'aria-controls': 'assessments', role: 'tab', 'data-toggle': 'tab' }= t('.assessments')
+              %li{ role: 'presentation' }
+                %a{ href: '#custom-forms', 'aria-controls': 'custom forms', role: 'tab', 'data-toggle': 'tab' }= t('.custom_forms')
+              %li{ role: 'presentation' }
+                %a{ href: '#custom-programs', 'aria-controls': 'custom programs', role: 'tab', 'data-toggle': 'tab' }= t('.custom_programs')
+
+          .tab-content
+            #case-notes.tab-pane.active{ role: 'tabpanel' }
+              = render 'case_note_permission', f: f
+            #assessments.tab-pane{ role: 'tabpanel' }
+              = render 'assessment_permission', f: f
+            #custom-forms.tab-pane{ role: 'tabpanel' }
+              = render 'custom_form_permission', f: f
+            #custom-programs.tab-pane{ role: 'tabpanel' }
+              = render 'custom_program_permission', f: f
+
+        .modal-footer
+          .row
+            .col-xs-6.col-xs-offset-6
+              = f.submit t('save'), class: 'btn btn-primary'
+              %button.btn.btn-default{ 'data-dismiss': 'modal' }= t('cancel')

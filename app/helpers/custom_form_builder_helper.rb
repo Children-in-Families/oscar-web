@@ -16,18 +16,22 @@ module CustomFormBuilderHelper
   end
 
   def display_custom_properties(value)
-    span = content_tag :span do
+    div = content_tag :div do
       if value =~ /(\d{4}[-\/]\d{1,2}[-\/]\d{1,2})/
         concat value.to_date.strftime('%B %d, %Y')
       elsif value.is_a?(Array)
         value.reject{ |i| i.empty? }.each do |c|
-          concat content_tag(:strong, c, class: 'label label-margin')
+          concat content_tag(:strong, c.gsub('&amp;qoute;', '&quot;').html_safe, class: 'label label-margin')
         end
       else
-        concat value
+        concat value.gsub('&amp;qoute;', '&quot;').html_safe if value.present?
       end
     end
-    raw(span.gsub("\n",'<br />'))
+    content = div.gsub('&amp;nbsp;', '')
+    content = content.gsub("\n",'<br />')
+    content = content.gsub('&lt;', '<')
+    content = content.gsub('&gt;', '>')
+    content.html_safe
   end
 
   def custom_field_frequency(frequency, time_of_frequency)

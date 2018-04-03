@@ -4,12 +4,13 @@ class ClientSerializer < ActiveModel::Serializer
               :current_province, :local_given_name, :local_family_name, :kid_id, :donor,
               :current_address, :house_number, :street_number, :village, :commune, :district,
               :completed, :birth_province, :time_in_care, :initial_referral_date, :referral_source,
-              :referral_phone, :live_with, :id_poor, :received_by,
+              # :referral_phone, :live_with, :id_poor, :received_by,
+              :referral_phone, :live_with, :received_by,
               :followed_up_by, :follow_up_date, :school_name, :school_grade, :has_been_in_orphanage,
-              :able_state, :has_been_in_government_care, :relevant_referral_information,
+              :has_been_in_government_care, :relevant_referral_information,
               :case_workers, :agencies, :state, :rejected_note, :emergency_care, :foster_care, :kinship_care,
               :organization, :additional_form, :tasks, :assessments, :case_notes, :quantitative_cases,
-              :program_streams, :add_forms
+              :program_streams, :add_forms, :inactive_program_streams
 
   def case_workers
     object.users
@@ -34,7 +35,13 @@ class ClientSerializer < ActiveModel::Serializer
   def additional_form
     custom_fields = object.custom_fields.uniq.sort_by(&:form_title)
     custom_fields.map do |custom_field|
-      custom_field.as_json.merge(custom_field_properties: custom_field.custom_field_properties.where(custom_formable_id: object.id).as_json)
+      custom_field_property_file_upload = custom_field.custom_field_properties.where(custom_formable_id: object.id)
+      custom_field_property_file_upload.each do |custom_field_property|
+        custom_field_property.form_builder_attachments.map do |c|
+          custom_field_property.properties = custom_field_property.properties.merge({c.name => c.file})
+        end
+      end
+      custom_field.as_json.merge(custom_field_properties: custom_field_property_file_upload.as_json)
     end
   end
 
@@ -61,7 +68,8 @@ class ClientSerializer < ActiveModel::Serializer
     object.assessments.map do |assessment|
       formatted_assessment_domain = assessment.assessment_domains_in_order.map do |ad|
         incomplete_tasks = object.tasks.by_domain_id(ad.domain_id).incomplete
-        ad.as_json.merge(domain: ad.domain.as_json(only: [:name, :identity]), incomplete_tasks: incomplete_tasks.as_json(only: [:name, :id]))
+        incomplete_tasks_with_domain = incomplete_tasks.map{ |task| task.as_json(only: [:id, :name, :completion_date]).merge(domain: task.domain.as_json(only: [:id, :name, :identity])) }
+        ad.as_json.merge(domain: ad.domain.as_json(only: [:name, :identity]), incomplete_tasks: incomplete_tasks_with_domain)
       end
       assessment.as_json.merge(assessment_domain: formatted_assessment_domain)
     end
@@ -91,14 +99,14 @@ class ClientSerializer < ActiveModel::Serializer
   end
 
   def program_streams
-    object.program_streams.map do |program_stream|
-      formatted_enrollments = program_stream.client_enrollments.map do |enrollment|
-        trackings = enrollment.client_enrollment_trackings
-        leave_program = enrollment.leave_program
-        enrollment.as_json.merge( trackings: trackings, leave_program: leave_program )
-      end
-      domains = program_stream.domains.map(&:identity)
-      program_stream.as_json(only: [:id, :name, :description, :quantity]).merge(domain: domains, enrollments: formatted_enrollments)
+    ProgramStream.active_enrollments(object).map do |program_stream|
+      list_program_stream(program_stream)
+    end
+  end
+
+  def inactive_program_streams
+    ProgramStream.inactive_enrollments(object).map do |program_stream|
+      list_program_stream(program_stream)
     end
   end
 
@@ -107,4 +115,32 @@ class ClientSerializer < ActiveModel::Serializer
     CustomField.client_forms.not_used_forms(custom_field_ids).order_by_form_title
   end
 
+  def list_program_stream(program_stream)
+    formatted_enrollments = program_stream.client_enrollments.enrollments_by(object).map do |enrollment|
+      enrollment.form_builder_attachments.map do |c|
+        enrollment.properties = enrollment.properties.merge({c.name => c.file})
+      end
+      enrollment_field = program_stream.enrollment
+      trackings = enrollment.client_enrollment_trackings.map do |tracking|
+        tracking.form_builder_attachments.map do |c|
+          tracking.properties = tracking.properties.merge({c.name => c.file})
+        end
+        tracking.as_json.merge(tracking_field: tracking.tracking.fields)
+      end
+      if enrollment.leave_program.present?
+        leave_program = enrollment.leave_program
+        leave_program.form_builder_attachments.map do |c|
+          leave_program.properties = leave_program.properties.merge({c.name => c.file})
+        end
+        leave_program = leave_program.as_json.merge(leave_program_field: program_stream.exit_program)
+      end
+      enrollment.as_json.merge(trackings: trackings, leave_program: leave_program, enrollment_field: enrollment_field)
+    end
+    domains = program_stream.domains.map(&:identity)
+    if program_stream.quantity.present?
+      program_stream.quantity = program_stream.number_available_for_client
+    end
+    tracking_fields = program_stream.trackings
+    program_stream.as_json(only: [:id, :name, :description, :quantity, :tracking_required, :exit_program, :enrollment]).merge(domain: domains, enrollments: formatted_enrollments, tracking_fields: tracking_fields)
+  end
 end

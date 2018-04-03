@@ -11,7 +11,7 @@
             - if @assessment.initial?
               = t('.initial_assessment_of')
             - else
-              = t('.six_month_assessment_report')
+              = t('.assessment_completed_for')
             %strong
               %u= @assessment.client.name
           .col-xs-12
@@ -24,9 +24,7 @@
             %span.pull-right.margin-asse
               - if @assessment.latest_record?
                 - if can? :update, @assessment
-                  = link_to edit_client_assessment_path(@assessment.client, @assessment) do
-                    .btn.btn-outline.btn-success
-                      %i.fa.fa-pencil
+                  = assessment_edit_link(@assessment.client, @assessment)
       .ibox-content
         .table-responsive
           %table.table.table-bordered

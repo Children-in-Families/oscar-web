@@ -5,9 +5,7 @@
         %h5= @custom_field.form_title
         .ibox-tools
           - if can? :manage, CustomFieldProperty
-            = link_to new_polymorphic_path([@custom_formable, CustomFieldProperty], custom_field_id: @custom_field.id) do
-              .btn.btn-outline.btn-primary.form-btn
-                = "#{t('.add_new')} #{@custom_field.form_title}"
+            = custom_field_properties_new_link
             = link_to polymorphic_path(@custom_formable) do
               .btn.btn-outline.btn-success.form-btn
                 = t('.back')
@@ -24,25 +22,42 @@
                   .ibox-tools
                     - if can? :manage, CustomFieldProperty
                       %small
-                        = link_to edit_polymorphic_path([@custom_formable, custom_field_property], custom_field_id: @custom_field) do
-                          .btn.btn-outline.btn-success
-                            = fa_icon('pencil')
+                        = custom_field_properties_edit_link(custom_field_property)
                       %small
-                        = link_to polymorphic_path([@custom_formable, custom_field_property], custom_field_id: @custom_field), method: :delete, data: { confirm: t('are_you_sure') } do
-                          .btn.btn-outline.btn-danger
-                            = fa_icon('trash')
+                        = custom_field_properties_destroy_link(custom_field_property)
                 .ibox-content
                   .table-responsive
                     %table.table.table-bordered
                       - custom_field_property.custom_field.fields.map{|a| [a['type'], a['label']]}.each do |type, key|
+                        - unless type == 'separateLine'
+                          - if type == 'paragraph'
+                            %tr
+                              %td.align-justify{colspan: '2'}
+                                = key.html_safe
+                          - else
+                            %tr
+                              %td.align-justify
+                                = key.html_safe
+                              %td.align-justify
+                                - key = convert_bracket(key)
+                                - if type == 'file'
+                                  = render 'shared/form_builder/list_attachment', label: key, resource: custom_field_property
+                                - else
+                                  = display_custom_properties(custom_field_property.properties[key])
 
-                        %tr
-                          %td.align-justify
-                            = key
-                          %td.align-justify
-                            - if type == 'file'
-                              = render 'shared/form_builder/list_attachment', label: key, resource: custom_field_property
-                            - else
-                              = display_custom_properties(custom_field_property.properties[key])
+                    %table.table.table-bordered
+                      - files = custom_field_property.attachments
+                      - next if files.nil?
+                      - files.each_with_index do |file, index|
+                        %tr.row-file
+                          %td.image-title.vert-align
+                            = original_filename(file)
+                          %td.vert-align.preview.text-center
+                            = link_to preview_or_download(file), file.url, target: target_blank(file), class: 'btn btn-info btn-sm btn-download'
+                          - if action_name == 'show' || action_name == 'report' || action_name == 'index'
+                            %td.vert-align.text-center.action
+                              = form_buildable_path(custom_field_property, index, 'attachments', '')
+
+
       .ibox-footer.text-center
         = paginate @custom_field_properties

@@ -1,12 +1,14 @@
-class ClientEnrollmentPolicy < ApplicationPolicy  
+class ClientEnrollmentPolicy < ApplicationPolicy
   def create?
-    if enrollments_by_client.empty? || enrollments_by_client.last.status == 'Exited'
-      return true unless record.program_stream.quantity.present?
+    if (enrollments_by_client.empty? || enrollments_by_client.last.status == 'Exited')
+      return true unless record.program_stream.try(:quantity).present?
       client_ids.size < record.program_stream.quantity
     else
       return false
     end
   end
+
+  alias new? create?
 
   def client_ids
     ClientEnrollment.active.where(program_stream_id: record.program_stream).pluck(:client_id).uniq

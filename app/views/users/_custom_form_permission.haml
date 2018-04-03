@@ -1,0 +1,15 @@
+%br
+.row
+  .col-xs-4.col-xs-offset-4
+    %h4=t('.can_view')
+  .col-xs-4
+    %h4=t('.can_edit')
+= f.simple_fields_for :custom_field_permissions do |ff|
+  .row.custom-field-permission
+    .col-xs-4
+      %label.permission-label= ff.object.user_custom_field_permission.form_title
+      = ff.input :custom_field_id, as: :hidden, input_html: { value: ff.object.custom_field_id }
+    .col-xs-4
+      = ff.input :readable, label: false, input_html: { class: 'i-checks' }
+    .col-xs-4
+      = ff.input :editable, label: false, input_html: { class: 'i-checks' }

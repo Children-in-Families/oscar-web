@@ -10,7 +10,7 @@
 
     - if can? :manage, CustomFieldProperty
       .btn-group.small-btn-margin
-        %button.btn-sm.btn.btn-primary.dropdown-toggle{ 'data-toggle' => 'dropdown', class: ('disabled' if @free_partner_forms.empty?) }
+        %button.btn-sm.btn.btn-success.dropdown-toggle{ 'data-toggle' => 'dropdown', class: ('disabled' if @free_partner_forms.empty?) }
           = t('.add_form')
           %span.caret
         %ul.dropdown-menu.scrollable-dropdown-menu
@@ -30,7 +30,7 @@
               = link_to edit_partner_path(@partner) do
                 .btn.btn-outline.btn-success
                   %i.fa.fa-pencil
-              = remove_link(@partner, {partner_case: @partner.cases_count}, 'btn-md')
+              = remove_link(@partner, {partner_case: @partner.cases.count}, 'btn-md')
 
       .ibox-content
         .row.partner-summary
