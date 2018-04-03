@@ -13,7 +13,7 @@ FactoryGirl.define do
       assessment_frequency 'day'
     end
 
-    min_assessment { rand(1..9)}
-    max_assessment { rand(1..9)}
+    min_assessment { rand(3..12)}
+    max_assessment { rand(6..12)}
   end
 end
