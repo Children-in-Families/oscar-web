@@ -181,6 +181,7 @@ class ClientsController < AdminController
     @client_types    = ClientType.order(:created_at)
     @needs           = Need.order(:created_at)
     @problems        = Problem.order(:created_at)
+
     if @client.province.present?
       @districts       = @client.province.districts.order(:name)
     else
