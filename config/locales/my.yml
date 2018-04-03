@@ -3618,14 +3618,20 @@ my:
       your_account_needs_to_supply_a_verification_code: သင့်အကောင့်အတည်ပြုရန်ကုဒ်ထောက်ပံ့ဖို့လိုအပ်ပါတယ်
       bad_credentials_supplied: မကောင်းတဲ့သံတမန်ဆောင်ဧည်ထောက်ပံ့
   settings:
+    assessment:
+      assessment: စိစစ္အကဲျဖတ္မႈ
+      assessment_frequency: အႀကိမ္ေရ
+      max_assessment: အများဆုံးအကဲဖြတ်ရှည်ကြာခြင်း
+      min_assessment: အနည်းဆုံး အကဲဖြတ်ရှည်ကြာခြင်း
     country:
+      country: ႏုိင္ငံ
+    index:   
       settings: အျပင္အဆင္မ်ား
       switched_country_cambodia: သင္၏ ႏုိင္ငံအျပင္အဆင္ကို ကေမာၻဒီးယားႏုိင္ငံအျဖစ္ ေျပာင္းၿပီးပါၿပီ။
       switched_country_lesotho: သင္၏ ႏုိင္ငံအျပင္အဆင္ကို လက္ဆူးသူႏုိုင္ငံအျဖစ္ ေျပာင္းၿပီးပါၿပီ။
       switched_country_myanmar: သင္၏ ႏုိင္ငံအျပင္အဆင္ကို ျမန္မာႏုိင္ငံအျဖစ္ ေျပာင္းၿပီးပါၿပီ။
       switched_country_thailand: သင္၏ ႏုိင္ငံအျပင္အဆင္ကို ထုိင္းႏုိင္ငံအျဖစ္ ေျပာင္းၿပီးပါၿပီ။
-    navigation:
-      country: ႏုိင္ငံ
+
   shared:
     form_builder:
       file_field:

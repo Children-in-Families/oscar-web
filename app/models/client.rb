@@ -175,14 +175,6 @@ class Client < ActiveRecord::Base
     true
   end
 
-  def assessment_duration(duration)
-    setting = Setting.first
-    assessment_period = (setting.try(:min_assessment) || 3) if duration == 'min'
-    assessment_period = (setting.try(:max_assessment) || 6) if duration == 'max'
-    assessment_frequency = setting.try(:assessment_frequency) || 'month'
-    assessment_period = assessment_period.send(assessment_frequency)
-  end
-
   def self.able_managed_by(user)
     where('able_state = ? or user_id = ?', ABLE_STATES[0], user.id)
   end
@@ -386,5 +378,13 @@ class Client < ActiveRecord::Base
 
   def disconnect_client_user_relation
     self.user_ids = []
+  end
+
+  def assessment_duration(duration)
+    setting = Setting.first
+    assessment_period = (setting.try(:min_assessment) || 3) if duration == 'min'
+    assessment_period = (setting.try(:max_assessment) || 6) if duration == 'max'
+    assessment_frequency = setting.try(:assessment_frequency) || 'month'
+    assessment_period = assessment_period.send(assessment_frequency)
   end
 end

@@ -7,4 +7,4 @@
         = simple_form_for @setting do |f|
           = render 'country'
           = render 'assessment', f: f
-          = f.submit class: 'btn btn-primary'
+          = f.submit t('save'), class: 'btn btn-primary'

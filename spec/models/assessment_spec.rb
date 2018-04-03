@@ -150,6 +150,17 @@ describe Assessment, 'callbacks' do
       expect(previous_score).to eq(assessment_domain.score)
     end
   end
+
+  context 'must_be_min_assessment_period' do
+    let!(:client) { create(:client) }
+    let!(:setting) { create(:setting, :month, min_assessment: 4) }
+    let!(:assessment) { create(:assessment, client: client, created_at: 3.month.ago.to_date) }
+
+    it "should be return error message" do
+      second_assessment = Assessment.create(client: client)
+      expect(second_assessment.errors.full_messages).to include('Assessment cannot be created before 4 months')
+    end
+  end
 end
 
 describe Assessment, 'CONSTANTS' do

@@ -3669,14 +3669,20 @@ km:
       your_account_needs_to_supply_a_verification_code: គណនីរបស់អ្នកត្រូវការបញ្ចូលកូដផ្ទៀងផ្ទាត់
       bad_credentials_supplied: កូដផ្ទៀងផ្ទាត់មិនត្រឹមត្រូវ
   settings:
+    assessment:
+      assessment: ការប៉ាន់ប្រមាណ
+      assessment_frequency: ភាពញឹកញាប់
+      max_assessment: រយៈពេលការប៉ាន់ប្រមាណអតិបរមា
+      min_assessment: រយៈពេលការប៉ាន់ប្រមាណអប្បរមា
     country:
+      country: ប្រទេស
+    index:   
       settings: ការកំណត់
       switched_country_cambodia: អ្នកបានប្ដូរការកំណត់ទៅជាប្រទេសកម្ពុជា
       switched_country_lesotho: អ្នកបានប្ដូរការកំណត់ទៅជាប្រទេសឡឹសូថូ
       switched_country_myanmar: អ្នកបានប្ដូរការកំណត់ទៅជាប្រទេសមីយ៉ាន់ម៉ា
       switched_country_thailand: អ្នកបានប្ដូរការកំណត់ទៅជាប្រទេសថៃ
-    navigation:
-      country: ប្រទេស
+
   shared:
     form_builder:
       list_attachment:
