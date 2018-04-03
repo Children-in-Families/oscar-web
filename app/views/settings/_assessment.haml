@@ -5,7 +5,7 @@
     .row
       .col-xs-12.col-sm-4
         .form-group
-          = f.input :assessment_frequency, label: 'Frequency', collection: [['Daily', 'day'], ['Weekly', 'week'], ['Monthly', 'month']]
+          = f.input :assessment_frequency, label: 'Frequency', collection: [['Daily', 'day'], ['Weekly', 'week'], ['Monthly', 'month']], input_html: {class: 'select2'}
 
       .col-xs-12.col-sm-4
         .form-group
