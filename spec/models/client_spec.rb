@@ -328,6 +328,20 @@ describe Client, 'methods' do
     end
   end
 
+  context '#next_case_note_date' do
+    let!(:client_1){ create(:client, :accepted) }
+    let!(:lastest_case_note){ create(:case_note, client: client_1, meeting_date: Date.today) }
+    let!(:case_note){ create(:case_note, client: other_client, meeting_date: 30.days.ago) }
+
+    it 'should be last case note + 30 days' do
+      expect(client_1.next_case_note_date).to eq((lastest_case_note.meeting_date + 30.days).to_date)
+    end
+
+    it 'should be today' do
+      expect(other_client.next_case_note_date).to eq(Date.today)
+    end
+  end
+
   context '#can_create_assessment?' do
     let!(:other_assessment){ create(:assessment, created_at: Date.today - 2.months, client: other_client) }
     let!(:no_csi_client){ create(:client, :accepted) }

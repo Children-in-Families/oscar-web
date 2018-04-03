@@ -2999,8 +2999,11 @@ km:
     notification:
       check_tasks: ដើម្បីពិនិត្យកាព្វកិច្ចរបស់អ្នក សូមចុច
       click_here: ទីនេះ
+      client_case_note_due_today:
+        one: អ្នកមានកំណត់ត្រាករណីចំនួនមួយដែលត្រូវបំពេញនៅថ្ងៃនេះ
+        other: អ្នកមានកំណត់ត្រាករណីចំនួន %{count} ដែលត្រូវបំពេញនៅថ្ងៃនេះ
       client_case_note_overdue:
-        one: អ្នកមានកំណត់ត្រាករណីចំនួន1ដែលផុតកំណត
+        one: អ្នកមានកំណត់ត្រាករណីចំនួនមួយដែលផុតកំណត
         other: អ្នកមានកំណត់ត្រាករណីចំនួន %{count} ដែលផុតកំណត
       client_is_about_to_end_ec:
         one: មានអតិថិជនចំនួនម្នាក់ដែលនឹងត្រូវបញ្ជូនចេញពីECក្នុងរយៈពេល%{day_count}ថ្ងៃ
@@ -3186,6 +3189,9 @@ km:
   must_be_uniq: ផ្នែកនៃទម្រង់មិនអាចមានឈ្មោះដូចគ្នា
   mutual_dependence_has_been_modified: កម្មវិធីអាស្រ័យគ្នាមិនអាចផ្លាស់ប្តូរឬបន្ថែមទេព្រោះលក្ខខ័ណ្ឌមុនត្រូវបានផ្លាស់ប្តូរ។
   notifications:
+    case_note_due_today:
+      client_case_note_due_today: អតិថិជនដែលមានកំណត់ត្រាករណីដែលត្រូវបំពេញនៅថ្ងៃនេះ
+      review_client: អតិថិជនដែលត្រូវការត្រួតពិនិត្យ
     case_note_overdue:
       client_case_note_overdue: អតិថិជនដែលមានកំណត់ត្រាករណីហួសកំណត់
       review_client: អតិថិជនដែលត្រូវការត្រួតពិនិត្យ

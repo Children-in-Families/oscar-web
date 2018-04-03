@@ -2913,6 +2913,9 @@ en:
     notification:
       check_tasks: To check your tasks, please
       click_here: click here.
+      client_case_note_due_today:
+        one: You have 1 case note due today.
+        other: You have %{count} case notes due today.
       client_case_note_overdue:
         one: You have 1 case note overdue.
         other: You have %{count} case notes overdue.
@@ -3116,6 +3119,9 @@ en:
   must_be_uniq: field label must be uniq
   mutual_dependence_has_been_modified: Prerequisite Programs cannot be changed or added because it breaks the previous conditions.
   notifications:
+    case_note_due_today:
+      client_case_note_due_today: Client Case Note Due Today
+      review_client: Clients need to be reviewed
     case_note_overdue:
       client_case_note_overdue: Client Case Note Overdue
       review_client: Clients need to be reviewed

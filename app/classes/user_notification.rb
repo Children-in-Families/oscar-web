@@ -11,7 +11,7 @@ class UserNotification
     @partner_custom_field                            = @user.partner_custom_field_frequency_overdue_or_due_today
     @family_custom_field                             = @user.family_custom_field_frequency_overdue_or_due_today
     @client_enrollment_tracking_user_notification    = @user.client_enrollment_tracking_overdue_or_due_today
-    @case_notes_overdue                              = @user.case_note_overdue
+    @case_notes_overdue_and_due_today                = @user.case_note_overdue_and_due_today
     @all_count                                       = count
   end
 
@@ -212,15 +212,27 @@ class UserNotification
   end
 
   def any_client_case_note_overdue?
-    @case_notes_overdue.any?
+    client_case_note_overdue_count >= 1
   end
 
   def client_case_note_overdue_count
-    @case_notes_overdue.count
+    client_case_note_overdue.count
   end
 
   def client_case_note_overdue
-    @case_notes_overdue
+    @case_notes_overdue_and_due_today[:client_overdue]
+  end
+
+  def any_client_case_note_due_today?
+    client_case_note_due_today_count >= 1
+  end
+
+  def client_case_note_due_today_count
+    client_case_note_due_today.count
+  end
+
+  def client_case_note_due_today
+    @case_notes_overdue_and_due_today[:client_due_today]
   end
 
   def count
@@ -251,6 +263,7 @@ class UserNotification
       count_notification += 1 if any_client_enrollment_tracking_frequency_overdue?
       count_notification += 1 if any_upcoming_csi_assessments?
       count_notification += 1 if any_client_case_note_overdue?
+      count_notification += 1 if any_client_case_note_due_today?
     end
     count_notification += review_program_streams.size
   end

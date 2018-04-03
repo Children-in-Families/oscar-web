@@ -178,13 +178,18 @@ class User < ActiveRecord::Base
     client_enrollment_tracking_notification(clients.active_accepted_status)
   end
 
-  def case_note_overdue
-    setting = Setting.first
-    max_case_note = setting.try(:max_case_note) || 30
-    case_note_frequency = setting.try(:case_note_frequency) || 'day'
-    case_note_period = max_case_note.send(case_note_frequency).ago
-    case_note_ids = CaseNote.no_case_note_in(case_note_period).ids
-    clients.joins(:case_notes).where(case_notes: { id: case_note_ids })
+  def case_note_overdue_and_due_today
+    overdue   = []
+    due_today = []
+    clients.active_accepted_status.each do |client|
+      client_next_case_note_date = client.next_case_note_date.to_date
+      if client_next_case_note_date < Date.today
+        overdue << client
+      elsif client_next_case_note_date == Date.today
+        due_today << client
+      end
+    end
+    { client_overdue: overdue, client_due_today: due_today }
   end
 
   def self.self_and_subordinates(user)
