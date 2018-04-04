@@ -51,16 +51,17 @@ describe CaseNote, 'methods' do
     end
   end
 
-  context 'latest record' do
+  context '#latest_record' do
     let!(:case_note){ create(:case_note, meeting_date: Date.yesterday) }
     let!(:case_note_1){ create(:case_note, meeting_date: Date.today) }
+    subject(:latest_case_note) { CaseNote.latest_record }
 
     it 'should have first object as the latest case note by meeting date' do
-      expect(CaseNote.latest_record).to eq(case_note_1)
+      expect(latest_case_note).to eq(case_note_1)
     end
 
     it 'should not have first object as the latest case note by meeting date' do
-      expect(CaseNote.latest_record).not_to eq(case_note)
+      expect(latest_case_note).not_to eq(case_note)
     end
   end
 end

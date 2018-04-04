@@ -8,7 +8,7 @@ class CaseNoteOverdue
       case_note_period = max_case_note.send(case_note_frequency).ago
       User.all.each do |user|
         case_note_ids = CaseNote.no_case_note_in(case_note_period).ids
-        client_ids = user.clients.joins(:case_notes).where(case_notes: { id: case_note_ids }).active_accepted_status.ids
+        client_ids = user.clients.joins(:case_notes).where(case_notes: { id: case_note_ids }).active_accepted_status.ids.uniq
         CaseNoteOverdueWorker.perform_async(client_ids, user.id, org.short_name) if client_ids.any?
       end
     end
