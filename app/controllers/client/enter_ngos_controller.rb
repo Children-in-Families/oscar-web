@@ -1,11 +1,9 @@
-class EnterNgosController < AdminController
+class Client::EnterNgosController < AdminController
 
   before_action :find_client
 
-  @enter_ngos = @client.enter_ngos
-
   def create
-    @enter_ngo = @client.enter_ngos.new(enter_ngo_params)
+    @enter_ngo = @client.enter_ngos.create(enter_ngo_params)
     if @enter_ngo.save
       redirect_to @client, notice: t('.successfully_created')
     else
@@ -14,11 +12,16 @@ class EnterNgosController < AdminController
   end
 
   def update
+    @enter_ngo = @client.enter_ngos.find(enter_ngo_params)
+
     if @enter_ngo.update_attributes(enter_ngo_params)
       redirect_to @client, notice: t('.successfully_updated')
     else
       render :edit
     end
+  end
+
+  def edit
   end
 
   private
@@ -28,7 +31,7 @@ class EnterNgosController < AdminController
   end
 
   def enter_ngo_params
-    params.require(:enter_ngo).permit( :accepted_date)
+    params.require(:enter_ngo).permit( :accepted_date, user_ids: [] )
   end
 
 end

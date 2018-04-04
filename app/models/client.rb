@@ -35,8 +35,8 @@ class Client < ActiveRecord::Base
   has_many :program_streams, through: :client_enrollments
   has_many :case_worker_clients, dependent: :destroy
   has_many :users, through: :case_worker_clients
-  has_many :enter_ngos, dependent: :destroy
-  has_many :exit_ngos, dependent: :destroy
+  has_many :enter_ngos, dependent: :destroy, :inverse_of => :client
+  has_many :exit_ngos, dependent: :destroy, :inverse_of => :client
 
 
   accepts_nested_attributes_for :tasks

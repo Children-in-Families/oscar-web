@@ -108,6 +108,11 @@ Rails.application.routes.draw do
       get :advanced_search
     end
 
+    scope module: 'client' do
+      resources :exit_ngos, only: [:create, :update]
+      resources :enter_ngos, only: [:create, :update]
+    end
+
     resources :client_enrollments do
       get :report, on: :collection
       resources :client_enrollment_trackings do

@@ -30,23 +30,24 @@
             .col-xs-12
               .row
                 .col-xs-12
-                  = simple_form_for @client, method: :put, url: client_path(@client) do |f|
+                  = simple_form_for [ @client, @client.enter_ngos.build ] do |f|
                     .form-inputs
                       = f.hidden_field :accepted_date, value: Date.today
-                      = f.hidden_field :status, value: 'Accepted'
                     .form-actions
                       = f.submit t('.accept'), class: 'btn btn-success agree-btn', id: 'accept-client'
                 .col-xs-12
                   %button.btn.btn-danger.mini-margin{"data-target" => '#exitFromNgo', "data-toggle" => 'modal', class: 'agree-btn'} #{t('.reject')}
 
             .col-xs-12
-              = render 'exit_ngo_form', client: @client
+              / = render 'exit_ngo_form', client: @client
+              = render 'client/exit_ngos/form', client: @client
+
 
         - elsif @client.status == 'Exited'
           .row
             .col-xs-12
               %button.btn.btn-success.mini-margin{"data-target" => '#enter-ngo-form', "data-toggle" => 'modal', class: 'agree-btn' } #{t('.accept')}
-              = render 'enter_ngo_form'
+              = render 'client/enter_ngos/form', client: @client
             .col-xs-12
               %button.btn.btn-danger.mini-margin{ disabled: 'disabled', class:'agree-btn' }= t('.reject')
 
@@ -77,7 +78,7 @@
             - if @client.client_enrollments.active.count > 0
               = render 'remaining_programs', client: @client
             - else
-              = render 'exit_ngo_form', client: @client
+              = render 'client/exit_ngos/form', client: @client
             - if @client.cases.exclude_referred.current.present?
               = render 'exit_case_form', client_case: @client.cases.exclude_referred.current, exit_from_cif: true
 

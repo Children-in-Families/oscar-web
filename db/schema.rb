@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180403085748) do
+ActiveRecord::Schema.define(version: 20180404090428) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -173,9 +173,11 @@ ActiveRecord::Schema.define(version: 20180403085748) do
     t.integer  "client_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "enter_ngo_id"
   end
 
   add_index "case_worker_clients", ["client_id"], name: "index_case_worker_clients_on_client_id", using: :btree
+  add_index "case_worker_clients", ["enter_ngo_id"], name: "index_case_worker_clients_on_enter_ngo_id", using: :btree
   add_index "case_worker_clients", ["user_id"], name: "index_case_worker_clients_on_user_id", using: :btree
 
   create_table "case_worker_tasks", force: :cascade do |t|
@@ -1211,6 +1213,7 @@ ActiveRecord::Schema.define(version: 20180403085748) do
   add_foreign_key "case_contracts", "cases"
   add_foreign_key "case_notes", "clients"
   add_foreign_key "case_worker_clients", "clients"
+  add_foreign_key "case_worker_clients", "enter_ngos"
   add_foreign_key "case_worker_clients", "users"
   add_foreign_key "case_worker_tasks", "tasks"
   add_foreign_key "case_worker_tasks", "users"
