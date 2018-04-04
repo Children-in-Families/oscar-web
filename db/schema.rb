@@ -71,6 +71,18 @@ ActiveRecord::Schema.define(version: 20180402022052) do
     t.datetime "updated_at"
   end
 
+  create_table "answers", force: :cascade do |t|
+    t.string   "description"
+    t.integer  "able_screening_question_id"
+    t.integer  "client_id"
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
+    t.string   "question_type",              default: ""
+  end
+
+  add_index "answers", ["able_screening_question_id"], name: "index_answers_on_able_screening_question_id", using: :btree
+  add_index "answers", ["client_id"], name: "index_answers_on_client_id", using: :btree
+
   create_table "assessment_domains", force: :cascade do |t|
     t.text     "note",           default: ""
     t.integer  "previous_score"
@@ -1176,6 +1188,8 @@ ActiveRecord::Schema.define(version: 20180402022052) do
   add_foreign_key "able_screening_questions", "question_groups"
   add_foreign_key "able_screening_questions", "stages"
   add_foreign_key "advanced_searches", "users"
+  add_foreign_key "answers", "able_screening_questions"
+  add_foreign_key "answers", "clients"
   add_foreign_key "assessment_domains_progress_notes", "assessment_domains"
   add_foreign_key "assessment_domains_progress_notes", "progress_notes"
   add_foreign_key "assessments", "clients"
