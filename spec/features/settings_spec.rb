@@ -27,7 +27,7 @@ describe 'Settings' do
       find('.setting_assessment_frequency select option[value="week"]', visible: false).select_option
       fill_in 'setting_min_assessment', with: 4
       fill_in 'setting_max_assessment', with: 7
-      click_button 'Create Setting'
+      click_button 'Save'
       expect(page).to have_content('Weekly')
     end
   end
