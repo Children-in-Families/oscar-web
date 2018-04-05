@@ -39,9 +39,7 @@
                   %button.btn.btn-danger.mini-margin{"data-target" => '#exitFromNgo', "data-toggle" => 'modal', class: 'agree-btn'} #{t('.reject')}
 
             .col-xs-12
-              / = render 'exit_ngo_form', client: @client
               = render 'client/exit_ngos/form', client: @client
-
 
         - elsif @client.status == 'Exited'
           .row
@@ -364,46 +362,46 @@
                     %strong.label.label-default.agency
                       = agency.name
 
-              - if @client.exit_date
-                %tr
-                  %td.spacing-first-col
-                    = t('.accepted_date')
-                  %td
-                    %strong
-                      = date_format(@client.accepted_date)
-                %tr
-                  %td.spacing-first-col
-                    = t('.exit_date')
-                  %td
-                    %strong
-                      = date_format(@client.exit_date)
-                %tr
-                  %td.spacing-first-col
-                    = t('.exit_circumstance')
-                  %td
-                    %strong
-                      = @client.exit_circumstance
-                %tr
-                  %td.spacing-first-col
-                    = t('.exit_reasons')
-                  %td
-                    %strong
-                      %ul
-                      - exit_reasons = @client.exit_reasons.reject(&:empty?)
-                      - exit_reasons.each do |exit_reason|
-                        %li= exit_reason
-                %tr
-                  %td.spacing-first-col
-                    = t('.exit_note')
-                  %td
-                    %strong
-                      = @client.exit_note
-                %tr
-                  %td.spacing-first-col
-                    = t('.other_info_of_exit')
-                  %td
-                    %strong
-                      = @client.other_info_of_exit
+              / - if @client.exit_date
+              /   %tr
+              /     %td.spacing-first-col
+              /       = t('.accepted_date')
+              /     %td
+              /       %strong
+              /         = date_format(@client.accepted_date)
+              /   %tr
+              /     %td.spacing-first-col
+              /       = t('.exit_date')
+              /     %td
+              /       %strong
+              /         = date_format(@client.exit_date)
+              /   %tr
+              /     %td.spacing-first-col
+              /       = t('.exit_circumstance')
+              /     %td
+              /       %strong
+              /         = @client.exit_circumstance
+              /   %tr
+              /     %td.spacing-first-col
+              /       = t('.exit_reasons')
+              /     %td
+              /       %strong
+              /         %ul
+              /         - exit_reasons = @client.exit_reasons.reject(&:empty?)
+              /         - exit_reasons.each do |exit_reason|
+              /           %li= exit_reason
+              /   %tr
+              /     %td.spacing-first-col
+              /       = t('.exit_note')
+              /     %td
+              /       %strong
+              /         = @client.exit_note
+              /   %tr
+              /     %td.spacing-first-col
+              /       = t('.other_info_of_exit')
+              /     %td
+              /       %strong
+              /         = @client.other_info_of_exit
 
         .row
           .col-xs-12
@@ -416,5 +414,64 @@
                     - qtypes.last.each do |qcase|
                       %strong.label.label-default
                         = qcase.value
+
+        - if @client.enter_ngos.present?
+          .row
+            .col-xs-12
+              %h3 Enter NGO Information
+              .table-responsive
+                %table.table.table-bordered.table-striped.table-hover
+                  %thead
+                    %tr
+                      %th.custom_column_name= t('.accepted_date')
+                      %th.custom_column_name= t('.case_worker')
+                      %th.text-center.custom_column_manage= t('.manage')
+                  %tbody
+                    - @client.enter_ngos.each do |enter_ngo|
+                      %tr
+                        %td= enter_ngo.accepted_date
+                        %td
+                          - order_case_worker(enter_ngo).each do |case_worker|
+                            %strong.label.label-default
+                              = user case_worker
+                        %td
+                          .text-center
+                            / %button.btn.btn-success.mini-margin{"data-target" => '#enter-ngo-form', "data-toggle" => 'modal', class: 'agree-btn' } #{t('.accept')}
+                            / = render 'client/enter_ngos/form', client: @client, enter_ngo: enter_ngo
+
+        - if @client.exit_ngos.present?
+          .row
+            .col-xs-12
+              %h3 Exit NGO Information
+              .table-responsive
+                %table.table.table-bordered.table-striped.table-hover
+                  %thead
+                    %tr
+                      %th= t('.exit_date')
+                      %th= t('.exit_circumstance')
+                      %th= t('.exit_reasons')
+                      %th= t('.exit_note')
+                      %th= t('.other_info_of_exit')
+                      %th.text-center= t('.manage')
+                  %tbody
+                    - @client.exit_ngos.each do |exit_ngo|
+                      %tr
+                        %td= exit_ngo.exit_date
+                        %td= exit_ngo.exit_circumstance
+                        %td
+                          %strong
+                            %ul
+                            - exit_reasons = exit_ngo.exit_reasons.reject(&:empty?)
+                            - exit_reasons.each do |exit_reason|
+                              %li= exit_reason
+                        %td= exit_ngo.exit_note
+                        %td= exit_ngo.other_info_of_exit
+                        %td
+                          / .text-center
+                          /   %button.btn.btn-outline.btn-success.btn-xs{"data-target" => '#enter-ngo-form', "data-toggle" => 'modal'}
+                          /     = fa_icon('pencil')
+                          / = link_to client_exit_ngos_path(@client)
+                          / = render 'client/enter_ngos/form', client: @client
+
 .row
   = render 'placement'

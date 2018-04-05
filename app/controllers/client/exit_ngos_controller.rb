@@ -7,7 +7,7 @@ class Client::ExitNgosController < AdminController
     if @exit_ngo.save
       redirect_to @client, notice: t('.successfully_created')
     else
-      render :create
+      redirect_to @client, alert: t('.failed_create')
     end
   end
 
@@ -17,7 +17,7 @@ class Client::ExitNgosController < AdminController
     if @exit_ngo.update_attributes(exit_ngo_params)
       redirect_to @client, notice: t('.successfully_updated')
     else
-      render :edit
+      redirect_to @client, alert: t('.failed_update')
     end
   end
 

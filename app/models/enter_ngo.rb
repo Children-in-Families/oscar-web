@@ -8,5 +8,7 @@ class EnterNgo < ActiveRecord::Base
 
   after_create do
     client.update_attribute(:status, 'Accepted')
+    client.update_attribute(:user_ids, self.user_ids)
   end
+
 end

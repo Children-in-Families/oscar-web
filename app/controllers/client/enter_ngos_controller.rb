@@ -7,7 +7,7 @@ class Client::EnterNgosController < AdminController
     if @enter_ngo.save
       redirect_to @client, notice: t('.successfully_created')
     else
-      render :create
+      redirect_to @client, alert: t('.failed_create')
     end
   end
 
@@ -17,7 +17,7 @@ class Client::EnterNgosController < AdminController
     if @enter_ngo.update_attributes(enter_ngo_params)
       redirect_to @client, notice: t('.successfully_updated')
     else
-      render :edit
+      redirect_to @client, alert: t('.failed_create')
     end
   end
 
