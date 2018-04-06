@@ -27,7 +27,7 @@ class SettingsController < AdminController
   private
 
   def setting_params
-    params.require(:setting).permit(:assessment_frequency, :min_assessment, :max_assessment, :min_case_note, :max_case_note, :case_note_frequency, client_default_columns: [])
+    params.require(:setting).permit(:assessment_frequency, :min_assessment, :max_assessment, :max_case_note, :case_note_frequency, client_default_columns: [], family_default_columns: [], partner_default_columns: [], user_default_columns: [])
   end
 
   def country
