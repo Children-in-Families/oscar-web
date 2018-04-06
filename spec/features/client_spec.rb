@@ -283,28 +283,28 @@ describe 'Client' do
     end
   end
 
-  feature 'Add To EC' do
-    let!(:client){ create(:client, :accepted) }
-    let!(:family){ create(:family, :emergency) }
-
-    before do
-      login_as(admin)
-      visit client_path(client)
-      click_button 'add-client-to-case'
-      click_link 'Add to EC'
-      fill_in 'case_carer_names', with: 'John'
-      click_button 'Save'
-    end
-
-    scenario 'Emergency Case panel' do
-      expect(page).to have_content('Emergency Care')
-      expect(page).to have_content('John')
-    end
-
-    scenario "client's status is now Active" do
-      expect(client.reload.status).to eq('Active')
-    end
-  end
+  # feature 'Add To EC' do
+  #   let!(:client){ create(:client, :accepted) }
+  #   let!(:family){ create(:family, :emergency) }
+  #
+  #   before do
+  #     login_as(admin)
+  #     visit client_path(client)
+  #     click_button 'add-client-to-case'
+  #     click_link 'Add to EC'
+  #     fill_in 'case_carer_names', with: 'John'
+  #     click_button 'Save'
+  #   end
+  #
+  #   scenario 'Emergency Case panel' do
+  #     expect(page).to have_content('Emergency Care')
+  #     expect(page).to have_content('John')
+  #   end
+  #
+  #   scenario "client's status is now Active" do
+  #     expect(client.reload.status).to eq('Active')
+  #   end
+  # end
 
   feature 'Case Button' do
     feature 'Blank Client' do
@@ -315,9 +315,9 @@ describe 'Client' do
         visit client_path(blank_client)
       end
 
-      scenario 'Emergency Case Button' do
-        expect(page).to have_link('Add to EC', href: new_client_case_path(blank_client, case_type: 'EC'))
-      end
+      # scenario 'Emergency Case Button' do
+      #   expect(page).to have_link('Add to EC', href: new_client_case_path(blank_client, case_type: 'EC'))
+      # end
 
       scenario 'Exit NGO Button' do
         expect(page).to have_content('Exit From NGO')
@@ -333,9 +333,9 @@ describe 'Client' do
         visit client_path(ec_client)
       end
 
-      scenario 'Emergency Case Button' do
-        expect(page).not_to have_link('Add to EC', href: new_client_case_path(ec_client, case_type: 'EC'))
-      end
+      # scenario 'Emergency Case Button' do
+      #   expect(page).not_to have_link('Add to EC', href: new_client_case_path(ec_client, case_type: 'EC'))
+      # end
 
       scenario 'Exit From EC' do
         exit_case_button = find('.exit-case-warning')
@@ -352,9 +352,9 @@ describe 'Client' do
         visit client_path(inactive_client)
       end
 
-      scenario 'Emergency Case Button' do
-        expect(page).to have_link('Add to EC', href: new_client_case_path(inactive_client, case_type: 'EC'))
-      end
+      # scenario 'Emergency Case Button' do
+      #   expect(page).to have_link('Add to EC', href: new_client_case_path(inactive_client, case_type: 'EC'))
+      # end
     end
   end
 

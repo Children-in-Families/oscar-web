@@ -178,6 +178,20 @@ class User < ActiveRecord::Base
     client_enrollment_tracking_notification(clients.active_accepted_status)
   end
 
+  def case_note_overdue_and_due_today
+    overdue   = []
+    due_today = []
+    clients.active_accepted_status.each do |client|
+      client_next_case_note_date = client.next_case_note_date.to_date
+      if client_next_case_note_date < Date.today
+        overdue << client
+      elsif client_next_case_note_date == Date.today
+        due_today << client
+      end
+    end
+    { client_overdue: overdue, client_due_today: due_today }
+  end
+
   def self.self_and_subordinates(user)
     if user.admin? || user.strategic_overviewer?
       User.all

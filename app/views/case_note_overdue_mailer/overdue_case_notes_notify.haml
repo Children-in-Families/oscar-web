@@ -1,0 +1,9 @@
+%p= "Hello #{@user.name},"
+%p The following clients currently have case notes overdue. Please see list below.
+%table{ style: "border: 1px solid black; text-align: left; border-collapse: collapse;" }
+  %ul
+  - @clients.each do |client|
+    %li{ style: 'margin-bottom: 10px;'}
+      = link_to client.name, client_url(client, subdomain: @short_name), target: :_blank
+%p Thanks,
+%p OSCaR Team

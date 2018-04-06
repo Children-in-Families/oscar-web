@@ -1,9 +1,16 @@
-%h4    
-  %label **   
-  %span= t('.filter_option')    
+%h4
+  %label **
+  %span= t('.filter_option')
   %label **
 .well
   .row
+    .col-xs-12.col-md-4
+      #quantitative-type
+        .row
+          .col-xs-12
+            .form-group
+              = check_box_tag :nil, '1', quantitative_check, { class: 'i-checks', id: 'quantitative-type-checkbox' }
+              %label= t('.quantitative')
     .col-xs-12.col-md-4
       #custom-form-wrapper
         .row
@@ -38,12 +45,5 @@
               .form-group
                 = check_box_tag :nil, '1', exit_form_check, { class: 'i-checks', id: 'exit-form-checkbox' }
                 %label= t('.exit_program')
-    .col-xs-12.col-md-4
-      #quantitative-type
-        .row
-          .col-xs-12
-            .form-group
-              = check_box_tag :nil, '1', quantitative_check, { class: 'i-checks', id: 'quantitative-type-checkbox' }
-              %label= t('.quantitative')
 
 #opt-group-translation{ data: { enrollment: t('.enrollment'), tracking: t('.tracking'), exit_program: t('.exit_program'), basic_fields: t('.basic_fields'), custom_form: t('.custom_form'), quantitative: t('.quantitative'), csi_domain_scores: t('.csi_domain_scores')}}

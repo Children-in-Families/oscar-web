@@ -181,4 +181,10 @@ body[id='clients-index'] {
   .ibox-content.no-border {
     border-style: none;
   }
+
+  #program-stream-wrapper {
+    .form-group.program-stream {
+      margin-left: 0;
+    }
+  }
 }

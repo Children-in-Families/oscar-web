@@ -1,5 +1,7 @@
 FactoryGirl.define do
   factory :setting do
+    min_assessment 3
+    max_assessment 6
     disable_assessment false
 
     trait :monthly_assessment do
@@ -13,8 +15,5 @@ FactoryGirl.define do
     trait :daily_assessment do
       assessment_frequency 'day'
     end
-
-    min_assessment { rand(3..12)}
-    max_assessment { rand(6..12)}
   end
 end
