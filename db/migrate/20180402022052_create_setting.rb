@@ -8,6 +8,7 @@ class CreateSetting < ActiveRecord::Migration
       t.integer :min_case_note
       t.integer :max_case_note
       t.string :case_note_frequency
+      t.boolean :disable_assessment, defalut: false
     end
   end
 end

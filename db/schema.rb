@@ -832,6 +832,7 @@ ActiveRecord::Schema.define(version: 20180402022052) do
     t.integer "min_case_note"
     t.integer "max_case_note"
     t.string  "case_note_frequency"
+    t.boolean "disable_assessment"
   end
 
   create_table "stages", force: :cascade do |t|

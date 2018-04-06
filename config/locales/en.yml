@@ -1798,7 +1798,7 @@ en:
       has_overdue_assessment: Has Overdue Assessment
       has_overdue_forms: Has Overdue Form
       has_overdue_task: Has Overdue Task
-      no_case_note: No Casenote in 30 Days
+      no_case_note: Overdue for Case Note
       reset: Reset
       search: Search
     from: From
@@ -3610,7 +3610,8 @@ en:
       min_assessment: Minimum Assessment Duration
     country:
       country: Country
-    index:   
+    index:
+      disable_assessment: We are not using CSI Assessment Tool
       settings: Settings
       switched_country_cambodia: You’ve switched your country setting to Cambodia.
       switched_country_lesotho: You’ve switched your country setting to Lesotho.
