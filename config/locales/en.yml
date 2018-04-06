@@ -3610,7 +3610,10 @@ en:
       min_assessment: Minimum Assessment Duration
     country:
       country: Country
-    index:   
+    default_columns:
+      client_default_columns: Client Default Columns
+      default_columns: Default Columns
+    index:
       settings: Settings
       switched_country_cambodia: You’ve switched your country setting to Cambodia.
       switched_country_lesotho: You’ve switched your country setting to Lesotho.

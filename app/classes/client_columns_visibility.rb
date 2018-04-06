@@ -85,8 +85,9 @@ class ClientColumnsVisibility
 
   def visible_columns
     @grid.column_names = []
+    client_default_columns = Setting.first.try(:client_default_columns)
     add_custom_builder_columns.each do |key, value|
-      @grid.column_names << value if @params[key]
+      @grid.column_names << value if client_default(value, client_default_columns) || @params[key]
     end
   end
 
@@ -113,5 +114,10 @@ class ClientColumnsVisibility
       end
     end
     columns
+  end
+
+  def client_default(column, setting_client_default_columns)
+    return false if setting_client_default_columns.nil?
+    setting_client_default_columns.include?(column.to_s) unless @params[:client_grid].present? || @params[:client_advanced_search].present?
   end
 end

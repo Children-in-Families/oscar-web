@@ -3625,7 +3625,10 @@ my:
       min_assessment: အနည်းဆုံး အကဲဖြတ်ရှည်ကြာခြင်း
     country:
       country: ႏုိင္ငံ
-    index:   
+    default_columns:
+      client_default_columns: ဖောက်သည် ပုံမှန်ကော်လံများ
+      default_columns: ပုံမှန်ကော်လံများ
+    index:
       settings: အျပင္အဆင္မ်ား
       switched_country_cambodia: သင္၏ ႏုိင္ငံအျပင္အဆင္ကို ကေမာၻဒီးယားႏုိင္ငံအျဖစ္ ေျပာင္းၿပီးပါၿပီ။
       switched_country_lesotho: သင္၏ ႏုိင္ငံအျပင္အဆင္ကို လက္ဆူးသူႏုိုင္ငံအျဖစ္ ေျပာင္းၿပီးပါၿပီ။

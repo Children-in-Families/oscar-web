@@ -3676,7 +3676,10 @@ km:
       min_assessment: រយៈពេលការប៉ាន់ប្រមាណអប្បរមា
     country:
       country: ប្រទេស
-    index:   
+    default_columns:
+      client_default_columns: ជួរឈរលំនាំដើមរបស់អតិថិជន
+      default_columns: ជួរឈរលំនាំដើម
+    index:
       settings: ការកំណត់
       switched_country_cambodia: អ្នកបានប្ដូរការកំណត់ទៅជាប្រទេសកម្ពុជា
       switched_country_lesotho: អ្នកបានប្ដូរការកំណត់ទៅជាប្រទេសឡឹសូថូ
