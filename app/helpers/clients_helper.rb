@@ -248,4 +248,9 @@ module ClientsHelper
   def status_exited?(value)
     value == 'Exited'
   end
+
+  def enable_assessment_setting?
+    setting = Setting.first.try(:disable_assessment)
+    setting.nil? ? true : !setting
+  end
 end

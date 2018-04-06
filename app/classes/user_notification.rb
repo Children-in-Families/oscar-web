@@ -213,6 +213,7 @@ class UserNotification
 
   def count
     count_notification = 0
+
     if @user.admin? || @user.ec_manager?
       (83..90).each do |item|
         count_notification += 1 if ec_notification(item).present?
@@ -233,11 +234,11 @@ class UserNotification
       count_notification += 1 if any_client_custom_field_frequency_due_today?
       count_notification += 1 if any_overdue_tasks?
       count_notification += 1 if any_due_today_tasks?
-      count_notification += 1 if any_overdue_assessments?
-      count_notification += 1 if any_due_today_assessments?
+      count_notification += 1 if any_overdue_assessments? && enable_assessment_setting?
+      count_notification += 1 if any_due_today_assessments? && enable_assessment_setting?
       count_notification += 1 if any_client_enrollment_tracking_frequency_due_today?
       count_notification += 1 if any_client_enrollment_tracking_frequency_overdue?
-      count_notification += 1 if any_upcoming_csi_assessments?
+      count_notification += 1 if any_upcoming_csi_assessments? && enable_assessment_setting?
     end
     count_notification += review_program_streams.size
   end
@@ -248,4 +249,8 @@ class UserNotification
     ProgramStream.complete.includes(:client_enrollments).where.not(client_enrollments: { id: nil, status: 'Exited' }, program_streams: { rules: "{}"}).where(client_enrollments: { client_id: @clients.ids })
   end
 
+  def enable_assessment_setting?
+    setting = Setting.first.try(:disable_assessment)
+    setting.nil? ? true : !setting
+  end
 end
