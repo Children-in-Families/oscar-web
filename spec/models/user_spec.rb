@@ -19,6 +19,8 @@ describe User, 'associations' do
   it { is_expected.to have_many(:user_custom_field_permissions).through(:custom_field_permissions) }
   it { is_expected.to have_many(:program_stream_permissions).dependent(:destroy) }
   it { is_expected.to have_many(:program_streams).through(:program_stream_permissions) }
+  it { is_expected.to have_many(:enter_ngo_users).dependent(:destroy) }
+  it { is_expected.to have_many(:enter_ngos).through(:enter_ngo_users) }
 end
 
 describe User, 'validations' do

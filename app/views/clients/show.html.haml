@@ -177,8 +177,6 @@
               %i.fa.fa-chevron-up
           - if (can? :manage, Client) || (can? :rud, Client)
             %small
-              - if @client.exit_ngo?
-                %button.btn.btn-danger#edit-exit-info{"data-target" => '#exitFromNgo', "data-toggle" => 'modal'}= t('.edit_exit_information')
               = link_to edit_client_path(@client) do
                 .btn.btn-outline.btn-success
                   %i.fa.fa-pencil
@@ -361,48 +359,6 @@
                   - @client.agencies.each do|agency|
                     %strong.label.label-default.agency
                       = agency.name
-
-              / - if @client.exit_date
-              /   %tr
-              /     %td.spacing-first-col
-              /       = t('.accepted_date')
-              /     %td
-              /       %strong
-              /         = date_format(@client.accepted_date)
-              /   %tr
-              /     %td.spacing-first-col
-              /       = t('.exit_date')
-              /     %td
-              /       %strong
-              /         = date_format(@client.exit_date)
-              /   %tr
-              /     %td.spacing-first-col
-              /       = t('.exit_circumstance')
-              /     %td
-              /       %strong
-              /         = @client.exit_circumstance
-              /   %tr
-              /     %td.spacing-first-col
-              /       = t('.exit_reasons')
-              /     %td
-              /       %strong
-              /         %ul
-              /         - exit_reasons = @client.exit_reasons.reject(&:empty?)
-              /         - exit_reasons.each do |exit_reason|
-              /           %li= exit_reason
-              /   %tr
-              /     %td.spacing-first-col
-              /       = t('.exit_note')
-              /     %td
-              /       %strong
-              /         = @client.exit_note
-              /   %tr
-              /     %td.spacing-first-col
-              /       = t('.other_info_of_exit')
-              /     %td
-              /       %strong
-              /         = @client.other_info_of_exit
-
         .row
           .col-xs-12
             %table.table.table-bordered
@@ -415,35 +371,30 @@
                       %strong.label.label-default
                         = qcase.value
 
-        - if @client.enter_ngos.present?
+        - if @enter_ngos.any?
           .row
             .col-xs-12
-              %h3 Enter NGO Information
+              %h3= t('.enter_ngo_information')
               .table-responsive
                 %table.table.table-bordered.table-striped.table-hover
                   %thead
                     %tr
                       %th.custom_column_name= t('.accepted_date')
-                      %th.custom_column_name= t('.case_worker')
                       %th.text-center.custom_column_manage= t('.manage')
                   %tbody
-                    - @client.enter_ngos.each do |enter_ngo|
+                    - @enter_ngos.each do |enter_ngo|
                       %tr
-                        %td= enter_ngo.accepted_date
-                        %td
-                          - order_case_worker(enter_ngo).each do |case_worker|
-                            %strong.label.label-default
-                              = user case_worker
+                        %td= date_format(enter_ngo.accepted_date)
                         %td
                           .text-center
                             %button.btn.btn-outline.btn-success.btn-xs{"data-target" => "#enter-ngo-form-#{enter_ngo.id}", "data-toggle" => 'modal'}
                               = fa_icon('pencil')
                           = render 'client/enter_ngos/edit_form', client: @client, enter_ngo: enter_ngo
 
-        - if @client.exit_ngos.present?
+        - if @exit_ngos.any?
           .row
             .col-xs-12
-              %h3 Exit NGO Information
+              %h3= t('.exit_ngo_information')
               .table-responsive
                 %table.table.table-bordered.table-striped.table-hover
                   %thead
@@ -455,9 +406,9 @@
                       %th= t('.other_info_of_exit')
                       %th.text-center= t('.manage')
                   %tbody
-                    - @client.exit_ngos.each do |exit_ngo|
+                    - @exit_ngos.each do |exit_ngo|
                       %tr
-                        %td= exit_ngo.exit_date
+                        %td= date_format(exit_ngo.exit_date)
                         %td= exit_ngo.exit_circumstance
                         %td
                           %strong

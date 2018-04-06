@@ -44,6 +44,7 @@ CIF.ClientsShow = do ->
     _modalFormValidator(data)
 
   _exitNgoModalValidation = ->
+
     data = {
       date: '#exitFromNgo #client_exit_date',
       field: '#exitFromNgo #client_exit_circumstance',

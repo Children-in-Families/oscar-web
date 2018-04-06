@@ -21,9 +21,6 @@
                   %i.fa.fa-calendar-check-o
 
           .form-inputs
-            = f.input :status, readonly: true, input_html: { value: 'Accepted' }
-
-          .form-inputs
             .form-group.date
               %label.date.required.control-label
                 %abbr{ title: 'required' } *
@@ -32,5 +29,5 @@
 
           .text-right
             %button.btn.btn-default{"data-dismiss" => 'modal'}= t('cancel')
-            = f.submit 'Accept' , class: 'btn btn-success agree-btn', name: 'accept-client'
+            = f.submit t('.accept') , class: 'btn btn-success agree-btn', name: 'accept-client'
 

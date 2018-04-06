@@ -3,7 +3,7 @@ class Client::EnterNgosController < AdminController
   before_action :find_client
 
   def create
-    @enter_ngo = @client.enter_ngos.create(enter_ngo_params)
+    @enter_ngo = @client.enter_ngos.new(enter_ngo_params)
     if @enter_ngo.save
       redirect_to @client, notice: t('.successfully_created')
     else
@@ -17,11 +17,8 @@ class Client::EnterNgosController < AdminController
     if @enter_ngo.update_attributes(enter_ngo_params)
       redirect_to @client, notice: t('.successfully_updated')
     else
-      redirect_to @client, alert: t('.failed_create')
+      redirect_to @client, alert: t('.failed_update')
     end
-  end
-
-  def edit
   end
 
   private
@@ -31,7 +28,7 @@ class Client::EnterNgosController < AdminController
   end
 
   def enter_ngo_params
-    params.require(:enter_ngo).permit( :accepted_date, user_ids: [] )
+    params.require(:enter_ngo).permit(:accepted_date, user_ids: [])
   end
 
 end

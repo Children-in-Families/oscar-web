@@ -34,18 +34,11 @@
                 = f.input :other_info_of_exit, label: t('.other_info_of_exit')
 
             .col-xs-12.col-sm-6.col-md-6
-              %label= t('.case_worker_or_staff')
-              %br
-              - order_case_worker(@client).each do |case_worker|
-                %strong.label.label-default
-                  = user case_worker
-
               .form_inputs
-                = f.input :exit_circumstance, label: t('.exit_circumstance'), input_html: {value: exit_circumstance_value}, readonly: true, required: true
+                = f.input :exit_circumstance, label: t('.exit_circumstance'), readonly: true, required: true
               .form-inputs
                 = f.input :exit_note, label: t('.exit_note'), input_html: { rows: '14' }, required: true
 
           .text-right
             %button.btn.btn-default{"data-dismiss" => 'modal'}= t('cancel')
-            - exit_btn = @client.exit_ngo? ? t('save') : t('.exit_btn')
-            = f.submit 'Exit', class: 'btn btn-danger confirm-exit', disabled: :disabled
+            = f.submit t('save'), class: 'btn btn-danger confirm-exit'

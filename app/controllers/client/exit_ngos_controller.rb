@@ -3,7 +3,7 @@ class Client::ExitNgosController < AdminController
   before_action :find_client
 
   def create
-    @exit_ngo = @client.exit_ngos.create(exit_ngo_params)
+    @exit_ngo = @client.exit_ngos.new(exit_ngo_params)
     if @exit_ngo.save
       redirect_to @client, notice: t('.successfully_created')
     else
@@ -21,10 +21,6 @@ class Client::ExitNgosController < AdminController
     end
   end
 
-  def edit
-
-  end
-
   private
 
   def find_client
@@ -32,7 +28,7 @@ class Client::ExitNgosController < AdminController
   end
 
   def exit_ngo_params
-    params.require(:exit_ngo).permit( :exit_note, :exit_circumstance, :other_info_of_exit, :exit_date, exit_reasons: [])
+    params.require(:exit_ngo).permit(:exit_note, :exit_circumstance, :other_info_of_exit, :exit_date, exit_reasons: [])
   end
 
 end

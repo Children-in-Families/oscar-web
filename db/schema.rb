@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180404090428) do
+ActiveRecord::Schema.define(version: 20180406024720) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -173,11 +173,9 @@ ActiveRecord::Schema.define(version: 20180404090428) do
     t.integer  "client_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "enter_ngo_id"
   end
 
   add_index "case_worker_clients", ["client_id"], name: "index_case_worker_clients_on_client_id", using: :btree
-  add_index "case_worker_clients", ["enter_ngo_id"], name: "index_case_worker_clients_on_enter_ngo_id", using: :btree
   add_index "case_worker_clients", ["user_id"], name: "index_case_worker_clients_on_user_id", using: :btree
 
   create_table "case_worker_tasks", force: :cascade do |t|
@@ -503,6 +501,14 @@ ActiveRecord::Schema.define(version: 20180404090428) do
     t.datetime "updated_at",               null: false
     t.string   "code",        default: ""
   end
+
+  create_table "enter_ngo_users", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "enter_ngo_id"
+  end
+
+  add_index "enter_ngo_users", ["enter_ngo_id"], name: "index_enter_ngo_users_on_enter_ngo_id", using: :btree
+  add_index "enter_ngo_users", ["user_id"], name: "index_enter_ngo_users_on_user_id", using: :btree
 
   create_table "enter_ngos", force: :cascade do |t|
     t.date     "accepted_date"
@@ -1213,7 +1219,6 @@ ActiveRecord::Schema.define(version: 20180404090428) do
   add_foreign_key "case_contracts", "cases"
   add_foreign_key "case_notes", "clients"
   add_foreign_key "case_worker_clients", "clients"
-  add_foreign_key "case_worker_clients", "enter_ngos"
   add_foreign_key "case_worker_clients", "users"
   add_foreign_key "case_worker_tasks", "tasks"
   add_foreign_key "case_worker_tasks", "users"
@@ -1237,6 +1242,8 @@ ActiveRecord::Schema.define(version: 20180404090428) do
   add_foreign_key "custom_field_properties", "custom_fields"
   add_foreign_key "districts", "provinces"
   add_foreign_key "domains", "domain_groups"
+  add_foreign_key "enter_ngo_users", "enter_ngos"
+  add_foreign_key "enter_ngo_users", "users"
   add_foreign_key "enter_ngos", "clients"
   add_foreign_key "exit_ngos", "clients"
   add_foreign_key "interventions_progress_notes", "interventions"

@@ -47,5 +47,4 @@
 
           .text-right
             %button.btn.btn-default{"data-dismiss" => 'modal'}= t('cancel')
-            - exit_btn = @client.exit_ngo? ? t('save') : t('.exit_btn')
-            = f.submit 'Exit', class: 'btn btn-danger confirm-exit', disabled: :disabled
+            = f.submit t('.exit_btn'), class: 'btn btn-danger confirm-exit', disabled: :disabled

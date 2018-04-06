@@ -53,6 +53,8 @@ class ClientsController < AdminController
         @free_client_forms          = available_editable_forms.client_forms.not_used_forms(custom_field_ids).order_by_form_title
         @group_client_custom_fields = readable_forms.sort_by{ |c| c.custom_field.form_title }.group_by(&:custom_field_id)
         initial_visit_client
+        @enter_ngos = @client.enter_ngos.order(:accepted_date)
+        @exit_ngos  = @client.exit_ngos.order(:exit_date)
       end
       format.pdf do
         form        = params[:form]
