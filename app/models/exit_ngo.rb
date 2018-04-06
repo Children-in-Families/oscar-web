@@ -5,7 +5,11 @@ class ExitNgo < ActiveRecord::Base
 
   validates :exit_circumstance, :exit_date, :exit_note, presence: true
 
-  after_create do
+  after_create :update_client_status
+
+  private
+
+  def update_client_status
     client.update_attribute(:status, 'Exited')
   end
 end

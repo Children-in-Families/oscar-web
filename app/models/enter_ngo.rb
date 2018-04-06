@@ -5,14 +5,14 @@ class EnterNgo < ActiveRecord::Base
   has_many :users, through: :enter_ngo_users
 
   validates :accepted_date, presence: true
-  validates :user_ids, presence: true, on: :create, if: Proc.new { |e| e.client.exit_ngo? }
+  validates :user_ids, presence: true, on: :create, if: Proc.new { |e| e.client.present? && e.client.exit_ngo? }
 
-  after_create :set_client_status
+  after_create :update_client_status
 
   private
 
 
-  def set_client_status
+  def update_client_status
     if user_ids.blank?
       client.update(status: 'Accepted')
     else

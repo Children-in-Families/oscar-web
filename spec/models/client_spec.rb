@@ -806,44 +806,4 @@ describe 'validations' do
     it { expect(valid_client).to be_valid }
     it { expect(invalid_client).to be_invalid }
   end
-
-  context 'exited from ngo' do
-    let!(:admin){ create(:user, :admin) }
-    let!(:valid_client){ create(:client, :exited) }
-    context 'client already exited' do
-      before do
-        valid_client.exit_date = ''
-        valid_client.exit_circumstance = ''
-        valid_client.exit_note = ''
-        valid_client.valid?
-      end
-      it { expect(valid_client.valid?).to be_falsey }
-      it { expect(valid_client.errors.full_messages.first).to include("can't be blank") }
-    end
-
-    context 'client is exiting' do
-      let!(:client){ create(:client, :accepted) }
-      context 'should validate exit_date' do
-        before do
-          client.status = 'Exited'
-          client.exit_date = ''
-          client.exit_circumstance = ''
-          client.exit_note = ''
-          client.valid?
-        end
-
-        it { expect(client.valid?).to be_falsey }
-        it { expect(client.errors[:exit_date]).to include("can't be blank") }
-        it { expect(client.errors[:exit_circumstance]).to include("can't be blank") }
-        it { expect(client.errors[:exit_note]).to include("can't be blank") }
-      end
-    end
-
-    context 'does not validate user_ids' do
-      before do
-        valid_client.user_ids = []
-      end
-      it { expect(valid_client.valid?).to be_truthy }
-    end
-  end
 end
