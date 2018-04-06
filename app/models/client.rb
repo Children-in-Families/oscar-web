@@ -157,7 +157,7 @@ class Client < ActiveRecord::Base
 
   def next_assessment_date
     return Date.today if assessments.count.zero?
-    (assessments.latest_record.created_at + 6.months).to_date
+    (assessments.latest_record.created_at + assessment_duration('max')).to_date
   end
 
   def next_appointment_date
@@ -171,7 +171,7 @@ class Client < ActiveRecord::Base
   end
 
   def can_create_assessment?
-    return Date.today >= (assessments.latest_record.created_at + 3.months).to_date if assessments.count == 1
+    return Date.today >= (assessments.latest_record.created_at + assessment_duration('min')).to_date if assessments.count == 1
     true
   end
 
@@ -378,5 +378,13 @@ class Client < ActiveRecord::Base
 
   def disconnect_client_user_relation
     self.user_ids = []
+  end
+
+  def assessment_duration(duration)
+    setting = Setting.first
+    assessment_period = (setting.try(:min_assessment) || 3) if duration == 'min'
+    assessment_period = (setting.try(:max_assessment) || 6) if duration == 'max'
+    assessment_frequency = setting.try(:assessment_frequency) || 'month'
+    assessment_period = assessment_period.send(assessment_frequency)
   end
 end

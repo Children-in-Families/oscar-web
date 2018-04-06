@@ -62,7 +62,7 @@
             %span.fa.arrow
           %ul.nav.nav-second-level
             %li{ class: active_menu('settings') }
-              = link_to t('.settings'), country_settings_path
+              = link_to t('.settings'), settings_path
             %li{ class: active_menu('agencies') }
               = link_to t('.agencies'), agencies_path
             - if can? :read, :all

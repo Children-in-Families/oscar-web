@@ -3603,14 +3603,20 @@ en:
       your_account_needs_to_supply_a_verification_code: Your account needs to supply a verification code.
       bad_credentials_supplied: Bad Credentials Supplied.
   settings:
+    assessment:
+      assessment: Assessment
+      assessment_frequency: Assessment Frequency
+      max_assessment: Maximum Assessment Duration
+      min_assessment: Minimum Assessment Duration
     country:
+      country: Country
+    index:   
       settings: Settings
       switched_country_cambodia: You’ve switched your country setting to Cambodia.
       switched_country_lesotho: You’ve switched your country setting to Lesotho.
       switched_country_myanmar: You’ve switched your country setting to Myanmar.
       switched_country_thailand: You’ve switched your country setting to Thailand.
-    navigation:
-      country: Country
+
   shared:
     form_builder:
       file_field:

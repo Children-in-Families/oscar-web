@@ -1,0 +1,10 @@
+.row
+  .col-xs-12
+    .ibox.countries
+      .ibox-title
+        %h5.text-center= t('.settings')
+      .ibox-content
+        = simple_form_for @setting do |f|
+          = render 'country'
+          = render 'assessment', f: f
+          = f.submit t('save'), class: 'btn btn-primary'
