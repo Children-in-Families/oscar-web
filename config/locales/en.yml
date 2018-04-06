@@ -3610,6 +3610,8 @@ en:
       min_assessment: Minimum Assessment Duration
     country:
       country: Country
+    create:
+      successfully_created: Setting have been successfully created.
     index:
       disable_assessment: We are not using CSI Assessment Tool
       settings: Settings
@@ -3617,6 +3619,8 @@ en:
       switched_country_lesotho: You’ve switched your country setting to Lesotho.
       switched_country_myanmar: You’ve switched your country setting to Myanmar.
       switched_country_thailand: You’ve switched your country setting to Thailand.
+    update:
+      successfully_updated: Setting have been successfully updated.
 
   shared:
     form_builder:

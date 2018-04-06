@@ -3625,6 +3625,8 @@ my:
       min_assessment: အနည်းဆုံး အကဲဖြတ်ရှည်ကြာခြင်း
     country:
       country: ႏုိင္ငံ
+    create:
+      successfully_created: အောင်မြင်စွာဖန်တီး
     index:
       disable_assessment: ကျနော်တို့ကို အသုံးပြု. ကြသည်မဟုတ်စိစစ္အကဲျဖတ္မႈ
       settings: အျပင္အဆင္မ်ား
@@ -3632,6 +3634,8 @@ my:
       switched_country_lesotho: သင္၏ ႏုိင္ငံအျပင္အဆင္ကို လက္ဆူးသူႏုိုင္ငံအျဖစ္ ေျပာင္းၿပီးပါၿပီ။
       switched_country_myanmar: သင္၏ ႏုိင္ငံအျပင္အဆင္ကို ျမန္မာႏုိင္ငံအျဖစ္ ေျပာင္းၿပီးပါၿပီ။
       switched_country_thailand: သင္၏ ႏုိင္ငံအျပင္အဆင္ကို ထုိင္းႏုိင္ငံအျဖစ္ ေျပာင္းၿပီးပါၿပီ။
+    update:
+      successfully_updated: အောင်မြင်စွာဖြည့်ပါ
 
   shared:
     form_builder:

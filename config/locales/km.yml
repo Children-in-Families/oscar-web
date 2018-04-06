@@ -3676,6 +3676,8 @@ km:
       min_assessment: រយៈពេលការប៉ាន់ប្រមាណអប្បរមា
     country:
       country: ប្រទេស
+    create:
+      successfully_created: ការកំណត់បានបង្កើតដោយជោគជ័យ
     index:
       disable_assessment: យើងមិនប្រើការប៉ាន់ប្រមាណ
       settings: ការកំណត់
@@ -3683,6 +3685,8 @@ km:
       switched_country_lesotho: អ្នកបានប្ដូរការកំណត់ទៅជាប្រទេសឡឹសូថូ
       switched_country_myanmar: អ្នកបានប្ដូរការកំណត់ទៅជាប្រទេសមីយ៉ាន់ម៉ា
       switched_country_thailand: អ្នកបានប្ដូរការកំណត់ទៅជាប្រទេសថៃ
+    update:
+      successfully_updated: ការកំណត់បានកែសម្រួលដោយជោគជ័យ
 
   shared:
     form_builder:
