@@ -16,7 +16,6 @@
             %li.dropdown-header{ class: format_class_header(key) }
               = key
             - fields.each do |field|
-              - next if field_not_render(field[:id]) == 'enrollmentdate' || field_not_render(field[:id]) == 'programexitdate'
               %li.visibility.checkbox-margin{ class: format_class_header(key) }
                 = check_box_tag "#{field[:id]}_", field[:id], params[:"#{field[:id]}_"].present?, class: 'i-checks'
                 = label_tag "#{field[:id]}_", field[:label]

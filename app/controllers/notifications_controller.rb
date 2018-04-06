@@ -3,6 +3,7 @@ class NotificationsController < AdminController
     entity_custom_field = params[:entity_custom_field]
     client_enrollment_tracking = params[:client_enrollment_tracking]
     upcoming_assessment = params[:assessment]
+    case_note_overdue = params[:client_case_note_overdue_and_due_today]
     if entity_custom_field.present?
       entity_custom_field_notification(entity_custom_field)
       if entity_custom_field == 'client_due_today' || entity_custom_field == 'user_due_today' || entity_custom_field == 'partner_due_today' || entity_custom_field == 'family_due_today'
@@ -20,6 +21,14 @@ class NotificationsController < AdminController
     elsif upcoming_assessment.presence == 'upcoming'
       @upcoming_csi_clients_notification = @notification.upcoming_csi_assessments[:clients].order(:given_name, :family_name)
       render 'upcoming_assessment'
+    elsif case_note_overdue.present?
+      if case_note_overdue == 'due_today'
+        @clients = @notification.client_case_note_due_today.sort_by{ |p| p.send('name').to_s.downcase }
+        render 'case_note_due_today'
+      else
+        @clients = @notification.client_case_note_overdue.sort_by{ |p| p.send('name').to_s.downcase }
+        render 'case_note_overdue'
+      end
     end
   end
 

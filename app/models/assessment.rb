@@ -8,6 +8,7 @@ class Assessment < ActiveRecord::Base
   has_paper_trail
 
   validates :client, presence: true
+  validate :must_be_enable_assessment
   validate :must_be_min_assessment_period, if: :new_record?
   validate :only_latest_record_can_be_updated
 
@@ -58,6 +59,12 @@ class Assessment < ActiveRecord::Base
 
   def only_latest_record_can_be_updated
     errors.add(:base, 'Assessment cannot be updated') if persisted? && !latest_record?
+  end
+
+  def must_be_enable_assessment
+    setting = Setting.first.try(:disable_assessment)
+    return if setting.nil?
+    errors.add(:base, 'Assessment tool must be enable in setting') if setting
   end
 
   def set_previous_score

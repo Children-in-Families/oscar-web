@@ -60,8 +60,6 @@
                 %span.caret
               %ul.dropdown-menu
                 - if @client.cases.exclude_referred.current.blank?
-                  %li= @client.ec_button
-                  %li.divider
                   %li
                     - if @client.client_enrollments.active.count > 0
                       %a{"data-target" => '#remaining-programs-modal', "data-toggle" => 'modal'}
@@ -85,7 +83,7 @@
             %span.btn-sm.btn.btn-info.small-btn-margin
               %strong.count-margin= @client.tasks.incomplete.count
               = t('.view_tasks')
-          - if non_mho_tenant?
+          - if non_mho_tenant? && enable_assessment_setting?
             = link_to client_assessments_path(@client) do
               %span.btn-sm.btn.btn-info.small-btn-margin
                 %strong.count-margin= @client.assessments.count
