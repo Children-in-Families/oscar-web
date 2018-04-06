@@ -436,8 +436,9 @@
                               = user case_worker
                         %td
                           .text-center
-                            / %button.btn.btn-success.mini-margin{"data-target" => '#enter-ngo-form', "data-toggle" => 'modal', class: 'agree-btn' } #{t('.accept')}
-                            / = render 'client/enter_ngos/form', client: @client, enter_ngo: enter_ngo
+                            %button.btn.btn-outline.btn-success.btn-xs{"data-target" => "#enter-ngo-form-#{enter_ngo.id}", "data-toggle" => 'modal'}
+                              = fa_icon('pencil')
+                          = render 'client/enter_ngos/edit_form', client: @client, enter_ngo: enter_ngo
 
         - if @client.exit_ngos.present?
           .row
@@ -467,11 +468,10 @@
                         %td= exit_ngo.exit_note
                         %td= exit_ngo.other_info_of_exit
                         %td
-                          / .text-center
-                          /   %button.btn.btn-outline.btn-success.btn-xs{"data-target" => '#enter-ngo-form', "data-toggle" => 'modal'}
-                          /     = fa_icon('pencil')
-                          / = link_to client_exit_ngos_path(@client)
-                          / = render 'client/enter_ngos/form', client: @client
+                          .text-center
+                            %button.btn.btn-outline.btn-success.btn-xs{"data-target" => "#exitFromNgo-#{exit_ngo.id}", "data-toggle" => 'modal'}
+                              = fa_icon('pencil')
+                          = render 'client/exit_ngos/edit_form', client: @client, exit_ngo: exit_ngo
 
 .row
   = render 'placement'

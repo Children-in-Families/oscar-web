@@ -12,7 +12,7 @@ class Client::EnterNgosController < AdminController
   end
 
   def update
-    @enter_ngo = @client.enter_ngos.find(enter_ngo_params)
+    @enter_ngo = @client.enter_ngos.find(params[:id])
 
     if @enter_ngo.update_attributes(enter_ngo_params)
       redirect_to @client, notice: t('.successfully_updated')
