@@ -57,6 +57,8 @@ describe 'Client' do
 
   feature 'Show' do
     let!(:client){ create(:client, :accepted, current_address: '') }
+    let!(:setting){ create(:setting) }
+
     before do
       login_as(admin)
       visit client_path(client)
@@ -87,8 +89,16 @@ describe 'Client' do
       expect(page).to have_link('Tasks', href: client_tasks_path(client))
     end
 
-    scenario 'assesstments link' do
-      expect(page).to have_link('Assessments', href: client_assessments_path(client))
+    feature 'assesstments link' do
+      scenario 'enable assessment tool' do
+        expect(page).to have_link('Assessments', href: client_assessments_path(client))
+      end
+       
+      scenario 'disable assessment tool' do
+        setting.update(disable_assessment: true)
+        visit current_path
+        expect(page).not_to have_link('Assessments', href: client_assessments_path(client))
+      end
     end
 
     scenario 'case notes link' do
