@@ -11,6 +11,7 @@ class UserNotification
     @partner_custom_field                            = @user.partner_custom_field_frequency_overdue_or_due_today
     @family_custom_field                             = @user.family_custom_field_frequency_overdue_or_due_today
     @client_enrollment_tracking_user_notification    = @user.client_enrollment_tracking_overdue_or_due_today
+    @case_notes_overdue_and_due_today                = @user.case_note_overdue_and_due_today
     @all_count                                       = count
   end
 
@@ -41,17 +42,16 @@ class UserNotification
 
   def review_program_streams
     client_wrong_program_rules = []
-
     program_streams_by_user.each do |program_stream|
       rules = program_stream.rules
-      client_ids = program_stream.client_enrollments.collect(&:client_id)
+      client_ids = program_stream.client_enrollments.active.pluck(:client_id)
       clients = Client.active_accepted_status.where(id: client_ids)
       clients_after_filter = AdvancedSearches::ClientAdvancedSearch.new(rules, clients).filter
-      if clients_after_filter.present?
+      if clients_after_filter.any?
         clients_change = clients.where.not(id: clients_after_filter.ids).ids
-        client_wrong_program_rules << [program_stream, clients_change] if clients_change.present?
+        client_wrong_program_rules << [program_stream, clients_change] if clients_change.any?
       else
-        client_wrong_program_rules << [program_stream, clients.ids]
+        client_wrong_program_rules << [program_stream, clients.ids] if clients.any?
       end
     end
     client_wrong_program_rules
@@ -211,6 +211,30 @@ class UserNotification
     @client_enrollment_tracking_user_notification[:clients_overdue]
   end
 
+  def any_client_case_note_overdue?
+    client_case_note_overdue_count >= 1
+  end
+
+  def client_case_note_overdue_count
+    client_case_note_overdue.count
+  end
+
+  def client_case_note_overdue
+    @case_notes_overdue_and_due_today[:client_overdue]
+  end
+
+  def any_client_case_note_due_today?
+    client_case_note_due_today_count >= 1
+  end
+
+  def client_case_note_due_today_count
+    client_case_note_due_today.count
+  end
+
+  def client_case_note_due_today
+    @case_notes_overdue_and_due_today[:client_due_today]
+  end
+
   def count
     count_notification = 0
     if @user.admin? || @user.ec_manager?
@@ -238,6 +262,8 @@ class UserNotification
       count_notification += 1 if any_client_enrollment_tracking_frequency_due_today?
       count_notification += 1 if any_client_enrollment_tracking_frequency_overdue?
       count_notification += 1 if any_upcoming_csi_assessments?
+      count_notification += 1 if any_client_case_note_overdue?
+      count_notification += 1 if any_client_case_note_due_today?
     end
     count_notification += review_program_streams.size
   end
@@ -247,5 +273,4 @@ class UserNotification
   def program_streams_by_user
     ProgramStream.complete.includes(:client_enrollments).where.not(client_enrollments: { id: nil, status: 'Exited' }, program_streams: { rules: "{}"}).where(client_enrollments: { client_id: @clients.ids })
   end
-
 end

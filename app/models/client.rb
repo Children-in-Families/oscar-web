@@ -175,6 +175,15 @@ class Client < ActiveRecord::Base
     true
   end
 
+  def next_case_note_date
+    return Date.today if case_notes.count.zero?
+    setting = Setting.first
+    max_case_note = setting.try(:max_case_note) || 30
+    case_note_frequency = setting.try(:case_note_frequency) || 'day'
+    case_note_period = max_case_note.send(case_note_frequency)
+    (case_notes.latest_record.meeting_date + case_note_period).to_date
+  end
+
   def self.able_managed_by(user)
     where('able_state = ? or user_id = ?', ABLE_STATES[0], user.id)
   end
