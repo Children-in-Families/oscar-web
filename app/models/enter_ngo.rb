@@ -7,7 +7,7 @@ class EnterNgo < ActiveRecord::Base
   validates :accepted_date, presence: true
   validates :user_ids, presence: true, on: :create, if: Proc.new { |e| e.client.present? && e.client.exit_ngo? }
 
-  after_create :update_client_status
+  # after_create :update_client_status
 
   private
 

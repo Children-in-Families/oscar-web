@@ -28,7 +28,12 @@ class Client::ExitNgosController < AdminController
   end
 
   def exit_ngo_params
+    remove_blank_exit_reasons
     params.require(:exit_ngo).permit(:exit_note, :exit_circumstance, :other_info_of_exit, :exit_date, exit_reasons: [])
   end
 
+  def remove_blank_exit_reasons
+    return if params[:exit_ngo][:exit_reasons].blank?
+    params[:exit_ngo][:exit_reasons].reject!(&:blank?)
+  end
 end

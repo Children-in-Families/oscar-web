@@ -521,10 +521,10 @@ ActiveRecord::Schema.define(version: 20180406024720) do
 
   create_table "exit_ngos", force: :cascade do |t|
     t.integer  "client_id"
-    t.string   "exit_circumstance"
-    t.string   "other_info_of_exit"
+    t.string   "exit_circumstance",  default: ""
+    t.string   "other_info_of_exit", default: ""
     t.string   "exit_reasons",       default: [], array: true
-    t.text     "exit_note"
+    t.text     "exit_note",          default: ""
     t.date     "exit_date"
     t.datetime "created_at"
     t.datetime "updated_at"

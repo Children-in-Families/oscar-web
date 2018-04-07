@@ -347,31 +347,11 @@ class ClientGrid
     # This filter is using for client columns visibility
   end
 
-  filter(:accepted_date, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.ngo_accepted_date') }) do |values, scope|
-    if values.first.present? && values.second.present?
-      ids = Client.where(accepted_date: values[0]..values[1]).pluck(:id).uniq
-      scope.where(id: ids)
-    elsif values.first.present? && values.second.blank?
-      ids = Client.where('DATE(accepted_date) >= ?', values.first).pluck(:id).uniq
-      scope.where(id: ids)
-    elsif values.second.present? && values.first.blank?
-      ids = Client.where('DATE(accepted_date) =< ?', values.first).pluck(:id).uniq
-      scope.where(id: ids)
-    end
-  end
+  # implementation is in client_association_filter.rb
+  filter(:accepted_date, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.ngo_accepted_date') })
 
-  filter(:exit_date, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.ngo_exit_date') }) do |values, scope|
-    if values.first.present? && values.second.present?
-      ids = Client.where(exit_date: values[0]..values[1]).pluck(:id).uniq
-      scope.where(id: ids)
-    elsif values.first.present? && values.second.blank?
-      ids = Client.where('DATE(exit_date) >= ?', values.first).pluck(:id).uniq
-      scope.where(id: ids)
-    elsif values.second.present? && values.first.blank?
-      ids = Client.where('DATE(exit_date) <= ?', values.first).pluck(:id).uniq
-      scope.where(id: ids)
-    end
-  end
+  # implementation is in client_association_filter.rb
+  filter(:exit_date, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.ngo_exit_date') })
 
   filter(:no_case_note, :enum, select: %w(Yes No), header: -> { I18n.t('datagrid.form.no_case_note') }) do |value, scope|
     if value == 'Yes'

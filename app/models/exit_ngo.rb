@@ -5,7 +5,7 @@ class ExitNgo < ActiveRecord::Base
 
   validates :exit_circumstance, :exit_date, :exit_note, presence: true
 
-  after_create :update_client_status
+  # after_create :update_client_status
 
   private
 
