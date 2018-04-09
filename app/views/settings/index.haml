@@ -10,6 +10,7 @@
         .ibox-content
           = render 'country'
           = render 'assessment', f: f
+          = render 'case_note', f: f
           = render 'default_columns', f: f
         .ibox-footer
           = f.submit t('save'), class: 'btn btn-primary'

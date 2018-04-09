@@ -1,4 +1,4 @@
-CIF.SettingsIndex = do ->
+CIF.SettingsIndex = CIF.SettingsUpdate = CIF.SettingsCreate = do ->
   _init = ->
     _initSelect2()
     _handleAssessmentCheckbox()

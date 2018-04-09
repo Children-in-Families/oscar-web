@@ -32,4 +32,14 @@ describe 'Settings' do
     end
   end
 
+  feature 'Case Note', js: true do
+    scenario 'update case note setting' do
+      visit settings_path
+      find('.setting_case_note_frequency select option[value="week"]', visible: false).select_option
+      fill_in 'setting_max_case_note', with: 4
+      click_button 'Save'
+      expect(page).to have_content('Weekly')
+    end
+  end
+
 end

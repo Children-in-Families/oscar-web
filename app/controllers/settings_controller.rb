@@ -1,9 +1,8 @@
 class SettingsController < AdminController
+  before_action :default_columns
+
   def index
-    @setting = Setting.first_or_initialize(assessment_frequency: 'month', min_assessment: 3, max_assessment: 6)
-    @client_default_columns = client_default_columns
-    @family_default_columns = family_default_columns
-    @partner_default_columns = partner_default_columns
+    @setting = Setting.first_or_initialize(assessment_frequency: 'month', min_assessment: 3, max_assessment: 6, case_note_frequency: 'day', max_case_note: 30)
     country
   end
 
@@ -37,6 +36,12 @@ class SettingsController < AdminController
       flash[:notice] = session[:country] == params[:country] ? nil : t(".switched_country_#{params[:country]}")
     end
     session[:country] = params[:country]
+  end
+
+  def default_columns
+    @client_default_columns = client_default_columns
+    @family_default_columns = family_default_columns
+    @partner_default_columns = partner_default_columns
   end
 
   def client_default_columns
