@@ -27,6 +27,20 @@ module ClientGridOptions
     case_note_date_report
     case_note_type_report
     exit_reasons_report
+    accepted_date_report
+  end
+
+  def accepted_date_report
+    return unless @client_columns.visible_columns[:accepted_date_].present?
+    if params[:data].presence == 'recent'
+      @client_grid.column(:accepted_date, header: I18n.t('datagrid.columns.clients.ngo_accepted_date')) do |client|
+        client.enter_ngos.most_recents.first.try(:accepted_date)
+      end
+    else
+      @client_grid.column(:accepted_date, header: I18n.t('datagrid.columns.clients.ngo_accepted_date')) do |client|
+        client.enter_ngos.most_recents.pluck(:accepted_date).select(&:present?).join(' | ') if client.enter_ngos.any?
+      end
+    end
   end
 
   def form_title_report

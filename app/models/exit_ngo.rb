@@ -10,6 +10,7 @@ class ExitNgo < ActiveRecord::Base
   private
 
   def update_client_status
-    client.update_attribute(:status, 'Exited')
+    client.status = 'Exited'
+    client.save(validate: false)
   end
 end

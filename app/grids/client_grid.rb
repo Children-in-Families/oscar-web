@@ -543,8 +543,8 @@ class ClientGrid
     object.state.titleize
   end
 
-  column(:accepted_date, header: -> { I18n.t('datagrid.columns.clients.ngo_accepted_date') }) do |object|
-    object.accepted_date
+  column(:accepted_date, header: -> { I18n.t('datagrid.columns.clients.ngo_accepted_date') }, html: true) do |object|
+    render partial: 'clients/accepted_dates', locals: { object: object }
   end
 
   column(:exit_date, header: -> { I18n.t('datagrid.columns.clients.ngo_exit_date') }) do |object|
