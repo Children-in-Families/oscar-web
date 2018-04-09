@@ -3628,6 +3628,8 @@ my:
     default_columns:
       client_default_columns: ဖောက်သည် ပုံမှန်ကော်လံများ
       default_columns: ပုံမှန်ကော်လံများ
+      family_default_columns: မိသားစုပုံမှန်ကော်လံများ
+      partner_default_columns: မိတ်ဖက်ပုံမှန်ကော်လံများ
     index:
       settings: အျပင္အဆင္မ်ား
       switched_country_cambodia: သင္၏ ႏုိင္ငံအျပင္အဆင္ကို ကေမာၻဒီးယားႏုိင္ငံအျဖစ္ ေျပာင္းၿပီးပါၿပီ။
