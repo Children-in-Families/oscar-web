@@ -17,6 +17,7 @@ class ClientsController < AdminController
   before_action :find_resources, only: :show
 
   def index
+    @client_default_columns = Setting.first.try(:client_default_columns)
     if has_params?
       advanced_search
     else

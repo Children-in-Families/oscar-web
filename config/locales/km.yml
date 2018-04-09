@@ -1882,7 +1882,7 @@ km:
       has_overdue_assessment: ដល់ពេលការប៉ាន់ប្រមាណ
       has_overdue_forms: មានទម្រង់ហួសកាលកំណត់
       has_overdue_task: ភារកិច្ចហួសកាលកំណត់
-      no_case_note: មិនមានកំណត់ត្រាករណីក្នុងរយៈពេល 30 ថ្ងៃ
+      no_case_note: ហួសកំណត់សម្រាប់កំណត់ត្រាករណី
       reset: សំអាត
       search: ស្វែងរក
     from: ចាប់ពី
@@ -2999,6 +2999,12 @@ km:
     notification:
       check_tasks: ដើម្បីពិនិត្យកាព្វកិច្ចរបស់អ្នក សូមចុច
       click_here: ទីនេះ
+      client_case_note_due_today:
+        one: អ្នកមានកំណត់ត្រាករណីចំនួនមួយដែលត្រូវបំពេញនៅថ្ងៃនេះ
+        other: អ្នកមានកំណត់ត្រាករណីចំនួន %{count} ដែលត្រូវបំពេញនៅថ្ងៃនេះ
+      client_case_note_overdue:
+        one: អ្នកមានកំណត់ត្រាករណីចំនួនមួយដែលផុតកំណត
+        other: អ្នកមានកំណត់ត្រាករណីចំនួន %{count} ដែលផុតកំណត
       client_is_about_to_end_ec:
         one: មានអតិថិជនចំនួនម្នាក់ដែលនឹងត្រូវបញ្ជូនចេញពីECក្នុងរយៈពេល%{day_count}ថ្ងៃ
         other: មានអតិថិជនចំនួន%{count}នាក់ដែលនឹងត្រូវបញ្ជូនចេញពីECក្នុងរយៈពេល%{day_count}ថ្ងៃ
@@ -3183,6 +3189,18 @@ km:
   must_be_uniq: ផ្នែកនៃទម្រង់មិនអាចមានឈ្មោះដូចគ្នា
   mutual_dependence_has_been_modified: កម្មវិធីអាស្រ័យគ្នាមិនអាចផ្លាស់ប្តូរឬបន្ថែមទេព្រោះលក្ខខ័ណ្ឌមុនត្រូវបានផ្លាស់ប្តូរ។
   notifications:
+    case_note_due_today:
+      client_case_note_due_today: អតិថិជនដែលមានកំណត់ត្រាករណីដែលត្រូវបំពេញនៅថ្ងៃនេះ
+      review_client: អតិថិជនដែលត្រូវការត្រួតពិនិត្យ
+    case_note_overdue:
+      client_case_note_overdue: អតិថិជនដែលមានកំណត់ត្រាករណីហួសកំណត់
+      review_client: អតិថិជនដែលត្រូវការត្រួតពិនិត្យ
+    client_enrollment_tracking_due_today:
+      clients: អតិថិជន
+      client_enrollment_tracking_notification: ការជូនដំណឹងនៃការតាមដានដែលត្រូវបំពេញ
+    client_enrollment_tracking_overdue:
+      clients: អតិថិជន
+      client_enrollment_tracking_notification: ការជូនដំណឹងនៃការតាមដានដែលត្រូវបំពេញ
     custom_field_due_today:
       clients: អតិថិជន
       custom_field_notification: ការជូនដំណឹងនៃទម្រង់បែបបទដែលត្រូវបំពេញ
@@ -3197,12 +3215,6 @@ km:
       form: ទម្រង់បែបបទ
       partners: ដៃគូ
       users: ឣ្នកប្រើ
-    client_enrollment_tracking_due_today:
-      clients: អតិថិជន
-      client_enrollment_tracking_notification: ការជូនដំណឹងនៃការតាមដានដែលត្រូវបំពេញ
-    client_enrollment_tracking_overdue:
-      clients: អតិថិជន
-      client_enrollment_tracking_notification: ការជូនដំណឹងនៃការតាមដានដែលត្រូវបំពេញ
     program_stream_notify:
       review_client: អតិថិជនដែលត្រូវការត្រួតពិនិត្យ
     upcoming_assessment:
@@ -3669,14 +3681,33 @@ km:
       your_account_needs_to_supply_a_verification_code: គណនីរបស់អ្នកត្រូវការបញ្ចូលកូដផ្ទៀងផ្ទាត់
       bad_credentials_supplied: កូដផ្ទៀងផ្ទាត់មិនត្រឹមត្រូវ
   settings:
+    assessment:
+      assessment: ការប៉ាន់ប្រមាណ
+      assessment_frequency: ភាពញឹកញាប់
+      disable_assessment: យើងមិនប្រើការប៉ាន់ប្រមាណ
+      max_assessment: រយៈពេលការប៉ាន់ប្រមាណអតិបរមា
+      min_assessment: រយៈពេលការប៉ាន់ប្រមាណអប្បរមា
+    case_note:
+      case_note: កំណត់ត្រាករណី
+      case_note_frequency: ភាពញឹកញាប់
+      max_case_note: រយៈពេលកំណត់ត្រាករណីអតិបរមា
     country:
+      country: ប្រទេស
+    create:
+      successfully_created: ការកំណត់បានបង្កើតដោយជោគជ័យ
+    default_columns:
+      client_default_columns: ជួរឈរលំនាំដើមរបស់អតិថិជន
+      default_columns: ជួរឈរលំនាំដើម
+      family_default_columns: ជួរឈរលំនាំដើមរបស់គ្រួសារ
+      partner_default_columns: ជួរឈរលំនាំដើមរបស់ដៃគូ
+    index:
       settings: ការកំណត់
       switched_country_cambodia: អ្នកបានប្ដូរការកំណត់ទៅជាប្រទេសកម្ពុជា
       switched_country_lesotho: អ្នកបានប្ដូរការកំណត់ទៅជាប្រទេសឡឹសូថូ
       switched_country_myanmar: អ្នកបានប្ដូរការកំណត់ទៅជាប្រទេសមីយ៉ាន់ម៉ា
       switched_country_thailand: អ្នកបានប្ដូរការកំណត់ទៅជាប្រទេសថៃ
-    navigation:
-      country: ប្រទេស
+    update:
+      successfully_updated: ការកំណត់បានកែសម្រួលដោយជោគជ័យ
   shared:
     form_builder:
       list_attachment:

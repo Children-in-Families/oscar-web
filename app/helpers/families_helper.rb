@@ -73,4 +73,5 @@ module FamiliesHelper
     }
     label_tag "#{column}_", label_column[column.to_sym]
   end
+
 end

@@ -11,6 +11,7 @@ class FamiliesController < AdminController
   before_action :find_family, only: [:show, :edit, :update, :destroy]
 
   def index
+    @default_columns = Setting.first.try(:family_default_columns)
     @family_grid = FamilyGrid.new(params.fetch(:family_grid, {}).merge!(dynamic_columns: @custom_form_fields))
     @family_columns ||= FamilyColumnsVisibility.new(@family_grid, params.merge(column_form_builder: @custom_form_fields))
     @family_columns.visible_columns

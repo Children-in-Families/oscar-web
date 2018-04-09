@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180314085911) do
+ActiveRecord::Schema.define(version: 20180402022052) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -822,6 +822,20 @@ ActiveRecord::Schema.define(version: 20180314085911) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "clients_count", default: 0
+  end
+
+  create_table "settings", force: :cascade do |t|
+    t.string  "assessment_frequency"
+    t.integer "min_assessment"
+    t.integer "max_assessment"
+    t.string  "country_name",            default: ""
+    t.integer "max_case_note"
+    t.string  "case_note_frequency"
+    t.boolean "disable_assessment"
+    t.string  "client_default_columns",  default: [], array: true
+    t.string  "family_default_columns",  default: [], array: true
+    t.string  "partner_default_columns", default: [], array: true
+    t.string  "user_default_columns",    default: [], array: true
   end
 
   create_table "stages", force: :cascade do |t|

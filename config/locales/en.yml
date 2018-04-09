@@ -1798,7 +1798,7 @@ en:
       has_overdue_assessment: Has Overdue Assessment
       has_overdue_forms: Has Overdue Form
       has_overdue_task: Has Overdue Task
-      no_case_note: No Casenote in 30 Days
+      no_case_note: Overdue for Case Note
       reset: Reset
       search: Search
     from: From
@@ -2913,6 +2913,12 @@ en:
     notification:
       check_tasks: To check your tasks, please
       click_here: click here.
+      client_case_note_due_today:
+        one: You have 1 case note due today.
+        other: You have %{count} case notes due today.
+      client_case_note_overdue:
+        one: You have 1 case note overdue.
+        other: You have %{count} case notes overdue.
       client_is_about_to_end_ec:
         one: There is a client is about to exit EC program in %{day_count} days.
         other: There are %{count} clients are about to exit EC program in %{day_count} days.
@@ -3113,6 +3119,12 @@ en:
   must_be_uniq: field label must be uniq
   mutual_dependence_has_been_modified: Prerequisite Programs cannot be changed or added because it breaks the previous conditions.
   notifications:
+    case_note_due_today:
+      client_case_note_due_today: Client Case Note Due Today
+      review_client: Clients need to be reviewed
+    case_note_overdue:
+      client_case_note_overdue: Client Case Note Overdue
+      review_client: Clients need to be reviewed
     client_enrollment_tracking_due_today:
       client_enrollment_tracking_notification: Client Enrollment Tracking Notification
       clients: Client
@@ -3603,14 +3615,34 @@ en:
       your_account_needs_to_supply_a_verification_code: Your account needs to supply a verification code.
       bad_credentials_supplied: Bad Credentials Supplied.
   settings:
+    assessment:
+      assessment: Assessment
+      assessment_frequency: Assessment Frequency
+      disable_assessment: We are not using CSI Assessment Tool
+      max_assessment: Maximum Assessment Duration
+      min_assessment: Minimum Assessment Duration
+    case_note:
+      case_note: Case Note
+      case_note_frequency: Case Note Frequency
+      max_case_note: Maximum Case Note
     country:
+      country: Country
+    create:
+      successfully_created: Setting have been successfully created.
+    default_columns:
+      client_default_columns: Client Default Columns
+      default_columns: Default Columns
+      family_default_columns: Family Default Columns
+      partner_default_columns: Partner Default Columns
+    index:
       settings: Settings
       switched_country_cambodia: You’ve switched your country setting to Cambodia.
       switched_country_lesotho: You’ve switched your country setting to Lesotho.
       switched_country_myanmar: You’ve switched your country setting to Myanmar.
       switched_country_thailand: You’ve switched your country setting to Thailand.
-    navigation:
-      country: Country
+    update:
+      successfully_updated: Setting have been successfully updated.
+
   shared:
     form_builder:
       file_field:

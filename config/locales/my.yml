@@ -1806,7 +1806,7 @@ my:
       has_overdue_assessment: ရက္လြန္ေနေသာ စိစစ္အကဲျဖတ္မႈ တစ္ခုရွိပါသည္။
       has_overdue_forms: ရက်လွန်ပုံစံများရှိပါတယ်
       has_overdue_task: ရှိပြီးရက်လွန်အလုပ်တခုကို
-      no_case_note: အသက် 30 နေ့ရက်များအတွက်အဘယ်သူမျှမ အမႈမွတ္စု
+      no_case_note: ဖြစ်ရပ်မှန်မှတ်ချက်များအတွက်ရက်လွန်
       reset: အကုန္ျပင္ဆင္သည္
       search: ရွာေဖြသည္
     from: မွ
@@ -2922,6 +2922,12 @@ my:
     notification:
       check_tasks: လုပ္ငန္းမ်ားကို ေက်းဇူးျပဳ၍ စိစစ္ပါ
       click_here: ဤေနရာကို ကလစ္ႏွိပ္ပါ
+      client_case_note_due_today:
+        one: ဒီနေ့သင်ပြုသောအမှုခံရဖို့ဖြစ်ပွားမှု၏စံချိန်တင်အရေအတွက်ရှိသည်
+        other: ဒီနေ့သင်ပြုသောအမှုခံရဖို့ဖြ %{count} ၏စံချိန်တင်အရေအတွက်ရှိသည်
+      client_case_note_overdue:
+        one: သငျသညျကိုသတ်မှတ်ဖြစ်ပွားမှု၏စံချိန်တင်အရေအတွက်ရှိသည်
+        other: သငျသညျရက်ကျော်နေပြီ %{count} ကိစ္စတွင်မှတ်ချက်ရှိသည်။
       client_is_about_to_end_ec:
         few: အမႈသည္တစ္ဦးသည္ ရက္အနည္းငယ္အတြင္း EC အစီအမံမွ ထြက္ရန္ ရွိေနပါသည္
         one: အမႈသည္တစ္ဦးသည္ %{day_count} ရက္အတြင္း EC အစီအမံမွ ထြက္ရန္ ရွိေနပါသည္
@@ -3139,6 +3145,12 @@ my:
   must_be_uniq: ကြင္းအညႊန္းသည္ ယူနစ္ျဖစ္ရမည္
   mutual_dependence_has_been_modified: ဒါကြောင့်ယခင်စည်းမျဉ်းစည်းကမ်းတွေကိုဖောက်ဖျက်သောကွောငျ့နှစ်ဦးနှစ်ဖက်အပြန်အလှန်မှီခိုပြောင်းလဲသွားတယ်သို့မဟုတ်ဆက်ပြောသည်မရနိုင်ပါ။
   notifications:
+    case_note_due_today:
+      client_case_note_due_today: ယနေ့ပြုသည်ကိုခံရဖို့စံချိန်တင်ရှိသည်သောဖောက်သည်
+      review_client: အမႈသည္မ်ားကို ျပန္လည္သံုးသပ္ရန္ လိုအပ္သည္
+    case_note_overdue:
+      client_case_note_overdue: အဘယ်သူ၏အမှုမှတ်တမ်းများနေရသည်ဖောက်သည်
+      review_client: အမႈသည္မ်ားကို ျပန္လည္သံုးသပ္ရန္ လိုအပ္သည္
     client_enrollment_tracking_due_today:
       client_enrollment_tracking_notification: အမႈသည္ စာရင္းသြင္းမႈေနာက္ေၾကာင္း အသိေပးခ်က္
       clients: အမႈသည္
@@ -3618,14 +3630,33 @@ my:
       your_account_needs_to_supply_a_verification_code: သင့်အကောင့်အတည်ပြုရန်ကုဒ်ထောက်ပံ့ဖို့လိုအပ်ပါတယ်
       bad_credentials_supplied: မကောင်းတဲ့သံတမန်ဆောင်ဧည်ထောက်ပံ့
   settings:
+    assessment:
+      assessment: စိစစ္အကဲျဖတ္မႈ
+      assessment_frequency: အႀကိမ္ေရ
+      disable_assessment: ကျနော်တို့ကို အသုံးပြု. ကြသည်မဟုတ်စိစစ္အကဲျဖတ္မႈ
+      max_assessment: အများဆုံးအကဲဖြတ်ရှည်ကြာခြင်း
+      min_assessment: အနည်းဆုံး အကဲဖြတ်ရှည်ကြာခြင်း
+    case_note:
+      case_note: အမႈမွတ္စု
+      case_note_frequency: အႀကိမ္ေရ
+      max_case_note: အများဆုံးကိစ္စတွင်မှတ်ချက်
     country:
+      country: ႏုိင္ငံ
+    create:
+      successfully_created: အောင်မြင်စွာဖန်တီး
+    default_columns:
+      client_default_columns: ဖောက်သည် ပုံမှန်ကော်လံများ
+      default_columns: ပုံမှန်ကော်လံများ
+      family_default_columns: မိသားစုပုံမှန်ကော်လံများ
+      partner_default_columns: မိတ်ဖက်ပုံမှန်ကော်လံများ
+    index:
       settings: အျပင္အဆင္မ်ား
       switched_country_cambodia: သင္၏ ႏုိင္ငံအျပင္အဆင္ကို ကေမာၻဒီးယားႏုိင္ငံအျဖစ္ ေျပာင္းၿပီးပါၿပီ။
       switched_country_lesotho: သင္၏ ႏုိင္ငံအျပင္အဆင္ကို လက္ဆူးသူႏုိုင္ငံအျဖစ္ ေျပာင္းၿပီးပါၿပီ။
       switched_country_myanmar: သင္၏ ႏုိင္ငံအျပင္အဆင္ကို ျမန္မာႏုိင္ငံအျဖစ္ ေျပာင္းၿပီးပါၿပီ။
       switched_country_thailand: သင္၏ ႏုိင္ငံအျပင္အဆင္ကို ထုိင္းႏုိင္ငံအျဖစ္ ေျပာင္းၿပီးပါၿပီ။
-    navigation:
-      country: ႏုိင္ငံ
+    update:
+      successfully_updated: အောင်မြင်စွာဖြည့်ပါ
   shared:
     form_builder:
       file_field:

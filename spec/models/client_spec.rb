@@ -79,13 +79,14 @@ describe Client, 'callbacks' do
 end
 
 describe Client, 'methods' do
+  let!(:setting){ create(:setting, :monthly_assessment) }
   let!(:able_manager) { create(:user, roles: 'able manager') }
   let!(:case_worker) { create(:user, roles: 'case worker') }
   let!(:client){ create(:client, user_ids: [case_worker.id], local_given_name: 'Barry', local_family_name: 'Allen', date_of_birth: '2007-05-15', status: 'Active') }
   let!(:other_client) { create(:client, user_ids: [case_worker.id]) }
   let!(:able_client) { create(:client, able_state: Client::ABLE_STATES[0]) }
   let!(:able_manager_client) { create(:client, user_ids: [able_manager.id]) }
-  let!(:assessment){ create(:assessment, created_at: Date.today - 3.months, client: client) }
+  let!(:assessment){ create(:assessment, created_at: Date.today - (setting.min_assessment).months, client: client) }
   let!(:able_rejected_client) { create(:client, able_state: Client::ABLE_STATES[1]) }
   let!(:able_discharged_client) { create(:client, able_state: Client::ABLE_STATES[2]) }
   let!(:client_a){ create(:client, date_of_birth: '2017-05-05') }
@@ -316,15 +317,17 @@ describe Client, 'methods' do
     it { expect(client.inactive_day_care).to be_between(730.0, 732) }
   end
 
-  context '#next_assessment_date' do
-    let!(:client_1){ create(:client, :accepted) }
-    let!(:latest_assessment){ create(:assessment, client: client_1) }
-    it 'should be last assessment + 6 months' do
-      expect(client_1.next_assessment_date).to eq((latest_assessment.created_at + 6.months).to_date)
-    end
+  context 'assessment' do
+    context '#next_assessment_date' do
+      let!(:client_1){ create(:client, :accepted) }
+      let!(:latest_assessment){ create(:assessment, client: client_1) }
+      it 'should be last assessment + maximum assessment duration' do
+        expect(client_1.next_assessment_date).to eq((latest_assessment.created_at + (setting.max_assessment).months).to_date)
+      end
 
-    it 'should be today' do
-      expect(other_client.next_assessment_date.start).to eq(Date.today.start)
+      it 'should be today' do
+        expect(other_client.next_assessment_date.start).to eq(Date.today.start)
+      end
     end
   end
 
@@ -335,10 +338,24 @@ describe Client, 'methods' do
     let!(:assessment_1){ create(:assessment, created_at: Date.today - 3.months, client: client_with_two_csi) }
     let!(:assessment_2){ create(:assessment, created_at: Date.today, client: client_with_two_csi) }
 
-    it { expect(client.can_create_assessment?).to be_truthy }
-    it { expect(no_csi_client.can_create_assessment?).to be_truthy }
-    it { expect(client_with_two_csi.can_create_assessment?).to be_truthy }
-    it { expect(other_client.can_create_assessment?).to be_falsey }
+      it { expect(client.can_create_assessment?).to be_truthy }
+      it { expect(no_csi_client.can_create_assessment?).to be_truthy }
+      it { expect(client_with_two_csi.can_create_assessment?).to be_truthy }
+      it { expect(other_client.can_create_assessment?).to be_falsey }
+  end
+
+  context '#next_case_note_date' do
+    let!(:client_1){ create(:client, :accepted) }
+    let!(:lastest_case_note){ create(:case_note, client: client_1, meeting_date: Date.today) }
+    let!(:case_note){ create(:case_note, client: other_client, meeting_date: 30.days.ago) }
+
+    it 'should be last case note + 30 days' do
+      expect(client_1.next_case_note_date).to eq((lastest_case_note.meeting_date + 30.days).to_date)
+    end
+
+    it 'should be today' do
+      expect(other_client.next_case_note_date).to eq(Date.today)
+    end
   end
 
   context 'age between' do
