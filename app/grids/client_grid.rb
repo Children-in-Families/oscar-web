@@ -551,7 +551,7 @@ class ClientGrid
     object.referral_source.try(:name)
   end
 
-  column(:birth_province, order: 'provinces.name', header: -> { I18n.t('datagrid.columns.clients.birth_province') }) do |object|
+  column(:birth_province, header: -> { I18n.t('datagrid.columns.clients.birth_province') }) do |object|
     object.birth_province.try(:name)
   end
 
