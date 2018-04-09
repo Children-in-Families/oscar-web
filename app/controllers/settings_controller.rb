@@ -1,8 +1,9 @@
 class SettingsController < AdminController
-
   def index
     @setting = Setting.first_or_initialize(assessment_frequency: 'month', min_assessment: 3, max_assessment: 6)
     @client_default_columns = client_default_columns
+    @family_default_columns = family_default_columns
+    @partner_default_columns = partner_default_columns
     country
   end
 
@@ -58,6 +59,24 @@ class SettingsController < AdminController
     end
     Domain.order_by_identity.each do |domain|
       columns << domain.convert_identity
+    end
+    columns.push(sub_columns).flatten
+  end
+
+  def family_default_columns
+    columns = []
+    sub_columns = %w(member_count clients case_workers manage changelog)
+    FamilyGrid.new.filters.each do |f|
+      columns << f.name.to_s
+    end
+    columns.push(sub_columns).flatten
+  end
+
+  def partner_default_columns
+    columns = []
+    sub_columns = %w(manage changelog)
+    PartnerGrid.new.filters.each do |f|
+      columns << f.name.to_s
     end
     columns.push(sub_columns).flatten
   end

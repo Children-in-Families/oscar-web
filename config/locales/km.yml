@@ -3693,6 +3693,8 @@ km:
     default_columns:
       client_default_columns: ជួរឈរលំនាំដើមរបស់អតិថិជន
       default_columns: ជួរឈរលំនាំដើម
+      family_default_columns: ជួរឈរលំនាំដើមរបស់គ្រួសារ
+      partner_default_columns: ជួរឈរលំនាំដើមរបស់ដៃគូ
     index:
       disable_assessment: យើងមិនប្រើការប៉ាន់ប្រមាណ
       settings: ការកំណត់

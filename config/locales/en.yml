@@ -3627,6 +3627,8 @@ en:
     default_columns:
       client_default_columns: Client Default Columns
       default_columns: Default Columns
+      family_default_columns: Family Default Columns
+      partner_default_columns: Partner Default Columns
     index:
       disable_assessment: We are not using CSI Assessment Tool
       settings: Settings

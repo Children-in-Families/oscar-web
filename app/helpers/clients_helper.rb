@@ -249,11 +249,6 @@ module ClientsHelper
     value == 'Exited'
   end
 
-  def default_setting(client_column, setting_client_default_columns)
-    return false if setting_client_default_columns.nil?
-    setting_client_default_columns.include?(client_column.to_s) unless params[:client_grid].present? || params[:client_advanced_search].present?
-  end
-
   def enable_assessment_setting?
     setting = Setting.first.try(:disable_assessment)
     setting.nil? ? true : !setting

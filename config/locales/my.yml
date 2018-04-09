@@ -3642,6 +3642,8 @@ my:
     default_columns:
       client_default_columns: ဖောက်သည် ပုံမှန်ကော်လံများ
       default_columns: ပုံမှန်ကော်လံများ
+      family_default_columns: မိသားစုပုံမှန်ကော်လံများ
+      partner_default_columns: မိတ်ဖက်ပုံမှန်ကော်လံများ
     index:
       disable_assessment: ကျနော်တို့ကို အသုံးပြု. ကြသည်မဟုတ်စိစစ္အကဲျဖတ္မႈ
       settings: အျပင္အဆင္မ်ား
