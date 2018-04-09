@@ -557,20 +557,20 @@ class ClientGrid
   #   object.user.try(:name)
   # end
 
-  column(:exit_circumstance, header: -> { I18n.t('datagrid.columns.clients.exit_circumstance') }) do |object|
-    object.exit_circumstance
+  column(:exit_circumstance, order: false, html: true, header: -> { I18n.t('datagrid.columns.clients.exit_circumstance') }) do |object|
+    render partial: 'clients/exit_circumstances', locals: { object: object }
   end
 
-  column(:exit_reasons, html: true, header: -> { I18n.t('datagrid.columns.clients.exit_reasons') }) do |object|
-    render partial: 'clients/exit_reasons', locals: { reasons: object.exit_reasons }
+  column(:exit_reasons, order: false, html: true, header: -> { I18n.t('datagrid.columns.clients.exit_reasons') }) do |object|
+    render partial: 'clients/exit_reasons', locals: { object: object }
   end
 
-  column(:other_info_of_exit, header: -> { I18n.t('datagrid.columns.clients.other_info_of_exit') }) do |object|
-    object.other_info_of_exit
+  column(:other_info_of_exit, order: false, html: true, header: -> { I18n.t('datagrid.columns.clients.other_info_of_exit') }) do |object|
+    render partial: 'clients/other_info_of_exits', locals: { object: object }
   end
 
-  column(:exit_note, header: -> { I18n.t('datagrid.columns.clients.exit_note') }) do |object|
-    object.exit_note
+  column(:exit_note, order: false, html: true, header: -> { I18n.t('datagrid.columns.clients.exit_note') }) do |object|
+    render partial: 'clients/exit_notes', locals: { object: object }
   end
 
   column(:what3words, header: -> { I18n.t('datagrid.columns.clients.what3words') }) do |object|
