@@ -250,6 +250,12 @@ module ClientGridOptions
             custom_field_properties = client.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).properties_by(format_field_value)
             custom_field_properties.map{ |properties| format_properties_value(properties) }.join(' | ')
           end
+        elsif fields.first == 'enrollmentdate'
+          if data == 'recent'
+            properties = client.client_enrollments.joins(:program_stream).where(program_streams: { name: fields.second }).order(enrollment_date: :desc).first.try(:enrollment_date)
+          else
+            properties = client.client_enrollments.joins(:program_stream).where(program_streams: { name: fields.second }).pluck(:enrollment_date).join(' | ')
+          end
         elsif fields.first == 'enrollment'
           if data == 'recent'
             enrollment_properties = client.client_enrollments.joins(:program_stream).where(program_streams: { name: fields.second }).order(enrollment_date: :desc).first.try(:properties)
@@ -266,6 +272,13 @@ module ClientGridOptions
           else
             enrollment_tracking_properties = ClientEnrollmentTracking.joins(:tracking).where(trackings: { name: fields.third }, client_enrollment_trackings: { client_enrollment_id: ids }).properties_by(format_field_value)
             enrollment_tracking_properties.map{ |properties| format_properties_value(properties) }.join(' | ')
+          end
+        elsif fields.first == 'programexitdate'
+          ids = client.client_enrollments.inactive.ids
+          if data == 'recent'
+            properties = LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { client_enrollment_id: ids }).order(exit_date: :desc).first.try(:exit_date)
+          else
+            properties = LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { client_enrollment_id: ids }).pluck(:exit_date).join(' | ')
           end
         elsif fields.first == 'exitprogram'
           ids = client.client_enrollments.inactive.ids

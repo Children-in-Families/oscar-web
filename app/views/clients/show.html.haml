@@ -59,8 +59,6 @@
                 %span.caret
               %ul.dropdown-menu
                 - if @client.cases.exclude_referred.current.blank?
-                  %li= @client.ec_button
-                  %li.divider
                   %li
                     - if @client.client_enrollments.active.count > 0
                       %a{"data-target" => '#remaining-programs-modal', "data-toggle" => 'modal'}
