@@ -50,7 +50,11 @@ describe EnterNgo, 'scopes' do
 
   context '.most_recents' do
     subject { EnterNgo.most_recents.first }
-    it { is_expected.to eq(enter_ngo_2) }
-    it { is_expected.not_to eq(enter_ngo_1) }
+    it 'return last record' do
+      is_expected.to eq(enter_ngo_2)
+    end
+    it 'return first record' do
+      is_expected.not_to eq(enter_ngo_1)
+    end
   end
 end

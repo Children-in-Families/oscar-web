@@ -36,7 +36,13 @@ describe ExitNgo, 'scopes' do
 
   context '.most_recents' do
     subject { ExitNgo.most_recents.first }
-    it { is_expected.to eq(exit_ngo_2) }
-    it { is_expected.not_to eq(exit_ngo_1) }
+
+    it 'return last record' do
+      is_expected.to eq(exit_ngo_2)
+    end
+
+    it 'return first record' do
+      is_expected.not_to eq(exit_ngo_1)
+    end
   end
 end
