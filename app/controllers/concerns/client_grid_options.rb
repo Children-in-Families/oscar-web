@@ -28,6 +28,20 @@ module ClientGridOptions
     case_note_type_report
     exit_reasons_report
     accepted_date_report
+    exit_date_report
+  end
+
+  def exit_date_report
+    return unless @client_columns.visible_columns[:exit_date_].present?
+    if params[:data].presence == 'recent'
+      @client_grid.column(:exit_date, header: I18n.t('datagrid.columns.clients.ngo_exit_date')) do |client|
+        client.exit_ngos.most_recents.first.try(:exit_date)
+      end
+    else
+      @client_grid.column(:exit_date, header: I18n.t('datagrid.columns.clients.ngo_exit_date')) do |client|
+        client.exit_ngos.most_recents.pluck(:exit_date).select(&:present?).join(' | ') if client.exit_ngos.any?
+      end
+    end
   end
 
   def accepted_date_report

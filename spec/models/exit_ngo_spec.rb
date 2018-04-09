@@ -28,3 +28,15 @@ describe ExitNgo, 'callbacks' do
     end
   end
 end
+
+describe ExitNgo, 'scopes' do
+  let!(:manager){ create(:user, :manager) }
+  let!(:exit_ngo_1){ create(:exit_ngo) }
+  let!(:exit_ngo_2){ create(:exit_ngo) }
+
+  context '.most_recents' do
+    subject { ExitNgo.most_recents.first }
+    it { is_expected.to eq(exit_ngo_2) }
+    it { is_expected.not_to eq(exit_ngo_1) }
+  end
+end
