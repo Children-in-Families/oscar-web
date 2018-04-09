@@ -3633,8 +3633,13 @@ my:
     assessment:
       assessment: စိစစ္အကဲျဖတ္မႈ
       assessment_frequency: အႀကိမ္ေရ
+      disable_assessment: ကျနော်တို့ကို အသုံးပြု. ကြသည်မဟုတ်စိစစ္အကဲျဖတ္မႈ
       max_assessment: အများဆုံးအကဲဖြတ်ရှည်ကြာခြင်း
       min_assessment: အနည်းဆုံး အကဲဖြတ်ရှည်ကြာခြင်း
+    case_note:
+      case_note: အမႈမွတ္စု
+      case_note_frequency: အႀကိမ္ေရ
+      max_case_note: အများဆုံးကိစ္စတွင်မှတ်ချက်
     country:
       country: ႏုိင္ငံ
     create:
@@ -3645,7 +3650,6 @@ my:
       family_default_columns: မိသားစုပုံမှန်ကော်လံများ
       partner_default_columns: မိတ်ဖက်ပုံမှန်ကော်လံများ
     index:
-      disable_assessment: ကျနော်တို့ကို အသုံးပြု. ကြသည်မဟုတ်စိစစ္အကဲျဖတ္မႈ
       settings: အျပင္အဆင္မ်ား
       switched_country_cambodia: သင္၏ ႏုိင္ငံအျပင္အဆင္ကို ကေမာၻဒီးယားႏုိင္ငံအျဖစ္ ေျပာင္းၿပီးပါၿပီ။
       switched_country_lesotho: သင္၏ ႏုိင္ငံအျပင္အဆင္ကို လက္ဆူးသူႏုိုင္ငံအျဖစ္ ေျပာင္းၿပီးပါၿပီ။

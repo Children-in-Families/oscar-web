@@ -3618,8 +3618,13 @@ en:
     assessment:
       assessment: Assessment
       assessment_frequency: Assessment Frequency
+      disable_assessment: We are not using CSI Assessment Tool
       max_assessment: Maximum Assessment Duration
       min_assessment: Minimum Assessment Duration
+    case_note:
+      case_note: Case Note
+      case_note_frequency: Case Note Frequency
+      max_case_note: Maximum Case Note
     country:
       country: Country
     create:
@@ -3630,7 +3635,6 @@ en:
       family_default_columns: Family Default Columns
       partner_default_columns: Partner Default Columns
     index:
-      disable_assessment: We are not using CSI Assessment Tool
       settings: Settings
       switched_country_cambodia: You’ve switched your country setting to Cambodia.
       switched_country_lesotho: You’ve switched your country setting to Lesotho.

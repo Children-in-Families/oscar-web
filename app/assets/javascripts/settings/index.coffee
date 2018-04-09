@@ -9,13 +9,13 @@ CIF.SettingsIndex = CIF.SettingsUpdate = CIF.SettingsCreate = do ->
   _handleAssessmentCheckbox = ->
     _disableAssessmentSetting()
     $('#setting_disable_assessment.i-checks').on 'ifChecked', ->
-      $('#assessment-setting').find('input, select').prop('disabled', true)
+      $('#assessment-setting .panel-body').find('input, select').prop('disabled', true)
 
     $('#setting_disable_assessment.i-checks').on 'ifUnchecked', ->
-      $('#assessment-setting').find('input, select').prop('disabled', false)
+      $('#assessment-setting .panel-body').find('input, select').prop('disabled', false)
 
   _disableAssessmentSetting = ->
     disableAssessmentChecked = $('#setting_disable_assessment').is(':checked')
-    $('#assessment-setting').find('input, select').prop('disabled', true) if disableAssessmentChecked
+    $('#assessment-setting .panel-body').find('input, select').prop('disabled', true) if disableAssessmentChecked
 
   { init: _init }
