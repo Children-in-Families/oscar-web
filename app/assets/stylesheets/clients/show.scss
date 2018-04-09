@@ -207,13 +207,10 @@ body[id='clients-show'] {
   .what3words{
     height: 17%;
   }
-  .client_exit_reasons > span{
+  .exit_ngo_exit_reasons > span{
     margin-left: -15px;
   }
-  .client_exit_circumstance{
-    margin-top: -15px;
-  }
-  .client_other_info_of_exit{
+  .exit_ngo_other_info_of_exit{
     margin-top: 10px;
   }
   .client_exit_date{
@@ -227,7 +224,7 @@ body[id='clients-show'] {
     }
   }
 
-  .client_exit_reasons .icheckbox_square-green {
+  .exit_ngo_exit_reasons .icheckbox_square-green {
     margin-right: 5px;
   }
 

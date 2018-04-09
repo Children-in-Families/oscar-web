@@ -30,23 +30,22 @@
             .col-xs-12
               .row
                 .col-xs-12
-                  = simple_form_for @client, method: :put, url: client_path(@client) do |f|
+                  = simple_form_for [ @client, @client.enter_ngos.build ] do |f|
                     .form-inputs
                       = f.hidden_field :accepted_date, value: Date.today
-                      = f.hidden_field :status, value: 'Accepted'
                     .form-actions
                       = f.submit t('.accept'), class: 'btn btn-success agree-btn', id: 'accept-client'
                 .col-xs-12
                   %button.btn.btn-danger.mini-margin{"data-target" => '#exitFromNgo', "data-toggle" => 'modal', class: 'agree-btn'} #{t('.reject')}
 
             .col-xs-12
-              = render 'exit_ngo_form', client: @client
+              = render 'client/exit_ngos/form', client: @client
 
         - elsif @client.status == 'Exited'
           .row
             .col-xs-12
               %button.btn.btn-success.mini-margin{"data-target" => '#enter-ngo-form', "data-toggle" => 'modal', class: 'agree-btn' } #{t('.accept')}
-              = render 'enter_ngo_form'
+              = render 'client/enter_ngos/form', client: @client
             .col-xs-12
               %button.btn.btn-danger.mini-margin{ disabled: 'disabled', class:'agree-btn' }= t('.reject')
 
@@ -75,7 +74,7 @@
             - if @client.client_enrollments.active.count > 0
               = render 'remaining_programs', client: @client
             - else
-              = render 'exit_ngo_form', client: @client
+              = render 'client/exit_ngos/form', client: @client
             - if @client.cases.exclude_referred.current.present?
               = render 'exit_case_form', client_case: @client.cases.exclude_referred.current, exit_from_cif: true
 
@@ -178,8 +177,6 @@
               %i.fa.fa-chevron-up
           - if (can? :manage, Client) || (can? :rud, Client)
             %small
-              - if @client.exit_ngo?
-                %button.btn.btn-danger#edit-exit-info{"data-target" => '#exitFromNgo', "data-toggle" => 'modal'}= t('.edit_exit_information')
               = link_to edit_client_path(@client) do
                 .btn.btn-outline.btn-success
                   %i.fa.fa-pencil
@@ -362,48 +359,6 @@
                   - @client.agencies.each do|agency|
                     %strong.label.label-default.agency
                       = agency.name
-
-              - if @client.exit_date
-                %tr
-                  %td.spacing-first-col
-                    = t('.accepted_date')
-                  %td
-                    %strong
-                      = date_format(@client.accepted_date)
-                %tr
-                  %td.spacing-first-col
-                    = t('.exit_date')
-                  %td
-                    %strong
-                      = date_format(@client.exit_date)
-                %tr
-                  %td.spacing-first-col
-                    = t('.exit_circumstance')
-                  %td
-                    %strong
-                      = @client.exit_circumstance
-                %tr
-                  %td.spacing-first-col
-                    = t('.exit_reasons')
-                  %td
-                    %strong
-                      %ul
-                      - exit_reasons = @client.exit_reasons.reject(&:empty?)
-                      - exit_reasons.each do |exit_reason|
-                        %li= exit_reason
-                %tr
-                  %td.spacing-first-col
-                    = t('.exit_note')
-                  %td
-                    %strong
-                      = @client.exit_note
-                %tr
-                  %td.spacing-first-col
-                    = t('.other_info_of_exit')
-                  %td
-                    %strong
-                      = @client.other_info_of_exit
-
         .row
           .col-xs-12
             %table.table.table-bordered
@@ -415,5 +370,57 @@
                     - qtypes.last.each do |qcase|
                       %strong.label.label-default
                         = qcase.value
+
+        - if @enter_ngos.any?
+          .row
+            .col-xs-12
+              .table-responsive
+                %table.table.table-bordered.table-striped.table-hover
+                  %thead
+                    %tr
+                      %th.custom_column_name= t('.accepted_date')
+                      %th.text-center.custom_column_manage= t('.manage')
+                  %tbody
+                    - @enter_ngos.each do |enter_ngo|
+                      %tr
+                        %td= date_format(enter_ngo.accepted_date)
+                        %td
+                          .text-center
+                            %button.btn.btn-outline.btn-success.btn-xs{"data-target" => "#enter-ngo-form-#{enter_ngo.id}", "data-toggle" => 'modal'}
+                              = fa_icon('pencil')
+                          = render 'client/enter_ngos/edit_form', client: @client, enter_ngo: enter_ngo
+
+        - if @exit_ngos.any?
+          .row
+            .col-xs-12
+              .table-responsive
+                %table.table.table-bordered.table-striped.table-hover
+                  %thead
+                    %tr
+                      %th= t('.exit_date')
+                      %th= t('.exit_circumstance')
+                      %th= t('.exit_reasons')
+                      %th= t('.exit_note')
+                      %th= t('.other_info_of_exit')
+                      %th.text-center= t('.manage')
+                  %tbody
+                    - @exit_ngos.each do |exit_ngo|
+                      %tr
+                        %td= date_format(exit_ngo.exit_date)
+                        %td= exit_ngo.exit_circumstance
+                        %td
+                          %strong
+                            %ul
+                            - exit_reasons = exit_ngo.exit_reasons.reject(&:empty?)
+                            - exit_reasons.each do |exit_reason|
+                              %li= exit_reason
+                        %td= exit_ngo.exit_note
+                        %td= exit_ngo.other_info_of_exit
+                        %td
+                          .text-center
+                            %button.btn.btn-outline.btn-success.btn-xs{"data-target" => "#exitFromNgo-#{exit_ngo.id}", "data-toggle" => 'modal'}
+                              = fa_icon('pencil')
+                          = render 'client/exit_ngos/edit_form', client: @client, exit_ngo: exit_ngo
+
 .row
   = render 'placement'

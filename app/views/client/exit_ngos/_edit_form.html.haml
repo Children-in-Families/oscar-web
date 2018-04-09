@@ -1,0 +1,44 @@
+.modal.fade{ role: 'dialog', tabindex: '-1', id:  "exitFromNgo-#{exit_ngo.id}" }
+  .modal-dialog.modal-lg{ role: 'document'}
+    .modal-content
+      .modal-header
+        %button.close{"aria-label" => "#{t('.close')}", "data-dismiss" => 'modal'}
+          %span{"aria-hidden" => 'true'} &times;
+        .modal-title
+          .row
+            .col-xs-12.col-sm-6
+              %h4= t('.exit_ngo')
+            .col-xs-12.col-sm-4
+              %h4= "Client ID - #{@client.slug}"
+
+      .modal-body
+        = simple_form_for [@client, exit_ngo]  do |f|
+          = f.error_notification
+          .row
+            .col-xs-12.col-sm-6.col-md-6
+              %h3= @client.en_and_local_name
+              %h3= "#{@client.gender.try(:titleize)} #{date_format(@client.date_of_birth)}"
+              .form-inputs
+                .form-group.date.client_exit_date
+                  %label.date.required.control-label{ for: 'client_exit_date' }
+                    %abbr{ title: 'required' } *
+                    = t('.exit_date')
+                  .input-group.date
+                    = f.text_field :exit_date, required: true, class: 'date form-control date-picker .datepicker-dropdown exit_date', type: 'text', name: 'exit_ngo[exit_date]'
+                    %span.input-group-addon
+                      %i.fa.fa-calendar-check-o
+
+              .form-inputs.i-checks
+                = f.input :exit_reasons, as: :check_boxes, collection: ExitNgo::EXIT_REASONS, label: t('.exit_reasons')
+              .form-inputs
+                = f.input :other_info_of_exit, label: t('.other_info_of_exit')
+
+            .col-xs-12.col-sm-6.col-md-6
+              .form_inputs
+                = f.input :exit_circumstance, label: t('.exit_circumstance'), readonly: true, required: true
+              .form-inputs
+                = f.input :exit_note, label: t('.exit_note'), input_html: { rows: '14' }, required: true
+
+          .text-right
+            %button.btn.btn-default{"data-dismiss" => 'modal'}= t('cancel')
+            = f.submit t('save'), class: 'btn btn-danger confirm-exit'

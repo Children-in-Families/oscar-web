@@ -682,6 +682,55 @@ en:
         one: You have 1 assessment overdue.
         other: You have %{count} assessments overdue.
   client:
+    enter_ngos:
+      create:
+        failed_create: Failed to update the client.
+        successfully_created: Client has been successfully updated.
+      edit_form:
+        accept: Accept
+        accept_ngo_form: Enter NGO Form
+        accepted_date: Accepted Date
+        case_worker_or_staff: Case Worker / Staff
+      form:
+        accept: Accept
+        accept_ngo_form: Enter NGO Form
+        accepted_date: Accepted Date
+        case_worker_or_staff: Case Worker / Staff
+      update:
+        failed_update: Failed to update the client.
+        successfully_updated: Client has been successfully updated.
+    exit_ngos:
+      create:
+        failed_create: Failed to update the client.
+        successfully_created: Client has been successfully updated.
+      edit_form:
+        case_worker_or_staff: Case Worker / Staff
+        exit_btn: Exit
+        exit_circumstance: Exit Circumstance
+        exit_date: Exit Date
+        exit_ngo: Exit Client from NGO
+        exit_note: Exit Note
+        exit_reasons: Reason for Exit / Case Rejection
+        exit_status: Status
+        other_info_of_exit: Other - More Information
+        reject_client: Reject Client
+        rejected_note: Rejected Note
+      form:
+        case_worker_or_staff: Case Worker / Staff
+        exit_btn: Exit
+        exit_circumstance: Exit Circumstance
+        exit_date: Exit Date
+        exit_ngo: Exit Client from NGO
+        exit_note: Exit Note
+        exit_reasons: Reason for Exit / Case Rejection
+        exit_status: Status
+        other_info_of_exit: Other - More Information
+        reject_client: Reject Client
+        rejected_note: Rejected Note
+      update:
+        failed_update: Failed to update the client.
+        successfully_updated: Client has been successfully updated.
+
     # form_option:
     #   basic_fields: Client Basic Fields
     #   csi_domain_scores: CSI Domain Scores
@@ -1282,12 +1331,14 @@ en:
       donor: Donor
       edit_exit_information: Edit Exit Information
       enrolled_program_streams: Enrolled Program Streams
+      enter_ngo_information: Enter NGO Information
       exit_circumstance: Exit Circumstance
       exit_date: NGO Exit Date
       exit_from_ec: Exit From EC
       exit_from_fc: Exit From FC
       exit_from_kc: Exit From KC
       exit_ngo_btn: Exit From NGO
+      exit_ngo_information: Exit NGO Information
       exit_note: Exit Note
       exit_reasons: Reason for Exit / Case Rejection
       families: Families
@@ -1317,6 +1368,7 @@ en:
       local_family_name: Family Name (Khmer)
       local_given_name: Given Name (khmer)
       main_school_contact: Main School Contact
+      manage: Manage
       name: Name
       note: Note
       name_of_referee: Name Of Referee
