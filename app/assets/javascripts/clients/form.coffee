@@ -13,6 +13,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
     _removeSaveButton()
     _setSaveButton()
     _removeMarginOnNewForm()
+    _setMarginToClassActions()
 
   _ajaxChangeDistrict = ->
     $('#client_province_id').on 'change', ->
@@ -196,10 +197,28 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
         $('.actions').css 'margin-left', '0'
 
   _setSaveButton = ->
+    current_url = window.location.href
     $("a[href='#previous']").click ->
       if $(".last").attr('aria-selected') != 'true'
+        if current_url.includes('locale=my')
+          $('.actions').css 'margin-left', '-150px'
+          $('.save-edit-client').show()
+        else if current_url.includes('locale=km')
+          $('.actions').css 'margin-left', '-70px'
+          $('.save-edit-client').show()
+        else
+          $('.actions').css 'margin-left', '-60px'
+          $('.save-edit-client').show()
+
+  _setMarginToClassActions = ->
+    current_url = window.location.href
+    if $('.edit-form').length
+      if current_url.includes('locale=my')
+        $('.actions').css 'margin-left', '-150px'
+      else if current_url.includes('locale=km')
+        $('.actions').css 'margin-left', '-70px'
+      else
         $('.actions').css 'margin-left', '-60px'
-        $('.save-edit-client').show()
 
   _removeMarginOnNewForm = ->
     if $('.client-form-title').length

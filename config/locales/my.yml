@@ -3736,7 +3736,7 @@ my:
     required:
       mark: "*"
       text: လိုအပ္ေသာ
-    save: သိမ္းဆည္းရန္
+    save: ကယ်ဆယ်
     'yes': မွန္ပါသည္
   stages:
     able_screening_question_fields:
