@@ -10,6 +10,9 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
     _replaceSpanBeforeLabel()
     _replaceSpanAfterRemoveField()
     _clientSelectOption()
+    _removeSaveButton()
+    _setSaveButton()
+    _removeMarginOnNewForm()
 
   _ajaxChangeDistrict = ->
     $('#client_province_id').on 'change', ->
@@ -125,6 +128,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
       bodyTag: 'section'
       transitionEffect: 'slideLeft'
       enableKeyNavigation: false
+      enableAllSteps: true
 
       onStepChanging: (event, currentIndex, newIndex) ->
         if currentIndex == 0 and newIndex == 1 and $('#getting-started').is(':visible')
@@ -147,7 +151,6 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
               return false
             else
               return true
-
         else
           return true
 
@@ -166,7 +169,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
   _replaceSpanAfterRemoveField = ->
     $('#client_initial_referral_date').on 'input', ->
       if $(this).val() == ''
-         $("a[href='#next']").click()
+        $("a[href='#next']").click()
 
   _replaceSpanBeforeLabel = ->
     $("a[href='#next']").click ->
@@ -174,6 +177,33 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
       labelElement      = $('#client_initial_referral_date-error')
 
       labelElement.insertAfter inputGroupElement
+
+    $("a[href='#steps-uid-0-h-1']").click ->
+      inputGroupElement = $('.client_initial_referral_date > .input-group')
+      labelElement      = $('#client_initial_referral_date-error')
+
+      labelElement.insertAfter inputGroupElement
+
+  _removeSaveButton = ->
+    $("a[href='#next']").click ->
+      if $(".last").attr('aria-selected') == 'true'
+        $('.save-edit-client').hide()
+        $('.actions').css 'margin-left', '0'
+
+    $("a[href='#steps-uid-0-h-3']").click ->
+      if $(".last").attr('aria-selected') == 'true'
+        $('.save-edit-client').hide()
+        $('.actions').css 'margin-left', '0'
+
+  _setSaveButton = ->
+    $("a[href='#previous']").click ->
+      if $(".last").attr('aria-selected') != 'true'
+        $('.actions').css 'margin-left', '-60px'
+        $('.save-edit-client').show()
+
+  _removeMarginOnNewForm = ->
+    if $('.client-form-title').length
+      $('.actions').css 'margin-left', '0px'
 
   _validateForm = ->
     self = @
