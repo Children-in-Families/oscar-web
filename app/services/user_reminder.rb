@@ -16,6 +16,7 @@ class UserReminder
   def remind_case_workers(org)
     case_workers = User.non_devs.non_locked.without_json_fields.joins(:tasks).merge(Task.overdue_incomplete.exclude_exited_ngo_clients).uniq
     case_workers.each do |case_worker|
+      next if case_worker.disable?
       CaseWorkerWorker.perform_async(case_worker.id, org.short_name)
     end
   end
