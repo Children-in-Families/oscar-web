@@ -134,7 +134,11 @@ module AdvancedSearches
       when 'between'
         clients = clients.where(exit_ngos: { exit_date: @value[0]..@value[1] })
       when 'is_empty'
-        clients = clients.where(exit_ngos: { exit_date: nil })
+        # clients have been exited but exit_date is blank
+        ids = clients.where(exit_ngos: { exit_date: nil }).ids.uniq
+        # clients haven't been exited
+        ids = ids << @clients.where.not(id: clients.ids).ids
+        clients = @clients.where(id: ids.flatten.uniq)
       when 'is_not_empty'
         clients = clients.where.not(exit_ngos: { exit_date: nil })
       end
@@ -159,7 +163,11 @@ module AdvancedSearches
       when 'between'
         clients = clients.where(enter_ngos: { accepted_date: @value[0]..@value[1] })
       when 'is_empty'
-        clients = clients.where(enter_ngos: { accepted_date: nil })
+        # clients have been accepted but accepted_date is blank
+        ids = clients.where(enter_ngos: { accepted_date: nil }).ids.uniq
+        # clients haven't been accepted
+        ids = ids << @clients.where.not(id: clients.ids).ids
+        clients = @clients.where(id: ids.flatten.uniq)
       when 'is_not_empty'
         clients = clients.where.not(enter_ngos: { accepted_date: nil })
       end
