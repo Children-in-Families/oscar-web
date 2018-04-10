@@ -1,33 +1,30 @@
 class SettingsController < AdminController
-  before_action :default_columns
-
   def index
     @setting = Setting.first_or_initialize(assessment_frequency: 'month', min_assessment: 3, max_assessment: 6, case_note_frequency: 'day', max_case_note: 30)
-    country
   end
 
   def create
     @setting = Setting.new(setting_params)
     if @setting.save
-      redirect_to settings_path, notice: t('.successfully_created')
+      url = params[:id] == 'default_columns' ? default_columns_settings_path : settings_path
+      redirect_to url, notice: t('.successfully_created')
     else
       render :index
     end
+  end
+
+  def show
+    redirect_to settings_path
   end
 
   def update
     @setting = Setting.first
     if @setting.update_attributes(setting_params)
-      redirect_to settings_path, notice: t('.successfully_updated')
+      url = params[:id] == 'default_columns' ? default_columns_settings_path : settings_path
+      redirect_to url, notice: t('.successfully_updated')
     else
       render :index
     end
-  end
-
-  private
-
-  def setting_params
-    params.require(:setting).permit(:disable_assessment, :assessment_frequency, :min_assessment, :max_assessment, :max_case_note, :case_note_frequency, client_default_columns: [], family_default_columns: [], partner_default_columns: [], user_default_columns: [])
   end
 
   def country
@@ -39,9 +36,16 @@ class SettingsController < AdminController
   end
 
   def default_columns
+    @setting = Setting.first_or_initialize
     @client_default_columns = client_default_columns
     @family_default_columns = family_default_columns
     @partner_default_columns = partner_default_columns
+  end
+
+  private
+
+  def setting_params
+    params.require(:setting).permit(:disable_assessment, :assessment_frequency, :min_assessment, :max_assessment, :max_case_note, :case_note_frequency, client_default_columns: [], family_default_columns: [], partner_default_columns: [], user_default_columns: [])
   end
 
   def client_default_columns

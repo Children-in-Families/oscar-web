@@ -104,6 +104,11 @@ module ApplicationHelper
     controller_name == name || controller_name == alter_name ? 'active' : nil
   end
 
+  def settings_menu_active(name, action_names)
+    action = ['index' ,'update' ,'create'].include?(action_name) ? 'index' : action_name
+    'active' if (controller_name == name && action_names == action)
+  end
+
   def hidden_class(bool)
     'hidden' if bool
   end

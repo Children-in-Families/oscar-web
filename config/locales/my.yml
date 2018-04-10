@@ -243,6 +243,20 @@ my:
             name:
               blank: ကြက္လပ္ခ်ိန္ထား၍မရပါ။
               taken: ယူထားၿပီးျဖစ္ပါသည္။
+        setting:
+          attributes:
+            min_assessment:
+              blank: ကြက္လပ္ခ်ိန္ထား၍မရပါ။
+              less_than:
+                one: အများဆုံးထက်လျော့နည်းဖြစ်ရမည်
+                other: သေးငယ်ဖြစ်ရမည် %{count}
+            max_assessment:
+              blank: ကြက္လပ္ခ်ိန္ထား၍မရပါ။
+              greater_than:
+                one: နိမ့်ဆုံးထက် သာ. ကြီးမြတ်ဖြစ်ရမည်
+                other: သာ. ကြီးသောသူဖြစ်ရမည် %{count}
+            max_case_note:
+              blank: ကြက္လပ္ခ်ိန္ထား၍မရပါ။
         stage:
           attributes:
             from_age:
@@ -250,6 +264,8 @@ my:
             to_age:
               blank: ယူထားၿပီးျဖစ္ပါသည္။
               greater_than:
+                one: ''
+                other: သာ. ကြီးသောသူဖြစ်ရမည် %{count}
               taken: ယူထားၿပီးျဖစ္ပါသည္။
         task:
           attributes:
@@ -3007,8 +3023,11 @@ my:
       agencies: ေအဂ်င္စီမ်ား
       changelogs: ေျပာင္းလဲမႈ မွတ္တမ္းမ်ား
       clients: အမႈဥည္မ်ား
+      country: ႏုိင္ငံ
+      csi_tools: CSI ကိရိယာတခု
       custom_fields: ပံုစံထုတ္စက္
       dashboards: ဒက္ရွ္ဘုတ္မ်ား
+      default_columns: ပုံမှန်ကော်လံများ
       departments: ဌာနမ်ား
       districts: နယ်
       domain_groups: ဒိုမိန္း အုပ္စုမ်ား
@@ -3631,26 +3650,24 @@ my:
       bad_credentials_supplied: မကောင်းတဲ့သံတမန်ဆောင်ဧည်ထောက်ပံ့
   settings:
     assessment:
-      assessment: စိစစ္အကဲျဖတ္မႈ
-      assessment_frequency: အႀကိမ္ေရ
+      assessment: CSI အကဲဖြတ်ခြင်း၏မျှော်လင့်ထားသည့်အချိန်
       disable_assessment: ကျနော်တို့ကို အသုံးပြု. ကြသည်မဟုတ်စိစစ္အကဲျဖတ္မႈ
-      max_assessment: အများဆုံးအကဲဖြတ်ရှည်ကြာခြင်း
-      min_assessment: အနည်းဆုံး အကဲဖြတ်ရှည်ကြာခြင်း
+      max_assessment: အများဆုံး
+      min_assessment: အနည်းဆုံး
     case_note:
-      case_note: အမႈမွတ္စု
-      case_note_frequency: အႀကိမ္ေရ
-      max_case_note: အများဆုံးကိစ္စတွင်မှတ်ချက်
+      case_note: ဖောက်သည်များအတွက်စံချိန်များအကြားကာလ၏အမြင့်ဆုံးနံပါတ်တစ်ခု
+      max_case_note: အများဆုံး
     country:
       country: ႏုိင္ငံ
     create:
       successfully_created: အောင်မြင်စွာဖန်တီး
     default_columns:
-      client_default_columns: ဖောက်သည် ပုံမှန်ကော်လံများ
+      client_default_columns: အမႈသည္မ်ား
       default_columns: ပုံမှန်ကော်လံများ
-      family_default_columns: မိသားစုပုံမှန်ကော်လံများ
-      partner_default_columns: မိတ်ဖက်ပုံမှန်ကော်လံများ
+      family_default_columns: မိသားစု
+      partner_default_columns: လက္တြဲေဖာ္
     index:
-      settings: အျပင္အဆင္မ်ား
+      csi_tools: CSI ကိရိယာတခု
       switched_country_cambodia: သင္၏ ႏုိင္ငံအျပင္အဆင္ကို ကေမာၻဒီးယားႏုိင္ငံအျဖစ္ ေျပာင္းၿပီးပါၿပီ။
       switched_country_lesotho: သင္၏ ႏုိင္ငံအျပင္အဆင္ကို လက္ဆူးသူႏုိုင္ငံအျဖစ္ ေျပာင္းၿပီးပါၿပီ။
       switched_country_myanmar: သင္၏ ႏုိင္ငံအျပင္အဆင္ကို ျမန္မာႏုိင္ငံအျဖစ္ ေျပာင္းၿပီးပါၿပီ။

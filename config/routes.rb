@@ -256,7 +256,12 @@ Rails.application.routes.draw do
   # resources :client_advanced_searches, only: :index
   resources :papertrail_queries, only: [:index]
 
-  resources :settings, except: [:show, :destroy]
+  resources :settings, except: [:destroy] do
+    collection do
+      get 'country' => 'settings#country'
+      get 'default_columns' => 'settings#default_columns'
+    end
+  end
   # resources :settings do
   #   collection do
   #     get 'country' => 'settings#country'
