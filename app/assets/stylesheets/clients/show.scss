@@ -145,15 +145,32 @@ body[id='clients-show'] {
     height: auto;
     max-height: 200px;
     overflow-x: hidden;
-    right: 0;
-    left: auto;
+    right: auto;
+    left: 0;
     z-index: 2001;
+    padding: 15px;
+    width: 300px;
   }
 
   span.btn {
     a {
       display: block;
       color: white;
+    }
+  }
+
+  .btn-fit {
+    min-width: 170px;
+  }
+
+  .scrollable-dropdown-menu.add-form {
+    right: 0;
+    left: auto;
+  }
+
+  @media screen and (min-width: 768px) {
+    .scrollable-dropdown-menu {
+      width: 350px;
     }
   }
 
@@ -168,6 +185,16 @@ body[id='clients-show'] {
 
     .overflow-case {
       height: auto;
+    }
+  }
+
+  @media screen and (min-width: 991px){
+    .scrollable-dropdown-menu.additional-forms {
+      right: 0;
+      left: auto;
+    }
+    .scrollable-dropdown-menu {
+      width: 400px;
     }
   }
 

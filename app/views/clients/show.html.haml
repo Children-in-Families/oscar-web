@@ -54,10 +54,10 @@
         .col-xs-12
           - if can? :manage, Case
             .btn-group.small-btn-margin
-              %button.btn-sm.btn.btn-primary.dropdown-toggle{ "data-toggle" => "dropdown", id: 'add-client-to-case', class: ('disabled' if status_exited?(@client.status)) }
+              %button.btn-sm.btn.btn-primary.dropdown-toggle.btn-fit{ "data-toggle" => "dropdown", id: 'add-client-to-case', class: ('disabled' if status_exited?(@client.status)) }
                 = t('.add_client_to_case')
                 %span.caret
-              %ul.dropdown-menu
+              %ul.dropdown-menu.btn-fit
                 - if @client.cases.exclude_referred.current.blank?
                   %li
                     - if @client.client_enrollments.active.count > 0
@@ -79,23 +79,23 @@
               = render 'exit_case_form', client_case: @client.cases.exclude_referred.current, exit_from_cif: true
 
           = link_to client_tasks_path(@client) do
-            %span.btn-sm.btn.btn-info.small-btn-margin
+            %span.btn-sm.btn.btn-info.small-btn-margin.btn-fit
               %strong.count-margin= @client.tasks.incomplete.count
               = t('.view_tasks')
           - if non_mho_tenant?
             = link_to client_assessments_path(@client) do
-              %span.btn-sm.btn.btn-info.small-btn-margin
+              %span.btn-sm.btn.btn-info.small-btn-margin.btn-fit
                 %strong.count-margin= @client.assessments.count
                 = t('.view_assessments')
           - if can? :manage, CaseNote
-            %span.btn-sm.btn.btn-info.small-btn-margin{ class: ('disabled' unless case_notes_readable?) }
+            %span.btn-sm.btn.btn-info.small-btn-margin.btn-fit{ class: ('disabled' unless case_notes_readable?) }
               = link_to_if case_notes_readable?, "#{@client.case_notes.count} #{t('.view_case_notes')}", client_case_notes_path(@client)
           - if government_reports_visible?
             .btn-group.small-btn-margin
-              %button.btn.btn-sm.btn-success.dropdown-toggle{"data-toggle" => "dropdown"}
+              %button.btn.btn-sm.btn-success.dropdown-toggle.btn-fit{"data-toggle" => "dropdown"}
                 = t('.government_report')
                 %span.caret
-              %ul.dropdown-menu
+              %ul.dropdown-menu.btn-fit
                 %li
                   = link_to client_path(@client, format: 'pdf', form: 'one'), target: :_blank do
                     %span.text-success= t('.government_form_one')
@@ -118,13 +118,13 @@
           - if @client.has_any_quarterly_reports?
             - if can? :manage, QuarterlyReport
               = link_to client_case_quarterly_reports_path(@client,@client.latest_case) do
-                %span.btn-sm.btn.color-brown.small-btn-margin= t('.view_legacy_quarterly_reports')
+                %span.btn-sm.btn.color-brown.small-btn-margin.btn-fit= t('.view_legacy_quarterly_reports')
           - if @client.cases.exclude_referred.inactive.present?
             .btn-group.small-btn-margin
-              %button{ class: "btn btn-sm btn-warning dropdown-toggle #{disable_case_histories?}", "data-toggle" => "dropdown" }
+              %button.btn-fit{ class: "btn btn-sm btn-warning dropdown-toggle #{disable_case_histories?}", "data-toggle" => "dropdown" }
                 = t('.case_history')
                 %span.caret
-              %ul.dropdown-menu
+              %ul.dropdown-menu.btn-fit
                 %li
                   - if @client.cases.exclude_referred.emergencies.inactive.present? && (ec_manageable || strategic_overviewer?)
                     = link_to client_cases_path(@client, case_type: 'EC') do
@@ -139,30 +139,32 @@
                       %span.text-success= t('.view_kc_history_btn_link')
           - if can_read_client_progress_note?
             = link_to client_progress_notes_path(@client) do
-              %span.btn-sm.btn.btn-warning.small-btn-margin= t('.progress_note')
+              %span.btn-sm.btn.btn-warning.small-btn-margin.btn-fit= t('.progress_note')
           .btn-group.small-btn-margin
-            %button.btn-sm.btn.btn-success.dropdown-toggle{ 'data-toggle' => 'dropdown', class: ('disabled' if @group_client_custom_fields.empty?) }
+            %button.btn-sm.btn.btn-success.dropdown-toggle.btn-fit{ 'data-toggle' => 'dropdown', class: ('disabled' if @group_client_custom_fields.empty?) }
               = t('.additional_forms')
               %span.caret
-            %ul.dropdown-menu.scrollable-dropdown-menu
+            %ul.dropdown-menu.btn-fit.scrollable-dropdown-menu.additional-forms
               - @group_client_custom_fields.each do |_, client_custom_fields|
-                %li= link_to client_custom_fields.first.custom_field.form_title, client_custom_field_properties_path(@client, custom_field_id: client_custom_fields.first.custom_field_id)
+                %li
+                  %p= link_to client_custom_fields.first.custom_field.form_title, client_custom_field_properties_path(@client, custom_field_id: client_custom_fields.first.custom_field_id)
           - if can? :manage, CustomFieldProperty
             .btn-group.small-btn-margin
-              %button.btn-sm.btn.btn-success.dropdown-toggle{ 'data-toggle' => 'dropdown', class: ('disabled' if @free_client_forms.empty? || status_exited?(@client.status)) }
+              %button.btn-sm.btn.btn-success.dropdown-toggle.btn-fit{ 'data-toggle' => 'dropdown', class: ('disabled' if @free_client_forms.empty? || status_exited?(@client.status)) }
                 = t('.add_form')
                 %span.caret
-              %ul.dropdown-menu.scrollable-dropdown-menu
+              %ul.dropdown-menu.btn-fit.scrollable-dropdown-menu.add-form
                 - @free_client_forms.each do |custom_field|
-                  %li= link_to custom_field.form_title, new_client_custom_field_property_path(@client, custom_field_id: custom_field)
+                  %li
+                    %p= link_to custom_field.form_title, new_client_custom_field_property_path(@client, custom_field_id: custom_field)
           - if @client.client_enrollments.active.count > 0
             = link_to client_client_enrolled_programs_path(@client) do
-              .btn.btn-primary.small-btn-margin.btn-sm= t('.enrolled_program_streams')
+              .btn.btn-primary.small-btn-margin.btn-sm.btn-fit= t('.enrolled_program_streams')
           - else
-            .btn.btn-primary.small-btn-margin.btn-sm.disabled= t('.enrolled_program_streams')
+            .btn.btn-primary.small-btn-margin.btn-sm.disabled.btn-fit= t('.enrolled_program_streams')
 
           = link_to client_client_enrollments_path(@client) do
-            .btn.btn-primary.small-btn-margin.btn-sm= t('.program_streams')
+            .btn.btn-primary.small-btn-margin.btn-sm.btn-fit= t('.program_streams')
 
 .row.mini-margin
   .col-xs-12
