@@ -4,6 +4,10 @@ namespace :ngo_accept_and_exit_history do
     Organization.all.each do |org|
       Organization.switch_to org.short_name
 
+      Client.where(state: 'accepted', accepted_date: nil).each do |client|
+        client.update_columns(accepted_date: client.created_at.to_date)
+      end
+
       entered_ngo_clients = Client.where.not(accepted_date: nil)
 
       entered_ngo_clients.each do |client|
