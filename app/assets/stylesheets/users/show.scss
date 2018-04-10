@@ -71,23 +71,37 @@
     cursor: pointer;
   }
 
-  .scrollable-dropdown-menu {
-    height: auto;
-    max-height: 200px;
-    overflow-x: hidden;
-  }
-
   #permissions {
     label.permission-label {
       margin-top: 10px;
     }
-    
+
     .nav-tabs {
       margin-bottom: 10px;
-      
+
       li.active a {
         border-bottom-color: #fff;
       }
+    }
+  }
+
+  .scrollable-dropdown-menu {
+    height: auto;
+    max-height: 200px;
+    overflow-x: hidden;
+    padding: 15px;
+    width: 300px;
+  }
+
+  @media screen and (min-width: 768px) {
+    .scrollable-dropdown-menu {
+      width: 350px;
+    }
+  }
+
+  @media screen and (min-width: 991px){
+    .scrollable-dropdown-menu {
+      width: 400px;
     }
   }
 }

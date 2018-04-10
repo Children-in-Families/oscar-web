@@ -6,7 +6,8 @@
         %span.caret
       %ul.dropdown-menu.scrollable-dropdown-menu
         - @group_user_custom_fields.each do |_, user_custom_fields|
-          %li= link_to user_custom_fields.first.custom_field.form_title, user_custom_field_properties_path(@user, custom_field_id: user_custom_fields.first.custom_field_id)
+          %li
+            %p= link_to user_custom_fields.first.custom_field.form_title, user_custom_field_properties_path(@user, custom_field_id: user_custom_fields.first.custom_field_id)
 
     - if can? :manage, CustomFieldProperty
       .btn-group.small-btn-margin
@@ -15,7 +16,8 @@
           %span.caret
         %ul.dropdown-menu.scrollable-dropdown-menu
           - @free_user_forms.each do |custom_field|
-            %li= link_to custom_field.form_title, new_user_custom_field_property_path(@user, custom_field_id: custom_field.id)
+            %li
+              %p= link_to custom_field.form_title, new_user_custom_field_property_path(@user, custom_field_id: custom_field.id)
 
     - if current_user.admin? && !(@user.admin? || @user.strategic_overviewer?)
       .btn-group.small-btn-margin
