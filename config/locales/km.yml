@@ -3699,10 +3699,10 @@ km:
       bad_credentials_supplied: កូដផ្ទៀងផ្ទាត់មិនត្រឹមត្រូវ
   settings:
     assessment:
-      assessment: ពេលវេលារំពឹងទុកនៃការវាយតំលៃ CSI
+      assessment: ការកំណត់ប្រេកង់នៃការវាយតំលៃ CSI
       disable_assessment: យើងមិនប្រើការប៉ាន់ប្រមាណ
-      max_assessment: អតិបរមា
-      min_assessment: អប្បរមា
+      max_assessment: ពេលវេលាអតិបរមារវាងការវាយតម្លៃ
+      min_assessment: រយៈពេលអប្បបរមារវាងការវាយតម្លៃទី 1 និងទី 2
     case_note:
       case_note: ចំនួនថ្ងៃអតិបរិមារវាងកំណត់ត្រាករណីសម្រាប់អតិថិជន
       max_case_note: អតិបរមា

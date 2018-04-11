@@ -3650,10 +3650,10 @@ my:
       bad_credentials_supplied: မကောင်းတဲ့သံတမန်ဆောင်ဧည်ထောက်ပံ့
   settings:
     assessment:
-      assessment: CSI အကဲဖြတ်ခြင်း၏မျှော်လင့်ထားသည့်အချိန်
+      assessment: CSI အကဲဖြတ်ကြိမ်နှုန်းချိန်ညှိမှုများ
       disable_assessment: ကျနော်တို့ကို အသုံးပြု. ကြသည်မဟုတ်စိစစ္အကဲျဖတ္မႈ
-      max_assessment: အများဆုံး
-      min_assessment: အနည်းဆုံး
+      max_assessment: အကဲဖြတ်အကြားအများဆုံးအချိန်
+      min_assessment: 1st နှင့် 2nd အကဲဖြတ်များအကြားနိမ့်ဆုံးအချိန်
     case_note:
       case_note: ဖောက်သည်များအတွက်စံချိန်များအကြားကာလ၏အမြင့်ဆုံးနံပါတ်တစ်ခု
       max_case_note: အများဆုံး
