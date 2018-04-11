@@ -261,6 +261,35 @@ describe 'Client' do
     end
   end
 
+  feature 'edit client', js: true do
+    let!(:client){ create(:client, users: [user]) }
+    before do
+      login_as(admin)
+      visit edit_client_path(client)
+    end
+
+    scenario 'click tab Getting Started', js: true do
+      click_link 'Getting Started'
+      page.has_field?('client[initial_referral_date]')
+    end
+
+    scenario 'click tab Living Details', js: true do
+      click_link 'Living Details'
+      page.has_field?('client[live_with]')
+    end
+
+    scenario 'click tab Other Details', js: true do
+      click_link 'Other Details'
+      page.has_field?('client[agency_ids][]')
+    end
+
+    scenario 'click tab Specific Point-of-Referral Data', js: true do
+      click_link 'Specific Point-of-Referral Data'
+      page.has_field?('client[quantitative_case_ids][]')
+    end
+
+  end
+
   feature 'Delete' do
     let!(:client){ create(:client, users: [user]) }
     before do
