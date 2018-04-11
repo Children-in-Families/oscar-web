@@ -10,5 +10,6 @@
   - if @client.persisted?
     .text-right
       = f.submit t('save'), class: 'btn btn-info save-edit-client'
+  = link_to t('cancel'), @client, class: 'btn btn-default cancel-client-button'
 
   = render 'confirm_client'
