@@ -3637,7 +3637,7 @@ en:
       max_assessment: Maximum time between assessments
       min_assessment: Minimum time between 1st and 2nd assessment
     case_note:
-      case_note: Maximum number of days between case notes for client
+      case_note: Maximum time between case notes for client
       max_case_note: Maximum
     country:
       country: Country

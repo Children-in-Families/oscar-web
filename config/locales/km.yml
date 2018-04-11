@@ -494,7 +494,7 @@ km:
       are_you_sure: តើអ្នកប្រាកដហើយ?
       attachments: ឯកសារភ្ជាប់
       download: ទាញយក
-      max_file_size: "*ទំហំឯកសារអតិបរិមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកឡើង."
+      max_file_size: "*ទំហំឯកសារអតិបរមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកឡើង."
       preview_download: មើលនិងទាញយក
   api:
     form_builder_attachments:
@@ -551,7 +551,7 @@ km:
       are_you_sure: តើអ្នកប្រាកដហើយ?
       attachments: ឯកសារភ្ជាប់
       download: ទាញយក
-      max_file_size: "*ទំហំឯកសារអតិបរិមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកឡើង."
+      max_file_size: "*ទំហំឯកសារអតិបរមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកឡើង."
       preview_download: មើលនិងទាញយក
     create:
       successfully_created: កំណត់ត្រាត្រូវបានបង្កើតដោយជោគជ័យ
@@ -806,7 +806,7 @@ km:
       allow_file_size: ប្រភេទឯកសារដែលបានអនុញ្ញាត
       cancel: ទុកជាមោឃៈ
       save: រក្សាទុក
-      max_file_size: "*ទំហំឯកសារអតិបរិមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកឡើង."
+      max_file_size: "*ទំហំឯកសារអតិបរមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកឡើង."
     index:
       programs_list: តារាងកម្មវិធីបន្ទាប់បន្សំ
       tracking_lists: តារាងការតាមដាន
@@ -836,7 +836,7 @@ km:
       enrollment_date: ថ្ងៃចុះឈ្មោះ
       not_an_email: មិនមែនជាឣុីម៉ែល
       save: រក្សាទុក
-      max_file_size: "*ទំហំឯកសារអតិបរិមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកឡើង."
+      max_file_size: "*ទំហំឯកសារអតិបរមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកឡើង."
     index:
       actions: សកម្មភាព
       back: ត្រលប់ក្រោយ
@@ -3132,7 +3132,7 @@ km:
       cancel: ទុកជាមោឃៈ
       exit_date: ថ្ងៃចាកចេញ
       save: រក្សាទុក
-      max_file_size: "*ទំហំឯកសារអតិបរិមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកឡើង."
+      max_file_size: "*ទំហំឯកសារអតិបរមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកឡើង."
     new:
       new_exit_program: ការចាកចេញពីកម្មវិធីថ្មី
     show:
@@ -3512,7 +3512,7 @@ km:
       interventions: ចំនុចដែលត្រូវធ្វើ
       location: កន្លែង
       material: របស់របរ/សម្ភារ
-      max_file_size: "*ទំហំឯកសារអតិបរិមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកឡើង."
+      max_file_size: "*ទំហំឯកសារអតិបរមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកឡើង."
       other_location: ផ្សេងៗ
       progress_note_type: កំណត់សំគាល់
       response: សកម្មភាព/ការឆ្លើយតប
@@ -3701,10 +3701,10 @@ km:
     assessment:
       assessment: ការកំណត់ប្រេកង់នៃការវាយតំលៃ CSI
       disable_assessment: យើងមិនប្រើការប៉ាន់ប្រមាណ
-      max_assessment: ពេលវេលាអតិបរមារវាងការវាយតម្លៃ
+      max_assessment: រយៈពេលអតិបរមារវាងការវាយតម្លៃ
       min_assessment: រយៈពេលអប្បបរមារវាងការវាយតម្លៃទី 1 និងទី 2
     case_note:
-      case_note: ចំនួនថ្ងៃអតិបរិមារវាងកំណត់ត្រាករណីសម្រាប់អតិថិជន
+      case_note: រយៈពេលអតិបរមារវាងកំណត់ត្រាករណីសម្រាប់អតិថិជន
       max_case_note: អតិបរមា
     country:
       country: ប្រទេស
@@ -3730,7 +3730,7 @@ km:
         preview_download: មើលនិងទាញយក
       file_field:
         allow_file_size: ប្រភេទឯកសារដែលបានអនុញ្ញាត
-        max_file_size: "*ទំហំឯកសារអតិបរិមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកឡើង."
+        max_file_size: "*ទំហំឯកសារអតិបរមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកឡើង."
     per_page_form:
       show: បង្ហាញ
     version_type:
