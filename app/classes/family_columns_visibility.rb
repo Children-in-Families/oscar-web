@@ -54,6 +54,6 @@ class FamilyColumnsVisibility
 
   def family_default(column, setting_family_default_columns)
     return false if setting_family_default_columns.nil?
-    setting_family_default_columns.include?(column.to_s) unless @params[:family_grid].present? || @params[:family_advanced_search].present?
+    setting_family_default_columns.include?(column.to_s) if @params.dig(:family_grid, :descending).present? || (@params[:family_advanced_search].present? && @params.dig(:family_grid, :descending).present?) || @params[:family_grid].nil? || @params[:family_advanced_search].nil?
   end
 end
