@@ -4,9 +4,11 @@
   .panel-body
     .row
       .col-xs-12.col-sm-4
-        .form-group
-          = f.input :case_note_frequency, label: t('.case_note_frequency'), collection: [['Daily', 'day'], ['Weekly', 'week'], ['Monthly', 'month'], ['Yearly', 'year']], input_html: {class: 'select2'}
-
+        %label.control-label= t('.max_case_note')
+    .row
       .col-xs-12.col-sm-4
         .form-group
-          = f.input :max_case_note, label: t('.max_case_note')
+          = f.input :max_case_note, label: false
+      .col-xs-12.col-sm-4
+        .form-group
+          = f.input :case_note_frequency, collection: [['Day', 'day'], ['Week', 'week'], ['Month', 'month'], ['Year', 'year']], input_html: {class: 'select2'}, label: false

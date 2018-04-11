@@ -248,6 +248,20 @@ km:
             name:
               blank: មិនអាចរំលង
               taken: ត្រូវបានប្រើរួចហើយ
+        setting:
+          attributes:
+            min_assessment:
+              blank: មិនអាចរំលង
+              less_than:
+                one: ត្រូវតែតូចជាងអតិបរមា
+                other: ត្រូវតែតូចជាង %{count}
+            max_assessment:
+              blank: មិនអាចរំលង
+              greater_than:
+                one: ត្រូវតែធំជាងអប្បរមា
+                other: ត្រូវតែធំជាង %{count}
+            max_case_note:
+              blank: មិនអាចរំលង
         stage:
           attributes:
             from_age:
@@ -3120,7 +3134,10 @@ km:
       changelogs: ប្រវត្តិនៃកំណែទិន្នន័យ
       clients: ឣតិថិជន
       custom_fields: ទម្រង់បែបបទ
+      country: ប្រទេស
+      csi_tools: ឧបករណ៍ CSI
       dashboards: តារាងទិន្នន័យ
+      default_columns: ជួរឈរលំនាំដើម
       departments: កម្មវិធី
       districts: ស្រុក
       domain_groups: ការប្រមូលបណ្ដុំកត្តា
@@ -3734,30 +3751,28 @@ km:
       bad_credentials_supplied: កូដផ្ទៀងផ្ទាត់មិនត្រឹមត្រូវ
   settings:
     assessment:
-      assessment: ការប៉ាន់ប្រមាណ
-      assessment_frequency: ភាពញឹកញាប់
+      assessment: ពេលវេលារំពឹងទុកនៃការវាយតំលៃ CSI
       disable_assessment: យើងមិនប្រើការប៉ាន់ប្រមាណ
-      max_assessment: រយៈពេលការប៉ាន់ប្រមាណអតិបរមា
-      min_assessment: រយៈពេលការប៉ាន់ប្រមាណអប្បរមា
+      max_assessment: អតិបរមា
+      min_assessment: អប្បរមា
     case_note:
-      case_note: កំណត់ត្រាករណី
-      case_note_frequency: ភាពញឹកញាប់
-      max_case_note: រយៈពេលកំណត់ត្រាករណីអតិបរមា
+      case_note: ចំនួនថ្ងៃអតិបរិមារវាងកំណត់ត្រាករណីសម្រាប់អតិថិជន
+      max_case_note: អតិបរមា
     country:
       country: ប្រទេស
-    create:
-      successfully_created: ការកំណត់បានបង្កើតដោយជោគជ័យ
-    default_columns:
-      client_default_columns: ជួរឈរលំនាំដើមរបស់អតិថិជន
-      default_columns: ជួរឈរលំនាំដើម
-      family_default_columns: ជួរឈរលំនាំដើមរបស់គ្រួសារ
-      partner_default_columns: ជួរឈរលំនាំដើមរបស់ដៃគូ
-    index:
-      settings: ការកំណត់
       switched_country_cambodia: អ្នកបានប្ដូរការកំណត់ទៅជាប្រទេសកម្ពុជា
       switched_country_lesotho: អ្នកបានប្ដូរការកំណត់ទៅជាប្រទេសឡឹសូថូ
       switched_country_myanmar: អ្នកបានប្ដូរការកំណត់ទៅជាប្រទេសមីយ៉ាន់ម៉ា
       switched_country_thailand: អ្នកបានប្ដូរការកំណត់ទៅជាប្រទេសថៃ
+    create:
+      successfully_created: ការកំណត់បានបង្កើតដោយជោគជ័យ
+    default_columns:
+      client_default_columns: អតិថិជន
+      default_columns: ជួរឈរលំនាំដើម
+      family_default_columns: គ្រួសារ
+      partner_default_columns: ដៃគូ
+    index:
+      csi_tools: ឧបករណ៍ CSI
     update:
       successfully_updated: ការកំណត់បានកែសម្រួលដោយជោគជ័យ
   shared:

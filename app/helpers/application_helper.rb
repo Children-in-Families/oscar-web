@@ -104,6 +104,11 @@ module ApplicationHelper
     controller_name == name || controller_name == alter_name ? 'active' : nil
   end
 
+  def settings_menu_active(name, action_names)
+    action = ['index' ,'update' ,'create'].include?(action_name) ? 'index' : action_name
+    'active' if (controller_name == name && action_names == action)
+  end
+
   def hidden_class(bool)
     'hidden' if bool
   end
@@ -214,8 +219,8 @@ module ApplicationHelper
     value.gsub(/\[/, '&#91;').gsub(/\]/, '&#93;')
   end
 
-  def default_setting(client_column, setting_client_default_columns)
+  def default_setting(column, setting_client_default_columns)
     return false if setting_client_default_columns.nil?
-    setting_client_default_columns.include?(client_column.to_s) unless params[:client_grid].present? || params[:client_advanced_search].present? || params[:family_grid].present? || params[:family_advanced_search].present? || params[:partner_grid].present? || params[:partner_advanced_search].present?
+    setting_client_default_columns.include?(column.to_s) unless params[:client_grid].present? || params[:client_advanced_search].present? || params[:family_grid].present? || params[:family_advanced_search].present? || params[:partner_grid].present? || params[:partner_advanced_search].present?
   end
 end

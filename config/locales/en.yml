@@ -238,6 +238,20 @@ en:
             name:
               blank: can't be blank
               taken: has already been taken
+        setting:
+          attributes:
+            min_assessment:
+              blank: can't be blank
+              less_than:
+                one: must be less than Maximum
+                other: must be less than %{count}
+            max_assessment:
+              blank: can't be blank
+              greater_than:
+                one: must be grater than Minimum
+                other: must be greater than %{count}
+            max_case_note:
+              blank: can't be blank
         stage:
           attributes:
             from_age:
@@ -3034,7 +3048,10 @@ en:
       changelogs: Changelogs
       clients: Clients
       custom_fields: Form Builder
+      country: Country
+      csi_tools: CSI Tools
       dashboards: Dashboards
+      default_columns: Default Columns
       departments: Departments
       districts: Districts
       domain_groups: Domain Groups
@@ -3058,7 +3075,6 @@ en:
       quantitative_types: Specific Referral Data
       referral_sources: Referral Sources
       release_logs: Release logs
-      settings: Settings
       users: Users
       view_calendar: View Calendar
     top_navbar:
@@ -3668,30 +3684,28 @@ en:
       bad_credentials_supplied: Bad Credentials Supplied.
   settings:
     assessment:
-      assessment: Assessment
-      assessment_frequency: Assessment Frequency
+      assessment: Expected time of CSI Assessments
       disable_assessment: We are not using CSI Assessment Tool
-      max_assessment: Maximum Assessment Duration
-      min_assessment: Minimum Assessment Duration
+      max_assessment: Maximum
+      min_assessment: Minimum
     case_note:
-      case_note: Case Note
-      case_note_frequency: Case Note Frequency
-      max_case_note: Maximum Case Note
+      case_note: Maximum number of days between case notes for client
+      max_case_note: Maximum
     country:
       country: Country
-    create:
-      successfully_created: Setting have been successfully created.
-    default_columns:
-      client_default_columns: Client Default Columns
-      default_columns: Default Columns
-      family_default_columns: Family Default Columns
-      partner_default_columns: Partner Default Columns
-    index:
-      settings: Settings
       switched_country_cambodia: You’ve switched your country setting to Cambodia.
       switched_country_lesotho: You’ve switched your country setting to Lesotho.
       switched_country_myanmar: You’ve switched your country setting to Myanmar.
       switched_country_thailand: You’ve switched your country setting to Thailand.
+    create:
+      successfully_created: Setting have been successfully created.
+    default_columns:
+      client_default_columns: Client
+      default_columns: Default Columns
+      family_default_columns: Family
+      partner_default_columns: Partner
+    index:
+      csi_tools: CSI Tools
     update:
       successfully_updated: Setting have been successfully updated.
 

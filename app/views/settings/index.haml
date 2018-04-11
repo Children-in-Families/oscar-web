@@ -3,11 +3,9 @@
     = simple_form_for @setting do |f|
       .ibox
         .ibox-title
-          %h5.text-center= t('.settings')
+          %h5.text-center= t('.csi_tools')
         .ibox-content
-          = render 'country'
           = render 'assessment', f: f
           = render 'case_note', f: f
-          = render 'default_columns', f: f
         .ibox-footer
           = f.submit t('save'), class: 'btn btn-primary'
