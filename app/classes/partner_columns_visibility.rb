@@ -26,8 +26,14 @@ class PartnerColumnsVisibility
   def visible_columns
     @grid.column_names = []
     partner_default_columns = Setting.first.try(:partner_default_columns)
+    params = @params.keys.select{ |k| k.match(/\_$/) }
+    if params.present?
+      defualt_columns = params - partner_default_columns
+    else
+      defualt_columns = partner_default_columns
+    end
     add_custom_builder_columns.each do |key, value|
-      @grid.column_names << value if partner_default(key, partner_default_columns) || @params[key]
+      @grid.column_names << value if partner_default(key, defualt_columns) || @params[key]
     end
   end
 

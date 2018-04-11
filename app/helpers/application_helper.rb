@@ -219,11 +219,12 @@ module ApplicationHelper
     value.gsub(/\[/, '&#91;').gsub(/\]/, '&#93;')
   end
 
-  def default_setting(column, setting_client_default_columns)
-    return false if setting_client_default_columns.nil?
+  def default_setting(column, setting_default_columns)
+    key_columns = params.keys.select{ |k| k.match(/\_$/) }
+    return false if setting_default_columns.nil? || (key_columns.present? && key_columns.exclude?(column))
     return false unless params.dig(:client_grid, :descending).present? || (params[:client_advanced_search].present? && params.dig(:client_grid, :descending).present?) || params[:client_grid].nil? || params[:client_advanced_search].nil?
     return false unless params.dig(:family_grid, :descending).present? || (params[:family_advanced_search].present? && params.dig(:family_grid, :descending).present?) || params[:family_grid].nil? || params[:family_advanced_search].nil?
     return false unless params.dig(:partner_grid, :descending).present? || (params[:partner_advanced_search].present? && params.dig(:partner_grid, :descending).present?) || params[:partner_grid].nil? || params[:partner_advanced_search].nil?
-    setting_client_default_columns.include?(column.to_s)
+    setting_default_columns.include?(column.to_s)
   end
 end
