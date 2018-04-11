@@ -15,7 +15,6 @@ class ClientColumnsVisibility
       name_of_referee_: :name_of_referee,
       rated_for_id_poor_: :rated_for_id_poor,
       main_school_contact_: :main_school_contact,
-      # id_poor_: :id_poor,
       program_streams_: :program_streams,
       program_enrollment_date_: :program_enrollment_date,
       program_exit_date_: :program_exit_date,
@@ -87,7 +86,7 @@ class ClientColumnsVisibility
     @grid.column_names = []
     client_default_columns = Setting.first.try(:client_default_columns)
     add_custom_builder_columns.each do |key, value|
-      @grid.column_names << value if client_default(value, client_default_columns) || @params[key]
+      @grid.column_names << value if client_default(key, client_default_columns) || @params[key]
     end
   end
 

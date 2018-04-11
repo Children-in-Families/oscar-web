@@ -50,9 +50,9 @@ class SettingsController < AdminController
 
   def client_default_columns
     columns = []
-    sub_columns = %w(history_of_harm history_of_high_risk_behaviours history_of_disability_and_or_illness reason_for_family_separation rejected_note exit_reasons
-      exit_circumstance other_info_of_exit exit_note what3words main_school_contact rated_for_id_poor name_of_referee case_start_date carer_names  carer_address
-      carer_phone_number support_amount support_note form_title family_preservation family partner case_note_date case_note_type date_of_assessments all_csi_assessments manage changelog)
+    sub_columns = %w(history_of_harm_ history_of_high_risk_behaviours_ history_of_disability_and_or_illness_ reason_for_family_separation_ rejected_note_ exit_reasons_
+      exit_circumstance_ other_info_of_exit_ exit_note_ what3words_ main_school_contact_ rated_for_id_poor_ name_of_referee_ case_start_date_ carer_names_  carer_address_
+      carer_phone_number_ support_amount_ support_note_ form_title_ family_preservation_ family_ partner_ case_note_date_ case_note_type_ date_of_assessments_ all_csi_assessments_ manage_ changelog_)
     ClientGrid.new.filters.each do |f|
       next if f.name == :has_date_of_birth || f.name == :quantitative_data
       next if f.name == :quantitative_types || f.name == :all_domains
@@ -64,29 +64,25 @@ class SettingsController < AdminController
       next if f.name == :domain_5a || f.name == :domain_5b
       next if f.name == :domain_6a || f.name == :domain_6b
       next if f.name == :assessments_due_to || f.name == :no_case_note || f.name == :overdue_task || f.name == :overdue_forms
-      columns << f.name.to_s
+      columns << "#{f.name.to_s}_"
     end
     Domain.order_by_identity.each do |domain|
-      columns << domain.convert_identity
+      columns << "#{domain.convert_identity}_"
     end
     columns.push(sub_columns).flatten
   end
 
   def family_default_columns
     columns = []
-    sub_columns = %w(member_count clients case_workers manage changelog)
-    FamilyGrid.new.filters.each do |f|
-      columns << f.name.to_s
-    end
+    sub_columns = %w(member_count_ clients_ case_workers_ manage_ changelog_)
+    columns = FamilyGrid.new.filters.map{|f| "#{f.name.to_s}_" }
     columns.push(sub_columns).flatten
   end
 
   def partner_default_columns
     columns = []
-    sub_columns = %w(manage changelog)
-    PartnerGrid.new.filters.each do |f|
-      columns << f.name.to_s
-    end
+    sub_columns = %w(manage_ changelog_)
+    columns = PartnerGrid.new.filters.map{|f| "#{f.name.to_s}_" }
     columns.push(sub_columns).flatten
   end
 end

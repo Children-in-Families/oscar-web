@@ -14,7 +14,7 @@ class PartnerColumnsVisibility
       address_:                                  :address,
       organisation_type_:                        :organisation_type,
       affiliation_:                              :affiliation,
-      province_id_:                              :province_id,
+      province_id_:                              :province,
       engagement_:                               :engagement,
       background_:                               :background,
       start_date_:                               :start_date,
@@ -27,7 +27,7 @@ class PartnerColumnsVisibility
     @grid.column_names = []
     partner_default_columns = Setting.first.try(:partner_default_columns)
     add_custom_builder_columns.each do |key, value|
-      @grid.column_names << value if partner_default(value, partner_default_columns) || @params[key]
+      @grid.column_names << value if partner_default(key, partner_default_columns) || @params[key]
     end
   end
 

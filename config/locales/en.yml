@@ -3641,6 +3641,10 @@ en:
       max_case_note: Maximum
     country:
       country: Country
+      switched_country_cambodia: You’ve switched your country setting to Cambodia.
+      switched_country_lesotho: You’ve switched your country setting to Lesotho.
+      switched_country_myanmar: You’ve switched your country setting to Myanmar.
+      switched_country_thailand: You’ve switched your country setting to Thailand.
     create:
       successfully_created: Setting have been successfully created.
     default_columns:
@@ -3650,10 +3654,6 @@ en:
       partner_default_columns: Partner
     index:
       csi_tools: CSI Tools
-      switched_country_cambodia: You’ve switched your country setting to Cambodia.
-      switched_country_lesotho: You’ve switched your country setting to Lesotho.
-      switched_country_myanmar: You’ve switched your country setting to Myanmar.
-      switched_country_thailand: You’ve switched your country setting to Thailand.
     update:
       successfully_updated: Setting have been successfully updated.
 

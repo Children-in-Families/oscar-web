@@ -8,12 +8,12 @@
           .row
             .col-xs-12.col-sm-4
               .form-group
-                = f.input :client_default_columns, label: t('.client_default_columns'), collection: @client_default_columns.map{ |c| [columns_visibility(c), c] }, input_html: { class: 'select2', multiple: true }
+                = f.input :client_default_columns, label: t('.client_default_columns'), collection: @client_default_columns.map{ |c| [default_columns_visibility(c), c] }, input_html: { class: 'select2', multiple: true }
             .col-xs-12.col-sm-4
               .form-group
-                = f.input :family_default_columns, label: t('.family_default_columns'), collection: @family_default_columns.map{ |c| [columns_family_visibility(c), c] }, input_html: { class: 'select2', multiple: true }
+                = f.input :family_default_columns, label: t('.family_default_columns'), collection: @family_default_columns.map{ |c| [default_family_columns_visibility(c), c] }, input_html: { class: 'select2', multiple: true }
             .col-xs-12.col-sm-4
               .form-group
-                = f.input :partner_default_columns, label: t('.partner_default_columns'), collection: @partner_default_columns.map{ |c| [columns_partners_visibility(c), c] }, input_html: { class: 'select2', multiple: true }
+                = f.input :partner_default_columns, label: t('.partner_default_columns'), collection: @partner_default_columns.map{ |c| [default_columns_partners_visibility(c), c] }, input_html: { class: 'select2', multiple: true }
         .ibox-footer
           = f.submit t('save'), class: 'btn btn-primary'
