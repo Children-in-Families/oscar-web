@@ -800,7 +800,7 @@ describe 'validations' do
         before do
           exit_client.user_ids = []
         end
-        it { expect(exit_client.-?).to be_truthy }
+        it { expect(exit_client.valid?).to be_truthy }
       end
 
       context 'validate if not exit ngo' do
