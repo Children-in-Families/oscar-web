@@ -117,6 +117,6 @@ class ClientColumnsVisibility
 
   def client_default(column, setting_client_default_columns)
     return false if setting_client_default_columns.nil?
-    setting_client_default_columns.include?(column.to_s) unless @params[:client_grid].present? || @params[:client_advanced_search].present?
+    setting_client_default_columns.include?(column.to_s) if @params.dig(:client_grid, :descending).present? || (@params[:client_advanced_search].present? && @params.dig(:client_grid, :descending).present?) || @params[:client_grid].nil? || @params[:client_advanced_search].nil?
   end
 end

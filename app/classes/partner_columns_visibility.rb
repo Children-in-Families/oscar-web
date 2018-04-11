@@ -46,6 +46,6 @@ class PartnerColumnsVisibility
 
   def partner_default(column, setting_partner_default_columns)
     return false if setting_partner_default_columns.nil?
-    setting_partner_default_columns.include?(column.to_s) unless @params[:partner_grid].present? || @params[:partner_advanced_search].present?
+    setting_partner_default_columns.include?(column.to_s) if @params.dig(:partner_grid, :descending).present? || (@params[:partner_advanced_search].present? && @params.dig(:partner_grid, :descending).present?) || @params[:partner_grid].nil? || @params[:partner_advanced_search].nil?
   end
 end
