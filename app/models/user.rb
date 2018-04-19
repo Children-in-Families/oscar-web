@@ -75,9 +75,9 @@ class User < ActiveRecord::Base
 
   def update_permission
     unless self.admin? || self.strategic_overviewer?
-      self.create_permission
+      self.create_permission if self.permission.blank?
 
-      unless self.case_worker? || self.custom_field_permissions.empty?
+      unless self.case_worker? && self.custom_field_permissions.empty?
         CustomField.all.each do |cf|
           self.custom_field_permissions.create(custom_field_id: cf.id)
         end
