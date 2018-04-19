@@ -339,31 +339,11 @@ class ClientGrid
     ProgramStream.joins(:client_enrollments).complete.ordered.pluck(:name).uniq
   end
 
-  filter(:accepted_date, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.ngo_accepted_date') }) do |values, scope|
-    if values.first.present? && values.second.present?
-      ids = Client.where(accepted_date: values[0]..values[1]).pluck(:id).uniq
-      scope.where(id: ids)
-    elsif values.first.present? && values.second.blank?
-      ids = Client.where('DATE(accepted_date) >= ?', values.first).pluck(:id).uniq
-      scope.where(id: ids)
-    elsif values.second.present? && values.first.blank?
-      ids = Client.where('DATE(accepted_date) =< ?', values.first).pluck(:id).uniq
-      scope.where(id: ids)
-    end
-  end
+  # implementation is in client_association_filter.rb
+  filter(:accepted_date, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.ngo_accepted_date') })
 
-  filter(:exit_date, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.ngo_exit_date') }) do |values, scope|
-    if values.first.present? && values.second.present?
-      ids = Client.where(exit_date: values[0]..values[1]).pluck(:id).uniq
-      scope.where(id: ids)
-    elsif values.first.present? && values.second.blank?
-      ids = Client.where('DATE(exit_date) >= ?', values.first).pluck(:id).uniq
-      scope.where(id: ids)
-    elsif values.second.present? && values.first.blank?
-      ids = Client.where('DATE(exit_date) <= ?', values.first).pluck(:id).uniq
-      scope.where(id: ids)
-    end
-  end
+  # implementation is in client_association_filter.rb
+  filter(:exit_date, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.ngo_exit_date') })
 
   filter(:no_case_note, :enum, select: %w(Yes No), header: -> { I18n.t('datagrid.form.no_case_note') }) do |value, scope|
     if value == 'Yes'
@@ -555,12 +535,12 @@ class ClientGrid
     object.state.titleize
   end
 
-  column(:accepted_date, header: -> { I18n.t('datagrid.columns.clients.ngo_accepted_date') }) do |object|
-    object.accepted_date
+  column(:accepted_date, order: false, header: -> { I18n.t('datagrid.columns.clients.ngo_accepted_date') }, html: true) do |object|
+    render partial: 'clients/accepted_dates', locals: { object: object }
   end
 
-  column(:exit_date, header: -> { I18n.t('datagrid.columns.clients.ngo_exit_date') }) do |object|
-    object.exit_date
+  column(:exit_date, order: false, header: -> { I18n.t('datagrid.columns.clients.ngo_exit_date') }, html: true) do |object|
+    render partial: 'clients/exit_dates', locals: { object: object }
   end
 
   column(:rejected_note, header: -> { I18n.t('datagrid.columns.clients.rejected_note') })
@@ -569,20 +549,20 @@ class ClientGrid
   #   object.user.try(:name)
   # end
 
-  column(:exit_circumstance, header: -> { I18n.t('datagrid.columns.clients.exit_circumstance') }) do |object|
-    object.exit_circumstance
+  column(:exit_circumstance, order: false, html: true, header: -> { I18n.t('datagrid.columns.clients.exit_circumstance') }) do |object|
+    render partial: 'clients/exit_circumstances', locals: { object: object }
   end
 
-  column(:exit_reasons, html: true, header: -> { I18n.t('datagrid.columns.clients.exit_reasons') }) do |object|
-    render partial: 'clients/exit_reasons', locals: { reasons: object.exit_reasons }
+  column(:exit_reasons, order: false, html: true, header: -> { I18n.t('datagrid.columns.clients.exit_reasons') }) do |object|
+    render partial: 'clients/exit_reasons', locals: { object: object }
   end
 
-  column(:other_info_of_exit, header: -> { I18n.t('datagrid.columns.clients.other_info_of_exit') }) do |object|
-    object.other_info_of_exit
+  column(:other_info_of_exit, order: false, html: true, header: -> { I18n.t('datagrid.columns.clients.other_info_of_exit') }) do |object|
+    render partial: 'clients/other_info_of_exits', locals: { object: object }
   end
 
-  column(:exit_note, header: -> { I18n.t('datagrid.columns.clients.exit_note') }) do |object|
-    object.exit_note
+  column(:exit_note, order: false, html: true, header: -> { I18n.t('datagrid.columns.clients.exit_note') }) do |object|
+    render partial: 'clients/exit_notes', locals: { object: object }
   end
 
   column(:what3words, header: -> { I18n.t('datagrid.columns.clients.what3words') }) do |object|

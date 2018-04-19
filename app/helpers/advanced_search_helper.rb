@@ -100,8 +100,7 @@ module AdvancedSearchHelper
       name_of_referee: I18n.t('advanced_search.fields.name_of_referee'),
       main_school_contact: I18n.t('advanced_search.fields.main_school_contact'),
       what3words: I18n.t('advanced_search.fields.what3words'),
-      kid_id: I18n.t('advanced_search.fields.kid_id'),
-
+      kid_id: I18n.t('advanced_search.fields.kid_id')
     }
     translations[key.to_sym] || ''
   end

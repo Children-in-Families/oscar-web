@@ -1,0 +1,23 @@
+class EnterNgo < ActiveRecord::Base
+  belongs_to :client
+
+  has_many :enter_ngo_users, dependent: :destroy
+  has_many :users, through: :enter_ngo_users
+
+  scope :most_recents, -> { order(created_at: :desc) }
+
+  validates :accepted_date, presence: true
+  validates :user_ids, presence: true, on: :create, if: Proc.new { |e| e.client.present? && e.client.exit_ngo? }
+
+  after_create :update_client_status
+
+  private
+
+  def update_client_status
+    client.status = 'Accepted'
+    if user_ids.any?
+      client.user_ids = self.user_ids
+    end
+    client.save(validate: false)
+  end
+end
