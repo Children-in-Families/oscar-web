@@ -1,12 +1,13 @@
 class SettingsController < AdminController
   def index
     @setting = Setting.first_or_initialize(assessment_frequency: 'month', min_assessment: 3, max_assessment: 6, case_note_frequency: 'day', max_case_note: 30)
+    authorize @setting
   end
 
   def create
     @setting = Setting.new(setting_params)
     if @setting.save
-      url = params[:id] == 'default_columns' ? default_columns_settings_path : settings_path
+      url = params[:default_columns].present? ? default_columns_settings_path : settings_path
       redirect_to url, notice: t('.successfully_created')
     else
       render :index
@@ -20,7 +21,7 @@ class SettingsController < AdminController
   def update
     @setting = Setting.first
     if @setting.update_attributes(setting_params)
-      url = params[:id] == 'default_columns' ? default_columns_settings_path : settings_path
+      url = params[:default_columns].present? ? default_columns_settings_path : settings_path
       redirect_to url, notice: t('.successfully_updated')
     else
       render :index
@@ -36,7 +37,8 @@ class SettingsController < AdminController
   end
 
   def default_columns
-    @setting = Setting.first_or_initialize
+    @setting = Setting.first_or_initialize(assessment_frequency: 'month', min_assessment: 3, max_assessment: 6, case_note_frequency: 'day', max_case_note: 30)
+    authorize @setting
     @client_default_columns = client_default_columns
     @family_default_columns = family_default_columns
     @partner_default_columns = partner_default_columns
