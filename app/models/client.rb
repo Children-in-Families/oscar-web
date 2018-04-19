@@ -38,7 +38,6 @@ class Client < ActiveRecord::Base
   has_many :enter_ngos, dependent: :destroy
   has_many :exit_ngos, dependent: :destroy
 
-
   accepts_nested_attributes_for :tasks
 
   has_many :families,       through: :cases
@@ -62,7 +61,6 @@ class Client < ActiveRecord::Base
 
   has_paper_trail
 
-  # validates :exit_circumstance, :exit_date, :exit_note, presence: true, on: :update, if: :exit_ngo?
   validates :kid_id, uniqueness: { case_sensitive: false }, if: 'kid_id.present?'
   validates :user_ids, presence: true, on: :create
   validates :user_ids, presence: true, on: :update, unless: :exit_ngo?
