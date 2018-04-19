@@ -1,6 +1,7 @@
 class SettingsController < AdminController
   def index
     @setting = Setting.first_or_initialize(assessment_frequency: 'month', min_assessment: 3, max_assessment: 6, case_note_frequency: 'day', max_case_note: 30)
+    authorize @setting
   end
 
   def create
@@ -37,6 +38,7 @@ class SettingsController < AdminController
 
   def default_columns
     @setting = Setting.first_or_initialize(assessment_frequency: 'month', min_assessment: 3, max_assessment: 6, case_note_frequency: 'day', max_case_note: 30)
+    authorize @setting
     @client_default_columns = client_default_columns
     @family_default_columns = family_default_columns
     @partner_default_columns = partner_default_columns
