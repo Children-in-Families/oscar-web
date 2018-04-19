@@ -77,13 +77,13 @@ class User < ActiveRecord::Base
     unless self.admin? || self.strategic_overviewer?
       self.create_permission if self.permission.blank?
 
-      unless self.case_worker? && self.custom_field_permissions.empty?
+      unless self.case_worker? && self.custom_field_permissions.present?
         CustomField.all.each do |cf|
           self.custom_field_permissions.create(custom_field_id: cf.id)
         end
       end
 
-      unless self.program_stream_permissions.empty?
+      unless self.program_stream_permissions.present?
         ProgramStream.all.each do |ps|
           self.program_stream_permissions.create(program_stream_id: ps.id)
         end
