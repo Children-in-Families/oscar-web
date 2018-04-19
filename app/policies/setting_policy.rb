@@ -3,19 +3,13 @@ class SettingPolicy < ApplicationPolicy
     user.admin?
   end
 
-  def create?
-    user.admin?
-  end
-
-  def update?
-    user.admin?
-  end
-
   def country?
     true
   end
 
-  def default_columns?
-    user.admin?
-  end
+  alias new? index?
+  alias create? index?
+  alias edit? index?
+  alias update? index?
+  alias default_columns? index?
 end
