@@ -29,6 +29,8 @@ class User < ActiveRecord::Base
   has_many :progress_notes, dependent: :restrict_with_error
   has_many :case_worker_clients, dependent: :restrict_with_error
   has_many :clients, through: :case_worker_clients
+  has_many :enter_ngo_users, dependent: :destroy
+  has_many :enter_ngos, through: :enter_ngo_users
   has_many :tasks, dependent: :destroy
   has_many :calendars, dependent: :destroy
   has_many :visits,  dependent: :destroy

@@ -30,23 +30,22 @@
             .col-xs-12
               .row
                 .col-xs-12
-                  = simple_form_for @client, method: :put, url: client_path(@client) do |f|
+                  = simple_form_for [ @client, @client.enter_ngos.build ] do |f|
                     .form-inputs
                       = f.hidden_field :accepted_date, value: Date.today
-                      = f.hidden_field :status, value: 'Accepted'
                     .form-actions
                       = f.submit t('.accept'), class: 'btn btn-success agree-btn', id: 'accept-client'
                 .col-xs-12
                   %button.btn.btn-danger.mini-margin{"data-target" => '#exitFromNgo', "data-toggle" => 'modal', class: 'agree-btn'} #{t('.reject')}
 
             .col-xs-12
-              = render 'exit_ngo_form', client: @client
+              = render 'client/exit_ngos/form', client: @client
 
         - elsif @client.status == 'Exited'
           .row
             .col-xs-12
               %button.btn.btn-success.mini-margin{"data-target" => '#enter-ngo-form', "data-toggle" => 'modal', class: 'agree-btn' } #{t('.accept')}
-              = render 'enter_ngo_form'
+              = render 'client/enter_ngos/form', client: @client
             .col-xs-12
               %button.btn.btn-danger.mini-margin{ disabled: 'disabled', class:'agree-btn' }= t('.reject')
 
@@ -55,10 +54,10 @@
         .col-xs-12
           - if can? :manage, Case
             .btn-group.small-btn-margin
-              %button.btn-sm.btn.btn-primary.dropdown-toggle{ "data-toggle" => "dropdown", id: 'add-client-to-case', class: ('disabled' if status_exited?(@client.status)) }
+              %button.btn-sm.btn.btn-primary.dropdown-toggle.btn-fit{ "data-toggle" => "dropdown", id: 'add-client-to-case', class: ('disabled' if status_exited?(@client.status)) }
                 = t('.add_client_to_case')
                 %span.caret
-              %ul.dropdown-menu
+              %ul.dropdown-menu.btn-fit
                 - if @client.cases.exclude_referred.current.blank?
                   %li
                     - if @client.client_enrollments.active.count > 0
@@ -75,28 +74,28 @@
             - if @client.client_enrollments.active.count > 0
               = render 'remaining_programs', client: @client
             - else
-              = render 'exit_ngo_form', client: @client
+              = render 'client/exit_ngos/form', client: @client
             - if @client.cases.exclude_referred.current.present?
               = render 'exit_case_form', client_case: @client.cases.exclude_referred.current, exit_from_cif: true
 
           = link_to client_tasks_path(@client) do
-            %span.btn-sm.btn.btn-info.small-btn-margin
+            %span.btn-sm.btn.btn-info.small-btn-margin.btn-fit
               %strong.count-margin= @client.tasks.incomplete.count
               = t('.view_tasks')
           - if non_mho_tenant? && enable_assessment_setting?
             = link_to client_assessments_path(@client) do
-              %span.btn-sm.btn.btn-info.small-btn-margin
+              %span.btn-sm.btn.btn-info.small-btn-margin.btn-fit
                 %strong.count-margin= @client.assessments.count
                 = t('.view_assessments')
           - if can? :manage, CaseNote
-            %span.btn-sm.btn.btn-info.small-btn-margin{ class: ('disabled' unless case_notes_readable?) }
+            %span.btn-sm.btn.btn-info.small-btn-margin.btn-fit{ class: ('disabled' unless case_notes_readable?) }
               = link_to_if case_notes_readable?, "#{@client.case_notes.count} #{t('.view_case_notes')}", client_case_notes_path(@client)
           - if government_reports_visible?
             .btn-group.small-btn-margin
-              %button.btn.btn-sm.btn-success.dropdown-toggle{"data-toggle" => "dropdown"}
+              %button.btn.btn-sm.btn-success.dropdown-toggle.btn-fit{"data-toggle" => "dropdown"}
                 = t('.government_report')
                 %span.caret
-              %ul.dropdown-menu
+              %ul.dropdown-menu.btn-fit
                 %li
                   = link_to client_path(@client, format: 'pdf', form: 'one'), target: :_blank do
                     %span.text-success= t('.government_form_one')
@@ -119,13 +118,13 @@
           - if @client.has_any_quarterly_reports?
             - if can? :manage, QuarterlyReport
               = link_to client_case_quarterly_reports_path(@client,@client.latest_case) do
-                %span.btn-sm.btn.color-brown.small-btn-margin= t('.view_legacy_quarterly_reports')
+                %span.btn-sm.btn.color-brown.small-btn-margin.btn-fit= t('.view_legacy_quarterly_reports')
           - if @client.cases.exclude_referred.inactive.present?
             .btn-group.small-btn-margin
-              %button{ class: "btn btn-sm btn-warning dropdown-toggle #{disable_case_histories?}", "data-toggle" => "dropdown" }
+              %button.btn-fit{ class: "btn btn-sm btn-warning dropdown-toggle #{disable_case_histories?}", "data-toggle" => "dropdown" }
                 = t('.case_history')
                 %span.caret
-              %ul.dropdown-menu
+              %ul.dropdown-menu.btn-fit
                 %li
                   - if @client.cases.exclude_referred.emergencies.inactive.present? && (ec_manageable || strategic_overviewer?)
                     = link_to client_cases_path(@client, case_type: 'EC') do
@@ -140,30 +139,32 @@
                       %span.text-success= t('.view_kc_history_btn_link')
           - if can_read_client_progress_note?
             = link_to client_progress_notes_path(@client) do
-              %span.btn-sm.btn.btn-warning.small-btn-margin= t('.progress_note')
+              %span.btn-sm.btn.btn-warning.small-btn-margin.btn-fit= t('.progress_note')
           .btn-group.small-btn-margin
-            %button.btn-sm.btn.btn-success.dropdown-toggle{ 'data-toggle' => 'dropdown', class: ('disabled' if @group_client_custom_fields.empty?) }
+            %button.btn-sm.btn.btn-success.dropdown-toggle.btn-fit{ 'data-toggle' => 'dropdown', class: ('disabled' if @group_client_custom_fields.empty?) }
               = t('.additional_forms')
               %span.caret
-            %ul.dropdown-menu.scrollable-dropdown-menu
+            %ul.dropdown-menu.btn-fit.scrollable-dropdown-menu.additional-forms
               - @group_client_custom_fields.each do |_, client_custom_fields|
-                %li= link_to client_custom_fields.first.custom_field.form_title, client_custom_field_properties_path(@client, custom_field_id: client_custom_fields.first.custom_field_id)
+                %li
+                  %p= link_to client_custom_fields.first.custom_field.form_title, client_custom_field_properties_path(@client, custom_field_id: client_custom_fields.first.custom_field_id)
           - if can? :manage, CustomFieldProperty
             .btn-group.small-btn-margin
-              %button.btn-sm.btn.btn-success.dropdown-toggle{ 'data-toggle' => 'dropdown', class: ('disabled' if @free_client_forms.empty? || status_exited?(@client.status)) }
+              %button.btn-sm.btn.btn-success.dropdown-toggle.btn-fit{ 'data-toggle' => 'dropdown', class: ('disabled' if @free_client_forms.empty? || status_exited?(@client.status)) }
                 = t('.add_form')
                 %span.caret
-              %ul.dropdown-menu.scrollable-dropdown-menu
+              %ul.dropdown-menu.btn-fit.scrollable-dropdown-menu.add-form
                 - @free_client_forms.each do |custom_field|
-                  %li= link_to custom_field.form_title, new_client_custom_field_property_path(@client, custom_field_id: custom_field)
+                  %li
+                    %p= link_to custom_field.form_title, new_client_custom_field_property_path(@client, custom_field_id: custom_field)
           - if @client.client_enrollments.active.count > 0
             = link_to client_client_enrolled_programs_path(@client) do
-              .btn.btn-primary.small-btn-margin.btn-sm= t('.enrolled_program_streams')
+              .btn.btn-primary.small-btn-margin.btn-sm.btn-fit= t('.enrolled_program_streams')
           - else
-            .btn.btn-primary.small-btn-margin.btn-sm.disabled= t('.enrolled_program_streams')
+            .btn.btn-primary.small-btn-margin.btn-sm.disabled.btn-fit= t('.enrolled_program_streams')
 
           = link_to client_client_enrollments_path(@client) do
-            .btn.btn-primary.small-btn-margin.btn-sm= t('.program_streams')
+            .btn.btn-primary.small-btn-margin.btn-sm.btn-fit= t('.program_streams')
 
 .row.mini-margin
   .col-xs-12
@@ -176,8 +177,6 @@
               %i.fa.fa-chevron-up
           - if (can? :manage, Client) || (can? :rud, Client)
             %small
-              - if @client.exit_ngo?
-                %button.btn.btn-danger#edit-exit-info{"data-target" => '#exitFromNgo', "data-toggle" => 'modal'}= t('.edit_exit_information')
               = link_to edit_client_path(@client) do
                 .btn.btn-outline.btn-success
                   %i.fa.fa-pencil
@@ -360,48 +359,6 @@
                   - @client.agencies.each do|agency|
                     %strong.label.label-default.agency
                       = agency.name
-
-              - if @client.exit_date
-                %tr
-                  %td.spacing-first-col
-                    = t('.accepted_date')
-                  %td
-                    %strong
-                      = date_format(@client.accepted_date)
-                %tr
-                  %td.spacing-first-col
-                    = t('.exit_date')
-                  %td
-                    %strong
-                      = date_format(@client.exit_date)
-                %tr
-                  %td.spacing-first-col
-                    = t('.exit_circumstance')
-                  %td
-                    %strong
-                      = @client.exit_circumstance
-                %tr
-                  %td.spacing-first-col
-                    = t('.exit_reasons')
-                  %td
-                    %strong
-                      %ul
-                      - exit_reasons = @client.exit_reasons.reject(&:empty?)
-                      - exit_reasons.each do |exit_reason|
-                        %li= exit_reason
-                %tr
-                  %td.spacing-first-col
-                    = t('.exit_note')
-                  %td
-                    %strong
-                      = @client.exit_note
-                %tr
-                  %td.spacing-first-col
-                    = t('.other_info_of_exit')
-                  %td
-                    %strong
-                      = @client.other_info_of_exit
-
         .row
           .col-xs-12
             %table.table.table-bordered
@@ -413,5 +370,57 @@
                     - qtypes.last.each do |qcase|
                       %strong.label.label-default
                         = qcase.value
+
+        - if @enter_ngos.any?
+          .row
+            .col-xs-12
+              .table-responsive
+                %table.table.table-bordered.table-striped.table-hover
+                  %thead
+                    %tr
+                      %th.custom_column_name= t('.accepted_date')
+                      %th.text-center.custom_column_manage= t('.manage')
+                  %tbody
+                    - @enter_ngos.each do |enter_ngo|
+                      %tr
+                        %td= date_format(enter_ngo.accepted_date)
+                        %td
+                          .text-center
+                            %button.btn.btn-outline.btn-success.btn-xs{"data-target" => "#enter-ngo-form-#{enter_ngo.id}", "data-toggle" => 'modal'}
+                              = fa_icon('pencil')
+                          = render 'client/enter_ngos/edit_form', client: @client, enter_ngo: enter_ngo
+
+        - if @exit_ngos.any?
+          .row
+            .col-xs-12
+              .table-responsive
+                %table.table.table-bordered.table-striped.table-hover
+                  %thead
+                    %tr
+                      %th= t('.exit_date')
+                      %th= t('.exit_circumstance')
+                      %th= t('.exit_reasons')
+                      %th= t('.exit_note')
+                      %th= t('.other_info_of_exit')
+                      %th.text-center= t('.manage')
+                  %tbody
+                    - @exit_ngos.each do |exit_ngo|
+                      %tr
+                        %td= date_format(exit_ngo.exit_date)
+                        %td= exit_ngo.exit_circumstance
+                        %td
+                          %strong
+                            %ul
+                            - exit_reasons = exit_ngo.exit_reasons.reject(&:empty?)
+                            - exit_reasons.each do |exit_reason|
+                              %li= exit_reason
+                        %td= exit_ngo.exit_note
+                        %td= exit_ngo.other_info_of_exit
+                        %td
+                          .text-center
+                            %button.btn.btn-outline.btn-success.btn-xs{"data-target" => "#exitFromNgo-#{exit_ngo.id}", "data-toggle" => 'modal'}
+                              = fa_icon('pencil')
+                          = render 'client/exit_ngos/edit_form', client: @client, exit_ngo: exit_ngo
+
 .row
   = render 'placement'
