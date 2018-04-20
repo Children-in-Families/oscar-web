@@ -40,10 +40,76 @@
             - next if f.name == :domain_5a || f.name == :domain_5b
             - next if f.name == :domain_6a || f.name == :domain_6b
             - next if f.name == :assessments_due_to || f.name == :no_case_note || f.name == :overdue_task || f.name == :overdue_forms
+
+            - unless selected_country == 'cambodia'
+              - next if f.name.in?([:commune, :village, :street_number, :house_number, :current_address])
+
+            - unless selected_country.in?(['cambodia', 'thailand'])
+              - next if f.name.in?([:province_id, :birth_province_id, :district])
+
             %li{ id: f.name }
               .visibility.col-sm-12
                 = check_box_tag "#{f.name}_", f.name, checked = params["#{f.name}_"].present?, class: 'i-checks'
                 = columns_visibility f.name
+
+          - if selected_country == 'lesotho'
+            %li
+              .visibility.col-sm-12
+                = check_box_tag 'suburb_', 'suburb', checked = params[:suburb_].present?, class: 'i-checks'
+                = label_tag 'suburb_', t('datagrid.columns.suburb')
+
+            %li
+              .visibility.col-sm-12
+                = check_box_tag 'description_house_landmark_', 'description_house_landmark', checked = params[:description_house_landmark_].present?, class: 'i-checks'
+                = label_tag 'description_house_landmark_', t('datagrid.columns.description_house_landmark')
+
+            %li
+              .visibility.col-sm-12
+                = check_box_tag 'directions_', 'directions', checked = params[:directions_].present?, class: 'i-checks'
+                = label_tag 'directions_', t('datagrid.columns.directions')
+
+          - if selected_country == 'myanmar'
+            %li
+              .visibility.col-sm-12
+                = check_box_tag 'street_line1_', 'street_line1', checked = params[:street_line1_].present?, class: 'i-checks'
+                = label_tag 'street_line1_', t('datagrid.columns.street_line1')
+
+            %li
+              .visibility.col-sm-12
+                = check_box_tag 'street_line2_', 'street_line2', checked = params[:street_line2_].present?, class: 'i-checks'
+                = label_tag 'street_line2_', t('datagrid.columns.street_line2')
+
+            %li
+              .visibility.col-sm-12
+                = check_box_tag 'state_', 'state', checked = params[:state_].present?, class: 'i-checks'
+                = label_tag 'state_', t('datagrid.columns.state')
+
+            %li
+              .visibility.col-sm-12
+                = check_box_tag 'township_', 'township', checked = params[:township_].present?, class: 'i-checks'
+                = label_tag 'township_', t('datagrid.columns.township')
+
+          - if selected_country == 'thailand'
+            %li
+              .visibility.col-sm-12
+                = check_box_tag 'plot_', 'plot', checked = params[:plot_].present?, class: 'i-checks'
+                = label_tag 'plot_', t('datagrid.columns.plot')
+
+            %li
+              .visibility.col-sm-12
+                = check_box_tag 'road_', 'road', checked = params[:road_].present?, class: 'i-checks'
+                = label_tag 'road_', t('datagrid.columns.road')
+
+            %li
+              .visibility.col-sm-12
+                = check_box_tag 'subdistrict_', 'subdistrict', checked = params[:subdistrict_].present?, class: 'i-checks'
+                = label_tag 'subdistrict_', t('datagrid.columns.subdistrict')
+
+            %li
+              .visibility.col-sm-12
+                = check_box_tag 'postal_code_', 'postal_code', checked = params[:postal_code_].present?, class: 'i-checks'
+                = label_tag 'postal_code_', t('datagrid.columns.postal_code')
+
           %li
             .visibility.col-sm-12
               = check_box_tag 'history_of_harm_', 'history_of_harm', checked = params[:history_of_harm_].present?, class: 'i-checks'

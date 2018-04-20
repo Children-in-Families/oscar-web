@@ -303,6 +303,8 @@ km:
       current_province: ខេត្តបច្ចុប្បន្ន
       date_of_assessments: កាលបរិច្ឆេទការប៉ាន់ប្រមាណ
       date_of_birth: ថ្ងៃ ខែ ឆ្នាំ កំណើត
+      description_house_landmark: Description of the house and a landmark
+      directions: Directions
       district: ស្រុក/ខណ្ឌ
       donor: ម្ចាស់ជំនួយ
       donor_id: ម្ចាស់ជំនួយ
@@ -341,6 +343,8 @@ km:
       ngo_exit_date: កាលបរិច្ឆេទនៃការចាកចេញពីអង្គការ
       other_info_of_exit: ព័ត៌មានបន្ថែមនៃការចាកចេញ
       placement_start_date: ថ្ងៃបញ្ជូនទៅក្នុងករណី
+      plot: Plot
+      postal_code: Postal Code
       program_stream: កម្មវិធីបន្ទាប់បន្សំ
       province: ខេត្តកំណើត
       province_id: ខេត្តបច្ចុប្បន្ន
@@ -356,14 +360,20 @@ km:
       referred_to_kc: បញ្ជួនទៅករណី KC
       reject_note: កំណត់ហេតុនៃការមិនទទួលយក
       relevant_referral_information: ព័ត៌មានសំខាន់ៗដែលពាក់ព័ន្ធនឹងការបញ្ជូនករណី
+      road: Road
       school_grade: កំរិតថ្នាក់
       school_name: ឈ្មោះសាលារៀន
       slug: លេខសម្គាល់
-      state: ទទួល/បដិសេធ
+      state: State
       status: ស្ថានភាព
+      street_line1: Street Line1
+      street_line2: Street Line2
       street_number: ផ្លូវ
+      subdistrict: Subdistrict
+      suburb: Suburb
       telephone_number: លេខទូរស័ព្ទ
       time_of_frequency: ពេលវេលានៃភាពញឹកញាប់
+      township: Township
       type: ប្រភេទនៃទម្រង់បែបបទបន្ថែម
       user_id: បុគ្គលិកគ្រប់គ្រងករណី
       village: ភូមិ
@@ -694,6 +704,55 @@ km:
         one: '"អ្នកមានការប៉ាន់ប្រមាណចំនួន1មិនទាន់បានធ្វើ"'
         other: '"អ្នកមានការប៉ាន់ប្រមាណចំនួន%{count}មិនទាន់បានធ្វើ"'
   client:
+    enter_ngos:
+      create:
+        failed_create: អតិថិជនមិនត្រូវបានកែសម្រួលដោយជោគជ័យ
+        successfully_created: អតិថិជនត្រូវបានកែសម្រួលដោយជោគជ័យ
+      edit_form:
+        accept: ទទួលយក
+        accept_ngo_form: ទទួលចូលអង្គការ
+        accepted_date: កាលបរិច្ឆេទទទួលយកចូលអង្គការ
+        case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
+      form:
+        accept: ទទួលយក
+        accept_ngo_form: ទទួលចូលអង្គការ
+        accepted_date: កាលបរិច្ឆេទទទួលយកចូលអង្គការ
+        case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
+      update:
+        failed_update: អតិថិជនមិនត្រូវបានកែសម្រួលដោយជោគជ័យ
+        successfully_updated: អតិថិជនត្រូវបានកែសម្រួលដោយជោគជ័យ
+    exit_ngos:
+      create:
+        failed_create: អតិថិជនមិនត្រូវបានកែសម្រួលដោយជោគជ័យ
+        successfully_created: អតិថិជនត្រូវបានកែសម្រួលដោយជោគជ័យ
+      edit_form:
+        case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
+        exit_btn: ចាកចេញ
+        exit_circumstance: ស្ថានភាពនៃការចាកចេញ
+        exit_date: ថ្ងៃចាកចេញ
+        exit_ngo: ចាកចេញពីអង្គការ
+        exit_note: កំណត់ហេតុនៃការចាកចេញ
+        exit_reasons: មូលហេតុនៃការចាកចេញ
+        exit_status: ស្ថានភាព
+        other_info_of_exit: ព័ត៌មានបន្ថែមនៃការចាកចេញ
+        reject_client: មិនទទួលយកអតិថិជន
+        rejected_note: កំណត់ហេតុនៃការមិនទទួលយក
+      form:
+        case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
+        exit_btn: ចាកចេញ
+        exit_circumstance: ស្ថានភាពនៃការចាកចេញ
+        exit_date: ថ្ងៃចាកចេញ
+        exit_ngo: ចាកចេញពីអង្គការ
+        exit_note: កំណត់ហេតុនៃការចាកចេញ
+        exit_reasons: មូលហេតុនៃការចាកចេញ
+        exit_status: ស្ថានភាព
+        other_info_of_exit: ព័ត៌មានបន្ថែមនៃការចាកចេញ
+        reject_client: មិនទទួលយកអតិថិជន
+        rejected_note: កំណត់ហេតុនៃការមិនទទួលយក
+      update:
+        failed_update: អតិថិជនមិនត្រូវបានកែសម្រួលដោយជោគជ័យ
+        successfully_updated: អតិថិជនត្រូវបានកែសម្រួលដោយជោគជ័យ
+
     tasks:
       create:
         successfully_created: កាតព្វកិច្ចត្រូវបានបង្កើតដោយជោគជ័យ
@@ -1389,12 +1448,14 @@ km:
       donor: ម្ចាស់ជំនួយ
       edit_exit_information: កែសម្រួលព័ត៌មាននៃការចាកចេញ
       enrolled_program_streams: កម្មវិធីបន្ទាប់បន្សំដែលបានចូលរួម
+      enter_ngo_information: ព័ត៌មានទទួលចូលអង្គការ
       exit_circumstance: ស្ថានភាពនៃការចាកចេញ
       exit_date: ថ្ងៃចាកចេញ
       exit_from_ec: ចាកចេញពី EC
       exit_from_fc: ចាកចេញពី FC
       exit_from_kc: ចាកចេញពី KC
       exit_ngo_btn: ចាកចេញពីអង្គការ
+      exit_ngo_information: ព័ត៌មានចាកចេញពីអង្គការ
       exit_note: កំណត់ហេតុនៃការចាកចេញ
       exit_reasons: មូលហេតុនៃការចាកចេញ
       families: គ្រួសារ
@@ -1424,6 +1485,7 @@ km:
       local_family_name: នាមត្រកូលជាអក្សរខ្មែរ
       local_given_name: នាមខ្លួនជាអក្សរខ្មែរ
       main_school_contact: អាស័យដ្ឋានទំនាក់ទំនងសាលារៀន
+      manage: សកម្មភាព
       name: ឈ្មោះ
       name_of_referee: ឈ្មោះអ្នកបញ្ជូន
       note: កំណត់ហេតុ
@@ -1665,6 +1727,8 @@ km:
         current_province: ខេត្តបច្ចុប្បន្ន
         date_of_assessments: កាលបរិច្ឆេទការប៉ាន់ប្រមាណ
         date_of_birth: ថ្ងៃ ខែ ឆ្នាំ កំណើត
+        description_house_landmark: Description of the house and a landmark
+        directions: Directions
         district: ស្រុក/ខណ្ឌ
         domain: កត្តា
         domains: កត្តា CSI ទាំងអស់
@@ -1724,6 +1788,8 @@ km:
           start_date: ថ្ងៃចាប់ផ្តើម
           support_amount: ប្រាក់ឧបត្ថម្ភ
           support_note: ពត៌មានពីប្រាក់ឧប្ថម្ភ
+        plot: Plot
+        postal_code: Postal Code
         program_enrollment_date: កាលបរិច្ឆេទចុះឈ្មោះ
         program_exit_date: កាលបរិច្ឆេទនៃការចាកចេញពីកម្មវិធី
         program_streams: ឈ្មោះកម្មវិធី
@@ -1738,15 +1804,21 @@ km:
         reject_note: កំណត់ហេតុនៃការមិនទទួលយក
         rejected_note: កំណត់ហេតុនៃការមិនទទួលយក
         relevant_referral_information: ព័ត៌មានសំខាន់ៗដែលពាក់ព័ន្ធនឹងការបញ្ជូនករណី
+        road: Road
         school_grade: កំរិតថ្នាក់
         school_name: ឈ្មោះសាលារៀន
-        state: ទទួល/បដិសេធ
+        state: State
         status: ស្ថានភាព
+        street_line1: Street Line 1
+        street_line2: Street Line 2
         street_number: ផ្លូវ
+        subdistrict: Subdistrict
+        suburb: Suburb
         telephone_number: លេខទូរស័ព្ទ
         thailand: ថៃ
         time_of_frequency: ពេលវេលានៃភាពញឹកញាប់
         total: សរុប
+        township: Township
         type: ប្រភេទនៃទម្រង់បែបបទបន្ថែម
         view: មើល
         village: ភូមិ

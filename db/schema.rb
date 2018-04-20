@@ -516,6 +516,36 @@ ActiveRecord::Schema.define(version: 20180419045448) do
     t.string   "code",        default: ""
   end
 
+  create_table "enter_ngo_users", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "enter_ngo_id"
+  end
+
+  add_index "enter_ngo_users", ["enter_ngo_id"], name: "index_enter_ngo_users_on_enter_ngo_id", using: :btree
+  add_index "enter_ngo_users", ["user_id"], name: "index_enter_ngo_users_on_user_id", using: :btree
+
+  create_table "enter_ngos", force: :cascade do |t|
+    t.date     "accepted_date"
+    t.integer  "client_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "enter_ngos", ["client_id"], name: "index_enter_ngos_on_client_id", using: :btree
+
+  create_table "exit_ngos", force: :cascade do |t|
+    t.integer  "client_id"
+    t.string   "exit_circumstance",  default: ""
+    t.string   "other_info_of_exit", default: ""
+    t.string   "exit_reasons",       default: [], array: true
+    t.text     "exit_note",          default: ""
+    t.date     "exit_date"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "exit_ngos", ["client_id"], name: "index_exit_ngos_on_client_id", using: :btree
+
   create_table "families", force: :cascade do |t|
     t.string   "code"
     t.string   "name",                            default: ""
@@ -1267,6 +1297,10 @@ ActiveRecord::Schema.define(version: 20180419045448) do
   add_foreign_key "custom_field_properties", "custom_fields"
   add_foreign_key "districts", "provinces"
   add_foreign_key "domains", "domain_groups"
+  add_foreign_key "enter_ngo_users", "enter_ngos"
+  add_foreign_key "enter_ngo_users", "users"
+  add_foreign_key "enter_ngos", "clients"
+  add_foreign_key "exit_ngos", "clients"
   add_foreign_key "interventions_progress_notes", "interventions"
   add_foreign_key "interventions_progress_notes", "progress_notes"
   add_foreign_key "leave_programs", "client_enrollments"

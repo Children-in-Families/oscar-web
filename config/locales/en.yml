@@ -295,6 +295,8 @@ en:
       custom_form: Custom Form
       date_of_assessments: Date of Assessments
       date_of_birth: Date of Birth
+      description_house_landmark: Description of the house and a landmark
+      directions: Directions
       district: District/Khan
       donor: Donor
       donor_id: Donor
@@ -335,10 +337,13 @@ en:
       ngo_exit_date: NGO Exit Date
       other_info_of_exit: Other - More Information
       placement_start_date: Placement Start Date
+      plot: Plot
+      postal_code: Postal Code
       program_stream: Program Stream
       province: Birth Province
       province_id: Current Province
       quantitative: Specific Referral Data
+      road: Road
       rated_for_id_poor: Is The Client Rated For ID Poor
       received_by: Referral Received By
       received_by_id: Received By
@@ -353,11 +358,16 @@ en:
       school_grade: School Grade
       school_name: School Name
       slug: ID
-      state: Accept/Reject
+      state: State
       status: Status
+      street_line1: Street Line1
+      street_line2: Street Line2
       street_number: Street
+      subdistrict: Subdistrict
+      suburb: Suburb
       telephone_number: Primary Carer Phone Number
       time_of_frequency: Time of Frequency
+      township: Township
       tracking: Tracking
       type: Type
       user_id: Case Worker
@@ -682,6 +692,55 @@ en:
         one: You have 1 assessment overdue.
         other: You have %{count} assessments overdue.
   client:
+    enter_ngos:
+      create:
+        failed_create: Failed to update the client.
+        successfully_created: Client has been successfully updated.
+      edit_form:
+        accept: Accept
+        accept_ngo_form: Enter NGO Form
+        accepted_date: Accepted Date
+        case_worker_or_staff: Case Worker / Staff
+      form:
+        accept: Accept
+        accept_ngo_form: Enter NGO Form
+        accepted_date: Accepted Date
+        case_worker_or_staff: Case Worker / Staff
+      update:
+        failed_update: Failed to update the client.
+        successfully_updated: Client has been successfully updated.
+    exit_ngos:
+      create:
+        failed_create: Failed to update the client.
+        successfully_created: Client has been successfully updated.
+      edit_form:
+        case_worker_or_staff: Case Worker / Staff
+        exit_btn: Exit
+        exit_circumstance: Exit Circumstance
+        exit_date: Exit Date
+        exit_ngo: Exit Client from NGO
+        exit_note: Exit Note
+        exit_reasons: Reason for Exit / Case Rejection
+        exit_status: Status
+        other_info_of_exit: Other - More Information
+        reject_client: Reject Client
+        rejected_note: Rejected Note
+      form:
+        case_worker_or_staff: Case Worker / Staff
+        exit_btn: Exit
+        exit_circumstance: Exit Circumstance
+        exit_date: Exit Date
+        exit_ngo: Exit Client from NGO
+        exit_note: Exit Note
+        exit_reasons: Reason for Exit / Case Rejection
+        exit_status: Status
+        other_info_of_exit: Other - More Information
+        reject_client: Reject Client
+        rejected_note: Rejected Note
+      update:
+        failed_update: Failed to update the client.
+        successfully_updated: Client has been successfully updated.
+
     # form_option:
     #   basic_fields: Client Basic Fields
     #   csi_domain_scores: CSI Domain Scores
@@ -1300,12 +1359,14 @@ en:
       donor: Donor
       edit_exit_information: Edit Exit Information
       enrolled_program_streams: Enrolled Program Streams
+      enter_ngo_information: Enter NGO Information
       exit_circumstance: Exit Circumstance
       exit_date: NGO Exit Date
       exit_from_ec: Exit From EC
       exit_from_fc: Exit From FC
       exit_from_kc: Exit From KC
       exit_ngo_btn: Exit From NGO
+      exit_ngo_information: Exit NGO Information
       exit_note: Exit Note
       exit_reasons: Reason for Exit / Case Rejection
       families: Families
@@ -1335,6 +1396,7 @@ en:
       local_family_name: Family Name (Khmer)
       local_given_name: Given Name (khmer)
       main_school_contact: Main School Contact
+      manage: Manage
       name: Name
       note: Note
       name_of_referee: Name Of Referee
@@ -1577,6 +1639,8 @@ en:
         current_province: Current Province
         date_of_assessments: Date of Assessments
         date_of_birth: Date of Birth
+        description_house_landmark: Description of the house and a landmark
+        directions: Directions
         district: District/Khan
         domain: Domain
         domains: All CSI
@@ -1636,6 +1700,8 @@ en:
           start_date: Start Date
           support_amount: Support Amount
           support_note: Support Note
+        plot: Plot
+        postal_code: Postal Code
         program_enrollment_date: Program Enrollment Date
         program_exit_date: Program Exit Date
         program_streams: Program Streams
@@ -1652,16 +1718,22 @@ en:
         reject_note: Note on referral rejection
         rejected_note: Note on referral rejection
         relevant_referral_information: Relevant Referral Information
+        road: Road
         school_grade: School Grade
         school_name: School Name
         staff_responsibilities: Staff Responsibilities
-        state: Accept/Reject
+        state: State
         status: Status
+        street_line1: Street Line 1
+        street_line2: Street Line 2
         street_number: Street
+        subdistrict: Subdistrict
+        suburb: Suburb
         telephone_number: Primary Carer Phone Number
         thailand: Thailand
         time_of_frequency: Time of Frequency
         total: Total
+        township: Township
         type: Type
         view: View
         village: Village

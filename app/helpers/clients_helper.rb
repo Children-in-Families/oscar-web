@@ -193,7 +193,7 @@ module ClientsHelper
   end
 
   def form_builder_format_header(value)
-    entities  = { formbuilder: 'Custom form', exitprogram: 'Exit program', tracking: 'Tracking', enrollment: 'Enrollment' }
+    entities  = { formbuilder: 'Custom form', exitprogram: 'Exit program', tracking: 'Tracking', enrollment: 'Enrollment', enrollmentdate: 'Enrollment', programexitdate: 'Exit program' }
     key_word  = value.first
     entity    = entities[key_word.to_sym]
     value     = value - [key_word]

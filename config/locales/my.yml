@@ -300,6 +300,8 @@ my:
       custom_form: အေကာက္ခြန္ပံုစံ
       date_of_assessments: စိစစ္သည့္ရက္စြဲ
       date_of_birth: ေမြးရက္၊ ေမြးလ၊ ေမြးႏွစ္
+      description_house_landmark: Description of the house and a landmark
+      directions: Directions
       district: ခ႐ိုင္
       donor: အလွဴရွင္
       donor_id: အလွဴရွင္
@@ -340,10 +342,13 @@ my:
       ngo_exit_date: NGOမွ ထြက္သည့္ ရက္စြဲ
       other_info_of_exit: အခြားအ - နောက်ထပ်သတင်းအချက်အလက်များ
       placement_start_date: ေနရာခ်ထားမႈစတင္သည့္ရက္စြဲ
+      plot: Plot
+      postal_code: Postal Code
       program_stream: အစီအမံစီဆင္းမႈ
       province: ေမြးရာျပည္နယ္
       province_id: လက္ရွိေနထုိင္ရာျပည္နယ္
       quantitative: ပမာဏအမ်ိဳးအစား
+      road: Road
       rated_for_id_poor: Client ကိုဆင်းရဲသောသူသည် ID အတှကျ rated ဖြစ်ပါတယ်
       received_by: မွ လက္ခံသည္။
       received_by_id: မွ လက္ခံသည္။
@@ -358,11 +363,16 @@ my:
       school_grade: ေက်ာင္းအဆင့္
       school_name: ေက်ာင္းနာမည္
       slug: မွတ္ပံုတင္
-      state: လက္ခံ/ျငင္းပယ္
+      state: ပြည်နယ်
       status: အေနအထား
+      street_line1: လမ်းပေါ်လိုင်း 1
+      street_line2: လမ်းပေါ်လိုင်း 2
       street_number: လမ္း
+      subdistrict: Subdistrict
+      suburb: Suburb
       telephone_number: တယ်လီဖုန်းနံပါတ်
       time_of_frequency: အႀကိမ္အေရအတြက္
+      township: မြို့နယ်
       tracking: ေနာက္ေၾကာင္းလုိက္ျခင္း
       type: အမ်ိဳးအစား
       user_id: အမႈျခင္းရာကိုလိုက္လံေဆာင္ရြက္ေပးသူ
@@ -692,6 +702,52 @@ my:
         one: သင့္တြင္ လုပ္ရန္ သတ္မွတ္ခ်ိန္ လြန္သြားေသာ စိစစ္အကဲျဖတ္မႈ ၁ ခု ရွိပါသည္။
         other: သင့္တြင္ လုပ္ရန္ သတ္မွတ္ခ်ိန္ လြန္သြားေသာ စိစစ္အကဲျဖတ္မႈ %{count} ရွိပါသည္။
   client:
+    enter_ngos:
+      create:
+        failed_create: အပ်ဒိတ်လုပ်မပေးနိုငျ
+        successfully_created: အမႈသည္ကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ထည့္သြင္းၿပီပါၿပီ
+      edit_form:
+        accept: လက္ခံသည္
+        accept_ngo_form: NGO ရိုက်ထည့်ပါ
+        accepted_date: လက်ခံခဲ့သည်နေ့စွဲ
+        case_worker_or_staff: ဝန်ထမ်းများ
+      form:
+        accept: လက္ခံသည္
+        accept_ngo_form: NGO ရိုက်ထည့်ပါ
+        accepted_date: လက်ခံခဲ့သည်နေ့စွဲ
+        case_worker_or_staff: ဝန်ထမ်းများ
+      update:
+        failed_update: အပ်ဒိတ်လုပ်မပေးနိုငျ
+        successfully_updated: အမႈသည္ကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ထည့္သြင္းၿပီပါၿပီ
+    exit_ngos:
+      create:
+        failed_create: အပ်ဒိတ်လုပ်မပေးနိုငျ
+        successfully_created: အမႈသည္ကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ထည့္သြင္းၿပီပါၿပီ
+      edit_form:
+        case_worker_or_staff: အမႈျခင္းရာအတြက္ ေဆာင္ရြက္ေပးသူ/ ၀န္ထမ္း
+        exit_btn: ထြက္ရန္
+        exit_circumstance: ထွက်ပေါက်အခြေအနေ
+        exit_date: ထြက္သည့္ရက္စြဲ
+        exit_ngo: NGOမွ ထြက္ရန္
+        exit_note: ထြက္သည့္မွတ္စု
+        exit_reasons: ထွက်ပေါက်ဘို့အကြောင်းပြချက်
+        exit_status: အေနအထား
+        other_info_of_exit: အခြားအ - နောက်ထပ်သတင်းအချက်အလက်များ
+        reject_client: client ကိုငြင်းပယ်
+      form:
+        case_worker_or_staff: အမႈျခင္းရာအတြက္ ေဆာင္ရြက္ေပးသူ/ ၀န္ထမ္း
+        exit_btn: ထြက္ရန္
+        exit_circumstance: ထွက်ပေါက်အခြေအနေ
+        exit_date: ထြက္သည့္ရက္စြဲ
+        exit_ngo: NGOမွ ထြက္ရန္
+        exit_note: ထြက္သည့္မွတ္စု
+        exit_reasons: ထွက်ပေါက်ဘို့အကြောင်းပြချက်
+        exit_status: အေနအထား
+        other_info_of_exit: အခြားအ - နောက်ထပ်သတင်းအချက်အလက်များ
+        reject_client: client ကိုငြင်းပယ်
+      update:
+        failed_update: အပ်ဒိတ်လုပ်မပေးနိုငျ
+        successfully_updated: အမႈသည္ကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ထည့္သြင္းၿပီပါၿပီ
     form_option:
       basic_fields: အမႈသည္အေျခခံအကြက္မ်ား
       csi_domain_scores: CSI ဒိုမိန္း ရမွတ္မ်ား
@@ -926,10 +982,10 @@ my:
         street_number: Address - Street
         village: Address - Village
       myanmar_address_form:
-        state: State
-        street_line1: Street Line1
-        street_line2: Street Line2 (optional)
-        township: Township
+        state: ပြည်နယ်
+        street_line1: လမ်းပေါ်လိုင်း 1
+        street_line2: လမ်းပေါ်လိုင်း 2(optional)
+        township: မြို့နယ်
       lesotho_address_form:
         description_house_landmark: Description of the house and a landmark
         directions: Directions
@@ -1309,12 +1365,14 @@ my:
       donor: အလွဴရွင္
       edit_exit_information: Edit Exit Information
       enrolled_program_streams: စာရင္းေပးသြင္းမႈအစီအစဥ္စီဆင္းမႈမ်ား
+      enter_ngo_information: NGO အဖွဲ့သတင်းအချက်အလက်ထည့်သွင်း
       exit_circumstance: ထွက်ပေါက်အခြေအနေ
       exit_date: NGO မွ ထြက္သည့္ ရက္စြဲ
       exit_from_ec: EC မွ ထြက္ရန္
       exit_from_fc: FC မွ ထြက္၇န္
       exit_from_kc: KC မွ ထြက္ရန္
       exit_ngo_btn: NGO မွ ထြက္သည္
+      exit_ngo_information: ထွက်ပေါက်အန်ဂျီအိုသတင်းအချက်အလက်များ
       exit_note: ထြက္သည့္ မွတ္စု
       exit_reasons: ထွက်ပေါက်ဘို့အကြောင်းပြချက်
       families: မိသားစုမ်ား
@@ -1344,6 +1402,7 @@ my:
       local_family_name: မိသားစုနာမည္ (ေဒသအသံုးျဖင့္)
       local_given_name: ေမြးနာမည္ (ေဒသအသံုးျဖင့္)
       main_school_contact: အဓိကကျောင်းကိုအဆက်အသွယ်
+      manage: စီမံခန့်ခွဲ
       name: နာမည္
       name_of_referee: ဒိုင်လူကြီး၏နာမကိုအမှီ
       note: မွတ္စု
@@ -1588,6 +1647,8 @@ my:
         current_province: လက္ရွိေနထိုင္ရာခ႐ိုင္
         date_of_assessments: စိစစ္အကဲျဖတ္မႈလုပ္သည့္ ရက္စြဲ
         date_of_birth: ေမြးရက္၊ လ၊ ႏွစ္
+        description_house_landmark: Description of the house and a landmark
+        directions: Directions
         district: ခ႐ိုင္
         domain: ဒိုမိန္း
         domains: CSI အားလံုး
@@ -1647,6 +1708,8 @@ my:
           start_date: စသည့္ ရက္စြဲ
           support_amount: ေထာက္ပံ့သည့္ ပမာဏ
           support_note: ေထာက္ပံ့သည့္ မွတ္စု
+        plot: Plot
+        postal_code: Postal Code
         program_enrollment_date: အစီအစဥ္တြင္ ၀င္ေရာက္သည့္ ရက္စြဲ
         program_exit_date: အစီအစဥ္မွထြက္သည့္ ရက္စြဲ
         program_streams: အစီအစဥ္ စီးဆင္းမႈမ်ား
@@ -1661,15 +1724,21 @@ my:
         reject_note: ျငင္းပယ္သည့္ မွတ္စု
         rejected_note: ျငင္းပယ္သည့္ မွတ္စု
         relevant_referral_information: သက္ဆုိင္သည့္ လႊဲေျပာင္းမႈ အခ်က္အလက္
+        road: Road
         school_grade: ေက်ာင္းအဆင့္
         school_name: ေက်ာင္းနာမည္
-        state: လက္ခံသည္/ ျငင္းပယ္သည္
+        state: ပြည်နယ်
         status: အေနအထား
+        street_line1: လမ်းပေါ်လိုင်း 1
+        street_line2: လမ်းပေါ်လိုင်း 2
         street_number: လမ္း
+        subdistrict: Subdistrict
+        suburb: Suburb
         telephone_number: တယ်လီဖုန်းနံပါတ်
         thailand: ထိုင္းႏုိင္ငံ
         time_of_frequency: အႀကိမ္ အေရအတြက္
         total: စုစုေပါင္း
+        township: မြို့နယ်
         type: အမ်ိဳးအစား
         view: ျမင္ကြင္း
         village: ေက်းရြာ

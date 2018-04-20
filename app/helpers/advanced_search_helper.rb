@@ -51,7 +51,18 @@ module AdvancedSearchHelper
       street_number: I18n.t('advanced_search.fields.street_number'),
       village: I18n.t('advanced_search.fields.village'),
       commune: I18n.t('advanced_search.fields.commune'),
+      suburb: I18n.t('advanced_search.fields.suburb'),
+      description_house_landmark: I18n.t('advanced_search.fields.description_house_landmark'),
+      directions: I18n.t('advanced_search.fields.directions'),
+      street_line1: I18n.t('advanced_search.fields.street_line1'),
+      street_line2: I18n.t('advanced_search.fields.street_line2'),
+      plot: I18n.t('advanced_search.fields.plot'),
+      road: I18n.t('advanced_search.fields.road'),
+      postal_code: I18n.t('advanced_search.fields.postal_code'),
       district_id: I18n.t('advanced_search.fields.district'),
+      subdistrict_id: I18n.t('advanced_search.fields.subdistrict'),
+      township_id: I18n.t('advanced_search.fields.township'),
+      state_id: I18n.t('advanced_search.fields.state'),
       school_name: I18n.t('advanced_search.fields.school_name'),
       placement_date: I18n.t('advanced_search.fields.placement_start_date'),
       date_of_birth: I18n.t('advanced_search.fields.date_of_birth'),
@@ -100,8 +111,7 @@ module AdvancedSearchHelper
       name_of_referee: I18n.t('advanced_search.fields.name_of_referee'),
       main_school_contact: I18n.t('advanced_search.fields.main_school_contact'),
       what3words: I18n.t('advanced_search.fields.what3words'),
-      kid_id: I18n.t('advanced_search.fields.kid_id'),
-
+      kid_id: I18n.t('advanced_search.fields.kid_id')
     }
     translations[key.to_sym] || ''
   end
