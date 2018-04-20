@@ -260,7 +260,7 @@ class Client < ActiveRecord::Base
   end
 
   def set_slug_as_alias
-    paper_trail.without_versioning { |obj| obj.update_attributes(slug: "#{Organization.current.try(:short_name)}-#{id}") }
+    paper_trail.without_versioning { |obj| obj.update_columns(slug: "#{Organization.current.try(:short_name)}-#{id}") }
   end
 
   def time_in_care
