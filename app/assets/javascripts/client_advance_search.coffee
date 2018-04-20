@@ -345,6 +345,13 @@ class CIF.ClientAdvanceSearch
       if $('#quantitative-type-checkbox').prop('checked')
         $('#client_advanced_search_quantitative_check').val(1)
 
+      if $('#historical-checkbox').prop('checked')
+        startDate = $('#historical-search-start-date').val()
+        endDate = $('#historical-search-end-date').val()
+        $('#client_advanced_search_history_search_check').val(1)
+        $('#client_advanced_search_history_start_date').val(startDate)
+        $('#client_advanced_search_history_end_date').val(endDate)
+
       if (_.isEmpty(basicRules.rules) and !basicRules.valid) or (!(_.isEmpty(basicRules.rules)) and basicRules.valid)
         $('#builder').find('.has-error').remove()
         $('#client_advanced_search_basic_rules').val(self.handleStringfyRules(basicRules))

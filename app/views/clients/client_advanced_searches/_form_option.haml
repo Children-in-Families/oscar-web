@@ -1,3 +1,18 @@
+.row
+  .col-xs-12
+    #historical-search-wrapper
+      .row
+        .col-xs-12.form-group
+          = check_box_tag :nil, '1', historical_search.present?, { class: 'i-checks', id: 'historical-checkbox', name: 'historical-checkbox' }
+          %label= t('.historical_search')
+      .row
+        .col-xs-12.col-sm-6.form-group
+          %label= t('.start_date')
+          %input.input-group.date.form-control{ name: 'historical-search-start-date', id: 'historical-search-start-date', value: params[:client_advanced_search].present? ? params[:client_advanced_search][:history_start_date] : '' }
+        .col-xs-12.col-sm-6.form-group
+          %label= t('.end_date')
+          %input.input-group.date.form-control{ name: 'historical-search-end-date', id: 'historical-search-end-date', value: params[:client_advanced_search].present? ? params[:client_advanced_search][:history_end_date] : '' }
+
 %h4
   %label **
   %span= t('.filter_option')

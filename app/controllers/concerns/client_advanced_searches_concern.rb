@@ -1,9 +1,15 @@
 module ClientAdvancedSearchesConcern
   def advanced_search
     basic_rules          = JSON.parse @basic_filter_params
-    # overdue_assessment   = @advanced_search_params[:overdue_assessment]
-    # clients              = AdvancedSearches::ClientAdvancedSearch.new(basic_rules, Client.accessible_by(current_ability), overdue_assessment)
-    clients              = AdvancedSearches::ClientAdvancedSearch.new(basic_rules, Client.accessible_by(current_ability))
+    # clients = AdvancedSearches::ClientAdvancedSearch.new(basic_rules, Client.accessible_by(current_ability))
+
+    history_date              = { 'start_date': @advanced_search_params[:history_start_date], 'end_date': @advanced_search_params[:history_end_date] }
+
+    if history_date.present? && @advanced_search_params[:history_search_check].present?
+      clients = AdvancedSearches::ClientHistoryAdvancedSearch.new(basic_rules, Client.accessible_by(current_ability), history_date)
+    else
+      clients = AdvancedSearches::ClientAdvancedSearch.new(basic_rules, Client.accessible_by(current_ability))
+    end
     @clients_by_user     = clients.filter
 
     columns_visibility
