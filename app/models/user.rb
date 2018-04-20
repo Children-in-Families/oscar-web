@@ -73,13 +73,34 @@ class User < ActiveRecord::Base
   before_save  :set_manager_ids, if: 'manager_id_changed?'
   after_save :reset_manager, if: 'roles_changed?'
   after_create :build_permission
+  after_update :update_permission, if: 'roles_changed?'
+
+  def update_permission
+    unless self.admin? || self.strategic_overviewer?
+      self.create_permission if self.permission.blank?
+
+      unless self.case_worker? && self.custom_field_permissions.present?
+        CustomField.all.each do |cf|
+          self.custom_field_permissions.create(custom_field_id: cf.id)
+        end
+      end
+
+      unless self.program_stream_permissions.present?
+        ProgramStream.all.each do |ps|
+          self.program_stream_permissions.create(program_stream_id: ps.id)
+        end
+      end
+    end
+  end
 
   def build_permission
     unless self.admin? || self.strategic_overviewer?
       self.create_permission
 
-      CustomField.all.each do |cf|
-        self.custom_field_permissions.create(custom_field_id: cf.id)
+      unless self.case_worker?
+        CustomField.all.each do |cf|
+          self.custom_field_permissions.create(custom_field_id: cf.id)
+        end
       end
 
       ProgramStream.all.each do |ps|
