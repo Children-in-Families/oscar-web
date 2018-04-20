@@ -993,6 +993,30 @@ km:
   clients:
     actions:
       are_you_sure: តើអ្នកប្រាកដហើយថាចង់លុប?
+    address_forms:
+      cambodia_address_form:
+        commune: អាស័យដ្ឋាន - ឃុំ/សង្កាត់
+        current_province: ខេត្តកំពុងរស់នៅ
+        district: អាស័យដ្ឋាន - ស្រុក/ខណ្ឌ
+        house_number: អាស័យដ្ឋាន - លេខផ្ទះ
+        street_number: អាស័យដ្ឋាន - លេខផ្លូវ
+        village: អាស័យដ្ឋាន - ភូមិ
+      myanmar_address_form:
+        state: State
+        street_line1: Street Line1
+        street_line2: Street Line2 (optional)
+        township: Township
+      lesotho_address_form:
+        description_house_landmark: Description of the house and a landmark
+        directions: Directions
+        suburb: Suburb
+      thailand_address_form:
+        district: District
+        plot: Plot/House number, Village
+        postal_code: Postal Code
+        province: Province
+        road: Road
+        subdistrict: Subdistrict
     answer_fields:
       answer: ចម្លើយ
       yes_no: បាទ/អត់ទេ
@@ -1295,12 +1319,8 @@ km:
 
     living_detail:
       case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
-      commune: អាស័យដ្ឋាន - ឃុំ/សង្កាត់
       contact_details: ព័ត៌មានទំនាក់ទំនងលំអិត
       current_address: អាស័យដ្ឋានបច្ចុប្បន្ន
-      current_province: ខេត្តកំពុងរស់នៅ
-      district: អាស័យដ្ឋាន - ស្រុក/ខណ្ឌ
-      house_number: អាស័យដ្ឋាន - លេខផ្ទះ
       living_detail: ព័ត៌មានរស់នៅលំអិត
       main_school_contact: អាស័យដ្ឋានទំនាក់ទំនងសាលារៀន
       primary_carer_name: អ្នកមើលថែចំបង
@@ -1308,8 +1328,6 @@ km:
       school_grade: កំរិត
       school_name: ឈ្មោះសាលារៀន
       schooling: សាលារៀន
-      street_number: អាស័យដ្ឋាន - លេខផ្លូវ
-      village: អាស័យដ្ឋាន - ភូមិ
       what3words: What3words
 
     new:

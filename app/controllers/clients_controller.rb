@@ -174,17 +174,29 @@ class ClientsController < AdminController
   def set_association
     @agencies        = Agency.order(:name)
     @donors          = Donor.order(:name)
-    @province        = Province.order(:name)
     @referral_source = ReferralSource.order(:name)
     @users           = User.non_strategic_overviewers.order(:first_name, :last_name)
     @interviewees    = Interviewee.order(:created_at)
     @client_types    = ClientType.order(:created_at)
     @needs           = Need.order(:created_at)
     @problems        = Problem.order(:created_at)
-    if @client.province.present?
-      @districts       = @client.province.districts.order(:name)
-    else
-      @districts = []
+
+    country_address_fields
+  end
+
+  def country_address_fields
+    selected_country = params[:country]
+    case selected_country
+    when 'cambodia'
+      @province        = Province.order(:name)
+      @districts       = @client.province.present? ? @client.province.districts.order(:name) : []
+    when 'myanmar'
+      @states          = State.order(:name)
+      @townships       = @client.state.present? ? @client.state.townships.order(:name) : []
+    when 'thailand'
+      @province        = Province.order(:name)
+      @districts       = @client.province.present? ? @client.province.districts.order(:name) : []
+      @subdistricts    = @client.district.present? ? @client.district.subdistricts.order(:name) : []
     end
   end
 

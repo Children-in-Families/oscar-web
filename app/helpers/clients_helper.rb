@@ -248,4 +248,9 @@ module ClientsHelper
   def status_exited?(value)
     value == 'Exited'
   end
+
+  def selected_country
+    country = params[:country].presence
+    country.nil? ? 'cambodia' : country
+  end
 end

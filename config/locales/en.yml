@@ -907,6 +907,30 @@ en:
   clients:
     actions:
       are_you_sure: Are you sure you want to delete?
+    address_forms:
+      cambodia_address_form:
+        commune: Address - Commune/Sangkat
+        current_province: Current Province
+        district: Address - District/Khan
+        house_number: Address - House#
+        street_number: Address - Street
+        village: Address - Village
+      myanmar_address_form:
+        state: State
+        street_line1: Street Line1
+        street_line2: Street Line2 (optional)
+        township: Township
+      lesotho_address_form:
+        description_house_landmark: Description of the house and a landmark
+        directions: Directions
+        suburb: Suburb
+      thailand_address_form:
+        district: District
+        plot: Plot/House number, Village
+        postal_code: Postal Code
+        province: Province
+        road: Road
+        subdistrict: Subdistrict
     answer_fields:
       answer: Answer
       yes_no: Yes/No
@@ -1206,12 +1230,8 @@ en:
 
     living_detail:
       case_worker_or_staff: Case Worker / Staff
-      commune: Address - Commune/Sangkat
       contact_details: Contact Details
       current_address: Current Address
-      current_province: Current Province
-      district: Address - District/Khan
-      house_number: Address - House#
       living_detail: Living Details
       main_school_contact: Main School Contact
       primary_carer_name: Primary Carer Name
@@ -1219,8 +1239,6 @@ en:
       school_grade: School Grade
       school_name: School Name
       schooling: Schooling
-      street_number: Address - Street
-      village: Address - Village
       what3words: What3words
 
     new:

@@ -917,6 +917,30 @@ my:
   clients:
     actions:
       are_you_sure: ဖ်က္လုိသည္မွာ ေသခ်ာပါသလား
+    address_forms:
+      cambodia_address_form:
+        commune: Address - Commune/Sangkat
+        current_province: Current Province
+        district: Address - District/Khan
+        house_number: Address - House#
+        street_number: Address - Street
+        village: Address - Village
+      myanmar_address_form:
+        state: State
+        street_line1: Street Line1
+        street_line2: Street Line2 (optional)
+        township: Township
+      lesotho_address_form:
+        description_house_landmark: Description of the house and a landmark
+        directions: Directions
+        suburb: Suburb
+      thailand_address_form:
+        district: District
+        plot: Plot/House number, Village
+        postal_code: Postal Code
+        province: Province
+        road: Road
+        subdistrict: Subdistrict
     answer_fields:
       answer: အေျဖ
       yes_no: ဟုတ္တယ္/ မဟုတ္ဘူး
@@ -1215,12 +1239,8 @@ my:
 
     living_detail:
       case_worker_or_staff: အမႈျခင္းရာအတြက္ေဆာင္ရြက္ေပးသူ / ၀န္ထမ္း
-      commune: လိပ်စာ - ကွန်မြူ
       contact_details: အဆက်အသွယ်အသေးစိတ်
       current_address: လက္ရွိ လိပ္စာ
-      current_province: လက္ရွိေနထိုင္ရာခ႐ိုင္
-      district: လိပ်စာ - ခရိုင်
-      house_number: လိပ်စာ - အိမ်သူအိမ်သားအရေအတွက်က
       living_detail: အသကျရှငျအသေးစိတ်
       main_school_contact: အဓိကကျောင်းကိုအဆက်အသွယ်
       primary_carer_name: မူလတန်းစောင့်ရှောက်သူအမည်အား
@@ -1228,8 +1248,6 @@ my:
       school_grade: ေက်ာင္းအဆင့္
       school_name: ေက်ာင္းနာမည္
       schooling: သင်ကြားခြင်း
-      street_number: လိပ်စာ - လမ်းအရေအတွက်က
-      village: လိပ်စာ - ရွာ
       what3words: What3words
 
     new:

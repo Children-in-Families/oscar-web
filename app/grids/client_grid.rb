@@ -551,9 +551,9 @@ class ClientGrid
     object.province.try(:name)
   end
 
-  column(:state, header: -> { I18n.t('datagrid.columns.clients.state') }) do |object|
-    object.state.titleize
-  end
+  # column(:state, header: -> { I18n.t('datagrid.columns.clients.state') }) do |object|
+  #   object.state.titleize
+  # end
 
   column(:accepted_date, header: -> { I18n.t('datagrid.columns.clients.ngo_accepted_date') }) do |object|
     object.accepted_date
