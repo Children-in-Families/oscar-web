@@ -97,6 +97,8 @@ module VoiceImporter
           district          = address[1]
         end
 
+        village     = village.gsub(/village/i, '').squish if village.present?
+        commune     = commune.gsub(/commune/i, '').squish if commune.present?
         district_id = District.where("name ilike ?", "%#{district.squish}%").first.try(:id) if district.present?
 
         school_name       = workbook.row(row)[headers['School Name']] || ''
