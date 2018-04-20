@@ -95,6 +95,8 @@ module VoiceImporter
         elsif row == 201
           village           = address[0]
           district          = address[1]
+        elsif row == 115
+          district          = 'Sampov Lun'
         end
 
         village     = village.gsub(/village/i, '').squish if village.present?
