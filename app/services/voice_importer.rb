@@ -38,7 +38,8 @@ module VoiceImporter
       ((workbook.first_row + 2)..workbook.last_row).each do |row|
         name               = workbook.row(row)[headers['*Name']]
         code               = workbook.row(row)[headers['*Family ID']]
-        Family.create(name: name, code: code)
+        family = Family.new(name: name, code: code, family_type: '')
+        family.save(validate: false)
       end
     end
 
@@ -99,9 +100,10 @@ module VoiceImporter
           district          = 'Sampov Lun'
         end
 
-        village     = village.gsub(/village/i, '').squish if village.present?
-        commune     = commune.gsub(/commune/i, '').squish if commune.present?
-        district_id = District.where("name ilike ?", "%#{district.squish}%").first.try(:id) if district.present?
+        street_number = street_number.gsub(/street|st.|st/i, '').squish if street_number.present?
+        village       = village.gsub(/village/i, '').squish if village.present?
+        commune       = commune.gsub(/commune/i, '').squish if commune.present?
+        district_id   = District.where("name ilike ?", "%#{district.squish}%").first.try(:id) if district.present?
 
         school_name       = workbook.row(row)[headers['School Name']] || ''
         school_grade      = workbook.row(row)[headers['School Grade']] || ''
