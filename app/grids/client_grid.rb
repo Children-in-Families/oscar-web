@@ -7,7 +7,7 @@ class ClientGrid
 
   scope do
     # Client.includes({ cases: [:family, :partner] }, :referral_source, :user, :received_by, :followed_up_by, :province, :assessments, :birth_province).order('clients.status, clients.given_name')
-    Client.includes({ cases: [:family, :partner] }, :referral_source, :received_by, :followed_up_by, :province, :assessments, :birth_province).order('clients.status, clients.given_name')
+    Client.includes({ cases: [:family, :partner] }, :donor, :district, :referral_source, :received_by, :followed_up_by, :province, :assessments, :birth_province).order('clients.status, clients.given_name')
   end
 
   filter(:given_name, :string, header: -> { I18n.t('datagrid.columns.clients.given_name') }) { |value, scope| scope.given_name_like(value) }
@@ -339,39 +339,11 @@ class ClientGrid
     ProgramStream.joins(:client_enrollments).complete.ordered.pluck(:name).uniq
   end
 
-  filter(:program_enrollment_date, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.program_enrollment_date') }) do |values, scope|
-    # This filter is using for client columns visibility
-  end
+  # implementation is in client_association_filter.rb
+  filter(:accepted_date, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.ngo_accepted_date') })
 
-  filter(:program_exit_date, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.program_exit_date') }) do |values, scope|
-    # This filter is using for client columns visibility
-  end
-
-  filter(:accepted_date, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.ngo_accepted_date') }) do |values, scope|
-    if values.first.present? && values.second.present?
-      ids = Client.where(accepted_date: values[0]..values[1]).pluck(:id).uniq
-      scope.where(id: ids)
-    elsif values.first.present? && values.second.blank?
-      ids = Client.where('DATE(accepted_date) >= ?', values.first).pluck(:id).uniq
-      scope.where(id: ids)
-    elsif values.second.present? && values.first.blank?
-      ids = Client.where('DATE(accepted_date) =< ?', values.first).pluck(:id).uniq
-      scope.where(id: ids)
-    end
-  end
-
-  filter(:exit_date, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.ngo_exit_date') }) do |values, scope|
-    if values.first.present? && values.second.present?
-      ids = Client.where(exit_date: values[0]..values[1]).pluck(:id).uniq
-      scope.where(id: ids)
-    elsif values.first.present? && values.second.blank?
-      ids = Client.where('DATE(exit_date) >= ?', values.first).pluck(:id).uniq
-      scope.where(id: ids)
-    elsif values.second.present? && values.first.blank?
-      ids = Client.where('DATE(exit_date) <= ?', values.first).pluck(:id).uniq
-      scope.where(id: ids)
-    end
-  end
+  # implementation is in client_association_filter.rb
+  filter(:exit_date, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.ngo_exit_date') })
 
   filter(:no_case_note, :enum, select: %w(Yes No), header: -> { I18n.t('datagrid.form.no_case_note') }) do |value, scope|
     if value == 'Yes'
@@ -489,7 +461,7 @@ class ClientGrid
   #   object.client_enrollments.inactive.joins(:leave_program).map{|a| a.leave_program.exit_date }.join(' | ')
   # end
 
-  column(:received_by, html: true, header: -> { I18n.t('datagrid.columns.clients.received_by') }) do |object|
+  column(:received_by, order: 'users.first_name, users.last_name', html: true, header: -> { I18n.t('datagrid.columns.clients.received_by') }) do |object|
     render partial: 'clients/users', locals: { object: object.received_by } if object.received_by
   end
 
@@ -497,7 +469,7 @@ class ClientGrid
     object.received_by.try(:name)
   end
 
-  column(:followed_up_by, html: true, header: -> { I18n.t('datagrid.columns.clients.followed_up_by') }) do |object|
+  column(:followed_up_by, order: 'users.first_name, users.last_name', html: true, header: -> { I18n.t('datagrid.columns.clients.followed_up_by') }) do |object|
     render partial: 'clients/users', locals: { object: object.followed_up_by } if object.followed_up_by
   end
 
@@ -525,7 +497,7 @@ class ClientGrid
 
   column(:commune, header: -> { I18n.t('datagrid.columns.clients.commune') })
 
-  column(:district, header: -> { I18n.t('datagrid.columns.clients.district') }) do |object|
+  column(:district, order: 'districts.name', header: -> { I18n.t('datagrid.columns.clients.district') }) do |object|
     object.district.try(:name)
   end
 
@@ -563,12 +535,12 @@ class ClientGrid
     object.state.titleize
   end
 
-  column(:accepted_date, header: -> { I18n.t('datagrid.columns.clients.ngo_accepted_date') }) do |object|
-    object.accepted_date
+  column(:accepted_date, order: false, header: -> { I18n.t('datagrid.columns.clients.ngo_accepted_date') }, html: true) do |object|
+    render partial: 'clients/accepted_dates', locals: { object: object }
   end
 
-  column(:exit_date, header: -> { I18n.t('datagrid.columns.clients.ngo_exit_date') }) do |object|
-    object.exit_date
+  column(:exit_date, order: false, header: -> { I18n.t('datagrid.columns.clients.ngo_exit_date') }, html: true) do |object|
+    render partial: 'clients/exit_dates', locals: { object: object }
   end
 
   column(:rejected_note, header: -> { I18n.t('datagrid.columns.clients.rejected_note') })
@@ -577,20 +549,20 @@ class ClientGrid
   #   object.user.try(:name)
   # end
 
-  column(:exit_circumstance, header: -> { I18n.t('datagrid.columns.clients.exit_circumstance') }) do |object|
-    object.exit_circumstance
+  column(:exit_circumstance, order: false, html: true, header: -> { I18n.t('datagrid.columns.clients.exit_circumstance') }) do |object|
+    render partial: 'clients/exit_circumstances', locals: { object: object }
   end
 
-  column(:exit_reasons, html: true, header: -> { I18n.t('datagrid.columns.clients.exit_reasons') }) do |object|
-    render partial: 'clients/exit_reasons', locals: { reasons: object.exit_reasons }
+  column(:exit_reasons, order: false, html: true, header: -> { I18n.t('datagrid.columns.clients.exit_reasons') }) do |object|
+    render partial: 'clients/exit_reasons', locals: { object: object }
   end
 
-  column(:other_info_of_exit, header: -> { I18n.t('datagrid.columns.clients.other_info_of_exit') }) do |object|
-    object.other_info_of_exit
+  column(:other_info_of_exit, order: false, html: true, header: -> { I18n.t('datagrid.columns.clients.other_info_of_exit') }) do |object|
+    render partial: 'clients/other_info_of_exits', locals: { object: object }
   end
 
-  column(:exit_note, header: -> { I18n.t('datagrid.columns.clients.exit_note') }) do |object|
-    object.exit_note
+  column(:exit_note, order: false, html: true, header: -> { I18n.t('datagrid.columns.clients.exit_note') }) do |object|
+    render partial: 'clients/exit_notes', locals: { object: object }
   end
 
   column(:what3words, header: -> { I18n.t('datagrid.columns.clients.what3words') }) do |object|
@@ -613,7 +585,7 @@ class ClientGrid
     object.users.map{|u| u.name }.join(', ')
   end
 
-  column(:donor, header: -> { I18n.t('datagrid.columns.clients.donor')}) do |object|
+  column(:donor, order: 'donors.name', header: -> { I18n.t('datagrid.columns.clients.donor')}) do |object|
     object.donor_name
   end
 
@@ -722,7 +694,6 @@ class ClientGrid
     data = param_data.presence
     dynamic_columns.each do |column_builder|
       fields = column_builder[:id].gsub('&qoute;', '"').split('_')
-      next if fields.first == 'enrollmentdate' || fields.first == 'programexitdate'
       column(column_builder[:id].to_sym, class: 'form-builder', header: -> { form_builder_format_header(fields) }, html: true) do |object|
         format_field_value = fields.last.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
         if fields.first == 'formbuilder'
@@ -731,6 +702,12 @@ class ClientGrid
             properties = properties[format_field_value] if properties.present?
           else
             properties = object.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).properties_by(format_field_value)
+          end
+        elsif fields.first == 'enrollmentdate'
+          if data == 'recent'
+            properties = object.client_enrollments.joins(:program_stream).where(program_streams: { name: fields.second }).order(enrollment_date: :desc).first.try(:enrollment_date)
+          else
+            properties = object.client_enrollments.joins(:program_stream).where(program_streams: { name: fields.second }).pluck(:enrollment_date)
           end
         elsif fields.first == 'enrollment'
           if data == 'recent'
@@ -747,6 +724,13 @@ class ClientGrid
           else
             properties = ClientEnrollmentTracking.joins(:tracking).where(trackings: { name: fields.third }, client_enrollment_trackings: { client_enrollment_id: ids }).properties_by(format_field_value)
           end
+        elsif fields.first == 'programexitdate'
+          ids = object.client_enrollments.inactive.ids
+          if data == 'recent'
+            properties = LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { client_enrollment_id: ids }).order(exit_date: :desc).first.try(:exit_date)
+          else
+            properties = LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { client_enrollment_id: ids }).pluck(:exit_date)
+          end
         elsif fields.first == 'exitprogram'
           ids = object.client_enrollments.inactive.ids
           if data == 'recent'
@@ -756,7 +740,11 @@ class ClientGrid
             properties = LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { client_enrollment_id: ids }).properties_by(format_field_value)
           end
         end
-        render partial: 'clients/form_builder_dynamic/properties_value', locals: { properties:  properties }
+        if fields.first == 'enrollmentdate' || fields.first == 'programexitdate'
+          render partial: 'clients/form_builder_dynamic/list_date_program_stream', locals: { properties:  properties }
+        else
+          render partial: 'clients/form_builder_dynamic/properties_value', locals: { properties:  properties }
+        end
       end
     end
   end

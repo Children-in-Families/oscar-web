@@ -35,6 +35,8 @@ class Client < ActiveRecord::Base
   has_many :program_streams, through: :client_enrollments
   has_many :case_worker_clients, dependent: :destroy
   has_many :users, through: :case_worker_clients
+  has_many :enter_ngos, dependent: :destroy
+  has_many :exit_ngos, dependent: :destroy
 
   accepts_nested_attributes_for :tasks
 
@@ -59,7 +61,6 @@ class Client < ActiveRecord::Base
 
   has_paper_trail
 
-  validates :exit_circumstance, :exit_date, :exit_note, presence: true, on: :update, if: :exit_ngo?
   validates :kid_id, uniqueness: { case_sensitive: false }, if: 'kid_id.present?'
   validates :user_ids, presence: true, on: :create
   validates :user_ids, presence: true, on: :update, unless: :exit_ngo?
@@ -68,7 +69,7 @@ class Client < ActiveRecord::Base
   before_update :disconnect_client_user_relation, if: :exiting_ngo?
   after_create :set_slug_as_alias
   after_save :create_client_history
-  after_update :notify_managers, if: :exiting_ngo?
+  # after_update :notify_managers, if: :exiting_ngo?
 
   scope :live_with_like,                           ->(value) { where('clients.live_with iLIKE ?', "%#{value}%") }
   scope :given_name_like,                          ->(value) { where('clients.given_name iLIKE :value OR clients.local_given_name iLIKE :value', { value: "%#{value}%"}) }

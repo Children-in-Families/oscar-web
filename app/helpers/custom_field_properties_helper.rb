@@ -35,7 +35,7 @@ module CustomFieldPropertiesHelper
     if custom_field_editable?(@custom_field) && (client_custom_field? ? policy(@custom_formable).create? : true)
       link_to new_polymorphic_path([@custom_formable, CustomFieldProperty], custom_field_id: @custom_field.id) do
         content_tag :div, class: 'btn btn-outline btn-primary form-btn' do
-          "#{t('.add_new')} #{@custom_field.form_title}"
+          t('.add_new')
         end
       end
     else
