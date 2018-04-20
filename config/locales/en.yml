@@ -4060,6 +4060,7 @@ en:
       back: Back
   unauthorized:
     default: You are not authorized to access this page.
+    case_worker_unauthorized: The record has been successfully created, but it is not assigned to you, so you are not able to view it. If you need to view this record, speak to the assigned case manager or an admin.
   users:
     actions:
       are_you_sure: Are you sure you want to delete?
