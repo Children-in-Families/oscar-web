@@ -10,6 +10,7 @@ class EnterNgo < ActiveRecord::Base
   validates :user_ids, presence: true, on: :create, if: Proc.new { |e| e.client.present? && e.client.exit_ngo? }
 
   after_create :update_client_status
+  after_save :create_enter_ngo_history
 
   private
 
@@ -19,5 +20,9 @@ class EnterNgo < ActiveRecord::Base
       client.user_ids = self.user_ids
     end
     client.save(validate: false)
+  end
+
+  def create_enter_ngo_history
+    EnterNgoHistory.initial(self)
   end
 end
