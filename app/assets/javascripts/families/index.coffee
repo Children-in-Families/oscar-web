@@ -9,7 +9,7 @@ CIF.FamiliesIndex = do ->
     _checkFamilySearchForm()
     _columnsVisibility()
     _handleColumnVisibilityParams()
-    _handleUncheckColumnVisibility()
+    # _handleUncheckColumnVisibility()
     _initAdavanceSearchFilter()
     _hideFamilyFilters()
     _setDefaultCheckColumnVisibilityAll()

@@ -1,0 +1,13 @@
+.row
+  .col-xs-12
+    .ibox
+      .ibox-title
+        %h5= t('.client_case_note_overdue')
+      .ibox-content
+        .row
+          .col-xs-12.mini-margin
+            %ul.list-group
+              %li.list-group-item.active= t('.review_client')
+              - @clients.each do |client|
+                %li.list-group-item
+                  = link_to client.en_and_local_name, client_path(client.slug), target: '_blank'
