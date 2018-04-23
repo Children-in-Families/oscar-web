@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180406024720) do
+ActiveRecord::Schema.define(version: 20180423014515) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -432,6 +432,7 @@ ActiveRecord::Schema.define(version: 20180406024720) do
     t.datetime "created_at",                        null: false
     t.datetime "updated_at",                        null: false
     t.jsonb    "attachments"
+    t.integer  "user_id"
   end
 
   add_index "custom_field_properties", ["custom_field_id"], name: "index_custom_field_properties_on_custom_field_id", using: :btree

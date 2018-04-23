@@ -1,6 +1,7 @@
 describe CustomFieldProperty, 'association' do
   it { is_expected.to belong_to(:custom_formable) }
   it { is_expected.to belong_to(:custom_field) }
+  it { is_expected.to belong_to(:user) }
 end
 
 describe CustomFieldProperty, 'validations' do
