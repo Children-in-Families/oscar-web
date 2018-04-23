@@ -15,7 +15,6 @@ class ClientColumnsVisibility
       name_of_referee_: :name_of_referee,
       rated_for_id_poor_: :rated_for_id_poor,
       main_school_contact_: :main_school_contact,
-      # id_poor_: :id_poor,
       program_streams_: :program_streams,
       program_enrollment_date_: :program_enrollment_date,
       program_exit_date_: :program_exit_date,
@@ -85,8 +84,15 @@ class ClientColumnsVisibility
 
   def visible_columns
     @grid.column_names = []
+    client_default_columns = Setting.first.try(:client_default_columns)
+    params = @params.keys.select{ |k| k.match(/\_$/) }
+    if params.present?
+      defualt_columns = params - client_default_columns
+    else
+      defualt_columns = client_default_columns
+    end
     add_custom_builder_columns.each do |key, value|
-      @grid.column_names << value if @params[key]
+      @grid.column_names << value if client_default(key, defualt_columns) || @params[key]
     end
   end
 
@@ -113,5 +119,10 @@ class ClientColumnsVisibility
       end
     end
     columns
+  end
+
+  def client_default(column, setting_client_default_columns)
+    return false if setting_client_default_columns.nil?
+    setting_client_default_columns.include?(column.to_s) if @params.dig(:client_grid, :descending).present? || (@params[:client_advanced_search].present? && @params.dig(:client_grid, :descending).present?) || @params[:client_grid].nil? || @params[:client_advanced_search].nil?
   end
 end
