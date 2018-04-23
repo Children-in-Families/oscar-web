@@ -248,6 +248,20 @@ km:
             name:
               blank: មិនអាចរំលង
               taken: ត្រូវបានប្រើរួចហើយ
+        setting:
+          attributes:
+            min_assessment:
+              blank: មិនអាចរំលង
+              less_than:
+                one: ត្រូវតែតូចជាងអតិបរមា
+                other: ត្រូវតែតូចជាង %{count}
+            max_assessment:
+              blank: មិនអាចរំលង
+              greater_than:
+                one: ត្រូវតែធំជាងអប្បរមា
+                other: ត្រូវតែធំជាង %{count}
+            max_case_note:
+              blank: មិនអាចរំលង
         stage:
           attributes:
             from_age:
@@ -490,7 +504,7 @@ km:
       are_you_sure: តើអ្នកប្រាកដហើយ?
       attachments: ឯកសារភ្ជាប់
       download: ទាញយក
-      max_file_size: "*ទំហំឯកសារអតិបរិមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកឡើង."
+      max_file_size: "*ទំហំឯកសារអតិបរមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកឡើង."
       preview_download: មើលនិងទាញយក
   api:
     form_builder_attachments:
@@ -547,7 +561,7 @@ km:
       are_you_sure: តើអ្នកប្រាកដហើយ?
       attachments: ឯកសារភ្ជាប់
       download: ទាញយក
-      max_file_size: "*ទំហំឯកសារអតិបរិមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកឡើង."
+      max_file_size: "*ទំហំឯកសារអតិបរមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកឡើង."
       preview_download: មើលនិងទាញយក
     create:
       successfully_created: កំណត់ត្រាត្រូវបានបង្កើតដោយជោគជ័យ
@@ -851,7 +865,7 @@ km:
       allow_file_size: ប្រភេទឯកសារដែលបានអនុញ្ញាត
       cancel: ទុកជាមោឃៈ
       save: រក្សាទុក
-      max_file_size: "*ទំហំឯកសារអតិបរិមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកឡើង."
+      max_file_size: "*ទំហំឯកសារអតិបរមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកឡើង."
     index:
       programs_list: តារាងកម្មវិធីបន្ទាប់បន្សំ
       tracking_lists: តារាងការតាមដាន
@@ -881,7 +895,7 @@ km:
       enrollment_date: ថ្ងៃចុះឈ្មោះ
       not_an_email: មិនមែនជាឣុីម៉ែល
       save: រក្សាទុក
-      max_file_size: "*ទំហំឯកសារអតិបរិមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកឡើង."
+      max_file_size: "*ទំហំឯកសារអតិបរមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកឡើង."
     index:
       actions: សកម្មភាព
       back: ត្រលប់ក្រោយ
@@ -1972,7 +1986,7 @@ km:
       has_overdue_assessment: ដល់ពេលការប៉ាន់ប្រមាណ
       has_overdue_forms: មានទម្រង់ហួសកាលកំណត់
       has_overdue_task: ភារកិច្ចហួសកាលកំណត់
-      no_case_note: មិនមានកំណត់ត្រាករណីក្នុងរយៈពេល 30 ថ្ងៃ
+      no_case_note: ហួសកំណត់សម្រាប់កំណត់ត្រាករណី
       reset: សំអាត
       search: ស្វែងរក
     from: ចាប់ពី
@@ -3089,6 +3103,12 @@ km:
     notification:
       check_tasks: ដើម្បីពិនិត្យកាព្វកិច្ចរបស់អ្នក សូមចុច
       click_here: ទីនេះ
+      client_case_note_due_today:
+        one: អ្នកមានកំណត់ត្រាករណីចំនួនមួយដែលត្រូវបំពេញនៅថ្ងៃនេះ
+        other: អ្នកមានកំណត់ត្រាករណីចំនួន %{count} ដែលត្រូវបំពេញនៅថ្ងៃនេះ
+      client_case_note_overdue:
+        one: អ្នកមានកំណត់ត្រាករណីចំនួនមួយដែលផុតកំណត
+        other: អ្នកមានកំណត់ត្រាករណីចំនួន %{count} ដែលផុតកំណត
       client_is_about_to_end_ec:
         one: មានអតិថិជនចំនួនម្នាក់ដែលនឹងត្រូវបញ្ជូនចេញពីECក្នុងរយៈពេល%{day_count}ថ្ងៃ
         other: មានអតិថិជនចំនួន%{count}នាក់ដែលនឹងត្រូវបញ្ជូនចេញពីECក្នុងរយៈពេល%{day_count}ថ្ងៃ
@@ -3152,7 +3172,10 @@ km:
       changelogs: ប្រវត្តិនៃកំណែទិន្នន័យ
       clients: ឣតិថិជន
       custom_fields: ទម្រង់បែបបទ
+      country: ប្រទេស
+      csi_tools: ឧបករណ៍ CSI
       dashboards: តារាងទិន្នន័យ
+      default_columns: ជួរឈរលំនាំដើម
       departments: កម្មវិធី
       districts: ស្រុក
       domain_groups: ការប្រមូលបណ្ដុំកត្តា
@@ -3199,7 +3222,7 @@ km:
       cancel: ទុកជាមោឃៈ
       exit_date: ថ្ងៃចាកចេញ
       save: រក្សាទុក
-      max_file_size: "*ទំហំឯកសារអតិបរិមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកឡើង."
+      max_file_size: "*ទំហំឯកសារអតិបរមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកឡើង."
     new:
       new_exit_program: ការចាកចេញពីកម្មវិធីថ្មី
     show:
@@ -3273,6 +3296,18 @@ km:
   must_be_uniq: ផ្នែកនៃទម្រង់មិនអាចមានឈ្មោះដូចគ្នា
   mutual_dependence_has_been_modified: កម្មវិធីអាស្រ័យគ្នាមិនអាចផ្លាស់ប្តូរឬបន្ថែមទេព្រោះលក្ខខ័ណ្ឌមុនត្រូវបានផ្លាស់ប្តូរ។
   notifications:
+    case_note_due_today:
+      client_case_note_due_today: អតិថិជនដែលមានកំណត់ត្រាករណីដែលត្រូវបំពេញនៅថ្ងៃនេះ
+      review_client: អតិថិជនដែលត្រូវការត្រួតពិនិត្យ
+    case_note_overdue:
+      client_case_note_overdue: អតិថិជនដែលមានកំណត់ត្រាករណីហួសកំណត់
+      review_client: អតិថិជនដែលត្រូវការត្រួតពិនិត្យ
+    client_enrollment_tracking_due_today:
+      clients: អតិថិជន
+      client_enrollment_tracking_notification: ការជូនដំណឹងនៃការតាមដានដែលត្រូវបំពេញ
+    client_enrollment_tracking_overdue:
+      clients: អតិថិជន
+      client_enrollment_tracking_notification: ការជូនដំណឹងនៃការតាមដានដែលត្រូវបំពេញ
     custom_field_due_today:
       clients: អតិថិជន
       custom_field_notification: ការជូនដំណឹងនៃទម្រង់បែបបទដែលត្រូវបំពេញ
@@ -3287,12 +3322,6 @@ km:
       form: ទម្រង់បែបបទ
       partners: ដៃគូ
       users: ឣ្នកប្រើ
-    client_enrollment_tracking_due_today:
-      clients: អតិថិជន
-      client_enrollment_tracking_notification: ការជូនដំណឹងនៃការតាមដានដែលត្រូវបំពេញ
-    client_enrollment_tracking_overdue:
-      clients: អតិថិជន
-      client_enrollment_tracking_notification: ការជូនដំណឹងនៃការតាមដានដែលត្រូវបំពេញ
     program_stream_notify:
       review_client: អតិថិជនដែលត្រូវការត្រួតពិនិត្យ
     upcoming_assessment:
@@ -3573,7 +3602,7 @@ km:
       interventions: ចំនុចដែលត្រូវធ្វើ
       location: កន្លែង
       material: របស់របរ/សម្ភារ
-      max_file_size: "*ទំហំឯកសារអតិបរិមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកឡើង."
+      max_file_size: "*ទំហំឯកសារអតិបរមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកឡើង."
       other_location: ផ្សេងៗ
       progress_note_type: កំណត់សំគាល់
       response: សកម្មភាព/ការឆ្លើយតប
@@ -3759,14 +3788,31 @@ km:
       your_account_needs_to_supply_a_verification_code: គណនីរបស់អ្នកត្រូវការបញ្ចូលកូដផ្ទៀងផ្ទាត់
       bad_credentials_supplied: កូដផ្ទៀងផ្ទាត់មិនត្រឹមត្រូវ
   settings:
+    assessment:
+      assessment: ការកំណត់ប្រេកង់នៃការវាយតំលៃ CSI
+      disable_assessment: យើងមិនប្រើការប៉ាន់ប្រមាណ
+      max_assessment: រយៈពេលអតិបរមារវាងការវាយតម្លៃ
+      min_assessment: រយៈពេលអប្បបរមារវាងការវាយតម្លៃទី 1 និងទី 2
+    case_note:
+      case_note: រយៈពេលអតិបរមារវាងកំណត់ត្រាករណីសម្រាប់អតិថិជន
+      max_case_note: អតិបរមា
     country:
-      settings: ការកំណត់
+      country: ប្រទេស
       switched_country_cambodia: អ្នកបានប្ដូរការកំណត់ទៅជាប្រទេសកម្ពុជា
       switched_country_lesotho: អ្នកបានប្ដូរការកំណត់ទៅជាប្រទេសឡឹសូថូ
       switched_country_myanmar: អ្នកបានប្ដូរការកំណត់ទៅជាប្រទេសមីយ៉ាន់ម៉ា
       switched_country_thailand: អ្នកបានប្ដូរការកំណត់ទៅជាប្រទេសថៃ
-    navigation:
-      country: ប្រទេស
+    create:
+      successfully_created: ការកំណត់បានបង្កើតដោយជោគជ័យ
+    default_columns:
+      client_default_columns: អតិថិជន
+      default_columns: ជួរឈរលំនាំដើម
+      family_default_columns: គ្រួសារ
+      partner_default_columns: ដៃគូ
+    index:
+      csi_tools: ឧបករណ៍ CSI
+    update:
+      successfully_updated: ការកំណត់បានកែសម្រួលដោយជោគជ័យ
   shared:
     form_builder:
       list_attachment:
@@ -3774,7 +3820,7 @@ km:
         preview_download: មើលនិងទាញយក
       file_field:
         allow_file_size: ប្រភេទឯកសារដែលបានអនុញ្ញាត
-        max_file_size: "*ទំហំឯកសារអតិបរិមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកឡើង."
+        max_file_size: "*ទំហំឯកសារអតិបរមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកឡើង."
     per_page_form:
       show: បង្ហាញ
     version_type:

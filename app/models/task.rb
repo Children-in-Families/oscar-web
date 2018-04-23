@@ -49,7 +49,7 @@ class Task < ActiveRecord::Base
       Organization.switch_to org.short_name
       tasks    = incomplete.where(completion_date: Date.tomorrow).exclude_exited_ngo_clients
       user_ids = tasks.map(&:user_id).flatten.uniq
-      users    = User.non_devs.where(id: user_ids)
+      users    = User.non_devs.non_locked.where(id: user_ids)
       users.each do |user|
         CaseWorkerMailer.tasks_due_tomorrow_of(user).deliver_now
       end

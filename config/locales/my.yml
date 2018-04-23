@@ -243,6 +243,20 @@ my:
             name:
               blank: ကြက္လပ္ခ်ိန္ထား၍မရပါ။
               taken: ယူထားၿပီးျဖစ္ပါသည္။
+        setting:
+          attributes:
+            min_assessment:
+              blank: ကြက္လပ္ခ်ိန္ထား၍မရပါ။
+              less_than:
+                one: အများဆုံးထက်လျော့နည်းဖြစ်ရမည်
+                other: သေးငယ်ဖြစ်ရမည် %{count}
+            max_assessment:
+              blank: ကြက္လပ္ခ်ိန္ထား၍မရပါ။
+              greater_than:
+                one: နိမ့်ဆုံးထက် သာ. ကြီးမြတ်ဖြစ်ရမည်
+                other: သာ. ကြီးသောသူဖြစ်ရမည် %{count}
+            max_case_note:
+              blank: ကြက္လပ္ခ်ိန္ထား၍မရပါ။
         stage:
           attributes:
             from_age:
@@ -250,6 +264,8 @@ my:
             to_age:
               blank: ယူထားၿပီးျဖစ္ပါသည္။
               greater_than:
+                one: ''
+                other: သာ. ကြီးသောသူဖြစ်ရမည် %{count}
               taken: ယူထားၿပီးျဖစ္ပါသည္။
         task:
           attributes:
@@ -1893,7 +1909,7 @@ my:
       has_overdue_assessment: ရက္လြန္ေနေသာ စိစစ္အကဲျဖတ္မႈ တစ္ခုရွိပါသည္။
       has_overdue_forms: ရက်လွန်ပုံစံများရှိပါတယ်
       has_overdue_task: ရှိပြီးရက်လွန်အလုပ်တခုကို
-      no_case_note: အသက် 30 နေ့ရက်များအတွက်အဘယ်သူမျှမ အမႈမွတ္စု
+      no_case_note: ဖြစ်ရပ်မှန်မှတ်ချက်များအတွက်ရက်လွန်
       reset: အကုန္ျပင္ဆင္သည္
       search: ရွာေဖြသည္
     from: မွ
@@ -3009,6 +3025,12 @@ my:
     notification:
       check_tasks: လုပ္ငန္းမ်ားကို ေက်းဇူးျပဳ၍ စိစစ္ပါ
       click_here: ဤေနရာကို ကလစ္ႏွိပ္ပါ
+      client_case_note_due_today:
+        one: ဒီနေ့သင်ပြုသောအမှုခံရဖို့ဖြစ်ပွားမှု၏စံချိန်တင်အရေအတွက်ရှိသည်
+        other: ဒီနေ့သင်ပြုသောအမှုခံရဖို့ဖြ %{count} ၏စံချိန်တင်အရေအတွက်ရှိသည်
+      client_case_note_overdue:
+        one: သငျသညျကိုသတ်မှတ်ဖြစ်ပွားမှု၏စံချိန်တင်အရေအတွက်ရှိသည်
+        other: သငျသညျရက်ကျော်နေပြီ %{count} ကိစ္စတွင်မှတ်ချက်ရှိသည်။
       client_is_about_to_end_ec:
         few: အမႈသည္တစ္ဦးသည္ ရက္အနည္းငယ္အတြင္း EC အစီအမံမွ ထြက္ရန္ ရွိေနပါသည္
         one: အမႈသည္တစ္ဦးသည္ %{day_count} ရက္အတြင္း EC အစီအမံမွ ထြက္ရန္ ရွိေနပါသည္
@@ -3088,8 +3110,11 @@ my:
       agencies: ေအဂ်င္စီမ်ား
       changelogs: ေျပာင္းလဲမႈ မွတ္တမ္းမ်ား
       clients: အမႈဥည္မ်ား
+      country: ႏုိင္ငံ
+      csi_tools: CSI ကိရိယာတခု
       custom_fields: ပံုစံထုတ္စက္
       dashboards: ဒက္ရွ္ဘုတ္မ်ား
+      default_columns: ပုံမှန်ကော်လံများ
       departments: ဌာနမ်ား
       districts: နယ်
       domain_groups: ဒိုမိန္း အုပ္စုမ်ား
@@ -3226,6 +3251,12 @@ my:
   must_be_uniq: ကြင္းအညႊန္းသည္ ယူနစ္ျဖစ္ရမည္
   mutual_dependence_has_been_modified: ဒါကြောင့်ယခင်စည်းမျဉ်းစည်းကမ်းတွေကိုဖောက်ဖျက်သောကွောငျ့နှစ်ဦးနှစ်ဖက်အပြန်အလှန်မှီခိုပြောင်းလဲသွားတယ်သို့မဟုတ်ဆက်ပြောသည်မရနိုင်ပါ။
   notifications:
+    case_note_due_today:
+      client_case_note_due_today: ယနေ့ပြုသည်ကိုခံရဖို့စံချိန်တင်ရှိသည်သောဖောက်သည်
+      review_client: အမႈသည္မ်ားကို ျပန္လည္သံုးသပ္ရန္ လိုအပ္သည္
+    case_note_overdue:
+      client_case_note_overdue: အဘယ်သူ၏အမှုမှတ်တမ်းများနေရသည်ဖောက်သည်
+      review_client: အမႈသည္မ်ားကို ျပန္လည္သံုးသပ္ရန္ လိုအပ္သည္
     client_enrollment_tracking_due_today:
       client_enrollment_tracking_notification: အမႈသည္ စာရင္းသြင္းမႈေနာက္ေၾကာင္း အသိေပးခ်က္
       clients: အမႈသည္
@@ -3705,14 +3736,31 @@ my:
       your_account_needs_to_supply_a_verification_code: သင့်အကောင့်အတည်ပြုရန်ကုဒ်ထောက်ပံ့ဖို့လိုအပ်ပါတယ်
       bad_credentials_supplied: မကောင်းတဲ့သံတမန်ဆောင်ဧည်ထောက်ပံ့
   settings:
+    assessment:
+      assessment: CSI အကဲဖြတ်ကြိမ်နှုန်းချိန်ညှိမှုများ
+      disable_assessment: ကျနော်တို့ကို အသုံးပြု. ကြသည်မဟုတ်စိစစ္အကဲျဖတ္မႈ
+      max_assessment: အကဲဖြတ်အကြားအများဆုံးအချိန်
+      min_assessment: 1st နှင့် 2nd အကဲဖြတ်များအကြားနိမ့်ဆုံးအချိန်
+    case_note:
+      case_note: ဖောက်သည်များအတွက်စံချိန်များအကြားကာလ၏အမြင့်ဆုံးနံပါတ်တစ်ခု
+      max_case_note: အများဆုံး
     country:
-      settings: အျပင္အဆင္မ်ား
+      country: ႏုိင္ငံ
       switched_country_cambodia: သင္၏ ႏုိင္ငံအျပင္အဆင္ကို ကေမာၻဒီးယားႏုိင္ငံအျဖစ္ ေျပာင္းၿပီးပါၿပီ။
       switched_country_lesotho: သင္၏ ႏုိင္ငံအျပင္အဆင္ကို လက္ဆူးသူႏုိုင္ငံအျဖစ္ ေျပာင္းၿပီးပါၿပီ။
       switched_country_myanmar: သင္၏ ႏုိင္ငံအျပင္အဆင္ကို ျမန္မာႏုိင္ငံအျဖစ္ ေျပာင္းၿပီးပါၿပီ။
       switched_country_thailand: သင္၏ ႏုိင္ငံအျပင္အဆင္ကို ထုိင္းႏုိင္ငံအျဖစ္ ေျပာင္းၿပီးပါၿပီ။
-    navigation:
-      country: ႏုိင္ငံ
+    create:
+      successfully_created: အောင်မြင်စွာဖန်တီး
+    default_columns:
+      client_default_columns: အမႈသည္မ်ား
+      default_columns: ပုံမှန်ကော်လံများ
+      family_default_columns: မိသားစု
+      partner_default_columns: လက္တြဲေဖာ္
+    index:
+      csi_tools: CSI ကိရိယာတခု
+    update:
+      successfully_updated: အောင်မြင်စွာဖြည့်ပါ
   shared:
     form_builder:
       file_field:
