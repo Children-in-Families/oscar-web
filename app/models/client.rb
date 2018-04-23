@@ -304,8 +304,8 @@ class Client < ActiveRecord::Base
   def self.ec_reminder_in(day)
     Organization.all.each do |org|
       Organization.switch_to org.short_name
-      managers = User.ec_managers.pluck(:email).join(', ')
-      admins   = User.admins.pluck(:email).join(', ')
+      managers = User.non_locked.ec_managers.pluck(:email).join(', ')
+      admins   = User.non_locked.admins.pluck(:email).join(', ')
       clients = Client.active_status.joins(:cases).where(cases: { case_type: 'EC', exited: false}).uniq
       clients = clients.select { |client| client.active_day_care == day }
 
@@ -374,7 +374,7 @@ class Client < ActiveRecord::Base
   end
 
   def notify_managers
-    ClientMailer.exited_notification(self, User.managers.pluck(:email)).deliver_now
+    ClientMailer.exited_notification(self, User.managers.non_locked.pluck(:email)).deliver_now
   end
 
   def disconnect_client_user_relation

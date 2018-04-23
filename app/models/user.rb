@@ -68,6 +68,7 @@ class User < ActiveRecord::Base
   scope :non_strategic_overviewers, -> { where.not(roles: 'strategic overviewer') }
   scope :staff_performances,        -> { where(staff_performance_notification: true) }
   scope :non_devs,                  -> { where.not(email: [ENV['DEV_EMAIL'], ENV['DEV2_EMAIL'], ENV['DEV3_EMAIL']]) }
+  scope :non_locked,                -> { where(disable: false) }
 
   before_save :assign_as_admin
   before_save  :set_manager_ids, if: 'manager_id_changed?'
