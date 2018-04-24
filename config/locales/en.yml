@@ -4218,6 +4218,7 @@ en:
       custom_forms: Custom Forms
       custom_programs: Custom Programs
       permissions_selector: Permissions Selector
+      specific_referral_data: Specific Referral Data
     show:
       add_form: Add Form
       additional_forms: Additional Forms
@@ -4245,6 +4246,10 @@ en:
       province: Province
       roles: Permission Set
       start_date: Start Date
+    specific_referral_data_permission:
+      can_edit: Can Edit
+      can_view: Can View
+      specific_referral_data: Specific Referral Data
     update:
       successfully_updated: User has been successfully updated.
     version:
