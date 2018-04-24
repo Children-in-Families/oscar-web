@@ -13,7 +13,7 @@ describe 'Settings' do
     end
 
     scenario 'switch to Thailand' do
-      visit settings_path
+      visit country_settings_path
       find('.thumbnail#thailand').click
 
       expect(current_url).to include('country=thailand')
