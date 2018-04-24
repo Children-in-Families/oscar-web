@@ -152,7 +152,7 @@ module VoiceImporter
         if family_code.present?
           family = Family.find_by(code: family_code)
           family.children << client.id
-          family.save
+          family.save(validate: false)
         end
       end
     end
