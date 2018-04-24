@@ -182,9 +182,9 @@ class ClientGrid
     Donor.has_clients.map { |donor| [donor.name, donor.id] }
   end
 
-  filter(:state, :enum, select: %w(Accepted Rejected), header: -> { I18n.t('datagrid.columns.clients.state') }) do |value, scope|
-    value == 'Accepted' ? scope.accepted : scope.rejected
-  end
+  # filter(:state, :enum, select: %w(Accepted Rejected), header: -> { I18n.t('datagrid.columns.clients.state') }) do |value, scope|
+  #   value == 'Accepted' ? scope.accepted : scope.rejected
+  # end
 
   filter(:family_id, :integer, header: -> { I18n.t('datagrid.columns.families.code') }) do |value, object|
     # ids = []
@@ -508,6 +508,29 @@ class ClientGrid
     object.district.try(:name)
   end
 
+  column(:subdistrict, order: 'subdistrict.name', header: -> { I18n.t('datagrid.columns.clients.subdistrict')}) do |object|
+    object.subdistrict.try(:name)
+  end
+
+  column(:state, order: 'state.name', header: -> { I18n.t('datagrid.columns.clients.state')}) do |object|
+    object.state.try(:name)
+  end
+
+  column(:township, order: 'township.name', header: -> { I18n.t('datagrid.columns.clients.township')}) do |object|
+    object.township.try(:name)
+  end
+
+  column(:suburb, header: -> { I18n.t('datagrid.columns.clients.suburb') })
+  column(:description_house_landmark, header: -> { I18n.t('datagrid.columns.clients.description_house_landmark') })
+  column(:directions, header: -> { I18n.t('datagrid.columns.clients.directions') })
+
+  column(:street_line1, header: -> { I18n.t('datagrid.columns.clients.street_line1') })
+  column(:street_line2, header: -> { I18n.t('datagrid.columns.clients.street_line2') })
+
+  column(:plot, header: -> { I18n.t('datagrid.columns.clients.plot') })
+  column(:road, header: -> { I18n.t('datagrid.columns.clients.road') })
+  column(:postal_code, header: -> { I18n.t('datagrid.columns.clients.postal_code') })
+
   column(:school_name, header: -> { I18n.t('datagrid.columns.clients.school_name') })
 
   column(:school_grade, header: -> { I18n.t('datagrid.columns.clients.school_grade') })
@@ -538,9 +561,9 @@ class ClientGrid
     object.province.try(:name)
   end
 
-  column(:state, header: -> { I18n.t('datagrid.columns.clients.state') }) do |object|
-    object.state.titleize
-  end
+  # column(:state, header: -> { I18n.t('datagrid.columns.clients.state') }) do |object|
+  #   object.state.titleize
+  # end
 
   column(:accepted_date, order: false, header: -> { I18n.t('datagrid.columns.clients.ngo_accepted_date') }, html: true) do |object|
     render partial: 'clients/accepted_dates', locals: { object: object }

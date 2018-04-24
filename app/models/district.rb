@@ -1,6 +1,7 @@
 class District < ActiveRecord::Base
   belongs_to :province
   has_many :clients, dependent: :restrict_with_error
+  has_many :subdistricts, dependent: :destroy
 
   has_paper_trail
 

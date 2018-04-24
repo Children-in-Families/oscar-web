@@ -27,7 +27,7 @@ module AdvancedSearches
     end
 
     def text_type_list
-      ['given_name', 'family_name', 'local_given_name', 'local_family_name', 'family', 'slug', 'referral_phone', 'house_number', 'street_number', 'village', 'commune', 'school_name', 'school_grade', 'telephone_number']
+      ['given_name', 'family_name', 'local_given_name', 'local_family_name', 'family', 'slug', 'referral_phone', 'house_number', 'street_number', 'village', 'commune', 'school_name', 'school_grade', 'telephone_number', 'suburb', 'description_house_landmark', 'directions', 'street_line1', 'street_line2', 'postal_code']
     end
 
     def date_type_list
@@ -50,7 +50,10 @@ module AdvancedSearches
         ['has_been_in_orphanage', { true: 'Yes', false: 'No' }],
         ['user_id', user_select_options],
         ['form_title', client_custom_form_options],
-        ['donor_id', donor_options]
+        ['donor_id', donor_options],
+        ['state_id', states],
+        ['township_id', townships],
+        ['subdistrict_id', subdistricts],
       ]
     end
 
@@ -68,6 +71,18 @@ module AdvancedSearches
 
     def districts
       District.order(:name).map { |s| { s.id.to_s => s.name } }
+    end
+
+    def subdistricts
+      Subdistrict.order(:name).map { |s| { s.id.to_s => s.name } }
+    end
+
+    def townships
+      Township.order(:name).map { |s| { s.id.to_s => s.name } }
+    end
+
+    def states
+      State.order(:name).map { |s| { s.id.to_s => s.name } }
     end
 
     def referral_source_options

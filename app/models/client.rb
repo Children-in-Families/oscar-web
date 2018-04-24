@@ -20,6 +20,9 @@ class Client < ActiveRecord::Base
   belongs_to :province,         counter_cache: true
   belongs_to :donor
   belongs_to :district
+  belongs_to :subdistrict
+  belongs_to :township
+  belongs_to :state
   belongs_to :received_by,      class_name: 'User',      foreign_key: 'received_by_id',    counter_cache: true
   belongs_to :followed_up_by,   class_name: 'User',      foreign_key: 'followed_up_by_id', counter_cache: true
   belongs_to :birth_province,   class_name: 'Province',  foreign_key: 'birth_province_id', counter_cache: true

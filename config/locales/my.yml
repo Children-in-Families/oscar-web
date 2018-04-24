@@ -316,6 +316,8 @@ my:
       custom_form: အေကာက္ခြန္ပံုစံ
       date_of_assessments: စိစစ္သည့္ရက္စြဲ
       date_of_birth: ေမြးရက္၊ ေမြးလ၊ ေမြးႏွစ္
+      description_house_landmark: Description of the house and a landmark
+      directions: Directions
       district: ခ႐ိုင္
       donor: အလွဴရွင္
       donor_id: အလွဴရွင္
@@ -356,10 +358,13 @@ my:
       ngo_exit_date: NGOမွ ထြက္သည့္ ရက္စြဲ
       other_info_of_exit: အခြားအ - နောက်ထပ်သတင်းအချက်အလက်များ
       placement_start_date: ေနရာခ်ထားမႈစတင္သည့္ရက္စြဲ
+      plot: Plot
+      postal_code: Postal Code
       program_stream: အစီအမံစီဆင္းမႈ
       province: ေမြးရာျပည္နယ္
       province_id: လက္ရွိေနထုိင္ရာျပည္နယ္
       quantitative: ပမာဏအမ်ိဳးအစား
+      road: Road
       rated_for_id_poor: Client ကိုဆင်းရဲသောသူသည် ID အတှကျ rated ဖြစ်ပါတယ်
       received_by: မွ လက္ခံသည္။
       received_by_id: မွ လက္ခံသည္။
@@ -374,11 +379,16 @@ my:
       school_grade: ေက်ာင္းအဆင့္
       school_name: ေက်ာင္းနာမည္
       slug: မွတ္ပံုတင္
-      state: လက္ခံ/ျငင္းပယ္
+      state: ပြည်နယ်
       status: အေနအထား
+      street_line1: လမ်းပေါ်လိုင်း 1
+      street_line2: လမ်းပေါ်လိုင်း 2
       street_number: လမ္း
+      subdistrict: Subdistrict
+      suburb: Suburb
       telephone_number: တယ်လီဖုန်းနံပါတ်
       time_of_frequency: အႀကိမ္အေရအတြက္
+      township: မြို့နယ်
       tracking: ေနာက္ေၾကာင္းလုိက္ျခင္း
       type: အမ်ိဳးအစား
       user_id: အမႈျခင္းရာကိုလိုက္လံေဆာင္ရြက္ေပးသူ
@@ -979,6 +989,30 @@ my:
   clients:
     actions:
       are_you_sure: ဖ်က္လုိသည္မွာ ေသခ်ာပါသလား
+    address_forms:
+      cambodia_address_form:
+        commune: Address - Commune/Sangkat
+        current_province: Current Province
+        district: Address - District/Khan
+        house_number: Address - House#
+        street_number: Address - Street
+        village: Address - Village
+      myanmar_address_form:
+        state: ပြည်နယ်
+        street_line1: လမ်းပေါ်လိုင်း 1
+        street_line2: လမ်းပေါ်လိုင်း 2(optional)
+        township: မြို့နယ်
+      lesotho_address_form:
+        description_house_landmark: Description of the house and a landmark
+        directions: Directions
+        suburb: Suburb
+      thailand_address_form:
+        district: District
+        plot: Plot/House number, Village
+        postal_code: Postal Code
+        province: Province
+        road: Road
+        subdistrict: Subdistrict
     answer_fields:
       answer: အေျဖ
       yes_no: ဟုတ္တယ္/ မဟုတ္ဘူး
@@ -1277,12 +1311,8 @@ my:
 
     living_detail:
       case_worker_or_staff: အမႈျခင္းရာအတြက္ေဆာင္ရြက္ေပးသူ / ၀န္ထမ္း
-      commune: လိပ်စာ - ကွန်မြူ
       contact_details: အဆက်အသွယ်အသေးစိတ်
       current_address: လက္ရွိ လိပ္စာ
-      current_province: လက္ရွိေနထိုင္ရာခ႐ိုင္
-      district: လိပ်စာ - ခရိုင်
-      house_number: လိပ်စာ - အိမ်သူအိမ်သားအရေအတွက်က
       living_detail: အသကျရှငျအသေးစိတ်
       main_school_contact: အဓိကကျောင်းကိုအဆက်အသွယ်
       primary_carer_name: မူလတန်းစောင့်ရှောက်သူအမည်အား
@@ -1290,8 +1320,6 @@ my:
       school_grade: ေက်ာင္းအဆင့္
       school_name: ေက်ာင္းနာမည္
       schooling: သင်ကြားခြင်း
-      street_number: လိပ်စာ - လမ်းအရေအတွက်က
-      village: လိပ်စာ - ရွာ
       what3words: What3words
 
     new:
@@ -1635,6 +1663,8 @@ my:
         current_province: လက္ရွိေနထိုင္ရာခ႐ိုင္
         date_of_assessments: စိစစ္အကဲျဖတ္မႈလုပ္သည့္ ရက္စြဲ
         date_of_birth: ေမြးရက္၊ လ၊ ႏွစ္
+        description_house_landmark: Description of the house and a landmark
+        directions: Directions
         district: ခ႐ိုင္
         domain: ဒိုမိန္း
         domains: CSI အားလံုး
@@ -1694,6 +1724,8 @@ my:
           start_date: စသည့္ ရက္စြဲ
           support_amount: ေထာက္ပံ့သည့္ ပမာဏ
           support_note: ေထာက္ပံ့သည့္ မွတ္စု
+        plot: Plot
+        postal_code: Postal Code
         program_enrollment_date: အစီအစဥ္တြင္ ၀င္ေရာက္သည့္ ရက္စြဲ
         program_exit_date: အစီအစဥ္မွထြက္သည့္ ရက္စြဲ
         program_streams: အစီအစဥ္ စီးဆင္းမႈမ်ား
@@ -1708,15 +1740,21 @@ my:
         reject_note: ျငင္းပယ္သည့္ မွတ္စု
         rejected_note: ျငင္းပယ္သည့္ မွတ္စု
         relevant_referral_information: သက္ဆုိင္သည့္ လႊဲေျပာင္းမႈ အခ်က္အလက္
+        road: Road
         school_grade: ေက်ာင္းအဆင့္
         school_name: ေက်ာင္းနာမည္
-        state: လက္ခံသည္/ ျငင္းပယ္သည္
+        state: ပြည်နယ်
         status: အေနအထား
+        street_line1: လမ်းပေါ်လိုင်း 1
+        street_line2: လမ်းပေါ်လိုင်း 2
         street_number: လမ္း
+        subdistrict: Subdistrict
+        suburb: Suburb
         telephone_number: တယ်လီဖုန်းနံပါတ်
         thailand: ထိုင္းႏုိင္ငံ
         time_of_frequency: အႀကိမ္ အေရအတြက္
         total: စုစုေပါင္း
+        township: မြို့နယ်
         type: အမ်ိဳးအစား
         view: ျမင္ကြင္း
         village: ေက်းရြာ
