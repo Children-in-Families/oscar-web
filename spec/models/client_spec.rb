@@ -367,7 +367,6 @@ describe Client, 'methods' do
     let!(:specific_client){ create(:client,
       date_of_birth: 1.year.ago.to_date,
       received_by: user,
-      state: 'accepted',
       followed_up_by: follower,
       birth_province: province,
       province: province,
@@ -703,8 +702,8 @@ describe Client, 'scopes' do
   end
 
   context 'start with code' do
-    let(:kc_client) { create(:client, status: 'Active KC', state: 'accepted') }
-    let(:fc_client) { create(:client, status: 'Active FC', state: 'accepted') }
+    let(:kc_client) { create(:client, status: 'Active KC') }
+    let(:fc_client) { create(:client, status: 'Active FC') }
     let!(:kc) { create(:case, client: kc_client, case_type: 'KC') }
     let!(:fc) { create(:case, client: fc_client, case_type: 'FC') }
 
