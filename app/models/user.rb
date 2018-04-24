@@ -4,8 +4,8 @@ class User < ActiveRecord::Base
   include NextClientEnrollmentTracking
   include ClientEnrollmentTrackingNotification
 
-  # ROLES = ['admin', 'case worker', 'able manager', 'ec manager', 'fc manager', 'kc manager', 'manager', 'strategic overviewer'].freeze
-  ROLES = ['admin', 'manager', 'case worker', 'strategic overviewer'].freeze
+  ROLES = ['admin', 'case worker', 'able manager', 'ec manager', 'fc manager', 'kc manager', 'manager', 'strategic overviewer'].freeze
+  # ROLES = ['admin', 'manager', 'case worker', 'strategic overviewer'].freeze
   MANAGERS = ROLES.select { |role| role if role.include?('manager') }
 
   devise :database_authenticatable, :registerable,

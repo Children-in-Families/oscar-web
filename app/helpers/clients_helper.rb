@@ -139,7 +139,7 @@ module ClientsHelper
   end
 
   def disable_case_histories?
-    'disabled' if current_user.able_manager?
+    # 'disabled' if current_user.able_manager?
   end
 
   def client_custom_fields_list(object)
