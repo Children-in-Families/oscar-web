@@ -34,8 +34,18 @@ class FamilyColumnsVisibility
   def visible_columns
     @grid.column_names = []
     family_default_columns = Setting.first.try(:family_default_columns)
+    params = @params.keys.select{ |k| k.match(/\_$/) }
+    if params.present? && family_default_columns.present?
+      defualt_columns = params - family_default_columns
+    else
+      if params.present?
+        defualt_columns = params
+      else
+        defualt_columns = family_default_columns
+      end
+    end
     add_custom_builder_columns.each do |key, value|
-      @grid.column_names << value if family_default(value, family_default_columns) || @params[key]
+      @grid.column_names << value if family_default(key, defualt_columns) || @params[key]
     end
   end
 
@@ -54,6 +64,6 @@ class FamilyColumnsVisibility
 
   def family_default(column, setting_family_default_columns)
     return false if setting_family_default_columns.nil?
-    setting_family_default_columns.include?(column.to_s) unless @params[:family_grid].present? || @params[:family_advanced_search].present?
+    setting_family_default_columns.include?(column.to_s) if @params.dig(:family_grid, :descending).present? || (@params[:family_advanced_search].present? && @params.dig(:family_grid, :descending).present?) || @params[:family_grid].nil? || @params[:family_advanced_search].nil?
   end
 end

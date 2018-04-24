@@ -1,33 +1,32 @@
 class SettingsController < AdminController
-  before_action :default_columns
 
   def index
     @setting = Setting.first_or_initialize(assessment_frequency: 'month', min_assessment: 3, max_assessment: 6, case_note_frequency: 'day', max_case_note: 30)
-    country
+    authorize @setting
   end
 
   def create
     @setting = Setting.new(setting_params)
     if @setting.save
-      redirect_to settings_path, notice: t('.successfully_created')
+      url = params[:default_columns].present? ? default_columns_settings_path : settings_path
+      redirect_to url, notice: t('.successfully_created')
     else
       render :index
     end
+  end
+
+  def show
+    redirect_to settings_path
   end
 
   def update
     @setting = Setting.first
     if @setting.update_attributes(setting_params)
-      redirect_to settings_path, notice: t('.successfully_updated')
+      url = params[:default_columns].present? ? default_columns_settings_path : settings_path
+      redirect_to url, notice: t('.successfully_updated')
     else
       render :index
     end
-  end
-
-  private
-
-  def setting_params
-    params.require(:setting).permit(:disable_assessment, :assessment_frequency, :min_assessment, :max_assessment, :max_case_note, :case_note_frequency, client_default_columns: [], family_default_columns: [], partner_default_columns: [], user_default_columns: [])
   end
 
   def country
@@ -39,50 +38,46 @@ class SettingsController < AdminController
   end
 
   def default_columns
+    @setting = Setting.first_or_initialize(assessment_frequency: 'month', min_assessment: 3, max_assessment: 6, case_note_frequency: 'day', max_case_note: 30)
+    authorize @setting
     @client_default_columns = client_default_columns
     @family_default_columns = family_default_columns
     @partner_default_columns = partner_default_columns
   end
 
+  private
+
+  def setting_params
+    params.require(:setting).permit(:disable_assessment, :assessment_frequency, :min_assessment, :max_assessment, :max_case_note, :case_note_frequency, client_default_columns: [], family_default_columns: [], partner_default_columns: [], user_default_columns: [])
+  end
+
   def client_default_columns
     columns = []
-    sub_columns = %w(history_of_harm history_of_high_risk_behaviours history_of_disability_and_or_illness reason_for_family_separation rejected_note exit_reasons
-      exit_circumstance other_info_of_exit exit_note what3words main_school_contact rated_for_id_poor name_of_referee case_start_date carer_names  carer_address
-      carer_phone_number support_amount support_note form_title family_preservation family partner case_note_date case_note_type date_of_assessments all_csi_assessments manage changelog)
-    ClientGrid.new.filters.each do |f|
-      next if f.name == :has_date_of_birth || f.name == :quantitative_data
-      next if f.name == :quantitative_types || f.name == :all_domains
-      next if f.name == :placement_date || f.name == :placement_case_type
-      next if f.name == :domain_1a || f.name == :domain_1b
-      next if f.name == :domain_2a || f.name == :domain_2b
-      next if f.name == :domain_3a || f.name == :domain_3b
-      next if f.name == :domain_4a || f.name == :domain_4b
-      next if f.name == :domain_5a || f.name == :domain_5b
-      next if f.name == :domain_6a || f.name == :domain_6b
-      next if f.name == :assessments_due_to || f.name == :no_case_note || f.name == :overdue_task || f.name == :overdue_forms
-      columns << f.name.to_s
-    end
+    sub_columns = %w(history_of_harm_ history_of_high_risk_behaviours_ history_of_disability_and_or_illness_ reason_for_family_separation_ rejected_note_ exit_reasons_
+      exit_circumstance_ other_info_of_exit_ exit_note_ what3words_ main_school_contact_ rated_for_id_poor_ name_of_referee_ case_start_date_ carer_names_  carer_address_
+      carer_phone_number_ support_amount_ support_note_ form_title_ family_preservation_ family_ partner_ case_note_date_ case_note_type_ date_of_assessments_ all_csi_assessments_ manage_ changelog_)
+    filter_columns = ClientGrid.new.filters.map(&:name)
+    filter_columns_not_used = [:has_date_of_birth, :quantitative_data, :quantitative_types, :all_domains, :placement_date, :placement_case_type, :domain_1a, :domain_1b, :domain_2a, :domain_2b, :domain_3a,
+      :domain_3b, :domain_4a, :domain_4b, :domain_5a, :domain_5b, :domain_6a, :domain_6b, :assessments_due_to, :no_case_note, :overdue_task, :overdue_forms]
+    columns_name = filter_columns - filter_columns_not_used
+    columns = columns_name.map { |name| "#{name.to_s}_" }
     Domain.order_by_identity.each do |domain|
-      columns << domain.convert_identity
+      columns << "#{domain.convert_identity}_"
     end
     columns.push(sub_columns).flatten
   end
 
   def family_default_columns
     columns = []
-    sub_columns = %w(member_count clients case_workers manage changelog)
-    FamilyGrid.new.filters.each do |f|
-      columns << f.name.to_s
-    end
+    sub_columns = %w(member_count_ clients_ case_workers_ manage_ changelog_)
+    columns = FamilyGrid.new.filters.map{|f| "#{f.name.to_s}_" }
     columns.push(sub_columns).flatten
   end
 
   def partner_default_columns
     columns = []
-    sub_columns = %w(manage changelog)
-    PartnerGrid.new.filters.each do |f|
-      columns << f.name.to_s
-    end
+    sub_columns = %w(manage_ changelog_)
+    columns = PartnerGrid.new.filters.map{|f| "#{f.name.to_s}_" }
     columns.push(sub_columns).flatten
   end
 end

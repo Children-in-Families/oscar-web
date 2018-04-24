@@ -46,11 +46,133 @@ module AdvancedSearches
         values = case_note_type_field_query
       when 'date_of_assessments'
         values = date_of_assessments_field_query
+      when 'accepted_date'
+        values = enter_ngo_accepted_date_query
+      when 'exit_date'
+        values = exit_ngo_exit_date_query
+      when 'exit_note'
+        values = exit_ngo_text_field_query('exit_note')
+      when 'other_info_of_exit'
+        values = exit_ngo_text_field_query('other_info_of_exit')
+      when 'exit_circumstance'
+        values = exit_ngo_exit_circumstance_query
+      when 'exit_reasons'
+        values = exit_ngo_exit_reasons_query
       end
       { id: sql_string, values: values }
     end
 
     private
+
+    def exit_ngo_exit_reasons_query
+      exit_ngos = ExitNgo.all
+      case @operator
+      when 'equal'
+        exit_ngos = exit_ngos.where('(? = ANY(exit_reasons))', @value)
+      when 'not_equal'
+        exit_ngos = exit_ngos.where.not('? = ANY(exit_reasons)', @value)
+      when 'is_empty'
+        exit_ngos = exit_ngos.where("(exit_reasons = '{}')")
+      when 'is_not_empty'
+        exit_ngos = exit_ngos.where.not("(exit_reasons = '{}')")
+      end
+
+      @clients.joins(:exit_ngos).where(exit_ngos: { id: exit_ngos.ids }).ids.uniq
+    end
+
+    def exit_ngo_exit_circumstance_query
+      clients = @clients.joins(:exit_ngos)
+      case @operator
+      when 'equal'
+        clients = clients.where(exit_ngos: { exit_circumstance: @value })
+      when 'not_equal'
+        clients = clients.where.not(exit_ngos: { exit_circumstance: @value })
+      when 'is_empty'
+        clients = clients.where(exit_ngos: { exit_circumstance: '' })
+      when 'is_not_empty'
+        clients = clients.where.not(exit_ngos: { exit_circumstance: '' })
+      end
+      clients.ids
+    end
+
+    def exit_ngo_text_field_query(field)
+      exit_ngos = ExitNgo.all
+      case @operator
+      when 'equal'
+        client_id  = exit_ngos.find_by("lower(#{field}) = ?", @value.downcase).try(:client_id)
+        client_ids = Array(client_id)
+      when 'not_equal'
+        client_ids = exit_ngos.where.not("lower(#{field}) = ?", @value.downcase).pluck(:client_id)
+      when 'contains'
+        client_ids = exit_ngos.where("#{field} ILIKE ?", "%#{@value}%").pluck(:client_id)
+      when 'not_contains'
+        client_ids = exit_ngos.where.not("#{field} ILIKE ?", "%#{@value}%").pluck(:client_id)
+      when 'is_empty'
+        client_ids = exit_ngos.where("#{field} = ?", '').pluck(:client_id)
+      when 'is_not_empty'
+        client_ids = exit_ngos.where.not("#{field} = ?", '').pluck(:client_id)
+      end
+
+      client_ids.present? ? @clients.joins(:exit_ngos).where(id: client_ids.flatten.uniq).ids : []
+    end
+
+    def exit_ngo_exit_date_query
+      clients = @clients.joins(:exit_ngos)
+      case @operator
+      when 'equal'
+        clients = clients.where(exit_ngos: { exit_date: @value })
+      when 'not_equal'
+        clients = clients.where("exit_ngos.exit_date != ? OR exit_ngos.exit_date IS NULL", @value)
+      when 'less'
+        clients = clients.where('exit_ngos.exit_date < ?', @value)
+      when 'less_or_equal'
+        clients = clients.where('exit_ngos.exit_date <= ?', @value)
+      when 'greater'
+        clients = clients.where('exit_ngos.exit_date > ?', @value)
+      when 'greater_or_equal'
+        clients = clients.where('exit_ngos.exit_date >= ?', @value)
+      when 'between'
+        clients = clients.where(exit_ngos: { exit_date: @value[0]..@value[1] })
+      when 'is_empty'
+        # clients have been exited but exit_date is blank
+        ids = clients.where(exit_ngos: { exit_date: nil }).ids.uniq
+        # clients haven't been exited
+        ids = ids << @clients.where.not(id: clients.ids).ids
+        clients = @clients.where(id: ids.flatten.uniq)
+      when 'is_not_empty'
+        clients = clients.where.not(exit_ngos: { exit_date: nil })
+      end
+      clients.ids
+    end
+
+    def enter_ngo_accepted_date_query
+      clients = @clients.joins(:enter_ngos)
+      case @operator
+      when 'equal'
+        clients = clients.where(enter_ngos: { accepted_date: @value })
+      when 'not_equal'
+        clients = clients.where("enter_ngos.accepted_date != ? OR enter_ngos.accepted_date IS NULL", @value)
+      when 'less'
+        clients = clients.where('enter_ngos.accepted_date < ?', @value)
+      when 'less_or_equal'
+        clients = clients.where('enter_ngos.accepted_date <= ?', @value)
+      when 'greater'
+        clients = clients.where('enter_ngos.accepted_date > ?', @value)
+      when 'greater_or_equal'
+        clients = clients.where('enter_ngos.accepted_date >= ?', @value)
+      when 'between'
+        clients = clients.where(enter_ngos: { accepted_date: @value[0]..@value[1] })
+      when 'is_empty'
+        # clients have been accepted but accepted_date is blank
+        ids = clients.where(enter_ngos: { accepted_date: nil }).ids.uniq
+        # clients haven't been accepted
+        ids = ids << @clients.where.not(id: clients.ids).ids
+        clients = @clients.where(id: ids.flatten.uniq)
+      when 'is_not_empty'
+        clients = clients.where.not(enter_ngos: { accepted_date: nil })
+      end
+      clients.ids
+    end
 
     def date_of_assessments_field_query
       clients = @clients.joins(:assessments)

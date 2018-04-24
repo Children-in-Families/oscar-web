@@ -77,7 +77,7 @@ module ApplicationHelper
   end
 
   def exit_circumstance_value
-    return @client.exit_circumstance if @client.exit_circumstance.present?
+    # return @client.exit_circumstance if @client.exit_circumstance.present?
     @client.status == 'Accepted' ? 'Exited Client' : 'Rejected Referral'
   end
 
@@ -102,6 +102,11 @@ module ApplicationHelper
 
   def active_menu(name, alter_name = '')
     controller_name == name || controller_name == alter_name ? 'active' : nil
+  end
+
+  def settings_menu_active(name, action_names)
+    action = ['index' ,'update' ,'create'].include?(action_name) ? 'index' : action_name
+    'active' if (controller_name == name && action_names == action)
   end
 
   def hidden_class(bool)
@@ -214,8 +219,12 @@ module ApplicationHelper
     value.gsub(/\[/, '&#91;').gsub(/\]/, '&#93;')
   end
 
-  def default_setting(client_column, setting_client_default_columns)
-    return false if setting_client_default_columns.nil?
-    setting_client_default_columns.include?(client_column.to_s) unless params[:client_grid].present? || params[:client_advanced_search].present? || params[:family_grid].present? || params[:family_advanced_search].present? || params[:partner_grid].present? || params[:partner_advanced_search].present?
+  def default_setting(column, setting_default_columns)
+    key_columns = params.keys.select{ |k| k.match(/\_$/) }
+    return false if setting_default_columns.nil? || (key_columns.present? && key_columns.exclude?(column))
+    return false unless params.dig(:client_grid, :descending).present? || (params[:client_advanced_search].present? && params.dig(:client_grid, :descending).present?) || params[:client_grid].nil? || params[:client_advanced_search].nil?
+    return false unless params.dig(:family_grid, :descending).present? || (params[:family_advanced_search].present? && params.dig(:family_grid, :descending).present?) || params[:family_grid].nil? || params[:family_advanced_search].nil?
+    return false unless params.dig(:partner_grid, :descending).present? || (params[:partner_advanced_search].present? && params.dig(:partner_grid, :descending).present?) || params[:partner_grid].nil? || params[:partner_advanced_search].nil?
+    setting_default_columns.include?(column.to_s)
   end
 end

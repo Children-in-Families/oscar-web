@@ -193,7 +193,7 @@ module ClientsHelper
   end
 
   def form_builder_format_header(value)
-    entities  = { formbuilder: 'Custom form', exitprogram: 'Exit program', tracking: 'Tracking', enrollment: 'Enrollment' }
+    entities  = { formbuilder: 'Custom form', exitprogram: 'Exit program', tracking: 'Tracking', enrollment: 'Enrollment', enrollmentdate: 'Enrollment', programexitdate: 'Exit program' }
     key_word  = value.first
     entity    = entities[key_word.to_sym]
     value     = value - [key_word]
@@ -252,5 +252,86 @@ module ClientsHelper
   def enable_assessment_setting?
     setting = Setting.first.try(:disable_assessment)
     setting.nil? ? true : !setting
+  end
+
+  def default_columns_visibility(column)
+    label_column = {
+      live_with_: t('datagrid.columns.clients.live_with'),
+      exit_reasons_: t('datagrid.columns.clients.exit_reasons'),
+      exit_circumstance_: t('datagrid.columns.clients.exit_circumstance'),
+      other_info_of_exit_: t('datagrid.columns.clients.other_info_of_exit'),
+      exit_note_: t('datagrid.columns.clients.exit_note'),
+      what3words_: t('datagrid.columns.clients.what3words'),
+      name_of_referee_: t('datagrid.columns.clients.name_of_referee'),
+      rated_for_id_poor_: t('datagrid.columns.clients.rated_for_id_poor'),
+      main_school_contact_: t('datagrid.columns.clients.main_school_contact'),
+      program_streams_: t('datagrid.columns.clients.program_streams'),
+      given_name_: t('datagrid.columns.clients.given_name'),
+      family_name_: t('datagrid.columns.clients.family_name'),
+      local_given_name_: t('datagrid.columns.clients.local_given_name'),
+      local_family_name_: t('datagrid.columns.clients.local_family_name'),
+      gender_: t('datagrid.columns.clients.gender'),
+      date_of_birth_: t('datagrid.columns.clients.date_of_birth'),
+      status_: t('datagrid.columns.clients.status'),
+      case_type_: t('datagrid.columns.cases.case_type'),
+      birth_province_id_: t('datagrid.columns.clients.birth_province'),
+      initial_referral_date_: t('datagrid.columns.clients.initial_referral_date'),
+      referral_phone_: t('datagrid.columns.clients.referral_phone'),
+      received_by_id_: t('datagrid.columns.clients.received_by'),
+      referral_source_id_: t('datagrid.columns.clients.referral_phone'),
+      followed_up_by_id_: t('datagrid.columns.clients.follow_up_by'),
+      follow_up_date_: t('datagrid.columns.clients.follow_up_date'),
+      agencies_name_: t('datagrid.columns.clients.agencies_involved'),
+      province_id_: t('datagrid.columns.clients.current_province'),
+      current_address_: t('datagrid.columns.clients.current_address'),
+      house_number_: t('datagrid.columns.clients.house_number'),
+      street_number_: t('datagrid.columns.clients.street_number'),
+      village_: t('datagrid.columns.clients.village'),
+      commune_: t('datagrid.columns.clients.commune'),
+      district_: t('datagrid.columns.clients.district'),
+      school_name_: t('datagrid.columns.clients.school_name'),
+      school_grade_: t('datagrid.columns.clients.school_grade'),
+      has_been_in_orphanage_: t('datagrid.columns.clients.has_been_in_orphanage'),
+      has_been_in_government_care_: t('datagrid.columns.clients.has_been_in_government_care'),
+      relevant_referral_information_: t('datagrid.columns.clients.relevant_referral_information'),
+      user_ids_: t('datagrid.columns.clients.case_worker'),
+      state_: t('datagrid.columns.clients.state'),
+      accepted_date_: t('datagrid.columns.clients.ngo_accepted_date'),
+      exit_date_: t('datagrid.columns.clients.ngo_exit_date'),
+      history_of_disability_and_or_illness_: t('datagrid.columns.clients.history_of_disability_and_or_illness'),
+      history_of_harm_: t('datagrid.columns.clients.history_of_harm'),
+      history_of_high_risk_behaviours_: t('datagrid.columns.clients.history_of_high_risk_behaviours'),
+      reason_for_family_separation_: t('datagrid.columns.clients.reason_for_family_separation'),
+      rejected_note_: t('datagrid.columns.clients.rejected_note'),
+      case_start_date_: t('datagrid.columns.clients.placements.start_date'),
+      carer_names_: t('datagrid.columns.clients.placements.carer_names'),
+      carer_address_: t('datagrid.columns.clients.placements.carer_address'),
+      carer_phone_number_: t('datagrid.columns.clients.placements.carer_phone_number'),
+      support_amount_: t('datagrid.columns.clients.placements.support_amount'),
+      support_note_: t('datagrid.columns.clients.placements.support_note'),
+      form_title_: t('datagrid.columns.clients.form_title'),
+      family_preservation_: t('datagrid.columns.families.family_preservation'),
+      family_: t('datagrid.columns.clients.placements.family'),
+      partner_: t('datagrid.columns.partners.partner'),
+      code_: t('datagrid.columns.clients.code'),
+      age_: t('datagrid.columns.clients.age'),
+      slug_: t('datagrid.columns.clients.id'),
+      kid_id_: t('datagrid.columns.clients.kid_id'),
+      family_id_: t('datagrid.columns.families.code'),
+      case_note_date_: t('datagrid.columns.clients.case_note_date'),
+      case_note_type_: t('datagrid.columns.clients.case_note_type'),
+      date_of_assessments_: t('datagrid.columns.clients.date_of_assessments'),
+      all_csi_assessments_: t('datagrid.columns.clients.all_csi_assessments'),
+      donor_: t('datagrid.columns.clients.donor'),
+      manage_: t('datagrid.columns.clients.manage'),
+      changelog_: t('datagrid.columns.changelog'),
+      telephone_number_: t('datagrid.columns.clients.telephone_number')
+    }
+    Domain.order_by_identity.each do |domain|
+      identity = domain.identity
+      field = domain.convert_identity
+      label_column = label_column.merge!("#{field}_": identity)
+    end
+    label_column[column.to_sym]
   end
 end

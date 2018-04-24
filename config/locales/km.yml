@@ -248,6 +248,20 @@ km:
             name:
               blank: មិនអាចរំលង
               taken: ត្រូវបានប្រើរួចហើយ
+        setting:
+          attributes:
+            min_assessment:
+              blank: មិនអាចរំលង
+              less_than:
+                one: ត្រូវតែតូចជាងអតិបរមា
+                other: ត្រូវតែតូចជាង %{count}
+            max_assessment:
+              blank: មិនអាចរំលង
+              greater_than:
+                one: ត្រូវតែធំជាងអប្បរមា
+                other: ត្រូវតែធំជាង %{count}
+            max_case_note:
+              blank: មិនអាចរំលង
         stage:
           attributes:
             from_age:
@@ -480,7 +494,7 @@ km:
       are_you_sure: តើអ្នកប្រាកដហើយ?
       attachments: ឯកសារភ្ជាប់
       download: ទាញយក
-      max_file_size: "*ទំហំឯកសារអតិបរិមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកឡើង."
+      max_file_size: "*ទំហំឯកសារអតិបរមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកឡើង."
       preview_download: មើលនិងទាញយក
   api:
     form_builder_attachments:
@@ -537,7 +551,7 @@ km:
       are_you_sure: តើអ្នកប្រាកដហើយ?
       attachments: ឯកសារភ្ជាប់
       download: ទាញយក
-      max_file_size: "*ទំហំឯកសារអតិបរិមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកឡើង."
+      max_file_size: "*ទំហំឯកសារអតិបរមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកឡើង."
       preview_download: មើលនិងទាញយក
     create:
       successfully_created: កំណត់ត្រាត្រូវបានបង្កើតដោយជោគជ័យ
@@ -694,6 +708,55 @@ km:
         one: '"អ្នកមានការប៉ាន់ប្រមាណចំនួន1មិនទាន់បានធ្វើ"'
         other: '"អ្នកមានការប៉ាន់ប្រមាណចំនួន%{count}មិនទាន់បានធ្វើ"'
   client:
+    enter_ngos:
+      create:
+        failed_create: អតិថិជនមិនត្រូវបានកែសម្រួលដោយជោគជ័យ
+        successfully_created: អតិថិជនត្រូវបានកែសម្រួលដោយជោគជ័យ
+      edit_form:
+        accept: ទទួលយក
+        accept_ngo_form: ទទួលចូលអង្គការ
+        accepted_date: កាលបរិច្ឆេទទទួលយកចូលអង្គការ
+        case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
+      form:
+        accept: ទទួលយក
+        accept_ngo_form: ទទួលចូលអង្គការ
+        accepted_date: កាលបរិច្ឆេទទទួលយកចូលអង្គការ
+        case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
+      update:
+        failed_update: អតិថិជនមិនត្រូវបានកែសម្រួលដោយជោគជ័យ
+        successfully_updated: អតិថិជនត្រូវបានកែសម្រួលដោយជោគជ័យ
+    exit_ngos:
+      create:
+        failed_create: អតិថិជនមិនត្រូវបានកែសម្រួលដោយជោគជ័យ
+        successfully_created: អតិថិជនត្រូវបានកែសម្រួលដោយជោគជ័យ
+      edit_form:
+        case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
+        exit_btn: ចាកចេញ
+        exit_circumstance: ស្ថានភាពនៃការចាកចេញ
+        exit_date: ថ្ងៃចាកចេញ
+        exit_ngo: ចាកចេញពីអង្គការ
+        exit_note: កំណត់ហេតុនៃការចាកចេញ
+        exit_reasons: មូលហេតុនៃការចាកចេញ
+        exit_status: ស្ថានភាព
+        other_info_of_exit: ព័ត៌មានបន្ថែមនៃការចាកចេញ
+        reject_client: មិនទទួលយកអតិថិជន
+        rejected_note: កំណត់ហេតុនៃការមិនទទួលយក
+      form:
+        case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
+        exit_btn: ចាកចេញ
+        exit_circumstance: ស្ថានភាពនៃការចាកចេញ
+        exit_date: ថ្ងៃចាកចេញ
+        exit_ngo: ចាកចេញពីអង្គការ
+        exit_note: កំណត់ហេតុនៃការចាកចេញ
+        exit_reasons: មូលហេតុនៃការចាកចេញ
+        exit_status: ស្ថានភាព
+        other_info_of_exit: ព័ត៌មានបន្ថែមនៃការចាកចេញ
+        reject_client: មិនទទួលយកអតិថិជន
+        rejected_note: កំណត់ហេតុនៃការមិនទទួលយក
+      update:
+        failed_update: អតិថិជនមិនត្រូវបានកែសម្រួលដោយជោគជ័យ
+        successfully_updated: អតិថិជនត្រូវបានកែសម្រួលដោយជោគជ័យ
+
     tasks:
       create:
         successfully_created: កាតព្វកិច្ចត្រូវបានបង្កើតដោយជោគជ័យ
@@ -792,7 +855,7 @@ km:
       allow_file_size: ប្រភេទឯកសារដែលបានអនុញ្ញាត
       cancel: ទុកជាមោឃៈ
       save: រក្សាទុក
-      max_file_size: "*ទំហំឯកសារអតិបរិមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកឡើង."
+      max_file_size: "*ទំហំឯកសារអតិបរមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកឡើង."
     index:
       programs_list: តារាងកម្មវិធីបន្ទាប់បន្សំ
       tracking_lists: តារាងការតាមដាន
@@ -822,7 +885,7 @@ km:
       enrollment_date: ថ្ងៃចុះឈ្មោះ
       not_an_email: មិនមែនជាឣុីម៉ែល
       save: រក្សាទុក
-      max_file_size: "*ទំហំឯកសារអតិបរិមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកឡើង."
+      max_file_size: "*ទំហំឯកសារអតិបរមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកឡើង."
     index:
       actions: សកម្មភាព
       back: ត្រលប់ក្រោយ
@@ -1371,12 +1434,14 @@ km:
       donor: ម្ចាស់ជំនួយ
       edit_exit_information: កែសម្រួលព័ត៌មាននៃការចាកចេញ
       enrolled_program_streams: កម្មវិធីបន្ទាប់បន្សំដែលបានចូលរួម
+      enter_ngo_information: ព័ត៌មានទទួលចូលអង្គការ
       exit_circumstance: ស្ថានភាពនៃការចាកចេញ
       exit_date: ថ្ងៃចាកចេញ
       exit_from_ec: ចាកចេញពី EC
       exit_from_fc: ចាកចេញពី FC
       exit_from_kc: ចាកចេញពី KC
       exit_ngo_btn: ចាកចេញពីអង្គការ
+      exit_ngo_information: ព័ត៌មានចាកចេញពីអង្គការ
       exit_note: កំណត់ហេតុនៃការចាកចេញ
       exit_reasons: មូលហេតុនៃការចាកចេញ
       families: គ្រួសារ
@@ -1406,6 +1471,7 @@ km:
       local_family_name: នាមត្រកូលជាអក្សរខ្មែរ
       local_given_name: នាមខ្លួនជាអក្សរខ្មែរ
       main_school_contact: អាស័យដ្ឋានទំនាក់ទំនងសាលារៀន
+      manage: សកម្មភាព
       name: ឈ្មោះ
       name_of_referee: ឈ្មោះអ្នកបញ្ជូន
       note: កំណត់ហេតុ
@@ -3068,7 +3134,10 @@ km:
       changelogs: ប្រវត្តិនៃកំណែទិន្នន័យ
       clients: ឣតិថិជន
       custom_fields: ទម្រង់បែបបទ
+      country: ប្រទេស
+      csi_tools: ឧបករណ៍ CSI
       dashboards: តារាងទិន្នន័យ
+      default_columns: ជួរឈរលំនាំដើម
       departments: កម្មវិធី
       districts: ស្រុក
       domain_groups: ការប្រមូលបណ្ដុំកត្តា
@@ -3115,7 +3184,7 @@ km:
       cancel: ទុកជាមោឃៈ
       exit_date: ថ្ងៃចាកចេញ
       save: រក្សាទុក
-      max_file_size: "*ទំហំឯកសារអតិបរិមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកឡើង."
+      max_file_size: "*ទំហំឯកសារអតិបរមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកឡើង."
     new:
       new_exit_program: ការចាកចេញពីកម្មវិធីថ្មី
     show:
@@ -3495,7 +3564,7 @@ km:
       interventions: ចំនុចដែលត្រូវធ្វើ
       location: កន្លែង
       material: របស់របរ/សម្ភារ
-      max_file_size: "*ទំហំឯកសារអតិបរិមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកឡើង."
+      max_file_size: "*ទំហំឯកសារអតិបរមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកឡើង."
       other_location: ផ្សេងៗ
       progress_note_type: កំណត់សំគាល់
       response: សកម្មភាព/ការឆ្លើយតប
@@ -3682,30 +3751,28 @@ km:
       bad_credentials_supplied: កូដផ្ទៀងផ្ទាត់មិនត្រឹមត្រូវ
   settings:
     assessment:
-      assessment: ការប៉ាន់ប្រមាណ
-      assessment_frequency: ភាពញឹកញាប់
+      assessment: ការកំណត់ប្រេកង់នៃការវាយតំលៃ CSI
       disable_assessment: យើងមិនប្រើការប៉ាន់ប្រមាណ
-      max_assessment: រយៈពេលការប៉ាន់ប្រមាណអតិបរមា
-      min_assessment: រយៈពេលការប៉ាន់ប្រមាណអប្បរមា
+      max_assessment: រយៈពេលអតិបរមារវាងការវាយតម្លៃ
+      min_assessment: រយៈពេលអប្បបរមារវាងការវាយតម្លៃទី 1 និងទី 2
     case_note:
-      case_note: កំណត់ត្រាករណី
-      case_note_frequency: ភាពញឹកញាប់
-      max_case_note: រយៈពេលកំណត់ត្រាករណីអតិបរមា
+      case_note: រយៈពេលអតិបរមារវាងកំណត់ត្រាករណីសម្រាប់អតិថិជន
+      max_case_note: អតិបរមា
     country:
       country: ប្រទេស
-    create:
-      successfully_created: ការកំណត់បានបង្កើតដោយជោគជ័យ
-    default_columns:
-      client_default_columns: ជួរឈរលំនាំដើមរបស់អតិថិជន
-      default_columns: ជួរឈរលំនាំដើម
-      family_default_columns: ជួរឈរលំនាំដើមរបស់គ្រួសារ
-      partner_default_columns: ជួរឈរលំនាំដើមរបស់ដៃគូ
-    index:
-      settings: ការកំណត់
       switched_country_cambodia: អ្នកបានប្ដូរការកំណត់ទៅជាប្រទេសកម្ពុជា
       switched_country_lesotho: អ្នកបានប្ដូរការកំណត់ទៅជាប្រទេសឡឹសូថូ
       switched_country_myanmar: អ្នកបានប្ដូរការកំណត់ទៅជាប្រទេសមីយ៉ាន់ម៉ា
       switched_country_thailand: អ្នកបានប្ដូរការកំណត់ទៅជាប្រទេសថៃ
+    create:
+      successfully_created: ការកំណត់បានបង្កើតដោយជោគជ័យ
+    default_columns:
+      client_default_columns: អតិថិជន
+      default_columns: ជួរឈរលំនាំដើម
+      family_default_columns: គ្រួសារ
+      partner_default_columns: ដៃគូ
+    index:
+      csi_tools: ឧបករណ៍ CSI
     update:
       successfully_updated: ការកំណត់បានកែសម្រួលដោយជោគជ័យ
   shared:
@@ -3715,7 +3782,7 @@ km:
         preview_download: មើលនិងទាញយក
       file_field:
         allow_file_size: ប្រភេទឯកសារដែលបានអនុញ្ញាត
-        max_file_size: "*ទំហំឯកសារអតិបរិមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកឡើង."
+        max_file_size: "*ទំហំឯកសារអតិបរមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកឡើង."
     per_page_form:
       show: បង្ហាញ
     version_type:

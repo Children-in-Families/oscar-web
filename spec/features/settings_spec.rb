@@ -28,7 +28,7 @@ describe 'Settings' do
       fill_in 'setting_min_assessment', with: 4
       fill_in 'setting_max_assessment', with: 7
       click_button 'Save'
-      expect(page).to have_content('Weekly')
+      expect(page).to have_css('.setting_assessment_frequency select option[selected="selected"]', text: 'Week', visible: false)
     end
   end
 
@@ -38,8 +38,7 @@ describe 'Settings' do
       find('.setting_case_note_frequency select option[value="week"]', visible: false).select_option
       fill_in 'setting_max_case_note', with: 4
       click_button 'Save'
-      expect(page).to have_content('Weekly')
+      expect(page).to have_css('.setting_case_note_frequency select option[selected="selected"]', text: 'Week', visible: false)
     end
   end
-
 end
