@@ -1,0 +1,24 @@
+.row
+  .col-xs-12
+    = simple_form_for @setting do |f|
+      .ibox
+        .ibox-title
+          %h5.text-center= t('.default_columns')
+        .ibox-content
+          .row
+            .col-xs-12.col-sm-4
+              .form-group
+                = f.input :client_default_columns, label: t('.client_default_columns'), collection: @client_default_columns.map{ |c| [default_columns_visibility(c), c] }, input_html: { class: 'select2', multiple: true }
+            .col-xs-12.col-sm-4
+              .form-group
+                = f.input :family_default_columns, label: t('.family_default_columns'), collection: @family_default_columns.map{ |c| [default_family_columns_visibility(c), c] }, input_html: { class: 'select2', multiple: true }
+            .col-xs-12.col-sm-4
+              .form-group
+                = f.input :partner_default_columns, label: t('.partner_default_columns'), collection: @partner_default_columns.map{ |c| [default_columns_partners_visibility(c), c] }, input_html: { class: 'select2', multiple: true }
+                = f.hidden_field :max_case_note, label: false
+                = f.hidden_field :case_note_frequency, collection: [['Day', 'day'], ['Week', 'week'], ['Month', 'month'], ['Year', 'year']], input_html: {class: 'select2'}, label: false
+                = f.hidden_field :min_assessment, label: false
+                = f.hidden_field :max_assessment, label: false
+                = f.hidden_field :assessment_frequency, collection: [['Day', 'day'], ['Week', 'week'], ['Month', 'month'], ['Year', 'year']], input_html: { class: 'select2' }, label: false
+        .ibox-footer
+          = f.submit t('save'), name: 'default_columns' ,class: 'btn btn-primary'

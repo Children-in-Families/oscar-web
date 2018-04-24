@@ -34,6 +34,10 @@ class CaseNote < ActiveRecord::Base
     end
   end
 
+  def self.latest_record
+    order(meeting_date: :desc).first
+  end
+
   private
 
   def set_assessment
