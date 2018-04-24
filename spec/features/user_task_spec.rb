@@ -34,7 +34,7 @@ describe Task do
         visit dashboards_path
       end
 
-      scenario 'list all users' do
+      xscenario 'list all users' do
         expect(page).to have_select 'user_id', with_options: ['mr admin', 'able manager', 'able caseworker', 'ec caseworker']
       end
 

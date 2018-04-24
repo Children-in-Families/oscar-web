@@ -91,7 +91,7 @@ describe 'Abilities' do
     end
   end
 
-  context 'ec manager permissions' do
+  xcontext 'ec manager permissions' do
     let!(:user){ create(:user, :ec_manager) }
 
     it 'can manage Agency' do
@@ -170,7 +170,7 @@ describe 'Abilities' do
     end
   end
 
-  context 'ec manager permissions' do
+  xcontext 'ec manager permissions' do
     let!(:user){ create(:user, :ec_manager) }
 
     it 'can manage Agency' do
