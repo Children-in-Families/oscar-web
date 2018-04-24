@@ -330,7 +330,18 @@ module ClientsHelper
       donor_: t('datagrid.columns.clients.donor'),
       manage_: t('datagrid.columns.clients.manage'),
       changelog_: t('datagrid.columns.changelog'),
-      telephone_number_: t('datagrid.columns.clients.telephone_number')
+      telephone_number_: t('datagrid.columns.clients.telephone_number'),
+      subdistrict_: t('datagrid.columns.clients.subdistrict'),
+      state_: t('datagrid.columns.clients.state'),
+      township_: t('datagrid.columns.clients.township'),
+      postal_code_: t('datagrid.columns.clients.postal_code'),
+      road_: t('datagrid.columns.clients.road'),
+      plot_: t('datagrid.columns.clients.plot'),
+      street_line1_: t('datagrid.columns.clients.street_line1'),
+      street_line2_: t('datagrid.columns.clients.street_line2'),
+      suburb_: t('datagrid.columns.clients.suburb'),
+      directions_: t('datagrid.columns.clients.directions'),
+      description_house_landmark_: t('datagrid.columns.clients.description_house_landmark')
     }
     Domain.order_by_identity.each do |domain|
       identity = domain.identity

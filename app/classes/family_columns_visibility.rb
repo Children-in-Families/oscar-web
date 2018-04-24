@@ -35,10 +35,14 @@ class FamilyColumnsVisibility
     @grid.column_names = []
     family_default_columns = Setting.first.try(:family_default_columns)
     params = @params.keys.select{ |k| k.match(/\_$/) }
-    if params.present?
+    if params.present? && family_default_columns.present?
       defualt_columns = params - family_default_columns
     else
-      defualt_columns = family_default_columns
+      if params.present?
+        defualt_columns = params
+      else
+        defualt_columns = family_default_columns
+      end
     end
     add_custom_builder_columns.each do |key, value|
       @grid.column_names << value if family_default(key, defualt_columns) || @params[key]
