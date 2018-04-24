@@ -245,11 +245,6 @@ my:
               taken: ယူထားၿပီးျဖစ္ပါသည္။
         setting:
           attributes:
-            min_assessment:
-              blank: ကြက္လပ္ခ်ိန္ထား၍မရပါ။
-              less_than:
-                one: အများဆုံးထက်လျော့နည်းဖြစ်ရမည်
-                other: သေးငယ်ဖြစ်ရမည် %{count}
             max_assessment:
               blank: ကြက္လပ္ခ်ိန္ထား၍မရပါ။
               greater_than:
@@ -257,6 +252,11 @@ my:
                 other: သာ. ကြီးသောသူဖြစ်ရမည် %{count}
             max_case_note:
               blank: ကြက္လပ္ခ်ိန္ထား၍မရပါ။
+            min_assessment:
+              blank: ကြက္လပ္ခ်ိန္ထား၍မရပါ။
+              less_than:
+                one: အများဆုံးထက်လျော့နည်းဖြစ်ရမည်
+                other: သေးငယ်ဖြစ်ရမည် %{count}
         stage:
           attributes:
             from_age:
