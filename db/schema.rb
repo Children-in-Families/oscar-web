@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180419045448) do
+ActiveRecord::Schema.define(version: 20180406024720) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -335,7 +335,7 @@ ActiveRecord::Schema.define(version: 20180419045448) do
     t.boolean  "able",                             default: false
     t.boolean  "has_been_in_government_care",      default: false
     t.text     "relevant_referral_information",    default: ""
-    t.string   "archive_state",                    default: ""
+    t.string   "state",                            default: ""
     t.text     "rejected_note",                    default: ""
     t.integer  "province_id"
     t.integer  "referral_source_id"
@@ -399,25 +399,11 @@ ActiveRecord::Schema.define(version: 20180419045448) do
     t.string   "exit_reasons",                     default: [],         array: true
     t.string   "exit_circumstance",                default: ""
     t.string   "other_info_of_exit",               default: ""
-    t.string   "suburb",                           default: ""
-    t.string   "description_house_landmark",       default: ""
-    t.string   "directions",                       default: ""
-    t.string   "street_line1",                     default: ""
-    t.string   "street_line2",                     default: ""
-    t.string   "plot",                             default: ""
-    t.string   "road",                             default: ""
-    t.string   "postal_code",                      default: ""
-    t.integer  "subdistrict_id"
-    t.integer  "township_id"
-    t.integer  "state_id"
   end
 
   add_index "clients", ["district_id"], name: "index_clients_on_district_id", using: :btree
   add_index "clients", ["donor_id"], name: "index_clients_on_donor_id", using: :btree
   add_index "clients", ["slug"], name: "index_clients_on_slug", unique: true, using: :btree
-  add_index "clients", ["state_id"], name: "index_clients_on_state_id", using: :btree
-  add_index "clients", ["subdistrict_id"], name: "index_clients_on_subdistrict_id", using: :btree
-  add_index "clients", ["township_id"], name: "index_clients_on_township_id", using: :btree
 
   create_table "clients_quantitative_cases", force: :cascade do |t|
     t.integer  "client_id"
@@ -889,21 +875,6 @@ ActiveRecord::Schema.define(version: 20180419045448) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "states", force: :cascade do |t|
-    t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "subdistricts", force: :cascade do |t|
-    t.string   "name"
-    t.integer  "district_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-  end
-
-  add_index "subdistricts", ["district_id"], name: "index_subdistricts_on_district_id", using: :btree
-
   create_table "surveys", force: :cascade do |t|
     t.integer  "client_id"
     t.integer  "user_id"
@@ -1147,18 +1118,9 @@ ActiveRecord::Schema.define(version: 20180419045448) do
 
   add_index "thredded_user_topic_read_states", ["user_id", "postable_id"], name: "thredded_user_topic_read_states_user_postable", unique: true, using: :btree
 
-  create_table "townships", force: :cascade do |t|
-    t.string   "name"
-    t.integer  "state_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  add_index "townships", ["state_id"], name: "index_townships_on_state_id", using: :btree
-
   create_table "trackings", force: :cascade do |t|
     t.string   "name",              default: ""
-    t.jsonb    "fields",            default: {}
+    t.jsonb    "fields"
     t.string   "frequency",         default: ""
     t.integer  "time_of_frequency"
     t.integer  "program_stream_id"
@@ -1206,7 +1168,6 @@ ActiveRecord::Schema.define(version: 20180419045448) do
     t.boolean  "task_notify",                    default: true
     t.integer  "manager_id"
     t.boolean  "calendar_integration",           default: false
-    t.integer  "pin_number"
     t.integer  "manager_ids",                    default: [],                         array: true
     t.boolean  "program_warning",                default: false
     t.boolean  "staff_performance_notification", default: true
@@ -1289,9 +1250,6 @@ ActiveRecord::Schema.define(version: 20180419045448) do
   add_foreign_key "client_problems", "problems"
   add_foreign_key "clients", "districts"
   add_foreign_key "clients", "donors"
-  add_foreign_key "clients", "states"
-  add_foreign_key "clients", "subdistricts"
-  add_foreign_key "clients", "townships"
   add_foreign_key "custom_field_permissions", "custom_fields"
   add_foreign_key "custom_field_permissions", "users"
   add_foreign_key "custom_field_properties", "custom_fields"
@@ -1312,12 +1270,10 @@ ActiveRecord::Schema.define(version: 20180419045448) do
   add_foreign_key "progress_notes", "progress_note_types"
   add_foreign_key "progress_notes", "users"
   add_foreign_key "quarterly_reports", "cases"
-  add_foreign_key "subdistricts", "districts"
   add_foreign_key "surveys", "clients"
   add_foreign_key "tasks", "clients"
   add_foreign_key "thredded_messageboard_users", "thredded_messageboards"
   add_foreign_key "thredded_messageboard_users", "thredded_user_details"
-  add_foreign_key "townships", "states"
   add_foreign_key "trackings", "program_streams"
   add_foreign_key "users", "organizations"
   add_foreign_key "visit_clients", "users"
