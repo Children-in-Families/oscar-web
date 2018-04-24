@@ -1120,7 +1120,7 @@ ActiveRecord::Schema.define(version: 20180406024720) do
 
   create_table "trackings", force: :cascade do |t|
     t.string   "name",              default: ""
-    t.jsonb    "fields"
+    t.jsonb    "fields",            default: {}
     t.string   "frequency",         default: ""
     t.integer  "time_of_frequency"
     t.integer  "program_stream_id"
@@ -1168,6 +1168,7 @@ ActiveRecord::Schema.define(version: 20180406024720) do
     t.boolean  "task_notify",                    default: true
     t.integer  "manager_id"
     t.boolean  "calendar_integration",           default: false
+    t.integer  "pin_number"
     t.integer  "manager_ids",                    default: [],                         array: true
     t.boolean  "program_warning",                default: false
     t.boolean  "staff_performance_notification", default: true
