@@ -60,7 +60,7 @@ module AdvancedSearches
     end
 
     def exit_reasons_options
-      Client::EXIT_REASONS.map{|s| { s => s }  }
+      ExitNgo::EXIT_REASONS.map{|s| { s => s }  }
     end
 
     def case_note_type_options

@@ -80,9 +80,13 @@ describe "Assessment" do
     let!(:assessment_domain){ create(:assessment_domain, assessment: assessment, domain: domain) }
     let!(:client_1){ create(:client, :accepted, users: [user]) }
     let!(:client_2){ create(:client, :accepted, users: [user]) }
-    let!(:assessment_1){ create(:assessment, created_at: Time.now - 3.months, client: client_1) }
-    let!(:assessment_2){ create(:assessment, created_at: Time.now - 4.months, client: client_2) }
+    # let!(:assessment_1){ create(:assessment, created_at: Time.now - 3.months, client: client_1) }
+    # let!(:assessment_2){ create(:assessment, created_at: Time.now - 4.months, client: client_2) }
     let!(:last_assessment_domain){ create(:assessment_domain, assessment: assessment_1, domain: domain) }
+
+    let!(:setting) {create(:setting, :monthly_assessment, min_assessment: 3, max_assessment: 6)}
+    let!(:assessment_1){ create(:assessment, created_at: Time.now - (setting.min_assessment).months, client: client_1) }
+    let!(:assessment_2){ create(:assessment, created_at: Time.now - (setting.max_assessment).months, client: client_2) }
 
     before do
       visit client_assessments_path(client)
@@ -97,11 +101,11 @@ describe "Assessment" do
     end
 
     feature 'new assessment is enable for user to create as often as they like' do
-      scenario 'after 3 months' do
+      scenario 'after minimum assessment duration' do
         visit client_assessments_path(client_1)
         expect(page).to have_link('Add New Assessment', href: new_client_assessment_path(client_1))
       end
-      scenario 'after 4 months' do
+      scenario 'after maximum assessment duration' do
         visit client_assessments_path(client_2)
         expect(page).to have_link('Add New Assessment', href: new_client_assessment_path(client_2))
       end

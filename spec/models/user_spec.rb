@@ -19,6 +19,8 @@ describe User, 'associations' do
   it { is_expected.to have_many(:user_custom_field_permissions).through(:custom_field_permissions) }
   it { is_expected.to have_many(:program_stream_permissions).dependent(:destroy) }
   it { is_expected.to have_many(:program_streams).through(:program_stream_permissions) }
+  it { is_expected.to have_many(:enter_ngo_users).dependent(:destroy) }
+  it { is_expected.to have_many(:enter_ngos).through(:enter_ngo_users) }
 end
 
 describe User, 'validations' do
@@ -157,10 +159,18 @@ describe User, 'scopes' do
   let!(:ec_manager){ create(:user, :ec_manager, staff_performance_notification: false) }
   let!(:able_manager){ create(:user, :able_manager, staff_performance_notification: false) }
 
-  context 'non_devs' do
+  context '.non_devs' do
     let!(:dev_1) { create(:user, email: ENV['DEV_EMAIL']) }
     it 'exclude developers' do
       expect(User.non_devs).not_to include(dev_1)
+    end
+  end
+
+  context '.non_locked' do
+    let!(:locked_user) { create(:user, disable: true) }
+
+    it 'exclude locked user' do
+      expect(User.non_locked).not_to include(locked_user)
     end
   end
 

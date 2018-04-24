@@ -73,4 +73,31 @@ module FamiliesHelper
     }
     label_tag "#{column}_", label_column[column.to_sym]
   end
+
+  def default_family_columns_visibility(column)
+    label_column = {
+      address_:                                  t('datagrid.columns.families.address'),
+      caregiver_information_:                    t('datagrid.columns.families.caregiver_information'),
+      case_history_:                             t('datagrid.columns.families.case_history'),
+      clients_:                                  t('datagrid.columns.families.clients'),
+      case_workers_:                             t('datagrid.columns.families.case_workers'),
+      changelog_:                                t('datagrid.columns.families.changelogs'),
+      code_:                                     t('datagrid.columns.families.code'),
+      contract_date_:                            t('datagrid.columns.families.contract_date'),
+      dependable_income_:                        t('datagrid.columns.families.dependable_income'),
+      family_type_:                              t('datagrid.columns.families.family_type'),
+      female_adult_count_:                       t('datagrid.columns.families.female_adult_count'),
+      female_children_count_:                    t('datagrid.columns.families.female_children_count'),
+      household_income_:                         t('datagrid.columns.families.household_income'),
+      id_:                                       t('datagrid.columns.families.id'),
+      male_adult_count_:                         t('datagrid.columns.families.male_adult_count'),
+      male_children_count_:                      t('datagrid.columns.families.male_children_count'),
+      manage_:                                   t('datagrid.columns.families.manage'),
+      member_count_:                             t('datagrid.columns.families.member_count'),
+      name_:                                     t('datagrid.columns.families.name'),
+      province_id_:                              t('datagrid.columns.families.province'),
+      significant_family_member_count_:          t('datagrid.columns.families.significant_family_member_count')
+    }
+    label_tag "#{column}_", label_column[column.to_sym]
+  end
 end

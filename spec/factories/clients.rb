@@ -31,10 +31,9 @@ FactoryGirl.define do
     end
 
     trait :exited do
-      status 'Exited'
-      exit_note FFaker::Lorem.word
-      exit_date FFaker::Time.date
-      exit_circumstance 'Exited Client'
+      after(:create) do |client|
+        create(:exit_ngo, client: client)
+      end
     end
 
     trait :female do

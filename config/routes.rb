@@ -108,6 +108,11 @@ Rails.application.routes.draw do
       get :advanced_search
     end
 
+    scope module: 'client' do
+      resources :exit_ngos, only: [:create, :update]
+      resources :enter_ngos, only: [:create, :update]
+    end
+
     resources :client_enrollments do
       get :report, on: :collection
       resources :client_enrollment_trackings do
@@ -256,10 +261,16 @@ Rails.application.routes.draw do
   # resources :client_advanced_searches, only: :index
   resources :papertrail_queries, only: [:index]
 
-  resources :settings do
+  resources :settings, except: [:destroy] do
     collection do
       get 'country' => 'settings#country'
+      get 'default_columns' => 'settings#default_columns'
     end
   end
+  # resources :settings do
+  #   collection do
+  #     get 'country' => 'settings#country'
+  #   end
+  # end
 
 end
