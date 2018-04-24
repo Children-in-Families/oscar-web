@@ -50,14 +50,14 @@ describe Client, 'callbacks' do
     it 'should have two client histories' do
       client = FactoryGirl.create(:client)
       # 2 client_histories because client has an after_save callback to update slug column
-      expect(ClientHistory.where('object.id' => client.id).count).to eq(2)
+      expect(ClientHistory.where('object.id' => client.id).count).to eq(1)
       expect(ClientHistory.where('object.id' => client.id).pluck(:id)).to eq(ClientHistory.all.pluck(:id))
     end
 
     it 'should have 2 client histories and 2 agency client histories each' do
       agencies      = FactoryGirl.create_list(:agency, 2)
       agency_client = FactoryGirl.create(:client, agency_ids: agencies.map(&:id))
-      expect(ClientHistory.where('object.id' => agency_client.id).count).to eq(2)
+      expect(ClientHistory.where('object.id' => agency_client.id).count).to eq(1)
       expect(ClientHistory.where('object.id' => agency_client.id).first.object['agency_ids']).to eq(agencies.map(&:id))
       expect(ClientHistory.where('object.id' => agency_client.id).last.object['agency_ids']).to eq(agencies.map(&:id))
       expect(ClientHistory.where('object.id' => agency_client.id).first.agency_client_histories.count).to eq(2)
