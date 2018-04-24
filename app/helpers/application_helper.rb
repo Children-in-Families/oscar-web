@@ -117,8 +117,8 @@ module ApplicationHelper
       'col-xs-12'
     elsif user.any_case_manager?
       'col-xs-12'
-    elsif user.able_manager?
-      'col-sm-6'
+    # elsif user.able_manager?
+    #   'col-sm-6'
     elsif user.case_worker?
       'col-sm-4'
     end

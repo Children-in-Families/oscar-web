@@ -69,7 +69,8 @@
               .col-xs-11
                 = t('.upcoming_assessments_count', count: @notification.upcoming_csi_assessments[:csi_count])
       %li.divider
-    - if current_user.admin? || current_user.ec_manager?
+    / - if current_user.admin? || current_user.ec_manager?
+    - if current_user.admin? || current_user.manager?
       - (83..90).each do |day|
         - if @notification.ec_notification(day).count >= 1
           %li

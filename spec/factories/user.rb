@@ -14,21 +14,21 @@ FactoryGirl.define do
       roles 'case worker'
     end
 
-    trait :able_manager do
-      roles 'able manager'
-    end
+    # trait :able_manager do
+    #   roles 'able manager'
+    # end
 
-    trait :ec_manager do
-      roles 'ec manager'
-    end
+    # trait :ec_manager do
+    #   roles 'ec manager'
+    # end
 
-    trait :kc_manager do
-      roles 'kc manager'
-    end
+    # trait :kc_manager do
+    #   roles 'kc manager'
+    # end
 
-    trait :fc_manager do
-      roles 'fc manager'
-    end
+    # trait :fc_manager do
+    #   roles 'fc manager'
+    # end
 
     trait :admin do
       roles 'admin'

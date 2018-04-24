@@ -62,10 +62,10 @@ class User < ActiveRecord::Base
   scope :province_are,    ->        { joins(:province).pluck('provinces.name', 'provinces.id').uniq }
   scope :has_clients,     ->        { joins(:clients).without_json_fields.uniq }
   scope :managers,        ->        { where(roles: MANAGERS) }
-  scope :able_managers,   ->        { where(roles: 'able manager') }
-  scope :ec_managers,     ->        { where(roles: 'ec manager') }
-  scope :fc_managers,     ->        { where(roles: 'fc manager') }
-  scope :kc_managers,     ->        { where(roles: 'kc manager') }
+  # scope :able_managers,   ->        { where(roles: 'able manager') }
+  # scope :ec_managers,     ->        { where(roles: 'ec manager') }
+  # scope :fc_managers,     ->        { where(roles: 'fc manager') }
+  # scope :kc_managers,     ->        { where(roles: 'kc manager') }
   scope :non_strategic_overviewers, -> { where.not(roles: 'strategic overviewer') }
   scope :staff_performances,        -> { where(staff_performance_notification: true) }
   scope :non_devs,                  -> { where.not(email: [ENV['DEV_EMAIL'], ENV['DEV2_EMAIL'], ENV['DEV3_EMAIL']]) }
@@ -113,11 +113,13 @@ class User < ActiveRecord::Base
   end
 
   def any_case_manager?
-    ec_manager? || fc_manager? || kc_manager?
+    # ec_manager? || fc_manager? || kc_manager?
+    manager?
   end
 
   def any_manager?
-    any_case_manager? || able_manager? || manager?
+    # any_case_manager? || able_manager? || manager?
+    manager?
   end
 
   def no_any_associated_objects?
@@ -231,7 +233,8 @@ class User < ActiveRecord::Base
   end
 
   def get_custom_fields_by_role
-    roles = ['admin', 'kc manager', 'fc manager', 'ec manager', 'manager']
+    # roles = ['admin', 'kc manager', 'fc manager', 'ec manager', 'manager']
+    roles = ['admin', 'manager']
     user_role = self.roles
     roles.include?(user_role)? CustomField.order('lower(form_title)') : CustomField.client_forms.order('lower(form_title)')
   end

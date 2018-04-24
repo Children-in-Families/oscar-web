@@ -213,11 +213,11 @@ class UserNotification
 
   def count
     count_notification = 0
-    if @user.admin? || @user.ec_manager?
-      (83..90).each do |item|
-        count_notification += 1 if ec_notification(item).present?
-      end
-    end
+    # if @user.admin? || @user.ec_manager?
+    #   (83..90).each do |item|
+    #     count_notification += 1 if ec_notification(item).present?
+    #   end
+    # end
     if @user.admin? || @user.manager?
       count_notification += 1 if any_user_custom_field_frequency_overdue?
       count_notification += 1 if any_user_custom_field_frequency_due_today?
