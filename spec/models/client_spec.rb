@@ -375,7 +375,6 @@ describe Client, 'methods' do
     let!(:other_specific_client){ create(:client,
       date_of_birth: 2.year.ago.to_date,
       received_by: user,
-      state: 'accepted',
       followed_up_by: follower,
       birth_province: province,
       province: province,
