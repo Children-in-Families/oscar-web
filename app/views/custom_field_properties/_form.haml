@@ -2,7 +2,8 @@
   = simple_form_for([@custom_formable, @custom_field_property]) do |f|
     = hidden_field_tag :custom_field_id, @custom_field.id
     .ibox-title
-      %h5= @custom_field.form_title
+      %p
+        %strong= @custom_field.form_title
     .ibox-content
       - if @custom_field.present?
         = f.simple_fields_for :properties, OpenStruct.new(@custom_field_property.properties) do |prop_f|

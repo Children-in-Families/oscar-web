@@ -10,25 +10,10 @@ CIF.ClientsShow = do ->
   _initSelect2 = ->
     $('select').select2()
 
-  # _rejectModal = ->
-  #   note = $('#client_rejected_note').val()
-  #   if note == ''
-  #     $('.confirm-reject').attr 'disabled', 'disabled'
-  #   _rejectFormValidate()
-
-  # _rejectFormValidate = ->
-  #   $('#client_rejected_note').keyup ->
-  #     note  = $('#client_rejected_note').val()
-  #     if note == ''
-  #       $('.confirm-reject').attr 'disabled', 'disabled'
-  #     else
-  #       $('.confirm-reject').removeAttr 'disabled'
-
-
   _enterNgoModalValidation = ->
     data = {
-      date: '#client_accepted_date',
-      field: '#client_user_ids',
+      date: '#enter_ngo_accepted_date',
+      field: '#enter_ngo_user_ids',
       form: '#enter-ngo-form',
       btn: '.agree-btn'
     }
@@ -44,10 +29,11 @@ CIF.ClientsShow = do ->
     _modalFormValidator(data)
 
   _exitNgoModalValidation = ->
+
     data = {
-      date: '#exitFromNgo #client_exit_date',
-      field: '#exitFromNgo #client_exit_circumstance',
-      note: '#exitFromNgo #client_exit_note',
+      date: '#exitFromNgo #exit_ngo_exit_date',
+      field: '#exitFromNgo #exit_ngo_exit_circumstance',
+      note: '#exitFromNgo #exit_ngo_exit_note',
       form: '#exitFromNgo',
       btn: '.confirm-exit'
     }
