@@ -61,8 +61,18 @@
             %span.nav-label= t('.manage')
             %span.fa.arrow
           %ul.nav.nav-second-level
-            %li{ class: active_menu('settings') }
-              = link_to t('.settings'), country_settings_path
+            %li
+              %a#pro-nav{href: "#"}
+                = t('.settings')
+                %span.fa.arrow
+              %ul.nav.nav-third-level
+                %li{ class: settings_menu_active('settings', 'country') }
+                  = link_to t('.country'), country_settings_path
+                - if current_user.admin?
+                  %li{ class: settings_menu_active('settings', 'index') }
+                    = link_to t('.csi_tools'), settings_path
+                  %li{ class: settings_menu_active('settings', 'default_columns') }
+                    = link_to t('.default_columns'), default_columns_settings_path
             %li{ class: active_menu('agencies') }
               = link_to t('.agencies'), agencies_path
             - if can? :read, :all

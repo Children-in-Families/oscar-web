@@ -1,0 +1,25 @@
+.modal.fade{ role: 'dialog', tabindex: '-1', id: "enter-ngo-form-#{enter_ngo.id}" }
+  .modal-dialog{ role: 'document'}
+    .modal-content
+      .modal-header
+        %button.close{"aria-label" => "#{t('.close')}", "data-dismiss" => 'modal'}
+          %span{"aria-hidden" => 'true'} &times;
+        %h4.modal-title
+          = t('.accept_ngo_form')
+
+      .modal-body
+        = simple_form_for [@client, enter_ngo] do |f|
+          = f.error_notification
+          .form-inputs
+            .form-group.date
+              %label.date.required.control-label
+                %abbr{ title: 'required' } *
+                = t('.accepted_date')
+              .input-group.date
+                = f.text_field :accepted_date, required: true, class: 'date form-control date-picker .datepicker-dropdown accepted_date', type: 'text', name: 'enter_ngo[accepted_date]'
+                %span.input-group-addon
+                  %i.fa.fa-calendar-check-o
+
+          .text-right
+            %button.btn.btn-default{"data-dismiss" => 'modal'}= t('cancel')
+            = f.submit t('save') , class: 'btn btn-success agree-btn', name: 'accept-client'

@@ -6,7 +6,8 @@
         %span.caret
       %ul.dropdown-menu.scrollable-dropdown-menu
         - @group_partner_custom_fields.each do |_, partner_custom_fields|
-          %li= link_to partner_custom_fields.first.custom_field.form_title, partner_custom_field_properties_path(@partner, custom_field_id: partner_custom_fields.first.custom_field_id)
+          %li
+            %p= link_to partner_custom_fields.first.custom_field.form_title, partner_custom_field_properties_path(@partner, custom_field_id: partner_custom_fields.first.custom_field_id)
 
     - if can? :manage, CustomFieldProperty
       .btn-group.small-btn-margin
@@ -15,7 +16,8 @@
           %span.caret
         %ul.dropdown-menu.scrollable-dropdown-menu
           - @free_partner_forms.each do |custom_field|
-            %li= link_to custom_field.form_title, new_partner_custom_field_property_path(@partner, custom_field_id: custom_field)
+            %li
+              %p= link_to custom_field.form_title, new_partner_custom_field_property_path(@partner, custom_field_id: custom_field)
     .ibox.mini-margin
       .ibox-title
         %h5
