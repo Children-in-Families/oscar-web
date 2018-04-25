@@ -245,11 +245,6 @@ my:
               taken: ယူထားၿပီးျဖစ္ပါသည္။
         setting:
           attributes:
-            min_assessment:
-              blank: ကြက္လပ္ခ်ိန္ထား၍မရပါ။
-              less_than:
-                one: အများဆုံးထက်လျော့နည်းဖြစ်ရမည်
-                other: သေးငယ်ဖြစ်ရမည် %{count}
             max_assessment:
               blank: ကြက္လပ္ခ်ိန္ထား၍မရပါ။
               greater_than:
@@ -257,6 +252,11 @@ my:
                 other: သာ. ကြီးသောသူဖြစ်ရမည် %{count}
             max_case_note:
               blank: ကြက္လပ္ခ်ိန္ထား၍မရပါ။
+            min_assessment:
+              blank: ကြက္လပ္ခ်ိန္ထား၍မရပါ။
+              less_than:
+                one: အများဆုံးထက်လျော့နည်းဖြစ်ရမည်
+                other: သေးငယ်ဖြစ်ရမည် %{count}
         stage:
           attributes:
             from_age:
@@ -4158,6 +4158,7 @@ my:
     show:
       back: ေနာက္သို႔
   unauthorized:
+    case_worker_unauthorized: အဆိုပါစံချိန်ကိုအောင်မြင်စွာဖန်တီးလိုက်ပါပြီ, ဒါပေမယ့်သင်ဖို့တာဝန်မပေးတဲ့အတွက်, သင်ကမြင်နိုင်မရှိကြပေ။ သငျသညျဤမှတ်တမ်းကြည့်ရှုရန်လိုအပ်ပါတယ်လျှင်, တာဝန်ပေးအပ်ကိစ္စတွင်မန်နေဂျာဒါမှမဟုတ် admin ရဲ့ပြောဆို၏။
     default: ဤစာမ်က္ႏွာကို ၀င္ေရာက္ရန္ အခြင့္မရွိပါ
   users:
     actions:

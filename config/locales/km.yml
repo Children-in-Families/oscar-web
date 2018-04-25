@@ -250,11 +250,6 @@ km:
               taken: ត្រូវបានប្រើរួចហើយ
         setting:
           attributes:
-            min_assessment:
-              blank: មិនអាចរំលង
-              less_than:
-                one: ត្រូវតែតូចជាងអតិបរមា
-                other: ត្រូវតែតូចជាង %{count}
             max_assessment:
               blank: មិនអាចរំលង
               greater_than:
@@ -262,6 +257,11 @@ km:
                 other: ត្រូវតែធំជាង %{count}
             max_case_note:
               blank: មិនអាចរំលង
+            min_assessment:
+              blank: មិនអាចរំលង
+              less_than:
+                one: ត្រូវតែតូចជាងអតិបរមា
+                other: ត្រូវតែតូចជាង %{count}
         stage:
           attributes:
             from_age:
@@ -864,8 +864,8 @@ km:
     form:
       allow_file_size: ប្រភេទឯកសារដែលបានអនុញ្ញាត
       cancel: ទុកជាមោឃៈ
-      save: រក្សាទុក
       max_file_size: "*ទំហំឯកសារអតិបរមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកឡើង."
+      save: រក្សាទុក
     index:
       programs_list: តារាងកម្មវិធីបន្ទាប់បន្សំ
       tracking_lists: តារាងការតាមដាន
@@ -893,9 +893,9 @@ km:
       allow_file_size: ប្រភេទឯកសារដែលបានអនុញ្ញាត
       cancel: ទុកជាមោឃៈ
       enrollment_date: ថ្ងៃចុះឈ្មោះ
+      max_file_size: "*ទំហំឯកសារអតិបរមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកឡើង."
       not_an_email: មិនមែនជាឣុីម៉ែល
       save: រក្សាទុក
-      max_file_size: "*ទំហំឯកសារអតិបរមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកឡើង."
     index:
       actions: សកម្មភាព
       back: ត្រលប់ក្រោយ
@@ -3168,9 +3168,9 @@ km:
       agencies: អង្គភាព
       changelogs: ប្រវត្តិនៃកំណែទិន្នន័យ
       clients: ឣតិថិជន
-      custom_fields: ទម្រង់បែបបទ
       country: ប្រទេស
       csi_tools: ឧបករណ៍ CSI
+      custom_fields: ទម្រង់បែបបទ
       dashboards: តារាងទិន្នន័យ
       default_columns: ជួរឈរលំនាំដើម
       departments: កម្មវិធី
@@ -3218,8 +3218,8 @@ km:
       allow_file_size: ប្រភេទឯកសារដែលបានអនុញ្ញាត
       cancel: ទុកជាមោឃៈ
       exit_date: ថ្ងៃចាកចេញ
-      save: រក្សាទុក
       max_file_size: "*ទំហំឯកសារអតិបរមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកឡើង."
+      save: រក្សាទុក
     new:
       new_exit_program: ការចាកចេញពីកម្មវិធីថ្មី
     show:
@@ -4204,6 +4204,7 @@ km:
     show:
       back: ត្រលប់ក្រោយ
   unauthorized:
+    case_worker_unauthorized: កំណត់ត្រាត្រូវបានរក្សាទុកដោយជោគជ័យប៉ុន្តែវាមិនត្រូវបានកំណត់សម្រាប់អ្នក ដូច្នេះអ្នកមិនអាចមើលវាបានទេ។ ប្រសិនបើអ្នកត្រូវការមើលកំណត់ត្រានេះសូមនិយាយជាមួយបុគ្គលិកគ្រប់គ្រងករណី ឬ អេដមីន។
     default: អ្នកមិនមានសិទ្ធិគ្រប់គ្រាន់ដើម្បីចូលទេ
   users:
     actions:
