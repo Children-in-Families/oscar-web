@@ -4,10 +4,9 @@ namespace :update_user_permission_set do
     Organization.all.each do |org|
       Organization.switch_to org.short_name
 
-      users = User.where("roles like ?", "%manager%")
+      users = User.where(roles: ['able manager', 'ec manager', 'fc manager', 'kc manager'])
       users.each do |user|
-        user.roles = 'manager'
-        user.save(validate: false)
+        user.update_columns(roles: 'manager')
       end
     end
   end

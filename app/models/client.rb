@@ -189,10 +189,6 @@ class Client < ActiveRecord::Base
     where('able_state = ? or user_id = ?', ABLE_STATES[0], user.id)
   end
 
-  def self.in_any_able_states_managed_by(user)
-    joins(:case_worker_clients).where('able_state IN(?) OR case_worker_clients.user_id = ?', ABLE_STATES, user.id)
-  end
-
   def self.managed_by(user, status)
     where('status = ? or user_id = ?', status, user.id)
   end

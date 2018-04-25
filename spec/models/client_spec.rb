@@ -393,15 +393,6 @@ describe Client, 'methods' do
     end
   end
 
-  xcontext 'in any able states managed by user' do
-    it 'returns clients either in any able states or managed by current user' do
-      expect(Client.in_any_able_states_managed_by(able_manager)).to include(able_client, able_manager_client, able_rejected_client, able_discharged_client)
-    end
-    it 'does not return neither non able clients nor not managed by current user' do
-      expect(Client.in_any_able_states_managed_by(case_worker)).not_to include(able_manager_client)
-    end
-  end
-
   context 'name' do
     let!(:client_name) { create(:client, given_name: 'Adam', family_name: 'Eve') }
     let!(:client_local_name) { create(:client, given_name: '', family_name: '', local_given_name: 'Romeo', local_family_name: 'Juliet') }

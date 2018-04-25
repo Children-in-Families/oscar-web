@@ -121,7 +121,7 @@
                 %span.btn-sm.btn.color-brown.small-btn-margin.btn-fit= t('.view_legacy_quarterly_reports')
           - if @client.cases.exclude_referred.inactive.present?
             .btn-group.small-btn-margin
-              %button.btn-fit{ class: "btn btn-sm btn-warning dropdown-toggle #{disable_case_histories?}", "data-toggle" => "dropdown" }
+              %button.btn-fit{ class: "btn btn-sm btn-warning dropdown-toggle", "data-toggle" => "dropdown" }
                 = t('.case_history')
                 %span.caret
               %ul.dropdown-menu.btn-fit
