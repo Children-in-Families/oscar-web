@@ -240,11 +240,6 @@ en:
               taken: has already been taken
         setting:
           attributes:
-            min_assessment:
-              blank: can't be blank
-              less_than:
-                one: must be less than Maximum
-                other: must be less than %{count}
             max_assessment:
               blank: can't be blank
               greater_than:
@@ -252,6 +247,11 @@ en:
                 other: must be greater than %{count}
             max_case_note:
               blank: can't be blank
+            min_assessment:
+              blank: can't be blank
+              less_than:
+                one: must be less than Maximum
+                other: must be less than %{count}
         stage:
           attributes:
             from_age:
@@ -3047,9 +3047,9 @@ en:
       agencies: Agencies
       changelogs: Changelogs
       clients: Clients
-      custom_fields: Form Builder
       country: Country
       csi_tools: CSI Tools
+      custom_fields: Form Builder
       dashboards: Dashboards
       default_columns: Default Columns
       departments: Departments
@@ -4105,6 +4105,7 @@ en:
     show:
       back: Back
   unauthorized:
+    case_worker_unauthorized: The record has been successfully saved, but it is not assigned to you, so you are not able to view it. If you need to view this record, speak to the assigned case manager or an admin.
     default: You are not authorized to access this page.
   users:
     actions:
