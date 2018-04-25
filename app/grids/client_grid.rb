@@ -36,13 +36,13 @@ class ClientGrid
     scope.status_like
   end
 
-  filter(:case_type, :enum, select: :case_types, header: -> { I18n.t('datagrid.columns.cases.case_type') }) do |name, scope|
-    case_ids = []
-    Client.joins(:cases).where(cases: { exited: false }).each do |c|
-      case_ids << c.cases.current.id
-    end
-    scope.joins(:cases).where(cases: { id: case_ids, case_type: name })
-  end
+  # filter(:case_type, :enum, select: :case_types, header: -> { I18n.t('datagrid.columns.cases.case_type') }) do |name, scope|
+  #   case_ids = []
+  #   Client.joins(:cases).where(cases: { exited: false }).each do |c|
+  #     case_ids << c.cases.current.id
+  #   end
+  #   scope.joins(:cases).where(cases: { id: case_ids, case_type: name })
+  # end
 
   filter(:placement_date, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.placement_start_date') }) do |values, scope|
     if values.first.present? && values.second.present?
@@ -63,9 +63,9 @@ class ClientGrid
   #   scope.where(id: ids)
   # end
 
-  def case_types
-    Case.case_types
-  end
+  # def case_types
+  #   Case.case_types
+  # end
   filter(:date_of_birth, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.date_of_birth') })
 
   filter(:age, :float, range: true, header: -> { I18n.t('datagrid.columns.clients.age') }) do |value, scope|
