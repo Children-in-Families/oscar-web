@@ -84,8 +84,8 @@ describe "Assessment" do
     # let!(:assessment_2){ create(:assessment, created_at: Time.now - 4.months, client: client_2) }
     let!(:last_assessment_domain){ create(:assessment_domain, assessment: assessment_1, domain: domain) }
 
-    let!(:setting) {create(:setting, :monthly_assessment, min_assessment: 3, max_assessment: 6)}
-    let!(:assessment_1){ create(:assessment, created_at: Time.now - (setting.min_assessment).months, client: client_1) }
+    let!(:setting) {create(:setting, :monthly_assessment, max_assessment: 6)}
+    let!(:assessment_1){ create(:assessment, created_at: Time.now - 3.months, client: client_1) }
     let!(:assessment_2){ create(:assessment, created_at: Time.now - (setting.max_assessment).months, client: client_2) }
 
     before do
