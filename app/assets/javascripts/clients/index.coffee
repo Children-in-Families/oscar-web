@@ -13,7 +13,7 @@ CIF.ClientsIndex = do ->
     _handleCreateCsiDomainReport()
     _handleScrollTable()
     _handleColumnVisibilityParams()
-    _handleUncheckColumnVisibility()
+    # _handleUncheckColumnVisibility()
     _getClientPath()
     _checkClientSearchForm()
     _initAdavanceSearchFilter()
