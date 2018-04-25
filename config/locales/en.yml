@@ -357,7 +357,6 @@ en:
       province: Birth Province
       province_id: Current Province
       quantitative: Specific Referral Data
-      road: Road
       rated_for_id_poor: Is The Client Rated For ID Poor
       received_by: Referral Received By
       received_by_id: Received By
@@ -369,6 +368,7 @@ en:
       referred_to_kc: Referred To KC
       reject_note: Note on referral rejection
       relevant_referral_information: Relevant Referral Information
+      road: Road
       school_grade: School Grade
       school_name: School Name
       slug: ID
@@ -988,15 +988,15 @@ en:
         house_number: Address - House#
         street_number: Address - Street
         village: Address - Village
+      lesotho_address_form:
+        description_house_landmark: Description of the house and a landmark
+        directions: Directions
+        suburb: Suburb
       myanmar_address_form:
         state: State
         street_line1: Street Line1
         street_line2: Street Line2 (optional)
         township: Township
-      lesotho_address_form:
-        description_house_landmark: Description of the house and a landmark
-        directions: Directions
-        suburb: Suburb
       thailand_address_form:
         district: District
         plot: Plot/House number, Village

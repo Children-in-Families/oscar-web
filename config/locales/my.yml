@@ -364,7 +364,6 @@ my:
       province: ေမြးရာျပည္နယ္
       province_id: လက္ရွိေနထုိင္ရာျပည္နယ္
       quantitative: ပမာဏအမ်ိဳးအစား
-      road: Road
       rated_for_id_poor: Client ကိုဆင်းရဲသောသူသည် ID အတှကျ rated ဖြစ်ပါတယ်
       received_by: မွ လက္ခံသည္။
       received_by_id: မွ လက္ခံသည္။
@@ -376,6 +375,7 @@ my:
       referred_to_kc: KC သုိ႔ ရည္ညႊန္းသည္။
       reject_note: ျငင္းပယ္ျခင္း မွတ္ခ်က္
       relevant_referral_information: သက္ဆိုင္ေသာလႊဲေျပာင္းျခင္းအခ်က္အလက္
+      road: Road
       school_grade: ေက်ာင္းအဆင့္
       school_name: ေက်ာင္းနာမည္
       slug: မွတ္ပံုတင္
@@ -997,15 +997,15 @@ my:
         house_number: Address - House#
         street_number: Address - Street
         village: Address - Village
+      lesotho_address_form:
+        description_house_landmark: Description of the house and a landmark
+        directions: Directions
+        suburb: Suburb
       myanmar_address_form:
         state: ပြည်နယ်
         street_line1: လမ်းပေါ်လိုင်း 1
         street_line2: လမ်းပေါ်လိုင်း 2(optional)
         township: မြို့နယ်
-      lesotho_address_form:
-        description_house_landmark: Description of the house and a landmark
-        directions: Directions
-        suburb: Suburb
       thailand_address_form:
         district: District
         plot: Plot/House number, Village

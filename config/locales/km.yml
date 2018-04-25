@@ -1062,7 +1062,6 @@ km:
       enrollment_date: កាលបរិច្ឆេទចុះឈ្មោះ
     update:
       successfully_updated: ការចុះឈ្មោះត្រូវបានកែសម្រួលដោយជោគជ័យ
-
   clients:
     actions:
       are_you_sure: តើអ្នកប្រាកដហើយថាចង់លុប?
@@ -1074,15 +1073,15 @@ km:
         house_number: អាស័យដ្ឋាន - លេខផ្ទះ
         street_number: អាស័យដ្ឋាន - លេខផ្លូវ
         village: អាស័យដ្ឋាន - ភូមិ
+      lesotho_address_form:
+        description_house_landmark: Description of the house and a landmark
+        directions: Directions
+        suburb: Suburb
       myanmar_address_form:
         state: State
         street_line1: Street Line1
         street_line2: Street Line2 (optional)
         township: Township
-      lesotho_address_form:
-        description_house_landmark: Description of the house and a landmark
-        directions: Directions
-        suburb: Suburb
       thailand_address_form:
         district: District
         plot: Plot/House number, Village
@@ -1104,12 +1103,10 @@ km:
         custom_form_column: ជួរឈរទម្រង់បែបបទបន្ថែម
         delete_group: លុបក្រុមលក្ខខ័ណ្ឌនៃការស្វែងរក
         export_to_xls: ទាញចេញជាឯកសារប្រភេទ XLS
-        # load_save_search: ផ្ទុកការស្វែងរក
         no_results: មិនមានលទ្ធផល
         program_stream_column: ជួរឈរកម្មវិធីបន្ទាប់បន្សំ
         reset: សំអាត
         results: លទ្ធផល
-        # save_search_settings: រក្សាទុកទម្រង់នៃការស្វែងរក
         search: ស្វែងរក
       form_option:
         basic_fields: ពត៌មានទូទៅរបស់អតិថិជន

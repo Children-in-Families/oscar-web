@@ -44,7 +44,6 @@ module ImportInternationalAddress
     end
 
     def state_for_myanmar
-      State.destroy_all
       ((workbook.first_row + 1)..workbook.last_row).each do |row|
         name = workbook.row(row)[headers['Name']]
         State.create(name: name)
@@ -52,7 +51,6 @@ module ImportInternationalAddress
     end
 
     def township_for_myanmar
-      Township.destroy_all
       ((workbook.first_row + 1)..workbook.last_row).each do |row|
         state_name = workbook.row(row)[headers['State']]
         name = workbook.row(row)[headers['Name']]

@@ -10,14 +10,8 @@
         = f.input :live_with, label: t('.primary_carer_name')
       .col-xs-12.col-sm-6.col-md-4
         = f.input :telephone_number, label: t('.primary_carer_phone_number')
-      - if selected_country == 'cambodia'
-        = render 'clients/address_forms/cambodia_address_form', f: f
-      - elsif selected_country == 'lesotho'
-        = render 'clients/address_forms/lesotho_address_form', f: f
-      - elsif selected_country == 'myanmar'
-        = render 'clients/address_forms/myanmar_address_form', f: f
-      - elsif selected_country == 'thailand'
-        = render 'clients/address_forms/thailand_address_form', f: f
+
+      = render "clients/address_forms/#{selected_country}_address_form", f: f
       .col-xs-12.col-sm-6.col-md-4.form-group
         %label.control-label= t('.what3words')
         .input-group
