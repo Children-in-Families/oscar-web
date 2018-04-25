@@ -82,12 +82,12 @@ end
 
 describe Client, 'methods' do
   let!(:setting){ create(:setting, :monthly_assessment) }
-  let!(:able_manager) { create(:user, roles: 'able manager') }
+  # let!(:able_manager) { create(:user, roles: 'able manager') }
   let!(:case_worker) { create(:user, roles: 'case worker') }
   let!(:client){ create(:client, user_ids: [case_worker.id], local_given_name: 'Barry', local_family_name: 'Allen', date_of_birth: '2007-05-15', status: 'Active') }
   let!(:other_client) { create(:client, user_ids: [case_worker.id]) }
   let!(:able_client) { create(:client, able_state: Client::ABLE_STATES[0]) }
-  let!(:able_manager_client) { create(:client, user_ids: [able_manager.id]) }
+  # let!(:able_manager_client) { create(:client, user_ids: [able_manager.id]) }
   let!(:assessment){ create(:assessment, created_at: Date.today - (setting.min_assessment).months, client: client) }
   let!(:able_rejected_client) { create(:client, able_state: Client::ABLE_STATES[1]) }
   let!(:able_discharged_client) { create(:client, able_state: Client::ABLE_STATES[2]) }
@@ -393,7 +393,7 @@ describe Client, 'methods' do
     end
   end
 
-  context 'in any able states managed by user' do
+  xcontext 'in any able states managed by user' do
     it 'returns clients either in any able states or managed by current user' do
       expect(Client.in_any_able_states_managed_by(able_manager)).to include(able_client, able_manager_client, able_rejected_client, able_discharged_client)
     end
