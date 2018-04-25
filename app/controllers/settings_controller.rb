@@ -1,6 +1,7 @@
 class SettingsController < AdminController
   def index
-    @setting = Setting.first_or_initialize(assessment_frequency: 'month', min_assessment: 3, max_assessment: 6, case_note_frequency: 'day', max_case_note: 30)
+    # @setting = Setting.first_or_initialize(assessment_frequency: 'month', min_assessment: 3, max_assessment: 6, case_note_frequency: 'day', max_case_note: 30)
+    @setting = Setting.first_or_initialize(assessment_frequency: 'month', max_assessment: 6, case_note_frequency: 'day', max_case_note: 30)
     authorize @setting
   end
 
@@ -37,7 +38,8 @@ class SettingsController < AdminController
   end
 
   def default_columns
-    @setting = Setting.first_or_initialize(assessment_frequency: 'month', min_assessment: 3, max_assessment: 6, case_note_frequency: 'day', max_case_note: 30)
+    # @setting = Setting.first_or_initialize(assessment_frequency: 'month', min_assessment: 3, max_assessment: 6, case_note_frequency: 'day', max_case_note: 30)
+    @setting = Setting.first_or_initialize(assessment_frequency: 'month', max_assessment: 6, case_note_frequency: 'day', max_case_note: 30)
     authorize @setting
     @client_default_columns = client_default_columns
     @family_default_columns = family_default_columns
@@ -47,7 +49,8 @@ class SettingsController < AdminController
   private
 
   def setting_params
-    params.require(:setting).permit(:disable_assessment, :assessment_frequency, :min_assessment, :max_assessment, :max_case_note, :case_note_frequency, client_default_columns: [], family_default_columns: [], partner_default_columns: [], user_default_columns: [])
+    # params.require(:setting).permit(:disable_assessment, :assessment_frequency, :min_assessment, :max_assessment, :max_case_note, :case_note_frequency, client_default_columns: [], family_default_columns: [], partner_default_columns: [], user_default_columns: [])
+    params.require(:setting).permit(:disable_assessment, :assessment_frequency, :max_assessment, :max_case_note, :case_note_frequency, client_default_columns: [], family_default_columns: [], partner_default_columns: [], user_default_columns: [])
   end
 
   def client_default_columns

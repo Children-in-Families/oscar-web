@@ -88,7 +88,7 @@ describe Client, 'methods' do
   let!(:other_client) { create(:client, user_ids: [case_worker.id]) }
   let!(:able_client) { create(:client, able_state: Client::ABLE_STATES[0]) }
   let!(:able_manager_client) { create(:client, user_ids: [able_manager.id]) }
-  let!(:assessment){ create(:assessment, created_at: Date.today - (setting.min_assessment).months, client: client) }
+  let!(:assessment){ create(:assessment, created_at: Date.today - 3.months, client: client) }
   let!(:able_rejected_client) { create(:client, able_state: Client::ABLE_STATES[1]) }
   let!(:able_discharged_client) { create(:client, able_state: Client::ABLE_STATES[2]) }
   let!(:client_a){ create(:client, date_of_birth: '2017-05-05') }
