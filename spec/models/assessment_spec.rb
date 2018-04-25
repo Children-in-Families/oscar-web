@@ -153,12 +153,12 @@ describe Assessment, 'callbacks' do
 
   context 'must_be_min_assessment_period' do
     let!(:client) { create(:client) }
-    let!(:setting) { create(:setting, :monthly_assessment, min_assessment: 4) }
-    let!(:assessment) { create(:assessment, client: client, created_at: 3.month.ago.to_date) }
+    # let!(:setting) { create(:setting, :monthly_assessment, min_assessment: 4) }
+    let!(:assessment) { create(:assessment, client: client, created_at: 2.month.ago.to_date) }
 
     it "should be return error message" do
       second_assessment = Assessment.create(client: client)
-      expect(second_assessment.errors.full_messages).to include('Assessment cannot be created before 4 months')
+      expect(second_assessment.errors.full_messages).to include('Assessment cannot be created before 3 months')
     end
   end
 
