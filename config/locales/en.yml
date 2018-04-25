@@ -1351,7 +1351,7 @@ en:
       exit_from_ec: Exit From EC
       exit_from_fc: Exit From FC
       exit_from_kc: Exit From KC
-      exit_ngo_btn: Exit From NGO
+      exit_ngo_btn: Exit Client From NGO
       exit_ngo_information: Exit NGO Information
       exit_note: Exit Note
       exit_reasons: Reason for Exit / Case Rejection
