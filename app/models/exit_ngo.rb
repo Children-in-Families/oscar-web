@@ -8,11 +8,16 @@ class ExitNgo < ActiveRecord::Base
   validates :exit_circumstance, :exit_date, :exit_note, presence: true
 
   after_create :update_client_status
+  after_save :create_exit_ngo_history
 
   private
 
   def update_client_status
     client.status = 'Exited'
     client.save(validate: false)
+  end
+
+  def create_exit_ngo_history
+    ExitNgoHistory.initial(self)
   end
 end

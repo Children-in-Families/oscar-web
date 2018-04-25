@@ -4,6 +4,7 @@ class AssessmentsController < AdminController
   before_action :find_client, :check_current_organization
   before_action :find_assessment, only: [:edit, :update, :show]
   before_action :authorize_client, only: [:new, :create]
+  before_action :authorize_assessment, except: :destroy
   before_action :restrict_invalid_assessment, only: [:new, :create]
   before_action :restrict_update_assessment, only: [:edit, :update]
   before_action -> { assessments_permission('readable') }, only: :show
@@ -73,6 +74,10 @@ class AssessmentsController < AdminController
 
   def authorize_client
     authorize @client, :create?
+  end
+
+  def authorize_assessment
+    authorize Assessment
   end
 
   def assessment_params

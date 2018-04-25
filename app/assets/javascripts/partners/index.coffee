@@ -9,7 +9,7 @@ CIF.PartnersIndex = do ->
     _checkPartnerSearchForm()
     _columnsVisibility()
     _handleColumnVisibilityParams()
-    _handleUncheckColumnVisibility()
+    # _handleUncheckColumnVisibility()
     _initAdavanceSearchFilter()
     _hidePartnerFilters()
     _setDefaultCheckColumnVisibilityAll()

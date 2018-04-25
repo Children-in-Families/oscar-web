@@ -68,6 +68,7 @@ class User < ActiveRecord::Base
   scope :non_strategic_overviewers, -> { where.not(roles: 'strategic overviewer') }
   scope :staff_performances,        -> { where(staff_performance_notification: true) }
   scope :non_devs,                  -> { where.not(email: [ENV['DEV_EMAIL'], ENV['DEV2_EMAIL'], ENV['DEV3_EMAIL']]) }
+  scope :non_locked,                -> { where(disable: false) }
 
   before_save :assign_as_admin
   before_save  :set_manager_ids, if: 'manager_id_changed?'
@@ -178,6 +179,20 @@ class User < ActiveRecord::Base
 
   def client_enrollment_tracking_overdue_or_due_today
     client_enrollment_tracking_notification(clients.active_accepted_status)
+  end
+
+  def case_note_overdue_and_due_today
+    overdue   = []
+    due_today = []
+    clients.active_accepted_status.each do |client|
+      client_next_case_note_date = client.next_case_note_date.to_date
+      if client_next_case_note_date < Date.today
+        overdue << client
+      elsif client_next_case_note_date == Date.today
+        due_today << client
+      end
+    end
+    { client_overdue: overdue, client_due_today: due_today }
   end
 
   def self.self_and_subordinates(user)
