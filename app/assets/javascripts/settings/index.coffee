@@ -18,4 +18,7 @@ CIF.SettingsIndex = CIF.SettingsUpdate = CIF.SettingsCreate = CIF.SettingsDefaul
     disableAssessmentChecked = $('#setting_disable_assessment').is(':checked')
     $('#assessment-setting .panel-body').find('input, select').prop('disabled', true) if disableAssessmentChecked
 
+
+
+
   { init: _init }

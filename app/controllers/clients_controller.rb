@@ -185,7 +185,7 @@ class ClientsController < AdminController
   end
 
   def country_address_fields
-    selected_country = params[:country]
+    selected_country = Setting.first.try(:country_name) || params[:country]
     case selected_country
     when 'cambodia'
       @province        = Province.order(:name)

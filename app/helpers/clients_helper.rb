@@ -161,15 +161,13 @@ module ClientsHelper
     current_address << "#{I18n.t('datagrid.columns.clients.village')} #{client.village}" if client.village.present?
     current_address << "#{I18n.t('datagrid.columns.clients.commune')} #{client.commune}" if client.commune.present?
     if locale == :km
-      current_address << client.district.name.split(' / ').first if client.district.present?
-      current_address << client.province.name.split(' / ').first if client.province.present?
+      current_address << client.district_name.split(' / ').first if client.district.present?
+      current_address << client.province_name.split(' / ').first if client.province.present?
     else
-      current_address << client.district.name.split(' / ').last if client.district.present?
-      current_address << client.province.name.split(' / ').last if client.province.present?
+      current_address << client.district_name.split(' / ').last if client.district.present?
+      current_address << client.province_name.split(' / ').last if client.province.present?
     end
-    country = params[:country].present? ? I18n.t("datagrid.columns.clients.#{params[:country]}") : I18n.t('datagrid.columns.clients.cambodia')
-    current_address << country
-    current_address.compact.join(', ')
+    current_address << 'Cambodia'
   end
 
   def format_array_value(value)
@@ -250,8 +248,37 @@ module ClientsHelper
   end
 
   def selected_country
-    country = params[:country].presence
+    country = Setting.first.try(:country_name) || params[:country].presence
     country.nil? ? 'cambodia' : country
+  end
+
+  def country_address_field(client)
+    country = selected_country
+    current_address = []
+    case country
+    when 'thailand'
+      current_address << client.plot if client.plot.present?
+      current_address << client.road if client.road.present?
+      current_address << client.subdistrict_name if client.subdistrict.present?
+      current_address << client.district_name if client.district.present?
+      current_address << client.province_name if client.province.present?
+      current_address << client.postal_code if client.postal_code.present?
+      current_address << 'Thailand'
+    when 'lesotho'
+      current_address << client.suburb if client.suburb.present?
+      current_address << client.description_house_landmark if client.description_house_landmark.present?
+      current_address << client.directions if client.directions.present?
+      current_address << 'Lesotho'
+    when 'myanmar'
+      current_address << client.street_line1 if client.street_line1.present?
+      current_address << client.street_line2 if client.street_line2.present?
+      current_address << client.township_name if client.township.present?
+      current_address << client.state_name if client.state.present?
+      current_address << 'Myanmar'
+    else
+      current_address = merged_address(client)
+    end
+    current_address.compact.join(', ')
   end
 
   def enable_assessment_setting?

@@ -494,42 +494,62 @@ class ClientGrid
     pluralize(object.age_as_years, 'year') + ' ' + pluralize(object.age_extra_months, 'month') if object.date_of_birth.present?
   end
 
-  column(:current_address, order: 'clients.current_address', header: -> { I18n.t('datagrid.columns.clients.current_address') })
-
-  column(:house_number, header: -> { I18n.t('datagrid.columns.clients.house_number') })
-
-  column(:street_number, header: -> { I18n.t('datagrid.columns.clients.street_number') })
-
-  column(:village, header: -> { I18n.t('datagrid.columns.clients.village') })
-
-  column(:commune, header: -> { I18n.t('datagrid.columns.clients.commune') })
-
-  column(:district, order: 'districts.name', header: -> { I18n.t('datagrid.columns.clients.district') }) do |object|
-    object.district.try(:name)
+  def self.cambodia_address?
+    Setting.first.try(:country_name) == 'cambodia'
   end
 
-  column(:subdistrict, order: 'subdistrict.name', header: -> { I18n.t('datagrid.columns.clients.subdistrict')}) do |object|
-    object.subdistrict.try(:name)
+  def self.thai_address?
+    Setting.first.try(:country_name) == 'thailand'
   end
 
-  column(:state, order: 'state.name', header: -> { I18n.t('datagrid.columns.clients.state')}) do |object|
-    object.state.try(:name)
+  def self.myanmar_address?
+    Setting.first.try(:country_name) == 'myanmar'
   end
 
-  column(:township, order: 'township.name', header: -> { I18n.t('datagrid.columns.clients.township')}) do |object|
-    object.township.try(:name)
+  def self.lesotho_address?
+    Setting.first.try(:country_name) == 'lesotho'
   end
 
-  column(:suburb, header: -> { I18n.t('datagrid.columns.clients.suburb') })
-  column(:description_house_landmark, header: -> { I18n.t('datagrid.columns.clients.description_house_landmark') })
-  column(:directions, header: -> { I18n.t('datagrid.columns.clients.directions') })
+  column(:current_address, if: proc { cambodia_address? }, order: 'clients.current_address', header: -> { I18n.t('datagrid.columns.clients.current_address') })
 
-  column(:street_line1, header: -> { I18n.t('datagrid.columns.clients.street_line1') })
-  column(:street_line2, header: -> { I18n.t('datagrid.columns.clients.street_line2') })
+  column(:house_number, if: proc { cambodia_address? }, header: -> { I18n.t('datagrid.columns.clients.house_number') })
 
-  column(:plot, header: -> { I18n.t('datagrid.columns.clients.plot') })
-  column(:road, header: -> { I18n.t('datagrid.columns.clients.road') })
-  column(:postal_code, header: -> { I18n.t('datagrid.columns.clients.postal_code') })
+  column(:street_number, if: proc { cambodia_address? }, header: -> { I18n.t('datagrid.columns.clients.street_number') })
+
+  column(:village, if: proc { cambodia_address? }, header: -> { I18n.t('datagrid.columns.clients.village') })
+
+  column(:commune, if: proc { cambodia_address? }, header: -> { I18n.t('datagrid.columns.clients.commune') })
+
+  column(:district, if: proc { cambodia_address? || thai_address? }, order: 'districts.name', header: -> { I18n.t('datagrid.columns.clients.district') }) do |object|
+    object.district_name
+  end
+
+  column(:subdistrict, if: proc { thai_address? }, order: 'subdistrict.name', header: -> { I18n.t('datagrid.columns.clients.subdistrict')}) do |object|
+    object.subdistrict_name
+  end
+
+  column(:plot, if: proc { thai_address? }, header: -> { I18n.t('datagrid.columns.clients.plot') })
+
+  column(:road, if: proc { thai_address? }, header: -> { I18n.t('datagrid.columns.clients.road') })
+  
+  column(:postal_code, if: proc { thai_address? }, header: -> { I18n.t('datagrid.columns.clients.postal_code') })
+
+  column(:suburb, if: proc { lesotho_address? }, header: -> { I18n.t('datagrid.columns.clients.suburb') })
+  
+  column(:description_house_landmark, if: proc { lesotho_address? },  header: -> { I18n.t('datagrid.columns.clients.description_house_landmark') })
+  
+  column(:directions, if: proc { lesotho_address? }, header: -> { I18n.t('datagrid.columns.clients.directions') })
+  
+  column(:township, if: proc { myanmar_address? }, order: 'township.name', header: -> { I18n.t('datagrid.columns.clients.township')}) do |object|
+    object.township_name
+  end
+  
+  column(:state, if: proc { myanmar_address? }, order: 'state.name', header: -> { I18n.t('datagrid.columns.clients.state')}) do |object|
+    object.state_name
+  end
+
+  column(:street_line1, if: proc { myanmar_address? }, header: -> { I18n.t('datagrid.columns.clients.street_line1') })
+  column(:street_line2, if: proc { myanmar_address? }, header: -> { I18n.t('datagrid.columns.clients.street_line2') })
 
   column(:school_name, header: -> { I18n.t('datagrid.columns.clients.school_name') })
 
@@ -554,11 +574,11 @@ class ClientGrid
   end
 
   column(:birth_province, header: -> { I18n.t('datagrid.columns.clients.birth_province') }) do |object|
-    object.birth_province.try(:name)
+    object.birth_province_name
   end
 
-  column(:province, order: 'provinces.name', header: -> { I18n.t('datagrid.columns.clients.current_province') }) do |object|
-    object.province.try(:name)
+  column(:province, if: proc { cambodia_address? || thai_address? }, order: 'provinces.name', header: -> { I18n.t('datagrid.columns.clients.current_province') }) do |object|
+    object.province_name
   end
 
   # column(:state, header: -> { I18n.t('datagrid.columns.clients.state') }) do |object|
