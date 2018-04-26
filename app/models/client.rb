@@ -35,6 +35,8 @@ class Client < ActiveRecord::Base
   has_many :program_streams, through: :client_enrollments
   has_many :case_worker_clients, dependent: :destroy
   has_many :users, through: :case_worker_clients
+  has_many :enter_ngos, dependent: :destroy
+  has_many :exit_ngos, dependent: :destroy
 
   accepts_nested_attributes_for :tasks
 
@@ -59,7 +61,6 @@ class Client < ActiveRecord::Base
 
   has_paper_trail
 
-  validates :exit_circumstance, :exit_date, :exit_note, presence: true, on: :update, if: :exit_ngo?
   validates :kid_id, uniqueness: { case_sensitive: false }, if: 'kid_id.present?'
   validates :user_ids, presence: true, on: :create
   validates :user_ids, presence: true, on: :update, unless: :exit_ngo?
@@ -68,7 +69,7 @@ class Client < ActiveRecord::Base
   before_update :disconnect_client_user_relation, if: :exiting_ngo?
   after_create :set_slug_as_alias
   after_save :create_client_history
-  after_update :notify_managers, if: :exiting_ngo?
+  # after_update :notify_managers, if: :exiting_ngo?
 
   scope :live_with_like,                           ->(value) { where('clients.live_with iLIKE ?', "%#{value}%") }
   scope :given_name_like,                          ->(value) { where('clients.given_name iLIKE :value OR clients.local_given_name iLIKE :value', { value: "%#{value}%"}) }
@@ -157,7 +158,7 @@ class Client < ActiveRecord::Base
 
   def next_assessment_date
     return Date.today if assessments.count.zero?
-    (assessments.latest_record.created_at + 6.months).to_date
+    (assessments.latest_record.created_at + assessment_duration('max')).to_date
   end
 
   def next_appointment_date
@@ -171,8 +172,17 @@ class Client < ActiveRecord::Base
   end
 
   def can_create_assessment?
-    return Date.today >= (assessments.latest_record.created_at + 3.months).to_date if assessments.count == 1
+    return Date.today >= (assessments.latest_record.created_at + assessment_duration('min')).to_date if assessments.count == 1
     true
+  end
+
+  def next_case_note_date
+    return Date.today if case_notes.count.zero? || case_notes.latest_record.meeting_date.nil?
+    setting = Setting.first
+    max_case_note = setting.try(:max_case_note) || 30
+    case_note_frequency = setting.try(:case_note_frequency) || 'day'
+    case_note_period = max_case_note.send(case_note_frequency)
+    (case_notes.latest_record.meeting_date + case_note_period).to_date
   end
 
   def self.able_managed_by(user)
@@ -303,8 +313,8 @@ class Client < ActiveRecord::Base
   def self.ec_reminder_in(day)
     Organization.all.each do |org|
       Organization.switch_to org.short_name
-      managers = User.ec_managers.pluck(:email).join(', ')
-      admins   = User.admins.pluck(:email).join(', ')
+      managers = User.non_locked.ec_managers.pluck(:email).join(', ')
+      admins   = User.non_locked.admins.pluck(:email).join(', ')
       clients = Client.active_status.joins(:cases).where(cases: { case_type: 'EC', exited: false}).uniq
       clients = clients.select { |client| client.active_day_care == day }
 
@@ -373,10 +383,23 @@ class Client < ActiveRecord::Base
   end
 
   def notify_managers
-    ClientMailer.exited_notification(self, User.managers.pluck(:email)).deliver_now
+    ClientMailer.exited_notification(self, User.managers.non_locked.pluck(:email)).deliver_now
   end
 
   def disconnect_client_user_relation
     self.user_ids = []
+  end
+
+  def assessment_duration(duration)
+    setting = Setting.first
+    # assessment_period = (setting.try(:min_assessment) || 3) if duration == 'min'
+    if duration == 'max'
+      assessment_period = (setting.try(:max_assessment) || 6)
+      assessment_frequency = setting.try(:assessment_frequency) || 'month'
+    else
+      assessment_period = 3
+      assessment_frequency = 'month'
+    end
+    assessment_period = assessment_period.send(assessment_frequency)
   end
 end

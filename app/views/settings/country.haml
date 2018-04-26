@@ -1,27 +1,23 @@
 .row
   .col-xs-12
-    .ibox.countries
+    .ibox
       .ibox-title
-        %h5.text-center= t('.settings')
+        %h5.text-center= t('.country')
       .ibox-content
         .row
-          .col-xs-12.col-sm-4
-            = render 'navigation'
-          .col-xs-12.col-sm-8
-            .row
-              .col-xs-12.col-sm-3
-                .thumbnail#cambodia{ class: selected_country?('cambodia') }
-                  = link_to url_for(params.merge({ country: 'cambodia' })) do
-                    = image_tag('cambodia-flag.jpg', class: 'img-responsive', alt: 'Cambodia', title: 'Cambodia')
-              .col-xs-12.col-sm-3
-                .thumbnail#lesotho{ class: selected_country?('lesotho') }
-                  = link_to url_for(params.merge({ country: 'lesotho' })) do
-                    = image_tag('lesotho-flag.jpg', class: 'img-responsive', alt: 'Lesotho', title: 'Lesotho')
-              .col-xs-12.col-sm-3
-                .thumbnail#myanmar{ class: selected_country?('myanmar') }
-                  = link_to url_for(params.merge({ country: 'myanmar' })) do
-                    = image_tag('myanmar-flag.jpg', class: 'img-responsive', alt: 'Myanmar', title: 'Myanmar')
-              .col-xs-12.col-sm-3
-                .thumbnail#thailand{ class: selected_country?('thailand') }
-                  = link_to url_for(params.merge({ country: 'thailand' })) do
-                    = image_tag('thailand-flag.png', class: 'img-responsive', alt: 'Thailand', title: 'Thailand')
+          .col-xs-12.col-sm-2
+            .thumbnail#cambodia{ class: selected_country?('cambodia') }
+              = link_to url_for(params.merge({ country: 'cambodia' })) do
+                = image_tag('cambodia-flag.jpg', class: 'img-responsive', alt: 'Cambodia', title: 'Cambodia')
+          .col-xs-12.col-sm-2
+            .thumbnail#lesotho{ class: selected_country?('lesotho') }
+              = link_to url_for(params.merge({ country: 'lesotho' })) do
+                = image_tag('lesotho-flag.jpg', class: 'img-responsive', alt: 'Lesotho', title: 'Lesotho')
+          .col-xs-12.col-sm-2
+            .thumbnail#myanmar{ class: selected_country?('myanmar') }
+              = link_to url_for(params.merge({ country: 'myanmar' })) do
+                = image_tag('myanmar-flag.jpg', class: 'img-responsive', alt: 'Myanmar', title: 'Myanmar')
+          .col-xs-12.col-sm-2
+            .thumbnail#thailand{ class: selected_country?('thailand') }
+              = link_to url_for(params.merge({ country: 'thailand' })) do
+                = image_tag('thailand-flag.png', class: 'img-responsive', alt: 'Thailand', title: 'Thailand')

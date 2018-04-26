@@ -103,10 +103,10 @@ class FamilyGrid
   end
 
   column(:significant_family_member_count, header: -> { I18n.t('datagrid.columns.families.significant_family_member_count') })
-  column(:female_children_count, header: -> { I18n.t('datagrid.columns.families.female_children_count') }, html: false)
-  column(:male_children_count, header: -> { I18n.t('datagrid.columns.families.male_children_count') }, html: false)
-  column(:female_adult_count, header: -> { I18n.t('datagrid.columns.families.female_adult_count') }, html: false)
-  column(:male_adult_count, header: -> { I18n.t('datagrid.columns.families.male_adult_count') }, html: false)
+  column(:female_children_count, header: -> { I18n.t('datagrid.columns.families.female_children_count') })
+  column(:male_children_count, header: -> { I18n.t('datagrid.columns.families.male_children_count') })
+  column(:female_adult_count, header: -> { I18n.t('datagrid.columns.families.female_adult_count') })
+  column(:male_adult_count, header: -> { I18n.t('datagrid.columns.families.male_adult_count') })
   column(:contract_date, header: -> { I18n.t('datagrid.columns.families.contract_date') })
 
   column(:province, order: 'provinces.name', header: -> { I18n.t('datagrid.columns.families.province') }) do |object|

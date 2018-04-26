@@ -26,7 +26,96 @@ module ClientGridOptions
     form_title_report
     case_note_date_report
     case_note_type_report
+    accepted_date_report
+    exit_date_report
+    exit_note_report
+    other_info_of_exit_report
+    exit_circumstance_report
     exit_reasons_report
+  end
+
+  def exit_reasons_report
+    return unless @client_columns.visible_columns[:exit_reasons_].present?
+    if params[:data].presence == 'recent'
+      @client_grid.column(:exit_reasons, header: I18n.t('datagrid.columns.clients.exit_reasons')) do |client|
+        client.exit_ngos.most_recents.first.try(:exit_reasons).join(', ') if client.exit_ngos.any?
+      end
+    else
+      @client_grid.column(:exit_reasons, header: I18n.t('datagrid.columns.clients.exit_reasons')) do |client|
+        if client.exit_ngos.any?
+          reasons = []
+          client.exit_ngos.most_recents.pluck(:exit_reasons).select(&:present?).each do |reason|
+            reasons << reason.join(', ')
+          end
+          reasons.join(' | ')
+        end
+      end
+    end
+  end
+
+  def exit_circumstance_report
+    return unless @client_columns.visible_columns[:exit_circumstance_].present?
+    if params[:data].presence == 'recent'
+      @client_grid.column(:exit_circumstance, header: I18n.t('datagrid.columns.clients.exit_circumstance')) do |client|
+        client.exit_ngos.most_recents.first.try(:exit_circumstance)
+      end
+    else
+      @client_grid.column(:exit_circumstance, header: I18n.t('datagrid.columns.clients.exit_circumstance')) do |client|
+        client.exit_ngos.most_recents.pluck(:exit_circumstance).select(&:present?).join(' | ') if client.exit_ngos.any?
+      end
+    end
+  end
+
+  def other_info_of_exit_report
+    return unless @client_columns.visible_columns[:other_info_of_exit_].present?
+    if params[:data].presence == 'recent'
+      @client_grid.column(:other_info_of_exit, header: I18n.t('datagrid.columns.clients.other_info_of_exit')) do |client|
+        client.exit_ngos.most_recents.first.try(:other_info_of_exit)
+      end
+    else
+      @client_grid.column(:other_info_of_exit, header: I18n.t('datagrid.columns.clients.other_info_of_exit')) do |client|
+        client.exit_ngos.most_recents.pluck(:other_info_of_exit).select(&:present?).join(' | ') if client.exit_ngos.any?
+      end
+    end
+  end
+
+  def exit_note_report
+    return unless @client_columns.visible_columns[:exit_note_].present?
+    if params[:data].presence == 'recent'
+      @client_grid.column(:exit_note, header: I18n.t('datagrid.columns.clients.exit_note')) do |client|
+        client.exit_ngos.most_recents.first.try(:exit_note)
+      end
+    else
+      @client_grid.column(:exit_note, header: I18n.t('datagrid.columns.clients.exit_note')) do |client|
+        client.exit_ngos.most_recents.pluck(:exit_note).select(&:present?).join(' | ') if client.exit_ngos.any?
+      end
+    end
+  end
+
+  def exit_date_report
+    return unless @client_columns.visible_columns[:exit_date_].present?
+    if params[:data].presence == 'recent'
+      @client_grid.column(:exit_date, header: I18n.t('datagrid.columns.clients.ngo_exit_date')) do |client|
+        client.exit_ngos.most_recents.first.try(:exit_date)
+      end
+    else
+      @client_grid.column(:exit_date, header: I18n.t('datagrid.columns.clients.ngo_exit_date')) do |client|
+        client.exit_ngos.most_recents.pluck(:exit_date).select(&:present?).join(' | ') if client.exit_ngos.any?
+      end
+    end
+  end
+
+  def accepted_date_report
+    return unless @client_columns.visible_columns[:accepted_date_].present?
+    if params[:data].presence == 'recent'
+      @client_grid.column(:accepted_date, header: I18n.t('datagrid.columns.clients.ngo_accepted_date')) do |client|
+        client.enter_ngos.most_recents.first.try(:accepted_date)
+      end
+    else
+      @client_grid.column(:accepted_date, header: I18n.t('datagrid.columns.clients.ngo_accepted_date')) do |client|
+        client.enter_ngos.most_recents.pluck(:accepted_date).select(&:present?).join(' | ') if client.enter_ngos.any?
+      end
+    end
   end
 
   def form_title_report
@@ -109,13 +198,6 @@ module ClientGridOptions
     end
   end
 
-  def exit_reasons_report
-    return unless @client_columns.visible_columns[:exit_reasons_].present?
-    @client_grid.column(:exit_reasons, header: I18n.t('datagrid.columns.clients.exit_reasons')) do |client|
-      client.exit_reasons.join(' | ') if client.exit_reasons.any?
-    end
-  end
-
   def date_of_assessments
     return unless @client_columns.visible_columns[:date_of_assessments_].present?
     if params[:data].presence == 'recent'
@@ -168,6 +250,12 @@ module ClientGridOptions
             custom_field_properties = client.custom_field_properties.joins(:custom_field).where(custom_fields: { form_title: fields.second, entity_type: 'Client'}).properties_by(format_field_value)
             custom_field_properties.map{ |properties| format_properties_value(properties) }.join(' | ')
           end
+        elsif fields.first == 'enrollmentdate'
+          if data == 'recent'
+            properties = client.client_enrollments.joins(:program_stream).where(program_streams: { name: fields.second }).order(enrollment_date: :desc).first.try(:enrollment_date)
+          else
+            properties = client.client_enrollments.joins(:program_stream).where(program_streams: { name: fields.second }).pluck(:enrollment_date).join(' | ')
+          end
         elsif fields.first == 'enrollment'
           if data == 'recent'
             enrollment_properties = client.client_enrollments.joins(:program_stream).where(program_streams: { name: fields.second }).order(enrollment_date: :desc).first.try(:properties)
@@ -184,6 +272,13 @@ module ClientGridOptions
           else
             enrollment_tracking_properties = ClientEnrollmentTracking.joins(:tracking).where(trackings: { name: fields.third }, client_enrollment_trackings: { client_enrollment_id: ids }).properties_by(format_field_value)
             enrollment_tracking_properties.map{ |properties| format_properties_value(properties) }.join(' | ')
+          end
+        elsif fields.first == 'programexitdate'
+          ids = client.client_enrollments.inactive.ids
+          if data == 'recent'
+            properties = LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { client_enrollment_id: ids }).order(exit_date: :desc).first.try(:exit_date)
+          else
+            properties = LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { client_enrollment_id: ids }).pluck(:exit_date).join(' | ')
           end
         elsif fields.first == 'exitprogram'
           ids = client.client_enrollments.inactive.ids
