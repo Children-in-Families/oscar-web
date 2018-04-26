@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :setting do
-    min_assessment 3
+    # min_assessment 3
     max_assessment 6
     max_case_note 30
     case_note_frequency 'day'
