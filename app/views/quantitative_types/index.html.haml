@@ -5,7 +5,7 @@
         %h5= @results
         %span.label.label-info= t('.quantitative_types')
         .ibox-tools
-          - if can? :manage, QuantitativeType
+          - if policy(QuantitativeType).create?
             = link_to '#', {"data-target" => "#quantitative_typeModal-", "data-toggle" => "modal", :type => "button"} do
               .btn.btn-primary.btn-add
                 = t('.add_new_quantitative_type')
@@ -17,7 +17,7 @@
                 .col-xs-8.col-sm-9
                   %h4
                     = qt.name
-                - if can? :manage, QuantitativeType
+                - if policy(QuantitativeType).update?
                   .col-xs-4.col-sm-3.text-right.actions
                     = link_to '#', {class: 'btn btn-outline btn-success', "data-target" => "#quantitative_typeModal-#{qt.id}", "data-toggle" => "modal", :type => "button"} do
                       = fa_icon('pencil')
@@ -30,9 +30,9 @@
                     %tr
                       %td
                         = qc.value
-                      - if can? :version, QuantitativeType
+                      - if policy(QuantitativeType).create?
                         %td.text-center= link_to t('.view_changelog'), quantitative_case_version_path(qc)
-            - if can? :version, QuantitativeType
+            - if policy(QuantitativeType).create?
               .panel-footer
                 %p= link_to t('.view_changelog'), quantitative_type_version_path(qt)
       .ibox-footer

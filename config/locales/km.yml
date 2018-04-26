@@ -4310,6 +4310,11 @@ km:
       custom_forms: ទម្រង់បែបបទបន្ថែម
       custom_programs: កម្មវិធីបន្ទាប់បន្សំ
       permissions_selector: សិទ្ធិអនុញ្ញាត
+      specific_referral_data: ប្រភេទនៃបរិមាណ
+    specific_referral_data_permission:
+      can_edit: អាចកែបាន
+      can_view: អាចមើលបាន
+      specific_referral_data: ប្រភេទនៃបរិមាណ
     update:
       successfully_updated: អ្នកប្រើប្រាស់ត្រូវបានកែសម្រួលដោយជោគជ័យ
     version:

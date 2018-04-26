@@ -4234,6 +4234,7 @@ my:
       custom_forms: အေကာက္ခြန္ပံုစံမ်ား
       custom_programs: အေကာက္ခြန္ အစီအစဥ္မ်ား
       permissions_selector: ခြင့္ျပဳမႈ ေရြးခ်ယ္သည့္အရာ
+      specific_referral_data: ပမာဏအမ်ိဳးအစား
     show:
       add_form: ပံုစံ ထည့္သည္
       additional_forms: ထပ္ေဆာင္းပံုစံမ်ား
@@ -4261,6 +4262,10 @@ my:
       province: ျပည္နယ္
       roles: ခြင့္ျပဳခ်က္ ျပဳလုပ္သည္
       start_date: စတင္သည့္ ရက္စြဲ
+    specific_referral_data_permission:
+      can_edit: ျပင္ဆင္ႏုိင္ပါသည္။
+      can_view: ၾကည့္႐ႈႏုိင္ပါသည္။
+      specific_referral_data: ပမာဏအမ်ိဳးအစား
     update:
       successfully_updated: အသံုးျပဳသူကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ျဖည့္စြက္ၿပီးပါၿပီ
     version:

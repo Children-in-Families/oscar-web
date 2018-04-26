@@ -94,8 +94,6 @@
               -#   = link_to t('.districts'), districts_path
               %li{ class: active_menu('referral_sources') }
                 = link_to t('.referral_sources'), referral_sources_path
-              %li{ class: active_menu('quantitative_types') }
-                = link_to t('.quantitative_types'), quantitative_types_path
               %li
                 %a#pro-nav{href: "#"}
                   = t('.progress_note')
@@ -131,6 +129,9 @@
               - if can? :read, ReferralSource
                 %li{ class: active_menu('referral_sources') }
                   = link_to t('.referral_sources'), referral_sources_path
+            - if policy(QuantitativeType).index?
+              %li{ class: active_menu('quantitative_types') }
+                = link_to t('.quantitative_types'), quantitative_types_path
         - if can? :read, DataTracker
           %li{ class: active_menu('data_trackers') }
             = link_to data_trackers_path do
