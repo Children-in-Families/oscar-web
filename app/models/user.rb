@@ -3,6 +3,7 @@ class User < ActiveRecord::Base
   include EntityTypeCustomFieldNotification
   include NextClientEnrollmentTracking
   include ClientEnrollmentTrackingNotification
+  include ApplicationHelper
 
   ROLES = ['admin', 'case worker', 'able manager', 'ec manager', 'fc manager', 'kc manager', 'manager', 'strategic overviewer'].freeze
   MANAGERS = ROLES.select { |role| role if role.include?('manager') }
@@ -139,6 +140,7 @@ class User < ActiveRecord::Base
     overdue   = []
     due_today = []
     clients.active_accepted_status.each do |client|
+      next if client_age(client)
       client_next_asseement_date = client.next_assessment_date.to_date
       if client_next_asseement_date < Date.today
         overdue << client
