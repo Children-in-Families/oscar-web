@@ -24,6 +24,7 @@ describe Task do
       end
 
       scenario 'list manager task', js: true do
+        page.find('.widget-tasks-panel').click
         expect(page).to have_select 'user_id', with_options: ['mr admin', 'manager', 'able caseworker'], visible: false
         find("select#user_id option[value='#{manager.id}']", visible: false).select_option
         click_button('Apply')
@@ -34,6 +35,7 @@ describe Task do
       end
 
       scenario 'list caseworker task', js: true do
+        page.find('.widget-tasks-panel').click
         expect(page).to have_select 'user_id', with_options: ['mr admin', 'able caseworker'], visible: false
         find("select#user_id option[value='#{able_caseworker.id}']", visible: false).select_option
         click_button('Apply')
@@ -72,6 +74,7 @@ describe Task do
       end
 
       scenario 'list subordinate task', js: true do
+        page.find('.widget-tasks-panel').click
         find("select#user_id option[value='#{subordinate.id}']", visible: false).select_option
         click_button('Apply')
         sleep 1
