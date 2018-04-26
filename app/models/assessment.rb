@@ -53,7 +53,8 @@ class Assessment < ActiveRecord::Base
   private
 
   def must_be_min_assessment_period
-    period = Setting.first.try(:min_assessment) || 3
+    # period = Setting.first.try(:min_assessment) || 3
+    period = 3
     errors.add(:base, "Assessment cannot be created before #{period} months") if new_record? && client.present? && !client.can_create_assessment?
   end
 
