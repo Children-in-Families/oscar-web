@@ -31,7 +31,6 @@ module AdvancedSearches
     end
 
     def date_type_list
-      # ['placement_date', 'date_of_birth', 'initial_referral_date', 'follow_up_date', 'referred_to_ec', 'referred_to_fc', 'referred_to_kc', 'exit_ec_date', 'exit_fc_date', 'exit_kc_date', 'exit_date', 'accepted_date', 'case_note_date']
       ['placement_date', 'date_of_birth', 'initial_referral_date', 'follow_up_date', 'exit_date', 'accepted_date', 'case_note_date']
     end
 
@@ -39,7 +38,6 @@ module AdvancedSearches
       [
         ['gender', { female: 'Female', male: 'Male' }],
         ['status', client_status],
-        # ['case_type', { EC: 'EC', FC: 'FC',  KC: 'KC' }],
         ['agency_name', agencies_options],
         ['received_by_id', received_by_options],
         ['birth_province_id', birth_provinces],

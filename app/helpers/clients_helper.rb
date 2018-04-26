@@ -63,7 +63,6 @@ module ClientsHelper
       slug:                          t('datagrid.columns.clients.id'),
       kid_id:                        t('datagrid.columns.clients.kid_id'),
       code:                          t('datagrid.columns.clients.code'),
-      # case_type:                     t('datagrid.columns.clients.case_type'),
       age:                           t('datagrid.columns.clients.age'),
       given_name:                    t('datagrid.columns.clients.given_name'),
       family_name:                   t('datagrid.columns.clients.family_name'),

@@ -25,7 +25,6 @@ class ClientColumnsVisibility
       gender_: :gender,
       date_of_birth_: :date_of_birth,
       status_: :status,
-      # case_type_: :cases,
       birth_province_id_: :birth_province,
       initial_referral_date_: :initial_referral_date,
       referral_phone_: :referral_phone,
