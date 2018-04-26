@@ -397,9 +397,14 @@ class Client < ActiveRecord::Base
 
   def assessment_duration(duration)
     setting = Setting.first
-    assessment_period = (setting.try(:min_assessment) || 3) if duration == 'min'
-    assessment_period = (setting.try(:max_assessment) || 6) if duration == 'max'
-    assessment_frequency = setting.try(:assessment_frequency) || 'month'
+    # assessment_period = (setting.try(:min_assessment) || 3) if duration == 'min'
+    if duration == 'max'
+      assessment_period = (setting.try(:max_assessment) || 6)
+      assessment_frequency = setting.try(:assessment_frequency) || 'month'
+    else
+      assessment_period = 3
+      assessment_frequency = 'month'
+    end
     assessment_period = assessment_period.send(assessment_frequency)
   end
 end
