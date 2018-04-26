@@ -52,12 +52,14 @@ class Assessment < ActiveRecord::Base
   end
 
   def client_must_not_over_18
-    if client.date_of_birth != nil
+    if client.present? && client.date_of_birth != nil
       client_age = (Date.today - client.date_of_birth) / 360
       client_age.to_i
-      errors.add(:base, 'Assessment cannot be created for client that is over 18 years old.') if client_age >= 18
-    else
-      true
+      if client_age >= 18
+        errors.add(:base, 'Assessment cannot be created for client that is over 18 years old.')
+      else
+        true
+      end
     end
   end
 

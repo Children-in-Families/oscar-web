@@ -36,9 +36,11 @@ module AssessmentHelper
     if @client.date_of_birth.present?
       client_age = (Date.today - @client.date_of_birth) / 360
       client_age.to_i
-      return false if client_age >= 18
-    else
-      true
+      if client_age >= 18
+        return false
+      else
+        return true
+      end
     end
   end
 end
