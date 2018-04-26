@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe ManagerMailer, type: :mailer do
-  describe 'remind_of_client' do
+  xdescribe 'remind_of_client', skip: '====== Will be reimplemented with EC CPS ======' do
     let!(:admin) { create(:user, :admin)}
     let!(:client) { create(:client, status: 'Active') }
     let!(:case){ create(:case, :emergency, client: client) }
