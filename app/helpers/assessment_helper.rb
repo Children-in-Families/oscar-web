@@ -41,6 +41,8 @@ module AssessmentHelper
       else
         return true
       end
+    else
+      true
     end
   end
 end
