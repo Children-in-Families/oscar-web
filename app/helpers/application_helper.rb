@@ -170,7 +170,7 @@ module ApplicationHelper
   end
 
   def entity_name(entity)
-    entity.name.present? ? entity.name : 'Unknown'
+    entity.name
   end
 
   def progarm_stream_action

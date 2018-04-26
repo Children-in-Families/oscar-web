@@ -366,7 +366,7 @@ describe User, 'methods' do
 
   context 'name' do
     it{ expect(case_worker.name).to eq('First Name Last Name') }
-    it{ expect(unknown_user.name).to eq('Unknown') }
+    it{ expect(unknown_user.name).to eq(' ') }
   end
 
   context 'admin?' do

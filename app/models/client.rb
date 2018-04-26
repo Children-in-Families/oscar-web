@@ -146,14 +146,19 @@ class Client < ActiveRecord::Base
   def name
     name       = "#{given_name} #{family_name}"
     local_name = "#{local_given_name} #{local_family_name}"
-    name.present? ? name : local_name.present? ? local_name : 'Unknown'
+    name.present? ? name : local_name
   end
 
   def en_and_local_name
     en_name = "#{given_name} #{family_name}"
     local_name = "#{local_family_name} #{local_given_name}"
-
-    local_name.present? ? "#{en_name} (#{local_name})" : en_name.present? ? en_name : 'Unknown'
+    if local_name.present? && en_name.present?
+      "#{en_name} (#{local_name})"
+    elsif local_name.present?
+      local_name
+    elsif en_name.present?
+      en_name
+    end
   end
 
   def next_assessment_date
