@@ -82,12 +82,10 @@ end
 
 describe Client, 'methods' do
   let!(:setting){ create(:setting, :monthly_assessment) }
-  let!(:able_manager) { create(:user, roles: 'able manager') }
   let!(:case_worker) { create(:user, roles: 'case worker') }
   let!(:client){ create(:client, user_ids: [case_worker.id], local_given_name: 'Barry', local_family_name: 'Allen', date_of_birth: '2007-05-15', status: 'Active') }
   let!(:other_client) { create(:client, user_ids: [case_worker.id]) }
   let!(:able_client) { create(:client, able_state: Client::ABLE_STATES[0]) }
-  let!(:able_manager_client) { create(:client, user_ids: [able_manager.id]) }
   let!(:assessment){ create(:assessment, created_at: Date.today - 3.months, client: client) }
   let!(:able_rejected_client) { create(:client, able_state: Client::ABLE_STATES[1]) }
   let!(:able_discharged_client) { create(:client, able_state: Client::ABLE_STATES[2]) }
@@ -227,18 +225,6 @@ describe Client, 'methods' do
     it { expect(exited_client.exit_ngo?).to be_truthy }
     it { expect(client.exit_ngo?).to be_falsey }
   end
-
-  # context 'active_ec?' do
-  #   it { expect(client_a.active_ec?).to be_truthy }
-  # end
-
-  # context 'active_fc?' do
-  #   it { expect(client_b.active_fc?).to be_truthy }
-  # end
-
-  # context 'active_kc?' do
-  #   it { expect(client_c.active_kc?).to be_truthy }
-  # end
 
   context 'active_case?' do
     it { expect(client_a.active_case?).to be_truthy }
@@ -390,15 +376,6 @@ describe Client, 'methods' do
     end
     it 'does not include clients with age between' do
       expect(Client.age_between(min_age, max_age)).not_to include(other_specific_client)
-    end
-  end
-
-  context 'in any able states managed by user' do
-    it 'returns clients either in any able states or managed by current user' do
-      expect(Client.in_any_able_states_managed_by(able_manager)).to include(able_client, able_manager_client, able_rejected_client, able_discharged_client)
-    end
-    it 'does not return neither non able clients nor not managed by current user' do
-      expect(Client.in_any_able_states_managed_by(case_worker)).not_to include(able_manager_client)
     end
   end
 
@@ -683,15 +660,6 @@ describe Client, 'scopes' do
       expect(case_worker_is).to include(case_worker)
     end
   end
-
-  # context 'state' do
-  #   it 'accepted' do
-  #     expect(Client.accepted).to include(client)
-  #   end
-  #   it 'rejected' do
-  #     expect(Client.rejected).to include(other_client)
-  #   end
-  # end
 
   context 'gender' do
     it 'male' do

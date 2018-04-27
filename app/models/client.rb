@@ -194,10 +194,6 @@ class Client < ActiveRecord::Base
     where('able_state = ? or user_id = ?', ABLE_STATES[0], user.id)
   end
 
-  def self.in_any_able_states_managed_by(user)
-    joins(:case_worker_clients).where('able_state IN(?) OR case_worker_clients.user_id = ?', ABLE_STATES, user.id)
-  end
-
   def self.managed_by(user, status)
     where('status = ? or user_id = ?', status, user.id)
   end
@@ -315,20 +311,20 @@ class Client < ActiveRecord::Base
     (end_date - start_date).to_f
   end
 
-  def self.ec_reminder_in(day)
-    Organization.all.each do |org|
-      Organization.switch_to org.short_name
-      managers = User.non_locked.ec_managers.pluck(:email).join(', ')
-      admins   = User.non_locked.admins.pluck(:email).join(', ')
-      clients = Client.active_status.joins(:cases).where(cases: { case_type: 'EC', exited: false}).uniq
-      clients = clients.select { |client| client.active_day_care == day }
-
-      if clients.present?
-        ManagerMailer.remind_of_client(clients, day: day, manager: managers).deliver_now if managers.present?
-        AdminMailer.remind_of_client(clients, day: day, admin: admins).deliver_now if admins.present?
-      end
-    end
-  end
+  # def self.ec_reminder_in(day)
+  #   Organization.all.each do |org|
+  #     Organization.switch_to org.short_name
+  #     managers = User.non_locked.ec_managers.pluck(:email).join(', ')
+  #     admins   = User.non_locked.admins.pluck(:email).join(', ')
+  #     clients = Client.active_status.joins(:cases).where(cases: { case_type: 'EC', exited: false}).uniq
+  #     clients = clients.select { |client| client.active_day_care == day }
+  #
+  #     if clients.present?
+  #       ManagerMailer.remind_of_client(clients, day: day, manager: managers).deliver_now if managers.present?
+  #       AdminMailer.remind_of_client(clients, day: day, admin: admins).deliver_now if admins.present?
+  #     end
+  #   end
+  # end
 
   def populate_needs
     Need.all.each do |need|

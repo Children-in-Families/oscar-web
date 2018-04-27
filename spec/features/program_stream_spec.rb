@@ -1,6 +1,5 @@
 feature 'program_stream' do
   let!(:admin){ create(:user, roles: 'admin') }
-  let!(:ec_manager){ create(:user, roles: 'ec manager')}
   let!(:domain) { create(:domain) }
   let!(:program_stream) { create(:program_stream, ngo_name: Organization.current.full_name) }
   let!(:program_stream_search) { create(:program_stream, ngo_name: Organization.current.full_name, name: 'Program Stream Search') }

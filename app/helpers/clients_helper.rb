@@ -138,10 +138,6 @@ module ClientsHelper
     @client.able? && (current_user.case_worker? || current_user.able_manager? || current_user.admin? || current_user.fc_manager? || current_user.manager? || current_user.kc_manager? || current_user.strategic_overviewer?)
   end
 
-  def disable_case_histories?
-    'disabled' if current_user.able_manager?
-  end
-
   def client_custom_fields_list(object)
     content_tag(:ul, class: 'client-custom-fields-list') do
       if params[:data] == 'recent'

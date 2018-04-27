@@ -15,7 +15,7 @@ describe 'Family' do
   let!(:other_family){ create(:family, name: 'Unknown') }
   let!(:case){ create(:case, family: other_family) }
   let!(:client){ create(:client, :accepted) }
-  let!(:other_client){ create(:client, state: '') }
+  let!(:other_client){ create(:client) }
 
 
   before do
