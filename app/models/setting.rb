@@ -10,7 +10,7 @@ class Setting < ActiveRecord::Base
   # validates :min_assessment, :max_assessment, presence: true, if: -> { assessment_frequency.present? }
   validates :max_assessment, presence: true, if: -> { assessment_frequency.present? }
 
-  before_update :modify_client_default_columns, if: :country_name_changed?
+  before_update :modify_client_default_columns, if: -> { country_name_changed? && client_default_columns.any? }
 
   def modify_client_default_columns
     country = country_name_was
