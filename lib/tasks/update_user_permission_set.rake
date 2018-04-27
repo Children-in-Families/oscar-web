@@ -6,7 +6,8 @@ namespace :update_user_permission_set do
 
       users = User.where(roles: ['able manager', 'ec manager', 'fc manager', 'kc manager'])
       users.each do |user|
-        user.update_columns(roles: 'manager')
+        user.roles = 'manager'
+        user.save(validate: false)
       end
     end
   end
