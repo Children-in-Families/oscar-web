@@ -93,7 +93,7 @@ describe 'Client' do
       scenario 'enable assessment tool' do
         expect(page).to have_link('Assessments', href: client_assessments_path(client))
       end
-       
+
       scenario 'disable assessment tool' do
         setting.update(disable_assessment: true)
         visit current_path
@@ -194,6 +194,29 @@ describe 'Client' do
 
         visit client_client_enrollment_leave_program_path(client, client_enrollment, leave_program)
         expect(page).to have_link(nil, href: edit_client_client_enrollment_leave_program_path(client, client_enrollment, leave_program, program_stream_id: program_stream))
+      end
+    end
+
+    feature 'Specific point of Referral Data Permission' do
+      let!(:quantitative_type){ create(:quantitative_type) }
+      let!(:second_quantitative_type){ create(:quantitative_type) }
+      let!(:quantitative_case){ create(:quantitative_case, quantitative_type: quantitative_type) }
+      let!(:second_quantitative_case){ create(:quantitative_case, quantitative_type: second_quantitative_type) }
+      let!(:client){ create(:client, :accepted, quantitative_case_ids: [quantitative_case.id, second_quantitative_case.id], users: [user]) }
+      let!(:quantitative_type_permission){ create(:quantitative_type_permission, quantitative_type_id: quantitative_type.id, user_id: user.id) }
+      let!(:quantitative_type_readable_permission){ create(:quantitative_type_permission, quantitative_type_id: second_quantitative_type.id, user_id: user.id, readable: true) }
+
+      before do
+        login_as(user)
+        visit client_path(client)
+      end
+
+      scenario 'Can Read Referral Data' do
+        expect(page).to have_content(second_quantitative_type.name)
+      end
+
+      scenario 'Cannot Read Referral Data' do
+        expect(page).not_to have_content(quantitative_type.name)
       end
     end
   end
