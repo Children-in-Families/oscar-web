@@ -100,7 +100,7 @@ describe 'AdvancedSearch' do
     end
   end
 
-  feature 'delete', js: true do
+  feature 'delete' do
     let!(:advanced_search_5){ create(:advanced_search, user: user_1) }
     before do
       login_as(user_1)
