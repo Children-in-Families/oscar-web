@@ -57,7 +57,6 @@ class ClientColumnsVisibility
       has_been_in_government_care_: :has_been_in_government_care,
       relevant_referral_information_: :relevant_referral_information,
       user_ids_: :user,
-      state_: :state,
       accepted_date_: :accepted_date,
       exit_date_: :exit_date,
       history_of_disability_and_or_illness_: :history_of_disability_and_or_illness,

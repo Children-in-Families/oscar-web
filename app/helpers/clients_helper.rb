@@ -344,7 +344,6 @@ module ClientsHelper
       changelog_: t('datagrid.columns.changelog'),
       telephone_number_: t('datagrid.columns.clients.telephone_number'),
       subdistrict_: t('datagrid.columns.clients.subdistrict'),
-      state_: t('datagrid.columns.clients.state'),
       township_: t('datagrid.columns.clients.township'),
       postal_code_: t('datagrid.columns.clients.postal_code'),
       road_: t('datagrid.columns.clients.road'),
