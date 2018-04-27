@@ -55,21 +55,16 @@
           - if can? :manage, Case
             .btn-group.small-btn-margin
               %button.btn-sm.btn.btn-primary.dropdown-toggle.btn-fit{ "data-toggle" => "dropdown", id: 'add-client-to-case', class: ('disabled' if status_exited?(@client.status)) }
-                = t('.add_client_to_case')
+                = t('.exit_ngo_btn')
                 %span.caret
               %ul.dropdown-menu.btn-fit
-                - if @client.cases.exclude_referred.current.blank?
-                  %li
-                    - if @client.client_enrollments.active.count > 0
-                      %a{"data-target" => '#remaining-programs-modal', "data-toggle" => 'modal'}
-                        .text-warning= t('.exit_ngo_btn')
-                    - else
-                      %a{"data-target" => '#exitFromNgo', "data-toggle" => 'modal'}
-                        .text-warning= t('.exit_ngo_btn')
-                - if @client.cases.exclude_referred.current.present?
-                  %li
-                    %a{"data-target" => '#exit-from-case', "data-toggle" => 'modal'}
-                      .text-warning.exit-case-warning= t(".exit_from_#{@client.cases.exclude_referred.current.case_type.downcase}")
+                %li
+                  - if @client.client_enrollments.active.count > 0
+                    %a{"data-target" => '#remaining-programs-modal', "data-toggle" => 'modal'}
+                      .text-warning= t('.exit_ngo_btn')
+                  - else
+                    %a{"data-target" => '#exitFromNgo', "data-toggle" => 'modal'}
+                      .text-warning= t('.exit_ngo_btn')
 
             - if @client.client_enrollments.active.count > 0
               = render 'remaining_programs', client: @client

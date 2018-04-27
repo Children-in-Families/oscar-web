@@ -93,7 +93,7 @@ describe 'Client' do
       scenario 'enable assessment tool' do
         expect(page).to have_link('Assessments', href: client_assessments_path(client))
       end
-       
+
       scenario 'disable assessment tool' do
         setting.update(disable_assessment: true)
         visit current_path
@@ -320,7 +320,7 @@ describe 'Client' do
       # end
 
       scenario 'Exit NGO Button' do
-        expect(page).to have_content('Exit From NGO')
+        expect(page).to have_content('Exit Client From NGO')
       end
     end
 
@@ -336,11 +336,6 @@ describe 'Client' do
       # scenario 'Emergency Case Button' do
       #   expect(page).not_to have_link('Add to EC', href: new_client_case_path(ec_client, case_type: 'EC'))
       # end
-
-      scenario 'Exit From EC' do
-        exit_case_button = find('.exit-case-warning')
-        expect(exit_case_button).to have_content('Exit From EC')
-      end
     end
 
     feature 'Inactive Client' do
@@ -543,7 +538,7 @@ describe 'Client' do
 
     scenario 'Exit client after accepted' do
       visit client_path(accepted_client)
-      click_button 'Add Client to Case'
+      click_button 'add-client-to-case'
       find("a[data-target='#exitFromNgo']").click
       fill_in 'exit_ngo_exit_date', with: Date.today
       fill_in 'exit_ngo_exit_note', with: 'Note'
@@ -558,7 +553,7 @@ describe 'Client' do
     context 'Client still actively enrolled in a program' do
       scenario 'Pop up warning' do
         visit client_path(active_client)
-        click_button 'Add Client to Case'
+        click_button 'add-client-to-case'
         find("a[data-target='#remaining-programs-modal']").click
         expect(page).to have_content('This client is still actively enrolled in 1 programs.')
         expect(page).to have_link('Click here to exit program')
