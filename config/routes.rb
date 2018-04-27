@@ -180,6 +180,14 @@ Rails.application.routes.draw do
       resources :districts, only: :index
     end
 
+    resources :districts, only: :index do
+      resources :subdistricts, only: :index
+    end
+
+    resources :states, only: :index do
+      resources :townships, only: :index
+    end
+
     resources :clients do
       get :compare, on: :collection
     end

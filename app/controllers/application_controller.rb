@@ -67,7 +67,7 @@ class ApplicationController < ActionController::Base
   end
 
   def default_url_options(options = {})
-    country = params[:country] || 'cambodia'
+    country = Setting.first.try(:country_name) || params[:country] || 'cambodia'
     { locale: I18n.locale, country: country }.merge(options)
   end
 

@@ -15,11 +15,20 @@ class Client < ActiveRecord::Base
   ABLE_STATES = %w(Accepted Rejected Discharged).freeze
 
   delegate :name, to: :donor, prefix: true, allow_nil: true
+  delegate :name, to: :township, prefix: true, allow_nil: true
+  delegate :name, to: :province, prefix: true, allow_nil: true
+  delegate :name, to: :birth_province, prefix: true, allow_nil: true
+  delegate :name, to: :district, prefix: true, allow_nil: true
+  delegate :name, to: :subdistrict, prefix: true, allow_nil: true
+  delegate :name, to: :state, prefix: true, allow_nil: true
 
   belongs_to :referral_source,  counter_cache: true
   belongs_to :province,         counter_cache: true
   belongs_to :donor
   belongs_to :district
+  belongs_to :subdistrict
+  belongs_to :township
+  belongs_to :state
   belongs_to :received_by,      class_name: 'User',      foreign_key: 'received_by_id',    counter_cache: true
   belongs_to :followed_up_by,   class_name: 'User',      foreign_key: 'followed_up_by_id', counter_cache: true
   belongs_to :birth_province,   class_name: 'Province',  foreign_key: 'birth_province_id', counter_cache: true
@@ -392,9 +401,9 @@ class Client < ActiveRecord::Base
   end
 
   def assessment_duration(duration)
-    setting = Setting.first
     # assessment_period = (setting.try(:min_assessment) || 3) if duration == 'min'
     if duration == 'max'
+      setting = Setting.first
       assessment_period = (setting.try(:max_assessment) || 6)
       assessment_frequency = setting.try(:assessment_frequency) || 'month'
     else

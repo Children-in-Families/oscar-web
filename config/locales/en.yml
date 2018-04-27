@@ -309,6 +309,8 @@ en:
       custom_form: Custom Form
       date_of_assessments: Date of Assessments
       date_of_birth: Date of Birth
+      description_house_landmark: Description of the house and a landmark
+      directions: Directions
       district: District/Khan
       donor: Donor
       donor_id: Donor
@@ -349,6 +351,8 @@ en:
       ngo_exit_date: NGO Exit Date
       other_info_of_exit: Other - More Information
       placement_start_date: Placement Start Date
+      plot: Plot
+      postal_code: Postal Code
       program_stream: Program Stream
       province: Birth Province
       province_id: Current Province
@@ -364,14 +368,20 @@ en:
       referred_to_kc: Referred To KC
       reject_note: Note on referral rejection
       relevant_referral_information: Relevant Referral Information
+      road: Road
       school_grade: School Grade
       school_name: School Name
       slug: ID
-      state: Accept/Reject
+      state: State
       status: Status
+      street_line1: Street Line1
+      street_line2: Street Line2
       street_number: Street
+      subdistrict: Subdistrict
+      suburb: Suburb
       telephone_number: Primary Carer Phone Number
       time_of_frequency: Time of Frequency
+      township: Township
       tracking: Tracking
       type: Type
       user_id: Case Worker
@@ -970,6 +980,30 @@ en:
   clients:
     actions:
       are_you_sure: Are you sure you want to delete?
+    address_forms:
+      cambodia_address_form:
+        commune: Address - Commune/Sangkat
+        current_province: Current Province
+        district: Address - District/Khan
+        house_number: Address - House#
+        street_number: Address - Street
+        village: Address - Village
+      lesotho_address_form:
+        description_house_landmark: Description of the house and a landmark
+        directions: Directions
+        suburb: Suburb
+      myanmar_address_form:
+        state: State
+        street_line1: Street Line1
+        street_line2: Street Line2 (optional)
+        township: Township
+      thailand_address_form:
+        district: District
+        plot: Plot/House number, Village
+        postal_code: Postal Code
+        province: Province
+        road: Road
+        subdistrict: Subdistrict
     answer_fields:
       answer: Answer
       yes_no: Yes/No
@@ -1269,12 +1303,8 @@ en:
 
     living_detail:
       case_worker_or_staff: Case Worker / Staff
-      commune: Address - Commune/Sangkat
       contact_details: Contact Details
       current_address: Current Address
-      current_province: Current Province
-      district: Address - District/Khan
-      house_number: Address - House#
       living_detail: Living Details
       main_school_contact: Main School Contact
       primary_carer_name: Primary Carer Name
@@ -1282,8 +1312,6 @@ en:
       school_grade: School Grade
       school_name: School Name
       schooling: Schooling
-      street_number: Address - Street
-      village: Address - Village
       what3words: What3words
 
     new:
@@ -1625,6 +1653,8 @@ en:
         current_province: Current Province
         date_of_assessments: Date of Assessments
         date_of_birth: Date of Birth
+        description_house_landmark: Description of the house and a landmark
+        directions: Directions
         district: District/Khan
         domain: Domain
         domains: All CSI
@@ -1684,6 +1714,8 @@ en:
           start_date: Start Date
           support_amount: Support Amount
           support_note: Support Note
+        plot: Plot
+        postal_code: Postal Code
         program_enrollment_date: Program Enrollment Date
         program_exit_date: Program Exit Date
         program_streams: Program Streams
@@ -1700,16 +1732,22 @@ en:
         reject_note: Note on referral rejection
         rejected_note: Note on referral rejection
         relevant_referral_information: Relevant Referral Information
+        road: Road
         school_grade: School Grade
         school_name: School Name
         staff_responsibilities: Staff Responsibilities
-        state: Accept/Reject
+        state: State
         status: Status
+        street_line1: Street Line 1
+        street_line2: Street Line 2
         street_number: Street
+        subdistrict: Subdistrict
+        suburb: Suburb
         telephone_number: Primary Carer Phone Number
         thailand: Thailand
         time_of_frequency: Time of Frequency
         total: Total
+        township: Township
         type: Type
         view: View
         village: Village
@@ -3075,6 +3113,7 @@ en:
       quantitative_types: Specific Referral Data
       referral_sources: Referral Sources
       release_logs: Release logs
+      settings: Settings
       users: Users
       view_calendar: View Calendar
     top_navbar:
