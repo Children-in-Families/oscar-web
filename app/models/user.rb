@@ -197,9 +197,6 @@ class User < ActiveRecord::Base
       User.all
     elsif user.manager? || user.any_case_manager?
       User.where('id = :user_id OR manager_ids && ARRAY[:user_id]', { user_id: user.id })
-    elsif user.able_manager?
-      user_ids = Client.able.joins(:users).pluck('users.id') << user.id
-      User.where(id: user_ids.uniq)
     end
   end
 
