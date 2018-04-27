@@ -35,7 +35,7 @@ class CaseNote < ActiveRecord::Base
   end
 
   def self.latest_record
-    order(meeting_date: :desc).first
+    where.not(meeting_date: nil).order(meeting_date: :desc).first
   end
 
   private
