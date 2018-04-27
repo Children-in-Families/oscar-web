@@ -45,18 +45,6 @@ class ClientDecorator < Draper::Decorator
     model.followed_up_by if model.followed_up_by
   end
 
-  def ec_button
-    h.case_button('EC') if can_add_ec?
-  end
-
-  def fc_button
-    h.case_button('FC') if can_add_fc?
-  end
-
-  def kc_button
-    h.case_button('KC') if can_add_kc?
-  end
-
   private
 
   def can_add_ec?

@@ -24,30 +24,16 @@ describe AdvancedSearches::ClientAssociationFilter, 'Method' do
 
   let!(:agency_client)         { create(:agency_client, client: client, agency: agency) }
   let!(:case_worker_client)    { create(:case_worker_client, user: user, client: client) }
-  
+
   let!(:client_enrollment)     { create(:client_enrollment, client: client, program_stream: program_stream) }
   let!(:custom_field_property) { create(:custom_field_property, custom_field: custom_field, custom_formable_id: client.id) }
 
   context '#get_sql' do
-    it 'return clients that filter with placement_date' do
-      client_filter = AdvancedSearches::ClientAssociationFilter.new(Client.all, 'placement_date', 'equal', 1.day.ago.to_s).get_sql
-
-      expect(client_filter[:id]).to include 'clients.id IN (?)'
-      expect(client_filter[:values]).to include ec_client.id
-    end
-
     it 'return clients that filter with form_title' do
       client_filter = AdvancedSearches::ClientAssociationFilter.new(Client.all, 'form_title', 'equal', custom_field.id).get_sql
 
       expect(client_filter[:id]).to include 'clients.id IN (?)'
       expect(client_filter[:values]).to include client.id
-    end
-
-    it 'return clients that filter with case_type' do
-      client_filter = AdvancedSearches::ClientAssociationFilter.new(Client.all, 'case_type', 'equal', 'EC').get_sql
-
-      expect(client_filter[:id]).to include 'clients.id IN (?)'
-      expect(client_filter[:values]).to include ec_client.id
     end
 
     it 'return clients that filter with user_id' do
@@ -83,48 +69,6 @@ describe AdvancedSearches::ClientAssociationFilter, 'Method' do
 
       expect(client_filter[:id]).to include 'clients.id IN (?)'
       expect(client_filter[:values]).to include client.id
-    end
-
-    it 'return clients that filter with referred_to_ec' do
-      client_filter = AdvancedSearches::ClientAssociationFilter.new(Client.all, 'referred_to_ec', 'not_equal', Date.today.to_s).get_sql
-
-      expect(client_filter[:id]).to include 'clients.id IN (?)'
-      expect(client_filter[:values]).to include ec_client.id
-    end
-
-    it 'return clients that filter with referred_to_fc' do
-      client_filter = AdvancedSearches::ClientAssociationFilter.new(Client.all, 'referred_to_fc', 'not_equal', Date.today.to_s).get_sql
-
-      expect(client_filter[:id]).to include 'clients.id IN (?)'
-      expect(client_filter[:values]).to include fc_client.id
-    end
-
-    it 'return clients that filter with referred_to_kc' do
-      client_filter = AdvancedSearches::ClientAssociationFilter.new(Client.all, 'referred_to_kc', 'not_equal', Date.today.to_s).get_sql
-
-      expect(client_filter[:id]).to include 'clients.id IN (?)'
-      expect(client_filter[:values]).to include kc_client.id
-    end
-
-    it 'return clients that filter with exit_ec_date' do
-      client_filter = AdvancedSearches::ClientAssociationFilter.new(Client.all, 'exit_ec_date', 'equal', Date.today.to_s).get_sql
-
-      expect(client_filter[:id]).to include 'clients.id IN (?)'
-      expect(client_filter[:values]).to include exit_ec_client.id
-    end
-
-    it 'return clients that filter with exit_fc_date' do
-      client_filter = AdvancedSearches::ClientAssociationFilter.new(Client.all, 'exit_fc_date', 'equal', Date.today.to_s).get_sql
-
-      expect(client_filter[:id]).to include 'clients.id IN (?)'
-      expect(client_filter[:values]).to include exit_fc_client.id
-    end
-
-    it 'return clients that filter with exit_kc_date' do
-      client_filter = AdvancedSearches::ClientAssociationFilter.new(Client.all, 'exit_kc_date', 'equal', Date.today.to_s).get_sql
-
-      expect(client_filter[:id]).to include 'clients.id IN (?)'
-      expect(client_filter[:values]).to include exit_kc_client.id
     end
 
     it 'return clients that filter with program_stream' do

@@ -63,7 +63,6 @@ module ClientsHelper
       slug:                          t('datagrid.columns.clients.id'),
       kid_id:                        t('datagrid.columns.clients.kid_id'),
       code:                          t('datagrid.columns.clients.code'),
-      case_type:                     t('datagrid.columns.clients.case_type'),
       age:                           t('datagrid.columns.clients.age'),
       given_name:                    t('datagrid.columns.clients.given_name'),
       family_name:                   t('datagrid.columns.clients.family_name'),
@@ -112,14 +111,6 @@ module ClientsHelper
       exit_date:                     t('datagrid.columns.clients.ngo_exit_date')
     }
     label_tag "#{column}_", label_column[column.to_sym]
-  end
-
-  def case_button(type)
-    link_to new_client_case_path(@client, case_type: type) do
-      content_tag(:span, '') do
-        content_tag(:span, t(".add_#{type.downcase}_btn"), class: 'text-success')
-      end
-    end
   end
 
   def ec_manageable
@@ -301,7 +292,6 @@ module ClientsHelper
       gender_: t('datagrid.columns.clients.gender'),
       date_of_birth_: t('datagrid.columns.clients.date_of_birth'),
       status_: t('datagrid.columns.clients.status'),
-      case_type_: t('datagrid.columns.cases.case_type'),
       birth_province_id_: t('datagrid.columns.clients.birth_province'),
       initial_referral_date_: t('datagrid.columns.clients.initial_referral_date'),
       referral_phone_: t('datagrid.columns.clients.referral_phone'),
@@ -331,7 +321,6 @@ module ClientsHelper
       history_of_high_risk_behaviours_: t('datagrid.columns.clients.history_of_high_risk_behaviours'),
       reason_for_family_separation_: t('datagrid.columns.clients.reason_for_family_separation'),
       rejected_note_: t('datagrid.columns.clients.rejected_note'),
-      case_start_date_: t('datagrid.columns.clients.placements.start_date'),
       carer_names_: t('datagrid.columns.clients.placements.carer_names'),
       carer_address_: t('datagrid.columns.clients.placements.carer_address'),
       carer_phone_number_: t('datagrid.columns.clients.placements.carer_phone_number'),

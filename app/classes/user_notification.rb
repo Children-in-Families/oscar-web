@@ -47,6 +47,7 @@ class UserNotification
       client_ids = program_stream.client_enrollments.active.pluck(:client_id)
       clients = Client.active_accepted_status.where(id: client_ids)
       clients_after_filter = AdvancedSearches::ClientAdvancedSearch.new(rules, clients).filter
+
       if clients_after_filter.any?
         clients_change = clients.where.not(id: clients_after_filter.ids).ids
         client_wrong_program_rules << [program_stream, clients_change] if clients_change.any?

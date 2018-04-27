@@ -10,12 +10,8 @@ module AdvancedSearches
     def get_sql
       sql_string = 'clients.id IN (?)'
       case @field
-      when 'placement_date'
-        values = placement_date_field_query
       when 'form_title'
         values = form_title_field_query
-      when 'case_type'
-        values = case_type_field_query
       when 'user_id'
         values = user_id_field_query
       when 'agency_name'
@@ -26,18 +22,6 @@ module AdvancedSearches
         values = family_name_field_query
       when 'age'
         values = age_field_query
-      when 'referred_to_ec'
-        values = program_placement_date_field_query('EC')
-      when 'referred_to_fc'
-        values = program_placement_date_field_query('FC')
-      when 'referred_to_kc'
-        values = program_placement_date_field_query('KC')
-      when 'exit_ec_date'
-        values = program_exit_date_field_query('EC')
-      when 'exit_fc_date'
-        values = program_exit_date_field_query('FC')
-      when 'exit_kc_date'
-        values = program_exit_date_field_query('KC')
       when 'program_stream'
         values = program_stream_query
       when 'case_note_date'
@@ -253,37 +237,6 @@ module AdvancedSearches
       end
     end
 
-    def placement_date_field_query
-      clients = @clients.joins(:cases)
-
-      case @operator
-      when 'equal'
-        clients = clients.where(cases: { start_date: @value })
-      when 'not_equal'
-        clients = clients.where("cases.start_date != ? OR cases.start_date IS NULL", @value)
-      when 'less'
-        clients = clients.where('cases.start_date < ?', @value)
-      when 'less_or_equal'
-        clients = clients.where('cases.start_date <= ?', @value)
-      when 'greater'
-        clients = clients.where('cases.start_date > ?', @value)
-      when 'greater_or_equal'
-        clients = clients.where('cases.start_date >= ?', @value)
-      when 'between'
-        clients = clients.where(cases: { start_date: @value[0]..@value[1] })
-      when 'is_empty'
-        ids = @clients.where.not(id: clients.ids).ids
-      when 'is_not_empty'
-        ids = @clients.where(id: clients.ids).ids
-      end
-
-      if @operator != 'is_empty'
-        sub_query = 'SELECT MAX(cases.created_at) FROM cases WHERE cases.client_id = clients.id'
-        ids = clients.where("cases.created_at = (#{sub_query})").ids
-      end
-      ids
-    end
-
     def form_title_field_query
       clients = @clients.joins(:custom_fields)
       case @operator
@@ -297,20 +250,6 @@ module AdvancedSearches
         clients = @clients.where(id: clients.ids)
       end
       clients.uniq.ids
-    end
-
-    def case_type_field_query
-      clients = @clients.joins(:cases).where(cases: { exited: false })
-      case @operator
-      when 'equal'
-        clients.where(cases: { case_type: @value }).ids.uniq
-      when 'not_equal'
-        clients.where.not(cases: { case_type: @value }).ids.uniq
-      when 'is_empty'
-        @clients.where.not(id: clients.ids).ids
-      when 'is_not_empty'
-        @clients.where(id: clients.ids).ids
-      end
     end
 
     def agency_name_field_query
@@ -491,62 +430,6 @@ module AdvancedSearches
       else
         ids.to_i > 1000000 ? "1000000" : ids
       end
-    end
-
-    def program_placement_date_field_query(case_type)
-      clients = @clients.joins(:cases)
-
-      case @operator
-      when 'equal'
-        clients = clients.where(cases: { case_type: case_type, start_date: @value })
-      when 'not_equal'
-        clients = clients.where("cases.case_type = ? AND cases.start_date != ? OR cases.start_date IS NULL", case_type, @value)
-      when 'less'
-        clients = clients.where('cases.case_type = ? AND cases.start_date < ?', case_type, @value)
-      when 'less_or_equal'
-        clients = clients.where('cases.case_type = ? AND cases.start_date <= ?', case_type, @value)
-      when 'greater'
-        clients = clients.where('cases.case_type = ? AND cases.start_date > ?', case_type, @value)
-      when 'greater_or_equal'
-        clients = clients.where('cases.case_type = ? AND cases.start_date >= ?', case_type, @value)
-      when 'between'
-        clients = clients.where(cases: { case_type: case_type, start_date: @value[0]..@value[1] })
-      when 'is_empty'
-        ids = @clients.where.not(id: clients.where('cases.case_type = ?', case_type).ids).ids
-      when 'is_not_empty'
-        ids = @clients.where(id: clients.where('cases.case_type = ?', case_type).ids).ids
-      end
-
-      if @operator != 'is_empty'
-        ids = clients.ids
-      end
-      ids
-    end
-
-    def program_exit_date_field_query(case_type)
-      clients = @clients.joins(:cases)
-
-      case @operator
-      when 'equal'
-        clients = clients.where(cases: { case_type: case_type, exit_date: @value, exited: true })
-      when 'not_equal'
-        clients = clients.where("cases.case_type = ? AND cases.exit_date != ? AND cases.exited = ?", case_type, @value, true)
-      when 'less'
-        clients = clients.where('cases.case_type = ? AND cases.exit_date < ? AND cases.exited = ?', case_type, @value, true)
-      when 'less_or_equal'
-        clients = clients.where('cases.case_type = ? AND cases.exit_date <= ? AND cases.exited = ?', case_type, @value, true)
-      when 'greater'
-        clients = clients.where('cases.case_type = ? AND cases.exit_date > ? AND cases.exited = ?', case_type, @value, true)
-      when 'greater_or_equal'
-        clients = clients.where('cases.case_type = ? AND cases.exit_date >= ? AND cases.exited = ?', case_type, @value, true)
-      when 'between'
-        clients = clients.where(cases: { case_type: case_type, exit_date: @value[0]..@value[1], exited: true })
-      when 'is_empty'
-        clients = clients.includes(:cases).where(cases: { case_type: case_type }).where('cases.exited = ? OR cases.id IS NULL', false)
-      when 'is_not_empty'
-        clients = clients.includes(:cases).where(cases: { case_type: case_type }).where.not('cases.exited = ? OR cases.id IS NULL', false)
-      end
-      clients.ids.uniq
     end
   end
 end
