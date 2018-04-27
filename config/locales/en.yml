@@ -374,8 +374,8 @@ en:
       slug: ID
       state: State
       status: Status
-      street_line1: Street Line1
-      street_line2: Street Line2
+      street_line1: Street Line 1
+      street_line2: Street Line 2
       street_number: Street
       subdistrict: Subdistrict
       suburb: Suburb
@@ -994,8 +994,8 @@ en:
         suburb: Suburb
       myanmar_address_form:
         state: State
-        street_line1: Street Line1
-        street_line2: Street Line2 (optional)
+        street_line1: Street Line 1
+        street_line2: Street Line 2 (optional)
         township: Township
       thailand_address_form:
         district: District
