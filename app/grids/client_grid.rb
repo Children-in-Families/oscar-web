@@ -6,8 +6,7 @@ class ClientGrid
   attr_accessor :current_user, :qType, :dynamic_columns, :param_data
 
   scope do
-    # Client.includes({ cases: [:family, :partner] }, :referral_source, :user, :received_by, :followed_up_by, :province, :assessments, :birth_province).order('clients.status, clients.given_name')
-    Client.includes({ cases: [:family, :partner] }, :donor, :district, :referral_source, :received_by, :followed_up_by, :province, :assessments, :birth_province).order('clients.status, clients.given_name')
+    Client.includes(:donor, :district, :referral_source, :received_by, :followed_up_by, :province, :assessments, :birth_province).order('clients.status, clients.given_name')
   end
 
   filter(:given_name, :string, header: -> { I18n.t('datagrid.columns.clients.given_name') }) { |value, scope| scope.given_name_like(value) }
@@ -36,24 +35,6 @@ class ClientGrid
     scope.status_like
   end
 
-  filter(:placement_date, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.placement_start_date') }) do |values, scope|
-    if values.first.present? && values.second.present?
-      ids = Client.joins(:cases).where(cases: { start_date: values[0]..values[1] }).pluck(:id).uniq
-      scope.where(id: ids)
-    elsif values.first.present? && values.second.blank?
-      ids = Client.joins(:cases).where('DATE(cases.start_date) >= ?', values.first).pluck(:id).uniq
-      scope.where(id: ids)
-    elsif values.second.present? && values.first.blank?
-      ids = Client.joins(:cases).where('cases.start_date <= ?', values.second).pluck(:id).uniq
-      scope.where(id: ids)
-    end
-  end
-
-  # TODO: filter by placement date of both active and inactive cases
-  # filter(:placement_case_type, :enum, select: %w(EC KC FC), header: -> { I18n.t('datagrid.columns.clients.placement_case_type') }) do |value, scope|
-  #   ids = scope.joins(:cases).where(cases: { case_type: value }).pluck(:id).uniq
-  #   scope.where(id: ids)
-  # end
 
   filter(:date_of_birth, :date, range: true, header: -> { I18n.t('datagrid.columns.clients.date_of_birth') })
 
@@ -176,12 +157,6 @@ class ClientGrid
   end
 
   filter(:family_id, :integer, header: -> { I18n.t('datagrid.columns.families.code') }) do |value, object|
-    # ids = []
-    # Case.most_recents.joins(:client).group_by(&:client_id).each do |key, c|
-    #   ids << c.first.id
-    # end
-    # # comment above, so user can search family_id of all family types they associate with
-    # object.joins(:cases).where("cases.family_id = ? ", value) if value.present?
     children_ids = Family.find(value).children if value.present?
     object.where(id: children_ids)
   end
@@ -408,10 +383,6 @@ class ClientGrid
     end
   end
 
-  column(:cases, header: -> { I18n.t('datagrid.columns.cases.case_type') }, order: false ) do |object|
-    object.cases.current.case_type if object.cases.current.present?
-  end
-
   column(:telephone_number, header: -> { I18n.t('datagrid.columns.cases.telephone_number') })
 
   column(:live_with, header: -> { I18n.t('datagrid.columns.clients.live_with') })
@@ -585,83 +556,17 @@ class ClientGrid
     object.donor_name
   end
 
-  column(:case_start_date, order: false, header: -> { I18n.t('datagrid.columns.clients.placements.start_date') }) do |object|
-    (object.cases.current || object.cases.last_exited).try(:start_date)
-  end
-
-  column(:carer_names, order: false, header: -> { I18n.t('datagrid.columns.clients.placements.carer_names') }) do |object|
-    object.cases.current.try(:carer_names)
-  end
-
-  column(:carer_address, order: false, header: -> { I18n.t('datagrid.columns.clients.placements.carer_address') }) do |object|
-    object.cases.current.try(:carer_address)
-  end
-
-  column(:carer_phone_number, order: false, header: -> { I18n.t('datagrid.columns.clients.placements.carer_phone_number') }) do |object|
-    object.cases.current.try(:carer_phone_number)
-  end
-
-  column(:support_amount, order: false, header: -> { I18n.t('datagrid.columns.clients.placements.support_amount') }) do |object|
-    if object.cases.current
-      format(object.cases.current.support_amount) do |amount|
-        number_to_currency(amount)
-      end
-    end
-  end
-
-  column(:support_note, order: false, header: -> { I18n.t('datagrid.columns.clients.placements.support_note') }) do |object|
-    object.cases.current.try(:support_note)
-  end
-
   column(:form_title, order: false, header: -> { I18n.t('datagrid.columns.clients.form_title') }, html: true) do |object|
     render partial: 'clients/client_custom_fields', locals: { object: object }
   end
-
-  # column(:form_title, header: -> { I18n.t('datagrid.columns.clients.form_title') }, html: false) do |object|
-  #   object.custom_fields.pluck(:form_title).uniq.join(', ')
-  # end
-
-  column(:family_preservation, order: false, header: -> { I18n.t('datagrid.columns.families.family_preservation') }) do |object|
-    object.cases.current.family_preservation ? 'Yes' : 'No' if object.cases.current
-  end
-
-  column(:family_id, order: false, header: -> { I18n.t('datagrid.columns.families.code') }) do |object|
-    if object.cases.most_recents.first && object.cases.most_recents.first.family
-      object.cases.most_recents.first.family.id
-    end
-  end
-
-  column(:family, order: false, header: -> { I18n.t('datagrid.columns.clients.placements.family') }) do |object|
-    if object.cases.most_recents.first && object.cases.most_recents.first.family
-      object.cases.most_recents.first.family.name
-    end
-  end
-
-  column(:partner, order: false, header: -> { I18n.t('datagrid.columns.partners.partner') }) do |object|
-    if object.cases.current && object.cases.current.partner
-      object.cases.current.partner.name
-    end
-  end
-
-  # column(:any_assessments, class: 'text-center', header: -> { I18n.t('datagrid.columns.clients.assessments') }, html: true) do |object|
-  #   render partial: 'clients/assessments', locals: { object: object }
-  # end
 
   column(:case_note_date, header: -> { I18n.t('datagrid.columns.clients.case_note_date')}, html: true) do |object|
     render partial: 'clients/case_note_date', locals: { object: object }
   end
 
-  # column(:case_note_date, header: -> { I18n.t('datagrid.columns.clients.case_note_date')}, html: false) do |object|
-  #   object.case_notes.most_recents.pluck(:meeting_date).select(&:present?).join(' | ') if object.case_notes.any?
-  # end
-
   column(:case_note_type, header: -> { I18n.t('datagrid.columns.clients.case_note_type')}, html: true) do |object|
     render partial: 'clients/case_note_type', locals: { object: object }
   end
-
-  # column(:case_note_type, header: -> { I18n.t('datagrid.columns.clients.case_note_type')}, html: false) do |object|
-  #   object.case_notes.most_recents.pluck(:interaction_type).select(&:present?).join(' | ') if object.case_notes.any?
-  # end
 
   column(:date_of_assessments, header: -> { I18n.t('datagrid.columns.clients.date_of_assessments') }, html: true) do |object|
     render partial: 'clients/assessments', locals: { object: object }

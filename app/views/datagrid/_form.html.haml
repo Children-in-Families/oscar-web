@@ -100,10 +100,6 @@
               = label_tag 'name_of_referee_', t('datagrid.columns.name_of_referee')
           %li
             .visibility.col-sm-12
-              = check_box_tag 'case_start_date_', 'case_start_date', checked = default_setting('case_start_date_', @client_default_columns) || params[:case_start_date_].present?, class: 'i-checks'
-              = label_tag 'case_start_date_', t('datagrid.columns.case_start_date')
-          %li
-            .visibility.col-sm-12
               = check_box_tag 'carer_names_', 'carer_names', checked = default_setting('carer_names_', @client_default_columns) || params[:carer_names_].present?, class: 'i-checks'
               = label_tag 'carer_names_', t('datagrid.columns.carer_names')
           %li

@@ -1,9 +1,7 @@
 module AdvancedSearches
   class ClientBaseSqlBuilder
-    ASSOCIATION_FIELDS = ['user_id', 'case_type', 'agency_name', 'form_title',
-                          'placement_date', 'family', 'age', 'family_id',
-                          'referred_to_ec', 'referred_to_fc', 'referred_to_kc',
-                          'exit_ec_date', 'exit_fc_date', 'exit_kc_date',
+    ASSOCIATION_FIELDS = ['user_id', 'agency_name', 'form_title',
+                          'family', 'age', 'family_id',
                           'program_stream', 'case_note_date', 'case_note_type',
                           'date_of_assessments', 'accepted_date',
                           'exit_date', 'exit_note', 'other_info_of_exit',

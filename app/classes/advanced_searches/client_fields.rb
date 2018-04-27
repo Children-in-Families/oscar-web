@@ -31,7 +31,7 @@ module AdvancedSearches
     end
 
     def date_type_list
-      ['placement_date', 'date_of_birth', 'initial_referral_date', 'follow_up_date', 'exit_date', 'accepted_date', 'case_note_date']
+      ['date_of_birth', 'initial_referral_date', 'follow_up_date', 'exit_date', 'accepted_date', 'case_note_date']
     end
 
     def drop_down_type_list

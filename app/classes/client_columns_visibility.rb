@@ -54,7 +54,6 @@ class ClientColumnsVisibility
       history_of_high_risk_behaviours_: :history_of_high_risk_behaviours,
       reason_for_family_separation_: :reason_for_family_separation,
       rejected_note_: :rejected_note,
-      case_start_date_: :case_start_date,
       carer_names_: :carer_names,
       carer_address_: :carer_address,
       carer_phone_number_: :carer_phone_number,
