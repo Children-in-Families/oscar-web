@@ -12,6 +12,11 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
     _replaceSpanBeforeLabel()
     _replaceSpanAfterRemoveField()
     _clientSelectOption()
+    _removeSaveButton()
+    _setSaveButton()
+    _removeMarginOnNewForm()
+    _setMarginToClassActions()
+    _setCancelButtonPosition()
 
   _ajaxChangeDistrict = ->
     $('#client_province_id').on 'change', ->
@@ -157,6 +162,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
       bodyTag: 'section'
       transitionEffect: 'slideLeft'
       enableKeyNavigation: false
+      enableAllSteps: true
 
       onStepChanging: (event, currentIndex, newIndex) ->
         if currentIndex == 0 and newIndex == 1 and $('#getting-started').is(':visible')
@@ -179,7 +185,6 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
               return false
             else
               return true
-
         else
           return true
 
@@ -198,7 +203,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
   _replaceSpanAfterRemoveField = ->
     $('#client_initial_referral_date').on 'input', ->
       if $(this).val() == ''
-         $("a[href='#next']").click()
+        $("a[href='#next']").click()
 
   _replaceSpanBeforeLabel = ->
     $("a[href='#next']").click ->
@@ -206,6 +211,71 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
       labelElement      = $('#client_initial_referral_date-error')
 
       labelElement.insertAfter inputGroupElement
+
+    $("a[href='#steps-uid-0-h-1']").click ->
+      inputGroupElement = $('.client_initial_referral_date > .input-group')
+      labelElement      = $('#client_initial_referral_date-error')
+
+      labelElement.insertAfter inputGroupElement
+
+  _removeSaveButton = ->
+    $("a[href='#next']").click ->
+      if $(".last").attr('aria-selected') == 'true'
+        $('.save-edit-client').hide()
+        $('.actions').css 'margin-left', '0'
+        $('.cancel-client-button').css 'margin-top', '-67px'
+
+    $("a[href='#steps-uid-0-h-3']").click ->
+      if $(".last").attr('aria-selected') == 'true'
+        $('.save-edit-client').hide()
+        $('.actions').css 'margin-left', '0'
+        $('.cancel-client-button').css 'margin-top', '-67px'
+
+  _setSaveButton = ->
+    current_url = window.location.href
+    if $('.edit-form').length
+      $("a[href='#previous']").click ->
+        if $(".last").attr('aria-selected') != 'true'
+          _saveButton()
+      $("a[href='#steps-uid-0-h-0']").click ->
+        _saveButton()
+      $("a[href='#steps-uid-0-h-1']").click ->
+        _saveButton()
+      $("a[href='#steps-uid-0-h-2']").click ->
+        _saveButton()
+
+  _saveButton = ->
+    current_url = window.location.href
+    if $(".last").attr('aria-selected') != 'true'
+      $('.save-edit-client').show()
+      $('.cancel-client-button').css 'margin-top', '-97px'
+      if current_url.includes('locale=my')
+        $('.actions').css 'margin-left', '-150px'
+      else if current_url.includes('locale=km')
+        $('.actions').css 'margin-left', '-70px'
+      else
+        $('.actions').css 'margin-left', '-60px'
+
+  _setMarginToClassActions = ->
+    current_url = window.location.href
+    if $('.edit-form').length
+      if current_url.includes('locale=my')
+        $('.actions').css 'margin-left', '-150px'
+      else if current_url.includes('locale=km')
+        $('.actions').css 'margin-left', '-70px'
+      else
+        $('.actions').css 'margin-left', '-60px'
+
+  _removeMarginOnNewForm = ->
+    if $('.client-form-title').length
+      $('.actions').css 'margin-left', '0px'
+
+  _setCancelButtonPosition = ->
+    $('.cancel-client-button').css 'margin-left', '8px'
+    if $('.edit-form').length
+      $('.cancel-client-button').css 'margin-top', '-97px'
+    else
+      $('.cancel-client-button').css 'margin-top', '-67px'
 
   _validateForm = ->
     self = @
