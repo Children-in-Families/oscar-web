@@ -10,6 +10,10 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
     _replaceSpanBeforeLabel()
     _replaceSpanAfterRemoveField()
     _clientSelectOption()
+    _handReadonlySpecificPoint()
+
+  _handReadonlySpecificPoint = ->
+    $('#specific-point select[data-readonly="true"]').select2('readonly', true)
 
   _ajaxChangeDistrict = ->
     $('#client_province_id').on 'change', ->

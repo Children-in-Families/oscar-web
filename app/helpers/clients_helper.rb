@@ -334,4 +334,12 @@ module ClientsHelper
     end
     label_column[column.to_sym]
   end
+
+  def quantitative_type_readable?(quantitative_type_id)
+    current_user.admin? || current_user.strategic_overviewer? || @quantitative_type_readable_ids.include?(quantitative_type_id)
+  end
+
+  def quantitative_type_editable?(quantitative_type_id)
+    current_user.admin? || current_user.strategic_overviewer? || @quantitative_type_editable_ids.exclude?(quantitative_type_id)
+  end
 end
