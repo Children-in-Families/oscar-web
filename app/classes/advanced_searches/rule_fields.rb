@@ -23,15 +23,15 @@ module AdvancedSearches
 
     def number_type_list
       # ['code', 'family_id', 'age', 'id_poor']
-      ['code', 'family_id', 'age']
+      ['family_id', 'age']
     end
 
     def text_type_list
-      ['given_name', 'family_name', 'local_given_name', 'local_family_name', 'family', 'slug', 'referral_phone', 'house_number', 'street_number', 'village', 'commune', 'school_name', 'school_grade', 'telephone_number']
+      ['given_name', 'family_name', 'local_given_name', 'local_family_name', 'family', 'slug', 'referral_phone', 'house_number', 'street_number', 'village', 'commune', 'school_name', 'school_grade', 'telephone_number', 'other_info_of_exit', 'exit_note', 'name_of_referee', 'main_school_contact', 'what3words', 'kid_id', 'code']
     end
 
     def date_type_list
-      ['date_of_birth', 'initial_referral_date', 'follow_up_date', 'referred_to_ec', 'referred_to_fc', 'referred_to_kc', 'exit_ec_date', 'exit_fc_date', 'exit_kc_date', 'exit_date', 'accepted_date']
+      ['date_of_birth', 'initial_referral_date', 'follow_up_date', 'exit_date', 'accepted_date', 'case_note_date']
     end
 
     def drop_down_type_list
