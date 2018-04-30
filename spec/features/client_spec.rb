@@ -203,8 +203,8 @@ describe 'Client' do
       let!(:quantitative_case){ create(:quantitative_case, quantitative_type: quantitative_type) }
       let!(:second_quantitative_case){ create(:quantitative_case, quantitative_type: second_quantitative_type) }
       let!(:client){ create(:client, :accepted, quantitative_case_ids: [quantitative_case.id, second_quantitative_case.id], users: [user]) }
-      let!(:quantitative_type_permission){ create(:quantitative_type_permission, quantitative_type_id: quantitative_type.id, user_id: user.id) }
-      let!(:quantitative_type_readable_permission){ create(:quantitative_type_permission, quantitative_type_id: second_quantitative_type.id, user_id: user.id, readable: true) }
+      let!(:quantitative_type_permission){ create(:quantitative_type_permission, quantitative_type_id: quantitative_type.id, user_id: user.id, readable: false) }
+      let!(:quantitative_type_readable_permission){ create(:quantitative_type_permission, quantitative_type_id: second_quantitative_type.id, user_id: user.id) }
 
       before do
         login_as(user)

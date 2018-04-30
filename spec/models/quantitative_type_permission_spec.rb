@@ -6,10 +6,10 @@ end
 describe QuantitativeTypePermission, 'scopes' do
   let!(:user) { create(:user, :admin) }
   let!(:quantitative_type) { create(:quantitative_type, name: 'DEF') }
-  let!(:quantitative_type_permission) { create(:quantitative_type_permission, user: user, quantitative_type: quantitative_type, readable: true) }
+  let!(:quantitative_type_permission) { create(:quantitative_type_permission, user: user, quantitative_type: quantitative_type) }
 
   let!(:second_quantitative_type) { create(:quantitative_type, name: 'ABC') }
-  let!(:second_quantitative_type_permission) { create(:quantitative_type_permission, user: user, quantitative_type: second_quantitative_type, editable: true) }
+  let!(:second_quantitative_type_permission) { create(:quantitative_type_permission, user: user, quantitative_type: second_quantitative_type, readable: false, editable: false) }
 
   context 'order by quantitative type' do
     it 'should return second quantitative type first' do
@@ -26,8 +26,8 @@ describe QuantitativeTypePermission, 'scopes' do
 
   context 'quantitative type permission editable' do
     it 'should return second quantitative type permission' do
-      expect(QuantitativeTypePermission.editable).to include(second_quantitative_type_permission)
-      expect(QuantitativeTypePermission.editable).not_to include(quantitative_type_permission)
+      expect(QuantitativeTypePermission.editable).to include(quantitative_type_permission)
+      expect(QuantitativeTypePermission.editable).not_to include(second_quantitative_type_permission)
     end
   end
 end

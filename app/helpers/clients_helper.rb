@@ -339,7 +339,8 @@ module ClientsHelper
     current_user.admin? || current_user.strategic_overviewer? || @quantitative_type_readable_ids.include?(quantitative_type_id)
   end
 
-  def quantitative_type_editable?(quantitative_type_id)
-    current_user.admin? || current_user.strategic_overviewer? || @quantitative_type_editable_ids.exclude?(quantitative_type_id)
+  def quantitative_type_cannot_editable?(quantitative_type_id)
+    return false if current_user.admin?
+    return true if @quantitative_type_editable_ids.exclude?(quantitative_type_id)
   end
 end
