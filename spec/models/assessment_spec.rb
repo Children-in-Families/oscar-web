@@ -175,9 +175,18 @@ describe Assessment, 'callbacks' do
   context 'client_must_not_over_18' do
     let!(:client) { create(:client, date_of_birth: 18.years.ago.to_date) }
 
-    it 'should return error message' do
+    it 'should return error message for client who is over 18' do
       assessment = Assessment.create(client: client)
       expect(assessment.errors.full_messages).to include('Assessment cannot be created for client who is over 18.')
+    end
+  end
+
+  context 'age_must_not_be_blank' do
+    let!(:client) { create(:client, date_of_birth: nil) }
+
+    it 'should return error message for client whose age is blank' do
+      assessment = Assessment.create(client: client)
+      expect(assessment.errors.full_messages).to include('Assessment cannot be created for client whose age is blank.')
     end
   end
 
