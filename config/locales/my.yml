@@ -4234,6 +4234,10 @@ my:
       custom_forms: အေကာက္ခြန္ပံုစံမ်ား
       custom_programs: အေကာက္ခြန္ အစီအစဥ္မ်ား
       permissions_selector: ခြင့္ျပဳမႈ ေရြးခ်ယ္သည့္အရာ
+      quantitative_types: ပမာဏအမ်ိဳးအစား
+    quantitative_type_permission:
+      can_edit: ျပင္ဆင္ႏုိင္ပါသည္။
+      can_view: ၾကည့္႐ႈႏုိင္ပါသည္။
     show:
       add_form: ပံုစံ ထည့္သည္
       additional_forms: ထပ္ေဆာင္းပံုစံမ်ား

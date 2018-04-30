@@ -41,9 +41,12 @@ class User < ActiveRecord::Base
   has_many :user_custom_field_permissions, through: :custom_field_permissions
   has_many :program_stream_permissions, -> { order_by_program_name }, dependent: :destroy
   has_many :program_streams, through: :program_stream_permissions
+  has_many :quantitative_type_permissions, -> { order_by_quantitative_type }, dependent: :destroy
+  has_many :quantitative_types, through: :quantitative_type_permissions
 
   accepts_nested_attributes_for :custom_field_permissions
   accepts_nested_attributes_for :program_stream_permissions
+  accepts_nested_attributes_for :quantitative_type_permissions
   accepts_nested_attributes_for :permission
 
   validates :roles, presence: true, inclusion: { in: ROLES }
@@ -85,6 +88,10 @@ class User < ActiveRecord::Base
 
       ProgramStream.all.each do |ps|
         self.program_stream_permissions.create(program_stream_id: ps.id)
+      end
+
+      QuantitativeType.all.each do |qt|
+        self.quantitative_type_permissions.create(quantitative_type_id: qt.id)
       end
     end
   end
@@ -253,6 +260,12 @@ class User < ActiveRecord::Base
   def populate_program_streams
     ProgramStream.order('lower(name)').each do |ps|
       program_stream_permissions.build(program_stream_id: ps.id)
+    end
+  end
+
+  def populate_quantitative_types
+    QuantitativeType.order('lower(name)').each do |qt|
+      quantitative_type_permissions.build(quantitative_type_id: qt.id)
     end
   end
 

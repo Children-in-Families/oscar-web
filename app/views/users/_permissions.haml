@@ -15,6 +15,8 @@
                 %a{ href: '#custom-forms', 'aria-controls': 'custom forms', role: 'tab', 'data-toggle': 'tab' }= t('.custom_forms')
               %li{ role: 'presentation' }
                 %a{ href: '#custom-programs', 'aria-controls': 'custom programs', role: 'tab', 'data-toggle': 'tab' }= t('.custom_programs')
+              %li{ role: 'presentation' }
+                %a{ href: '#quantitative_types', 'aria-controls': 'quantitative types', role: 'tab', 'data-toggle': 'tab' }= t('.quantitative_types')
 
           .tab-content
             #case-notes.tab-pane.active{ role: 'tabpanel' }
@@ -25,6 +27,8 @@
               = render 'custom_form_permission', f: f
             #custom-programs.tab-pane{ role: 'tabpanel' }
               = render 'custom_program_permission', f: f
+            #quantitative_types.tab-pane{ role: 'tabpanel' }
+              = render 'quantitative_type_permission', f: f
 
         .modal-footer
           .row
