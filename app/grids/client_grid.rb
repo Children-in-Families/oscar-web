@@ -156,11 +156,6 @@ class ClientGrid
     value == 'Accepted' ? scope.accepted : scope.rejected
   end
 
-  filter(:family_id, :integer, header: -> { I18n.t('datagrid.columns.families.code') }) do |value, object|
-    children_ids = Family.find(value).children if value.present?
-    object.where(id: children_ids)
-  end
-
   def quantitative_type_options
     QuantitativeType.all.map{ |t| [t.name, t.id] }
   end
