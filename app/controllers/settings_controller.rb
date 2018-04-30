@@ -57,7 +57,7 @@ class SettingsController < AdminController
     columns = []
     sub_columns = %w(history_of_harm_ history_of_high_risk_behaviours_ history_of_disability_and_or_illness_ reason_for_family_separation_ rejected_note_ exit_reasons_
       exit_circumstance_ other_info_of_exit_ exit_note_ what3words_ main_school_contact_ rated_for_id_poor_ name_of_referee_
-      form_title_ case_note_date_ case_note_type_ date_of_assessments_ all_csi_assessments_ manage_ changelog_)
+      form_title_ family_ family_id_ case_note_date_ case_note_type_ date_of_assessments_ all_csi_assessments_ manage_ changelog_)
     filter_columns = ClientGrid.new.filters.map(&:name)
     filter_columns_not_used = [:has_date_of_birth, :quantitative_data, :quantitative_types, :all_domains, :domain_1a, :domain_1b, :domain_2a, :domain_2b, :domain_3a,
       :domain_3b, :domain_4a, :domain_4b, :domain_5a, :domain_5b, :domain_6a, :domain_6b, :assessments_due_to, :no_case_note, :overdue_task, :overdue_forms]

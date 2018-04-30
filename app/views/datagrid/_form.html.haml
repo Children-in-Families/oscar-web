@@ -104,6 +104,14 @@
               = label_tag 'form_title_', t('datagrid.columns.form_title')
           %li
             .visibility.col-sm-12
+              = check_box_tag 'family_', 'family', checked = default_setting('family_', @client_default_columns) || params[:family_].present?, class: 'i-checks'
+              = label_tag 'family_', t('datagrid.columns.family')
+          %li
+            .visibility.col-sm-12
+              = check_box_tag 'family_id_', 'family', checked = default_setting('family_id_', @client_default_columns) || params[:family_id_].present?, class: 'i-checks'
+              = label_tag 'family_id_', t('datagrid.columns.family_id')
+          %li
+            .visibility.col-sm-12
               = check_box_tag 'case_note_date_', 'case_note_date', checked = default_setting('case_note_date_', @client_default_columns) || params[:case_note_date_].present?, class: 'i-checks'
               = label_tag 'case_note_date_', t('datagrid.columns.case_note_date')
           %li

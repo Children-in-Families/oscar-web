@@ -555,6 +555,14 @@ class ClientGrid
     render partial: 'clients/client_custom_fields', locals: { object: object }
   end
 
+  column(:family_id, order: false, header: -> { I18n.t('datagrid.columns.families.code') }) do |object|
+    Family.where('children @> ARRAY[?]::integer[]', [object.id]).pluck(:id).uniq.join(', ')
+  end
+
+  column(:family, order: false, header: -> { I18n.t('datagrid.columns.clients.placements.family') }) do |object|
+    Family.where('children @> ARRAY[?]::integer[]', [object.id]).pluck(:name).uniq.join(', ')
+  end
+
   column(:case_note_date, header: -> { I18n.t('datagrid.columns.clients.case_note_date')}, html: true) do |object|
     render partial: 'clients/case_note_date', locals: { object: object }
   end
