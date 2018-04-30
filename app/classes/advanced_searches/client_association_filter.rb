@@ -16,10 +16,6 @@ module AdvancedSearches
         values = user_id_field_query
       when 'agency_name'
         values = agency_name_field_query
-      when 'family_id'
-        values = family_id_field_query
-      when 'family'
-        values = family_name_field_query
       when 'age'
         values = age_field_query
       when 'program_stream'
@@ -280,109 +276,6 @@ module AdvancedSearches
       end
     end
 
-
-    def family_id_field_query
-      @values = validate_family_id(@value)
-      families = Family.where.not("children = '{}' OR children is null")
-
-      case @operator
-      when 'equal'
-        client_ids = families.find_by(id: @values).try(:children)
-      when 'not_equal'
-        client_ids = families.where.not(id: @values).pluck(:children)
-      when 'less'
-        client_ids = families.where('id < ?', @values).pluck(:children)
-      when 'less_or_equal'
-        client_ids = families.where('id <= ?', @values).pluck(:children)
-      when 'greater'
-        client_ids = families.where('id > ?', @values).pluck(:children)
-      when 'greater_or_equal'
-        client_ids = families.where('id >= ?', @values).pluck(:children)
-      when 'between'
-        client_ids = families.where(id: @values[0]..@values[1]).pluck(:children)
-      when 'is_empty'
-        client_ids = families.pluck(:children).flatten.uniq
-        client_ids = @clients.where.not(id: client_ids).pluck(:id).uniq
-      when 'is_not_empty'
-        client_ids = families.pluck(:children).flatten.uniq
-        client_ids = @clients.where(id: client_ids).pluck(:id).uniq
-      end
-      clients = client_ids.present? ? @clients.where(id: client_ids.flatten.uniq).ids : []
-    end
-
-    def family_name_field_query
-      @values = validate_family_id(@value)
-      families = Family.where.not("children = '{}' OR children is null").uniq
-
-      case @operator
-      when 'equal'
-        client_ids = families.find_by('lower(name) = ?', @values.downcase).try(:children)
-      when 'not_equal'
-        client_ids = families.where.not('lower(name) = ?', @values.downcase).pluck(:children)
-      when 'contains'
-        client_ids = families.where('name ILIKE ?', "%#{@values}%").pluck(:children)
-      when 'not_contains'
-        client_ids = families.where.not('name ILIKE ?', "%#{@values}%").pluck(:children)
-      when 'is_empty'
-        client_ids = families.pluck(:children).flatten.uniq
-        client_ids = @clients.where.not(id: client_ids).pluck(:id).uniq
-      when 'is_not_empty'
-        client_ids = families.pluck(:children).flatten.uniq
-        client_ids = @clients.where(id: client_ids).pluck(:id).uniq
-      end
-
-      clients = client_ids.present? ? @clients.where(id: client_ids.flatten.uniq).ids : []
-    end
-
-    # def family_id_field_query
-    #   @values = validate_family_id(@value)
-    #   sub_query = 'SELECT MAX(cases.created_at) FROM cases WHERE cases.client_id = clients.id'
-    #   clients = @clients.joins(:families).joins(:cases).where("cases.created_at = (#{sub_query})")
-
-    #   case @operator
-    #   when 'equal'
-    #     clients = clients.where('families.id = ? ', @values)
-    #   when 'not_equal'
-    #     clients = clients.where.not('families.id = ? ', @values)
-    #   when 'less'
-    #     clients = clients.where('families.id < ?', @values)
-    #   when 'less_or_equal'
-    #     clients = clients.where('families.id <= ?', @values)
-    #   when 'greater'
-    #     clients = clients.where('families.id > ?', @values)
-    #   when 'greater_or_equal'
-    #     clients = clients.where('families.id >= ?', @values)
-    #   when 'between'
-    #     clients = clients.where('families.id BETWEEN ? and ?', @values[0], @values[1])
-    #   when 'is_empty'
-    #     clients = @clients.where.not(id: clients.ids)
-    #   when 'is_not_empty'
-    #     clients = @clients.where(id: clients.ids)
-    #   end
-    #   clients.ids.uniq
-    # end
-
-    # def family_name_field_query
-    #   sub_query = 'SELECT MAX(cases.created_at) FROM cases WHERE cases.client_id = clients.id'
-    #   clients = @clients.joins(:families).joins(:cases).where("cases.created_at = (#{sub_query})")
-
-    #   case @operator
-    #   when 'equal'
-    #     clients  = clients.where('lower(families.name) = ?', @value.downcase)
-    #   when 'not_equal'
-    #     clients  = clients.where.not('families.name = ?', @value)
-    #   when 'contains'
-    #     clients  = clients.where('families.name ILIKE ?', "%#{@value}%")
-    #   when 'not_contains'
-    #     clients  = clients.where.not('families.name ILIKE ?', "%#{@value}%")
-    #   when 'is_empty'
-    #     clients = @clients.where.not(id: clients.ids)
-    #   when 'is_not_empty'
-    #     clients = @clients.where(id: clients.ids)
-    #   end
-    #   clients.uniq.ids
-    # end
-
     def age_field_query
       date_value_format = convert_age_to_date(@value)
       case @operator
@@ -419,16 +312,6 @@ module AdvancedSearches
       else
         age = (value.to_i * 12).months.ago.to_date
         age > overdue_year ? age : overdue_year
-      end
-    end
-
-    def validate_family_id(ids)
-      if ids.is_a?(Array)
-        first_value = ids.first.to_i > 1000000 ? "1000000" : ids.first
-        last_value  = ids.last.to_i > 1000000 ? "1000000" : ids.last
-        [first_value, last_value]
-      else
-        ids.to_i > 1000000 ? "1000000" : ids
       end
     end
   end
