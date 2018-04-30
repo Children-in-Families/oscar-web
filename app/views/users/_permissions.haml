@@ -12,6 +12,8 @@
               %li{ role: 'presentation' }
                 %a{ href: '#assessments', 'aria-controls': 'assessments', role: 'tab', 'data-toggle': 'tab' }= t('.assessments')
               %li{ role: 'presentation' }
+                %a{ href: '#specific_referral_data', 'aria-controls': 'specific referal data', role: 'tab', 'data-toggle': 'tab' }= t('.specific_referral_data')
+              %li{ role: 'presentation' }
                 %a{ href: '#custom-forms', 'aria-controls': 'custom forms', role: 'tab', 'data-toggle': 'tab' }= t('.custom_forms')
               %li{ role: 'presentation' }
                 %a{ href: '#custom-programs', 'aria-controls': 'custom programs', role: 'tab', 'data-toggle': 'tab' }= t('.custom_programs')
@@ -21,6 +23,8 @@
               = render 'case_note_permission', f: f
             #assessments.tab-pane{ role: 'tabpanel' }
               = render 'assessment_permission', f: f
+            #specific_referral_data.tab-pane{ role: 'tabpanel' }
+              = render 'specific_referral_data_permission', f: f
             #custom-forms.tab-pane{ role: 'tabpanel' }
               = render 'custom_form_permission', f: f
             #custom-programs.tab-pane{ role: 'tabpanel' }

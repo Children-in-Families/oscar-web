@@ -1,0 +1,14 @@
+%br
+.row
+  .col-xs-4.col-xs-offset-4
+    %h4=t('.can_view')
+  .col-xs-4
+    %h4=t('.can_edit')
+= f.simple_fields_for :permission do |ff|
+  .row.specific-referral-data-permission
+    .col-xs-4
+      %label.permission-label=t('.specific_referral_data')
+    .col-xs-4
+      = ff.input :specific_referral_data_readable, input_html: { class: 'i-checks' }, label: false
+    .col-xs-4
+      = ff.input :specific_referral_data_editable, input_html: { class: 'i-checks' }, label: false

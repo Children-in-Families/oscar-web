@@ -1,6 +1,5 @@
 class QuantitativeTypesController < AdminController
-  load_and_authorize_resource
-
+  before_action :authorize_quantitative_types
   before_action :find_quantitative_type, only: [:update, :destroy]
 
   def index
@@ -41,6 +40,10 @@ class QuantitativeTypesController < AdminController
   end
 
   private
+
+  def authorize_quantitative_types
+    authorize QuantitativeType
+  end
 
   def quantitative_type_params
     params.require(:quantitative_type)
