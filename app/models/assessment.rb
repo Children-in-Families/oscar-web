@@ -11,7 +11,7 @@ class Assessment < ActiveRecord::Base
   validate :must_be_enable_assessment
   validate :must_be_min_assessment_period, if: :new_record?
   validate :only_latest_record_can_be_updated
-  validate :client_must_not_over_18_or_age_is_blank
+  validate :client_must_not_over_18
 
   before_save :set_previous_score
 
@@ -53,16 +53,14 @@ class Assessment < ActiveRecord::Base
     assessment_domains.order('created_at')
   end
 
-  def client_must_not_over_18_or_age_is_blank
+  def client_must_not_over_18
     if client.present? && client.date_of_birth != nil
-      client_age = age_as_years(client.date_of_birth)
+      client_age = client.age_as_years
       if client_age >= 18
         errors.add(:base, 'Assessment cannot be created for client who is over 18.')
       else
         true
       end
-    else
-      errors.add(:base, 'Assessment cannot be created for client whose age is blank.')
     end
   end
 

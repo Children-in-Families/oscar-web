@@ -228,13 +228,9 @@ module ApplicationHelper
     setting_default_columns.include?(column.to_s)
   end
 
-  def age_as_years(date = Date.today, date_of_birth)
-    ((date - date_of_birth) / 365).to_i
-  end
-
   def adult?(client)
     if client.date_of_birth.present?
-      client_age = age_as_years(client.date_of_birth)
+      client_age = client.age_as_years
       if client_age >= 18
         return true
       else
