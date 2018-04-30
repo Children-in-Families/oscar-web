@@ -47,23 +47,19 @@ body[id='client_advanced_searches-index'] {
       min-width: 130px;
     }
 
-    th.state {
+    th.state, th.township {
       min-width: 135px;
     }
 
-    th.any_assessments, th.able_state, th.house_number, th.street_number, th.village, th.case_note_date, th.case_note_type, th.date_of_assessments {
+    th.any_assessments, th.able_state, th.house_number, th.street_number, th.village, th.case_note_date, th.case_note_type, th.date_of_assessments, th.plot, th.road, th.postal_code {
       min-width: 150px;
     }
 
-    th.code, th.given_name, th.family_name, th.live_with {
-      min-width: 185px;
-    }
-
-    th.kid_id {
+    th.kid_id, th.street_line1, th.street_line2 {
       min-width: 175px;
     }
 
-    th.local_given_name, th.local_family_name, th.commune, th.district {
+     th.code, th.given_name, th.family_name, th.live_with, th.local_given_name, th.local_family_name, th.commune, th.district, th.suburb, th.directions, th.subdistrict {
       min-width: 185px;
     }
 
@@ -84,7 +80,7 @@ body[id='client_advanced_searches-index'] {
       min-width: 260px;
     }
 
-    th.has_been_in_government_care, th.relevant_referral_information {
+    th.has_been_in_government_care, th.relevant_referral_information, th.description_house_landmark {
       min-width: 310px;
     }
 
