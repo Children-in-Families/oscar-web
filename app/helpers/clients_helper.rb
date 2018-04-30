@@ -161,15 +161,13 @@ module ClientsHelper
     current_address << "#{I18n.t('datagrid.columns.clients.village')} #{client.village}" if client.village.present?
     current_address << "#{I18n.t('datagrid.columns.clients.commune')} #{client.commune}" if client.commune.present?
     if locale == :km
-      current_address << client.district.name.split(' / ').first if client.district.present?
-      current_address << client.province.name.split(' / ').first if client.province.present?
+      current_address << client.district_name.split(' / ').first if client.district.present?
+      current_address << client.province_name.split(' / ').first if client.province.present?
     else
-      current_address << client.district.name.split(' / ').last if client.district.present?
-      current_address << client.province.name.split(' / ').last if client.province.present?
+      current_address << client.district_name.split(' / ').last if client.district.present?
+      current_address << client.province_name.split(' / ').last if client.province.present?
     end
-    country = params[:country].present? ? I18n.t("datagrid.columns.clients.#{params[:country]}") : I18n.t('datagrid.columns.clients.cambodia')
-    current_address << country
-    current_address.compact.join(', ')
+    current_address << 'Cambodia'
   end
 
   def format_array_value(value)
@@ -249,6 +247,40 @@ module ClientsHelper
     value == 'Exited'
   end
 
+  def selected_country
+    country = Setting.first.try(:country_name) || params[:country].presence
+    country.nil? ? 'cambodia' : country
+  end
+
+  def country_address_field(client)
+    country = selected_country
+    current_address = []
+    case country
+    when 'thailand'
+      current_address << client.plot if client.plot.present?
+      current_address << client.road if client.road.present?
+      current_address << client.subdistrict_name if client.subdistrict.present?
+      current_address << client.district_name if client.district.present?
+      current_address << client.province_name if client.province.present?
+      current_address << client.postal_code if client.postal_code.present?
+      current_address << 'Thailand'
+    when 'lesotho'
+      current_address << client.suburb if client.suburb.present?
+      current_address << client.description_house_landmark if client.description_house_landmark.present?
+      current_address << client.directions if client.directions.present?
+      current_address << 'Lesotho'
+    when 'myanmar'
+      current_address << client.street_line1 if client.street_line1.present?
+      current_address << client.street_line2 if client.street_line2.present?
+      current_address << client.township_name if client.township.present?
+      current_address << client.state_name if client.state.present?
+      current_address << 'Myanmar'
+    else
+      current_address = merged_address(client)
+    end
+    current_address.compact.join(', ')
+  end
+
   def enable_assessment_setting?
     setting = Setting.first.try(:disable_assessment)
     setting.nil? ? true : !setting
@@ -325,7 +357,18 @@ module ClientsHelper
       donor_: t('datagrid.columns.clients.donor'),
       manage_: t('datagrid.columns.clients.manage'),
       changelog_: t('datagrid.columns.changelog'),
-      telephone_number_: t('datagrid.columns.clients.telephone_number')
+      telephone_number_: t('datagrid.columns.clients.telephone_number'),
+      subdistrict_: t('datagrid.columns.clients.subdistrict'),
+      state_: t('datagrid.columns.clients.state'),
+      township_: t('datagrid.columns.clients.township'),
+      postal_code_: t('datagrid.columns.clients.postal_code'),
+      road_: t('datagrid.columns.clients.road'),
+      plot_: t('datagrid.columns.clients.plot'),
+      street_line1_: t('datagrid.columns.clients.street_line1'),
+      street_line2_: t('datagrid.columns.clients.street_line2'),
+      suburb_: t('datagrid.columns.clients.suburb'),
+      directions_: t('datagrid.columns.clients.directions'),
+      description_house_landmark_: t('datagrid.columns.clients.description_house_landmark')
     }
     Domain.order_by_identity.each do |domain|
       identity = domain.identity

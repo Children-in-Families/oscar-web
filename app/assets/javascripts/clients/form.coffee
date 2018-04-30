@@ -6,6 +6,8 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
     _initICheck()
     _ajaxCheckExistClient()
     _ajaxChangeDistrict()
+    _ajaxChangeSubDistrict()
+    _ajaxChangeTownship()
     _initDatePicker()
     _replaceSpanBeforeLabel()
     _replaceSpanAfterRemoveField()
@@ -25,6 +27,36 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
             districts = response.districts
             for district in districts
               $('select#client_district_id').append("<option value='#{district.id}'>#{district.name}</option>")
+
+  _ajaxChangeSubDistrict = ->
+    $('#client_district_id').on 'change', ->
+      district_id = $(@).val()
+      $('select#client_subdistrict_id').val(null).trigger('change')
+      $('select#client_subdistrict_id option[value!=""]').remove()
+      if district_id != ''
+        $.ajax
+          method: 'GET'
+          url: "/api/districts/#{district_id}/subdistricts"
+          dataType: 'JSON'
+          success: (response) ->
+            subdistricts = response.subdistricts
+            for subdistrict in subdistricts
+              $('select#client_subdistrict_id').append("<option value='#{subdistrict.id}'>#{subdistrict.name}</option>")
+
+  _ajaxChangeTownship = ->
+    $('#client_state_id').on 'change', ->
+      state_id = $(@).val()
+      $('select#client_township_id').val(null).trigger('change')
+      $('select#client_township_id option[value!=""]').remove()
+      if state_id != ''
+        $.ajax
+          method: 'GET'
+          url: "/api/states/#{state_id}/townships"
+          dataType: 'JSON'
+          success: (response) ->
+            townships = response.townships
+            for township in townships
+              $('select#client_township_id').append("<option value='#{township.id}'>#{township.name}</option>")
 
   _ajaxCheckExistClient = ->
     $("a[href='#finish']").click ->

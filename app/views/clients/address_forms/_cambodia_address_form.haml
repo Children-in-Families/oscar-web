@@ -1,0 +1,12 @@
+.col-xs-12.col-sm-6.col-md-4
+  = f.association :province, collection: @province, label: t('.current_province')
+.col-xs-12.col-sm-6.col-md-4
+  = f.association :district, collection: @districts, label: t('.district')
+.col-xs-12.col-sm-6.col-md-4
+  = f.input :commune, label: t('.commune')
+.col-xs-12.col-sm-6.col-md-4
+  = f.input :house_number, label: t('.house_number'), input_html:{ required: 'true'}
+.col-xs-12.col-sm-6.col-md-4
+  = f.input :street_number, label: t('.street_number')
+.col-xs-12.col-sm-6.col-md-4
+  = f.input :village, label: t('.village')

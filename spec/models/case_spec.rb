@@ -154,7 +154,7 @@ describe Case, 'scopes' do
 end
 
 describe Case, 'methods' do
-  let!(:client){ create(:client, state: 'accepted') }
+  let!(:client){ create(:client) }
   let!(:emergency){ create(:case, case_type: 'EC') }
   let!(:kinship){ create(:case, case_type: 'KC') }
   let!(:foster){ create(:case, case_type: 'FC') }
@@ -305,7 +305,7 @@ describe Case, 'callbacks' do
 
     context 'create_client_history' do
       it 'should have maybe some client histories, one case client history, and one client family history' do
-        client  = FactoryGirl.create(:client, given_name: 'AAAA', state: 'accepted')
+        client  = FactoryGirl.create(:client, given_name: 'AAAA')
         family  = FactoryGirl.create(:family, name: 'AAAA', family_type: 'emergency')
         ec_case = FactoryGirl.create(:case, client: client, family: family)
 
