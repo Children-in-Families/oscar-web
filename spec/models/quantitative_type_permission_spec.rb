@@ -13,7 +13,7 @@ describe QuantitativeTypePermission, 'scopes' do
 
   context 'order by quantitative type' do
     it 'should return second quantitative type first' do
-      expect(QuantitativeTypePermission.order_by_quantitative_type.first.quantitative_type_id).to eq(second_quantitative_type_permission.id)
+      expect(QuantitativeTypePermission.order_by_quantitative_type.first.id).to eq(second_quantitative_type_permission.id)
     end
   end
 
