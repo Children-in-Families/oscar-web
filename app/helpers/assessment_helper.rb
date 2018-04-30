@@ -32,17 +32,17 @@ module AssessmentHelper
     current_user.permission.assessments_editable
   end
 
-  def is_client_over_18?
+  def adult?
     if @client.date_of_birth.present?
-      client_age = (Date.today - @client.date_of_birth) / 360
-      client_age.to_i
+      client_age = age_as_years(@client.date_of_birth)
       if client_age >= 18
         return false
       else
         return true
       end
     else
-      true
+      false
     end
   end
+
 end

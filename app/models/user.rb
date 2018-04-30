@@ -140,7 +140,7 @@ class User < ActiveRecord::Base
     overdue   = []
     due_today = []
     clients.active_accepted_status.each do |client|
-      next if client_age(client)
+      next if adult?(client)
       client_next_asseement_date = client.next_assessment_date.to_date
       if client_next_asseement_date < Date.today
         overdue << client

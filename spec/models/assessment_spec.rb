@@ -177,7 +177,7 @@ describe Assessment, 'callbacks' do
 
     it 'should return error message' do
       assessment = Assessment.create(client: client)
-      expect(assessment.errors.full_messages).to include('Assessment cannot be created for client that is over 18 years old.')
+      expect(assessment.errors.full_messages).to include('Assessment cannot be created for client who is over 18.')
     end
   end
 
