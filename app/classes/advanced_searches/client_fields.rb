@@ -22,13 +22,11 @@ module AdvancedSearches
     private
 
     def number_type_list
-      # ['code', 'family_id', 'age', 'id_poor']
-      ['family_id', 'age']
+      ['age']
     end
 
     def text_type_list
-      ['given_name', 'family_name', 'local_given_name', 'local_family_name', 'family', 'slug', 'referral_phone', 'house_number', 'street_number', 'village', 'commune', 'school_name', 'school_grade', 'telephone_number', 'other_info_of_exit', 'exit_note', 'name_of_referee', 'main_school_contact', 'what3words', 'kid_id', 'code']
-      # ['given_name', 'family_name', 'local_given_name', 'local_family_name', 'family', 'slug', 'referral_phone', 'house_number', 'street_number', 'village', 'commune', 'school_name', 'school_grade', 'telephone_number', 'other_info_of_exit', 'exit_note', 'name_of_referee', 'main_school_contact', 'what3words', 'kid_id', 'code', 'suburb', 'description_house_landmark', 'directions', 'street_line1', 'street_line2', 'postal_code', 'plot', 'road']
+      ['given_name', 'family_name', 'local_given_name', 'local_family_name', 'slug', 'referral_phone', 'house_number', 'street_number', 'village', 'commune', 'school_name', 'school_grade', 'telephone_number', 'other_info_of_exit', 'exit_note', 'name_of_referee', 'main_school_contact', 'what3words', 'kid_id', 'code']
     end
 
     def date_type_list
