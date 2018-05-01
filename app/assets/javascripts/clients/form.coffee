@@ -161,7 +161,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
       headerTag: 'h3'
       bodyTag: 'section'
       transitionEffect: 'slideLeft'
-      enableKeyNavigation: false
+      enableKeyNavigation: true
       enableAllSteps: true
 
       onStepChanging: (event, currentIndex, newIndex) ->
