@@ -384,20 +384,15 @@ class ClientGrid
 
   # column(:id_poor, header: -> { I18n.t('datagrid.columns.clients.id_poor') })
 
-  column(:history_of_disability_and_or_illness, header: -> { I18n.t('datagrid.columns.clients.history_of_disability_and_or_illness') }) do |object|
-    object.quantitative_cases.where(quantitative_type_id: QuantitativeType.name_like('History of disability and/or illness').ids).pluck(:value).join(', ')
-  end
-
-  column(:history_of_harm, header: -> { I18n.t('datagrid.columns.clients.history_of_harm') }) do |object|
-    object.quantitative_cases.where(quantitative_type_id: QuantitativeType.name_like('History of Harm').ids).pluck(:value).join(', ')
-  end
-
-  column(:history_of_high_risk_behaviours, header: -> { I18n.t('datagrid.columns.clients.history_of_high_risk_behaviours') }) do |object|
-    object.quantitative_cases.where(quantitative_type_id: QuantitativeType.name_like('History of high-risk behaviours').ids).pluck(:value).join(', ')
-  end
-
-  column(:reason_for_family_separation, header: -> { I18n.t('datagrid.columns.clients.reason_for_family_separation') }) do |object|
-    object.quantitative_cases.where(quantitative_type_id: QuantitativeType.name_like('Reason for Family Separation').ids).pluck(:value).join(', ')
+  dynamic do
+    quantitative_type_readable_ids = current_user.quantitative_type_permissions.readable.pluck(:quantitative_type_id) unless current_user.nil?
+    QuantitativeType.joins(:quantitative_cases).uniq.each do |quantitative_type|
+      if current_user.nil? || quantitative_type_readable_ids.include?(quantitative_type.id)
+        column(quantitative_type.name.to_sym, class: 'quantitative-type', header: -> { quantitative_type.name }) do |object|
+          object.quantitative_cases.where(quantitative_type_id: quantitative_type.id).pluck(:value).join(', ')
+        end
+      end
+    end
   end
 
   column(:follow_up_date, header: -> { I18n.t('datagrid.columns.clients.follow_up_date') })

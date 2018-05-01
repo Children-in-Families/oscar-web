@@ -105,18 +105,25 @@ class ClientColumnsVisibility
 
   def domain_score_columns
     columns = columns_collection
-    # if @params[:controller] != 'clients'
     Domain.order_by_identity.each do |domain|
       identity = domain.identity
       field = domain.convert_identity
       columns = columns.merge!("#{field}_": field.to_sym)
     end
-    # end
+    columns
+  end
+
+  def quantitative_type_columns
+    columns = domain_score_columns
+    QuantitativeType.joins(:quantitative_cases).uniq.each do |quantitative_type|
+      field = quantitative_type.name
+      columns = columns.merge!("#{field}_": field.to_sym)
+    end
     columns
   end
 
   def add_custom_builder_columns
-    columns = domain_score_columns
+    columns = quantitative_type_columns
     if @params[:column_form_builder].present?
       @params[:column_form_builder].each do |column|
         field   = column['id']
