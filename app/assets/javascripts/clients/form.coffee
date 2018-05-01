@@ -133,7 +133,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
       enableAllSteps: true
 
       onStepChanging: (event, currentIndex, newIndex) ->
-        if currentIndex == 0 and (newIndex == 1 or newIndex == 2 or newIndex == 3) and $('#getting-started').is(':visible')
+        if currentIndex == 0 and (1 <= newIndex <=3 ) and $('#getting-started').is(':visible')
           _validateForm()
           form.valid()
           client_received_by_id         = $('#client_received_by_id').val() == ''
@@ -169,7 +169,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
         finish: self.filterTranslation.done
 
       $(document).keydown (e) ->
-        if !($(".form-control").is(":focus"))
+        if !($('.form-control').is(':focus'))
           if e.keyCode == 39
             $('.current').next().focus()
 
