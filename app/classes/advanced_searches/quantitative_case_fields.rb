@@ -1,11 +1,20 @@
 module AdvancedSearches
   class QuantitativeCaseFields
-    extend AdvancedSearchHelper
+    include AdvancedSearchHelper
 
+    def initialize(user)
+      @user = user
+    end
 
-    def self.render
+    def render
       opt_group = format_header('quantitative')
-      quantitative_cases = QuantitativeType.all.map do |qt|
+      if @user.admin? || @user.strategic_overviewer?
+        quantitative_types = QuantitativeType.all
+      else
+        quantitative_type_ids = @user.quantitative_type_permissions.readable.pluck(:quantitative_type_id)
+        quantitative_types = QuantitativeType.where(id: quantitative_type_ids)
+      end
+      quantitative_cases = quantitative_types.map do |qt|
         AdvancedSearches::FilterTypes.drop_list_options(
           "quantitative_#{qt.id}",
           qt.name,
@@ -18,7 +27,8 @@ module AdvancedSearches
     end
 
     private
-    def self.quantitative_cases(qt)
+
+    def quantitative_cases(qt)
       qt.quantitative_cases.map{ |qc| { qc.id.to_s => qc.value }}
     end
   end
