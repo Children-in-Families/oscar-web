@@ -2,6 +2,8 @@ class QuantitativeType < ActiveRecord::Base
   validates :name, presence: true, uniqueness: { case_sensitive: false }
 
   has_many :quantitative_cases
+  has_many :quantitative_type_permissions, dependent: :destroy
+  has_many :users, through: :quantitative_type_permissions
 
   has_paper_trail
 

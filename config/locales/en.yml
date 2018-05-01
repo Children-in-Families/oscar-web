@@ -4258,6 +4258,10 @@ en:
       custom_forms: Custom Forms
       custom_programs: Custom Programs
       permissions_selector: Permissions Selector
+      quantitative_types: Specific Referral Data
+    quantitative_type_permission:
+      can_edit: Can Edit
+      can_view: Can View
     show:
       add_form: Add Form
       additional_forms: Additional Forms

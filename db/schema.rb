@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180423014515) do
+ActiveRecord::Schema.define(version: 20180427035634) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -823,6 +823,18 @@ ActiveRecord::Schema.define(version: 20180423014515) do
     t.datetime "updated_at"
   end
 
+  create_table "quantitative_type_permissions", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "quantitative_type_id"
+    t.boolean  "readable",             default: true
+    t.boolean  "editable",             default: true
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+  end
+
+  add_index "quantitative_type_permissions", ["quantitative_type_id"], name: "index_quantitative_type_permissions_on_quantitative_type_id", using: :btree
+  add_index "quantitative_type_permissions", ["user_id"], name: "index_quantitative_type_permissions_on_user_id", using: :btree
+
   create_table "quantitative_types", force: :cascade do |t|
     t.string   "name",                     default: ""
     t.text     "description",              default: ""
@@ -1312,6 +1324,8 @@ ActiveRecord::Schema.define(version: 20180423014515) do
   add_foreign_key "progress_notes", "materials"
   add_foreign_key "progress_notes", "progress_note_types"
   add_foreign_key "progress_notes", "users"
+  add_foreign_key "quantitative_type_permissions", "quantitative_types"
+  add_foreign_key "quantitative_type_permissions", "users"
   add_foreign_key "quarterly_reports", "cases"
   add_foreign_key "subdistricts", "districts"
   add_foreign_key "surveys", "clients"

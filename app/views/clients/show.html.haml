@@ -358,6 +358,7 @@
           .col-xs-12
             %table.table.table-bordered
               - @client.quantitative_cases.group_by(&:quantitative_type).each do |qtypes|
+                - next unless quantitative_type_readable?(qtypes.first.id)
                 %tr
                   %td.align-justify
                     = qtypes.first.name

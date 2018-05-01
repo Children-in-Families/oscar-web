@@ -1,5 +1,5 @@
 class SettingsController < AdminController
-  before_action :find_setting, only: [:index, :country, :default_columns]
+  before_action :find_setting, only: [:index, :default_columns]
 
   def index
     authorize @setting
@@ -29,19 +29,6 @@ class SettingsController < AdminController
     end
   end
 
-  def country
-    authorize @setting
-    session[:country] ||= params[:country]
-    flash[:notice] = session[:country] == params[:country] ? nil : t(".switched_country_#{params[:country]}")
-    if @setting.persisted?
-      @setting.update(country_name: params[:country])
-    else
-      @setting.country_name = params[:country_name]
-      @setting.save
-    end
-    session[:country] = params[:country]
-  end
-
   def default_columns
     authorize @setting
     @client_default_columns = client_default_columns
@@ -52,20 +39,20 @@ class SettingsController < AdminController
   private
 
   def setting_params
-    # params.require(:setting).permit(:country_name, :disable_assessment, :assessment_frequency, :min_assessment, :max_assessment, :max_case_note, :case_note_frequency, client_default_columns: [], family_default_columns: [], partner_default_columns: [], user_default_columns: [])
-    params.require(:setting).permit(:country_name, :disable_assessment, :assessment_frequency, :max_assessment, :max_case_note, :case_note_frequency, client_default_columns: [], family_default_columns: [], partner_default_columns: [], user_default_columns: [])
+    # params.require(:setting).permit(:disable_assessment, :assessment_frequency, :min_assessment, :max_assessment, :max_case_note, :case_note_frequency, client_default_columns: [], family_default_columns: [], partner_default_columns: [], user_default_columns: [])
+    params.require(:setting).permit(:disable_assessment, :assessment_frequency, :max_assessment, :max_case_note, :case_note_frequency, client_default_columns: [], family_default_columns: [], partner_default_columns: [], user_default_columns: [])
   end
 
   def find_setting
-    # @setting = Setting.first_or_initialize(country_name: 'cambodia', assessment_frequency: 'month', min_assessment: 3, max_assessment: 6, case_note_frequency: 'day', max_case_note: 30)
-    @setting = Setting.first_or_initialize(country_name: 'cambodia', assessment_frequency: 'month', max_assessment: 6, case_note_frequency: 'day', max_case_note: 30)
+    # @setting = Setting.first_or_initialize(assessment_frequency: 'month', min_assessment: 3, max_assessment: 6, case_note_frequency: 'day', max_case_note: 30)
+    @setting = Setting.first_or_initialize(assessment_frequency: 'month', max_assessment: 6, case_note_frequency: 'day', max_case_note: 30)
   end
 
   def client_default_columns
     columns = []
     sub_columns = %w(history_of_harm_ history_of_high_risk_behaviours_ history_of_disability_and_or_illness_ reason_for_family_separation_ rejected_note_ exit_reasons_
       exit_circumstance_ other_info_of_exit_ exit_note_ what3words_ main_school_contact_ rated_for_id_poor_ name_of_referee_
-      form_title_ case_note_date_ case_note_type_ date_of_assessments_ all_csi_assessments_ manage_ changelog_)
+      form_title_ family_ family_id_ case_note_date_ case_note_type_ date_of_assessments_ all_csi_assessments_ manage_ changelog_)
     filter_columns = ClientGrid.new.filters.map(&:name)
     filter_columns_not_used = [:has_date_of_birth, :quantitative_data, :quantitative_types, :all_domains, :domain_1a, :domain_1b, :domain_2a, :domain_2b, :domain_3a,
       :domain_3b, :domain_4a, :domain_4b, :domain_5a, :domain_5b, :domain_6a, :domain_6b, :assessments_due_to, :no_case_note, :overdue_task, :overdue_forms, :province_id, :birth_province_id, :commune, :house_number, :village, :street_number, :district]

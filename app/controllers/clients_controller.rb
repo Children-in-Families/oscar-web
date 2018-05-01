@@ -15,6 +15,8 @@ class ClientsController < AdminController
   before_action :set_association, except: [:index, :destroy, :version]
   before_action :choose_grid, only: :index
   before_action :find_resources, only: :show
+  before_action :quantitative_type_editable, only: [:edit, :update, :new, :create]
+  before_action :quantitative_type_readable, only: [:show, :edit, :update, :new, :create]
 
   def index
     @client_default_columns = Setting.first.try(:client_default_columns)
@@ -56,6 +58,7 @@ class ClientsController < AdminController
         initial_visit_client
         @enter_ngos = @client.enter_ngos.order(:accepted_date)
         @exit_ngos  = @client.exit_ngos.order(:exit_date)
+        # @quantitative_type_readable_ids = current_user.quantitative_type_permissions.readable.pluck(:quantitative_type_id)
       end
       format.pdf do
         form        = params[:form]
@@ -212,5 +215,13 @@ class ClientsController < AdminController
   def find_resources
     @interviewee_names = @client.interviewees.pluck(:name)
     @client_type_names = @client.client_types.pluck(:name)
+  end
+
+  def quantitative_type_editable
+  @quantitative_type_editable_ids = current_user.quantitative_type_permissions.editable.pluck(:quantitative_type_id)
+  end
+
+  def quantitative_type_readable
+    @quantitative_type_readable_ids = current_user.quantitative_type_permissions.readable.pluck(:quantitative_type_id)
   end
 end

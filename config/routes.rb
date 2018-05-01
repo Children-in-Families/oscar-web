@@ -271,14 +271,7 @@ Rails.application.routes.draw do
 
   resources :settings, except: [:destroy] do
     collection do
-      get 'country' => 'settings#country'
       get 'default_columns' => 'settings#default_columns'
     end
   end
-  # resources :settings do
-  #   collection do
-  #     get 'country' => 'settings#country'
-  #   end
-  # end
-
 end

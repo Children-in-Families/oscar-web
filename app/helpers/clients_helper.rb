@@ -94,6 +94,8 @@ module ClientsHelper
       relevant_referral_information: t('datagrid.columns.clients.relevant_referral_information'),
       user_ids:                      t('datagrid.columns.clients.case_worker'),
       state:                         t('datagrid.columns.clients.state'),
+      family_id:                     t('datagrid.columns.clients.family_id'),
+      family:                        t('datagrid.columns.clients.family'),
       any_assessments:               t('datagrid.columns.clients.assessments'),
       case_note_date:                t('datagrid.columns.clients.case_note_date'),
       case_note_type:                t('datagrid.columns.clients.case_note_type'),
@@ -321,10 +323,12 @@ module ClientsHelper
       reason_for_family_separation_: t('datagrid.columns.clients.reason_for_family_separation'),
       rejected_note_: t('datagrid.columns.clients.rejected_note'),
       form_title_: t('datagrid.columns.clients.form_title'),
+      family_: t('datagrid.columns.clients.placements.family'),
       code_: t('datagrid.columns.clients.code'),
       age_: t('datagrid.columns.clients.age'),
       slug_: t('datagrid.columns.clients.id'),
       kid_id_: t('datagrid.columns.clients.kid_id'),
+      family_id_: t('datagrid.columns.families.code'),
       case_note_date_: t('datagrid.columns.clients.case_note_date'),
       case_note_type_: t('datagrid.columns.clients.case_note_type'),
       date_of_assessments_: t('datagrid.columns.clients.date_of_assessments'),
@@ -350,5 +354,14 @@ module ClientsHelper
       label_column = label_column.merge!("#{field}_": identity)
     end
     label_column[column.to_sym]
+  end
+
+  def quantitative_type_readable?(quantitative_type_id)
+    current_user.admin? || current_user.strategic_overviewer? || @quantitative_type_readable_ids.include?(quantitative_type_id)
+  end
+
+  def quantitative_type_cannot_editable?(quantitative_type_id)
+    return false if current_user.admin?
+    return true if @quantitative_type_editable_ids.exclude?(quantitative_type_id)
   end
 end

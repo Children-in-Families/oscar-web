@@ -1,5 +1,7 @@
 describe QuantitativeType, 'associations' do
   it { is_expected.to have_many(:quantitative_cases)}
+  it { is_expected.to have_many(:quantitative_type_permissions).dependent(:destroy) }
+  it { is_expected.to have_many(:users).through(:quantitative_type_permissions) }
 end
 
 describe QuantitativeType, 'validations' do
