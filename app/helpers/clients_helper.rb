@@ -332,6 +332,10 @@ module ClientsHelper
       field = domain.convert_identity
       label_column = label_column.merge!("#{field}_": identity)
     end
+    QuantitativeType.joins(:quantitative_cases).uniq.each do |quantitative_type|
+      field = quantitative_type.name
+      label_column = label_column.merge!("#{field}_": quantitative_type.name)
+    end
     label_column[column.to_sym]
   end
 

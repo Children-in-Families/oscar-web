@@ -16,7 +16,7 @@ class ClientsController < AdminController
   before_action :choose_grid, only: :index
   before_action :find_resources, only: :show
   before_action :quantitative_type_editable, only: [:edit, :update, :new, :create]
-  before_action :quantitative_type_readable, only: [:show, :edit, :update, :new, :create]
+  before_action :quantitative_type_readable
 
   def index
     @client_default_columns = Setting.first.try(:client_default_columns)
@@ -207,7 +207,7 @@ class ClientsController < AdminController
   end
 
   def quantitative_type_editable
-  @quantitative_type_editable_ids = current_user.quantitative_type_permissions.editable.pluck(:quantitative_type_id)
+    @quantitative_type_editable_ids = current_user.quantitative_type_permissions.editable.pluck(:quantitative_type_id)
   end
 
   def quantitative_type_readable

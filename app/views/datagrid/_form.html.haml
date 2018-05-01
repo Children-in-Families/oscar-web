@@ -45,22 +45,12 @@
               .visibility.col-sm-12
                 = check_box_tag "#{f.name}_", f.name, checked = default_setting("#{f.name}_", @client_default_columns) || params["#{f.name}_"].present?, class: 'i-checks'
                 = columns_visibility f.name
-          %li
-            .visibility.col-sm-12
-              = check_box_tag 'history_of_harm_', 'history_of_harm', checked = default_setting('history_of_harm_', @client_default_columns) || params[:history_of_harm_].present?, class: 'i-checks'
-              = label_tag 'history_of_harm_', t('datagrid.columns.history_of_harm')
-          %li
-            .visibility.col-sm-12
-              = check_box_tag 'history_of_high_risk_behaviours_', 'history_of_high_risk_behaviours', checked = default_setting('history_of_high_risk_behaviours_', @client_default_columns) || params[:history_of_high_risk_behaviours_].present?, class: 'i-checks'
-              = label_tag 'history_of_high_risk_behaviours_', t('datagrid.columns.history_of_high_risk_behaviours')
-          %li
-            .visibility.col-sm-12
-              = check_box_tag 'history_of_disability_and_or_illness_', 'history_of_disability_and_or_illness', checked = default_setting('history_of_disability_and_or_illness_', @client_default_columns) || params[:history_of_disability_and_or_illness_].present?, class: 'i-checks'
-              = label_tag 'history_of_disability_and_or_illness_', t('datagrid.columns.history_of_disability_and_or_illness')
-          %li
-            .visibility.col-sm-12
-              = check_box_tag 'reason_for_family_separation_', 'reason_for_family_separation', checked = default_setting('reason_for_family_separation_', @client_default_columns) || params[:reason_for_family_separation_].present?, class: 'i-checks'
-              = label_tag 'reason_for_family_separation_', t('datagrid.columns.reason_for_family_separation')
+          - QuantitativeType.joins(:quantitative_cases).uniq.each do |quantitative_type|
+            - next unless quantitative_type_readable?(quantitative_type.id)
+            %li
+              .visibility.col-sm-12
+                = check_box_tag "#{quantitative_type.name}_", quantitative_type.name, checked = default_setting("#{quantitative_type.name}_", @client_default_columns) || params["#{quantitative_type.name}_"].present?, class: 'i-checks'
+                = label_tag "#{quantitative_type.name}_", quantitative_type.name
 
           %li
             .visibility.col-sm-12
