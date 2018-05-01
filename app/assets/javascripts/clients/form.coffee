@@ -165,11 +165,11 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
       headerTag: 'h3'
       bodyTag: 'section'
       transitionEffect: 'slideLeft'
-      enableKeyNavigation: false
+      enableKeyNavigation: true
       enableAllSteps: true
 
       onStepChanging: (event, currentIndex, newIndex) ->
-        if currentIndex == 0 and newIndex == 1 and $('#getting-started').is(':visible')
+        if currentIndex == 0 and (1 <= newIndex <=3 ) and $('#getting-started').is(':visible')
           _validateForm()
           form.valid()
           client_received_by_id         = $('#client_received_by_id').val() == ''
@@ -203,6 +203,14 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
         next: self.filterTranslation.next
         previous: self.filterTranslation.previous
         finish: self.filterTranslation.done
+
+      $(document).keydown (e) ->
+        if !($('.form-control').is(':focus'))
+          if e.keyCode == 39
+            $('.current').next().focus()
+
+          if e.keyCode == 37
+            $('.current').prev().focus()
 
   _replaceSpanAfterRemoveField = ->
     $('#client_initial_referral_date').on 'input', ->
