@@ -1,8 +1,8 @@
 namespace :tapang do
   desc "Import all M'Lop Tapang clients and related data"
   task import: :environment do
-    org = Organization.create_and_build_tanent(short_name: 'mtp', full_name: "M'Lop Tapang", logo: File.open(Rails.root.join('app/assets/images/mtp.png')))
-    Organization.switch_to org.short_name
+    # org = Organization.create_and_build_tanent(short_name: 'mtp', full_name: "M'Lop Tapang", logo: File.open(Rails.root.join('app/assets/images/mtp.png')))
+    Organization.switch_to 'mtp'
 
     Rake::Task['agencies:import'].invoke
     Rake::Task['departments:import'].invoke
@@ -20,6 +20,9 @@ namespace :tapang do
     paths.each do |path|
       import     = TapangImporter::Import.new('Referral', path)
       import.referral_sources
+
+      import     = TapangImporter::Import.new('Agency', path)
+      import.agencies
 
       import     = TapangImporter::Import.new('Family', path)
       import.families

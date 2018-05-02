@@ -59,7 +59,8 @@ module TapangImporter
         email      = workbook.row(row)[headers['*Email']]
         roles      = workbook.row(row)[headers['*Permission Level']].downcase
         password   = (('a'..'z').to_a + ('A'..'Z').to_a + (0..9).to_a).sample(8).join
-        User.create(first_name: first_name, last_name: last_name, email: email, password: password, roles: roles)
+
+        User.create_with(first_name: first_name, last_name: last_name, password: password, roles: roles).find_or_create_by(email: email)
       end
     end
 
@@ -77,6 +78,14 @@ module TapangImporter
         name               = workbook.row(row)[headers['*Name']] || ''
         referral_source = ReferralSource.new(name: name)
         referral_source.save(validate: false)
+      end
+    end
+
+    def agencies
+      ((workbook.first_row + starting_row)..workbook.last_row).each do |row|
+        name   = workbook.row(row)[headers['*Name']] || ''
+        agency = Agency.new(name: name)
+        agency.save(validate: false)
       end
     end
 
@@ -146,8 +155,8 @@ module TapangImporter
         if agencies.present?
           agencies = agencies.split(',')
           agencies.each do |agency|
-            agency_id = Agency.where("name ilike ?", "%#{agency}%").first.try(:id)
-            agency_ids << agency if agency_id.present?
+            agency_id = Agency.where("name ilike ?", "%#{agency.squish}%").first.try(:id)
+            agency_ids << agency_id if agency_id.present?
           end
         end
 
@@ -166,7 +175,7 @@ module TapangImporter
                               "CP05": "sophal@mloptapang.org"
                             }
 
-        case_workers      = workbook.row(row)[headers['* Case Worker / Staff']]
+        case_workers      = workbook.row(row)[headers['*Case Worker ID']]
 
         if case_workers.present?
           case_workers = case_workers.split(',')
