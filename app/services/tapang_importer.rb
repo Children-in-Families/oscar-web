@@ -106,7 +106,7 @@ module TapangImporter
         date_of_birth     = format_date_of_birth(workbook.row(row)[headers['Date of Birth']].to_s || '')
 
         referral          = workbook.row(row)[headers['* Referral Source']] || ''
-        referral_source   = ReferralSource.where("name ilike ?", "%#{referral}%").first.try(:id)
+        referral_source_id = ReferralSource.where("name ilike ?", "%#{referral}%").first.try(:id)
         name_of_referee   = workbook.row(row)[headers['* Name of Referee']] || ''
         referral_phone    = workbook.row(row)[headers['Referee Phone Number']] || ''
 
@@ -142,6 +142,15 @@ module TapangImporter
         birth_province_id = Province.where("name ilike ?", "%#{province_name}%").first.try(:id)
 
         agencies          = workbook.row(row)[headers['Other Agencies Involved']] || ''
+        agency_ids = []
+        if agencies.present?
+          agencies = agencies.split(',')
+          agencies.each do |agency|
+            agency_id = Agency.where("name ilike ?", "%#{agency}%").first.try(:id)
+            agency_ids << agency if agency_id.present?
+          end
+        end
+
         rated_for_id_poor = workbook.row(row)[headers['Is the Client Rated for ID Poor?']] || ''
         relevant_referral_information = workbook.row(row)[headers['Relevant Referral Information / Notes']] || ''
 
@@ -202,33 +211,16 @@ module TapangImporter
           birth_province_id: birth_province_id,
           relevant_referral_information: relevant_referral_information,
           user_ids: user_ids,
-          rated_for_id_poor: rated_for_id_poor
+          rated_for_id_poor: rated_for_id_poor,
+          referral_source_id: referral_source_id,
+          agency_ids: agency_ids
         )
         client.save(validate: false)
-
-        if agencies.present?
-          agencies = agencies.split(',')
-          agencies.each do |agency|
-            agency = Agency.where("name ilike ?", "%#{agency}%").first.try(:id)
-            agency = Agency.find_by(name: agency)
-            if agency.present?
-              agency.children << client.id
-              agency.save(validate: false)
-            end
-          end
-        end
-
-        if referral_source.present?
-          referral = ReferralSource.find_by(name: referral_source)
-          if referral.present?
-            referral.children << client.id
-            referral.save(validate: false)
-          end
-        end
 
         if family_code.present?
           family = Family.find_by(code: family_code)
           if family.present?
+            binding.pry
             family.children << client.id
             family.save(validate: false)
           end
