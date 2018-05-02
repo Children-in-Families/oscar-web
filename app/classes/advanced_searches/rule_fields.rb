@@ -40,7 +40,6 @@ module AdvancedSearches
         ['case_type', { EC: 'EC', FC: 'FC',  KC: 'KC' }],
         ['agency_name', agencies_options],
         ['received_by_id', user_select_options],
-        ['birth_province_id', provinces],
         ['referral_source_id', referral_source_options],
         ['followed_up_by_id', user_select_options],
         ['has_been_in_government_care', { true: 'Yes', false: 'No' }],
@@ -114,7 +113,7 @@ module AdvancedSearches
       when 'cambodia'
         {
           text_fields: ['house_number', 'street_number', 'village', 'commune'],
-          drop_down_fields: [['province_id', provinces], ['district_id', districts]]
+          drop_down_fields: [['province_id', provinces], ['district_id', districts], ['birth_province_id', provinces]]
         }
       when 'lesotho'
         {
@@ -124,7 +123,7 @@ module AdvancedSearches
       when 'thailand'
         {
           text_fields: ['plot', 'road', 'postal_code'],
-          drop_down_fields: [['province_id', provinces], ['district_id', districts], ['subdistrict_id', subdistricts]]
+          drop_down_fields: [['province_id', provinces], ['district_id', districts], ['subdistrict_id', subdistricts], ['birth_province_id', provinces]]
         }
       when 'myanmar'
         {
