@@ -24,8 +24,8 @@ class MoveDistrict
     end
 
     def districts
-      Organization.where.not(short_name: ['spo', 'cps', 'kmo']).each do |org|
-        Organization.switch_to org.short_name
+      def districts
+        Organization.switch_to 'mtp'
         ((workbook.first_row + 1)..workbook.last_row).each do |row|
           name          = workbook.row(row)[headers['District Name']].squish
           name_en       = workbook.row(row)[headers['District Name EN']].squish
@@ -36,8 +36,9 @@ class MoveDistrict
             name: full_name,
             province: province
           )
-        end
       end
+    end
+
     end
 
     def update_district_in_client
