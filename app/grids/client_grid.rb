@@ -515,6 +515,10 @@ class ClientGrid
       column(:province, order: 'provinces.name', header: -> { I18n.t('datagrid.columns.clients.current_province') }) do |object|
         object.province_name
       end
+
+      column(:birth_province, header: -> { I18n.t('datagrid.columns.clients.birth_province') }) do |object|
+        object.birth_province_name
+      end
     when 'thailand'
       column(:plot, header: -> { I18n.t('datagrid.columns.clients.plot') })
 
@@ -532,6 +536,10 @@ class ClientGrid
 
       column(:province, order: 'provinces.name', header: -> { I18n.t('datagrid.columns.clients.current_province') }) do |object|
         object.province_name
+      end
+
+      column(:birth_province, header: -> { I18n.t('datagrid.columns.clients.birth_province') }) do |object|
+        object.birth_province_name
       end
     when 'lesotho'
       column(:suburb, header: -> { I18n.t('datagrid.columns.clients.suburb') })
@@ -574,10 +582,6 @@ class ClientGrid
 
   column(:referral_source, order: 'referral_sources.name', header: -> { I18n.t('datagrid.columns.clients.referral_source') }) do |object|
     object.referral_source.try(:name)
-  end
-
-  column(:birth_province, header: -> { I18n.t('datagrid.columns.clients.birth_province') }) do |object|
-    object.birth_province_name
   end
 
   # column(:state, header: -> { I18n.t('datagrid.columns.clients.state') }) do |object|
