@@ -220,7 +220,6 @@ module TapangImporter
         if family_code.present?
           family = Family.find_by(code: family_code)
           if family.present?
-            binding.pry
             family.children << client.id
             family.save(validate: false)
           end
