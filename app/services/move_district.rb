@@ -24,21 +24,18 @@ class MoveDistrict
     end
 
     def districts
-      def districts
-        Organization.switch_to 'mtp'
-        ((workbook.first_row + 1)..workbook.last_row).each do |row|
-          name          = workbook.row(row)[headers['District Name']].squish
-          name_en       = workbook.row(row)[headers['District Name EN']].squish
-          province_name = workbook.row(row)[headers['Province Name']].squish
-          province   = Province.find_by('name iLIKE ?', "%#{province_name}%")
-          full_name = "#{name} / #{name_en}"
-          District.find_or_create_by(
-            name: full_name,
-            province: province
-          )
+      Organization.switch_to 'voice'
+      ((workbook.first_row + 1)..workbook.last_row).each do |row|
+        name          = workbook.row(row)[headers['District Name']].squish
+        name_en       = workbook.row(row)[headers['District Name EN']].squish
+        province_name = workbook.row(row)[headers['Province Name']].squish
+        province   = Province.find_by('name iLIKE ?', "%#{province_name}%")
+        full_name = "#{name} / #{name_en}"
+        District.find_or_create_by(
+          name: full_name,
+          province: province
+        )
       end
-    end
-
     end
 
     def update_district_in_client
