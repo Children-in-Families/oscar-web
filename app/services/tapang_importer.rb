@@ -96,10 +96,10 @@ module TapangImporter
         if @path.include?('vendor/data/mtp1.xlsx')
           full_name         = workbook.row(row)[headers['Given Name (English)']].split(' ')
           local_full_name   = workbook.row(row)[headers['Given Name (Khmer)']].split(' ')
-          given_name        = full_name.second
+          given_name        = full_name.last
           family_name       = full_name.first
           local_family_name = local_full_name.first
-          local_given_name  = local_full_name.second
+          local_given_name  = local_full_name.last
           received_by       = workbook.row(row)[headers['* Referral Received By']] || ''
           received_by       = received_by.split(' ').last if received_by.present?
           followed_up_by    = workbook.row(row)[headers['First Follow-Up By']] || ''
