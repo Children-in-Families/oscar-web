@@ -1,7 +1,6 @@
 namespace :tapang do
   desc "Import all M'Lop Tapang clients and related data"
   task import: :environment do
-    # org = Organization.create_and_build_tanent(short_name: 'mtp', full_name: "M'Lop Tapang", logo: File.open(Rails.root.join('app/assets/images/mtp.png')))
     Organization.switch_to 'mtp'
 
     paths = ['vendor/data/mtp1.xlsx', 'vendor/data/mtp2.xlsx', 'vendor/data/mtp3.xlsx']
