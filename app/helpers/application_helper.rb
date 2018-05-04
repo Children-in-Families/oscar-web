@@ -227,4 +227,38 @@ module ApplicationHelper
     return false unless params.dig(:partner_grid, :descending).present? || (params[:partner_advanced_search].present? && params.dig(:partner_grid, :descending).present?) || params[:partner_grid].nil? || params[:partner_advanced_search].nil?
     setting_default_columns.include?(column.to_s)
   end
+
+  def tasks_notification_label
+    if @notification.any_overdue_tasks? && @notification.any_due_today_tasks?
+      "#{I18n.t('layouts.notification.overdue_tasks_count', count: @notification.overdue_tasks_count)} #{I18n.t('layouts.notification.overdue_and_due_today_count', count: @notification.due_today_tasks_count)} "
+    elsif @notification.any_overdue_tasks?
+      I18n.t('layouts.notification.overdue_tasks_count', count: @notification.overdue_tasks_count)
+    else
+      I18n.t('layouts.notification.due_today_tasks_count', count: @notification.due_today_tasks_count)
+    end
+  end
+
+  def assessments_notification_label
+    if @notification.any_overdue_assessments? && @notification.any_due_today_assessments?
+      "#{I18n.t('layouts.notification.overdue_assessments_count', count: @notification.overdue_assessments_count)} #{I18n.t('layouts.notification.overdue_and_due_today_count', count: @notification.due_today_assessments_count)}"
+    elsif @notification.any_overdue_tasks?
+      I18n.t('layouts.notification.overdue_assessments_count', count: @notification.overdue_assessments_count)
+    else
+      I18n.t('layouts.notification.due_today_assessments_count', count: @notification.due_today_assessments_count)
+    end
+  end
+
+  def forms_notification_label
+    if (@notification.any_client_custom_field_frequency_overdue? || @notification.any_client_enrollment_tracking_frequency_overdue?) && (@notification.any_client_custom_field_frequency_due_today? || @notification.any_client_enrollment_tracking_frequency_due_today?)
+      overdue = @notification.client_enrollment_tracking_frequency_overdue_count + @notification.client_custom_field_frequency_overdue_count
+      due_today = @notification.client_enrollment_tracking_frequency_due_today_count + @notification.client_custom_field_frequency_due_today_count
+      "#{I18n.t('layouts.notification.due_today_forms_count', count: overdue)} #{I18n.t('layouts.notification.overdue_and_due_today_count', count: due_today)}"
+    elsif @notification.any_client_custom_field_frequency_overdue? || @notification.any_client_enrollment_tracking_frequency_overdue?
+      overdue = @notification.client_enrollment_tracking_frequency_overdue_count + @notification.client_custom_field_frequency_overdue_count
+      I18n.t('layouts.notification.overdue_forms_count', count: overdue)
+    else
+      due_today = @notification.client_enrollment_tracking_frequency_due_today_count + @notification.client_custom_field_frequency_due_today_count
+      I18n.t('layouts.notification.due_today_forms_count', count: due_today)
+    end
+  end
 end

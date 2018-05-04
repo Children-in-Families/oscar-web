@@ -2290,7 +2290,7 @@ en:
         last_name: Last Name
         leave_blank_if_you_dont_want_to_change: Leave this blank if you do not want to change
         mobile: Mobile
-        overdue_task_summary_notify: Send me overdue task summary
+        overdue_task_summary_notify: Notification Emial
         password: Password
         password_confirmation: Confirm Password
         province: Province
@@ -3006,6 +3006,9 @@ en:
       due_today_family_custom_field_count:
         one: There is 1 family custom form due today.
         other: There are %{count} family custom forms due today.
+      due_today_forms_count:
+        one: You have 1 forms due today.
+        other: You have %{count} forms due today.
       due_today_partner_custom_field_count:
         one: There is 1 partner custom form due today.
         other: There are %{count} partner custom forms due today.
@@ -3016,6 +3019,9 @@ en:
         one: There is 1 user custom form due today.
         other: There are %{count} user custom forms due today.
       no_task: Nothing to notify.
+      overdue_and_due_today_count:
+        one: and 1 due today.
+        other: and #{count} due today.
       overdue_assessments_count:
         one: You have 1 assessment overdue.
         other: You have %{count} assessments overdue.
@@ -3028,6 +3034,9 @@ en:
       overdue_family_custom_field_count:
         one: There is 1 family custom form overdue.
         other: There are %{count} family custom forms overdue.
+      overdue_forms_count:
+        one: You have 1 form overdue.
+        other: You have %{count} forms overdue.
       overdue_partner_custom_field_count:
         one: There is 1 partner custom form overdue.
         other: There are %{count} partner custom forms overdue.

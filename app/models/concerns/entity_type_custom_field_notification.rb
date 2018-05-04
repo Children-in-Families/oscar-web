@@ -5,7 +5,7 @@ module EntityTypeCustomFieldNotification
     entities = entities.joins(:custom_fields).where.not(custom_fields: { frequency: '' })
 
     entities.each do |entity|
-      entity.custom_fields.uniq.each do |custom_field|
+      entity.custom_fields.where.not(custom_fields: { frequency: '' }).uniq.each do |custom_field|
         if next_custom_field_date(entity, custom_field) < Date.today
           entity_overdue << entity
         elsif next_custom_field_date(entity, custom_field) == Date.today

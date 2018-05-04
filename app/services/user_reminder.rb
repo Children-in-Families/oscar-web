@@ -5,6 +5,7 @@ class UserReminder
   def remind
     Organization.all.each do |org|
       Organization.switch_to org.short_name
+      remind_case_worker_with_forms(org)
       remind_case_workers(org)
       remind_manager_and_admin(org)
     end
@@ -14,10 +15,16 @@ class UserReminder
   private
 
   def remind_case_workers(org)
-    case_workers = User.non_devs.non_locked.without_json_fields.joins(:tasks).merge(Task.overdue_incomplete.exclude_exited_ngo_clients).uniq
+    case_workers = User.non_devs.non_locked.notify_email.without_json_fields.joins(:tasks).merge(Task.overdue_incomplete.exclude_exited_ngo_clients).uniq
     case_workers.each do |case_worker|
-      next if case_worker.disable?
       CaseWorkerWorker.perform_async(case_worker.id, org.short_name)
+    end
+  end
+
+  def remind_case_worker_with_forms(org)
+    case_workers = User.non_devs.non_locked.notify_email.without_json_fields.joins(:clients).uniq
+    case_workers.each do |case_worker|
+      FormNotificationWorker.perform_async(case_worker.id, org.short_name)
     end
   end
 
