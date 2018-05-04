@@ -129,8 +129,6 @@ module TapangImporter
         telephone_number  = workbook.row(row)[headers['Primary Carer Phone Number']] || ''
         province          = workbook.row(row)[headers['Current Province']]
         province_id       = Province.where("name ilike ?", "%#{province}%").first.try(:id)
-        district          = workbook.row(row)[headers['Address - District/Khan']] || ''
-        district_id       = District.where("name ilike ?", "%#{district}%").first.try(:id)
         commune           = workbook.row(row)[headers['Address - Commune/Sangkat']] || ''
         house_number      = workbook.row(row)[headers['Address - House#']] || ''
         street_number     = workbook.row(row)[headers['Address - Street']] || ''
@@ -205,7 +203,6 @@ module TapangImporter
           live_with: live_with,
           telephone_number: telephone_number,
           province_id: province_id,
-          district_id: district_id,
           commune: commune,
           house_number: house_number,
           street_number: street_number,
