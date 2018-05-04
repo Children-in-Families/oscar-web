@@ -113,7 +113,7 @@ module TapangImporter
           followed_up_by    = workbook.row(row)[headers['First Follow-Up By']] || ''
         end
 
-        received_by_id    = User.where("first_name ilike ?", "%#{received_by}%").first.try(:id) if received_by_id.present?
+        received_by_id    = User.where("first_name ilike ?", "%#{received_by}%").first.try(:id) if received_by.present?
         followed_up_by_id = User.where("first_name ilike ?", "%#{followed_up_by}%").first.try(:id) if followed_up_by.present?
         gender            = workbook.row(row)[headers['Gender']]
         gender            =  case gender
