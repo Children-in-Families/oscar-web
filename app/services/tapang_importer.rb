@@ -113,8 +113,8 @@ module TapangImporter
           followed_up_by    = workbook.row(row)[headers['First Follow-Up By']] || ''
         end
 
-        received_by_id    = User.where("first_name ilike ?", "%#{received_by}%").first.try(:id)
-        followed_up_by_id = User.where("first_name ilike ?", "%#{followed_up_by}%").first.try(:id)
+        received_by_id    = User.where("first_name ilike ?", "%#{received_by}%").first.try(:id) if received_by_id.present?
+        followed_up_by_id = User.where("first_name ilike ?", "%#{followed_up_by}%").first.try(:id) if followed_up_by.present?
         gender            = workbook.row(row)[headers['Gender']]
         gender            =  case gender
                               when 'Male' then 'male'
@@ -128,9 +128,7 @@ module TapangImporter
         live_with         = workbook.row(row)[headers['Primary Carer Name']] || ''
         telephone_number  = workbook.row(row)[headers['Primary Carer Phone Number']] || ''
         province          = workbook.row(row)[headers['Current Province']]
-        province_id       = Province.where("name ilike ?", "%#{province}%").first.try(:id)
-        district          = workbook.row(row)[headers['Address - District/Khan']] || ''
-        district_id       = District.where("name ilike ?", "%#{district}%").first.try(:id)
+        province_id       = Province.where("name ilike ?", "%#{province}%").first.try(:id) if province.present?
         commune           = workbook.row(row)[headers['Address - Commune/Sangkat']] || ''
         house_number      = workbook.row(row)[headers['Address - House#']] || ''
         street_number     = workbook.row(row)[headers['Address - Street']] || ''
@@ -141,7 +139,7 @@ module TapangImporter
         birth_province_id = Province.where("name ilike ?", "%#{province_name}%").first.try(:id)
 
         main_school_contact   = workbook.row(row)[headers['Main School Contact']] || ''
-        referral_source_id    = ReferralSource.where("name ilike ?", "%#{referral}%").first.try(:id)
+        referral_source_id    = ReferralSource.where("name ilike ?", "%#{referral}%").first.try(:id) if referral.present?
         initial_referral_date = workbook.row(row)[headers['* Initial Referral Date']] || ''
 
         commune = commune.to_s.gsub(/សង្កាត់|sangkat/i,'').squish if commune.present?
@@ -205,7 +203,6 @@ module TapangImporter
           live_with: live_with,
           telephone_number: telephone_number,
           province_id: province_id,
-          district_id: district_id,
           commune: commune,
           house_number: house_number,
           street_number: street_number,
