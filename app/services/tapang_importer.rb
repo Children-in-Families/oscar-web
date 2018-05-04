@@ -136,7 +136,7 @@ module TapangImporter
         school_name       = workbook.row(row)[headers['School Name']] || ''
         school_grade      = workbook.row(row)[headers['School Grade']] || ''
         province_name     = workbook.row(row)[headers['Client Birth Province']] || ''
-        birth_province_id = Province.where("name ilike ?", "%#{province_name}%").first.try(:id)
+        birth_province_id = Province.where("name ilike ?", "%#{province_name}%").first.try(:id) if province_name.present?
 
         main_school_contact   = workbook.row(row)[headers['Main School Contact']] || ''
         referral_source_id    = ReferralSource.where("name ilike ?", "%#{referral}%").first.try(:id) if referral.present?
