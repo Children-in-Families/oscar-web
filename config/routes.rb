@@ -104,6 +104,8 @@ Rails.application.routes.draw do
   end
   resources :clients do
 
+    resources :shared_clients
+
     collection do
       get :advanced_search
     end

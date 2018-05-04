@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180406024720) do
+ActiveRecord::Schema.define(version: 20180503095242) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -246,6 +246,15 @@ ActiveRecord::Schema.define(version: 20180406024720) do
 
   add_index "client_client_types", ["client_id"], name: "index_client_client_types_on_client_id", using: :btree
   add_index "client_client_types", ["client_type_id"], name: "index_client_client_types_on_client_type_id", using: :btree
+
+  create_table "client_custom_fields", id: false, force: :cascade do |t|
+    t.integer  "id",              default: "nextval('client_custom_fields_id_seq'::regclass)", null: false
+    t.text     "properties"
+    t.integer  "client_id"
+    t.integer  "custom_field_id"
+    t.datetime "created_at",                                                                   null: false
+    t.datetime "updated_at",                                                                   null: false
+  end
 
   create_table "client_enrollment_trackings", force: :cascade do |t|
     t.jsonb    "properties",           default: {}
@@ -554,6 +563,15 @@ ActiveRecord::Schema.define(version: 20180406024720) do
     t.integer  "children",                        default: [],        array: true
   end
 
+  create_table "family_custom_fields", id: false, force: :cascade do |t|
+    t.integer  "id",              default: "nextval('family_custom_fields_id_seq'::regclass)", null: false
+    t.text     "properties"
+    t.integer  "family_id"
+    t.integer  "custom_field_id"
+    t.datetime "created_at",                                                                   null: false
+    t.datetime "updated_at",                                                                   null: false
+  end
+
   create_table "form_builder_attachments", force: :cascade do |t|
     t.string   "name",                default: ""
     t.jsonb    "file",                default: []
@@ -698,6 +716,15 @@ ActiveRecord::Schema.define(version: 20180406024720) do
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
     t.boolean  "fcf_ngo",    default: false
+  end
+
+  create_table "partner_custom_fields", id: false, force: :cascade do |t|
+    t.integer  "id",              default: "nextval('partner_custom_fields_id_seq'::regclass)", null: false
+    t.text     "properties"
+    t.integer  "partner_id"
+    t.integer  "custom_field_id"
+    t.datetime "created_at",                                                                    null: false
+    t.datetime "updated_at",                                                                    null: false
   end
 
   create_table "partners", force: :cascade do |t|
@@ -867,6 +894,18 @@ ActiveRecord::Schema.define(version: 20180406024720) do
     t.string  "partner_default_columns", default: [], array: true
     t.string  "user_default_columns",    default: [], array: true
   end
+
+  create_table "shared_clients", force: :cascade do |t|
+    t.integer  "client_id"
+    t.string   "fields",          default: [], array: true
+    t.string   "destination_ngo"
+    t.string   "origin_ngo"
+    t.string   "referral_reason"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "shared_clients", ["client_id"], name: "index_shared_clients_on_client_id", using: :btree
 
   create_table "stages", force: :cascade do |t|
     t.float    "from_age"
@@ -1120,7 +1159,7 @@ ActiveRecord::Schema.define(version: 20180406024720) do
 
   create_table "trackings", force: :cascade do |t|
     t.string   "name",              default: ""
-    t.jsonb    "fields",            default: {}
+    t.jsonb    "fields"
     t.string   "frequency",         default: ""
     t.integer  "time_of_frequency"
     t.integer  "program_stream_id"
@@ -1130,6 +1169,15 @@ ActiveRecord::Schema.define(version: 20180406024720) do
 
   add_index "trackings", ["name", "program_stream_id"], name: "index_trackings_on_name_and_program_stream_id", unique: true, using: :btree
   add_index "trackings", ["program_stream_id"], name: "index_trackings_on_program_stream_id", using: :btree
+
+  create_table "user_custom_fields", id: false, force: :cascade do |t|
+    t.integer  "id",              default: "nextval('user_custom_fields_id_seq'::regclass)", null: false
+    t.text     "properties"
+    t.integer  "user_id"
+    t.integer  "custom_field_id"
+    t.datetime "created_at",                                                                 null: false
+    t.datetime "updated_at",                                                                 null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string   "first_name",                     default: ""
@@ -1168,7 +1216,6 @@ ActiveRecord::Schema.define(version: 20180406024720) do
     t.boolean  "task_notify",                    default: true
     t.integer  "manager_id"
     t.boolean  "calendar_integration",           default: false
-    t.integer  "pin_number"
     t.integer  "manager_ids",                    default: [],                         array: true
     t.boolean  "program_warning",                default: false
     t.boolean  "staff_performance_notification", default: true
@@ -1241,6 +1288,7 @@ ActiveRecord::Schema.define(version: 20180406024720) do
   add_foreign_key "client_client_types", "client_types"
   add_foreign_key "client_client_types", "clients"
   add_foreign_key "client_enrollment_trackings", "client_enrollments"
+  add_foreign_key "client_enrollment_trackings", "client_enrollments"
   add_foreign_key "client_enrollments", "clients"
   add_foreign_key "client_enrollments", "program_streams"
   add_foreign_key "client_interviewees", "clients"
@@ -1271,6 +1319,7 @@ ActiveRecord::Schema.define(version: 20180406024720) do
   add_foreign_key "progress_notes", "progress_note_types"
   add_foreign_key "progress_notes", "users"
   add_foreign_key "quarterly_reports", "cases"
+  add_foreign_key "shared_clients", "clients"
   add_foreign_key "surveys", "clients"
   add_foreign_key "tasks", "clients"
   add_foreign_key "thredded_messageboard_users", "thredded_messageboards"

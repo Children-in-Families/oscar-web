@@ -9,6 +9,28 @@
         .client-info
           = @client.slug
           = @client.gender.try(:titleize)
+        %button.btn.btn-danger{"data-target" => "#myModal", "data-toggle" => "modal", :type => "button"}
+          Transfer
+        #myModal.modal.fade{"aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
+          .modal-dialog{:role => "document"}
+            .modal-content
+              .modal-header
+                %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+                  %span{"aria-hidden" => "true"} ×
+                %h4#myModalLabel.modal-title Transfering Client Form
+              .modal-body
+                - ngos = Organization.all.map{|org| [org.full_name, org.short_name] }
+                - fields = [['Given Name', 'given_name'], ['Family Name', 'family_name'], ['Gender', 'gender']]
+                = simple_form_for [@client, @client.shared_clients.first || @client.shared_clients.build] do |f|
+                  = f.input :destination_ngo, as: :select, collection: ngos, label: 'Please select NGOs'
+                  = f.input :fields, collection: fields, input_html: { multiple: true }, label: 'Please select fields'
+                  = f.input :referral_reason, label: 'Referral Reason'
+                  = f.input :origin_ngo, input_html: { value: Organization.current.short_name }
+                  = f.submit
+
+              .modal-footer
+                %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Close
+
       .col-md-6
         %table.table.small.m-b-xs
           %tbody
