@@ -5,7 +5,7 @@
         %h5= t('.emergency_case.emergency_care')
         .ibox-tools
           - if can? :manage, Case
-            - if current_user.admin? || current_user.case_worker? || current_user.ec_manager? || current_user.manager?
+            - if current_user.admin? || current_user.case_worker? || current_user.manager?
               %small
                 = link_to edit_client_case_path(ec.client, ec) do
                   .btn.btn-outline.btn-success

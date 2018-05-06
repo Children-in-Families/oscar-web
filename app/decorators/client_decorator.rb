@@ -48,14 +48,14 @@ class ClientDecorator < Draper::Decorator
   private
 
   def can_add_ec?
-    return true if h.current_user.admin? || h.current_user.case_worker? || h.current_user.ec_manager? || h.current_user.manager?
+    return true if h.current_user.admin? || h.current_user.case_worker? || h.current_user.manager?
   end
 
   def can_add_fc?
-    return true if h.current_user.admin? || h.current_user.case_worker? || h.current_user.fc_manager? || h.current_user.manager?
+    return true if h.current_user.admin? || h.current_user.case_worker? || h.current_user.manager?
   end
 
   def can_add_kc?
-    return true if h.current_user.admin? || h.current_user.case_worker? || h.current_user.kc_manager? || h.current_user.manager?
+    return true if h.current_user.admin? || h.current_user.case_worker? || h.current_user.manager?
   end
 end
