@@ -9,7 +9,7 @@ describe 'Scheduler' do
     end
   end
 
-  describe 'Reminder exit EC on day 83' do
+  xdescribe 'Reminder exit EC on day 83', skip: '====== Will be reimplemented with EC CPS ======' do
     let(:whenever) { Whenever::JobList.new(file: File.join(Rails.root, 'config', 'schedule.rb').to_s) }
 
     it 'sends to caseworkers of their incomplete upcoming tasks due tomorrow everyday at 00:00 am' do
@@ -17,7 +17,7 @@ describe 'Scheduler' do
     end
   end
 
-  describe 'Reminder exit EC on day 90' do
+  xdescribe 'Reminder exit EC on day 90', skip: '====== Will be reimplemented with EC CPS ======' do
     let(:whenever) { Whenever::JobList.new(file: File.join(Rails.root, 'config', 'schedule.rb').to_s) }
 
     it 'sends to caseworkers of their incomplete upcoming tasks due tomorrow everyday at 00:00 am' do

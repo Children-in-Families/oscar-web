@@ -63,7 +63,6 @@ module ClientsHelper
       slug:                          t('datagrid.columns.clients.id'),
       kid_id:                        t('datagrid.columns.clients.kid_id'),
       code:                          t('datagrid.columns.clients.code'),
-      case_type:                     t('datagrid.columns.clients.case_type'),
       age:                           t('datagrid.columns.clients.age'),
       given_name:                    t('datagrid.columns.clients.given_name'),
       family_name:                   t('datagrid.columns.clients.family_name'),
@@ -96,6 +95,7 @@ module ClientsHelper
       user_ids:                      t('datagrid.columns.clients.case_worker'),
       state:                         t('datagrid.columns.clients.state'),
       family_id:                     t('datagrid.columns.clients.family_id'),
+      family:                        t('datagrid.columns.clients.family'),
       any_assessments:               t('datagrid.columns.clients.assessments'),
       case_note_date:                t('datagrid.columns.clients.case_note_date'),
       case_note_type:                t('datagrid.columns.clients.case_note_type'),
@@ -114,32 +114,20 @@ module ClientsHelper
     label_tag "#{column}_", label_column[column.to_sym]
   end
 
-  def case_button(type)
-    link_to new_client_case_path(@client, case_type: type) do
-      content_tag(:span, '') do
-        content_tag(:span, t(".add_#{type.downcase}_btn"), class: 'text-success')
-      end
-    end
-  end
-
   def ec_manageable
-    current_user.admin? || current_user.case_worker? || current_user.ec_manager? || current_user.manager?
+    current_user.admin? || current_user.case_worker? || current_user.manager?
   end
 
   def fc_manageable
-    current_user.admin? || current_user.case_worker? || current_user.fc_manager? || current_user.manager?
+    current_user.admin? || current_user.case_worker? || current_user.manager?
   end
 
   def kc_manageable
-    current_user.admin? || current_user.case_worker? || current_user.kc_manager? || current_user.manager?
+    current_user.admin? || current_user.case_worker? || current_user.manager?
   end
 
   def can_read_client_progress_note?
-    @client.able? && (current_user.case_worker? || current_user.able_manager? || current_user.admin? || current_user.fc_manager? || current_user.manager? || current_user.kc_manager? || current_user.strategic_overviewer?)
-  end
-
-  def disable_case_histories?
-    'disabled' if current_user.able_manager?
+    @client.able? && (current_user.case_worker? || current_user.admin? || current_user.manager? || current_user.strategic_overviewer?)
   end
 
   def client_custom_fields_list(object)
@@ -161,15 +149,13 @@ module ClientsHelper
     current_address << "#{I18n.t('datagrid.columns.clients.village')} #{client.village}" if client.village.present?
     current_address << "#{I18n.t('datagrid.columns.clients.commune')} #{client.commune}" if client.commune.present?
     if locale == :km
-      current_address << client.district.name.split(' / ').first if client.district.present?
-      current_address << client.province.name.split(' / ').first if client.province.present?
+      current_address << client.district_name.split(' / ').first if client.district.present?
+      current_address << client.province_name.split(' / ').first if client.province.present?
     else
-      current_address << client.district.name.split(' / ').last if client.district.present?
-      current_address << client.province.name.split(' / ').last if client.province.present?
+      current_address << client.district_name.split(' / ').last if client.district.present?
+      current_address << client.province_name.split(' / ').last if client.province.present?
     end
-    country = params[:country].present? ? I18n.t("datagrid.columns.clients.#{params[:country]}") : I18n.t('datagrid.columns.clients.cambodia')
-    current_address << country
-    current_address.compact.join(', ')
+    current_address << 'Cambodia'
   end
 
   def format_array_value(value)
@@ -249,6 +235,40 @@ module ClientsHelper
     value == 'Exited'
   end
 
+  def selected_country
+    country = Setting.first.try(:country_name) || params[:country].presence
+    country.nil? ? 'cambodia' : country
+  end
+
+  def country_address_field(client)
+    country = selected_country
+    current_address = []
+    case country
+    when 'thailand'
+      current_address << client.plot if client.plot.present?
+      current_address << client.road if client.road.present?
+      current_address << client.subdistrict_name if client.subdistrict.present?
+      current_address << client.district_name if client.district.present?
+      current_address << client.province_name if client.province.present?
+      current_address << client.postal_code if client.postal_code.present?
+      current_address << 'Thailand'
+    when 'lesotho'
+      current_address << client.suburb if client.suburb.present?
+      current_address << client.description_house_landmark if client.description_house_landmark.present?
+      current_address << client.directions if client.directions.present?
+      current_address << 'Lesotho'
+    when 'myanmar'
+      current_address << client.street_line1 if client.street_line1.present?
+      current_address << client.street_line2 if client.street_line2.present?
+      current_address << client.township_name if client.township.present?
+      current_address << client.state_name if client.state.present?
+      current_address << 'Myanmar'
+    else
+      current_address = merged_address(client)
+    end
+    current_address.compact.join(', ')
+  end
+
   def enable_assessment_setting?
     setting = Setting.first.try(:disable_assessment)
     setting.nil? ? true : !setting
@@ -273,7 +293,6 @@ module ClientsHelper
       gender_: t('datagrid.columns.clients.gender'),
       date_of_birth_: t('datagrid.columns.clients.date_of_birth'),
       status_: t('datagrid.columns.clients.status'),
-      case_type_: t('datagrid.columns.cases.case_type'),
       birth_province_id_: t('datagrid.columns.clients.birth_province'),
       initial_referral_date_: t('datagrid.columns.clients.initial_referral_date'),
       referral_phone_: t('datagrid.columns.clients.referral_phone'),
@@ -303,16 +322,8 @@ module ClientsHelper
       history_of_high_risk_behaviours_: t('datagrid.columns.clients.history_of_high_risk_behaviours'),
       reason_for_family_separation_: t('datagrid.columns.clients.reason_for_family_separation'),
       rejected_note_: t('datagrid.columns.clients.rejected_note'),
-      case_start_date_: t('datagrid.columns.clients.placements.start_date'),
-      carer_names_: t('datagrid.columns.clients.placements.carer_names'),
-      carer_address_: t('datagrid.columns.clients.placements.carer_address'),
-      carer_phone_number_: t('datagrid.columns.clients.placements.carer_phone_number'),
-      support_amount_: t('datagrid.columns.clients.placements.support_amount'),
-      support_note_: t('datagrid.columns.clients.placements.support_note'),
       form_title_: t('datagrid.columns.clients.form_title'),
-      family_preservation_: t('datagrid.columns.families.family_preservation'),
       family_: t('datagrid.columns.clients.placements.family'),
-      partner_: t('datagrid.columns.partners.partner'),
       code_: t('datagrid.columns.clients.code'),
       age_: t('datagrid.columns.clients.age'),
       slug_: t('datagrid.columns.clients.id'),
@@ -325,13 +336,36 @@ module ClientsHelper
       donor_: t('datagrid.columns.clients.donor'),
       manage_: t('datagrid.columns.clients.manage'),
       changelog_: t('datagrid.columns.changelog'),
-      telephone_number_: t('datagrid.columns.clients.telephone_number')
+      telephone_number_: t('datagrid.columns.clients.telephone_number'),
+      subdistrict_: t('datagrid.columns.clients.subdistrict'),
+      township_: t('datagrid.columns.clients.township'),
+      postal_code_: t('datagrid.columns.clients.postal_code'),
+      road_: t('datagrid.columns.clients.road'),
+      plot_: t('datagrid.columns.clients.plot'),
+      street_line1_: t('datagrid.columns.clients.street_line1'),
+      street_line2_: t('datagrid.columns.clients.street_line2'),
+      suburb_: t('datagrid.columns.clients.suburb'),
+      directions_: t('datagrid.columns.clients.directions'),
+      description_house_landmark_: t('datagrid.columns.clients.description_house_landmark')
     }
     Domain.order_by_identity.each do |domain|
       identity = domain.identity
       field = domain.convert_identity
       label_column = label_column.merge!("#{field}_": identity)
     end
+    QuantitativeType.joins(:quantitative_cases).uniq.each do |quantitative_type|
+      field = quantitative_type.name
+      label_column = label_column.merge!("#{field}_": quantitative_type.name)
+    end
     label_column[column.to_sym]
+  end
+
+  def quantitative_type_readable?(quantitative_type_id)
+    current_user.admin? || current_user.strategic_overviewer? || @quantitative_type_readable_ids.include?(quantitative_type_id)
+  end
+
+  def quantitative_type_cannot_editable?(quantitative_type_id)
+    return false if current_user.admin?
+    return true if @quantitative_type_editable_ids.exclude?(quantitative_type_id)
   end
 end

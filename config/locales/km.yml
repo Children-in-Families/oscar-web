@@ -317,6 +317,8 @@ km:
       current_province: ខេត្តបច្ចុប្បន្ន
       date_of_assessments: កាលបរិច្ឆេទការប៉ាន់ប្រមាណ
       date_of_birth: ថ្ងៃ ខែ ឆ្នាំ កំណើត
+      description_house_landmark: Description of the house and a landmark
+      directions: Directions
       district: ស្រុក/ខណ្ឌ
       donor: ម្ចាស់ជំនួយ
       donor_id: ម្ចាស់ជំនួយ
@@ -355,6 +357,8 @@ km:
       ngo_exit_date: កាលបរិច្ឆេទនៃការចាកចេញពីអង្គការ
       other_info_of_exit: ព័ត៌មានបន្ថែមនៃការចាកចេញ
       placement_start_date: ថ្ងៃបញ្ជូនទៅក្នុងករណី
+      plot: Plot
+      postal_code: Postal Code
       program_stream: កម្មវិធីបន្ទាប់បន្សំ
       province: ខេត្តកំណើត
       province_id: ខេត្តបច្ចុប្បន្ន
@@ -370,14 +374,20 @@ km:
       referred_to_kc: បញ្ជួនទៅករណី KC
       reject_note: កំណត់ហេតុនៃការមិនទទួលយក
       relevant_referral_information: ព័ត៌មានសំខាន់ៗដែលពាក់ព័ន្ធនឹងការបញ្ជូនករណី
+      road: Road
       school_grade: កំរិតថ្នាក់
       school_name: ឈ្មោះសាលារៀន
       slug: លេខសម្គាល់
-      state: ទទួល/បដិសេធ
+      state: State
       status: ស្ថានភាព
+      street_line1: Street Line 1
+      street_line2: Street Line 2
       street_number: ផ្លូវ
+      subdistrict: Subdistrict
+      suburb: Suburb
       telephone_number: លេខទូរស័ព្ទ
       time_of_frequency: ពេលវេលានៃភាពញឹកញាប់
+      township: Township
       type: ប្រភេទនៃទម្រង់បែបបទបន្ថែម
       user_id: បុគ្គលិកគ្រប់គ្រងករណី
       village: ភូមិ
@@ -1052,10 +1062,33 @@ km:
       enrollment_date: កាលបរិច្ឆេទចុះឈ្មោះ
     update:
       successfully_updated: ការចុះឈ្មោះត្រូវបានកែសម្រួលដោយជោគជ័យ
-
   clients:
     actions:
       are_you_sure: តើអ្នកប្រាកដហើយថាចង់លុប?
+    address_forms:
+      cambodia_address_form:
+        commune: អាស័យដ្ឋាន - ឃុំ/សង្កាត់
+        current_province: ខេត្តកំពុងរស់នៅ
+        district: អាស័យដ្ឋាន - ស្រុក/ខណ្ឌ
+        house_number: អាស័យដ្ឋាន - លេខផ្ទះ
+        street_number: អាស័យដ្ឋាន - លេខផ្លូវ
+        village: អាស័យដ្ឋាន - ភូមិ
+      lesotho_address_form:
+        description_house_landmark: Description of the house and a landmark
+        directions: Directions
+        suburb: Suburb
+      myanmar_address_form:
+        state: State
+        street_line1: Street Line 1
+        street_line2: Street Line 2 (optional)
+        township: Township
+      thailand_address_form:
+        district: District
+        plot: Plot/House number, Village
+        postal_code: Postal Code
+        province: Province
+        road: Road
+        subdistrict: Subdistrict
     answer_fields:
       answer: ចម្លើយ
       yes_no: បាទ/អត់ទេ
@@ -1070,12 +1103,10 @@ km:
         custom_form_column: ជួរឈរទម្រង់បែបបទបន្ថែម
         delete_group: លុបក្រុមលក្ខខ័ណ្ឌនៃការស្វែងរក
         export_to_xls: ទាញចេញជាឯកសារប្រភេទ XLS
-        # load_save_search: ផ្ទុកការស្វែងរក
         no_results: មិនមានលទ្ធផល
         program_stream_column: ជួរឈរកម្មវិធីបន្ទាប់បន្សំ
         reset: សំអាត
         results: លទ្ធផល
-        # save_search_settings: រក្សាទុកទម្រង់នៃការស្វែងរក
         search: ស្វែងរក
       form_option:
         basic_fields: ពត៌មានទូទៅរបស់អតិថិជន
@@ -1358,12 +1389,8 @@ km:
 
     living_detail:
       case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
-      commune: អាស័យដ្ឋាន - ឃុំ/សង្កាត់
       contact_details: ព័ត៌មានទំនាក់ទំនងលំអិត
       current_address: អាស័យដ្ឋានបច្ចុប្បន្ន
-      current_province: ខេត្តកំពុងរស់នៅ
-      district: អាស័យដ្ឋាន - ស្រុក/ខណ្ឌ
-      house_number: អាស័យដ្ឋាន - លេខផ្ទះ
       living_detail: ព័ត៌មានរស់នៅលំអិត
       main_school_contact: អាស័យដ្ឋានទំនាក់ទំនងសាលារៀន
       primary_carer_name: អ្នកមើលថែចំបង
@@ -1371,8 +1398,6 @@ km:
       school_grade: កំរិត
       school_name: ឈ្មោះសាលារៀន
       schooling: សាលារៀន
-      street_number: អាស័យដ្ឋាន - លេខផ្លូវ
-      village: អាស័យដ្ឋាន - ភូមិ
       what3words: What3words
 
     new:
@@ -1713,6 +1738,8 @@ km:
         current_province: ខេត្តបច្ចុប្បន្ន
         date_of_assessments: កាលបរិច្ឆេទការប៉ាន់ប្រមាណ
         date_of_birth: ថ្ងៃ ខែ ឆ្នាំ កំណើត
+        description_house_landmark: Description of the house and a landmark
+        directions: Directions
         district: ស្រុក/ខណ្ឌ
         domain: កត្តា
         domains: កត្តា CSI ទាំងអស់
@@ -1772,6 +1799,8 @@ km:
           start_date: ថ្ងៃចាប់ផ្តើម
           support_amount: ប្រាក់ឧបត្ថម្ភ
           support_note: ពត៌មានពីប្រាក់ឧប្ថម្ភ
+        plot: Plot
+        postal_code: Postal Code
         program_enrollment_date: កាលបរិច្ឆេទចុះឈ្មោះ
         program_exit_date: កាលបរិច្ឆេទនៃការចាកចេញពីកម្មវិធី
         program_streams: ឈ្មោះកម្មវិធី
@@ -1786,15 +1815,21 @@ km:
         reject_note: កំណត់ហេតុនៃការមិនទទួលយក
         rejected_note: កំណត់ហេតុនៃការមិនទទួលយក
         relevant_referral_information: ព័ត៌មានសំខាន់ៗដែលពាក់ព័ន្ធនឹងការបញ្ជូនករណី
+        road: Road
         school_grade: កំរិតថ្នាក់
         school_name: ឈ្មោះសាលារៀន
-        state: ទទួល/បដិសេធ
+        state: State
         status: ស្ថានភាព
+        street_line1: Street Line 1
+        street_line2: Street Line 2
         street_number: ផ្លូវ
+        subdistrict: Subdistrict
+        suburb: Suburb
         telephone_number: លេខទូរស័ព្ទ
         thailand: ថៃ
         time_of_frequency: ពេលវេលានៃភាពញឹកញាប់
         total: សរុប
+        township: Township
         type: ប្រភេទនៃទម្រង់បែបបទបន្ថែម
         view: មើល
         village: ភូមិ
@@ -4319,6 +4354,10 @@ km:
       custom_forms: ទម្រង់បែបបទបន្ថែម
       custom_programs: កម្មវិធីបន្ទាប់បន្សំ
       permissions_selector: សិទ្ធិអនុញ្ញាត
+      quantitative_types: ប្រភេទនៃបរិមាណ
+    quantitative_type_permission:
+      can_edit: អាចកែបាន
+      can_view: អាចមើលបាន
     update:
       successfully_updated: អ្នកប្រើប្រាស់ត្រូវបានកែសម្រួលដោយជោគជ័យ
     version:

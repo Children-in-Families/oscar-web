@@ -5,6 +5,7 @@ FactoryGirl.define do
     max_case_note 30
     case_note_frequency 'day'
     disable_assessment false
+    country_name 'cambodia'
 
     trait :yearly_assessment do
       assessment_frequency 'year'

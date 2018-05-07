@@ -5,10 +5,6 @@ class ClientDecorator < Draper::Decorator
     model.code.present? ? model.code : ''
   end
 
-  def name
-    model.name.present? ? model.name : 'Unknown'
-  end
-
   def date_of_birth_format
     model.date_of_birth.strftime('%B %d, %Y') if model.date_of_birth
   end
@@ -47,18 +43,6 @@ class ClientDecorator < Draper::Decorator
 
   def follow_up_by
     model.followed_up_by if model.followed_up_by
-  end
-
-  def ec_button
-    h.case_button('EC') if can_add_ec?
-  end
-
-  def fc_button
-    h.case_button('FC') if can_add_fc?
-  end
-
-  def kc_button
-    h.case_button('KC') if can_add_kc?
   end
 
   private

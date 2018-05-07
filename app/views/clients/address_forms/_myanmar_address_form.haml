@@ -1,0 +1,8 @@
+.col-xs-12.col-sm-6.col-md-4
+  = f.input :street_line1, label: t('.street_line1')
+.col-xs-12.col-sm-6.col-md-4
+  = f.input :street_line2, label: t('.street_line2')
+.col-xs-12.col-sm-6.col-md-4
+  = f.association :state, collection: @states, label: t('.state')
+.col-xs-12.col-sm-6.col-md-4
+  = f.association :township, collection: @townships, label: t('.township')

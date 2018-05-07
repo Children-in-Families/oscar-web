@@ -44,6 +44,8 @@ CIF.UsersShow = do ->
       $(@).parents('.case-note-permission').find('.user_permission_case_notes_readable input.i-checks').iCheck('check')
     $('.user_permission_assessments_editable input.i-checks').on 'ifChecked', (event) ->
       $(@).parents('.assessment-permission').find('.user_permission_assessments_readable input.i-checks').iCheck('check')
+    $('.user_quantitative_type_permissions_editable input.i-checks').on 'ifChecked', (event) ->
+      $(@).parents('.quantitative-type-permission').find('.user_quantitative_type_permissions_readable input.i-checks').iCheck('check')
 
   _autoUncheckEditable = ->
     $('.user_program_stream_permissions_readable input.i-checks').on 'ifUnchecked', (event) ->
@@ -54,5 +56,7 @@ CIF.UsersShow = do ->
       $(@).parents('.case-note-permission').find('.user_permission_case_notes_editable input.i-checks').iCheck('uncheck')
     $('.user_permission_assessments_readable input.i-checks').on 'ifUnchecked', (event) ->
       $(@).parents('.assessment-permission').find('.user_permission_assessments_editable input.i-checks').iCheck('uncheck')
+     $('.user_quantitative_type_permissions_readable input.i-checks').on 'ifUnchecked', (event) ->
+      $(@).parents('.quantitative-type-permission').find('.user_quantitative_type_permissions_editable input.i-checks').iCheck('uncheck')
 
   { init: _init }

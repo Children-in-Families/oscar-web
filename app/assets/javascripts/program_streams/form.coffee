@@ -162,7 +162,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
 
   _addRuleCallback = ->
     $('#program-rule').on 'afterCreateRuleFilters.queryBuilder', ->
-      _initSelect2()
+      $('#rule-tab select').select2(width: '250px')
       _handleSelectOptionChange()
       _filterSelecting()
 
@@ -194,7 +194,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
         builder.initRule()
         setTimeout (->
           _handleSelectTab()
-          _initSelect2()
+          $('#rule-tab select').select2(width: '250px')
           _preventDomainScore()
           ), 100
         _handleSetRules()

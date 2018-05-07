@@ -35,7 +35,7 @@ body[id='client_advanced_searches-index'] {
     th,
     td.gender, td.status, td.follow_up_date, td.date_of_birth, td.school_grade, td.has_been_in_orphanage, td.has_been_in_government_care,
     td.initial_referral_date, td.referral_phone, td.able, td.birth_province, td.province, td.state, td.case_start_date,
-    td.carer_phone_number td.support_amount, td.family_preservation, td.cases, td.accepted_date, td.exit_date {
+    td.cases, td.accepted_date, td.exit_date {
       text-align: center;
     }
 
@@ -47,36 +47,32 @@ body[id='client_advanced_searches-index'] {
       min-width: 130px;
     }
 
-    th.state {
+    th.state, th.township {
       min-width: 135px;
     }
 
-    th.any_assessments, th.able_state, th.house_number, th.street_number, th.village, th.case_note_date, th.case_note_type, th.date_of_assessments {
+    th.any_assessments, th.able_state, th.house_number, th.street_number, th.village, th.case_note_date, th.case_note_type, th.date_of_assessments, th.plot, th.road, th.postal_code {
       min-width: 150px;
     }
 
-    th.code, th.given_name, th.family_name, th.live_with {
-      min-width: 185px;
-    }
-
-    th.kid_id {
+    th.kid_id, th.street_line1, th.street_line2 {
       min-width: 175px;
     }
 
-    th.local_given_name, th.local_family_name, th.commune, th.district {
+     th.code, th.given_name, th.family_name, th.live_with, th.local_given_name, th.local_family_name, th.commune, th.district, th.suburb, th.directions, th.subdistrict {
       min-width: 185px;
     }
 
-    th.name, th.status, th.family, th.partner, th.manage, th.cases, th.form_title, th.family_id,
-    th.initial_referral_date, th.family_preservation, th.current_address, th.accepted_date, th.exit_date,
+    th.name, th.status, th.manage, th.cases, th.form_title,
+    th.initial_referral_date, th.current_address, th.accepted_date, th.exit_date,
     th.program_streams, th.program_enrollment_date, th.program_exit_date, th.exit_reasons, th.exit_circumstance,
-    th.other_info_of_exit, th.exit_note, th.main_school_contact, th.name_of_referee, th.what3words {
+    th.family, th.family_id, th.other_info_of_exit, th.exit_note, th.main_school_contact, th.name_of_referee, th.what3words {
       min-width: 200px;
     }
 
     th.telephone_number, th.age, th.follow_up_date, th.received_by, th.followed_up_by, th.agency, th.date_of_birth,
     th.school_name, th.referral_phone, th.referral_source, th.birth_province, th.province,
-    th.carer_phone_number, th.rejected_note, th.user, th.donor, th.carer_names, th.carer_address, th.support_amount, th.support_note, th.rated_for_id_poor {
+    th.rejected_note, th.user, th.donor, th.rated_for_id_poor {
       min-width: 250px;
     }
 
@@ -84,7 +80,7 @@ body[id='client_advanced_searches-index'] {
       min-width: 260px;
     }
 
-    th.has_been_in_government_care, th.relevant_referral_information {
+    th.has_been_in_government_care, th.relevant_referral_information, th.description_house_landmark, th.quantitative-type {
       min-width: 310px;
     }
 

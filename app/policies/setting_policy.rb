@@ -3,10 +3,6 @@ class SettingPolicy < ApplicationPolicy
     user.admin?
   end
 
-  def country?
-    true
-  end
-
   alias new? index?
   alias create? index?
   alias edit? index?
