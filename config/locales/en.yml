@@ -1590,6 +1590,7 @@ en:
       interventions: Interventions
       locations: Locations
       materials: Equipment/Materials
+      organization_types: Organisation Types
       partner_custom_fields: Partner Custom Forms
       partners: Partners
       program_streams: Program Streams
@@ -1813,7 +1814,7 @@ en:
         id: ID
         manage: Manage
         name: Name
-        organisation_type: Organisation Type
+        organization_type: Organisation Type
         partner: Partner
         province: Province
         start_date: Start Date
@@ -2161,7 +2162,7 @@ en:
     engagement: Engagement
     id: ID
     name: Name
-    organisation_type: Organisation Type
+    organization_type: Organisation Type
     province: Province
     start_date: Start Date
   default_placement_fields:
@@ -3105,6 +3106,7 @@ en:
       log_out: Log out
       manage: Manage
       materials: Equipment/Materials
+      organization_type: Organization Type
       partners: Partners
       program_streams: Program Streams
       progress_note: Progress Note
@@ -3259,6 +3261,37 @@ en:
       most_recent_assessment: Most Recent Assessment
       upcoming_assessment: Upcoming Assessment
   ok: OK
+  organization_types:
+    create:
+      failed_create: Failed to create a organization_type.
+      successfully_created: Organization Type has been successfully created.
+    destroy:
+      alert: Organization Type cannot be deleted.
+      failed_delete: Failed to destroy a organization_type.
+      successfully_deleted: Organization Type has been successfully deleted.
+    edit:
+      title: Edit Organization Type
+    form:
+      cancel: Cancel
+      name: Name
+      organization_type: Organization Type
+      save: Save
+    index:
+      add_new_organization_type: Add New Organization Type
+      are_you_sure: Are you sure you want to delete?
+      changelogs: Changelog
+      manage: Manage
+      organization_type_names: Name
+      organization_types: Organization Types
+      view: View
+    new:
+      title: New Organization Type
+    update:
+      failed_update: Failed to update a organization_type.
+      successfully_updated: Organization Type has been successfully updated.
+    version:
+      back: Back
+      modification_of: Changelog of
   partners:
     actions:
       are_you_sure: Are you sure you want to delete?
@@ -3280,7 +3313,7 @@ en:
       engagement: Engagement
       id: ID
       name: Name
-      organisation_type: Organisation Type
+      organization_type: Organisation Type
       province: Province
       start_date: Start Date
     index:
@@ -3321,7 +3354,7 @@ en:
       general_info: About Partner
       id: ID
       name: Name
-      organisation_type: Organisation Type
+      organization_type: Organisation Type
       province: Province
       start_date: Start Date
     update:
@@ -3820,6 +3853,7 @@ en:
         material: Equipment/Material
         no_modification: There are no any changelog.
         'on': 'on'
+        organization_type: Organisation Type
         partner: Partner
         partner_custom_field: Partner Custom Forms
         progress_note: Progress Note

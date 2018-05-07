@@ -70,6 +70,10 @@ Rails.application.routes.draw do
     get 'version' => 'departments#version'
   end
 
+  resources :organization_types, except: [:show] do
+    get 'version' => 'organization_types#version'
+  end
+
   resources :donors, except: [:show] do
     get 'version' => 'donors#version'
   end

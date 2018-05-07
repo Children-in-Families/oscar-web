@@ -22,7 +22,7 @@ module AdvancedSearches
       end
 
       def text_type_list
-        ['name', 'contact_person_name', 'contact_person_email', 'contact_person_mobile', 'organisation_type', 'engagement', 'affiliation', 'address', 'background']
+        ['name', 'contact_person_name', 'contact_person_email', 'contact_person_mobile', 'organization_type', 'engagement', 'affiliation', 'address', 'background']
       end
 
       def date_type_list

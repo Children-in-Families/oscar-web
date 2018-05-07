@@ -3,7 +3,7 @@ module AdvancedSearches
     class PartnerBaseSqlBuilder
       ASSOCIATION_FIELDS = ['form_title']
       BLANK_FIELDS = ['start_date']
-      SENSITIVITY_FIELDS = %w(name contact_person_name address email contact_person_mobile organisation_type engagement affiliation background)
+      SENSITIVITY_FIELDS = %w(name contact_person_name address email contact_person_mobile organization_type engagement affiliation background)
 
       def initialize(partners, rules)
         @partners     = partners

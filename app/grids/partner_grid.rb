@@ -25,10 +25,10 @@ class PartnerGrid
     scope.contact_person_mobile_like(value)
   end
 
-  filter(:organisation_type, :enum, select: :organisation_type_options, header: -> { I18n.t('datagrid.columns.partners.organisation_type') })
+  filter(:organization_type, :enum, select: :organization_type_options, header: -> { I18n.t('datagrid.columns.partners.organization_type') })
 
-  def organisation_type_options
-    Partner.organisation_type_are
+  def organization_type_options
+    Partner.organization_type_are
   end
 
   filter(:affiliation, :string, header: -> { I18n.t('datagrid.columns.partners.affiliation') }) do |value, scope|
@@ -74,8 +74,10 @@ class PartnerGrid
     object.contact_person_mobile.split('/').map { |b| b.phony_formatted(normalize: :KH, format: :international) }.join(' / ') if object.contact_person_mobile
   end
 
-  column(:organisation_type, header: -> { I18n.t('datagrid.columns.partners.type') }, html: true)
-  column(:organisation_type, header: -> { I18n.t('datagrid.columns.partners.organisation_type') }, html: false)
+  # column(:organization_type, header: -> { I18n.t('datagrid.columns.partners.type') }, html: true)
+  column(:organization_type, header: -> { I18n.t('datagrid.columns.partners.organization_type') }) do |object|
+    object.organization_type.try(:name)
+  end
 
   column(:start_date, header: -> { I18n.t('datagrid.columns.partners.start_date') })
   column(:affiliation, header: -> { I18n.t('datagrid.columns.partners.affiliation') })
