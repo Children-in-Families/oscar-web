@@ -98,10 +98,13 @@ CIF.ClientsIndex = do ->
 
   _toggleCollapseFilter = ->
     $('#client-search-form').on 'show.bs.collapse', ->
+      $('#client-statistic-body').hide()
       $('#client-advance-search-form').collapse('hide')
 
     $('#client-advance-search-form').on 'show.bs.collapse', ->
+      $('#client-statistic-body').hide()
       $('#client-search-form').collapse('hide')
+
 
   _checkClientSearchForm = ->
     $("button.query").on 'click', ->
@@ -212,6 +215,8 @@ CIF.ClientsIndex = do ->
 
   _handleHideShowReport = ->
     $('#client-statistic').click ->
+      $('#client-advance-search-form').collapse('hide')
+      $('#client-search-form').collapse('hide')
       $('#client-statistic-body').slideToggle("slow")
       _handleResizeWindow()
 
