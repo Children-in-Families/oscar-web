@@ -307,6 +307,7 @@ my:
       case_type: အမႈျခင္းရာအမ်ိဳးအစား
       case_worker: အမႈျခင္းရာအတြက္ေဆာင္ရြက္ေပးသူ
       case_worker_or_staff: အမႈျခင္းရာအတြက္ေဆာင္ရြက္ေပးသူ / ၀န္ထမ္း
+      client_enrollment: အမႈသည္စာရင္းေပးသြင္းမႈ
       code: Custom ID Number1
       commune: ရပ္ကြက္/ ေက်းရြာအုပ္စု
       completed: ၿပီး
