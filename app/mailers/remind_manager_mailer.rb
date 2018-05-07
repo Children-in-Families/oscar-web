@@ -4,7 +4,7 @@ class RemindManagerMailer < ApplicationMailer
     @manager      = manager
     @case_workers = case_workers_overdue_tasks(case_workers)
     return unless @case_workers.present?
-    mail(to: @manager.email, subject: 'Case workers Overdue Task')
+    mail(to: @manager.email, subject: 'Case workers have overdue assessments, tasks or forms that are more than a week overdue')
   end
 
   def case_workers_overdue_tasks(users)
