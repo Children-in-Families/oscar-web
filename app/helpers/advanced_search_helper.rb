@@ -145,7 +145,7 @@ module AdvancedSearchHelper
       contact_person_email:                     I18n.t('datagrid.columns.partners.contact_email'),
       contact_person_mobile:                    I18n.t('datagrid.columns.partners.contact_mobile'),
       address:                                  I18n.t('datagrid.columns.partners.address'),
-      organization_type:                        I18n.t('datagrid.columns.partners.organization_type'),
+      organization_type_id:                     I18n.t('datagrid.columns.partners.organization_type'),
       affiliation:                              I18n.t('datagrid.columns.partners.affiliation'),
       province_id:                              I18n.t('datagrid.columns.partners.province'),
       engagement:                               I18n.t('datagrid.columns.partners.engagement'),
