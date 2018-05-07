@@ -93,7 +93,7 @@ describe 'Client' do
       scenario 'enable assessment tool' do
         expect(page).to have_link('Assessments', href: client_assessments_path(client))
       end
-       
+
       scenario 'disable assessment tool' do
         setting.update(disable_assessment: true)
         visit current_path
@@ -196,6 +196,29 @@ describe 'Client' do
         expect(page).to have_link(nil, href: edit_client_client_enrollment_leave_program_path(client, client_enrollment, leave_program, program_stream_id: program_stream))
       end
     end
+
+    feature 'Specific point of Referral Data Permission' do
+      let!(:quantitative_type){ create(:quantitative_type) }
+      let!(:second_quantitative_type){ create(:quantitative_type) }
+      let!(:quantitative_case){ create(:quantitative_case, quantitative_type: quantitative_type) }
+      let!(:second_quantitative_case){ create(:quantitative_case, quantitative_type: second_quantitative_type) }
+      let!(:client){ create(:client, :accepted, quantitative_case_ids: [quantitative_case.id, second_quantitative_case.id], users: [user]) }
+      let!(:quantitative_type_permission){ create(:quantitative_type_permission, quantitative_type_id: quantitative_type.id, user_id: user.id, readable: false) }
+      let!(:quantitative_type_readable_permission){ create(:quantitative_type_permission, quantitative_type_id: second_quantitative_type.id, user_id: user.id) }
+
+      before do
+        login_as(user)
+        visit client_path(client)
+      end
+
+      scenario 'Can Read Referral Data' do
+        expect(page).to have_content(second_quantitative_type.name)
+      end
+
+      scenario 'Cannot Read Referral Data' do
+        expect(page).not_to have_content(quantitative_type.name)
+      end
+    end
   end
 
   xfeature 'New', skip: '=== Capybara cannot find jQuery steps link ===' do
@@ -271,6 +294,35 @@ describe 'Client' do
     end
   end
 
+  feature 'edit client', js: true do
+    let!(:client){ create(:client, users: [user]) }
+    before do
+      login_as(admin)
+      visit edit_client_path(client)
+    end
+
+    scenario 'click tab Getting Started', js: true do
+      click_link 'Getting Started'
+      page.has_field?('client[initial_referral_date]')
+    end
+
+    scenario 'click tab Living Details', js: true do
+      click_link 'Living Details'
+      page.has_field?('client[live_with]')
+    end
+
+    scenario 'click tab Other Details', js: true do
+      click_link 'Other Details'
+      page.has_field?('client[agency_ids][]')
+    end
+
+    scenario 'click tab Specific Point-of-Referral Data', js: true do
+      click_link 'Specific Point-of-Referral Data'
+      page.has_field?('client[quantitative_case_ids][]')
+    end
+
+  end
+
   feature 'Delete' do
     let!(:client){ create(:client, users: [user]) }
     before do
@@ -320,7 +372,7 @@ describe 'Client' do
       # end
 
       scenario 'Exit NGO Button' do
-        expect(page).to have_content('Exit From NGO')
+        expect(page).to have_content('Exit Client From NGO')
       end
     end
 
@@ -336,11 +388,6 @@ describe 'Client' do
       # scenario 'Emergency Case Button' do
       #   expect(page).not_to have_link('Add to EC', href: new_client_case_path(ec_client, case_type: 'EC'))
       # end
-
-      scenario 'Exit From EC' do
-        exit_case_button = find('.exit-case-warning')
-        expect(exit_case_button).to have_content('Exit From EC')
-      end
     end
 
     feature 'Inactive Client' do
@@ -543,7 +590,7 @@ describe 'Client' do
 
     scenario 'Exit client after accepted' do
       visit client_path(accepted_client)
-      click_button 'Add Client to Case'
+      click_button 'add-client-to-case'
       find("a[data-target='#exitFromNgo']").click
       fill_in 'exit_ngo_exit_date', with: Date.today
       fill_in 'exit_ngo_exit_note', with: 'Note'
@@ -558,7 +605,7 @@ describe 'Client' do
     context 'Client still actively enrolled in a program' do
       scenario 'Pop up warning' do
         visit client_path(active_client)
-        click_button 'Add Client to Case'
+        click_button 'add-client-to-case'
         find("a[data-target='#remaining-programs-modal']").click
         expect(page).to have_content('This client is still actively enrolled in 1 programs.')
         expect(page).to have_link('Click here to exit program')

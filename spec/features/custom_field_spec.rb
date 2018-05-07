@@ -1,6 +1,5 @@
 feature 'custom_field' do
   let!(:admin){ create(:user, roles: 'admin') }
-  let!(:ec_manager){ create(:user, roles: 'ec manager') }
   let!(:custom_field) { create(:custom_field, frequency: 'Daily', time_of_frequency: 1) }
   let!(:search_custom_field) { create(:custom_field, form_title: 'Search Custom Field', frequency: 'Daily', time_of_frequency: 1) }
 

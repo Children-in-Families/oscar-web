@@ -25,7 +25,6 @@ class ClientColumnsVisibility
       gender_: :gender,
       date_of_birth_: :date_of_birth,
       status_: :status,
-      case_type_: :cases,
       birth_province_id_: :birth_province,
       initial_referral_date_: :initial_referral_date,
       referral_phone_: :referral_phone,
@@ -41,13 +40,23 @@ class ClientColumnsVisibility
       village_: :village,
       commune_: :commune,
       district_: :district,
+      subdistrict_: :subdistrict,
+      state_: :state,
+      township_: :township,
+      suburb_: :suburb,
+      description_house_landmark_: :description_house_landmark,
+      directions_: :directions,
+      street_line1_: :street_line1,
+      street_line2_: :street_line2,
+      postal_code_: :postal_code,
+      plot_: :plot,
+      road_: :road,
       school_name_: :school_name,
       school_grade_: :school_grade,
       has_been_in_orphanage_: :has_been_in_orphanage,
       has_been_in_government_care_: :has_been_in_government_care,
       relevant_referral_information_: :relevant_referral_information,
       user_ids_: :user,
-      state_: :state,
       accepted_date_: :accepted_date,
       exit_date_: :exit_date,
       history_of_disability_and_or_illness_: :history_of_disability_and_or_illness,
@@ -55,16 +64,8 @@ class ClientColumnsVisibility
       history_of_high_risk_behaviours_: :history_of_high_risk_behaviours,
       reason_for_family_separation_: :reason_for_family_separation,
       rejected_note_: :rejected_note,
-      case_start_date_: :case_start_date,
-      carer_names_: :carer_names,
-      carer_address_: :carer_address,
-      carer_phone_number_: :carer_phone_number,
-      support_amount_: :support_amount,
-      support_note_: :support_note,
-      form_title_: :form_title,
-      family_preservation_: :family_preservation,
       family_: :family,
-      partner_: :partner,
+      form_title_: :form_title,
       code_: :code,
       age_: :age,
       slug_: :slug,
@@ -104,18 +105,25 @@ class ClientColumnsVisibility
 
   def domain_score_columns
     columns = columns_collection
-    # if @params[:controller] != 'clients'
     Domain.order_by_identity.each do |domain|
       identity = domain.identity
       field = domain.convert_identity
       columns = columns.merge!("#{field}_": field.to_sym)
     end
-    # end
+    columns
+  end
+
+  def quantitative_type_columns
+    columns = domain_score_columns
+    QuantitativeType.joins(:quantitative_cases).uniq.each do |quantitative_type|
+      field = quantitative_type.name
+      columns = columns.merge!("#{field}_": field.to_sym)
+    end
     columns
   end
 
   def add_custom_builder_columns
-    columns = domain_score_columns
+    columns = quantitative_type_columns
     if @params[:column_form_builder].present?
       @params[:column_form_builder].each do |column|
         field   = column['id']

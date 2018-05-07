@@ -122,8 +122,6 @@ module ApplicationHelper
       'col-xs-12'
     elsif user.any_case_manager?
       'col-xs-12'
-    elsif user.able_manager?
-      'col-sm-6'
     elsif user.case_worker?
       'col-sm-4'
     end
@@ -170,7 +168,7 @@ module ApplicationHelper
   end
 
   def entity_name(entity)
-    entity.name.present? ? entity.name : 'Unknown'
+    entity.name
   end
 
   def progarm_stream_action

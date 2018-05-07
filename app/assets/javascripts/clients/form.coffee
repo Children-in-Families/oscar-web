@@ -6,10 +6,21 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
     _initICheck()
     _ajaxCheckExistClient()
     _ajaxChangeDistrict()
+    _ajaxChangeSubDistrict()
+    _ajaxChangeTownship()
     _initDatePicker()
     _replaceSpanBeforeLabel()
     _replaceSpanAfterRemoveField()
     _clientSelectOption()
+    _removeSaveButton()
+    _setSaveButton()
+    _removeMarginOnNewForm()
+    _setMarginToClassActions()
+    _setCancelButtonPosition()
+    _handReadonlySpecificPoint()
+
+  _handReadonlySpecificPoint = ->
+    $('#specific-point select[data-readonly="true"]').select2('readonly', true)
 
   _ajaxChangeDistrict = ->
     $('#client_province_id').on 'change', ->
@@ -25,6 +36,36 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
             districts = response.districts
             for district in districts
               $('select#client_district_id').append("<option value='#{district.id}'>#{district.name}</option>")
+
+  _ajaxChangeSubDistrict = ->
+    $('#client_district_id').on 'change', ->
+      district_id = $(@).val()
+      $('select#client_subdistrict_id').val(null).trigger('change')
+      $('select#client_subdistrict_id option[value!=""]').remove()
+      if district_id != ''
+        $.ajax
+          method: 'GET'
+          url: "/api/districts/#{district_id}/subdistricts"
+          dataType: 'JSON'
+          success: (response) ->
+            subdistricts = response.subdistricts
+            for subdistrict in subdistricts
+              $('select#client_subdistrict_id').append("<option value='#{subdistrict.id}'>#{subdistrict.name}</option>")
+
+  _ajaxChangeTownship = ->
+    $('#client_state_id').on 'change', ->
+      state_id = $(@).val()
+      $('select#client_township_id').val(null).trigger('change')
+      $('select#client_township_id option[value!=""]').remove()
+      if state_id != ''
+        $.ajax
+          method: 'GET'
+          url: "/api/states/#{state_id}/townships"
+          dataType: 'JSON'
+          success: (response) ->
+            townships = response.townships
+            for township in townships
+              $('select#client_township_id').append("<option value='#{township.id}'>#{township.name}</option>")
 
   _ajaxCheckExistClient = ->
     $("a[href='#finish']").click ->
@@ -124,10 +165,11 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
       headerTag: 'h3'
       bodyTag: 'section'
       transitionEffect: 'slideLeft'
-      enableKeyNavigation: false
+      enableKeyNavigation: true
+      enableAllSteps: true
 
       onStepChanging: (event, currentIndex, newIndex) ->
-        if currentIndex == 0 and newIndex == 1 and $('#getting-started').is(':visible')
+        if currentIndex == 0 and (1 <= newIndex <=3 ) and $('#getting-started').is(':visible')
           _validateForm()
           form.valid()
           client_received_by_id         = $('#client_received_by_id').val() == ''
@@ -147,7 +189,6 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
               return false
             else
               return true
-
         else
           return true
 
@@ -163,10 +204,18 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
         previous: self.filterTranslation.previous
         finish: self.filterTranslation.done
 
+      $(document).keydown (e) ->
+        if !($('.form-control').is(':focus'))
+          if e.keyCode == 39
+            $('.current').next().focus()
+
+          if e.keyCode == 37
+            $('.current').prev().focus()
+
   _replaceSpanAfterRemoveField = ->
     $('#client_initial_referral_date').on 'input', ->
       if $(this).val() == ''
-         $("a[href='#next']").click()
+        $("a[href='#next']").click()
 
   _replaceSpanBeforeLabel = ->
     $("a[href='#next']").click ->
@@ -174,6 +223,71 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
       labelElement      = $('#client_initial_referral_date-error')
 
       labelElement.insertAfter inputGroupElement
+
+    $("a[href='#steps-uid-0-h-1']").click ->
+      inputGroupElement = $('.client_initial_referral_date > .input-group')
+      labelElement      = $('#client_initial_referral_date-error')
+
+      labelElement.insertAfter inputGroupElement
+
+  _removeSaveButton = ->
+    $("a[href='#next']").click ->
+      if $(".last").attr('aria-selected') == 'true'
+        $('.save-edit-client').hide()
+        $('.actions').css 'margin-left', '0'
+        $('.cancel-client-button').css 'margin-top', '-67px'
+
+    $("a[href='#steps-uid-0-h-3']").click ->
+      if $(".last").attr('aria-selected') == 'true'
+        $('.save-edit-client').hide()
+        $('.actions').css 'margin-left', '0'
+        $('.cancel-client-button').css 'margin-top', '-67px'
+
+  _setSaveButton = ->
+    current_url = window.location.href
+    if $('.edit-form').length
+      $("a[href='#previous']").click ->
+        if $(".last").attr('aria-selected') != 'true'
+          _saveButton()
+      $("a[href='#steps-uid-0-h-0']").click ->
+        _saveButton()
+      $("a[href='#steps-uid-0-h-1']").click ->
+        _saveButton()
+      $("a[href='#steps-uid-0-h-2']").click ->
+        _saveButton()
+
+  _saveButton = ->
+    current_url = window.location.href
+    if $(".last").attr('aria-selected') != 'true'
+      $('.save-edit-client').show()
+      $('.cancel-client-button').css 'margin-top', '-97px'
+      if current_url.includes('locale=my')
+        $('.actions').css 'margin-left', '-150px'
+      else if current_url.includes('locale=km')
+        $('.actions').css 'margin-left', '-70px'
+      else
+        $('.actions').css 'margin-left', '-60px'
+
+  _setMarginToClassActions = ->
+    current_url = window.location.href
+    if $('.edit-form').length
+      if current_url.includes('locale=my')
+        $('.actions').css 'margin-left', '-150px'
+      else if current_url.includes('locale=km')
+        $('.actions').css 'margin-left', '-70px'
+      else
+        $('.actions').css 'margin-left', '-60px'
+
+  _removeMarginOnNewForm = ->
+    if $('.client-form-title').length
+      $('.actions').css 'margin-left', '0px'
+
+  _setCancelButtonPosition = ->
+    $('.cancel-client-button').css 'margin-left', '8px'
+    if $('.edit-form').length
+      $('.cancel-client-button').css 'margin-top', '-97px'
+    else
+      $('.cancel-client-button').css 'margin-top', '-67px'
 
   _validateForm = ->
     self = @

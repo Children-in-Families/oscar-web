@@ -12,7 +12,7 @@
                   .panel.panel-default
                     .panel-body
                       = render 'users_filter'
-                - if params[:user_id] || current_user.case_worker? || current_user.any_case_manager? || current_user.able_manager?
+                - if params[:user_id] || current_user.case_worker? || current_user.manager?
                   = render 'overdue'
                   = render 'duetoday'
                   = render 'upcoming'

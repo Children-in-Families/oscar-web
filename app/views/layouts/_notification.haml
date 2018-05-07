@@ -88,18 +88,18 @@
               .col-xs-11
                 = t('.upcoming_assessments_count', count: @notification.upcoming_csi_assessments[:csi_count])
       %li.divider
-    - if current_user.admin? || current_user.ec_manager?
-      - (83..90).each do |day|
-        - if @notification.ec_notification(day).count >= 1
-          %li
-            %div.align-link
-              = link_to clients_path("client_grid[status]": "Active EC", "client_grid[placement_date]": [(Date.today-"#{day}".to_i).strftime("%Y-%m-%d"),(Date.today-"#{day}".to_i).strftime("%Y-%m-%d")]) do
-                .row
-                  .col-xs-1
-                    %i.fa.fa-tasks.fa-fw.task-sign
-                  .col-xs-11
-                    = notification_client_exit(day)
-          %li.divider
+    -# - if current_user.admin?
+    -#   - (83..90).each do |day|
+    -#     - if @notification.ec_notification(day).count >= 1
+    -#       %li
+    -#         %div.align-link
+    -#           = link_to clients_path("client_grid[status]": "Active", "client_grid[placement_date]": [(Date.today-"#{day}".to_i).strftime("%Y-%m-%d"),(Date.today-"#{day}".to_i).strftime("%Y-%m-%d")]) do
+    -#             .row
+    -#               .col-xs-1
+    -#                 %i.fa.fa-tasks.fa-fw.task-sign
+    -#               .col-xs-11
+    -#                 = notification_client_exit(day)
+    -#       %li.divider
     - if can? :manage, Client
       - if @notification.any_client_custom_field_frequency_due_today?
         %li

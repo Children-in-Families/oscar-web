@@ -1,8 +1,8 @@
-.col-xs-12{ class: ('col-md-6' if !current_user.case_worker? && !current_user.able_manager?) }
+.col-xs-12{ class: ('col-md-6' if !current_user.case_worker?) }
   .panel.panel-default.bottom-panel
     .panel-body
       .row
-        - if current_user.admin? || current_user.case_worker? || current_user.strategic_overviewer? || current_user.able_manager?
+        - if current_user.admin? || current_user.case_worker? || current_user.strategic_overviewer?
           %div{ class: "#{dynamic_third_party_cols(current_user)} text-center" }
             .widget.style1.widget-able-panel
               .row

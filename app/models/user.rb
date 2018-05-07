@@ -5,7 +5,7 @@ class User < ActiveRecord::Base
   include ClientEnrollmentTrackingNotification
   include ApplicationHelper
 
-  ROLES = ['admin', 'case worker', 'able manager', 'ec manager', 'fc manager', 'kc manager', 'manager', 'strategic overviewer'].freeze
+  ROLES = ['admin', 'manager', 'case worker', 'strategic overviewer'].freeze
   MANAGERS = ROLES.select { |role| role if role.include?('manager') }
 
   devise :database_authenticatable, :registerable,
@@ -42,9 +42,12 @@ class User < ActiveRecord::Base
   has_many :user_custom_field_permissions, through: :custom_field_permissions
   has_many :program_stream_permissions, -> { order_by_program_name }, dependent: :destroy
   has_many :program_streams, through: :program_stream_permissions
+  has_many :quantitative_type_permissions, -> { order_by_quantitative_type }, dependent: :destroy
+  has_many :quantitative_types, through: :quantitative_type_permissions
 
   accepts_nested_attributes_for :custom_field_permissions
   accepts_nested_attributes_for :program_stream_permissions
+  accepts_nested_attributes_for :quantitative_type_permissions
   accepts_nested_attributes_for :permission
 
   validates :roles, presence: true, inclusion: { in: ROLES }
@@ -62,16 +65,13 @@ class User < ActiveRecord::Base
   scope :province_are,    ->        { joins(:province).pluck('provinces.name', 'provinces.id').uniq }
   scope :has_clients,     ->        { joins(:clients).without_json_fields.uniq }
   scope :managers,        ->        { where(roles: MANAGERS) }
-  scope :able_managers,   ->        { where(roles: 'able manager') }
-  scope :ec_managers,     ->        { where(roles: 'ec manager') }
-  scope :fc_managers,     ->        { where(roles: 'fc manager') }
-  scope :kc_managers,     ->        { where(roles: 'kc manager') }
   scope :non_strategic_overviewers, -> { where.not(roles: 'strategic overviewer') }
   scope :staff_performances,        -> { where(staff_performance_notification: true) }
   scope :non_devs,                  -> { where.not(email: [ENV['DEV_EMAIL'], ENV['DEV2_EMAIL'], ENV['DEV3_EMAIL']]) }
   scope :non_locked,                -> { where(disable: false) }
 
   before_save :assign_as_admin
+
   before_save  :set_manager_ids, if: 'manager_id_changed?'
   after_save :reset_manager, if: 'roles_changed?'
   after_create :build_permission
@@ -87,6 +87,10 @@ class User < ActiveRecord::Base
       ProgramStream.all.each do |ps|
         self.program_stream_permissions.create(program_stream_id: ps.id)
       end
+
+      QuantitativeType.all.each do |qt|
+        self.quantitative_type_permissions.create(quantitative_type_id: qt.id)
+      end
     end
   end
 
@@ -101,8 +105,7 @@ class User < ActiveRecord::Base
   end
 
   def name
-    full_name = "#{first_name} #{last_name}"
-    full_name.present? ? full_name : 'Unknown'
+    "#{first_name} #{last_name}"
   end
 
   def assign_as_admin
@@ -114,11 +117,11 @@ class User < ActiveRecord::Base
   end
 
   def any_case_manager?
-    ec_manager? || fc_manager? || kc_manager?
+    manager?
   end
 
   def any_manager?
-    any_case_manager? || able_manager? || manager?
+    manager?
   end
 
   def no_any_associated_objects?
@@ -202,9 +205,6 @@ class User < ActiveRecord::Base
       User.all
     elsif user.manager? || user.any_case_manager?
       User.where('id = :user_id OR manager_ids && ARRAY[:user_id]', { user_id: user.id })
-    elsif user.able_manager?
-      user_ids = Client.able.joins(:users).pluck('users.id') << user.id
-      User.where(id: user_ids.uniq)
     end
   end
 
@@ -247,7 +247,7 @@ class User < ActiveRecord::Base
   end
 
   def get_custom_fields_by_role
-    roles = ['admin', 'kc manager', 'fc manager', 'ec manager', 'manager']
+    roles = ['admin', 'manager']
     user_role = self.roles
     roles.include?(user_role)? CustomField.order('lower(form_title)') : CustomField.client_forms.order('lower(form_title)')
   end
@@ -255,6 +255,12 @@ class User < ActiveRecord::Base
   def populate_program_streams
     ProgramStream.order('lower(name)').each do |ps|
       program_stream_permissions.build(program_stream_id: ps.id)
+    end
+  end
+
+  def populate_quantitative_types
+    QuantitativeType.order('lower(name)').each do |qt|
+      quantitative_type_permissions.build(quantitative_type_id: qt.id)
     end
   end
 

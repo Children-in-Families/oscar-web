@@ -1,15 +1,12 @@
 module AdvancedSearches
   class ClientBaseSqlBuilder
-    ASSOCIATION_FIELDS = ['user_id', 'case_type', 'agency_name', 'form_title',
-                          'placement_date', 'family', 'age', 'family_id',
-                          'referred_to_ec', 'referred_to_fc', 'referred_to_kc',
-                          'exit_ec_date', 'exit_fc_date', 'exit_kc_date',
+    ASSOCIATION_FIELDS = ['user_id', 'agency_name', 'form_title', 'age', 'family', 'family_id',
                           'program_stream', 'case_note_date', 'case_note_type',
                           'date_of_assessments', 'accepted_date',
                           'exit_date', 'exit_note', 'other_info_of_exit',
                           'exit_circumstance', 'exit_reasons']
 
-    BLANK_FIELDS = ['date_of_birth', 'initial_referral_date', 'follow_up_date', 'has_been_in_orphanage', 'has_been_in_government_care', 'province_id', 'referral_source_id', 'birth_province_id', 'received_by_id', 'followed_up_by_id', 'donor_id', 'district_id']
+    BLANK_FIELDS = ['date_of_birth', 'initial_referral_date', 'follow_up_date', 'has_been_in_orphanage', 'has_been_in_government_care', 'province_id', 'referral_source_id', 'birth_province_id', 'received_by_id', 'followed_up_by_id', 'donor_id', 'district_id', 'subdistrict_id', 'township_id', 'state_id']
     SENSITIVITY_FIELDS = %w(given_name family_name local_given_name local_family_name kid_id code school_name school_grade street_number house_number village commune live_with relevant_referral_information telephone_number name_of_referee main_school_contact what3words)
 
     def initialize(clients, rules)

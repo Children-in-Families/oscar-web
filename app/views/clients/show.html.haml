@@ -55,21 +55,16 @@
           - if can? :manage, Case
             .btn-group.small-btn-margin
               %button.btn-sm.btn.btn-primary.dropdown-toggle.btn-fit{ "data-toggle" => "dropdown", id: 'add-client-to-case', class: ('disabled' if status_exited?(@client.status)) }
-                = t('.add_client_to_case')
+                = t('.exit_ngo_btn')
                 %span.caret
               %ul.dropdown-menu.btn-fit
-                - if @client.cases.exclude_referred.current.blank?
-                  %li
-                    - if @client.client_enrollments.active.count > 0
-                      %a{"data-target" => '#remaining-programs-modal', "data-toggle" => 'modal'}
-                        .text-warning= t('.exit_ngo_btn')
-                    - else
-                      %a{"data-target" => '#exitFromNgo', "data-toggle" => 'modal'}
-                        .text-warning= t('.exit_ngo_btn')
-                - if @client.cases.exclude_referred.current.present?
-                  %li
-                    %a{"data-target" => '#exit-from-case', "data-toggle" => 'modal'}
-                      .text-warning.exit-case-warning= t(".exit_from_#{@client.cases.exclude_referred.current.case_type.downcase}")
+                %li
+                  - if @client.client_enrollments.active.count > 0
+                    %a{"data-target" => '#remaining-programs-modal', "data-toggle" => 'modal'}
+                      .text-warning= t('.exit_ngo_btn')
+                  - else
+                    %a{"data-target" => '#exitFromNgo', "data-toggle" => 'modal'}
+                      .text-warning= t('.exit_ngo_btn')
 
             - if @client.client_enrollments.active.count > 0
               = render 'remaining_programs', client: @client
@@ -121,7 +116,7 @@
                 %span.btn-sm.btn.color-brown.small-btn-margin.btn-fit= t('.view_legacy_quarterly_reports')
           - if @client.cases.exclude_referred.inactive.present?
             .btn-group.small-btn-margin
-              %button.btn-fit{ class: "btn btn-sm btn-warning dropdown-toggle #{disable_case_histories?}", "data-toggle" => "dropdown" }
+              %button.btn-fit{ class: "btn btn-sm btn-warning dropdown-toggle", "data-toggle" => "dropdown" }
                 = t('.case_history')
                 %span.caret
               %ul.dropdown-menu.btn-fit
@@ -210,7 +205,7 @@
                   = t('.address')
                 %td.address
                   %strong
-                    = merged_address(@client)
+                    = country_address_field(@client)
               %tr
                 %td.spacing-first-col
                   = t('.what3words')
@@ -363,6 +358,7 @@
           .col-xs-12
             %table.table.table-bordered
               - @client.quantitative_cases.group_by(&:quantitative_type).each do |qtypes|
+                - next unless quantitative_type_readable?(qtypes.first.id)
                 %tr
                   %td.align-justify
                     = qtypes.first.name

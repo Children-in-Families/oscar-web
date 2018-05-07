@@ -3,6 +3,7 @@ class CustomFieldProperty < ActiveRecord::Base
 
   belongs_to :custom_formable, polymorphic: true
   belongs_to :custom_field
+  belongs_to :user
 
   has_many :form_builder_attachments, as: :form_buildable, dependent: :destroy
 
