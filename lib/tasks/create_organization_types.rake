@@ -13,6 +13,18 @@ namespace :organization_types do
         partner.organization_type_id = organization_type.id
         partner.save
       end
+
+      PaperTrail::Version.where(item_type: 'Partner').each do |version|
+        if version.object.present?
+          obj = version.object.gsub(/^organisation_type:/, 'archive_organization_type:')
+          version.update(object: obj)
+        end
+
+        if version.object_changes.present?
+          obj = version.object_changes.gsub(/^organisation_type:/, 'archive_organization_type:')
+          version.update(object_changes: obj)
+        end
+      end
     end
   end
 end
