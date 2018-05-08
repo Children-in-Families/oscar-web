@@ -17,6 +17,7 @@ class ClientsController < AdminController
   before_action :find_resources, only: :show
   before_action :quantitative_type_editable, only: [:edit, :update, :new, :create]
   before_action :quantitative_type_readable
+  before_action :validate_referral_client_id, only: [:new, :create]
 
   def index
     @client_default_columns = Setting.first.try(:client_default_columns)
@@ -81,7 +82,21 @@ class ClientsController < AdminController
   end
 
   def new
-    @client = Client.new
+    current_ngo = Organization.current.short_name
+    if params[:cid].present? && params[:origin].present?
+      Organization.switch_to params[:origin]
+      client = Client.friendly.find(params[:cid])
+      fields = client.shared_clients.first.fields
+      fields = Hash[fields.collect { |item| [item, client.send(item)] } ]
+      fields['origin_id'] = params[:cid]
+      Organization.switch_to current_ngo
+      @client = Client.new(fields)
+      # @client.origin_id = params[:cid]
+
+    else
+      @client = Client.new
+    end
+
     @client.populate_needs
     @client.populate_problems
   end
@@ -93,6 +108,7 @@ class ClientsController < AdminController
 
   def create
     @client = Client.new(client_params)
+
     if @client.save
       redirect_to @client, notice: t('.successfully_created')
     else
@@ -142,7 +158,7 @@ class ClientsController < AdminController
   def client_params
     remove_blank_exit_reasons
     params.require(:client)
-          .permit(
+          .permit(:origin_id,
             :code, :name_of_referee, :main_school_contact, :rated_for_id_poor, :what3words, :status,
             :kid_id, :assessment_id, :given_name, :family_name, :local_given_name, :local_family_name, :gender, :date_of_birth,
             :birth_province_id, :initial_referral_date, :referral_source_id, :telephone_number,
@@ -223,5 +239,10 @@ class ClientsController < AdminController
 
   def quantitative_type_readable
     @quantitative_type_readable_ids = current_user.quantitative_type_permissions.readable.pluck(:quantitative_type_id)
+  end
+
+  def validate_referral_client_id
+    return unless params[:cid].present? && params[:origin].present?
+    redirect_to root_path, alert: 'Client already exists!' if Client.find_by(origin_id: params[:cid]).present?
   end
 end

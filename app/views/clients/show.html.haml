@@ -9,8 +9,20 @@
         .client-info
           = @client.slug
           = @client.gender.try(:titleize)
-        %button.btn.btn-danger{"data-target" => "#myModal", "data-toggle" => "modal", :type => "button"}
-          Transfer
+        - if @client.valid?
+          %button.btn.btn-danger{"data-target" => "#myModal", "data-toggle" => "modal", :type => "button"}
+            Transfer
+        - else
+          %button.btn.btn-danger{"data-target" => "#invalidTransfer", "data-toggle" => "modal", :type => "button"}
+            Transfer
+        #invalidTransfer.modal.fade{"aria-labelledby" => "invalidTransfer", :role => "dialog", :tabindex => "-1"}
+          .modal-dialog{:role => "document"}
+            .modal-content
+              .modal-header
+                %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+                  %span{"aria-hidden" => "true"} ×
+              .modal-body
+                %p Please complete all required client information before you can transfer this client.
         #myModal.modal.fade{"aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
           .modal-dialog{:role => "document"}
             .modal-content
@@ -20,7 +32,8 @@
                 %h4#myModalLabel.modal-title Transfering Client Form
               .modal-body
                 - ngos = Organization.all.map{|org| [org.full_name, org.short_name] }
-                - fields = [['Given Name', 'given_name'], ['Family Name', 'family_name'], ['Gender', 'gender']]
+                - keys_blacklist = %W(id slug)
+                - fields = @client.attributes.except(*keys_blacklist).keys
                 = simple_form_for [@client, @client.shared_clients.first || @client.shared_clients.build] do |f|
                   = f.input :destination_ngo, as: :select, collection: ngos, label: 'Please select NGOs'
                   = f.input :fields, collection: fields, input_html: { multiple: true }, label: 'Please select fields'
