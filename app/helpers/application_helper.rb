@@ -225,18 +225,4 @@ module ApplicationHelper
     return false unless params.dig(:partner_grid, :descending).present? || (params[:partner_advanced_search].present? && params.dig(:partner_grid, :descending).present?) || params[:partner_grid].nil? || params[:partner_advanced_search].nil?
     setting_default_columns.include?(column.to_s)
   end
-
-  def adult?(client)
-    if client.date_of_birth.present?
-      client_age = client.age_as_years
-      if client_age >= 18
-        return true
-      else
-        return false
-      end
-    else
-      return false
-    end
-  end
-
 end

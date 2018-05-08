@@ -4,7 +4,7 @@ class AssessmentsController < AdminController
   before_action :find_client, :check_current_organization
   before_action :find_assessment, only: [:edit, :update, :show]
   before_action :authorize_client, only: [:new, :create]
-  before_action :authorize_assessment, except: :destroy
+  before_action :authorize_assessment, except: [:index, :destroy, :new, :create]
   before_action :restrict_invalid_assessment, only: [:new, :create]
   before_action :restrict_update_assessment, only: [:edit, :update]
   before_action -> { assessments_permission('readable') }, only: :show
@@ -15,11 +15,13 @@ class AssessmentsController < AdminController
 
   def new
     @assessment = @client.assessments.new
+    authorize @assessment
     @assessment.populate_notes
   end
 
   def create
     @assessment = @client.assessments.new(assessment_params)
+    authorize @assessment
     if @assessment.save
       redirect_to client_assessment_path(@client, @assessment), notice: t('.successfully_created')
     else
@@ -77,7 +79,7 @@ class AssessmentsController < AdminController
   end
 
   def authorize_assessment
-    authorize Assessment
+    authorize @assessment
   end
 
   def assessment_params

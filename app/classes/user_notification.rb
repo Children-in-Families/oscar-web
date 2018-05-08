@@ -21,7 +21,7 @@ class UserNotification
     csi_count = 0
     clients = @user.clients.active_accepted_status
     clients.each do |client|
-      next if client.assessments.empty? || adult?(client)
+      next if client.assessments.empty? || Client.age_over_18?(client)
       repeat_notifications = client.repeat_notifications_schedule
       if(repeat_notifications.include?(Date.today))
         client_ids << client.id

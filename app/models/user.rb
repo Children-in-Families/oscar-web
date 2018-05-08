@@ -143,7 +143,7 @@ class User < ActiveRecord::Base
     overdue   = []
     due_today = []
     clients.active_accepted_status.each do |client|
-      next if adult?(client)
+      next if Client.age_over_18?(client)
       client_next_asseement_date = client.next_assessment_date.to_date
       if client_next_asseement_date < Date.today
         overdue << client
@@ -152,10 +152,6 @@ class User < ActiveRecord::Base
       end
     end
     { overdue_count: overdue.count, due_today_count: due_today.count }
-  end
-
-  def assessments_overdue
-    clients.active_accepted_status
   end
 
   def client_custom_field_frequency_overdue_or_due_today
