@@ -15,6 +15,8 @@ class ClientsController < AdminController
   before_action :set_association, except: [:index, :destroy, :version]
   before_action :choose_grid, only: :index
   before_action :find_resources, only: :show
+  before_action :quantitative_type_editable, only: [:edit, :update, :new, :create]
+  before_action :quantitative_type_readable
 
   def index
     @client_default_columns = Setting.first.try(:client_default_columns)
@@ -56,6 +58,7 @@ class ClientsController < AdminController
         initial_visit_client
         @enter_ngos = @client.enter_ngos.order(:accepted_date)
         @exit_ngos  = @client.exit_ngos.order(:exit_date)
+        # @quantitative_type_readable_ids = current_user.quantitative_type_permissions.readable.pluck(:quantitative_type_id)
       end
       format.pdf do
         form        = params[:form]
@@ -145,10 +148,10 @@ class ClientsController < AdminController
             :birth_province_id, :initial_referral_date, :referral_source_id, :telephone_number,
             :referral_phone, :received_by_id, :followed_up_by_id,
             :follow_up_date, :school_grade, :school_name, :current_address,
-            :house_number, :street_number, :village, :commune, :district_id,
+            :house_number, :street_number, :village, :commune, :suburb, :description_house_landmark, :directions, :street_line1, :street_line2, :plot, :road, :postal_code, :district_id, :subdistrict_id,
             :has_been_in_orphanage, :has_been_in_government_care,
             :relevant_referral_information, :province_id, :donor_id,
-            :state, :rejected_note, :able, :live_with,
+            :state_id, :township_id, :rejected_note, :able, :live_with,
             :gov_city, :gov_commune, :gov_district, :gov_date, :gov_village_code, :gov_client_code,
             :gov_interview_village, :gov_interview_commune, :gov_interview_district, :gov_interview_city,
             :gov_caseworker_name, :gov_caseworker_phone, :gov_carer_name, :gov_carer_relationship, :gov_carer_home,
@@ -174,7 +177,6 @@ class ClientsController < AdminController
   def set_association
     @agencies        = Agency.order(:name)
     @donors          = Donor.order(:name)
-    @province        = Province.order(:name)
     @referral_source = ReferralSource.order(:name)
     @users           = User.non_strategic_overviewers.order(:first_name, :last_name)
     @interviewees    = Interviewee.order(:created_at)
@@ -182,10 +184,22 @@ class ClientsController < AdminController
     @needs           = Need.order(:created_at)
     @problems        = Problem.order(:created_at)
 
-    if @client.province.present?
-      @districts       = @client.province.districts.order(:name)
-    else
-      @districts = []
+    country_address_fields
+  end
+
+  def country_address_fields
+    selected_country = Setting.first.try(:country_name) || params[:country]
+    case selected_country
+    when 'cambodia'
+      @province        = Province.order(:name)
+      @districts       = @client.province.present? ? @client.province.districts.order(:name) : []
+    when 'myanmar'
+      @states          = State.order(:name)
+      @townships       = @client.state.present? ? @client.state.townships.order(:name) : []
+    when 'thailand'
+      @province        = Province.order(:name)
+      @districts       = @client.province.present? ? @client.province.districts.order(:name) : []
+      @subdistricts    = @client.district.present? ? @client.district.subdistricts.order(:name) : []
     end
   end
 
@@ -201,5 +215,13 @@ class ClientsController < AdminController
   def find_resources
     @interviewee_names = @client.interviewees.pluck(:name)
     @client_type_names = @client.client_types.pluck(:name)
+  end
+
+  def quantitative_type_editable
+    @quantitative_type_editable_ids = current_user.quantitative_type_permissions.editable.pluck(:quantitative_type_id)
+  end
+
+  def quantitative_type_readable
+    @quantitative_type_readable_ids = current_user.quantitative_type_permissions.readable.pluck(:quantitative_type_id)
   end
 end

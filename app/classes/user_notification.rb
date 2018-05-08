@@ -47,6 +47,7 @@ class UserNotification
       client_ids = program_stream.client_enrollments.active.pluck(:client_id)
       clients = Client.active_accepted_status.where(id: client_ids)
       clients_after_filter = AdvancedSearches::ClientAdvancedSearch.new(rules, clients).filter
+
       if clients_after_filter.any?
         clients_change = clients.where.not(id: clients_after_filter.ids).ids
         client_wrong_program_rules << [program_stream, clients_change] if clients_change.any?
@@ -85,11 +86,11 @@ class UserNotification
     due_today_assessments_count >= 1
   end
 
-  def ec_notification(day)
-    if @user.admin? || @user.ec_manager?
-      Client.exit_in_week(day)
-    end
-  end
+  # def ec_notification(day)
+  #   if @user.admin? || @user.ec_manager?
+  #     Client.exit_in_week(day)
+  #   end
+  # end
 
   def any_client_custom_field_frequency_overdue?
     client_custom_field_frequency_overdue_count >= 1
@@ -238,11 +239,11 @@ class UserNotification
   def count
     count_notification = 0
 
-    if @user.admin? || @user.ec_manager?
-      (83..90).each do |item|
-        count_notification += 1 if ec_notification(item).present?
-      end
-    end
+    # if @user.admin? || @user.ec_manager?
+    #   (83..90).each do |item|
+    #     count_notification += 1 if ec_notification(item).present?
+    #   end
+    # end
     if @user.admin? || @user.manager?
       count_notification += 1 if any_user_custom_field_frequency_overdue?
       count_notification += 1 if any_user_custom_field_frequency_due_today?

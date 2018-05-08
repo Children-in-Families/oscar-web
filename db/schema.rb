@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180503095242) do
+ActiveRecord::Schema.define(version: 20180506040228) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -247,15 +247,6 @@ ActiveRecord::Schema.define(version: 20180503095242) do
   add_index "client_client_types", ["client_id"], name: "index_client_client_types_on_client_id", using: :btree
   add_index "client_client_types", ["client_type_id"], name: "index_client_client_types_on_client_type_id", using: :btree
 
-  create_table "client_custom_fields", id: false, force: :cascade do |t|
-    t.integer  "id",              default: "nextval('client_custom_fields_id_seq'::regclass)", null: false
-    t.text     "properties"
-    t.integer  "client_id"
-    t.integer  "custom_field_id"
-    t.datetime "created_at",                                                                   null: false
-    t.datetime "updated_at",                                                                   null: false
-  end
-
   create_table "client_enrollment_trackings", force: :cascade do |t|
     t.jsonb    "properties",           default: {}
     t.integer  "client_enrollment_id"
@@ -344,7 +335,7 @@ ActiveRecord::Schema.define(version: 20180503095242) do
     t.boolean  "able",                             default: false
     t.boolean  "has_been_in_government_care",      default: false
     t.text     "relevant_referral_information",    default: ""
-    t.string   "state",                            default: ""
+    t.string   "archive_state",                    default: ""
     t.text     "rejected_note",                    default: ""
     t.integer  "province_id"
     t.integer  "referral_source_id"
@@ -408,11 +399,25 @@ ActiveRecord::Schema.define(version: 20180503095242) do
     t.string   "exit_reasons",                     default: [],         array: true
     t.string   "exit_circumstance",                default: ""
     t.string   "other_info_of_exit",               default: ""
+    t.string   "suburb",                           default: ""
+    t.string   "description_house_landmark",       default: ""
+    t.string   "directions",                       default: ""
+    t.string   "street_line1",                     default: ""
+    t.string   "street_line2",                     default: ""
+    t.string   "plot",                             default: ""
+    t.string   "road",                             default: ""
+    t.string   "postal_code",                      default: ""
+    t.integer  "subdistrict_id"
+    t.integer  "township_id"
+    t.integer  "state_id"
   end
 
   add_index "clients", ["district_id"], name: "index_clients_on_district_id", using: :btree
   add_index "clients", ["donor_id"], name: "index_clients_on_donor_id", using: :btree
   add_index "clients", ["slug"], name: "index_clients_on_slug", unique: true, using: :btree
+  add_index "clients", ["state_id"], name: "index_clients_on_state_id", using: :btree
+  add_index "clients", ["subdistrict_id"], name: "index_clients_on_subdistrict_id", using: :btree
+  add_index "clients", ["township_id"], name: "index_clients_on_township_id", using: :btree
 
   create_table "clients_quantitative_cases", force: :cascade do |t|
     t.integer  "client_id"
@@ -441,6 +446,7 @@ ActiveRecord::Schema.define(version: 20180503095242) do
     t.datetime "created_at",                        null: false
     t.datetime "updated_at",                        null: false
     t.jsonb    "attachments"
+    t.integer  "user_id"
   end
 
   add_index "custom_field_properties", ["custom_field_id"], name: "index_custom_field_properties_on_custom_field_id", using: :btree
@@ -561,15 +567,6 @@ ActiveRecord::Schema.define(version: 20180503095242) do
     t.integer  "cases_count",                     default: 0
     t.string   "case_history",                    default: ""
     t.integer  "children",                        default: [],        array: true
-  end
-
-  create_table "family_custom_fields", id: false, force: :cascade do |t|
-    t.integer  "id",              default: "nextval('family_custom_fields_id_seq'::regclass)", null: false
-    t.text     "properties"
-    t.integer  "family_id"
-    t.integer  "custom_field_id"
-    t.datetime "created_at",                                                                   null: false
-    t.datetime "updated_at",                                                                   null: false
   end
 
   create_table "form_builder_attachments", force: :cascade do |t|
@@ -718,15 +715,6 @@ ActiveRecord::Schema.define(version: 20180503095242) do
     t.boolean  "fcf_ngo",    default: false
   end
 
-  create_table "partner_custom_fields", id: false, force: :cascade do |t|
-    t.integer  "id",              default: "nextval('partner_custom_fields_id_seq'::regclass)", null: false
-    t.text     "properties"
-    t.integer  "partner_id"
-    t.integer  "custom_field_id"
-    t.datetime "created_at",                                                                    null: false
-    t.datetime "updated_at",                                                                    null: false
-  end
-
   create_table "partners", force: :cascade do |t|
     t.string   "name",                  default: ""
     t.string   "address",               default: ""
@@ -835,6 +823,18 @@ ActiveRecord::Schema.define(version: 20180503095242) do
     t.datetime "updated_at"
   end
 
+  create_table "quantitative_type_permissions", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "quantitative_type_id"
+    t.boolean  "readable",             default: true
+    t.boolean  "editable",             default: true
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+  end
+
+  add_index "quantitative_type_permissions", ["quantitative_type_id"], name: "index_quantitative_type_permissions_on_quantitative_type_id", using: :btree
+  add_index "quantitative_type_permissions", ["user_id"], name: "index_quantitative_type_permissions_on_user_id", using: :btree
+
   create_table "quantitative_types", force: :cascade do |t|
     t.string   "name",                     default: ""
     t.text     "description",              default: ""
@@ -882,27 +882,29 @@ ActiveRecord::Schema.define(version: 20180503095242) do
   end
 
   create_table "settings", force: :cascade do |t|
-    t.string  "assessment_frequency"
-    t.integer "min_assessment"
-    t.integer "max_assessment"
-    t.string  "country_name",            default: ""
-    t.integer "max_case_note"
-    t.string  "case_note_frequency"
-    t.boolean "disable_assessment"
-    t.string  "client_default_columns",  default: [], array: true
-    t.string  "family_default_columns",  default: [], array: true
-    t.string  "partner_default_columns", default: [], array: true
-    t.string  "user_default_columns",    default: [], array: true
+    t.string   "assessment_frequency"
+    t.integer  "min_assessment"
+    t.integer  "max_assessment"
+    t.string   "country_name",            default: ""
+    t.integer  "max_case_note"
+    t.string   "case_note_frequency"
+    t.boolean  "disable_assessment"
+    t.string   "client_default_columns",  default: [], array: true
+    t.string   "family_default_columns",  default: [], array: true
+    t.string   "partner_default_columns", default: [], array: true
+    t.string   "user_default_columns",    default: [], array: true
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "shared_clients", force: :cascade do |t|
     t.integer  "client_id"
-    t.string   "fields",          default: [], array: true
+    t.string   "fields",          default: [],              array: true
     t.string   "destination_ngo"
     t.string   "origin_ngo"
     t.string   "referral_reason"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
   end
 
   add_index "shared_clients", ["client_id"], name: "index_shared_clients_on_client_id", using: :btree
@@ -913,6 +915,21 @@ ActiveRecord::Schema.define(version: 20180503095242) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "states", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "subdistricts", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "district_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "subdistricts", ["district_id"], name: "index_subdistricts_on_district_id", using: :btree
 
   create_table "surveys", force: :cascade do |t|
     t.integer  "client_id"
@@ -1157,9 +1174,18 @@ ActiveRecord::Schema.define(version: 20180503095242) do
 
   add_index "thredded_user_topic_read_states", ["user_id", "postable_id"], name: "thredded_user_topic_read_states_user_postable", unique: true, using: :btree
 
+  create_table "townships", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "state_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "townships", ["state_id"], name: "index_townships_on_state_id", using: :btree
+
   create_table "trackings", force: :cascade do |t|
     t.string   "name",              default: ""
-    t.jsonb    "fields"
+    t.jsonb    "fields",            default: ""
     t.string   "frequency",         default: ""
     t.integer  "time_of_frequency"
     t.integer  "program_stream_id"
@@ -1169,15 +1195,6 @@ ActiveRecord::Schema.define(version: 20180503095242) do
 
   add_index "trackings", ["name", "program_stream_id"], name: "index_trackings_on_name_and_program_stream_id", unique: true, using: :btree
   add_index "trackings", ["program_stream_id"], name: "index_trackings_on_program_stream_id", using: :btree
-
-  create_table "user_custom_fields", id: false, force: :cascade do |t|
-    t.integer  "id",              default: "nextval('user_custom_fields_id_seq'::regclass)", null: false
-    t.text     "properties"
-    t.integer  "user_id"
-    t.integer  "custom_field_id"
-    t.datetime "created_at",                                                                 null: false
-    t.datetime "updated_at",                                                                 null: false
-  end
 
   create_table "users", force: :cascade do |t|
     t.string   "first_name",                     default: ""
@@ -1216,6 +1233,7 @@ ActiveRecord::Schema.define(version: 20180503095242) do
     t.boolean  "task_notify",                    default: true
     t.integer  "manager_id"
     t.boolean  "calendar_integration",           default: false
+    t.integer  "pin_number"
     t.integer  "manager_ids",                    default: [],                         array: true
     t.boolean  "program_warning",                default: false
     t.boolean  "staff_performance_notification", default: true
@@ -1288,7 +1306,6 @@ ActiveRecord::Schema.define(version: 20180503095242) do
   add_foreign_key "client_client_types", "client_types"
   add_foreign_key "client_client_types", "clients"
   add_foreign_key "client_enrollment_trackings", "client_enrollments"
-  add_foreign_key "client_enrollment_trackings", "client_enrollments"
   add_foreign_key "client_enrollments", "clients"
   add_foreign_key "client_enrollments", "program_streams"
   add_foreign_key "client_interviewees", "clients"
@@ -1299,6 +1316,9 @@ ActiveRecord::Schema.define(version: 20180503095242) do
   add_foreign_key "client_problems", "problems"
   add_foreign_key "clients", "districts"
   add_foreign_key "clients", "donors"
+  add_foreign_key "clients", "states"
+  add_foreign_key "clients", "subdistricts"
+  add_foreign_key "clients", "townships"
   add_foreign_key "custom_field_permissions", "custom_fields"
   add_foreign_key "custom_field_permissions", "users"
   add_foreign_key "custom_field_properties", "custom_fields"
@@ -1318,12 +1338,16 @@ ActiveRecord::Schema.define(version: 20180503095242) do
   add_foreign_key "progress_notes", "materials"
   add_foreign_key "progress_notes", "progress_note_types"
   add_foreign_key "progress_notes", "users"
+  add_foreign_key "quantitative_type_permissions", "quantitative_types"
+  add_foreign_key "quantitative_type_permissions", "users"
   add_foreign_key "quarterly_reports", "cases"
   add_foreign_key "shared_clients", "clients"
+  add_foreign_key "subdistricts", "districts"
   add_foreign_key "surveys", "clients"
   add_foreign_key "tasks", "clients"
   add_foreign_key "thredded_messageboard_users", "thredded_messageboards"
   add_foreign_key "thredded_messageboard_users", "thredded_user_details"
+  add_foreign_key "townships", "states"
   add_foreign_key "trackings", "program_streams"
   add_foreign_key "users", "organizations"
   add_foreign_key "visit_clients", "users"

@@ -1,18 +1,18 @@
 require "rails_helper"
 
 RSpec.describe ManagerMailer, type: :mailer do
-  describe 'remind_of_client' do
-    let!(:ec_manager) { create(:user, :ec_manager)}
-    let!(:client)     { create(:client, status: 'Active EC') }
-
-    let(:mail) { ManagerMailer.remind_of_client(Client.active_ec, day: '90', manager: ec_manager).deliver_now }
+  xdescribe 'remind_of_client', skip: '====== Will be reimplemented with EC CPS ======' do
+    let!(:admin) { create(:user, :admin)}
+    let!(:client) { create(:client, status: 'Active') }
+    let!(:case){ create(:case, :emergency, client: client) }
+    let(:mail) { AdminMailer.remind_of_client([client], day: '90', admin: admin).deliver_now }
 
     it 'renders the subject' do
       expect(mail.subject).to eq('Reminder [Clients Are About To Exit Emergency Care Program]')
     end
 
     it 'renders the receiver email' do
-      expect(mail.to).to eq(ec_manager.to_s)
+      expect(mail.to).to eq(admin.to_s)
     end
 
     it 'renders the sender email' do

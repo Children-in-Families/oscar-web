@@ -22,28 +22,23 @@ module AdvancedSearches
     private
 
     def number_type_list
-      # ['code', 'family_id', 'age', 'id_poor']
       ['family_id', 'age']
     end
 
     def text_type_list
-      ['given_name', 'family_name', 'local_given_name', 'local_family_name', 'family', 'slug', 'referral_phone', 'house_number', 'street_number', 'village', 'commune', 'school_name', 'school_grade', 'telephone_number', 'other_info_of_exit', 'exit_note', 'name_of_referee', 'main_school_contact', 'what3words', 'kid_id', 'code']
+      ['given_name', 'family_name', 'local_given_name', 'local_family_name', 'family', 'slug', 'referral_phone', 'school_name', 'school_grade', 'telephone_number', 'other_info_of_exit', 'exit_note', 'name_of_referee', 'main_school_contact', 'what3words', 'kid_id', 'code', *setting_country_fields[:text_fields]]
     end
 
     def date_type_list
-      ['placement_date', 'date_of_birth', 'initial_referral_date', 'follow_up_date', 'referred_to_ec', 'referred_to_fc', 'referred_to_kc', 'exit_ec_date', 'exit_fc_date', 'exit_kc_date', 'exit_date', 'accepted_date', 'case_note_date']
+      ['date_of_birth', 'initial_referral_date', 'follow_up_date', 'exit_date', 'accepted_date', 'case_note_date']
     end
 
     def drop_down_type_list
       [
         ['gender', { female: 'Female', male: 'Male' }],
         ['status', client_status],
-        ['case_type', { EC: 'EC', FC: 'FC',  KC: 'KC' }],
         ['agency_name', agencies_options],
         ['received_by_id', received_by_options],
-        ['birth_province_id', birth_provinces],
-        ['province_id', provinces],
-        ['district_id', districts],
         ['referral_source_id', referral_source_options],
         ['followed_up_by_id', followed_up_by_options],
         ['has_been_in_government_care', { true: 'Yes', false: 'No' }],
@@ -55,7 +50,8 @@ module AdvancedSearches
         ['case_note_type', case_note_type_options],
         ['exit_reasons', exit_reasons_options],
         ['exit_circumstance', {'Exited Client': 'Exited Client', 'Rejected Referral': 'Rejected Referral'}],
-        ['rated_for_id_poor', {'No': 'No', 'Level 1': 'Level 1', 'Level 2': 'Level 2', 'Level 3': 'Level 3'}]
+        ['rated_for_id_poor', {'No': 'No', 'Level 1': 'Level 1', 'Level 2': 'Level 2', 'Level 3': 'Level 3'}],
+        *setting_country_fields[:drop_down_fields]
       ]
     end
 
@@ -91,6 +87,18 @@ module AdvancedSearches
       District.joins(:clients).pluck(:name, :id).uniq.sort.map{|s| {s[1].to_s => s[0]}}
     end
 
+    def subdistricts
+      Subdistrict.joins(:clients).pluck(:name, :id).uniq.sort.map{|s| {s[1].to_s => s[0]}}
+    end
+
+    def townships
+      Township.joins(:clients).pluck(:name, :id).uniq.sort.map{|s| {s[1].to_s => s[0]}}
+    end
+
+    def states
+      State.joins(:clients).pluck(:name, :id).uniq.sort.map{|s| {s[1].to_s => s[0]}}
+    end
+
     def received_by_options
       recevied_by_clients = @user.admin? ? Client.is_received_by : Client.where(user_id: @user.id).is_received_by
       recevied_by_clients.sort.map{|s| {s[1].to_s => s[0]}}
@@ -116,6 +124,32 @@ module AdvancedSearches
 
     def donor_options
       Donor.order(:name).map { |donor| { donor.id.to_s => donor.name } }
+    end
+
+    def setting_country_fields
+      country = Setting.first.try(:country_name) || 'cambodia'
+      case country
+      when 'cambodia'
+        {
+          text_fields: ['house_number', 'street_number', 'village', 'commune'],
+          drop_down_fields: [['province_id', provinces], ['district_id', districts], ['birth_province_id', birth_provinces]]
+        }
+      when 'lesotho'
+        {
+          text_fields: ['suburb', 'directions', 'description_house_landmark'],
+          drop_down_fields: []
+        }
+      when 'thailand'
+        {
+          text_fields: ['plot', 'road', 'postal_code'],
+          drop_down_fields: [['province_id', provinces], ['district_id', districts], ['subdistrict_id', subdistricts], ['birth_province_id', birth_provinces]]
+        }
+      when 'myanmar'
+        {
+          text_fields: ['street_line1', 'street_line2'],
+          drop_down_fields: [['township_id', townships], ['state_id', states]]
+        }
+      end
     end
   end
 end

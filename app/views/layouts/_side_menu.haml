@@ -66,8 +66,6 @@
                 = t('.settings')
                 %span.fa.arrow
               %ul.nav.nav-third-level
-                %li{ class: settings_menu_active('settings', 'country') }
-                  = link_to t('.country'), country_settings_path
                 - if current_user.admin?
                   %li{ class: settings_menu_active('settings', 'index') }
                     = link_to t('.csi_tools'), settings_path

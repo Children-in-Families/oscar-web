@@ -15,11 +15,20 @@ class Client < ActiveRecord::Base
   ABLE_STATES = %w(Accepted Rejected Discharged).freeze
 
   delegate :name, to: :donor, prefix: true, allow_nil: true
+  delegate :name, to: :township, prefix: true, allow_nil: true
+  delegate :name, to: :province, prefix: true, allow_nil: true
+  delegate :name, to: :birth_province, prefix: true, allow_nil: true
+  delegate :name, to: :district, prefix: true, allow_nil: true
+  delegate :name, to: :subdistrict, prefix: true, allow_nil: true
+  delegate :name, to: :state, prefix: true, allow_nil: true
 
   belongs_to :referral_source,  counter_cache: true
   belongs_to :province,         counter_cache: true
   belongs_to :donor
   belongs_to :district
+  belongs_to :subdistrict
+  belongs_to :township
+  belongs_to :state
   belongs_to :received_by,      class_name: 'User',      foreign_key: 'received_by_id',    counter_cache: true
   belongs_to :followed_up_by,   class_name: 'User',      foreign_key: 'followed_up_by_id', counter_cache: true
   belongs_to :birth_province,   class_name: 'Province',  foreign_key: 'birth_province_id', counter_cache: true
@@ -148,14 +157,19 @@ class Client < ActiveRecord::Base
   def name
     name       = "#{given_name} #{family_name}"
     local_name = "#{local_given_name} #{local_family_name}"
-    name.present? ? name : local_name.present? ? local_name : 'Unknown'
+    name.present? ? name : local_name
   end
 
   def en_and_local_name
     en_name = "#{given_name} #{family_name}"
     local_name = "#{local_family_name} #{local_given_name}"
-
-    local_name.present? ? "#{en_name} (#{local_name})" : en_name.present? ? en_name : 'Unknown'
+    if local_name.present? && en_name.present?
+      "#{en_name} (#{local_name})"
+    elsif local_name.present?
+      local_name
+    elsif en_name.present?
+      en_name
+    end
   end
 
   def next_assessment_date
@@ -189,10 +203,6 @@ class Client < ActiveRecord::Base
 
   def self.able_managed_by(user)
     where('able_state = ? or user_id = ?', ABLE_STATES[0], user.id)
-  end
-
-  def self.in_any_able_states_managed_by(user)
-    joins(:case_worker_clients).where('able_state IN(?) OR case_worker_clients.user_id = ?', ABLE_STATES, user.id)
   end
 
   def self.managed_by(user, status)
@@ -272,7 +282,7 @@ class Client < ActiveRecord::Base
   end
 
   def set_slug_as_alias
-    paper_trail.without_versioning { |obj| obj.update_attributes(slug: "#{Organization.current.try(:short_name)}-#{id}") }
+    paper_trail.without_versioning { |obj| obj.update_columns(slug: "#{Organization.current.try(:short_name)}-#{id}") }
   end
 
   def time_in_care
@@ -312,20 +322,20 @@ class Client < ActiveRecord::Base
     (end_date - start_date).to_f
   end
 
-  def self.ec_reminder_in(day)
-    Organization.all.each do |org|
-      Organization.switch_to org.short_name
-      managers = User.non_locked.ec_managers.pluck(:email).join(', ')
-      admins   = User.non_locked.admins.pluck(:email).join(', ')
-      clients = Client.active_status.joins(:cases).where(cases: { case_type: 'EC', exited: false}).uniq
-      clients = clients.select { |client| client.active_day_care == day }
-
-      if clients.present?
-        ManagerMailer.remind_of_client(clients, day: day, manager: managers).deliver_now if managers.present?
-        AdminMailer.remind_of_client(clients, day: day, admin: admins).deliver_now if admins.present?
-      end
-    end
-  end
+  # def self.ec_reminder_in(day)
+  #   Organization.all.each do |org|
+  #     Organization.switch_to org.short_name
+  #     managers = User.non_locked.ec_managers.pluck(:email).join(', ')
+  #     admins   = User.non_locked.admins.pluck(:email).join(', ')
+  #     clients = Client.active_status.joins(:cases).where(cases: { case_type: 'EC', exited: false}).uniq
+  #     clients = clients.select { |client| client.active_day_care == day }
+  #
+  #     if clients.present?
+  #       ManagerMailer.remind_of_client(clients, day: day, manager: managers).deliver_now if managers.present?
+  #       AdminMailer.remind_of_client(clients, day: day, admin: admins).deliver_now if admins.present?
+  #     end
+  #   end
+  # end
 
   def populate_needs
     Need.all.each do |need|
@@ -393,9 +403,9 @@ class Client < ActiveRecord::Base
   end
 
   def assessment_duration(duration)
-    setting = Setting.first
     # assessment_period = (setting.try(:min_assessment) || 3) if duration == 'min'
     if duration == 'max'
+      setting = Setting.first
       assessment_period = (setting.try(:max_assessment) || 6)
       assessment_frequency = setting.try(:assessment_frequency) || 'month'
     else

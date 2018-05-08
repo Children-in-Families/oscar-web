@@ -19,6 +19,8 @@ describe User, 'associations' do
   it { is_expected.to have_many(:user_custom_field_permissions).through(:custom_field_permissions) }
   it { is_expected.to have_many(:program_stream_permissions).dependent(:destroy) }
   it { is_expected.to have_many(:program_streams).through(:program_stream_permissions) }
+  it { is_expected.to have_many(:quantitative_type_permissions).dependent(:destroy) }
+  it { is_expected.to have_many(:quantitative_types).through(:quantitative_type_permissions) }
   it { is_expected.to have_many(:enter_ngo_users).dependent(:destroy) }
   it { is_expected.to have_many(:enter_ngos).through(:enter_ngo_users) }
 end
@@ -156,8 +158,7 @@ describe User, 'scopes' do
   let!(:other_user){ create(:user, department: department, province: province) }
   let!(:no_department_user){ create(:user, province: province) }
   let!(:user_in_other_department){ create(:user,department: other_department, province: province) }
-  let!(:ec_manager){ create(:user, :ec_manager, staff_performance_notification: false) }
-  let!(:able_manager){ create(:user, :able_manager, staff_performance_notification: false) }
+  let!(:manager){ create(:user, :manager, staff_performance_notification: false) }
 
   context '.non_devs' do
     let!(:dev_1) { create(:user, email: ENV['DEV_EMAIL']) }
@@ -260,27 +261,6 @@ describe User, 'scopes' do
     end
   end
 
-  context 'able_managers' do
-    subject{ User.able_managers }
-
-    it 'should include able manager role' do
-      is_expected.to include(able_manager)
-    end
-  end
-
-  context 'ec_managers' do
-
-    subject{ User.ec_managers}
-
-    it 'should include on ec manager' do
-      is_expected.to include(ec_manager)
-    end
-
-    it 'should not include admin' do
-      is_expected.not_to include(user)
-    end
-  end
-
   context 'province are' do
     subject{ User.province_are }
 
@@ -314,7 +294,7 @@ describe User, 'scopes' do
       is_expected.to include(user, other_user, no_department_user, user_in_other_department)
     end
     it 'should not include staff performance' do
-      is_expected.not_to include(ec_manager, able_manager)
+      is_expected.not_to include(manager)
     end
   end
 end
@@ -323,20 +303,9 @@ describe User, 'methods' do
   let!(:admin){ create(:user, roles: 'admin') }
   let!(:case_worker){ create(:user, roles: 'case worker', first_name: 'First Name', last_name: 'Last Name') }
   let!(:unknown_user){ create(:user, first_name: '', last_name: '') }
-  let!(:ec_manager){ create(:user, roles: 'ec manager') }
-  let!(:fc_manager){ create(:user, roles: 'fc manager') }
-  let!(:kc_manager){ create(:user, roles: 'kc manager') }
-  let!(:able_manager){ create(:user, roles: 'able manager') }
+
   let!(:client) { create(:client, :accepted, users: [case_worker]) }
   let!(:assessment) { create(:assessment, client: client, created_at: Date.today) }
-
-  let!(:ec_case_worker){ create(:user, roles: 'case worker', first_name: FFaker::Name.name, last_name: FFaker::Name.name) }
-  let!(:second_client) { create(:client, users: [ec_case_worker], status: 'Active') }
-  let!(:second_assessment) { create(:assessment, client: second_client, created_at: 7.months.ago) }
-
-  let!(:fc_case_worker){ create(:user, roles: 'case worker', first_name: FFaker::Name.name, last_name: FFaker::Name.name) }
-  let!(:third_client) { create(:client, users: [fc_case_worker], status: 'Active') }
-  let!(:third_assessment) { create(:assessment, client: third_client, created_at: Date.today << 6) }
 
   let!(:used_user) { create(:user) }
   let!(:other_clent) { create(:client, :accepted, users: [used_user]) }
@@ -344,10 +313,6 @@ describe User, 'methods' do
   let!(:changelog) { create(:changelog, user: used_user) }
   let!(:location){ create(:location, name: 'ផ្សេងៗ Other') }
   let!(:progress_note) { create(:progress_note, user: used_user, location: location) }
-
-  let!(:kc_case_worker){ create(:user, roles: 'case worker', first_name: FFaker::Name.name, last_name: FFaker::Name.name) }
-  let!(:fourth_client) { create(:client, users: [kc_case_worker], status: 'Active') }
-  let!(:fourth_assessment) { create(:assessment, client: fourth_client, created_at: Date.today << 6) }
 
   let!(:fifth_case_worker){ create(:user, roles: 'case worker', first_name: FFaker::Name.name, last_name: FFaker::Name.name) }
   let!(:fifth_client) { create(:client, users: [fifth_case_worker], status: 'Referred') }
@@ -366,7 +331,7 @@ describe User, 'methods' do
 
   context 'name' do
     it{ expect(case_worker.name).to eq('First Name Last Name') }
-    it{ expect(unknown_user.name).to eq('Unknown') }
+    it{ expect(unknown_user.name).to eq(' ') }
   end
 
   context 'admin?' do
@@ -381,76 +346,15 @@ describe User, 'methods' do
 
   context 'assessment_either_overdue_or_due_today' do
     it{ expect(case_worker.assessment_either_overdue_or_due_today).to eq({overdue_count: 0, due_today_count: 0}) }
-    it{ expect(ec_case_worker.assessment_either_overdue_or_due_today).to eq({overdue_count: 1, due_today_count: 0}) }
-    it{ expect(fc_case_worker.assessment_either_overdue_or_due_today).to eq({overdue_count: 0, due_today_count: 1}) }
-    it{ expect(kc_case_worker.assessment_either_overdue_or_due_today).to eq({overdue_count: 0, due_today_count: 1}) }
     it{ expect(fifth_case_worker.assessment_either_overdue_or_due_today).to eq({overdue_count: 0, due_today_count: 0}) }
-  end
-
-  context 'ec_manager?' do
-    it { expect(ec_manager.ec_manager?).to be_truthy }
-  end
-
-  context 'fc_manager?' do
-    it { expect(fc_manager.fc_manager?).to be_truthy }
-  end
-
-  context 'kc_manager?' do
-    it { expect(kc_manager.kc_manager?).to be_truthy }
-  end
-
-  context 'able_manager?' do
-    it { expect(able_manager.able_manager?).to be_truthy }
-  end
-
-  context 'any_case_manager?' do
-    it { expect(ec_manager.any_case_manager?).to be_truthy }
-    it { expect(fc_manager.any_case_manager?).to be_truthy }
-    it { expect(kc_manager.any_case_manager?).to be_truthy }
-  end
-
-  context 'any_manager?' do
-    it { expect(ec_manager.any_manager?).to be_truthy }
-    it { expect(fc_manager.any_manager?).to be_truthy }
-    it { expect(kc_manager.any_manager?).to be_truthy }
-    it { expect(able_manager.any_manager?).to be_truthy }
   end
 
   context 'self_and_subordinates' do
     it 'current user is either Admin or Strategic Overviewer' do
       expect(User.self_and_subordinates(admin)).to include(admin, case_worker,
-                                                          ec_manager, fc_manager,
-                                                          kc_manager, able_manager,
-                                                          ec_case_worker, fc_case_worker,
-                                                          used_user, kc_case_worker,
-                                                          fifth_case_worker, manager,
-                                                          subordinate, strategic_overviewer,
-                                                          able_case_worker)
+                                                          used_user, fifth_case_worker, manager,
+                                                          subordinate, strategic_overviewer)
     end
-    it 'current user is Able Manager' do
-      expect(User.self_and_subordinates(able_manager)).to include(able_manager, able_case_worker)
-    end
-
-    context 'current user is in Any Case Manager' do
-      it 'current user is Ec Manager' do
-        expect(User.self_and_subordinates(ec_manager)).to include(ec_manager)
-      end
-      it 'current user is Fc Manager' do
-        expect(User.self_and_subordinates(fc_manager)).to include(fc_manager)
-      end
-      it 'current user is Kc Manager' do
-        expect(User.self_and_subordinates(kc_manager)).to include(kc_manager)
-      end
-    end
-    # it 'current user is Ec Manager' do
-    #   expect(User.self_and_subordinates(ec_manager)).to include(ec_manager, ec_case_worker)
-    # end
-    # it 'current user is Fc Manager' do
-    #   expect(User.self_and_subordinates(fc_manager)).to include(fc_manager, fc_case_worker)
-    # end
-    # it 'current user is Kc Manager' do
-    #   expect(User.self_and_subordinates(kc_manager)).to include(kc_manager, kc_case_worker)
-    # end
     it 'current user is Manager' do
       expect(User.self_and_subordinates(manager)).to include(manager, subordinate)
     end

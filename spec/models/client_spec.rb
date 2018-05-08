@@ -50,14 +50,14 @@ describe Client, 'callbacks' do
     it 'should have two client histories' do
       client = FactoryGirl.create(:client)
       # 2 client_histories because client has an after_save callback to update slug column
-      expect(ClientHistory.where('object.id' => client.id).count).to eq(2)
+      expect(ClientHistory.where('object.id' => client.id).count).to eq(1)
       expect(ClientHistory.where('object.id' => client.id).pluck(:id)).to eq(ClientHistory.all.pluck(:id))
     end
 
     it 'should have 2 client histories and 2 agency client histories each' do
       agencies      = FactoryGirl.create_list(:agency, 2)
       agency_client = FactoryGirl.create(:client, agency_ids: agencies.map(&:id))
-      expect(ClientHistory.where('object.id' => agency_client.id).count).to eq(2)
+      expect(ClientHistory.where('object.id' => agency_client.id).count).to eq(1)
       expect(ClientHistory.where('object.id' => agency_client.id).first.object['agency_ids']).to eq(agencies.map(&:id))
       expect(ClientHistory.where('object.id' => agency_client.id).last.object['agency_ids']).to eq(agencies.map(&:id))
       expect(ClientHistory.where('object.id' => agency_client.id).first.agency_client_histories.count).to eq(2)
@@ -82,12 +82,10 @@ end
 
 describe Client, 'methods' do
   let!(:setting){ create(:setting, :monthly_assessment) }
-  let!(:able_manager) { create(:user, roles: 'able manager') }
   let!(:case_worker) { create(:user, roles: 'case worker') }
   let!(:client){ create(:client, user_ids: [case_worker.id], local_given_name: 'Barry', local_family_name: 'Allen', date_of_birth: '2007-05-15', status: 'Active') }
   let!(:other_client) { create(:client, user_ids: [case_worker.id]) }
   let!(:able_client) { create(:client, able_state: Client::ABLE_STATES[0]) }
-  let!(:able_manager_client) { create(:client, user_ids: [able_manager.id]) }
   let!(:assessment){ create(:assessment, created_at: Date.today - 3.months, client: client) }
   let!(:able_rejected_client) { create(:client, able_state: Client::ABLE_STATES[1]) }
   let!(:able_discharged_client) { create(:client, able_state: Client::ABLE_STATES[2]) }
@@ -228,18 +226,6 @@ describe Client, 'methods' do
     it { expect(client.exit_ngo?).to be_falsey }
   end
 
-  # context 'active_ec?' do
-  #   it { expect(client_a.active_ec?).to be_truthy }
-  # end
-
-  # context 'active_fc?' do
-  #   it { expect(client_b.active_fc?).to be_truthy }
-  # end
-
-  # context 'active_kc?' do
-  #   it { expect(client_c.active_kc?).to be_truthy }
-  # end
-
   context 'active_case?' do
     it { expect(client_a.active_case?).to be_truthy }
     it { expect(client_b.active_case?).to be_truthy }
@@ -367,7 +353,6 @@ describe Client, 'methods' do
     let!(:specific_client){ create(:client,
       date_of_birth: 1.year.ago.to_date,
       received_by: user,
-      state: 'accepted',
       followed_up_by: follower,
       birth_province: province,
       province: province,
@@ -376,7 +361,6 @@ describe Client, 'methods' do
     let!(:other_specific_client){ create(:client,
       date_of_birth: 2.year.ago.to_date,
       received_by: user,
-      state: 'accepted',
       followed_up_by: follower,
       birth_province: province,
       province: province,
@@ -390,15 +374,6 @@ describe Client, 'methods' do
     end
     it 'does not include clients with age between' do
       expect(Client.age_between(min_age, max_age)).not_to include(other_specific_client)
-    end
-  end
-
-  context 'in any able states managed by user' do
-    it 'returns clients either in any able states or managed by current user' do
-      expect(Client.in_any_able_states_managed_by(able_manager)).to include(able_client, able_manager_client, able_rejected_client, able_discharged_client)
-    end
-    it 'does not return neither non able clients nor not managed by current user' do
-      expect(Client.in_any_able_states_managed_by(case_worker)).not_to include(able_manager_client)
     end
   end
 
@@ -684,15 +659,6 @@ describe Client, 'scopes' do
     end
   end
 
-  # context 'state' do
-  #   it 'accepted' do
-  #     expect(Client.accepted).to include(client)
-  #   end
-  #   it 'rejected' do
-  #     expect(Client.rejected).to include(other_client)
-  #   end
-  # end
-
   context 'gender' do
     it 'male' do
       expect(Client.male).to include(other_client)
@@ -703,8 +669,8 @@ describe Client, 'scopes' do
   end
 
   context 'start with code' do
-    let(:kc_client) { create(:client, status: 'Active KC', state: 'accepted') }
-    let(:fc_client) { create(:client, status: 'Active FC', state: 'accepted') }
+    let(:kc_client) { create(:client, status: 'Active KC') }
+    let(:fc_client) { create(:client, status: 'Active FC') }
     let!(:kc) { create(:case, client: kc_client, case_type: 'KC') }
     let!(:fc) { create(:case, client: fc_client, case_type: 'FC') }
 

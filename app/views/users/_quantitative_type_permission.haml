@@ -1,0 +1,15 @@
+%br
+.row
+  .col-xs-4.col-xs-offset-4
+    %h4=t('.can_view')
+  .col-xs-4
+    %h4=t('.can_edit')
+= f.simple_fields_for :quantitative_type_permissions do |ff|
+  .row.quantitative-type-permission
+    .col-xs-4
+      %label.permission-label= ff.object.quantitative_type.name
+      = ff.input :quantitative_type_id, as: :hidden, input_html: { value: ff.object.quantitative_type_id }
+    .col-xs-4
+      = ff.input :readable, label: false, input_html: { class: 'i-checks' }
+    .col-xs-4
+      = ff.input :editable, label: false, input_html: { class: 'i-checks' }

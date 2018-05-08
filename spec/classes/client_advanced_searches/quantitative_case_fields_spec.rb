@@ -1,9 +1,11 @@
 describe AdvancedSearches::QuantitativeCaseFields, 'Method' do
+  let!(:user) { create(:user, :admin) }
   let!(:quantitative_type) { create(:quantitative_type) }
   let!(:quantitative_case) { create(:quantitative_case, quantitative_type: quantitative_type) }
 
   before do
-    @quantitative_cases_fields = AdvancedSearches::QuantitativeCaseFields.render
+    quantitative_cases_fields = AdvancedSearches::QuantitativeCaseFields.new(user)
+    @quantitative_cases_fields = quantitative_cases_fields.render
     @fields = @quantitative_cases_fields.last
   end
 

@@ -1,4 +1,4 @@
-class CreateNgo < ActiveRecord::Migration
+class CreateSharedClients < ActiveRecord::Migration
   def change
     create_table :shared_clients do |t|
       t.references :client, index: true, foreign_key: 'slug'
@@ -7,7 +7,7 @@ class CreateNgo < ActiveRecord::Migration
       t.string :origin_ngo
       t.string :referral_reason
 
-      t.timestamps
+      t.timestamps null: false
     end
   end
 end

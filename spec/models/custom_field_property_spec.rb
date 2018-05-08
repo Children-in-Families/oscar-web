@@ -1,6 +1,7 @@
 describe CustomFieldProperty, 'association' do
   it { is_expected.to belong_to(:custom_formable) }
   it { is_expected.to belong_to(:custom_field) }
+  it { is_expected.to belong_to(:user) }
 end
 
 describe CustomFieldProperty, 'validations' do
@@ -63,7 +64,7 @@ describe CustomFieldProperty, 'callbacks' do
   context 'after_save' do
     context 'create_client_history if client form' do
       let!(:custom_field){ create(:custom_field, entity_type: 'Client') }
-      let!(:client){ create(:client, state: 'accepted') }
+      let!(:client){ create(:client) }
       let!(:client_form) { create(:custom_field_property, custom_formable: client, custom_field: custom_field) }
       it { expect(ClientHistory.where('object.custom_field_property_ids' => client_form.id).count).to eq(1) }
       it { expect(ClientHistory.where('object.custom_field_property_ids' => client_form.id).first.client_custom_field_property_histories.count).to eq(1) }

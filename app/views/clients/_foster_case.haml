@@ -5,7 +5,7 @@
         %h5= t('.foster_case.foster_care')
         .ibox-tools
           - if can? :manage, Case
-            - if current_user.admin? || current_user.case_worker? || current_user.fc_manager? || current_user.manager?
+            - if current_user.admin? || current_user.case_worker? || current_user.manager?
               %small
                 = link_to edit_client_case_path(fc.client, fc) do
                   .btn.btn-outline.btn-success

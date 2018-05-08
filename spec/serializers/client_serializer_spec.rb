@@ -190,11 +190,6 @@ describe ClientSerializer, type: :serializer do
     expect(serializer).to have_json_type(Array).at_path('client/agencies')
   end
 
-  it 'should be have attribute state' do
-    expect(serializer).to have_json_path('client/state')
-    expect(serializer).to have_json_type(String).at_path('client/state')
-  end
-
   it 'should be have attribute rejected_note' do
     expect(serializer).to have_json_path('client/rejected_note')
     expect(serializer).to have_json_type(NilClass).at_path('client/rejected_note')
