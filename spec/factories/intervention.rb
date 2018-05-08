@@ -1,5 +1,5 @@
-FactoryGirl.define do
-  factory :intervention do
-    sequence(:action)  { |n| "#{FFaker::HealthcareIpsum.word}-#{n}" }
-  end
-end
+# FactoryGirl.define do
+#   factory :intervention do
+#     sequence(:action)  { |n| "#{FFaker::HealthcareIpsum.word}-#{n}" }
+#   end
+# end

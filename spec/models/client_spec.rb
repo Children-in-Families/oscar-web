@@ -15,7 +15,6 @@ describe Client, 'associations' do
   it { is_expected.to have_many(:tasks).dependent(:destroy) }
   it { is_expected.to have_many(:case_notes).dependent(:destroy) }
   it { is_expected.to have_many(:assessments).dependent(:destroy) }
-  it { is_expected.to have_many(:progress_notes).dependent(:destroy) }
   it { is_expected.to have_many(:agency_clients) }
   it { is_expected.to have_many(:agencies).through(:agency_clients) }
   it { is_expected.to have_many(:client_quantitative_cases).dependent(:destroy) }

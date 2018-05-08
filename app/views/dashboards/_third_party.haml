@@ -2,16 +2,6 @@
   .panel.panel-default.bottom-panel
     .panel-body
       .row
-        - if current_user.admin? || current_user.case_worker? || current_user.strategic_overviewer?
-          %div{ class: "#{dynamic_third_party_cols(current_user)} text-center" }
-            .widget.style1.widget-able-panel
-              .row
-                .col-xs-6.text-left
-                  %i.fa.fa-wheelchair.fa-3x
-                .col-xs-6.text-right
-                  %span.text-font
-                    = t('.ables')
-                  %h2.font-bold #{@dashboard.able_count}
         - if can? :read, Agency
           %div{ class: "#{dynamic_third_party_cols(current_user)} text-center" }
             = link_to agencies_path do

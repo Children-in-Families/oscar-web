@@ -28,7 +28,6 @@ class Ability
       can :manage, CaseNote
       can :create, Client
       can :manage, Client, case_worker_clients: { user_id: user.id }
-      can :manage, ProgressNote
       can :manage, Task
       can :manage, CustomFieldProperty, custom_formable_type: 'Client'
       can :manage, ClientEnrollment
@@ -58,7 +57,6 @@ class Ability
       can :manage, ClientEnrollment
       can :manage, ClientEnrollmentTracking
       can :manage, LeaveProgram
-      can :read, ProgressNote
     end
   end
 end

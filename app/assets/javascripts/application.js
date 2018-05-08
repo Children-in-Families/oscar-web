@@ -80,8 +80,6 @@
 //= require partners/index
 //= require partners/form
 //= require data_trackers/index
-//= require progress_notes/form
-//= require progress_notes/index
 //= require changelogs/index
 //= require domains/form
 //= require custom_fields/form

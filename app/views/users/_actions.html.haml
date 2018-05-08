@@ -8,5 +8,4 @@
   = link_to user_disable_path(object), class: 'btn btn-outline btn-primary btn-xs' do
     = fa_icon(object.disable ? 'lock' : 'unlock')
   = remove_link(object, { user_client: object.clients.count,
-                          user_changelog: object.changelogs.count,
-                          user_progress_note: object.progress_notes.count })
+                          user_changelog: object.changelogs.count })

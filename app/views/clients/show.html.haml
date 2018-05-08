@@ -132,9 +132,6 @@
                   - if @client.cases.exclude_referred.kinships.inactive.present? && (kc_manageable || strategic_overviewer?)
                     = link_to client_cases_path(@client, case_type: 'KC') do
                       %span.text-success= t('.view_kc_history_btn_link')
-          - if can_read_client_progress_note?
-            = link_to client_progress_notes_path(@client) do
-              %span.btn-sm.btn.btn-warning.small-btn-margin.btn-fit= t('.progress_note')
           .btn-group.small-btn-margin
             %button.btn-sm.btn.btn-success.dropdown-toggle.btn-fit{ 'data-toggle' => 'dropdown', class: ('disabled' if @group_client_custom_fields.empty?) }
               = t('.additional_forms')

@@ -54,7 +54,6 @@ class Client < ActiveRecord::Base
   has_many :case_notes,     dependent: :destroy
   has_many :assessments,    dependent: :destroy
   # has_many :surveys,        dependent: :destroy
-  has_many :progress_notes, dependent: :destroy
 
   has_many :client_client_types, dependent: :destroy
   has_many :client_types, through: :client_client_types
