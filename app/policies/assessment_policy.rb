@@ -4,9 +4,12 @@ class AssessmentPolicy < ApplicationPolicy
     setting.nil? ? true : !setting
   end
 
+  def new?
+    index? && !record.client.age_over_18?
+  end
+
+  alias create? new?
   alias show? index?
-  alias new? index?
-  alias create? index?
   alias edit? index?
   alias update? index?
 end

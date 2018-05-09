@@ -33,12 +33,12 @@
 
           .col-xs-12.col-sm-3
             - if can? :manage, Assessment
-              - if @client.can_create_assessment? && assessment_editable? && policy(@client).create?
+              - if @client.can_create_assessment? && assessment_editable? && policy(@client).create? && !@client.age_over_18?
                 = link_to new_client_assessment_path(@client) do
                   .btn.btn-primary.button
                     = t('.begin_now')
               - else
-                .btn.btn-default.button.disabled
+                .btn.btn-default.button.disabled#disabled_assessment_button
                   = t('.begin_now')
 
       .ibox-footer

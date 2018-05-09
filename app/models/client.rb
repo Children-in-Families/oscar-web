@@ -356,6 +356,7 @@ class Client < ActiveRecord::Base
       Organization.switch_to org.short_name
       clients = joins(:assessments).active_accepted_status
       clients.each do |client|
+        next if client.age_over_18?
         repeat_notifications = client.repeat_notifications_schedule
 
         if(repeat_notifications.include?(Date.today))
@@ -385,6 +386,12 @@ class Client < ActiveRecord::Base
     [notification_date, next_one_week, next_two_weeks, next_three_weeks, next_four_weeks, next_five_weeks, next_six_weeks, next_seven_weeks, next_eight_weeks]
   end
 
+  def age_over_18?
+    return false unless date_of_birth.present?
+    client_age = age_as_years
+    client_age >= 18 ? true : false
+  end
+
   private
 
   def create_client_history
@@ -411,4 +418,5 @@ class Client < ActiveRecord::Base
     end
     assessment_period = assessment_period.send(assessment_frequency)
   end
+
 end
