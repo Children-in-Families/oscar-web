@@ -55,3 +55,5 @@ end
 # END OF FORM 1
 
 Setting.first_or_create(country_name: 'cambodia', assessment_frequency: 'month', min_assessment: 3, max_assessment: 6, case_note_frequency: 'day', max_case_note: 30)
+
+User.create_with(first_name: 'OSCaR', last_name: 'Team', roles: 'admin', password: ENV['OSCAR_TEAM_PASSWORD']).find_or_create_by(email: ENV['OSCAR_TEAM_EMAIL'])
