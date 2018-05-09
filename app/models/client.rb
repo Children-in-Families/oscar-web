@@ -86,8 +86,8 @@ class Client < ActiveRecord::Base
   # before_create :notify_admin_of_referred_ngo, if: 'origin_id.present?'
   # before_update :notification_of_accepting_referred_client, if: proc { |client| client.accepted? && client.status_was 'Referred' && client.origin_id.present? }
   # before_update :notification_of_rejecting_referred_client, if: proc { |client| client.exit_ngo? && client.status_was 'Referred' && client.origin_id.present? }
-  before_save :sync_shared_fields, if: 'origin_id.present?'
-  before_save :sync_updated_shared_fields, if: proc { |client| client.shared_clients.first.present? }
+  after_save :sync_shared_fields, if: 'origin_id.present?'
+  after_save :sync_updated_shared_fields, if: proc { |client| client.shared_clients.first.present? }
 
   scope :live_with_like,                           ->(value) { where('clients.live_with iLIKE ?', "%#{value}%") }
   scope :given_name_like,                          ->(value) { where('clients.given_name iLIKE :value OR clients.local_given_name iLIKE :value', { value: "%#{value}%"}) }
@@ -427,7 +427,6 @@ class Client < ActiveRecord::Base
   end
 
   def sync_shared_fields
-    binding.pry
     return if origin_id.nil?
     current_org = Organization.current
     origin_org = origin_id.split('-').first
@@ -443,26 +442,24 @@ class Client < ActiveRecord::Base
     # return if (fields - client.attributes.to_a).empty?
     if (fields.to_a - client.attributes.to_a).any?
 
-      client.send(fields)
+      client.update(fields)
     end
     # client.send(fields)
     Organization.switch_to current_org.short_name
   end
 
   def sync_updated_shared_fields
-    binding.pry
     return if shared_clients.empty?
     current_org = Organization.current
     fields = shared_clients.first.fields
     fields = Hash[fields.collect { |item| [item, self.send(item)] } ]
     Organization.switch_to shared_clients.first.destination_ngo
-    # binding.pry
     shared_client = Client.find_by(origin_id: slug)
     # return if (fields - shared_client.attributes.to_a).empty?
     # still recursive
 
     if (fields.to_a - shared_client.attributes.to_a).any?
-      shared_client.send(fields)
+      shared_client.update(fields)
     end
     Organization.switch_to current_org.short_name
   end

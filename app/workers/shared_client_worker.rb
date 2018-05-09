@@ -14,7 +14,6 @@ class SharedClientWorker
 
   def perform(shared_client_id, origin_ngo)
     # shared_client = SharedClient.find_by(id: shared_client_id)
-    # binding.pry
     # Organization.switch_to destination_ngo
     # admin_emails = User.admins.pluck(:email)
     SharedClientMailer.notify_of_shared_client(shared_client_id, origin_ngo).deliver_now

@@ -33,7 +33,8 @@
               .modal-body
                 - ngos = Organization.all.map{|org| [org.full_name, org.short_name] }
                 - keys_blacklist = %W(id slug)
-                - fields = @client.attributes.except(*keys_blacklist).keys
+                - fields = @client.attributes.except(*keys_blacklist).keys.map{|field| [field.titleize, field] }
+
                 = simple_form_for [@client, @client.shared_clients.first || @client.shared_clients.build] do |f|
                   = f.input :destination_ngo, as: :select, collection: ngos, label: 'Please select NGOs'
                   = f.input :fields, collection: fields, input_html: { multiple: true }, label: 'Please select fields'

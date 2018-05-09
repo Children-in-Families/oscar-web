@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180427035634) do
+ActiveRecord::Schema.define(version: 20180507081023) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -410,6 +410,7 @@ ActiveRecord::Schema.define(version: 20180427035634) do
     t.integer  "subdistrict_id"
     t.integer  "township_id"
     t.integer  "state_id"
+    t.string   "origin_id"
   end
 
   add_index "clients", ["district_id"], name: "index_clients_on_district_id", using: :btree
@@ -882,18 +883,32 @@ ActiveRecord::Schema.define(version: 20180427035634) do
   end
 
   create_table "settings", force: :cascade do |t|
-    t.string  "assessment_frequency"
-    t.integer "min_assessment"
-    t.integer "max_assessment"
-    t.string  "country_name",            default: ""
-    t.integer "max_case_note"
-    t.string  "case_note_frequency"
-    t.boolean "disable_assessment"
-    t.string  "client_default_columns",  default: [], array: true
-    t.string  "family_default_columns",  default: [], array: true
-    t.string  "partner_default_columns", default: [], array: true
-    t.string  "user_default_columns",    default: [], array: true
+    t.string   "assessment_frequency"
+    t.integer  "min_assessment"
+    t.integer  "max_assessment"
+    t.string   "country_name",            default: ""
+    t.integer  "max_case_note"
+    t.string   "case_note_frequency"
+    t.boolean  "disable_assessment"
+    t.string   "client_default_columns",  default: [], array: true
+    t.string   "family_default_columns",  default: [], array: true
+    t.string   "partner_default_columns", default: [], array: true
+    t.string   "user_default_columns",    default: [], array: true
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
+
+  create_table "shared_clients", force: :cascade do |t|
+    t.integer  "client_id"
+    t.string   "fields",          default: [],              array: true
+    t.string   "destination_ngo"
+    t.string   "origin_ngo"
+    t.string   "referral_reason"
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+  end
+
+  add_index "shared_clients", ["client_id"], name: "index_shared_clients_on_client_id", using: :btree
 
   create_table "stages", force: :cascade do |t|
     t.float    "from_age"
@@ -1327,6 +1342,7 @@ ActiveRecord::Schema.define(version: 20180427035634) do
   add_foreign_key "quantitative_type_permissions", "quantitative_types"
   add_foreign_key "quantitative_type_permissions", "users"
   add_foreign_key "quarterly_reports", "cases"
+  add_foreign_key "shared_clients", "clients"
   add_foreign_key "subdistricts", "districts"
   add_foreign_key "surveys", "clients"
   add_foreign_key "tasks", "clients"

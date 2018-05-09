@@ -10,7 +10,6 @@ class SharedClient < ActiveRecord::Base
 
   def notify_admin_of_destination_ngo
     task = SharedClientNotification.new
-    # binding.pry
     task.notify_admins(self.id, self.origin_ngo)
   end
 end
