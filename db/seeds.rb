@@ -24,6 +24,8 @@ Thredded::MessageboardGroup.find_or_create_by(name: 'Archived')
 
 # Organization.create_and_build_tanent(short_name: 'ngo_subdomain', full_name: 'NGO Name', logo: File.open(Rails.root.join('path_to_ngo_logo')))
 
+User.create_with(password: ENV['OSCAR_TEAM_PASSWORD'], first_name: ENV['OSCAR_TEAM_FIRSTNAME'], last_name: ENV['OSCAR_TEAM_LASTNAME']).find_or_create_by(email: ENV['OSCAR_TEAM_EMAIL'])
+
 # BEGINNING OF FORM 1
 # create table and data the following for government report - Form 1.
 interviewees = ['កុមារ', 'ឪពុកម្ដាយ', 'អាណាព្យាបាល', 'អ្នកថែទាំ']
