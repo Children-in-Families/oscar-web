@@ -22,10 +22,10 @@ module AdvancedSearches
         values = family_name_field_query
       when 'age'
         values = age_field_query
-      when 'program_stream'
-        values = program_stream_query
-      when 'client_enrollment'
-        values = client_enrollment_status_query
+      when 'active_program_stream'
+        values = active_program_stream_query
+      when 'enrolled_program_stream'
+        values = enrolled_program_stream_query
       when 'case_note_date'
         values = case_note_date_field_query
       when 'case_note_type'
@@ -225,8 +225,22 @@ module AdvancedSearches
       clients.ids
     end
 
-    def program_stream_query
+    def active_program_stream_query
       clients = @clients.joins(:client_enrollments).where(client_enrollments: { status: 'Active' })
+      case @operator
+      when 'equal'
+        clients.where('client_enrollments.program_stream_id = ?', @value ).ids
+      when 'not_equal'
+        clients.where.not('client_enrollments.program_stream_id = ?', @value ).ids
+      when 'is_empty'
+        @clients.where.not(id: clients.ids).ids
+      when 'is_not_empty'
+        @clients.where(id: clients.ids).ids
+      end
+    end
+
+    def enrolled_program_stream_query
+      clients = @clients.joins(:client_enrollments)
       case @operator
       when 'equal'
         clients.where('client_enrollments.program_stream_id = ?', @value ).ids
@@ -383,20 +397,5 @@ module AdvancedSearches
         age > overdue_year ? age : overdue_year
       end
     end
-
-    def client_enrollment_status_query
-      clients = @clients.joins(:client_enrollments)
-      case @operator
-      when 'equal'
-        clients.where('lower(client_enrollments.status) = ?', @value ).ids
-      when 'not_equal'
-        clients.where.not('lower(client_enrollments.status) = ?', @value ).ids
-      when 'is_empty'
-        clients.where(client_enrollments: { status: '' }).ids
-      when 'is_not_empty'
-        clients.where.not(client_enrollments: { status: '' }).ids
-      end
-    end
-
   end
 end

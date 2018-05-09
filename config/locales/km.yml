@@ -296,6 +296,7 @@ km:
     fields:
       able: ឣតិថិជនក្នុងកម្មវិធី អែបល
       able_state: ស្ថានភាព អែបល
+      active_program_stream: កំពុងចូលរួមកម្មវិធីបន្ទាប់បន្សំ
       address: ឣាសយដ្ឋាន
       age: អាយុ
       agencies_involved: អង្គភាពដែលពាក់ព័ន្ធ
@@ -309,7 +310,6 @@ km:
       case_type: ប្រភេទករណី
       case_worker: បុគ្គលិកគ្រប់គ្រងករណី
       case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
-      client_enrollment: ទម្រង់បែបបទនៃការចុះឈ្មោះ
       code: លេខកូដផ្ទាល់ខ្លួនទី១
       commune: ឃុំ/សង្កាត់
       completed: ពេញលេញហើយឬនៅ?
@@ -360,7 +360,6 @@ km:
       placement_start_date: ថ្ងៃបញ្ជូនទៅក្នុងករណី
       plot: Plot
       postal_code: Postal Code
-      program_stream: កម្មវិធីបន្ទាប់បន្សំ
       province: ខេត្តកំណើត
       province_id: ខេត្តបច្ចុប្បន្ន
       rated_for_id_poor: តើអតិថិជនត្រូវបានវាយតម្លៃថាអត្តសញ្ញាណក្រីក្រឬទេ

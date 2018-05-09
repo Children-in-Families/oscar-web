@@ -293,6 +293,7 @@ my:
     fields:
       able: Able
       able_state: Able အေနအထား
+      active_program_stream: အစီအမံစီဆင္းမႈ
       address: လိပ္စာ
       age: အသက္
       agencies_involved: ပါ၀င္သည့္ ေအဂ်င္စီမ်ား
@@ -307,7 +308,6 @@ my:
       case_type: အမႈျခင္းရာအမ်ိဳးအစား
       case_worker: အမႈျခင္းရာအတြက္ေဆာင္ရြက္ေပးသူ
       case_worker_or_staff: အမႈျခင္းရာအတြက္ေဆာင္ရြက္ေပးသူ / ၀န္ထမ္း
-      client_enrollment: အမႈသည္စာရင္းေပးသြင္းမႈ
       code: Custom ID Number1
       commune: ရပ္ကြက္/ ေက်းရြာအုပ္စု
       completed: ၿပီး
@@ -361,7 +361,6 @@ my:
       placement_start_date: ေနရာခ်ထားမႈစတင္သည့္ရက္စြဲ
       plot: Plot
       postal_code: Postal Code
-      program_stream: အစီအမံစီဆင္းမႈ
       province: ေမြးရာျပည္နယ္
       province_id: လက္ရွိေနထုိင္ရာျပည္နယ္
       quantitative: ပမာဏအမ်ိဳးအစား
