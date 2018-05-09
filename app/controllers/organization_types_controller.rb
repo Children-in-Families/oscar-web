@@ -1,6 +1,5 @@
 class OrganizationTypesController < AdminController
-  load_and_authorize_resource
-
+  before_action :authorize_organization_type
   before_action :find_organization_type, only: [:update, :destroy]
 
   def index
@@ -48,5 +47,9 @@ class OrganizationTypesController < AdminController
 
   def find_organization_type
     @organization_type = OrganizationType.find(params[:id])
+  end
+
+  def authorize_organization_type
+    authorize OrganizationType
   end
 end

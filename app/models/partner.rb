@@ -7,6 +7,8 @@ class Partner < ActiveRecord::Base
   has_many :custom_field_properties, as: :custom_formable, dependent: :destroy
   has_many :custom_fields, through: :custom_field_properties, as: :custom_formable
 
+  delegate :name, to: :organization_type, prefix: true, allow_nil: true
+
   has_paper_trail
 
   scope :name_like,                  ->(value) { where('name iLIKE ?', "%#{value}%") }

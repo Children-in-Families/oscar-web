@@ -1,6 +1,6 @@
 describe 'Organization Type' do
-  let!(:admin){ create(:user, roles: 'admin') }
-  let!(:organization_type){ create(:organization_type) }
+  let!(:admin){ create(:user, :admin) }
+  let!(:organization_type){ create(:organization_type, name: 'ABC') }
   let!(:other_organization_type){ create(:organization_type) }
   let!(:partner){ create(:partner, organization_type_id: other_organization_type.id) }
 
@@ -28,7 +28,7 @@ describe 'Organization Type' do
       visit organization_types_path
     end
     scenario 'valid' do
-      click_link('Add New Organization Type')
+      click_link('Add New Organisation Type')
       within('#new_organization_type') do
         fill_in 'Name', with: 'Church'
         click_button 'Save'
@@ -37,7 +37,7 @@ describe 'Organization Type' do
       expect(page).to have_content('Church')
     end
     scenario 'invalid' do
-      click_link('Add New Organization Type')
+      click_link('Add New Organisation Type')
       within('#new_organization_type') do
         fill_in 'Name', with: 'NGO'
         click_button 'Save'
@@ -67,7 +67,7 @@ describe 'Organization Type' do
         click_button 'Save'
       end
       sleep 1
-      expect(page).to have_content(organization_type.name)
+      expect(page).to have_content('ABC')
     end
   end
 
@@ -78,7 +78,7 @@ describe 'Organization Type' do
     scenario 'success' do
       find("a[href='#{organization_type_path(organization_type)}'][data-method='delete']").click
       sleep 1
-      expect(page).not_to have_content(organization_type.name)
+      expect(page).not_to have_content('ABC')
     end
     scenario 'disable delete' do
       expect(page).to have_css("a[href='#{organization_type_path(other_organization_type)}'][data-method='delete'][class='btn btn-outline btn-danger btn-xs disabled']")
