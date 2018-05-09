@@ -26,7 +26,6 @@ class User < ActiveRecord::Base
 
   has_many :advanced_searches, dependent: :destroy
   has_many :changelogs, dependent: :restrict_with_error
-  has_many :progress_notes, dependent: :restrict_with_error
   has_many :case_worker_clients, dependent: :restrict_with_error
   has_many :clients, through: :case_worker_clients
   has_many :enter_ngo_users, dependent: :destroy
@@ -124,7 +123,7 @@ class User < ActiveRecord::Base
   end
 
   def no_any_associated_objects?
-    clients.count.zero? && changelogs.count.zero? && progress_notes.count.zero?
+    clients.count.zero? && changelogs.count.zero?
   end
 
   def client_status

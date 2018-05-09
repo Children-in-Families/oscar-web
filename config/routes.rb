@@ -87,21 +87,6 @@ Rails.application.routes.draw do
 
   get '/data_trackers' => 'data_trackers#index'
 
-  resources :materials, except: [:show] do
-    get 'version' => 'materials#version'
-  end
-
-  resources :locations, except: [:show] do
-    get 'version' => 'locations#version'
-  end
-
-  resources :progress_note_types, except: [:show] do
-    get 'version' => 'progress_note_types#version'
-  end
-
-  resources :interventions, except: [:show] do
-    get 'version' => 'interventions#version'
-  end
   resources :clients do
 
     collection do
@@ -142,10 +127,6 @@ Rails.application.routes.draw do
       resources :tasks, except: [:new]
     end
     # resources :surveys
-
-    resources :progress_notes, except: [:new, :create] do
-      get 'version' => 'progress_notes#version'
-    end
 
     get 'version' => 'clients#version'
   end

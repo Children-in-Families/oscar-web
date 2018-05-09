@@ -85,9 +85,5 @@ describe 'Abilities' do
     it 'can manage LeaveProgram' do
       should be_able_to(:manage, LeaveProgram)
     end
-
-    it 'can read ProgressNote' do
-      should be_able_to(:read, ProgressNote)
-    end
   end
 end

@@ -3,9 +3,7 @@ describe 'User' do
   let!(:used_user){ create(:user) }
   let!(:user){ create(:user) }
   let!(:strategic_overviewer){ create(:user, :strategic_overviewer) }
-
-  let!(:location){ create(:location, name: 'ផ្សេងៗ Other') }
-  let!(:progress_note){ create(:progress_note, user: used_user, location: location) }
+  let!(:client){ create(:client, users: [used_user]) }
 
   let!(:custom_field){ create(:custom_field) }
   let!(:program_stream){ create(:program_stream) }

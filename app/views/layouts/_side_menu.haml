@@ -94,19 +94,6 @@
                 = link_to t('.referral_sources'), referral_sources_path
               %li{ class: active_menu('quantitative_types') }
                 = link_to t('.quantitative_types'), quantitative_types_path
-              %li
-                %a#pro-nav{href: "#"}
-                  = t('.progress_note')
-                  %span.fa.arrow
-                %ul.nav.nav-third-level
-                  %li{ class: active_menu('interventions') }
-                    = link_to t('.interventions'), interventions_path
-                  %li{ class: active_menu('locations') }
-                    = link_to t('.locations'), locations_path
-                  %li{ class: active_menu('materials') }
-                    = link_to t('.materials'), materials_path
-                  %li{ class: active_menu('progress_note_types') }
-                    = link_to t('.progress_note_types'), progress_note_types_path
               %li{ class: active_menu('custom_fields') }
                 = link_to t('.custom_fields'), custom_fields_path
               %li{ class: active_menu('program_streams') }

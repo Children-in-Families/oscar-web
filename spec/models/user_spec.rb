@@ -12,7 +12,6 @@ describe User, 'associations' do
   it { is_expected.to have_many(:clients).through(:case_worker_clients) }
   it { is_expected.to have_many(:case_worker_clients).dependent(:restrict_with_error) }
   it { is_expected.to have_many(:changelogs).dependent(:restrict_with_error) }
-  it { is_expected.to have_many(:progress_notes).dependent(:restrict_with_error) }
   it { is_expected.to have_many(:custom_field_properties).dependent(:destroy) }
   it { is_expected.to have_many(:custom_fields).through(:custom_field_properties) }
   it { is_expected.to have_many(:custom_field_permissions).dependent(:destroy) }
@@ -311,8 +310,6 @@ describe User, 'methods' do
   let!(:other_clent) { create(:client, :accepted, users: [used_user]) }
   let!(:task) { create(:task, user: used_user) }
   let!(:changelog) { create(:changelog, user: used_user) }
-  let!(:location){ create(:location, name: 'ផ្សេងៗ Other') }
-  let!(:progress_note) { create(:progress_note, user: used_user, location: location) }
 
   let!(:fifth_case_worker){ create(:user, roles: 'case worker', first_name: FFaker::Name.name, last_name: FFaker::Name.name) }
   let!(:fifth_client) { create(:client, users: [fifth_case_worker], status: 'Referred') }
