@@ -322,6 +322,7 @@ my:
       district: ခ႐ိုင္
       donor: အလွဴရွင္
       donor_id: အလွဴရွင္
+      enrolled_program_stream: စာရင်းသွင်းအစီအစဉ်ကိုစီး
       enrollment: စာရင္းသြင္းျခင္း
       exit_circumstance: ထွက်ပေါက်အခြေအနေ
       exit_ec_date: ထြက္သည့္ EC ရက္စြဲ

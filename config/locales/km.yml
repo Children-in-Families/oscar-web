@@ -323,6 +323,7 @@ km:
       district: ស្រុក/ខណ្ឌ
       donor: ម្ចាស់ជំនួយ
       donor_id: ម្ចាស់ជំនួយ
+      enrolled_program_stream: ចូលរួមកម្មវិធីបន្ទាប់បន្សំរួចហើយ
       exit_circumstance: ស្ថានភាពនៃការចាកចេញ
       exit_ec_date: ថ្ងៃចាកចេញពី EC
       exit_fc_date: ថ្ងៃចាកចេញពី FC
