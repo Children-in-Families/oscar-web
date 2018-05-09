@@ -126,7 +126,7 @@ describe "Assessment" do
     let!(:client_3){ create(:client, :accepted, users: [user], date_of_birth: 18.years.ago) }
     scenario 'create assessment button is disable for client whose age is over 18' do
       visit client_assessments_path(client_3)
-      expect(page).to have_css('div.disabled')
+      expect(page).to have_css('#disabled_assessment_button')
     end
 
   end

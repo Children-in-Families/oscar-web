@@ -21,8 +21,6 @@ class Assessment < ActiveRecord::Base
 
   DUE_STATES = ['Due Today', 'Overdue']
 
-  include ApplicationHelper
-
   def self.latest_record
     most_recents.first
   end
@@ -54,9 +52,8 @@ class Assessment < ActiveRecord::Base
   end
 
   def client_must_not_over_18
-    return true unless (client.present? && client.date_of_birth.present?)
-    client_age = client.age_as_years
-    client_age >= 18 ? errors.add(:base, 'Assessment cannot be created for client who is over 18.') : true
+    adult = client.age_over_18? if client.present?
+    adult ? errors.add(:base, 'Assessment cannot be created for client who is over 18.') : true
   end
 
   private

@@ -31,10 +31,4 @@ module AssessmentHelper
     return false if current_user.strategic_overviewer?
     current_user.permission.assessments_editable
   end
-
-  def client_under_18years?(client)
-    return true unless client.date_of_birth.present?
-    client_age = client.age_as_years
-    client_age < 18 ? true : false
-  end
 end
