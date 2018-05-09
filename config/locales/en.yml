@@ -286,6 +286,7 @@ en:
     fields:
       able: Able
       able_state: Able State
+      active_program_stream: Active Program Stream
       address: Address
       age: Age
       agencies_involved: Other Agencies Involved
@@ -314,6 +315,7 @@ en:
       district: District/Khan
       donor: Donor
       donor_id: Donor
+      enrolled_program_stream: Enrolled Program Stream
       enrollment: Enrollment
       exit_circumstance: Exit Circumstance
       exit_ec_date: Exit EC Date
@@ -353,7 +355,6 @@ en:
       placement_start_date: Placement Start Date
       plot: Plot
       postal_code: Postal Code
-      program_stream: Program Stream
       province: Birth Province
       province_id: Current Province
       quantitative: Specific Referral Data

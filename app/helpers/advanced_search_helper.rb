@@ -90,7 +90,8 @@ module AdvancedSearchHelper
       quantitative: I18n.t('advanced_search.fields.quantitative'),
       exit_date: I18n.t('advanced_search.fields.ngo_exit_date'),
       accepted_date: I18n.t('advanced_search.fields.ngo_accepted_date'),
-      program_stream: I18n.t('advanced_search.fields.program_stream'),
+      active_program_stream: I18n.t('advanced_search.fields.active_program_stream'),
+      enrolled_program_stream: I18n.t('advanced_search.fields.enrolled_program_stream'),
       csi_domain_scores: I18n.t('advanced_search.fields.csi_domain_scores'),
       case_note_date: I18n.t('advanced_search.fields.case_note_date'),
       case_note_type: I18n.t('advanced_search.fields.case_note_type'),
@@ -104,7 +105,7 @@ module AdvancedSearchHelper
       name_of_referee: I18n.t('advanced_search.fields.name_of_referee'),
       main_school_contact: I18n.t('advanced_search.fields.main_school_contact'),
       what3words: I18n.t('advanced_search.fields.what3words'),
-      kid_id: I18n.t('advanced_search.fields.kid_id')
+      kid_id: I18n.t('advanced_search.fields.kid_id'),
     }
     translations[key.to_sym] || ''
   end
