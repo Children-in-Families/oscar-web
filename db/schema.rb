@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180506040228) do
+ActiveRecord::Schema.define(version: 20180507051830) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -706,6 +706,12 @@ ActiveRecord::Schema.define(version: 20180506040228) do
     t.datetime "updated_at"
   end
 
+  create_table "organization_types", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "organizations", force: :cascade do |t|
     t.string   "full_name"
     t.string   "short_name"
@@ -716,21 +722,24 @@ ActiveRecord::Schema.define(version: 20180506040228) do
   end
 
   create_table "partners", force: :cascade do |t|
-    t.string   "name",                  default: ""
-    t.string   "address",               default: ""
+    t.string   "name",                      default: ""
+    t.string   "address",                   default: ""
     t.date     "start_date"
-    t.string   "contact_person_name",   default: ""
-    t.string   "contact_person_email",  default: ""
-    t.string   "contact_person_mobile", default: ""
-    t.string   "organisation_type",     default: ""
-    t.string   "affiliation",           default: ""
-    t.string   "engagement",            default: ""
-    t.text     "background",            default: ""
+    t.string   "contact_person_name",       default: ""
+    t.string   "contact_person_email",      default: ""
+    t.string   "contact_person_mobile",     default: ""
+    t.string   "archive_organization_type", default: ""
+    t.string   "affiliation",               default: ""
+    t.string   "engagement",                default: ""
+    t.text     "background",                default: ""
     t.integer  "province_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "cases_count",           default: 0
+    t.integer  "cases_count",               default: 0
+    t.integer  "organization_type_id"
   end
+
+  add_index "partners", ["organization_type_id"], name: "index_partners_on_organization_type_id", using: :btree
 
   create_table "permissions", force: :cascade do |t|
     t.integer  "user_id"
@@ -1319,6 +1328,7 @@ ActiveRecord::Schema.define(version: 20180506040228) do
   add_foreign_key "interventions_progress_notes", "interventions"
   add_foreign_key "interventions_progress_notes", "progress_notes"
   add_foreign_key "leave_programs", "client_enrollments"
+  add_foreign_key "partners", "organization_types"
   add_foreign_key "program_stream_permissions", "program_streams"
   add_foreign_key "program_stream_permissions", "users"
   add_foreign_key "progress_notes", "clients"

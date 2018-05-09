@@ -22,7 +22,7 @@
       .ibox-title
         %h5
           = "#{t('.general_info')} #{@partner.name}"
-          = "(#{@partner.organisation_type})" if @partner.organisation_type.present?
+          = "(#{@partner.organization_type_name})" if @partner.organization_type.present?
         .ibox-tools
           %a.collapse-link
             .btn.btn-outline.btn-primary

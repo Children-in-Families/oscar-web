@@ -1675,6 +1675,7 @@ km:
       interventions: ចំនុចដែលត្រូវធ្វើ
       locations: កន្លែង
       materials: របស់របរ/សំភារៈ
+      organisation_types: ប្រភេទឣង្គភាព
       partner_custom_fields: ទម្រង់បែបបទរបស់ដៃគូ
       partners: ដៃគូ
       program_streams: កម្មវិធីបន្ទាប់បន្សំ
@@ -3188,6 +3189,7 @@ km:
       log_out: ចាកចេញ
       manage: គ្រប់គ្រង
       materials: របស់របរ/សំភារៈ
+      organisation_types: ប្រភេទឣង្គភាព
       partners: ដៃគូ
       program_streams: កម្មវិធីបន្ទាប់បន្សំ
       progress_note: កត់សំគាល់ការរីកចំរើន
@@ -3326,6 +3328,37 @@ km:
       most_recent_assessment: ការប៉ាន់ប្រមាណចុងក្រោយ
       upcoming_assessment: ការប៉ាន់ប្រមាណបន្ទាប់
   ok: យល់ព្រម
+  organization_types:
+    create:
+      failed_create: ប្រភេទឣង្គភាពមិនត្រូវបានបង្កើតដោយជោគជ័យ
+      successfully_created: ប្រភេទឣង្គភាពត្រូវបានបង្កើតដោយជោគជ័យ
+    destroy:
+      alert: ប្រភេទឣង្គភាពមិនអាចលុបបានទេ
+      failed_delete: ប្រភេទឣង្គភាពមិនត្រូវបានលុបចោលដោយជោគជ័យ
+      successfully_deleted: ប្រភេទឣង្គភាពត្រូវបានលុបចោលដោយជោគជ័យ
+    edit:
+      title: កែសម្រួលប្រភេទឣង្គភាព
+    form:
+      cancel: ទុកជាមោឃៈ
+      name: ឈ្មោះប្រភេទឣង្គភាព
+      province: ប្រភេទឣង្គភាព
+      save: រក្សាទុក
+    index:
+      add_new_organisation_type: បន្ថែមប្រភេទឣង្គភាពថ្មី
+      are_you_sure: តើអ្នកប្រាកដហើយថាចង់លុប?
+      changelogs: ប្រវត្តិនៃកំណែ
+      manage: សកម្មភាព
+      organisation_type_names: ឈ្មោះប្រភេទឣង្គភាព
+      organisation_types: ប្រភេទឣង្គភាព
+      view: មើល
+    new:
+      title: ប្រភេទឣង្គភាពថ្មី
+    update:
+      failed_update: ប្រភេទឣង្គភាពមិនត្រូវបានរក្សាទុក
+      successfully_updated: ប្រភេទឣង្គភាពរក្សាបានដោយជោគជ័យ
+    version:
+      back: ត្រលប់ក្រោយ
+      modification_of: ប្រវត្តិកំណែរបស់
   partners:
     actions:
       are_you_sure: តើអ្នកប្រាកដហើយថាចង់លុប?
@@ -3882,6 +3915,7 @@ km:
         material: របស់របរ/សំភារៈ
         no_modification: មិនមានប្រវត្តិកំណែ
         'on': របស់
+        organisation_type: ប្រភេទឣង្គភាព
         partner: ដៃគូ
         partner_custom_field: ទម្រង់បែបបទរបស់ដៃគូ
         progress_note: កំណត់សំគាល់ការរីកចំរើន

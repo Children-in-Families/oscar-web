@@ -1,0 +1,40 @@
+.row
+  .col-xs-12
+    .ibox
+      .ibox-title
+        %h5= @results
+        %span.label.label-info= t('.organisation_types')
+        .ibox-tools
+          - if can? :manage, OrganizationType
+            = link_to '#', {"data-target" => "#organization_typeModal-", "data-toggle" => "modal", :type => "button"} do
+              .btn.btn-primary.btn-add
+                = t('.add_new_organisation_type')
+      .ibox-content
+        .table-responsive
+          %table.table.table-bordered.table-striped.table-hover
+            %thead
+              %tr
+                %th= t('.organisation_type_names')
+                - if can? :manage, OrganizationType
+                  %th.text-center.custom_column_manage{:colspan => "2"}
+                    = t('.manage')
+                - if can? :version, OrganizationType
+                  %th.modification.text-center= t('.changelogs')
+            %tbody
+              - @organization_types.each do |organization_type|
+                %tr
+                  %td{style: 'width: 80%;'}
+                    = organization_type.name
+                  - if can? :manage, OrganizationType
+                    %td.text-center
+                      = link_to '#', { class: 'btn btn-outline btn-success btn-xs', "data-target" => "#organization_typeModal-#{organization_type.id}", "data-toggle" => "modal", :type => "button" } do
+                        = fa_icon('pencil')
+                    %td.text-center
+                      = remove_link(organization_type, { organization_type_partner: organization_type.partners.count })
+                  - if can? :version, OrganizationType
+                    %td.text-center
+                      = link_to t('.view'), organization_type_version_path(organization_type)
+                  = render 'form', organization_type: organization_type
+      .ibox-footer.text-center
+        = paginate @organization_types
+= render 'form'

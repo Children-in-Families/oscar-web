@@ -1600,6 +1600,7 @@ my:
       interventions: ၾကား၀င္ေဆာင္ရြက္ျခင္းမ်ား
       locations: တည္ေနရာမ်ား
       materials: ကိရိယာ/ ပစၥည္းမ်ား
+      organisation_types: အဖြဲ႕အစည္းအမ်ိဳးအစား
       partner_custom_fields: မိတ္ဖက္၏ သတ္မွတ္ပံုစံမ်ား
       partners: မိတ္ဖက္မ်ား
       program_streams: အစီအစဥ္စီးဆင္းမႈမ်ား
@@ -3130,6 +3131,7 @@ my:
       log_out: ထြက္
       manage: စီမံသည္
       materials: ကိရိယာ/ပစၥည္းမ်ား
+      organisation_type: အဖြဲ႕အစည္းအမ်ိဳးအစား
       partners: လက္တြဲေဖာ္မ်ား
       program_streams: အစီအစဥ္မ်ား စီးဆင္းမႈ
       progress_note: တိုးတက္မႈ မွတ္စု
@@ -3284,6 +3286,37 @@ my:
       most_recent_assessment: အများစုမှာလတ်တလောအကဲဖြတ်
       upcoming_assessment: လာမည့်အကဲဖြတ်
   ok: အဆင္ေျပပါသည္
+  organization_types:
+    create:
+      failed_create: အဖြဲ႕အစည္းအမ်ိဳးအစား ဖန္တီးျခင္း မေအာင္ျမင္ပါ
+      successfully_created: အဖြဲ႕အစည္းအမ်ိဳးအစား ေအာင္ျမင္စြာ ဖန္တီးၿပီးပါၿပီ
+    destroy:
+      alert: အဖြဲ႕အစည္းအမ်ိဳးအစား ဖ်က္လုိ႔မရပါ
+      failed_delete: အဖြဲ႕အစည္းအမ်ိဳးအစားဖ်က္ျခင္း မေအာင္ျမင္ပါ
+      successfully_deleted: အဖြဲ႕အစည္းအမ်ိဳးအစား ေအာင္ျမင္စြာ ဖ်က္ၿပီးပါၿပီ
+    edit:
+      title: အဖြဲ႕အစည္းအမ်ိဳးအစား ျပင္ဆင္ရန္
+    form:
+      cancel: ပယ္ဖ်က္ရန္
+      name: နာမည္
+      organisation_type: အဖြဲ႕အစည္းအမ်ိဳးအစား
+      save: သိမ္းဆည္းရန္
+    index:
+      add_new_organisation_type: နယူးအဖွဲ့အစည်းအမျိုးအစား
+      are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား
+      changelogs: ေျပာင္းလဲမႈမွတ္တမ္း
+      manage: စီမံသည္
+      organisation_type_names: နာမည္
+      organisation_types: အဖြဲ႕အစည္းအမ်ိဳးအစား
+      view: ျမင္ကြင္း
+    new:
+      title: နယူးအဖွဲ့အစည်းအမျိုးအစား
+    update:
+      failed_update: အဖြဲ႕အစည္းအမ်ိဳးအစား အသစ္ျပင္ဆင္ျဖည့္စြက္ျခင္း မေအာင္ျမင္ပါ
+      successfully_updated: အဖြဲ႕အစည္းအမ်ိဳးအစား ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ျဖည့္စြက္ၿပီးပါၿပီ
+    version:
+      back: ေနာက္သို႔
+      modification_of: "၏ ေျပာင္းလဲမႈ"
   partners:
     actions:
       are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား
@@ -3833,6 +3866,7 @@ my:
         material: ကိရိယာ/ပစၥည္း
         no_modification: ေျပာင္းလဲမႈ မွတ္တမ္းမရွိပါ
         'on': ေပၚတြင္
+        organisation_type: အဖြဲ႕အစည္းအမ်ိဳးအစား
         partner: လက္တြဲေဖာ္
         partner_custom_field: လက္တြဲေဖာ္အေကာက္ခြန္ပံုစံမ်ား
         progress_note: တိုးတက္မႈမွတ္တမ္း

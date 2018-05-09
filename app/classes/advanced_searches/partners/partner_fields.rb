@@ -22,7 +22,7 @@ module AdvancedSearches
       end
 
       def text_type_list
-        ['name', 'contact_person_name', 'contact_person_email', 'contact_person_mobile', 'organisation_type', 'engagement', 'affiliation', 'address', 'background']
+        ['name', 'contact_person_name', 'contact_person_email', 'contact_person_mobile', 'engagement', 'affiliation', 'address', 'background']
       end
 
       def date_type_list
@@ -32,7 +32,8 @@ module AdvancedSearches
       def drop_down_type_list
         [
           ['province_id', provinces],
-          ['form_title', partner_custom_form_options]
+          ['form_title', partner_custom_form_options],
+          ['organization_type_id', organization_types]
         ]
       end
 
@@ -42,6 +43,10 @@ module AdvancedSearches
 
       def partner_custom_form_options
         CustomField.joins(:custom_field_properties).partner_forms.uniq.map{ |c| { c.id.to_s => c.form_title }}
+      end
+
+      def organization_types
+        OrganizationType.joins(:partners).uniq.sort.map{ |c| { c.id.to_s => c.name } }
       end
     end
   end

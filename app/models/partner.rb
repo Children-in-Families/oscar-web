@@ -1,10 +1,13 @@
 class Partner < ActiveRecord::Base
   include EntityTypeCustomField
   belongs_to :province, counter_cache: true
+  belongs_to :organization_type
 
   has_many :cases
   has_many :custom_field_properties, as: :custom_formable, dependent: :destroy
   has_many :custom_fields, through: :custom_field_properties, as: :custom_formable
+
+  delegate :name, to: :organization_type, prefix: true, allow_nil: true
 
   has_paper_trail
 
@@ -16,9 +19,9 @@ class Partner < ActiveRecord::Base
   scope :engagement_like,            ->(value) { where('engagement iLIKE ?', "%#{value}%") }
   scope :background_like,            ->(value) { where('background iLIKE ?', "%#{value}%") }
   scope :address_like,               ->(value) { where('address iLIKE ?', "%#{value}%") }
-  scope :organisation_type_are,      ->        { where.not(organisation_type: '').pluck(:organisation_type).uniq }
+  scope :organization_type_are,      ->        { joins(:organization_type).order('lower(organization_types.name)').pluck('organization_types.name', 'organization_types.id').uniq }
   scope :province_are,               ->        { joins(:province).pluck('provinces.name', 'provinces.id').uniq }
-  scope :NGO,                        ->        { where(organisation_type: 'NGO') }
-  scope :local_goverment,            ->        { where(organisation_type: 'Local Goverment') }
-  scope :church,                     ->        { where(organisation_type: 'Church') }
+  scope :NGO,                        ->        { joins(:organization_type).where(organization_types: { name: 'NGO' }) }
+  scope :local_goverment,            ->        { joins(:organization_type).where(organization_types: { name: 'Local Goverment' }) }
+  scope :church,                     ->        { joins(:organization_type).where(organization_types: { name: 'Church' }) }
 end

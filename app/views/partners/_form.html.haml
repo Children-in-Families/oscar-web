@@ -18,7 +18,7 @@
                 %i.fa.fa-calendar-check-o
           = f.input :engagement, label: t('.engagement')
         .col-xs-12.col-sm-6.col-md-4
-          = f.input :organisation_type, label: t('.organisation_type')
+          = f.association :organization_type, collection: @organization_types, label: t('.organization_type')
           = f.input :affiliation, label: t('.affiliation')
         .col-xs-12.col-sm-6.col-md-4
           = f.input :background, input_html: { style: 'height: 107px;' }, label: t('.background')

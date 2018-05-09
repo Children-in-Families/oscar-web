@@ -78,10 +78,9 @@ class PartnersController < AdminController
   private
 
   def partner_params
-    params.require(:partner).permit(:name, :contact_person_name,
-                                    :contact_person_email, :contact_person_mobile,
-                                    :organisation_type, :affiliation, :engagement,
-                                    :background, :start_date, :address,
+    params.require(:partner).permit(:name, :contact_person_name, :engagement,
+                                    :contact_person_email, :contact_person_mobile, :affiliation,
+                                    :background, :start_date, :address, :organization_type_id,
                                     :province_id, custom_field_ids: [])
   end
 
@@ -91,5 +90,6 @@ class PartnersController < AdminController
 
   def find_association
     @province = Province.order(:name)
+    @organization_types = OrganizationType.order(:name)
   end
 end

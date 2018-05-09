@@ -6,6 +6,9 @@ describe Partner, 'associations' do
 end
 
 describe Partner, 'scopes' do
+  let!(:local_goverment){ create(:organization_type, name: 'Local Goverment')}
+  let!(:church){ create(:organization_type, name: 'Church')}
+  let!(:ngo){ create(:organization_type, name: 'NGO')}
   let!(:partner){ create(:partner)}
   let!(:other_partner){ create(:partner,
     name: 'Example Partner',
@@ -13,11 +16,12 @@ describe Partner, 'scopes' do
     contact_person_mobile: '+1234567890',
     engagement: 'Example Engagement',
     background: 'Example Background',
-    address: 'Example Address'
+    address: 'Example Address',
+    organization_type_id: ngo.id
   ) }
-  let!(:ngo_partner){ create(:partner, organisation_type: 'NGO') }
-  let!(:local_goverment_partner){ create(:partner, organisation_type: 'Local Goverment') }
-  let!(:church_partner){ create(:partner, organisation_type: 'Church') }
+  let!(:ngo_partner){ create(:partner, organization_type_id: ngo.id) }
+  let!(:local_goverment_partner){ create(:partner, organization_type_id: local_goverment.id) }
+  let!(:church_partner){ create(:partner, organization_type_id: church.id) }
   context 'name like' do
     let!(:partners){ Partner.name_like(partner.name.downcase) }
     it 'should include partner name like' do
@@ -49,9 +53,9 @@ describe Partner, 'scopes' do
   end
 
   context 'organisation type are' do
-    let!(:organisation_type){ Partner.organisation_type_are }
+    let!(:organization_type){ Partner.organization_type_are }
     it 'should include organisation type' do
-      expect(organisation_type).to include(partner.organisation_type)
+      expect(organization_type).to include([ngo.name, ngo.id], [church.name, church.id], [local_goverment.name, local_goverment.id])
     end
   end
 

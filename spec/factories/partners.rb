@@ -6,10 +6,10 @@ FactoryGirl.define do
     contact_person_name FFaker::Name.name
     contact_person_email FFaker::Internet.email
     contact_person_mobile FFaker::PhoneNumber.phone_number
-    organisation_type FFaker::Lorem.words
     affiliation FFaker::Lorem.phrase
     engagement FFaker::Lorem.phrase
     background FFaker::Lorem.paragraph
+    association :organization_type, factory: :organization_type
     association :province, factory: :province
   end
 end

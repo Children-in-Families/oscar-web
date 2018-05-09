@@ -1590,6 +1590,7 @@ en:
       interventions: Interventions
       locations: Locations
       materials: Equipment/Materials
+      organisation_types: Organisation Types
       partner_custom_fields: Partner Custom Forms
       partners: Partners
       program_streams: Program Streams
@@ -3105,6 +3106,7 @@ en:
       log_out: Log out
       manage: Manage
       materials: Equipment/Materials
+      organisation_type: Organisation Type
       partners: Partners
       program_streams: Program Streams
       progress_note: Progress Note
@@ -3259,6 +3261,37 @@ en:
       most_recent_assessment: Most Recent Assessment
       upcoming_assessment: Upcoming Assessment
   ok: OK
+  organization_types:
+    create:
+      failed_create: Failed to create a Organisation Type.
+      successfully_created: Organisation Type has been successfully created.
+    destroy:
+      alert: Organisation Type cannot be deleted.
+      failed_delete: Failed to destroy a Organisation Type.
+      successfully_deleted: Organisation Type has been successfully deleted.
+    edit:
+      title: Edit Organisation Type
+    form:
+      cancel: Cancel
+      name: Name
+      organisation_type: Organisation Type
+      save: Save
+    index:
+      add_new_organisation_type: Add New Organisation Type
+      are_you_sure: Are you sure you want to delete?
+      changelogs: Changelog
+      manage: Manage
+      organisation_type_names: Name
+      organisation_types: Organisation Types
+      view: View
+    new:
+      title: New Organisation Type
+    update:
+      failed_update: Failed to update a Organisation Type.
+      successfully_updated: Organisation Type has been successfully updated.
+    version:
+      back: Back
+      modification_of: Changelog of
   partners:
     actions:
       are_you_sure: Are you sure you want to delete?
@@ -3820,6 +3853,7 @@ en:
         material: Equipment/Material
         no_modification: There are no any changelog.
         'on': 'on'
+        organisation_type: Organisation Type
         partner: Partner
         partner_custom_field: Partner Custom Forms
         progress_note: Progress Note

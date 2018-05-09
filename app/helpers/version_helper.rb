@@ -190,7 +190,8 @@ module VersionHelper
       locations:            ['location_id'],
       clients:              ['client_id'],
       trackings:            ['tracking_id'],
-      program_streams:      ['program_stream_id']
+      program_streams:      ['program_stream_id'],
+      organization_types:   ['organization_type_id']
     }
   end
 

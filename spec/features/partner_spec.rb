@@ -1,6 +1,7 @@
 describe 'Partner' do
   let!(:admin){ create(:user, roles: 'admin') }
-  let!(:partner){ create(:partner,organisation_type: "NGO", name: 'Jonh') }
+  let!(:ngo){ create(:organization_type, name: 'NGO')}
+  let!(:partner){ create(:partner, organization_type: ngo, name: 'Jonh') }
   let!(:other_partner){ create(:partner) }
   let!(:case){ create(:case, partner: other_partner) }
   before do
@@ -99,7 +100,7 @@ describe 'Partner' do
     end
 
     scenario 'filter by organisation type' do
-      page.find("#partner-search-form select#partner_grid_organisation_type option[value='NGO']", visible: false).select_option
+      page.find("#partner-search-form select#partner_grid_organization_type option[value='#{ngo.id}']", visible: false).select_option
       click_button 'Search'
       expect(page).to have_content(partner.name)
     end
