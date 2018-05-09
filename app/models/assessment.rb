@@ -52,7 +52,8 @@ class Assessment < ActiveRecord::Base
   end
 
   def client_must_not_over_18
-    adult = client.age_over_18? if client.present?
+    return false if client.nil?
+    adult = client.age_over_18?
     adult ? errors.add(:base, 'Assessment cannot be created for client who is over 18.') : true
   end
 
