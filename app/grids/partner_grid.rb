@@ -75,8 +75,8 @@ class PartnerGrid
   end
 
   # column(:organization_type, header: -> { I18n.t('datagrid.columns.partners.type') }, html: true)
-  column(:organization_type, header: -> { I18n.t('datagrid.columns.partners.organization_type') }) do |object|
-    object.organization_type.try(:name)
+  column(:organization_type, header: -> { I18n.t('datagrid.columns.partners.organisation_type') }) do |object|
+    object.organization_type_name
   end
 
   column(:start_date, header: -> { I18n.t('datagrid.columns.partners.start_date') })
