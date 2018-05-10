@@ -293,6 +293,7 @@ my:
     fields:
       able: Able
       able_state: Able အေနအထား
+      active_program_stream: အစီအမံစီဆင္းမႈ
       address: လိပ္စာ
       age: အသက္
       agencies_involved: ပါ၀င္သည့္ ေအဂ်င္စီမ်ား
@@ -321,6 +322,7 @@ my:
       district: ခ႐ိုင္
       donor: အလွဴရွင္
       donor_id: အလွဴရွင္
+      enrolled_program_stream: စာရင်းသွင်းအစီအစဉ်ကိုစီး
       enrollment: စာရင္းသြင္းျခင္း
       exit_circumstance: ထွက်ပေါက်အခြေအနေ
       exit_ec_date: ထြက္သည့္ EC ရက္စြဲ
@@ -360,7 +362,6 @@ my:
       placement_start_date: ေနရာခ်ထားမႈစတင္သည့္ရက္စြဲ
       plot: Plot
       postal_code: Postal Code
-      program_stream: အစီအမံစီဆင္းမႈ
       province: ေမြးရာျပည္နယ္
       province_id: လက္ရွိေနထုိင္ရာျပည္နယ္
       quantitative: ပမာဏအမ်ိဳးအစား

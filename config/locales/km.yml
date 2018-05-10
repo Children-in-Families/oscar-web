@@ -296,6 +296,7 @@ km:
     fields:
       able: ឣតិថិជនក្នុងកម្មវិធី អែបល
       able_state: ស្ថានភាព អែបល
+      active_program_stream: កំពុងចូលរួមកម្មវិធីបន្ទាប់បន្សំ
       address: ឣាសយដ្ឋាន
       age: អាយុ
       agencies_involved: អង្គភាពដែលពាក់ព័ន្ធ
@@ -322,6 +323,7 @@ km:
       district: ស្រុក/ខណ្ឌ
       donor: ម្ចាស់ជំនួយ
       donor_id: ម្ចាស់ជំនួយ
+      enrolled_program_stream: ចូលរួមកម្មវិធីបន្ទាប់បន្សំរួចហើយ
       exit_circumstance: ស្ថានភាពនៃការចាកចេញ
       exit_ec_date: ថ្ងៃចាកចេញពី EC
       exit_fc_date: ថ្ងៃចាកចេញពី FC
@@ -359,7 +361,6 @@ km:
       placement_start_date: ថ្ងៃបញ្ជូនទៅក្នុងករណី
       plot: Plot
       postal_code: Postal Code
-      program_stream: កម្មវិធីបន្ទាប់បន្សំ
       province: ខេត្តកំណើត
       province_id: ខេត្តបច្ចុប្បន្ន
       rated_for_id_poor: តើអតិថិជនត្រូវបានវាយតម្លៃថាអត្តសញ្ញាណក្រីក្រឬទេ

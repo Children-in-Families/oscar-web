@@ -46,7 +46,8 @@ module AdvancedSearches
         ['user_id', user_select_options],
         ['form_title', client_custom_form_options],
         ['donor_id', donor_options],
-        ['program_stream', program_options],
+        ['active_program_stream', active_program_options],
+        ['enrolled_program_stream', enrolled_program_options],
         ['case_note_type', case_note_type_options],
         ['exit_reasons', exit_reasons_options],
         ['exit_circumstance', {'Exited Client': 'Exited Client', 'Rejected Referral': 'Rejected Referral'}],
@@ -63,8 +64,12 @@ module AdvancedSearches
       CaseNote::INTERACTION_TYPE
     end
 
-    def program_options
+    def active_program_options
       ProgramStream.joins(:client_enrollments).where("client_enrollments.program_stream_id = program_streams.id AND client_enrollments.status = 'Active'").order(:name).map { |ps| { ps.id.to_s => ps.name } }.uniq
+    end
+
+    def enrolled_program_options
+      ProgramStream.joins(:client_enrollments).where("client_enrollments.program_stream_id = program_streams.id").order(:name).map { |ps| { ps.id.to_s => ps.name } }.uniq
     end
 
     def client_custom_form_options

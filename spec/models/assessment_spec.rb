@@ -171,6 +171,16 @@ describe Assessment, 'callbacks' do
       expect(assessment.errors.full_messages).to include('Assessment tool must be enable in setting')
     end
   end
+
+  context 'client_must_not_over_18' do
+    let!(:client) { create(:client, date_of_birth: 18.years.ago.to_date) }
+
+    it 'should return error message for client who is over 18' do
+      assessment = Assessment.create(client: client)
+      expect(assessment.errors.full_messages).to include('Assessment cannot be created for client who is over 18.')
+    end
+  end
+
 end
 
 describe Assessment, 'CONSTANTS' do

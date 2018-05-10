@@ -14,7 +14,7 @@ class Dashboard
 
   def client_program_stream
     @program_streams.map do |p|
-      url = { 'condition': 'AND', 'rules': [{ 'id': 'program_stream', 'field': 'program_stream', 'type': 'string', 'input': 'select', 'operator': 'equal', 'value': p.id } ]}
+      url = { 'condition': 'AND', 'rules': [{ 'id': 'active_program_stream', 'field': 'active_program_stream', 'type': 'string', 'input': 'select', 'operator': 'equal', 'value': p.id }]}
       {
         name: p.name,
         y: p.client_enrollments.active.pluck(:client_id).uniq.count,
@@ -137,7 +137,7 @@ class Dashboard
   def program_stream_report_by(client_ids, gender)
     program_streams = @program_streams.where(client_enrollments: {client_id: client_ids})
     program_streams.map do |p|
-      url = { 'condition': 'AND', 'rules': [{ 'id': 'program_stream', 'field': 'program_stream', 'type': 'string', 'input': 'select', 'operator': 'equal', 'value': p.id },
+      url = { 'condition': 'AND', 'rules': [{ 'id': 'active_program_stream', 'field': 'active_program_stream', 'type': 'string', 'input': 'select', 'operator': 'equal', 'value': p.id },
         { 'id': 'gender', 'field': 'gender', 'type': 'string', 'input': 'select', 'operator': 'equal', 'value': gender.downcase } ]}
       active_client_ids = p.client_enrollments.active.where(client_id: client_ids)
       {
