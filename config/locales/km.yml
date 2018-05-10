@@ -2410,7 +2410,7 @@ km:
         last_name: នាមត្រកូល
         leave_blank_if_you_dont_want_to_change: រំលងប្រសិនបើឣ្នកមិនចង់ធ្វើការផ្លាស់ប្តូរ
         mobile: លេខទូរស័ព្ទ
-        overdue_task_summary_notify: ការជូនដំណឹងអ៊ីម៉ែល
+        overdue_task_summary_notify: ការជូនដំណឹងតាមរយៈអ៊ីម៉ែល
         password: លេខកូដសំងាត់
         password_confirmation: បញ្ជាក់ពាក្យសម្ងាត់ថ្មី
         province: ខេត្ត

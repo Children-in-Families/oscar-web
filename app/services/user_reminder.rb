@@ -30,7 +30,7 @@ class UserReminder
   end
 
   def remind_managers_have_case_workers_overdue_tasks(org)
-    managers = User.managers.non_devs.non_locked.notify_email.where(id: 27)
+    managers = User.managers.non_devs.non_locked.notify_email
     managers.each do |manager|
       case_worker_ids = User.non_devs.non_locked.notify_email.where('manager_ids && ARRAY[?]', manager.id).without_json_fields.joins(:clients).pluck(:id).uniq
       RemindManagerWorker.perform_async(manager.id, case_worker_ids, org.short_name)

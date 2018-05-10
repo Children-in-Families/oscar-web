@@ -30,7 +30,7 @@ class CaseWorkerMailer < ApplicationMailer
     @upcoming_forms = forms[:upcoming_forms]
     @short_name = short_name
     if @overdue_forms.present? && @today_forms.present?
-      mail(to: @user.email, subject: 'Overdue Forms and Due Today')
+      mail(to: @user.email, subject: 'Overdue and due today forms')
     elsif @overdue_forms.present?
       mail(to: @user.email, subject: 'Overdue Forms')
     else

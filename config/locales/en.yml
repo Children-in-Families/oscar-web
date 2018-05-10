@@ -2328,7 +2328,7 @@ en:
         last_name: Last Name
         leave_blank_if_you_dont_want_to_change: Leave this blank if you do not want to change
         mobile: Mobile
-        overdue_task_summary_notify: Notification Emial
+        overdue_task_summary_notify: Notification Email
         password: Password
         password_confirmation: Confirm Password
         province: Province
@@ -3045,7 +3045,7 @@ en:
         one: There is 1 family custom form due today.
         other: There are %{count} family custom forms due today.
       due_today_forms_count:
-        one: You have 1 forms due today.
+        one: You have 1 form due today.
         other: You have %{count} forms due today.
       due_today_partner_custom_field_count:
         one: There is 1 partner custom form due today.

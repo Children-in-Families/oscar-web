@@ -239,7 +239,7 @@ module ApplicationHelper
   def assessments_notification_label
     if @notification.any_overdue_assessments? && @notification.any_due_today_assessments?
       "#{I18n.t('layouts.notification.overdue_assessments_count', count: @notification.overdue_assessments_count)} #{I18n.t('layouts.notification.overdue_and_due_today_count', count: @notification.due_today_assessments_count)}"
-    elsif @notification.any_overdue_tasks?
+    elsif @notification.any_overdue_assessments?
       I18n.t('layouts.notification.overdue_assessments_count', count: @notification.overdue_assessments_count)
     else
       I18n.t('layouts.notification.due_today_assessments_count', count: @notification.due_today_assessments_count)
