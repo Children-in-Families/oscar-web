@@ -187,10 +187,12 @@ class ClientGrid
     ids = []
     if value == Assessment::DUE_STATES[0]
       Client.active_accepted_status.each do |c|
+        next if c.age_over_18?
         ids << c.id if c.next_assessment_date == Date.today
       end
     else
       Client.joins(:assessments).active_accepted_status.each do |c|
+        next if c.age_over_18?
         ids << c.id if c.next_assessment_date < Date.today
       end
     end
