@@ -36,10 +36,17 @@
                 - fields = @client.attributes.except(*keys_blacklist).keys.map{|field| [field.titleize, field] }
 
                 = simple_form_for [@client, @client.shared_clients.first || @client.shared_clients.build] do |f|
-                  = f.input :destination_ngo, as: :select, collection: ngos, label: 'Please select NGOs'
+                  = f.input :date_of_referral, input_html: { class: 'datepicker' }, label: 'Please select NGOs'
+                  = f.input :name_of_referee, input_html: { value: current_user.name }
+                  = f.input :referral_phone, input_html: { value: current_user.mobile }
+                  = f.input :referred_from, input_html: { value: Organization.current.short_name }
+                  = f.input :referred_to, as: :select, collection: ngos, label: 'Please select NGOs'
                   = f.input :fields, collection: fields, input_html: { multiple: true }, label: 'Please select fields'
                   = f.input :referral_reason, label: 'Referral Reason'
-                  = f.input :origin_ngo, input_html: { value: Organization.current.short_name }
+                  - if @client.origin_id.present?
+                    = f.input :origin_ngo, input_html: { value: @client.origin_id.split('-').first }
+                  - else
+                    = f.input :origin_ngo, input_html: { value: Organization.current.short_name }
                   = f.submit
 
               .modal-footer

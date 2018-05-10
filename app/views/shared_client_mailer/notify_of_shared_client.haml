@@ -6,4 +6,4 @@
     %strong= k
     %span= v
 
-%p= link_to 'Save this client.', new_client_url(cid: @client_id, origin: @origin_organization.short_name, subdomain: @destination_ngo), target: :_blank
+%p= link_to 'Save this client.', new_client_url(sid: @shared_client.id, from: @shared_client.referred_from, subdomain: @shared_client.referred_to), target: :_blank

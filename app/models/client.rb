@@ -76,7 +76,7 @@ class Client < ActiveRecord::Base
   validates :user_ids, presence: true, on: :create
   validates :user_ids, presence: true, on: :update, unless: :exit_ngo?
   validates :initial_referral_date, :received_by_id, :referral_source, :name_of_referee, presence: true
-  validates :origin_id, uniqueness: { case_sensitive: false }, if: 'origin_id.present?'
+  # validates :origin_id, uniqueness: { case_sensitive: false }, if: 'origin_id.present?'
 
   before_update :disconnect_client_user_relation, if: :exiting_ngo?
   after_create :set_slug_as_alias
@@ -86,6 +86,7 @@ class Client < ActiveRecord::Base
   # before_create :notify_admin_of_referred_ngo, if: 'origin_id.present?'
   # before_update :notification_of_accepting_referred_client, if: proc { |client| client.accepted? && client.status_was 'Referred' && client.origin_id.present? }
   # before_update :notification_of_rejecting_referred_client, if: proc { |client| client.exit_ngo? && client.status_was 'Referred' && client.origin_id.present? }
+  after_save :sync_shared_from_fields, if: 'referred_from.present?'
   after_save :sync_shared_fields, if: 'origin_id.present?'
   after_save :sync_updated_shared_fields, if: proc { |client| client.shared_clients.first.present? }
 
@@ -427,7 +428,6 @@ class Client < ActiveRecord::Base
   end
 
   def sync_shared_fields
-    return if origin_id.nil?
     current_org = Organization.current
     origin_org = origin_id.split('-').first
     Organization.switch_to origin_org
@@ -438,28 +438,48 @@ class Client < ActiveRecord::Base
     fields = Hash[fields.collect { |item| [item, self.send(item)] } ]
     Organization.switch_to origin_org
     client = Client.friendly.find(origin_id)
-    # stop updating once the shared info comes to the same version/value otherwise, it will be recursive.
-    # return if (fields - client.attributes.to_a).empty?
-    if (fields.to_a - client.attributes.to_a).any?
 
+    if (fields.to_a - client.attributes.to_a).any?
       client.update(fields)
     end
-    # client.send(fields)
+
     Organization.switch_to current_org.short_name
   end
 
   def sync_updated_shared_fields
+
     return if shared_clients.empty?
     current_org = Organization.current
     fields = shared_clients.first.fields
     fields = Hash[fields.collect { |item| [item, self.send(item)] } ]
-    Organization.switch_to shared_clients.first.destination_ngo
-    shared_client = Client.find_by(origin_id: slug)
-    # return if (fields - shared_client.attributes.to_a).empty?
-    # still recursive
+    Organization.switch_to shared_clients.first.referred_to
+    client_id = origin_id.present? ? origin_id : slug
+    shared_client = Client.find_by(origin_id: client_id)
 
-    if (fields.to_a - shared_client.attributes.to_a).any?
+    if shared_client.present? && (fields.to_a - shared_client.attributes.to_a).any?
       shared_client.update(fields)
+    end
+    Organization.switch_to current_org.short_name
+  end
+
+  def sync_shared_from_fields
+    current_org = Organization.current
+
+    Organization.switch_to referred_from
+
+    clients = Client.where(origin_id: origin_id)
+    clients.each do |client|
+      fields = client.shared_clients.first.fields
+
+      Organization.switch_to current_org.short_name
+      fields = Hash[fields.collect { |item| [item, self.send(item)] } ]
+
+      Organization.switch_to client.slug.split('-').first
+
+      if (fields.to_a - client.attributes.to_a).any?
+
+        client.update(fields)
+      end
     end
     Organization.switch_to current_org.short_name
   end

@@ -30,7 +30,7 @@ class SharedClientsController < AdminController
 
   def shared_client_params
     remove_blank_fields
-    params.require(:shared_client).permit(:destination_ngo, :origin_ngo, :referral_reason, fields: [])
+    params.require(:shared_client).permit(:referred_to, :referred_from, :name_of_referee, :referral_phone, :date_of_referral, :origin_ngo, :referral_reason, fields: [])
   end
 
   def remove_blank_fields

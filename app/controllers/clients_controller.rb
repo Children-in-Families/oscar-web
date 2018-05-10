@@ -83,16 +83,32 @@ class ClientsController < AdminController
 
   def new
     current_ngo = Organization.current.short_name
-    if params[:cid].present? && params[:origin].present?
-      Organization.switch_to params[:origin]
-      client = Client.friendly.find(params[:cid])
-      fields = client.shared_clients.first.fields
-      fields = Hash[fields.collect { |item| [item, client.send(item)] } ]
-      fields['origin_id'] = params[:cid]
+
+    if params[:sid].present? && params[:from].present?
+      Organization.switch_to params[:from]
+      shared_client = SharedClient.find_by(id: params[:sid])
+      client        = shared_client.client
+
+      client_id = client.origin_id.present? ? client.origin_id : client.slug
+      fields = {
+        referred_from: params[:from],
+        origin_id: client_id,
+        given_name: client.given_name,
+        family_name: client.family_name,
+        local_given_name: client.local_given_name,
+        local_family_name: client.local_family_name,
+        gender: client.gender,
+        date_of_birth: client.date_of_birth,
+        live_with: client.live_with,
+        telephone_number: client.telephone_number,
+        birth_province_id: client.birth_province_id,
+        name_of_referee: shared_client.name_of_referee,
+        referral_phone: shared_client.referral_phone,
+        initial_referral_date: shared_client.date_of_referral
+      }
+
       Organization.switch_to current_ngo
       @client = Client.new(fields)
-      # @client.origin_id = params[:cid]
-
     else
       @client = Client.new
     end
@@ -158,7 +174,7 @@ class ClientsController < AdminController
   def client_params
     remove_blank_exit_reasons
     params.require(:client)
-          .permit(:origin_id,
+          .permit(:origin_id, :referred_from,
             :code, :name_of_referee, :main_school_contact, :rated_for_id_poor, :what3words, :status,
             :kid_id, :assessment_id, :given_name, :family_name, :local_given_name, :local_family_name, :gender, :date_of_birth,
             :birth_province_id, :initial_referral_date, :referral_source_id, :telephone_number,
@@ -242,7 +258,8 @@ class ClientsController < AdminController
   end
 
   def validate_referral_client_id
-    return unless params[:cid].present? && params[:origin].present?
-    redirect_to root_path, alert: 'Client already exists!' if Client.find_by(origin_id: params[:cid]).present?
+    return unless params[:sid].present? && params[:from].present?
+    # should add another column called, referred_sid to compare existing record of the same link.
+    redirect_to root_path, alert: 'Client already exists!' if Client.find_by(referred_from: params[:from], referred_sid: params[:sid]).present?
   end
 end

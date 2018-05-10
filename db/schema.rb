@@ -411,6 +411,7 @@ ActiveRecord::Schema.define(version: 20180507081023) do
     t.integer  "township_id"
     t.integer  "state_id"
     t.string   "origin_id"
+    t.string   "referred_from"
   end
 
   add_index "clients", ["district_id"], name: "index_clients_on_district_id", using: :btree
@@ -900,12 +901,16 @@ ActiveRecord::Schema.define(version: 20180507081023) do
 
   create_table "shared_clients", force: :cascade do |t|
     t.integer  "client_id"
-    t.string   "fields",          default: [],              array: true
-    t.string   "destination_ngo"
+    t.string   "fields",           default: [],              array: true
+    t.date     "date_of_referral"
+    t.string   "referred_to"
+    t.string   "referred_from"
     t.string   "origin_ngo"
     t.string   "referral_reason"
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
+    t.string   "name_of_referee"
+    t.string   "referral_phone"
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
   end
 
   add_index "shared_clients", ["client_id"], name: "index_shared_clients_on_client_id", using: :btree
