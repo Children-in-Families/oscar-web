@@ -209,13 +209,18 @@
               = check_box_tag 'all_', 'all', checked = params['all_'].present?, class: 'i-checks'
               = label_tag 'all_' do
                 %strong= t('datagrid.columns.show_all')
-
-          - grid.filters.each do |f|
-            %li
-              .visibility.col-sm-12
-                = check_box_tag "#{f.name}_", f.name, checked = default_setting("#{f.name}_", @default_columns) || params["#{f.name}_"].present?, class: 'i-checks'
-                = columns_family_visibility f.name
+          - if controller_name == 'partners'
+            - grid.filters.each do |f|
+              %li
+                .visibility.col-sm-12
+                  = check_box_tag "#{f.name}_", f.name, checked = default_setting("#{f.name}_", @default_columns) || params["#{f.name}_"].present?, class: 'i-checks'
+                  = columns_partners_visibility f.name
           - if controller_name == 'families'
+            - grid.filters.each do |f|
+              %li
+                .visibility.col-sm-12
+                  = check_box_tag "#{f.name}_", f.name, checked = default_setting("#{f.name}_", @default_columns) || params["#{f.name}_"].present?, class: 'i-checks'
+                  = columns_family_visibility f.name
             %li
               .visibility.col-sm-12
                 = check_box_tag 'member_count_', 'member_count', checked = default_setting('member_count_', @default_columns) || params[:member_count_].present?, class: 'i-checks'
