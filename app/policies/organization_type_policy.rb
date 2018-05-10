@@ -7,5 +7,6 @@ class OrganizationTypePolicy < ApplicationPolicy
   alias create? index?
   alias edit? index?
   alias update? index?
+  alias destroy? index?
   alias version? index?
 end
