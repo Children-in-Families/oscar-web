@@ -25,7 +25,7 @@ class PartnerGrid
     scope.contact_person_mobile_like(value)
   end
 
-  filter(:organization_type, :enum, select: :organization_type_options, header: -> { I18n.t('datagrid.columns.partners.organization_type') })
+  filter(:organization_type, :enum, select: :organization_type_options, header: -> { I18n.t('datagrid.columns.partners.organisation_type') })
 
   def organization_type_options
     Partner.organization_type_are
