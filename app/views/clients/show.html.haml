@@ -9,48 +9,6 @@
         .client-info
           = @client.slug
           = @client.gender.try(:titleize)
-        - if @client.valid?
-          %button.btn.btn-danger{"data-target" => "#myModal", "data-toggle" => "modal", :type => "button"}
-            Transfer
-        - else
-          %button.btn.btn-danger{"data-target" => "#invalidTransfer", "data-toggle" => "modal", :type => "button"}
-            Transfer
-        #invalidTransfer.modal.fade{"aria-labelledby" => "invalidTransfer", :role => "dialog", :tabindex => "-1"}
-          .modal-dialog{:role => "document"}
-            .modal-content
-              .modal-header
-                %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
-                  %span{"aria-hidden" => "true"} ×
-              .modal-body
-                %p Please complete all required client information before you can transfer this client.
-        #myModal.modal.fade{"aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
-          .modal-dialog{:role => "document"}
-            .modal-content
-              .modal-header
-                %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
-                  %span{"aria-hidden" => "true"} ×
-                %h4#myModalLabel.modal-title Transfering Client Form
-              .modal-body
-                - ngos = Organization.all.map{|org| [org.full_name, org.short_name] }
-                - keys_blacklist = %W(id slug)
-                - fields = @client.attributes.except(*keys_blacklist).keys.map{|field| [field.titleize, field] }
-
-                = simple_form_for [@client, @client.shared_clients.first || @client.shared_clients.build] do |f|
-                  = f.input :date_of_referral, input_html: { class: 'datepicker' }, label: 'Please select NGOs'
-                  = f.input :name_of_referee, input_html: { value: current_user.name }
-                  = f.input :referral_phone, input_html: { value: current_user.mobile }
-                  = f.input :referred_from, input_html: { value: Organization.current.short_name }
-                  = f.input :referred_to, as: :select, collection: ngos, label: 'Please select NGOs'
-                  = f.input :fields, collection: fields, input_html: { multiple: true }, label: 'Please select fields'
-                  = f.input :referral_reason, label: 'Referral Reason'
-                  - if @client.origin_id.present?
-                    = f.input :origin_ngo, input_html: { value: @client.origin_id.split('-').first }
-                  - else
-                    = f.input :origin_ngo, input_html: { value: Organization.current.short_name }
-                  = f.submit
-
-              .modal-footer
-                %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Close
 
       .col-md-6
         %table.table.small.m-b-xs
@@ -203,6 +161,25 @@
 
           = link_to client_client_enrollments_path(@client) do
             .btn.btn-primary.small-btn-margin.btn-sm.btn-fit= t('.program_streams')
+
+          .btn-group.small-btn-margin
+            %button.btn-sm.btn.btn-danger.dropdown-toggle.btn-fit{ 'data-toggle' => 'dropdown', class: ('disabled' if @client.shared_clients.empty?) }
+              = t('.referral_forms')
+              %span.caret
+            %ul.dropdown-menu.btn-fit.scrollable-dropdown-menu.referral-forms
+              - @client.shared_clients.group_by(&:referred_to).each do |referred_to, shared_client|
+                - next if referred_to.nil?
+                - org = Organization.find_by(short_name: referred_to)
+                %li= link_to org.full_name, client_shared_clients_path(@client, ngo: referred_to)
+
+          .btn-group.small-btn-margin
+            - if @client.valid? || @client.errors[:base].empty?
+              %button.btn-sm.btn.btn-danger.dropdown-toggle.btn-fit{"data-target" => "#myModal", "data-toggle" => "modal", :type => "button"}
+                Add Referral Form
+            - else
+              %button.btn-sm.btn.btn-danger.dropdown-toggle.btn-fit{"data-target" => "#invalidTransfer", "data-toggle" => "modal", :type => "button"}
+                Add Referral Form
+          = render 'referral_form'
 
 .row.mini-margin
   .col-xs-12

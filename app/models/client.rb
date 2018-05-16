@@ -88,7 +88,7 @@ class Client < ActiveRecord::Base
   # before_update :notification_of_rejecting_referred_client, if: proc { |client| client.exit_ngo? && client.status_was 'Referred' && client.origin_id.present? }
   after_save :sync_shared_from_fields, if: 'referred_from.present?'
   after_save :sync_shared_fields, if: 'origin_id.present?'
-  after_save :sync_updated_shared_fields, if: proc { |client| client.shared_clients.first.present? }
+  after_save :sync_updated_shared_fields, if: proc { |client| client.shared_clients.any? }
 
   scope :live_with_like,                           ->(value) { where('clients.live_with iLIKE ?', "%#{value}%") }
   scope :given_name_like,                          ->(value) { where('clients.given_name iLIKE :value OR clients.local_given_name iLIKE :value', { value: "%#{value}%"}) }
@@ -429,17 +429,21 @@ class Client < ActiveRecord::Base
 
   def sync_shared_fields
     current_org = Organization.current
-    origin_org = origin_id.split('-').first
-    Organization.switch_to origin_org
-    client = Client.friendly.find(origin_id)
-    fields = client.shared_clients.first.fields
-    Organization.switch_to current_org.short_name
+
+    fields = ['given_name', 'family_name', 'local_given_name',
+              'local_family_name', 'gender', 'date_of_birth', 'live_with',
+              'telephone_number', 'birth_province_id', 'name_of_referee',
+              'referral_phone', 'initial_referral_date']
 
     fields = Hash[fields.collect { |item| [item, self.send(item)] } ]
+
+    origin_org = origin_id.split('-').first
     Organization.switch_to origin_org
+
+    # origin org can have only one uniq client
     client = Client.friendly.find(origin_id)
 
-    if (fields.to_a - client.attributes.to_a).any?
+    if client.present? && (fields.to_a - client.attributes.to_a).any?
       client.update(fields)
     end
 
@@ -447,40 +451,63 @@ class Client < ActiveRecord::Base
   end
 
   def sync_updated_shared_fields
-
-    return if shared_clients.empty?
     current_org = Organization.current
-    fields = shared_clients.first.fields
-    fields = Hash[fields.collect { |item| [item, self.send(item)] } ]
-    Organization.switch_to shared_clients.first.referred_to
-    client_id = origin_id.present? ? origin_id : slug
-    shared_client = Client.find_by(origin_id: client_id)
 
-    if shared_client.present? && (fields.to_a - shared_client.attributes.to_a).any?
-      shared_client.update(fields)
+    fields = ['given_name', 'family_name', 'local_given_name',
+              'local_family_name', 'gender', 'date_of_birth', 'live_with',
+              'telephone_number', 'birth_province_id', 'name_of_referee',
+              'referral_phone', 'initial_referral_date']
+
+    fields = Hash[fields.collect { |item| [item, self.send(item)] } ]
+
+    shared_clients.each do |shared_client|
+      Organization.switch_to shared_client.referred_to
+      client_id = origin_id.present? ? origin_id : slug
+
+      # a client is shared to target NGO multiple times
+      clients = Client.where(origin_id: client_id)
+      clients.each do |client|
+        if (fields.to_a - client.attributes.to_a).any?
+          client.update(fields)
+        end
+      end
+
+      # a client is shared to target NGO only once
+      # client = Client.find_by(origin_id: client_id)
+      #
+      # if client.present? && (fields.to_a - client.attributes.to_a).any?
+      #   shared_client.update(fields)
+      # end
     end
+
     Organization.switch_to current_org.short_name
   end
 
   def sync_shared_from_fields
     current_org = Organization.current
 
+    fields = ['given_name', 'family_name', 'local_given_name',
+              'local_family_name', 'gender', 'date_of_birth', 'live_with',
+              'telephone_number', 'birth_province_id', 'name_of_referee',
+              'referral_phone', 'initial_referral_date']
+
+    fields = Hash[fields.collect { |item| [item, self.send(item)] } ]
+
     Organization.switch_to referred_from
 
+    # a client is shared to target NGO multiple times
     clients = Client.where(origin_id: origin_id)
     clients.each do |client|
-      fields = client.shared_clients.first.fields
-
-      Organization.switch_to current_org.short_name
-      fields = Hash[fields.collect { |item| [item, self.send(item)] } ]
-
-      Organization.switch_to client.slug.split('-').first
-
       if (fields.to_a - client.attributes.to_a).any?
-
         client.update(fields)
       end
     end
+
+    # a client is shared to target NGO only once
+    # client = Client.find_by(origin_id: origin_id)
+    # if client.present? && (fields.to_a - client.attributes.to_a).any?
+    #   client.update(fields)
+    # end
     Organization.switch_to current_org.short_name
   end
 end
