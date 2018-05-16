@@ -7,7 +7,7 @@
       = "#{task.name}, due by #{task.completion_date.strftime('%d %B, %Y')}."
 %p
   = 'Please click'
-  = link_to 'here', dashboards_url(user_id: @user.id, subdomain: @short_name, tasks: true, forms: true, assessments: true), target: :_blank
+  = link_to 'here', dashboards_url(user_id: @user.id, subdomain: @short_name, tasks: true), target: :_blank
   = "to see all your #{'task'.pluralize(@overdue_tasks.size)}."
 
 %p Thanks,

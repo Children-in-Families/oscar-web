@@ -254,14 +254,9 @@ class UserNotification
       count_notification += 1 if any_family_custom_field_frequency_due_today?
     end
     unless @user.strategic_overviewer?
-      count_notification += 1 if any_client_custom_field_frequency_overdue?
-      count_notification += 1 if any_client_custom_field_frequency_due_today?
-      count_notification += 1 if any_overdue_tasks?
-      count_notification += 1 if any_due_today_tasks?
-      count_notification += 1 if any_overdue_assessments? && enable_assessment_setting?
-      count_notification += 1 if any_due_today_assessments? && enable_assessment_setting?
-      count_notification += 1 if any_client_enrollment_tracking_frequency_due_today?
-      count_notification += 1 if any_client_enrollment_tracking_frequency_overdue?
+      count_notification += 1 if any_due_today_tasks? || any_overdue_tasks?
+      count_notification += 1 if any_client_enrollment_tracking_frequency_due_today? || any_client_enrollment_tracking_frequency_overdue? || any_client_custom_field_frequency_overdue? || any_client_custom_field_frequency_due_today?
+      count_notification += 1 if (any_overdue_assessments? || any_due_today_assessments?) && enable_assessment_setting?
       count_notification += 1 if any_upcoming_csi_assessments? && enable_assessment_setting?
       count_notification += 1 if any_client_case_note_overdue?
       count_notification += 1 if any_client_case_note_due_today?

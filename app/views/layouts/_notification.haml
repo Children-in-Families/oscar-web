@@ -6,121 +6,91 @@
     - if @notification.all_count >= 1
       %span.label.label-primary= @notification.all_count
   %ul.dropdown-menu.dropdown-alerts.animated.fadeInRight
-    - @notification.review_program_streams.each do |ps|
-      %li
-        %div.align-link
-          = link_to program_stream_notify_notifications_path(program_stream_id: ps.first.id, client_ids: ps.last) do
-            .row
-              .col-xs-1
-                %i.fa.fa-tasks.fa-fw.task-sign
-              .col-xs-11
-                %span
-                  = t('.review_client')
-                  = ps.first.name
-                  = t('.client_quantity', count: ps.last.size)
-      %li.divider
-    - if @notification.any_overdue_tasks?
-      %li
-        %div.align-link
-          = link_to dashboards_path(user_id: current_user.id, tasks: true, forms: true, assessments: true) do
-            .row
-              .col-xs-1
-                %i.fa.fa-tasks.fa-fw.task-sign
-              .col-xs-11
-                = t('.overdue_tasks_count', count: @notification.overdue_tasks_count)
-      %li.divider
-    - if @notification.any_due_today_tasks?
-      %li
-        %div.align-link
-          = link_to dashboards_path(user_id: current_user.id, tasks: true, forms: true, assessments: true) do
-            .row
-              .col-xs-1
-                %i.fa.fa-tasks.fa-fw.task-sign
-              .col-xs-11
-                = t('.due_today_tasks_count', count: @notification.due_today_tasks_count)
-      %li.divider
-    - if @notification.any_overdue_assessments? && enable_assessment_setting?
-      %li
-        %div.align-link
-          = link_to clients_path("client_grid[user_ids]": "#{current_user.id}", "client_grid[assessments_due_to]": Assessment::DUE_STATES[1]) do
-            .row
-              .col-xs-1
-                %i.fa.fa-tasks.fa-fw.task-sign
-              .col-xs-11
-                = t('.overdue_assessments_count', count: @notification.overdue_assessments_count)
-      %li.divider
-    - if @notification.any_due_today_assessments? && enable_assessment_setting?
-      %li
-        %div.align-link
-          = link_to clients_path("client_grid[user_ids]": "#{current_user.id}", "client_grid[assessments_due_to]": Assessment::DUE_STATES[0]) do
-            .row
-              .col-xs-1
-                %i.fa.fa-tasks.fa-fw.task-sign
-              .col-xs-11
-                = t('.due_today_assessments_count', count: @notification.due_today_assessments_count)
-      %li.divider
-    - if @notification.any_client_case_note_overdue?
-      %li
-        %div.align-link
-          = link_to notifications_path(client_case_note_overdue_and_due_today: 'overdue') do
-            .row
-              .col-xs-1
-                %i.fa.fa-tasks.fa-fw.task-sign
-              .col-xs-11
-                = t('.client_case_note_overdue', count: @notification.client_case_note_overdue_count)
-    - if @notification.any_client_case_note_due_today?
-      %li
-        %div.align-link
-          = link_to notifications_path(client_case_note_overdue_and_due_today: 'due_today') do
-            .row
-              .col-xs-1
-                %i.fa.fa-tasks.fa-fw.task-sign
-              .col-xs-11
-                = t('.client_case_note_due_today', count: @notification.client_case_note_due_today_count)
-      %li.divider
-    - if @notification.any_upcoming_csi_assessments? && enable_assessment_setting?
-      %li
-        %div.align-link
-          = link_to notifications_path(assessment: 'upcoming') do
-            .row
-              .col-xs-1
-                %i.fa.fa-tasks.fa-fw.task-sign
-              .col-xs-11
-                = t('.upcoming_assessments_count', count: @notification.upcoming_csi_assessments[:csi_count])
-      %li.divider
-    -# - if current_user.admin?
-    -#   - (83..90).each do |day|
-    -#     - if @notification.ec_notification(day).count >= 1
-    -#       %li
-    -#         %div.align-link
-    -#           = link_to clients_path("client_grid[status]": "Active", "client_grid[placement_date]": [(Date.today-"#{day}".to_i).strftime("%Y-%m-%d"),(Date.today-"#{day}".to_i).strftime("%Y-%m-%d")]) do
-    -#             .row
-    -#               .col-xs-1
-    -#                 %i.fa.fa-tasks.fa-fw.task-sign
-    -#               .col-xs-11
-    -#                 = notification_client_exit(day)
-    -#       %li.divider
     - if can? :manage, Client
-      - if @notification.any_client_custom_field_frequency_due_today?
+      - @notification.review_program_streams.each do |ps|
         %li
           %div.align-link
-            = link_to notifications_path(entity_custom_field: 'client_due_today') do
+            = link_to program_stream_notify_notifications_path(program_stream_id: ps.first.id, client_ids: ps.last) do
               .row
                 .col-xs-1
                   %i.fa.fa-tasks.fa-fw.task-sign
                 .col-xs-11
-                  = t('.due_today_client_custom_field_count', count: @notification.client_custom_field_frequency_due_today_count)
+                  %span
+                    = t('.review_client')
+                    = ps.first.name
+                    = t('.client_quantity', count: ps.last.size)
         %li.divider
-      - if @notification.any_client_custom_field_frequency_overdue?
+      - if @notification.any_overdue_tasks? || @notification.any_due_today_tasks?
         %li
           %div.align-link
-            = link_to notifications_path(entity_custom_field: 'client_overdue') do
+            = link_to dashboards_path(user_id: current_user.id, tasks: true) do
               .row
                 .col-xs-1
                   %i.fa.fa-tasks.fa-fw.task-sign
                 .col-xs-11
-                  = t('.overdue_client_custom_field_count', count: @notification.client_custom_field_frequency_overdue_count)
+                  = tasks_notification_label
         %li.divider
+      - if (@notification.any_overdue_assessments? || @notification.any_due_today_assessments?) && enable_assessment_setting?
+        %li
+          %div.align-link
+            = link_to dashboards_path(user_id: current_user.id, assessments: true) do
+              .row
+                .col-xs-1
+                  %i.fa.fa-tasks.fa-fw.task-sign
+                .col-xs-11
+                  = assessments_notification_label
+        %li.divider
+        - if @notification.any_client_custom_field_frequency_due_today? || @notification.any_client_custom_field_frequency_overdue? || @notification.any_client_enrollment_tracking_frequency_due_today? || @notification.any_client_enrollment_tracking_frequency_overdue?
+          %li
+            %div.align-link
+              = link_to dashboards_path(user_id: current_user.id, forms: true) do
+                .row
+                  .col-xs-1
+                    %i.fa.fa-tasks.fa-fw.task-sign
+                  .col-xs-11
+                    = forms_notification_label
+          %li.divider
+      - if @notification.any_client_case_note_overdue?
+        %li
+          %div.align-link
+            = link_to notifications_path(client_case_note_overdue_and_due_today: 'overdue') do
+              .row
+                .col-xs-1
+                  %i.fa.fa-tasks.fa-fw.task-sign
+                .col-xs-11
+                  = t('.client_case_note_overdue', count: @notification.client_case_note_overdue_count)
+      - if @notification.any_client_case_note_due_today?
+        %li
+          %div.align-link
+            = link_to notifications_path(client_case_note_overdue_and_due_today: 'due_today') do
+              .row
+                .col-xs-1
+                  %i.fa.fa-tasks.fa-fw.task-sign
+                .col-xs-11
+                  = t('.client_case_note_due_today', count: @notification.client_case_note_due_today_count)
+        %li.divider
+      - if @notification.any_upcoming_csi_assessments? && enable_assessment_setting?
+        %li
+          %div.align-link
+            = link_to notifications_path(assessment: 'upcoming') do
+              .row
+                .col-xs-1
+                  %i.fa.fa-tasks.fa-fw.task-sign
+                .col-xs-11
+                  = t('.upcoming_assessments_count', count: @notification.upcoming_csi_assessments[:csi_count])
+        %li.divider
+      -# - if current_user.admin? || current_user.ec_manager?
+      -#   - (83..90).each do |day|
+      -#     - if @notification.ec_notification(day).count >= 1
+      -#       %li
+      -#         %div.align-link
+      -#           = link_to clients_path("client_grid[status]": "Active EC", "client_grid[placement_date]": [(Date.today-"#{day}".to_i).strftime("%Y-%m-%d"),(Date.today-"#{day}".to_i).strftime("%Y-%m-%d")]) do
+      -#             .row
+      -#               .col-xs-1
+      -#                 %i.fa.fa-tasks.fa-fw.task-sign
+      -#               .col-xs-11
+      -#                 = notification_client_exit(day)
+      -#       %li.divider
     - if can? :manage, Family
       - if @notification.any_family_custom_field_frequency_due_today?
         %li
@@ -184,26 +154,6 @@
                 .col-xs-11
                   = t('.overdue_user_custom_field_count', count: @notification.user_custom_field_frequency_overdue_count)
         %li.divider
-    - if @notification.any_client_enrollment_tracking_frequency_due_today?
-      %li
-        %div.align-link
-          = link_to notifications_path(client_enrollment_tracking: 'client_enrollment_tracking_due_today') do
-            .row
-              .col-xs-1
-                %i.fa.fa-tasks.fa-fw.task-sign
-              .col-xs-11
-                = t('.due_today_client_enrollment_tracking', count: @notification.client_enrollment_tracking_frequency_due_today_count)
-      %li.divider
-    - if @notification.any_client_enrollment_tracking_frequency_overdue?
-      %li
-        %div.align-link
-          = link_to notifications_path(client_enrollment_tracking: 'client_enrollment_tracking_overdue') do
-            .row
-              .col-xs-1
-                %i.fa.fa-tasks.fa-fw.task-sign
-              .col-xs-11
-                = t('.overdue_client_enrollment_tracking', count: @notification.client_enrollment_tracking_frequency_overdue_count)
-      %li.divider
     - if @notification.all_count.zero?
       %li
         %div.notify-margin

@@ -1,0 +1,12 @@
+%p= "Hello #{@manager.name},"
+%p Case workers have overdue assessments, tasks and/or forms that are more than a week overdue
+%table{ style: "border: 1px solid black; text-align: left; border-collapse: collapse;" }
+  %tr
+    %th{ style: "border: 1px solid black; text-align: left; padding: 0 5px; min-width: 400px; text-align: center;" } Staff
+
+  - @case_workers.each do |case_worker|
+    %tr
+      %td{ style: "border: 1px solid black; text-align: center;" }= link_to case_worker.name, dashboards_url(subdomain: @org_name, user_id: case_worker.id, tasks: true, forms: true, assessments: true), target: :_blank
+
+%p Thanks,
+%p OSCaR Team

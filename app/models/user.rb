@@ -67,6 +67,7 @@ class User < ActiveRecord::Base
   scope :staff_performances,        -> { where(staff_performance_notification: true) }
   scope :non_devs,                  -> { where.not(email: [ENV['DEV_EMAIL'], ENV['DEV2_EMAIL'], ENV['DEV3_EMAIL']]) }
   scope :non_locked,                -> { where(disable: false) }
+  scope :notify_email,             -> { where(task_notify: true) }
 
   before_save :assign_as_admin
 

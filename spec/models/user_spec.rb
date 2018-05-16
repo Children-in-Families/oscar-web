@@ -158,6 +158,7 @@ describe User, 'scopes' do
   let!(:no_department_user){ create(:user, province: province) }
   let!(:user_in_other_department){ create(:user,department: other_department, province: province) }
   let!(:manager){ create(:user, :manager, staff_performance_notification: false) }
+  let!(:not_notify_email){ create(:user, task_notify: false) }
 
   context '.non_devs' do
     let!(:dev_1) { create(:user, email: ENV['DEV_EMAIL']) }
@@ -294,6 +295,16 @@ describe User, 'scopes' do
     end
     it 'should not include staff performance' do
       is_expected.not_to include(manager)
+    end
+  end
+
+  context 'notify_email' do
+    subject{ User.notify_email }
+    it 'should include notify emails' do
+      is_expected.to include(user, other_user, no_department_user, user_in_other_department)
+    end
+    it 'should not include notify emails' do
+      is_expected.not_to include(not_notify_email)
     end
   end
 end
