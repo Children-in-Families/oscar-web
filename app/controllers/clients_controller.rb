@@ -91,6 +91,7 @@ class ClientsController < AdminController
 
       client_id = client.origin_id.present? ? client.origin_id : client.slug
       fields = {
+        referred_sid: params[:sid],
         referred_from: params[:from],
         origin_id: client_id,
         given_name: client.given_name,
@@ -174,7 +175,7 @@ class ClientsController < AdminController
   def client_params
     remove_blank_exit_reasons
     params.require(:client)
-          .permit(:origin_id, :referred_from,
+          .permit(:origin_id, :referred_from, :referred_sid,
             :code, :name_of_referee, :main_school_contact, :rated_for_id_poor, :what3words, :status,
             :kid_id, :assessment_id, :given_name, :family_name, :local_given_name, :local_family_name, :gender, :date_of_birth,
             :birth_province_id, :initial_referral_date, :referral_source_id, :telephone_number,
@@ -259,7 +260,7 @@ class ClientsController < AdminController
 
   def validate_referral_client_id
     return unless params[:sid].present? && params[:from].present?
-    # should add another column called, referred_sid to compare existing record of the same link.
+
     redirect_to root_path, alert: 'Client already exists!' if Client.find_by(referred_from: params[:from], referred_sid: params[:sid]).present?
   end
 end

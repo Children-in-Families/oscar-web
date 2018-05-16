@@ -4,6 +4,7 @@
 
   = f.input :origin_id, input_html: { value: @client.origin_id }
   = f.input :referred_from, input_html: { value: @client.referred_from }
+  = f.input :referred_sid, input_html: { value: @client.referred_sid }
 
   .client-steps{ data: {blank: t('.blank'), next: t('.next'), previous: t('.previous'), done: t('.done')} }
     = render 'getting_started', f: f

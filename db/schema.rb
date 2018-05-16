@@ -412,6 +412,7 @@ ActiveRecord::Schema.define(version: 20180507081023) do
     t.integer  "state_id"
     t.string   "origin_id"
     t.string   "referred_from"
+    t.string   "referred_sid"
   end
 
   add_index "clients", ["district_id"], name: "index_clients_on_district_id", using: :btree
