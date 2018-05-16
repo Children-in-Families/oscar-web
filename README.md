@@ -99,3 +99,18 @@ OSCaR is developed in partnership by [Rotati Consulting](http://www.rotati.com) 
 ### License
 
 OSCaR Web Application is released under [AGPL](http://www.gnu.org/licenses/agpl-3.0-standalone.html)
+
+u = User.new(email: 'pirun@rotati.com', first_name: 'Pirun', last_name: 'Seng', password: 'rainysong', roles: 'admin')
+
+
+Friday 4th, May 2018
+  Meeting with Chris
+
+  Some scenarios we've thought of:
+    1. Client completely move to new NGO, so the current one is freezed.
+    2. Client stays in current, and shared to other NGO.
+
+  From Chris:
+    1. Should add the reason/note of referral
+    2. Referral can be accepted/rejected
+    3. 

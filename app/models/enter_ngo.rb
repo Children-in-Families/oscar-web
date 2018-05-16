@@ -1,4 +1,6 @@
 class EnterNgo < ActiveRecord::Base
+  has_paper_trail
+
   belongs_to :client
 
   has_many :enter_ngo_users, dependent: :destroy

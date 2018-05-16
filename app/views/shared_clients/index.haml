@@ -1,0 +1,36 @@
+.row
+  .col-xs-12
+    .ibox
+      .ibox-title
+        %h5= @referred_to_ngo.full_name
+      .ibox-tools
+        = link_to client_path(@client) do
+          .btn.btn-outline.btn-success.form-btn
+            = t('.back')
+      .ibox-content
+        - @shared_clients.each do |shared_client|
+          .row
+            .col-xs-12
+              .ibox.border-left-right.border-bottom{ id: "shared_client_#{shared_client.id}" }
+                .ibox-title
+                  %span.label.label-info
+                    = date_format shared_client.date_of_referral
+                  -# - binding.pry
+                  -# add user id to shared_clients
+                  -# - if shared_client.user.present?
+                  -#   %h5= shared_client.user.try(&:name)
+                  .ibox-tools
+                    - if can? :manage, CustomFieldProperty
+                      %small
+                        = link_to 'Edit', edit_client_shared_client_path(@client, shared_client)
+                      %small
+                        = link_to 'Delete', client_shared_client_path(@client, shared_client), method: :delete, data: { confirm: 'Are you sure?' }
+                .ibox-content
+                  .table-responsive
+                    %table.table.table-bordered
+                      %tr
+                        %td= t('.name_of_referee')
+                        %td= shared_client.name_of_referee
+                      %tr
+                        %td= t('.referral_phone')
+                        %td= shared_client.referral_phone

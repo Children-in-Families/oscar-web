@@ -1,0 +1,9 @@
+%p= "#{@origin_organization.full_name} has shared a client with your NGO."
+%p= "Client ID - #{@client_id}"
+%p= "Fields as the following:"
+- @fields.each do |k, v|
+  %p
+    %strong= k
+    %span= v
+
+%p= link_to 'Save this client.', new_client_url(sid: @shared_client.id, from: @shared_client.referred_from, subdomain: @shared_client.referred_to), target: :_blank

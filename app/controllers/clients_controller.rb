@@ -17,6 +17,7 @@ class ClientsController < AdminController
   before_action :find_resources, only: :show
   before_action :quantitative_type_editable, only: [:edit, :update, :new, :create]
   before_action :quantitative_type_readable
+  before_action :validate_referral_client_id, only: [:new, :create]
 
   def index
     @client_default_columns = Setting.first.try(:client_default_columns)
@@ -81,7 +82,38 @@ class ClientsController < AdminController
   end
 
   def new
-    @client = Client.new
+    current_ngo = Organization.current.short_name
+
+    if params[:sid].present? && params[:from].present?
+      Organization.switch_to params[:from]
+      shared_client = SharedClient.find_by(id: params[:sid])
+      client        = shared_client.client
+
+      client_id = client.origin_id.present? ? client.origin_id : client.slug
+      fields = {
+        referred_sid: params[:sid],
+        referred_from: params[:from],
+        origin_id: client_id,
+        given_name: client.given_name,
+        family_name: client.family_name,
+        local_given_name: client.local_given_name,
+        local_family_name: client.local_family_name,
+        gender: client.gender,
+        date_of_birth: client.date_of_birth,
+        live_with: client.live_with,
+        telephone_number: client.telephone_number,
+        birth_province_id: client.birth_province_id,
+        name_of_referee: shared_client.name_of_referee,
+        referral_phone: shared_client.referral_phone,
+        initial_referral_date: shared_client.date_of_referral
+      }
+
+      Organization.switch_to current_ngo
+      @client = Client.new(fields)
+    else
+      @client = Client.new
+    end
+
     @client.populate_needs
     @client.populate_problems
   end
@@ -93,6 +125,7 @@ class ClientsController < AdminController
 
   def create
     @client = Client.new(client_params)
+
     if @client.save
       redirect_to @client, notice: t('.successfully_created')
     else
@@ -142,7 +175,7 @@ class ClientsController < AdminController
   def client_params
     remove_blank_exit_reasons
     params.require(:client)
-          .permit(
+          .permit(:origin_id, :referred_from, :referred_sid,
             :code, :name_of_referee, :main_school_contact, :rated_for_id_poor, :what3words, :status,
             :kid_id, :assessment_id, :given_name, :family_name, :local_given_name, :local_family_name, :gender, :date_of_birth,
             :birth_province_id, :initial_referral_date, :referral_source_id, :telephone_number,
@@ -223,5 +256,11 @@ class ClientsController < AdminController
 
   def quantitative_type_readable
     @quantitative_type_readable_ids = current_user.quantitative_type_permissions.readable.pluck(:quantitative_type_id)
+  end
+
+  def validate_referral_client_id
+    return unless params[:sid].present? && params[:from].present?
+
+    redirect_to root_path, alert: 'Client already exists!' if Client.find_by(referred_from: params[:from], referred_sid: params[:sid]).present?
   end
 end
