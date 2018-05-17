@@ -3018,11 +3018,11 @@ en:
       check_tasks: To check your tasks, please
       click_here: click here.
       client_case_note_due_today:
-        one: You have 1 case note due today.
-        other: You have %{count} case notes due today.
+        one: You have 1 case note due today
+        other: You have %{count} case notes due today
       client_case_note_overdue:
-        one: You have 1 case note overdue.
-        other: You have %{count} case notes overdue.
+        one: You have 1 case note overdue
+        other: You have %{count} case notes overdue
       client_is_about_to_end_ec:
         one: There is a client is about to exit EC program in %{day_count} days.
         other: There are %{count} clients are about to exit EC program in %{day_count} days.
@@ -3042,27 +3042,27 @@ en:
         one: There is 1 client enrollment tracking form due today.
         other: There are %{count} client enrollment trackings form due today.
       due_today_family_custom_field_count:
-        one: There is 1 family custom form due today.
-        other: There are %{count} family custom forms due today.
+        one: There is 1 family custom form due today
+        other: There are %{count} family custom forms due today
       due_today_forms_count:
         one: You have 1 form due today.
         other: You have %{count} forms due today.
       due_today_partner_custom_field_count:
-        one: There is 1 partner custom form due today.
-        other: There are %{count} partner custom forms due today.
+        one: There is 1 partner custom form due today
+        other: There are %{count} partner custom forms due today
       due_today_tasks_count:
         one: You have 1 task due today.
         other: You have %{count} tasks due today.
       due_today_user_custom_field_count:
-        one: There is 1 user custom form due today.
-        other: There are %{count} user custom forms due today.
+        one: There is 1 user custom form due today
+        other: There are %{count} user custom forms due today
       no_task: Nothing to notify.
       overdue_and_due_today_count:
-        one: and 1 due today.
-        other: and #{count} due today.
+        one: and 1 due today
+        other: and %{count} due today
       overdue_assessments_count:
-        one: You have 1 assessment overdue.
-        other: You have %{count} assessments overdue.
+        one: You have 1 assessment overdue
+        other: You have %{count} assessments overdue
       overdue_client_custom_field_count:
         one: There is 1 client custom form overdue.
         other: There are %{count} client custom forms overdue.
@@ -3070,24 +3070,24 @@ en:
         one: There is 1 client enrollment tracking form overdue.
         other: There are %{count} client enrollment trackings form overdue.
       overdue_family_custom_field_count:
-        one: There is 1 family custom form overdue.
-        other: There are %{count} family custom forms overdue.
+        one: There is 1 family custom form overdue
+        other: There are %{count} family custom forms overdue
       overdue_forms_count:
-        one: You have 1 form overdue.
-        other: You have %{count} forms overdue.
+        one: You have 1 form overdue
+        other: You have %{count} forms overdue
       overdue_partner_custom_field_count:
-        one: There is 1 partner custom form overdue.
-        other: There are %{count} partner custom forms overdue.
+        one: There is 1 partner custom form overdue
+        other: There are %{count} partner custom forms overdue
       overdue_tasks_count:
-        one: You have 1 task overdue.
-        other: You have %{count} tasks overdue.
+        one: You have 1 task overdue
+        other: You have %{count} tasks overdue
       overdue_user_custom_field_count:
-        one: There is 1 user custom form overdue.
-        other: There are %{count} user custom forms overdue.
+        one: There is 1 user custom form overdue
+        other: There are %{count} user custom forms overdue
       review_client: Review your clients enrollment in
       upcoming_assessments_count:
-        one: You are almost due to complete the next CSI assessment.
-        other: You are almost due to complete the next %{count} CSI assessments.
+        one: You are almost due to complete the next CSI assessment
+        other: You are almost due to complete the next %{count} CSI assessments
     side_menu:
       able_screening_questions: Able Screening Questions
       account: Account
