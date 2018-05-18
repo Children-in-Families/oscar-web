@@ -30,7 +30,7 @@
             - if @form_params
               - custom_field_index = 0
               - row_count = overdue_forms[:overdue_forms].size + overdue_forms[:overdue_trackings].size
-              - overdue_forms[:overdue_forms].each_with_index do |custom_field, next_custom_field_date, index|
+              - overdue_forms[:overdue_forms].each_with_index do |(custom_field, next_custom_field_date), index|
                 %tr
                   - if index == 0
                     %td.col-xs-3{ rowspan: row_count }= t('.forms')

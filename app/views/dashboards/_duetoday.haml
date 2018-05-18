@@ -29,7 +29,7 @@
             - if @form_params
               - custom_field_index = 0
               - row_count = today_forms[:today_forms].size + today_forms[:today_trackings].size
-              - today_forms[:today_forms].each_with_index do |custom_field, next_custom_field_date, index|
+              - today_forms[:today_forms].each_with_index do |(custom_field, next_custom_field_date), index|
                 %tr
                   - if index == 0
                     %td.col-xs-3{ rowspan: row_count }= t('.forms')
