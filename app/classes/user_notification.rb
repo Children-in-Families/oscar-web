@@ -6,11 +6,10 @@ class UserNotification
     @user                                            = user
     @clients                                         = clients
     @assessments                                     = @user.assessment_either_overdue_or_due_today
-    @client_custom_field                             = @user.client_custom_field_frequency_overdue_or_due_today
     @user_custom_field                               = @user.user_custom_field_frequency_overdue_or_due_today if @user.admin? || @user.manager?
     @partner_custom_field                            = @user.partner_custom_field_frequency_overdue_or_due_today
     @family_custom_field                             = @user.family_custom_field_frequency_overdue_or_due_today
-    @client_enrollment_tracking_user_notification    = @user.client_enrollment_tracking_overdue_or_due_today
+    @client_forms_overdue_or_due_today               = @user.client_forms_overdue_or_due_today
     @case_notes_overdue_and_due_today                = @user.case_note_overdue_and_due_today
     @all_count                                       = count
   end
@@ -91,30 +90,6 @@ class UserNotification
   #   end
   # end
 
-  def any_client_custom_field_frequency_overdue?
-    client_custom_field_frequency_overdue_count >= 1
-  end
-
-  def any_client_custom_field_frequency_due_today?
-    client_custom_field_frequency_due_today_count >= 1
-  end
-
-  def client_custom_field_frequency_due_today_count
-    @client_custom_field[:entity_due_today].count
-  end
-
-  def client_custom_field_frequency_overdue_count
-    @client_custom_field[:entity_overdue].count
-  end
-
-  def client_custom_field_frequency_due_today
-    @client_custom_field[:entity_due_today]
-  end
-
-  def client_custom_field_frequency_overdue
-    @client_custom_field[:entity_overdue]
-  end
-
   def any_user_custom_field_frequency_overdue?
     user_custom_field_frequency_overdue_count >= 1
   end
@@ -188,27 +163,27 @@ class UserNotification
   end
 
   def client_enrollment_tracking_frequency_due_today_count
-    @client_enrollment_tracking_user_notification[:clients_due_today].count
+    @client_forms_overdue_or_due_today[:today_forms].count
   end
 
   def client_enrollment_tracking_frequency_overdue_count
-    @client_enrollment_tracking_user_notification[:clients_overdue].count
+    @client_forms_overdue_or_due_today[:overdue_forms].count
   end
 
-  def any_client_enrollment_tracking_frequency_due_today?
+  def any_client_forms_due_today?
     client_enrollment_tracking_frequency_due_today_count >= 1
   end
 
-  def any_client_enrollment_tracking_frequency_overdue?
+  def any_client_forms_overdue?
     client_enrollment_tracking_frequency_overdue_count >= 1
   end
 
   def client_enrollment_tracking_frequency_due_today
-    @client_enrollment_tracking_user_notification[:clients_due_today]
+    @client_forms_overdue_or_due_today[:today_forms]
   end
 
   def client_enrollment_tracking_frequency_overdue
-    @client_enrollment_tracking_user_notification[:clients_overdue]
+    @client_forms_overdue_or_due_today[:overdue_forms]
   end
 
   def any_client_case_note_overdue?
@@ -255,7 +230,7 @@ class UserNotification
     end
     unless @user.strategic_overviewer?
       count_notification += 1 if any_due_today_tasks? || any_overdue_tasks?
-      count_notification += 1 if any_client_enrollment_tracking_frequency_due_today? || any_client_enrollment_tracking_frequency_overdue? || any_client_custom_field_frequency_overdue? || any_client_custom_field_frequency_due_today?
+      count_notification += 1 if any_client_forms_due_today? || any_client_forms_overdue?
       count_notification += 1 if (any_overdue_assessments? || any_due_today_assessments?) && enable_assessment_setting?
       count_notification += 1 if any_upcoming_csi_assessments? && enable_assessment_setting?
       count_notification += 1 if any_client_case_note_overdue?

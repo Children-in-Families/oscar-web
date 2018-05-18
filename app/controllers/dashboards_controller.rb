@@ -32,7 +32,7 @@ class DashboardsController < AdminController
     clients_duetoday = []
     clients_upcoming = []
     clients = []
-    Client.active_accepted_status.each do |client|
+    @user.clients.active_accepted_status.each do |client|
       overdue_tasks = []
       today_tasks = []
       upcoming_tasks = []
@@ -48,7 +48,7 @@ class DashboardsController < AdminController
         upcoming_tasks << client.tasks.incomplete.exclude_exited_ngo_clients.of_user(@user).upcoming_within_three_months
       end
 
-      if @form_params && client.user_ids.include?(@user.id)
+      if @form_params
         custom_fields = client.custom_fields.where.not(frequency: '')
         custom_fields.each do |custom_field|
           if client.next_custom_field_date(client, custom_field) < Date.today

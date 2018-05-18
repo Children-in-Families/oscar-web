@@ -3,7 +3,7 @@
   %p= "You currently have #{pluralize(@overdue_forms.size, 'form')} overdue and #{@today_forms.size} due today. Please see the list below."
 - elsif @overdue_forms.present?
   %p= "You currently have #{pluralize(@overdue_forms.size, 'form')} overdue. Please see the list below."
-- else
+- elsif @today_forms.present?
   %p= "You currently have #{pluralize(@today_forms.size, 'form')} due today. Please see the list below."
 - if @overdue_forms.present?
   %p Overdue Forms
