@@ -40,7 +40,7 @@
                 .col-xs-11
                   = assessments_notification_label
         %li.divider
-        - if @notification.any_client_custom_field_frequency_due_today? || @notification.any_client_custom_field_frequency_overdue? || @notification.any_client_enrollment_tracking_frequency_due_today? || @notification.any_client_enrollment_tracking_frequency_overdue?
+        - if @notification.any_client_forms_due_today? || @notification.any_client_forms_overdue?
           %li
             %div.align-link
               = link_to dashboards_path(user_id: current_user.id, forms: true) do

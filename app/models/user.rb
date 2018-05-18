@@ -2,7 +2,7 @@ class User < ActiveRecord::Base
   include EntityTypeCustomField
   include EntityTypeCustomFieldNotification
   include NextClientEnrollmentTracking
-  include ClientEnrollmentTrackingNotification
+  include ClientOverdueAndDueTodayForms
 
   ROLES = ['admin', 'manager', 'case worker', 'strategic overviewer'].freeze
   MANAGERS = ROLES.select { |role| role if role.include?('manager') }
@@ -181,8 +181,8 @@ class User < ActiveRecord::Base
     end
   end
 
-  def client_enrollment_tracking_overdue_or_due_today
-    client_enrollment_tracking_notification(clients.active_accepted_status)
+  def client_forms_overdue_or_due_today
+    overdue_and_due_today_forms(clients.active_accepted_status)
   end
 
   def case_note_overdue_and_due_today

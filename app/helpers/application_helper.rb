@@ -247,16 +247,12 @@ module ApplicationHelper
   end
 
   def forms_notification_label
-    if (@notification.any_client_custom_field_frequency_overdue? || @notification.any_client_enrollment_tracking_frequency_overdue?) && (@notification.any_client_custom_field_frequency_due_today? || @notification.any_client_enrollment_tracking_frequency_due_today?)
-      overdue = @notification.client_enrollment_tracking_frequency_overdue_count + @notification.client_custom_field_frequency_overdue_count
-      due_today = @notification.client_enrollment_tracking_frequency_due_today_count + @notification.client_custom_field_frequency_due_today_count
-      "#{I18n.t('layouts.notification.due_today_forms_count', count: overdue)} #{I18n.t('layouts.notification.overdue_and_due_today_count', count: due_today)}"
-    elsif @notification.any_client_custom_field_frequency_overdue? || @notification.any_client_enrollment_tracking_frequency_overdue?
-      overdue = @notification.client_enrollment_tracking_frequency_overdue_count + @notification.client_custom_field_frequency_overdue_count
-      I18n.t('layouts.notification.overdue_forms_count', count: overdue)
+    if @notification.any_client_forms_overdue? && @notification.any_client_forms_due_today?
+      "#{I18n.t('layouts.notification.due_today_forms_count', count: @notification.client_enrollment_tracking_frequency_overdue_count)} #{I18n.t('layouts.notification.overdue_and_due_today_count', count: @notification.client_enrollment_tracking_frequency_due_today_count)}"
+    elsif  @notification.any_client_forms_overdue?
+      I18n.t('layouts.notification.overdue_forms_count', count: @notification.client_enrollment_tracking_frequency_overdue_count)
     else
-      due_today = @notification.client_enrollment_tracking_frequency_due_today_count + @notification.client_custom_field_frequency_due_today_count
-      I18n.t('layouts.notification.due_today_forms_count', count: due_today)
+      I18n.t('layouts.notification.due_today_forms_count', count: @notification.client_enrollment_tracking_frequency_due_today_count)
     end
   end
 end
