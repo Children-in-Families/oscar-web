@@ -51,12 +51,13 @@ class DashboardsController < AdminController
       if @form_params
         custom_fields = client.custom_fields.where.not(frequency: '')
         custom_fields.each do |custom_field|
-          if client.next_custom_field_date(client, custom_field) < Date.today
-            overdue_forms << custom_field
-          elsif client.next_custom_field_date(client, custom_field) == Date.today
-            today_forms << custom_field
-          elsif client.next_custom_field_date(client, custom_field).between?(Date.tomorrow, 3.months.from_now)
-            upcoming_forms << custom_field
+          next_custom_field_date = client.next_custom_field_date(client, custom_field)
+          if next_custom_field_date < Date.today
+            overdue_forms << [custom_field, next_custom_field_date]
+          elsif next_custom_field_date == Date.today
+            today_forms << [custom_field, next_custom_field_date]
+          elsif next_custom_field_date.between?(Date.tomorrow, 3.months.from_now)
+            upcoming_forms << [custom_field, next_custom_field_date]
           end
         end
 
@@ -65,12 +66,13 @@ class DashboardsController < AdminController
           trackings = client_active_enrollment.trackings.where.not(frequency: '')
           trackings.each do |tracking|
             last_client_enrollment_tracking = client_active_enrollment.client_enrollment_trackings.last
-            if client.next_client_enrollment_tracking_date(tracking, last_client_enrollment_tracking) < Date.today
-              overdue_trackings << tracking
-            elsif client.next_client_enrollment_tracking_date(tracking, last_client_enrollment_tracking) == Date.today
-              today_trackings << tracking
-            elsif client.next_client_enrollment_tracking_date(tracking, last_client_enrollment_tracking).between?(Date.tomorrow, 3.months.from_now)
-              upcoming_trackings << tracking
+            next_client_enrollment_tracking_date = client.next_client_enrollment_tracking_date(tracking, last_client_enrollment_tracking)
+            if next_client_enrollment_tracking_date < Date.today
+              overdue_trackings << [tracking, next_client_enrollment_tracking_date]
+            elsif next_client_enrollment_tracking_date == Date.today
+              today_trackings << [tracking, next_client_enrollment_tracking_date]
+            elsif next_client_enrollment_tracking_date.between?(Date.tomorrow, 3.months.from_now)
+              upcoming_trackings << [tracking, next_client_enrollment_tracking_date]
             end
           end
         end

@@ -29,18 +29,17 @@
             - if @form_params
               - custom_field_index = 0
               - row_count = today_forms[:today_forms].size + today_forms[:today_trackings].size
-              - today_forms[:today_forms].each_with_index do |custom_field, index|
+              - today_forms[:today_forms].each_with_index do |custom_field, next_custom_field_date, index|
                 %tr
                   - if index == 0
                     %td.col-xs-3{ rowspan: row_count }= t('.forms')
                   %td.col-xs-6.task-name.border-left-right= custom_field.form_title
-                  %td.col-xs-3= client.next_custom_field_date(client, custom_field).strftime("%B %d, %Y")
+                  %td.col-xs-3= next_custom_field_date.strftime("%B %d, %Y")
                   - custom_field_index = index + 1
-              - today_forms[:today_trackings].each do |tracking|
-                - last_client_enrollment_tracking = tracking.client_enrollment_trackings.last
+              - today_forms[:today_trackings].each do |tracking, next_client_enrollment_tracking_date|
                 %tr
                   - if custom_field_index == 0
                     %td.col-xs-3{rowspan: row_count}= t('.forms')
                     - custom_field_index = custom_field_index + 1
                   %td.col-xs-6.task-name.border-left-right= tracking.name
-                  %td.col-xs-3= client.next_client_enrollment_tracking_date(tracking, last_client_enrollment_tracking).strftime("%B %d, %Y")
+                  %td.col-xs-3= next_client_enrollment_tracking_date.strftime("%B %d, %Y")

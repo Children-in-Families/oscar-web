@@ -20,7 +20,6 @@
                     %td.col-xs-3{ rowspan: overdue_tasks.count }= t('.tasks')
                   %td.col-xs-6.task-name.border-left-right= task.name
                   %td.col-xs-3= task.completion_date.strftime("%B %d, %Y")
-
             - if @assessment_params && overdue_assessments_any?(client) && client.user_ids.include?(@user.id) && !client.age_over_18?
               - assessment = client.assessments.latest_record
               - if assessment.present?
@@ -31,18 +30,17 @@
             - if @form_params
               - custom_field_index = 0
               - row_count = overdue_forms[:overdue_forms].size + overdue_forms[:overdue_trackings].size
-              - overdue_forms[:overdue_forms].each_with_index do |custom_field, index|
+              - overdue_forms[:overdue_forms].each_with_index do |custom_field, next_custom_field_date, index|
                 %tr
                   - if index == 0
                     %td.col-xs-3{ rowspan: row_count }= t('.forms')
                   %td.col-xs-6.task-name.border-left-right= custom_field.form_title
-                  %td.col-xs-3= client.next_custom_field_date(client, custom_field).strftime("%B %d, %Y")
+                  %td.col-xs-3= next_custom_field_date.strftime("%B %d, %Y")
                   - custom_field_index = index + 1
-              - overdue_forms[:overdue_trackings].each do |tracking|
-                - last_client_enrollment_tracking = tracking.client_enrollment_trackings.last
+              - overdue_forms[:overdue_trackings].each do |tracking, next_client_enrollment_tracking_date|
                 %tr
                   - if custom_field_index == 0
                     %td.col-xs-3{rowspan: row_count}= t('.forms')
                     - custom_field_index = custom_field_index + 1
                   %td.col-xs-6.task-name.border-left-right= tracking.name
-                  %td.col-xs-3= client.next_client_enrollment_tracking_date(tracking, last_client_enrollment_tracking).strftime("%B %d, %Y")
+                  %td.col-xs-3= next_client_enrollment_tracking_date.strftime("%B %d, %Y")
