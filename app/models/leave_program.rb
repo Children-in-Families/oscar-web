@@ -9,7 +9,7 @@ class LeaveProgram < ActiveRecord::Base
   accepts_nested_attributes_for :form_builder_attachments, reject_if: proc { |attributes| attributes['name'].blank? &&  attributes['file'].blank? }
 
   after_save :create_leave_program_history
-  after_create :set_client_status
+  after_create :update_enrollment_status, :set_client_status
 
   has_paper_trail
 
@@ -27,11 +27,13 @@ class LeaveProgram < ActiveRecord::Base
     field_properties.select(&:present?)
   end
 
-  def set_client_status
+  def update_enrollment_status
     self.client_enrollment.update_columns(status: 'Exited')
+  end
 
+  def set_client_status
     client = Client.find(self.client_enrollment.client_id)
-    if client.cases.current.nil? && client.client_enrollments.active.empty?
+    if client.client_enrollments.active.empty?
       client.status = 'Accepted'
       client.save(validate: false)
     end

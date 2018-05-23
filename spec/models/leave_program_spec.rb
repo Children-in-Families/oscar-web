@@ -89,13 +89,6 @@ describe LeaveProgram, 'callbacks' do
 
   context 'after_create' do
     context 'set_client_status' do
-      context 'The client is Active EC' do
-        let!(:leave_program) { create(:leave_program, client_enrollment: client_enrollment, program_stream: first_program_stream) }
-        it 'status should remain Active' do
-          expect(ec_client.status).to eq('Active')
-        end
-      end
-
       context 'The client is not active in any cases EC/FC/KC' do
         context 'The client is active in only one program' do
           let!(:leave_program) { create(:leave_program, client_enrollment: first_client_enrollment, program_stream: first_program_stream) }
@@ -111,6 +104,13 @@ describe LeaveProgram, 'callbacks' do
             expect(client.status).to eq('Active')
           end
         end
+      end
+    end
+
+    context 'update_enrollment_status' do
+      let!(:leave_program) { create(:leave_program, client_enrollment: first_client_enrollment, program_stream: first_program_stream) }
+      it 'set enrollment status to Exited' do
+        expect(first_client_enrollment.status).to eq('Exited')
       end
     end
   end
