@@ -14,7 +14,7 @@ class CreateSharedClients < ActiveRecord::Migration
 
       t.timestamps null: false
     end
-]
+
     add_index :shared_clients, :slug, unique: true
   end
 end
