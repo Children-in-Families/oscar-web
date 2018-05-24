@@ -37,6 +37,10 @@ class NotificationsController < AdminController
     @clients        = Client.non_exited_ngo.where(id: params[:client_ids])
   end
 
+  def referrals
+    @unsaved_referrals = @notification.unsaved_referrals
+  end
+
   private
 
   def entity_custom_field_notification(entity_custom_field)

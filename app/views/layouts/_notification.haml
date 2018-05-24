@@ -154,6 +154,15 @@
                 .col-xs-11
                   = t('.overdue_user_custom_field_count', count: @notification.user_custom_field_frequency_overdue_count)
         %li.divider
+      - if @notification.any_unsaved_referrals?
+        %li
+          %div.align-link
+            = link_to referrals_notifications_path do
+              .row
+                .col-xs-1
+                  %i.fa.fa-tasks.fa-fw.task-sign
+                .col-xs-11
+                  = "#{@notification.unsaved_referrals_count} New Referral Clients"
     - if @notification.all_count.zero?
       %li
         %div.notify-margin

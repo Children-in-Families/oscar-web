@@ -5,7 +5,8 @@ class Organization < ActiveRecord::Base
 
   scope :without_demo, -> { where.not(full_name: 'Demo') }
   scope :without_cwd, -> { where.not(short_name: 'cwd') }
-  scope :without_demo_and_cwd, -> { where.not(short_name: ['demo', 'cwd', 'myan', 'rok', 'mhc']) }
+  scope :exclude_current, -> { where.not(short_name: Organization.current.short_name) }
+  scope :non_oscar, -> { where.not(short_name: ['demo', 'cwd', 'myan', 'rok', 'mhc', 'shared']) }
 
   validates :full_name, :short_name, presence: true
   validates :short_name, uniqueness: { case_sensitive: false }

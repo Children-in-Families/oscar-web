@@ -12,6 +12,7 @@ class ClientsController < AdminController
   before_action :fetch_advanced_search_queries, only: [:index]
 
   before_action :find_client, only: [:show, :edit, :update, :destroy]
+  before_action :assign_client_attributes, only: [:show, :edit, :update]
   before_action :set_association, except: [:index, :destroy, :version]
   before_action :choose_grid, only: :index
   before_action :find_resources, only: :show
@@ -81,7 +82,23 @@ class ClientsController < AdminController
   end
 
   def new
-    @client = Client.new
+    if params[:referral_id].present?
+      current_org = Organization.current
+      referral = Referral.find_by(id: params[:referral_id])
+      raise ActionController::RoutingError.new('Not Found') if referral.nil?
+      Organization.switch_to 'shared'
+      attributes = SharedClient.find_by(slug: referral.slug).attributes
+      attributes.merge!({
+        initial_referral_date: referral.date_of_referral,
+        referral_phone: referral.referral_phone,
+        relevant_referral_information: referral.referral_reason,
+        name_of_referee: referral.name_of_referee
+      })
+      Organization.switch_to current_org.short_name
+      @client = Client.new(attributes)
+    else
+      @client = Client.new
+    end
     @client.populate_needs
     @client.populate_problems
   end
@@ -139,11 +156,27 @@ class ClientsController < AdminController
     @client = Client.accessible_by(current_ability).friendly.find(params[:id]).decorate
   end
 
+  def assign_client_attributes
+    current_org = Organization.current
+    Organization.switch_to 'shared'
+    client_record = SharedClient.find_by(slug: @client.slug)
+    @client.given_name = client_record.given_name
+    @client.family_name = client_record.family_name
+    @client.local_given_name = client_record.local_given_name
+    @client.local_family_name = client_record.local_family_name
+    @client.gender = client_record.gender
+    @client.date_of_birth = client_record.date_of_birth
+    @client.telephone_number = client_record.telephone_number
+    @client.live_with = client_record.live_with
+    @client.birth_province_id = client_record.birth_province_id
+    Organization.switch_to current_org.short_name
+  end
+
   def client_params
     remove_blank_exit_reasons
     params.require(:client)
           .permit(
-            :code, :name_of_referee, :main_school_contact, :rated_for_id_poor, :what3words, :status,
+            :slug, :code, :name_of_referee, :main_school_contact, :rated_for_id_poor, :what3words, :status,
             :kid_id, :assessment_id, :given_name, :family_name, :local_given_name, :local_family_name, :gender, :date_of_birth,
             :birth_province_id, :initial_referral_date, :referral_source_id, :telephone_number,
             :referral_phone, :received_by_id, :followed_up_by_id,
@@ -191,13 +224,17 @@ class ClientsController < AdminController
     selected_country = Setting.first.try(:country_name) || params[:country]
     case selected_country
     when 'cambodia'
-      @province        = Province.order(:name)
+      current_org = Organization.current.short_name
+      Organization.switch_to 'shared'
+      @birth_provinces       = Province.order(:name)
+      Organization.switch_to current_org
+      @current_provinces     = Province.order(:name)
       @districts       = @client.province.present? ? @client.province.districts.order(:name) : []
     when 'myanmar'
       @states          = State.order(:name)
       @townships       = @client.state.present? ? @client.state.townships.order(:name) : []
     when 'thailand'
-      @province        = Province.order(:name)
+      @current_provinces        = Province.order(:name)
       @districts       = @client.province.present? ? @client.province.districts.order(:name) : []
       @subdistricts    = @client.district.present? ? @client.district.subdistricts.order(:name) : []
     end

@@ -11,6 +11,7 @@ class UserNotification
     @family_custom_field                             = @user.family_custom_field_frequency_overdue_or_due_today
     @client_forms_overdue_or_due_today               = @user.client_forms_overdue_or_due_today
     @case_notes_overdue_and_due_today                = @user.case_note_overdue_and_due_today
+    @unsaved_referrals                               = get_referrals
     @all_count                                       = count
   end
 
@@ -210,6 +211,18 @@ class UserNotification
     @case_notes_overdue_and_due_today[:client_due_today]
   end
 
+  def unsaved_referrals
+    @unsaved_referrals
+  end
+
+  def unsaved_referrals_count
+    @unsaved_referrals.count
+  end
+
+  def any_unsaved_referrals?
+    unsaved_referrals_count >= 1
+  end
+
   def count
     count_notification = 0
 
@@ -221,6 +234,8 @@ class UserNotification
     if @user.admin? || @user.manager?
       count_notification += 1 if any_user_custom_field_frequency_overdue?
       count_notification += 1 if any_user_custom_field_frequency_due_today?
+      # add logic to toggle on/off notification 
+      count_notification += 1 if any_unsaved_referrals?
     end
     if @user.admin? || @user.any_case_manager?
       count_notification += 1 if any_partner_custom_field_frequency_overdue?
@@ -248,5 +263,9 @@ class UserNotification
   def enable_assessment_setting?
     setting = Setting.first.try(:disable_assessment)
     setting.nil? ? true : !setting
+  end
+
+  def get_referrals
+    Referral.received.unsaved
   end
 end

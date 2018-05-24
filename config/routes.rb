@@ -92,6 +92,7 @@ Rails.application.routes.draw do
   get '/data_trackers' => 'data_trackers#index'
 
   resources :clients do
+    resources :referrals
 
     collection do
       get :advanced_search
@@ -154,6 +155,7 @@ Rails.application.routes.draw do
   resources :notifications, only: [:index] do
     collection do
       get :program_stream_notify
+      get :referrals
     end
   end
 
