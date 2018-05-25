@@ -16,8 +16,10 @@ class CIF.CustomFormBuilder
     self = @
     onadd: (fld) ->
       $('.subtype-wrap, .className-wrap, .access-wrap').hide()
+      self.preventClickEnterOrTab(fld)
     onclone: (fld) ->
       $('.subtype-wrap, .className-wrap, .access-wrap').hide()
+      self.preventClickEnterOrTab(fld)
 
   eventCheckboxOption: ->
     self = @
@@ -253,4 +255,4 @@ class CIF.CustomFormBuilder
     $(element).find('.fld-label').keypress (event) ->
       if event.which == 13
         event.preventDefault()
-        alert("It doesn't work with enter key")
+        alert('ENTER key is not allowed!')
