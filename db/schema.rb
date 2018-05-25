@@ -835,10 +835,10 @@ ActiveRecord::Schema.define(version: 20180524044456) do
   create_table "quantitative_type_permissions", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "quantitative_type_id"
-    t.boolean  "readable",             default: false
-    t.boolean  "editable",             default: false
-    t.datetime "created_at",                           null: false
-    t.datetime "updated_at",                           null: false
+    t.boolean  "readable",             default: true
+    t.boolean  "editable",             default: true
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
   end
 
   add_index "quantitative_type_permissions", ["quantitative_type_id"], name: "index_quantitative_type_permissions_on_quantitative_type_id", using: :btree
