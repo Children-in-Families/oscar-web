@@ -27,12 +27,14 @@ class CIF.CustomFormBuilder
       self.hideOptionValue()
       self.addOptionCallback(fld)
       self.generateValueForSelectOption(fld)
+      self.preventClickEnterOrTab(fld)
     onclone: (fld) ->
       setTimeout ( ->
         self.handleCheckingForm()
         self.hideOptionValue()
         self.addOptionCallback(fld)
         self.generateValueForSelectOption(fld)
+        self.preventClickEnterOrTab(fld)
         ),50
 
   eventDateOption: ->
@@ -40,9 +42,11 @@ class CIF.CustomFormBuilder
     onadd: (fld) ->
       $('.date-field').find('.className-wrap, .placeholder-wrap, .value-wrap, .access-wrap, .description-wrap, .name-wrap, .toggle-wrap, .inline-wrap').hide()
       self.handleCheckingForm()
+      self.preventClickEnterOrTab(fld)
     onclone: (fld) ->
       setTimeout ( ->
         self.handleCheckingForm()
+        self.preventClickEnterOrTab(fld)
       ),50
 
   eventFileOption: ->
@@ -50,9 +54,11 @@ class CIF.CustomFormBuilder
     onadd: (fld) ->
       $('.file-field').find('.className-wrap, .placeholder-wrap, .subtype-wrap, .value-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
       self.handleCheckingForm()
+      self.preventClickEnterOrTab(fld)
     onclone: (fld) ->
       setTimeout ( ->
         self.handleCheckingForm()
+        self.preventClickEnterOrTab(fld)
       ),50
 
   eventNumberOption: ->
@@ -60,9 +66,11 @@ class CIF.CustomFormBuilder
     onadd: (fld) ->
       $('.number-field').find('.className-wrap, .placeholder-wrap, .value-wrap, .step-wrap, .access-wrap, .description-wrap, .name-wrap').hide()
       self.handleCheckingForm()
+      self.preventClickEnterOrTab(fld)
     onclone: (fld) ->
       setTimeout ( ->
         self.handleCheckingForm()
+        self.preventClickEnterOrTab(fld)
       ),50
 
   eventRadioOption: ->
@@ -73,12 +81,14 @@ class CIF.CustomFormBuilder
       self.hideOptionValue()
       self.addOptionCallback(fld)
       self.generateValueForSelectOption(fld)
+      self.preventClickEnterOrTab(fld)
     onclone: (fld) ->
       setTimeout ( ->
         self.handleCheckingForm()
         self.hideOptionValue()
         self.addOptionCallback(fld)
         self.generateValueForSelectOption(fld)
+        self.preventClickEnterOrTab(fld)
         ),50
 
   eventSelectOption: ->
@@ -89,12 +99,14 @@ class CIF.CustomFormBuilder
       self.hideOptionValue()
       self.addOptionCallback(fld)
       self.generateValueForSelectOption(fld)
+      self.preventClickEnterOrTab(fld)
     onclone: (fld) ->
       setTimeout ( ->
         self.handleCheckingForm()
         self.hideOptionValue()
         self.addOptionCallback(fld)
         self.generateValueForSelectOption(fld)
+        self.preventClickEnterOrTab(fld)
         ),50
 
   eventTextFieldOption: ->
@@ -105,9 +117,11 @@ class CIF.CustomFormBuilder
       $('.fld-subtype ').find('option:contains(password)').remove()
       $('.className-wrap, .value-wrap, .access-wrap, .maxlength-wrap, .description-wrap, .name-wrap').hide()
       self.handleCheckingForm()
+      self.preventClickEnterOrTab(fld)
     onclone: (fld) ->
       setTimeout ( ->
         self.handleCheckingForm()
+        self.preventClickEnterOrTab(fld)
       ),50
 
   eventTextAreaOption: ->
@@ -115,9 +129,11 @@ class CIF.CustomFormBuilder
     onadd: (fld) ->
       $('.rows-wrap, .subtype-wrap, .className-wrap, .value-wrap, .access-wrap, .maxlength-wrap, .description-wrap, .name-wrap').hide()
       self.handleCheckingForm()
+      self.preventClickEnterOrTab(fld)
     onclone: (fld) ->
       setTimeout ( ->
         self.handleCheckingForm()
+        self.preventClickEnterOrTab(fld)
       ),50
 
   eventSeparateLineOption: ->
@@ -232,3 +248,9 @@ class CIF.CustomFormBuilder
     $(field).find('input, textarea, select').removeClass('error')
     $(field).find('label.error').remove()
     $('#custom-field-submit').removeAttr('disabled') if $('#custom-field-submit').length
+
+  preventClickEnterOrTab: (element) ->
+    $(element).find('.fld-label').keypress (event) ->
+      if event.which == 13
+        event.preventDefault()
+        alert("It doesn't work with enter key")
