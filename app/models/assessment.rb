@@ -11,7 +11,7 @@ class Assessment < ActiveRecord::Base
   validate :must_be_enable_assessment
   validate :must_be_min_assessment_period, if: :new_record?
   validate :only_latest_record_can_be_updated
-  validate :client_must_not_over_18
+  validate :client_must_not_over_18, if: :new_record?
 
   before_save :set_previous_score
 
