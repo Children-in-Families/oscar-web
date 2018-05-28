@@ -7,6 +7,11 @@ class Partner < ActiveRecord::Base
   has_many :custom_field_properties, as: :custom_formable, dependent: :destroy
   has_many :custom_fields, through: :custom_field_properties, as: :custom_formable
 
+  has_many :client_referral_sources, foreign_key: 'referral_source_id', class_name: 'Client'
+
+  has_many :client_partners
+  has_many :clients, through: :client_partners
+
   delegate :name, to: :organization_type, prefix: true, allow_nil: true
 
   has_paper_trail

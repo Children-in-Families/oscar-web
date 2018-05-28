@@ -22,7 +22,8 @@ class Client < ActiveRecord::Base
   delegate :name, to: :subdistrict, prefix: true, allow_nil: true
   delegate :name, to: :state, prefix: true, allow_nil: true
 
-  belongs_to :referral_source,  counter_cache: true
+  # belongs_to :referral_source,  counter_cache: true
+  belongs_to :referral_source,  class_name: 'Partner',  foreign_key: 'referral_source_id'
   belongs_to :province,         counter_cache: true
   belongs_to :donor
   belongs_to :district
@@ -34,8 +35,13 @@ class Client < ActiveRecord::Base
   belongs_to :birth_province,   class_name: 'Province',  foreign_key: 'birth_province_id', counter_cache: true
 
   has_many :tasks,          dependent: :destroy
-  has_many :agency_clients, dependent: :destroy
-  has_many :agencies, through: :agency_clients
+
+  has_many :client_partners, dependent: :destroy
+  has_many :partners, through: :client_partners
+
+  # has_many :agency_clients
+  # has_many :agencies, through: :agency_clients
+
   has_many :client_quantitative_cases, dependent: :destroy
   has_many :quantitative_cases, through: :client_quantitative_cases
   has_many :custom_field_properties, as: :custom_formable, dependent: :destroy
