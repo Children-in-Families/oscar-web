@@ -62,7 +62,7 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
 
   _validateScore = (form) ->
     $('.task_required').addClass 'text-required'
-    if $('.task-arising').is ':visible'
+    if $('.list-group-item').is ':visible'
       $('.task_required').removeClass('text-required')
       return true
     if !$('.text-required').is ':visible'
@@ -197,6 +197,7 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       _deleteTask(e)
 
   _deleteTask = (e) ->
+    $('.task_required').addClass 'text-required'
     url = $(e.target).data('url').split('?')[0]
     url = "#{url}.json"
 
