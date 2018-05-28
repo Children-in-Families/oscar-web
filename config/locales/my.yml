@@ -1342,6 +1342,8 @@ my:
 
     placement:
       view_legacy_quarterly_reports: သံုးလပတ္ဥပေဒေရးရာ အစီရင္ခံစာမ်ားကို ၾကည့္ရန္
+    referral_form:
+      referral_form: OSCaR Inter-Organisation Referral Form
     remaining_programs:
       close: ပိတ္ရန္
       warning: သတိေပးခ်က္
@@ -3728,6 +3730,32 @@ my:
     version:
       back: ေနာက္သို႔
       modification_of: "၏ ေျပာင္းလဲမႈ မွတ္တမ္း"
+  referrals:
+    edit:
+      edit_referral: ပြင်ဆင်ရန်လွှဲပြောင်း
+    form:
+      client_id: Client ID
+      client_name: ကေလးနာမည္
+      consent_form: Consent Form
+      date_of_referral: လွှဲပြောင်း၏နေ့စွဲ
+      name_of_referee: ဒိုင်လူကြီး၏နာမကိုအမှီ
+      referred_from: ကနေရည်ညွှန်း
+      referral_reason: လွှဲပြောင်းအကြောင်းပြချက်
+      referral_phone: လႊဲေျပာင္းရမည့္ ဖုန္းနံပါတ္
+      select_ngos: အဖွဲ့အစည်းကရှေးခယျြ
+    index:
+      client_id: Client ID
+      client_name: ကေလးနာမည္
+      consent_form: Consent Form
+      date_of_referral: လွှဲပြောင်း၏နေ့စွဲ
+      edit_btn: ပြင်ဆင်ရန်
+      name_of_referee: ဒိုင်လူကြီး၏နာမကိုအမှီ
+      referred_from: ကနေရည်ညွှန်း
+      referral_reason: လွှဲပြောင်းအကြောင်းပြချက်
+      referral_phone: လႊဲေျပာင္းရမည့္ ဖုန္းနံပါတ္
+      select_ngos: အဖွဲ့အစည်းကရှေးခယျြ
+    new:
+      new_referral_form: အသစ်ကလွှဲပြောင်း
   referral_sources:
     create:
       failed_create: လႊဲေျပာင္းသည့္ရင္းျမစ္ကို ဖန္တီးျခင္းမေအာင္ျမင္ပါ

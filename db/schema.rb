@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180524044456) do
+ActiveRecord::Schema.define(version: 20180528025614) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -903,6 +903,7 @@ ActiveRecord::Schema.define(version: 20180524044456) do
     t.integer  "client_id"
     t.datetime "created_at",                       null: false
     t.datetime "updated_at",                       null: false
+    t.string   "consent_form"
   end
 
   add_index "referrals", ["client_id"], name: "index_referrals_on_client_id", using: :btree

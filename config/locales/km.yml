@@ -1420,6 +1420,8 @@ km:
 
     placement:
       view_legacy_quarterly_reports: មើល Quarterly Reports ចាស់ៗ
+    referral_form:
+      referral_form: OSCaR Inter-Organisation Referral Form
     remaining_programs:
       close: បិទ
       warning: ប្រុងប្រយ័ត្ន
@@ -3775,6 +3777,32 @@ km:
     version:
       back: ត្រលប់ក្រោយ
       modification_of: ប្រវត្តិកំណែរបស់
+  referrals:
+    edit:
+      edit_referral: កែសម្រួលទម្រង់បញ្ជូន
+    form:
+      client_id: Client ID
+      client_name: ឈ្មោះអតិថិជន
+      consent_form: Consent Form
+      date_of_referral: កាលបរិច្ឆេទបញ្ជូន
+      name_of_referee: ឈ្មោះអ្នកបញ្ជូន
+      referred_from: ប្រភពនៃការបញ្ជូន
+      referral_reason: មូលហេតុនៃការបញ្ជូន
+      referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
+      select_ngos: ជ្រើសរើសអង្គការ
+    index:
+      client_id: Client ID
+      client_name: ឈ្មោះអតិថិជន
+      consent_form: Consent Form
+      date_of_referral: កាលបរិច្ឆេទបញ្ជូន
+      edit_btn: កែសម្រួល
+      name_of_referee: ឈ្មោះអ្នកបញ្ជូន
+      referred_from: ប្រភពនៃការបញ្ជូន
+      referral_reason: មូលហេតុនៃការបញ្ជូន
+      referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
+      select_ngos: ជ្រើសរើសអង្គការ
+    new:
+      new_referral_form: បង្កើតទម្រង់បញ្ជូនថ្មី
   referral_sources:
     create:
       failed_create: ប្រភពនៃការបញ្ជូនមិនត្រូវបានបង្កើត
