@@ -156,6 +156,7 @@ Rails.application.routes.draw do
     collection do
       get :program_stream_notify
       get :referrals
+      get :repeat_referrals
     end
   end
 

@@ -163,6 +163,15 @@
                   %i.fa.fa-tasks.fa-fw.task-sign
                 .col-xs-11
                   = "#{@notification.unsaved_referrals_count} New Referral Clients"
+      - if @notification.any_repeat_referrals?
+        %li
+          %div.align-link
+            = link_to repeat_referrals_notifications_path do
+              .row
+                .col-xs-1
+                  %i.fa.fa-tasks.fa-fw.task-sign
+                .col-xs-11
+                  = "#{@notification.repeat_referrals_count} Repeat Referral Clients"
     - if @notification.all_count.zero?
       %li
         %div.notify-margin

@@ -1,48 +1,49 @@
-- @referrals.each do |referral|
-  .col-xs-12.col-sm-12.col-md-6
-    .ibox
-      .ibox-title
-        %h5= referral.date_of_referral.strftime('%B %d, %Y')
-        .ibox-tools
-          %small
-            = link_to edit_client_referral_path(@client, referral) do
-              .btn.btn-outline.btn-success
-                = t('.edit_btn')
+.row
+  - @referrals.each do |referral|
+    .col-xs-12.col-sm-12.col-md-6
+      .ibox
+        .ibox-title
+          %h5= referral.date_of_referral.strftime('%B %d, %Y')
+          .ibox-tools
+            %small
+              = link_to edit_client_referral_path(@client, referral) do
+                .btn.btn-outline.btn-success
+                  = t('.edit_btn')
 
-      .ibox-content
-        %section.overflow-case
-          %table.table.table-bordered
-            %tr
-              %td.spacing-first-col Client Name
-              %td
-                %strong= referral.client_name
+        .ibox-content
+          %section.overflow-case
+            %table.table.table-bordered
+              %tr
+                %td.spacing-first-col Client Name
+                %td
+                  %strong= referral.client_name
 
-            %tr
-              %td.spacing-first-col Slug
-              %td
-                %strong= referral.slug
+              %tr
+                %td.spacing-first-col Slug
+                %td
+                  %strong= referral.slug
 
-            %tr
-              %td.spacing-first-col Referred From
-              %td
-                %strong= referral.referred_from
+              %tr
+                %td.spacing-first-col Referred From
+                %td
+                  %strong= referral.referred_from
 
-            %tr
-              %td.spacing-first-col Referred To
-              %td
-                %strong= referral.referred_to
+              %tr
+                %td.spacing-first-col Referred To
+                %td
+                  %strong= referral.referred_to
 
-            %tr
-              %td.spacing-first-col Name of Referee
-              %td
-                %strong= referral.name_of_referee
+              %tr
+                %td.spacing-first-col Name of Referee
+                %td
+                  %strong= referral.name_of_referee
 
-            %tr
-              %td.spacing-first-col Referral Phone
-              %td
-                %strong= referral.referral_phone
+              %tr
+                %td.spacing-first-col Referral Phone
+                %td
+                  %strong= referral.referral_phone
 
-            %tr
-              %td.spacing-first-col Referral Reason
-              %td
-                %strong= referral.referral_reason
+              %tr
+                %td.spacing-first-col Referral Reason
+                %td
+                  %strong= referral.referral_reason
