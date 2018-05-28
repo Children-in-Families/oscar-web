@@ -60,6 +60,16 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
     errorPlacement: (error, element) ->
       element.before error
 
+  _validateScore = (form) ->
+    $('.task_required').addClass 'text-required'
+    if $('.list-group-item').is ':visible'
+      $('.task_required').removeClass('text-required')
+      return true
+    if !$('.text-required').is ':visible'
+      return true
+    if $('.text-required').is ':visible'
+      return false
+
   _loadSteps = (form) ->
     $("#rootwizard").steps
       headerTag: 'h4'
@@ -68,19 +78,19 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       autoFocus: true
 
       onInit: (event, currentIndex) ->
+        _validateScore(form)
         _formEdit(currentIndex)
         _appendSaveButton()
         _handleAppendAddTaskBtn()
 
       onStepChanging: (event, currentIndex, newIndex) ->
-        if currentIndex > newIndex
-          return true
-
         form.validate().settings.ignore = ':disabled,:hidden'
         form.valid()
         _filedsValidator(currentIndex, newIndex)
+        _validateScore(form)
 
       onStepChanged: (event, currentIndex, priorIndex) ->
+        _validateScore(form)
         _formEdit(currentIndex)
         _handleAppendAddTaskBtn()
         if currentIndex == 11
@@ -105,7 +115,8 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
   _saveAssessment = (form)->
     $("#rootwizard a[href='#save']").on 'click', ->
       form.valid()
-      form.submit()
+      if !$('.text-required').is ':visible'
+        form.submit()
 
   _formEdit = (currentIndex) ->
     currentTab  = "#rootwizard-p-#{currentIndex}"
@@ -139,6 +150,7 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       _clearTaskForm()
       domainId = $(e.target).data('domain-id')
       $('#task_domain_id').val(domainId)
+      $('.task_required').removeClass('text-required')
 
   _postTask = ->
     $('.add-task-btn').on 'click', (e) ->
@@ -185,6 +197,7 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
       _deleteTask(e)
 
   _deleteTask = (e) ->
+    $('.task_required').addClass 'text-required'
     url = $(e.target).data('url').split('?')[0]
     url = "#{url}.json"
 
