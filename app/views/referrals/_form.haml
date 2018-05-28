@@ -1,4 +1,4 @@
-- ngos = Organization.non_oscar.exclude_current.map{|org| [org.full_name, org.short_name] }
+- ngos = Organization.exclude_current.non_oscar.map{|org| [org.full_name, org.short_name] }
 = simple_form_for [@client, @referral || @client.referrals.build] do |f|
   = f.input :date_of_referral, input_html: { class: 'datepicker' }, label: t('.date_of_referral')
   = f.input :client_name, input_html: { value: @client.name }, label: t('.client_name')
