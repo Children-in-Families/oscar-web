@@ -185,6 +185,7 @@ describe Assessment, 'callbacks' do
     it 'not return error message if existing record' do
       client_1.update(date_of_birth: 18.years.ago.to_date)
       existing_assessment.update(client: client_1)
+      expect(existing_assessment.errors.full_messages).not_to include('Assessment cannot be created for client who is over 18.')
     end
   end
 
