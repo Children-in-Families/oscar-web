@@ -1,21 +1,23 @@
 - ngos = Organization.exclude_current.non_oscar.map{|org| [org.full_name, org.short_name] }
 = simple_form_for [@client, @referral || @client.referrals.build] do |f|
-  .form-inputs
-    .form-group.date
-      %label.date.control-label{ for: 'date_of_referral' }
-        = t('.date_of_referral')
-      .input-group.date
-        = f.text_field :date_of_referral, class: 'date form-control date-picker .datepicker-dropdown', type: 'text', name: 'referral[date_of_referral]', input_html: { value: Time.now.strftime('%Y-%m-%d')}
-        %span.input-group-addon
-          %i.fa.fa-calendar-check-o
+  .form-group.date.optional{ class: ('has-error' if f.error :date_of_referral) }
+    %label.date.control-label{ for: 'date_of_referral' }
+      = t('.date_of_referral')
+    .input-group.date
+      = f.text_field :date_of_referral, class: 'date form-control date-picker .datepicker-dropdown', type: 'text', name: 'referral[date_of_referral]', input_html: { value: Time.now.strftime('%Y-%m-%d')}
+      %span.input-group-addon
+        %i.fa.fa-calendar-check-o
   = f.input :client_name, input_html: { value: @client.name }, label: t('.client_name')
   = f.input :slug, input_html: { value: @client.slug }, label: t('.client_id')
   = f.input :referred_from, input_html: { value: Organization.current.short_name }, label: t('.referred_from')
-  = f.input :referred_to, as: :select, collection: ngos, label: t('.select_ngos')
+  = f.input :referred_to, as: :select, collection: ngos, label: t('.referred_to')
   = f.input :name_of_referee, input_html: { value: current_user.name }, label: t('.name_of_referee')
   = f.input :referral_phone, input_html: { value: current_user.mobile }, label: t('.referral_phone')
   = f.input :referral_reason, label: 'Referral Reason', as: :text, label: t('.referral_reason')
   / = render 'referrals/consent_form_fields', f: f
   .text-right
     = f.submit t('save'), class: 'btn btn-primary form-btn'
-    %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"}= t('cancel')
+    - if controller_name == 'clients'
+      %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"}= t('cancel')
+    - else
+      = link_to t('cancel'), client_referrals_path(@client, ngo: @referral.referred_to), class: 'btn btn-default cancel-client-button'

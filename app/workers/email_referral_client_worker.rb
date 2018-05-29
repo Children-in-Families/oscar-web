@@ -1,0 +1,13 @@
+class EmailReferralClientWorker
+  include Sidekiq::Worker
+  sidekiq_options queue: 'send_email'
+
+  def perform(referral_from, referral_to, slug)
+    Organization.switch_to referral_to
+    existed = Client.exists?(slug: slug)
+    admins = User.admins.non_locked
+    managers = User.managers.non_locked.notify_email
+    ReferralClientMailer.send_to(admins, referral_from, referral_to, 'admins', existed).deliver_now if admins.present?
+    ReferralClientMailer.send_to(managers, referral_from, referral_to, 'managers', existed).deliver_now if managers.present?
+  end
+end
