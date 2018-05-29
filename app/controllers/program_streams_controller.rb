@@ -97,7 +97,7 @@ class ProgramStreamsController < AdminController
   end
 
   def strip_tags(value)
-    ActionController::Base.helpers.strip_tags(value)
+    ActionController::Base.helpers.strip_tags(value).gsub(/(\\n)|(\\t)/, "")
   end
 
   def program_stream_params

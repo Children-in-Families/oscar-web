@@ -133,7 +133,7 @@ class FormBuilder::CustomFieldsController < AdminController
 
   def remove_html_tags
     fields = params[:custom_field][:fields]
-    params[:custom_field][:fields] = ActionController::Base.helpers.strip_tags(fields)
+    params[:custom_field][:fields] = ActionController::Base.helpers.strip_tags(fields).gsub(/(\\n)|(\\t)/, "")
   end
 
   def set_custom_field
