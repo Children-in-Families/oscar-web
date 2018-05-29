@@ -1343,7 +1343,7 @@ my:
     placement:
       view_legacy_quarterly_reports: သံုးလပတ္ဥပေဒေရးရာ အစီရင္ခံစာမ်ားကို ၾကည့္ရန္
     referral_form:
-      referral_client_form: ဖောက်သည်လွှဲပြောင်းပုံစံများ
+      referral_form: OSCaR Inter-Organisation Referral Form
     remaining_programs:
       close: ပိတ္ရန္
       warning: သတိေပးခ်က္
@@ -3745,17 +3745,28 @@ my:
       successfully_created: ရည်ညွန်းအောင်မြင်စွာဖန်တီးလိုက်ပါပြီ။
       failed_create: တစ်ဦးလွှဲပြောင်းဖန်တီးရန်မအောင်မြင်ခဲ့ပါ။
     edit:
-      edit: လႊဲေျပာင္းသည့္ရင္းျမစ္ကို ျပင္ဆင္ရန္
+      edit_referral: ပြင်ဆင်ရန်လွှဲပြောင်း
     form:
-      client_id: မွတ္ပံုတင္
-      client_name: နာမတျောကို
+      client_id: Client ID
+      client_name: ကေလးနာမည္
+      consent_form: Consent Form
       date_of_referral: လွှဲပြောင်း၏နေ့စွဲ
-      name_of_referee: လွှဲပြောင်း၏နာမကိုအမှီ
-      referral_phone: လွှဲပြောင်း၏ဖုန်းကို
-      referral_reason: လွှဲပြောင်း၏အကြောင်းရင်း
+      name_of_referee: ဒိုင်လူကြီး၏နာမကိုအမှီ
       referred_from: ကနေရည်ညွှန်း
-      referred_to: ရည်ညွှန်း
-      save: သိမ္းဆည္းရန္
+      referral_reason: လွှဲပြောင်းအကြောင်းပြချက်
+      referral_phone: လႊဲေျပာင္းရမည့္ ဖုန္းနံပါတ္
+      select_ngos: အဖွဲ့အစည်းကရှေးခယျြ
+    index:
+      client_id: Client ID
+      client_name: ကေလးနာမည္
+      consent_form: Consent Form
+      date_of_referral: လွှဲပြောင်း၏နေ့စွဲ
+      edit_btn: ပြင်ဆင်ရန်
+      name_of_referee: ဒိုင်လူကြီး၏နာမကိုအမှီ
+      referred_from: ကနေရည်ညွှန်း
+      referral_reason: လွှဲပြောင်းအကြောင်းပြချက်
+      referral_phone: လႊဲေျပာင္းရမည့္ ဖုန္းနံပါတ္
+      select_ngos: အဖွဲ့အစည်းကရှေးခယျြ
     update:
       successfully_updated: ရည်ညွန်းအောင်မြင်စွာ updated ခဲ့တာဖြစ်ပါတယ်။
   referral_sources:

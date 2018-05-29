@@ -1,6 +1,8 @@
 class Referral < ActiveRecord::Base
   has_paper_trail
 
+  mount_uploader :consent_form, FileUploader
+
   belongs_to :client
 
   after_create :create_referral, :email_referrral_client

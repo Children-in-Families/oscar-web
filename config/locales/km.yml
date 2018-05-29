@@ -1421,7 +1421,7 @@ km:
     placement:
       view_legacy_quarterly_reports: មើល Quarterly Reports ចាស់ៗ
     referral_form:
-      referral_client_form:  ទម្រង់បញ្ជូនអតិថិជន
+      referral_form: OSCaR Inter-Organisation Referral Form
     remaining_programs:
       close: បិទ
       warning: ប្រុងប្រយ័ត្ន
@@ -3792,17 +3792,28 @@ km:
       successfully_created: ការបញ្ជូនត្រូវបានបង្កើតដោយជោគជ័យ
       failed_create: ការបញ្ជូនមិនត្រូវបានបង្កើត
     edit:
-      edit: ពិនិត្យកែសម្រូលនៃការបញ្ជូន
+      edit_referral: កែសម្រួលទម្រង់បញ្ជូន
     form:
+      client_id: Client ID
       client_name: ឈ្មោះអតិថិជន
-      client_id: លេខសំគាល់
-      date_of_referral: កាលបរិច្ឆេទនៃការបញ្ជូន
+      consent_form: Consent Form
+      date_of_referral: កាលបរិច្ឆេទបញ្ជូន
       name_of_referee: ឈ្មោះអ្នកបញ្ជូន
-      referral_phone: ទូរស័ព្ទអ្នកបញ្ជូន
+      referred_from: ប្រភពនៃការបញ្ជូន
       referral_reason: មូលហេតុនៃការបញ្ជូន
-      referred_from: បញ្ជូនពី
-      referred_to: បញ្ជូនទៅ
-      save: រក្សាទុក
+      referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
+      select_ngos: ជ្រើសរើសអង្គការ
+    index:
+      client_id: Client ID
+      client_name: ឈ្មោះអតិថិជន
+      consent_form: Consent Form
+      date_of_referral: កាលបរិច្ឆេទបញ្ជូន
+      edit_btn: កែសម្រួល
+      name_of_referee: ឈ្មោះអ្នកបញ្ជូន
+      referred_from: ប្រភពនៃការបញ្ជូន
+      referral_reason: មូលហេតុនៃការបញ្ជូន
+      referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
+      select_ngos: ជ្រើសរើសអង្គការ
     update:
       successfully_updated: ការបញ្ជូនត្រូវបានកែសម្រួលដោយជោគជ័យ
   referral_sources:

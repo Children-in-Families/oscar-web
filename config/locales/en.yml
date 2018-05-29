@@ -1335,7 +1335,7 @@ en:
     placement:
       view_legacy_quarterly_reports: View Legacy Quarterly Reports
     referral_form:
-      referral_client_form:  Referral Client Form
+      referral_form: OSCaR Inter-Organisation Referral Form
     remaining_programs:
       close: Close
       warning: Warning
@@ -3729,17 +3729,28 @@ en:
       successfully_created: Referral has been successfully created.
       failed_create: Failed to create a Referral.
     edit:
-      edit: Edit Referral Forms
+      edit_referral: Edit Referral
     form:
       client_id: Client ID
       client_name: Client Name
+      consent_form: Consent Form
       date_of_referral: Date of Referral
       name_of_referee: Name of Referee
+      referred_from: Reffered From
+      referral_reason: What is the reason for this referral?
       referral_phone: Referral Phone
-      referral_reason: Referral Reason
-      referred_from: Referred From
-      referred_to: Referred To
-      save: Save
+      select_ngos: Select NGOs
+    index:
+      client_id: Client ID
+      client_name: Client Name
+      consent_form: Consent Form
+      date_of_referral: Date of Referral
+      edit_btn: Edit
+      name_of_referee: Name of Referee
+      referred_from: Reffered From
+      referral_reason: What is the reason for this referral?
+      referral_phone: Referral Phone
+      select_ngos: Select NGOs
     update:
       successfully_updated: Referral has been successfully updated.
   referral_sources:
