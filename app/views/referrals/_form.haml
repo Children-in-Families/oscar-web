@@ -15,7 +15,7 @@
   = f.input :name_of_referee, input_html: { value: current_user.name }, label: t('.name_of_referee')
   = f.input :referral_phone, input_html: { value: current_user.mobile }, label: t('.referral_phone')
   = f.input :referral_reason, label: 'Referral Reason', as: :text, label: t('.referral_reason')
-  = f.submit t('.save'), class: 'btn btn-primary form-btn'
+  = f.submit t('save'), class: 'btn btn-primary form-btn'
   - if controller_name == 'clients'
     %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"}= t('cancel')
   - else

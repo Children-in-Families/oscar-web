@@ -23,6 +23,6 @@ class Referral < ActiveRecord::Base
   def email_referrral_client
     current_org = Organization.current
     return if current_org.short_name == referred_to
-    EmailReferralClientWorker.perform_async(referred_from, referred_to, slug)
+    EmailReferralClientWorker.perform_async(current_org.full_name, referred_to, slug)
   end
 end
