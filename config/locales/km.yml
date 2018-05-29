@@ -1420,6 +1420,8 @@ km:
 
     placement:
       view_legacy_quarterly_reports: មើល Quarterly Reports ចាស់ៗ
+    referral_form:
+      referral_client_form:  ទម្រង់បញ្ជូនអតិថិជន
     remaining_programs:
       close: បិទ
       warning: ប្រុងប្រយ័ត្ន
@@ -1434,6 +1436,7 @@ km:
       add_fc_btn: បន្ថែមចូលទៅ FC
       add_form: បន្ថែមទម្រង់បែបបទ
       add_kc_btn: បន្ថែមចូលទៅ KC
+      add_referral_form: បន្ថែមទម្រង់បញ្ជូន
       additional_details: ពត៌មានលំអិតបន្ថែម
       additional_forms: ទម្រង់បែបបទបន្ថែម
       additional_info: ពត៌មានលំអិតបន្ថែម
@@ -1505,6 +1508,7 @@ km:
       primary_carer_name: អ្នកមើលថែចំបង
       primary_carer_phone_number: លេខទូរស័ព្ទអ្នកមើលថែចំបង
       referee_phone_number: លេខទូរស័ព្ទអ្នកបញ្ជូន
+      referral_forms: សំណុំបែបបទបញ្ជូន
       rejected_note: កំណត់ហេតុនៃការមិនទទួលយក
 
       placements:
@@ -3142,6 +3146,9 @@ km:
         one: ការតាមដានរបស់អ្នកប្រើចំនួន1ដែលត្រូវបំពេញនៅថ្ងៃនេះ
         other: ការតាមដានរបស់អ្នកប្រើចំនួន %{count} ដែលត្រូវបំពេញនៅថ្ងៃនេះ
       no_task: មិនមានពត៌មានដែលត្រូវបង្ហាញ
+      new_referral_client:
+        one: អ្នកមានអតិថិជនបញ្ជូនបន្តថ្មីចំនួន1
+        other: នកមានអតិថិជនបញ្ជូនបន្តថ្មីចំនួន%{count}
       overdue_and_due_today_count:
         one: ហើយនិងមានចំនួន1ដែលត្រូវបំពេញនៅថ្ងៃនេះ
         other: ហើយនិងមានចំនួន%{count}ដែលត្រូវបំពេញនៅថ្ងៃនេះ
@@ -3169,6 +3176,9 @@ km:
       overdue_client_enrollment_tracking:
         one: ការតាមដានរបស់អ្នកប្រើចំនួន1ដែលផុតកំណត
         other: ការតាមដានរបស់អ្នកប្រើចំនួន %{count} ដែលផុតកំណត
+      repeat_referral_client:
+        one: អ្នកមានអតិថិជនបញ្ជូនបន្តម្តងទៀតចំនួន1
+        other: នកមានអតិថិជនបញ្ជូនបន្តម្តងទៀតចំនួន%{count}
       review_client: ពិនិត្យមើលទម្រង់បែបបទនៃការចុះឈ្មោះរបស់អតិថិជននៅក្នុង
       upcoming_assessments_count:
         one: អ្នកស្ទើរតែដល់ពេលបំពេញការប៉ាន់ប្រមាណបន្ទាប់ចំនួន1
@@ -3331,6 +3341,8 @@ km:
       form: ទម្រង់បែបបទ
       partners: ដៃគូ
       users: ឣ្នកប្រើ
+    referrals:
+      referral_clients:  អតិថិជនដែលត្រូវការបញ្ជូន
     program_stream_notify:
       review_client: អតិថិជនដែលត្រូវការត្រួតពិនិត្យ
     upcoming_assessment:
@@ -3775,6 +3787,24 @@ km:
     version:
       back: ត្រលប់ក្រោយ
       modification_of: ប្រវត្តិកំណែរបស់
+  referrals:
+    create:
+      successfully_created: ការបញ្ជូនត្រូវបានបង្កើតដោយជោគជ័យ
+      failed_create: ការបញ្ជូនមិនត្រូវបានបង្កើត
+    edit:
+      edit: ពិនិត្យកែសម្រូលនៃការបញ្ជូន
+    form:
+      client_name: ឈ្មោះអតិថិជន
+      client_id: លេខសំគាល់
+      date_of_referral: កាលបរិច្ឆេទនៃការបញ្ជូន
+      name_of_referee: ឈ្មោះអ្នកបញ្ជូន
+      referral_phone: ទូរស័ព្ទអ្នកបញ្ជូន
+      referral_reason: មូលហេតុនៃការបញ្ជូន
+      referred_from: បញ្ជូនពី
+      referred_to: បញ្ជូនទៅ
+      save: រក្សាទុក
+    update:
+      successfully_updated: ការបញ្ជូនត្រូវបានកែសម្រួលដោយជោគជ័យ
   referral_sources:
     create:
       failed_create: ប្រភពនៃការបញ្ជូនមិនត្រូវបានបង្កើត
