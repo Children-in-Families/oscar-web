@@ -1,0 +1,46 @@
+%h4.text-center{style: 'margin-bottom: 30px;'}
+  %strong OSCaR Inter-Organization Referral Form
+.row{style: 'margin-top: 10px; margin-left: 5px; margin-right: 5px'}
+  .col-xs-12
+    .ibox
+      .ibox-content
+        %section.overflow-case
+          %table.table.table-bordered
+            %tr
+              %td.spacing-first-col Date of Referral
+              %td
+                %strong= date_format(@referral.date_of_referral)
+            %tr
+              %td.spacing-first-col Client Name
+              %td
+                %strong= @referral.client_name
+
+            %tr
+              %td.spacing-first-col Client ID
+              %td
+                %strong= @referral.slug
+
+            %tr
+              %td.spacing-first-col Referred From
+              %td
+                %strong= @referred_from
+
+            %tr
+              %td.spacing-first-col Referred To
+              %td
+                %strong= @referred_to
+
+            %tr
+              %td.spacing-first-col Case Worker Making The Referral
+              %td
+                %strong= @referral.name_of_referee
+
+            %tr
+              %td.spacing-first-col Contact Phone Number
+              %td
+                %strong= @referral.referral_phone
+
+            %tr
+              %td.spacing-first-col What is the reason for the referral?
+              %td
+                %strong= @referral.referral_reason

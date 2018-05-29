@@ -1,49 +1,37 @@
 .row
-  - @referrals.each do |referral|
-    .col-xs-12.col-sm-12.col-md-6
-      .ibox
-        .ibox-title
-          %h5= referral.date_of_referral.strftime('%B %d, %Y')
-          .ibox-tools
-            %small
-              = link_to edit_client_referral_path(@client, referral) do
-                .btn.btn-outline.btn-success
-                  = t('.edit_btn')
-
-        .ibox-content
-          %section.overflow-case
-            %table.table.table-bordered
+  .col-xs-12
+    .ibox
+      .ibox-title
+        %h5= @results
+        %span.label.label-info= t('.referral_form')
+        .text-right
+          %button.btn-sm.btn.btn-success.dropdown-toggle.btn-fit{"data-target" => "#valid-transfer", "data-toggle" => "modal", :type => "button"}
+            Add Referral Form
+        = render 'clients/referral_form'
+      .ibox-content
+        .table-responsive
+          %table.table.table-bordered.table-striped.table-hover
+            %thead
               %tr
-                %td.spacing-first-col Client Name
-                %td
-                  %strong= referral.client_name
-
-              %tr
-                %td.spacing-first-col Slug
-                %td
-                  %strong= referral.slug
-
-              %tr
-                %td.spacing-first-col Referred From
-                %td
-                  %strong= referral.referred_from
-
-              %tr
-                %td.spacing-first-col Referred To
-                %td
-                  %strong= referral.referred_to
-
-              %tr
-                %td.spacing-first-col Name of Referee
-                %td
-                  %strong= referral.name_of_referee
-
-              %tr
-                %td.spacing-first-col Referral Phone
-                %td
-                  %strong= referral.referral_phone
-
-              %tr
-                %td.spacing-first-col Referral Reason
-                %td
-                  %strong= referral.referral_reason
+                %th= t('.client_name')
+                %th= t('.referred_from')
+                %th= t('.date_of_referral')
+                %th.text-center.custom_column_manage{ colspan: '2' }= t('.manage')
+            %tbody
+              - @referrals.each do |referral|
+                %tr
+                  %td= referral.client_name
+                  %td= referral.referred_from
+                  %td= date_format(referral.date_of_referral)
+                  %td.text-center
+                    %button.btn.btn-outline.btn-success.btn-xs{"data-target" => "#referral-form-#{referral.id}", "data-toggle" => 'modal'}
+                      = fa_icon('pencil')
+                  = render 'referrals/edit_referral', client: @client, referral: referral
+                  %td.text-center
+                    = link_to client_referral_path(@client, referral) do
+                      .btn.btn-sm.btn-info.btn-xs.btn-outline
+                        = fa_icon('eye')
+      .ibox-footer
+        .text-right
+          = link_to client_path(@client), class: 'btn btn-default' do
+            = t('.back')

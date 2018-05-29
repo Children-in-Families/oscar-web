@@ -60,7 +60,8 @@
               - @client.referrals.group_by(&:referred_to).each do |referred_to, referrals|
                 - next if referred_to.nil?
                 - org = Organization.find_by(short_name: referred_to)
-                %li= link_to org.full_name, client_referrals_path(@client, ngo: org.short_name)
+                - if org.present?
+                  %li= link_to org.full_name, client_referrals_path(@client, ngo: org.short_name)
 
           .btn-group.small-btn-margin
             - if @client.valid? || @client.errors[:base].empty?
