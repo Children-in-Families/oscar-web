@@ -904,7 +904,7 @@ ActiveRecord::Schema.define(version: 20180530032127) do
     t.integer  "client_id"
     t.datetime "created_at",                       null: false
     t.datetime "updated_at",                       null: false
-    t.string   "consent_form"
+    t.string   "consent_forms",    default: [],                 array: true
   end
 
   add_index "referrals", ["client_id"], name: "index_referrals_on_client_id", using: :btree

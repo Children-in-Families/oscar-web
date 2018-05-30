@@ -1,0 +1,72 @@
+.row
+  .col-xs-12.col-sm-12.col-md-12
+    .ibox
+      .ibox-title
+        - if @referral.date_of_referral?
+          %h5= date_format(@referral.date_of_referral)
+        .text-right
+          = link_to client_referral_path(@client, @referral, format: :pdf), class: 'btn btn-outline btn-info', target: :_blank do
+            = t('.download_referral_form')
+
+          %button.btn.btn-outline.btn-success{"data-target" => "#referral-form-#{@referral.id}", "data-toggle" => 'modal'}
+            = fa_icon('pencil')
+        = render 'referrals/edit_referral', client: @client, referral: @referral
+
+
+      .ibox-content
+        %section.overflow-case
+          %table.table.table-bordered
+            %tr
+              %td.spacing-first-col
+                = t('.client_name')
+              %td
+                %strong= @referral.client_name
+
+            %tr
+              %td.spacing-first-col
+                = t('.slug')
+              %td
+                %strong= @referral.slug
+
+            %tr
+              %td.spacing-first-col
+                = t('.referred_from')
+              %td
+                %strong= @referral.referred_from
+
+            %tr
+              %td.spacing-first-col
+                = t('.referred_to')
+              %td
+                %strong= @referral.referred_to
+
+            %tr
+              %td.spacing-first-col
+                = t('.name_of_referee')
+              %td
+                %strong= @referral.name_of_referee
+
+            %tr
+              %td.spacing-first-col
+                = t('.referral_phone')
+              %td
+                %strong= @referral.referral_phone
+
+            %tr
+              %td.spacing-first-col
+                = t('.referral_reason')
+              %td
+                %strong= @referral.referral_reason
+            %tr
+              %td.spacing-first-col
+                = t('.consent_form')
+              %td
+              /   - if @referral.consent_forms?
+              /     - consent_forms = @referral.consent_forms
+              /     - consent_forms.each do |consent_form|
+              /       %li= original_filename(consent_form)
+              /       = link_to preview_or_download(consent_form), consent_form.url, class: 'btn btn-info btn-sm btn-download', target: target_blank(consent_form)
+      .ibox-footer
+        .text-right
+          = link_to request.referer, class: 'btn btn-default' do
+            = t('.back')

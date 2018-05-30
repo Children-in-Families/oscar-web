@@ -21,6 +21,33 @@ class ReferralsController < AdminController
     @referral = Referral.find(params[:id])
   end
 
+  def show
+    respond_to do |format|
+      format.html do
+        @referral = @client.referrals.find(params[:id])
+      end
+      format.pdf do
+        form           = params[:form]
+        @referred_to   = Organization.find_by(short_name: @referral.referred_to).try(:full_name)
+        @referred_from = Organization.find_by(short_name: @referral.referred_from).try(:full_name)
+        form_title     = "Referral Client To #{@referred_to}"
+        client_name    = @referral.client_name
+        pdf_name       = "#{client_name} - #{form_title}"
+        render  pdf:      pdf_name,
+                template: 'referrals/show.pdf.haml',
+                page_size: 'A4',
+                layout:   'pdf_design.html.haml',
+                show_as_html: params.key?('debug'),
+                header: { html: { template: 'referrals/pdf/header.pdf.haml' } },
+                footer: { html: { template: 'referrals/pdf/footer.pdf.haml' }, right: '[page] of [topage]' },
+                margin: { left: 0, right: 0, top: 10 },
+                dpi: '72',
+                disposition: 'inline'
+      end
+    end
+
+  end
+
   def update
     @referral = Referral.find(params[:id])
 
@@ -43,6 +70,6 @@ class ReferralsController < AdminController
   end
 
   def referral_params
-    params.require(:referral).permit(:referred_to, :referred_from, :name_of_referee, :referral_phone, :date_of_referral, :referral_reason, :client_name, :slug)
+    params.require(:referral).permit(:referred_to, :referred_from, :name_of_referee, :referral_phone, :date_of_referral, :referral_reason, :client_name, :slug, consent_forms: [])
   end
 end
