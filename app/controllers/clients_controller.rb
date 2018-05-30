@@ -163,15 +163,17 @@ class ClientsController < AdminController
     current_org = Organization.current
     Organization.switch_to 'shared'
     client_record = SharedClient.find_by(slug: @client.slug)
-    @client.given_name = client_record.given_name
-    @client.family_name = client_record.family_name
-    @client.local_given_name = client_record.local_given_name
-    @client.local_family_name = client_record.local_family_name
-    @client.gender = client_record.gender
-    @client.date_of_birth = client_record.date_of_birth
-    @client.telephone_number = client_record.telephone_number
-    @client.live_with = client_record.live_with
-    @client.birth_province_id = client_record.birth_province_id
+    if client_record.present?
+      @client.given_name = client_record.try(:given_name)
+      @client.family_name = client_record.try(:family_name)
+      @client.local_given_name = client_record.try(:local_given_name)
+      @client.local_family_name = client_record.try(:local_family_name)
+      @client.gender = client_record.try(:gender)
+      @client.date_of_birth = client_record.try(:date_of_birth)
+      @client.telephone_number = client_record.try(:telephone_number)
+      @client.live_with = client_record.try(:live_with)
+      @client.birth_province_id = client_record.try(:birth_province_id)
+    end
     Organization.switch_to current_org.short_name
   end
 
@@ -229,7 +231,9 @@ class ClientsController < AdminController
     when 'cambodia'
       current_org = Organization.current.short_name
       Organization.switch_to 'shared'
-      @birth_provinces       = Province.order(:name)
+      cambodia_provinces = ['Cambodia', Province.cambodia.order(:name).map{|p| [p.name, p.id] }]
+      thailand_provinces = ['Thailand', Province.thailand.order(:name).map{|p| [p.name, p.id] }]
+      @birth_provinces       = [cambodia_provinces, thailand_provinces]
       Organization.switch_to current_org
       @current_provinces     = Province.order(:name)
       @districts       = @client.province.present? ? @client.province.districts.order(:name) : []
@@ -237,6 +241,12 @@ class ClientsController < AdminController
       @states          = State.order(:name)
       @townships       = @client.state.present? ? @client.state.townships.order(:name) : []
     when 'thailand'
+      current_org = Organization.current.short_name
+      Organization.switch_to 'shared'
+      cambodia_provinces = ['Cambodia', Province.cambodia.order(:name).map{|p| [p.name, p.id] }]
+      thailand_provinces = ['Thailand', Province.thailand.order(:name).map{|p| [p.name, p.id] }]
+      @birth_provinces       = [cambodia_provinces, thailand_provinces]
+      Organization.switch_to current_org
       @current_provinces        = Province.order(:name)
       @districts       = @client.province.present? ? @client.province.districts.order(:name) : []
       @subdistricts    = @client.district.present? ? @client.district.subdistricts.order(:name) : []
