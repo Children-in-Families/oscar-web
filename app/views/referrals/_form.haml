@@ -18,7 +18,6 @@
   = f.input :referral_phone, input_html: { value: current_user.mobile }, label: t('.referral_phone')
   = f.input :referral_reason, label: 'Referral Reason', as: :text, label: t('.referral_reason')
   / = render 'referrals/consent_form_fields', f: f
-  .text-right
     %input#save-text{value: "#{t('.save')}", type: "hidden"}
     %input#save-and-download-text{value: "#{t('.save_and_download')}", type: "hidden"}
     = f.submit t('save'), class: 'btn btn-primary form-btn btn-save'
