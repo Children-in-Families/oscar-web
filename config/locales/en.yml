@@ -3744,16 +3744,30 @@ en:
       save: Save
       save_and_download: Save & Download
     index:
+      add_referral: Add Referral
       client_id: Client ID
       client_name: Client Name
       consent_form: Consent Form
       date_of_referral: Date of Referral
       edit_btn: Edit
+      manage: Manage
       name_of_referee: Name of Referee
-      referred_from: Reffered From
       referral_reason: What is the reason for this referral?
       referral_phone: Referral Phone
+      referred_from: Reffered From
       select_ngos: Select NGOs
+    show:
+      client_id: Client ID
+      client_name: Client Name
+      consent_form: Consent Form
+      date_of_referral: Date of Referral
+      download_referral_form: Download Referral Form
+      external_referral_warning: The NGO that you are attempting to refer your client to is not currently using OSCaR. Please print a copy of this referral form to send to your target organisation.
+      name_of_referee: Name of Referee
+      referral_phone: Referral Phone
+      referral_reason: What is the reason for this referral?
+      referred_from: Reffered From
+      referred_to: Referred To
     update:
       successfully_updated: Referral has been successfully updated.
   referral_sources:

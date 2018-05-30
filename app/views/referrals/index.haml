@@ -6,7 +6,7 @@
         %span.label.label-info= t('.referral_form')
         .text-right
           %button.btn-sm.btn.btn-success.dropdown-toggle.btn-fit{"data-target" => "#valid-transfer", "data-toggle" => "modal", :type => "button"}
-            Add Referral Form
+            = t('.add_referral')
         = render 'clients/referral_form'
       .ibox-content
         .table-responsive
@@ -34,4 +34,4 @@
       .ibox-footer
         .text-right
           = link_to client_path(@client), class: 'btn btn-default' do
-            = t('.back')
+            = t('back')

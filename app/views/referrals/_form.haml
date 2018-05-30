@@ -18,11 +18,8 @@
   = f.input :referral_phone, input_html: { value: current_user.mobile }, label: t('.referral_phone')
   = f.input :referral_reason, label: 'Referral Reason', as: :text, label: t('.referral_reason')
   / = render 'referrals/consent_form_fields', f: f
-    %input#save-text{value: "#{t('.save')}", type: "hidden"}
-    %input#save-and-download-text{value: "#{t('.save_and_download')}", type: "hidden"}
+  .text-right
+    %input#save-text{value: "#{t('.save')}", type: 'hidden'}
+    %input#save-and-download-text{value: "#{t('.save_and_download')}", type: 'hidden'}
     = f.submit t('save'), class: 'btn btn-primary form-btn btn-save'
     %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"}= t('cancel')
-    / - if controller_name == 'clients'
-    /   -binding.pry
-    / - else
-    /   = link_to t('cancel'), client_referrals_path(@client, ngo: @referral.referred_to), class: 'btn btn-default cancel-client-button'

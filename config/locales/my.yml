@@ -3760,18 +3760,32 @@ my:
       save: ကယ်ဆယ်
       save_and_download: ကယ်တင် & Download
     index:
+      add_referral: ဂီယာ Add
       client_id: Client ID
       client_name: ကေလးနာမည္
       consent_form: Consent Form
       date_of_referral: လွှဲပြောင်း၏နေ့စွဲ
       edit_btn: ပြင်ဆင်ရန်
+      manage: စီမံသည္
       name_of_referee: ဒိုင်လူကြီး၏နာမကိုအမှီ
-      referred_from: ကနေရည်ညွှန်း
       referral_reason: လွှဲပြောင်းအကြောင်းပြချက်
       referral_phone: လႊဲေျပာင္းရမည့္ ဖုန္းနံပါတ္
+      referred_from: ကနေရည်ညွှန်း
       select_ngos: အဖွဲ့အစည်းကရှေးခယျြ
     update:
       successfully_updated: ရည်ညွန်းအောင်မြင်စွာ updated ခဲ့တာဖြစ်ပါတယ်။
+    show:
+      client_id: Client ID
+      client_name: ကေလးနာမည္
+      consent_form: Consent Form
+      date_of_referral: လွှဲပြောင်း၏နေ့စွဲ
+      download_referral_form: ဒေါင်းလုပ်လွှဲပြောင်းပုံစံ
+      external_referral_warning: သင်လက်ရှိအော်စကာအသုံးပြုနေခြင်းမရှိပါရန်သင့် client ကိုရည်ညွှန်းရန်ကြိုးစားနေသောအန်ဂျီအို။ သင့်ရဲ့ပစ်မှတ်အဖွဲ့အစည်းကမှပေးပို့ဖို့ဒီလွှဲပြောင်းပုံစံများ၏မိတ္တူကို print ထုတ်ပါ။
+      name_of_referee: ဒိုင်လူကြီး၏နာမကိုအမှီ
+      referral_phone: လႊဲေျပာင္းရမည့္ ဖုန္းနံပါတ္
+      referral_reason: လွှဲပြောင်းအကြောင်းပြချက်
+      referred_from: ကနေရည်ညွှန်း
+      referred_to: ရည်ညွှန်း
   referral_sources:
     create:
       failed_create: လႊဲေျပာင္းသည့္ရင္းျမစ္ကို ဖန္တီးျခင္းမေအာင္ျမင္ပါ
