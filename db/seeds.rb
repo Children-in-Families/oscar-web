@@ -62,3 +62,7 @@ User.create_with(first_name: 'OSCaR', last_name: 'Team', roles: 'admin', passwor
 Organization.oscar.pluck(:full_name).each do |ngo|
   ReferralSource.find_or_create_by(name: "#{ngo} - OSCaR Referral")
 end
+
+# TESTING purpose of OSCaR Referral Source
+# TODO : remove it and delete record when it is ready to go
+ReferralSource.find_or_create_by(name: "Demo - OSCaR Referral")

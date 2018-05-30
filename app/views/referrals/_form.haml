@@ -1,4 +1,4 @@
-- ngos = Organization.exclude_current.non_oscar.map{|org| [org.full_name, org.short_name] }
+- ngos = Organization.exclude_current.oscar.map{|org| [org.full_name, org.short_name] }
 = simple_form_for [@client, @referral || @client.referrals.build] do |f|
   .form-group.date.optional{ class: ('has-error' if f.error :date_of_referral) }
     %label.date.control-label{ for: 'date_of_referral' }

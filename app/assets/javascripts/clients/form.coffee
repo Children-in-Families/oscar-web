@@ -122,7 +122,6 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
     $('select').select2
       minimumInputLength: 0
       allowClear: true
-      _clearSelectedOption()
 
     $('select.able-related-info').change ->
       qtSelectedSize = $('select.able-related-info option:selected').length
@@ -133,10 +132,6 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
       else
         $('#client_able').val(false)
         $('#fake_client_able').prop('checked', false)
-
-  _clearSelectedOption = ->
-    formAction = $('body').attr('id')
-    $('#client_gender').val('') unless formAction.includes('edit')
 
   _getTranslation = ->
     @filterTranslation =
