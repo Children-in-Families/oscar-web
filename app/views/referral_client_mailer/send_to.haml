@@ -1,0 +1,11 @@
+%p= "Hello #{@role},"
+%p
+  = "You currently have a new referral client from #{@referral_from}, Please click"
+  - if @existed
+    = link_to 'here', repeat_referrals_notifications_url(subdomain: @referral_to)
+  - else
+    = link_to 'here', referrals_notifications_url(subdomain: @referral_to)
+  = "to create."
+
+%p Thanks,
+%p OSCaR Team
