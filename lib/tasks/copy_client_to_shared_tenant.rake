@@ -4,7 +4,7 @@ namespace :client_to_shared do
     clients = []
     cambodia_province_names = []
     thailand_province_names = []
-    Organization.non_oscar.each do |org|
+    Organization.oscar.each do |org|
       Organization.switch_to org.short_name
       if org.short_name == 'cps'
         thailand_province_names.concat(Province.pluck(:name))

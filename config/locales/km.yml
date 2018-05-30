@@ -3798,11 +3798,14 @@ km:
       client_name: ឈ្មោះអតិថិជន
       consent_form: Consent Form
       date_of_referral: កាលបរិច្ឆេទបញ្ជូន
+      external_referral_warning: អង្គការដែលអ្នកកំពុងព្យាយាមបញ្ជូនអតិថិជនរបស់អ្នកទៅបច្ចុប្បន្ននេះមិនកំពុងប្រើ OSCaR ទេ។ សូមបោះពុម្ពច្បាប់ចម្លងនៃទម្រង់បញ្ជូននេះដើម្បីផ្ញើទៅអង្គការគោលដៅរបស់អ្នក។
       name_of_referee: ឈ្មោះអ្នកបញ្ជូន
-      referred_from: ប្រភពនៃការបញ្ជូន
-      referral_reason: មូលហេតុនៃការបញ្ជូន
       referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
-      select_ngos: ជ្រើសរើសអង្គការ
+      referral_reason: មូលហេតុនៃការបញ្ជូន
+      referred_from: ប្រភពនៃការបញ្ជូន
+      referred_to: បញ្ជូនទៅកាន់
+      save: រក្សាទុក
+      save_and_download: រក្សាទុក & ទាញយក
     index:
       client_id: Client ID
       client_name: ឈ្មោះអតិថិជន

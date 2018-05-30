@@ -62,6 +62,8 @@
                 - org = Organization.find_by(short_name: referred_to)
                 - if org.present?
                   %li= link_to org.full_name, client_referrals_path(@client, ngo: org.short_name)
+                - else
+                  %li= link_to 'External Referral', client_referrals_path(@client, ngo: 'external referral')
 
           .btn-group.small-btn-margin
             - if @client.valid? || @client.errors[:base].empty?

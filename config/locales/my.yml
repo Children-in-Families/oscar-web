@@ -3751,11 +3751,14 @@ my:
       client_name: ကေလးနာမည္
       consent_form: Consent Form
       date_of_referral: လွှဲပြောင်း၏နေ့စွဲ
+      external_referral_warning: သင်လက်ရှိအော်စကာအသုံးပြုနေခြင်းမရှိပါရန်သင့် client ကိုရည်ညွှန်းရန်ကြိုးစားနေသောအန်ဂျီအို။ သင့်ရဲ့ပစ်မှတ်အဖွဲ့အစည်းကမှပေးပို့ဖို့ဒီလွှဲပြောင်းပုံစံများ၏မိတ္တူကို print ထုတ်ပါ။
       name_of_referee: ဒိုင်လူကြီး၏နာမကိုအမှီ
-      referred_from: ကနေရည်ညွှန်း
-      referral_reason: လွှဲပြောင်းအကြောင်းပြချက်
       referral_phone: လႊဲေျပာင္းရမည့္ ဖုန္းနံပါတ္
-      select_ngos: အဖွဲ့အစည်းကရှေးခယျြ
+      referral_reason: လွှဲပြောင်းအကြောင်းပြချက်
+      referred_from: ကနေရည်ညွှန်း
+      referred_to: ရည်ညွှန်း
+      save: ကယ်ဆယ်
+      save_and_download: ကယ်တင် & Download
     index:
       client_id: Client ID
       client_name: ကေလးနာမည္
