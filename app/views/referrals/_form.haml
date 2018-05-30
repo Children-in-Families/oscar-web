@@ -1,10 +1,13 @@
 - ngos = Organization.exclude_current.oscar.map{|org| [org.full_name, org.short_name] }
+- ngos << ["I don't see the NGO I'm looking for...", "external referral"]
 = simple_form_for [@client, @referral || @client.referrals.build] do |f|
+  %p.text-danger.external-referral-warning.text-hide
+    = t('.external_referral_warning')
   .form-group.date.optional{ class: ('has-error' if f.error :date_of_referral) }
     %label.date.control-label{ for: 'date_of_referral' }
       = t('.date_of_referral')
     .input-group.date
-      = f.text_field :date_of_referral, class: 'date form-control date-picker .datepicker-dropdown', type: 'text', name: 'referral[date_of_referral]', input_html: { value: Time.now.strftime('%Y-%m-%d')}
+      = f.text_field :date_of_referral, class: 'date form-control date-picker .datepicker-dropdown', type: 'text', name: 'referral[date_of_referral]', value: Date.today
       %span.input-group-addon
         %i.fa.fa-calendar-check-o
   = f.input :client_name, input_html: { value: @client.name }, label: t('.client_name')
@@ -15,9 +18,11 @@
   = f.input :referral_phone, input_html: { value: current_user.mobile }, label: t('.referral_phone')
   = f.input :referral_reason, label: 'Referral Reason', as: :text, label: t('.referral_reason')
   / = render 'referrals/consent_form_fields', f: f
-  .text-right
-    = f.submit t('save'), class: 'btn btn-primary form-btn'
-    - if controller_name == 'clients'
-      %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"}= t('cancel')
-    - else
-      = link_to t('cancel'), client_referrals_path(@client, ngo: @referral.referred_to), class: 'btn btn-default cancel-client-button'
+    %input#save-text{value: "#{t('.save')}", type: "hidden"}
+    %input#save-and-download-text{value: "#{t('.save_and_download')}", type: "hidden"}
+    = f.submit t('save'), class: 'btn btn-primary form-btn btn-save'
+    %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"}= t('cancel')
+    / - if controller_name == 'clients'
+    /   -binding.pry
+    / - else
+    /   = link_to t('cancel'), client_referrals_path(@client, ngo: @referral.referred_to), class: 'btn btn-default cancel-client-button'
