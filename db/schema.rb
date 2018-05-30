@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180524044456) do
+ActiveRecord::Schema.define(version: 20180530032127) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -823,6 +823,7 @@ ActiveRecord::Schema.define(version: 20180524044456) do
     t.integer  "families_count", default: 0
     t.integer  "partners_count", default: 0
     t.integer  "users_count",    default: 0
+    t.string   "country"
   end
 
   create_table "quantitative_cases", force: :cascade do |t|
