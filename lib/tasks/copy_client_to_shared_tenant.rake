@@ -2,7 +2,7 @@ namespace :client_to_shared do
   desc 'copy client to shared tenant'
   task copy: :environment do
     clients = []
-    Organization.non_oscar.each do |org|
+    Organization.oscar.each do |org|
       Organization.switch_to org.short_name
 
       Client.find_each do |client|

@@ -62,14 +62,14 @@
                 - org = Organization.find_by(short_name: referred_to)
                 - if org.present?
                   %li= link_to org.full_name, client_referrals_path(@client, ngo: org.short_name)
+                - else
+                  %li= link_to 'External Referral', client_referrals_path(@client, ngo: 'external referral')
 
           .btn-group.small-btn-margin
             - if @client.valid? || @client.errors[:base].empty?
-              %button.btn-sm.btn.btn-danger.dropdown-toggle.btn-fit{"data-target" => "#valid-transfer", "data-toggle" => "modal", :type => "button"}
-                Add Referral Form
+              %button.btn-sm.btn.btn-danger.dropdown-toggle.btn-fit{"data-target" => "#valid-transfer", "data-toggle" => "modal", :type => "button"}= t('.add_referral_form')
             - else
-              %button.btn-sm.btn.btn-danger.dropdown-toggle.btn-fit{"data-target" => "#invalid-transfer", "data-toggle" => "modal", :type => "button"}
-                Add Referral Form
+              %button.btn-sm.btn.btn-danger.dropdown-toggle.btn-fit{"data-target" => "#invalid-transfer", "data-toggle" => "modal", :type => "button"}= t('.add_referral_form')
           = render 'referral_form'
           - if can? :manage, Case
             .btn-group.small-btn-margin

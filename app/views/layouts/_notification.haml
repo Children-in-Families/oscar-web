@@ -162,7 +162,7 @@
                 .col-xs-1
                   %i.fa.fa-tasks.fa-fw.task-sign
                 .col-xs-11
-                  = "#{@notification.unsaved_referrals_count} New Referral Clients"
+                  = t('.new_referral_client', count: @notification.unsaved_referrals_count)
       - if @notification.any_repeat_referrals?
         %li
           %div.align-link
@@ -171,7 +171,7 @@
                 .col-xs-1
                   %i.fa.fa-tasks.fa-fw.task-sign
                 .col-xs-11
-                  = "#{@notification.repeat_referrals_count} Repeat Referral Clients"
+                  = t('.repeat_referral_client', count: @notification.repeat_referrals_count)
     - if @notification.all_count.zero?
       %li
         %div.notify-margin
