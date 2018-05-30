@@ -1358,6 +1358,7 @@ my:
       add_fc_btn: FC ထဲသုိ႔ ထည့္ရန္
       add_form: ပံုစံထည့္ရန္
       add_kc_btn: KC ထဲ ထည့္ရန္
+      add_referral_form: ဂီယာ Add
       additional_details: အျခားအေသးစိတ္အခ်က္အလက္မ်ား
       additional_forms: အျခား ပံုစံမ်ား
       additional_info: အျခား အခ်က္အလက္မ်ား
@@ -3081,6 +3082,9 @@ my:
         one: ယေန႔တြင္ အသံုးျပဳသူ အေကာက္ခြန္ပံုစံ ၁ခု ျပဳလုပ္ရန္ ရွိပါသည္။
         other: ယေန႔တြင္ အသံုးျပဳသူ အေကာက္ခြန္ပံုစံ%{count} ျပဳလုပ္ရန္ ရွိပါသည္။
       no_task: အသိေပးစရာမရွိပါ
+      new_referral_client:
+        one: သငျသညျသစ် 1 ဖောက်သည်ရည်ညွှန်းပြီ
+        other: သငျသညျသစ်တစ်ခုဖောက်သည်ရည်ညွှန်းပြီ%{count}
       overdue_and_due_today_count:
         one: ယနေ့ကြောင့်နဲ့ 1.
         other: ယနေ့ကြောင့်နဲ့ #{count}.
@@ -3117,6 +3121,9 @@ my:
         one: သင့္တြင္ သတ္မွတ္ရက္ လြန္ေနေသာ အသံုးျပဳသူ အေကာက္ခြန္ပံုစံ ၁ခု ရွိေနပါသည္။
         other: သင့္တြင္ သတ္မွတ္ရက္ လြန္ေနေသာ အသံုးျပဳသူ အေကာက္ခြန္ပံုစံ %{count} ရွိေနပါသည္။
       review_client: သင္၏ အမႈသည္စာရင္းေပးသြင္းမႈကို ျပန္လည္ ၾကည့္႐ႈရန္
+      repeat_referral_client:
+        one: သငျသညျ 1 နောက်တဖန်ဖောက်သည်တစ်ဦးပေးပို့ခဲ့ကြ
+        other: သင်တစ်ဦးထပ်ဖောက်သည်ရည်ညွှန်းပြီ%{count}
       upcoming_assessments_count:
         one: သင့်အနေဖြင့်လာမည့် CSI အကဲဖြတ်ဖြည့်စွက်ရန်နီးပါးမှုကြောင့်ဖြစ်ကြောင်း
         other: သင့်အနေဖြင့်လာမည့် %{count} CSI အကဲဖြတ်ဖြည့်စွက်ရန်နီးပါးမှုကြောင့်ဖြစ်ကြောင်း
@@ -3294,6 +3301,8 @@ my:
       form: ပံုစံ
       partners: လက္တြဲေဖာ္
       users: အသံုးျပဳသူ
+    referrals:
+      referral_clients:  ရည်ညွန်းဖောက်သည်
     program_stream_notify:
       review_client: အမႈသည္မ်ားကို ျပန္လည္သံုးသပ္ရန္ လိုအပ္သည္
     upcoming_assessment:
@@ -3732,6 +3741,9 @@ my:
       back: ေနာက္သို႔
       modification_of: "၏ ေျပာင္းလဲမႈ မွတ္တမ္း"
   referrals:
+    create:
+      successfully_created: ရည်ညွန်းအောင်မြင်စွာဖန်တီးလိုက်ပါပြီ။
+      failed_create: တစ်ဦးလွှဲပြောင်းဖန်တီးရန်မအောင်မြင်ခဲ့ပါ။
     edit:
       edit_referral: ပြင်ဆင်ရန်လွှဲပြောင်း
     form:
@@ -3739,11 +3751,14 @@ my:
       client_name: ကေလးနာမည္
       consent_form: Consent Form
       date_of_referral: လွှဲပြောင်း၏နေ့စွဲ
+      external_referral_warning: သင်လက်ရှိအော်စကာအသုံးပြုနေခြင်းမရှိပါရန်သင့် client ကိုရည်ညွှန်းရန်ကြိုးစားနေသောအန်ဂျီအို။ သင့်ရဲ့ပစ်မှတ်အဖွဲ့အစည်းကမှပေးပို့ဖို့ဒီလွှဲပြောင်းပုံစံများ၏မိတ္တူကို print ထုတ်ပါ။
       name_of_referee: ဒိုင်လူကြီး၏နာမကိုအမှီ
-      referred_from: ကနေရည်ညွှန်း
-      referral_reason: လွှဲပြောင်းအကြောင်းပြချက်
       referral_phone: လႊဲေျပာင္းရမည့္ ဖုန္းနံပါတ္
-      select_ngos: အဖွဲ့အစည်းကရှေးခယျြ
+      referral_reason: လွှဲပြောင်းအကြောင်းပြချက်
+      referred_from: ကနေရည်ညွှန်း
+      referred_to: ရည်ညွှန်း
+      save: ကယ်ဆယ်
+      save_and_download: ကယ်တင် & Download
     index:
       client_id: Client ID
       client_name: ကေလးနာမည္
@@ -3755,8 +3770,8 @@ my:
       referral_reason: လွှဲပြောင်းအကြောင်းပြချက်
       referral_phone: လႊဲေျပာင္းရမည့္ ဖုန္းနံပါတ္
       select_ngos: အဖွဲ့အစည်းကရှေးခယျြ
-    new:
-      new_referral_form: အသစ်ကလွှဲပြောင်း
+    update:
+      successfully_updated: ရည်ညွန်းအောင်မြင်စွာ updated ခဲ့တာဖြစ်ပါတယ်။
   referral_sources:
     create:
       failed_create: လႊဲေျပာင္းသည့္ရင္းျမစ္ကို ဖန္တီးျခင္းမေအာင္ျမင္ပါ
