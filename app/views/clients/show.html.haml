@@ -50,8 +50,11 @@
               %button.btn.btn-danger.mini-margin{ disabled: 'disabled', class:'agree-btn' }= t('.reject')
 
     - if @client.status != 'Referred'
+    - ngos = Organization.exclude_current.oscar.map{|org| [org.full_name, org.short_name] }
+    - ngos << ["I don't see the NGO I'm looking for...", "external referral"]
       .row
         .col-xs-12
+          %input#client-id{value: "#{@client.slug}", type: 'hidden'}
           .btn-group.small-btn-margin
             %button.btn-sm.btn.btn-danger.dropdown-toggle.btn-fit{ 'data-toggle' => 'dropdown', class: ('disabled' if @client.referrals.empty?) }
               = t('.referral_forms')
@@ -67,10 +70,15 @@
 
           .btn-group.small-btn-margin
             - if @client.valid? || @client.errors[:base].empty?
-              %button.btn-sm.btn.btn-danger.dropdown-toggle.btn-fit{"data-target" => "#valid-transfer", "data-toggle" => "modal", :type => "button"}= t('.add_referral_form')
+              %button.btn-sm.btn.btn-danger.dropdown-toggle.btn-fit{ 'data-target' => '#valid-transfer','data-toggle' => 'dropdown' }
+                = t('.add_referral_form')
+                %span.caret
+              %ul.dropdown-menu.btn-fit.scrollable-dropdown-menu.referral-forms
+                - ngos.each do |value, key|
+                  %li= link_to value, new_client_referral_url(@client, ngo: key), :class => 'target-ngo', :value => "#{key}", :id => "#{key}"
             - else
               %button.btn-sm.btn.btn-danger.dropdown-toggle.btn-fit{"data-target" => "#invalid-transfer", "data-toggle" => "modal", :type => "button"}= t('.add_referral_form')
-          = render 'referral_form'
+
           - if can? :manage, Case
             .btn-group.small-btn-margin
               %button.btn-sm.btn.btn-primary.dropdown-toggle.btn-fit{ "data-toggle" => "dropdown", id: 'add-client-to-case', class: ('disabled' if status_exited?(@client.status)) }

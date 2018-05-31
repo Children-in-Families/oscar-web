@@ -8,38 +8,20 @@ class ReferralsController < AdminController
     @referrals = @client.referrals.where(referred_to: params[:ngo])
   end
 
+  def new
+    if params[:ngo].present?
+      @referral = @client.referrals.new({referred_to: params[:ngo]})
+    else
+      @referral = @client.referrals.new
+    end
+  end
+
   def create
     @referral = @client.referrals.new(referral_params)
     if @referral.save
-      respond_to do |format|
-        format.html do
-          if @referral.referred_to == 'external referral'
-            client_referral_url(@client, @referral, format: :pdf)
-          else
-            redirect_to @client, notice: t('.successfully_created')
-          end
-        end
-        format.pdf do
-          form           = params[:form]
-          @referred_to   = Organization.find_by(short_name: @referral.referred_to).try(:full_name)
-          @referred_from = Organization.find_by(short_name: @referral.referred_from).try(:full_name)
-          form_title     = "Referral Client To #{@referred_to}"
-          client_name    = @referral.client_name
-          pdf_name       = "#{client_name} - #{form_title}"
-          render  pdf:      pdf_name,
-                  template: 'referrals/show.pdf.haml',
-                  page_size: 'A4',
-                  layout:   'pdf_design.html.haml',
-                  show_as_html: params.key?('debug'),
-                  header: { html: { template: 'referrals/pdf/header.pdf.haml' } },
-                  footer: { html: { template: 'referrals/pdf/footer.pdf.haml' }, right: '[page] of [topage]' },
-                  margin: { left: 0, right: 0, top: 10 },
-                  dpi: '72',
-                  disposition: 'attachment'
-        end
-      end
+      redirect_to @referral, notice: t('.successfully_created')
     else
-      redirect_to @client, alert: t('.failed_create')
+      render :new
     end
   end
 

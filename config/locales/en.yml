@@ -3756,6 +3756,8 @@ en:
       referral_phone: Referral Phone
       referred_from: Reffered From
       select_ngos: Select NGOs
+    new:
+      new_referral: New Referral
     show:
       client_id: Client ID
       client_name: Client Name

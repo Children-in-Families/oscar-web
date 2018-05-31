@@ -3819,6 +3819,8 @@ km:
       referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
       referred_from: ប្រភពនៃការបញ្ជូន
       select_ngos: ជ្រើសរើសអង្គការ
+    new:
+      new_referral: បន្ថែមទម្រង់បញ្ជូន
     update:
       successfully_updated: ការបញ្ជូនត្រូវបានកែសម្រួលដោយជោគជ័យ
     show:
