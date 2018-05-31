@@ -2420,6 +2420,7 @@ km:
         password: លេខកូដសំងាត់
         password_confirmation: បញ្ជាក់ពាក្យសម្ងាត់ថ្មី
         province: ខេត្ត
+        referral_notification: ការជូនដំណឹងអំពីការបញ្ជូន
         save: រក្សាទុក
         staff_performance_notification: ផ្ញើឲ្យខ្ញុំនូវរបាយការណ៍ការងាររបស់បុគ្គលិក
         start_date: កាលបរិច្ឆេទចាប់ផ្តើម

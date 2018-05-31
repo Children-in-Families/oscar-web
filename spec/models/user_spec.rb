@@ -138,16 +138,16 @@ describe User, 'callbacks' do
     end
   end
 
-  context 'recieve_referral_toggle' do
+  context 'toggle_referral_notification' do
     let!(:admin) { create(:user, :admin) }
     let!(:manager) { create(:user, :manager) }
 
     it 'should update admin recive referral to true' do
-      expect(admin.recieve_referral).to be_truthy
+      expect(admin.referral_notification).to be_truthy
     end
 
     it 'should update manager recive referral to false' do
-      expect(manager.recieve_referral).to be_falsey
+      expect(manager.referral_notification).to be_falsey
     end
   end
 end
@@ -165,13 +165,12 @@ describe User, 'scopes' do
     job_title: 'Developer',
     department: department,
     roles: 'admin',
-    province: province,
-    recieve_referral: true
+    province: province
   ) }
   let!(:other_user){ create(:user, department: department, province: province) }
   let!(:no_department_user){ create(:user, province: province) }
   let!(:user_in_other_department){ create(:user,department: other_department, province: province) }
-  let!(:manager){ create(:user, :manager, staff_performance_notification: false, recieve_referral: false) }
+  let!(:manager){ create(:user, :manager, staff_performance_notification: false) }
   let!(:not_notify_email){ create(:user, task_notify: false) }
 
   context '.non_devs' do
@@ -322,13 +321,13 @@ describe User, 'scopes' do
     end
   end
 
-  context '.recieve_referral_toggle' do
-    subject{ User.notify_email }
-    it 'should include recieve referral user' do
+  context 'referral_notification_email' do
+    subject{ User.referral_notification_email }
+    it 'should include referral notification user' do
       is_expected.to include(user)
     end
-    it 'should include recieve referral user' do
-      is_expected.to include(manager)
+    it 'should not include referral notification user' do
+      is_expected.not_to include(manager)
     end
   end
 end

@@ -1272,7 +1272,7 @@ ActiveRecord::Schema.define(version: 20180531024852) do
     t.boolean  "staff_performance_notification", default: true
     t.string   "pin_code",                       default: ""
     t.boolean  "domain_warning",                 default: false
-    t.boolean  "recieve_referral",               default: false
+    t.boolean  "referral_notification",          default: false
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

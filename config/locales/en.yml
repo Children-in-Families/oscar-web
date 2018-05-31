@@ -2338,6 +2338,7 @@ en:
         password: Password
         password_confirmation: Confirm Password
         province: Province
+        referral_notification: Referral Notification
         save: Save
         staff_performance_notification: Send me staff performance report
         start_date: Start Date

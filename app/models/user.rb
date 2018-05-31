@@ -68,13 +68,13 @@ class User < ActiveRecord::Base
   scope :non_devs,                  -> { where.not(email: [ENV['DEV_EMAIL'], ENV['DEV2_EMAIL'], ENV['DEV3_EMAIL']]) }
   scope :non_locked,                -> { where(disable: false) }
   scope :notify_email,              -> { where(task_notify: true) }
-  scope :recieve_referral_email,    -> { where(recieve_referral: true) }
+  scope :referral_notification_email,    -> { where(referral_notification: true) }
 
   before_save :assign_as_admin
 
   before_save  :set_manager_ids, if: 'manager_id_changed?'
   after_save :reset_manager, if: 'roles_changed?'
-  after_save :recieve_referral_toggle
+  after_save :toggle_referral_notification
   after_create :build_permission
 
   def build_permission
@@ -269,8 +269,8 @@ class User < ActiveRecord::Base
 
   private
 
-  def recieve_referral_toggle
+  def toggle_referral_notification
     return unless roles_changed? && roles == 'admin'
-    self.update_columns(recieve_referral: true)
+    self.update_columns(referral_notification: true)
   end
 end
