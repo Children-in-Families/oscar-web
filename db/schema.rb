@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180530084737) do
+ActiveRecord::Schema.define(version: 20180531024852) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -836,10 +836,10 @@ ActiveRecord::Schema.define(version: 20180530084737) do
   create_table "quantitative_type_permissions", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "quantitative_type_id"
-    t.boolean  "readable",             default: false
-    t.boolean  "editable",             default: false
-    t.datetime "created_at",                           null: false
-    t.datetime "updated_at",                           null: false
+    t.boolean  "readable",             default: true
+    t.boolean  "editable",             default: true
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
   end
 
   add_index "quantitative_type_permissions", ["quantitative_type_id"], name: "index_quantitative_type_permissions_on_quantitative_type_id", using: :btree
@@ -1272,6 +1272,7 @@ ActiveRecord::Schema.define(version: 20180530084737) do
     t.boolean  "staff_performance_notification", default: true
     t.string   "pin_code",                       default: ""
     t.boolean  "domain_warning",                 default: false
+    t.boolean  "referral_notification",          default: false
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

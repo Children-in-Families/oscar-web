@@ -2345,6 +2345,7 @@ my:
         password: စကား၀ွက္
         password_confirmation: စကား၀ွက္အတည္ျပဳရန္
         province: ခ႐ိုင္
+        referral_notification: လွှဲပြောင်းသတိပေးချက်
         save: သိမ္းဆည္းရန္
         staff_performance_notification: ၀န္ထမ္းမ်ား၏စြမ္းေဆာင္ရည္အစီရင္ခံစာကို ပို႔ေပးပါ
         start_date: စတင္သည့္ရက္စြဲ

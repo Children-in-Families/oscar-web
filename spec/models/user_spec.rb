@@ -137,6 +137,19 @@ describe User, 'callbacks' do
       expect(user.program_stream_permissions.first.editable).to eq(true)
     end
   end
+
+  context 'toggle_referral_notification' do
+    let!(:admin) { create(:user, :admin) }
+    let!(:manager) { create(:user, :manager) }
+
+    it 'should update admin recive referral to true' do
+      expect(admin.referral_notification).to be_truthy
+    end
+
+    it 'should update manager recive referral to false' do
+      expect(manager.referral_notification).to be_falsey
+    end
+  end
 end
 
 
@@ -305,6 +318,16 @@ describe User, 'scopes' do
     end
     it 'should not include notify emails' do
       is_expected.not_to include(not_notify_email)
+    end
+  end
+
+  context 'referral_notification_email' do
+    subject{ User.referral_notification_email }
+    it 'should include referral notification user' do
+      is_expected.to include(user)
+    end
+    it 'should not include referral notification user' do
+      is_expected.not_to include(manager)
     end
   end
 end
