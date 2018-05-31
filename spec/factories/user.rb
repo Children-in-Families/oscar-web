@@ -10,6 +10,7 @@ FactoryGirl.define do
     domain_warning true
     staff_performance_notification true
     task_notify true
+    recieve_referral false
 
     trait :case_worker do
       roles 'case worker'
