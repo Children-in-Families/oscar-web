@@ -5,9 +5,8 @@
         %h5= @results
         %span.label.label-info= t('.referral_form')
         .text-right
-          %button.btn-sm.btn.btn-success.dropdown-toggle.btn-fit{"data-target" => "#valid-transfer", "data-toggle" => "modal", :type => "button"}
+          = link_to new_client_referral_path(@client), class: 'button btn-sm btn btn-success' do
             = t('.add_referral')
-        = render 'clients/referral_form'
       .ibox-content
         .table-responsive
           %table.table.table-bordered.table-striped.table-hover
@@ -24,9 +23,8 @@
                   %td= referral.referred_from
                   %td= date_format(referral.date_of_referral)
                   %td.text-center
-                    %button.btn.btn-outline.btn-success.btn-xs{"data-target" => "#referral-form-#{referral.id}", "data-toggle" => 'modal'}
+                    = link_to edit_client_referral_path(@client, referral), class: 'button btn btn-outline btn-success btn-xs' do
                       = fa_icon('pencil')
-                  = render 'referrals/edit_referral', client: @client, referral: referral
                   %td.text-center
                     = link_to client_referral_path(@client, referral) do
                       .btn.btn-sm.btn-info.btn-xs.btn-outline

@@ -6,13 +6,3 @@
           %span{"aria-hidden" => "true"} ×
       .modal-body
         %p Please complete all required client information before you can transfer this client.
-
-#valid-transfer.modal.fade{"aria-labelledby" => "valid-transfer", :role => "dialog", :tabindex => "-1"}
-  .modal-dialog{:role => "document"}
-    .modal-content
-      .modal-header
-        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
-          %span{"aria-hidden" => "true"} ×
-        %h4#myModalLabel.modal-title= t('.referral_form')
-      .modal-body
-        = render 'referrals/form'

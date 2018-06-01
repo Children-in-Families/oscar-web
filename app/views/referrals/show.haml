@@ -7,11 +7,8 @@
         .text-right
           = link_to client_referral_path(@client, @referral, format: :pdf), class: 'btn btn-outline btn-info', target: :_blank do
             = t('.download_referral_form')
-
-          %button.btn.btn-outline.btn-success{"data-target" => "#referral-form-#{@referral.id}", "data-toggle" => 'modal'}
+          = link_to edit_client_referral_path(@client, @referral), class: 'button btn btn-outline btn-success' do
             = fa_icon('pencil')
-        = render 'referrals/edit_referral', client: @client, referral: @referral
-
 
       .ibox-content
         %section.overflow-case
@@ -68,5 +65,5 @@
               /       = link_to preview_or_download(consent_form), consent_form.url, class: 'btn btn-info btn-sm btn-download', target: target_blank(consent_form)
       .ibox-footer
         .text-right
-          = link_to request.referer, class: 'btn btn-default' do
+          = link_to client_referrals_path(@client, ngo: @referral.referred_to), class: 'btn btn-default' do
             = t('back')

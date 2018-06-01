@@ -19,14 +19,14 @@ class ReferralsController < AdminController
   def create
     @referral = @client.referrals.new(referral_params)
     if @referral.save
-      redirect_to @referral, notice: t('.successfully_created')
+      redirect_to client_referral_path(@client, @referral), notice: t('.successfully_created')
     else
       render :new
     end
   end
 
   def edit
-    @referral = Referral.find(params[:id])
+    @referral = @client.referrals.find(params[:id])
   end
 
   def show
@@ -57,7 +57,7 @@ class ReferralsController < AdminController
   end
 
   def update
-    @referral = Referral.find(params[:id])
+    @referral = @client.referrals.find(params[:id])
 
     if @referral.update_attributes(referral_params)
       redirect_to client_referrals_path(@client, ngo: @referral.referred_to), notice: t('.successfully_updated')
