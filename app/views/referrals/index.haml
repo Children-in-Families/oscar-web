@@ -18,9 +18,10 @@
                 %th.text-center.custom_column_manage{ colspan: '2' }= t('.manage')
             %tbody
               - @referrals.each do |referral|
+                - referred_from = Organization.find_by(short_name: referral.referred_from).try(:full_name)
                 %tr
                   %td= referral.client_name
-                  %td= referral.referred_from
+                  %td= referred_from
                   %td= date_format(referral.date_of_referral)
                   %td.text-center
                     = link_to edit_client_referral_path(@client, referral), class: 'button btn btn-outline btn-success btn-xs' do

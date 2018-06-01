@@ -29,13 +29,15 @@
               %td.spacing-first-col
                 = t('.referred_from')
               %td
-                %strong= @referral.referred_from
+                - referred_from = Organization.find_by(short_name: @referral.referred_from).try(:full_name)
+                %strong= referred_from
 
             %tr
               %td.spacing-first-col
                 = t('.referred_to')
               %td
-                %strong= @referral.referred_to
+                - referred_to = Organization.find_by(short_name: @referral.referred_to).try(:full_name)
+                %strong= referred_to
 
             %tr
               %td.spacing-first-col
