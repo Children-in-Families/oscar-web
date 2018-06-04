@@ -1421,7 +1421,9 @@ km:
     placement:
       view_legacy_quarterly_reports: មើល Quarterly Reports ចាស់ៗ
     referral_form:
+      incomplete_fields_warning: សូមបំពេញព័ត៌មានចាំបាច់ទាំងអស់របស់អតិថិជនមុនពេលអ្នកអាចផ្ទេរអតិថិជននេះបាន
       referral_form: OSCaR Inter-Organisation Referral Form
+      title: ប្រុងប្រយ័ត្ន
     remaining_programs:
       close: បិទ
       warning: ប្រុងប្រយ័ត្ន
