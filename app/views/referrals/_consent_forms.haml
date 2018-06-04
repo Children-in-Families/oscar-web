@@ -1,0 +1,6 @@
+%table.table.table-bordered
+  - consent_forms.each_with_index do |consent_form, index|
+    %tr
+      %td= original_filename(consent_form)
+      %td
+        = link_to preview_or_download(consent_form), consent_form.url, class: 'btn btn-info btn-sm btn-download', target: target_blank(consent_form)

@@ -16,7 +16,7 @@ class Referral < ActiveRecord::Base
     current_org = Organization.current
     return if current_org.short_name == referred_to || referred_to == "external referral"
     Organization.switch_to referred_to
-    Referral.find_or_create_by(attributes.except('id', 'client_id', 'created_at', 'updated_at').merge({client_id: nil}))
+    Referral.find_or_create_by(attributes.except('id', 'client_id', 'created_at', 'updated_at', 'consent_forms').merge({client_id: nil}))
     Organization.switch_to current_org.short_name
   end
 

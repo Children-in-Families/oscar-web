@@ -21,6 +21,8 @@ class ReferralsController < AdminController
     @referral = @client.referrals.new(referral_params)
     @referral.referred_from = referred_from
     if @referral.save
+      consent_forms = @referral.consent_forms
+      update_consent_forms(consent_forms) if consent_forms.present?
       redirect_to client_referral_path(@client, @referral), notice: t('.successfully_created')
     else
       render :new
@@ -81,5 +83,14 @@ class ReferralsController < AdminController
 
   def referral_params
     params.require(:referral).permit(:referred_to, :referred_from, :name_of_referee, :referral_phone, :date_of_referral, :referral_reason, :client_name, :slug, consent_forms: [])
+  end
+
+  def update_consent_forms(consent_forms)
+    Organization.switch_to @referral.referred_to
+    referral = Referral.where(@referral.attributes.except('id', 'client_id', 'created_at', 'updated_at', 'consent_forms')).last
+    forms = consent_forms.map{ |file| File.open(file.path) }
+    referral.consent_forms = forms
+    referral.save
+    Organization.switch_to @referral.referred_from
   end
 end
