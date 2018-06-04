@@ -34,9 +34,8 @@ CIF.ClientsShow = do ->
           if responseText == 'create referral'
             window.location.replace href
           else if responseText == 'exited client'
-            modalTextFirst = modalTextFirst.replace '<<date>>', response.date
             $('#confirm-repeat-referral-modal').modal('show')
-            $('#confirm-repeat-referral-modal .modal-body').html(modalTextFirst)
+            $('#confirm-repeat-referral-modal .modal-body').html(modalTextFirst.replace '<<date>>', response.date)
             $('#confirm-box').on 'ifChecked', (event) ->
               window.location.replace href
           else if responseText == 'already exist'
