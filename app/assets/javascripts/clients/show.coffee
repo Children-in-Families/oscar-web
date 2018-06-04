@@ -5,27 +5,51 @@ CIF.ClientsShow = do ->
     _caseModalValidation()
     _exitNgoModalValidation()
     _enterNgoModalValidation()
-    _triggerExternalReferral()
+    _ajaxCheckReferral()
 
   _initSelect2 = ->
     $('select').select2()
 
-  _triggerExternalReferral = ->
-    _handleExternalReferralSelected()
-    $('.referral_referred_to').on 'change', ->
-      _handleExternalReferralSelected()
+  _ajaxCheckReferral = ->
+    $('a.target-ngo').on 'click', (e) ->
+      e.preventDefault()
+      self= @
+      id= @.id
+      href = @.href
+      data = {
+        org: id
+        clientId: $('#client-id').val()
+      }
+      $.ajax
+        type: 'GET'
+        url: '/api/referrals/compare'
+        data: data
 
-  _handleExternalReferralSelected = ->
-    save = $("#save-text").val()
-    save_and_download = $("#save-and-download-text").val()
-    referred_to = document.getElementById('referral_referred_to')
-    selected_ngo = referred_to.options[referred_to.selectedIndex].value
-    if selected_ngo == 'external referral'
-      $('.external-referral-warning').removeClass 'text-hide'
-      $('.btn-save').val save_and_download
-    else
-      $('.external-referral-warning').addClass 'text-hide'
-      $('.btn-save').val save
+        success: (response) ->
+          modalTitle = $('#hidden_title').val()
+          modalTextFirst  = $('#hidden_body_first').val()
+          modalTextSecond = $('#hidden_body_second').val()
+          modalTextThird  = $('#hidden_body_third').val()
+          responseText = response.text
+
+          if responseText == 'create referral'
+            window.location.replace href
+          else if responseText == 'exited client'
+            $('#confirm-repeat-referral-modal').modal('show')
+            $('.icheckbox_square-green').attr 'id', 'check-btn'
+            checkBox = document.getElementById('confirm-box')
+            if checkBox.checked == true
+              $('#confirm').removeClass 'disabled'
+              $('#confirm').onclick = ->
+                window.location.replace href
+          else if responseText == 'already exist'
+            $('#confirm-referral-modal .modal-header .modal-title').text(modalTitle)
+            $('#confirm-referral-modal .modal-body').html(modalTextSecond)
+            $('#confirm-referral-modal').modal('show')
+          else if responseText == 'already referred'
+            $('#confirm-referral-modal .modal-header .modal-title').text(modalTitle)
+            $('#confirm-referral-modal .modal-body').html(modalTextThird)
+            $('#confirm-referral-modal').modal('show')
 
   _enterNgoModalValidation = ->
     data = {

@@ -161,6 +161,10 @@ Rails.application.routes.draw do
   end
 
   namespace :api do
+    resources :referrals do
+      get :compare, on: :collection
+    end
+
     mount_devise_token_auth_for 'User', at: '/v1/auth', skip: [:passwords]
     resources :form_builder_attachments, only: :destroy
 

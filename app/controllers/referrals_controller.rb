@@ -17,18 +17,20 @@ class ReferralsController < AdminController
   end
 
   def create
+    referred_from = Organization.find_by(full_name: referral_params[:referred_from]).try(:short_name)
     @referral = @client.referrals.new(referral_params)
+    @referral.referred_from = referred_from
     if @referral.save
       consent_forms = @referral.consent_forms
       update_consent_forms(consent_forms) if consent_forms.present?
-      redirect_to @client, notice: t('.successfully_created')
+      redirect_to client_referral_path(@client, @referral), notice: t('.successfully_created')
     else
       render :new
     end
   end
 
   def edit
-    @referral = Referral.find(params[:id])
+    @referral = @client.referrals.find(params[:id])
   end
 
   def show
@@ -59,7 +61,7 @@ class ReferralsController < AdminController
   end
 
   def update
-    @referral = Referral.find(params[:id])
+    @referral = @client.referrals.find(params[:id])
 
     if @referral.update_attributes(referral_params)
       redirect_to client_referrals_path(@client, ngo: @referral.referred_to), notice: t('.successfully_updated')

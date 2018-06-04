@@ -87,7 +87,7 @@ class ClientsController < AdminController
       referral = Referral.find_by(id: params[:referral_id])
       raise ActionController::RoutingError.new('Not Found') if referral.nil?
       referral_source_org = Organization.find_by(short_name: referral.referred_from).full_name
-      referral_source_id = ReferralSource.find_by(name: "#{referral_source_org} - OSCaR Referral").id
+      referral_source_id = ReferralSource.find_by(name: "#{referral_source_org} - OSCaR Referral").try(:id)
       Organization.switch_to 'shared'
       attributes = SharedClient.find_by(slug: referral.slug).attributes
       attributes.merge!({

@@ -3726,6 +3726,14 @@ en:
       back: Back
       modification_of: Changelog of
   referrals:
+    confirm_referral:
+      body_second: The client you want to refer alreay exist in the target NGO.
+      body_third: You have already referred this client, please wait for the response.
+      title: Warning
+    confirm_repeat_referral:
+      body_first: Target NGO has already declined a referral for this client on <<date>>. Have you confirmed that they are willing to receive the referral again? If not, please contact them directly to discuss the situation.
+      confirm_box: I have discussed the situation with them.
+      title: Warning
     create:
       successfully_created: Referral has been successfully created.
       failed_create: Failed to create a Referral.

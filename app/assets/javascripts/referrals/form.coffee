@@ -1,4 +1,4 @@
-CIF.ReferralsIndex = do ->
+CIF.ReferralsNew = CIF.ReferralsCreate = CIF.ReferralsUpdate = CIF.ReferralsEdit = do ->
   _init = ->
     _initSelect2()
     _triggerExternalReferral()

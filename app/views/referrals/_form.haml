@@ -12,17 +12,16 @@
         %i.fa.fa-calendar-check-o
   = f.input :client_name, input_html: { value: @client.name }, label: t('.client_name')
   = f.input :slug, input_html: { value: @client.slug }, label: t('.client_id')
-  = f.input :referred_from, input_html: { value: Organization.current.short_name }, label: t('.referred_from')
+  = f.input :referred_from, input_html: { value: Organization.current.full_name }, label: t('.referred_from')
   = f.input :referred_to, as: :select, collection: ngos, label: t('.referred_to')
   = f.input :name_of_referee, input_html: { value: current_user.name }, label: t('.name_of_referee')
   = f.input :referral_phone, input_html: { value: current_user.mobile }, label: t('.referral_phone')
-  = f.input :referral_reason, label: 'Referral Reason', as: :text, label: t('.referral_reason')
+  = f.input :referral_reason, as: :text, label: t('.referral_reason')
   = render 'referrals/consent_form_fields', f: f
   .text-right
-    %input#save-text{value: "#{t('.save')}", type: 'hidden'}
-    %input#save-and-download-text{value: "#{t('.save_and_download')}", type: 'hidden'}
+    %input#save-text{ value: t('.save'), type: 'hidden' }
+    %input#save-and-download-text{ value: t('.save_and_download'), type: 'hidden' }
     = f.submit t('save'), class: 'btn btn-primary form-btn btn-save'
-    / %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"}= t('cancel')
     - if action_name == 'new'
       = link_to t('cancel'), client_path(@client, ngo: params[:ngo]), class: 'btn btn-default cancel-client-button'
     - else

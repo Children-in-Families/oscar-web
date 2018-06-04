@@ -5,14 +5,14 @@ class Referral < ActiveRecord::Base
 
   belongs_to :client
 
-  after_create :create_referral, :email_referrral_client
+  after_create :make_a_copy_to_target_ngo, :email_referrral_client
 
   scope :received, -> { where(referred_to: Organization.current.short_name) }
   scope :unsaved, -> { where(saved: false) }
 
   private
 
-  def create_referral
+  def make_a_copy_to_target_ngo
     current_org = Organization.current
     return if current_org.short_name == referred_to || referred_to == "external referral"
     Organization.switch_to referred_to
