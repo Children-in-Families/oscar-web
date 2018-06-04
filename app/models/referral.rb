@@ -5,7 +5,8 @@ class Referral < ActiveRecord::Base
 
   belongs_to :client
 
-  after_create :make_a_copy_to_target_ngo, :email_referrral_client
+  after_create :email_referrral_client
+  after_save :make_a_copy_to_target_ngo
 
   scope :received, -> { where(referred_to: Organization.current.short_name) }
   scope :unsaved, -> { where(saved: false) }
@@ -16,7 +17,10 @@ class Referral < ActiveRecord::Base
     current_org = Organization.current
     return if current_org.short_name == referred_to || referred_to == "external referral"
     Organization.switch_to referred_to
-    Referral.find_or_create_by(attributes.except('id', 'client_id', 'created_at', 'updated_at', 'consent_forms').merge({client_id: nil}))
+    referral = Referral.find_or_initialize_by(slug: attributes['slug'])
+    referral.attributes = attributes.except('id', 'client_id', 'created_at', 'updated_at', 'consent_forms').merge({client_id: nil})
+    referral.consent_forms = consent_forms
+    referral.save
     Organization.switch_to current_org.short_name
   end
 
