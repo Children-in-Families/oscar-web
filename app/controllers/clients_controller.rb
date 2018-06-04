@@ -86,7 +86,7 @@ class ClientsController < AdminController
       current_org = Organization.current
       @referral = Referral.find_by(id: params[:referral_id])
       raise ActionController::RoutingError.new('Not Found') if @referral.nil?
-      referral_source_org = Organization.find_by(full_name: @referral.referred_from).full_name
+      referral_source_org = Organization.find_by(short_name: @referral.referred_from).full_name
       referral_source_id = ReferralSource.find_by(name: "#{referral_source_org} - OSCaR Referral").try(:id)
       Organization.switch_to 'shared'
       attributes = SharedClient.find_by(slug: @referral.slug).attributes
@@ -109,6 +109,22 @@ class ClientsController < AdminController
   def edit
     @client.populate_needs unless @client.needs.any?
     @client.populate_problems unless @client.problems.any?
+    attributes = @client.attributes
+    if params[:referral_id].present?
+      @referral = Referral.find_by(id: params[:referral_id])
+      raise ActionController::RoutingError.new('Not Found') if @referral.nil?
+      referral_source_org = Organization.find_by(short_name: @referral.referred_from).full_name
+      referral_source_id = ReferralSource.find_by(name: "#{referral_source_org} - OSCaR Referral").try(:id)
+      attributes.merge!({
+        status: 'Referred',
+        initial_referral_date: @referral.date_of_referral,
+        referral_phone: @referral.referral_phone,
+        relevant_referral_information: @referral.referral_reason,
+        name_of_referee: @referral.name_of_referee,
+        referral_source_id: referral_source_id
+      })
+      @client.attributes = attributes
+    end
   end
 
   def create

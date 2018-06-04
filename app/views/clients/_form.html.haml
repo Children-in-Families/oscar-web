@@ -2,6 +2,7 @@
   = hidden_field_tag :client_id, @client.id
   = hidden_field_tag :client_status, @client.status
   = f.hidden_field :slug, input_html: { value: @client.slug }
+  = f.hidden_field :status, input_html: { value: @client.status }
 
   .client-steps{ data: {blank: t('.blank'), next: t('.next'), previous: t('.previous'), done: t('.done')} }
     = render 'getting_started', f: f

@@ -146,6 +146,10 @@ class Client < ActiveRecord::Base
     status == 'Exited'
   end
 
+  def referred?
+    status == 'Referred'
+  end
+
   def self.age_between(min_age, max_age)
     min = (min_age * 12).to_i.months.ago.to_date
     max = (max_age * 12).to_i.months.ago.to_date
