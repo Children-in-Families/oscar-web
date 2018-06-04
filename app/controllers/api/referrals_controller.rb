@@ -5,26 +5,24 @@ module Api
     end
 
     def find_client_in_organization
-      text = nil
-
       if params[:org] == 'external referral'
-        text = { text: 'create referral' }
+        { text: 'create referral' }
       else
         Organization.switch_to params[:org]
         referrals = Referral.where(slug: params[:clientId])
         if referrals.any?
-          referrals.each do |referral|
-            if referral.saved?
-              client = Client.find_by(slug: params[:clientId])
-              text = client.status == 'Exited'? { text: 'exited client' } : { text: 'already exist' }
-            else
-              text = { text: 'already referred' }
-            end
+          referral = referrals.last
+          if referral.saved?
+            date_of_referral = referral.date_of_referral
+            client = Client.find_by(slug: params[:clientId])
+            client.status == 'Exited'? { text: "exited client", date: "#{date_of_referral}" } : { text: 'already exist' }
+          else
+            { text: 'already referred' }
           end
         else
-          text = { text: 'create referral' }
+          { text: 'create referral' }
         end
-        text
+
       end
     end
 

@@ -3732,11 +3732,12 @@ en:
       title: Warning
     confirm_repeat_referral:
       body_first: Target NGO has already declined a referral for this client on <<date>>. Have you confirmed that they are willing to receive the referral again? If not, please contact them directly to discuss the situation.
+      cancel: I will contact them prior to making the referral
       confirm_box: I have discussed the situation with them.
       title: Warning
     create:
-      successfully_created: Referral has been successfully created.
       failed_create: Failed to create a Referral.
+      successfully_created: Referral has been successfully created.
     edit:
       edit_referral: Edit Referral
     form:
