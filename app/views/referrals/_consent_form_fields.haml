@@ -15,4 +15,5 @@
                   .delete.fa.fa-trash.btn.btn-outline.btn-danger{ data: { url: (client_referral_path(@referral.client, @referral, referral: f.object, file_index: index)), comfirm: t('.are_you_sure') }}
 .row
   .col-xs-12
-    = f.input :consent_forms, label: t('.consent_form'), as: :file, input_html: { multiple: true }
+    %label.date.control-label= t('.consent_form')
+    = f.input :consent_forms, as: :file, input_html: { multiple: true }, label: false

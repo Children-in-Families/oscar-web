@@ -3,6 +3,7 @@ CIF.ReferralsNew = CIF.ReferralsCreate = CIF.ReferralsUpdate = CIF.ReferralsEdit
     _initSelect2()
     _initExternalReferral()
     _handleExternalReferralSelected()
+    _initUploader()
 
   _handleExternalReferralSelected = ->
     $('.referral_referred_to').on 'change', ->
@@ -23,5 +24,12 @@ CIF.ReferralsNew = CIF.ReferralsCreate = CIF.ReferralsUpdate = CIF.ReferralsEdit
       $('.external-referral-warning').addClass 'text-hide'
       $('.btn-save').val save
 
-  { init: _init }
+  _initUploader = ->
+    $(".file").fileinput
+      showUpload: false
+      removeClass: 'btn btn-danger btn-outline'
+      browseLabel: 'Browse'
+      theme: "explorer"
+      allowedFileExtensions: ['jpg', 'png', 'jpeg', 'doc', 'docx', 'xls', 'xlsx', 'pdf']
 
+  { init: _init }
