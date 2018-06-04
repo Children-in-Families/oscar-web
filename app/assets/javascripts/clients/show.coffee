@@ -27,21 +27,17 @@ CIF.ClientsShow = do ->
 
         success: (response) ->
           modalTitle = $('#hidden_title').val()
-          modalTextFirst  = $('#hidden_body_first').val()
+          modalTextFirst  = $('#body_first').val()
           modalTextSecond = $('#hidden_body_second').val()
           modalTextThird  = $('#hidden_body_third').val()
           responseText = response.text
-
           if responseText == 'create referral'
             window.location.replace href
           else if responseText == 'exited client'
             $('#confirm-repeat-referral-modal').modal('show')
-            $('.icheckbox_square-green').attr 'id', 'check-btn'
-            checkBox = document.getElementById('confirm-box')
-            if checkBox.checked == true
-              $('#confirm').removeClass 'disabled'
-              $('#confirm').onclick = ->
-                window.location.replace href
+            $('#confirm-repeat-referral-modal .modal-body').html(modalTextFirst.replace '<<date>>', response.date)
+            $('#confirm-box').on 'ifChecked', (event) ->
+              window.location.replace href
           else if responseText == 'already exist'
             $('#confirm-referral-modal .modal-header .modal-title').text(modalTitle)
             $('#confirm-referral-modal .modal-body').html(modalTextSecond)

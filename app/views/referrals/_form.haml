@@ -22,4 +22,7 @@
     %input#save-text{ value: t('.save'), type: 'hidden' }
     %input#save-and-download-text{ value: t('.save_and_download'), type: 'hidden' }
     = f.submit t('save'), class: 'btn btn-primary form-btn btn-save'
-    = link_to t('cancel'), client_referrals_path(@client, ngo: params[:ngo]), class: 'btn btn-default cancel-client-button'
+    - if action_name == 'new'
+      = link_to t('cancel'), client_path(@client, ngo: params[:ngo]), class: 'btn btn-default cancel-client-button'
+    - else
+      = link_to t('cancel'), client_referrals_path(@client, ngo: params[:ngo]), class: 'btn btn-default cancel-client-button'

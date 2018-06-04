@@ -5,12 +5,10 @@
         %button.close{ 'aria-hidden' => 'true', 'data-dismiss' => 'modal', type: 'button' } ×
         %h4.modal-title= t('.title')
       .modal-body.text-center
-        %p= t('.body_first')
-        %label
-          %input{:type => "checkbox", id: 'confirm-box', class: 'i-checks'}
-            = t('.confirm_box')
+        %input#body_first{ value: t('.body_first'), type: 'hidden' }
+      .text-center{style: 'margin-bottom: 10px'}
+        %input{:type => "checkbox", id: 'confirm-box', class: 'i-checks'}
+        = t('.confirm_box')
       .modal-footer
-        %button#confirm.btn.btn-warning{ type: 'button' }
-          = t('.confirm')
         %button.btn.btn-default{ 'data-dismiss' => 'modal', type: 'button' }
-          = t('.close')
+          = t('.cancel')
