@@ -3304,10 +3304,12 @@ my:
       form: ပံုစံ
       partners: လက္တြဲေဖာ္
       users: အသံုးျပဳသူ
-    referrals:
-      referral_clients:  ရည်ညွန်းဖောက်သည်
     program_stream_notify:
       review_client: အမႈသည္မ်ားကို ျပန္လည္သံုးသပ္ရန္ လိုအပ္သည္
+    referrals:
+      referral_clients:  ရည်ညွန်းဖောက်သည်
+    repeat_referrals:
+      referral_clients:  ရည်ညွန်းဖောက်သည်
     upcoming_assessment:
       client: အမႈသည္
       most_recent_assessment: အများစုမှာလတ်တလောအကဲဖြတ်

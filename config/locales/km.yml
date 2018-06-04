@@ -3344,10 +3344,12 @@ km:
       form: ទម្រង់បែបបទ
       partners: ដៃគូ
       users: ឣ្នកប្រើ
-    referrals:
-      referral_clients:  អតិថិជនដែលត្រូវការបញ្ជូន
     program_stream_notify:
       review_client: អតិថិជនដែលត្រូវការត្រួតពិនិត្យ
+    referrals:
+      referral_clients:  អតិថិជនដែលត្រូវការបញ្ជូន
+    repeat_referrals:
+      referral_clients:  អតិថិជនដែលត្រូវការបញ្ជូន
     upcoming_assessment:
       client: អតិថិជន
       most_recent_assessment: ការប៉ាន់ប្រមាណចុងក្រោយ

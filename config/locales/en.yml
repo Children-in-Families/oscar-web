@@ -3277,10 +3277,12 @@ en:
       form: Form
       partners: Partner
       users: User
-    referrals:
-      referral_clients:  Referral Clients
     program_stream_notify:
       review_client: Clients need to be reviewed
+    referrals:
+      referral_clients:  Referral Clients
+    repeat_referrals:
+      referral_clients:  Referral Clients
     upcoming_assessment:
       client: Client
       most_recent_assessment: Most Recent Assessment
