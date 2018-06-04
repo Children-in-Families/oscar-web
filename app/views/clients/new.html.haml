@@ -5,5 +5,9 @@
         %h5.client-form-title= t('.new_client_title')
         .pull-right
           %h5= "Client ID - #{current_organization.short_name} ###"
+        .consent-forms
+          - if @referral.present? && @referral.consent_forms.any?
+            - @referral.consent_forms.each do |consent_form|
+              = link_to t('.download_supporting_documents'), consent_form.url, class: 'btn btn-info btn-sm btn-download', target: target_blank(consent_form)
       .ibox-content
         = render 'form'
