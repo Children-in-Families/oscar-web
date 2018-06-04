@@ -26,7 +26,7 @@
                   %td.text-center
                     %button.btn.btn-outline.btn-success.btn-xs{"data-target" => "#referral-form-#{referral.id}", "data-toggle" => 'modal'}
                       = fa_icon('pencil')
-                  = render 'referrals/edit_referral', client: @client, referral: referral
+                  -# = render 'referrals/edit_referral', client: @client, referral: referral
                   %td.text-center
                     = link_to client_referral_path(@client, referral) do
                       .btn.btn-sm.btn-info.btn-xs.btn-outline

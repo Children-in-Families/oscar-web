@@ -10,7 +10,7 @@
 
           %button.btn.btn-outline.btn-success{"data-target" => "#referral-form-#{@referral.id}", "data-toggle" => 'modal'}
             = fa_icon('pencil')
-        = render 'referrals/edit_referral', client: @client, referral: @referral
+        -# = render 'referrals/edit_referral', client: @client, referral: @referral
 
 
       .ibox-content
@@ -61,11 +61,9 @@
               %td.spacing-first-col
                 = t('.consent_form')
               %td
-              /   - if @referral.consent_forms?
-              /     - consent_forms = @referral.consent_forms
-              /     - consent_forms.each do |consent_form|
-              /       %li= original_filename(consent_form)
-              /       = link_to preview_or_download(consent_form), consent_form.url, class: 'btn btn-info btn-sm btn-download', target: target_blank(consent_form)
+                - if @referral.consent_forms.present?
+                  - consent_forms = @referral.consent_forms
+                  = render 'consent_forms', consent_forms: consent_forms
       .ibox-footer
         .text-right
           = link_to request.referer, class: 'btn btn-default' do
