@@ -13,16 +13,12 @@ CIF.ReferralsNew = CIF.ReferralsCreate = CIF.ReferralsUpdate = CIF.ReferralsEdit
     $('select').select2()
 
   _initExternalReferral = ->
-    save = $("#save-text").val()
-    saveAndDownload = $("#save-and-download-text").val()
     referredTo = document.getElementById('referral_referred_to')
     selectedNgo = referredTo.options[referredTo.selectedIndex].value
     if selectedNgo == 'external referral'
       $('.external-referral-warning').removeClass 'text-hide'
-      $('.btn-save').val saveAndDownload
     else
       $('.external-referral-warning').addClass 'text-hide'
-      $('.btn-save').val save
 
   _initUploader = ->
     $(".file").fileinput
