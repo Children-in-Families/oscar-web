@@ -17,9 +17,7 @@ class ReferralsController < AdminController
   end
 
   def create
-    referred_from = Organization.find_by(full_name: referral_params[:referred_from]).try(:short_name)
     @referral = @client.referrals.new(referral_params)
-    @referral.referred_from = referred_from
     if @referral.save
       redirect_to client_referral_path(@client, @referral), notice: t('.successfully_created')
     else
