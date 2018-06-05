@@ -12,7 +12,7 @@ class ClientsController < AdminController
   before_action :fetch_advanced_search_queries, only: [:index]
 
   before_action :find_client, only: [:show, :edit, :update, :destroy]
-  before_action :assign_client_attributes, only: [:show, :edit, :update]
+  before_action :assign_client_attributes, only: [:show, :edit]
   before_action :set_association, except: [:index, :destroy, :version]
   before_action :choose_grid, only: :index
   before_action :find_resources, only: :show
@@ -180,15 +180,15 @@ class ClientsController < AdminController
     Organization.switch_to 'shared'
     client_record = SharedClient.find_by(slug: @client.slug)
     if client_record.present?
-      @client.given_name = client_record.try(:given_name)
-      @client.family_name = client_record.try(:family_name)
-      @client.local_given_name = client_record.try(:local_given_name)
-      @client.local_family_name = client_record.try(:local_family_name)
-      @client.gender = client_record.try(:gender)
-      @client.date_of_birth = client_record.try(:date_of_birth)
-      @client.telephone_number = client_record.try(:telephone_number)
-      @client.live_with = client_record.try(:live_with)
-      @client.birth_province_id = client_record.try(:birth_province_id)
+      @client.given_name = client_record.given_name
+      @client.family_name = client_record.family_name
+      @client.local_given_name = client_record.local_given_name
+      @client.local_family_name = client_record.local_family_name
+      @client.gender = client_record.gender
+      @client.date_of_birth = client_record.date_of_birth
+      @client.telephone_number = client_record.telephone_number
+      @client.live_with = client_record.live_with
+      @client.birth_province_id = client_record.birth_province_id
     end
     Organization.switch_to current_org.short_name
   end
@@ -244,19 +244,10 @@ class ClientsController < AdminController
   def country_address_fields
     selected_country = Setting.first.try(:country_name) || params[:country]
     case selected_country
-    when 'cambodia'
-      current_org = Organization.current.short_name
-      Organization.switch_to 'shared'
-      cambodia_provinces = ['Cambodia', Province.cambodia.order(:name).map{|p| [p.name, p.id] }]
-      thailand_provinces = ['Thailand', Province.thailand.order(:name).map{|p| [p.name, p.id] }]
-      @birth_provinces       = [cambodia_provinces, thailand_provinces]
-      Organization.switch_to current_org
-      @current_provinces     = Province.order(:name)
-      @districts       = @client.province.present? ? @client.province.districts.order(:name) : []
     when 'myanmar'
       @states          = State.order(:name)
       @townships       = @client.state.present? ? @client.state.townships.order(:name) : []
-    when 'thailand'
+    when 'thailand', 'cambodia'
       current_org = Organization.current.short_name
       Organization.switch_to 'shared'
       cambodia_provinces = ['Cambodia', Province.cambodia.order(:name).map{|p| [p.name, p.id] }]

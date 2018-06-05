@@ -248,8 +248,8 @@ class UserNotification
       count_notification += 1 if any_user_custom_field_frequency_overdue?
       count_notification += 1 if any_user_custom_field_frequency_due_today?
       # add logic to toggle on/off notification
-      count_notification += 1 if any_unsaved_referrals?
-      count_notification += 1 if any_repeat_referrals?
+      count_notification += 1 if any_unsaved_referrals? && @user.referral_notification
+      count_notification += 1 if any_repeat_referrals? && @user.referral_notification
     end
     if @user.admin? || @user.any_case_manager?
       count_notification += 1 if any_partner_custom_field_frequency_overdue?
