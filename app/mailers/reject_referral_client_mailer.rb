@@ -1,9 +1,10 @@
 class RejectReferralClientMailer < ApplicationMailer
-  def client_rejection_email(users, referred_to, client_name, user_name, role)
+  def client_rejection_email(user_name, referred_to, referral)
     @referred_to = referred_to
-    @client_name = client_name
     @user_name = user_name
-    @role = role.pluralize(users.count)
-    mail(to: users.pluck(:email), subject: 'Referral Client Rejection')
+    @client_name = referral.client_name
+    @name_of_referee = referral.name_of_referee
+    referee_email = User.find(referral.referee_id).email
+    mail(to: referee_email, subject: 'Referral Client Rejection')
   end
 end

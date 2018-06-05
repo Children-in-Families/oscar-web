@@ -42,6 +42,6 @@ class Client::ExitNgosController < AdminController
     return unless @client.referrals.received.present? && @exit_ngo.exit_circumstance == 'Rejected Referral'
     referral = @client.referrals.received.last
     current_org = current_organization.full_name
-    RejectReferralClientWorker.perform_async(current_user.name, current_org, referral.referred_from, referral.client_name)
+    RejectReferralClientWorker.perform_async(current_user.name, current_org, referral.id)
   end
 end

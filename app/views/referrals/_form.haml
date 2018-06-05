@@ -15,6 +15,7 @@
   = f.input :referred_from, input_html: { value: Organization.current.full_name }, label: t('.referred_from')
   = f.input :referred_to, as: :select, collection: ngos, label: t('.referred_to')
   = f.input :name_of_referee, input_html: { value: current_user.name }, label: t('.name_of_referee')
+  = f.input :referee_id, as: :hidden, input_html: { value: current_user.id }
   = f.input :referral_phone, input_html: { value: current_user.mobile }, label: t('.referral_phone')
   = f.input :referral_reason, as: :text, label: t('.referral_reason')
   = render 'referrals/consent_form_fields', f: f

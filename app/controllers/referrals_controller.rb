@@ -80,6 +80,6 @@ class ReferralsController < AdminController
   end
 
   def referral_params
-    params.require(:referral).permit(:referred_to, :referred_from, :name_of_referee, :referral_phone, :date_of_referral, :referral_reason, :client_name, :slug, consent_forms: [])
+    params.require(:referral).permit(:referred_to, :referred_from, :name_of_referee, :referee_id, :referral_phone, :date_of_referral, :referral_reason, :client_name, :slug, consent_forms: [])
   end
 end
