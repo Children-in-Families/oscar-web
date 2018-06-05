@@ -60,10 +60,8 @@
               %td.spacing-first-col
                 = t('.consent_form')
               %td
-                - if @referral.consent_forms?
-                  %ul.consent-forms
-                    - @referral.consent_forms.each do |consent_form|
-                      = link_to preview_or_download(consent_form), consent_form.url, class: 'btn btn-info btn-sm btn-download', target: target_blank(consent_form)
+                - if @referral.consent_form.present?
+                  = link_to preview_or_download(@referral.consent_form), @referral.consent_form.url, class: 'btn btn-info btn-sm btn-download', target: target_blank(@referral.consent_form)
       .ibox-footer
         .text-right
           = link_to client_referrals_path(@client, ngo: @referral.referred_to), class: 'btn btn-default' do

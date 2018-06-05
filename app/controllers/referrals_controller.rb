@@ -66,7 +66,7 @@ class ReferralsController < AdminController
     @referral = @client.referrals.find(params[:id])
 
     if @referral.update_attributes(referral_params)
-      redirect_to client_referrals_path(@client, ngo: @referral.referred_to), notice: t('.successfully_updated')
+      redirect_to client_referral_path(@client, @referral), notice: t('.successfully_updated')
     else
       render :edit
     end
@@ -84,6 +84,6 @@ class ReferralsController < AdminController
   end
 
   def referral_params
-    params.require(:referral).permit(:referred_to, :referred_from, :name_of_referee, :referee_id, :referral_phone, :date_of_referral, :referral_reason, :client_name, :slug, consent_forms: [])
+    params.require(:referral).permit(:referred_to, :referred_from, :name_of_referee, :referee_id, :referral_phone, :date_of_referral, :referral_reason, :client_name, :slug, :consent_form)
   end
 end

@@ -1,7 +1,7 @@
 class Referral < ActiveRecord::Base
   has_paper_trail
 
-  mount_uploaders :consent_forms, FileUploader
+  mount_uploader :consent_form, FileUploader
 
   belongs_to :client
 
@@ -28,8 +28,8 @@ class Referral < ActiveRecord::Base
     return if current_org.short_name == referred_to || referred_to == "external referral"
     Organization.switch_to referred_to
     referral = Referral.find_or_initialize_by(slug: attributes['slug'])
-    referral.attributes = attributes.except('id', 'client_id', 'created_at', 'updated_at', 'consent_forms').merge({client_id: nil})
-    referral.consent_forms = consent_forms
+    referral.attributes = attributes.except('id', 'client_id', 'created_at', 'updated_at', 'consent_form').merge({client_id: nil})
+    referral.consent_form = consent_form
     referral.save
     Organization.switch_to current_org.short_name
   end

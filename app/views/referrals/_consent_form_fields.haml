@@ -1,19 +1,4 @@
-- consent_forms = f.object.consent_forms
-- if consent_forms.present?
-  .row
-    .col-xs-12
-      .table-responsive
-        %table.table.table-bordered.table-hover.attachment-table
-          %tbody
-            - consent_forms.each_with_index do |consent_form, index|
-              %tr.row-file
-                %td.image-title.vert-align
-                  = original_filename(consent_form)
-                %td.vert-align
-                  = link_to preview_or_download(consent_form), consent_form.url, class: 'btn btn-info btn-sm btn-download', target: target_blank(consent_form)
-                %td.vert-align.text-center
-                  .delete.fa.fa-trash.btn.btn-outline.btn-danger{ data: { url: (client_referral_path(@referral.client, @referral, referral: f.object, file_index: index)), comfirm: t('.are_you_sure') }}
 .row
   .col-xs-12
     %label.date.control-label= t('.consent_form')
-    = f.input :consent_forms, as: :file, input_html: { multiple: true }, label: false
+    = f.input :consent_form, as: :file, label: false
