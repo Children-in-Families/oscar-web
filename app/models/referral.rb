@@ -5,6 +5,8 @@ class Referral < ActiveRecord::Base
 
   belongs_to :client
 
+  before_save :set_referred_from
+
   after_create :email_referrral_client
   after_save :make_a_copy_to_target_ngo
 
@@ -12,6 +14,14 @@ class Referral < ActiveRecord::Base
   scope :unsaved, -> { where(saved: false) }
 
   private
+
+  def set_referred_from
+    current_org = Organization.current
+    return if current_org.short_name == referred_to || referred_to == "external referral"
+
+    referred_from = Organization.find_by(full_name: self.referred_from).try(:short_name)
+    self.referred_from = referred_from
+  end
 
   def make_a_copy_to_target_ngo
     current_org = Organization.current

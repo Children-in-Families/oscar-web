@@ -1,6 +1,7 @@
 module Api
   class ReferralsController < AdminController
     include ApplicationHelper
+    load_and_authorize_resource
 
     def compare
       render json: find_client_in_organization
