@@ -11,7 +11,7 @@
             %label.date.control-label{ for: 'date_of_referral' }
               = t('.date_of_referral')
             .input-group.date
-              = f.text_field :date_of_referral, class: 'date form-control date-picker .datepicker-dropdown', type: 'text', name: 'referral[date_of_referral]', value: Date.today
+              = f.text_field :date_of_referral, class: 'date form-control date-picker .datepicker-dropdown', type: 'text', name: 'referral[date_of_referral]', value: referral_date(f.object)
               %span.input-group-addon
                 %i.fa.fa-calendar-check-o
       .row
@@ -22,20 +22,20 @@
         .col-xs-12
           = f.input :referred_from, readonly: true, input_html: { value: Organization.current.full_name }, label: t('.referred_from')
         .col-xs-12
-          = f.input :referred_to, as: :select, collection: ngos, label: t('.referred_to')
+          = f.input :referred_to, as: :select, collection: ngos, label: t('.referred_to'), disabled: f.object.persisted?
         .col-xs-12
-          = f.input :name_of_referee, input_html: { value: current_user.name }, label: t('.name_of_referee')
+          = f.input :name_of_referee, input_html: { value: referee_name(f.object) }, label: t('.name_of_referee')
         .col-xs-12
-          = f.input :referee_id, as: :hidden, input_html: { value: current_user.id }
+          = f.input :referee_id, as: :hidden, input_html: { value: referee_id(f.object) }
         .col-xs-12
-          = f.input :referral_phone, input_html: { value: current_user.mobile }, label: t('.referral_phone')
+          = f.input :referral_phone, input_html: { value: referee_phone(f.object) }, label: t('.referral_phone')
         .col-xs-12
           = f.input :referral_reason, as: :text, label: t('.referral_reason')
         .col-xs-12
           = render 'referrals/consent_form_fields', f: f
         .col-xs-12.text-right
           = f.submit t('save'), class: 'btn btn-primary form-btn btn-save'
-          - if action_name == 'new'
+          - if action_name == 'new' || action_name == 'create'
             = link_to t('cancel'), client_path(@client, ngo: params[:ngo]), class: 'btn btn-default cancel-client-button'
           - else
             = link_to t('cancel'), client_referrals_path(@client, ngo: params[:ngo]), class: 'btn btn-default cancel-client-button'

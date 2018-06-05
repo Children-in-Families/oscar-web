@@ -50,8 +50,8 @@
               %button.btn.btn-danger.mini-margin{ disabled: 'disabled', class:'agree-btn' }= t('.reject')
 
     - if @client.status != 'Referred'
-    - ngos = Organization.exclude_current.oscar.order(:full_name).map{|org| [org.full_name, org.short_name] }
-    - ngos << ["I don't see the NGO I'm looking for...", "external referral"]
+      - ngos = Organization.exclude_current.oscar.order(:full_name).map{|org| [org.full_name, org.short_name] }
+      - ngos << ["I don't see the NGO I'm looking for...", "external referral"]
       .row
         .col-xs-12
           %input#client-id{ value: "#{@client.slug}", type: 'hidden' }

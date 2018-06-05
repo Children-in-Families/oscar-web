@@ -3,39 +3,28 @@
     .ibox
       .ibox-title
         %h5= @results
-        - if params[:referral_type].present?
-          - if params[:referral_type] == 'referred_to'
-            %span.label.label-info= t('.referred_to')
-          - else
-            %span.label.label-info= t('.referred_from')
-        - else
-          %span.label.label-info= t('.referral_form')
-        .text-right
-          = link_to new_client_referral_path(@client), class: 'button btn-sm btn btn-success' do
-            = t('.add_referral')
+        %span.label.label-info= t('.referral_form')
+
       .ibox-content
         .table-responsive
           %table.table.table-bordered.table-striped.table-hover
             %thead
               %tr
                 %th= t('.client_name')
-                %th= t('.referred_from')
-                %th= t('.referred_to')
+                %th{ class: referred_from_hidden? }= t('.referred_from')
+                %th{ class: referred_to_hidden? }= t('.referred_to')
                 %th= t('.date_of_referral')
-                %th.text-center.custom_column_manage{ colspan: '1' }= t('.manage')
+                %th.text-center.custom_column_manage= t('.manage')
             %tbody
               - @referrals.each do |referral|
-                - referred_from = Organization.find_by(short_name: referral.referred_from).try(:full_name)
-                - referred_to = Organization.find_by(short_name: referral.referred_to).try(:full_name)
                 %tr
                   %td= referral.client_name
-                  %td= referred_from
-                  %td= referred_to.present? ? referred_to : referral.referred_to.titleize
+                  %td{ class: referred_from_hidden? }= referred_from_ngo(referral)
+                  %td{ class: referred_to_hidden? }= referred_to_ngo(referral)
                   %td= date_format(referral.date_of_referral)
-                  / %td.text-center
-                  /   = link_to edit_client_referral_path(@client, referral), class: 'button btn btn-outline btn-success btn-xs' do
-                  /     = fa_icon('pencil')
                   %td.text-center
+                    = link_to edit_client_referral_path(@client, referral), class: 'button btn btn-outline btn-success btn-xs' do
+                      = fa_icon('pencil')
                     = link_to client_referral_path(@client, referral) do
                       .btn.btn-sm.btn-info.btn-xs.btn-outline
                         = fa_icon('eye')

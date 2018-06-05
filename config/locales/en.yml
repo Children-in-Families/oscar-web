@@ -1425,8 +1425,8 @@ en:
       primary_carer_phone_number: Primary Carer Phone Number
       referee_phone_number: Referee Phone Number
       referral_forms: Referral Forms
-      referred_from: Referred From
-      referred_to: Referred To
+      referred_from: Referred from External Organisation
+      referred_to: Referred to External Organisation
       rejected_note: Rejected Note
 
       placements:
