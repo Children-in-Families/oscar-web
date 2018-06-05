@@ -34,6 +34,7 @@ describe Client, 'associations' do
   it { is_expected.to have_many(:problems).through(:client_problems) }
   it { is_expected.to have_many(:exit_ngos).dependent(:destroy) }
   it { is_expected.to have_many(:enter_ngos).dependent(:destroy) }
+  it { is_expected.to have_many(:referrals).dependent(:destroy) }
 end
 
 describe Client, 'callbacks' do

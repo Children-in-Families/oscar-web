@@ -5,6 +5,10 @@ class Referral < ActiveRecord::Base
 
   belongs_to :client
 
+  validates :client_name, :slug, :date_of_referral, :referred_from,
+            :referred_to, :referral_reason, :referee_id, :name_of_referee,
+            :referral_phone, :consent_form, presence: true
+
   before_save :set_referred_from
 
   after_create :email_referrral_client
