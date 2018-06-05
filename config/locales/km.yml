@@ -1510,7 +1510,9 @@ km:
       primary_carer_name: អ្នកមើលថែចំបង
       primary_carer_phone_number: លេខទូរស័ព្ទអ្នកមើលថែចំបង
       referee_phone_number: លេខទូរស័ព្ទអ្នកបញ្ជូន
-      referral_forms: បែបបទបញ្ជូនទៅអង្គការដទៃ
+      referral_forms: បែបបទបញ្ជូន
+      referred_from: ទទួលចូលអង្គការ
+      referred_to: បញ្ជូនទៅអង្គការដទៃ
       rejected_note: កំណត់ហេតុនៃការមិនទទួលយក
 
       placements:
@@ -3347,9 +3349,9 @@ km:
     program_stream_notify:
       review_client: អតិថិជនដែលត្រូវការត្រួតពិនិត្យ
     referrals:
-      referral_clients:  អតិថិជនដែលត្រូវការបញ្ជូន
+      referral_clients:  អតិថិជនដែលត្រូវបានបញ្ជូនមក
     repeat_referrals:
-      referral_clients:  អតិថិជនដែលត្រូវការបញ្ជូន
+      referral_clients:  អតិថិជនដែលត្រូវបានបញ្ជូនមកម្តងទៀត
     upcoming_assessment:
       client: អតិថិជន
       most_recent_assessment: ការប៉ាន់ប្រមាណចុងក្រោយ
@@ -3832,6 +3834,7 @@ km:
       referral_reason: មូលហេតុនៃការបញ្ជូន
       referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
       referred_from: ប្រភពនៃការបញ្ជូន
+      referred_to: បញ្ជូនទៅកាន់
       select_ngos: ជ្រើសរើសអង្គការ
     new:
       new_referral: បន្ថែមទម្រង់បញ្ជូន

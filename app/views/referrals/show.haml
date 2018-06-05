@@ -37,7 +37,7 @@
                 = t('.referred_to')
               %td
                 - referred_to = Organization.find_by(short_name: @referral.referred_to).try(:full_name)
-                %strong= referred_to
+                %strong= referred_to.present? ? referred_to : @referral.referred_to.titleize
 
             %tr
               %td.spacing-first-col

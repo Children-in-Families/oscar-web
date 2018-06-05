@@ -1452,9 +1452,11 @@ my:
       province: ေမြးဖြားရာခ႐ိုင္
       received_by: မွ လက္ခံသည္
       referee_phone_number: ဒိုင်လူကြီးဖုန်းနံပါတ်ကို
-      referral_forms: အခြားအဖွဲ့အစည်းမှလွှဲပြောင်း
+      referral_forms: ရည်ညွန်းပုံစံများ
       referral_phone: လႊဲရမည့္ ဖုန္းနံပါတ္
       referral_source: လႊဲရမည့္ ရင္းျမစ္
+      referred_from: ကနေရည်ညွှန်း
+      referred_to: ရန်ရည်ညွှန်း
       reject: ျငင္းပယ္သည္
       reject_client: ျငင္းပယ္သည္
       reject_note: ျငင္းပယ္သည့္ မွတ္စု
@@ -3785,6 +3787,7 @@ my:
       referral_reason: လွှဲပြောင်းအကြောင်းပြချက်
       referral_phone: လႊဲေျပာင္းရမည့္ ဖုန္းနံပါတ္
       referred_from: ကနေရည်ညွှန်း
+      referred_to: ရည်ညွှန်း
       select_ngos: အဖွဲ့အစည်းကရှေးခယျြ
     new:
       new_referral: ဂီယာ Add

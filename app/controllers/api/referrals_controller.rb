@@ -1,5 +1,6 @@
 module Api
   class ReferralsController < AdminController
+    include ApplicationHelper
     load_and_authorize_resource
 
     def compare
@@ -15,9 +16,9 @@ module Api
         if referrals.any?
           referral = referrals.last
           if referral.saved?
-            date_of_referral = referral.date_of_referral
             client = Client.find_by(slug: params[:clientId])
-            client.status == 'Exited'? { text: "exited client", date: "#{date_of_referral}" } : { text: 'already exist' }
+            date_of_reject = date_format(client.exit_ngos.last.try(:exit_date))
+            client.status == 'Exited'? { text: "exited client", date: "#{date_of_reject}" } : { text: 'already exist' }
           else
             { text: 'already referred' }
           end

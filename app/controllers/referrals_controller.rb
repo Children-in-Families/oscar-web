@@ -5,7 +5,13 @@ class ReferralsController < AdminController
   # before_action :find_referred_to_ngo, only: :index
 
   def index
-    @referrals = @client.referrals.where(referred_to: params[:ngo])
+    if params[:referral_type].present?
+      if params[:referral_type] == 'referred_to'
+        @referrals = @client.referrals.where.not(referred_to: Organization.current.short_name)
+      else
+        @referrals = @client.referrals.where(referred_to: Organization.current.short_name, saved: true)
+      end
+    end
   end
 
   def new

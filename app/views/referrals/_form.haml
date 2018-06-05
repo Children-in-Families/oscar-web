@@ -34,8 +34,6 @@
         .col-xs-12
           = render 'referrals/consent_form_fields', f: f
         .col-xs-12.text-right
-          %input#save-text{ value: t('.save'), type: 'hidden' }
-          %input#save-and-download-text{ value: t('.save_and_download'), type: 'hidden' }
           = f.submit t('save'), class: 'btn btn-primary form-btn btn-save'
           - if action_name == 'new'
             = link_to t('cancel'), client_path(@client, ngo: params[:ngo]), class: 'btn btn-default cancel-client-button'

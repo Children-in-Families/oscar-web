@@ -1424,7 +1424,9 @@ en:
       primary_carer_name: Primary Carer Name
       primary_carer_phone_number: Primary Carer Phone Number
       referee_phone_number: Referee Phone Number
-      referral_forms: Referral to Other Organisation
+      referral_forms: Referral Forms
+      referred_from: Referred From
+      referred_to: Referred To
       rejected_note: Rejected Note
 
       placements:
@@ -3731,7 +3733,7 @@ en:
       modification_of: Changelog of
   referrals:
     confirm_referral:
-      body_second: The client you want to refer alreay exist in the target NGO.
+      body_second: The client you want to refer already existed in the target NGO.
       body_third: You have already referred this client, please wait for the response.
       title: Warning
     confirm_repeat_referral:
@@ -3769,6 +3771,7 @@ en:
       referral_reason: What is the reason for this referral?
       referral_phone: Referral Phone
       referred_from: Reffered From
+      referred_to: Referred To
       select_ngos: Select NGOs
     new:
       new_referral: New Referral

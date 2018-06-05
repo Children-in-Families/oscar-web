@@ -3,7 +3,13 @@
     .ibox
       .ibox-title
         %h5= @results
-        %span.label.label-info= t('.referral_form')
+        - if params[:referral_type].present?
+          - if params[:referral_type] == 'referred_to'
+            %span.label.label-info= t('.referred_to')
+          - else
+            %span.label.label-info= t('.referred_from')
+        - else
+          %span.label.label-info= t('.referral_form')
         .text-right
           = link_to new_client_referral_path(@client), class: 'button btn-sm btn btn-success' do
             = t('.add_referral')
@@ -14,14 +20,17 @@
               %tr
                 %th= t('.client_name')
                 %th= t('.referred_from')
+                %th= t('.referred_to')
                 %th= t('.date_of_referral')
                 %th.text-center.custom_column_manage{ colspan: '1' }= t('.manage')
             %tbody
               - @referrals.each do |referral|
                 - referred_from = Organization.find_by(short_name: referral.referred_from).try(:full_name)
+                - referred_to = Organization.find_by(short_name: referral.referred_to).try(:full_name)
                 %tr
                   %td= referral.client_name
                   %td= referred_from
+                  %td= referred_to.present? ? referred_to : referral.referred_to.titleize
                   %td= date_format(referral.date_of_referral)
                   / %td.text-center
                   /   = link_to edit_client_referral_path(@client, referral), class: 'button btn btn-outline btn-success btn-xs' do
