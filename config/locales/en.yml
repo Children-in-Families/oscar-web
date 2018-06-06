@@ -3761,6 +3761,7 @@ en:
       save_and_download: Save & Download
     index:
       add_referral: Add Referral
+      cannot_edit_referral: You cannot edit this referral because the target NGO already accepted this referral
       client_id: Client ID
       client_name: Client Name
       consent_form: Consent Form
@@ -3776,6 +3777,7 @@ en:
     new:
       new_referral: New Referral
     show:
+      cannot_edit_referral: You cannot edit this referral because the target NGO already accepted this referral
       client_id: Client ID
       client_name: Client Name
       consent_form: Consent Form

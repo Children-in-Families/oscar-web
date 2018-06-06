@@ -31,4 +31,12 @@ module ReferralsHelper
     referred_to = Organization.find_by(short_name: referral.referred_to).try(:full_name)
     referred_to.present? ? referred_to : referral.referred_to.titleize
   end
+
+  def saved_referral(referral)
+    Organization.switch_to referral.referred_to
+    is_saved = Referral.find_by(slug: referral.slug).try(:saved)
+    Organization.switch_to referral.referred_from.downcase
+    is_saved
+  end
+
 end

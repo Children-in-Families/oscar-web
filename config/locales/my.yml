@@ -3777,6 +3777,7 @@ my:
       save_and_download: ကယ်တင် & Download
     index:
       add_referral: ဂီယာ Add
+      cannot_edit_referral: ပစ်မှတ်အန်ဂျီအိုပြီးသားဒီလွှဲပြောင်းလက်ခံခဲ့သည်ကြောင့်သင်ဤလွှဲပြောင်းတည်းဖြတ်မရနိုင်ပါ
       client_id: မွတ္ပံုတင္
       client_name: ကေလးနာမည္
       consent_form: သဘောတူညီချက်ပုံစံ
@@ -3794,6 +3795,7 @@ my:
     update:
       successfully_updated: ရည်ညွန်းအောင်မြင်စွာ updated ခဲ့တာဖြစ်ပါတယ်။
     show:
+      cannot_edit_referral: ပစ်မှတ်အန်ဂျီအိုပြီးသားဒီလွှဲပြောင်းလက်ခံခဲ့သည်ကြောင့်သင်ဤလွှဲပြောင်းတည်းဖြတ်မရနိုင်ပါ
       client_id: မွတ္ပံုတင္
       client_name: ကေလးနာမည္
       consent_form: သဘောတူညီချက်ပုံစံ
