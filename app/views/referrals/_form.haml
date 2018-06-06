@@ -40,4 +40,4 @@
           - if action_name == 'new' || action_name == 'create'
             = link_to t('cancel'), client_path(@client, ngo: params[:ngo]), class: 'btn btn-default cancel-client-button'
           - else
-            = link_to t('cancel'), client_referrals_path(@client, ngo: params[:ngo]), class: 'btn btn-default cancel-client-button'
+            = link_to t('cancel'), client_referrals_path(@client, referral_type: params[:referral_type]), class: 'btn btn-default cancel-client-button'

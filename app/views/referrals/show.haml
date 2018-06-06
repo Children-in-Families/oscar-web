@@ -14,7 +14,7 @@
               = link_to edit_client_referral_path(@client, @referral), class: 'button btn btn-outline btn-success disabled' do
                 = fa_icon('pencil')
           - else
-            = link_to edit_client_referral_path(@client, @referral), class: 'button btn btn-outline btn-success ' do
+            = link_to edit_client_referral_path(@client, @referral, referral_type: params[:referral_type]), class: 'button btn btn-outline btn-success ' do
               = fa_icon('pencil')
 
       .ibox-content
@@ -71,5 +71,5 @@
                   = link_to preview_or_download(@referral.consent_form), @referral.consent_form.url, class: 'btn btn-info btn-sm btn-download', target: target_blank(@referral.consent_form)
       .ibox-footer
         .text-right
-          = link_to client_referrals_path(@client, ngo: @referral.referred_to), class: 'btn btn-default' do
+          = link_to client_referrals_path(@client, referral_type: params[:referral_type]), class: 'btn btn-default' do
             = t('back')
