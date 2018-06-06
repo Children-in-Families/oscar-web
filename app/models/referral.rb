@@ -9,6 +9,8 @@ class Referral < ActiveRecord::Base
             :referred_to, :referral_reason, :referee_id, :name_of_referee,
             :referral_phone, :consent_form, presence: true
 
+  validate :check_saved_referral_in_target_ngo, on: :update
+
   before_save :set_referred_from
 
   after_create :email_referrral_client
@@ -18,6 +20,14 @@ class Referral < ActiveRecord::Base
   scope :unsaved, -> { where(saved: false) }
 
   private
+
+  def check_saved_referral_in_target_ngo
+    org = Organization.current
+    Organization.switch_to referred_to
+    is_saved = Referral.find_by(slug: slug).try(:saved)
+    Organization.switch_to org.short_name
+    is_saved ? errors.add(:base, 'You cannot edit this referral because the target NGO already accepted the referral') : true
+  end
 
   def set_referred_from
     current_org = Organization.current
