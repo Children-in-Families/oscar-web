@@ -24,7 +24,7 @@ class Referral < ActiveRecord::Base
   def check_saved_referral_in_target_ngo
     org = Organization.current
     Organization.switch_to referred_to
-    is_saved = Referral.find_by(slug: slug).try(:saved)
+    is_saved = Referral.find_by(slug: slug, date_of_referral: date_of_referral).try(:saved)
     Organization.switch_to org.short_name
     is_saved ? errors.add(:base, 'You cannot edit this referral because the target NGO already accepted the referral') : true
   end
@@ -41,7 +41,7 @@ class Referral < ActiveRecord::Base
     current_org = Organization.current
     return if current_org.short_name == referred_to || referred_to == "external referral"
     Organization.switch_to referred_to
-    referral = Referral.find_or_initialize_by(slug: attributes['slug'])
+    referral = Referral.find_or_initialize_by(slug: attributes['slug'], date_of_referral: attributes['date_of_referral'], saved: false)
     referral.attributes = attributes.except('id', 'client_id', 'created_at', 'updated_at', 'consent_form').merge({client_id: nil})
     referral.consent_form = consent_form
     referral.save
