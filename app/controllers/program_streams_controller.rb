@@ -91,8 +91,10 @@ class ProgramStreamsController < AdminController
     params[:program_stream][:exit_program] = strip_tags(exit_program)
 
     trackings = params[:program_stream][:trackings_attributes]
-    trackings.values.each do |value|
-      value['fields'] = strip_tags(value['fields'])
+    if trackings.present?
+      trackings.values.each do |value|
+        value['fields'] = strip_tags(value['fields'])
+      end
     end
   end
 
