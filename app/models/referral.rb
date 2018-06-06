@@ -22,9 +22,10 @@ class Referral < ActiveRecord::Base
   private
 
   def check_saved_referral_in_target_ngo
+    org = Organization.current
     Organization.switch_to referred_to
     is_saved = Referral.find_by(slug: slug).try(:saved)
-    Organization.switch_to referred_from.downcase
+    Organization.switch_to org.short_name
     is_saved ? errors.add(:base, 'You cannot edit this referral because the target NGO already accepted the referral') : true
   end
 
