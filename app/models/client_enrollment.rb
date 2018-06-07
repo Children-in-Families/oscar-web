@@ -7,6 +7,8 @@ class ClientEnrollment < ActiveRecord::Base
   has_many :trackings, through: :client_enrollment_trackings
   has_one :leave_program, dependent: :destroy
 
+  alias_attribute :new_date, :enrollment_date
+
   validates :enrollment_date, presence: true
   validate :enrollment_date_value, if: 'enrollment_date.present?'
   accepts_nested_attributes_for :form_builder_attachments, reject_if: proc { |attributes| attributes['name'].blank? &&  attributes['file'].blank? }

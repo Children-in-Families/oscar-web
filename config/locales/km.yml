@@ -1449,6 +1449,7 @@ km:
       are_you_sure: តើអ្នកប្រាកដហើយ?
       birth_province: ស្រុកកំណើត
       cambodia: កម្ពុជា
+      case_histories: ប្រវត្តិនៃករណី
       case_history: ប្រវត្តិនៃករណី
       case_worker: បុគ្គលិកគ្រប់គ្រងករណី
       case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
@@ -1460,6 +1461,7 @@ km:
       current_province: ខេត្តបច្ចុប្បន្ន
       custom_id_number1: លេខកូដផ្ទាល់ខ្លួនទី១
       custom_id_number2: លេខកូដផ្ទាល់ខ្លួនទី២
+      date: កាលបរិចេ្ឆទ
       date_of_birth: ថ្ងៃ ខែ ឆ្នាំ កំណើត
       district: ស្រុក/ខណ្ឌ
       donor: ម្ចាស់ជំនួយ

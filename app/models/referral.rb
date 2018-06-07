@@ -5,6 +5,8 @@ class Referral < ActiveRecord::Base
 
   belongs_to :client
 
+  alias_attribute :new_date, :date_of_referral
+
   validates :client_name, :slug, :date_of_referral, :referred_from,
             :referred_to, :referral_reason, :referee_id, :name_of_referee,
             :referral_phone, :consent_form, presence: true

@@ -1371,6 +1371,7 @@ my:
       are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား
       birth_province: ေမြးရာ ခ႐ိုင္
       cambodia: ကေမာၻဒီးယား
+      case_histories: အမႈျခင္းရာသမုိင္းေၾကာင္း
       case_history: အမႈျခင္းရာသမုိင္းေၾကာင္း
       case_worker: အမႈျခင္းရာ လိုက္ပါေဆာင္ရြက္ေပးသူ
       case_worker_or_staff: အမႈျခင္းရာ လိုက္ပါေဆာင္ရြက္ေပးသူ/ ၀န္ထမ္း
@@ -1382,6 +1383,7 @@ my:
       current_province: လက္ရွိ ေနထုိင္ရာ ခ႐ိုင္
       custom_id_number1: Custom ID Number1
       custom_id_number2: Custom ID Number2
+      date: နေ့စှဲ
       date_of_birth: ေမြးရက္၊ လ၊ ႏွစ္
       district: ခ႐ိုင္
       donor: အလွဴရွင္

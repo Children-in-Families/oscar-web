@@ -364,4 +364,18 @@ module ClientsHelper
     return false if current_user.admin?
     return true if @quantitative_type_editable_ids.exclude?(quantitative_type_id)
   end
+
+  def case_history_label(value)
+    label = case value.class.table_name
+    when 'enter_ngos' then 'NGO Enrolment Date'
+    when 'exit_ngos' then 'NGO Exit Date'
+    when 'client_enrollments' then "#{value.program_stream.name} Entry"
+    when 'leave_programs' then "#{value.program_stream.name} Exit"
+    when 'referrals'
+      prefix = value.referred_to == current_organization.short_name ? 'Internal Referral' : 'External Referral'
+      org_full_name = Organization.find_by(short_name: value.referred_to).full_name
+      "#{prefix}: #{org_full_name}"
+    end
+    label
+  end
 end

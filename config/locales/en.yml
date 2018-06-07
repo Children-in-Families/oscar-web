@@ -1363,6 +1363,7 @@ en:
       are_you_sure: Are you sure you want to delete?
       birth_province: Client Birth Province
       cambodia: Cambodia
+      case_histories: Case Histories
       case_history: Case History
       case_worker: Case Worker
       case_worker_or_staff: Case Worker / Staff
@@ -1374,6 +1375,7 @@ en:
       current_province: Current Province
       custom_id_number1: Custom ID Number 1
       custom_id_number2: Custom ID Number 2
+      date: Date
       date_of_birth: Date of Birth
       district: District/Khan
       donor: Donor
