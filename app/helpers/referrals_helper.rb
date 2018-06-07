@@ -35,9 +35,8 @@ module ReferralsHelper
   def saved_referral(referral)
     return if referral.referred_to == 'external referral'
     Organization.switch_to referral.referred_to
-    is_saved = Referral.find_by(slug: referral.slug).try(:saved)
-    Organization.switch_to referral.referred_from.downcase
+    is_saved = Referral.find_by(slug: referral.slug, date_of_referral: referral.date_of_referral).try(:saved)
+    Organization.switch_to referral.referred_from
     is_saved
   end
-
 end
