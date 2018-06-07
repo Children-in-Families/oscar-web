@@ -103,3 +103,5 @@
 //= require prevent_required_file_uploader
 //= require format_special_characters
 //= require referrals/form
+//= require referrals/index
+//= require referrals/show

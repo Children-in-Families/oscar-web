@@ -2,69 +2,63 @@
   .col-xs-12.col-sm-12.col-md-12
     .ibox
       .ibox-title
-        - if @referral.date_of_referral?
-          %h5
-            = t('.date_of_referral')
-            = date_format(@referral.date_of_referral)
         .text-right
-          = link_to client_referral_path(@client, @referral, format: :pdf), class: 'btn btn-outline btn-info', target: :_blank do
-            = t('.download_referral_form')
-          = link_to edit_client_referral_path(@client, @referral), class: 'button btn btn-outline btn-success' do
-            = fa_icon('pencil')
+          - if @referral.non_oscar_ngo?
+            = link_to client_referral_path(@client, @referral, format: :pdf), class: 'btn btn-outline btn-info', target: :_blank do
+              = t('.download_referral_form')
+          - if policy(@referral).edit?
+            = link_to edit_client_referral_path(@client, @referral, referral_type: params[:referral_type]), class: 'button btn btn-outline btn-success ' do
+              = fa_icon('pencil')
 
       .ibox-content
         %section.overflow-case
           %table.table.table-bordered
             %tr
-              %td.spacing-first-col
-                = t('.client_name')
+              %td= t('.date_of_referral')
+              %td
+                %strong= date_format(@referral.date_of_referral)
+
+            %tr
+              %td= t('.client_name')
               %td
                 %strong= @referral.client_name
 
             %tr
-              %td.spacing-first-col
-                = t('.client_id')
+              %td= t('.client_id')
               %td
                 %strong= @referral.slug
 
             %tr
-              %td.spacing-first-col
-                = t('.referred_from')
+              %td= t('.referred_from')
               %td
-                - referred_from = Organization.find_by(short_name: @referral.referred_from).try(:full_name)
-                %strong= referred_from
+                %strong= @referral.referred_from_ngo
 
             %tr
-              %td.spacing-first-col
-                = t('.referred_to')
+              %td= t('.referred_to')
               %td
-                - referred_to = Organization.find_by(short_name: @referral.referred_to).try(:full_name)
-                %strong= referred_to.present? ? referred_to : @referral.referred_to.titleize
+                %strong= @referral.referred_to_ngo
 
             %tr
-              %td.spacing-first-col
-                = t('.name_of_referee')
+              %td= t('.name_of_referee')
               %td
                 %strong= @referral.name_of_referee
 
             %tr
-              %td.spacing-first-col
-                = t('.referral_phone')
+              %td= t('.referral_phone')
               %td
                 %strong= @referral.referral_phone
 
             %tr
-              %td.spacing-first-col
-                = t('.referral_reason')
+              %td= t('.referral_reason')
               %td
                 %strong= @referral.referral_reason
             %tr
-              %td.spacing-first-col
+              %td
                 = t('.consent_form')
               %td
                 - if @referral.consent_form.present?
                   = link_to preview_or_download(@referral.consent_form), @referral.consent_form.url, class: 'btn btn-info btn-sm btn-download', target: target_blank(@referral.consent_form)
       .ibox-footer
         .text-right
-          = link_to client_referrals_path(@client, ngo: @referral.referred_to), class: 'btn btn-default' do
+          = link_to client_referrals_path(@client, referral_type: referral_type(@referral)), class: 'btn btn-default' do
             = t('back')

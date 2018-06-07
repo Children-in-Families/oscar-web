@@ -3778,16 +3778,17 @@ my:
       save: ကယ်ဆယ်
       save_and_download: ကယ်တင် & Download
     index:
-      add_referral: ဂီယာ Add
+      cannot_edit_referral: ပစ်မှတ်အန်ဂျီအိုပြီးသားဒီလွှဲပြောင်းလက်ခံခဲ့သည်ကြောင့်သင်ဤလွှဲပြောင်းတည်းဖြတ်မရနိုင်ပါ
       client_id: မွတ္ပံုတင္
       client_name: ကေလးနာမည္
       consent_form: သဘောတူညီချက်ပုံစံ
       date_of_referral: လွှဲပြောင်း၏နေ့စွဲ
+      detail: အသေးစိတ်
       edit_btn: ပြင်ဆင်ရန်
-      manage: စီမံသည္
       name_of_referee: ဒိုင်လူကြီး၏နာမကိုအမှီ
-      referral_reason: လွှဲပြောင်းအကြောင်းပြချက်
+      referral_forms: ဂီယာ
       referral_phone: လႊဲေျပာင္းရမည့္ ဖုန္းနံပါတ္
+      referral_reason: လွှဲပြောင်းအကြောင်းပြချက်
       referred_from: ကနေရည်ညွှန်း
       referred_to: ရည်ညွှန်း
       select_ngos: အဖွဲ့အစည်းကရှေးခယျြ
@@ -3796,6 +3797,7 @@ my:
     update:
       successfully_updated: ရည်ညွန်းအောင်မြင်စွာ updated ခဲ့တာဖြစ်ပါတယ်။
     show:
+      cannot_edit_referral: ပစ်မှတ်အန်ဂျီအိုပြီးသားဒီလွှဲပြောင်းလက်ခံခဲ့သည်ကြောင့်သင်ဤလွှဲပြောင်းတည်းဖြတ်မရနိုင်ပါ
       client_id: မွတ္ပံုတင္
       client_name: ကေလးနာမည္
       consent_form: သဘောတူညီချက်ပုံစံ
@@ -3803,6 +3805,17 @@ my:
       download_referral_form: ဒေါင်းလုပ်လွှဲပြောင်းပုံစံ
       external_referral_warning: သင်လက်ရှိအော်စကာအသုံးပြုနေခြင်းမရှိပါရန်သင့် client ကိုရည်ညွှန်းရန်ကြိုးစားနေသောအန်ဂျီအို။ သင့်ရဲ့ပစ်မှတ်အဖွဲ့အစည်းကမှပေးပို့ဖို့ဒီလွှဲပြောင်းပုံစံများ၏မိတ္တူကို print ထုတ်ပါ။
       name_of_referee: ဒိုင်လူကြီး၏နာမကိုအမှီ
+      pdf:
+        haml:
+          client_id: မွတ္ပံုတင္
+          client_name: ကေလးနာမည္
+          date_of_referral: လွှဲပြောင်း၏နေ့စွဲ
+          name_of_referee: ဒိုင်လူကြီး၏နာမကိုအမှီ
+          referral_phone: လႊဲေျပာင္းရမည့္ ဖုန္းနံပါတ္
+          referral_reason: လွှဲပြောင်းအကြောင်းပြချက်
+          referred_from: ကနေရည်ညွှန်း
+          referred_to: ရည်ညွှန်း
+      preview_download: အစမ္းၾကည့္႐ႈရန္ႏွင့္ ေဒါင္းလုတ္
       referral_phone: လႊဲေျပာင္းရမည့္ ဖုန္းနံပါတ္
       referral_reason: လွှဲပြောင်းအကြောင်းပြချက်
       referred_from: ကနေရည်ညွှန်း

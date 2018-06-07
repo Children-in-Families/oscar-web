@@ -2,15 +2,13 @@ class ReferralsController < AdminController
   load_and_authorize_resource
 
   before_action :find_client
-  # before_action :find_referred_to_ngo, only: :index
+  before_action :find_referral, only: [:show, :edit, :update]
 
   def index
-    if params[:referral_type].present?
-      if params[:referral_type] == 'referred_to'
-        @referrals = @client.referrals.where.not(referred_to: Organization.current.short_name)
-      else
-        @referrals = @client.referrals.where(referred_to: Organization.current.short_name, saved: true)
-      end
+    if params[:referral_type].presence == 'referred_to'
+      @referrals = @client.referrals.delivered.most_recents
+    else
+      @referrals = @client.referrals.received_and_saved.most_recents
     end
   end
 
@@ -32,19 +30,15 @@ class ReferralsController < AdminController
   end
 
   def edit
-    @referral = @client.referrals.find(params[:id])
+    authorize @referral
   end
 
   def show
     respond_to do |format|
-      format.html do
-        @referral = @client.referrals.find(params[:id])
-      end
+      format.html {}
       format.pdf do
         form           = params[:form]
-        @referred_to   = Organization.find_by(short_name: @referral.referred_to).try(:full_name)
-        @referred_from = Organization.find_by(short_name: @referral.referred_from).try(:full_name)
-        form_title     = "Referral Client To #{@referred_to}"
+        form_title     = "Referral Client To #{@referral.referred_to_ngo}"
         client_name    = @referral.client_name
         pdf_name       = "#{client_name} - #{form_title}"
         render  pdf:      pdf_name,
@@ -63,8 +57,7 @@ class ReferralsController < AdminController
   end
 
   def update
-    @referral = @client.referrals.find(params[:id])
-
+    authorize @referral
     if @referral.update_attributes(referral_params)
       redirect_to client_referral_path(@client, @referral), notice: t('.successfully_updated')
     else
@@ -74,10 +67,9 @@ class ReferralsController < AdminController
 
   private
 
-  # def find_referred_to_ngo
-  #   @referred_to_ngo = Organization.find_by(short_name: params[:ngo])
-  #   raise ActionController::RoutingError.new('Not Found') if @referred_to_ngo.nil?
-  # end
+  def find_referral
+    @referral = @client.referrals.find(params[:id])
+  end
 
   def find_client
     @client = Client.accessible_by(current_ability).friendly.find(params[:client_id])
