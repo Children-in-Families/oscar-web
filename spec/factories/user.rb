@@ -11,6 +11,7 @@ FactoryGirl.define do
     staff_performance_notification true
     task_notify true
     referral_notification false
+    mobile '012345678'
 
     trait :case_worker do
       roles 'case worker'

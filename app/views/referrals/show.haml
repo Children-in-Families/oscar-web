@@ -21,50 +21,50 @@
         %section.overflow-case
           %table.table.table-bordered
             %tr
-              %td.spacing-first-col
+              %td
                 = t('.client_name')
               %td
                 %strong= @referral.client_name
 
             %tr
-              %td.spacing-first-col
+              %td
                 = t('.client_id')
               %td
                 %strong= @referral.slug
 
             %tr
-              %td.spacing-first-col
+              %td
                 = t('.referred_from')
               %td
                 - referred_from = Organization.find_by(short_name: @referral.referred_from).try(:full_name)
                 %strong= referred_from
 
             %tr
-              %td.spacing-first-col
+              %td
                 = t('.referred_to')
               %td
                 - referred_to = Organization.find_by(short_name: @referral.referred_to).try(:full_name)
                 %strong= referred_to.present? ? referred_to : @referral.referred_to.titleize
 
             %tr
-              %td.spacing-first-col
+              %td
                 = t('.name_of_referee')
               %td
                 %strong= @referral.name_of_referee
 
             %tr
-              %td.spacing-first-col
+              %td
                 = t('.referral_phone')
               %td
                 %strong= @referral.referral_phone
 
             %tr
-              %td.spacing-first-col
+              %td
                 = t('.referral_reason')
               %td
                 %strong= @referral.referral_reason
             %tr
-              %td.spacing-first-col
+              %td
                 = t('.consent_form')
               %td
                 - if @referral.consent_form.present?
