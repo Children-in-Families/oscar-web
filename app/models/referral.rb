@@ -22,6 +22,7 @@ class Referral < ActiveRecord::Base
   private
 
   def check_saved_referral_in_target_ngo
+    return if referred_to == 'external referral'
     org = Organization.current
     Organization.switch_to referred_to
     is_saved = Referral.find_by(slug: slug).try(:saved)
