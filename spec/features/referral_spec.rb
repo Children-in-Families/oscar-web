@@ -17,18 +17,16 @@ describe 'Referral' do
       find('#mtp').click
     end
 
-    xscenario 'valid', js: true do
+    scenario 'valid' do
       find('#referral_date_of_referral').set Date.today
-      fill_in 'referral_client_name', with: client.name
-      fill_in 'referral_slug', with: client.slug
       fill_in 'referral_referred_from', with: Organization.current
       find("select#referral_referred_to option[value='external referral']", visible: false).select_option
       fill_in 'referral_referral_phone', with: user.mobile
       fill_in 'referral_referral_reason', with: FFaker::Lorem.paragraph
-      find('#referral_consent_form', visible: false).set(File.open(Rails.root.join('spec/supports/file.docx')))
+      find('#referral_consent_form', visible: false).set('spec/supports/file.docx')
       click_button 'Save'
       sleep 1
-      expect(page).to have_content(client.name)
+      expect(page).to have_content(client_2.name)
     end
 
     scenario 'invalid' do
