@@ -39,6 +39,7 @@ class Referral < ActiveRecord::Base
   private
 
   def check_saved_referral_in_target_ngo
+    return if referred_to == 'external referral'
     org = Organization.current
     return if self.non_oscar_ngo?
     Organization.switch_to referred_to
