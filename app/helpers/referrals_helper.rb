@@ -15,28 +15,15 @@ module ReferralsHelper
     referral.persisted? ? referral.referee_id : current_user.id
   end
 
-  def referred_from_hidden?
-    'hidden' if params[:referral_type].presence == 'referred_to'
+  def referred_from_hidden?(referral)
+    'hidden' if referral_type(referral) == 'referred_to'
   end
 
-  def referred_to_hidden?
-    'hidden' if params[:referral_type].presence == 'referred_from'
+  def referred_to_hidden?(referral)
+    'hidden' if referral_type(referral) == 'referred_from'
   end
 
-  def referred_from_ngo(referral)
-    Organization.find_by(short_name: referral.referred_from).try(:full_name)
-  end
-
-  def referred_to_ngo(referral)
-    referred_to = Organization.find_by(short_name: referral.referred_to).try(:full_name)
-    referred_to.present? ? referred_to : referral.referred_to.titleize
-  end
-
-  def saved_referral(referral)
-    return if referral.referred_to == 'external referral'
-    Organization.switch_to referral.referred_to
-    is_saved = Referral.find_by(slug: referral.slug, date_of_referral: referral.date_of_referral).try(:saved)
-    Organization.switch_to referral.referred_from
-    is_saved
+  def referral_type(referral)
+    current_organization.short_name == referral.try(:referred_to) ? 'referred_from' : 'referred_to'
   end
 end

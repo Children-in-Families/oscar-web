@@ -1449,6 +1449,7 @@ km:
       are_you_sure: តើអ្នកប្រាកដហើយ?
       birth_province: ស្រុកកំណើត
       cambodia: កម្ពុជា
+      case_histories: ប្រវត្តិនៃករណី
       case_history: ប្រវត្តិនៃករណី
       case_worker: បុគ្គលិកគ្រប់គ្រងករណី
       case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
@@ -1460,6 +1461,7 @@ km:
       current_province: ខេត្តបច្ចុប្បន្ន
       custom_id_number1: លេខកូដផ្ទាល់ខ្លួនទី១
       custom_id_number2: លេខកូដផ្ទាល់ខ្លួនទី២
+      date: កាលបរិចេ្ឆទ
       date_of_birth: ថ្ងៃ ខែ ឆ្នាំ កំណើត
       district: ស្រុក/ខណ្ឌ
       donor: ម្ចាស់ជំនួយ
@@ -3823,17 +3825,17 @@ km:
       save: រក្សាទុក
       save_and_download: រក្សាទុក & ទាញយក
     index:
-      add_referral: បន្ថែមទម្រង់បញ្ជូន
       cannot_edit_referral: អ្នកមិនអាចកែសម្រួលការបញ្ជូននេះបានទេដោយសារអង្គការគោលដៅបានទទួលយកការបញ្ជូននេះរួចទៅហើយ
       client_id: លេខសំគាល់អតិថិជន
       client_name: ឈ្មោះអតិថិជន
       consent_form: ទម្រង់​យល់ព្រម
       date_of_referral: កាលបរិច្ឆេទបញ្ជូន
+      detail: ពត៌មានលំអិត
       edit_btn: កែសម្រួល
-      manage: សកម្មភាព
       name_of_referee: ឈ្មោះអ្នកបញ្ជូន
-      referral_reason: មូលហេតុនៃការបញ្ជូន
+      referral_forms: ទម្រង់បញ្ជូន
       referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
+      referral_reason: មូលហេតុនៃការបញ្ជូន
       referred_from: ប្រភពនៃការបញ្ជូន
       referred_to: បញ្ជូនទៅកាន់
       select_ngos: ជ្រើសរើសអង្គការ
@@ -3850,6 +3852,17 @@ km:
       download_referral_form: ទាញយកទម្រង់បញ្ជូន
       external_referral_warning: អង្គការដែលអ្នកកំពុងព្យាយាមបញ្ជូនអតិថិជនរបស់អ្នកទៅ បច្ចុប្បន្ននេះមិនកំពុងប្រើ OSCaR ទេ។ សូមបោះពុម្ពច្បាប់ចម្លងនៃទម្រង់បញ្ជូននេះដើម្បីផ្ញើទៅអង្គការគោលដៅរបស់អ្នក។
       name_of_referee: ឈ្មោះអ្នកបញ្ជូន
+      pdf:
+        haml:
+          client_id: លេខសំគាល់អតិថិជន
+          client_name: ឈ្មោះអតិថិជន
+          date_of_referral: កាលបរិច្ឆេទបញ្ជូន
+          name_of_referee: ឈ្មោះអ្នកបញ្ជូន
+          referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
+          referral_reason: មូលហេតុនៃការបញ្ជូន
+          referred_from: ប្រភពនៃការបញ្ជូន
+          referred_to: បញ្ជូនទៅកាន់
+      preview_download: មើលនិងទាញយក
       referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
       referral_reason: មូលហេតុនៃការបញ្ជូន
       referred_from: ប្រភពនៃការបញ្ជូន

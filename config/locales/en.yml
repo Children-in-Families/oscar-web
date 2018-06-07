@@ -1363,6 +1363,7 @@ en:
       are_you_sure: Are you sure you want to delete?
       birth_province: Client Birth Province
       cambodia: Cambodia
+      case_histories: Case Histories
       case_history: Case History
       case_worker: Case Worker
       case_worker_or_staff: Case Worker / Staff
@@ -1374,6 +1375,7 @@ en:
       current_province: Current Province
       custom_id_number1: Custom ID Number 1
       custom_id_number2: Custom ID Number 2
+      date: Date
       date_of_birth: Date of Birth
       district: District/Khan
       donor: Donor
@@ -3760,17 +3762,17 @@ en:
       save: Save
       save_and_download: Save & Download
     index:
-      add_referral: Add Referral
       cannot_edit_referral: You cannot edit this referral because the target NGO already accepted this referral
       client_id: Client ID
       client_name: Client Name
       consent_form: Consent Form
       date_of_referral: Date of Referral
+      detail: Detail
       edit_btn: Edit
-      manage: Manage
       name_of_referee: Name of Referee
-      referral_reason: What is the reason for this referral?
+      referral_forms: Referral Forms
       referral_phone: Referral Phone
+      referral_reason: What is the reason for this referral?
       referred_from: Reffered From
       referred_to: Referred To
       select_ngos: Select NGOs
@@ -3782,10 +3784,21 @@ en:
       client_name: Client Name
       consent_form: Consent Form
       date_of_referral: Date of Referral
-      download_referral_form: Download Referral Form
+      download_referral_form: Download Printable Referral Form
       external_referral_warning: The NGO that you are attempting to refer your client to is not currently using OSCaR. Please print a copy of this referral form to send to your target organisation.
-      name_of_referee: Name of Referee
-      referral_phone: Referral Phone
+      name_of_referee: Case Worker Making the Referral
+      pdf:
+        haml:
+          client_id: Client ID
+          client_name: Client Name
+          date_of_referral: Date of Referral
+          name_of_referee: Case Worker Making the Referral
+          referral_phone: Contact Phone Number
+          referral_reason: What is the reason for this referral?
+          referred_from: Reffered From
+          referred_to: Referred To
+      preview_download: Preview & Download
+      referral_phone: Contact Phone Number
       referral_reason: What is the reason for this referral?
       referred_from: Reffered From
       referred_to: Referred To

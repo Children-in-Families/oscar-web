@@ -68,15 +68,69 @@ end
 
 describe Referral, 'scopes' do
   let!(:referral_1){ create(:referral, referred_from: 'Organization Testing', referred_to: 'demo') }
+  let!(:referral_2){ create(:referral, referred_from: 'Organization Testing', referred_to: 'demo', saved: true) }
+  let!(:referral_3){ create(:referral, referred_from: 'Demo', referred_to: 'app', saved: true) }
+  let!(:referral_4){ create(:referral, referred_from: 'Demo', referred_to: 'app') }
   context '.received' do
     it 'not return external referral' do
-      expect(Referral.received.ids).not_to include(referral_1.id)
+      expect(Referral.received.ids).to include(referral_3.id, referral_4.id)
+      expect(Referral.received.ids).not_to include(referral_1.id, referral_2.id)
     end
   end
 
   context '.unsaved' do
     it 'returns external referral which has not been saved by target NGO' do
       expect(Referral.unsaved.ids).to include(referral_1.id)
+      expect(Referral.unsaved.ids).not_to include(referral_2.id)
+    end
+  end
+
+  context '.saved' do
+    it 'returns external referral which has already been saved by target NGO' do
+      expect(Referral.saved.ids).to include(referral_2.id)
+      expect(Referral.saved.ids).not_to include(referral_1.id)
+    end
+  end
+
+  context '.received_and_saved' do
+    it 'returns referrals which are received and saved' do
+      expect(Referral.received_and_saved.ids).to include(referral_3.id)
+      expect(Referral.received_and_saved.ids).not_to include(referral_1.id, referral_2.id)
+    end
+  end
+
+  context '.most_recents' do
+    it 'returns referrals in descending order' do
+      expect(Referral.most_recents.ids).to match_array([referral_4.id, referral_3.id, referral_2.id, referral_1.id])
+    end
+  end
+
+  context '.delivered' do
+    it 'returns external referrals' do
+      expect(Referral.delivered.ids).to include(referral_1.id, referral_2.id)
+      expect(Referral.delivered.ids).not_to include(referral_3.id, referral_4.id)
+    end
+  end
+end
+
+describe Referral, 'methods' do
+  let!(:referral_1){ create(:referral, referred_from: 'Organization Testing', referred_to: 'demo') }
+
+  context '#non_oscar_ngo?' do
+    it 'returns true/false whether target NGO is not using OSCaR' do
+      expect(referral_1.non_oscar_ngo?).to be_falsey
+    end
+  end
+
+  context '#referred_to_ngo' do
+    it 'returns full name of target NGo' do
+      expect(referral_1.referred_to_ngo).to eq('Demo')
+    end
+  end
+
+  context '#referred_from_ngo' do
+    it 'returns full name of referring NGO' do
+      expect(referral_1.referred_from_ngo).to eq('Organization Testing')
     end
   end
 end

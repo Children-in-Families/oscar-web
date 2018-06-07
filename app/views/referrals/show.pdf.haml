@@ -7,40 +7,40 @@
         %section.overflow-case
           %table.table.table-bordered
             %tr
-              %td.spacing-first-col Date of Referral
+              %td= t('.date_of_referral')
               %td
                 %strong= date_format(@referral.date_of_referral)
             %tr
-              %td.spacing-first-col Client Name
+              %td= t('.client_name')
               %td
                 %strong= @referral.client_name
 
             %tr
-              %td.spacing-first-col Client ID
+              %td= t('.client_id')
               %td
                 %strong= @referral.slug
 
             %tr
-              %td.spacing-first-col Referred From
+              %td= t('.referred_from')
               %td
-                %strong= @referred_from
+                %strong= @referral.referred_from_ngo
 
             %tr
-              %td.spacing-first-col Referred To
+              %td= t('.referred_to')
               %td
-                %strong= @referred_to
+                %strong= @referral.referred_to_ngo
 
             %tr
-              %td.spacing-first-col Case Worker Making The Referral
+              %td= t('.name_of_referee')
               %td
                 %strong= @referral.name_of_referee
 
             %tr
-              %td.spacing-first-col Contact Phone Number
+              %td= t('.referral_phone')
               %td
                 %strong= @referral.referral_phone
 
             %tr
-              %td.spacing-first-col What is the reason for the referral?
+              %td= t('.referral_reason')
               %td
                 %strong= @referral.referral_reason

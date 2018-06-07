@@ -32,7 +32,7 @@ module AdvancedSearches
       when 'greater'
         clients = SharedClient.where.not("shared_clients.#{@field} > ?", @values)
       when 'greater_or_equal'
-        clients = SharedClient.where.not("shared_clients.#{@field} <= ?", @values)
+        clients = SharedClient.where.not("shared_clients.#{@field} >= ?", @values)
       when 'contains'
         clients = SharedClient.where.not("shared_clients.#{@field} ILIKE ?", @values)
       when 'not_contains'
