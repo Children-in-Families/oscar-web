@@ -430,21 +430,12 @@ class Client < ActiveRecord::Base
     referral.update_attributes(client_id: id, saved: true) if referral.present?
   end
 
-  # def filter
-  #   current_org = Organization.current
-  #   # clients = Client.where(given_name: 'ACB')
-  #   Organization.switch_to 'shared'
-  #   slugs = Client.where(given_name: 'ABC').pluck(:slug)
-  #   Organization.switch_to current_org.short_name
-  #   Client.where(slug: slug)
-  # end
-
   def create_or_update_shared_client
     current_org = Organization.current
     client = self.slice(:given_name, :family_name, :local_given_name, :local_family_name, :gender, :date_of_birth, :telephone_number, :live_with, :slug, :birth_province_id)
     Organization.switch_to 'shared'
     shared_client = SharedClient.find_by(slug: client['slug'])
-    shared_client.present? ? shared_client.update_columns(client) : SharedClient.create(client)
+    shared_client.present? ? shared_client.update(client) : SharedClient.create(client)
     Organization.switch_to current_org.short_name
   end
 end

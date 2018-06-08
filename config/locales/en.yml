@@ -1072,6 +1072,7 @@ en:
     destroy:
       successfully_deleted: Client has been successfully deleted.
     edit:
+      download_supporting_document: Download Supporting Document
       edit_client_title: Edit Client
     emergency_case:
       carer_address: Carer Address
@@ -1316,6 +1317,7 @@ en:
       what3words: What3words
 
     new:
+      download_supporting_document: Download Supporting Document
       new_client_title: New Client
 
     other_detail:

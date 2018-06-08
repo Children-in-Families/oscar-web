@@ -1157,6 +1157,7 @@ km:
     destroy:
       successfully_deleted: អតិថិជនត្រូវបានលុបដោយជោគជ័យ
     edit:
+      download_supporting_document: ទាញយកឯកសារផ្គត់ផ្ទង់
       edit_client_title: ពិនិត្យកែសម្រួលព័ត៌មានអតិថិជន
     emergency_case:
       carer_address: អាសយដ្ឋានអ្នកថែទាំ
@@ -1402,6 +1403,7 @@ km:
       what3words: What3words
 
     new:
+      download_supporting_document: ទាញយកឯកសារផ្គត់ផ្គង់
       new_client_title: បន្ថែមអតិថិជនថ្មី
 
     other_detail:
