@@ -367,13 +367,16 @@ module ClientsHelper
 
   def case_history_label(value)
     label = case value.class.table_name
-    when 'enter_ngos' then 'NGO Accept Date'
-    when 'exit_ngos' then 'NGO Exit Date'
+    when 'enter_ngos' then t('.accepted_date')
+    when 'exit_ngos' then t('.exit_date')
     when 'client_enrollments' then "#{value.program_stream.name} Entry"
     when 'leave_programs' then "#{value.program_stream.name} Exit"
     when 'referrals'
-      prefix = value.referred_to == current_organization.short_name ? 'Internal Referral' : 'External Referral'
-      "#{prefix}: #{value.referred_to_ngo}"
+      if value.referred_to == current_organization.short_name
+        "#{t('.internal_referral')}: #{value.referred_from_ngo}"
+      else
+        "#{t('.external_referral')}: #{value.referred_to_ngo}"
+      end
     end
     label
   end

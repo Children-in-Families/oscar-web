@@ -1008,6 +1008,26 @@ en:
     answer_fields:
       answer: Answer
       yes_no: Yes/No
+    case_history_detail:
+      accepted_date: NGO Accept Date
+      client_id: Client ID
+      client: Client
+      consent_form: Consent Form
+      date_of_referral: Date of Referral
+      enrollment_date: Enrollment Date
+      exit_circumstance: Exit Circumstance
+      exit_date: NGO Exit Date
+      exit_note: Exit Note
+      exit_program_date: Exit Program Date
+      exit_reasons: Reason for Exit / Case Rejection
+      external_referral: External Referral
+      internal_referral: Internal Referral
+      name_of_referee: Name Of Referee
+      referee_phone_number: Referee Phone Number
+      referral_reasons: Referral Reasons
+      referred_from: Referred from External Organisation
+      referred_to: Referred to External Organisation
+      other_info_of_exit: Other - More Information
     client_advanced_searches:
       advanced_search:
         add_new_filter: Add New Filter
@@ -1391,6 +1411,7 @@ en:
       exit_ngo_information: Exit NGO Information
       exit_note: Exit Note
       exit_reasons: Reason for Exit / Case Rejection
+      external_referral: External Referral
       families: Families
       family_name: Family Name (English)
       follow_up_by: First Follow-Up By
@@ -1412,6 +1433,7 @@ en:
       id: ID
       id_poor: ID Poor
       initial_referral_date: Initial Referral Date
+      internal_referral: Internal Referral
       is_the_client_rated_for_id_poor: Is the client rated for ID poor
       kid_id: Custom ID Number2
       live_with: Primary Carer Name

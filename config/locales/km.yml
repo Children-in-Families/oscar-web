@@ -1093,6 +1093,26 @@ km:
     answer_fields:
       answer: ចម្លើយ
       yes_no: បាទ/អត់ទេ
+    case_history_detail:
+      accepted_date: កាលបរិច្ឆេទទទួលយកចូលអង្គការ
+      client_id: លេខសំគាល់អតិថិជន
+      client: ឈ្មោះអតិថិជន
+      consent_form: ទម្រង់យល់ព្រម
+      date_of_referral: កាលបរិច្ឆេទបញ្ជូន
+      enrollment_date: កាលបរិច្ឆេទចុះឈ្មោះ
+      exit_circumstance: ស្ថានភាពនៃការចាកចេញ
+      exit_date: ថ្ងៃចាកចេញពីអង្គការ
+      exit_note: កំណត់ហេតុនៃការចាកចេញ
+      exit_program_date: ថ្ងៃចាកចេញពីកម្មវិធី
+      exit_reasons: មូលហេតុនៃការចាកចេញ
+      external_referral: ផ្ទេរចេញទៅ
+      internal_referral: ផ្ទេរចូលពី
+      name_of_referee: ឈ្មោះអ្នកបញ្ជូន
+      referee_phone_number: លេខទូរស័ព្ទអ្នកបញ្ជូន
+      referral_reasons: មូលហេតុនៃការបញ្ជូន
+      referred_from: ទទួលចូលអង្គការ
+      referred_to: បញ្ជូនទៅអង្គការដទៃ
+      other_info_of_exit: ព័ត៌មានបន្ថែមនៃការចាកចេញ
     client_advanced_searches:
       advanced_search:
         add_new_filter: បន្ថែមលក្ខខ័ណ្ឌថ្មី
@@ -1477,6 +1497,7 @@ km:
       exit_ngo_information: ព័ត៌មានចាកចេញពីអង្គការ
       exit_note: កំណត់ហេតុនៃការចាកចេញ
       exit_reasons: មូលហេតុនៃការចាកចេញ
+      external_referral: ផ្ទេរចេញទៅ
       families: គ្រួសារ
       family_name: នាមត្រកូលជាអក្សរឡាតាំង
       follow_up_by: បុគ្គលិកតាមដានករណី
@@ -1498,6 +1519,7 @@ km:
       id: លេខសំគាល់
       id_poor: កំរិតប័ណ្ណក្រីក្រ
       initial_referral_date: កាលបរិចេ្ឆទនៃការបញ្ជូនដំបូង
+      internal_referral: ផ្ទេរចូលពី
       is_the_client_rated_for_id_poor: តើអតិថិជនត្រូវបានវាយតម្លៃថាអត្តសញ្ញាណក្រីក្រឬទេ
       kid_id: លេខកូដឣតិថិជន
       live_with: រស់នៅជាមួយ

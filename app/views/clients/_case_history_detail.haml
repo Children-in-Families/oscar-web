@@ -14,39 +14,39 @@
             - case case_history
             - when 'enter_ngos'
               %tr
-                %td Accepted Date
+                %td= t('.accepted_date')
                 %td= date_format(object.accepted_date)
             - when 'exit_ngos'
               %tr
-                %td Exited Date
+                %td= t('.exit_date')
                 %td= date_format(object.exit_date)
               %tr
-                %td Exit Circumstance
+                %td= t('.exit_circumstance')
                 %td= object.exit_circumstance
               %tr
-                %td Other Info of Exit
+                %td= t('.other_info_of_exit')
                 %td= object.other_info_of_exit
               %tr
-                %td Exit Reasons
+                %td= t('.exit_reasons')
                 %td= object.exit_reasons
               %tr
-                %td Exit Note
+                %td= t('.exit_note')
                 %td= object.exit_note
             - when 'client_enrollments'
               %tr
-                %td Enrollment Date
+                %td= t('.enrollment_date')
                 %td= date_format(object.enrollment_date)
               - object.program_stream.enrollment.map{|properties| [properties['type'], properties['label']]}.each do |type, key|
                 - unless type == 'separateLine'
                   - if type == 'paragraph'
                     %tr
-                      %td.align-justify{colspan: '2'}
+                      %td{colspan: '2'}
                         = key.html_safe
                   - else
                     %tr
-                      %td.align-justify
+                      %td
                         = key.html_safe
-                      %td.align-justify
+                      %td
                         - key = convert_bracket(key)
                         - if type == 'file'
                           = render 'shared/form_builder/list_attachment', label: key, resource: object
@@ -54,19 +54,19 @@
                           = display_custom_properties(object.properties[key])
             - when 'leave_programs'
               %tr
-                %td Exit Date
+                %td= t('.exit_program_date')
                 %td= date_format(object.exit_date)
               - object.program_stream.exit_program.map{|properties| [properties['type'], properties['label']]}.each do |type, key|
                 - unless type == 'separateLine'
                   - if type == 'paragraph'
                     %tr
-                      %td.align-justify{colspan: '2'}
+                      %td{colspan: '2'}
                         = key.html_safe
                   - else
                     %tr
-                      %td.align-justify
+                      %td
                         = key.html_safe
-                      %td.align-justify
+                      %td
                         - key = convert_bracket(key)
                         - if type == 'file'
                           = render 'shared/form_builder/list_attachment', label: key, resource: object
@@ -74,29 +74,29 @@
                           = display_custom_properties(object.properties[key])
             - when 'referrals'
               %tr
-                %td Client ID
+                %td= t('.client_id')
                 %td= object.slug
               %tr
-                %td Client
+                %td= t('.client')
                 %td= object.client_name
               %tr
-                %td Date of Referral
+                %td= t('.date_of_referral')
                 %td= date_format(object.date_of_referral)
               %tr
-                %td Referrered From
-                %td= object.referred_from
+                %td= t('.referred_from')
+                %td= object.referred_from_ngo
               %tr
-                %td Referred To
-                %td= object.referred_to
+                %td= t('.referred_to')
+                %td= object.referred_to_ngo
               %tr
-                %td Name of Referee
+                %td= t('.name_of_referee')
                 %td= object.name_of_referee
               %tr
-                %td Referral Phone
+                %td= t('.referee_phone_number')
                 %td= object.referral_phone
               %tr
-                %td Referral Reason
+                %td= t('.referral_reasons')
                 %td= object.referral_reason
               %tr
-                %td Consent Forms
+                %td= t('.consent_form')
                 %td= original_filename(object.consent_form)
