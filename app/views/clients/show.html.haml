@@ -402,7 +402,7 @@
                   - @case_histories.each_with_index do |case_history, index|
                     %tr
                       %td= case_history_label(case_history)
-                      %td= case_history.new_date
+                      %td= date_format(case_history.new_date)
                       %td.text-center
                         %button.btn.btn-outline.btn-primary.btn-xs{'data-target' => "#case_history_#{index}", 'data-toggle' => 'modal'}= fa_icon('eye')
                         = render 'case_history', object: case_history, index: index
