@@ -1017,6 +1017,26 @@ my:
     answer_fields:
       answer: အေျဖ
       yes_no: ဟုတ္တယ္/ မဟုတ္ဘူး
+    case_history_detail:
+      accepted_date: လက်ခံခဲ့သည်နေ့စွဲ
+      client_id: မွတ္ပံုတင္
+      client: ကေလးနာမည္
+      consent_form: သဘောတူညီချက်ပုံစံ
+      date_of_referral: လွှဲပြောင်း၏နေ့စွဲ
+      enrollment_date: အစီအစဥ္တြင္ ၀င္ေရာက္သည့္ ရက္စြဲ
+      exit_circumstance: ထွက်ပေါက်အခြေအနေ
+      exit_date: ထြက္သည့္မွတ္စု
+      exit_note: ထြက္သည့္မွတ္စု
+      exit_program_date: အဆိုပါအစီအစဉ်ကိုစွန့်ခွာတွင်
+      exit_reasons: ထွက်ပေါက်ဘို့အကြောင်းပြချက်
+      external_referral: ထွက်လွှဲပြောင်း
+      internal_referral: ကနေပြောင်းရွှေ့
+      name_of_referee: ဒိုင်လူကြီး၏နာမကိုအမှီ
+      referee_phone_number: ဒိုင်လူကြီးဖုန်းနံပါတ်ကို
+      referral_reasons: လွှဲပြောင်းအကြောင်းပြချက်
+      referred_from: ကနေရည်ညွှန်း
+      referred_to: ကနေရည်ညွှန်း
+      other_info_of_exit: အခြားအ - နောက်ထပ်သတင်းအချက်အလက်များ
     client_advanced_searches:
       advanced_search:
         add_new_filter: စိစစ္ျခင္းအသစ္ထပ္ထည့္ရန္
@@ -1404,6 +1424,7 @@ my:
       exit_ngo_information: ထွက်ပေါက်အန်ဂျီအိုသတင်းအချက်အလက်များ
       exit_note: ထြက္သည့္ မွတ္စု
       exit_reasons: ထွက်ပေါက်ဘို့အကြောင်းပြချက်
+      external_referral: ထွက်လွှဲပြောင်း
       families: မိသားစုမ်ား
       family_name: မိသားစုနာမည္
       follow_up_by: မွ ဆက္လက္ေဆာင္ရြက္သည္
@@ -1425,6 +1446,7 @@ my:
       id: မွတ္ပံုတင္
       id_poor: လူဆင္းရဲ မွတ္ပံုတင္
       initial_referral_date: ကနဦး လႊဲေျပာင္းသည့္ ရက္စြဲ
+      internal_referral: ကနေပြောင်းရွှေ့
       is_the_client_rated_for_id_poor: အဆိုပါလိုင်း ID ကိုညံ့ဖျင်းသည်အဆင့်သတ်မှတ်ထားသည်ထားသည်
       kid_id: ကေလး မွတ္ပံုတင္
       live_with: အတူေနသူ
