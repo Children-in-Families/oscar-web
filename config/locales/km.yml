@@ -1177,6 +1177,7 @@ km:
     destroy:
       successfully_deleted: អតិថិជនត្រូវបានលុបដោយជោគជ័យ
     edit:
+      download_supporting_document: ទាញយកឯកសារផ្គត់ផ្ទង់
       edit_client_title: ពិនិត្យកែសម្រួលព័ត៌មានអតិថិជន
     emergency_case:
       carer_address: អាសយដ្ឋានអ្នកថែទាំ
@@ -1422,6 +1423,7 @@ km:
       what3words: What3words
 
     new:
+      download_supporting_document: ទាញយកឯកសារផ្គត់ផ្គង់
       new_client_title: បន្ថែមអតិថិជនថ្មី
 
     other_detail:
@@ -1483,6 +1485,7 @@ km:
       custom_id_number2: លេខកូដផ្ទាល់ខ្លួនទី២
       date: កាលបរិចេ្ឆទ
       date_of_birth: ថ្ងៃ ខែ ឆ្នាំ កំណើត
+      detail: ពត៌មានលំអិត
       district: ស្រុក/ខណ្ឌ
       donor: ម្ចាស់ជំនួយ
       edit_exit_information: កែសម្រួលព័ត៌មាននៃការចាកចេញ

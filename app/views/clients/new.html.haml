@@ -10,6 +10,6 @@
             %h5= "Client ID - #{current_organization.short_name} ###"
         .consent-forms
           - if @referral.present? && @referral.consent_form.present?
-            = link_to t('.download_supporting_documents'), @referral.consent_form.url, class: 'btn btn-info btn-sm btn-download', target: target_blank(@referral.consent_form)
+            = link_to t('.download_supporting_document'), @referral.consent_form.url, class: 'btn btn-info btn-sm btn-download', target: target_blank(@referral.consent_form)
       .ibox-content
         = render 'form'

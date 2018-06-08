@@ -1101,6 +1101,7 @@ my:
     destroy:
       successfully_deleted: အမႈသည္ကို ေအာင္ျမင္စြာ ဖ်က္ၿပီးပါၿပီ
     edit:
+      download_supporting_document: ဒေါင်းလုပ်ထောက်ပံ့စာရွက်စာတမ်း
       edit_client_title: အမႈသည္ကို ျပင္ဆင္ရန္
     emergency_case:
       carer_address: ေစာင့္ေရွာက္သူ လိပ္စာ
@@ -1344,6 +1345,7 @@ my:
       what3words: What3words
 
     new:
+      download_supporting_document: ဒေါင်းလုပ်ထောက်ပံ့စာရွက်စာတမ်း
       new_client_title: အမႈသည္အသစ္
 
     other_detail:
@@ -1405,6 +1407,7 @@ my:
       custom_id_number2: Custom ID Number2
       date: နေ့စှဲ
       date_of_birth: ေမြးရက္၊ လ၊ ႏွစ္
+      detail: အစီအစဥ္ အေသးစိတ္
       district: ခ႐ိုင္
       donor: အလွဴရွင္
       edit_exit_information: Edit Exit Information

@@ -18,7 +18,7 @@ module Api
           if referral.saved?
             client = Client.find_by(slug: params[:clientId])
             date_of_reject = date_format(client.exit_ngos.last.try(:exit_date))
-            client.status == 'Exited'? { text: "exited client", date: "#{date_of_reject}" } : { text: 'already exist' }
+            client.exit_ngo? ? { text: "exited client", date: "#{date_of_reject}" } : { text: 'already exist' }
           else
             { text: 'already referred' }
           end

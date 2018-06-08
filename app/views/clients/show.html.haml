@@ -397,7 +397,7 @@
                   %tr
                     %th= t('.case_histories')
                     %th= t('.date')
-                    %th= t('.manage')
+                    %th.text-center= t('.detail')
                 %tbody
                   - @case_histories.each_with_index do |case_history, index|
                     %tr
