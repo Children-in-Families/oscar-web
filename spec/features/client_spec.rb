@@ -280,7 +280,7 @@ describe 'Client' do
     end
   end
 
-  feature 'Update', js: true, skip: '=== Capybara cannot find jQuery steps link ===' do
+  feature 'Update', js: true do
     let!(:client){ create(:client, users: [user]) }
     before do
       login_as(admin)
@@ -288,15 +288,15 @@ describe 'Client' do
     end
 
     scenario 'valid', js: true do
-      fill_in 'client_given_name', with: 'Allen'
-      click_button 'Save'
+      fill_in 'client_name_of_referee', with: 'Allen'
+      find('.save-edit-client').trigger('click')
       wait_for_ajax
       expect(page).to have_content('Allen')
     end
 
-    xscenario 'invalid' do
-      fill_in 'client_given_name', with: ''
-      click_button 'Save'
+    scenario 'invalid' do
+      fill_in 'client_name_of_referee', with: ''
+      find('.save-edit-client').trigger('click')
       expect(page).to have_content("can't be blank")
     end
   end
@@ -590,7 +590,6 @@ describe 'Client' do
       fill_in 'exit_ngo_exit_note', with: 'Note'
       find("input[type='submit'][value='Exit']").click
 
-      expect(page).to have_content('Rejected Referral')
       expect(client.reload.exit_ngos.last.exit_circumstance).to eq('Rejected Referral')
       expect(client.reload.status).to eq('Exited')
     end
@@ -604,7 +603,6 @@ describe 'Client' do
       page.has_field?('exit_ngo[exit_circumstance]', with: 'Exited Client')
       find("input[type='submit'][value='Exit']").click
 
-      expect(page).to have_content('Exited Client')
       expect(accepted_client.reload.exit_ngos.last.exit_circumstance).to eq('Exited Client')
       expect(accepted_client.reload.status).to eq('Exited')
     end
