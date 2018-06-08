@@ -18,6 +18,7 @@ class ClientsController < AdminController
   before_action :find_resources, only: :show
   before_action :quantitative_type_editable, only: [:edit, :update, :new, :create]
   before_action :quantitative_type_readable
+  before_action :validate_referral, only: [:new, :edit]
 
   def index
     @client_default_columns = Setting.first.try(:client_default_columns)
@@ -276,7 +277,7 @@ class ClientsController < AdminController
 
   def find_referral_by_params
     @referral = Referral.find_by(id: params[:referral_id])
-    raise ActionController::RoutingError.new('Not Found') if @referral.nil?
+    raise ActiveRecord::RecordNotFound if @referral.nil?
   end
 
   def find_referral_source_by_referral
@@ -292,5 +293,10 @@ class ClientsController < AdminController
       name_of_referee: @referral.name_of_referee,
       referral_source_id: referral_source_id
     })
+  end
+
+  def validate_referral
+    find_referral_by_params
+    redirect_to root_path, alert: t('.referral_has_already_been_saved') if @referral.saved?
   end
 end

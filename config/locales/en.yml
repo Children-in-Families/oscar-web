@@ -1074,6 +1074,7 @@ en:
     edit:
       download_supporting_document: Download Supporting Document
       edit_client_title: Edit Client
+      referral_has_already_been_saved: Referral has already been saved
     emergency_case:
       carer_address: Carer Address
       carer_names: Carer Names
@@ -1319,6 +1320,7 @@ en:
     new:
       download_supporting_document: Download Supporting Document
       new_client_title: New Client
+      referral_has_already_been_saved: Referral has already been saved
 
     other_detail:
       agencies_involved: Other Agencies Involved

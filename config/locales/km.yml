@@ -1159,6 +1159,7 @@ km:
     edit:
       download_supporting_document: ទាញយកឯកសារផ្គត់ផ្ទង់
       edit_client_title: ពិនិត្យកែសម្រួលព័ត៌មានអតិថិជន
+      referral_has_already_been_saved: ការបញ្ជូនត្រូវបានរក្សាទុករួចហើយ
     emergency_case:
       carer_address: អាសយដ្ឋានអ្នកថែទាំ
       carer_names: ឈ្មោះអ្នកថែទាំ
@@ -1405,6 +1406,7 @@ km:
     new:
       download_supporting_document: ទាញយកឯកសារផ្គត់ផ្គង់
       new_client_title: បន្ថែមអតិថិជនថ្មី
+      referral_has_already_been_saved: ការបញ្ជូនត្រូវបានរក្សាទុករួចហើយ
 
     other_detail:
       agencies_involved: អង្គភាពពាក់ព័ន្ធ
