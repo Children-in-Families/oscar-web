@@ -5,8 +5,8 @@ FactoryGirl.define do
   factory :referral do
     slug "MyString"
     date_of_referral Date.today
-    referred_to "app"
-    referred_from "demo"
+    referred_to "mtp"
+    referred_from "Organization Testing"
     referral_reason FFaker::Lorem.paragraph
     name_of_referee FFaker::Name.name
     referral_phone FFaker::PhoneNumber.phone_number

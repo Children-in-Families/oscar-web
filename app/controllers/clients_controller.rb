@@ -296,6 +296,7 @@ class ClientsController < AdminController
   end
 
   def validate_referral
+    return if params[:referral_id].blank?
     find_referral_by_params
     redirect_to root_path, alert: t('.referral_has_already_been_saved') if @referral.saved?
   end
