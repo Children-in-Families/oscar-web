@@ -1385,6 +1385,7 @@ my:
       custom_id_number2: Custom ID Number2
       date: နေ့စှဲ
       date_of_birth: ေမြးရက္၊ လ၊ ႏွစ္
+      detail: အစီအစဥ္ အေသးစိတ္
       district: ခ႐ိုင္
       donor: အလွဴရွင္
       edit_exit_information: Edit Exit Information

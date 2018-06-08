@@ -1377,6 +1377,7 @@ en:
       custom_id_number2: Custom ID Number 2
       date: Date
       date_of_birth: Date of Birth
+      detail: Detail
       district: District/Khan
       donor: Donor
       edit_exit_information: Edit Exit Information
