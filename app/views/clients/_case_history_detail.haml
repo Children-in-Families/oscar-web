@@ -28,7 +28,7 @@
                 %td= object.other_info_of_exit
               %tr
                 %td= t('.exit_reasons')
-                %td= object.exit_reasons
+                %td= object.exit_reasons if object.exit_reasons.any?
               %tr
                 %td= t('.exit_note')
                 %td= object.exit_note
