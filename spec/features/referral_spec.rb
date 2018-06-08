@@ -11,27 +11,27 @@ describe 'Referral' do
   end
 
   feature 'Create' do
-    before do
-      visit client_path(client_2)
-      find('#add-referral-btn').click
-      find('#mtp').click
-    end
+    feature 'can refer to other NGO' do
+      before do
+        visit client_path(client_2)
+        find('#add-referral-btn').click
+        find('#mtp').click
+      end
 
-    scenario 'valid' do
-      find('#referral_date_of_referral').set Date.today
-      fill_in 'referral_referred_from', with: Organization.current
-      find("select#referral_referred_to option[value='external referral']", visible: false).select_option
-      fill_in 'referral_referral_phone', with: user.mobile
-      fill_in 'referral_referral_reason', with: FFaker::Lorem.paragraph
-      find('#referral_consent_form', visible: false).set('spec/supports/file.docx')
-      click_button 'Save'
-      sleep 1
-      expect(page).to have_content(client_2.name)
-    end
+      scenario 'valid' do
+        find("select#referral_referred_to option[value='external referral']", visible: false).select_option
+        expect(page).to have_content('The NGO that you are attempting to refer your client to is not currently using OSCaR.')
+        fill_in 'referral_referral_reason', with: FFaker::Lorem.paragraph
+        find('#referral_consent_form', visible: false).set('spec/supports/file.docx')
+        click_button 'Save'
+        sleep 1
+        expect(page).to have_content(client_2.name)
+      end
 
-    scenario 'invalid' do
-      find('.btn-save').click
-      expect(page).to have_content("can't be blank")
+      scenario 'invalid' do
+        find('.btn-save').click
+        expect(page).to have_content("can't be blank")
+      end
     end
 
     scenario 'already referred', js: true do
@@ -80,7 +80,7 @@ describe 'Referral' do
     end
 
     scenario 'list referred from external organization' do
-      click_button 'Referral Forms'
+      find('#add-referral-btn').click
       click_link 'Referred from External Organisation'
       expect(page).to have_content('Reffered From')
     end
