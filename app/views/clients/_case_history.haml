@@ -15,11 +15,11 @@
             - when 'enter_ngos'
               %tr
                 %td Accepted Date
-                %td= object.accepted_date
+                %td= date_format(object.accepted_date)
             - when 'exit_ngos'
               %tr
                 %td Exited Date
-                %td= object.exit_date
+                %td= date_format(object.exit_date)
               %tr
                 %td Exit Circumstance
                 %td= object.exit_circumstance
@@ -35,7 +35,7 @@
             - when 'client_enrollments'
               %tr
                 %td Enrollment Date
-                %td= object.enrollment_date
+                %td= date_format(object.enrollment_date)
               - object.program_stream.enrollment.map{|properties| [properties['type'], properties['label']]}.each do |type, key|
                 - unless type == 'separateLine'
                   - if type == 'paragraph'
@@ -55,7 +55,7 @@
             - when 'leave_programs'
               %tr
                 %td Exit Date
-                %td= object.exit_date
+                %td= date_format(object.exit_date)
               - object.program_stream.exit_program.map{|properties| [properties['type'], properties['label']]}.each do |type, key|
                 - unless type == 'separateLine'
                   - if type == 'paragraph'
@@ -81,7 +81,7 @@
                 %td= object.client_name
               %tr
                 %td Date of Referral
-                %td= object.date_of_referral
+                %td= date_format(object.date_of_referral)
               %tr
                 %td Referrered From
                 %td= object.referred_from
