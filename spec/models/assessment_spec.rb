@@ -174,10 +174,18 @@ describe Assessment, 'callbacks' do
 
   context 'client_must_not_over_18' do
     let!(:client) { create(:client, date_of_birth: 18.years.ago.to_date) }
+    let!(:client_1) { create(:client, date_of_birth: 11.years.ago.to_date) }
+    let!(:existing_assessment) { create(:assessment, client: client_1)}
 
-    it 'should return error message for client who is over 18' do
+    it 'return error message if new record' do
       assessment = Assessment.create(client: client)
       expect(assessment.errors.full_messages).to include('Assessment cannot be created for client who is over 18.')
+    end
+
+    it 'not return error message if existing record' do
+      client_1.update(date_of_birth: 18.years.ago.to_date)
+      existing_assessment.update(client: client_1)
+      expect(existing_assessment.errors.full_messages).not_to include('Assessment cannot be created for client who is over 18.')
     end
   end
 
