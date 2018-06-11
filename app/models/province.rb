@@ -12,7 +12,10 @@ class Province < ActiveRecord::Base
 
   scope :birth_places, -> { joins('RIGHT JOIN clients ON clients.birth_province_id = Provinces.id').uniq }
 
-  validates :name, presence: true, uniqueness: { case_sensitive: false }
+  scope :cambodia, -> { where(country: 'cambodia') }
+  scope :thailand, -> { where(country: 'thailand') }
+
+  validates :name, presence: true, uniqueness: { case_sensitive: false, scope: :country }
 
   def removeable?
     families.count.zero? && partners.count.zero? && users.count.zero? && clients.count.zero? && cases.count.zero?

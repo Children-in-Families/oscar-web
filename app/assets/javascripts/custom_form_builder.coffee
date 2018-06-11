@@ -16,8 +16,10 @@ class CIF.CustomFormBuilder
     self = @
     onadd: (fld) ->
       $('.subtype-wrap, .className-wrap, .access-wrap').hide()
+      self.handleCheckingForm()
     onclone: (fld) ->
       $('.subtype-wrap, .className-wrap, .access-wrap').hide()
+      self.handleCheckingForm()
 
   eventCheckboxOption: ->
     self = @

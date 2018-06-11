@@ -102,3 +102,4 @@
 //= require settings/index
 //= require prevent_required_file_uploader
 //= require format_special_characters
+//= require referrals/form

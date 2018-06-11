@@ -1,0 +1,64 @@
+.row
+  .col-xs-12.col-sm-12.col-md-12
+    .ibox
+      .ibox-title
+        .text-right
+          - if @referral.non_oscar_ngo?
+            = link_to client_referral_path(@client, @referral, format: :pdf), class: 'btn btn-outline btn-info', target: :_blank do
+              = t('.download_referral_form')
+          - if policy(@referral).edit?
+            = link_to edit_client_referral_path(@client, @referral, referral_type: params[:referral_type]), class: 'button btn btn-outline btn-success ' do
+              = fa_icon('pencil')
+
+      .ibox-content
+        %section.overflow-case
+          %table.table.table-bordered
+            %tr
+              %td= t('.date_of_referral')
+              %td
+                %strong= date_format(@referral.date_of_referral)
+
+            %tr
+              %td= t('.client_name')
+              %td
+                %strong= @referral.client_name
+
+            %tr
+              %td= t('.client_id')
+              %td
+                %strong= @referral.slug
+
+            %tr
+              %td= t('.referred_from')
+              %td
+                %strong= @referral.referred_from_ngo
+
+            %tr
+              %td= t('.referred_to')
+              %td
+                %strong= @referral.referred_to_ngo
+
+            %tr
+              %td= t('.name_of_referee')
+              %td
+                %strong= @referral.name_of_referee
+
+            %tr
+              %td= t('.referral_phone')
+              %td
+                %strong= @referral.referral_phone
+
+            %tr
+              %td= t('.referral_reason')
+              %td
+                %strong= @referral.referral_reason
+            %tr
+              %td
+                = t('.consent_form')
+              %td
+                - if @referral.consent_form.present?
+                  = link_to preview_or_download(@referral.consent_form), @referral.consent_form.url, class: 'btn btn-info btn-sm btn-download', target: target_blank(@referral.consent_form)
+      .ibox-footer
+        .text-right
+          = link_to client_referrals_path(@client, referral_type: referral_type(@referral)), class: 'btn btn-default' do
+            = t('back')

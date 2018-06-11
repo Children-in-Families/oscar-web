@@ -1017,6 +1017,27 @@ my:
     answer_fields:
       answer: အေျဖ
       yes_no: ဟုတ္တယ္/ မဟုတ္ဘူး
+    case_history_detail:
+      accepted_date: လက်ခံခဲ့သည်နေ့စွဲ
+      client_id: မွတ္ပံုတင္
+      client: ကေလးနာမည္
+      consent_form: သဘောတူညီချက်ပုံစံ
+      date_of_referral: လွှဲပြောင်း၏နေ့စွဲ
+      enrollment_date: အစီအစဥ္တြင္ ၀င္ေရာက္သည့္ ရက္စြဲ
+      exit_circumstance: ထွက်ပေါက်အခြေအနေ
+      exit_date: ထြက္သည့္မွတ္စု
+      exit_note: ထြက္သည့္မွတ္စု
+      exit_program_date: အဆိုပါအစီအစဉ်ကိုစွန့်ခွာတွင်
+      exit_reasons: ထွက်ပေါက်ဘို့အကြောင်းပြချက်
+      external_referral: ထွက်လွှဲပြောင်း
+      internal_referral: ကနေပြောင်းရွှေ့
+      name_of_referee: ဒိုင်လူကြီး၏နာမကိုအမှီ
+      other_info_of_exit: အခြားအ - နောက်ထပ်သတင်းအချက်အလက်များ
+      preview_download: အစမ္းၾကည့္ျခင္းႏွင့္ ေဒါင္းလုတ္
+      referee_phone_number: ဒိုင်လူကြီးဖုန်းနံပါတ်ကို
+      referral_reasons: လွှဲပြောင်းအကြောင်းပြချက်
+      referred_from: ကနေရည်ညွှန်း
+      referred_to: ကနေရည်ညွှန်း
     client_advanced_searches:
       advanced_search:
         add_new_filter: စိစစ္ျခင္းအသစ္ထပ္ထည့္ရန္
@@ -1081,7 +1102,9 @@ my:
     destroy:
       successfully_deleted: အမႈသည္ကို ေအာင္ျမင္စြာ ဖ်က္ၿပီးပါၿပီ
     edit:
+      download_supporting_document: ဒေါင်းလုပ်ထောက်ပံ့စာရွက်စာတမ်း
       edit_client_title: အမႈသည္ကို ျပင္ဆင္ရန္
+      referral_has_already_been_saved: ရည်ညွန်းပြီးသားကိုသိမ်းပြီးပါပြီ
     emergency_case:
       carer_address: ေစာင့္ေရွာက္သူ လိပ္စာ
       carer_names: ေစာင့္ေရွာက္သူအမည္
@@ -1324,7 +1347,9 @@ my:
       what3words: What3words
 
     new:
+      download_supporting_document: ဒေါင်းလုပ်ထောက်ပံ့စာရွက်စာတမ်း
       new_client_title: အမႈသည္အသစ္
+      referral_has_already_been_saved: ရည်ညွန်းပြီးသားကိုသိမ်းပြီးပါပြီ
 
     other_detail:
       agencies_involved: ပါ၀င္သည့္ ေအဂ်င္စီမ်ား
@@ -1342,6 +1367,10 @@ my:
 
     placement:
       view_legacy_quarterly_reports: သံုးလပတ္ဥပေဒေရးရာ အစီရင္ခံစာမ်ားကို ၾကည့္ရန္
+    referral_form:
+      incomplete_fields_warning: သင်ဤ client ကိုလွှဲပြောင်းနိုင်အလုံးစုံတို့ကိုရှေ့တော်၌လိုအပ်သော client ကိုသတင်းအချက်အလက်ဖြည့်စွက်ပေးပါ။
+      referral_form: OSCaR Inter-Organisation Referral Form
+      title: သတိေပးခ်က္
     remaining_programs:
       close: ပိတ္ရန္
       warning: သတိေပးခ်က္
@@ -1356,6 +1385,7 @@ my:
       add_fc_btn: FC ထဲသုိ႔ ထည့္ရန္
       add_form: ပံုစံထည့္ရန္
       add_kc_btn: KC ထဲ ထည့္ရန္
+      add_referral_form: ဂီယာ Add
       additional_details: အျခားအေသးစိတ္အခ်က္အလက္မ်ား
       additional_forms: အျခား ပံုစံမ်ား
       additional_info: အျခား အခ်က္အလက္မ်ား
@@ -1366,6 +1396,7 @@ my:
       are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား
       birth_province: ေမြးရာ ခ႐ိုင္
       cambodia: ကေမာၻဒီးယား
+      case_histories: အမႈျခင္းရာသမုိင္းေၾကာင္း
       case_history: အမႈျခင္းရာသမုိင္းေၾကာင္း
       case_worker: အမႈျခင္းရာ လိုက္ပါေဆာင္ရြက္ေပးသူ
       case_worker_or_staff: အမႈျခင္းရာ လိုက္ပါေဆာင္ရြက္ေပးသူ/ ၀န္ထမ္း
@@ -1377,7 +1408,9 @@ my:
       current_province: လက္ရွိ ေနထုိင္ရာ ခ႐ိုင္
       custom_id_number1: Custom ID Number1
       custom_id_number2: Custom ID Number2
+      date: နေ့စှဲ
       date_of_birth: ေမြးရက္၊ လ၊ ႏွစ္
+      detail: အစီအစဥ္ အေသးစိတ္
       district: ခ႐ိုင္
       donor: အလွဴရွင္
       edit_exit_information: Edit Exit Information
@@ -1392,6 +1425,7 @@ my:
       exit_ngo_information: ထွက်ပေါက်အန်ဂျီအိုသတင်းအချက်အလက်များ
       exit_note: ထြက္သည့္ မွတ္စု
       exit_reasons: ထွက်ပေါက်ဘို့အကြောင်းပြချက်
+      external_referral: ထွက်လွှဲပြောင်း
       families: မိသားစုမ်ား
       family_name: မိသားစုနာမည္
       follow_up_by: မွ ဆက္လက္ေဆာင္ရြက္သည္
@@ -1413,6 +1447,7 @@ my:
       id: မွတ္ပံုတင္
       id_poor: လူဆင္းရဲ မွတ္ပံုတင္
       initial_referral_date: ကနဦး လႊဲေျပာင္းသည့္ ရက္စြဲ
+      internal_referral: ကနေပြောင်းရွှေ့
       is_the_client_rated_for_id_poor: အဆိုပါလိုင်း ID ကိုညံ့ဖျင်းသည်အဆင့်သတ်မှတ်ထားသည်ထားသည်
       kid_id: ကေလး မွတ္ပံုတင္
       live_with: အတူေနသူ
@@ -1447,8 +1482,11 @@ my:
       province: ေမြးဖြားရာခ႐ိုင္
       received_by: မွ လက္ခံသည္
       referee_phone_number: ဒိုင်လူကြီးဖုန်းနံပါတ်ကို
+      referral_forms: ရည်ညွန်းပုံစံများ
       referral_phone: လႊဲရမည့္ ဖုန္းနံပါတ္
       referral_source: လႊဲရမည့္ ရင္းျမစ္
+      referred_from: ကနေရည်ညွှန်း
+      referred_to: ရန်ရည်ညွှန်း
       reject: ျငင္းပယ္သည္
       reject_client: ျငင္းပယ္သည္
       reject_note: ျငင္းပယ္သည့္ မွတ္စု
@@ -2341,6 +2379,7 @@ my:
         password: စကား၀ွက္
         password_confirmation: စကား၀ွက္အတည္ျပဳရန္
         province: ခ႐ိုင္
+        referral_notification: လွှဲပြောင်းသတိပေးချက်
         save: သိမ္းဆည္းရန္
         staff_performance_notification: ၀န္ထမ္းမ်ား၏စြမ္းေဆာင္ရည္အစီရင္ခံစာကို ပို႔ေပးပါ
         start_date: စတင္သည့္ရက္စြဲ
@@ -3078,6 +3117,9 @@ my:
         one: ယေန႔တြင္ အသံုးျပဳသူ အေကာက္ခြန္ပံုစံ ၁ခု ျပဳလုပ္ရန္ ရွိပါသည္။
         other: ယေန႔တြင္ အသံုးျပဳသူ အေကာက္ခြန္ပံုစံ%{count} ျပဳလုပ္ရန္ ရွိပါသည္။
       no_task: အသိေပးစရာမရွိပါ
+      new_referral_client:
+        one: သငျသညျသစ် 1 ဖောက်သည်ရည်ညွှန်းပြီ
+        other: သငျသညျသစ်တစ်ခုဖောက်သည်ရည်ညွှန်းပြီ%{count}
       overdue_and_due_today_count:
         one: ယနေ့ကြောင့်နဲ့ 1.
         other: ယနေ့ကြောင့်နဲ့ #{count}.
@@ -3114,6 +3156,9 @@ my:
         one: သင့္တြင္ သတ္မွတ္ရက္ လြန္ေနေသာ အသံုးျပဳသူ အေကာက္ခြန္ပံုစံ ၁ခု ရွိေနပါသည္။
         other: သင့္တြင္ သတ္မွတ္ရက္ လြန္ေနေသာ အသံုးျပဳသူ အေကာက္ခြန္ပံုစံ %{count} ရွိေနပါသည္။
       review_client: သင္၏ အမႈသည္စာရင္းေပးသြင္းမႈကို ျပန္လည္ ၾကည့္႐ႈရန္
+      repeat_referral_client:
+        one: သငျသညျ 1 နောက်တဖန်ဖောက်သည်တစ်ဦးပေးပို့ခဲ့ကြ
+        other: သင်တစ်ဦးထပ်ဖောက်သည်ရည်ညွှန်းပြီ%{count}
       upcoming_assessments_count:
         one: သင့်အနေဖြင့်လာမည့် CSI အကဲဖြတ်ဖြည့်စွက်ရန်နီးပါးမှုကြောင့်ဖြစ်ကြောင်း
         other: သင့်အနေဖြင့်လာမည့် %{count} CSI အကဲဖြတ်ဖြည့်စွက်ရန်နီးပါးမှုကြောင့်ဖြစ်ကြောင်း
@@ -3293,6 +3338,10 @@ my:
       users: အသံုးျပဳသူ
     program_stream_notify:
       review_client: အမႈသည္မ်ားကို ျပန္လည္သံုးသပ္ရန္ လိုအပ္သည္
+    referrals:
+      referral_clients:  ရည်ညွန်းဖောက်သည်
+    repeat_referrals:
+      referral_clients:  ရည်ညွန်းဖောက်သည်
     upcoming_assessment:
       client: အမႈသည္
       most_recent_assessment: အများစုမှာလတ်တလောအကဲဖြတ်
@@ -3728,6 +3777,77 @@ my:
     version:
       back: ေနာက္သို႔
       modification_of: "၏ ေျပာင္းလဲမႈ မွတ္တမ္း"
+  referrals:
+    confirm_referral:
+      body_second: သငျသညျ alreay ရည်ညွှန်းချင်သော client ကိုပစ်မှတ်အန်ဂျီအိုနေပါသည်။
+      body_third: သငျသညျပြီးသားဒီ client ကို, ထိုတုံ့ပြန်မှုကိုစောင့်ဆိုင်းကျေးဇူးပြုပြီးရည်ညွှန်းကြသည်။
+      title: သတိပေးခြင်း
+    confirm_repeat_referral:
+      body_first: ပစ်မှတ်အန်ဂျီအိုပြီးသား <<date>> ပေါ်မှာဤ client ကိုများအတွက်လွှဲပြောင်းငြင်းဆန်ခဲ့သည်။ သငျသညျကိုသူတို့ပြန်လွှဲပြောင်းလက်ခံရရှိရန်ဆန္ဒရှိဖြစ်ကြောင်းအတည်ပြုခဲ့သည်ရှိပါသလား? မရလျှင်, အခွအေနေဆှေးနှေးဖို့ကိုတိုက်ရိုက်သူတို့ကိုဆက်သွယ်ပါ။
+      cancel: ငါမတိုင်မီလွှဲပြောင်းအောင်သူတို့ကိုဆက်သွယ်ပါလိမ့်မည်
+      confirm_box: သူတို့ကိုငါနှင့်အတူအခွအေနကေိုဆွေးနွေးတင်ပြကြသည်။
+      title: သတိပေးခြင်း
+    create:
+      failed_create: တစ်ဦးလွှဲပြောင်းဖန်တီးရန်မအောင်မြင်ခဲ့ပါ။
+      successfully_created: ရည်ညွန်းအောင်မြင်စွာဖန်တီးလိုက်ပါပြီ။
+    edit:
+      edit_referral: ပြင်ဆင်ရန်လွှဲပြောင်း
+    form:
+      client_id: မွတ္ပံုတင္
+      client_name: ကေလးနာမည္
+      consent_form: သဘောတူညီချက်ပုံစံ
+      date_of_referral: လွှဲပြောင်း၏နေ့စွဲ
+      external_referral_warning: သင်လက်ရှိအော်စကာအသုံးပြုနေခြင်းမရှိပါရန်သင့် client ကိုရည်ညွှန်းရန်ကြိုးစားနေသောအန်ဂျီအို။ သင့်ရဲ့ပစ်မှတ်အဖွဲ့အစည်းကမှပေးပို့ဖို့ဒီလွှဲပြောင်းပုံစံများ၏မိတ္တူကို print ထုတ်ပါ။
+      name_of_referee: ဒိုင်လူကြီး၏နာမကိုအမှီ
+      referral_phone: လႊဲေျပာင္းရမည့္ ဖုန္းနံပါတ္
+      referral_reason: လွှဲပြောင်းအကြောင်းပြချက်
+      referred_from: ကနေရည်ညွှန်း
+      referred_to: ရည်ညွှန်း
+      save: ကယ်ဆယ်
+      save_and_download: ကယ်တင် & Download
+    index:
+      cannot_edit_referral: ပစ်မှတ်အန်ဂျီအိုပြီးသားဒီလွှဲပြောင်းလက်ခံခဲ့သည်ကြောင့်သင်ဤလွှဲပြောင်းတည်းဖြတ်မရနိုင်ပါ
+      client_id: မွတ္ပံုတင္
+      client_name: ကေလးနာမည္
+      consent_form: သဘောတူညီချက်ပုံစံ
+      date_of_referral: လွှဲပြောင်း၏နေ့စွဲ
+      detail: အသေးစိတ်
+      edit_btn: ပြင်ဆင်ရန်
+      name_of_referee: ဒိုင်လူကြီး၏နာမကိုအမှီ
+      referral_forms: ဂီယာ
+      referral_phone: လႊဲေျပာင္းရမည့္ ဖုန္းနံပါတ္
+      referral_reason: လွှဲပြောင်းအကြောင်းပြချက်
+      referred_from: ကနေရည်ညွှန်း
+      referred_to: ရည်ညွှန်း
+      select_ngos: အဖွဲ့အစည်းကရှေးခယျြ
+    new:
+      new_referral: ဂီယာ Add
+    update:
+      successfully_updated: ရည်ညွန်းအောင်မြင်စွာ updated ခဲ့တာဖြစ်ပါတယ်။
+    show:
+      cannot_edit_referral: ပစ်မှတ်အန်ဂျီအိုပြီးသားဒီလွှဲပြောင်းလက်ခံခဲ့သည်ကြောင့်သင်ဤလွှဲပြောင်းတည်းဖြတ်မရနိုင်ပါ
+      client_id: မွတ္ပံုတင္
+      client_name: ကေလးနာမည္
+      consent_form: သဘောတူညီချက်ပုံစံ
+      date_of_referral: လွှဲပြောင်း၏နေ့စွဲ
+      download_referral_form: ဒေါင်းလုပ်လွှဲပြောင်းပုံစံ
+      external_referral_warning: သင်လက်ရှိအော်စကာအသုံးပြုနေခြင်းမရှိပါရန်သင့် client ကိုရည်ညွှန်းရန်ကြိုးစားနေသောအန်ဂျီအို။ သင့်ရဲ့ပစ်မှတ်အဖွဲ့အစည်းကမှပေးပို့ဖို့ဒီလွှဲပြောင်းပုံစံများ၏မိတ္တူကို print ထုတ်ပါ။
+      name_of_referee: ဒိုင်လူကြီး၏နာမကိုအမှီ
+      pdf:
+        haml:
+          client_id: မွတ္ပံုတင္
+          client_name: ကေလးနာမည္
+          date_of_referral: လွှဲပြောင်း၏နေ့စွဲ
+          name_of_referee: ဒိုင်လူကြီး၏နာမကိုအမှီ
+          referral_phone: လႊဲေျပာင္းရမည့္ ဖုန္းနံပါတ္
+          referral_reason: လွှဲပြောင်းအကြောင်းပြချက်
+          referred_from: ကနေရည်ညွှန်း
+          referred_to: ရည်ညွှန်း
+      preview_download: အစမ္းၾကည့္႐ႈရန္ႏွင့္ ေဒါင္းလုတ္
+      referral_phone: လႊဲေျပာင္းရမည့္ ဖုန္းနံပါတ္
+      referral_reason: လွှဲပြောင်းအကြောင်းပြချက်
+      referred_from: ကနေရည်ညွှန်း
+      referred_to: ရည်ညွှန်း
   referral_sources:
     create:
       failed_create: လႊဲေျပာင္းသည့္ရင္းျမစ္ကို ဖန္တီးျခင္းမေအာင္ျမင္ပါ
