@@ -6,21 +6,27 @@ RSpec.describe Organization, type: :model do
   let!(:cwd_org) { Organization.create_and_build_tanent(short_name: 'cwd', full_name: 'cwd') }
 
   describe Organization, 'Scopes' do
-    it 'without demo' do
+    it '.without_demo' do
       orgs = Organization.without_demo
       expect(orgs).to include(cif_org, new_smile_org, cwd_org)
     end
 
-    it 'without cwd' do
+    it '.without_cwd' do
       orgs = Organization.without_cwd
       expect(orgs).to include(cif_org, new_smile_org)
       expect(orgs).not_to include(cwd_org)
     end
 
-    it 'without demo and cwd' do
+    it '.oscar' do
       orgs = Organization.oscar
       expect(orgs).to include(cif_org, new_smile_org)
       expect(orgs).not_to include(cwd_org)
+    end
+
+    it '.visible' do
+      orgs = Organization.visible.pluck(:short_name)
+      expect(orgs).to include('cif', 'new-smile')
+      expect(orgs).not_to include('cwd', 'myan', 'rok', 'shared')
     end
   end
 
@@ -69,7 +75,7 @@ RSpec.describe Organization, type: :model do
   end
 
   describe Organization, 'instance methods' do
-    context 'demo?' do
+    context '#demo?' do
       demo_instance = Organization.find_by(short_name: 'demo')
       demo_instance = demo_instance.present? ? demo_instance : Organization.create_and_build_tanent(short_name: 'demo', full_name: 'Demo')
       app_instance  = Organization.find_by(short_name: 'app')
@@ -78,7 +84,7 @@ RSpec.describe Organization, type: :model do
       it { expect(app_instance.demo?).to be_falsey }
     end
 
-    context 'mho?' do
+    context '#mho?' do
       mho_instance = Organization.find_by(short_name: 'mho')
       mho_instance = mho_instance.present? ? mho_instance : Organization.create_and_build_tanent(short_name: 'mho', full_name: 'mho')
       app_instance  = Organization.find_by(short_name: 'app')
