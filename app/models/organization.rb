@@ -47,4 +47,12 @@ class Organization < ActiveRecord::Base
   def cwd?
     short_name == 'cwd'
   end
+
+  def available_for_referral?
+    if Rails.env.production?
+      Organization.oscar.pluck(:short_name).include?(self.short_name)
+    else
+      Organization.visible.pluck(:short_name).include?(self.short_name)
+    end
+  end
 end
