@@ -1023,11 +1023,12 @@ en:
       external_referral: External Referral
       internal_referral: Internal Referral
       name_of_referee: Name Of Referee
+      other_info_of_exit: Other - More Information
+      preview_download: Preview & Download
       referee_phone_number: Referee Phone Number
       referral_reasons: Referral Reasons
       referred_from: Referred from External Organisation
       referred_to: Referred to External Organisation
-      other_info_of_exit: Other - More Information
     client_advanced_searches:
       advanced_search:
         add_new_filter: Add New Filter
@@ -1524,12 +1525,12 @@ en:
       are_you_sure: Are you sure you want to delete?
       attachments: Attachments
       download: Download
-      preview_download: Preview Download
+      preview_download: Preview & Download
     attachment_fields:
       are_you_sure: Are you sure you want to delete?
       attachments: Attachments
       download: Download
-      preview_download: Preview Download
+      preview_download: Preview & Download
     create:
       successfully_created: Custom Field Property has been successfully created.
     destroy:

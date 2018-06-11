@@ -1032,11 +1032,12 @@ my:
       external_referral: ထွက်လွှဲပြောင်း
       internal_referral: ကနေပြောင်းရွှေ့
       name_of_referee: ဒိုင်လူကြီး၏နာမကိုအမှီ
+      other_info_of_exit: အခြားအ - နောက်ထပ်သတင်းအချက်အလက်များ
+      preview_download: အစမ္းၾကည့္ျခင္းႏွင့္ ေဒါင္းလုတ္
       referee_phone_number: ဒိုင်လူကြီးဖုန်းနံပါတ်ကို
       referral_reasons: လွှဲပြောင်းအကြောင်းပြချက်
       referred_from: ကနေရည်ညွှန်း
       referred_to: ကနေရည်ညွှန်း
-      other_info_of_exit: အခြားအ - နောက်ထပ်သတင်းအချက်အလက်များ
     client_advanced_searches:
       advanced_search:
         add_new_filter: စိစစ္ျခင္းအသစ္ထပ္ထည့္ရန္
