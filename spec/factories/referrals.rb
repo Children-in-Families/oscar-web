@@ -4,13 +4,13 @@ include Rack::Test
 FactoryGirl.define do
   factory :referral do
     slug "MyString"
-    date_of_referral "2018-05-24"
+    date_of_referral Date.today
     referred_to "mtp"
     referred_from "Organization Testing"
-    referral_reason "MyText"
-    name_of_referee "MyString"
-    referral_phone "MyString"
-    client_name "MyString"
+    referral_reason FFaker::Lorem.paragraph
+    name_of_referee FFaker::Name.name
+    referral_phone FFaker::PhoneNumber.phone_number
+    client_name FFaker::Name.name
     referee_id 1
     saved false
     association :client, factory: :client

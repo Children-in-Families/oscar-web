@@ -1103,6 +1103,7 @@ my:
     edit:
       download_supporting_document: ဒေါင်းလုပ်ထောက်ပံ့စာရွက်စာတမ်း
       edit_client_title: အမႈသည္ကို ျပင္ဆင္ရန္
+      referral_has_already_been_saved: ရည်ညွန်းပြီးသားကိုသိမ်းပြီးပါပြီ
     emergency_case:
       carer_address: ေစာင့္ေရွာက္သူ လိပ္စာ
       carer_names: ေစာင့္ေရွာက္သူအမည္
@@ -1347,6 +1348,7 @@ my:
     new:
       download_supporting_document: ဒေါင်းလုပ်ထောက်ပံ့စာရွက်စာတမ်း
       new_client_title: အမႈသည္အသစ္
+      referral_has_already_been_saved: ရည်ညွန်းပြီးသားကိုသိမ်းပြီးပါပြီ
 
     other_detail:
       agencies_involved: ပါ၀င္သည့္ ေအဂ်င္စီမ်ား
