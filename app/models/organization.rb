@@ -1,13 +1,15 @@
 class Organization < ActiveRecord::Base
   mount_uploader :logo, ImageUploader
 
+  NON_OSCAR = ['demo', 'cwd', 'rok', 'myan', 'mhc', 'shared']
+
   has_many :employees, class_name: 'User'
 
-  scope :without_demo, -> { where.not(full_name: 'Demo') }
-  scope :without_cwd, -> { where.not(short_name: 'cwd') }
-  scope :exclude_current, -> { where.not(short_name: Organization.current.short_name) }
-  scope :oscar, -> { where.not(short_name: ['demo', 'cwd', 'myan', 'rok', 'mhc', 'shared']) }
-  scope :staging_oscar, -> { where.not(short_name: ['cwd', 'myan', 'rok', 'mhc', 'shared']) }
+  scope :without_demo,    ->          { where.not(full_name: 'Demo') }
+  scope :without_cwd,     ->          { where.not(short_name: 'cwd') }
+  scope :exclude_current, ->          { where.not(short_name: Organization.current.short_name) }
+  scope :oscar,           ->          { where.not(short_name: NON_OSCAR) }
+  scope :oscar_with,      ->(*tenats) { where.not(short_name: NON_OSCAR - tenats) }
 
   validates :full_name, :short_name, presence: true
   validates :short_name, uniqueness: { case_sensitive: false }
