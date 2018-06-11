@@ -10,8 +10,6 @@ namespace :client_to_shared do
         thailand_province_names.concat(Province.pluck(:name))
       elsif ['spo', 'kmo'].exclude?(org.short_name)
         cambodia_province_names.concat(Province.pluck(:name))
-      elsif ['spo', 'kmo'].include?(org.short_name)
-        Client.update_all(birth_province_id: nil)
       end
       Client.find_each do |client|
         clients << client.slice(:given_name, :family_name, :local_given_name, :local_family_name, :gender, :date_of_birth, :slug, :live_with, :telephone_number).merge({ birth_province_name: client.birth_province_name })
