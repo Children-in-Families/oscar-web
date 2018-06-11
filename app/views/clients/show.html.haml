@@ -66,26 +66,26 @@
                 - else
                   %a{"data-target" => '#exitFromNgo', "data-toggle" => 'modal'}
                     .text-warning= t('.exit_ngo_btn')
-
-          %input#client-id{ value: "#{@client.slug}", type: 'hidden' }
-          .btn-group.small-btn-margin
-            %button.btn-sm.btn.btn-warning.dropdown-toggle.btn-fit{ 'data-toggle' => 'dropdown', class: ('disabled' if @client.referrals.empty?) }
-              = t('.referral_forms')
-              %span.caret
-            %ul.dropdown-menu.btn-fit.scrollable-dropdown-menu.referral-forms
-              %li= link_to t('.referred_to'), client_referrals_path(@client, referral_type: 'referred_to')
-              %li= link_to t('.referred_from'), client_referrals_path(@client, referral_type: 'referred_from')
-          .btn-group.small-btn-margin
-            - if !@client.valid? && @client.errors[:base].empty?
-              %button.btn-sm.btn.btn-warning.dropdown-toggle.btn-fit{"data-target" => "#invalid-transfer", "data-toggle" => "modal", :type => "button"}= t('.add_referral_form')
-            - else
-              %button.btn-sm.btn.btn-warning.dropdown-toggle.btn-fit#add-referral-btn{ 'data-toggle' => 'dropdown' }
-                = t('.add_referral_form')
+          - if current_organization.available_for_referral?
+            %input#client-id{ value: "#{@client.slug}", type: 'hidden' }
+            .btn-group.small-btn-margin
+              %button.btn-sm.btn.btn-warning.dropdown-toggle.btn-fit{ 'data-toggle' => 'dropdown', class: ('disabled' if @client.referrals.empty?) }
+                = t('.referral_forms')
                 %span.caret
               %ul.dropdown-menu.btn-fit.scrollable-dropdown-menu.referral-forms
-                - ngos.each do |value, key|
-                  %li= link_to value, new_client_referral_url(@client, ngo: key), :class => 'target-ngo', :value => "#{key}", :id => "#{key}"
-          = render 'clients/referral_form'
+                %li= link_to t('.referred_to'), client_referrals_path(@client, referral_type: 'referred_to')
+                %li= link_to t('.referred_from'), client_referrals_path(@client, referral_type: 'referred_from')
+            .btn-group.small-btn-margin
+              - if !@client.valid? && @client.errors[:base].empty?
+                %button.btn-sm.btn.btn-warning.dropdown-toggle.btn-fit{"data-target" => "#invalid-transfer", "data-toggle" => "modal", :type => "button"}= t('.add_referral_form')
+              - else
+                %button.btn-sm.btn.btn-warning.dropdown-toggle.btn-fit#add-referral-btn{ 'data-toggle' => 'dropdown' }
+                  = t('.add_referral_form')
+                  %span.caret
+                %ul.dropdown-menu.btn-fit.scrollable-dropdown-menu.referral-forms
+                  - ngos.each do |value, key|
+                    %li= link_to value, new_client_referral_url(@client, ngo: key), :class => 'target-ngo', :value => "#{key}", :id => "#{key}"
+            = render 'clients/referral_form'
 
           - if @client.client_enrollments.active.count > 0
             = render 'remaining_programs', client: @client
