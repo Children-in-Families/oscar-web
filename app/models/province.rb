@@ -15,7 +15,7 @@ class Province < ActiveRecord::Base
   scope :cambodia, -> { where(country: 'cambodia') }
   scope :thailand, -> { where(country: 'thailand') }
 
-  validates :name, presence: true, uniqueness: { case_sensitive: false }
+  validates :name, presence: true, uniqueness: { case_sensitive: false, scope: :country }
 
   def removeable?
     families.count.zero? && partners.count.zero? && users.count.zero? && clients.count.zero? && cases.count.zero?
