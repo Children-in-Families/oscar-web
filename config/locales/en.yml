@@ -1216,7 +1216,7 @@ en:
       name: Name
       next: Next
       previous: Previous
-      province: Birth Province
+
       received_by: Referral Received By
       referral_phone: Referee Phone Number
       referral_source: Referral Source
@@ -1354,7 +1354,11 @@ en:
       is_the_client_rated_for_id_poor: Is the Client Rated for ID Poor
       other_detail: Other Details
       other_information: Other Information
-      province: Client Birth Province
+      province:
+        cambodia: Birth Province
+        thailand: Birth Province
+        myanmar: Birth State
+        lesotho: Birth Suburb
       relevant_referral_information: Relevant Referral Information / Notes
 
     placement:

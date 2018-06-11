@@ -1224,7 +1224,6 @@ my:
       name: နာမည္
       next: နောက်တစ်ခု
       previous: လွန်ခဲ့သော
-      province: ေမြးဖြားရာ ခ႐ိုင္
       received_by: မွ လက္ခံသည္။
       referral_phone: လႊဲေျပာင္းရန္ ဖုန္းနံပါတ္
       referral_source: လြဲေျပာင္းရန္ ရင္းျမစ္
@@ -1362,7 +1361,11 @@ my:
       is_the_client_rated_for_id_poor: Client ကိုဆင်းရဲသောသူသည် ID အတှကျ rated ဖြစ်ပါတယ်
       other_detail: အခြားအသေးစိတျ
       other_information: အခြားအချက်အလက်
-      province: ခ႐ိုင္
+      province:
+        cambodia: ေမြးဖြားရာ ခ႐ိုင္
+        thailand: ေမြးဖြားရာ ခ႐ိုင္
+        myanmar: ေမြးဖြားရာ ခ႐ိုင္
+        lesotho: ေမြးဖြားရာ ခ႐ိုင္
       relevant_referral_information: သက်ဆိုင်ရာလွှဲပြောင်းသတင်းအချက်အလက် / မှတ်စု
 
     placement:

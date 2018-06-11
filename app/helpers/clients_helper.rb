@@ -380,4 +380,9 @@ module ClientsHelper
     end
     label
   end
+
+  def international_referred_client
+    return @client.slug.split('-').first != current_organization.short_name if @client.persisted?
+    false
+  end
 end

@@ -4,5 +4,8 @@
   = f.input :street_line2, label: t('.street_line2')
 .col-xs-12.col-sm-6.col-md-4
   = f.association :state, collection: @states, label: t('.state')
+- if selected_country.in?(['cambodia', 'thailand']) && params[:referral].present?
+  .col-xs-12.col-sm-6.col-md-4
+    = f.input :birth_province_id, collection: @birth_provinces, as: :grouped_select, group_label_method: :first, group_method: :last,  label: t('.province')
 .col-xs-12.col-sm-6.col-md-4
   = f.association :township, collection: @townships, label: t('.township')
