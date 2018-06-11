@@ -54,9 +54,22 @@
       - ngos << ["I don't see the NGO I'm looking for...", "external referral"]
       .row
         .col-xs-12
+          .btn-group.small-btn-margin
+            %button.btn-sm.btn.btn-warning.dropdown-toggle.btn-fit{ "data-toggle" => "dropdown", id: 'add-client-to-case', class: ('disabled' if status_exited?(@client.status)) }
+              = t('.exit_ngo_btn')
+              %span.caret
+            %ul.dropdown-menu.btn-fit
+              %li
+                - if @client.client_enrollments.active.count > 0
+                  %a{"data-target" => '#remaining-programs-modal', "data-toggle" => 'modal'}
+                    .text-warning= t('.exit_ngo_btn')
+                - else
+                  %a{"data-target" => '#exitFromNgo', "data-toggle" => 'modal'}
+                    .text-warning= t('.exit_ngo_btn')
+
           %input#client-id{ value: "#{@client.slug}", type: 'hidden' }
           .btn-group.small-btn-margin
-            %button.btn-sm.btn.btn-danger.dropdown-toggle.btn-fit{ 'data-toggle' => 'dropdown', class: ('disabled' if @client.referrals.empty?) }
+            %button.btn-sm.btn.btn-warning.dropdown-toggle.btn-fit{ 'data-toggle' => 'dropdown', class: ('disabled' if @client.referrals.empty?) }
               = t('.referral_forms')
               %span.caret
             %ul.dropdown-menu.btn-fit.scrollable-dropdown-menu.referral-forms
@@ -64,9 +77,9 @@
               %li= link_to t('.referred_from'), client_referrals_path(@client, referral_type: 'referred_from')
           .btn-group.small-btn-margin
             - if !@client.valid? && @client.errors[:base].empty?
-              %button.btn-sm.btn.btn-danger.dropdown-toggle.btn-fit{"data-target" => "#invalid-transfer", "data-toggle" => "modal", :type => "button"}= t('.add_referral_form')
+              %button.btn-sm.btn.btn-warning.dropdown-toggle.btn-fit{"data-target" => "#invalid-transfer", "data-toggle" => "modal", :type => "button"}= t('.add_referral_form')
             - else
-              %button.btn-sm.btn.btn-danger.dropdown-toggle.btn-fit#add-referral-btn{ 'data-toggle' => 'dropdown' }
+              %button.btn-sm.btn.btn-warning.dropdown-toggle.btn-fit#add-referral-btn{ 'data-toggle' => 'dropdown' }
                 = t('.add_referral_form')
                 %span.caret
               %ul.dropdown-menu.btn-fit.scrollable-dropdown-menu.referral-forms
@@ -74,26 +87,12 @@
                   %li= link_to value, new_client_referral_url(@client, ngo: key), :class => 'target-ngo', :value => "#{key}", :id => "#{key}"
           = render 'clients/referral_form'
 
-          - if can? :manage, Case
-            .btn-group.small-btn-margin
-              %button.btn-sm.btn.btn-primary.dropdown-toggle.btn-fit{ "data-toggle" => "dropdown", id: 'add-client-to-case', class: ('disabled' if status_exited?(@client.status)) }
-                = t('.exit_ngo_btn')
-                %span.caret
-              %ul.dropdown-menu.btn-fit
-                %li
-                  - if @client.client_enrollments.active.count > 0
-                    %a{"data-target" => '#remaining-programs-modal', "data-toggle" => 'modal'}
-                      .text-warning= t('.exit_ngo_btn')
-                  - else
-                    %a{"data-target" => '#exitFromNgo', "data-toggle" => 'modal'}
-                      .text-warning= t('.exit_ngo_btn')
-
-            - if @client.client_enrollments.active.count > 0
-              = render 'remaining_programs', client: @client
-            - else
-              = render 'client/exit_ngos/form', client: @client
-            - if @client.cases.exclude_referred.current.present?
-              = render 'exit_case_form', client_case: @client.cases.exclude_referred.current, exit_from_cif: true
+          - if @client.client_enrollments.active.count > 0
+            = render 'remaining_programs', client: @client
+          - else
+            = render 'client/exit_ngos/form', client: @client
+          - if @client.cases.exclude_referred.current.present?
+            = render 'exit_case_form', client_case: @client.cases.exclude_referred.current, exit_from_cif: true
 
           = link_to client_tasks_path(@client) do
             %span.btn-sm.btn.btn-info.small-btn-margin.btn-fit

@@ -1108,11 +1108,12 @@ km:
       external_referral: ផ្ទេរចេញទៅ
       internal_referral: ផ្ទេរចូលពី
       name_of_referee: ឈ្មោះអ្នកបញ្ជូន
+      other_info_of_exit: ព័ត៌មានបន្ថែមនៃការចាកចេញ
+      preview_download: មើលនិងទាញយក
       referee_phone_number: លេខទូរស័ព្ទអ្នកបញ្ជូន
       referral_reasons: មូលហេតុនៃការបញ្ជូន
       referred_from: ទទួលចូលអង្គការ
       referred_to: បញ្ជូនទៅអង្គការដទៃ
-      other_info_of_exit: ព័ត៌មានបន្ថែមនៃការចាកចេញ
     client_advanced_searches:
       advanced_search:
         add_new_filter: បន្ថែមលក្ខខ័ណ្ឌថ្មី
