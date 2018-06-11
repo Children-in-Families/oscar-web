@@ -147,7 +147,7 @@ class ProgramStream < ActiveRecord::Base
   end
 
   def set_program_completed
-    return update_columns(completed: false) if (enrollment.empty? || exit_program.empty? || trackings.empty? || trackings.pluck(:name).include?('') || trackings.pluck(:fields).include?([])) && !tracking_required
+    return update_columns(completed: false) if enrollment.empty? || exit_program.empty? || (!tracking_required && trackings.empty? || trackings.pluck(:name).include?('') || trackings.pluck(:fields).include?([]))
     update_columns(completed: true)
   end
 
