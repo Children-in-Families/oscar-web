@@ -221,7 +221,7 @@ describe 'Client' do
     end
   end
 
-  xfeature 'New', skip: '=== Capybara cannot find jQuery steps link ===' do
+  feature 'New' do
     let!(:province) { create(:province) }
     let!(:client)   { create(:client, given_name: 'Branderson', family_name: 'Anderson', local_given_name: 'Vin',
                              local_family_name: 'Kell', date_of_birth: '2017-05-01', birth_province: province,
@@ -237,33 +237,40 @@ describe 'Client' do
       find(".client_users select option[value='#{user.id}']", visible: false).select_option
       fill_in 'client_initial_referral_date', with: Date.today
       find(".client_referral_source select option[value='#{referral_source.id}']", visible: false).select_option
-      fill_in 'client_name_of_referee', with: FFaker::Name.name
+      fill_in 'client_name_of_referee', with: 'Thida'
       fill_in 'client_given_name', with: 'Kema'
 
-      page.find('a[href="#next"]', visible: false).click
+      find('#steps-uid-0-t-3').click
+      page.find('a[href="#finish"]', visible: false).click
 
       expect(page).to have_content('Kema')
-      expect(page).to have_content(date_format(Date.today))
+      expect(page).to have_content('Thida')
     end
 
     scenario 'invalid as missing case workers', js: true do
       fill_in 'client_given_name', with: FFaker::Name.name
-      click_button 'Save'
+      find('#steps-uid-0-t-3').click
       wait_for_ajax
       expect(page).to have_content("can't be blank")
     end
 
     scenario 'warning', js: true do
+      find(".client_received_by_id select option[value='#{user.id}']", visible: false).select_option
+      find(".client_users select option[value='#{user.id}']", visible: false).select_option
+      find(".client_referral_source select option[value='#{referral_source.id}']", visible: false).select_option
+      fill_in 'client_name_of_referee', with: FFaker::Name.name
+      fill_in 'client_initial_referral_date', with: Date.today
+
       fill_in 'client_given_name', with: 'Branderjo'
       fill_in 'client_family_name', with: 'Anderjo'
-      fill_in 'Given Name (kh)', with: 'Viny'
-      fill_in 'Family Name (kh)', with: 'Kelly'
+      fill_in 'client_local_given_name', with: 'Viny'
+      fill_in 'client_local_family_name', with: 'Kelly'
       fill_in 'Date of Birth', with: '2017-05-01'
-      find(".client_users select option[value='#{user.id}']", visible: false).select_option
-      find(".client_province select option[value='#{province.id}']", visible: false).select_option
-      find(".client_birth_province_id select option[value='#{province.id}']", visible: false).select_option
 
-      # click_button 'Save'
+      find('#steps-uid-0-t-1').click
+      find(".client_province select option[value='#{province.id}']", visible: false).select_option
+      find('#steps-uid-0-t-3').click
+      page.find('a[href="#finish"]', visible: false).click
       wait_for_ajax
       expect(page).to have_content("The client you are registering has many attributes that match a client who is already registered at")
     end
@@ -273,7 +280,7 @@ describe 'Client' do
     end
   end
 
-  feature 'Update', js: true, skip: '=== Capybara cannot find jQuery steps link ===' do
+  feature 'Update', js: true do
     let!(:client){ create(:client, users: [user]) }
     before do
       login_as(admin)
@@ -281,15 +288,15 @@ describe 'Client' do
     end
 
     scenario 'valid', js: true do
-      fill_in 'client_given_name', with: 'Allen'
-      click_button 'Save'
+      fill_in 'client_name_of_referee', with: 'Allen'
+      find('.save-edit-client').trigger('click')
       wait_for_ajax
       expect(page).to have_content('Allen')
     end
 
-    xscenario 'invalid' do
-      fill_in 'client_given_name', with: ''
-      click_button 'Save'
+    scenario 'invalid' do
+      fill_in 'client_name_of_referee', with: ''
+      find('.save-edit-client').trigger('click')
       expect(page).to have_content("can't be blank")
     end
   end
@@ -583,7 +590,6 @@ describe 'Client' do
       fill_in 'exit_ngo_exit_note', with: 'Note'
       find("input[type='submit'][value='Exit']").click
 
-      expect(page).to have_content('Rejected Referral')
       expect(client.reload.exit_ngos.last.exit_circumstance).to eq('Rejected Referral')
       expect(client.reload.status).to eq('Exited')
     end
@@ -597,7 +603,6 @@ describe 'Client' do
       page.has_field?('exit_ngo[exit_circumstance]', with: 'Exited Client')
       find("input[type='submit'][value='Exit']").click
 
-      expect(page).to have_content('Exited Client')
       expect(accepted_client.reload.exit_ngos.last.exit_circumstance).to eq('Exited Client')
       expect(accepted_client.reload.status).to eq('Exited')
     end

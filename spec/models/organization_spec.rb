@@ -18,7 +18,7 @@ RSpec.describe Organization, type: :model do
     end
 
     it 'without demo and cwd' do
-      orgs = Organization.without_demo_and_cwd
+      orgs = Organization.oscar
       expect(orgs).to include(cif_org, new_smile_org)
       expect(orgs).not_to include(cwd_org)
     end

@@ -46,6 +46,7 @@ class Client < ActiveRecord::Base
   has_many :users, through: :case_worker_clients
   has_many :enter_ngos, dependent: :destroy
   has_many :exit_ngos, dependent: :destroy
+  has_many :referrals, dependent: :destroy
 
   accepts_nested_attributes_for :tasks
 
@@ -76,7 +77,7 @@ class Client < ActiveRecord::Base
 
   before_update :disconnect_client_user_relation, if: :exiting_ngo?
   after_create :set_slug_as_alias
-  after_save :create_client_history
+  after_save :create_client_history, :mark_referral_as_saved, :create_or_update_shared_client
   # after_update :notify_managers, if: :exiting_ngo?
 
   scope :live_with_like,                           ->(value) { where('clients.live_with iLIKE ?', "%#{value}%") }
@@ -143,6 +144,10 @@ class Client < ActiveRecord::Base
 
   def exit_ngo?
     status == 'Exited'
+  end
+
+  def referred?
+    status == 'Referred'
   end
 
   def self.age_between(min_age, max_age)
@@ -279,6 +284,7 @@ class Client < ActiveRecord::Base
   end
 
   def set_slug_as_alias
+    return if slug.present?
     paper_trail.without_versioning { |obj| obj.update_columns(slug: "#{Organization.current.try(:short_name)}-#{id}") }
   end
 
@@ -419,4 +425,17 @@ class Client < ActiveRecord::Base
     assessment_period = assessment_period.send(assessment_frequency)
   end
 
+  def mark_referral_as_saved
+    referral = Referral.find_by(slug: slug, saved: false)
+    referral.update_attributes(client_id: id, saved: true) if referral.present?
+  end
+
+  def create_or_update_shared_client
+    current_org = Organization.current
+    client = self.slice(:given_name, :family_name, :local_given_name, :local_family_name, :gender, :date_of_birth, :telephone_number, :live_with, :slug, :birth_province_id)
+    Organization.switch_to 'shared'
+    shared_client = SharedClient.find_by(slug: client['slug'])
+    shared_client.present? ? shared_client.update(client) : SharedClient.create(client)
+    Organization.switch_to current_org.short_name
+  end
 end

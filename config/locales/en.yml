@@ -1008,6 +1008,26 @@ en:
     answer_fields:
       answer: Answer
       yes_no: Yes/No
+    case_history_detail:
+      accepted_date: NGO Accept Date
+      client_id: Client ID
+      client: Client
+      consent_form: Consent Form
+      date_of_referral: Date of Referral
+      enrollment_date: Enrollment Date
+      exit_circumstance: Exit Circumstance
+      exit_date: NGO Exit Date
+      exit_note: Exit Note
+      exit_program_date: Exit Program Date
+      exit_reasons: Reason for Exit / Case Rejection
+      external_referral: External Referral
+      internal_referral: Internal Referral
+      name_of_referee: Name Of Referee
+      referee_phone_number: Referee Phone Number
+      referral_reasons: Referral Reasons
+      referred_from: Referred from External Organisation
+      referred_to: Referred to External Organisation
+      other_info_of_exit: Other - More Information
     client_advanced_searches:
       advanced_search:
         add_new_filter: Add New Filter
@@ -1072,7 +1092,9 @@ en:
     destroy:
       successfully_deleted: Client has been successfully deleted.
     edit:
+      download_supporting_document: Download Supporting Document
       edit_client_title: Edit Client
+      referral_has_already_been_saved: Referral has already been saved
     emergency_case:
       carer_address: Carer Address
       carer_names: Carer Names
@@ -1316,7 +1338,9 @@ en:
       what3words: What3words
 
     new:
+      download_supporting_document: Download Supporting Document
       new_client_title: New Client
+      referral_has_already_been_saved: Referral has already been saved
 
     other_detail:
       agencies_involved: Other Agencies Involved
@@ -1334,6 +1358,10 @@ en:
 
     placement:
       view_legacy_quarterly_reports: View Legacy Quarterly Reports
+    referral_form:
+      incomplete_fields_warning: Please complete all required client information before you can refer this client.
+      referral_form: OSCaR Inter-Organisation Referral Form
+      title: Warning
     remaining_programs:
       close: Close
       warning: Warning
@@ -1348,6 +1376,7 @@ en:
       add_fc_btn: Add to FC
       add_form: Add Form
       add_kc_btn: Add to KC
+      add_referral_form: Add Referral Form
       additional_details: Additional Details
       additional_forms: Additional Forms
       additional_info: Additional Information
@@ -1358,6 +1387,7 @@ en:
       are_you_sure: Are you sure you want to delete?
       birth_province: Client Birth Province
       cambodia: Cambodia
+      case_histories: Case Histories
       case_history: Case History
       case_worker: Case Worker
       case_worker_or_staff: Case Worker / Staff
@@ -1369,7 +1399,9 @@ en:
       current_province: Current Province
       custom_id_number1: Custom ID Number 1
       custom_id_number2: Custom ID Number 2
+      date: Date
       date_of_birth: Date of Birth
+      detail: Detail
       district: District/Khan
       donor: Donor
       edit_exit_information: Edit Exit Information
@@ -1384,6 +1416,7 @@ en:
       exit_ngo_information: Exit NGO Information
       exit_note: Exit Note
       exit_reasons: Reason for Exit / Case Rejection
+      external_referral: External Referral
       families: Families
       family_name: Family Name (English)
       follow_up_by: First Follow-Up By
@@ -1405,6 +1438,7 @@ en:
       id: ID
       id_poor: ID Poor
       initial_referral_date: Initial Referral Date
+      internal_referral: Internal Referral
       is_the_client_rated_for_id_poor: Is the client rated for ID poor
       kid_id: Custom ID Number2
       live_with: Primary Carer Name
@@ -1419,6 +1453,9 @@ en:
       primary_carer_name: Primary Carer Name
       primary_carer_phone_number: Primary Carer Phone Number
       referee_phone_number: Referee Phone Number
+      referral_forms: Referral Forms
+      referred_from: Referred from External Organisation
+      referred_to: Referred to External Organisation
       rejected_note: Rejected Note
 
       placements:
@@ -2334,6 +2371,7 @@ en:
         password: Password
         password_confirmation: Confirm Password
         province: Province
+        referral_notification: Referral Notification
         save: Save
         staff_performance_notification: Send me staff performance report
         start_date: Start Date
@@ -3059,6 +3097,9 @@ en:
         one: There is 1 user custom form due today
         other: There are %{count} user custom forms due today
       no_task: Nothing to notify.
+      new_referral_client:
+        one: You have 1 new referral client
+        other: You have %{count} new referral clients
       overdue_and_due_today_count:
         one: and 1 due today
         other: and %{count} due today
@@ -3086,6 +3127,9 @@ en:
       overdue_user_custom_field_count:
         one: There is 1 user custom form overdue
         other: There are %{count} user custom forms overdue
+      repeat_referral_client:
+        one: You have 1 repeat referral client
+        other: You have %{count} repeat referral clients
       review_client: Review your clients enrollment in
       upcoming_assessments_count:
         one: You are almost due to complete the next CSI assessment
@@ -3266,6 +3310,10 @@ en:
       users: User
     program_stream_notify:
       review_client: Clients need to be reviewed
+    referrals:
+      referral_clients:  Referral Clients
+    repeat_referrals:
+      referral_clients:  Referral Clients
     upcoming_assessment:
       client: Client
       most_recent_assessment: Most Recent Assessment
@@ -3712,6 +3760,77 @@ en:
     version:
       back: Back
       modification_of: Changelog of
+  referrals:
+    confirm_referral:
+      body_second: The client you want to refer already existed in the target NGO.
+      body_third: You have already referred this client, please wait for the response.
+      title: Warning
+    confirm_repeat_referral:
+      body_first: Target NGO has already declined a referral for this client on <<date>>. Have you confirmed that they are willing to receive the referral again? If not, please contact them directly to discuss the situation.
+      cancel: I will contact them prior to making the referral
+      confirm_box: I have discussed the situation with them.
+      title: Warning
+    create:
+      failed_create: Failed to create a Referral.
+      successfully_created: Referral has been successfully created.
+    edit:
+      edit_referral: Edit Referral
+    form:
+      client_id: Client ID
+      client_name: Client Name
+      consent_form: Please Upload Signed Referral Consent Form Here
+      date_of_referral: Date of Referral
+      external_referral_warning: The NGO that you are attempting to refer your client to is not currently using OSCaR. Please print a copy of this referral form to send to your target organisation.
+      name_of_referee: Case Worker Making the Referral
+      referral_phone: Contact Phone Number
+      referral_reason: What is the reason for this referral?
+      referred_from: Reffered from
+      referred_to: Referred to
+      save: Save
+      save_and_download: Save & Download
+    index:
+      cannot_edit_referral: You cannot edit this referral because the target NGO already accepted this referral
+      client_id: Client ID
+      client_name: Client Name
+      consent_form: Consent Form
+      date_of_referral: Date of Referral
+      detail: Detail
+      edit_btn: Edit
+      name_of_referee: Name of Referee
+      referral_forms: Referral Forms
+      referral_phone: Referral Phone
+      referral_reason: What is the reason for this referral?
+      referred_from: Reffered From
+      referred_to: Referred To
+      select_ngos: Select NGOs
+    new:
+      new_referral: New Referral
+    show:
+      cannot_edit_referral: You cannot edit this referral because the target NGO already accepted this referral
+      client_id: Client ID
+      client_name: Client Name
+      consent_form: Consent Form
+      date_of_referral: Date of Referral
+      download_referral_form: Download Printable Referral Form
+      external_referral_warning: The NGO that you are attempting to refer your client to is not currently using OSCaR. Please print a copy of this referral form to send to your target organisation.
+      name_of_referee: Case Worker Making the Referral
+      pdf:
+        haml:
+          client_id: Client ID
+          client_name: Client Name
+          date_of_referral: Date of Referral
+          name_of_referee: Case Worker Making the Referral
+          referral_phone: Contact Phone Number
+          referral_reason: What is the reason for this referral?
+          referred_from: Reffered From
+          referred_to: Referred To
+      preview_download: Preview & Download
+      referral_phone: Contact Phone Number
+      referral_reason: What is the reason for this referral?
+      referred_from: Reffered From
+      referred_to: Referred To
+    update:
+      successfully_updated: Referral has been successfully updated.
   referral_sources:
     create:
       failed_create: Failed to create a referral source.
