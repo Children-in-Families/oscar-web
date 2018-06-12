@@ -76,11 +76,11 @@ module AdvancedSearches
 
     def birth_provinces
       current_org = Organization.current.short_name
+      provinces = []
       Organization.switch_to 'shared'
-      cambodia_provinces = Province.cambodia.order(:name).map{|s| { value: s.id.to_s, label: s.name, optgroup: 'Cambodia' } }
-      thailand_provinces = Province.thailand.order(:name).map{|s| { value: s.id.to_s, label: s.name, optgroup: 'Thailand' } }
+      ['Cambodia', 'Thailand', 'Lesotho', 'Myanmar'].each{ |country| provinces << Province.country_is(country.downcase).map{|p| { value: p.id.to_s, label: p.name, optgroup: country } } }
       Organization.switch_to current_org
-      cambodia_provinces + thailand_provinces
+      provinces.flatten
     end
 
     def districts

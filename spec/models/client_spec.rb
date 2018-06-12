@@ -41,6 +41,7 @@ describe Client, 'callbacks' do
   before do
     ClientHistory.destroy_all
   end
+
   context 'set slug as alias' do
     let!(:client){ create(:client) }
     it { expect(client.slug).to eq("#{Organization.current.short_name}-#{client.id}") }
@@ -62,6 +63,16 @@ describe Client, 'callbacks' do
       expect(ClientHistory.where('object.id' => agency_client.id).last.object['agency_ids']).to eq(agencies.map(&:id))
       expect(ClientHistory.where('object.id' => agency_client.id).first.agency_client_histories.count).to eq(2)
       expect(ClientHistory.where('object.id' => agency_client.id).last.agency_client_histories.count).to eq(2)
+    end
+  end
+
+  context 'before_create' do
+    let!(:setting){ create(:setting, country_name: 'cambodia') }
+    let!(:client_1){ create(:client) }
+    context '#set_country_origin' do
+      it 'base on Setting' do
+        expect(client_1.country_origin).to eq('cambodia')
+      end
     end
   end
 
