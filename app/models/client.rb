@@ -398,6 +398,18 @@ class Client < ActiveRecord::Base
     client_age >= 18 ? true : false
   end
 
+  def in_thailand?
+    slug.split('-').first.in? Organization::THAILAND_TENANTS
+  end
+
+  def in_lesotho?
+    slug.split('-').first.in? Organization::LESOTHO_TENANTS
+  end
+
+  def in_myanmar?
+    slug.split('-').first.in? Organization::MYANMAR_TENANTS
+  end
+
   private
 
   def create_client_history

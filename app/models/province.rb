@@ -12,8 +12,7 @@ class Province < ActiveRecord::Base
 
   scope :birth_places, -> { joins('RIGHT JOIN clients ON clients.birth_province_id = Provinces.id').uniq }
 
-  scope :cambodia, -> { where(country: 'cambodia') }
-  scope :thailand, -> { where(country: 'thailand') }
+  scope :country_is, ->(country) { where(country: country).order(:name) }
 
   validates :name, presence: true, uniqueness: { case_sensitive: false }
 

@@ -1364,6 +1364,8 @@ my:
       other_information: အခြားအချက်အလက်
       province: ခ႐ိုင္
       relevant_referral_information: သက်ဆိုင်ရာလွှဲပြောင်းသတင်းအချက်အလက် / မှတ်စု
+      state: ပြည်နယ်
+      suburb: မွို့ဆငျခွေဖုံး
 
     placement:
       view_legacy_quarterly_reports: သံုးလပတ္ဥပေဒေရးရာ အစီရင္ခံစာမ်ားကို ၾကည့္ရန္
