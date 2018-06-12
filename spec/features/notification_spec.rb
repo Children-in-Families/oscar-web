@@ -1,11 +1,11 @@
 describe 'Notification' do
-  let!(:admin){ create(:user, roles: 'admin') }
+  let!(:admin){ create(:user, roles: 'admin', referral_notification: true) }
   before do
     login_as(admin)
   end
 
   feature 'Unsaved Referral Notification', js: true do
-    let!(:referral){ create(:referral) }
+    let!(:referral){ create(:referral, referred_to: 'app', referred_from: 'Demo') }
     before do
       visit dashboards_path
       find('.count-info').click
@@ -23,7 +23,7 @@ describe 'Notification' do
 
   feature 'Repeat Referral Notification', js: true do
     let!(:client){ create(:client)}
-    let!(:referral){ create(:referral, client_id: client.id, slug: client.slug) }
+    let!(:referral){ create(:referral, client_id: client.id, slug: client.slug, referred_to: 'app', referred_from: 'Demo') }
     before do
       visit dashboards_path
       find('.count-info').click
