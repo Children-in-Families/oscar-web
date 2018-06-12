@@ -7,7 +7,8 @@
     %legend= t('.other_information')
     .row
       .col-xs-12.col-sm-6.col-md-4
-        = f.input :birth_province_id, collection: @birth_provinces, as: :grouped_select, group_label_method: :first, group_method: :last,  label: birth_location_label(f)
+        - if f.object.any_current_org_referrals? || selected_country.in?(['cambodia', 'thailand'])
+          = f.input :birth_province_id, collection: @birth_provinces, as: :grouped_select, group_label_method: :first, group_method: :last,  label: birth_location_label(f)
       .col-xs-12.col-sm-6.col-md-4
         = f.association :agencies, collection: @agencies, multiple: true, label_method: :name, value_method: :id, label: t('.agencies_involved')
       .col-xs-12.col-sm-6.col-md-4

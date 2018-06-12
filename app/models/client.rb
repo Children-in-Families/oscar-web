@@ -410,6 +410,11 @@ class Client < ActiveRecord::Base
     slug.split('-').first.in? Organization::MYANMAR_TENANTS
   end
 
+  def any_current_org_referrals?
+    current_org = Organization.current.short_name
+    referrals.where('referred_to = ? OR referred_from = ?', current_org, current_org ).present?
+  end
+
   private
 
   def create_client_history
