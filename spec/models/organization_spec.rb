@@ -92,5 +92,21 @@ RSpec.describe Organization, type: :model do
       it { expect(mho_instance.mho?).to be_truthy }
       it { expect(app_instance.mho?).to be_falsey }
     end
+
+    context '#available_for_referral?' do
+      context 'oscar' do
+        Organization.oscar.each do |org|
+          it { expect(org.available_for_referral?).to be_truthy }
+        end
+      end
+
+      context 'non oscar' do
+        ids = Organization.oscar.ids
+        Organization.where.not(id: ids).each do |org|
+          next if org.demo?
+          it { expect(org.available_for_referral?).to be_falsey }
+        end
+      end
+    end
   end
 end
