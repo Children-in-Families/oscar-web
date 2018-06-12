@@ -304,6 +304,7 @@ class ClientsController < AdminController
   def find_all_country_provinces
     cambodia_provinces = ['Cambodia', Province.cambodia.order(:name).map{|p| [p.name, p.id] }]
     thailand_provinces = ['Thailand', Province.thailand.order(:name).map{|p| [p.name, p.id] }]
-    @birth_provinces   = [cambodia_provinces, thailand_provinces]
+    myanmar_provinces = ['Myanmar', Province.myanmar.order(:name).map{|p| [p.name, p.id] }]
+    @birth_provinces   = [cambodia_provinces, thailand_provinces, myanmar_provinces]
   end
 end

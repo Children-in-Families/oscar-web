@@ -78,6 +78,7 @@ class Client < ActiveRecord::Base
   before_update :disconnect_client_user_relation, if: :exiting_ngo?
   after_create :set_slug_as_alias
   after_save :create_client_history, :mark_referral_as_saved, :create_or_update_shared_client
+  before_save :update_country_origin
   # after_update :notify_managers, if: :exiting_ngo?
 
   scope :live_with_like,                           ->(value) { where('clients.live_with iLIKE ?', "%#{value}%") }
@@ -437,5 +438,10 @@ class Client < ActiveRecord::Base
     shared_client = SharedClient.find_by(slug: client['slug'])
     shared_client.present? ? shared_client.update(client) : SharedClient.create(client)
     Organization.switch_to current_org.short_name
+  end
+
+  def update_country_origin
+    setting = Setting.first
+    self.country_origin = setting.country_name
   end
 end
