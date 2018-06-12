@@ -14,6 +14,7 @@ class Province < ActiveRecord::Base
 
   scope :cambodia, -> { where(country: 'cambodia') }
   scope :thailand, -> { where(country: 'thailand') }
+  scope :myanmar,  -> { where(country: 'myanmar') }
 
   validates :name, presence: true, uniqueness: { case_sensitive: false, scope: :country }
 

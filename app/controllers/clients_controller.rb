@@ -236,17 +236,17 @@ class ClientsController < AdminController
 
   def country_address_fields
     selected_country = Setting.first.try(:country_name) || params[:country]
+
+    current_org = Organization.current.short_name
+    Organization.switch_to 'shared'
+    find_all_country_provinces
+    Organization.switch_to current_org
+
     case selected_country
     when 'myanmar'
       @states          = State.order(:name)
       @townships       = @client.state.present? ? @client.state.townships.order(:name) : []
     when 'thailand', 'cambodia'
-      current_org = Organization.current.short_name
-      Organization.switch_to 'shared'
-      cambodia_provinces = ['Cambodia', Province.cambodia.order(:name).map{|p| [p.name, p.id] }]
-      thailand_provinces = ['Thailand', Province.thailand.order(:name).map{|p| [p.name, p.id] }]
-      @birth_provinces       = [cambodia_provinces, thailand_provinces]
-      Organization.switch_to current_org
       @current_provinces        = Province.order(:name)
       @districts       = @client.province.present? ? @client.province.districts.order(:name) : []
       @subdistricts    = @client.district.present? ? @client.district.subdistricts.order(:name) : []
@@ -299,5 +299,12 @@ class ClientsController < AdminController
     return if params[:referral_id].blank?
     find_referral_by_params
     redirect_to root_path, alert: t('.referral_has_already_been_saved') if @referral.saved?
+  end
+
+  def find_all_country_provinces
+    cambodia_provinces = ['Cambodia', Province.cambodia.order(:name).map{|p| [p.name, p.id] }]
+    thailand_provinces = ['Thailand', Province.thailand.order(:name).map{|p| [p.name, p.id] }]
+    myanmar_provinces = ['Myanmar', Province.myanmar.order(:name).map{|p| [p.name, p.id] }]
+    @birth_provinces   = [cambodia_provinces, thailand_provinces, myanmar_provinces]
   end
 end
