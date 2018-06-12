@@ -1356,9 +1356,9 @@ en:
       other_information: Other Information
       province:
         cambodia: Birth Province
-        thailand: Birth Province
-        myanmar: Birth State
         lesotho: Birth Suburb
+        myanmar: Birth State
+        thailand: Birth Province
       relevant_referral_information: Relevant Referral Information / Notes
 
     placement:

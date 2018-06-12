@@ -1363,9 +1363,9 @@ my:
       other_information: အခြားအချက်အလက်
       province:
         cambodia: Birth Province
-        thailand: Birth Province
-        myanmar: ေမြးဖြားရာ ခ႐ိုင္
         lesotho: Birth Suburb
+        myanmar: ေမြးဖြားရာ ခ႐ိုင္
+        thailand: Birth Province
       relevant_referral_information: သက်ဆိုင်ရာလွှဲပြောင်းသတင်းအချက်အလက် / မှတ်စု
 
     placement:
