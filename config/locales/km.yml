@@ -1440,7 +1440,11 @@ km:
       is_the_client_rated_for_id_poor: តើអតិថិជនត្រូវបានវាយតម្លៃថាអត្តសញ្ញាណក្រីក្រឬទេ
       other_detail: ព័ត៌មានលំអិតផ្សេងៗ
       other_information: ព័ត៌មានផ្សេងៗ
-      province: ខេត្ត
+      province:
+        cambodia: ខេត្តកំណើត
+        lesotho: ខេត្តកំណើត
+        myanmar: ខេត្តកំណើត
+        thailand: ខេត្តកំណើត
       relevant_referral_information: ព័ត៌មានយោងដែលពាក់ព័ន្ធ / កំណត់សំគាល់
 
     placement:

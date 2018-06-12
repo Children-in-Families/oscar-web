@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180531024852) do
+ActiveRecord::Schema.define(version: 20180612073433) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -410,6 +410,7 @@ ActiveRecord::Schema.define(version: 20180531024852) do
     t.integer  "subdistrict_id"
     t.integer  "township_id"
     t.integer  "state_id"
+    t.string   "country_origin",                   default: ""
   end
 
   add_index "clients", ["district_id"], name: "index_clients_on_district_id", using: :btree
@@ -939,6 +940,7 @@ ActiveRecord::Schema.define(version: 20180531024852) do
     t.integer  "birth_province_id"
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
+    t.string   "country_origin",    default: ""
   end
 
   add_index "shared_clients", ["slug"], name: "index_shared_clients_on_slug", unique: true, using: :btree

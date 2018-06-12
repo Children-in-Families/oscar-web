@@ -75,6 +75,7 @@ class Client < ActiveRecord::Base
   validates :user_ids, presence: true, on: :update, unless: :exit_ngo?
   validates :initial_referral_date, :received_by_id, :referral_source, :name_of_referee, presence: true
 
+  before_create :set_country_origin
   before_update :disconnect_client_user_relation, if: :exiting_ngo?
   after_create :set_slug_as_alias
   after_save :create_client_history, :mark_referral_as_saved, :create_or_update_shared_client
@@ -398,6 +399,10 @@ class Client < ActiveRecord::Base
     client_age >= 18 ? true : false
   end
 
+  def country_origin_label
+    country_origin.present? ? country_origin : 'cambodia'
+  end
+
   private
 
   def create_client_history
@@ -432,10 +437,23 @@ class Client < ActiveRecord::Base
 
   def create_or_update_shared_client
     current_org = Organization.current
-    client = self.slice(:given_name, :family_name, :local_given_name, :local_family_name, :gender, :date_of_birth, :telephone_number, :live_with, :slug, :birth_province_id)
+    client = self.slice(:given_name, :family_name, :local_given_name, :local_family_name, :gender, :date_of_birth, :telephone_number, :live_with, :slug, :birth_province_id, :country_origin)
     Organization.switch_to 'shared'
+    if suburb.present?
+      province = Province.find_or_create_by(name: suburb, country: 'lesotho')
+      client['birth_province_id'] = province.id
+    elsif state_name.present?
+      province = Province.find_or_create_by(name: state_name, country: 'myanmar')
+      client['birth_province_id'] = province.id
+    end
     shared_client = SharedClient.find_by(slug: client['slug'])
     shared_client.present? ? shared_client.update(client) : SharedClient.create(client)
     Organization.switch_to current_org.short_name
+  end
+
+  def set_country_origin
+    return if country_origin.present?
+    country = Setting.first.try(:country_name)
+    self.country_origin = country
   end
 end

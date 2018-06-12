@@ -1362,7 +1362,11 @@ my:
       is_the_client_rated_for_id_poor: Client ကိုဆင်းရဲသောသူသည် ID အတှကျ rated ဖြစ်ပါတယ်
       other_detail: အခြားအသေးစိတျ
       other_information: အခြားအချက်အလက်
-      province: ခ႐ိုင္
+      province:
+        cambodia: Birth Province
+        lesotho: Birth Suburb
+        myanmar: ေမြးဖြားရာ ခ႐ိုင္
+        thailand: Birth Province
       relevant_referral_information: သက်ဆိုင်ရာလွှဲပြောင်းသတင်းအချက်အလက် / မှတ်စု
 
     placement:

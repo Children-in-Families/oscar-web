@@ -380,4 +380,8 @@ module ClientsHelper
     end
     label
   end
+
+  def international_referred_client
+    params[:referral_id].present? && @client.country_origin != selected_country
+  end
 end
