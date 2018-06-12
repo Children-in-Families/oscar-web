@@ -4,11 +4,14 @@ namespace :client_to_shared do
     clients = []
     cambodia_province_names = []
     thailand_province_names = []
+    myanmar_states = []
     Organization.all.each do |org|
       Organization.switch_to org.short_name
       if org.short_name == 'cps'
         thailand_province_names.concat(Province.pluck(:name))
-      elsif ['spo', 'kmo'].exclude?(org.short_name)
+      elsif org.short_name == 'kmo'
+        myanmar_states.concat(State.pluck(:name))
+      elsif ['spo'].exclude?(org.short_name)
         cambodia_province_names.concat(Province.pluck(:name))
       end
       Client.find_each do |client|
@@ -21,6 +24,9 @@ namespace :client_to_shared do
     end
     thailand_province_names.uniq.each do |province_name|
       Province.find_or_create_by(name: province_name, country: 'thailand')
+    end
+    myanmar_states.uniq.each do |state|
+      Province.find_or_create_by(name: state, country: 'myanmar')
     end
     clients.each do |client|
       province_id = nil
