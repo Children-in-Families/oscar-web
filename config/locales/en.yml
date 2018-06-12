@@ -1356,6 +1356,8 @@ en:
       other_information: Other Information
       province: Client Birth Province
       relevant_referral_information: Relevant Referral Information / Notes
+      state: Client Birth State
+      suburb: Client Birth Suburb
 
     placement:
       view_legacy_quarterly_reports: View Legacy Quarterly Reports

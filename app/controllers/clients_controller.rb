@@ -236,21 +236,16 @@ class ClientsController < AdminController
 
   def country_address_fields
     selected_country = Setting.first.try(:country_name) || params[:country]
-    case selected_country
-    when 'myanmar'
-      @states          = State.order(:name)
-      @townships       = @client.state.present? ? @client.state.townships.order(:name) : []
-    when 'thailand', 'cambodia'
-      current_org = Organization.current.short_name
-      Organization.switch_to 'shared'
-      cambodia_provinces = ['Cambodia', Province.cambodia.order(:name).map{|p| [p.name, p.id] }]
-      thailand_provinces = ['Thailand', Province.thailand.order(:name).map{|p| [p.name, p.id] }]
-      @birth_provinces       = [cambodia_provinces, thailand_provinces]
-      Organization.switch_to current_org
-      @current_provinces        = Province.order(:name)
-      @districts       = @client.province.present? ? @client.province.districts.order(:name) : []
-      @subdistricts    = @client.district.present? ? @client.district.subdistricts.order(:name) : []
-    end
+    current_org = Organization.current.short_name
+    Organization.switch_to 'shared'
+    @birth_provinces = []
+    ['Cambodia', 'Thailand', 'Lesotho', 'Myanmar'].map{ |country| @birth_provinces << [country, Province.country_is(country.downcase).map{|p| [p.name, p.id] }] }
+    Organization.switch_to current_org
+    @current_provinces        = Province.order(:name)
+    @states                   = State.order(:name)
+    @townships                = @client.state.present? ? @client.state.townships.order(:name) : []
+    @districts                = @client.province.present? ? @client.province.districts.order(:name) : []
+    @subdistricts             = @client.district.present? ? @client.district.subdistricts.order(:name) : []
   end
 
   def initial_visit_client

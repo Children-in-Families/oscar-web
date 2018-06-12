@@ -380,4 +380,19 @@ module ClientsHelper
     end
     label
   end
+
+  def birth_location_label(record)
+    label = t('.province')
+    if record.object.slug.present?
+      label = t('.state') if record.object.in_myanmar?
+      label = t('.suburb') if record.object.in_lesotho?
+    else
+      country = Setting.first.country_name
+      case country
+      when 'myanmar' then label = t('.state')
+      when 'lesotho' then label = t('.suburb')
+      end
+    end
+    label
+  end
 end

@@ -398,6 +398,23 @@ class Client < ActiveRecord::Base
     client_age >= 18 ? true : false
   end
 
+  def in_thailand?
+    slug.split('-').first.in? Organization::THAILAND_TENANTS
+  end
+
+  def in_lesotho?
+    slug.split('-').first.in? Organization::LESOTHO_TENANTS
+  end
+
+  def in_myanmar?
+    slug.split('-').first.in? Organization::MYANMAR_TENANTS
+  end
+
+  def any_current_org_referrals?
+    current_org = Organization.current.short_name
+    referrals.where('referred_to = ? OR referred_from = ?', current_org, current_org ).present?
+  end
+
   private
 
   def create_client_history
@@ -434,6 +451,10 @@ class Client < ActiveRecord::Base
     current_org = Organization.current
     client = self.slice(:given_name, :family_name, :local_given_name, :local_family_name, :gender, :date_of_birth, :telephone_number, :live_with, :slug, :birth_province_id)
     Organization.switch_to 'shared'
+    if suburb.present?
+      province = Province.find_or_create_by(name: suburb, country: 'Lesotho')
+      client['birth_province_id'] = province.id
+    end
     shared_client = SharedClient.find_by(slug: client['slug'])
     shared_client.present? ? shared_client.update(client) : SharedClient.create(client)
     Organization.switch_to current_org.short_name

@@ -1,6 +1,10 @@
 class Organization < ActiveRecord::Base
   mount_uploader :logo, ImageUploader
 
+  THAILAND_TENANTS = %w(cps)
+  LESOTHO_TENANTS = %w(spo)
+  MYANMAR_TENANTS = %w(kmo)
+
   has_many :employees, class_name: 'User'
 
   scope :without_demo, -> { where.not(full_name: 'Demo') }

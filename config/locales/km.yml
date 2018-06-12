@@ -1442,7 +1442,8 @@ km:
       other_information: ព័ត៌មានផ្សេងៗ
       province: ខេត្ត
       relevant_referral_information: ព័ត៌មានយោងដែលពាក់ព័ន្ធ / កំណត់សំគាល់
-
+      state: រដ្ឋ
+      suburb: ជាយក្រុង
     placement:
       view_legacy_quarterly_reports: មើល Quarterly Reports ចាស់ៗ
     referral_form:
