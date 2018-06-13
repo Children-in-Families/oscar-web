@@ -21,7 +21,7 @@ CIF.ReferralsNew = CIF.ReferralsCreate = CIF.ReferralsUpdate = CIF.ReferralsEdit
       $('.external-referral-warning').addClass 'text-hide'
 
   _initUploader = ->
-    $(".file").fileinput
+    $('#referral_consent_form').fileinput
       showUpload: false
       removeClass: 'btn btn-danger btn-outline'
       browseLabel: 'Browse'
