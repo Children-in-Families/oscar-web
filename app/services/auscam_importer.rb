@@ -6,9 +6,6 @@ module AuscamImporter
       @path       = path
       @sheet_name = sheet_name
       @workbook   = Roo::Excelx.new(path)
-      # sheet_index = workbook.sheets.index(sheet_name)
-      # workbook.default_sheet = workbook.sheets[sheet_index]
-      # sheet_header(sheet_index)
     end
 
     def workbook
@@ -27,12 +24,16 @@ module AuscamImporter
         begin
           users << [headers, data.reject(&:blank?)].transpose.to_h
         rescue IndexError => e
-          binding.pry
+          if Rails.env == 'development'
+            binding.pry
+          else
+            Rails.logger.debug e
+          end
         end
       end
 
       User.create!(users)
-      puts 'Done!!!!!!'
+      puts 'Create users one!!!!!!'
     end
 
     def password
@@ -67,7 +68,11 @@ module AuscamImporter
         begin
           clients << [headers, data.reject(&:blank?)].transpose.to_h
         rescue IndexError => e
-          binding.pry
+          if Rails.env == 'development'
+            binding.pry
+          else
+            Rails.logger.debug e
+          end
         end
       end
 
@@ -75,7 +80,7 @@ module AuscamImporter
         client = Client.new(client)
         client.save(validate: false)
       end
-      puts 'Done!!!!!!'
+      puts 'Create clients done!!!!!!'
     end
 
     def find_or_create_user(user_data)
@@ -106,7 +111,7 @@ module AuscamImporter
       begin
         district.first.id
       rescue NoMethodError => e
-        binding.pry
+        debugging_check(e)
       end
     end
 

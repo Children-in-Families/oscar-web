@@ -11,8 +11,8 @@ namespace :voice do
     Rake::Task['quantitative_types:import'].invoke
     Rake::Task['quantitative_cases:import'].invoke
 
-    # import     = MoveDistrict::Import.new
-    # import.districts
+    import     = MoveDistrict::Import.new('voice')
+    import.districts
 
     import     = VoiceImporter::Import.new('Users')
     import.users
