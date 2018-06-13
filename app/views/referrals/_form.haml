@@ -34,7 +34,7 @@
         .col-xs-12
           = f.input :referral_reason, as: :text, label: t('.referral_reason')
         .col-xs-12
-          = render 'referrals/consent_form_fields', f: f
+          -# = render 'referrals/consent_form_fields', f: f
         .col-xs-12
           = f.submit t('save'), class: 'btn btn-primary form-btn btn-save'
           - if @referral.persisted?

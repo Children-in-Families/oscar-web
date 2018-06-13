@@ -9,7 +9,8 @@ class Referral < ActiveRecord::Base
 
   validates :client_name, :slug, :date_of_referral, :referred_from,
             :referred_to, :referral_reason, :referee_id, :name_of_referee,
-            :referral_phone, :consent_form, presence: true
+            :referral_phone, presence: true
+  #           :referral_phone, :consent_form, presence: true
 
   validate :check_saved_referral_in_target_ngo, on: :update
 
