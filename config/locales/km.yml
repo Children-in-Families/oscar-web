@@ -1093,6 +1093,27 @@ km:
     answer_fields:
       answer: ចម្លើយ
       yes_no: បាទ/អត់ទេ
+    case_history_detail:
+      accepted_date: កាលបរិច្ឆេទទទួលយកចូលអង្គការ
+      client_id: លេខសំគាល់អតិថិជន
+      client: ឈ្មោះអតិថិជន
+      consent_form: ទម្រង់យល់ព្រម
+      date_of_referral: កាលបរិច្ឆេទបញ្ជូន
+      enrollment_date: កាលបរិច្ឆេទចុះឈ្មោះ
+      exit_circumstance: ស្ថានភាពនៃការចាកចេញ
+      exit_date: ថ្ងៃចាកចេញពីអង្គការ
+      exit_note: កំណត់ហេតុនៃការចាកចេញ
+      exit_program_date: ថ្ងៃចាកចេញពីកម្មវិធី
+      exit_reasons: មូលហេតុនៃការចាកចេញ
+      external_referral: ផ្ទេរចេញទៅ
+      internal_referral: ផ្ទេរចូលពី
+      name_of_referee: ឈ្មោះអ្នកបញ្ជូន
+      other_info_of_exit: ព័ត៌មានបន្ថែមនៃការចាកចេញ
+      preview_download: មើលនិងទាញយក
+      referee_phone_number: លេខទូរស័ព្ទអ្នកបញ្ជូន
+      referral_reasons: មូលហេតុនៃការបញ្ជូន
+      referred_from: ទទួលចូលអង្គការ
+      referred_to: បញ្ជូនទៅអង្គការដទៃ
     client_advanced_searches:
       advanced_search:
         add_new_filter: បន្ថែមលក្ខខ័ណ្ឌថ្មី
@@ -1157,7 +1178,9 @@ km:
     destroy:
       successfully_deleted: អតិថិជនត្រូវបានលុបដោយជោគជ័យ
     edit:
+      download_supporting_document: ទាញយកឯកសារផ្គត់ផ្ទង់
       edit_client_title: ពិនិត្យកែសម្រួលព័ត៌មានអតិថិជន
+      referral_has_already_been_saved: ការបញ្ជូនត្រូវបានរក្សាទុករួចហើយ
     emergency_case:
       carer_address: អាសយដ្ឋានអ្នកថែទាំ
       carer_names: ឈ្មោះអ្នកថែទាំ
@@ -1402,7 +1425,9 @@ km:
       what3words: What3words
 
     new:
+      download_supporting_document: ទាញយកឯកសារផ្គត់ផ្គង់
       new_client_title: បន្ថែមអតិថិជនថ្មី
+      referral_has_already_been_saved: ការបញ្ជូនត្រូវបានរក្សាទុករួចហើយ
 
     other_detail:
       agencies_involved: អង្គភាពពាក់ព័ន្ធ
@@ -1415,11 +1440,19 @@ km:
       is_the_client_rated_for_id_poor: តើអតិថិជនត្រូវបានវាយតម្លៃថាអត្តសញ្ញាណក្រីក្រឬទេ
       other_detail: ព័ត៌មានលំអិតផ្សេងៗ
       other_information: ព័ត៌មានផ្សេងៗ
-      province: ខេត្ត
+      province:
+        cambodia: ខេត្តកំណើត
+        lesotho: ខេត្តកំណើត
+        myanmar: ខេត្តកំណើត
+        thailand: ខេត្តកំណើត
       relevant_referral_information: ព័ត៌មានយោងដែលពាក់ព័ន្ធ / កំណត់សំគាល់
 
     placement:
       view_legacy_quarterly_reports: មើល Quarterly Reports ចាស់ៗ
+    referral_form:
+      incomplete_fields_warning: សូមបំពេញព័ត៌មានចាំបាច់ទាំងអស់របស់អតិថិជនមុនពេលអ្នកអាចផ្ទេរអតិថិជននេះបាន
+      referral_form: OSCaR Inter-Organisation Referral Form
+      title: ប្រុងប្រយ័ត្ន
     remaining_programs:
       close: បិទ
       warning: ប្រុងប្រយ័ត្ន
@@ -1434,6 +1467,7 @@ km:
       add_fc_btn: បន្ថែមចូលទៅ FC
       add_form: បន្ថែមទម្រង់បែបបទ
       add_kc_btn: បន្ថែមចូលទៅ KC
+      add_referral_form: បន្ថែមទម្រង់បញ្ជូន
       additional_details: ពត៌មានលំអិតបន្ថែម
       additional_forms: ទម្រង់បែបបទបន្ថែម
       additional_info: ពត៌មានលំអិតបន្ថែម
@@ -1444,6 +1478,7 @@ km:
       are_you_sure: តើអ្នកប្រាកដហើយ?
       birth_province: ស្រុកកំណើត
       cambodia: កម្ពុជា
+      case_histories: ប្រវត្តិនៃករណី
       case_history: ប្រវត្តិនៃករណី
       case_worker: បុគ្គលិកគ្រប់គ្រងករណី
       case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
@@ -1455,7 +1490,9 @@ km:
       current_province: ខេត្តបច្ចុប្បន្ន
       custom_id_number1: លេខកូដផ្ទាល់ខ្លួនទី១
       custom_id_number2: លេខកូដផ្ទាល់ខ្លួនទី២
+      date: កាលបរិចេ្ឆទ
       date_of_birth: ថ្ងៃ ខែ ឆ្នាំ កំណើត
+      detail: ពត៌មានលំអិត
       district: ស្រុក/ខណ្ឌ
       donor: ម្ចាស់ជំនួយ
       edit_exit_information: កែសម្រួលព័ត៌មាននៃការចាកចេញ
@@ -1470,6 +1507,7 @@ km:
       exit_ngo_information: ព័ត៌មានចាកចេញពីអង្គការ
       exit_note: កំណត់ហេតុនៃការចាកចេញ
       exit_reasons: មូលហេតុនៃការចាកចេញ
+      external_referral: ផ្ទេរចេញទៅ
       families: គ្រួសារ
       family_name: នាមត្រកូលជាអក្សរឡាតាំង
       follow_up_by: បុគ្គលិកតាមដានករណី
@@ -1491,6 +1529,7 @@ km:
       id: លេខសំគាល់
       id_poor: កំរិតប័ណ្ណក្រីក្រ
       initial_referral_date: កាលបរិចេ្ឆទនៃការបញ្ជូនដំបូង
+      internal_referral: ផ្ទេរចូលពី
       is_the_client_rated_for_id_poor: តើអតិថិជនត្រូវបានវាយតម្លៃថាអត្តសញ្ញាណក្រីក្រឬទេ
       kid_id: លេខកូដឣតិថិជន
       live_with: រស់នៅជាមួយ
@@ -1505,6 +1544,9 @@ km:
       primary_carer_name: អ្នកមើលថែចំបង
       primary_carer_phone_number: លេខទូរស័ព្ទអ្នកមើលថែចំបង
       referee_phone_number: លេខទូរស័ព្ទអ្នកបញ្ជូន
+      referral_forms: បែបបទបញ្ជូន
+      referred_from: ទទួលចូលអង្គការ
+      referred_to: បញ្ជូនទៅអង្គការដទៃ
       rejected_note: កំណត់ហេតុនៃការមិនទទួលយក
 
       placements:
@@ -2416,6 +2458,7 @@ km:
         password: លេខកូដសំងាត់
         password_confirmation: បញ្ជាក់ពាក្យសម្ងាត់ថ្មី
         province: ខេត្ត
+        referral_notification: ការជូនដំណឹងអំពីការបញ្ជូន
         save: រក្សាទុក
         staff_performance_notification: ផ្ញើឲ្យខ្ញុំនូវរបាយការណ៍ការងាររបស់បុគ្គលិក
         start_date: កាលបរិច្ឆេទចាប់ផ្តើម
@@ -3142,6 +3185,9 @@ km:
         one: ការតាមដានរបស់អ្នកប្រើចំនួន1ដែលត្រូវបំពេញនៅថ្ងៃនេះ
         other: ការតាមដានរបស់អ្នកប្រើចំនួន %{count} ដែលត្រូវបំពេញនៅថ្ងៃនេះ
       no_task: មិនមានពត៌មានដែលត្រូវបង្ហាញ
+      new_referral_client:
+        one: អ្នកមានអតិថិជនបញ្ជូនបន្តថ្មីចំនួន1
+        other: អ្នកមានអតិថិជនបញ្ជូនបន្តថ្មីចំនួន%{count}
       overdue_and_due_today_count:
         one: ហើយនិងមានចំនួន1ដែលត្រូវបំពេញនៅថ្ងៃនេះ
         other: ហើយនិងមានចំនួន%{count}ដែលត្រូវបំពេញនៅថ្ងៃនេះ
@@ -3169,6 +3215,9 @@ km:
       overdue_client_enrollment_tracking:
         one: ការតាមដានរបស់អ្នកប្រើចំនួន1ដែលផុតកំណត
         other: ការតាមដានរបស់អ្នកប្រើចំនួន %{count} ដែលផុតកំណត
+      repeat_referral_client:
+        one: អ្នកមានអតិថិជនបញ្ជូនបន្តម្តងទៀតចំនួន1
+        other: អ្នកមានអតិថិជនបញ្ជូនបន្តម្តងទៀតចំនួន%{count}
       review_client: ពិនិត្យមើលទម្រង់បែបបទនៃការចុះឈ្មោះរបស់អតិថិជននៅក្នុង
       upcoming_assessments_count:
         one: អ្នកស្ទើរតែដល់ពេលបំពេញការប៉ាន់ប្រមាណបន្ទាប់ចំនួន1
@@ -3333,6 +3382,10 @@ km:
       users: ឣ្នកប្រើ
     program_stream_notify:
       review_client: អតិថិជនដែលត្រូវការត្រួតពិនិត្យ
+    referrals:
+      referral_clients:  អតិថិជនដែលត្រូវបានបញ្ជូនមក
+    repeat_referrals:
+      referral_clients:  អតិថិជនដែលត្រូវបានបញ្ជូនមកម្តងទៀត
     upcoming_assessment:
       client: អតិថិជន
       most_recent_assessment: ការប៉ាន់ប្រមាណចុងក្រោយ
@@ -3775,6 +3828,77 @@ km:
     version:
       back: ត្រលប់ក្រោយ
       modification_of: ប្រវត្តិកំណែរបស់
+  referrals:
+    confirm_referral:
+      body_second: អតិថិជនដែលអ្នកចង់បញ្ជូនមាននៅក្នុងអង្គការគោលដៅរួចទៅហើយ
+      body_third: អ្នកបានបញ្ជូនអតិថិជននេះរួចហើយសូមរង់ចាំការឆ្លើយតប
+      title: ប្រុងប្រយ័ត្ន
+    confirm_repeat_referral:
+      body_first: អង្គការគោលដៅបានបដិសេធការបញ្ជូនសម្រាប់អតិថិជននេះរួចហើយនៅ <<date>> ។ តើអ្នកបានបញ្ជាក់ថាពួកគេនឹងយល់ព្រមក្នុងការទទួលការបញ្ជូនម្តងទៀតដែរឬទេ? បើមិនដូច្នោះទេសូមទាក់ទងពួកគេដោយផ្ទាល់ដើម្បីពិភាក្សាអំពីស្ថានភាព។
+      cancel: ខ្ញុំនឹងទាក់ទងពួកគេមុនពេលធ្វើការបញ្ជូន
+      confirm_box: ខ្ញុំបានពិភាក្សាពីស្ថានភាពជាមួយពួកគេរួចរាល់ហើយ
+      title: ប្រុងប្រយ័ត្ន
+    create:
+      failed_create: ការបញ្ជូនមិនត្រូវបានបង្កើត
+      successfully_created: ការបញ្ជូនត្រូវបានបង្កើតដោយជោគជ័យ
+    edit:
+      edit_referral: កែសម្រួលទម្រង់បញ្ជូន
+    form:
+      client_id: លេខសំគាល់អតិថិជន
+      client_name: ឈ្មោះអតិថិជន
+      consent_form: ទម្រង់​យល់ព្រម
+      date_of_referral: កាលបរិច្ឆេទបញ្ជូន
+      external_referral_warning: អង្គការដែលអ្នកកំពុងព្យាយាមបញ្ជូនអតិថិជនរបស់អ្នកទៅបច្ចុប្បន្ននេះមិនកំពុងប្រើ OSCaR ទេ។ សូមបោះពុម្ពច្បាប់ចម្លងនៃទម្រង់បញ្ជូននេះដើម្បីផ្ញើទៅអង្គការគោលដៅរបស់អ្នក។
+      name_of_referee: ឈ្មោះអ្នកបញ្ជូន
+      referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
+      referral_reason: មូលហេតុនៃការបញ្ជូន
+      referred_from: ប្រភពនៃការបញ្ជូន
+      referred_to: បញ្ជូនទៅកាន់
+      save: រក្សាទុក
+      save_and_download: រក្សាទុក & ទាញយក
+    index:
+      cannot_edit_referral: អ្នកមិនអាចកែសម្រួលការបញ្ជូននេះបានទេដោយសារអង្គការគោលដៅបានទទួលយកការបញ្ជូននេះរួចទៅហើយ
+      client_id: លេខសំគាល់អតិថិជន
+      client_name: ឈ្មោះអតិថិជន
+      consent_form: ទម្រង់​យល់ព្រម
+      date_of_referral: កាលបរិច្ឆេទបញ្ជូន
+      detail: ពត៌មានលំអិត
+      edit_btn: កែសម្រួល
+      name_of_referee: ឈ្មោះអ្នកបញ្ជូន
+      referral_forms: ទម្រង់បញ្ជូន
+      referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
+      referral_reason: មូលហេតុនៃការបញ្ជូន
+      referred_from: ប្រភពនៃការបញ្ជូន
+      referred_to: បញ្ជូនទៅកាន់
+      select_ngos: ជ្រើសរើសអង្គការ
+    new:
+      new_referral: បន្ថែមទម្រង់បញ្ជូន
+    update:
+      successfully_updated: ការបញ្ជូនត្រូវបានកែសម្រួលដោយជោគជ័យ
+    show:
+      cannot_edit_referral: អ្នកមិនអាចកែសម្រួលការបញ្ជូននេះបានទេដោយសារអង្គការគោលដៅបានទទួលយកការបញ្ជូននេះរួចទៅហើយ
+      client_id: លេខសំគាល់អតិថិជន
+      client_name: ឈ្មោះអតិថិជន
+      consent_form: ទម្រង់​យល់ព្រម
+      date_of_referral: កាលបរិច្ឆេទបញ្ជូន
+      download_referral_form: ទាញយកទម្រង់បញ្ជូន
+      external_referral_warning: អង្គការដែលអ្នកកំពុងព្យាយាមបញ្ជូនអតិថិជនរបស់អ្នកទៅ បច្ចុប្បន្ននេះមិនកំពុងប្រើ OSCaR ទេ។ សូមបោះពុម្ពច្បាប់ចម្លងនៃទម្រង់បញ្ជូននេះដើម្បីផ្ញើទៅអង្គការគោលដៅរបស់អ្នក។
+      name_of_referee: ឈ្មោះអ្នកបញ្ជូន
+      pdf:
+        haml:
+          client_id: លេខសំគាល់អតិថិជន
+          client_name: ឈ្មោះអតិថិជន
+          date_of_referral: កាលបរិច្ឆេទបញ្ជូន
+          name_of_referee: ឈ្មោះអ្នកបញ្ជូន
+          referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
+          referral_reason: មូលហេតុនៃការបញ្ជូន
+          referred_from: ប្រភពនៃការបញ្ជូន
+          referred_to: បញ្ជូនទៅកាន់
+      preview_download: មើលនិងទាញយក
+      referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
+      referral_reason: មូលហេតុនៃការបញ្ជូន
+      referred_from: ប្រភពនៃការបញ្ជូន
+      referred_to: បញ្ជូនទៅកាន់
   referral_sources:
     create:
       failed_create: ប្រភពនៃការបញ្ជូនមិនត្រូវបានបង្កើត

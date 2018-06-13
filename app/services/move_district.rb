@@ -2,9 +2,9 @@ class MoveDistrict
   class Import
     attr_accessor :path, :headers, :workbook
 
-    def initialize
+    def initialize(org)
       @workbook = Roo::Excelx.new('vendor/data/districts.xlsx')
-
+      @org = org
       sheet_index = workbook.sheets.index('district')
       workbook.default_sheet = workbook.sheets[sheet_index]
       sheet_header
@@ -24,7 +24,7 @@ class MoveDistrict
     end
 
     def districts
-      Organization.switch_to 'voice'
+      Organization.switch_to @org
       ((workbook.first_row + 1)..workbook.last_row).each do |row|
         name          = workbook.row(row)[headers['District Name']].squish
         name_en       = workbook.row(row)[headers['District Name EN']].squish
