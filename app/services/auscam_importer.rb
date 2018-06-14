@@ -47,7 +47,7 @@ module AuscamImporter
       clients     = []
       sheet       = workbook.sheet(@sheet_name)
 
-      headers =['given_name', 'family_name', 'local_given_name', 'local_family_name', 'gender', 'date_of_birth', 'referral_source_id', 'name_of_referee', 'received_by_id', 'followed_up_by_id', 'follow_up_date', 'user_ids', 'live_with', 'referral_phone', 'province_id', 'district_id', 'commune', 'house_number', 'street_number', 'village', 'school_name', 'school_grade', 'birth_province_id']
+      headers =['given_name', 'family_name', 'local_given_name', 'local_family_name', 'gender', 'date_of_birth', 'referral_source_id', 'name_of_referee', 'received_by_id', 'followed_up_by_id', 'follow_up_date', 'user_ids', 'live_with', 'telephone_number', 'province_id', 'district_id', 'commune', 'house_number', 'street_number', 'village', 'school_name', 'school_grade', 'birth_province_id']
 
       (6..sheet.last_row).each_with_index do |row_index, index|
         data       = sheet.row(row_index)
@@ -64,6 +64,7 @@ module AuscamImporter
         data[21]   = check_nil_cell(data[21])[/^\d{1,2}/] ? check_nil_cell(data[21])[/^\d{1,2}/] : check_nil_cell(data[21])
         data[22]   = data[22].split('/').last.squish
         data[22]   = Province.where("name ilike ?", "%#{data[22].squish}").first.id
+        data       = data.map{|d| d == 'N/A' ? d = '' : d }
 
         begin
           clients << [headers, data.reject(&:nil?)].transpose.to_h
