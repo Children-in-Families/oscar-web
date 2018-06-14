@@ -61,12 +61,12 @@ module AuscamImporter
 
         data[14]   = Province.find_by(name: 'ភ្នំពេញ / Phnom Penh').id
         data[15]   = find_district(data[15])
-        data[21]   = data[21].squish[/^\d{1,2}/] ? data[21].squish[/^\d{1,2}/] : data[21].squish
+        data[21]   = check_nil_cell(data[21])[/^\d{1,2}/] ? check_nil_cell(data[21])[/^\d{1,2}/] : check_nil_cell(data[21])
         data[22]   = data[22].split('/').last.squish
         data[22]   = Province.where("name ilike ?", "%#{data[22].squish}").first.id
 
         begin
-          clients << [headers, data.reject(&:blank?)].transpose.to_h
+          clients << [headers, data.reject(&:nil?)].transpose.to_h
         rescue IndexError => e
           if Rails.env == 'development'
             binding.pry
@@ -131,5 +131,8 @@ module AuscamImporter
       value
     end
 
+    def check_nil_cell(cell)
+      cell.nil? ? '' : cell.to_s.squish
+    end
   end
 end
