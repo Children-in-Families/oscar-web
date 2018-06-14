@@ -1,7 +1,7 @@
 namespace :auscam do
-  desc 'Import all Voice clients and related data'
+  desc 'Import all Auscam clients and related data'
   task import: :environment do
-    org = Organization.create_and_build_tanent(short_name: 'auscam', full_name: "Auscam", logo: File.open(Rails.root.join('app/assets/images/auscam.png')))
+    org = Organization.create_and_build_tanent(short_name: 'auscam', full_name: "Auscam Freedom Project", logo: File.open(Rails.root.join('app/assets/images/auscam.png')))
     # Organization.switch_to org.short_name
     Organization.switch_to 'auscam'
 

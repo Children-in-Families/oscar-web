@@ -55,13 +55,13 @@ module AuscamImporter
         data[5]    = format_date_of_birth(data[5])
         data[6]    = data[6][/Outreach/i] ? outreach : mother
         data[8]    = outreach_id
-        data[9]    = find_or_create_user(data[9].squish).id  # followed_up_by_id
-
+        data[9]    = find_or_create_user(data[9].squish).id
         data[10]   = format_date_of_birth(data[10])
-        data[11]   = [find_or_create_user(data[11].squish).id] #user_ids
+        data[11]   = [find_or_create_user(data[11].squish).id]
 
         data[14]   = Province.find_by(name: 'ភ្នំពេញ / Phnom Penh').id
         data[15]   = find_district(data[15])
+        data[21]   = data[21].squish[/^\d{1,2}/] ? data[21].squish[/^\d{1,2}/] : data[21].squish
         data[22]   = data[22].split('/').last.squish
         data[22]   = Province.where("name ilike ?", "%#{data[22].squish}").first.id
 
