@@ -30,6 +30,7 @@ CIF.ClientsIndex = do ->
     _removeOverdueFormsSearch()
     _setDefaultCheckColumnVisibilityAll()
     # _removeProgramStreamExitDate()
+    _setHeaderCount()
 
   _overdueFormsSearch = ->
     $('#overdue-forms.i-checks').on 'ifChecked', ->
@@ -333,5 +334,21 @@ CIF.ClientsIndex = do ->
     $('table.clients tbody tr').click (e) ->
       return if $(e.target).hasClass('btn') || $(e.target).hasClass('fa') || $(e.target).is('a')
       window.open($(@).data('href'), '_blank')
+
+  _setHeaderCount = ->
+    self = @
+    $('th[data-header]').each (index) ->
+      klass = $(@).data('header')
+      header = $('th.' + klass).attr('title') + " " + "<span class= 'label label-info'>" + _iterateOverElement('ul[data-' + klass + ']') + "</span>"
+      $("th." + klass).html(header)
+
+  _iterateOverElement = (attr) ->
+    total = 0
+    $(attr).each (index) ->
+      total += $(this).data(attr.slice(8, -1))
+    if total == 0
+      return ''
+    else
+      return total
 
   { init: _init }
