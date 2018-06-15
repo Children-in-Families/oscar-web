@@ -1382,7 +1382,6 @@ en:
       add_fc_btn: Add to FC
       add_form: Add Form
       add_kc_btn: Add to KC
-      add_referral_form: Add Referral Form
       additional_details: Additional Details
       additional_forms: Additional Forms
       additional_info: Additional Information
@@ -1484,6 +1483,7 @@ en:
       progress_note: Progress Note
       province: Birth Province
       received_by: Referral Received By
+      refer_client: Refer Client
       referral_phone: Referee Phone Number
       referral_source: Referral Source
       reject: Reject

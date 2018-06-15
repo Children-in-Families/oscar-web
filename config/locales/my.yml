@@ -1389,7 +1389,6 @@ my:
       add_fc_btn: FC ထဲသုိ႔ ထည့္ရန္
       add_form: ပံုစံထည့္ရန္
       add_kc_btn: KC ထဲ ထည့္ရန္
-      add_referral_form: ဂီယာ Add
       additional_details: အျခားအေသးစိတ္အခ်က္အလက္မ်ား
       additional_forms: အျခား ပံုစံမ်ား
       additional_info: အျခား အခ်က္အလက္မ်ား
@@ -1485,6 +1484,7 @@ my:
       progress_note: ေဆာင္ရြက္ဆဲမွတ္စု
       province: ေမြးဖြားရာခ႐ိုင္
       received_by: မွ လက္ခံသည္
+      refer_client: ရည်ညွှန်း
       referee_phone_number: ဒိုင်လူကြီးဖုန်းနံပါတ်ကို
       referral_forms: ရည်ညွန်းပုံစံများ
       referral_phone: လႊဲရမည့္ ဖုန္းနံပါတ္
