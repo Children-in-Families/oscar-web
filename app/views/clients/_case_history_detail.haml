@@ -100,5 +100,7 @@
               %tr
                 %td= t('.consent_form')
                 %td
-                  - if object.consent_form.present?
-                    = link_to preview_or_download(object.consent_form), object.consent_form.url, class: 'btn btn-info btn-sm btn-download', target: target_blank(object.consent_form)
+                  - current_org = current_organization
+                  - Organization.switch_to object.referred_from
+                  = link_to t('.preview_download'), origin_consent_form_url(object), class: 'btn btn-info btn-sm btn-download', target: :_blank
+                  - Organization.switch_to current_org.short_name

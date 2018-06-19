@@ -26,4 +26,9 @@ module ReferralsHelper
   def referral_type(referral)
     current_organization.short_name == referral.try(:referred_to) ? 'referred_from' : 'referred_to'
   end
+
+  def origin_consent_form_url(referral)
+    referral = Referral.find_by(date_of_referral: referral.date_of_referral, slug: referral.slug, referred_from: referral.referred_from, referred_to: referral.referred_to)
+    referral.consent_form.url
+  end
 end

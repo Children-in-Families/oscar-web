@@ -9,11 +9,13 @@ class Referral < ActiveRecord::Base
 
   validates :client_name, :slug, :date_of_referral, :referred_from,
             :referred_to, :referral_reason, :referee_id, :name_of_referee,
-            :referral_phone, :consent_form, presence: true
+            :referral_phone, presence: true
+
+  validates :consent_form, presence: true, if: :making_referral?
 
   validate :check_saved_referral_in_target_ngo, on: :update
 
-  before_save :set_referred_from
+  before_validation :set_referred_from
 
   after_create :email_referrral_client
   after_save :make_a_copy_to_target_ngo
@@ -36,6 +38,10 @@ class Referral < ActiveRecord::Base
 
   def referred_from_ngo
     Organization.find_by(short_name: self.referred_from).try(:full_name)
+  end
+
+  def making_referral?
+    Organization.current.short_name == referred_from
   end
 
   private
@@ -64,7 +70,6 @@ class Referral < ActiveRecord::Base
     Organization.switch_to referred_to
     referral = Referral.find_or_initialize_by(slug: attributes['slug'], date_of_referral: attributes['date_of_referral'], saved: false)
     referral.attributes = attributes.except('id', 'client_id', 'created_at', 'updated_at', 'consent_form').merge({client_id: nil})
-    referral.consent_form = consent_form
     referral.save
     Organization.switch_to current_org.short_name
   end
