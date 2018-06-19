@@ -51,7 +51,7 @@ module AuscamImporter
 
       (6..sheet.last_row).each_with_index do |row_index, index|
         data       = sheet.row(row_index)
-        data[4]    = data[4].downcase
+        data[4]    = data[4].squish.downcase
         data[5]    = format_date_of_birth(data[5])
         data[6]    = data[6][/Outreach/i] ? outreach : mother
         data[8]    = outreach_id
@@ -63,7 +63,7 @@ module AuscamImporter
         data[15]   = find_district(data[15])
         data[21]   = check_nil_cell(data[21])[/^\d{1,2}/] ? check_nil_cell(data[21])[/^\d{1,2}/] : check_nil_cell(data[21])
         data[22]   = data[22].split('/').last.squish
-        data[22]   = Province.where("name ilike ?", "%#{data[22].squish}").first.id
+        data[22]   = find_province(data[22].squish)
         data       = data.map{|d| d == 'N/A' ? d = '' : d }
 
         begin
@@ -112,7 +112,25 @@ module AuscamImporter
       begin
         district.first.id
       rescue NoMethodError => e
-        debugging_check(e)
+        if Rails.env == 'development'
+          binding.pry
+        else
+          Rails.logger.debug e
+        end
+      end
+    end
+
+    def find_province(name)
+      provinces = Province.where("name ilike ?", "%#{name}")
+      province  = provinces.select{|d| d.name.gsub(/.*\//, '').squish == name }
+      begin
+        province.first.id
+      rescue NoMethodError => e
+        if Rails.env == 'development'
+          binding.pry
+        else
+          Rails.logger.debug e
+        end
       end
     end
 
