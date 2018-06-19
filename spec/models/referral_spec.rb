@@ -12,14 +12,25 @@ describe Referral, 'validations' do
   it { is_expected.to validate_presence_of(:name_of_referee) }
   it { is_expected.to validate_presence_of(:referral_phone) }
   it { is_expected.to validate_presence_of(:referee_id) }
-  it { is_expected.to validate_presence_of(:consent_form) }
+
+  context 'consent_form' do
+    it 'invalid' do
+      referral = FactoryGirl.build(:referral, referred_from: 'Organization Testing', consent_form: nil)
+      expect(referral.valid?).to be_falsey
+    end
+
+    it 'valid' do
+      referral = FactoryGirl.build(:referral, referred_to: 'app', consent_form: nil)
+      expect(referral.valid?).to be_truthy
+    end
+  end
 end
 
 describe Referral, 'callbacks' do
   let(:client_1){ create(:client, :accepted) }
   let(:referral_1){ build(:referral, referred_from: 'Organization Testing', referred_to: 'demo', client: client_1, slug: client_1.slug) }
   before { referral_1.save }
-  context 'before_save' do
+  context 'before_validation' do
     context '#set_referred_from' do
       it 'to short_name of tenant' do
         expect(referral_1.referred_from).to eq('app')
@@ -43,7 +54,7 @@ describe Referral, 'callbacks' do
         expect(Referral.first.referral_reason).to eq(referral_1.referral_reason)
         expect(Referral.first.date_of_referral).to eq(referral_1.date_of_referral)
         expect(Referral.first.saved).to eq(referral_1.saved)
-        expect(Referral.first.consent_form.file.original_filename).to eq(referral_1.consent_form.file.original_filename)
+        expect(Referral.first.consent_form.present?).to be_falsey
         Organization.switch_to 'app'
       end
     end
@@ -115,6 +126,12 @@ end
 
 describe Referral, 'methods' do
   let!(:referral_1){ create(:referral, referred_from: 'Organization Testing', referred_to: 'demo') }
+
+  context '#making_referral?' do
+    it 'returns true/false whether or not the referral is made by the current organization' do
+      expect(referral_1.making_referral?).to be_truthy
+    end
+  end
 
   context '#non_oscar_ngo?' do
     it 'returns true/false whether target NGO is not using OSCaR' do
