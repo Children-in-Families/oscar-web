@@ -348,9 +348,9 @@
                 %td.spacing-first-col
                   = t('.agencies_involved')
                 %td
-                  - @client.agencies.each do|agency|
-                    %strong.label.label-default.agency
-                      = agency.name
+                  - @client.partners.each do|partner|
+                    %strong.label.label-default.partner
+                      = partner.name
         .row
           .col-xs-12
             %table.table.table-bordered

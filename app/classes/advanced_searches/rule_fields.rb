@@ -95,7 +95,7 @@ module AdvancedSearches
     end
 
     def agencies_options
-      Agency.order(:name).map { |s| { s.id.to_s => s.name } }
+      Partner.is_agencies.order(:name).map { |s| { s.id.to_s => s.name } }
     end
 
     def user_select_options
