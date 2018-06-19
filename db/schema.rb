@@ -747,7 +747,7 @@ ActiveRecord::Schema.define(version: 20180528031754) do
     t.datetime "updated_at"
     t.integer  "cases_count",               default: 0
     t.integer  "organization_type_id"
-    t.string   "type"
+    t.string   "partner_type",              default: [], array: true
   end
 
   add_index "partners", ["organization_type_id"], name: "index_partners_on_organization_type_id", using: :btree
@@ -846,10 +846,10 @@ ActiveRecord::Schema.define(version: 20180528031754) do
   create_table "quantitative_type_permissions", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "quantitative_type_id"
-    t.boolean  "readable",             default: false
-    t.boolean  "editable",             default: false
-    t.datetime "created_at",                           null: false
-    t.datetime "updated_at",                           null: false
+    t.boolean  "readable",             default: true
+    t.boolean  "editable",             default: true
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
   end
 
   add_index "quantitative_type_permissions", ["quantitative_type_id"], name: "index_quantitative_type_permissions_on_quantitative_type_id", using: :btree
@@ -901,23 +901,6 @@ ActiveRecord::Schema.define(version: 20180528031754) do
     t.integer  "clients_count", default: 0
   end
 
-  create_table "referrals", force: :cascade do |t|
-    t.string   "slug",             default: ""
-    t.date     "date_of_referral"
-    t.string   "referred_to",      default: ""
-    t.string   "referred_from",    default: ""
-    t.text     "referral_reason",  default: ""
-    t.string   "name_of_referee",  default: ""
-    t.string   "referral_phone",   default: ""
-    t.string   "client_name",      default: ""
-    t.boolean  "saved",            default: false
-    t.integer  "client_id"
-    t.datetime "created_at",                       null: false
-    t.datetime "updated_at",                       null: false
-  end
-
-  add_index "referrals", ["client_id"], name: "index_referrals_on_client_id", using: :btree
-
   create_table "settings", force: :cascade do |t|
     t.string   "assessment_frequency"
     t.integer  "min_assessment"
@@ -933,23 +916,6 @@ ActiveRecord::Schema.define(version: 20180528031754) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  create_table "shared_clients", force: :cascade do |t|
-    t.string   "slug",              default: ""
-    t.string   "given_name",        default: ""
-    t.string   "family_name",       default: ""
-    t.string   "local_given_name",  default: ""
-    t.string   "local_family_name", default: ""
-    t.string   "gender",            default: ""
-    t.date     "date_of_birth"
-    t.string   "live_with",         default: ""
-    t.string   "telephone_number",  default: ""
-    t.integer  "birth_province_id"
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
-  end
-
-  add_index "shared_clients", ["slug"], name: "index_shared_clients_on_slug", unique: true, using: :btree
 
   create_table "stages", force: :cascade do |t|
     t.float    "from_age"
@@ -1386,7 +1352,6 @@ ActiveRecord::Schema.define(version: 20180528031754) do
   add_foreign_key "quantitative_type_permissions", "quantitative_types"
   add_foreign_key "quantitative_type_permissions", "users"
   add_foreign_key "quarterly_reports", "cases"
-  add_foreign_key "referrals", "clients"
   add_foreign_key "subdistricts", "districts"
   add_foreign_key "surveys", "clients"
   add_foreign_key "tasks", "clients"
