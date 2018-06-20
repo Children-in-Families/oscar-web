@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180612073433) do
+ActiveRecord::Schema.define(version: 20180620023347) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -902,7 +902,7 @@ ActiveRecord::Schema.define(version: 20180612073433) do
     t.string   "referral_phone",   default: ""
     t.integer  "referee_id"
     t.string   "client_name",      default: ""
-    t.string   "consent_form"
+    t.string   "consent_form",     default: [],                 array: true
     t.boolean  "saved",            default: false
     t.integer  "client_id"
     t.datetime "created_at",                       null: false

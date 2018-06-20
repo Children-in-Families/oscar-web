@@ -3,7 +3,7 @@ CIF.ReferralsNew = CIF.ReferralsCreate = CIF.ReferralsUpdate = CIF.ReferralsEdit
     _initSelect2()
     _initExternalReferral()
     _handleExternalReferralSelected()
-    # _initUploader()
+    _initUploader()
 
   _handleExternalReferralSelected = ->
     $('.referral_referred_to').on 'change', ->
