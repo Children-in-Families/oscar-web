@@ -148,6 +148,16 @@ en:
               blank: can't be blank
         client:
           attributes:
+            client_users:
+              blank: can't be blank
+            initial_referral_date:
+              blank: can't be blank
+            name_of_referee:
+              blank: can't be blank
+            received_by_id:
+              blank: can't be blank
+            referral_source:
+              blank: can't be blank
             user_ids:
               blank: can't be blank
         client_enrollment:
@@ -446,7 +456,6 @@ en:
     form_builder_attachments:
       destroy:
         successfully_deleted: Attachment has been successfully deleted.
-        successfully_updated:
   are_you_sure: Are you sure you want to delete?
   assessments:
     add_task_form:
@@ -1700,9 +1709,7 @@ en:
         rated_for_id_poor: Is The Client Rated For ID Poor
         reason_for_family_separation: Reason for Family Separation
         received_by: Referral Received By
-        referral_information: Referral Information
         referral_phone: Referee Phone Number
-        referral_received_by: Referral Received By
         referral_source: Referral Source
         reject_note: Note on referral rejection
         rejected_note: Note on referral rejection
@@ -1710,7 +1717,6 @@ en:
         road: Road
         school_grade: School Grade
         school_name: School Name
-        staff_responsibilities: Staff Responsibilities
         state: State
         status: Status
         street_line1: Street Line 1

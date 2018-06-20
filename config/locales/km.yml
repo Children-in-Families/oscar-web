@@ -378,7 +378,6 @@ km:
       rated_for_id_poor: តើអតិថិជនត្រូវបានវាយតម្លៃថាអត្តសញ្ញាណក្រីក្រឬទេ
       received_by: បុគ្គលិកទទួលករណី
       received_by_id: បុគ្គលិកទទួលករណី
-      referral_information: ព័ត៌មានអ្នកបញ្ជូនករណី
       referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
       referral_source: ប្រភពនៃការបញ្ជូន
       referral_source_id: ប្រភពនៃការបញ្ជូន
@@ -522,7 +521,7 @@ km:
   api:
     form_builder_attachments:
       destroy:
-        successfully_updated: ការប៉ាន់ប្រមាណត្រូវបានកែសម្រួលដោយជោគជ័យ
+        successfully_deleted: ឯកសារភ្ជាប់ត្រូវបានលុបដោយជោគជ័យ
   back: ត្រលប់ក្រោយ
   calendars:
     index:
@@ -850,7 +849,7 @@ km:
       successfully_created: ការចុះឈ្មោះត្រូវបានរក្សាទុកដោយជោគជ័យ
     destroy:
       successfully_deleted: ការចុះឈ្មោះត្រូវបានលុបដោយជោគជ័យ
-      delete_attachment_successfully: ឯកសារភ្ជាប់ត្រូវបានកែសម្រួលដោយជោគជ័យ
+      delete_attachment_successfully: ឯកសារភ្ជាប់ត្រូវបានលុបដោយជោគជ័យ
     edit:
       enrollment: ពិនិត្យកែប្រែទម្រង់បែបបទនៃការចុះឈ្មោះ
     form:
@@ -1009,6 +1008,7 @@ km:
       full_program: កម្មវិធីនេះពេញហើយ!
       tracking: តាមដាន
     new:
+      client_not_valid: អតិថិជនមិនមានលក្ខខ័ណ្ឌគ្រប់គ្រាន់ដើម្បីចូលក្នុងកម្មវិធីនេះទេ
       new_enrollment: ការចុះឈ្មោះថ្មី
     report:
       actions: សកម្មភាព
@@ -1251,7 +1251,6 @@ km:
       relevant_referral_information: ព័ត៌មានសំខាន់ៗដែលពាក់ព័ន្ធនឹងការបញ្ជូនករណី
       school_grade: កំរិតថ្នាក់
       school_name: ឈ្មោះសាលារៀន
-      staff_responsibilities: ទំនួលខុសត្រូវបុគ្គលិក
       stage: សំនួរ តំណាក់កាល
       state: ទទួល/បដិសេធ
       status: ស្ថានភាព
@@ -1935,6 +1934,7 @@ km:
         roles: តួនាទី
         start_date: កាលបរិច្ឆេទចាប់ផ្តើម
         view: មើល
+      what3words: What3words
     filters:
       dynamic:
         operations:
@@ -3165,7 +3165,7 @@ km:
       log_out: ចាកចេញ
       manage: គ្រប់គ្រង
       materials: របស់របរ/សំភារៈ
-      organisation_types: ប្រភេទឣង្គភាព
+      organisation_type: ប្រភេទឣង្គភាព
       partners: ដៃគូ
       program_streams: កម្មវិធីចម្បង
       progress_note: កត់សំគាល់ការរីកចំរើន
@@ -3317,7 +3317,7 @@ km:
     form:
       cancel: ទុកជាមោឃៈ
       name: ឈ្មោះប្រភេទឣង្គភាព
-      province: ប្រភេទឣង្គភាព
+      organisation_type: ប្រភេទឣង្គភាព
       save: រក្សាទុក
     index:
       add_new_organisation_type: បន្ថែមប្រភេទឣង្គភាពថ្មី
@@ -3413,6 +3413,7 @@ km:
     all_ngos_custom_fields:
       next: ទំព័របន្ទាប់
       preview: មើលជាមុន
+      previous: ទំព័រមុន
     all_ngos_program_streams_tab:
       actions: សកម្មភាព
       copy: ចំលង
@@ -4323,6 +4324,16 @@ km:
       province: ខេត្ត
       roles: តួនាទី
       start_date: កាលបរិច្ឆេទចាប់ផ្តើម
+    permissions:
+      assessments: ការប៉ាន់ប្រមាណ
+      case_notes: កំណត់ត្រាករណី
+      custom_forms: ទម្រង់បែបបទ
+      custom_programs: កម្មវិធីចម្បង
+      permissions_selector: សិទ្ធិអនុញ្ញាត
+      quantitative_types: ពត៌មានបញ្ជូនបន្ថែម
+    quantitative_type_permission:
+      can_edit: អាចកែបាន
+      can_view: អាចមើលបាន
     show:
       add_form: បន្ថែមទម្រង់បែបបទទៅឲ្យអ្នកប្រើប្រាស់
       additional_forms: ទម្រង់បែបបទរបស់អ្នកប្រើប្រាស់
@@ -4350,16 +4361,6 @@ km:
       province: ខេត្ត
       roles: តួនាទី
       start_date: កាលបរិច្ឆេទចាប់ផ្តើម
-    permissions:
-      assessments: ការប៉ាន់ប្រមាណ
-      case_notes: កំណត់ត្រាករណី
-      custom_forms: ទម្រង់បែបបទ
-      custom_programs: កម្មវិធីចម្បង
-      permissions_selector: សិទ្ធិអនុញ្ញាត
-      quantitative_types: ពត៌មានបញ្ជូនបន្ថែម
-    quantitative_type_permission:
-      can_edit: អាចកែបាន
-      can_view: អាចមើលបាន
     update:
       successfully_updated: អ្នកប្រើប្រាស់ត្រូវបានកែសម្រួលដោយជោគជ័យ
     version:

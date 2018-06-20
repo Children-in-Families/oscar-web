@@ -146,6 +146,16 @@ my:
               blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
         client:
           attributes:
+            client_users:
+              blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
+            initial_referral_date:
+              blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
+            name_of_referee:
+              blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
+            received_by_id:
+              blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
+            referral_source:
+              blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
             user_ids:
               blank: ကြက္လပ္ခ်န္ထား၍မရပါ။
         client_enrollment:
@@ -444,7 +454,6 @@ my:
     form_builder_attachments:
       destroy:
         successfully_deleted: တြဲထားသည္ကို ေအာင္ျမင္စြာဖ်က္ၿပီးပါၿပီ။
-        successfully_updated:
   are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား။
   assessments:
     add_task_form:
@@ -1127,7 +1136,6 @@ my:
       exit_note: ထြက္သည့္မွတ္စု
       exit_status: ထြက္သည့္အေနအထား
       family_name: မိသားစုနာမည္
-      finish: ကယ်ဆယ်
       follow_up_by: မွ ဆက္သည္
       follow_up_date: ေနာက္ဆက္တြဲ ရက္စြဲ
       followed_up_by: မွ ဆက္လက္လုပ္ေဆာင္သည္
@@ -3380,7 +3388,7 @@ my:
       warning_message: သငျသညျ client ကိုဒေတာသည်ကယ်တင်ခြင်းသို့ရောက်သောအစီအစဉ် Stream ကိုဖျက်ဖို့အကြောင်းရှိပါသည်။ သငျသညျဆက်လက်ဆောင်ရွက်ရန်ဆန္ဒရှိပါသလား
     all_ngos_custom_fields:
       next: ေနာက္သို႔
-      preview:
+      preview: အသေးစိတ်
       previous: ခ႐ိုင္
     all_ngos_program_streams_tab:
       actions: လုပ္ေဆာင္မႈ
