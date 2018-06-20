@@ -22,7 +22,6 @@ namespace 'partner_list' do
       Client.all.each do |client|
         if client.referral_source_id.present?
           referral_id = client.referral_source_id
-          return unless referral_id.present?
           referral_name = ReferralSource.find_by(id: referral_id).try(:name)
           partner_id = Partner.find_by(name: referral_name).id
           client.update_columns(referral_source_id: partner_id)
@@ -30,7 +29,6 @@ namespace 'partner_list' do
 
         if client.agency_clients.present?
           agency_ids = AgencyClient.where(client_id: client.id).pluck(:agency_id)
-          return unless agency_ids.any?
           ageny_names = Agency.where(id: agency_ids).pluck(:name)
           Partner.where(name: ageny_names).each do |partner|
             client.client_partners.create(partner_id: partner.id)

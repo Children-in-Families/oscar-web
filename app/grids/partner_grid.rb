@@ -94,7 +94,7 @@ class PartnerGrid
   end
 
   column(:partner_type, order: 'partners.partner_type', header: -> { I18n.t('datagrid.columns.partners.partner_type') }) do |object|
-    object.try(:partner_type).join(',').titleize
+    object.try(:partner_type).join(', ').titleize
   end
 
   dynamic do
