@@ -282,8 +282,9 @@ class UserNotification
     existing_client_referrals = []
     new_client_referrals = []
     referrals = Referral.received.unsaved
-
+    referral_slug = ''
     referrals.each do |referral|
+      next if referral_slug == referral.slug
       referral_slug = referral.slug
       client = Client.find_by(slug: referral_slug)
       client.present? ? existing_client_referrals << referral : new_client_referrals << referral

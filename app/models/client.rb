@@ -431,8 +431,8 @@ class Client < ActiveRecord::Base
   end
 
   def mark_referral_as_saved
-    referral = Referral.find_by(slug: slug, saved: false)
-    referral.update_attributes(client_id: id, saved: true) if referral.present?
+    referrals = Referral.where(slug: slug, saved: false)
+    referrals.update_all(client_id: id, saved: true) if referrals.present?
   end
 
   def create_or_update_shared_client
