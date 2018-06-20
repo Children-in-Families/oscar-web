@@ -158,6 +158,9 @@ en:
           attributes:
             entity_type:
               blank: can't be blank
+              inclusion: is not included in the list
+            fields:
+              blank: can't be blank
             form_title:
               blank: can't be blank
               taken: has already been taken
@@ -183,6 +186,10 @@ en:
             name:
               blank: can't be blank
               taken: has already been taken
+        family:
+          attributes:
+            family_type:
+              blank: can't be blank
         government_report:
           attributes:
             code:
@@ -196,7 +203,7 @@ en:
         leave_program:
           attributes:
             exit_date:
-              blank:
+              blank: can't be blank
         location:
           attributes:
             name:
@@ -281,6 +288,8 @@ en:
               too_short: too short
             password_confirmation:
               confirmation: does not match
+            roles:
+              blank: can't be blank
   add_event_success: Event has been added to calendar successfully.
   advanced_search:
     fields:
@@ -357,7 +366,7 @@ en:
       postal_code: Postal Code
       province: Birth Province
       province_id: Current Province
-      quantitative: Specific Referral Data
+      quantitative: Custom Referral Data
       rated_for_id_poor: Is The Client Rated For ID Poor
       received_by: Referral Received By
       received_by_id: Received By
@@ -384,7 +393,7 @@ en:
       time_of_frequency: Time of Frequency
       township: Township
       tracking: Tracking
-      type: Type
+      type: Attached with
       user_id: Case Worker
       village: Village
       what3words: What3words
@@ -651,19 +660,19 @@ en:
       are_you_sure: Are you sure you want to delete?
       description: Description
     create:
-      failed_create: Failed to create a releaselog.
-      successfully_created: Releaselog has been successfully created.
+      failed_create: Failed to create a Release log.
+      successfully_created: Release log has been successfully created.
     destroy:
-      failed_delete: Failed to delete a releaselog
-      successfully_deleted: Releaselog has been successfully deleted.
+      failed_delete: Failed to delete a Release log
+      successfully_deleted: Release log has been successfully deleted.
     edit:
-      edit_releaselog: Edit Release
+      edit_releaselog: Edit Release log
     form:
       add_change: Add change
       cancel: Cancel
       change_version: Version
       description: Description
-      releaselog: Releaselog
+      releaselog: Release log
       save: Save
     index:
       add_new_release: Add New Release
@@ -675,12 +684,12 @@ en:
       version_list: Version List
       view_changelog: View changelog
     new:
-      new_releaselog: New Release
+      new_releaselog: New Release log
     show:
       back: Back
     update:
-      failed_update: Failed to update a releaselog.
-      successfully_updated: Releaselog has been successfully updated.
+      failed_update: Failed to update a Release log.
+      successfully_updated: Release log has been successfully updated.
     version:
       back: Back
       modification_of: Changelog of
@@ -764,7 +773,7 @@ en:
     #   exit_program: Exit Program
     #   filter_option: Please choose your query options below
     #   program_stream: Program Stream
-    #   quantitative: Specific Referral Data
+    #   quantitative: Custom Referral Data
     #   tracking: Tracking
     tasks:
       create:
@@ -810,12 +819,12 @@ en:
   #     exit_program: Exit Program
   #     filter_option: Please choose your query options below
   #     program_stream: Program Stream
-  #     quantitative: Specific Referral Data
+  #     quantitative: Custom Referral Data
   #     tracking: Tracking
   #   index:
   #     add_new_filter: Add New Filter
   #     add_new_group: Add Group
-  #     advanced_search: Advanced Search
+  #     advanced_search: Report Builder
   #     assessments: Assessments
   #     client_column: Client General Information
   #     csi_domain_scores: CSI Domain Scores
@@ -1012,11 +1021,11 @@ en:
       advanced_search:
         add_new_filter: Add New Filter
         add_new_group: Add Group
-        advanced_search: Advanced Search
+        advanced_search: Report Builder
         assessments: Assessments
-        client_column: Client basic columns
+        client_column: Client General Information
         csi_domain_scores: CSI Domain Scores
-        custom_form_column: Custom form columns
+        custom_form_column: Custom Form columns
         delete_group: Delete
         export_to_xls: Export to XLS
         no_results: No Result Found
@@ -1032,7 +1041,7 @@ en:
         exit_program: Exit Program
         filter_option: Please choose your query options below
         program_stream: Program Stream
-        quantitative: Specific Referral Data
+        quantitative: Custom Referral Data
         tracking: Tracking
       load_save_search:
         my_saved_search: My Saved Search
@@ -1258,7 +1267,7 @@ en:
     index:
       active_programs: Active Programs
       add_new_client: Add New Client
-      # advanced_search: Advanced Search
+      # advanced_search: Report Builder
       all_csi_assessments: All CSI Assessments
       assessments: Assessments
       # case_statistics: Case Statistics
@@ -1349,7 +1358,7 @@ en:
       add_form: Add Form
       add_kc_btn: Add to KC
       additional_details: Additional Details
-      additional_forms: Additional Forms
+      additional_forms: Client's Active Forms
       additional_info: Additional Information
       address: Address
       age: Age
@@ -1373,7 +1382,7 @@ en:
       district: District/Khan
       donor: Donor
       edit_exit_information: Edit Exit Information
-      enrolled_program_streams: Enrolled Program Streams
+      enrolled_program_streams: Client's Active Program Streams
       enter_ngo_information: Enter NGO Information
       exit_circumstance: Exit Circumstance
       exit_date: NGO Exit Date
@@ -1437,7 +1446,7 @@ en:
         start_date: Start Date
         support_amount: Support Amount
         support_note: Support Note
-      program_streams: Program Streams
+      program_streams: Enroll Client to Program Streams
       progress_note: Progress Note
       province: Birth Province
       received_by: Referral Received By
@@ -1494,10 +1503,10 @@ en:
       download: Download
       preview_download: Preview Download
     create:
-      successfully_created: Custom Field Property has been successfully created.
+      successfully_created: Custom Field Properties has been successfully created.
     destroy:
       delete_attachment_successfully: Attachment has been successfully deleted.
-      successfully_deleted: Custom Field Property has been successfully deleted.
+      successfully_deleted: Custom Field Properties has been successfully deleted.
     form:
       cancel: Cancel
       save: Save
@@ -1510,7 +1519,7 @@ en:
     show:
       back: Back
     update:
-      successfully_updated: Custom Field Property has been successfully updated.
+      successfully_updated: Custom Field Properties has been successfully updated.
   dashboards:
     active_tasks:
       all_active_tasks: All Active Tasks
@@ -1535,6 +1544,7 @@ en:
       client_active_in_programs: Active Program Streams
     duetoday:
       assessment: Assessment
+      assessments: Assessments
       duetoday_tasks: Due today Tasks
       forms: Forms
       tasks: Tasks
@@ -1544,6 +1554,7 @@ en:
       kinship: Kinship
     overdue:
       assessment: Assessment
+      assessments: Assessments
       forms: Forms
       overdue_tasks: Overdue Tasks
       tasks: Tasks
@@ -1557,6 +1568,7 @@ en:
       staffs: Staff Members
     upcoming:
       assessment: Assessment
+      assessments: Assessments
       forms: Forms
       tasks: Tasks
       upcoming_tasks: Upcoming Tasks
@@ -1599,9 +1611,9 @@ en:
       progress_notes: Progress Notes
       provinces: Provinces
       quantitative_cases: Specific Referral Data Option
-      quantitative_types: Specific Referral Data
+      quantitative_types: Custom Referral Data
       referral_sources: Referral Sources
-      releaselogs: Releaselogs
+      releaselogs: Release logs
       stages: Stages
       surveys: Surveys
       tasks: Tasks
@@ -1723,7 +1735,7 @@ en:
         program_streams: Program Streams
         province: Birth Province
         quantitative_case_values: Specific Referral Data Option
-        quantitative_types: Specific Referral Data
+        quantitative_types: Custom Referral Data
         rated_for_id_poor: Is The Client Rated For ID Poor
         reason_for_family_separation: Reason for Family Separation
         received_by: Referral Received By
@@ -1750,7 +1762,7 @@ en:
         time_of_frequency: Time of Frequency
         total: Total
         township: Township
-        type: Type
+        type: Attached with
         view: View
         village: Village
         what3words: What3words
@@ -1776,7 +1788,7 @@ en:
         female_adult_count: Female Adult Count
         female_children_count: Female Children Count
         form_title: Form Title
-        household_income: Household Income
+        household_income: Monthly Household Income
         id: ID
         male: Male
         male_adult_count: Male Adult Count
@@ -1981,7 +1993,7 @@ en:
     form_title: Form Title
     frequency: Frequency
     time_of_frequency: Time of Frequency
-    type: Type
+    type: Attached with
   default_entity_type_custom_fields:
     create:
       successfully_created: Succesfully created information.
@@ -2010,7 +2022,7 @@ en:
     family_type: Family Type
     female_adult_count: Female Adult Count
     female_children_count: Female Children Count
-    household_income: Household Income
+    household_income: Monthly Household Income
     id: ID
     male_adult_count: Male Adult Count
     male_children_count: Male Children Count
@@ -2534,8 +2546,8 @@ en:
       advanced_search:
         add_new_filter: Add New Filter
         add_new_group: Add Group
-        advanced_search: Advanced Search
-        custom_form_column: Custom form columns
+        advanced_search: Report Builder
+        custom_form_column: Custom Form columns
         delete_group: Delete
         family_column: Family basic columns
         no_results: No Result Found
@@ -2558,7 +2570,7 @@ en:
       family_type: Family Type
       female_adult_count: Female Adult Count
       female_children_count: Female Children Count
-      household_income: Household Income
+      household_income: Monthly Household Income
       id: ID
       male_adult_count: Male Adult Count
       male_children_count: Male Children Count
@@ -2579,7 +2591,7 @@ en:
       new_family_title: New Family
     show:
       add_form: Add Form
-      additional_forms: Additional Forms
+      additional_forms: Family's Active Forms
       additional_info: Additional Information
       address: Address
       are_you_sure: Are you sure you want to delete?
@@ -2592,7 +2604,7 @@ en:
       female_adult_count: Female Adult Count
       female_children_count: Female Children Count
       general_info: About Family
-      household_income: Household Income
+      household_income: Monthly Household Income
       id: ID
       male_adult_count: Male Adult Count
       male_children_count: Male Children Count
@@ -2625,7 +2637,7 @@ en:
         preview: Preview
         search_custom_form: Search Custom Form
         time_of_frequency: Time of Frequency
-        type: Type
+        type: Attached with
       create:
         successfully_created: Custom Form has been successfully created.
       current_custom_form_tab:
@@ -2638,7 +2650,7 @@ en:
         preview: Preview
         search_custom_form: Search Custom Form
         time_of_frequency: Time of Frequency
-        type: Type
+        type: Attached with
       demo_custom_form_tab:
         are_you_sure: Are you sure you want to delete?
         close: Close
@@ -2655,14 +2667,14 @@ en:
         failed_to_delete: Custom Form cannot be deleted.
         successfully_deleted: Custom Form has been successfully deleted.
       edit:
-        form_builder: Form Builder
+        form_builder: Custom Form
       form:
         copy: Copy
         form_title: Form Title
         frequency: Frequency
         preview: Preview
         time_of_frequency: Time of Frequency
-        type: Type
+        type: Attached with
       index:
         all_ngo: All NGOs' Custom Forms
         demo_ngo: Demo NGO's Custom Forms
@@ -2672,10 +2684,10 @@ en:
         new_custom_form: New Custom Form
         search: Search
         time_of_frequency: Time of Frequency
-        type: Type
+        type: Attached with
       new:
         cancel: Cancel
-        form_builder: Form Builder
+        form_builder: Custom Form
         save: Save
       search:
         back: Back
@@ -3098,7 +3110,7 @@ en:
       clients: Clients
       country: Country
       csi_tools: CSI Tools
-      custom_fields: Form Builder
+      custom_fields: Custom Form
       dashboards: Dashboards
       default_columns: Default Columns
       departments: Departments
@@ -3122,7 +3134,7 @@ en:
       progress_note: Progress Note
       progress_note_types: Types of Note
       provinces: Provinces
-      quantitative_types: Specific Referral Data
+      quantitative_types: Custom Referral Data
       referral_sources: Referral Sources
       release_logs: Release logs
       settings: Settings
@@ -3337,9 +3349,9 @@ en:
       advanced_search:
         add_new_filter: Add New Filter
         add_new_group: Add Group
-        advanced_search: Advanced Search
+        advanced_search: Report Builder
         partner_column: Partner basic columns
-        custom_form_column: Custom form columns
+        custom_form_column: Custom Form columns
         delete_group: Delete
         no_results: No Result Found
         reset: Reset
@@ -3351,7 +3363,7 @@ en:
         filter_option: Please choose your query options below
     show:
       add_form: Add Form
-      additional_forms: Additional Forms
+      additional_forms: Partner's Active Forms
       additional_info: Additional Information
       address: Address
       affiliation: Affiliation
@@ -3372,14 +3384,14 @@ en:
     version:
       back: Back
       modification_of: Changelog of
-  program_exclusive_has_been_modified: Program Exclusive cannot be changed or added because it breaks the previous conditions.
+  program_exclusive_has_been_modified: Program Exclusive cannot be changed or added because it breaks the previous rules.
   program_streams:
     actions:
       are_you_sure: Are you sure you want to delete?
       warning_message: You are about to delete a Program Stream that has saved client data. Do you wish to proceed?
     all_ngos_custom_fields:
       next: Next
-      # preview: Preview
+      preview: Preview
       previous: Previous
     all_ngos_program_streams_tab:
       actions: Action
@@ -3404,7 +3416,7 @@ en:
       status: Status
     custom_form_table:
       copy: Copy
-      entity_type: Type
+      entity_type: Attached with
       form_title: Form Title
       organization: Organization
     custom_forms:
@@ -3430,7 +3442,7 @@ en:
     edit:
       back: Back
       edit: Edit
-      # edit_program_stream: Edit Program Stream
+      edit_program_stream: Edit Program Stream
     enrollment:
       custom_fields: Custom Forms
       enrollment_form: Enrollment
@@ -3670,7 +3682,7 @@ en:
       title: Edit Specific Referral Data Option
     form:
       cancel: Cancel
-      quantitative_type: Specific Referral Data
+      quantitative_type: Custom Referral Data
       save: Save
       value: Value
     new:
@@ -3682,33 +3694,33 @@ en:
       modification_of: Changelog of
   quantitative_types:
     create:
-      failed_create: Failed to create a Specific Referral Data.
-      successfully_created: Specific Referral Data has been successfully created.
+      failed_create: Failed to create a Custom Referral Data.
+      successfully_created: Custom Referral Data has been successfully created.
     destroy:
-      alert: Specific Referral Data cannot be deleted.
-      failed_delete: Failed to delete a Specific Referral Data.
-      successfully_deleted: Specific Referral Data has been successfully deleted.
+      alert: Custom Referral Data cannot be deleted.
+      failed_delete: Failed to delete a Custom Referral Data.
+      successfully_deleted: Custom Referral Data has been successfully deleted.
     edit:
-      title: Edit Specific Referral Data
+      title: Edit Custom Referral Data
     form:
-      add_quantitative_data: Add Specific Referral Data Option
+      add_quantitative_data: Add Custom Referral Data Option
       cancel: Cancel
       name: Name
-      quantitative_type: Specific Referral Data
+      quantitative_type: Custom Referral Data
       save: Save
     index:
-      add_new_quantitative_type: Add New Specific Referral Data
-      add_quantitative_data: Specific Referral Data Option
+      add_new_quantitative_type: Add New Custom Referral Data
+      add_quantitative_data: Custom Referral Data Option
       are_you_sure: Are you sure you want to delete?
-      quantitative_types: Specific Referral Data
+      quantitative_types: Custom Referral Data
       view_changelog: View changelog
     quantitative_case_fields:
       are_you_sure: Are you sure you want to delete?
       quantitative_data: Specific Referral Data Option
       value: Value
     update:
-      failed_update: Failed to update a Specific Referral Data.
-      successfully_updated: Specific Referral Data has been successfully updated.
+      failed_update: Failed to update a Custom Referral Data.
+      successfully_updated: Custom Referral Data has been successfully updated.
     version:
       back: Back
       modification_of: Changelog of
@@ -3758,7 +3770,7 @@ en:
       csi_domain_scores: CSI Domain Scores
       domain_score: Domain Scores
   review_problem: 'Please review the problems below:'
-  rules_has_been_modified: Conditions cannot be changed or added because it breaks the previous conditions.
+  rules_has_been_modified: Rules cannot be changed or added because it breaks the previous rules.
   save: Save
   sessions:
     create:
@@ -3843,7 +3855,7 @@ en:
         case_cote: Case Note
         case_note: Casenote
         change: did the following change
-        changelog: Releaselog
+        changelog: Release log
         client: Client
         client_custom_field: Client Custom Forms
         create: Create
@@ -3870,7 +3882,7 @@ en:
         progress_note_type: Type of Note
         province: Province
         quantitative_case: Specific Referral Data Option
-        quantitative_type: Specific Referral Data
+        quantitative_type: Custom Referral Data
         referral_source: Referral Source
         stage: Stage
         survey: Survey
@@ -4300,15 +4312,15 @@ en:
       assessments: CSI Assessments
       case_notes: Case Notes
       custom_forms: Custom Forms
-      custom_programs: Custom Programs
+      custom_programs: Program Stream
       permissions_selector: Permissions Selector
-      quantitative_types: Specific Referral Data
+      quantitative_types: Custom Referral Data
     quantitative_type_permission:
       can_edit: Can Edit
       can_view: Can View
     show:
       add_form: Add Form
-      additional_forms: Additional Forms
+      additional_forms: User's Active Forms
       additional_info: Additional Information
       are_you_sure: Are you sure you want to delete?
       clients: Clients

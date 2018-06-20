@@ -3512,6 +3512,17 @@ my:
       program_exclusive: သီးသန္႔ အစီအစဥ္
       quantity: ပမာဏ
       rule: စည္းမ်ဥ္းမ်ား
+    search:
+      actions: လုပ်ရပ်များ
+      back: ပြန်
+      copy: မိတ္တူ
+      domain: ဒိုမိန်း
+      maximum: အများဆုံး
+      name: နာမတျောကို
+      no_results: အဘယ်သူမျှမရလဒ်
+      organization: အဖှဲ့အစညျး
+      preview: အသေးစိတ်
+      status: အဆင့်အတန်း
     show:
       back: ေနာက္သို႔
       copy: ေကာ္ပီကူးသည္
