@@ -87,7 +87,7 @@ my:
           general_question: အေထြေထြေမးခြန္း
           new_general_question: အေထြေထြေမးခြန္းအသစ္
           new_stage_question: အဆင့္ေမးခြန္းအသစ္
-          question:
+          question: မေးခွန်း
           stage: အဆင့္
           stage_question: အဆင့္ေမးခြန္း
           to: သို႔
@@ -810,32 +810,6 @@ my:
         enter_task_detail: လုပ္ငန္းအေသးစိတ္ထည့္သြင္းရန္
       update:
         successfully_updated: လုပ္ငန္းကို ေအာင္ျမင္စြာ အသစ္ ျပင္ဆင္ၿပီးပါၿပီ
-  client_advanced_searches:
-    form_option:
-      basic_fields: အမႈသည္၏ အေျခခံ အေနအထားမ်ား
-      csi_domain_scores: CSI ဒိုမိန္း ရမွတ္မ်ား
-      custom_form: အေကာက္ခြန္ပံုစံ
-      enrollment: စာရင္းေပးသြင္းမႈ
-      exit_program: ထြက္သည့္အစီအစဥ္
-      filter_option: ေအာက္တြင္ေဖာ္ျပထားသည့္ ေမးျမန္းမႈပံုစံမ်ားကို ေက်းဇူးျပဳ၍ ေရြးခ်ယ္ပါ။
-      program_stream: အစီအစံစီးဆင္းမႈ
-      quantitative: ပမာဏအမ်ိဳးအစား
-      tracking: ေနာက္ေၾကာင္းလိုက္ျခင္း
-    index:
-      add_new_filter: စိစစ္မႈအသစ္ျဖည့္ရန္
-      add_new_group: အဖြဲ႕ထည့္ရန္
-      advanced_search: အဆင့္ျမင့္ရွာေဖြမႈ
-      assessments: စိစစ္အကဲျဖတ္မႈမ်ား
-      client_column: အမႈသည္အေျခခံေကာ္လံမ်ား
-      csi_domain_scores: CSI ဒိုမိန္း ရမွတ္မ်ား
-      custom_form_column: အခြန္ပံုစံ ေကာ္လံမ်ား
-      delete_group: ဖ်က္ရန္
-      export_to_xls: XLS အျဖစ္ ထုတ္သည္။
-      no_results: ဘာမွရွာမေတြ႕ပါ။
-      program_stream_column: အစီအစဥ္စီးဆင္းမႈေကာ္လံ
-      reset: အကုန္ျပန္ျပင္သည္။
-      results: ရလာဒ္မ်ား
-      search: ရွာေဖြသည္။
   client_enrolled_program_trackings:
     action:
       new_tracking: ေနာက္ေၾကာင္းအသစ္

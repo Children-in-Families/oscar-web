@@ -815,55 +815,6 @@ km:
         enter_task_detail: កាតព្វកិច្ចលំអិត
       update:
         successfully_updated: កាតព្វកិច្ចត្រូវបានកែសម្រួលដោយជោគជ័យ
-  # client_advanced_searches:
-  #   form_option:
-  #     basic_fields: ពត៌មានទូទៅរបស់អតិថិជន
-  #     csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
-  #     custom_form: ទម្រង់បែបបទ
-  #     enrollment: ទម្រង់បែបបទនៃចុះឈ្មោះ
-  #     exit_program: ចាកចេញពីកម្មវិធី
-  #     filter_option: សូមជ្រើសជម្រើសសំណួររបស់អ្នកខាងក្រោម
-  #     program_stream: កម្មវិធីចម្បង
-  #     tracking: តាមដាន
-  #     quantitative: ពត៌មានបញ្ជូនបន្ថែម
-  #   index:
-  #     client_column: ជួរឈរពត៌មានទូទៅរបស់អតិថិជន
-  #     custom_form_column: ជួរឈរទម្រង់បែបបទ
-  #     load_save_search: ទាញយកលក្ខខ័ណ្ឌស្វែងរក
-  #     program_stream_column: ជួរឈរកម្មវិធីចម្បង
-  #     add_new_filter: បន្ថែមលក្ខខ័ណ្ឌថ្មី
-  #     add_new_group: បន្ថែមក្រុមលក្ខខ័ណ្ឌថ្មី
-  #     advanced_search: ការបង្កើតរបាយការណ៍
-  #     assessments: ការប៉ាន់ប្រមាណ
-  #     csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
-  #     delete_group: លុបក្រុមលក្ខខ័ណ្ឌនៃការស្វែងរក
-  #     export_to_xls: ទាញចេញជាឯកសារប្រភេទ XLS
-  #     no_results: មិនមានលទ្ធផល
-  #     reset: សំអាត
-  #     results: លទ្ធផល
-  #     save_search_settings: រក្សាទុកលក្ខខ័ណ្ឌស្វែងរក
-  #     search: ស្វែងរក
-  #   load_save_search:
-  #     my_saved_search: ការស្វែងរករបស់ខ្ញុំ
-  #     other_saved_search: ការស្វែងរកដទៃទៀត
-  #     search_settings_list: តារាងការស្វែងរកឆ្លាតវៃ
-  #   my_saved_searches:
-  #     action: សកម្មភាព
-  #     date: កាលបរិច្ឆេទ
-  #     description: ការបរិយាយ
-  #     load: ទាញយក
-  #     name: ឈ្មោះ
-  #   other_saved_searches:
-  #     action: សកម្មភាព
-  #     date: កាលបរិច្ឆេទ
-  #     description: ការបរិយាយ
-  #     load: ទាញយក
-  #     name: ឈ្មោះ
-  #     owner: អ្នកបង្កើត
-  #   save_search_setting:
-  #     description: ការបរិយាយ
-  #     name: ឈ្មោះ
-  #     new_search_setting: ការស្វែងរកឆ្លាតវៃថ្មី
   client_enrollment_trackings:
     action:
       new_tracking: បន្ថែមការតាមដានថ្មី
