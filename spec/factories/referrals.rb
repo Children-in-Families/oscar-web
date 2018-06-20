@@ -14,6 +14,6 @@ FactoryGirl.define do
     referee_id 1
     saved false
     association :client, factory: :client
-    consent_form { UploadedFile.new(File.open(File.join(Rails.root, '/spec/supports/file.docx'))) }
+    consent_form { [UploadedFile.new(File.open(File.join(Rails.root, '/spec/supports/file.docx')))] }
   end
 end

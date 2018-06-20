@@ -54,7 +54,8 @@ describe Referral, 'callbacks' do
         expect(Referral.first.referral_reason).to eq(referral_1.referral_reason)
         expect(Referral.first.date_of_referral).to eq(referral_1.date_of_referral)
         expect(Referral.first.saved).to eq(referral_1.saved)
-        expect(Referral.first.consent_form.present?).to be_falsey
+        expect(Referral.first.consent_form.present?).to be_truthy
+        expect(File.basename(Referral.first.consent_form.first.path)).to eq(File.basename(referral_1.consent_form.first.path))
         Organization.switch_to 'app'
       end
     end

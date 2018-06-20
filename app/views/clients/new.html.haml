@@ -10,9 +10,6 @@
             %h5= "Client ID - #{current_organization.short_name} ###"
         .consent-forms
           - if @referral.present?
-            -# - current_org = current_organization
-            -# - Organization.switch_to @referral.referred_from
             = link_to t('.download_supporting_document'), @referral.consent_form.first.url, class: 'btn btn-info btn-sm btn-download', target: :_blank
-            -# - Organization.switch_to current_org.short_name
       .ibox-content
         = render 'form'
