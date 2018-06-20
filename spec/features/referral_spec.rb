@@ -90,6 +90,7 @@ describe 'Referral' do
     scenario 'can edit referral', js: true do
       visit edit_client_referral_path(client, referral)
       fill_in 'referral_referral_phone', with: '012345678'
+      find('#referral_consent_form', visible: false).set('spec/supports/file.docx')
       click_button 'Save'
       expect(page).to have_content('012345678')
     end
