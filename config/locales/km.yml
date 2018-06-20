@@ -311,6 +311,7 @@ km:
       agencies_involved: អង្គភាពដែលពាក់ព័ន្ធ
       agency_name: ឈ្មោះអង្គភាព
       agency_names: ឈ្មោះអង្គភាព
+      basic_fields: ពត៌មានទូទៅរបស់អតិថិជន
       birth_province: ស្រុកកំណើត
       birth_province_id: ស្រុកកំណើត
       cambodia: កម្ពុជា
@@ -334,11 +335,13 @@ km:
       donor: ម្ចាស់ជំនួយ
       donor_id: ម្ចាស់ជំនួយ
       enrolled_program_stream: ចូលរួមកម្មវិធីចម្បងរួចហើយ
+      enrollment: ទម្រង់បែបបទនៃចុះឈ្មោះ
       exit_circumstance: ស្ថានភាពនៃការចាកចេញ
       exit_ec_date: ថ្ងៃចាកចេញពី EC
       exit_fc_date: ថ្ងៃចាកចេញពី FC
       exit_kc_date: ថ្ងៃចាកចេញពី KC
       exit_note: កំណត់ហេតុនៃការចាកចេញ
+      exit_program: ចាកចេញពីកម្មវិធី
       exit_reasons: មូលហេតុនៃការចាកចេញ
       family: គ្រួសារ
       family_id: លេខសម្គាល់គ្រួសារ
@@ -400,15 +403,10 @@ km:
       telephone_number: លេខទូរស័ព្ទ
       time_of_frequency: ពេលវេលានៃភាពញឹកញាប់
       township: Township
+      tracking: តាមដាន
       type: ប្រើប្រាស់ជាមួយ
       user_id: បុគ្គលិកគ្រប់គ្រងករណី
       village: ភូមិ
-      enrollment: ទម្រង់បែបបទនៃចុះឈ្មោះ
-      tracking: តាមដាន
-      exit_program: ចាកចេញពីកម្មវិធី
-      basic_fields: ពត៌មានទូទៅរបស់អតិថិជន
-      custom_form: ទម្រង់បែបបទ
-      quantitative: ពត៌មានបញ្ជូនបន្ថែម
       what3words: What3words
   advanced_search_save_queries:
     create:
@@ -455,6 +453,10 @@ km:
     version:
       back: ត្រលប់ក្រោយ
       modification_of: ប្រវត្តិកំណែរបស់
+  api:
+    form_builder_attachments:
+      destroy:
+        successfully_deleted: ឯកសារភ្ជាប់ត្រូវបានលុបដោយជោគជ័យ
   are_you_sure: តើអ្នកប្រាកដហើយ?
   assessments:
     add_task_form:
@@ -463,8 +465,22 @@ km:
       enter_task_detail: ព័ត៌មានពីកាតព្វកិច្ច
       save: រក្សាទុក
       title: បន្ថែមកាតព្វកិច្ចថ្មី
+    attachment:
+      attachments: ឯកសារភ្ជាប់
+      download: ទាញយក
+      preview_download: មើលនិងទាញយក
+    attachment_fields:
+      allow_file_size: ប្រភេទឯកសារដែលបានអនុញ្ញាត
+      are_you_sure: តើអ្នកប្រាកដហើយ?
+      attachments: ឯកសារភ្ជាប់
+      download: ទាញយក
+      max_file_size: "*ទំហំឯកសារអតិបរមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកឡើង."
+      preview_download: មើលនិងទាញយក
     create:
       successfully_created: ការប៉ាន់ប្រមាណត្រូវបានបង្កើតដោយជោគជ័យ
+    destroy:
+      fail_delete_attachment: បានបរាជ័យក្នុងការលុបឯកសារភ្ជាប់
+      successfully_deleted: ឯកសារភ្ជាប់ត្រូវបានកែសម្រួលដោយជោគជ័យ
     form:
       add_task: បន្ថែមកាតព្វកិច្ចថ្មី
       at_least_one_task_required: យ៉ាងហោចណាស់ត្រូវបង្កើតកាតព្វកិច្ចមួយ
@@ -497,31 +513,11 @@ km:
       on_date: នៅថ្ងៃ
       reason: មូលហេតុ
       score: ពិន្ទុ
+      show_attachment: បង្ហាញឯកសារភ្ជាប់
       task: កាតព្វកិច្ច
       three_month_assessment_report: របាយការណ៍ការប៉ាន់ប្រមាណទៀងទាត់
-      show_attachment: បង្ហាញឯកសារភ្ជាប់
-    create:
-      successfully_created: ការប៉ាន់ប្រមាណត្រូវបានបង្កើតដោយជោគជ័យ
     update:
       successfully_updated: ការប៉ាន់ប្រមាណត្រូវបានកែសម្រួលដោយជោគជ័យ
-    destroy:
-      successfully_deleted: ឯកសារភ្ជាប់ត្រូវបានកែសម្រួលដោយជោគជ័យ
-      fail_delete_attachment: បានបរាជ័យក្នុងការលុបឯកសារភ្ជាប់
-    attachment:
-      attachments: ឯកសារភ្ជាប់
-      download: ទាញយក
-      preview_download: មើលនិងទាញយក
-    attachment_fields:
-      allow_file_size: ប្រភេទឯកសារដែលបានអនុញ្ញាត
-      are_you_sure: តើអ្នកប្រាកដហើយ?
-      attachments: ឯកសារភ្ជាប់
-      download: ទាញយក
-      max_file_size: "*ទំហំឯកសារអតិបរមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកឡើង."
-      preview_download: មើលនិងទាញយក
-  api:
-    form_builder_attachments:
-      destroy:
-        successfully_deleted: ឯកសារភ្ជាប់ត្រូវបានលុបដោយជោគជ័យ
   back: ត្រលប់ក្រោយ
   calendars:
     index:
@@ -577,6 +573,9 @@ km:
       preview_download: មើលនិងទាញយក
     create:
       successfully_created: កំណត់ត្រាត្រូវបានបង្កើតដោយជោគជ័យ
+    destroy:
+      fail_delete_attachment: បានបរាជ័យក្នុងការលុបឯកសារភ្ជាប់
+      successfully_deleted: ឯកសារភ្ជាប់ត្រូវបានកែសម្រួលដោយជោគជ័យ
     form:
       add_task: បន្ថែមកាតព្វកិច្ចថ្មី
       back: ត្រលប់ក្រោយ
@@ -621,9 +620,6 @@ km:
       present: វត្តមានឣ្នកចូលរួម
     update:
       successfully_updated: កំណត់ត្រាត្រូវបានកែសម្រួលដោយជោគជ័យ
-    destroy:
-      successfully_deleted: ឯកសារភ្ជាប់ត្រូវបានកែសម្រួលដោយជោគជ័យ
-      fail_delete_attachment: បានបរាជ័យក្នុងការលុបឯកសារភ្ជាប់
   cases:
     create:
       already_have_a_case: ឣតិថិជនមានករណីរួចហើយ
@@ -778,7 +774,16 @@ km:
       update:
         failed_update: អតិថិជនមិនត្រូវបានកែសម្រួលដោយជោគជ័យ
         successfully_updated: អតិថិជនត្រូវបានកែសម្រួលដោយជោគជ័យ
-
+    form_option:
+      basic_fields: ពត៌មានទូទៅរបស់អតិថិជន
+      csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
+      custom_form: ទម្រង់បែបបទ
+      enrollment: ទម្រង់បែបបទនៃការចុះឈ្មោះ
+      exit_program: ចាកចេញពីកម្មវិធី
+      filter_option: សូមជ្រើសជម្រើសសំណួររបស់អ្នកខាងក្រោម
+      program_stream: កម្មវិធីចម្បង
+      quantitative: ពត៌មានបញ្ជូនបន្ថែម
+      tracking: តាមដាន
     tasks:
       create:
         successfully_created: កាតព្វកិច្ចត្រូវបានបង្កើតដោយជោគជ័យ
@@ -814,101 +819,32 @@ km:
         enter_task_detail: កាតព្វកិច្ចលំអិត
       update:
         successfully_updated: កាតព្វកិច្ចត្រូវបានកែសម្រួលដោយជោគជ័យ
-  client_enrollment_trackings:
-    action:
-      new_tracking: បន្ថែមការតាមដានថ្មី
-    create:
-      successfully_created: ការតាមដានត្រូវបានរក្សាទុកដោយជោគជ័យ
-    destroy:
-      successfully_deleted: ការតាមដានត្រូវបានលុបដោយជោគជ័យ
-      delete_attachment_successfully: ឯកសារភ្ជាប់ត្រូវបានកែសម្រួលដោយជោគជ័យ
-    edit:
-      edit_tracking: កែសម្រូលការតាមដាន
-    form:
-      allow_file_size: ប្រភេទឯកសារដែលបានអនុញ្ញាត
-      cancel: ទុកជាមោឃៈ
-      max_file_size: "*ទំហំឯកសារអតិបរមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកឡើង."
-      save: រក្សាទុក
-    index:
-      programs_list: តារាងកម្មវិធីចម្បង
-      tracking_lists: តារាងការតាមដាន
-    new:
-      new_tracking: បន្ថែមការតាមដានថ្មី
-    report:
-      are_you_sure: តើអ្នកប្រាកដហើយ?
-      back: ត្រលប់ក្រោយ
-      created_at: កាលបរិច្ឆេទ
-      new_tracking: បន្ថែមការតាមដានថ្មី
-    show:
-      back: ត្រលប់ក្រោយ
-      trackings_list: តារាងការតាមដាន
-    update:
-      successfully_updated: ការតាមដានត្រូវបានកែសម្រួលដោយជោគជ័យ
-  client_enrollments:
-    create:
-      successfully_created: ការចុះឈ្មោះត្រូវបានរក្សាទុកដោយជោគជ័យ
-    destroy:
-      successfully_deleted: ការចុះឈ្មោះត្រូវបានលុបដោយជោគជ័យ
-      delete_attachment_successfully: ឯកសារភ្ជាប់ត្រូវបានលុបដោយជោគជ័យ
-    edit:
-      enrollment: ពិនិត្យកែប្រែទម្រង់បែបបទនៃការចុះឈ្មោះ
-    form:
-      allow_file_size: ប្រភេទឯកសារដែលបានអនុញ្ញាត
-      cancel: ទុកជាមោឃៈ
-      enrollment_date: ថ្ងៃចុះឈ្មោះ
-      max_file_size: "*ទំហំឯកសារអតិបរមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកឡើង."
-      not_an_email: មិនមែនជាឣុីម៉ែល
-      save: រក្សាទុក
-    index:
-      actions: សកម្មភាព
-      back: ត្រលប់ក្រោយ
-      domain: កត្តា
-      name: ឈ្មោះកម្មវិធី
-      program_lists: តារាងកម្មវិធីចម្បង
-      quantity: ចំនួនកន្លែងដែលនៅទំនេរ
-      report: របាយការណ៍
-      status: ស្ថានភាព
-      view: មើល
-    manage:
-      enroll: ចុះឈ្មោះ
-      exit: ចាកចេញ
-      full_program: កម្មវិធីនេះពេញ
+  client_advanced_searches:
+    form_option:
+      basic_fields: ពត៌មានទូទៅរបស់អតិថិជន
+      csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
+      custom_form: ទម្រង់បែបបទ
+      enrollment: ទម្រង់បែបបទនៃចុះឈ្មោះ
+      exit_program: ចាកចេញពីកម្មវិធី
+      filter_option: សូមជ្រើសជម្រើសសំណួររបស់អ្នកខាងក្រោម
+      program_stream: កម្មវិធីចម្បង
+      quantitative: ពត៌មានបញ្ជូនបន្ថែម
       tracking: តាមដាន
-    new:
-      client_not_valid: អតិថិជនមិនអាចចូលរូមកម្មវិធីនេះ
-      new_enrollment: ការចុះឈ្មោះថ្មី
-    report:
-      actions: សកម្មភាព
-      date: កាលបរិច្ឆេទ
-      enrollment: ចុះឈ្មោះ
-      exit: ចាកចេញ
-      forms: ទម្រង់បែបបទ
-      programs_list: តារាងកម្មវិធីចម្បង
-      report: របាយការណ៏
-      tracking: ការតាមដាន
-      view: មើល
-    show:
-      are_you_sure: តើអ្នកប្រាកដហើយ?
-      back: ត្រលប់ក្រោយ
-      enrollment_date: កាលបរិច្ឆេទចុះឈ្មោះ
-    update:
-      successfully_updated: ការចុះឈ្មោះត្រូវបានកែសម្រួលដោយជោគជ័យ
-  leave_enrolled_programs:
-    create:
-      successfully_created: អតិថិជនត្រូវបានចាកចេញពីកម្មវិធីដោយជោគជ័យ
-    edit:
-      leave_program: កែសម្រួលការចាកចេញពីកម្មវិធី
-    form:
-      cancel: ទុកជាមោឃៈ
-      exit_date: ថ្ងៃចាកចេញ
-      save: រក្សាទុក
-    new:
-      new_exit_program: ការចាកចេញពីកម្មវិធី
-    show:
-      back: ត្រលប់ក្រោយ
-      exit_date: ថ្ងៃចាកចេញ
-    update:
-      successfully_updated: កម្មវិធីត្រូវបានកែសម្រួលដោយជោគជ័យ
+    index:
+      add_new_filter: បន្ថែមលក្ខខ័ណ្ឌថ្មី
+      add_new_group: បន្ថែមក្រុមលក្ខខ័ណ្ឌថ្មី
+      advanced_search: ការបង្កើតរបាយការណ៍
+      assessments: ការប៉ាន់ប្រមាណ
+      client_column: ជួរឈរពត៌មានទូទៅរបស់អតិថិជន
+      csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
+      custom_form_column: ជួរឈរទម្រង់បែបបទ
+      delete_group: លុបក្រុមលក្ខខ័ណ្ឌនៃការស្វែងរក
+      export_to_xls: ទាញចេញជាឯកសារប្រភេទ XLS
+      no_results: មិនមានលទ្ធផល
+      program_stream_column: ជួរឈរកម្មវិធីចម្បង
+      reset: សំអាត
+      results: លទ្ធផល
+      search: ស្វែងរក
   client_enrolled_program_trackings:
     action:
       new_tracking: បន្ថែមការតាមដានថ្មី
@@ -936,51 +872,6 @@ km:
       trackings_list: តារាងនៃការតាមដាន
     update:
       successfully_updated: ការតាមដានត្រូវបានកែសម្រួលដោយជោគជ័យ
-  client_enrollments:
-    create:
-      successfully_created: ការចុះឈ្មោះត្រូវបានរក្សាទុកដោយជោគជ័យ
-    destroy:
-      successfully_deleted: ការចុះឈ្មោះត្រូវបានលុបដោយជោគជ័យ
-    edit:
-      enrollment: ពិនិត្យកែប្រែទម្រង់បែបបទនៃការចុះឈ្មោះ
-    form:
-      cancel: ទុកជាមោឃៈ
-      enrollment_date: ថ្ងៃចុះឈ្មោះ
-      save: រក្សាទុក
-    index:
-      actions: សកម្មភាព
-      back: ត្រលប់ក្រោយ
-      domain: កត្តា
-      name: ឈ្មោះកម្មវិធី
-      program_lists: តារាងកម្មវិធីចម្បង
-      quantity: ចំនួនកន្លែងដែលនៅទំនេរ
-      report: របាយការណ៍
-      status: ស្ថានភាព
-      view: មើល
-    manage:
-      enroll: ចុះឈ្មោះ
-      exit: ចាកចេញ
-      full_program: កម្មវិធីនេះពេញ
-      tracking: តាមដាន
-    new:
-      client_not_valid: អតិថិជនមិនអាចចូលរូមកម្មវិធីនេះទេ
-      new_enrollment: ការចុះឈ្មោះថ្មី
-    report:
-      actions: សកម្មភាព
-      date: កាលបរិច្ឆេទ
-      enrollment: ចុះឈ្មោះ
-      exit: ចាកចេញ
-      forms: ទម្រង់បែបបទ
-      programs_list: តារាងកម្មវិធីចម្បង
-      report: របាយការណ៏
-      tracking: ការតាមដាន
-      view: មើល
-    show:
-      are_you_sure: តើអ្នកប្រាកដហើយ?
-      back: ត្រលប់ក្រោយ
-      enrollment_date: កាលបរិច្ឆេទចុះឈ្មោះ
-    update:
-      successfully_updated: ការចុះឈ្មោះត្រូវបានកែសម្រួលដោយជោគជ័យ
   client_enrolled_programs:
     create:
       successfully_created: ការចុះឈ្មោះត្រូវបានរក្សាទុកដោយជោគជ័យ
@@ -1009,6 +900,85 @@ km:
       tracking: តាមដាន
     new:
       client_not_valid: អតិថិជនមិនមានលក្ខខ័ណ្ឌគ្រប់គ្រាន់ដើម្បីចូលក្នុងកម្មវិធីនេះទេ
+      new_enrollment: ការចុះឈ្មោះថ្មី
+    report:
+      actions: សកម្មភាព
+      date: កាលបរិច្ឆេទ
+      enrollment: ចុះឈ្មោះ
+      exit: ចាកចេញ
+      forms: ទម្រង់បែបបទ
+      programs_list: តារាងកម្មវិធីចម្បង
+      report: របាយការណ៏
+      tracking: ការតាមដាន
+      view: មើល
+    show:
+      are_you_sure: តើអ្នកប្រាកដហើយ?
+      back: ត្រលប់ក្រោយ
+      enrollment_date: កាលបរិច្ឆេទចុះឈ្មោះ
+    update:
+      successfully_updated: ការចុះឈ្មោះត្រូវបានកែសម្រួលដោយជោគជ័យ
+  client_enrollment_trackings:
+    action:
+      new_tracking: បន្ថែមការតាមដានថ្មី
+    create:
+      successfully_created: ការតាមដានត្រូវបានរក្សាទុកដោយជោគជ័យ
+    destroy:
+      delete_attachment_successfully: ឯកសារភ្ជាប់ត្រូវបានកែសម្រួលដោយជោគជ័យ
+      successfully_deleted: ការតាមដានត្រូវបានលុបដោយជោគជ័យ
+    edit:
+      edit_tracking: កែសម្រូលការតាមដាន
+    form:
+      allow_file_size: ប្រភេទឯកសារដែលបានអនុញ្ញាត
+      cancel: ទុកជាមោឃៈ
+      max_file_size: "*ទំហំឯកសារអតិបរមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកឡើង."
+      save: រក្សាទុក
+    index:
+      programs_list: តារាងកម្មវិធីចម្បង
+      tracking_lists: តារាងការតាមដាន
+    new:
+      new_tracking: បន្ថែមការតាមដានថ្មី
+    report:
+      are_you_sure: តើអ្នកប្រាកដហើយ?
+      back: ត្រលប់ក្រោយ
+      created_at: កាលបរិច្ឆេទ
+      new_tracking: បន្ថែមការតាមដានថ្មី
+    show:
+      back: ត្រលប់ក្រោយ
+      trackings_list: តារាងការតាមដាន
+    update:
+      successfully_updated: ការតាមដានត្រូវបានកែសម្រួលដោយជោគជ័យ
+  client_enrollments:
+    create:
+      successfully_created: ការចុះឈ្មោះត្រូវបានរក្សាទុកដោយជោគជ័យ
+    destroy:
+      delete_attachment_successfully: ឯកសារភ្ជាប់ត្រូវបានលុបដោយជោគជ័យ
+      successfully_deleted: ការចុះឈ្មោះត្រូវបានលុបដោយជោគជ័យ
+    edit:
+      enrollment: ពិនិត្យកែប្រែទម្រង់បែបបទនៃការចុះឈ្មោះ
+    form:
+      allow_file_size: ប្រភេទឯកសារដែលបានអនុញ្ញាត
+      cancel: ទុកជាមោឃៈ
+      enrollment_date: ថ្ងៃចុះឈ្មោះ
+      max_file_size: '"*ទំហំឯកសារអតិបរមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកឡើង."'
+      not_an_email: មិនមែនជាឣុីម៉ែល
+      save: រក្សាទុក
+    index:
+      actions: សកម្មភាព
+      back: ត្រលប់ក្រោយ
+      domain: កត្តា
+      name: ឈ្មោះកម្មវិធី
+      program_lists: តារាងកម្មវិធីចម្បង
+      quantity: ចំនួនកន្លែងដែលនៅទំនេរ
+      report: របាយការណ៍
+      status: ស្ថានភាព
+      view: មើល
+    manage:
+      enroll: ចុះឈ្មោះ
+      exit: ចាកចេញ
+      full_program: កម្មវិធីនេះពេញ
+      tracking: តាមដាន
+    new:
+      client_not_valid: អតិថិជនមិនអាចចូលរូមកម្មវិធីនេះទេ
       new_enrollment: ការចុះឈ្មោះថ្មី
     report:
       actions: សកម្មភាព
@@ -1146,6 +1116,15 @@ km:
       accept_ngo_form: ទទួលចូលអង្គការ
       accepted_date: កាលបរិច្ឆេទទទួលយកចូលអង្គការ
       case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
+    exit_case_form:
+      exit_btn: ចាកចេញ
+      exit_date: ថ្ងៃចាកចេញ
+      exit_ec: ចាកចេញពី EC
+      exit_fc: ចាកចេញពី FC
+      exit_kc: ចាកចេញពី KC
+      exit_ngo: ចាកចេញពីអង្គការ
+      exit_note: កំណត់ហេតុនៃការចាកចេញ
+      exit_status: ស្ថានភាព
     exit_ngo_form:
       case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
       exit_btn: ចាកចេញ
@@ -1158,16 +1137,6 @@ km:
       other_info_of_exit: ព័ត៌មានបន្ថែមនៃការចាកចេញ
       reject_client: មិនទទួលយកអតិថិជន
       rejected_note: កំណត់ហេតុនៃការមិនទទួលយក
-
-    exit_case_form:
-      exit_btn: ចាកចេញ
-      exit_date: ថ្ងៃចាកចេញ
-      exit_ec: ចាកចេញពី EC
-      exit_fc: ចាកចេញពី FC
-      exit_kc: ចាកចេញពី KC
-      exit_ngo: ចាកចេញពីអង្គការ
-      exit_note: កំណត់ហេតុនៃការចាកចេញ
-      exit_status: ស្ថានភាព
     form:
       able: ឣតិថិជនក្នុងកម្មវិធីABLE
       able_state: ស្ថានភាព Able
@@ -1194,6 +1163,7 @@ km:
       exit_note: មូលហេតុនៃការចាកចេញ
       exit_status: ស្ថានភាព/ហេតុផលនៃការចាកចេញ
       family_name: នាមត្រកូលជាអក្សរឡាតាំង
+      finish: រក្សាទុក
       follow_up_by: បុគ្គលិកតាមដានករណី
       follow_up_date: កាលបរិច្ឆេទតាមដាន
       followed_up_by: ឈ្មោះបុុគ្គលិកដែលតាមដាន
@@ -1282,7 +1252,6 @@ km:
       start_date: ថ្ងៃចាប់ផ្តើម
       support_amount: ប្រាក់ឧបត្ថម្ភ
       support_note: ពត៌មានពីប្រាក់ឧប្ថម្ភ
-
     getting_started:
       case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
       date_of_birth: ថ្ងៃខែឆ្នាំកំណើត
@@ -1296,7 +1265,7 @@ km:
       living_detail: ព័ត៎មានរស់នៅលំអិត
       local_family_name: នាមត្រកូល (ភាសាខ្មែរ)
       local_given_name: នាមខ្លួន (ភាសាខ្មែរ)
-      name_of_referee:  ឈ្មោះអ្នកបញ្ជូន
+      name_of_referee: ឈ្មោះអ្នកបញ្ជូន
       other_detail: ព័ត៌មានលំអិតផ្សេងៗ
       referee_phone_number: លេខទូរស័ព្ទអ្នកបញ្ជូន
       referral_information: ព័ត៌មានការបញ្ជូន
@@ -1304,30 +1273,31 @@ km:
       referral_source: ប្រភពយោង
       specific_point: ចំណុចជាក់លាក់នៃការបញ្ជូន
       staff_responsibilities: ទំនួលខុសត្រូវបុគ្គលិក
-
     index:
       active_programs: ក្រាបកម្មវិធីចម្បង
       add_new_client: បន្ថែមអតិថិជនថ្មី
+      advanced_search: ការស្វែងរកដែលឆ្លាតវៃ
       all_csi_assessments: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
       assessments: ការប៉ាន់ប្រមាណ
+      case_statistics: ក្រាបនៃប្រភេទករណីរបស់អតិថិជន
       client_amount: ចំនួនអតិថិជន
       csi_domain_scores: ពិន្ទុកត្តាការប៉ាន់ប្រមាណCSI
       domain_score: ពិន្ទុកត្តាការប៉ាន់ប្រមាណ
       end: អស់លទ្ធផល!
       export_to_xls: ទាញចេញជាឯកសារប្រភេទ XLS
-      most_recent: ថ្មីបំផុត
       load: កំពុងផ្ទុក...
       load_save_search: ទាញយកលក្ខខ័ណ្ឌស្វែងរក
+      most_recent: ថ្មីបំផុត
       read_less: អានតិច
       read_more: អានបន្ថែម
-      reports: ក្រាប
       report_builder: បង្កើតរបាយការណ៍
+      reports: ក្រាប
       results: លទ្ធផល
-      save_search_settings: រក្សាទុកលក្ខខ័ណ្ឌស្វែងរក
-      show_all: បង្ហាញទាំងអស់
       sInfoShow: បង្ហាញទិន្នន័យចំនួន
       sInfoTo: ដល់
       sInfoTotal: នៃចំនួនសរុប
+      save_search_settings: រក្សាទុកលក្ខខ័ណ្ឌស្វែងរក
+      show_all: បង្ហាញទាំងអស់
       view_all_active_tasks: ពិនិត្យលើកាតព្វកិច្ចដែលមិនទាន់ធ្វើ
     kinship_case:
       carer_address: អាសយដ្ឋានអ្នកថែទាំ
@@ -1349,7 +1319,6 @@ km:
       start_date: ថ្ងៃចាប់ផ្តើម
       support_amount: ប្រាក់ឧបត្ថម្ភ
       support_note: ពត៌មានពីប្រាក់ឧប្ថម្ភ
-
     living_detail:
       case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
       contact_details: ព័ត៌មានទំនាក់ទំនងលំអិត
@@ -1362,10 +1331,8 @@ km:
       school_name: ឈ្មោះសាលារៀន
       schooling: សាលារៀន
       what3words: What3words
-
     new:
       new_client_title: បន្ថែមអតិថិជនថ្មី
-
     other_detail:
       agencies_involved: អង្គភាពពាក់ព័ន្ធ
       case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
@@ -1379,7 +1346,6 @@ km:
       other_information: ព័ត៌មានផ្សេងៗ
       province: ខេត្ត
       relevant_referral_information: ព័ត៌មានយោងដែលពាក់ព័ន្ធ / កំណត់សំគាល់
-
     placement:
       view_legacy_quarterly_reports: មើល Quarterly Reports ចាស់ៗ
     remaining_programs:
@@ -1464,11 +1430,6 @@ km:
       name_of_referee: ឈ្មោះអ្នកបញ្ជូន
       note: កំណត់ហេតុ
       other_info_of_exit: ព័ត៌មានបន្ថែមនៃការចាកចេញ
-      primary_carer_name: អ្នកមើលថែចំបង
-      primary_carer_phone_number: លេខទូរស័ព្ទអ្នកមើលថែចំបង
-      referee_phone_number: លេខទូរស័ព្ទអ្នកបញ្ជូន
-      rejected_note: កំណត់ហេតុនៃការមិនទទួលយក
-
       placements:
         carer_address: អាសយដ្ឋានអ្នកថែទាំ
         carer_names: ឈ្មោះអ្នកថែទាំ
@@ -1485,15 +1446,19 @@ km:
         start_date: ថ្ងៃចាប់ផ្តើម
         support_amount: ប្រាក់ឧបត្ថម្ភ
         support_note: ពត៌មានពីប្រាក់ឧប្ថម្ភ
+      primary_carer_name: អ្នកមើលថែចំបង
+      primary_carer_phone_number: លេខទូរស័ព្ទអ្នកមើលថែចំបង
       program_streams: បញ្ជូនអតិថិជនក្នុងកម្មវិធីចម្បង
       progress_note: កំណត់សំគាល់ការរីកចំរើន
       province: ខេត្តកំណើត
       received_by: បុគ្គលិកទទួលករណី
+      referee_phone_number: លេខទូរស័ព្ទអ្នកបញ្ជូន
       referral_phone: លេខទូរស័ព្ទរបស់ឣ្នកបញ្ជូនករណី
       referral_source: ប្រភពនៃការបញ្ជូន
       reject: មិនទទួលយក
       reject_client: មិនទទួលយកអតិថិជន
       reject_note: កំណត់ហេតុនៃការមិនទទួលយក
+      rejected_note: កំណត់ហេតុនៃការមិនទទួលយក
       relevant_referral_information: ព័ត៌មានសំខាន់ៗដែលពាក់ព័ន្ធនឹងការបញ្ជូនករណី
       school_grade: កំរិតថ្នាក់
       school_name: ឈ្មោះសាលារៀន
@@ -1515,11 +1480,10 @@ km:
       view_legacy_quarterly_reports: មើល Quarterly Reports ចាស់ៗ
       view_tasks: កាតព្វកិច្ច
       village: ភូមិ
-
+      what3words: What3words
     specific_point:
       case_worker_or_staff: បុគ្គលិកគ្រប់គ្រងករណី
       specific_point: ចំណុចជាក់លាក់នៃការបញ្ជូន
-
     state:
       rejected_note: កំណត់ហេតុនៃការមិនទទួលយក
       state: ទទួល/បដិសេធ
@@ -1577,8 +1541,8 @@ km:
       kinship_cares_html: ករណី <br/>Kinship
       males: ប្រុស
     client_program_stream_by_gender:
-      active_program_streams: កម្មវិធីចម្បងបច្ចុប្បន្ន
       active_progarm_streams_by_gender: បំណែងចែកចំនួនអតិថិជនតាមភេទដែលបាននិងកំពុងចូលរួមកម្មវិធី
+      active_program_streams: កម្មវិធីចម្បងបច្ចុប្បន្ន
       client_active_in_programs: ចំនួនអតិថិជនដែលបាននិងកំពុងចូលរួមកម្មវិធី
     duetoday:
       assessment: ការប៉ាន់ប្រមាណ
@@ -2366,9 +2330,9 @@ km:
         current_password: លេខកូដសំងាត់បច្ចុប្បន្ន
         date_of_birth: ថ្ងៃ ខែ ឆ្នាំ កំណើត
         delete_my_account: លុបចោលគណនីរបស់ខ្ញុំ
+        department: កម្មវិធី
         disable: បិទដំណើរការ
         disable_two_factor_authentication: បិទការផ្ទៀងផ្ទាត់ជំហានទីពីរ
-        department: កម្មវិធី
         email: ឣុីម៉ែល
         enable: បើកដំណើរការ
         enable_two_factor_authentication: បើកការផ្ទៀងផ្ទាត់ជំហានទីពីរ
@@ -2426,8 +2390,8 @@ km:
       title: កែសម្រួលស្រុក
     form:
       cancel: ទុកជាមោឃៈ
-      name: ឈ្មោះស្រុក
       district: ស្រុក
+      name: ឈ្មោះស្រុក
       province: ខេត្ត/ក្រុង
       save: រក្សាទុក
     index:
@@ -2468,7 +2432,6 @@ km:
       add_new_domain_group: បន្ថែមការប្រមូលផ្តុំកត្តាថ្មី
       are_you_sure: តើអ្នកប្រាកដហើយថាចង់លុប?
       changelogs: ប្រវត្តិនៃកំណែ
-      description: ការបរិយាយ
       description: ការពិពណ៌នាពីកម្មវិធី
       domain_group_names: ឈ្មោះការប្រមូលផ្តុំកត្តា
       domain_groups: ការប្រមូលផ្តុំកត្តា
@@ -2688,9 +2651,6 @@ km:
         search_custom_form: ស្វែងរកទម្រង់បែបបទ
         time_of_frequency: ពេលវេលានៃភាពញឹកញាប់
         type: ប្រើប្រាស់ជាមួយ
-      destroy:
-        failed_to_delete: មិនអាចលុបទម្រង់បែបបទនេះបានទេ
-        successfully_deleted: ទម្រង់បែបបទត្រូវបានលុបដោយជោគជ័យ
       demo_custom_form_tab:
         are_you_sure: តើអ្នកប្រាកដហើយ?
         close: បិទ
@@ -2703,6 +2663,9 @@ km:
         search_custom_form: ស្វែងរកទម្រង់បែបបទ
         time_of_frequency: ពេលវេលានៃភាពញឹកញាប់
         type: ប្រើប្រាស់ជាមួយ
+      destroy:
+        failed_to_delete: មិនអាចលុបទម្រង់បែបបទនេះបានទេ
+        successfully_deleted: ទម្រង់បែបបទត្រូវបានលុបដោយជោគជ័យ
       edit:
         form_builder: ការបង្កើតជាទម្រង់
       form:
@@ -3081,14 +3044,17 @@ km:
         one: មានអតិថិជនចំនួនម្នាក់ដែលនឹងត្រូវបញ្ជូនចេញពីECនៅថ្ងៃនេះ
         other: មានអតិថិជនចំនួន%{count}នាក់ដែលនឹងត្រូវបញ្ជូនចេញពីECនៅថ្ងៃនេះ
       client_quantity:
-        one: (អតិថិជនចំនួន 1)
-        other: (អតិថិជនចំនួន %{count})
+        one: "(អតិថិជនចំនួន 1)"
+        other: "(អតិថិជនចំនួន %{count})"
       due_today_assessments_count:
         one: អ្នកមានការប៉ាន់ប្រមាណចំនួន1ដែលត្រូវបំពេញនៅថ្ងៃនេះ
         other: អ្នកមានការប៉ាន់ប្រមាណចំនួន%{count}ដែលត្រូវបំពេញនៅថ្ងៃនេះ
       due_today_client_custom_field_count:
         one: មានទម្រង់បែបបទរបស់អតិថិជនចំនួន1ដែលត្រូវបំពេញនៅថ្ងៃនេះ
         other: មានទម្រង់បែបបទរបស់អតិថិជនចំនួន%{count}ដែលត្រូវបំពេញនៅថ្ងៃនេះ
+      due_today_client_enrollment_tracking:
+        one: ការតាមដានរបស់អ្នកប្រើចំនួន1ដែលត្រូវបំពេញនៅថ្ងៃនេះ
+        other: ការតាមដានរបស់អ្នកប្រើចំនួន %{count} ដែលត្រូវបំពេញនៅថ្ងៃនេះ
       due_today_family_custom_field_count:
         one: មានទម្រង់បែបបទរបស់គ្រួសារចំនួន1ដែលត្រូវបំពេញនៅថ្ងៃនេះ
         other: មានទម្រង់បែបបទរបស់គ្រួសារចំនួន%{count}ដែលត្រូវបំពេញនៅថ្ងៃនេះ
@@ -3104,9 +3070,6 @@ km:
       due_today_user_custom_field_count:
         one: មានទម្រង់បែបបទរបស់អ្នកប្រើចំនួន1ដែលត្រូវបំពេញនៅថ្ងៃនេះ
         other: មានទម្រង់បែបបទរបស់អ្នកប្រើចំនួន%{count}ដែលត្រូវបំពេញនៅថ្ងៃនេះ
-      due_today_client_enrollment_tracking:
-        one: ការតាមដានរបស់អ្នកប្រើចំនួន1ដែលត្រូវបំពេញនៅថ្ងៃនេះ
-        other: ការតាមដានរបស់អ្នកប្រើចំនួន %{count} ដែលត្រូវបំពេញនៅថ្ងៃនេះ
       no_task: មិនមានពត៌មានដែលត្រូវបង្ហាញ
       overdue_and_due_today_count:
         one: ហើយនិងមានចំនួន1ដែលត្រូវបំពេញនៅថ្ងៃនេះ
@@ -3117,6 +3080,9 @@ km:
       overdue_client_custom_field_count:
         one: មានទម្រង់បែបបទរបស់អតិថិជនចំនួន1ដែលផុតកំណត់
         other: មានទម្រង់បែបបទរបស់អតិថិជនចំនួន%{count}ដែលផុតកំណត់
+      overdue_client_enrollment_tracking:
+        one: ការតាមដានរបស់អ្នកប្រើចំនួន1ដែលផុតកំណត
+        other: ការតាមដានរបស់អ្នកប្រើចំនួន %{count} ដែលផុតកំណត
       overdue_family_custom_field_count:
         one: មានទម្រង់បែបបទរបស់គ្រួសារចំនួន1ដែលផុតកំណត់
         other: មានទម្រង់បែបបទរបស់គ្រួសារចំនួន%{count}ដែលផុតកំណត់
@@ -3132,9 +3098,6 @@ km:
       overdue_user_custom_field_count:
         one: មានទម្រង់បែបបទរបស់អ្នកប្រើចំនួន1ដែលផុតកំណត់
         other: មានទម្រង់បែបបទរបស់អ្នកប្រើចំនួន%{count}ដែលផុតកំណត់
-      overdue_client_enrollment_tracking:
-        one: ការតាមដានរបស់អ្នកប្រើចំនួន1ដែលផុតកំណត
-        other: ការតាមដានរបស់អ្នកប្រើចំនួន %{count} ដែលផុតកំណត
       review_client: ពិនិត្យមើលទម្រង់បែបបទនៃការចុះឈ្មោះរបស់អតិថិជននៅក្នុង
       upcoming_assessments_count:
         one: អ្នកស្ទើរតែដល់ពេលបំពេញការប៉ាន់ប្រមាណបន្ទាប់ចំនួន1
@@ -3166,6 +3129,7 @@ km:
       manage: គ្រប់គ្រង
       materials: របស់របរ/សំភារៈ
       organisation_type: ប្រភេទឣង្គភាព
+      organisation_types: ប្រភេទឣង្គភាព
       partners: ដៃគូ
       program_streams: កម្មវិធីចម្បង
       progress_note: កត់សំគាល់ការរីកចំរើន
@@ -3185,13 +3149,29 @@ km:
       language: ជ្រើសភាសា
       log_out: ចាកចេញ
       thai: Thai
-  leave_programs:
+  leave_enrolled_programs:
     create:
       successfully_created: អតិថិជនត្រូវបានចាកចេញពីកម្មវិធីដោយជោគជ័យ
     edit:
       leave_program: កែសម្រួលការចាកចេញពីកម្មវិធី
+    form:
+      cancel: ទុកជាមោឃៈ
+      exit_date: ថ្ងៃចាកចេញ
+      save: រក្សាទុក
+    new:
+      new_exit_program: ការចាកចេញពីកម្មវិធី
+    show:
+      back: ត្រលប់ក្រោយ
+      exit_date: ថ្ងៃចាកចេញ
+    update:
+      successfully_updated: កម្មវិធីត្រូវបានកែសម្រួលដោយជោគជ័យ
+  leave_programs:
+    create:
+      successfully_created: អតិថិជនត្រូវបានចាកចេញពីកម្មវិធីដោយជោគជ័យ
     destroy:
       delete_attachment_successfully: ឯកសារភ្ជាប់ត្រូវបានកែសម្រួលដោយជោគជ័យ
+    edit:
+      leave_program: កែសម្រួលការចាកចេញពីកម្មវិធី
     form:
       allow_file_size: ប្រភេទឯកសារដែលបានអនុញ្ញាត
       cancel: ទុកជាមោឃៈ
@@ -3278,11 +3258,11 @@ km:
       client_case_note_overdue: អតិថិជនដែលមានកំណត់ត្រាករណីហួសកំណត់
       review_client: អតិថិជនដែលត្រូវការត្រួតពិនិត្យ
     client_enrollment_tracking_due_today:
-      clients: អតិថិជន
       client_enrollment_tracking_notification: ការជូនដំណឹងនៃការតាមដានដែលត្រូវបំពេញ
+      clients: អតិថិជន
     client_enrollment_tracking_overdue:
-      clients: អតិថិជន
       client_enrollment_tracking_notification: ការជូនដំណឹងនៃការតាមដានដែលត្រូវបំពេញ
+      clients: អតិថិជន
     custom_field_due_today:
       clients: អតិថិជន
       custom_field_notification: ការជូនដំណឹងនៃទម្រង់បែបបទដែលត្រូវបំពេញ
@@ -3318,6 +3298,7 @@ km:
       cancel: ទុកជាមោឃៈ
       name: ឈ្មោះប្រភេទឣង្គភាព
       organisation_type: ប្រភេទឣង្គភាព
+      province: ប្រភេទឣង្គភាព
       save: រក្សាទុក
     index:
       add_new_organisation_type: បន្ថែមប្រភេទឣង្គភាពថ្មី
@@ -3371,10 +3352,10 @@ km:
         add_new_filter: បន្ថែមលក្ខខ័ណ្ឌថ្មី
         add_new_group: បន្ថែមក្រុមលក្ខខ័ណ្ឌថ្មី
         advanced_search: ការបង្កើតរបាយការណ៍
-        partner_column: ជួរឈរពត៌មានទូទៅរបស់ដៃគូ
         custom_form_column: ជួរឈរទម្រង់បែបបទ
         delete_group: លុបក្រុមលក្ខខ័ណ្ឌនៃការស្វែងរក
         no_results: មិនមានលទ្ធផល
+        partner_column: ជួរឈរពត៌មានទូទៅរបស់ដៃគូ
         reset: សំអាត
         results: លទ្ធផល
         search: ស្វែងរក
@@ -3422,6 +3403,7 @@ km:
       name: ឈ្មោះកម្មវិធី
       organization: អង្គភាព
       preview: មើលជាមុន
+      quantity: ចំនួនកន្លែងដែលនៅទំនេរ
       status: ស្ថានភាព
     create:
       alert: ឈ្មោះទម្រង់នៃការតាមដាននេះត្រូវបានប្រើរួចហើយ
@@ -3432,17 +3414,18 @@ km:
       enrolled: ចំនួនដែលបានចូលរួមកម្មវិធី
       maximum: ចំនួនដែលអាចចូលរួមកម្មវិធីច្រើនបំផុត
       name: ឈ្មោះកម្មវិធី
+      quantity: បរិមាណ
       status: ស្ថានភាព
-    custom_forms:
-      all_ngos_custom_fields: ទម្រង់បែបបទរបស់អង្គការទាំងអស់
-      custom_fields: ទម្រង់បែបបទ
-      demo_ngo_custom_fields: ទម្រង់បែបបទរបស់អង្គការ Demo
-      my_ngo_custom_fields: ទម្រង់បែបបទរបស់អង្គការខ្ញុំ
     custom_form_table:
       copy: ចម្លងជូន
       entity_type: ប្រើប្រាស់ជាមួយ
       form_title: ឈ្មោះទម្រង់បែបបទ
       organization: អង្គភាព
+    custom_forms:
+      all_ngos_custom_fields: ទម្រង់បែបបទរបស់អង្គការទាំងអស់
+      custom_fields: ទម្រង់បែបបទ
+      demo_ngo_custom_fields: ទម្រង់បែបបទរបស់អង្គការ Demo
+      my_ngo_custom_fields: ទម្រង់បែបបទរបស់អង្គការខ្ញុំ
     demo_ngo_custom_fields:
       next: ទំព័របន្ទាប់
       previous: ទំព័រមុន
@@ -3530,23 +3513,23 @@ km:
     show:
       back: ត្រលប់ក្រោយ
       copy: ចម្លងជូន
-      detail: ពត័មានកម្មវិធីលម្អិត
       description: ការបរិយាយ
+      detail: ពត័មានកម្មវិធីលម្អិត
       domain: កត្តា
       enrolled: ចំនួនដែលចូលរូមកម្មវិធី
       enrollment: ចុះឈ្មោះ
       exit_program: ចាកចេញពីកម្មវិធី
       maximum: ចំនួនដែលអាចចូលរូមកម្មវិធីច្រើនបំផុត
       mutual_dependence: កម្មវិធីអាស្រ័យគ្នា
+      not_require_tracking: ទម្រង់បែបបទនេះមិនត្រូវការទម្រង់តាមដានទេ
       program_exclusive: កម្មវិធីផ្តាច់មុខ
       quantity: បរិមាណ
       rules: លក្ខខ័ណ្ឌ
       tracking: តាមដាន
-      not_require_tracking: ទម្រង់បែបបទនេះមិនត្រូវការទម្រង់តាមដានទេ
     tracking:
       add_tracking: បន្ថែមការតាមដាន
-      tracking_form: ទម្រង់បែបបទតាមដាន
       not_require_tracking: ទម្រង់បែបបទនេះមិនត្រូវការទម្រង់តាមដានទេ
+      tracking_form: ទម្រង់បែបបទតាមដាន
     tracking_fields:
       custom_fields: ទម្រង់បែបបទ
       frequency: ភាពញឹកញាប់
@@ -3793,8 +3776,8 @@ km:
   save: រក្សាទុក
   sessions:
     create:
-      your_account_needs_to_supply_a_verification_code: គណនីរបស់អ្នកត្រូវការបញ្ចូលកូដផ្ទៀងផ្ទាត់
       bad_credentials_supplied: កូដផ្ទៀងផ្ទាត់មិនត្រឹមត្រូវ
+      your_account_needs_to_supply_a_verification_code: គណនីរបស់អ្នកត្រូវការបញ្ចូលកូដផ្ទៀងផ្ទាត់
   settings:
     assessment:
       assessment: ការកំណត់ប្រេកង់នៃការវាយតំលៃ CSI
@@ -3806,6 +3789,7 @@ km:
       max_case_note: អតិបរមា
     country:
       country: ប្រទេស
+      settings: ការកំណត់
       switched_country_cambodia: អ្នកបានប្ដូរការកំណត់ទៅជាប្រទេសកម្ពុជា
       switched_country_lesotho: អ្នកបានប្ដូរការកំណត់ទៅជាប្រទេសឡឹសូថូ
       switched_country_myanmar: អ្នកបានប្ដូរការកំណត់ទៅជាប្រទេសមីយ៉ាន់ម៉ា
@@ -3819,16 +3803,18 @@ km:
       partner_default_columns: ដៃគូ
     index:
       csi_tools: ឧបករណ៍ CSI
+    navigation:
+      country: ប្រទេស
     update:
       successfully_updated: ការកំណត់បានកែសម្រួលដោយជោគជ័យ
   shared:
     form_builder:
-      list_attachment:
-        are_you_sure: តើអ្នកប្រាកដហើយ?
-        preview_download: មើលនិងទាញយក
       file_field:
         allow_file_size: ប្រភេទឯកសារដែលបានអនុញ្ញាត
         max_file_size: "*ទំហំឯកសារអតិបរមា: 5MB/ឯកសារ និង 30MB/ផ្ទុកឡើង."
+      list_attachment:
+        are_you_sure: តើអ្នកប្រាកដហើយ?
+        preview_download: មើលនិងទាញយក
     per_page_form:
       show: បង្ហាញ
     version_type:
@@ -4296,12 +4282,12 @@ km:
       export_xls: ទាញចេញជាឯកសារប្រភេទ XLS
       results: លទ្ធផល
     multi_factor_authentication:
-      verify_enable:
-        two_factor_authentication_could_not_be_enabled: ការផ្ទៀងផ្ទាត់ជំហានទីពីរមិនអាចបើកបានទេ
-        two_factor_authentication_enabled: ការផ្ទៀងផ្ទាត់ជំហានទីពីរត្រូវបានបើកដោយជោគជ័យ
       verify_disabled:
         two_factor_authentication_could_not_be_disabled: ការផ្ទៀងផ្ទាត់ជំហានទីពីរមិនអាចបិទបានទេ
         two_factor_authentication_disabled: ការផ្ទៀងផ្ទាត់ជំហានទីពីរត្រូវបានបិទដោយជោគជ័យ
+      verify_enable:
+        two_factor_authentication_could_not_be_enabled: ការផ្ទៀងផ្ទាត់ជំហានទីពីរមិនអាចបើកបានទេ
+        two_factor_authentication_enabled: ការផ្ទៀងផ្ទាត់ជំហានទីពីរត្រូវបានបើកដោយជោគជ័យ
     new:
       clients: អតិថិជន
       current_password: លេខកូដសំងាត់បច្ចុប្បន្ន
@@ -4326,6 +4312,7 @@ km:
       start_date: កាលបរិច្ឆេទចាប់ផ្តើម
     permissions:
       assessments: ការប៉ាន់ប្រមាណ
+      assessmets: ការប៉ាន់ប្រមាណ
       case_notes: កំណត់ត្រាករណី
       custom_forms: ទម្រង់បែបបទ
       custom_programs: កម្មវិធីចម្បង

@@ -87,7 +87,7 @@ my:
           general_question: အေထြေထြေမးခြန္း
           new_general_question: အေထြေထြေမးခြန္းအသစ္
           new_stage_question: အဆင့္ေမးခြန္းအသစ္
-          question: မေးခွန်း
+          question: ေမးခြန္း
           stage: အဆင့္
           stage_question: အဆင့္ေမးခြန္း
           to: သို႔
@@ -372,6 +372,7 @@ my:
       placement_start_date: ေနရာခ်ထားမႈစတင္သည့္ရက္စြဲ
       plot: Plot
       postal_code: Postal Code
+      program_stream: အစီအမံစီဆင္းမႈ
       province: ေမြးရာျပည္နယ္
       province_id: လက္ရွိေနထုိင္ရာျပည္နယ္
       quantitative: ပမာဏအမ်ိဳးအစား
@@ -454,6 +455,7 @@ my:
     form_builder_attachments:
       destroy:
         successfully_deleted: တြဲထားသည္ကို ေအာင္ျမင္စြာဖ်က္ၿပီးပါၿပီ။
+        successfully_updated: Remove this key
   are_you_sure: ဖ်က္လိုသည္မွာ ေသခ်ာပါသလား။
   assessments:
     add_task_form:
@@ -712,6 +714,8 @@ my:
       client_amount: အမႈသည္ပမာဏ
     dashboard:
       due_today_assessments_count:
+        one: You have 1 assessment due today.
+        other: You have %{count} assessments due today.
       emergency_cares_html: အေရးေပၚ <br/> ေစာင့္ေရွာက္မႈမ်ား
       female_emergency_cares: အမ်ိဳးသမီးမ်ား <br/> EC
       female_foster_cares: အမ်ိဳးသမီးမ်ား <br/> FC
@@ -760,6 +764,7 @@ my:
         exit_status: အေနအထား
         other_info_of_exit: အခြားအ - နောက်ထပ်သတင်းအချက်အလက်များ
         reject_client: client ကိုငြင်းပယ်
+        rejected_note: ျငင္းပယ္သည့္ မွတ္စု
       form:
         case_worker_or_staff: အမႈျခင္းရာအတြက္ ေဆာင္ရြက္ေပးသူ/ ၀န္ထမ္း
         exit_btn: ထြက္ရန္
@@ -771,6 +776,7 @@ my:
         exit_status: အေနအထား
         other_info_of_exit: အခြားအ - နောက်ထပ်သတင်းအချက်အလက်များ
         reject_client: client ကိုငြင်းပယ်
+        rejected_note: ျငင္းပယ္သည့္ မွတ္စု
       update:
         failed_update: အပ်ဒိတ်လုပ်မပေးနိုငျ
         successfully_updated: အမႈသည္ကို ေအာင္ျမင္စြာ အသစ္ျပင္ဆင္ထည့္သြင္းၿပီပါၿပီ
@@ -819,6 +825,32 @@ my:
         enter_task_detail: လုပ္ငန္းအေသးစိတ္ထည့္သြင္းရန္
       update:
         successfully_updated: လုပ္ငန္းကို ေအာင္ျမင္စြာ အသစ္ ျပင္ဆင္ၿပီးပါၿပီ
+  client_advanced_searches:
+    form_option:
+      basic_fields: အမႈသည္၏ အေျခခံ အေနအထားမ်ား
+      csi_domain_scores: CSI ဒိုမိန္း ရမွတ္မ်ား
+      custom_form: အေကာက္ခြန္ပံုစံ
+      enrollment: စာရင္းေပးသြင္းမႈ
+      exit_program: ထြက္သည့္အစီအစဥ္
+      filter_option: ေအာက္တြင္ေဖာ္ျပထားသည့္ ေမးျမန္းမႈပံုစံမ်ားကို ေက်းဇူးျပဳ၍ ေရြးခ်ယ္ပါ။
+      program_stream: အစီအစံစီးဆင္းမႈ
+      quantitative: ပမာဏအမ်ိဳးအစား
+      tracking: ေနာက္ေၾကာင္းလိုက္ျခင္း
+    index:
+      add_new_filter: စိစစ္မႈအသစ္ျဖည့္ရန္
+      add_new_group: အဖြဲ႕ထည့္ရန္
+      advanced_search: အဆင့္ျမင့္ရွာေဖြမႈ
+      assessments: စိစစ္အကဲျဖတ္မႈမ်ား
+      client_column: အမႈသည္အေျခခံေကာ္လံမ်ား
+      csi_domain_scores: CSI ဒိုမိန္း ရမွတ္မ်ား
+      custom_form_column: အခြန္ပံုစံ ေကာ္လံမ်ား
+      delete_group: ဖ်က္ရန္
+      export_to_xls: XLS အျဖစ္ ထုတ္သည္။
+      no_results: ဘာမွရွာမေတြ႕ပါ။
+      program_stream_column: အစီအစဥ္စီးဆင္းမႈေကာ္လံ
+      reset: အကုန္ျပန္ျပင္သည္။
+      results: ရလာဒ္မ်ား
+      search: ရွာေဖြသည္။
   client_enrolled_program_trackings:
     action:
       new_tracking: ေနာက္ေၾကာင္းအသစ္
@@ -1110,6 +1142,7 @@ my:
       exit_status: အေနအထား
       other_info_of_exit: အခြားအ - နောက်ထပ်သတင်းအချက်အလက်များ
       reject_client: client ကိုငြင်းပယ်
+      rejected_note: ျငင္းပယ္သည့္ မွတ္စု
     form:
       able: Able
       able_state: Able State
@@ -1117,8 +1150,8 @@ my:
       agencies_involved: ပါ၀င္သည့္ ေအဂ်င္စီမ်ား
       agency_names: ေအဂ်င္စီနာမည္
       answer: အေျဖ
-      blank: အလွတ်မဖွစျနိုငျ
       birth_province: ေမြးဖြားသည့္ ခ႐ိုင္
+      blank: အလွတ်မဖွစျနိုငျ
       cambodia: ကေမာၻဒီးယား
       case_worker: အမႈျခင္းရာအတြက္ ေဆာင္ရြက္ေပးသူ
       case_worker_or_staff: အမႈျခင္းရာအတြက္ ေဆာင္ရြက္ေပးသူ/ ၀န္ထမ္း
@@ -1136,12 +1169,14 @@ my:
       exit_note: ထြက္သည့္မွတ္စု
       exit_status: ထြက္သည့္အေနအထား
       family_name: မိသားစုနာမည္
+      finish: ကယ်ဆယ်
       follow_up_by: မွ ဆက္သည္
       follow_up_date: ေနာက္ဆက္တြဲ ရက္စြဲ
       followed_up_by: မွ ဆက္လက္လုပ္ေဆာင္သည္
       from: မွ
       gender: က်ား မ
       general_question: အေထြေထြ ေမးခြန္း
+      getting_started: Remove this key
       given_name: ေမြးနာမည္
       gov_caseworker_comment: အမႈကိုကူညီေပးသူ၏ မွတ္ခ်က္
       gov_caseworker_comment_section: အမႈသည္၏ လိုအပ္ခ်က္ႏွင့္ စိန္ေခၚမႈမ်ားအေပၚ အမႈကိုကူညီေပးသူ၏ မွတ္ခ်က္
@@ -1176,6 +1211,7 @@ my:
       id: မွတ္ပံုတင္
       id_poor: လူဆင္းရဲမွတ္ပံုတင္
       initial_referral_date: ကနဦးလႊဲေျပာင္းရက္စြဲ
+      is_the_client_rated_for_id_poor: Client ကိုဆင်းရဲသောသူသည် ID အတှကျ rated ဖြစ်ပါတယ်
       kid_id: ကေလးမွတ္ပံုတင္
       live_with: အတူေနသူ
       local_family_name: မိသားစုနာမည္ (ေဒသအလိုက္)
@@ -1222,7 +1258,6 @@ my:
       start_date: စသည့္ ရက္စြဲ
       support_amount: ေထာက္ပံ့သည့္ ပမာဏ
       support_note: ေထာက္ပံ့သည့္ မွတ္စု
-
     getting_started:
       case_worker_or_staff: အမႈျခင္းရာ လိုက္ပါေဆာင္ရြက္ေပးသူ/ ၀န္ထမ္း
       date_of_birth: ေမြးရက္၊ လ၊ ႏွစ္
@@ -1244,7 +1279,6 @@ my:
       referral_source: လႊဲရမည့္ ရင္းျမစ္
       specific_point: လွှဲပြောင်း၏တိကျသောအချက်
       staff_responsibilities: ဝန်ထမ်းတာဝန်ဝတ္တရား
-
     index:
       active_programs: အသက္၀င္ေသးေသာ အစီအစဥ္မ်ား
       add_new_client: အမႈသည္သစ္ ထည့္သြင္းသည္
@@ -1269,7 +1303,7 @@ my:
       sInfoTo: သို႔
       sInfoTotal: "၏"
       save_search_settings: ရွာေဖြမႈ အျပင္အဆင္မ်ားကို သိမ္းဆည္းပါ။
-      show_all:
+      show_all: အားလံုးကို ျပပါ
       view_all_active_tasks: အသက္၀င္ေသာ လုပ္ငန္းမ်ားအားလံုးကို ၾကည့္ရန္
     kinship_case:
       carer_address: ေစာင့္ေရွာက္သူ လိပ္စာ
@@ -1291,7 +1325,6 @@ my:
       start_date: စသည့္ ရက္စြဲ
       support_amount: ေထာက္ပံ့သည့္ ပမာဏ
       support_note: ေထာက္ပံ့သည့္ မွတ္စု
-
     living_detail:
       case_worker_or_staff: အမႈျခင္းရာအတြက္ေဆာင္ရြက္ေပးသူ / ၀န္ထမ္း
       contact_details: အဆက်အသွယ်အသေးစိတ်
@@ -1304,10 +1337,8 @@ my:
       school_name: ေက်ာင္းနာမည္
       schooling: သင်ကြားခြင်း
       what3words: What3words
-
     new:
       new_client_title: အမႈသည္အသစ္
-
     other_detail:
       agencies_involved: ပါ၀င္သည့္ ေအဂ်င္စီမ်ား
       case_worker_or_staff: အမႈျခင္းရာအတြက္ေဆာင္ရြက္ေပးသူ / ၀န္ထမ္း
@@ -1321,7 +1352,6 @@ my:
       other_information: အခြားအချက်အလက်
       province: ခ႐ိုင္
       relevant_referral_information: သက်ဆိုင်ရာလွှဲပြောင်းသတင်းအချက်အလက် / မှတ်စု
-
     placement:
       view_legacy_quarterly_reports: သံုးလပတ္ဥပေဒေရးရာ အစီရင္ခံစာမ်ားကို ၾကည့္ရန္
     remaining_programs:
@@ -1434,6 +1464,7 @@ my:
       reject: ျငင္းပယ္သည္
       reject_client: ျငင္းပယ္သည္
       reject_note: ျငင္းပယ္သည့္ မွတ္စု
+      rejected_note: ျငင္းပယ္သည့္ မွတ္စု
       relevant_referral_information: သက္ဆုိင္ေသာ လႊဲေျပာင္းျခင္း အခ်က္အလက္
       school_grade: ေက်ာင္းအဆင့္
       school_name: ေက်ာင္းနာမည္
@@ -1457,11 +1488,9 @@ my:
       view_tasks: လုပ္ေဆာင္ခ်က္မ်ား
       village: ေက်းရြာ
       what3words: What3words
-
     specific_point:
       case_worker_or_staff: အမႈျခင္းရာအတြက္ေဆာင္ရြက္ေပးသူ / ၀န္ထမ္း
       specific_point: လွှဲပြောင်း၏တိကျသောအချက်
-
     state:
       rejected_note: ျငင္းပယ္သည့္ မွတ္စု
       state: လက္ခံသည္/ ျငင္းပယ္သည္
@@ -1523,7 +1552,7 @@ my:
       active_program_streams: လုပ္ေဆာင္မႈရွိေသးေသာ အစီအစဥ္ စီးဆင္းမႈမ်ား
       client_active_in_programs: လုပ္ေဆာင္မႈရွိေသးေသာ အစီအစဥ္ စီးဆင္းမႈမ်ား
     duetoday:
-      assessment:
+      assessment: ရက်လွန်အကဲဖြတ်
       assessments: ရက်လွန်အကဲဖြတ်
       duetoday_tasks: ကြောင့်ယနေ့တာဝန်များကို
       forms: ရက်လွန်ပုံစံ
@@ -1533,7 +1562,7 @@ my:
       foster: ေမြးစားျခင္း
       kinship: ေဆြမ်ိဳး
     overdue:
-      assessment:
+      assessment: ရက်လွန်အကဲဖြတ်
       assessments: ရက်လွန်အကဲဖြတ်
       forms: ရက်လွန်ပုံစံ
       overdue_tasks: ရက်လွန်အလုပ်တခုကို
@@ -1547,7 +1576,7 @@ my:
       referral_sources: လႊဲေျပာင္းရန္ ရင္းျမစ္မ်ား
       staffs: ၀န္ထမ္းအဖြဲ႕၀င္မ်ား
     upcoming:
-      assessment:
+      assessment: ရက်လွန်အကဲဖြတ်
       assessments: ရက်လွန်အကဲဖြတ်
       forms: ရက်လွန်ပုံစံ
       tasks: ရက်လွန်အလုပ်တခုကို
@@ -1908,6 +1937,7 @@ my:
         asc: "↑"
         desc: "↓"
     to: သို႔
+    what3words: what3words
   date:
     formats:
       long: '""'
@@ -3061,8 +3091,8 @@ my:
         other: ယေန႔တြင္ အသံုးျပဳသူ အေကာက္ခြန္ပံုစံ%{count} ျပဳလုပ္ရန္ ရွိပါသည္။
       no_task: အသိေပးစရာမရွိပါ
       overdue_and_due_today_count:
-        one: ယနေ့ကြောင့်နဲ့ 1.
-        other: ယနေ့ကြောင့်နဲ့ #{count}.
+        one: and 1 due today
+        other: and %{count} due today
       overdue_assessments_count:
         few: လုပ္ေဆာင္ရန္ သတ္မွတ္ရက္လြန္ေနေသာ စိစစ္အကဲျဖတ္မႈ အခ်ိဳ႕ ရွိေနပါသည္။
         one: လုပ္ေဆာင္ရန္ သတ္မွတ္ရက္လြန္ေနေသာ စိစစ္အကဲျဖတ္မႈ ၁ ခု ရွိေနပါသည္။
@@ -3126,6 +3156,7 @@ my:
       manage: စီမံသည္
       materials: ကိရိယာ/ပစၥည္းမ်ား
       organisation_type: အဖြဲ႕အစည္းအမ်ိဳးအစား
+      organisation_types: အဖြဲ႕အစည္းအမ်ိဳးအစား
       partners: လက္တြဲေဖာ္မ်ား
       program_streams: အစီအစဥ္မ်ား စီးဆင္းမႈ
       progress_note: တိုးတက္မႈ မွတ္စု
@@ -3294,6 +3325,7 @@ my:
       cancel: ပယ္ဖ်က္ရန္
       name: နာမည္
       organisation_type: အဖြဲ႕အစည္းအမ်ိဳးအစား
+      province: ခ႐ိုင္
       save: သိမ္းဆည္းရန္
     index:
       add_new_organisation_type: နယူးအဖွဲ့အစည်းအမျိုးအစား
@@ -3347,10 +3379,10 @@ my:
         add_new_filter: စိစစ္ျခင္းအသစ္ထပ္ထည့္ရန္
         add_new_group: အဖြဲ႕ထပ္ထည့္ရန္
         advanced_search: အဆင့္ျမင့္ရွာေဖြမႈ
-        partner_column: တည္ေဆာက္သည့္ေနရာ အေျခခံအခ်က္အလက္ ေကာ္လံမ်ား
         custom_form_column: အေကာက္ခြန္ပံုစံ ေကာ္လံမ်ား
         delete_group: ဖ်က္ရန္
         no_results: မည္သည့္ရလဒ္မွ မေတြ႕ပါ။
+        partner_column: တည္ေဆာက္သည့္ေနရာ အေျခခံအခ်က္အလက္ ေကာ္လံမ်ား
         reset: အားလံုးကို မူလအတိုင္း ျပန္ျပင္ရန္။
         results: ရလဒ္မ်ား
         search: ရွာေဖြရန္
@@ -3388,7 +3420,7 @@ my:
       warning_message: သငျသညျ client ကိုဒေတာသည်ကယ်တင်ခြင်းသို့ရောက်သောအစီအစဉ် Stream ကိုဖျက်ဖို့အကြောင်းရှိပါသည်။ သငျသညျဆက်လက်ဆောင်ရွက်ရန်ဆန္ဒရှိပါသလား
     all_ngos_custom_fields:
       next: ေနာက္သို႔
-      preview: အသေးစိတ်
+      preview: အစမ္းၾကည့္ရန္
       previous: ခ႐ိုင္
     all_ngos_program_streams_tab:
       actions: လုပ္ေဆာင္မႈ
@@ -3771,8 +3803,8 @@ my:
   save: သိမ္းဆည္းရန္
   sessions:
     create:
-      your_account_needs_to_supply_a_verification_code: သင့်အကောင့်အတည်ပြုရန်ကုဒ်ထောက်ပံ့ဖို့လိုအပ်ပါတယ်
       bad_credentials_supplied: မကောင်းတဲ့သံတမန်ဆောင်ဧည်ထောက်ပံ့
+      your_account_needs_to_supply_a_verification_code: သင့်အကောင့်အတည်ပြုရန်ကုဒ်ထောက်ပံ့ဖို့လိုအပ်ပါတယ်
   settings:
     assessment:
       assessment: CSI အကဲဖြတ်ကြိမ်နှုန်းချိန်ညှိမှုများ
@@ -3784,6 +3816,7 @@ my:
       max_case_note: အများဆုံး
     country:
       country: ႏုိင္ငံ
+      settings: အျပင္အဆင္မ်ား
       switched_country_cambodia: သင္၏ ႏုိင္ငံအျပင္အဆင္ကို ကေမာၻဒီးယားႏုိင္ငံအျဖစ္ ေျပာင္းၿပီးပါၿပီ။
       switched_country_lesotho: သင္၏ ႏုိင္ငံအျပင္အဆင္ကို လက္ဆူးသူႏုိုင္ငံအျဖစ္ ေျပာင္းၿပီးပါၿပီ။
       switched_country_myanmar: သင္၏ ႏုိင္ငံအျပင္အဆင္ကို ျမန္မာႏုိင္ငံအျဖစ္ ေျပာင္းၿပီးပါၿပီ။
@@ -3797,6 +3830,8 @@ my:
       partner_default_columns: လက္တြဲေဖာ္
     index:
       csi_tools: CSI ကိရိယာတခု
+    navigation:
+      country: ႏုိင္ငံ
     update:
       successfully_updated: အောင်မြင်စွာဖြည့်ပါ
   shared:
@@ -4277,12 +4312,12 @@ my:
       export_xls: XLS အျဖစ္ ထုတ္ရန္
       results: ရလဒ္မ်ား
     multi_factor_authentication:
-      verify_enable:
-        two_factor_authentication_could_not_be_enabled: Two Factor Authentication could not be enabled
-        two_factor_authentication_enabled: Two Factor Authentication Enabled
       verify_disabled:
         two_factor_authentication_could_not_be_disabled: Two Factor Authentication could not be disabled
         two_factor_authentication_disabled: Two Factor Authentication Disabled
+      verify_enable:
+        two_factor_authentication_could_not_be_enabled: Two Factor Authentication could not be enabled
+        two_factor_authentication_enabled: Two Factor Authentication Enabled
     new:
       clients: အမႈသည္မ်ား
       current_password: လက္ရွိ စကား၀ွက္
@@ -4307,6 +4342,7 @@ my:
       start_date: စတင္သည့္ ရက္စြဲ
     permissions:
       assessments: CSI စိစစ္အကဲျဖတ္မႈမ်ား
+      assessmets: CSI စိစစ္အကဲျဖတ္မႈမ်ား
       case_notes: အမႈမွတ္စုမ်ား
       custom_forms: အေကာက္ခြန္ပံုစံမ်ား
       custom_programs: အေကာက္ခြန္ အစီအစဥ္မ်ား

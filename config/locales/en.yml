@@ -374,6 +374,7 @@ en:
       placement_start_date: Placement Start Date
       plot: Plot
       postal_code: Postal Code
+      program_stream: Program Stream
       province: Birth Province
       province_id: Current Province
       quantitative: Custom Referral Data
@@ -773,6 +774,16 @@ en:
       update:
         failed_update: Failed to update the client.
         successfully_updated: Client has been successfully updated.
+    form_option:
+      basic_fields: Client Basic Fields
+      csi_domain_scores: CSI Domain Scores
+      custom_form: Custom Form
+      enrollment: Enrollment
+      exit_program: Exit Program
+      filter_option: Please choose your query options below
+      program_stream: Program Stream
+      quantitative: Quantitative Type
+      tracking: Tracking
     tasks:
       create:
         successfully_created: Task has successfully been created.
@@ -808,6 +819,32 @@ en:
         enter_task_detail: Enter task details
       update:
         successfully_updated: Task has successfully been updated.
+  client_advanced_searches:
+    form_option:
+      basic_fields: Client Basic Fields
+      csi_domain_scores: CSI Domain Scores
+      custom_form: Custom Form
+      enrollment: Enrollment
+      exit_program: Exit Program
+      filter_option: Please choose your query options below
+      program_stream: Program Stream
+      quantitative: Custom Referral Data
+      tracking: Tracking
+    index:
+      add_new_filter: Add New Filter
+      add_new_group: Add Group
+      advanced_search: Report Builder
+      assessments: Assessments
+      client_column: Client General Information
+      csi_domain_scores: CSI Domain Scores
+      custom_form_column: Custom form columns
+      delete_group: Delete
+      export_to_xls: Export to XLS
+      no_results: No Result Found
+      program_stream_column: Program stream columns
+      reset: Reset
+      results: Results
+      search: Search
   client_enrolled_program_trackings:
     action:
       new_tracking: New Tracking
@@ -1126,6 +1163,7 @@ en:
       exit_note: Exit Note
       exit_status: Exit Status
       family_name: Family Name (English)
+      finish: Finish
       follow_up_by: First Follow-Up By
       follow_up_date: First Follow-Up Date
       followed_up_by: First Follow-Up By
@@ -1165,8 +1203,8 @@ en:
       house_number: House
       id: ID
       id_poor: ID Poor
-      is_the_client_rated_for_id_poor: Is The Client Rated For ID Poor
       initial_referral_date: Initial Referral Date
+      is_the_client_rated_for_id_poor: Is The Client Rated For ID Poor
       kid_id: Custom ID Number2
       live_with: Primary Carer Name
       local_family_name: Family Name (Khmer)
@@ -1213,7 +1251,6 @@ en:
       start_date: Start Date
       support_amount: Support Amount
       support_note: Support Note
-
     getting_started:
       case_worker_or_staff: Case Worker / Staff
       date_of_birth: Date of Birth
@@ -1227,7 +1264,7 @@ en:
       living_detail: Living Details
       local_family_name: Family Name (Khmer)
       local_given_name: Given Name (Khmer)
-      name_of_referee:  Name of Referee
+      name_of_referee: Name of Referee
       other_detail: Other Details
       referee_phone_number: Referee Phone Number
       referral_information: Referral Information
@@ -1235,12 +1272,13 @@ en:
       referral_source: Referral Source
       specific_point: Specific Point-of-Referral Data
       staff_responsibilities: Staff Responsibilities
-
     index:
       active_programs: Active Programs
       add_new_client: Add New Client
+      advanced_search: Advanced Search
       all_csi_assessments: All CSI Assessments
       assessments: Assessments
+      case_statistics: Case Statistics
       client_amount: Clients
       csi_domain_scores: CSI Domain Scores
       domain_score: Domain Scores
@@ -1280,7 +1318,6 @@ en:
       start_date: Start Date
       support_amount: Support Amount
       support_note: Support Note
-
     living_detail:
       case_worker_or_staff: Case Worker / Staff
       contact_details: Contact Details
@@ -1293,10 +1330,8 @@ en:
       school_name: School Name
       schooling: Schooling
       what3words: What3words
-
     new:
       new_client_title: New Client
-
     other_detail:
       agencies_involved: Other Agencies Involved
       case_worker_or_staff: Case Worker / Staff
@@ -1310,7 +1345,6 @@ en:
       other_information: Other Information
       province: Client Birth Province
       relevant_referral_information: Relevant Referral Information / Notes
-
     placement:
       view_legacy_quarterly_reports: View Legacy Quarterly Reports
     remaining_programs:
@@ -1392,14 +1426,9 @@ en:
       main_school_contact: Main School Contact
       manage: Manage
       name: Name
-      note: Note
       name_of_referee: Name Of Referee
+      note: Note
       other_info_of_exit: Other - More Information
-      primary_carer_name: Primary Carer Name
-      primary_carer_phone_number: Primary Carer Phone Number
-      referee_phone_number: Referee Phone Number
-      rejected_note: Rejected Note
-
       placements:
         carer_address: Carer Address
         carer_names: Carer Names
@@ -1416,15 +1445,19 @@ en:
         start_date: Start Date
         support_amount: Support Amount
         support_note: Support Note
+      primary_carer_name: Primary Carer Name
+      primary_carer_phone_number: Primary Carer Phone Number
       program_streams: Enroll Client to Program Streams
       progress_note: Progress Note
       province: Birth Province
       received_by: Referral Received By
+      referee_phone_number: Referee Phone Number
       referral_phone: Referee Phone Number
       referral_source: Referral Source
       reject: Reject
       reject_client: Reject
       reject_note: Note on referral rejection
+      rejected_note: Rejected Note
       relevant_referral_information: Relevant Referral Information
       school_grade: School Grade
       school_name: School Name
@@ -1447,11 +1480,9 @@ en:
       view_tasks: Tasks
       village: Village
       what3words: What3words
-
     specific_point:
       case_worker_or_staff: Case Worker / Staff
       specific_point: Specific Point-of-Referral Data
-
     state:
       rejected_note: Note on referral rejection
       state: Accept/Reject
@@ -1898,6 +1929,7 @@ en:
         asc: "↑"
         desc: "↓"
     to: To
+    what3words: what3words
   date:
     formats:
       long: '""'
@@ -3096,6 +3128,7 @@ en:
       manage: Manage
       materials: Equipment/Materials
       organisation_type: Organisation Type
+      organisation_types: Organisation Types
       partners: Partners
       program_streams: Program Streams
       progress_note: Progress Note
@@ -3264,6 +3297,7 @@ en:
       cancel: Cancel
       name: Name
       organisation_type: Organisation Type
+      province: Province
       save: Save
     index:
       add_new_organisation_type: Add New Organisation Type
@@ -3317,10 +3351,10 @@ en:
         add_new_filter: Add New Filter
         add_new_group: Add Group
         advanced_search: Report Builder
-        partner_column: Partner basic columns
         custom_form_column: Custom Form columns
         delete_group: Delete
         no_results: No Result Found
+        partner_column: Partner basic columns
         reset: Reset
         results: Results
         search: Search
@@ -3368,6 +3402,7 @@ en:
       name: Name
       organization: Organization
       preview: Preview
+      quantity: Quantity
       status: Status
     create:
       alert: Name of Tracking has already been taken.
@@ -3456,10 +3491,12 @@ en:
       cannot_be_lower: Maximum program enrollment cannot be lower than active enrolled
       delete_group: Delete
       description: Description
+      domain: Domain
       maximum: Maximum Program Enrollment
       mutual_dependence: Prerequisite Programs
       name: Name
       program_exclusive: Mutually Exclusive With
+      quantity: Quantity
       rule: Conditions for Enrollment
     search:
       actions: Action
@@ -3738,8 +3775,8 @@ en:
   save: Save
   sessions:
     create:
-      your_account_needs_to_supply_a_verification_code: Your account needs to supply a verification code.
       bad_credentials_supplied: Bad Credentials Supplied.
+      your_account_needs_to_supply_a_verification_code: Your account needs to supply a verification code.
   settings:
     assessment:
       assessment: CSI Assessment Frequency Settings
@@ -3751,6 +3788,7 @@ en:
       max_case_note: Maximum
     country:
       country: Country
+      settings: Settings
       switched_country_cambodia: You’ve switched your country setting to Cambodia.
       switched_country_lesotho: You’ve switched your country setting to Lesotho.
       switched_country_myanmar: You’ve switched your country setting to Myanmar.
@@ -3764,9 +3802,10 @@ en:
       partner_default_columns: Partner
     index:
       csi_tools: CSI Tools
+    navigation:
+      country: Country
     update:
       successfully_updated: Setting have been successfully updated.
-
   shared:
     form_builder:
       file_field:
@@ -4244,12 +4283,12 @@ en:
       export_xls: Export to XLS
       results: Results
     multi_factor_authentication:
-      verify_enable:
-        two_factor_authentication_could_not_be_enabled: Two Factor Authentication could not be enabled
-        two_factor_authentication_enabled: Two Factor Authentication Enabled
       verify_disabled:
         two_factor_authentication_could_not_be_disabled: Two Factor Authentication could not be disabled
         two_factor_authentication_disabled: Two Factor Authentication Disabled
+      verify_enable:
+        two_factor_authentication_could_not_be_enabled: Two Factor Authentication could not be enabled
+        two_factor_authentication_enabled: Two Factor Authentication Enabled
     new:
       clients: Clients
       current_password: Current Password
@@ -4274,6 +4313,7 @@ en:
       start_date: Start Date
     permissions:
       assessments: CSI Assessments
+      assessmets: CSI Assessments
       case_notes: Case Notes
       custom_forms: Custom Forms
       custom_programs: Program Stream
